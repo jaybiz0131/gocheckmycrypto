@@ -226,6 +226,16 @@ body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(244,165,42,.3)}
 .chip-down{color:var(--rule);border-color:var(--rule)}
 .chip-cool{color:var(--link);border-color:var(--link)}
 .pc-note{font-size:13.5px;line-height:1.5;color:var(--muted);margin:6px 0 0}
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin:14px 0 6px}
+.dash-card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);
+  border-radius:8px;padding:16px 18px;text-decoration:none;color:inherit;
+  transition:border-color .15s ease}
+.dash-card:hover{border-color:var(--rule);text-decoration:none}
+.dash-card .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);display:block;margin-bottom:6px;font-weight:700}
+.dash-stat{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.15;display:block;margin:0 0 6px}
+.dash-open{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--rule);margin-top:auto;padding-top:10px}
 .gauge{width:min(260px,100%);height:auto;color:var(--ink)}
 .gauge-num{font:600 40px var(--serif);fill:var(--ink)}
 .gauge-label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;

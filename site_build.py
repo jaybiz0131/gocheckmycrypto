@@ -830,95 +830,165 @@ def _posture_card(a):
 </div>"""
 
 
-def render_pulse(pulse, dateline):
-    desc = ("Market Pulse: crowd sentiment, price posture (RSI, MACD, moving averages), "
-            "stablecoin dry powder, and Bitcoin network vitals, with plain-language "
-            "explanations. Market data, not advice.")
-    if not pulse:
-        body = """<main class="wrap narrow"><section class="page">
-  <span class="kicker">Market data desk</span>
-  <h1>Market Pulse</h1>
-  <p class="lede">Sentiment, price posture, and dry powder, explained honestly.</p>
-  <div class="empty"><span class="k">No data yet</span>
-    <p style="margin:.6em 0 0">The pulse refreshes from free public data at each site build.
-    Generate it locally with <code>python3 market_pulse.py</code>.</p></div>
-</section></main>"""
-        return shell(f"Market Pulse - {NAME}", desc, "Market Pulse", body, dateline, path="/pulse.html")
+def _fng_band_color(value):
+    return next((c for a, b, c, _ in FNG_BANDS
+                 if a <= value < b or (b == 100 and value == 100)), "#9AA0A6")
 
+
+PULSE_DESKS = [
+    ("sentiment", "Crowd sentiment", "The Fear & Greed gauge: what the crowd is feeling and how to read it."),
+    ("posture", "Price posture", "RSI, momentum, and trend for BTC, ETH, and SOL, in plain language."),
+    ("stablecoins", "Stablecoin dry powder", "The market's fuel gauge: dollars staged inside crypto."),
+    ("network", "Bitcoin network", "Fees and mining difficulty: how busy and how confident the chain is."),
+]
+
+
+def _dash_crumb():
+    return '<span class="kicker"><a href="/pulse.html">Market Pulse</a> &middot; dashboard</span>'
+
+
+def _dash_shell(slug, title, desc, body_inner, dateline):
+    body = f'<main class="wrap"><section class="page">\n{body_inner}\n</section></main>'
+    return shell(f"{title} - Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
+                 path=f"/pulse/{slug}.html")
+
+
+def _no_data(cmd="python3 market_pulse.py"):
+    return (f'<div class="empty"><span class="k">No data yet</span>'
+            f'<p style="margin:.6em 0 0">This dashboard refreshes from free public data at each '
+            f'site build. Generate it locally with <code>{esc(cmd)}</code>.</p></div>')
+
+
+def render_pulse_hub(pulse, flows, dateline):
+    desc = ("Market Pulse: a growing set of dashboards on crowd sentiment, price posture, "
+            "stablecoin dry powder, and the Bitcoin network, each explained in plain "
+            "language. Market data, not advice.")
+    pulse = pulse or {}
     fng = pulse.get("fng") or {}
     assets = pulse.get("assets") or []
     stables = pulse.get("stables") or {}
     network = pulse.get("network") or {}
 
-    fng_html = ""
+    cards = []
     if fng:
-        label = fng.get("label", "")
-        band_color = next((c for a, b, c, _ in FNG_BANDS if a <= fng.get("value", 50) < b or
-                           (b == 100 and fng.get("value") == 100)), "#9AA0A6")
-        fng_html = f"""<div class="sec-head" style="margin-top:8px"><h2>Crowd sentiment</h2><span class="bar"></span></div>
-  <div class="pulse-grid2">
-    <div class="pulse-card center">{fng_gauge_svg(fng.get("value", 50))}
-      <div class="gauge-label" style="color:{band_color}">{esc(label)}</div>
-      <p class="pc-note">Fear &amp; Greed Index, 0 to 100</p></div>
-    <div class="pulse-card"><span class="lab">Last 90 days</span>
-      <div class="pc-spark tall">{spark_svg(fng.get("history"), w=300, h=84)}</div>
-      <p class="pc-note">The index blends volatility, volume, social chatter, and Bitcoin
-      dominance into one crowd-mood number. It measures emotion, not value.</p></div>
-  </div>"""
-
-    assets_html = ""
+        v = fng.get("value", 50)
+        cards.append(f"""<a class="dash-card" href="/pulse/sentiment.html">
+      <span class="lab">Crowd sentiment</span>
+      <span class="dash-stat" style="color:{_fng_band_color(v)}">{v} &middot; {esc(fng.get("label",""))}</span>
+      <div class="pc-spark">{spark_svg((fng.get("history") or [])[-30:])}</div>
+      <p class="pc-note">The Fear &amp; Greed gauge, with 90 days of crowd mood.</p>
+      <span class="dash-open">Open dashboard &rarr;</span></a>""")
     if assets:
-        cards = "".join(_posture_card(a) for a in assets)
-        assets_html = f"""<div class="sec-head" style="margin-top:26px"><h2>Price posture</h2><span class="bar"></span></div>
-  <div class="pulse-grid3">{cards}</div>
-  <p class="pc-note" style="margin-top:8px">Standard formulas on daily closes (RSI-14,
-  MACD 12/26/9, 50- and 200-day averages, 30-day realized volatility). The 90-day price line
-  is drawn behind each reading. What these mean is explained below.</p>"""
-
-    stables_html = ""
+        btc = assets[0]
+        mom = "momentum building" if btc.get("macd_above_signal") else "momentum fading"
+        cards.append(f"""<a class="dash-card" href="/pulse/posture.html">
+      <span class="lab">Price posture</span>
+      <span class="dash-stat">BTC ${btc.get("price", 0):,.0f}</span>
+      <div class="pc-spark">{spark_svg((btc.get("spark") or [])[-30:])}</div>
+      <p class="pc-note">RSI {btc.get("rsi14", 0):.0f}, {mom}. Full readings for BTC, ETH, and SOL.</p>
+      <span class="dash-open">Open dashboard &rarr;</span></a>""")
     if stables:
         chg = stables.get("change_30d_pct", 0)
-        chg_chip = _chip(f"{chg:+.1f}% in 30 days", "chip-up" if chg >= 0 else "chip-down")
-        stables_html = f"""<div class="sec-head" style="margin-top:26px"><h2>Stablecoin dry powder</h2><span class="bar"></span></div>
-  <div class="pulse-grid2">
-    <div class="pulse-card"><span class="lab">Total USD-pegged float</span>
-      <span class="pc-big">{esc(fmt_usd(stables.get("total_usd", 0)))}</span>
-      <div class="pc-chips">{chg_chip}</div>
-      <p class="pc-note">All dollars parked in stablecoins across chains, per DefiLlama.</p></div>
-    <div class="pulse-card"><span class="lab">One-year trend</span>
-      <div class="pc-spark tall">{spark_svg(stables.get("spark"), w=300, h=84)}</div>
-      <p class="pc-note">A growing float is money staying in crypto, staged to buy. A
-      shrinking float is money leaving the arena entirely.</p></div>
-  </div>"""
-
-    network_html = ""
+        cards.append(f"""<a class="dash-card" href="/pulse/stablecoins.html">
+      <span class="lab">Stablecoin dry powder</span>
+      <span class="dash-stat">{esc(fmt_usd(stables.get("total_usd", 0)))}</span>
+      <div class="pc-spark">{spark_svg((stables.get("spark") or [])[-60:])}</div>
+      <p class="pc-note">{chg:+.1f}% in 30 days. The dollars staged inside crypto.</p>
+      <span class="dash-open">Open dashboard &rarr;</span></a>""")
     if network:
         diff = network.get("difficulty_change_pct", 0)
-        network_html = f"""<div class="sec-head" style="margin-top:26px"><h2>Bitcoin network</h2><span class="bar"></span></div>
-  <div class="pulse-card"><div class="pc-chips" style="margin-top:2px">
-    {_chip(f'next-block fee {network.get("fastest_fee", "?")} sat/vB')}
-    {_chip(f'1-hour fee {network.get("hour_fee", "?")} sat/vB')}
-    {_chip(f'difficulty est. {diff:+.1f}%', "chip-up" if diff >= 0 else "chip-down")}
-    {_chip(f'{network.get("retarget_blocks", "?")} blocks to retarget')}</div>
-  <p class="pc-note">Low fees mean a quiet chain; rising difficulty means miners are adding
-  machines (long-term confidence), falling difficulty means some are switching off.</p></div>"""
+        cards.append(f"""<a class="dash-card" href="/pulse/network.html">
+      <span class="lab">Bitcoin network</span>
+      <span class="dash-stat">{network.get("fastest_fee", "?")} sat/vB</span>
+      <p class="pc-note" style="margin-top:10px">Next-block fee, with difficulty heading
+      {diff:+.1f}% at the next retarget. How busy the chain is.</p>
+      <span class="dash-open">Open dashboard &rarr;</span></a>""")
+    # Whale Watch is its own desk; the hub cross-links it as the on-chain dashboard.
+    ww_stat = ""
+    if flows and not flows.get("example") and flows.get("volatile"):
+        wnet = flows["volatile"].get("net_usd", 0)
+        ww_stat = (f'<span class="dash-stat">{esc(fmt_usd(wnet))}</span>'
+                   f'<p class="pc-note" style="margin-top:10px">Net volatile flow '
+                   f'{"off" if wnet >= 0 else "onto"} exchanges in 24h. Follow the money.</p>')
+    else:
+        ww_stat = '<p class="pc-note" style="margin-top:10px">Follow the money on-chain.</p>'
+    cards.append(f"""<a class="dash-card" href="/flows.html">
+      <span class="lab">Whale Watch</span>{ww_stat}
+      <span class="dash-open">Open the on-chain desk &rarr;</span></a>""")
 
+    inner = "".join(cards) if (fng or assets or stables or network) else ""
     body = f"""<main class="wrap"><section class="page">
   <span class="kicker">Market data desk</span>
   <h1>Market Pulse</h1>
-  <p class="lede">The market's vital signs: crowd sentiment, price posture, and dry powder,
-     computed with standard formulas from free public data and explained in plain language.</p>
-  {fng_html}
-  {assets_html}
-  {stables_html}
-  {network_html}
+  <p class="lede">A growing set of dashboards on the market's vital signs, computed with
+     standard formulas from free public data, and each one explained in plain language.
+     Market data, not news, never advice.</p>
+  {'<div class="dash-grid">' + inner + '</div>' if inner else _no_data()}
+  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>
+</section></main>"""
+    return shell(f"Market Pulse - {NAME}", desc, "Market Pulse", body, dateline, path="/pulse.html")
 
-  <div class="sec-head" style="margin-top:30px"><h2>Pulse 101</h2><span class="bar"></span></div>
+
+def render_pulse_sentiment(pulse, dateline):
+    desc = ("The crypto Fear & Greed Index explained: what feeds the gauge, what extremes "
+            "have historically meant, and why it measures mood, not value.")
+    fng = (pulse or {}).get("fng") or {}
+    if not fng:
+        inner = f"{_dash_crumb()}\n  <h1>Crowd sentiment</h1>\n  {_no_data()}"
+        return _dash_shell("sentiment", "Crowd sentiment", desc, inner, dateline)
+    v = fng.get("value", 50)
+    inner = f"""{_dash_crumb()}
+  <h1>Crowd sentiment</h1>
+  <p class="lede">One number for the market's mood, from 0 (extreme fear) to 100 (extreme
+     greed). Today: {v}, {esc(fng.get("label", "").lower())}.</p>
+  <div class="pulse-grid2">
+    <div class="pulse-card center">{fng_gauge_svg(v)}
+      <div class="gauge-label" style="color:{_fng_band_color(v)}">{esc(fng.get("label",""))}</div>
+      <p class="pc-note">Fear &amp; Greed Index, via alternative.me</p></div>
+    <div class="pulse-card"><span class="lab">Last 90 days</span>
+      <div class="pc-spark tall">{spark_svg(fng.get("history"), w=300, h=96)}</div>
+      <p class="pc-note">Reading the line matters more than any single day: a mood that has
+      been dark for weeks tells you more than one nervous afternoon.</p></div>
+  </div>
+
+  <div class="sec-head" style="margin-top:30px"><h2>Sentiment 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
-    <div class="learn"><span class="lab">Fear &amp; Greed</span>
-      <p>A 0-100 crowd sentiment score. Extreme fear has historically shown up near local
-      bottoms and extreme greed near local tops, because crowds overreact in both directions.
-      It tells you the mood, never the value.</p></div>
+    <div class="learn"><span class="lab">What feeds it</span>
+      <p>The index blends measurable proxies for emotion: price volatility, trading volume,
+      social media chatter, and Bitcoin dominance. When those run hot the score climbs toward
+      greed; when they freeze up it sinks toward fear.</p></div>
+    <div class="learn"><span class="lab">What extremes have meant</span>
+      <p>Historically, <b>extreme fear</b> has often appeared near local bottoms and
+      <b>extreme greed</b> near local tops, because crowds overreact in both directions. That
+      is a tendency, not a law: fear can stay extreme for months in a real bear market.</p></div>
+    <div class="learn"><span class="lab">Mood, not value</span>
+      <p>The gauge says nothing about what anything is worth. It measures how people feel
+      about prices, which is exactly why it is useful and exactly why it should never be a
+      buy or sell signal on its own.</p></div>
+  </div>
+  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+    return _dash_shell("sentiment", "Crowd sentiment", desc, inner, dateline)
+
+
+def render_pulse_posture(pulse, dateline):
+    desc = ("BTC, ETH, and SOL price posture: RSI, MACD momentum, 50/200-day trend, distance "
+            "from the 12-month high, and volatility, each explained in plain language.")
+    assets = (pulse or {}).get("assets") or []
+    if not assets:
+        inner = f"{_dash_crumb()}\n  <h1>Price posture</h1>\n  {_no_data()}"
+        return _dash_shell("posture", "Price posture", desc, inner, dateline)
+    cards = "".join(_posture_card(a) for a in assets)
+    inner = f"""{_dash_crumb()}
+  <h1>Price posture</h1>
+  <p class="lede">Where the majors stand, measured with fixed, standard formulas on daily
+     closes: RSI-14, MACD 12/26/9, the 50- and 200-day averages, distance from the 12-month
+     high, and 30-day realized volatility.</p>
+  <div class="pulse-grid3">{cards}</div>
+  <p class="pc-note" style="margin-top:8px">The 90-day price line is drawn behind each
+  reading. Every chip is defined below; we publish the formulas, never a recommendation.</p>
+
+  <div class="sec-head" style="margin-top:30px"><h2>Posture 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
     <div class="learn"><span class="lab">RSI</span>
       <p>The Relative Strength Index compares recent gains to recent losses on a 0-100 scale.
       Above 70 reads as <b>hot</b> (overbought), below 30 as <b>cold</b> (oversold). Extremes
@@ -931,18 +1001,101 @@ def render_pulse(pulse, dateline):
       <p>The 200-day average is the classic bull/bear line: price above it reads as an uptrend.
       When the 50-day crosses above the 200-day, that is a <b>golden cross</b> and trend
       followers take notice. Crossing below is the bearish twin, the <b>death cross</b>.</p></div>
-    <div class="learn"><span class="lab">Stablecoin float</span>
-      <p>Stablecoins are dollars that already made the jump into crypto. When the total float
-      grows, money is staging to buy. When it shrinks, money is going back to the exit. It is
-      the market's fuel gauge.</p></div>
+    <div class="learn"><span class="lab">The other two chips</span>
+      <p>Distance from the <b>12-month high</b> says how deep the drawdown is; annualized
+      <b>volatility</b> says how violently price has been moving lately. High volatility cuts
+      both ways: bigger rallies, bigger drops, worse sleep.</p></div>
+    <div class="learn"><span class="lab">Reading them together</span>
+      <p>No single chip is a verdict. Fear plus a death cross plus building momentum, for
+      example, is a market arguing with itself. The honest read is the full picture, which is
+      why every card shows all of it.</p></div>
     <div class="learn"><span class="lab">What this page is not</span>
       <p>Indicators describe the recent past; none of them predict. We publish them with fixed,
       standard formulas so you can learn to read them yourself, and we will never turn them
       into a buy or sell call. That is the deal.</p></div>
   </div>
-  <p class="nfa">{esc(pulse.get("note", ""))} {esc(NFA)}</p>
-</section></main>"""
-    return shell(f"Market Pulse - {NAME}", desc, "Market Pulse", body, dateline, path="/pulse.html")
+  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+    return _dash_shell("posture", "Price posture", desc, inner, dateline)
+
+
+def render_pulse_stables(pulse, dateline):
+    desc = ("Total stablecoin float explained: why the dollars parked in USDT, USDC and "
+            "friends are the market's fuel gauge, with a one-year trend.")
+    stables = (pulse or {}).get("stables") or {}
+    if not stables:
+        inner = f"{_dash_crumb()}\n  <h1>Stablecoin dry powder</h1>\n  {_no_data()}"
+        return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline)
+    chg = stables.get("change_30d_pct", 0)
+    chg_chip = _chip(f"{chg:+.1f}% in 30 days", "chip-up" if chg >= 0 else "chip-down")
+    inner = f"""{_dash_crumb()}
+  <h1>Stablecoin dry powder</h1>
+  <p class="lede">Stablecoins are dollars that already made the jump into crypto. The size of
+     that float is the market's fuel gauge: money staged to buy, or money heading for the exit.</p>
+  <div class="pulse-grid2">
+    <div class="pulse-card"><span class="lab">Total USD-pegged float</span>
+      <span class="pc-big">{esc(fmt_usd(stables.get("total_usd", 0)))}</span>
+      <div class="pc-chips">{chg_chip}</div>
+      <p class="pc-note">All dollars parked in stablecoins across chains, per DefiLlama.</p></div>
+    <div class="pulse-card"><span class="lab">One-year trend</span>
+      <div class="pc-spark tall">{spark_svg(stables.get("spark"), w=300, h=96)}</div>
+      <p class="pc-note">The direction of this line is the story: growing float means money is
+      staying in the arena, shrinking float means it is leaving entirely.</p></div>
+  </div>
+
+  <div class="sec-head" style="margin-top:30px"><h2>Dry powder 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab">Why it matters</span>
+      <p>Before anyone can buy crypto at scale, dollars have to enter the system, and they
+      usually arrive as stablecoins. A growing float is potential demand parked at the door.
+      It does not say when, or whether, that money will actually buy.</p></div>
+    <div class="learn"><span class="lab">Mints and burns</span>
+      <p>Issuers create (mint) stablecoins when money comes in and destroy (burn) them when it
+      leaves. The biggest mints and burns show up as news in our daily brief, because a
+      billion-dollar mint is a story, not just a statistic.</p></div>
+    <div class="learn"><span class="lab">Read it with Whale Watch</span>
+      <p>This page shows the SIZE of the float; <a href="/flows.html">Whale Watch</a> shows
+      where big chunks of it are MOVING, onto or off exchanges. Size is the fuel level, flows
+      are the throttle.</p></div>
+  </div>
+  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+    return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline)
+
+
+def render_pulse_network(pulse, dateline):
+    desc = ("Bitcoin network vitals explained: what transaction fees and mining difficulty "
+            "say about demand for the chain and miner confidence.")
+    network = (pulse or {}).get("network") or {}
+    if not network:
+        inner = f"{_dash_crumb()}\n  <h1>Bitcoin network</h1>\n  {_no_data()}"
+        return _dash_shell("network", "Bitcoin network", desc, inner, dateline)
+    diff = network.get("difficulty_change_pct", 0)
+    inner = f"""{_dash_crumb()}
+  <h1>Bitcoin network</h1>
+  <p class="lede">The chain's own vital signs: what it costs to transact right now, and
+     whether miners are adding or removing machines.</p>
+  <div class="pulse-card"><div class="pc-chips" style="margin-top:2px">
+    {_chip(f'next-block fee {network.get("fastest_fee", "?")} sat/vB')}
+    {_chip(f'1-hour fee {network.get("hour_fee", "?")} sat/vB')}
+    {_chip(f'difficulty est. {diff:+.1f}%', "chip-up" if diff >= 0 else "chip-down")}
+    {_chip(f'{network.get("retarget_blocks", "?")} blocks to retarget')}</div>
+  <p class="pc-note">Live from mempool.space at build time.</p></div>
+
+  <div class="sec-head" style="margin-top:30px"><h2>Network 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab">Fees are demand</span>
+      <p>Every Bitcoin transaction bids for limited block space. High fees mean the chain is
+      crowded with activity; fees of a few sat/vB mean it is quiet. Quiet is not automatically
+      bearish, but it does mean nobody is rushing.</p></div>
+    <div class="learn"><span class="lab">Difficulty is confidence</span>
+      <p>Mining difficulty adjusts about every two weeks so blocks keep arriving on schedule.
+      Rising difficulty means miners are plugging in more machines, a long-term bet with real
+      electricity bills behind it. Falling difficulty means some are switching off.</p></div>
+    <div class="learn"><span class="lab">Slow signals</span>
+      <p>Network vitals move slowly and that is their value: they are hard to fake and hard to
+      spin. They tell you about the health of the system, not tomorrow's price.</p></div>
+  </div>
+  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+    return _dash_shell("network", "Bitcoin network", desc, inner, dateline)
 
 
 def render_404(dateline):
@@ -1041,8 +1194,14 @@ def build():
         open(path, "w", encoding="utf-8").write(html)
 
     w("index.html", render_index(items, dateline))
-    w("flows.html", render_flows(load_flows(), dateline))
-    w("pulse.html", render_pulse(load_pulse(), dateline))
+    flows = load_flows()
+    pulse = load_pulse()
+    w("flows.html", render_flows(flows, dateline))
+    w("pulse.html", render_pulse_hub(pulse, flows, dateline))
+    w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
+    w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))
+    w(os.path.join("pulse", "stablecoins.html"), render_pulse_stables(pulse, dateline))
+    w(os.path.join("pulse", "network.html"), render_pulse_network(pulse, dateline))
     w("archive.html", render_archive(items, dateline))
     w("method.html", render_method(items, dateline))
     w("about.html", render_about(dateline))
@@ -1058,8 +1217,9 @@ def build():
         open(os.path.join(PUBLISH, "og-image.png"), "wb").write(open(og_src, "rb").read())
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
-    locs = ["/", "/flows.html", "/pulse.html", "/archive.html", "/method.html", "/about.html",
-            "/standards.html"]
+    locs = ["/", "/flows.html", "/pulse.html", "/pulse/sentiment.html", "/pulse/posture.html",
+            "/pulse/stablecoins.html", "/pulse/network.html", "/archive.html", "/method.html",
+            "/about.html", "/standards.html"]
     locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
     urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)
     w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
