@@ -254,6 +254,29 @@ def footer():
 </div></footer>"""
 
 
+_ASSET_VER = {}
+
+
+def _fingerprint_assets(html):
+    """Version every /assets/ URL with a content hash (site.css?v=ab12cd34ef). netlify.toml
+    caches assets in the browser for 7 days; without this, a changed stylesheet leaves
+    returning visitors on week-old CSS. The HTML itself always revalidates, so a new hash
+    reaches every browser on the next page load."""
+    import hashlib
+
+    def ver(path):
+        if path not in _ASSET_VER:
+            f = os.path.join(HERE, "site", path.lstrip("/"))
+            try:
+                _ASSET_VER[path] = hashlib.md5(open(f, "rb").read()).hexdigest()[:10]
+            except OSError:
+                _ASSET_VER[path] = "0"
+        return _ASSET_VER[path]
+
+    return re.sub(r'((?:src|href)=")(/assets/[^"?#]+)(")',
+                  lambda m: f'{m.group(1)}{m.group(2)}?v={ver(m.group(2))}{m.group(3)}', html)
+
+
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           live_js=False, brand="site"):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
@@ -266,7 +289,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
         beacon = ('\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
                   f'data-cf-beacon=\'{{"token": "{CF_ANALYTICS_TOKEN}"}}\'></script>')
     livejs = ('\n<script defer src="/assets/pulse-live.js"></script>' if live_js else "")
-    return f"""<!DOCTYPE html>
+    page = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -294,6 +317,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {footer()}{beacon}{livejs}
 </body>
 </html>"""
+    return _fingerprint_assets(page)
 
 
 # ---- article ----------------------------------------------------------------
