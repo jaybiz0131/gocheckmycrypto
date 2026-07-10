@@ -481,7 +481,9 @@ def render_news(items, dateline):
                 'checked against its sources by an independent AI verifier, and approved by a human. '
                 'That gate is the whole point, so we would rather publish nothing than publish junk.</p>'
                 '</div></div></section>')
-    body = market_strip() + desk_strip() + lead_html + trust_block() + flow_teaser() + grid + newsletter()
+    # news first: lead story, then the rest of the day's stories; the promise strip and
+    # the whale teaser read as the footer beats, never above the journalism
+    body = market_strip() + desk_strip() + lead_html + grid + trust_block() + flow_teaser() + newsletter()
     return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html",
                  brand="cronkite")
 
