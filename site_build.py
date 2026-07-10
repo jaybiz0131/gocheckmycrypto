@@ -54,7 +54,8 @@ MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "A
           "September", "October", "November", "December"]
 
 NAV = [("Home", "/index.html"), ("Whale Watch", "/flows.html"),
-       ("Market Pulse", "/pulse.html"), ("Archive", "/archive.html"),
+       ("Market Pulse", "/pulse.html"), ("Chart Master", "/chartmaster.html"),
+       ("Archive", "/archive.html"),
        ("How we work", "/method.html"), ("About", "/about.html"),
        ("Standards", "/standards.html")]
 
@@ -96,6 +97,13 @@ def fmt_usd(n):
 
 def load_flows():
     path = os.path.join(SITE, "data", "flows.json")
+    if os.path.exists(path):
+        return json.load(open(path, encoding="utf-8"))
+    return None
+
+
+def load_chartmaster():
+    path = os.path.join(SITE, "data", "chartmaster.json")
     if os.path.exists(path):
         return json.load(open(path, encoding="utf-8"))
     return None
@@ -1477,6 +1485,93 @@ def render_pulse_network(pulse, dateline):
     return _dash_shell("network", "Bitcoin network", desc, inner, dateline, live=True)
 
 
+
+
+def cm_hero():
+    return ('<section class="ww-hero cm-hero"><div class="ww-heroinner">'
+            '<img src="/assets/chart-master-logo.jpg" '
+            'alt="The Chart Master, crypto wizard: technical analysis and on-chain insights">'
+            '</div></section>')
+
+
+def render_chartmaster(read, dateline):
+    desc = ("The Chart Master reads the boards: a daily plain-language take on sentiment, "
+            "whale flows, and price posture, reviewed by a human editor. Plus the Oracle "
+            "Challenge and the Wizard's Exam. Never financial advice.")
+    read = read or {}
+    paras = "".join(f"<p>{esc(p)}</p>" for p in read.get("paragraphs", []))
+    read_html = (f"""<div class="sec-head" style="margin-top:8px"><h2>The Chart Master's read</h2><span class="bar"></span></div>
+  <article class="pulse-card cm-read">
+    <div class="ey"><span class="tag">the read</span>
+      <span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
+    <h3 class="cm-headline">{esc(read.get("headline", ""))}</h3>
+    <div class="prose">{paras}</div>
+    <p class="pc-note">Written by the Chart Master from the day's <a href="/pulse.html">Market
+    Pulse</a> and <a href="/flows.html">Whale Watch</a> boards; reviewed and approved by a
+    human editor before publication. The Master describes, he does not predict.</p>
+  </article>""" if read.get("paragraphs") else "")
+
+    body = cm_hero() + f"""<main class="wrap"><section class="page">
+  <span class="kicker">The resident wizard</span>
+  <h1>The Chart Master</h1>
+  <p class="lede">The desk's technician reads the boards so you learn to read them too:
+     what the charts show, in plain language, with the receipts linked. He has one rule,
+     carved over his door: <b>describe the tape, never predict it.</b></p>
+  {read_html}
+
+  <div class="sec-head" style="margin-top:30px"><h2>The Oracle Challenge</h2><span class="bar"></span></div>
+  <div class="pulse-card" id="oracle">
+    <p style="margin:0 0 10px">The Chart Master refuses to predict. Think you can do better?
+    Call Bitcoin <b>higher or lower</b> than right now by this time tomorrow. Your record
+    lives in your browser, and it IS the lesson.</p>
+    <div class="pc-chips" id="oracle-buttons">
+      <button class="cm-btn" data-guess="up">Higher &uarr;</button>
+      <button class="cm-btn" data-guess="down">Lower &darr;</button>
+    </div>
+    <p class="pc-note" id="oracle-status">Loading the tape...</p>
+    <p class="pc-note" id="oracle-record"></p>
+  </div>
+
+  <div class="sec-head" style="margin-top:30px"><h2>The Wizard's Exam</h2><span class="bar"></span></div>
+  <div class="pulse-card" id="exam">
+    <p style="margin:0 0 10px">Eight questions, straight from the desks. Pass, and you may
+    call yourself a reader of charts. Fail, and the Master suggests the
+    <a href="/pulse.html">101 sections</a>.</p>
+    <div id="exam-body"><button class="cm-btn" id="exam-start">Take the exam</button></div>
+  </div>
+
+  <div class="sec-head" style="margin-top:30px"><h2>The Spellbook</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab">Golden cross / death cross</span>
+      <p>The 50-day average crossing above the 200-day is a <b>golden cross</b> (trend
+      turning up); crossing below is a <b>death cross</b>. See them drawn live on
+      <a href="/pulse/posture.html">Price posture</a>.</p></div>
+    <div class="learn"><span class="lab">Dry powder</span>
+      <p>Stablecoins are dollars staged inside crypto, ready to buy. The
+      <a href="/pulse/stablecoins.html">float</a> is the market's fuel gauge.</p></div>
+    <div class="learn"><span class="lab">Whale flows</span>
+      <p>Coins moving onto exchanges can precede selling; coins withdrawn to cold storage
+      read as accumulation. <a href="/flows.html">Follow the money.</a></p></div>
+    <div class="learn"><span class="lab">Fear &amp; Greed</span>
+      <p>A 0-100 crowd-mood gauge. Extremes mark crowded emotions, not value.
+      <a href="/pulse/sentiment.html">Today's reading.</a></p></div>
+    <div class="learn"><span class="lab">RSI</span>
+      <p>Momentum on a 0-100 scale: above 70 runs hot, below 30 runs cold, and strong trends
+      can stay hot for weeks. <a href="/pulse/posture.html">Current readings.</a></p></div>
+    <div class="learn"><span class="lab">Exit liquidity</span>
+      <p>What you become when you chase a pump with no story behind it. The
+      <a href="/pulse/movers.html">movers board</a> exists so you check before you chase.</p></div>
+  </div>
+  <p class="nfa">{esc(NFA)} The Chart Master is a character of this desk; his read is
+  reviewed by a human editor and is never a recommendation.</p>
+</section></main>
+<script defer src="/assets/chart-master.js"></script>"""
+    return shell(f"The Chart Master - {NAME}", desc, "Chart Master", body, dateline,
+                 body_class="ww-dark", path="/chartmaster.html")
+
+
+
+
 def render_404(dateline):
     body = """<main class="wrap narrow"><section class="page" style="text-align:center;padding-top:60px">
   <span class="kicker">404</span>
@@ -1577,6 +1672,7 @@ def build():
     pulse = load_pulse()
     w("flows.html", render_flows(flows, dateline))
     w("pulse.html", render_pulse_hub(pulse, flows, dateline))
+    w("chartmaster.html", render_chartmaster(load_chartmaster(), dateline))
     w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))
     w(os.path.join("pulse", "movers.html"), render_pulse_movers(pulse, dateline))
@@ -1598,7 +1694,8 @@ def build():
         open(os.path.join(PUBLISH, "og-image.png"), "wb").write(open(og_src, "rb").read())
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
-    locs = ["/", "/flows.html", "/pulse.html", "/pulse/sentiment.html", "/pulse/posture.html",
+    locs = ["/", "/flows.html", "/pulse.html", "/chartmaster.html",
+            "/pulse/sentiment.html", "/pulse/posture.html",
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/network.html",
             "/archive.html", "/method.html", "/about.html", "/standards.html"]
