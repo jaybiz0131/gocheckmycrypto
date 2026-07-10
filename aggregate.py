@@ -43,6 +43,7 @@ from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from xml.etree import ElementTree as ET
 
+import common
 import shill
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -234,41 +235,40 @@ def gather_x(cfg):
 
 
 def gather_whale_alert(cfg):
-    """Large on-chain transfers (whale moves). Off unless WHALE_ALERT_API_KEY is set. Capped so
-    on-chain data cannot flood the brief. Not live-tested here (no key)."""
+    """Large on-chain moves (transfers, mints, burns) from Whale Alert's FREE public alert
+    archive (keyless; their old keyed REST API was retired -- see DEVIATIONS D7). Capped so
+    on-chain data cannot flood the brief. A fetch failure is a documented skip, never a
+    pipeline failure."""
     wa = cfg["sources"].get("whale_alert", {})
-    key = os.environ.get(wa.get("enabled_if_env", "WHALE_ALERT_API_KEY"), "")
-    if not key:
-        print("  Whale Alert          [onchain   ] -> skipped (no WHALE_ALERT_API_KEY; documented, not a failure)")
-        return []
-    start = int((datetime.now(timezone.utc) - timedelta(hours=cfg["lookback_hours"])).timestamp())
-    params = {"api_key": key, "min_value": str(wa.get("min_value_usd", 5000000)), "start": str(start)}
-    url = wa["url"] + "?" + urllib.parse.urlencode(params)
     try:
-        data = fetch(url, is_json=True)
+        txns = common.whale_archive_transactions(
+            cfg["lookback_hours"], archive_url=wa.get("archive_url", common.WHALE_ARCHIVE_URL))
     except Exception as e:
-        gh("warning", f"aggregate: Whale Alert fetch failed: {e} -- skipped")
+        gh("warning", f"aggregate: Whale Alert archive fetch failed: {e} -- skipped")
         return []
-    txns = sorted(data.get("transactions", []) or [], key=lambda t: t.get("amount_usd", 0), reverse=True)
+    txns = sorted(txns, key=lambda t: t.get("amount_usd", 0), reverse=True)
     out = []
+    verbs = {"transfer": "moved", "mint": "minted", "burn": "burned",
+             "freeze": "frozen", "unfreeze": "unfrozen", "lock": "locked", "unlock": "unlocked"}
     for t in txns[: wa.get("max_items", 8)]:
         sym = (t.get("symbol") or "").upper()
         amt = t.get("amount", 0)
         usd = t.get("amount_usd", 0)
         frm = (t.get("from", {}) or {}).get("owner") or "unknown wallet"
         to = (t.get("to", {}) or {}).get("owner") or "unknown wallet"
+        kind = t.get("transaction_type", "transfer")
         ts = None
         try:
             ts = datetime.fromtimestamp(int(t.get("timestamp", 0)), timezone.utc)
         except Exception:
             pass
         out.append({
-            "headline": f"{amt:,.0f} {sym} (${usd:,.0f}) moved from {frm} to {to}",
+            "headline": f"{amt:,.0f} {sym} (${usd:,.0f}) {verbs.get(kind, 'moved')} from {frm} to {to}",
             "source": "Whale Alert",
             "source_tier": wa.get("tier", "onchain"),
             "url": f"https://whale-alert.io/transaction/{t.get('blockchain','')}/{t.get('hash','')}",
             "timestamp": ts.strftime("%Y-%m-%dT%H:%M:%SZ") if ts else "",
-            "_ts": ts, "snippet": f"On-chain transfer flagged by Whale Alert ({t.get('transaction_type','transfer')}).",
+            "_ts": ts, "snippet": f"On-chain {kind} flagged by Whale Alert.",
         })
     print(f"  Whale Alert          [onchain   ] -> {len(out)} item(s)")
     return out

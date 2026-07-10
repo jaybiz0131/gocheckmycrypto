@@ -76,10 +76,27 @@ missing key or API error falls back to the committed `site/data/flows.json` snap
 fails a deploy), everything else in the build stays deterministic from the commit, and a
 local `python3 site_build.py` still reproduces the site from committed content exactly.
 
-## D5 - Whale Alert and X source adapters are wired but not live-tested
+## D7 - Whale Alert: free public archive instead of the retired keyed API (2026-07-10)
 
-Both are keyless-skip sources (absence is a documented skip, never a failure) and could not be
-exercised here without paid/gated API keys. The Whale Alert flow classification is locked by an
-offline canary over fixture transactions, and the Whale Watch board ships an EXAMPLE snapshot
-(clearly ribboned) until a key is connected. Treat the first keyed run of each as a smoke test
-and check the intake log.
+Whale Alert retired the keyed v1 REST API this pipeline was built against. The replacements
+(a $29.95/mo personal-use-only WebSocket needing a 24/7 listener, and a $699/mo Enterprise
+REST API) fit neither the budget nor the static/serverless posture. Instead, both consumers
+(the Whale Watch board and the brief's on-chain items) now read Whale Alert's FREE public
+archive of every alert they post (`https://whale-alert.io/whale-alerts-archive.json.gzip`),
+which Whale Alert explicitly offers for models/algorithms/research and which refreshes
+continuously. Trade-offs, stated honestly on the site: (1) the archive names owners but has
+no owner_type, so exchanges are identified by a curated name list in common.py (a heuristic);
+(2) only transfers large enough for Whale Alert to post publicly (roughly $50M+) appear, so
+the board reflects the very largest moves, not all whale activity. The loader streams the
+newest-first gzip and stops at the window boundary, reading tens of KB, not the ~600MB file.
+The board is fail-open (fetch failure keeps the previous snapshot); the news pipeline treats
+a fetch failure as a documented skip. Attribution and links to Whale Alert are on the board.
+Live-tested 2026-07-10: 21 archive alerts in 24h -> 11 exchange-relevant transfers, real
+board committed. This resolves and replaces the old D5 concern for Whale Alert.
+
+## D5 - X source adapter is wired but not live-tested
+
+X/Twitter remains a keyless-skip source (absence is a documented skip, never a failure) and
+could not be exercised without a paid API key (~$100/mo). Treat the first keyed run as a
+smoke test and check the intake log. (Whale Alert, formerly also in this entry, is now
+live-tested via the public archive -- see D7.)

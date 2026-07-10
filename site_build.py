@@ -626,9 +626,9 @@ def render_flows(flows, dateline):
   <h1>Where the whales are moving</h1>
   <p class="lede">This board tracks where whales are moving large amounts of crypto: onto
      exchanges (which can precede selling) or off exchanges into self-custody (accumulation).</p>
-  <div class="empty"><span class="k">Not connected yet</span>
-    <p style="margin:.6em 0 0">Whale flow tracking activates when a Whale Alert key is connected.
-    Preview it locally with <code>python3 whale_flows.py --fixture
+  <div class="empty"><span class="k">No board yet</span>
+    <p style="margin:.6em 0 0">The board refreshes from Whale Alert's public data at each site
+    build. Preview it locally with <code>python3 whale_flows.py --fixture
     fixtures/whale_sample.json</code>.</p></div>
 </section></main>"""
         return shell(f"Whale Watch - {NAME}", "Follow the money: whale exchange flows.",
@@ -642,7 +642,7 @@ def render_flows(flows, dateline):
     ribbon = ""
     if flows.get("example"):
         ribbon = ('<div class="callout"><b>Example board.</b> These are illustrative figures from '
-                  'sample data, shown so you can see the format. Connect a Whale Alert key for live flows.</div>')
+                  'sample data, shown so you can see the format. Live flows arrive with the next site build.</div>')
     moves = flows.get("top_inflows", [])
     move_rows = "".join(
         f'<tr><td class="sym2">{esc(m.get("symbol",""))}{" &middot; stable" if m.get("stable") else ""}</td>'
@@ -682,7 +682,8 @@ def render_flows(flows, dateline):
     ETH, and SOL, coins moving <b>onto</b> an exchange often mean holders are getting ready to sell,
     and coins moving <b>off</b> an exchange suggest accumulation or long-term holding. Stablecoins are
     the reverse, so they are scored separately as incoming buying power. This is a heuristic built on
-    Whale Alert's exchange labels, not a prediction.</div>
+    public transfer data from <a href="https://whale-alert.io/" rel="nofollow">Whale Alert</a>, with
+    exchanges identified by name; it is not a prediction.</div>
   <p class="nfa">{esc(flows.get("note",""))} {esc(NFA)}</p>
 </section></main>"""
     return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",

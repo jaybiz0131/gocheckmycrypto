@@ -8,7 +8,12 @@ exchanges into self-custody (accumulation)? This script classifies each large tr
 owner_type of its endpoints and rolls them up into a higher-perspective view per asset, plus
 the biggest single moves onto exchanges.
 
-CLASSIFICATION (Whale Alert marks known exchange wallets with owner_type == "exchange"):
+DATA comes from Whale Alert's FREE public alert archive (keyless; their old keyed REST API
+was retired behind paid plans -- see DEVIATIONS D7). The archive names owners ("binance",
+"unknown wallet"), so exchanges are identified by a curated name list in common.py, and only
+the very large transfers Whale Alert posts publicly (roughly $50M+) appear.
+
+CLASSIFICATION (owner names matched against common.KNOWN_EXCHANGES):
   wallet/unknown -> exchange   = INFLOW  (money onto an exchange; potential sell pressure)
   exchange -> wallet/unknown   = OUTFLOW (money off an exchange; accumulation / self-custody)
   exchange -> exchange         = INTERNAL (ignored; not directional signal)
@@ -23,7 +28,7 @@ OUTPUT
   site/data/flows.json          the snapshot the site renders (a board, refreshed each run)
 
 USAGE
-  python3 whale_flows.py                      # live: Whale Alert API (needs WHALE_ALERT_API_KEY)
+  python3 whale_flows.py                      # live: Whale Alert public archive (no key)
   python3 whale_flows.py --fixture F          # analyze a saved transactions file (tests)
   python3 whale_flows.py --window 24          # lookback hours (default from config)
   python3 whale_flows.py --example            # write the snapshot flagged example (illustrative)
@@ -32,9 +37,7 @@ USAGE
 import json
 import os
 import sys
-import urllib.parse
-import urllib.request
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 
 import common
 
@@ -127,25 +130,23 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
         },
         "by_asset": by_asset,
         "top_inflows": inflow_moves[:top_moves],
-        "note": ("Heuristic from Whale Alert exchange labels. For volatile assets, coins moving "
-                 "onto exchanges can precede selling and coins moving off suggests accumulation "
-                 "or self-custody. Stablecoins are the opposite: onto an exchange is buying power "
-                 "arriving, so they are scored separately. Market data, not news, not advice."),
+        "note": ("Data: Whale Alert public alert archive; exchanges identified by name, and only "
+                 "the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile "
+                 "assets, coins moving onto exchanges can precede selling and coins moving off "
+                 "suggests accumulation or self-custody. Stablecoins are the opposite: onto an "
+                 "exchange is buying power arriving, so they are scored separately. Market data, "
+                 "not news, not advice."),
     }
 
 
-def load_from_api(cfg, window_hours):
+def load_from_archive(cfg, window_hours):
+    """Pull the window's transfers from Whale Alert's FREE public alert archive (keyless;
+    see common.whale_archive_transactions and DEVIATIONS D7). Only transfers count as flow
+    signal; mints/burns/freezes are not exchange flows."""
     wa = cfg["sources"].get("whale_alert", {})
-    key = os.environ.get(wa.get("enabled_if_env", "WHALE_ALERT_API_KEY"), "")
-    if not key:
-        return None
-    start = int((datetime.now(timezone.utc) - timedelta(hours=window_hours)).timestamp())
-    params = {"api_key": key, "min_value": str(wa.get("min_value_usd", 5000000)), "start": str(start)}
-    url = wa["url"] + "?" + urllib.parse.urlencode(params)
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=45) as resp:
-        data = json.load(resp)
-    return data.get("transactions", []) or []
+    url = wa.get("archive_url", common.WHALE_ARCHIVE_URL)
+    txns = common.whale_archive_transactions(window_hours, archive_url=url)
+    return [t for t in txns if t.get("transaction_type") == "transfer"]
 
 
 def run(fixture=None, window=None, example=False):
@@ -159,10 +160,13 @@ def run(fixture=None, window=None, example=False):
         txns = json.load(open(fixture, encoding="utf-8")).get("transactions", [])
         example = True  # a fixture-derived board is always illustrative
     else:
-        txns = load_from_api(cfg, window_hours)
-        if txns is None:
-            common.gh("warning", "whale_flows: no WHALE_ALERT_API_KEY -> skipping (no board written). "
-                                 "Set the key, or run with --fixture for a preview.")
+        try:
+            txns = load_from_archive(cfg, window_hours)
+        except Exception as e:
+            # Fail-open for the BOARD only: keep the committed snapshot rather than fail a
+            # deploy over a market-data hiccup. The news pipeline's gates are unaffected.
+            common.gh("warning", f"whale_flows: archive fetch failed ({e}) -> skipping "
+                                 f"(no board written; the previous snapshot stands).")
             return 0
 
     result = analyze(txns, window_hours, top_assets, top_moves, example=example, date=date)

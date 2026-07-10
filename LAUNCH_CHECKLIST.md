@@ -88,18 +88,17 @@ clean skip, never a failure):
   primary regulators and nine major outlets directly (Blockworks, Protos, and The Defiant
   were added as free direct feeds in its place), and an aggregator mostly adds shill-filter
   work. The adapter stays wired; if reach ever matters more, add the token and it turns on.
-- **Whale Alert** (`WHALE_ALERT_API_KEY`) - large on-chain transfers (whale moves). Uses Whale
-  Alert's own API, which is cleaner than scraping @whale_alert on X. Feeds two things: (1) capped
-  individual items into the brief (`config.json -> whale_alert.max_items`), and (2) the
-  **Whale Watch board**, which AUTO-REFRESHES: the Netlify build runs `whale_flows.py` before
-  building the site, and the daily-brief workflow pings a Netlify build hook each morning
-  (see D6 in DEVIATIONS.md). To turn it on, get a key at whale-alert.io and set it in THREE
-  places: a GitHub Actions secret `WHALE_ALERT_API_KEY` (brief items), a Netlify environment
-  variable `WHALE_ALERT_API_KEY` (Site configuration -> Environment variables; board refresh),
-  and a Netlify build hook (Site configuration -> Build & deploy -> Build hooks -> add one named
-  e.g. "daily-board-refresh" on main, copy its URL into a GitHub secret `NETLIFY_BUILD_HOOK`).
-  Their free tier is limited; large-transfer history needs a paid plan. Until the key is set the
-  board ships/keeps the committed EXAMPLE snapshot and deploys never fail on Whale Alert errors.
+- **Whale Alert** - NO KEY NEEDED (update 2026-07-10). Whale Alert retired the keyed REST API
+  this pipeline was built against (replacements: a $29.95/mo personal-use WebSocket and a
+  $699/mo Enterprise API; neither fits, do NOT subscribe). Both consumers now run keyless off
+  Whale Alert's FREE public alert archive (see DEVIATIONS D7): (1) capped items into the brief
+  (`config.json -> whale_alert.max_items`), and (2) the **Whale Watch board**, which
+  AUTO-REFRESHES: the Netlify build runs `whale_flows.py` before building the site, and the
+  daily-brief workflow pings a Netlify build hook each morning (see D6). The ONLY setup left is
+  the build hook: Netlify -> Site configuration -> Build & deploy -> Build hooks -> add one
+  named e.g. "daily-board-refresh" on main, copy its URL into a GitHub secret
+  `NETLIFY_BUILD_HOOK`. Archive fetch failures keep the previous board; deploys never fail on
+  Whale Alert errors.
 - **X / Twitter** (`X_BEARER_TOKEN`) - news breaks here first, but X's API is paid (about $100/mo
   for the basic tier). Wired against X API v2 recent search; edit `config.json -> x_twitter.query`
   to follow specific accounts (`from:handle`) or cashtags.

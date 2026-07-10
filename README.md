@@ -101,13 +101,14 @@ python3 site_build.py            # build site/publish/ from committed content
 python3 site_build.py --ingest   # promote approved payloads, then build
 ```
 
-**Whale Watch (follow the money).** `whale_flows.py` turns Whale Alert's large-transfer feed
+**Whale Watch (follow the money).** `whale_flows.py` turns Whale Alert's public alert data
 into a higher-perspective signal instead of a scrolling list: it classifies each transfer as
 moving onto an exchange (potential sell pressure) or off an exchange (accumulation), scores
 stablecoins separately as incoming buying power, and aggregates net flow per asset. It writes
 `site/data/flows.json`, which the site renders as the "Whale Watch" page (a diverging bar chart
 by asset + the biggest onto-exchange moves). Market data, not news, so it does not go through the
-human gate, but it is clearly labelled as such. Refresh it with a Whale Alert key:
+human gate, but it is clearly labelled as such. Data comes KEYLESS from Whale Alert's free
+public alert archive (see DEVIATIONS D7) and refreshes at every Netlify build. Refresh locally:
 `python3 whale_flows.py` (or `--fixture fixtures/whale_sample.json` to preview).
 
 Content flow: a story is published only after human approval (`publish.py`). `--ingest`
