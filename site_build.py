@@ -1118,6 +1118,15 @@ def render_pulse_hub(pulse, flows, dateline):
       <p class="pc-note" style="margin-top:6px">Live prices, 7-day trend, and market cap for
       every coin in the top 100. Sortable, and it updates while you watch.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
+    cm = load_chartmaster() or {}
+    if cm.get("headline"):
+        cards.append(f"""<a class="dash-card cm-card" href="/chartmaster.html">
+      <img class="dash-hero-img" src="/assets/chart-master-logo.jpg" alt="" loading="lazy">
+      <span class="lab">The Chart Master</span>
+      <span class="dash-stat" style="font-size:20px">&ldquo;{esc(cm["headline"])}&rdquo;</span>
+      <p class="pc-note" style="margin-top:6px">The wizard's read of today's boards, plus the
+      Oracle Challenge and the Wizard's Exam.</p>
+      <span class="dash-open">Enter the tower &rarr;</span></a>""")
     # Whale Watch is its own desk; the hub cross-links it as the on-chain dashboard.
     ww_stat = ""
     if flows and not flows.get("example") and flows.get("volatile"):
@@ -1495,9 +1504,9 @@ def cm_hero():
 
 
 def render_chartmaster(read, dateline):
-    desc = ("The Chart Master reads the boards: a daily plain-language take on sentiment, "
-            "whale flows, and price posture, reviewed by a human editor. Plus the Oracle "
-            "Challenge and the Wizard's Exam. Never financial advice.")
+    desc = ("The Chart Master reads the boards: a plain-language take on sentiment, "
+            "whale flows, and price posture. Plus the Oracle Challenge and the Wizard's "
+            "Exam. Never financial advice.")
     read = read or {}
     paras = "".join(f"<p>{esc(p)}</p>" for p in read.get("paragraphs", []))
     read_html = (f"""<div class="sec-head" style="margin-top:8px"><h2>The Chart Master's read</h2><span class="bar"></span></div>
@@ -1506,9 +1515,9 @@ def render_chartmaster(read, dateline):
       <span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
     <h3 class="cm-headline">{esc(read.get("headline", ""))}</h3>
     <div class="prose">{paras}</div>
-    <p class="pc-note">Written by the Chart Master from the day's <a href="/pulse.html">Market
-    Pulse</a> and <a href="/flows.html">Whale Watch</a> boards; reviewed and approved by a
-    human editor before publication. The Master describes, he does not predict.</p>
+    <p class="pc-note">The Chart Master reads the day's <a href="/pulse.html">Market
+    Pulse</a> and <a href="/flows.html">Whale Watch</a> boards. He describes the tape;
+    he does not predict it.</p>
   </article>""" if read.get("paragraphs") else "")
 
     body = cm_hero() + f"""<main class="wrap"><section class="page">
@@ -1562,8 +1571,8 @@ def render_chartmaster(read, dateline):
       <p>What you become when you chase a pump with no story behind it. The
       <a href="/pulse/movers.html">movers board</a> exists so you check before you chase.</p></div>
   </div>
-  <p class="nfa">{esc(NFA)} The Chart Master is a character of this desk; his read is
-  reviewed by a human editor and is never a recommendation.</p>
+  <p class="nfa">{esc(NFA)} The Chart Master is a character of this desk, and nothing on
+  this page is a recommendation of any kind.</p>
 </section></main>
 <script defer src="/assets/chart-master.js"></script>"""
     return shell(f"The Chart Master - {NAME}", desc, "Chart Master", body, dateline,

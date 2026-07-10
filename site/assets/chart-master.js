@@ -81,23 +81,31 @@
   // ---- The Wizard's Exam ----
   var QUESTIONS = [
     { q: "To sell a large amount of crypto, a whale usually first has to...",
-      a: ["Move coins onto an exchange", "Move coins into cold storage", "Burn the coins"], c: 0 },
+      a: ["Move coins onto an exchange", "Move coins into cold storage", "Burn the coins"], c: 0,
+      why: "Coins must usually sit on an exchange to be sold at scale, which is why big inflows can precede selling." },
     { q: "Stablecoins flooding ONTO exchanges historically reads as...",
-      a: ["Sell pressure building", "Buying power arriving", "A network outage"], c: 1 },
+      a: ["Sell pressure building", "Buying power arriving", "A network outage"], c: 1,
+      why: "Stablecoins are staged dollars: arriving on an exchange, they are ready to buy, not to sell." },
     { q: "An RSI above 70 means the asset is running...",
-      a: ["Cold (oversold)", "Hot (overbought)", "Exactly at fair value"], c: 1 },
+      a: ["Cold (oversold)", "Hot (overbought)", "Exactly at fair value"], c: 1,
+      why: "Above 70 reads as overbought (hot); below 30 as oversold (cold)." },
     { q: "A golden cross is when...",
       a: ["Price crosses $50,000", "The 50-day average crosses ABOVE the 200-day",
-          "Two candles form an X"], c: 1 },
+          "Two candles form an X"], c: 1,
+      why: "The 50-day crossing above the 200-day is the golden cross; crossing below is the death cross." },
     { q: "Extreme fear on the sentiment gauge has historically appeared near...",
-      a: ["Local tops", "Local bottoms", "Exchange listings"], c: 1 },
+      a: ["Local tops", "Local bottoms", "Exchange listings"], c: 1,
+      why: "Crowds overreact; extreme fear has often marked local bottoms. A tendency, never a law." },
     { q: "A 20% pump on a coin with no news behind it is usually...",
-      a: ["Free money", "Noise, or someone's exit", "A sign of strong fundamentals"], c: 1 },
+      a: ["Free money", "Noise, or someone's exit", "A sign of strong fundamentals"], c: 1,
+      why: "A move with no story behind it is usually thin liquidity or someone selling into the pump." },
     { q: "Market cap equals...",
       a: ["Price times circulating supply", "Price times trading volume",
-          "Whatever the founder says"], c: 0 },
+          "Whatever the founder says"], c: 0,
+      why: "Price times circulating supply is the only fair way to compare a big coin to a cheap one." },
     { q: "Falling mining difficulty means...",
-      a: ["More machines are joining", "Some miners are switching off", "Fees must rise"], c: 1 },
+      a: ["More machines are joining", "Some miners are switching off", "Fees must rise"], c: 1,
+      why: "Difficulty falls when machines leave the network and rises when miners plug more in." },
   ];
   var RANKS = [
     [8, "CHART MASTER. The wizard tips his hat."],
@@ -110,7 +118,7 @@
     var body = $("exam-body"), start = $("exam-start");
     if (!body || !start) return;
     start.onclick = function () {
-      var i = 0, score = 0;
+      var i = 0, score = 0, missed = [];
       function ask() {
         if (i >= QUESTIONS.length) { return grade(); }
         var q = QUESTIONS[i];
@@ -123,14 +131,22 @@
         body.onclick = function (e) {
           var j = e.target && e.target.getAttribute("data-j");
           if (j == null) return;
-          if (parseInt(j, 10) === q.c) score++;
+          if (parseInt(j, 10) === q.c) { score++; }
+          else { missed.push({ q: q.q, chose: q.a[parseInt(j, 10)], right: q.a[q.c], why: q.why || "" }); }
           i++; ask();
         };
       }
       function grade() {
         var rank = RANKS.find(function (r) { return score >= r[0]; })[1];
         var share = "I scored " + score + "/8 on the Chart Master's Exam at gocheckmycrypto.com";
-        body.innerHTML = '<p style="margin:0 0 6px"><b>' + score + " / 8.</b> " + rank + "</p>" +
+        var review = missed.length
+          ? '<div class="exam-review"><p style="margin:12px 0 6px"><b>The lessons:</b></p>' +
+            missed.map(function (m) {
+              return '<p class="pc-note" style="margin:0 0 10px"><b>' + m.q + '</b><br>' +
+                'You said: ' + m.chose + '. The tape says: <b>' + m.right + '</b>. ' + m.why + '</p>';
+            }).join("") + "</div>"
+          : '<p class="pc-note" style="margin:12px 0 6px">A perfect reading. The Master has nothing to teach you today.</p>';
+        body.innerHTML = '<p style="margin:0 0 6px"><b>' + score + " / 8.</b> " + rank + "</p>" + review +
           '<div class="pc-chips"><button class="cm-btn" id="exam-share">Copy your result</button>' +
           '<button class="cm-btn" id="exam-again">Take it again</button></div>' +
           '<p class="pc-note" id="exam-note"></p>';
