@@ -277,6 +277,28 @@ body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(244,165,42,.3)}
 .movetable .num{font-family:var(--mono);color:var(--rule);font-weight:600}
 .movetable .mut{color:var(--faint)}
 .movetable .pnum{font-family:var(--mono);color:var(--ink);font-weight:600}
+
+/* ---- live layer ------------------------------------------------------------- */
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#3FC8F2;
+  margin-left:7px;vertical-align:2px;animation:livepulse 2s ease-in-out infinite}
+@keyframes livepulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(63,200,242,.5)}
+  50%{opacity:.55;box-shadow:0 0 0 4px rgba(63,200,242,0)}}
+.daily-badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
+  border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin-left:8px;
+  vertical-align:2px;white-space:nowrap}
+.live-stamp{font-family:var(--mono);font-size:11px;color:var(--faint);margin:2px 0 10px}
+.live-stamp .live-dot{margin:0 7px 0 0}
+.flash{animation:valflash 0.9s ease-out}
+@keyframes valflash{0%{color:#3FC8F2}100%{}}
+.prices-table th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--faint);text-align:left;padding:10px 14px;
+  border-bottom:1px solid var(--line);white-space:nowrap}
+.prices-table th[data-sort]{cursor:pointer;user-select:none}
+.prices-table th[data-sort]:hover{color:var(--ink)}
+.prices-table th.sorted-asc::after{content:" \2191"}
+.prices-table th.sorted-desc::after{content:" \2193"}
+.row-spark svg{width:110px;height:26px;display:block}
 .flow-teaser{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .flow-teaser .t{font-family:var(--serif);font-size:18px;font-weight:600}
 .flow-teaser .d{font-size:14px;color:var(--muted);margin-top:2px}

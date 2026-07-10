@@ -229,7 +229,8 @@ def footer():
 </div></footer>"""
 
 
-def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False):
+def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
+          live_js=False):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">')
@@ -239,6 +240,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     if CF_ANALYTICS_TOKEN:
         beacon = ('\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
                   f'data-cf-beacon=\'{{"token": "{CF_ANALYTICS_TOKEN}"}}\'></script>')
+    livejs = ('\n<script defer src="/assets/pulse-live.js"></script>' if live_js else "")
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -264,7 +266,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <body class="{esc(body_class)}">
 {masthead(active, dateline)}
 {body}
-{footer()}{beacon}
+{footer()}{beacon}{livejs}
 </body>
 </html>"""
 
@@ -664,7 +666,8 @@ def render_flows(flows, dateline):
   <h1>Where the whales are moving</h1>
   <p class="lede">Not a scrolling feed of every transfer, the aggregate. Where are whales moving
      large amounts on net over the last {win} hours: onto exchanges (which can precede selling)
-     or off into self-custody (accumulation)?</p>
+     or off into self-custody (accumulation)?
+     <span class="daily-badge">refreshed 3x daily</span></p>
   {ribbon}
 
   <div class="stats">
@@ -793,7 +796,7 @@ def _ticks(lo, hi, target=4):
 
 def line_chart_svg(series, *, w=680, h=260, dollars=True, x_labels=None, overlays=None,
                    bands=None, color=C_PRICE, area=True, y_min=None, y_max=None,
-                   value_label=None, aria=""):
+                   value_label=None, aria="", pill_attr=""):
     """A real chart: gridlines, labeled y-axis, dated x-axis, area fill, current-value pill,
     optional dashed overlay series and tinted horizontal bands. Pure server-rendered SVG."""
     vals = [float(v) for v in (series or []) if v is not None]
@@ -876,8 +879,9 @@ def line_chart_svg(series, *, w=680, h=260, dollars=True, x_labels=None, overlay
         px = ex - tw - 8 if ex + 6 + tw > w else ex + 6
         parts.append(f'<rect x="{px:.1f}" y="{py:.1f}" width="{tw:.1f}" height="21" rx="10.5" '
                      f'fill="var(--card)" stroke="{color}" stroke-width="1"/>')
+        pill_extra = f' {pill_attr}' if pill_attr else ""
         parts.append(f'<text x="{px + tw / 2:.1f}" y="{py + 14.5:.1f}" text-anchor="middle" '
-                     f'class="cpill" fill="{color}">{esc(value_label)}</text>')
+                     f'class="cpill" fill="{color}"{pill_extra}>{esc(value_label)}</text>')
     parts.append("</svg>")
     return "".join(parts)
 
@@ -967,7 +971,8 @@ def _posture_card(a):
         x_labels=[win.get("start", ""), win.get("end", "")],
         value_label=fmt_tick(a.get("price", 0)),
         aria=f"{sym} price over 90 days with 50 and 200 day averages, "
-             f"currently ${a.get('price', 0):,.0f}")
+             f"currently ${a.get('price', 0):,.0f}",
+        pill_attr=f'data-live="pill:{sym}"')
     legend = chart_legend([("price", C_PRICE, False), ("50-day avg", C_SMA50, True),
                            ("200-day avg", C_SMA200, True)])
     rsi = a.get("rsi14")
@@ -986,8 +991,8 @@ def _posture_card(a):
     cross = (_chip("Golden cross", "chip-up") if a.get("golden_cross")
              else _chip("Death cross", "chip-down"))
     return f"""<div class="pulse-card">
-  <div class="pc-head"><span class="pc-sym">{esc(sym)}</span>
-    <span class="pc-price">${a.get("price", 0):,.0f}</span></div>
+  <div class="pc-head"><span class="pc-sym">{esc(sym)}<span class="live-dot"></span></span>
+    <span class="pc-price" data-live="price:{esc(sym)}">${a.get("price", 0):,.0f}</span></div>
   {chart}
   {legend}
   <div class="pc-chips">{rsi_chip}{mom}{trend}{cross}
@@ -1020,10 +1025,10 @@ def mp_hero():
             '</div></section>')
 
 
-def _dash_shell(slug, title, desc, body_inner, dateline):
+def _dash_shell(slug, title, desc, body_inner, dateline, live=False):
     body = f'<main class="wrap"><section class="page">\n{body_inner}\n</section></main>'
     return shell(f"{title} - Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
-                 body_class="ww-dark", path=f"/pulse/{slug}.html")
+                 body_class="ww-dark", path=f"/pulse/{slug}.html", live_js=live)
 
 
 def _no_data(cmd="python3 market_pulse.py"):
@@ -1061,7 +1066,7 @@ def render_pulse_hub(pulse, flows, dateline):
         rng = (f"range {fmt_tick(min(s30))} to {fmt_tick(max(s30))}" if s30 else "")
         cards.append(f"""<a class="dash-card" href="/pulse/posture.html">
       <span class="lab">Price posture</span>
-      <span class="dash-stat">BTC ${btc.get("price", 0):,.0f}</span>
+      <span class="dash-stat" data-live="price:BTC" data-prefix="BTC ">BTC ${btc.get("price", 0):,.0f}</span>
       <div class="pc-spark">{spark_svg(s30)}</div>
       <span class="mini-range">{esc(rng)}</span>
       <p class="pc-note">RSI {btc.get("rsi14", 0):.0f}, {mom}. Full readings for BTC, ETH, and SOL.</p>
@@ -1092,9 +1097,18 @@ def render_pulse_hub(pulse, flows, dateline):
         diff = network.get("difficulty_change_pct", 0)
         cards.append(f"""<a class="dash-card" href="/pulse/network.html">
       <span class="lab">Bitcoin network</span>
-      <span class="dash-stat">{network.get("fastest_fee", "?")} sat/vB</span>
+      <span class="dash-stat" data-live="fee:fastest" data-suffix=" sat/vB">{network.get("fastest_fee", "?")} sat/vB</span>
       <p class="pc-note" style="margin-top:10px">Next-block fee, with difficulty heading
       {diff:+.1f}% at the next retarget. How busy the chain is.</p>
+      <span class="dash-open">Open dashboard &rarr;</span></a>""")
+    top100 = (movers or {}).get("top100") or []
+    if top100:
+        total_mcap = sum(c.get("mcap_usd") or 0 for c in top100)
+        cards.append(f"""<a class="dash-card" href="/pulse/prices.html">
+      <span class="lab">Top 100 prices<span class="live-dot"></span></span>
+      <span class="dash-stat">{esc(fmt_usd(total_mcap))} tracked</span>
+      <p class="pc-note" style="margin-top:6px">Live prices, 7-day trend, and market cap for
+      every coin in the top 100. Sortable, and it updates while you watch.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
     # Whale Watch is its own desk; the hub cross-links it as the on-chain dashboard.
     ww_stat = ""
@@ -1122,7 +1136,7 @@ def render_pulse_hub(pulse, flows, dateline):
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>
 </section></main>"""
     return shell(f"Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
-                 body_class="ww-dark", path="/pulse.html")
+                 body_class="ww-dark", path="/pulse.html", live_js=True)
 
 
 def render_pulse_sentiment(pulse, dateline):
@@ -1149,7 +1163,8 @@ def render_pulse_sentiment(pulse, dateline):
   <div class="pulse-grid2">
     <div class="pulse-card center">{fng_gauge_svg(v)}
       <div class="gauge-label" style="color:{_fng_band_color(v)}">{esc(fng.get("label",""))}</div>
-      <p class="pc-note">Fear &amp; Greed Index, via alternative.me</p></div>
+      <p class="pc-note">Fear &amp; Greed Index, via alternative.me
+      <span class="daily-badge">daily data</span></p></div>
     <div class="pulse-card"><span class="lab">How to read it</span>
       <p class="pc-note" style="font-size:14.5px">Reading the trend matters more than any
       single day: a mood that has been dark for weeks tells you more than one nervous
@@ -1185,13 +1200,15 @@ def render_pulse_posture(pulse, dateline):
     assets = (pulse or {}).get("assets") or []
     if not assets:
         inner = f"{_dash_crumb()}\n  <h1>Price posture</h1>\n  {_no_data()}"
-        return _dash_shell("posture", "Price posture", desc, inner, dateline)
+        return _dash_shell("posture", "Price posture", desc, inner, dateline, live=True)
     cards = "".join(_posture_card(a) for a in assets)
     inner = f"""{_dash_crumb()}
   <h1>Price posture</h1>
   <p class="lede">Where the majors stand, measured with fixed, standard formulas on daily
      closes: RSI-14, MACD 12/26/9, the 50- and 200-day averages, distance from the 12-month
      high, and 30-day realized volatility.</p>
+  <p class="live-stamp"><span class="live-dot"></span>prices update in your browser
+     <span data-live="stamp"></span></p>
   <div class="pulse-stack">{cards}</div>
   <p class="pc-note" style="margin-top:8px">Solid line is price over 90 days; the dashed
   lines are the 50- and 200-day averages the trend chips refer to. Every chip is defined
@@ -1225,7 +1242,7 @@ def render_pulse_posture(pulse, dateline):
       into a buy or sell call. That is the deal.</p></div>
   </div>
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("posture", "Price posture", desc, inner, dateline)
+    return _dash_shell("posture", "Price posture", desc, inner, dateline, live=True)
 
 
 def render_pulse_stables(pulse, dateline):
@@ -1251,7 +1268,8 @@ def render_pulse_stables(pulse, dateline):
     <div class="pulse-card"><span class="lab">Total USD-pegged float</span>
       <span class="pc-big">{esc(fmt_usd(stables.get("total_usd", 0)))}</span>
       <div class="pc-chips">{chg_chip}</div>
-      <p class="pc-note">All dollars parked in stablecoins across chains, per DefiLlama.</p></div>
+      <p class="pc-note">All dollars parked in stablecoins across chains, per DefiLlama.
+      <span class="daily-badge">daily data</span></p></div>
     <div class="pulse-card"><span class="lab">How to read it</span>
       <p class="pc-note" style="font-size:14.5px">The direction of the line is the story:
       a growing float means money is staying in the arena, staged to buy; a shrinking float
@@ -1311,17 +1329,19 @@ def render_pulse_movers(pulse, dateline):
     movers = (pulse or {}).get("movers") or {}
     if not movers:
         inner = f"{_dash_crumb()}\n  <h1>Top movers</h1>\n  {_no_data()}"
-        return _dash_shell("movers", "Top movers", desc, inner, dateline)
+        return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True)
     inner = f"""{_dash_crumb()}
   <h1>Top movers</h1>
   <p class="lede">The five biggest gainers and losers of the last 24 hours, drawn only from
      the top {movers.get("universe", 100)} coins by market cap, so micro-cap pump coins never
      make this board.</p>
+  <p class="live-stamp"><span class="live-dot"></span>tables update in your browser
+     <span data-live="stamp"></span></p>
   <div class="pulse-grid2">
-    <div class="pulse-card"><span class="lab" style="color:var(--verified-fg)">Top 5 gainers (24h)</span>
-      <div class="movetable"><table><tbody>{_mover_rows(movers.get("gainers", []))}</tbody></table></div></div>
-    <div class="pulse-card"><span class="lab" style="color:var(--rule)">Top 5 losers (24h)</span>
-      <div class="movetable"><table><tbody>{_mover_rows(movers.get("losers", []))}</tbody></table></div></div>
+    <div class="pulse-card"><span class="lab" style="color:var(--verified-fg)">Top 5 gainers (24h)<span class="live-dot"></span></span>
+      <div class="movetable"><table><tbody data-live="movers:gainers">{_mover_rows(movers.get("gainers", []))}</tbody></table></div></div>
+    <div class="pulse-card"><span class="lab" style="color:var(--rule)">Top 5 losers (24h)<span class="live-dot"></span></span>
+      <div class="movetable"><table><tbody data-live="movers:losers">{_mover_rows(movers.get("losers", []))}</tbody></table></div></div>
   </div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Movers 101</h2><span class="bar"></span></div>
@@ -1344,7 +1364,79 @@ def render_pulse_movers(pulse, dateline):
       was, never a list of things to buy.</p></div>
   </div>
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("movers", "Top movers", desc, inner, dateline)
+    return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True)
+
+
+def _price_fmt(price):
+    if not price:
+        return "?"
+    if price >= 100:
+        return f"${price:,.0f}"
+    if price >= 1:
+        return f"${price:,.2f}"
+    return "$" + f"{price:.6f}".rstrip("0").rstrip(".")
+
+
+def _top100_rows(coins):
+    rows = []
+    for c in coins:
+        chg = c.get("chg_24h_pct")
+        chg_html = (f'<span class="chip {"chip-up" if chg >= 0 else "chip-down"}">{chg:+.1f}%</span>'
+                    if chg is not None else '<span class="chip">?</span>')
+        spark = c.get("spark7d") or []
+        up = len(spark) >= 2 and spark[-1] >= spark[0]
+        spark_html = (f'<span class="row-spark" style="color:{"var(--verified-fg)" if up else "var(--rule)"}">'
+                      f'{spark_svg(spark, w=110, h=26)}</span>') if spark else ""
+        rows.append(
+            f'<tr data-sym="{esc(c.get("symbol", ""))}">'
+            f'<td class="mut" data-cell="rank" data-val="{c.get("rank") or 999}">#{c.get("rank", "?")}</td>'
+            f'<td class="sym2">{esc(c.get("symbol", ""))}<span class="mut"> &middot; '
+            f'{esc((c.get("name") or "")[:18])}</span></td>'
+            f'<td>{spark_html}</td>'
+            f'<td class="pnum" data-cell="price" data-val="{c.get("price") or 0}">{esc(_price_fmt(c.get("price")))}</td>'
+            f'<td data-cell="chg" data-val="{chg if chg is not None else 0}">{chg_html}</td>'
+            f'<td class="mut" data-cell="mcap" data-val="{c.get("mcap_usd") or 0}">{esc(fmt_usd(c.get("mcap_usd", 0)))}</td></tr>')
+    return "".join(rows)
+
+
+def render_pulse_prices(pulse, dateline):
+    desc = ("Live prices, 7-day trend, 24-hour change, and market cap for the top 100 "
+            "cryptocurrencies by market cap. Sortable, updated in your browser.")
+    movers = (pulse or {}).get("movers") or {}
+    coins = movers.get("top100") or []
+    if not coins:
+        inner = f"{_dash_crumb()}\n  <h1>Top 100</h1>\n  {_no_data()}"
+        return _dash_shell("prices", "Top 100", desc, inner, dateline)
+    total_mcap = sum(c.get("mcap_usd") or 0 for c in coins)
+    inner = f"""{_dash_crumb()}
+  <h1>Top 100</h1>
+  <p class="lede">Every coin in the top 100 by market cap: price, 7-day trend, 24-hour
+     change. {esc(fmt_usd(total_mcap))} of market tracked. Click a column header to sort.</p>
+  <p class="live-stamp"><span class="live-dot"></span>prices update in your browser
+     <span data-live="stamp"></span></p>
+  <div class="movetable prices-table"><table>
+    <thead><tr>
+      <th data-sort="rank" class="sorted-asc">#</th><th>Coin</th><th>7d</th>
+      <th data-sort="price">Price</th><th data-sort="chg">24h</th>
+      <th data-sort="mcap">Market cap</th>
+    </tr></thead>
+    <tbody data-live="top100">{_top100_rows(coins)}</tbody>
+  </table></div>
+
+  <div class="sec-head" style="margin-top:30px"><h2>Prices 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab">What market cap means</span>
+      <p>Price times circulating supply. It is the market's total bet on a coin, and the only
+      fair way to compare a $60,000 coin to a $0.60 one. Rank is just market cap in order.</p></div>
+    <div class="learn"><span class="lab">Why ranks shift</span>
+      <p>A coin climbing the table means money is flowing in faster than into its neighbors.
+      Watching WHO is climbing over weeks tells you more than any single day's prices.</p></div>
+    <div class="learn"><span class="lab">Not a menu</span>
+      <p>Being big is not being good: rank measures size, not quality, and plenty of coins
+      have ridden this table down as well as up. This is a reference page, never a buy list.</p></div>
+  </div>
+  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+    return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True)
 
 
 def render_pulse_network(pulse, dateline):
@@ -1353,18 +1445,19 @@ def render_pulse_network(pulse, dateline):
     network = (pulse or {}).get("network") or {}
     if not network:
         inner = f"{_dash_crumb()}\n  <h1>Bitcoin network</h1>\n  {_no_data()}"
-        return _dash_shell("network", "Bitcoin network", desc, inner, dateline)
+        return _dash_shell("network", "Bitcoin network", desc, inner, dateline, live=True)
     diff = network.get("difficulty_change_pct", 0)
     inner = f"""{_dash_crumb()}
   <h1>Bitcoin network</h1>
   <p class="lede">The chain's own vital signs: what it costs to transact right now, and
      whether miners are adding or removing machines.</p>
   <div class="pulse-card"><div class="pc-chips" style="margin-top:2px">
-    {_chip(f'next-block fee {network.get("fastest_fee", "?")} sat/vB')}
-    {_chip(f'1-hour fee {network.get("hour_fee", "?")} sat/vB')}
+    <span class="chip" data-live="fee:fastest" data-prefix="next-block fee " data-suffix=" sat/vB">next-block fee {network.get("fastest_fee", "?")} sat/vB</span>
+    <span class="chip" data-live="fee:hour" data-prefix="1-hour fee " data-suffix=" sat/vB">1-hour fee {network.get("hour_fee", "?")} sat/vB</span>
     {_chip(f'difficulty est. {diff:+.1f}%', "chip-up" if diff >= 0 else "chip-down")}
     {_chip(f'{network.get("retarget_blocks", "?")} blocks to retarget')}</div>
-  <p class="pc-note">Live from mempool.space at build time.</p></div>
+  <p class="pc-note"><span class="live-dot"></span>Fees update live in your browser via
+  mempool.space; difficulty refreshes with each build. <span data-live="stamp"></span></p></div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Network 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
@@ -1381,7 +1474,7 @@ def render_pulse_network(pulse, dateline):
       spin. They tell you about the health of the system, not tomorrow's price.</p></div>
   </div>
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("network", "Bitcoin network", desc, inner, dateline)
+    return _dash_shell("network", "Bitcoin network", desc, inner, dateline, live=True)
 
 
 def render_404(dateline):
@@ -1487,6 +1580,7 @@ def build():
     w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))
     w(os.path.join("pulse", "movers.html"), render_pulse_movers(pulse, dateline))
+    w(os.path.join("pulse", "prices.html"), render_pulse_prices(pulse, dateline))
     w(os.path.join("pulse", "stablecoins.html"), render_pulse_stables(pulse, dateline))
     w(os.path.join("pulse", "network.html"), render_pulse_network(pulse, dateline))
     w("archive.html", render_archive(items, dateline))
@@ -1505,7 +1599,8 @@ def build():
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
     locs = ["/", "/flows.html", "/pulse.html", "/pulse/sentiment.html", "/pulse/posture.html",
-            "/pulse/movers.html", "/pulse/stablecoins.html", "/pulse/network.html",
+            "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
+            "/pulse/network.html",
             "/archive.html", "/method.html", "/about.html", "/standards.html"]
     locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
     urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)

@@ -215,22 +215,31 @@ def section_stables():
 
 
 def section_movers(top_n=5, universe=100):
-    """Top gainers and losers over 24h, drawn ONLY from the top-100 coins by market cap so
-    micro-cap pump coins never make the board."""
+    """One call, two boards: the full top-100 price table (with 7-day sparklines) and the
+    top gainers/losers derived from it, so micro-cap pump coins never make either board."""
     d = get_json("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
                  f"&order=market_cap_desc&per_page={universe}&page=1"
-                 "&price_change_percentage=24h")
-    rows = [c for c in d if c.get("price_change_percentage_24h") is not None]
-    rows.sort(key=lambda c: c["price_change_percentage_24h"])
+                 "&price_change_percentage=24h&sparkline=true")
 
-    def pack(c):
-        return {"symbol": (c.get("symbol") or "").upper(), "name": c.get("name") or "",
-                "price": c.get("current_price"), "chg_24h_pct": round(c["price_change_percentage_24h"], 2),
-                "mcap_usd": c.get("market_cap"), "rank": c.get("market_cap_rank")}
+    def pack(c, spark=False):
+        chg = c.get("price_change_percentage_24h")
+        out = {"symbol": (c.get("symbol") or "").upper(), "name": c.get("name") or "",
+               "price": c.get("current_price"),
+               "chg_24h_pct": round(chg, 2) if chg is not None else None,
+               "mcap_usd": c.get("market_cap"), "rank": c.get("market_cap_rank"),
+               "gecko_id": c.get("id") or ""}
+        if spark:
+            pts = ((c.get("sparkline_in_7d") or {}).get("price")) or []
+            out["spark7d"] = downsample(pts, 28) if len(pts) >= 2 else []
+        return out
 
+    movers = [c for c in d if c.get("price_change_percentage_24h") is not None]
+    movers.sort(key=lambda c: c["price_change_percentage_24h"])
+    top100 = sorted(d, key=lambda c: (c.get("market_cap_rank") or 999))
     return {"universe": universe,
-            "gainers": [pack(c) for c in reversed(rows[-top_n:])],
-            "losers": [pack(c) for c in rows[:top_n]]}
+            "gainers": [pack(c) for c in reversed(movers[-top_n:])],
+            "losers": [pack(c) for c in movers[:top_n]],
+            "top100": [pack(c, spark=True) for c in top100]}
 
 
 def section_network():
