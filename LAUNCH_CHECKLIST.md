@@ -20,9 +20,11 @@ Prefer drag-and-drop instead? Run `python3 crypto_pipeline/site_build.py` locall
 
 ## 2. Point a domain at it
 
-Buy a domain (for example `cryptocronkite.com`) and add it to the Netlify site under Domain
-settings. Netlify issues the HTTPS certificate automatically. Update the site name if you want
-it different from "Crypto Cronkite" by editing `NAME`/`SLOGAN` at the top of `site_build.py`.
+Buy `checkmycrypto.com` (the house brand and domain) and add it to the Netlify site under Domain
+settings. Netlify issues the HTTPS certificate automatically. Grab `cryptocronkite.com` too if it
+is cheap and point it at the same site (the news desk sub-brand). Brand names are centralized at
+the top of `site_build.py`: `NAME` (house = Check My Crypto), `DESK` (news = Crypto Cronkite),
+`SLOGAN`, and `DESK_LINE`. Check availability of the exact `.com` before you commit.
 
 ## 3. Turn on the newsletter (the owned audience, build this first)
 
