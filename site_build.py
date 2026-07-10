@@ -745,6 +745,149 @@ FNG_BANDS = [(0, 25, "#C0392B", "Extreme fear"), (25, 45, "#D9822B", "Fear"),
              (45, 55, "#9AA0A6", "Neutral"), (55, 75, "#6FA26B", "Greed"),
              (75, 100, "#2E7D4F", "Extreme greed")]
 
+# fixed data colors for the neon dark charts (grid/labels stay on CSS vars)
+C_PRICE = "#3FC8F2"   # cyan, the Whale Watch accent
+C_SMA50 = "#F4A52A"   # amber
+C_SMA200 = "#8A93A0"  # slate
+
+
+def fmt_tick(n, dollars=True):
+    """Compact axis label: $82K / $310B / 45. Whole numbers below 1000."""
+    n = float(n)
+    sign = "-" if n < 0 else ""
+    a = abs(n)
+    p = "$" if dollars else ""
+    if a >= 1e12:
+        return f"{sign}{p}{a/1e12:.4g}T"
+    if a >= 1e9:
+        return f"{sign}{p}{a/1e9:.4g}B"
+    if a >= 1e6:
+        return f"{sign}{p}{a/1e6:.4g}M"
+    if a >= 1e3:
+        return f"{sign}{p}{a/1e3:.4g}K"
+    return f"{sign}{p}{a:.4g}"
+
+
+def _nice_step(rough):
+    """Round a rough step up to a 'nice' 1/2/2.5/5 x 10^n value."""
+    import math
+    mag = 10 ** math.floor(math.log10(rough)) if rough > 0 else 1
+    for m in (1, 2, 2.5, 5, 10):
+        if rough <= m * mag:
+            return m * mag
+    return 10 * mag
+
+
+def _ticks(lo, hi, target=4):
+    if hi <= lo:
+        hi = lo + 1
+    step = _nice_step((hi - lo) / target)
+    import math
+    t = math.ceil(lo / step) * step
+    out = []
+    while t <= hi + step * 1e-9:
+        out.append(round(t, 10))
+        t += step
+    return out or [lo, hi]
+
+
+def line_chart_svg(series, *, w=680, h=260, dollars=True, x_labels=None, overlays=None,
+                   bands=None, color=C_PRICE, area=True, y_min=None, y_max=None,
+                   value_label=None, aria=""):
+    """A real chart: gridlines, labeled y-axis, dated x-axis, area fill, current-value pill,
+    optional dashed overlay series and tinted horizontal bands. Pure server-rendered SVG."""
+    vals = [float(v) for v in (series or []) if v is not None]
+    if len(vals) < 2:
+        return ""
+    all_vals = list(vals)
+    for ov in (overlays or []):
+        all_vals += [float(v) for v in ov.get("series", []) if v is not None]
+    lo = y_min if y_min is not None else min(all_vals)
+    hi = y_max if y_max is not None else max(all_vals)
+    pad = (hi - lo) * 0.06 or abs(hi) * 0.02 or 1
+    if y_min is None:
+        lo -= pad
+    if y_max is None:
+        hi += pad
+    ml, mr, mt, mb = 62, 20, 12, 26  # margins: left labels, right, top, bottom dates
+    pw, ph = w - ml - mr, h - mt - mb
+
+    def X(i, n):
+        return ml + i * pw / (n - 1)
+
+    def Y(v):
+        return mt + ph * (1 - (float(v) - lo) / (hi - lo))
+
+    uid = f"g{abs(hash((round(lo, 2), round(hi, 2), len(vals), color))) % 99999}"
+    parts = [f'<svg class="chart" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" '
+             f'role="img" aria-label="{esc(aria)}" preserveAspectRatio="xMidYMid meet">']
+    # tinted horizontal bands (e.g. fear/greed zones)
+    for b in (bands or []):
+        y1, y0 = Y(b["from"]), Y(b["to"])
+        parts.append(f'<rect x="{ml}" y="{min(y0, y1):.1f}" width="{pw}" '
+                     f'height="{abs(y1 - y0):.1f}" fill="{b["color"]}" opacity="0.10"/>')
+        if b.get("label"):
+            parts.append(f'<text x="{ml + pw - 6}" y="{(y0 + y1) / 2 + 3:.1f}" text-anchor="end" '
+                         f'class="band-lab" fill="{b["color"]}">{esc(b["label"])}</text>')
+    # y gridlines + labels
+    for t in _ticks(lo, hi):
+        y = Y(t)
+        if y < mt - 1 or y > mt + ph + 1:
+            continue
+        parts.append(f'<line x1="{ml}" y1="{y:.1f}" x2="{ml + pw}" y2="{y:.1f}" '
+                     f'stroke="var(--line)" stroke-width="1"/>')
+        parts.append(f'<text x="{ml - 8}" y="{y + 3.5:.1f}" text-anchor="end" class="ctick">'
+                     f'{esc(fmt_tick(t, dollars))}</text>')
+    # x labels: start / middle / end
+    if x_labels:
+        n = len(x_labels)
+        for j, lab in enumerate(x_labels):
+            xx = ml if j == 0 else (ml + pw if j == n - 1 else ml + pw * j / (n - 1))
+            anchor = "start" if j == 0 else ("end" if j == n - 1 else "middle")
+            parts.append(f'<text x="{xx:.1f}" y="{h - 8}" text-anchor="{anchor}" class="ctick">'
+                         f'{esc(lab)}</text>')
+    # area fill under the main line
+    n = len(vals)
+    pts = " ".join(f"{X(i, n):.1f},{Y(v):.1f}" for i, v in enumerate(vals))
+    if area:
+        parts.append(f'<defs><linearGradient id="{uid}" x1="0" y1="0" x2="0" y2="1">'
+                     f'<stop offset="0%" stop-color="{color}" stop-opacity="0.22"/>'
+                     f'<stop offset="100%" stop-color="{color}" stop-opacity="0"/>'
+                     f'</linearGradient></defs>')
+        parts.append(f'<polygon points="{ml},{mt + ph} {pts} {ml + pw},{mt + ph}" '
+                     f'fill="url(#{uid})"/>')
+    # overlay series (dashed)
+    for ov in (overlays or []):
+        ovals = [float(v) for v in ov.get("series", []) if v is not None]
+        if len(ovals) < 2:
+            continue
+        on = len(ovals)
+        opts = " ".join(f"{X(i, on):.1f},{Y(v):.1f}" for i, v in enumerate(ovals))
+        parts.append(f'<polyline points="{opts}" fill="none" stroke="{ov["color"]}" '
+                     f'stroke-width="1.6" stroke-dasharray="5 4"/>')
+    # main line + end dot + value pill
+    parts.append(f'<polyline points="{pts}" fill="none" stroke="{color}" stroke-width="2.2" '
+                 f'stroke-linejoin="round" stroke-linecap="round"/>')
+    ex, ey = X(n - 1, n), Y(vals[-1])
+    parts.append(f'<circle cx="{ex:.1f}" cy="{ey:.1f}" r="3.4" fill="{color}"/>')
+    if value_label:
+        tw = 8.2 * len(value_label) + 14
+        py = max(mt + 2, min(ey - 11, mt + ph - 24))
+        px = ex - tw - 8 if ex + 6 + tw > w else ex + 6
+        parts.append(f'<rect x="{px:.1f}" y="{py:.1f}" width="{tw:.1f}" height="21" rx="10.5" '
+                     f'fill="var(--card)" stroke="{color}" stroke-width="1"/>')
+        parts.append(f'<text x="{px + tw / 2:.1f}" y="{py + 14.5:.1f}" text-anchor="middle" '
+                     f'class="cpill" fill="{color}">{esc(value_label)}</text>')
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def chart_legend(entries):
+    items = "".join(f'<span class="lgd"><span class="lgd-swatch" style="background:{c}'
+                    f'{";height:2px" if dash else ""}"></span>{esc(t)}</span>'
+                    for t, c, dash in entries)
+    return f'<div class="chart-legend">{items}</div>'
+
 
 def fng_gauge_svg(value):
     """Semicircular sentiment gauge, 0 (extreme fear) to 100 (extreme greed)."""
@@ -775,19 +918,26 @@ def history_bars_svg(history):
     """13-week net-flow bar chart for the Whale Watch page. Green up = net off exchanges."""
     if not history:
         return ""
-    w, h = 660, 190
+    w, h = 660, 200
     mid = h / 2 - 8
     max_abs = max((abs(x.get("net_usd", 0)) for x in history), default=0) or 1
     n = len(history)
-    slot = (w - 30) / n
+    ml = 64
+    slot = (w - ml - 14) / n
     bw = min(34, slot * 0.62)
+    scale = mid - 26
     parts = [f'<svg viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" role="img" '
              f'aria-label="Weekly net exchange flow, last {n} weeks">']
-    parts.append(f'<line x1="16" y1="{mid}" x2="{w-14}" y2="{mid}" stroke="var(--line)" stroke-width="1"/>')
+    # labeled y guides: top = biggest net-off week, bottom = biggest net-onto week
+    for val, y in ((max_abs, mid - scale), (0, mid), (-max_abs, mid + scale)):
+        parts.append(f'<line x1="{ml}" y1="{y:.1f}" x2="{w-14}" y2="{y:.1f}" '
+                     f'stroke="var(--line)" stroke-width="1"/>')
+        parts.append(f'<text x="{ml - 8}" y="{y + 3.5:.1f}" text-anchor="end" class="ctick">'
+                     f'{esc(fmt_tick(val))}</text>')
     for i, wk in enumerate(history):
         net = wk.get("net_usd", 0)
-        x = 22 + i * slot + (slot - bw) / 2
-        bar = (abs(net) / max_abs) * (mid - 26)
+        x = ml + i * slot + (slot - bw) / 2
+        bar = (abs(net) / max_abs) * scale
         color = "var(--verified-fg)" if net >= 0 else "var(--rule)"
         y = mid - bar if net >= 0 else mid
         parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" height="{max(bar, 1):.1f}" '
@@ -805,6 +955,21 @@ def _chip(text, cls=""):
 
 
 def _posture_card(a):
+    win = a.get("window") or {}
+    sym = a.get("symbol", "")
+    overlays = []
+    if a.get("spark_sma50"):
+        overlays.append({"series": a["spark_sma50"], "color": C_SMA50})
+    if a.get("spark_sma200"):
+        overlays.append({"series": a["spark_sma200"], "color": C_SMA200})
+    chart = line_chart_svg(
+        a.get("spark"), overlays=overlays,
+        x_labels=[win.get("start", ""), win.get("end", "")],
+        value_label=fmt_tick(a.get("price", 0)),
+        aria=f"{sym} price over 90 days with 50 and 200 day averages, "
+             f"currently ${a.get('price', 0):,.0f}")
+    legend = chart_legend([("price", C_PRICE, False), ("50-day avg", C_SMA50, True),
+                           ("200-day avg", C_SMA200, True)])
     rsi = a.get("rsi14")
     if rsi is None:
         rsi_chip = ""
@@ -821,9 +986,10 @@ def _posture_card(a):
     cross = (_chip("Golden cross", "chip-up") if a.get("golden_cross")
              else _chip("Death cross", "chip-down"))
     return f"""<div class="pulse-card">
-  <div class="pc-head"><span class="pc-sym">{esc(a.get("symbol",""))}</span>
+  <div class="pc-head"><span class="pc-sym">{esc(sym)}</span>
     <span class="pc-price">${a.get("price", 0):,.0f}</span></div>
-  <div class="pc-spark">{spark_svg(a.get("spark"))}</div>
+  {chart}
+  {legend}
   <div class="pc-chips">{rsi_chip}{mom}{trend}{cross}
     {_chip(f'{a.get("pct_from_high_12m", 0):+.0f}% vs 12-mo high')}
     {_chip(f'volatility {a.get("vol30_pct", 0):.0f}%/yr')}</div>
@@ -847,10 +1013,17 @@ def _dash_crumb():
     return '<span class="kicker"><a href="/pulse.html">Market Pulse</a> &middot; dashboard</span>'
 
 
+def mp_hero():
+    return ('<section class="ww-hero mp-hero"><div class="ww-heroinner">'
+            '<img src="/assets/market-pulse-logo.jpg" '
+            'alt="GoCheckMyCrypto Market Pulse: market pulse, on-chain insights">'
+            '</div></section>')
+
+
 def _dash_shell(slug, title, desc, body_inner, dateline):
     body = f'<main class="wrap"><section class="page">\n{body_inner}\n</section></main>'
     return shell(f"{title} - Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
-                 path=f"/pulse/{slug}.html")
+                 body_class="ww-dark", path=f"/pulse/{slug}.html")
 
 
 def _no_data(cmd="python3 market_pulse.py"):
@@ -872,27 +1045,36 @@ def render_pulse_hub(pulse, flows, dateline):
     cards = []
     if fng:
         v = fng.get("value", 50)
+        h30 = (fng.get("history") or [])[-30:]
+        rng = f"30d range {min(h30)} to {max(h30)}" if h30 else ""
         cards.append(f"""<a class="dash-card" href="/pulse/sentiment.html">
       <span class="lab">Crowd sentiment</span>
       <span class="dash-stat" style="color:{_fng_band_color(v)}">{v} &middot; {esc(fng.get("label",""))}</span>
-      <div class="pc-spark">{spark_svg((fng.get("history") or [])[-30:])}</div>
+      <div class="pc-spark">{spark_svg(h30)}</div>
+      <span class="mini-range">{esc(rng)}</span>
       <p class="pc-note">The Fear &amp; Greed gauge, with 90 days of crowd mood.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
     if assets:
         btc = assets[0]
         mom = "momentum building" if btc.get("macd_above_signal") else "momentum fading"
+        s30 = (btc.get("spark") or [])[-30:]
+        rng = (f"range {fmt_tick(min(s30))} to {fmt_tick(max(s30))}" if s30 else "")
         cards.append(f"""<a class="dash-card" href="/pulse/posture.html">
       <span class="lab">Price posture</span>
       <span class="dash-stat">BTC ${btc.get("price", 0):,.0f}</span>
-      <div class="pc-spark">{spark_svg((btc.get("spark") or [])[-30:])}</div>
+      <div class="pc-spark">{spark_svg(s30)}</div>
+      <span class="mini-range">{esc(rng)}</span>
       <p class="pc-note">RSI {btc.get("rsi14", 0):.0f}, {mom}. Full readings for BTC, ETH, and SOL.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
     if stables:
         chg = stables.get("change_30d_pct", 0)
+        s60 = (stables.get("spark") or [])[-60:]
+        rng = (f"range {fmt_tick(min(s60))} to {fmt_tick(max(s60))}" if s60 else "")
         cards.append(f"""<a class="dash-card" href="/pulse/stablecoins.html">
       <span class="lab">Stablecoin dry powder</span>
       <span class="dash-stat">{esc(fmt_usd(stables.get("total_usd", 0)))}</span>
-      <div class="pc-spark">{spark_svg((stables.get("spark") or [])[-60:])}</div>
+      <div class="pc-spark">{spark_svg(s60)}</div>
+      <span class="mini-range">{esc(rng)}</span>
       <p class="pc-note">{chg:+.1f}% in 30 days. The dollars staged inside crypto.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
     if network:
@@ -917,7 +1099,7 @@ def render_pulse_hub(pulse, flows, dateline):
       <span class="dash-open">Open the on-chain desk &rarr;</span></a>""")
 
     inner = "".join(cards) if (fng or assets or stables or network) else ""
-    body = f"""<main class="wrap"><section class="page">
+    body = mp_hero() + f"""<main class="wrap"><section class="page">
   <span class="kicker">Market data desk</span>
   <h1>Market Pulse</h1>
   <p class="lede">A growing set of dashboards on the market's vital signs, computed with
@@ -926,7 +1108,8 @@ def render_pulse_hub(pulse, flows, dateline):
   {'<div class="dash-grid">' + inner + '</div>' if inner else _no_data()}
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>
 </section></main>"""
-    return shell(f"Market Pulse - {NAME}", desc, "Market Pulse", body, dateline, path="/pulse.html")
+    return shell(f"Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
+                 body_class="ww-dark", path="/pulse.html")
 
 
 def render_pulse_sentiment(pulse, dateline):
@@ -937,6 +1120,15 @@ def render_pulse_sentiment(pulse, dateline):
         inner = f"{_dash_crumb()}\n  <h1>Crowd sentiment</h1>\n  {_no_data()}"
         return _dash_shell("sentiment", "Crowd sentiment", desc, inner, dateline)
     v = fng.get("value", 50)
+    win = fng.get("window") or {}
+    hist = fng.get("history") or []
+    zone_bands = [{"from": a, "to": b, "color": c, "label": lab.lower()}
+                  for a, b, c, lab in FNG_BANDS]
+    chart = line_chart_svg(
+        hist, dollars=False, y_min=0, y_max=100, bands=zone_bands,
+        x_labels=[win.get("start", ""), win.get("end", "")],
+        value_label=f"{v} today",
+        aria=f"Fear and greed index over the last 90 days, currently {v}")
     inner = f"""{_dash_crumb()}
   <h1>Crowd sentiment</h1>
   <p class="lede">One number for the market's mood, from 0 (extreme fear) to 100 (extreme
@@ -945,11 +1137,15 @@ def render_pulse_sentiment(pulse, dateline):
     <div class="pulse-card center">{fng_gauge_svg(v)}
       <div class="gauge-label" style="color:{_fng_band_color(v)}">{esc(fng.get("label",""))}</div>
       <p class="pc-note">Fear &amp; Greed Index, via alternative.me</p></div>
-    <div class="pulse-card"><span class="lab">Last 90 days</span>
-      <div class="pc-spark tall">{spark_svg(fng.get("history"), w=300, h=96)}</div>
-      <p class="pc-note">Reading the line matters more than any single day: a mood that has
-      been dark for weeks tells you more than one nervous afternoon.</p></div>
+    <div class="pulse-card"><span class="lab">How to read it</span>
+      <p class="pc-note" style="font-size:14.5px">Reading the trend matters more than any
+      single day: a mood that has been dark for weeks tells you more than one nervous
+      afternoon. The zones on the chart below are the same ones the gauge uses, so you can
+      see exactly how long the crowd has been sitting in fear or greed.</p></div>
   </div>
+
+  <div class="sec-head" style="margin-top:26px"><h2>90 days of crowd mood</h2><span class="bar"></span></div>
+  <div class="chartcard">{chart}</div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Sentiment 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
@@ -983,9 +1179,10 @@ def render_pulse_posture(pulse, dateline):
   <p class="lede">Where the majors stand, measured with fixed, standard formulas on daily
      closes: RSI-14, MACD 12/26/9, the 50- and 200-day averages, distance from the 12-month
      high, and 30-day realized volatility.</p>
-  <div class="pulse-grid3">{cards}</div>
-  <p class="pc-note" style="margin-top:8px">The 90-day price line is drawn behind each
-  reading. Every chip is defined below; we publish the formulas, never a recommendation.</p>
+  <div class="pulse-stack">{cards}</div>
+  <p class="pc-note" style="margin-top:8px">Solid line is price over 90 days; the dashed
+  lines are the 50- and 200-day averages the trend chips refer to. Every chip is defined
+  below; we publish the formulas, never a recommendation.</p>
 
   <div class="sec-head" style="margin-top:30px"><h2>Posture 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
@@ -1027,6 +1224,12 @@ def render_pulse_stables(pulse, dateline):
         return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline)
     chg = stables.get("change_30d_pct", 0)
     chg_chip = _chip(f"{chg:+.1f}% in 30 days", "chip-up" if chg >= 0 else "chip-down")
+    win = stables.get("window") or {}
+    chart = line_chart_svg(
+        stables.get("spark"), x_labels=[win.get("start", ""), win.get("end", "")],
+        value_label=fmt_tick(stables.get("total_usd", 0)),
+        aria=f"Total stablecoin float over one year, currently "
+             f"{fmt_usd(stables.get('total_usd', 0))}")
     inner = f"""{_dash_crumb()}
   <h1>Stablecoin dry powder</h1>
   <p class="lede">Stablecoins are dollars that already made the jump into crypto. The size of
@@ -1036,11 +1239,15 @@ def render_pulse_stables(pulse, dateline):
       <span class="pc-big">{esc(fmt_usd(stables.get("total_usd", 0)))}</span>
       <div class="pc-chips">{chg_chip}</div>
       <p class="pc-note">All dollars parked in stablecoins across chains, per DefiLlama.</p></div>
-    <div class="pulse-card"><span class="lab">One-year trend</span>
-      <div class="pc-spark tall">{spark_svg(stables.get("spark"), w=300, h=96)}</div>
-      <p class="pc-note">The direction of this line is the story: growing float means money is
-      staying in the arena, shrinking float means it is leaving entirely.</p></div>
+    <div class="pulse-card"><span class="lab">How to read it</span>
+      <p class="pc-note" style="font-size:14.5px">The direction of the line is the story:
+      a growing float means money is staying in the arena, staged to buy; a shrinking float
+      means money is leaving crypto entirely. The 30-day change chip gives you the recent
+      lean at a glance.</p></div>
   </div>
+
+  <div class="sec-head" style="margin-top:26px"><h2>One-year float</h2><span class="bar"></span></div>
+  <div class="chartcard">{chart}</div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Dry powder 101</h2><span class="bar"></span></div>
   <div class="learn-grid">

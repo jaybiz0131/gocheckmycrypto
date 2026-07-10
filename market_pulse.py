@@ -61,6 +61,23 @@ def ema_series(values, n):
     return out
 
 
+def rolling_sma(values, n):
+    """Full rolling SMA series; result[k] corresponds to values[k + n - 1]."""
+    if len(values) < n:
+        return []
+    out = []
+    s = sum(values[:n])
+    out.append(s / n)
+    for i in range(n, len(values)):
+        s += values[i] - values[i - n]
+        out.append(s / n)
+    return out
+
+
+def _date_label(ts_seconds):
+    return datetime.fromtimestamp(int(ts_seconds), timezone.utc).strftime("%b %d")
+
+
 def rsi14(closes, n=14):
     if len(closes) < n + 1:
         return None
@@ -117,7 +134,9 @@ def section_fng():
     newest = d[0]
     hist = [int(x["value"]) for x in reversed(d)]  # oldest -> newest
     return {"value": int(newest["value"]), "label": newest["value_classification"],
-            "history": hist}
+            "history": hist,
+            "window": {"start": _date_label(d[-1]["timestamp"]),
+                       "end": _date_label(newest["timestamp"])}}
 
 
 def section_assets():
@@ -125,13 +144,19 @@ def section_assets():
     for cid, sym in ASSETS:
         d = get_json(f"https://api.coingecko.com/api/v3/coins/{cid}/market_chart"
                      f"?vs_currency=usd&days=365&interval=daily")
-        closes = [p[1] for p in d.get("prices", []) if p and p[1]]
+        rows = [p for p in d.get("prices", []) if p and p[1]]
+        closes = [p[1] for p in rows]
         if len(closes) < 210:
             raise ValueError(f"{sym}: only {len(closes)} daily closes from CoinGecko")
         last = closes[-1]
         hi = max(closes)
         m = macd(closes)
         s50, s200 = sma(closes, 50), sma(closes, 200)
+        win = closes[-90:]
+        # rolling SMA series sliced to the same 90-day window and downsampled in step with
+        # the price spark, so the dashboard can overlay them on one chart
+        sma50_win = rolling_sma(closes, 50)[-90:]
+        sma200_win = rolling_sma(closes, 200)[-90:]
         out.append({
             "symbol": sym, "name": cid, "price": round(last, 2),
             "rsi14": round(rsi14(closes), 1),
@@ -141,7 +166,12 @@ def section_assets():
             "golden_cross": s50 >= s200,
             "pct_from_high_12m": round((last / hi - 1) * 100, 1),
             "vol30_pct": round(realized_vol_30d(closes), 1),
-            "spark": downsample(closes[-90:]),
+            "spark": downsample(win, 64),
+            "spark_sma50": downsample(sma50_win, 64),
+            "spark_sma200": downsample(sma200_win, 64),
+            "spark_high": round(max(win), 2), "spark_low": round(min(win), 2),
+            "window": {"start": _date_label(rows[-90][0] / 1000),
+                       "end": _date_label(rows[-1][0] / 1000)},
         })
     return out
 
@@ -151,11 +181,15 @@ def section_stables():
     pts = [(int(p["date"]), (p.get("totalCirculatingUSD") or {}).get("peggedUSD"))
            for p in d if (p.get("totalCirculatingUSD") or {}).get("peggedUSD")]
     pts.sort()
-    year = [v for _, v in pts[-365:]]
+    year_pts = pts[-365:]
+    year = [v for _, v in year_pts]
     cur = year[-1]
     prev30 = year[-31] if len(year) > 31 else year[0]
     return {"total_usd": round(cur), "change_30d_pct": round((cur / prev30 - 1) * 100, 2),
-            "spark": downsample(year)}
+            "spark": downsample(year, 64),
+            "spark_high": round(max(year)), "spark_low": round(min(year)),
+            "window": {"start": _date_label(year_pts[0][0]),
+                       "end": _date_label(year_pts[-1][0])}}
 
 
 def section_network():

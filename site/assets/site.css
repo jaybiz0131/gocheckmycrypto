@@ -242,6 +242,20 @@ body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(244,165,42,.3)}
   font-weight:700;margin-top:4px}
 .axis{font:9.5px var(--mono);fill:var(--faint)}
 .chartcard svg{width:100%;height:auto;display:block}
+.mp-hero{background:radial-gradient(120% 150% at 50% 0%, #0E3242 0%, #0A1822 62%)}
+.mp-hero img{box-shadow:0 0 44px rgba(63,200,242,.22),0 0 80px -30px rgba(244,165,42,.35),
+  0 18px 50px -20px rgba(0,0,0,.7)}
+.chart{width:100%;height:auto;display:block}
+.ctick{font:10.5px var(--mono);fill:var(--faint);letter-spacing:.02em}
+.cpill{font:700 11px var(--mono);letter-spacing:.02em}
+.band-lab{font:9px var(--mono);letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.chart-legend{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0 2px}
+.lgd{font-family:var(--mono);font-size:10.5px;color:var(--muted);display:inline-flex;
+  align-items:center;gap:6px}
+.lgd-swatch{display:inline-block;width:16px;height:3px;border-radius:2px}
+.mini-range{font-family:var(--mono);font-size:10px;color:var(--faint);display:block;
+  margin:-2px 0 4px;letter-spacing:.03em}
+.pulse-stack{display:grid;gap:18px;margin:8px 0 6px}
 
 .learn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin:8px 0 6px}
 .learn{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
