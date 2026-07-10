@@ -559,15 +559,10 @@ def render_home(items, flows, pulse, cm, dateline):
 
     body = market_strip() + f"""<main class="wrap"><section class="page">
   <span class="kicker">An independent crypto desk</span>
-  <div class="home-lockup">
-    <img src="/assets/logo.svg" alt="GoCheckMyCrypto">
-    <div><span class="hl-word">{esc(FAMILY)}</span>
-    <span class="hl-tag">Crypto, checked.</span></div>
-  </div>
-  <p class="lede">Built with one intention: get the stories right and keep the data honest.
-     Real news with the shill stripped out, on-chain money flows, live dashboards that teach
-     you what they mean, and a wizard who reads the tape. No hype, no paid promotion, and
-     never financial advice.</p>
+  <p class="lede home-lede">Built with one intention: get the stories right and keep the data
+     honest. Real news with the shill stripped out, on-chain money flows, live dashboards that
+     teach you what they mean, and a wizard who reads the tape. No hype, no paid promotion,
+     and never financial advice.</p>
   <div class="dash-grid home-grid">{"".join(cards)}</div>
   <p class="pc-note" style="margin-top:14px">Everything here is free. Start anywhere; the
      desks link to each other, and every number comes with an explanation in plain
