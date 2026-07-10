@@ -131,21 +131,35 @@ def load_content():
 
 # ---- shared chrome -----------------------------------------------------------
 
-def masthead(active, dateline):
+def masthead(active, dateline, brand="site"):
+    """Each page leads with its own identity: GoCheckMyCrypto (the site) everywhere by
+    default; Crypto Cronkite (the anchor) on his news desk pages. The other identity always
+    appears exactly once, small, so nothing repeats."""
     nav = "".join(
         f'<a href="{esc(href)}"{" class=active" if label == active else ""}>{esc(label)}</a>'
         for label, href in NAV)
-    return f"""<div class="top-rule"></div>
-<header class="masthead"><div class="wrap">
-  <div class="mh-top">
-    <span class="mh-family"><img class="mh-fam-mark" src="/assets/logo.svg" alt="">{esc(FAMILY)}.com</span>
-    <span class="mh-dateline">{esc(dateline)} &middot; Independent &middot; No hype</span>
-  </div>
-  <a class="mh-brand" href="/index.html" style="margin-top:8px">
+    if brand == "cronkite":
+        fam = (f'<span class="mh-family"><img class="mh-fam-mark" src="/assets/logo.svg" '
+               f'alt="">{esc(FAMILY)}.com</span>')
+        brand_row = f"""<a class="mh-brand" href="/news.html" style="margin-top:8px">
     <img class="mh-mark coin" src="/assets/cronkite-coin.png" alt="">
     <span class="mh-word">{esc(NAME)}</span>
     <span class="mh-slogan">{esc(SLOGAN)}</span>
-  </a>
+  </a>"""
+    else:
+        fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
+        brand_row = f"""<a class="mh-brand" href="/index.html" style="margin-top:8px">
+    <img class="mh-mark" src="/assets/logo.svg" alt="">
+    <span class="mh-word">{esc(FAMILY)}</span>
+    <span class="mh-slogan">Crypto, checked.</span>
+  </a>"""
+    return f"""<div class="top-rule"></div>
+<header class="masthead"><div class="wrap">
+  <div class="mh-top">
+    {fam}
+    <span class="mh-dateline">{esc(dateline)} &middot; Independent &middot; No hype</span>
+  </div>
+  {brand_row}
 </div></header>
 <nav class="mh-nav"><div class="wrap">{nav}</div></nav>"""
 
@@ -237,7 +251,7 @@ def footer():
 
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
-          live_js=False):
+          live_js=False, brand="site"):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">')
@@ -271,7 +285,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body class="{esc(body_class)}">
-{masthead(active, dateline)}
+{masthead(active, dateline, brand)}
 {body}
 {footer()}{beacon}{livejs}
 </body>
@@ -338,8 +352,9 @@ def render_article(item):
 </main>"""
     title = f'{item.get("title")} - {NAME}'
     desc = item.get("dek") or (item.get("body", [""])[0] if item.get("body") else DESC)
-    return shell(title, desc if isinstance(desc, str) else DESC, None, body, dateline.upper(),
-                 path=f"/articles/{item['slug']}.html", noindex=bool(item.get("example")))
+    return shell(title, desc if isinstance(desc, str) else DESC, "Latest", body, dateline.upper(),
+                 path=f"/articles/{item['slug']}.html", noindex=bool(item.get("example")),
+                 brand="cronkite")
 
 
 # ---- cards / index / archive -------------------------------------------------
@@ -409,7 +424,8 @@ def render_news(items, dateline):
                 'That gate is the whole point, so we would rather publish nothing than publish junk.</p>'
                 '</div></div></section>')
     body = market_strip() + desk_strip() + lead_html + trust_block() + flow_teaser() + grid + newsletter()
-    return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html")
+    return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html",
+                 brand="cronkite")
 
 
 def render_home(items, flows, pulse, cm, dateline):
@@ -458,12 +474,16 @@ def render_home(items, flows, pulse, cm, dateline):
       <span class="dash-open">Enter the tower &rarr;</span></a>""")
 
     body = market_strip() + f"""<main class="wrap"><section class="page">
-  <span class="kicker">{esc(FAMILY)}.com</span>
-  <h1 class="home-h1">Crypto, checked.</h1>
-  <p class="lede">An independent crypto desk built with one intention: get the stories right
-     and keep the data honest. Real news with the shill stripped out, on-chain money flows,
-     live dashboards that teach you what they mean, and a wizard who reads the tape. No
-     hype, no paid promotion, and never financial advice.</p>
+  <span class="kicker">An independent crypto desk</span>
+  <div class="home-lockup">
+    <img src="/assets/logo.svg" alt="GoCheckMyCrypto">
+    <div><span class="hl-word">{esc(FAMILY)}</span>
+    <span class="hl-tag">Crypto, checked.</span></div>
+  </div>
+  <p class="lede">Built with one intention: get the stories right and keep the data honest.
+     Real news with the shill stripped out, on-chain money flows, live dashboards that teach
+     you what they mean, and a wizard who reads the tape. No hype, no paid promotion, and
+     never financial advice.</p>
   <div class="dash-grid home-grid">{"".join(cards)}</div>
   <p class="pc-note" style="margin-top:14px">Everything here is free. Start anywhere; the
      desks link to each other, and every number comes with an explanation in plain
@@ -505,7 +525,7 @@ def render_archive(items, dateline):
     {inner}
   </section></main>"""
     return shell(f"Archive - {NAME}", "Every published Crypto Cronkite story.", "Archive", body, dateline,
-                 path="/archive.html")
+                 path="/archive.html", brand="cronkite")
 
 
 # ---- static editorial pages --------------------------------------------------
