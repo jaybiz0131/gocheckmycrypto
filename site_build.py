@@ -257,7 +257,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
           live_js=False, brand="site"):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-             '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">')
+             '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">')
     url = ORIGIN + path
     robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
     beacon = ""
@@ -315,6 +315,30 @@ def verdict_badge(verdict):
     return ""
 
 
+def sig_block():
+    """The anchor's signature + the coin as the desk's stamp of approval, closing every article
+    like the end of a broadcast."""
+    return """<div class="sigrow">
+  <div class="sig">
+    <span class="sig-script">Crypto Cronkite</span>
+    <span class="sig-cap">Anchor &middot; The Crypto Cronkite Desk</span>
+  </div>
+  <div class="stamp" aria-label="Crypto Cronkite desk stamp of approval">
+    <img src="/assets/cronkite-coin.png" alt="" width="60" height="60" loading="lazy">
+    <svg viewBox="0 0 120 120" aria-hidden="true">
+      <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="60" cy="60" r="47" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/>
+      <defs><path id="stamparc" d="M60,60 m-51,0 a51,51 0 1,1 102,0 a51,51 0 1,1 -102,0"/></defs>
+      <text font-size="10.2" letter-spacing="2.6" fill="currentColor"
+        font-family="IBM Plex Mono,monospace" font-weight="600">
+        <textPath href="#stamparc" startOffset="2%">DESK APPROVED</textPath>
+        <textPath href="#stamparc" startOffset="52%">CRYPTO CRONKITE</textPath>
+      </text>
+    </svg>
+  </div>
+</div>"""
+
+
 def render_article(item):
     dateline = fmt_date(item.get("date"))
     badge = verdict_badge(item.get("verdict"))
@@ -350,6 +374,7 @@ def render_article(item):
     {key}
     {take}
     <p class="signoff">{esc(SLOGAN)}</p>
+    {sig_block()}
     {src_html}
     <p class="nfa">{esc(NFA)}</p>
   </article>
