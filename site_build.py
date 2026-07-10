@@ -115,6 +115,12 @@ def load_pulse():
     return None
 
 
+def destyle(text):
+    """House style: no em/en dashes in site copy (model drafts sometimes use them)."""
+    return (str(text or "").replace(" \u2014 ", ", ").replace("\u2014", ", ")
+            .replace(" \u2013 ", ", ").replace("\u2013", "-"))
+
+
 def load_content():
     items = []
     if os.path.isdir(CONTENT):
@@ -218,19 +224,12 @@ def newsletter():
 
 
 def trust_block():
-    steps = [
-        ("01", "Aggregate", "We pull the day's stories from many sources, weighting official and primary sources highest, and collapse the same event across outlets into one story."),
-        ("02", "Editor AI ranks and de-shills", "An AI managing editor ranks the real news by genuine significance and strips paid promotion, price-hype, and affiliate bait, showing its work."),
-        ("03", "A separate AI verifies", "An independent, adversarial AI fetches each cited source and checks the claim against it. VERIFIED, needs-review, or rejected. It never grades its own work."),
-        ("04", "A human signs off", "The editor-in-chief reviews, overrides where judgment differs, adds the honest take, and approves. Nothing publishes without that sign-off."),
-    ]
-    cells = "".join(
-        f'<div class="step"><span class="n">{n}</span><h4>{esc(t)}</h4><p>{esc(p)}</p></div>'
-        for n, t, p in steps)
     return f"""<section class="trust"><div class="wrap">
-  <div class="sec-head"><h2>How a story gets here</h2><span class="bar"></span>
-    <a href="/method.html" style="font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase">Full method &rarr;</a></div>
-  <div class="trust-grid">{cells}</div>
+  <div class="sec-head"><h2>The desk's promise</h2><span class="bar"></span></div>
+  <p class="trust-line">We aggregate stories from a wide range of primary and major sources,
+  audit every one for credibility, and surface only what genuinely matters, with the shill
+  and the hype stripped out. Sources are linked on every story, and nothing here is ever
+  financial advice.</p>
 </div></section>"""
 
 
@@ -1709,9 +1708,11 @@ def ingest():
         body = art.get("body", "")
         paras = [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip()] or [body]
         srcs = [{"title": u, "url": u} for u in art.get("sources", [])]
+        title = destyle(title)
+        paras = [destyle(p) for p in paras]
         item = {
             "id": rec.get("id"), "slug": slug, "kind": "brief",
-            "title": title, "dek": (payload.get("script", {}) or {}).get("summary", ""),
+            "title": title, "dek": destyle((payload.get("script", {}) or {}).get("summary", "")),
             "date": date, "category": "news", "verdict": rec.get("verdict"),
             "author": "The Crypto Cronkite desk",
             "key_fact": (payload.get("script", {}) or {}).get("key_fact", ""),

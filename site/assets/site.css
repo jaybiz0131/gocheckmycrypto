@@ -127,6 +127,8 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .trust{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .trust .wrap{padding:34px 22px}
 .trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px;margin-top:20px}
+.trust-line{font-family:var(--serif);font-size:clamp(17px,2.2vw,21px);line-height:1.55;
+  color:var(--muted);max-width:62ch;margin:14px 0 4px}
 .step{display:flex;flex-direction:column;gap:7px}
 .step .n{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--rule)}
 .step h4{font-family:var(--serif);font-size:18px;font-weight:600;margin:0}
