@@ -41,6 +41,9 @@ SLOGAN = "And that's the way it is."          # Walter Cronkite's sign-off; the 
 DESK_LINE = "The honest voice in a shill-filled space."   # secondary descriptor
 FAMILY = "GoCheckMyCrypto"                     # family/domain tie: gocheckmycrypto.com
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
+ORIGIN = "https://gocheckmycrypto.com"         # canonical origin for canonical/og:url/sitemap
+OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, committed at site/assets/og-image.png
+CF_ANALYTICS_TOKEN = ""                        # Cloudflare Web Analytics site token; empty renders no beacon
 DESC = ("Crypto Cronkite is an honest crypto news desk: AI does the reading, triage, and fact-checking; "
         "a human editor signs off on every story. Plus Whale Watch on-chain analytics. We report "
         "events, we never advise trades.")
@@ -218,10 +221,16 @@ def footer():
 </div></footer>"""
 
 
-def shell(title, desc, active, body, dateline, body_class=""):
+def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">')
+    url = ORIGIN + path
+    robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
+    beacon = ""
+    if CF_ANALYTICS_TOKEN:
+        beacon = ('\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
+                  f'data-cf-beacon=\'{{"token": "{CF_ANALYTICS_TOKEN}"}}\'></script>')
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -230,9 +239,16 @@ def shell(title, desc, active, body, dateline, body_class=""):
 <meta name="color-scheme" content="light dark">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
-<meta property="og:title" content="{esc(title)}">
+{robots}<meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
+<meta property="og:url" content="{esc(url)}">
+<meta property="og:site_name" content="{esc(NAME)}">
+<meta property="og:image" content="{OG_IMAGE}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{OG_IMAGE}">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 {fonts}
 <link rel="stylesheet" href="/assets/site.css">
@@ -240,7 +256,7 @@ def shell(title, desc, active, body, dateline, body_class=""):
 <body class="{esc(body_class)}">
 {masthead(active, dateline)}
 {body}
-{footer()}
+{footer()}{beacon}
 </body>
 </html>"""
 
@@ -305,7 +321,8 @@ def render_article(item):
 </main>"""
     title = f'{item.get("title")} - {NAME}'
     desc = item.get("dek") or (item.get("body", [""])[0] if item.get("body") else DESC)
-    return shell(title, desc if isinstance(desc, str) else DESC, None, body, dateline.upper())
+    return shell(title, desc if isinstance(desc, str) else DESC, None, body, dateline.upper(),
+                 path=f"/articles/{item['slug']}.html", noindex=bool(item.get("example")))
 
 
 # ---- cards / index / archive -------------------------------------------------
@@ -362,7 +379,7 @@ def render_index(items, dateline):
                 'That gate is the whole point, so we would rather publish nothing than publish junk.</p>'
                 '</div></div></section>')
     body = market_strip() + lead_html + trust_block() + flow_teaser() + grid + newsletter()
-    return shell(f"{NAME} - {SLOGAN}", DESC, "Home", body, dateline)
+    return shell(f"{NAME} - {SLOGAN}", DESC, "Home", body, dateline, path="/")
 
 
 def flow_teaser():
@@ -397,7 +414,8 @@ def render_archive(items, dateline):
     <div class="sec-head"><h2>Archive</h2><span class="bar"></span></div>
     {inner}
   </section></main>"""
-    return shell(f"Archive - {NAME}", "Every published Crypto Cronkite story.", "Archive", body, dateline)
+    return shell(f"Archive - {NAME}", "Every published Crypto Cronkite story.", "Archive", body, dateline,
+                 path="/archive.html")
 
 
 # ---- static editorial pages --------------------------------------------------
@@ -458,7 +476,7 @@ def render_method(items, dateline):
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"How we work - {NAME}", "How Crypto Cronkite ranks, verifies, and approves every story.",
-                 "How we work", body, dateline)
+                 "How we work", body, dateline, path="/method.html")
 
 
 def render_about(dateline):
@@ -502,7 +520,7 @@ def render_about(dateline):
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"About - {NAME}", "Why Crypto Cronkite exists: an honest crypto news desk plus on-chain analytics.",
-                 "About", body, dateline)
+                 "About", body, dateline, path="/about.html")
 
 
 def render_standards(dateline):
@@ -540,7 +558,7 @@ def render_standards(dateline):
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Standards - {NAME}", "Crypto Cronkite standards, verification, and corrections policy.",
-                 "Standards", body, dateline)
+                 "Standards", body, dateline, path="/standards.html")
 
 
 def flows_chart_svg(by_asset):
@@ -601,7 +619,7 @@ def render_flows(flows, dateline):
     fixtures/whale_sample.json</code>.</p></div>
 </section></main>"""
         return shell(f"Whale Watch - {NAME}", "Follow the money: whale exchange flows.",
-                     "Whale Watch", body, dateline, body_class="ww-dark")
+                     "Whale Watch", body, dateline, body_class="ww-dark", path="/flows.html")
 
     v = flows.get("volatile", {})
     s = flows.get("stablecoins", {})
@@ -655,7 +673,7 @@ def render_flows(flows, dateline):
   <p class="nfa">{esc(flows.get("note",""))} {esc(NFA)}</p>
 </section></main>"""
     return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",
-                 "Whale Watch", body, dateline, body_class="ww-dark")
+                 "Whale Watch", body, dateline, body_class="ww-dark", path="/flows.html")
 
 
 def render_404(dateline):
@@ -665,7 +683,8 @@ def render_404(dateline):
   <p class="lede" style="margin-left:auto;margin-right:auto">The story you were looking for is not
      here. Try the <a href="/index.html">front page</a> or the <a href="/archive.html">archive</a>.</p>
 </section></main>"""
-    return shell(f"Not found - {NAME}", "Page not found.", None, body, dateline)
+    return shell(f"Not found - {NAME}", "Page not found.", None, body, dateline,
+                 path="/404.html", noindex=True)
 
 
 def render_thanks(dateline):
@@ -676,7 +695,8 @@ def render_thanks(dateline):
      We will not sell your email, and you can unsubscribe anytime. Back to the
      <a href="/index.html">front page</a>.</p>
 </section></main>"""
-    return shell(f"Subscribed - {NAME}", "Thanks for subscribing.", None, body, dateline)
+    return shell(f"Subscribed - {NAME}", "Thanks for subscribing.", None, body, dateline,
+                 path="/thanks.html", noindex=True)
 
 
 # ---- ingest approved payloads -----------------------------------------------
@@ -762,8 +782,18 @@ def build():
     for it in items:
         w(os.path.join("articles", f"{it['slug']}.html"), render_article(it))
 
-    # robots + a tiny netlify redirect for the 404
-    w("robots.txt", "User-agent: *\nAllow: /\n")
+    # the social card lives at the site root (family convention: /og-image.png)
+    og_src = os.path.join(ASSETS, "og-image.png")
+    if os.path.exists(og_src):
+        open(os.path.join(PUBLISH, "og-image.png"), "wb").write(open(og_src, "rb").read())
+
+    # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
+    locs = ["/", "/flows.html", "/archive.html", "/method.html", "/about.html", "/standards.html"]
+    locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
+    urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)
+    w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "\n</urlset>\n")
+    w("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n")
     w("_redirects", "/*  /404.html  404\n")
     n_live = sum(1 for i in items if not i.get("example"))
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "

@@ -26,6 +26,12 @@ so it stays a name only. Brand strings are centralized at the top of `site_build
 (Crypto Cronkite), `SLOGAN` ("And that's the way it is."), `DESK_LINE`, and `FAMILY`
 (GoCheckMyCrypto).
 
+## 2b. Turn on analytics (optional, family standard)
+
+Create a Cloudflare Web Analytics site for gocheckmycrypto.com (same as the other GoCheckMy
+sites), paste its token into `CF_ANALYTICS_TOKEN` at the top of `site_build.py`, and rebuild.
+While the token is empty, no beacon is emitted at all.
+
 ## 3. Turn on the newsletter (the owned audience, build this first)
 
 The signup form on the site uses Netlify Forms, which needs zero backend:
