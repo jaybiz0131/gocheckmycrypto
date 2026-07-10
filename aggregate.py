@@ -160,9 +160,14 @@ def gather_rss(cfg, fixture=None):
         try:
             xml = fetch(f["url"])
             got = parse_feed(xml, f["name"], f["tier"])
+            # Per-feed cap: one prolific outlet must not flood the editor (The Defiant's
+            # feed returns 100 items). Feeds are newest-first, so the cap keeps the newest.
+            cap = cfg["sources"].get("max_items_per_feed", 40)
+            trimmed = f" (capped from {len(got)})" if len(got) > cap else ""
+            got = got[:cap]
             items += got
             ok_sources += 1
-            print(f"  {f['name']:20s} [{f['tier']:8s}] -> {len(got)} item(s)")
+            print(f"  {f['name']:20s} [{f['tier']:8s}] -> {len(got)} item(s){trimmed}")
         except Exception as e:
             gh("warning", f"aggregate: source '{f['name']}' failed ({f['url']}): {e} -- skipped, run continues")
     return items, ok_sources, len(feeds)

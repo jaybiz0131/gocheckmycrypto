@@ -4,40 +4,93 @@
   "cadence": "daily-brief",
   "lookback_hours": 30,
   "top_n": 8,
-
   "budget": {
     "max_tokens_per_run": 220000,
     "max_usd_per_run": 5.0,
     "note": "Hard cap. The LLM client aborts the run (fail-closed) before exceeding either ceiling. Costed from response usage; see llm.py PRICING. Sized for claude-fable-5 on the judgment stages (its always-on thinking bills as output tokens); a typical run lands well under $1.50."
   },
-
   "models": {
-    "editor":   { "model": "claude-fable-5", "max_tokens": 10000 },
-    "verifier": { "model": "claude-fable-5", "max_tokens": 10000 },
-    "writer":   { "model": "claude-opus-4-8", "max_tokens": 8000 },
+    "editor": {
+      "model": "claude-fable-5",
+      "max_tokens": 16000
+    },
+    "verifier": {
+      "model": "claude-fable-5",
+      "max_tokens": 10000
+    },
+    "writer": {
+      "model": "claude-opus-4-8",
+      "max_tokens": 8000
+    },
     "note": "Quality-first lineup (owner's explicit call, 2026-07-10): claude-fable-5 (Anthropic's most capable model) on the two JUDGMENT stages, editor (rank + de-shill) and verifier (adversarial source audit); claude-opus-4-8 on the writer (strong news prose, human-reviewed anyway, and a different model family after two Fable stages). Fable's thinking is always on and counts against max_tokens, hence the larger caps. The verifier remains a SEPARATE call with a distinct, adversarial prompt so it does not rubber-stamp the editor. No temperature/top_p/top_k and no thinking param is sent: sampling params are rejected (HTTP 400) on this model family, and omitting thinking runs Fable's adaptive thinking. llm.py adds a server-side refusal fallback to claude-opus-4-8 on Fable calls because hack/exploit coverage can trip its cyber safety classifiers. claude-opus-4-8 everywhere is the cheaper fallback lineup; claude-sonnet-5 the cheapest."
   },
-
   "sources": {
     "note": "source_tier drives editorial weight. primary = official/primary sources (trust most). major = established outlets. aggregator = purpose-built crypto aggregator (many sources, use its own signals). Feeds are free and keyless. CryptoPanic and X are optional and key-gated (see below); absence is documented, never a failure.",
     "rss": [
-      { "name": "SEC Press Releases",   "tier": "primary", "url": "https://www.sec.gov/news/pressreleases.rss" },
-      { "name": "CFTC Press Releases",  "tier": "primary", "url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml" },
-      { "name": "CoinDesk",             "tier": "major",   "url": "https://www.coindesk.com/arc/outboundfeeds/rss" },
-      { "name": "The Block",            "tier": "major",   "url": "https://www.theblock.co/rss.xml" },
-      { "name": "Decrypt",              "tier": "major",   "url": "https://decrypt.co/feed" },
-      { "name": "DL News",              "tier": "major",   "url": "https://www.dlnews.com/arc/outboundfeeds/rss/" },
-      { "name": "Bitcoin Magazine",     "tier": "major",   "url": "https://bitcoinmagazine.com/.rss/full/" },
-      { "name": "Blockworks",           "tier": "major",   "url": "https://blockworks.com/feed" },
-      { "name": "Protos",               "tier": "major",   "url": "https://protos.com/feed/" },
-      { "name": "The Defiant",          "tier": "major",   "url": "https://thedefiant.io/feed/" },
-      { "name": "Cointelegraph",        "tier": "mixed",   "url": "https://cointelegraph.com/rss" }
+      {
+        "name": "SEC Press Releases",
+        "tier": "primary",
+        "url": "https://www.sec.gov/news/pressreleases.rss"
+      },
+      {
+        "name": "CFTC Press Releases",
+        "tier": "primary",
+        "url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml"
+      },
+      {
+        "name": "CoinDesk",
+        "tier": "major",
+        "url": "https://www.coindesk.com/arc/outboundfeeds/rss"
+      },
+      {
+        "name": "The Block",
+        "tier": "major",
+        "url": "https://www.theblock.co/rss.xml"
+      },
+      {
+        "name": "Decrypt",
+        "tier": "major",
+        "url": "https://decrypt.co/feed"
+      },
+      {
+        "name": "DL News",
+        "tier": "major",
+        "url": "https://www.dlnews.com/arc/outboundfeeds/rss/"
+      },
+      {
+        "name": "Bitcoin Magazine",
+        "tier": "major",
+        "url": "https://bitcoinmagazine.com/.rss/full/"
+      },
+      {
+        "name": "Blockworks",
+        "tier": "major",
+        "url": "https://blockworks.com/feed"
+      },
+      {
+        "name": "Protos",
+        "tier": "major",
+        "url": "https://protos.com/feed/"
+      },
+      {
+        "name": "The Defiant",
+        "tier": "major",
+        "url": "https://thedefiant.io/feed/"
+      },
+      {
+        "name": "Cointelegraph",
+        "tier": "mixed",
+        "url": "https://cointelegraph.com/rss"
+      }
     ],
     "cryptopanic": {
       "enabled_if_env": "CRYPTOPANIC_TOKEN",
       "tier": "aggregator",
       "url": "https://cryptopanic.com/api/v1/posts/",
-      "params": { "public": "true", "kind": "news" },
+      "params": {
+        "public": "true",
+        "kind": "news"
+      },
       "note": "Best single starting aggregator (hundreds of sources + vote/sentiment signals). Set CRYPTOPANIC_TOKEN to enable. Skipped, not failed, when the token is absent."
     },
     "x_twitter": {
@@ -53,33 +106,53 @@
       "archive_url": "https://whale-alert.io/whale-alerts-archive.json.gzip",
       "max_items": 8,
       "note": "Large on-chain moves from Whale Alert's FREE public alert archive (keyless; their keyed v1 REST API was retired behind $29.95/mo WebSocket and $699/mo Enterprise plans, neither of which fits -- see DEVIATIONS D7). The archive is newest-first and refreshed continuously; the loader in common.py streams just the window's slice. Only very large moves ($50M+ roughly) appear, which suits the brief. A fetch failure is a documented skip, never a pipeline failure. Capped at max_items so on-chain data cannot flood the brief. Feeds the Whale Watch board too (whale_flows.py)."
-    }
+    },
+    "max_items_per_feed": 40
   },
-
   "whale_flows": {
     "window_hours": 24,
     "top_assets": 6,
     "top_moves": 6,
     "note": "The follow-the-money board (whale_flows.py). Classifies large transfers as exchange inflow (onto exchanges; potential sell pressure) vs outflow (off exchanges; accumulation) and aggregates net flow per asset. Uses the same Whale Alert source/key as above. Market data, not news."
   },
-
   "dedupe": {
     "jaccard_threshold": 0.6,
     "min_significant_tokens": 3,
     "note": "Near-identical stories across outlets (same event, many rewrites) collapse into one cluster by normalized-headline token overlap or shared URL. The cluster keeps the highest-tier source as primary and lists the rest as corroboration."
   },
-
   "publish": {
     "require_human_approval": true,
-    "require_verifier_verdict": ["VERIFIED"],
-    "allow_with_human_override": ["NEEDS-HUMAN-REVIEW"],
-    "never_publish_verdict": ["REJECT"],
+    "require_verifier_verdict": [
+      "VERIFIED"
+    ],
+    "allow_with_human_override": [
+      "NEEDS-HUMAN-REVIEW"
+    ],
+    "never_publish_verdict": [
+      "REJECT"
+    ],
     "not_financial_advice": "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice.",
     "targets": {
-      "newsletter": { "enabled": false, "adapter": "newsletter", "note": "Owned audience, highest value, build first. Set endpoint + key to enable." },
-      "site":       { "enabled": false, "adapter": "site",       "note": "SEO + archive article publish." },
-      "social":     { "enabled": false, "adapter": "social",     "note": "X / Crypto Cronkite scheduling." },
-      "video":      { "enabled": false, "adapter": "video",      "note": "Newscast script handoff to the recording workflow." }
+      "newsletter": {
+        "enabled": false,
+        "adapter": "newsletter",
+        "note": "Owned audience, highest value, build first. Set endpoint + key to enable."
+      },
+      "site": {
+        "enabled": false,
+        "adapter": "site",
+        "note": "SEO + archive article publish."
+      },
+      "social": {
+        "enabled": false,
+        "adapter": "social",
+        "note": "X / Crypto Cronkite scheduling."
+      },
+      "video": {
+        "enabled": false,
+        "adapter": "video",
+        "note": "Newscast script handoff to the recording workflow."
+      }
     }
   }
 }

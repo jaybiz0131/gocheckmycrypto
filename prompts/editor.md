@@ -54,5 +54,9 @@ Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
   "notes": "<optional one-line note on the day's editorial call>"
 }
 
-Rank at most {TOP_N} stories. Put every clearly-shill or low-significance cluster in
-"rejected" with a concrete reason. Output valid JSON and nothing else.
+Rank at most {TOP_N} stories. KEEP THE OUTPUT COMPACT, in this exact discipline:
+- "rejected" lists ONLY the clusters you are cutting specifically as shill or promotion,
+  capped at the 15 clearest cases, each with ONE short concrete reason. Everything else you
+  simply leave out; an ordinary low-significance story needs no entry anywhere.
+- "why_it_matters" is 1-2 tight lines; no essays.
+- Your final answer must be ONLY the JSON object: no preamble, no commentary, no code fence.

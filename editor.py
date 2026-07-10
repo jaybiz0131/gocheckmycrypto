@@ -18,9 +18,20 @@ import common
 import llm as llmlib
 
 
+EDITOR_MAX_CLUSTERS = 120
+
+
 def build_user(items, top_n):
+    pool = items["clusters"]
+    if len(pool) > EDITOR_MAX_CLUSTERS:
+        # Newest first, keep the cap: a 180-cluster day overwhelms the editor's output
+        # budget and truncates its JSON (fail-closed catches it, but we would rather rank
+        # the newest 120 than fail). Timestamps are ISO strings; empties sort last.
+        pool = sorted(pool, key=lambda c: c.get("timestamp") or "0", reverse=True)
+        print(f"editor: {len(items['clusters'])} clusters -> capped to newest {EDITOR_MAX_CLUSTERS}")
+        pool = pool[:EDITOR_MAX_CLUSTERS]
     clusters = []
-    for c in items["clusters"]:
+    for c in pool:
         clusters.append({
             "id": c["id"], "headline": c["headline"], "source": c["source"],
             "source_tier": c["source_tier"], "url": c["url"], "timestamp": c["timestamp"],
@@ -36,7 +47,9 @@ def build_user(items, top_n):
 
 def validate(obj, top_n):
     if not isinstance(obj, dict) or "ranked" not in obj or "rejected" not in obj:
-        raise llmlib.LLMError("editor output missing 'ranked'/'rejected'")
+        import json as _json
+        raise llmlib.LLMError("editor output missing 'ranked'/'rejected' -- got: "
+                              + _json.dumps(obj)[:300])
     if not isinstance(obj["ranked"], list) or not isinstance(obj["rejected"], list):
         raise llmlib.LLMError("editor 'ranked'/'rejected' must be lists")
     if len(obj["ranked"]) > top_n:

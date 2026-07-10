@@ -53,11 +53,10 @@ YEAR = "2026"
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
 
-NAV = [("Home", "/index.html"), ("Whale Watch", "/flows.html"),
-       ("Market Pulse", "/pulse.html"), ("Chart Master", "/chartmaster.html"),
-       ("Archive", "/archive.html"),
-       ("How we work", "/method.html"), ("About", "/about.html"),
-       ("Standards", "/standards.html")]
+NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
+       ("Whale Watch", "/flows.html"), ("Market Pulse", "/pulse.html"),
+       ("Chart Master", "/chartmaster.html"), ("Archive", "/archive.html"),
+       ("About", "/about.html")]
 
 
 # ---- helpers -----------------------------------------------------------------
@@ -139,11 +138,11 @@ def masthead(active, dateline):
     return f"""<div class="top-rule"></div>
 <header class="masthead"><div class="wrap">
   <div class="mh-top">
-    <span class="mh-family">{esc(FAMILY)}.com</span>
+    <span class="mh-family"><img class="mh-fam-mark" src="/assets/logo.svg" alt="">{esc(FAMILY)}.com</span>
     <span class="mh-dateline">{esc(dateline)} &middot; Independent &middot; No hype</span>
   </div>
   <a class="mh-brand" href="/index.html" style="margin-top:8px">
-    <img class="mh-mark" src="/assets/logo.svg" alt="">
+    <img class="mh-mark coin" src="/assets/cronkite-coin.png" alt="">
     <span class="mh-word">{esc(NAME)}</span>
     <span class="mh-slogan">{esc(SLOGAN)}</span>
   </a>
@@ -375,7 +374,7 @@ def desk_strip():
 </div></section>"""
 
 
-def render_index(items, dateline):
+def render_news(items, dateline):
     live = [i for i in items if not i.get("example")]
     if live:
         lead = live[0]
@@ -410,6 +409,66 @@ def render_index(items, dateline):
                 'That gate is the whole point, so we would rather publish nothing than publish junk.</p>'
                 '</div></div></section>')
     body = market_strip() + desk_strip() + lead_html + trust_block() + flow_teaser() + grid + newsletter()
+    return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html")
+
+
+def render_home(items, flows, pulse, cm, dateline):
+    """The GoCheckMyCrypto front door: what the site is, then four desks to explore, each
+    hero card led by its own artwork and a LIVE stat so the place feels alive."""
+    live = [i for i in (items or []) if not i.get("example")]
+    lead_headline = live[0]["title"] if live else "The first brief lands soon"
+    cards = []
+    cards.append(f"""<a class="dash-card home-card" href="/news.html">
+      <img class="dash-hero-img" src="/assets/crypto-cronkite-card.jpg" alt="Crypto Cronkite: market news, on-chain insights, trusted reporting" loading="lazy">
+      <span class="lab">Latest news</span>
+      <span class="dash-stat" style="font-size:19px">{esc(lead_headline)}</span>
+      <p class="pc-note">The day's real crypto stories with the paid promotion stripped out,
+      every source linked. And that's the way it is.</p>
+      <span class="dash-open">Read the latest &rarr;</span></a>""")
+    ww_line = "Follow the money on-chain."
+    if flows and not flows.get("example") and flows.get("volatile"):
+        wnet = flows["volatile"].get("net_usd", 0)
+        ww_line = (f"{fmt_usd(wnet)} net {'off' if wnet >= 0 else 'onto'} exchanges in the "
+                   f"last 24 hours.")
+    cards.append(f"""<a class="dash-card home-card" href="/flows.html">
+      <img class="dash-hero-img" src="/assets/whale-watch-logo.jpg" alt="Whale Watch: market pulse, on-chain insights" loading="lazy">
+      <span class="lab">Whale Watch</span>
+      <span class="dash-stat" style="font-size:19px">{esc(ww_line)}</span>
+      <p class="pc-note">Where the whales are moving money: onto exchanges or into cold
+      storage, aggregated so the signal beats the noise.</p>
+      <span class="dash-open">Follow the money &rarr;</span></a>""")
+    fng = (pulse or {}).get("fng") or {}
+    mp_line = "Seven dashboards, explained in plain language."
+    if fng:
+        mp_line = f"Fear &amp; Greed today: {fng.get('value', '?')}, {esc((fng.get('label') or '').lower())}."
+    cards.append(f"""<a class="dash-card home-card" href="/pulse.html">
+      <img class="dash-hero-img" src="/assets/market-pulse-logo.jpg" alt="Market Pulse: live dashboards" loading="lazy">
+      <span class="lab">Market Pulse</span>
+      <span class="dash-stat" style="font-size:19px">{mp_line}</span>
+      <p class="pc-note">Sentiment, price posture, top movers, the top 100, stablecoin dry
+      powder, and network vitals. Live data, honest charts, every term taught.</p>
+      <span class="dash-open">See the dashboards &rarr;</span></a>""")
+    cm_line = (cm or {}).get("headline") or "The wizard reads the tape."
+    cards.append(f"""<a class="dash-card home-card" href="/chartmaster.html">
+      <img class="dash-hero-img" src="/assets/chart-master-logo.jpg" alt="The Chart Master, crypto wizard" loading="lazy">
+      <span class="lab">The Chart Master</span>
+      <span class="dash-stat" style="font-size:19px">&ldquo;{esc(cm_line)}&rdquo;</span>
+      <p class="pc-note">The resident wizard's plain-language read of the boards, plus the
+      Oracle Challenge and the Wizard's Exam. Learn the charts by playing them.</p>
+      <span class="dash-open">Enter the tower &rarr;</span></a>""")
+
+    body = market_strip() + f"""<main class="wrap"><section class="page">
+  <span class="kicker">{esc(FAMILY)}.com</span>
+  <h1 class="home-h1">Crypto, checked.</h1>
+  <p class="lede">An independent crypto desk built with one intention: get the stories right
+     and keep the data honest. Real news with the shill stripped out, on-chain money flows,
+     live dashboards that teach you what they mean, and a wizard who reads the tape. No
+     hype, no paid promotion, and never financial advice.</p>
+  <div class="dash-grid home-grid">{"".join(cards)}</div>
+  <p class="pc-note" style="margin-top:14px">Everything here is free. Start anywhere; the
+     desks link to each other, and every number comes with an explanation in plain
+     language.</p>
+</section></main>""" + newsletter()
     return shell(f"{NAME} - {SLOGAN}", DESC, "Home", body, dateline, path="/")
 
 
@@ -1676,12 +1735,14 @@ def build():
         os.makedirs(os.path.dirname(path), exist_ok=True)
         open(path, "w", encoding="utf-8").write(html)
 
-    w("index.html", render_index(items, dateline))
     flows = load_flows()
     pulse = load_pulse()
+    cm = load_chartmaster()
+    w("index.html", render_home(items, flows, pulse, cm, dateline))
+    w("news.html", render_news(items, dateline))
     w("flows.html", render_flows(flows, dateline))
     w("pulse.html", render_pulse_hub(pulse, flows, dateline))
-    w("chartmaster.html", render_chartmaster(load_chartmaster(), dateline))
+    w("chartmaster.html", render_chartmaster(cm, dateline))
     w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))
     w(os.path.join("pulse", "movers.html"), render_pulse_movers(pulse, dateline))
@@ -1703,7 +1764,7 @@ def build():
         open(os.path.join(PUBLISH, "og-image.png"), "wb").write(open(og_src, "rb").read())
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
-    locs = ["/", "/flows.html", "/pulse.html", "/chartmaster.html",
+    locs = ["/", "/news.html", "/flows.html", "/pulse.html", "/chartmaster.html",
             "/pulse/sentiment.html", "/pulse/posture.html",
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/network.html",
