@@ -186,6 +186,14 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .stamp svg{position:absolute;inset:0;width:104px;height:104px}
 @media (max-width:520px){.stamp{width:88px;height:88px}
   .stamp img{left:19px;top:19px;width:50px;height:50px}.stamp svg{width:88px;height:88px}}
+.sharerow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:22px 0 0;
+  padding-top:16px;border-top:1px solid var(--line)}
+.share-lab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint);margin-right:4px}
+.share-btn{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.04em;
+  color:var(--ink);background:none;border:1px solid var(--line);border-radius:6px;
+  padding:7px 14px;text-decoration:none;cursor:pointer;transition:border-color .15s,color .15s}
+.share-btn:hover{border-color:var(--rule);color:var(--rule)}
 
 /* ---- generic prose page (about/method/disclaimer) -------------------------- */
 .page{padding:34px 0 20px}

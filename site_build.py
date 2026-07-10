@@ -24,6 +24,7 @@ import json
 import os
 import re
 import sys
+from urllib.parse import quote
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(HERE, "site")
@@ -339,6 +340,33 @@ def sig_block():
 </div>"""
 
 
+def share_row(url, title):
+    """Share buttons for growing the audience: LinkedIn and X get the story with one click,
+    copy-link covers everything else. Plain links, no tracking scripts."""
+    u, t = quote(url, safe=""), quote(title, safe="")
+    return f"""<div class="sharerow">
+  <span class="share-lab">Share this story</span>
+  <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url={u}"
+     target="_blank" rel="noopener">LinkedIn</a>
+  <a class="share-btn" href="https://twitter.com/intent/tweet?text={t}&amp;url={u}"
+     target="_blank" rel="noopener">X</a>
+  <button class="share-btn" type="button" data-url="{esc(url)}">Copy link</button>
+</div>
+<script>
+(function(){{
+  var b=document.querySelector('.sharerow button');if(!b)return;
+  b.addEventListener('click',function(){{
+    var u=b.getAttribute('data-url');
+    function ok(){{b.textContent='Copied';setTimeout(function(){{b.textContent='Copy link';}},1600);}}
+    function fb(){{var t=document.createElement('textarea');t.value=u;t.style.position='fixed';t.style.opacity='0';
+      document.body.appendChild(t);t.select();try{{document.execCommand('copy');ok();}}catch(e){{}}
+      document.body.removeChild(t);}}
+    if(navigator.clipboard&&window.isSecureContext){{navigator.clipboard.writeText(u).then(ok,fb);}}else{{fb();}}
+  }});
+}})();
+</script>"""
+
+
 def render_article(item):
     dateline = fmt_date(item.get("date"))
     badge = verdict_badge(item.get("verdict"))
@@ -375,6 +403,7 @@ def render_article(item):
     {take}
     <p class="signoff">{esc(SLOGAN)}</p>
     {sig_block()}
+    {share_row(ORIGIN + f"/articles/{item['slug']}.html", item.get("title") or "")}
     {src_html}
     <p class="nfa">{esc(NFA)}</p>
   </article>
