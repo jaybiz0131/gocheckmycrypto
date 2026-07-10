@@ -180,6 +180,7 @@ def market_strip():
   <span class="tick" data-id="bitcoin"><span class="sym">BTC</span><span class="px">--</span><span class="chg"></span></span>
   <span class="tick" data-id="ethereum"><span class="sym">ETH</span><span class="px">--</span><span class="chg"></span></span>
   <span class="tick" data-id="solana"><span class="sym">SOL</span><span class="px">--</span><span class="chg"></span></span>
+  <span class="tick" data-id="ripple"><span class="sym">XRP</span><span class="px">--</span><span class="chg"></span></span>
   <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">--</span><span class="chg"></span></span>
   <span class="note">Market data, not news. Not financial advice.</span>
 </div>
@@ -190,7 +191,7 @@ def market_strip():
     if(n>=1000)return "$"+Math.round(n).toLocaleString(); return "$"+n.toFixed(2); }
   function chg(el,p){ if(p==null){return;} var s=(p>=0?"+":"")+p.toFixed(1)+"%";
     el.textContent=s; el.className="chg "+(p>=0?"up":"down"); }
-  fetch(CG+"/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true")
+  fetch(CG+"/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true")
     .then(function(r){return r.json();}).then(function(d){
       document.querySelectorAll(".markets .tick[data-id]").forEach(function(t){
         var k=t.getAttribute("data-id"), v=d[k]; if(!v)return;
