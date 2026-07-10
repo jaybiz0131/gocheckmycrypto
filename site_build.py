@@ -43,7 +43,7 @@ FAMILY = "GoCheckMyCrypto"                     # family/domain tie: gocheckmycry
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
 ORIGIN = "https://gocheckmycrypto.com"         # canonical origin for canonical/og:url/sitemap
 OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, committed at site/assets/og-image.png
-CF_ANALYTICS_TOKEN = ""                        # Cloudflare Web Analytics site token; empty renders no beacon
+CF_ANALYTICS_TOKEN = "ee5216c8411a41d78c7c4f679406ef4b"  # Cloudflare Web Analytics site token; empty renders no beacon
 DESC = ("Crypto Cronkite is an honest crypto news desk: AI does the reading, triage, and fact-checking; "
         "a human editor signs off on every story. Plus Whale Watch on-chain analytics. We report "
         "events, we never advise trades.")
@@ -678,12 +678,27 @@ def render_flows(flows, dateline):
   <div class="sec-head" style="margin-top:26px"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
   <div class="movetable"><table><tbody>{move_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
 
-  <div class="callout" style="margin-top:26px"><b>How to read this.</b> For volatile assets like BTC,
-    ETH, and SOL, coins moving <b>onto</b> an exchange often mean holders are getting ready to sell,
-    and coins moving <b>off</b> an exchange suggest accumulation or long-term holding. Stablecoins are
-    the reverse, so they are scored separately as incoming buying power. This is a heuristic built on
-    public transfer data from <a href="https://whale-alert.io/" rel="nofollow">Whale Alert</a>, with
-    exchanges identified by name; it is not a prediction.</div>
+  <div class="sec-head" style="margin-top:30px"><h2>Whale watching 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab sell">Onto exchanges</span>
+      <p>To sell a large amount of crypto, a whale usually has to move it onto an exchange first.
+      So when BTC or ETH flows heavily <b>onto</b> exchanges on net, it can mean big holders are
+      getting into position to sell. That is the red side of the chart.</p></div>
+    <div class="learn"><span class="lab buy">Off exchanges</span>
+      <p>Coins withdrawn from an exchange usually head to self-custody: wallets the holder
+      controls directly, often cold storage. Money tends to go there to sit, so net
+      <b>outflow</b> historically reads as accumulation. That is the green side.</p></div>
+    <div class="learn"><span class="lab">Stablecoins flip the logic</span>
+      <p>Stablecoins like USDT and USDC are crypto's dry powder. When they flood <b>onto</b>
+      exchanges, buyers may be staging money for purchases; when they leave, that buying power
+      is stepping out of the arena. That is why we score them separately from volatile assets.</p></div>
+    <div class="learn"><span class="lab">What it cannot tell you</span>
+      <p>Whales move money for many reasons: custody rotations, transfers between their own
+      wallets, over-the-counter deals. Only moves large enough for
+      <a href="https://whale-alert.io/" rel="nofollow">Whale Alert</a> to post publicly (roughly
+      $50M and up) appear here, and exchanges are identified by name. Treat this board as
+      context for the news above it, never as a trade signal on its own.</p></div>
+  </div>
   <p class="nfa">{esc(flows.get("note",""))} {esc(NFA)}</p>
 </section></main>"""
     return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",
