@@ -23,11 +23,14 @@
     "rss": [
       { "name": "SEC Press Releases",   "tier": "primary", "url": "https://www.sec.gov/news/pressreleases.rss" },
       { "name": "CFTC Press Releases",  "tier": "primary", "url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml" },
-      { "name": "CoinDesk",             "tier": "major",   "url": "https://www.coindesk.com/arc/outboundfeeds/rss/" },
+      { "name": "CoinDesk",             "tier": "major",   "url": "https://www.coindesk.com/arc/outboundfeeds/rss" },
       { "name": "The Block",            "tier": "major",   "url": "https://www.theblock.co/rss.xml" },
       { "name": "Decrypt",              "tier": "major",   "url": "https://decrypt.co/feed" },
       { "name": "DL News",              "tier": "major",   "url": "https://www.dlnews.com/arc/outboundfeeds/rss/" },
       { "name": "Bitcoin Magazine",     "tier": "major",   "url": "https://bitcoinmagazine.com/.rss/full/" },
+      { "name": "Blockworks",           "tier": "major",   "url": "https://blockworks.com/feed" },
+      { "name": "Protos",               "tier": "major",   "url": "https://protos.com/feed/" },
+      { "name": "The Defiant",          "tier": "major",   "url": "https://thedefiant.io/feed/" },
       { "name": "Cointelegraph",        "tier": "mixed",   "url": "https://cointelegraph.com/rss" }
     ],
     "cryptopanic": {

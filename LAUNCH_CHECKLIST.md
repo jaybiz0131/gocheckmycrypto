@@ -82,8 +82,12 @@ news" so it stays clearly separate from the human-approved stories.
 These sources are wired and OFF by default; each turns on when you set its key (absence is a
 clean skip, never a failure):
 
-- **CryptoPanic** (`CRYPTOPANIC_TOKEN`, free) - widens the intake to hundreds of sources plus
-  vote/sentiment. Best reach for the least effort. Turn this on first.
+- **CryptoPanic** (`CRYPTOPANIC_TOKEN`) - UPDATE 2026-07-10: CryptoPanic discontinued its
+  free developer API (removed April 1, 2026); the API is now paid-only. Recommendation:
+  SKIP it. The desk's priority is accuracy over breadth, the intake already covers the
+  primary regulators and nine major outlets directly (Blockworks, Protos, and The Defiant
+  were added as free direct feeds in its place), and an aggregator mostly adds shill-filter
+  work. The adapter stays wired; if reach ever matters more, add the token and it turns on.
 - **Whale Alert** (`WHALE_ALERT_API_KEY`) - large on-chain transfers (whale moves). Uses Whale
   Alert's own API, which is cleaner than scraping @whale_alert on X. Feeds two things: (1) capped
   individual items into the brief (`config.json -> whale_alert.max_items`), and (2) the
