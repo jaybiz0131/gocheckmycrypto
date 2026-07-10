@@ -1,12 +1,14 @@
-# Crypto Cronkite pipeline
+# GoCheckMyCrypto: the Crypto Cronkite news desk
 
-An AI-assisted crypto news desk: aggregate many sources, an editor AI ranks importance and
-strips shill, an independent verifier AI audits the editor, a writer AI drafts, a human
-approves every push, and only then does anything publish on a cadence.
+An AI-assisted crypto news desk (gocheckmycrypto.com): aggregate many sources, an editor AI
+ranks importance and strips shill, an independent verifier AI audits the editor, a writer AI
+drafts, a human approves every push, and only then does anything publish on a cadence. Plus
+Whale Watch, the follow-the-money on-chain board.
 
-Built on the same architecture as this repo's recall pipeline (`_pipeline/`) and the Storm
-NFIP pattern: scheduled ingest, AI processing, verified and gated output. Standard library
-only, fail-closed everywhere, self-verifying.
+Built on the same architecture as its GoCheckMy sibling's recall pipeline (GoCheckMyPet) and
+the Storm NFIP pattern: scheduled ingest, AI processing, verified and gated output. Standard
+library only, fail-closed everywhere, self-verifying. Migrated to its own repo with history
+preserved (see DEVIATIONS.md D1).
 
 ## The one non-negotiable rule
 
@@ -34,15 +36,15 @@ deliberate, human step.
 
 ```sh
 # Full offline wiring test - no API key, no network for the AI stages, no spend:
-python3 crypto_pipeline/run.py --mode replay --fixture crypto_pipeline/fixtures/sample_feed.xml
+python3 run.py --mode replay --fixture fixtures/sample_feed.xml
 
 # Live daily brief (needs ANTHROPIC_API_KEY; optional CRYPTOPANIC_TOKEN):
 export ANTHROPIC_API_KEY=sk-ant-...
-python3 crypto_pipeline/run.py --mode live
-#  -> read crypto_pipeline/out/review_queue/<date>.md
+python3 run.py --mode live
+#  -> read out/review_queue/<date>.md
 #  -> copy approval_template.json to approval.json, set stories you sign off to "approve",
 #     add your take, then:
-python3 crypto_pipeline/publish.py
+python3 publish.py
 ```
 
 ## Fail-closed posture (STAGE 0 of the blueprint)
@@ -58,11 +60,11 @@ python3 crypto_pipeline/publish.py
 
 ## Verify
 
-`verify_pipeline.py` mirrors the recall verifier's two layers:
+`verify_pipeline.py` mirrors the GoCheckMyPet recall verifier's two layers:
 
 ```sh
-python3 crypto_pipeline/verify_pipeline.py canary    # Layer 1: offline HARD GATE (blocks)
-python3 crypto_pipeline/verify_pipeline.py sources   # Layer 2: live feed check (notify-only)
+python3 verify_pipeline.py canary    # Layer 1: offline HARD GATE (blocks)
+python3 verify_pipeline.py sources   # Layer 2: live feed check (notify-only)
 ```
 
 Layer 1 proves the pipeline is wired, the shill/dedupe belts work, the offline replay runs
@@ -92,8 +94,8 @@ baked-in not-financial-advice. Pages: home, archive, how-we-work (`method.html`)
 standards/corrections, per-story article pages, plus 404 and a subscribe thank-you.
 
 ```sh
-python3 crypto_pipeline/site_build.py            # build site/publish/ from committed content
-python3 crypto_pipeline/site_build.py --ingest   # promote approved payloads, then build
+python3 site_build.py            # build site/publish/ from committed content
+python3 site_build.py --ingest   # promote approved payloads, then build
 ```
 
 **Whale Watch (follow the money).** `whale_flows.py` turns Whale Alert's large-transfer feed
@@ -103,7 +105,7 @@ stablecoins separately as incoming buying power, and aggregates net flow per ass
 `site/data/flows.json`, which the site renders as the "Whale Watch" page (a diverging bar chart
 by asset + the biggest onto-exchange moves). Market data, not news, so it does not go through the
 human gate, but it is clearly labelled as such. Refresh it with a Whale Alert key:
-`python3 crypto_pipeline/whale_flows.py` (or `--fixture fixtures/whale_sample.json` to preview).
+`python3 whale_flows.py` (or `--fixture fixtures/whale_sample.json` to preview).
 
 Content flow: a story is published only after human approval (`publish.py`). `--ingest`
 promotes those approved payloads (`out/published/*.json`) into committed content

@@ -597,8 +597,8 @@ def render_flows(flows, dateline):
      exchanges (which can precede selling) or off exchanges into self-custody (accumulation).</p>
   <div class="empty"><span class="k">Not connected yet</span>
     <p style="margin:.6em 0 0">Whale flow tracking activates when a Whale Alert key is connected.
-    Preview it locally with <code>python3 crypto_pipeline/whale_flows.py --fixture
-    crypto_pipeline/fixtures/whale_sample.json</code>.</p></div>
+    Preview it locally with <code>python3 whale_flows.py --fixture
+    fixtures/whale_sample.json</code>.</p></div>
 </section></main>"""
         return shell(f"Whale Watch - {NAME}", "Follow the money: whale exchange flows.",
                      "Whale Watch", body, dateline, body_class="ww-dark")

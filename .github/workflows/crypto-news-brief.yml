@@ -1,0 +1,70 @@
+# Crypto Cronkite daily brief: the scheduled ingest -> AI processing -> review queue job.
+#
+# Runs aggregate -> editor -> verifier -> writer -> digest overnight and uploads the review
+# queue as a workflow artifact for the human editor-in-chief to approve from each morning.
+#
+# FAIL-CLOSED and it NEVER PUBLISHES. It runs run.py (Stages 1-5) only; publish.py (Stage 6)
+# is a separate, deliberate, human-approved step and is intentionally not invoked here. If any
+# stage errors, run.py exits non-zero and this job goes red (flagging a human); nothing is
+# pushed anywhere.
+#
+# The pipeline needs ANTHROPIC_API_KEY (repo secret) for the editor/verifier/writer calls, and
+# optionally CRYPTOPANIC_TOKEN / WHALE_ALERT_API_KEY / X_BEARER_TOKEN to widen sourcing. If the
+# key is not configured yet, the job runs the offline canary as a wiring smoke test and stops
+# (green) instead of failing daily.
+name: Crypto Cronkite daily brief
+
+on:
+  schedule:
+    - cron: "40 7 * * *"   # daily, 07:40 UTC
+  workflow_dispatch: {}
+
+concurrency:
+  group: crypto-news-brief
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Offline canary (hard gate, blocks a mis-wired pipeline)
+        run: python3 verify_pipeline.py canary
+
+      - name: Detect whether the API key is configured
+        id: key
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            echo "have_key=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "have_key=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::ANTHROPIC_API_KEY not set; ran the offline canary only. Add the secret to enable the live daily brief."
+          fi
+
+      - name: Run the daily brief (live; Stages 1-5 only, never publishes)
+        if: steps.key.outputs.have_key == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CRYPTOPANIC_TOKEN: ${{ secrets.CRYPTOPANIC_TOKEN }}
+          WHALE_ALERT_API_KEY: ${{ secrets.WHALE_ALERT_API_KEY }}
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: python3 run.py --mode live
+
+      - name: Upload the review queue for human approval
+        if: steps.key.outputs.have_key == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: crypto-review-queue
+          path: |
+            out/review_queue/
+            out/approval_template.json
+            out/run_report.json
+          if-no-files-found: warn

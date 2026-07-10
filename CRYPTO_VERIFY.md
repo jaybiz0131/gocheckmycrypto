@@ -6,7 +6,7 @@ deployed; this is a build, and publishing is the human's separate approved step.
 
 ---
 
-## Architecture (mirrors _pipeline/ and the Storm pattern)
+## Architecture (mirrors the GoCheckMyPet recall pipeline and the Storm pattern)
 
 Scheduled ingest -> AI processing -> verified, human-gated output. Standard library only
 (no third-party dependency), fail-closed everywhere, self-verifying. Six stages, one

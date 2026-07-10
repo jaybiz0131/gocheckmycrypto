@@ -113,7 +113,7 @@ def run(approval_path=None, force_dry=False):
         print(f"  skip {s['id']}: {s['why']}")
     if published:
         print("publish: to put these approved stories on the site, run:  "
-              "python3 crypto_pipeline/site_build.py --ingest")
+              "python3 site_build.py --ingest")
     result = {"published": published, "skipped": skipped}
     common.write_out("publish_report.json", result)
     return result
