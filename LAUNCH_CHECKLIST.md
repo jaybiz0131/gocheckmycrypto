@@ -65,14 +65,36 @@ This is the only recurring human cost. Pick a cadence you will actually keep.
 That is it. The machine did the reading, triage, fact-check, and drafting. You did the judgment
 and the voice.
 
-## 6. Optional, when you are ready
+## 6. More sources and market data (all wired, most just need a key)
+
+The live **markets strip** on the homepage (BTC / ETH / SOL / total market cap) is already on.
+It fetches CoinGecko from the reader's browser, needs no key, and is labelled "market data, not
+news" so it stays clearly separate from the human-approved stories.
+
+These sources are wired and OFF by default; each turns on when you set its key (absence is a
+clean skip, never a failure):
+
+- **CryptoPanic** (`CRYPTOPANIC_TOKEN`, free) - widens the intake to hundreds of sources plus
+  vote/sentiment. Best reach for the least effort. Turn this on first.
+- **Whale Alert** (`WHALE_ALERT_API_KEY`) - large on-chain transfers (whale moves). Uses Whale
+  Alert's own API, which is cleaner than scraping @whale_alert on X. Items are capped
+  (`config.json -> whale_alert.max_items`) so on-chain data cannot flood the brief, and the
+  editor ranks them as on-chain events with context. Their free tier is limited; large-transfer
+  history needs a paid plan.
+- **X / Twitter** (`X_BEARER_TOKEN`) - news breaks here first, but X's API is paid (about $100/mo
+  for the basic tier). Wired against X API v2 recent search; edit `config.json -> x_twitter.query`
+  to follow specific accounts (`from:handle`) or cashtags.
+
+Note: I could not live-test the Whale Alert and X adapters here (no keys), so treat the first run
+with a key as a smoke test and check the intake log. The market strip and CryptoPanic follow the
+same shape as the RSS sources, which are proven live.
+
+Other switches:
 
 - **Social auto-post / real newsletter send / video script handoff.** `publish.py` has adapter
   slots for newsletter / site / social / video. They are dry-run (they log the payload they
   would send) until you enable a target in `config.json -> publish.targets` and add its endpoint
   and credential. Wire the newsletter one first; it is the highest-value owned channel.
-- **X / Twitter as a source.** News breaks there first. Add it in `config.json` once the budget
-  justifies the paid API (`X_BEARER_TOKEN`).
 - **Tune the desk over time.** `shill_rules.json` (the shill tells + source reputation) and the
   three prompts in `prompts/` are living files. Refine them as you see what slips through. Run
   `python3 crypto_pipeline/verify_pipeline.py canary` after any change; it blocks on drift.

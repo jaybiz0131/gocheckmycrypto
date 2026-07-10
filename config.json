@@ -40,7 +40,18 @@
     "x_twitter": {
       "enabled_if_env": "X_BEARER_TOKEN",
       "tier": "breaking",
-      "note": "News breaks here first but the API is expensive. Wired as a v2 slot; disabled until a token is set and the budget justifies it."
+      "url": "https://api.twitter.com/2/tweets/search/recent",
+      "query": "(crypto OR bitcoin OR ethereum OR SEC) -is:retweet -is:reply lang:en",
+      "max_results": 25,
+      "note": "News breaks here FIRST, but X's API is paid (about $100/mo for the basic tier). Wired against X API v2 recent search; set X_BEARER_TOKEN to enable. Skipped, not failed, when absent. Edit 'query' to follow specific accounts (from:handle) or cashtags. Could not be live-tested here (no token)."
+    },
+    "whale_alert": {
+      "enabled_if_env": "WHALE_ALERT_API_KEY",
+      "tier": "onchain",
+      "url": "https://api.whale-alert.io/v1/transactions",
+      "min_value_usd": 5000000,
+      "max_items": 8,
+      "note": "Large on-chain transfers (whale moves). Whale Alert's own API, cleaner than scraping @whale_alert on X. Set WHALE_ALERT_API_KEY to enable (their free tier is limited; large-transfer history needs a paid plan). Skipped, not failed, when absent. Items are ranked by the editor as on-chain events WITH context, and capped at max_items so they cannot flood the brief. Could not be live-tested here (no key)."
     }
   },
 

@@ -197,6 +197,83 @@ def gather_cryptopanic(cfg):
     return out
 
 
+def gather_x(cfg):
+    """X / Twitter (breaking). Paid API; off unless X_BEARER_TOKEN is set. Not live-tested here."""
+    x = cfg["sources"].get("x_twitter", {})
+    token = os.environ.get(x.get("enabled_if_env", "X_BEARER_TOKEN"), "")
+    if not token:
+        print("  X / Twitter          [breaking  ] -> skipped (no X_BEARER_TOKEN; documented, not a failure)")
+        return []
+    params = {"query": x.get("query", "crypto -is:retweet lang:en"),
+              "max_results": str(x.get("max_results", 25)),
+              "tweet.fields": "created_at", "expansions": "author_id", "user.fields": "username"}
+    url = x["url"] + "?" + urllib.parse.urlencode(params)
+    try:
+        req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}",
+                                                   "User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.load(resp)
+    except Exception as e:
+        gh("warning", f"aggregate: X fetch failed: {e} -- skipped")
+        return []
+    users = {u["id"]: u.get("username", "") for u in (data.get("includes", {}) or {}).get("users", [])}
+    out = []
+    for t in data.get("data", []):
+        handle = users.get(t.get("author_id"), "")
+        ts = parse_ts(t.get("created_at", ""))
+        out.append({
+            "headline": strip_html(t.get("text", ""))[:180],
+            "source": f"X / @{handle}" if handle else "X",
+            "source_tier": x.get("tier", "breaking"),
+            "url": f"https://x.com/i/web/status/{t.get('id','')}",
+            "timestamp": ts.strftime("%Y-%m-%dT%H:%M:%SZ") if ts else "",
+            "_ts": ts, "snippet": "",
+        })
+    print(f"  X / Twitter          [breaking  ] -> {len(out)} item(s)")
+    return out
+
+
+def gather_whale_alert(cfg):
+    """Large on-chain transfers (whale moves). Off unless WHALE_ALERT_API_KEY is set. Capped so
+    on-chain data cannot flood the brief. Not live-tested here (no key)."""
+    wa = cfg["sources"].get("whale_alert", {})
+    key = os.environ.get(wa.get("enabled_if_env", "WHALE_ALERT_API_KEY"), "")
+    if not key:
+        print("  Whale Alert          [onchain   ] -> skipped (no WHALE_ALERT_API_KEY; documented, not a failure)")
+        return []
+    start = int((datetime.now(timezone.utc) - timedelta(hours=cfg["lookback_hours"])).timestamp())
+    params = {"api_key": key, "min_value": str(wa.get("min_value_usd", 5000000)), "start": str(start)}
+    url = wa["url"] + "?" + urllib.parse.urlencode(params)
+    try:
+        data = fetch(url, is_json=True)
+    except Exception as e:
+        gh("warning", f"aggregate: Whale Alert fetch failed: {e} -- skipped")
+        return []
+    txns = sorted(data.get("transactions", []) or [], key=lambda t: t.get("amount_usd", 0), reverse=True)
+    out = []
+    for t in txns[: wa.get("max_items", 8)]:
+        sym = (t.get("symbol") or "").upper()
+        amt = t.get("amount", 0)
+        usd = t.get("amount_usd", 0)
+        frm = (t.get("from", {}) or {}).get("owner") or "unknown wallet"
+        to = (t.get("to", {}) or {}).get("owner") or "unknown wallet"
+        ts = None
+        try:
+            ts = datetime.fromtimestamp(int(t.get("timestamp", 0)), timezone.utc)
+        except Exception:
+            pass
+        out.append({
+            "headline": f"{amt:,.0f} {sym} (${usd:,.0f}) moved from {frm} to {to}",
+            "source": "Whale Alert",
+            "source_tier": wa.get("tier", "onchain"),
+            "url": f"https://whale-alert.io/transaction/{t.get('blockchain','')}/{t.get('hash','')}",
+            "timestamp": ts.strftime("%Y-%m-%dT%H:%M:%SZ") if ts else "",
+            "_ts": ts, "snippet": f"On-chain transfer flagged by Whale Alert ({t.get('transaction_type','transfer')}).",
+        })
+    print(f"  Whale Alert          [onchain   ] -> {len(out)} item(s)")
+    return out
+
+
 def within_lookback(items, hours):
     cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
     kept = []
@@ -214,7 +291,7 @@ def dedupe(items, cfg):
     cluster's primary; the rest are corroboration (more corroboration -> more editorial weight)."""
     thr = cfg["dedupe"]["jaccard_threshold"]
     min_tok = cfg["dedupe"]["min_significant_tokens"]
-    tier_rank = {"primary": 0, "breaking": 1, "major": 2, "aggregator": 3, "mixed": 4, "unknown": 5}
+    tier_rank = {"primary": 0, "breaking": 1, "major": 2, "onchain": 3, "aggregator": 4, "mixed": 5, "unknown": 6}
 
     for it in items:
         it["_tokens"] = norm_tokens(it["headline"])
@@ -264,6 +341,8 @@ def run(fixture=None, out_path=DEFAULT_OUT):
     raw, ok, total = gather_rss(cfg, fixture=fixture)
     if not fixture:
         raw += gather_cryptopanic(cfg)
+        raw += gather_x(cfg)
+        raw += gather_whale_alert(cfg)
 
     if ok == 0 and not raw:
         gh("error", "aggregate: ZERO sources resolved -> failing hard (exit 2); nothing downstream runs on an empty intake.")

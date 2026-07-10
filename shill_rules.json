@@ -17,6 +17,7 @@
     "_note": "Multiplier on a source's baseline trust. > 1 raises weight (primary/official), < 1 lowers it (known pay-for-coverage reputations). Editor and verifier both receive these so a single low-rep source cannot carry a top story alone.",
     "primary": 1.5,
     "major": 1.0,
+    "onchain": 1.1,
     "aggregator": 0.9,
     "mixed": 0.8,
     "breaking": 0.7,

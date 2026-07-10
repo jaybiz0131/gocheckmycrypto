@@ -103,6 +103,44 @@ def masthead(active, dateline):
 <nav class="mh-nav"><div class="wrap">{nav}</div></nav>"""
 
 
+def market_strip():
+    """A live markets ticker. Client-side (the reader's browser fetches CoinGecko), so the build
+    stays offline and reproducible. Clearly labelled and separate from the verified news: a price
+    is live factual data, not a story that went through the human gate. Fails quietly if the API
+    is unreachable (leaves the neutral placeholder)."""
+    return """<section class="markets" id="markets" aria-label="Live crypto markets"><div class="wrap">
+  <span class="lab">Markets &middot; live</span>
+  <span class="tick" data-id="bitcoin"><span class="sym">BTC</span><span class="px">--</span><span class="chg"></span></span>
+  <span class="tick" data-id="ethereum"><span class="sym">ETH</span><span class="px">--</span><span class="chg"></span></span>
+  <span class="tick" data-id="solana"><span class="sym">SOL</span><span class="px">--</span><span class="chg"></span></span>
+  <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">--</span><span class="chg"></span></span>
+  <span class="note">Market data, not news. Not financial advice.</span>
+</div>
+<script>
+(function(){
+  var CG="https://api.coingecko.com/api/v3";
+  function money(n){ if(n>=1e12)return "$"+(n/1e12).toFixed(2)+"T"; if(n>=1e9)return "$"+(n/1e9).toFixed(1)+"B";
+    if(n>=1000)return "$"+Math.round(n).toLocaleString(); return "$"+n.toFixed(2); }
+  function chg(el,p){ if(p==null){return;} var s=(p>=0?"+":"")+p.toFixed(1)+"%";
+    el.textContent=s; el.className="chg "+(p>=0?"up":"down"); }
+  fetch(CG+"/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true")
+    .then(function(r){return r.json();}).then(function(d){
+      document.querySelectorAll(".markets .tick[data-id]").forEach(function(t){
+        var k=t.getAttribute("data-id"), v=d[k]; if(!v)return;
+        t.querySelector(".px").textContent=money(v.usd);
+        chg(t.querySelector(".chg"), v.usd_24h_change);
+      });
+    }).catch(function(){});
+  fetch(CG+"/global").then(function(r){return r.json();}).then(function(d){
+      var g=d.data||{}, m=document.getElementById("mcap"); if(!m)return;
+      if(g.total_market_cap&&g.total_market_cap.usd) m.querySelector(".px").textContent=money(g.total_market_cap.usd);
+      chg(m.querySelector(".chg"), g.market_cap_change_percentage_24h_usd);
+    }).catch(function(){});
+})();
+</script>
+</section>"""
+
+
 def newsletter():
     return f"""<section class="news"><div class="wrap">
   <h2>Get the brief</h2>
@@ -293,7 +331,7 @@ def render_index(items, dateline):
                 'checked against its sources by an independent AI verifier, and approved by a human. '
                 'That gate is the whole point, so we would rather publish nothing than publish junk.</p>'
                 '</div></div></section>')
-    body = lead_html + trust_block() + grid + newsletter()
+    body = market_strip() + lead_html + trust_block() + grid + newsletter()
     return shell(f"{NAME} - {SLOGAN}", DESC, "Home", body, dateline)
 
 
