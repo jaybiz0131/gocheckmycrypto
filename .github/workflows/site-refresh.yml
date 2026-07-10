@@ -1,0 +1,36 @@
+# Site refresh: keeps the data desks current between daily briefs.
+#
+# The Whale Watch board and every Market Pulse dashboard are regenerated at Netlify BUILD
+# time (see netlify.toml), so refreshing the site is just pinging the build hook. The daily
+# brief already pings it at ~07:45 UTC; these two extra pings give the dashboards roughly
+# 8-hour freshness through the day. Each ping costs about 2 Netlify build minutes; three
+# scheduled builds a day stays comfortably inside the free 300 minutes/month alongside
+# push-triggered builds. Add or remove cron lines to tune the cadence.
+#
+# No secrets beyond NETLIFY_BUILD_HOOK, no code runs here, and a missing hook is a
+# documented skip, never a failure.
+name: Site refresh (data desks)
+
+on:
+  schedule:
+    - cron: "0 13 * * *"   # 13:00 UTC
+    - cron: "0 19 * * *"   # 19:00 UTC
+  workflow_dispatch: {}
+
+permissions: {}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the Netlify build hook
+        env:
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -n "$HOOK" ]; then
+            curl -s -f -X POST -d '{}' "$HOOK" > /dev/null \
+              && echo "::notice::Triggered a Netlify rebuild (Whale Watch + Market Pulse refresh)." \
+              || echo "::warning::Build hook ping failed; the desks will refresh on the next scheduled build."
+          else
+            echo "::notice::NETLIFY_BUILD_HOOK not set; skipping (the daily brief and pushes still refresh the site)."
+          fi

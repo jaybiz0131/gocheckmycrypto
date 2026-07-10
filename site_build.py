@@ -1117,6 +1117,8 @@ def render_pulse_hub(pulse, flows, dateline):
      standard formulas from free public data, and each one explained in plain language.
      Market data, not news, never advice.</p>
   {'<div class="dash-grid">' + inner + '</div>' if inner else _no_data()}
+  <p class="pc-note" style="margin-top:12px">Snapshot generated {esc((pulse or {}).get("generated", ""))};
+     the desks refresh several times a day.</p>
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>
 </section></main>"""
     return shell(f"Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
