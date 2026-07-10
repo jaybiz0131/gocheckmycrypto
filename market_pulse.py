@@ -36,13 +36,32 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SITE_DATA = os.path.join(HERE, "site", "data", "pulse.json")
 UA = "CryptoCronkite-MarketPulse/1.0 (+https://gocheckmycrypto.com)"
 
-ASSETS = [("bitcoin", "BTC"), ("ethereum", "ETH"), ("solana", "SOL")]
+ASSETS = [("bitcoin", "BTC"), ("ethereum", "ETH"), ("solana", "SOL"), ("ripple", "XRP")]
 
 
-def get_json(url, timeout=30):
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.load(r)
+def get_json(url, timeout=30, attempts=3):
+    """Fetch JSON with polite backoff: keyless CoinGecko rate-limits bursts, so a 429 (or a
+    transient 5xx) waits and retries instead of dropping the section."""
+    import time
+    import urllib.error
+    delay = 20
+    last = None
+    for i in range(attempts):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UA,
+                                                       "Accept": "application/json"})
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 500, 502, 503):
+                raise
+            last = e
+        except Exception as e:
+            last = e
+        if i < attempts - 1:
+            time.sleep(delay)
+            delay *= 2
+    raise last
 
 
 # ---- indicator math (standard definitions, stdlib only) -----------------------
@@ -140,8 +159,11 @@ def section_fng():
 
 
 def section_assets():
+    import time
     out = []
-    for cid, sym in ASSETS:
+    for i, (cid, sym) in enumerate(ASSETS):
+        if i:
+            time.sleep(7)  # keyless CoinGecko dislikes bursts; a build can afford politeness
         d = get_json(f"https://api.coingecko.com/api/v3/coins/{cid}/market_chart"
                      f"?vs_currency=usd&days=365&interval=daily")
         rows = [p for p in d.get("prices", []) if p and p[1]]
@@ -192,6 +214,25 @@ def section_stables():
                        "end": _date_label(year_pts[-1][0])}}
 
 
+def section_movers(top_n=5, universe=100):
+    """Top gainers and losers over 24h, drawn ONLY from the top-100 coins by market cap so
+    micro-cap pump coins never make the board."""
+    d = get_json("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
+                 f"&order=market_cap_desc&per_page={universe}&page=1"
+                 "&price_change_percentage=24h")
+    rows = [c for c in d if c.get("price_change_percentage_24h") is not None]
+    rows.sort(key=lambda c: c["price_change_percentage_24h"])
+
+    def pack(c):
+        return {"symbol": (c.get("symbol") or "").upper(), "name": c.get("name") or "",
+                "price": c.get("current_price"), "chg_24h_pct": round(c["price_change_percentage_24h"], 2),
+                "mcap_usd": c.get("market_cap"), "rank": c.get("market_cap_rank")}
+
+    return {"universe": universe,
+            "gainers": [pack(c) for c in reversed(rows[-top_n:])],
+            "losers": [pack(c) for c in rows[:top_n]]}
+
+
 def section_network():
     fees = get_json("https://mempool.space/api/v1/fees/recommended")
     diff = get_json("https://mempool.space/api/v1/difficulty-adjustment")
@@ -209,7 +250,8 @@ def main():
                  "not advice."),
     }
     sections = [("fng", section_fng), ("assets", section_assets),
-                ("stables", section_stables), ("network", section_network)]
+                ("movers", section_movers), ("stables", section_stables),
+                ("network", section_network)]
     got = 0
     for name, fn in sections:
         try:
@@ -225,7 +267,7 @@ def main():
     json.dump(pulse, open(SITE_DATA, "w", encoding="utf-8"), indent=2)
     common.write_out("market_pulse.json", pulse)
     parts = [n for n, _ in sections if n in pulse]
-    print(f"market_pulse: {got}/4 sections -> {os.path.relpath(SITE_DATA)} ({', '.join(parts)})")
+    print(f"market_pulse: {got}/5 sections -> {os.path.relpath(SITE_DATA)} ({', '.join(parts)})")
     return 0
 
 

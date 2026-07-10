@@ -1066,6 +1066,17 @@ def render_pulse_hub(pulse, flows, dateline):
       <span class="mini-range">{esc(rng)}</span>
       <p class="pc-note">RSI {btc.get("rsi14", 0):.0f}, {mom}. Full readings for BTC, ETH, and SOL.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
+    movers = pulse.get("movers") or {}
+    if movers.get("gainers") and movers.get("losers"):
+        g, l = movers["gainers"][0], movers["losers"][0]
+        cards.append(f"""<a class="dash-card" href="/pulse/movers.html">
+      <span class="lab">Top movers</span>
+      <span class="dash-stat"><span style="color:var(--verified-fg)">{esc(g.get("symbol",""))}
+      {g.get("chg_24h_pct", 0):+.1f}%</span></span>
+      <p class="pc-note" style="margin-top:6px">Leading the top 100 today, with
+      {esc(l.get("symbol",""))} at {l.get("chg_24h_pct", 0):+.1f}% on the other end. Top 5
+      gainers and losers, big caps only.</p>
+      <span class="dash-open">Open dashboard &rarr;</span></a>""")
     if stables:
         chg = stables.get("change_30d_pct", 0)
         s60 = (stables.get("spark") or [])[-60:]
@@ -1268,6 +1279,72 @@ def render_pulse_stables(pulse, dateline):
     return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline)
 
 
+def _mover_rows(movers):
+    rows = []
+    for m in movers:
+        chg = m.get("chg_24h_pct", 0)
+        chip = _chip(f"{chg:+.1f}%", "chip-up" if chg >= 0 else "chip-down")
+        price = m.get("price")
+        if not price:
+            price_s = "?"
+        elif price >= 100:
+            price_s = f"${price:,.0f}"
+        elif price >= 1:
+            price_s = f"${price:,.2f}"
+        else:
+            price_s = "$" + f"{price:.6f}".rstrip("0").rstrip(".")
+        rows.append(
+            f'<tr><td class="mut">#{m.get("rank", "?")}</td>'
+            f'<td class="sym2">{esc(m.get("symbol", ""))}<span class="mut"> &middot; '
+            f'{esc((m.get("name") or "")[:14])}</span></td>'
+            f'<td class="pnum">{esc(price_s)}</td>'
+            f'<td>{chip}</td>'
+            f'<td class="mut">{esc(fmt_usd(m.get("mcap_usd", 0)))} cap</td></tr>')
+    return "".join(rows)
+
+
+def render_pulse_movers(pulse, dateline):
+    desc = ("Top 5 gainers and losers over 24 hours, drawn only from the top 100 coins by "
+            "market cap, with plain-language guidance on how to read big moves.")
+    movers = (pulse or {}).get("movers") or {}
+    if not movers:
+        inner = f"{_dash_crumb()}\n  <h1>Top movers</h1>\n  {_no_data()}"
+        return _dash_shell("movers", "Top movers", desc, inner, dateline)
+    inner = f"""{_dash_crumb()}
+  <h1>Top movers</h1>
+  <p class="lede">The five biggest gainers and losers of the last 24 hours, drawn only from
+     the top {movers.get("universe", 100)} coins by market cap, so micro-cap pump coins never
+     make this board.</p>
+  <div class="pulse-grid2">
+    <div class="pulse-card"><span class="lab" style="color:var(--verified-fg)">Top 5 gainers (24h)</span>
+      <div class="movetable"><table><tbody>{_mover_rows(movers.get("gainers", []))}</tbody></table></div></div>
+    <div class="pulse-card"><span class="lab" style="color:var(--rule)">Top 5 losers (24h)</span>
+      <div class="movetable"><table><tbody>{_mover_rows(movers.get("losers", []))}</tbody></table></div></div>
+  </div>
+
+  <div class="sec-head" style="margin-top:30px"><h2>Movers 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab">Why coins move this much</span>
+      <p>Double-digit daily moves usually have a cause: a listing, a protocol launch, an
+      unlock, a hack, or a big holder buying or selling into thin liquidity. Smaller coins
+      move more because less money is needed to push them.</p></div>
+    <div class="learn"><span class="lab">Why top-100 only</span>
+      <p>Outside the biggest names, "top gainer" lists get taken over by micro-cap coins that
+      pump 300% on a few thousand dollars of volume, exactly the shill we exist to strip out.
+      Limiting to the top 100 keeps every mover here a coin with real money behind it.</p></div>
+    <div class="learn"><span class="lab">Check the news before you believe it</span>
+      <p>A big move WITH a verified story behind it is information. A big move with no story
+      is usually noise, or worse, someone's exit. Cross-check the <a href="/index.html">front
+      page</a>: if a mover matters, the desk will have covered why.</p></div>
+    <div class="learn"><span class="lab">What this page is not</span>
+      <p>Yesterday's winner is not a prediction about tomorrow, and chasing a move that
+      already happened is how crowds get hurt. This board is a snapshot of where the action
+      was, never a list of things to buy.</p></div>
+  </div>
+  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+    return _dash_shell("movers", "Top movers", desc, inner, dateline)
+
+
 def render_pulse_network(pulse, dateline):
     desc = ("Bitcoin network vitals explained: what transaction fees and mining difficulty "
             "say about demand for the chain and miner confidence.")
@@ -1407,6 +1484,7 @@ def build():
     w("pulse.html", render_pulse_hub(pulse, flows, dateline))
     w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))
+    w(os.path.join("pulse", "movers.html"), render_pulse_movers(pulse, dateline))
     w(os.path.join("pulse", "stablecoins.html"), render_pulse_stables(pulse, dateline))
     w(os.path.join("pulse", "network.html"), render_pulse_network(pulse, dateline))
     w("archive.html", render_archive(items, dateline))
@@ -1425,8 +1503,8 @@ def build():
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
     locs = ["/", "/flows.html", "/pulse.html", "/pulse/sentiment.html", "/pulse/posture.html",
-            "/pulse/stablecoins.html", "/pulse/network.html", "/archive.html", "/method.html",
-            "/about.html", "/standards.html"]
+            "/pulse/movers.html", "/pulse/stablecoins.html", "/pulse/network.html",
+            "/archive.html", "/method.html", "/about.html", "/standards.html"]
     locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
     urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)
     w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'

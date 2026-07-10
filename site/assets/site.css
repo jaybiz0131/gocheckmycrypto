@@ -276,6 +276,7 @@ body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(244,165,42,.3)}
 .movetable .sym2{font-family:var(--mono);font-weight:700;color:var(--ink)}
 .movetable .num{font-family:var(--mono);color:var(--rule);font-weight:600}
 .movetable .mut{color:var(--faint)}
+.movetable .pnum{font-family:var(--mono);color:var(--ink);font-weight:600}
 .flow-teaser{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .flow-teaser .t{font-family:var(--serif);font-size:18px;font-weight:600}
 .flow-teaser .d{font-size:14px;color:var(--muted);margin-top:2px}
