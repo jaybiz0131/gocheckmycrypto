@@ -7,15 +7,15 @@
 
   "budget": {
     "max_tokens_per_run": 220000,
-    "max_usd_per_run": 3.0,
-    "note": "Hard cap. The LLM client aborts the run (fail-closed) before exceeding either ceiling. Costed from response usage; see llm.py PRICING."
+    "max_usd_per_run": 5.0,
+    "note": "Hard cap. The LLM client aborts the run (fail-closed) before exceeding either ceiling. Costed from response usage; see llm.py PRICING. Sized for claude-fable-5 on the judgment stages (its always-on thinking bills as output tokens); a typical run lands well under $1.50."
   },
 
   "models": {
-    "editor":   { "model": "claude-opus-4-8", "max_tokens": 4000 },
-    "verifier": { "model": "claude-opus-4-8", "max_tokens": 4000 },
-    "writer":   { "model": "claude-opus-4-8", "max_tokens": 6000 },
-    "note": "Default is claude-opus-4-8 across all three stages. The verifier is a genuinely SEPARATE call with a distinct, adversarial prompt so it does not rubber-stamp the editor; to harden that independence further, swap the verifier to a different model id here. No temperature/top_p/top_k is sent: those parameters are rejected (HTTP 400) on the current model family, so determinism and register are steered by the prompt. claude-sonnet-5 is a cheaper per-run option if cost is the priority."
+    "editor":   { "model": "claude-fable-5", "max_tokens": 10000 },
+    "verifier": { "model": "claude-fable-5", "max_tokens": 10000 },
+    "writer":   { "model": "claude-opus-4-8", "max_tokens": 8000 },
+    "note": "Quality-first lineup (owner's explicit call, 2026-07-10): claude-fable-5 (Anthropic's most capable model) on the two JUDGMENT stages, editor (rank + de-shill) and verifier (adversarial source audit); claude-opus-4-8 on the writer (strong news prose, human-reviewed anyway, and a different model family after two Fable stages). Fable's thinking is always on and counts against max_tokens, hence the larger caps. The verifier remains a SEPARATE call with a distinct, adversarial prompt so it does not rubber-stamp the editor. No temperature/top_p/top_k and no thinking param is sent: sampling params are rejected (HTTP 400) on this model family, and omitting thinking runs Fable's adaptive thinking. llm.py adds a server-side refusal fallback to claude-opus-4-8 on Fable calls because hack/exploit coverage can trip its cyber safety classifiers. claude-opus-4-8 everywhere is the cheaper fallback lineup; claude-sonnet-5 the cheapest."
   },
 
   "sources": {

@@ -41,6 +41,9 @@ REPLAY_PATH = os.path.join(HERE, "fixtures", "llm_replay.json")
 
 # Approximate list price, USD per 1M tokens (input, output). Used only for the per-run cost
 # cap; keep in sync with the model card. Overshooting the cap fails closed before the call.
+# Cost is keyed by the REQUESTED model: if a refusal fallback serves a call, the output was
+# produced by the (cheaper) fallback model but is counted at the requested model's rates, so
+# the tracker only ever overestimates spend, never under.
 PRICING = {
     "claude-opus-4-8":  (5.0, 25.0),
     "claude-opus-4-7":  (5.0, 25.0),
@@ -128,15 +131,25 @@ class Client:
             "system": system,
             "messages": [{"role": "user", "content": user}],
         }
-        data = json.dumps(body).encode("utf-8")
-        req = urllib.request.Request(API_URL, data=data, method="POST", headers={
+        headers = {
             "x-api-key": key,
             "anthropic-version": API_VERSION,
             "content-type": "application/json",
-        })
+        }
+        # claude-fable-5 runs cybersecurity safety classifiers, and hack/exploit coverage is
+        # core news for this desk, so benign stories can occasionally be declined. The
+        # server-side fallback re-runs a declined request on claude-opus-4-8 inside the same
+        # call (a decline before output is not billed; the rescue bills at Opus rates). If the
+        # whole chain still refuses, the stop_reason check below fails the stage closed.
+        if model == "claude-fable-5":
+            body["fallbacks"] = [{"model": "claude-opus-4-8"}]
+            headers["anthropic-beta"] = "server-side-fallback-2026-06-01"
+        data = json.dumps(body).encode("utf-8")
+        req = urllib.request.Request(API_URL, data=data, method="POST", headers=headers)
         resp_json = self._post_with_retry(stage, req)
         if resp_json.get("stop_reason") == "refusal":
-            raise LLMError(f"{stage}: model refused the request -> failing closed")
+            raise LLMError(f"{stage}: model refused the request (whole fallback chain, if any) "
+                           f"-> failing closed")
         self.budget.record(model, resp_json.get("usage", {}) or {})
         parts = [b.get("text", "") for b in resp_json.get("content", []) if b.get("type") == "text"]
         text = "".join(parts).strip()
@@ -149,7 +162,9 @@ class Client:
         last = None
         for i in range(attempts):
             try:
-                with urllib.request.urlopen(req, timeout=120) as r:
+                # claude-fable-5 thinks before answering (always on) and hard calls can run
+                # minutes; a short timeout would fail perfectly healthy requests.
+                with urllib.request.urlopen(req, timeout=600) as r:
                     return json.load(r)
             except urllib.error.HTTPError as e:
                 code = e.code

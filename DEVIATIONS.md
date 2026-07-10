@@ -29,12 +29,21 @@ headers. The request shape follows the current model family: no `temperature`/`t
 (those return HTTP 400 on `claude-opus-4-8` / `claude-sonnet-5`); register and determinism are
 steered by the prompts.
 
-## D3 - Default model `claude-opus-4-8` over the blueprint's cost emphasis
+## D3 - Quality-first models over the blueprint's cost emphasis (updated 2026-07-10)
 
-The blueprint stresses cheap-per-run calls and a spend cap. The model default is
-`claude-opus-4-8` (quality, per the owner's explicit call), with a hard per-run token/USD
-budget cap in `config.json` and a documented `claude-sonnet-5` swap for a cheaper run. The
-cost discipline is met by the cap, not by silently downgrading the model.
+The blueprint stresses cheap-per-run calls and a spend cap. Per the owner's explicit call
+("the right man for the job; I will pay more for better quality"), the two JUDGMENT stages
+run `claude-fable-5` (Anthropic's most capable model, $10/$50 per MTok): the editor, whose
+job is filtering shill, and the verifier, whose job is accuracy against live sources. The
+writer stays on `claude-opus-4-8` (strong news prose, human-reviewed anyway, and a second
+model family after two Fable stages). Two Fable-specific accommodations in `llm.py`: a
+600s HTTP timeout (its always-on thinking can run minutes) and a server-side refusal
+fallback to `claude-opus-4-8` (hack/exploit coverage, core content for a crypto desk, can
+trip Fable's cybersecurity safety classifiers; the fallback re-serves declined calls in the
+same request, and a full-chain refusal still fails the stage closed). The cost discipline is
+met by the hard cap (raised to $5/run for thinking-token headroom; typical runs land well
+under $1.50), not by silently downgrading the model. Note: `claude-fable-5` requires 30-day
+data retention on the Anthropic org; a zero-data-retention org would 400 on every call.
 
 ## D4 - Standalone brand; name-only GoCheckMy family tie
 

@@ -79,10 +79,13 @@ the configured RSS feeds still resolve. Wired to `.github/workflows/verify-crypt
 
 ## Cost control
 
-The editor/verifier/writer calls are cheap per run but capped by `config.json -> budget`
-(tokens and USD). No `temperature`/`top_p`/`top_k` is sent (rejected by the current model
-family); register and determinism are steered by the prompts. Default model is
-`claude-opus-4-8`; `claude-sonnet-5` is a cheaper per-run swap.
+The editor/verifier/writer calls are capped by `config.json -> budget` (tokens and USD;
+hard fail-closed ceilings). No `temperature`/`top_p`/`top_k` is sent (rejected by the
+current model family); register and determinism are steered by the prompts. The lineup is
+quality-first (see DEVIATIONS D3): `claude-fable-5` on the editor and verifier (the
+judgment stages), `claude-opus-4-8` on the writer, with a server-side refusal fallback to
+Opus on the Fable calls. A typical run lands well under $1.50; `claude-opus-4-8` or
+`claude-sonnet-5` across all stages are the cheaper swaps.
 
 ## The website
 
