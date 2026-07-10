@@ -32,15 +32,19 @@ ASSETS = os.path.join(SITE, "assets")
 PUBLISH = os.path.join(SITE, "publish")
 PUBLISHED = os.path.join(HERE, "out", "published")
 
-# Brand architecture (hybrid): Check My Crypto is the house brand and domain; Crypto Cronkite is
-# the honest-voice news desk sub-brand (the daily brief); Whale Watch is the on-chain tools sub-brand.
-NAME = "Check My Crypto"
-DESK = "Crypto Cronkite"
-SLOGAN = "Market pulse. On-chain insights. Honest news."
-DESK_LINE = "The honest voice in a shill-filled space."
-DESC = ("Check My Crypto is an honest crypto desk: the Crypto Cronkite news brief (AI-researched, "
-        "human-approved) plus Whale Watch on-chain analytics. We report events, we never advise trades.")
-NFA = ("Not financial advice. Check My Crypto reports events and explains what they may mean. "
+# Brand: Crypto Cronkite is the focal brand (the news desk, the masthead, the audience). This site
+# stands on its own; the only thing it shares with the GoCheckMy family is the name/domain
+# (gocheckmycrypto.com) plus the "A GoCheckMy site" footer tie. No family visual reskin, by design
+# (see DEVIATIONS D-CRYPTO-2). Whale Watch is the on-chain tools sub-brand.
+NAME = "Crypto Cronkite"
+SLOGAN = "And that's the way it is."          # Walter Cronkite's sign-off; the brand tagline
+DESK_LINE = "The honest voice in a shill-filled space."   # secondary descriptor
+FAMILY = "GoCheckMyCrypto"                     # family/domain tie: gocheckmycrypto.com
+FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
+DESC = ("Crypto Cronkite is an honest crypto news desk: AI does the reading, triage, and fact-checking; "
+        "a human editor signs off on every story. Plus Whale Watch on-chain analytics. We report "
+        "events, we never advise trades.")
+NFA = ("Not financial advice. Crypto Cronkite reports events and explains what they may mean. "
        "It never tells you to buy or sell anything. Do your own research.")
 YEAR = "2026"
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August",
@@ -116,8 +120,8 @@ def masthead(active, dateline):
     return f"""<div class="top-rule"></div>
 <header class="masthead"><div class="wrap">
   <div class="mh-top">
-    <span class="mh-dateline">{esc(dateline)}</span>
-    <span class="mh-dateline">Independent &middot; Human-approved</span>
+    <span class="mh-family">{esc(FAMILY)}.com</span>
+    <span class="mh-dateline">{esc(dateline)} &middot; Independent &middot; Human-approved</span>
   </div>
   <a class="mh-brand" href="/index.html" style="margin-top:8px">
     <img class="mh-mark" src="/assets/logo.svg" alt="">
@@ -207,10 +211,10 @@ def footer():
     <div class="fbrand">{esc(NAME)}</div>
     <div class="flinks">{links}</div>
   </div>
-  <p class="fnote"><b>{esc(NFA)}</b> Check My Crypto is an independent crypto desk. Its news, the
-    {esc(DESK)} brief, is machine-assembled and machine-verified, then reviewed and approved by a
-    human editor before publication. Whale Watch shows on-chain market data, not news. Sources are
-    linked on every story. &copy; {YEAR} {esc(NAME)}.</p>
+  <p class="fnote"><b>{esc(NFA)}</b> Crypto Cronkite is an independent crypto news desk. Stories are
+    machine-assembled and machine-verified, then reviewed and approved by a human editor before
+    publication. Whale Watch shows on-chain market data, not news. Sources are linked on every story.
+    &copy; {YEAR} {esc(NAME)} &middot; <a href="{FAMILY_HUB}">A GoCheckMy site</a>.</p>
 </div></footer>"""
 
 
@@ -290,7 +294,7 @@ def render_article(item):
     <div class="ey">{badge}{tag}<span class="dateline">{esc(dateline)}</span></div>
     <h1>{esc(item.get("title"))}</h1>
     {f'<p class="dek">{esc(item["dek"])}</p>' if item.get("dek") else ""}
-    <div class="byline">{esc(DESK)} &nbsp;&middot;&nbsp; By {author} &nbsp;&middot;&nbsp; Reviewed and approved by a human editor</div>
+    <div class="byline">By {author} &nbsp;&middot;&nbsp; Reviewed and approved by a human editor</div>
     {ribbon}
     <div class="prose">{render_body(item.get("body"))}</div>
     {key}
@@ -331,7 +335,7 @@ def render_index(items, dateline):
         badge = verdict_badge(lead.get("verdict"))
         tag = f'<span class="tag">{esc(lead.get("category","news"))}</span>' if lead.get("category") else ""
         lead_html = f"""<section class="lead"><div class="wrap">
-    <span class="kicker">{esc(DESK)} &middot; lead story</span>
+    <span class="kicker">Lead story</span>
     <h1><a href="/articles/{esc(lead["slug"])}.html" style="color:inherit">{esc(lead.get("title"))}</a></h1>
     {f'<p class="dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""}
     <div class="meta">{badge}{tag}<span class="dateline">{esc(fmt_date(lead.get("date")))}</span>
@@ -344,7 +348,7 @@ def render_index(items, dateline):
                     f'<div class="grid">{"".join(card(i) for i in rest)}</div></div></section>')
     else:
         lead_html = f"""<section class="lead"><div class="wrap">
-    <span class="kicker">{esc(DESK)} &middot; the desk is live</span>
+    <span class="kicker">The desk is live</span>
     <h1>Honest crypto news, on a cadence we can keep.</h1>
     <p class="dek">{esc(DESK_LINE)} The first published brief lands here. In the meantime, read how
        the desk works and why you can trust the byline.</p>
@@ -460,23 +464,21 @@ def render_method(items, dateline):
 def render_about(dateline):
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">About</span>
-  <h1>Why Check My Crypto exists</h1>
-  <p class="lede">Crypto media is drowning in shilling. The scarce thing is an honest voice and
-     the data nobody bothers to read. That is what we build.</p>
+  <h1>Why Crypto Cronkite exists</h1>
+  <p class="lede">Crypto media is drowning in shilling. The scarce thing is an honest voice. That
+     is the entire product.</p>
 
   <p>Most crypto "news" is paid promotion wearing a press badge: price predictions with nothing
      behind them, "partnerships" that are really self-issued press releases, and listicles of coins
      to buy that are affiliate bait. It is exhausting, and it is how people get hurt.</p>
 
-  <p>Check My Crypto is two things aimed at the opposite of that: <b>Crypto Cronkite</b>, an honest
-     news desk that reports the real news and strips the shill, and <b>Whale Watch</b>, on-chain
-     analytics that follow the money instead of the hype. Neither one tells you what to do with your
-     money.</p>
+  <p>Crypto Cronkite is built on one idea: report the real news, strip the shill, and never tell you
+     what to do with your money. The name is a promise. Walter Cronkite was trusted because he was
+     straight with people. That is the register we hold ourselves to, right down to the sign-off:
+     and that's the way it is.</p>
 
-  <h2>The news desk: Crypto Cronkite</h2>
-  <p>Our news carries the Crypto Cronkite byline, and the name is a promise. Walter Cronkite was
-     trusted because he was straight with people. That is the register the desk holds itself to:
-     report what happened, say how we know it, and mark what we could not confirm.</p>
+  <p>Alongside the news, <b>Whale Watch</b> follows the money on-chain, the large exchange flows most
+     coverage ignores. It is market data, clearly labelled, never dressed up as news.</p>
 
   <h2>The machine does the grind. A human owns the judgment.</h2>
   <p>An AI newsroom does the reading, the triage, the fact-checking, and the first draft, every day,
@@ -499,7 +501,7 @@ def render_about(dateline):
     corrections policy</a>.</div>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
-    return shell(f"About - {NAME}", "Why Check My Crypto exists: an honest crypto news desk plus on-chain analytics.",
+    return shell(f"About - {NAME}", "Why Crypto Cronkite exists: an honest crypto news desk plus on-chain analytics.",
                  "About", body, dateline)
 
 
@@ -537,7 +539,7 @@ def render_standards(dateline):
      of being trustworthy, which is why this page exists.</p>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
-    return shell(f"Standards - {NAME}", "Check My Crypto standards, verification, and corrections policy.",
+    return shell(f"Standards - {NAME}", "Crypto Cronkite standards, verification, and corrections policy.",
                  "Standards", body, dateline)
 
 
@@ -582,7 +584,7 @@ def flows_chart_svg(by_asset):
 
 def ww_hero():
     return ('<section class="ww-hero"><div class="ww-heroinner">'
-            '<img src="/assets/whale-watch-logo.jpg" alt="Check My Crypto - Whale Watch: market pulse, on-chain insights">'
+            '<img src="/assets/whale-watch-logo.jpg" alt="GoCheckMyCrypto Whale Watch: market pulse, on-chain insights">'
             '</div></section>')
 
 
