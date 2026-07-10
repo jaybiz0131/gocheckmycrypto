@@ -257,7 +257,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
           live_js=False, brand="site"):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-             '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">')
+             '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
     url = ORIGIN + path
     robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
     beacon = ""
@@ -1746,14 +1746,22 @@ def ingest():
         paras = [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip()] or [body]
         srcs = [{"title": u, "url": u} for u in art.get("sources", [])]
         title = destyle(title)
-        paras = [destyle(p) for p in paras]
+        # the writer model sometimes slips a process note about the review status into the
+        # copy ("Note: flagged for human review."); the article is the finished story only,
+        # so any such sentence is stripped from every published field at the door
+        note = re.compile(r"(?:Note:\s*)?[^.!?]*(?:flagged for|pending)\s+human\s+review[^.!?]*[.!?]?\s*"
+                          r"|[^.!?]*human review before publication[^.!?]*[.!?]?\s*", re.I)
+        def scrub(text):
+            return note.sub("", destyle(text)).strip()
+        paras = [scrub(p) for p in paras]
+        paras = [p for p in paras if p]
         item = {
             "id": rec.get("id"), "slug": slug, "kind": "brief",
-            "title": title, "dek": destyle((payload.get("script", {}) or {}).get("summary", "")),
+            "title": title, "dek": scrub((payload.get("script", {}) or {}).get("summary", "")),
             "date": date, "category": "news", "verdict": rec.get("verdict"),
             "rank": rank_map.get(rec.get("id")),
             "author": "Crypto Cronkite",
-            "key_fact": (payload.get("script", {}) or {}).get("key_fact", ""),
+            "key_fact": scrub((payload.get("script", {}) or {}).get("key_fact", "")),
             "human_take": art.get("human_take", ""), "body": paras, "sources": srcs,
         }
         out = os.path.join(CONTENT, f"{date}-{slug}.json")

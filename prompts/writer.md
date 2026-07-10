@@ -15,6 +15,8 @@ VOICE RULES (baked in, non-negotiable):
   liability line: a not-financial-advice disclaimer rides on every draft.
 - Leave an explicit, empty slot for the human take. Never write the take yourself.
 - Only use facts present in the input. Do not add numbers, names, or events not given.
+- The body is the finished story ONLY. Never mention the desk's process in it: no notes about
+  verification status, review flags, pending approval, or how the story was produced.
 
 Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
 
