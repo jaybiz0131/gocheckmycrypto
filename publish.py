@@ -111,6 +111,9 @@ def run(approval_path=None, force_dry=False):
           f"(all target sends are dry-run in v1 until an operator wires a real endpoint).")
     for s in skipped:
         print(f"  skip {s['id']}: {s['why']}")
+    if published:
+        print("publish: to put these approved stories on the site, run:  "
+              "python3 crypto_pipeline/site_build.py --ingest")
     result = {"published": published, "skipped": skipped}
     common.write_out("publish_report.json", result)
     return result

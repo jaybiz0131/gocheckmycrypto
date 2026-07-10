@@ -1,0 +1,23 @@
+{
+  "id": "example-0001",
+  "slug": "example-sec-enforcement",
+  "kind": "brief",
+  "title": "Example: SEC charges a crypto firm over an unregistered offering",
+  "dek": "This is an illustrative example of the Crypto Cronkite format. It is not a real story.",
+  "date": "2026-07-10",
+  "category": "Regulatory",
+  "verdict": "VERIFIED",
+  "example": true,
+  "author": "The Crypto Cronkite desk",
+  "body": [
+    "This page exists to show the format a finished Crypto Cronkite story takes, using an invented example. Nothing on this page is a real event.",
+    "In a real story, this is where the plain-language report goes: what a regulator did, who it names, and what it is seeking, each claim traceable to a linked primary source. The writing is straight and factual, with no hype and no urgency, and it never advises a trade.",
+    { "h2": "What it may mean" },
+    "This section explains the significance in careful, non-advisory terms. It reports what the event could signal for the market or the ecosystem, and it stops short of telling you what to do about it."
+  ],
+  "key_fact": "In a real story, the single most important verified fact sits here, in one sentence.",
+  "human_take": "This is the slot for the human editor's honest take. The AI never writes this line; a person does, on the record.",
+  "sources": [
+    { "title": "Primary source (example only, not a real link)", "url": "https://example.com/" }
+  ]
+}
