@@ -338,7 +338,7 @@ def render_article(item):
             f'<li><a href="{esc(s.get("url",""))}" rel="nofollow">{esc(s.get("title") or s.get("url"))}</a></li>'
             for s in srcs)
         src_html = f'<div class="sources"><h4>Sources</h4><ol>{lis}</ol></div>'
-    author = esc(item.get("author", "The Crypto Cronkite desk"))
+    author = esc(item.get("author", "Crypto Cronkite"))
     body = f"""<main class="wrap narrow">
   <article class="article">
     <div class="ey">{badge}{tag}<span class="dateline">{esc(dateline)}</span></div>
@@ -349,6 +349,7 @@ def render_article(item):
     <div class="prose">{render_body(item.get("body"))}</div>
     {key}
     {take}
+    <p class="signoff">{esc(SLOGAN)}</p>
     {src_html}
     <p class="nfa">{esc(NFA)}</p>
   </article>
@@ -1726,7 +1727,7 @@ def ingest():
             "title": title, "dek": destyle((payload.get("script", {}) or {}).get("summary", "")),
             "date": date, "category": "news", "verdict": rec.get("verdict"),
             "rank": rank_map.get(rec.get("id")),
-            "author": "The Crypto Cronkite desk",
+            "author": "Crypto Cronkite",
             "key_fact": (payload.get("script", {}) or {}).get("key_fact", ""),
             "human_take": art.get("human_take", ""), "body": paras, "sources": srcs,
         }

@@ -173,6 +173,8 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .sources ol{margin:0;padding-left:20px}
 .sources li{font-size:14px;margin:0 0 6px;word-break:break-word}
 .nfa{font-size:12.5px;color:var(--faint);line-height:1.55;border-top:1px solid var(--line);padding-top:16px;margin-top:26px}
+.signoff{font-family:var(--serif);font-style:italic;font-weight:500;font-size:17px;color:var(--ink);
+  margin:26px 0 0;padding-top:14px;border-top:3px double var(--rule)}
 
 /* ---- generic prose page (about/method/disclaimer) -------------------------- */
 .page{padding:34px 0 20px}
