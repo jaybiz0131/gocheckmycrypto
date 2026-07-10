@@ -108,11 +108,11 @@
       why: "Difficulty falls when machines leave the network and rises when miners plug more in." },
   ];
   var RANKS = [
-    [8, "CHART MASTER. The wizard tips his hat."],
-    [7, "Wizard's Apprentice. One rune short of mastery."],
-    [5, "Journeyman of the Tape. Solid reading."],
-    [3, "Apprentice. The 101 sections await you."],
-    [0, "Exit Liquidity. Please, for your own sake, read the Spellbook."],
+    [8, "Chart Master", "The wizard tips his hat. The tower is yours."],
+    [7, "Wizard's Apprentice", "One rune short of mastery."],
+    [5, "Journeyman of the Tape", "Solid reading. The runes are coming into focus."],
+    [3, "Apprentice", "The 101 sections await you."],
+    [0, "Exit Liquidity", "Please, for your own sake, read the Spellbook."],
   ];
   function exam() {
     var body = $("exam-body"), start = $("exam-start");
@@ -137,17 +137,24 @@
         };
       }
       function grade() {
-        var rank = RANKS.find(function (r) { return score >= r[0]; })[1];
-        var share = "I scored " + score + "/8 on the Chart Master's Exam at gocheckmycrypto.com";
+        var r = RANKS.find(function (x) { return score >= x[0]; });
+        var share = "I ranked " + r[1] + " (" + score + "/8) on the Chart Master's Exam at gocheckmycrypto.com";
+        var card = '<div class="exam-result">' +
+          '<span class="lab">The Master\'s verdict</span>' +
+          '<div class="exam-rank">' + r[1] + "</div>" +
+          '<div class="exam-score">' + score + ' / 8</div>' +
+          '<p class="pc-note" style="margin:4px 0 0">' + r[2] + "</p></div>";
         var review = missed.length
-          ? '<div class="exam-review"><p style="margin:12px 0 6px"><b>The lessons:</b></p>' +
+          ? '<div class="exam-review"><p style="margin:14px 0 8px"><b>The lessons:</b></p>' +
             missed.map(function (m) {
-              return '<p class="pc-note" style="margin:0 0 10px"><b>' + m.q + '</b><br>' +
-                'You said: ' + m.chose + '. The tape says: <b>' + m.right + '</b>. ' + m.why + '</p>';
+              return '<div class="miss"><span class="miss-q">' + m.q + "</span>" +
+                '<span class="miss-you">&#10007; You said: ' + m.chose + "</span>" +
+                '<span class="miss-ans">&#10003; The tape says: ' + m.right + "</span>" +
+                '<span class="miss-why">' + m.why + "</span></div>";
             }).join("") + "</div>"
-          : '<p class="pc-note" style="margin:12px 0 6px">A perfect reading. The Master has nothing to teach you today.</p>';
-        body.innerHTML = '<p style="margin:0 0 6px"><b>' + score + " / 8.</b> " + rank + "</p>" + review +
-          '<div class="pc-chips"><button class="cm-btn" id="exam-share">Copy your result</button>' +
+          : '<p class="pc-note" style="margin:14px 0 8px">A perfect reading. The Master has nothing to teach you today.</p>';
+        body.innerHTML = card + review +
+          '<div class="pc-chips" style="margin-top:12px"><button class="cm-btn" id="exam-share">Copy your result</button>' +
           '<button class="cm-btn" id="exam-again">Take it again</button></div>' +
           '<p class="pc-note" id="exam-note"></p>';
         $("exam-share").onclick = function () {

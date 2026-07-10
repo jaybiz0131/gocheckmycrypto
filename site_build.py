@@ -44,9 +44,9 @@ FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canon
 ORIGIN = "https://gocheckmycrypto.com"         # canonical origin for canonical/og:url/sitemap
 OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, committed at site/assets/og-image.png
 CF_ANALYTICS_TOKEN = "ee5216c8411a41d78c7c4f679406ef4b"  # Cloudflare Web Analytics site token; empty renders no beacon
-DESC = ("Crypto Cronkite is an honest crypto news desk: AI does the reading, triage, and fact-checking; "
-        "a human editor signs off on every story. Plus Whale Watch on-chain analytics. We report "
-        "events, we never advise trades.")
+DESC = ("Crypto Cronkite is an independent crypto news desk built with one intention: get the "
+        "stories right and keep the data honest. Plus the Whale Watch and Market Pulse data "
+        "desks. We report events, we never advise trades.")
 NFA = ("Not financial advice. Crypto Cronkite reports events and explains what they may mean. "
        "It never tells you to buy or sell anything. Do your own research.")
 YEAR = "2026"
@@ -140,7 +140,7 @@ def masthead(active, dateline):
 <header class="masthead"><div class="wrap">
   <div class="mh-top">
     <span class="mh-family">{esc(FAMILY)}.com</span>
-    <span class="mh-dateline">{esc(dateline)} &middot; Independent &middot; Human-approved</span>
+    <span class="mh-dateline">{esc(dateline)} &middot; Independent &middot; No hype</span>
   </div>
   <a class="mh-brand" href="/index.html" style="margin-top:8px">
     <img class="mh-mark" src="/assets/logo.svg" alt="">
@@ -230,9 +230,9 @@ def footer():
     <div class="fbrand">{esc(NAME)}</div>
     <div class="flinks">{links}</div>
   </div>
-  <p class="fnote"><b>{esc(NFA)}</b> Crypto Cronkite is an independent crypto news desk. Stories are
-    machine-assembled and machine-verified, then reviewed and approved by a human editor before
-    publication. Whale Watch shows on-chain market data, not news. Sources are linked on every story.
+  <p class="fnote"><b>{esc(NFA)}</b> Crypto Cronkite is an independent crypto news desk, built
+    with one intention: get the stories right and keep the data honest. Whale Watch and Market
+    Pulse show market data, not news. Sources are linked on every story.
     &copy; {YEAR} {esc(NAME)} &middot; <a href="{FAMILY_HUB}">A GoCheckMy site</a>.</p>
 </div></footer>"""
 
@@ -328,7 +328,7 @@ def render_article(item):
     <div class="ey">{badge}{tag}<span class="dateline">{esc(dateline)}</span></div>
     <h1>{esc(item.get("title"))}</h1>
     {f'<p class="dek">{esc(item["dek"])}</p>' if item.get("dek") else ""}
-    <div class="byline">By {author} &nbsp;&middot;&nbsp; Reviewed and approved by a human editor</div>
+    <div class="byline">By {author}</div>
     {ribbon}
     <div class="prose">{render_body(item.get("body"))}</div>
     {key}

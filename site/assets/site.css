@@ -254,6 +254,22 @@ body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(244,165,42,.3)}
   padding:9px 18px;cursor:pointer;transition:border-color .15s ease,background .15s ease}
 .cm-btn:hover{border-color:var(--rule);background:rgba(63,200,242,.08)}
 .cm-btn:disabled{opacity:.45;cursor:default}
+.exam-result{text-align:center;border:1px solid var(--link);border-radius:10px;
+  padding:20px 18px 16px;margin:4px 0 6px;
+  background:radial-gradient(120% 160% at 50% 0%, rgba(63,200,242,.10) 0%, transparent 65%);
+  box-shadow:0 0 34px -12px rgba(63,200,242,.35)}
+.exam-result .lab{font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint);font-weight:700}
+.exam-rank{font-family:var(--serif);font-weight:600;font-size:clamp(24px,4vw,34px);
+  line-height:1.1;margin:6px 0 2px}
+.exam-score{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--link)}
+.miss{display:block;border:1px solid var(--line);border-left:3px solid var(--rule);
+  border-radius:6px;padding:10px 14px;margin:0 0 10px}
+.miss span{display:block;font-size:13.5px;line-height:1.5}
+.miss .miss-q{font-weight:700;color:var(--ink);margin-bottom:3px}
+.miss .miss-you{color:var(--rule)}
+.miss .miss-ans{color:var(--verified-fg)}
+.miss .miss-why{color:var(--muted);font-size:12.5px;margin-top:2px}
 .mp-hero img{box-shadow:0 0 44px rgba(63,200,242,.22),0 0 80px -30px rgba(244,165,42,.35),
   0 18px 50px -20px rgba(0,0,0,.7)}
 .chart{width:100%;height:auto;display:block}
