@@ -172,6 +172,22 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .page ul,.page ol{padding-left:22px}
 .callout{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin:22px 0}
 
+/* ---- whale watch DARK sub-brand theme (matches the Check My Crypto logo) ---- */
+body.ww-dark{
+  --paper:#091625; --card:#0f2437; --ink:#eaf6ff; --muted:#a6c4d8; --faint:#6e8ba1;
+  --line:#1d374d; --rule:#f4a52a; --link:#5fcbef; --link-hover:#9fe0fb;
+  --verified-fg:#3fc8f2; --verified-bg:#0c2c3f; --review-fg:#f2c368; --review-bg:#33280f;
+  --tag-bg:#16324a; --tag-fg:#a9cfe6; --shadow:0 20px 50px -30px rgba(0,0,0,.8);
+  background:#091625;
+}
+body.ww-dark .lead .dek,body.ww-dark .page .lede{color:var(--muted)}
+.ww-hero{background:radial-gradient(120% 150% at 50% 0%, #123249 0%, #091625 62%);border-bottom:1px solid var(--line)}
+.ww-heroinner{max-width:780px;margin:0 auto;padding:22px 16px 26px;text-align:center}
+.ww-hero img{width:100%;max-width:680px;height:auto;border-radius:14px;box-shadow:0 0 44px rgba(63,200,242,.24),0 18px 50px -20px rgba(0,0,0,.7)}
+body.ww-dark .chartcard{box-shadow:inset 0 0 0 1px rgba(63,200,242,.06),0 0 40px -18px rgba(63,200,242,.3)}
+body.ww-dark .stat .big.up{text-shadow:0 0 22px rgba(63,200,242,.35)}
+body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(244,165,42,.3)}
+
 /* ---- whale watch / flows --------------------------------------------------- */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:8px 0 6px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}

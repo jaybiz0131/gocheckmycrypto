@@ -210,7 +210,7 @@ def footer():
 </div></footer>"""
 
 
-def shell(title, desc, active, body, dateline):
+def shell(title, desc, active, body, dateline, body_class=""):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">')
@@ -229,7 +229,7 @@ def shell(title, desc, active, body, dateline):
 {fonts}
 <link rel="stylesheet" href="/assets/site.css">
 </head>
-<body>
+<body class="{esc(body_class)}">
 {masthead(active, dateline)}
 {body}
 {footer()}
@@ -570,11 +570,17 @@ def flows_chart_svg(by_asset):
     return "".join(parts)
 
 
+def ww_hero():
+    return ('<section class="ww-hero"><div class="ww-heroinner">'
+            '<img src="/assets/whale-watch-logo.jpg" alt="Check My Crypto - Whale Watch: market pulse, on-chain insights">'
+            '</div></section>')
+
+
 def render_flows(flows, dateline):
     if not flows or not flows.get("by_asset") and not (flows or {}).get("top_inflows"):
-        body = """<main class="wrap"><section class="page">
-  <span class="kicker">Whale Watch</span>
-  <h1>Follow the money</h1>
+        body = ww_hero() + """<main class="wrap"><section class="page">
+  <span class="kicker">Follow the money</span>
+  <h1>Where the whales are moving</h1>
   <p class="lede">This board tracks where whales are moving large amounts of crypto: onto
      exchanges (which can precede selling) or off exchanges into self-custody (accumulation).</p>
   <div class="empty"><span class="k">Not connected yet</span>
@@ -583,7 +589,7 @@ def render_flows(flows, dateline):
     crypto_pipeline/fixtures/whale_sample.json</code>.</p></div>
 </section></main>"""
         return shell(f"Whale Watch - {NAME}", "Follow the money: whale exchange flows.",
-                     "Whale Watch", body, dateline)
+                     "Whale Watch", body, dateline, body_class="ww-dark")
 
     v = flows.get("volatile", {})
     s = flows.get("stablecoins", {})
@@ -602,9 +608,9 @@ def render_flows(flows, dateline):
         f'<td class="mut">from {esc(m.get("from","unknown wallet"))}</td></tr>'
         for m in moves)
     win = flows.get("window_hours", 24)
-    body = f"""<main class="wrap"><section class="page">
-  <span class="kicker">Whale Watch</span>
-  <h1>Follow the money</h1>
+    body = ww_hero() + f"""<main class="wrap"><section class="page">
+  <span class="kicker">Follow the money</span>
+  <h1>Where the whales are moving</h1>
   <p class="lede">Not a scrolling feed of every transfer, the aggregate. Where are whales moving
      large amounts on net over the last {win} hours: onto exchanges (which can precede selling)
      or off into self-custody (accumulation)?</p>
@@ -637,7 +643,7 @@ def render_flows(flows, dateline):
   <p class="nfa">{esc(flows.get("note",""))} {esc(NFA)}</p>
 </section></main>"""
     return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",
-                 "Whale Watch", body, dateline)
+                 "Whale Watch", body, dateline, body_class="ww-dark")
 
 
 def render_404(dateline):
