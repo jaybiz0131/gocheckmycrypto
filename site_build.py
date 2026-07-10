@@ -131,7 +131,10 @@ def load_content():
             c.setdefault("slug", slugify(c.get("title", "")))
             items.append(c)
     # newest first by date then id
-    items.sort(key=lambda c: (c.get("date", ""), c.get("id", "")), reverse=True)
+    # newest date first; within a date, the editor's rank (1 = lead); unranked (intro,
+    # example) after the day's ranked stories
+    items.sort(key=lambda c: (c.get("date", ""), -(c.get("rank") or 999), c.get("id", "")),
+               reverse=True)
     return items
 
 
@@ -489,7 +492,7 @@ def render_home(items, flows, pulse, cm, dateline):
      desks link to each other, and every number comes with an explanation in plain
      language.</p>
 </section></main>""" + newsletter()
-    return shell(f"{NAME} - {SLOGAN}", DESC, "Home", body, dateline, path="/")
+    return shell(f"{FAMILY} - Crypto, checked.", DESC, "Home", body, dateline, path="/")
 
 
 def flow_teaser():
@@ -1697,6 +1700,13 @@ def ingest():
     except Exception:
         pass
     os.makedirs(CONTENT, exist_ok=True)
+    # editor rank (1 = lead) so the day's page keeps the desk's editorial order
+    rank_map = {}
+    try:
+        ranked = json.load(open(os.path.join(HERE, "out", "editor.json"), encoding="utf-8"))["ranked"]
+        rank_map = {r["id"]: i + 1 for i, r in enumerate(ranked)}
+    except Exception:
+        pass
     n = 0
     for fn in sorted(os.listdir(PUBLISHED)):
         if not fn.endswith(".json"):
@@ -1715,6 +1725,7 @@ def ingest():
             "id": rec.get("id"), "slug": slug, "kind": "brief",
             "title": title, "dek": destyle((payload.get("script", {}) or {}).get("summary", "")),
             "date": date, "category": "news", "verdict": rec.get("verdict"),
+            "rank": rank_map.get(rec.get("id")),
             "author": "The Crypto Cronkite desk",
             "key_fact": (payload.get("script", {}) or {}).get("key_fact", ""),
             "human_take": art.get("human_take", ""), "body": paras, "sources": srcs,
