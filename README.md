@@ -111,6 +111,16 @@ human gate, but it is clearly labelled as such. Data comes KEYLESS from Whale Al
 public alert archive (see DEVIATIONS D7) and refreshes at every Netlify build. Refresh locally:
 `python3 whale_flows.py` (or `--fixture fixtures/whale_sample.json` to preview).
 
+**Market Pulse (the data desk).** `market_pulse.py` fetches four keyless public sources at
+build time (Fear & Greed from alternative.me, daily closes from CoinGecko, stablecoin float
+from DefiLlama, network vitals from mempool.space) and computes RSI-14, MACD, 50/200-day
+averages, 12-month-high distance, and 30-day realized volatility with standard formulas in
+the standard library. The site renders it as the "Market Pulse" page: a sentiment gauge,
+per-asset posture cards, the stablecoin dry-powder trend, and a "Pulse 101" section that
+teaches every indicator in plain language. Each source is independently fail-open and, like
+Whale Watch, it refreshes at every Netlify build (see DEVIATIONS D8). Market data, not news:
+it never touches the human gate and the page says so.
+
 Content flow: a story is published only after human approval (`publish.py`). `--ingest`
 promotes those approved payloads (`out/published/*.json`) into committed content
 (`site/content/*.json`), which the build renders. Committed seed content is an honest launch

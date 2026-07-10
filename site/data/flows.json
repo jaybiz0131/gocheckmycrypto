@@ -84,5 +84,72 @@
       "stable": false
     }
   ],
-  "note": "Data: Whale Alert public alert archive; exchanges identified by name, and only the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is buying power arriving, so they are scored separately. Market data, not news, not advice."
+  "note": "Data: Whale Alert public alert archive; exchanges identified by name, and only the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is buying power arriving, so they are scored separately. Market data, not news, not advice.",
+  "history": [
+    {
+      "week_ending": "Apr 17",
+      "net_usd": -371940914,
+      "moves": 95
+    },
+    {
+      "week_ending": "Apr 24",
+      "net_usd": -3450374549,
+      "moves": 106
+    },
+    {
+      "week_ending": "May 01",
+      "net_usd": -1778827270,
+      "moves": 69
+    },
+    {
+      "week_ending": "May 08",
+      "net_usd": -76781097,
+      "moves": 80
+    },
+    {
+      "week_ending": "May 15",
+      "net_usd": -885757553,
+      "moves": 68
+    },
+    {
+      "week_ending": "May 22",
+      "net_usd": 496719005,
+      "moves": 75
+    },
+    {
+      "week_ending": "May 29",
+      "net_usd": 718885629,
+      "moves": 80
+    },
+    {
+      "week_ending": "Jun 05",
+      "net_usd": 3206022857,
+      "moves": 128
+    },
+    {
+      "week_ending": "Jun 12",
+      "net_usd": -299815303,
+      "moves": 75
+    },
+    {
+      "week_ending": "Jun 19",
+      "net_usd": -451146396,
+      "moves": 25
+    },
+    {
+      "week_ending": "Jun 26",
+      "net_usd": 997414903,
+      "moves": 68
+    },
+    {
+      "week_ending": "Jul 03",
+      "net_usd": 1947149365,
+      "moves": 104
+    },
+    {
+      "week_ending": "Jul 10",
+      "net_usd": 791454965,
+      "moves": 52
+    }
+  ]
 }

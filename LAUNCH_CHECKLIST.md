@@ -107,6 +107,11 @@ Note: I could not live-test the Whale Alert and X adapters here (no keys), so tr
 with a key as a smoke test and check the intake log. The market strip and CryptoPanic follow the
 same shape as the RSS sources, which are proven live.
 
+- **Market Pulse** - NO KEY NEEDED. The data desk page (sentiment gauge, RSI/MACD posture,
+  stablecoin float, Bitcoin network) runs keyless off alternative.me, CoinGecko, DefiLlama,
+  and mempool.space at every build, refreshed daily by the same build hook as Whale Watch.
+  Nothing to set up; each source fails open if it hiccups.
+
 Other switches:
 
 - **Social auto-post / real newsletter send / video script handoff.** `publish.py` has adapter

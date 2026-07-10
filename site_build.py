@@ -53,7 +53,8 @@ YEAR = "2026"
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
 
-NAV = [("Home", "/index.html"), ("Whale Watch", "/flows.html"), ("Archive", "/archive.html"),
+NAV = [("Home", "/index.html"), ("Whale Watch", "/flows.html"),
+       ("Market Pulse", "/pulse.html"), ("Archive", "/archive.html"),
        ("How we work", "/method.html"), ("About", "/about.html"),
        ("Standards", "/standards.html")]
 
@@ -95,6 +96,13 @@ def fmt_usd(n):
 
 def load_flows():
     path = os.path.join(SITE, "data", "flows.json")
+    if os.path.exists(path):
+        return json.load(open(path, encoding="utf-8"))
+    return None
+
+
+def load_pulse():
+    path = os.path.join(SITE, "data", "pulse.json")
     if os.path.exists(path):
         return json.load(open(path, encoding="utf-8"))
     return None
@@ -675,6 +683,12 @@ def render_flows(flows, dateline):
   <div class="sec-head" style="margin-top:26px"><h2>Net exchange flow by asset</h2><span class="bar"></span></div>
   <div class="chartcard">{flows_chart_svg(flows.get("by_asset", []))}</div>
 
+  {f'''<div class="sec-head" style="margin-top:26px"><h2>The 13-week trend</h2><span class="bar"></span></div>
+  <div class="chartcard">{history_bars_svg(flows.get("history"))}</div>
+  <p class="pc-note" style="margin-top:8px">Weekly net exchange flow for volatile assets.
+  Bars above the line are net withdrawals (accumulation); bars below are net deposits
+  (potential sell pressure). Hover a bar for the week's numbers.</p>''' if flows.get("history") else ""}
+
   <div class="sec-head" style="margin-top:26px"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
   <div class="movetable"><table><tbody>{move_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
 
@@ -683,11 +697,11 @@ def render_flows(flows, dateline):
     <div class="learn"><span class="lab sell">Onto exchanges</span>
       <p>To sell a large amount of crypto, a whale usually has to move it onto an exchange first.
       So when BTC or ETH flows heavily <b>onto</b> exchanges on net, it can mean big holders are
-      getting into position to sell. That is the red side of the chart.</p></div>
+      getting into position to sell. That is the sell-pressure side of the chart.</p></div>
     <div class="learn"><span class="lab buy">Off exchanges</span>
       <p>Coins withdrawn from an exchange usually head to self-custody: wallets the holder
       controls directly, often cold storage. Money tends to go there to sit, so net
-      <b>outflow</b> historically reads as accumulation. That is the green side.</p></div>
+      <b>outflow</b> historically reads as accumulation. That is the other side.</p></div>
     <div class="learn"><span class="lab">Stablecoins flip the logic</span>
       <p>Stablecoins like USDT and USDC are crypto's dry powder. When they flood <b>onto</b>
       exchanges, buyers may be staging money for purchases; when they leave, that buying power
@@ -703,6 +717,232 @@ def render_flows(flows, dateline):
 </section></main>"""
     return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",
                  "Whale Watch", body, dateline, body_class="ww-dark", path="/flows.html")
+
+
+# ---- market pulse -------------------------------------------------------------
+
+def spark_svg(values, w=230, h=44, cls="spark"):
+    """Tiny inline sparkline; server-rendered, no JS."""
+    vals = [float(v) for v in (values or []) if v is not None]
+    if len(vals) < 2:
+        return ""
+    lo, hi = min(vals), max(vals)
+    rng = (hi - lo) or 1.0
+    pts = []
+    for i, v in enumerate(vals):
+        x = 3 + i * (w - 6) / (len(vals) - 1)
+        y = 3 + (h - 6) * (1 - (v - lo) / rng)
+        pts.append(f"{x:.1f},{y:.1f}")
+    last = pts[-1].split(",")
+    return (f'<svg class="{cls}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" '
+            f'preserveAspectRatio="none" role="img" aria-hidden="true">'
+            f'<polyline points="{" ".join(pts)}" fill="none" stroke="currentColor" '
+            f'stroke-width="1.8" stroke-linejoin="round"/>'
+            f'<circle cx="{last[0]}" cy="{last[1]}" r="2.6" fill="currentColor"/></svg>')
+
+
+FNG_BANDS = [(0, 25, "#C0392B", "Extreme fear"), (25, 45, "#D9822B", "Fear"),
+             (45, 55, "#9AA0A6", "Neutral"), (55, 75, "#6FA26B", "Greed"),
+             (75, 100, "#2E7D4F", "Extreme greed")]
+
+
+def fng_gauge_svg(value):
+    """Semicircular sentiment gauge, 0 (extreme fear) to 100 (extreme greed)."""
+    import math
+    cx, cy, r = 130, 122, 96
+
+    def pt(v, radius):
+        theta = math.pi * (1 - v / 100.0)
+        return cx + radius * math.cos(theta), cy - radius * math.sin(theta)
+
+    parts = [f'<svg class="gauge" viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg" '
+             f'role="img" aria-label="Fear and greed gauge reading {value}">']
+    for a, b, color, _ in FNG_BANDS:
+        x0, y0 = pt(a + 0.6, r)
+        x1, y1 = pt(b - 0.6, r)
+        parts.append(f'<path d="M {x0:.1f} {y0:.1f} A {r} {r} 0 0 1 {x1:.1f} {y1:.1f}" '
+                     f'fill="none" stroke="{color}" stroke-width="15" stroke-linecap="butt"/>')
+    nx, ny = pt(max(2, min(98, value)), r - 22)
+    parts.append(f'<line x1="{cx}" y1="{cy}" x2="{nx:.1f}" y2="{ny:.1f}" '
+                 f'stroke="currentColor" stroke-width="3" stroke-linecap="round"/>')
+    parts.append(f'<circle cx="{cx}" cy="{cy}" r="5.5" fill="currentColor"/>')
+    parts.append(f'<text x="{cx}" y="{cy - 26}" text-anchor="middle" class="gauge-num">{value}</text>')
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def history_bars_svg(history):
+    """13-week net-flow bar chart for the Whale Watch page. Green up = net off exchanges."""
+    if not history:
+        return ""
+    w, h = 660, 190
+    mid = h / 2 - 8
+    max_abs = max((abs(x.get("net_usd", 0)) for x in history), default=0) or 1
+    n = len(history)
+    slot = (w - 30) / n
+    bw = min(34, slot * 0.62)
+    parts = [f'<svg viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" role="img" '
+             f'aria-label="Weekly net exchange flow, last {n} weeks">']
+    parts.append(f'<line x1="16" y1="{mid}" x2="{w-14}" y2="{mid}" stroke="var(--line)" stroke-width="1"/>')
+    for i, wk in enumerate(history):
+        net = wk.get("net_usd", 0)
+        x = 22 + i * slot + (slot - bw) / 2
+        bar = (abs(net) / max_abs) * (mid - 26)
+        color = "var(--verified-fg)" if net >= 0 else "var(--rule)"
+        y = mid - bar if net >= 0 else mid
+        parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" height="{max(bar, 1):.1f}" '
+                     f'rx="3" fill="{color}"><title>week ending {esc(wk.get("week_ending",""))}: '
+                     f'{esc(fmt_usd(net))} net, {wk.get("moves", 0)} moves</title></rect>')
+        if i % 2 == 0:
+            parts.append(f'<text x="{x + bw/2:.1f}" y="{h - 6}" text-anchor="middle" '
+                         f'class="axis">{esc(wk.get("week_ending", ""))}</text>')
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def _chip(text, cls=""):
+    return f'<span class="chip {cls}">{esc(text)}</span>'
+
+
+def _posture_card(a):
+    rsi = a.get("rsi14")
+    if rsi is None:
+        rsi_chip = ""
+    elif rsi >= 70:
+        rsi_chip = _chip(f"RSI {rsi:.0f} hot", "chip-down")
+    elif rsi <= 30:
+        rsi_chip = _chip(f"RSI {rsi:.0f} cold", "chip-cool")
+    else:
+        rsi_chip = _chip(f"RSI {rsi:.0f} neutral")
+    mom = (_chip("Momentum building", "chip-up") if a.get("macd_above_signal")
+           else _chip("Momentum fading", "chip-down"))
+    trend = (_chip("Above 200-day", "chip-up") if a.get("above_sma200")
+             else _chip("Below 200-day", "chip-down"))
+    cross = (_chip("Golden cross", "chip-up") if a.get("golden_cross")
+             else _chip("Death cross", "chip-down"))
+    return f"""<div class="pulse-card">
+  <div class="pc-head"><span class="pc-sym">{esc(a.get("symbol",""))}</span>
+    <span class="pc-price">${a.get("price", 0):,.0f}</span></div>
+  <div class="pc-spark">{spark_svg(a.get("spark"))}</div>
+  <div class="pc-chips">{rsi_chip}{mom}{trend}{cross}
+    {_chip(f'{a.get("pct_from_high_12m", 0):+.0f}% vs 12-mo high')}
+    {_chip(f'volatility {a.get("vol30_pct", 0):.0f}%/yr')}</div>
+</div>"""
+
+
+def render_pulse(pulse, dateline):
+    desc = ("Market Pulse: crowd sentiment, price posture (RSI, MACD, moving averages), "
+            "stablecoin dry powder, and Bitcoin network vitals, with plain-language "
+            "explanations. Market data, not advice.")
+    if not pulse:
+        body = """<main class="wrap narrow"><section class="page">
+  <span class="kicker">Market data desk</span>
+  <h1>Market Pulse</h1>
+  <p class="lede">Sentiment, price posture, and dry powder, explained honestly.</p>
+  <div class="empty"><span class="k">No data yet</span>
+    <p style="margin:.6em 0 0">The pulse refreshes from free public data at each site build.
+    Generate it locally with <code>python3 market_pulse.py</code>.</p></div>
+</section></main>"""
+        return shell(f"Market Pulse - {NAME}", desc, "Market Pulse", body, dateline, path="/pulse.html")
+
+    fng = pulse.get("fng") or {}
+    assets = pulse.get("assets") or []
+    stables = pulse.get("stables") or {}
+    network = pulse.get("network") or {}
+
+    fng_html = ""
+    if fng:
+        label = fng.get("label", "")
+        band_color = next((c for a, b, c, _ in FNG_BANDS if a <= fng.get("value", 50) < b or
+                           (b == 100 and fng.get("value") == 100)), "#9AA0A6")
+        fng_html = f"""<div class="sec-head" style="margin-top:8px"><h2>Crowd sentiment</h2><span class="bar"></span></div>
+  <div class="pulse-grid2">
+    <div class="pulse-card center">{fng_gauge_svg(fng.get("value", 50))}
+      <div class="gauge-label" style="color:{band_color}">{esc(label)}</div>
+      <p class="pc-note">Fear &amp; Greed Index, 0 to 100</p></div>
+    <div class="pulse-card"><span class="lab">Last 90 days</span>
+      <div class="pc-spark tall">{spark_svg(fng.get("history"), w=300, h=84)}</div>
+      <p class="pc-note">The index blends volatility, volume, social chatter, and Bitcoin
+      dominance into one crowd-mood number. It measures emotion, not value.</p></div>
+  </div>"""
+
+    assets_html = ""
+    if assets:
+        cards = "".join(_posture_card(a) for a in assets)
+        assets_html = f"""<div class="sec-head" style="margin-top:26px"><h2>Price posture</h2><span class="bar"></span></div>
+  <div class="pulse-grid3">{cards}</div>
+  <p class="pc-note" style="margin-top:8px">Standard formulas on daily closes (RSI-14,
+  MACD 12/26/9, 50- and 200-day averages, 30-day realized volatility). The 90-day price line
+  is drawn behind each reading. What these mean is explained below.</p>"""
+
+    stables_html = ""
+    if stables:
+        chg = stables.get("change_30d_pct", 0)
+        chg_chip = _chip(f"{chg:+.1f}% in 30 days", "chip-up" if chg >= 0 else "chip-down")
+        stables_html = f"""<div class="sec-head" style="margin-top:26px"><h2>Stablecoin dry powder</h2><span class="bar"></span></div>
+  <div class="pulse-grid2">
+    <div class="pulse-card"><span class="lab">Total USD-pegged float</span>
+      <span class="pc-big">{esc(fmt_usd(stables.get("total_usd", 0)))}</span>
+      <div class="pc-chips">{chg_chip}</div>
+      <p class="pc-note">All dollars parked in stablecoins across chains, per DefiLlama.</p></div>
+    <div class="pulse-card"><span class="lab">One-year trend</span>
+      <div class="pc-spark tall">{spark_svg(stables.get("spark"), w=300, h=84)}</div>
+      <p class="pc-note">A growing float is money staying in crypto, staged to buy. A
+      shrinking float is money leaving the arena entirely.</p></div>
+  </div>"""
+
+    network_html = ""
+    if network:
+        diff = network.get("difficulty_change_pct", 0)
+        network_html = f"""<div class="sec-head" style="margin-top:26px"><h2>Bitcoin network</h2><span class="bar"></span></div>
+  <div class="pulse-card"><div class="pc-chips" style="margin-top:2px">
+    {_chip(f'next-block fee {network.get("fastest_fee", "?")} sat/vB')}
+    {_chip(f'1-hour fee {network.get("hour_fee", "?")} sat/vB')}
+    {_chip(f'difficulty est. {diff:+.1f}%', "chip-up" if diff >= 0 else "chip-down")}
+    {_chip(f'{network.get("retarget_blocks", "?")} blocks to retarget')}</div>
+  <p class="pc-note">Low fees mean a quiet chain; rising difficulty means miners are adding
+  machines (long-term confidence), falling difficulty means some are switching off.</p></div>"""
+
+    body = f"""<main class="wrap"><section class="page">
+  <span class="kicker">Market data desk</span>
+  <h1>Market Pulse</h1>
+  <p class="lede">The market's vital signs: crowd sentiment, price posture, and dry powder,
+     computed with standard formulas from free public data and explained in plain language.</p>
+  {fng_html}
+  {assets_html}
+  {stables_html}
+  {network_html}
+
+  <div class="sec-head" style="margin-top:30px"><h2>Pulse 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab">Fear &amp; Greed</span>
+      <p>A 0-100 crowd sentiment score. Extreme fear has historically shown up near local
+      bottoms and extreme greed near local tops, because crowds overreact in both directions.
+      It tells you the mood, never the value.</p></div>
+    <div class="learn"><span class="lab">RSI</span>
+      <p>The Relative Strength Index compares recent gains to recent losses on a 0-100 scale.
+      Above 70 reads as <b>hot</b> (overbought), below 30 as <b>cold</b> (oversold). Extremes
+      often cool off, but a strong trend can stay hot for weeks.</p></div>
+    <div class="learn"><span class="lab">Momentum (MACD)</span>
+      <p>MACD compares a fast moving average to a slow one. When the fast line sits above its
+      signal line, momentum is <b>building</b>; below it, momentum is <b>fading</b>. It shows
+      which way the wind is blowing, not how long it will blow.</p></div>
+    <div class="learn"><span class="lab">Trend (moving averages)</span>
+      <p>The 200-day average is the classic bull/bear line: price above it reads as an uptrend.
+      When the 50-day crosses above the 200-day, that is a <b>golden cross</b> and trend
+      followers take notice. Crossing below is the bearish twin, the <b>death cross</b>.</p></div>
+    <div class="learn"><span class="lab">Stablecoin float</span>
+      <p>Stablecoins are dollars that already made the jump into crypto. When the total float
+      grows, money is staging to buy. When it shrinks, money is going back to the exit. It is
+      the market's fuel gauge.</p></div>
+    <div class="learn"><span class="lab">What this page is not</span>
+      <p>Indicators describe the recent past; none of them predict. We publish them with fixed,
+      standard formulas so you can learn to read them yourself, and we will never turn them
+      into a buy or sell call. That is the deal.</p></div>
+  </div>
+  <p class="nfa">{esc(pulse.get("note", ""))} {esc(NFA)}</p>
+</section></main>"""
+    return shell(f"Market Pulse - {NAME}", desc, "Market Pulse", body, dateline, path="/pulse.html")
 
 
 def render_404(dateline):
@@ -802,6 +1042,7 @@ def build():
 
     w("index.html", render_index(items, dateline))
     w("flows.html", render_flows(load_flows(), dateline))
+    w("pulse.html", render_pulse(load_pulse(), dateline))
     w("archive.html", render_archive(items, dateline))
     w("method.html", render_method(items, dateline))
     w("about.html", render_about(dateline))
@@ -817,7 +1058,8 @@ def build():
         open(os.path.join(PUBLISH, "og-image.png"), "wb").write(open(og_src, "rb").read())
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
-    locs = ["/", "/flows.html", "/archive.html", "/method.html", "/about.html", "/standards.html"]
+    locs = ["/", "/flows.html", "/pulse.html", "/archive.html", "/method.html", "/about.html",
+            "/standards.html"]
     locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
     urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)
     w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'

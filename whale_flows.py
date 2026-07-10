@@ -139,14 +139,47 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
     }
 
 
-def load_from_archive(cfg, window_hours):
+HISTORY_WEEKS = 13
+
+
+def load_from_archive(cfg, window_hours, max_decompressed_bytes=8_000_000):
     """Pull the window's transfers from Whale Alert's FREE public alert archive (keyless;
     see common.whale_archive_transactions and DEVIATIONS D7). Only transfers count as flow
     signal; mints/burns/freezes are not exchange flows."""
     wa = cfg["sources"].get("whale_alert", {})
     url = wa.get("archive_url", common.WHALE_ARCHIVE_URL)
-    txns = common.whale_archive_transactions(window_hours, archive_url=url)
+    txns = common.whale_archive_transactions(window_hours, archive_url=url,
+                                             max_decompressed_bytes=max_decompressed_bytes)
     return [t for t in txns if t.get("transaction_type") == "transfer"]
+
+
+def weekly_history(txns, weeks=HISTORY_WEEKS, now=None):
+    """Roll exchange-relevant transfers into 7-day buckets (oldest -> newest): net volatile
+    flow (the accumulation/sell-pressure signal, same scoring as the board) plus the count
+    of exchange-relevant moves. The trend view for 'have whales been accumulating lately'."""
+    import time as _time
+    now = now or _time.time()
+    buckets = [{"net_usd": 0.0, "moves": 0} for _ in range(weeks)]
+    for t in txns:
+        age = max(0.0, now - float(t.get("timestamp") or 0))
+        idx = int(age // (7 * 24 * 3600))
+        if idx >= weeks:
+            continue
+        kind = classify(t)
+        if kind in ("internal", "wallet"):
+            continue
+        b = buckets[idx]
+        b["moves"] += 1
+        if (t.get("symbol") or "").upper() in STABLES:
+            continue  # stables are scored separately on the board; the trend is volatile-only
+        usd = float(t.get("amount_usd") or 0)
+        b["net_usd"] += usd if kind == "outflow" else -usd
+    out = []
+    for i in range(weeks - 1, -1, -1):
+        end = datetime.fromtimestamp(now - i * 7 * 24 * 3600, timezone.utc).strftime("%b %d")
+        out.append({"week_ending": end, "net_usd": round(buckets[i]["net_usd"]),
+                    "moves": buckets[i]["moves"]})
+    return out
 
 
 def run(fixture=None, window=None, example=False):
@@ -156,12 +189,20 @@ def run(fixture=None, window=None, example=False):
     top_moves = cfg.get("whale_flows", {}).get("top_moves", 6)
 
     date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    history = None
     if fixture:
         txns = json.load(open(fixture, encoding="utf-8")).get("transactions", [])
         example = True  # a fixture-derived board is always illustrative
     else:
         try:
-            txns = load_from_archive(cfg, window_hours)
+            # One archive read covers both views: the last HISTORY_WEEKS of transfers feed
+            # the weekly trend, and the freshest window_hours slice feeds the board.
+            import time as _time
+            txns_hist = load_from_archive(cfg, HISTORY_WEEKS * 7 * 24,
+                                          max_decompressed_bytes=32_000_000)
+            cutoff = _time.time() - window_hours * 3600
+            txns = [t for t in txns_hist if float(t.get("timestamp") or 0) >= cutoff]
+            history = weekly_history(txns_hist)
         except Exception as e:
             # Fail-open for the BOARD only: keep the committed snapshot rather than fail a
             # deploy over a market-data hiccup. The news pipeline's gates are unaffected.
@@ -170,6 +211,8 @@ def run(fixture=None, window=None, example=False):
             return 0
 
     result = analyze(txns, window_hours, top_assets, top_moves, example=example, date=date)
+    if history:
+        result["history"] = history
     common.write_out(os.path.basename(OUT), result)
     os.makedirs(os.path.dirname(SITE_DATA), exist_ok=True)
     json.dump(result, open(SITE_DATA, "w", encoding="utf-8"), indent=2)

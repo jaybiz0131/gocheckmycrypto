@@ -94,6 +94,19 @@ a fetch failure as a documented skip. Attribution and links to Whale Alert are o
 Live-tested 2026-07-10: 21 archive alerts in 24h -> 11 exchange-relevant transfers, real
 board committed. This resolves and replaces the old D5 concern for Whale Alert.
 
+## D8 - Market Pulse: third-party market data fetched at build time (2026-07-10)
+
+The Market Pulse page (sentiment gauge, RSI/MACD/moving-average posture, stablecoin float,
+Bitcoin network vitals) extends the D6 posture: `market_pulse.py` fetches four keyless
+public sources at Netlify build time (alternative.me, CoinGecko, DefiLlama, mempool.space)
+and computes the indicators with standard formulas in the standard library. Each section is
+independently fail-open: a failed source is warned and omitted, a fully failed run keeps the
+committed snapshot, and a deploy never fails on market data. The same honesty rules as Whale
+Watch apply: sources are named on the page, every indicator gets a plain-language education
+card, and none of it ever becomes a buy or sell call. The Whale Watch board also gained a
+13-week net-flow history computed from the same public archive read (D7). Market data never
+touches the editorial pipeline or the human gate.
+
 ## D5 - X source adapter is wired but not live-tested
 
 X/Twitter remains a keyless-skip source (absence is a documented skip, never a failure) and

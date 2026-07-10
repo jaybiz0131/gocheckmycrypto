@@ -205,6 +205,34 @@ body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(244,165,42,.3)}
 .stat .big.down{color:var(--rule)}
 .stat .sub{font-family:var(--mono);font-size:11px;color:var(--muted)}
 .chartcard{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 16px}
+/* ---- market pulse ------------------------------------------------------------ */
+.pulse-grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin:8px 0 6px}
+.pulse-grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:8px 0 6px}
+.pulse-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.pulse-card.center{text-align:center}
+.pulse-card .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);display:block;margin-bottom:6px;font-weight:700}
+.pc-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.pc-sym{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.06em}
+.pc-price{font-family:var(--serif);font-weight:600;font-size:22px}
+.pc-big{font-family:var(--serif);font-weight:600;font-size:34px;line-height:1.1;display:block;margin:2px 0 8px}
+.pc-spark{color:var(--link);margin:4px 0 8px}
+.pc-spark svg{width:100%;height:44px;display:block}
+.pc-spark.tall svg{height:84px}
+.pc-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 2px}
+.chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;padding:4px 9px;border-radius:999px;
+  border:1px solid var(--line);color:var(--muted);background:transparent;white-space:nowrap}
+.chip-up{color:var(--verified-fg);border-color:var(--verified-fg)}
+.chip-down{color:var(--rule);border-color:var(--rule)}
+.chip-cool{color:var(--link);border-color:var(--link)}
+.pc-note{font-size:13.5px;line-height:1.5;color:var(--muted);margin:6px 0 0}
+.gauge{width:min(260px,100%);height:auto;color:var(--ink)}
+.gauge-num{font:600 40px var(--serif);fill:var(--ink)}
+.gauge-label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;margin-top:4px}
+.axis{font:9.5px var(--mono);fill:var(--faint)}
+.chartcard svg{width:100%;height:auto;display:block}
+
 .learn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin:8px 0 6px}
 .learn{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
 .learn .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
