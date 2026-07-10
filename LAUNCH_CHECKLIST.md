@@ -77,10 +77,13 @@ clean skip, never a failure):
 - **CryptoPanic** (`CRYPTOPANIC_TOKEN`, free) - widens the intake to hundreds of sources plus
   vote/sentiment. Best reach for the least effort. Turn this on first.
 - **Whale Alert** (`WHALE_ALERT_API_KEY`) - large on-chain transfers (whale moves). Uses Whale
-  Alert's own API, which is cleaner than scraping @whale_alert on X. Items are capped
-  (`config.json -> whale_alert.max_items`) so on-chain data cannot flood the brief, and the
-  editor ranks them as on-chain events with context. Their free tier is limited; large-transfer
-  history needs a paid plan.
+  Alert's own API, which is cleaner than scraping @whale_alert on X. Feeds two things: (1) capped
+  individual items into the brief (`config.json -> whale_alert.max_items`), and (2) the
+  **Whale Watch board** (`whale_flows.py`) that classifies flows onto vs off exchanges and shows
+  net flow per asset as a chart. Refresh the board with `python3 crypto_pipeline/whale_flows.py`,
+  then commit `crypto_pipeline/site/data/flows.json` and push (or re-drag the `publish/` folder).
+  Their free tier is limited; large-transfer history needs a paid plan. The board currently ships
+  an EXAMPLE snapshot so the page renders before you connect a key.
 - **X / Twitter** (`X_BEARER_TOKEN`) - news breaks here first, but X's API is paid (about $100/mo
   for the basic tier). Wired against X API v2 recent search; edit `config.json -> x_twitter.query`
   to follow specific accounts (`from:handle`) or cashtags.

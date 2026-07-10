@@ -1,0 +1,100 @@
+{
+  "example": true,
+  "generated": "2026-07-10",
+  "window_hours": 24,
+  "txn_count": 10,
+  "volatile": {
+    "inflow_usd": 221000000,
+    "outflow_usd": 256000000,
+    "net_usd": 35000000,
+    "direction": "off exchanges"
+  },
+  "stablecoins": {
+    "inflow_usd": 200000000,
+    "outflow_usd": 0,
+    "net_buying_power_usd": 200000000
+  },
+  "by_asset": [
+    {
+      "symbol": "ETH",
+      "inflow_usd": 50500000,
+      "outflow_usd": 178000000,
+      "net_usd": 127500000
+    },
+    {
+      "symbol": "BTC",
+      "inflow_usd": 149500000,
+      "outflow_usd": 39000000,
+      "net_usd": -110500000
+    },
+    {
+      "symbol": "SOL",
+      "inflow_usd": 21000000,
+      "outflow_usd": 39000000,
+      "net_usd": 18000000
+    }
+  ],
+  "top_inflows": [
+    {
+      "symbol": "USDT",
+      "amount": 120000000.0,
+      "usd": 120000000.0,
+      "to": "binance",
+      "from": "tether treasury",
+      "blockchain": "ethereum",
+      "hash": "c1",
+      "stable": true
+    },
+    {
+      "symbol": "BTC",
+      "amount": 1400.0,
+      "usd": 91000000.0,
+      "to": "binance",
+      "from": "unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "a1",
+      "stable": false
+    },
+    {
+      "symbol": "USDT",
+      "amount": 80000000.0,
+      "usd": 80000000.0,
+      "to": "htx",
+      "from": "unknown wallet",
+      "blockchain": "tron",
+      "hash": "c2",
+      "stable": true
+    },
+    {
+      "symbol": "BTC",
+      "amount": 900.0,
+      "usd": 58500000.0,
+      "to": "coinbase",
+      "from": "unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "a2",
+      "stable": false
+    },
+    {
+      "symbol": "ETH",
+      "amount": 15000.0,
+      "usd": 50500000.0,
+      "to": "binance",
+      "from": "unknown wallet",
+      "blockchain": "ethereum",
+      "hash": "b2",
+      "stable": false
+    },
+    {
+      "symbol": "SOL",
+      "amount": 140000.0,
+      "usd": 21000000.0,
+      "to": "binance",
+      "from": "unknown wallet",
+      "blockchain": "solana",
+      "hash": "d2",
+      "stable": false
+    }
+  ],
+  "note": "Heuristic from Whale Alert exchange labels. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is buying power arriving, so they are scored separately. Market data, not news, not advice."
+}

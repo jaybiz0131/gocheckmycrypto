@@ -120,6 +120,9 @@ def layer1_canary():
     clusters = aggregate.dedupe(dup, cfg)
     _check(len(clusters) == 2, fails, f"dedupe canary: expected 2 clusters, got {len(clusters)}")
 
+    # whale-flow classification canary (offline, deterministic over the sample transactions)
+    fails.extend(_whale_flow_canary())
+
     # full offline replay end-to-end over the fixture
     e2e_fails = _replay_e2e()
     fails.extend(e2e_fails)
@@ -135,6 +138,29 @@ def layer1_canary():
     print("LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay "
           "end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.")
     return 0
+
+
+def _whale_flow_canary():
+    """Lock the follow-the-money classification: stablecoins are scored separately from the
+    volatile sell-pressure/accumulation signal, and direction follows net sign."""
+    fails = []
+    import whale_flows
+    whale_sample = os.path.join(HERE, "fixtures", "whale_sample.json")
+    txns = json.load(open(whale_sample, encoding="utf-8")).get("transactions", [])
+    r = whale_flows.analyze(txns, 24)
+    # exchange->exchange and wallet->wallet are excluded; 10 of the 12 sample txns count
+    _check(r["txn_count"] == 10, fails, f"whale canary: expected 10 exchange-relevant txns, got {r['txn_count']}")
+    _check(r["volatile"]["net_usd"] == 35000000, fails,
+           f"whale canary: volatile net expected 35000000, got {r['volatile']['net_usd']}")
+    _check(r["volatile"]["direction"] == "off exchanges", fails,
+           f"whale canary: direction expected 'off exchanges', got {r['volatile']['direction']}")
+    _check(r["stablecoins"]["net_buying_power_usd"] == 200000000, fails,
+           f"whale canary: stablecoin buying power expected 200000000, got {r['stablecoins']['net_buying_power_usd']}")
+    btc = next((a for a in r["by_asset"] if a["symbol"] == "BTC"), None)
+    _check(btc and btc["net_usd"] < 0, fails, "whale canary: BTC should be net onto exchanges (negative)")
+    _check(all(a["symbol"] not in whale_flows.STABLES for a in r["by_asset"]), fails,
+           "whale canary: a stablecoin leaked into the volatile by_asset chart")
+    return fails
 
 
 def _replay_e2e():

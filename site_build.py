@@ -43,7 +43,7 @@ YEAR = "2026"
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
 
-NAV = [("Home", "/index.html"), ("Archive", "/archive.html"),
+NAV = [("Home", "/index.html"), ("Whale Watch", "/flows.html"), ("Archive", "/archive.html"),
        ("How we work", "/method.html"), ("About", "/about.html"),
        ("Standards", "/standards.html")]
 
@@ -66,6 +66,28 @@ def fmt_date(iso):
         return str(iso or "")
     y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3))
     return f"{MONTHS[mo]} {d}, {y}"
+
+
+def fmt_usd(n):
+    n = float(n or 0)
+    sign = "-" if n < 0 else ""
+    a = abs(n)
+    if a >= 1e12:
+        return f"{sign}${a/1e12:.2f}T"
+    if a >= 1e9:
+        return f"{sign}${a/1e9:.2f}B"
+    if a >= 1e6:
+        return f"{sign}${a/1e6:.1f}M"
+    if a >= 1e3:
+        return f"{sign}${a/1e3:.0f}K"
+    return f"{sign}${a:.0f}"
+
+
+def load_flows():
+    path = os.path.join(SITE, "data", "flows.json")
+    if os.path.exists(path):
+        return json.load(open(path, encoding="utf-8"))
+    return None
 
 
 def load_content():
@@ -331,8 +353,28 @@ def render_index(items, dateline):
                 'checked against its sources by an independent AI verifier, and approved by a human. '
                 'That gate is the whole point, so we would rather publish nothing than publish junk.</p>'
                 '</div></div></section>')
-    body = market_strip() + lead_html + trust_block() + grid + newsletter()
+    body = market_strip() + lead_html + trust_block() + flow_teaser() + grid + newsletter()
     return shell(f"{NAME} - {SLOGAN}", DESC, "Home", body, dateline)
+
+
+def flow_teaser():
+    flows = load_flows()
+    if not flows or not flows.get("by_asset"):
+        summ = "Track where whales are moving large amounts on net: onto exchanges or off into self-custody."
+    else:
+        v = flows.get("volatile", {})
+        s = flows.get("stablecoins", {})
+        pre = "Example: " if flows.get("example") else ""
+        summ = (f"{pre}Volatile whales net {fmt_usd(v.get('net_usd',0))} {v.get('direction','')} in "
+                f"{flows.get('window_hours',24)}h; {fmt_usd(s.get('net_buying_power_usd',0))} "
+                f"stablecoin buying power arriving.")
+    return (f'<section class="sec"><div class="wrap">'
+            f'<a class="flow-teaser" href="/flows.html">'
+            f'<div><div class="t">Whale Watch &middot; follow the money</div>'
+            f'<div class="d">{esc(summ)}</div></div>'
+            f'<span style="font-family:var(--mono);font-size:11px;letter-spacing:.06em;'
+            f'text-transform:uppercase;white-space:nowrap">Open the board &rarr;</span></a>'
+            f'</div></section>')
 
 
 def render_archive(items, dateline):
@@ -489,6 +531,115 @@ def render_standards(dateline):
                  "Standards", body, dateline)
 
 
+def flows_chart_svg(by_asset):
+    """Diverging horizontal bar chart of net whale exchange flow per volatile asset. Inline SVG,
+    offline, theme-aware (fills use the site's CSS variables). Polarity is encoded three ways so
+    it never relies on red/green alone: side of the zero line, the sign in the label, and color.
+    Left/red = net onto exchanges (sell pressure); right/green = net off exchanges (accumulation)."""
+    if not by_asset:
+        return '<div class="empty"><span class="k">No exchange-relevant whale moves in window</span></div>'
+    W, cx, half = 720, 360, 250
+    row_h, bar_h = 46, 20
+    top = 44
+    H = top + len(by_asset) * row_h + 16
+    max_abs = max((abs(a.get("net_usd", 0)) for a in by_asset), default=1) or 1
+    parts = [f'<svg viewBox="0 0 {W} {H}" width="100%" role="img" '
+             f'aria-label="Net whale exchange flow by asset" style="max-width:100%;height:auto">']
+    # axis labels + zero line
+    parts.append(f'<text x="{cx-12}" y="20" text-anchor="end" class="ax">&#8592; onto exchanges (sell pressure)</text>')
+    parts.append(f'<text x="{cx+12}" y="20" text-anchor="start" class="ax">off exchanges (accumulation) &#8594;</text>')
+    parts.append(f'<line x1="{cx}" y1="30" x2="{cx}" y2="{H-8}" class="zero"/>')
+    for i, a in enumerate(by_asset):
+        y = top + i * row_h
+        net = a.get("net_usd", 0)
+        length = (abs(net) / max_abs) * half
+        cy = y + row_h / 2
+        by = cy - bar_h / 2
+        parts.append(f'<text x="8" y="{cy+5:.0f}" class="sym">{esc(a.get("symbol",""))}</text>')
+        if net < 0:  # onto exchanges, extend left, red
+            parts.append(f'<rect x="{cx-length:.1f}" y="{by:.0f}" width="{length:.1f}" height="{bar_h}" '
+                         f'rx="4" fill="var(--rule)"/>')
+            parts.append(f'<text x="{cx-length-8:.1f}" y="{cy+5:.0f}" text-anchor="end" class="val">'
+                         f'{esc(fmt_usd(net))}</text>')
+        else:  # off exchanges, extend right, green
+            parts.append(f'<rect x="{cx:.1f}" y="{by:.0f}" width="{length:.1f}" height="{bar_h}" '
+                         f'rx="4" fill="var(--verified-fg)"/>')
+            parts.append(f'<text x="{cx+length+8:.1f}" y="{cy+5:.0f}" text-anchor="start" class="val">'
+                         f'+{esc(fmt_usd(net))}</text>')
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def render_flows(flows, dateline):
+    if not flows or not flows.get("by_asset") and not (flows or {}).get("top_inflows"):
+        body = """<main class="wrap"><section class="page">
+  <span class="kicker">Whale Watch</span>
+  <h1>Follow the money</h1>
+  <p class="lede">This board tracks where whales are moving large amounts of crypto: onto
+     exchanges (which can precede selling) or off exchanges into self-custody (accumulation).</p>
+  <div class="empty"><span class="k">Not connected yet</span>
+    <p style="margin:.6em 0 0">Whale flow tracking activates when a Whale Alert key is connected.
+    Preview it locally with <code>python3 crypto_pipeline/whale_flows.py --fixture
+    crypto_pipeline/fixtures/whale_sample.json</code>.</p></div>
+</section></main>"""
+        return shell(f"Whale Watch - {NAME}", "Follow the money: whale exchange flows.",
+                     "Whale Watch", body, dateline)
+
+    v = flows.get("volatile", {})
+    s = flows.get("stablecoins", {})
+    net = v.get("net_usd", 0)
+    dir_word = v.get("direction", "")
+    dir_cls = "up" if net >= 0 else "down"
+    ribbon = ""
+    if flows.get("example"):
+        ribbon = ('<div class="callout"><b>Example board.</b> These are illustrative figures from '
+                  'sample data, shown so you can see the format. Connect a Whale Alert key for live flows.</div>')
+    moves = flows.get("top_inflows", [])
+    move_rows = "".join(
+        f'<tr><td class="sym2">{esc(m.get("symbol",""))}{" &middot; stable" if m.get("stable") else ""}</td>'
+        f'<td class="num">{esc(fmt_usd(m.get("usd",0)))}</td>'
+        f'<td>&rarr; {esc(m.get("to","unknown exchange"))}</td>'
+        f'<td class="mut">from {esc(m.get("from","unknown wallet"))}</td></tr>'
+        for m in moves)
+    win = flows.get("window_hours", 24)
+    body = f"""<main class="wrap"><section class="page">
+  <span class="kicker">Whale Watch</span>
+  <h1>Follow the money</h1>
+  <p class="lede">Not a scrolling feed of every transfer, the aggregate. Where are whales moving
+     large amounts on net over the last {win} hours: onto exchanges (which can precede selling)
+     or off into self-custody (accumulation)?</p>
+  {ribbon}
+
+  <div class="stats">
+    <div class="stat">
+      <span class="lab">Volatile assets, net</span>
+      <span class="big {dir_cls}">{esc(fmt_usd(net))}</span>
+      <span class="sub">net {esc(dir_word)} ({win}h)</span>
+    </div>
+    <div class="stat">
+      <span class="lab">Stablecoin buying power arriving</span>
+      <span class="big">{esc(fmt_usd(s.get("net_buying_power_usd",0)))}</span>
+      <span class="sub">net stablecoins onto exchanges ({win}h)</span>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:26px"><h2>Net exchange flow by asset</h2><span class="bar"></span></div>
+  <div class="chartcard">{flows_chart_svg(flows.get("by_asset", []))}</div>
+
+  <div class="sec-head" style="margin-top:26px"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
+  <div class="movetable"><table><tbody>{move_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
+
+  <div class="callout" style="margin-top:26px"><b>How to read this.</b> For volatile assets like BTC,
+    ETH, and SOL, coins moving <b>onto</b> an exchange often mean holders are getting ready to sell,
+    and coins moving <b>off</b> an exchange suggest accumulation or long-term holding. Stablecoins are
+    the reverse, so they are scored separately as incoming buying power. This is a heuristic built on
+    Whale Alert's exchange labels, not a prediction.</div>
+  <p class="nfa">{esc(flows.get("note",""))} {esc(NFA)}</p>
+</section></main>"""
+    return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",
+                 "Whale Watch", body, dateline)
+
+
 def render_404(dateline):
     body = """<main class="wrap narrow"><section class="page" style="text-align:center;padding-top:60px">
   <span class="kicker">404</span>
@@ -583,6 +734,7 @@ def build():
         open(path, "w", encoding="utf-8").write(html)
 
     w("index.html", render_index(items, dateline))
+    w("flows.html", render_flows(load_flows(), dateline))
     w("archive.html", render_archive(items, dateline))
     w("method.html", render_method(items, dateline))
     w("about.html", render_about(dateline))

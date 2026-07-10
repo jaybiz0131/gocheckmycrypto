@@ -79,6 +79,18 @@ network path.
 
 ---
 
+**CV10 - Whale Watch flow analysis is honest and locked.** `whale_flows.py` classifies large
+transfers as exchange inflow (potential sell pressure) vs outflow (accumulation) and, crucially,
+scores stablecoins SEPARATELY as incoming buying power (a stablecoin onto an exchange is the
+opposite signal from BTC onto an exchange, so lumping them would mislead). Over the sample
+transactions the canary asserts: 10 of 12 count (exchange-to-exchange and wallet-to-wallet
+excluded), volatile net = +$35M off exchanges, stablecoin buying power = $200M, BTC net negative
+(onto exchanges), and no stablecoin leaks into the volatile chart. The site renders it as a
+diverging bar chart with triple polarity encoding (side of zero + sign in the label + color, not
+color alone), labelled market-data-not-news, with the heuristic caveats shown. Ships an EXAMPLE
+snapshot (clearly ribboned) until a Whale Alert key is connected. Status: verified (classification
+canary + rendered board).
+
 ## Standing-rules compliance
 - No em dashes in the new copy or code (house style). Verified by scan.
 - Not-financial-advice discipline: report events, never advise trades; disclaimer on every

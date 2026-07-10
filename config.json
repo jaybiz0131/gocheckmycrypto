@@ -55,6 +55,13 @@
     }
   },
 
+  "whale_flows": {
+    "window_hours": 24,
+    "top_assets": 6,
+    "top_moves": 6,
+    "note": "The follow-the-money board (whale_flows.py). Classifies large transfers as exchange inflow (onto exchanges; potential sell pressure) vs outflow (off exchanges; accumulation) and aggregates net flow per asset. Uses the same Whale Alert source/key as above. Market data, not news."
+  },
+
   "dedupe": {
     "jaccard_threshold": 0.6,
     "min_significant_tokens": 3,
