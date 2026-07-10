@@ -1,0 +1,25 @@
+{
+  "id": "c152",
+  "slug": "attackers-targeted-injective-npm-package-to-steal-wallet-keys",
+  "kind": "brief",
+  "title": "Attackers Targeted Injective NPM Package to Steal Wallet Keys",
+  "dek": "Attackers attempted to compromise an Injective NPM package with malware designed to steal wallet keys, according to Cointelegraph. The supply-chain attack targeted Injective developer tooling. Apps and users could face risk if the package is unpatched.",
+  "date": "2026-07-10",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 5,
+  "author": "The Crypto Cronkite desk",
+  "key_fact": "A supply-chain attack targeted an Injective NPM package with malware intended to steal wallet keys.",
+  "human_take": "",
+  "body": [
+    "Hackers attempted to backdoor an Injective NPM package with malware designed to steal wallet keys, according to Cointelegraph.",
+    "The supply-chain attack targeted Injective developer tooling, posing a direct risk to apps and users if the package is left unpatched.",
+    "Developers relying on the affected tooling are the primary population exposed."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/news/hackers-compromise-injective-npm-package-with-malware-to-steal-wallet-keys?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/hackers-compromise-injective-npm-package-with-malware-to-steal-wallet-keys?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ]
+}
