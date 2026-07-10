@@ -344,6 +344,19 @@ def card(item):
 </article>"""
 
 
+def desk_strip():
+    # Home-only anchor-desk strip: the Crypto Cronkite portrait coin (the YouTube channel
+    # face) beside the desk line. The masthead checkmark badge stays the site mark; this is
+    # the anchor's face at the top of the front page. No link yet (channel tie post-launch).
+    return f"""<section class="desk"><div class="wrap">
+  <img class="desk-coin" src="/assets/cronkite-coin.png" alt="Crypto Cronkite" width="132" height="132">
+  <div class="desk-copy">
+    <span class="kicker">From the desk</span>
+    <p>{esc(DESK_LINE)}</p>
+  </div>
+</div></section>"""
+
+
 def render_index(items, dateline):
     live = [i for i in items if not i.get("example")]
     if live:
@@ -378,7 +391,7 @@ def render_index(items, dateline):
                 'checked against its sources by an independent AI verifier, and approved by a human. '
                 'That gate is the whole point, so we would rather publish nothing than publish junk.</p>'
                 '</div></div></section>')
-    body = market_strip() + lead_html + trust_block() + flow_teaser() + grid + newsletter()
+    body = market_strip() + desk_strip() + lead_html + trust_block() + flow_teaser() + grid + newsletter()
     return shell(f"{NAME} - {SLOGAN}", DESC, "Home", body, dateline, path="/")
 
 
