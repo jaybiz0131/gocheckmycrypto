@@ -1,0 +1,66 @@
+{
+  "brand": "Crypto Cronkite",
+  "tagline": "The honest voice in a shill-filled space.",
+  "cadence": "daily-brief",
+  "lookback_hours": 30,
+  "top_n": 8,
+
+  "budget": {
+    "max_tokens_per_run": 220000,
+    "max_usd_per_run": 3.0,
+    "note": "Hard cap. The LLM client aborts the run (fail-closed) before exceeding either ceiling. Costed from response usage; see llm.py PRICING."
+  },
+
+  "models": {
+    "editor":   { "model": "claude-opus-4-8", "max_tokens": 4000 },
+    "verifier": { "model": "claude-opus-4-8", "max_tokens": 4000 },
+    "writer":   { "model": "claude-opus-4-8", "max_tokens": 6000 },
+    "note": "Default is claude-opus-4-8 across all three stages. The verifier is a genuinely SEPARATE call with a distinct, adversarial prompt so it does not rubber-stamp the editor; to harden that independence further, swap the verifier to a different model id here. No temperature/top_p/top_k is sent: those parameters are rejected (HTTP 400) on the current model family, so determinism and register are steered by the prompt. claude-sonnet-5 is a cheaper per-run option if cost is the priority."
+  },
+
+  "sources": {
+    "note": "source_tier drives editorial weight. primary = official/primary sources (trust most). major = established outlets. aggregator = purpose-built crypto aggregator (many sources, use its own signals). Feeds are free and keyless. CryptoPanic and X are optional and key-gated (see below); absence is documented, never a failure.",
+    "rss": [
+      { "name": "SEC Press Releases",   "tier": "primary", "url": "https://www.sec.gov/news/pressreleases.rss" },
+      { "name": "CFTC Press Releases",  "tier": "primary", "url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml" },
+      { "name": "CoinDesk",             "tier": "major",   "url": "https://www.coindesk.com/arc/outboundfeeds/rss/" },
+      { "name": "The Block",            "tier": "major",   "url": "https://www.theblock.co/rss.xml" },
+      { "name": "Decrypt",              "tier": "major",   "url": "https://decrypt.co/feed" },
+      { "name": "DL News",              "tier": "major",   "url": "https://www.dlnews.com/arc/outboundfeeds/rss/" },
+      { "name": "Bitcoin Magazine",     "tier": "major",   "url": "https://bitcoinmagazine.com/.rss/full/" },
+      { "name": "Cointelegraph",        "tier": "mixed",   "url": "https://cointelegraph.com/rss" }
+    ],
+    "cryptopanic": {
+      "enabled_if_env": "CRYPTOPANIC_TOKEN",
+      "tier": "aggregator",
+      "url": "https://cryptopanic.com/api/v1/posts/",
+      "params": { "public": "true", "kind": "news" },
+      "note": "Best single starting aggregator (hundreds of sources + vote/sentiment signals). Set CRYPTOPANIC_TOKEN to enable. Skipped, not failed, when the token is absent."
+    },
+    "x_twitter": {
+      "enabled_if_env": "X_BEARER_TOKEN",
+      "tier": "breaking",
+      "note": "News breaks here first but the API is expensive. Wired as a v2 slot; disabled until a token is set and the budget justifies it."
+    }
+  },
+
+  "dedupe": {
+    "jaccard_threshold": 0.6,
+    "min_significant_tokens": 3,
+    "note": "Near-identical stories across outlets (same event, many rewrites) collapse into one cluster by normalized-headline token overlap or shared URL. The cluster keeps the highest-tier source as primary and lists the rest as corroboration."
+  },
+
+  "publish": {
+    "require_human_approval": true,
+    "require_verifier_verdict": ["VERIFIED"],
+    "allow_with_human_override": ["NEEDS-HUMAN-REVIEW"],
+    "never_publish_verdict": ["REJECT"],
+    "not_financial_advice": "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice.",
+    "targets": {
+      "newsletter": { "enabled": false, "adapter": "newsletter", "note": "Owned audience, highest value, build first. Set endpoint + key to enable." },
+      "site":       { "enabled": false, "adapter": "site",       "note": "SEO + archive article publish." },
+      "social":     { "enabled": false, "adapter": "social",     "note": "X / Crypto Cronkite scheduling." },
+      "video":      { "enabled": false, "adapter": "video",      "note": "Newscast script handoff to the recording workflow." }
+    }
+  }
+}

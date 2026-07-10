@@ -1,0 +1,86 @@
+{
+  "_note": "Recorded stage responses for CRYPTO_LLM_MODE=replay. OFFLINE, NON-PRODUCTION: exercises the editor/verifier/writer wiring, shape validation, and fail-closed gates over the sample_feed fixture clusters (c000..c004) with NO API key and NO spend. A replay run is stamped mode=replay everywhere; the human gate and publish refuse replay output. This is a test artifact, not editorial judgment.",
+  "editor": {
+    "ranked": [
+      {
+        "id": "c000",
+        "headline": "SEC charges crypto firm Acme Labs over unregistered securities offering",
+        "why_it_matters": "A federal securities enforcement action against a crypto firm; regulatory precedent and direct market impact.",
+        "category": "regulatory",
+        "source_urls": ["https://example.test/sec-acme-1", "https://example.test/outlet-b-acme"],
+        "confidence": "high"
+      },
+      {
+        "id": "c001",
+        "headline": "Major DeFi protocol Zephyr exploited for $40M in flash loan attack",
+        "why_it_matters": "A large exploit with direct user-fund losses; high ecosystem significance.",
+        "category": "hack",
+        "source_urls": ["https://example.test/zephyr-hack"],
+        "confidence": "medium"
+      },
+      {
+        "id": "c004",
+        "headline": "Ethereum core developers set date for next network upgrade",
+        "why_it_matters": "A scheduled protocol upgrade affecting the largest smart-contract network.",
+        "category": "protocol",
+        "source_urls": ["https://example.test/eth-upgrade"],
+        "confidence": "medium"
+      }
+    ],
+    "rejected": [
+      { "id": "c002", "headline": "PEPECOIN to $10 imminent, get in early before it is too late", "shill_flag_reasons": ["price-prediction hype", "moon/urgency vocabulary", "sponsored presale bait"] },
+      { "id": "c003", "headline": "Top 7 altcoins to buy for 2026 that could explode", "shill_flag_reasons": ["affiliate listicle / buy-bait", "sponsored marker"] }
+    ],
+    "notes": "Two clear shill items cut; three real stories ranked by significance."
+  },
+  "verifier": {
+    "verdicts": [
+      { "id": "c000", "verdict": "VERIFIED", "reasons": ["Two independent outlets carry the same SEC action; claim is consistent and specific."], "source_supported": true, "shill_missed_by_editor": false },
+      { "id": "c001", "verdict": "NEEDS-HUMAN-REVIEW", "reasons": ["Single source in the cluster and source text was not confirmable in this run; exploit figures need a human check."], "source_supported": false, "shill_missed_by_editor": false },
+      { "id": "c004", "verdict": "REJECT", "reasons": ["No concrete date or primary confirmation present; reads as an unconfirmed placeholder."], "source_supported": false, "shill_missed_by_editor": false }
+    ],
+    "notes": "Editor and verifier diverge on c004; one story routed to human review."
+  },
+  "writer": {
+    "drafts": [
+      {
+        "id": "c000",
+        "script_skeleton": {
+          "headline": "SEC charges crypto firm Acme Labs over unregistered securities offering",
+          "summary": "The Securities and Exchange Commission announced charges against Acme Labs, alleging it ran an unregistered securities offering. Regulators are seeking penalties.",
+          "key_fact": "The SEC alleges an unregistered securities offering by Acme Labs.",
+          "angle_prompt": "Here is the angle: your read on what this signals for how the SEC is treating crypto issuers goes here.",
+          "human_take": "",
+          "sources": ["https://example.test/sec-acme-1", "https://example.test/outlet-b-acme"]
+        },
+        "article_draft": {
+          "title": "SEC charges Acme Labs over an alleged unregistered securities offering",
+          "body": "The Securities and Exchange Commission has charged crypto firm Acme Labs, alleging the company conducted an unregistered securities offering. According to the announcement, regulators are seeking penalties. Two outlets are reporting the same enforcement action.",
+          "human_take": "",
+          "sources": ["https://example.test/sec-acme-1", "https://example.test/outlet-b-acme"],
+          "status": "DRAFT",
+          "not_financial_advice": "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice."
+        }
+      },
+      {
+        "id": "c001",
+        "script_skeleton": {
+          "headline": "DeFi protocol Zephyr reports a $40M flash-loan exploit",
+          "summary": "The Zephyr protocol reported an estimated $40 million loss in a flash-loan exploit. On-chain data is cited as the basis for the figure. This item is pending human review.",
+          "key_fact": "An estimated $40 million was drained from Zephyr in a flash-loan exploit.",
+          "angle_prompt": "Here is the angle: your read on what this says about flash-loan risk goes here, once the figure is confirmed.",
+          "human_take": "",
+          "sources": ["https://example.test/zephyr-hack"]
+        },
+        "article_draft": {
+          "title": "Zephyr protocol reports an estimated $40M flash-loan exploit (pending review)",
+          "body": "The Zephyr protocol reported an estimated $40 million loss attributed to a flash-loan exploit, based on on-chain data. The figure and mechanism are pending independent confirmation before publication.",
+          "human_take": "",
+          "sources": ["https://example.test/zephyr-hack"],
+          "status": "DRAFT",
+          "not_financial_advice": "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice."
+        }
+      }
+    ]
+  }
+}
