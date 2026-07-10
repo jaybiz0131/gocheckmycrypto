@@ -87,11 +87,15 @@ clean skip, never a failure):
 - **Whale Alert** (`WHALE_ALERT_API_KEY`) - large on-chain transfers (whale moves). Uses Whale
   Alert's own API, which is cleaner than scraping @whale_alert on X. Feeds two things: (1) capped
   individual items into the brief (`config.json -> whale_alert.max_items`), and (2) the
-  **Whale Watch board** (`whale_flows.py`) that classifies flows onto vs off exchanges and shows
-  net flow per asset as a chart. Refresh the board with `python3 whale_flows.py`,
-  then commit `site/data/flows.json` and push (or re-drag the `publish/` folder).
-  Their free tier is limited; large-transfer history needs a paid plan. The board currently ships
-  an EXAMPLE snapshot so the page renders before you connect a key.
+  **Whale Watch board**, which AUTO-REFRESHES: the Netlify build runs `whale_flows.py` before
+  building the site, and the daily-brief workflow pings a Netlify build hook each morning
+  (see D6 in DEVIATIONS.md). To turn it on, get a key at whale-alert.io and set it in THREE
+  places: a GitHub Actions secret `WHALE_ALERT_API_KEY` (brief items), a Netlify environment
+  variable `WHALE_ALERT_API_KEY` (Site configuration -> Environment variables; board refresh),
+  and a Netlify build hook (Site configuration -> Build & deploy -> Build hooks -> add one named
+  e.g. "daily-board-refresh" on main, copy its URL into a GitHub secret `NETLIFY_BUILD_HOOK`).
+  Their free tier is limited; large-transfer history needs a paid plan. Until the key is set the
+  board ships/keeps the committed EXAMPLE snapshot and deploys never fail on Whale Alert errors.
 - **X / Twitter** (`X_BEARER_TOKEN`) - news breaks here first, but X's API is paid (about $100/mo
   for the basic tier). Wired against X API v2 recent search; edit `config.json -> x_twitter.query`
   to follow specific accounts (`from:handle`) or cashtags.

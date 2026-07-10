@@ -4,7 +4,10 @@
 # Python version, and headers. The generator (site_build.py) is standard-library only and
 # builds site/publish/ deterministically from committed content.
 [build]
-  command = "python3 site_build.py"
+  # Refresh the Whale Watch board first (uses the WHALE_ALERT_API_KEY env var set in the
+  # Netlify UI; a missing key or an API error falls back to the committed snapshot instead
+  # of failing the deploy), then build the site.
+  command = "python3 whale_flows.py || true; python3 site_build.py"
   publish = "site/publish"
 
 [build.environment]

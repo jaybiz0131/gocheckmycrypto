@@ -56,6 +56,17 @@ Two deliberate divergences from the GoCheckMy family conventions, decided with t
    family. The signup stays (Netlify Forms; no selling of emails; unsubscribe-anytime copy
    baked in).
 
+## D6 - The Netlify build fetches Whale Alert data (build is no longer purely deterministic)
+
+The repo's stated posture is a deterministic site build from committed content. The Whale
+Watch board needs fresh data without a human committing JSON every day, so the Netlify build
+command runs `whale_flows.py` (network call to Whale Alert, keyed by a Netlify env var)
+before `site_build.py`, and the daily-brief workflow pings a Netlify build hook so the board
+refreshes every morning. The tension is contained: the fetch is fail-open (`|| true`; a
+missing key or API error falls back to the committed `site/data/flows.json` snapshot, never
+fails a deploy), everything else in the build stays deterministic from the commit, and a
+local `python3 site_build.py` still reproduces the site from committed content exactly.
+
 ## D5 - Whale Alert and X source adapters are wired but not live-tested
 
 Both are keyless-skip sources (absence is a documented skip, never a failure) and could not be

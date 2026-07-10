@@ -68,3 +68,19 @@ jobs:
             out/approval_template.json
             out/run_report.json
           if-no-files-found: warn
+
+      # The Whale Watch board refreshes at Netlify BUILD time (see netlify.toml), so a daily
+      # rebuild keeps it current without committing data. Runs even if the brief failed: board
+      # freshness is independent of the news pipeline. No hook secret -> documented skip.
+      - name: Refresh the website (Netlify build hook -> Whale Watch board update)
+        if: always()
+        env:
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -n "$HOOK" ]; then
+            curl -s -f -X POST -d '{}' "$HOOK" > /dev/null \
+              && echo "::notice::Triggered the daily Netlify rebuild (Whale Watch board refresh)." \
+              || echo "::warning::Netlify build hook ping failed; the board will refresh on the next deploy."
+          else
+            echo "::notice::NETLIFY_BUILD_HOOK not set; the board refreshes only on pushes. Add the secret to enable the daily refresh."
+          fi
