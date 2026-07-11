@@ -1,0 +1,24 @@
+{
+  "id": "c004",
+  "slug": "ethereum-foundation-discloses-validator-crash-bug-found-with-ai-help",
+  "kind": "brief",
+  "title": "Ethereum Foundation Discloses Validator Crash Bug Found With AI Help",
+  "dek": "The Ethereum Foundation disclosed a bug in validator client software that could take validators offline. The flaw was found with AI assistance but required humans to prove it was exploitable. Reporting describes it as a remotely triggerable crash.",
+  "date": "2026-07-11",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "A remotely triggerable crash bug in validator client software was found with AI help and confirmed by humans, disclosed by the Ethereum Foundation.",
+  "human_take": "",
+  "body": [
+    "The Ethereum Foundation has disclosed a bug in validator client software that could take validators offline, according to reporting. The flaw is described as a remotely triggerable crash.",
+    "The bug was found with the assistance of AI, but humans were required to prove it was exploitable."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/07/10/ai-found-an-ethereum-bug-that-could-take-validators-offline-but-humans-had-to-prove-it",
+      "url": "https://www.coindesk.com/tech/2026/07/10/ai-found-an-ethereum-bug-that-could-take-validators-offline-but-humans-had-to-prove-it"
+    }
+  ]
+}
