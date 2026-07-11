@@ -293,7 +293,7 @@ def _fingerprint_assets(html):
 
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
-          live_js=False, brand="site"):
+          live_js=False, brand="site", og_type="website", schema_extra=""):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
@@ -319,7 +319,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta name="description" content="{esc(desc)}">
 {robots}<meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
-<meta property="og:type" content="website">
+<meta property="og:type" content="{esc(og_type)}">{schema_extra}
 <meta property="og:url" content="{esc(url)}">
 <meta property="og:site_name" content="{esc(site_name)}">
 <meta property="og:image" content="{OG_IMAGE}">
@@ -455,9 +455,21 @@ def render_article(item):
 </main>"""
     title = f'{item.get("title")} - {NAME}'
     desc = item.get("dek") or (item.get("body", [""])[0] if item.get("body") else DESC)
+    url = f"{ORIGIN}/articles/{item['slug']}.html"
+    schema = json.dumps({"@context": "https://schema.org", "@graph": [
+        {"@type": "NewsArticle", "headline": item.get("title"),
+         "description": item.get("dek") or "", "url": url, "mainEntityOfPage": url,
+         "image": OG_IMAGE, "datePublished": item.get("date"), "dateModified": item.get("date"),
+         "author": {"@type": "Organization", "name": NAME, "url": ORIGIN + "/news.html"},
+         "publisher": {"@type": "Organization", "name": FAMILY, "url": ORIGIN + "/"}},
+        {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Latest", "item": ORIGIN + "/news.html"},
+            {"@type": "ListItem", "position": 2, "name": item.get("title"), "item": url}]}
+    ]}, ensure_ascii=False)
     return shell(title, desc if isinstance(desc, str) else DESC, "Latest", body, dateline.upper(),
                  path=f"/articles/{item['slug']}.html", noindex=bool(item.get("example")),
-                 brand="cronkite")
+                 brand="cronkite", og_type="article",
+                 schema_extra=f'\n<script type="application/ld+json">{schema}</script>')
 
 
 # ---- cards / index / archive -------------------------------------------------
