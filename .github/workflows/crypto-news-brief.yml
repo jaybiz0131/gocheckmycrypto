@@ -24,7 +24,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write   # autopilot commits auto-approved VERIFIED stories into site/content
 
 jobs:
   brief:
@@ -57,6 +57,26 @@ jobs:
           WHALE_ALERT_API_KEY: ${{ secrets.WHALE_ALERT_API_KEY }}
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
         run: python3 run.py --mode live
+
+      # FULL AUTO RELEASE (Jack's standing instruction, 2026-07-11): the adversarial verifier
+      # is the gate. VERIFIED stories auto-publish; NEEDS-HUMAN-REVIEW stays queued for a
+      # human take; REJECT never ships. The push below auto-deploys via Netlify.
+      - name: Autopilot publish of VERIFIED stories
+        if: steps.key.outputs.have_key == 'true'
+        run: python3 autopilot.py
+
+      - name: Commit and push published content (deploys the site)
+        if: steps.key.outputs.have_key == 'true'
+        run: |
+          git config user.name "Jack Berno"
+          git config user.email "bernoalpha@gmail.com"
+          git add site/content
+          if git diff --cached --quiet; then
+            echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
+          else
+            git commit -m "daily brief: auto-published VERIFIED stories $(date -u +%Y-%m-%d)"
+            git push
+          fi
 
       - name: Upload the review queue for human approval
         if: steps.key.outputs.have_key == 'true'
