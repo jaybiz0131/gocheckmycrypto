@@ -78,6 +78,24 @@ jobs:
             git push
           fi
 
+      # The Publicist: full-auto LinkedIn share of today's lead story, behind its own
+      # deterministic gates. Fail-open: a LinkedIn problem never blocks the news pipeline.
+      - name: Publicist LinkedIn post
+        if: steps.key.outputs.have_key == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: python3 publicist.py || echo "::warning::publicist step errored; site unaffected"
+
+      - name: Persist publicist state
+        if: steps.key.outputs.have_key == 'true'
+        run: |
+          git config user.name "Jack Berno"
+          git config user.email "bernoalpha@gmail.com"
+          git add linkedin-posted.json
+          git diff --cached --quiet || { git commit -m "publicist: posted $(date -u +%Y-%m-%d)"; git push; }
+
       - name: Upload the review queue for human approval
         if: steps.key.outputs.have_key == 'true'
         uses: actions/upload-artifact@v4

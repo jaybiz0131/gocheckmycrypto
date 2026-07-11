@@ -22,7 +22,11 @@
       "model": "claude-opus-4-8",
       "max_tokens": 8000
     },
-    "note": "Quality-first lineup (owner's explicit call, 2026-07-10): claude-fable-5 (Anthropic's most capable model) on the two JUDGMENT stages, editor (rank + de-shill) and verifier (adversarial source audit); claude-opus-4-8 on the writer (strong news prose, human-reviewed anyway, and a different model family after two Fable stages). Fable's thinking is always on and counts against max_tokens, hence the larger caps. The verifier remains a SEPARATE call with a distinct, adversarial prompt so it does not rubber-stamp the editor. No temperature/top_p/top_k and no thinking param is sent: sampling params are rejected (HTTP 400) on this model family, and omitting thinking runs Fable's adaptive thinking. llm.py adds a server-side refusal fallback to claude-opus-4-8 on Fable calls because hack/exploit coverage can trip its cyber safety classifiers. claude-opus-4-8 everywhere is the cheaper fallback lineup; claude-sonnet-5 the cheapest."
+    "note": "Quality-first lineup (owner's explicit call, 2026-07-10): claude-fable-5 (Anthropic's most capable model) on the two JUDGMENT stages, editor (rank + de-shill) and verifier (adversarial source audit); claude-opus-4-8 on the writer (strong news prose, human-reviewed anyway, and a different model family after two Fable stages). Fable's thinking is always on and counts against max_tokens, hence the larger caps. The verifier remains a SEPARATE call with a distinct, adversarial prompt so it does not rubber-stamp the editor. No temperature/top_p/top_k and no thinking param is sent: sampling params are rejected (HTTP 400) on this model family, and omitting thinking runs Fable's adaptive thinking. llm.py adds a server-side refusal fallback to claude-opus-4-8 on Fable calls because hack/exploit coverage can trip its cyber safety classifiers. claude-opus-4-8 everywhere is the cheaper fallback lineup; claude-sonnet-5 the cheapest.",
+    "publicist": {
+      "model": "claude-sonnet-5",
+      "max_tokens": 1500
+    }
   },
   "sources": {
     "note": "source_tier drives editorial weight. primary = official/primary sources (trust most). major = established outlets. aggregator = purpose-built crypto aggregator (many sources, use its own signals). Feeds are free and keyless. CryptoPanic and X are optional and key-gated (see below); absence is documented, never a failure.",
