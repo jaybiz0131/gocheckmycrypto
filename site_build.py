@@ -308,6 +308,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{OG_IMAGE}">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 {fonts}
 <link rel="stylesheet" href="/assets/site.css">
 </head>
@@ -1875,6 +1876,10 @@ def build():
     for it in items:
         w(os.path.join("articles", f"{it['slug']}.html"), render_article(it))
 
+    # the iOS home-screen icon lives at the site root (family convention)
+    ati_src = os.path.join(ASSETS, "apple-touch-icon.png")
+    if os.path.exists(ati_src):
+        open(os.path.join(PUBLISH, "apple-touch-icon.png"), "wb").write(open(ati_src, "rb").read())
     # the social card lives at the site root (family convention: /og-image.png)
     og_src = os.path.join(ASSETS, "og-image.png")
     if os.path.exists(og_src):
