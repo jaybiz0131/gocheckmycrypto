@@ -75,6 +75,8 @@ def run_gates(post, url):
     for pat in BANNED:
         check(not re.search(pat, post, re.I), f"banned pattern absent [{pat[:24]}]")
     check("not financial advice" in post.lower(), "NFA line present")
+    check("gocheckmycrypto" in post.lower() or "crypto cronkite" in post.lower(),
+          "site or desk attribution present")
     tags = re.findall(r"#\w+", post)
     check(len(tags) <= 2, "max 2 hashtags", str(tags))
     check(all(t.lower() in ALLOWED_TAGS for t in tags), "hashtags from allowed set", str(tags))

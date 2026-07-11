@@ -1,0 +1,40 @@
+# The Publicist: daily LinkedIn share of the day's lead story, timed for real humans.
+# Runs at 14:30 UTC (9:30am Central), hours after the 07:40 brief has published, when
+# LinkedIn's US morning audience is actually scrolling. One post per day, deterministic
+# gates, dedupe via linkedin-posted.json, PAUSE-LINKEDIN to silence.
+name: Publicist (LinkedIn)
+
+on:
+  schedule:
+    - cron: "30 14 * * *"   # daily, 14:30 UTC = 9:30am Central
+  workflow_dispatch: {}
+
+concurrency:
+  group: publicist
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Draft, gate, and post today's lead story
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
+        run: python3 publicist.py
+
+      - name: Persist posted state
+        if: always()
+        run: |
+          git config user.name "Jack Berno"
+          git config user.email "bernoalpha@gmail.com"
+          git add linkedin-posted.json
+          git diff --cached --quiet || { git commit -m "publicist: posted $(date -u +%Y-%m-%d)"; git push; }

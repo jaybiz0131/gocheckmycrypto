@@ -45,7 +45,10 @@ def main():
     class H(http.server.BaseHTTPRequestHandler):
         def do_GET(self):
             q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
-            code_holder["code"] = (q.get("code") or [""])[0]
+            if q.get("code"):
+                code_holder["code"] = q["code"][0]
+            elif q.get("error"):
+                code_holder["error"] = f'{q["error"][0]}: {(q.get("error_description") or [""])[0]}'
             self.send_response(200)
             self.send_header("Content-Type", "text/html")
             self.end_headers()
@@ -55,12 +58,21 @@ def main():
             pass
 
     with http.server.HTTPServer(("localhost", PORT), H) as srv:
-        print(f"Waiting for the redirect on {REDIRECT} ...")
-        srv.handle_request()
+        srv.timeout = 300
+        print(f"Waiting for the redirect on {REDIRECT} (up to 5 minutes) ...")
+        # browsers fire favicon/preflight requests too; keep serving until the real
+        # callback (code or error) arrives or we time out
+        import time
+        deadline = time.time() + 300
+        while time.time() < deadline and not code_holder:
+            srv.handle_request()
 
+    if code_holder.get("error"):
+        print("LinkedIn returned an error:", code_holder["error"])
+        return 1
     code = code_holder.get("code")
     if not code:
-        print("No code received; run again.")
+        print("No code received within 5 minutes; run again.")
         return 1
 
     data = urllib.parse.urlencode({
