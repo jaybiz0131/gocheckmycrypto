@@ -13,13 +13,37 @@ VERIFIED set, runs Stage 6 (publish.py), then ingests approved payloads into sit
 (site_build.py --ingest). The workflow then commits site/content and pushes, which deploys.
 """
 
+import glob
 import json
 import os
+import re
 import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
+
+
+def _words(s):
+    return set(re.findall(r"[a-z]{4,}", (s or "").lower()))
+
+
+def already_published(headline):
+    """The daily lookback window overlaps day to day, so yesterday's big story can rank again
+    under a slightly different headline. Anything sharing >=70% of its meaningful words with
+    an existing published title is a rerun and never auto-publishes."""
+    hw = _words(headline)
+    if not hw:
+        return False
+    for p in glob.glob(os.path.join(HERE, "site", "content", "*.json")):
+        try:
+            t = json.load(open(p, encoding="utf-8")).get("title", "")
+        except Exception:
+            continue
+        tw = _words(t)
+        if tw and len(hw & tw) / min(len(hw), len(tw)) >= 0.7:
+            return True
+    return False
 
 
 def main():
@@ -34,14 +58,19 @@ def main():
         return 1
 
     approval = json.load(open(tpl_path, encoding="utf-8"))
-    approved = held = 0
+    approved = held = reruns = 0
     for cid, story in approval.get("stories", {}).items():
-        if story.get("verifier_verdict") == "VERIFIED":
-            story["decision"] = "approve"
-            approved += 1
-        else:
+        if story.get("verifier_verdict") != "VERIFIED":
             story["decision"] = "hold"
             held += 1
+        elif already_published(story.get("headline", "")):
+            story["decision"] = "hold"
+            reruns += 1
+            print(f"autopilot: skipping rerun of already-published story: "
+                  f"{story.get('headline','')[:70]}")
+        else:
+            story["decision"] = "approve"
+            approved += 1
     json.dump(approval, open(os.path.join(OUT, "approval.json"), "w", encoding="utf-8"), indent=1)
     print(f"autopilot: auto-approved {approved} VERIFIED, held {held} for human review")
     if approved == 0:
