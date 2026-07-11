@@ -48,6 +48,9 @@ CF_ANALYTICS_TOKEN = "ee5216c8411a41d78c7c4f679406ef4b"  # Cloudflare Web Analyt
 DESC = ("Crypto Cronkite is an independent crypto news desk built with one intention: get the "
         "stories right and keep the data honest. Plus the Whale Watch and Market Pulse data "
         "desks. We report events, we never advise trades.")
+FAMILY_DESC = ("GoCheckMyCrypto is crypto, checked: the Crypto Cronkite news desk with the shill "
+               "stripped out, whale money flows, live market dashboards, and The Chart Master. "
+               "Built to get the stories right and keep the data honest. Never financial advice.")
 NFA = ("Not financial advice. Crypto Cronkite reports events and explains what they may mean. "
        "It never tells you to buy or sell anything. Do your own research.")
 YEAR = "2026"
@@ -238,19 +241,31 @@ def trust_block():
 </div></section>"""
 
 
-def footer():
+def footer(brand="site"):
+    """Brand-aware, matching the masthead doctrine: one identity per page. Site pages close
+    as GoCheckMyCrypto (Cronkite named as the news desk); Cronkite's own pages close as the
+    desk."""
     links = "".join(f'<a href="{esc(h)}">{esc(l)}</a>' for l, h in
                     [("About", "/about.html"), ("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html")])
+    if brand == "cronkite":
+        who = f"{esc(NAME)}"
+        note = ("Crypto Cronkite is GoCheckMyCrypto's independent news desk, built with one "
+                "intention: get the stories right and keep the data honest. Whale Watch and "
+                "Market Pulse show market data, not news. Sources are linked on every story.")
+    else:
+        who = f"{esc(FAMILY)}"
+        note = ("GoCheckMyCrypto is an independent crypto site, built with one intention: get "
+                "the stories right and keep the data honest. Crypto Cronkite is its news desk; "
+                "Whale Watch and Market Pulse show market data, not news. Sources are linked "
+                "on every story.")
     return f"""<footer class="site"><div class="wrap">
   <div class="frow">
-    <div class="fbrand">{esc(NAME)}</div>
+    <div class="fbrand">{who}</div>
     <div class="flinks">{links}</div>
   </div>
-  <p class="fnote"><b>{esc(NFA)}</b> Crypto Cronkite is an independent crypto news desk, built
-    with one intention: get the stories right and keep the data honest. Whale Watch and Market
-    Pulse show market data, not news. Sources are linked on every story.
-    &copy; {YEAR} {esc(NAME)} &middot; <a href="{FAMILY_HUB}">A GoCheckMy site</a>.</p>
+  <p class="fnote"><b>{esc(NFA)}</b> {note}
+    &copy; {YEAR} {who} &middot; <a href="{FAMILY_HUB}">A GoCheckMy site</a>.</p>
 </div></footer>"""
 
 
@@ -283,6 +298,11 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
     url = ORIGIN + path
+    # one identity per page: site-brand pages carry the umbrella in the title tail and
+    # social tags; Cronkite's own pages keep the desk name
+    site_name = NAME if brand == "cronkite" else FAMILY
+    if brand != "cronkite" and title.endswith(f"- {NAME}"):
+        title = title[: -len(NAME)] + FAMILY
     robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
     beacon = ""
     if CF_ANALYTICS_TOKEN:
@@ -301,7 +321,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{esc(url)}">
-<meta property="og:site_name" content="{esc(NAME)}">
+<meta property="og:site_name" content="{esc(site_name)}">
 <meta property="og:image" content="{OG_IMAGE}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -315,7 +335,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <body class="{esc(body_class)}">
 {masthead(active, dateline, brand)}
 {body}
-{footer()}{beacon}{livejs}
+{footer(brand)}{beacon}{livejs}
 </body>
 </html>"""
     return _fingerprint_assets(page)
@@ -569,7 +589,7 @@ def render_home(items, flows, pulse, cm, dateline):
      desks link to each other, and every number comes with an explanation in plain
      language.</p>
 </section></main>""" + newsletter()
-    return shell(f"{FAMILY} - Crypto, checked.", DESC, "Home", body, dateline, path="/")
+    return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "Home", body, dateline, path="/")
 
 
 def flow_teaser():
