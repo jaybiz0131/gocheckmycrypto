@@ -562,6 +562,10 @@ def render_article(item, all_items=None):
     if item.get("key_fact"):
         key = (f'<div class="keyfact"><span class="lab">The key fact</span>'
                f'<p>{esc(item["key_fact"])}</p></div>')
+    why = ""
+    if (item.get("why_it_matters") or "").strip():
+        why = (f'<div class="why"><span class="lab">Why it matters</span>'
+               f'<p>{esc(item["why_it_matters"])}</p></div>')
     take = ""
     if (item.get("human_take") or "").strip():
         take = (f'<div class="take"><span class="lab">The take</span>'
@@ -589,6 +593,7 @@ def render_article(item, all_items=None):
     {ribbon}
     <div class="prose">{render_body(item.get("body"))}</div>
     {key}
+    {why}
     {take}
     <p class="signoff">{esc(SLOGAN)}</p>
     {sig_block()}
@@ -2089,6 +2094,7 @@ def ingest():
             "rank": rank_map.get(rec.get("id")),
             "author": "Crypto Cronkite",
             "key_fact": scrub((payload.get("script", {}) or {}).get("key_fact", "")),
+            "why_it_matters": scrub(art.get("why_it_matters", "")),
             "human_take": art.get("human_take", ""), "body": paras, "sources": srcs,
         }
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
