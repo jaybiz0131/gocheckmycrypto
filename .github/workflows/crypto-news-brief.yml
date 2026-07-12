@@ -69,6 +69,7 @@ jobs:
         run: python3 autopilot.py
 
       - name: Commit and push published content (deploys the site)
+        id: publish
         if: steps.key.outputs.have_key == 'true'
         run: |
           git config user.name "Jack Berno"
@@ -76,9 +77,11 @@ jobs:
           git add site/content
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "daily brief: auto-published VERIFIED stories $(date -u +%Y-%m-%d)"
             git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
 
       # The Publicist moved to its own workflow (publicist.yml, 14:30 UTC) so posts land
@@ -95,18 +98,24 @@ jobs:
             out/run_report.json
           if-no-files-found: warn
 
-      # The Whale Watch board refreshes at Netlify BUILD time (see netlify.toml), so a daily
-      # rebuild keeps it current without committing data. Runs even if the brief failed: board
-      # freshness is independent of the news pipeline. No hook secret -> documented skip.
-      - name: Refresh the website (Netlify build hook -> Whale Watch board update)
+      # The Whale Watch board refreshes at Netlify BUILD time (see netlify.toml), so a
+      # rebuild keeps it current without committing data. Runs even if the brief failed:
+      # board freshness is independent of the news pipeline. SKIPPED when the brief just
+      # pushed stories -- that push already triggered a build, and a second one would only
+      # burn Netlify build minutes (the free tier pools ~300/month across all sites).
+      # No hook secret -> documented skip.
+      - name: Refresh the website (Netlify build hook -> data desk update)
         if: always()
         env:
           HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+          PUSHED: ${{ steps.publish.outputs.pushed }}
         run: |
-          if [ -n "$HOOK" ]; then
+          if [ "$PUSHED" = "true" ]; then
+            echo "::notice::Stories were pushed; that deploy already refreshes the data desks. Skipping the hook ping."
+          elif [ -n "$HOOK" ]; then
             curl -s -f -X POST -d '{}' "$HOOK" > /dev/null \
-              && echo "::notice::Triggered the daily Netlify rebuild (Whale Watch board refresh)." \
-              || echo "::warning::Netlify build hook ping failed; the board will refresh on the next deploy."
+              && echo "::notice::Triggered a Netlify rebuild (data desk refresh)." \
+              || echo "::warning::Netlify build hook ping failed; the desks will refresh on the next deploy."
           else
             echo "::notice::NETLIFY_BUILD_HOOK not set; the board refreshes only on pushes. Add the secret to enable the daily refresh."
           fi
