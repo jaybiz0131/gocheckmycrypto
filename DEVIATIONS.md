@@ -94,6 +94,13 @@ a fetch failure as a documented skip. Attribution and links to Whale Alert are o
 Live-tested 2026-07-10: 21 archive alerts in 24h -> 11 exchange-relevant transfers, real
 board committed. This resolves and replaces the old D5 concern for Whale Alert.
 
+Addendum 2026-07-12: because only ~$50M+ moves appear, a quiet day can leave the configured
+24h window with zero exchange-relevant transfers, and the build was overwriting a good board
+with an empty one ("no board yet" in production). `whale_flows.py` now widens the lookback
+(48h -> 72h -> 7d) until something exchange-relevant appears and labels the board with the
+window it actually shows (the page explains the widening to the reader). If even a week is
+empty it keeps the previous snapshot, the same fail-open as a fetch error.
+
 ## D8 - Market Pulse: third-party market data fetched at build time (2026-07-10)
 
 The Market Pulse page (sentiment gauge, RSI/MACD/moving-average posture, stablecoin float,

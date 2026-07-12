@@ -562,7 +562,7 @@ def render_home(items, flows, pulse, cm, dateline):
     if flows and not flows.get("example") and flows.get("volatile"):
         wnet = flows["volatile"].get("net_usd", 0)
         ww_line = (f"{fmt_usd(wnet)} net {'off' if wnet >= 0 else 'onto'} exchanges in the "
-                   f"last 24 hours.")
+                   f"last {_win_phrase(flows.get('window_hours', 24))}.")
     cards.append(f"""<a class="dash-card home-card" href="/flows.html">
       <img class="dash-hero-img" src="/assets/whale-watch-logo.jpg" alt="Whale Watch: market pulse, on-chain insights" loading="lazy">
       <span class="lab">Whale Watch</span>
@@ -612,8 +612,8 @@ def flow_teaser():
         v = flows.get("volatile", {})
         s = flows.get("stablecoins", {})
         pre = "Example: " if flows.get("example") else ""
-        summ = (f"{pre}Volatile whales net {fmt_usd(v.get('net_usd',0))} {v.get('direction','')} in "
-                f"{flows.get('window_hours',24)}h; {fmt_usd(s.get('net_buying_power_usd',0))} "
+        summ = (f"{pre}Volatile whales net {fmt_usd(v.get('net_usd',0))} {v.get('direction','')} over "
+                f"{_win_phrase(flows.get('window_hours', 24))}; {fmt_usd(s.get('net_buying_power_usd',0))} "
                 f"stablecoin buying power arriving.")
     return (f'<section class="sec"><div class="wrap">'
             f'<a class="flow-teaser" href="/flows.html">'
@@ -828,17 +828,25 @@ def ww_hero():
             '</div></section>')
 
 
+def _win_phrase(hours):
+    """Human window label: '24 hours', '48 hours', '7 days'."""
+    hours = int(hours or 24)
+    if hours >= 48 and hours % 24 == 0:
+        return f"{hours // 24} days"
+    return f"{hours} hours"
+
+
 def render_flows(flows, dateline):
-    if not flows or not flows.get("by_asset") and not (flows or {}).get("top_inflows"):
+    if not flows or (not flows.get("by_asset") and not flows.get("top_inflows")):
         body = ww_hero() + """<main class="wrap"><section class="page">
   <span class="kicker">Follow the money</span>
   <h1>Where the whales are moving</h1>
   <p class="lede">This board tracks where whales are moving large amounts of crypto: onto
      exchanges (which can precede selling) or off exchanges into self-custody (accumulation).</p>
-  <div class="empty"><span class="k">No board yet</span>
-    <p style="margin:.6em 0 0">The board refreshes from Whale Alert's public data at each site
-    build. Preview it locally with <code>python3 whale_flows.py --fixture
-    fixtures/whale_sample.json</code>.</p></div>
+  <div class="empty"><span class="k">A quiet stretch</span>
+    <p style="margin:.6em 0 0">Whale Alert's public feed only carries the very largest
+    transfers (roughly $50M and up), and none touched an exchange recently. The board
+    refreshes with every site build; check back soon.</p></div>
 </section></main>"""
         return shell(f"Whale Watch - {NAME}", "Follow the money: whale exchange flows.",
                      "Whale Watch", body, dateline, body_class="ww-dark", path="/flows.html")
@@ -852,6 +860,10 @@ def render_flows(flows, dateline):
     if flows.get("example"):
         ribbon = ('<div class="callout"><b>Example board.</b> These are illustrative figures from '
                   'sample data, shown so you can see the format. Live flows arrive with the next site build.</div>')
+    if flows.get("window_widened_from"):
+        ribbon += (f'<div class="callout"><b>Quiet stretch.</b> No exchange-size whale moves hit '
+                   f'the public feed in the last {_win_phrase(flows["window_widened_from"])}, so '
+                   f'this board shows the last {_win_phrase(flows.get("window_hours"))} instead.</div>')
     moves = flows.get("top_inflows", [])
     move_rows = "".join(
         f'<tr><td class="sym2">{esc(m.get("symbol",""))}{" &middot; stable" if m.get("stable") else ""}</td>'
@@ -859,12 +871,12 @@ def render_flows(flows, dateline):
         f'<td>&rarr; {esc(m.get("to","unknown exchange"))}</td>'
         f'<td class="mut">from {esc(m.get("from","unknown wallet"))}</td></tr>'
         for m in moves)
-    win = flows.get("window_hours", 24)
+    winp = _win_phrase(flows.get("window_hours", 24))
     body = ww_hero() + f"""<main class="wrap"><section class="page">
   <span class="kicker">Follow the money</span>
   <h1>Where the whales are moving</h1>
   <p class="lede">Not a scrolling feed of every transfer, the aggregate. Where are whales moving
-     large amounts on net over the last {win} hours: onto exchanges (which can precede selling)
+     large amounts on net over the last {winp}: onto exchanges (which can precede selling)
      or off into self-custody (accumulation)?
      <span class="daily-badge">refreshed 3x daily</span></p>
   {ribbon}
@@ -873,12 +885,12 @@ def render_flows(flows, dateline):
     <div class="stat">
       <span class="lab">Volatile assets, net</span>
       <span class="big {dir_cls}">{esc(fmt_usd(net))}</span>
-      <span class="sub">net {esc(dir_word)} ({win}h)</span>
+      <span class="sub">net {esc(dir_word)} ({esc(winp)})</span>
     </div>
     <div class="stat">
       <span class="lab">Stablecoin buying power arriving</span>
       <span class="big">{esc(fmt_usd(s.get("net_buying_power_usd",0)))}</span>
-      <span class="sub">net stablecoins onto exchanges ({win}h)</span>
+      <span class="sub">net stablecoins onto exchanges ({esc(winp)})</span>
     </div>
   </div>
 
@@ -1168,9 +1180,9 @@ def _posture_card(a):
     chart = line_chart_svg(
         a.get("spark"), overlays=overlays,
         x_labels=[win.get("start", ""), win.get("end", "")],
-        value_label=fmt_tick(a.get("price", 0)),
+        value_label=_price_fmt(a.get("price")),
         aria=f"{sym} price over 90 days with 50 and 200 day averages, "
-             f"currently ${a.get('price', 0):,.0f}",
+             f"currently {_price_fmt(a.get('price'))}",
         pill_attr=f'data-live="pill:{sym}"')
     legend = chart_legend([("price", C_PRICE, False), ("50-day avg", C_SMA50, True),
                            ("200-day avg", C_SMA200, True)])
@@ -1189,11 +1201,21 @@ def _posture_card(a):
              else _chip("Below 200-day", "chip-down"))
     cross = (_chip("Golden cross", "chip-up") if a.get("golden_cross")
              else _chip("Death cross", "chip-down"))
+    chg = a.get("chg_24h_pct")
+    chg_html = ""
+    if chg is not None:
+        chg_html = (f'<span class="pc-chg {"up" if chg >= 0 else "down"}" '
+                    f'data-live="chg:{esc(sym)}">{chg:+.2f}% (24h)</span>')
+    stats = "".join(
+        f'<div><dt>{esc(lab)}</dt><dd>{esc(_price_fmt(a.get(key)))}</dd></div>'
+        for lab, key in (("50-day avg", "sma50"), ("200-day avg", "sma200"),
+                         ("90-day high", "spark_high"), ("90-day low", "spark_low")))
     return f"""<div class="pulse-card">
   <div class="pc-head"><span class="pc-sym">{esc(sym)}<span class="live-dot"></span></span>
-    <span class="pc-price" data-live="price:{esc(sym)}">${a.get("price", 0):,.0f}</span></div>
+    <span class="pc-quote"><span class="pc-price" data-live="price:{esc(sym)}">{esc(_price_fmt(a.get("price")))}</span>{chg_html}</span></div>
   {chart}
   {legend}
+  <dl class="pc-stats">{stats}</dl>
   <div class="pc-chips">{rsi_chip}{mom}{trend}{cross}
     {_chip(f'{a.get("pct_from_high_12m", 0):+.0f}% vs 12-mo high')}
     {_chip(f'volatility {a.get("vol30_pct", 0):.0f}%/yr')}</div>
@@ -1265,7 +1287,7 @@ def render_pulse_hub(pulse, flows, dateline):
         rng = (f"range {fmt_tick(min(s30))} to {fmt_tick(max(s30))}" if s30 else "")
         cards.append(f"""<a class="dash-card" href="/pulse/posture.html">
       <span class="lab">Price posture</span>
-      <span class="dash-stat" data-live="price:BTC" data-prefix="BTC ">BTC ${btc.get("price", 0):,.0f}</span>
+      <span class="dash-stat" data-live="price:BTC" data-prefix="BTC ">BTC {esc(_price_fmt(btc.get("price")))}</span>
       <div class="pc-spark">{spark_svg(s30)}</div>
       <span class="mini-range">{esc(rng)}</span>
       <p class="pc-note">RSI {btc.get("rsi14", 0):.0f}, {mom}. Full readings for BTC, ETH, and SOL.</p>

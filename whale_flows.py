@@ -141,6 +141,12 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
 
 HISTORY_WEEKS = 13
 
+# The public archive only carries the very largest transfers (~$50M+), so a quiet day can
+# leave the configured window with zero exchange-relevant moves. Rather than publish a blank
+# board, widen the lookback step by step until something appears, and label the board with
+# the window it actually shows (render_flows explains the widening to the reader).
+WIDEN_HOURS = (48, 72, 168)
+
 
 def load_from_archive(cfg, window_hours, max_decompressed_bytes=8_000_000):
     """Pull the window's transfers from Whale Alert's FREE public alert archive (keyless;
@@ -211,6 +217,23 @@ def run(fixture=None, window=None, example=False):
             return 0
 
     result = analyze(txns, window_hours, top_assets, top_moves, example=example, date=date)
+    if not fixture and not result["txn_count"]:
+        import time as _time
+        for wider in WIDEN_HOURS:
+            if wider <= window_hours:
+                continue
+            cutoff = _time.time() - wider * 3600
+            txns = [t for t in txns_hist if float(t.get("timestamp") or 0) >= cutoff]
+            result = analyze(txns, wider, top_assets, top_moves, example=example, date=date)
+            if result["txn_count"]:
+                result["window_widened_from"] = window_hours
+                break
+        else:
+            # Even a week of lookback is empty: keep the committed snapshot rather than
+            # overwrite it with a blank board (same fail-open as an archive fetch error).
+            common.gh("warning", f"whale_flows: no exchange-relevant transfers in the last "
+                                 f"{WIDEN_HOURS[-1]}h -> keeping the previous snapshot.")
+            return 0
     if history:
         result["history"] = history
     common.write_out(os.path.basename(OUT), result)

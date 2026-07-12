@@ -180,7 +180,9 @@ def section_assets():
         sma50_win = rolling_sma(closes, 50)[-90:]
         sma200_win = rolling_sma(closes, 200)[-90:]
         out.append({
-            "symbol": sym, "name": cid, "price": round(last, 2),
+            # keep cents on cheap coins: $1.10 must not flatten to $1 (4 decimals below $100)
+            "symbol": sym, "name": cid, "price": round(last, 2 if last >= 100 else 4),
+            "chg_24h_pct": round((last / closes[-2] - 1) * 100, 2),
             "rsi14": round(rsi14(closes), 1),
             "macd_above_signal": bool(m and m["hist"] >= 0),
             "sma50": round(s50, 2), "sma200": round(s200, 2),
