@@ -1,0 +1,24 @@
+{
+  "id": "c008",
+  "slug": "ethereum-foundation-confirms-validator-crash-bug-surfaced-by-ai",
+  "kind": "brief",
+  "title": "Ethereum Foundation Confirms Validator Crash Bug Surfaced by AI",
+  "dek": "The Ethereum Foundation confirmed a remotely triggerable validator crash bug that could take validators offline. An AI tool surfaced the issue, but human researchers were required to prove it.",
+  "date": "2026-07-12",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "The Ethereum Foundation confirmed a remotely triggerable bug that could crash validators, initially surfaced by AI and proven by humans.",
+  "human_take": "",
+  "body": [
+    "The Ethereum Foundation confirmed a remotely triggerable bug that could take validators offline.",
+    "Reporting indicates an AI tool identified the issue, but human researchers were needed to prove it. The finding carries direct security relevance for the network and raises questions about AI's role in audits."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/07/10/ai-found-an-ethereum-bug-that-could-take-validators-offline-but-humans-had-to-prove-it",
+      "url": "https://www.coindesk.com/tech/2026/07/10/ai-found-an-ethereum-bug-that-could-take-validators-offline-but-humans-had-to-prove-it"
+    }
+  ]
+}
