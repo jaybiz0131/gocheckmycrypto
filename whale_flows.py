@@ -72,6 +72,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
     stable_in = stable_out = 0.0
     counted = 0
     inflow_moves = []
+    outflow_moves = []
     for t in txns:
         kind = classify(t)
         sym = (t.get("symbol") or "?").upper()
@@ -80,13 +81,15 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
             continue
         counted += 1
         is_stable = sym in STABLES
-        if kind == "inflow":
-            to = (t.get("to", {}) or {}).get("owner") or "unknown exchange"
+        if kind in ("inflow", "outflow"):
             move = {"symbol": sym, "amount": float(t.get("amount") or 0), "usd": usd,
-                    "to": to, "from": (t.get("from", {}) or {}).get("owner") or "unknown wallet",
+                    "to": (t.get("to", {}) or {}).get("owner") or (
+                        "unknown exchange" if kind == "inflow" else "unknown wallet"),
+                    "from": (t.get("from", {}) or {}).get("owner") or (
+                        "unknown wallet" if kind == "inflow" else "unknown exchange"),
                     "blockchain": t.get("blockchain", ""), "hash": t.get("hash", ""),
                     "stable": is_stable}
-            inflow_moves.append(move)
+            (inflow_moves if kind == "inflow" else outflow_moves).append(move)
         if is_stable:
             if kind == "inflow":
                 stable_in += usd
@@ -112,6 +115,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
     by_asset = by_asset[:top_assets]
 
     inflow_moves.sort(key=lambda m: m["usd"], reverse=True)
+    outflow_moves.sort(key=lambda m: m["usd"], reverse=True)
     net = vol_out - vol_in  # positive = net off exchanges (accumulation)
     direction = "off exchanges" if net >= 0 else "onto exchanges"
 
@@ -130,6 +134,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
         },
         "by_asset": by_asset,
         "top_inflows": inflow_moves[:top_moves],
+        "top_outflows": outflow_moves[:top_moves],
         "note": ("Data: Whale Alert public alert archive; exchanges identified by name, and only "
                  "the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile "
                  "assets, coins moving onto exchanges can precede selling and coins moving off "

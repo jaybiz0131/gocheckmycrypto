@@ -114,6 +114,17 @@ card, and none of it ever becomes a buy or sell call. The Whale Watch board also
 13-week net-flow history computed from the same public archive read (D7). Market data never
 touches the editorial pipeline or the human gate.
 
+## D9 - Leverage desk: OKX public API, because Binance/Bybit geo-block US builds (2026-07-12)
+
+The Leverage dashboard (perp funding rates + open interest for the majors) wants
+market-wide derivatives data, but the aggregators (Coinglass etc.) are keyed/paid and the
+deepest venue, Binance, geo-blocks its futures API from US infrastructure (HTTP 451), as
+does Bybit (403), which is what Netlify builds run on. So `market_pulse.py` reads OKX's
+free public endpoints (funding-rate + open-interest, keyless, reachable from US builds),
+with Deribit's public ticker as a BTC/ETH fallback, and the page says plainly that these
+are single-venue snapshots, not market-wide totals. No BNB perp on OKX, so the leverage
+board covers BTC/ETH/SOL/XRP/DOGE. Same fail-open posture as every Market Pulse section.
+
 ## D5 - X source adapter is wired but not live-tested
 
 X/Twitter remains a keyless-skip source (absence is a documented skip, never a failure) and

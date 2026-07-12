@@ -2,16 +2,18 @@
 """
 market_pulse.py: the Market Pulse data desk. Free, keyless market context, explained honestly.
 
-Fetches four independent, keyless sources at build time and writes site/data/pulse.json,
+Fetches five independent, keyless sources at build time and writes site/data/pulse.json,
 which site_build.py renders as the "Market Pulse" page:
 
   1. Fear & Greed Index        alternative.me          crowd sentiment gauge + 90d history
-  2. Price history             CoinGecko (keyless)     365d daily closes for BTC/ETH/SOL ->
+  2. Price history             CoinGecko (keyless)     365d daily closes for the majors ->
                                RSI-14, MACD(12,26,9), 50/200-day SMAs, 12-month-high
                                distance, 30d realized volatility. All stdlib arithmetic.
   3. Stablecoin supply         DefiLlama (keyless)     total USD-pegged float: crypto's
                                dry powder, current + 30d change + 1y trend
-  4. Bitcoin network           mempool.space           recommended fees + difficulty change
+  4. Perp leverage             OKX (Deribit fallback)  funding rates + open interest for
+                               the majors: how crowded the leveraged bets are
+  5. Bitcoin network           mempool.space           recommended fees + difficulty change
 
 FAIL-OPEN, PER SECTION: each source is fetched independently; a failed source is warned and
 omitted while the others still publish. If every source fails, nothing is written and the
@@ -36,7 +38,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SITE_DATA = os.path.join(HERE, "site", "data", "pulse.json")
 UA = "CryptoCronkite-MarketPulse/1.0 (+https://gocheckmycrypto.com)"
 
-ASSETS = [("bitcoin", "BTC"), ("ethereum", "ETH"), ("solana", "SOL"), ("ripple", "XRP")]
+ASSETS = [("bitcoin", "BTC"), ("ethereum", "ETH"), ("solana", "SOL"), ("ripple", "XRP"),
+          ("binancecoin", "BNB"), ("dogecoin", "DOGE"), ("cardano", "ADA")]
+
+# Perp contracts for the leverage desk. OKX's public endpoints are keyless and reachable
+# from US build infrastructure (Binance/Bybit geo-block theirs, see DEVIATIONS D9); Deribit
+# is the fallback for BTC/ETH. No BNB here: OKX does not list a BNB perp.
+LEVERAGE_INSTRUMENTS = [("BTC", "BTC-USDT-SWAP"), ("ETH", "ETH-USDT-SWAP"),
+                        ("SOL", "SOL-USDT-SWAP"), ("XRP", "XRP-USDT-SWAP"),
+                        ("DOGE", "DOGE-USDT-SWAP")]
 
 
 def get_json(url, timeout=30, attempts=3):
@@ -244,6 +254,51 @@ def section_movers(top_n=5, universe=100):
             "top100": [pack(c, spark=True) for c in top100]}
 
 
+def section_leverage():
+    """Perp funding rates and open interest for the majors: how crowded and how expensive
+    the leveraged bets are. Primary: OKX public API (keyless). Fallback for BTC/ETH:
+    Deribit's public ticker. Per-asset fail-open inside the section; the section itself
+    only publishes if at least one asset resolved."""
+    import time
+    out = []
+    for i, (sym, inst) in enumerate(LEVERAGE_INSTRUMENTS):
+        if i:
+            time.sleep(1)  # OKX allows bursts, but a build can afford politeness
+        try:
+            f = get_json(f"https://www.okx.com/api/v5/public/funding-rate?instId={inst}")["data"][0]
+            o = get_json(f"https://www.okx.com/api/v5/public/open-interest?instId={inst}")["data"][0]
+            rate = float(f["fundingRate"])  # fraction per 8h funding interval
+            out.append({
+                "symbol": sym, "venue": "OKX",
+                "funding_8h_pct": round(rate * 100, 4),
+                "funding_annual_pct": round(rate * 3 * 365 * 100, 1),
+                "next_funding_utc": datetime.fromtimestamp(
+                    int(f["fundingTime"]) / 1000, timezone.utc).strftime("%H:%M UTC"),
+                "open_interest_usd": round(float(o["oiUsd"])),
+            })
+        except Exception as e:
+            common.gh("warning", f"market_pulse: leverage {sym} via OKX failed ({e})")
+    if not any(a["symbol"] in ("BTC", "ETH") for a in out):
+        for sym in ("BTC", "ETH"):
+            try:
+                d = get_json("https://www.deribit.com/api/v2/public/ticker"
+                             f"?instrument_name={sym}-PERPETUAL")["result"]
+                out.append({
+                    "symbol": sym, "venue": "Deribit",
+                    "funding_8h_pct": round(float(d.get("funding_8h", 0)) * 100, 4),
+                    "funding_annual_pct": round(float(d.get("funding_8h", 0)) * 3 * 365 * 100, 1),
+                    "next_funding_utc": "",
+                    "open_interest_usd": round(float(d.get("open_interest", 0))),
+                })
+            except Exception as e:
+                common.gh("warning", f"market_pulse: leverage {sym} via Deribit failed ({e})")
+    if not out:
+        raise ValueError("no leverage venue reachable")
+    return {"assets": out,
+            "note": ("Perpetual-swap funding and open interest from public exchange data "
+                     "(single-venue snapshots, not market-wide totals).")}
+
+
 def section_network():
     fees = get_json("https://mempool.space/api/v1/fees/recommended")
     diff = get_json("https://mempool.space/api/v1/difficulty-adjustment")
@@ -262,7 +317,7 @@ def main():
     }
     sections = [("fng", section_fng), ("assets", section_assets),
                 ("movers", section_movers), ("stables", section_stables),
-                ("network", section_network)]
+                ("leverage", section_leverage), ("network", section_network)]
     got = 0
     for name, fn in sections:
         try:
@@ -278,7 +333,8 @@ def main():
     json.dump(pulse, open(SITE_DATA, "w", encoding="utf-8"), indent=2)
     common.write_out("market_pulse.json", pulse)
     parts = [n for n, _ in sections if n in pulse]
-    print(f"market_pulse: {got}/5 sections -> {os.path.relpath(SITE_DATA)} ({', '.join(parts)})")
+    print(f"market_pulse: {got}/{len(sections)} sections -> {os.path.relpath(SITE_DATA)} "
+          f"({', '.join(parts)})")
     return 0
 
 

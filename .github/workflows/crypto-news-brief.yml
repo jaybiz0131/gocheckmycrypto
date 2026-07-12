@@ -1,7 +1,8 @@
-# Crypto Cronkite daily brief: the scheduled ingest -> AI processing -> review queue job.
+# Crypto Cronkite news brief: the scheduled ingest -> AI processing -> review queue job.
 #
-# Runs aggregate -> editor -> verifier -> writer -> digest overnight and uploads the review
-# queue as a workflow artifact for the human editor-in-chief to approve from each morning.
+# Runs aggregate -> editor -> verifier -> writer -> digest twice a day (morning and US
+# afternoon) and uploads the review queue as a workflow artifact for the human
+# editor-in-chief to approve.
 #
 # FAIL-CLOSED and it NEVER PUBLISHES. It runs run.py (Stages 1-5) only; publish.py (Stage 6)
 # is a separate, deliberate, human-approved step and is intentionally not invoked here. If any
@@ -16,7 +17,9 @@ name: Crypto Cronkite daily brief
 
 on:
   schedule:
-    - cron: "40 7 * * *"   # daily, 07:40 UTC
+    - cron: "40 7 * * *"    # morning brief, 07:40 UTC
+    - cron: "40 16 * * *"   # afternoon brief, 16:40 UTC (crypto is a 24/7 market; one
+                            # cycle a day left the desk stale by the US afternoon)
   workflow_dispatch: {}
 
 concurrency:

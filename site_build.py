@@ -83,6 +83,141 @@ def fmt_date(iso):
     return f"{MONTHS[mo]} {d}, {y}"
 
 
+def _parse_utc(item):
+    """datetime for a story's publish moment: published_utc when stamped (new stories),
+    else midnight of its date (legacy stories carry a date only)."""
+    from datetime import datetime, timezone
+    for fmt, val in (("%Y-%m-%dT%H:%M:%SZ", item.get("published_utc") or ""),
+                     ("%Y-%m-%d", item.get("date") or "")):
+        try:
+            return datetime.strptime(val, fmt).replace(tzinfo=timezone.utc)
+        except ValueError:
+            continue
+    return None
+
+
+def fmt_when(item):
+    """Dateline with the publish time when we have one: 'July 12, 2026 · 07:41 UTC'.
+    Crypto is a 24/7 market; an expert reader needs to know 2 hours old vs 20."""
+    base = esc(fmt_date(item.get("date")))
+    if item.get("published_utc"):
+        dt = _parse_utc(item)
+        if dt:
+            return f"{base} &middot; {dt.strftime('%H:%M')} UTC"
+    return base
+
+
+def _rfc822(item):
+    dt = _parse_utc(item)
+    return dt.strftime("%a, %d %b %Y %H:%M:%S +0000") if dt else ""
+
+
+# Source attribution: outlet names read better (and more honestly) than raw feed URLs.
+OUTLETS = {
+    "coindesk.com": "CoinDesk", "theblock.co": "The Block",
+    "cointelegraph.com": "Cointelegraph", "decrypt.co": "Decrypt",
+    "bitcoinmagazine.com": "Bitcoin Magazine", "blockworks.co": "Blockworks",
+    "dlnews.com": "DL News", "thedefiant.io": "The Defiant", "protos.com": "Protos",
+    "reuters.com": "Reuters", "bloomberg.com": "Bloomberg", "cnbc.com": "CNBC",
+    "wsj.com": "The Wall Street Journal", "ft.com": "Financial Times",
+    "sec.gov": "SEC", "cftc.gov": "CFTC", "justice.gov": "U.S. Department of Justice",
+    "federalreserve.gov": "Federal Reserve", "treasury.gov": "U.S. Treasury",
+    "imf.org": "IMF", "whitehouse.gov": "The White House", "congress.gov": "Congress.gov",
+    "ethereum.org": "Ethereum Foundation", "blog.ethereum.org": "Ethereum Foundation",
+    "bitcoincore.org": "Bitcoin Core", "whale-alert.io": "Whale Alert",
+}
+
+
+def source_label(src):
+    """'CoinDesk: lending protocol bonzo loses 77 of value locked' instead of a raw URL
+    with utm cruft. A real title (anything that isn't just the URL) is kept as-is."""
+    from urllib.parse import urlparse
+    url = src.get("url") or ""
+    title = (src.get("title") or "").strip()
+    if title and title != url:
+        return title
+    p = urlparse(url)
+    host = p.netloc.lower().removeprefix("www.")
+    outlet = OUTLETS.get(host, host)
+    slug = [s for s in p.path.split("/") if s]
+    hint = re.sub(r"[-_]+", " ", re.sub(r"\.\w+$", "", slug[-1])) if slug else ""
+    hint = re.sub(r"\b\d{5,}\b", "", hint).strip()
+    if len(hint) > 80:
+        hint = hint[:80].rsplit(" ", 1)[0] + "..."
+    if hint and not hint.isdigit():
+        return f"{outlet}: {hint}"
+    return outlet
+
+
+# Topic tags: deterministic keyword rules over the story text, computed at build time so
+# every story (old and new) gets them without touching the pipeline. Order = priority;
+# a story keeps at most 3.
+TAG_RULES = [
+    ("regulation", r"\b(sec|cftc|occ|doj|regulat\w*|congress|senate|bill|law|lawsuit|court|"
+                   r"charge[sd]?|ruling|sanction\w*|treasury|cbdc|imf|legislat\w*|approval)\b"),
+    ("security", r"\b(exploit\w*|hack\w*|stolen|theft|vulnerabilit\w*|bug|drained|breach|"
+                 r"ponzi|fraud|scam\w*|phishing|attacker\w*)\b"),
+    ("bitcoin", r"\b(bitcoin|btc|bip \d+|bip-\d+|miner\w*|mining|halving)\b"),
+    ("ethereum", r"\b(ethereum|eth|validator\w*|staking|vitalik)\b"),
+    ("defi", r"\b(defi|protocol\w*|tvl|oracle\w*|lending|dex|liquidity)\b"),
+    ("stablecoins", r"\b(stablecoin\w*|usdt|usdc|tether|circle|dai)\b"),
+    ("etfs-funds", r"\b(etf\w*|grayscale|blackrock|ishares|fund flows)\b"),
+    ("markets", r"\b(price\w*|rally|selloff|sell-off|surge\w*|plunge\w*|all-time high|"
+                r"market cap|liquidation\w*)\b"),
+]
+_TAG_RES = [(tag, re.compile(pat, re.I)) for tag, pat in TAG_RULES]
+
+
+def tags_for(item):
+    body = item.get("body") or []
+    text = " ".join([item.get("title") or "", item.get("dek") or "",
+                     item.get("key_fact") or ""] +
+                    [p if isinstance(p, str) else "" for p in body])
+    return [tag for tag, rx in _TAG_RES if rx.search(text)][:3]
+
+
+def related_stories(item, items, n=3):
+    """Stories sharing a topic tag, newest first. Turns a one-story visit into a session."""
+    mine = set(tags_for(item))
+    if not mine:
+        return []
+    scored = []
+    for other in items:
+        if other is item or other.get("example") or other.get("slug") == item.get("slug"):
+            continue
+        shared = len(mine & set(tags_for(other)))
+        if shared:
+            scored.append((shared, other.get("date", ""), other))
+    scored.sort(key=lambda t: (t[0], t[1]), reverse=True)
+    return [o for _, _, o in scored[:n]]
+
+
+def render_feed(items):
+    """RSS 2.0 feed of the published stories. The desk consumes RSS; now it emits it."""
+    out = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
+           "<channel>",
+           f"<title>{esc(NAME)} &#8212; {esc(FAMILY)}</title>",
+           f"<link>{ORIGIN}/news.html</link>",
+           f"<description>{esc(DESC)}</description>",
+           "<language>en-us</language>",
+           f'<atom:link href="{ORIGIN}/feed.xml" rel="self" type="application/rss+xml"/>']
+    for it in [i for i in items if not i.get("example")][:30]:
+        url = f"{ORIGIN}/articles/{it['slug']}.html"
+        pd = _rfc822(it)
+        cats = "".join(f"<category>{esc(t)}</category>" for t in tags_for(it))
+        out += ["<item>",
+                f"<title>{esc(it.get('title') or '')}</title>",
+                f"<link>{url}</link>",
+                f'<guid isPermaLink="true">{url}</guid>',
+                (f"<pubDate>{pd}</pubDate>" if pd else ""),
+                f"<description>{esc(it.get('dek') or '')}</description>",
+                cats,
+                "</item>"]
+    out += ["</channel>", "</rss>", ""]
+    return "\n".join(x for x in out if x)
+
+
 def fmt_usd(n):
     n = float(n or 0)
     sign = "-" if n < 0 else ""
@@ -247,7 +382,8 @@ def footer(brand="site"):
     desk."""
     links = "".join(f'<a href="{esc(h)}">{esc(l)}</a>' for l, h in
                     [("About", "/about.html"), ("How we work", "/method.html"),
-                     ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html")])
+                     ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html"),
+                     ("RSS", "/feed.xml")])
     if brand == "cronkite":
         who = f"{esc(NAME)}"
         note = ("Crypto Cronkite is GoCheckMyCrypto's independent news desk, built with one "
@@ -317,7 +453,8 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta name="color-scheme" content="light dark">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
-{robots}<meta property="og:title" content="{esc(title)}">
+{robots}<link rel="alternate" type="application/rss+xml" title="{esc(NAME)} feed" href="/feed.xml">
+<meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="{esc(og_type)}">{schema_extra}
 <meta property="og:url" content="{esc(url)}">
@@ -412,10 +549,11 @@ def share_row(url, title):
 </script>"""
 
 
-def render_article(item):
+def render_article(item, all_items=None):
     dateline = fmt_date(item.get("date"))
     badge = verdict_badge(item.get("verdict"))
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
+    topic_chips = "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item))
     ribbon = ""
     if item.get("example"):
         ribbon = ('<div class="callout"><b>Example, not a real story.</b> This page shows the '
@@ -432,13 +570,19 @@ def render_article(item):
     src_html = ""
     if srcs:
         lis = "".join(
-            f'<li><a href="{esc(s.get("url",""))}" rel="nofollow">{esc(s.get("title") or s.get("url"))}</a></li>'
+            f'<li><a href="{esc(s.get("url",""))}" rel="nofollow">{esc(source_label(s))}</a></li>'
             for s in srcs)
         src_html = f'<div class="sources"><h4>Sources</h4><ol>{lis}</ol></div>'
+    rel_html = ""
+    for rel in related_stories(item, all_items or []):
+        rel_html += (f'<li><a href="/articles/{esc(rel["slug"])}.html">{esc(rel.get("title"))}</a>'
+                     f'<span class="mut"> &middot; {fmt_when(rel)}</span></li>')
+    if rel_html:
+        rel_html = f'<div class="related"><h4>Related stories</h4><ul>{rel_html}</ul></div>'
     author = esc(item.get("author", "Crypto Cronkite"))
     body = f"""<main class="wrap narrow">
   <article class="article">
-    <div class="ey">{badge}{tag}<span class="dateline">{esc(dateline)}</span></div>
+    <div class="ey">{badge}{tag}{topic_chips}<span class="dateline">{fmt_when(item)}</span></div>
     <h1>{esc(item.get("title"))}</h1>
     {f'<p class="dek">{esc(item["dek"])}</p>' if item.get("dek") else ""}
     <div class="byline">By {author}</div>
@@ -450,6 +594,7 @@ def render_article(item):
     {sig_block()}
     {share_row(ORIGIN + f"/articles/{item['slug']}.html", item.get("title") or "")}
     {src_html}
+    {rel_html}
     <p class="nfa">{esc(NFA)}</p>
   </article>
 </main>"""
@@ -459,7 +604,9 @@ def render_article(item):
     schema = json.dumps({"@context": "https://schema.org", "@graph": [
         {"@type": "NewsArticle", "headline": item.get("title"),
          "description": item.get("dek") or "", "url": url, "mainEntityOfPage": url,
-         "image": OG_IMAGE, "datePublished": item.get("date"), "dateModified": item.get("date"),
+         "image": OG_IMAGE,
+         "datePublished": item.get("published_utc") or item.get("date"),
+         "dateModified": item.get("published_utc") or item.get("date"),
          "author": {"@type": "Organization", "name": NAME, "url": ORIGIN + "/news.html"},
          "publisher": {"@type": "Organization", "name": FAMILY, "url": ORIGIN + "/"}},
         {"@type": "BreadcrumbList", "itemListElement": [
@@ -486,7 +633,7 @@ def card(item):
   <div class="row">{badge}{tag}</div>
   <h3><a href="{href}">{esc(item.get("title"))}</a></h3>
   <p class="summary">{esc(summ[:180])}</p>
-  <div class="foot"><span class="dateline">{esc(fmt_date(item.get("date")))}</span>
+  <div class="foot"><span class="dateline">{fmt_when(item)}</span>
     <span class="src">{nsrc} source{"s" if nsrc != 1 else ""}</span></div>
 </article>"""
 
@@ -515,7 +662,7 @@ def render_news(items, dateline):
     <span class="kicker">Lead story</span>
     <h1><a href="/articles/{esc(lead["slug"])}.html" style="color:inherit">{esc(lead.get("title"))}</a></h1>
     {f'<p class="dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""}
-    <div class="meta">{badge}{tag}<span class="dateline">{esc(fmt_date(lead.get("date")))}</span>
+    <div class="meta">{badge}{tag}<span class="dateline">{fmt_when(lead)}</span>
       <a href="/articles/{esc(lead["slug"])}.html">Read the story &rarr;</a></div>
   </div></section>"""
         grid = ""
@@ -864,13 +1011,16 @@ def render_flows(flows, dateline):
         ribbon += (f'<div class="callout"><b>Quiet stretch.</b> No exchange-size whale moves hit '
                    f'the public feed in the last {_win_phrase(flows["window_widened_from"])}, so '
                    f'this board shows the last {_win_phrase(flows.get("window_hours"))} instead.</div>')
-    moves = flows.get("top_inflows", [])
-    move_rows = "".join(
-        f'<tr><td class="sym2">{esc(m.get("symbol",""))}{" &middot; stable" if m.get("stable") else ""}</td>'
-        f'<td class="num">{esc(fmt_usd(m.get("usd",0)))}</td>'
-        f'<td>&rarr; {esc(m.get("to","unknown exchange"))}</td>'
-        f'<td class="mut">from {esc(m.get("from","unknown wallet"))}</td></tr>'
-        for m in moves)
+    def _move_rows(moves):
+        return "".join(
+            f'<tr><td class="sym2">{esc(m.get("symbol",""))}{" &middot; stable" if m.get("stable") else ""}</td>'
+            f'<td class="num">{esc(fmt_usd(m.get("usd",0)))}</td>'
+            f'<td>&rarr; {esc(m.get("to",""))}</td>'
+            f'<td class="mut">from {esc(m.get("from",""))}</td></tr>'
+            for m in moves)
+
+    move_rows = _move_rows(flows.get("top_inflows", []))
+    out_rows = _move_rows(flows.get("top_outflows", []))
     winp = _win_phrase(flows.get("window_hours", 24))
     body = ww_hero() + f"""<main class="wrap"><section class="page">
   <span class="kicker">Follow the money</span>
@@ -878,7 +1028,7 @@ def render_flows(flows, dateline):
   <p class="lede">Not a scrolling feed of every transfer, the aggregate. Where are whales moving
      large amounts on net over the last {winp}: onto exchanges (which can precede selling)
      or off into self-custody (accumulation)?
-     <span class="daily-badge">refreshed 3x daily</span></p>
+     <span class="daily-badge">refreshed through the day</span></p>
   {ribbon}
 
   <div class="stats">
@@ -905,6 +1055,9 @@ def render_flows(flows, dateline):
 
   <div class="sec-head" style="margin-top:26px"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
   <div class="movetable"><table><tbody>{move_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
+
+  <div class="sec-head" style="margin-top:26px"><h2>Biggest moves off exchanges</h2><span class="bar"></span></div>
+  <div class="movetable"><table><tbody>{out_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Whale watching 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
@@ -1229,7 +1382,7 @@ def _fng_band_color(value):
 
 PULSE_DESKS = [
     ("sentiment", "Crowd sentiment", "The Fear & Greed gauge: what the crowd is feeling and how to read it."),
-    ("posture", "Price posture", "RSI, momentum, and trend for BTC, ETH, and SOL, in plain language."),
+    ("posture", "Price posture", "RSI, momentum, and trend for the majors, in plain language."),
     ("stablecoins", "Stablecoin dry powder", "The market's fuel gauge: dollars staged inside crypto."),
     ("network", "Bitcoin network", "Fees and mining difficulty: how busy and how confident the chain is."),
 ]
@@ -1290,7 +1443,7 @@ def render_pulse_hub(pulse, flows, dateline):
       <span class="dash-stat" data-live="price:BTC" data-prefix="BTC ">BTC {esc(_price_fmt(btc.get("price")))}</span>
       <div class="pc-spark">{spark_svg(s30)}</div>
       <span class="mini-range">{esc(rng)}</span>
-      <p class="pc-note">RSI {btc.get("rsi14", 0):.0f}, {mom}. Full readings for BTC, ETH, and SOL.</p>
+      <p class="pc-note">RSI {btc.get("rsi14", 0):.0f}, {mom}. Full readings for the majors.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
     movers = pulse.get("movers") or {}
     if movers.get("gainers") and movers.get("losers"):
@@ -1313,6 +1466,18 @@ def render_pulse_hub(pulse, flows, dateline):
       <div class="pc-spark">{spark_svg(s60)}</div>
       <span class="mini-range">{esc(rng)}</span>
       <p class="pc-note">{chg:+.1f}% in 30 days. The dollars staged inside crypto.</p>
+      <span class="dash-open">Open dashboard &rarr;</span></a>""")
+    lev = (pulse.get("leverage") or {}).get("assets") or []
+    if lev:
+        b = lev[0]
+        f8 = b.get("funding_8h_pct", 0)
+        lean = "longs paying" if f8 > 0 else ("shorts paying" if f8 < 0 else "flat")
+        cards.append(f"""<a class="dash-card" href="/pulse/leverage.html">
+      <span class="lab">Leverage</span>
+      <span class="dash-stat">{esc(b.get("symbol",""))} funding {f8:+.4f}%</span>
+      <p class="pc-note" style="margin-top:6px">{lean} per 8 hours, with
+      {esc(fmt_usd(b.get("open_interest_usd", 0)))} of open interest. Funding and OI for
+      the majors, taught in plain language.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
     if network:
         diff = network.get("difficulty_change_pct", 0)
@@ -1425,7 +1590,7 @@ def render_pulse_sentiment(pulse, dateline):
 
 
 def render_pulse_posture(pulse, dateline):
-    desc = ("BTC, ETH, and SOL price posture: RSI, MACD momentum, 50/200-day trend, distance "
+    desc = ("Major-asset price posture: RSI, MACD momentum, 50/200-day trend, distance "
             "from the 12-month high, and volatility, each explained in plain language.")
     assets = (pulse or {}).get("assets") or []
     if not assets:
@@ -1669,6 +1834,60 @@ def render_pulse_prices(pulse, dateline):
     return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True)
 
 
+def render_pulse_leverage(pulse, dateline):
+    desc = ("Perp funding rates and open interest for the majors: how crowded and how "
+            "expensive the leveraged bets are, in plain language.")
+    lev = (pulse or {}).get("leverage") or {}
+    assets = lev.get("assets") or []
+    if not assets:
+        inner = f"{_dash_crumb()}\n  <h1>Leverage</h1>\n  {_no_data()}"
+        return _dash_shell("leverage", "Leverage", desc, inner, dateline)
+    rows = ""
+    for a in assets:
+        f8 = a.get("funding_8h_pct", 0)
+        cls = "chip-down" if f8 > 0.01 else ("chip-cool" if f8 < 0 else "")
+        rows += (f'<tr><td class="sym2">{esc(a.get("symbol",""))}</td>'
+                 f'<td class="pnum"><span class="chip {cls}">{f8:+.4f}% / 8h</span></td>'
+                 f'<td class="pnum">{a.get("funding_annual_pct", 0):+.1f}%/yr</td>'
+                 f'<td class="pnum">{esc(fmt_usd(a.get("open_interest_usd", 0)))}</td>'
+                 f'<td class="mut">{esc(a.get("venue",""))}'
+                 f'{(" &middot; next funding " + esc(a["next_funding_utc"])) if a.get("next_funding_utc") else ""}</td></tr>')
+    inner = f"""{_dash_crumb()}
+  <h1>Leverage</h1>
+  <p class="lede">The derivatives tape: what leveraged traders are paying to hold their bets
+     (funding) and how much money is in those bets (open interest). This is where crowding
+     shows up before it shows up in price.</p>
+  <div class="movetable"><table>
+    <thead><tr><th></th><th>Funding</th><th>Annualized</th><th>Open interest</th><th>Venue</th></tr></thead>
+    <tbody>{rows}</tbody></table></div>
+  <p class="pc-note" style="margin-top:8px">Single-venue snapshots from public exchange data,
+  refreshed with each site build; they move with the market but are not market-wide totals.</p>
+
+  <div class="sec-head" style="margin-top:30px"><h2>Leverage 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab">Funding is the cost of conviction</span>
+      <p>A perpetual swap has no expiry, so exchanges keep its price pinned to the real market
+      with funding: every eight hours, one side pays the other. <b>Positive funding means longs
+      are paying shorts</b>, the crowd is leaning bullish and paying for the privilege. Negative
+      funding means shorts are paying, the crowd leans bearish.</p></div>
+    <div class="learn"><span class="lab">Extremes are the tell</span>
+      <p>Near-zero funding is a calm market. Persistently rich funding (think tenths of a
+      percent every 8 hours, double-digit annualized) means a crowded, expensive trade that
+      often unwinds violently when price stops cooperating. It is a crowd gauge, not a
+      direction signal.</p></div>
+    <div class="learn"><span class="lab">Open interest is the fuel</span>
+      <p>Open interest is the total money sitting in open contracts. Rising OI with rising
+      price = new money chasing the move. High OI is also fuel for liquidation cascades:
+      when price moves fast against the crowd, forced closes accelerate it.</p></div>
+    <div class="learn"><span class="lab">What it cannot tell you</span>
+      <p>These are snapshots from one venue's public data, not the whole market, and funding
+      flips fast. Treat this as context for how stretched the boat is, never as a trade
+      signal on its own.</p></div>
+  </div>
+  <p class="nfa">{esc(lev.get("note", ""))} {esc(NFA)}</p>"""
+    return _dash_shell("leverage", "Leverage", desc, inner, dateline)
+
+
 def render_pulse_network(pulse, dateline):
     desc = ("Bitcoin network vitals explained: what transaction fees and mining difficulty "
             "say about demand for the chain and miner confidence.")
@@ -1824,10 +2043,12 @@ def ingest():
     if not os.path.isdir(PUBLISHED):
         print("ingest: no out/published/ (nothing approved yet); building from committed content only.")
         return 0
-    # date from the run, not a wall clock, so builds stay reproducible
-    date = "undated"
+    # date/time from the run, not a wall clock, so builds stay reproducible
+    date, published_utc = "undated", ""
     try:
-        date = json.load(open(os.path.join(HERE, "out", "items.json"), encoding="utf-8"))["_meta"]["generated"][:10]
+        published_utc = json.load(open(os.path.join(HERE, "out", "items.json"),
+                                       encoding="utf-8"))["_meta"]["generated"]
+        date = published_utc[:10]
     except Exception:
         pass
     os.makedirs(CONTENT, exist_ok=True)
@@ -1863,7 +2084,8 @@ def ingest():
         item = {
             "id": rec.get("id"), "slug": slug, "kind": "brief",
             "title": title, "dek": scrub((payload.get("script", {}) or {}).get("summary", "")),
-            "date": date, "category": "news", "verdict": rec.get("verdict"),
+            "date": date, "published_utc": published_utc,
+            "category": "news", "verdict": rec.get("verdict"),
             "rank": rank_map.get(rec.get("id")),
             "author": "Crypto Cronkite",
             "key_fact": scrub((payload.get("script", {}) or {}).get("key_fact", "")),
@@ -1920,6 +2142,7 @@ def build():
     w(os.path.join("pulse", "movers.html"), render_pulse_movers(pulse, dateline))
     w(os.path.join("pulse", "prices.html"), render_pulse_prices(pulse, dateline))
     w(os.path.join("pulse", "stablecoins.html"), render_pulse_stables(pulse, dateline))
+    w(os.path.join("pulse", "leverage.html"), render_pulse_leverage(pulse, dateline))
     w(os.path.join("pulse", "network.html"), render_pulse_network(pulse, dateline))
     w("archive.html", render_archive(items, dateline))
     w("method.html", render_method(items, dateline))
@@ -1928,7 +2151,8 @@ def build():
     w("404.html", render_404(dateline))
     w("thanks.html", render_thanks(dateline))
     for it in items:
-        w(os.path.join("articles", f"{it['slug']}.html"), render_article(it))
+        w(os.path.join("articles", f"{it['slug']}.html"), render_article(it, all_items=items))
+    w("feed.xml", render_feed(items))
 
     # the iOS home-screen icon lives at the site root (family convention)
     ati_src = os.path.join(ASSETS, "apple-touch-icon.png")
@@ -1943,7 +2167,7 @@ def build():
     locs = ["/", "/news.html", "/flows.html", "/pulse.html", "/chartmaster.html",
             "/pulse/sentiment.html", "/pulse/posture.html",
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
-            "/pulse/network.html",
+            "/pulse/leverage.html", "/pulse/network.html",
             "/archive.html", "/method.html", "/about.html", "/standards.html"]
     locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
     urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)
