@@ -64,10 +64,10 @@ def validate(obj, stories):
         if not art or not skel:
             raise llmlib.LLMError(f"writer draft {d.get('id')} missing article_draft or script_skeleton")
         # Enforce the guardrails regardless of what the model returned.
-        # If the model skipped the significance section, fall back to the editor's line
-        # rather than publishing without one.
-        if not (art.get("why_it_matters") or "").strip():
-            art["why_it_matters"] = by_id[d["id"]].get("why_it_matters", "")
+        # If the model skipped The Bottom Line closer, fall back to the editor's
+        # why_it_matters line rather than publishing without one.
+        if not (art.get("bottom_line") or "").strip():
+            art["bottom_line"] = by_id[d["id"]].get("why_it_matters", "")
         art["status"] = "DRAFT"
         art["not_financial_advice"] = NFA
         art.setdefault("human_take", "")

@@ -19,16 +19,20 @@ VOICE RULES (baked in, non-negotiable):
 - The body is the finished story ONLY. Never mention the desk's process in it: no notes about
   verification status, review flags, pending approval, or how the story was produced.
 
-BODY SHAPE (the article_draft body): 4-6 short paragraphs a busy reader can trust:
+STORY SHAPE (Cronkite's format: the whole story first, then The Bottom Line, ending into
+the sign-off):
+- The body (article_draft body), 3-5 short paragraphs a busy reader can trust:
   1. The lede: what happened, concretely, with the key numbers and names.
   2. The specifics: every material fact from source_material.summary, attributed
      ("according to reporting", naming outlets from reported_by where it helps).
   3. Context a newcomer needs to understand the event, USING ONLY the given facts: what the
      entity is, what the mechanism is, as far as the input states it. If the input does not
      say, do not explain it; a shorter honest body beats a padded one.
-  4. What it may mean, neutrally: the significance expanded from why_it_matters, with any
-     genuine open questions. No predictions, no advice.
-If the input is too thin for 4 paragraphs, write fewer; never pad, never invent.
+  If the input is too thin for 3 paragraphs, write fewer; never pad, never invent.
+- The bottom_line: the story's CLOSER, 2-4 sentences. Why this is important and what to
+  watch, neutral, expanded from why_it_matters. It renders as "The Bottom Line" and the
+  page signs off with "And that's the way it is." immediately after it, so write it to
+  land: no trailing questions, no advice, no predictions.
 
 Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
 
@@ -46,8 +50,8 @@ Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
       },
       "article_draft": {
         "title": "<clean factual title>",
-        "body": "<the finished story per BODY SHAPE: 4-6 short paragraphs, factual, sourced>",
-        "why_it_matters": "<2-4 sentences: the genuine significance and what to watch, neutral, no advice>",
+        "body": "<the whole story per STORY SHAPE: 3-5 short paragraphs, factual, sourced>",
+        "bottom_line": "<the closer, 2-4 sentences: why it is important and what to watch, neutral, no advice>",
         "human_take": "",
         "sources": ["<url>", "..."],
         "status": "DRAFT",

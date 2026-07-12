@@ -562,10 +562,10 @@ def render_article(item, all_items=None):
     if item.get("key_fact"):
         key = (f'<div class="keyfact"><span class="lab">The key fact</span>'
                f'<p>{esc(item["key_fact"])}</p></div>')
-    why = ""
-    if (item.get("why_it_matters") or "").strip():
-        why = (f'<div class="why"><span class="lab">Why it matters</span>'
-               f'<p>{esc(item["why_it_matters"])}</p></div>')
+    bottom = ""
+    if (item.get("bottom_line") or "").strip():
+        bottom = (f'<div class="bottomline"><span class="lab">The Bottom Line</span>'
+                  f'<p>{esc(item["bottom_line"])}</p></div>')
     take = ""
     if (item.get("human_take") or "").strip():
         take = (f'<div class="take"><span class="lab">The take</span>'
@@ -593,8 +593,8 @@ def render_article(item, all_items=None):
     {ribbon}
     <div class="prose">{render_body(item.get("body"))}</div>
     {key}
-    {why}
     {take}
+    {bottom}
     <p class="signoff">{esc(SLOGAN)}</p>
     {sig_block()}
     {share_row(ORIGIN + f"/articles/{item['slug']}.html", item.get("title") or "")}
@@ -2094,7 +2094,7 @@ def ingest():
             "rank": rank_map.get(rec.get("id")),
             "author": "Crypto Cronkite",
             "key_fact": scrub((payload.get("script", {}) or {}).get("key_fact", "")),
-            "why_it_matters": scrub(art.get("why_it_matters", "")),
+            "bottom_line": scrub(art.get("bottom_line", "")),
             "human_take": art.get("human_take", ""), "body": paras, "sources": srcs,
         }
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
