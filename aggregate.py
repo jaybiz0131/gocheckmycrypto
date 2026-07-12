@@ -75,6 +75,35 @@ def norm_tokens(headline):
     return {w for w in words if w not in STOPWORDS and len(w) > 2}
 
 
+def _kw_re(keywords):
+    """Word-boundary matcher for a keyword list ('fed' must not match 'federated')."""
+    return re.compile(r"\b(?:" + "|".join(re.escape(k) for k in keywords) + r")\b", re.I)
+
+
+def narrative_watchlist(cfg):
+    """[(name, compiled_regex), ...] for the ongoing-storyline watchlist (config.narratives)."""
+    out = []
+    for n in (cfg.get("narratives") or {}).get("watchlist", []):
+        if n.get("keywords"):
+            out.append((n.get("name", "?"), _kw_re(n["keywords"])))
+    return out
+
+
+def apply_keyword_gate(items, feed, watchlist):
+    """Per-feed relevance gate for broad official/markets feeds (all of DOJ, all top business
+    stories): keep only items matching the feed's keywords in headline+snippet. A watchlist
+    (narratives) match ALWAYS passes -- an ongoing desk storyline outranks the gate."""
+    if not feed.get("keywords"):
+        return items, 0
+    rx = _kw_re(feed["keywords"])
+    kept = []
+    for it in items:
+        text = f'{it.get("headline", "")} {it.get("snippet", "")}'
+        if rx.search(text) or any(nrx.search(text) for _, nrx in watchlist):
+            kept.append(it)
+    return kept, len(items) - len(kept)
+
+
 def parse_ts(raw):
     raw = (raw or "").strip()
     if not raw:
@@ -144,13 +173,15 @@ def fetch(url, is_json=False):
 def gather_rss(cfg, fixture=None):
     items, ok_sources = [], 0
     feeds = cfg["sources"]["rss"]
+    watchlist = narrative_watchlist(cfg)
     if fixture:
         # Offline test hook: run every configured feed's parser over one saved document,
-        # so the dedupe/shill wiring is exercised without the network.
+        # so the dedupe/shill/gate wiring is exercised without the network.
         xml = open(fixture, "rb").read()
         for f in feeds:
             try:
                 got = parse_feed(xml, f["name"], f["tier"])
+                got, _ = apply_keyword_gate(got, f, watchlist)
                 items += got
                 ok_sources += 1
             except Exception as e:
@@ -160,14 +191,16 @@ def gather_rss(cfg, fixture=None):
         try:
             xml = fetch(f["url"])
             got = parse_feed(xml, f["name"], f["tier"])
+            got, gated = apply_keyword_gate(got, f, watchlist)
             # Per-feed cap: one prolific outlet must not flood the editor (The Defiant's
             # feed returns 100 items). Feeds are newest-first, so the cap keeps the newest.
             cap = cfg["sources"].get("max_items_per_feed", 40)
             trimmed = f" (capped from {len(got)})" if len(got) > cap else ""
+            gate_note = f", {gated} gated off-topic" if gated else ""
             got = got[:cap]
             items += got
             ok_sources += 1
-            print(f"  {f['name']:20s} [{f['tier']:8s}] -> {len(got)} item(s){trimmed}")
+            print(f"  {f['name']:20s} [{f['tier']:8s}] -> {len(got)} item(s){trimmed}{gate_note}")
         except Exception as e:
             gh("warning", f"aggregate: source '{f['name']}' failed ({f['url']}): {e} -- skipped, run continues")
     return items, ok_sources, len(feeds)
@@ -320,13 +353,14 @@ def dedupe(items, cfg):
         if not placed:
             clusters.append({"members": [it], "urls": {it["url"]} if it["url"] else set()})
 
+    watchlist = narrative_watchlist(cfg)
     out = []
     for i, cl in enumerate(clusters):
         members = sorted(cl["members"], key=lambda m: (tier_rank.get(m["source_tier"], 9),
                                                        m.get("_ts") or datetime.min.replace(tzinfo=timezone.utc)))
         head = members[0]
         corro = [{"name": m["source"], "tier": m["source_tier"], "url": m["url"]} for m in members[1:]]
-        out.append({
+        c = {
             "id": f"c{i:03d}",
             "headline": head["headline"],
             "source": head["source"],
@@ -336,7 +370,14 @@ def dedupe(items, cfg):
             "snippet": head["snippet"],
             "corroboration": corro,
             "corroboration_count": len(corro),
-        })
+        }
+        # Ongoing-storyline tag: any member matching a watchlist narrative marks the whole
+        # cluster; the editor treats a tagged development as presumptively rank-worthy.
+        text = " ".join(f'{m.get("headline", "")} {m.get("snippet", "")}' for m in members)
+        tags = [name for name, rx in watchlist if rx.search(text)]
+        if tags:
+            c["narratives"] = tags
+        out.append(c)
     return out
 
 

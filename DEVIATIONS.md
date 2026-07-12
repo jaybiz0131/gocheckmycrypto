@@ -125,6 +125,26 @@ with Deribit's public ticker as a BTC/ETH fallback, and the page says plainly th
 are single-venue snapshots, not market-wide totals. No BNB perp on OKX, so the leverage
 board covers BTC/ETH/SOL/XRP/DOGE. Same fail-open posture as every Market Pulse section.
 
+## D10 - Intake widened: macro/official feeds + the narratives watchlist (2026-07-12)
+
+The original 11-feed intake was crypto-press only, so macro events that move crypto (Fed
+decisions, legislation, DOJ enforcement) arrived secondhand and only if a crypto outlet
+wrote the angle. Added five keyless feeds, all live-tested: Federal Reserve monetary-policy
+releases, Senate Banking Committee press (where market-structure bills surface), Ethereum
+Foundation blog, DOJ press releases, and MarketWatch top stories. The two broad feeds (DOJ
+is all-of-DOJ, MarketWatch is all-of-markets) get a per-feed `keywords` relevance gate in
+aggregate.py so they cannot flood the editor. Dead ends tried and rejected, so nobody
+retries them: Treasury press RSS (404), CNBC (1-item stub), House Financial Services RSS
+(404), govtrack (403), congress.gov most-viewed (stub).
+
+Same change adds the `narratives` watchlist (config.json): the desk's ongoing storylines
+(CLARITY Act, CBDC ban, BIP 110, ...), maintained by the editor-in-chief like
+shill_rules.json. Matching clusters are tagged in items.json, the editor treats a genuine
+development in a tagged narrative as presumptively rank-worthy, and a watchlist match
+always passes a feed's keyword gate. Honest limit: a static list catches follow-ups to
+NAMED narratives; a brand-new narrative is caught the normal way (multi-outlet clustering)
+and should then be added to the list.
+
 ## D5 - X source adapter is wired but not live-tested
 
 X/Twitter remains a keyless-skip source (absence is a documented skip, never a failure) and

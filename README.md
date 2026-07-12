@@ -22,7 +22,7 @@ a liability, so the human gate is load-bearing and cannot be removed to "scale f
 
 | Stage | Script | What it does | Output (in `out/`) |
 |-------|--------|--------------|--------------------|
-| 1 Aggregate | `aggregate.py` | Pull RSS (official/primary + major outlets; CryptoPanic if `CRYPTOPANIC_TOKEN` set), normalize, dedupe near-identical stories into clusters, run the deterministic shill pre-pass | `items.json` |
+| 1 Aggregate | `aggregate.py` | Pull RSS (official/primary + macro + major outlets; CryptoPanic if `CRYPTOPANIC_TOKEN` set), normalize, keyword-gate the broad official feeds, tag clusters that match the ongoing-narratives watchlist (`config.json -> narratives`), dedupe near-identical stories into clusters, run the deterministic shill pre-pass | `items.json` |
 | 2 Editor | `editor.py` | Managing-editor AI ranks the top stories by genuine significance and strips shill, showing its work | `editor.json` |
 | 3 Verifier | `verifier.py` | A SEPARATE, adversarial AI live-fetches each cited source and audits the editor: VERIFIED / NEEDS-HUMAN-REVIEW / REJECT, with reasons and editor-divergence | `verifier.json` |
 | 4 Writer | `writer.py` | Drafts the surviving stories into a script skeleton + article draft, DRAFT-tagged, neutral on price, not-financial-advice, with an empty human-take slot | `drafts.json` |

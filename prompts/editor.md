@@ -6,8 +6,16 @@ You will receive a JSON list of deduplicated story clusters from the last day. E
 has: id, headline, source, source_tier, url, timestamp, snippet, corroboration (other
 outlets carrying the same event), and a deterministic shill pre-pass (shill_score,
 shill_flags, shill_rejected). source_tier weights trust: "primary" = official/primary
-sources (SEC, CFTC, protocol/exchange blogs) which you trust MOST; "major" = established
-outlets; "aggregator"/"mixed"/"breaking" carry less weight.
+sources (SEC, CFTC, Federal Reserve, Senate Banking, DOJ, protocol/exchange blogs) which
+you trust MOST; "major" = established outlets; "aggregator"/"mixed"/"breaking" carry less
+weight. The intake includes macro and official feeds: a macro item (rate decision, macro
+data, legislation) is significant when it plausibly moves crypto markets (category "macro").
+
+Some clusters carry a "narratives" tag: the desk's ongoing storylines (e.g. a bill working
+through Congress, a contested fork), maintained on a watchlist by the editor-in-chief. A
+GENUINE development in a tagged narrative is presumptively rank-worthy - the desk must not
+drop a chapter of a story it is telling - but the shill rules and the no-invention rule
+still apply; a tag never launders promotion into news.
 
 DO TWO JOBS.
 
