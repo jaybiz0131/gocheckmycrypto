@@ -312,20 +312,45 @@ def masthead(active, dateline, brand="site"):
 <nav class="mh-nav"><div class="wrap">{nav}</div></nav>"""
 
 
-def market_strip():
-    """A live markets ticker. Client-side (the reader's browser fetches CoinGecko), so the build
-    stays offline and reproducible. Clearly labelled and separate from the verified news: a price
-    is live factual data, not a story that went through the human gate. Fails quietly if the API
-    is unreachable (leaves the neutral placeholder)."""
-    return """<section class="markets" id="markets" aria-label="Live crypto markets"><div class="wrap">
+def market_strip(pulse=None):
+    """A live markets ticker, pre-filled server-side from the build's own pulse snapshot so the
+    first paint is NEVER dashes; the reader's browser then overwrites with live CoinGecko data.
+    Clearly labelled and separate from the verified news: a price is live factual data, not a
+    story that went through the human gate. A failed client fetch quietly leaves the built
+    values standing."""
+    assets = {a.get("symbol"): a for a in ((pulse or {}).get("assets") or [])}
+
+    def tick(cid, sym):
+        a = assets.get(sym) or {}
+        px = _price_fmt(a.get("price")) if a.get("price") else "--"
+        chg = a.get("chg_24h_pct")
+        chg_html = (f'<span class="chg {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span>'
+                    if chg is not None else '<span class="chg"></span>')
+        return (f'<span class="tick" data-id="{cid}"><span class="sym">{sym}</span>'
+                f'<span class="px">{esc(px)}</span>{chg_html}</span>')
+
+    ticks = (tick("bitcoin", "BTC") + tick("ethereum", "ETH") +
+             tick("solana", "SOL") + tick("ripple", "XRP"))
+    extras = ""
+    fng = (pulse or {}).get("fng") or {}
+    if fng.get("value") is not None:
+        extras += (f'<span class="tick"><span class="sym">Fear &amp; Greed</span>'
+                   f'<span class="px">{fng["value"]} {esc((fng.get("label") or "").lower())}</span>'
+                   f'<span class="chg"></span></span>')
+    lev = ((pulse or {}).get("leverage") or {}).get("assets") or []
+    btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
+    if btcl and btcl.get("funding_8h_pct") is not None:
+        f8 = btcl["funding_8h_pct"]
+        extras += (f'<span class="tick"><span class="sym">BTC funding</span>'
+                   f'<span class="px">{f8:+.4f}%/8h</span>'
+                   f'<span class="chg"></span></span>')
+    return f"""<section class="markets" id="markets" aria-label="Live crypto markets"><div class="wrap">
   <span class="lab">Markets &middot; live</span>
-  <span class="tick" data-id="bitcoin"><span class="sym">BTC</span><span class="px">--</span><span class="chg"></span></span>
-  <span class="tick" data-id="ethereum"><span class="sym">ETH</span><span class="px">--</span><span class="chg"></span></span>
-  <span class="tick" data-id="solana"><span class="sym">SOL</span><span class="px">--</span><span class="chg"></span></span>
-  <span class="tick" data-id="ripple"><span class="sym">XRP</span><span class="px">--</span><span class="chg"></span></span>
+  {ticks}
   <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">--</span><span class="chg"></span></span>
+  {extras}
   <span class="note">Market data, not news. Not financial advice.</span>
-</div>
+</div>""" + """
 <script>
 (function(){
   var CG="https://api.coingecko.com/api/v3";
@@ -629,6 +654,7 @@ def render_article(item, all_items=None):
 def card(item):
     badge = verdict_badge(item.get("verdict"))
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
+    tag += "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item)[:2])
     href = f'/articles/{esc(item["slug"])}.html'
     summ = item.get("dek") or (item.get("body", [""])[0] if item.get("body") else "")
     if isinstance(summ, dict):
@@ -656,7 +682,7 @@ def desk_strip():
 </div></section>"""
 
 
-def render_news(items, dateline):
+def render_news(items, dateline, pulse=None):
     live = [i for i in items if not i.get("example")]
     if live:
         lead = live[0]
@@ -692,21 +718,22 @@ def render_news(items, dateline):
                 '</div></div></section>')
     # news first: lead story, then the rest of the day's stories; the promise strip and
     # the whale teaser read as the footer beats, never above the journalism
-    body = market_strip() + desk_strip() + lead_html + grid + trust_block() + flow_teaser() + newsletter()
+    body = market_strip(pulse) + desk_strip() + lead_html + grid + trust_block() + flow_teaser() + newsletter()
     return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html",
                  brand="cronkite")
 
 
 def render_home(items, flows, pulse, cm, dateline):
-    """The GoCheckMyCrypto front door: what the site is, then four desks to explore, each
-    hero card led by its own artwork and a LIVE stat so the place feels alive."""
+    """The GoCheckMyCrypto front door, built for the RETURNING reader: live markets strip,
+    today's headlines, the storylines the desk is tracking, then the four desks. The brand
+    pitch lives below the information, not above it."""
     live = [i for i in (items or []) if not i.get("example")]
-    lead_headline = live[0]["title"] if live else "The first brief lands soon"
+    desk_stat = f"{len(live)} verified stories on the desk" if live else "The first brief lands soon"
     cards = []
     cards.append(f"""<a class="dash-card home-card" href="/news.html">
       <img class="dash-hero-img" src="/assets/crypto-cronkite-card.jpg" alt="Crypto Cronkite: market news, on-chain insights, trusted reporting" loading="lazy">
       <span class="lab">Latest news</span>
-      <span class="dash-stat" style="font-size:19px">{esc(lead_headline)}</span>
+      <span class="dash-stat" style="font-size:19px">{esc(desk_stat)}</span>
       <p class="pc-note">The day's real crypto stories with the paid promotion stripped out,
       every source linked. And that's the way it is.</p>
       <span class="dash-open">Read the latest &rarr;</span></a>""")
@@ -742,16 +769,57 @@ def render_home(items, flows, pulse, cm, dateline):
       Oracle Challenge and the Wizard's Exam. Learn the charts by playing them.</p>
       <span class="dash-open">Enter the tower &rarr;</span></a>""")
 
-    body = market_strip() + f"""<main class="wrap"><section class="page">
-  <span class="kicker">An independent crypto desk</span>
-  <p class="lede home-lede">Built with one intention: get the stories right and keep the data
-     honest. Real news with the shill stripped out, on-chain money flows, live dashboards that
-     teach you what they mean, and a wizard who reads the tape. No hype, no paid promotion,
-     and never financial advice.</p>
+    # Today at the desk: the returning reader's first screen is headlines, not brand copy.
+    live = [i for i in items if not i.get("example")]
+    desk_html = ""
+    if live:
+        lead = live[0]
+        dek_html = f'<p>{esc(lead["dek"])}</p>' if lead.get("dek") else ""
+        lead_html = (f'<a class="home-lead" href="/articles/{esc(lead["slug"])}.html">'
+                     f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
+                     f'<span class="hl-meta">{verdict_badge(lead.get("verdict"))}'
+                     f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
+        rows = "".join(
+            f'<a class="home-row" href="/articles/{esc(i["slug"])}.html">'
+            f'<span class="hl-title">{esc(i.get("title"))}</span>'
+            f'<span class="hl-meta"><span class="dateline">{fmt_when(i)}</span></span></a>'
+            for i in live[1:5])
+        desk_html = f"""<div class="sec-head"><h2>Today at the desk</h2><span class="bar"></span></div>
+  <div class="home-desk">{lead_html}<div class="home-rows">{rows}
+    <a class="home-row more" href="/news.html"><span class="hl-title">All stories &rarr;</span></a></div></div>"""
+
+    # Tracking: the narratives watchlist, each chip linking to its latest published chapter.
+    track_html = ""
+    chips = []
+    try:
+        watch = json.load(open(os.path.join(HERE, "config.json"),
+                               encoding="utf-8")).get("narratives", {}).get("watchlist", [])
+    except Exception:
+        watch = []
+    for n in watch:
+        kws = n.get("keywords") or []
+        if not kws:
+            continue
+        rx = re.compile(r"\b(?:" + "|".join(re.escape(k) for k in kws) + r")\b", re.I)
+        hit = next((i for i in live if rx.search(" ".join(
+            [i.get("title") or "", i.get("dek") or "", i.get("key_fact") or ""] +
+            [p for p in (i.get("body") or []) if isinstance(p, str)]))), None)
+        if hit:
+            chips.append(f'<a class="chip" href="/articles/{esc(hit["slug"])}.html">'
+                         f'{esc(n.get("name", ""))}</a>')
+    if chips:
+        track_html = (f'<div class="tracking"><span class="lab">Tracking</span>{"".join(chips)}'
+                      f'<span class="mut">the storylines the desk is following</span></div>')
+
+    body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
+  {desk_html}
+  {track_html}
   <div class="dash-grid home-grid">{"".join(cards)}</div>
-  <p class="pc-note" style="margin-top:14px">Everything here is free. Start anywhere; the
-     desks link to each other, and every number comes with an explanation in plain
-     language.</p>
+  <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
+     right and keep the data honest. Real news with the shill stripped out, on-chain money
+     flows, live dashboards that teach you what they mean, and a wizard who reads the tape.
+     No hype, no paid promotion, and never financial advice. Everything here is free; every
+     number comes with an explanation in plain language.</p>
 </section></main>""" + newsletter()
     return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "Home", body, dateline, path="/")
 
@@ -779,8 +847,17 @@ def flow_teaser():
 def render_archive(items, dateline):
     live = [i for i in items if not i.get("example")]
     if live:
-        rows = "".join(card(i) for i in live)
-        inner = f'<div class="grid">{rows}</div>'
+        # group by day, newest first (items are already sorted): a researcher scans by date
+        days = []
+        for i in live:
+            if not days or days[-1][0] != i.get("date"):
+                days.append((i.get("date"), []))
+            days[-1][1].append(i)
+        inner = "".join(
+            f'<div class="sec-head" style="margin-top:22px"><h2>{esc(fmt_date(d))}</h2>'
+            f'<span class="bar"></span></div><div class="grid">'
+            + "".join(card(i) for i in group) + "</div>"
+            for d, group in days)
     else:
         inner = ('<div class="empty"><span class="k">Archive is empty</span>'
                  '<p style="margin:.6em 0 0">No stories have been approved and published yet.</p></div>')
@@ -828,11 +905,15 @@ def render_method(items, dateline):
      the editor and the verifier are deliberately two different passes. When they disagree, that
      disagreement is surfaced to the human as a signal.</p>
 
-  <h2>4. A human editor-in-chief signs off</h2>
-  <p>Everything lands in a review queue. A human reads it, overrides the machine where judgment
-     differs, kills stories, promotes ones it missed, and adds the honest take, the thing only a
-     person can provide. Only what the human approves is published. That gate is not optional, and
-     it is never removed to publish faster.</p>
+  <h2>4. The gate: the verifier's verdict, with a human editor-in-chief above it</h2>
+  <p>A story publishes only when the independent verifier stamps it VERIFIED against its
+     sources. Anything the verifier flags for review waits in the queue for the human
+     editor-in-chief, who reads it, overrides the machine where judgment differs, kills
+     stories, and decides what runs. Anything rejected never publishes. The human also owns
+     everything the machine may not touch: the takes and analysis (the AI never writes an
+     opinion in a human's voice), the corrections, and the standing rules every story is
+     held to. The gate is the verification, and the human can overrule it in either
+     direction at any time.</p>
 
   <div class="callout"><b>Why two AIs, not one.</b> A single model asked to both rank and
     self-check tends to rubber-stamp its own work. An independent pass, told to find what is wrong,
@@ -843,9 +924,11 @@ def render_method(items, dateline):
 
   <h2>What we will not do</h2>
   <ul>
-    <li>We will not publish anything unverified or unapproved. If a stage fails, we publish nothing.</li>
+    <li>We will not publish anything unverified. If a stage fails, we publish nothing.</li>
     <li>We will not tell you to buy or sell. We report events and explain what they may mean.</li>
     <li>We will not run paid coverage as news. Sponsored items are the thing we are built to strip out.</li>
+    <li>We will not let the machine speak in a human voice. Takes, analysis, and corrections
+        are human work, always.</li>
   </ul>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
@@ -874,10 +957,11 @@ def render_about(dateline):
 
   <h2>The machine does the grind. A human owns the judgment.</h2>
   <p>An AI newsroom does the reading, the triage, the fact-checking, and the first draft, every day,
-     without getting tired. But the machine is the staff, not the editor. A human editor-in-chief
-     reviews every story, overrides the machine where judgment differs, adds the honest take, and
-     approves what publishes. Nothing goes out as reporting or as a take without that sign-off. If
-     even that sustainable human step ever slips, we drop the cadence before we drop the standard.</p>
+     without getting tired. But the machine is the staff, not the editor. A story runs only when an
+     independent verification pass confirms it against its sources; anything flagged waits for the
+     human editor-in-chief, who oversees the desk, overrides the machine where judgment differs, and
+     owns every take: no opinion ever goes out in a human voice unless a human wrote it. If that
+     standard ever slips, we drop the cadence before we drop the standard.</p>
 
   <h2>Our bias</h2>
   <p>We are biased toward the reader and against the shill. We weight official and primary sources
@@ -913,9 +997,12 @@ def render_standards(dateline):
      source. Stories that cannot be verified are either marked clearly for the reader or held back.
      We would rather be slow than wrong.</p>
 
-  <h2>The human gate</h2>
-  <p>No story is published automatically. A human editor approves every story, and adds any opinion
-     or analysis in the byline. The AI never writes a "take" in a human's voice.</p>
+  <h2>The gate</h2>
+  <p>A story publishes only when an independent verification pass confirms it against its
+     sources: VERIFIED runs, flagged-for-review waits for the human editor-in-chief, rejected
+     never runs. The human editor oversees the desk, can overrule any machine call in either
+     direction, and owns every opinion or analysis in the byline. The AI never writes a
+     "take" in a human's voice.</p>
 
   <h2>Not financial advice</h2>
   <p>We report events and explain what they may mean. We never advise buying or selling any asset.
@@ -926,9 +1013,11 @@ def render_standards(dateline):
      we will check it against the source. A correction is a feature of an honest desk, not a failure.</p>
 
   <h2>AI disclosure</h2>
-  <p>Stories on this site are assembled and fact-checked with AI assistance and then reviewed and
-     approved by a human editor before publication. We think transparency about that process is part
-     of being trustworthy, which is why this page exists.</p>
+  <p>Stories on this site are assembled with AI assistance and fact-checked by a separate,
+     independent AI verification pass; only stories that pass publish, under a human
+     editor-in-chief who oversees the desk, reviews anything flagged, and can overrule any
+     call. Takes and corrections are always human. We think transparency about that process
+     is part of being trustworthy, which is why this page exists.</p>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Standards - {NAME}", "Crypto Cronkite standards, verification, and corrections policy.",
@@ -1946,11 +2035,18 @@ def render_chartmaster(read, dateline):
             "Exam. Never financial advice.")
     read = read or {}
     paras = "".join(f"<p>{esc(p)}</p>" for p in read.get("paragraphs", []))
+    # A read older than the current dateline quotes numbers the live boards have moved past;
+    # say so rather than let it read as today's.
+    stale_note = ""
+    if read.get("date") and fmt_date(read["date"]).upper() != (dateline or "").upper():
+        stale_note = (f'<p class="pc-note"><b>From the Master\'s ledger, {esc(fmt_date(read["date"]))}.</b> '
+                      f'The boards below are live; the figures in this read are from its date.</p>')
     read_html = (f"""<div class="sec-head" style="margin-top:8px"><h2>The Chart Master's read</h2><span class="bar"></span></div>
   <article class="pulse-card cm-read">
     <div class="ey"><span class="tag">the read</span>
       <span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
     <h3 class="cm-headline">{esc(read.get("headline", ""))}</h3>
+    {stale_note}
     <div class="prose">{paras}</div>
     <p class="pc-note">The Chart Master reads the day's <a href="/pulse.html">Market
     Pulse</a> and <a href="/flows.html">Whale Watch</a> boards. He describes the tape;
@@ -2139,7 +2235,7 @@ def build():
     pulse = load_pulse()
     cm = load_chartmaster()
     w("index.html", render_home(items, flows, pulse, cm, dateline))
-    w("news.html", render_news(items, dateline))
+    w("news.html", render_news(items, dateline, pulse=pulse))
     w("flows.html", render_flows(flows, dateline))
     w("pulse.html", render_pulse_hub(pulse, flows, dateline))
     w("chartmaster.html", render_chartmaster(cm, dateline))

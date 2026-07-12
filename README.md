@@ -13,10 +13,13 @@ preserved (see DEVIATIONS.md D1).
 ## The one non-negotiable rule
 
 **The AI is the newsroom staff. The human is the editor-in-chief and the on-air voice.**
-Nothing publishes as reporting or as a "take" without human sign-off. The automation removes
-the grunt work (reading, triage, fact-check, drafting), never the judgment or the voice. An
-unsupervised crypto news bot that publishes a false hack or a wrong price is brand-ending and
-a liability, so the human gate is load-bearing and cannot be removed to "scale faster".
+Publication is gated by the independent adversarial verifier: VERIFIED stories auto-publish
+(the owner's standing full-auto instruction, 2026-07-11, implemented in `autopilot.py`),
+NEEDS-HUMAN-REVIEW waits in the queue for the human, REJECT never ships. The human
+editor-in-chief oversees the desk, can overrule any call in either direction, and owns
+everything in a human voice: no "take" is ever machine-written. The automation removes the
+grunt work (reading, triage, fact-check, drafting), never the judgment or the voice, and the
+public method/standards pages describe this gate exactly as it runs.
 
 ## The stages
 
