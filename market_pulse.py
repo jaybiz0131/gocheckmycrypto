@@ -11,9 +11,12 @@ which site_build.py renders as the "Market Pulse" page:
                                distance, 30d realized volatility. All stdlib arithmetic.
   3. Stablecoin supply         DefiLlama (keyless)     total USD-pegged float: crypto's
                                dry powder, current + 30d change + 1y trend
-  4. Perp leverage             OKX (Deribit fallback)  funding rates + open interest for
-                               the majors: how crowded the leveraged bets are
-  5. Bitcoin network           mempool.space           recommended fees + difficulty change
+  4. Perp leverage             OKX (Deribit fallback)  funding (current + history), open
+                               interest (current + 30d trend), long/short ratio, and
+                               recent liquidations: how crowded the bets are
+  5. Whole market              CoinGecko /global       total cap + Bitcoin dominance
+  6. ETF flows                 Farside Investors       daily US spot BTC/ETH ETF net flows
+  7. Bitcoin network           mempool.space           recommended fees + difficulty change
 
 FAIL-OPEN, PER SECTION: each source is fetched independently; a failed source is warned and
 omitted while the others still publish. If every source fails, nothing is written and the
@@ -255,27 +258,75 @@ def section_movers(top_n=5, universe=100):
 
 
 def section_leverage():
-    """Perp funding rates and open interest for the majors: how crowded and how expensive
-    the leveraged bets are. Primary: OKX public API (keyless). Fallback for BTC/ETH:
-    Deribit's public ticker. Per-asset fail-open inside the section; the section itself
-    only publishes if at least one asset resolved."""
+    """The derivatives tape for the majors: funding (current + history), open interest
+    (current + 30d trend), the long/short account ratio, and recent liquidations. All from
+    OKX's keyless public API (Binance/Bybit geo-block US build infra, DEVIATIONS D9);
+    Deribit's public ticker is the BTC/ETH snapshot fallback. Per-asset fail-open inside
+    the section; the section publishes if at least one asset resolved."""
     import time
+    OKX = "https://www.okx.com/api/v5"
+    # contract sizes for liquidation notionals (sz is in contracts, not coins)
+    ct_val = {}
+    try:
+        for inst in get_json(f"{OKX}/public/instruments?instType=SWAP")["data"]:
+            ct_val[inst["instId"]] = float(inst.get("ctVal") or 0)
+    except Exception as e:
+        common.gh("warning", f"market_pulse: leverage instruments lookup failed ({e})")
     out = []
     for i, (sym, inst) in enumerate(LEVERAGE_INSTRUMENTS):
         if i:
             time.sleep(1)  # OKX allows bursts, but a build can afford politeness
         try:
-            f = get_json(f"https://www.okx.com/api/v5/public/funding-rate?instId={inst}")["data"][0]
-            o = get_json(f"https://www.okx.com/api/v5/public/open-interest?instId={inst}")["data"][0]
+            f = get_json(f"{OKX}/public/funding-rate?instId={inst}")["data"][0]
+            o = get_json(f"{OKX}/public/open-interest?instId={inst}")["data"][0]
             rate = float(f["fundingRate"])  # fraction per 8h funding interval
-            out.append({
+            a = {
                 "symbol": sym, "venue": "OKX",
                 "funding_8h_pct": round(rate * 100, 4),
                 "funding_annual_pct": round(rate * 3 * 365 * 100, 1),
                 "next_funding_utc": datetime.fromtimestamp(
                     int(f["fundingTime"]) / 1000, timezone.utc).strftime("%H:%M UTC"),
                 "open_interest_usd": round(float(o["oiUsd"])),
-            })
+            }
+            ccy = sym  # rubik stats key by base currency
+            try:  # funding history: is the cost of the bet rising or fading?
+                hist = get_json(f"{OKX}/public/funding-rate-history?instId={inst}&limit=21")["data"]
+                a["funding_history_pct"] = [round(float(h["realizedRate"]) * 100, 4)
+                                            for h in reversed(hist)]
+            except Exception:
+                pass
+            try:  # 30d open-interest trend (daily, USD)
+                oi = get_json(f"{OKX}/rubik/stat/contracts/open-interest-volume"
+                              f"?ccy={ccy}&period=1D")["data"]
+                a["oi_history_usd"] = [round(float(x[1])) for x in reversed(oi[:30])]
+            except Exception:
+                pass
+            try:  # long/short account ratio: which way the crowd leans
+                ls = get_json(f"{OKX}/rubik/stat/contracts/long-short-account-ratio"
+                              f"?ccy={ccy}&period=1D")["data"]
+                a["long_short_ratio"] = round(float(ls[0][1]), 2)
+                a["long_short_history"] = [round(float(x[1]), 2) for x in reversed(ls[:30])]
+            except Exception:
+                pass
+            try:  # recent liquidations: forced closes, split by side
+                liq = get_json(f"{OKX}/public/liquidation-orders?instType=SWAP"
+                               f"&state=filled&uly={inst.rsplit('-', 1)[0]}")["data"]
+                details = [d for row in liq for d in (row.get("details") or [])]
+                cv = ct_val.get(inst, 0)
+                if details and cv:
+                    longs = [d for d in details if d.get("posSide") == "long"]
+                    shorts = [d for d in details if d.get("posSide") == "short"]
+                    usd = lambda ds: round(sum(
+                        float(d.get("sz") or 0) * cv * float(d.get("bkPx") or 0) for d in ds))
+                    oldest = min(int(d.get("ts") or 0) for d in details)
+                    hours = max(1, round((time.time() * 1000 - oldest) / 3_600_000))
+                    a["liquidations"] = {
+                        "window_hours": hours, "count": len(details),
+                        "longs_usd": usd(longs), "shorts_usd": usd(shorts),
+                    }
+            except Exception:
+                pass
+            out.append(a)
         except Exception as e:
             common.gh("warning", f"market_pulse: leverage {sym} via OKX failed ({e})")
     if not any(a["symbol"] in ("BTC", "ETH") for a in out):
@@ -299,6 +350,83 @@ def section_leverage():
                      "(single-venue snapshots, not market-wide totals).")}
 
 
+def section_market():
+    """The whole-market frame: total cap and Bitcoin dominance, from CoinGecko's keyless
+    global endpoint (the same one the browser ticker already calls)."""
+    g = get_json("https://api.coingecko.com/api/v3/global")["data"]
+    return {
+        "total_mcap_usd": round((g.get("total_market_cap") or {}).get("usd", 0)),
+        "mcap_change_24h_pct": round(g.get("market_cap_change_percentage_24h_usd") or 0, 2),
+        "btc_dominance_pct": round((g.get("market_cap_percentage") or {}).get("btc", 0), 1),
+    }
+
+
+def get_text(url, timeout=30):
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read().decode("utf-8", "replace")
+
+
+def _parse_farside(html):
+    """Rows of Farside's flow table: [(date, total_usd_m), ...] oldest->newest, plus the
+    cumulative total. HTML scrape, so parse defensively and return nothing on any doubt."""
+    import re as _re
+    days, cumulative = [], None
+    for tr in _re.findall(r"<tr[^>]*>(.*?)</tr>", html, _re.S):
+        cells = [_re.sub(r"<[^>]+>", "", c).replace("&nbsp;", " ").strip()
+                 for c in _re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", tr, _re.S)]
+        if len(cells) < 3:
+            continue
+
+        def num(s):
+            s = s.replace(",", "").strip()
+            neg = s.startswith("(") and s.endswith(")")
+            s = s.strip("()")
+            try:
+                v = float(s)
+            except ValueError:
+                return None
+            return -v if neg else v
+
+        if _re.match(r"^\d{1,2} \w{3} \d{4}$", cells[0]):
+            v = num(cells[-1])
+            if v is not None:
+                days.append((cells[0], v))
+        elif cells[0] == "Total":
+            cumulative = num(cells[-1])
+    return days, cumulative
+
+
+def section_etf_flows():
+    """Daily US spot-ETF net flows for BTC and ETH from Farside Investors' public tables
+    (the flows themselves are the funds' published data). An HTML scrape is brittle by
+    nature (DEVIATIONS D12), so any parse doubt drops the board rather than shipping a
+    wrong number."""
+    import time
+    out = {}
+    for key, url in (("btc", "https://farside.co.uk/btc/"), ("eth", "https://farside.co.uk/eth/")):
+        try:
+            days, cumulative = _parse_farside(get_text(url))
+            if not days:
+                raise ValueError("no parseable flow rows")
+            latest_date, latest = days[-1]
+            out[key] = {
+                "latest_date": latest_date,
+                "latest_net_usd_m": round(latest, 1),
+                "recent": [{"date": d, "net_usd_m": round(v, 1)} for d, v in days[-10:]],
+                "cumulative_usd_m": round(cumulative, 1) if cumulative is not None else None,
+            }
+        except Exception as e:
+            common.gh("warning", f"market_pulse: etf flows ({key}) failed ({e})")
+        time.sleep(1)
+    if not out:
+        raise ValueError("no ETF flow board parsed")
+    out["note"] = ("US spot ETF net creations/redemptions in USD millions, as published by "
+                   "the funds and tabulated by Farside Investors. Flow data lags a trading "
+                   "day and pauses on market holidays.")
+    return out
+
+
 def section_network():
     fees = get_json("https://mempool.space/api/v1/fees/recommended")
     diff = get_json("https://mempool.space/api/v1/difficulty-adjustment")
@@ -317,7 +445,8 @@ def main():
     }
     sections = [("fng", section_fng), ("assets", section_assets),
                 ("movers", section_movers), ("stables", section_stables),
-                ("leverage", section_leverage), ("network", section_network)]
+                ("leverage", section_leverage), ("market", section_market),
+                ("etf_flows", section_etf_flows), ("network", section_network)]
     got = 0
     for name, fn in sections:
         try:

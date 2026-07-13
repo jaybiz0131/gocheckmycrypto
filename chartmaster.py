@@ -60,7 +60,14 @@ def digest():
                     ("symbol", "price", "chg_24h_pct", "rsi14", "macd_above_signal",
                      "above_sma200", "golden_cross", "pct_from_high_12m", "vol30_pct",
                      "spark_high", "spark_low")} for a in pulse.get("assets", [])],
-        "leverage": (pulse.get("leverage") or {}).get("assets"),
+        "leverage": [{k: a.get(k) for k in
+                      ("symbol", "venue", "funding_8h_pct", "funding_annual_pct",
+                       "open_interest_usd", "long_short_ratio", "liquidations")}
+                     for a in (pulse.get("leverage") or {}).get("assets") or []],
+        "market": pulse.get("market"),
+        "etf_flows": {k: {kk: vv for kk, vv in (v or {}).items() if kk != "recent"}
+                      for k, v in (pulse.get("etf_flows") or {}).items()
+                      if k in ("btc", "eth")} or None,
         "stablecoins": {k: (pulse.get("stables") or {}).get(k)
                         for k in ("total_usd", "change_30d_pct")},
         "network": pulse.get("network"),

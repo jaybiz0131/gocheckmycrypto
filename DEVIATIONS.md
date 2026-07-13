@@ -162,6 +162,21 @@ the out/ test artifact and can never touch site data. Runs in crypto-news-brief.
 after a data-desk refresh so the read matches the boards the deploy publishes;
 site/data/chartmaster.json is committed because Netlify builds do not regenerate it.
 
+## D12 - Derivatives depth + ETF flows, all keyless; CryptoPanic de-recommended (2026-07-13)
+
+The paid aggregators (Coinglass etc.) were assumed necessary for liquidations and ETF
+flows; live testing found free paths for all of it. OKX's public API adds funding history,
+30-day open-interest trend, the long/short account ratio, and recent liquidation orders
+(sz is in CONTRACTS: notionals use ctVal from the instruments endpoint). CoinGecko /global
+adds total cap + BTC dominance. Daily US spot BTC/ETH ETF net flows come from Farside
+Investors' public tables - an HTML SCRAPE, the repo's only one, and brittle by nature: the
+parser accepts only rows shaped exactly like the flow table (date cell + numeric total,
+parens as negatives) and the section drops out fail-open on any doubt, so a Farside
+redesign degrades to a missing board, never a wrong number. All of it is labeled
+single-venue/lagging where true, feeds the Chart Master's digest, and refreshes each build.
+Separately: CryptoPanic is no longer recommended (now ~$199/mo, previously suggested as a
+free intake widener); the keyed adapter stays wired but dormant.
+
 ## D5 - X source adapter is wired but not live-tested
 
 X/Twitter remains a keyless-skip source (absence is a documented skip, never a failure) and

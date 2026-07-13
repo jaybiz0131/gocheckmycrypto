@@ -114,14 +114,16 @@ human gate, but it is clearly labelled as such. Data comes KEYLESS from Whale Al
 public alert archive (see DEVIATIONS D7) and refreshes at every Netlify build. Refresh locally:
 `python3 whale_flows.py` (or `--fixture fixtures/whale_sample.json` to preview).
 
-**Market Pulse (the data desk).** `market_pulse.py` fetches five keyless public sources at
+**Market Pulse (the data desk).** `market_pulse.py` fetches seven keyless public sources at
 build time (Fear & Greed from alternative.me, daily closes from CoinGecko, stablecoin float
-from DefiLlama, perp funding + open interest from OKX with a Deribit fallback, network
-vitals from mempool.space) and computes RSI-14, MACD, 50/200-day averages, 12-month-high
-distance, and 30-day realized volatility with standard formulas in the standard library.
-The site renders it as the "Market Pulse" page: a sentiment gauge, per-asset posture cards,
-the stablecoin dry-powder trend, a leverage dashboard, and a "Pulse 101" section that
-teaches every indicator in plain language. The site also emits an RSS feed of the published
+from DefiLlama, the full derivatives tape from OKX - funding current + history, open
+interest + 30d trend, long/short ratio, recent liquidations - total cap + BTC dominance
+from CoinGecko global, daily US spot ETF net flows from Farside Investors, network vitals
+from mempool.space) and computes RSI-14, MACD, 50/200-day averages, 12-month-high distance,
+and 30-day realized volatility with standard formulas in the standard library. The site
+renders it as the "Market Pulse" page: a sentiment gauge, per-asset posture cards, the
+stablecoin dry-powder trend, leverage and ETF-flow dashboards, and "101" sections that
+teach every indicator in plain language. The site also emits an RSS feed of the published
 stories at `/feed.xml`. Each source is independently fail-open and, like
 Whale Watch, it refreshes at every Netlify build (see DEVIATIONS D8). Market data, not news:
 it never touches the human gate and the page says so.

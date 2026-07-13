@@ -331,7 +331,17 @@ def market_strip(pulse=None):
 
     ticks = (tick("bitcoin", "BTC") + tick("ethereum", "ETH") +
              tick("solana", "SOL") + tick("ripple", "XRP"))
+    mkt = (pulse or {}).get("market") or {}
+    cap = mkt.get("total_mcap_usd")
+    cap_px = fmt_tick(cap) if cap else "--"
+    cap_chg = mkt.get("mcap_change_24h_pct")
+    cap_chg_html = (f'<span class="chg {"up" if cap_chg >= 0 else "down"}">{cap_chg:+.1f}%</span>'
+                    if cap_chg is not None else '<span class="chg"></span>')
     extras = ""
+    if mkt.get("btc_dominance_pct"):
+        extras += (f'<span class="tick"><span class="sym">BTC dom</span>'
+                   f'<span class="px">{mkt["btc_dominance_pct"]:.1f}%</span>'
+                   f'<span class="chg"></span></span>')
     fng = (pulse or {}).get("fng") or {}
     if fng.get("value") is not None:
         extras += (f'<span class="tick"><span class="sym">Fear &amp; Greed</span>'
@@ -347,7 +357,7 @@ def market_strip(pulse=None):
     return f"""<section class="markets" id="markets" aria-label="Live crypto markets"><div class="wrap">
   <span class="lab">Markets &middot; live</span>
   {ticks}
-  <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">--</span><span class="chg"></span></span>
+  <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">{esc(cap_px)}</span>{cap_chg_html}</span>
   {extras}
   <span class="note">Market data, not news. Not financial advice.</span>
 </div>""" + """
@@ -1561,6 +1571,17 @@ def render_pulse_hub(pulse, flows, dateline):
       <span class="mini-range">{esc(rng)}</span>
       <p class="pc-note">{chg:+.1f}% in 30 days. The dollars staged inside crypto.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
+    etf = (pulse.get("etf_flows") or {}).get("btc") or {}
+    if etf.get("latest_net_usd_m") is not None:
+        latest = etf["latest_net_usd_m"]
+        word = "into" if latest >= 0 else "out of"
+        cards.append(f"""<a class="dash-card" href="/pulse/etf.html">
+      <span class="lab">ETF flows</span>
+      <span class="dash-stat" style="color:{'var(--verified-fg)' if latest >= 0 else 'var(--rule)'}">{esc(fmt_usd(latest * 1e6))}</span>
+      <p class="pc-note" style="margin-top:6px">net {word} the US spot Bitcoin ETFs on
+      {esc(etf.get("latest_date", "the latest trading day"))}. The traditional-finance bid,
+      published daily by the funds.</p>
+      <span class="dash-open">Open dashboard &rarr;</span></a>""")
     lev = (pulse.get("leverage") or {}).get("assets") or []
     if lev:
         b = lev[0]
@@ -1929,8 +1950,8 @@ def render_pulse_prices(pulse, dateline):
 
 
 def render_pulse_leverage(pulse, dateline):
-    desc = ("Perp funding rates and open interest for the majors: how crowded and how "
-            "expensive the leveraged bets are, in plain language.")
+    desc = ("The derivatives tape for the majors: funding, open interest trend, the "
+            "long/short ratio, and recent liquidations, in plain language.")
     lev = (pulse or {}).get("leverage") or {}
     assets = lev.get("assets") or []
     if not assets:
@@ -1940,22 +1961,68 @@ def render_pulse_leverage(pulse, dateline):
     for a in assets:
         f8 = a.get("funding_8h_pct", 0)
         cls = "chip-down" if f8 > 0.01 else ("chip-cool" if f8 < 0 else "")
+        ls = a.get("long_short_ratio")
+        ls_html = (f'<span class="chip {"chip-down" if ls >= 1.5 else ""}">{ls:.2f} L/S</span>'
+                   if ls is not None else '<span class="mut">&mdash;</span>')
         rows += (f'<tr><td class="sym2">{esc(a.get("symbol",""))}</td>'
                  f'<td class="pnum"><span class="chip {cls}">{f8:+.4f}% / 8h</span></td>'
                  f'<td class="pnum">{a.get("funding_annual_pct", 0):+.1f}%/yr</td>'
                  f'<td class="pnum">{esc(fmt_usd(a.get("open_interest_usd", 0)))}</td>'
-                 f'<td class="mut">{esc(a.get("venue",""))}'
-                 f'{(" &middot; next funding " + esc(a["next_funding_utc"])) if a.get("next_funding_utc") else ""}</td></tr>')
+                 f'<td class="pnum">{ls_html}</td>'
+                 f'<td class="mut">{esc(a.get("venue",""))}</td></tr>')
+    # liquidations: forced closes by side, per asset (recent window, single venue)
+    liq_rows = ""
+    for a in assets:
+        q = a.get("liquidations") or {}
+        if not q.get("count"):
+            continue
+        liq_rows += (f'<tr><td class="sym2">{esc(a.get("symbol",""))}</td>'
+                     f'<td class="pnum">{q["count"]}</td>'
+                     f'<td class="pnum" style="color:var(--rule)">{esc(fmt_usd(q.get("longs_usd", 0)))}</td>'
+                     f'<td class="pnum" style="color:var(--verified-fg)">{esc(fmt_usd(q.get("shorts_usd", 0)))}</td>'
+                     f'<td class="mut">last {q.get("window_hours", "?")}h</td></tr>')
+    liq_html = ""
+    if liq_rows:
+        liq_html = f"""<div class="sec-head" style="margin-top:26px"><h2>Recent liquidations</h2><span class="bar"></span></div>
+  <div class="movetable"><table>
+    <thead><tr><th></th><th>Forced closes</th><th>Longs liquidated</th><th>Shorts liquidated</th><th>Window</th></tr></thead>
+    <tbody>{liq_rows}</tbody></table></div>
+  <p class="pc-note" style="margin-top:8px">Forced position closes on one venue's public feed,
+  by which side got caught. Lopsided liquidations show which crowd was leaning wrong.</p>"""
+    # trend charts for the deepest market: funding history + OI trend
+    charts_html = ""
+    btc = assets[0]
+    if btc.get("funding_history_pct") and len(btc["funding_history_pct"]) > 2:
+        fh = btc["funding_history_pct"]
+        chart = line_chart_svg(fh, dollars=False, x_labels=["21 funding intervals ago", "now"],
+                               value_label=f"{fh[-1]:+.4f}%",
+                               aria=f"{btc.get('symbol','BTC')} funding rate history")
+        charts_html += (f'<div class="sec-head" style="margin-top:26px"><h2>BTC funding, last 21 intervals</h2>'
+                        f'<span class="bar"></span></div><div class="chartcard">{chart}</div>'
+                        f'<p class="pc-note" style="margin-top:8px">Each point is one 8-hour funding interval (%). '
+                        f'Above zero, longs pay shorts; the further from zero, the more crowded the trade.</p>')
+    if btc.get("oi_history_usd") and len(btc["oi_history_usd"]) > 2:
+        oi = btc["oi_history_usd"]
+        chart = line_chart_svg(oi, x_labels=["30 days ago", "now"],
+                               value_label=fmt_tick(oi[-1]),
+                               aria=f"{btc.get('symbol','BTC')} open interest, 30 days")
+        charts_html += (f'<div class="sec-head" style="margin-top:26px"><h2>BTC open interest, 30 days</h2>'
+                        f'<span class="bar"></span></div><div class="chartcard">{chart}</div>'
+                        f'<p class="pc-note" style="margin-top:8px">Total money in open contracts on the venue. '
+                        f'Rising OI with rising price is new money chasing; falling OI into a move is positions closing out.</p>')
     inner = f"""{_dash_crumb()}
   <h1>Leverage</h1>
   <p class="lede">The derivatives tape: what leveraged traders are paying to hold their bets
-     (funding) and how much money is in those bets (open interest). This is where crowding
+     (funding), how much money is in those bets (open interest), which way the crowd leans
+     (long/short), and who just got carried out (liquidations). This is where crowding
      shows up before it shows up in price.</p>
   <div class="movetable"><table>
-    <thead><tr><th></th><th>Funding</th><th>Annualized</th><th>Open interest</th><th>Venue</th></tr></thead>
+    <thead><tr><th></th><th>Funding</th><th>Annualized</th><th>Open interest</th><th>Long/short</th><th>Venue</th></tr></thead>
     <tbody>{rows}</tbody></table></div>
   <p class="pc-note" style="margin-top:8px">Single-venue snapshots from public exchange data,
   refreshed with each site build; they move with the market but are not market-wide totals.</p>
+  {charts_html}
+  {liq_html}
 
   <div class="sec-head" style="margin-top:30px"><h2>Leverage 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
@@ -1973,6 +2040,14 @@ def render_pulse_leverage(pulse, dateline):
       <p>Open interest is the total money sitting in open contracts. Rising OI with rising
       price = new money chasing the move. High OI is also fuel for liquidation cascades:
       when price moves fast against the crowd, forced closes accelerate it.</p></div>
+    <div class="learn"><span class="lab">Long/short is the lean</span>
+      <p>The long/short ratio counts accounts positioned each way. At 1.00 the crowd is
+      balanced; well above it, longs are crowded. A heavily crowded side is the side that
+      gets squeezed hardest when price goes the other way.</p></div>
+    <div class="learn"><span class="lab">Liquidations are the receipts</span>
+      <p>A liquidation is a leveraged position the exchange force-closed because the margin
+      ran out. Lopsided liquidations tell you which crowd was wrong today, and clusters of
+      them can accelerate the very move that caused them.</p></div>
     <div class="learn"><span class="lab">What it cannot tell you</span>
       <p>These are snapshots from one venue's public data, not the whole market, and funding
       flips fast. Treat this as context for how stretched the boat is, never as a trade
@@ -1980,6 +2055,103 @@ def render_pulse_leverage(pulse, dateline):
   </div>
   <p class="nfa">{esc(lev.get("note", ""))} {esc(NFA)}</p>"""
     return _dash_shell("leverage", "Leverage", desc, inner, dateline)
+
+
+def etf_bars_svg(days, aria=""):
+    """Daily net-flow bars (USD millions in, values scaled to USD for labels). Green up =
+    net creations (money in), red down = net redemptions. Same visual language as the
+    Whale Watch weekly chart."""
+    if not days:
+        return ""
+    rows = [{"week_ending": d.get("date", "")[:6], "net_usd": (d.get("net_usd_m") or 0) * 1e6,
+             "moves": None} for d in days]
+    w, h = 660, 200
+    mid = h / 2 - 8
+    max_abs = max((abs(r["net_usd"]) for r in rows), default=0) or 1
+    n = len(rows)
+    ml = 64
+    slot = (w - ml - 14) / n
+    bw = min(40, slot * 0.62)
+    scale = mid - 26
+    parts = [f'<svg viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" role="img" '
+             f'aria-label="{esc(aria)}">']
+    for val, y in ((max_abs, mid - scale), (0, mid), (-max_abs, mid + scale)):
+        parts.append(f'<line x1="{ml}" y1="{y:.1f}" x2="{w-14}" y2="{y:.1f}" '
+                     f'stroke="var(--line)" stroke-width="1"/>')
+        parts.append(f'<text x="{ml - 8}" y="{y + 3.5:.1f}" text-anchor="end" class="ctick">'
+                     f'{esc(fmt_tick(val))}</text>')
+    for i, r in enumerate(rows):
+        net = r["net_usd"]
+        x = ml + i * slot + (slot - bw) / 2
+        bar = (abs(net) / max_abs) * scale
+        color = "var(--verified-fg)" if net >= 0 else "var(--rule)"
+        y = mid - bar if net >= 0 else mid
+        parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" height="{max(bar, 1):.1f}" '
+                     f'rx="3" fill="{color}"><title>{esc(days[i].get("date", ""))}: '
+                     f'{esc(fmt_usd(net))} net</title></rect>')
+        parts.append(f'<text x="{x + bw/2:.1f}" y="{h - 6}" text-anchor="middle" class="axis">'
+                     f'{esc(r["week_ending"])}</text>')
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def render_pulse_etf(pulse, dateline):
+    desc = ("Daily US spot Bitcoin and Ethereum ETF net flows: the traditional-finance "
+            "bid, in plain language. Market data, not advice.")
+    etf = (pulse or {}).get("etf_flows") or {}
+    if not etf.get("btc") and not etf.get("eth"):
+        inner = f"{_dash_crumb()}\n  <h1>ETF flows</h1>\n  {_no_data()}"
+        return _dash_shell("etf", "ETF flows", desc, inner, dateline)
+    boards = ""
+    for key, name in (("btc", "Bitcoin"), ("eth", "Ethereum")):
+        b = etf.get(key)
+        if not b:
+            continue
+        latest = b.get("latest_net_usd_m") or 0
+        cls = "up" if latest >= 0 else "down"
+        word = "into" if latest >= 0 else "out of"
+        cum = b.get("cumulative_usd_m")
+        cum_html = (f'<span class="sub">{esc(fmt_usd(cum * 1e6))} cumulative since launch</span>'
+                    if cum is not None else "")
+        boards += f"""<div class="sec-head" style="margin-top:26px"><h2>{esc(name)} spot ETFs</h2><span class="bar"></span></div>
+  <div class="stats"><div class="stat">
+    <span class="lab">Latest day ({esc(b.get("latest_date", ""))})</span>
+    <span class="big {cls}">{esc(fmt_usd(latest * 1e6))}</span>
+    <span class="sub">net {word} the funds</span>
+  </div><div class="stat">
+    <span class="lab">Since launch</span>
+    <span class="big">{esc(fmt_usd(cum * 1e6)) if cum is not None else "&mdash;"}</span>
+    <span class="sub">cumulative net flow</span>
+  </div></div>
+  <div class="chartcard" style="margin-top:14px">{etf_bars_svg(b.get("recent", []), aria=f"{name} ETF daily net flows")}</div>"""
+    inner = f"""{_dash_crumb()}
+  <h1>ETF flows</h1>
+  <p class="lede">The traditional-finance bid: how much money moved into or out of the US
+     spot ETFs each trading day. This is the regulated world's demand for crypto, measured
+     in actual dollars, published by the funds themselves.</p>
+  {boards}
+  <div class="sec-head" style="margin-top:30px"><h2>ETF flows 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab">What a flow is</span>
+      <p>When investors buy more ETF shares than they sell, the fund must go buy the real
+      asset to back them: a <b>net creation</b>, money into crypto. Selling pressure works
+      in reverse (a redemption). Flows are the cleanest window into institutional and
+      retirement-account demand.</p></div>
+    <div class="learn"><span class="lab">Why it moves markets</span>
+      <p>ETF buying is spot buying: the fund takes real coins off the market, every trading
+      day, at any price. A long streak of inflows or outflows is a supply/demand story that
+      compounds, which is why desks watch the streak more than any single day.</p></div>
+    <div class="learn"><span class="lab">The rhythm</span>
+      <p>Flows publish once per trading day, a day behind, and pause on weekends and market
+      holidays, so this board moves slower than the rest of the pulse. That is not staleness;
+      that is the market it measures.</p></div>
+    <div class="learn"><span class="lab">What it cannot tell you</span>
+      <p>Flows say what regulated funds did, not why, and not what tomorrow brings. One fund
+      family's quirks (fees, conversions) can dominate a quiet day. Context for the news,
+      never a trade signal.</p></div>
+  </div>
+  <p class="nfa">{esc(etf.get("note", ""))} {esc(NFA)}</p>"""
+    return _dash_shell("etf", "ETF flows", desc, inner, dateline)
 
 
 def render_pulse_network(pulse, dateline):
@@ -2245,6 +2417,7 @@ def build():
     w(os.path.join("pulse", "prices.html"), render_pulse_prices(pulse, dateline))
     w(os.path.join("pulse", "stablecoins.html"), render_pulse_stables(pulse, dateline))
     w(os.path.join("pulse", "leverage.html"), render_pulse_leverage(pulse, dateline))
+    w(os.path.join("pulse", "etf.html"), render_pulse_etf(pulse, dateline))
     w(os.path.join("pulse", "network.html"), render_pulse_network(pulse, dateline))
     w("archive.html", render_archive(items, dateline))
     w("method.html", render_method(items, dateline))
@@ -2269,7 +2442,7 @@ def build():
     locs = ["/", "/news.html", "/flows.html", "/pulse.html", "/chartmaster.html",
             "/pulse/sentiment.html", "/pulse/posture.html",
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
-            "/pulse/leverage.html", "/pulse/network.html",
+            "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/method.html", "/about.html", "/standards.html"]
     locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
     urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)

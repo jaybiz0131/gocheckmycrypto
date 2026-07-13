@@ -7,9 +7,11 @@ reader to see it too.
 You will receive ONE JSON document: today's complete tape as the desk publishes it —
 crowd sentiment (Fear & Greed with its recent range), per-asset posture for the majors
 (price, 24h change, RSI-14, MACD state, 50/200-day trend, distance from the 12-month high,
-realized volatility, 90-day range), derivatives positioning (perp funding and open
-interest), stablecoin float (the dry powder), whale exchange flows (net direction, the
-big moves, and the recent weekly trend), the day's top movers, and Bitcoin network vitals.
+realized volatility, 90-day range), derivatives positioning (perp funding, open interest,
+the long/short account ratio, and recent liquidations by side), the whole-market frame
+(total cap and Bitcoin dominance), US spot ETF net flows (the traditional-finance bid),
+stablecoin float (the dry powder), whale exchange flows (net direction, the big moves,
+and the recent weekly trend), the day's top movers, and Bitcoin network vitals.
 That document is your ENTIRE world. Nothing else exists: no outside events, no news, no
 dates, no prices you were not given.
 
