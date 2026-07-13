@@ -73,6 +73,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
     counted = 0
     inflow_moves = []
     outflow_moves = []
+    exchanges = {}
     for t in txns:
         kind = classify(t)
         sym = (t.get("symbol") or "?").upper()
@@ -88,8 +89,13 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
                     "from": (t.get("from", {}) or {}).get("owner") or (
                         "unknown wallet" if kind == "inflow" else "unknown exchange"),
                     "blockchain": t.get("blockchain", ""), "hash": t.get("hash", ""),
-                    "stable": is_stable}
+                    "ts": float(t.get("timestamp") or 0), "stable": is_stable}
             (inflow_moves if kind == "inflow" else outflow_moves).append(move)
+            # exchange concentration: who is receiving (inflow) or dispensing (outflow)
+            ex_name = move["to"] if kind == "inflow" else move["from"]
+            e = exchanges.setdefault(ex_name, {"exchange": ex_name,
+                                               "inflow_usd": 0.0, "outflow_usd": 0.0})
+            e["inflow_usd" if kind == "inflow" else "outflow_usd"] += usd
         if is_stable:
             if kind == "inflow":
                 stable_in += usd
@@ -116,6 +122,13 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
 
     inflow_moves.sort(key=lambda m: m["usd"], reverse=True)
     outflow_moves.sort(key=lambda m: m["usd"], reverse=True)
+    by_exchange = []
+    for e in exchanges.values():
+        e["net_usd"] = round(e["outflow_usd"] - e["inflow_usd"])  # + = net dispensing
+        e["inflow_usd"] = round(e["inflow_usd"])
+        e["outflow_usd"] = round(e["outflow_usd"])
+        by_exchange.append(e)
+    by_exchange.sort(key=lambda e: e["inflow_usd"] + e["outflow_usd"], reverse=True)
     net = vol_out - vol_in  # positive = net off exchanges (accumulation)
     direction = "off exchanges" if net >= 0 else "onto exchanges"
 
@@ -133,6 +146,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
             "net_buying_power_usd": round(stable_in - stable_out),
         },
         "by_asset": by_asset,
+        "by_exchange": by_exchange[:5],
         "top_inflows": inflow_moves[:top_moves],
         "top_outflows": outflow_moves[:top_moves],
         "note": ("Data: Whale Alert public alert archive; exchanges identified by name, and only "
@@ -241,6 +255,11 @@ def run(fixture=None, window=None, example=False):
             return 0
     if history:
         result["history"] = history
+        # baseline: the median week's |net| lets the page say whether the current window
+        # is running hot or quiet relative to the last quarter
+        import statistics
+        abs_nets = sorted(abs(w["net_usd"]) for w in history)
+        result["weekly_median_abs_usd"] = round(statistics.median(abs_nets)) if abs_nets else 0
     common.write_out(os.path.basename(OUT), result)
     os.makedirs(os.path.dirname(SITE_DATA), exist_ok=True)
     json.dump(result, open(SITE_DATA, "w", encoding="utf-8"), indent=2)
