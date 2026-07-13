@@ -1291,6 +1291,19 @@ C_SMA50 = "#F4A52A"   # amber
 C_SMA200 = "#8A93A0"  # slate
 
 
+
+def spark_widget(values, period, dollars=True):
+    """A spark that MEASURES: colored by its period direction (green ended higher, red
+    ended lower), end dot, and the period + high/low range printed beneath - a mini chart
+    with scale, not a decorative squiggle."""
+    vals = [float(v) for v in (values or []) if v is not None]
+    if len(vals) < 2:
+        return ""
+    color = "var(--up)" if vals[-1] >= vals[0] else "var(--down)"
+    lo, hi = fmt_tick(min(vals), dollars), fmt_tick(max(vals), dollars)
+    return (f'<span style="color:{color}">{spark_svg(vals)}</span>'
+            f'<span class="w-range">{esc(period)} range {lo} &ndash; {hi}</span>')
+
 def fmt_tick(n, dollars=True):
     """Compact axis label: $82K / $310B / 45. Whole numbers below 1000."""
     n = float(n)
@@ -1610,7 +1623,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                f'<span data-live="price:BTC">{esc(_price_fmt(btc.get("price")))}</span>{chg_s}',
                f'RSI {btc.get("rsi14", 0):.0f} &middot; '
                f'{"above" if btc.get("above_sma200") else "below"} 200-day',
-               spark_svg((btc.get("spark") or [])[-30:]))
+               spark_widget((btc.get("spark") or [])[-30:], "30d"))
     mkt = pulse.get("market") or {}
     if mkt.get("total_mcap_usd"):
         widget("/pulse/prices.html", "Price &middot; Whole market",
@@ -1655,7 +1668,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
         widget("/pulse/stablecoins.html", "Flows &middot; Stablecoin dry powder",
                esc(fmt_usd(stables["total_usd"])),
                f'<span class="w-delta {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span> in 30 days',
-               spark_svg((stables.get("spark") or [])[-60:]))
+               spark_widget((stables.get("spark") or [])[-60:], "60d"))
 
     # Row 3 - the supporting desks: the day's action, the mood, the chain
     movers = pulse.get("movers") or {}
@@ -1671,7 +1684,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
         widget("/pulse/sentiment.html", "The day &middot; Crowd sentiment",
                f'{v} &middot; {esc((fng.get("label") or "").lower())}',
                "the foil: what the crowd feels, not what the money does",
-               spark_svg((fng.get("history") or [])[-30:]),
+               spark_widget((fng.get("history") or [])[-30:], "30d", dollars=False),
                stat_color=_fng_band_color(v))
     network = pulse.get("network") or {}
     if network.get("fastest_fee") is not None:
