@@ -1074,12 +1074,12 @@ def flows_chart_svg(by_asset):
         parts.append(f'<text x="8" y="{cy+5:.0f}" class="sym">{esc(a.get("symbol",""))}</text>')
         if net < 0:  # onto exchanges, extend left, red
             parts.append(f'<rect x="{cx-length:.1f}" y="{by:.0f}" width="{length:.1f}" height="{bar_h}" '
-                         f'rx="4" fill="var(--rule)"/>')
+                         f'rx="4" fill="var(--down)"/>')
             parts.append(f'<text x="{cx-length-8:.1f}" y="{cy+5:.0f}" text-anchor="end" class="val">'
                          f'{esc(fmt_usd(net))}</text>')
         else:  # off exchanges, extend right, green
             parts.append(f'<rect x="{cx:.1f}" y="{by:.0f}" width="{length:.1f}" height="{bar_h}" '
-                         f'rx="4" fill="var(--verified-fg)"/>')
+                         f'rx="4" fill="var(--up)"/>')
             parts.append(f'<text x="{cx+length+8:.1f}" y="{cy+5:.0f}" text-anchor="start" class="val">'
                          f'+{esc(fmt_usd(net))}</text>')
     parts.append("</svg>")
@@ -1156,8 +1156,8 @@ def render_flows(flows, dateline):
     out_rows = _move_rows(flows.get("top_outflows", []))
     ex_rows = "".join(
         f'<tr><td class="sym2" style="text-transform:none">{esc(e.get("exchange",""))}</td>'
-        f'<td class="pnum" style="color:var(--rule)">{esc(fmt_usd(e.get("inflow_usd",0)))}</td>'
-        f'<td class="pnum" style="color:var(--verified-fg)">{esc(fmt_usd(e.get("outflow_usd",0)))}</td>'
+        f'<td class="pnum" style="color:var(--down)">{esc(fmt_usd(e.get("inflow_usd",0)))}</td>'
+        f'<td class="pnum" style="color:var(--up)">{esc(fmt_usd(e.get("outflow_usd",0)))}</td>'
         f'<td class="pnum">{"+" if e.get("net_usd",0) >= 0 else ""}{esc(fmt_usd(e.get("net_usd",0)))}</td></tr>'
         for e in flows.get("by_exchange", []))
     winp = _win_phrase(flows.get("window_hours", 24))
@@ -1625,7 +1625,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
         widget("/pulse/etf.html", "Flows &middot; ETF flows",
                f'{"+" if latest >= 0 else ""}{esc(fmt_usd(latest * 1e6))}',
                f'BTC spot ETFs, {esc(etf.get("latest_date", ""))}', mini,
-               stat_color="var(--verified-fg)" if latest >= 0 else "var(--rule)")
+               stat_color="var(--up)" if latest >= 0 else "var(--down)")
 
     # Row 2 - where the money is moving, and how leveraged the bets are
     if flows and flows.get("volatile"):
@@ -1634,7 +1634,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                f'{"+" if wnet >= 0 else ""}{esc(fmt_usd(wnet))}',
                f'net {"off" if wnet >= 0 else "onto"} exchanges, '
                f'{esc(_win_phrase(flows.get("window_hours", 24)))}',
-               stat_color="var(--verified-fg)" if wnet >= 0 else "var(--rule)")
+               stat_color="var(--up)" if wnet >= 0 else "var(--down)")
     lev = (pulse.get("leverage") or {}).get("assets") or []
     btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
     if btcl:
@@ -1894,9 +1894,9 @@ def render_pulse_movers(pulse, dateline):
   <p class="live-stamp"><span class="live-dot"></span>tables update in your browser
      <span data-live="stamp"></span></p>
   <div class="pulse-grid2">
-    <div class="pulse-card"><span class="lab" style="color:var(--verified-fg)">Top 5 gainers (24h)<span class="live-dot"></span></span>
+    <div class="pulse-card"><span class="lab" style="color:var(--up)">Top 5 gainers (24h)<span class="live-dot"></span></span>
       <div class="movetable"><table><tbody data-live="movers:gainers">{_mover_rows(movers.get("gainers", []))}</tbody></table></div></div>
-    <div class="pulse-card"><span class="lab" style="color:var(--rule)">Top 5 losers (24h)<span class="live-dot"></span></span>
+    <div class="pulse-card"><span class="lab" style="color:var(--down)">Top 5 losers (24h)<span class="live-dot"></span></span>
       <div class="movetable"><table><tbody data-live="movers:losers">{_mover_rows(movers.get("losers", []))}</tbody></table></div></div>
   </div>
 
@@ -1941,7 +1941,7 @@ def _top100_rows(coins):
                     if chg is not None else '<span class="chip">?</span>')
         spark = c.get("spark7d") or []
         up = len(spark) >= 2 and spark[-1] >= spark[0]
-        spark_html = (f'<span class="row-spark" style="color:{"var(--verified-fg)" if up else "var(--rule)"}">'
+        spark_html = (f'<span class="row-spark" style="color:{"var(--up)" if up else "var(--down)"}">'
                       f'{spark_svg(spark, w=110, h=26)}</span>') if spark else ""
         rows.append(
             f'<tr data-sym="{esc(c.get("symbol", ""))}">'
@@ -2024,8 +2024,8 @@ def render_pulse_leverage(pulse, dateline):
             continue
         liq_rows += (f'<tr><td class="sym2">{esc(a.get("symbol",""))}</td>'
                      f'<td class="pnum">{q["count"]}</td>'
-                     f'<td class="pnum" style="color:var(--rule)">{esc(fmt_usd(q.get("longs_usd", 0)))}</td>'
-                     f'<td class="pnum" style="color:var(--verified-fg)">{esc(fmt_usd(q.get("shorts_usd", 0)))}</td>'
+                     f'<td class="pnum" style="color:var(--down)">{esc(fmt_usd(q.get("longs_usd", 0)))}</td>'
+                     f'<td class="pnum" style="color:var(--up)">{esc(fmt_usd(q.get("shorts_usd", 0)))}</td>'
                      f'<td class="mut">last {q.get("window_hours", "?")}h</td></tr>')
     liq_html = ""
     if liq_rows:
