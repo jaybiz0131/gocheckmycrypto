@@ -1626,9 +1626,15 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                spark_widget((btc.get("spark") or [])[-30:], "30d"))
     mkt = pulse.get("market") or {}
     if mkt.get("total_mcap_usd"):
+        mchg = mkt.get("mcap_change_24h_pct")
+        mchg_s = (f' <span class="w-delta {"up" if mchg >= 0 else "down"}">{mchg:+.1f}%</span>'
+                  if mchg is not None else "")
+        dom = mkt.get("btc_dominance_pct", 0)
+        dom_bar = (f'<span class="dom-bar"><span style="width:{dom:.1f}%"></span></span>'
+                   f'<span class="w-range">BTC is {dom:.1f}% of the whole crypto market</span>')
         widget("/pulse/prices.html", "Price &middot; Whole market",
-               esc(fmt_tick(mkt["total_mcap_usd"])),
-               f'total cap &middot; BTC dominance {mkt.get("btc_dominance_pct", 0):.1f}%')
+               f'{esc(fmt_tick(mkt["total_mcap_usd"]))}{mchg_s}',
+               'total crypto market cap &middot; 24h change', dom_bar)
     etf = (pulse.get("etf_flows") or {}).get("btc") or {}
     if etf.get("latest_net_usd_m") is not None:
         latest = etf["latest_net_usd_m"]
@@ -1643,10 +1649,14 @@ def render_pulse_hub(pulse, flows, cm, dateline):
     # Row 2 - where the money is moving, and how leveraged the bets are
     if flows and flows.get("volatile"):
         wnet = flows["volatile"].get("net_usd", 0)
+        wmini = flow_ledger(
+            [(f'wk {w.get("week_ending", "")}', w.get("net_usd", 0), None)
+             for w in (flows.get("history") or [])[-4:]],
+            aria="Weekly whale net flow, last 4 weeks", compact=True)
         widget("/flows.html", "Flows &middot; Whale Watch",
                f'{"+" if wnet >= 0 else ""}{esc(fmt_usd(wnet))}',
                f'net {"off" if wnet >= 0 else "onto"} exchanges, '
-               f'{esc(_win_phrase(flows.get("window_hours", 24)))}',
+               f'{esc(_win_phrase(flows.get("window_hours", 24)))}', wmini,
                stat_color="var(--up)" if wnet >= 0 else "var(--down)")
     lev = (pulse.get("leverage") or {}).get("assets") or []
     btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
@@ -1661,7 +1671,8 @@ def render_pulse_hub(pulse, flows, cm, dateline):
             sub += (f'<br>liqs {esc(fmt_usd(longs + shorts))} last '
                     f'{q.get("window_hours", "?")}h &middot; mostly {side}')
         widget("/pulse/leverage.html", "Positioning &middot; Leverage",
-               f'{btcl.get("funding_8h_pct", 0):+.4f}% <span class="w-unit">/8h</span>', sub)
+               f'{btcl.get("funding_8h_pct", 0):+.4f}% <span class="w-unit">/8h</span>', sub,
+               spark_widget(btcl.get("oi_history_usd") or [], "30d open interest"))
     stables = pulse.get("stables") or {}
     if stables.get("total_usd"):
         chg = stables.get("change_30d_pct", 0)
@@ -1675,9 +1686,15 @@ def render_pulse_hub(pulse, flows, cm, dateline):
     if movers.get("gainers"):
         g = movers["gainers"][0]
         l = (movers.get("losers") or [{}])[0]
+        g_line = " &middot; ".join(f'{esc(x.get("symbol", ""))} {x.get("chg_24h_pct", 0):+.1f}%'
+                                   for x in movers.get("gainers", [])[:3])
+        l_line = " &middot; ".join(f'{esc(x.get("symbol", ""))} {x.get("chg_24h_pct", 0):+.1f}%'
+                                   for x in movers.get("losers", [])[:3])
+        mv_mini = (f'<span class="w-range" style="color:var(--up)">up&nbsp; {g_line}</span>'
+                   f'<span class="w-range" style="color:var(--down)">down&nbsp; {l_line}</span>')
         widget("/pulse/movers.html", "The day &middot; Top movers",
                f'{esc(g.get("symbol", ""))} <span class="w-delta up">{g.get("chg_24h_pct", 0):+.1f}%</span>',
-               f'{esc(l.get("symbol", ""))} {l.get("chg_24h_pct", 0):+.1f}% on the other end')
+               "the day&rsquo;s biggest big-cap moves, both directions", mv_mini)
     fng = pulse.get("fng") or {}
     if fng.get("value") is not None:
         v = fng["value"]
@@ -1688,10 +1705,15 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                stat_color=_fng_band_color(v))
     network = pulse.get("network") or {}
     if network.get("fastest_fee") is not None:
+        fee = network.get("fastest_fee", 0) or 0
+        busy = "a quiet chain" if fee <= 5 else ("normal traffic" if fee <= 30 else "a crowded chain")
+        net_mini = (f'<span class="w-range">1-hour fee {network.get("hour_fee", "?")} sat/vB &middot; '
+                    f'difficulty {network.get("difficulty_change_pct", 0):+.1f}% &middot; '
+                    f'retarget in {network.get("retarget_blocks", "?")} blocks</span>'
+                    f'<span class="w-range">sat/vB = satoshis per virtual byte, the bid for block space</span>')
         widget("/pulse/network.html", "Chain &middot; Bitcoin network",
                f'{network.get("fastest_fee", "?")} <span class="w-unit">sat/vB</span>',
-               f'next-block fee &middot; difficulty {network.get("difficulty_change_pct", 0):+.1f}%',
-               cls=" mspan")
+               f'next-block fee: {busy}', net_mini, cls=" mspan")
 
     body = mp_hero() + f'''<main class="wrap"><section class="page">
   <div class="ey" style="margin:14px 0 0"><span class="kicker">Market Pulse</span>
