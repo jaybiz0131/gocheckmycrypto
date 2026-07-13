@@ -1574,131 +1574,117 @@ def _no_data(cmd="python3 market_pulse.py"):
 
 
 def render_pulse_hub(pulse, flows, cm, dateline):
-    """THE BOARD: one master dashboard of number-first widgets for every desk (including
-    Whale Watch and the Chart Master), ordered by the house reading doctrine - the Chart
-    Master's own method: the read, then price/regime, then flows, then positioning, then
-    the day's action with sentiment as the foil, then the chain. Each widget is a glance
-    plus a tap into the deep board where the 101 teaching lives."""
+    """THE BOARD: the master dashboard. The Chart Master's read full-width on top, then
+    NINE even cards in rows of three, importance descending by the house reading doctrine
+    (price, flows, positioning, then the day and the chain as the supporting row). The
+    doctrine group rides in each card's label; the 101 teaching lives on the deep boards."""
     desc = ("The Board: every market desk at a glance - price posture, ETF and whale flows, "
-            "leverage, liquidations, sentiment, and the Bitcoin network, ordered the way a "
-            "desk reads a market. Market data, not advice.")
+            "leverage, sentiment, and the Bitcoin network, ordered the way a desk reads a "
+            "market. Market data, not advice.")
     pulse = pulse or {}
     W = []
 
-    def group(label):
-        W.append(f'<span class="w-group">{esc(label)}</span>')
-
-    def widget(href, lab, stat, sub="", mini="", stat_color=""):
+    def widget(href, lab, stat, sub="", mini="", stat_color="", cls=""):
         color = f' style="color:{stat_color}"' if stat_color else ""
-        W.append(f'''<a class="dash-card widget" href="{href}">
+        W.append(f'''<a class="dash-card widget{cls}" href="{href}">
       <span class="lab">{lab}</span>
       <span class="dash-stat"{color}>{stat}</span>
       {f'<span class="w-sub">{sub}</span>' if sub else ""}
       {f'<div class="pc-spark">{mini}</div>' if mini else ""}</a>''')
 
-    # 0. The read: the desk's synthesis of everything below, full width
+    # The read: the desk's synthesis of everything below, full width (not a card)
     if (cm or {}).get("headline"):
         W.append(f'''<a class="dash-card widget wide" href="/chartmaster.html">
       <span class="lab">The Chart Master&rsquo;s read &middot; {esc(fmt_date(cm.get("date")))}</span>
       <span class="w-read">&ldquo;{esc(cm["headline"])}&rdquo;</span></a>''')
 
-    # 1. Price / regime
-    group("Price")
+    # Row 1 - what the market is doing
     assets = pulse.get("assets") or []
     if assets:
         btc = assets[0]
         chg = btc.get("chg_24h_pct")
         chg_s = f' <span class="w-delta {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span>' if chg is not None else ""
-        widget("/pulse/posture.html", "BTC posture",
+        widget("/pulse/posture.html", "Price &middot; BTC posture",
                f'<span data-live="price:BTC">{esc(_price_fmt(btc.get("price")))}</span>{chg_s}',
                f'RSI {btc.get("rsi14", 0):.0f} &middot; '
                f'{"above" if btc.get("above_sma200") else "below"} 200-day',
                spark_svg((btc.get("spark") or [])[-30:]))
     mkt = pulse.get("market") or {}
     if mkt.get("total_mcap_usd"):
-        widget("/pulse/prices.html", "Whole market",
+        widget("/pulse/prices.html", "Price &middot; Whole market",
                esc(fmt_tick(mkt["total_mcap_usd"])),
                f'total cap &middot; BTC dominance {mkt.get("btc_dominance_pct", 0):.1f}%')
-
-    # 2. Flows: where the money is moving
-    group("Flows")
     etf = (pulse.get("etf_flows") or {}).get("btc") or {}
     if etf.get("latest_net_usd_m") is not None:
         latest = etf["latest_net_usd_m"]
         mini = flow_ledger([(d.get("date", "")[:6], (d.get("net_usd_m") or 0) * 1e6, None)
                             for d in etf.get("recent", [])[-4:]],
                            aria="BTC ETF flows, last 4 trading days", compact=True)
-        widget("/pulse/etf.html", "ETF flows",
+        widget("/pulse/etf.html", "Flows &middot; ETF flows",
                f'{"+" if latest >= 0 else ""}{esc(fmt_usd(latest * 1e6))}',
                f'BTC spot ETFs, {esc(etf.get("latest_date", ""))}', mini,
                stat_color="var(--verified-fg)" if latest >= 0 else "var(--rule)")
+
+    # Row 2 - where the money is moving, and how leveraged the bets are
     if flows and flows.get("volatile"):
         wnet = flows["volatile"].get("net_usd", 0)
-        widget("/flows.html", "Whale Watch",
+        widget("/flows.html", "Flows &middot; Whale Watch",
                f'{"+" if wnet >= 0 else ""}{esc(fmt_usd(wnet))}',
                f'net {"off" if wnet >= 0 else "onto"} exchanges, '
                f'{esc(_win_phrase(flows.get("window_hours", 24)))}',
                stat_color="var(--verified-fg)" if wnet >= 0 else "var(--rule)")
-    stables = pulse.get("stables") or {}
-    if stables.get("total_usd"):
-        chg = stables.get("change_30d_pct", 0)
-        widget("/pulse/stablecoins.html", "Stablecoin dry powder",
-               esc(fmt_usd(stables["total_usd"])),
-               f'<span class="w-delta {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span> in 30 days',
-               spark_svg((stables.get("spark") or [])[-60:]))
-
-    # 3. Positioning: how fragile the boat is
     lev = (pulse.get("leverage") or {}).get("assets") or []
     btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
     if btcl:
-        group("Positioning")
         ls = btcl.get("long_short_ratio")
-        widget("/pulse/leverage.html", "Leverage",
-               f'{btcl.get("funding_8h_pct", 0):+.4f}% <span class="w-unit">/8h</span>',
-               f'BTC funding &middot; {esc(fmt_usd(btcl.get("open_interest_usd", 0)))} OI'
+        sub = (f'BTC funding &middot; {esc(fmt_usd(btcl.get("open_interest_usd", 0)))} OI'
                + (f' &middot; {ls:.2f} L/S' if ls is not None else ""))
         q = btcl.get("liquidations") or {}
         if q.get("count"):
             longs, shorts = q.get("longs_usd", 0), q.get("shorts_usd", 0)
             side = "longs" if longs >= shorts else "shorts"
-            widget("/pulse/leverage.html", "Liquidations",
-                   f'{esc(fmt_usd(longs + shorts))}',
-                   f'BTC, last {q.get("window_hours", "?")}h &middot; mostly {side} '
-                   f'({esc(fmt_usd(max(longs, shorts)))})')
+            sub += (f'<br>liqs {esc(fmt_usd(longs + shorts))} last '
+                    f'{q.get("window_hours", "?")}h &middot; mostly {side}')
+        widget("/pulse/leverage.html", "Positioning &middot; Leverage",
+               f'{btcl.get("funding_8h_pct", 0):+.4f}% <span class="w-unit">/8h</span>', sub)
+    stables = pulse.get("stables") or {}
+    if stables.get("total_usd"):
+        chg = stables.get("change_30d_pct", 0)
+        widget("/pulse/stablecoins.html", "Flows &middot; Stablecoin dry powder",
+               esc(fmt_usd(stables["total_usd"])),
+               f'<span class="w-delta {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span> in 30 days',
+               spark_svg((stables.get("spark") or [])[-60:]))
 
-    # 4. The day: movers, with sentiment as the foil
-    group("The day")
+    # Row 3 - the supporting desks: the day's action, the mood, the chain
     movers = pulse.get("movers") or {}
     if movers.get("gainers"):
         g = movers["gainers"][0]
         l = (movers.get("losers") or [{}])[0]
-        widget("/pulse/movers.html", "Top movers",
+        widget("/pulse/movers.html", "The day &middot; Top movers",
                f'{esc(g.get("symbol", ""))} <span class="w-delta up">{g.get("chg_24h_pct", 0):+.1f}%</span>',
                f'{esc(l.get("symbol", ""))} {l.get("chg_24h_pct", 0):+.1f}% on the other end')
     fng = pulse.get("fng") or {}
     if fng.get("value") is not None:
         v = fng["value"]
-        widget("/pulse/sentiment.html", "Crowd sentiment",
+        widget("/pulse/sentiment.html", "The day &middot; Crowd sentiment",
                f'{v} &middot; {esc((fng.get("label") or "").lower())}',
                "the foil: what the crowd feels, not what the money does",
                spark_svg((fng.get("history") or [])[-30:]),
                stat_color=_fng_band_color(v))
-
-    # 5. The chain: the slow signal closes
     network = pulse.get("network") or {}
     if network.get("fastest_fee") is not None:
-        group("Chain")
-        widget("/pulse/network.html", "Bitcoin network",
+        widget("/pulse/network.html", "Chain &middot; Bitcoin network",
                f'{network.get("fastest_fee", "?")} <span class="w-unit">sat/vB</span>',
-               f'next-block fee &middot; difficulty {network.get("difficulty_change_pct", 0):+.1f}%')
+               f'next-block fee &middot; difficulty {network.get("difficulty_change_pct", 0):+.1f}%',
+               cls=" mspan")
 
     body = mp_hero() + f'''<main class="wrap"><section class="page">
   <div class="ey" style="margin:14px 0 0"><span class="kicker">Market Pulse</span>
     <span class="daily-badge">refreshed through the day</span></div>
   <h1 style="margin-top:6px">The Board</h1>
   <p class="lede" style="margin-bottom:10px">Every desk at a glance, in the order a desk
-     reads a market: price, flows, positioning, the day, the chain. Tap any widget for the
-     full board, where every number is taught in plain language.
+     reads a market: price, flows, positioning, then the day and the chain. Tap any card
+     for the full board, where every number is taught in plain language.
      <span class="live-stamp"><span class="live-dot"></span>prices update in your browser
      <span data-live="stamp"></span></span></p>
   <div class="dash-grid widget-grid">{"".join(W)}</div>

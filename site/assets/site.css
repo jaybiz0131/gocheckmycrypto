@@ -450,8 +450,9 @@ footer.site .fnote b{color:var(--muted)}
 .lval.up{color:var(--verified-fg)}
 .lval.down{color:var(--rule)}
 /* ---- The Board: master-dash widgets ---- */
-.widget-grid{grid-template-columns:repeat(auto-fit,minmax(225px,1fr))}
-@media (max-width:700px){.widget-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+.widget-grid{grid-template-columns:repeat(3,1fr)}
+@media (max-width:700px){.widget-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .widget.mspan{grid-column:1/-1}}
 .widget{padding:12px 14px}
 .widget .dash-stat{font-size:21px;margin-bottom:3px}
 .widget .w-sub{font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.45;display:block}
@@ -466,6 +467,3 @@ footer.site .fnote b{color:var(--muted)}
 /* ---- The Board: read strip + group kickers ---- */
 .widget.wide{grid-column:1/-1;padding:14px 18px}
 .widget.wide .w-read{font-size:18px}
-.w-group{grid-column:1/-1;font-family:var(--mono);font-size:10.5px;font-weight:700;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--rule);margin:8px 0 -6px}
-.w-group:first-child{margin-top:0}
