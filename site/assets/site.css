@@ -317,7 +317,7 @@ a.mh-family:hover{text-decoration:underline}
 .gauge-num{font:600 40px var(--serif);fill:var(--ink)}
 .gauge-label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
   font-weight:700;margin-top:4px}
-.axis{font:9.5px var(--mono);fill:var(--faint)}
+.axis{font:13px var(--mono);fill:var(--faint)}
 .chartcard svg{width:100%;height:auto;display:block}
 .mp-hero{background:radial-gradient(120% 150% at 50% 0%, #0E3242 0%, #0A1822 62%)}
 .cm-hero{background:radial-gradient(120% 150% at 50% 0%, #0E3B2E 0%, #0A1822 62%)}
@@ -350,9 +350,9 @@ a.mh-family:hover{text-decoration:underline}
 .mp-hero img{box-shadow:0 0 44px rgba(63,200,242,.22),0 0 80px -30px rgba(244,165,42,.35),
   0 18px 50px -20px rgba(0,0,0,.7)}
 .chart{width:100%;height:auto;display:block}
-.ctick{font:10.5px var(--mono);fill:var(--faint);letter-spacing:.02em}
-.cpill{font:700 11px var(--mono);letter-spacing:.02em}
-.band-lab{font:9px var(--mono);letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.ctick{font:14px var(--mono);fill:var(--faint);letter-spacing:.02em}
+.cpill{font:700 14px var(--mono);letter-spacing:.02em}
+.band-lab{font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;opacity:.75}
 .chart-legend{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0 2px}
 .lgd{font-family:var(--mono);font-size:10.5px;color:var(--muted);display:inline-flex;
   align-items:center;gap:6px}
@@ -369,10 +369,10 @@ a.mh-family:hover{text-decoration:underline}
 .learn .lab.buy{color:var(--verified-fg)}
 .learn p{margin:0;font-size:14.5px;line-height:1.55;color:var(--muted)}
 .learn p b{color:var(--ink)}
-.chartcard svg .ax{font-family:var(--mono);font-size:10px;fill:var(--faint);letter-spacing:.04em}
+.chartcard svg .ax{font-family:var(--mono);font-size:13px;fill:var(--faint);letter-spacing:.04em}
 .chartcard svg .zero{stroke:var(--line);stroke-width:1}
-.chartcard svg .sym{font-family:var(--mono);font-size:12px;font-weight:700;fill:var(--ink)}
-.chartcard svg .val{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+.chartcard svg .sym{font-family:var(--mono);font-size:15px;font-weight:700;fill:var(--ink)}
+.chartcard svg .val{font-family:var(--mono);font-size:14px;fill:var(--muted)}
 .movetable{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow-x:auto}
 .movetable table{width:100%;border-collapse:collapse;font-size:13.5px}
 .movetable td{padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
@@ -434,3 +434,32 @@ footer.site .fnote b{color:var(--muted)}
 .board-grid .sec-head{margin-top:0}
 .board-grid .stack .sec-head{margin-top:18px}
 .board-grid .stack .sec-head:first-child{margin-top:0}
+
+/* ---- flow ledger: signed flows as rows (phone-native; text never scales down) ---- */
+.ledger{display:flex;flex-direction:column;gap:2px}
+.lrow{display:grid;grid-template-columns:56px 1fr 92px;align-items:center;gap:10px;
+  min-height:26px;padding:1px 0}
+.ledger.compact .lrow{min-height:21px}
+.ldate{font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
+.ltrack{position:relative;height:12px;background:transparent}
+.ltrack::before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--line)}
+.lbar{position:absolute;top:0;bottom:0;border-radius:3px;min-width:2px}
+.lbar.pos{background:var(--verified-fg)}
+.lbar.neg{background:var(--rule)}
+.lval{font-family:var(--mono);font-size:12.5px;font-weight:600;text-align:right;white-space:nowrap}
+.lval.up{color:var(--verified-fg)}
+.lval.down{color:var(--rule)}
+/* ---- The Board: master-dash widgets ---- */
+.widget-grid{grid-template-columns:repeat(auto-fit,minmax(225px,1fr))}
+@media (max-width:700px){.widget-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+.widget{padding:12px 14px}
+.widget .dash-stat{font-size:21px;margin-bottom:3px}
+.widget .w-sub{font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.45;display:block}
+.widget .pc-spark svg{height:34px}
+.widget .pc-spark{margin:6px 0 0}
+.w-delta{font-family:var(--mono);font-size:13px;font-weight:600}
+.w-delta.up{color:var(--verified-fg)}
+.w-delta.down{color:var(--rule)}
+.w-unit{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.w-read{font-family:var(--serif);font-style:italic;font-size:15.5px;line-height:1.3;display:block}
+@media (max-width:700px){.widget .dash-stat{font-size:18px}.lrow{grid-template-columns:48px 1fr 84px}}

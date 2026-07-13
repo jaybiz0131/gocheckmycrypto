@@ -1180,9 +1180,12 @@ def render_flows(flows, dateline):
       <div class="sec-head"><h2>Net flow by asset</h2><span class="bar"></span></div>
       <div class="chartcard">{flows_chart_svg(flows.get("by_asset", []))}</div>
       {f'''<div class="sec-head" style="margin-top:18px"><h2>The 13-week trend</h2><span class="bar"></span></div>
-      <div class="chartcard">{history_bars_svg(flows.get("history"))}</div>
-      <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets: bars above
-      the line are net withdrawals (accumulation), below are net deposits.</p>''' if flows.get("history") else ""}
+      <div class="chartcard">{flow_ledger(
+          [(w.get("week_ending", ""), w.get("net_usd", 0),
+            f'{w.get("moves", 0)} exchange-size moves') for w in flows.get("history", [])],
+          aria="Weekly net exchange flow, last 13 weeks", compact=True)}</div>
+      <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets, newest
+      first: green right = net withdrawals (accumulation), red left = net deposits.</p>''' if flows.get("history") else ""}
     </div>
     <div class="stack">
       <div class="sec-head"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
@@ -1415,45 +1418,29 @@ def fng_gauge_svg(value):
     return "".join(parts)
 
 
-def history_bars_svg(history):
-    """13-week net-flow bar chart for the Whale Watch page. Green up = net off exchanges."""
-    if not history:
+def flow_ledger(rows, aria="", compact=False):
+    """Signed flows as LEDGER ROWS instead of a bar chart: date, a horizontal bar diverging
+    from a center line (green right = in/accumulation, red left = out/sell side), and the
+    dollar value at full text size. SVG bar charts scale their labels below legibility on
+    phones; HTML rows never shrink, and the exact numbers are the point.
+    rows: [(label, value_usd, tooltip_or_None), ...] oldest->newest (rendered newest first)."""
+    if not rows:
         return ""
-    w, h = 660, 200
-    mid = h / 2 - 8
-    max_abs = max((abs(x.get("net_usd", 0)) for x in history), default=0) or 1
-    n = len(history)
-    ml = 64
-    slot = (w - ml - 14) / n
-    bw = min(34, slot * 0.62)
-    scale = mid - 26
-    parts = [f'<svg viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" role="img" '
-             f'aria-label="Weekly net exchange flow, last {n} weeks">']
-    # labeled y guides: top = biggest net-off week, bottom = biggest net-onto week
-    for val, y in ((max_abs, mid - scale), (0, mid), (-max_abs, mid + scale)):
-        parts.append(f'<line x1="{ml}" y1="{y:.1f}" x2="{w-14}" y2="{y:.1f}" '
-                     f'stroke="var(--line)" stroke-width="1"/>')
-        parts.append(f'<text x="{ml - 8}" y="{y + 3.5:.1f}" text-anchor="end" class="ctick">'
-                     f'{esc(fmt_tick(val))}</text>')
-    for i, wk in enumerate(history):
-        net = wk.get("net_usd", 0)
-        x = ml + i * slot + (slot - bw) / 2
-        bar = (abs(net) / max_abs) * scale
-        color = "var(--verified-fg)" if net >= 0 else "var(--rule)"
-        y = mid - bar if net >= 0 else mid
-        parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" height="{max(bar, 1):.1f}" '
-                     f'rx="3" fill="{color}"><title>week ending {esc(wk.get("week_ending",""))}: '
-                     f'{esc(fmt_usd(net))} net, {wk.get("moves", 0)} moves</title></rect>')
-        # visible value labels on the meaningful bars: the number should not require a hover
-        if abs(net) >= max_abs * 0.22:
-            ly = (y - 5) if net >= 0 else (y + bar + 12)
-            parts.append(f'<text x="{x + bw/2:.1f}" y="{ly:.1f}" text-anchor="middle" '
-                         f'class="ctick" fill="{color}">{esc(fmt_tick(net))}</text>')
-        if i % 2 == 0:
-            parts.append(f'<text x="{x + bw/2:.1f}" y="{h - 6}" text-anchor="middle" '
-                         f'class="axis">{esc(wk.get("week_ending", ""))}</text>')
-    parts.append("</svg>")
-    return "".join(parts)
+    max_abs = max((abs(v) for _, v, _ in rows), default=0) or 1
+    out = [f'<div class="ledger{" compact" if compact else ""}" role="img" aria-label="{esc(aria)}">']
+    for label, val, tip in reversed(rows):
+        pct = abs(val) / max_abs * 50
+        side = "pos" if val >= 0 else "neg"
+        style = (f"left:50%;width:{pct:.1f}%" if val >= 0 else
+                 f"right:50%;width:{pct:.1f}%")
+        tip_attr = f' title="{esc(tip)}"' if tip else ""
+        out.append(
+            f'<div class="lrow"{tip_attr}><span class="ldate">{esc(label)}</span>'
+            f'<span class="ltrack"><span class="lbar {side}" style="{style}"></span></span>'
+            f'<span class="lval {"up" if val >= 0 else "down"}">'
+            f'{"+" if val >= 0 else ""}{esc(fmt_usd(val))}</span></div>')
+    out.append("</div>")
+    return "".join(out)
 
 
 def _chip(text, cls=""):
@@ -1549,139 +1536,117 @@ def _no_data(cmd="python3 market_pulse.py"):
             f'site build. Generate it locally with <code>{esc(cmd)}</code>.</p></div>')
 
 
-def render_pulse_hub(pulse, flows, dateline):
-    desc = ("Market Pulse: a growing set of dashboards on crowd sentiment, price posture, "
-            "stablecoin dry powder, and the Bitcoin network, each explained in plain "
-            "language. Market data, not advice.")
+def render_pulse_hub(pulse, flows, cm, dateline):
+    """THE BOARD: one master dashboard of number-first widgets for every desk (including
+    Whale Watch and the Chart Master), each a glance + a tap into the deep page. The 101
+    teaching lives on the deep boards; this page is for people who already know the terms
+    or are one tap from learning them."""
+    desc = ("The Board: every market desk at a glance - sentiment, price posture, leverage, "
+            "liquidations, ETF flows, whale flows, stablecoins, and the Bitcoin network. "
+            "Market data, not advice.")
     pulse = pulse or {}
-    fng = pulse.get("fng") or {}
-    assets = pulse.get("assets") or []
-    stables = pulse.get("stables") or {}
-    network = pulse.get("network") or {}
+    W = []
 
-    cards = []
-    if fng:
-        v = fng.get("value", 50)
-        h30 = (fng.get("history") or [])[-30:]
-        rng = f"30d range {min(h30)} to {max(h30)}" if h30 else ""
-        cards.append(f"""<a class="dash-card" href="/pulse/sentiment.html">
-      <span class="lab">Crowd sentiment</span>
-      <span class="dash-stat" style="color:{_fng_band_color(v)}">{v} &middot; {esc(fng.get("label",""))}</span>
-      <div class="pc-spark">{spark_svg(h30)}</div>
-      <span class="mini-range">{esc(rng)}</span>
-      <p class="pc-note">The Fear &amp; Greed gauge, with 90 days of crowd mood.</p>
-      <span class="dash-open">Open dashboard &rarr;</span></a>""")
+    def widget(href, lab, stat, sub="", mini="", stat_color=""):
+        color = f' style="color:{stat_color}"' if stat_color else ""
+        W.append(f'''<a class="dash-card widget" href="{href}">
+      <span class="lab">{lab}</span>
+      <span class="dash-stat"{color}>{stat}</span>
+      {f'<span class="w-sub">{sub}</span>' if sub else ""}
+      {f'<div class="pc-spark">{mini}</div>' if mini else ""}</a>''')
+
+    fng = pulse.get("fng") or {}
+    if fng.get("value") is not None:
+        v = fng["value"]
+        widget("/pulse/sentiment.html", "Crowd sentiment",
+               f'{v} &middot; {esc((fng.get("label") or "").lower())}',
+               "Fear &amp; Greed, 30 days", spark_svg((fng.get("history") or [])[-30:]),
+               stat_color=_fng_band_color(v))
+    assets = pulse.get("assets") or []
     if assets:
         btc = assets[0]
-        mom = "momentum building" if btc.get("macd_above_signal") else "momentum fading"
-        s30 = (btc.get("spark") or [])[-30:]
-        rng = (f"range {fmt_tick(min(s30))} to {fmt_tick(max(s30))}" if s30 else "")
-        cards.append(f"""<a class="dash-card" href="/pulse/posture.html">
-      <span class="lab">Price posture</span>
-      <span class="dash-stat" data-live="price:BTC" data-prefix="BTC ">BTC {esc(_price_fmt(btc.get("price")))}</span>
-      <div class="pc-spark">{spark_svg(s30)}</div>
-      <span class="mini-range">{esc(rng)}</span>
-      <p class="pc-note">RSI {btc.get("rsi14", 0):.0f}, {mom}. Full readings for the majors.</p>
-      <span class="dash-open">Open dashboard &rarr;</span></a>""")
-    movers = pulse.get("movers") or {}
-    if movers.get("gainers") and movers.get("losers"):
-        g, l = movers["gainers"][0], movers["losers"][0]
-        cards.append(f"""<a class="dash-card" href="/pulse/movers.html">
-      <span class="lab">Top movers</span>
-      <span class="dash-stat"><span style="color:var(--verified-fg)">{esc(g.get("symbol",""))}
-      {g.get("chg_24h_pct", 0):+.1f}%</span></span>
-      <p class="pc-note" style="margin-top:6px">Leading the top 100 today, with
-      {esc(l.get("symbol",""))} at {l.get("chg_24h_pct", 0):+.1f}% on the other end. Top 5
-      gainers and losers, big caps only.</p>
-      <span class="dash-open">Open dashboard &rarr;</span></a>""")
-    if stables:
-        chg = stables.get("change_30d_pct", 0)
-        s60 = (stables.get("spark") or [])[-60:]
-        rng = (f"range {fmt_tick(min(s60))} to {fmt_tick(max(s60))}" if s60 else "")
-        cards.append(f"""<a class="dash-card" href="/pulse/stablecoins.html">
-      <span class="lab">Stablecoin dry powder</span>
-      <span class="dash-stat">{esc(fmt_usd(stables.get("total_usd", 0)))}</span>
-      <div class="pc-spark">{spark_svg(s60)}</div>
-      <span class="mini-range">{esc(rng)}</span>
-      <p class="pc-note">{chg:+.1f}% in 30 days. The dollars staged inside crypto.</p>
-      <span class="dash-open">Open dashboard &rarr;</span></a>""")
+        chg = btc.get("chg_24h_pct")
+        chg_s = f' <span class="w-delta {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span>' if chg is not None else ""
+        widget("/pulse/posture.html", "BTC posture",
+               f'<span data-live="price:BTC">{esc(_price_fmt(btc.get("price")))}</span>{chg_s}',
+               f'RSI {btc.get("rsi14", 0):.0f} &middot; '
+               f'{"above" if btc.get("above_sma200") else "below"} 200-day',
+               spark_svg((btc.get("spark") or [])[-30:]))
+    lev = (pulse.get("leverage") or {}).get("assets") or []
+    btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
+    if btcl:
+        ls = btcl.get("long_short_ratio")
+        widget("/pulse/leverage.html", "Leverage",
+               f'{btcl.get("funding_8h_pct", 0):+.4f}% <span class="w-unit">/8h</span>',
+               f'BTC funding &middot; {esc(fmt_usd(btcl.get("open_interest_usd", 0)))} OI'
+               + (f' &middot; {ls:.2f} L/S' if ls is not None else ""))
+        q = btcl.get("liquidations") or {}
+        if q.get("count"):
+            longs, shorts = q.get("longs_usd", 0), q.get("shorts_usd", 0)
+            side = "longs" if longs >= shorts else "shorts"
+            widget("/pulse/leverage.html", "Liquidations",
+                   f'{esc(fmt_usd(longs + shorts))}',
+                   f'BTC, last {q.get("window_hours", "?")}h &middot; mostly {side} '
+                   f'({esc(fmt_usd(max(longs, shorts)))})')
     etf = (pulse.get("etf_flows") or {}).get("btc") or {}
     if etf.get("latest_net_usd_m") is not None:
         latest = etf["latest_net_usd_m"]
-        word = "into" if latest >= 0 else "out of"
-        cards.append(f"""<a class="dash-card" href="/pulse/etf.html">
-      <span class="lab">ETF flows</span>
-      <span class="dash-stat" style="color:{'var(--verified-fg)' if latest >= 0 else 'var(--rule)'}">{esc(fmt_usd(latest * 1e6))}</span>
-      <p class="pc-note" style="margin-top:6px">net {word} the US spot Bitcoin ETFs on
-      {esc(etf.get("latest_date", "the latest trading day"))}. The traditional-finance bid,
-      published daily by the funds.</p>
-      <span class="dash-open">Open dashboard &rarr;</span></a>""")
-    lev = (pulse.get("leverage") or {}).get("assets") or []
-    if lev:
-        b = lev[0]
-        f8 = b.get("funding_8h_pct", 0)
-        lean = "longs paying" if f8 > 0 else ("shorts paying" if f8 < 0 else "flat")
-        cards.append(f"""<a class="dash-card" href="/pulse/leverage.html">
-      <span class="lab">Leverage</span>
-      <span class="dash-stat">{esc(b.get("symbol",""))} funding {f8:+.4f}%</span>
-      <p class="pc-note" style="margin-top:6px">{lean} per 8 hours, with
-      {esc(fmt_usd(b.get("open_interest_usd", 0)))} of open interest. Funding and OI for
-      the majors, taught in plain language.</p>
-      <span class="dash-open">Open dashboard &rarr;</span></a>""")
-    if network:
-        diff = network.get("difficulty_change_pct", 0)
-        cards.append(f"""<a class="dash-card" href="/pulse/network.html">
-      <span class="lab">Bitcoin network</span>
-      <span class="dash-stat" data-live="fee:fastest" data-suffix=" sat/vB">{network.get("fastest_fee", "?")} sat/vB</span>
-      <p class="pc-note" style="margin-top:10px">Next-block fee, with difficulty heading
-      {diff:+.1f}% at the next retarget. How busy the chain is.</p>
-      <span class="dash-open">Open dashboard &rarr;</span></a>""")
-    top100 = (movers or {}).get("top100") or []
-    if top100:
-        total_mcap = sum(c.get("mcap_usd") or 0 for c in top100)
-        cards.append(f"""<a class="dash-card" href="/pulse/prices.html">
-      <span class="lab">Top 100 prices<span class="live-dot"></span></span>
-      <span class="dash-stat">{esc(fmt_usd(total_mcap))} tracked</span>
-      <p class="pc-note" style="margin-top:6px">Live prices, 7-day trend, and market cap for
-      every coin in the top 100. Sortable, and it updates while you watch.</p>
-      <span class="dash-open">Open dashboard &rarr;</span></a>""")
-    cm = load_chartmaster() or {}
-    if cm.get("headline"):
-        cards.append(f"""<a class="dash-card cm-card" href="/chartmaster.html">
-      <img class="dash-hero-img" src="/assets/chart-master-logo.jpg" alt="" loading="lazy">
-      <span class="lab">The Chart Master</span>
-      <span class="dash-stat" style="font-size:20px">&ldquo;{esc(cm["headline"])}&rdquo;</span>
-      <p class="pc-note" style="margin-top:6px">The wizard's read of today's boards, plus the
-      Oracle Challenge and the Wizard's Exam.</p>
-      <span class="dash-open">Enter the tower &rarr;</span></a>""")
-    # Whale Watch is its own desk; the hub cross-links it as the on-chain dashboard.
-    ww_stat = ""
-    if flows and not flows.get("example") and flows.get("volatile"):
+        mini = flow_ledger([(d.get("date", "")[:6], (d.get("net_usd_m") or 0) * 1e6, None)
+                            for d in etf.get("recent", [])[-4:]],
+                           aria="BTC ETF flows, last 4 trading days", compact=True)
+        widget("/pulse/etf.html", "ETF flows",
+               f'{"+" if latest >= 0 else ""}{esc(fmt_usd(latest * 1e6))}',
+               f'BTC spot ETFs, {esc(etf.get("latest_date", ""))}', mini,
+               stat_color="var(--verified-fg)" if latest >= 0 else "var(--rule)")
+    if flows and flows.get("volatile"):
         wnet = flows["volatile"].get("net_usd", 0)
-        ww_stat = (f'<span class="dash-stat">{esc(fmt_usd(wnet))}</span>'
-                   f'<p class="pc-note" style="margin-top:10px">Net volatile flow '
-                   f'{"off" if wnet >= 0 else "onto"} exchanges in 24h. Follow the money.</p>')
-    else:
-        ww_stat = '<p class="pc-note" style="margin-top:10px">Follow the money on-chain.</p>'
-    cards.append(f"""<a class="dash-card" href="/flows.html">
-      <span class="lab">Whale Watch</span>{ww_stat}
-      <span class="dash-open">Open the on-chain desk &rarr;</span></a>""")
+        widget("/flows.html", "Whale Watch",
+               f'{"+" if wnet >= 0 else ""}{esc(fmt_usd(wnet))}',
+               f'net {"off" if wnet >= 0 else "onto"} exchanges, '
+               f'{esc(_win_phrase(flows.get("window_hours", 24)))}',
+               stat_color="var(--verified-fg)" if wnet >= 0 else "var(--rule)")
+    stables = pulse.get("stables") or {}
+    if stables.get("total_usd"):
+        chg = stables.get("change_30d_pct", 0)
+        widget("/pulse/stablecoins.html", "Stablecoin dry powder",
+               esc(fmt_usd(stables["total_usd"])),
+               f'<span class="w-delta {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span> in 30 days',
+               spark_svg((stables.get("spark") or [])[-60:]))
+    mkt = pulse.get("market") or {}
+    if mkt.get("total_mcap_usd"):
+        widget("/pulse/prices.html", "Whole market",
+               esc(fmt_tick(mkt["total_mcap_usd"])),
+               f'total cap &middot; BTC dominance {mkt.get("btc_dominance_pct", 0):.1f}%')
+    movers = pulse.get("movers") or {}
+    if movers.get("gainers"):
+        g = movers["gainers"][0]
+        l = (movers.get("losers") or [{}])[0]
+        widget("/pulse/movers.html", "Top movers",
+               f'{esc(g.get("symbol", ""))} <span class="w-delta up">{g.get("chg_24h_pct", 0):+.1f}%</span>',
+               f'{esc(l.get("symbol", ""))} {l.get("chg_24h_pct", 0):+.1f}% on the other end')
+    network = pulse.get("network") or {}
+    if network.get("fastest_fee") is not None:
+        widget("/pulse/network.html", "Bitcoin network",
+               f'{network.get("fastest_fee", "?")} <span class="w-unit">sat/vB</span>',
+               f'next-block fee &middot; difficulty {network.get("difficulty_change_pct", 0):+.1f}%')
+    if (cm or {}).get("headline"):
+        widget("/chartmaster.html", "The Chart Master",
+               f'<span class="w-read">&ldquo;{esc(cm["headline"])}&rdquo;</span>',
+               f'the read, {esc(fmt_date(cm.get("date")))}')
 
-    inner = "".join(cards) if (fng or assets or stables or network) else ""
-    body = mp_hero() + f"""<main class="wrap"><section class="page">
-  <span class="kicker">Market data desk</span>
-  <h1>Market Pulse</h1>
-  <p class="lede">A growing set of dashboards on the market's vital signs, computed with
-     standard formulas from free public data, and each one explained in plain language.
-     Market data, not news, never advice.</p>
-  {'<div class="dash-grid">' + inner + '</div>' if inner else _no_data()}
-  <p class="pc-note" style="margin-top:12px">Snapshot generated {esc((pulse or {}).get("generated", ""))};
-     the desks refresh several times a day.</p>
-  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>
-</section></main>"""
-    return shell(f"Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
+    body = mp_hero() + f'''<main class="wrap"><section class="page">
+  <div class="ey" style="margin:14px 0 0"><span class="kicker">Market Pulse</span>
+    <span class="daily-badge">refreshed through the day</span></div>
+  <h1 style="margin-top:6px">The Board</h1>
+  <p class="lede" style="margin-bottom:10px">Every desk at a glance. Tap any widget for the
+     full board, where every number is taught in plain language.
+     <span class="live-stamp"><span class="live-dot"></span>prices update in your browser
+     <span data-live="stamp"></span></span></p>
+  <div class="dash-grid widget-grid">{"".join(W)}</div>
+  <p class="nfa">{esc(pulse.get("note", ""))} {esc(NFA)}</p>
+</section></main>'''
+    return shell(f"The Board - Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
                  body_class="ww-dark", path="/pulse.html", live_js=True)
-
 
 def render_pulse_sentiment(pulse, dateline):
     desc = ("The crypto Fear & Greed Index explained: what feeds the gauge, what extremes "
@@ -2091,48 +2056,6 @@ def render_pulse_leverage(pulse, dateline):
     return _dash_shell("leverage", "Leverage", desc, inner, dateline)
 
 
-def etf_bars_svg(days, aria=""):
-    """Daily net-flow bars (USD millions in, values scaled to USD for labels). Green up =
-    net creations (money in), red down = net redemptions. Same visual language as the
-    Whale Watch weekly chart."""
-    if not days:
-        return ""
-    rows = [{"week_ending": d.get("date", "")[:6], "net_usd": (d.get("net_usd_m") or 0) * 1e6,
-             "moves": None} for d in days]
-    w, h = 660, 200
-    mid = h / 2 - 8
-    max_abs = max((abs(r["net_usd"]) for r in rows), default=0) or 1
-    n = len(rows)
-    ml = 64
-    slot = (w - ml - 14) / n
-    bw = min(40, slot * 0.62)
-    scale = mid - 26
-    parts = [f'<svg viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" role="img" '
-             f'aria-label="{esc(aria)}">']
-    for val, y in ((max_abs, mid - scale), (0, mid), (-max_abs, mid + scale)):
-        parts.append(f'<line x1="{ml}" y1="{y:.1f}" x2="{w-14}" y2="{y:.1f}" '
-                     f'stroke="var(--line)" stroke-width="1"/>')
-        parts.append(f'<text x="{ml - 8}" y="{y + 3.5:.1f}" text-anchor="end" class="ctick">'
-                     f'{esc(fmt_tick(val))}</text>')
-    for i, r in enumerate(rows):
-        net = r["net_usd"]
-        x = ml + i * slot + (slot - bw) / 2
-        bar = (abs(net) / max_abs) * scale
-        color = "var(--verified-fg)" if net >= 0 else "var(--rule)"
-        y = mid - bar if net >= 0 else mid
-        parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" height="{max(bar, 1):.1f}" '
-                     f'rx="3" fill="{color}"><title>{esc(days[i].get("date", ""))}: '
-                     f'{esc(fmt_usd(net))} net</title></rect>')
-        if abs(net) >= max_abs * 0.22:
-            ly = (y - 5) if net >= 0 else (y + bar + 12)
-            parts.append(f'<text x="{x + bw/2:.1f}" y="{ly:.1f}" text-anchor="middle" '
-                         f'class="ctick" fill="{color}">{esc(fmt_tick(net))}</text>')
-        parts.append(f'<text x="{x + bw/2:.1f}" y="{h - 6}" text-anchor="middle" class="axis">'
-                     f'{esc(r["week_ending"])}</text>')
-    parts.append("</svg>")
-    return "".join(parts)
-
-
 def render_pulse_etf(pulse, dateline):
     desc = ("Daily US spot Bitcoin and Ethereum ETF net flows: the traditional-finance "
             "bid, in plain language. Market data, not advice.")
@@ -2161,7 +2084,9 @@ def render_pulse_etf(pulse, dateline):
     <span class="big">{esc(fmt_usd(cum * 1e6)) if cum is not None else "&mdash;"}</span>
     <span class="sub">cumulative net flow</span>
   </div></div>
-  <div class="chartcard" style="margin-top:14px">{etf_bars_svg(b.get("recent", []), aria=f"{name} ETF daily net flows")}</div>"""
+  <div class="chartcard" style="margin-top:14px">{flow_ledger(
+      [(d.get("date", "")[:6], (d.get("net_usd_m") or 0) * 1e6, None) for d in b.get("recent", [])],
+      aria=f"{name} ETF daily net flows")}</div>"""
     inner = f"""{_dash_crumb()}
   <h1>ETF flows</h1>
   <p class="lede">The traditional-finance bid: how much money moved into or out of the US
@@ -2447,7 +2372,7 @@ def build():
     w("index.html", render_home(items, flows, pulse, cm, dateline))
     w("news.html", render_news(items, dateline, pulse=pulse))
     w("flows.html", render_flows(flows, dateline))
-    w("pulse.html", render_pulse_hub(pulse, flows, dateline))
+    w("pulse.html", render_pulse_hub(pulse, flows, cm, dateline))
     w("chartmaster.html", render_chartmaster(cm, dateline))
     w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))
