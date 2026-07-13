@@ -26,6 +26,11 @@
     "publicist": {
       "model": "claude-sonnet-5",
       "max_tokens": 1500
+    },
+    "chartmaster": {
+      "model": "claude-fable-5",
+      "max_tokens": 9000,
+      "note": "The Chart Master's read is a judgment call over the whole tape (regime, momentum, positioning, flows), so it gets the judgment model. One call per brief; cents per day. Fable thinking bills as output tokens, hence the cap."
     }
   },
   "sources": {

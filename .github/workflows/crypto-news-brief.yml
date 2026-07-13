@@ -68,18 +68,31 @@ jobs:
         if: steps.key.outputs.have_key == 'true'
         run: python3 autopilot.py
 
+      # The Chart Master reads the same boards the deploy will publish: refresh the two
+      # data desks first (fail-open, like the Netlify build does), then generate the read.
+      # The read is committed (Netlify does not regenerate it at build time); flows/pulse
+      # are NOT committed here because every Netlify build refreshes them itself.
+      - name: Refresh the boards and generate the Chart Master's read
+        if: steps.key.outputs.have_key == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python3 whale_flows.py || true
+          python3 market_pulse.py || true
+          python3 chartmaster.py
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true'
         run: |
           git config user.name "Jack Berno"
           git config user.email "bernoalpha@gmail.com"
-          git add site/content
+          git add site/content site/data/chartmaster.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "daily brief: auto-published VERIFIED stories $(date -u +%Y-%m-%d)"
+            git commit -m "brief: VERIFIED stories + Chart Master read $(date -u +%Y-%m-%dT%H:%MZ)"
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi

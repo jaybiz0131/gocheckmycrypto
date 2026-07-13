@@ -145,6 +145,23 @@ always passes a feed's keyword gate. Honest limit: a static list catches follow-
 NAMED narratives; a brand-new narrative is caught the normal way (multi-outlet clustering)
 and should then be added to the list.
 
+## D11 - The Chart Master's read is auto-generated from the boards (2026-07-13)
+
+The wizard's read was a hand-written one-off (2026-07-10) with no generator, so it aged
+into quoting stale numbers under a "reads the day's boards" promise. Owner's call: the
+read must refresh like the news and execute like a professional. `chartmaster.py` now
+digests the complete published tape (pulse.json + flows.json: sentiment, per-asset
+posture, funding/OI, stablecoin float, whale flows and their weekly trend, movers,
+network) and asks `claude-fable-5` (the judgment model, one call per brief, cents/day)
+for a technician's read in a fixed professional order: regime, momentum-vs-trend,
+positioning, flows, sentiment-as-foil, and a what-to-watch close. Two belts hold the
+house line: the prompt forbids prediction/advice, and a deterministic banned-language
+check refuses any read containing it (fail-open: the previous read stands). Market
+commentary, not news: no editorial gate, fail-open everywhere, replay mode writes only
+the out/ test artifact and can never touch site data. Runs in crypto-news-brief.yml
+after a data-desk refresh so the read matches the boards the deploy publishes;
+site/data/chartmaster.json is committed because Netlify builds do not regenerate it.
+
 ## D5 - X source adapter is wired but not live-tested
 
 X/Twitter remains a keyless-skip source (absence is a documented skip, never a failure) and
