@@ -95,9 +95,22 @@ def run(client=None):
         print("writer: 0 draftable stories (nothing survived verification) -> out/drafts.json")
         return obj
 
+    # The desk's own boards, for cross-desk citations ("the desk's Whale Watch board
+    # showed..."). Reuses the Chart Master's digest; fail-open, because the news pipeline
+    # must never depend on market data being reachable.
+    boards = None
+    try:
+        import chartmaster
+        boards = chartmaster.digest()
+    except Exception as e:
+        common.gh("warning", f"writer: desk boards unavailable ({e}); drafting without them")
+
     system = common.load_prompt("writer.md")
     user = ("Draft these verified stories. Two formats each, DRAFT-tagged, human_take left "
-            "empty.\n\n" + json.dumps(stories, indent=2))
+            "empty.\n\n"
+            + (f"desk_boards (the desk's OWN published market data, for cross-desk "
+               f"citations per the rules):\n{json.dumps(boards, indent=1)}\n\n" if boards else "")
+            + "Stories:\n" + json.dumps(stories, indent=2))
     obj = client.call_json("writer", system, user)
     obj = validate(obj, stories)
 

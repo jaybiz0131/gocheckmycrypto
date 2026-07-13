@@ -515,13 +515,26 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 
 # ---- article ----------------------------------------------------------------
 
+# When a story cites the desk's own boards ("the desk's Whale Watch board showed..."),
+# the mention becomes a link to that board. Escape-then-link, longest names first.
+BOARD_LINKS = [("Whale Watch", "/flows.html"), ("Market Pulse", "/pulse.html"),
+               ("Leverage board", "/pulse/leverage.html"),
+               ("ETF flows board", "/pulse/etf.html"), ("ETF Flows board", "/pulse/etf.html")]
+
+
+def _link_boards(escaped_text):
+    for name, href in BOARD_LINKS:
+        escaped_text = escaped_text.replace(esc(name), f'<a href="{href}">{esc(name)}</a>', 1)
+    return escaped_text
+
+
 def render_body(body):
     out = []
     for b in body or []:
         if isinstance(b, dict) and "h2" in b:
             out.append(f"<h2>{esc(b['h2'])}</h2>")
         else:
-            out.append(f"<p>{esc(b)}</p>")
+            out.append(f"<p>{_link_boards(esc(b))}</p>")
     return "\n".join(out)
 
 
@@ -1119,20 +1132,28 @@ def render_flows(flows, dateline):
         return "".join(
             f'<tr><td class="sym2">{esc(m.get("symbol",""))}{" &middot; stable" if m.get("stable") else ""}</td>'
             f'<td class="num">{esc(fmt_usd(m.get("usd",0)))}</td>'
-            f'<td>&rarr; {esc(m.get("to",""))}</td>'
-            f'<td class="mut">from {esc(m.get("from",""))}</td></tr>'
+            f'<td style="white-space:normal">&rarr; {esc(m.get("to",""))}'
+            f'<br><span class="mut">from {esc(m.get("from",""))}</span></td></tr>'
             for m in moves)
 
     move_rows = _move_rows(flows.get("top_inflows", []))
     out_rows = _move_rows(flows.get("top_outflows", []))
     winp = _win_phrase(flows.get("window_hours", 24))
+    biggest = max(flows.get("top_inflows", []) + flows.get("top_outflows", []),
+                  key=lambda m: m.get("usd", 0), default=None)
+    big_html = ""
+    if biggest:
+        big_html = f"""<div class="stat">
+      <span class="lab">Biggest single move</span>
+      <span class="big">{esc(fmt_usd(biggest.get("usd", 0)))}</span>
+      <span class="sub">{esc(biggest.get("symbol", ""))} &rarr; {esc(biggest.get("to", ""))}</span>
+    </div>"""
     body = ww_hero() + f"""<main class="wrap"><section class="page">
-  <span class="kicker">Follow the money</span>
-  <h1>Where the whales are moving</h1>
-  <p class="lede">Not a scrolling feed of every transfer, the aggregate. Where are whales moving
-     large amounts on net over the last {winp}: onto exchanges (which can precede selling)
-     or off into self-custody (accumulation)?
-     <span class="daily-badge">refreshed through the day</span></p>
+  <div class="ey" style="margin:14px 0 0"><span class="kicker">Follow the money</span>
+    <span class="daily-badge">refreshed through the day</span></div>
+  <h1 style="margin-top:6px">Where the whales are moving</h1>
+  <p class="lede" style="margin-bottom:10px">The aggregate, not the feed: whale money onto
+     exchanges (can precede selling) vs off into self-custody (accumulation), last {winp}.</p>
   {ribbon}
 
   <div class="stats">
@@ -1142,26 +1163,34 @@ def render_flows(flows, dateline):
       <span class="sub">net {esc(dir_word)} ({esc(winp)})</span>
     </div>
     <div class="stat">
-      <span class="lab">Stablecoin buying power arriving</span>
+      <span class="lab">Stablecoin buying power</span>
       <span class="big">{esc(fmt_usd(s.get("net_buying_power_usd",0)))}</span>
-      <span class="sub">net stablecoins onto exchanges ({esc(winp)})</span>
+      <span class="sub">net stablecoins onto exchanges</span>
+    </div>
+    {big_html}
+    <div class="stat">
+      <span class="lab">Exchange-size moves</span>
+      <span class="big">{flows.get("txn_count", 0)}</span>
+      <span class="sub">$50M+ transfers in {esc(winp)}</span>
     </div>
   </div>
 
-  <div class="sec-head" style="margin-top:26px"><h2>Net exchange flow by asset</h2><span class="bar"></span></div>
-  <div class="chartcard">{flows_chart_svg(flows.get("by_asset", []))}</div>
-
-  {f'''<div class="sec-head" style="margin-top:26px"><h2>The 13-week trend</h2><span class="bar"></span></div>
-  <div class="chartcard">{history_bars_svg(flows.get("history"))}</div>
-  <p class="pc-note" style="margin-top:8px">Weekly net exchange flow for volatile assets.
-  Bars above the line are net withdrawals (accumulation); bars below are net deposits
-  (potential sell pressure). Hover a bar for the week's numbers.</p>''' if flows.get("history") else ""}
-
-  <div class="sec-head" style="margin-top:26px"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
-  <div class="movetable"><table><tbody>{move_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
-
-  <div class="sec-head" style="margin-top:26px"><h2>Biggest moves off exchanges</h2><span class="bar"></span></div>
-  <div class="movetable"><table><tbody>{out_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
+  <div class="board-grid">
+    <div>
+      <div class="sec-head"><h2>Net flow by asset</h2><span class="bar"></span></div>
+      <div class="chartcard">{flows_chart_svg(flows.get("by_asset", []))}</div>
+      {f'''<div class="sec-head" style="margin-top:18px"><h2>The 13-week trend</h2><span class="bar"></span></div>
+      <div class="chartcard">{history_bars_svg(flows.get("history"))}</div>
+      <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets: bars above
+      the line are net withdrawals (accumulation), below are net deposits.</p>''' if flows.get("history") else ""}
+    </div>
+    <div class="stack">
+      <div class="sec-head"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
+      <div class="movetable"><table><tbody>{move_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
+      <div class="sec-head"><h2>Biggest moves off exchanges</h2><span class="bar"></span></div>
+      <div class="movetable"><table><tbody>{out_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
+    </div>
+  </div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Whale watching 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
@@ -1415,6 +1444,11 @@ def history_bars_svg(history):
         parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" height="{max(bar, 1):.1f}" '
                      f'rx="3" fill="{color}"><title>week ending {esc(wk.get("week_ending",""))}: '
                      f'{esc(fmt_usd(net))} net, {wk.get("moves", 0)} moves</title></rect>')
+        # visible value labels on the meaningful bars: the number should not require a hover
+        if abs(net) >= max_abs * 0.22:
+            ly = (y - 5) if net >= 0 else (y + bar + 12)
+            parts.append(f'<text x="{x + bw/2:.1f}" y="{ly:.1f}" text-anchor="middle" '
+                         f'class="ctick" fill="{color}">{esc(fmt_tick(net))}</text>')
         if i % 2 == 0:
             parts.append(f'<text x="{x + bw/2:.1f}" y="{h - 6}" text-anchor="middle" '
                          f'class="axis">{esc(wk.get("week_ending", ""))}</text>')
@@ -2089,6 +2123,10 @@ def etf_bars_svg(days, aria=""):
         parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" height="{max(bar, 1):.1f}" '
                      f'rx="3" fill="{color}"><title>{esc(days[i].get("date", ""))}: '
                      f'{esc(fmt_usd(net))} net</title></rect>')
+        if abs(net) >= max_abs * 0.22:
+            ly = (y - 5) if net >= 0 else (y + bar + 12)
+            parts.append(f'<text x="{x + bw/2:.1f}" y="{ly:.1f}" text-anchor="middle" '
+                         f'class="ctick" fill="{color}">{esc(fmt_tick(net))}</text>')
         parts.append(f'<text x="{x + bw/2:.1f}" y="{h - 6}" text-anchor="middle" class="axis">'
                      f'{esc(r["week_ending"])}</text>')
     parts.append("</svg>")
