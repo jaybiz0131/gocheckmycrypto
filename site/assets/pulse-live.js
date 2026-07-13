@@ -7,7 +7,8 @@
  *
  * Conventions: elements opt in via data-live attributes.
  *   data-live="price:BTC"        text becomes (data-prefix +) formatted live price
- *   data-live="pill:BTC"         SVG chart pill text, compact format ($63.9K)
+ *   data-live="pill:BTC"         SVG chart pill text, live price
+ *   data-live="chg:BTC"          24h change, signed and colored (+1.23% (24h))
  *   data-live="fee:fastest|hour" text becomes data-prefix + sats + data-suffix
  *   data-live="movers:gainers|losers"  tbody rebuilt with live top-5 rows
  *   data-live="top100"           tbody rows updated in place (price/24h/mcap), sortable
@@ -75,7 +76,7 @@
   }
 
   // ---- loop A: prices (60s) ----
-  var priceEls = $all('[data-live^="price:"], [data-live^="pill:"]');
+  var priceEls = $all('[data-live^="price:"], [data-live^="pill:"], [data-live^="chg:"]');
   function pollPrices() {
     if (document.hidden || !priceEls.length) return;
     getJSON(CG + "/simple/price?ids=" + Object.keys(IDS).join(",") +
@@ -84,7 +85,13 @@
         var sym = IDS[id], p = d[id] && d[id].usd;
         if (p == null) return;
         $all('[data-live="price:' + sym + '"]').forEach(function (el) { setText(el, fmtPrice(p)); });
-        $all('[data-live="pill:' + sym + '"]').forEach(function (el) { el.textContent = fmtTick(p); });
+        $all('[data-live="pill:' + sym + '"]').forEach(function (el) { el.textContent = fmtPrice(p); });
+        var c = d[id].usd_24h_change;
+        if (c == null) return;
+        $all('[data-live="chg:' + sym + '"]').forEach(function (el) {
+          el.textContent = (c >= 0 ? "+" : "") + c.toFixed(2) + "% (24h)";
+          el.className = "pc-chg " + (c >= 0 ? "up" : "down");
+        });
       });
     });
   }

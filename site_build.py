@@ -83,6 +83,141 @@ def fmt_date(iso):
     return f"{MONTHS[mo]} {d}, {y}"
 
 
+def _parse_utc(item):
+    """datetime for a story's publish moment: published_utc when stamped (new stories),
+    else midnight of its date (legacy stories carry a date only)."""
+    from datetime import datetime, timezone
+    for fmt, val in (("%Y-%m-%dT%H:%M:%SZ", item.get("published_utc") or ""),
+                     ("%Y-%m-%d", item.get("date") or "")):
+        try:
+            return datetime.strptime(val, fmt).replace(tzinfo=timezone.utc)
+        except ValueError:
+            continue
+    return None
+
+
+def fmt_when(item):
+    """Dateline with the publish time when we have one: 'July 12, 2026 · 07:41 UTC'.
+    Crypto is a 24/7 market; an expert reader needs to know 2 hours old vs 20."""
+    base = esc(fmt_date(item.get("date")))
+    if item.get("published_utc"):
+        dt = _parse_utc(item)
+        if dt:
+            return f"{base} &middot; {dt.strftime('%H:%M')} UTC"
+    return base
+
+
+def _rfc822(item):
+    dt = _parse_utc(item)
+    return dt.strftime("%a, %d %b %Y %H:%M:%S +0000") if dt else ""
+
+
+# Source attribution: outlet names read better (and more honestly) than raw feed URLs.
+OUTLETS = {
+    "coindesk.com": "CoinDesk", "theblock.co": "The Block",
+    "cointelegraph.com": "Cointelegraph", "decrypt.co": "Decrypt",
+    "bitcoinmagazine.com": "Bitcoin Magazine", "blockworks.co": "Blockworks",
+    "dlnews.com": "DL News", "thedefiant.io": "The Defiant", "protos.com": "Protos",
+    "reuters.com": "Reuters", "bloomberg.com": "Bloomberg", "cnbc.com": "CNBC",
+    "wsj.com": "The Wall Street Journal", "ft.com": "Financial Times",
+    "sec.gov": "SEC", "cftc.gov": "CFTC", "justice.gov": "U.S. Department of Justice",
+    "federalreserve.gov": "Federal Reserve", "treasury.gov": "U.S. Treasury",
+    "imf.org": "IMF", "whitehouse.gov": "The White House", "congress.gov": "Congress.gov",
+    "ethereum.org": "Ethereum Foundation", "blog.ethereum.org": "Ethereum Foundation",
+    "bitcoincore.org": "Bitcoin Core", "whale-alert.io": "Whale Alert",
+}
+
+
+def source_label(src):
+    """'CoinDesk: lending protocol bonzo loses 77 of value locked' instead of a raw URL
+    with utm cruft. A real title (anything that isn't just the URL) is kept as-is."""
+    from urllib.parse import urlparse
+    url = src.get("url") or ""
+    title = (src.get("title") or "").strip()
+    if title and title != url:
+        return title
+    p = urlparse(url)
+    host = p.netloc.lower().removeprefix("www.")
+    outlet = OUTLETS.get(host, host)
+    slug = [s for s in p.path.split("/") if s]
+    hint = re.sub(r"[-_]+", " ", re.sub(r"\.\w+$", "", slug[-1])) if slug else ""
+    hint = re.sub(r"\b\d{5,}\b", "", hint).strip()
+    if len(hint) > 80:
+        hint = hint[:80].rsplit(" ", 1)[0] + "..."
+    if hint and not hint.isdigit():
+        return f"{outlet}: {hint}"
+    return outlet
+
+
+# Topic tags: deterministic keyword rules over the story text, computed at build time so
+# every story (old and new) gets them without touching the pipeline. Order = priority;
+# a story keeps at most 3.
+TAG_RULES = [
+    ("regulation", r"\b(sec|cftc|occ|doj|regulat\w*|congress|senate|bill|law|lawsuit|court|"
+                   r"charge[sd]?|ruling|sanction\w*|treasury|cbdc|imf|legislat\w*|approval)\b"),
+    ("security", r"\b(exploit\w*|hack\w*|stolen|theft|vulnerabilit\w*|bug|drained|breach|"
+                 r"ponzi|fraud|scam\w*|phishing|attacker\w*)\b"),
+    ("bitcoin", r"\b(bitcoin|btc|bip \d+|bip-\d+|miner\w*|mining|halving)\b"),
+    ("ethereum", r"\b(ethereum|eth|validator\w*|staking|vitalik)\b"),
+    ("defi", r"\b(defi|protocol\w*|tvl|oracle\w*|lending|dex|liquidity)\b"),
+    ("stablecoins", r"\b(stablecoin\w*|usdt|usdc|tether|circle|dai)\b"),
+    ("etfs-funds", r"\b(etf\w*|grayscale|blackrock|ishares|fund flows)\b"),
+    ("markets", r"\b(price\w*|rally|selloff|sell-off|surge\w*|plunge\w*|all-time high|"
+                r"market cap|liquidation\w*)\b"),
+]
+_TAG_RES = [(tag, re.compile(pat, re.I)) for tag, pat in TAG_RULES]
+
+
+def tags_for(item):
+    body = item.get("body") or []
+    text = " ".join([item.get("title") or "", item.get("dek") or "",
+                     item.get("key_fact") or ""] +
+                    [p if isinstance(p, str) else "" for p in body])
+    return [tag for tag, rx in _TAG_RES if rx.search(text)][:3]
+
+
+def related_stories(item, items, n=3):
+    """Stories sharing a topic tag, newest first. Turns a one-story visit into a session."""
+    mine = set(tags_for(item))
+    if not mine:
+        return []
+    scored = []
+    for other in items:
+        if other is item or other.get("example") or other.get("slug") == item.get("slug"):
+            continue
+        shared = len(mine & set(tags_for(other)))
+        if shared:
+            scored.append((shared, other.get("date", ""), other))
+    scored.sort(key=lambda t: (t[0], t[1]), reverse=True)
+    return [o for _, _, o in scored[:n]]
+
+
+def render_feed(items):
+    """RSS 2.0 feed of the published stories. The desk consumes RSS; now it emits it."""
+    out = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
+           "<channel>",
+           f"<title>{esc(NAME)} &#8212; {esc(FAMILY)}</title>",
+           f"<link>{ORIGIN}/news.html</link>",
+           f"<description>{esc(DESC)}</description>",
+           "<language>en-us</language>",
+           f'<atom:link href="{ORIGIN}/feed.xml" rel="self" type="application/rss+xml"/>']
+    for it in [i for i in items if not i.get("example")][:30]:
+        url = f"{ORIGIN}/articles/{it['slug']}.html"
+        pd = _rfc822(it)
+        cats = "".join(f"<category>{esc(t)}</category>" for t in tags_for(it))
+        out += ["<item>",
+                f"<title>{esc(it.get('title') or '')}</title>",
+                f"<link>{url}</link>",
+                f'<guid isPermaLink="true">{url}</guid>',
+                (f"<pubDate>{pd}</pubDate>" if pd else ""),
+                f"<description>{esc(it.get('dek') or '')}</description>",
+                cats,
+                "</item>"]
+    out += ["</channel>", "</rss>", ""]
+    return "\n".join(x for x in out if x)
+
+
 def fmt_usd(n):
     n = float(n or 0)
     sign = "-" if n < 0 else ""
@@ -177,20 +312,55 @@ def masthead(active, dateline, brand="site"):
 <nav class="mh-nav"><div class="wrap">{nav}</div></nav>"""
 
 
-def market_strip():
-    """A live markets ticker. Client-side (the reader's browser fetches CoinGecko), so the build
-    stays offline and reproducible. Clearly labelled and separate from the verified news: a price
-    is live factual data, not a story that went through the human gate. Fails quietly if the API
-    is unreachable (leaves the neutral placeholder)."""
-    return """<section class="markets" id="markets" aria-label="Live crypto markets"><div class="wrap">
+def market_strip(pulse=None):
+    """A live markets ticker, pre-filled server-side from the build's own pulse snapshot so the
+    first paint is NEVER dashes; the reader's browser then overwrites with live CoinGecko data.
+    Clearly labelled and separate from the verified news: a price is live factual data, not a
+    story that went through the human gate. A failed client fetch quietly leaves the built
+    values standing."""
+    assets = {a.get("symbol"): a for a in ((pulse or {}).get("assets") or [])}
+
+    def tick(cid, sym):
+        a = assets.get(sym) or {}
+        px = _price_fmt(a.get("price")) if a.get("price") else "--"
+        chg = a.get("chg_24h_pct")
+        chg_html = (f'<span class="chg {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span>'
+                    if chg is not None else '<span class="chg"></span>')
+        return (f'<span class="tick" data-id="{cid}"><span class="sym">{sym}</span>'
+                f'<span class="px">{esc(px)}</span>{chg_html}</span>')
+
+    ticks = (tick("bitcoin", "BTC") + tick("ethereum", "ETH") +
+             tick("solana", "SOL") + tick("ripple", "XRP"))
+    mkt = (pulse or {}).get("market") or {}
+    cap = mkt.get("total_mcap_usd")
+    cap_px = fmt_tick(cap) if cap else "--"
+    cap_chg = mkt.get("mcap_change_24h_pct")
+    cap_chg_html = (f'<span class="chg {"up" if cap_chg >= 0 else "down"}">{cap_chg:+.1f}%</span>'
+                    if cap_chg is not None else '<span class="chg"></span>')
+    extras = ""
+    if mkt.get("btc_dominance_pct"):
+        extras += (f'<span class="tick"><span class="sym">BTC dom</span>'
+                   f'<span class="px">{mkt["btc_dominance_pct"]:.1f}%</span>'
+                   f'<span class="chg"></span></span>')
+    fng = (pulse or {}).get("fng") or {}
+    if fng.get("value") is not None:
+        extras += (f'<span class="tick"><span class="sym">Fear &amp; Greed</span>'
+                   f'<span class="px">{fng["value"]} {esc((fng.get("label") or "").lower())}</span>'
+                   f'<span class="chg"></span></span>')
+    lev = ((pulse or {}).get("leverage") or {}).get("assets") or []
+    btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
+    if btcl and btcl.get("funding_8h_pct") is not None:
+        f8 = btcl["funding_8h_pct"]
+        extras += (f'<span class="tick"><span class="sym">BTC funding</span>'
+                   f'<span class="px">{f8:+.4f}%/8h</span>'
+                   f'<span class="chg"></span></span>')
+    return f"""<section class="markets" id="markets" aria-label="Live crypto markets"><div class="wrap">
   <span class="lab">Markets &middot; live</span>
-  <span class="tick" data-id="bitcoin"><span class="sym">BTC</span><span class="px">--</span><span class="chg"></span></span>
-  <span class="tick" data-id="ethereum"><span class="sym">ETH</span><span class="px">--</span><span class="chg"></span></span>
-  <span class="tick" data-id="solana"><span class="sym">SOL</span><span class="px">--</span><span class="chg"></span></span>
-  <span class="tick" data-id="ripple"><span class="sym">XRP</span><span class="px">--</span><span class="chg"></span></span>
-  <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">--</span><span class="chg"></span></span>
+  {ticks}
+  <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">{esc(cap_px)}</span>{cap_chg_html}</span>
+  {extras}
   <span class="note">Market data, not news. Not financial advice.</span>
-</div>
+</div>""" + """
 <script>
 (function(){
   var CG="https://api.coingecko.com/api/v3";
@@ -247,7 +417,8 @@ def footer(brand="site"):
     desk."""
     links = "".join(f'<a href="{esc(h)}">{esc(l)}</a>' for l, h in
                     [("About", "/about.html"), ("How we work", "/method.html"),
-                     ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html")])
+                     ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html"),
+                     ("RSS", "/feed.xml")])
     if brand == "cronkite":
         who = f"{esc(NAME)}"
         note = ("Crypto Cronkite is GoCheckMyCrypto's independent news desk, built with one "
@@ -317,7 +488,8 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta name="color-scheme" content="light dark">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
-{robots}<meta property="og:title" content="{esc(title)}">
+{robots}<link rel="alternate" type="application/rss+xml" title="{esc(NAME)} feed" href="/feed.xml">
+<meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="{esc(og_type)}">{schema_extra}
 <meta property="og:url" content="{esc(url)}">
@@ -412,10 +584,11 @@ def share_row(url, title):
 </script>"""
 
 
-def render_article(item):
+def render_article(item, all_items=None):
     dateline = fmt_date(item.get("date"))
     badge = verdict_badge(item.get("verdict"))
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
+    topic_chips = "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item))
     ribbon = ""
     if item.get("example"):
         ribbon = ('<div class="callout"><b>Example, not a real story.</b> This page shows the '
@@ -424,6 +597,10 @@ def render_article(item):
     if item.get("key_fact"):
         key = (f'<div class="keyfact"><span class="lab">The key fact</span>'
                f'<p>{esc(item["key_fact"])}</p></div>')
+    bottom = ""
+    if (item.get("bottom_line") or "").strip():
+        bottom = (f'<div class="bottomline"><span class="lab">The Bottom Line</span>'
+                  f'<p>{esc(item["bottom_line"])}</p></div>')
     take = ""
     if (item.get("human_take") or "").strip():
         take = (f'<div class="take"><span class="lab">The take</span>'
@@ -432,13 +609,19 @@ def render_article(item):
     src_html = ""
     if srcs:
         lis = "".join(
-            f'<li><a href="{esc(s.get("url",""))}" rel="nofollow">{esc(s.get("title") or s.get("url"))}</a></li>'
+            f'<li><a href="{esc(s.get("url",""))}" rel="nofollow">{esc(source_label(s))}</a></li>'
             for s in srcs)
         src_html = f'<div class="sources"><h4>Sources</h4><ol>{lis}</ol></div>'
+    rel_html = ""
+    for rel in related_stories(item, all_items or []):
+        rel_html += (f'<li><a href="/articles/{esc(rel["slug"])}.html">{esc(rel.get("title"))}</a>'
+                     f'<span class="mut"> &middot; {fmt_when(rel)}</span></li>')
+    if rel_html:
+        rel_html = f'<div class="related"><h4>Related stories</h4><ul>{rel_html}</ul></div>'
     author = esc(item.get("author", "Crypto Cronkite"))
     body = f"""<main class="wrap narrow">
   <article class="article">
-    <div class="ey">{badge}{tag}<span class="dateline">{esc(dateline)}</span></div>
+    <div class="ey">{badge}{tag}{topic_chips}<span class="dateline">{fmt_when(item)}</span></div>
     <h1>{esc(item.get("title"))}</h1>
     {f'<p class="dek">{esc(item["dek"])}</p>' if item.get("dek") else ""}
     <div class="byline">By {author}</div>
@@ -446,10 +629,12 @@ def render_article(item):
     <div class="prose">{render_body(item.get("body"))}</div>
     {key}
     {take}
+    {bottom}
     <p class="signoff">{esc(SLOGAN)}</p>
     {sig_block()}
     {share_row(ORIGIN + f"/articles/{item['slug']}.html", item.get("title") or "")}
     {src_html}
+    {rel_html}
     <p class="nfa">{esc(NFA)}</p>
   </article>
 </main>"""
@@ -459,7 +644,9 @@ def render_article(item):
     schema = json.dumps({"@context": "https://schema.org", "@graph": [
         {"@type": "NewsArticle", "headline": item.get("title"),
          "description": item.get("dek") or "", "url": url, "mainEntityOfPage": url,
-         "image": OG_IMAGE, "datePublished": item.get("date"), "dateModified": item.get("date"),
+         "image": OG_IMAGE,
+         "datePublished": item.get("published_utc") or item.get("date"),
+         "dateModified": item.get("published_utc") or item.get("date"),
          "author": {"@type": "Organization", "name": NAME, "url": ORIGIN + "/news.html"},
          "publisher": {"@type": "Organization", "name": FAMILY, "url": ORIGIN + "/"}},
         {"@type": "BreadcrumbList", "itemListElement": [
@@ -477,6 +664,7 @@ def render_article(item):
 def card(item):
     badge = verdict_badge(item.get("verdict"))
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
+    tag += "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item)[:2])
     href = f'/articles/{esc(item["slug"])}.html'
     summ = item.get("dek") or (item.get("body", [""])[0] if item.get("body") else "")
     if isinstance(summ, dict):
@@ -486,7 +674,7 @@ def card(item):
   <div class="row">{badge}{tag}</div>
   <h3><a href="{href}">{esc(item.get("title"))}</a></h3>
   <p class="summary">{esc(summ[:180])}</p>
-  <div class="foot"><span class="dateline">{esc(fmt_date(item.get("date")))}</span>
+  <div class="foot"><span class="dateline">{fmt_when(item)}</span>
     <span class="src">{nsrc} source{"s" if nsrc != 1 else ""}</span></div>
 </article>"""
 
@@ -504,7 +692,7 @@ def desk_strip():
 </div></section>"""
 
 
-def render_news(items, dateline):
+def render_news(items, dateline, pulse=None):
     live = [i for i in items if not i.get("example")]
     if live:
         lead = live[0]
@@ -515,7 +703,7 @@ def render_news(items, dateline):
     <span class="kicker">Lead story</span>
     <h1><a href="/articles/{esc(lead["slug"])}.html" style="color:inherit">{esc(lead.get("title"))}</a></h1>
     {f'<p class="dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""}
-    <div class="meta">{badge}{tag}<span class="dateline">{esc(fmt_date(lead.get("date")))}</span>
+    <div class="meta">{badge}{tag}<span class="dateline">{fmt_when(lead)}</span>
       <a href="/articles/{esc(lead["slug"])}.html">Read the story &rarr;</a></div>
   </div></section>"""
         grid = ""
@@ -540,21 +728,22 @@ def render_news(items, dateline):
                 '</div></div></section>')
     # news first: lead story, then the rest of the day's stories; the promise strip and
     # the whale teaser read as the footer beats, never above the journalism
-    body = market_strip() + desk_strip() + lead_html + grid + trust_block() + flow_teaser() + newsletter()
+    body = market_strip(pulse) + desk_strip() + lead_html + grid + trust_block() + flow_teaser() + newsletter()
     return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html",
                  brand="cronkite")
 
 
 def render_home(items, flows, pulse, cm, dateline):
-    """The GoCheckMyCrypto front door: what the site is, then four desks to explore, each
-    hero card led by its own artwork and a LIVE stat so the place feels alive."""
+    """The GoCheckMyCrypto front door, built for the RETURNING reader: live markets strip,
+    today's headlines, the storylines the desk is tracking, then the four desks. The brand
+    pitch lives below the information, not above it."""
     live = [i for i in (items or []) if not i.get("example")]
-    lead_headline = live[0]["title"] if live else "The first brief lands soon"
+    desk_stat = f"{len(live)} verified stories on the desk" if live else "The first brief lands soon"
     cards = []
     cards.append(f"""<a class="dash-card home-card" href="/news.html">
       <img class="dash-hero-img" src="/assets/crypto-cronkite-card.jpg" alt="Crypto Cronkite: market news, on-chain insights, trusted reporting" loading="lazy">
       <span class="lab">Latest news</span>
-      <span class="dash-stat" style="font-size:19px">{esc(lead_headline)}</span>
+      <span class="dash-stat" style="font-size:19px">{esc(desk_stat)}</span>
       <p class="pc-note">The day's real crypto stories with the paid promotion stripped out,
       every source linked. And that's the way it is.</p>
       <span class="dash-open">Read the latest &rarr;</span></a>""")
@@ -562,7 +751,7 @@ def render_home(items, flows, pulse, cm, dateline):
     if flows and not flows.get("example") and flows.get("volatile"):
         wnet = flows["volatile"].get("net_usd", 0)
         ww_line = (f"{fmt_usd(wnet)} net {'off' if wnet >= 0 else 'onto'} exchanges in the "
-                   f"last 24 hours.")
+                   f"last {_win_phrase(flows.get('window_hours', 24))}.")
     cards.append(f"""<a class="dash-card home-card" href="/flows.html">
       <img class="dash-hero-img" src="/assets/whale-watch-logo.jpg" alt="Whale Watch: market pulse, on-chain insights" loading="lazy">
       <span class="lab">Whale Watch</span>
@@ -590,16 +779,57 @@ def render_home(items, flows, pulse, cm, dateline):
       Oracle Challenge and the Wizard's Exam. Learn the charts by playing them.</p>
       <span class="dash-open">Enter the tower &rarr;</span></a>""")
 
-    body = market_strip() + f"""<main class="wrap"><section class="page">
-  <span class="kicker">An independent crypto desk</span>
-  <p class="lede home-lede">Built with one intention: get the stories right and keep the data
-     honest. Real news with the shill stripped out, on-chain money flows, live dashboards that
-     teach you what they mean, and a wizard who reads the tape. No hype, no paid promotion,
-     and never financial advice.</p>
+    # Today at the desk: the returning reader's first screen is headlines, not brand copy.
+    live = [i for i in items if not i.get("example")]
+    desk_html = ""
+    if live:
+        lead = live[0]
+        dek_html = f'<p>{esc(lead["dek"])}</p>' if lead.get("dek") else ""
+        lead_html = (f'<a class="home-lead" href="/articles/{esc(lead["slug"])}.html">'
+                     f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
+                     f'<span class="hl-meta">{verdict_badge(lead.get("verdict"))}'
+                     f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
+        rows = "".join(
+            f'<a class="home-row" href="/articles/{esc(i["slug"])}.html">'
+            f'<span class="hl-title">{esc(i.get("title"))}</span>'
+            f'<span class="hl-meta"><span class="dateline">{fmt_when(i)}</span></span></a>'
+            for i in live[1:5])
+        desk_html = f"""<div class="sec-head"><h2>Today at the desk</h2><span class="bar"></span></div>
+  <div class="home-desk">{lead_html}<div class="home-rows">{rows}
+    <a class="home-row more" href="/news.html"><span class="hl-title">All stories &rarr;</span></a></div></div>"""
+
+    # Tracking: the narratives watchlist, each chip linking to its latest published chapter.
+    track_html = ""
+    chips = []
+    try:
+        watch = json.load(open(os.path.join(HERE, "config.json"),
+                               encoding="utf-8")).get("narratives", {}).get("watchlist", [])
+    except Exception:
+        watch = []
+    for n in watch:
+        kws = n.get("keywords") or []
+        if not kws:
+            continue
+        rx = re.compile(r"\b(?:" + "|".join(re.escape(k) for k in kws) + r")\b", re.I)
+        hit = next((i for i in live if rx.search(" ".join(
+            [i.get("title") or "", i.get("dek") or "", i.get("key_fact") or ""] +
+            [p for p in (i.get("body") or []) if isinstance(p, str)]))), None)
+        if hit:
+            chips.append(f'<a class="chip" href="/articles/{esc(hit["slug"])}.html">'
+                         f'{esc(n.get("name", ""))}</a>')
+    if chips:
+        track_html = (f'<div class="tracking"><span class="lab">Tracking</span>{"".join(chips)}'
+                      f'<span class="mut">the storylines the desk is following</span></div>')
+
+    body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
+  {desk_html}
+  {track_html}
   <div class="dash-grid home-grid">{"".join(cards)}</div>
-  <p class="pc-note" style="margin-top:14px">Everything here is free. Start anywhere; the
-     desks link to each other, and every number comes with an explanation in plain
-     language.</p>
+  <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
+     right and keep the data honest. Real news with the shill stripped out, on-chain money
+     flows, live dashboards that teach you what they mean, and a wizard who reads the tape.
+     No hype, no paid promotion, and never financial advice. Everything here is free; every
+     number comes with an explanation in plain language.</p>
 </section></main>""" + newsletter()
     return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "Home", body, dateline, path="/")
 
@@ -612,8 +842,8 @@ def flow_teaser():
         v = flows.get("volatile", {})
         s = flows.get("stablecoins", {})
         pre = "Example: " if flows.get("example") else ""
-        summ = (f"{pre}Volatile whales net {fmt_usd(v.get('net_usd',0))} {v.get('direction','')} in "
-                f"{flows.get('window_hours',24)}h; {fmt_usd(s.get('net_buying_power_usd',0))} "
+        summ = (f"{pre}Volatile whales net {fmt_usd(v.get('net_usd',0))} {v.get('direction','')} over "
+                f"{_win_phrase(flows.get('window_hours', 24))}; {fmt_usd(s.get('net_buying_power_usd',0))} "
                 f"stablecoin buying power arriving.")
     return (f'<section class="sec"><div class="wrap">'
             f'<a class="flow-teaser" href="/flows.html">'
@@ -627,8 +857,17 @@ def flow_teaser():
 def render_archive(items, dateline):
     live = [i for i in items if not i.get("example")]
     if live:
-        rows = "".join(card(i) for i in live)
-        inner = f'<div class="grid">{rows}</div>'
+        # group by day, newest first (items are already sorted): a researcher scans by date
+        days = []
+        for i in live:
+            if not days or days[-1][0] != i.get("date"):
+                days.append((i.get("date"), []))
+            days[-1][1].append(i)
+        inner = "".join(
+            f'<div class="sec-head" style="margin-top:22px"><h2>{esc(fmt_date(d))}</h2>'
+            f'<span class="bar"></span></div><div class="grid">'
+            + "".join(card(i) for i in group) + "</div>"
+            for d, group in days)
     else:
         inner = ('<div class="empty"><span class="k">Archive is empty</span>'
                  '<p style="margin:.6em 0 0">No stories have been approved and published yet.</p></div>')
@@ -676,11 +915,15 @@ def render_method(items, dateline):
      the editor and the verifier are deliberately two different passes. When they disagree, that
      disagreement is surfaced to the human as a signal.</p>
 
-  <h2>4. A human editor-in-chief signs off</h2>
-  <p>Everything lands in a review queue. A human reads it, overrides the machine where judgment
-     differs, kills stories, promotes ones it missed, and adds the honest take, the thing only a
-     person can provide. Only what the human approves is published. That gate is not optional, and
-     it is never removed to publish faster.</p>
+  <h2>4. The gate: the verifier's verdict, with a human editor-in-chief above it</h2>
+  <p>A story publishes only when the independent verifier stamps it VERIFIED against its
+     sources. Anything the verifier flags for review waits in the queue for the human
+     editor-in-chief, who reads it, overrides the machine where judgment differs, kills
+     stories, and decides what runs. Anything rejected never publishes. The human also owns
+     everything the machine may not touch: the takes and analysis (the AI never writes an
+     opinion in a human's voice), the corrections, and the standing rules every story is
+     held to. The gate is the verification, and the human can overrule it in either
+     direction at any time.</p>
 
   <div class="callout"><b>Why two AIs, not one.</b> A single model asked to both rank and
     self-check tends to rubber-stamp its own work. An independent pass, told to find what is wrong,
@@ -691,9 +934,11 @@ def render_method(items, dateline):
 
   <h2>What we will not do</h2>
   <ul>
-    <li>We will not publish anything unverified or unapproved. If a stage fails, we publish nothing.</li>
+    <li>We will not publish anything unverified. If a stage fails, we publish nothing.</li>
     <li>We will not tell you to buy or sell. We report events and explain what they may mean.</li>
     <li>We will not run paid coverage as news. Sponsored items are the thing we are built to strip out.</li>
+    <li>We will not let the machine speak in a human voice. Takes, analysis, and corrections
+        are human work, always.</li>
   </ul>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
@@ -722,10 +967,11 @@ def render_about(dateline):
 
   <h2>The machine does the grind. A human owns the judgment.</h2>
   <p>An AI newsroom does the reading, the triage, the fact-checking, and the first draft, every day,
-     without getting tired. But the machine is the staff, not the editor. A human editor-in-chief
-     reviews every story, overrides the machine where judgment differs, adds the honest take, and
-     approves what publishes. Nothing goes out as reporting or as a take without that sign-off. If
-     even that sustainable human step ever slips, we drop the cadence before we drop the standard.</p>
+     without getting tired. But the machine is the staff, not the editor. A story runs only when an
+     independent verification pass confirms it against its sources; anything flagged waits for the
+     human editor-in-chief, who oversees the desk, overrides the machine where judgment differs, and
+     owns every take: no opinion ever goes out in a human voice unless a human wrote it. If that
+     standard ever slips, we drop the cadence before we drop the standard.</p>
 
   <h2>Our bias</h2>
   <p>We are biased toward the reader and against the shill. We weight official and primary sources
@@ -761,9 +1007,12 @@ def render_standards(dateline):
      source. Stories that cannot be verified are either marked clearly for the reader or held back.
      We would rather be slow than wrong.</p>
 
-  <h2>The human gate</h2>
-  <p>No story is published automatically. A human editor approves every story, and adds any opinion
-     or analysis in the byline. The AI never writes a "take" in a human's voice.</p>
+  <h2>The gate</h2>
+  <p>A story publishes only when an independent verification pass confirms it against its
+     sources: VERIFIED runs, flagged-for-review waits for the human editor-in-chief, rejected
+     never runs. The human editor oversees the desk, can overrule any machine call in either
+     direction, and owns every opinion or analysis in the byline. The AI never writes a
+     "take" in a human's voice.</p>
 
   <h2>Not financial advice</h2>
   <p>We report events and explain what they may mean. We never advise buying or selling any asset.
@@ -774,9 +1023,11 @@ def render_standards(dateline):
      we will check it against the source. A correction is a feature of an honest desk, not a failure.</p>
 
   <h2>AI disclosure</h2>
-  <p>Stories on this site are assembled and fact-checked with AI assistance and then reviewed and
-     approved by a human editor before publication. We think transparency about that process is part
-     of being trustworthy, which is why this page exists.</p>
+  <p>Stories on this site are assembled with AI assistance and fact-checked by a separate,
+     independent AI verification pass; only stories that pass publish, under a human
+     editor-in-chief who oversees the desk, reviews anything flagged, and can overrule any
+     call. Takes and corrections are always human. We think transparency about that process
+     is part of being trustworthy, which is why this page exists.</p>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Standards - {NAME}", "Crypto Cronkite standards, verification, and corrections policy.",
@@ -828,17 +1079,25 @@ def ww_hero():
             '</div></section>')
 
 
+def _win_phrase(hours):
+    """Human window label: '24 hours', '48 hours', '7 days'."""
+    hours = int(hours or 24)
+    if hours >= 48 and hours % 24 == 0:
+        return f"{hours // 24} days"
+    return f"{hours} hours"
+
+
 def render_flows(flows, dateline):
-    if not flows or not flows.get("by_asset") and not (flows or {}).get("top_inflows"):
+    if not flows or (not flows.get("by_asset") and not flows.get("top_inflows")):
         body = ww_hero() + """<main class="wrap"><section class="page">
   <span class="kicker">Follow the money</span>
   <h1>Where the whales are moving</h1>
   <p class="lede">This board tracks where whales are moving large amounts of crypto: onto
      exchanges (which can precede selling) or off exchanges into self-custody (accumulation).</p>
-  <div class="empty"><span class="k">No board yet</span>
-    <p style="margin:.6em 0 0">The board refreshes from Whale Alert's public data at each site
-    build. Preview it locally with <code>python3 whale_flows.py --fixture
-    fixtures/whale_sample.json</code>.</p></div>
+  <div class="empty"><span class="k">A quiet stretch</span>
+    <p style="margin:.6em 0 0">Whale Alert's public feed only carries the very largest
+    transfers (roughly $50M and up), and none touched an exchange recently. The board
+    refreshes with every site build; check back soon.</p></div>
 </section></main>"""
         return shell(f"Whale Watch - {NAME}", "Follow the money: whale exchange flows.",
                      "Whale Watch", body, dateline, body_class="ww-dark", path="/flows.html")
@@ -852,33 +1111,40 @@ def render_flows(flows, dateline):
     if flows.get("example"):
         ribbon = ('<div class="callout"><b>Example board.</b> These are illustrative figures from '
                   'sample data, shown so you can see the format. Live flows arrive with the next site build.</div>')
-    moves = flows.get("top_inflows", [])
-    move_rows = "".join(
-        f'<tr><td class="sym2">{esc(m.get("symbol",""))}{" &middot; stable" if m.get("stable") else ""}</td>'
-        f'<td class="num">{esc(fmt_usd(m.get("usd",0)))}</td>'
-        f'<td>&rarr; {esc(m.get("to","unknown exchange"))}</td>'
-        f'<td class="mut">from {esc(m.get("from","unknown wallet"))}</td></tr>'
-        for m in moves)
-    win = flows.get("window_hours", 24)
+    if flows.get("window_widened_from"):
+        ribbon += (f'<div class="callout"><b>Quiet stretch.</b> No exchange-size whale moves hit '
+                   f'the public feed in the last {_win_phrase(flows["window_widened_from"])}, so '
+                   f'this board shows the last {_win_phrase(flows.get("window_hours"))} instead.</div>')
+    def _move_rows(moves):
+        return "".join(
+            f'<tr><td class="sym2">{esc(m.get("symbol",""))}{" &middot; stable" if m.get("stable") else ""}</td>'
+            f'<td class="num">{esc(fmt_usd(m.get("usd",0)))}</td>'
+            f'<td>&rarr; {esc(m.get("to",""))}</td>'
+            f'<td class="mut">from {esc(m.get("from",""))}</td></tr>'
+            for m in moves)
+
+    move_rows = _move_rows(flows.get("top_inflows", []))
+    out_rows = _move_rows(flows.get("top_outflows", []))
+    winp = _win_phrase(flows.get("window_hours", 24))
     body = ww_hero() + f"""<main class="wrap"><section class="page">
   <span class="kicker">Follow the money</span>
   <h1>Where the whales are moving</h1>
   <p class="lede">Not a scrolling feed of every transfer, the aggregate. Where are whales moving
-     large amounts on net over the last {win} hours: onto exchanges (which can precede selling)
+     large amounts on net over the last {winp}: onto exchanges (which can precede selling)
      or off into self-custody (accumulation)?
-     <span class="daily-badge">refreshed 3x daily</span></p>
+     <span class="daily-badge">refreshed through the day</span></p>
   {ribbon}
 
   <div class="stats">
     <div class="stat">
       <span class="lab">Volatile assets, net</span>
       <span class="big {dir_cls}">{esc(fmt_usd(net))}</span>
-      <span class="sub">net {esc(dir_word)} ({win}h)</span>
+      <span class="sub">net {esc(dir_word)} ({esc(winp)})</span>
     </div>
     <div class="stat">
       <span class="lab">Stablecoin buying power arriving</span>
       <span class="big">{esc(fmt_usd(s.get("net_buying_power_usd",0)))}</span>
-      <span class="sub">net stablecoins onto exchanges ({win}h)</span>
+      <span class="sub">net stablecoins onto exchanges ({esc(winp)})</span>
     </div>
   </div>
 
@@ -893,6 +1159,9 @@ def render_flows(flows, dateline):
 
   <div class="sec-head" style="margin-top:26px"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
   <div class="movetable"><table><tbody>{move_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
+
+  <div class="sec-head" style="margin-top:26px"><h2>Biggest moves off exchanges</h2><span class="bar"></span></div>
+  <div class="movetable"><table><tbody>{out_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Whale watching 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
@@ -1168,9 +1437,9 @@ def _posture_card(a):
     chart = line_chart_svg(
         a.get("spark"), overlays=overlays,
         x_labels=[win.get("start", ""), win.get("end", "")],
-        value_label=fmt_tick(a.get("price", 0)),
+        value_label=_price_fmt(a.get("price")),
         aria=f"{sym} price over 90 days with 50 and 200 day averages, "
-             f"currently ${a.get('price', 0):,.0f}",
+             f"currently {_price_fmt(a.get('price'))}",
         pill_attr=f'data-live="pill:{sym}"')
     legend = chart_legend([("price", C_PRICE, False), ("50-day avg", C_SMA50, True),
                            ("200-day avg", C_SMA200, True)])
@@ -1189,11 +1458,21 @@ def _posture_card(a):
              else _chip("Below 200-day", "chip-down"))
     cross = (_chip("Golden cross", "chip-up") if a.get("golden_cross")
              else _chip("Death cross", "chip-down"))
+    chg = a.get("chg_24h_pct")
+    chg_html = ""
+    if chg is not None:
+        chg_html = (f'<span class="pc-chg {"up" if chg >= 0 else "down"}" '
+                    f'data-live="chg:{esc(sym)}">{chg:+.2f}% (24h)</span>')
+    stats = "".join(
+        f'<div><dt>{esc(lab)}</dt><dd>{esc(_price_fmt(a.get(key)))}</dd></div>'
+        for lab, key in (("50-day avg", "sma50"), ("200-day avg", "sma200"),
+                         ("90-day high", "spark_high"), ("90-day low", "spark_low")))
     return f"""<div class="pulse-card">
   <div class="pc-head"><span class="pc-sym">{esc(sym)}<span class="live-dot"></span></span>
-    <span class="pc-price" data-live="price:{esc(sym)}">${a.get("price", 0):,.0f}</span></div>
+    <span class="pc-quote"><span class="pc-price" data-live="price:{esc(sym)}">{esc(_price_fmt(a.get("price")))}</span>{chg_html}</span></div>
   {chart}
   {legend}
+  <dl class="pc-stats">{stats}</dl>
   <div class="pc-chips">{rsi_chip}{mom}{trend}{cross}
     {_chip(f'{a.get("pct_from_high_12m", 0):+.0f}% vs 12-mo high')}
     {_chip(f'volatility {a.get("vol30_pct", 0):.0f}%/yr')}</div>
@@ -1207,7 +1486,7 @@ def _fng_band_color(value):
 
 PULSE_DESKS = [
     ("sentiment", "Crowd sentiment", "The Fear & Greed gauge: what the crowd is feeling and how to read it."),
-    ("posture", "Price posture", "RSI, momentum, and trend for BTC, ETH, and SOL, in plain language."),
+    ("posture", "Price posture", "RSI, momentum, and trend for the majors, in plain language."),
     ("stablecoins", "Stablecoin dry powder", "The market's fuel gauge: dollars staged inside crypto."),
     ("network", "Bitcoin network", "Fees and mining difficulty: how busy and how confident the chain is."),
 ]
@@ -1265,10 +1544,10 @@ def render_pulse_hub(pulse, flows, dateline):
         rng = (f"range {fmt_tick(min(s30))} to {fmt_tick(max(s30))}" if s30 else "")
         cards.append(f"""<a class="dash-card" href="/pulse/posture.html">
       <span class="lab">Price posture</span>
-      <span class="dash-stat" data-live="price:BTC" data-prefix="BTC ">BTC ${btc.get("price", 0):,.0f}</span>
+      <span class="dash-stat" data-live="price:BTC" data-prefix="BTC ">BTC {esc(_price_fmt(btc.get("price")))}</span>
       <div class="pc-spark">{spark_svg(s30)}</div>
       <span class="mini-range">{esc(rng)}</span>
-      <p class="pc-note">RSI {btc.get("rsi14", 0):.0f}, {mom}. Full readings for BTC, ETH, and SOL.</p>
+      <p class="pc-note">RSI {btc.get("rsi14", 0):.0f}, {mom}. Full readings for the majors.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
     movers = pulse.get("movers") or {}
     if movers.get("gainers") and movers.get("losers"):
@@ -1291,6 +1570,29 @@ def render_pulse_hub(pulse, flows, dateline):
       <div class="pc-spark">{spark_svg(s60)}</div>
       <span class="mini-range">{esc(rng)}</span>
       <p class="pc-note">{chg:+.1f}% in 30 days. The dollars staged inside crypto.</p>
+      <span class="dash-open">Open dashboard &rarr;</span></a>""")
+    etf = (pulse.get("etf_flows") or {}).get("btc") or {}
+    if etf.get("latest_net_usd_m") is not None:
+        latest = etf["latest_net_usd_m"]
+        word = "into" if latest >= 0 else "out of"
+        cards.append(f"""<a class="dash-card" href="/pulse/etf.html">
+      <span class="lab">ETF flows</span>
+      <span class="dash-stat" style="color:{'var(--verified-fg)' if latest >= 0 else 'var(--rule)'}">{esc(fmt_usd(latest * 1e6))}</span>
+      <p class="pc-note" style="margin-top:6px">net {word} the US spot Bitcoin ETFs on
+      {esc(etf.get("latest_date", "the latest trading day"))}. The traditional-finance bid,
+      published daily by the funds.</p>
+      <span class="dash-open">Open dashboard &rarr;</span></a>""")
+    lev = (pulse.get("leverage") or {}).get("assets") or []
+    if lev:
+        b = lev[0]
+        f8 = b.get("funding_8h_pct", 0)
+        lean = "longs paying" if f8 > 0 else ("shorts paying" if f8 < 0 else "flat")
+        cards.append(f"""<a class="dash-card" href="/pulse/leverage.html">
+      <span class="lab">Leverage</span>
+      <span class="dash-stat">{esc(b.get("symbol",""))} funding {f8:+.4f}%</span>
+      <p class="pc-note" style="margin-top:6px">{lean} per 8 hours, with
+      {esc(fmt_usd(b.get("open_interest_usd", 0)))} of open interest. Funding and OI for
+      the majors, taught in plain language.</p>
       <span class="dash-open">Open dashboard &rarr;</span></a>""")
     if network:
         diff = network.get("difficulty_change_pct", 0)
@@ -1403,7 +1705,7 @@ def render_pulse_sentiment(pulse, dateline):
 
 
 def render_pulse_posture(pulse, dateline):
-    desc = ("BTC, ETH, and SOL price posture: RSI, MACD momentum, 50/200-day trend, distance "
+    desc = ("Major-asset price posture: RSI, MACD momentum, 50/200-day trend, distance "
             "from the 12-month high, and volatility, each explained in plain language.")
     assets = (pulse or {}).get("assets") or []
     if not assets:
@@ -1647,6 +1949,211 @@ def render_pulse_prices(pulse, dateline):
     return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True)
 
 
+def render_pulse_leverage(pulse, dateline):
+    desc = ("The derivatives tape for the majors: funding, open interest trend, the "
+            "long/short ratio, and recent liquidations, in plain language.")
+    lev = (pulse or {}).get("leverage") or {}
+    assets = lev.get("assets") or []
+    if not assets:
+        inner = f"{_dash_crumb()}\n  <h1>Leverage</h1>\n  {_no_data()}"
+        return _dash_shell("leverage", "Leverage", desc, inner, dateline)
+    rows = ""
+    for a in assets:
+        f8 = a.get("funding_8h_pct", 0)
+        cls = "chip-down" if f8 > 0.01 else ("chip-cool" if f8 < 0 else "")
+        ls = a.get("long_short_ratio")
+        ls_html = (f'<span class="chip {"chip-down" if ls >= 1.5 else ""}">{ls:.2f} L/S</span>'
+                   if ls is not None else '<span class="mut">&mdash;</span>')
+        rows += (f'<tr><td class="sym2">{esc(a.get("symbol",""))}</td>'
+                 f'<td class="pnum"><span class="chip {cls}">{f8:+.4f}% / 8h</span></td>'
+                 f'<td class="pnum">{a.get("funding_annual_pct", 0):+.1f}%/yr</td>'
+                 f'<td class="pnum">{esc(fmt_usd(a.get("open_interest_usd", 0)))}</td>'
+                 f'<td class="pnum">{ls_html}</td>'
+                 f'<td class="mut">{esc(a.get("venue",""))}</td></tr>')
+    # liquidations: forced closes by side, per asset (recent window, single venue)
+    liq_rows = ""
+    for a in assets:
+        q = a.get("liquidations") or {}
+        if not q.get("count"):
+            continue
+        liq_rows += (f'<tr><td class="sym2">{esc(a.get("symbol",""))}</td>'
+                     f'<td class="pnum">{q["count"]}</td>'
+                     f'<td class="pnum" style="color:var(--rule)">{esc(fmt_usd(q.get("longs_usd", 0)))}</td>'
+                     f'<td class="pnum" style="color:var(--verified-fg)">{esc(fmt_usd(q.get("shorts_usd", 0)))}</td>'
+                     f'<td class="mut">last {q.get("window_hours", "?")}h</td></tr>')
+    liq_html = ""
+    if liq_rows:
+        liq_html = f"""<div class="sec-head" style="margin-top:26px"><h2>Recent liquidations</h2><span class="bar"></span></div>
+  <div class="movetable"><table>
+    <thead><tr><th></th><th>Forced closes</th><th>Longs liquidated</th><th>Shorts liquidated</th><th>Window</th></tr></thead>
+    <tbody>{liq_rows}</tbody></table></div>
+  <p class="pc-note" style="margin-top:8px">Forced position closes on one venue's public feed,
+  by which side got caught. Lopsided liquidations show which crowd was leaning wrong.</p>"""
+    # trend charts for the deepest market: funding history + OI trend
+    charts_html = ""
+    btc = assets[0]
+    if btc.get("funding_history_pct") and len(btc["funding_history_pct"]) > 2:
+        fh = btc["funding_history_pct"]
+        chart = line_chart_svg(fh, dollars=False, x_labels=["21 funding intervals ago", "now"],
+                               value_label=f"{fh[-1]:+.4f}%",
+                               aria=f"{btc.get('symbol','BTC')} funding rate history")
+        charts_html += (f'<div class="sec-head" style="margin-top:26px"><h2>BTC funding, last 21 intervals</h2>'
+                        f'<span class="bar"></span></div><div class="chartcard">{chart}</div>'
+                        f'<p class="pc-note" style="margin-top:8px">Each point is one 8-hour funding interval (%). '
+                        f'Above zero, longs pay shorts; the further from zero, the more crowded the trade.</p>')
+    if btc.get("oi_history_usd") and len(btc["oi_history_usd"]) > 2:
+        oi = btc["oi_history_usd"]
+        chart = line_chart_svg(oi, x_labels=["30 days ago", "now"],
+                               value_label=fmt_tick(oi[-1]),
+                               aria=f"{btc.get('symbol','BTC')} open interest, 30 days")
+        charts_html += (f'<div class="sec-head" style="margin-top:26px"><h2>BTC open interest, 30 days</h2>'
+                        f'<span class="bar"></span></div><div class="chartcard">{chart}</div>'
+                        f'<p class="pc-note" style="margin-top:8px">Total money in open contracts on the venue. '
+                        f'Rising OI with rising price is new money chasing; falling OI into a move is positions closing out.</p>')
+    inner = f"""{_dash_crumb()}
+  <h1>Leverage</h1>
+  <p class="lede">The derivatives tape: what leveraged traders are paying to hold their bets
+     (funding), how much money is in those bets (open interest), which way the crowd leans
+     (long/short), and who just got carried out (liquidations). This is where crowding
+     shows up before it shows up in price.</p>
+  <div class="movetable"><table>
+    <thead><tr><th></th><th>Funding</th><th>Annualized</th><th>Open interest</th><th>Long/short</th><th>Venue</th></tr></thead>
+    <tbody>{rows}</tbody></table></div>
+  <p class="pc-note" style="margin-top:8px">Single-venue snapshots from public exchange data,
+  refreshed with each site build; they move with the market but are not market-wide totals.</p>
+  {charts_html}
+  {liq_html}
+
+  <div class="sec-head" style="margin-top:30px"><h2>Leverage 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab">Funding is the cost of conviction</span>
+      <p>A perpetual swap has no expiry, so exchanges keep its price pinned to the real market
+      with funding: every eight hours, one side pays the other. <b>Positive funding means longs
+      are paying shorts</b>, the crowd is leaning bullish and paying for the privilege. Negative
+      funding means shorts are paying, the crowd leans bearish.</p></div>
+    <div class="learn"><span class="lab">Extremes are the tell</span>
+      <p>Near-zero funding is a calm market. Persistently rich funding (think tenths of a
+      percent every 8 hours, double-digit annualized) means a crowded, expensive trade that
+      often unwinds violently when price stops cooperating. It is a crowd gauge, not a
+      direction signal.</p></div>
+    <div class="learn"><span class="lab">Open interest is the fuel</span>
+      <p>Open interest is the total money sitting in open contracts. Rising OI with rising
+      price = new money chasing the move. High OI is also fuel for liquidation cascades:
+      when price moves fast against the crowd, forced closes accelerate it.</p></div>
+    <div class="learn"><span class="lab">Long/short is the lean</span>
+      <p>The long/short ratio counts accounts positioned each way. At 1.00 the crowd is
+      balanced; well above it, longs are crowded. A heavily crowded side is the side that
+      gets squeezed hardest when price goes the other way.</p></div>
+    <div class="learn"><span class="lab">Liquidations are the receipts</span>
+      <p>A liquidation is a leveraged position the exchange force-closed because the margin
+      ran out. Lopsided liquidations tell you which crowd was wrong today, and clusters of
+      them can accelerate the very move that caused them.</p></div>
+    <div class="learn"><span class="lab">What it cannot tell you</span>
+      <p>These are snapshots from one venue's public data, not the whole market, and funding
+      flips fast. Treat this as context for how stretched the boat is, never as a trade
+      signal on its own.</p></div>
+  </div>
+  <p class="nfa">{esc(lev.get("note", ""))} {esc(NFA)}</p>"""
+    return _dash_shell("leverage", "Leverage", desc, inner, dateline)
+
+
+def etf_bars_svg(days, aria=""):
+    """Daily net-flow bars (USD millions in, values scaled to USD for labels). Green up =
+    net creations (money in), red down = net redemptions. Same visual language as the
+    Whale Watch weekly chart."""
+    if not days:
+        return ""
+    rows = [{"week_ending": d.get("date", "")[:6], "net_usd": (d.get("net_usd_m") or 0) * 1e6,
+             "moves": None} for d in days]
+    w, h = 660, 200
+    mid = h / 2 - 8
+    max_abs = max((abs(r["net_usd"]) for r in rows), default=0) or 1
+    n = len(rows)
+    ml = 64
+    slot = (w - ml - 14) / n
+    bw = min(40, slot * 0.62)
+    scale = mid - 26
+    parts = [f'<svg viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" role="img" '
+             f'aria-label="{esc(aria)}">']
+    for val, y in ((max_abs, mid - scale), (0, mid), (-max_abs, mid + scale)):
+        parts.append(f'<line x1="{ml}" y1="{y:.1f}" x2="{w-14}" y2="{y:.1f}" '
+                     f'stroke="var(--line)" stroke-width="1"/>')
+        parts.append(f'<text x="{ml - 8}" y="{y + 3.5:.1f}" text-anchor="end" class="ctick">'
+                     f'{esc(fmt_tick(val))}</text>')
+    for i, r in enumerate(rows):
+        net = r["net_usd"]
+        x = ml + i * slot + (slot - bw) / 2
+        bar = (abs(net) / max_abs) * scale
+        color = "var(--verified-fg)" if net >= 0 else "var(--rule)"
+        y = mid - bar if net >= 0 else mid
+        parts.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bw:.1f}" height="{max(bar, 1):.1f}" '
+                     f'rx="3" fill="{color}"><title>{esc(days[i].get("date", ""))}: '
+                     f'{esc(fmt_usd(net))} net</title></rect>')
+        parts.append(f'<text x="{x + bw/2:.1f}" y="{h - 6}" text-anchor="middle" class="axis">'
+                     f'{esc(r["week_ending"])}</text>')
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def render_pulse_etf(pulse, dateline):
+    desc = ("Daily US spot Bitcoin and Ethereum ETF net flows: the traditional-finance "
+            "bid, in plain language. Market data, not advice.")
+    etf = (pulse or {}).get("etf_flows") or {}
+    if not etf.get("btc") and not etf.get("eth"):
+        inner = f"{_dash_crumb()}\n  <h1>ETF flows</h1>\n  {_no_data()}"
+        return _dash_shell("etf", "ETF flows", desc, inner, dateline)
+    boards = ""
+    for key, name in (("btc", "Bitcoin"), ("eth", "Ethereum")):
+        b = etf.get(key)
+        if not b:
+            continue
+        latest = b.get("latest_net_usd_m") or 0
+        cls = "up" if latest >= 0 else "down"
+        word = "into" if latest >= 0 else "out of"
+        cum = b.get("cumulative_usd_m")
+        cum_html = (f'<span class="sub">{esc(fmt_usd(cum * 1e6))} cumulative since launch</span>'
+                    if cum is not None else "")
+        boards += f"""<div class="sec-head" style="margin-top:26px"><h2>{esc(name)} spot ETFs</h2><span class="bar"></span></div>
+  <div class="stats"><div class="stat">
+    <span class="lab">Latest day ({esc(b.get("latest_date", ""))})</span>
+    <span class="big {cls}">{esc(fmt_usd(latest * 1e6))}</span>
+    <span class="sub">net {word} the funds</span>
+  </div><div class="stat">
+    <span class="lab">Since launch</span>
+    <span class="big">{esc(fmt_usd(cum * 1e6)) if cum is not None else "&mdash;"}</span>
+    <span class="sub">cumulative net flow</span>
+  </div></div>
+  <div class="chartcard" style="margin-top:14px">{etf_bars_svg(b.get("recent", []), aria=f"{name} ETF daily net flows")}</div>"""
+    inner = f"""{_dash_crumb()}
+  <h1>ETF flows</h1>
+  <p class="lede">The traditional-finance bid: how much money moved into or out of the US
+     spot ETFs each trading day. This is the regulated world's demand for crypto, measured
+     in actual dollars, published by the funds themselves.</p>
+  {boards}
+  <div class="sec-head" style="margin-top:30px"><h2>ETF flows 101</h2><span class="bar"></span></div>
+  <div class="learn-grid">
+    <div class="learn"><span class="lab">What a flow is</span>
+      <p>When investors buy more ETF shares than they sell, the fund must go buy the real
+      asset to back them: a <b>net creation</b>, money into crypto. Selling pressure works
+      in reverse (a redemption). Flows are the cleanest window into institutional and
+      retirement-account demand.</p></div>
+    <div class="learn"><span class="lab">Why it moves markets</span>
+      <p>ETF buying is spot buying: the fund takes real coins off the market, every trading
+      day, at any price. A long streak of inflows or outflows is a supply/demand story that
+      compounds, which is why desks watch the streak more than any single day.</p></div>
+    <div class="learn"><span class="lab">The rhythm</span>
+      <p>Flows publish once per trading day, a day behind, and pause on weekends and market
+      holidays, so this board moves slower than the rest of the pulse. That is not staleness;
+      that is the market it measures.</p></div>
+    <div class="learn"><span class="lab">What it cannot tell you</span>
+      <p>Flows say what regulated funds did, not why, and not what tomorrow brings. One fund
+      family's quirks (fees, conversions) can dominate a quiet day. Context for the news,
+      never a trade signal.</p></div>
+  </div>
+  <p class="nfa">{esc(etf.get("note", ""))} {esc(NFA)}</p>"""
+    return _dash_shell("etf", "ETF flows", desc, inner, dateline)
+
+
 def render_pulse_network(pulse, dateline):
     desc = ("Bitcoin network vitals explained: what transaction fees and mining difficulty "
             "say about demand for the chain and miner confidence.")
@@ -1700,11 +2207,18 @@ def render_chartmaster(read, dateline):
             "Exam. Never financial advice.")
     read = read or {}
     paras = "".join(f"<p>{esc(p)}</p>" for p in read.get("paragraphs", []))
+    # A read older than the current dateline quotes numbers the live boards have moved past;
+    # say so rather than let it read as today's.
+    stale_note = ""
+    if read.get("date") and fmt_date(read["date"]).upper() != (dateline or "").upper():
+        stale_note = (f'<p class="pc-note"><b>From the Master\'s ledger, {esc(fmt_date(read["date"]))}.</b> '
+                      f'The boards below are live; the figures in this read are from its date.</p>')
     read_html = (f"""<div class="sec-head" style="margin-top:8px"><h2>The Chart Master's read</h2><span class="bar"></span></div>
   <article class="pulse-card cm-read">
     <div class="ey"><span class="tag">the read</span>
       <span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
     <h3 class="cm-headline">{esc(read.get("headline", ""))}</h3>
+    {stale_note}
     <div class="prose">{paras}</div>
     <p class="pc-note">The Chart Master reads the day's <a href="/pulse.html">Market
     Pulse</a> and <a href="/flows.html">Whale Watch</a> boards. He describes the tape;
@@ -1802,10 +2316,12 @@ def ingest():
     if not os.path.isdir(PUBLISHED):
         print("ingest: no out/published/ (nothing approved yet); building from committed content only.")
         return 0
-    # date from the run, not a wall clock, so builds stay reproducible
-    date = "undated"
+    # date/time from the run, not a wall clock, so builds stay reproducible
+    date, published_utc = "undated", ""
     try:
-        date = json.load(open(os.path.join(HERE, "out", "items.json"), encoding="utf-8"))["_meta"]["generated"][:10]
+        published_utc = json.load(open(os.path.join(HERE, "out", "items.json"),
+                                       encoding="utf-8"))["_meta"]["generated"]
+        date = published_utc[:10]
     except Exception:
         pass
     os.makedirs(CONTENT, exist_ok=True)
@@ -1841,10 +2357,12 @@ def ingest():
         item = {
             "id": rec.get("id"), "slug": slug, "kind": "brief",
             "title": title, "dek": scrub((payload.get("script", {}) or {}).get("summary", "")),
-            "date": date, "category": "news", "verdict": rec.get("verdict"),
+            "date": date, "published_utc": published_utc,
+            "category": "news", "verdict": rec.get("verdict"),
             "rank": rank_map.get(rec.get("id")),
             "author": "Crypto Cronkite",
             "key_fact": scrub((payload.get("script", {}) or {}).get("key_fact", "")),
+            "bottom_line": scrub(art.get("bottom_line", "")),
             "human_take": art.get("human_take", ""), "body": paras, "sources": srcs,
         }
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
@@ -1889,7 +2407,7 @@ def build():
     pulse = load_pulse()
     cm = load_chartmaster()
     w("index.html", render_home(items, flows, pulse, cm, dateline))
-    w("news.html", render_news(items, dateline))
+    w("news.html", render_news(items, dateline, pulse=pulse))
     w("flows.html", render_flows(flows, dateline))
     w("pulse.html", render_pulse_hub(pulse, flows, dateline))
     w("chartmaster.html", render_chartmaster(cm, dateline))
@@ -1898,6 +2416,8 @@ def build():
     w(os.path.join("pulse", "movers.html"), render_pulse_movers(pulse, dateline))
     w(os.path.join("pulse", "prices.html"), render_pulse_prices(pulse, dateline))
     w(os.path.join("pulse", "stablecoins.html"), render_pulse_stables(pulse, dateline))
+    w(os.path.join("pulse", "leverage.html"), render_pulse_leverage(pulse, dateline))
+    w(os.path.join("pulse", "etf.html"), render_pulse_etf(pulse, dateline))
     w(os.path.join("pulse", "network.html"), render_pulse_network(pulse, dateline))
     w("archive.html", render_archive(items, dateline))
     w("method.html", render_method(items, dateline))
@@ -1906,7 +2426,8 @@ def build():
     w("404.html", render_404(dateline))
     w("thanks.html", render_thanks(dateline))
     for it in items:
-        w(os.path.join("articles", f"{it['slug']}.html"), render_article(it))
+        w(os.path.join("articles", f"{it['slug']}.html"), render_article(it, all_items=items))
+    w("feed.xml", render_feed(items))
 
     # the iOS home-screen icon lives at the site root (family convention)
     ati_src = os.path.join(ASSETS, "apple-touch-icon.png")
@@ -1921,7 +2442,7 @@ def build():
     locs = ["/", "/news.html", "/flows.html", "/pulse.html", "/chartmaster.html",
             "/pulse/sentiment.html", "/pulse/posture.html",
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
-            "/pulse/network.html",
+            "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/method.html", "/about.html", "/standards.html"]
     locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
     urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)

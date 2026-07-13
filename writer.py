@@ -24,11 +24,30 @@ NFA = "Crypto Cronkite reports events. It never advises trades. Nothing here is 
 
 def select(editor, verifier):
     by_verdict = {v["id"]: v for v in verifier["verdicts"]}
+    # The aggregate clusters carry the actual reporting (snippet + who corroborated it).
+    # Without them the writer sees only a headline and a two-line significance note, which
+    # is why early articles ran thin: give it the source material the desk already has.
+    clusters = {}
+    try:
+        for c in common.read_out("items.json").get("clusters", []):
+            clusters[c.get("id")] = c
+    except Exception:
+        pass
     out = []
     for s in editor["ranked"]:
         v = by_verdict.get(s["id"])
-        if v and v["verdict"] in DRAFTABLE:
-            out.append({**s, "verdict": v["verdict"]})
+        if not v or v["verdict"] not in DRAFTABLE:
+            continue
+        story = {**s, "verdict": v["verdict"]}
+        c = clusters.get(s["id"])
+        if c:
+            story["source_material"] = {
+                "summary": (c.get("snippet") or "")[:600],
+                "first_seen": c.get("timestamp", ""),
+                "reported_by": [c.get("source", "")] + [
+                    x.get("name", "") for x in (c.get("corroboration") or [])[:6]],
+            }
+        out.append(story)
     return out
 
 
@@ -36,6 +55,7 @@ def validate(obj, stories):
     if not isinstance(obj, dict) or not isinstance(obj.get("drafts"), list):
         raise llmlib.LLMError("writer output missing 'drafts' list")
     ids = {s["id"] for s in stories}
+    by_id = {s["id"]: s for s in stories}
     for d in obj["drafts"]:
         if d.get("id") not in ids:
             raise llmlib.LLMError(f"writer drafted an unexpected/unverified id: {d.get('id')}")
@@ -44,6 +64,10 @@ def validate(obj, stories):
         if not art or not skel:
             raise llmlib.LLMError(f"writer draft {d.get('id')} missing article_draft or script_skeleton")
         # Enforce the guardrails regardless of what the model returned.
+        # If the model skipped The Bottom Line closer, fall back to the editor's
+        # why_it_matters line rather than publishing without one.
+        if not (art.get("bottom_line") or "").strip():
+            art["bottom_line"] = by_id[d["id"]].get("why_it_matters", "")
         art["status"] = "DRAFT"
         art["not_financial_advice"] = NFA
         art.setdefault("human_take", "")

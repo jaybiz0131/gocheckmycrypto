@@ -26,6 +26,11 @@
     "publicist": {
       "model": "claude-sonnet-5",
       "max_tokens": 1500
+    },
+    "chartmaster": {
+      "model": "claude-fable-5",
+      "max_tokens": 9000,
+      "note": "The Chart Master's read is a judgment call over the whole tape (regime, momentum, positioning, flows), so it gets the judgment model. One call per brief; cents per day. Fable thinking bills as output tokens, hence the cap."
     }
   },
   "sources": {
@@ -85,8 +90,40 @@
         "name": "Cointelegraph",
         "tier": "mixed",
         "url": "https://cointelegraph.com/rss"
+      },
+      {
+        "name": "Federal Reserve",
+        "tier": "primary",
+        "url": "https://www.federalreserve.gov/feeds/press_monetary.xml"
+      },
+      {
+        "name": "Senate Banking Committee",
+        "tier": "primary",
+        "url": "https://www.banking.senate.gov/rss/feeds/?type=press"
+      },
+      {
+        "name": "Ethereum Foundation",
+        "tier": "primary",
+        "url": "https://blog.ethereum.org/en/feed.xml"
+      },
+      {
+        "name": "U.S. Department of Justice",
+        "tier": "primary",
+        "url": "https://www.justice.gov/news/rss?type=press_release&m=1",
+        "keywords": ["crypto", "bitcoin", "ethereum", "stablecoin", "digital asset",
+                     "virtual currency", "exchange", "binance", "coinbase", "tether",
+                     "nft", "ponzi", "money laundering"]
+      },
+      {
+        "name": "MarketWatch",
+        "tier": "major",
+        "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
+        "keywords": ["fed", "fomc", "rate", "inflation", "cpi", "jobs", "treasury",
+                     "tariff", "dollar", "recession", "sec", "etf", "bitcoin", "crypto",
+                     "stablecoin"]
       }
     ],
+    "keywords_note": "Optional per-feed 'keywords' gate: broad official/markets feeds (all of DOJ, all top business stories) keep only items matching a keyword in headline+snippet, so they cannot flood the editor with irrelevant news. Items matching a 'narratives' watchlist entry always pass the gate.",
     "cryptopanic": {
       "enabled_if_env": "CRYPTOPANIC_TOKEN",
       "tier": "aggregator",
@@ -112,6 +149,17 @@
       "note": "Large on-chain moves from Whale Alert's FREE public alert archive (keyless; their keyed v1 REST API was retired behind $29.95/mo WebSocket and $699/mo Enterprise plans, neither of which fits -- see DEVIATIONS D7). The archive is newest-first and refreshed continuously; the loader in common.py streams just the window's slice. Only very large moves ($50M+ roughly) appear, which suits the brief. A fetch failure is a documented skip, never a pipeline failure. Capped at max_items so on-chain data cannot flood the brief. Feeds the Whale Watch board too (whale_flows.py)."
     },
     "max_items_per_feed": 40
+  },
+  "narratives": {
+    "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief the same way shill_rules.json is tuned. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Add narratives as they emerge, retire them when they resolve.",
+    "watchlist": [
+      {"name": "CLARITY Act", "keywords": ["clarity act", "market structure bill", "market-structure legislation"]},
+      {"name": "CBDC ban", "keywords": ["cbdc"]},
+      {"name": "BIP 110", "keywords": ["bip 110", "bip-110"]},
+      {"name": "Bitcoin reserve", "keywords": ["strategic bitcoin reserve", "bitcoin reserve"]},
+      {"name": "Spot ETFs", "keywords": ["spot etf", "etf approval", "etf inflow", "etf outflow"]},
+      {"name": "Stablecoin law", "keywords": ["genius act", "stablecoin bill", "stablecoin legislation"]}
+    ]
   },
   "whale_flows": {
     "window_hours": 24,

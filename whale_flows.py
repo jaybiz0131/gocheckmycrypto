@@ -72,6 +72,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
     stable_in = stable_out = 0.0
     counted = 0
     inflow_moves = []
+    outflow_moves = []
     for t in txns:
         kind = classify(t)
         sym = (t.get("symbol") or "?").upper()
@@ -80,13 +81,15 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
             continue
         counted += 1
         is_stable = sym in STABLES
-        if kind == "inflow":
-            to = (t.get("to", {}) or {}).get("owner") or "unknown exchange"
+        if kind in ("inflow", "outflow"):
             move = {"symbol": sym, "amount": float(t.get("amount") or 0), "usd": usd,
-                    "to": to, "from": (t.get("from", {}) or {}).get("owner") or "unknown wallet",
+                    "to": (t.get("to", {}) or {}).get("owner") or (
+                        "unknown exchange" if kind == "inflow" else "unknown wallet"),
+                    "from": (t.get("from", {}) or {}).get("owner") or (
+                        "unknown wallet" if kind == "inflow" else "unknown exchange"),
                     "blockchain": t.get("blockchain", ""), "hash": t.get("hash", ""),
                     "stable": is_stable}
-            inflow_moves.append(move)
+            (inflow_moves if kind == "inflow" else outflow_moves).append(move)
         if is_stable:
             if kind == "inflow":
                 stable_in += usd
@@ -112,6 +115,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
     by_asset = by_asset[:top_assets]
 
     inflow_moves.sort(key=lambda m: m["usd"], reverse=True)
+    outflow_moves.sort(key=lambda m: m["usd"], reverse=True)
     net = vol_out - vol_in  # positive = net off exchanges (accumulation)
     direction = "off exchanges" if net >= 0 else "onto exchanges"
 
@@ -130,6 +134,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
         },
         "by_asset": by_asset,
         "top_inflows": inflow_moves[:top_moves],
+        "top_outflows": outflow_moves[:top_moves],
         "note": ("Data: Whale Alert public alert archive; exchanges identified by name, and only "
                  "the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile "
                  "assets, coins moving onto exchanges can precede selling and coins moving off "
@@ -140,6 +145,12 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
 
 
 HISTORY_WEEKS = 13
+
+# The public archive only carries the very largest transfers (~$50M+), so a quiet day can
+# leave the configured window with zero exchange-relevant moves. Rather than publish a blank
+# board, widen the lookback step by step until something appears, and label the board with
+# the window it actually shows (render_flows explains the widening to the reader).
+WIDEN_HOURS = (48, 72, 168)
 
 
 def load_from_archive(cfg, window_hours, max_decompressed_bytes=8_000_000):
@@ -211,6 +222,23 @@ def run(fixture=None, window=None, example=False):
             return 0
 
     result = analyze(txns, window_hours, top_assets, top_moves, example=example, date=date)
+    if not fixture and not result["txn_count"]:
+        import time as _time
+        for wider in WIDEN_HOURS:
+            if wider <= window_hours:
+                continue
+            cutoff = _time.time() - wider * 3600
+            txns = [t for t in txns_hist if float(t.get("timestamp") or 0) >= cutoff]
+            result = analyze(txns, wider, top_assets, top_moves, example=example, date=date)
+            if result["txn_count"]:
+                result["window_widened_from"] = window_hours
+                break
+        else:
+            # Even a week of lookback is empty: keep the committed snapshot rather than
+            # overwrite it with a blank board (same fail-open as an archive fetch error).
+            common.gh("warning", f"whale_flows: no exchange-relevant transfers in the last "
+                                 f"{WIDEN_HOURS[-1]}h -> keeping the previous snapshot.")
+            return 0
     if history:
         result["history"] = history
     common.write_out(os.path.basename(OUT), result)

@@ -94,6 +94,13 @@ a fetch failure as a documented skip. Attribution and links to Whale Alert are o
 Live-tested 2026-07-10: 21 archive alerts in 24h -> 11 exchange-relevant transfers, real
 board committed. This resolves and replaces the old D5 concern for Whale Alert.
 
+Addendum 2026-07-12: because only ~$50M+ moves appear, a quiet day can leave the configured
+24h window with zero exchange-relevant transfers, and the build was overwriting a good board
+with an empty one ("no board yet" in production). `whale_flows.py` now widens the lookback
+(48h -> 72h -> 7d) until something exchange-relevant appears and labels the board with the
+window it actually shows (the page explains the widening to the reader). If even a week is
+empty it keeps the previous snapshot, the same fail-open as a fetch error.
+
 ## D8 - Market Pulse: third-party market data fetched at build time (2026-07-10)
 
 The Market Pulse page (sentiment gauge, RSI/MACD/moving-average posture, stablecoin float,
@@ -106,6 +113,69 @@ Watch apply: sources are named on the page, every indicator gets a plain-languag
 card, and none of it ever becomes a buy or sell call. The Whale Watch board also gained a
 13-week net-flow history computed from the same public archive read (D7). Market data never
 touches the editorial pipeline or the human gate.
+
+## D9 - Leverage desk: OKX public API, because Binance/Bybit geo-block US builds (2026-07-12)
+
+The Leverage dashboard (perp funding rates + open interest for the majors) wants
+market-wide derivatives data, but the aggregators (Coinglass etc.) are keyed/paid and the
+deepest venue, Binance, geo-blocks its futures API from US infrastructure (HTTP 451), as
+does Bybit (403), which is what Netlify builds run on. So `market_pulse.py` reads OKX's
+free public endpoints (funding-rate + open-interest, keyless, reachable from US builds),
+with Deribit's public ticker as a BTC/ETH fallback, and the page says plainly that these
+are single-venue snapshots, not market-wide totals. No BNB perp on OKX, so the leverage
+board covers BTC/ETH/SOL/XRP/DOGE. Same fail-open posture as every Market Pulse section.
+
+## D10 - Intake widened: macro/official feeds + the narratives watchlist (2026-07-12)
+
+The original 11-feed intake was crypto-press only, so macro events that move crypto (Fed
+decisions, legislation, DOJ enforcement) arrived secondhand and only if a crypto outlet
+wrote the angle. Added five keyless feeds, all live-tested: Federal Reserve monetary-policy
+releases, Senate Banking Committee press (where market-structure bills surface), Ethereum
+Foundation blog, DOJ press releases, and MarketWatch top stories. The two broad feeds (DOJ
+is all-of-DOJ, MarketWatch is all-of-markets) get a per-feed `keywords` relevance gate in
+aggregate.py so they cannot flood the editor. Dead ends tried and rejected, so nobody
+retries them: Treasury press RSS (404), CNBC (1-item stub), House Financial Services RSS
+(404), govtrack (403), congress.gov most-viewed (stub).
+
+Same change adds the `narratives` watchlist (config.json): the desk's ongoing storylines
+(CLARITY Act, CBDC ban, BIP 110, ...), maintained by the editor-in-chief like
+shill_rules.json. Matching clusters are tagged in items.json, the editor treats a genuine
+development in a tagged narrative as presumptively rank-worthy, and a watchlist match
+always passes a feed's keyword gate. Honest limit: a static list catches follow-ups to
+NAMED narratives; a brand-new narrative is caught the normal way (multi-outlet clustering)
+and should then be added to the list.
+
+## D11 - The Chart Master's read is auto-generated from the boards (2026-07-13)
+
+The wizard's read was a hand-written one-off (2026-07-10) with no generator, so it aged
+into quoting stale numbers under a "reads the day's boards" promise. Owner's call: the
+read must refresh like the news and execute like a professional. `chartmaster.py` now
+digests the complete published tape (pulse.json + flows.json: sentiment, per-asset
+posture, funding/OI, stablecoin float, whale flows and their weekly trend, movers,
+network) and asks `claude-fable-5` (the judgment model, one call per brief, cents/day)
+for a technician's read in a fixed professional order: regime, momentum-vs-trend,
+positioning, flows, sentiment-as-foil, and a what-to-watch close. Two belts hold the
+house line: the prompt forbids prediction/advice, and a deterministic banned-language
+check refuses any read containing it (fail-open: the previous read stands). Market
+commentary, not news: no editorial gate, fail-open everywhere, replay mode writes only
+the out/ test artifact and can never touch site data. Runs in crypto-news-brief.yml
+after a data-desk refresh so the read matches the boards the deploy publishes;
+site/data/chartmaster.json is committed because Netlify builds do not regenerate it.
+
+## D12 - Derivatives depth + ETF flows, all keyless; CryptoPanic de-recommended (2026-07-13)
+
+The paid aggregators (Coinglass etc.) were assumed necessary for liquidations and ETF
+flows; live testing found free paths for all of it. OKX's public API adds funding history,
+30-day open-interest trend, the long/short account ratio, and recent liquidation orders
+(sz is in CONTRACTS: notionals use ctVal from the instruments endpoint). CoinGecko /global
+adds total cap + BTC dominance. Daily US spot BTC/ETH ETF net flows come from Farside
+Investors' public tables - an HTML SCRAPE, the repo's only one, and brittle by nature: the
+parser accepts only rows shaped exactly like the flow table (date cell + numeric total,
+parens as negatives) and the section drops out fail-open on any doubt, so a Farside
+redesign degrades to a missing board, never a wrong number. All of it is labeled
+single-venue/lagging where true, feeds the Chart Master's digest, and refreshes each build.
+Separately: CryptoPanic is no longer recommended (now ~$199/mo, previously suggested as a
+free intake widener); the keyed adapter stays wired but dormant.
 
 ## D5 - X source adapter is wired but not live-tested
 

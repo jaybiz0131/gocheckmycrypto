@@ -13,16 +13,19 @@ preserved (see DEVIATIONS.md D1).
 ## The one non-negotiable rule
 
 **The AI is the newsroom staff. The human is the editor-in-chief and the on-air voice.**
-Nothing publishes as reporting or as a "take" without human sign-off. The automation removes
-the grunt work (reading, triage, fact-check, drafting), never the judgment or the voice. An
-unsupervised crypto news bot that publishes a false hack or a wrong price is brand-ending and
-a liability, so the human gate is load-bearing and cannot be removed to "scale faster".
+Publication is gated by the independent adversarial verifier: VERIFIED stories auto-publish
+(the owner's standing full-auto instruction, 2026-07-11, implemented in `autopilot.py`),
+NEEDS-HUMAN-REVIEW waits in the queue for the human, REJECT never ships. The human
+editor-in-chief oversees the desk, can overrule any call in either direction, and owns
+everything in a human voice: no "take" is ever machine-written. The automation removes the
+grunt work (reading, triage, fact-check, drafting), never the judgment or the voice, and the
+public method/standards pages describe this gate exactly as it runs.
 
 ## The stages
 
 | Stage | Script | What it does | Output (in `out/`) |
 |-------|--------|--------------|--------------------|
-| 1 Aggregate | `aggregate.py` | Pull RSS (official/primary + major outlets; CryptoPanic if `CRYPTOPANIC_TOKEN` set), normalize, dedupe near-identical stories into clusters, run the deterministic shill pre-pass | `items.json` |
+| 1 Aggregate | `aggregate.py` | Pull RSS (official/primary + macro + major outlets; CryptoPanic if `CRYPTOPANIC_TOKEN` set), normalize, keyword-gate the broad official feeds, tag clusters that match the ongoing-narratives watchlist (`config.json -> narratives`), dedupe near-identical stories into clusters, run the deterministic shill pre-pass | `items.json` |
 | 2 Editor | `editor.py` | Managing-editor AI ranks the top stories by genuine significance and strips shill, showing its work | `editor.json` |
 | 3 Verifier | `verifier.py` | A SEPARATE, adversarial AI live-fetches each cited source and audits the editor: VERIFIED / NEEDS-HUMAN-REVIEW / REJECT, with reasons and editor-divergence | `verifier.json` |
 | 4 Writer | `writer.py` | Drafts the surviving stories into a script skeleton + article draft, DRAFT-tagged, neutral on price, not-financial-advice, with an empty human-take slot | `drafts.json` |
@@ -111,13 +114,17 @@ human gate, but it is clearly labelled as such. Data comes KEYLESS from Whale Al
 public alert archive (see DEVIATIONS D7) and refreshes at every Netlify build. Refresh locally:
 `python3 whale_flows.py` (or `--fixture fixtures/whale_sample.json` to preview).
 
-**Market Pulse (the data desk).** `market_pulse.py` fetches four keyless public sources at
+**Market Pulse (the data desk).** `market_pulse.py` fetches seven keyless public sources at
 build time (Fear & Greed from alternative.me, daily closes from CoinGecko, stablecoin float
-from DefiLlama, network vitals from mempool.space) and computes RSI-14, MACD, 50/200-day
-averages, 12-month-high distance, and 30-day realized volatility with standard formulas in
-the standard library. The site renders it as the "Market Pulse" page: a sentiment gauge,
-per-asset posture cards, the stablecoin dry-powder trend, and a "Pulse 101" section that
-teaches every indicator in plain language. Each source is independently fail-open and, like
+from DefiLlama, the full derivatives tape from OKX - funding current + history, open
+interest + 30d trend, long/short ratio, recent liquidations - total cap + BTC dominance
+from CoinGecko global, daily US spot ETF net flows from Farside Investors, network vitals
+from mempool.space) and computes RSI-14, MACD, 50/200-day averages, 12-month-high distance,
+and 30-day realized volatility with standard formulas in the standard library. The site
+renders it as the "Market Pulse" page: a sentiment gauge, per-asset posture cards, the
+stablecoin dry-powder trend, leverage and ETF-flow dashboards, and "101" sections that
+teach every indicator in plain language. The site also emits an RSS feed of the published
+stories at `/feed.xml`. Each source is independently fail-open and, like
 Whale Watch, it refreshes at every Netlify build (see DEVIATIONS D8). Market data, not news:
 it never touches the human gate and the page says so.
 
