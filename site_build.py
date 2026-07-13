@@ -1088,7 +1088,7 @@ def flows_chart_svg(by_asset):
 
 def ww_hero():
     return ('<section class="ww-hero"><div class="ww-heroinner">'
-            '<img src="/assets/whale-watch-logo.jpg" alt="GoCheckMyCrypto Whale Watch: market pulse, on-chain insights">'
+            '<img src="/assets/whale-watch-banner.png" alt="GoCheckMyCrypto Whale Watch">'
             '</div></section>')
 
 
@@ -1480,7 +1480,10 @@ def flow_ledger(rows, aria="", compact=False):
     return "".join(out)
 
 
-def _chip(text, cls=""):
+def _chip(text, cls="", learn=""):
+    """A posture chip; pass learn="#anchor" to make it a tap-link to its 101 lesson."""
+    if learn:
+        return f'<a class="chip {cls}" href="{learn}" title="tap for the plain-language explanation">{esc(text)}</a>'
     return f'<span class="chip {cls}">{esc(text)}</span>'
 
 
@@ -1505,17 +1508,17 @@ def _posture_card(a):
     if rsi is None:
         rsi_chip = ""
     elif rsi >= 70:
-        rsi_chip = _chip(f"RSI {rsi:.0f} hot", "chip-down")
+        rsi_chip = _chip(f"RSI {rsi:.0f} hot", "chip-down", learn="#rsi101")
     elif rsi <= 30:
-        rsi_chip = _chip(f"RSI {rsi:.0f} cold", "chip-cool")
+        rsi_chip = _chip(f"RSI {rsi:.0f} cold", "chip-cool", learn="#rsi101")
     else:
-        rsi_chip = _chip(f"RSI {rsi:.0f} neutral")
-    mom = (_chip("Momentum building", "chip-up") if a.get("macd_above_signal")
-           else _chip("Momentum fading", "chip-down"))
-    trend = (_chip("Above 200-day", "chip-up") if a.get("above_sma200")
-             else _chip("Below 200-day", "chip-down"))
-    cross = (_chip("Golden cross", "chip-up") if a.get("golden_cross")
-             else _chip("Death cross", "chip-down"))
+        rsi_chip = _chip(f"RSI {rsi:.0f} neutral", learn="#rsi101")
+    mom = (_chip("Momentum building", "chip-up", learn="#momentum101") if a.get("macd_above_signal")
+           else _chip("Momentum fading", "chip-down", learn="#momentum101"))
+    trend = (_chip("Above 200-day", "chip-up", learn="#trend101") if a.get("above_sma200")
+             else _chip("Below 200-day", "chip-down", learn="#trend101"))
+    cross = (_chip("Golden cross", "chip-up", learn="#trend101") if a.get("golden_cross")
+             else _chip("Death cross", "chip-down", learn="#trend101"))
     chg = a.get("chg_24h_pct")
     chg_html = ""
     if chg is not None:
@@ -1532,8 +1535,8 @@ def _posture_card(a):
   {legend}
   <dl class="pc-stats">{stats}</dl>
   <div class="pc-chips">{rsi_chip}{mom}{trend}{cross}
-    {_chip(f'{a.get("pct_from_high_12m", 0):+.0f}% vs 12-mo high')}
-    {_chip(f'volatility {a.get("vol30_pct", 0):.0f}%/yr')}</div>
+    {_chip(f'{a.get("pct_from_high_12m", 0):+.0f}% vs 12-mo high', learn="#chips101")}
+    {_chip(f'volatility {a.get("vol30_pct", 0):.0f}%/yr', learn="#chips101")}</div>
 </div>"""
 
 
@@ -1556,8 +1559,7 @@ def _dash_crumb():
 
 def mp_hero():
     return ('<section class="ww-hero mp-hero"><div class="ww-heroinner">'
-            '<img src="/assets/market-pulse-logo.jpg" '
-            'alt="GoCheckMyCrypto Market Pulse: market pulse, on-chain insights">'
+            '<img src="/assets/market-pulse-banner.png" alt="GoCheckMyCrypto Market Pulse">'
             '</div></section>')
 
 
@@ -1770,19 +1772,19 @@ def render_pulse_posture(pulse, dateline):
 
   <div class="sec-head" style="margin-top:30px"><h2>Posture 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
-    <div class="learn"><span class="lab">RSI</span>
+    <div class="learn" id="rsi101"><span class="lab">RSI</span>
       <p>The Relative Strength Index compares recent gains to recent losses on a 0-100 scale.
       Above 70 reads as <b>hot</b> (overbought), below 30 as <b>cold</b> (oversold). Extremes
       often cool off, but a strong trend can stay hot for weeks.</p></div>
-    <div class="learn"><span class="lab">Momentum (MACD)</span>
+    <div class="learn" id="momentum101"><span class="lab">Momentum (MACD)</span>
       <p>MACD compares a fast moving average to a slow one. When the fast line sits above its
       signal line, momentum is <b>building</b>; below it, momentum is <b>fading</b>. It shows
       which way the wind is blowing, not how long it will blow.</p></div>
-    <div class="learn"><span class="lab">Trend (moving averages)</span>
+    <div class="learn" id="trend101"><span class="lab">Trend (moving averages)</span>
       <p>The 200-day average is the classic bull/bear line: price above it reads as an uptrend.
       When the 50-day crosses above the 200-day, that is a <b>golden cross</b> and trend
       followers take notice. Crossing below is the bearish twin, the <b>death cross</b>.</p></div>
-    <div class="learn"><span class="lab">The other two chips</span>
+    <div class="learn" id="chips101"><span class="lab">The other two chips</span>
       <p>Distance from the <b>12-month high</b> says how deep the drawdown is; annualized
       <b>volatility</b> says how violently price has been moving lately. High volatility cuts
       both ways: bigger rallies, bigger drops, worse sleep.</p></div>
@@ -2204,8 +2206,7 @@ def render_pulse_network(pulse, dateline):
 
 def cm_hero():
     return ('<section class="ww-hero cm-hero"><div class="ww-heroinner">'
-            '<img src="/assets/chart-master-logo.jpg" '
-            'alt="The Chart Master, crypto wizard: technical analysis and on-chain insights">'
+            '<img src="/assets/chart-master-banner.png" alt="The Chart Master, crypto wizard">'
             '</div></section>')
 
 
@@ -2277,7 +2278,7 @@ def render_chartmaster(read, dateline):
     <div class="learn"><span class="lab">Fear &amp; Greed</span>
       <p>A 0-100 crowd-mood gauge. Extremes mark crowded emotions, not value.
       <a href="/pulse/sentiment.html">Today's reading.</a></p></div>
-    <div class="learn"><span class="lab">RSI</span>
+    <div class="learn" id="rsi101"><span class="lab">RSI</span>
       <p>Momentum on a 0-100 scale: above 70 runs hot, below 30 runs cold, and strong trends
       can stay hot for weeks. <a href="/pulse/posture.html">Current readings.</a></p></div>
     <div class="learn"><span class="lab">Exit liquidity</span>

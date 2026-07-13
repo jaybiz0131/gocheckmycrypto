@@ -224,7 +224,7 @@ body.ww-dark{
 body.ww-dark .lead .dek,body.ww-dark .page .lede{color:var(--muted)}
 .ww-hero{background:radial-gradient(120% 150% at 50% 0%, #123249 0%, #091625 62%);border-bottom:1px solid var(--line)}
 .ww-heroinner{max-width:920px;margin:0 auto;padding:12px 16px 14px;text-align:center}
-.ww-hero img{width:100%;max-width:880px;height:112px;object-fit:cover;object-position:center 32%;border-radius:12px;box-shadow:0 0 34px rgba(63,200,242,.20),0 14px 40px -20px rgba(0,0,0,.7)}
+.ww-hero img{width:100%;max-width:880px;height:150px;object-fit:cover;object-position:center 42%;border-radius:12px;box-shadow:0 0 34px rgba(63,200,242,.20),0 14px 40px -20px rgba(0,0,0,.7)}
 body.ww-dark .chartcard{box-shadow:inset 0 0 0 1px rgba(63,200,242,.06),0 0 40px -18px rgba(63,200,242,.3)}
 body.ww-dark .stat .big.up{text-shadow:0 0 22px rgba(63,200,242,.35)}
 body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(244,165,42,.3)}
@@ -263,6 +263,8 @@ body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(244,165,42,.3)}
 .pc-spark svg{width:100%;height:44px;display:block}
 .pc-spark.tall svg{height:84px}
 .pc-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 2px}
+a.chip,a.chip:hover{text-decoration:none}
+a.chip:hover{border-color:var(--ink);color:var(--ink)}
 .chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;padding:4px 9px;border-radius:999px;
   border:1px solid var(--line);color:var(--muted);background:transparent;white-space:nowrap}
 .chip-up{color:var(--verified-fg);border-color:var(--verified-fg)}
