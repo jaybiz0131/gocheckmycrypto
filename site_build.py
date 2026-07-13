@@ -515,13 +515,26 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 
 # ---- article ----------------------------------------------------------------
 
+# When a story cites the desk's own boards ("the desk's Whale Watch board showed..."),
+# the mention becomes a link to that board. Escape-then-link, longest names first.
+BOARD_LINKS = [("Whale Watch", "/flows.html"), ("Market Pulse", "/pulse.html"),
+               ("Leverage board", "/pulse/leverage.html"),
+               ("ETF flows board", "/pulse/etf.html"), ("ETF Flows board", "/pulse/etf.html")]
+
+
+def _link_boards(escaped_text):
+    for name, href in BOARD_LINKS:
+        escaped_text = escaped_text.replace(esc(name), f'<a href="{href}">{esc(name)}</a>', 1)
+    return escaped_text
+
+
 def render_body(body):
     out = []
     for b in body or []:
         if isinstance(b, dict) and "h2" in b:
             out.append(f"<h2>{esc(b['h2'])}</h2>")
         else:
-            out.append(f"<p>{esc(b)}</p>")
+            out.append(f"<p>{_link_boards(esc(b))}</p>")
     return "\n".join(out)
 
 
