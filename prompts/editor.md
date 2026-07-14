@@ -62,6 +62,13 @@ Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
   "notes": "<optional one-line note on the day's editorial call>"
 }
 
+THREE-SLOT DAY (the desk publishes morning, midday, evening): in the midday and
+evening runs, PREFER a genuine new development, an update that extends the day's
+earlier coverage, or a fresh story over re-ranking the morning's news under a new
+headline. A story the desk already ran today only ranks again if something material
+changed, and its why_it_matters must say what changed. (A deterministic dedup guard
+holds straight reruns regardless.)
+
 Rank at most {TOP_N} stories. KEEP THE OUTPUT COMPACT, in this exact discipline:
 - "rejected" lists ONLY the clusters you are cutting specifically as shill or promotion,
   capped at the 15 clearest cases, each with ONE short concrete reason. Everything else you

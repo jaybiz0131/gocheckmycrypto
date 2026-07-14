@@ -17,20 +17,31 @@ name: Crypto Cronkite daily brief
 
 on:
   schedule:
-    - cron: "40 10 * * *"   # morning brief, 10:40 UTC = 6:40am Eastern (Jack's audience
-                            # timing, 2026-07-14): the overnight wrap is live when US
-                            # readers wake, and before the Publicist's share
-    - cron: "40 20 * * *"   # afternoon brief, 20:40 UTC = 4:40pm Eastern: the wrap after
-                            # the equities close, which crypto reacts to (24/7 market;
-                            # one cycle a day left the desk stale by the US afternoon)
+    # THREE-SLOT DAY (owner directive 2026-07-14, Eastern audience clock): the flagship
+    # cadence. Later slots prefer updating/extending the day over repeating it (editor
+    # prompt + deterministic dedup guard). Crons drift 1h later on Jack's clock when DST
+    # ends Nov 1.
+    - cron: "40 10 * * *"   # Morning Brief slot, 10:40 UTC = 6:40am Eastern
+    - cron: "0 17 * * *"    # Midday Update slot, 17:00 UTC = 1:00pm Eastern
+    - cron: "0 23 * * *"    # Evening Wrap slot, 23:00 UTC = 7:00pm Eastern
   workflow_dispatch: {}
+  # the breaking-news watcher (watcher.yml) calls this workflow with breaking=true
+  workflow_call:
+    inputs:
+      breaking:
+        type: boolean
+        default: false
 
+# PUBLISH LOCK (directive item 9): one publish at a time per repo. The group is shared
+# with the watcher's breaking runs, so a breaking run QUEUES behind an in-flight scheduled
+# run instead of racing its push (the Pet-divergence class, prevented structurally).
 concurrency:
-  group: crypto-news-brief
+  group: crypto-publish
   cancel-in-progress: false
 
 permissions:
   contents: write   # autopilot commits auto-approved VERIFIED stories into site/content
+  issues: write     # deploy_check opens a flag issue if a push never deploys
 
 jobs:
   brief:
@@ -69,6 +80,10 @@ jobs:
       # human take; REJECT never ships. The push below auto-deploys via Netlify.
       - name: Autopilot publish of VERIFIED stories
         if: steps.key.outputs.have_key == 'true'
+        env:
+          # breaking runs enforce the additive two-source gate (single-source holds unless
+          # headline-labeled unconfirmed); scheduled runs pass '0'
+          BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
         run: python3 autopilot.py
 
       # The Chart Master reads the same boards the deploy will publish: refresh the two
@@ -114,6 +129,16 @@ jobs:
 
       # The Publicist moved to its own workflow (publicist.yml, 14:30 UTC) so posts land
       # in LinkedIn's US morning instead of the middle of the night.
+
+      # Deploy-status verification (directive item 10): a pushed commit that never
+      # deployed is a story nobody sees. Probes the live CDN for every page this run
+      # published; failure opens a flag issue and turns the run red.
+      - name: Verify the deploy actually served
+        if: steps.publish.outputs.pushed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 deploy_check.py
 
       - name: Upload the review queue for human approval
         if: steps.key.outputs.have_key == 'true'

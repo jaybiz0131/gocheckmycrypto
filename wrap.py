@@ -44,7 +44,12 @@ NFA = "Crypto Cronkite reports events. It never advises trades. Nothing here is 
 EDITIONS = {
     "morning": {"name": "The Morning Brief", "slug": "morning-brief", "rank": -1,
                 "id_prefix": "wrap-am"},
-    "closing": {"name": "The Closing Wrap", "slug": "closing-wrap", "rank": -2,
+    "midday": {"name": "The Midday Update", "slug": "midday-update", "rank": -2,
+               "id_prefix": "wrap-md"},
+    "evening": {"name": "The Evening Wrap", "slug": "evening-wrap", "rank": -3,
+                "id_prefix": "wrap-pm"},
+    # legacy alias (pre-3-slot cadence); resolves to the evening edition
+    "closing": {"name": "The Evening Wrap", "slug": "evening-wrap", "rank": -3,
                 "id_prefix": "wrap-pm"},
 }
 
@@ -147,8 +152,10 @@ def main():
     argv = sys.argv[1:]
     dry = "--dry-run" in argv
     now = datetime.datetime.now(datetime.timezone.utc)
+    # three slots (Eastern audience clock): 10:40 UTC morning, 17:00 UTC midday,
+    # 23:00 UTC evening; the hour windows resolve whichever slot is running
     edition = (argv[argv.index("--edition") + 1] if "--edition" in argv
-               else ("morning" if now.hour < 14 else "closing"))
+               else ("morning" if now.hour < 14 else "midday" if now.hour < 20 else "evening"))
     if edition not in EDITIONS:
         print(f"wrap: unknown edition '{edition}'"); return 1
     if os.path.exists(os.path.join(HERE, "PAUSE")):
@@ -171,12 +178,27 @@ def main():
     except Exception as e:
         common.gh("warning", f"wrap: desk boards unavailable ({e}); edition from stories only")
 
+    # within-day continuity: later editions UPDATE and EXTEND the day's coverage rather
+    # than repeating it; give the model what already ran today so it can move forward
+    earlier = []
+    for slug in ("morning-brief", "midday-update"):
+        p = os.path.join(CONTENT, f"{date}-{slug}.json")
+        if os.path.exists(p) and not p == final_path:
+            try:
+                e = json.load(open(p, encoding="utf-8"))
+                earlier.append({"edition": e.get("title", ""), "dek": e.get("dek", ""),
+                                "watch": e.get("bottom_line", "")})
+            except Exception:
+                pass
+
     cfg = common.load_config()
     client = llmlib.Client(cfg)
     system = common.load_prompt("wrap.md")
     user = (f"edition: {edition}\n\ntodays_stories:\n{json.dumps(stories, indent=1)}\n\n"
-            + (f"desk_boards:\n{json.dumps(boards, indent=1)}\n" if boards else
-               "desk_boards: (unavailable this run)\n"))
+            + (f"desk_boards:\n{json.dumps(boards, indent=1)}\n\n" if boards else
+               "desk_boards: (unavailable this run)\n\n")
+            + (("earlier_editions_today (UPDATE and EXTEND, never repeat; lead with what "
+                "changed since):\n" + json.dumps(earlier, indent=1) + "\n") if earlier else ""))
 
     obj = client.call_json("wrap", system, user)
     for attempt in (1, 2):

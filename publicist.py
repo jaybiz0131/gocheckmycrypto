@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
 """
-The Publicist: full-auto LinkedIn post of the day's lead story, behind strict gates.
+The Publicist: DRAFT-ONLY mode (owner directive 2026-07-14, supersedes the 2026-07-11
+full-auto posting doctrine).
 
-Doctrine (Jack's standing instruction 2026-07-11: full auto, strict rules):
-  - Runs after autopilot. Only fires when at least one story published TODAY.
-  - Sonnet 5 drafts under prompts/publicist.md; DETERMINISTIC gates then decide. Any gate
-    failure means NO post today (the site is unaffected either way).
-  - One post per day, ever; dedupe against committed linkedin-posted.json.
-  - PAUSE-LINKEDIN file at repo root silences posting without touching the news pipeline.
-  - Fail-open for the workflow: posting problems print a loud ::warning:: and exit 0 so a
-    LinkedIn hiccup can never block the daily brief.
+The automation no longer posts to LinkedIn at all. On each run it drafts the lead story's
+post, runs the SAME deterministic gates, and files the surviving draft into
+linkedin-queue/ (one markdown file per draft, committed by the workflow). Jack posts
+manually twice a week with his own framing on top; the automation's job is making that a
+90-second task. The LinkedIn API path is kept intact but dormant behind --post (a
+deliberate flag no workflow passes), so re-arming later is a one-word change.
+
+  - Only fires when at least one story published TODAY; dedupe via linkedin-posted.json
+    (now recording queued drafts) so the same story is never queued twice.
+  - Gate failure means NO draft filed (a bad post never even reaches the queue).
+  - PAUSE-LINKEDIN file at repo root silences the whole thing.
+  - Fail-open for the workflow: problems print ::warning:: and exit 0.
 
 USAGE
-  python3 publicist.py             # draft, gate, post
-  python3 publicist.py --dry-run   # draft + gate report only, never posts
-Secrets: LINKEDIN_ACCESS_TOKEN, LINKEDIN_PERSON_URN (plus ANTHROPIC_API_KEY for drafting).
+  python3 publicist.py             # draft, gate, file into linkedin-queue/
+  python3 publicist.py --dry-run   # draft + gate report only, files nothing
+  python3 publicist.py --post      # legacy direct posting (dormant; needs LinkedIn secrets)
 """
 
 import argparse
@@ -124,9 +129,28 @@ def post_to_linkedin(post):
         return None
 
 
+def file_draft(post, lead, url, rep):
+    """The review queue: one markdown file per gated draft. Jack opens it, adds his own
+    framing line, pastes to LinkedIn. 90 seconds."""
+    qdir = os.path.join(HERE, "linkedin-queue")
+    os.makedirs(qdir, exist_ok=True)
+    today = datetime.date.today().isoformat()
+    path = os.path.join(qdir, f"{today}-{lead['slug'][:60]}.md")
+    open(path, "w", encoding="utf-8").write(
+        f"# LinkedIn draft: {lead.get('title','')}\n\n"
+        f"Story: {url}\n\n"
+        f"YOUR FRAMING (add 1-2 lines of your own take above the draft before posting):\n\n"
+        f"> _______________________________________________\n\n"
+        f"---- READY-TO-PASTE DRAFT (passed all {len(rep)} gates) ----\n\n"
+        f"{post}\n")
+    return path
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--post", action="store_true",
+                    help="legacy direct posting (dormant; no workflow passes this)")
     args = ap.parse_args()
 
     if os.path.exists(os.path.join(HERE, "PAUSE-LINKEDIN")):
@@ -167,14 +191,22 @@ def main():
         print("::warning::publicist: gates failed; NOT posting today.")
         return 0
     if args.dry_run:
-        print("publicist: DRY RUN, gates passed, not posting.")
+        print("publicist: DRY RUN, gates passed, filing nothing.")
         return 0
 
-    post_id = post_to_linkedin(post)
-    if post_id:
-        state["posted"].append({"date": today, "slug": lead["slug"], "post_id": post_id})
-        json.dump(state, open(STATE, "w", encoding="utf-8"), indent=1)
-        print(f"publicist: POSTED ({post_id}) and recorded.")
+    if args.post:  # legacy full-auto path, dormant by directive 2026-07-14
+        post_id = post_to_linkedin(post)
+        if post_id:
+            state["posted"].append({"date": today, "slug": lead["slug"], "post_id": post_id})
+            json.dump(state, open(STATE, "w", encoding="utf-8"), indent=1)
+            print(f"publicist: POSTED ({post_id}) and recorded.")
+        return 0
+
+    path = file_draft(post, lead, url, rep)
+    state["posted"].append({"date": today, "slug": lead["slug"], "post_id": "queued"})
+    json.dump(state, open(STATE, "w", encoding="utf-8"), indent=1)
+    print(f"publicist: DRAFT QUEUED -> {os.path.relpath(path)} (nothing posted; "
+          f"add your framing and paste to LinkedIn)")
     return 0
 
 

@@ -6,56 +6,56 @@
   "top_n": 8,
   "budget": {
     "max_tokens_per_run": 220000,
-    "max_usd_per_run": 5.0,
-    "note": "Hard cap. The LLM client aborts the run (fail-closed) before exceeding either ceiling. Costed from response usage; see llm.py PRICING. Sized for claude-fable-5 on the judgment stages (its always-on thinking bills as output tokens); a typical run lands well under $1.50."
+    "max_usd_per_run": 1.5,
+    "note": "Hard fail-closed cap sized to the Haiku economy; a typical full run lands ~$0.15-0.30."
   },
   "models": {
     "editor": {
-      "model": "claude-fable-5",
-      "max_tokens": 16000
+      "model": "claude-haiku-4-5",
+      "max_tokens": 8000
     },
     "verifier": {
-      "model": "claude-fable-5",
-      "max_tokens": 10000
+      "model": "claude-haiku-4-5",
+      "max_tokens": 6000
     },
     "researcher": {
-      "model": "claude-fable-5",
-      "max_tokens": 16000,
+      "model": "claude-haiku-4-5",
+      "max_tokens": 8000,
       "note": "Role 1 of the three-role editorial pipeline (2026-07-14): builds the structured research brief (data points + confidence labels + bear case) from the fetched source pages. Fact fidelity is the whole job, so it gets the judgment model; thinking bills as output tokens, hence the cap."
     },
     "writer": {
-      "model": "claude-opus-4-8",
-      "max_tokens": 12000,
+      "model": "claude-haiku-4-5",
+      "max_tokens": 8000,
       "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates."
     },
     "approver": {
-      "model": "claude-fable-5",
-      "max_tokens": 12000,
+      "model": "claude-haiku-4-5",
+      "max_tokens": 5000,
       "note": "Role 3: post-draft last line of defense (accuracy/liability -> balance -> quality, categorized rejections). Adversarial judgment, so the judgment model; a different call from the writer so the builder never approves their own work."
     },
-    "note": "Quality-first lineup (owner's explicit call, 2026-07-10): claude-fable-5 (Anthropic's most capable model) on the two JUDGMENT stages, editor (rank + de-shill) and verifier (adversarial source audit); claude-opus-4-8 on the writer (strong news prose, human-reviewed anyway, and a different model family after two Fable stages). Fable's thinking is always on and counts against max_tokens, hence the larger caps. The verifier remains a SEPARATE call with a distinct, adversarial prompt so it does not rubber-stamp the editor. No temperature/top_p/top_k and no thinking param is sent: sampling params are rejected (HTTP 400) on this model family, and omitting thinking runs Fable's adaptive thinking. llm.py adds a server-side refusal fallback to claude-opus-4-8 on Fable calls because hack/exploit coverage can trip its cyber safety classifiers. claude-opus-4-8 everywhere is the cheaper fallback lineup; claude-sonnet-5 the cheapest.",
+    "note": "PRE-REVENUE AGENT ECONOMY (owner directive 2026-07-14, supersedes the 2026-07-10 quality-first note): claude-haiku-4-5 on every desk stage; the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, two-source breaking rule) are the quality floor, not the model. The weekly family compliance monitor (gcm-newsroom compliance.yml) keeps claude-sonnet-5. REVERSAL TRIGGERS: sustained newsletter/follower growth -> model upgrade review; ~5k monthly pageviews -> writer back to claude-sonnet-5; first sustained revenue month -> full matrix re-review. Upgrades are one-line model swaps here; no pipeline logic changes.",
     "publicist": {
-      "model": "claude-sonnet-5",
+      "model": "claude-haiku-4-5",
       "max_tokens": 1500
     },
     "wrap": {
-      "model": "claude-opus-4-8",
-      "max_tokens": 6000,
+      "model": "claude-haiku-4-5",
+      "max_tokens": 5000,
       "note": "The Daily Edition (Morning Brief / Closing Wrap, wrap.py): the flagship voice-of-reason synthesis over the desk's own published stories + boards. Writer-family model for the prose."
     },
     "wrapcheck": {
-      "model": "claude-fable-5",
-      "max_tokens": 8000,
+      "model": "claude-haiku-4-5",
+      "max_tokens": 3000,
       "note": "Independent trace check on the edition: every specific fact must come from the provided inputs; no advice/prediction; calm register. Judgment model, separate call."
     },
     "aging": {
-      "model": "claude-sonnet-5",
+      "model": "claude-haiku-4-5",
       "max_tokens": 4000,
       "note": "Monthly post-publication review (aging.py, report-only): has any published story's premise been invalidated? Conservative flagging; a human decides on corrections."
     },
     "chartmaster": {
-      "model": "claude-fable-5",
-      "max_tokens": 9000,
+      "model": "claude-haiku-4-5",
+      "max_tokens": 5000,
       "note": "The Chart Master's read is a judgment call over the whole tape (regime, momentum, positioning, flows), so it gets the judgment model. One call per brief; cents per day. Fable thinking bills as output tokens, hence the cap."
     }
   },
@@ -136,17 +136,43 @@
         "name": "U.S. Department of Justice",
         "tier": "primary",
         "url": "https://www.justice.gov/news/rss?type=press_release&m=1",
-        "keywords": ["crypto", "bitcoin", "ethereum", "stablecoin", "digital asset",
-                     "virtual currency", "exchange", "binance", "coinbase", "tether",
-                     "nft", "ponzi", "money laundering"]
+        "keywords": [
+          "crypto",
+          "bitcoin",
+          "ethereum",
+          "stablecoin",
+          "digital asset",
+          "virtual currency",
+          "exchange",
+          "binance",
+          "coinbase",
+          "tether",
+          "nft",
+          "ponzi",
+          "money laundering"
+        ]
       },
       {
         "name": "MarketWatch",
         "tier": "major",
         "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
-        "keywords": ["fed", "fomc", "rate", "inflation", "cpi", "jobs", "treasury",
-                     "tariff", "dollar", "recession", "sec", "etf", "bitcoin", "crypto",
-                     "stablecoin"]
+        "keywords": [
+          "fed",
+          "fomc",
+          "rate",
+          "inflation",
+          "cpi",
+          "jobs",
+          "treasury",
+          "tariff",
+          "dollar",
+          "recession",
+          "sec",
+          "etf",
+          "bitcoin",
+          "crypto",
+          "stablecoin"
+        ]
       }
     ],
     "keywords_note": "Optional per-feed 'keywords' gate: broad official/markets feeds (all of DOJ, all top business stories) keep only items matching a keyword in headline+snippet, so they cannot flood the editor with irrelevant news. Items matching a 'narratives' watchlist entry always pass the gate.",
@@ -179,12 +205,51 @@
   "narratives": {
     "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief the same way shill_rules.json is tuned. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Add narratives as they emerge, retire them when they resolve.",
     "watchlist": [
-      {"name": "CLARITY Act", "keywords": ["clarity act", "market structure bill", "market-structure legislation"]},
-      {"name": "CBDC ban", "keywords": ["cbdc"]},
-      {"name": "BIP 110", "keywords": ["bip 110", "bip-110"]},
-      {"name": "Bitcoin reserve", "keywords": ["strategic bitcoin reserve", "bitcoin reserve"]},
-      {"name": "Spot ETFs", "keywords": ["spot etf", "etf approval", "etf inflow", "etf outflow"]},
-      {"name": "Stablecoin law", "keywords": ["genius act", "stablecoin bill", "stablecoin legislation"]}
+      {
+        "name": "CLARITY Act",
+        "keywords": [
+          "clarity act",
+          "market structure bill",
+          "market-structure legislation"
+        ]
+      },
+      {
+        "name": "CBDC ban",
+        "keywords": [
+          "cbdc"
+        ]
+      },
+      {
+        "name": "BIP 110",
+        "keywords": [
+          "bip 110",
+          "bip-110"
+        ]
+      },
+      {
+        "name": "Bitcoin reserve",
+        "keywords": [
+          "strategic bitcoin reserve",
+          "bitcoin reserve"
+        ]
+      },
+      {
+        "name": "Spot ETFs",
+        "keywords": [
+          "spot etf",
+          "etf approval",
+          "etf inflow",
+          "etf outflow"
+        ]
+      },
+      {
+        "name": "Stablecoin law",
+        "keywords": [
+          "genius act",
+          "stablecoin bill",
+          "stablecoin legislation"
+        ]
+      }
     ]
   },
   "whale_flows": {

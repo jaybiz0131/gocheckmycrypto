@@ -1,8 +1,9 @@
-# The Publicist: daily LinkedIn share of the day's lead story, timed for real humans.
-# Runs Tuesday and Thursday at 13:30 UTC (9:30am Eastern, Jack's zone): twice-weekly brand
-# cadence, prime engagement hours, never a firehose. One post per run, deterministic
-# gates, dedupe via linkedin-posted.json, PAUSE-LINKEDIN to silence. The 10:40 UTC brief
-# publishes first, so the shared lead story is hours old, not yesterday's.
+# The Publicist, DRAFT-ONLY (owner directive 2026-07-14): never posts to LinkedIn.
+# Tuesday and Thursday 13:30 UTC (9:30am Eastern) it drafts the lead story's post, runs
+# the same deterministic gates, and commits the survivor into linkedin-queue/ as one
+# markdown file. Jack adds his own framing and posts manually: a 90-second task, twice a
+# week. Dedupe via linkedin-posted.json (records queued drafts); PAUSE-LINKEDIN silences.
+# The direct-posting code path is dormant behind --post; LinkedIn secrets are unused.
 name: Publicist (LinkedIn)
 
 on:
@@ -25,11 +26,9 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
 
-      - name: Draft, gate, and post today's lead story
+      - name: Draft, gate, and QUEUE today's lead story (never posts)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
-          LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
         run: python3 publicist.py
 
       - name: Persist posted state
@@ -37,5 +36,5 @@ jobs:
         run: |
           git config user.name "Jack Berno"
           git config user.email "bernoalpha@gmail.com"
-          git add linkedin-posted.json
-          git diff --cached --quiet || { git commit -m "publicist: posted $(date -u +%Y-%m-%d)"; git push; }
+          git add linkedin-posted.json linkedin-queue/
+          git diff --cached --quiet || { git commit -m "publicist: draft queued $(date -u +%Y-%m-%d)"; git push; }

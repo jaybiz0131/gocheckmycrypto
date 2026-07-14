@@ -48,6 +48,17 @@ def depth_gate_holds(body_words, source_chars, min_words=120, min_source_chars=2
     return body_words < min_words and source_chars >= min_source_chars
 
 
+def breaking_two_source_holds(headline, source_names):
+    """The BREAKING-path gate (additive, 2026-07-14 directive): a breaking piece publishes
+    as fact only with >=2 independent sources; single-source may publish only when the
+    headline itself carries the unconfirmed label; otherwise it HOLDS for the next
+    scheduled slot. Deterministic, fail-closed."""
+    distinct = {n.strip().lower() for n in source_names if n and n.strip()}
+    if len(distinct) >= 2:
+        return False
+    return "unconfirmed" not in (headline or "").lower()
+
+
 def already_published(headline):
     """The daily lookback window overlaps day to day, so yesterday's big story can rank again
     under a slightly different headline. Anything sharing >=70% of its meaningful words with
@@ -87,6 +98,8 @@ def main():
     approver = {a.get("id"): a for a in _load("approver.json").get("approvals", [])}
     briefs = {b.get("id"): b for b in _load("briefs.json").get("briefs", [])}
     drafts = {d.get("id"): d for d in _load("drafts.json").get("drafts", [])}
+    clusters = {c.get("id"): c for c in _load("items.json").get("clusters", [])}
+    breaking = os.environ.get("BREAKING") == "1"
 
     approval = json.load(open(tpl_path, encoding="utf-8"))
     approved = held = reruns = 0
@@ -94,9 +107,18 @@ def main():
         appr = approver.get(cid)
         words = body_word_count((drafts.get(cid, {}) or {}).get("article_draft", {}) or {})
         source_chars = (briefs.get(cid) or {}).get("source_chars", 0)
+        c = clusters.get(cid) or {}
+        src_names = [c.get("source", "")] + [x.get("name", "")
+                                             for x in (c.get("corroboration") or [])]
         if story.get("verifier_verdict") != "VERIFIED":
             story["decision"] = "hold"
             held += 1
+        elif breaking and breaking_two_source_holds(story.get("headline", ""), src_names):
+            story["decision"] = "hold"
+            held += 1
+            print(f"autopilot: BREAKING two-source gate held "
+                  f"'{story.get('headline','')[:60]}' (single-source, not labeled "
+                  f"unconfirmed -> waits for the next scheduled slot)")
         elif not appr or appr.get("decision") != "APPROVE":
             story["decision"] = "hold"
             held += 1

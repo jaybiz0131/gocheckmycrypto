@@ -234,6 +234,22 @@ def _replay_e2e():
         _check(autopilot.depth_gate_holds(450, 5000) is False, fails,
                "depth gate: full-length story was wrongly held")
 
+        # BREAKING two-source gate (deterministic, fail-closed): a single-source breaking
+        # story HOLDS unless its headline carries the unconfirmed label; two independent
+        # sources publish; duplicate source names do not count as independence.
+        _check(autopilot.breaking_two_source_holds(
+                   "Exchange X halts withdrawals", ["CoinDesk"]) is True, fails,
+               "breaking gate: single-source story published as fact was NOT held")
+        _check(autopilot.breaking_two_source_holds(
+                   "Exchange X halts withdrawals", ["CoinDesk", "The Block"]) is False, fails,
+               "breaking gate: two-source story was wrongly held")
+        _check(autopilot.breaking_two_source_holds(
+                   "Unconfirmed: Exchange X may have halted withdrawals", ["CoinDesk"]) is False,
+               fails, "breaking gate: labeled-unconfirmed single-source was wrongly held")
+        _check(autopilot.breaking_two_source_holds(
+                   "Exchange X halts withdrawals", ["CoinDesk", "coindesk", ""]) is True, fails,
+               "breaking gate: duplicate source names wrongly counted as independent")
+
         # Daily edition (wrap): replay dry-run must produce a belts-clean edition item
         # that leads the page (negative rank) and carries the desk's stories as sources.
         import subprocess
