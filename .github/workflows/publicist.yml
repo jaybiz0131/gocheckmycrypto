@@ -1,12 +1,13 @@
 # The Publicist: daily LinkedIn share of the day's lead story, timed for real humans.
-# Runs Tuesday and Thursday at 14:30 UTC (9:30am Central): twice-weekly brand cadence,
-# prime engagement hours, never a firehose. One post per run, deterministic
-# gates, dedupe via linkedin-posted.json, PAUSE-LINKEDIN to silence.
+# Runs Tuesday and Thursday at 13:30 UTC (9:30am Eastern, Jack's zone): twice-weekly brand
+# cadence, prime engagement hours, never a firehose. One post per run, deterministic
+# gates, dedupe via linkedin-posted.json, PAUSE-LINKEDIN to silence. The 10:40 UTC brief
+# publishes first, so the shared lead story is hours old, not yesterday's.
 name: Publicist (LinkedIn)
 
 on:
   schedule:
-    - cron: "30 14 * * 2,4"   # Tue + Thu, 14:30 UTC = 9:30am Central (brand cadence, not firehose)
+    - cron: "30 13 * * 2,4"   # Tue + Thu, 13:30 UTC = 9:30am Eastern (brand cadence, not firehose)
   workflow_dispatch: {}
 
 concurrency:

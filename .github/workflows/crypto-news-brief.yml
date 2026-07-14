@@ -17,9 +17,12 @@ name: Crypto Cronkite daily brief
 
 on:
   schedule:
-    - cron: "40 7 * * *"    # morning brief, 07:40 UTC
-    - cron: "40 16 * * *"   # afternoon brief, 16:40 UTC (crypto is a 24/7 market; one
-                            # cycle a day left the desk stale by the US afternoon)
+    - cron: "40 10 * * *"   # morning brief, 10:40 UTC = 6:40am Eastern (Jack's audience
+                            # timing, 2026-07-14): the overnight wrap is live when US
+                            # readers wake, and before the Publicist's share
+    - cron: "40 20 * * *"   # afternoon brief, 20:40 UTC = 4:40pm Eastern: the wrap after
+                            # the equities close, which crypto reacts to (24/7 market;
+                            # one cycle a day left the desk stale by the US afternoon)
   workflow_dispatch: {}
 
 concurrency:
