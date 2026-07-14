@@ -18,14 +18,30 @@
       "model": "claude-fable-5",
       "max_tokens": 10000
     },
+    "researcher": {
+      "model": "claude-fable-5",
+      "max_tokens": 16000,
+      "note": "Role 1 of the three-role editorial pipeline (2026-07-14): builds the structured research brief (data points + confidence labels + bear case) from the fetched source pages. Fact fidelity is the whole job, so it gets the judgment model; thinking bills as output tokens, hence the cap."
+    },
     "writer": {
       "model": "claude-opus-4-8",
-      "max_tokens": 8000
+      "max_tokens": 12000,
+      "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates."
+    },
+    "approver": {
+      "model": "claude-fable-5",
+      "max_tokens": 12000,
+      "note": "Role 3: post-draft last line of defense (accuracy/liability -> balance -> quality, categorized rejections). Adversarial judgment, so the judgment model; a different call from the writer so the builder never approves their own work."
     },
     "note": "Quality-first lineup (owner's explicit call, 2026-07-10): claude-fable-5 (Anthropic's most capable model) on the two JUDGMENT stages, editor (rank + de-shill) and verifier (adversarial source audit); claude-opus-4-8 on the writer (strong news prose, human-reviewed anyway, and a different model family after two Fable stages). Fable's thinking is always on and counts against max_tokens, hence the larger caps. The verifier remains a SEPARATE call with a distinct, adversarial prompt so it does not rubber-stamp the editor. No temperature/top_p/top_k and no thinking param is sent: sampling params are rejected (HTTP 400) on this model family, and omitting thinking runs Fable's adaptive thinking. llm.py adds a server-side refusal fallback to claude-opus-4-8 on Fable calls because hack/exploit coverage can trip its cyber safety classifiers. claude-opus-4-8 everywhere is the cheaper fallback lineup; claude-sonnet-5 the cheapest.",
     "publicist": {
       "model": "claude-sonnet-5",
       "max_tokens": 1500
+    },
+    "aging": {
+      "model": "claude-sonnet-5",
+      "max_tokens": 4000,
+      "note": "Monthly post-publication review (aging.py, report-only): has any published story's premise been invalidated? Conservative flagging; a human decides on corrections."
     },
     "chartmaster": {
       "model": "claude-fable-5",

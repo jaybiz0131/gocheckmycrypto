@@ -147,5 +147,66 @@
    "Positioning is light: funding near flat and open interest unremarkable, so the boat is neither crowded nor expensive. Flows lean toward accumulation in the window provided.",
    "What to watch, per the input: whether funding stays flat while the flow direction holds. A change in either is the tape changing its mind."
   ]
+ },
+ "researcher": {
+  "briefs": [
+   {
+    "id": "c000",
+    "core_claim": "The SEC charged Acme Labs over an alleged unregistered securities offering.",
+    "angle": "A primary regulator moving against a crypto issuer signals how the SEC is treating token sales.",
+    "data_points": [
+     {
+      "claim": "The SEC announced charges against Acme Labs alleging an unregistered securities offering.",
+      "source_url": "https://example.test/sec-acme-1",
+      "source_name": "SEC Press Releases",
+      "timestamp": "2026-07-08T14:00:00Z",
+      "confidence": "reported"
+     }
+    ],
+    "bear_case": [],
+    "open_questions": [
+     "source pages could not be fetched; only the feed summary is available"
+    ],
+    "thin": true
+   },
+   {
+    "id": "c001",
+    "core_claim": "DeFi protocol Zephyr was reportedly exploited.",
+    "angle": "Another exploit tests how much unaudited DeFi risk readers are carrying.",
+    "data_points": [
+     {
+      "claim": "Zephyr was reportedly exploited for a large sum, per aggregator reporting.",
+      "source_url": "https://example.test/zephyr-hack",
+      "source_name": "CryptoPanic",
+      "timestamp": "2026-07-08T15:00:00Z",
+      "confidence": "unconfirmed"
+     }
+    ],
+    "bear_case": [
+     "The report is single-source and unconfirmed."
+    ],
+    "open_questions": [
+     "No primary source has confirmed the exploit."
+    ],
+    "thin": true
+   }
+  ]
+ },
+ "approver": {
+  "approvals": [
+   {
+    "id": "c000",
+    "decision": "APPROVE",
+    "reasons": []
+   },
+   {
+    "id": "c001",
+    "decision": "REJECT",
+    "category": "balance",
+    "reasons": [
+     "single-source exploit claim framed as settled fact in the draft"
+    ]
+   }
+  ]
  }
 }

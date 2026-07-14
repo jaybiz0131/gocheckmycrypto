@@ -1,0 +1,36 @@
+# The slow feedback loop: monthly post-publication aging review. REPORT-ONLY - this job
+# never edits or deploys the site. It re-fetches every published story's sources, flags
+# dead links and invalidated premises, and uploads the report as an artifact for the human
+# editor-in-chief. Crypto content rots fast; a correction policy protects credibility more
+# than perfection does.
+name: Crypto Cronkite aging review
+
+on:
+  schedule:
+    - cron: "0 13 1 * *"   # 1st of the month, 13:00 UTC (US morning)
+  workflow_dispatch: {}
+
+permissions:
+  contents: read   # report-only by construction; no write access at all
+
+jobs:
+  aging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Run the aging review (report-only)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 aging.py
+
+      - name: Upload the aging report
+        uses: actions/upload-artifact@v4
+        with:
+          name: aging-report
+          path: |
+            out/aging_report.json
+            out/aging_report.md
+          if-no-files-found: warn

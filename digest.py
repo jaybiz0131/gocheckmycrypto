@@ -45,6 +45,10 @@ def assemble(date):
     drafts = common.read_out("drafts.json")
     v_by_id = {v["id"]: v for v in verifier["verdicts"]}
     d_by_id = {d["id"]: d for d in drafts["drafts"]}
+    try:
+        a_by_id = {a["id"]: a for a in common.read_out("approver.json").get("approvals", [])}
+    except Exception:
+        a_by_id = {}
     mode = editor.get("_meta", {}).get("mode", "live")
 
     rows = []
@@ -56,6 +60,7 @@ def assemble(date):
             "verdict_reasons": v.get("reasons", []),
             "diverged": (s.get("confidence") == "high" and v.get("verdict") != "VERIFIED"),
             "draft": d_by_id.get(s["id"]),
+            "approval": a_by_id.get(s["id"]),
         })
     return {
         "date": date, "mode": mode, "items": items, "editor": editor,
@@ -85,6 +90,13 @@ def render_md(a):
         L.append(f"- Why it matters: {s['why_it_matters']}")
         if r["verdict_reasons"]:
             L.append(f"- Verifier: {'; '.join(r['verdict_reasons'])}")
+        apr = r.get("approval")
+        if apr:
+            if apr["decision"] == "APPROVE":
+                L.append("- Approver: APPROVED")
+            else:
+                L.append(f"- Approver: REJECTED ({apr.get('category','')}) - "
+                         f"{'; '.join(apr.get('reasons', []))}")
         for u in s.get("source_urls", []):
             L.append(f"- Source: {u}")
         d = r["draft"]

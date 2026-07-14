@@ -8,9 +8,16 @@ Policy (supersedes the launch-era always-human gate; recorded in DEVIATIONS):
     human take (publish.py still enforces that override rule independently).
   - REJECT never publishes. A failed run publishes nothing (fail-closed inheritance).
 
+Three-role pipeline (2026-07-14): auto-publish now also requires the post-draft APPROVER's
+sign-off (verdicts VERIFIED alone no longer suffice), and a DEPTH GATE holds any story whose
+body ran under 120 words even though its research brief carried >=2000 chars of fetched
+source text: the writer had material and did not use it, a quality failure. Thin-source
+brevity stays legal (the honesty case): a short story from a thin brief publishes.
+
 Runs after run.py in the daily workflow: writes an approval file that approves exactly the
-VERIFIED set, runs Stage 6 (publish.py), then ingests approved payloads into site content
-(site_build.py --ingest). The workflow then commits site/content and pushes, which deploys.
+VERIFIED+APPROVED set, runs Stage 6 (publish.py), then ingests approved payloads into site
+content (site_build.py --ingest). The workflow then commits site/content and pushes, which
+deploys.
 """
 
 import glob
@@ -26,6 +33,19 @@ OUT = os.path.join(HERE, "out")
 
 def _words(s):
     return set(re.findall(r"[a-z]{4,}", (s or "").lower()))
+
+
+def body_word_count(article_draft):
+    body = article_draft.get("body", "")
+    if isinstance(body, list):
+        body = " ".join(str(p) for p in body)
+    return len(str(body).split())
+
+
+def depth_gate_holds(body_words, source_chars, min_words=120, min_source_chars=2000):
+    """True when the story must be HELD: a short body despite substantial source material.
+    A short body from thin sources passes (honest brevity is legal; padding is not)."""
+    return body_words < min_words and source_chars >= min_source_chars
 
 
 def already_published(headline):
@@ -57,12 +77,36 @@ def main():
         print(f"autopilot: run not live/ok -> nothing to publish (mode={report.get('mode')})")
         return 1
 
+    # The approver's post-draft verdicts and the researcher's measured source volume: both
+    # feed the publish decision. Missing files fail closed (everything holds).
+    def _load(name):
+        try:
+            return json.load(open(os.path.join(OUT, name), encoding="utf-8"))
+        except Exception:
+            return {}
+    approver = {a.get("id"): a for a in _load("approver.json").get("approvals", [])}
+    briefs = {b.get("id"): b for b in _load("briefs.json").get("briefs", [])}
+    drafts = {d.get("id"): d for d in _load("drafts.json").get("drafts", [])}
+
     approval = json.load(open(tpl_path, encoding="utf-8"))
     approved = held = reruns = 0
     for cid, story in approval.get("stories", {}).items():
+        appr = approver.get(cid)
+        words = body_word_count((drafts.get(cid, {}) or {}).get("article_draft", {}) or {})
+        source_chars = (briefs.get(cid) or {}).get("source_chars", 0)
         if story.get("verifier_verdict") != "VERIFIED":
             story["decision"] = "hold"
             held += 1
+        elif not appr or appr.get("decision") != "APPROVE":
+            story["decision"] = "hold"
+            held += 1
+            why = f"{appr.get('category')}: {'; '.join(appr.get('reasons', [])[:2])}" if appr else "no approver decision (fail-closed)"
+            print(f"autopilot: approver held '{story.get('headline','')[:60]}' ({why})")
+        elif depth_gate_holds(words, source_chars):
+            story["decision"] = "hold"
+            held += 1
+            print(f"autopilot: depth gate held '{story.get('headline','')[:60]}' "
+                  f"({words} words from {source_chars} chars of source material)")
         elif already_published(story.get("headline", "")):
             story["decision"] = "hold"
             reruns += 1

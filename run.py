@@ -2,7 +2,8 @@
 """
 run.py: the orchestrator for Stages 1-5. FAIL-CLOSED. NEVER PUBLISHES.
 
-Runs aggregate -> editor -> verifier -> writer -> digest in order and writes a run report.
+Runs aggregate -> editor -> verifier -> researcher -> writer -> approver -> digest in order
+and writes a run report.
 If ANY stage errors, it stops, records status=failed, and exits non-zero so CI flags a human.
 It deliberately does NOT call publish.py: publishing is a separate, human-approved step (Stage
 6), the whole point of the design. The scheduled job runs THIS; a human reviews the digest and
@@ -23,7 +24,9 @@ import llm as llmlib
 import aggregate
 import editor
 import verifier
+import researcher
 import writer
+import approver
 import digest
 
 
@@ -43,12 +46,14 @@ def run(mode="live", fixture=None):
             raise RuntimeError("aggregation failed (zero sources or empty intake)")
         record("1-aggregate", True)
 
-        editor.run(client=client);   record("2-editor", True)
-        verifier.run(client=client); record("3-verifier", True)
-        writer.run(client=client);   record("4-writer", True)
+        editor.run(client=client);     record("2-editor", True)
+        verifier.run(client=client);   record("3-verifier", True)
+        researcher.run(client=client); record("3.5-researcher", True)
+        writer.run(client=client);     record("4-writer", True)
+        approver.run(client=client);   record("4.5-approver", True)
 
         date = common.read_out("items.json")["_meta"]["generated"][:10]
-        digest.run(date=date);       record("5-digest", True)
+        digest.run(date=date);         record("5-digest", True)
 
         report["status"] = "ready-for-human-review"
         report["budget"] = client.budget.summary()

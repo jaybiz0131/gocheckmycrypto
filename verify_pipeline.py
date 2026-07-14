@@ -84,7 +84,11 @@ def layer1_canary():
     guards = {
         "editor.md": ["shill", "rank", "JSON"],
         "verifier.md": ["VERIFIED", "NEEDS-HUMAN-REVIEW", "REJECT", "adversarial"],
-        "writer.md": ["DRAFT", "financial advice", "human take", "human_take"],
+        "researcher.md": ["brief", "confidence", "bear_case", "unconfirmed", "thin"],
+        "writer.md": ["DRAFT", "financial advice", "human take", "human_take", "brief",
+                      "never pad", "what to watch"],
+        "approver.md": ["APPROVE", "REJECT", "accuracy", "balance", "clarity", "compliance",
+                        "smuggled"],
     }
     for name, toks in guards.items():
         try:
@@ -169,7 +173,7 @@ def _replay_e2e():
     os.environ["CRYPTO_LLM_MODE"] = "replay"
     cfg = common.load_config()
     client = llmlib.Client(cfg, mode="replay")
-    import aggregate, editor, verifier, writer, digest
+    import aggregate, editor, verifier, researcher, writer, approver, digest
     try:
         rc = aggregate.run(fixture=FIXTURE, out_path=os.path.join(common.OUT_DIR, "items.json"))
         _check(rc == 0, fails, f"replay: aggregate exit {rc}")
@@ -186,6 +190,16 @@ def _replay_e2e():
         _check(verds == {"VERIFIED", "NEEDS-HUMAN-REVIEW", "REJECT"}, fails,
                f"replay: expected all three verdicts, got {sorted(verds)}")
 
+        # Researcher: every draftable story gets a brief with a measured source_chars, and
+        # REJECT stories are never briefed (no tokens spent on the dead).
+        re_ = researcher.run(client=client)
+        briefed = {b["id"] for b in re_["briefs"]}
+        draftable = {v["id"] for v in ve["verdicts"] if v["verdict"] != "REJECT"}
+        _check(briefed == draftable, fails,
+               f"replay: researcher briefed {sorted(briefed)}, expected {sorted(draftable)}")
+        _check(all("source_chars" in b for b in re_["briefs"]), fails,
+               "replay: a brief is missing its measured source_chars")
+
         wr = writer.run(client=client)
         drafted = {d["id"] for d in wr["drafts"]}
         rejected_ids = {v["id"] for v in ve["verdicts"] if v["verdict"] == "REJECT"}
@@ -197,6 +211,26 @@ def _replay_e2e():
             _check(art["human_take"] == "", fails, f"replay: draft {d['id']} human_take not empty")
             _check("financial advice" in art["not_financial_advice"].lower(), fails,
                    f"replay: draft {d['id']} missing not-financial-advice disclaimer")
+
+        # Approver: one categorized decision per draft; an unjudged draft would REJECT
+        # (fail-closed coverage is exercised by the validate path itself).
+        ap = approver.run(client=client)
+        judged = {a["id"] for a in ap["approvals"]}
+        _check(judged == drafted, fails,
+               f"replay: approver judged {sorted(judged)}, expected {sorted(drafted)}")
+        _check(all(a.get("category") in approver.CATEGORIES
+                   for a in ap["approvals"] if a["decision"] == "REJECT"), fails,
+               "replay: an approver REJECT is missing its category")
+
+        # Depth gate (deterministic): short body + rich sources holds; short body + thin
+        # sources passes (honest brevity); long body always passes.
+        import autopilot
+        _check(autopilot.depth_gate_holds(40, 5000) is True, fails,
+               "depth gate: 40 words from 5000 chars of source material was NOT held")
+        _check(autopilot.depth_gate_holds(40, 0) is False, fails,
+               "depth gate: honest-thin story (40 words, no sources) was wrongly held")
+        _check(autopilot.depth_gate_holds(450, 5000) is False, fails,
+               "depth gate: full-length story was wrongly held")
 
         digest.run(date="canary")
         qmd = os.path.join(common.OUT_DIR, "review_queue", "canary.md")

@@ -24,9 +24,16 @@ NFA = "Crypto Cronkite reports events. It never advises trades. Nothing here is 
 
 def select(editor, verifier):
     by_verdict = {v["id"]: v for v in verifier["verdicts"]}
-    # The aggregate clusters carry the actual reporting (snippet + who corroborated it).
-    # Without them the writer sees only a headline and a two-line significance note, which
-    # is why early articles ran thin: give it the source material the desk already has.
+    # The researcher's brief is the writer's entire universe of facts (three-role pipeline,
+    # 2026-07-14): built from the full source-page texts, with per-claim confidence labels
+    # and the bear case pulled deliberately. The old snippet-only source_material was why
+    # early articles ran 30-80 words: the writer was honest but starving.
+    briefs = {}
+    try:
+        for b in common.read_out("briefs.json").get("briefs", []):
+            briefs[b.get("id")] = b
+    except Exception:
+        pass
     clusters = {}
     try:
         for c in common.read_out("items.json").get("clusters", []):
@@ -39,8 +46,13 @@ def select(editor, verifier):
         if not v or v["verdict"] not in DRAFTABLE:
             continue
         story = {**s, "verdict": v["verdict"]}
-        c = clusters.get(s["id"])
-        if c:
+        b = briefs.get(s["id"])
+        if b:
+            story["brief"] = b
+        else:
+            # No brief (researcher stage skipped/failed for this story): fall back to the
+            # snippet so the writer still writes an honest short story, never nothing.
+            c = clusters.get(s["id"]) or {}
             story["source_material"] = {
                 "summary": (c.get("snippet") or "")[:600],
                 "first_seen": c.get("timestamp", ""),
@@ -106,13 +118,23 @@ def run(client=None):
         common.gh("warning", f"writer: desk boards unavailable ({e}); drafting without them")
 
     system = common.load_prompt("writer.md")
-    user = ("Draft these verified stories. Two formats each, DRAFT-tagged, human_take left "
-            "empty.\n\n"
-            + (f"desk_boards (the desk's OWN published market data, for cross-desk "
-               f"citations per the rules):\n{json.dumps(boards, indent=1)}\n\n" if boards else "")
-            + "Stories:\n" + json.dumps(stories, indent=2))
-    obj = client.call_json("writer", system, user)
-    obj = validate(obj, stories)
+    boards_blurb = (f"desk_boards (the desk's OWN published market data, for cross-desk "
+                    f"citations per the rules):\n{json.dumps(boards, indent=1)}\n\n"
+                    if boards else "")
+    # Full-length stories run 350-650 words each: batching 3 stories per call keeps every
+    # response comfortably inside max_tokens (a single 8-story call would truncate mid-JSON
+    # and fail the stage). Replay mode stays a single call (one fixture response).
+    chunk_size = len(stories) if client.mode == "replay" else 3
+    drafts = []
+    for i in range(0, len(stories), chunk_size):
+        chunk = stories[i:i + chunk_size]
+        user = ("Draft these verified stories. Two formats each, DRAFT-tagged, human_take "
+                "left empty.\n\n" + boards_blurb
+                + "Stories:\n" + json.dumps(chunk, indent=2))
+        part = client.call_json("writer", system, user)
+        part = validate(part, chunk)
+        drafts.extend(part["drafts"])
+    obj = {"drafts": drafts}
 
     obj["_meta"] = {"stage": "4-writer", "mode": client.mode,
                     "draftable": len(stories), "drafted": len(obj["drafts"]),

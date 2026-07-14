@@ -87,7 +87,7 @@ jobs:
         run: |
           git config user.name "Jack Berno"
           git config user.email "bernoalpha@gmail.com"
-          git add site/content site/data/chartmaster.json
+          git add site/content site/data/chartmaster.json editorial-log.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"
