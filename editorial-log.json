@@ -1,1 +1,26 @@
-[]
+[
+ {
+  "date": "2026-07-14",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "U.S. Government Moves $288 Million in Seized Bitcoin and Ether to Coinbase Prime",
+    "category": "accuracy",
+    "reasons": [
+     "The final paragraph smuggles facts not in the brief: 'The desk's own Whale Watch board, tracking a separate 72-hour window, showed a net $161.8 million of bitcoin moving onto exchanges, with $113.8 million heading to OKX and further flows to Coinbase institutional' has no corresponding data_point anywhere in the research brief. No fact exists outside the brief; these figures must go back to research, not be patched by the writer.",
+     "Everything else traces cleanly (Farace 2,875 BTC/$178M, BTC-e 925.512 BTC/$57M, Krewson 30,007 ETH/$53.09M, $20.65B holdings, custody caveat), but the smuggled Whale Watch data alone forces rejection."
+    ]
+   },
+   {
+    "id": "c127",
+    "headline": "US spot Bitcoin ETFs record $425M single-day outflow",
+    "category": "accuracy",
+    "reasons": [
+     "The paragraph 'the desk's ETF flows board showed the most recent Bitcoin figure, dated July 10, 2026, at a positive $90.4 million net, with cumulative Bitcoin ETF inflows of $51.33 billion' is smuggled: none of these figures, the July 10 date, or the $51.33B cumulative number appear anywhere in the brief's two data_points. Facts outside the brief cannot be patched in by the writer; they must go back to research.",
+     "The bottom_line's 'a quick return to net inflows on the desk's ETF board' also leans on this unsourced desk-board data rather than brief-backed material."
+    ]
+   }
+  ]
+ }
+]
