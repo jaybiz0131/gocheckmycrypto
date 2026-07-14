@@ -1,29 +1,35 @@
 {
-  "id": "c002",
-  "slug": "fed-cbdc-set-to-be-banned-until-2031-under-housing-law-provision",
-  "kind": "brief",
-  "title": "Fed CBDC Set to Be Banned Until 2031 Under Housing Law Provision",
-  "dek": "A statutory ban on a Federal Reserve central bank digital currency until 2031 is set to take effect at midnight under a housing law provision. Coverage indicates the measure becomes law regardless of a presidential signature. The development is independently covered by CoinDesk and Decrypt.",
-  "date": "2026-07-10",
-  "category": "news",
-  "verdict": "VERIFIED",
-  "rank": 2,
-  "author": "Crypto Cronkite",
-  "key_fact": "A statutory ban on a Fed CBDC until 2031 takes effect at midnight under a housing law's CBDC limit.",
-  "human_take": "",
-  "body": [
-    "A statutory ban on a Federal Reserve central bank digital currency (CBDC) until 2031 is set to take effect at midnight, tied to a provision within a housing law, according to CoinDesk.",
-    "Decrypt reports the CBDC ban becomes law even without a presidential signature.",
-    "The provision represents a notable constraint on U.S. monetary-policy options regarding a digital dollar over the coming years."
-  ],
-  "sources": [
-    {
-      "title": "https://www.coindesk.com/policy/2026/07/10/u-s-government-digital-dollar-set-to-be-banned-tonight-under-housing-law-s-cbdc-limit",
-      "url": "https://www.coindesk.com/policy/2026/07/10/u-s-government-digital-dollar-set-to-be-banned-tonight-under-housing-law-s-cbdc-limit"
-    },
-    {
-      "title": "https://decrypt.co/373230/trump-wont-sign-housing-bill-cbdc-ban-become-law-anyway",
-      "url": "https://decrypt.co/373230/trump-wont-sign-housing-bill-cbdc-ban-become-law-anyway"
-    }
-  ]
+ "id": "c002",
+ "slug": "fed-cbdc-set-to-be-banned-until-2031-under-housing-law-provision",
+ "kind": "brief",
+ "title": "Fed CBDC Set to Be Banned Until 2031 Under Housing Law Provision",
+ "dek": "A statutory ban on a Federal Reserve central bank digital currency until 2031 is set to take effect at midnight under a housing law provision. Coverage indicates the measure becomes law regardless of a presidential signature. The development is independently covered by CoinDesk and Decrypt.",
+ "date": "2026-07-10",
+ "category": "news",
+ "verdict": "VERIFIED",
+ "rank": 2,
+ "author": "Crypto Cronkite",
+ "key_fact": "A statutory ban on a Fed CBDC until 2031 takes effect at midnight under a housing law's CBDC limit.",
+ "human_take": "",
+ "body": [
+  "At midnight as Friday July 10, 2026 ends, a four-year federal ban on a Federal Reserve central bank digital currency becomes law, according to CoinDesk's reporting. It arrives not by signature but by silence: President Trump has publicly refused to sign the housing-affordability bill carrying the provision, yet he has not vetoed it either.",
+  "This story is about how a policy the crypto industry has pursued for years lands through a constitutional side door, and why the mechanism that delivers it may complicate the industry's larger legislative goal.",
+  "The ban rides inside Congress' bipartisan housing-affordability bill as an unrelated provision, per CoinDesk. The restriction on a U.S. central bank digital currency expires at the end of 2030, CoinDesk reports, though the source text does not give a precise expiration date. CoinDesk describes the provision as blocking the Federal Reserve from issuing a digital dollar that could compete with private-sector stablecoins, while noting the central bank was not working toward that goal. Republicans slipped the ban into the housing legislation after previously trying to attach it to a range of bills, including the Foreign Intelligence Surveillance Act, according to CoinDesk.",
+  "The mechanism turns on the Constitution: once the president receives a congressionally approved bill, it becomes law after a 10-day window whether he signs it or not, CoinDesk reports. Trump has not formally vetoed the bill, setting up the midnight passage. On Friday he wrote on Truth Social, as quoted by CoinDesk: \"I will not sign the Housing Bill, which has been fully approved by Congress and sent to the White House, in PROTEST over the fact that the United States Senate is not capable of passing THE SAVE AMERICA ACT.\" CoinDesk reports the refusal was an unexpected, last-minute stand, coming after Trump had scheduled a signing ceremony and had a stage erected for the popular bill. He said he will not sign anything until lawmakers approve a bill imposing new proof-of-citizenship and identity checks on voters, an effort that currently lacks sufficient support to pass, per CoinDesk.",
+  "The practical weight of the ban is limited, according to the reporting. CoinDesk says there was little chance a Fed digital currency would have been executed by the end of 2030 anyway, given limited appetite at the central bank and no serious U.S. effort to institute one. The Fed's previous leadership had long said a CBDC would require White House backing and congressional authorization, which never existed, CoinDesk reports, meaning the provision bars something that was not being built. Republican lawmakers have characterized a CBDC as a threat of potential government surveillance, CoinDesk notes, and the idea, pursued in jurisdictions such as Europe and China, became a popular political target in the U.S.",
+  "The same signing strike raises a further question. CoinDesk reports Trump's protest has prompted questions about whether a completed Digital Asset Market Clarity Act could face a similar standoff if Congress passes it this summer.",
+  "Several details remain unspecified in the source text: the exact statutory language of the CBDC provision (whether it bars research and pilots or only issuance), the official name and number of the housing bill, and whether Trump could still issue a formal veto before midnight. Decrypt independently reported that Trump will not sign the bill and that the CBDC ban will become law anyway."
+ ],
+ "sources": [
+  {
+   "title": "https://www.coindesk.com/policy/2026/07/10/u-s-government-digital-dollar-set-to-be-banned-tonight-under-housing-law-s-cbdc-limit",
+   "url": "https://www.coindesk.com/policy/2026/07/10/u-s-government-digital-dollar-set-to-be-banned-tonight-under-housing-law-s-cbdc-limit"
+  },
+  {
+   "title": "https://decrypt.co/373230/trump-wont-sign-housing-bill-cbdc-ban-become-law-anyway",
+   "url": "https://decrypt.co/373230/trump-wont-sign-housing-bill-cbdc-ban-become-law-anyway"
+  }
+ ],
+ "bottom_line": "Watch whether the ban takes effect at midnight as reported, or whether a last-minute formal veto changes the outcome. The larger tell is the Digital Asset Market Clarity Act: if Trump extends his no-signature stand to any bill Congress sends him this summer, the mechanism that quietly delivered this ban could stall the industry's bigger priority. Confirmation of the provision's actual text would clarify how much the ban restricts beyond issuance.",
+ "rewritten": "2026-07-14 depth backfill (three-role pipeline)"
 }

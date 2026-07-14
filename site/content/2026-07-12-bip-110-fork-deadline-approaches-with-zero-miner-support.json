@@ -1,29 +1,35 @@
 {
-  "id": "c003",
-  "slug": "bip-110-fork-deadline-approaches-with-zero-miner-support",
-  "kind": "brief",
-  "title": "BIP 110 Fork Deadline Approaches With Zero Miner Support",
-  "dek": "A deadline tied to Bitcoin's BIP 110 proposal is approaching with miner support reported at zero. Prominent figures including Michael Saylor and Adam Back have rebuffed the proposal, warning that a fork fight could pose a larger systemic risk than the spam it targets.",
-  "date": "2026-07-12",
-  "category": "news",
-  "verdict": "VERIFIED",
-  "rank": 2,
-  "author": "Crypto Cronkite",
-  "key_fact": "Miner support for BIP 110 stands at zero as its fork deadline nears.",
-  "human_take": "",
-  "body": [
-    "The deadline associated with Bitcoin's BIP 110 proposal is nearing, with reported miner support at zero.",
-    "Prominent figures, including Michael Saylor and Adam Back, have rebuffed the proposal. Some have argued that a fork fight itself represents a larger systemic risk than the spam BIP 110 is intended to address.",
-    "The dispute is a live consensus matter concerning the Bitcoin protocol."
-  ],
-  "sources": [
-    {
-      "title": "https://www.coindesk.com/tech/2026/07/12/bitcoin-s-bip-110-fork-deadline-nears-with-miner-support-at-zero",
-      "url": "https://www.coindesk.com/tech/2026/07/12/bitcoin-s-bip-110-fork-deadline-nears-with-miner-support-at-zero"
-    },
-    {
-      "title": "https://cointelegraph.com/news/bitcoin-leaders-michael-saylor-and-adam-back-rebuff-bip-110-proposal?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-      "url": "https://cointelegraph.com/news/bitcoin-leaders-michael-saylor-and-adam-back-rebuff-bip-110-proposal?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
-    }
-  ]
+ "id": "c003",
+ "slug": "bip-110-fork-deadline-approaches-with-zero-miner-support",
+ "kind": "brief",
+ "title": "BIP 110 Fork Deadline Approaches With Zero Miner Support",
+ "dek": "A deadline tied to Bitcoin's BIP 110 proposal is approaching with miner support reported at zero. Prominent figures including Michael Saylor and Adam Back have rebuffed the proposal, warning that a fork fight could pose a larger systemic risk than the spam it targets.",
+ "date": "2026-07-12",
+ "category": "news",
+ "verdict": "VERIFIED",
+ "rank": 2,
+ "author": "Crypto Cronkite",
+ "key_fact": "Miner support for BIP 110 stands at zero as its fork deadline nears.",
+ "human_take": "",
+ "body": [
+  "A deadline is approaching on one of Bitcoin's louder recent disputes, and the numbers behind it are stark: miner signaling for BIP-110 stands at zero and has never risen above roughly 1% in any period, according to CoinDesk citing the BIP 110 signaling monitor. No major mining pool is behind it. The proposal reaches a voluntary lock-in deadline at block 961,542, expected in early August 2026.",
+  "This is a story about the gap between social-media volume and network consensus. BIP-110, formally the Reduced Data Temporary Soft Fork, would temporarily restrict non-financial data on the Bitcoin blockchain for one year, per CoinDesk. What the signaling data shows is whether the network is actually opting in, and so far it is not.",
+  "The mechanics matter here. BIP-110 uses a user-activated soft fork, a mechanism in which nodes enforce a rule whether or not miners agree, and its backers set a 55% miner-signaling threshold rather than Bitcoin's traditional 95%, according to CoinDesk. Even at that lowered bar, signaling has not moved off the floor. Node adoption sits in the low single digits, carried almost entirely by Bitcoin Knots, an alternative to the dominant Bitcoin Core software, CoinDesk reported.",
+  "On the technical target: Bitcoin transactions can carry extra data through OP_RETURN (a note field for small data) and through data pushes, where larger raw chunks are placed inside Bitcoin script or witness data. Ordinals, inscriptions and some token schemes use these paths to put images, text or token metadata onchain. BIP-110 would cap OP_RETURN at its old small size, block most arbitrary data chunks above 256 bytes, and restrict some script formats used mainly for data storage, per CoinDesk.",
+  "The opposition has been prominent. Strategy founder Michael Saylor posted that 'there are 110 things more dangerous to Bitcoin than spam,' arguing the proposal 'turns a spam dispute into a consensus change that would invalidate some currently valid, fee-paying transactions,' and that 'that precedent is the danger,' according to CoinDesk quoting his post. Adam Back, the Blockstream co-founder whose hashcash design is cited in the Bitcoin white paper, said 'Bitcoin respectfully says no to what you want,' adding that backers' recourse is to group together and fork away, but that 'bitcoin won't be joining it,' per CoinDesk.",
+  "Supporters counter that the restrictions would keep Bitcoin focused on payments and lower the burden on nodes, CoinDesk reported. Critics argue the measure improperly censors valid, fee-paying transactions and sets a precedent of telling users which transactions are 'acceptable.' The article also notes the underlying spam concern is real: blocks have carried more non-financial data since what it calls 'the October change,' a drift some view as moving Bitcoin from money toward a database. The sources do not explain what that October change was.",
+  "What the numbers point to is not a network-wide rule change. With miner and node adoption stuck in the low single digits, a rule enforced by a few percent of nodes and almost no miners would split off a minority chain rather than change Bitcoin, CoinDesk reported. After lock-in, nodes running BIP-110 software would begin rejecting any block that does not signal support, with activation projected near September. All figures here are as reported by CoinDesk; a second Cointelegraph report on the Saylor and Back statements returned no usable text."
+ ],
+ "sources": [
+  {
+   "title": "https://www.coindesk.com/tech/2026/07/12/bitcoin-s-bip-110-fork-deadline-nears-with-miner-support-at-zero",
+   "url": "https://www.coindesk.com/tech/2026/07/12/bitcoin-s-bip-110-fork-deadline-nears-with-miner-support-at-zero"
+  },
+  {
+   "title": "https://cointelegraph.com/news/bitcoin-leaders-michael-saylor-and-adam-back-rebuff-bip-110-proposal?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+   "url": "https://cointelegraph.com/news/bitcoin-leaders-michael-saylor-and-adam-back-rebuff-bip-110-proposal?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+  }
+ ],
+ "bottom_line": "Watch the block 961,542 lock-in in early August and whether any major mining pool moves off zero before then; sustained signaling near that 55% threshold is what would turn this from a minority-chain split into a network-wide question. The sources do not say how exchanges or infrastructure would treat a resulting minority chain, or who is championing the proposal, both of which would sharpen the picture. Absent a signaling shift, the reported path is a small chain split, not a change to Bitcoin itself.",
+ "rewritten": "2026-07-14 depth backfill (three-role pipeline)"
 }

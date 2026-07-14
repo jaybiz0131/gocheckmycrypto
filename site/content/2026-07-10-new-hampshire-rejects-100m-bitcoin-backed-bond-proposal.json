@@ -1,33 +1,39 @@
 {
-  "id": "c034",
-  "slug": "new-hampshire-rejects-100m-bitcoin-backed-bond-proposal",
-  "kind": "brief",
-  "title": "New Hampshire Rejects $100M Bitcoin-Backed Bond Proposal",
-  "dek": "New Hampshire's proposal for a $100 million bitcoin-backed municipal bond failed its final vote by a 3-2 margin. It would have been the first state bitcoin-backed municipal bond. The outcome was reported by The Block, CoinDesk, and Bitcoin Magazine.",
-  "date": "2026-07-10",
-  "category": "news",
-  "verdict": "VERIFIED",
-  "rank": 6,
-  "author": "Crypto Cronkite",
-  "key_fact": "New Hampshire's $100M bitcoin-backed bond proposal was rejected 3-2 in its final vote.",
-  "human_take": "",
-  "body": [
-    "New Hampshire's proposal for a $100 million bitcoin-backed municipal bond failed its final vote by a 3-2 margin, according to The Block, CoinDesk, and Bitcoin Magazine.",
-    "The measure would have been the first state bitcoin-backed municipal bond, and its rejection is a setback for public-sector bitcoin adoption efforts.",
-    "Multiple outlets confirmed the vote outcome."
-  ],
-  "sources": [
-    {
-      "title": "https://www.theblock.co/post/407867/new-hampshire-bitcoin-backed-bond-fails?utm_source=rss&utm_medium=rss",
-      "url": "https://www.theblock.co/post/407867/new-hampshire-bitcoin-backed-bond-fails?utm_source=rss&utm_medium=rss"
-    },
-    {
-      "title": "https://www.coindesk.com/policy/2026/07/09/new-hampshire-snuffs-out-trailblazing-bitcoin-municipal-bond-effort",
-      "url": "https://www.coindesk.com/policy/2026/07/09/new-hampshire-snuffs-out-trailblazing-bitcoin-municipal-bond-effort"
-    },
-    {
-      "title": "https://bitcoinmagazine.com/news/new-hampshire-council-rejects-100-million",
-      "url": "https://bitcoinmagazine.com/news/new-hampshire-council-rejects-100-million"
-    }
-  ]
+ "id": "c034",
+ "slug": "new-hampshire-rejects-100m-bitcoin-backed-bond-proposal",
+ "kind": "brief",
+ "title": "New Hampshire Rejects $100M Bitcoin-Backed Bond Proposal",
+ "dek": "New Hampshire's proposal for a $100 million bitcoin-backed municipal bond failed its final vote by a 3-2 margin. It would have been the first state bitcoin-backed municipal bond. The outcome was reported by The Block, CoinDesk, and Bitcoin Magazine.",
+ "date": "2026-07-10",
+ "category": "news",
+ "verdict": "VERIFIED",
+ "rank": 6,
+ "author": "Crypto Cronkite",
+ "key_fact": "New Hampshire's $100M bitcoin-backed bond proposal was rejected 3-2 in its final vote.",
+ "human_take": "",
+ "body": [
+  "A project that was expected to produce the first rated, state-authority bitcoin-backed bond died at its last procedural step. The New Hampshire Executive Council rejected the plan by a 3-2 vote, according to CoinDesk's reporting.",
+  "For readers tracking how crypto-friendly legislation turns into actual financial instruments, the vote is a concrete data point: it shows a state can pass through nearly every approval stage and still stop short when elected officials weigh the state's name against a novel deal.",
+  "The instrument was to be issued by the Business Finance Authority of the State of New Hampshire, backing a private-sector bond of up to $100 million tied to Bitcoin mining and datacenter firm CleanSpark, per CoinDesk. The council vote was the final step in the government approval process; the Executive Council reviews major state financial actions. Just a few months before the rejection, Moody's Ratings had given the bond a Ba2 rating, according to CoinDesk.",
+  "The mechanism, as far as the reporting states it, is that the state authority would issue the bond while the private-sector obligation sat with CleanSpark. The reporting describes the bond as \"tied to\" the firm but does not lay out the deal structure, the collateral mechanics, or exactly how bitcoin backed it.",
+  "On the reason for the outcome, CoinDesk reports the 3-2 majority sided with those concerned about the state's financial reputation. The Ba2 rating from Moody's is the only quality signal the sources provide on the instrument, offered without further characterization. The reporting carries no statement from CleanSpark or the Business Finance Authority on the rejection.",
+  "Crypto advocates are not treating the vote as final. Keith Ammon, majority floor leader in the New Hampshire House of Representatives and a longtime crypto advocate, posted on X: \"It was an extremely short-sighted decision. They should gather all relevant facts and information and reconsider their vote at a future meeting.\" Ammon told CoinDesk it is an election year for council members, that it only takes one member to swing the vote, and said, \"We're not giving up.\" That push, as the reporting frames it, is an aspiration rather than a scheduled or committed re-vote.",
+  "The backdrop, per CoinDesk, is that New Hampshire has led among states in establishing crypto policies, becoming the first to establish a crypto reserve last year, ahead of the yet-unfinished federal effort. This account rests on CoinDesk's reporting."
+ ],
+ "sources": [
+  {
+   "title": "https://www.theblock.co/post/407867/new-hampshire-bitcoin-backed-bond-fails?utm_source=rss&utm_medium=rss",
+   "url": "https://www.theblock.co/post/407867/new-hampshire-bitcoin-backed-bond-fails?utm_source=rss&utm_medium=rss"
+  },
+  {
+   "title": "https://www.coindesk.com/policy/2026/07/09/new-hampshire-snuffs-out-trailblazing-bitcoin-municipal-bond-effort",
+   "url": "https://www.coindesk.com/policy/2026/07/09/new-hampshire-snuffs-out-trailblazing-bitcoin-municipal-bond-effort"
+  },
+  {
+   "title": "https://bitcoinmagazine.com/news/new-hampshire-council-rejects-100-million",
+   "url": "https://bitcoinmagazine.com/news/new-hampshire-council-rejects-100-million"
+  }
+ ],
+ "bottom_line": "Watch whether the Executive Council opens a formal path to reconsider, and whether any single member signals a change of position during the election year Ammon points to. A scheduled re-vote, or a statement from CleanSpark or the Business Finance Authority, would move this past its current state of a defeated proposal and an advocate's stated intent to try again.",
+ "rewritten": "2026-07-14 depth backfill (three-role pipeline)"
 }

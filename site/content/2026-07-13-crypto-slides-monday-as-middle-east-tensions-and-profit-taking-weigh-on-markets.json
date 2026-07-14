@@ -1,35 +1,40 @@
 {
-  "id": "c001",
-  "slug": "crypto-slides-monday-as-middle-east-tensions-and-profit-taking-weigh-on-markets",
-  "kind": "brief",
-  "title": "Crypto Slides Monday as Middle East Tensions and Profit-Taking Weigh on Markets",
-  "dek": "Crypto's weekend gains reversed into a Monday selloff as Middle East tensions resurfaced. South Korea's Kospi fell 9.2% and $253 million in leveraged crypto positions were liquidated.",
-  "date": "2026-07-13",
-  "published_utc": "2026-07-13T11:40:07Z",
-  "category": "news",
-  "verdict": "VERIFIED",
-  "rank": 1,
-  "author": "Crypto Cronkite",
-  "key_fact": "$253 million in leveraged crypto positions were wiped out during the selloff.",
-  "bottom_line": "Renewed geopolitical tension and a large leverage flush combined to drive the day's move across crypto and traditional markets. What to watch is whether the $253 million in liquidations marks a one-day reset or the start of a longer stretch of risk-off trading.",
-  "human_take": "",
-  "body": [
-    "Crypto's weekend gains gave way to a Monday selloff as Middle East tensions resurfaced, according to reporting from CoinDesk. The move followed a bullish week and coincided with broad pressure on global risk assets.",
-    "South Korea's Kospi lost 9.2% during the session, per the same reporting. In crypto markets, $253 million in leveraged positions were wiped out as prices fell.",
-    "CoinDesk reported bitcoin slipping below $63,000 during the Asian session, part of a leverage flush tied to the day's risk-off conditions."
-  ],
-  "sources": [
-    {
-      "title": "https://www.coindesk.com/markets/2026/07/13/profit-taking-mideast-hostilities-drag-crypto-lower-after-bullish-week",
-      "url": "https://www.coindesk.com/markets/2026/07/13/profit-taking-mideast-hostilities-drag-crypto-lower-after-bullish-week"
-    },
-    {
-      "title": "https://www.coindesk.com/markets/2026/07/13/bitcoin-holds-near-usd63-800-as-war-driven-selloff-hits-everything-but-crypto",
-      "url": "https://www.coindesk.com/markets/2026/07/13/bitcoin-holds-near-usd63-800-as-war-driven-selloff-hits-everything-but-crypto"
-    },
-    {
-      "title": "https://www.coindesk.com/markets/2026/07/13/bitcoin-slips-below-usd63-000-in-an-asian-session-leverage-flush",
-      "url": "https://www.coindesk.com/markets/2026/07/13/bitcoin-slips-below-usd63-000-in-an-asian-session-leverage-flush"
-    }
-  ]
+ "id": "c001",
+ "slug": "crypto-slides-monday-as-middle-east-tensions-and-profit-taking-weigh-on-markets",
+ "kind": "brief",
+ "title": "Crypto Slides Monday as Middle East Tensions and Profit-Taking Weigh on Markets",
+ "dek": "Crypto's weekend gains reversed into a Monday selloff as Middle East tensions resurfaced. South Korea's Kospi fell 9.2% and $253 million in leveraged crypto positions were liquidated.",
+ "date": "2026-07-13",
+ "published_utc": "2026-07-13T11:40:07Z",
+ "category": "news",
+ "verdict": "VERIFIED",
+ "rank": 1,
+ "author": "Crypto Cronkite",
+ "key_fact": "$253 million in leveraged crypto positions were wiped out during the selloff.",
+ "bottom_line": "Watch whether the $253 million liquidation flush was a one-day leverage reset or the start of a longer risk-off stretch, which the sources explicitly leave unresolved. The premise that bitcoin now trades on dollar liquidity and the chip cycle rather than war headlines would be tested if the Strait of Hormuz situation escalates and crypto starts tracking the geopolitical tape again.",
+ "human_take": "",
+ "body": [
+  "Some $253 million in leveraged crypto positions were liquidated over 24 hours on Monday, July 13, according to CoinDesk, as bitcoin fell about 1% to $63,100 from above $64,300 at the weekly close. The liquidations skewed toward long positions, meaning traders betting on higher prices were the ones caught offside, though CoinDesk described broader positioning as measured.",
+  "This is a story about a divergence: a war-driven selloff hit gold, oil, equities and bonds, but bitcoin held its range. Whether that reflects a durable shift in how crypto trades geopolitical risk, or simply a calm day before a wider conflict, is the question the sources leave open.",
+  "The backdrop was reignited Middle East tension. Per CoinDesk, Iran and the U.S. exchanged airstrikes in a fight over control of the Strait of Hormuz, through which roughly a fifth of the world's seaborne oil normally passes. U.S. Central Command said U.S. forces struck Iran in response to an attack on a container ship, according to CoinDesk citing the command. The status of the strait was left unclear: the U.S. denied Iran's statement that the waterway would close \"until further notice,\" and that account is announced, not independently confirmed.",
+  "The cross-asset reaction was broad. CoinDesk reported spot gold slid as much as 1.6% to near $4,050 an ounce, Brent crude jumped 4% to above $79 a barrel, and Treasuries fell across the curve, with the two-year yield reaching its highest since February 2025. South Korea's Kospi lost 9.2%, dragged by a slump in SK Hynix; Japan's Nikkei and China's SSE each fell more than 2%. By late in the U.S. session the Nasdaq was down 1.5%, per CoinDesk, with AI-related names like Micron, SanDisk, Intel and Marvell falling harder.",
+  "Inside crypto, the picture was mixed and predates Monday in places. CoinDesk reported ether little changed near $1,800, Solana the weakest major at $76 (down 5% on the week), XRP holding $1.09 and dogecoin near $0.07. Lighter (LIT) slid 8% in its first major selloff after rallying more than 200% over two months. Cardano (ADA) sat at about $0.1585, down 19% since July 4 after a 39% June drop. Solana-based exchange Jupiter (JUP) lost more than 15% on the week as daily volume dwindled to $17 million, down from levels that regularly topped $500 million in 2025.",
+  "The drivers cut two ways. CoinDesk noted crypto had enjoyed a bullish stretch into the weekend, so Monday's move could also be attributed to profit-taking rather than war alone. The Fed backdrop was hawkish: June meeting minutes show a few policymakers saw a case for raising rates before backing a hold, and a governor suggested a hike could come as soon as this month. Markets priced the fear that a wider war keeps oil elevated and forces rates higher for longer, which lifts real yields and pressured gold and bonds. Crypto-adjacent equities felt it too, with bitcoin miners turned AI data center providers MARA, RIOT, CleanSpark, Iren and Hut 8 all down about 5%.",
+  "The two CoinDesk reports do not fully reconcile: one cited bitcoin holding near $63,800 at 4:48 a.m., another put it at $63,100 by 10:30 a.m. and $62,801.21 in its price widget, and SK Hynix's Seoul drop was given as both 15% and 12%. All figures are as reported."
+ ],
+ "sources": [
+  {
+   "title": "https://www.coindesk.com/markets/2026/07/13/profit-taking-mideast-hostilities-drag-crypto-lower-after-bullish-week",
+   "url": "https://www.coindesk.com/markets/2026/07/13/profit-taking-mideast-hostilities-drag-crypto-lower-after-bullish-week"
+  },
+  {
+   "title": "https://www.coindesk.com/markets/2026/07/13/bitcoin-holds-near-usd63-800-as-war-driven-selloff-hits-everything-but-crypto",
+   "url": "https://www.coindesk.com/markets/2026/07/13/bitcoin-holds-near-usd63-800-as-war-driven-selloff-hits-everything-but-crypto"
+  },
+  {
+   "title": "https://www.coindesk.com/markets/2026/07/13/bitcoin-slips-below-usd63-000-in-an-asian-session-leverage-flush",
+   "url": "https://www.coindesk.com/markets/2026/07/13/bitcoin-slips-below-usd63-000-in-an-asian-session-leverage-flush"
+  }
+ ],
+ "rewritten": "2026-07-14 depth backfill (three-role pipeline)"
 }

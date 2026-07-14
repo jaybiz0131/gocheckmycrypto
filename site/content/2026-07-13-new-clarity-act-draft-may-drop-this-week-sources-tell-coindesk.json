@@ -1,27 +1,33 @@
 {
-  "id": "c006",
-  "slug": "new-clarity-act-draft-may-drop-this-week-sources-tell-coindesk",
-  "kind": "brief",
-  "title": "New Clarity Act Draft May Drop This Week, Sources Tell CoinDesk",
-  "dek": "Several sources told CoinDesk that a new draft of the Clarity Act may drop this week. Challenges to the legislation remain.",
-  "date": "2026-07-13",
-  "published_utc": "2026-07-13T11:40:07Z",
-  "category": "news",
-  "verdict": "VERIFIED",
-  "rank": 8,
-  "author": "Crypto Cronkite",
-  "key_fact": "Multiple sources told CoinDesk a new draft of the Clarity Act may drop this week.",
-  "bottom_line": "A fresh draft would mark a live development in the U.S. market-structure legislation storyline, with direct regulatory stakes. What to watch is whether the draft materializes this week and how it addresses the outstanding challenges.",
-  "human_take": "",
-  "body": [
-    "Several sources told CoinDesk that a new draft of the Clarity Act may drop this week, according to the outlet's reporting.",
-    "The same reporting notes that challenges to the legislation remain."
-  ],
-  "sources": [
-    {
-      "title": "https://www.coindesk.com/policy/2026/07/12/signs-of-life-state-of-crypto",
-      "url": "https://www.coindesk.com/policy/2026/07/12/signs-of-life-state-of-crypto"
-    }
-  ],
-  "update_of": "new-clarity-act-draft-may-arrive-as-soon-as-next-week-sources-say"
+ "id": "c006",
+ "slug": "new-clarity-act-draft-may-drop-this-week-sources-tell-coindesk",
+ "kind": "brief",
+ "title": "New Clarity Act Draft May Drop This Week, Sources Tell CoinDesk",
+ "dek": "Several sources told CoinDesk that a new draft of the Clarity Act may drop this week. Challenges to the legislation remain.",
+ "date": "2026-07-13",
+ "published_utc": "2026-07-13T11:40:07Z",
+ "category": "news",
+ "verdict": "VERIFIED",
+ "rank": 8,
+ "author": "Crypto Cronkite",
+ "key_fact": "Multiple sources told CoinDesk a new draft of the Clarity Act may drop this week.",
+ "bottom_line": "Watch for whether the draft actually surfaces this week and whether it carries even a placeholder for the ethics provision, since sources tie Democratic votes to that language. A release without any ethics text, or a Senate calendar that slips past July, would undercut the read that this is real momentum rather than a repackaging of prior committee work.",
+ "human_take": "",
+ "body": [
+  "The U.S. crypto market-structure bill is showing signs of life, but the version reportedly coming this week arrives without the piece that may decide whether it can pass. Multiple individuals familiar with the discussions told CoinDesk last Thursday that lawmakers intend to unveil an updated Digital Asset Market Clarity Act this week. This sourcing is anonymous and hedged: the reporting says the draft may drop, not that it will.",
+  "For anyone tracking whether the United States gets crypto legislation before the 2026 midterms, the detail that matters is what the draft leaves out. As of press time, per CoinDesk, the new text will not include an ethics provision or agreements on some remaining contentious issues, meaning it is not yet ready for a vote.",
+  "According to CoinDesk's reporting, the new text combines the bills previously passed out of committee by the Senate Banking and Agriculture panels and reflects negotiation between those bodies. Sources told CoinDesk the updated text will add roughly 70 pages beyond the combined committee versions. The sources did not enumerate which contentious provisions remain unresolved, nor what those additional pages contain.",
+  "The procedural math is steep. Passage would require at least 60 votes in the Senate, meaning at least seven Democrats would need to support the bill, and more if any Republicans vote against it or cannot make the vote. Senate Majority Leader John Thune told Punchbowl News last month he was willing to put the bill up for a floor vote in July, and CoinDesk reports rumors that it may reach the floor during the week of July 20 or July 27, though those dates are described only as rumors.",
+  "The reported risk sits in the missing ethics provision. Per CoinDesk, without one it is unlikely enough Democrats will vote for the bill, and an individual cited by CoinDesk said a draft lacking even a placeholder for the ethics portion may be counterproductive to full bipartisan support. CoinDesk frames President Donald Trump and the $1.4 billion it reports he made off crypto as a key factor in the floor vote, and notes Trump will still need to sign off on any ethics agreement. Several sources told CoinDesk that the White House had been less engaged recently than earlier in the summer, while another individual said in early July it may simply be a matter of waiting to see whether other outstanding issues resolve first.",
+  "One complicating issue appears to have eased. CoinDesk reports that a provision banning the Federal Reserve from issuing a central bank digital currency for at least four years, through at least 2030, was included in a housing bill and will have taken effect assuming the President did not veto that bill by 12:00 a.m. Saturday. Industry players had worried House lawmakers might push to fold a CBDC ban into the Clarity Act, which would have strained the timeline further; per CoinDesk the housing-bill provision should settle that for now. The article's claim is conditional on no veto.",
+  "The timeline is the pressure. CoinDesk notes the 2026 midterm election falls on Nov. 3, less than four months from publication, and that time is running short for the bill to move through Congress and reach the president's desk for a signature this year."
+ ],
+ "sources": [
+  {
+   "title": "https://www.coindesk.com/policy/2026/07/12/signs-of-life-state-of-crypto",
+   "url": "https://www.coindesk.com/policy/2026/07/12/signs-of-life-state-of-crypto"
+  }
+ ],
+ "update_of": "new-clarity-act-draft-may-arrive-as-soon-as-next-week-sources-say",
+ "rewritten": "2026-07-14 depth backfill (three-role pipeline)"
 }
