@@ -2401,7 +2401,7 @@ def ingest():
             "author": "Crypto Cronkite",
             "key_fact": scrub((payload.get("script", {}) or {}).get("key_fact", "")),
             "bottom_line": scrub(art.get("bottom_line", "")),
-            "human_take": art.get("human_take", ""), "body": paras, "sources": srcs,
+            "human_take": destyle(art.get("human_take", "")), "body": paras, "sources": srcs,
         }
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
         json.dump(item, open(out, "w", encoding="utf-8"), indent=2)
