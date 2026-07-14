@@ -177,6 +177,25 @@ single-venue/lagging where true, feeds the Chart Master's digest, and refreshes 
 Separately: CryptoPanic is no longer recommended (now ~$199/mo, previously suggested as a
 free intake widener); the keyed adapter stays wired but dormant.
 
+## D13 - Farside pre-publishes zero rows; flow charts become ledger rows (2026-07-13)
+
+Two findings from the owner's phone. (1) Farside adds the NEXT trading day to its flow
+table as a row of zeros before flows settle, so "latest day" read $0 on the live site;
+_parse_farside now drops trailing rows whose per-fund cells are all zero/blank (interior
+zero days stay). (2) SVG bar charts draw on a ~660-point canvas, so a 390px phone renders
+their labels at ~6px; the ETF daily and whale 13-week bar charts are replaced by an HTML
+"flow ledger" (date, diverging horizontal bar, full-size signed value per row) whose text
+never scales down, and the remaining SVG charts got a ~35% in-chart font bump. Same change
+turns the Market Pulse hub into The Board: one master dashboard of number-first widgets
+for every desk including Whale Watch and the Chart Master's dated headline, two columns on
+phones, each widget a tap into the deep board where the 101 teaching lives. Follow-up,
+same day: the Board is ORDERED by the house reading doctrine (the Chart Master's method) -
+the read as a full-width strip, then Price, Flows, Positioning, The day (sentiment last,
+as the foil), Chain, with group kickers; and Whale Watch gained the expert layer: gross
+on/off split behind the net, a pace chip vs the median week from the 13-week history,
+per-move age plus a receipt link to the transfer on Whale Alert, and a by-exchange
+concentration table.
+
 ## D5 - X source adapter is wired but not live-tested
 
 X/Twitter remains a keyless-skip source (absence is a documented skip, never a failure) and

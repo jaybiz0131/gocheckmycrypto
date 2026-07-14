@@ -369,7 +369,10 @@ def get_text(url, timeout=30):
 
 def _parse_farside(html):
     """Rows of Farside's flow table: [(date, total_usd_m), ...] oldest->newest, plus the
-    cumulative total. HTML scrape, so parse defensively and return nothing on any doubt."""
+    cumulative total. HTML scrape, so parse defensively and return nothing on any doubt.
+    Farside PRE-PUBLISHES the next trading day as a row of zeros before flows settle, so
+    trailing rows where every fund cell is zero/blank are dropped (an all-zero placeholder
+    is not a $0 flow day); interior zero days, if any, are kept."""
     import re as _re
     days, cumulative = [], None
     for tr in _re.findall(r"<tr[^>]*>(.*?)</tr>", html, _re.S):
@@ -391,10 +394,14 @@ def _parse_farside(html):
         if _re.match(r"^\d{1,2} \w{3} \d{4}$", cells[0]):
             v = num(cells[-1])
             if v is not None:
-                days.append((cells[0], v))
+                fund_vals = [num(c) for c in cells[1:-1]]
+                settled = any(fv for fv in fund_vals if fv)
+                days.append((cells[0], v, settled))
         elif cells[0] == "Total":
             cumulative = num(cells[-1])
-    return days, cumulative
+    while days and not days[-1][2]:
+        days.pop()
+    return [(d, v) for d, v, _ in days], cumulative
 
 
 def section_etf_flows():

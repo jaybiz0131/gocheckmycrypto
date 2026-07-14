@@ -53,10 +53,14 @@
   function setText(el, value) {
     var next = (el.getAttribute("data-prefix") || "") + value + (el.getAttribute("data-suffix") || "");
     if (el.textContent !== next) {
+      // flash on the market scale: green when the number went up, red when it went down
+      var prev = parseFloat((el.textContent || "").replace(/[^0-9.eE-]/g, ""));
+      var cur = parseFloat(String(value).replace(/[^0-9.eE-]/g, ""));
+      var down = !isNaN(prev) && !isNaN(cur) && cur < prev;
       el.textContent = next;
-      el.classList.remove("flash");
+      el.classList.remove("flash", "flash-dn");
       void el.offsetWidth; // restart the animation
-      el.classList.add("flash");
+      el.classList.add(down ? "flash-dn" : "flash");
     }
   }
 
