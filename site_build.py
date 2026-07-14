@@ -420,6 +420,7 @@ def footer(brand="site"):
                     [("About", "/about.html"), ("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html"),
                      ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
+                     ("Contact", "mailto:desk@gocheckmycrypto.com"),
                      ("RSS", "/feed.xml")])
     if brand == "cronkite":
         who = f"{esc(NAME)}"
@@ -1007,6 +1008,11 @@ def render_about(dateline):
   <p>We are not your financial advisor, and this is not investment advice. We report what happened
      and, carefully, what it may mean. What you do with that is yours.</p>
 
+  <h2>Contact the desk</h2>
+  <p>Tips, corrections, and questions: <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a>.</p>
+  <p>Sponsorship inquiries: <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a>.
+     Sponsorship never buys coverage; see <a href="/method.html">how we work</a>.</p>
+
   <div class="callout"><b>Read next:</b> <a href="/method.html">How a story gets to you</a>, the
     step-by-step of how we rank, verify, and approve. Or <a href="/standards.html">our standards and
     corrections policy</a>.</div>
@@ -1095,6 +1101,10 @@ def render_privacy(dateline):
   <h2>Links out</h2>
   <p>Every story links its sources, and dashboards link the services behind their data. Once you
      leave this site, the site you land on operates under its own privacy policy.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy, your data, or the newsletter, including unsubscribe requests:
+     <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a>. A human reads it.</p>
 
   <h2>Changes</h2>
   <p>This policy changes only when the site's behavior changes, and the date below moves when it

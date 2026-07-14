@@ -1,8 +1,16 @@
 # GoCheckMyCrypto: the Crypto Cronkite news desk
 
-An AI-assisted crypto news desk (gocheckmycrypto.com): aggregate many sources, an editor AI
-ranks importance and strips shill, an independent verifier AI audits the editor, a writer AI
-drafts, a human approves every push, and only then does anything publish on a cadence. Plus
+This is the source of an automated crypto news desk, live at
+[gocheckmycrypto.com](https://gocheckmycrypto.com). Many sources are aggregated and
+deduplicated; an editor model ranks and strips shill; an independent verifier fetches every
+cited source page and audits the claim; a researcher builds a structured fact brief; a
+writer drafts only from that brief; a post-draft approver traces every fact back to it, and
+a battery of deterministic fail-closed gates (source liveness, dedup, compliance lint,
+depth, a two-source rule on breaking news) decides what publishes. If any stage fails, the
+desk publishes nothing. Opinion never ships in a human voice unless a human wrote it, and
+nothing here is financial advice. The full editorial mechanics are described publicly at
+[gocheckmycrypto.com/method.html](https://gocheckmycrypto.com/method.html). Contact:
+desk@gocheckmycrypto.com. Plus
 Whale Watch, the follow-the-money on-chain board.
 
 Built on the same architecture as its GoCheckMy sibling's recall pipeline (GoCheckMyPet) and

@@ -35,6 +35,6 @@ jobs:
         if: always()
         run: |
           git config user.name "Jack Berno"
-          git config user.email "bernoalpha@gmail.com"
+          git config user.email "297991518+jaybiz0131@users.noreply.github.com"
           git add linkedin-posted.json linkedin-queue/
           git diff --cached --quiet || { git commit -m "publicist: draft queued $(date -u +%Y-%m-%d)"; git push; }
