@@ -89,6 +89,8 @@ def layer1_canary():
                       "never pad", "what to watch"],
         "approver.md": ["APPROVE", "REJECT", "accuracy", "balance", "clarity", "compliance",
                         "smuggled"],
+        "wrap.md": ["voice of reason", "what to watch", "never what to do", "no em dashes",
+                    "todays_stories", "desk_boards"],
     }
     for name, toks in guards.items():
         try:
@@ -231,6 +233,21 @@ def _replay_e2e():
                "depth gate: honest-thin story (40 words, no sources) was wrongly held")
         _check(autopilot.depth_gate_holds(450, 5000) is False, fails,
                "depth gate: full-length story was wrongly held")
+
+        # Daily edition (wrap): replay dry-run must produce a belts-clean edition item
+        # that leads the page (negative rank) and carries the desk's stories as sources.
+        import subprocess
+        env = dict(os.environ, CRYPTO_LLM_MODE="replay")
+        r = subprocess.run([sys.executable, os.path.join(HERE, "wrap.py"),
+                            "--dry-run", "--edition", "morning"],
+                           capture_output=True, text=True, env=env)
+        _check(r.returncode == 0, fails, f"wrap dry-run failed: {(r.stdout + r.stderr)[-200:]}")
+        if r.returncode == 0:
+            wp = common.read_out("wrap-preview.json")
+            _check(wp.get("rank", 0) < 0, fails, "wrap: edition rank must be negative (leads the page)")
+            _check(wp.get("human_take") == "", fails, "wrap: human_take must be empty")
+            _check("—" not in json.dumps(wp), fails, "wrap: em dash leaked into the edition")
+            _check(wp.get("sources"), fails, "wrap: edition must cite the desk's own stories")
 
         digest.run(date="canary")
         qmd = os.path.join(common.OUT_DIR, "review_queue", "canary.md")

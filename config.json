@@ -38,6 +38,16 @@
       "model": "claude-sonnet-5",
       "max_tokens": 1500
     },
+    "wrap": {
+      "model": "claude-opus-4-8",
+      "max_tokens": 6000,
+      "note": "The Daily Edition (Morning Brief / Closing Wrap, wrap.py): the flagship voice-of-reason synthesis over the desk's own published stories + boards. Writer-family model for the prose."
+    },
+    "wrapcheck": {
+      "model": "claude-fable-5",
+      "max_tokens": 8000,
+      "note": "Independent trace check on the edition: every specific fact must come from the provided inputs; no advice/prediction; calm register. Judgment model, separate call."
+    },
     "aging": {
       "model": "claude-sonnet-5",
       "max_tokens": 4000,

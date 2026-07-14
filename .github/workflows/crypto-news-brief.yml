@@ -84,6 +84,18 @@ jobs:
           python3 market_pulse.py || true
           python3 chartmaster.py
 
+      # THE DAILY EDITION (Jack's media-outlet doctrine, 2026-07-14): The Morning Brief /
+      # The Closing Wrap, the guaranteed twice-daily synthesis over the desk's own
+      # published stories + boards (runs after the board refresh above so The Tape section
+      # reads fresh data). Runs even when no new story cleared the gates (the whole point:
+      # never a zero-content slot). Fail-open for the brief: an edition failure warns
+      # loudly but never blocks story publishing.
+      - name: The Daily Edition (Morning Brief / Closing Wrap)
+        if: steps.key.outputs.have_key == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 wrap.py || echo "::warning::daily edition failed its gates; stories unaffected"
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true'
