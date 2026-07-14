@@ -397,7 +397,8 @@ def newsletter():
     <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
     <button type="submit">Subscribe</button>
   </form>
-  <p class="fine">We do not sell your email. Unsubscribe anytime. Not financial advice.</p>
+  <p class="fine">Emails are stored by Netlify Forms and used only to send the newsletter.
+     Unsubscribe anytime. See our <a href="/privacy.html">privacy policy</a>. Not financial advice.</p>
 </div></section>"""
 
 
@@ -418,6 +419,7 @@ def footer(brand="site"):
     links = "".join(f'<a href="{esc(h)}">{esc(l)}</a>' for l, h in
                     [("About", "/about.html"), ("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html"),
+                     ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
                      ("RSS", "/feed.xml")])
     if brand == "cronkite":
         who = f"{esc(NAME)}"
@@ -547,23 +549,27 @@ def verdict_badge(verdict):
 
 
 def sig_block():
-    """The anchor's signature + the coin as the desk's stamp of approval, closing every article
-    like the end of a broadcast."""
+    """The desk's closing mark: an HONEST machine attestation. No anchor persona, no human
+    editor implied (compliance monitor class 4): the badge states exactly what happened,
+    which is that the story passed the automated editorial review described on the method
+    page."""
     return """<div class="sigrow">
   <div class="sig">
     <span class="sig-script">Crypto Cronkite</span>
-    <span class="sig-cap">Anchor &middot; The Crypto Cronkite Desk</span>
+    <span class="sig-cap">The Crypto Cronkite Desk &middot; automated newsroom</span>
+    <span class="sig-attest">Passed our <a href="/method.html">automated editorial review</a>:
+      ranked, source-checked, and verified by the desk's independent review pass.</span>
   </div>
-  <div class="stamp" aria-label="Crypto Cronkite desk stamp of approval">
+  <div class="stamp" aria-label="Automated editorial review stamp">
     <img src="/assets/cronkite-coin.png" alt="" width="60" height="60" loading="lazy">
     <svg viewBox="0 0 120 120" aria-hidden="true">
       <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
       <circle cx="60" cy="60" r="47" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/>
       <defs><path id="stamparc" d="M60,60 m-51,0 a51,51 0 1,1 102,0 a51,51 0 1,1 -102,0"/></defs>
-      <text font-size="10.2" letter-spacing="2.6" fill="currentColor"
+      <text font-size="9.4" letter-spacing="2.2" fill="currentColor"
         font-family="IBM Plex Mono,monospace" font-weight="600">
-        <textPath href="#stamparc" startOffset="2%">DESK APPROVED</textPath>
-        <textPath href="#stamparc" startOffset="52%">CRYPTO CRONKITE</textPath>
+        <textPath href="#stamparc" startOffset="2%">AUTOMATED REVIEW</textPath>
+        <textPath href="#stamparc" startOffset="55%">SOURCE CHECKED</textPath>
       </text>
     </svg>
   </div>
@@ -606,6 +612,12 @@ def render_article(item, all_items=None):
     if item.get("example"):
         ribbon = ('<div class="callout"><b>Example, not a real story.</b> This page shows the '
                   'format Crypto Cronkite publishes in. The content is illustrative only.</div>')
+    if item.get("update_of"):
+        prev = next((i for i in (all_items or []) if i.get("slug") == item["update_of"]), None)
+        prev_title = prev.get("title") if prev else "our earlier story"
+        ribbon += (f'<div class="callout"><b>Update.</b> This story develops our earlier '
+                   f'reporting: <a href="/articles/{esc(item["update_of"])}.html">'
+                   f'{esc(prev_title)}</a>.</div>')
     key = ""
     if item.get("key_fact"):
         key = (f'<div class="keyfact"><span class="lab">The key fact</span>'
@@ -754,7 +766,7 @@ def render_home(items, flows, pulse, cm, dateline):
     desk_stat = f"{len(live)} verified stories on the desk" if live else "The first brief lands soon"
     cards = []
     cards.append(f"""<a class="dash-card home-card" href="/news.html">
-      <img class="dash-hero-img" src="/assets/crypto-cronkite-card.jpg" alt="Crypto Cronkite: market news, on-chain insights, trusted reporting" loading="lazy">
+      <img class="dash-hero-img" src="/assets/crypto-cronkite-card.jpg" alt="Crypto Cronkite: market news and on-chain insights" loading="lazy">
       <span class="lab">Latest news</span>
       <span class="dash-stat" style="font-size:19px">{esc(desk_stat)}</span>
       <p class="pc-note">The day's real crypto stories with the paid promotion stripped out,
@@ -1047,6 +1059,92 @@ def render_standards(dateline):
                  "Standards", body, dateline, path="/standards.html")
 
 
+def render_privacy(dateline):
+    body = f"""<main class="wrap narrow"><section class="page">
+  <span class="kicker">Privacy</span>
+  <h1>Privacy policy</h1>
+  <p class="lede">What this site actually collects, which is very little, and where the little
+     goes. No accounts, no ads, no cookies set by us.</p>
+
+  <h2>The newsletter</h2>
+  <p>If you sign up for the daily brief, the email address you submit is stored by Netlify Forms,
+     the form service of our hosting provider. We use it only to send the newsletter. We do not
+     sell your email address, and we do not share it with anyone else. Every issue includes an
+     unsubscribe option, and unsubscribing removes you from the list.</p>
+
+  <h2>Analytics</h2>
+  <p>We measure traffic with Cloudflare Web Analytics. It is a cookieless beacon: it counts page
+     views and referrers in aggregate and does not build profiles or track you across other
+     sites. Cloudflare processes those requests under its own privacy policy.</p>
+
+  <h2>Hosting and server logs</h2>
+  <p>The site is served by Netlify. Like any web host, Netlify's infrastructure sees standard
+     request data (your IP address and browser user agent) and keeps its own server logs under
+     its own privacy policy. We do not receive or store that data ourselves.</p>
+
+  <h2>Live prices</h2>
+  <p>Pages with live prices fetch them directly from your browser to CoinGecko's public API
+     (api.coingecko.com). That request comes from you, so CoinGecko sees your IP address,
+     governed by CoinGecko's own privacy policy. No identifier from this site is attached.</p>
+
+  <h2>Fonts</h2>
+  <p>Pages load their typefaces from Google Fonts (fonts.googleapis.com and fonts.gstatic.com),
+     so your browser makes a request to Google when a page loads. Google processes font requests
+     under its own privacy policy.</p>
+
+  <h2>Links out</h2>
+  <p>Every story links its sources, and dashboards link the services behind their data. Once you
+     leave this site, the site you land on operates under its own privacy policy.</p>
+
+  <h2>Changes</h2>
+  <p>This policy changes only when the site's behavior changes, and the date below moves when it
+     does. Last updated July 14, 2026.</p>
+</section></main>"""
+    return shell(f"Privacy - {NAME}",
+                 "What GoCheckMyCrypto collects and where it goes: newsletter emails via Netlify Forms, "
+                 "cookieless Cloudflare analytics, and nothing else.",
+                 "Privacy", body, dateline, path="/privacy.html")
+
+
+def render_terms(dateline):
+    body = f"""<main class="wrap narrow"><section class="page">
+  <span class="kicker">Terms</span>
+  <h1>Terms of use</h1>
+
+  <h2>Not financial advice</h2>
+  <p>GoCheckMyCrypto publishes market news, on-chain data, and plain-language analysis for
+     education and information only. Nothing on this site is financial, investment, legal, or tax
+     advice, and nothing here is a recommendation to buy, sell, or hold any asset. Crypto assets
+     are volatile and you can lose money. Decisions about your money are yours alone; if you need
+     advice, get it from a licensed professional who knows your situation.</p>
+
+  <h2>Informational purposes only</h2>
+  <p>Stories, dashboards, and commentary are assembled from public third-party sources (exchanges,
+     public APIs, news outlets, on-chain data). Data can be delayed, revised, or wrong at the
+     source. Verify anything that matters against primary sources before you act on it.</p>
+
+  <h2>No warranty</h2>
+  <p>The site and its data are provided "as is" and "as available," without warranties of any
+     kind, express or implied, to the maximum extent permitted by law. We do not warrant that the
+     site is accurate, complete, current, or uninterrupted.</p>
+
+  <h2>Limitation of liability</h2>
+  <p>To the fullest extent permitted by law, GoCheckMyCrypto and its operators are not liable for
+     any loss or damage arising from your use of this site or reliance on its content, including
+     trading losses and indirect, incidental, or consequential damages.</p>
+
+  <h2>Governing law</h2>
+  <p>These terms are governed by the laws of the State of South Carolina, without regard to
+     conflict-of-law rules. If you do not agree with these terms, please do not use the site.</p>
+
+  <p class="nfa">Last updated July 14, 2026.</p>
+</section></main>"""
+    return shell(f"Terms of Use - {NAME}",
+                 "What GoCheckMyCrypto is and is not: market news and data for education, "
+                 "not financial advice, with no warranty.",
+                 "Terms", body, dateline, path="/terms.html")
+
+
 def flows_chart_svg(by_asset):
     """Diverging horizontal bar chart of net whale exchange flow per volatile asset. Inline SVG,
     offline, theme-aware (fills use the site's CSS variables). Polarity is encoded three ways so
@@ -1285,10 +1383,18 @@ FNG_BANDS = [(0, 25, "#C0392B", "Extreme fear"), (25, 45, "#D9822B", "Fear"),
              (45, 55, "#9AA0A6", "Neutral"), (55, 75, "#6FA26B", "Greed"),
              (75, 100, "#2E7D4F", "Extreme greed")]
 
-# fixed data colors for the neon dark charts (grid/labels stay on CSS vars)
-C_PRICE = "#3FC8F2"   # cyan, the Whale Watch accent
-C_SMA50 = "#F4A52A"   # amber
-C_SMA200 = "#8A93A0"  # slate
+# chart data colors: the main series is always direction-coded on the market scale
+# (green ended higher than it started, red ended lower); overlays are neutral references.
+C_UP = "var(--up)"
+C_DOWN = "var(--down)"
+C_SMA50 = "#8F6BD6"   # violet, the 50-day average overlay
+C_SMA200 = "#8A93A0"  # slate, the 200-day average overlay
+
+
+def trend_color(series):
+    """The market color for a series: green if it ended at or above where it started."""
+    vals = [float(v) for v in (series or []) if v is not None]
+    return C_UP if len(vals) < 2 or vals[-1] >= vals[0] else C_DOWN
 
 
 
@@ -1345,13 +1451,16 @@ def _ticks(lo, hi, target=4):
 
 
 def line_chart_svg(series, *, w=680, h=260, dollars=True, x_labels=None, overlays=None,
-                   bands=None, color=C_PRICE, area=True, y_min=None, y_max=None,
+                   bands=None, color=None, area=True, y_min=None, y_max=None,
                    value_label=None, aria="", pill_attr=""):
     """A real chart: gridlines, labeled y-axis, dated x-axis, area fill, current-value pill,
-    optional dashed overlay series and tinted horizontal bands. Pure server-rendered SVG."""
+    optional dashed overlay series and tinted horizontal bands. Pure server-rendered SVG.
+    color=None direction-codes the main line on the market scale (green up, red down)."""
     vals = [float(v) for v in (series or []) if v is not None]
     if len(vals) < 2:
         return ""
+    if color is None:
+        color = C_UP if vals[-1] >= vals[0] else C_DOWN
     all_vals = list(vals)
     for ov in (overlays or []):
         all_vals += [float(v) for v in ov.get("series", []) if v is not None]
@@ -1515,7 +1624,8 @@ def _posture_card(a):
         aria=f"{sym} price over 90 days with 50 and 200 day averages, "
              f"currently {_price_fmt(a.get('price'))}",
         pill_attr=f'data-live="pill:{sym}"')
-    legend = chart_legend([("price", C_PRICE, False), ("50-day avg", C_SMA50, True),
+    legend = chart_legend([("price", trend_color(a.get("spark")), False),
+                           ("50-day avg", C_SMA50, True),
                            ("200-day avg", C_SMA200, True)])
     rsi = a.get("rsi14")
     if rsi is None:
@@ -2250,7 +2360,7 @@ def render_chartmaster(read, dateline):
             "whale flows, and price posture. Plus the Oracle Challenge and the Wizard's "
             "Exam. Never financial advice.")
     read = read or {}
-    paras = "".join(f"<p>{esc(p)}</p>" for p in read.get("paragraphs", []))
+    paras = "".join(f"<p>{esc(destyle(p))}</p>" for p in read.get("paragraphs", []))
     # A read older than the current dateline quotes numbers the live boards have moved past;
     # say so rather than let it read as today's.
     stale_note = ""
@@ -2261,7 +2371,7 @@ def render_chartmaster(read, dateline):
   <article class="pulse-card cm-read">
     <div class="ey"><span class="tag">the read</span>
       <span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
-    <h3 class="cm-headline">{esc(read.get("headline", ""))}</h3>
+    <h3 class="cm-headline">{esc(destyle(read.get("headline", "")))}</h3>
     {stale_note}
     <div class="prose">{paras}</div>
     <p class="pc-note">The Chart Master reads the day's <a href="/pulse.html">Market
@@ -2467,6 +2577,8 @@ def build():
     w("method.html", render_method(items, dateline))
     w("about.html", render_about(dateline))
     w("standards.html", render_standards(dateline))
+    w("privacy.html", render_privacy(dateline))
+    w("terms.html", render_terms(dateline))
     w("404.html", render_404(dateline))
     w("thanks.html", render_thanks(dateline))
     for it in items:
@@ -2487,7 +2599,8 @@ def build():
             "/pulse/sentiment.html", "/pulse/posture.html",
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
-            "/archive.html", "/method.html", "/about.html", "/standards.html"]
+            "/archive.html", "/method.html", "/about.html", "/standards.html",
+            "/privacy.html", "/terms.html"]
     locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
     urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)
     w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'

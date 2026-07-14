@@ -99,11 +99,18 @@ BANNED = re.compile(
     r"expect(ed)? to (rise|fall|hit|reach)|likely to (rise|fall)|guaranteed)\b", re.I)
 
 
+def _dedash(s):
+    # House style: no em/en dashes. Same substitutions as destyle() in site_build.py,
+    # applied here too so the committed read is clean even before the renderer runs.
+    return s.replace(" — ", ", ").replace("—", ", ").replace("–", "-")
+
+
 def validate(obj):
     if not isinstance(obj, dict):
         raise llmlib.LLMError("chartmaster: output is not an object")
-    headline = (obj.get("headline") or "").strip()
-    paras = [p.strip() for p in obj.get("paragraphs") or [] if isinstance(p, str) and p.strip()]
+    headline = _dedash((obj.get("headline") or "").strip())
+    paras = [_dedash(p.strip()) for p in obj.get("paragraphs") or []
+             if isinstance(p, str) and p.strip()]
     if not headline or len(headline) > 160:
         raise llmlib.LLMError("chartmaster: missing/oversized headline")
     if not 3 <= len(paras) <= 7:
