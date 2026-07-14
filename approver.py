@@ -116,10 +116,18 @@ def run(client=None):
         return obj
 
     system = common.load_prompt("approver.md")
-    user = ("Judge each draft against its research brief. Decision + categorized reason "
-            "each.\n\nDrafts with briefs:\n" + json.dumps(pairs, indent=1))
-    obj = client.call_json("approver", system, user)
-    obj = validate(obj, pairs)
+    # Same ceiling discipline as researcher/writer: the judgment model's thinking bills
+    # against max_tokens, so judge 3 pairs per call; replay stays single (one fixture).
+    chunk_size = len(pairs) if client.mode == "replay" else 3
+    approvals = []
+    for i in range(0, len(pairs), chunk_size):
+        chunk = pairs[i:i + chunk_size]
+        user = ("Judge each draft against its research brief. Decision + categorized "
+                "reason each.\n\nDrafts with briefs:\n" + json.dumps(chunk, indent=1))
+        part = client.call_json("approver", system, user)
+        part = validate(part, chunk)
+        approvals.extend(part["approvals"])
+    obj = {"approvals": approvals}
 
     counts = {"APPROVE": 0, "REJECT": 0}
     for a in obj["approvals"]:

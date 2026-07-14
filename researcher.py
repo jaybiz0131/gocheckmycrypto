@@ -129,10 +129,19 @@ def run(client=None):
         return obj
 
     system = common.load_prompt("researcher.md")
-    user = ("Build a research brief for each story from its fetched source texts.\n\nStories:\n"
-            + json.dumps(stories, indent=1))
-    obj = client.call_json("researcher", system, user)
-    obj = validate(obj, stories)
+    # Exhaustive briefs are LONG, and the judgment model's thinking bills against the same
+    # output ceiling: an all-stories single call truncates mid-JSON at 6+ stories (it did,
+    # in CI, 2026-07-14). Batch 2 stories per call; replay stays a single call (one fixture).
+    chunk_size = len(stories) if client.mode == "replay" else 2
+    briefs = []
+    for i in range(0, len(stories), chunk_size):
+        chunk = stories[i:i + chunk_size]
+        user = ("Build a research brief for each story from its fetched source texts.\n\n"
+                "Stories:\n" + json.dumps(chunk, indent=1))
+        part = client.call_json("researcher", system, user)
+        part = validate(part, chunk)
+        briefs.extend(part["briefs"])
+    obj = {"briefs": briefs}
 
     thin = sum(1 for b in obj["briefs"] if b.get("thin"))
     obj["_meta"] = {"stage": "3.5-researcher", "mode": client.mode,
