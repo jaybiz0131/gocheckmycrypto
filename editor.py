@@ -40,9 +40,30 @@ def build_user(items, top_n):
             "shill_rejected": c["shill_rejected"],
         })
     import json
+    # THE LIBRARIAN'S SHELF (charter, 2026-07-15): the editor ranks knowing what the desk
+    # already ran, so a repeat only ranks as a genuine UPDATE (the deterministic rerun
+    # guard remains the backstop at publish).
+    import datetime as _dt
+    import glob as _glob
+    import os as _os
+    recent = []
+    cutoff = (_dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(hours=48)).isoformat()
+    for p in _glob.glob(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),
+                                      "site", "content", "*.json")):
+        try:
+            d = json.load(open(p, encoding="utf-8"))
+            if (d.get("published_utc", "") >= cutoff and d.get("title")
+                    and not d.get("id", "").startswith("wrap-")):
+                recent.append(d["title"])
+        except Exception:
+            continue
+    shelf = (("\n\nAlready published by this desk in the last 48 hours (a repeat of these "
+              "ranks ONLY as a genuine update, and its why_it_matters must say what "
+              "changed):\n" + "\n".join(f"- {t}" for t in sorted(recent)[:25]) + "\n\n")
+             if recent else "\n\n")
     return (f"Here are {len(clusters)} deduplicated story clusters from the last "
             f"{items['_meta'].get('lookback_hours', '?')} hours. Rank the top {top_n} real "
-            f"stories and reject the shill.\n\n" + json.dumps(clusters, indent=2))
+            f"stories and reject the shill." + shelf + json.dumps(clusters, indent=2))
 
 
 def validate(obj, top_n):

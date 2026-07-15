@@ -16,6 +16,10 @@ FOR EACH STORY, DO ALL OF THIS.
    NEEDS-HUMAN-REVIEW.
 2. Confirm it is not hallucinated or single-source. Require at least one credible source that
    actually says it. A story only one low-tier source carries is NEEDS-HUMAN-REVIEW at best.
+   INDEPENDENCE RULE: wire rewrites are NOT independence. Ten outlets republishing one
+   outlet's reporting (same facts, same quotes, "according to <the same origin>") count as
+   ONE source when you weigh confidence; independent confirmation means separate reporting
+   or a primary source.
 3. Catch shill the editor missed. Second net, your own judgment: is this really a press release,
    affiliate bait, or hype? If so, REJECT.
 4. Sanity-check against reality. Prices, dates, names, numbers. A "hack" of a protocol that does

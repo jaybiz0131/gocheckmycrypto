@@ -11,7 +11,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read   # report-only by construction; no write access at all
+  contents: write   # the correction loop (charter 2026-07-15) commits approved updates
 
 jobs:
   aging:
@@ -21,10 +21,26 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
 
-      - name: Run the aging review (report-only)
+      - name: Run the aging review
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 aging.py
+
+      # CLOSED LOOP (charter, 2026-07-15): premise-flagged stories are re-run through the
+      # same three-role pipeline against their sources AS THEY READ NOW; only approver-
+      # signed corrections apply, each stamped with a visible correction note. Dead-link
+      # flags stay report-only for a human.
+      - name: Queue corrections through the pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 corrections.py
+
+      - name: Commit approved corrections (deploys)
+        run: |
+          git config user.name "Jack Berno"
+          git config user.email "297991518+jaybiz0131@users.noreply.github.com"
+          git add site/content
+          git diff --cached --quiet || { git commit -m "corrections: aging-review updates $(date -u +%Y-%m-%d)"; git push; }
 
       - name: Upload the aging report
         uses: actions/upload-artifact@v4
