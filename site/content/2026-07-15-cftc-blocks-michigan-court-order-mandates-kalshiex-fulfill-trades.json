@@ -1,0 +1,30 @@
+{
+  "id": "c000",
+  "slug": "cftc-blocks-michigan-court-order-mandates-kalshiex-fulfill-trades",
+  "kind": "brief",
+  "title": "CFTC Blocks Michigan Court Order, Mandates KalshiEX Fulfill Trades",
+  "dek": "The CFTC invoked emergency authority to block a proposed rule change by KalshiEX and mandate the platform fulfill pending trades after a Michigan state court ordered their cancellation. The action asserts federal derivatives authority over state court orders and highlights a clash between state and federal jurisdiction over crypto and prediction markets.",
+  "date": "2026-07-15",
+  "published_utc": "2026-07-15T11:51:24Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The CFTC ordered KalshiEX to fulfill pending trades in defiance of a Michigan state court order directing cancellation of trades involving Michigan residents, claiming federal law does not permit state-mandated discrimination against residents.",
+  "bottom_line": "Watch for Michigan's or other states' legal response to the CFTC's stay and whether appellate courts weigh in on state versus federal authority over derivatives markets. If a court rules that states lack jurisdiction to void executed trades on CFTC-registered exchanges, the CFTC's preemption argument will have won; if courts permit state interference, expect further CFTC emergency actions and expanded litigation.",
+  "human_take": "",
+  "body": [
+    "The Commodity Futures Trading Commission invoked emergency authority on Monday to stay a proposed rule change by prediction market platform KalshiEX and explicitly order the platform to fulfill pending trades, overriding a Michigan state court order directing their cancellation. The action marks a direct collision between state and federal jurisdiction over derivatives markets and exposes the legal jeopardy facing exchanges subject to contradictory commands.",
+    "A Michigan state court had ordered KalshiEX to cancel previously executed trades involving Michigan residents. In response, KalshiEX proposed an emergency rule change, apparently intended to comply with or justify the state order. The CFTC stayed that rule change and ordered KalshiEX to fulfill the open trades in accordance with its normal practices, according to the CFTC's statement on the matter.",
+    "The CFTC justified the intervention by citing the Commodity Exchange Act, which it says requires the agency to provide a uniform national market in derivatives transactions. Market participants must have impartial access to CFTC-regulated markets, the agency stated, and registered entities must adopt transparent access criteria applied in a non-discriminatory manner. CFTC Chairman Michael S. Selig stated in the release: \"A state cannot force a DCM to violate its obligations, and federal law does not permit a DCM to discriminate against a state's residents.\"",
+    "The cancellation of executed trades, Selig added, is \"an unprecedented step that risks a cascading effect on the entire marketplace and undermines the certainty in contracting that is a necessary component of a functioning market.\" The CFTC characterized Michigan as the first state to attempt to interfere directly with executed derivatives transactions.",
+    "The action reflects a broader pattern of state-CFTC conflict over derivatives and prediction markets. The CFTC has filed lawsuits against Arizona, Connecticut, Illinois, Kentucky, Minnesota, New Mexico, New York, Rhode Island, and Wisconsin over state enforcement actions against CFTC-regulated designated contract markets (DCMs). The agency has also filed amicus briefs in the U.S. Court of Appeals for the Sixth and Ninth Circuits and the Supreme Judicial Court of Massachusetts, signaling an escalating legal strategy to establish federal preemption.",
+    "The brief does not clarify the specific grounds cited by Michigan's court for ordering trade cancellation, the legal basis Michigan claims for state authority over the transactions, or whether a court has yet ruled on the conflict between Michigan's order and the CFTC's stay. The source is the CFTC's own press release, carrying only the agency's framing of the dispute. No Michigan state court perspective, legal reasoning, or opposing argument is included."
+  ],
+  "sources": [
+    {
+      "title": "https://www.cftc.gov/PressRoom/PressReleases/9267-26",
+      "url": "https://www.cftc.gov/PressRoom/PressReleases/9267-26"
+    }
+  ]
+}

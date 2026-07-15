@@ -22,5 +22,49 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c028",
+    "headline": "US Treasury Sanctions Iran-Linked Crypto Wallets, Freezes $130M",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The announcement, per The Block, signals the Treasury's intent to tighten sanctions compliance in crypto markets' but the brief's single data point is marked 'unconfirmed' with source attribution to 'Treasury Secretary Scott Bessent' via The Block snippet. The draft presents this as settled fact without qualification. Per the accuracy rule, 'unconfirmed' claims must read that way in prose.",
+     "The draft's opening paragraph states 'freezing over $130 million in assets' as fact, but the brief's single data point is marked 'unconfirmed,' not verified. This confidence label must survive in the prose; the claim cannot be presented as established.",
+     "The brief is marked thin=true with only one data point and source_chars=0, indicating extremely thin sourcing. The draft reads as a full story with confident framing ('escalation in Treasury enforcement') that exceeds what a single unconfirmed report supports."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "Japan Passes Crypto Tax Reduction and Financial Classification Bill",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'approximately 20%, down from a prior maximum of 55%' and later 'Prior taxation, which treated crypto as miscellaneous income subject to progressive rates, created a significant deterrent to mainstream investment.' The brief's data point says 'New crypto tax rate approximately 20%, down from current maximum 55% rate' (confidence: 'reported') but provides no sourcing detail for the 55% figure or the prior miscellaneous income classification. The draft elaborates on the prior regime without a data point backing that characterization\u2014this is smuggled context.",
+     "The draft asserts 'The new treatment establishes separate crypto taxation and aligns the regime more closely with equities and bonds' but the brief contains no data point comparing crypto taxation to equities and bonds. This comparison is not in the brief and is smuggled.",
+     "The brief is marked thin=true with only two data points and no source detail (source_chars=0). The draft reads with high confidence about tax mechanics and investor incentives without sufficient evidentiary grounding."
+    ]
+   },
+   {
+    "id": "c109",
+    "headline": "Prism Token Crashes 91% After Exploit Diverts Protocol Fees",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the attacker created 2,500 additional fee-earning positions beyond the intended cap' but the brief data_point says 'The attacker created 2,500 fee-earning positions beyond the 5,000 the token's design allows'\u2014these are contradictory. The brief implies 2,500 beyond a 5,000 cap (7,500 total), but the draft's language 'beyond the intended cap' is ambiguous without stating what the cap was. The brief does clarify this is 'announced-not-verified', but the draft should reflect that confidence label explicitly or paraphrase more carefully to avoid introducing a factual discrepancy.",
+     "The draft claims 'The team warned that the drain would have grown significantly had the token gained traction, suggesting the exploit posed a structural risk that scaling would have magnified' but does not attribute this claim inline to The Defiant. While it is in the brief, the phrasing 'the team warned' without immediate attribution could read as the writer's inference rather than sourced reporting."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "U.S. June CPI fell 0.4%, likely cooling move toward Fed rate hikes",
+    "category": "accuracy",
+    "reasons": [
+     "Brief data point 5 states 'May's core CPI had risen 0.2%', but draft states 'May's 0.5% month-over-month core CPI increase' in the second paragraph. The draft attributes a 0.5% figure to May core CPI that does not appear in the brief.",
+     "Draft opens with 'marking the largest monthly drop since 2020' for the 0.4% decline\u2014this superlative claim is not in the brief and cannot be verified from the provided source."
+    ]
+   }
+  ]
  }
 ]
