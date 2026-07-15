@@ -57,6 +57,11 @@
       "model": "claude-haiku-4-5",
       "max_tokens": 5000,
       "note": "The Chart Master's read is a judgment call over the whole tape (regime, momentum, positioning, flows), so it gets the judgment model. One call per brief; cents per day. Fable thinking bills as output tokens, hence the cap."
+    },
+    "wraprescue": {
+      "model": "claude-sonnet-5",
+      "max_tokens": 5000,
+      "note": "The Daily Edition's second-chance generator: when the Haiku edition fails its trace check, the corrective rewrite runs here (the flagship interpretation-heavy element earns the stronger model on the failure path; 2026-07-15 after 0-for-3 on legit gate catches)."
     }
   },
   "sources": {

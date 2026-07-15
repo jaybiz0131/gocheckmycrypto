@@ -263,7 +263,9 @@ def main():
             common.write_out("wrap-rejected.json", {"edition": edition, "obj": obj,
                                                     "reasons": reasons})
             return 1
-        obj = client.call_json("wrap", system, user
+        # the corrective rewrite runs on the rescue model (stage wraprescue, Sonnet):
+        # three same-day editions died on legit catches with Haiku retrying Haiku
+        obj = client.call_json("wraprescue", system, user
                                + "\n\nYour previous attempt failed the fact-trace check; "
                                  "fix exactly these and return the full JSON again:\n- "
                                + "\n- ".join(reasons), validate=wrap_shape)
