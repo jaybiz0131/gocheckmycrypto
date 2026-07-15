@@ -1,0 +1,30 @@
+{
+  "id": "c000",
+  "slug": "cftc-overrides-michigan-court-orders-kalshiex-to-fulfill-prediction-market-trades",
+  "kind": "brief",
+  "title": "CFTC Overrides Michigan Court, Orders KalshiEX to Fulfill Prediction Market Trades",
+  "dek": "The CFTC exercised emergency authority on July 14 to stay an emergency rule change proposed by KalshiEX and ordered the platform to fulfill open trades, directly overriding a Michigan state court directive to cancel trades involving Michigan residents. The action sets a test case for federal versus state power over federally registered derivatives markets.",
+  "date": "2026-07-15",
+  "published_utc": "2026-07-15T13:20:49Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The CFTC ordered KalshiEX to fulfill pending trades after a Michigan state court directed the platform to cancel them, asserting that no state can force a federally regulated derivatives clearing organization to discriminate against its residents.",
+  "bottom_line": "Watch for Michigan's response: whether the state court or Michigan's attorney general challenges the CFTC's stay on federalism or separation-of-powers grounds. If that challenge succeeds, it would call into question the CFTC's authority to override state judicial orders; if it fails, the precedent solidifies federal supremacy over prediction markets and state-level derivatives regulation.",
+  "human_take": "",
+  "body": [
+    "The Commodity Futures Trading Commission invoked emergency authority on July 14 to stay an emergency rule change proposed by KalshiEX, LLC and ordered the prediction market platform to fulfill pending trades in direct opposition to a Michigan state court directive. The court order had instructed KalshiEX to cancel previously executed trades involving Michigan residents, according to the CFTC's announcement.",
+    "The clash hinges on a central question of regulatory hierarchy: whether a federal derivatives regulator's mandate for uniform national market access can be overridden by state court action. The CFTC asserted that it does not. According to CFTC Chairman Michael S. Selig, \"A state cannot force a DCM to violate its obligations, and federal law does not permit a DCM to discriminate against a state's residents.\" A DCM is a derivatives clearing organization, the formal designation under federal law for exchanges like KalshiEX.",
+    "The Commodity Exchange Act requires the CFTC to provide what it calls a uniform national market in derivatives transactions, with market participants holding impartial access to CFTC-regulated markets and registered entities adopting transparent access rules applied in non-discriminatory manner, per the CFTC's statement. Canceling trades already executed would violate that mandate, the agency argued.",
+    "Chairman Selig also cited market stability concerns. \"Canceling trades that have already been executed is an unprecedented step that risks a cascading effect on the entire marketplace and undermines the certainty in contracting that is a necessary component of a functioning market,\" he stated.",
+    "The CFTC characterized Michigan's order as exceptional. The agency noted that Michigan is the first state to attempt to interfere directly with executed derivatives transactions, though states have attempted enforcement actions against CFTC-regulated platforms in both state and federal courts nationwide. To defend federal authority, the CFTC has filed lawsuits against Arizona, Connecticut, Illinois, Kentucky, Minnesota, New Mexico, New York, Rhode Island, and Wisconsin, and has filed amicus briefs in the U.S. Court of Appeals for the Sixth and Ninth Circuits and the Supreme Judicial Court of Massachusetts, according to the agency's release.",
+    "The CFTC's invocation of emergency power to override a state court order itself may trigger legal challenge on federalism grounds. The Michigan court's reasoning and specific factual findings underlying its cancellation order were not detailed in the CFTC release. The state may view the CFTC's position as subordinating state consumer protection authority to federal market uniformity doctrine, a constitutional question that has not been resolved by the courts."
+  ],
+  "sources": [
+    {
+      "title": "https://www.cftc.gov/PressRoom/PressReleases/9267-26",
+      "url": "https://www.cftc.gov/PressRoom/PressReleases/9267-26"
+    }
+  ]
+}

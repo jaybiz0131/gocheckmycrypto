@@ -109,5 +109,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c031",
+    "headline": "Treasury Freezes Over $130 Million in Iran-Linked Crypto Wallets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the announcement to 'Treasury Secretary Scott Bessent' citing The Block reporting, but the brief lists confidence as 'unconfirmed' for this claim. The prose presents it as a settled fact ('The US Treasury's OFAC sanctioned...according to reporting by The Block citing an announcement by Treasury Secretary Scott Bessent') when the brief's confidence label signals the announcement itself has not been verified. The unconfirmed status must be transparent in the draft.",
+     "The $130 million figure is marked 'unconfirmed' in the brief but presented without qualification in the draft as a frozen amount. An unconfirmed dollar amount must be flagged as such in prose (e.g., 'reportedly over $130 million' or 'according to unconfirmed reports').",
+     "The draft opens with a declarative statement of fact ('The US Treasury's OFAC sanctioned...freezing over $130 million') when the brief's confidence labels indicate these are announced-but-unverified claims. The framing should reflect that confidence level."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Japan Cuts Crypto Tax Rate to 20%, Reclassifies as Regulated Financial Product",
+    "category": "accuracy",
+    "reasons": [
+     "The brief lists all three data points with confidence label 'reported', not 'confirmed' or 'announced-verified'. The draft presents these facts ('Japan's legislature passed legislation...reducing the maximum tax rate on crypto gains to approximately 20% from a previous high of approximately 55%') as settled facts without any qualifier indicating they are reported claims not yet verified by independent sources. An unconfirmed claim must read as such in the prose.",
+     "The opening sentence treats the tax cut and reclassification as accomplished facts when the brief's confidence labels indicate these are reported claims. The draft should signal uncertainty proportionate to the brief's confidence level (e.g., 'Japan has reportedly passed legislation...' or 'According to reporting, Japan's legislature passed...')."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "ECB Selects 36 Firms for Digital Euro Pilot Starting 2027",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the US enacted a law in June 2026 barring the Federal Reserve from issuing a digital dollar through the end of 2030' but the brief says 'a law took effect last month' (which would be June 2026 from a July 2026 perspective). The draft's phrasing 'enacted in June 2026' is imprecise about whether enactment and effective date are the same; the brief's 'took effect last month' is clearer. More critically, the brief's bear_case item says the law 'took effect last month barring the Federal Reserve from creating or issuing a digital dollar through Dec. 31, 2030,' but the draft says it 'barring the Federal Reserve from issuing a digital dollar'\u2014omitting 'creating.' This is a factual omission that narrows the scope of the restriction as originally reported."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Bitcoin nears $65,000 as cooling U.S. inflation guts the Fed rate-hike trade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft does not mention Dogecoin's 2.9% gain or BNB's 1.9% gain to $579, both of which appear in the brief's data_points. The omission is not paraphrase or selectivity\u2014these are specific factual claims in the source that the brief requires be traceable. The draft selectively cites some altcoin moves (Ether, Solana, XRP, Hyperliquid HYPE) but excludes others without editorial justification, creating an inconsistent standard for what crypto market data gets reported.",
+     "The draft title and opening claim 'Bitcoin nears $65,000 as cooling U.S. inflation guts the Fed rate-hike trade' uses 'nears $65,000' when the brief and body both state Bitcoin reached 'near $64,800'\u2014a gap of ~$200 that makes the headline factually inaccurate relative to the reported price."
+    ]
+   }
+  ]
  }
 ]
