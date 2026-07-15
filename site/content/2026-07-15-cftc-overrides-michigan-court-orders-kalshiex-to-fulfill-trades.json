@@ -1,0 +1,31 @@
+{
+  "id": "c000",
+  "slug": "cftc-overrides-michigan-court-orders-kalshiex-to-fulfill-trades",
+  "kind": "brief",
+  "title": "CFTC Overrides Michigan Court, Orders KalshiEX to Fulfill Trades",
+  "dek": "The CFTC exercised emergency authority to override a Michigan state court order requiring KalshiEX to cancel executed trades involving Michigan residents. The regulator asserted federal jurisdiction over derivatives transactions, citing the Commodity Exchange Act's requirement for uniform, non-discriminatory market access.",
+  "date": "2026-07-15",
+  "published_utc": "2026-07-15T13:34:29Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The CFTC stayed KalshiEX's emergency rule change and ordered the platform to fulfill pending trades, directly overriding a Michigan state court mandate to cancel those same trades.",
+  "bottom_line": "The CFTC's assertion of federal override authority raises a federalism question: does emergency derivatives regulation trump state court orders? Watch for Michigan's response and whether other states pursue similar trade-cancellation tactics. If state courts routinely succeed in unwinding trades, the CFTC's entire framework for uniform national derivatives markets fractures.",
+  "human_take": "",
+  "body": [
+    "The CFTC on Monday exercised emergency authority to stay KalshiEX's emergency rule change and ordered the platform to fulfill pending trades, directly countermanding a Michigan state court order requiring trade cancellation. The move asserts federal jurisdiction over derivatives transactions and sets a precedent for which regulator controls execution when state and federal law collide.",
+    "Michigan's state court had ordered KalshiEX to cancel previously executed trades involving Michigan residents. The CFTC responded by invoking emergency powers to prevent the platform from complying with that order, instead directing it to settle trades according to normal procedures. The dispute centers on whether a state court can compel a federally regulated derivatives clearinghouse to unwind executed contracts.",
+    "CFTC Chairman Michael S. Selig stated in the agency's press release: \"A state cannot force a DCM to violate its obligations, and federal law does not permit a DCM to discriminate against a state's residents.\" The chairman added that \"canceling trades that have already been executed is an unprecedented step that risks a cascading effect on the entire marketplace and undermines the certainty in contracting that is a necessary component of a functioning market.\"",
+    "The Commodity Exchange Act requires the CFTC to ensure uniform national derivatives markets with impartial access and transparent, non-discriminatory access criteria. The CFTC framed its action as defending that statutory mandate. According to the agency's statement, Michigan is the first state to attempt to interfere directly with executed derivatives transactions in this manner.",
+    "The CFTC is not alone in contesting state-level crypto enforcement. The agency has filed lawsuits against Arizona, Connecticut, Illinois, Kentucky, Minnesota, New Mexico, New York, Rhode Island, and Wisconsin regarding state actions against CFTC-regulated derivatives clearinghouses. The regulator has also filed amicus briefs in the U.S. Court of Appeals for the Sixth and Ninth Circuits and the Supreme Judicial Court of Massachusetts, signaling a broader effort to establish federal primacy over derivatives regulation.",
+    "In its statement, the CFTC said: \"The Commission will not allow states or state courts to bully registered entities into violating the Commodity Exchange Act and CFTC regulations.\" The language underscores the agency's view that federal derivative oversight supersedes conflicting state court orders.",
+    "The emergency stay does not resolve the underlying constitutional questions about federalism and the scope of CFTC emergency authority. Michigan could appeal the CFTC's action or contest its legal basis in federal court."
+  ],
+  "sources": [
+    {
+      "title": "https://www.cftc.gov/PressRoom/PressReleases/9267-26",
+      "url": "https://www.cftc.gov/PressRoom/PressReleases/9267-26"
+    }
+  ]
+}

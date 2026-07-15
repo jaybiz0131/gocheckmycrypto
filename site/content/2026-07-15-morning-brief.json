@@ -1,0 +1,80 @@
+{
+  "id": "wrap-am-2026-07-15",
+  "slug": "morning-brief-2026-07-15",
+  "kind": "brief",
+  "title": "The Morning Brief: Rate Fears Grip Markets as Fed, ECB, UK Push Digital Money Forward",
+  "dek": "Bitcoin fell to $62,380 overnight as Fed rate-hike odds jumped to 50%, but the desk's boards show it at $65,431 this morning with a modest recovery. Meanwhile, three major central banks advanced digital currency plans and regulators worldwide moved to coordinate tokenization rules.",
+  "date": "2026-07-15",
+  "published_utc": "2026-07-15T13:40:42Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Macro rate expectations are driving crypto price swings hour to hour, while the deeper structural story is a global shift toward central-bank digital currencies and regulatory coordination that will reshape how payments work over the next two years.",
+  "bottom_line": "Tuesday's 8:30 a.m. ET CPI print and Warsh's testimony will determine whether the Fed rate-hike repricing sticks or unwinds. The macro backdrop is noisy and short-term volatile. The structural story is clear and long-term: central banks in Europe, Britain, and the U.S. are moving in parallel toward digital currencies and coordinated tokenization rules, while private networks like x402 and JCB are testing real-world payment flows. Watch the CPI, then watch whether that macro volatility obscures or accelerates the adoption momentum underneath.",
+  "human_take": "",
+  "body": [
+    "The macro story arrived overnight and never left. Money markets repriced July Fed rate-hike odds from about 10% to roughly 50% in the span of a few days, according to reporting from the desk's coverage, and bitcoin dropped over 2% to $62,380 as a result. An oil surge, reinstatement of a Hormuz blockade, and hawkish Fed remarks all converged to trigger the repricing ahead of Tuesday's 8:30 a.m. ET CPI report and Fed Chair Kevin Warsh's testimony that follows. As the desk noted, this is a pure macro trade: crypto is moving on rate expectations, oil, and geopolitics, not on developments internal to crypto itself.",
+    "But the structural backdrop tells a different story. The European Central Bank selected 36 firms from 50 applicants for a 12-month digital euro pilot starting in the second half of 2027, with potential issuance as early as 2029, according to the desk's reporting. The selected firms include Adyen, Deutsche Bank, Revolut, SumUp, UniCredit, and Worldline. Separately, the U.K. Treasury announced it will issue its first digital sovereign bond, called DIGIT, by early 2027 on HSBC's Orion platform, making Britain the first G7 nation to place government debt on distributed-ledger infrastructure. And the U.S. and U.K. released a 10-point roadmap coordinating regulatory oversight of tokenized assets and stablecoins, with the SEC, CFTC, FCA, and Bank of England committed to exploring common approaches.",
+    "On the adoption front, JCB, described as Japan's largest card network with 140 million users and 40 million merchants worldwide, signed a memorandum of understanding with Circle to explore USDC stablecoin payments. The work begins with an internal proof of concept for fund transfers, with in-store merchant payments as a later goal. And the Linux Foundation formally launched the x402 Foundation with 40 premier members including Visa, Mastercard, Ripple, Google, and AWS, governing a protocol for AI software to pay other AI software in stablecoins. x402 settled $24 million across 75 million transactions in the past 30 days at roughly 29 transactions per second.",
+    "A regulatory clash also surfaced. The CFTC invoked emergency authority to override a Michigan state court order requiring KalshiEX to cancel executed trades involving Michigan residents, ordering the platform to fulfill the trades instead. The move asserts federal derivatives authority over state court orders and sets a test case for which regulator controls execution when state and federal law collide.",
+    "In protocol governance, NEAR's House of Stake governance body passed proposal HSP-027 to eliminate the protocol's 30% developer gas rebate, redirecting all network fees to burn starting August 2026. The vote passed with 4.66 million veNEAR in favor versus 1,819 against. On the downside, an attacker exploited a code flaw in Prism, a Uniswap v4 fee-sharing token, to create 2,500 unauthorized positions that siphoned nearly 40% of all trading fees, causing the original PRISM token to collapse 91% in 24 hours."
+  ],
+  "sources": [
+    {
+      "title": "Bitcoin Slips as July Rate-Hike Bets Climb Before CPI and Warsh Testimony",
+      "url": "/articles/bitcoin-slips-as-july-rate-hike-bets-climb-before-cpi-and-warsh-testimony.html"
+    },
+    {
+      "title": "ECB Selects 36 Firms for Digital Euro Pilot Starting in 2027",
+      "url": "/articles/ecb-selects-36-firms-for-digital-euro-pilot-starting-in-2027.html"
+    },
+    {
+      "title": "JCB and Circle sign MoU to explore USDC payments across Japan",
+      "url": "/articles/jcb-and-circle-sign-mou-to-explore-usdc-payments-across-japan.html"
+    },
+    {
+      "title": "AI agentic payments enter mainstream as Visa, Mastercard, Ripple back x402 standard",
+      "url": "/articles/ai-agentic-payments-enter-mainstream-as-visa-mastercard-ripple-back-x402-standard.html"
+    },
+    {
+      "title": "CFTC Blocks Michigan Court Order, Mandates KalshiEX Fulfill Trades",
+      "url": "/articles/cftc-blocks-michigan-court-order-mandates-kalshiex-fulfill-trades.html"
+    },
+    {
+      "title": "CFTC Overrides Michigan Court Order, Orders KalshiEX to Fulfill Pending Trades",
+      "url": "/articles/cftc-overrides-michigan-court-order-orders-kalshiex-to-fulfill-pending-trades.html"
+    },
+    {
+      "title": "CFTC Overrides Michigan Court, Orders KalshiEX to Fulfill Prediction Market Trades",
+      "url": "/articles/cftc-overrides-michigan-court-orders-kalshiex-to-fulfill-prediction-market-trades.html"
+    },
+    {
+      "title": "CFTC Overrides Michigan Court, Orders KalshiEX to Fulfill Trades",
+      "url": "/articles/cftc-overrides-michigan-court-orders-kalshiex-to-fulfill-trades.html"
+    },
+    {
+      "title": "ECB Picks 36 Firms Including Deutsche Bank and Revolut for Digital Euro Pilot",
+      "url": "/articles/ecb-picks-36-firms-including-deutsche-bank-and-revolut-for-digital-euro-pilot.html"
+    },
+    {
+      "title": "NEAR Governance Votes to Eliminate Developer Gas Rebate",
+      "url": "/articles/near-governance-votes-to-eliminate-developer-gas-rebate.html"
+    },
+    {
+      "title": "Prism Relaunches on New Contract After Exploit Diverted Nearly 40% of Fees",
+      "url": "/articles/prism-relaunches-on-new-contract-after-exploit-diverted-nearly-40-of-fees.html"
+    },
+    {
+      "title": "U.K. plans first G7 digital sovereign bond by early 2027",
+      "url": "/articles/u-k-plans-first-g7-digital-sovereign-bond-by-early-2027.html"
+    },
+    {
+      "title": "U.S., UK Align Tokenized Finance Rules in 10-Point Roadmap",
+      "url": "/articles/u-s-uk-align-tokenized-finance-rules-in-10-point-roadmap.html"
+    },
+    {
+      "title": "US and UK Announce Coordinated Approach to Tokenization Regulation",
+      "url": "/articles/us-and-uk-announce-coordinated-approach-to-tokenization-regulation.html"
+    }
+  ]
+}

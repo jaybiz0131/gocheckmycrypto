@@ -151,5 +151,31 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-15",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c028",
+    "headline": "Circle Suspended Tether-Backed Fund Over Market Manipulation Concerns",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Circle's suspension came after discovering Tether's stake in the fund, suggesting Circle either lacked visibility into the investment beforehand or learned of it during a governance or compliance review.' This is editorial speculation (suggesting two scenarios) not present in the brief's data_points. The brief only confirms that Circle suspended the fund and that Tether had invested $800M; it does not establish the temporal relationship or Circle's prior knowledge state.",
+     "The draft states 'If Circle detected market manipulation, it could suggest trades designed to artificially move prices or extract value from other market participants rather than capitalize on natural arbitrage opportunities.' This is conditional speculation about what the manipulation might entail. The brief's data_point says Circle identified 'suspected market manipulation' but does not characterize its nature. The draft's conditional reasoning goes beyond the reported fact.",
+     "The draft asserts 'Neither Circle nor Tether has publicly commented on the suspension or its grounds, leaving the details of the alleged manipulation and Circle's specific concerns outside confirmed reporting.' This statement about their silence is not in the brief and constitutes a new factual claim (absence of public comment)."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Senate Democrats block Clarity Act without ethics provision banning presidential crypto involvement",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Murphy alleged Trump's crypto activity constituted 'the biggest corruption racket in the history of this country' by 'bilking supporters into buying assets and providing a hidden avenue for mass scale bribery.' The brief's data_point 9 shows the actual quote includes 'worthless token'\u2014the draft omits this material detail and paraphrases in a way that softens the accusation by removing the explicit 'worthless' characterization of the asset itself.",
+     "The draft paraphrases Murphy's statement as 'the bill would be worthless if it did not address what he characterized as Trump's dominance over an industry' but the brief's data_point 3 shows Murphy's actual statement was conditional: 'If this system does not stop Trump's corruption... this bill is worthless' and 'If it protects Trump's dominance... the bill is... a fundamental corruption if it gives Trump's corruption the protection of law.' The draft flattens a nuanced conditional argument into a simpler claim about dominance alone.",
+     "The draft mentions Senator Elizabeth Warren is 'associated with' this position (per brief data_point 11: 'their position is also associated with Senator Elizabeth Warren'), but Warren is not mentioned anywhere in the draft body despite appearing in the brief. The draft should either include her or explicitly note she was not present at the press conference, rather than omitting her entirely while the brief flags the association."
+    ]
+   }
+  ]
  }
 ]
