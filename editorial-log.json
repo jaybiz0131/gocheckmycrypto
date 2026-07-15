@@ -66,5 +66,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c031",
+    "headline": "U.S. Treasury Freezes Over $130 Million in Iran-Linked Crypto Wallets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the $130 million figure and the sanctioning action to 'Treasury Secretary Scott Bessent' via The Block reporting, but the brief's data_point credits only 'Treasury Secretary Scott Bessent stated' without confirming Bessent made a public statement. The draft reads this as verified reporting when the brief's confidence is 'reported'\u2014second-hand attribution to a source that may not have directly quoted or confirmed the Secretary's statement. This is a smuggled verification claim.",
+     "The draft states 'The scope of the freeze, the specific wallets involved, and the blockchains on which they reside have not been detailed in available sources'\u2014accurately reflecting the brief's open_questions\u2014but this acknowledgment does not cure the liability problem: a $130M figure with no on-chain verification, no wallet addresses, and no independent confirmation is presented as fact from a single secondary source (The Block). The brief itself is thin (true) and single-sourced; the draft should flag this as unverified, not state it as settled fact in the lede."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Japan Passes Bill Reclassifying Crypto as Financial Product, Cuts Tax Rate to 20%",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Japan has passed legislation establishing crypto as a regulated financial product under a revised tax framework, lowering the maximum tax rate on crypto gains to approximately 20% from the current maximum of approximately 55%, per reporting by The Block.' The brief contains only ONE data_point: the tax rate claim. The claim that 'legislation establishing crypto as a regulated financial product' was passed is not in the brief. The brief's core_claim says 'passed legislation establishing crypto as a financial product'\u2014but the data_points do not verify that the legislation passed; only The Block's single report that it 'passes' exists. The draft presents a bill as passed law without confirming passage date, enforcement date, or that it has cleared final vote. This is a smuggled fact beyond what the brief supports.",
+     "The draft opens with 'Japan has passed legislation' as settled fact, but the brief's single data_point is 'reported' confidence on the tax rate only. No data_point confirms the bill has passed, been enacted, or become law. The draft conflates announcement with passage."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Circle suspended Tether-backed fund over market manipulation concerns",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Circle suspended Heka Funds after discovering that Tether had made an undisclosed $800 million investment in the fund, citing suspected market manipulation concerns.' The brief shows that Tether's investment was undisclosed, but the brief does not confirm that Circle's suspension reason was specifically cited as 'suspected market manipulation concerns.' The brief states Circle suspended Heka Funds 'over suspected market manipulation concerns' but does not attribute the causal link between discovering Tether's investment and citing market manipulation concerns\u2014these may be separate facts. The phrasing 'after discovering that Tether had made an undisclosed $800 million investment...citing suspected market manipulation concerns' implies causation and simultaneity that the brief does not support.",
+     "The second paragraph claims 'An undisclosed $800 million investment by a stablecoin issuer in a fund that offers services raises questions about issuer governance and transparency standards.' This interpretive commentary about what 'raises questions' is not in the brief's data_points and appears as the writer's analysis rather than reported fact. The brief's bear_case includes the substance, but the draft presents it as reportage.",
+     "The draft says 'The Block's reporting does not specify what specific market manipulation activities or patterns Circle identified' but offers no page reference or quote showing The Block addressed and declined to detail these. The brief marks it as an open_question, not as reported-but-unspecified. This distinction matters: the former suggests reporting exists but was withheld; the latter concedes the brief itself is thin."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Some U.S. Senate Democrats Come Out Against Clarity Act, Calling It a 'Corrupt' Bill",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the focus shifts to midterm elections' but the brief says 'the focus on this fall's midterm elections'\u2014the draft removes the temporal qualifier 'this fall,' making it ambiguous whether midterms are imminent or distant. More critically, the draft presents Murphy's characterization of Trump's crypto efforts as 'bilking supporters into buying a worthless token while providing a hidden avenue for mass-scale bribery' as a direct quote or paraphrase without attribution, when the data_point marks it as reported speech. The draft should either attribute this directly to Murphy or make clear it is his characterization, not established fact.",
+     "The draft claims 'Murphy argued that if the bill protects Trump's dominance over an industry he will have regulatory control over, the bill itself becomes a corruption mechanism,' which paraphrases the data_point, but then immediately states 'If this system does not stop Trump's corruption of the entire industry, Murphy said, this bill is worthless.' The second sentence is a direct quote from the data_point, but the draft presents both as connected thoughts without distinguishing which is paraphrase and which is direct quote. This creates ambiguity about what Murphy actually said versus editorial framing."
+    ]
+   }
+  ]
  }
 ]

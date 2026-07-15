@@ -1,0 +1,29 @@
+{
+  "id": "c010",
+  "slug": "ai-agentic-payments-enter-mainstream-as-visa-mastercard-ripple-back-x402-standard",
+  "kind": "brief",
+  "title": "AI agentic payments enter mainstream as Visa, Mastercard, Ripple back x402 standard",
+  "dek": "The Linux Foundation formally launched the x402 Foundation with 40 members including Visa, Mastercard, Ripple, Google, Amazon Web Services, and Circle, governing a protocol for AI software to pay other AI software in stablecoins. x402 settled $24 million across 75 million transactions in the past 30 days at an average of 32 cents per payment. The protocol activates HTTP 402, a response code set aside 30 years ago when the Web's architects designed its protocols but never implemented for payments.",
+  "date": "2026-07-15",
+  "published_utc": "2026-07-15T13:08:02Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 5,
+  "author": "Crypto Cronkite",
+  "key_fact": "x402 processed 75 million transactions totaling $24 million in the past 30 days at roughly 29 transactions per second, with major payment rails and tech firms now governing the standard.",
+  "bottom_line": "Watch for adoption signals in the premier members' integration roadmaps and for real-world use cases of sub-cent micro-transactions. The story invalidates if x402 volume continues to decline or if major members publicly deprioritize the standard.",
+  "human_take": "",
+  "body": [
+    "The Linux Foundation formally launched the x402 Foundation under formal governance with 40 premier members, including Ripple, Visa, Mastercard, American Express, Stripe, Adyen, Fiserv, Shopify, Google, Amazon Web Services, Cloudflare, Circle, MoonPay, and the Solana and Stellar foundations, according to CoinDesk. Coinbase contributed the x402 protocol to the foundation, with the contribution now complete.",
+    "The protocol activates the HTTP 402 response code, set aside when the World Wide Web's architects wrote its protocols 30 years ago but never implemented for payments, per CoinDesk's reporting. Coinbase filled that gap in May 2025. Under x402, clients typically pay with USDC stablecoin transfers, with the exchange taking seconds and requiring no account, card, or prior relationship.",
+    "x402 processed approximately 75 million transactions over the past 30 days, totaling $24 million, at roughly 29 transactions per second, according to CoinDesk. Transactions involved approximately 94,000 buyers and 22,000 sellers. The average x402 payment is approximately 32 cents. Google has wired x402 into its own agent payments protocol, and Cloudflare ships it in its agent toolkit.",
+    "Context: Visa handled $14.2 trillion of payments in fiscal 2025, averaging $40 billion a day. DefiLlama-tracked DEX volume for x402 reached nearly $970,000 in a single day on December 3, fell to $16,000 on July 13, and was roughly $572,000 across the past 30 days, per CoinDesk.",
+    "The bear case is immediate: $24 million monthly volume is a fraction of what any of x402's premier members move in a single day. Visa alone processes $40 billion daily. DEX volume for x402 has fallen steadily from its December peak. Current volumes represent early-stage adoption, with future growth dependent on realization of speculative AI agent proliferation scenarios. SoftBank founder Masayoshi Son predicted that by 2040 some 100 trillion AI agents will have been created; if 100 trillion AI agents each make one 32-cent transaction per day, that would equal daily volume of $32 trillion. Card networks cannot process sub-cent charges profitably, but x402 can. That gap is the protocol's target market."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/07/15/visa-mastercard-and-ripple-join-the-standard-letting-ai-agents-pay-in-stablecoins",
+      "url": "https://www.coindesk.com/tech/2026/07/15/visa-mastercard-and-ripple-join-the-standard-letting-ai-agents-pay-in-stablecoins"
+    }
+  ]
+}
