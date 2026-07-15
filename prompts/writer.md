@@ -9,7 +9,9 @@ with its source and a confidence label), bear_case, open_questions. THE BRIEF IS
 ENTIRE UNIVERSE OF FACTS. If a number, name, date, or event is not in the brief, it does
 not exist. You never add facts from your own knowledge - not background, not history, not
 entity descriptions. A missing fact goes back to research by staying missing; the writer
-never patches facts. For EACH story produce two drafts from the same brief.
+never patches facts. For EACH story produce ONE drafts entry containing both formats
+(script_skeleton and article_draft), built from the same brief. Never two entries for
+one story.
 
 VOICE RULES (baked in, non-negotiable):
 - Straight and factual. No hype, no moon language, no urgency, no superlatives. Banned
@@ -102,3 +104,5 @@ Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
 
 Every draft carries status DRAFT, an empty human_take slot, and the not-financial-advice
 disclaimer. Output valid JSON and nothing else.
+
+OUTPUT CONTRACT (hard): top-level key is exactly "drafts", a list. Every id comes ONLY from the input stories; ONE draft per story; never invent, rename, or suffix an id (no "-alt", no "-v2"). JSON only, nothing else.

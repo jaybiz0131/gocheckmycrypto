@@ -68,9 +68,19 @@ def validate(obj, stories):
         raise llmlib.LLMError("writer output missing 'drafts' list")
     ids = {s["id"] for s in stories}
     by_id = {s["id"]: s for s in stories}
+    # Per-item tolerance (2026-07-15): small models occasionally invent an id ("c016-alt").
+    # An alien id alongside valid drafts is dropped, never published, never fatal; the whole
+    # run only fails (climbing the contract ladder) when NOTHING valid came back.
+    alien = [d.get("id") for d in obj["drafts"] if d.get("id") not in ids]
+    if alien:
+        print(f"::warning::writer: dropped draft(s) with invented id(s): {alien} "
+              f"(ids come only from the input)")
+        obj["drafts"] = [d for d in obj["drafts"] if d.get("id") in ids]
+    if stories and not obj["drafts"]:
+        raise llmlib.LLMError(f"writer returned no drafts with valid ids "
+                              f"(invented: {alien})" if alien else
+                              "writer returned an empty drafts list for non-empty input")
     for d in obj["drafts"]:
-        if d.get("id") not in ids:
-            raise llmlib.LLMError(f"writer drafted an unexpected/unverified id: {d.get('id')}")
         art = d.get("article_draft") or {}
         skel = d.get("script_skeleton") or {}
         if not art or not skel:
@@ -131,8 +141,8 @@ def run(client=None):
         user = ("Draft these verified stories. Two formats each, DRAFT-tagged, human_take "
                 "left empty.\n\n" + boards_blurb
                 + "Stories:\n" + json.dumps(chunk, indent=2))
-        part = client.call_json("writer", system, user)
-        part = validate(part, chunk)
+        part = client.call_json("writer", system, user,
+                                validate=lambda o: validate(o, chunk))
         drafts.extend(part["drafts"])
     obj = {"drafts": drafts}
 

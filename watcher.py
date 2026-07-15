@@ -38,12 +38,39 @@ FRESH_MIN = int(os.environ.get("WATCH_FRESH_MIN") or "90")
 COOLDOWN_MIN = int(os.environ.get("WATCH_COOLDOWN_MIN") or "120")
 
 
-def emit(trigger, reason=""):
-    line = f"trigger={'true' if trigger else 'false'}"
+def emit(trigger, reason="", breaking=True):
     print(("WATCHER TRIGGER: " + reason) if trigger else f"watcher: quiet ({reason})")
     out = os.environ.get("GITHUB_OUTPUT")
     if out:
-        open(out, "a").write(line + "\n" + f"reason={reason}\n")
+        open(out, "a").write(f"trigger={'true' if trigger else 'false'}\n"
+                             f"breaking={'true' if breaking else 'false'}\n"
+                             f"reason={reason}\n")
+
+
+# SLOT RECOVERY (2026-07-15): GitHub cron drift is real on this account (observed slots
+# firing 3-7 hours late or never). Each slot's edition file is the proof-of-run; if a
+# slot's deadline passed and its edition is absent, the watcher re-fires the full
+# pipeline itself (breaking=false: a normal run; wrap's hour windows produce the right
+# edition, the one-edition-per-slot skip and dedup guards make it rerun-safe). A slot
+# that RAN but FAILED also leaves no edition, so transient failures self-retry too.
+SLOT_DEADLINES = (  # (edition slug, deadline minutes-of-UTC-day, window end)
+    ("morning-brief", 12 * 60 + 10, 17 * 60),        # cron 10:40; recover 12:10-17:00
+    ("midday-update", 18 * 60 + 40, 23 * 60),        # cron 17:08; recover 18:40-23:00
+    ("evening-wrap", 23 * 60 + 45, 24 * 60),         # cron 23:08; recover 23:45-24:00
+)
+
+
+def missed_slot(now=None, content_dir=None):
+    """Return the edition slug of a missed slot, or None. Pure function for the canary."""
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    content_dir = content_dir or os.path.join(HERE, "site", "content")
+    minutes = now.hour * 60 + now.minute
+    today = now.date().isoformat()
+    for slug, deadline, window_end in SLOT_DEADLINES:
+        if deadline <= minutes < window_end and not os.path.exists(
+                os.path.join(content_dir, f"{today}-{slug}.json")):
+            return slug
+    return None
 
 
 def desk_published_recently():
@@ -117,6 +144,14 @@ def hot_cluster():
 def main():
     if os.path.exists(os.path.join(HERE, "PAUSE")):
         emit(False, "PAUSE file present")
+        return 0
+    # Slot recovery outranks the cooldown: a missed slot must run even if a breaking run
+    # published an hour ago (the edition is the guaranteed product).
+    slug = missed_slot()
+    if slug:
+        emit(True, f"SLOT RECOVERY: {slug} deadline passed with no edition published "
+                   f"(cron drifted or the run failed); re-firing the pipeline",
+             breaking=False)
         return 0
     if desk_published_recently():
         emit(False, f"desk published within the last {COOLDOWN_MIN}m; coverage is fresh")

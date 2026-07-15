@@ -101,8 +101,8 @@ def run(client=None):
         for s in enriched})
     user = build_user(enriched)
 
-    obj = client.call_json("verifier", system, user)
-    obj = validate(obj, ranked)
+    obj = client.call_json("verifier", system, user,
+                           validate=lambda o: validate(o, ranked))
 
     counts = {"VERIFIED": 0, "NEEDS-HUMAN-REVIEW": 0, "REJECT": 0}
     for v in obj["verdicts"]:

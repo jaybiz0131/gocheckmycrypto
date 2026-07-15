@@ -129,7 +129,7 @@ def run():
     system = common.load_prompt("chartmaster.md")
     user = ("Read today's tape and write the Chart Master's read.\n\n"
             + json.dumps(data, indent=1))
-    obj = validate(client.call_json("chartmaster", system, user))
+    obj = client.call_json("chartmaster", system, user, validate=validate)
     out = {
         "date": data["data_date"],
         "headline": obj["headline"],

@@ -75,3 +75,5 @@ Rank at most {TOP_N} stories. KEEP THE OUTPUT COMPACT, in this exact discipline:
   simply leave out; an ordinary low-significance story needs no entry anywhere.
 - "why_it_matters" is 1-2 tight lines; no essays.
 - Your final answer must be ONLY the JSON object: no preamble, no commentary, no code fence.
+
+OUTPUT CONTRACT (hard): top-level keys are exactly "ranked" and "rejected", both lists. Every id comes ONLY from the input clusters; never invent, rename, or suffix an id. JSON only, nothing else.

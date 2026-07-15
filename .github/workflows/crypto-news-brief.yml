@@ -21,9 +21,12 @@ on:
     # cadence. Later slots prefer updating/extending the day over repeating it (editor
     # prompt + deterministic dedup guard). Crons drift 1h later on Jack's clock when DST
     # ends Nov 1.
+    # Odd minutes on purpose: GitHub's scheduler drifts worst on :00/:30 (observed slots
+    # firing 3-7 hours late). The watcher's slot-recovery re-fires any slot that still
+    # misses its deadline.
     - cron: "40 10 * * *"   # Morning Brief slot, 10:40 UTC = 6:40am Eastern
-    - cron: "0 17 * * *"    # Midday Update slot, 17:00 UTC = 1:00pm Eastern
-    - cron: "0 23 * * *"    # Evening Wrap slot, 23:00 UTC = 7:00pm Eastern
+    - cron: "8 17 * * *"    # Midday Update slot, 17:08 UTC = 1:08pm Eastern
+    - cron: "8 23 * * *"    # Evening Wrap slot, 23:08 UTC = 7:08pm Eastern
   workflow_dispatch: {}
   # the breaking-news watcher (watcher.yml) calls this workflow with breaking=true
   workflow_call:
@@ -139,6 +142,34 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python3 deploy_check.py
+
+      # A dead slot must PING, not sit quiet (2026-07-15: two contract failures went
+      # unnoticed until the owner asked where the stories were). One open issue per
+      # failure title; the watcher's slot recovery independently retries the slot.
+      - name: Flag the failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, urllib.request
+          tok, repo = os.environ["GH_TOKEN"], os.environ["REPO"]
+          title = "Desk run failed: pipeline error (see run log)"
+          hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+          req = urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/issues?state=open&labels=pipeline", headers=hdrs)
+          if any(i["title"] == title for i in json.load(urllib.request.urlopen(req))):
+              print("flag issue already open; not duplicating"); raise SystemExit
+          body = (f"A scheduled/breaking desk run failed: {os.environ['RUN_URL']}\n\n"
+                  "The watcher's slot recovery will retry the slot automatically; this flag "
+                  "exists so a repeating failure gets human eyes. Close after the next green run.")
+          req = urllib.request.Request(f"https://api.github.com/repos/{repo}/issues",
+              data=json.dumps({"title": title, "body": body, "labels": ["pipeline"]}).encode(),
+              headers=hdrs, method="POST")
+          urllib.request.urlopen(req); print("failure flag opened")
+          PYEOF
 
       - name: Upload the review queue for human approval
         if: steps.key.outputs.have_key == 'true'

@@ -54,7 +54,10 @@ def validate(obj, pairs):
     by_id = {}
     for a in obj["approvals"]:
         if a.get("id") not in ids:
-            raise llmlib.LLMError(f"approver judged an unexpected id: {a.get('id')}")
+            # Per-item tolerance (2026-07-15): an invented id is ignored with a warning;
+            # coverage below fail-closes any draft left unjudged (it becomes a REJECT).
+            print(f"::warning::approver: ignored decision for invented id {a.get('id')!r}")
+            continue
         if a.get("decision") not in DECISIONS:
             raise llmlib.LLMError(f"approver: invalid decision '{a.get('decision')}' "
                                   f"for id {a.get('id')}")
@@ -124,8 +127,8 @@ def run(client=None):
         chunk = pairs[i:i + chunk_size]
         user = ("Judge each draft against its research brief. Decision + categorized "
                 "reason each.\n\nDrafts with briefs:\n" + json.dumps(chunk, indent=1))
-        part = client.call_json("approver", system, user)
-        part = validate(part, chunk)
+        part = client.call_json("approver", system, user,
+                                validate=lambda o: validate(o, chunk))
         approvals.extend(part["approvals"])
     obj = {"approvals": approvals}
 

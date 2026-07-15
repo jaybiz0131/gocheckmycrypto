@@ -58,8 +58,16 @@ class LLMError(RuntimeError):
     """Any failure that must fail the stage closed (no key, HTTP error, unparseable output)."""
 
 
+class ContractError(LLMError):
+    """The model answered but violated the stage's output contract (bad shape, invented
+    ids, unparseable JSON). Retryable up the contract ladder; other LLMErrors are not."""
+
+
 class BudgetError(LLMError):
     """The per-run token or dollar cap would be exceeded; refuse the call."""
+
+
+RESCUE_MODEL = "claude-sonnet-5"  # the contract-rescue rung: billed only on double failure
 
 
 class Budget:
@@ -104,18 +112,57 @@ class Client:
 
     # ---- public --------------------------------------------------------------
 
-    def call_json(self, stage, system, user):
-        """Run one stage and return its parsed JSON object. Raises LLMError on any failure."""
+    def call_json(self, stage, system, user, validate=None):
+        """Run one stage and return its parsed (and optionally validated) JSON object.
+
+        THE CONTRACT LADDER (2026-07-15; the small-model recovery layer): cheap models
+        occasionally violate the output contract in ways the big ones never did (a bare
+        story object instead of the wrapper; an invented id). Refusal without recovery
+        left the desk silent, so contract violations now climb a ladder:
+          rung 1: the stage's configured model;
+          rung 2: same model, told exactly what it got wrong;
+          rung 3: the rescue model (claude-sonnet-5), same correction: billed only on
+                  double failure.
+        Only ContractError climbs (parse/validation). Key/network/refusal failures raise
+        immediately as before. Replay mode never retries or escalates: fixtures are
+        authoritative, and a fixture that fails validation must fail the canary.
+        Raises LLMError on final failure (fail-closed unchanged)."""
         model_cfg = self.cfg["models"][stage]
+
+        def parse_and_validate(raw):
+            obj = extract_json(raw)
+            if obj is None:
+                raise ContractError(f"{stage}: model output was not parseable JSON "
+                                    f"(first 200 chars: {raw[:200]!r})")
+            try:
+                return validate(obj) if validate else obj
+            except ContractError:
+                raise
+            except LLMError as e:  # stage validators raise LLMError; they are contract checks
+                raise ContractError(str(e))
+
         if self.mode == "replay":
-            raw = self._replay_raw(stage)
-        else:
-            raw = self._live_raw(stage, model_cfg, system, user)
-        obj = extract_json(raw)
-        if obj is None:
-            raise LLMError(f"{stage}: model output was not parseable JSON (first 200 chars: "
-                           f"{raw[:200]!r})")
-        return obj
+            return parse_and_validate(self._replay_raw(stage))
+
+        rungs = [model_cfg, model_cfg, {**model_cfg, "model": RESCUE_MODEL}]
+        u = user
+        last = None
+        for i, mc in enumerate(rungs):
+            try:
+                return parse_and_validate(self._live_raw(stage, mc, system, u))
+            except BudgetError:
+                raise
+            except ContractError as e:
+                last = e
+                if i < len(rungs) - 1:
+                    nxt = rungs[i + 1]["model"]
+                    print(f"::warning::{stage}: output contract violated (attempt {i + 1}: "
+                          f"{str(e)[:160]}); retrying on {nxt}")
+                    u = (user + "\n\nYOUR PREVIOUS ATTEMPT VIOLATED THE OUTPUT CONTRACT: "
+                         + str(e)[:400]
+                         + "\nReturn ONLY the exact JSON shape the instructions specify. "
+                           "Ids come ONLY from the input; never invent or suffix ids.")
+        raise last
 
     # ---- live ----------------------------------------------------------------
 

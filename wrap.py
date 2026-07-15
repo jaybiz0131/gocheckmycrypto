@@ -120,9 +120,13 @@ def check(client, obj, stories, boards):
             "EDITION:\n" + json.dumps(obj, indent=1)
             + "\n\nINPUT STORIES:\n" + json.dumps(stories, indent=1)
             + "\n\nINPUT BOARDS:\n" + json.dumps(boards, indent=1))
+    def check_shape(o):
+        if o.get("decision") not in ("APPROVE", "REJECT"):
+            raise llmlib.LLMError(f"wrapcheck: invalid decision {o.get('decision')!r}")
+        return o
     v = client.call_json("wrapcheck",
                          "You are an adversarial fact-trace checker for a news desk. "
-                         "Default to REJECT when uncertain.", user)
+                         "Default to REJECT when uncertain.", user, validate=check_shape)
     return v.get("decision") == "APPROVE", v.get("reasons", [])
 
 
@@ -200,7 +204,13 @@ def main():
             + (("earlier_editions_today (UPDATE and EXTEND, never repeat; lead with what "
                 "changed since):\n" + json.dumps(earlier, indent=1) + "\n") if earlier else ""))
 
-    obj = client.call_json("wrap", system, user)
+    def wrap_shape(o):
+        for k in ("hook_title", "dek", "body", "the_watch"):
+            if not str(o.get(k, "")).strip():
+                raise llmlib.LLMError(f"wrap output missing '{k}'")
+        return o
+
+    obj = client.call_json("wrap", system, user, validate=wrap_shape)
     for attempt in (1, 2):
         probs = belts(str(obj.get("body", "")), str(obj.get("dek", "")),
                       str(obj.get("the_watch", "")))
@@ -219,7 +229,7 @@ def main():
         obj = client.call_json("wrap", system, user
                                + "\n\nYour previous attempt failed these checks; fix them "
                                  "and return the full JSON again:\n- "
-                               + "\n- ".join(all_reasons))
+                               + "\n- ".join(all_reasons), validate=wrap_shape)
 
     item = build_item(edition, obj, stories, date, now.strftime("%Y-%m-%dT%H:%M:%SZ"))
     if dry:

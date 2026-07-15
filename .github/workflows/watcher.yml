@@ -11,7 +11,9 @@ name: Breaking-news watcher
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    # :17/:47 (odd minutes drift far less on GitHub's scheduler than :00/:30). The :47
+    # tick also catches the evening slot's 23:45 recovery deadline same-day.
+    - cron: "17,47 * * * *"
   workflow_dispatch: {}
 
 permissions:
@@ -22,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       trigger: ${{ steps.w.outputs.trigger }}
+      breaking: ${{ steps.w.outputs.breaking }}
       reason: ${{ steps.w.outputs.reason }}
     steps:
       - uses: actions/checkout@v4
@@ -36,12 +39,14 @@ jobs:
           WATCH_COOLDOWN_MIN: ${{ vars.WATCH_COOLDOWN_MIN }}
         run: python3 watcher.py
 
-  breaking:
+  # market triggers run with the additive breaking gate; SLOT RECOVERY runs as a normal
+  # scheduled-equivalent pipeline (breaking=false)
+  fire:
     needs: watch
     if: needs.watch.outputs.trigger == 'true'
     uses: ./.github/workflows/crypto-news-brief.yml
     with:
-      breaking: true
+      breaking: ${{ needs.watch.outputs.breaking == 'true' }}
     secrets: inherit
     permissions:
       contents: write

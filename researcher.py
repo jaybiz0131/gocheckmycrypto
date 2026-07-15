@@ -138,8 +138,8 @@ def run(client=None):
         chunk = stories[i:i + chunk_size]
         user = ("Build a research brief for each story from its fetched source texts.\n\n"
                 "Stories:\n" + json.dumps(chunk, indent=1))
-        part = client.call_json("researcher", system, user)
-        part = validate(part, chunk)
+        part = client.call_json("researcher", system, user,
+                                validate=lambda o: validate(o, chunk))
         briefs.extend(part["briefs"])
     obj = {"briefs": briefs}
 

@@ -72,8 +72,8 @@ def run(client=None):
     system = common.load_prompt("editor.md", TOP_N=top_n)
     user = build_user(items, top_n)
 
-    obj = client.call_json("editor", system, user)
-    obj = validate(obj, top_n)
+    obj = client.call_json("editor", system, user,
+                           validate=lambda o: validate(o, top_n))
 
     obj["_meta"] = {"stage": "2-editor", "mode": client.mode,
                     "candidates": len(items["clusters"]),

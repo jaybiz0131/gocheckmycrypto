@@ -69,3 +69,5 @@ Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
 }
 
 One brief per story. Output valid JSON and nothing else.
+
+OUTPUT CONTRACT (hard): top-level key is exactly "briefs", a list with one entry per input story. Every id comes ONLY from the input; never invent, rename, or suffix an id. JSON only, nothing else.

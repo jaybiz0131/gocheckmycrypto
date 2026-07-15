@@ -136,6 +136,9 @@ def layer1_canary():
     # fail-closed canaries
     fails.extend(_failclosed_canaries(cfg))
 
+    # contract ladder + slot recovery (the 2026-07-15 self-healing layer)
+    fails.extend(_contract_ladder_canary(cfg))
+
     if fails:
         for f in fails:
             gh("error", "canary: " + f)
@@ -275,6 +278,85 @@ def _replay_e2e():
                fails, "replay: a REJECT story leaked into the approval template")
     except Exception as e:
         fails.append(f"replay: end-to-end raised {type(e).__name__}: {e}")
+    return fails
+
+
+def _contract_ladder_canary(cfg):
+    """The recovery layer (2026-07-15): a contract violation retries on the same model,
+    then escalates ONE call to the rescue model, and replay mode never escalates."""
+    fails = []
+
+    class StubClient(llmlib.Client):
+        def __init__(self, cfg, answers):
+            super().__init__(cfg, mode="live")
+            self.answers = list(answers)
+            self.models_used = []
+
+        def _live_raw(self, stage, model_cfg, system, user):
+            self.models_used.append(model_cfg["model"])
+            return self.answers.pop(0)
+
+    def need_ranked(o):
+        if "ranked" not in o:
+            raise llmlib.LLMError("editor output missing 'ranked'")
+        return o
+
+    # (a) bad shape then good on rung 2: recovered, no escalation
+    c = StubClient(cfg, ['{"id": "c000"}', '{"ranked": [], "rejected": []}'])
+    try:
+        obj = c.call_json("editor", "sys", "user", validate=need_ranked)
+        _check("ranked" in obj and len(c.models_used) == 2, fails,
+               f"ladder: retry did not recover (calls={c.models_used})")
+        _check(c.models_used[0] == c.models_used[1], fails,
+               "ladder: rung 2 must reuse the configured model")
+    except llmlib.LLMError as e:
+        fails.append(f"ladder: recoverable violation wrongly failed: {e}")
+
+    # (b) two bad answers: rung 3 runs on the rescue model
+    c2 = StubClient(cfg, ['nonsense', '{"wrong": 1}', '{"ranked": [], "rejected": []}'])
+    try:
+        c2.call_json("editor", "sys", "user", validate=need_ranked)
+        _check(len(c2.models_used) == 3 and c2.models_used[2] == llmlib.RESCUE_MODEL, fails,
+               f"ladder: third rung was not the rescue model (calls={c2.models_used})")
+    except llmlib.LLMError as e:
+        fails.append(f"ladder: rescue rung wrongly failed: {e}")
+
+    # (c) three bad answers: fails closed
+    c3 = StubClient(cfg, ['x', 'y', 'z'])
+    try:
+        c3.call_json("editor", "sys", "user", validate=need_ranked)
+        fails.append("ladder: triple violation did NOT fail closed")
+    except llmlib.LLMError:
+        pass
+
+    # (d) replay never retries/escalates: a fixture that fails validation fails the canary
+    rc = llmlib.Client(cfg, mode="replay")
+    try:
+        rc.call_json("editor", "sys", "user",
+                     validate=lambda o: (_ for _ in ()).throw(llmlib.LLMError("fixture bad")))
+        fails.append("ladder: replay validation failure did NOT raise")
+    except llmlib.LLMError:
+        _check(rc.budget.calls == 1, fails,
+               f"ladder: replay made {rc.budget.calls} calls (must be exactly 1, no ladder)")
+
+    # (e) watcher slot recovery: past deadline + missing edition -> that slot; edition
+    # present -> quiet; before deadline -> quiet
+    import datetime as _dt
+    import tempfile
+    import watcher
+    with tempfile.TemporaryDirectory() as td:
+        noon = _dt.datetime(2026, 7, 15, 13, 0, tzinfo=_dt.timezone.utc)
+        _check(watcher.missed_slot(noon, td) == "morning-brief", fails,
+               "watcher recovery: missed morning slot not detected")
+        open(os.path.join(td, "2026-07-15-morning-brief.json"), "w").write("{}")
+        _check(watcher.missed_slot(noon, td) is None, fails,
+               "watcher recovery: fired despite the edition existing")
+        early = _dt.datetime(2026, 7, 15, 11, 0, tzinfo=_dt.timezone.utc)
+        _check(watcher.missed_slot(early, td) is None, fails,
+               "watcher recovery: fired before the deadline")
+        evening = _dt.datetime(2026, 7, 15, 23, 50, tzinfo=_dt.timezone.utc)
+        _check(watcher.missed_slot(evening, td) == "evening-wrap", fails,
+               "watcher recovery: missed evening slot not detected")
     return fails
 
 
