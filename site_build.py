@@ -767,7 +767,7 @@ def render_home(items, flows, pulse, cm, dateline):
     desk_stat = f"{len(live)} verified stories on the desk" if live else "The first brief lands soon"
     cards = []
     cards.append(f"""<a class="dash-card home-card" href="/news.html">
-      <img class="dash-hero-img" src="/assets/crypto-cronkite-card.jpg" alt="Crypto Cronkite: market news and on-chain insights" loading="lazy">
+      <img class="dash-hero-img" src="/assets/crypto-cronkite-banner.png" alt="Crypto Cronkite: market news and on-chain insights" loading="lazy">
       <span class="lab">Latest news</span>
       <span class="dash-stat" style="font-size:19px">{esc(desk_stat)}</span>
       <p class="pc-note">The day's real crypto stories with the paid promotion stripped out,
@@ -779,7 +779,7 @@ def render_home(items, flows, pulse, cm, dateline):
         ww_line = (f"{fmt_usd(wnet)} net {'off' if wnet >= 0 else 'onto'} exchanges in the "
                    f"last {_win_phrase(flows.get('window_hours', 24))}.")
     cards.append(f"""<a class="dash-card home-card" href="/flows.html">
-      <img class="dash-hero-img" src="/assets/whale-watch-logo.jpg" alt="Whale Watch: market pulse, on-chain insights" loading="lazy">
+      <img class="dash-hero-img" src="/assets/whale-watch-banner.png" alt="Whale Watch: market pulse, on-chain insights" loading="lazy">
       <span class="lab">Whale Watch</span>
       <span class="dash-stat" style="font-size:19px">{esc(ww_line)}</span>
       <p class="pc-note">Where the whales are moving money: onto exchanges or into cold
@@ -790,7 +790,7 @@ def render_home(items, flows, pulse, cm, dateline):
     if fng:
         mp_line = f"Fear &amp; Greed today: {fng.get('value', '?')}, {esc((fng.get('label') or '').lower())}."
     cards.append(f"""<a class="dash-card home-card" href="/pulse.html">
-      <img class="dash-hero-img" src="/assets/market-pulse-logo.jpg" alt="Market Pulse: live dashboards" loading="lazy">
+      <img class="dash-hero-img" src="/assets/market-pulse-banner.png" alt="Market Pulse: live dashboards" loading="lazy">
       <span class="lab">Market Pulse</span>
       <span class="dash-stat" style="font-size:19px">{mp_line}</span>
       <p class="pc-note">Sentiment, price posture, top movers, the top 100, stablecoin dry
@@ -798,7 +798,7 @@ def render_home(items, flows, pulse, cm, dateline):
       <span class="dash-open">See the dashboards &rarr;</span></a>""")
     cm_line = (cm or {}).get("headline") or "The wizard reads the tape."
     cards.append(f"""<a class="dash-card home-card" href="/chartmaster.html">
-      <img class="dash-hero-img" src="/assets/chart-master-logo.jpg" alt="The Chart Master, crypto wizard" loading="lazy">
+      <img class="dash-hero-img" src="/assets/chart-master-banner.png" alt="The Chart Master, crypto wizard" loading="lazy">
       <span class="lab">The Chart Master</span>
       <span class="dash-stat" style="font-size:19px">&ldquo;{esc(cm_line)}&rdquo;</span>
       <p class="pc-note">The resident wizard's plain-language read of the boards, plus the
