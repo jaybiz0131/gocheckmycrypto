@@ -34,7 +34,8 @@ THE CONTRACT (non-negotiable):
   The reader should finish feeling ORIENTED, not activated.
 - No process talk: never mention pipelines, verification, or how the desk works.
 
-SHAPE (450-750 words when the day supports it; shorter honestly when quiet):
+SHAPE (450-750 words when the day supports it; NEVER exceed 850 words, a hard cap;
+shorter honestly when quiet):
 1. THE PICTURE: one or two paragraphs. The single thread that ties today together,
    stated plainly, with the day's most important concrete fact up front.
 2. WHAT HAPPENED: the day's stories woven into one narrative, not a list. Group them by

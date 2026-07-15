@@ -235,31 +235,38 @@ def main():
                 "changed since):\n" + json.dumps(earlier, indent=1) + "\n") if earlier else ""))
 
     def wrap_shape(o):
+        # Shape AND belts ride the contract ladder (2026-07-15): a belt failure (length,
+        # dash, advice, Bottom-Line lane) retries with the error explained and then gets
+        # the Sonnet rescue rung, instead of a same-model retry repeating the mistake
+        # (Haiku wrote 993 words against the cap twice before this).
         for k in ("hook_title", "dek", "body", "bottom_line"):
             if not str(o.get(k, "")).strip():
                 raise llmlib.LLMError(f"wrap output missing '{k}'")
+        probs = belts(str(o.get("body", "")), str(o.get("dek", "")),
+                      str(o.get("bottom_line", "")))
+        if probs:
+            raise llmlib.LLMError("edition failed deterministic belts: " + "; ".join(probs))
         return o
 
     obj = client.call_json("wrap", system, user, validate=wrap_shape)
+    # Independent trace check (needs the inputs, so it lives outside the ladder): one
+    # corrective retry through the full ladder, then fail closed.
     for attempt in (1, 2):
-        probs = belts(str(obj.get("body", "")), str(obj.get("dek", "")),
-                      str(obj.get("bottom_line", "")))
         ok, reasons = (True, [])
-        if not probs and client.mode == "live":
+        if client.mode == "live":
             ok, reasons = check(client, obj, stories, boards or {})
-        if not probs and ok:
+        if ok:
             break
-        all_reasons = probs + reasons
         if attempt == 2:
-            common.gh("error", f"wrap: edition failed its gates twice ({'; '.join(all_reasons[:4])}) "
-                      f"-> NOT published (stories unaffected)")
+            common.gh("error", f"wrap: edition failed its trace check twice "
+                      f"({'; '.join(reasons[:4])}) -> NOT published (stories unaffected)")
             common.write_out("wrap-rejected.json", {"edition": edition, "obj": obj,
-                                                    "reasons": all_reasons})
+                                                    "reasons": reasons})
             return 1
         obj = client.call_json("wrap", system, user
-                               + "\n\nYour previous attempt failed these checks; fix them "
-                                 "and return the full JSON again:\n- "
-                               + "\n- ".join(all_reasons), validate=wrap_shape)
+                               + "\n\nYour previous attempt failed the fact-trace check; "
+                                 "fix exactly these and return the full JSON again:\n- "
+                               + "\n- ".join(reasons), validate=wrap_shape)
 
     item = build_item(edition, obj, stories, date, now.strftime("%Y-%m-%dT%H:%M:%SZ"))
     if dry:
