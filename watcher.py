@@ -55,8 +55,8 @@ def emit(trigger, reason="", breaking=True):
 # that RAN but FAILED also leaves no edition, so transient failures self-retry too.
 SLOT_DEADLINES = (  # (edition slug, deadline minutes-of-UTC-day, window end)
     ("morning-brief", 12 * 60 + 10, 17 * 60),        # cron 10:40; recover 12:10-17:00
-    ("midday-update", 18 * 60 + 40, 23 * 60),        # cron 17:08; recover 18:40-23:00
-    ("evening-wrap", 23 * 60 + 45, 24 * 60),         # cron 23:08; recover 23:45-24:00
+    ("afternoon-brief", 18 * 60 + 40, 23 * 60),      # cron 17:08; recover 18:40-23:00
+    ("evening-brief", 23 * 60 + 45, 24 * 60),        # cron 23:08; recover 23:45-24:00
 )
 
 

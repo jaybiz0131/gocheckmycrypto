@@ -43,7 +43,7 @@ def just_published_urls():
         except Exception:
             continue
     today = datetime.date.today().isoformat()
-    for slug in ("morning-brief", "midday-update", "evening-wrap"):
+    for slug in ("morning-brief", "afternoon-brief", "evening-brief"):
         if os.path.exists(os.path.join(HERE, "site", "content", f"{today}-{slug}.json")):
             urls.append(f"{ORIGIN}/articles/{slug}-{today}.html")
     return sorted(set(urls))

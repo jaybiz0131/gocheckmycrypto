@@ -44,14 +44,35 @@ NFA = "Crypto Cronkite reports events. It never advises trades. Nothing here is 
 EDITIONS = {
     "morning": {"name": "The Morning Brief", "slug": "morning-brief", "rank": -1,
                 "id_prefix": "wrap-am"},
-    "midday": {"name": "The Midday Update", "slug": "midday-update", "rank": -2,
+    "midday": {"name": "The Afternoon Brief", "slug": "afternoon-brief", "rank": -2,
                "id_prefix": "wrap-md"},
-    "evening": {"name": "The Evening Wrap", "slug": "evening-wrap", "rank": -3,
+    "evening": {"name": "The Evening Brief", "slug": "evening-brief", "rank": -3,
                 "id_prefix": "wrap-pm"},
     # legacy alias (pre-3-slot cadence); resolves to the evening edition
-    "closing": {"name": "The Evening Wrap", "slug": "evening-wrap", "rank": -3,
+    "closing": {"name": "The Evening Brief", "slug": "evening-brief", "rank": -3,
                 "id_prefix": "wrap-pm"},
 }
+
+# THE BOTTOM LINE LANE (owner directive 2026-07-15): the desk's signature element runs
+# three times daily forever and is the most interpretation-heavy output the desk
+# generates, so it gets its own deterministic guardrail on top of the prompt lane.
+# Reporting-synthesis only: no future price direction, no setup/positioning language,
+# no advice, no speculative causation.
+BOTTOM_LINE_LINT = [
+    r"\bsets?\s+(it\s+|us\s+)?up\s+for\b", r"\bpoised\s+(to|for)\b", r"\bbrace\s+for\b",
+    r"\bpositioned\s+(to|for)\b", r"\bon\s+track\s+(to|for)\b",
+    r"\b(likely|expected|expect(s|ed)?)\s+to\s+(rise|fall|rally|drop|climb|slide|rebound|recover)\b",
+    r"\bcould\s+(surge|plunge|rally|crash|moon|tank|soar|collapse)\b",
+    r"\bnext\s+leg\b", r"\bbreak(out|down)\s+(toward|to|above|below)\b",
+    r"\bmove\s+(higher|lower)\b", r"\b(up|down)side\s+(ahead|coming|from\s+here)\b",
+    r"\bprice\s+target\b", r"\bpath\s+to\s+\$", r"\bheading\s+(higher|lower|toward)\b",
+]
+
+
+def bottom_line_lint(text):
+    """Return the list of directional/predictive lane violations (empty = clean)."""
+    low = (text or "").lower()
+    return [pat for pat in BOTTOM_LINE_LINT if re.search(pat, low)]
 
 ADVICE_LINT = [r"\byou should\b", r"\bbuy\b", r"\bsell\b", r"\bgood entry\b",
                r"\bwill (rally|crash|pump|dump|10x|moon)\b", r"\bguaranteed\b",
@@ -93,16 +114,20 @@ def gather_stories(hours=36):
     return out
 
 
-def belts(article_body, dek, watch):
+def belts(article_body, dek, bottom_line):
     """Deterministic checks; returns a list of problems (empty = pass)."""
     problems = []
-    text = " ".join([article_body, dek, watch])
+    text = " ".join([article_body, dek, bottom_line])
     if "—" in text or "–" in text:
         problems.append("em/en dash in the edition")
     low = text.lower()
     for pat in ADVICE_LINT:
         if re.search(pat, low):
             problems.append(f"advice-lint hit: {pat}")
+    # The Bottom Line's own guardrail: directional/predictive language is a lane
+    # violation in the signature element (and in the dek that frames it).
+    for pat in bottom_line_lint(bottom_line + " " + dek):
+        problems.append(f"Bottom Line lane violation (directional/predictive): {pat}")
     words = len(article_body.split())
     if not 120 <= words <= 950:
         problems.append(f"body {words} words outside 120-950")
@@ -145,7 +170,7 @@ def build_item(edition, obj, stories, date, published_utc):
         "rank": ed["rank"],
         "author": "Crypto Cronkite",
         "key_fact": destyle(obj.get("key_takeaway", "")),
-        "bottom_line": destyle(obj.get("the_watch", "")),
+        "bottom_line": destyle(obj.get("bottom_line", "")),
         "human_take": "",
         "body": paras,
         "sources": [{"title": s["title"], "url": s["url"]} for s in stories],
@@ -165,9 +190,14 @@ def main():
     if os.path.exists(os.path.join(HERE, "PAUSE")):
         print("wrap: PAUSE file present -> skipping"); return 0
     date = now.date().isoformat()
-    # rerun-safe: one edition per slot per day
+    breaking = os.environ.get("BREAKING") == "1"
+    # rerun-safe: one edition per slot per day, EXCEPT a breaking run REGENERATES the
+    # current slot's edition in place (owner directive 2026-07-15: a Bottom Line that
+    # does not know about the hack from an hour ago reads as asleep). Same file, same
+    # URL, refreshed read.
     final_path = os.path.join(CONTENT, f"{date}-{EDITIONS[edition]['slug']}.json")
-    if not dry and os.path.exists(final_path):
+    refreshing = os.path.exists(final_path)
+    if not dry and refreshing and not breaking:
         print(f"wrap: {EDITIONS[edition]['name']} already published today -> skip"); return 0
 
     stories = gather_stories()
@@ -185,7 +215,7 @@ def main():
     # within-day continuity: later editions UPDATE and EXTEND the day's coverage rather
     # than repeating it; give the model what already ran today so it can move forward
     earlier = []
-    for slug in ("morning-brief", "midday-update"):
+    for slug in ("morning-brief", "afternoon-brief"):
         p = os.path.join(CONTENT, f"{date}-{slug}.json")
         if os.path.exists(p) and not p == final_path:
             try:
@@ -205,7 +235,7 @@ def main():
                 "changed since):\n" + json.dumps(earlier, indent=1) + "\n") if earlier else ""))
 
     def wrap_shape(o):
-        for k in ("hook_title", "dek", "body", "the_watch"):
+        for k in ("hook_title", "dek", "body", "bottom_line"):
             if not str(o.get(k, "")).strip():
                 raise llmlib.LLMError(f"wrap output missing '{k}'")
         return o
@@ -213,7 +243,7 @@ def main():
     obj = client.call_json("wrap", system, user, validate=wrap_shape)
     for attempt in (1, 2):
         probs = belts(str(obj.get("body", "")), str(obj.get("dek", "")),
-                      str(obj.get("the_watch", "")))
+                      str(obj.get("bottom_line", "")))
         ok, reasons = (True, [])
         if not probs and client.mode == "live":
             ok, reasons = check(client, obj, stories, boards or {})

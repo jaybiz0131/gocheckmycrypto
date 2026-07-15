@@ -355,8 +355,23 @@ def _contract_ladder_canary(cfg):
         _check(watcher.missed_slot(early, td) is None, fails,
                "watcher recovery: fired before the deadline")
         evening = _dt.datetime(2026, 7, 15, 23, 50, tzinfo=_dt.timezone.utc)
-        _check(watcher.missed_slot(evening, td) == "evening-wrap", fails,
+        _check(watcher.missed_slot(evening, td) == "evening-brief", fails,
                "watcher recovery: missed evening slot not detected")
+
+    # THE BOTTOM LINE lane gate (owner directive 2026-07-15): the signature element's
+    # own guardrail must block directional/predictive language and pass clean synthesis.
+    import wrap as wrapmod
+    clean = ("The day's theme was regulation outpacing the market: two agencies moved and "
+             "the tape barely noticed. The honest read is that positioning stayed calm "
+             "while the headlines ran hot. The coming checkpoints are Thursday's committee "
+             "vote and the exchange's incident report.")
+    _check(wrapmod.bottom_line_lint(clean) == [], fails,
+           f"Bottom Line lane: clean synthesis wrongly flagged: {wrapmod.bottom_line_lint(clean)}")
+    dirty = "Today's flush sets up for a move higher into the CPI print."
+    _check(len(wrapmod.bottom_line_lint(dirty)) >= 1, fails,
+           "Bottom Line lane: 'sets up for a move higher' was NOT blocked")
+    _check(len(wrapmod.bottom_line_lint("Bitcoin looks poised to rally, brace for volatility.")) >= 2,
+           fails, "Bottom Line lane: poised-to/brace-for was NOT blocked")
     return fails
 
 

@@ -108,10 +108,13 @@ jobs:
       # reads fresh data). Runs even when no new story cleared the gates (the whole point:
       # never a zero-content slot). Fail-open for the brief: an edition failure warns
       # loudly but never blocks story publishing.
-      - name: The Daily Edition (Morning Brief / Closing Wrap)
+      - name: The Daily Edition (Morning / Afternoon / Evening Brief + The Bottom Line)
         if: steps.key.outputs.have_key == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # a breaking run REGENERATES the current slot's edition so The Bottom Line
+          # includes the story that just broke (owner directive 2026-07-15)
+          BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
         run: python3 wrap.py || echo "::warning::daily edition failed its gates; stories unaffected"
 
       - name: Commit and push published content (deploys the site)

@@ -718,8 +718,59 @@ def desk_strip():
 </div></section>"""
 
 
+def _is_wrap(item):
+    return str(item.get("id", "")).startswith("wrap-")
+
+
+def bottom_line_band(items):
+    """THE BOTTOM LINE (owner directive 2026-07-15): the desk's signature element, a
+    visually distinct band above the stories: the newest edition's 3-5 sentence read,
+    refreshed every slot (and by breaking runs). The anchor-desk voice slot."""
+    wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
+    if not wraps:
+        return ""
+    ed = wraps[0]  # load_content sorts newest-first; wraps outrank stories within a date
+    name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
+    return f"""<section class="bl-band"><div class="wrap">
+  <div class="bl-head"><span class="bl-label">The Bottom Line</span>
+    <span class="dateline">{name} &middot; {fmt_when(ed)}</span></div>
+  <p class="bl-read">{esc(ed["bottom_line"])}</p>
+  <div class="bl-links"><a href="/articles/{esc(ed['slug'])}.html">Read the full edition &rarr;</a>
+    <a href="/bottom-line.html">Past reads</a></div>
+</div></section>"""
+
+
+def render_bottom_line_history(items, dateline):
+    """/bottom-line.html: the browsable history of the daily reads, one entry per
+    edition, newest first. Each edition's read is preserved with its edition forever."""
+    wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
+    rows = []
+    for ed in wraps:
+        name = esc((ed.get("title") or "").split(":")[0].strip())
+        rows.append(f"""<div class="bl-hist">
+      <div class="bl-head"><span class="bl-label">{name}</span>
+        <span class="dateline">{fmt_when(ed)}</span></div>
+      <p class="bl-read">{esc(ed["bottom_line"])}</p>
+      <p style="margin:6px 0 0"><a href="/articles/{esc(ed['slug'])}.html">The full edition &rarr;</a></p>
+    </div>""")
+    body = f"""<main class="wrap narrow"><section class="page">
+  <span class="kicker">The Bottom Line</span>
+  <h1>The daily reads</h1>
+  <p class="lede">Three times a day the desk closes its edition with The Bottom Line: what
+     happened, why it mattered, and what the calendar says comes next. Synthesis of the
+     desk's verified reporting, never a prediction and never advice. Every read is kept.</p>
+  {"".join(rows) if rows else '<p class="lede">The first edition lands soon.</p>'}
+  <p class="nfa">{esc(NFA)}</p>
+</section></main>"""
+    return shell(f"The Bottom Line - {NAME}", "The desk's daily reads: what happened, why it "
+                 "mattered, and what comes next. Synthesis, never advice.",
+                 "The Bottom Line", body, dateline, path="/bottom-line.html", brand="cronkite")
+
+
 def render_news(items, dateline, pulse=None):
     live = [i for i in items if not i.get("example")]
+    band = bottom_line_band(live)
+    live = [i for i in live if not _is_wrap(i)]  # editions speak through the band
     if live:
         lead = live[0]
         rest = live[1:]
@@ -754,7 +805,7 @@ def render_news(items, dateline, pulse=None):
                 '</div></div></section>')
     # news first: lead story, then the rest of the day's stories; the promise strip and
     # the whale teaser read as the footer beats, never above the journalism
-    body = market_strip(pulse) + desk_strip() + lead_html + grid + trust_block() + flow_teaser() + newsletter()
+    body = market_strip(pulse) + desk_strip() + band + lead_html + grid + trust_block() + flow_teaser() + newsletter()
     return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html",
                  brand="cronkite")
 
@@ -763,7 +814,7 @@ def render_home(items, flows, pulse, cm, dateline):
     """The GoCheckMyCrypto front door, built for the RETURNING reader: live markets strip,
     today's headlines, the storylines the desk is tracking, then the four desks. The brand
     pitch lives below the information, not above it."""
-    live = [i for i in (items or []) if not i.get("example")]
+    live = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)]
     desk_stat = f"{len(live)} verified stories on the desk" if live else "The first brief lands soon"
     cards = []
     cards.append(f"""<a class="dash-card home-card" href="/news.html">
@@ -847,7 +898,8 @@ def render_home(items, flows, pulse, cm, dateline):
         track_html = (f'<div class="tracking"><span class="lab">Tracking</span>{"".join(chips)}'
                       f'<span class="mut">the storylines the desk is following</span></div>')
 
-    body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
+    band = bottom_line_band([i for i in (items or []) if not i.get("example")])
+    body = market_strip(pulse) + band + f"""<main class="wrap"><section class="page">
   {desk_html}
   {track_html}
   <div class="dash-grid home-grid">{"".join(cards)}</div>
@@ -2593,6 +2645,7 @@ def build():
     w("thanks.html", render_thanks(dateline))
     for it in items:
         w(os.path.join("articles", f"{it['slug']}.html"), render_article(it, all_items=items))
+    w("bottom-line.html", render_bottom_line_history(items, dateline))
     w("feed.xml", render_feed(items))
 
     # the iOS home-screen icon lives at the site root (family convention)
@@ -2609,7 +2662,7 @@ def build():
             "/pulse/sentiment.html", "/pulse/posture.html",
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
-            "/archive.html", "/method.html", "/about.html", "/standards.html",
+            "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
             "/privacy.html", "/terms.html"]
     locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
     urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)

@@ -28,10 +28,18 @@ THE FOUR STAGES
    breaking two-source), the post-draft approver tracing every fact to its brief, and
    the categorized editorial log.
 
-CADENCE: Morning Brief 10:40 UTC, Midday Update 17:08, Evening Wrap 23:08 (Eastern
+CADENCE: The Morning Brief 10:40 UTC, The Afternoon Brief 17:08, The Evening Brief 23:08 (Eastern
 audience clock); watcher-triggered breaking runs; slot recovery on cron drift; contract
 ladder on small-model output; monthly aging review WITH the correction loop
 (corrections.py: premise-flagged stories re-run through research -> write -> approve and
 update in place only with the approver's signature, stamped with a correction note).
+
+THE BOTTOM LINE (2026-07-15): each edition closes with the desk's signature 3-5
+sentence read: synthesis of what happened and why it mattered, never price
+direction, never setup language, never advice, never causation beyond sources.
+It renders in its own band at the top of the homepage and the news desk, refreshed
+every slot (breaking runs regenerate the current slot's edition), archived forever
+at /bottom-line.html, and guarded by its own deterministic directional-language
+gate on top of the prompt lane.
 
 The reader-facing version of this charter is the site's method page.
