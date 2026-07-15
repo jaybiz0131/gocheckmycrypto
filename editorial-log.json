@@ -177,5 +177,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c039",
+    "headline": "Treasury OFAC Sanctions Iran-Linked Crypto Wallets, Freezes $130 Million",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the announcement to 'Treasury Secretary Scott Bessent' but the brief data_point says only that Bessent 'says OFAC sanctioned' the wallets. The draft's opening treats this as a direct announcement from Bessent ('Treasury Secretary Scott Bessent announced'), but the brief's single source is reporting from The Block, not a Treasury statement or Bessent's own words. This is a meaningful distinction: the draft presents a direct announcement where the brief only confirms reported speech. The draft should attribute the claim to The Block's reporting, not present it as a Bessent announcement."
+    ]
+   },
+   {
+    "id": "c118",
+    "headline": "DTCC Runs Live Tokenized Securities Trades Across 40 Institutional Firms",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'bringing nearly 40 financial firms and technology providers into what DTCC called its largest tokenization production effort' in the opening sentence. The brief's data_point 3 attributes the 'nearly 40' count to the Wall Street Journal, not to DTCC. The brief's data_point 2 says DTCC claimed 'more than two dozen firms,' which is lower. The draft conflates WSJ's reporting with DTCC's own claim, smuggling in a higher participant count under DTCC's authority when the brief shows DTCC only claimed 'more than two dozen.' This misattributes the source of the 'nearly 40' figure and overstates what DTCC itself said."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "White House Convenes on CLARITY Act Ethics Provision as August Recess Nears",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states: 'On Tuesday, a few Democratic senators held a press conference calling for Clarity Act opposition if it does not sever Trump's ties to the sector.' The brief's data_point says: 'On Tuesday, a few Democratic senators held a press conference to call for Clarity Act opposition if it doesn't sever Trump's \"corrupt\" ties to the sector.' The word 'corrupt' appears in the brief but is omitted from the draft. This is a material factual difference\u2014the brief attributes that characterization to the senators; the draft softens it.",
+     "The data_point about Chief of Staff Susie Wiles is marked 'unconfirmed' in the brief but presented as fact in the draft body: 'White House officials, potentially including Chief of Staff Susie Wiles, are expected at the Thursday meeting, according to CoinDesk reporting from unnamed sources.' The hedge 'potentially' appears, but the confidence label 'unconfirmed' must survive in the prose for anonymous-sourced claims. The current phrasing reads as settled reporting when it is explicitly unconfirmed."
+    ]
+   }
+  ]
  }
 ]
