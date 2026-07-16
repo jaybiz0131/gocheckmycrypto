@@ -950,9 +950,11 @@ def render_home(items, flows, pulse, cm, dateline):
         track_html = (f'<div class="tracking"><span class="lab">Tracking</span>{"".join(chips)}'
                       f'<span class="mut">the storylines the desk is following</span></div>')
 
+    # Order (owner call 2026-07-16): headlines first, the desk's read below them.
     band = bottom_line_band([i for i in (items or []) if not i.get("example")])
-    body = market_strip(pulse) + band + f"""<main class="wrap"><section class="page">
+    body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
   {desk_html}
+  {band}
   {editions_html}
   {track_html}
   <div class="dash-grid home-grid">{"".join(cards)}</div>

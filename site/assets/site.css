@@ -520,3 +520,6 @@ footer.site .fnote b{color:var(--muted)}
 .bl-links{display:flex;gap:18px;margin-top:10px;font-size:13.5px}
 .bl-hist{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--rule);
   border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0}
+/* Bottom Line inside the front page flow (headlines first, the read below) */
+.page .bl-band{border-bottom:0;margin:20px 0 2px}
+.page .bl-band>.wrap{max-width:none;margin:0;padding:16px 20px 18px}
