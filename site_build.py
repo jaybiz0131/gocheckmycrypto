@@ -856,24 +856,76 @@ def render_home(items, flows, pulse, cm, dateline):
       Oracle Challenge and the Wizard's Exam. Learn the charts by playing them.</p>
       <span class="dash-open">Enter the tower &rarr;</span></a>""")
 
-    # Today at the desk: the returning reader's first screen is headlines, not brand copy.
-    live = [i for i in items if not i.get("example")]
+    # The front page (owner directive 2026-07-16): a network-style hero mosaic. Several
+    # lead stories visible at once with explicit hierarchy (the editor's rank orders them),
+    # editions in their own strip below. No carousel: every ranked story is on screen.
+    stories = [i for i in items if not i.get("example") and not _is_wrap(i)]
+
+    def _hero_tag(item):
+        tags = tags_for(item)
+        return f'<span class="tag topic">{esc(tags[0])}</span>' if tags else ""
+
     desk_html = ""
-    if live:
-        lead = live[0]
-        dek_html = f'<p>{esc(lead["dek"])}</p>' if lead.get("dek") else ""
-        lead_html = (f'<a class="home-lead" href="/articles/{esc(lead["slug"])}.html">'
+    if stories:
+        lead = stories[0]
+        dek_html = f'<p class="hero-dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""
+        lead_html = (f'<a class="hero-lead" href="/articles/{esc(lead["slug"])}.html">'
+                     f'<span class="hero-kick"><span class="kicker">Lead story</span>{_hero_tag(lead)}</span>'
                      f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
                      f'<span class="hl-meta">{verdict_badge(lead.get("verdict"))}'
                      f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
-        rows = "".join(
-            f'<a class="home-row" href="/articles/{esc(i["slug"])}.html">'
+        rail = "".join(
+            f'<a class="hero-item" href="/articles/{esc(i["slug"])}.html">'
+            f'<span class="hero-num">{n:02d}</span><span class="hero-body">'
+            f'<span class="hero-kick">{_hero_tag(i)}</span>'
             f'<span class="hl-title">{esc(i.get("title"))}</span>'
-            f'<span class="hl-meta"><span class="dateline">{fmt_when(i)}</span></span></a>'
-            for i in live[1:5])
+            f'<span class="dateline">{fmt_when(i)}</span></span></a>'
+            for n, i in enumerate(stories[1:4], start=2))
+        rail += ('<a class="hero-item more" href="/news.html">'
+                 '<span class="hero-body"><span class="hl-title">All stories &rarr;</span></span></a>')
+        wide = "".join(
+            f'<a class="hero-item hero-wide" href="/articles/{esc(i["slug"])}.html">'
+            f'<span class="hero-num">{n:02d}</span><span class="hero-body">'
+            f'<span class="hero-kick">{_hero_tag(i)}</span>'
+            f'<span class="hl-title">{esc(i.get("title"))}</span>'
+            f'<span class="dateline">{fmt_when(i)}</span></span></a>'
+            for n, i in enumerate(stories[4:6], start=5))
+        wide_html = f'<div class="hero-wide-row">{wide}</div>' if wide else ""
         desk_html = f"""<div class="sec-head"><h2>Today at the desk</h2><span class="bar"></span></div>
-  <div class="home-desk">{lead_html}<div class="home-rows">{rows}
-    <a class="home-row more" href="/news.html"><span class="hl-title">All stories &rarr;</span></a></div></div>"""
+  <div class="hero-grid">{lead_html}<div class="hero-rail">{rail}</div></div>{wide_html}"""
+
+    # The Editions: the desk's daily synthesis as its own strip, one card per slot
+    # (morning / midday / evening), newest first, never older than the current news cycle.
+    wraps = [i for i in items if _is_wrap(i) and not i.get("example")]
+    ed_cards, seen_slots = [], set()
+    if wraps:
+        recent = sorted({w.get("date", "") for w in wraps}, reverse=True)[:2]
+        for w in wraps:
+            if len(ed_cards) >= 3:
+                break
+            if (w.get("date") or "") not in recent:
+                continue
+            title = w.get("title") or ""
+            kick, _, hook = title.partition(":")
+            if not hook:
+                kick, hook = "The Daily Edition", title
+            if kick in seen_slots:
+                continue
+            seen_slots.add(kick)
+            fact = w.get("key_fact") or w.get("dek") or ""
+            ed_cards.append(
+                f'<a class="edition-card" href="/articles/{esc(w["slug"])}.html">'
+                f'<span class="ed-kick">{esc(kick)}</span>'
+                f'<span class="ed-title">{esc(hook.strip())}</span>'
+                f'<span class="ed-fact">{esc(fact)}</span>'
+                f'<span class="dateline">{fmt_when(w)}</span></a>')
+    editions_html = ""
+    if ed_cards:
+        editions_html = (f'<div class="sec-head" style="margin-top:26px"><h2>The Editions</h2>'
+                         f'<span class="bar"></span></div>'
+                         f'<p class="pc-note" style="margin:0 0 10px">The desk\'s daily synthesis: '
+                         f'morning, midday, and evening reads over everything published.</p>'
+                         f'<div class="edition-strip">{"".join(ed_cards)}</div>')
 
     # Tracking: the narratives watchlist, each chip linking to its latest published chapter.
     track_html = ""
@@ -901,6 +953,7 @@ def render_home(items, flows, pulse, cm, dateline):
     band = bottom_line_band([i for i in (items or []) if not i.get("example")])
     body = market_strip(pulse) + band + f"""<main class="wrap"><section class="page">
   {desk_html}
+  {editions_html}
   {track_html}
   <div class="dash-grid home-grid">{"".join(cards)}</div>
   <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
