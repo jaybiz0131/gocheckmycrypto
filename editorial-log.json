@@ -333,5 +333,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-16",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c016",
+    "headline": "U.S. Sanctions Four Iran Central Bank Crypto Wallets, Tether Freezes $131M USDT",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'The action breaks with the ceasefire agreement between the U.S. and Iran, which has given way to resumed air and drone strikes' is not supported by the brief. The data_point claims 'The action follows a ceasefire agreement between the U.S. and Iran breaking down and air and drone strikes resuming,' which describes temporal sequence only\u2014the draft mischaracterizes this as a causal claim ('breaks with') that is not in the source material. This is a smuggled interpretation, not a paraphrase of the brief.",
+     "The opening sentence 'showing that cryptocurrency's transparency can work as a surveillance tool for government policy' is framing/analysis not present in any data_point. The brief contains facts about enforcement capacity; the draft adds interpretive claim about surveillance function as stated fact."
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "Ostium Vault Exploiter Routes 10,540 ETH to Tornado Cash",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'the attacker converting stolen stablecoins to ether and routing 10,540 ETH into Tornado Cash' but brief data says the exploiter swapped stablecoins for 12,080 ETH (per one data_point) or 12,086 ETH (per PeckShield diagram in another data_point), then routed 10,540 ETH to Tornado. The draft omits the discrepancy between the total swapped (~12,080\u201312,086 ETH) and the amount laundered (10,540 ETH), collapsing two separate figures into one claim and losing the ~1,500\u20131,500 ETH unaccounted for in the narrative.",
+     "Bottom_line claims '$18\u201324M' loss but draft body only supports '$24 million' as the current figure per The Defiant's reporting. The bottom_line introduces a range ($18\u201324M) that is not justified by the brief; the brief notes 'up-to-$18 million reported when first surfaced' but the current reporting is $24 million, not a range."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Citadel Securities commits $400 million to Crypto.com at $20 billion valuation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Crypto.com is also developing offerings in prediction markets and tokenized real-world assets (RWAs), according to the announcement, though neither of those claims has been independently verified.' This sentence appears to acknowledge the unconfirmed status but then immediately uses the claim as fact in the opening narrative ('The exchange plans to use the capital to expand into tokenized securities, derivatives and other asset classes'). The brief marks both 'Crypto.com is developing offerings in prediction markets and tokenized real-world assets (RWAs)' and 'Crypto.com will use the capital to expand into tokenized securities, derivatives and other asset classes' as 'announced-not-verified' confidence level. These unconfirmed claims should not appear in the main narrative as settled fact without confidence qualifiers visible to readers. The disclaimer sentence comes too late and the damage is done\u2014readers already absorbed the claims as announced fact."
+    ]
+   }
+  ]
  }
 ]
