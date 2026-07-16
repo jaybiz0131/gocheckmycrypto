@@ -879,14 +879,11 @@ def render_home(items, flows, pulse, cm, dateline):
             '<source src="/assets/hero/hero-loop.webm" type="video/webm">'
             '<source src="/assets/hero/hero-loop.mp4" type="video/mp4"></video>'
             '<span class="hero-scrim" aria-hidden="true"></span>')
-        lead_html = (f'<a class="hero-lead hero-cine" href="/articles/{esc(lead["slug"])}.html">'
-                     f'{hero_video}<span class="hero-fg">'
+        lead_html = (f'<a class="hero-lead" href="/articles/{esc(lead["slug"])}.html">'
                      f'<span class="hero-kick"><span class="kicker">Lead story</span>{_hero_tag(lead)}</span>'
                      f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
                      f'<span class="hl-meta">{verdict_badge(lead.get("verdict"))}'
-                     f'<span class="dateline">{fmt_when(lead)}</span></span></span></a>'
-                     '<script>(function(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)'
-                     '{var v=document.querySelector(".hero-video");if(v)v.parentNode.removeChild(v);}})()</script>')
+                     f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
         rail = "".join(
             f'<a class="hero-item" href="/articles/{esc(i["slug"])}.html">'
             f'<span class="hero-num">{n:02d}</span><span class="hero-body">'
@@ -905,7 +902,11 @@ def render_home(items, flows, pulse, cm, dateline):
             for n, i in enumerate(stories[4:6], start=5))
         wide_html = f'<div class="hero-wide-row">{wide}</div>' if wide else ""
         desk_html = f"""<div class="sec-head"><h2>Today at the desk</h2><span class="bar"></span></div>
-  <div class="hero-grid">{lead_html}<div class="hero-rail">{rail}</div></div>{wide_html}"""
+  <div class="hero-band">{hero_video}<div class="hero-band-inner">
+    <div class="hero-grid">{lead_html}<div class="hero-rail">{rail}</div></div>{wide_html}
+  </div></div>
+  <script>(function(){{if(matchMedia("(prefers-reduced-motion: reduce)").matches)
+    {{var v=document.querySelector(".hero-video");if(v)v.parentNode.removeChild(v);}}}})()</script>"""
 
     # The Editions: the desk's daily synthesis as its own strip, one card per slot
     # (morning / midday / evening), newest first, never older than the current news cycle.
