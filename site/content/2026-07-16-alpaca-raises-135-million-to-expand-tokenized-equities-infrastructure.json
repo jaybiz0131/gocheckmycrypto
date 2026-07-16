@@ -1,0 +1,30 @@
+{
+  "id": "c009",
+  "slug": "alpaca-raises-135-million-to-expand-tokenized-equities-infrastructure",
+  "kind": "brief",
+  "title": "Alpaca raises $135 million to expand tokenized equities infrastructure",
+  "dek": "Alpaca raised $135 million in equity funding led by Peak XV Partners to expand its tokenized U.S. stocks infrastructure. The combined $435 million funding package (including $300 million in debt) values the firm at an undisclosed amount and anchors its dominance in tokenized equities custody, where it holds over $1.5 billion in underlying stocks.",
+  "date": "2026-07-16",
+  "published_utc": "2026-07-16T20:15:36Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Alpaca raised $135 million in equity capital (plus $300 million in debt) to scale tokenized equities infrastructure, controlling roughly 94% of the tokenized U.S. equities market and holding $1.5 billion in underlying stocks.",
+  "bottom_line": "Watch whether Alpaca's 94 percent market share holds as Coinbase and Kraken scale competing offerings, and whether tokenized equities growth sustains beyond 2025's exceptional spike. If regulatory clarity emerges around 24/7 settlement and corporate actions, the market could accelerate; if regulators impose restrictions on tokenized equity trading hours or custody models, Alpaca's competitive advantage may shift.",
+  "human_take": "",
+  "body": [
+    "Alpaca raised $135 million in equity funding led by Peak XV Partners to expand infrastructure for tokenized U.S. stocks on blockchain, CoinDesk reported. The round included participation from Elefund, BNP Paribas' Opera Tech Ventures, and Unbound. Combined with $300 million in debt financing primarily from Payward (Kraken's parent) and BMO, the total funding package reached $435 million. Alpaca did not disclose a new post-funding valuation.",
+    "The capital raise follows Alpaca's Series D in January 2026, which raised $150 million at a $1.15 billion valuation, per CoinDesk's reporting. That round signaled institutional confidence in tokenized equities as an asset class; this new funding shows that confidence is accelerating into infrastructure deployment.",
+    "Alpaca controls the dominant position in tokenized equities custody and clearing. The firm clears or custodies roughly 94 percent of tokenized U.S. equities, including products connected to Binance, Ondo, and Dinari, according to CoinDesk's reporting. It holds more than $1.5 billion in underlying stocks backing those tokenized positions. Its Instant Tokenization Network allows market participants to mint and redeem tokenized stocks against underlying shares around the clock, creating a 24/7 settlement capability that traditional equity markets cannot match.",
+    "Tokenized equities grew rapidly in 2025: the market reached roughly $963 million in value by January 2026, representing nearly 3,000 percent growth for that calendar year, per CoinDesk's reporting. That growth has drawn new competitors. Coinbase, Kraken, and other crypto firms have moved further into on-chain assets, fragmenting what was once Alpaca's nearly uncontested market.",
+    "But a structural constraint persists. Regulated firms must still hold the underlying shares in traditional custody, process corporate actions (dividends, splits, proxy votes), and connect blockchain transactions back to traditional settlement rails. Tokenization in this model is a settlement layer over traditional finance plumbing, not a replacement for it. That requirement is precisely why Alpaca needs capital: it must scale the backend infrastructure that bridges crypto settlement to physical equity ownership. The company's dominance rests on that unglamorous operational moat, not on blockchain's speed alone.",
+    "The capital raise addresses that reality. With $300 million in debt and $135 million in equity, Alpaca now has runway to build the custody redundancy, corporate action processing, and traditional-market connectors that scaling tokenized equities requires."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/07/16/crypto-brokerage-firm-alpaca-raises-usd135-million-for-tokenized-stock-infrastructure",
+      "url": "https://www.coindesk.com/business/2026/07/16/crypto-brokerage-firm-alpaca-raises-usd135-million-for-tokenized-stock-infrastructure"
+    }
+  ]
+}

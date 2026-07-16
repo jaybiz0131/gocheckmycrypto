@@ -298,5 +298,40 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-16",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c016",
+    "headline": "U.S. sanctions four Iran central bank wallets; Tether freezes $131 million in USDT",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Wednesday' for OFAC sanctions timing but brief provides timestamp 2026-07-16T10:07:06Z (Wednesday). However, the draft introduces new factual claim not in brief: 'The action was triggered after a ceasefire agreement between the U.S. and Iran broke down and air and drone strikes resumed.' This appears in brief's data_points as confidence 'reported' but is not mentioned anywhere in the draft body until this point\u2014it is smuggled context. More critically, the draft never surfaces this claim explicitly; it only appears in the open_questions/bear_case framing. The draft should either prominently feature this trigger or omit it entirely. The brief lists it as a reported data point, but the draft's silence on causation while discussing the timing creates an accuracy gap: if the brief claims the strikes triggered it, the draft must say so or reject the framing."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "Visa Enters Stablecoin Infrastructure Market",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents Visa's stablecoin platform announcement as fact ('Visa has unveiled a stablecoin platform'), but the brief explicitly states: 'No source text was fetched; the Decrypt article URL returned no content.' The core claim in the brief is marked 'reported' with zero source_chars (0), indicating the announcement itself has not been verified from accessible source material. The draft should either be held until source verification is possible or reframed to explicitly flag that the announcement cannot be independently confirmed from available sources.",
+     "The draft claims no data points exist to support basic details ('which stablecoin or stablecoins the platform supports, launch date, fee structure...'), but then presents the core fact of the announcement as settled. This contradicts the brief's own data_points array, which is empty. A story built on an unverified announcement with zero supporting detail from accessible sources should not run."
+    ]
+   },
+   {
+    "id": "c029",
+    "headline": "Crypto bill stalled over Trump ethics concerns as final vote nears",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Negotiations on the CLARITY Act, a significant crypto regulatory bill, have hit a procedural roadblock centered on ethics concerns related to Trump's financial interests' but the brief data_points do not specify that ethics concerns 'centered on' Trump's interests\u2014only that the bill 'faces what is described as a potential final test over Trump conflicts of interest concerns.' The draft presents a more definitive causal claim than the source supports.",
+     "The draft claims 'The CLARITY Act has advanced through most of the legislative process and represents an attempt to establish a clearer regulatory framework for crypto assets and exchanges. The bill has survived committee votes and floor debate' but none of these procedural milestones appear in the brief's data_points. This is smuggled information not traced to the source.",
+     "The draft states the final procedural stages have 'exposed questions about whether the president's own financial positions in crypto or crypto-adjacent assets create a conflict' but the brief does not specify that the conflict is about Trump's positions in crypto or 'crypto-adjacent assets'\u2014only that there are 'conflicts of interest concerns.' The draft has elaborated beyond what the brief supports.",
+     "The draft asserts 'variations on timing' are being debated (which does appear in the brief) but then extends this to 'as lawmakers navigate the conflict-of-interest questions,' implying lawmakers are the ones raising these questions, which the brief does not establish.",
+     "The open_questions in the brief list 'What specific Trump financial interests or conflicts are at issue in the CLARITY Act negotiations' and 'Whether the ethics concerns relate to direct Trump holdings, Trump-affiliated entities, or broader administration policy positions'\u2014indicating the brief author views these as unconfirmed. The draft presents these details as established fact rather than uncertain."
+    ]
+   }
+  ]
  }
 ]
