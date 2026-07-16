@@ -240,5 +240,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-16",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c022",
+    "headline": "Stripe Mounts $53 Billion Unsolicited Bid for PayPal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Stripe has also moved toward offering stablecoin and blockchain-based services more independently, developing its own mainnet called Tempo' but the brief data_point says Stripe 'developing its own mainnet called Tempo' without attribution to a source within the CoinDesk article. This claim about Tempo appears in the brief as reported from CoinDesk, but the draft presents it as a separate development from the Open USD venture without clarifying whether CoinDesk confirmed Tempo's existence and Stripe's development of it in this same article.",
+     "The draft presents USDC market cap as 'approximately $33 billion' without inline attribution to the specific source (CoinGecko, CoinDesk reporting, or timestamp). The brief lists it as 'the second-largest stablecoin at approximately $33 billion market cap' but the draft should attribute this figure inline to its source within the CoinDesk article or note the data source."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "President Trump Expected to Meet With Senators on Clarity Act Ethics Section",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Democrats 'framing the issue as a conflict-of-interest concern' but brief data_point 5 says press conference called for opposition 'if it does not sever Trump's corrupt ties to the sector'\u2014the word 'corrupt' appears in the brief but is omitted from the draft, materially softening the Democrats' rhetorical position and misrepresenting their language.",
+     "Draft omits the word 'corrupt' entirely when describing the Democratic senators' characterization, which is a material fact that was in the source brief and should be reflected in the prose to preserve accuracy of attribution."
+    ]
+   },
+   {
+    "id": "c053",
+    "headline": "US Treasury freezes $131 million in Iran-linked crypto wallets via Tether",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Tether locked four Tron wallets as part of the enforcement action' but the brief data_point says 'Tether locked four Tron wallets'\u2014both trace to the same source. However, the draft then claims 'The freezing mechanism operated through Tether, the largest stablecoin issuer by market capitalization' without confirmation in the brief that Tether is the largest by market cap. This is a smuggled fact not in the research brief.",
+     "The draft asserts 'The targeting of Tron-based wallets also reflects the geographic distribution of stablecoin liquidity, with Tron hosting a substantial portion of Tether's total supply outside the Ethereum and other major chains.' This interpretive claim about why Tron was targeted and what Tron's portion of Tether's supply represents is analysis not present in the brief's data_points and crosses from reporting into unsupported speculation."
+    ]
+   }
+  ]
  }
 ]
