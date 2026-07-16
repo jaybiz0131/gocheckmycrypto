@@ -869,11 +869,24 @@ def render_home(items, flows, pulse, cm, dateline):
     if stories:
         lead = stories[0]
         dek_html = f'<p class="hero-dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""
-        lead_html = (f'<a class="hero-lead" href="/articles/{esc(lead["slug"])}.html">'
+        # The desk set: an ambient video loop behind the lead card. It is scenery for
+        # WHATEVER story leads, never an illustration of it (no caption, no linkage), and
+        # the scrim guarantees the headline always beats the motion. Reduced-motion
+        # readers get the poster still only (script below removes the video pre-load).
+        hero_video = (
+            '<video class="hero-video" autoplay muted loop playsinline preload="none" '
+            'poster="/assets/hero/hero-poster.jpg" aria-hidden="true" tabindex="-1">'
+            '<source src="/assets/hero/hero-loop.webm" type="video/webm">'
+            '<source src="/assets/hero/hero-loop.mp4" type="video/mp4"></video>'
+            '<span class="hero-scrim" aria-hidden="true"></span>')
+        lead_html = (f'<a class="hero-lead hero-cine" href="/articles/{esc(lead["slug"])}.html">'
+                     f'{hero_video}<span class="hero-fg">'
                      f'<span class="hero-kick"><span class="kicker">Lead story</span>{_hero_tag(lead)}</span>'
                      f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
                      f'<span class="hl-meta">{verdict_badge(lead.get("verdict"))}'
-                     f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
+                     f'<span class="dateline">{fmt_when(lead)}</span></span></span></a>'
+                     '<script>(function(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)'
+                     '{var v=document.querySelector(".hero-video");if(v)v.parentNode.removeChild(v);}})()</script>')
         rail = "".join(
             f'<a class="hero-item" href="/articles/{esc(i["slug"])}.html">'
             f'<span class="hero-num">{n:02d}</span><span class="hero-body">'
