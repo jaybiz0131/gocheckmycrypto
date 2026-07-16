@@ -273,5 +273,30 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-16",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c021",
+    "headline": "Ostium drained of $18 million in oracle manipulation exploit",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The attack indicates either compromised access to the PriceUpKeep component, misconfigured access controls, or an insider actor with registration rights' but the brief does not contain this analysis. This is speculative diagnosis not present in the source material.",
+     "Draft claims 'This pattern suggests protocol teams are failing to implement or learn from defenses against known attack vectors' but the brief supports only that the pattern exists, not the causal claim about team failure to learn. The brief bear_case notes the pattern mirrors recent exploits but does not attribute it to learning failure.",
+     "Draft states 'Oracle and keeper-system exploits have been a recurring vulnerability across DeFi in recent years' as a standalone claim without attribution to the brief's supporting evidence. The brief data_point frames this as context but the draft presents it as established fact without a source hedge."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Alpaca raises $135 million for tokenized stock infrastructure",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Alpaca's market position presents both opportunity and risk. The firm's dominance at 94% of cleared tokenized equities signals institutional trust in its infrastructure, but this concentration creates single-point-of-failure risk and potential regulatory scrutiny.' This analysis of risk and single-point-of-failure is not in the brief's data_points or bear_case. The brief identifies that 'Alpaca controls ~94% of cleared/custodied tokenized equities, creating single-point-of-failure risk and regulatory scrutiny' as a bear_case item, but the draft presents this as the writer's own analysis ('presents both opportunity and risk') rather than as established reporting or argument from the source. This is SMUGGLED editorial reasoning not traceable to the brief.",
+     "The draft states 'The company did not disclose a new valuation in the Series E announcement, despite raising $135 million, raising questions about whether the firm's valuation has stalled relative to the $1.15 billion Series D valuation from January.' This is presented as a fact ('did not disclose') but the brief's bear_case and open_questions only note that 'Alpaca did not disclose a new valuation in this funding announcement' as an observation to explore, not a confirmed fact that appears in the reported source material. The inference that valuation 'has stalled' is editorial speculation not in the brief."
+    ]
+   }
+  ]
  }
 ]
