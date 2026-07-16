@@ -884,26 +884,32 @@ def render_home(items, flows, pulse, cm, dateline):
                      f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
                      f'<span class="hl-meta">{verdict_badge(lead.get("verdict"))}'
                      f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
-        rail = "".join(
+        # The Bottom Line rides shotgun: the day's summary as the hero square beside the
+        # lead, replacing the standalone band lower on the page.
+        bl_card = ""
+        bl_wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
+        if bl_wraps:
+            ed = bl_wraps[0]
+            ed_name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
+            bl_card = (f'<a class="hero-bl" href="/articles/{esc(ed["slug"])}.html">'
+                       f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
+                       f'<span class="hero-bl-src">{ed_name} &middot; {fmt_when(ed)}</span>'
+                       f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
+                       f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>')
+        more = "".join(
             f'<a class="hero-item" href="/articles/{esc(i["slug"])}.html">'
             f'<span class="hero-num">{n:02d}</span><span class="hero-body">'
             f'<span class="hero-kick">{_hero_tag(i)}</span>'
             f'<span class="hl-title">{esc(i.get("title"))}</span>'
             f'<span class="dateline">{fmt_when(i)}</span></span></a>'
-            for n, i in enumerate(stories[1:4], start=2))
-        rail += ('<a class="hero-item more" href="/news.html">'
+            for n, i in enumerate(stories[1:6], start=2))
+        more += ('<a class="hero-item more" href="/news.html">'
                  '<span class="hero-body"><span class="hl-title">All stories &rarr;</span></span></a>')
-        wide = "".join(
-            f'<a class="hero-item hero-wide" href="/articles/{esc(i["slug"])}.html">'
-            f'<span class="hero-num">{n:02d}</span><span class="hero-body">'
-            f'<span class="hero-kick">{_hero_tag(i)}</span>'
-            f'<span class="hl-title">{esc(i.get("title"))}</span>'
-            f'<span class="dateline">{fmt_when(i)}</span></span></a>'
-            for n, i in enumerate(stories[4:6], start=5))
-        wide_html = f'<div class="hero-wide-row">{wide}</div>' if wide else ""
         desk_html = f"""<div class="sec-head"><h2>Today at the desk</h2><span class="bar"></span></div>
   <div class="hero-band">{hero_video}<div class="hero-band-inner">
-    <div class="hero-grid">{lead_html}<div class="hero-rail">{rail}</div></div>{wide_html}
+    <div class="hero-grid">{lead_html}{bl_card}</div>
+    <div class="hero-more-lab">More from the desk</div>
+    <div class="hero-more">{more}</div>
   </div></div>
   <script>(function(){{if(matchMedia("(prefers-reduced-motion: reduce)").matches)
     {{var v=document.querySelector(".hero-video");if(v)v.parentNode.removeChild(v);}}}})()</script>"""
@@ -964,11 +970,10 @@ def render_home(items, flows, pulse, cm, dateline):
         track_html = (f'<div class="tracking"><span class="lab">Tracking</span>{"".join(chips)}'
                       f'<span class="mut">the storylines the desk is following</span></div>')
 
-    # Order (owner call 2026-07-16): headlines first, the desk's read below them.
-    band = bottom_line_band([i for i in (items or []) if not i.get("example")])
+    # The Bottom Line lives in the hero square beside the lead (owner call 2026-07-16);
+    # the standalone band below is retired on home. /bottom-line.html keeps the history.
     body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
   {desk_html}
-  {band}
   {editions_html}
   {track_html}
   <div class="dash-grid home-grid">{"".join(cards)}</div>
