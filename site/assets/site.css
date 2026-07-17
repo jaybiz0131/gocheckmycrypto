@@ -390,8 +390,8 @@ a.mh-family:hover{text-decoration:underline}
 .chartcard svg{width:100%;height:auto;display:block}
 .mp-hero{background:radial-gradient(120% 150% at 50% 0%, #0E3242 0%, #0A1822 62%)}
 .cm-hero{background:radial-gradient(120% 150% at 50% 0%, #0E3B2E 0%, #0A1822 62%)}
-.cm-hero img{box-shadow:0 0 44px rgba(63,242,152,.20),0 0 80px -30px rgba(244,165,42,.35),
-  0 18px 50px -20px rgba(0,0,0,.7)}
+.cm-hero .ww-panel{background-image:url(/assets/wizard/wizard-poster.jpg);background-position:center 24%}
+.cm-hero .ww-vid{object-position:center 24%}
 .cm-read .cm-headline{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3vw,30px);
   margin:8px 0 10px;line-height:1.15}
 .cm-read .prose p{font-size:15.5px;line-height:1.65;margin:0 0 12px}
@@ -544,22 +544,25 @@ footer.site .fnote b{color:var(--muted)}
 
 .sig-attest{display:block;font-size:12.5px;color:var(--muted);margin-top:6px;max-width:44ch;line-height:1.5}
 
-/* ---- The Bottom Line: the desk's signature band (owner directive 2026-07-15) -------- */
-.bl-band{border-bottom:1px solid var(--line)}
-.bl-band .wrap{padding-top:20px;padding-bottom:20px}
-.bl-band>.wrap{background:var(--card);border-left:4px solid var(--rule);border-radius:0 8px 8px 0;
-  box-shadow:var(--shadow);margin-top:18px;margin-bottom:6px;padding-left:24px;padding-right:24px}
+/* ---- The Bottom Line: the desk's signature element (owner directive 2026-07-15) ----- */
 .bl-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:8px}
 .bl-label{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.16em;
   text-transform:uppercase;color:var(--rule)}
 .bl-read{font-family:var(--serif);font-size:clamp(16px,1.9vw,19px);line-height:1.55;margin:0;
   color:var(--ink)}
-.bl-links{display:flex;gap:18px;margin-top:10px;font-size:13.5px}
 .bl-hist{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--rule);
   border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0}
-/* Bottom Line inside the front page flow (headlines first, the read below) */
-.page .bl-band{border-bottom:0;margin:20px 0 2px}
-.page .bl-band>.wrap{max-width:none;margin:0;padding:16px 20px 18px}
+/* Latest: lead story first, the Bottom Line card beside it (front-page arrangement).
+   The hero-bl card is styled for the dark hero band; on this themed page it follows
+   the paper/card palette instead. */
+.news-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:22px;align-items:start}
+.news-bl{margin-top:6px;background:var(--card);border:1px solid var(--line);
+  border-top:3px solid var(--rule);box-shadow:var(--shadow);
+  -webkit-backdrop-filter:none;backdrop-filter:none}
+.news-bl .hero-bl-src{color:var(--faint)}
+.news-bl .hero-bl-read{color:var(--ink)}
+.news-bl .hero-bl-more{color:var(--rule)}
+@media (max-width:820px){.news-grid{grid-template-columns:1fr;gap:14px}}
 /* ---- motion layer: micro-details (transform/opacity only, zero layout shift) ---- */
 video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:block}
 .badge-anim{position:relative;display:inline-block;overflow:hidden;border-radius:50%;
@@ -585,11 +588,10 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
 .mjs .reveal.in{opacity:1;transform:translateY(0);
   transition:opacity .2s ease-out,transform .2s ease-out}
 .card:hover{border-color:#b8722c;box-shadow:0 6px 22px rgba(184,114,44,.16)}
-.hero-bl::after,.bl-band>.wrap::after{content:"";position:absolute;inset:-1px;
+.hero-bl::after{content:"";position:absolute;inset:-1px;
   border:2px solid var(--rule);border-radius:inherit;opacity:.15;pointer-events:none;
   animation:breathe 5.5s ease-in-out infinite}
 .hero-bl{position:relative}
-.bl-band>.wrap{position:relative}
 @keyframes breathe{50%{opacity:.55}}
 /* Tier 3: near-invisible scan-line texture, hero band only */
 .hero-band::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -597,21 +599,10 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
 /* one switch kills the whole motion layer */
 @media (prefers-reduced-motion:reduce){
   .badge-anim,.badge-anim::after,.tick-colon,.sec-head .bar::after,.hero-bl::after,
-  .bl-band>.wrap::after,.live-dot,.flash,.flash-dn{animation:none!important}
+  .live-dot,.flash,.flash-dn{animation:none!important}
   .motion-video{display:none}
   .mjs .reveal{opacity:1;transform:none;transition:none}
   .badge-anim:hover img{transform:none}}
-/* ---- The Read's wizard header: contained mascot backdrop, title always wins ---- */
-.cm-readhead{position:relative;overflow:hidden;border-radius:10px;margin:0 0 14px;
-  min-height:210px;display:flex;align-items:flex-end;
-  background:#0a1218 url(/assets/wizard/wizard-poster.jpg) center 24%/cover no-repeat}
-.cm-wiz{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 24%;z-index:0}
-.cm-readscrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,
-  rgba(7,12,18,.25) 0%,rgba(7,12,18,.55) 55%,rgba(7,12,18,.85) 100%)}
-.cm-readhead-fg{position:relative;z-index:2;padding:16px 18px 14px;width:100%}
-.cm-readhead-fg .cm-headline{color:#f4f1ea;margin:6px 0 0}
-.cm-readhead-fg .dateline{color:#c9cfd6}
-@media (max-width:600px){.cm-readhead{min-height:170px}}
 /* ---- Whale Watch section panel: contained whale loop, identity over the scrim ---- */
 .ww-panel{position:relative;overflow:hidden;border-radius:12px;max-width:880px;height:150px;
   margin:0 auto;background:#091625 url(/assets/whale/whale-poster.jpg) center 42%/cover no-repeat;

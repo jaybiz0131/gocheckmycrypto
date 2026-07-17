@@ -766,22 +766,22 @@ def _is_wrap(item):
     return str(item.get("id", "")).startswith("wrap-")
 
 
-def bottom_line_band(items):
-    """THE BOTTOM LINE (owner directive 2026-07-15): the desk's signature element, a
-    visually distinct band above the stories: the newest edition's 3-5 sentence read,
-    refreshed every slot (and by breaking runs). The anchor-desk voice slot."""
+def bottom_line_card(items):
+    """THE BOTTOM LINE (owner directive 2026-07-15): the desk's signature element, the
+    newest edition's 3-5 sentence read, refreshed every slot (and by breaking runs).
+    Rendered as the compact card that rides beside the lead story (owner directive
+    2026-07-17: lead first, Bottom Line to its right, same arrangement as the front
+    page), reusing the home hero's card styling."""
     wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
     if not wraps:
         return ""
     ed = wraps[0]  # load_content sorts newest-first; wraps outrank stories within a date
     name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
-    return f"""<section class="bl-band"><div class="wrap">
-  <div class="bl-head"><span class="bl-label">The Bottom Line</span>
-    <span class="dateline">{name} &middot; {_blink_when(ed)}</span></div>
-  <p class="bl-read">{esc(ed["bottom_line"])}</p>
-  <div class="bl-links"><a href="/articles/{esc(ed['slug'])}.html">Read the full edition &rarr;</a>
-    <a href="/bottom-line.html">Past reads</a></div>
-</div></section>"""
+    return (f'<a class="hero-bl news-bl" href="/articles/{esc(ed["slug"])}.html">'
+            f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
+            f'<span class="hero-bl-src">{name} &middot; {_blink_when(ed)}</span>'
+            f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
+            f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>')
 
 
 def render_bottom_line_history(items, dateline):
@@ -813,8 +813,8 @@ def render_bottom_line_history(items, dateline):
 
 def render_news(items, dateline, pulse=None):
     live = [i for i in items if not i.get("example")]
-    band = bottom_line_band(live)
-    live = [i for i in live if not _is_wrap(i)]  # editions speak through the band
+    bl = bottom_line_card(live)
+    live = [i for i in live if not _is_wrap(i)]  # editions speak through the Bottom Line card
     if live:
         lead = live[0]
         rest = live[1:]
@@ -822,13 +822,19 @@ def render_news(items, dateline, pulse=None):
         lead_tags = tags_for(lead)
         tag = (f'<span class="tag topic">{esc(lead_tags[0])}</span>' if lead_tags
                else f'<span class="tag">{esc(lead.get("category", "news"))}</span>')
-        lead_html = f"""<section class="lead"><div class="wrap">
-    <span class="kicker">Lead story</span> {tag}
+        lead_inner = f"""<span class="kicker">Lead story</span> {tag}
     <h1><a href="/articles/{esc(lead["slug"])}.html" style="color:inherit">{esc(lead.get("title"))}</a></h1>
     {f'<p class="dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""}
     <div class="meta">{badge}<span class="dateline">{fmt_when(lead)}</span>
-      <a href="/articles/{esc(lead["slug"])}.html">Read the story &rarr;</a></div>
-  </div></section>"""
+      <a href="/articles/{esc(lead["slug"])}.html">Read the story &rarr;</a></div>"""
+        # Lead first, The Bottom Line beside it (front-page arrangement); without an
+        # edition the lead simply spans the row.
+        lead_html = (f"""<section class="lead"><div class="wrap"><div class="news-grid">
+    <div class="news-lead">{lead_inner}</div>
+    {bl}
+  </div></div></section>""" if bl else f"""<section class="lead"><div class="wrap">
+    {lead_inner}
+  </div></section>""")
         grid = ""
         if rest:
             grid = (f'<section class="sec"><div class="wrap"><div class="sec-head" id="latest">'
@@ -849,9 +855,10 @@ def render_news(items, dateline, pulse=None):
                 'checked against its sources by an independent AI verifier, and approved by a human. '
                 'That gate is the whole point, so we would rather publish nothing than publish junk.</p>'
                 '</div></div></section>')
-    # news first: lead story, then the rest of the day's stories; the promise strip and
-    # the whale teaser read as the footer beats, never above the journalism
-    body = market_strip(pulse) + desk_strip() + band + lead_html + grid + trust_block() + flow_teaser() + newsletter()
+    # news first: lead story (Bottom Line beside it), then the rest of the day's stories;
+    # the promise strip and the whale teaser read as the footer beats, never above the
+    # journalism
+    body = market_strip(pulse) + desk_strip() + lead_html + grid + trust_block() + flow_teaser() + newsletter()
     return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html",
                  brand="cronkite")
 
@@ -2548,9 +2555,20 @@ def render_pulse_network(pulse, dateline):
 
 
 def cm_hero():
-    return ('<section class="ww-hero cm-hero"><div class="ww-heroinner">'
-            '<img src="/assets/chart-master-banner.png" alt="The Chart Master, crypto wizard">'
-            '</div></section>')
+    # The wizard loop is the column's satirical mascot, a character and never an
+    # authority claim: it appears exactly once, as the page-top panel (same slot the
+    # Whale Watch and Market Pulse headers use), with no predictive framing anywhere
+    # in this markup. Strictly lazy: no autoplay attribute, preload="none", the
+    # motion-lazy pool arms on first scroll, poster paints first.
+    return ('<section class="ww-hero cm-hero"><div class="ww-heroinner"><div class="ww-panel">'
+            '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
+            'poster="/assets/wizard/wizard-poster.jpg" aria-hidden="true" tabindex="-1">'
+            '<source src="/assets/wizard/wizard-loop.webm" type="video/webm">'
+            '<source src="/assets/wizard/wizard-loop.mp4" type="video/mp4"></video>'
+            '<span class="ww-scrim" aria-hidden="true"></span>'
+            '<span class="ww-panel-fg"><span class="kicker">The resident wizard</span>'
+            '<span class="ww-title">The Chart Master</span></span>'
+            '</div></div></section>')
 
 
 def render_chartmaster(read, dateline):
@@ -2565,26 +2583,16 @@ def render_chartmaster(read, dateline):
     if read.get("date") and fmt_date(read["date"]).upper() != (dateline or "").upper():
         stale_note = (f'<p class="pc-note"><b>From the Master\'s ledger, {esc(fmt_date(read["date"]))}.</b> '
                       f'The boards below are live; the figures in this read are from its date.</p>')
-    # The wizard loop is the column's satirical mascot backdrop, a character and never an
-    # authority claim: header flavor only, no predictive framing anywhere in this markup,
-    # and the describe-not-predict disclaimer stays in its usual spot below the prose,
-    # off the video and unobscured. Lazy by construction: preload="none" plus the global
-    # motion-video observer means zero bytes and zero decode until the section scrolls in.
-    wizard_html = (
-        '<div class="cm-readhead">'
-        '<video class="cm-wiz motion-video motion-lazy" muted loop playsinline preload="none" '
-        'poster="/assets/wizard/wizard-poster.jpg" aria-hidden="true" tabindex="-1">'
-        '<source src="/assets/wizard/wizard-loop.webm" type="video/webm">'
-        '<source src="/assets/wizard/wizard-loop.mp4" type="video/mp4"></video>'
-        '<span class="cm-readscrim" aria-hidden="true"></span>'
-        '<div class="cm-readhead-fg">'
+    # The read is a clean text card: the wizard lives in the page-top panel (cm_hero)
+    # and appears nowhere else on the page. The describe-not-predict disclaimer stays
+    # in its usual spot below the prose, unobscured.
+    head_html = (
         '<div class="ey"><span class="tag">the read</span>'
         f'<span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>'
-        f'<h3 class="cm-headline">{esc(destyle(read.get("headline", "")))}</h3>'
-        '</div></div>')
+        f'<h3 class="cm-headline">{esc(destyle(read.get("headline", "")))}</h3>')
     read_html = (f"""<div class="sec-head" style="margin-top:8px"><h2>The Chart Master's read</h2><span class="bar"></span></div>
   <article class="pulse-card cm-read">
-    {wizard_html}
+    {head_html}
     {stale_note}
     <div class="prose">{paras}</div>
     <p class="pc-note">The Chart Master reads the day's <a href="/pulse.html">Market
@@ -2593,8 +2601,7 @@ def render_chartmaster(read, dateline):
   </article>""" if read.get("paragraphs") else "")
 
     body = cm_hero() + f"""<main class="wrap"><section class="page">
-  <span class="kicker">The resident wizard</span>
-  <h1>The Chart Master</h1>
+  <h1 style="margin-top:6px">The Chart Master</h1>
   <p class="lede">The desk's technician reads the boards so you learn to read them too:
      what the charts show, in plain language, with the receipts linked. He has one rule,
      carved over his door: <b>describe the tape, never predict it.</b></p>
