@@ -464,7 +464,7 @@ a.mh-family:hover{text-decoration:underline}
 .live-stamp .live-dot{margin:0 7px 0 0}
 .flash{animation:valflash 0.9s ease-out}
 .flash-dn{animation:valflashdn 0.9s ease-out}
-@keyframes valflash{0%{color:var(--up)}100%{}}
+@keyframes valflash{0%{color:#f4a52a}100%{}}
 @keyframes valflashdn{0%{color:var(--down)}100%{}}
 .prices-table th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--faint);text-align:left;padding:10px 14px;
@@ -560,3 +560,44 @@ footer.site .fnote b{color:var(--muted)}
 /* Bottom Line inside the front page flow (headlines first, the read below) */
 .page .bl-band{border-bottom:0;margin:20px 0 2px}
 .page .bl-band>.wrap{max-width:none;margin:0;padding:16px 20px 18px}
+/* ---- motion layer: micro-details (transform/opacity only, zero layout shift) ---- */
+video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:block}
+.badge-anim{position:relative;display:inline-block;overflow:hidden;border-radius:50%;
+  animation:bfloat 6s ease-in-out infinite}
+.badge-anim img{display:block;transition:transform .25s ease}
+.badge-anim:hover img{transform:perspective(320px) rotate3d(.4,1,0,10deg)}
+.badge-anim::after{content:"";position:absolute;top:-60%;left:-60%;width:55%;height:220%;
+  transform:rotate(25deg) translateX(0);pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+  animation:bshine 7s ease-in-out infinite}
+@keyframes bfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes bshine{0%,74%{transform:rotate(25deg) translateX(0)}
+  92%,100%{transform:rotate(25deg) translateX(340%)}}
+.tick-colon{animation:cblink 1.6s steps(1) infinite}
+@keyframes cblink{0%,55%{opacity:1}56%,100%{opacity:.2}}
+.ed-kick .live-dot{margin-left:8px;vertical-align:1px}
+.sec-head .bar{position:relative;overflow:hidden}
+.sec-head .bar::after{content:"";position:absolute;inset:0;width:200%;opacity:.35;
+  background:repeating-linear-gradient(90deg,transparent 0 14px,var(--rule) 14px 18px);
+  animation:tdrift 26s linear infinite}
+@keyframes tdrift{0%{transform:translateX(-25%)}100%{transform:translateX(0)}}
+.mjs .reveal{opacity:0;transform:translateY(12px)}
+.mjs .reveal.in{opacity:1;transform:translateY(0);
+  transition:opacity .2s ease-out,transform .2s ease-out}
+.card:hover{border-color:#b8722c;box-shadow:0 6px 22px rgba(184,114,44,.16)}
+.hero-bl::after,.bl-band>.wrap::after{content:"";position:absolute;inset:-1px;
+  border:2px solid var(--rule);border-radius:inherit;opacity:.15;pointer-events:none;
+  animation:breathe 5.5s ease-in-out infinite}
+.hero-bl{position:relative}
+.bl-band>.wrap{position:relative}
+@keyframes breathe{50%{opacity:.55}}
+/* Tier 3: near-invisible scan-line texture, hero band only */
+.hero-band::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
+/* one switch kills the whole motion layer */
+@media (prefers-reduced-motion:reduce){
+  .badge-anim,.badge-anim::after,.tick-colon,.sec-head .bar::after,.hero-bl::after,
+  .bl-band>.wrap::after,.live-dot,.flash,.flash-dn{animation:none!important}
+  .motion-video{display:none}
+  .mjs .reveal{opacity:1;transform:none;transition:none}
+  .badge-anim:hover img{transform:none}}

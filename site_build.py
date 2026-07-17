@@ -290,7 +290,7 @@ def masthead(active, dateline, brand="site"):
         fam = (f'<span class="mh-family"><img class="mh-fam-mark" src="/assets/logo.svg" '
                f'alt="">{esc(FAMILY)}.com</span>')
         brand_row = f"""<a class="mh-brand" href="/news.html" style="margin-top:8px">
-    <img class="mh-mark coin" src="/assets/cronkite-coin.png" alt="">
+    <span class="badge-anim mh-badge"><img class="mh-mark coin" src="/assets/cronkite-coin.png" alt=""></span>
     <span class="mh-word">{esc(NAME)}</span>
     <span class="mh-slogan">{esc(SLOGAN)}</span>
   </a>"""
@@ -372,7 +372,14 @@ def market_strip(pulse=None):
     .then(function(r){return r.json();}).then(function(d){
       document.querySelectorAll(".markets .tick[data-id]").forEach(function(t){
         var k=t.getAttribute("data-id"), v=d[k]; if(!v)return;
-        t.querySelector(".px").textContent=money(v.usd);
+        var px=t.querySelector(".px");
+        if(px.textContent!==money(v.usd)){
+          px.textContent=money(v.usd);
+          px.classList.remove("flash","flash-dn");void px.offsetWidth;
+          px.classList.add((v.usd_24h_change||0)<0?"flash-dn":"flash");
+          if(px.animate&&!matchMedia("(prefers-reduced-motion: reduce)").matches)
+            px.animate([{transform:"translateY(-5px)",opacity:.2},{transform:"translateY(0)",opacity:1}],{duration:160,easing:"ease-out"});
+        }
         chg(t.querySelector(".chg"), v.usd_24h_change);
       });
     }).catch(function(){});
@@ -466,6 +473,27 @@ def _fingerprint_assets(html):
                   lambda m: f'{m.group(1)}{m.group(2)}?v={ver(m.group(2))}{m.group(3)}', html)
 
 
+# The motion layer's shared guard: reduced-motion strips every video to its poster and
+# freezes the micro-details; otherwise videos play only while on screen and story cards
+# fade up once. Inline (one request), transform/opacity only, no layout shift.
+MOTION_JS = (
+    '<script>(function(){var rm=matchMedia("(prefers-reduced-motion: reduce)").matches;'
+    'var vids=[].slice.call(document.querySelectorAll(".motion-video"));'
+    'if(rm){vids.forEach(function(v){v.parentNode.removeChild(v)});return;}'
+    'document.documentElement.classList.add("mjs");'
+    'if("IntersectionObserver" in window){'
+    'var vo=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;'
+    'if(e.isIntersecting){if(v.paused)v.play().catch(function(){})}'
+    'else if(!v.paused)v.pause()})},{threshold:.12});'
+    'vids.forEach(function(v){vo.observe(v)});'
+    'var ro=new IntersectionObserver(function(es){es.forEach(function(e){'
+    'if(e.isIntersecting){e.target.classList.add("in");ro.unobserve(e.target)}})},'
+    '{rootMargin:"0px 0px -5% 0px"});'
+    '[].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){ro.observe(el)})}'
+    'else{[].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){el.classList.add("in")})}'
+    '})()</script>')
+
+
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           live_js=False, brand="site", og_type="website", schema_extra=""):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
@@ -511,6 +539,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {masthead(active, dateline, brand)}
 {body}
 {footer(brand)}{beacon}{livejs}
+{MOTION_JS}
 </body>
 </html>"""
     return _fingerprint_assets(page)
@@ -562,7 +591,7 @@ def sig_block():
       ranked, source-checked, and verified by the desk's independent review pass.</span>
   </div>
   <div class="stamp" aria-label="Automated editorial review stamp">
-    <img src="/assets/cronkite-coin.png" alt="" width="60" height="60" loading="lazy">
+    <span class="badge-anim"><img src="/assets/cronkite-coin.png" alt="" width="60" height="60" loading="lazy"></span>
     <svg viewBox="0 0 120 120" aria-hidden="true">
       <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
       <circle cx="60" cy="60" r="47" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/>
@@ -696,7 +725,7 @@ def card(item):
     if isinstance(summ, dict):
         summ = summ.get("h2", "")
     nsrc = len(item.get("sources") or [])
-    return f"""<article class="card">
+    return f"""<article class="card reveal">
   <div class="row">{badge}{tag}</div>
   <h3><a href="{href}">{esc(item.get("title"))}</a></h3>
   <p class="summary">{esc(summ[:180])}</p>
@@ -710,12 +739,24 @@ def desk_strip():
     # face) beside the desk line. The masthead checkmark badge stays the site mark; this is
     # the anchor's face at the top of the front page. No link yet (channel tie post-launch).
     return f"""<section class="desk"><div class="wrap">
-  <img class="desk-coin" src="/assets/cronkite-coin.png" alt="Crypto Cronkite" width="132" height="132">
+  <video class="desk-coin motion-video" autoplay muted loop playsinline preload="none"
+    poster="/assets/cronkite-coin.png" aria-hidden="true" tabindex="-1" width="132" height="132">
+    <source src="/assets/hero/coin-loop.webm" type="video/webm">
+    <source src="/assets/hero/coin-loop.mp4" type="video/mp4"></video>
   <div class="desk-copy">
     <span class="kicker">From the desk</span>
     <p>{esc(DESK_LINE)}</p>
   </div>
 </div></section>"""
+
+
+def _blink_when(item):
+    """Edition timestamp with a clock-style blinking colon (CSS animates .tick-colon)."""
+    t = fmt_when(item)
+    if ":" in t:
+        head, rest = t.split(":", 1)
+        return f'{head}<span class="tick-colon">:</span>{rest}'
+    return t
 
 
 def _is_wrap(item):
@@ -733,7 +774,7 @@ def bottom_line_band(items):
     name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
     return f"""<section class="bl-band"><div class="wrap">
   <div class="bl-head"><span class="bl-label">The Bottom Line</span>
-    <span class="dateline">{name} &middot; {fmt_when(ed)}</span></div>
+    <span class="dateline">{name} &middot; {_blink_when(ed)}</span></div>
   <p class="bl-read">{esc(ed["bottom_line"])}</p>
   <div class="bl-links"><a href="/articles/{esc(ed['slug'])}.html">Read the full edition &rarr;</a>
     <a href="/bottom-line.html">Past reads</a></div>
@@ -876,7 +917,7 @@ def render_home(items, flows, pulse, cm, dateline):
         # the scrim guarantees the headline always beats the motion. Reduced-motion
         # readers get the poster still only (script below removes the video pre-load).
         hero_video = (
-            '<video class="hero-video" autoplay muted loop playsinline preload="none" '
+            '<video class="hero-video motion-video" autoplay muted loop playsinline preload="none" '
             'poster="/assets/hero/hero-poster.jpg" aria-hidden="true" tabindex="-1">'
             '<source src="/assets/hero/hero-loop.webm" type="video/webm">'
             '<source src="/assets/hero/hero-loop.mp4" type="video/mp4"></video>'
@@ -895,7 +936,7 @@ def render_home(items, flows, pulse, cm, dateline):
             ed_name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
             bl_card = (f'<a class="hero-bl" href="/articles/{esc(ed["slug"])}.html">'
                        f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
-                       f'<span class="hero-bl-src">{ed_name} &middot; {fmt_when(ed)}</span>'
+                       f'<span class="hero-bl-src">{ed_name} &middot; {_blink_when(ed)}</span>'
                        f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
                        f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>')
         more = "".join(
@@ -912,9 +953,7 @@ def render_home(items, flows, pulse, cm, dateline):
     <div class="hero-grid">{lead_html}{bl_card}</div>
     <div class="hero-more-lab">More from the desk</div>
     <div class="hero-more">{more}</div>
-  </div></div>
-  <script>(function(){{if(matchMedia("(prefers-reduced-motion: reduce)").matches)
-    {{var v=document.querySelector(".hero-video");if(v)v.parentNode.removeChild(v);}}}})()</script>"""
+  </div></div>"""
 
     # The Editions: the desk's daily synthesis as its own strip, one card per slot
     # (morning / midday / evening), newest first, never older than the current news cycle.
@@ -935,12 +974,13 @@ def render_home(items, flows, pulse, cm, dateline):
                 continue
             seen_slots.add(kick)
             fact = w.get("key_fact") or w.get("dek") or ""
+            dot = '<span class="live-dot"></span>' if not ed_cards else ''
             ed_cards.append(
-                f'<a class="edition-card" href="/articles/{esc(w["slug"])}.html">'
-                f'<span class="ed-kick">{esc(kick)}</span>'
+                f'<a class="edition-card reveal" href="/articles/{esc(w["slug"])}.html">'
+                f'<span class="ed-kick">{esc(kick)}{dot}</span>'
                 f'<span class="ed-title">{esc(hook.strip())}</span>'
                 f'<span class="ed-fact">{esc(fact)}</span>'
-                f'<span class="dateline">{fmt_when(w)}</span></a>')
+                f'<span class="dateline">{_blink_when(w)}</span></a>')
     editions_html = ""
     if ed_cards:
         editions_html = (f'<div class="sec-head" style="margin-top:26px"><h2>The Editions</h2>'
