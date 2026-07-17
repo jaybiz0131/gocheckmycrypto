@@ -113,9 +113,9 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .sec-head .bar{flex:1;height:1px;background:var(--line)}
 
 /* ---- story grid + cards ---------------------------------------------------- */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px 20px 18px;
-  display:flex;flex-direction:column;gap:9px;transition:transform .15s ease,box-shadow .2s ease}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:15px 16px 14px;
+  display:flex;flex-direction:column;gap:7px;transition:transform .15s ease,box-shadow .2s ease}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
 .card .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .card h3{font-family:var(--serif);font-weight:600;font-size:20px;line-height:1.2;margin:2px 0}

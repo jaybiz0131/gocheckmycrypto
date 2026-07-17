@@ -775,12 +775,14 @@ def render_news(items, dateline, pulse=None):
         lead = live[0]
         rest = live[1:]
         badge = verdict_badge(lead.get("verdict"))
-        tag = f'<span class="tag">{esc(lead.get("category","news"))}</span>' if lead.get("category") else ""
+        lead_tags = tags_for(lead)
+        tag = (f'<span class="tag topic">{esc(lead_tags[0])}</span>' if lead_tags
+               else f'<span class="tag">{esc(lead.get("category", "news"))}</span>')
         lead_html = f"""<section class="lead"><div class="wrap">
-    <span class="kicker">Lead story</span>
+    <span class="kicker">Lead story</span> {tag}
     <h1><a href="/articles/{esc(lead["slug"])}.html" style="color:inherit">{esc(lead.get("title"))}</a></h1>
     {f'<p class="dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""}
-    <div class="meta">{badge}{tag}<span class="dateline">{fmt_when(lead)}</span>
+    <div class="meta">{badge}<span class="dateline">{fmt_when(lead)}</span>
       <a href="/articles/{esc(lead["slug"])}.html">Read the story &rarr;</a></div>
   </div></section>"""
         grid = ""
