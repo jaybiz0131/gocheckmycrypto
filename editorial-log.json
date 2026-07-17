@@ -365,5 +365,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-17",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c113",
+    "headline": "CFTC Orders Kalshi to Honor Trades a Michigan Court Told It to Cancel",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case identifies three material risk factors: (1) Michigan state court previously ruled for cancellation, creating direct conflict; (2) CFTC's emergency authority invocation may itself be challenged as overreach; (3) sources lack detail on underlying facts. The draft presents only the CFTC's position and Chairman Selig's statements without any acknowledgment that the Michigan court's order remains in potential appellate dispute, that the CFTC's emergency authority is itself contestable, or that the underlying factual grounds for the state court's decision are not reported. The framing reads as a CFTC victory rather than an escalating conflict with unresolved legal questions. A balanced draft would include a paragraph acknowledging Michigan's likely appeal path and the theoretical vulnerability of the CFTC's emergency invocation to state challenge."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Stripe bids $53 billion for PayPal, staking claim to integrated digital dollar stack",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'PayPal has 400+ million active consumer accounts' but brief data_point specifies '400+ million active consumer accounts' (reported confidence). The draft later shifts to '440 million consumer wallets' in the Citi quote without source attribution\u2014this number does not appear in any brief data_point and is smuggled.",
+     "Draft claims Stripe 'joined the Open USD consortium in June 2026' but brief says Stripe joined 'last month (June 2026)' with timestamp 2026-07-16. The draft reads as historical fact when the brief marks it as recent/announced.",
+     "The Brownlee quote is marked 'unconfirmed' in the brief but the draft presents it as analysis without qualification ('Per Brownlee's analysis, unconfirmed but worth noting' is insufficient\u2014'unconfirmed' claims must read as speculative or attributed opinion, not analytical fact)."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Alpaca raises $435 million to expand tokenized equity infrastructure, now curating $1.5B in on-chain stocks",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Alpaca raised $135 million in equity funding and $300 million in debt' but the brief data_point says 'Debt financing, primarily from Kraken parent Payward and BMO, brought the total package to $435 million'\u2014the debt amount ($300 million) is not specified in the brief and is smuggled.",
+     "Draft claims Alpaca 'now holds more than $1.5 billion in underlying stocks' but brief says 'more than $1.5 billion of underlying stocks'\u2014this is consistent paraphrasing. However, the draft then states Alpaca 'clears or custodies approximately 94 percent of tokenized U.S. equities' which matches the brief ('roughly 94%'), so this is accurate."
+    ]
+   },
+   {
+    "id": "c107",
+    "headline": "Ostium Vault Exploiter Routes 10,540 ETH to Tornado Cash",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'PeckShield reported this information via a post on Thursday (July 16, 2026)' but the brief attributes all facts to The Defiant as the sole source, not PeckShield. The draft conflates PeckShield as a primary source when the brief cites only The Defiant. This is a sourcing accuracy error.",
+     "The draft says 'According to blockchain analysis firm PeckShield' in the opening paragraph, attributing the $24M figure and exploit details to PeckShield, but the brief's data_points all cite The Defiant as source_name. The writer has smuggled PeckShield attribution not present in the brief's source structure."
+    ]
+   }
+  ]
  }
 ]

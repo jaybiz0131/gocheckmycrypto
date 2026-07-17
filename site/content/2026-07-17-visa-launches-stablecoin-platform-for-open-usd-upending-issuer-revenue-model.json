@@ -1,0 +1,29 @@
+{
+  "id": "c007",
+  "slug": "visa-launches-stablecoin-platform-for-open-usd-upending-issuer-revenue-model",
+  "kind": "brief",
+  "title": "Visa launches stablecoin platform for Open USD, upending issuer revenue model",
+  "dek": "Visa announced the Visa Stablecoin Platform on Thursday, enabling financial institutions to issue, store, transfer and redeem Open USD stablecoins through Visa's payments network and wallet infrastructure. The platform returns nearly all reserve income to distribution partners rather than retaining fees, threatening Circle's revenue model for USDC.",
+  "date": "2026-07-17",
+  "published_utc": "2026-07-17T07:30:11Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 5,
+  "author": "Crypto Cronkite",
+  "key_fact": "Visa's platform eliminates minting and redemption fees while returning nearly all reserve income to distribution partners, shifting stablecoin economics from issuers to infrastructure and distribution players.",
+  "bottom_line": "Monitor whether additional stablecoins beyond Open USD gain support on the VSP platform, as that will signal whether Visa's infrastructure becomes the de facto standard for institutional stablecoin issuance. Watch Circle's next quarterly earnings call for management commentary on competitive positioning and reserve yield; significant erosion of those economics would validate the structural threat that Visa's model represents.",
+  "human_take": "",
+  "body": [
+    "Visa announced the Visa Stablecoin Platform (VSP) on Thursday, a new infrastructure layer enabling financial institutions to issue, store, transfer and redeem Open USD stablecoins through Visa's existing payments network and wallet infrastructure. The move signals institutional-grade support for stablecoin settlement and represents a structural challenge to Circle's USDC, the world's second-largest stablecoin behind Tether's USDT.",
+    "The VSP provides what Visa calls Wallet-as-a-Service infrastructure, blockchain connectivity, dual-approval workflows, audit logs, transfer allow lists, and direct integration with Visa's existing payment network. Financial institutions can incorporate stablecoins into treasury management, settlement and payment products without replacing their existing systems, per CoinDesk's reporting. The platform launched with support for Open USD (OpenUSD), the stablecoin backed by the Open Standard consortium, which counts Visa, BlackRock, Alphabet and Coinbase among its supporters.",
+    "The economic structure differs markedly from USDC's. Open Standard's model eliminates minting and redemption fees entirely while returning nearly all reserve income to distribution partners. In traditional stablecoin economics, issuers like Circle retain fee revenue and generate yield on reserves backing the token. Here, those economics flip: distribution partners capture the economic benefit rather than issuers. Jack Forestell, Visa's chief product and strategy officer, framed the shift as operational simplification. \"Stablecoins are opening up a new layer of programmable money, but for most institutions the hard part isn't the concept, it's the operational reality,\" Forestell said, per CoinDesk.",
+    "Circle's equity market response reflected the strategic threat. Circle shares fell approximately 5 percent on Thursday following Visa's announcement. The decline captures investor concern that a fee-elimination model and revenue-sharing to distribution partners could structurally erode the margin economics that have sustained USDC profitability.",
+    "Visa has steadily expanded its blockchain footprint over the past two years. The company already supports stablecoin settlement for select partners, offers crypto-linked card programs and has expanded blockchain-based cross-border payment services. The VSP represents the culmination of that work: a full-stack infrastructure play that positions Visa not as a stablecoin issuer but as the settlement and distribution backbone for Open USD and, by implication, other stablecoins that might later integrate with the platform."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/07/16/visa-backs-open-usd-with-new-stablecoin-platform-as-circle-faces-fresh-competition",
+      "url": "https://www.coindesk.com/business/2026/07/16/visa-backs-open-usd-with-new-stablecoin-platform-as-circle-faces-fresh-competition"
+    }
+  ]
+}
