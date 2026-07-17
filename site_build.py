@@ -1366,9 +1366,18 @@ def flows_chart_svg(by_asset):
 
 
 def ww_hero():
-    return ('<section class="ww-hero"><div class="ww-heroinner">'
-            '<img src="/assets/whale-watch-banner.png" alt="GoCheckMyCrypto Whale Watch">'
-            '</div></section>')
+    # The whale loop is contained section dressing (never a trade signal): strictly lazy
+    # (no autoplay attribute, motion-lazy pool arms on first scroll), poster as first
+    # paint, and the section identity rides the scrim in light text.
+    return ('<section class="ww-hero"><div class="ww-heroinner"><div class="ww-panel">'
+            '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
+            'poster="/assets/whale/whale-poster.jpg" aria-hidden="true" tabindex="-1">'
+            '<source src="/assets/whale/whale-loop.webm" type="video/webm">'
+            '<source src="/assets/whale/whale-loop.mp4" type="video/mp4"></video>'
+            '<span class="ww-scrim" aria-hidden="true"></span>'
+            '<span class="ww-panel-fg"><span class="kicker">Follow the money</span>'
+            '<span class="ww-title">Whale Watch</span></span>'
+            '</div></div></section>')
 
 
 def _win_phrase(hours):
@@ -1382,7 +1391,6 @@ def _win_phrase(hours):
 def render_flows(flows, dateline):
     if not flows or (not flows.get("by_asset") and not flows.get("top_inflows")):
         body = ww_hero() + """<main class="wrap"><section class="page">
-  <span class="kicker">Follow the money</span>
   <h1>Where the whales are moving</h1>
   <p class="lede">This board tracks where whales are moving large amounts of crypto: onto
      exchanges (which can precede selling) or off exchanges into self-custody (accumulation).</p>
@@ -1458,7 +1466,7 @@ def render_flows(flows, dateline):
       <span class="sub">{esc(biggest.get("symbol", ""))} &rarr; {esc(biggest.get("to", ""))}</span>
     </div>"""
     body = ww_hero() + f"""<main class="wrap"><section class="page">
-  <div class="ey" style="margin:14px 0 0"><span class="kicker">Follow the money</span>
+  <div class="ey" style="margin:14px 0 0">
     <span class="daily-badge">refreshed through the day</span></div>
   <h1 style="margin-top:6px">Where the whales are moving</h1>
   <p class="lede" style="margin-bottom:10px">The aggregate, not the feed: whale money onto

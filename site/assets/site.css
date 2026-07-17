@@ -452,10 +452,10 @@ a.mh-family:hover{text-decoration:underline}
 .movetable .pnum{font-family:var(--mono);color:var(--ink);font-weight:600}
 
 /* ---- live layer ------------------------------------------------------------- */
-.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--up);
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#f4a52a;
   margin-left:7px;vertical-align:2px;animation:livepulse 2s ease-in-out infinite}
-@keyframes livepulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(61,220,132,.5)}
-  50%{opacity:.55;box-shadow:0 0 0 4px rgba(61,220,132,0)}}
+@keyframes livepulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(244,165,42,.5)}
+  50%{opacity:.55;box-shadow:0 0 0 4px rgba(244,165,42,0)}}
 .daily-badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;
   letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
   border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin-left:8px;
@@ -580,7 +580,7 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
 .sec-head .bar::after{content:"";position:absolute;inset:0;width:200%;opacity:.35;
   background:repeating-linear-gradient(90deg,transparent 0 14px,var(--rule) 14px 18px);
   animation:tdrift 26s linear infinite}
-@keyframes tdrift{0%{transform:translateX(-25%)}100%{transform:translateX(0)}}
+@keyframes tdrift{0%{transform:translateX(0)}100%{transform:translateX(-72px)}}
 .mjs .reveal{opacity:0;transform:translateY(12px)}
 .mjs .reveal.in{opacity:1;transform:translateY(0);
   transition:opacity .2s ease-out,transform .2s ease-out}
@@ -612,3 +612,26 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
 .cm-readhead-fg .cm-headline{color:#f4f1ea;margin:6px 0 0}
 .cm-readhead-fg .dateline{color:#c9cfd6}
 @media (max-width:600px){.cm-readhead{min-height:170px}}
+/* ---- Whale Watch section panel: contained whale loop, identity over the scrim ---- */
+.ww-panel{position:relative;overflow:hidden;border-radius:12px;max-width:880px;height:150px;
+  margin:0 auto;background:#091625 url(/assets/whale/whale-poster.jpg) center 42%/cover no-repeat;
+  box-shadow:0 0 34px rgba(63,200,242,.20),0 14px 40px -20px rgba(0,0,0,.7);text-align:left}
+.ww-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:center 42%;z-index:0}
+.ww-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,
+  rgba(5,10,17,.78) 0%,rgba(5,10,17,.42) 45%,rgba(5,10,17,.12) 100%)}
+.ww-panel-fg{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:14px 18px}
+.ww-panel-fg .ww-title{font-family:var(--serif);font-size:26px;font-weight:700;color:#f4f1ea;
+  line-height:1.1;margin-top:2px}
+@media (max-width:600px){.ww-panel{height:126px}.ww-panel-fg .ww-title{font-size:21px}}
+
+/* sliding underline on prose and footer links */
+.prose a,.pc-note a,.fnote a,.flinks a,.bl-links a{text-decoration:none;position:relative}
+.prose a::after,.pc-note a::after,.fnote a::after,.flinks a::after,.bl-links a::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:currentColor;
+  transform:scaleX(0);transform-origin:left;transition:transform .22s ease}
+.prose a:hover::after,.pc-note a:hover::after,.fnote a:hover::after,.flinks a:hover::after,
+.bl-links a:hover::after{transform:scaleX(1)}
+@media (prefers-reduced-motion:reduce){.prose a::after,.pc-note a::after,.fnote a::after,
+  .flinks a::after,.bl-links a::after{transition:none}}
