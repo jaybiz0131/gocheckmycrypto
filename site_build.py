@@ -1870,9 +1870,18 @@ def _dash_crumb():
 
 
 def mp_hero():
-    return ('<section class="ww-hero mp-hero"><div class="ww-heroinner">'
-            '<img src="/assets/market-pulse-banner.png" alt="GoCheckMyCrypto Market Pulse">'
-            '</div></section>')
+    # The pulse loop is header atmosphere only (never adjacent to live numbers: the whole
+    # board renders below on the plain background). Strictly lazy like the other section
+    # videos: no autoplay attribute, motion-lazy pool, poster first paint.
+    return ('<section class="ww-hero mp-hero"><div class="ww-heroinner"><div class="ww-panel">'
+            '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
+            'poster="/assets/pulse/pulse-poster.jpg" aria-hidden="true" tabindex="-1">'
+            '<source src="/assets/pulse/pulse-loop.webm" type="video/webm">'
+            '<source src="/assets/pulse/pulse-loop.mp4" type="video/mp4"></video>'
+            '<span class="ww-scrim" aria-hidden="true"></span>'
+            '<span class="ww-panel-fg"><span class="kicker">Market Pulse</span>'
+            '<span class="ww-title">The Board</span></span>'
+            '</div></div></section>')
 
 
 def _dash_shell(slug, title, desc, body_inner, dateline, live=False):
@@ -2015,7 +2024,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                f'next-block fee: {busy}', net_mini, cls=" mspan")
 
     body = mp_hero() + f'''<main class="wrap"><section class="page">
-  <div class="ey" style="margin:14px 0 0"><span class="kicker">Market Pulse</span>
+  <div class="ey" style="margin:14px 0 0">
     <span class="daily-badge">refreshed through the day</span></div>
   <h1 style="margin-top:6px">The Board</h1>
   <p class="lede" style="margin-bottom:10px">Every desk at a glance, in the order a desk
