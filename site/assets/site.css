@@ -601,3 +601,14 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
   .motion-video{display:none}
   .mjs .reveal{opacity:1;transform:none;transition:none}
   .badge-anim:hover img{transform:none}}
+/* ---- The Read's wizard header: contained mascot backdrop, title always wins ---- */
+.cm-readhead{position:relative;overflow:hidden;border-radius:10px;margin:0 0 14px;
+  min-height:210px;display:flex;align-items:flex-end;
+  background:#0a1218 url(/assets/wizard/wizard-poster.jpg) center 24%/cover no-repeat}
+.cm-wiz{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 24%;z-index:0}
+.cm-readscrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,
+  rgba(7,12,18,.25) 0%,rgba(7,12,18,.55) 55%,rgba(7,12,18,.85) 100%)}
+.cm-readhead-fg{position:relative;z-index:2;padding:16px 18px 14px;width:100%}
+.cm-readhead-fg .cm-headline{color:#f4f1ea;margin:6px 0 0}
+.cm-readhead-fg .dateline{color:#c9cfd6}
+@media (max-width:600px){.cm-readhead{min-height:170px}}

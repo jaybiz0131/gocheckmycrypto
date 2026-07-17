@@ -483,9 +483,12 @@ MOTION_JS = (
     'document.documentElement.classList.add("mjs");'
     'if("IntersectionObserver" in window){'
     'var vo=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;'
-    'if(e.isIntersecting){if(v.paused)v.play().catch(function(){})}'
+    'if(e.isIntersecting&&e.intersectionRatio>=.12){if(v.paused)v.play().catch(function(){})}'
     'else if(!v.paused)v.pause()})},{threshold:.12});'
-    'vids.forEach(function(v){vo.observe(v)});'
+    'vids.forEach(function(v){if(!v.classList.contains("motion-lazy"))vo.observe(v)});'
+    'var lz=vids.filter(function(v){return v.classList.contains("motion-lazy")});'
+    'if(lz.length){var arm=function(){lz.forEach(function(v){vo.observe(v)});'
+    'removeEventListener("scroll",arm)};addEventListener("scroll",arm,{passive:true})}'
     'var ro=new IntersectionObserver(function(es){es.forEach(function(e){'
     'if(e.isIntersecting){e.target.classList.add("in");ro.unobserve(e.target)}})},'
     '{rootMargin:"0px 0px -5% 0px"});'
@@ -2545,11 +2548,26 @@ def render_chartmaster(read, dateline):
     if read.get("date") and fmt_date(read["date"]).upper() != (dateline or "").upper():
         stale_note = (f'<p class="pc-note"><b>From the Master\'s ledger, {esc(fmt_date(read["date"]))}.</b> '
                       f'The boards below are live; the figures in this read are from its date.</p>')
+    # The wizard loop is the column's satirical mascot backdrop, a character and never an
+    # authority claim: header flavor only, no predictive framing anywhere in this markup,
+    # and the describe-not-predict disclaimer stays in its usual spot below the prose,
+    # off the video and unobscured. Lazy by construction: preload="none" plus the global
+    # motion-video observer means zero bytes and zero decode until the section scrolls in.
+    wizard_html = (
+        '<div class="cm-readhead">'
+        '<video class="cm-wiz motion-video motion-lazy" muted loop playsinline preload="none" '
+        'poster="/assets/wizard/wizard-poster.jpg" aria-hidden="true" tabindex="-1">'
+        '<source src="/assets/wizard/wizard-loop.webm" type="video/webm">'
+        '<source src="/assets/wizard/wizard-loop.mp4" type="video/mp4"></video>'
+        '<span class="cm-readscrim" aria-hidden="true"></span>'
+        '<div class="cm-readhead-fg">'
+        '<div class="ey"><span class="tag">the read</span>'
+        f'<span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>'
+        f'<h3 class="cm-headline">{esc(destyle(read.get("headline", "")))}</h3>'
+        '</div></div>')
     read_html = (f"""<div class="sec-head" style="margin-top:8px"><h2>The Chart Master's read</h2><span class="bar"></span></div>
   <article class="pulse-card cm-read">
-    <div class="ey"><span class="tag">the read</span>
-      <span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
-    <h3 class="cm-headline">{esc(destyle(read.get("headline", "")))}</h3>
+    {wizard_html}
     {stale_note}
     <div class="prose">{paras}</div>
     <p class="pc-note">The Chart Master reads the day's <a href="/pulse.html">Market
