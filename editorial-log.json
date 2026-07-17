@@ -470,5 +470,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-17",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c005",
+    "headline": "SBI Group consolidates Asia's digital asset infrastructure with Coinhako acquisition and ecosystem partnerships",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'SBI agreed to buy Tokyo-based exchange Bitbank for around $289 million in June, with the acquisition expected to close in October, subject to regulatory approval.' The brief data_point says 'SBI agreed to buy Tokyo-based cryptocurrency exchange Bitbank for around $289 million in June, with the acquisition expected to close in October, subject to regulatory approval.' The draft incorrectly presents this as a closed deal ('SBI agreed to buy') when the brief confirms it is still pending. The phrase should reflect the contingent nature more clearly or be presented as announced-not-completed, matching the open_question about 'What is the timeline for full regulatory approval of the Bitbank acquisition beyond the October target?' which indicates uncertainty about closure."
+    ]
+   },
+   {
+    "id": "c120",
+    "headline": "Ostium Vault Exploiter Routes 10,540 ETH to Tornado Cash After $24M Oracle Attack",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The exploiter then swapped the stolen stablecoins into 12,086 ETH' but the brief data_point says 'The diagram shows a swap into 12,086 ETH and 10,540 ETH sent onward to Tornado Cash.' The draft does not clarify that 10,540 ETH of the 12,086 ETH went to Tornado Cash and the remaining ~1,546 ETH went elsewhere, creating ambiguity about total proceeds.",
+     "Draft claims 'approximately $24 million USDC from its public OLP vault' but also states 'PeckShield's diagram shows USDC inflows of $26.4 million and $23.4 million to the attacker's deployed wallet.' These two USDC figures ($26.4M and $23.4M) are not reconciled to the stated $24M loss, leaving unexplained variance that should be traced or qualified."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "DOG Mode vs. BIP-110: Inside the Bitcoin client built to bypass data restrictions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Leonidas claims this dust change would release about $25 million in padding back to Ordinals and Runes ecosystems' but the brief data_point says 'Leonidas claims removing the dust limit would release about $25 million in padding.' The draft says 'dust change' when the brief specifies it is about removing the dust limit entirely\u2014a material distinction in scope.",
+     "The draft includes a data_point not in the brief: 'Leonidas's DOG token secured a coveted satoshi during the fourth Bitcoin halving' appears in the brief's data_points but is entirely absent from the draft body. While omission is not smuggling, the inverse is: the draft must not claim facts outside the brief, and this sentence about DOG token and the fourth Bitcoin halving is mentioned in the brief but never appears in the draft text, creating asymmetry in what was promised to be covered.",
+     "The draft states 'Leonidas claims this dust change would release about $25 million' but does not clearly distinguish between Leonidas's claim and verified fact. The brief marks this as 'reported' confidence, meaning it is Leonidas's claim, not an independent verification. The phrasing 'Leonidas claims' does clarify attribution, but the confidence level 'reported' in the brief means the source reported what Leonidas claimed, not that the $25 million figure was independently verified. The draft handles this correctly with 'claims,' so this is acceptable."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "Crypto bill nears critical vote as ethics provisions over Trump conflicts remain unresolved",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains multiple assertions not supported by the brief's single data_point. The brief provides only one data_point: 'Optimism is brewing to get a crypto bill passed, with some variations on timing as onlookers wait to see how ethics will shake out.' The draft adds: 'Lawmakers have expressed confidence that the bill will pass,' 'ethics rules tied to Trump administration involvement,' 'resolution of these ethics questions is a condition for final passage,' and 'The Block's framing suggests that resolution of these ethics questions is a condition for final passage.' These are paraphrases or inferences beyond what the single data_point supports.",
+     "The draft states 'ethics provisions tied to Trump administration involvement is creating friction' and 'The specific provisions under dispute, the identity of the conflicted Trump administration official or officials, and the substance of the underlying crypto bill itself are not detailed in the available reporting.' The brief's data_point does not specify 'Trump administration involvement' as the source of friction\u2014it mentions 'Trump conflicts interest' in the title/context but the single data_point only mentions 'ethics' without naming Trump explicitly in the substance. The draft is over-interpreting a thin brief.",
+     "The brief note 'source_chars: 0' indicates no source text was provided to the writer, yet the draft claims to report details about 'ethics rules tied to Trump administration involvement' and 'friction on timing.' With zero source characters, no facts beyond the one data_point can be verified as coming from The Block. The draft is smuggling assertions from the headline/context into the body as though they were reported detail."
+    ]
+   }
+  ]
  }
 ]
