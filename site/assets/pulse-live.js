@@ -61,6 +61,11 @@
       el.classList.remove("flash", "flash-dn");
       void el.offsetWidth; // restart the animation
       el.classList.add(down ? "flash-dn" : "flash");
+      // fast number-roll on update (transform/opacity only; skipped for reduced motion)
+      if (el.animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        el.animate([{transform: "translateY(-6px)", opacity: 0.2},
+                    {transform: "translateY(0)", opacity: 1}], {duration: 160, easing: "ease-out"});
+      }
     }
   }
 

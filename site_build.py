@@ -290,7 +290,7 @@ def masthead(active, dateline, brand="site"):
         fam = (f'<span class="mh-family"><img class="mh-fam-mark" src="/assets/logo.svg" '
                f'alt="">{esc(FAMILY)}.com</span>')
         brand_row = f"""<a class="mh-brand" href="/news.html" style="margin-top:8px">
-    <img class="mh-mark coin" src="/assets/cronkite-coin.png" alt="">
+    <span class="badge-anim mh-badge"><img class="mh-mark coin" src="/assets/cronkite-coin.png" alt=""></span>
     <span class="mh-word">{esc(NAME)}</span>
     <span class="mh-slogan">{esc(SLOGAN)}</span>
   </a>"""
@@ -372,7 +372,14 @@ def market_strip(pulse=None):
     .then(function(r){return r.json();}).then(function(d){
       document.querySelectorAll(".markets .tick[data-id]").forEach(function(t){
         var k=t.getAttribute("data-id"), v=d[k]; if(!v)return;
-        t.querySelector(".px").textContent=money(v.usd);
+        var px=t.querySelector(".px");
+        if(px.textContent!==money(v.usd)){
+          px.textContent=money(v.usd);
+          px.classList.remove("flash","flash-dn");void px.offsetWidth;
+          px.classList.add((v.usd_24h_change||0)<0?"flash-dn":"flash");
+          if(px.animate&&!matchMedia("(prefers-reduced-motion: reduce)").matches)
+            px.animate([{transform:"translateY(-5px)",opacity:.2},{transform:"translateY(0)",opacity:1}],{duration:160,easing:"ease-out"});
+        }
         chg(t.querySelector(".chg"), v.usd_24h_change);
       });
     }).catch(function(){});
@@ -466,6 +473,30 @@ def _fingerprint_assets(html):
                   lambda m: f'{m.group(1)}{m.group(2)}?v={ver(m.group(2))}{m.group(3)}', html)
 
 
+# The motion layer's shared guard: reduced-motion strips every video to its poster and
+# freezes the micro-details; otherwise videos play only while on screen and story cards
+# fade up once. Inline (one request), transform/opacity only, no layout shift.
+MOTION_JS = (
+    '<script>(function(){var rm=matchMedia("(prefers-reduced-motion: reduce)").matches;'
+    'var vids=[].slice.call(document.querySelectorAll(".motion-video"));'
+    'if(rm){vids.forEach(function(v){v.parentNode.removeChild(v)});return;}'
+    'document.documentElement.classList.add("mjs");'
+    'if("IntersectionObserver" in window){'
+    'var vo=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;'
+    'if(e.isIntersecting&&e.intersectionRatio>=.12){if(v.paused)v.play().catch(function(){})}'
+    'else if(!v.paused)v.pause()})},{threshold:.12});'
+    'vids.forEach(function(v){if(!v.classList.contains("motion-lazy"))vo.observe(v)});'
+    'var lz=vids.filter(function(v){return v.classList.contains("motion-lazy")});'
+    'if(lz.length){var arm=function(){lz.forEach(function(v){vo.observe(v)});'
+    'removeEventListener("scroll",arm)};addEventListener("scroll",arm,{passive:true})}'
+    'var ro=new IntersectionObserver(function(es){es.forEach(function(e){'
+    'if(e.isIntersecting){e.target.classList.add("in");ro.unobserve(e.target)}})},'
+    '{rootMargin:"0px 0px -5% 0px"});'
+    '[].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){ro.observe(el)})}'
+    'else{[].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){el.classList.add("in")})}'
+    '})()</script>')
+
+
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           live_js=False, brand="site", og_type="website", schema_extra=""):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
@@ -511,6 +542,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {masthead(active, dateline, brand)}
 {body}
 {footer(brand)}{beacon}{livejs}
+{MOTION_JS}
 </body>
 </html>"""
     return _fingerprint_assets(page)
@@ -562,7 +594,7 @@ def sig_block():
       ranked, source-checked, and verified by the desk's independent review pass.</span>
   </div>
   <div class="stamp" aria-label="Automated editorial review stamp">
-    <img src="/assets/cronkite-coin.png" alt="" width="60" height="60" loading="lazy">
+    <span class="badge-anim"><img src="/assets/cronkite-coin.png" alt="" width="60" height="60" loading="lazy"></span>
     <svg viewBox="0 0 120 120" aria-hidden="true">
       <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
       <circle cx="60" cy="60" r="47" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/>
@@ -696,7 +728,7 @@ def card(item):
     if isinstance(summ, dict):
         summ = summ.get("h2", "")
     nsrc = len(item.get("sources") or [])
-    return f"""<article class="card">
+    return f"""<article class="card reveal">
   <div class="row">{badge}{tag}</div>
   <h3><a href="{href}">{esc(item.get("title"))}</a></h3>
   <p class="summary">{esc(summ[:180])}</p>
@@ -710,12 +742,24 @@ def desk_strip():
     # face) beside the desk line. The masthead checkmark badge stays the site mark; this is
     # the anchor's face at the top of the front page. No link yet (channel tie post-launch).
     return f"""<section class="desk"><div class="wrap">
-  <img class="desk-coin" src="/assets/cronkite-coin.png" alt="Crypto Cronkite" width="132" height="132">
+  <video class="desk-coin motion-video" autoplay muted loop playsinline preload="none"
+    poster="/assets/cronkite-coin.png" aria-hidden="true" tabindex="-1" width="132" height="132">
+    <source src="/assets/hero/coin-loop.webm" type="video/webm">
+    <source src="/assets/hero/coin-loop.mp4" type="video/mp4"></video>
   <div class="desk-copy">
     <span class="kicker">From the desk</span>
     <p>{esc(DESK_LINE)}</p>
   </div>
 </div></section>"""
+
+
+def _blink_when(item):
+    """Edition timestamp with a clock-style blinking colon (CSS animates .tick-colon)."""
+    t = fmt_when(item)
+    if ":" in t:
+        head, rest = t.split(":", 1)
+        return f'{head}<span class="tick-colon">:</span>{rest}'
+    return t
 
 
 def _is_wrap(item):
@@ -733,7 +777,7 @@ def bottom_line_band(items):
     name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
     return f"""<section class="bl-band"><div class="wrap">
   <div class="bl-head"><span class="bl-label">The Bottom Line</span>
-    <span class="dateline">{name} &middot; {fmt_when(ed)}</span></div>
+    <span class="dateline">{name} &middot; {_blink_when(ed)}</span></div>
   <p class="bl-read">{esc(ed["bottom_line"])}</p>
   <div class="bl-links"><a href="/articles/{esc(ed['slug'])}.html">Read the full edition &rarr;</a>
     <a href="/bottom-line.html">Past reads</a></div>
@@ -775,12 +819,14 @@ def render_news(items, dateline, pulse=None):
         lead = live[0]
         rest = live[1:]
         badge = verdict_badge(lead.get("verdict"))
-        tag = f'<span class="tag">{esc(lead.get("category","news"))}</span>' if lead.get("category") else ""
+        lead_tags = tags_for(lead)
+        tag = (f'<span class="tag topic">{esc(lead_tags[0])}</span>' if lead_tags
+               else f'<span class="tag">{esc(lead.get("category", "news"))}</span>')
         lead_html = f"""<section class="lead"><div class="wrap">
-    <span class="kicker">Lead story</span>
+    <span class="kicker">Lead story</span> {tag}
     <h1><a href="/articles/{esc(lead["slug"])}.html" style="color:inherit">{esc(lead.get("title"))}</a></h1>
     {f'<p class="dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""}
-    <div class="meta">{badge}{tag}<span class="dateline">{fmt_when(lead)}</span>
+    <div class="meta">{badge}<span class="dateline">{fmt_when(lead)}</span>
       <a href="/articles/{esc(lead["slug"])}.html">Read the story &rarr;</a></div>
   </div></section>"""
         grid = ""
@@ -856,24 +902,95 @@ def render_home(items, flows, pulse, cm, dateline):
       Oracle Challenge and the Wizard's Exam. Learn the charts by playing them.</p>
       <span class="dash-open">Enter the tower &rarr;</span></a>""")
 
-    # Today at the desk: the returning reader's first screen is headlines, not brand copy.
-    live = [i for i in items if not i.get("example")]
+    # The front page (owner directive 2026-07-16): a network-style hero mosaic. Several
+    # lead stories visible at once with explicit hierarchy (the editor's rank orders them),
+    # editions in their own strip below. No carousel: every ranked story is on screen.
+    stories = [i for i in items if not i.get("example") and not _is_wrap(i)]
+
+    def _hero_tag(item):
+        tags = tags_for(item)
+        return f'<span class="tag topic">{esc(tags[0])}</span>' if tags else ""
+
     desk_html = ""
-    if live:
-        lead = live[0]
-        dek_html = f'<p>{esc(lead["dek"])}</p>' if lead.get("dek") else ""
-        lead_html = (f'<a class="home-lead" href="/articles/{esc(lead["slug"])}.html">'
+    if stories:
+        lead = stories[0]
+        dek_html = f'<p class="hero-dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""
+        # The desk set: an ambient video loop behind the lead card. It is scenery for
+        # WHATEVER story leads, never an illustration of it (no caption, no linkage), and
+        # the scrim guarantees the headline always beats the motion. Reduced-motion
+        # readers get the poster still only (script below removes the video pre-load).
+        hero_video = (
+            '<video class="hero-video motion-video" autoplay muted loop playsinline preload="none" '
+            'poster="/assets/hero/hero-poster.jpg" aria-hidden="true" tabindex="-1">'
+            '<source src="/assets/hero/hero-loop.webm" type="video/webm">'
+            '<source src="/assets/hero/hero-loop.mp4" type="video/mp4"></video>'
+            '<span class="hero-scrim" aria-hidden="true"></span>')
+        lead_html = (f'<a class="hero-lead" href="/articles/{esc(lead["slug"])}.html">'
+                     f'<span class="hero-kick"><span class="kicker">Lead story</span>{_hero_tag(lead)}</span>'
                      f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
                      f'<span class="hl-meta">{verdict_badge(lead.get("verdict"))}'
                      f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
-        rows = "".join(
-            f'<a class="home-row" href="/articles/{esc(i["slug"])}.html">'
+        # The Bottom Line rides shotgun: the day's summary as the hero square beside the
+        # lead, replacing the standalone band lower on the page.
+        bl_card = ""
+        bl_wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
+        if bl_wraps:
+            ed = bl_wraps[0]
+            ed_name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
+            bl_card = (f'<a class="hero-bl" href="/articles/{esc(ed["slug"])}.html">'
+                       f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
+                       f'<span class="hero-bl-src">{ed_name} &middot; {_blink_when(ed)}</span>'
+                       f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
+                       f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>')
+        more = "".join(
+            f'<a class="hero-item" href="/articles/{esc(i["slug"])}.html">'
+            f'<span class="hero-num">{n:02d}</span><span class="hero-body">'
+            f'<span class="hero-kick">{_hero_tag(i)}</span>'
             f'<span class="hl-title">{esc(i.get("title"))}</span>'
-            f'<span class="hl-meta"><span class="dateline">{fmt_when(i)}</span></span></a>'
-            for i in live[1:5])
+            f'<span class="dateline">{fmt_when(i)}</span></span></a>'
+            for n, i in enumerate(stories[1:6], start=2))
+        more += ('<a class="hero-item more" href="/news.html">'
+                 '<span class="hero-body"><span class="hl-title">All stories &rarr;</span></span></a>')
         desk_html = f"""<div class="sec-head"><h2>Today at the desk</h2><span class="bar"></span></div>
-  <div class="home-desk">{lead_html}<div class="home-rows">{rows}
-    <a class="home-row more" href="/news.html"><span class="hl-title">All stories &rarr;</span></a></div></div>"""
+  <div class="hero-band">{hero_video}<div class="hero-band-inner">
+    <div class="hero-grid">{lead_html}{bl_card}</div>
+    <div class="hero-more-lab">More from the desk</div>
+    <div class="hero-more">{more}</div>
+  </div></div>"""
+
+    # The Editions: the desk's daily synthesis as its own strip, one card per slot
+    # (morning / midday / evening), newest first, never older than the current news cycle.
+    wraps = [i for i in items if _is_wrap(i) and not i.get("example")]
+    ed_cards, seen_slots = [], set()
+    if wraps:
+        recent = sorted({w.get("date", "") for w in wraps}, reverse=True)[:2]
+        for w in wraps:
+            if len(ed_cards) >= 3:
+                break
+            if (w.get("date") or "") not in recent:
+                continue
+            title = w.get("title") or ""
+            kick, _, hook = title.partition(":")
+            if not hook:
+                kick, hook = "The Daily Edition", title
+            if kick in seen_slots:
+                continue
+            seen_slots.add(kick)
+            fact = w.get("key_fact") or w.get("dek") or ""
+            dot = '<span class="live-dot"></span>' if not ed_cards else ''
+            ed_cards.append(
+                f'<a class="edition-card reveal" href="/articles/{esc(w["slug"])}.html">'
+                f'<span class="ed-kick">{esc(kick)}{dot}</span>'
+                f'<span class="ed-title">{esc(hook.strip())}</span>'
+                f'<span class="ed-fact">{esc(fact)}</span>'
+                f'<span class="dateline">{_blink_when(w)}</span></a>')
+    editions_html = ""
+    if ed_cards:
+        editions_html = (f'<div class="sec-head" style="margin-top:26px"><h2>The Editions</h2>'
+                         f'<span class="bar"></span></div>'
+                         f'<p class="pc-note" style="margin:0 0 10px">The desk\'s daily synthesis: '
+                         f'morning, midday, and evening reads over everything published.</p>'
+                         f'<div class="edition-strip">{"".join(ed_cards)}</div>')
 
     # Tracking: the narratives watchlist, each chip linking to its latest published chapter.
     track_html = ""
@@ -898,9 +1015,11 @@ def render_home(items, flows, pulse, cm, dateline):
         track_html = (f'<div class="tracking"><span class="lab">Tracking</span>{"".join(chips)}'
                       f'<span class="mut">the storylines the desk is following</span></div>')
 
-    band = bottom_line_band([i for i in (items or []) if not i.get("example")])
-    body = market_strip(pulse) + band + f"""<main class="wrap"><section class="page">
+    # The Bottom Line lives in the hero square beside the lead (owner call 2026-07-16);
+    # the standalone band below is retired on home. /bottom-line.html keeps the history.
+    body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
   {desk_html}
+  {editions_html}
   {track_html}
   <div class="dash-grid home-grid">{"".join(cards)}</div>
   <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
@@ -1247,9 +1366,18 @@ def flows_chart_svg(by_asset):
 
 
 def ww_hero():
-    return ('<section class="ww-hero"><div class="ww-heroinner">'
-            '<img src="/assets/whale-watch-banner.png" alt="GoCheckMyCrypto Whale Watch">'
-            '</div></section>')
+    # The whale loop is contained section dressing (never a trade signal): strictly lazy
+    # (no autoplay attribute, motion-lazy pool arms on first scroll), poster as first
+    # paint, and the section identity rides the scrim in light text.
+    return ('<section class="ww-hero"><div class="ww-heroinner"><div class="ww-panel">'
+            '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
+            'poster="/assets/whale/whale-poster.jpg" aria-hidden="true" tabindex="-1">'
+            '<source src="/assets/whale/whale-loop.webm" type="video/webm">'
+            '<source src="/assets/whale/whale-loop.mp4" type="video/mp4"></video>'
+            '<span class="ww-scrim" aria-hidden="true"></span>'
+            '<span class="ww-panel-fg"><span class="kicker">Follow the money</span>'
+            '<span class="ww-title">Whale Watch</span></span>'
+            '</div></div></section>')
 
 
 def _win_phrase(hours):
@@ -1263,7 +1391,6 @@ def _win_phrase(hours):
 def render_flows(flows, dateline):
     if not flows or (not flows.get("by_asset") and not flows.get("top_inflows")):
         body = ww_hero() + """<main class="wrap"><section class="page">
-  <span class="kicker">Follow the money</span>
   <h1>Where the whales are moving</h1>
   <p class="lede">This board tracks where whales are moving large amounts of crypto: onto
      exchanges (which can precede selling) or off exchanges into self-custody (accumulation).</p>
@@ -1339,7 +1466,7 @@ def render_flows(flows, dateline):
       <span class="sub">{esc(biggest.get("symbol", ""))} &rarr; {esc(biggest.get("to", ""))}</span>
     </div>"""
     body = ww_hero() + f"""<main class="wrap"><section class="page">
-  <div class="ey" style="margin:14px 0 0"><span class="kicker">Follow the money</span>
+  <div class="ey" style="margin:14px 0 0">
     <span class="daily-badge">refreshed through the day</span></div>
   <h1 style="margin-top:6px">Where the whales are moving</h1>
   <p class="lede" style="margin-bottom:10px">The aggregate, not the feed: whale money onto
@@ -1743,9 +1870,18 @@ def _dash_crumb():
 
 
 def mp_hero():
-    return ('<section class="ww-hero mp-hero"><div class="ww-heroinner">'
-            '<img src="/assets/market-pulse-banner.png" alt="GoCheckMyCrypto Market Pulse">'
-            '</div></section>')
+    # The pulse loop is header atmosphere only (never adjacent to live numbers: the whole
+    # board renders below on the plain background). Strictly lazy like the other section
+    # videos: no autoplay attribute, motion-lazy pool, poster first paint.
+    return ('<section class="ww-hero mp-hero"><div class="ww-heroinner"><div class="ww-panel">'
+            '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
+            'poster="/assets/pulse/pulse-poster.jpg" aria-hidden="true" tabindex="-1">'
+            '<source src="/assets/pulse/pulse-loop.webm" type="video/webm">'
+            '<source src="/assets/pulse/pulse-loop.mp4" type="video/mp4"></video>'
+            '<span class="ww-scrim" aria-hidden="true"></span>'
+            '<span class="ww-panel-fg"><span class="kicker">Market Pulse</span>'
+            '<span class="ww-title">The Board</span></span>'
+            '</div></div></section>')
 
 
 def _dash_shell(slug, title, desc, body_inner, dateline, live=False):
@@ -1888,7 +2024,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                f'next-block fee: {busy}', net_mini, cls=" mspan")
 
     body = mp_hero() + f'''<main class="wrap"><section class="page">
-  <div class="ey" style="margin:14px 0 0"><span class="kicker">Market Pulse</span>
+  <div class="ey" style="margin:14px 0 0">
     <span class="daily-badge">refreshed through the day</span></div>
   <h1 style="margin-top:6px">The Board</h1>
   <p class="lede" style="margin-bottom:10px">Every desk at a glance, in the order a desk
@@ -2429,11 +2565,26 @@ def render_chartmaster(read, dateline):
     if read.get("date") and fmt_date(read["date"]).upper() != (dateline or "").upper():
         stale_note = (f'<p class="pc-note"><b>From the Master\'s ledger, {esc(fmt_date(read["date"]))}.</b> '
                       f'The boards below are live; the figures in this read are from its date.</p>')
+    # The wizard loop is the column's satirical mascot backdrop, a character and never an
+    # authority claim: header flavor only, no predictive framing anywhere in this markup,
+    # and the describe-not-predict disclaimer stays in its usual spot below the prose,
+    # off the video and unobscured. Lazy by construction: preload="none" plus the global
+    # motion-video observer means zero bytes and zero decode until the section scrolls in.
+    wizard_html = (
+        '<div class="cm-readhead">'
+        '<video class="cm-wiz motion-video motion-lazy" muted loop playsinline preload="none" '
+        'poster="/assets/wizard/wizard-poster.jpg" aria-hidden="true" tabindex="-1">'
+        '<source src="/assets/wizard/wizard-loop.webm" type="video/webm">'
+        '<source src="/assets/wizard/wizard-loop.mp4" type="video/mp4"></video>'
+        '<span class="cm-readscrim" aria-hidden="true"></span>'
+        '<div class="cm-readhead-fg">'
+        '<div class="ey"><span class="tag">the read</span>'
+        f'<span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>'
+        f'<h3 class="cm-headline">{esc(destyle(read.get("headline", "")))}</h3>'
+        '</div></div>')
     read_html = (f"""<div class="sec-head" style="margin-top:8px"><h2>The Chart Master's read</h2><span class="bar"></span></div>
   <article class="pulse-card cm-read">
-    <div class="ey"><span class="tag">the read</span>
-      <span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
-    <h3 class="cm-headline">{esc(destyle(read.get("headline", "")))}</h3>
+    {wizard_html}
     {stale_note}
     <div class="prose">{paras}</div>
     <p class="pc-note">The Chart Master reads the day's <a href="/pulse.html">Market
