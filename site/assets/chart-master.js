@@ -128,6 +128,10 @@
           html += '<button class="cm-btn" data-j="' + j + '">' + opt + "</button>";
         });
         body.innerHTML = html + "</div>";
+        // Move focus to the new question so keyboard and screen-reader users are carried
+        // to it instead of being dropped when the panel's contents are replaced.
+        var qp = body.querySelector("p");
+        if (qp) { qp.setAttribute("tabindex", "-1"); qp.focus(); }
         body.onclick = function (e) {
           var j = e.target && e.target.getAttribute("data-j");
           if (j == null) return;
@@ -157,6 +161,9 @@
           '<div class="pc-chips" style="margin-top:12px"><button class="cm-btn" id="exam-share">Copy your result</button>' +
           '<button class="cm-btn" id="exam-again">Take it again</button></div>' +
           '<p class="pc-note" id="exam-note"></p>';
+        // Announce and land focus on the result rather than leaving it at the page top.
+        var res = body.querySelector(".exam-result");
+        if (res) { res.setAttribute("tabindex", "-1"); res.setAttribute("role", "status"); res.focus(); }
         $("exam-share").onclick = function () {
           (navigator.clipboard ? navigator.clipboard.writeText(share) : Promise.reject())
             .then(function () { $("exam-note").textContent = "Copied. Go forth and boast."; })

@@ -192,13 +192,20 @@
     });
     rows.forEach(function (r) { top100Body.appendChild(r); });
   }
+  // Sort controls: each sortable <th> holds a <button> so the control is keyboard
+  // operable (Enter/Space fire a click that bubbles here). aria-sort tells assistive
+  // tech the current column and direction (WCAG 4.1.2 / 1.3.1).
   $all("th[data-sort]").forEach(function (th) {
     th.addEventListener("click", function () {
       var key = th.getAttribute("data-sort");
       if (sortKey === key) { sortAsc = !sortAsc; }
       else { sortKey = key; sortAsc = key === "rank"; }
-      $all("th[data-sort]").forEach(function (t) { t.classList.remove("sorted-asc", "sorted-desc"); });
+      $all("th[data-sort]").forEach(function (t) {
+        t.classList.remove("sorted-asc", "sorted-desc");
+        t.setAttribute("aria-sort", "none");
+      });
       th.classList.add(sortAsc ? "sorted-asc" : "sorted-desc");
+      th.setAttribute("aria-sort", sortAsc ? "ascending" : "descending");
       applySort();
     });
   });

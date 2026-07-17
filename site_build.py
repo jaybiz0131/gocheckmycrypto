@@ -301,15 +301,22 @@ def masthead(active, dateline, brand="site"):
     <span class="mh-word">{esc(FAMILY)}</span>
     <span class="mh-slogan">Crypto, checked.</span>
   </a>"""
+    # Motion pause/play control (WCAG 2.2.2). Lives in the masthead so it is present on
+    # every page that carries motion (hero video, section videos, looping decorations).
+    # Starts in the "playing" state; the script flips it and remembers the choice.
+    motion_toggle = ('<button type="button" class="motion-toggle" data-motion '
+                     'aria-pressed="false" aria-label="Pause motion">'
+                     '<span class="mt-ico" aria-hidden="true"></span>'
+                     '<span class="mt-txt">Motion</span></button>')
     return f"""<div class="top-rule"></div>
 <header class="masthead"><div class="wrap">
   <div class="mh-top">
     {fam}
-    <span class="mh-dateline">{esc(dateline)} &middot; Independent &middot; No hype</span>
+    <span class="mh-meta"><span class="mh-dateline">{esc(dateline)} &middot; Independent &middot; No hype</span>{motion_toggle}</span>
   </div>
   {brand_row}
 </div></header>
-<nav class="mh-nav"><div class="wrap">{nav}</div></nav>"""
+<nav class="mh-nav" aria-label="Primary"><div class="wrap">{nav}</div></nav>"""
 
 
 def market_strip(pulse=None):
@@ -354,7 +361,7 @@ def market_strip(pulse=None):
         extras += (f'<span class="tick"><span class="sym">BTC funding</span>'
                    f'<span class="px">{f8:+.4f}%/8h</span>'
                    f'<span class="chg"></span></span>')
-    return f"""<section class="markets" id="markets" aria-label="Live crypto markets"><div class="wrap">
+    return f"""<section class="markets" id="markets"><div class="wrap" tabindex="0" role="region" aria-label="Live crypto markets ticker (scrollable)">
   <span class="lab">Markets &middot; live</span>
   {ticks}
   <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">{esc(cap_px)}</span>{cap_chg_html}</span>
@@ -479,11 +486,29 @@ def _fingerprint_assets(html):
 MOTION_JS = (
     '<script>(function(){var rm=matchMedia("(prefers-reduced-motion: reduce)").matches;'
     'var vids=[].slice.call(document.querySelectorAll(".motion-video"));'
+    'var toggles=[].slice.call(document.querySelectorAll("[data-motion]"));'
+    # Reduced-motion users: strip every video (zero bytes, zero decode); the toggle is
+    # hidden by CSS, and the animation-kill media block freezes the decorative layer.
     'if(rm){vids.forEach(function(v){v.parentNode.removeChild(v)});return;}'
     'document.documentElement.classList.add("mjs");'
+    # Manual pause state (WCAG 2.2.2), remembered across pages. Paused => freeze the CSS
+    # motion layer (html.motion-off) and hold every video; the scroll observer will not
+    # resume a video while paused.
+    'var root=document.documentElement,KEY="cc_motion",paused=false;'
+    'try{paused=localStorage.getItem(KEY)==="off"}catch(e){}'
+    'function inView(v){var r=v.getBoundingClientRect();'
+    'return r.bottom>0&&r.top<(window.innerHeight||0)&&r.right>0&&r.left<(window.innerWidth||0)}'
+    'function sync(){toggles.forEach(function(b){b.setAttribute("aria-pressed",paused?"true":"false");'
+    'b.setAttribute("aria-label",paused?"Play motion":"Pause motion")})}'
+    'function apply(){if(paused){root.classList.add("motion-off");'
+    'vids.forEach(function(v){if(!v.paused)v.pause()})}'
+    'else{root.classList.remove("motion-off");'
+    'vids.forEach(function(v){if(inView(v)&&v.paused)v.play().catch(function(){})})}sync()}'
+    'toggles.forEach(function(b){b.addEventListener("click",function(){paused=!paused;'
+    'try{localStorage.setItem(KEY,paused?"off":"on")}catch(e){}apply()})});'
     'if("IntersectionObserver" in window){'
     'var vo=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;'
-    'if(e.isIntersecting&&e.intersectionRatio>=.12){if(v.paused)v.play().catch(function(){})}'
+    'if(!paused&&e.isIntersecting&&e.intersectionRatio>=.12){if(v.paused)v.play().catch(function(){})}'
     'else if(!v.paused)v.pause()})},{threshold:.12});'
     'vids.forEach(function(v){if(!v.classList.contains("motion-lazy"))vo.observe(v)});'
     'var lz=vids.filter(function(v){return v.classList.contains("motion-lazy")});'
@@ -494,6 +519,7 @@ MOTION_JS = (
     '{rootMargin:"0px 0px -5% 0px"});'
     '[].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){ro.observe(el)})}'
     'else{[].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){el.classList.add("in")})}'
+    'apply();'
     '})()</script>')
 
 
@@ -516,10 +542,12 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     livejs = ('\n<script defer src="/assets/pulse-live.js"></script>' if live_js else "")
     # accessibility: id the page's first <main> landmark as the skip-link target, and emit
     # the skip-link ONLY when such a target exists (list pages built from bare <section>s
-    # get no dangling link). The .skip-link CSS lives in site.css.
+    # get no dangling link). tabindex=-1 lets the non-interactive <main> receive focus so
+    # the skip link actually moves keyboard focus (WCAG 2.4.1). The .skip-link CSS is in
+    # site.css.
     skip = ""
     if re.search(r'<main(\s|>)', body):
-        body = re.sub(r'<main(\s|>)', r'<main id="main"\1', body, count=1)
+        body = re.sub(r'<main(\s|>)', r'<main id="main" tabindex="-1"\1', body, count=1)
         skip = '<a class="skip-link" href="#main">Skip to main content</a>\n'
     page = f"""<!DOCTYPE html>
 <html lang="en">
@@ -600,7 +628,7 @@ def sig_block():
     <span class="sig-attest">Passed our <a href="/method.html">automated editorial review</a>:
       ranked, source-checked, and verified by the desk's independent review pass.</span>
   </div>
-  <div class="stamp" aria-label="Automated editorial review stamp">
+  <div class="stamp" role="img" aria-label="Automated editorial review stamp">
     <span class="badge-anim"><img src="/assets/cronkite-coin.png" alt="" width="60" height="60" loading="lazy"></span>
     <svg viewBox="0 0 120 120" aria-hidden="true">
       <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
@@ -1034,6 +1062,7 @@ def render_home(items, flows, pulse, cm, dateline):
     # The Bottom Line lives in the hero square beside the lead (owner call 2026-07-16);
     # the standalone band below is retired on home. /bottom-line.html keeps the history.
     body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
+  <h1 class="sr-only">{esc(FAMILY)}: crypto news and market data, checked</h1>
   {desk_html}
   {editions_html}
   {track_html}
@@ -1085,7 +1114,7 @@ def render_archive(items, dateline):
         inner = ('<div class="empty"><span class="k">Archive is empty</span>'
                  '<p style="margin:.6em 0 0">No stories have been approved and published yet.</p></div>')
     body = f"""<main class="wrap"><section class="sec">
-    <div class="sec-head"><h2>Archive</h2><span class="bar"></span></div>
+    <div class="sec-head"><h1>Archive</h1><span class="bar"></span></div>
     {inner}
   </section></main>"""
     return shell(f"Archive - {NAME}", "Every published Crypto Cronkite story.", "Archive", body, dateline,
@@ -2331,9 +2360,11 @@ def render_pulse_prices(pulse, dateline):
      <span data-live="stamp"></span></p>
   <div class="movetable prices-table"><table>
     <thead><tr>
-      <th data-sort="rank" class="sorted-asc">#</th><th>Coin</th><th>7d</th>
-      <th data-sort="price">Price</th><th data-sort="chg">24h</th>
-      <th data-sort="mcap">Market cap</th>
+      <th scope="col" data-sort="rank" aria-sort="ascending"><button type="button" class="th-sort">#</button></th>
+      <th scope="col">Coin</th><th scope="col">7d</th>
+      <th scope="col" data-sort="price" aria-sort="none"><button type="button" class="th-sort">Price</button></th>
+      <th scope="col" data-sort="chg" aria-sort="none"><button type="button" class="th-sort">24h</button></th>
+      <th scope="col" data-sort="mcap" aria-sort="none"><button type="button" class="th-sort">Market cap</button></th>
     </tr></thead>
     <tbody data-live="top100">{_top100_rows(coins)}</tbody>
   </table></div>
@@ -2625,8 +2656,8 @@ def render_chartmaster(read, dateline):
       <button class="cm-btn" data-guess="up">Higher &uarr;</button>
       <button class="cm-btn" data-guess="down">Lower &darr;</button>
     </div>
-    <p class="pc-note" id="oracle-status">Loading the tape...</p>
-    <p class="pc-note" id="oracle-record"></p>
+    <p class="pc-note" id="oracle-status" aria-live="polite" role="status">Loading the tape...</p>
+    <p class="pc-note" id="oracle-record" aria-live="polite"></p>
   </div>
 
   <div class="sec-head" style="margin-top:30px"><h2>The Wizard's Exam</h2><span class="bar"></span></div>
