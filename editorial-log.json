@@ -438,5 +438,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-17",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c122",
+    "headline": "CFTC Overrides Michigan Court, Orders Kalshi to Honor Cancelled Trades",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case explicitly notes that 'The sources do not raise skeptical counterarguments or risks to the CFTC's position. No state regulatory body, Michigan court, or opposing counsel perspective is included in the source text.' The draft contains zero counterargument, skepticism, or Michigan's legal position, presenting the CFTC's assertion as established fact without any opposing view. This violates the desk's obligation to surface the brief's own identification of missing context.",
+     "The draft states 'The CFTC's emergency order asserts that they do not' (regarding state power) as though the assertion settled the matter, when the open_questions flag that Michigan's response and grounds for potential appeal are unknown. The draft should acknowledge this uncertainty rather than treating the CFTC's position as conclusive."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "SBI Holdings completes acquisition of Singapore's Coinhako",
+    "category": "balance",
+    "reasons": [
+     "Brief is marked thin=true with only 3 data_points and minimal source material. Draft appropriately matches this thinness, but the bottom_line statement 'insufficient public detail exists to assess the acquisition's strategic meaning or scale' and 'leaves the story incomplete' reads as editorial hesitation rather than forward-looking stakes. For a thin brief, the correct move is to report what is known cleanly and use the bottom_line to identify what would clarify the story next (e.g., 'Watch for SBI's integration announcement' rather than apologizing for incompleteness). The angle in the brief frames this as a strategic positioning play ('positioning for tokenized settlement plays'); the draft abandons that framing entirely and treats the story as a data gap. Either commit to the angle with available facts or reject the story as unpublishable; do not publish it as a confession of thinness."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "HSBC Wins Bank of England Approval for Digital Securities Sandbox",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'HSBC Orion received approval from the Bank of England to enter the Digital Securities Sandbox' but brief data_point says 'HSBC Orion was approved by the Bank of England to go live in its Digital Securities Sandbox'\u2014the brief explicitly says 'go live', indicating operational status, not just entry approval. The draft's framing softens the claim to mere 'approval to enter' rather than 'go live', which is a material difference in what the approval means.",
+     "Draft describes this as conducting trading 'within the sandbox environment' but the brief's angle and core_claim frame this as 'live tokenized securities trading'\u2014a sandbox test is not the same as live trading. The draft's language ('sandbox environment') contradicts the significance implied by the brief's framing ('live tokenized securities trading under regulatory supervision'). This ambiguity obscures whether HSBC is actually trading or in a controlled test phase."
+    ]
+   }
+  ]
  }
 ]
