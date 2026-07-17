@@ -407,5 +407,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-17",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Citadel Securities Invests $400 Million in Crypto.com, Valuing Exchange at $20 Billion",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case states 'The sources provide no dissenting views, risk assessments, regulatory concerns, or skeptical analysis regarding the valuation, the market maturity of tokenized securities/RWAs, or execution risks.' The draft acknowledges this absence in the final paragraph ('The sources do not provide detail on Citadel Securities' ownership stake...nor do they offer skeptical analysis of the $20 billion valuation, execution risks...') but does not materially address or synthesize the bear case into the body narrative. The story reads as a one-sided institutional-capital-convergence narrative without substantive risk framing. A brief with identified bear_case gaps requires either those gaps to be transparently surfaced throughout (they are only mentioned in a disclaiming final paragraph) or for the draft to decline the story. The final paragraph reads as a compliance gesture rather than genuine balance integration."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "T. Rowe Price launches actively managed multi-token crypto ETF, signaling institutional sophistication",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'passive single-token crypto ETFs typically charge 0.20% to 0.25% annually' \u2014 this comparison figure does not appear in the brief's data_points and is smuggled information. The brief does not provide competitor fee benchmarks; the writer added this to strengthen the fee argument without source attribution.",
+     "Draft claims 'Historical data from traditional active equity funds show that most fail to outperform their passive benchmarks after fees over multi-year periods' \u2014 this is a generalized claim about equity fund history that is not in the brief and introduced as context without attribution. It may be true but it is not research-backed by the brief."
+    ]
+   },
+   {
+    "id": "c115",
+    "headline": "Ostium Vault Exploiter Routes 10,540 ETH to Tornado Cash",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The $24 million drain therefore represented approximately 63% of the protocol's total value locked' but does not trace the calculation. The brief says TVL was $37.80 million; $24M \u00f7 $37.80M = 63.5%, which is accurate. However, the more significant issue: the draft says 'The attacker swapped the stolen stablecoins for 12,086 ETH' but the brief data_point says '12.08 thousand ETH' (which is 12,080 ETH when numerically rendered). The draft uses 12,086 ETH without source attribution to reconcile this discrepancy. The brief also notes '26.4 million and 23.4 million' USDC flowing to the wallet before the swap\u2014the draft mentions these figures but does not clarify whether they are separate instances, cumulative, or represent tracing ambiguity. The brief's open_question asks 'What was the specific nature of the oracle exploit?' and the draft correctly flags this as unknown, but the phrasing 'The attack vector was an oracle vulnerability, per The Defiant's reporting, though the specific nature of the exploit, a price feed manipulation, stale data issue, or flash loan attack, was not detailed in available sources' adds 'flash loan attack' as an option not mentioned in the brief's open_questions. The draft is smuggling a new hypothetical into the oracle vulnerability framing."
+    ]
+   }
+  ]
  }
 ]
