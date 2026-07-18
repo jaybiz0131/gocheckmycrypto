@@ -51,6 +51,7 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .masthead .wrap{padding-top:16px;padding-bottom:12px}
 .mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .mh-dateline{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.mh-meta{display:inline-flex;align-items:center;gap:2px;flex-wrap:wrap}
 .mh-family{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .mh-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
 .mh-brand:hover{text-decoration:none}
@@ -109,7 +110,7 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 /* ---- section headers ------------------------------------------------------- */
 .sec{padding:30px 0}
 .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-.sec-head h2{font-family:var(--serif);font-weight:600;font-size:22px;margin:0;letter-spacing:-.01em;white-space:nowrap}
+.sec-head h1,.sec-head h2{font-family:var(--serif);font-weight:600;font-size:22px;margin:0;letter-spacing:-.01em;white-space:nowrap}
 .sec-head .bar{flex:1;height:1px;background:var(--line)}
 
 /* ---- story grid + cards ---------------------------------------------------- */
@@ -150,7 +151,11 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .news button{padding:13px 22px;border-radius:6px;border:none;background:#B42318;color:#fff;
   font-family:var(--sans);font-weight:600;font-size:15px;cursor:pointer;transition:filter .15s}
 .news button:hover{filter:brightness(1.08)}
-.news .fine{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:14px}
+.news .fine{font-size:11.5px;color:rgba(255,255,255,.72);margin-top:14px}
+/* the newsletter sits on a constant-dark panel, so its links need a light color: the
+   default ink-blue link failed contrast badly here (WCAG 1.4.3). Not a brand token. */
+.news a{color:#9cc0e4;text-decoration:underline;text-underline-offset:2px}
+.news a:hover{color:#c3dbf2}
 .hp{position:absolute;left:-9999px}
 
 /* ---- article --------------------------------------------------------------- */
@@ -469,8 +474,12 @@ a.mh-family:hover{text-decoration:underline}
 .prices-table th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--faint);text-align:left;padding:10px 14px;
   border-bottom:1px solid var(--line);white-space:nowrap}
-.prices-table th[data-sort]{cursor:pointer;user-select:none}
-.prices-table th[data-sort]:hover{color:var(--ink)}
+.prices-table th[data-sort]{user-select:none}
+/* the sortable header label is a real button for keyboard access; strip the button chrome
+   so it reads as the header text, and let the cell's :hover/color rules carry through */
+.prices-table th .th-sort{font:inherit;letter-spacing:inherit;text-transform:inherit;
+  color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer}
+.prices-table th[data-sort]:hover .th-sort{color:var(--ink)}
 .prices-table th.sorted-asc::after{content:" \2191"}
 .prices-table th.sorted-desc::after{content:" \2193"}
 .row-spark svg{width:110px;height:26px;display:block}
@@ -524,7 +533,20 @@ footer.site .fnote b{color:var(--muted)}
 .widget-grid{grid-template-columns:repeat(3,1fr)}
 @media (max-width:700px){.widget-grid{grid-template-columns:repeat(2,1fr);gap:10px}
   .widget.mspan{grid-column:1/-1}}
-.widget{padding:12px 14px}
+/* very narrow screens (down to 320px): one widget per row so the fixed-column ledgers
+   inside them have room and the page never scrolls sideways (WCAG 1.4.10) */
+@media (max-width:430px){.widget-grid{grid-template-columns:1fr}}
+/* Reflow (WCAG 1.4.10): let the dashboard grid tracks and their children shrink below
+   intrinsic content width (grid/flex items default to min-width:auto), and let long
+   section headings wrap on narrow screens instead of forcing sideways scroll. Wide data
+   tables still scroll inside their own .movetable container, per the 1.4.10 exception. */
+.board-grid,.board-grid>*,.stack,.stack>*{min-width:0}
+@media (max-width:600px){.sec-head{flex-wrap:wrap}.sec-head h1,.sec-head h2{white-space:normal}}
+.widget{padding:12px 14px;min-width:0}
+/* let dashboard cards shrink below their content's intrinsic width so the page reflows
+   cleanly at 320px / 200% zoom without horizontal scroll (WCAG 1.4.10) */
+.dash-card{min-width:0}
+.widget .pc-spark svg,.widget .row-spark svg{max-width:100%}
 .widget .dash-stat{font-size:21px;margin-bottom:3px}
 .widget .w-sub{font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.45;display:block}
 .widget .pc-spark svg{height:34px}
@@ -617,19 +639,67 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
   line-height:1.1;margin-top:2px}
 @media (max-width:600px){.ww-panel{height:126px}.ww-panel-fg .ww-title{font-size:21px}}
 
-/* sliding underline on prose and footer links */
-.prose a,.pc-note a,.fnote a,.flinks a,.bl-links a{text-decoration:none;position:relative}
-.prose a::after,.pc-note a::after,.fnote a::after,.flinks a::after,.bl-links a::after{
-  content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:currentColor;
-  transform:scaleX(0);transform-origin:left;transition:transform .22s ease}
-.prose a:hover::after,.pc-note a:hover::after,.fnote a:hover::after,.flinks a:hover::after,
-.bl-links a:hover::after{transform:scaleX(1)}
-@media (prefers-reduced-motion:reduce){.prose a::after,.pc-note a::after,.fnote a::after,
-  .flinks a::after,.bl-links a::after{transition:none}}
+/* In-text links stay underlined at rest so color is never the only cue (WCAG 1.4.1 Use of
+   Color). This replaces an earlier hover-only sliding underline, which left links in prose
+   distinguishable by color alone until hovered. */
+.prose a,.pc-note a,.fnote a,.flinks a,.bl-links a,.lede a,.trust-line a,
+.callout a,.sig-attest a,main p a,main li a{text-decoration:underline;text-underline-offset:2px}
 
 .mp-hero .ww-panel{background-image:url(/assets/pulse/pulse-poster.jpg);background-position:center 38%}
 .mp-hero .ww-vid{object-position:center 38%}
 
-/* ---- accessibility: skip-to-main-content link (off-screen until focused) ----------- */
-a.skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:var(--rule);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;font-weight:700;text-decoration:none}
+/* ============================================================================
+   ACCESSIBILITY LAYER (WCAG 2.1 AA / Section 508)
+   Added by the accessibility remediation pass.
+   ============================================================================ */
+
+/* Skip-to-main-content link (off-screen until focused). Constant brand-red ground with
+   white text so it clears AA in both themes (var(--rule) in dark is only ~3.3:1). */
+a.skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:#B42318;color:#fff;
+  padding:10px 16px;border-radius:0 0 8px 0;font-weight:700;text-decoration:none}
 a.skip-link:focus{left:0}
+
+/* Screen-reader-only utility (visually hidden, still announced) */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Visible focus indicator on every keyboard-focused control (WCAG 2.4.7 / 2.4.11).
+   Uses :focus-visible so it shows for keyboard/AT users without ringing on mouse click. */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,[tabindex]:focus-visible,summary:focus-visible{
+  outline:3px solid var(--link);outline-offset:2px;border-radius:3px}
+/* On the constant-dark hero band and section panels, use a light ring for contrast */
+.hero-band a:focus-visible,.hero-band button:focus-visible,
+.ww-panel a:focus-visible,.markets .wrap:focus-visible{
+  outline:3px solid #cfe0f5;outline-offset:2px}
+
+/* Motion pause/play control (WCAG 2.2.2). Subtle, sits in the masthead top corner so
+   it is present on every page that carries motion (hero video, section videos, and the
+   looping decorative animations). Pausing freezes all of them; the browser's
+   reduced-motion setting is still honored independently. */
+.motion-toggle{display:inline-flex;align-items:center;gap:6px;margin-left:14px;
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);background:transparent;
+  border:1px solid var(--line);border-radius:999px;padding:4px 10px;cursor:pointer;
+  min-height:28px;line-height:1}
+.motion-toggle:hover{color:var(--ink);border-color:var(--muted)}
+.motion-toggle .mt-ico{width:9px;height:10px;display:inline-block;position:relative}
+/* pause glyph (two bars) while motion is playing */
+.motion-toggle .mt-ico::before,.motion-toggle .mt-ico::after{content:"";position:absolute;
+  top:0;width:3px;height:10px;background:currentColor}
+.motion-toggle .mt-ico::before{left:0}
+.motion-toggle .mt-ico::after{right:0}
+/* play glyph (triangle) once motion is paused */
+.motion-toggle[aria-pressed="true"] .mt-ico::before{left:1px;top:0;width:0;height:0;
+  background:transparent;border-top:5px solid transparent;border-bottom:5px solid transparent;
+  border-left:8px solid currentColor}
+.motion-toggle[aria-pressed="true"] .mt-ico::after{display:none}
+/* no motion to control when the OS asks for reduced motion: hide the toggle */
+@media (prefers-reduced-motion:reduce){.motion-toggle{display:none}}
+
+/* Manual pause: same animation-kill list as the reduced-motion switch, driven by a class
+   the toggle sets on <html>. Videos are paused via script; these freeze CSS animation. */
+html.motion-off .badge-anim,html.motion-off .badge-anim::after,html.motion-off .tick-colon,
+html.motion-off .sec-head .bar::after,html.motion-off .hero-bl::after,html.motion-off .live-dot,
+html.motion-off .flash,html.motion-off .flash-dn{animation:none!important}
+html.motion-off .badge-anim:hover img{transform:none}
