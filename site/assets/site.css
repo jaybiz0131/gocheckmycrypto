@@ -8,7 +8,7 @@
 
 :root{
   --paper:#FBFAF6;      --card:#FFFFFF;       --ink:#17181C;
-  --muted:#5C616B;      --faint:#8A8F98;      --line:#E6E2D8;
+  --muted:#5C616B;      --faint:#6B707A;      --line:#E6E2D8;
   --rule:#B42318;       /* masthead red rule + kicker */
   --link:#123A5E;       --link-hover:#0B2740;
   --verified-fg:#12603B; --verified-bg:#DCEFE2;
@@ -22,7 +22,7 @@
 }
 @media (prefers-color-scheme:dark){
   :root{
-    --paper:#131419; --card:#1A1C22; --ink:#EBE9E3; --muted:#A6ABB4; --faint:#7B808A;
+    --paper:#131419; --card:#1A1C22; --ink:#EBE9E3; --muted:#A6ABB4; --faint:#868B95;
     --line:#2A2D35; --rule:#E5533F; --link:#8FB6DC; --link-hover:#B7D2ED;
     --verified-fg:#8BE0AE; --verified-bg:#12331F; --review-fg:#F0C674; --review-bg:#3A2E10;
     --tag-bg:#24262E; --tag-fg:#B7BCC5;
@@ -217,7 +217,7 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 
 /* ---- whale watch DARK sub-brand theme (matches the GoCheckMyCrypto Whale Watch logo) ---- */
 body.ww-dark{
-  --paper:#091625; --card:#0f2437; --ink:#eaf6ff; --muted:#a6c4d8; --faint:#6e8ba1;
+  --paper:#091625; --card:#0f2437; --ink:#eaf6ff; --muted:#a6c4d8; --faint:#7C97AC;
   --line:#1d374d; --rule:#f4a52a; --link:#5fcbef; --link-hover:#9fe0fb;
   --verified-fg:#3fc8f2; --verified-bg:#0c2c3f; --review-fg:#f2c368; --review-bg:#33280f;
   --tag-bg:#16324a; --tag-fg:#a9cfe6; --shadow:0 20px 50px -30px rgba(0,0,0,.8);
