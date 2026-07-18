@@ -1,0 +1,31 @@
+{
+  "id": "c002",
+  "slug": "dog-mode-explains-bitcoin-s-next-governance-fight",
+  "kind": "brief",
+  "title": "DOG Mode Explains Bitcoin's Next Governance Fight",
+  "dek": "Bitcoin developer Leonidas introduced DOG Mode, an alternative client that relaxes default relay policies for Ordinals and Runes transactions without altering consensus rules, reopening a foundational debate over whether Bitcoin should function as a neutral marketplace for all valid transactions or reserve scarce block space primarily for monetary settlement.",
+  "date": "2026-07-18",
+  "published_utc": "2026-07-18T20:27:15Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "DOG Mode challenges Bitcoin's default relay policies to make Ordinals and Runes transactions easier to propagate, positioning itself as the inverse of BIP-110, which sought to tighten rules around such transactions.",
+  "bottom_line": "Watch whether DOG Mode adoption spreads among node operators and whether Bitcoin Core maintainers respond with policy adjustments. A broad shift toward policy fragmentation would test whether Bitcoin's decentralization can survive nodes running fundamentally different relay rules, or whether consensus will reassert pressure toward unified relay defaults.",
+  "human_take": "",
+  "body": [
+    "Bitcoin developer Leonidas has introduced DOG Mode, an alternative client that relaxes default relay policies affecting Ordinals and Runes transactions, reopening a foundational Bitcoin governance question without altering the network's consensus rules. DOG Mode does not change what transactions Bitcoin will accept, only which transactions node operators will forward to miners before they are included in a block.",
+    "The tension DOG Mode exposes centers on Bitcoin's relay policies: the settings that determine which valid transactions are propagated across the peer-to-peer network. Bitcoin Core and other mainstream node software enforce certain relay rules that discourage or reject large, non-standard, or data-heavy transactions. DOG Mode relaxes those policies, making it easier for Ordinals and Runes inscriptions to find their way to miners.",
+    "The philosophical clash is sharp. BIP-110, proposed earlier, sought to tighten those network rules and make Ordinals-type transactions more difficult to relay, drawing accusations of censorship from critics. Leonidas framed DOG Mode as the inverse: Bitcoin should remain a neutral marketplace for block space where any valid transaction is equally legitimate provided the sender pays the prevailing fee. This mirrors the economic argument that miners, not relay policy, should decide what belongs in blocks, and that artificial relay barriers distort fee discovery.",
+    "Proponents of BIP-110 argue a different premise: Bitcoin is a public utility whose scarce block space should be reserved primarily for monetary settlement. Under this view, Ordinals and data-heavy applications represent consumption of a limited resource that should be protected for financial transactions. This is fundamentally about resource allocation and network purpose.",
+    "Leonidas, an advocate of the Ordinals protocol, which allows data to be stored on Bitcoin to create a version of non-fungible tokens, designed DOG Mode to serve a second objective: reducing the advantage held by institutional transaction brokers and private relay channels. By making large and non-standard transactions easier to propagate across the peer-to-peer network, DOG Mode could level the access gradient between retail and institutional market participants.",
+    "The governance risk embedded in this dispute is subtle but real. Bitcoin's consensus rules remain unchanged under any relay policy shift, so network validation stays intact. However, if enough nodes run different policy software, the network's mempool could become increasingly fragmented. Different parts of the network would relay different transactions, consensus would persist, but fee estimation and transaction propagation speed would become inconsistent. A user might see their transaction included in one node's mempool but rejected by another, complicating the incentive landscape and potentially reducing the network's efficiency as a settlement layer.",
+    "Current adoption of DOG Mode remains unquantified in public reporting. The extent to which node operators embrace it will determine whether this becomes a meaningful governance test or remains a marginal implementation choice."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/07/18/dog-mode-explains-bitcoin-s-next-governance-fight",
+      "url": "https://www.coindesk.com/tech/2026/07/18/dog-mode-explains-bitcoin-s-next-governance-fight"
+    }
+  ]
+}

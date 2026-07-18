@@ -1,0 +1,30 @@
+{
+  "id": "c000",
+  "slug": "cftc-sunsets-15-year-derivative-reporting-rule-for-physical-commodity-swaps",
+  "kind": "brief",
+  "title": "CFTC Sunsets 15-Year Derivative Reporting Rule for Physical Commodity Swaps",
+  "dek": "The CFTC issued a final order on July 17, 2026, eliminating daily and event-based position-reporting requirements under Part 20 for physical commodity swaps, citing duplication and burden. The agency will retain recordkeeping and special-call access to position data as a transitional measure.",
+  "date": "2026-07-18",
+  "published_utc": "2026-07-18T20:27:15Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Clearing organizations, clearing members, and swap dealers will no longer file routine position reports under Part 20, a rule adopted in 2011 as a temporary measure.",
+  "bottom_line": "The CFTC's sunset of Part 20 signals a deregulatory posture on derivative oversight, with the agency betting that its newer reporting infrastructure is sufficient to track systemic risk in commodity swaps. Watch for the Federal Register publication date and any statement from swap dealers or clearing organizations on compliance cost reductions. If market stress or a derivatives event occurs within the next 12-24 months, the CFTC's confidence in the newer frameworks' coverage will face immediate scrutiny.",
+  "human_take": "",
+  "body": [
+    "The Commodity Futures Trading Commission issued a final order on July 17, 2026, eliminating routine position-reporting requirements for physical commodity swaps under Part 20, a rule adopted in 2011 as a temporary measure. Clearing organizations, clearing members, and swap dealers will no longer be required to file daily and event-based position reports currently mandated by the regulation.",
+    "CFTC Chairman Michael S. Selig stated in the order that the action addresses regulatory burden: \"American financial market participants should not be saddled with costly and duplicative reporting requirements that do not improve the quality of our regulation.\" The sunset represents the first major rollback of post-2008 Dodd-Frank-era swap oversight infrastructure.",
+    "The CFTC's rationale rests on the maturation of the broader swap data reporting framework. The agency cites the registration of swap data repositories under Part 49, swap data reporting requirements in Parts 43 and 45, and position limits in Part 150 as collectively capturing the data that Part 20 once required. The order is effective upon publication in the Federal Register.",
+    "However, the CFTC is not eliminating all Part 20 obligations. Reporting entities must continue to keep records of paired swap and swaption transactions and futures-equivalent conversion methods, and furnish them upon appropriately scoped special call from the agency. This transitional measure preserves the CFTC's access to position data on demand, though it shifts from automatic routine filing to request-based disclosure.",
+    "The sources do not document independent verification of the CFTC's claim that Part 20 reporting is duplicative with the newer frameworks, nor do they show whether market participants, Congress, or other regulators have raised concerns about potential gaps in the agency's ability to monitor positions in physical commodity derivatives markets.",
+    "The order leaves open several questions about implementation and enforcement. The sources do not specify when the order will be published in the Federal Register, what specific position data the CFTC will lose access to under the sunset, or how the special-call mechanism will function in practice when the agency needs rapid position intelligence."
+  ],
+  "sources": [
+    {
+      "title": "https://www.cftc.gov/PressRoom/PressReleases/9269-26",
+      "url": "https://www.cftc.gov/PressRoom/PressReleases/9269-26"
+    }
+  ]
+}

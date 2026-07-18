@@ -642,5 +642,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-18",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "Trump Imposes 25% Tariff on Brazil Over Pix Payments System as Dollar Stablecoins Dominate Crypto",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'Ambassador Jamieson Greer stated that the action was \"necessary to address these unfair trade practices to ensure American workers and companies can compete on a level playing field.\"' is a paraphrase of the quoted data point. The brief provides the exact quote: 'Today's action is necessary to address these unfair trade practices to ensure American workers and companies can compete on a level playing field.' The draft omits 'Today's' and removes 'the word action,' materially changing the directness of attribution. This is acceptable paraphrasing, but the phrasing 'stated that the action was' differs from 'stated' in the brief's quote form.",
+     "The sentence 'The Atlantic Council has suggested the precedent could potentially extend to countries such as India's Unified Payments Interface and the European Central Bank's planned digital euro, though the sources do not provide direct quotes or further substantiation of that claim.' directly contradicts the bear_case item: 'The Atlantic Council's prediction that the precedent could extend to UPI and the digital euro is cited without direct quotes or further substantiation.' The draft acknowledges the lack of substantiation in prose, which tracks the bear_case, but this acknowledgment in the body text reads as the writer catching themselves\u2014a sign that the bear_case was not fully integrated into the framing. The sentence itself cites the Atlantic Council without attribution inline to its source outlet or publication, violating the desk's inline attribution standard."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "ECB Board Member Warns Stablecoins May Drain Bank Deposits",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'ECB board member Piero Cipollone laid out a three-layer threat that banks face from digital payments and stablecoins' but the brief's data point says only 'ECB board member Piero Cipollone laid out a three-layer threat banks face from digital payments.' The draft adds 'and stablecoins' to the claim, inserting information not present in the brief. The brief's open_questions explicitly list 'What are the specific three-layer threats to banks that Cipollone detailed?' as unresolved, indicating the source does not specify what the three layers are. The draft should not have added 'and stablecoins' as a specified component of the threat.",
+     "The draft states 'The sources do not provide the specific mechanics of the three-layer threat Cipollone outlined, nor do they cite quantitative evidence from the ECB showing measurable deposit losses attributable to stablecoins' but then earlier in the body asserts that 'Cipollone laid out a three-layer threat that banks face from digital payments and stablecoins' as though it were established fact rather than announced-but-unspecified. This contradiction exposes that the core claim itself is under-sourced: the brief has only two data points, both spare, with 'thin': true. The draft should either present the threat as unspecified in the lead or not claim specification at all.",
+     "The draft contains an unsourced comparative claim: 'The ECB's framing of stablecoins as a deposit-drain threat contrasts with other regulatory approaches, such as the CFTC's shift toward consolidating reporting requirements.' This comparison (CFTC action vs. ECB action) does not appear in the brief, which cites only one source (Decrypt on Cipollone). The desk's hard rule is 'no fact exists outside the brief.' This contrast is SMUGGLED."
+    ]
+   },
+   {
+    "id": "c084",
+    "headline": "French Gambling Regulator Orders ISPs to Block Polymarket",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'France's gambling authority has ordered the country's internet service providers to geoblock Polymarket' and 'The order cites illegal gambling and market manipulation concerns as the basis for the enforcement action.' The brief contains only two data_points, both marked 'reported' confidence, but the draft provides zero additional detail about the legal basis, enforcement mechanism, timeline, or Polymarket's response. The brief explicitly lists these as open_questions, indicating they were not confirmed by reporting. The draft reads as though the order is settled and operative fact when the source reporting is extremely thin (source_chars: 0). The phrase 'has ordered' and 'The order cites' present announced/unconfirmed regulatory action as settled enforcement without hedging language appropriate to the confidence level. The brief marks thin=true; a responsible draft from a thin brief should flag uncertainty about implementation and legal grounding, not omit it."
+    ]
+   },
+   {
+    "id": "c072",
+    "headline": "SummerFi to Wind Down After Seven Years, Citing Exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Defiant reported on July 6 that Summer Finance was drained of $6 million in what the outlet characterized as a flash-loan exploit' but then immediately follows with 'SummerFi has characterized the incident as NAV manipulation rather than a flash-loan hack.' This creates ambiguity about who said what: the brief's data_point attributes the 'flash-loan exploit' characterization to The Defiant (July 6 reporting), and a separate data_point confirms SummerFi's NAV manipulation claim. The draft does not cleanly separate these attributions and could mislead readers about whether The Defiant or SummerFi made the original flash-loan claim. The phrasing 'what the outlet characterized' should be followed by clear attribution to The Defiant specifically, not left ambiguous."
+    ]
+   }
+  ]
  }
 ]
