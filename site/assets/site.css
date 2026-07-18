@@ -629,3 +629,7 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
 
 .mp-hero .ww-panel{background-image:url(/assets/pulse/pulse-poster.jpg);background-position:center 38%}
 .mp-hero .ww-vid{object-position:center 38%}
+
+/* ---- accessibility: skip-to-main-content link (off-screen until focused) ----------- */
+a.skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:var(--rule);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;font-weight:700;text-decoration:none}
+a.skip-link:focus{left:0}

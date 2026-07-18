@@ -514,6 +514,13 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
         beacon = ('\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
                   f'data-cf-beacon=\'{{"token": "{CF_ANALYTICS_TOKEN}"}}\'></script>')
     livejs = ('\n<script defer src="/assets/pulse-live.js"></script>' if live_js else "")
+    # accessibility: id the page's first <main> landmark as the skip-link target, and emit
+    # the skip-link ONLY when such a target exists (list pages built from bare <section>s
+    # get no dangling link). The .skip-link CSS lives in site.css.
+    skip = ""
+    if re.search(r'<main(\s|>)', body):
+        body = re.sub(r'<main(\s|>)', r'<main id="main"\1', body, count=1)
+        skip = '<a class="skip-link" href="#main">Skip to main content</a>\n'
     page = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -539,7 +546,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body class="{esc(body_class)}">
-{masthead(active, dateline, brand)}
+{skip}{masthead(active, dateline, brand)}
 {body}
 {footer(brand)}{beacon}{livejs}
 {MOTION_JS}
@@ -858,7 +865,9 @@ def render_news(items, dateline, pulse=None):
     # news first: lead story (Bottom Line beside it), then the rest of the day's stories;
     # the promise strip and the whale teaser read as the footer beats, never above the
     # journalism
-    body = market_strip(pulse) + desk_strip() + lead_html + grid + trust_block() + flow_teaser() + newsletter()
+    # the ticker and desk strip are secondary chrome; the news itself is the main landmark
+    body = (market_strip(pulse) + desk_strip() + '<main class="news-main">' + lead_html + grid
+            + trust_block() + flow_teaser() + newsletter() + '</main>')
     return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html",
                  brand="cronkite")
 
