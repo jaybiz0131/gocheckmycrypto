@@ -513,5 +513,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-18",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c036",
+    "headline": "Citadel Securities Makes $400M Crypto.com Bet, Pushing Digital Asset Valuation to $20B",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's bear_case explicitly flags 'The source text is empty; no detailed terms, conditions, or strategic rationale from either party are documented in the fetched material.' with source_chars: 0. The draft presents only 3 data points as reported facts but provides no evidence of the substantive detail needed to support even the modest claims made. The second paragraph states 'specific terms of the investment, Citadel's governance role, and the company's broader crypto strategy remain undisclosed'\u2014which is accurate\u2014but the first paragraph asserts Citadel Securities 'invested $400 million in Crypto.com' and that this is 'the exchange's first institutional funding round' as though these are settled facts. Given the source is empty and the brief itself is thin (thin: true), the draft should reflect much greater caution about the scale, nature, and confidence level of the claims. The draft reads as if multiple facts have been verified when the brief shows the source material contains zero characters of supporting detail.",
+     "The draft states 'The investment marks a significant entry by a major traditional Wall Street market maker into the digital asset infrastructure space' as a definitive assessment, but this framing claim is not in the brief's data_points and cannot be verified against an empty source. This is editorial assertion presented without source attribution or appropriate hedging."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "DOG Mode vs. BIP-110: Inside the Bitcoin client built to bypass data restrictions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Leonidas claims removing the dust limit would release approximately $25 million in padding back to Ordinals and Runes ecosystems' but presents this as a factual consequence. The brief's data_point correctly labels this as a claim by Leonidas ('Leonidas claims...'), not a verified outcome. The draft should preserve the attribution and tentativeness, not present it as settled fact."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Bank of America appoints heads of digital assets and AI transformation",
+    "category": "balance",
+    "reasons": [
+     "The brief is marked 'thin': true with only 2 data_points and 0 source_chars, indicating a shallow sourcing situation. The bear_case is empty (no risks or counterarguments documented in the brief). The draft's body offers reasonable framing around the limitations of leadership appointments as signals, but the brief provides no bear_case material to balance against the structural-commitment framing. An empty bear_case combined with a thin brief should have prompted either: (a) a much tighter, more cautious draft, or (b) rejection on balance grounds because the story cannot be adequately contextualized. The current draft reads as institutional-friendly without documented risks or skepticism to weigh it against."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "ECB Board Member Flags Stablecoin Risk to Bank Deposits",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'stablecoin supply, with a 30-day decline of 1.5 percent' but this data point does not appear in the brief. The brief contains no stablecoin supply figures or decline metrics. This is smuggled information introduced by the writer outside the research brief.",
+     "The draft characterizes Cipollone's warning as identifying 'a three-layer threat' multiple times, but the brief's data_points only state he 'identified a three-layer threat'\u2014they do not detail what those three layers are. The draft then glosses over this with 'The three-layer threat framing reflects ECB concern that stablecoins...could redirect customer deposits' without sourcing this interpretation to the Decrypt article. The draft is filling in gaps that the brief correctly flagged as open_questions."
+    ]
+   }
+  ]
  }
 ]

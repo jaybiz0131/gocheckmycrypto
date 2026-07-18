@@ -1,0 +1,32 @@
+{
+  "id": "c002",
+  "slug": "stripe-and-swift-race-to-control-next-generation-payments-infrastructure",
+  "kind": "brief",
+  "title": "Stripe and Swift Race to Control Next-Generation Payments Infrastructure",
+  "dek": "Swift is expanding blockchain-based settlement with 40+ financial institutions while Stripe pursues a $53 billion unsolicited bid for PayPal. Both moves reflect a shift from proving blockchain technology to owning distribution layers that will determine which stablecoins dominate digital payments.",
+  "date": "2026-07-18",
+  "published_utc": "2026-07-18T06:30:29Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Swift is working with more than 40 financial institutions to expand blockchain-based settlement infrastructure, while Stripe bid $53 billion for PayPal to gain control of consumer wallets and merchant networks, marking a strategic pivot toward owning distribution rather than inventing new payment technology.",
+  "bottom_line": "Watch for PayPal's response to the Stripe bid and any regulatory guidance on the transaction. Approval or rejection will clarify whether distribution control consolidates around a few platforms or remains fragmented. Additionally, watch for moves by other major payments players and whether Swift's network expansion gains meaningful institutional traction in live settlement volumes.",
+  "human_take": "",
+  "body": [
+    "Swift and Stripe are competing for dominance in blockchain-based payment infrastructure through contrasting strategies: Swift by expanding settlement networks with incumbent financial institutions, and Stripe by pursuing an unsolicited $53 billion acquisition of PayPal to gain control of consumer wallets and merchant distribution. Both moves signal that the competition in digital payments has shifted from proving blockchain works to owning the distribution layers that determine which stablecoins and platforms become default for transactions.",
+    "Swift, the messaging system used by more than 11,500 financial institutions handling trillions of dollars in cross-border payments, is expanding a blockchain-based settlement network. After completing pilot work with 17 global banks, Swift is now working with more than 40 financial institutions, according to CoinDesk reporting. The expansion reflects incumbent finance's embrace of blockchain rails for settlement, though specific timelines and deployment details remain limited.",
+    "Stripe's approach focuses on consumer and merchant reach. In July 2026, Stripe made an unsolicited $53 billion bid for PayPal, which has 439 million active accounts and processed $1.79 trillion in payment volume in 2025, per CoinDesk. PayPal's board views the bid as undervaluing the company and faces regulatory and financing challenges, according to Reuters reporting cited by CoinDesk. If consummated, a Stripe-PayPal combination would allow transactions to move across Stripe's own network, reducing dependency on intermediaries like Visa or Mastercard, according to CoinDesk.",
+    "Stripe processes hundreds of billions of dollars annually for millions of businesses and has a strategic interest in stablecoin infrastructure. PayPal operates a Paxos-based USD stablecoin that serves as a bridge between traditional finance and digital assets, per CoinDesk reporting. Jason Li, co-founder of Solayer and CEO of MPCVault, told CoinDesk: \"Getting 400 million people to actually use a stablecoin is what costs $53 billion. Stripe already has the issuer, the chain and the merchant side. What it's buying is the consumer wallet.\"",
+    "Rob Hadick, general partner at Dragonfly, noted the financial case: \"Both Stripe and PayPal do approximately the same amount of payment volume, but Stripe has about one-fifth the net revenue. From a financial perspective, this is obviously accretive.\" He cautioned, however, that \"M&A integration in something of this size is incredibly hard.\"",
+    "The broader strategic logic reflects a fundamental shift in how market participants value digital payments infrastructure. Pankaj Bengani, founder and CEO of Meld, stated per CoinDesk: \"The race has shifted from proving the technology works to owning distribution. Stablecoins have graduated from experiment to core payments infrastructure.\" Citi analysts concluded in research that stablecoin competition has become \"a default-setting game,\" with scale accruing to whichever stablecoin becomes the default across the largest merchant, consumer wallet, or autonomous transaction base rather than to the issuer with the best technology.",
+    "Steven Rossi, CEO of Nasdaq-listed Worksport, told CoinDesk: \"The broader objective is control of the transaction lifecycle. Stripe would gain more influence over how consumers pay, how merchants receive funds and which settlement rails operate in the background.\" Ilies Larbi, founder and CEO of Ouinex, framed it more broadly: \"The real prize isn't just payments, it's controlling wallets, merchant acceptance, reserve economics and cross-border settlement.\"",
+    "The competitive pressure is prompting other fintech firms to build their own stablecoins. Benjamin Sarquis Peillard, founder and CEO of Cap, told CoinDesk: \"We will continue to see more companies issue their own stablecoins and more fintech players migrate their backends to the blockchain due to lower costs and greater efficiency.\""
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/07/17/stripe-and-swift-race-to-control-the-next-generation-of-global-payments-infrastructure",
+      "url": "https://www.coindesk.com/business/2026/07/17/stripe-and-swift-race-to-control-the-next-generation-of-global-payments-infrastructure"
+    }
+  ]
+}
