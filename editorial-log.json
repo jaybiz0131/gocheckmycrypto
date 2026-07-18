@@ -603,5 +603,44 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-18",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c084",
+    "headline": "France orders ISPs to block Polymarket",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'This is the first major regulatory shutdown of a U.S.-based prediction market platform in Europe.' This claim does not appear in the brief's data_points. The brief's core_claim and angle use language like 'first major regulatory shutdown' and 'escalating enforcement,' but no data_point explicitly states this is the first such action. The writer has smuggled a comparative claim (first in Europe) not sourced in the research brief."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "ECB board member warns stablecoins may drain bank deposits",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Cipollone 'articulated a three-layer threat that banks face from digital payments and pitched the digital euro as the only structural answer to the stablecoin challenge.' The brief's data_points confirm he 'articulated a three-layer threat' and 'pitched the digital euro as the only structural answer,' but the brief contains zero detail about what those three layers actually are. The draft presents this framework as established fact without the substance. More critically, the draft does not acknowledge that the brief marks this entire claim as sourced only from Decrypt with source_chars: 0 (no source text available for verification), yet the draft presents it without any hedging language ('according to Decrypt,' 'reportedly') that would flag the thinness of the underlying reporting. The writer has treated an unverified framework as settled fact."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "DOG Mode Reopens Bitcoin's Governance Fault Line Over Relay Policies",
+    "category": "balance",
+    "reasons": [
+     "The bear_case includes the claim that 'The significance of DOG Mode adoption as a governance risk remains unproven\u2014whether it will achieve meaningful adoption is explicitly an open question per the source,' but the draft presents this uncertainty only in the bottom_line ('remains an open question'), not in the body prose itself. The body states 'Whether DOG Mode achieves meaningful adoption among node operators remains an open question, per CoinDesk's reporting' only in paragraph 4, but this hedging language does not appear until late and the earlier narrative frames DOG Mode's effects (mempool fragmentation, fee estimation impact, power shift from brokers) as though they are live concerns rather than contingent on adoption that is unproven. The bear_case items about fragmentation risks and unproven significance should surface earlier and more prominently in the narrative arc to match the source's actual confidence level."
+    ]
+   },
+   {
+    "id": "c075",
+    "headline": "BitMine Accumulates 4.8% of Ethereum Supply; Staking Posture Raises Questions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'approximately 863,000 ETH unstaked and not generating yield' but this figure does not appear in the brief's data_points. The brief notes BitMine's staked ETH total at 4,879,157 and total holdings at 5,742,237, which implies ~863,080 unstaked\u2014but the writer computed this rather than sourcing it from The Defiant. Paraphrase of sourced figures is acceptable; arithmetic derived from two sourced figures without explicit source attribution for the derived claim risks liability if the underlying numbers are later corrected.",
+     "The draft references a 'June funding concern' and 'cash-gap concern in BitMine's funding model' but the brief's data_point only states that 'Tom Lee publicly defended the company's funding model in June following an insider warning of a cash gap.' The draft presents this as a known fact ('In June, The Defiant reported that an insider warning flagged a cash gap...') when the brief's confidence is 'reported'\u2014meaning The Defiant reported Lee's defense, not independently that a cash gap existed. The draft should attribute the cash-gap claim explicitly to the insider warning or to Lee's acknowledgment of it, not as a standalone fact."
+    ]
+   }
+  ]
  }
 ]

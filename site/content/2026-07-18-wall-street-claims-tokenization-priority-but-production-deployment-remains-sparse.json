@@ -1,0 +1,31 @@
+{
+  "id": "c006",
+  "slug": "wall-street-claims-tokenization-priority-but-production-deployment-remains-sparse",
+  "kind": "brief",
+  "title": "Wall Street Claims Tokenization Priority, but Production Deployment Remains Sparse",
+  "dek": "A Broadridge survey of 200 North American financial executives shows 84% now treat tokenization as a strategic priority, with 92% expecting hybrid digital and traditional asset markets. Yet production deployment lags sharply: only 44% of capital markets firms, 20% of asset managers, and 9% of wealth managers have live tokenization initiatives.",
+  "date": "2026-07-18",
+  "published_utc": "2026-07-18T20:08:41Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "84% of surveyed financial institutions call tokenization a strategic priority, but the gap between intention and execution is stark: just 9-44% have initiatives in production, depending on sector.",
+  "bottom_line": "Watch whether the 9-44% of firms with live initiatives move from pilot to scale within 12 months, and whether the regulatory environment clarifies around tokenized equities and cross-chain settlement. If production deployment remains at single-digit percentages while strategic priority holds at 84%, the narrative of tokenization as imminent market shift will collide with the reality of years-long execution timelines.",
+  "human_take": "",
+  "body": [
+    "Tokenization has crossed from experimental edge case to baseline institutional strategy. A Broadridge survey of 200 North American financial services executives, reported by CoinDesk, found that 84% now classify tokenization as a strategic priority for their business. Yet the distance from stated priority to operational reality is stark, and that gap reveals where the actual friction in hybrid finance adoption sits.",
+    "The stated commitment is broad. According to CoinDesk's reporting, 92% of respondents expect digital and traditional assets to coexist in markets for the foreseeable future, and 68% believe tokenization will at least partially reshape financial markets within three to five years. Nearly one-third of respondents plan to increase investment in tokenization projects by 26% to 50% or more over the next two years. The infrastructure is moving too: JPMorgan has expanded blockchain-based settlement through its Kinexys platform, BlackRock's tokenized Treasury fund has grown into one of the largest blockchain-based investment funds, Franklin Templeton offers tokenized money market funds, and Visa and the DTCC are building infrastructure to support tokenized payments and securities. DTCC completed its first live production trades involving tokenized securities on Wednesday, per CoinDesk's reporting.",
+    "Where priority meets practice, the numbers narrow sharply. Only 44% of capital markets firms said they already have tokenization initiatives in production or operating at scale. For asset managers, that figure drops to 20%. For wealth managers, it falls to just 9%. This variance matters: it suggests tokenization adoption will be uneven, faster in capital markets and slower in wealth and asset management.",
+    "Financial firms are choosing integration over isolation. According to CoinDesk's reporting, 69% of respondents plan to integrate tokenization into existing infrastructure rather than build separate blockchain-native systems. This choice reflects both technical and business reality: legacy systems must coexist with new rails, not be replaced by them.",
+    "Expectations for specific asset types diverge too. About 80% of respondents believe tokenized mutual funds and money market funds will play a meaningful role within five years, per CoinDesk's reporting. Only around 50% expect the same for tokenized equities. This split signals skepticism about equities tokenization and confidence in cash-like instruments, a more conservative, lower-complexity rollout path.",
+    "Two categories of friction emerged as barriers. Regulatory uncertainty ranked as the most commonly cited challenge, according to CoinDesk. Operational complexity of integrating blockchain technology into existing financial systems ranked as a top challenge as well. Neither is new, but both are being named plainly by firms committing capital to solve them.",
+    "The numbers tell an honest story: Wall Street has made tokenization a board-level priority, but production deployment remains confined to pilots, proofs of concept, and small-scale initiatives. The gap between 84% and 9% is not skepticism; it is the gap between intent and execution."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/07/16/tokenization-has-become-a-strategic-priority-for-84-of-financial-firms",
+      "url": "https://www.coindesk.com/business/2026/07/16/tokenization-has-become-a-strategic-priority-for-84-of-financial-firms"
+    }
+  ]
+}
