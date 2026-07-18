@@ -553,5 +553,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-18",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c093",
+    "headline": "France's gambling regulator orders ISP geoblock of Polymarket",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin: true' with only 2 data_points and 0 source_chars. The draft adds factual claims not in the brief: 'The action marks the first major EU enforcement against a prediction market platform' (unsourced in brief), 'France's gambling authority has placed Polymarket in the illegal gambling category, not the regulated trading venue category' (interpretive claim not in data_points), and 'ISPs are instructed to prevent French-based users from accessing the platform by filtering requests at the network level' (technical detail not in brief). The brief's open_questions include 'What is the official name of the French gambling authority that issued the geoblock order?' yet the draft refers to it throughout as 'France's gambling authority' without naming it\u2014a sign the writer fabricated procedural detail beyond what the source supported."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "ECB warns stablecoins may drain bank deposits, positions digital euro as response",
+    "category": "accuracy",
+    "reasons": [
+     "The brief data_point states Cipollone 'laid out a three-layer threat' but does not specify what those three layers are. The draft claims 'stablecoin adoption poses a three-layer threat to bank deposits' as though the threat is defined, but then later admits 'what are the specific three layers of threat Cipollone identified' in the bottom_line\u2014contradicting the earlier assertion. The draft smuggles the unresolved open question into the lead as settled fact.",
+     "The draft states 'The statement signals institutional concern at the European Central Bank that stablecoins could siphon deposits from traditional banks' but the brief data_point does not mention 'siphon deposits' or 'funding base for retail and commercial lending'\u2014these are writer inferences, not facts from the brief.",
+     "The draft claims 'Cipollone did not disclose what empirical evidence the ECB is tracking on deposit drain risk' as a statement of fact, but the brief does not contain any claim about what Cipollone disclosed or did not disclose. This is a smuggled inference."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "Citadel Securities Invests $400M in Crypto.com at $20B Valuation",
+    "category": "balance",
+    "reasons": [
+     "Brief identifies empty bear_case array, but draft contains no explicit risk disclosure. The draft acknowledges unknowns ('stakes remain unclear', 'reporting does not specify') but does not surface potential regulatory or systemic risks that would naturally accompany a major market maker taking a stake in a centralized exchange. The open_questions in the brief (regulatory scrutiny, order flow conflicts) are mentioned in the bottom_line but not in the body, leaving the draft unbalanced on downside risk.",
+     "The draft is unusually thin (three data points, single source with zero chars reported) yet reads as a complete story. This is acceptable only if the brief itself is thin\u2014and it is (thin: true). However, the draft's rhetorical structure (especially 'The stakes remain unclear' and the closing paragraph listing unknowns) reads less like reporting and more like an excuse for thin coverage. A draft that leads with opacity rather than facts, even when the source is thin, risks appearing incomplete or evasive."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Uniswap Governance Votes on UNI Burn Expansion and Robinhood Chain Deployment",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Both v4 fees proposal and the Robinhood Chain expansion proposal direct new fees into the UNI burn system' but the brief's corresponding data point says 'Both v4 fees and Robinhood Chain expansion proposals route new fees into the UNI burn system.' The draft presents this as a unified claim ('both proposals'), but the brief lists it as a single data_point with one source citation. This risks implying two separate governance proposals have been announced, when the source may only report one or present them as linked components of a single governance package. The distinction is material: are these two votes or one?",
+     "Draft lists 'Both the v4 fees proposal and the Robinhood Chain expansion proposal' as separate entities voting simultaneously, but data_point #2 in the brief says both route fees into burn, not that both are separate proposals. The brief does not provide clarity on whether these are two distinct proposals or components of one. The draft asserts their separateness without source support for that distinction."
+    ]
+   },
+   {
+    "id": "c094",
+    "headline": "FTX Estate Distributes Approximately $900 Million in Fifth Payment Round",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The FTX Recovery Trust has distributed approximately $900 million to creditors in a fifth payment round' and 'The distribution brings total creditor payouts to approximately $10 billion since FTX filed for bankruptcy.' This grammatically implies the fifth round ($900M) is part of the $10B total. However, the brief's data_points are separate claims: one for $10B distributed since November 2022 (total), one for $900M in the fifth round (specific). The draft does not clarify whether $900M is incremental to prior rounds or a subset of the $10B\u2014it reads as though $900M is a fresh event that brings the total to $10B, which inverts the relationship. The $10B is cumulative; the $900M is one tranche. The sentence 'The distribution brings total creditor payouts to approximately $10 billion' is ambiguous and could mislead readers into thinking this round caused the total to reach $10B, rather than being one of several rounds that have collectively reached $10B. Clarification required: 'The FTX Recovery Trust has now distributed a fifth tranche of approximately $900 million, bringing cumulative payouts to approximately $10 billion since the November 2022 bankruptcy filing.'"
+    ]
+   }
+  ]
  }
 ]
