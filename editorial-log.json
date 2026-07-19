@@ -800,5 +800,29 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-19",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "Bitcoin's biggest advocate, Michael Saylor, says new plan to clean up the blockchain is 'a bad idea'",
+    "category": "balance",
+    "reasons": [
+     "The brief explicitly flags in its bear_case that 'The sources do not capture detailed rebuttals from BIP-110 advocates or technical defenses of the proposal's necessity.' The draft acknowledges this thinly in the final paragraph ('The proposal has not yet entered formal activation phase, and no recent formal response from its advocates directly addresses Saylor's 110-point critique'), but the entire body of the story is structured as Saylor's uncontested critique without proportionate space for the opposing case. The brief's bear_case items appear only in a single sentence at the end, not woven through the narrative with comparable depth. A governance dispute framed as one-sided in the prose, when the source material only captures one side, risks reading as a platform for Saylor's position rather than balanced reporting of a divided community."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "BitMine Ethereum Holdings Hit 4.8% of Supply After $73M Weekly Purchase",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'BitMine's total crypto and other holdings are valued at $1.1 billion' but brief data_point 3 claims 'BitMine's total crypto and other holdings are valued at $11.1 billion, with ETH valued at $1,800 per coin.' This is a 10x discrepancy in total holdings valuation. The draft presents $1.1B but the brief says $11.1B.",
+     "Brief data_point 6 states recursive proofs reduce 'consensus data requirements from 100 megabytes per second to 500 kilobytes per second' but draft says 'from 100 megabytes per second to 500 kilobytes per second (a 200,000x compression)' \u2014 the brief itself does not claim this is a 200,000x compression figure; the draft is doing the math and inserting analysis not present in the source material.",
+     "No source attribution for the $1.1 billion total holdings figure appears in the draft despite this being a core factual claim. The draft should trace to The Defiant reporting."
+    ]
+   }
+  ]
  }
 ]
