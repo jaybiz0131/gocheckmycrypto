@@ -717,5 +717,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-19",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "Tether's USDT hits 2-year countdown threatening its position on U.S. crypto platforms",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The deadline is approximately July 18, 2028, according to legal guidance from Davis Polk cited by CoinDesk' but then immediately adds 'However, ambiguity persists: some legal experts argue foreign issuers must comply immediately when GENIUS takes effect in January 2027, not two years later.' This second sentence introduces a competing legal position not explicitly attributed to a data_point source in the brief. The brief's data_point 5 attributes the July 2028 timeline to Davis Polk and Justin Levine; data_point 16 references 'disagreement among legal experts' but does not cite which 'some legal experts' make the immediate-compliance argument or from which outlet this claim derives. The draft should either attribute this to a named source or remove it as smuggled information.",
+     "The draft states 'some legal experts argue foreign issuers must comply immediately when GENIUS takes effect in January 2027, not two years later' without inline attribution to a specific legal expert or outlet beyond CoinDesk's reporting. The brief data_point 16 says 'Some lawyers assume that Tether gets until July 18, 2028 to comply, but others have suggested that foreign issuers would have to comply the moment GENIUS officially goes live' but does not specify who these 'others' are or which outlet reported their view. This is a paraphrase that edges toward introducing unattributed expert opinion as fact."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "EDX Markets Raises $76 Million Series C From SBI Holdings",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'SBI Holdings is a Tokyo-based financial group founded in 1999 that runs SBI Shinsei Bank and SBI Securities among other units.' However, the brief's data_point says 'SBI Holdings is a Tokyo-based financial group founded in 1999' without the descriptors 'Japan's largest financial group' in the data_point itself, though the core_claim calls SBI 'Japan's largest financial group.' The draft's opening sentence states 'SBI Holdings, Japan's largest financial group' but this characterization ('Japan's largest') does not appear in the brief's data_points as a reported fact\u2014only in the core_claim framing. The draft treats it as established fact when it should be attributed or marked with appropriate confidence language per the rule that confidence labels must survive."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Kraken Launches USD-Settled Options for Bitcoin and Ether",
+    "category": "balance",
+    "reasons": [
+     "The draft presents Kraken's design-over-demand thesis as the narrative center without adequately foregrounding the bear case. The brief flags that 'the thesis that product design rather than demand has constrained options adoption is Kraken's internal framing and is not independently validated,' but the draft treats this as settled fact rather than contested claim. Sentence: 'Kraken has launched European-style, USD-settled options on bitcoin and ether, betting that simplicity rather than demand has held back crypto options adoption' frames the hypothesis as Kraken's strategic bet without attribution or hedging.",
+     "The draft buries the regulatory/geographic constraint (RFQ-only, exclusion of NA/EU/AU) in a single sentence midway through ('However, the current launch's restriction to RFQ and exclusion of three major markets raises questions about regulatory or operational constraints') when the brief's bear case identifies this as a first-order signal of constraint. This framing minimizes rather than balances the constraint against the bullish narrative.",
+     "The draft acknowledges behavioral headwinds ('design improvements alone may face behavioral headwinds' and 'perpetual futures became dominant specifically because of their simplicity') but does not weight this risk equally against the product thesis. The brief's bear case states that 'perpetual futures became the industry's dominant speculative product because of their relative simplicity, suggesting that design improvements alone may face behavioral headwinds'\u2014this should read as a structural competitive problem, not a footnote."
+    ]
+   }
+  ]
  }
 ]
