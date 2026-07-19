@@ -1,0 +1,31 @@
+{
+  "id": "c000",
+  "slug": "michael-saylor-warns-bip-110-spam-filter-threatens-bitcoin-s-neutrality",
+  "kind": "brief",
+  "title": "Michael Saylor warns BIP-110 spam filter threatens Bitcoin's neutrality",
+  "dek": "Michael Saylor, executive chairman of Strategy and holder of 843,775 BTC, has published a detailed critique of Bitcoin Improvement Proposal 110, arguing that the proposed temporary spam filter would establish a dangerous censorship precedent and undermine the network's core principle of permissionless consensus.",
+  "date": "2026-07-19",
+  "published_utc": "2026-07-19T15:32:39Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "BIP-110 would implement seven distinct consensus restrictions, including capping data payload sizes and lowering the miner-signaling approval threshold from 95% to 55%, but Saylor warns the cure is more dangerous than the condition.",
+  "bottom_line": "Watch the miner-signaling phase and developer commentary on Saylor's specific technical objections, particularly whether the threshold mechanism itself draws opposition beyond his critique. The story's premise inverts if consensus emerges that the 55% threshold gains broad support among miners or if Saylor's warnings fail to slow momentum toward activation.",
+  "human_take": "",
+  "body": [
+    "Bitcoin's largest institutional holder is mounting a frontal attack on one of the protocol's most contentious governance proposals. Michael Saylor, executive chairman and co-founder of Strategy, published a detailed critique on X titled \"110 reasons BIP-110 is a bad idea,\" arguing that the proposal would use consensus rules to narrow what activity counts as valid on the network, establish a precedent \"it cannot later erase,\" and create a chilling effect on developers and future innovation.",
+    "BIP-110 proposes a one-year temporary soft fork that would add seven distinct consensus restrictions, including capping data payload sizes and rejecting certain script executions. It also lowers the miner-signaling approval threshold from 95% to 55%, a mechanism Saylor calls \"too aggressive\" and warns could lead to a network split and widespread market uncertainty.",
+    "Saylor's core objection is epistemological: Bitcoin cannot read intent and therefore cannot distinguish whether bytes represent an image, proof, contract, metadata, authentication record, or future application. By banning what supporters call \"spam,\" the protocol would effectively elevate human judgment into protocol law. \"The proposed cure is more dangerous than the condition,\" Saylor stated. \"BIP 110 would use consensus to narrow valid activity, constrain future options, complicate deployment, and establish a precedent it cannot later erase.\"",
+    "The stakes, Saylor argues, extend beyond data storage. If today's target is arbitrary data, tomorrow's could be privacy tools, novel custody solutions, or corporate applications. He also warns that suppressing certain uses could reduce aggregate fee demand, which weakens miners' incentive to commit hash power as block subsidies continue to halve, potentially compromising Bitcoin's security.",
+    "Saylor advocates for market-based fees and individual relay policies as the appropriate places to address network bloat, rather than altering consensus rules. \"Bitcoin does not need guardians of purity,\" he concluded. \"It needs guardians of neutrality.\"",
+    "The proposal's backers, per the reporting, view BIP-110 as restoring Bitcoin's original purpose as peer-to-peer digital cash and necessary to prevent the blockchain from becoming a general-purpose data storage layer. Supporters also argue the 55% threshold enables necessary upgrades without requiring overwhelming consensus, and that unbounded data storage presents a genuine problem by bloating the chain and increasing node costs.",
+    "Strategy holds 843,775 BTC, worth $54.31 billion as of Sunday, making it the world's largest publicly listed bitcoin treasury firm. For institutional investors, Saylor argues, Bitcoin's appeal lies in its stable, permissionless environment, which could be dented if BIP-110 is implemented."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/07/19/bitcoin-s-biggest-advocate-michael-saylor-says-new-plan-to-clean-up-the-blockchain-is-a-bad-idea",
+      "url": "https://www.coindesk.com/tech/2026/07/19/bitcoin-s-biggest-advocate-michael-saylor-says-new-plan-to-clean-up-the-blockchain-is-a-bad-idea"
+    }
+  ]
+}

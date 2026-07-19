@@ -1,0 +1,30 @@
+{
+  "id": "c003",
+  "slug": "kraken-launches-usd-settled-options-for-bitcoin-and-ether-targets-retail-adoption-gap",
+  "kind": "brief",
+  "title": "Kraken launches USD-settled options for bitcoin and ether, targets retail adoption gap",
+  "dek": "Kraken Pro now offers USD-settled bitcoin and ether options via request-for-quote for eligible international clients outside Europe, North America, and Australia. The exchange argues product design, not demand, is the barrier to crypto options growth, and simpler contracts with unified account integration could unlock retail participation.",
+  "date": "2026-07-19",
+  "published_utc": "2026-07-19T15:32:39Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Kraken launched European-style, USD-settled options on bitcoin and ether through Kraken Pro, initially available via request-for-quote for eligible international clients outside Europe, North America, and Australia.",
+  "bottom_line": "Watch for the public order book launch and early usage metrics from RFQ phase; volume and retail participation data will test whether product simplification actually moves the needle on adoption. If options volumes remain concentrated among institutional traders and market makers despite USD settlement and unified accounts, Kraken's design thesis will need revision.",
+  "human_take": "",
+  "body": [
+    "Crypto options remain vastly underpenetrated relative to traditional markets, yet the barrier to wider adoption may be product design rather than trader demand, according to Kraken, which launched USD-settled bitcoin and ether options on Kraken Pro via request-for-quote on July 19.",
+    "The offering is available to eligible international clients outside of Europe, North America, and Australia, with European rollout planned for a later date, per CoinDesk's reporting. Derivatives account for the vast majority of crypto trading volumes, yet options remain a relatively small corner of the market, dominated by a handful of venues including Deribit, CME Group, and Binance, according to CoinDesk.",
+    "Kraken's director of derivatives, Alexia Theodorou, told CoinDesk that crypto options activity is still a fraction of what it is in traditional markets, but the gap is closing as professional and institutional capital continues to move into digital assets. The existing options market has been built for a narrow slice of the trader base, Theodorou said, noting that retail traders have gravitated toward perpetual futures because of their relative simplicity. 'The gap in crypto options isn't demand, it's design,' Theodorou said, per CoinDesk's reporting.",
+    "Kraken's product removes friction points identified as barriers to retail participation. The contracts are linear and USD-settled, meaning premiums, profit and loss, and settlement are all denominated in U.S. dollars, eliminating the need to manage crypto collateral or settlement, according to CoinDesk. Options integrate into the same unified account used for spot and futures trading, with portfolio margin enabled by default to allow offsetting positions across products and reduce collateral requirements. Users can post collateral in more than 30 currencies, per CoinDesk's reporting.",
+    "Initially, the offering uses a request-for-quote (RFQ) mechanism, which may limit early price transparency and ease of access compared to a public order book. Future updates are expected to include a public order book to improve price discovery, broader geographic availability, and support for additional assets, according to CoinDesk. Europe is the next major expansion target; Kraken already holds the regulatory permissions needed to offer crypto derivatives in the region, per CoinDesk's reporting.",
+    "No independent verification exists that product simplification will materially drive adoption; the claim rests on Kraken's own interpretation of market gaps. Crypto perpetual futures became dominant despite higher complexity than options, suggesting that demand arguments may underestimate structural or behavioral reasons for futures dominance. Geographic restrictions at launch, excluding Europe, North America, and Australia, narrow the addressable market and may reflect regulatory friction even in Kraken's home jurisdiction or pending EU MiCA compliance."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/07/19/kraken-says-simpler-options-can-unlock-crypto-s-next-derivatives-market",
+      "url": "https://www.coindesk.com/business/2026/07/19/kraken-says-simpler-options-can-unlock-crypto-s-next-derivatives-market"
+    }
+  ]
+}

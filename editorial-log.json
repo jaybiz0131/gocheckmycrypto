@@ -750,5 +750,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-19",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c013",
+    "headline": "US regulators miss GENIUS Act's one-year deadline for final stablecoin rules",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'The law's January 18, 2027 effective date remains unchanged' but the brief data_point states 'The law's January 18, 2027 effective date is not postponed by the missed rulewriting deadline.' The draft's phrasing ('remains unchanged') implies the date was never at risk of changing; the brief's phrasing ('is not postponed') implies it faced postponement risk. The subtle difference matters for liability\u2014the draft makes a stronger claim than the brief supports.",
+     "Draft opens with 'per The Block' but provides no inline attribution for the claim that 'The law's January 18, 2027 effective date remains unchanged.' That claim appears in the brief as a separate data_point, suggesting it came from The Block reporting, but the draft's structure is ambiguous about which facts come from which source."
+    ]
+   },
+   {
+    "id": "c065",
+    "headline": "Upbit parent Dunamu faces South Korean regulator sanctions process: Report",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Dunamu is the operator of Upbit, one of South Korea's largest crypto exchanges' but the brief identifies Dunamu as 'the parent company of Upbit exchange,' not the operator. The draft changes the corporate relationship in a way not supported by the brief.",
+     "Draft claims the Virtual Asset User Protection Act 'contains no explicit sanction provisions' (stated twice) but the brief data_point says the law 'lacks explicit sanctions provisions'\u2014subtle wording difference that could signal the writer added interpretive weight. More critically, the draft extends this into broader legal analysis ('This creates a regulatory paradox: the regulator is authorized to act but the law does not specify what actions are lawful') that does not appear in the brief's data_points or bear_case and may overstate the certainty of the framework gap."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "SBI Holdings leads $76M Series C for EDX Markets, signals TradFi infrastructure push",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The funding round, announced by EDX but not independently verified on-chain' but this caveat does not appear in the brief's data_points. The brief marks the capital allocation claim as 'announced-not-verified,' which should surface in the prose. The draft's phrasing ('announced by EDX but not independently verified on-chain') smuggles a new detail (on-chain verification standard) not present in the brief and creates ambiguity about what was verified versus not.",
+     "Draft claims SBI is 'handling domestic access to dollar-denominated stablecoins including RLUSD and USDC' but the brief data_point only says SBI is 'handling domestic handling of U.S. dollar-denominated stablecoins including RLUSD and USDC' without the word 'access.' The word 'access' adds a different layer of meaning (facilitating use) versus 'handling' (custodial/operational role). This is a material distinction not present in source material."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "BitMine adds $73M in ETH, nears 5% supply target",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'sustained $73 million weekly purchases would exhaust liquid reserves within roughly 7 weeks at current burn' but this calculation and the framing of 'burn' are not in the brief. The brief does not characterize the $527 million cash position relative to $73 million weekly spending or project a depletion timeline. This is editorial analysis smuggled in without source backing.",
+     "Draft claims BitMine 'is the largest corporate holder of ETH' in the opening paragraph without attribution. The brief confirms this as a data_point but the draft presents it without the qualifier that this is reported/claimed information, treating it as settled fact when the brief marks it as 'reported' confidence."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "France orders ISP block of Polymarket after financial restrictions failed",
+    "category": "accuracy",
+    "reasons": [
+     "The phrase 'Last year, France blocked 1,290 gambling-related URLs' is temporally ambiguous and unsourced in context. The brief data_point states this as reported by CoinDesk, but the draft does not clarify the reference year or provide attribution specificity that would allow readers to verify the timeframe against the July 2026 publication date. This is a minor temporal precision issue that could mislead readers about enforcement scope."
+    ]
+   }
+  ]
  }
 ]
