@@ -1,0 +1,34 @@
+{
+  "id": "c001",
+  "slug": "france-orders-internet-service-providers-to-block-polymarket",
+  "kind": "brief",
+  "title": "France orders internet service providers to block Polymarket",
+  "dek": "France's Autorit\u00e9 Nationale des Jeux ordered ISPs to block access to Polymarket on July 16, 2026, citing illegal gambling operations and the failure of prior financial restrictions. The platform is now restricted in over 30 jurisdictions, with enforcement action escalating from transaction bans to network-level blocking.",
+  "date": "2026-07-19",
+  "published_utc": "2026-07-19T07:41:49Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "A financial transaction ban on Polymarket had been in place in France since November 2024, but the regulator said it failed to keep French users off the platform (578,751 visits and 205,057 unique visitors in June 2026), prompting the ANJ to escalate to ISP-level blocking.",
+  "bottom_line": "Watch whether the ISP block reduces French user traffic measurably or whether VPN usage absorbs most of the impact. Monitor whether other EU jurisdictions follow with similar orders, and whether Polymarket pursues legal challenges under French or European law. If the block proves ineffective against circumvention, regulators may escalate further; if it succeeds, it establishes a template for other platforms facing restrictions across multiple jurisdictions.",
+  "human_take": "",
+  "body": [
+    "France's Autorit\u00e9 Nationale des Jeux ordered internet service providers to block access to Polymarket on July 16, 2026, escalating enforcement against the prediction market platform from financial restrictions to network-level censorship. The action marks a significant shift in regulatory approach after prior measures failed to reduce user engagement.",
+    "The ANJ classified Polymarket as an illegal gambling service rather than a financial trading platform, citing addictive mechanics, absent stake limits, and no self-exclusion tools. According to CoinDesk reporting, the regulator noted that Polymarket drew 578,751 visits from 205,057 unique visitors in France in June 2026, despite a financial transaction ban that had been in place since November 2024. That earlier ban, which blocked payment processors from servicing French users, proved ineffective: a VPN was sufficient to circumvent it.",
+    "The ISP-level block represents France's most aggressive action yet. Violations carry fines up to 100,000 euros ($114,380). The regulator also cited the real-time odds display on Polymarket's homepage as promoting an unauthorized gambling service, per CoinDesk.",
+    "Polymarket's regulatory troubles extend well beyond France. The platform is now restricted in more than 30 jurisdictions, per CoinDesk reporting. Switzerland blocked it in November 2024, followed by Poland, Singapore and Belgium in early 2025. Portugal moved to restrict Polymarket in January 2026, and Spain issued a temporary block in May 2026 pending a probe. Brazil, Argentina, India, Indonesia, Italy, Germany, Romania, Hungary and Ukraine have also restricted access.",
+    "The enforcement action comes against a backdrop of operational risks. In May 2026, France's weather service, M\u00e9t\u00e9o-France, filed a complaint regarding a tampered temperature sensor tied to weather-based bets on Polymarket, prompting the Paris prosecutor's cybercrime unit to open an investigation. Additionally, CoinDesk reported that a French trader known as 'Fredi9999' moved U.S. election odds with multimillion-dollar positions in 2024. France's stance hardened in February 2026, when the ANJ reclassified prediction markets as illegal gambling and began plotting enforcement.",
+    "Polymarket did not respond to CoinDesk's request for comment on the ISP block or its compliance plans."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/07/18/france-orders-country-s-internet-service-providers-to-block-polymarket",
+      "url": "https://www.coindesk.com/policy/2026/07/18/france-orders-country-s-internet-service-providers-to-block-polymarket"
+    },
+    {
+      "title": "https://cointelegraph.com/news/french-gambling-authority-blocks-polymarket?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/french-gambling-authority-blocks-polymarket?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ]
+}

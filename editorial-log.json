@@ -683,5 +683,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-19",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c008",
+    "headline": "US regulators miss GENIUS Act's one-year deadline for final stablecoin rules",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The GENIUS Act set a statutory deadline for regulators to complete final rulemaking' but the brief does not specify what that deadline was or when it was supposed to expire. The draft asserts a fact ('that deadline has now passed') that is not grounded in the brief's data_points, which only confirm the Jan. 18, 2027 effective date remains unchanged. The brief itself flags this as an open question: 'What specific one-year deadline did regulators miss, and when was it supposed to expire?' The draft should not assert an unverified deadline passage as fact.",
+     "The draft claims 'issuers must comply with the Jan. 18, 2027 effective date regardless of whether the final rules are published' but the brief provides no data_point addressing what happens to issuers if final rules are not published. This is a legal interpretation not grounded in the brief."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Uniswap governance votes on v4 fees and Robinhood Chain, both feeding UNI burn",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Both proposals, one covering v4 protocol fees and the other addressing Robinhood Chain deployment, are expected to increase the burn rate if passed.' The brief contains no data_point about expectations of burn rate increase; the brief's data_points only confirm that voting runs July 19-26 and that both proposals route new fees into the UNI burn system. The phrase 'expected to increase the burn rate' is smuggled reasoning not present in the source material.",
+     "Draft claims 'Routing new fee streams into this burn system makes the token increasingly deflationary as network activity grows.' This is analytical inference, not a fact from the brief. The brief confirms fees are routed to the burn system but does not state the deflationary consequence is expected or confirmed.",
+     "The draft is thin and sources are marked as source_chars: 0, indicating the writer has no visibility into the actual source content. The brief itself is marked thin: true with only 2 data_points. The writer should not be inferring causation (new fees \u2192 increased burn \u2192 deflation) beyond what the brief states."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "Kaspersky documents malware framework targeting crypto investors",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Kaspersky, a major cybersecurity firm, has identified a malware framework' but the brief and source both attribute this to Cointelegraph reporting of Kaspersky's work. The draft should make clear this is Cointelegraph's report of Kaspersky's identification, not direct Kaspersky attribution, given the source URL is Cointelegraph.",
+     "Draft presents 'Social engineering remains one of the most effective attack methods' and 'Trojanized applications deployed through trusted platforms like GitHub lower the barrier to initial compromise' as general facts, but these are not in the brief's data_points. The brief contains only two data_points, both specific to this incident; these sentences appear to be writer interpolation beyond the research brief."
+    ]
+   }
+  ]
  }
 ]

@@ -1,0 +1,33 @@
+{
+  "id": "c000",
+  "slug": "inside-zcash-s-new-node-that-targets-visa-scale-privacy-at-50-000-transactions-per-second",
+  "kind": "brief",
+  "title": "Inside Zcash's new node that targets Visa-scale privacy at 50,000 transactions per second",
+  "dek": "Zcash releases Zakura, a new full node client designed to scale private transactions from roughly 1 transaction per second to 50,000 transactions per second via pruning, faster sync, and compatibility with the legacy zcashd client. The platform aims to bridge privacy-preserving cryptography and payment-network scale, but success depends on two parallel research efforts still in development.",
+  "date": "2026-07-19",
+  "published_utc": "2026-07-19T07:41:49Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Zcash wallet software currently tops out at about one transaction per second because wallets must download and test every on-chain transaction to identify their own without revealing which ones belong to them; Zakura's throughput goal of 50,000 TPS depends on completion of Project Tachyon (recursive proofs) and Valar Group's private information retrieval work, both still in development.",
+  "bottom_line": "Watch for Project Tachyon's progression from research to testnet to mainnet, and track whether private information retrieval achieves the wallet throughput improvements Valar Group targets. Monitor whether Zakura's pruning and propagation improvements, in isolation, measurably increase real-world transaction throughput before the recursive proofs and PIR systems go live. The 50,000 TPS goal appears credible as an engineering target, but depends entirely on concurrent research that is not yet production-ready; if either Tachyon or PIR faces delays or fails to deliver performance, the throughput ceiling will remain far lower.",
+  "human_take": "",
+  "body": [
+    "Zcash has released Zakura version 1.0.0, a new full node client designed to scale private transactions from roughly one transaction per second to 50,000 transactions per second. The release represents a significant engineering milestone for a privacy-focused protocol attempting to match payment-network speeds, though the throughput target depends on research efforts that remain in development.",
+    "Zakura, released mid-July 2026, is a pruned and fast-syncing fork of Zebra with compatibility for the legacy zcashd client. The project is maintained by Sean Bowe, a founding member of Zcash's zero-knowledge cryptography, and Dev Ojha, the Osmosis cofounder who now leads Valar Group. Development is funded by private ZEC donations rather than by a company or foundation, per CoinDesk reporting.",
+    "The 50,000 transactions-per-second target is framed in Zakura's documentation as a floor, not a ceiling. Mastercard and Visa handle more than 50,000 transactions per second, according to CoinDesk. With Zcash's existing cryptography, achieving that throughput would require over 500 MB/s of throughput from a validating node, a figure currently unachievable. Zakura ships with three components aimed at moving that threshold: pruning, faster sync, and experimental block propagation.",
+    "Pruning deletes old blockchain data. Zakura's team publishes ready-made copies of the Zcash chain at about 11 gigabytes with old data stripped, allowing a new node to sync in under two minutes, described as 680 times faster than a full historical sync. The client includes a compatibility mode reproducing the interface of zcashd, the original Zcash client, so wallets and exchange integrations built against it will keep working as-is. zcashd reaches end of life on July 18, per CoinDesk, making Zakura's compatibility layer operationally important for ecosystem continuity.",
+    "Zakura also ships with an experimental fast block propagation system aimed at delivering every block to every node in under half a second. This feature is switched off by default for now, indicating engineering risk or concerns about maturity.",
+    "The architectural bottleneck, however, lies not at the consensus level but at the wallet layer. Zcash wallet software currently tops out at about one transaction per second because the wallet cannot ask a server which transactions belong to it without giving itself away. Instead, it pulls down everything and tests each one. Project Tachyon, led by Sean Bowe, is working on recursive proofs in which one proof attests to the validity of thousands of others, dramatically reducing the amount of data that must be checked at consensus. Under Tachyon, a node verifies a single proof instead of thousands, which the team says reduces the requirement for consensus data from 100 megabytes per second to 500 megabytes, a level they claim is technically achievable with careful engineering. However, Tachyon remains in development with no announced deployment timeline.",
+    "Valar Group is working on private information retrieval techniques that let a wallet fetch its own data from a server without the server learning which entries were requested. This research is aimed at removing the wallet bottleneck entirely. No timeline for production readiness has been announced, per CoinDesk.",
+    "Zakura supports the upcoming Ironwood (NU6.3) network upgrade, which activates on mainnet at block 3,428,143, roughly 8 a.m. Eastern on July 28. Sean Bowe said on July 10 that all major organizations are committed to the July 28 activation height, a week later than originally planned, after exchanges and wallet providers requested preparation time. Ironwood introduces a turnstile mechanism to cap withdrawals from the Orchard shielded pool, designed to contain any counterfeit ZEC that may have been created via a soundness bug discovered in May 2026.",
+    "That bug, found by Shielded Labs researcher Taylor Hornby on May 29, revealed that the proof circuit for Orchard contained a flaw that let an attacker mint counterfeit ZEC with no on-chain trace. The flaw had been live since Orchard activated in May 2022. Developers disabled Orchard through an emergency response completed June 2, then restored it with a corrected circuit via the NU6.2 hard fork at block 3,364,600. Ironwood's turnstile mechanism is intended as a containment measure for any counterfeit ZEC created during the four-year window in which the bug was live."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/07/16/inside-zcash-s-new-node-that-targets-visa-scale-privacy-at-50-000-transactions-per-second",
+      "url": "https://www.coindesk.com/tech/2026/07/16/inside-zcash-s-new-node-that-targets-visa-scale-privacy-at-50-000-transactions-per-second"
+    }
+  ]
+}
