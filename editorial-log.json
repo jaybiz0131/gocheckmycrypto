@@ -824,5 +824,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-20",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c078",
+    "headline": "US agencies miss GENIUS Act deadline for final stablecoin rules",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Final regulations are now targeted for July 2028, more than two years after the original deadline' but the brief contains no data point specifying when the original GENIUS Act deadline was or confirming July 2028 as the new target. This is smuggled information not in the brief.",
+     "The draft claims 'regulators issued 10 proposed rules instead' but the brief does not specify which agencies issued these rules, what they cover, or provide any detail beyond the count. The draft presents this as settled fact without the qualification level the thin brief warrants.",
+     "The bear_case mentions uncertainty discouraging investment, which the draft paraphrases as 'potentially discouraging capital formation and platform investment,' but the brief does not provide evidence or reporting to support this causal claim\u2014it appears as the writer's inference rather than a reported fact."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "France orders internet providers to block Polymarket ahead of World Cup final",
+    "category": "balance",
+    "reasons": [
+     "The brief contains an empty bear_case array, yet the draft includes the sentence 'It also raises questions about how accessible decentralized services remain when national regulators move against them'\u2014a critical caveat that frames decentralized protocols as vulnerable. This is a framing choice unsupported by the brief's reporting and leans into regulatory pessimism without evidence in the data_points.",
+     "The draft is extremely thin (only 2 data_points, both reported, no depth on mechanics, justification, or enforcement effectiveness), and the story reads as though a major regulatory intervention occurred without explaining what the stated legal basis was, whether providers actually complied, or what the actual impact on users was. For a story about regulatory overreach, the absence of those details\u2014which are in the brief's open_questions\u2014leaves the piece under-reported and one-sided."
+    ]
+   },
+   {
+    "id": "c072",
+    "headline": "Cardano activates van Rossem hard fork, paving way for Leios scalability upgrade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Ouroboros Leios scalability upgrade expected later in 2026' but the brief's data_point says 'expected later in 2026' with confidence 'reported'. The draft then later says 'Ouroboros Leios, the planned follow-up upgrade... is designed to increase...' without signaling that specific technical details are absent from the brief. However, the larger problem: the draft claims 'The specific percentage or absolute cost reductions achieved by the van Rossem activation were not disclosed. Similarly, the exact block height or activation date of the hard fork was not reported.' These are meta-statements about what sources did not disclose, which is fair, BUT the brief contains only 2 data_points with extremely thin sourcing (source_chars: 0 indicates the Cointelegraph source URL returns no actual article text). The draft is reporting facts as though verified when the brief itself indicates the source material is empty or inaccessible. This violates the rule that facts must trace back to actual data in the brief."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "South Korea eyes September launch for second phase of CBDC pilot",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'test tokenized bank deposits for the distribution of government subsidies' but the brief's data_point reads 'test government subsidy payments using tokenized bank deposits'\u2014a subtle but material difference in mechanism. The draft implies tokenized deposits are the vehicle; the brief suggests tokenized deposits are already established infrastructure being used to distribute subsidies. The draft's phrasing introduces ambiguity not present in the source.",
+     "The draft claims 'The specific identities of the two regional banks have not been disclosed, per Cointelegraph's reporting' but the brief contains no data_point confirming or denying disclosure status. This is new information smuggled in from outside the brief."
+    ]
+   }
+  ]
  }
 ]
