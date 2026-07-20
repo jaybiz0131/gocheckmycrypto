@@ -1006,5 +1006,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-20",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c038",
+    "headline": "Cardano Triggers Hard Fork With First Community-Voted Upgrade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Input Output, Cardano's founding engineering firm, confirmed the upgrade is procedural groundwork for Ouroboros Leios' but the brief marks this data point as 'announced-not-verified', not 'verified'. The draft presents an unverified claim as confirmed fact without hedging language. Per protocol, unconfirmed claims must read as such in prose.",
+     "The draft claims 'Developers running smart contracts on Cardano may capture cost reductions by rebuilding contracts to exploit the efficiency improvements, though the reporting provided does not specify the magnitude of those savings.' The brief's data point says 'The Plutus changes lower the costs of running a smart contract by improving execution efficiency, though developers must rebuild contracts to capture the savings' with confidence 'reported'\u2014but the draft's acknowledgment that 'reporting provided does not specify the magnitude' is the writer's own hedge, not sourced. This is smuggled editorial judgment, not a fact from the brief."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "South Korea's Bank of Korea Plans Live CBDC Transactions With Nine Banks in September",
+    "category": "accuracy",
+    "reasons": [
+     "The angle states 'A major developed economy is transitioning CBDC from controlled testing to live retail transactions' but the draft itself repeatedly clarifies this is institutional/business testing, not retail: 'The Bank of Korea will provide infrastructure for the institutional CBDC' and the bottom_line asks 'Watch for...whether the BOK views the won CBDC as a near-term payment tool' and notes 'real-transaction testing but remains within a restricted pilot, not open retail markets.' The draft correctly contains this caveat, but the lead paragraph's claim that this represents 'a rare transition from controlled testing toward commercialization' without immediately flagging that retail deployment has not occurred reads as overstating the milestone. The bear_case explicitly states 'No central bank has moved beyond controlled testing to true mass-market CBDC retail deployment; South Korea's September launch is described as real-transaction testing but remains within a restricted pilot.' The opening should reflect this constraint upfront."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "Russia's First Comprehensive Crypto Law Two Votes From Passage",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case identifies three substantial risk factors: (1) the retail cap constrains market depth, (2) cross-border payments raise Western sanctions concerns, and (3) prior Russian crypto efforts have stalled or faced inconsistent enforcement. The draft mentions constraint on market depth ('significantly constraining individual participation and market depth') and mentions sanctions concerns ('potentially creates a sanctions-evasion tool'), but the third and most critical bear point\u2014that prior Russian crypto legislation has repeatedly failed to pass or faced enforcement gaps\u2014is mentioned only in a single sentence in the final paragraph ('Prior Russian crypto legislative efforts have stalled or faced inconsistent enforcement; passage does not guarantee implementation'), buried at the end without emphasis. This should appear as a main paragraph in the body or at minimum in a dedicated risk section. The draft's overall framing treats passage as quasi-inevitable ('on the verge of passing,' 'two more votes'), when the brief's own bear_case flags that Russian history suggests implementation risk is substantial. Balance requires the draft to weight the enforcement/passage-failure precedent more equally with the legislative milestone."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Ethics provision stalls Clarity Act talks over Trump crypto holdings",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Negotiations over ethics provisions in the Clarity Act have stalled,' but the brief's core_claim says negotiations have 'stalled over an unresolved ethics review'\u2014a subtle but material difference. More critically, the source headline per the brief data_point says Trump 'agrees some level ethics language,' which directly contradicts the draft's framing of a stall. The draft should reflect that Trump has apparently agreed to ethics language, not that negotiations remain blocked.",
+     "The draft claims 'The Block's reporting indicates that a meeting was held to negotiate ethics language but does not clarify whether Trump has agreed to any specific provision,' but the brief's data_point 2 references the source headline stating Trump 'agrees some level ethics language,' which is a material fact that should appear in the draft, not be omitted as unknowable."
+    ]
+   }
+  ]
  }
 ]
