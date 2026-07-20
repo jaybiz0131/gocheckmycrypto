@@ -1,0 +1,42 @@
+{
+  "id": "c018",
+  "slug": "bitcoin-s-largest-holder-saylor-opposes-bip-110-spam-filter-on-neutrality-grounds",
+  "kind": "brief",
+  "title": "Bitcoin's Largest Holder Saylor Opposes BIP-110 Spam Filter on Neutrality Grounds",
+  "dek": "Michael Saylor, whose firm holds 843,775 BTC worth $54.31 billion, published a 110-point essay opposing BIP-110, a proposed temporary soft fork aimed at restricting arbitrary data storage on Bitcoin. Saylor argues the proposal threatens network neutrality and sets a dangerous precedent for future censorship, proposing instead that market-based fees address spam without altering consensus rules.",
+  "date": "2026-07-20",
+  "published_utc": "2026-07-20T16:16:15Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Strategy holds 843,775 BTC ($54.31 billion), making it the world's largest publicly held bitcoin treasury, and its chief has signaled institutional-scale opposition to a major protocol governance decision set for August.",
+  "bottom_line": "Saylor's opposition signals that institutional capital is prepared to resist BIP-110 on ideological and economic grounds. Watch for July and August's signaling from miners, exchanges, and other major holders: if Saylor's framing gains traction, the 55 percent threshold could face pressure to revert to the historical 95 percent standard, effectively stalling the proposal. The decision will reveal whether Bitcoin's consensus mechanism can accommodate large stakeholders' veto power without fracturing.",
+  "human_take": "",
+  "body": [
+    "Michael Saylor, whose firm Strategy holds 843,775 BTC worth $54.31 billion as of July 19, published a 110-point essay opposing BIP-110, a proposed protocol change scheduled for an August decision that could reshape Bitcoin's governance and use cases.",
+    "BIP-110 aims to implement a one-year temporary soft fork adding seven distinct consensus restrictions, including capping data payload sizes and rejecting certain script executions. The proposal also lowers the miner-signaling threshold for approval from the standard 95 percent to 55 percent, according to CoinDesk's reporting. Saylor, the world's largest publicly listed bitcoin holder, frames this as a fundamental threat to Bitcoin's core design rather than a technical housekeeping measure.",
+    "\"The proposed cure is more dangerous than the condition,\" Saylor stated, per CoinDesk. \"BIP 110 would use consensus to narrow valid activity, constrain future options, complicate deployment, and establish a precedent it cannot later erase.\" His core objection centers on Bitcoin's technical inability to discern the purpose of stored data: \"Bitcoin cannot read intent. The network cannot know whether bytes represent an image, a proof, a contract, metadata, an authentication record, or a future application.\"",
+    "Saylor argues that lowering the miner-signaling threshold to 55 percent is \"too aggressive\" and could lead to network splits and widespread market uncertainty. He warns further that BIP-110 could create a \"chilling effect\" on developers and innovation. If data storage is today's target, he reasons, privacy tools, novel custody solutions, or corporate applications could become tomorrow's targets, according to CoinDesk's account of his essay. This regulatory momentum, he suggests, could eventually reduce aggregate fee demand on the network, weakening miners' incentive to commit hash power as block subsidies continue to halve and threatening Bitcoin's long-term security model.",
+    "Saylor proposes that market-based fees and individual relay policies are the appropriate mechanisms to address \"spam\" without altering consensus rules. He concludes: \"Bitcoin does not need guardians of purity. It needs guardians of neutrality.\"",
+    "BIP-110 supporters, per CoinDesk, view the proposal as restoring Bitcoin's original purpose as peer-to-peer digital cash. The brief does not include detailed responses from BIP-110 proponents to Saylor's specific technical or economic arguments. The August governance decision now faces a clear fault line between institutional holding-company logic, which Saylor represents, and developer or nodal preferences to constrain certain data uses."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/07/19/bitcoin-s-biggest-advocate-michael-saylor-says-new-plan-to-clean-up-the-blockchain-is-a-bad-idea",
+      "url": "https://www.coindesk.com/tech/2026/07/19/bitcoin-s-biggest-advocate-michael-saylor-says-new-plan-to-clean-up-the-blockchain-is-a-bad-idea"
+    },
+    {
+      "title": "https://www.theblock.co/post/408850/saylor-urges-bitcoin-to-reject-bip-110-in-110-point-essay-as-soft-forks-august-showdown-approaches",
+      "url": "https://www.theblock.co/post/408850/saylor-urges-bitcoin-to-reject-bip-110-in-110-point-essay-as-soft-forks-august-showdown-approaches"
+    },
+    {
+      "title": "https://decrypt.co/373819/strategys-michael-saylor-makes-110-point-case-against-bitcoins-bip-110",
+      "url": "https://decrypt.co/373819/strategys-michael-saylor-makes-110-point-case-against-bitcoins-bip-110"
+    },
+    {
+      "title": "https://cointelegraph.com/news/saylor-turns-up-heat-with-110-reasons-why-bip-110-is-a-bad-idea",
+      "url": "https://cointelegraph.com/news/saylor-turns-up-heat-with-110-reasons-why-bip-110-is-a-bad-idea"
+    }
+  ]
+}

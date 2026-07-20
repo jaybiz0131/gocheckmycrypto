@@ -897,5 +897,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-20",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "Bank of Korea prepares for live CBDC transactions with 9 banks in September",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'South Korea's effort puts it among a small cohort of countries operationalizing CBDCs. Only three nations have officially launched CBDCs: the Bahamas unveiled one in October 2020, Nigeria in 2021, and Jamaica in 2022.' This claim about only three countries launching CBDCs is not supported by the brief's data_points. The brief's data_point #8 says 'Only a handful of countries have officially introduced a CBDC' (softer language), and the brief itself does not claim only three have launched\u2014it says the Atlantic Council tracker shows countries in various stages (41 testing, 33 in development, etc.). The draft overstates the exclusivity of this group by claiming 'only three nations have officially launched CBDCs' when the brief does not provide that specific definitive count.",
+     "The draft includes a data_point not in the brief: 'The South Korean Ministry of Economy and Finance announced plans to update its seven-decade-old national asset law to classify cryptocurrencies as national assets.' This claim appears in brief data_point #14, but it is completely absent from the draft body. However, the reverse problem exists: the draft body makes no mention of this announcement, so this is not a smuggled fact but rather an omitted one from the brief. Upon re-examination, this is not an accuracy violation in the draft itself since the draft does not claim this anywhere\u2014the brief included it but the draft did not use it. This is acceptable editorial choice."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Tether's USDT hits 2-year countdown threatening its position on U.S. crypto platforms",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that regulators missed 'their deadline to finalize implementation rules' on the one-year mark (July 2026). However, the brief's data_point #2 states 'The one-year mark (July 2026) was a deadline for federal financial regulators to have GENIUS rules in place, and none have done so yet,' with confidence label 'reported.' The draft's language ('federal regulators missing their deadline') accurately reflects this. However, the draft then says 'Tether's compliance challenge is material. Current disclosures show approximately 25 percent of USDT's reserves are held in assets that will not meet GENIUS standards.' This claim traces to brief data_point #6: 'As much as a quarter of USDT's reserves are still plugged into assets that won't meet GENIUS Act standards.' The language 'approximately 25 percent' and 'as much as a quarter' are compatible. This is accurate.",
+     "The draft includes a quote from Kevin Wysocki (Anchorage Digital head of policy) in a paragraph: 'Non-compliant stablecoins cannot be used by U.S. institutions when the safe harbor expires in 2028, but we don't expect the market to wait.' This quote appears in brief data_point #13, and the draft correctly attributes it. However, the draft then paraphrases: 'Wysocki said Anchorage Digital believes institutional users will move toward compliant, bank-issued digital dollars well ahead of that deadline.' This paraphrase appears in brief data_point #14. Both claims are present in the brief and accurately represented.",
+     "The draft states: 'Some lawyers in finance assume that Tether gets until July 18, 2028, to comply, but others have suggested that foreign issuers would have to comply the moment GENIUS officially goes live, which is likely six months from now in January.' The brief's data_point #15 states: 'Some lawyers in finance assume that Tether gets until July 18, 2028, to comply, but others have suggested that foreign issuers would have to comply the moment GENIUS officially goes live, which is likely six months from now in January.' This is an exact paraphrase and is accurate. However, the draft later quotes Justin Levine from Davis Polk: 'Upon the effectiveness of the GENIUS Act, foreign issuers will need to immediately comply with lawful orders to seize and freeze coins held by illicit actors, but they will have a runway of approximately two more years to prepare for the additional requirements.' This quote matches brief data_point #16 exactly. Accurate."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Amazon Japan Supplier to Pay 2,300 Contractors Using Regulated Yen Stablecoin",
+    "category": "balance",
+    "reasons": [
+     "Brief's bear_case states 'No regulatory concerns or implementation risks are cited in the source text; no critical voices or skeptical analyses are present.' The draft contains no risk paragraph, bear case, or counterargument despite this being flagged in the brief. The draft reads as entirely celebratory of the deployment with no mention of implementation challenges, regulatory friction, or failure modes. A deployment of this scale across 2,300 contractors has identifiable risks (adoption rates, technical on/off-ramp friction, contractor resistance) that the brief's open_questions surface but the draft suppresses entirely."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Kraken Launches Simplified Options to Unlock Retail Crypto Derivatives Market",
+    "category": "balance",
+    "reasons": [
+     "Brief's bear_case states 'No skeptical analysis, competitive threats, or regulatory concerns are raised in the source text.' The draft contains no mention of competitive risks, regulatory headwinds for retail options in key jurisdictions, or reasons why previous attempts to democratize crypto options have failed. The story presents Kraken's hypothesis ('design is the barrier, not demand') as self-evident without noting that this is a testable claim, not fact. The bottom_line correctly identifies this as a hypothesis to be validated, but the body reads as though the problem and solution are already confirmed, creating an imbalance between brief skepticism and draft conviction."
+    ]
+   },
+   {
+    "id": "c088",
+    "headline": "EDX Markets Closes $76 Million Series C from SBI Holdings",
+    "category": "accuracy",
+    "reasons": [
+     "Opening sentence states 'SBI Holdings, Tokyo-listed Japan's largest financial conglomerate' but the brief data_point only says 'Tokyo-listed financial group'\u2014the characterization of SBI as 'Japan's largest financial conglomerate' is not in the brief and is a smuggled claim.",
+     "The phrase 'according to The Defiant' appears multiple times but The Defiant is the sole source for this entire story; attributing each claim individually to The Defiant is redundant and obscures the fact that the entire story rests on a single source with confidence labels of 'announced-not-verified'. The brief explicitly marks the Series C raise as 'announced-not-verified' but the draft presents it as confirmed fact without flagging that uncertainty in prose."
+    ]
+   }
+  ]
  }
 ]
