@@ -866,5 +866,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-20",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "Bank of Korea prepares for live CBDC transactions with 9 banks in September",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the participating banks are Gyeongnam Bank, iM Bank, KB Kookmin, Shinhan, Hana, and Woori Financial Group' but names only six banks. The brief's data_point claims 'nine participating banks' but only lists six names. The draft should either name all nine or explicitly note that only six were named in reporting, rather than implying the list is complete with 'are' phrasing."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "STORY CANNOT PROCEED: Hut 8 and IREN AI contracts unverified",
+    "category": "accuracy",
+    "reasons": [
+     "The draft is titled 'STORY CANNOT PROCEED' and explicitly states the brief contains no extracted source text and unverified claims. This is a meta-rejection, not a story draft. The brief's data_points array is empty (length 0) and source_chars is 0, confirming no primary source extraction occurred. The draft correctly identifies the research failure but should not have been submitted as a story candidate at all. Return to researcher before resubmission."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Amazon Japan supplier to pay drivers via regulated yen stablecoin",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence: 'Nikkei Asia reported that Maruwa is considering a formal business partnership with JPYC Inc. and making a 1 billion yen investment in the token, though CoinDesk noted this remains under consideration, not yet confirmed.' The brief data_point lists Nikkei Asia as the source, but the draft attributes the claim to CoinDesk and sources only CoinDesk URLs. The brief flags this claim as reported confidence from CoinDesk, not Nikkei Asia. If Nikkei was the original source, the draft must attribute it directly to Nikkei, not credit CoinDesk for noting the caveat. Attribution mismatch between brief and draft on secondary reporting.",
+     "Sentence: 'The sources do not specify a confirmed go-live date for Maruwa's rollout to its 2,300 partners.' This meta-statement about what sources do not contain is appropriate for balance but borders on editorializing. The open_questions field in the brief flags go-live timing as unknown, so this is fair, but phrasing it as 'sources do not specify' rather than 'a go-live date was not announced' slightly shifts voice from reporting to research critique."
+    ]
+   }
+  ]
  }
 ]
