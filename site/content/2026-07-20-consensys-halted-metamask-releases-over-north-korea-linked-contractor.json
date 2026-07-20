@@ -1,0 +1,29 @@
+{
+  "id": "c102",
+  "slug": "consensys-halted-metamask-releases-over-north-korea-linked-contractor",
+  "kind": "brief",
+  "title": "Consensys Halted MetaMask Releases Over North Korea-Linked Contractor",
+  "dek": "Consensys suspended MetaMask product releases after discovering a contractor with North Korea links had month-long access to core wallet code from March 9 to April. The company's investigation found no stolen assets, exposed data, or deployed malicious code, but the incident exposes supply-chain vulnerability in major wallet infrastructure.",
+  "date": "2026-07-20",
+  "published_utc": "2026-07-20T20:46:34Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "A contractor with North Korea links accessed MetaMask's core code for approximately one month through a third-party staffing provider, including sections controlling connections to fiat payment providers.",
+  "bottom_line": "Consensys detected the infiltration and terminated access without reported user impact, but the incident exposes how major wallet infrastructure can be reached through staffing intermediaries despite direct security practices. Watch for disclosure of the third-party provider's identity and any independent code audit; lack of either would undermine the company's no-compromise conclusion.",
+  "human_take": "",
+  "body": [
+    "Consensys suspended product releases for MetaMask after discovering that a contractor with links to North Korea had access to the wallet's core code for roughly one month, according to The Defiant. The contractor was brought in through a third-party staffing provider, not through Consensys' direct hiring channel, and retained access from March 9 until the company terminated it in April. No misappropriation of assets, exposure of user data, or deployment of malicious code was found in Consensys' investigation, the company said.",
+    "The contractor's work touched sections of MetaMask's codebase used to connect users with third-party fiat payment providers, creating a vector through which attackers could have intercepted or manipulated transaction flows. An internal alert in April ordered all product releases suspended pending investigation and instructed staff not to interact with the consultant.",
+    "The incident reflects a documented pattern. The FBI has warned that North Korean operatives have used company-network access to copy code repositories, and has urged identity verification throughout employment, audits of third-party staffing firms, and least-privilege access controls. North Korea accounted for an estimated 64 percent of the value stolen in crypto hacks in 2025, per The Defiant. Total crypto losses exceeded $2.7 billion in 2025, according to TRM Labs cited in the reporting.",
+    "Consensys' general counsel Matt Corva described the service provider relationship as \"reputable.\" The company said it has now reviewed its third-party staffing practices so that standards applied to employees also extend to more complex outside relationships. Consensys said the episode gave no indication that user accounts or wallet assets were compromised.",
+    "The findings come with caveats. No independent external audit verifying the absence of malicious code has been reported. The vetting failure occurred at the third-party provider level rather than Consensys' direct hiring process, leaving questions about that firm's accountability. Consensys has not publicly disclosed the timeline from April termination to public disclosure, nor the specific false identity under which the contractor operated."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/security/consensys-halted-metamask-releases-over-north-korea-linked-contractor",
+      "url": "https://thedefiant.io/news/security/consensys-halted-metamask-releases-over-north-korea-linked-contractor"
+    }
+  ]
+}

@@ -947,5 +947,64 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-20",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c005",
+    "headline": "Brazil's Securities Regulator Establishes Tokenization Task Force With 60-Day Deadline",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Brazil's tokenized asset market stands at approximately 12 billion reais' but the brief data_point says 'Brazil's real-world asset market is at around 12 billion reais' \u2014 the draft changes 'real-world asset market' to 'tokenized asset market,' which is a material factual shift not supported by the source. These are different categories of assets and the brief does not establish that the 12 billion reais figure refers specifically to tokenized assets."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "Russia's Parliament Advances Comprehensive Crypto Bill Toward Final Votes",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the bill 'creates a legal pathway for Russian companies to conduct cross-border payments in cryptocurrency, effectively enabling transactions that circumvent Western financial sanctions on Russian entities.' The brief data_point says 'The bill creates a legal pathway for Russian companies to pay foreign partners in crypto, bypassing Western sanctions.' The draft's phrase 'circumvent Western financial sanctions' and 'enabling transactions that circumvent' goes beyond the reported fact of 'bypassing Western sanctions' and injects interpretive language about enabling/effectiveness that is not in the source. This conflates what the bill does with what it will accomplish, introducing speculation not supported by the brief."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Cross-Chain Protocol Allbridge Halts After $1.65 Million Flash-Loan Exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The hack marks the third significant cross-chain bridge compromise in one week, with losses totaling approximately $5.7 million across all incidents.' This claim does not appear in the brief's data_points. The brief mentions this figure in the angle ('the third significant bridge hack in a week totaling $5.7M') but the draft presents it as a concluded fact without attribution or source. The brief itself cites only CoinDesk, which reported on this single Allbridge incident; the $5.7M aggregate figure and the 'three incidents in one week' claim are smuggled into the draft without research support."
+    ]
+   },
+   {
+    "id": "c038",
+    "headline": "Cardano Executes Van Rossem Hard Fork as First Community-Voted Upgrade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Cardano executed the Van Rossem hard fork, marking what the protocol claims as its first major upgrade initiated without company or founder control, according to Decrypt.' The brief's data_point says only 'For the first time in Cardano's history, no company flipped the switch on a major protocol update.' The draft adds the qualifier 'what the protocol claims' and attributes the claim to Decrypt, but the brief does not indicate that Decrypt used that cautious framing or that the claim is unverified. The brief's confidence label is 'reported' (not 'announced-not-verified'), suggesting the draft's added epistemic hedging ('what the protocol claims') is not warranted by the brief and represents the writer's own editorial judgment smuggled in as source fidelity.",
+     "The draft's second paragraph states 'Beyond that core statement, details are sparse. The reporting provides no technical scope of the Van Rossem changes, no mechanics of the community vote itself, no participation metrics, no governance timeline, and no stated impacts on the network or its users.' This is editorial commentary on the reporting, not a fact from the brief. The brief explicitly flags open_questions and thin=true, signaling the story is thin; but the draft should not narrate its own thinness or critique the source reporting\u2014it should either provide the available facts or reject the story. This reads as the writer explaining their thinness problem to the reader rather than trusting the bottom_line to flag it."
+    ]
+   },
+   {
+    "id": "c099",
+    "headline": "BitMine Nears 5% ETH Target With $73 Million Weekly Purchase",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine, which trades on the NYSE under the ticker BMNR' but the brief provides no data_point confirming the ticker symbol BMNR. This is a smuggled fact not present in the research brief.",
+     "The draft claims 'BitMine valued ETH at $1,800 per coin in its holdings update' but this specific valuation figure does not appear anywhere in the body text and is not traceable to a data_point. The $73 million / 42,197 ETH calculation yields ~$1,729, not $1,800.",
+     "The draft describes the brief's finding about staking as unexplained: 'a posture The Defiant's reporting does not explicitly explain.' However, the brief's data_point explicitly lists this as 'reported' without explanation\u2014the draft is correctly representing the brief's own gap, but the phrasing 'The Defiant's reporting does not explicitly explain' suggests the writer checked the source directly rather than staying within the brief's authority, violating the rule that facts come from the brief, not independent source verification."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Ethics Provision Stalls Clarity Act Negotiations Amid Trump Crypto Holdings",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'A White House meeting last week addressed an ethics provision in the Clarity Act' and later states 'Neither The Block nor other reporting specifies what form the ethics language is taking.' This second statement references 'other reporting' not present in the brief's single source, violating the rule that facts must come from the brief.",
+     "The draft claims 'The stall is significant: the Clarity Act represents the most concrete legislative effort to define federal crypto regulatory jurisdiction in the United States.' This framing about the Clarity Act's legislative significance is not supported by any data_point in the brief, which contains no characterization of the bill's status or importance in the broader regulatory landscape.",
+     "The draft states 'Without resolution of the ethics language, sources indicate the bill's path to passage remains unclear, though no explicit timeline or revised deadline has been announced.' The phrase 'sources indicate' suggests reporting beyond The Block's single brief mention, and the detail about 'no explicit timeline or revised deadline' is not in the brief's data_points."
+    ]
+   }
+  ]
  }
 ]
