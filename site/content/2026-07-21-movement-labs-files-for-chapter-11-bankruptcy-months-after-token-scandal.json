@@ -1,0 +1,31 @@
+{
+  "id": "c002",
+  "slug": "movement-labs-files-for-chapter-11-bankruptcy-months-after-token-scandal",
+  "kind": "brief",
+  "title": "Movement Labs files for Chapter 11 bankruptcy months after token scandal",
+  "dek": "Movement Labs, an Ethereum Layer 2 network, filed for Chapter 11 bankruptcy with under 1,000 creditors and $100,000 to $500,000 in assets against liabilities exceeding $1 million. The filing follows a 2024 market-making scandal involving 66 million MOVE tokens sold one day after launch, governance disputes, and a 2025 strategic pivot.",
+  "date": "2026-07-21",
+  "published_utc": "2026-07-21T20:53:29Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "A well-funded Ethereum Layer 2 project filed for bankruptcy after internal governance failure allowed a single market-making counterparty unusual control over token supply.",
+  "bottom_line": "Movement Labs' bankruptcy closes a governance and token-mechanics failure that unfolded in seven months from launch scandal to court filing. The case illustrates how opacity in market-making agreements and founder separation can erode credibility faster than technical execution can recover it. Watch for the Groom Lake investigation's final report (if released) and creditor recovery outcomes.",
+  "human_take": "",
+  "body": [
+    "Movement Labs, the Ethereum Layer 2 network built using Meta's Move programming language, filed for Chapter 11 bankruptcy with under 1,000 creditors and assets between $100,000 and $500,000, against liabilities exceeding $1 million, according to CoinDesk reporting. Co-founder Rushi Manche, the Delaware Division of Revenue, and custody provider Anchorage Digital are among the largest creditors listed.",
+    "The bankruptcy filing closes a chapter that began with the MOVE token launch in December 2024. One day after launch, a market-making agreement allowed 66 million MOVE tokens to be sold into the market in a single transaction, according to CoinDesk's April 2025 investigation. The rapid sale triggered a sharp price decline and triggered internal governance alarm bells: Movement executives questioned whether they had been misled into signing a market-making agreement that handed a single counterparty unusual influence over the token's circulating supply.",
+    "At the center of the dispute was Rentech, a little-known intermediary that appeared in contracts alongside the Chinese market maker Web3Port. Movement executives questioned whether the foundation had been misled about Rentech's affiliation with Web3Port when the two entities were not affiliated. Rentech has denied any wrongdoing or misrepresentation. Binance banned the market-making account involved in the token launch, citing misconduct, per CoinDesk.",
+    "Movement responded to the scandal by launching a token buyback program and hiring outside firm Groom Lake to review the events surrounding the deal. The investigation's findings have not been made public. Despite these remedial steps, Movement Labs and co-founder Manche separated in May 2025, signaling internal governance breakdown.",
+    "A separate legal entity, Move Industries, announced in June 2026 that it would pivot away from competing with other Ethereum scaling networks and instead focus on cross-border payments, remittances, and stablecoin settlement, claiming access to licensed payment infrastructure in the U.S., Canada, and the European Union. This pivot effectively conceded that the Layer 2 business model was not viable.",
+    "The bear case is structural: a single counterparty was permitted unusual control over token supply through a market-making agreement; internal documents show executives questioned whether they were deceived about deal counterparty affiliations; and a major exchange flagged misconduct in the account involved. The project unraveled across governance, token mechanics, and founder confidence within seven months of launch.",
+    "Open questions remain unresolved: What specific misconduct did Binance identify, and did it accelerate the bankruptcy decision? Did the Groom Lake investigation conclude, and what did it find? How much capital did Movement Labs raise in funding rounds, and where did it go? The asset-liability gap ($100K to $500K versus $1M-plus) leaves creditors facing recovery rates well below dollar-one."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/07/21/movement-labs-files-for-chapter-11-months-after-token-scandal-and-strategic-overhaul",
+      "url": "https://www.coindesk.com/policy/2026/07/21/movement-labs-files-for-chapter-11-months-after-token-scandal-and-strategic-overhaul"
+    }
+  ]
+}

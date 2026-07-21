@@ -1137,5 +1137,30 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-21",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c048",
+    "headline": "Cardano Completes Hard Fork Via Community Vote",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Cardano triggered a hard fork upgrade driven by token-holder governance without founder or company intervention' and states this is 'the protocol's first major upgrade executed through community vote rather than developer or institutional directive,' but the brief's single data_point only confirms the event was 'reported' by Decrypt, not verified. The draft presents this as established fact when the confidence is 'reported' only.",
+     "The draft opens with 'Cardano triggered a hard fork upgrade' as a definitive statement, but the brief indicates the source is unavailable to verify core specifics (what changed, how voting occurred, mechanism used). The draft should flag uncertainty about the governance mechanism's actual implementation.",
+     "The draft extensively discusses what the brief's open_questions and bear_case note are unconfirmed: participation rates, approval margin, voting threshold, activation time. The draft acknowledges these are 'unconfirmed' but frames the core claim (that the hard fork was completed via token-holder governance) as fact when the source does not verify the mechanism."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Telegram plans 'largest rollout of a non-custodial crypto wallet in human history'",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'summer 2026' but the brief's data_point timestamp is '2026-07-21T15:20:25Z' (July 21, 2026), which is already past summer. The draft presents a future announcement as though it is still pending, when the timestamp evidence suggests this is a retrospective report of an event that has already occurred or been announced. The temporal framing is inverted relative to the source evidence.",
+     "The draft does not flag the 'unconfirmed' confidence label prominently for any of the four data points. The phrase 'Pavel Durov confirmed' and 'Telegram CEO Pavel Durov confirmed' reads as settled fact, but the brief marks all four core claims (Durov's confirmation, the 1 billion user target, the summer 2026 timeline, and the Gram wallet name) as 'unconfirmed.' The draft should signal this uncertainty explicitly in the prose per the hard rule on confidence labels."
+    ]
+   }
+  ]
  }
 ]
