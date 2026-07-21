@@ -1079,5 +1079,40 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-21",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c036",
+    "headline": "Trump Agrees to Ethics Provision as Crypto Bill Inches Closer to Senate Vote",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Clarity Act is described as a significant effort to codify regulatory clarity for digital assets' but the brief's data_point says it is 'landmark U.S. crypto market structure legislation'\u2014these are materially different claims. The draft softens the characterization to 'significant effort' when the brief establishes it as 'landmark.'",
+     "The draft claims 'Details on the specific ethics language Trump agreed to remain limited in available reporting' but the brief contains no data_point confirming that details are limited or unavailable. This is new information not sourced to the brief.",
+     "Both data_points in the brief are marked 'unconfirmed' but the draft presents them as settled fact without qualification ('Trump agreed', 'The Clarity Act is described'). The confidence label 'unconfirmed' must surface in prose\u2014e.g., 'according to unconfirmed reporting' or 'allegedly agreed.'"
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Bitcoin Miners Land Massive AI Compute Contracts",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Hut 8 shares jumped as much as 17% Monday' but the brief data_point says 'jumped as much as 17%' with no day-of-week specified in the source. The word 'Monday' is smuggled\u2014it does not appear in the brief's data_points and represents information not traced to the provided research.",
+     "The draft states 'IREN surged as much as 19%' but the brief's data_point is 'surged as much as 19%'\u2014matching so far. However, the draft then elaborates that IREN 'also raised its year-end AI Cloud annualized run-rate revenue target to more than $4 billion' as if this happened on the same day as the stock surge. The brief separates these claims across data_points but does not specify temporal relationship. The prose construction ('announced $2.8 billion in new multiyear cloud services contracts with AI developers. The company also raised its year-end AI Cloud annualized run-rate revenue target') implies both occurred in the same announcement window, but the brief does not confirm simultaneity, only that both happened."
+    ]
+   },
+   {
+    "id": "c035",
+    "headline": "SEC charges Florida man and company in alleged $22 million crypto mining fraud",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC charged a Florida man and his company with operating a crypto asset mining scheme' but the brief's data_points only confirm 'The SEC charged defendants in an alleged crypto asset mining scheme' without specifying that it was one Florida man or confirming the defendant's identity. The open_questions explicitly ask 'What is the name of the Florida man charged?', indicating this detail was not confirmed by the source.",
+     "The draft presents the scheme as definitively 'Ponzi-like' in the third paragraph ('operating Ponzi-like structures underneath'), but the brief's core_claim uses the qualifier 'alleged' and lists this as one interpretation among open questions about specific mechanics. Confidence level 'reported' does not support unqualified characterization as Ponzi structure.",
+     "The draft refers to the company as 'Mining Automatic' but the brief does not list this name in any data_point. This is smuggled information not traced to the source brief."
+    ]
+   }
+  ]
  }
 ]
