@@ -1114,5 +1114,28 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-21",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c116",
+    "headline": "Grayscale files S-1 for spot Worldcoin ETF",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'According to The Defiant' but then makes claims about regulatory uncertainty and SEC treatment that are not present in the brief's data_points. The phrase 'Key regulatory questions include how the agency will treat the World ID identity component, whether data privacy concerns will trigger additional scrutiny' goes beyond what The Defiant reported and reads as the writer's own inference rather than reported fact.",
+     "The statement 'The SEC's review timeline and regulatory conditions for approval are not detailed in available reporting' is accurate, but the subsequent paragraph ('Key regulatory questions include...') then presents those unconfirmed regulatory concerns as if they are settled analytical framing rather than open questions from the brief. This smuggles the writer's interpretation into the news layer."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "Cardano Activates Van Rossem Hard Fork Via Community Vote",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Cardano activated the Van Rossem hard fork following a token-holder vote' and that 'The upgrade marks what the chain describes as the first major protocol change where no company or central entity unilaterally approved the activation.' The brief's single data_point states only that the hard fork 'activated on-chain governance upgrade via token-holder vote for the first time in Cardano's history'\u2014it does not confirm that no company or entity retained override power, only that the vote occurred. The draft presents the decentralization claim as fact when the brief's open_questions explicitly ask 'Did any company or founding entity retain the ability to veto or override the vote, or was it truly unilateral community control?'\u2014indicating this was unverified. This is a confidence mismatch: a reported/unconfirmed claim presented as settled."
+    ]
+   }
+  ]
  }
 ]
