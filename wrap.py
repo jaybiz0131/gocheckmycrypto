@@ -74,6 +74,24 @@ def bottom_line_lint(text):
     low = (text or "").lower()
     return [pat for pat in BOTTOM_LINE_LINT if re.search(pat, low)]
 
+
+# UNATTRIBUTED EDITORIAL VOICE (2026-07-19): the desk reports attributed observations, it
+# does not assert a house opinion. "The honest read is X" states a desk view with no source
+# behind it; "the reporting shows X" or "the desk's Whale Watch board shows X" is the same
+# thought, sourced. Deterministic belt on top of the prompt rule.
+UNATTRIBUTED_LINT = [
+    r"\bthe honest read\b", r"\bthe real story (is|here)\b", r"\bthe truth is\b",
+    r"\bmake no mistake\b", r"\bwhat(?:'s| is) really going on\b",
+    r"\bthe takeaway is clear\b", r"\blet(?:'s| us) be clear\b",
+    r"\bthe reality is\b", r"\bmake of (it|that) what you will\b",
+]
+
+
+def unattributed_lint(text):
+    """Return unattributed-editorial-voice violations (empty = clean)."""
+    low = (text or "").lower()
+    return [pat for pat in UNATTRIBUTED_LINT if re.search(pat, low)]
+
 ADVICE_LINT = [r"\byou should\b", r"\bbuy\b", r"\bsell\b", r"\bgood entry\b",
                r"\bwill (rally|crash|pump|dump|10x|moon)\b", r"\bguaranteed\b",
                r"\btime to (buy|sell|enter|exit)\b"]
@@ -128,6 +146,9 @@ def belts(article_body, dek, bottom_line):
     # violation in the signature element (and in the dek that frames it).
     for pat in bottom_line_lint(bottom_line + " " + dek):
         problems.append(f"Bottom Line lane violation (directional/predictive): {pat}")
+    # Attributed observations, not house opinion: applies to the WHOLE edition.
+    for pat in unattributed_lint(text):
+        problems.append(f"unattributed editorial voice (attribute it or drop it): {pat}")
     words = len(article_body.split())
     if not 120 <= words <= 950:
         problems.append(f"body {words} words outside 120-950")
@@ -225,12 +246,27 @@ def main():
             except Exception:
                 pass
 
+    # JURISDICTION TRACKER: regulatory storylines move in steps months apart, so the
+    # 36-hour story window forgets them. The tracker carries them (and any dates the desk's
+    # own reporting stated) into every edition so a checkpoint never slips. Fail-open.
+    regwatch_block = []
+    try:
+        import regwatch
+        regwatch.update()
+        regwatch_block = regwatch.for_edition()
+    except Exception as e:
+        common.gh("warning", f"wrap: jurisdiction tracker unavailable ({e}); edition continues")
+
     cfg = common.load_config()
     client = llmlib.Client(cfg)
     system = common.load_prompt("wrap.md")
     user = (f"edition: {edition}\n\ntodays_stories:\n{json.dumps(stories, indent=1)}\n\n"
             + (f"desk_boards:\n{json.dumps(boards, indent=1)}\n\n" if boards else
                "desk_boards: (unavailable this run)\n\n")
+            + (("regulatory_watch (live storylines the desk has covered, with dates its own "
+                "reporting stated; name any whose checkpoint is near in WHAT TO WATCH, and "
+                "only these dates, never invented ones):\n"
+                + json.dumps(regwatch_block, indent=1) + "\n\n") if regwatch_block else "")
             + (("earlier_editions_today (UPDATE and EXTEND, never repeat; lead with what "
                 "changed since):\n" + json.dumps(earlier, indent=1) + "\n") if earlier else ""))
 

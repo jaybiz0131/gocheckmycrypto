@@ -372,6 +372,33 @@ def _contract_ladder_canary(cfg):
            "Bottom Line lane: 'sets up for a move higher' was NOT blocked")
     _check(len(wrapmod.bottom_line_lint("Bitcoin looks poised to rally, brace for volatility.")) >= 2,
            fails, "Bottom Line lane: poised-to/brace-for was NOT blocked")
+
+    # ATTRIBUTED OBSERVATIONS (2026-07-19): the desk reports what a source shows, it does
+    # not assert a house opinion. Attributed phrasing passes; unattributed voice is blocked.
+    attributed = ("Per CoinDesk's reporting the vote slipped to next week, and the desk's "
+                  "Whale Watch board shows $162M moving onto exchanges.")
+    _check(wrapmod.unattributed_lint(attributed) == [], fails,
+           f"attribution: sourced phrasing wrongly flagged: {wrapmod.unattributed_lint(attributed)}")
+    _check(len(wrapmod.unattributed_lint("The honest read is that nobody cares.")) >= 1, fails,
+           "attribution: 'the honest read is' was NOT blocked")
+    _check(len(wrapmod.unattributed_lint("Make no mistake, the real story is elsewhere.")) >= 2,
+           fails, "attribution: 'make no mistake' / 'the real story is' were NOT blocked")
+
+    # JURISDICTION TRACKER: real stated dates parse, prose numbers do not (a tracker that
+    # invents a deadline is worse than no tracker).
+    import regwatch
+    _check(bool(regwatch.DATE_PAT.search("compliance deadline of January 20, 2027")), fails,
+           "regwatch: a real stated deadline was NOT parsed")
+    _check(not regwatch.DATE_PAT.search("rose by the 20 percent"), fails,
+           "regwatch: prose number 'by the 20 percent' was wrongly parsed as a date")
+    _check(not regwatch.DATE_PAT.search("due over 90 days"), fails,
+           "regwatch: 'over 90 days' was wrongly parsed as a date")
+    j, i, dts = regwatch.extract("The GENIUS Act compliance deadline of January 20, 2027 applies.")
+    _check("United States" in j and "GENIUS Act" in i and dts, fails,
+           f"regwatch: GENIUS Act storyline not filed correctly (j={j} i={i} d={dts})")
+    j2, i2, _ = regwatch.extract("A US official commented on the EU's MiCA regime.")
+    _check(i2 == ["MiCA"] and "European Union" in j2, fails,
+           f"regwatch: MiCA should file under the EU only (j={j2} i={i2})")
     return fails
 
 
