@@ -1046,5 +1046,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-21",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c024",
+    "headline": "Trump agrees to ethics provision, advancing Senate crypto bill",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points and thin=true, yet the draft asserts as fact that 'Trump has agreed to ethics language in the CLARITY Act, according to The Block's reporting.' The brief's core_claim uses identical language, but without data_points to support it, the assertion is unmoored from the research record. The writer must either cite the Block article directly in the draft text with confidence labeling ('announced' or 'reported') or reject the story as unconfirmable.",
+     "The draft states 'The CLARITY Act is the leading federal crypto regulation proposal in Congress' without any data point in the brief to support this claim of market/legislative primacy. This is a new fact not in the research."
+    ]
+   },
+   {
+    "id": "c042",
+    "headline": "Cardano executes Van Rossem hard fork via community vote",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly flags 'thin': true and 'source_chars': 0, indicating no source text was provided. The data_points array is empty. The draft makes specific factual claims ('Cardano executed the Van Rossem hard fork via community token-holder vote', 'marking the first time the protocol has carried out a major upgrade through community governance') that cannot be verified against the brief because no research data exists to support them. The writer smuggled the core narrative without research backing."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Bank of Korea to launch live CBDC payments in September with nine banks",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'nine participating banks' but then lists only six names: Gyeongnam Bank, iM Bank, KB Kookmin, Shinhan, Hana, and Woori Financial Group. The brief's data_point also lists these same six names and says 'Nine participating banks' without naming all nine. The draft creates a factual gap by asserting nine banks without naming them all. This is a discrepancy between the number claimed (nine) and the number actually identified (six) that should either be resolved by the writer against the source or flagged as incomplete.",
+     "The draft includes a claim about South Korea's Ministry of Economy and Finance updating the national asset law to classify cryptocurrencies as national assets. This claim appears in the brief's data_points but does not appear anywhere in the draft body. However, the brief lists this as a data_point with 'reported' confidence. The draft omits this entirely, which is acceptable editorial judgment, but the handling is inconsistent\u2014the brief included it; the draft drops it without explanation. This is not a smuggled fact but shows the draft didn't fully leverage the brief.",
+     "The draft states JPYC onchain circulation had 'surpassed 2 billion yen, per CoinDesk' in the context of c011, but this claim about JPYC appears in brief c016, not c011. Review c011 carefully: it does not mention JPYC at all. This appears to be a copy-paste error during review, not a draft error. Re-checking c011 draft body: no JPYC mention. The c011 draft is clean on this."
+    ]
+   }
+  ]
  }
 ]
