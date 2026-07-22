@@ -352,7 +352,7 @@ def market_strip(pulse=None):
     fng = (pulse or {}).get("fng") or {}
     if fng.get("value") is not None:
         extras += (f'<span class="tick"><span class="sym">Fear &amp; Greed</span>'
-                   f'<span class="px">{fng["value"]} {esc((fng.get("label") or "").lower())}</span>'
+                   f'<span class="px" data-fng>{fng["value"]} {esc((fng.get("label") or "").lower())}</span>'
                    f'<span class="chg"></span></span>')
     lev = ((pulse or {}).get("leverage") or {}).get("assets") or []
     btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
@@ -394,6 +394,12 @@ def market_strip(pulse=None):
       var g=d.data||{}, m=document.getElementById("mcap"); if(!m)return;
       if(g.total_market_cap&&g.total_market_cap.usd) m.querySelector(".px").textContent=money(g.total_market_cap.usd);
       chg(m.querySelector(".chg"), g.market_cap_change_percentage_24h_usd);
+    }).catch(function(){});
+  // Fear & Greed refreshes once a day (alternative.me, keyless, CORS-open). Refresh it in
+  // the browser like the prices above so the ticker is never a build behind the index.
+  fetch("https://api.alternative.me/fng/?limit=1").then(function(r){return r.json();}).then(function(d){
+      var f=(d.data||[])[0], el=document.querySelector(".markets [data-fng]"); if(!f||!el)return;
+      el.textContent=f.value+" "+(f.value_classification||"").toLowerCase();
     }).catch(function(){});
 })();
 </script>
