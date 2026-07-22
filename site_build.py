@@ -754,7 +754,12 @@ def render_article(item, all_items=None):
                      f'<span class="mut"> &middot; {fmt_when(rel)}</span></li>')
     if rel_html:
         rel_html = f'<div class="related"><h4>Related stories</h4><ul>{rel_html}</ul></div>'
+    # consistent desk attribution (the byline is the desk, never a person): aggregators and
+    # Google News check for a stable byline, and this reads honestly as a newsroom, not a
+    # named human author
     author = esc(item.get("author", "Crypto Cronkite"))
+    if author in ("Crypto Cronkite", "Crypto Cronkite Desk"):
+        author = "the Crypto Cronkite Desk"
     body = f"""<main class="wrap narrow">
   <article class="article">
     <div class="ey">{badge}{tag}{topic_chips}<span class="dateline">{fmt_when(item)}</span></div>
@@ -785,8 +790,8 @@ def render_article(item, all_items=None):
          "dateModified": item.get("published_utc") or item.get("date"),
          "author": {"@type": "Organization", "name": NAME, "url": ORIGIN + "/news.html"},
          "publisher": {"@type": "Organization", "name": FAMILY, "url": ORIGIN + "/",
-                       "logo": {"@type": "ImageObject", "url": ORIGIN + "/apple-touch-icon.png",
-                                "width": 180, "height": 180}}},
+                       "logo": {"@type": "ImageObject", "url": ORIGIN + "/publisher-logo-512.png",
+                                "width": 512, "height": 512}}},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Latest", "item": ORIGIN + "/news.html"},
             {"@type": "ListItem", "position": 2, "name": item.get("title"), "item": url}]}
@@ -2899,6 +2904,12 @@ def build():
     og_src = os.path.join(ASSETS, "og-image.png")
     if os.path.exists(og_src):
         open(os.path.join(PUBLISH, "og-image.png"), "wb").write(open(og_src, "rb").read())
+    # the square publisher logo at the site root (schema publisher.logo, Publisher Center):
+    # 512px+ square, referenced by NewsArticle JSON-LD and available to aggregators
+    for lg in ("publisher-logo-512.png", "publisher-logo-1024.png"):
+        src = os.path.join(ASSETS, lg)
+        if os.path.exists(src):
+            open(os.path.join(PUBLISH, lg), "wb").write(open(src, "rb").read())
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
     locs = ["/", "/news.html", "/flows.html", "/pulse.html", "/chartmaster.html",
