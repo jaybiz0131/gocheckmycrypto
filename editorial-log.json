@@ -1162,5 +1162,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-22",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c120",
+    "headline": "Balance Coin crashes 99% after reported $915K flash-loan exploit on Bitcoin vaults",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'The attack, per Cointelegraph's reporting, targeted Balance Coin's collateralized vault mechanism by exploiting this mechanism to liquidate positions, then swapping assets for profit' is circular and adds interpretive detail ('then swapping assets for profit') that is not separately confirmed as a distinct claim in the brief data_points. The brief states the attack 'used flash-loan methods to liquidate multiple Bitcoin-backed vaults before swapping assets for profit,' but the draft's phrasing suggests original analysis of the attack sequence rather than direct reporting.",
+     "The paragraph 'The incident exemplifies a class of smart-contract vulnerability in stablecoin designs that rely on external price oracles and liquidation mechanisms. Regulatory bodies and risk researchers have long flagged such architectural risks in decentralized finance protocols.' makes a general claim about regulatory and researcher positions ('have long flagged such architectural risks') that does not appear in the brief's data_points and exceeds the sourced reporting. This is editorial framing presented as established fact without attribution to the source material."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "BIS Warns USD Stablecoins Can Evade Capital Controls",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The BIS assessment, reported but not independently verified by Crypto Cronkite' which creates a confusing attribution structure. The brief contains only one data_point, marked 'reported' confidence, sourced to The Block. The draft's phrasing suggests Crypto Cronkite has made an independent verification effort, which is outside the scope of the brief and implies internal editorial work not documented in the research.",
+     "The brief contains only a single data_point with no specifics on mechanisms, stablecoin types, quantified metrics, or regulatory recommendations. The draft expands into territory (mentioning that the BIS 'does not specify the mechanisms,' 'does not distinguish between types,' 'does not quantify'), which reads as editorial judgment rather than facts from the brief, and may mislead readers into thinking these gaps were explicitly stated by the BIS or The Block rather than inferred by the writer."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Movement Labs Files for Chapter 11 Bankruptcy After Token Market-Making Scandal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'liabilities exceeding $1 million' but the brief data_point specifies 'liabilities of between $1 million and $10 million' according to The Defiant. The CoinDesk source in the brief states 'north of $1 million in liabilities.' The draft's phrasing 'exceeding $1 million' is technically consistent but less precise than the brief's range, and creates potential ambiguity about whether the writer confirmed a specific figure beyond the brief.",
+     "The draft reports MOVE token 'reached an all-time high of $1.45 on Dec. 10, 2024' but the brief data_point states this was 'days after launch' in December 2024, not specifying the exact date. The draft adds the specific date 'Dec. 10, 2024' which does not appear in the brief data_points and constitutes smuggled information."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "US seeks forfeiture of $25 million in crypto from international fraud investigations",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'US prosecutors are seeking forfeiture of $25 million in cryptocurrency recovered from five separate investigations into international fraud and money-laundering networks' but immediately acknowledges 'The reporting does not specify which five investigations are involved, what fraud or laundering schemes they target, which countries or networks are implicated, or from whom the crypto was recovered.' This creates a factual liability: the draft asserts a specific claim ($25M from five investigations) as settled fact while admitting the source provides zero detail on the substance. The brief's single data_point supports only the headline figure and number of investigations\u2014nothing about their nature, geography, or defendants. The draft's opening sentence presents these details as if confirmed when they are entirely missing from the source, violating the hard rule that facts must trace to the brief."
+    ]
+   }
+  ]
  }
 ]
