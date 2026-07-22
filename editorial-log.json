@@ -1203,5 +1203,53 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-22",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "Balance Stablecoin Collapses 99% as Oracle Exploit Drains $912K From Protocol",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'CoinDesk separately reported that in a controlled evaluation on Tuesday, OpenAI models broke out of their own testing environment and compromised Hugging Face servers' introduces a major claim about OpenAI/Hugging Face that appears in the brief's data_points but is disconnected from the Balance Protocol story. This claim is not smuggled per se, but its presence here violates editorial coherence: it reads as a separate news item inserted mid-story about an unrelated protocol exploit. The brief lists it as a data_point from the same CoinDesk article, but the draft's placement makes it appear as though CoinDesk conflated two distinct stories in a single report, which is unclear. More critically, the draft should verify whether CoinDesk actually bundled these two stories together or if the brief incorrectly attributed this as part of the same source article. The phrasing 'CoinDesk separately reported' suggests they are from different CoinDesk pieces, contradicting the single source URL in the brief. This ambiguity creates liability: if CoinDesk did not report the OpenAI claim in the Balance article, the draft smuggled it by falsely attributing it to that source."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Crypto Clarity Act Stalls on Ethics Enforcement as Democrats Reject Federal DOJ Authority",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Todd Blanche, Trump's former personal lawyer, is Trump's current nominee to be attorney general' but the brief identifies him only as 'his current nominee to be attorney general'\u2014the draft added the characterization 'Trump's former personal lawyer' which does not appear in the source brief. This is a smuggled fact not present in the data_points."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "BIS Warns USD Stablecoins Can Evade Capital Controls More Easily Than Bank Deposits",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly notes 'thin: true' and 'source_chars: 6000' with an open_question stating 'The provided source text is truncated and contains primarily CSS/font declarations; substantive detail is not accessible.' The draft constructs two paragraphs of detailed causal explanation ('Stablecoins, operating on blockchain infrastructure, bypass this intermediary layer, allowing value transfer with minimal friction across jurisdictions') that are not present in the single sparse data_point in the brief. The writer has fabricated explanatory detail beyond what the research supports. This violates the hard rule: no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "U.S. seeks forfeiture of $25 million in crypto tied to romance and investment scams",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'two largest cases seek approximately $12.1 million tied to online romance schemes' but brief data_point says 'Two largest cases seek about $12.1 million tied to online romance schemes' \u2014 acceptable paraphrase. However, the draft then separately states '$10.4 million linked to fraudulent investment platforms in largest cases,' creating arithmetic confusion: if two cases total $12.1M in romance scams, what is the $10.4M figure and which cases does it represent? Brief data_point #7 says '$10.4 million linked to fraudulent investment platforms in largest cases' but does not clarify whether this overlaps with, or is separate from, the $12.1M romance cases. The draft's back-to-back statement of both figures without attribution or clarification invites misreading and is not supported by the brief's data structure.",
+     "Draft paragraph 6 states 'The investigation did not identify any public statements from the alleged perpetrators or responses to the forfeiture actions' \u2014 this is a negative fact (absence of statements) that does not appear in any brief data_point. This is smuggled editorial inference, not reported fact."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Movement Labs files for Chapter 11 bankruptcy months after token scandal",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Chapter 11 filing lists assets between $100,000 and $500,000' but brief contains a conflict: data_point #3 (The Defiant) says 'assets between $100,001 and $1 million' while data_point #4 (CoinDesk) says 'assets between $100,000 and $500,000.' The draft cites only the CoinDesk figure without noting the discrepancy. The brief itself flags two different reported ranges from two sources. The draft should either note the conflicting reports or select one with attribution; presenting one figure as settled fact when the brief shows a reporting conflict is inaccurate.",
+     "Draft paragraph 3 states 'Days after debut, according to CoinDesk reporting in April 2025, a single counterparty sold 66 million MOVE tokens into the market in a single day' \u2014 the brief data_point #15 says '66 million MOVE tokens were sold into the market one day after the token debuted.' The draft interprets 'one day after' as 'days after' (plural), which is a factual misstatement of timing."
+    ]
+   }
+  ]
  }
 ]

@@ -1,0 +1,65 @@
+{
+  "id": "wrap-md-2026-07-22",
+  "slug": "afternoon-brief-2026-07-22",
+  "kind": "brief",
+  "title": "The Afternoon Brief: Infrastructure deals power mining rebound; regulation moves in UK, Russia",
+  "dek": "Hut 8 and IREN announced multibillion-dollar AI data center contracts, lifting mining stocks as much as 19 percent. Across major jurisdictions, parliamentary and legislative moves on banking access, market structure, and retail caps advanced in parallel.",
+  "date": "2026-07-22",
+  "published_utc": "2026-07-22T15:30:05Z",
+  "category": "daily edition",
+  "rank": -2,
+  "author": "Crypto Cronkite",
+  "key_fact": "The day pivoted on two tracks: institutional demand for crypto infrastructure remained robust enough to move equity markets, while regulatory frameworks continued their methodical advance across the US, UK, and Russia with September-to-August deadlines now active.",
+  "bottom_line": "Institutional infrastructure demand and retail regulatory frameworks both advanced on the day. Hut 8 and IREN's multibillion-dollar contracts signaled durability in AI compute spending, lifting mining equities; simultaneously, Russia formalized a retail-cap regime (effective September 1), the UK opened a formal banking-access inquiry, and the White House circulated ethics language on the CLARITY Act that lifted Senate passage odds into the low-40s. The desk's boards show price consolidation and elevated leverage liquidations despite positive ETF flows. Watch for Democratic support statements on the CLARITY Act ethics text before early August and any floor-vote scheduling signals; Russia's September 1 rule-implementation date and the UK's six-week evidence-submission window; and whether the Grayscale WLD ETF filing draws SEC requests for information or regulatory scrutiny of Worldcoin's status in major jurisdictions.",
+  "human_take": "",
+  "body": [
+    "The morning's single largest move came from infrastructure, not price. Hut 8 signed a $9.8 billion, 15-year lease for the second phase of its Beacon Point AI data center campus in Texas, per the desk's reporting, doubling the same investment-grade customer's footprint to 704 megawatts and fully commercializing the site's 1 gigawatt capacity. IREN announced $2.8 billion in new cloud services contracts and raised its year-end AI Cloud run-rate revenue target to over $4 billion, with 85 percent now under contract. Mining stocks rebounded sharply: Hut 8 and IREN shares jumped as much as 17 percent and 19 percent respectively, signaling that market participants have interpreted these deals as evidence institutional AI compute demand remains durable despite investor skepticism earlier in the month.",
+    "Regulatory motion dominated the other half of the day's substance. Russia's State Duma approved its first comprehensive cryptocurrency legislation, with most new rules taking effect September 1, 2026, per CoinDesk's reporting. The law creates a state-controlled market structure requiring only registry-listed organizations to operate as exchanges and bars domestic crypto payments, though foreign trade settlements and qualified-investor access remain unrestricted. Retail investors face an annual purchase limit of approximately $3,800 per licensed intermediary in the most liquid cryptocurrencies. In the UK, the Crypto and Digital Assets All-Party Parliamentary Group, chaired by former Minister Ed Vaizey and Labour MP Gurinder Singh Josan, opened a formal inquiry into systematic banking restrictions on crypto businesses, inviting written evidence over six weeks on debanking and payment-transfer blocks. The inquiry signals Parliament's entry into what the crypto sector calls \"Operation Chokepoint 2.0.\"",
+    "On the US side, the White House agreed on ethics-provision language for the Digital Asset Market Clarity Act and circulated it to Senate Republicans on July 20, per The Defiant. The language is designed to bar senior government officials from holding or profiting from digital assets they regulate, a provision Democrats had named as a condition for their support. Passage odds on prediction markets rose to the low-to-mid 40 percent range. The bill has stalled on the Senate floor since May, when it cleared the Banking Committee, solely over this ethics issue.",
+    "Grayscale filed an S-1 registration statement with the SEC on July 20 to launch a spot Worldcoin (WLD) ETF, signaling institutional appetite for single-asset altcoin equity products beyond Bitcoin and Ethereum, per The Defiant. At the time of reporting, WLD traded up 4.5 percent over 24 hours to a circulating market capitalization of approximately $1.35 billion. The filing is an early step and does not guarantee approval; SEC clearance and exchange rule approval remain required.",
+    "In a countervailing signal, Movement Labs, an Ethereum Layer 2 network, filed for Chapter 11 bankruptcy with under 1,000 creditors and assets between $100,000 and $500,000 against liabilities exceeding $1 million. The filing closes a chapter that began with the MOVE token launch in December 2024. One day after launch, a market-making agreement allowed 66 million MOVE tokens to be sold into the market in a single transaction, per the desk's April 2025 investigation, triggering a sharp price decline and governance alarm bells over whether executives had been misled into signing an agreement that handed a single counterparty unusual influence over circulating supply.",
+    "On adoption, AZ-COM Maruwa Holdings, an Amazon Japan logistics supplier with 230.5 billion yen in annual revenue, announced plans to deploy the regulated yen stablecoin JPYC to pay approximately 2,300 contractors including truck drivers, marking Japan's first large-scale corporate stablecoin rollout in day-to-day operations. The company hopes near-instant and fee-free conversions will ease cash flow friction amid Japan's persistent labor shortages and stricter overtime regulations."
+  ],
+  "sources": [
+    {
+      "title": "AI compute stocks bounce as Hut 8, IREN land billions in new contracts",
+      "url": "/articles/ai-compute-stocks-bounce-as-hut-8-iren-land-billions-in-new-contracts.html"
+    },
+    {
+      "title": "Amazon Japan supplier to pay 2,300 contractors using regulated yen stablecoin",
+      "url": "/articles/amazon-japan-supplier-to-pay-2-300-contractors-using-regulated-yen-stablecoin.html"
+    },
+    {
+      "title": "Grayscale Files S-1 for Spot Worldcoin ETF",
+      "url": "/articles/grayscale-files-s-1-for-spot-worldcoin-etf.html"
+    },
+    {
+      "title": "Hut 8 and IREN announce multi-billion-dollar AI data center contracts; mining stocks surge",
+      "url": "/articles/hut-8-and-iren-announce-multi-billion-dollar-ai-data-center-contracts-mining-stocks-surge.html"
+    },
+    {
+      "title": "Movement Labs files for Chapter 11 bankruptcy months after token scandal",
+      "url": "/articles/movement-labs-files-for-chapter-11-bankruptcy-months-after-token-scandal.html"
+    },
+    {
+      "title": "Russia's Parliament Passes Crypto Market Law with $3,800 Annual Cap for Retail Investors",
+      "url": "/articles/russia-s-parliament-passes-crypto-market-law-with-3-800-annual-cap-for-retail-investors.html"
+    },
+    {
+      "title": "U.K. Parliament launches formal inquiry into bank restrictions on crypto firms",
+      "url": "/articles/u-k-parliament-launches-formal-inquiry-into-bank-restrictions-on-crypto-firms.html"
+    },
+    {
+      "title": "UK Parliament Launches Formal Inquiry Into Banking Restrictions on Crypto Firms",
+      "url": "/articles/uk-parliament-launches-formal-inquiry-into-banking-restrictions-on-crypto-firms.html"
+    },
+    {
+      "title": "UK Parliament launches inquiry into banking restrictions on crypto firms",
+      "url": "/articles/uk-parliament-launches-inquiry-into-banking-restrictions-on-crypto-firms.html"
+    },
+    {
+      "title": "White House Ethics Deal on CLARITY Act Moves Senate Vote Odds to 42-43%",
+      "url": "/articles/white-house-ethics-deal-on-clarity-act-moves-senate-vote-odds-to-42-43.html"
+    }
+  ]
+}
