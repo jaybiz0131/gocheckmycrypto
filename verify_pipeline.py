@@ -253,6 +253,25 @@ def _replay_e2e():
                    "Exchange X halts withdrawals", ["CoinDesk", "coindesk", ""]) is True, fails,
                "breaking gate: duplicate source names wrongly counted as independent")
 
+        # EVENT-FINGERPRINT DEDUP (2026-07-22): same-event-different-words duplicates that
+        # headline-word overlap misses must be caught; genuinely distinct stories spared.
+        _check(autopilot.same_event(
+                   "Amazon Japan supplier to pay 2,300 contractors using regulated yen stablecoin", "",
+                   "Amazon Japan logistics firm AZ-COM Maruwa to pay 2,300 partners with regulated yen", ""),
+               fails, "dedup: same event with different words (Amazon Japan) was NOT caught")
+        _check(autopilot.same_event(
+                   "Hut 8 and IREN land billions in AI contracts", "",
+                   "AI compute stocks bounce as Hut 8, IREN book AI capacity", ""),
+               fails, "dedup: Hut 8/IREN same event was NOT caught")
+        _check(not autopilot.same_event(
+                   "Grayscale Files S-1 for Spot Worldcoin ETF", "",
+                   "Movement Labs files for Chapter 11 bankruptcy", ""),
+               fails, "dedup: two distinct stories were wrongly merged")
+        _check(not autopilot.same_event(
+                   "Russia Parliament passes crypto market law with $3,800 cap", "",
+                   "UK Parliament launches inquiry into banking restrictions", ""),
+               fails, "dedup: two different Parliament stories wrongly merged")
+
         # Daily edition (wrap): replay dry-run must produce a belts-clean edition item
         # that leads the page (negative rank) and carries the desk's stories as sources.
         import subprocess

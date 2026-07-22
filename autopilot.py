@@ -20,6 +20,7 @@ content (site_build.py --ingest). The workflow then commits site/content and pus
 deploys.
 """
 
+import datetime
 import glob
 import json
 import os
@@ -33,6 +34,41 @@ OUT = os.path.join(HERE, "out")
 
 def _words(s):
     return set(re.findall(r"[a-z]{4,}", (s or "").lower()))
+
+
+# Ubiquitous crypto vocabulary: shared between UNRELATED stories, so it is not an event
+# fingerprint. Two stories both saying "Bitcoin"/"SEC"/"ETF" are not the same story.
+_UBIQUITOUS = {
+    "bitcoin", "btc", "ethereum", "eth", "crypto", "cryptocurrency", "sec", "cftc", "etf",
+    "token", "tokens", "blockchain", "defi", "stablecoin", "stablecoins", "market",
+    "markets", "price", "prices", "exchange", "exchanges", "million", "billion", "billions",
+    "trillion", "the", "and", "for", "with", "over", "into", "from", "u.s", "us", "new",
+    "law", "bill", "act", "vote", "firm", "firms", "coin", "network", "protocol",
+}
+
+
+def _signature(*texts):
+    """Event fingerprint: the DISTINCTIVE tokens that name a specific event. Proper nouns
+    (Hut, IREN, Maruwa, Worldcoin, Grayscale, Parliament) and numbers/amounts (2,300,
+    3,800, 1.65, 110), minus the ubiquitous crypto vocabulary two unrelated stories share.
+    Two stories about the SAME event share these even when the headline words differ:
+    'Amazon Japan supplier to pay 2,300 contractors' and 'AZ-COM Maruwa to pay 2,300
+    partners' share {amazon, japan, 2300} though word-overlap is only 0.43."""
+    blob = " ".join(t or "" for t in texts)
+    proper = re.findall(r"\b([A-Z][A-Za-z0-9.\-]{2,}|[A-Z]{2,})\b", blob)
+    nums = re.findall(r"\b\d[\d,\.]*\b", blob)
+    sig = {p.lower().rstrip(".").replace(",", "") for p in proper}
+    sig |= {n.replace(",", "").rstrip(".") for n in nums}
+    return {t for t in sig if t and t not in _UBIQUITOUS and len(t) >= 2}
+
+
+def same_event(a_title, a_kf, b_title, b_kf, word_thr=0.7, sig_thr=2):
+    """True if two stories cover the same event: high headline-word overlap OR >= sig_thr
+    shared distinctive fingerprint tokens (the news-dedup signal word overlap misses)."""
+    wa, wb = _words(a_title), _words(b_title)
+    if wa and wb and len(wa & wb) / min(len(wa), len(wb)) >= word_thr:
+        return True
+    return len(_signature(a_title, a_kf) & _signature(b_title, b_kf)) >= sig_thr
 
 
 def body_word_count(article_draft):
@@ -59,22 +95,26 @@ def breaking_two_source_holds(headline, source_names):
     return "unconfirmed" not in (headline or "").lower()
 
 
-def already_published(headline):
-    """The daily lookback window overlaps day to day, so yesterday's big story can rank again
-    under a slightly different headline. Anything sharing >=70% of its meaningful words with
-    an existing published title is a rerun and never auto-publishes."""
-    hw = _words(headline)
-    if not hw:
-        return False
+def already_published(headline, key_fact="", within_days=5):
+    """A follow-up on yesterday's event should update the existing article, not publish a
+    new one. This holds any story that covers the SAME EVENT as one already published in the
+    last `within_days` (event fingerprint, not just headline words), so the desk stops
+    re-running the UK inquiry / Hut 8-IREN / Amazon-Japan story as fresh coverage. Returns
+    the matched (title, url) so the caller can log it, or None."""
+    cutoff = (datetime.datetime.now(datetime.timezone.utc)
+              - datetime.timedelta(days=within_days)).isoformat() if within_days else ""
     for p in glob.glob(os.path.join(HERE, "site", "content", "*.json")):
         try:
-            t = json.load(open(p, encoding="utf-8")).get("title", "")
+            d = json.load(open(p, encoding="utf-8"))
         except Exception:
             continue
-        tw = _words(t)
-        if tw and len(hw & tw) / min(len(hw), len(tw)) >= 0.7:
-            return True
-    return False
+        if str(d.get("id", "")).startswith("wrap-"):
+            continue  # editions are not stories
+        if cutoff and (d.get("published_utc") or d.get("date", "") + "T00:00:00Z") < cutoff:
+            continue
+        if same_event(headline, key_fact, d.get("title", ""), d.get("key_fact", "")):
+            return (d.get("title", ""), f"/articles/{d.get('slug','')}.html")
+    return None
 
 
 def main():
@@ -103,11 +143,16 @@ def main():
 
     approval = json.load(open(tpl_path, encoding="utf-8"))
     approved = held = reruns = 0
+    approved_this_run = []  # (title, key_fact) of stories approved earlier in THIS run, so
+    # two clusters about one event in a single run cannot both publish (neither is committed
+    # yet, so the on-disk guard cannot see its sibling)
     for cid, story in approval.get("stories", {}).items():
         appr = approver.get(cid)
         words = body_word_count((drafts.get(cid, {}) or {}).get("article_draft", {}) or {})
         source_chars = (briefs.get(cid) or {}).get("source_chars", 0)
         c = clusters.get(cid) or {}
+        kf = (drafts.get(cid, {}) or {}).get("article_draft", {}).get("key_fact", "") or c.get("snippet", "")
+        headline = story.get("headline", "")
         src_names = [c.get("source", "")] + [x.get("name", "")
                                              for x in (c.get("corroboration") or [])]
         if story.get("verifier_verdict") != "VERIFIED":
@@ -129,14 +174,21 @@ def main():
             held += 1
             print(f"autopilot: depth gate held '{story.get('headline','')[:60]}' "
                   f"({words} words from {source_chars} chars of source material)")
-        elif already_published(story.get("headline", "")):
+        elif already_published(headline, kf):
+            match = already_published(headline, kf)
             story["decision"] = "hold"
             reruns += 1
-            print(f"autopilot: skipping rerun of already-published story: "
-                  f"{story.get('headline','')[:70]}")
+            print(f"autopilot: HELD follow-up of an already-published event "
+                  f"('{headline[:55]}' -> update {match[1]} instead of republishing)")
+        elif any(same_event(headline, kf, t, k) for t, k in approved_this_run):
+            story["decision"] = "hold"
+            reruns += 1
+            print(f"autopilot: HELD same-run duplicate of an event already approved this "
+                  f"run ('{headline[:60]}')")
         else:
             story["decision"] = "approve"
             approved += 1
+            approved_this_run.append((headline, kf))
     json.dump(approval, open(os.path.join(OUT, "approval.json"), "w", encoding="utf-8"), indent=1)
     print(f"autopilot: auto-approved {approved} VERIFIED, held {held} for human review")
     if approved == 0:
