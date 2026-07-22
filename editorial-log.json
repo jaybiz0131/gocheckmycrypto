@@ -1290,5 +1290,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-22",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c015",
+    "headline": "Balance stablecoin collapses 99% after attacker exploits price oracle to liquidate $912k in vaults",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The attacker extracted approximately $912,000' but the brief's data_point says 'The attacker extracted approximately $912,000, largely at the expense of 42DAO.' The draft treats this as a clean fact, but the phrase 'largely at the expense of 42DAO' is critical context\u2014it specifies who lost the money and distinguishes this from total user losses. The draft omits this qualifier in the opening, potentially misleading readers about the scope of damage to the protocol versus its governance entity.",
+     "The draft headline claims '$912k in vaults' were liquidated, but the brief data only confirms the attacker extracted $912k at the expense of 42DAO. These are not necessarily the same figure\u2014$912k extracted could be a subset of total liquidations, or the total liquidated amount could be higher. The headline conflates extraction with vault liquidation without textual support for the equation."
+    ]
+   },
+   {
+    "id": "c038",
+    "headline": "Zilliqa halts native transactions over bug in its Ledger app dating to 2019",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The seven-year gap between the vulnerability's introduction and its discovery raises questions about code review practices' but the brief provides no data on when the vulnerability was discovered in 2026 or confirmation it persisted undetected for the full seven years. The writer has smuggled a narrative interpretation ('seven-year gap between introduction and discovery') that the brief does not support\u2014the brief only states the bug 'dating to 2019' with no discovery timeline provided.",
+     "The draft asserts 'Zilliqa has not publicly disclosed what triggered the vulnerability's discovery in 2026 or when the flaw will be resolved' as fact, but this is not in the brief and constitutes new information not sourced to the research."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Tesla Holds Bitcoin Steady Through $112M Q2 Impairment Loss",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Tesla 'sold roughly 75 percent of its original position' in 2022 and 'has neither bought nor sold bitcoin since 2022.' However, the brief's open_questions section explicitly flags that the source does not clearly separate the cost basis of the remaining 25% after the 2022 liquidation. The draft presents this historical fact as settled without acknowledging the data gap that exists in the source material itself. A statement about the remaining position's original purchase price or cost basis should carry a confidence qualifier or be omitted entirely until the brief resolves the ambiguity."
+    ]
+   }
+  ]
  }
 ]

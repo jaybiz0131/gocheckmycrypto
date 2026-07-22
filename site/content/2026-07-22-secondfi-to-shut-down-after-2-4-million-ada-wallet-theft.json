@@ -1,0 +1,30 @@
+{
+  "id": "c012",
+  "slug": "secondfi-to-shut-down-after-2-4-million-ada-wallet-theft",
+  "kind": "brief",
+  "title": "SecondFi to shut down after $2.4 million ADA wallet theft",
+  "dek": "SecondFi, a Cardano wallet service, is closing operations after attackers exploited a vulnerability in transaction signing software to steal 16.1 million ADA ($2.4 million) from 374 wallets. The flaw, which enabled private key derivation from blockchain data, persisted undetected in the codebase. SecondFi has secured 129 million ADA and plans to release recovery tools in August.",
+  "date": "2026-07-22",
+  "published_utc": "2026-07-22T20:47:03Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "Attackers stole 16.1 million ADA worth $2.4 million from 374 wallets by exploiting a private key vulnerability in SecondFi's transaction signing software.",
+  "bottom_line": "Watch for the availability and integrity of SecondFi's recovery tools in August and whether EMURGO announces a timeline for distributing recovered funds. The core question for Cardano users: whether similar vulnerabilities exist in other wallet implementations or integrations that have yet to surface.",
+  "human_take": "",
+  "body": [
+    "SecondFi, a Cardano wallet service, is shutting down after attackers exploited a vulnerability in its transaction signing software to steal 16.1 million ADA worth approximately $2.4 million from 374 wallets, according to CoinDesk reporting.",
+    "The breach exposed a fundamental flaw in how the service derived and protected private keys from transaction data on the public blockchain. The vulnerability enabled attackers to compute private keys directly from signatures visible on-chain, a cryptographic weakness that persisted undetected in SecondFi's codebase.",
+    "SecondFi discovered the breach and moved quickly to secure 129 million ADA held in its reserves before attackers could reach those funds. The Cardano network itself was not compromised, and users who stored funds on hardware wallets remained unaffected. The service has confirmed that it will not resume normal operations despite patching the vulnerability.",
+    "Blockchain intelligence firm Groom Lake determined that the primary attacker was sophisticated and well-funded, per CoinDesk's reporting. Some technical indicators point toward North Korea's Lazarus Group, though Groom Lake has not confirmed this attribution. A separate attacker also targeted wallets during the same period, according to the brief.",
+    "SecondFi has announced plans to release wallet export tools in early August and a zero-knowledge recovery portal later that month, allowing users to regain access to their private keys without reintroducing the vulnerability. EMURGO, the creator of Cardano's original Yoroi wallet (which SecondFi replaced), has funded an asset recovery wallet, though no firm distribution date has been set.",
+    "The breach exposes a broader risk: vulnerabilities in transaction signing software can persist for years undetected, even when the underlying cryptography is sound. At least two independent attackers exploited the flaw during the same window, suggesting the security gap may have been discovered opportunistically across the research and threat-actor communities. For users relying on custodial or key-derivation wallet services, the incident underscores the dependency on code quality and the difficulty of auditing complex cryptographic implementations."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/web3/2026/07/22/secondfi-to-shut-down-after-usd2-4-million-ada-wallet-theft",
+      "url": "https://www.coindesk.com/web3/2026/07/22/secondfi-to-shut-down-after-usd2-4-million-ada-wallet-theft"
+    }
+  ]
+}
