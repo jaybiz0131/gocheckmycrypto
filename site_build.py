@@ -192,6 +192,26 @@ def related_stories(item, items, n=3):
     return [o for _, _, o in scored[:n]]
 
 
+def _w3c_dt(raw):
+    """A valid W3C datetime for sitemaps: full ISO 8601 with timezone when a time is
+    present, else a bare YYYY-MM-DD date. A time WITHOUT a timezone (e.g.
+    '2026-07-19T15:32:39') is NOT valid W3C datetime, which is what Search Console flags as
+    'Invalid date' on <lastmod>. Returns UTC times with a trailing 'Z'."""
+    import datetime as _dt
+    raw = (raw or "").strip()
+    if not raw:
+        return ""
+    try:
+        dt = _dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except Exception:
+        return raw[:10]  # last resort: keep just the date part (still valid W3C)
+    if "T" not in raw:
+        return dt.strftime("%Y-%m-%d")           # date-only input stays date-only
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=_dt.timezone.utc)  # a naive time gets an explicit UTC zone
+    return dt.isoformat().replace("+00:00", "Z")  # e.g. 2026-07-19T15:32:39Z
+
+
 def render_news_sitemap(items, window_hours=48):
     """Google News sitemap: articles published within window_hours of the NEWEST item
     (relative, so the build is reproducible and never reads a wall clock). Every published
@@ -216,7 +236,7 @@ def render_news_sitemap(items, window_hours=48):
     for it in sorted(live, key=_ts, reverse=True):
         if _ts(it) < cutoff:
             continue
-        pub = (it.get("published_utc") or it.get("date"))
+        pub = _w3c_dt(it.get("published_utc") or it.get("date"))
         rows.append(
             f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}.html</loc>\n"
             f"    <news:news><news:publication><news:name>{esc(NAME)}</news:name>"
@@ -2927,7 +2947,7 @@ def build():
     for it in items:
         if it.get("example"):
             continue
-        lm = (it.get("published_utc") or it.get("date") or "")[:19]
+        lm = _w3c_dt(it.get("published_utc") or it.get("date") or "")
         lmtag = f"<lastmod>{esc(lm)}</lastmod>" if lm else ""
         art_urls += f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}.html</loc>{lmtag}</url>\n"
     w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
