@@ -192,6 +192,26 @@ def related_stories(item, items, n=3):
     return [o for _, _, o in scored[:n]]
 
 
+def _w3c_dt(raw):
+    """A valid W3C datetime for sitemaps: full ISO 8601 with timezone when a time is
+    present, else a bare YYYY-MM-DD date. A time WITHOUT a timezone (e.g.
+    '2026-07-19T15:32:39') is NOT valid W3C datetime, which is what Search Console flags as
+    'Invalid date' on <lastmod>. Returns UTC times with a trailing 'Z'."""
+    import datetime as _dt
+    raw = (raw or "").strip()
+    if not raw:
+        return ""
+    try:
+        dt = _dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except Exception:
+        return raw[:10]  # last resort: keep just the date part (still valid W3C)
+    if "T" not in raw:
+        return dt.strftime("%Y-%m-%d")           # date-only input stays date-only
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=_dt.timezone.utc)  # a naive time gets an explicit UTC zone
+    return dt.isoformat().replace("+00:00", "Z")  # e.g. 2026-07-19T15:32:39Z
+
+
 def render_news_sitemap(items, window_hours=48):
     """Google News sitemap: articles published within window_hours of the NEWEST item
     (relative, so the build is reproducible and never reads a wall clock). Every published
@@ -216,7 +236,7 @@ def render_news_sitemap(items, window_hours=48):
     for it in sorted(live, key=_ts, reverse=True):
         if _ts(it) < cutoff:
             continue
-        pub = (it.get("published_utc") or it.get("date"))
+        pub = _w3c_dt(it.get("published_utc") or it.get("date"))
         rows.append(
             f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}.html</loc>\n"
             f"    <news:news><news:publication><news:name>{esc(NAME)}</news:name>"
@@ -967,7 +987,9 @@ def render_home(items, flows, pulse, cm, dateline):
     ww_line = "Follow the money on-chain."
     if flows and not flows.get("example") and flows.get("volatile"):
         wnet = flows["volatile"].get("net_usd", 0)
-        ww_line = (f"{fmt_usd(wnet)} net {'off' if wnet >= 0 else 'onto'} exchanges in the "
+        # Show the magnitude, not a signed value: the direction word carries the sign, so a
+        # bare "-$434.5M net onto exchanges" reads ambiguously. Magnitude + word is unambiguous.
+        ww_line = (f"{fmt_usd(abs(wnet))} net {'off' if wnet >= 0 else 'onto'} exchanges in the "
                    f"last {_win_phrase(flows.get('window_hours', 24))}.")
     cards.append(f"""<a class="dash-card home-card" href="/flows.html">
       <img class="dash-hero-img" src="/assets/whale-watch-banner.png" alt="Whale Watch: market pulse, on-chain insights" loading="lazy">
@@ -1134,7 +1156,7 @@ def flow_teaser():
         v = flows.get("volatile", {})
         s = flows.get("stablecoins", {})
         pre = "Example: " if flows.get("example") else ""
-        summ = (f"{pre}Volatile whales net {fmt_usd(v.get('net_usd',0))} {v.get('direction','')} over "
+        summ = (f"{pre}Volatile whales net {fmt_usd(abs(v.get('net_usd',0)))} {v.get('direction','')} over "
                 f"{_win_phrase(flows.get('window_hours', 24))}; {fmt_usd(s.get('net_buying_power_usd',0))} "
                 f"stablecoin buying power arriving.")
     return (f'<section class="sec"><div class="wrap">'
@@ -1571,7 +1593,7 @@ def render_flows(flows, dateline):
   <div class="stats">
     <div class="stat">
       <span class="lab">Volatile assets, net ({esc(winp)})</span>
-      <span class="big {dir_cls}">{esc(fmt_usd(net))}</span>
+      <span class="big {dir_cls}">{esc(fmt_usd(abs(net)))}</span>
       <span class="sub">net {esc(dir_word)} &middot; gross {esc(fmt_usd(v.get("inflow_usd", 0)))} on /
         {esc(fmt_usd(v.get("outflow_usd", 0)))} off{pace_html}</span>
     </div>
@@ -2057,7 +2079,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
              for w in (flows.get("history") or [])[-4:]],
             aria="Weekly whale net flow, last 4 weeks", compact=True)
         widget("/flows.html", "Flows &middot; Whale Watch",
-               f'{"+" if wnet >= 0 else ""}{esc(fmt_usd(wnet))}',
+               f'{esc(fmt_usd(abs(wnet)))}',
                f'net {"off" if wnet >= 0 else "onto"} exchanges, '
                f'{esc(_win_phrase(flows.get("window_hours", 24)))}', wmini,
                stat_color="var(--up)" if wnet >= 0 else "var(--down)")
@@ -2925,7 +2947,7 @@ def build():
     for it in items:
         if it.get("example"):
             continue
-        lm = (it.get("published_utc") or it.get("date") or "")[:19]
+        lm = _w3c_dt(it.get("published_utc") or it.get("date") or "")
         lmtag = f"<lastmod>{esc(lm)}</lastmod>" if lm else ""
         art_urls += f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}.html</loc>{lmtag}</url>\n"
     w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
