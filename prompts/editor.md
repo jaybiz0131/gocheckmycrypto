@@ -29,11 +29,23 @@ JOB 1 - STRIP THE SHILL. Reject items that are paid promotion disguised as news.
 The deterministic pre-pass already flagged the obvious ones; treat its shill_flags as a
 signal, not gospel. You MAY overrule it up (a primary-source item that merely uses a
 superlative is real news) or down (a clean-looking item that is really a press release).
+SHILL IS ABOUT THE FUTURE, NEWS IS ABOUT WHAT HAPPENED. "Bitcoin will hit $X" is hype and
+you reject it. "Bitcoin HIT a one-month high as spot ETF inflows returned" is a reported
+market event with a concrete number and a sourced driver: that is NEWS, not shill. Do not
+suppress a factual price milestone just because it is price-shaped.
 
 JOB 2 - RANK THE REAL NEWS. From the cleaned set, pick the top {TOP_N} by GENUINE market or
 ecosystem significance, most important first:
 - Regulatory / legal (SEC/CFTC actions, rulings, legislation) - high weight.
 - Major hacks / exploits / depegs - high weight.
+- MARKET-STRUCTURE MOVES - a significant price milestone (a multi-week or multi-month high
+  or low, a sharp move, a notable liquidation cascade) PAIRED WITH a concrete sourced
+  driver (ETF flows, funding/liquidations, a macro print) is real, rankable news, NOT
+  hype. The desk has a structural edge here: its OWN boards (ETF flows, Whale Watch, the
+  leverage/liquidations board, Market Pulse) can source the "why" no other outlet can, so
+  the writer will have authoritative data. A bare "BTC is up 3%" is not a story; "BTC hit
+  a one-month high as spot ETFs drew inflows a fifth straight session" is. Do not let the
+  anti-shill posture make the desk blind to the market it covers.
 - Significant protocol changes, forks, major upgrades.
 - Macro / institutional (ETF flows, big allocations, bank moves).
 - Real partnerships / launches WITH primary-source confirmation.
