@@ -192,6 +192,43 @@ def related_stories(item, items, n=3):
     return [o for _, _, o in scored[:n]]
 
 
+def render_news_sitemap(items, window_hours=48):
+    """Google News sitemap: articles published within window_hours of the NEWEST item
+    (relative, so the build is reproducible and never reads a wall clock). Every published
+    story and daily edition qualifies as news. Regenerated on every deploy."""
+    import datetime as _dt
+
+    def _ts(it):
+        raw = (it.get("published_utc") or (it.get("date", "") + "T00:00:00Z"))
+        try:
+            return _dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        except Exception:
+            return None
+
+    live = [it for it in items if not it.get("example") and _ts(it)]
+    if not live:
+        return ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset '
+                'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+                'xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n</urlset>\n')
+    newest = max(_ts(it) for it in live)
+    cutoff = newest - _dt.timedelta(hours=window_hours)
+    rows = []
+    for it in sorted(live, key=_ts, reverse=True):
+        if _ts(it) < cutoff:
+            continue
+        pub = (it.get("published_utc") or it.get("date"))
+        rows.append(
+            f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}.html</loc>\n"
+            f"    <news:news><news:publication><news:name>{esc(NAME)}</news:name>"
+            f"<news:language>en</news:language></news:publication>\n"
+            f"    <news:publication_date>{esc(pub)}</news:publication_date>\n"
+            f"    <news:title>{esc(it.get('title',''))}</news:title></news:news></url>")
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset '
+            'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+            'xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n'
+            + "\n".join(rows) + "\n</urlset>\n")
+
+
 def render_feed(items):
     """RSS 2.0 feed of the published stories. The desk consumes RSS; now it emits it."""
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
@@ -747,7 +784,9 @@ def render_article(item, all_items=None):
          "datePublished": item.get("published_utc") or item.get("date"),
          "dateModified": item.get("published_utc") or item.get("date"),
          "author": {"@type": "Organization", "name": NAME, "url": ORIGIN + "/news.html"},
-         "publisher": {"@type": "Organization", "name": FAMILY, "url": ORIGIN + "/"}},
+         "publisher": {"@type": "Organization", "name": FAMILY, "url": ORIGIN + "/",
+                       "logo": {"@type": "ImageObject", "url": ORIGIN + "/apple-touch-icon.png",
+                                "width": 180, "height": 180}}},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Latest", "item": ORIGIN + "/news.html"},
             {"@type": "ListItem", "position": 2, "name": item.get("title"), "item": url}]}
@@ -2868,11 +2907,26 @@ def build():
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
             "/privacy.html", "/terms.html"]
-    locs += [f"/articles/{it['slug']}.html" for it in items if not it.get("example")]
-    urls = "\n".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>" for p in locs)
+    # standard sitemap: static pages (no lastmod) + article URLs WITH lastmod from the
+    # story's own publish timestamp, so Google sees freshness on every deploy
+    static_urls = "".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>\n" for p in locs)
+    art_urls = ""
+    for it in items:
+        if it.get("example"):
+            continue
+        lm = (it.get("published_utc") or it.get("date") or "")[:19]
+        lmtag = f"<lastmod>{esc(lm)}</lastmod>" if lm else ""
+        art_urls += f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}.html</loc>{lmtag}</url>\n"
     w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
-      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "\n</urlset>\n")
-    w("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {ORIGIN}/sitemap.xml\n")
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+      + static_urls + art_urls + "</urlset>\n")
+
+    # NEWS SITEMAP (Google News format): only articles from the last 48 hours, relative to
+    # the newest published item so the build stays reproducible (no wall clock). Regenerated
+    # every deploy. Google ignores entries older than ~2 days, which is the point.
+    w("news-sitemap.xml", render_news_sitemap(items))
+    w("robots.txt", f"User-agent: *\nAllow: /\n\n"
+      f"Sitemap: {ORIGIN}/sitemap.xml\nSitemap: {ORIGIN}/news-sitemap.xml\n")
     w("_redirects", "/*  /404.html  404\n")
     n_live = sum(1 for i in items if not i.get("example"))
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "
