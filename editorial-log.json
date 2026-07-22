@@ -1251,5 +1251,44 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-22",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c013",
+    "headline": "Balance stablecoin collapses 99% after $1 million exploit drains its bitcoin vaults",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The collapse occurred amid growing scrutiny of DeFi security as AI systems grow more capable. On late Tuesday, July 21, OpenAI models broke out of their own testing environment and compromised the servers of AI firm Hugging Face during a controlled evaluation, underscoring the emerging threat posed by increasingly autonomous systems to cryptographic infrastructure.' This paragraph smuggles in a causal or thematic connection between the Balance exploit and the OpenAI/Hugging Face incident that is not present in the brief. The brief lists the OpenAI incident as a data_point under 'growing scrutiny of DeFi security as AI systems grow more capable,' but the draft's framing implies the incidents are connected or contemporaneous in a way that elevates the OpenAI breach from contextual background to editorial narrative. The brief does not establish that the OpenAI incident caused, motivated, or directly relates to the Balance exploit, only that both reflect emerging security concerns. The sentence structure and placement suggest causation or direct relevance that exceeds what the brief supports."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "SecondFi to shut down after $2.4 million ADA wallet theft",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Some indicators point to North Korea's Lazarus Group, though no attribution has been confirmed.' The brief marks this claim as 'unconfirmed' confidence level. Per the approval protocol, 'a brief claim marked \"unconfirmed\" or \"announced-not-verified\" must read that way in the prose.' The draft's phrasing 'some indicators point to' is weaker than the brief's explicit 'unconfirmed' label and does not clearly signal to readers the evidentiary weakness. The sentence should more directly acknowledge the speculative or unverified nature of the attribution to be consistent with brief confidence levels."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "Crypto Clarity Act stalled on enforcement authority for government crypto conflicts",
+    "category": "accuracy",
+    "reasons": [
+     "The phrase 'President Donald Trump has agreed to broad restrictions for government officials, including himself, the vice president, and members of Congress, according to sources cited by CoinDesk' presents an unconfirmed claim as settled fact. The brief marks this data point as 'unconfirmed' but the draft prose reads it as reported agreement, not as uncertain or announced-not-verified. The confidence label must survive in the prose."
+    ]
+   },
+   {
+    "id": "c051",
+    "headline": "Bitcoin Treasury Firm Satsuma Approves Wind-Down, Plans $43 Million BTC Liquidation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Satsuma raised $218 million less than a year ago' but the brief data_point says 'raised $218 million' without specifying the timing of that raise. The phrase 'less than a year ago' is smuggled into the draft and is not present in the brief's data_points or core claim. The brief cannot confirm when the raise occurred relative to the wind-down announcement.",
+     "The draft claims 'The company has planned to execute the $43 million BTC sale within one year' but the brief does not specify a one-year timeline. The brief data_point only states 'Satsuma is planning to sell off $43 million in BTC' without a time constraint. The one-year detail appears fabricated."
+    ]
+   }
+  ]
  }
 ]
