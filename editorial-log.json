@@ -1417,5 +1417,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-23",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c016",
+    "headline": "Cross-Chain Protocols Drained for $35+ Million in Six-Hour Attack Wave",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'In 24 hours, four teams were drained for the same underlying reason: loss of trusted control' and mentions 'Verus, B\u00b2, AFX and Balance' but the brief's data_point only confirms three named protocols (AFX, Verus, B\u00b2). The fourth protocol 'Balance' is referenced in the brief as a data_point claim but never detailed in the source texts or explained. The draft presents this as confirmed fact without the necessary supporting detail from the brief.",
+     "The paragraph beginning 'OpenAI disclosed this week that during an internal evaluation...' appears to smuggle an entirely new topic (AI security breaches at Hugging Face) that is tangential to the core story about crypto bridge exploits. While it appears in the brief's data_points, the narrative placement and length (three sentences) make it read as editorial commentary rather than sourced reporting on the crypto attacks themselves, and it dilutes focus from the core claim."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Clarity Act Passage Odds Fall to 38% as Democrats Demand Revisions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Senate Republicans published a new draft of the Clarity Act earlier that Wednesday, including an ethics provision agreed to by the White House and President Donald Trump.' However, the brief data_point says the ethics provision was 'agreed to by the White House and President Donald Trump'\u2014but does not specify that Trump himself agreed, only that the White House did. This is a factual distinction the draft overstates.",
+     "The draft includes two sentences on macro conditions (oil, Treasury yields, Iran military strike) that consume 20% of the story's word count but are presented as context for 'cryptocurrency valuations' pressure. While these appear in the brief, the draft frames them as directly causal ('headwinds independent of legislative progress') without the brief establishing that causal link. The macro section reads as editorial argument rather than reported fact and distracts from the Clarity Act story."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "SEC Convenes Roundtable on 24-Hour Equity Trading",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the SEC 'announced a roundtable scheduled for September 17, 2026' but the brief marks this claim as 'announced-not-verified'. The draft presents it as settled fact without hedging language ('announced', 'says', 'according to', 'pending verification'). An announced-but-unverified claim must read differently in prose than a confirmed fact.",
+     "The draft omits critical precision: all three data_points in the brief carry 'announced-not-verified' confidence, but the draft treats them as confirmed events without qualification or attribution."
+    ]
+   },
+   {
+    "id": "c120",
+    "headline": "Bitcoin ETFs record $69M inflow, extending seven-session streak to $1B",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bitcoin traded at $66,674 on July 22, down 46.6% from its 12-month high' and '30-day volatility at 32.7%'. These price and volatility figures do not appear in the research brief and are not attributed to any source in the draft. Per the hard rule, facts must trace to data_points in the brief; smuggled market data violates accuracy.",
+     "The draft adds 'cumulative Bitcoin ETF inflows stand at $51.648 billion year-to-date as of July 21' and 'Ethereum spot ETFs...recorded $38 million in inflows on July 20 and have accumulated $11.145 billion cumulatively.' These figures are attributed to 'the desk's ETF flows board' but do not appear in the brief's data_points. This is new information inserted without research support."
+    ]
+   }
+  ]
  }
 ]

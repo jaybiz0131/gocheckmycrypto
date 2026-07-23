@@ -1,0 +1,35 @@
+{
+  "id": "c013",
+  "slug": "bitmex-shuts-down-after-11-years-as-perpetuals-pioneer",
+  "kind": "brief",
+  "title": "BitMEX Shuts Down After 11 Years as Perpetuals Pioneer",
+  "dek": "BitMEX, the 11-year-old derivatives exchange that pioneered the 100x leverage perpetual swap, announced permanent closure effective September 23, 2026 at 04:00:00 UTC. New account registrations are halted, and users who fail to withdraw by the deadline will face automatic monthly maintenance fees of $50 or 1% annualized, whichever is greater. The exchange's proof of reserves shows liabilities fully covering customer assets.",
+  "date": "2026-07-23",
+  "published_utc": "2026-07-23T16:14:38Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "BitMEX will shut down all operations on September 23, 2026, forcing users to withdraw positions by that date or face automatic fees of $50 monthly or 1% annualized on remaining assets.",
+  "bottom_line": "Watch for whether Bitcoin network congestion materially delays mass withdrawals as the September 23 deadline approaches, and whether forced position closures between August 26 and September 23 occur at fair market prices or experience slippage. The premise invalidates if BitMEX announces a last-minute buyer or extends the closure timeline.",
+  "human_take": "",
+  "body": [
+    "BitMEX, the derivatives exchange that created the 100x leverage perpetual swap in 2014, will close permanently on September 23, 2026 at 04:00:00 UTC, the platform announced on July 23. The closure ends an 11-year run that began with co-founders Arthur Hayes, Ben Delo, and Samuel Reed and marks the exit of the exchange that once dominated crypto derivatives.",
+    "The shutdown compresses a collapse in market share that has unfolded over years. At its 2019 peak, BitMEX handled over $1 trillion in annual trading volume and captured roughly 57% of global crypto derivatives market share. Daily trading volumes reached as high as $8 billion in July 2018, with turnover eclipsing 1 million bitcoin. That dominance has evaporated. Liquidity, market makers, and traders migrated to nimbler centralized rivals and a wave of decentralized derivatives venues offering deeper order books, more asset listings, and fewer regulatory liabilities.",
+    "Users must withdraw all positions and assets by the September 23 deadline. New account registrations have been halted as of the announcement date. The exchange will apply strict position limits on August 26, 2026, preventing users from opening new contracts. Between that date and the closure date, BitMEX will systematically force-close all remaining open positions. Users who fail to withdraw by the deadline will face automatic monthly maintenance fees of $50 or 1% annualized on remaining assets, whichever is greater.",
+    "BitMEX's current proof of reserves indicates that platform liabilities fully cover customer assets, according to CoinDesk's reporting. The exchange maintained a clean security record and lost no user funds to hacks or smart-contract exploits throughout its tenure, despite facing years of intense regulatory enforcement actions by global authorities.",
+    "Regulatory pressure marked BitMEX's decline. In 2024, the exchange pleaded guilty to violating the Bank Secrecy Act over an inadequate anti-money laundering program, according to The Defiant's reporting. The company paid an additional $100 million fine in January 2025. President Donald Trump pardoned BitMEX co-founders in March 2025, a year after their original indictment.",
+    "The closure followed a failed sales process. BitMEX had been seeking a buyer since February 2025, when it retained Broadhaven Capital Partners to run a sale process. That effort produced no successful acquirer. The platform's executive team fractured three weeks before the shutdown announcement, with the departure of the CEO, chief financial officer, and head of growth. The BMEX token, a governance and fee-sharing instrument, plunged approximately 91% over 24 hours following the closure announcement, ending with a circulating market cap near $540,000, according to The Defiant.",
+    "Logins and withdrawals will remain available after the September 23 closure date, allowing users continued access to retrieve assets. The main operational risk is network congestion on the Bitcoin blockchain, which could cause significant delays for users attempting to execute withdrawals before the deadline, per CoinDesk's reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/markets/2026/07/23/bitmex-s-11-year-run-comes-to-an-end-notifies-users-it-is-ending-operations-in-by-sept-23",
+      "url": "https://www.coindesk.com/markets/2026/07/23/bitmex-s-11-year-run-comes-to-an-end-notifies-users-it-is-ending-operations-in-by-sept-23"
+    },
+    {
+      "title": "https://thedefiant.io/converge/cefi/bitmex-to-shut-down-exchange-on-sept-23-urges-withdrawals",
+      "url": "https://thedefiant.io/converge/cefi/bitmex-to-shut-down-exchange-on-sept-23-urges-withdrawals"
+    }
+  ]
+}
