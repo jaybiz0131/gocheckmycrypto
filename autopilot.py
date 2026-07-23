@@ -172,6 +172,7 @@ def already_published(headline, key_fact="", within_days=5):
 
 
 def main():
+    import consistency  # lazy: consistency imports from this module, so avoid an import cycle
     tpl_path = os.path.join(OUT, "approval_template.json")
     report_path = os.path.join(OUT, "run_report.json")
     if not (os.path.exists(tpl_path) and os.path.exists(report_path)):
@@ -241,18 +242,34 @@ def main():
                 reruns += 1
                 print(f"autopilot: HELD same-run duplicate of an event already approved this "
                       f"run ('{headline[:60]}')")
-            else:
-                if rel == "update":
-                    # a genuine development: publish it AS AN UPDATE of the origin story
-                    # instead of dropping the follow-up (the old guard's silent HOLD lost
-                    # these, e.g. the Ostium 'Tornado Cash' development of the $18M hack).
-                    story["update_of"] = mslug
-                    updates[cid] = mslug
-                    print(f"autopilot: APPROVED as an UPDATE of '{(mtitle or '')[:48]}' "
-                          f"(update_of={mslug})")
+            elif rel == "update":
+                # a genuine development: publish it AS AN UPDATE of the origin story instead
+                # of dropping the follow-up (the old guard's silent HOLD lost these, e.g. the
+                # Ostium 'Tornado Cash' development of the $18M hack). Updates are meant to
+                # revise figures, so the consistency belt below does not apply to them.
+                story["update_of"] = mslug
+                updates[cid] = mslug
+                print(f"autopilot: APPROVED as an UPDATE of '{(mtitle or '')[:48]}' "
+                      f"(update_of={mslug})")
                 story["decision"] = "approve"
                 approved += 1
                 approved_this_run.append((headline, kf))
+            else:
+                # cross-corpus figure-consistency belt: a fresh story whose numbers contradict
+                # a same-entity published figure (the Ostium $18M-vs-$24M class) is held for a
+                # human, not silently auto-published.
+                conflicts = consistency.figure_conflicts(headline, kf)
+                if conflicts:
+                    c = conflicts[0]
+                    story["decision"] = "hold"
+                    held += 1
+                    print(f"autopilot: HELD figure conflict ('{headline[:44]}' cites "
+                          f"${c['candidate_usd']:,.0f} vs published ${c['published_usd']:,.0f} "
+                          f"for '{c['entity']}' in {c['slug']}) -> human review")
+                else:
+                    story["decision"] = "approve"
+                    approved += 1
+                    approved_this_run.append((headline, kf))
     json.dump(approval, open(os.path.join(OUT, "approval.json"), "w", encoding="utf-8"), indent=1)
     json.dump(updates, open(os.path.join(OUT, "updates.json"), "w", encoding="utf-8"), indent=1)
     print(f"autopilot: auto-approved {approved} VERIFIED, held {held} for human review")
