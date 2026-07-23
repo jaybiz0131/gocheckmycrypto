@@ -1365,5 +1365,57 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-23",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c046",
+    "headline": "Nine institutional firms pledge $15M to defend Bitcoin against quantum computing threats",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Mike Schmidt, executive director of Bitcoin developer funding nonprofit Brink, will coordinate the consortium's work on a volunteer basis' but the brief data_point says he 'will coordinate the consortium's work on a volunteer basis' without specifying that this is future/announced coordination. The confidence label is 'reported,' meaning it has been announced but not yet verified as occurring. The draft should indicate this is a stated plan, not a confirmed role assumption."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Bitcoin and Ethereum-linked protocols lose $35M across three attacks in six hours",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case emphasizes that 'Verus's repeated failures...demonstrate that even bounty recoveries do not guarantee protocol security or operational discipline,' yet the draft presents the Verus redeposit decision matter-of-factly without editorial framing of the negligence or risk it represents. The narrative acknowledges the facts but softens the culpability by treating it as procedural rather than highlighting the systemic failure.",
+     "The draft devotes substantial text to OpenAI's AI security breach and draws implications ('For crypto protocols, there is no chargeback, no undo, no insurance pool') but the brief's open_questions note that the specific 'entry point or social engineering vector' that led to key compromise at AFX and B2 is unknown. The draft treats the OpenAI disclosure as directly causal to the attacks without establishing that connection in the brief.",
+     "The draft mentions 'In 24 hours, four teams were drained, according to CoinDesk: Verus, B2, AFX, and Balance' but provides no details, dollar amounts, or attribution for Balance. The brief's open_questions flag that 'the source mentions...a Balance team drained in the 24-hour window, but provides no amounts or details for Balance,' yet the draft cites it as established fact alongside the three attacks it does detail, inflating the scope without supporting evidence in the brief."
+    ]
+   },
+   {
+    "id": "c118",
+    "headline": "Bitcoin ETFs Log Seven-Session Inflow Streak, Approaching $1B",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Ethernet ETFs also recorded sustained inflows'\u2014this is a factual error. The brief contains no data point about 'Ethernet ETFs'; the brief makes no mention of Ethereum or any other asset class. The writer has smuggled in a new claim not in the research brief.",
+     "Draft states 'desk's board showing $38 million in net inflows on July 20'\u2014this figure and date do not appear in the brief's data_points. The only date in the brief is July 23 for the Bitcoin ETF inflows; the July 20 figure is smuggled.",
+     "Draft states 'cumulative Ethereum ETF inflows to $11.1 billion since inception'\u2014this figure does not appear in the brief. A new fact inserted without research support."
+    ]
+   },
+   {
+    "id": "c066",
+    "headline": "Kazakhstan Requires Bitcoin Miners to Fund State Crypto Reserve",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states the decree 'was signed' on July 7 and attributes this to 'Bitcoin Magazine's reporting,' but the data_point in the brief marks the decree as 'announced-not-verified' with confidence label 'announced-not-verified.' The draft presents an unverified announcement as settled fact without the confidence hedge required by the accuracy rule. The prose must signal that verification status.",
+     "Draft states 'miners must...transfer a portion of mined assets to the reserve' but the brief's data_point uses the same language with 'reported' confidence. However, the draft's opening sentence ('According to Bitcoin Magazine's reporting, miners must meet...and transfer a portion') fails to distinguish the announced decree claim ('announced-not-verified') from the operational requirements claim ('reported'). The decree's existence is unverified; the writer treats it as confirmed."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "SEC Schedules Roundtable on 24-Hour Equity Trading Infrastructure",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The announcement provides no detail on which market participants will be invited, what specific operational or technical challenges the roundtable will explore, or what timeline the SEC envisions for any implementation.' This is editorial speculation about what the SEC press release does NOT contain, not a fact from the brief. The brief contains only two data_points (both announced-not-verified), neither of which supports a claim about what the press release omits.",
+     "Draft states 'The press release does not specify whether the roundtable will address settlement cycles, margin requirements, custody arrangements, or coordination with other infrastructure providers such as FINRA, the DTCC, or clearinghouses.' This is the writer inferring absence of detail from the brief's open_questions, not reporting from the brief. Open questions are not facts to report as what the SEC failed to clarify; they are reporting gaps the brief acknowledges. The writer has smuggled editorial judgment into factual prose."
+    ]
+   }
+  ]
  }
 ]
