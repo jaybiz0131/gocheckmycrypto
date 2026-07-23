@@ -2823,6 +2823,13 @@ def ingest():
         rank_map = {r["id"]: i + 1 for i, r in enumerate(ranked)}
     except Exception:
         pass
+    # autopilot flags developments of an earlier story (out/updates.json: id -> origin slug);
+    # carry that onto the published item so the article renders the "Update" callout.
+    updates_map = {}
+    try:
+        updates_map = json.load(open(os.path.join(HERE, "out", "updates.json"), encoding="utf-8"))
+    except Exception:
+        pass
     n = 0
     for fn in sorted(os.listdir(PUBLISHED)):
         if not fn.endswith(".json"):
@@ -2856,6 +2863,8 @@ def ingest():
             "bottom_line": scrub(art.get("bottom_line", "")),
             "human_take": destyle(art.get("human_take", "")), "body": paras, "sources": srcs,
         }
+        if updates_map.get(rec.get("id")):
+            item["update_of"] = updates_map[rec.get("id")]
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
         json.dump(item, open(out, "w", encoding="utf-8"), indent=2)
         print(f"  ingested {rec.get('id')} -> {os.path.relpath(out)}")

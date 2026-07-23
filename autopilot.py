@@ -71,6 +71,60 @@ def same_event(a_title, a_kf, b_title, b_kf, word_thr=0.7, sig_thr=2):
     return len(_signature(a_title, a_kf) & _signature(b_title, b_kf)) >= sig_thr
 
 
+# Outlet / wire names: they appear as proper nouns in the signature but are not part of the
+# EVENT, so a new outlet on the same story is not a new development.
+_OUTLETS = {
+    "coindesk", "cointelegraph", "decrypt", "theblock", "block", "defiant", "thedefiant",
+    "blockworks", "blockonomi", "beacon", "reuters", "bloomberg", "forbes", "fortune",
+    "cnbc", "messari", "nansen", "arkham", "lookonchain", "protos", "beincrypto",
+    "cryptoslate", "dlnews", "axios", "wsj", "techcrunch", "coinshares",
+}
+
+
+def _headline_overlap(a_title, b_title):
+    wa, wb = _words(a_title), _words(b_title)
+    return len(wa & wb) / min(len(wa), len(wb)) if wa and wb else 0.0
+
+
+def classify_published(headline, key_fact="", within_days=21):
+    """Relate a candidate to the recently published corpus (widened from 5 to 21 days so
+    multi-week running stories stay linked):
+      ('rehash', title, slug)  near-duplicate to HOLD: same event, near-identical framing.
+      ('update', title, slug)  a genuine development to publish AS AN UPDATE of the original.
+      ('new', None, None)      unseen.
+    Split rule: same event is matched as before; a near-identical HEADLINE (>=50% word
+    overlap) is a rehash (the 5x-Kalshi case); the same event with a different angle plus
+    >=2 new distinctive, non-outlet specifics (new actor/mechanism/number, e.g. the Ostium
+    'Tornado Cash / 10,540 ETH' follow-up) is a development. The update links the EARLIEST
+    matched story (the origin), so 'develops our earlier reporting' points at the first take."""
+    cutoff = (datetime.datetime.now(datetime.timezone.utc)
+              - datetime.timedelta(days=within_days)).isoformat() if within_days else ""
+    matches = []
+    for p in glob.glob(os.path.join(HERE, "site", "content", "*.json")):
+        try:
+            d = json.load(open(p, encoding="utf-8"))
+        except Exception:
+            continue
+        if str(d.get("id", "")).startswith("wrap-") or d.get("example"):
+            continue
+        when = d.get("published_utc") or (d.get("date", "") + "T00:00:00Z")
+        if cutoff and when < cutoff:
+            continue
+        if same_event(headline, key_fact, d.get("title", ""), d.get("key_fact", "")):
+            matches.append((when, d.get("title", ""), d.get("slug", ""), d.get("key_fact", "")))
+    if not matches:
+        return ("new", None, None)
+    # a near-identical headline against ANY match => rehash (hold)
+    if any(_headline_overlap(headline, m[1]) >= 0.5 for m in matches):
+        top = min(matches, key=lambda m: m[0])
+        return ("rehash", top[1], top[2])
+    origin = min(matches, key=lambda m: m[0])  # earliest = the story this one develops
+    new = _signature(headline, key_fact) - _signature(origin[1], origin[3]) - _OUTLETS
+    if len(new) >= 2:
+        return ("update", origin[1], origin[2])
+    return ("rehash", origin[1], origin[2])
+
+
 def body_word_count(article_draft):
     body = article_draft.get("body", "")
     if isinstance(body, list):
@@ -143,6 +197,7 @@ def main():
 
     approval = json.load(open(tpl_path, encoding="utf-8"))
     approved = held = reruns = 0
+    updates = {}  # cid -> slug of the earlier story this one develops (ingest writes update_of)
     approved_this_run = []  # (title, key_fact) of stories approved earlier in THIS run, so
     # two clusters about one event in a single run cannot both publish (neither is committed
     # yet, so the on-disk guard cannot see its sibling)
@@ -174,22 +229,32 @@ def main():
             held += 1
             print(f"autopilot: depth gate held '{story.get('headline','')[:60]}' "
                   f"({words} words from {source_chars} chars of source material)")
-        elif already_published(headline, kf):
-            match = already_published(headline, kf)
-            story["decision"] = "hold"
-            reruns += 1
-            print(f"autopilot: HELD follow-up of an already-published event "
-                  f"('{headline[:55]}' -> update {match[1]} instead of republishing)")
-        elif any(same_event(headline, kf, t, k) for t, k in approved_this_run):
-            story["decision"] = "hold"
-            reruns += 1
-            print(f"autopilot: HELD same-run duplicate of an event already approved this "
-                  f"run ('{headline[:60]}')")
         else:
-            story["decision"] = "approve"
-            approved += 1
-            approved_this_run.append((headline, kf))
+            rel, mtitle, mslug = classify_published(headline, kf)  # against the committed corpus
+            if rel == "rehash":
+                story["decision"] = "hold"
+                reruns += 1
+                print(f"autopilot: HELD near-duplicate of a published story "
+                      f"('{headline[:52]}' ~ '{(mtitle or '')[:42]}')")
+            elif any(same_event(headline, kf, t, k) for t, k in approved_this_run):
+                story["decision"] = "hold"
+                reruns += 1
+                print(f"autopilot: HELD same-run duplicate of an event already approved this "
+                      f"run ('{headline[:60]}')")
+            else:
+                if rel == "update":
+                    # a genuine development: publish it AS AN UPDATE of the origin story
+                    # instead of dropping the follow-up (the old guard's silent HOLD lost
+                    # these, e.g. the Ostium 'Tornado Cash' development of the $18M hack).
+                    story["update_of"] = mslug
+                    updates[cid] = mslug
+                    print(f"autopilot: APPROVED as an UPDATE of '{(mtitle or '')[:48]}' "
+                          f"(update_of={mslug})")
+                story["decision"] = "approve"
+                approved += 1
+                approved_this_run.append((headline, kf))
     json.dump(approval, open(os.path.join(OUT, "approval.json"), "w", encoding="utf-8"), indent=1)
+    json.dump(updates, open(os.path.join(OUT, "updates.json"), "w", encoding="utf-8"), indent=1)
     print(f"autopilot: auto-approved {approved} VERIFIED, held {held} for human review")
     if approved == 0:
         print("autopilot: nothing VERIFIED today -> site publish skipped, queue kept for human")
