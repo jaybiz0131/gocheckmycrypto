@@ -1459,5 +1459,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-23",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c005",
+    "headline": "SEC Settles Coinbase FOIA Lawsuit Over Deleted Gensler Communications for $150,000",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A federal court explicitly ordered the SEC to prioritize all records and communications sent, received, or evaluated by Gensler concerning Ethereum's migration' but the brief data_point only says 'The court explicitly ordered the SEC to prioritize all records and communications sent, received or evaluated by then SEC Chair Gary Gensler concerning Ethereum's migration from proof-of-work to proof-of-stake' \u2014 this is reported in the brief with 'reported' confidence, not a direct quote. The draft's phrasing 'explicitly ordered' as a standalone claim goes slightly beyond what the source supports; the brief does not clarify whether this was an explicit court order or a procedural direction. This is a borderline smuggle of specificity.",
+     "More critically: The draft's final paragraph states 'The sources leave unclear what additional information Coinbase will ultimately receive beyond what the SEC chooses to produce from its remaining files' \u2014 this editorializing appears nowhere in the brief's data_points or bear_case and represents a judgment call by the writer that exceeds the brief's scope. The brief's bear_case notes 'The sources do not specify what documents remain to be produced or whether the deleted materials can be recovered, leaving unclear what additional information Coinbase will actually receive' \u2014 but the draft's formulation ('what the SEC chooses to produce') adds a layer of skepticism about SEC intent that is not in the brief's language. This crosses from reporting what sources say into interpretation."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "South Korea's Mirae Asset Takes Controlling Stake in Korbit Exchange",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Mirae Asset Group reported USD 1 trillion in assets under management as of May 2026' but the brief data_point says 'Mirae Asset Group had an AUM of $1 trillion as of May 2026' without a specific source attribution. The CoinDesk source URL provided in the brief is about the acquisition announcement (July 23), not about Mirae Asset Group's May 2026 AUM figure. This AUM claim appears to lack proper sourcing in the brief itself and the draft presents it as fact without hedging.",
+     "Draft refers to the target as 'South Korea's oldest crypto exchange' in the opening but the data_point only confirms Korbit was 'South Korea's first homegrown crypto exchange' (founded 2013). 'First' and 'oldest' are not equivalent\u2014'oldest' implies it is currently the oldest operating exchange, which is not supported by the brief. This is a factual mischaracterization."
+    ]
+   },
+   {
+    "id": "c038",
+    "headline": "Verus-Ethereum Bridge Drained USD 7.54M in Second Attack Using Same Vulnerability Class",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'a separate incident in May 2026' but the brief's data_point only says 'the same vulnerability class used in a Verus-Ethereum bridge attack in May 2026.' The draft adds detail about it being a 'separate incident' and characterizes the May event as having occurred; the brief confirms the May attack happened but provides no source URL or confidence label for the May incident details. The writer has added narrative framing ('separate incident') that goes beyond what the brief supports.",
+     "Draft claims 'Key open questions include what architectural changes, if any, were implemented after the May exploit, whether the bridge has been paused or shut down following this second drain, and whether other bridges using similar patterns face identical risks.' These are open questions from the brief, but the draft presents them as though facts about remediation status are unknown, when the brief provides zero information about whether remediation occurred. This is acceptable under the rule, but the sentence 'remediation after the first incident was incomplete' in paragraph 2 is a conclusion not in the brief\u2014it presents one possible explanation as though it is established fact."
+    ]
+   }
+  ]
  }
 ]
