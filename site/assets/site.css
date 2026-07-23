@@ -219,6 +219,7 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .page p,.page li{font-size:17px;line-height:1.65;color:var(--ink)}
 .page ul,.page ol{padding-left:22px}
 .callout{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin:22px 0}
+.callout.corrected{border-left:4px solid var(--rule)}
 
 /* ---- whale watch DARK sub-brand theme (matches the GoCheckMyCrypto Whale Watch logo) ---- */
 body.ww-dark{

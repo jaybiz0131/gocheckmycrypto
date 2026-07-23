@@ -749,6 +749,11 @@ def render_article(item, all_items=None):
         ribbon += (f'<div class="callout"><b>Update.</b> This story develops our earlier '
                    f'reporting: <a href="/articles/{esc(item["update_of"])}.html">'
                    f'{esc(prev_title)}</a>.</div>')
+    # A correction is a feature of an honest desk (standards page): show it plainly. The
+    # aging loop (corrections.py) and manual reconciliations both write item["corrected"].
+    if (item.get("corrected") or "").strip():
+        ribbon += (f'<div class="callout corrected"><b>Correction.</b> '
+                   f'{esc(destyle(item["corrected"]))}</div>')
     key = ""
     if item.get("key_fact"):
         key = (f'<div class="keyfact"><span class="lab">The key fact</span>'
