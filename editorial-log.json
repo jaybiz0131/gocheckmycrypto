@@ -1322,5 +1322,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-23",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c002",
+    "headline": "Three crypto bridges drained for $35 million in six hours: logic flaws and stolen keys, not broken math",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'a May 2026 breach' but the brief provides no timestamp for the May attack, only that it occurred before the July 22-23 incidents. The year '2026' appears in the draft's dateline but is not explicitly confirmed in the brief's data_points.",
+     "The draft claims 'In 24 hours, four teams were breached for the same underlying reason' and names 'Verus, B\u00b2, AFX and Balance,' but the brief's data_point 13 lists the fourth as 'Balance,' which is never mentioned elsewhere in the brief or draft body. The open_questions ask 'Which fourth protocol (Balance) was drained in the 24-hour period, and what was the amount and mechanism?'\u2014indicating Balance is unconfirmed and undetailed. This is a smuggled fact: Balance appears only in the data_point summary, not in the supporting evidence, and the draft presents it as settled when the brief flags it as an open question.",
+     "The draft introduces the OpenAI/Hugging Face compromise as evidence that 'AI-driven intrusion tools mature, the attack surface expands,' but this incident is disconnected from the three bridge attacks (Verus, B\u00b2, AFX) described in the lede and does not appear to be part of the 'six-hour span' or 'four teams breached in 24 hours' claim. The brief includes it as a data_point but does not establish a causal or temporal link to the other three attacks, yet the draft places it in the middle of the narrative as though it belongs to the same incident cluster."
+    ]
+   },
+   {
+    "id": "c094",
+    "headline": "Bitcoin ETFs log $69M inflow Wednesday, extending seven-session streak to ~$1B",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states: 'The desk's ETF flows board showed that Bitcoin ETFs logged a net inflow of $16.2 million on July 21, 2026.' This figure ($16.2 million on July 21) does not appear in any data_point in the brief. The brief confirms only two facts: $69 million on Wednesday (July 23) and a seven-session total of nearly $1 billion. The $16.2 million on July 21 is smuggled information from outside the brief.",
+     "The draft claims 'contributing to the cumulative tally of $51.648 billion since the funds' inception.' This cumulative figure does not appear in the brief's data_points. It is a new fact introduced without source attribution in the brief.",
+     "The brief is marked 'thin: true' and provides only two core data_points (the $69M Wednesday inflow and the seven-session ~$1B total). The draft adds a third day's figure and a cumulative inception-to-date total, neither of which traces to the brief's reporting."
+    ]
+   },
+   {
+    "id": "c083",
+    "headline": "NEAR governance eliminates developer gas rebate, sending all fees to burn",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Under the new structure, all network gas fees will be burned entirely, with no carve-out for developers' but the brief's data_point says 'the rebate drops to 0%, so all gas fees are burned'\u2014this is accurate. However, the draft later says 'The change makes NEAR's token issuance more deflationary by removing a carve-out from the fee-burning mechanism' which is supported. The core claim is accurate and traceable to the brief. No smuggled facts detected."
+    ]
+   },
+   {
+    "id": "c095",
+    "headline": "Kakao taps Circle to explore won stablecoin payment infrastructure",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'announced by the parties but not yet independently verified' in the opening paragraph, but this qualifier does not appear in subsequent sentences where the MOU's scope and Kakao's scale are described as facts. The brief marks all core claims as 'announced-not-verified,' and the draft must maintain that language throughout, not just in the lede. The sentence 'Kakao operates one of South Korea's largest consumer payment and financial services platforms, giving any stablecoin infrastructure built with Circle access to a user base measured in tens of millions' presents institutional claims as settled fact when the brief provides no data_point to confirm Kakao's user base size or characterization.",
+     "The open_questions in the brief explicitly ask 'What is Kakao's current user base and payment volume that might benefit from won stablecoin integration?' The draft answers this as an assertion ('tens of millions') without citing a data_point, smuggling in unverified quantification."
+    ]
+   }
+  ]
  }
 ]
