@@ -1,0 +1,31 @@
+{
+  "id": "c011",
+  "slug": "nine-institutional-firms-form-bitcoin-security-consortium-commit-15-million-to-quantum-defense",
+  "kind": "brief",
+  "title": "Nine Institutional Firms Form Bitcoin Security Consortium, Commit $15 Million to Quantum Defense",
+  "dek": "Nine institutional firms including BlackRock, Coinbase, Strategy, Anchorage Digital, ARK Invest, Block, Blockstream, Fidelity Digital Assets, and Galaxy formed the Bitcoin Security Consortium and committed $15 million over three years to fund post-quantum cryptography research. Members will independently fund developers and researchers, with no direct control over Bitcoin development or protocol changes.",
+  "date": "2026-07-23",
+  "published_utc": "2026-07-23T20:40:57Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Nine institutional firms pledged $15 million combined over three years to fund Bitcoin security research focused on defending against quantum computing threats, according to CoinDesk reporting.",
+  "bottom_line": "Watch for which specific developers or research teams receive initial funding and whether a technical consensus emerges on post-quantum migration strategy. The consortium's ability to coordinate deployment across Bitcoin's decentralized ecosystem remains the open question; the reporting indicates this alone could take years and requires technical coordination the network has rarely accomplished at scale.",
+  "human_take": "",
+  "body": [
+    "Nine major institutional firms have formed the Bitcoin Security Consortium and committed $15 million over three years to fund research on quantum-resistant cryptography, according to CoinDesk reporting. The group includes BlackRock, Coinbase, Strategy, Anchorage Digital, ARK Invest, Block, Blockstream, Fidelity Digital Assets, and Galaxy.",
+    "The funding addresses a long-term technical risk: quantum computers sufficiently powerful to break Bitcoin's current cryptographic signatures do not yet exist, but the consensus among researchers is that deploying defenses across wallets, exchanges, miners, and users could take years. CryptoQuant research cited in the reporting suggests that roughly 6.9 million bitcoin could be vulnerable if quantum computers mature to that capability.",
+    "The consortium structure decentralizes control. The $15 million will not be held or allocated by the group itself, per CoinDesk reporting. Instead, member companies will independently choose which developers, researchers, or organizations to fund. The consortium will not direct Bitcoin development or take positions on proposed protocol changes.",
+    "Galaxy separately launched a $5 million initiative focused on quantum-resistant signatures, wallet migration tools, and security audits. The consortium did not disclose whether this commitment is included in or separate from the $15 million total, according to CoinDesk.",
+    "Several technical approaches are under discussion. BIP 360, a proposal reported by CoinDesk, would introduce a new output type designed to limit the exposure of public keys. Other approaches include post-quantum signature schemes and methods to address coins held in older, already-exposed addresses. However, sources cited by CoinDesk note no technical consensus has emerged on which approach will be adopted.",
+    "Mike Schmidt, executive director of Bitcoin developer funding nonprofit Brink, will coordinate the consortium's work on a volunteer basis. The group will publish material tracking the state of Bitcoin security work for investors and the public, according to the reporting.",
+    "The announcement did not disclose individual member contributions, initial funding recipients, or how much of the $15 million represents newly committed capital versus repackaged existing commitments. BlackRock's digital assets head Robert Mitchnick stated the group would make additional funding available for Bitcoin's long-term security, but no timeline or further amounts were specified."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/07/23/blackrock-coinbase-strategy-in-group-pledging-usd15-million-to-prepare-bitcoin-for-quantum-threats",
+      "url": "https://www.coindesk.com/business/2026/07/23/blackrock-coinbase-strategy-in-group-pledging-usd15-million-to-prepare-bitcoin-for-quantum-threats"
+    }
+  ]
+}
