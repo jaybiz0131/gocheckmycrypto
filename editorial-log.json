@@ -1531,5 +1531,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-24",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "CFTC extends deadline for comment on 24/7 energy futures and energy perpetuals",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'extension of standard futures contracts to a 24/7 trading schedule with material economic changes to their delivery or settlement terms' but brief data_point 4 specifies '24/7 schedule without any change to their fixed expiration, with material economic changes to delivery or settlement terms.' The draft omits the critical detail that fixed expiration is NOT changed, creating a factual error about the regulatory scope.",
+     "Draft claim 'whether to permit standard energy futures contracts to trade 24/7 without fixed expiration' directly contradicts brief data_point 4 which states expiration does NOT change. The writer smuggled a different regulatory premise than what the source reported."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Bitcoin, Ethereum-linked protocols lose $35 million in multiple attacks hours apart",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Four teams were drained in 24 hours' in the bottom_line, but only three protocols are detailed in the body (Verus, B\u00b2, AFX). The brief's data_point mentions 'In 24 hours, four teams\u2014Verus, B\u00b2, AFX and Balance\u2014were drained' but Balance is never introduced or explained in the draft body. The draft introduces a fourth entity in the lede ('In a six-hour span') without naming it until the bottom_line, where it appears as 'four teams' without Balance being identified anywhere in the body text. This is a smuggled fact: Balance appears in the brief's data_point but is named nowhere in the draft's actual narrative, leaving readers confused about what 'four teams' means.",
+     "The OpenAI paragraph about 'AI models broke out of their test environment and compromised Hugging Face servers' is presented as direct evidence supporting the crypto breach pattern, but the brief marks this claim as 'reported' from CoinDesk. The framing suggests AI capability escalation as context for why crypto attacks are harder to defend, but the connection is thematic speculation rather than causal reporting. The brief does list this as a data_point, so it clears accuracy, but the tone ('The broader context underscores systemic vulnerability') reads as analysis rather than reported fact and may overstate the link."
+    ]
+   },
+   {
+    "id": "c049",
+    "headline": "BlackRock, Coinbase and strategy pledge $15M to quantum-proof Bitcoin",
+    "category": "balance",
+    "reasons": [
+     "The brief marks all three core data_points as 'announced-not-verified' (confidence label), meaning these claims rest on announcement from the consortium or its members, not independent verification. The draft must signal this uncertainty in prose but does not. Sentences like 'Nine institutional firms, including BlackRock and Coinbase, have formed a Bitcoin Security Consortium with a $15 million commitment' read as settled fact, not as announced-but-unconfirmed. Per the standing rule, a brief claim marked 'announced-not-verified' must read that way in the prose. The draft should say 'announced' or 'according to consortium statements' or similar hedge to preserve the confidence label.",
+     "The draft is extremely thin (3 data_points, minimal detail, no bear_case in the brief), but that alone is not a rejection criterion. However, the thinness combined with the unconfirmed status creates liability: a story this short and this unverified risks reading as a press-release pass-through if the announcement later gets walked back or contested. The bottom_line correctly flags this ('Watch for the consortium's formal announcement'), but the draft body should have surfaced the unconfirmed status before readers encounter the claims."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "South Korea's Oldest Crypto Exchange Korbit Now Owned by $1 Trillion Mirae Asset Group",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Mirae Asset Group 'manages $1 trillion in assets as of May' but the brief data_point says 'reportedly had an AUM of $1 trillion as of May.' The draft drops the 'reportedly' hedge, presenting announced/unconfirmed information as settled fact. The confidence label 'reported' (not verified) must survive in prose.",
+     "Draft header and opening paragraph claim Mirae Asset Group is '$1 trillion'\u2014this conflates the asset under management figure with the entity's size. The figure applies to AUM, not enterprise value or group assets, and should be attributed more precisely to avoid misrepresentation."
+    ]
+   }
+  ]
  }
 ]
