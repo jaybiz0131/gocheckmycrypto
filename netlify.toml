@@ -7,7 +7,7 @@
   # Refresh the two data desks first (both keyless: Whale Watch from Whale Alert's public
   # archive, Market Pulse from alternative.me/CoinGecko/DefiLlama/mempool.space; any fetch
   # error falls back to the committed snapshot instead of failing the deploy), then build.
-  command = "python3 whale_flows.py || true; python3 market_pulse.py || true; python3 site_build.py"
+  command = "pip install --quiet Pillow || true; python3 whale_flows.py || true; python3 market_pulse.py || true; python3 site_build.py"
   publish = "site/publish"
 
 [build.environment]

@@ -590,7 +590,7 @@ MOTION_JS = (
 
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
-          live_js=False, brand="site", og_type="website", schema_extra=""):
+          live_js=False, brand="site", og_type="website", schema_extra="", og_image=None):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
@@ -629,11 +629,11 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta property="og:type" content="{esc(og_type)}">{schema_extra}
 <meta property="og:url" content="{esc(url)}">
 <meta property="og:site_name" content="{esc(site_name)}">
-<meta property="og:image" content="{OG_IMAGE}">
+<meta property="og:image" content="{og_image or OG_IMAGE}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="{OG_IMAGE}">
+<meta name="twitter:image" content="{og_image or OG_IMAGE}">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 {fonts}
@@ -805,10 +805,15 @@ def render_article(item, all_items=None):
     title = f'{item.get("title")} - {NAME}'
     desc = item.get("dek") or (item.get("body", [""])[0] if item.get("body") else DESC)
     url = f"{ORIGIN}/articles/{item['slug']}.html"
+    # per-article OG card: rendered into the publish output at build time by
+    # _render_og_card (pure-Python Pillow, so it runs on Netlify). og:image points at it
+    # when the render succeeded; a failed render fell back to the site-wide card already.
+    card_out = os.path.join(PUBLISH, "og", f"{item['slug']}.png")
+    og_image = f"{ORIGIN}/og/{item['slug']}.png" if os.path.exists(card_out) else OG_IMAGE
     schema = json.dumps({"@context": "https://schema.org", "@graph": [
         {"@type": "NewsArticle", "headline": item.get("title"),
          "description": item.get("dek") or "", "url": url, "mainEntityOfPage": url,
-         "image": OG_IMAGE,
+         "image": og_image,
          "datePublished": item.get("published_utc") or item.get("date"),
          "dateModified": item.get("published_utc") or item.get("date"),
          "author": {"@type": "Organization", "name": NAME, "url": ORIGIN + "/news.html"},
@@ -821,7 +826,7 @@ def render_article(item, all_items=None):
     ]}, ensure_ascii=False)
     return shell(title, desc if isinstance(desc, str) else DESC, "Latest", body, dateline.upper(),
                  path=f"/articles/{item['slug']}.html", noindex=bool(item.get("example")),
-                 brand="cronkite", og_type="article",
+                 brand="cronkite", og_type="article", og_image=og_image,
                  schema_extra=f'\n<script type="application/ld+json">{schema}</script>')
 
 
@@ -2875,6 +2880,26 @@ def _copytree(src, dst):
             open(os.path.join(target, f), "wb").write(data)
 
 
+def _render_og_card(item):
+    """Render this article's OG card into PUBLISH/og/<slug>.png at build time. FAIL-OPEN:
+    any problem (Pillow missing, font issue, bad headline) is swallowed so the card simply
+    does not exist and the article falls back to the site-wide og-image. A card is a
+    nice-to-have; it must never break the site build."""
+    try:
+        import sys as _sys
+        _sys.path.insert(0, os.path.join(HERE, "scripts"))
+        import og_render
+        cat = (item.get("category") or "").strip().lower()
+        kicker = ("Crypto News" if cat in ("", "news")
+                  else "Daily Edition" if cat == "daily edition" else item["category"].title())
+        og_render.render_card(item.get("title", ""), kicker,
+                              os.path.join(PUBLISH, "og", f"{item['slug']}.png"))
+        return True
+    except Exception as e:
+        gh("warning", f"og card skipped for {item.get('slug','?')}: {e}")
+        return False
+
+
 def build():
     items = load_content()
     # dateline reflects the newest content (or a neutral standing line), never a wall clock
@@ -2917,6 +2942,7 @@ def build():
     w("404.html", render_404(dateline))
     w("thanks.html", render_thanks(dateline))
     for it in items:
+        _render_og_card(it)  # build-time per-article share card (fail-open) -> PUBLISH/og/
         w(os.path.join("articles", f"{it['slug']}.html"), render_article(it, all_items=items))
     w("bottom-line.html", render_bottom_line_history(items, dateline))
     w("feed.xml", render_feed(items))
