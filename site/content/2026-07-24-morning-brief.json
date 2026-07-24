@@ -1,0 +1,70 @@
+{
+  "id": "wrap-am-2026-07-24",
+  "slug": "morning-brief-2026-07-24",
+  "kind": "brief",
+  "title": "The Morning Brief: Old Guard Falls Away as Washington Stalls on Crypto Rules",
+  "dek": "BitMEX will close after 11 years and Poolin has filed for bankruptcy, while validator-key theft drained another exchange and Washington's marquee crypto bill slips its deadline.",
+  "date": "2026-07-24",
+  "published_utc": "2026-07-24T13:13:53Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Today's stories describe infrastructure under stress from multiple directions at once: a validator-key hack, a pioneer exchange's shutdown, a mining pool's bankruptcy, and a stalled bill, while the desk's boards show whales moving bitcoin onto exchanges rather than off.",
+  "bottom_line": "Today's reporting describes stress on crypto infrastructure from several angles at once: a validator-key theft at AFX Trade, BitMEX's coming September 23 closure after 11 years, and Poolin's Chapter 11 filing over $173 million in debt tied to funds frozen since 2022. On policy, Goldman Sachs broke from JPMorgan to back the Clarity Act even as Senate Majority Leader Thune said the bill will likely miss its August 7 pre-recess deadline, while the CFTC pushed its energy-derivatives comment deadline to August 26 and the EU expanded sanctions on Russia's $120 billion A7 crypto network. The desk's Whale Watch board shows bitcoin moving onto exchanges, a net $237 million outflow in volatile assets over 24 hours, consistent with the market's cautious posture rather than contradicting it. Coming checkpoints include the Clarity Act's fate ahead of the August 7 recess, the CFTC's August 26 comment deadline, BitMEX's August 26 trading halt and September 23 full closure, and confirmation of Poolin's $52 million stalking-horse bid in bankruptcy court.",
+  "human_take": "",
+  "body": [
+    "Bitcoin trades at $64,344.59 on the desk's boards this morning, down 1.09 percent in 24 hours and 48.4 percent from its 12-month high of $82,018.37. The Fear and Greed Index sits at 28, within its 30-day range of 11 to 33. The day's stories describe a crypto industry facing pressure on several fronts at once: exchange security, market structure legislation, and legacy infrastructure winding down.",
+    "On security, CoinDesk reported that Arbitrum-based perpetuals exchange AFX Trade lost $24.15 million in USDC on July 22 at approximately 21:30 UTC after attackers compromised the protocol's bridge validator hot keys and used five signatures to authorize the withdrawal. Security firm Blockaid confirmed the on-chain logic executed exactly as designed, meaning no smart contract was bypassed, only the key custody around it. Separately, nine institutional firms including BlackRock, Coinbase, Strategy, Anchorage Digital, ARK Invest, Block, Blockstream, Fidelity Digital Assets, and Galaxy formed the Bitcoin Security Consortium, committing $15 million over three years to fund post-quantum cryptography research, with CryptoQuant research cited in the reporting suggesting roughly 6.9 million bitcoin could be vulnerable if quantum computing matures to that capability.",
+    "Legacy infrastructure is thinning out. BitMEX, which pioneered the 100x leverage perpetual swap in 2014 and once commanded 57 percent of global crypto derivatives market share with daily volumes as high as $8 billion in July 2018, announced it will cease all operations on September 23, 2026, with new positions barred after August 26. Separately, Poolin, once Bitcoin's largest mining pool with 18 to 20 percent of global hashrate in 2019, filed for Chapter 11 bankruptcy on July 22 with roughly $173 million in debt, a collapse traced to a 2022 liquidity crisis that left 11,700 customers holding $163.7 million in frozen funds never returned.",
+    "On policy, Goldman Sachs CEO David Solomon broke from JPMorgan Chase on Thursday to endorse the Clarity Act, calling it imperfect but supportive of market stability, directly at odds with JPMorgan's warning over the bill's stablecoin yield provisions. Senate Majority Leader John Thune told reporters the bill will likely miss the August 7 pre-recess deadline, though White House adviser Patrick Witt said he remains slightly more optimistic about first-week-of-August action. The CFTC separately extended its comment window on proposed 24/7 energy futures and physical-commodity perpetual contracts to August 26, 2026. The EU expanded sanctions against Russia on July 24, designating the A7 cross-border payments network, which has processed nearly $120 billion, and introducing a new tool to ban third-country crypto providers, alongside 14 unnamed targeted platforms. And the SEC settled a two-year FOIA lawsuit with Coinbase, agreeing to pay $150,000 and produce remaining records after its Inspector General revealed deletion of former Chair Gary Gensler's texts. Away from regulation, Brazilian farmers in Paran\u00e1 tokenized 10 dairy cows on the B3 exchange to secure nearly $20,000 in credit, an early real-world-asset financing case the reporting frames as a workaround to tight bank lending.",
+    "The reporting does not draw an explicit causal line between the AFX Trade hack, BitMEX's closure, and Poolin's bankruptcy, but together they describe centralized and semi-centralized infrastructure, custody keys, a derivatives pioneer, and a mining pool, each losing ground in the same window. On policy, the reporting attributes the Clarity Act's slippage to timing pressure from other Senate business, including sanctions legislation, and to unresolved disputes over stablecoin yield and government-ethics provisions.",
+    "The desk's boards show a market that is not panicking but is leaning cautious. Ethereum trades at $1,858.89, down 0.99 percent and 61.4 percent from its 12-month peak. The Whale Watch board shows a net outflow of $237 million in volatile assets over 24 hours, with bitcoin moving onto exchanges, $171.4 million to OKEx and $65.6 million to Binance, alongside $118.5 million in stablecoin buying power also flowing to OKEx. That follows two prior weeks of net outflows of $346.5 million and $135 million on the same board, a reversal from the strongly positive weekly flows seen earlier in the period. OKX data shows 1,490 bitcoin liquidations in the past 24 hours, $17.7 million in longs against $3.6 million in shorts, consistent with a market unwinding leveraged long positions rather than adding risk. BTC ETF flows were negative $225.1 million on July 23 while ETH ETF flows were positive $26.3 million, a split the boards do not explain further.",
+    "The days ahead carry several named checkpoints. The Clarity Act's fate now hinges on whether Senate leadership finds floor time before the August 7 recess deadline. The CFTC's comment window on 24/7 energy futures and perpetual contracts closes August 26, 2026. BitMEX's wind-down bars new positions after August 26 and closes entirely September 23, 2026, a date also tied to Bank Secrecy Act coverage in the desk's regulatory tracking. Poolin's bankruptcy court will need to confirm whether the $52 million stalking-horse bid for its West Texas assets is accepted, testing what recovery the 11,700 frozen-fund customers ultimately see. The EU has yet to name the 14 sanctioned crypto platforms tied to the A7 network. None of these change the picture on their own, but each is a specific date or filing the desk will be watching."
+  ],
+  "sources": [
+    {
+      "title": "Arbitrum-based AFX Trade drained of $24.15 million after validator keys compromised",
+      "url": "/articles/arbitrum-based-afx-trade-drained-of-24-15-million-after-validator-keys-compromised.html"
+    },
+    {
+      "title": "BitMEX Shuts Down After 11 Years as Perpetuals Pioneer",
+      "url": "/articles/bitmex-shuts-down-after-11-years-as-perpetuals-pioneer.html"
+    },
+    {
+      "title": "Goldman Sachs CEO backs Clarity Act despite banking industry's concerns over stablecoin rules",
+      "url": "/articles/goldman-sachs-ceo-backs-clarity-act-despite-banking-industry-s-concerns-over-stablecoin-rules.html"
+    },
+    {
+      "title": "Nine Institutional Firms Form Bitcoin Security Consortium, Commit $15 Million to Quantum Defense",
+      "url": "/articles/nine-institutional-firms-form-bitcoin-security-consortium-commit-15-million-to-quantum-defense.html"
+    },
+    {
+      "title": "SEC Settles FOIA Suit With Coinbase Over Deleted Gensler Texts",
+      "url": "/articles/sec-settles-foia-suit-with-coinbase-over-deleted-gensler-texts.html"
+    },
+    {
+      "title": "BitMEX to shut down operations on September 23, 2026",
+      "url": "/articles/bitmex-to-shut-down-operations-on-september-23-2026.html"
+    },
+    {
+      "title": "Brazilian Farmers Tokenize Dairy Cows to Bypass Bank Lending Restrictions",
+      "url": "/articles/brazilian-farmers-tokenize-dairy-cows-to-bypass-bank-lending-restrictions.html"
+    },
+    {
+      "title": "CFTC Extends Comment Window on 24/7 Futures and Energy Perpetuals Rule",
+      "url": "/articles/cftc-extends-comment-window-on-24-7-futures-and-energy-perpetuals-rule.html"
+    },
+    {
+      "title": "Clarity Act faces slim odds of pre-recess passage as Majority Leader signals timing crunch",
+      "url": "/articles/clarity-act-faces-slim-odds-of-pre-recess-passage-as-majority-leader-signals-timing-crunch.html"
+    },
+    {
+      "title": "EU issues 21st sanctions package targeting Russia's $120B crypto network",
+      "url": "/articles/eu-issues-21st-sanctions-package-targeting-russia-s-120b-crypto-network.html"
+    },
+    {
+      "title": "Poolin Files for Chapter 11 Bankruptcy With $173M in Debt",
+      "url": "/articles/poolin-files-for-chapter-11-bankruptcy-with-173m-in-debt.html"
+    }
+  ]
+}

@@ -1573,5 +1573,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-24",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c127",
+    "headline": "Thailand SEC files criminal complaint against Bitkub over 2021 breach disclosures",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The complaint marks the first public enforcement action by Thailand's SEC targeting the major exchange on disclosure grounds tied to a security breach.' This comparative claim ('first public enforcement action') does not appear in the brief and is not supported by the single Cointelegraph source cited. The brief contains no data point confirming this is the first such action; the writer has smuggled a fact not in the research."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "BitMEX founders face class-action fraud suit alleging insider trading and deliberate server freezes",
+    "category": "accuracy",
+    "reasons": [
+     "The draft refers to 'The complaint arrives as BitMEX continues its wind-down' but the brief contains no data point confirming BitMEX's current wind-down status or timeline. This is a factual assertion not present in the research and represents smuggled information outside the brief.",
+     "The draft claims the litigation is 'tied to user losses during the exchange's operational period' but no data point in the brief establishes this causal link or characterization. The brief only reports the lawsuit was filed and alleges insider trading and server freezes; it does not justify this framing."
+    ]
+   },
+   {
+    "id": "c066",
+    "headline": "Kazakhstan Announces Presidential Decree to Build National Crypto Reserve Funded by Miners",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bitcoin Magazine reported that the decree is part of a two-step push to pull Kazakhstan's large mining industry into a regulated, state-supervised system' but the brief's confidence label for this claim is 'announced-not-verified', not 'reported'. The draft presents an unverified announcement as confirmed reporting without qualification.",
+     "The draft says 'the source material is sparse and sourced only to Bitcoin Magazine's report' and 'No official statement from the Kazakhstani government, the central bank, the ministry of energy, or mining industry associations has independently verified the decree's existence' \u2014 this is a bear_case/open_question that should appear in the draft's main narrative, not buried in a qualifier paragraph. The unconfirmed status must be transparent in the prose from the opening."
+    ]
+   },
+   {
+    "id": "c137",
+    "headline": "EU Bars Belarusian Nationals From Owning Regulated Crypto Firms Under MiCA",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The restriction represents the integration of geopolitical ownership controls into MiCA's regulatory framework, marking the first known instance of nationality-based prohibitions on crypto firm ownership within the EU's comprehensive crypto rulebook.' This characterization goes beyond the brief, which contains only one reported data point from Cointelegraph with no confirmation of whether this is 'first known' or uniquely integrated into MiCA. The draft treats an unverified claim as settled fact.",
+     "The phrase 'The prohibition follows the EU's broader sanctions regime against Belarus and appears designed to prevent Belarusian nationals and residents from controlling or benefiting from regulated crypto platforms' infers causation and intent ('appears designed') that is not supported by the single reporting source in the brief. This is editorial speculation presented as fact.",
+     "The brief explicitly flags six open questions, including the legal instrument, which entities are covered, and enforcement mechanisms. The draft asserts coverage of 'all categories of MiCA-regulated entities, from exchanges to custodians' as though confirmed, when the brief's own open_questions note this is unconfirmed ('whether it covers all MiCA-regulated entities or specific subcategories')."
+    ]
+   }
+  ]
  }
 ]
