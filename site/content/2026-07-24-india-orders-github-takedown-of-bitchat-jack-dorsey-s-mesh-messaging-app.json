@@ -1,0 +1,35 @@
+{
+  "id": "c015",
+  "slug": "india-orders-github-takedown-of-bitchat-jack-dorsey-s-mesh-messaging-app",
+  "kind": "brief",
+  "title": "India orders GitHub takedown of Bitchat, Jack Dorsey's mesh messaging app",
+  "dek": "India's Cyber Crime Coordination Centre issued a takedown order against three Bitchat repositories on GitHub, citing the app's use in protest communications to evade internet shutdowns. Bitchat relays encrypted messages and Bitcoin transactions over Bluetooth mesh networks without servers or accounts. The app remains available on Google and Apple app stores.",
+  "date": "2026-07-24",
+  "published_utc": "2026-07-24T15:55:41Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "India's Home Ministry cybercrime agency ordered GitHub to disable three Bitchat repositories under Section 79(3)(b) of the IT Act, citing the app's ability to impede lawful interception during protests over a national exam scandal.",
+  "bottom_line": "Watch for GitHub's official statement on compliance and whether India escalates to Apple and Google app stores. The story's premise that a takedown order can suppress a decentralized tool pivots on whether the state pursues enforcement across distribution channels, not just a single code host.",
+  "human_take": "",
+  "body": [
+    "India's Cyber Crime Coordination Centre, a division of the Home Ministry, issued a takedown order against Bitchat on late Thursday, demanding that GitHub disable three repositories under Section 79(3)(b) of the IT Act and giving the platform three hours to comply.",
+    "Bitchat is an open-source messaging application released by Jack Dorsey in July 2025. The app relays encrypted messages between phones over Bluetooth mesh networks, requiring no internet, servers, or user accounts. It is also built to pass Bitcoin transactions offline, routing them phone to phone through the mesh until a device with connectivity broadcasts them to the network.",
+    "According to CoinDesk's reporting, the Indian cybercrime notice states that Bitchat enables anonymous communication without registration or phone numbers and that its architecture \"significantly impedes lawful interception, attribution, and investigation by law enforcement agencies.\" The order specifically named three GitHub repositories.",
+    "The context: since July 20, 2026, India has seen large demonstrations under the \"Cockroach Janta Party\" banner, protesting a national exam scandal. The government has ordered repeated internet suspensions around protest sites in New Delhi, and demonstrators have been met with tear gas and baton charges. Researchers have documented that once internet connections drop, protesters have turned to Bluetooth mesh apps, including Bitchat, to coordinate their movements.",
+    "As of CoinDesk's reporting on Friday afternoon in Asia, the app remained available for download on both Google and Apple app stores, suggesting GitHub's compliance status remains unclear. The Microsoft-owned platform has removed repositories under Indian legal orders before, according to CoinDesk. However, open-source projects are typically mirrored across multiple hosting platforms, meaning a single takedown rarely erases the code entirely.",
+    "The takedown order tests the practical limits of state enforcement against decentralized infrastructure. GitHub's compliance history suggests the platform may comply, but the app's availability on major app stores and the distributed nature of open-source mirrors leave open whether a single-platform order halts actual use.",
+    "Key unknowns: whether GitHub met the three-hour deadline, where the code has been mirrored, whether India will pursue enforcement against app stores hosting Bitchat, and how India's IT Act applies to foreign platforms hosting open-source code."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/07/24/india-orders-takedown-of-jack-dorsey-s-bitcoin-linked-messaging-app-bitchat",
+      "url": "https://www.coindesk.com/tech/2026/07/24/india-orders-takedown-of-jack-dorsey-s-bitcoin-linked-messaging-app-bitchat"
+    },
+    {
+      "title": "https://decrypt.co/374239/india-orders-github-to-take-down-jack-dorseys-bitchat-amid-protests",
+      "url": "https://decrypt.co/374239/india-orders-github-to-take-down-jack-dorseys-bitchat-amid-protests"
+    }
+  ]
+}

@@ -1615,5 +1615,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-24",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c013",
+    "headline": "Poolin files Chapter 11 bankruptcy with $173M debt, $52M recovery bid for Texas operations",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Poolin's estimated hashrate share fell to effectively zero and remained there for a number of years' but the brief data_point says the same thing without temporal specificity. The draft then claims 'the company had lost operational viability well before the bankruptcy filing in 2026'\u2014this causal inference about viability is not present in the brief and appears smuggled. The brief only confirms hashrate was zero for 'a number of years'; the draft adds interpretive analysis about operational viability that exceeds the research.",
+     "The draft states 'nearly four years elapsed between the September 2022 liquidity crisis and the July 2026 bankruptcy filing, leaving a gap in the public record about what the company was doing during those years.' This is arithmetic (2026 - 2022 = 4) but frames it as a factual gap 'in the public record' that warrants reader concern. The brief lists this exact gap as an open_question ('What triggered the final bankruptcy filing in July 2026 if the company had been dormant since 2022?'), meaning the source did not resolve it. The draft presents it as an unaddressed mystery rather than as unresolved, which is appropriate, but the phrasing 'what remains unaddressed' suggests the draft itself should have resolved it or flagged it more clearly as unresolved by sources."
+    ]
+   },
+   {
+    "id": "c038",
+    "headline": "Nine institutional firms launch Bitcoin Security Consortium with $15M for quantum-resistant research",
+    "category": "accuracy",
+    "reasons": [
+     "The draft names 'Strategy' as one of the three named participants, but the brief lists 'Strategy' as a participant without full company name or context. The brief's data_point says 'Strategy, BlackRock, and Coinbase are participants' but provides no independent confirmation of what 'Strategy' is (a fund? a firm? Block's strategy division?). The draft presents this unambiguously as an institutional firm name without caveat, which is smuggled specificity beyond the brief's sourcing.",
+     "The bear_case in the brief is empty (empty list), yet the draft's body paragraph opens with 'The move signals that major Bitcoin holders are investing in defensive infrastructure' as though this interpretation is settled fact rather than an angle. The draft should not present angle-reasoning as news fact when the brief provides no bear_case counterweight."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Galaxy Digital Cuts Clarity Act Passage Odds to 30% as Democratic Negotiators Reject Ethics Language",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Seven Democratic negotiators told The Block the current Clarity Act draft requires stronger ethics and consumer protection language' but the brief's data_point says 'Seven Democratic negotiators say the latest Clarity Act draft needs stronger ethics and consumer protections'\u2014the draft introduces 'told The Block' as a direct attribution that does not appear in the brief, misrepresenting the sourcing chain and suggesting The Block spoke directly to all seven negotiators when the brief does not confirm this level of direct reporting."
+    ]
+   }
+  ]
  }
 ]
