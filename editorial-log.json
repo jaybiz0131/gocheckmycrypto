@@ -1647,5 +1647,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-24",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "EU's 21st Sanctions Package Targets 14 Crypto Platforms, Introduces First Possible Third-Country Service Ban",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The core targets include the A7 cross-border payments network and its A7A5 stablecoin' but the brief's data_point 11 indicates HTX is named among the 14 crypto firms in the sanctions package per Decrypt source. The draft never mentions HTX despite the brief establishing it as a named target, creating an incomplete factual record.",
+     "The draft says 'The 14 unnamed platforms are based across Georgia, Panama, the United Arab Emirates, the Marshall Islands, Kyrgyzstan, and Belarus' but data_point 11 indicates at least one platform (HTX) is actually named in the sanctions order. Calling all 14 'unnamed' contradicts the brief's evidence that HTX is named."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "BitMEX faces class-action suit alleging insider trading and forced liquidations as exchange shuts down",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the lawsuit was 'filed July 23, 2026' in the body paragraph, but the brief's data_point specifies 'July 23, 2026' as the filing date and the first paragraph says 'The same day' (September 23, the announcement date). This is internally contradictory. The brief data_point says 'filed July 23, 2026' but if BitMEX announced closure on September 23 and the suit was filed 'the same day,' the suit must have been filed September 23, not July 23. The draft creates a factual contradiction that is not resolved in the brief and smuggles a corrected date without attribution.",
+     "The draft refers to 'Cointelegraph' in the sentence 'The mockup may be illustrative only, with the actual list of supported issuers to be determined later. Decrypt reported the same device demonstration but noted that Samsung's newsroom published no accompanying release and the company did not respond to requests for comment.' This appears to be copy-pasted or misattributed language; the brief references Decrypt's reporting but the mention of no newsroom release and no response to comment requests is attributed to Decrypt in the draft, while the brief data_point c041 mentions 'Cointelegraph' in the source check. This is a misattribution error in the source trail."
+    ]
+   },
+   {
+    "id": "c041",
+    "headline": "Samsung announces stablecoin support for Wallet, gives no timeline or partner names",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Samsung's newsroom published no accompanying release and the company did not respond to requests for comment,' but the brief data_point says 'Samsung's newsroom published no release on the plan, and the company did not respond to Cointelegraph's request for comment.' The draft removes the attribution to Cointelegraph, making it unclear whose request for comment went unanswered. This changes the scope of the claim from 'Cointelegraph specifically asked' to 'someone asked,' which is a material difference in fact.",
+     "The draft references 'Decrypt reported the same device demonstration' but Decrypt is listed as a source and the sentence structure implies Decrypt and The Defiant are separate sources for this detail. The brief's data_points credit only The Defiant for the mockup claim. The draft introduces Decrypt as a source for the Samsung mockup reporting without a corresponding data_point in the brief supporting that attribution, violating the rule that facts must trace back to the brief."
+    ]
+   },
+   {
+    "id": "c120",
+    "headline": "BitMine Accumulates to 4.8% of Ethereum Supply With $73 Million Weekly Purchase",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine is now Ethereum's largest corporate holder' in the first paragraph, but this claim appears in the brief's data_points as confidence 'reported,' not 'announced-not-verified.' The draft presents it as established fact without any attribution or caveat. However, the larger accuracy problem is that the brief's bear_case explicitly flags unverified company valuations ('The company's own valuation of assets ($11.1 billion total, $1,800/ETH) may not reflect real-time market prices and is not independently audited'), yet the draft reports '$11.1 billion' and the '$1,800 per-coin valuation for ETH' as facts in the opening section without signaling their unaudited status or company-sourced nature until much later in the concentration-risk paragraph. This violates the accuracy rule: facts from 'announced-not-verified' sources must carry that caveat in prose.",
+     "The draft states 'The $73 million figure was derived from external market trackers monitoring BitMine's latest position update' in paragraph two, which traces to brief data_point confidence 'reported.' However, the opening paragraph presents '$73 million' as the headline fact without any signal that it is derived rather than directly disclosed. The brief's own bear_case notes 'The source notes the company's own post did not separately disclose the weekly purchase amount, requiring external trackers to derive it'\u2014this uncertainty should surface in the draft's lead, not be buried as an afterthought."
+    ]
+   }
+  ]
  }
 ]
