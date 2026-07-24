@@ -36,7 +36,16 @@ suppress a factual price milestone just because it is price-shaped.
 
 JOB 2 - RANK THE REAL NEWS. From the cleaned set, pick the top {TOP_N} by GENUINE market or
 ecosystem significance, most important first:
-- Regulatory / legal (SEC/CFTC actions, rulings, legislation) - high weight.
+- Regulatory / legal - high weight, and INTERNATIONAL, not just the US. US actions
+  (SEC/CFTC, legislation) count, and so do foreign regulators and tax authorities: a UK
+  HMRC crypto-tax recovery, an EU/ESMA action, a MiCA phase, a national ban or licensing
+  regime. Do not let a US-centric feed make the desk miss enforcement abroad.
+- SOVEREIGN / NATION-STATE ADOPTION - high weight. A country (or a state, central bank, or
+  sovereign fund) adopting, holding, investing in, collateralizing loans with, or building
+  policy around crypto is a significant story: Argentina weighing bitcoin for investment
+  funds or loan collateral, a national bitcoin reserve, a CBDC decision, a country granting
+  legal-tender or fund-eligibility status. These are easy to miss because they are not US
+  market news; rank them.
 - Major hacks / exploits / depegs - high weight.
 - MARKET-STRUCTURE MOVES - a significant price milestone (a multi-week or multi-month high
   or low, a sharp move, a notable liquidation cascade) PAIRED WITH a concrete sourced

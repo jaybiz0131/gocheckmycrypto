@@ -419,7 +419,7 @@ def market_strip(pulse=None):
                    f'<span class="px">{f8:+.4f}%/8h</span>'
                    f'<span class="chg"></span></span>')
     return f"""<section class="markets" id="markets"><div class="wrap" tabindex="0" role="region" aria-label="Live crypto markets ticker (scrollable)">
-  <span class="lab">Markets &middot; live</span>
+  <span class="lab">Markets &middot; live <span class="mkt-asof" id="mktAsOf"></span></span>
   {ticks}
   <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">{esc(cap_px)}</span>{cap_chg_html}</span>
   {extras}
@@ -446,6 +446,9 @@ def market_strip(pulse=None):
         }
         chg(t.querySelector(".chg"), v.usd_24h_change);
       });
+      // honest-data promise: stamp when the live feed last refreshed (viewer local time)
+      var as=document.getElementById("mktAsOf");
+      if(as){var t=new Date();as.textContent="as of "+("0"+t.getHours()).slice(-2)+":"+("0"+t.getMinutes()).slice(-2);}
     }).catch(function(){});
   fetch(CG+"/global").then(function(r){return r.json();}).then(function(d){
       var g=d.data||{}, m=document.getElementById("mcap"); if(!m)return;
