@@ -1689,5 +1689,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-25",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "EU Introduces Full Crypto Ban Authority in 21st Russia Sanctions Package",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'Co-founder Kevin Pan acknowledged in a WeChat post that the company was facing liquidity problems in late 2022, yet insisted user funds were safe at the time.' appears in the body without attribution or sourcing context. This claim is sourced to the CoinDesk brief's data_points as being about Poolin (c033), not about Poolin in the c007 EU sanctions story. The sentence is factually misplaced\u2014it describes a mining pool liquidity crisis unrelated to EU crypto sanctions targeting Russia. This fact does not belong in a draft about Russian sanctions evasion."
+    ]
+   },
+   {
+    "id": "c103",
+    "headline": "OCC Rejects Wise's National Trust Bank Charter Citing Money-Laundering Concerns",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Wise reported more than $240 billion in cross-border volume and about 19 million customers in fiscal 2026' without attribution. The brief data_point cites this as coming from The Defiant source, but The Defiant article (published July 24, 2026) reports on a denial decision announced that day\u2014it would not be the original source for Wise's fiscal 2026 financial results. The writer has smuggled in a figure that should be attributed to Wise's earnings release or investor materials, not to The Defiant. This is a sourcing failure: the fact exists in the brief but the attribution chain is broken.",
+     "The draft states 'Wise moved its primary listing to Nasdaq from London in May 2026' without inline attribution. While this appears in the brief data_points as sourced to The Defiant, a Nasdaq listing move is a corporate action typically reported by Wise via press release and picked up by multiple outlets. The Defiant article is a secondary source covering a July 24 OCC decision; it would mention Wise's May listing as context, not originate the reporting. The writer should attribute this to Wise or the initial reporting outlet, not rely on The Defiant as the sole source."
+    ]
+   },
+   {
+    "id": "c029",
+    "headline": "Real-World Assets Surpass Crypto Volume on Hyperliquid",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Real-world assets, including stocks, commodities, and indices, have for the first time exceeded cryptocurrency volume on Hyperliquid' as a fact, but the brief shows data_points is an empty array and the core claim itself is listed as unconfirmed. The brief's open_questions explicitly ask 'What specific volume figures confirm that RWA volume exceeded crypto volume?' indicating this crossover is not confirmed in available sources.",
+     "The draft states 'ARK Invest, according to Decrypt, views this shift as transformative' but then immediately admits 'The specific details of ARK's assessment, however, remain unattributed in available sources.' This is contradictory and presents an unconfirmed claim as fact before hedging it. The confidence level ('unconfirmed' or 'announced-not-verified') must be clear in prose, not buried in caveats.",
+     "The core claim of the article\u2014the RWA/crypto crossover\u2014appears nowhere in the brief's data_points. A thin=true brief with zero data_points and this core claim unverified should have signaled the writer that the factual foundation does not exist to report this as news."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "State Department Announces Freedom Tech Program With Bitcoin Policy Institute, Palantir",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The U.S. State Department is launching a Freedom Tech Excellence Program with Bitcoin Policy Institute and Palantir as founding partners, according to announcements reported by Bitcoin Magazine and The Block on July 24, 2026.' All three data points supporting this claim are labeled 'announced-not-verified' in the brief, yet the draft presents them as established fact without qualification of confidence level. The phrase 'according to announcements' weakly signals announcement-sourcing but does not match the mandatory prose-level confidence marking required by the approval protocol.",
+     "The draft claims 'The Block's reporting suggests additional founding or supporting partners may also be involved, including Anduril' and then later states 'The Block's mention of Anduril's involvement raises the question of whether it is a founding partner or a supporting organization'\u2014but the brief's data_points do not include Anduril at all. The mention of Anduril is smuggled from the source URL fragment in the brief, not from a data_point, and the writer has extrapolated Anduril's involvement without brief support."
+    ]
+   }
+  ]
  }
 ]
