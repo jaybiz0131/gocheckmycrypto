@@ -355,7 +355,7 @@ def masthead(active, dateline, brand="site"):
         fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
         brand_row = f"""<a class="mh-brand" href="/index.html" style="margin-top:8px">
     <img class="mh-mark" src="/assets/logo.svg" alt="">
-    <span class="mh-word">{esc(FAMILY)}</span>
+    <span class="mh-word">GoCheckMy<em class="mh-accent">Crypto</em></span>
     <span class="mh-slogan">Crypto, checked.</span>
   </a>"""
     # Motion pause/play control (WCAG 2.2.2). Lives in the masthead so it is present on
