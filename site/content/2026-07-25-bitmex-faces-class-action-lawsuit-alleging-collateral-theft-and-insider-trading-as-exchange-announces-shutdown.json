@@ -1,0 +1,30 @@
+{
+  "id": "c017",
+  "slug": "bitmex-faces-class-action-lawsuit-alleging-collateral-theft-and-insider-trading-as-exchange-announces-shutdown",
+  "kind": "brief",
+  "title": "BitMEX Faces Class-Action Lawsuit Alleging Collateral Theft and Insider Trading as Exchange Announces Shutdown",
+  "dek": "BitMEX faces a proposed class-action lawsuit alleging it systematically retained customer collateral through forced liquidations and that an internal trading desk accessed private user data during server freezes. The lawsuit was filed July 23, 2026, the same day the exchange announced shutdown on September 23, 2026.",
+  "date": "2026-07-25",
+  "published_utc": "2026-07-25T14:48:32Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Plaintiffs claim 622.66 BTC ($40.7 million) in losses through forced liquidations where BitMEX withheld collateral balance despite it being worth roughly twice the losses.",
+  "bottom_line": "The lawsuit's viability depends on whether the court allows it to proceed as a class action and whether the collateral-retention scheme can be proven despite the prior case's closure without ruling. Watch for the certification decision and whether the closure timeline signals settlement negotiations or regulatory pressure independent of the litigation.",
+  "human_take": "",
+  "body": [
+    "BitMEX faces a proposed class-action lawsuit filed July 23, 2026, in the U.S. District Court for the Southern District of New York, alleging the derivatives exchange systematically retained customer collateral and ran an internal trading desk with access to private user data during server freezes. The filing came the same day BitMEX announced it will shut down on September 23, 2026, ending an 11-year run as a crypto derivatives exchange, according to CoinDesk.",
+    "The lawsuit was filed by BKX Services and David Namdar, claiming combined losses of 622.66 BTC worth $40.7 million: BKX Services claims 305.81 BTC lost through forced liquidations, and Namdar claims 316.85 BTC, per CoinDesk. The complaint alleges that BitMEX and co-founders Arthur Hayes, Ben Delo, and Samuel Reed designed a system to retain customers' collateral and transfer remaining bitcoin to the platform's insurance fund. Specifically, the plaintiffs allege BitMEX liquidated their positions while collateral was still worth roughly twice the losses and withheld the balance, according to the reporting.",
+    "BitMEX allowed traders to borrow up to 100 times their collateral to leverage their positions, per CoinDesk. The complaint further alleges that an internal trading desk had access to private customer information and could continue trading during server freezes that prevented other users from closing their positions, creating an insider-trading scenario.",
+    "The lawsuit names HDR Global Trading (BitMEX's parent company), several affiliates, and the co-founders as respondents. Plaintiffs seek to represent all U.S. customers who bought BitMEX bitcoin swap products from July 23, 2018, and are seeking return of bitcoin, compensatory damages, and punitive damages, according to CoinDesk.",
+    "A prior class-action case filed in 2020 and raising similar liquidation allegations was closed in June 2025 without a ruling on those claims, suggesting potential procedural hurdles in proving collateral-retention allegations. The new lawsuit must still survive a motion to certify as a class action before proceeding. CoinDesk reached out to BitMEX and other defendants for comment but had not received a response by publication time, leaving the defendants' response to the allegations unheard.",
+    "BitMEX's closure followed a strategic review by HDR and a management shake-up last month, when the exchange lost its CEO, CFO, and head of growth, with general counsel Peter Wilkinson taking over as CEO, per CoinDesk. BitMEX invented the perpetual swap, a derivative product that became standard across crypto exchanges."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/07/24/bitmex-faces-proposed-class-action-suit-for-theft-insider-trading-as-crypto-exchange-shuts-down",
+      "url": "https://www.coindesk.com/business/2026/07/24/bitmex-faces-proposed-class-action-suit-for-theft-insider-trading-as-crypto-exchange-shuts-down"
+    }
+  ]
+}
