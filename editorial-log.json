@@ -1808,5 +1808,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-25",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c066",
+    "headline": "European Union Adds HTX and Huobi Global to Russia Sanctions List",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states HTX told 'The Block' that wallet changes reflect routine security operations, but the brief cites only Protos as the source. The Block attribution is smuggled; it does not appear in the data_points and introduces a source not in the brief.",
+     "The draft attributes the quote about wallet rotation to TRM Labs' Ari Redbord verbatim from the brief, but then adds HTX's response 'told The Block' without that source existing in the research brief. This violates the hard rule: facts go back to research, never patched by the writer."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "BitMine Adds $73 Million in ETH, Pushing Holdings to 4.8% of Supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine's total ETH holdings are 5,742,237 ETH' and '4.8% of Ethereum's circulating supply' as facts, but the brief marks both as 'announced-not-verified' confidence level. The draft presents these as settled facts without any qualifier like 'according to BitMine's announced disclosure' or similar language that would signal these are unverified claims. The brief explicitly flags these as announced-not-verified; the draft must preserve that uncertainty in prose.",
+     "The draft states 'BitMine, chaired by Fundstrat strategist Tom Lee' as an attribution but does not link the attribution clearly enough inline. While the brief has this as reported, the sourcing needs to be explicit: 'According to The Defiant, BitMine is chaired by...' The current phrasing reads as authorial assertion rather than reported fact."
+    ]
+   },
+   {
+    "id": "c071",
+    "headline": "EDX Markets Closes $76M Series C Led by SBI Holdings",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'SBI Holdings, a Tokyo-listed financial group founded in 1999' but the brief data_point says 'SBI Holdings, a Tokyo-based financial group founded in 1999'. The draft adds 'listed' as a fact not present in the brief. This is a smuggled detail\u2014it may be true, but it must either come from the source or be removed.",
+     "The draft presents all claims as settled fact despite every data_point in the brief carrying confidence label 'announced-not-verified'. The opening sentence 'EDX Markets...closed a $76 million Series C funding round' reads as confirmed when the brief explicitly marks this announcement-level, not independently verified. Prose must reflect that distinction\u2014'announced a $76 million Series C' or 'EDX said it closed' is required."
+    ]
+   }
+  ]
  }
 ]
