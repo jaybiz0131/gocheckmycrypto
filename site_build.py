@@ -2916,7 +2916,7 @@ def _render_og_card(item):
                               os.path.join(PUBLISH, "og", f"{item['slug']}.png"))
         return True
     except Exception as e:
-        gh("warning", f"og card skipped for {item.get('slug','?')}: {e}")
+        print(f"::warning::og card skipped for {item.get('slug','?')}: {e}")
         return False
 
 
