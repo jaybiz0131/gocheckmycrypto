@@ -519,7 +519,7 @@ def footer(brand="site"):
     <div class="flinks">{links}</div>
   </div>
   <p class="fnote"><b>{esc(NFA)}</b> {note}
-    &copy; {YEAR} {who} &middot; <a href="{FAMILY_HUB}">A GoCheckMy site</a>.</p>
+    {who}<br>&copy; {YEAR} Go Check My Brands LLC.</p>
 </div></footer>"""
 
 
@@ -1313,6 +1313,8 @@ def render_about(dateline):
   <p>Tips, corrections, and questions: <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a>.</p>
   <p>Sponsorship inquiries: <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a>.
      Sponsorship never buys coverage; see <a href="/method.html">how we work</a>.</p>
+  <p>This website is operated by Go Check My Brands LLC, a South Carolina limited liability company.
+     Contact: <a href="mailto:hello@gocheckmycrypto.com">hello@gocheckmycrypto.com</a>.</p>
 
   <div class="callout"><b>Read next:</b> <a href="/method.html">How a story gets to you</a>, the
     step-by-step of how we rank, verify, and approve. Or <a href="/standards.html">our standards and
@@ -1404,6 +1406,8 @@ def render_privacy(dateline):
      leave this site, the site you land on operates under its own privacy policy.</p>
 
   <h2>Contact</h2>
+  <p>This website is operated by Go Check My Brands LLC, a South Carolina limited liability company.
+     Contact: <a href="mailto:hello@gocheckmycrypto.com">hello@gocheckmycrypto.com</a>.</p>
   <p>Questions about this policy, your data, or the newsletter, including unsubscribe requests:
      <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a>. A human reads it.</p>
 
@@ -1421,6 +1425,8 @@ def render_terms(dateline):
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Terms</span>
   <h1>Terms of use</h1>
+  <p>This website is operated by Go Check My Brands LLC, a South Carolina limited liability company.
+     Contact: <a href="mailto:hello@gocheckmycrypto.com">hello@gocheckmycrypto.com</a>.</p>
 
   <h2>Not financial advice</h2>
   <p>GoCheckMyCrypto publishes market news, on-chain data, and plain-language analysis for
