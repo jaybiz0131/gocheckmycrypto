@@ -1,0 +1,31 @@
+{
+  "id": "c082",
+  "slug": "stacks-bitcoin-staking-upgrade-passes-governance-vote-with-99-support",
+  "kind": "brief",
+  "title": "Stacks Bitcoin Staking Upgrade Passes Governance Vote With 99% Support",
+  "dek": "The Stacks community approved SIP-045, a major protocol upgrade enabling native Bitcoin staking without custodians, with over 99% of votes cast in favor. The hard fork is targeted for late July at Bitcoin block 907,740. Despite the near-unanimous governance approval, STX token fell 13% in the 24 hours following the news.",
+  "date": "2026-07-25",
+  "published_utc": "2026-07-25T20:29:08Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "SIP-045 Bitcoin Staking upgrade passed with more than 99% support, allowing users to lock native BTC in timelocked contracts on the Bitcoin base layer paired with STX for yield paid in bitcoin.",
+  "bottom_line": "Major protocol upgrade: Stacks bitcoin staking hard fork passes governance with near-unanimous support; material technical milestone for Bitcoin smart contract layer.",
+  "human_take": "",
+  "body": [
+    "The Stacks community approved SIP-045, a major protocol upgrade enabling native Bitcoin staking without custodians or wrapped bridges, according to reporting from The Defiant. The vote delivered over 99% support from stacked STX holders, exceeding the 80% threshold required for hard fork activation. The hard fork is targeted for around July 29 at roughly Bitcoin block 907,740.",
+    "SIP-045, formally titled \"PoX-5: Bitcoin Staking and Emission Schedule Alignment,\" restructures how Stacks generates yield. Under the upgrade, stakers lock BTC in timelocked contracts on the Bitcoin base layer using OP_CHECKLOCKTIMEVERIFY, pair that bond with locked STX equal to at least 5% of the BTC amount, and commit for roughly six months. The Stacks smart contract verifies the Bitcoin-side lock using SPV proof (simplified payment verification), eliminating the need for a custodian or trusted bridge.",
+    "Yield is paid in bitcoin. Paired bonds target about 3% APY in BTC; STX-only stackers receive 85% of any excess yield above that target, while 15% flows into a reserve fund that buffers shortfalls. The protocol includes no slashing mechanism; principal returns in full when the timelock expires.",
+    "A companion proposal, SIP-044, brings Clarity 6 language support and new staking post-conditions, also passed alongside SIP-045. Voting opened July 6. The public testnet went live this week, according to The Defiant. Stacks has targeted a \"Genesis Bond\" for late August and plans a bootstrap phase capped at 3,000 BTC, managed by the Stacks Endowment with whitelisted partners and roughly 10% of capacity available to pools.",
+    "The upgrade also reverses an April emissions cut, restoring the STX coinbase from 500 STX per Bitcoin block to 1,000 STX. Since Proof of Transfer went live in 2021, Stacks has distributed more than 4,200 BTC (roughly 500 million dollars at Bitcoin's then-price) in stacking rewards, per The Defiant. The bridged sBTC asset currently holds about 186 million dollars on DeFi Llama, down 66% from a Q1 peak of 545 million as Bitcoin's price declined.",
+    "Meanwhile, STX token fell 13% in the 24 hours following the governance vote, per CoinGecko reporting cited by The Defiant. Bitcoin declined only 1.9% in the same period, suggesting the token underperformance was not driven by broad market weakness.",
+    "The Bottom Line: Watch for hard fork activation confirmation at block 907,740 around July 29 and the Genesis Bond launch in late August to measure whether early BTC locking meets the 3,000 BTC bootstrap cap. If price stagnates or declines despite positive technical milestones, it signals investor skepticism about yield mechanics or adoption risk; if staking fills and sBTC liquidity rebuilds, the technical approval may have underestimated future demand."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/blockchains/stacks-bitcoin-staking-upgrade-vote-passes-with-99-muneeb-says",
+      "url": "https://thedefiant.io/news/blockchains/stacks-bitcoin-staking-upgrade-vote-passes-with-99-muneeb-says"
+    }
+  ]
+}

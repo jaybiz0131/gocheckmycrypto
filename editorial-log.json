@@ -1775,5 +1775,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-25",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c072",
+    "headline": "European Union Sanctions HTX Over Alleged Russia Sanctions Evasion",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'HTX told The Block that wallet-changing practices...' but the brief only credits this quote to Protos. The draft invokes a second outlet (The Block) that does not appear in the brief's single source URL. This is a smuggled fact\u2014the writer introduced a secondary source not present in the research."
+    ]
+   },
+   {
+    "id": "c076",
+    "headline": "BitMine adds $73 million in ETH, pushing holdings to 4.8% of supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine's total crypto and other holdings are valued at $11.1 billion' but the brief data_point specifies this is 'with ETH valued at $1,800 per coin at the time of reporting'\u2014the draft does not preserve this temporal qualifier or note that the $11.1 billion valuation is dependent on ETH price at that specific moment. This is a material omission that could mislead readers about the current valuation.",
+     "The draft claims 'BitMine has cited 5 percent of ETH's total supply as a benchmark for its treasury strategy, putting its stated target at 0.2 percentage points above its current holdings.' The brief confirms BitMine cited 5% as a benchmark but does not provide the math that 5% minus 4.8% equals 0.2 percentage points. This calculation appears in the draft but not in the brief, making it a potential smuggled inference rather than a reported fact."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "State Department Freedom Tech Program Names Bitcoin Policy Institute and Palantir as Founding Partners",
+    "category": "accuracy",
+    "reasons": [
+     "Brief marks all core claims as 'announced-not-verified' confidence level, but draft prose does not signal this uncertainty. The opening sentence 'The US State Department is launching a Freedom Tech program' reads as settled fact rather than announcement pending verification. The brief's bear_case explicitly flags 'No official State Department statement, press release, or named State Department official quoted in either source'\u2014this constraint must appear in the prose to match confidence level.",
+     "Draft states 'No official State Department statement or named agency official has been quoted in either outlet's coverage' only in paragraph two, deep in the body, when this credibility caveat belongs in the lede or first paragraph given the announced-not-verified status of every core claim.",
+     "The bottom_line 'US government legitimization: State Department launches Freedom Tech program' treats the announcement as confirmation when the brief itself marks sourcing as unverified. This overstates the epistemic ground."
+    ]
+   }
+  ]
  }
 ]
