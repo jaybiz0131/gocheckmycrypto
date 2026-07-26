@@ -1948,5 +1948,50 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-26",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "CFTC Warns Prediction Markets Against Template Certifications for Event Contracts",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Kraken Derivatives Exchange, which had operated under dormant designation since early 2025' but the brief data_point says 'Last trade on Kraken Derivatives Exchange was executed in early 2025.' These are materially different claims\u2014one about regulatory status timing, one about trading activity timing. The draft has smuggled a new fact about when the dormant designation began that is not in the brief.",
+     "The draft names Kalshi, Coinbase, Polymarket, and Crypto.com as 'prediction-market platforms operating under its regulatory authority' but the brief only says these are 'firms regulated by CFTC' identified in the advisory. The draft's characterization that they operate under CFTC authority for prediction markets goes beyond what the brief supports, particularly given the brief's own emphasis that CFTC jurisdiction is contested and legally uncertain."
+    ]
+   },
+   {
+    "id": "c056",
+    "headline": "BitMine Adds $73 Million in ETH, Pushing Holdings to 4.8% of Supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine is the largest corporate holder of ETH' but the brief data_point says only that BitMine's holdings represent '4.8% of Ethereum's circulating supply'\u2014no data point in the brief establishes that BitMine is the largest corporate holder. This claim is smuggled and cannot be traced to the research.",
+     "The draft mentions BitMine's public statement of 'a goal of controlling 5% of Ethereum's supply as a strategic treasury benchmark,' but the brief data_point only says 'BitMine has stated a goal of controlling 5% of ETH's total supply as a benchmark for its treasury strategy.' The draft's language ('controlling') differs materially in implication from the brief's ('stated a goal of'). The brief's framing is vaguer about how publicly this was stated; the draft presents it as a clear public commitment without the brief's qualifying language.",
+     "The draft claims 'In June, an insider warned of a cash gap at the company' but the brief data_point says 'Tom Lee defended BitMine's funding model in June after an insider warned of a cash gap'\u2014the brief does not establish that the warning was in June or that it occurred before Lee's defense. The timeline is ambiguous in the brief but the draft presents it as settled fact."
+    ]
+   },
+   {
+    "id": "c063",
+    "headline": "South Korea's Largest Bank to Launch Payment Service on JPMorgan's Kinexys",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Kinexys is JPMorgan's blockchain platform designed for institutional settlement and payments' but this claim does not appear in the brief's data_points. The brief only states 'KB Kookmin Bank will use JPMorgan's Kinexys blockchain platform' with no description of Kinexys's design or purpose. This is a smuggled fact.",
+     "The draft states the service 'will support import and export payments across 10 countries, per the reporting' but the brief data_point says 'The payment service will support US dollar cross-border payments for import and export businesses' and separately 'The cross-border payments will operate across 10 countries.' The draft conflates these into a single claim without clarifying that the 10-country scope is its own stated fact, not a paraphrase of the reporting language.",
+     "The brief is marked thin=true with source_chars=0, indicating severely limited source material. The draft's tone of confident institutional narrative ('major traditional financial institution committing to blockchain infrastructure') exceeds what a thin brief supports. The brief itself lists these as open_questions; the draft should reflect that uncertainty more clearly."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Bitcoin ETF Trading Volume at 9-Month Low While Ether Funds Draw Near-Equal Inflows",
+    "category": "accuracy",
+    "reasons": [
+     "Draft contains specific dollar figures ($16.2M, $51.6B, $38M, $11.1B) and precise dates (July 21, 2026; July 20, 2026) attributed to 'the desk's ETF flows board' that do not appear in the research brief. These facts are smuggled\u2014they are not sourced to The Block reporting and fall outside the single-source basis provided.",
+     "The phrase 'regulatory approval in early 2024' is presented as settled fact but does not appear in the brief's data_points. The brief itself is thin and explicitly marks multiple open questions about specific dollar amounts and exact inflow figures\u2014the draft answers these with unsourced precision.",
+     "The draft distinguishes between 'fresh capital' and 'existing positions rotating' as distinct mechanisms, but the brief's open_questions flag this exact distinction as unresolved. The draft presents this distinction as analytical framing rather than a fact from The Block, but the level of specificity (particular dates, cumulative totals) suggests sourcing beyond what is documented in the brief."
+    ]
+   }
+  ]
  }
 ]
