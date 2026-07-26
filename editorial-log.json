@@ -2024,5 +2024,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-26",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "Senate faces two-week window to pass Clarity Act; ethics provision unresolved",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Senator Elizabeth Warren 'called the bill \"dead on arrival\"' but the brief data_point says Warren said the bill 'should be dead on arrival'\u2014these are materially different claims (predictive vs. normative). The draft presents her statement as a completed judgment; the brief shows it as a conditional opinion about what should happen. This is not paraphrase; it changes the factual claim about what Warren said."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "BitMine Accumulates 42,197 ETH, Nears 5% Supply Target",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine holds a $180 million stake in Beast Industries' but the brief lists this as reported fact without naming the company. The draft introduces a company name 'Beast Industries' that does not appear in the brief's data_points, which refer only to a '$180 million stake' without naming the investee. This is a smuggled fact not present in the research.",
+     "The draft states 'a $71 million stake in Eightco Holdings, which trades as ORBS on Nasdaq' but the brief data_point only says 'BitMine holds a $71 million stake in Eightco Holdings (NASDAQ: ORBS)' without the additional characterization 'which trades as ORBS on Nasdaq' in that particular phrasing\u2014minor but the company name and ticker linkage should be verified as present in brief before stating it as fact. However, re-reading the brief, it does state '(NASDAQ: ORBS)' so this is acceptable paraphrase.",
+     "The draft presents 'Tom Lee, chair of BitMine and head of research at Fundstrat' but the brief data_point states 'BitMine is chaired by Fundstrat's Tom Lee'\u2014the draft reverses the attribution order and adds 'head of research at Fundstrat' as a title. The brief confirms he is chair of BitMine and associated with Fundstrat, but the draft's specific phrasing of his dual role title should trace directly to the brief. The brief does not explicitly state he is 'head of research at Fundstrat,' only that he is 'of Fundstrat.' This is a minor inference but edges into smuggled characterization."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "South Korea's Largest Bank to Launch Blockchain Payments on JPMorgan's Kinexys",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the platform is called 'JPMorgan's Kinexys' but the brief data_point lists it as 'JPMorgan's blockchain platform' without naming it 'Kinexys.' The title and first paragraph both name the platform 'Kinexys,' but this name does not appear in any brief data_point. The brief does not confirm the platform is called 'Kinexys'\u2014only that it is JPMorgan's platform. This is a smuggled fact not traced to research.",
+     "The brief is marked 'thin: true' with 'source_chars: 0,' indicating minimal sourcing. The draft elaborates extensively on blockchain settlement mechanics and trade friction ('Wire transfers, correspondent banking chains, and settlement delays create operational drag...Blockchain-based settlement can collapse multi-day settlement windows into minutes') without these details appearing in the brief's five data_points. This represents substantial new information not in the research."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "CFTC Warns Prediction Markets Against Template Certifications",
+    "category": "balance",
+    "reasons": [
+     "The bear_case in the brief identifies three substantive risks: (1) CFTC jurisdictional authority remains in legal doubt and faces Supreme Court review, (2) multiple U.S. states are contesting CFTC authority on illegal sports gambling grounds, and (3) the advisory itself suggests widespread non-compliance indicating reactive enforcement. The draft mentions the jurisdictional dispute and state challenges in passing (one paragraph, late in the story) but does not weight them proportionately to the forward-looking liability they pose to the enforcement advisory's credibility. The draft frames the advisory as a tightening signal; the bear_case suggests that signal may be hollow if courts constrain CFTC authority. A reader of this draft would not grasp that the primary regulator's ability to enforce this advisory is itself under active legal challenge and may be diminished or reversed. This is a material omission of risk context that makes the story read as a regulatory-action story rather than a contested regulatory claim."
+    ]
+   }
+  ]
  }
 ]
