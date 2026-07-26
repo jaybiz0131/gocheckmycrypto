@@ -1872,5 +1872,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-26",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "CFTC escalates warning on prediction market contract certifications",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Prediction market platforms including Kalshi, Coinbase (via Polymarket), and Crypto.com operate under this self-certification regime.' The brief data_point claims 'Prediction market firms are run by companies such as Kalshi, Coinbase, Polymarket and Crypto.com.' The draft incorrectly attributes Polymarket to Coinbase; the brief lists Polymarket and Coinbase as separate entities. This misrepresents the ownership structure and is a factual error not supported by the brief.",
+     "The draft introduces the Kraken Derivatives Exchange section with 'In a separate action, the CFTC extended the regulatory status of Kraken's Kraken Derivatives Exchange...' This entire paragraph about Kraken is factually disconnected from the core advisory warning on prediction market template certifications. While the data points exist in the brief, including Kraken material in a story about CFTC enforcement on template certifications confuses the angle and introduces a tangentially related fact without clear editorial purpose. The Kraken extension is a separate regulatory action and should not be embedded in a story about prediction market certification standards without clear connective logic."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "South Korea's largest bank to launch payment service on JPMorgan's Kinexys",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'South Korea's largest lender' but the brief's open_questions explicitly flag 'Which South Korean bank is this (name not provided in snippet or source)?' This is a smuggled fact\u2014the writer has asserted the identity without sourcing it. The brief confirms the name was not available in reporting.",
+     "The draft omits all eight open questions from the brief, presenting a skeletal story with critical unknowns unresolved. While brevity is acceptable when brief is thin, the draft here makes affirmative claims ('largest lender,' '10 countries,' 'US dollar payments') without acknowledging the sourcing gaps the brief itself documents. The bottom_line contradicts the draft by noting 'specific architecture...timeline...identity of participating countries...fee structures' remain unspecified, which should have been signaled in the prose itself to avoid liability if details prove incorrect or the announcement lacks official confirmation."
+    ]
+   },
+   {
+    "id": "c053",
+    "headline": "SummerFi to Wind Down After Seven Years, Citing Exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Kulechov called SummerFi 'an OG in DeFi' and noted the wind-down 'demonstrates the stakes and costs that go into providing high quality and secure DeFi access point.' The brief data_point includes a third claim attributed to Kulechov: 'Kulechov noted that the seven years 'been a nice ride for their team' and that SummerFi 'will be missed'.' This third quote/paraphrase does not appear anywhere in the draft body, despite being in the brief's data_points with 'reported' confidence. The writer omitted a sourced claim.",
+     "The draft opens with 'announced Wednesday' but the brief's data_point states the announcement was made 'on its official X account on Wednesday' without specifying which Wednesday or the date. The draft should either anchor to a specific date or acknowledge timestamp ambiguity, especially given the story is about an urgent operational closure."
+    ]
+   }
+  ]
  }
 ]
