@@ -454,13 +454,27 @@ def main():
                 ("movers", section_movers), ("stables", section_stables),
                 ("leverage", section_leverage), ("market", section_market),
                 ("etf_flows", section_etf_flows), ("network", section_network)]
+    # SNAPSHOT CARRY-FORWARD (run 30162489012 postmortem): a failed section used to be
+    # omitted outright, so one rate-limited source OVERWROTE the committed snapshot with a
+    # pulse missing that section - the posture board went blank and chartmaster/wrap refused
+    # to run ("no pulse snapshot"). Same fail-open doctrine as whale_flows: keep the previous
+    # snapshot's section (stale-but-real beats missing) and say so in the log.
+    try:
+        prev = json.load(open(SITE_DATA, encoding="utf-8"))
+    except Exception:
+        prev = {}
     got = 0
     for name, fn in sections:
         try:
             pulse[name] = fn()
             got += 1
         except Exception as e:
-            common.gh("warning", f"market_pulse: section '{name}' failed ({e}) -> omitted")
+            if prev.get(name):
+                pulse[name] = prev[name]
+                common.gh("warning", f"market_pulse: section '{name}' failed ({e}) -> "
+                                     f"carrying the previous snapshot's {name} forward")
+            else:
+                common.gh("warning", f"market_pulse: section '{name}' failed ({e}) -> omitted")
     if got == 0:
         common.gh("warning", "market_pulse: every source failed -> nothing written "
                              "(the previous snapshot stands).")
