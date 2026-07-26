@@ -1,0 +1,58 @@
+{
+  "id": "wrap-pm-2026-07-26",
+  "slug": "evening-brief-2026-07-26",
+  "kind": "brief",
+  "title": "The Evening Brief: Two Exchanges Head for the Exit as Regulators Tighten Grip",
+  "dek": "BitMEX and BitMart both confirmed wind-down timelines this week, with BitMEX's July 23 shutdown announcement filed the same day as a class-action lawsuit alleging it withheld customer collateral, while the CFTC and European reporting point to tightening compliance pressure across the industry.",
+  "date": "2026-07-26",
+  "published_utc": "2026-07-26T20:23:49Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Two long-running exchanges are exiting on set timelines while regulators in the US and Europe signal the bar for staying in business is rising, and the desk's own boards show bitcoin holding near $64,600 with fear still the prevailing mood.",
+  "bottom_line": "BitMEX announced on July 23 that it will shut down on September 23, 2026, the same day a class-action lawsuit was filed alleging it withheld customer collateral and ran an internal trading desk with access to private user data during server freezes, per CoinDesk. BitMart separately confirmed a phased wind-down beginning July 27, with trading ending August 26 and final closure January 31, 2027. The CFTC's second warning on template event-contract certifications and CoinDesk's reporting on MiCA compliance costs both point toward tightening regulatory burden, though the two describe separate jurisdictions acting independently. The desk's own boards show bitcoin at $64,603.64 and Fear & Greed at 26, with $197.95 million in bitcoin moving off exchanges over 24 hours. Coming checkpoints include BitMEX's September 23 shutdown, BitMart's August 26 and January 31, 2027 dates, and the Stacks hard fork targeted for around July 29 at block 907,740.",
+  "human_take": "",
+  "body": [
+    "The clearest thread across today's stories is exit and consolidation: two exchanges with a combined 20 years of operating history are winding down on fixed calendars, while separate reporting on both sides of the Atlantic describes regulators raising the cost of staying in the business.",
+    "BitMEX announced on July 23, 2026 that it will shut down effective September 23, 2026, ending an 11-year run as a derivatives exchange, according to CoinDesk. That same day, a proposed class-action was filed in the U.S. District Court for the Southern District of New York alleging BitMEX and co-founders Arthur Hayes, Ben Delo, and Samuel Reed ran a system that liquidated customer positions and withheld collateral worth roughly twice the claimed losses, funneling the remainder into the platform's insurance fund. The complaint, brought by BKX Services and David Namdar, claims combined losses of 622.66 BTC, worth $40.7 million, and also alleges an internal trading desk accessed private user data during server freezes, the conduct the filing frames as insider trading, per CoinDesk. Separately, BitMart, which has operated nine years, said it stopped taking new registrations, deposits and trading orders starting July 27, 2026 at 01:30 UTC, with all trading ending August 26, 2026 and final closure January 31, 2027; its BMX token fell 58% in 24 hours even as the exchange still cleared $1.6 billion in daily volume, CoinDesk reported.",
+    "On the regulatory side, the CFTC issued its second warning in recent months, on July 24, telling prediction-market operators to stop submitting broad, template-style event contract certifications without individual compliance analysis for each contract permutation, according to CoinDesk. Separately, CoinDesk reporting on Europe describes MiCA's compliance costs, plus the UK's proposed FCA framework, as likely to favor consolidation between crypto-native firms and established banks, since less than 20% of European banks currently offer crypto services. The two stories describe distinct regulators acting on separate tracks, not joint action.",
+    "Elsewhere, the picture was more constructive. The Stacks community approved SIP-045, enabling native Bitcoin staking without custodians, with over 99% support, exceeding the 80% threshold needed; the hard fork is targeted for around July 29 at Bitcoin block 907,740, per The Defiant, even though STX fell 13% in the 24 hours after the vote. Robinhood Chain's tokenized real-world assets grew roughly fivefold to about $70 million, with tokenized GameStop, Nvidia, and SpaceX clearing $26.6 million, $14 million, and $6.4 million in daily volume respectively, though memecoins and stablecoins still dominate the chain's overall activity, CoinDesk reported. Russia's Sberbank said it plans to launch crypto trading infrastructure and a digital depository by December 1, 2026, ahead of new Russian rules taking effect September 1. A separate, unverified report from Daily NK describes North Korean authorities arresting hackers accused of breaching state banks and laundering proceeds through Chinese crypto brokers; CoinDesk notes this account has not been confirmed by Western intelligence agencies.",
+    "The reporting does not say why BitMEX and BitMart chose to wind down in the same week, only that both did.",
+    "The desk's Market Pulse board shows Fear & Greed at 26, still labeled Fear, with bitcoin at $64,603.64, up 0.44% over 24 hours, and ether at $1,910.84, up 1.94%. The Whale Watch board shows $197.95 million in bitcoin moving off exchanges over 24 hours, including two withdrawals from Kraken, while the ETF flows board shows BTC funds posting a $240.1 million net outflow and ETH funds a $70.7 million outflow on July 24. The tape's calm, slightly positive tone sits somewhat apart from the day's exchange-closure and regulatory headlines, suggesting the market has not treated either as systemic.",
+    "Coming checkpoints include BitMEX's September 23, 2026 shutdown, which also lines up with a Bank Secrecy Act date the desk has previously flagged; BitMart's August 26 trading halt and January 31, 2027 final closure; the Stacks hard fork around July 29 at block 907,740; and Russia's September 1 regulatory framework ahead of Sberbank's December 1 launch. No dates are set yet for the CFTC's next step on template certifications or for Europe's MiCA consolidation trend to show up in specific deal activity."
+  ],
+  "sources": [
+    {
+      "title": "BitMEX Faces Class-Action Lawsuit Alleging Collateral Theft and Insider Trading as Exchange Announces Shutdown",
+      "url": "/articles/bitmex-faces-class-action-lawsuit-alleging-collateral-theft-and-insider-trading-as-exchange-announces-shutdown.html"
+    },
+    {
+      "title": "Robinhood Chain's real-world assets jump fivefold as tokenized stocks start trading in bigger size",
+      "url": "/articles/robinhood-chain-s-real-world-assets-jump-fivefold-as-tokenized-stocks-start-trading-in-bigger-size.html"
+    },
+    {
+      "title": "Russia's Sberbank to Launch Crypto Trading Infrastructure by December",
+      "url": "/articles/russia-s-sberbank-to-launch-crypto-trading-infrastructure-by-december.html"
+    },
+    {
+      "title": "Stacks Bitcoin Staking Upgrade Passes Governance Vote With 99% Support",
+      "url": "/articles/stacks-bitcoin-staking-upgrade-passes-governance-vote-with-99-support.html"
+    },
+    {
+      "title": "BitMart exchange to shut down after nine years, BMX token falls 58%",
+      "url": "/articles/bitmart-exchange-to-shut-down-after-nine-years-bmx-token-falls-58.html"
+    },
+    {
+      "title": "CFTC Issues Second Warning Against Template Event Contract Certifications",
+      "url": "/articles/cftc-issues-second-warning-against-template-event-contract-certifications.html"
+    },
+    {
+      "title": "Europe's regulatory compliance burden sparks crypto industry consolidation forecast",
+      "url": "/articles/europe-s-regulatory-compliance-burden-sparks-crypto-industry-consolidation-forecast.html"
+    },
+    {
+      "title": "North Korea arrests hackers accused of stealing from state banks and laundering via crypto",
+      "url": "/articles/north-korea-arrests-hackers-accused-of-stealing-from-state-banks-and-laundering-via-crypto.html"
+    }
+  ]
+}

@@ -1993,5 +1993,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-26",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c008",
+    "headline": "EU Adds HTX to Russia Sanctions List, Transaction Ban Effective Aug. 23",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The practical mechanics of enforcement remain unclear. The brief leaves several critical questions unresolved...' This is editorial analysis, not reporting. The brief explicitly lists these as open_questions, but the draft presents them as if they originated from the reporting itself rather than as unresolved gaps in the source material. This conflates what The Block reported with what The Block did not address.",
+     "The draft states 'HTX has not issued a public response regarding its compliance plan' \u2014 this claim does not appear in the brief's data_points and represents new information not traced to the source. It is smuggled analysis."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "South Korea's Largest Bank to Launch Payments on JPMorgan's Kinexys",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The 10 countries involved have not been named' and 'The launch date is unconfirmed' and 'Transaction capacity, pricing, and specific fees are not yet disclosed' and 'The regulatory approvals required or obtained are not addressed.' These are meta-commentary about what is not known, not facts from the brief. The brief's data_points contain no information about which 10 countries are included, launch date, transaction volumes, fees, or regulatory status\u2014these are listed only in open_questions. The draft is padding its body with statements about absence of information rather than reporting what is actually known. This violates the hard rule: facts go into the brief first. The draft should open with the announcement itself and note only what was actually disclosed, not catalog what wasn't. Reframe to match brief scope."
+    ]
+   },
+   {
+    "id": "c055",
+    "headline": "EDX Markets Closes $76M Series C Led by SBI Holdings",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'SBI Group is handling the domestic handling of U.S. dollar-denominated stablecoins including RLUSD and USDC' contains redundant phrasing ('handling the domestic handling') that appears to be a transcription error from the brief's data_point. More critically, the phrase 'domestic handling' is ambiguous and potentially misleading\u2014the brief's source quote uses this phrasing, but the draft should clarify or correct it rather than propagate unclear language. As written, it reads awkwardly and could be misinterpreted regarding SBI's actual role."
+    ]
+   }
+  ]
  }
 ]
