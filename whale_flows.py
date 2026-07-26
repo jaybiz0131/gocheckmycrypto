@@ -89,6 +89,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
                     "from": (t.get("from", {}) or {}).get("owner") or (
                         "unknown wallet" if kind == "inflow" else "unknown exchange"),
                     "blockchain": t.get("blockchain", ""), "hash": t.get("hash", ""),
+                    "url": t.get("url", ""),  # explorer receipt (fallback source only)
                     "ts": float(t.get("timestamp") or 0), "stable": is_stable}
             (inflow_moves if kind == "inflow" else outflow_moves).append(move)
             # exchange concentration: who is receiving (inflow) or dispensing (outflow)
@@ -178,6 +179,170 @@ def load_from_archive(cfg, window_hours, max_decompressed_bytes=8_000_000):
     return [t for t in txns if t.get("transaction_type") == "transfer"]
 
 
+# ---- Blockscout fallback (outage cover, 2026-07-25) ---------------------------
+# whale-alert.io went dark Jul 22-25 and the board silently served its last snapshot the
+# whole time. This fallback keeps the board moving on a keyless second source: Blockscout's
+# public Ethereum explorer. Its advanced-filters API does the size filtering server-side
+# (per-address paging cannot span a day on a hot wallet: one Binance page covers ~4
+# minutes), so each query returns only transfers over the floor, network-wide. Coverage is
+# narrower than Whale Alert (Ethereum ERC-20 majors only), so this runs ONLY when the
+# archive fetch fails, keeps the same $50M floor the board copy promises, and stamps the
+# snapshot with its source so the page attributes the data honestly.
+BLOCKSCOUT_API = "https://eth.blockscout.com/api/v2"
+BLOCKSCOUT_TX = "https://eth.blockscout.com/tx/"
+FALLBACK_MIN_USD = 50_000_000  # same floor as the archive, so "$50M+" stays true
+
+# The ERC-20 majors that carry exchange-flow signal on Ethereum. Stables price at 1.0;
+# the rest are priced from Blockscout's own token exchange_rate at fetch time.
+FALLBACK_TOKENS = (
+    ("USDT", "0xdAC17F958D2ee523a2206206994597C13D831ec7", 6, True),
+    ("USDC", "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6, True),
+    ("WBTC", "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599", 8, False),
+    # no WETH: exchanges take native ETH (which advanced-filters cannot scan without
+    # timing out), and WETH transfers are DeFi wrap traffic, not exchange flow signal
+)
+
+
+def _bs_get(path, timeout=30):
+    """One Blockscout API call with a single polite retry."""
+    import time as _time
+    import urllib.request
+    last = None
+    for i in range(2):
+        try:
+            req = urllib.request.Request(BLOCKSCOUT_API + path,
+                                         headers={"User-Agent": UA,
+                                                  "Accept": "application/json"})
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.load(r)
+        except Exception as e:
+            last = e
+            if i == 0:
+                _time.sleep(3)
+    raise last
+
+
+def _bs_owner(addr_obj, fallback_name=""):
+    """Label one side of a transfer from Blockscout's public address tags, reusing the
+    pipeline's canonical exchange matcher."""
+    tags = ((addr_obj or {}).get("metadata") or {}).get("tags") or []
+    for t in tags:
+        name = (t.get("meta") or {}).get("main_entity") or t.get("name") or ""
+        if name:
+            o = common._whale_owner(name)
+            if o["owner_type"] == "exchange":
+                return o
+    name = (addr_obj or {}).get("name") or fallback_name
+    return common._whale_owner(name if name else None)
+
+
+def _bs_ts(iso):
+    return datetime.fromisoformat((iso or "").replace("Z", "+00:00")).timestamp()
+
+
+def _bs_label(addr, cache):
+    """Entity label for an arbitrary address. The advanced-filters response strips the
+    public tags, and the single-address endpoint never carries them; the one place they
+    reliably appear is on LIST-response address objects. So: read the address's freshest
+    token-transfers page and label it from its own object there. Cached per address."""
+    a = (addr or "").lower()
+    if not a:
+        return common._whale_owner(None)
+    if a not in cache:
+        owner = common._whale_owner(None)
+        try:
+            d = _bs_get(f"/addresses/{addr}/token-transfers?type=ERC-20")
+            for it in d.get("items") or []:
+                for side in (it.get("from"), it.get("to")):
+                    if (side or {}).get("hash", "").lower() == a:
+                        owner = _bs_owner(side)
+                        break
+                else:
+                    continue
+                break
+        except Exception:
+            pass  # unlabeled beats unfetched: classify() treats unknown as non-exchange
+        cache[a] = owner
+    return cache[a]
+
+
+def load_from_blockscout(window_hours, max_pages=3):
+    """The window's $50M+ transfers of the ERC-20 majors, network-wide, in canonical txn
+    dicts. One advanced-filters query per token (server-side amount floor), then entity
+    labels for each endpoint address. Returns [] on a genuinely quiet window."""
+    import time as _time
+    cutoff = _time.time() - window_hours * 3600
+    txns, seen = [], set()
+    labels = {}
+    ok_queries = 0
+    for sym, contract, dec, is_stable in FALLBACK_TOKENS:
+        price = 1.0
+        if not is_stable:
+            try:
+                price = float(_bs_get(f"/tokens/{contract}").get("exchange_rate") or 0)
+            except Exception:
+                price = 0
+            if not price:
+                continue  # unpriceable token: skip rather than invent a USD figure
+        floor_units = int(FALLBACK_MIN_USD / price)
+        page = ""
+        base = (f"/advanced-filters?transaction_types=ERC-20"
+                f"&token_contract_address_hashes_to_include={contract}"
+                f"&amount_from={floor_units}")
+        try:
+            for _ in range(max_pages):
+                d = _bs_get(base + page, timeout=150)
+                ok_queries += 1
+                done = False
+                for it in d.get("items") or []:
+                    if not it.get("timestamp"):
+                        continue  # pending item; no block time yet
+                    ts = _bs_ts(it.get("timestamp"))
+                    if ts < cutoff:
+                        done = True
+                        break
+                    if it.get("status") not in (None, "ok", "success"):
+                        continue
+                    amount = float((it.get("total") or {}).get("value") or 0) / (10 ** dec)
+                    usd = amount * price
+                    if usd < FALLBACK_MIN_USD:
+                        continue
+                    h = it.get("hash") or ""
+                    key = (h, sym, str((it.get("total") or {}).get("value")))
+                    if key in seen:
+                        continue
+                    seen.add(key)
+                    frm = (it.get("from") or {}).get("hash", "")
+                    to = (it.get("to") or {}).get("hash", "")
+                    txns.append({"timestamp": ts, "blockchain": "ethereum",
+                                 "transaction_type": "transfer", "hash": h,
+                                 "symbol": sym, "amount": amount, "amount_usd": usd,
+                                 "from": _bs_label(frm, labels),
+                                 "to": _bs_label(to, labels),
+                                 "url": BLOCKSCOUT_TX + h})
+                np = {k: v for k, v in (d.get("next_page_params") or {}).items()
+                      if v is not None}
+                if done or not np:
+                    break
+                from urllib.parse import urlencode
+                page = "&" + urlencode(np)
+        except Exception as e:
+            common.gh("warning", f"whale_flows: Blockscout query for {sym} failed ({e})")
+    if not ok_queries:
+        raise RuntimeError("every Blockscout advanced-filters query failed")
+    return txns
+
+
+FALLBACK_NOTE = ("Data: Blockscout public explorer, shown while Whale Alert's feed is "
+                 "unavailable: only the very largest Ethereum ERC-20 transfers (USDT, USDC, "
+                 "WBTC; $50M and up) appear, so this view is narrower than usual and "
+                 "a quiet board may understate activity. For volatile assets, coins moving "
+                 "onto exchanges can precede selling and coins moving off suggests "
+                 "accumulation or self-custody. Stablecoins are the opposite: onto an "
+                 "exchange is buying power arriving, so they are scored separately. Market "
+                 "data, not news, not advice.")
+
+
 def weekly_history(txns, weeks=HISTORY_WEEKS, now=None):
     """Roll exchange-relevant transfers into 7-day buckets (oldest -> newest): net volatile
     flow (the accumulation/sell-pressure signal, same scoring as the board) plus the count
@@ -215,25 +380,37 @@ def run(fixture=None, window=None, example=False):
 
     date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     history = None
+    source = "whale-alert"
     if fixture:
         txns = json.load(open(fixture, encoding="utf-8")).get("transactions", [])
         example = True  # a fixture-derived board is always illustrative
     else:
+        import time as _time
         try:
             # One archive read covers both views: the last HISTORY_WEEKS of transfers feed
             # the weekly trend, and the freshest window_hours slice feeds the board.
-            import time as _time
             txns_hist = load_from_archive(cfg, HISTORY_WEEKS * 7 * 24,
                                           max_decompressed_bytes=32_000_000)
             cutoff = _time.time() - window_hours * 3600
             txns = [t for t in txns_hist if float(t.get("timestamp") or 0) >= cutoff]
             history = weekly_history(txns_hist)
         except Exception as e:
-            # Fail-open for the BOARD only: keep the committed snapshot rather than fail a
-            # deploy over a market-data hiccup. The news pipeline's gates are unaffected.
-            common.gh("warning", f"whale_flows: archive fetch failed ({e}) -> skipping "
-                                 f"(no board written; the previous snapshot stands).")
-            return 0
+            # SECOND SOURCE before giving up (Jul 22-25 outage postmortem): the archive
+            # being down used to freeze the board on its last snapshot indefinitely.
+            common.gh("warning", f"whale_flows: archive fetch failed ({e}) -> "
+                                 f"trying the Blockscout fallback")
+            try:
+                txns_hist = load_from_blockscout(WIDEN_HOURS[1])
+                cutoff = _time.time() - window_hours * 3600
+                txns = [t for t in txns_hist if float(t.get("timestamp") or 0) >= cutoff]
+                source = "blockscout"
+            except Exception as e2:
+                # Fail-open for the BOARD only: keep the committed snapshot rather than
+                # fail a deploy over a market-data hiccup. News gates are unaffected.
+                common.gh("warning", f"whale_flows: Blockscout fallback failed too ({e2}) "
+                                     f"-> skipping (no board written; the previous "
+                                     f"snapshot stands).")
+                return 0
 
     result = analyze(txns, window_hours, top_assets, top_moves, example=example, date=date)
     if not fixture and not result["txn_count"]:
@@ -260,6 +437,18 @@ def run(fixture=None, window=None, example=False):
         import statistics
         abs_nets = sorted(abs(w["net_usd"]) for w in history)
         result["weekly_median_abs_usd"] = round(statistics.median(abs_nets)) if abs_nets else 0
+    if source == "blockscout":
+        # the page must attribute the data honestly, and the 13-week trend cannot be
+        # rebuilt from a window fetch: carry the previous snapshot's history forward.
+        result["source"] = "blockscout"
+        result["note"] = FALLBACK_NOTE
+        try:
+            prev = json.load(open(SITE_DATA, encoding="utf-8"))
+        except Exception:
+            prev = {}
+        if not result.get("history") and prev.get("history"):
+            result["history"] = prev["history"]
+            result["weekly_median_abs_usd"] = prev.get("weekly_median_abs_usd", 0)
     common.write_out(os.path.basename(OUT), result)
     os.makedirs(os.path.dirname(SITE_DATA), exist_ok=True)
     json.dump(result, open(SITE_DATA, "w", encoding="utf-8"), indent=2)

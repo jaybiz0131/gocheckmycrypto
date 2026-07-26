@@ -1551,6 +1551,15 @@ def render_flows(flows, dateline):
         ribbon += (f'<div class="callout"><b>Quiet stretch.</b> No exchange-size whale moves hit '
                    f'the public feed in the last {_win_phrase(flows["window_widened_from"])}, so '
                    f'this board shows the last {_win_phrase(flows.get("window_hours"))} instead.</div>')
+    # the "what it cannot tell you" explainer names the source that actually produced this
+    # snapshot (whale_flows falls back to Blockscout when Whale Alert's feed is down)
+    src_line = ('Only the very largest Ethereum ERC-20 transfers visible on the '
+                '<a href="https://eth.blockscout.com/" rel="nofollow">Blockscout</a> public '
+                'explorer ($50M and up) appear here'
+                if flows.get("source") == "blockscout" else
+                'Only moves large enough for <a href="https://whale-alert.io/" '
+                'rel="nofollow">Whale Alert</a> to post publicly (roughly $50M and up) '
+                'appear here')
     # deterministic 'now' anchor for move ages: the newest transfer in the window
     all_moves = flows.get("top_inflows", []) + flows.get("top_outflows", [])
     now_ts = max((m.get("ts") or 0 for m in all_moves), default=0)
@@ -1559,12 +1568,13 @@ def render_flows(flows, dateline):
         rows = ""
         for m in moves:
             usd = fmt_usd(m.get("usd", 0))
-            # the receipt: the transfer itself, on Whale Alert
-            if m.get("hash") and m.get("blockchain"):
-                url = f'https://whale-alert.io/transaction/{m["blockchain"]}/{m["hash"]}'
-                usd_html = f'<a href="{esc(url)}" rel="nofollow">{esc(usd)}</a>'
-            else:
-                usd_html = esc(usd)
+            # the receipt: the transfer itself, on the source that actually saw it (a move
+            # from the Blockscout fallback carries its own explorer url; Whale Alert moves
+            # keep the classic link)
+            url = m.get("url") or (
+                f'https://whale-alert.io/transaction/{m["blockchain"]}/{m["hash"]}'
+                if m.get("hash") and m.get("blockchain") else "")
+            usd_html = f'<a href="{esc(url)}" rel="nofollow">{esc(usd)}</a>' if url else esc(usd)
             age = ""
             if m.get("ts") and now_ts:
                 h = max(0, round((now_ts - m["ts"]) / 3600))
@@ -1671,10 +1681,9 @@ def render_flows(flows, dateline):
       is stepping out of the arena. That is why we score them separately from volatile assets.</p></div>
     <div class="learn"><span class="lab">What it cannot tell you</span>
       <p>Whales move money for many reasons: custody rotations, transfers between their own
-      wallets, over-the-counter deals. Only moves large enough for
-      <a href="https://whale-alert.io/" rel="nofollow">Whale Alert</a> to post publicly (roughly
-      $50M and up) appear here, and exchanges are identified by name. Treat this board as
-      context for the news above it, never as a trade signal on its own.</p></div>
+      wallets, over-the-counter deals. {src_line}, and exchanges are identified by name.
+      Treat this board as context for the news above it, never as a trade signal on its
+      own.</p></div>
   </div>
   <p class="nfa">{esc(flows.get("note",""))} {esc(NFA)}</p>
 </section></main>"""
