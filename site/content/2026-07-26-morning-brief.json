@@ -1,0 +1,53 @@
+{
+  "id": "wrap-am-2026-07-26",
+  "slug": "morning-brief-2026-07-26",
+  "kind": "brief",
+  "title": "The Morning Brief: Two Exchanges Wind Down as BitMEX Faces Fraud Suit",
+  "dek": "BitMEX, ending an 11-year run, and BitMart, ending nine years, both announced shutdowns this week, while a lawsuit filed the same day as BitMEX's closure alleges systematic collateral theft.",
+  "date": "2026-07-26",
+  "published_utc": "2026-07-26T08:03:05Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Two long-running exchanges are closing in the same week, one of them under active litigation alleging it withheld customer funds, while the desk's own boards show fear-driven positioning and bitcoin moving off exchanges rather than onto them.",
+  "bottom_line": "BitMEX, after 11 years, and BitMart, after nine, both announced shutdowns this week, with BitMEX's closure accompanied by a class-action lawsuit filed the same day alleging systematic collateral theft and insider trading, per CoinDesk. The desk's Whale Watch board shows $197.95 million in bitcoin moving off exchanges over 24 hours, including two separate withdrawals from Kraken, while Market Pulse shows Fear & Greed at 26 and bitcoin roughly flat near $64,305. Elsewhere, Stacks' SIP-045 Bitcoin staking upgrade passed governance with over 99% support, and Robinhood Chain's tokenized real-world assets grew fivefold to roughly $70 million. Coming checkpoints include BitMEX's shutdown effective date of September 23, 2026, BitMart's trading halt on August 26, 2026 and final closure January 31, 2027, and the Stacks hard fork targeted for around July 29 at block 907,740.",
+  "human_take": "",
+  "body": [
+    "The single thread through Sunday's reporting is exchange exits. BitMEX, a derivatives platform that had operated for 11 years, and BitMart, which had run for nine, both announced shutdowns within the same week, according to CoinDesk. BitMEX's closure carries an added complication: a proposed class-action lawsuit, filed July 23, 2026, the same day BitMEX announced it would cease operations effective September 23, 2026.",
+    "The lawsuit, filed in the U.S. District Court for the Southern District of New York by BKX Services and David Namdar, alleges BitMEX and co-founders Arthur Hayes, Ben Delo, and Samuel Reed ran a system that liquidated customer positions while collateral was worth roughly twice the losses, then withheld the balance, per CoinDesk. Combined claims total 622.66 BTC, valued at $40.7 million at the time of reporting. Separately, BitMart stopped accepting new registrations, deposits and trading orders on July 27, 2026, with all trading ending August 26, 2026 and final operations ceasing January 31, 2027; BitMart's token BMX fell 58% in 24 hours on the news, per the reporting, even as the exchange still cleared $1.6 billion in 24-hour volume.",
+    "Elsewhere, the day's stories point toward building rather than retreating. The Stacks community approved SIP-045, a Bitcoin staking upgrade allowing users to lock native BTC in timelocked contracts without custodians, with over 99% support, exceeding the required 80% threshold; the hard fork is targeted for around July 29 at Bitcoin block 907,740, according to The Defiant. STX fell 13% in the 24 hours following the vote, per the reporting, which does not state a cause for the decline. Robinhood Chain's tokenized real-world assets reached roughly $70 million, a fivefold increase in under two weeks, with a dozen tokenized stocks each clearing at least $500,000 in daily volume, though memecoins and stablecoins still dominate total chain activity, per CoinDesk. In Brazil, farmers tokenized ten dairy cows on the B3 exchange using AI-monitored collars to raise roughly $20,000 in credit, led by agtech firm Cowmed. And Sberbank, Russia's largest bank, said it will launch crypto trading infrastructure and a digital depository by December 1, 2026, ahead of Russia's new regulatory framework taking effect September 1, 2026.",
+    "On why the exchange closures are happening now, the reporting does not draw a unified cause. BitMEX's shutdown announcement and the lawsuit arrived on the same day, but CoinDesk's reporting does not state that the suit forced the closure decision. BitMart's own announcement frames its wind-down as orderly, without citing regulatory or financial distress as a stated reason.",
+    "The desk's Market Pulse board shows Fear & Greed at 26, within its 30-day range of 11 to 33, alongside bitcoin trading near $64,305, essentially flat over 24 hours, and total market capitalization up 0.89% to $2.29 trillion. The Whale Watch board shows $197.95 million in net bitcoin outflows from exchanges over 24 hours, composed of two separate withdrawals from Kraken, $116.6 million and $81.3 million, both moving off the exchange rather than onto it. That direction is consistent with reduced immediate selling pressure, though the board shows no stablecoin buying power alongside it. ETF flows ran negative on the latest date, July 24, with bitcoin funds seeing $240.1 million in net outflows and ether funds $70.7 million, even as cumulative bitcoin ETF inflows remain at $51.4 billion. Leverage data shows BTC open interest near $2.05 billion on OKX with a long/short ratio of 1.73 and roughly balanced 24-hour liquidations between longs and shorts, a leverage picture that does not point to acute stress in either direction.",
+    "The coming days carry several dated checkpoints. BitMEX's shutdown takes effect September 23, 2026, the same date named in the desk's regulatory tracking for a Bank Secrecy Act storyline tied to the exchange. BitMart's trading halts August 26, 2026, with final closure January 31, 2027. Stacks' SIP-045 hard fork is targeted for around July 29 at block 907,740. No court date for BitMEX's class-action certification has been reported."
+  ],
+  "sources": [
+    {
+      "title": "BitMEX Faces Class-Action Lawsuit Alleging Collateral Theft and Insider Trading as Exchange Announces Shutdown",
+      "url": "/articles/bitmex-faces-class-action-lawsuit-alleging-collateral-theft-and-insider-trading-as-exchange-announces-shutdown.html"
+    },
+    {
+      "title": "BitMEX Sued for Collateral Theft and Insider Trading as Shutdown Looms",
+      "url": "/articles/bitmex-sued-for-collateral-theft-and-insider-trading-as-shutdown-looms.html"
+    },
+    {
+      "title": "Brazilian Farmers Tokenize Dairy Cows for Credit on B3 Exchange",
+      "url": "/articles/brazilian-farmers-tokenize-dairy-cows-for-credit-on-b3-exchange.html"
+    },
+    {
+      "title": "Robinhood Chain's real-world assets jump fivefold as tokenized stocks start trading in bigger size",
+      "url": "/articles/robinhood-chain-s-real-world-assets-jump-fivefold-as-tokenized-stocks-start-trading-in-bigger-size.html"
+    },
+    {
+      "title": "Russia's Sberbank to Launch Crypto Trading Infrastructure by December",
+      "url": "/articles/russia-s-sberbank-to-launch-crypto-trading-infrastructure-by-december.html"
+    },
+    {
+      "title": "Stacks Bitcoin Staking Upgrade Passes Governance Vote With 99% Support",
+      "url": "/articles/stacks-bitcoin-staking-upgrade-passes-governance-vote-with-99-support.html"
+    },
+    {
+      "title": "BitMart exchange to shut down after nine years, BMX token falls 58%",
+      "url": "/articles/bitmart-exchange-to-shut-down-after-nine-years-bmx-token-falls-58.html"
+    }
+  ]
+}

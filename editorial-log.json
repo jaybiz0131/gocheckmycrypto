@@ -1841,5 +1841,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-26",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "EU sanctions HTX and seven crypto platforms, bars transactions from August 23",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The EU did not immediately disclose the specific allegations, evidence or operational conduct linking these platforms to Russian sanctions evasion, nor did it detail enforcement mechanisms or whether exceptions apply for user fund withdrawals during the transition period.' This is editorial interpretation or inference, not a fact from the brief. The brief's bear_case notes 'Source text is empty; no details available on EU's stated rationale' and the brief itself contains zero source text (source_chars: 0). The writer has smuggled an interpretive claim about what the EU 'did not immediately disclose' without evidence from the research that such disclosure was expected or that the absence is noteworthy. This reads as the writer padding a thin story with pseudo-authoritative assertions about official conduct."
+    ]
+   },
+   {
+    "id": "c050",
+    "headline": "SummerFi to Wind Down After Seven Years, Citing Exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'SummerFi has since characterized the incident as NAV manipulation rather than a flash-loan hack.' However, the brief data_point says 'SummerFi has characterized the exploit incident as NAV manipulation rather than a flash-loan hack'\u2014no temporal marker of 'has since.' The draft's phrasing implies a sequence of events (initial flash-loan description, then SummerFi's recharacterization) that the brief does not confirm. The brief only reports that The Defiant initially reported it as a flash-loan exploit on July 6, and that SummerFi later characterized it differently, but the draft's 'has since' creates a false timeline suggesting SummerFi issued a public correction when the brief only says the characterization differs between The Defiant's account and SummerFi's characterization.",
+     "The draft states: 'The apparent inconsistency between these characterizations has not been independently reconciled.' This fact does not appear in the brief's data_points. The brief does include a data_point claiming 'The earlier flash-loan hack description and SummerFi's NAV manipulation characterization have not been independently reconciled,' but that is attributed to The Defiant's reporting, not independently verified. The draft presents this as settled fact without attribution, making it SMUGGLED\u2014the desk did not confirm this independently; The Defiant reported it."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "SBI Holdings Leads $76M Series C for EDX Markets Institutional Trading Venue",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the quote 'Their investment strengthens our ability to deliver the capabilities and market access that financial institutions need to engage with digital assets confidently and at scale' to CEO Tony Acu\u00f1a-Rohter, but the brief's data_point shows the actual quote as 'strengthens our ability to deliver the capabilities and market access that financial institutions need to engage with digital assets confidently and at scale' without the leading 'Their investment.' The brief does not provide the full original quote, and the draft has paraphrased or modified it. More critically, the draft reads 'CEO Tony Acu\u00f1a-Rohter said the capital...' but the brief's confidence label is 'announced-not-verified,' which should be reflected in the prose (e.g., 'according to the announcement' or similar language indicating the claim is not independently verified). Presenting an announced-but-unverified statement as a direct CEO attribution without qualification violates the accuracy rule."
+    ]
+   }
+  ]
  }
 ]
