@@ -54,6 +54,13 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
 
+      # The pipeline itself is stdlib-only; Pillow is the one optional extra, used by
+      # site_build's per-article OG cards. Netlify installs it the same way, so installing
+      # it here keeps autopilot's validation build identical to the deploy (and quiet).
+      # Fail-open: no Pillow just means cards are skipped, exactly like production.
+      - name: Optional deps (OG card rendering, matches the Netlify build)
+        run: pip install --quiet Pillow || true
+
       - name: Offline canary (hard gate, blocks a mis-wired pipeline)
         run: python3 verify_pipeline.py canary
 
@@ -129,7 +136,18 @@ jobs:
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "brief: VERIFIED stories + Chart Master read $(date -u +%Y-%m-%dT%H:%MZ)"
-            git push
+            # RACE-SAFE PUSH (run 30162489012 postmortem): main can move while a brief runs
+            # (the concurrency group only serializes THIS workflow; merges and other pushes
+            # still land mid-run). A bare push then gets rejected and the run's verified
+            # stories are lost. Content commits are additive new files, so rebase-and-retry
+            # is conflict-free in practice; a real conflict still fails loudly (fail-closed).
+            ok=false
+            for i in 1 2 3; do
+              if git push; then ok=true; break; fi
+              echo "::warning::push rejected (attempt $i): main moved mid-run; rebasing and retrying"
+              git pull --rebase origin main
+            done
+            [ "$ok" = true ] || { echo "::error::push failed after 3 rebase-and-retry attempts"; exit 1; }
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
 
