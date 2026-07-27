@@ -2141,5 +2141,57 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-27",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c132",
+    "headline": "Binance app removed from Google Play in certain EU markets",
+    "category": "accuracy",
+    "reasons": [
+     "The second paragraph introduces CoinDesk's Whale Watch data ($116.6 million and $81.3 million in BTC outflows from Kraken) that does not appear in the research brief. This fact is smuggled; it must be traced back to a data_point or removed.",
+     "The draft acknowledges it is unrelated to the main story ('this activity predates and is unrelated to the Binance app removal'), making its inclusion indefensible under the hard rule that facts come from the brief."
+    ]
+   },
+   {
+    "id": "c144",
+    "headline": "Russia's Sberbank plans to launch crypto trading infrastructure by December",
+    "category": "balance",
+    "reasons": [
+     "The brief explicitly flags zero bear_case items and marks the story as thin=true with only two data_points and no detail. The draft correctly lists open questions and unknowns, but then frames this as a story about 'a shift in Russian policy toward crypto use' and 'state-backed crypto infrastructure' with confidence that exceeds the evidence. The brief supplies only announcement-level reporting with no regulatory detail, technical architecture, or geopolitical context. The draft should read as thinner and more cautious about what is actually known.",
+     "The second paragraph is appropriate (lists unknowns), but the framing in the first paragraph and bottom_line overstate the significance of a bare announcement. With only one source and no independent verification, substantive claims about 'state-backed adoption' and 'shift in Russian policy' are presented too definitively."
+    ]
+   },
+   {
+    "id": "c116",
+    "headline": "Ether ETFs Attract $103.8M as Bitcoin Funds Post $95.5M Outflow",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'ETH trades at approximately $1,936, up roughly 1 percent over 24 hours' but the brief data_point says 'ETH trades at $1,936, up 1.1% in the past 24 hours and about 2% on the week.' The draft rounds 1.1% to 'roughly 1 percent,' which is acceptable paraphrase, but then adds 'The desk's ETF flows board showed bitcoin ETF inflows of $33.9M for the last five sessions and ether ETF inflows of $103.8M over the same period, ending July 24.' This sentence appears to be editorial commentary or desk attribution that does not exist in the brief and reads like a fabricated self-citation designed to establish authority. It is not a data point from the source and constitutes smuggled fact.",
+     "The draft claims 'BitMine Immersion Technologies added 104,512 ETH over the past 30 days, bringing holdings to 5.78 million ETH' but the brief for c116 contains no data_point about BitMine adding 104,512 ETH or holding 5.78 million. This claim appears to be drawn from brief c112, not c116. The brief c116 only mentions at the end 'BitMine Immersion Technologies added 104,512 ETH over the past 30 days, bringing holdings to 5.78 million ETH\u2014approximately 4.8 percent of ether's circulating supply, per The Defiant. The corporate accumulation runs parallel to the institutional ETF rotation and may signal broader conviction on ether as a treasury asset amid macro uncertainty.' However, the brief data_points for c116 do not include any BitMine data; this is sourced from c112's brief. The draft has confused or cross-contaminated briefs, importing facts that belong to a different story."
+    ]
+   },
+   {
+    "id": "c112",
+    "headline": "BitMine Adds 42,197 ETH, Holdings Reach 4.8% of Circulating Supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine acquired 42,197 ETH worth approximately $73 million over the past week' but the brief data_point is labeled 'announced-not-verified' confidence. The draft presents this as a fact without qualification. Per the instruction that 'Confidence labels must survive: a brief claim marked \"unconfirmed\" or \"announced-not-verified\" must read that way in the prose,' the draft should have signaled this to the reader (e.g., 'BitMine announced it acquired 42,197 ETH worth roughly $73 million over the past week' or similar language acknowledging the unverified status). Instead it reads as settled fact.",
+     "The draft states 'bringing total holdings to 5.74 million ETH' but the brief data_point says 'BitMine's total holdings reached 5,742,237 ETH' (5.742 million, not 5.74 million). The draft has rounded without justification and the rounding direction matters for a claim about percentage of supply. While minor, the precision loss is not paraphrasing\u2014it is an alteration of a specific figure.",
+     "The draft claims 'BitMine is the largest corporate holder of the asset' but the brief data_point says only 'BitMine is the largest corporate holder of ETH.' The draft's language 'of the asset' is vaguer and could be read as applying to crypto assets generally. More critically, this claim in the brief is marked 'reported' confidence, not from a primary announcement, meaning it is derived/analytical rather than directly stated by BitMine. The draft should reflect that derivation or at minimum not elevate it beyond the brief's own framing."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "Fanatics Acquires CFTC-Registered Exchange for Prediction Market Control",
+    "category": "balance",
+    "reasons": [
+     "Brief flags 'thin': true with zero source_chars and only 3 data_points, yet the draft presents the acquisition as a major strategic consolidation play ('echoing DraftKings and FanDuel's consolidation plays and marking a critical moment'). The brief's own open_questions section\u2014empty bear_case, thin sourcing\u2014signals limited reporting depth. The draft should reflect that uncertainty and avoid overframing a thinly-sourced deal as a market inflection point.",
+     "The bottom_line claims competitive impact will emerge from Fanatics controlling 'pricing, order flow, and contract listing decisions' and compares it to 'decentralized prediction platforms' without any basis in the brief for those competitive stakes. This reads as analytical overreach given the source material's thinness."
+    ]
+   }
+  ]
  }
 ]
