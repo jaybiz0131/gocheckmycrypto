@@ -124,6 +124,13 @@ jobs:
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
         run: python3 wrap.py || echo "::warning::daily edition failed its gates; stories unaffected"
 
+      # THE WEEK AHEAD (audit item 2, 2026-07-27): Monday's calendar-driven forward story,
+      # rendered deterministically from data/week_calendar.json. No model, no forecasts by
+      # construction; non-Mondays and already-published weeks exit clean.
+      - name: Week Ahead story (Mondays, from the curated calendar)
+        if: steps.key.outputs.have_key == 'true'
+        run: python3 week_ahead.py
+
       # CROSS-SURFACE CONSISTENCY GATE (audit item 1, 2026-07-27): the homepage once
       # showed a lead story reporting weekly ETF INFLOWS beside a Chart Master blurb
       # saying "outflows persist". Deterministic tripwire: if two co-rendering surfaces

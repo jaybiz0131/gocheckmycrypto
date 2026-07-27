@@ -1,0 +1,29 @@
+{
+  "note": "Curated forward calendar for the Monday Week Ahead story (audit item 2, 2026-07-27). Only scheduled, publicly announced items belong here, each with a source URL. week_ahead.py renders this file deterministically every Monday; nothing in it may be a prediction. Kinds: macro, earnings, protocol, regulatory.",
+  "events": [
+    {
+      "date": "2026-07-29",
+      "kind": "macro",
+      "title": "FOMC rate decision",
+      "detail": "The Federal Open Market Committee meets Tuesday and Wednesday; the rate decision lands Wednesday at 2:00 p.m. Eastern with a press conference at 2:30. This meeting carries no Summary of Economic Projections, so there is no dot plot to parse.",
+      "source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source_name": "Federal Reserve"
+    },
+    {
+      "date": "2026-07-30",
+      "kind": "earnings",
+      "title": "Coinbase second-quarter results",
+      "detail": "Coinbase reports second-quarter results after the U.S. market close, the largest listed crypto exchange's first report since the June market drawdown.",
+      "source": "https://www.stocktitan.net/news/COIN/coinbase-announces-date-of-second-quarter-2026-financial-ms2ly18besxs.html",
+      "source_name": "Coinbase (via StockTitan)"
+    },
+    {
+      "date": "2026-07-30",
+      "kind": "earnings",
+      "title": "Strategy second-quarter results",
+      "detail": "Strategy, the largest corporate bitcoin holder, reports second-quarter results after the close with a webinar at 5:00 p.m. Eastern; its bitcoin position marks to the quarter's prices.",
+      "source": "https://www.stocktitan.net/news/MSTR/strategy-announces-earnings-release-date-and-live-video-webinar-for-99tfu7jmzh2f.html",
+      "source_name": "Strategy (via StockTitan)"
+    }
+  ]
+}
