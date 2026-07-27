@@ -96,6 +96,13 @@ ADVICE_LINT = [r"\byou should\b", r"\bbuy\b", r"\bsell\b", r"\bgood entry\b",
                r"\bwill (rally|crash|pump|dump|10x|moon)\b", r"\bguaranteed\b",
                r"\btime to (buy|sell|enter|exit)\b"]
 
+# Reporting vocabulary, not advice (Editions outage, 2026-07-27): the boards label flows
+# with phrases like "sell pressure", and the Tape section quoting them tripped the bare
+# \bsell\b pattern on every attempt, so no Edition survived its own belts for two slots
+# straight. These compounds DESCRIBE the market; they are stripped before the advice lint
+# runs. Bare buy/sell outside them is still advice and still fatal.
+REPORTING_VOCAB = re.compile(r"\b(?:buy|sell)(?:-|\s+)(?:off|offs|pressure|orders?|side|wall)s?\b")
+
 
 def gather_stories(hours=36):
     """The desk's own published stories from the window: already verified + approved, so
@@ -138,7 +145,7 @@ def belts(article_body, dek, bottom_line):
     text = " ".join([article_body, dek, bottom_line])
     if "—" in text or "–" in text:
         problems.append("em/en dash in the edition")
-    low = text.lower()
+    low = REPORTING_VOCAB.sub(" ", text.lower())
     for pat in ADVICE_LINT:
         if re.search(pat, low):
             problems.append(f"advice-lint hit: {pat}")
