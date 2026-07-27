@@ -124,6 +124,16 @@ jobs:
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
         run: python3 wrap.py || echo "::warning::daily edition failed its gates; stories unaffected"
 
+      # CROSS-SURFACE CONSISTENCY GATE (audit item 1, 2026-07-27): the homepage once
+      # showed a lead story reporting weekly ETF INFLOWS beside a Chart Master blurb
+      # saying "outflows persist". Deterministic tripwire: if two co-rendering surfaces
+      # assert opposite directions on the same metric (ETF flows, BTC price, dominance,
+      # whale flows), this run publishes NOTHING and goes red for a human. Runs after the
+      # boards/edition are generated so it checks exactly what would ship.
+      - name: Cross-surface consistency gate (no contradictions on one viewport)
+        if: steps.key.outputs.have_key == 'true'
+        run: python3 consistency_gate.py
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true'

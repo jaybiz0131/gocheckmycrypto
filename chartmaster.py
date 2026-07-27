@@ -42,6 +42,31 @@ def _load(name):
         return {}
 
 
+def _etf_digest(v):
+    """Latest day PLUS multi-day context. Shipping only the latest daily print taught the
+    model to call two negative days a regime ('outflows persist') inside a net-inflow week
+    (homepage contradiction, audit 2026-07-26). The model now sees both grains and cannot
+    honestly collapse them."""
+    v = v or {}
+    rec = v.get("recent") or []
+
+    def _sign(x):
+        return (x > 0) - (x < 0)
+
+    streak = 0
+    if rec:
+        s = _sign(rec[-1].get("net_usd_m") or 0)
+        while streak < len(rec) and s != 0 and \
+                _sign(rec[-1 - streak].get("net_usd_m") or 0) == s:
+            streak += 1
+    return {"latest_date": v.get("latest_date"),
+            "latest_net_usd_m": v.get("latest_net_usd_m"),
+            "last5_sessions_net_usd_m": round(sum((r.get("net_usd_m") or 0)
+                                                  for r in rec[-5:]), 1),
+            "same_direction_days": streak,
+            "cumulative_usd_m": v.get("cumulative_usd_m")}
+
+
 def digest():
     """One compact, factual document: every number the boards publish, nothing else.
     This is the model's entire world, so completeness here IS the quality of the read."""
@@ -65,7 +90,7 @@ def digest():
                        "open_interest_usd", "long_short_ratio", "liquidations")}
                      for a in (pulse.get("leverage") or {}).get("assets") or []],
         "market": pulse.get("market"),
-        "etf_flows": {k: {kk: vv for kk, vv in (v or {}).items() if kk != "recent"}
+        "etf_flows": {k: _etf_digest(v)
                       for k, v in (pulse.get("etf_flows") or {}).items()
                       if k in ("btc", "eth")} or None,
         "stablecoins": {k: (pulse.get("stables") or {}).get(k)

@@ -6225,21 +6225,9 @@
   },
   "etf_flows": {
     "btc": {
-      "latest_date": "21 Jul 2026",
-      "latest_net_usd_m": 16.2,
+      "latest_date": "24 Jul 2026",
+      "latest_net_usd_m": -240.1,
       "recent": [
-        {
-          "date": "08 Jul 2026",
-          "net_usd_m": -84.9
-        },
-        {
-          "date": "09 Jul 2026",
-          "net_usd_m": -95.3
-        },
-        {
-          "date": "10 Jul 2026",
-          "net_usd_m": 90.4
-        },
         {
           "date": "13 Jul 2026",
           "net_usd_m": -424.7
@@ -6266,31 +6254,27 @@
         },
         {
           "date": "21 Jul 2026",
-          "net_usd_m": 16.2
+          "net_usd_m": 203.2
+        },
+        {
+          "date": "22 Jul 2026",
+          "net_usd_m": 69.1
+        },
+        {
+          "date": "23 Jul 2026",
+          "net_usd_m": -225.1
+        },
+        {
+          "date": "24 Jul 2026",
+          "net_usd_m": -240.1
         }
       ],
-      "cumulative_usd_m": 51648.0
+      "cumulative_usd_m": 51439.0
     },
     "eth": {
-      "latest_date": "20 Jul 2026",
-      "latest_net_usd_m": 38.0,
+      "latest_date": "24 Jul 2026",
+      "latest_net_usd_m": -70.7,
       "recent": [
-        {
-          "date": "07 Jul 2026",
-          "net_usd_m": 26.9
-        },
-        {
-          "date": "08 Jul 2026",
-          "net_usd_m": 70.5
-        },
-        {
-          "date": "09 Jul 2026",
-          "net_usd_m": -52.2
-        },
-        {
-          "date": "10 Jul 2026",
-          "net_usd_m": 18.4
-        },
         {
           "date": "13 Jul 2026",
           "net_usd_m": -15.4
@@ -6314,9 +6298,25 @@
         {
           "date": "20 Jul 2026",
           "net_usd_m": 38.0
+        },
+        {
+          "date": "21 Jul 2026",
+          "net_usd_m": 37.5
+        },
+        {
+          "date": "22 Jul 2026",
+          "net_usd_m": 72.7
+        },
+        {
+          "date": "23 Jul 2026",
+          "net_usd_m": 26.3
+        },
+        {
+          "date": "24 Jul 2026",
+          "net_usd_m": -70.7
         }
       ],
-      "cumulative_usd_m": 11145.0
+      "cumulative_usd_m": 11211.0
     },
     "note": "US spot ETF net creations/redemptions in USD millions, as published by the funds and tabulated by Farside Investors. Flow data lags a trading day and pauses on market holidays."
   },

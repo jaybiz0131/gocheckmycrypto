@@ -25,7 +25,10 @@ READ LIKE A PROFESSIONAL, in this order, weaving it into prose (never as a check
    money is in the boat. Crowded and expensive is fragile; flat and cheap is fuel.
 4. Flows. Whale net direction and the stablecoin float are supply and demand at the
    margin. Coins moving to cold storage while the crowd panics is a tension worth naming;
-   so is the reverse.
+   so is the reverse. State the window for every flow claim: a daily ETF print is "on
+   [date]", the multi-day number is "over the last five sessions". Never stretch one day
+   into a regime; words like "persist" or "continue" are allowed only when
+   same_direction_days and the five-session net both point that way.
 5. Sentiment last, as the foil. The gauge tells you what the crowd feels; the tape tells
    you what the money does. When they disagree, THAT disagreement is usually the read.
 6. Close with what to WATCH: the specific condition in the data that would tell a reader
