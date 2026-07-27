@@ -36,8 +36,18 @@ DATA = os.path.join(HERE, "site", "data")
 TOP_STORIES = 8  # how many newest stories share the homepage viewport
 
 METRICS = {
+    # scoped=True: this metric's direction claims are bucketed by their stated window
+    # (weekly vs daily), because both can be true at once (a net-inflow week ending in
+    # outflow days, the state that recurred 2026-07-27). Claims at DIFFERENT stated
+    # windows do not collide; an UNSCOPED direction claim ("outflows persist") collides
+    # with every window, so lazy phrasing still blocks the publish. This makes the gate
+    # enforce what the Chart Master and Edition prompts already demand: name the window.
     "spot ETF flows": {
-        "context": r"\betfs?\b", "span": 90,
+        "context": r"\betfs?\b", "span": 90, "scoped": True,
+        "week": r"\bweek(?:ly|s)?\b",
+        "day": r"\b(?:daily|day|days|sessions?|today|yesterday|latest|on\s+"
+               r"(?:january|february|march|april|may|june|july|august|september"
+               r"|october|november|december)\b)",
         "pos": r"\binflows?\b",
         "neg": r"\boutflows?\b"},
     "bitcoin price": {
@@ -58,15 +68,26 @@ METRICS = {
 
 
 def directions(text, m):
-    """The set of directions ('pos'/'neg') this text asserts for one metric."""
-    found = set()
+    """Directions this text asserts for one metric, keyed by stated window. Unscoped
+    metrics use the single key ''; a scoped metric buckets each claim as 'week', 'day',
+    or '' (no window named). One claim can land in both week and day buckets when the
+    sentence names both, which is exactly the dual-grain phrasing that never collides."""
+    found = {}
     low = (text or "").lower()
     for c in re.finditer(m["context"], low):
         window = low[max(0, c.start() - m["span"]): c.end() + m["span"]]
+        dirs = set()
         if re.search(m["pos"], window):
-            found.add("pos")
+            dirs.add("pos")
         if re.search(m["neg"], window):
-            found.add("neg")
+            dirs.add("neg")
+        if not dirs:
+            continue
+        scopes = [""]
+        if m.get("scoped"):
+            scopes = ([s for s in ("week", "day") if re.search(m[s], window)] or [""])
+        for s in scopes:
+            found.setdefault(s, set()).update(dirs)
     return found
 
 
@@ -108,19 +129,27 @@ def surfaces():
 
 
 def conflicts(surface_list=None):
-    """Every (metric, surface A, dir, surface B, dir) pair where two single-direction
-    surfaces disagree."""
+    """Every pair of surfaces asserting opposite single directions on the same metric at
+    a colliding window. Same stated window collides; an unscoped claim ('') collides with
+    every window; week-vs-day both stated do not collide (both can be true at once). A
+    surface asserting both directions at one window is dual-grain phrasing and exempt."""
     surf = surface_list if surface_list is not None else surfaces()
     found = []
     for name, m in METRICS.items():
-        takes = [(sname, d) for sname, text in surf
-                 for d in [directions(text, m)] if len(d) == 1]
+        takes = []  # (surface, scope, direction) for single-direction claims only
+        for sname, text in surf:
+            for scope, dirs in directions(text, m).items():
+                if len(dirs) == 1:
+                    takes.append((sname, scope, next(iter(dirs))))
         for i in range(len(takes)):
             for j in range(i + 1, len(takes)):
-                if takes[i][1] != takes[j][1]:
+                (sa, ca, da), (sb, cb, db) = takes[i], takes[j]
+                if sa == sb or da == db:
+                    continue
+                if ca == cb or ca == "" or cb == "":
                     found.append({"metric": name,
-                                  "a": takes[i][0], "a_dir": next(iter(takes[i][1])),
-                                  "b": takes[j][0], "b_dir": next(iter(takes[j][1]))})
+                                  "a": sa, "a_dir": da, "a_scope": ca or "unscoped",
+                                  "b": sb, "b_dir": db, "b_scope": cb or "unscoped"})
     return found
 
 
@@ -131,9 +160,10 @@ def main():
         return 0
     for c in bad:
         print(f"::error::consistency gate: '{c['metric']}' contradiction: "
-              f"{c['a']} says {c['a_dir']} but {c['b']} says {c['b_dir']}. "
-              f"Two surfaces on one viewport may not assert opposite directions; "
-              f"fix the wrong one before anything publishes.")
+              f"{c['a']} says {c['a_dir']} ({c['a_scope']}) but {c['b']} says "
+              f"{c['b_dir']} ({c['b_scope']}). Two surfaces on one viewport may not "
+              f"assert opposite directions at a colliding window; name the window or "
+              f"fix the wrong surface before anything publishes.")
     return 1
 
 
