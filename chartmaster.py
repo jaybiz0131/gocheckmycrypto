@@ -130,7 +130,44 @@ def _dedash(s):
     return s.replace(" — ", ", ").replace("—", ", ").replace("–", "-")
 
 
-def validate(obj):
+def _sign(x):
+    return (x > 0) - (x < 0)
+
+
+def _etf_flow_belt(text, etf):
+    """Deterministic honesty check on ETF flow direction claims, against the same digest
+    the model was handed. The prompt's window rule did not survive model drift (runs
+    55-56 wrote a week-negative claim over a positive five-session net, and the
+    consistency gate rightly blocked the whole publish); this belt makes the rule hold.
+    Claims are read with the consistency gate's own lexicon so the desk has exactly one
+    definition of 'a direction claim at a window'. A violation raises, the retry ladder
+    gets another attempt, and if the model never phrases it honestly the previous read
+    stands (fail-open in main)."""
+    import consistency_gate as cg
+    m = cg.METRICS["spot ETF flows"]
+    btc = (etf or {}).get("btc") or {}
+    signs = {"day": _sign(btc.get("latest_net_usd_m") or 0),
+             "week": _sign(btc.get("last5_sessions_net_usd_m") or 0)}
+    want = {1: "pos", -1: "neg"}
+    for scope, dirs in cg.directions(text, m).items():
+        if len(dirs) != 1:
+            continue  # dual-grain phrasing names both directions; nothing to contradict
+        d = next(iter(dirs))
+        if scope in signs:
+            if signs[scope] and d != want[signs[scope]]:
+                raise llmlib.LLMError(
+                    f"chartmaster: ETF flow claim says {d} at the {scope} window but the "
+                    f"digest's {scope} number points the other way; state what the data "
+                    f"says")
+        else:
+            ok = {want[s] for s in signs.values() if s}
+            if ok and (len(ok) > 1 or d not in ok):
+                raise llmlib.LLMError(
+                    "chartmaster: unscoped ETF flow direction while the daily and "
+                    "five-session numbers disagree; name the window")
+
+
+def validate(obj, etf=None):
     if not isinstance(obj, dict):
         raise llmlib.LLMError("chartmaster: output is not an object")
     headline = _dedash((obj.get("headline") or "").strip())
@@ -140,10 +177,13 @@ def validate(obj):
         raise llmlib.LLMError("chartmaster: missing/oversized headline")
     if not 3 <= len(paras) <= 7:
         raise llmlib.LLMError(f"chartmaster: expected 3-7 paragraphs, got {len(paras)}")
-    hit = BANNED.search(headline + " " + " ".join(paras))
+    text = headline + " " + " ".join(paras)
+    hit = BANNED.search(text)
     if hit:
         raise llmlib.LLMError(f"chartmaster: advice/prediction language in the read ({hit.group(0)!r}); "
                               "refusing to publish it")
+    if etf:
+        _etf_flow_belt(text.lower(), etf)
     return {"headline": headline, "paragraphs": paras}
 
 
@@ -154,7 +194,8 @@ def run():
     system = common.load_prompt("chartmaster.md")
     user = ("Read today's tape and write the Chart Master's read.\n\n"
             + json.dumps(data, indent=1))
-    obj = client.call_json("chartmaster", system, user, validate=validate)
+    obj = client.call_json("chartmaster", system, user,
+                           validate=lambda o: validate(o, data.get("etf_flows")))
     out = {
         "date": data["data_date"],
         "headline": obj["headline"],

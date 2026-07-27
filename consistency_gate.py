@@ -48,8 +48,8 @@ METRICS = {
         "day": r"\b(?:daily|day|days|sessions?|today|yesterday|latest|on\s+"
                r"(?:january|february|march|april|may|june|july|august|september"
                r"|october|november|december)\b)",
-        "pos": r"\binflows?\b",
-        "neg": r"\boutflows?\b"},
+        "pos": r"\binflows?\b|\b(?:ran|runs?|turn(?:s|ed)?|went|goes|stays?|stayed)\s+positive\b",
+        "neg": r"\boutflows?\b|\b(?:ran|runs?|turn(?:s|ed)?|went|goes|stays?|stayed)\s+negative\b"},
     "bitcoin price": {
         "context": r"\b(bitcoin|btc)\b", "span": 60,
         "pos": r"\b(rose|rises?|rallies|rallied|climbs?|climbed|gains?|gained|jumps?"
