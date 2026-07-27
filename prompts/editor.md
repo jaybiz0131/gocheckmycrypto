@@ -57,6 +57,12 @@ ecosystem significance, most important first:
   anti-shill posture make the desk blind to the market it covers.
 - Significant protocol changes, forks, major upgrades.
 - Macro / institutional (ETF flows, big allocations, bank moves).
+- MACRO-CROSSOVER - a macro move (oil, the dollar, rates, geopolitics) visibly moving
+  crypto is a story class, WITH A HARD BAR: rank it only when the crypto connection is
+  itself reported by the cited coverage ("bitcoin rose as oil fell following the pause"
+  written by the source), never when the desk would have to draw the correlation itself.
+  Primary coverage supplies the link or there is no story; a desk-invented correlation is
+  a forecast wearing a news costume.
 - Real partnerships / launches WITH primary-source confirmation.
 - Large on-chain events (unlocks, whale moves) with context.
 Prefer stories with more corroboration and higher-tier sources. Never invent facts; rank

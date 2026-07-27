@@ -11,7 +11,10 @@ texts are your primary material. The snippet is a floor, not a ceiling.
 
 FOR EACH STORY, BUILD THE BRIEF:
 
-1. core_claim: the story's central verifiable claim, one sentence, concrete.
+1. core_claim: the story's central verifiable claim, one sentence, concrete. For a
+   macro-crossover story (oil, dollar, rates moving crypto), the crypto connection must
+   appear in the source texts as a reported claim with its own data_point and source_url;
+   if no source draws the link, the brief must not draw it either.
 2. angle: the tension or stakes that make this matter to a reader - what they will learn
    and why it touches them. Not a summary; the reason to care.
 3. data_points: EVERY material fact in the source texts that belongs in this story - each
