@@ -30,6 +30,13 @@ THE CONTRACT (non-negotiable):
 - Attribute inline: name the desk's own boards when citing them ("the desk's Whale Watch
   board shows..."), and refer to the day's stories naturally ("as the desk reported this
   morning...").
+- STATE THE WINDOW FOR FLOW CLAIMS (one-viewport coherence rule): an ETF or whale flow
+  direction is meaningless without its window. A weekly figure is "last week's" or "the
+  week of [date]"; the current print is "on [date]" or "this week so far". When the
+  current window disagrees with the prior trend, say both in one breath ("after three
+  weekly inflows, flows have turned negative this week"): that is the accurate story, and
+  a bare direction word that contradicts the desk's own boards will hold the entire
+  publish at the consistency gate.
 - TIME-STAMP YOUR PRICES: desk_boards are the CURRENT tape; prices inside stories are
   HISTORICAL (the level when that story was reported). Never present a story's price as
   the current level. If they differ, the current number comes from the boards and the
