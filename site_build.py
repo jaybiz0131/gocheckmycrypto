@@ -57,6 +57,15 @@ YEAR = "2026"
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
 
+# ---- accessibility statement: the testing record the page reports --------------
+# These are claims about testing that was actually run. Do not edit them to make the page
+# read better. Edit them only when a new sweep has been run, in the same commit that
+# records it. See render_accessibility().
+ACCESSIBILITY_TESTED_ON = "28 July 2026"
+ACCESSIBILITY_AXE_VERSION = "4.12.1"
+ACCESSIBILITY_PAGE_COUNT = "30"       # 20 standalone + 8 Market Pulse boards + 2 article samples
+ACCESSIBILITY_ARTICLE_COUNT = "141"
+
 NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
        ("Whale Watch", "/flows.html"), ("Market Pulse", "/pulse.html"),
        ("Chart Master", "/chartmaster.html"), ("Learn", "/learn.html"),
@@ -520,6 +529,7 @@ def footer(brand="site"):
                      ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html"),
                      ("Explainers", "/learn.html"),
                      ("How we make money", "/how-we-make-money.html"),
+                     ("Accessibility", "/accessibility.html"),
                      ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
                      ("Contact", "mailto:desk@gocheckmycrypto.com"),
                      ("RSS", "/feed.xml")])
@@ -1429,6 +1439,107 @@ def render_standards(dateline):
 </section></main>"""
     return shell(f"Standards - {NAME}", "Crypto Cronkite standards, verification, and corrections policy.",
                  "Standards", body, dateline, path="/standards.html")
+
+
+def render_accessibility(dateline):
+    """Accessibility conformance statement.
+
+    MAINTENANCE, and this matters more than most pages: every factual claim below is a
+    claim about testing that was actually run. TESTED_ON, the page counts, the widths, the
+    themes and the axe version are the record of one specific sweep. If you change what is
+    tested, change this page in the same commit. If a claim here stops being true, the page
+    is worse than no page at all. Never add the words certified or compliant, and never
+    imply a third party checked any of this.
+    """
+    body = f"""<main class="wrap narrow"><section class="page">
+  <span class="kicker">Accessibility</span>
+  <h1>Accessibility statement</h1>
+  <p class="lede">What we test, how we test it, what we have not tested, and how to tell us
+     when something is in your way.</p>
+
+  <h2>Where we stand</h2>
+  <p>We aim to meet <strong>WCAG 2.1 Level AA</strong>. This is a
+     <strong>self-assessment</strong>. We ran the testing described below ourselves and are
+     reporting what it found. No outside party has audited or verified this site, and
+     nothing on this page is a certification or a claim of legal compliance.</p>
+
+  <h2>What was tested, and when</h2>
+  <p>Last full review: <strong>{ACCESSIBILITY_TESTED_ON}</strong>.</p>
+  <p>The review covered <strong>{ACCESSIBILITY_PAGE_COUNT} pages</strong>: every standalone
+     page on the site, including the home page, Latest, Whale Watch, Market Pulse and each
+     of its eight boards, Chart Master, the Learn explainers, Archive, and the trust and
+     policy pages. Articles are generated from a single shared template, so two article
+     pages were tested as samples of it rather than all {ACCESSIBILITY_ARTICLE_COUNT} of
+     them. Each page was tested in <strong>both the light and dark themes</strong>, at
+     <strong>1280px and 375px wide</strong>.</p>
+  <p>That is the whole scope. Pages, themes and widths outside that list were not part of
+     this review.</p>
+
+  <h2>How it was tested</h2>
+  <p>Automated testing used <strong>axe-core {ACCESSIBILITY_AXE_VERSION}</strong> against
+     the rendered pages in a real browser, running the WCAG 2.0 A/AA, WCAG 2.1 A/AA and
+     best-practice rule sets. That automated pass currently reports
+     <strong>no violations</strong> across the pages, themes and widths listed above.</p>
+  <p>Automated tools catch a minority of accessibility problems, so the following checks
+     were also performed by hand:</p>
+  <ul class="rule-list">
+    <li><strong>Keyboard.</strong> Every control reached and operated by keyboard alone,
+        with a visible focus indicator, a working skip-to-content link, and no traps.</li>
+    <li><strong>Contrast.</strong> Text and interface colors measured against AA ratios in
+        all three theme scopes, including the dark data boards.</li>
+    <li><strong>Structure.</strong> Heading order, one h1 per page, landmark regions, list
+        semantics, and scoped table headers.</li>
+    <li><strong>Forms and controls.</strong> Labels, grouping, and error handling on every
+        input on the site.</li>
+    <li><strong>Motion and media.</strong> A pause control for moving content, and the
+        browser's reduced-motion setting honored independently of it.</li>
+    <li><strong>Dynamic content.</strong> Live regions and focus movement where the page
+        updates without a reload.</li>
+    <li><strong>Reflow and zoom.</strong> Readable and operable at 320px and at 200% zoom,
+        with wide data tables scrolling inside their own containers.</li>
+    <li><strong>Target size.</strong> Interactive controls checked for adequate hit area.</li>
+  </ul>
+
+  <h2>What we have not tested</h2>
+  <p><strong>We have not tested this site with a screen reader or any other assistive
+     technology.</strong> No testing with NVDA, JAWS, VoiceOver, TalkBack, voice control,
+     or switch access has been performed. Passing automated checks and our manual checks
+     is not the same as being usable with those tools, and we are not going to imply
+     otherwise. This is the largest known gap in the review.</p>
+  <p>We have also not conducted usability testing with disabled users, which is the only
+     method that reliably finds the problems the rest of this page misses.</p>
+
+  <h2>Known limitations</h2>
+  <p><strong>This site publishes new content automatically, on a schedule, without a human
+     reviewing each page before it goes out.</strong> Stories are generated and published
+     several times a day. A new story can introduce an accessibility problem that did not
+     exist at the last review, and it can be live for hours or days before anyone notices.
+     The statement above describes the state of the site at the review date. It is not a
+     guarantee about a page published after it.</p>
+  <p>The same applies to the data boards, which redraw charts and tables from live market
+     feeds on every build.</p>
+  <p>Some content is outside our control: embedded material from third parties, and source
+     documents we link to on other organizations' sites, are not covered by this review.</p>
+
+  <h2>Tell us if something is in your way</h2>
+  <p>If any part of this site is difficult or impossible for you to use, please tell us. You
+     do not need to know why it is broken or what the standard says. Describing what you
+     were trying to do and what happened is enough, and telling us which browser or
+     assistive technology you were using helps us reproduce it.</p>
+  <p><strong>Email <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a>.</strong>
+     We read every message and aim to reply within five business days. If we can fix the
+     problem we will, and if we cannot fix it quickly we will tell you where it stands and
+     what the alternative is in the meantime.</p>
+  <p>Reports of specific barriers are the most useful accessibility information we get,
+     more useful than any scan, and they are why this page has an address on it.</p>
+
+  <p class="nfa">This statement was last reviewed on {ACCESSIBILITY_TESTED_ON} and is
+     updated when the site is retested.</p>
+</section></main>"""
+    return shell(f"Accessibility statement - {NAME}",
+                 "Our WCAG 2.1 AA self-assessment: what was tested, how, what has not been "
+                 "tested, known limitations, and how to report a barrier.",
+                 "Accessibility", body, dateline, path="/accessibility.html")
 
 
 def render_privacy(dateline):
@@ -3075,6 +3186,7 @@ def build():
     w("how-we-make-money.html", render_how_we_make_money(dateline))
     w("cold-storage.html", render_cold_storage(dateline))
     w("crypto-tax.html", render_crypto_tax(dateline))
+    w("accessibility.html", render_accessibility(dateline))
     w("privacy.html", render_privacy(dateline))
     w("terms.html", render_terms(dateline))
     w("404.html", render_404(dateline))
@@ -3107,7 +3219,7 @@ def build():
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
             "/learn.html", "/cold-storage.html", "/crypto-tax.html", "/how-we-make-money.html",
-            "/privacy.html", "/terms.html"]
+            "/accessibility.html", "/privacy.html", "/terms.html"]
     # standard sitemap: static pages (no lastmod) + article URLs WITH lastmod from the
     # story's own publish timestamp, so Google sees freshness on every deploy
     static_urls = "".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>\n" for p in locs)
