@@ -42,4 +42,27 @@ every slot (breaking runs regenerate the current slot's edition), archived forev
 at /bottom-line.html, and guarded by its own deterministic directional-language
 gate on top of the prompt lane.
 
+COMMERCIAL DOCTRINE (owner's ruling, 2026-07-28, ratified as family law across the
+Crypto, News and Sports desks). Affiliate revenue is allowed, and where it may appear is
+fixed by tier:
+
+- NEWS surfaces never carry affiliate anything. The homepage lead, Latest, articles, the
+  Editions, the RSS feed and the Google News sitemap stay clean. This is the credibility
+  that makes every other surface worth something.
+- BOARDS (Whale Watch, Market Pulse, Chart Master) may carry a contextual link to an
+  explainer where it genuinely helps a reader, and nothing more: no calls to action, no
+  commission language, no affiliate URL on a data board.
+- EVERGREEN explainers carry the disclosed commercial layer. Disclosure sits above the
+  first link, the commission sentence stays separate from any editorial rationale, links
+  are store-wide and carry rel="sponsored noopener", and recommendations follow fit and
+  never commission rate (the routing rule is written down in explainers.py).
+
+THE FAILURE RULE, standing and absolute: no money path ever attaches to coverage of a
+failure, collapse, or loss. Exchange bankruptcies, hacks, depegs and wind-downs are the
+highest-converting pages a crypto desk will ever publish, and they are permanently
+off limits to the commercial layer. A desk that monetizes fear has stopped being a desk.
+
+THE SEVERABILITY TEST: delete the commercial layer from any page carrying one. If the
+piece no longer stands as an article, it was an advertisement and it does not ship.
+
 The reader-facing version of this charter is the site's method page.
