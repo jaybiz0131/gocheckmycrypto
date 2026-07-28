@@ -134,6 +134,8 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .pt-where{margin:0;font-size:14.5px;color:var(--muted)}
 .rule-list{padding-left:20px;line-height:1.65}
 .rule-list li{margin-bottom:12px}
+.tax-list{padding-left:20px;line-height:1.65}
+.tax-list li{margin-bottom:10px}
 @media (prefers-reduced-motion: reduce){a.lx-card{transition:none}a.lx-card:hover{transform:none}}
 
 /* ---- kicker / dateline / badges ------------------------------------------- */

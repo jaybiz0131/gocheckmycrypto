@@ -59,8 +59,8 @@ MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "A
 
 NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
        ("Whale Watch", "/flows.html"), ("Market Pulse", "/pulse.html"),
-       ("Chart Master", "/chartmaster.html"), ("Archive", "/archive.html"),
-       ("About", "/about.html")]
+       ("Chart Master", "/chartmaster.html"), ("Learn", "/learn.html"),
+       ("Archive", "/archive.html"), ("About", "/about.html")]
 
 
 # ---- helpers -----------------------------------------------------------------
@@ -1355,6 +1355,16 @@ def render_how_we_make_money(dateline):
                  "and the rules about where those links may and may not appear.",
                  "", explainers.how_we_make_money_body(), dateline,
                  path="/how-we-make-money.html")
+
+
+def render_crypto_tax(dateline):
+    """Evergreen tax explainer. Every factual claim is tied to IRS primary material; see
+    explainers.TAX_SOURCES. Review each January when filing season opens."""
+    import explainers
+    return shell(f"Crypto and tax, explained - {NAME}",
+                 "What the IRS treats as a taxable event, what it does not, and why cost "
+                 "basis is the hard part. United States federal tax only.",
+                 "", explainers.crypto_tax_body(), dateline, path="/crypto-tax.html")
 
 
 def render_learn(dateline):
@@ -3064,6 +3074,7 @@ def build():
     w("learn.html", render_learn(dateline))
     w("how-we-make-money.html", render_how_we_make_money(dateline))
     w("cold-storage.html", render_cold_storage(dateline))
+    w("crypto-tax.html", render_crypto_tax(dateline))
     w("privacy.html", render_privacy(dateline))
     w("terms.html", render_terms(dateline))
     w("404.html", render_404(dateline))
@@ -3095,7 +3106,7 @@ def build():
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
-            "/learn.html", "/cold-storage.html", "/how-we-make-money.html",
+            "/learn.html", "/cold-storage.html", "/crypto-tax.html", "/how-we-make-money.html",
             "/privacy.html", "/terms.html"]
     # standard sitemap: static pages (no lastmod) + article URLs WITH lastmod from the
     # story's own publish timestamp, so Google sees freshness on every deploy

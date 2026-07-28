@@ -32,6 +32,8 @@ ROUTING RULE (written down deliberately, per directive):
 # ---- AFFILIATE CONFIG: the only place these URLs exist ------------------------
 LEDGER_STORE = "https://shop.ledger.com/?r=c1480b445e30"
 TREZOR_STORE = "https://affil.trezor.io/aff_c?offer_id=133&aff_id=846461"
+COINLEDGER_URL = "https://coinledger.io?fpr=nikki98"
+COINLEDGER_CODE = "CRYPTOTAX10"
 
 # every outbound commercial link carries these, without exception
 LINK_REL = "sponsored noopener"
@@ -47,6 +49,23 @@ SOURCES = [
      "https://www.ledger.com/academy/topics/ledgersolutions/best-practices-to-securely-buy-ledger-signer"),
     ("Trezor, Is my device safe to use?",
      "https://trezor.io/support/troubleshooting/device-issues/is-my-device-safe-to-use"),
+]
+
+
+# TAX SOURCES: IRS primary material only. Nothing on the tax page may rest on secondary
+# coverage or model knowledge. This rule exists because secondary sources reported the
+# 1099-DA timeline backwards, and the IRS page says plainly that gross proceeds reporting
+# runs from 2025 transactions while basis reporting runs from 2026 transactions.
+TAX_SOURCES = [
+    ("IRS, Digital assets", "https://www.irs.gov/filing/digital-assets"),
+    ("IRS, Notice 2014-21 (digital assets are property)",
+     "https://www.irs.gov/pub/irs-drop/n-14-21.pdf"),
+    ("IRS, Revenue Ruling 2023-14 (staking rewards)",
+     "https://www.irs.gov/pub/irs-drop/rr-23-14.pdf"),
+    ("IRS, Final regulations for broker reporting of digital asset sales",
+     "https://www.irs.gov/newsroom/final-regulations-and-related-irs-guidance-for-"
+     "reporting-by-brokers-on-sales-and-exchanges-of-digital-assets"),
+    ("IRS, Instructions for Form 1099-DA", "https://www.irs.gov/instructions/i1099da"),
 ]
 
 
@@ -82,9 +101,8 @@ PARTNERS = [
                  "code CRYPTOTAX10 gets the reader a discount, and we earn on those "
                  "purchases too, so you should know the code is not a favour without a "
                  "cost to us either way.",
-        "where": "Crypto and tax, explained, which is not written yet. Until it is "
-                 "published there is no CoinLedger link anywhere on this site.",
-        "where_url": None,
+        "where": "Crypto and tax, explained",
+        "where_url": "/crypto-tax.html",
     },
 ]
 
@@ -166,7 +184,7 @@ EXPLAINERS = [
         "title": "Crypto and tax, explained",
         "blurb": "What creates a taxable event, what records to keep, and where people "
                  "most often get it wrong.",
-        "status": "queued",
+        "status": "published",
     },
     {
         "slug": "counterfeit-devices",
@@ -214,6 +232,126 @@ def _cta(href, brand, line, store):
             f'<span class="cta-brand">{brand}</span>'
             f'<span class="cta-line">{line}</span>'
             f'<span class="cta-go">Shop the official {store} store</span></a>')
+
+
+def crypto_tax_body():
+    """Service journalism first. Sections 1 to 4 are the article and stand alone; section 5
+    names software because software is the honest answer to the problem section 3 describes,
+    and its commercial layer is severable.
+
+    MAINTENANCE: review this page each January when filing season opens. Forms, thresholds
+    and the broker-reporting phase-in change; every claim here is tied to IRS primary
+    material so a reviewer can re-check each one against its cited source."""
+    sources = "".join(
+        f'<li><a href="{url}" rel="noopener" target="_blank">{name}</a></li>'
+        for name, url in TAX_SOURCES)
+    return f"""<main class="wrap narrow"><section class="page">
+  <span class="kicker"><a href="/learn.html">Learn</a> &middot; explainer</span>
+  <h1>Crypto and tax, explained</h1>
+  <p class="lede">Most people who owe crypto tax do not know which of their transactions
+     counted, and the ones who do know usually cannot prove what they paid. Here is what
+     the IRS treats as a taxable event, what it does not, and why the records are the hard
+     part. This covers United States federal tax only, and not state tax.</p>
+
+  <h2>What counts as a taxable event</h2>
+  <p>The IRS treats digital assets as property rather than currency, which is the root of
+     everything below: disposing of property is an event with a gain or a loss attached,
+     even when no dollars are involved. These are the transactions the IRS lists as
+     reportable.</p>
+  <ul class="tax-list">
+    <li><b>Selling for currency.</b> You sell bitcoin for dollars.</li>
+    <li><b>Exchanging for other assets or goods.</b> You trade ether for solana, or you pay
+        for a laptop in bitcoin.</li>
+    <li><b>Receiving digital assets as payment.</b> A client pays you in stablecoins for a
+        month of work.</li>
+    <li><b>Mining.</b> You receive coins for validating transactions.</li>
+    <li><b>Staking.</b> Your staked position pays you rewards.</li>
+    <li><b>Airdrops.</b> A protocol distributes tokens to your wallet.</li>
+    <li><b>Paying transfer fees in digital assets.</b> The fee itself is a disposal of the
+        asset you paid it with.</li>
+  </ul>
+  <div class="callout"><b>The one most people get wrong: the swap.</b> Trading one coin
+     directly for another is a disposal of the first coin, and the gain or loss on it is
+     reportable, even though no dollars moved and nothing reached your bank account. If you
+     bought ether at one price and swapped it for solana later, that swap closed your ether
+     position for tax purposes at its value on the day you made it. A year of active
+     swapping can produce a long list of reportable events without a single withdrawal.</div>
+
+  <h2>What does not count</h2>
+  <p>Three common situations create nothing to report.</p>
+  <ul class="tax-list">
+    <li><b>Merely holding.</b> Buying and sitting on an asset is not an event, however far
+        its price moves.</li>
+    <li><b>Buying with regular currency.</b> Spending dollars to acquire crypto is not a
+        disposal of the crypto.</li>
+    <li><b>Moving between wallets you own.</b> Sending coins from an exchange account to
+        your own hardware wallet is a transfer of your own property between your own
+        addresses, not a sale.</li>
+  </ul>
+  <p>That last one matters if you have been putting off self-custody because you assumed
+     moving coins would trigger a bill. It does not. What you should keep is the record of
+     the move, so that a later sale can be traced back to what you originally paid. If you
+     are weighing that move, we explain the mechanics in
+     <a href="/cold-storage.html">cold storage, explained</a>.</p>
+
+  <h2>Why the records fall apart</h2>
+  <p>Knowing the rules is the easy half. The hard half is cost basis: what you paid for the
+     thing you just sold. Gains are the difference between the two, so a disposal without a
+     basis is a number you cannot compute and cannot defend.</p>
+  <p>Basis goes missing for ordinary reasons. History gets scattered across several
+     exchanges and a few wallets that have no idea the others exist. Accounts get closed
+     and their export files go with them. A coin bought on one platform, moved to a wallet,
+     swapped for something else and sold somewhere third has a basis that lives on the
+     first platform and a sale that happens on the last, with nothing connecting them.</p>
+  <p>Broker reporting is closing part of that gap, in two stages. Under the final broker
+     regulations, gross proceeds reporting applies to transactions on or after January 1,
+     2025, and basis reporting applies to transactions on or after January 1, 2026. The
+     practical consequence for anyone filing on older activity is that a form may report
+     what you sold for without reporting what you paid, and the burden of establishing
+     basis stays with you.</p>
+
+  <h2>What you have to keep, and where it goes</h2>
+  <p>The IRS expects records showing the type of asset, the date and time of each
+     transaction, the number of units, the fair market value in U.S. dollars at the time of
+     the transaction, and the basis. That is the whole list, and it is worth keeping
+     contemporaneously, because reconstructing a fair market value for a specific hour
+     eighteen months later is the part people find impossible.</p>
+  <p>Two paths lead out of those records. Disposals are reported on Form 8949, which
+     carries to Schedule D. Income is different: staking rewards are ordinary income when
+     you receive them, in the year you gain dominion and control over them, valued at fair
+     market value at that moment, and reported on Schedule 1 line 8z.</p>
+
+  <h2>Getting through it</h2>
+  <p>There are two honest paths, and which one fits depends entirely on how much history
+     you have.</p>
+  <p>If your activity is a handful of transactions on a single platform, do it by hand.
+     Export the account history, line up each disposal against what you paid, and fill in
+     the forms. Software would be overhead you do not need.</p>
+  <p>If your history runs across several exchanges and wallets, and especially if it
+     includes swaps, this becomes a reconciliation problem rather than a filing problem.
+     That is the category crypto tax software exists for: it imports history from
+     exchanges and wallet addresses, matches disposals to acquisitions across platforms,
+     applies a cost basis method, and produces the completed forms. CoinLedger is one
+     option in that category. CoinLedger offers 10% off with code {COINLEDGER_CODE}.</p>
+
+  <h2>Try the software</h2>
+  <p class="affil-note">We earn a commission if you sign up through this link. It costs you
+     nothing extra. The discount is a genuine discount and it applies whether or not it
+     earns us anything.</p>
+  <div class="cta-row">
+    <a class="cta-buy" href="{COINLEDGER_URL}" rel="{LINK_REL}" target="{LINK_TARGET}">
+      <span class="cta-brand">CoinLedger</span>
+      <span class="cta-line">Imports exchange and wallet history, produces the forms</span>
+      <span class="cta-go">Go to coinledger.io</span></a>
+  </div>
+
+  <h2>Sources</h2>
+  <ul class="src-list">{sources}</ul>
+
+  <p class="nfa">This page is educational and covers United States federal tax only. It is
+     not advice about your particular situation. If your position is complicated, talk to a
+     tax professional who can look at your actual records.</p>
+</section></main>"""
 
 
 def cold_storage_body():
@@ -280,6 +418,10 @@ def cold_storage_body():
      completely reasonable, and so is leaving there what you are actively trading with.
      Holdings you intend to keep for years are a different job, and that job belongs in
      cold storage. Most people end up doing both.</p>
+
+  <p>Moving coins from an exchange to a wallet you own is not a sale and does not create a
+     tax event on its own, though the record of the move matters later. We cover that in
+     <a href="/crypto-tax.html">crypto and tax, explained</a>.</p>
 
   <h2>Self-custody has its own failure mode</h2>
   <p>Being honest about this cuts the other way too: lost seed phrases and forgotten
