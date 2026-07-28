@@ -121,6 +121,19 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .lx-go{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--rule);margin-top:auto;padding-top:6px}
 .lx-soon{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--faint);margin-top:auto;padding-top:6px}
+
+/* ---- how we make money: partner disclosure + rule list --------------------- */
+.pt-list{display:flex;flex-direction:column;gap:16px;margin:22px 0}
+.pt-row{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--rule);
+  border-radius:0 6px 6px 0;padding:15px 18px}
+.pt-name{font-family:var(--serif);font-size:20px;font-weight:600;margin:0 0 8px;
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.pt-kind{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);font-weight:500}
+.pt-terms{margin:0 0 8px;font-size:16px;line-height:1.6}
+.pt-where{margin:0;font-size:14.5px;color:var(--muted)}
+.rule-list{padding-left:20px;line-height:1.65}
+.rule-list li{margin-bottom:12px}
 @media (prefers-reduced-motion: reduce){a.lx-card{transition:none}a.lx-card:hover{transform:none}}
 
 /* ---- kicker / dateline / badges ------------------------------------------- */
@@ -222,11 +235,11 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .take p{font-family:var(--serif);font-size:18px;margin:6px 0 0;line-height:1.55}
 .tag.topic{background:transparent;color:var(--muted);border:1px solid var(--line)}
 .related{margin:28px 0;padding:18px 20px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
-.related h4{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.related h2{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
 .related ul{margin:0;padding-left:20px}
 .related li{font-size:14px;margin:0 0 6px}
 .sources{margin:28px 0;padding:18px 20px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
-.sources h4{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.sources h2{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
 .sources ol{margin:0;padding-left:20px}
 .sources li{font-size:14px;margin:0 0 6px;word-break:break-word}
 .nfa{font-size:12.5px;color:var(--faint);line-height:1.55;border-top:1px solid var(--line);padding-top:16px;margin-top:26px}
@@ -491,6 +504,7 @@ a.mh-family:hover{text-decoration:underline}
 .chartcard svg .sym{font-family:var(--mono);font-size:15px;font-weight:700;fill:var(--ink)}
 .chartcard svg .val{font-family:var(--mono);font-size:14px;fill:var(--muted)}
 .movetable{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow-x:auto}
+.movetable:focus-visible{outline:2px solid var(--rule);outline-offset:2px}
 .movetable table{width:100%;border-collapse:collapse;font-size:13.5px}
 .movetable td{padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
 .movetable tr:last-child td{border-bottom:none}

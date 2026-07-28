@@ -486,7 +486,7 @@ def market_strip(pulse=None):
 
 
 def newsletter():
-    return f"""<section class="news"><div class="wrap">
+    return f"""<section class="news" aria-label="Get the brief"><div class="wrap">
   <h2>Get the brief</h2>
   <p>The day's real crypto news, de-shilled and fact-checked, with the honest take. No hype,
      no moon calls. One email, on a cadence we can actually keep.</p>
@@ -519,6 +519,7 @@ def footer(brand="site"):
                     [("About", "/about.html"), ("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html"),
                      ("Explainers", "/learn.html"),
+                     ("How we make money", "/how-we-make-money.html"),
                      ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
                      ("Contact", "mailto:desk@gocheckmycrypto.com"),
                      ("RSS", "/feed.xml")])
@@ -795,13 +796,13 @@ def render_article(item, all_items=None):
         lis = "".join(
             f'<li><a href="{esc(s.get("url",""))}" rel="nofollow">{esc(source_label(s))}</a></li>'
             for s in srcs)
-        src_html = f'<div class="sources"><h4>Sources</h4><ol>{lis}</ol></div>'
+        src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol></div>'
     rel_html = ""
     for rel in related_stories(item, all_items or []):
         rel_html += (f'<li><a href="/articles/{esc(rel["slug"])}.html">{esc(rel.get("title"))}</a>'
                      f'<span class="mut"> &middot; {fmt_when(rel)}</span></li>')
     if rel_html:
-        rel_html = f'<div class="related"><h4>Related stories</h4><ul>{rel_html}</ul></div>'
+        rel_html = f'<div class="related"><h2>Related stories</h2><ul>{rel_html}</ul></div>'
     # consistent desk attribution (the byline is the desk, never a person): aggregators and
     # Google News check for a stable byline, and this reads honestly as a newsroom, not a
     # named human author
@@ -879,7 +880,7 @@ def desk_strip():
     # Home-only anchor-desk strip: the Crypto Cronkite portrait coin (the YouTube channel
     # face) beside the desk line. The masthead checkmark badge stays the site mark; this is
     # the anchor's face at the top of the front page. No link yet (channel tie post-launch).
-    return f"""<section class="desk"><div class="wrap">
+    return f"""<section class="desk" aria-label="The news desk"><div class="wrap">
   <video class="desk-coin motion-video" autoplay muted loop playsinline preload="none"
     poster="/assets/cronkite-coin.png" aria-hidden="true" tabindex="-1" width="132" height="132">
     <source src="/assets/hero/coin-loop.webm" type="video/webm">
@@ -1345,6 +1346,17 @@ def render_about(dateline):
                  "About", body, dateline, path="/about.html")
 
 
+def render_how_we_make_money(dateline):
+    """The published commercial policy. Renders from explainers.PARTNERS, so a new
+    relationship is disclosed by adding it there and nowhere else."""
+    import explainers
+    return shell(f"How we make money - {NAME}",
+                 "The complete list of what this desk earns affiliate commission from, "
+                 "and the rules about where those links may and may not appear.",
+                 "", explainers.how_we_make_money_body(), dateline,
+                 path="/how-we-make-money.html")
+
+
 def render_learn(dateline):
     """The Learn tier index. Renders from explainers.EXPLAINERS, so a new entry there is
     the only edit an added explainer needs."""
@@ -1546,7 +1558,7 @@ def ww_hero():
     # The whale loop is contained section dressing (never a trade signal): strictly lazy
     # (no autoplay attribute, motion-lazy pool arms on first scroll), poster as first
     # paint, and the section identity rides the scrim in light text.
-    return ('<section class="ww-hero"><div class="ww-heroinner"><div class="ww-panel">'
+    return ('<section class="ww-hero" aria-label="Whale Watch"><div class="ww-heroinner"><div class="ww-panel">'
             '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
             'poster="/assets/whale/whale-poster.jpg" aria-hidden="true" tabindex="-1">'
             '<source src="/assets/whale/whale-loop.webm" type="video/webm">'
@@ -1694,12 +1706,12 @@ def render_flows(flows, dateline):
     </div>
     <div class="stack">
       <div class="sec-head"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
-      <div class="movetable"><table><tbody>{move_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
+      <div class="movetable" tabindex="0" role="region" aria-label="Biggest moves onto exchanges (scrollable)"><table><tbody>{move_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
       <div class="sec-head"><h2>Biggest moves off exchanges</h2><span class="bar"></span></div>
-      <div class="movetable"><table><tbody>{out_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
+      <div class="movetable" tabindex="0" role="region" aria-label="Biggest moves off exchanges (scrollable)"><table><tbody>{out_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
       {f'''<div class="sec-head"><h2>By exchange</h2><span class="bar"></span></div>
-      <div class="movetable"><table>
-        <thead><tr><th></th><th>In</th><th>Out</th><th>Net</th></tr></thead>
+      <div class="movetable" tabindex="0" role="region" aria-label="Net flow by exchange (scrollable)"><table>
+        <thead><tr><th><span class="sr-only">Exchange</span></th><th>In</th><th>Out</th><th>Net</th></tr></thead>
         <tbody>{ex_rows}</tbody></table></div>
       <p class="pc-note" style="margin-top:6px">Window totals per named exchange; net + = more
       left than arrived. Amounts in the move tables link to the transfer itself on Whale Alert.</p>''' if ex_rows else ""}
@@ -2062,7 +2074,7 @@ def mp_hero():
     # The pulse loop is header atmosphere only (never adjacent to live numbers: the whole
     # board renders below on the plain background). Strictly lazy like the other section
     # videos: no autoplay attribute, motion-lazy pool, poster first paint.
-    return ('<section class="ww-hero mp-hero"><div class="ww-heroinner"><div class="ww-panel">'
+    return ('<section class="ww-hero mp-hero" aria-label="Market Pulse"><div class="ww-heroinner"><div class="ww-panel">'
             '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
             'poster="/assets/pulse/pulse-poster.jpg" aria-hidden="true" tabindex="-1">'
             '<source src="/assets/pulse/pulse-loop.webm" type="video/webm">'
@@ -2466,9 +2478,9 @@ def render_pulse_movers(pulse, dateline):
      <span data-live="stamp"></span></p>
   <div class="pulse-grid2">
     <div class="pulse-card"><span class="lab" style="color:var(--up)">Top 5 gainers (24h)<span class="live-dot"></span></span>
-      <div class="movetable"><table><tbody data-live="movers:gainers">{_mover_rows(movers.get("gainers", []))}</tbody></table></div></div>
+      <div class="movetable" tabindex="0" role="region" aria-label="Top gainers (scrollable)"><table><tbody data-live="movers:gainers">{_mover_rows(movers.get("gainers", []))}</tbody></table></div></div>
     <div class="pulse-card"><span class="lab" style="color:var(--down)">Top 5 losers (24h)<span class="live-dot"></span></span>
-      <div class="movetable"><table><tbody data-live="movers:losers">{_mover_rows(movers.get("losers", []))}</tbody></table></div></div>
+      <div class="movetable" tabindex="0" role="region" aria-label="Top losers (scrollable)"><table><tbody data-live="movers:losers">{_mover_rows(movers.get("losers", []))}</tbody></table></div></div>
   </div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Movers 101</h2><span class="bar"></span></div>
@@ -2603,8 +2615,8 @@ def render_pulse_leverage(pulse, dateline):
     liq_html = ""
     if liq_rows:
         liq_html = f"""<div class="sec-head" style="margin-top:26px"><h2>Recent liquidations</h2><span class="bar"></span></div>
-  <div class="movetable"><table>
-    <thead><tr><th></th><th>Forced closes</th><th>Longs liquidated</th><th>Shorts liquidated</th><th>Window</th></tr></thead>
+  <div class="movetable" tabindex="0" role="region" aria-label="Recent liquidations (scrollable)"><table>
+    <thead><tr><th><span class="sr-only">Asset</span></th><th>Forced closes</th><th>Longs liquidated</th><th>Shorts liquidated</th><th>Window</th></tr></thead>
     <tbody>{liq_rows}</tbody></table></div>
   <p class="pc-note" style="margin-top:8px">Forced position closes on one venue's public feed,
   by which side got caught. Lopsided liquidations show which crowd was leaning wrong.</p>"""
@@ -2635,8 +2647,8 @@ def render_pulse_leverage(pulse, dateline):
      (funding), how much money is in those bets (open interest), which way the crowd leans
      (long/short), and who just got carried out (liquidations). This is where crowding
      shows up before it shows up in price.</p>
-  <div class="movetable"><table>
-    <thead><tr><th></th><th>Funding</th><th>Annualized</th><th>Open interest</th><th>Long/short</th><th>Venue</th></tr></thead>
+  <div class="movetable" tabindex="0" role="region" aria-label="Funding and open interest (scrollable)"><table>
+    <thead><tr><th><span class="sr-only">Asset</span></th><th>Funding</th><th>Annualized</th><th>Open interest</th><th>Long/short</th><th>Venue</th></tr></thead>
     <tbody>{rows}</tbody></table></div>
   <p class="pc-note" style="margin-top:8px">Single-venue snapshots from public exchange data,
   refreshed with each site build; they move with the market but are not market-wide totals.</p>
@@ -2783,7 +2795,7 @@ def cm_hero():
     # Whale Watch and Market Pulse headers use), with no predictive framing anywhere
     # in this markup. Strictly lazy: no autoplay attribute, preload="none", the
     # motion-lazy pool arms on first scroll, poster paints first.
-    return ('<section class="ww-hero cm-hero"><div class="ww-heroinner"><div class="ww-panel">'
+    return ('<section class="ww-hero cm-hero" aria-label="The Chart Master"><div class="ww-heroinner"><div class="ww-panel">'
             '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
             'poster="/assets/wizard/wizard-poster.jpg" aria-hidden="true" tabindex="-1">'
             '<source src="/assets/wizard/wizard-loop.webm" type="video/webm">'
@@ -3050,6 +3062,7 @@ def build():
     w("about.html", render_about(dateline))
     w("standards.html", render_standards(dateline))
     w("learn.html", render_learn(dateline))
+    w("how-we-make-money.html", render_how_we_make_money(dateline))
     w("cold-storage.html", render_cold_storage(dateline))
     w("privacy.html", render_privacy(dateline))
     w("terms.html", render_terms(dateline))
@@ -3082,7 +3095,8 @@ def build():
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
-            "/learn.html", "/cold-storage.html", "/privacy.html", "/terms.html"]
+            "/learn.html", "/cold-storage.html", "/how-we-make-money.html",
+            "/privacy.html", "/terms.html"]
     # standard sitemap: static pages (no lastmod) + article URLs WITH lastmod from the
     # story's own publish timestamp, so Google sees freshness on every deploy
     static_urls = "".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>\n" for p in locs)
