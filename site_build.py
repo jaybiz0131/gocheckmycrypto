@@ -518,7 +518,7 @@ def footer(brand="site"):
     links = "".join(f'<a href="{esc(h)}">{esc(l)}</a>' for l, h in
                     [("About", "/about.html"), ("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"), ("Archive", "/archive.html"),
-                     ("Cold storage", "/cold-storage.html"),
+                     ("Explainers", "/learn.html"),
                      ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
                      ("Contact", "mailto:desk@gocheckmycrypto.com"),
                      ("RSS", "/feed.xml")])
@@ -1343,6 +1343,16 @@ def render_about(dateline):
 </section></main>"""
     return shell(f"About - {NAME}", "Why Crypto Cronkite exists: an honest crypto news desk plus on-chain analytics.",
                  "About", body, dateline, path="/about.html")
+
+
+def render_learn(dateline):
+    """The Learn tier index. Renders from explainers.EXPLAINERS, so a new entry there is
+    the only edit an added explainer needs."""
+    import explainers
+    return shell(f"Explainers - {NAME}",
+                 "Evergreen explainers on how crypto works: custody, tax, and the "
+                 "practical mechanics behind the desk's reporting.",
+                 "", explainers.learn_index_body(), dateline, path="/learn.html")
 
 
 def render_cold_storage(dateline):
@@ -3039,6 +3049,7 @@ def build():
     w("method.html", render_method(items, dateline))
     w("about.html", render_about(dateline))
     w("standards.html", render_standards(dateline))
+    w("learn.html", render_learn(dateline))
     w("cold-storage.html", render_cold_storage(dateline))
     w("privacy.html", render_privacy(dateline))
     w("terms.html", render_terms(dateline))
@@ -3071,7 +3082,7 @@ def build():
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
-            "/cold-storage.html", "/privacy.html", "/terms.html"]
+            "/learn.html", "/cold-storage.html", "/privacy.html", "/terms.html"]
     # standard sitemap: static pages (no lastmod) + article URLs WITH lastmod from the
     # story's own publish timestamp, so Google sees freshness on every deploy
     static_urls = "".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>\n" for p in locs)

@@ -105,6 +105,24 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .cta-go{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--rule);margin-top:6px}
 .src-list{font-size:14.5px;line-height:1.7;color:var(--muted);padding-left:20px}
 
+/* ---- Learn tier index (lx-, deliberately NOT .learn-, which the boards own) -- */
+.lx-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:24px 0}
+.lx-card{display:flex;flex-direction:column;gap:7px;background:var(--card);
+  border:1px solid var(--line);border-top:3px solid var(--rule);border-radius:6px;
+  padding:16px 18px;text-decoration:none}
+a.lx-card{transition:transform .15s ease,box-shadow .2s ease}
+a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decoration:none;
+  border-color:var(--rule)}
+/* queued entries read as "not yet" through border and label, NOT opacity: dimming the
+   whole card multiplied the muted text down to 3.3:1 and failed AA (axe, 2026-07-28) */
+.lx-card.is-queued{border-top-color:var(--line);border-style:dashed;background:transparent}
+.lx-title{font-family:var(--serif);font-weight:600;font-size:19px;color:var(--ink);line-height:1.25}
+.lx-blurb{font-size:14.5px;line-height:1.55;color:var(--muted)}
+.lx-go{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--rule);margin-top:auto;padding-top:6px}
+.lx-soon{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);margin-top:auto;padding-top:6px}
+@media (prefers-reduced-motion: reduce){a.lx-card{transition:none}a.lx-card:hover{transform:none}}
+
 /* ---- kicker / dateline / badges ------------------------------------------- */
 .kicker{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
   text-transform:uppercase;color:var(--rule)}

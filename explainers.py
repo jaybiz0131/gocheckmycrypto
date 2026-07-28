@@ -50,6 +50,63 @@ SOURCES = [
 ]
 
 
+# ---- the Learn tier -----------------------------------------------------------
+# One registry. Adding an explainer means adding an entry here and a body function; the
+# index page, the routes and the sitemap all read from this list, so nothing else changes.
+# Queued next: crypto tax, counterfeit devices.
+EXPLAINERS = [
+    {
+        "slug": "cold-storage",
+        "title": "Cold storage, explained",
+        "blurb": "Exchange, hot wallet, or cold storage: who holds the keys in each, "
+                 "what each one is for, and when a hardware wallet is worth buying.",
+        "status": "published",
+    },
+    {
+        "slug": "crypto-tax",
+        "title": "Crypto and tax, explained",
+        "blurb": "What creates a taxable event, what records to keep, and where people "
+                 "most often get it wrong.",
+        "status": "queued",
+    },
+    {
+        "slug": "counterfeit-devices",
+        "title": "Counterfeit hardware wallets",
+        "blurb": "How tampered devices and pre-filled recovery cards reach buyers, and "
+                 "how to check the one you received.",
+        "status": "queued",
+    },
+]
+
+
+def learn_index_body():
+    """The Learn tier's front door. Published entries link; queued entries are listed
+    honestly as not written yet rather than being hidden or linked to a dead page."""
+    cards = ""
+    for e in EXPLAINERS:
+        if e["status"] == "published":
+            cards += (f'<a class="lx-card" href="/{e["slug"]}.html">'
+                      f'<span class="lx-title">{e["title"]}</span>'
+                      f'<span class="lx-blurb">{e["blurb"]}</span>'
+                      f'<span class="lx-go">Read it</span></a>')
+        else:
+            cards += (f'<div class="lx-card is-queued">'
+                      f'<span class="lx-title">{e["title"]}</span>'
+                      f'<span class="lx-blurb">{e["blurb"]}</span>'
+                      f'<span class="lx-soon">Not written yet</span></div>')
+    return f"""<main class="wrap narrow"><section class="page">
+  <span class="kicker">Learn</span>
+  <h1>Explainers</h1>
+  <p class="lede">Evergreen pieces on how crypto actually works, written once and kept
+     current. These are not news. The desk's reporting lives on
+     <a href="/news.html">Latest</a>; this is the background that makes the reporting
+     easier to read.</p>
+  <div class="lx-grid">{cards}</div>
+  <p class="nfa">Explainers are educational. They describe how things work and are not
+     advice about your particular holdings.</p>
+</section></main>"""
+
+
 def _cta(href, brand, line, store):
     """One primary call to action per brand. The link names its destination so the reader
     (and a screen reader) knows it goes to the manufacturer's own store before clicking,
@@ -67,7 +124,7 @@ def cold_storage_body():
         f'<li><a href="{url}" rel="noopener" target="_blank">{name}</a></li>'
         for name, url in SOURCES)
     return f"""<main class="wrap narrow"><section class="page">
-  <span class="kicker">Explainer</span>
+  <span class="kicker"><a href="/learn.html">Learn</a> &middot; explainer</span>
   <h1>Cold storage, explained</h1>
   <p class="lede">Crypto can sit in three different places, and the difference between them
      comes down to one question: who holds the keys. Here is what each option is actually
