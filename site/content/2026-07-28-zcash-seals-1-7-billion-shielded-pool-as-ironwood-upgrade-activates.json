@@ -1,0 +1,30 @@
+{
+  "id": "c005",
+  "slug": "zcash-seals-1-7-billion-shielded-pool-as-ironwood-upgrade-activates",
+  "kind": "brief",
+  "title": "Zcash seals $1.7 billion shielded pool as Ironwood upgrade activates",
+  "dek": "Zcash activated its Ironwood upgrade at block 3,428,143 on Tuesday, retiring the Orchard shielded pool containing 3.66 million ZEC (roughly $1.7 billion) after researchers discovered a counterfeiting bug that had gone undetected since the pool's May 2022 launch. The upgrade implements a 'turnstile' withdrawal mechanism that caps total exits from Orchard at the amount verifiably deposited, while a new private pool starts from zero tokens.",
+  "date": "2026-07-28",
+  "published_utc": "2026-07-28T16:10:43Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "Zcash discovered a counterfeiting bug in its Orchard pool's proof circuit on May 29, 2026, four years after the pool launched in May 2022, forcing the network to seal the $1.7 billion pool and migrate users to a new one gated by withdrawal limits.",
+  "bottom_line": "Watch migration rates from Orchard to the new pool and the timeline for completion of formal verification of the Ironwood circuit. The success of the forced migration will test whether users trust the network after four years of undetected vulnerability, and whether the turnstile mechanism and formal verification prove sufficient to restore confidence in Zcash's private infrastructure.",
+  "human_take": "",
+  "body": [
+    "Zcash activated its Ironwood upgrade (NU6.3) at block 3,428,143 on Tuesday, sealing off the Orchard shielded pool containing 3.66 million ZEC, worth roughly $1.7 billion at current prices. The shutdown follows the discovery of a critical counterfeiting bug that lived undetected in the pool's proof circuit for four years, since Orchard's launch in May 2022.",
+    "On May 29, researcher Taylor Hornby at Shielded Labs found that Orchard's proof circuit contained a flaw that would let an attacker mint counterfeit ZEC without leaving any onchain trace. Developers patched the bug within days, but the patch could not account for the four years it had been open. Because zero-knowledge proofs reveal nothing beyond the facts they verify, the chain holds no record of whether any Orchard transaction actually moved, and no one can prove counterfeit coins were never created.",
+    "Ironwood opens a new private pool that starts from zero tokens. Every coin must be moved out of Orchard by its owner, and the only route out is a turnstile, an accounting rule at the pool's boundary that caps total withdrawals at the amount verifiably deposited. The turnstile prevents counterfeit coins from leaving Orchard because money crossing into or out of a shielded pool is public, so the network already knows how much ZEC went into Orchard and will not release more than that. As of press time, 1,500 ZEC had already moved into the new pool.",
+    "CoinDesk Research found in July that evidence points away from exploitation of the bug. Orchard's balance grew steadily through the four years the flaw was open, including through last year's price rally when cashing out would have been most profitable. Still, the inability to rule out exploitation with certainty drove the seal.",
+    "Ironwood launched with two technical measures aimed at preventing recurrence. The new pool's proof circuit is undergoing formal verification, which produces a mathematical proof that software behaves correctly in every possible case rather than only in cases a tester thought to try. Ironwood also launched with quantum-resilient record-keeping: the record each coin leaves on the chain is built to stay recoverable if quantum computers break the cryptography now securing it, a property specified under ZIP 2005.",
+    "ZEC traded near $463 ahead of the switch, down 8 percent on the day and 15 percent over the week, though it remains up roughly tenfold over the past year."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/07/28/zcash-seals-usd1-7-billion-shielded-pool-as-ironwood-upgrade-activates",
+      "url": "https://www.coindesk.com/tech/2026/07/28/zcash-seals-usd1-7-billion-shielded-pool-as-ironwood-upgrade-activates"
+    }
+  ]
+}

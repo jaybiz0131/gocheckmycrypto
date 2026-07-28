@@ -2227,5 +2227,41 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-28",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c015",
+    "headline": "Inside the CME and CFTC's battle over onchain perpetual futures",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CFTC and its chairman Mike Selig' but the brief consistently identifies him as 'Mike Selig' without a middle initial or alternate spelling. The draft uses 'Selig' throughout, which matches the brief, so this is consistent.",
+     "The draft claims 'Interest spiked in perpetual contracts on oil prices traded on offshore decentralized finance platforms like Hyperliquid' around 'the start of the Iran conflict.' The brief data_point states 'Tension between CME and CFTC mounted around the start of Iran conflict, which saw interest spike in perpetual contracts on oil prices traded on offshore DeFi exchanges like Hyperliquid.' This is reported-confidence sourced to CoinDesk and traces correctly.",
+     "The draft states 'Non-U.S. perpetual futures volume reportedly grew to $60 trillion last year' and attributes this to 'data cited by CoinDesk.' The brief confirms this exact claim with reported confidence. However, the word 'reportedly' correctly flags the attribution without overstating certainty.",
+     "The draft presents Chervinsky's affiliation as 'CEO of the Hyperliquid Policy Center (a Washington D.C.-based non-profit focused on compliant decentralized finance, backed by a $28 million initiative from the Hyper Foundation)' but the brief's data_point says the center is 'a Washington D.C.-based non-profit focused on creating compliant DeFi in the U.S., heavily focused on perps and on-chain financial infrastructure, backed by a $28 million initiative from the Hyper Foundation.' The draft adds 'compliant' language and omits 'heavily focused on perps' but the core facts are there and the attribution is accurate.",
+     "The draft includes a paragraph about Duffy debating 'then-FTX CEO Sam Bankman-Fried on the industry's efforts to cut out intermediaries months before the company collapsed.' The brief confirms this fact with reported confidence. This traces correctly.",
+     "Critical issue: The draft's bottom_line states 'CFTC and CME clash over regulatory jurisdiction after CFTC approves first crypto perpetual listing; major policy dispute over whether onchain perps are CEA-compliant.' The phrase 'CEA-compliant' (Commodity Exchange Act) does not appear in the brief's data_points, bottom_line, or core_claim. The brief discusses 'whether perpetuals fit existing commodity law' and CME's claim that perps should be regulated as 'swaps,' but never uses 'CEA-compliant' as the framing. This is a subtle but real addition of interpretive language not in the research."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Morgan Stanley debuts ether and solana exchange-traded products after bitcoin fund success",
+    "category": "balance",
+    "reasons": [
+     "Brief's bear_case states 'Source text provides no criticisms, regulatory risks, competitive pressure metrics, or bear-case commentary; story is presented as unambiguously positive institutional expansion.' The draft contains zero offsetting risk or critical perspective: no mention of regulatory challenges, no competitive pressure from existing altcoin ETPs, no friction points in adoption, no concerns about staking implementation risks, and no acknowledgment of the altcoin market's volatility relative to bitcoin. The sentence 'The size of Morgan Stanley's distribution network means these products could meaningfully shift capital flows to ETH and SOL' in the bottom_line gestures toward impact but offers no counterweight to the unrelenting bullish framing throughout. A story this promotional\u2014especially one trailing institutional adoption narratives\u2014requires at minimum a sentence acknowledging regulatory headwinds, execution risk, or competitive dynamics to survive the red-team test."
+    ]
+   },
+   {
+    "id": "c131",
+    "headline": "Storj Files Chapter 11, Proposes Token-to-Equity Path for Holders",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bitcoin was little changed over the same 24-hour window' but this claim does not appear in the brief's data_points. The brief includes a data_point about 'Bitcoin was little changed over the same 24-hour window' (confidence: reported), but the draft presents no comparable reference to Bitcoin's price movement. This is either a smuggled fact or the draft is missing context that would justify its inclusion. Either way, it violates the hard rule that facts must trace back to the brief.",
+     "The draft presents Storj's statement 'This is a decisive, positive step. The business underneath is strong and right-sized. What holds it back are legacy obligations from an earlier chapter' as a direct quote from Kaloyan Raev, but the brief's data_point attributes only the second and third sentences to Raev's statement, suggesting potential misattribution or quotation of a partial/reframed statement in the draft."
+    ]
+   }
+  ]
  }
 ]
