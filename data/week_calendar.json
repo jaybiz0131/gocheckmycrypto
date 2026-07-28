@@ -1,11 +1,39 @@
 {
-  "note": "Curated forward calendar for the Monday Week Ahead story (audit item 2, 2026-07-27). Only scheduled, publicly announced items belong here, each with a source URL. week_ahead.py renders this file deterministically every Monday; nothing in it may be a prediction. Kinds: macro, earnings, protocol, regulatory.",
+  "note": "The desk's forward calendar (audit items 2 and 5). ONE file, read every run: week_ahead.py renders Monday's Week Ahead story from it, and calendar_check.py flags any event the desk has NOT covered so the editor sees the gap instead of missing it (the Zcash Ironwood upgrade of 2026-07-28 is exactly the case that motivated this). Only scheduled, publicly announced items belong here, each with a source URL. Nothing here may be a prediction: kinds are macro, earnings, protocol, regulatory. 'match' is a list of AND-groups: the event counts as covered when one story contains every term of any one group. Never use a bare entity name as a group on its own, or an unrelated old story about that entity will claim coverage the desk never gave.",
   "events": [
+    {
+      "date": "2026-07-28",
+      "kind": "protocol",
+      "title": "Zcash activates the Ironwood upgrade (NU6.3)",
+      "detail": "Zcash's Ironwood network upgrade activates at block height 3,428,143, replacing the Orchard shielded pool after a counterfeiting bug was disclosed. Funds leaving Orchard must pass a supply-accounting checkpoint, and the network runs Zebra-only after the end-of-support halt that preceded activation.",
+      "match": [
+        [
+          "ironwood"
+        ],
+        [
+          "nu6.3"
+        ]
+      ],
+      "source": "https://crypto.news/zcash-sets-ironwood-upgrade-for-july-28-after-orchard-bug/",
+      "source_name": "crypto.news"
+    },
     {
       "date": "2026-07-29",
       "kind": "macro",
       "title": "FOMC rate decision",
       "detail": "The Federal Open Market Committee meets Tuesday and Wednesday; the rate decision lands Wednesday at 2:00 p.m. Eastern with a press conference at 2:30. This meeting carries no Summary of Economic Projections, so there is no dot plot to parse.",
+      "match": [
+        [
+          "fomc"
+        ],
+        [
+          "federal open market committee"
+        ],
+        [
+          "fed",
+          "rate decision"
+        ]
+      ],
       "source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
       "source_name": "Federal Reserve"
     },
@@ -14,6 +42,24 @@
       "kind": "earnings",
       "title": "Coinbase second-quarter results",
       "detail": "Coinbase reports second-quarter results after the U.S. market close, the largest listed crypto exchange's first report since the June market drawdown.",
+      "match": [
+        [
+          "coinbase",
+          "earnings"
+        ],
+        [
+          "coinbase",
+          "second-quarter"
+        ],
+        [
+          "coinbase",
+          "second quarter"
+        ],
+        [
+          "coinbase",
+          "q2"
+        ]
+      ],
       "source": "https://www.stocktitan.net/news/COIN/coinbase-announces-date-of-second-quarter-2026-financial-ms2ly18besxs.html",
       "source_name": "Coinbase (via StockTitan)"
     },
@@ -22,6 +68,24 @@
       "kind": "earnings",
       "title": "Strategy second-quarter results",
       "detail": "Strategy, the largest corporate bitcoin holder, reports second-quarter results after the close with a webinar at 5:00 p.m. Eastern; its bitcoin position marks to the quarter's prices.",
+      "match": [
+        [
+          "strategy",
+          "earnings"
+        ],
+        [
+          "mstr",
+          "earnings"
+        ],
+        [
+          "strategy",
+          "second-quarter"
+        ],
+        [
+          "saylor",
+          "quarter"
+        ]
+      ],
       "source": "https://www.stocktitan.net/news/MSTR/strategy-announces-earnings-release-date-and-live-video-webinar-for-99tfu7jmzh2f.html",
       "source_name": "Strategy (via StockTitan)"
     }

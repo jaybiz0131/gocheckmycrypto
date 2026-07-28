@@ -124,6 +124,15 @@ jobs:
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
         run: python3 wrap.py || echo "::warning::daily edition failed its gates; stories unaffected"
 
+      # KNOWN-EVENT COVERAGE CHECK (audit item 5, 2026-07-28): the desk knew the Zcash
+      # Ironwood activation date nine days early, published it in passing, and still had no
+      # story on the day. This reads data/week_calendar.json every run and flags any due
+      # event with no coverage dated on or after it. Advisory: warns for the editor, never
+      # blocks a publish (|| true keeps a coverage judgment out of the failure path).
+      - name: Known-event coverage check (calendar vs what the desk published)
+        if: steps.key.outputs.have_key == 'true'
+        run: python3 calendar_check.py || true
+
       # THE WEEK AHEAD (audit item 2, 2026-07-27): Monday's calendar-driven forward story,
       # rendered deterministically from data/week_calendar.json. No model, no forecasts by
       # construction; non-Mondays and already-published weeks exit clean.
