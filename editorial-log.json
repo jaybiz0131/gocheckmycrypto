@@ -2303,5 +2303,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-28",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c027",
+    "headline": "Crypto hacks topped $1 billion in first half of 2026, Blockaid data shows",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Ethereum and Solana projects absorbed the largest shares of the damage' and that 'these two major smart contract chains account for more than 65 percent of the first-half total.' This claim\u2014that ETH+SOL represent >65% of $1B total\u2014is not present in the brief's data_points. The brief provides only that Ethereum lost $332M and Solana lost $326M ($658M combined). A 65% claim would require stating those chains represent $650M+ of the total, but the brief does not confirm what percentage of the $1B total these losses represent. This is a smuggled quantitative claim."
+    ]
+   },
+   {
+    "id": "c034",
+    "headline": "Morgan Stanley launches Ethereum and Solana ETFs with market-low fees and staking rewards",
+    "category": "balance",
+    "reasons": [
+     "Brief contains empty bear_case array, yet draft does not acknowledge the absence of critical risks or downsides. The draft presents Morgan Stanley's entry as unambiguously positive ('signals Wall Street's continued embrace', 'accelerates institutionalization') without any countervailing perspective on regulatory, competitive, or performance risks. A story about institutional crypto products entering the market should surface tensions (e.g., custody risks, fee compression hurting profitability, regulatory clawback) even if the brief was thin on them. The draft reads as bullish framing where balance demands skepticism.",
+     "The sentence 'Roughly 2.5 years after the first spot Bitcoin ETF began trading, major institutional platforms are now bundling Ethereum and Solana exposure into fund structures' overstates exclusivity ('major institutional platforms') when the brief only documents Morgan Stanley's launch. No competitive context is provided to show whether this is actually a trend or a single entrant."
+    ]
+   },
+   {
+    "id": "c164",
+    "headline": "Hong Kong prepares banks for quantum threats amid tokenization push",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Specific metrics, compliance obligations, or recommended cryptographic standards tied to the index have not been disclosed.' This is a claim about what was NOT disclosed\u2014an absence of information. This claim does not trace to any data_point in the brief. The brief contains only three narrow data_points (index publication, 2030 target, tokenization expansion); it says nothing about what Cointelegraph did or did not disclose about metrics, standards, or obligations. The writer has inferred a negative fact not present in the research brief, violating the hard rule that no fact exists outside the brief.",
+     "The draft also states 'visibility into whether the mandate extends to tokenized asset infrastructure specifically remains unclear.' This is another negative claim (what remains unclear) not supported by any data_point in the brief. The brief lists this as an open_question, meaning the writer knew it was unresolved\u2014but presenting it as a standalone fact in the draft body, rather than in the bottom_line or explicitly labeled as undetermined, smuggles editorial interpretation into the news narrative."
+    ]
+   }
+  ]
  }
 ]
