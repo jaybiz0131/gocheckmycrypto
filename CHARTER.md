@@ -65,4 +65,13 @@ off limits to the commercial layer. A desk that monetizes fear has stopped being
 THE SEVERABILITY TEST: delete the commercial layer from any page carrying one. If the
 piece no longer stands as an article, it was an advertisement and it does not ship.
 
+CATEGORY FIRST, NAME SECOND, the construction rule that makes severability pass. Describe
+what the category of thing does and what problem it solves, thoroughly enough that a reader
+could go find one unaided. Only then name a specific option, in its own sentence, as an
+instance of that category. A brand name must never do the work a description should be
+doing. Built that way, cutting the name still leaves the reader knowing what to look for.
+Measure it rather than assuming it: strip the commercial section and every sentence naming
+a partner, then read what survives. The tax explainer keeps 94 percent of its words under
+that cut, with no dangling reference left behind.
+
 The reader-facing version of this charter is the site's method page.

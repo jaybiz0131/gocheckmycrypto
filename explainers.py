@@ -10,6 +10,22 @@ RULES THIS FILE IS BUILT TO KEEP
   - The page must read correctly with the commercial layer removed. The argument is the
     product; the links are a convenience at the end of it. If deleting the buy section
     broke the piece, the piece would be an advertisement and would not ship.
+  - CATEGORY FIRST, NAME SECOND. This is how the rule above is actually satisfied, and it
+    is a construction rule rather than a matter of instinct. Describe what the category of
+    thing does and what problem it solves, in enough detail that a reader could go find one
+    without help. Only then name a specific option, in its own sentence, as an instance of
+    that category. Never the reverse, and never a brand name doing the work a description
+    should be doing. Written this way, cutting the name leaves the reader knowing exactly
+    what to look for, which is why severability holds in the prose rather than in the
+    formatting. Measure it: strip the commercial section and every sentence naming a
+    partner, then confirm the surviving text still stands and carries no dangling
+    reference. The tax explainer keeps 94 percent of its words under that cut, with zero
+    residue.
+  - Disclosure sits ABOVE the link, never below it. Reading order should reach the
+    commission note before it reaches the thing the commission is paid on.
+  - When a discount is offered, say plainly that it is real and applies whether or not it
+    earns us anything, and attach no urgency to it: no countdown, no expiry framing, no
+    scarcity. That sentence is what separates a reader benefit from an affiliate hook.
   - Store-wide links only. Commission is on the cart rather than a SKU, and product URLs
     rot every time a lineup refreshes. No product links, and no prices anywhere:
     manufacturer pricing rotates and a stale price is a credibility hit.
