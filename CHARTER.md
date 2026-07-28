@@ -74,4 +74,12 @@ Measure it rather than assuming it: strip the commercial section and every sente
 a partner, then read what survives. The tax explainer keeps 94 percent of its words under
 that cut, with no dangling reference left behind.
 
+READER DATA (owner's correction, 2026-07-28). An earlier handoff described this desk as
+collecting no email, which was wrong. This desk does collect email, and the actual policy
+is: addresses are collected through the newsletter signup form and for the newsletter only,
+they are stored in Netlify Forms and delivered to the company inbox, they are never sold
+and never shared with anyone else, and every issue carries an unsubscribe that removes the
+address from the list. Nothing else about a reader is collected by us. The reader-facing
+statement of this is the privacy page, and the signup form's fine print must agree with it.
+
 The reader-facing version of this charter is the site's method page.

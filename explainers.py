@@ -31,8 +31,11 @@ RULES THIS FILE IS BUILT TO KEEP
     manufacturer pricing rotates and a stale price is a credibility hit.
   - Recommend by fit, never by commission. See ROUTING RULE below.
   - Educational only. Nothing here is advice about any particular person's holdings.
-  - No email capture, no personal data collected, no interaction layer (no selector, quiz,
-    or filter). The reader reads prose and decides.
+  - No email capture and no interaction layer ON THESE PAGES: no form, no selector, no
+    quiz, no filter. The reader reads prose and decides. Note the scope, which is these
+    pages and not the site: the site does collect email through the newsletter signup, on
+    the terms set out in CHARTER.md and on the privacy page. An explainer never becomes a
+    second place that asks for it.
 
 ROUTING RULE (written down deliberately, per directive):
   Trezor pays a higher commission than Ledger. That fact must never influence which device

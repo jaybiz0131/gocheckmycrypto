@@ -505,8 +505,9 @@ def newsletter():
     <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
     <button type="submit">Subscribe</button>
   </form>
-  <p class="fine">Emails are stored by Netlify Forms and used only to send the newsletter.
-     Unsubscribe anytime. See our <a href="/privacy.html">privacy policy</a>. Not financial advice.</p>
+  <p class="fine">Emails are stored by Netlify Forms, delivered to our company inbox, and used
+     only to send the newsletter. Never sold, never shared. Unsubscribe anytime. See our
+     <a href="/privacy.html">privacy policy</a>. Not financial advice.</p>
 </div></section>"""
 
 
@@ -1564,9 +1565,10 @@ def render_privacy(dateline):
 
   <h2>The newsletter</h2>
   <p>If you sign up for the daily brief, the email address you submit is stored by Netlify Forms,
-     the form service of our hosting provider. We use it only to send the newsletter. We do not
-     sell your email address, and we do not share it with anyone else. Every issue includes an
-     unsubscribe option, and unsubscribing removes you from the list.</p>
+     the form service of our hosting provider, and delivered to our company inbox. We use it only
+     to send the newsletter. We do not sell your email address, and we do not share it with anyone
+     else. Every issue includes an unsubscribe option, and unsubscribing removes you from the
+     list. The signup form is the only place this site asks you for anything.</p>
 
   <h2>Analytics</h2>
   <p>We measure traffic with Cloudflare Web Analytics. It is a cookieless beacon: it counts page
