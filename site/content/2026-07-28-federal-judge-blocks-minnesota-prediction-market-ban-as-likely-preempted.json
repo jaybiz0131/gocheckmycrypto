@@ -1,0 +1,30 @@
+{
+  "id": "c006",
+  "slug": "federal-judge-blocks-minnesota-prediction-market-ban-as-likely-preempted",
+  "kind": "brief",
+  "title": "Federal judge blocks Minnesota prediction market ban as likely preempted",
+  "dek": "A U.S. federal judge granted a preliminary injunction blocking Minnesota's prediction market ban, ruling that the state law likely violates the Commodity Exchange Act and that the CFTC has jurisdiction over prediction market contracts as swaps. The ruling applies to many trades on Kalshi and Polymarket platforms.",
+  "date": "2026-07-28",
+  "published_utc": "2026-07-28T08:06:41Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "Judge Katherine Menendez found that plaintiffs Kalshi, Polymarket, and the CFTC are likely to succeed in proving that Minnesota's law is preempted by federal commodity law.",
+  "bottom_line": "Federal law preempts state prediction market bans for contracts that qualify as swaps under the Commodity Exchange Act, but the ruling leaves room for states to restrict entertainment-based prediction contracts. Watch for the final trial decision to clarify which types of prediction markets fall under CFTC jurisdiction and whether other states will attempt similar bans or test the boundaries of this ruling.",
+  "human_take": "",
+  "body": [
+    "A U.S. federal judge has temporarily blocked Minnesota's ban on prediction markets, ruling that the state law likely violates the Commodity Exchange Act and that the CFTC holds regulatory authority over prediction market contracts.",
+    "Judge Katherine Menendez of the U.S. District Court for the District of Minnesota issued the preliminary injunction on Monday in response to a lawsuit filed by Kalshi, Polymarket, and the CFTC earlier this year after Minnesota passed a law criminalizing the operation of prediction markets. The injunction will remain in effect until a final decision on the merits is reached.",
+    "Judge Menendez ruled that Minnesota's law \"seems to be preempted by the federal CEA [Commodity Exchange Act]\" and found that the parties \"are likely to succeed\" in showing preemption after a full trial. \"The Court finds that Plaintiffs have met their burden to show they are likely to succeed on the merits of their express-preemption claims, at least as to the application of Minnesota's law to many of the trades listed on Kalshi's and Polymarket US's platforms,\" according to the opinion.",
+    "The lawsuit centered on whether prediction market contracts qualify as \"swaps\" under federal commodity law. Kalshi, Polymarket, and the CFTC argued that Minnesota's statute violated the CFTC's jurisdiction to oversee such contracts. The judge agreed that the legal outcome \"turns on whether the state law attempts to regulate trades in event contracts that qualify as 'swaps' within the meaning of the CEA.\"",
+    "However, Judge Menendez left open the possibility that some prediction contracts may not qualify as federal swaps. The judge specifically acknowledged that contracts predicting outcomes of entertainment events, such as who might win the TV show \"Love Island,\" could potentially fall outside CEA jurisdiction and remain subject to Minnesota's law. This suggests that not all prediction market trades on these platforms would necessarily escape the state ban.",
+    "The judge also found that not halting the law would cause \"irreparable harm\" to Kalshi and Polymarket, supporting the decision to block enforcement while litigation continues."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/07/27/kalshi-polymarket-win-pause-against-minnesota-s-prediction-market-ban",
+      "url": "https://www.coindesk.com/policy/2026/07/27/kalshi-polymarket-win-pause-against-minnesota-s-prediction-market-ban"
+    }
+  ]
+}

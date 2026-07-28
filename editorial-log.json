@@ -2193,5 +2193,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-28",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "CME sues CFTC over approval of onchain perpetual futures",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CME sues CFTC over approval of onchain perpetual futures' and 'filed suit against the CFTC and its Chairman Mike Selig this week,' but the brief does not specify when the lawsuit was filed\u2014only that it challenges the approval. The phrase 'this week' is not in the brief and introduces a temporal claim not sourced.",
+     "The draft refers to 'Mike Selig' as CFTC Chairman, but the brief and data consistently refer to him as 'Mike Selig'\u2014this is accurate. However, the draft's opening sentence saying CME 'sued the CFTC and its Chairman Mike Selig' personalizes the defendant in a way that may overstate liability exposure; the brief indicates the suit is against the CFTC's decision, not a personal suit against the chairman.",
+     "The draft states 'Perpetual futures are derivative contracts that allow users to speculate on the price of an asset with leverage and no expiration date, according to CoinDesk's reporting.' The brief data_point says 'Perpetual futures are decentralized derivative contracts'\u2014the draft omits 'decentralized,' which is a material structural descriptor present in the source brief."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Thailand's SEC files criminal complaint against Bitkub over concealed $50 million hack",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'According to CoinDesk's reporting, the SEC and Bitkub made good the losses by the end of October 2021.' The brief data_point says 'The SEC and Bitkub made good the losses by the end of October 2021'\u2014but this attribution is problematic. The brief does not specify who made good the losses (Bitkub alone, or jointly with SEC oversight). The draft's phrasing ('the SEC and Bitkub made good') is an inference not explicitly stated in the brief and could mischaracterize regulatory responsibility. The brief says only that losses were made whole; the draft invokes SEC participation without sourcing it.",
+     "The draft opens with 'Thailand's Securities and Exchange Commission has filed a criminal complaint against Bitkub...along with two former directors' but the phrasing 'along with two former directors' could read as though the SEC also named the directors as co-defendants, which is accurate per brief. However, the next sentence attributes the losses to 'the breach' without clarity on who Bitkub was\u2014was the exchange itself a victim, or complicit? The brief supports that Bitkub was the platform operator and the theft occurred on it, which the draft conveys adequately."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Fanatics Acquires Regulated Exchange to Accelerate Prediction Markets Growth",
+    "category": "balance",
+    "reasons": [
+     "Brief's bear_case states 'The source text does not identify any stated regulatory risks, criticisms, or skeptical perspectives on the acquisition itself.' The draft lacks any substantive risk or skeptical framing to match this liability. The brief acknowledges this gap; the draft does not surface it or flag what remains unknown about regulatory approval, integration risk, or competitive positioning. A pure-positive acquisition story without even a 'watch for' risk paragraph fails balance when the brief explicitly notes absence of pushback.",
+     "The draft states 'The story invalidates if regulatory scrutiny slows the integration or if Fanatics cannot compete on product velocity and liquidity against Kalshi and Polymarket' in the bottom_line but provides zero in-draft risk framing to prepare readers for these scenarios. The bear_case is invisible in the prose itself."
+    ]
+   }
+  ]
  }
 ]
