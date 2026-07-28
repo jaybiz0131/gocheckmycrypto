@@ -50,6 +50,105 @@ SOURCES = [
 ]
 
 
+# ---- commercial relationships: the complete list, and the ONLY list -----------
+# Every way this desk earns money is named here and rendered on /how-we-make-money.html.
+# If a relationship is not in this list it does not exist; if it is here it is disclosed.
+# Note what this list does NOT do: it carries no affiliate URLs. Commercial links live on
+# the explainer that earns them, so the disclosure page can name a partner without being
+# another place to click one.
+PARTNERS = [
+    {
+        "name": "Ledger",
+        "kind": "Hardware wallets",
+        "terms": "We earn a commission when someone buys through our link to Ledger's "
+                 "own store. It costs the reader nothing extra.",
+        "where": "Cold storage, explained",
+        "where_url": "/cold-storage.html",
+    },
+    {
+        "name": "Trezor",
+        "kind": "Hardware wallets",
+        "terms": "We earn a commission when someone buys through our link to Trezor's "
+                 "own store. It costs the reader nothing extra. Trezor pays us more than "
+                 "Ledger does, which is exactly why our recommendation between them is "
+                 "written to follow what suits the reader and never the rate.",
+        "where": "Cold storage, explained",
+        "where_url": "/cold-storage.html",
+    },
+    {
+        "name": "CoinLedger",
+        "kind": "Crypto tax software",
+        "terms": "We earn a commission on subscriptions started through our link. The "
+                 "code CRYPTOTAX10 gets the reader a discount, and we earn on those "
+                 "purchases too, so you should know the code is not a favour without a "
+                 "cost to us either way.",
+        "where": "Crypto and tax, explained, which is not written yet. Until it is "
+                 "published there is no CoinLedger link anywhere on this site.",
+        "where_url": None,
+    },
+]
+
+
+def how_we_make_money_body():
+    """The policy, published. A rule nobody can read is not a rule anyone can hold us to,
+    so the tiers and the failure rule are stated here in plain language."""
+    rows = ""
+    for p in PARTNERS:
+        where = (f'<a href="{p["where_url"]}">{p["where"]}</a>' if p["where_url"]
+                 else p["where"])
+        rows += (f'<div class="pt-row"><h3 class="pt-name">{p["name"]}'
+                 f'<span class="pt-kind">{p["kind"]}</span></h3>'
+                 f'<p class="pt-terms">{p["terms"]}</p>'
+                 f'<p class="pt-where"><b>Where the links appear:</b> {where}</p></div>')
+    return f"""<main class="wrap narrow"><section class="page">
+  <span class="kicker">Disclosure</span>
+  <h1>How we make money</h1>
+  <p class="lede">This desk earns affiliate commission from three companies. Here is the
+     complete list, what we earn on, and the rules about where those links are allowed to
+     appear. We publish the rules because a policy nobody can read is not a policy anyone
+     can hold us to.</p>
+
+  <h2>Who we earn from</h2>
+  <div class="pt-list">{rows}</div>
+  <p>That is the entire list. We take no payment for coverage, we run no sponsored posts,
+     and nobody pays to be written about or left out.</p>
+
+  <h2>Where commercial links may appear, and where they may not</h2>
+  <p>The site has three kinds of pages and the rules are different for each.</p>
+  <ul class="rule-list">
+    <li><b>News coverage never carries affiliate links.</b> The front page, Latest, every
+        story, the daily Editions and the RSS feed are clean. Nothing we earn from can
+        influence what gets reported or how.</li>
+    <li><b>Data boards never carry commercial calls to action.</b> Whale Watch, Market
+        Pulse and The Chart Master may link to an explainer when it genuinely helps, but
+        they carry no buy buttons and no commission language.</li>
+    <li><b>Commercial links appear only in disclosed evergreen explainers.</b> Those pages
+        say plainly, above the first link, that we earn a commission.</li>
+    <li><b>No commercial link ever appears beside coverage of a company's failure.</b>
+        Exchange bankruptcies, hacks and wind-downs are the highest-earning pages a crypto
+        site can publish. They are permanently off limits to us. A desk that makes money
+        from your fear has stopped being a desk.</li>
+  </ul>
+
+  <h2>How we decide what to recommend</h2>
+  <p>By what fits the reader, never by what pays more. Where two products both pay us, the
+     reasoning for choosing between them is written into the page itself so you can check
+     it against your own situation and disagree with it.</p>
+  <p>Every explainer also has to pass one test before it ships: delete the commercial
+     section, and the page has to still work as an article. If it does not, it was an
+     advertisement wearing an article's clothes and it does not get published.</p>
+
+  <h2>Holding us to it</h2>
+  <p>If you find a link on this site that breaks any of the rules above, tell us at
+     <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a> and we will
+     take it down. Corrections to this page are handled the same way as corrections to
+     our reporting; see <a href="/standards.html">standards and corrections</a>.</p>
+
+  <p class="nfa">Affiliate commission never makes anything on this site advice. Explainers
+     describe how things work; they are not guidance about your particular holdings.</p>
+</section></main>"""
+
+
 # ---- the Learn tier -----------------------------------------------------------
 # One registry. Adding an explainer means adding an entry here and a body function; the
 # index page, the routes and the sitemap all read from this list, so nothing else changes.
