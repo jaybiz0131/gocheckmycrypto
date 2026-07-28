@@ -68,6 +68,26 @@ SOURCES = [
 ]
 
 
+# COUNTERFEIT SOURCES: manufacturer documentation only. Every claim on that page about
+# tampering signs, verification processes and distribution guidance traces to one of these.
+# Note what is NOT here and why: no manufacturer page we can read documents counterfeit
+# devices being posted to breach victims. The breach disclosure and the postal-phishing
+# campaign are each sourced separately below, and the page draws the conclusion in its own
+# voice rather than putting an unsourced claim in a manufacturer's mouth.
+COUNTERFEIT_SOURCES = [
+    ("Ledger, Best practices to securely buy your Ledger device",
+     "https://www.ledger.com/academy/topics/ledgersolutions/best-practices-to-securely-buy-ledger-signer"),
+    ("Trezor, Is my device safe to use?",
+     "https://trezor.io/support/troubleshooting/device-issues/is-my-device-safe-to-use"),
+    ("Trezor, Authenticate your Trezor Model One",
+     "https://trezor.io/guides/trezor-devices/trezor-model-one/authenticate-model-one"),
+    ("Ledger, Ongoing phishing campaigns",
+     "https://www.ledger.com/phishing-campaigns-status"),
+    ("Ledger, Addressing the July 2020 e-commerce and marketing data breach",
+     "https://www.ledger.com/addressing-the-july-2020-e-commerce-and-marketing-data-breach"),
+]
+
+
 # TAX SOURCES: IRS primary material only. Nothing on the tax page may rest on secondary
 # coverage or model knowledge. This rule exists because secondary sources reported the
 # 1099-DA timeline backwards, and the IRS page says plainly that gross proceeds reporting
@@ -97,7 +117,7 @@ PARTNERS = [
         "kind": "Hardware wallets",
         "terms": "We earn a commission when someone buys through our link to Ledger's "
                  "own store. It costs the reader nothing extra.",
-        "where": "Cold storage, explained",
+        "where": "Cold storage, explained and Counterfeit hardware wallets",
         "where_url": "/cold-storage.html",
     },
     {
@@ -107,7 +127,7 @@ PARTNERS = [
                  "own store. It costs the reader nothing extra. Trezor pays us more than "
                  "Ledger does, which is exactly why our recommendation between them is "
                  "written to follow what suits the reader and never the rate.",
-        "where": "Cold storage, explained",
+        "where": "Cold storage, explained and Counterfeit hardware wallets",
         "where_url": "/cold-storage.html",
     },
     {
@@ -207,7 +227,7 @@ EXPLAINERS = [
         "title": "Counterfeit hardware wallets",
         "blurb": "How tampered devices and pre-filled recovery cards reach buyers, and "
                  "how to check the one you received.",
-        "status": "queued",
+        "status": "published",
     },
 ]
 
@@ -248,6 +268,160 @@ def _cta(href, brand, line, store):
             f'<span class="cta-brand">{brand}</span>'
             f'<span class="cta-line">{line}</span>'
             f'<span class="cta-go">Shop the official {store} store</span></a>')
+
+
+def counterfeit_devices_body():
+    """Sections 1 to 5 are the article and stand alone; section 6 is the commercial layer
+    and is severable.
+
+    SOURCING: every claim about tampering signs, verification processes and distribution
+    guidance traces to COUNTERFEIT_SOURCES. Two places deliberately separate what the
+    manufacturers say from what we say, and both must stay that way:
+      - Both manufacturers say official store OR authorized reseller. Our rule is stricter
+        than theirs. The copy attributes their guidance accurately and then marks ours as
+        ours, the same split ratified on the cold storage page.
+      - No readable manufacturer page documents counterfeit devices being posted to people
+        whose addresses leaked. The breach and the postal-phishing campaign are each
+        sourced; the inference between them is drawn in our voice, not theirs.
+
+    REGISTER: protective, not fearful. The reader should finish equipped. No dramatization,
+    no breach catalogue (ruled out earlier), no fear framing.
+    """
+    sources = "".join(
+        f'<li><a href="{url}" rel="noopener" target="_blank">{name}</a></li>'
+        for name, url in COUNTERFEIT_SOURCES)
+    return f"""<main class="wrap narrow"><section class="page">
+  <span class="kicker"><a href="/learn.html">Learn</a> &middot; explainer</span>
+  <h1>Counterfeit hardware wallets</h1>
+  <p class="lede">A hardware wallet only protects you if you were the first person to
+     generate its keys. That single fact explains the whole category of attack, and it is
+     also what makes the attack easy to check for. Here is how tampered devices reach
+     buyers and what to look at when a box arrives.</p>
+
+  <h2>Why this attack exists at all</h2>
+  <p>When you set up a hardware wallet, the device generates a recovery phrase and shows it
+     to you once. That phrase is the wallet. Anyone holding it can rebuild the wallet
+     somewhere else and move the funds, without ever touching your device.</p>
+  <p>So a device that arrives already set up, or with its recovery card already filled in,
+     is not a wallet you own. It is a wallet somebody else already owns, handed to you with
+     an invitation to fund it. Everything you send to it is visible to whoever prepared the
+     card, and there is no later step that fixes it. Nothing has to be hacked and no chip
+     has to be modified for this to work, which is why it is worth a few minutes of
+     attention at setup.</p>
+  <p>The reassuring half: because the attack depends on the seed already existing, a device
+     that generates a fresh seed in front of you has not been prepared for you. That is the
+     check the rest of this page is built around.</p>
+
+  <h2>Where the risk actually enters</h2>
+  <p>The risk is about custody of the device before it reached you, not about any particular
+     seller being dishonest.</p>
+  <ul class="rule-list">
+    <li><strong>Marketplace listings and third-party sellers.</strong> On large retail
+        platforms, the listing and the seller are separate things. Ledger's own guidance is
+        to exercise high caution on third-party online marketplaces and to favour its
+        official storefronts or authorized resellers on those platforms. Trezor says
+        plainly never to buy from an unauthorized third party, because you cannot tell who
+        had access to the device before you.</li>
+    <li><strong>Secondhand and open-box devices.</strong> A returned or resold device has a
+        history you cannot see, and the discount is small next to what it guards. This is
+        not a claim about the seller. It is that the chain of custody is unverifiable in
+        principle.</li>
+    <li><strong>Packages that arrive looking disturbed.</strong> Ledger says that if a
+        package arrives appearing opened, altered or compromised, from any authorized
+        reseller including Amazon, you should not use the device and should contact its
+        support.</li>
+  </ul>
+  <p>Both manufacturers set the same bar: their own store, or a reseller they list as
+     authorized. <strong>Our recommendation is stricter than theirs, and it is ours rather
+     than something they said.</strong> We think the manufacturer's own store is the only
+     purchase route worth the small premium, because it is the only one where the chain of
+     custody needs no verification at all.</p>
+
+  <h2>What a prepared device looks like</h2>
+  <p>These are checkable in a few minutes, before anything is plugged in.</p>
+  <ul class="rule-list">
+    <li><strong>Packaging or seals that look opened or resealed.</strong> Trezor ships
+        tamper-evident holographic seals over the connector and documents, per model, what
+        the seal and the full box contents should look like. Compare against the
+        manufacturer's own photographs rather than against your expectations.</li>
+    <li><strong>A recovery card that is already filled in, or shows any writing.</strong>
+        Blank cards are the only correct state. A filled card is the clearest single sign
+        that the device was prepared for you.</li>
+    <li><strong>A device that displays a recovery phrase instead of generating one.</strong>
+        You should watch the phrase being created during setup. Trezor devices additionally
+        ship with no firmware installed, so setup installs it and flags a device that
+        already has firmware on it as one that should not be used.</li>
+    <li><strong>Instructions on a separate card or slip telling you to enter a phrase they
+        provide.</strong> No genuine setup ever supplies you with a phrase. Ledger states
+        that a genuine device never asks you to enter your recovery phrase on a computer,
+        phone, app or website.</li>
+    <li><strong>A device you did not order.</strong> Covered on its own below.</li>
+  </ul>
+
+  <h2>What to do, in order</h2>
+  <ol class="rule-list">
+    <li><strong>Generate the seed yourself.</strong> Complete setup so the device creates a
+        new recovery phrase in front of you, and never accept one that was provided.</li>
+    <li><strong>Run the manufacturer's own verification.</strong> Ledger builds a Genuine
+        Check into its app: the app challenges the device, the device answers with a
+        signature from a key injected at the factory, and the app checks it against
+        Ledger's servers. Ledger is also clear about that check's limit, which is that it
+        confirms a genuine secure element and cannot rule out physical modification around
+        it. Trezor's bootloader verifies the firmware signature on every connection, and
+        the device shows a warning on its own screen if unofficial firmware is
+        present.</li>
+    <li><strong>Install the app from the manufacturer's site or the official app store,
+        never a link.</strong> The verification only means something if the software doing
+        the verifying is genuine.</li>
+    <li><strong>Never enter your recovery phrase anywhere but the device.</strong> Not a
+        website, not an app, not a photo, not a cloud note, not a password manager. Ledger
+        puts it flatly: there is never a good reason to type your recovery phrase into a
+        computer.</li>
+    <li><strong>If anything looks wrong, stop and ask.</strong> Do not use the device, and
+        contact the manufacturer's support directly through its own site. An unused device
+        costs you a few days. A prepared one costs you everything on it.</li>
+  </ol>
+
+  <h2>A device you did not order</h2>
+  <p>Two things are documented, separately, by Ledger itself. First, its July 2020
+     e-commerce and marketing breach exposed contact and order details for a subset of
+     customers, including first and last name, postal address and phone number. Second, it
+     currently documents an active campaign of physical letters sent by post to customers,
+     prompting them to scan a code or visit a site and enter their recovery phrase, and it
+     advises treating any postal letter presented as a Ledger communication as a phishing
+     attempt.</p>
+  <p>Put together, the practical rule is ours rather than theirs, and it is simple:
+     <strong>a hardware wallet that arrives without being ordered should never be plugged
+     in.</strong> There is no legitimate reason for one to turn up unrequested, and the
+     cost of ignoring an unexpected package is nothing. If one arrives, contact the
+     manufacturer through its own website.</p>
+
+  <h2>Buying direct is the whole answer</h2>
+  <p>Every check on this page exists because a device passed through hands you cannot
+     account for. Buy from the manufacturer's own store and there are no hands to account
+     for, which is why the guidance here ends where our custody explainer already pointed.
+     If you are still deciding whether a hardware wallet is the right tool at all, that is
+     the question <a href="/cold-storage.html">cold storage, explained</a> works through,
+     including which of the two devices fits which kind of holder.</p>
+
+  <h2>Where to buy</h2>
+  <p class="affil-note">We earn a commission if you buy through the links below. It costs
+     you nothing extra and it does not change what we recommend. Separately, and for
+     reasons that have nothing to do with us, both links go to the manufacturers' own
+     stores, because that is the one purchase route this page does not ask you to
+     verify.</p>
+  <div class="cta-row">
+    {_cta(LEDGER_STORE, "Ledger", "Multi-chain and mobile access", "ledger.com")}
+    {_cta(TREZOR_STORE, "Trezor", "Bitcoin focus and open source", "trezor.io")}
+  </div>
+
+  <h2>Sources</h2>
+  <ul class="src-list">{sources}</ul>
+
+  <p class="nfa">This page is educational. It explains how these devices are verified and is
+     not advice about your particular holdings, nor a recommendation to buy or sell any
+     asset.</p>
+</section></main>"""
 
 
 def crypto_tax_body():
@@ -454,6 +628,9 @@ def cold_storage_body():
      the same guidance: buy from their own store or a reseller they list as authorized,
      and treat marketplace listings on general retail sites as unverified. That means no
      Amazon, no eBay, no third-party marketplace seller, however convenient.</p>
+  <p>If a device has already arrived and you want to check it before trusting it with
+     anything, the signs of a prepared device and the manufacturers' own verification steps
+     are in <a href="/counterfeit-devices.html">counterfeit hardware wallets</a>.</p>
 
   <h2>Ledger and Trezor</h2>
   <p>These are the two established names, both legitimate and both well regarded. They are

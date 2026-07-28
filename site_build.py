@@ -1377,6 +1377,19 @@ def render_crypto_tax(dateline):
                  "", explainers.crypto_tax_body(), dateline, path="/crypto-tax.html")
 
 
+def render_counterfeit_devices(dateline):
+    """Evergreen device-verification explainer. Copy and affiliate config live in
+    explainers.py. Every claim about tampering signs and verification is sourced to
+    manufacturer documentation; see explainers.COUNTERFEIT_SOURCES and the note there
+    about which conclusion is ours rather than theirs."""
+    import explainers
+    return shell(f"Counterfeit hardware wallets - {NAME}",
+                 "How tampered devices and pre-filled recovery cards reach buyers, what a "
+                 "prepared device looks like, and how to verify the one you received.",
+                 "", explainers.counterfeit_devices_body(), dateline,
+                 path="/counterfeit-devices.html")
+
+
 def render_learn(dateline):
     """The Learn tier index. Renders from explainers.EXPLAINERS, so a new entry there is
     the only edit an added explainer needs."""
@@ -3186,6 +3199,7 @@ def build():
     w("how-we-make-money.html", render_how_we_make_money(dateline))
     w("cold-storage.html", render_cold_storage(dateline))
     w("crypto-tax.html", render_crypto_tax(dateline))
+    w("counterfeit-devices.html", render_counterfeit_devices(dateline))
     w("accessibility.html", render_accessibility(dateline))
     w("privacy.html", render_privacy(dateline))
     w("terms.html", render_terms(dateline))
@@ -3218,7 +3232,8 @@ def build():
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
-            "/learn.html", "/cold-storage.html", "/crypto-tax.html", "/how-we-make-money.html",
+            "/learn.html", "/cold-storage.html", "/crypto-tax.html", "/counterfeit-devices.html",
+            "/how-we-make-money.html",
             "/accessibility.html", "/privacy.html", "/terms.html"]
     # standard sitemap: static pages (no lastmod) + article URLs WITH lastmod from the
     # story's own publish timestamp, so Google sees freshness on every deploy
