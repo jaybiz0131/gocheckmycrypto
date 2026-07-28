@@ -376,6 +376,23 @@ def masthead(active, dateline, brand="site"):
 <nav class="mh-nav" aria-label="Primary"><div class="wrap">{nav}</div></nav>"""
 
 
+def _ticker_built(pulse):
+    """What the ticker says BEFORE any live price arrives: the vintage of the numbers the
+    build actually shipped. Marked stale when that vintage has outrun the refresh promise,
+    so a blocked live fetch can never leave old numbers wearing a live label."""
+    import datetime as _dt
+    ts = ((pulse or {}).get("generated_utc") or "").strip()
+    if not ts:
+        return '<span class="stale">vintage unknown</span>'
+    try:
+        gen = _dt.datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_dt.timezone.utc)
+    except ValueError:
+        return "as of build"
+    age_h = (_dt.datetime.now(_dt.timezone.utc) - gen).total_seconds() / 3600
+    label = f"as of {gen.strftime('%H:%M UTC')}"
+    return f'<span class="stale">{label}, stale</span>' if age_h > BOARD_FRESH_HOURS else label
+
+
 def market_strip(pulse=None):
     """A live markets ticker, pre-filled server-side from the build's own pulse snapshot so the
     first paint is NEVER dashes; the reader's browser then overwrites with live CoinGecko data.
@@ -419,7 +436,7 @@ def market_strip(pulse=None):
                    f'<span class="px">{f8:+.4f}%/8h</span>'
                    f'<span class="chg"></span></span>')
     return f"""<section class="markets" id="markets"><div class="wrap" tabindex="0" role="region" aria-label="Live crypto markets ticker (scrollable)">
-  <span class="lab">Markets &middot; live <span class="mkt-asof" id="mktAsOf"></span></span>
+  <span class="lab">Markets &middot; <span class="mkt-asof" id="mktAsOf">{_ticker_built(pulse)}</span></span>
   {ticks}
   <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">{esc(cap_px)}</span>{cap_chg_html}</span>
   {extras}
@@ -446,9 +463,11 @@ def market_strip(pulse=None):
         }
         chg(t.querySelector(".chg"), v.usd_24h_change);
       });
-      // honest-data promise: stamp when the live feed last refreshed (viewer local time)
+      // honest-data promise: the label ships as build-time data and is UPGRADED to live
+      // only here, once real prices have actually arrived. A failed or blocked fetch
+      // therefore leaves the build stamp standing instead of dressing old numbers as live.
       var as=document.getElementById("mktAsOf");
-      if(as){var t=new Date();as.textContent="as of "+("0"+t.getHours()).slice(-2)+":"+("0"+t.getMinutes()).slice(-2);}
+      if(as){var t=new Date();as.textContent="live, as of "+("0"+t.getHours()).slice(-2)+":"+("0"+t.getMinutes()).slice(-2);as.classList.remove("stale");}
     }).catch(function(){});
   fetch(CG+"/global").then(function(r){return r.json();}).then(function(d){
       var g=d.data||{}, m=document.getElementById("mcap"); if(!m)return;
@@ -1685,6 +1704,7 @@ def render_flows(flows, dateline):
       Treat this board as context for the news above it, never as a trade signal on its
       own.</p></div>
   </div>
+  {data_stamp(flows, what="This whale board")}
   <p class="nfa">{esc(flows.get("note",""))} {esc(NFA)}</p>
 </section></main>"""
     return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",
@@ -2029,8 +2049,46 @@ def mp_hero():
             '</div></div></section>')
 
 
-def _dash_shell(slug, title, desc, body_inner, dateline, live=False):
-    body = f'<main class="wrap"><section class="page">\n{body_inner}\n</section></main>'
+# DATA-AGE TRIPWIRE (audit 2026-07-28). A board is only as fresh as the deploy that built
+# it, and the desk publishes market data as "live". If a refresh is missed, old numbers keep
+# rendering under a live label: the exact dishonesty this desk exists to avoid. So every
+# board states the instant its snapshot was generated, and when that instant is older than
+# the refresh promise the board says so in its own voice instead of presenting stale numbers
+# as current. Age is measured at BUILD time (the moment of publication), which is also when
+# the generators run, so a healthy deploy stamps an age of roughly zero.
+BOARD_FRESH_HOURS = 12  # the promise: three daily briefs plus the noon rebuild
+
+
+def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
+    """Visible provenance line for a data board: when the snapshot was generated and, when
+    it has outrun the refresh promise, an explicit stale label."""
+    import datetime as _dt
+    d = data or {}
+    ts = (d.get("generated_utc") or "").strip()
+    if not ts:
+        dated = (d.get("generated") or "").strip()
+        when = f" The snapshot is dated {esc(dated)}." if dated else ""
+        return (f'<p class="data-stamp stale"><b>{esc(what)} may be out of date.</b> '
+                f'It carries no generation timestamp, so its age cannot be verified.{when}</p>')
+    try:
+        gen = _dt.datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_dt.timezone.utc)
+    except ValueError:
+        return f'<p class="data-stamp">Data as of {esc(ts)}.</p>'
+    stamp = gen.strftime("%H:%M UTC on %d %b %Y").replace(" 0", " ")
+    age_h = (_dt.datetime.now(_dt.timezone.utc) - gen).total_seconds() / 3600
+    if age_h > promise_hours:
+        hrs = int(age_h)
+        older = f"{hrs} hours" if hrs < 48 else f"{hrs // 24} days"
+        return (f'<p class="data-stamp stale"><b>Stale data.</b> {esc(what)} last refreshed '
+                f'at {stamp}, about {older} ago, and the desk refreshes it several times a '
+                f'day. Read these numbers as history, not as the current market.</p>')
+    return f'<p class="data-stamp">Data as of {stamp}. Refreshed at every site build.</p>'
+
+
+def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None):
+    stamp = data_stamp(data) if data is not None else ""
+    body = (f'<main class="wrap"><section class="page">\n{body_inner}\n{stamp}\n'
+            f'</section></main>')
     return shell(f"{title} - Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
                  body_class="ww-dark", path=f"/pulse/{slug}.html", live_js=live)
 
@@ -2178,6 +2236,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
      <span class="live-stamp"><span class="live-dot"></span>prices update in your browser
      <span data-live="stamp"></span></span></p>
   <div class="dash-grid widget-grid">{"".join(W)}</div>
+  {data_stamp(pulse, what="The market boards")}
   <p class="nfa">{esc(pulse.get("note", ""))} {esc(NFA)}</p>
 </section></main>'''
     return shell(f"The Board - Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
@@ -2189,7 +2248,7 @@ def render_pulse_sentiment(pulse, dateline):
     fng = (pulse or {}).get("fng") or {}
     if not fng:
         inner = f"{_dash_crumb()}\n  <h1>Crowd sentiment</h1>\n  {_no_data()}"
-        return _dash_shell("sentiment", "Crowd sentiment", desc, inner, dateline)
+        return _dash_shell("sentiment", "Crowd sentiment", desc, inner, dateline, data=pulse)
     v = fng.get("value", 50)
     win = fng.get("window") or {}
     hist = fng.get("history") or []
@@ -2235,7 +2294,7 @@ def render_pulse_sentiment(pulse, dateline):
       buy or sell signal on its own.</p></div>
   </div>
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("sentiment", "Crowd sentiment", desc, inner, dateline)
+    return _dash_shell("sentiment", "Crowd sentiment", desc, inner, dateline, data=pulse)
 
 
 def render_pulse_posture(pulse, dateline):
@@ -2244,7 +2303,7 @@ def render_pulse_posture(pulse, dateline):
     assets = (pulse or {}).get("assets") or []
     if not assets:
         inner = f"{_dash_crumb()}\n  <h1>Price posture</h1>\n  {_no_data()}"
-        return _dash_shell("posture", "Price posture", desc, inner, dateline, live=True)
+        return _dash_shell("posture", "Price posture", desc, inner, dateline, live=True, data=pulse)
     cards = "".join(_posture_card(a) for a in assets)
     inner = f"""{_dash_crumb()}
   <h1>Price posture</h1>
@@ -2286,7 +2345,7 @@ def render_pulse_posture(pulse, dateline):
       into a buy or sell call. That is the deal.</p></div>
   </div>
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("posture", "Price posture", desc, inner, dateline, live=True)
+    return _dash_shell("posture", "Price posture", desc, inner, dateline, live=True, data=pulse)
 
 
 def render_pulse_stables(pulse, dateline):
@@ -2295,7 +2354,7 @@ def render_pulse_stables(pulse, dateline):
     stables = (pulse or {}).get("stables") or {}
     if not stables:
         inner = f"{_dash_crumb()}\n  <h1>Stablecoin dry powder</h1>\n  {_no_data()}"
-        return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline)
+        return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline, data=pulse)
     chg = stables.get("change_30d_pct", 0)
     chg_chip = _chip(f"{chg:+.1f}% in 30 days", "chip-up" if chg >= 0 else "chip-down")
     win = stables.get("window") or {}
@@ -2340,7 +2399,7 @@ def render_pulse_stables(pulse, dateline):
       are the throttle.</p></div>
   </div>
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline)
+    return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline, data=pulse)
 
 
 def _mover_rows(movers):
@@ -2373,7 +2432,7 @@ def render_pulse_movers(pulse, dateline):
     movers = (pulse or {}).get("movers") or {}
     if not movers:
         inner = f"{_dash_crumb()}\n  <h1>Top movers</h1>\n  {_no_data()}"
-        return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True)
+        return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True, data=pulse)
     inner = f"""{_dash_crumb()}
   <h1>Top movers</h1>
   <p class="lede">The five biggest gainers and losers of the last 24 hours, drawn only from
@@ -2408,7 +2467,7 @@ def render_pulse_movers(pulse, dateline):
       was, never a list of things to buy.</p></div>
   </div>
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True)
+    return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True, data=pulse)
 
 
 def _price_fmt(price):
@@ -2450,7 +2509,7 @@ def render_pulse_prices(pulse, dateline):
     coins = movers.get("top100") or []
     if not coins:
         inner = f"{_dash_crumb()}\n  <h1>Top 100</h1>\n  {_no_data()}"
-        return _dash_shell("prices", "Top 100", desc, inner, dateline)
+        return _dash_shell("prices", "Top 100", desc, inner, dateline, data=pulse)
     total_mcap = sum(c.get("mcap_usd") or 0 for c in coins)
     inner = f"""{_dash_crumb()}
   <h1>Top 100</h1>
@@ -2482,7 +2541,7 @@ def render_pulse_prices(pulse, dateline):
       have ridden this table down as well as up. This is a reference page, never a buy list.</p></div>
   </div>
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True)
+    return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True, data=pulse)
 
 
 def render_pulse_leverage(pulse, dateline):
@@ -2492,7 +2551,7 @@ def render_pulse_leverage(pulse, dateline):
     assets = lev.get("assets") or []
     if not assets:
         inner = f"{_dash_crumb()}\n  <h1>Leverage</h1>\n  {_no_data()}"
-        return _dash_shell("leverage", "Leverage", desc, inner, dateline)
+        return _dash_shell("leverage", "Leverage", desc, inner, dateline, data=pulse)
     rows = ""
     for a in assets:
         f8 = a.get("funding_8h_pct", 0)
@@ -2590,7 +2649,7 @@ def render_pulse_leverage(pulse, dateline):
       signal on its own.</p></div>
   </div>
   <p class="nfa">{esc(lev.get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("leverage", "Leverage", desc, inner, dateline)
+    return _dash_shell("leverage", "Leverage", desc, inner, dateline, data=pulse)
 
 
 def render_pulse_etf(pulse, dateline):
@@ -2599,7 +2658,7 @@ def render_pulse_etf(pulse, dateline):
     etf = (pulse or {}).get("etf_flows") or {}
     if not etf.get("btc") and not etf.get("eth"):
         inner = f"{_dash_crumb()}\n  <h1>ETF flows</h1>\n  {_no_data()}"
-        return _dash_shell("etf", "ETF flows", desc, inner, dateline)
+        return _dash_shell("etf", "ETF flows", desc, inner, dateline, data=pulse)
     boards = ""
     for key, name in (("btc", "Bitcoin"), ("eth", "Ethereum")):
         b = etf.get(key)
@@ -2651,7 +2710,7 @@ def render_pulse_etf(pulse, dateline):
       never a trade signal.</p></div>
   </div>
   <p class="nfa">{esc(etf.get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("etf", "ETF flows", desc, inner, dateline)
+    return _dash_shell("etf", "ETF flows", desc, inner, dateline, data=pulse)
 
 
 def render_pulse_network(pulse, dateline):
@@ -2660,7 +2719,7 @@ def render_pulse_network(pulse, dateline):
     network = (pulse or {}).get("network") or {}
     if not network:
         inner = f"{_dash_crumb()}\n  <h1>Bitcoin network</h1>\n  {_no_data()}"
-        return _dash_shell("network", "Bitcoin network", desc, inner, dateline, live=True)
+        return _dash_shell("network", "Bitcoin network", desc, inner, dateline, live=True, data=pulse)
     diff = network.get("difficulty_change_pct", 0)
     inner = f"""{_dash_crumb()}
   <h1>Bitcoin network</h1>
@@ -2689,7 +2748,7 @@ def render_pulse_network(pulse, dateline):
       spin. They tell you about the health of the system, not tomorrow's price.</p></div>
   </div>
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
-    return _dash_shell("network", "Bitcoin network", desc, inner, dateline, live=True)
+    return _dash_shell("network", "Bitcoin network", desc, inner, dateline, live=True, data=pulse)
 
 
 

@@ -445,6 +445,11 @@ def section_network():
 def main():
     pulse = {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        # DATA-AGE TRIPWIRE (audit 2026-07-28): the boards are only as fresh as the deploy
+        # that built them. A date alone cannot tell a reader (or the renderer) whether that
+        # was an hour ago or yesterday, so stamp the full instant and let site_build show
+        # it and label the board stale when it outruns the refresh promise.
+        "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "note": ("Free public market data, computed with standard formulas at build time: "
                  "sentiment from alternative.me, prices from CoinGecko, stablecoin float from "
                  "DefiLlama, Bitcoin network data from mempool.space. Market data, not news, "

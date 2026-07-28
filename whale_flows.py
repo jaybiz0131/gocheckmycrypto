@@ -136,6 +136,8 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
     return {
         "example": example,
         "generated": date or "undated",
+        # see market_pulse: full instant so the board can show its own age honestly
+        "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "window_hours": window_hours,
         "txn_count": counted,
         "volatile": {
