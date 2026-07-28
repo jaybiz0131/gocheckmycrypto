@@ -90,6 +90,21 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
   border-left:4px solid var(--rule);border-radius:0 6px 6px 0;padding:12px 14px;margin-top:22px}
 .data-stamp.stale b{color:var(--rule)}
 
+/* ---- explainer commercial layer (cold storage page) ------------------------ */
+.affil-note{font-size:14.5px;line-height:1.6;color:var(--muted);background:var(--card);
+  border:1px solid var(--line);border-left:3px solid var(--rule);border-radius:0 6px 6px 0;
+  padding:13px 16px;margin:20px 0}
+.cta-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:22px 0 8px}
+.cta-buy{display:flex;flex-direction:column;gap:4px;background:var(--card);
+  border:1px solid var(--line);border-top:3px solid var(--rule);border-radius:6px;
+  padding:16px 18px;text-decoration:none;transition:transform .15s ease,box-shadow .2s ease}
+.cta-buy:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decoration:none;
+  border-color:var(--rule)}
+.cta-brand{font-family:var(--serif);font-weight:600;font-size:20px;color:var(--ink)}
+.cta-line{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.cta-go{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--rule);margin-top:6px}
+.src-list{font-size:14.5px;line-height:1.7;color:var(--muted);padding-left:20px}
+
 /* ---- kicker / dateline / badges ------------------------------------------- */
 .kicker{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
   text-transform:uppercase;color:var(--rule)}

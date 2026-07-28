@@ -15,3 +15,6 @@ out/
 # The site deploy folder is a build artifact, fully reproducible from
 # `python3 site_build.py`. The site SOURCE (assets, site/content/, site/data/) IS committed.
 site/publish/
+
+# local-only test dependency (axe-core for accessibility runs); never shipped
+node_modules/
