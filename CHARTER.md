@@ -74,6 +74,15 @@ Measure it rather than assuming it: strip the commercial section and every sente
 a partner, then read what survives. The tax explainer keeps 94 percent of its words under
 that cut, with no dangling reference left behind.
 
+LEARN TOPIC SELECTION (owner's ruling, 2026-07-28). Learn topics are chosen by reader need
+first. Only after a topic is chosen do we ask whether a product is honestly part of the
+answer, and most of the time it will not be. Pieces that carry no affiliate link get
+written anyway, at the same quality and the same length. A Learn tier where three of twelve
+pieces carry links is more credible, and probably converts better, than one where all
+twelve do, because the nine that ask for nothing are what make the three believable.
+Monetization never ranks the queue. The severability test stays absolute above all of this:
+if a piece collapses when the commercial layer is deleted, it does not ship.
+
 READER DATA (owner's correction, 2026-07-28). An earlier handoff described this desk as
 collecting no email, which was wrong. This desk does collect email, and the actual policy
 is: addresses are collected through the newsletter signup form and for the newsletter only,
