@@ -1705,7 +1705,9 @@ def render_flows(flows, dateline):
     <div class="learn"><span class="lab buy">Off exchanges</span>
       <p>Coins withdrawn from an exchange usually head to self-custody: wallets the holder
       controls directly, often cold storage. Money tends to go there to sit, so net
-      <b>outflow</b> historically reads as accumulation. That is the other side.</p></div>
+      <b>outflow</b> historically reads as accumulation. That is the other side.
+      If you want the mechanics of how that custody actually works, we explain it in
+      <a href="/cold-storage.html">cold storage, explained</a>.</p></div>
     <div class="learn"><span class="lab">Stablecoins flip the logic</span>
       <p>Stablecoins like USDT and USDC are crypto's dry powder. When they flood <b>onto</b>
       exchanges, buyers may be staging money for purchases; when they leave, that buying power
