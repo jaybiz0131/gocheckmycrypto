@@ -2527,5 +2527,57 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-29",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c169",
+    "headline": "Federal Reserve holds rates at 3.5\u20133.75%; three committee members vote for hike",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Economic activity is expanding at a solid pace despite elevated uncertainty' but the brief data_point specifies 'despite elevated uncertainty, in part from the Middle East conflict.' The draft omits the Middle East conflict attribution, which is a material detail from the source statement that changes the context of the economic assessment.",
+     "Draft states 'Crypto and other risk assets tracked the Fed's messaging closely' with no data point in the brief supporting this claim. This is smuggled information not present in the research."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Robinhood's prediction markets exceed crypto trading revenue in Q2",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims Robinhood generated '$100 million from cryptocurrency trading' but the brief data_point states only '$100 million' without the word 'from' or the full description. More critically, the brief itself is marked 'thin': true with 'source_chars': 0, indicating the source document was not provided to the researcher. With a thin brief and zero source characters, the writer cannot verify whether the $100 million figure is accurate, a comparison figure, or even what it represents. The story should not have been written from a thin brief with no source material.",
+     "The draft contains no attribution inline. 'According to The Block' appears in the first sentence but subsequent claims (the structural change in retail behavior, the explanation of event contract appeal) lack inline attribution and may constitute the writer's analysis rather than reported fact."
+    ]
+   },
+   {
+    "id": "c155",
+    "headline": "Hungary repeals crypto checks as first MiCA license is granted",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'MiCA...took effect in June 2023' but the brief provides no data point confirming this date. This is a smuggled fact not present in the research brief and must be removed or traced to a source.",
+     "The draft claims 'CoinCash's authorization means it can now offer services across the EU' but the brief only confirms CoinCash received authorization under MiCA; the draft adds a jurisdictional scope claim not in the brief's data points."
+    ]
+   },
+   {
+    "id": "c161",
+    "headline": "South Korea plans stablecoin rules as opposition pushes crypto tax repeal",
+    "category": "balance",
+    "reasons": [
+     "The brief identifies a bear_case as empty (no items listed), but the draft constructs and presents a bear case that is not derived from the research brief: 'If the opposition fails to repeal the tax...could reduce trading volume' and 'If the FSC's bill is delayed or weakened.' These are writer-generated speculation, not brief-sourced risks. When the brief provides no bear_case items, the draft should not invent them as though they came from research.",
+     "The draft also adds speculative comparative framing ('potential advantage relative to other jurisdictions') and market-impact language ('reinforce that position; conversely...drive volume') without data points in the brief supporting these market-consequence claims."
+    ]
+   },
+   {
+    "id": "c131",
+    "headline": "Morgan Stanley launches Ethereum and Solana spot ETPs with staking rewards pass-through",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The 0.14% fee sits near the floor of the established spot ether product category' but the brief's confidence label for this claim is 'reported,' not verified independently. More critically, this is a comparative claim (sitting 'near the floor') that goes beyond what the brief supports\u2014the brief only confirms the 0.14% fee itself, not its competitive positioning relative to other products.",
+     "The draft claims 'These launches follow the Morgan Stanley Bitcoin Trust, which launched earlier in 2026 as the first cryptocurrency ETP from a U.S. bank-affiliated asset manager' with confidence 'reported,' but presents it as settled fact without the caveat that this is based on Defiant's reporting and not independently verified.",
+     "The draft states 'Ethereum and Solana on NYSE Arca, expanding the firm's crypto product footprint into the two largest proof-of-stake networks.' The brief notes Bitcoin is proof-of-work, not proof-of-stake. The claim about 'two largest proof-of-stake networks' is correct, but the phrasing 'expanding...into the two largest' could mislead readers into thinking these are the two largest crypto assets overall, when Bitcoin (proof-of-work) is larger. This is a framing issue that requires clarification."
+    ]
+   }
+  ]
  }
 ]
