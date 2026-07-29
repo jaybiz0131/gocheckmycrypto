@@ -2486,5 +2486,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-29",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c143",
+    "headline": "White House crypto adviser rejects prosecutors' Clarity Act amendments",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents the Cointelegraph claim as reportage but acknowledges in the body that 'The full text of the prosecutors' proposed amendments could not be independently verified' and 'Neither the specific content of the changes nor their policy rationale has been disclosed in verified reporting.' This contradicts the lead, which frames the claim as established fact ('US prosecutors proposed changes'). The brief marks this as 'unconfirmed' with confidence label unconfirmed, meaning the draft must signal uncertainty in the prose itself\u2014not bury it in paragraph 2. The opening sentence reads as announcement, not allegation or claim.",
+     "The draft cites only Cointelegraph with zero source characters in the brief, yet the body acknowledges the source is inaccessible ('could not be independently verified from available source material'). Publishing a story with a single unverified source that the desk cannot access violates the hard rule that facts go back to research. This is a smuggled claim dressed in cautionary language after the fact."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "Russia charges Telegram founder with aiding terrorism; wanted list issued",
+    "category": "balance",
+    "reasons": [
+     "The draft omits the bear_case entirely. The brief's bear_case includes three substantive points: (1) the Interpol Red Notice status is ambiguous and may not constitute an executable warrant; (2) the terrorism charges may be geopolitically motivated given they reference Ukrainian intelligence; (3) the charges follow prior restrictions and fines and may reflect political pressure rather than new evidence. The draft mentions the Interpol ambiguity briefly in paragraph 5 but presents no counter-argument or skeptical framing of the 'aiding terrorism' charge itself. A reader finishing this draft will not encounter the possibility that Russia's accusations are contested or geopolitically motivated\u2014essential context for a story about a US-founded platform and a major crypto ecosystem. This is material omission of the bear_case, not proportionate balance."
+    ]
+   },
+   {
+    "id": "c125",
+    "headline": "BitMine builds toward 5% of Ethereum supply with $73 million weekly purchase",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'BitMine's total crypto and other holdings are valued at $1.1 billion' but brief data_point claims 'BitMine's total crypto and other holdings are valued at $11.1 billion' (data_point 6). The draft understates the total by $10 billion\u2014a material factual error that must trace to the source.",
+     "Draft claims 'BitMine is the largest corporate holder of the asset' (referring to ETH) but brief confidence label is only 'reported', meaning this ranking claim should acknowledge it comes from The Defiant's reporting, not independent verification. The framing reads as settled fact rather than reported claim."
+    ]
+   },
+   {
+    "id": "c130",
+    "headline": "Morgan Stanley Launches Spot Ether and Solana ETPs With Native Staking",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Morgan Stanley's broader ETF and ETP lineup, launched in 2023, has grown to more than $14 billion across 22 products, including the three digital asset trusts.' The brief's data_point says the lineup has 'grown past $14 billion' and includes '22 products, including the three digital asset trusts.' The phrasing 'more than $14 billion' in the draft is slightly stronger than 'past $14 billion' in the source and introduces ambiguity about whether the brief itself contains this figure or The Defiant reported it. This is a minor but detectable drift from the source language.",
+     "The draft includes the sentence 'Ether rose 0.7% and SOL rose 0.4% in the 24 hours prior to the report, both trailing Bitcoin's 1.3% gain.' This appears in the brief's data_points as a reported claim, but it is not mentioned anywhere in the draft's body text prior to this check and does not appear in the sources cited. This sentence is SMUGGLED\u2014it appears in the data_point list but was never worked into the actual narrative and attribution is unclear. Either this fact should be removed from the draft or clearly attributed inline."
+    ]
+   }
+  ]
  }
 ]
