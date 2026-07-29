@@ -2683,6 +2683,19 @@ def render_pulse_prices(pulse, dateline):
         inner = f"{_dash_crumb()}\n  <h1>Top 100</h1>\n  {_no_data()}"
         return _dash_shell("prices", "Top 100", desc, inner, dateline, data=pulse)
     total_mcap = sum(c.get("mcap_usd") or 0 for c in coins)
+    # Name what the screen removed. A filtered board that does not say it filtered is just
+    # a board with a secret. See coin_screen.py for the tests behind each reason.
+    out = (movers or {}).get("screened_out") or []
+    if out:
+        WHY = {"captive": "traded almost entirely on the venue that issues it",
+               "untraded": "no reported trading",
+               "supply": "cap rests on unconfirmed supply"}
+        bits = ", ".join(f'{esc(o["symbol"])} ({esc(WHY.get(o["reason"], o["reason"]))})'
+                         for o in out)
+        screened = (f'\n  <p class="screen-note">Screened out of this board today: {bits}. '
+                    f'Places filled from below.</p>')
+    else:
+        screened = ""
     inner = f"""{_dash_crumb()}
   <h1>Top 100</h1>
   <p class="lede">Every coin in the top 100 by market cap: price, 7-day trend, 24-hour
@@ -2711,7 +2724,13 @@ def render_pulse_prices(pulse, dateline):
     <div class="learn"><span class="lab">Not a menu</span>
       <p>Being big is not being good: rank measures size, not quality, and plenty of coins
       have ridden this table down as well as up. This is a reference page, never a buy list.</p></div>
-  </div>
+    <div class="learn"><span class="lab">What we leave out</span>
+      <p>A market cap is only real if the price came from a market. We drop coins whose
+      volume is almost entirely on the venue that issues them, coins with no reported
+      trading at all, and coins whose cap rests on more supply than their own listing
+      confirms. Freed places are filled from further down, so this is still a full
+      hundred.</p></div>
+  </div>{screened}
   <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
     return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True, data=pulse)
 

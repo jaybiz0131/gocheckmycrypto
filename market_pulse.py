@@ -35,6 +35,7 @@ import os
 import urllib.request
 from datetime import datetime, timezone
 
+import coin_screen
 import common
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -238,12 +239,29 @@ def section_stables():
                        "end": _date_label(year_pts[-1][0])}}
 
 
-def section_movers(top_n=5, universe=100):
+def section_movers(top_n=5, universe=100, fetch=160):
     """One call, two boards: the full top-100 price table (with 7-day sparklines) and the
-    top gainers/losers derived from it, so micro-cap pump coins never make either board."""
+    top gainers/losers derived from it, so micro-cap pump coins never make either board.
+
+    Fetches deeper than it publishes so coin_screen can drop coins whose market cap is not
+    backed by a market, and the freed slots backfill from below rather than leaving holes.
+    See coin_screen.py for what fails and why; the short version is a captive venue, no
+    trading at all, or a supply the coin's own listing does not confirm."""
     d = get_json("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
-                 f"&order=market_cap_desc&per_page={universe}&page=1"
+                 f"&order=market_cap_desc&per_page={max(fetch, universe)}&page=1"
                  "&price_change_percentage=24h&sparkline=true")
+
+    # Read-only: the build applies the cached verdicts and never screens. Screening is a
+    # separate scheduled job precisely so a rate-limited API cannot delay a publish. See
+    # coin_screen.py, "COST CONTROL".
+    screen = coin_screen.load_cache()
+    d, dropped = coin_screen.apply(d, screen, limit=universe)
+    if coin_screen.is_stale(screen):
+        print("::warning::coin screen cache is stale; Top 100 is using older verdicts")
+    for c in dropped:
+        print(f"::notice::top100: dropped {(c.get('symbol') or '').upper()} "
+              f"(rank {c.get('market_cap_rank')}), "
+              f"{screen['excluded'][c['id']]['why']}")
 
     def pack(c, spark=False):
         chg = c.get("price_change_percentage_24h")
@@ -261,6 +279,11 @@ def section_movers(top_n=5, universe=100):
     movers.sort(key=lambda c: c["price_change_percentage_24h"])
     top100 = sorted(d, key=lambda c: (c.get("market_cap_rank") or 999))
     return {"universe": universe,
+            "screened_out": [{"symbol": (c.get("symbol") or "").upper(),
+                              "name": c.get("name") or "",
+                              "rank": c.get("market_cap_rank"),
+                              "reason": screen["excluded"][c["id"]]["reason"]}
+                             for c in dropped],
             "gainers": [pack(c) for c in reversed(movers[-top_n:])],
             "losers": [pack(c) for c in movers[:top_n]],
             "top100": [pack(c, spark=True) for c in top100]}

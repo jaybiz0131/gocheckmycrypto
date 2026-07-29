@@ -1,0 +1,61 @@
+# Coin screen: keep coins without a real market off the Top 100 board.
+#
+# A market cap is a price times a supply, and the Top 100 board used to print that product
+# without asking whether the price came from a market or whether the supply was the supply.
+# It ranked WhiteBIT Coin at #16 on a price set 99.6% on WhiteBIT's own exchange, using
+# roughly its total supply rather than the circulating figure CoinGecko's own coin page
+# reports. coin_screen.py tests for that; this workflow is what keeps its verdicts current.
+#
+# WHY THIS IS A SEPARATE JOB, and not part of the build: screening needs two calls per
+# candidate against a keyless, rate-limited API, and a full pass takes the better part of
+# an hour. Builds run several times a day and must never wait on that. So this job writes
+# site/data/coin_screen.json and commits it; the build only reads the file. A rate-limited
+# or failing screen therefore delays nothing and breaks nothing.
+#
+# Weekly is plenty. Whether a coin has an independent market is a slow-moving property, and
+# coin_screen keeps the previous verdicts on any failure rather than un-filtering the board.
+name: Coin screen (Top 100 quality)
+
+on:
+  schedule:
+    - cron: "40 6 * * 1"   # Mondays 06:40 UTC, well clear of the daily briefs
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: coin-screen
+  cancel-in-progress: false
+
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Screen the top 160 by market cap
+        run: python3 -u coin_screen.py
+
+      - name: Commit the refreshed verdicts
+        run: |
+          git config user.name "Jack Berno"
+          git config user.email "297991518+jaybiz0131@users.noreply.github.com"
+          git add site/data/coin_screen.json
+          if git diff --cached --quiet; then
+            echo "::notice::Coin screen unchanged; nothing to commit."
+            exit 0
+          fi
+          git commit -m "coin screen: refresh Top 100 verdicts $(date -u +%Y-%m-%d)"
+          # Same race-safe push as the brief: main can move while this runs, and the
+          # cache is a single file, so rebase-and-retry is conflict-free in practice.
+          ok=false
+          for i in 1 2 3; do
+            if git push; then ok=true; break; fi
+            echo "::warning::push rejected (attempt $i): main moved mid-run; rebasing"
+            git pull --rebase origin main
+          done
+          [ "$ok" = true ] || { echo "::error::push failed after 3 attempts"; exit 1; }
