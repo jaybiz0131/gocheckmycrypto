@@ -23,6 +23,7 @@ DESIGN, deliberately grep-class (the audit's words: it needs a tripwire, not int
 USAGE  python3 consistency_gate.py          (exit 0 = coherent, 1 = contradiction)
 """
 
+import datetime
 import glob
 import json
 import os
@@ -117,16 +118,16 @@ def surfaces():
         when = d.get("published_utc") or (d.get("date", "") + "T00:00:00Z")
         stories.append((when, d))
     stories.sort(key=lambda t: t[0], reverse=True)
-    for _, d in stories[:TOP_STORIES]:
+    for when, d in stories[:TOP_STORIES]:
         text = " ".join(str(d.get(k) or "") for k in ("title", "dek", "key_fact"))
         if (d.get("category") or "").lower() == "daily edition":
             text += " " + str(d.get("bottom_line") or "")
-        out.append((f"story:{d.get('slug', '?')}", text))
+        out.append((f"story:{d.get('slug', '?')}", text, when))
     try:
         cm = json.load(open(os.path.join(DATA, "chartmaster.json"), encoding="utf-8"))
         out.append(("chart-master",
                     " ".join([str(cm.get("headline") or "")] +
-                             [str(p) for p in cm.get("paragraphs") or []])))
+                             [str(p) for p in cm.get("paragraphs") or []]), None))
     except Exception:
         pass
     try:
@@ -140,29 +141,57 @@ def surfaces():
             hours = fl.get("window_hours") or 24
             when = "over the last 24 hours" if hours <= 24 else \
                    f"over the last {round(hours / 24)} days"
-            out.append(("whale-board", f"whales net {direction} {when}"))
+            out.append(("whale-board", f"whales net {direction} {when}", None))
     except Exception:
         pass
     return out
+
+
+def _stale(when, days=1):
+    """True when a surface was frozen on an earlier calendar day than today (UTC).
+
+    A published edition is a record of what the desk said at a moment; the boards are
+    live and keep moving. Yesterday's edition saying whales moved onto exchanges is not a
+    contradiction of today's board saying they moved off, it is the passage of time. This
+    also removes a deadlock found on 2026-07-29: a frozen edition whose claim a later
+    board refresh contradicted blocked EVERY subsequent publish, and the blocked publishes
+    were the only thing that would have aged it out of the homepage window."""
+    if not when:
+        return False
+    try:
+        d = datetime.datetime.fromisoformat(str(when).replace("Z", "+00:00"))
+    except Exception:
+        return False
+    now = datetime.datetime.now(datetime.timezone.utc)
+    return (now.date() - d.date()).days >= days
 
 
 def conflicts(surface_list=None):
     """Every pair of surfaces asserting opposite single directions on the same metric at
     a colliding window. Same stated window collides; an unscoped claim ('') collides with
     every window; week-vs-day both stated do not collide (both can be true at once). A
-    surface asserting both directions at one window is dual-grain phrasing and exempt."""
+    surface asserting both directions at one window is dual-grain phrasing and exempt.
+
+    Claims frozen on an earlier day do not collide with live boards; see _stale. They
+    still collide with each other, because two stories on one homepage contradicting each
+    other is a reporting problem no matter when either was written."""
     surf = surface_list if surface_list is not None else surfaces()
+    surf = [(t + (None,))[:3] if len(t) == 2 else t for t in surf]
     found = []
     for name, m in METRICS.items():
-        takes = []  # (surface, scope, direction) for single-direction claims only
-        for sname, text in surf:
+        takes = []  # (surface, scope, direction, stale?) single-direction claims only
+        for sname, text, when in surf:
             for scope, dirs in directions(text, m).items():
                 if len(dirs) == 1:
-                    takes.append((sname, scope, next(iter(dirs))))
+                    takes.append((sname, scope, next(iter(dirs)), _stale(when)))
         for i in range(len(takes)):
             for j in range(i + 1, len(takes)):
-                (sa, ca, da), (sb, cb, db) = takes[i], takes[j]
+                (sa, ca, da, xa), (sb, cb, db, xb) = takes[i], takes[j]
                 if sa == sb or da == db:
+                    continue
+                # one side frozen on an earlier day, the other live: time, not conflict
+                live = {"chart-master", "whale-board"}
+                if (xa and sb in live) or (xb and sa in live):
                     continue
                 if ca == cb or ca == "" or cb == "":
                     found.append({"metric": name,
