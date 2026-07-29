@@ -36,6 +36,15 @@ DATA = os.path.join(HERE, "site", "data")
 
 TOP_STORIES = 8  # how many newest stories share the homepage viewport
 
+# Shared window vocabulary. Defined once so four metrics cannot drift into four slightly
+# different ideas of what "this week" means.
+DAY_WINDOW = (r"\b(24\s*hours?|daily|today|yesterday|overnight|session|sessions"
+              r"|last\s+day|intraday)\b")
+WEEK_WINDOW = (r"\b(week(?:ly|s)?|7\s*days?|five\s+sessions?|5\s+sessions?"
+               r"|last\s+\d\s+sessions?)\b")
+MONTH_WINDOW = (r"\b(month(?:ly|s)?|30\s*days?|90\s*days?|quarter(?:ly)?|year"
+                r"|12-month|ytd|year-to-date)\b")
+
 METRICS = {
     # scoped=True: this metric's direction claims are bucketed by their stated window
     # (weekly vs daily), because both can be true at once (a net-inflow week ending in
@@ -51,14 +60,23 @@ METRICS = {
                r"|october|november|december)\b)",
         "pos": r"\binflows?\b|\b(?:ran|runs?|turn(?:s|ed)?|went|goes|stays?|stayed)\s+positive\b",
         "neg": r"\boutflows?\b|\b(?:ran|runs?|turn(?:s|ed)?|went|goes|stays?|stayed)\s+negative\b"},
+    # Scoped for the same reason ETF and whale flows are. Found by audit on 2026-07-29
+    # rather than by another blocked publish: "bitcoin fell today" and "bitcoin rose over
+    # the week" are both routinely true, and unscoped these two metrics read that as a
+    # contradiction and stop everything. Any metric whose underlying number is reported at
+    # more than one window needs scoping; that is now all four.
     "bitcoin price": {
-        "context": r"\b(bitcoin|btc)\b", "span": 60,
+        "context": r"\b(bitcoin|btc)\b", "span": 60, "scoped": True,
+        "scopes": ("month", "week", "day"),
+        "day": DAY_WINDOW, "week": WEEK_WINDOW, "month": MONTH_WINDOW,
         "pos": r"\b(rose|rises?|rallies|rallied|climbs?|climbed|gains?|gained|jumps?"
                r"|jumped|surges?|surged)\b",
         "neg": r"\b(fell|falls?|drops?|dropped|declines?|declined|slides?|slid|slumps?"
                r"|slumped|sinks?|sank|tumbles?|tumbled)\b"},
     "bitcoin dominance": {
-        "context": r"\bdominance\b", "span": 50,
+        "context": r"\bdominance\b", "span": 50, "scoped": True,
+        "scopes": ("month", "week", "day"),
+        "day": DAY_WINDOW, "week": WEEK_WINDOW, "month": MONTH_WINDOW,
         "pos": r"\b(rose|rising|climbs?|climbed|grew|growing|higher)\b",
         "neg": r"\b(fell|falling|drops?|dropped|shrank|shrinking|lower)\b"},
     # Scoped for the same reason ETF flows is, found the hard way on 2026-07-29: the

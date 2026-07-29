@@ -128,6 +128,7 @@ def layer1_canary():
 
     # whale-flow classification canary (offline, deterministic over the sample transactions)
     fails.extend(_whale_flow_canary())
+    fails.extend(_consistency_gate_canary())
 
     # full offline replay end-to-end over the fixture
     e2e_fails = _replay_e2e()
@@ -147,6 +148,66 @@ def layer1_canary():
     print("LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay "
           "end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.")
     return 0
+
+
+def _consistency_gate_canary():
+    """Lock the window/date semantics of the cross-surface gate, offline.
+
+    This exists because the gate blocked four production runs in three days, and every
+    one of them was the same shape: two surfaces stating something TRUE at two different
+    windows, which an unscoped metric could not tell apart from a contradiction. Three
+    metrics were scoped one at a time, each after it had already cost a publish. These
+    cases pin the behaviour so the fourth is not discovered the same way.
+
+    Every metric whose number is reported at more than one window must be scoped; the
+    audit assertion below fails if a new unscoped one is ever added."""
+    fails = []
+    import datetime as _dt
+    import consistency_gate as cg
+
+    for name, m in cg.METRICS.items():
+        _check(m.get("scoped"), fails,
+               f"consistency gate: metric '{name}' is unscoped; two true claims at "
+               f"different windows would read as a contradiction and block a publish")
+
+    def blocks(surf):
+        return bool(cg.conflicts(surf))
+
+    now = _dt.datetime.now(_dt.timezone.utc)
+    today = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    older = (now - _dt.timedelta(days=2)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    # true at different windows: must NOT block
+    for label, a, b in (
+            ("btc day vs week", "bitcoin fell today", "bitcoin rose over the week"),
+            ("dominance day vs month", "dominance fell in the last 24 hours",
+             "dominance climbed over 30 days"),
+            ("whale 2d vs 24h", "whales net off exchanges over the last 2 days",
+             "whale flows onto exchanges over the last 24 hours"),
+            ("etf week vs session", "etfs posted a weekly inflow",
+             "etfs saw outflows in the latest session")):
+        _check(not blocks([("story:a", a, None), ("chart-master", b, None)]), fails,
+               f"consistency gate: false positive on {label} (both can be true)")
+
+    # genuine contradictions: must block
+    for label, a, b in (
+            ("btc same day", "bitcoin rose today", "bitcoin fell today"),
+            ("dominance same week", "dominance rose this week", "dominance fell this week"),
+            ("btc unscoped", "bitcoin rallied", "bitcoin tumbled"),
+            ("btc unscoped vs scoped", "bitcoin rallied", "bitcoin fell today"),
+            ("etf unscoped vs week", "etf outflows persist", "etfs posted a weekly inflow")):
+        _check(blocks([("story:a", a, None), ("chart-master", b, None)]), fails,
+               f"consistency gate: missed a real contradiction on {label}")
+
+    # a claim frozen on an earlier day is history, not a contradiction of a live board;
+    # a same-day one still collides
+    _check(not blocks([("story:a", "bitcoin rose today", older),
+                       ("chart-master", "bitcoin fell today", None)]), fails,
+           "consistency gate: stale story still colliding with a live board (deadlock)")
+    _check(blocks([("story:a", "bitcoin rose today", today),
+                   ("chart-master", "bitcoin fell today", None)]), fails,
+           "consistency gate: same-day contradiction with a live board was not caught")
+    return fails
 
 
 def _whale_flow_canary():
