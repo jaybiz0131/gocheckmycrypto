@@ -2383,5 +2383,66 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-29",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c170",
+    "headline": "Federal Reserve holds rates steady; three officials dissent in favor of a hike",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Ether fell 0.78% and SOL fell 0.6% in the prior 24 hours' but brief data_point c130 says 'Ether rose 0.7% and SOL 0.4%' \u2014 these are contradictory price movements. The draft's figures do not appear in the brief at all and appear to be smuggled.",
+     "Draft references 'Chair Warsh' in narrative context ('Who is Chair Warsh and what is his specific hawkish stance') but this figure does not appear in any data_point or the brief itself; the open_questions flag notes 'the source text does not name him or elaborate on his position,' indicating this is not from the Fed statement provided."
+    ]
+   },
+   {
+    "id": "c141",
+    "headline": "White House crypto adviser rejects law enforcement's proposed Clarity Act amendments",
+    "category": "accuracy",
+    "reasons": [
+     "Brief explicitly flags thin=true with only one data_point and zero source_chars. The draft invokes specifics not in the brief: 'Law enforcement agencies typically push for stricter rules around custody, self-reporting, and transaction transparency' \u2014 this is writer interpretation, not sourced. The brief itself acknowledges it cannot assess 'the scope or nature of the disagreement.'",
+     "Draft claims 'the sources provided do not detail what specific amendments law enforcement has proposed' \u2014 but sources is singular (Cointelegraph). The draft then speculates about what law enforcement 'typically' proposes, which is external knowledge, not from the brief.",
+     "The only fact in the brief is one quote from one outlet. The draft constructs an entire narrative scaffold (Senate voting window, procedural breakdown, election cycle politics) that does not trace to any data_point. This violates the hard rule: no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c130",
+    "headline": "Morgan Stanley launches spot Ethereum and Solana ETPs with 0.14% fees and staking rewards",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The timing of the ETH and SOL launch came as ether fell 0.78% and SOL fell 0.6% in the prior 24 hours, per the desk's boards as of July 29, 2026. Bitcoin's decline was milder at 0.34%. The broader market moved higher, with total crypto market cap up 0.78% to 2.27 trillion dollars.' None of these price figures or market-cap figures appear in the brief. The brief data_point says 'Ether rose 0.7% and SOL 0.4%' \u2014 opposite direction and different magnitudes. This is a critical factual discrepancy that will cause liability if market data is wrong.",
+     "Draft references 'per the desk's boards' and 'per the desk's data' \u2014 attributing to internal systems, not the Defiant source. This invokes facts outside the brief without sourcing them to the single provided outlet."
+    ]
+   },
+   {
+    "id": "c152",
+    "headline": "Hungary removes crypto conversion checks, grants first MiCA license to CoinCash",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'CoinCash's authorization represents the first instance of a Hungarian entity receiving a full MiCA license from national regulators' but the brief only confirms 'This is Hungary's first MiCA-compliant digital asset services license'\u2014the draft adds the qualifier 'from national regulators' which is not in the source and changes the scope of the claim in a way that requires verification.",
+     "The draft states the removal of mandatory conversion checks 'reduces friction for crypto-to-fiat transactions' but the brief data_point only says Hungary 'removed mandatory third-party checks for crypto conversions'\u2014the draft interprets the function and impact ('reduces friction', 'crypto-to-fiat') beyond what the source confirms, smuggling analysis as fact."
+    ]
+   },
+   {
+    "id": "c158",
+    "headline": "South Korea drafts stablecoin bill as opposition pushes to scrap crypto tax",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'opposition lawmakers are pushing to repeal a 22 percent crypto tax scheduled to take effect in 2027' but the brief data_point says 'Opposition lawmakers seek to scrap a 22% crypto tax due in 2027'\u2014minor paraphrase acceptable, but the draft then states the tax is 'scheduled to take effect' presenting it as certain when the brief indicates it is 'due' (scheduled but not yet enacted), potentially overstating the timeline certainty.",
+     "Draft states 'The FSC's bill would establish formal oversight of stablecoins and digital asset service providers' but the brief data_point only confirms the FSC is 'drafting a government-backed digital asset bill covering stablecoins and exchanges'\u2014the draft adds interpretive language ('would establish formal oversight') that goes beyond what the source reports about the bill's purpose or scope."
+    ]
+   },
+   {
+    "id": "c160",
+    "headline": "Tether signs tokenization deal with Nairobi Securities Exchange",
+    "category": "accuracy",
+    "reasons": [
+     "The brief states confidence on all data_points as 'reported', but contains zero source_chars (source_chars: 0), indicating the source text was not provided to the researcher. The draft cites Cointelegraph reporting but the brief has no data points with actual source content to verify against. The statement 'according to Cointelegraph' appears twice in the draft but the brief provides no quoted or paraphrased language from the source to confirm what Cointelegraph actually reported versus what the writer inferred.",
+     "The draft claims 'The types of securities to be tokenized, regulatory approval status in Kenya, and implementation timeline have not been specified by either party, according to the available reporting' \u2014 this is the writer adding analytical judgment (that details are missing) rather than reporting a fact from the brief. No data_point in the brief states that these details were unspecified; the brief merely lists them as open_questions. The draft is smuggling interpretive commentary as reported fact."
+    ]
+   }
+  ]
  }
 ]
