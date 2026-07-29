@@ -3,7 +3,7 @@
 coin_screen.py: keep coins without a real market off the Top 100 board.
 
 WHY THIS EXISTS
-  A market capitalisation is a price multiplied by a supply. Our Top 100 board took both
+  A market capitalization is a price multiplied by a supply. Our Top 100 board took both
   numbers from CoinGecko's markets endpoint and printed the product, which quietly assumes
   that the price came from a market and that the supply is the supply. For some coins
   neither holds, and the board ranked them against Bitcoin anyway.

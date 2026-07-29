@@ -77,7 +77,7 @@ hidden. Rare case where the check is simple and the source is a federal agency.
 ## 4. What stablecoins are and what actually backs them
 
 **Reader question.** "Is my USDT actually a dollar?"
-**Durability.** The categories (fiat-reserved, overcollateralised crypto, algorithmic)
+**Durability.** The categories (fiat-reserved, overcollateralized crypto, algorithmic)
 outlive any issuer.
 **Link.** No.
 **Home.** The stablecoins board, which says "USD-pegged float" and never says pegged to
@@ -114,12 +114,12 @@ levels in the copy.
 **Durability.** Estate planning is the slowest-moving area on this list.
 **Link.** No, absolutely not, and this is the strongest refusal in the queue. There is an
 industry of inheritance-vault products that would pay for placement here, and taking it
-would be the failure rule in a different costume: monetising someone thinking about their
+would be the failure rule in a different costume: monetizing someone thinking about their
 own death and their family's loss. Not at any rate.
 **Home.** Cold storage, in the self-custody-failure-mode section, which already says lost
 seeds destroy more crypto than exchange failures do.
 **Sourcing.** RUFADAA, adopted in most states, plus the gap it does not close: a fiduciary
-can be legally authorised and still unable to open a wallet, because authorisation is not
+can be legally authorized and still unable to open a wallet, because authorisation is not
 a key. That distinction is the whole piece.
 
 ## 8. Who regulates what in US crypto (HOLD)

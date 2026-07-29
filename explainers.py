@@ -138,7 +138,7 @@ PARTNERS = [
         "kind": "Crypto tax software",
         "terms": "We earn a commission on subscriptions started through our link. The "
                  "code CRYPTOTAX10 gets the reader a discount, and we earn on those "
-                 "purchases too, so you should know the code is not a favour without a "
+                 "purchases too, so you should know the code is not a favor without a "
                  "cost to us either way.",
         "where": "Crypto and tax, explained",
         "where_url": "/crypto-tax.html",
@@ -223,6 +223,13 @@ EXPLAINERS = [
         "title": "Crypto and tax, explained",
         "blurb": "What creates a taxable event, what records to keep, and where people "
                  "most often get it wrong.",
+        "status": "published",
+    },
+    {
+        "slug": "onchain-flows",
+        "title": "How to read on-chain flow data",
+        "blurb": "What it means when whales move coins onto an exchange, what it does "
+                 "not mean, and how our Whale Watch board computes it.",
         "status": "published",
     },
     {
@@ -321,7 +328,7 @@ def counterfeit_devices_body():
   <ul class="rule-list">
     <li><strong>Marketplace listings and third-party sellers.</strong> On large retail
         platforms, the listing and the seller are separate things. Ledger's own guidance is
-        to exercise high caution on third-party online marketplaces and to favour its
+        to exercise high caution on third-party online marketplaces and to favor its
         official storefronts or authorized resellers on those platforms. Trezor says
         plainly never to buy from an unauthorized third party, because you cannot tell who
         had access to the device before you.</li>

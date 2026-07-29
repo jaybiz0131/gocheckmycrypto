@@ -1378,6 +1378,18 @@ def render_crypto_tax(dateline):
                  "", explainers.crypto_tax_body(), dateline, path="/crypto-tax.html")
 
 
+def render_onchain_flows(dateline):
+    """Learn-tier explainer with NO commercial layer; the copy lives in learn_pages.py so
+    explainers.py stays exactly the money path. This page documents our own Whale Watch
+    methodology, so it must be revisited whenever whale_flows.py changes."""
+    import learn_pages
+    return shell(f"How to read on-chain flow data - {NAME}",
+                 "What an exchange transfer indicates, what it does not, and how the "
+                 "Whale Watch board classifies and nets large on-chain moves.",
+                 "", learn_pages.onchain_flows_body(), dateline,
+                 path="/onchain-flows.html")
+
+
 def render_counterfeit_devices(dateline):
     """Evergreen device-verification explainer. Copy and affiliate config live in
     explainers.py. Every claim about tampering signs and verification is sourced to
@@ -1859,7 +1871,9 @@ def render_flows(flows, dateline):
     <div class="learn"><span class="lab sell">Onto exchanges</span>
       <p>To sell a large amount of crypto, a whale usually has to move it onto an exchange first.
       So when BTC or ETH flows heavily <b>onto</b> exchanges on net, it can mean big holders are
-      getting into position to sell. That is the sell-pressure side of the chart.</p></div>
+      getting into position to sell. That is the sell-pressure side of the chart. For how this
+      board classifies a transfer, and what a net figure can and cannot support, see
+      <a href="/onchain-flows.html">how to read on-chain flow data</a>.</p></div>
     <div class="learn"><span class="lab buy">Off exchanges</span>
       <p>Coins withdrawn from an exchange usually head to self-custody: wallets the holder
       controls directly, often cold storage. Money tends to go there to sit, so net
@@ -3221,6 +3235,7 @@ def build():
     w("cold-storage.html", render_cold_storage(dateline))
     w("crypto-tax.html", render_crypto_tax(dateline))
     w("counterfeit-devices.html", render_counterfeit_devices(dateline))
+    w("onchain-flows.html", render_onchain_flows(dateline))
     w("accessibility.html", render_accessibility(dateline))
     w("privacy.html", render_privacy(dateline))
     w("terms.html", render_terms(dateline))
@@ -3254,6 +3269,7 @@ def build():
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
             "/learn.html", "/cold-storage.html", "/crypto-tax.html", "/counterfeit-devices.html",
+            "/onchain-flows.html",
             "/how-we-make-money.html",
             "/accessibility.html", "/privacy.html", "/terms.html"]
     # standard sitemap: static pages (no lastmod) + article URLs WITH lastmod from the
