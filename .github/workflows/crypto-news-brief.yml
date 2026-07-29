@@ -176,7 +176,24 @@ jobs:
               # above stages neither, so the tree is ALWAYS dirty here. Plain
               # "git pull --rebase" refuses to run with unstaged changes and exits 128,
               # which killed the step on the first rejection and lost the run's stories.
-              git pull --rebase --autostash origin main
+              #
+              # The rebase itself then conflicts, which the original comment here said it
+              # would not: site/content/ is additive, but editorial-log.json, regwatch.json
+              # and chartmaster.json are rewritten by EVERY run, so two overlapping runs
+              # always collide on them. merge_state.py resolves exactly those three and
+              # refuses anything else, so a real conflict still fails loudly.
+              if ! git pull --rebase --autostash origin main; then
+                if python3 merge_state.py; then
+                  git add editorial-log.json regwatch.json site/data/chartmaster.json
+                  GIT_EDITOR=true git rebase --continue \
+                    || { echo "::error::rebase could not continue after auto-resolve"; \
+                         git rebase --abort || true; exit 1; }
+                else
+                  echo "::error::rebase hit a conflict outside the known generated files"
+                  git rebase --abort || true
+                  exit 1
+                fi
+              fi
             done
             [ "$ok" = true ] || { echo "::error::push failed after 3 rebase-and-retry attempts"; exit 1; }
             echo "pushed=true" >> "$GITHUB_OUTPUT"

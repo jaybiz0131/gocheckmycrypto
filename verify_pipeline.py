@@ -129,6 +129,7 @@ def layer1_canary():
     # whale-flow classification canary (offline, deterministic over the sample transactions)
     fails.extend(_whale_flow_canary())
     fails.extend(_consistency_gate_canary())
+    fails.extend(_merge_state_canary())
 
     # full offline replay end-to-end over the fixture
     e2e_fails = _replay_e2e()
@@ -148,6 +149,54 @@ def layer1_canary():
     print("LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay "
           "end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.")
     return 0
+
+
+def _merge_state_canary():
+    """Lock the resolution rules for the files two overlapping publishes always collide on.
+
+    The brief's retry rebases when main moves mid-run. site/content/ is additive and never
+    conflicts, but editorial-log.json, regwatch.json and chartmaster.json are rewritten by
+    every run, so overlapping runs always conflict there and the run died. These assertions
+    pin what each merge must preserve, because getting editorial-log wrong silently deletes
+    another run's editorial record and nothing would notice."""
+    fails = []
+    import merge_state as ms
+
+    up = [{"date": "2026-07-29", "approved": 3, "rejected": [{"id": "other"}]}]
+    mine = [{"date": "2026-07-29", "approved": 5, "rejected": [{"id": "mine"}]}]
+    got = ms.merge_editorial_log(up, mine)
+    ids = [r["id"] for e in got for r in e.get("rejected", [])]
+    _check("other" in ids and "mine" in ids, fails,
+           "merge_state: editorial-log merge dropped a run's record")
+    _check(ms.merge_editorial_log(up, up) == up, fails,
+           "merge_state: editorial-log merge duplicated an identical record")
+
+    up_r = {"US :: A": {"dates": ["Jul 29"], "first_seen": "2026-07-01",
+                        "last_seen": "2026-07-29"}}
+    my_r = {"US :: A": {"dates": ["Jul 15"], "first_seen": "2026-07-01",
+                        "last_seen": "2026-07-15"},
+            "UK :: B": {"dates": ["Jul 28"], "first_seen": "2026-07-28",
+                        "last_seen": "2026-07-28"}}
+    got_r = ms.merge_regwatch(up_r, my_r)
+    _check("UK :: B" in got_r, fails, "merge_state: regwatch merge dropped a measure")
+    _check(got_r["US :: A"]["last_seen"] == "2026-07-29", fails,
+           "merge_state: regwatch merge kept the older sighting")
+    _check(set(got_r["US :: A"]["dates"]) == {"Jul 29", "Jul 15"}, fails,
+           "merge_state: regwatch merge lost sighting dates")
+
+    # snapshot, not a record: later date wins, tie goes to upstream (see merge_state)
+    _check(ms.merge_chartmaster({"date": "2026-07-29", "headline": "up"},
+                                {"date": "2026-07-29", "headline": "mine"})["headline"] == "up",
+           fails, "merge_state: chartmaster tie did not go to upstream")
+    _check(ms.merge_chartmaster({"date": "2026-07-28", "headline": "up"},
+                                {"date": "2026-07-29", "headline": "mine"})["headline"] == "mine",
+           fails, "merge_state: chartmaster ignored the later date")
+
+    _check(set(ms.KNOWN) == {"editorial-log.json", "regwatch.json",
+                             "site/data/chartmaster.json"}, fails,
+           "merge_state: the auto-resolve allowlist changed; anything added here can "
+           "silently overwrite real work during a rebase")
+    return fails
 
 
 def _consistency_gate_canary():
