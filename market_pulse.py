@@ -201,7 +201,16 @@ def section_assets():
             "sma50": round(s50, 2), "sma200": round(s200, 2),
             "above_sma200": last >= s200,
             "golden_cross": s50 >= s200,
+            # Ship the percentage AND the price it is measured against. Without the
+            # second field a writer wanting "X% below its 12-month high of $Y" has only
+            # spark_high to reach for, which is the 90-DAY high used for chart scaling, and
+            # pairing the two produces a sentence where the percentage and the dollar
+            # figure describe different windows. The edition shipped exactly that on
+            # 2026-07-28 ("49% below its 12-month high of $82,018.37", when 49% is measured
+            # against roughly $124,700) and the trace check caught it. Same source, one
+            # field apart, so they cannot disagree.
             "pct_from_high_12m": round((last / hi - 1) * 100, 1),
+            "high_12m_usd": round(hi, 2 if hi >= 100 else 4),
             "vol30_pct": round(realized_vol_30d(closes), 1),
             "spark": downsample(win, 64),
             "spark_sma50": downsample(sma50_win, 64),

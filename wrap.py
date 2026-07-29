@@ -139,10 +139,21 @@ def gather_stories(hours=36):
     return out
 
 
-def belts(article_body, dek, bottom_line):
+def belts(article_body, dek, bottom_line, boards=None):
     """Deterministic checks; returns a list of problems (empty = pass)."""
     problems = []
     text = " ".join([article_body, dek, bottom_line])
+    # ETF flow windows. The 2026-07-28 edition called a week "the third straight weekly
+    # inflow" while also reporting $402.6M of five-session outflows, and nothing
+    # deterministic stopped it: the Chart Master had this belt, the edition did not. Same
+    # numbers, same belt now. See chartmaster.etf_flow_problems.
+    if boards and boards.get("etf_flows"):
+        try:
+            import chartmaster
+            problems += chartmaster.etf_flow_problems(text.lower(), boards["etf_flows"],
+                                                      who="edition")
+        except Exception as e:
+            common.gh("warning", f"wrap: ETF window belt could not run ({e})")
     if "—" in text or "–" in text:
         problems.append("em/en dash in the edition")
     low = REPORTING_VOCAB.sub(" ", text.lower())
@@ -286,7 +297,7 @@ def main():
             if not str(o.get(k, "")).strip():
                 raise llmlib.LLMError(f"wrap output missing '{k}'")
         probs = belts(str(o.get("body", "")), str(o.get("dek", "")),
-                      str(o.get("bottom_line", "")))
+                      str(o.get("bottom_line", "")), boards)
         if probs:
             raise llmlib.LLMError("edition failed deterministic belts: " + "; ".join(probs))
         return o

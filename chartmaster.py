@@ -83,7 +83,11 @@ def digest():
                        "range_30d": [min(hist30), max(hist30)] if hist30 else None},
         "assets": [{k: a.get(k) for k in
                     ("symbol", "price", "chg_24h_pct", "rsi14", "macd_above_signal",
-                     "above_sma200", "golden_cross", "pct_from_high_12m", "vol30_pct",
+                     "above_sma200", "golden_cross", "pct_from_high_12m",
+                     # high_12m_usd travels WITH pct_from_high_12m, always. spark_high is
+                     # the 90-day high; pairing it with the 12-month percentage is the
+                     # mistake the 2026-07-28 edition made. See market_pulse.py.
+                     "high_12m_usd", "vol30_pct",
                      "spark_high", "spark_low")} for a in pulse.get("assets", [])],
         "leverage": [{k: a.get(k) for k in
                       ("symbol", "venue", "funding_8h_pct", "funding_annual_pct",
@@ -134,16 +138,24 @@ def _sign(x):
     return (x > 0) - (x < 0)
 
 
-def _etf_flow_belt(text, etf):
+def etf_flow_problems(text, etf, who="chartmaster"):
     """Deterministic honesty check on ETF flow direction claims, against the same digest
-    the model was handed. The prompt's window rule did not survive model drift (runs
-    55-56 wrote a week-negative claim over a positive five-session net, and the
-    consistency gate rightly blocked the whole publish); this belt makes the rule hold.
-    Claims are read with the consistency gate's own lexicon so the desk has exactly one
-    definition of 'a direction claim at a window'. A violation raises, the retry ladder
-    gets another attempt, and if the model never phrases it honestly the previous read
-    stands (fail-open in main)."""
+    the model was handed. Returns a list of problems; empty means the text is honest about
+    which window it is describing.
+
+    The prompt's window rule did not survive model drift (runs 55-56 wrote a week-negative
+    claim over a positive five-session net, and the consistency gate rightly blocked the
+    whole publish); this belt makes the rule hold. Claims are read with the consistency
+    gate's own lexicon so the desk has exactly one definition of "a direction claim at a
+    window".
+
+    SHARED ON PURPOSE. This lived only on the Chart Master until the 2026-07-28 edition
+    made the identical mistake in prose ("third straight weekly inflow" beside "$402.6
+    million in net outflows" over five sessions) and only the slower, model-based trace
+    check caught it. Two surfaces reading the same numbers need the same belt, so wrap.py
+    calls this too. Do not fork it."""
     import consistency_gate as cg
+    problems = []
     m = cg.METRICS["spot ETF flows"]
     btc = (etf or {}).get("btc") or {}
     signs = {"day": _sign(btc.get("latest_net_usd_m") or 0),
@@ -155,16 +167,25 @@ def _etf_flow_belt(text, etf):
         d = next(iter(dirs))
         if scope in signs:
             if signs[scope] and d != want[signs[scope]]:
-                raise llmlib.LLMError(
-                    f"chartmaster: ETF flow claim says {d} at the {scope} window but the "
+                problems.append(
+                    f"{who}: ETF flow claim says {d} at the {scope} window but the "
                     f"digest's {scope} number points the other way; state what the data "
                     f"says")
         else:
             ok = {want[s] for s in signs.values() if s}
             if ok and (len(ok) > 1 or d not in ok):
-                raise llmlib.LLMError(
-                    "chartmaster: unscoped ETF flow direction while the daily and "
+                problems.append(
+                    f"{who}: unscoped ETF flow direction while the daily and "
                     "five-session numbers disagree; name the window")
+    return problems
+
+
+def _etf_flow_belt(text, etf):
+    """Raising wrapper, so the Chart Master's retry ladder keeps its existing behaviour:
+    a violation raises, the ladder gets another attempt, and if the model never phrases it
+    honestly the previous read stands (fail-open in main)."""
+    for p in etf_flow_problems(text, etf):
+        raise llmlib.LLMError(p)
 
 
 def validate(obj, etf=None):
