@@ -42,6 +42,14 @@ WHAT THIS SCREEN ACTUALLY TESTS
     SUPPLY       the markets endpoint's circulating supply exceeds the coin's own detail
                  endpoint by more than 20%. This is what caught WBT.
 
+  STABLECOINS GET NO EXEMPTION (owner's ruling, 2026-07-29). The captive test catches some
+  smaller stablecoins whose liquidity sits in one pool, USDS at 98.3% on a single Uniswap
+  market being the live example. There is a reasonable argument for exempting them, since
+  a stablecoin's cap is issuance rather than a discovered price, and the question was put
+  and answered: no exemption. One test, applied the same way to everything, and a coin
+  whose price only exists in one place is off the board whatever it is pegged to. USDT and
+  USDC clear the test comfortably on their own trading, which is the point.
+
   Failing coins are dropped and the slots are backfilled from below, so the board always
   shows a full hundred that all pass.
 
