@@ -60,8 +60,18 @@ METRICS = {
         "context": r"\bdominance\b", "span": 50,
         "pos": r"\b(rose|rising|climbs?|climbed|grew|growing|higher)\b",
         "neg": r"\b(fell|falling|drops?|dropped|shrank|shrinking|lower)\b"},
+    # Scoped for the same reason ETF flows is, found the hard way on 2026-07-29: the
+    # Whale Watch board widens its window to 48 hours when the 24-hour feed is quiet, and
+    # then reports a 2-day net OFF exchanges while the Chart Master correctly reports the
+    # 24-hour net ONTO them. Both true, different windows, and an unscoped metric read
+    # them as a contradiction and blocked every publish. Scope names differ from ETF's
+    # because these surfaces talk in hours and days, not weeks.
     "whale exchange flows": {
-        "context": r"\bwhales?\b", "span": 100,
+        "context": r"\bwhales?\b", "span": 100, "scoped": True,
+        "scopes": ("multiday", "day"),
+        "day": r"\b(24\s*hours?|last\s+day|today|overnight|latest\s+session)\b",
+        "multiday": r"\b(\d+\s*days?|48\s*hours?|72\s*hours?|week(?:ly|s)?"
+                    r"|multi-?day|13-week)\b",
         "pos": r"\b(off exchanges?|cold storage|self-custody|accumulat\w+)\b",
         "neg": r"\b(onto exchanges?|sell pressure)\b"},
 }
@@ -85,7 +95,8 @@ def directions(text, m):
             continue
         scopes = [""]
         if m.get("scoped"):
-            scopes = ([s for s in ("week", "day") if re.search(m[s], window)] or [""])
+            names = m.get("scopes", ("week", "day"))
+            scopes = ([s for s in names if re.search(m[s], window)] or [""])
         for s in scopes:
             found.setdefault(s, set()).update(dirs)
     return found
@@ -122,7 +133,14 @@ def surfaces():
         fl = json.load(open(os.path.join(DATA, "flows.json"), encoding="utf-8"))
         direction = (fl.get("volatile") or {}).get("direction") or ""
         if direction and not fl.get("example"):
-            out.append(("whale-board", f"whales net {direction}"))
+            # Name the window. The board widens to 48h on a quiet feed, and a bare
+            # "whales net off exchanges" then collides with an honest 24-hour claim
+            # somewhere else on the page. flows.json has always known the window; the
+            # gate just was not being told.
+            hours = fl.get("window_hours") or 24
+            when = "over the last 24 hours" if hours <= 24 else \
+                   f"over the last {round(hours / 24)} days"
+            out.append(("whale-board", f"whales net {direction} {when}"))
     except Exception:
         pass
     return out
