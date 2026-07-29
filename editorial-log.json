@@ -2335,5 +2335,53 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-29",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c022",
+    "headline": "BlackRock, Fidelity, and Wall Street Giants Publicly Back Crypto Regulation Bill",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'SoFi CEO Anthony Noto welcomed Goldman Sachs' support on X, noting that the two firms have taken a different stance than some banks on crypto regulation.' The brief data point says Noto 'noted that the two firms have taken a different stance than some banks on crypto regulation,' but the draft presents this as Noto welcoming Goldman's support, which suggests Goldman took a position first and Noto reacted to it. The brief does not contain evidence that Goldman's support came before Noto's statement or that Noto was responding to Goldman specifically\u2014only that both firms backed the bill. This rewrites the causal sequence beyond what the brief supports."
+    ]
+   },
+   {
+    "id": "c043",
+    "headline": "Core Scientific and AMD Partner on Multi-Gigawatt AI Data-Center Build",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the deal 'includes warrants for Core Scientific to purchase AMD stock,' but the brief data point specifies 'warrants to buy CORZ stock.' CORZ is Core Scientific's own ticker symbol, not AMD's (which is AMD). The draft misidentifies the stock underlying the warrants, materially changing the nature of the equity arrangement from self-dealing/buyback language to an AMD equity stake. This is a factual error that crosses the accuracy line.",
+     "The brief is marked 'thin: true' with source_chars: 0, indicating the research is minimal. The draft adds specifics about Core Scientific's 'mining heritage,' 'power procurement, cooling, and distributed infrastructure' capabilities, and the claim that these 'translate to AI data-center deployment.' None of these details appear in the three data points provided in the brief. These are smuggled editorial inferences, not facts from research."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Russia's Central Bank Drafts Crypto Capital Rules, Framework Set for September 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The European Union announced its 21st sanction package four days before the Bank of Russia's announcement, targeting 14 cryptocurrency firms including A7, a stablecoin network with $120 billion in assets.' This claim appears in the brief as a single data_point but the draft treats it as a direct causal or contextual relationship without clarity that this is inferred framing. More critically, the claim that A7 is 'a stablecoin network' is not explicitly stated in the brief's data_point, which only identifies it as a sanctioned entity with $120 billion in assets. The draft has introduced characterization ('stablecoin network') not present in the source brief."
+    ]
+   },
+   {
+    "id": "c052",
+    "headline": "Morgan Stanley Launches Spot Ethereum and Solana ETPs",
+    "category": "balance",
+    "reasons": [
+     "The brief includes a bear_case item ('bear_case': []) that is empty, and the draft contains no substantive counterbalance or skepticism about the announcement itself. However, the core liability issue is more acute: the draft admits 'What remains unconfirmed from available reporting is the fee structure, the underlying custody and settlement mechanism, the staking reward treatment (if any), and whether these are U.S.-domiciled products or international offerings.' This acknowledgment of unconfirmed details is appropriate, but it creates a structural problem: the story is written from a single Decrypt report with no secondary sourcing and the draft openly states material facts are missing. A one-source story that confesses its own incompleteness reads as rushed. The story should either find secondary confirmation of the basic facts or be held. As drafted, it borders on promotional\u2014announcing a product launch without verification of basic operational details."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Trade.xyz oracle liquidated $60 million after faithfully relaying outsized external trade",
+    "category": "accuracy",
+    "reasons": [
+     "The claim 'Research into crypto market structure shows that perpetual futures often lead spot markets in bitcoin and ether, and pre-IPO perpetuals on SpaceX's first trading day priced the stock more accurately than the bookbuild that set the offering' is not in the brief's data_points. This is smuggled research/analysis not traced to the CoinDesk source and appears to be the writer inserting independent contextual reasoning rather than reporting from the source.",
+     "The phrase 'suggesting the crash may have anticipated broader Korean asset repricing' is interpretive analysis inferring causation between the Trade.xyz crash and SK Hynix's decline hours later. The brief reports these as temporal facts (crash happened, decline happened) but the draft presents narrative causation not supported by the source data_points."
+    ]
+   }
+  ]
  }
 ]

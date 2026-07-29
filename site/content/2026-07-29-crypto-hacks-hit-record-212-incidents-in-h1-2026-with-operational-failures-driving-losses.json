@@ -1,0 +1,32 @@
+{
+  "id": "c126",
+  "slug": "crypto-hacks-hit-record-212-incidents-in-h1-2026-with-operational-failures-driving-losses",
+  "kind": "brief",
+  "title": "Crypto Hacks Hit Record 212 Incidents in H1 2026, With Operational Failures Driving Losses",
+  "dek": "Attackers stole $1.1 billion across 212 verified exploits in the first half of 2026, the highest incident count on record, according to security firm Blockaid. North Korea-linked groups accounted for 55% of losses, with operational security breaches (compromised keys, signing infrastructure) responsible for 74% of all stolen funds. The two largest single heists, KelpDAO's $292 million and Drift Protocol's $285 million, both stemmed from credential compromise rather than code exploits.",
+  "date": "2026-07-29",
+  "published_utc": "2026-07-29T16:03:49Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "212 verified exploits in H1 2026 marked the highest incident count on record, with $1.1 billion stolen across them, though total losses came in below H1 2025 when the $1.5 billion Bybit theft alone exceeded all other incidents combined.",
+  "bottom_line": "The shift from code exploits to operational breaches signals that the largest theft vectors now flow through compromised credentials and signing infrastructure rather than smart contract bugs. Watch whether platforms respond by hardening key management and multi-signature governance, or whether the uptick in smaller incidents continues to outpace the ecosystem's ability to contain them.",
+  "human_take": "",
+  "body": [
+    "Attackers stole $1.1 billion across 212 verified exploits in the first half of 2026, the highest incident count on record for any half-year period, according to security firm Blockaid. The sheer number of breaches marks a structural shift in how the ecosystem is being attacked: operational security failures (compromised keys, signing infrastructure, and privileged access) accounted for 74% of all stolen funds, while traditional code exploits claimed a shrinking share of total losses.",
+    "The spike in incident frequency arrived alongside a counterintuitive development: total losses in H1 2026 fell below the same period in 2025, when the $1.5 billion Bybit theft alone exceeded every other incident combined. Blockaid verified 3.4 times as many high-threshold exploits in the first six months of 2026 as in all of 2025, underscoring a new threat profile in which the ecosystem faces many smaller breaches driven by operational lapses rather than occasional catastrophic code bugs.",
+    "The largest individual heists exemplify the shift. On April 1, Drift Protocol, Solana's largest perpetuals exchange at the time, was drained of $285 million in under 12 minutes through a compromised key at the governance layer. On April 18, KelpDAO lost $292 million in rsETH after a single compromised node in LayerZero's decentralized verifier network signed off on a malicious bridge transaction, the loss representing more than a quarter of the protocol's total value locked. Neither breach stemmed from a smart contract vulnerability.",
+    "Blockaid attributed the KelpDAO and Drift attacks, along with the Humanity Protocol exploit, to North Korea-linked groups, with the TraderTraitor subgroup of Lazarus the most active. These three incidents alone account for roughly $609 million, or approximately 55% of all first-half losses. The concentration underscores how state-sponsored actors have shifted focus from opportunistic code hunting to high-precision infrastructure targeting.",
+    "Network impact diverged sharply by chain. Ethereum and Solana absorbed the largest losses of any networks, at roughly $332 million and $326 million respectively, but the attack vectors differed: code exploits drove most Ethereum incidents, while key and signing infrastructure breaches accounted for the bulk of Solana losses, per Blockaid's analysis. The gap reflects different operational maturity and custody models across ecosystems.",
+    "The velocity of attacks shows no sign of slowing. DefiLlama's hacks database lists nine exploits in the last week of July alone, including the $24.15 million AFX Bridge key compromise and a $7.53 million drain of the Verus-Ethereum bridge, both operational security failures.",
+    "Blockaid's analysis relies on the firm's own incident attribution methodology. The source does not provide independent verification of Blockaid's attribution of attacks to North Korea-linked groups, though the firm's ability to trace forensic patterns across incidents carries weight with ecosystem participants."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/hacks/crypto-hacks-hit-record-212-incidents-in-h1-2026-blockaid",
+      "url": "https://thedefiant.io/news/hacks/crypto-hacks-hit-record-212-incidents-in-h1-2026-blockaid"
+    }
+  ],
+  "update_of": "consensys-halted-metamask-releases-over-north-korea-linked-contractor"
+}
