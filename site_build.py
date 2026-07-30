@@ -20,6 +20,7 @@ USAGE
   python3 site_build.py [--ingest]
 """
 
+import hashlib
 import json
 import os
 import re
@@ -2018,7 +2019,11 @@ def line_chart_svg(series, *, w=680, h=260, dollars=True, x_labels=None, overlay
     def Y(v):
         return mt + ph * (1 - (float(v) - lo) / (hi - lo))
 
-    uid = f"g{abs(hash((round(lo, 2), round(hi, 2), len(vals), color))) % 99999}"
+    # A stable digest, not hash(). Python salts hash() of a str per process
+    # (PYTHONHASHSEED), so this id changed on every build and four pulse pages differed run
+    # to run, which quietly defeated the rebuild-identical gate on this repo.
+    uid = "g" + hashlib.sha1(
+        f"{round(lo, 2)}|{round(hi, 2)}|{len(vals)}|{color}".encode()).hexdigest()[:8]
     parts = [f'<svg class="chart" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" '
              f'role="img" aria-label="{esc(aria)}" preserveAspectRatio="xMidYMid meet">']
     # tinted horizontal bands (e.g. fear/greed zones)
