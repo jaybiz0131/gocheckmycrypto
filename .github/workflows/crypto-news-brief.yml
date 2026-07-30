@@ -229,8 +229,19 @@ jobs:
           hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
           req = urllib.request.Request(
               f"https://api.github.com/repos/{repo}/issues?state=open&labels=pipeline", headers=hdrs)
-          if any(i["title"] == title for i in json.load(urllib.request.urlopen(req))):
-              print("flag issue already open; not duplicating"); raise SystemExit
+          open_flag = next((i for i in json.load(urllib.request.urlopen(req))
+                            if i["title"] == title), None)
+          if open_flag:
+              # Comment rather than go silent. Deduping the ISSUE is right; deduping the
+              # ALARM is not. Run 30577704932 failed while the flag from 30397726694 was
+              # still open, so the second failure printed "not duplicating" and told
+              # nobody anything, and the two turned out to have different causes.
+              req = urllib.request.Request(
+                  f"https://api.github.com/repos/{repo}/issues/{open_flag['number']}/comments",
+                  data=json.dumps({"body": f"Failed again: {os.environ['RUN_URL']}"}).encode(),
+                  headers=hdrs, method="POST")
+              urllib.request.urlopen(req); print("flag issue already open; added a comment")
+              raise SystemExit
           body = (f"A scheduled/breaking desk run failed: {os.environ['RUN_URL']}\n\n"
                   "The watcher's slot recovery will retry the slot automatically; this flag "
                   "exists so a repeating failure gets human eyes. Close after the next green run.")
@@ -238,6 +249,39 @@ jobs:
               data=json.dumps({"title": title, "body": body, "labels": ["pipeline"]}).encode(),
               headers=hdrs, method="POST")
           urllib.request.urlopen(req); print("failure flag opened")
+          PYEOF
+
+      # The other half of the flag. Nothing ever closed these, so the first failure opened
+      # an issue and every failure after it was silent until a human closed it by hand: a
+      # one-shot alarm. A green run means the slot recovered, which is exactly the
+      # condition the issue text already asked a human to close on.
+      - name: Clear the failure flag on a green run
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, urllib.request
+          tok, repo = os.environ["GH_TOKEN"], os.environ["REPO"]
+          title = "Desk run failed: pipeline error (see run log)"
+          hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+          req = urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/issues?state=open&labels=pipeline", headers=hdrs)
+          for i in json.load(urllib.request.urlopen(req)):
+              if i["title"] != title:
+                  continue
+              req = urllib.request.Request(
+                  f"https://api.github.com/repos/{repo}/issues/{i['number']}/comments",
+                  data=json.dumps({"body": f"Green run: {os.environ['RUN_URL']}. "
+                                           "Closing; the flag re-opens if it fails again."}).encode(),
+                  headers=hdrs, method="POST")
+              urllib.request.urlopen(req)
+              req = urllib.request.Request(f"https://api.github.com/repos/{repo}/issues/{i['number']}",
+                  data=json.dumps({"state": "closed", "state_reason": "completed"}).encode(),
+                  headers=hdrs, method="PATCH")
+              urllib.request.urlopen(req); print(f"cleared flag #{i['number']}")
           PYEOF
 
       - name: Upload the review queue for human approval
