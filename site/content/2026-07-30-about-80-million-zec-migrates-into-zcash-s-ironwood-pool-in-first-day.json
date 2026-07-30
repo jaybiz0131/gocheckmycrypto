@@ -1,0 +1,31 @@
+{
+  "id": "c022",
+  "slug": "about-80-million-zec-migrates-into-zcash-s-ironwood-pool-in-first-day",
+  "kind": "brief",
+  "title": "About $80 million ZEC migrates into Zcash's Ironwood pool in first day",
+  "dek": "Approximately 176,000 ZEC, worth roughly $81 million, migrated into Zcash's new Ironwood shielded pool within the first day of the upgrade on Wednesday. This represents 5% of the 3.66 million ZEC held in the Orchard pool at activation. The upgrade comes after the Orchard pool was sealed due to a counterfeiting flaw that went undetected for four years.",
+  "date": "2026-07-30",
+  "published_utc": "2026-07-30T13:15:29Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "176,000 ZEC ($81 million) migrated into Ironwood in the first day, leaving 95% of Orchard's balance unmigrated and dependent on voluntary holder action to exit through a limited turnstile mechanism.",
+  "bottom_line": "Watch the weekly migration rate from Orchard into Ironwood over the next month; a sustained acceleration would validate the voluntary mechanism as viable, while stagnation would expose a gap between protocol upgrade and user adoption. The story's core assumption, that voluntary migration can efficiently consolidate a privacy protocol's user base, will be tested by holder behavior over coming weeks.",
+  "human_take": "",
+  "body": [
+    "Zcash's new Ironwood privacy upgrade activated on Tuesday, and within 24 hours, approximately 176,000 ZEC worth roughly $81 million had moved into the protocol's new shielded pool. The figure, according to CoinDesk's reporting, represents only 5% of the 3.66 million ZEC that sat in Zcash's previous Orchard pool at the moment the upgrade went live.",
+    "The Ironwood upgrade marks a major evolution for Zcash's privacy architecture, but the early migration numbers underscore a fundamental constraint: the transition is entirely voluntary. Holders, wallets, and exchanges control the timeline for moving funds out of the sealed Orchard pool and into Ironwood.",
+    "Orchard, introduced in 2022, held approximately 3.5 million ZEC before the upgrade sealed it. The pool was closed because investigators discovered a counterfeiting flaw that had persisted undetected for four years. Per CoinDesk's reporting, Orchard can no longer accept new deposits; all remaining coins must exit through a turnstile mechanism that caps total withdrawals at the amount verifiably deposited, a protection against the discovered vulnerability. In the 24 hours following upgrade activation, the Orchard pool balance fell to about 3.51 million ZEC, with roughly 46,000 ZEC crossing over in that period.",
+    "Zcash manages holdings across multiple pools reflecting its privacy evolution over time. The transparent pool holds about 12.5 million ZEC. Sapling, introduced in 2018, holds about 582,000 ZEC. Orchard held about 3.5 million ZEC before sealing. Ironwood is now the active shielded pool for new deposits and migrations. The voluntary migration model leaves the timeline for full transition dependent on adoption velocity outside the protocol's control.",
+    "The 95% of Orchard's balance that remains unmigrated represents a significant stranded asset base. Protocol developers built no automatic exit mechanism; the burden of action rests on individual holders. The question now becomes whether the early 5% represents genuine adoption momentum or merely the fastest movers, with the bulk of Zcash's private supply sitting idle pending gradual, self-directed migration.",
+    "Zcash's total shielded supply (Sapling, Orchard, and Ironwood combined) represents a material portion of the protocol's ~16 million ZEC circulating supply. The pace at which that supply transitions to Ironwood will signal both technical readiness and holder willingness to engage with upgraded privacy infrastructure."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/07/29/about-usd80-million-zec-crosses-into-zcash-s-new-ironwood-pool-in-the-first-day",
+      "url": "https://www.coindesk.com/tech/2026/07/29/about-usd80-million-zec-crosses-into-zcash-s-new-ironwood-pool-in-the-first-day"
+    }
+  ],
+  "update_of": "zcash-seals-1-7-billion-shielded-pool-as-ironwood-upgrade-activates"
+}

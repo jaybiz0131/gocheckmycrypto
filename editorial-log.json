@@ -2621,5 +2621,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-30",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c133",
+    "headline": "US Treasury designates Iranian maritime firm for Bitcoin-based sanctions evasion",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'according to a report by Cointelegraph' but provides no substantive facts from that source. The brief is marked 'thin: true' with 'source_chars: 0', indicating the Cointelegraph URL yielded no usable reporting. The draft invokes Cointelegraph as authority but smuggles in analytical framing ('Treasury enforcement focus', 'Treasury's ongoing effort to map and interdict') that is not in the brief's data_points and cannot be sourced to the provided URL. The open_questions make clear what basic facts are missing: specific Bitcoin transactions, wallet addresses, timeline, amounts involved, and other intermediaries. Publishing a story this thin with unverified details presented as fact creates liability.",
+     "The phrase 'adds another data point to the regulatory record of crypto's role in illicit finance' presents editorial interpretation as fact and goes beyond what the brief supports. This is synthesis, not reporting."
+    ]
+   },
+   {
+    "id": "c156",
+    "headline": "Federal Reserve Holds Rates Steady; Three Officials Dissent for a Hike",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Beth M. Hammack, Minneapolis Federal Reserve President Neel Kashkari, and Lorie K. Logan' as the three dissenters. The construction is ambiguous and appears to conflate Hammack's title with Kashkari's; the brief data_point lists them as three separate officials without claiming Hammack holds Kashkari's title. The draft should clarify titles or list them separately to avoid misattribution.",
+     "The draft claims 'The statement does not provide specific forward guidance on the timeline or conditions for future rate adjustments, nor does it detail the Committee's medium-term inflation expectations or Warsh's personal stance on policy targets.' This is an editorial inference about what is *absent* from the statement, not a fact in the brief. The brief's open_questions flag these as unknowns, but the draft presents absence as a statement fact, smuggling analytical commentary into reporting."
+    ]
+   },
+   {
+    "id": "c049",
+    "headline": "Robinhood Q2 Revenue Hits Record $1.31B; Prediction Markets Now Exceed Crypto Trading",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions section explicitly states: 'The provided source text is empty; all data points come from the snippet alone. No source document was fetched to verify the $1.31 billion revenue, $156 million prediction market figure, $100 million crypto trading figure, or the 38% decline.' The draft presents all of these figures as reported fact, but the brief acknowledges they are unverified against the actual source document. This violates the hard rule: facts must trace to the brief, and the brief itself flags these as reported-but-not-independently-confirmed.",
+     "The brief marks thin=true and source_chars=0, signaling the research is incomplete. The draft should acknowledge the unverified status of the revenue figures or be rejected pending actual source verification. The current prose ('per Decrypt's reporting' and 'as reported by Decrypt') treats secondary reporting as sufficient, but when the underlying source was never fetched, the brief is contaminated and the draft cannot be approved."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "BitRiver founder transferred to detention on fraud charges in Russia",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The company operated as Russia's largest crypto mining infrastructure provider' without this claim appearing in the research brief's data_points. This is a factual assertion about market position that is not sourced to the CoinDesk reporting listed in the brief.",
+     "The draft claims 'En+, the multibillion-dollar corporation that produces 5% of the world's aluminum and manages digital and crypto mining infrastructure projects' but the brief's data_point says En+ 'manages digital, technology and crypto mining infrastructure projects'\u2014the draft adds 'and' between 'digital' and 'technology' when the brief lists them in sequence, and more critically, the draft presents En+'s aluminum production as part of the same sentence without attribution clarity. The aluminum claim comes from the brief but is not clearly separated from the infrastructure claim in the draft's phrasing, risking conflation."
+    ]
+   }
+  ]
  }
 ]
