@@ -2579,5 +2579,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-30",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c123",
+    "headline": "US Treasury Sanctions Iranian Maritime Firm for Accepting Bitcoin to Evade Sanctions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'according to Cointelegraph's reporting' but the brief shows source_chars: 0, indicating the source URL is empty or the reporting does not exist in the brief. The single data_point is marked 'reported' but confidence should be 'announced-not-verified' or lower given the absence of source attribution details. The draft presents an allegation as fact without sufficient hedging for a thin brief with one unverified source.",
+     "The opening sentence 'The US Treasury designated HormuzSafe...' presents a designation as a completed fact, but the brief data_point says the firm is 'alleged to have accepted' assets. The draft should reflect the alleged/unconfirmed nature more clearly given the single-source, thin brief."
+    ]
+   },
+   {
+    "id": "c122",
+    "headline": "South Korea Proposes Interim Stablecoin Rules Ahead of Comprehensive Crypto Law",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'A South Korean policy report recommends...' and attributes this to 'Cointelegraph's reporting,' but the brief shows source_chars: 0, meaning the source URL contains no substantive reporting data. A thin brief (thin: true) with a single data_point from an empty source makes the foundational claim unverifiable. The writer cannot trace 'interim licensing guidance,' 'greater flexibility,' or the intended purpose back to substantiated reporting."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Ostium blames off-chain breach for $24 million exploit, rules out smart contract flaw",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Ostium did not specify which off-chain component was breached' but the brief's source_chars field is 0, indicating no source material was provided to the researcher. The writer cannot assert what Ostium 'did not' disclose without having reviewed the actual source. This is a factual claim not grounded in the brief's data_points.",
+     "The draft claims 'The Block's report contains no statement from external parties confirming the off-chain root cause' but again, the brief provides no actual source material (source_chars: 0) for the writer to verify what The Block's report does or does not contain. The writer is making claims about source content they cannot have checked against the brief."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "Russia detains crypto mining firm BitRiver founder on fraud charges",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The specific mechanics of the disputed deal and the nature of the fraud allegations were not disclosed in the available reporting' but the brief contains no source material (source_chars: 0) for the writer to verify this claim. The writer cannot assert what was or was not disclosed without having the actual source text.",
+     "The draft claims 'The Block's report did not state whether BitRiver has made an official announcement' but the brief provides no source content to confirm or deny this. Again, the writer is making statements about source material they cannot have verified against the brief.",
+     "The draft states 'The source material does not explain what Runets or BitRiver allegedly did wrong' but the brief has no source material provided. The writer cannot characterize what the source does or does not explain when no source text exists in the brief."
+    ]
+   }
+  ]
  }
 ]
