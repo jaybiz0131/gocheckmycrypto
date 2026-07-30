@@ -28,6 +28,8 @@ import re
 import subprocess
 import sys
 
+import common
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
 
@@ -173,6 +175,26 @@ def is_coverage(d):
     return True
 
 
+def held_after_approval_notes(held):
+    """The annotation lines for stories the desk VERIFIED and APPROVED and then held.
+
+    Warnings, never errors. These holds are usually CORRECT (a real rerun of a real story),
+    so this must not fail a run or email anyone. It exists because every hold used to be a
+    bare print() into a log nobody reads, which is how the 2026-07-29 FOMC miss sat
+    unnoticed for two days: the desk had verified the story against federalreserve.gov,
+    approved it, and dropped it, and nothing said so.
+
+    Earlier gates (not VERIFIED, approver held, depth) are deliberately not included. Those
+    fire several times a run and are the gates working; including them would bury this."""
+    out = []
+    for h in held or []:
+        line = (f"autopilot: VERIFIED and APPROVED, then held: "
+                f"'{str(h.get('headline', ''))[:70]}' -> {h.get('gate', 'unknown gate')}")
+        if h.get("matched"):
+            line += f" ({str(h['matched'])[:50]})"
+        out.append(line)
+    return out
+
 def already_published(headline, key_fact="", within_days=5):
     """A follow-up on yesterday's event should update the existing article, not publish a
     new one. This holds any story that covers the SAME EVENT as one already published in the
@@ -225,6 +247,13 @@ def main():
     approval = json.load(open(tpl_path, encoding="utf-8"))
     approved = held = reruns = 0
     updates = {}  # cid -> slug of the earlier story this one develops (ingest writes update_of)
+    # Stories the desk VERIFIED and APPROVED and then held anyway. This is the highest
+    # signal the pipeline produces: the desk did the whole job and threw the result
+    # away. Every hold used to be a bare print(), which is why the FOMC miss on
+    # 2026-07-29 sat unnoticed for two days. Earlier gates (not VERIFIED, approver
+    # held, depth) are deliberately NOT collected: those fire several times a run and
+    # are the gates working, so alarming on them would bury this.
+    held_after_approval = []
     approved_this_run = []  # (title, key_fact) of stories approved earlier in THIS run, so
     # two clusters about one event in a single run cannot both publish (neither is committed
     # yet, so the on-disk guard cannot see its sibling)
@@ -261,11 +290,17 @@ def main():
             if rel == "rehash":
                 story["decision"] = "hold"
                 reruns += 1
+                held_after_approval.append(
+                    {"headline": headline, "gate": "near-duplicate of a published story",
+                     "matched": mtitle or "", "matched_slug": mslug or ""})
                 print(f"autopilot: HELD near-duplicate of a published story "
                       f"('{headline[:52]}' ~ '{(mtitle or '')[:42]}')")
             elif any(same_event(headline, kf, t, k) for t, k in approved_this_run):
                 story["decision"] = "hold"
                 reruns += 1
+                held_after_approval.append(
+                    {"headline": headline, "gate": "duplicate of an event approved earlier "
+                                                   "in this same run", "matched": "", "matched_slug": ""})
                 print(f"autopilot: HELD same-run duplicate of an event already approved this "
                       f"run ('{headline[:60]}')")
             elif rel == "update":
@@ -289,6 +324,9 @@ def main():
                     c = conflicts[0]
                     story["decision"] = "hold"
                     held += 1
+                    held_after_approval.append(
+                        {"headline": headline, "gate": "figure conflicts with a published story",
+                         "matched": c["entity"], "matched_slug": c["slug"]})
                     print(f"autopilot: HELD figure conflict ('{headline[:44]}' cites "
                           f"${c['candidate_usd']:,.0f} vs published ${c['published_usd']:,.0f} "
                           f"for '{c['entity']}' in {c['slug']}) -> human review")
@@ -298,6 +336,10 @@ def main():
                     approved_this_run.append((headline, kf))
     json.dump(approval, open(os.path.join(OUT, "approval.json"), "w", encoding="utf-8"), indent=1)
     json.dump(updates, open(os.path.join(OUT, "updates.json"), "w", encoding="utf-8"), indent=1)
+    json.dump(held_after_approval,
+              open(os.path.join(OUT, "held_after_approval.json"), "w", encoding="utf-8"), indent=1)
+    for line in held_after_approval_notes(held_after_approval):
+        common.gh("warning", line)
     print(f"autopilot: auto-approved {approved} VERIFIED, held {held} for human review")
     if approved == 0:
         print("autopilot: nothing VERIFIED today -> site publish skipped, queue kept for human")

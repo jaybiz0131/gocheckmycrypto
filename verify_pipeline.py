@@ -196,7 +196,21 @@ def _preview_suppression_canary():
         "with a press conference at 2:30."), fails,
         "preview suppression: same_event no longer matches the preview to the event, so "
         "this canary would pass for the wrong reason")
+
+    # The post-approval hold annotation. Formatting only, but the three call sites feed it
+    # and a silent regression here re-hides exactly what the FOMC miss needed surfaced.
+    notes = ap.held_after_approval_notes([
+        {"headline": "Federal Reserve issues FOMC statement",
+         "gate": "near-duplicate of a published story",
+         "matched": "The Week Ahead: FOMC rate decision"},
+        {"headline": "X", "gate": "figure conflicts with a published story", "matched": ""}])
+    _check(len(notes) == 2 and "VERIFIED and APPROVED, then held" in notes[0]
+           and "The Week Ahead" in notes[0], fails,
+           "held-after-approval: the annotation stopped naming the story or the gate")
+    _check(ap.held_after_approval_notes([]) == [] and ap.held_after_approval_notes(None) == [],
+           fails, "held-after-approval: an empty run no longer annotates nothing")
     return fails
+
 
 def _merge_state_canary():
     """Lock the resolution rules for the files two overlapping publishes always collide on.
