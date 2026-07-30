@@ -129,6 +129,7 @@ def layer1_canary():
     # whale-flow classification canary (offline, deterministic over the sample transactions)
     fails.extend(_whale_flow_canary())
     fails.extend(_window_belt_canary())
+    fails.extend(_preview_suppression_canary())
     fails.extend(_consistency_gate_canary())
     fails.extend(_merge_state_canary())
 
@@ -151,6 +152,51 @@ def layer1_canary():
           "end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.")
     return 0
 
+
+def _preview_suppression_canary():
+    """A preview must never suppress coverage of the thing it previewed.
+
+    This is the bug that cost the desk the FOMC decision on 2026-07-29. The Week Ahead
+    published two days earlier listed "Wednesday, July 29: FOMC rate decision", and
+    already_published() scanned it like any other story. When the Fed actually decided, the
+    real story was ranked #1, VERIFIED against federalreserve.gov and APPROVED, then held
+    as already-published. Every event the Week Ahead flags was pre-suppressed for the next
+    five days, so the better the preview, the worse the blackout.
+
+    The two assertions have to hold together: previews and editions must not suppress, and
+    real coverage still must. Fixing the first by weakening the second would just trade a
+    missed story for a duplicate."""
+    fails = []
+    import autopilot as ap
+
+    for label, doc in (
+            ("a Week Ahead preview (by id)", {"id": "week-ahead-2026-07-27"}),
+            ("a Week Ahead preview (by category)",
+             {"id": "x", "category": "Week Ahead"}),
+            ("a daily edition", {"id": "wrap-am-2026-07-30"})):
+        _check(not ap.is_coverage(doc), fails,
+               f"preview suppression: {label} counts as coverage and can suppress a "
+               f"real story about the same event")
+    _check(ap.is_coverage({"id": "c150", "category": "policy"}), fails,
+           "preview suppression: a normal story stopped counting as coverage, which "
+           "disables duplicate suppression entirely")
+
+    # the fingerprint itself must still see the two as the same event; the fix is the
+    # exclusion, not a weaker matcher
+    # Verbatim from the 2026-07-27 Week Ahead and the story it suppressed. A paraphrase
+    # here does NOT match, which this canary caught on its first run: shortened, the pair
+    # fails same_event and the whole check would have passed for the wrong reason.
+    _check(ap.same_event(
+        "Federal Reserve issues FOMC statement",
+        "The Federal Open Market Committee held rates steady in a 9-3 vote.",
+        "The Week Ahead: FOMC rate decision; Coinbase second-quarter results; "
+        "Strategy second-quarter results",
+        "Wednesday, July 29: FOMC rate decision. The Federal Open Market Committee meets "
+        "Tuesday and Wednesday; the rate decision lands Wednesday at 2:00 p.m. Eastern "
+        "with a press conference at 2:30."), fails,
+        "preview suppression: same_event no longer matches the preview to the event, so "
+        "this canary would pass for the wrong reason")
+    return fails
 
 def _merge_state_canary():
     """Lock the resolution rules for the files two overlapping publishes always collide on.

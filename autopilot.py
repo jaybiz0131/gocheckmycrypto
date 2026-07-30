@@ -149,12 +149,38 @@ def breaking_two_source_holds(headline, source_names):
     return "unconfirmed" not in (headline or "").lower()
 
 
+def is_coverage(d):
+    """False for anything that is not coverage of an event happening.
+
+    Two kinds get excluded, for the same reason: neither reports an event, so neither can
+    be the thing a later story is duplicating.
+
+    EDITIONS (wrap-) synthesise the day's own published stories.
+
+    PREVIEWS (the Week Ahead) announce that something WILL happen. This one was not
+    theoretical. The Week Ahead published 2026-07-27 listed "Wednesday, July 29: FOMC rate
+    decision", and same_event() correctly matched that against the real story when the Fed
+    actually decided. The FOMC story was ranked #1, VERIFIED against federalreserve.gov,
+    and APPROVED, then held as already-published, so the desk missed the week's biggest
+    event because it had told readers to expect it. Every event the Week Ahead flags was
+    pre-suppressed for the following five days: the better the preview, the worse the
+    blackout."""
+    if str(d.get("id", "")).startswith("wrap-"):
+        return False
+    if (str(d.get("id", "")).startswith("week-ahead-")
+            or (d.get("category") or "").strip().lower() == "week ahead"):
+        return False
+    return True
+
+
 def already_published(headline, key_fact="", within_days=5):
     """A follow-up on yesterday's event should update the existing article, not publish a
     new one. This holds any story that covers the SAME EVENT as one already published in the
     last `within_days` (event fingerprint, not just headline words), so the desk stops
     re-running the UK inquiry / Hut 8-IREN / Amazon-Japan story as fresh coverage. Returns
-    the matched (title, url) so the caller can log it, or None."""
+    the matched (title, url) so the caller can log it, or None.
+
+    Only real coverage can suppress; see is_coverage."""
     cutoff = (datetime.datetime.now(datetime.timezone.utc)
               - datetime.timedelta(days=within_days)).isoformat() if within_days else ""
     for p in glob.glob(os.path.join(HERE, "site", "content", "*.json")):
@@ -162,8 +188,8 @@ def already_published(headline, key_fact="", within_days=5):
             d = json.load(open(p, encoding="utf-8"))
         except Exception:
             continue
-        if str(d.get("id", "")).startswith("wrap-"):
-            continue  # editions are not stories
+        if not is_coverage(d):
+            continue
         if cutoff and (d.get("published_utc") or d.get("date", "") + "T00:00:00Z") < cutoff:
             continue
         if same_event(headline, key_fact, d.get("title", ""), d.get("key_fact", "")):
