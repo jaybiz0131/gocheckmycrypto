@@ -119,7 +119,7 @@ own death and their family's loss. Not at any rate.
 **Home.** Cold storage, in the self-custody-failure-mode section, which already says lost
 seeds destroy more crypto than exchange failures do.
 **Sourcing.** RUFADAA, adopted in most states, plus the gap it does not close: a fiduciary
-can be legally authorized and still unable to open a wallet, because authorisation is not
+can be legally authorized and still unable to open a wallet, because authorization is not
 a key. That distinction is the whole piece.
 
 ## 8. Who regulates what in US crypto (HOLD)

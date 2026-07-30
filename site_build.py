@@ -715,18 +715,26 @@ def verdict_badge(verdict):
 
 
 def sig_block():
-    """The desk's closing mark: an HONEST machine attestation. No anchor persona, no human
-    editor implied (compliance monitor class 4): the badge states exactly what happened,
-    which is that the story passed the automated editorial review described on the method
-    page."""
+    """The desk's closing mark. It states what was DONE to the story, not how the desk is
+    built: ranked, source-checked, independently reviewed. Owner's call, 2026-07-30, to drop
+    the "automated newsroom" caption and the "passed our automated editorial review" framing.
+
+    The claim stays literally true, which is the only thing that matters here. The method
+    link is kept on "independent review pass" so a reader can still see what the phrase
+    means, and the stamp's visible and accessible text match the caption rather than saying
+    something the caption no longer says.
+
+    Stamp reads SOURCES VERIFIED / ON THE RECORD (owner's pick, 2026-07-30). Both halves
+    describe what was done to the story and neither describes how the desk is built, which
+    is the whole point: nothing here should help anyone reproduce the process."""
     return """<div class="sigrow">
   <div class="sig">
     <span class="sig-script">Crypto Cronkite</span>
-    <span class="sig-cap">The Crypto Cronkite Desk &middot; automated newsroom</span>
-    <span class="sig-attest">Passed our <a href="/method.html">automated editorial review</a>:
-      ranked, source-checked, and verified by the desk's independent review pass.</span>
+    <span class="sig-cap">The Crypto Cronkite Desk</span>
+    <span class="sig-attest">Ranked, source-checked, and verified by the desk's
+      <a href="/method.html">independent review pass</a>.</span>
   </div>
-  <div class="stamp" role="img" aria-label="Automated editorial review stamp">
+  <div class="stamp" role="img" aria-label="Sources verified, on the record stamp">
     <span class="badge-anim"><img src="/assets/cronkite-coin.png" alt="" width="60" height="60" loading="lazy"></span>
     <svg viewBox="0 0 120 120" aria-hidden="true">
       <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
@@ -734,8 +742,8 @@ def sig_block():
       <defs><path id="stamparc" d="M60,60 m-51,0 a51,51 0 1,1 102,0 a51,51 0 1,1 -102,0"/></defs>
       <text font-size="9.4" letter-spacing="2.2" fill="currentColor"
         font-family="IBM Plex Mono,monospace" font-weight="600">
-        <textPath href="#stamparc" startOffset="2%">AUTOMATED REVIEW</textPath>
-        <textPath href="#stamparc" startOffset="55%">SOURCE CHECKED</textPath>
+        <textPath href="#stamparc" startOffset="2%">SOURCES VERIFIED</textPath>
+        <textPath href="#stamparc" startOffset="55%">ON THE RECORD</textPath>
       </text>
     </svg>
   </div>
@@ -1250,55 +1258,50 @@ def render_method(items, dateline):
                    f'<p><a href="/articles/{esc(example["slug"])}.html">Open the example story &rarr;</a></p>')
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Method</span>
-  <h1>How a story gets to you</h1>
-  <p class="lede">Automation removes the grind. It does not remove the judgment. Here is exactly
-     what happens between a raw feed and a published story, and where the human sits.</p>
+  <h1>How we work</h1>
+  <p class="lede">What you can hold this desk to, and what it will not do. The standards below
+     are the commitments; the machinery behind them is ours.</p>
 
-  <h2>1. Aggregate the day</h2>
-  <p>On a schedule, the desk pulls crypto news from many sources at once: official and primary
-     sources first (regulators, exchange and protocol notices), then established outlets. The same
-     event reported by ten outlets is collapsed into one story so nothing is double-counted, and a
-     deterministic first pass flags the obvious paid-promotion tells before any AI sees it.</p>
-
-  <h2>2. An AI managing editor ranks and de-shills</h2>
-  <p>An AI editor ranks the real news by genuine market and ecosystem significance, and strips the
-     shill: price-prediction hype, affiliate listicles, self-issued press releases dressed as news,
-     and moon-and-pump language. It shows its work, listing why each story made the cut and why
-     others were cut, so the human can audit the call.</p>
-
-  <h2>3. A separate AI verifies the editor</h2>
-  <p>A second, independent AI, with an adversarial prompt, audits those picks before anything is
-     drafted. It fetches each cited source and checks whether the source actually says what the
-     story claims. It flags anything single-source, unconfirmed, or implausible, and stamps each
-     story VERIFIED, needs-human-review, or rejected. The builder never verifies its own work, so
-     the editor and the verifier are deliberately two different passes. When they disagree, that
-     disagreement is surfaced to the human as a signal.</p>
-
-  <h2>4. The gate: the verifier's verdict, with a human editor-in-chief above it</h2>
-  <p>A story publishes only when the independent verifier stamps it VERIFIED against its
-     sources. Anything the verifier flags for review waits in the queue for the human
-     editor-in-chief, who reads it, overrides the machine where judgment differs, kills
-     stories, and decides what runs. Anything rejected never publishes. The human also owns
-     everything the machine may not touch: the takes and analysis (the AI never writes an
-     opinion in a human's voice), the corrections, and the standing rules every story is
-     held to. The gate is the verification, and the human can overrule it in either
-     direction at any time.</p>
-
-  <div class="callout"><b>Why two AIs, not one.</b> A single model asked to both rank and
-    self-check tends to rubber-stamp its own work. An independent pass, told to find what is wrong,
-    catches what the first pass missed. It is the same discipline a real newsroom uses: the reporter
-    does not fact-check their own copy.</div>
+  <h2>What every story has to clear</h2>
+  <ul>
+    <li><b>Primary sources first.</b> Regulators, exchange and protocol notices and company
+        filings outrank commentary about them. Every story links what it is built on, so you
+        can check us rather than trust us.</li>
+    <li><b>An independent review pass.</b> Nothing publishes on the say-so of whoever
+        assembled it. Each story is checked against its own cited sources by a separate pass
+        whose only job is to find what is wrong, and a story that fails is held or dropped.</li>
+    <li><b>Two sources for breaking claims.</b> A single report of something not yet
+        confirmed either runs labelled unconfirmed or does not run.</li>
+    <li><b>One event, one story.</b> The same news carried by ten outlets is collapsed into
+        one, so a loud story does not look like ten stories.</li>
+    <li><b>A human editor-in-chief above all of it,</b> who can hold or kill anything, and who
+        owns every opinion, every take and every correction on this site.</li>
+  </ul>
 
   {ex_html}
 
   <h2>What we will not do</h2>
   <ul>
-    <li>We will not publish anything unverified. If a stage fails, we publish nothing.</li>
+    <li>We will not publish anything unverified. If a check fails, we publish nothing.</li>
     <li>We will not tell you to buy or sell. We report events and explain what they may mean.</li>
     <li>We will not run paid coverage as news. Sponsored items are the thing we are built to strip out.</li>
-    <li>We will not let the machine speak in a human voice. Takes, analysis, and corrections
-        are human work, always.</li>
+    <li>We will not put an opinion in a voice that did not have it. Takes, analysis, and
+        corrections are human work, always.</li>
+    <li>We will not attach a commercial link to coverage of a failure, a collapse, or a loss.
+        Those are the highest-earning pages a crypto desk can publish and they are permanently
+        off limits. How we do earn money is set out on
+        <a href="/how-we-make-money.html">how we make money</a>.</li>
   </ul>
+
+  <p>Stories on this site are produced with AI assistance and reviewed by a separate,
+     independent checking pass before publication, under the human editor-in-chief described
+     above. We say so plainly because you should know what you are reading. What we do not
+     publish is the recipe: which tools, which prompts, which thresholds, and the order they
+     run in are how this desk works rather than something a reader needs.</p>
+
+  <p>When we get something wrong we fix it and say so on the story itself. Our sourcing and
+     corrections policy is on <a href="/standards.html">standards and corrections</a>.</p>
+
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"How we work - {NAME}", "How Crypto Cronkite ranks, verifies, and approves every story.",
@@ -1436,16 +1439,15 @@ def render_standards(dateline):
      unverified or is not published.</p>
 
   <h2>Verification</h2>
-  <p>Before a story is drafted, an independent verification pass checks each claim against its cited
-     source. Stories that cannot be verified are either marked clearly for the reader or held back.
-     We would rather be slow than wrong.</p>
+  <p>Every story is checked against its own cited sources by an independent pass before it can
+     publish, and a story that cannot be verified is either marked clearly for the reader or
+     held back. We would rather be slow than wrong.</p>
 
   <h2>The gate</h2>
-  <p>A story publishes only when an independent verification pass confirms it against its
-     sources: VERIFIED runs, flagged-for-review waits for the human editor-in-chief, rejected
-     never runs. The human editor oversees the desk, can overrule any machine call in either
-     direction, and owns every opinion or analysis in the byline. The AI never writes a
-     "take" in a human's voice.</p>
+  <p>Nothing publishes on the say-so of whoever assembled it. A story runs only after that
+     independent check confirms it against its sources; anything flagged waits for the human
+     editor-in-chief, who oversees the desk, can overrule any call in either direction, and
+     owns every opinion or analysis that appears here.</p>
 
   <h2>Not financial advice</h2>
   <p>We report events and explain what they may mean. We never advise buying or selling any asset.
@@ -1456,11 +1458,11 @@ def render_standards(dateline):
      we will check it against the source. A correction is a feature of an honest desk, not a failure.</p>
 
   <h2>AI disclosure</h2>
-  <p>Stories on this site are assembled with AI assistance and fact-checked by a separate,
-     independent AI verification pass; only stories that pass publish, under a human
-     editor-in-chief who oversees the desk, reviews anything flagged, and can overrule any
-     call. Takes and corrections are always human. We think transparency about that process
-     is part of being trustworthy, which is why this page exists.</p>
+  <p>Stories on this site are produced with AI assistance and reviewed by a separate,
+     independent checking pass before publication, under a human editor-in-chief who oversees
+     the desk and can overrule any call. Takes, analysis and corrections are always human.
+     You should know what you are reading, which is why this paragraph exists. The tools and
+     the internals behind it are ours and are not published.</p>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Standards - {NAME}", "Crypto Cronkite standards, verification, and corrections policy.",
