@@ -312,12 +312,58 @@ def _window_belt_canary():
     _check(cm.whale_flow_problems("whales moved off exchanges", {}) == [], fails,
            "whale window belt: fired with no board direction to compare against")
 
-    # both surfaces that co-render must share the belt, or the unbelted one reintroduces
+    # --- price belt: the third metric, added by audit rather than after a lost run ---
+    down = [{"symbol": "BTC", "chg_24h_pct": -0.34, "chg_7d_pct": -1.59, "chg_30d_pct": -2.97}]
+    mixed = [{"symbol": "BTC", "chg_24h_pct": 1.2, "chg_7d_pct": -3.0, "chg_30d_pct": -5.0}]
+    for label, assets, text in (
+            ("a day claim against a down day", down, "bitcoin rallied today"),
+            ("a week claim against a down week", mixed, "bitcoin gained over the week"),
+            ("an unscoped claim against an all-down tape", down,
+             "bitcoin climbed as buyers stepped in"),
+            ("an unscoped claim while the windows disagree", mixed, "bitcoin rose")):
+        _check(bool(cm.price_problems(text, assets)), fails,
+               f"price window belt: missed {label}")
+    for label, assets, text in (
+            ("an unscoped claim agreeing with every window", down,
+             "bitcoin slid as sellers pressed"),
+            ("a correct day claim", down, "bitcoin fell today"),
+            ("dual-grain phrasing naming both", mixed,
+             "bitcoin rose today even as it fell over the week"),
+            ("no bitcoin claim", down, "ether led the majors higher")):
+        _check(not cm.price_problems(text, assets), fails,
+               f"price window belt: false positive on {label}")
+    _check(cm.price_problems("bitcoin rallied today", []) == [], fails,
+           "price window belt: fired with no asset numbers to compare against")
+    # a window with no number must not be judged; silence beats a guess in a publish gate
+    _check(not cm.price_problems("bitcoin gained over the week",
+                                 [{"symbol": "BTC", "chg_24h_pct": -1.0}]), fails,
+           "price window belt: judged a week claim with no week number")
+
+    # --- THE INVARIANT, and the reason this canary exists ---
+    # Every metric the consistency gate can block a publish on must be belted upstream, or
+    # be listed as a deliberate exemption with a reason. The gate is the last step before
+    # the push and has no retry, so an unbelted metric is a live run waiting to be thrown
+    # away: that is exactly how ETF flows, then whale flows, each cost a publish. Adding a
+    # metric to the gate without a belt now fails here instead of in production.
+    import consistency_gate as cg
+    BELTED = {"spot ETF flows": cm.etf_flow_problems,
+              "whale exchange flows": cm.whale_flow_problems,
+              "bitcoin price": cm.price_problems}
+    for metric in cg.METRICS:
+        _check(metric in BELTED or metric in cm.UNBELTED_METRICS, fails,
+               f"window belt: the gate can block on '{metric}' and nothing belts it "
+               f"upstream; add a belt or an explicit UNBELTED_METRICS reason")
+    for metric in cm.UNBELTED_METRICS:
+        _check(metric in cg.METRICS, fails,
+               f"window belt: '{metric}' is exempted but the gate no longer checks it; "
+               f"drop the stale exemption")
+
+    # both surfaces that co-render must share the belts, or the unbelted one reintroduces
     # the failure. wrap.py calls into chartmaster for exactly this reason.
     import inspect
     import wrap
     src = inspect.getsource(wrap)
-    for fn in ("etf_flow_problems", "whale_flow_problems"):
+    for fn in ("etf_flow_problems", "whale_flow_problems", "price_problems"):
         _check(fn in src, fails,
                f"window belt: the edition no longer calls {fn}; it is a gate surface too")
     return fails

@@ -67,6 +67,26 @@ def _etf_digest(v):
             "cumulative_usd_m": v.get("cumulative_usd_m")}
 
 
+def _window_changes(a):
+    """Percent change at the week and month windows, derived from the daily spark series.
+
+    The digest used to ship chg_24h_pct and nothing else per window, while the prompt asks
+    for regime and momentum, which are week-and-month ideas. The model was being asked to
+    describe windows it had no number for, and inferring them from spark_high/spark_low.
+    That is a standing invitation to write an unscoped or mis-scoped direction claim, which
+    is precisely what the consistency gate blocks the publish over.
+
+    So this is half of the whale/ETF fix rather than a separate feature: the belts catch a
+    bad window claim, and these numbers remove the reason to make one. They also give the
+    price belt something to check against."""
+    out = {}
+    s = [v for v in (a.get("spark") or []) if isinstance(v, (int, float))]
+    for key, back in (("chg_7d_pct", 7), ("chg_30d_pct", 30)):
+        if len(s) > back and s[-1 - back]:
+            out[key] = round((s[-1] - s[-1 - back]) / s[-1 - back] * 100, 2)
+    return out
+
+
 def digest():
     """One compact, factual document: every number the boards publish, nothing else.
     This is the model's entire world, so completeness here IS the quality of the read."""
@@ -81,14 +101,15 @@ def digest():
         "data_date": pulse.get("generated") or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "fear_greed": {"value": fng.get("value"), "label": fng.get("label"),
                        "range_30d": [min(hist30), max(hist30)] if hist30 else None},
-        "assets": [{k: a.get(k) for k in
-                    ("symbol", "price", "chg_24h_pct", "rsi14", "macd_above_signal",
-                     "above_sma200", "golden_cross", "pct_from_high_12m",
-                     # high_12m_usd travels WITH pct_from_high_12m, always. spark_high is
-                     # the 90-day high; pairing it with the 12-month percentage is the
-                     # mistake the 2026-07-28 edition made. See market_pulse.py.
-                     "high_12m_usd", "vol30_pct",
-                     "spark_high", "spark_low")} for a in pulse.get("assets", [])],
+        "assets": [dict({k: a.get(k) for k in
+                         ("symbol", "price", "chg_24h_pct", "rsi14", "macd_above_signal",
+                          "above_sma200", "golden_cross", "pct_from_high_12m",
+                          # high_12m_usd travels WITH pct_from_high_12m, always. spark_high
+                          # is the 90-day high; pairing it with the 12-month percentage is
+                          # the mistake the 2026-07-28 edition made. See market_pulse.py.
+                          "high_12m_usd", "vol30_pct",
+                          "spark_high", "spark_low")}, **_window_changes(a))
+                   for a in pulse.get("assets", [])],
         "leverage": [{k: a.get(k) for k in
                       ("symbol", "venue", "funding_8h_pct", "funding_annual_pct",
                        "open_interest_usd", "long_short_ratio", "liquidations")}
@@ -245,7 +266,75 @@ def _whale_flow_belt(text, whale):
         raise llmlib.LLMError(p)
 
 
-def validate(obj, etf=None, whale=None):
+def price_problems(text, assets, who="chartmaster"):
+    """Window belt for bitcoin price direction, the third of the gate's four metrics.
+
+    Added by audit rather than after another lost run. The gate can block a publish on any
+    of its metrics, and after whale flows two were still unbelted. This one is the higher
+    risk of the two by a distance: the Chart Master writes about bitcoin's direction in
+    essentially every read, and "bitcoin fell" beside "bitcoin rallied" at two different
+    windows is the exact shape that has now cost three publishes on other metrics.
+
+    Windows come from _window_changes plus the 24-hour print, so the belt checks the same
+    numbers the model was handed. A window with no number is not judged: silence beats a
+    guess in something that can block publishing."""
+    import consistency_gate as cg
+    problems = []
+    btc = next((a for a in (assets or []) if str(a.get("symbol", "")).upper() == "BTC"), None)
+    if not btc:
+        return problems
+    signs = {}
+    for scope, key in (("day", "chg_24h_pct"), ("week", "chg_7d_pct"), ("month", "chg_30d_pct")):
+        v = btc.get(key)
+        if isinstance(v, (int, float)):
+            signs[scope] = _sign(v)
+    if not signs:
+        return problems
+    want = {1: "pos", -1: "neg"}
+    for scope, dirs in cg.directions(text, cg.METRICS["bitcoin price"]).items():
+        if len(dirs) != 1:
+            continue  # dual-grain phrasing names both directions; nothing to contradict
+        d = next(iter(dirs))
+        if scope in signs:
+            if signs[scope] and d != want[signs[scope]]:
+                problems.append(
+                    f"{who}: bitcoin price claim says {d} at the {scope} window but the "
+                    f"digest's {scope} number ({btc.get({'day': 'chg_24h_pct', 'week': 'chg_7d_pct', 'month': 'chg_30d_pct'}[scope])}%) "
+                    f"points the other way; state what the data says")
+        elif scope == "":
+            ok = {want[s] for s in signs.values() if s}
+            if ok and (len(ok) > 1 or d not in ok):
+                named = ", ".join(f"{k} {btc.get({'day': 'chg_24h_pct', 'week': 'chg_7d_pct', 'month': 'chg_30d_pct'}[k])}%"
+                                  for k in ("day", "week", "month") if k in signs)
+                problems.append(
+                    f"{who}: unscoped bitcoin price direction while the windows disagree "
+                    f"({named}); name the window")
+    return problems
+
+
+def _price_belt(text, assets):
+    """Raising wrapper, same contract as the other two."""
+    for p in price_problems(text, assets):
+        raise llmlib.LLMError(p)
+
+
+# Bitcoin dominance is the gate's fourth metric and is deliberately UNBELTED, because
+# pulse.json publishes btc_dominance_pct as a single live reading with no history, so there
+# is no week or month number to check a direction claim against. A belt that guessed would
+# be worse than none: it would raise inside the retry ladder on claims that may be true.
+#
+# It is also the lowest-risk of the four. The whale board and the ETF digest each assert a
+# direction of their own, so those metrics collide chart-master against a live board every
+# run; nothing on the page asserts a dominance direction except prose, so a collision needs
+# a story and the Chart Master to disagree, which is rare.
+#
+# To belt it, market_pulse.py would need to keep a dominance history the way it already
+# keeps 90 days of fear-and-greed. The canary below asserts this exemption stays explicit,
+# so adding history without adding the belt cannot pass silently.
+UNBELTED_METRICS = {"bitcoin dominance": "pulse.json carries no dominance history"}
+
+
+def validate(obj, etf=None, whale=None, assets=None):
     if not isinstance(obj, dict):
         raise llmlib.LLMError("chartmaster: output is not an object")
     headline = _dedash((obj.get("headline") or "").strip())
@@ -264,6 +353,8 @@ def validate(obj, etf=None, whale=None):
         _etf_flow_belt(text.lower(), etf)
     if whale:
         _whale_flow_belt(text.lower(), whale)
+    if assets:
+        _price_belt(text.lower(), assets)
     return {"headline": headline, "paragraphs": paras}
 
 
@@ -276,7 +367,8 @@ def run():
             + json.dumps(data, indent=1))
     obj = client.call_json("chartmaster", system, user,
                            validate=lambda o: validate(o, data.get("etf_flows"),
-                                                       data.get("whale_flows")))
+                                                       data.get("whale_flows"),
+                                                       data.get("assets")))
     out = {
         "date": data["data_date"],
         "headline": obj["headline"],

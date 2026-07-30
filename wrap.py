@@ -165,6 +165,16 @@ def belts(article_body, dek, bottom_line, boards=None):
                                                         who="edition")
         except Exception as e:
             common.gh("warning", f"wrap: whale window belt could not run ({e})")
+    # Bitcoin price windows, same contract. The edition talks about bitcoin's direction more
+    # than it talks about anything else, so of the three belts this is the one most likely
+    # to catch something here.
+    if boards and boards.get("assets"):
+        try:
+            import chartmaster
+            problems += chartmaster.price_problems(text.lower(), boards["assets"],
+                                                   who="edition")
+        except Exception as e:
+            common.gh("warning", f"wrap: price window belt could not run ({e})")
     if "—" in text or "–" in text:
         problems.append("em/en dash in the edition")
     low = REPORTING_VOCAB.sub(" ", text.lower())
