@@ -2695,5 +2695,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-30",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c002",
+    "headline": "28 Global Banks Successfully Test Tokenized Payments on Blockchain",
+    "category": "balance",
+    "reasons": [
+     "Brief's bear_case explicitly states 'No skeptical voices, criticisms, or risks are present in the source text' and lists open questions including adoption barriers and regulatory hurdles. Draft contains no counterbalance, risk discussion, or skeptical framing. The final paragraph acknowledges source material does not quantify cost savings, but this is weak\u2014it does not surface the material risk that adoption may never occur or that infrastructure investment may not justify the speed gain. A story that presents only institutional wins without acknowledging documented adoption risks reads as promotional material, not reporting.",
+     "The framing 'Major banks moving real money on blockchain infrastructure' and 'institutional adoption of tokenization...transitioning from proof-of-concept to operational deployment' assumes forward motion that the brief itself marks as unconfirmed (the open questions ask 'what is the timeline...for moving from pilot to production'). The draft should mark this as aspirational, not accomplished."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Institutional Traders Now Dominate Crypto Spot Markets, Driving Lower Volatility and Concentrated Liquidity",
+    "category": "balance",
+    "reasons": [
+     "The bear_case item 'Wintermute's data reflects only activity on its own OTC desk, not the full crypto market; institutional share may differ significantly across other venues' is mentioned only obliquely in the final paragraph ('The data comes from Wintermute's OTC desk specifically, meaning institutional share may differ across other venues and exchange-based spot markets'), but the draft opens with an unqualified claim that 'Institutions accounted for a record 72% of spot trading volume on Wintermute's OTC desk' and then proceeds to frame this as a market-wide structural shift without consistently surfacing the venue-specificity caveat. The bear_case warning that 'retail is largely absent and preoccupied with equities in a bear market; claimed structural shift may not persist if retail returns during a bull market' appears nowhere in the draft. The framing treats Wintermute data as evidence of a fundamental market reordering rather than a single-venue observation, underselling the uncertainty.",
+     "The bottom_line projects forward as though the institutional share finding is durable ('If institutions sustain 70%-plus market share, the era of broad-based altcoin rallies may be over'), but the brief's bear_case explicitly flags that the shift 'may not persist if retail returns during a bull market.' The bottom_line should surface this conditional risk more directly."
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "BitMine Acquires $73 Million in ETH, Nearing 5% of Circulating Supply Target",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine valued each ETH at $1,800 per coin in its holdings update,' but the brief data_point only says BitMine 'valued each ETH at $1,800 per coin in its holdings update' and marks it 'announced-not-verified.' The draft presents this valuation as a factual statement without flagging that it is unverified. A current ETH price significantly higher than $1,800 (the brief timestamp is 2026-07-30, and the draft mentions ETH declined from a 12-month high of $4,829.23) makes the $1,800 figure clearly a historical or stated valuation, not current. The draft should either contextualize this valuation as stated-but-dated or flag its unverified status.",
+     "The draft claims 'The $73 million figure and the 4.8%-of-supply calculation were reported consistently across several independent market trackers, per The Defiant,' but the brief data_points for both the $73 million acquisition and the 4.8% supply figure are marked 'announced-not-verified,' not 'reported' by independent trackers. The draft's language ('reported consistently across several independent market trackers') overstates the confidence level. The brief's own bear_case notes: 'the source note that the $73 million figure and the 4.8%-of-supply calculation were reported consistently across several independent market trackers but that the company's own post did not break out the weekly purchase amount separately.' The draft quotes this selectively and buries the lack of company disclosure, creating a false impression of independent verification when the brief itself flags this as a confidence gap."
+    ]
+   }
+  ]
  }
 ]

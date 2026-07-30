@@ -1,0 +1,31 @@
+{
+  "id": "c128",
+  "slug": "us-treasury-sanctions-iranian-firms-using-bitcoin-for-maritime-extortion",
+  "kind": "brief",
+  "title": "US Treasury Sanctions Iranian Firms Using Bitcoin for Maritime Extortion",
+  "dek": "The US Treasury designated two Iranian firms, HormuzSafe Marine Services Authority and Persian Gulf Marine Insurance Company, that operate a coercive maritime insurance scheme accepting Bitcoin and other digital assets. The scheme forces ships transiting the Strait of Hormuz to purchase fake insurance that protects against risks Iran itself creates, with proceeds funding IRGC operations.",
+  "date": "2026-07-30",
+  "published_utc": "2026-07-30T18:40:01Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "US Treasury sanctioned two Iranian firms accepting Bitcoin to fund IRGC operations via a coercive maritime insurance extortion scheme.",
+  "bottom_line": "Watch whether other state actors adopt similar blockchain-based payment schemes for sanctions evasion, and whether Treasury moves against additional Iranian or hostile-state-backed entities using digital assets. The open question is whether crypto's evasion utility is materially constrained by regulatory action, or merely slowed by it.",
+  "human_take": "",
+  "body": [
+    "The US Treasury has moved against a scheme in which Iran forces commercial shipping to buy fake insurance and accept Bitcoin as payment, funneling proceeds to the Islamic Revolutionary Guard Corps. Two firms were designated on July 30: HormuzSafe Marine Services Authority, developed by Iran's Ministry of Economy, and Persian Gulf Marine Insurance Company, established by the country's insurance regulator in coordination with an IRGC-backed maritime authority.",
+    "The mechanism is straightforward coercion. HormuzSafe advertises itself as offering digital insurance, traffic control, security and emergency response to vessels transiting the Strait of Hormuz. In practice, ships are forced to purchase coverage protecting them against risks that Iran itself creates, such as seizure. HormuzSafe accepts Bitcoin and other unspecified digital assets as payment, part of the regime's effort to bypass Western financial isolation.",
+    "Persian Gulf Marine Insurance Company brokers policies approved by the Persian Gulf Strait Authority, an IRGC-backed body that the Treasury had already designated on May 27. Both firms now fall under Executive Order 13902, which targets Iran's financial, petroleum and petrochemical sectors. All property belonging to the designated firms within US jurisdiction is blocked; non-US persons engaging with them face secondary sanctions.",
+    "The Treasury's action ties the insurance scheme to broader Iranian revenue streams. In a statement, Treasury Secretary Scott Bessent said: \"With its economy in freefall and inflation in the triple digits, the regime is desperate for cash. The United States will not allow Iran to hold global commerce hostage or use international shipping to finance the IRGC's terrorism, aggression, and repression.\" The action references Operation Epic Fury, characterized as having decimated other Iranian revenue sources, and connects the designation to National Security Presidential Memorandum 2, the administration's maximum-pressure directive on Iran.",
+    "The Treasury also designated eight shipping companies based in China, Hong Kong and the Marshall Islands in the same action, and identified eight tankers as blocked property for their role in moving Iranian crude and petroleum products, mostly to China. The move represents part of a broader campaign: Treasury has sanctioned more than 100 vessels tied to Iran's shadow fleet since the start of 2026.",
+    "The designation is notable for its explicit targeting of cryptocurrency acceptance as a sanctions-evasion mechanism. The scheme functioned by accepting digital assets that operate outside traditional banking channels, allowing the regime to receive payments that are harder to trace through correspondent banking networks. That the Treasury moved against it suggests regulators view state-actor use of crypto for sanctions evasion as a material enough threat to warrant enforcement action."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/regulation/us-sanctions-iranian-marine-insurers-taking-bitcoin-for-strait-of-hormuz-passage",
+      "url": "https://thedefiant.io/converge/regulation/us-sanctions-iranian-marine-insurers-taking-bitcoin-for-strait-of-hormuz-passage"
+    }
+  ],
+  "update_of": "crypto-little-changed-as-u-s-launches-fresh-iran-strikes"
+}
