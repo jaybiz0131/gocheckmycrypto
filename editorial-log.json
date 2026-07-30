@@ -2663,5 +2663,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-30",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c002",
+    "headline": "CME flags unresolved tax treatment of perpetual futures amid regulatory litigation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Rustin Diehl is 'Emeritus Fellow at Georgetown Law' but the brief identifies him as 'Allegis Law, Emeritus Fellow at Georgetown Law.' The draft omits his primary affiliation (Allegis Law), which is a material attribution gap that misrepresents his professional standing.",
+     "The draft quotes Gottlieb as predicting 'there's going to be a lot of litigation about it,' with courts now empowered to 'ignore the CFTC and read the statute for themselves' if ambiguity exists. The brief's data_point attributes this as Gottlieb predicting 'there's going to be a lot of litigation about it,' with the Supreme Court having 'told courts that if there is ambiguity in the statute, they can ignore the CFTC and read the statute for themselves.' The draft conflates Gottlieb's prediction with an assertion about what the Supreme Court 'told' courts to do, which is a material reframing that adds interpretive weight not present in the source attribution."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "Ostium blames off-chain breach for $24 million exploit, rules out smart contract flaw",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Ostium has attributed a $24 million exploit to an off-chain operational failure rather than a vulnerability in its smart contracts, according to The Block' but the brief contains only three data points with minimal detail. The draft then elaborates extensively on what 'off-chain breach' means\u2014'private keys, API credentials, centralized databases, or operational systems'\u2014and speculates about mechanisms ('custodial failure, a configuration error, or a compromise of administrative access') that do not appear in the brief's data_points. This constitutes smuggled analysis/interpretation beyond what the source brief supports.",
+     "The draft's entire second and third paragraphs pose interpretive questions ('However, Ostium has not specified which of these occurred...', 'The separation of trader collateral from the $24 million loss raises a structural question...') that belong in open_questions, not in the draft itself. The brief marks this as 'thin: true' with only 3 data points and 0 source_chars, indicating the source material is minimal. The draft inflates thin source material into speculative forensics that exceed the brief."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Institutional crypto trading hits a record 72%, narrowing volatility and altcoin participation",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case identifies three specific risks: (1) concentration excluding smaller altcoins from capital and reducing market diversity, (2) lower volatility constraining retail trading profits during future rallies, and (3) broad-based altcoin rallies becoming less likely. The draft mentions the third point directly but fails to surface the first two bear-case items. The draft does not discuss how concentration might harm smaller altcoin projects or how lower volatility (45% vs 70%) could reduce profitability for retail traders during future rallies. A brief with explicit bear_case requires proportional risk coverage in the draft; this one reads as a one-directional narrative about institutional efficiency rather than a balanced assessment of structural tradeoffs."
+    ]
+   }
+  ]
  }
 ]
