@@ -154,6 +154,17 @@ def belts(article_body, dek, bottom_line, boards=None):
                                                       who="edition")
         except Exception as e:
             common.gh("warning", f"wrap: ETF window belt could not run ({e})")
+    # Whale flow windows, for the same reason and on the same terms. The edition is a gate
+    # surface too (its Bottom Line co-renders on the homepage), so an unscoped whale
+    # direction here blocks the publish exactly as one in the Chart Master does. Belting
+    # both means the retry ladder catches it instead of the gate, which has no retry.
+    if boards and boards.get("whale_flows"):
+        try:
+            import chartmaster
+            problems += chartmaster.whale_flow_problems(text.lower(), boards["whale_flows"],
+                                                        who="edition")
+        except Exception as e:
+            common.gh("warning", f"wrap: whale window belt could not run ({e})")
     if "—" in text or "–" in text:
         problems.append("em/en dash in the edition")
     low = REPORTING_VOCAB.sub(" ", text.lower())

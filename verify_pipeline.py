@@ -128,6 +128,7 @@ def layer1_canary():
 
     # whale-flow classification canary (offline, deterministic over the sample transactions)
     fails.extend(_whale_flow_canary())
+    fails.extend(_window_belt_canary())
     fails.extend(_consistency_gate_canary())
     fails.extend(_merge_state_canary())
 
@@ -258,6 +259,68 @@ def _consistency_gate_canary():
            "consistency gate: same-day contradiction with a live board was not caught")
     return fails
 
+
+def _window_belt_canary():
+    """Lock the window belts, offline.
+
+    WHY. The consistency gate is the LAST step before the publish and it has no retry, so
+    a single loose sentence in the Chart Master or the edition discards a whole run of
+    verified stories. The belts exist so that failure is caught earlier, inside the retry
+    ladder, where the model gets another attempt and the stories still ship. ETF flows got
+    a belt after it cost a publish; whale flows had the identical exposure, no belt, and
+    cost run 30577704932 the same way on 2026-07-30.
+
+    These cases pin the two properties that make a belt worth having: it fires on the
+    phrasing the gate would have blocked, and it stays silent on phrasing the gate would
+    have passed. A belt that fires on harmless prose burns the retry ladder and ends in
+    the same place, with the previous read standing and nothing gained."""
+    fails = []
+    import chartmaster as cm
+
+    day = {"direction": "onto exchanges", "window_hours": 24}
+    multi = {"direction": "off exchanges", "window_hours": 48}
+
+    # fires: exactly the shapes the gate treats as a collision
+    for label, board, text in (
+            ("unscoped contradiction (the 2026-07-30 failure)", day,
+             "whales continued moving coins off exchanges into cold storage"),
+            ("same-window contradiction", day,
+             "over the last 24 hours whales moved off exchanges"),
+            ("multiday board, multiday contradiction", multi,
+             "over the last 2 days whales moved onto exchanges")):
+        _check(bool(cm.whale_flow_problems(text, board)), fails,
+               f"whale window belt: missed {label}")
+
+    # silent: the gate would pass these, so the belt must not spend a retry on them
+    for label, board, text in (
+            ("agreement, unscoped", day,
+             "whales pushed coins onto exchanges, adding sell pressure"),
+            ("agreement, scoped", day,
+             "in the last 24 hours whales moved onto exchanges"),
+            ("a different window, both true at once", day,
+             "whales have moved off exchanges over the last 7 days"),
+            ("dual-grain phrasing naming both directions", day,
+             "whales moved onto exchanges in the last 24 hours even as the 7 day trend "
+             "stayed off exchanges into self-custody"),
+            ("no whale claim", day, "bitcoin held its range and etf flows stayed positive"),
+            ("day-scoped claim against a multiday board", multi,
+             "in the last 24 hours whales moved onto exchanges")):
+        _check(not cm.whale_flow_problems(text, board), fails,
+               f"whale window belt: false positive on {label}")
+
+    # no board direction means nothing to check against, never a blocked publish
+    _check(cm.whale_flow_problems("whales moved off exchanges", {}) == [], fails,
+           "whale window belt: fired with no board direction to compare against")
+
+    # both surfaces that co-render must share the belt, or the unbelted one reintroduces
+    # the failure. wrap.py calls into chartmaster for exactly this reason.
+    import inspect
+    import wrap
+    src = inspect.getsource(wrap)
+    for fn in ("etf_flow_problems", "whale_flow_problems"):
+        _check(fn in src, fails,
+               f"window belt: the edition no longer calls {fn}; it is a gate surface too")
+    return fails
 
 def _whale_flow_canary():
     """Lock the follow-the-money classification: stablecoins are scored separately from the

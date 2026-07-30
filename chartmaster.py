@@ -188,7 +188,64 @@ def _etf_flow_belt(text, etf):
         raise llmlib.LLMError(p)
 
 
-def validate(obj, etf=None):
+# The whale board states its direction as prose, so map it onto the gate's own lexicon
+# rather than inventing a second vocabulary for the same idea.
+_BOARD_DIRECTION = {"onto exchanges": "neg", "off exchanges": "pos"}
+
+
+def whale_flow_problems(text, whale, who="chartmaster"):
+    """The same belt as ETF flows, for whale exchange flows. Returns a list of problems.
+
+    WHY THIS EXISTS. ETF flows got a window belt because model drift kept writing a
+    direction claim without naming the window, and the consistency gate then, correctly,
+    blocked the whole publish. Whale flows had the identical exposure and no belt, so the
+    identical thing happened on run 30577704932 (2026-07-30 20:06Z): the Chart Master
+    wrote an unscoped whale direction while the board reported the opposite over 24 hours,
+    the gate fired, and the run's verified stories went nowhere.
+
+    The difference between the two failures is only where they were caught. An unbelted
+    violation reaches the gate, which has no retry and is the last step before publishing,
+    so one loose sentence discards a whole run. A belted violation raises inside the retry
+    ladder, the model gets another attempt, and if it never complies the previous read
+    stands and the stories still publish. Same rule, survivable failure.
+
+    Only DISAGREEMENT is a problem. An unscoped claim that happens to match the board
+    cannot collide (the gate compares directions before windows), so flagging it would
+    burn retries on prose that was never going to fail. This mirrors the ETF belt, which
+    likewise only flags an unscoped claim when the numbers behind it disagree."""
+    import consistency_gate as cg
+    problems = []
+    board = _BOARD_DIRECTION.get(str((whale or {}).get("direction") or "").strip().lower())
+    if not board:
+        return problems
+    hours = (whale or {}).get("window_hours") or 24
+    board_scope = "day" if hours <= 24 else "multiday"
+    said = str(whale.get("direction")).strip().lower()
+    window_text = ("the last 24 hours" if hours <= 24
+                   else f"the last {round(hours / 24)} days")
+    for scope, dirs in cg.directions(text, cg.METRICS["whale exchange flows"]).items():
+        if len(dirs) != 1:
+            continue  # dual-grain phrasing names both directions; nothing to contradict
+        if next(iter(dirs)) == board:
+            continue
+        if scope == "":
+            problems.append(
+                f"{who}: unscoped whale flow direction while the board reports {said} "
+                f"over {window_text}; name the window or state what the board says")
+        elif scope == board_scope:
+            problems.append(
+                f"{who}: whale flow claim contradicts the board, which reports {said} "
+                f"over {window_text}; state what the data says")
+    return problems
+
+
+def _whale_flow_belt(text, whale):
+    """Raising wrapper, same contract as _etf_flow_belt."""
+    for p in whale_flow_problems(text, whale):
+        raise llmlib.LLMError(p)
+
+
+def validate(obj, etf=None, whale=None):
     if not isinstance(obj, dict):
         raise llmlib.LLMError("chartmaster: output is not an object")
     headline = _dedash((obj.get("headline") or "").strip())
@@ -205,6 +262,8 @@ def validate(obj, etf=None):
                               "refusing to publish it")
     if etf:
         _etf_flow_belt(text.lower(), etf)
+    if whale:
+        _whale_flow_belt(text.lower(), whale)
     return {"headline": headline, "paragraphs": paras}
 
 
@@ -216,7 +275,8 @@ def run():
     user = ("Read today's tape and write the Chart Master's read.\n\n"
             + json.dumps(data, indent=1))
     obj = client.call_json("chartmaster", system, user,
-                           validate=lambda o: validate(o, data.get("etf_flows")))
+                           validate=lambda o: validate(o, data.get("etf_flows"),
+                                                       data.get("whale_flows")))
     out = {
         "date": data["data_date"],
         "headline": obj["headline"],
