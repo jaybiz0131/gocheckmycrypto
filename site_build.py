@@ -44,7 +44,9 @@ DESK_LINE = "The honest voice in a shill-filled space."   # secondary descriptor
 FAMILY = "GoCheckMyCrypto"                     # family/domain tie: gocheckmycrypto.com
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
 ORIGIN = "https://gocheckmycrypto.com"         # canonical origin for canonical/og:url/sitemap
-OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, committed at site/assets/og-image.png
+SHORT_NAME = "GoCheckMyCrypto"                # home-screen label (manifest)
+THEME_COLOR = "#B42318"                       # browser chrome + manifest
+OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, generated at build time
 CF_ANALYTICS_TOKEN = "ee5216c8411a41d78c7c4f679406ef4b"  # Cloudflare Web Analytics site token; empty renders no beacon
 DESC = ("Crypto Cronkite is an independent crypto news desk built with one intention: get the "
         "stories right and keep the data honest. Plus the Whale Watch and Market Pulse data "
@@ -669,6 +671,8 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta name="twitter:image" content="{og_image or OG_IMAGE}">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="{THEME_COLOR}">
 {fonts}
 <link rel="stylesheet" href="/assets/site.css">
 </head>
@@ -3250,14 +3254,37 @@ def build():
     w("bottom-line.html", render_bottom_line_history(items, dateline))
     w("feed.xml", render_feed(items))
 
-    # the iOS home-screen icon lives at the site root (family convention)
-    ati_src = os.path.join(ASSETS, "apple-touch-icon.png")
-    if os.path.exists(ati_src):
-        open(os.path.join(PUBLISH, "apple-touch-icon.png"), "wb").write(open(ati_src, "rb").read())
-    # the social card lives at the site root (family convention: /og-image.png)
-    og_src = os.path.join(ASSETS, "og-image.png")
-    if os.path.exists(og_src):
-        open(os.path.join(PUBLISH, "og-image.png"), "wb").write(open(og_src, "rb").read())
+    # The site card and the home-screen icon are GENERATED here, not copied from assets.
+    # They used to be copied, and all three desks shipped the same committed file: News and
+    # Sports were serving the Crypto card, so the one surface a stranger sees carried the
+    # wrong brand. Generating removes the class of bug rather than the instance.
+    # Fail-open, and fall back to the committed asset, because a missing og:image is worse
+    # than a stale one.
+    _share_generated = False
+    try:
+        import sys as _sys
+        _sys.path.insert(0, os.path.join(HERE, "scripts"))
+        import og_render
+        og_render.render_site_card(os.path.join(PUBLISH, "og-image.png"))
+        og_render.render_icon(os.path.join(PUBLISH, "apple-touch-icon.png"), 180)
+        _share_generated = True
+    except Exception as e:
+        print(f"::warning::share surfaces not generated, falling back to committed: {e}")
+    if not _share_generated:
+        for _name in ("apple-touch-icon.png", "og-image.png"):
+            _src = os.path.join(ASSETS, _name)
+            if os.path.exists(_src):
+                open(os.path.join(PUBLISH, _name), "wb").write(open(_src, "rb").read())
+    # A web app manifest, so saving to a home screen picks up the desk's own name and colour
+    # instead of the page title and a browser default.
+    with open(os.path.join(PUBLISH, "site.webmanifest"), "w", encoding="utf-8") as _mf:
+        # FAMILY, not NAME. NAME is the byline persona on this desk (Crypto Cronkite), and
+        # a home-screen label is a brand surface: the wordmark is the hero there too.
+        json.dump({"name": FAMILY, "short_name": SHORT_NAME, "start_url": "/",
+                   "display": "standalone", "background_color": "#FBFAF6",
+                   "theme_color": THEME_COLOR,
+                   "icons": [{"src": "/apple-touch-icon.png", "sizes": "180x180",
+                              "type": "image/png"}]}, _mf, ensure_ascii=False, indent=1)
     # the square publisher logo at the site root (schema publisher.logo, Publisher Center):
     # 512px+ square, referenced by NewsArticle JSON-LD and available to aggregators
     for lg in ("publisher-logo-512.png", "publisher-logo-1024.png"):
