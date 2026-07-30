@@ -2803,5 +2803,40 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-30",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c124",
+    "headline": "BitMine adds $73M in ETH, nearing 5% of supply threshold",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'BitMine Immersion Technologies, the NYSE-listed company chaired by Fundstrat's Tom Lee' but the brief data_point says confidence is 'reported' for Tom Lee being chair and 'reported' for NYSE ticker BMNR. The draft presents this as established fact without qualification, but the company name 'BitMine Immersion Technologies' does not appear in any brief data_point and ticker symbol verification is marked 'reported' not 'confirmed'\u2014the company identity itself may need inline attribution or confidence caveat.",
+     "Draft writes 'The $73 million figure and 4.8%-of-supply calculation were reported consistently across several independent market trackers monitoring BitMine's disclosure, per The Defiant' but this claim appears in the brief as a single data_point attributed only to The Defiant (not multiple independent trackers), with confidence 'reported'. The phrase 'several independent market trackers' is smuggled; the brief says The Defiant reported it, not that multiple trackers independently verified it.",
+     "All substantive holdings figures (42,197 ETH, 5,742,237 ETH, 206 BTC, $180M Beast stake, $71M Eightco stake, $527M cash, $1,800/coin valuation) carry confidence label 'announced-not-verified' in the brief, but the draft presents them as established facts without any hedging language. A claim marked 'announced-not-verified' must read that way in prose."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Senate sends revised Clarity Act ethics language to White House",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin': true with 'source_chars': 0, indicating the source provided no usable content. The draft contains multiple claims not present in the data_points: 'ethics language within the bill has emerged as a sticking point' (appears in brief but not in data_points), 'two revisions have been submitted and rejected' (never appears in brief), 'Previous compromise attempts have failed, per The Block's reporting' (brief mentions 'trying again' but not explicit failure of prior attempts in data_points), and 'The Senate's decision to send a second revision' (assumes prior revision; brief only mentions current revision).",
+     "Draft states 'The nature of the specific ethical provisions in dispute is not publicly detailed' and 'the fact that two revisions have been submitted and rejected suggests'\u2014these are editorial inferences, not data from the brief. The brief contains zero data_points about content, number of revisions, or rejection details.",
+     "The open_questions section in the draft ('What specific ethics provisions triggered White House objections? Does the revised language materially change the bill's substance?') is presented as reportorial summary but these are the exact open_questions from the brief, not findings. This conflates the brief's unknowns with the draft's claimed knowledge."
+    ]
+   },
+   {
+    "id": "c143",
+    "headline": "Aviva Investors launches tokenized fund after Central Bank of Ireland approval",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Central Bank of Ireland approved a tokenized share class for a regulated USD liquidity fund' as fact, but the brief marks this data point with confidence 'announced-not-verified'. The draft must signal that this approval has been announced but not independently verified, not present it as settled fact.",
+     "The opening sentence 'Aviva Investors, a regulated asset manager, launched a tokenized share class...' presents the launch as confirmed when the core brief claim and lead data point only confirm the announcement/approval stage. The phrasing should reflect the unconfirmed status."
+    ]
+   }
+  ]
  }
 ]

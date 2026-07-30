@@ -1,0 +1,30 @@
+{
+  "id": "c004",
+  "slug": "major-global-banks-complete-tokenized-cross-border-payment-pilot",
+  "kind": "brief",
+  "title": "Major Global Banks Complete Tokenized Cross-Border Payment Pilot",
+  "dek": "Twenty-eight banks including JPMorgan, Citi, UBS, Deutsche Bank and Standard Chartered settled approximately $1 million in real cross-border payments using tokenized central bank reserves and commercial bank deposits across six currencies in a Bank for International Settlements-led pilot called Project Agor\u00e1. Payments settled in an average of about 80 seconds.",
+  "date": "2026-07-30",
+  "published_utc": "2026-07-30T22:46:26Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "Project Agor\u00e1, led by the BIS, brought together five central banks and 28 commercial lenders to test tokenized cross-border payments, processing roughly $1 million in about 30 transactions across six currencies (USD, EUR, GBP, JPY, CHF, and KRW) with average settlement time of 80 seconds.",
+  "bottom_line": "Watch whether Project Agor\u00e1 moves to a second phase with live infrastructure integration and whether other central banks join the experiment. The real milestone is not settling $1 million with 30 transactions, but demonstrating that tokenized settlement can operate at scale alongside existing systems without regulatory conflict or operational risk.",
+  "human_take": "",
+  "body": [
+    "Twenty-eight banks, including JPMorgan, Citi, UBS, Deutsche Bank and Standard Chartered, successfully settled approximately $1 million in real cross-border payments using tokenized central bank reserves and commercial bank deposits in a Bank for International Settlements-led pilot. Project Agor\u00e1, which involved five central banks and the 28 commercial lenders, processed roughly $1 million in about 30 transactions across six currencies: the US dollar, euro, British pound, Japanese yen, Swiss franc and South Korean won. Payments settled in an average of about 80 seconds, according to CoinDesk's reporting.",
+    "Unlike stablecoins typically issued by the private sector, such as those from Circle and Tether, Project Agor\u00e1 tokenized two forms of traditional bank money: central bank reserves used by commercial banks to settle with one another, and commercial bank deposits held by customers. The pilot tested three types of payments: corporate and interbank payments, and foreign exchange settlements.",
+    "Traditional cross-border payments pass through multiple correspondent banks, with each institution maintaining its own records before funds are finally settled. Project Agor\u00e1 placed tokenized money on a shared ledger, allowing banks to complete transactions while sharing a single record of ownership and payment status, per CoinDesk's reporting. The platform made it easier to track payments from start to finish and worked alongside existing payment systems instead of replacing them.",
+    "The pilot tested foreign exchange payments, allowing banks to exchange two currencies at the same time instead of waiting for one side of the transaction to settle before completing the other. Simultaneous foreign-exchange settlement reduces the risk of one party sending money without receiving the other currency in return, according to CoinDesk. This capability addresses a long-standing pain point in global finance known as Herstatt risk, the danger that one party delivers funds but the counterparty fails before delivering its side of the transaction.",
+    "A key limitation is that the prototype was not directly integrated with banks' existing payment infrastructure, according to CoinDesk's reporting. This means the test demonstrated proof of concept rather than production readiness. Sources provide no data on cost savings or efficiency gains versus current cross-border payment methods, nor do they address regulatory hurdles, interoperability standards, or central bank policy alignment needed for widespread adoption. The test involved only 30 transactions, a small scale that does not demonstrate performance under high transaction volume or operational stress.",
+    "Project Agor\u00e1 is one of several wholesale tokenization efforts underway as central banks and commercial lenders explore how digital money could modernize the plumbing behind global financial markets, according to CoinDesk. Asset managers have begun issuing tokenized money market and private credit funds, while stablecoins are increasingly being used for cross-border payments and corporate treasury operations."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/07/30/global-banks-test-tokenized-money-for-cross-border-payments-in-usd1-million-bis-pilot",
+      "url": "https://www.coindesk.com/business/2026/07/30/global-banks-test-tokenized-money-for-cross-border-payments-in-usd1-million-bis-pilot"
+    }
+  ]
+}
