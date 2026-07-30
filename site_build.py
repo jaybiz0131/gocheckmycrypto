@@ -735,16 +735,22 @@ def sig_block():
       <a href="/method.html">independent review pass</a>.</span>
   </div>
   <div class="stamp" role="img" aria-label="Sources verified, on the record stamp">
-    <span class="badge-anim"><img src="/assets/cronkite-coin.png" alt="" width="60" height="60" loading="lazy"></span>
     <svg viewBox="0 0 120 120" aria-hidden="true">
       <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
-      <circle cx="60" cy="60" r="47" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/>
+      <!-- Stamp J (owner's pick, 2026-07-30): a solid accent disc fills the ring and the
+           GoCheckMy check is knocked out of it, so the mark IS the seal rather than a small
+           device sitting inside one. The knockout uses --card so it inverts with the theme;
+           a hardcoded white would vanish into the dark-mode disc. This replaces the dashed
+           inner ring, which the disc now occupies. -->
+      <circle cx="60" cy="60" r="45" fill="currentColor"/>
       <defs><path id="stamparc" d="M60,60 m-51,0 a51,51 0 1,1 102,0 a51,51 0 1,1 -102,0"/></defs>
       <text font-size="9.4" letter-spacing="2.2" fill="currentColor"
         font-family="IBM Plex Mono,monospace" font-weight="600">
         <textPath href="#stamparc" startOffset="2%">SOURCES VERIFIED</textPath>
         <textPath href="#stamparc" startOffset="55%">ON THE RECORD</textPath>
       </text>
+      <path d="M27 62 L49 85 L93 32" fill="none" stroke="var(--card)" stroke-width="11"
+        stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
 </div>"""
