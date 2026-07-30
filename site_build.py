@@ -1259,48 +1259,41 @@ def render_method(items, dateline):
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">Method</span>
   <h1>How we work</h1>
-  <p class="lede">What you can hold this desk to, and what it will not do. The standards below
-     are the commitments; the machinery behind them is ours.</p>
+  <p class="lede">The standards this desk holds itself to, and the things it does not do.</p>
 
-  <h2>What every story has to clear</h2>
+  <h2>What we aim for</h2>
   <ul>
-    <li><b>Primary sources first.</b> Regulators, exchange and protocol notices and company
-        filings outrank commentary about them. Every story links what it is built on, so you
-        can check us rather than trust us.</li>
-    <li><b>An independent review pass.</b> Nothing publishes on the say-so of whoever
-        assembled it. Each story is checked against its own cited sources by a separate pass
-        whose only job is to find what is wrong, and a story that fails is held or dropped.</li>
-    <li><b>Two sources for breaking claims.</b> A single report of something not yet
-        confirmed either runs labelled unconfirmed or does not run.</li>
-    <li><b>One event, one story.</b> The same news carried by ten outlets is collapsed into
-        one, so a loud story does not look like ten stories.</li>
-    <li><b>A human editor-in-chief above all of it,</b> who can hold or kill anything, and who
-        owns every opinion, every take and every correction on this site.</li>
+    <li><b>Sources you can check.</b> Stories link the material they draw on, and primary
+        sources such as regulators, exchange and protocol notices and company filings carry
+        more weight here than commentary about them.</li>
+    <li><b>A second look before publication.</b> Stories are checked against the sources they
+        cite, by a pass separate from the one that assembled them. Work that does not hold up
+        is held back or dropped rather than smoothed over.</li>
+    <li><b>Labels on unsettled news.</b> Where something is reported rather than confirmed, we
+        try to say so plainly and name who reported it.</li>
+    <li><b>One event, one story.</b> The same news carried by many outlets is treated as one
+        story, so a loud story does not look like ten of them.</li>
+    <li><b>Human oversight.</b> A human editor-in-chief oversees the desk, can hold or remove
+        anything, and owns the opinion and analysis published here.</li>
   </ul>
 
   {ex_html}
 
-  <h2>What we will not do</h2>
+  <h2>What we do not do</h2>
   <ul>
-    <li>We will not publish anything unverified. If a check fails, we publish nothing.</li>
-    <li>We will not tell you to buy or sell. We report events and explain what they may mean.</li>
-    <li>We will not run paid coverage as news. Sponsored items are the thing we are built to strip out.</li>
-    <li>We will not put an opinion in a voice that did not have it. Takes, analysis, and
-        corrections are human work, always.</li>
-    <li>We will not attach a commercial link to coverage of a failure, a collapse, or a loss.
-        Those are the highest-earning pages a crypto desk can publish and they are permanently
-        off limits. How we do earn money is set out on
-        <a href="/how-we-make-money.html">how we make money</a>.</li>
+    <li>We do not tell you to buy or sell anything.</li>
+    <li>We do not run paid coverage as news.</li>
+    <li>We do not put an opinion in a voice that did not hold it.</li>
+    <li>We do not attach a commercial link to coverage of a failure or a loss. How this site
+        earns money is set out on <a href="/how-we-make-money.html">how we make money</a>.</li>
   </ul>
 
-  <p>Stories on this site are produced with AI assistance and reviewed by a separate,
-     independent checking pass before publication, under the human editor-in-chief described
-     above. We say so plainly because you should know what you are reading. What we do not
-     publish is the recipe: which tools, which prompts, which thresholds, and the order they
-     run in are how this desk works rather than something a reader needs.</p>
+  <p>Stories on this site are produced with AI assistance and reviewed before publication,
+     under the human editor-in-chief described above. We say so because you should know what
+     you are reading.</p>
 
-  <p>When we get something wrong we fix it and say so on the story itself. Our sourcing and
-     corrections policy is on <a href="/standards.html">standards and corrections</a>.</p>
+  <p>When we get something wrong we aim to fix it and say so on the story itself. Our sourcing
+     and corrections policy is on <a href="/standards.html">standards and corrections</a>.</p>
 
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
@@ -1434,35 +1427,32 @@ def render_standards(dateline):
   <p class="lede">What you can hold us to.</p>
 
   <h2>Sourcing</h2>
-  <p>Every story links its sources. We weight official and primary sources (regulators, exchange and
-     protocol notices) most heavily. A claim carried by a single low-credibility source is marked as
-     unverified or is not published.</p>
+  <p>Stories link the sources they draw on. We give more weight to official and primary sources
+     such as regulators and exchange or protocol notices than to commentary about them, and a
+     claim resting on a single weak source is labelled as unconfirmed or left out.</p>
 
   <h2>Verification</h2>
-  <p>Every story is checked against its own cited sources by an independent pass before it can
-     publish, and a story that cannot be verified is either marked clearly for the reader or
-     held back. We would rather be slow than wrong.</p>
+  <p>Stories are checked against the sources they cite by a pass separate from the one that
+     assembled them. Work that does not hold up is labelled clearly for the reader or held
+     back. We would rather be slow than wrong.</p>
 
-  <h2>The gate</h2>
-  <p>Nothing publishes on the say-so of whoever assembled it. A story runs only after that
-     independent check confirms it against its sources; anything flagged waits for the human
-     editor-in-chief, who oversees the desk, can overrule any call in either direction, and
-     owns every opinion or analysis that appears here.</p>
+  <h2>Oversight</h2>
+  <p>A human editor-in-chief oversees the desk, can hold or remove anything, and owns the
+     opinion and analysis published here.</p>
 
   <h2>Not financial advice</h2>
   <p>We report events and explain what they may mean. We never advise buying or selling any asset.
      Nothing on this site is financial, investment, legal, or tax advice.</p>
 
   <h2>Corrections</h2>
-  <p>When we get something wrong, we fix it and say so on the story. If you spot an error, tell us and
-     we will check it against the source. A correction is a feature of an honest desk, not a failure.</p>
+  <p>When we get something wrong, we aim to fix it and say so on the story. If you spot an
+     error, tell us and we will check it against the source. A correction is a feature of an
+     honest desk, not a failure.</p>
 
   <h2>AI disclosure</h2>
-  <p>Stories on this site are produced with AI assistance and reviewed by a separate,
-     independent checking pass before publication, under a human editor-in-chief who oversees
-     the desk and can overrule any call. Takes, analysis and corrections are always human.
-     You should know what you are reading, which is why this paragraph exists. The tools and
-     the internals behind it are ours and are not published.</p>
+  <p>Stories on this site are produced with AI assistance and reviewed before publication,
+     under a human editor-in-chief who oversees the desk. Opinion, analysis and corrections
+     are human work. We say so because you should know what you are reading.</p>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Standards - {NAME}", "Crypto Cronkite standards, verification, and corrections policy.",
@@ -1605,7 +1595,7 @@ def render_privacy(dateline):
      under its own privacy policy.</p>
 
   <h2>Links out</h2>
-  <p>Every story links its sources, and dashboards link the services behind their data. Once you
+  <p>Stories link their sources, and dashboards link the services behind their data. Once you
      leave this site, the site you land on operates under its own privacy policy.</p>
 
   <h2>Contact</h2>
