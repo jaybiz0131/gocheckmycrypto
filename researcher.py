@@ -28,6 +28,7 @@ USAGE
 import json
 import sys
 
+import boundary
 import common
 import llm as llmlib
 
@@ -109,8 +110,46 @@ def validate(obj, stories):
         # off how much source material actually existed for this story.
         by_id[s["id"]]["source_chars"] = sum(
             len(t.get("source_text", "")) for t in s["source_texts"])
+        _stamp_boundary(by_id[s["id"]], s)
     obj["briefs"] = [by_id[s["id"]] for s in stories]
     return obj
+
+
+def _stamp_boundary(brief, story):
+    """Classify boundary-class stories and check the block against the fetched advisory.
+
+    DETERMINISTIC, and deliberately not a raise. The researcher's discipline is fail-open per
+    story: a brief that cannot carry a confirmed boundary is still a brief, and the desk still
+    has a story it may run without the who-is-affected claim, or hold. What must never happen
+    is the boundary reaching a reader unchecked, so the finding is recorded on the brief and
+    the fail-closed decision is taken later, by the stage that can see the finished draft.
+
+    Both directions are stamped. A story that is NOT boundary-class carries the flag as False
+    rather than as an absent key, because downstream a missing key and a negative answer look
+    identical and only one of them means the check ran."""
+    brief["boundary_required"] = boundary.story_is_boundary_class(story, brief)
+    b = brief.get("boundary")
+    if not brief["boundary_required"]:
+        # A boundary block on a story that is not boundary-class is not an error; the
+        # classifier is deliberately narrow and the researcher may see something it does not.
+        # Confirm it anyway if it is there, and let it stand unconfirmed if not.
+        if not b:
+            brief.pop("boundary", None)
+            brief["boundary_ok"] = None
+            return
+    if not b:
+        brief["boundary_ok"] = False
+        brief["boundary_reasons"] = ["this story turns on a version, date range or threshold "
+                                     "but the brief carries no boundary block"]
+        common.gh("warning", f"researcher: {brief['id']} is boundary-class with no boundary "
+                             f"block; the who-is-affected claim cannot be published")
+        return
+    ok, reasons = boundary.check_against_sources(b, story.get("source_texts") or [])
+    brief["boundary_ok"] = ok
+    brief["boundary_reasons"] = reasons
+    if not ok:
+        common.gh("warning", f"researcher: {brief['id']} boundary unconfirmed: "
+                             f"{'; '.join(reasons)}")
 
 
 def run(client=None):

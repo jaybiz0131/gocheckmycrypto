@@ -91,4 +91,28 @@ and never shared with anyone else, and every issue carries an unsubscribe that r
 address from the list. Nothing else about a reader is collected by us. The reader-facing
 statement of this is the privacy page, and the signup form's fine print must agree with it.
 
+BOUNDARY STORIES (owner's ruling, 2026-07-31). Any story where a VERSION, a DATE RANGE, or
+a THRESHOLD determines who is affected gets structured-field treatment, never prose. The
+researcher pulls four fields verbatim from the vendor's or agency's own advisory (affected,
+fixed, the exact user action, the advisory URL), the writer does not touch them, the desk
+copies them into the published story and renders them as a labeled panel above the first
+paragraph, and the check runs against the advisory text rather than against the prose.
+
+The ruling came out of a hardware-wallet firmware advisory the approver rejected twice on
+accuracy, both times correctly: the second draft implied users on the PATCHED version were
+the ones at risk. The gate worked. But asking a writer to re-read its own prose for
+directional correctness is asking the wrong question of the wrong stage, because "4.0.1 and
+earlier" and "4.0.1 and later" are one word apart and both read as fluent English. Kept as
+a field and rendered rather than restated, there is nothing to invert.
+
+Two rules follow and neither bends. Officials outrank the desk on their own advisory, so
+the vendor's page is linked prominently and the desk's copy never competes with it. And if
+the boundary cannot be confirmed from a primary source, the story does not publish, with no
+retry path: retrying will not make an advisory fetchable, and silence beats an inverted
+claim on a security story.
+
+This is not a security-only rule. Protocol upgrades ("nodes below v1.14.2 fork off at block
+X"), regulatory effective dates, and eligibility cutoffs have the same shape and the same
+failure mode, and they get the same treatment.
+
 The reader-facing version of this charter is the site's method page.

@@ -25,6 +25,8 @@ import json
 import os
 import re
 import sys
+
+import boundary
 from urllib.parse import quote
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -832,6 +834,23 @@ def render_article(item, all_items=None):
     if (item.get("consolidated") or "").strip():
         ribbon += (f'<div class="callout"><b>Editor\'s note.</b> '
                    f'{esc(destyle(item["consolidated"]))}</div>')
+    # THE BOUNDARY PANEL sits ABOVE the prose, unlike every other panel on the page, because
+    # it answers the only question a reader of a security advisory has before they will read
+    # anything else: am I affected. Values are the vendor's own words, copied through the
+    # pipeline by assignment (writer._carry_boundary) and never restated in prose, so there
+    # is no sentence here that can come back inverted. See boundary.py.
+    bnd = ""
+    brows = boundary.rows(item.get("boundary") or {})
+    if brows:
+        lis = ""
+        for label, value in brows:
+            cell = (f'<a href="{esc(value)}" rel="nofollow noopener">{esc(value)}</a>'
+                    if label == "Advisory" else esc(value))
+            lis += f'<div class="brow"><dt>{esc(label)}</dt><dd>{cell}</dd></div>'
+        bnd = (f'<section class="boundary" aria-labelledby="bnd-h">'
+               f'<h2 id="bnd-h">Who this affects</h2>'
+               f'<p class="mut">Quoted from the advisory linked below. The desk does not '
+               f'restate it.</p><dl>{lis}</dl></section>')
     key = ""
     if item.get("key_fact"):
         key = (f'<div class="keyfact"><span class="lab">The key fact</span>'
@@ -870,6 +889,7 @@ def render_article(item, all_items=None):
     {f'<p class="dek">{esc(item["dek"])}</p>' if item.get("dek") else ""}
     <div class="byline">By {author}</div>
     {ribbon}
+    {bnd}
     <div class="prose">{render_body(item.get("body"))}</div>
     {key}
     {take}
@@ -3183,6 +3203,14 @@ def ingest():
         }
         if updates_map.get(rec.get("id")):
             item["update_of"] = updates_map[rec.get("id")]
+        # The boundary block passes through UNSCRUBBED and UNDESTYLED, alone among the
+        # fields here. Every other value is the desk's own prose and gets house style; these
+        # four are the vendor's words, checked character-for-character against the advisory
+        # upstream (boundary.check_against_sources) and labeled on the page as quoted. Running
+        # destyle over a quotation would edit a version range the desk promised not to touch,
+        # for a house-style rule that has never applied to quoted material anyway.
+        if boundary.is_complete(art.get("boundary")):
+            item["boundary"] = {f: str(art["boundary"][f]) for f in boundary.FIELDS}
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
         json.dump(item, open(out, "w", encoding="utf-8"), indent=2)
         print(f"  ingested {rec.get('id')} -> {os.path.relpath(out)}")

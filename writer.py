@@ -15,6 +15,7 @@ USAGE
 import json
 import sys
 
+import boundary
 import common
 import llm as llmlib
 
@@ -96,8 +97,36 @@ def validate(obj, stories):
         art["human_take"] = ""  # never let the model fabricate the take
         skel.setdefault("human_take", "")
         skel["human_take"] = ""
+        _carry_boundary(art, by_id[d["id"]])
         d["article_draft"], d["script_skeleton"] = art, skel
     return obj
+
+
+def _carry_boundary(art, story):
+    """COPY the brief's boundary block into the draft. The model gets no say in it.
+
+    This is the load-bearing line of the whole version-boundary change, and it is three
+    lines long because that is the point. Every other approach asks the writer to restate a
+    version range faithfully, and a version range restated is a version range that can come
+    back inverted: "4.0.1 and earlier" and "4.0.1 and later" are one word apart and both read
+    as fluent English, which is why re-reading the prose did not catch it. Handled the same
+    way status and the disclaimer are handled, by assignment rather than by instruction,
+    there is nothing for a model to get backwards.
+
+    The verdict is carried too, not just the fields. A block the researcher could not confirm
+    against the advisory travels WITH that finding attached, so the publish gate does not have
+    to re-derive it from a brief it may not be holding."""
+    brief = story.get("brief") or {}
+    art.pop("boundary", None)
+    if not brief:
+        return
+    b = brief.get("boundary")
+    if b and boundary.is_complete(b):
+        art["boundary"] = {f: str(b[f]).strip() for f in boundary.FIELDS}
+    art["boundary_required"] = bool(brief.get("boundary_required"))
+    art["boundary_ok"] = brief.get("boundary_ok")
+    if brief.get("boundary_reasons"):
+        art["boundary_reasons"] = list(brief["boundary_reasons"])
 
 
 def run(client=None):

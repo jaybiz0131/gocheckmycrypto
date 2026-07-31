@@ -40,6 +40,25 @@ FOR EACH STORY, BUILD THE BRIEF:
    open_questions rather than inventing one.
 5. open_questions: what the sources leave unanswered or unconfirmed - so the writer can
    say so plainly instead of papering over it.
+6. boundary: REQUIRED whenever a version, a date range, or a threshold determines WHO IS
+   AFFECTED. Vulnerabilities and security advisories are the loudest case; protocol
+   upgrades ("nodes below v1.14.2 fork off"), regulatory effective dates, and eligibility
+   cutoffs have the same shape. Omit the key entirely for every other story.
+
+   Every value is QUOTED VERBATIM from the vendor's or agency's OWN advisory page. Do not
+   normalize, tidy, or restate a range. If the advisory says "4.0.1 and earlier", the field
+   says "4.0.1 and earlier" - not "up to 4.0.1", not "versions before 4.0.2". The exact
+   characters are checked against the fetched advisory text downstream, and a tidied string
+   fails that check even when it means the same thing.
+   - affected: who or what is exposed, in the advisory's words.
+   - fixed: the version, build or date that is NOT exposed, in the advisory's words.
+   - user_action: the exact instruction the advisory gives a user. The vendor's wording.
+   - advisory_url: the vendor's or agency's OWN page. Never a news write-up of it. This URL
+     must be one of the story's source_urls, because only text the desk actually fetched
+     can be checked.
+   If the source texts do not carry a first-party advisory, do NOT reconstruct the boundary
+   from news coverage. Omit the boundary object and say so in open_questions. A missing
+   boundary holds the story; a wrong one publishes an inverted warning.
 
 SOURCE QUALITY RULES (non-negotiable):
 - Only facts present in the provided source_texts and snippet enter the brief. You add
@@ -66,11 +85,16 @@ Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
       ],
       "bear_case": ["<sourced risk/criticism>", "..."],
       "open_questions": ["<what the sources leave unanswered>", "..."],
+      "boundary": {"affected": "<verbatim from the advisory>",
+                   "fixed": "<verbatim from the advisory>",
+                   "user_action": "<verbatim from the advisory>",
+                   "advisory_url": "<the vendor's or agency's own page>"},
       "thin": <true|false>
     }
   ]
 }
 
-One brief per story. Output valid JSON and nothing else.
+One brief per story. Include "boundary" ONLY on the stories that need it, per rule 6.
+Output valid JSON and nothing else.
 
 OUTPUT CONTRACT (hard): top-level key is exactly "briefs", a list with one entry per input story. Every id comes ONLY from the input; never invent, rename, or suffix an id. JSON only, nothing else.

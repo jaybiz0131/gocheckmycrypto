@@ -1,0 +1,41 @@
+{
+  "id": "c011",
+  "slug": "coinkite-warns-coldcard-seeds-carry-far-less-entropy-than-intended",
+  "kind": "brief",
+  "title": "Coinkite Warns Coldcard Seeds Carry Far Less Entropy Than Intended",
+  "dek": "The Coldcard maker says seeds generated across its current models drew on a software fallback rather than the hardware random number generator. Reported losses stand at 594 BTC.",
+  "date": "2026-07-31",
+  "published_utc": "2026-07-31T13:43:35Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "author": "Crypto Cronkite",
+  "key_fact": "Coinkite says seeds generated on Mk3 firmware 4.0.1 through 4.1.9, on Mk4 and Mk5 before 5.6.0, and on Q before 1.5.0Q drew on a software fallback random number generator, and that updating the firmware does not repair a seed already created.",
+  "bottom_line": "Watch for the formal technical review Coinkite says is coming, and for any independent confirmation tying the 594 BTC drain to this specific flaw rather than to a separate compromise. The advisory has already been revised once to add fixed firmware versions, so the vendor's page, not this story, is the current record of who is affected.",
+  "boundary": {
+    "affected": "Seeds generated on Mk3 versions 4.0.1 through 4.1.9, Mk4 and Mk5 before version 5.6.0, or Q before version 1.5.0Q are affected unless the independent dice-entropy exception applies.",
+    "fixed": "update Mk3 to version 4.2.0 or later, Mk4 and Mk5 to version 5.6.0 or later, or Q to version 1.5.0Q or later",
+    "user_action": "Do not generate a new seed on any of these models until the update is installed.",
+    "advisory_url": "https://blog.coinkite.com/coldcard-mk3-seed-generation-warning/"
+  },
+  "human_take": "",
+  "body": [
+    "Coinkite, the company that makes the Coldcard hardware wallet, has told owners of every current Coldcard model that seeds generated on their devices carry far less randomness than intended, and that some of those wallets have already been emptied. The panel above carries the affected versions in the company's own words, because on a story like this the version range is the story.",
+    "The scale of the loss is reported rather than confirmed by the company. Decrypt put the theft at 594 BTC, about $38 million, drained from roughly 500 wallets inside 25 minutes, with 562 BTC since consolidated into a single address. Coinkite's advisory does not state a figure.",
+    "The defect is in how the device fetched randomness. According to Decrypt's reporting, two implementations of the same function sat in the codebase with identical signatures: the hardware generator Coinkite wrote, and a software fallback inherited from MicroPython. A preprocessor guard checked only whether a setting was defined and never tested its value, so the build linked against the fallback silently. Seed generation had been drawing on it since a March 2021 migration.",
+    "Entropy is the measure of how many possibilities an attacker has to search through, and a Bitcoin seed is meant to have 128 bits of it. Coinkite estimates the effective search space for an Mk3 seed at about 40 bits, per Decrypt. Extra randomness from the secure elements on the Mk4, Q and Mk5 lifts those to roughly 72 bits, which the company says materially improves the position without reaching the target. The advisory states that Tapsigner, Opendime and Satscard are not affected, because they are different codebases.",
+    "Two limits on the fix are stated plainly in the advisory and matter more than the version numbers. Updating the firmware does not change or repair an existing seed: a seed created on affected firmware stays weak, and the advisory sets out a migration procedure for moving to a new one. The advisory also carves out an exception for users who supplied their own dice entropy, on the grounds that dice rolls were hashed together with the device's own output and so were never affected by the flaw.",
+    "Coinkite told Decrypt it has to assume someone used AI to review previous versions of its firmware to find the bug, and said it had run one of the best available models over the same code a few weeks earlier without the model finding it. Attackers and defenders have the same tools, the company wrote, and this time it did not help.",
+    "Other manufacturers moved to distance themselves. Trezor told its own users their funds are safe while noting that a seed created on an affected Coldcard stays weak after being restored onto another brand's device. Block published an independent analysis on Friday saying none of its products are affected.",
+    "What the sources do not settle: Coinkite describes its advisory as early analysis with a formal technical review still to come, and no independent confirmation of the 594 BTC figure or of the link between the entropy flaw and that specific drain has been published by the company. The advisory was updated at 9:33 a.m. EDT on July 31 to add the fixed firmware versions, so a reader checking it later may find guidance that has moved again."
+  ],
+  "sources": [
+    {
+      "title": "Coinkite advisory: COLDCARD Mk3 seed generation warning",
+      "url": "https://blog.coinkite.com/coldcard-mk3-seed-generation-warning/"
+    },
+    {
+      "title": "Decrypt: $38M in Bitcoin Drained by Coldcard Key Flaw Its Maker Thinks AI Found",
+      "url": "https://decrypt.co/374766/38m-in-bitcoin-drained-by-coldcard-key-flaw-its-maker-thinks-ai-found"
+    }
+  ]
+}
