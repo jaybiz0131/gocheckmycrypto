@@ -41,6 +41,18 @@ WHAT THIS SCREEN ACTUALLY TESTS
                  than a traded price, and a Top 100 coins table implies the latter.
     SUPPLY       the markets endpoint's circulating supply exceeds the coin's own detail
                  endpoint by more than 20%. This is what caught WBT.
+    ONCHAIN      the claimed circulating supply exceeds what actually exists on chain.
+                 The SUPPLY test above compares an aggregator against ITSELF, so it catches
+                 an inconsistent listing but not a supply figure that is wrong in a
+                 self-consistent way, which is the self-reported cap this screen exists to
+                 reject. On-chain total supply is a ceiling that cannot be argued with: a
+                 token cannot circulate more than exists. Read keyless from Blockscout.
+
+                 ONLY for tokens that live on Ethereum and nowhere else. A multi-chain
+                 token's Ethereum supply is a fraction of its real total, so the comparison
+                 would flag honest coins by the dozen; Chainlink alone lists 84 chains. The
+                 guard is doing real work rather than being defensive: of Chainlink, Maker
+                 and Shiba Inu, only SHIB qualifies for the check at all.
 
   STABLECOINS GET NO EXEMPTION (owner's ruling, 2026-07-29). The captive test catches some
   smaller stablecoins whose liquidity sits in one pool, USDS at 98.3% on a single Uniswap
@@ -111,10 +123,25 @@ UNTRADED_USD = 25_000
 # endpoint before the cap is considered built on unverified supply.
 SUPPLY_TOLERANCE = 1.20
 
+# THE INDEPENDENT CHECK. The tolerance above compares an aggregator against ITSELF, which
+# catches an inconsistent listing (that is how WhiteBIT and FIGR_HELOC were caught) but
+# cannot catch a supply figure that is simply wrong in a self-consistent way. That is
+# exactly the self-reported market cap this screen exists to reject.
+#
+# On-chain total supply is a different kind of number: a ceiling that cannot be argued
+# with, because a token cannot circulate more than exists. Blockscout serves it keyless and
+# is already a dependency of this repo (whale_flows.py).
+#
+# Margin, not tolerance. The ceiling is hard, so this only absorbs read timing between two
+# sources sampled seconds apart. Fabricated supply misses by multiples, not by 5%.
+ONCHAIN_MARGIN = 1.05
+BLOCKSCOUT_TOKEN = "https://eth.blockscout.com/api/v2/tokens/"
+
 REASONS = {
     "captive": "one venue accounts for nearly all reported volume",
     "untraded": "no meaningful reported trading",
     "supply": "market cap computed on supply the coin's own listing does not confirm",
+    "onchain": "market cap computed on more supply than exists on chain",
 }
 
 
@@ -192,11 +219,46 @@ def _venue_profile(get_json, coin_id):
             "top_share": top_usd / total, "top": top}
 
 
-def _detail_supply(get_json, coin_id):
+def _detail(get_json, coin_id):
+    """The coin's own listing: its stated circulating supply and the chains it lives on.
+
+    One call for both. `platforms` is what makes the on-chain check safe: an Ethereum
+    supply read is only a valid ceiling for a token that exists ONLY on Ethereum."""
     d = get_json(f"https://api.coingecko.com/api/v3/coins/{coin_id}"
                  "?localization=false&tickers=false&market_data=true"
                  "&community_data=false&developer_data=false&sparkline=false")
-    return ((d.get("market_data") or {}).get("circulating_supply"))
+    return {"circulating": (d.get("market_data") or {}).get("circulating_supply"),
+            "platforms": {k: v for k, v in (d.get("platforms") or {}).items()
+                          if k and v and str(v).strip()}}
+
+
+def _detail_supply(get_json, coin_id):
+    """Back-compat shim: the stated circulating supply alone."""
+    return _detail(get_json, coin_id)["circulating"]
+
+
+def _ethereum_only_contract(platforms):
+    """The Ethereum contract address, but ONLY for a token that lives nowhere else.
+
+    This guard is the whole reason the check is trustworthy. A multi-chain token's
+    Ethereum supply is a fraction of its real total, so comparing a global circulating
+    figure against it would flag honest coins by the dozen: Chainlink alone lists 84
+    chains. When in doubt there is no check, which is this module's standing rule."""
+    if len(platforms or {}) != 1:
+        return None
+    (chain, addr), = platforms.items()
+    if chain.lower() != "ethereum" or not str(addr).startswith("0x"):
+        return None
+    return str(addr)
+
+
+def _onchain_supply(get_json, contract):
+    """Total supply from the chain itself, in whole tokens. None when unreadable."""
+    d = get_json(BLOCKSCOUT_TOKEN + contract)
+    raw, dec = d.get("total_supply"), d.get("decimals")
+    if raw in (None, "") or dec in (None, ""):
+        return None
+    return int(raw) / (10 ** int(dec))
 
 
 def judge(coin, get_json):
@@ -214,11 +276,27 @@ def judge(coin, get_json):
         return {"reason": "captive", "detail": prof}
 
     listed = coin.get("circulating_supply")
-    own = _detail_supply(get_json, cid)
+    detail = _detail(get_json, cid)
+    own = detail["circulating"]
     if listed and own and listed > own * SUPPLY_TOLERANCE:
         return {"reason": "supply",
                 "detail": {"listed_supply": listed, "own_supply": own,
                            "ratio": round(listed / own, 2)}}
+
+    # The independent read, last because it costs a second host. Only Ethereum-only tokens
+    # qualify, and an unreadable contract is not evidence: this module excludes on evidence
+    # and never on a failed request, so anything unclear falls through to a pass.
+    contract = _ethereum_only_contract(detail["platforms"])
+    if contract and listed:
+        try:
+            chain_supply = _onchain_supply(get_json, contract)
+        except Exception:
+            chain_supply = None
+        if chain_supply and listed > chain_supply * ONCHAIN_MARGIN:
+            return {"reason": "onchain",
+                    "detail": {"listed_supply": listed, "chain_supply": chain_supply,
+                               "contract": contract,
+                               "ratio": round(listed / chain_supply, 2)}}
     return None
 
 
@@ -265,6 +343,7 @@ def screen(coins, get_json, verbose=True):
                 d = verdict["detail"]
                 extra = (f"{d['top']} {d['top_share']:.1%}" if verdict["reason"] == "captive"
                          else f"{d['ratio']}x listed vs own" if verdict["reason"] == "supply"
+                         else f"{d['ratio']}x listed vs on-chain" if verdict["reason"] == "onchain"
                          else f"${d['total_usd']:,.0f} volume")
                 print(f"  drop #{c.get('market_cap_rank')} "
                       f"{(c.get('symbol') or '').upper():<12} {verdict['reason']:<9} {extra}")

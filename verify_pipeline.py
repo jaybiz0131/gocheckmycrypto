@@ -129,6 +129,7 @@ def layer1_canary():
     # whale-flow classification canary (offline, deterministic over the sample transactions)
     fails.extend(_whale_flow_canary())
     fails.extend(_window_belt_canary())
+    fails.extend(_coin_screen_canary())
     fails.extend(_preview_suppression_canary())
     fails.extend(_consistency_gate_canary())
     fails.extend(_merge_state_canary())
@@ -152,6 +153,47 @@ def layer1_canary():
           "end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.")
     return 0
 
+
+def _coin_screen_canary():
+    """Lock the on-chain supply check, offline.
+
+    The board's whole claim is that a market cap is a price times a supply and that both
+    are real. The other supply test compares CoinGecko against CoinGecko, so it can only
+    catch a listing that disagrees with itself. This one is the independent read.
+
+    Two properties, and the second matters more than the first. It must catch a cap built
+    on more supply than exists; and it must NEVER fire on a multi-chain token, whose
+    Ethereum supply is a fraction of its real total. A false positive here silently deletes
+    a legitimate coin from the Top 100, which nobody would notice."""
+    fails = []
+    import coin_screen as cs
+
+    eth_only = {"ethereum": "0xabc0000000000000000000000000000000000001"}
+    _check(cs._ethereum_only_contract(eth_only) == eth_only["ethereum"], fails,
+           "coin screen: an Ethereum-only token no longer qualifies for the on-chain check")
+    for label, platforms in (
+            ("multi-chain", {"ethereum": "0xabc", "solana": "So111"}),
+            ("non-Ethereum only", {"solana": "So111"}),
+            ("no platform at all (a native coin like BTC)", {}),
+            ("a blank address", {"ethereum": ""})):
+        _check(cs._ethereum_only_contract(platforms) is None, fails,
+               f"coin screen: {label} would be checked against an Ethereum supply ceiling, "
+               f"which is not its ceiling; that drops legitimate coins")
+
+    # the arithmetic of the verdict itself
+    over = 1_000 > 500 * cs.ONCHAIN_MARGIN      # claims twice what exists
+    under = 400 > 500 * cs.ONCHAIN_MARGIN       # circulating below total, the normal case
+    edge = 505 > 500 * cs.ONCHAIN_MARGIN        # inside the read-timing margin
+    _check(over and not under and not edge, fails,
+           "coin screen: the on-chain margin no longer separates fabricated supply from "
+           "ordinary read timing")
+    _check(1.0 < cs.ONCHAIN_MARGIN <= 1.10, fails,
+           "coin screen: ONCHAIN_MARGIN left its band; it absorbs seconds of read timing "
+           "against a hard ceiling, not a supply disagreement")
+    _check("onchain" in cs.REASONS, fails,
+           "coin screen: the onchain verdict has no reader-facing reason, so the board "
+           "would drop a coin without saying why")
+    return fails
 
 def _preview_suppression_canary():
     """A preview must never suppress coverage of the thing it previewed.
