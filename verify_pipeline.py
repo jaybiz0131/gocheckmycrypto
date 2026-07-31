@@ -525,8 +525,8 @@ def _boundary_canary():
 
     # CHASSIS SYNC, same discipline as dedupe.py: one file, three repositories, one hash.
     _sha = __import__("hashlib").sha256(open(bnd.__file__, "rb").read()).hexdigest()[:16]
-    _check(_sha == "638f6e21121a0224", fails,
-           f"boundary: this desk's boundary.py is {_sha}, the chassis copy is 638f6e21121a0224. "
+    _check(_sha == "0cf27e0f447f1031", fails,
+           f"boundary: this desk's boundary.py is {_sha}, the chassis copy is 0cf27e0f447f1031. "
            f"The module was changed in one repo and not the others; re-sync all three.")
 
     # (1) CLASSIFICATION. A firmware advisory with a version in it is boundary-class; a

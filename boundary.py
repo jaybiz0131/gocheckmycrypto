@@ -48,22 +48,57 @@ import re
 # A story is boundary-class when it reports something that DIVIDES an audience: this build is
 # affected, that one is not. The trigger words are deliberately about the EVENT, not about the
 # subject matter, because "security" alone is a topic and topics do not have boundaries.
+#
+# ONE LIST FOR THREE DESKS, and a SHORT one. The vocabulary is shared rather than split per
+# desk because this file is hash-pinned byte-identical and a per-desk word list would be the
+# first thing to drift.
+#
+# It is short because it was measured, not guessed. A first draft added league vocabulary
+# (suspension, eligibility, waiver window) and it was wrong on both counts. It over-fired, and
+# more importantly a player suspension is not this pattern at all: it decides what happens to
+# one athlete, not which READERS are covered. The test a candidate word has to pass is whether
+# a reader could be on either side of it. "Recall covering model years 2019 through 2022" and
+# "nodes below v1.14.2 fork off" pass. "Suspended six games" does not.
+#
+# Two words also had to be narrowed from their obvious form. Bare "patch" matched a jersey
+# patch deal, so only the verb forms survive. Bare "recalled" matched a player recalled from
+# Triple-A, so a recall has to name itself as a product or safety recall.
+#
+# Final measurement over the three desks' published corpora, classifying on headline, dek and
+# key fact the way the pipeline does: 5 of 157 crypto stories (all genuine, four protocol or
+# exploit stories carrying a version or block height, plus the Coldcard advisory), 0 of 121
+# news, 0 of 158 sports.
 _TRIGGER = re.compile(
-    r"\b(vulnerabilit\w*|advisor(?:y|ies)|cve-\d{4}-\d+|exploitab\w*|"
-    r"patch(?:ed|es|ing)?|hotfix|firmware|"
-    r"disclos(?:ure|ed)|proof[- ]of[- ]concept|"
+    # software and protocol advisories: the reader's own device or node is on one side or the other
+    r"\b(vulnerabilit\w*|security\s+advisor(?:y|ies)|cve-\d{4}-\d+|exploitab\w*|"
+    r"patch(?:ed|ing)|hotfix|firmware|"
     r"hard\s?fork|soft\s?fork|upgrade\s+deadline|mandatory\s+upgrade|"
-    r"effective\s+date|compliance\s+deadline|takes?\s+effect)\b", re.I)
+    # rules with a stated start: whether the reader is covered depends on a date or a threshold
+    r"effective\s+date|effective\s+(?:on|from)|compliance\s+deadline|takes?\s+effect|"
+    r"filing\s+deadline|enrollment\s+(?:deadline|period)|"
+    # what an agency or a company issues when some readers are covered and others are not
+    r"(?:product|safety|voluntary|consumer)\s+recall(?:s|ed|ing)?|recall(?:s|ed|ing)?\s+(?:notice|covering|affecting)|safety\s+notice|do\s+not\s+(?:use|eat|drink)|"
+    r"evacuation\s+order|shelter[- ]in[- ]place|boil[- ]water)\b", re.I)
 
 # ...and only when an actual boundary is stated. A vulnerability story with no version, date
 # or threshold anywhere in it is a story ABOUT security, not a story that tells a reader
 # whether they personally are exposed, and it has nothing for these fields to carry.
+#
+# EVERY alternative here has to touch a number, a version or a date. A bare comparator does
+# not qualify, and that is not a detail: "His death comes days before his 15th anniversary"
+# paired with "mental health vulnerabilities" was the one false positive left in 437 published
+# stories, and both halves of it are ordinary English used in an ordinary sense. Requiring the
+# comparator to point AT something removes that whole class.
 _BOUNDARY_SHAPE = re.compile(
-    r"(\bv?\d+\.\d+(?:\.\d+)?\b"                      # 4.0.1, v1.14, 2.0
-    r"|\bversions?\b|\bbuilds?\b|\breleases?\b"
+    r"(\bv?\d+\.\d+(?:\.\d+)?\w*\b"                       # 4.0.1, v1.14, 2.0, 1.5.0Q
+    r"|\b(?:versions?|builds?|releases?|model\s+years?|lot(?:\s+numbers?)?)\s+"
+    r"[\w.]*\d"                                           # version 5.6.0, model years 2019
     r"|\bblock\s+(?:height\s+)?\d[\d,]*\b"
-    r"|\b(?:before|after|prior\s+to|on\s+or\s+(?:before|after)|"
-    r"earlier|later|through|up\s+to)\b"
+    r"|\b(?:before|after|prior\s+to|on\s+or\s+(?:before|after)|through|up\s+to|"
+    r"earlier\s+than|later\s+than|from)\s+"
+    r"(?:v?\d|versions?\b|builds?\b|releases?\b|firmware\b|"
+    r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*\b)"
+    r"|\d\s*(?:,\s*)?(?:and\s+)?(?:earlier|later|below|above|onward)\b"
     r"|\b(?:over|under|above|below|at\s+least|more\s+than|less\s+than)\s+"
     r"[\$€£]?\d)", re.I)
 
@@ -79,14 +114,46 @@ FIELD_LABELS = {
 }
 
 
+_SENTENCE = re.compile(r"(?<=[.!?])\s+|\n+")
+
+# Headline and key-fact length. A field longer than this is a paragraph, and paragraphs are
+# where the loose match came from.
+_SHORT_FIELD = 200
+
+
 def is_boundary_story(*texts):
     """True when a version, date range or threshold decides who this story applies to.
 
-    Both halves must fire. The trigger alone over-matches (every regulatory story says
-    'effective date' somewhere); the shape alone over-matches far worse (every story has a
-    number in it)."""
-    hay = " ".join(str(t or "") for t in texts)
-    return bool(_TRIGGER.search(hay) and _BOUNDARY_SHAPE.search(hay))
+    Both halves must be CO-LOCATED. Accepting them anywhere in the story was measured over
+    the three desks' corpora and classified 38% of crypto, 28% of sports and 17% of news as
+    boundary-class, which would have held most of what the desks publish: "Trump imposes 50%
+    tariffs" has a threshold in the headline and a "takes effect" four hundred words later,
+    and the two have nothing to do with each other.
+
+    A real boundary states itself in one breath, because that is the only way to state it:
+    "Mk3 versions 4.0.1 through 4.1.9 are affected", "covering model years 2019 through 2022".
+    So the rule is the same sentence, with one deliberate relaxation: short fields may pair
+    across the gap between them, because a headline carrying the trigger over a claim carrying
+    the range ("Coldcard firmware flaw" / "Mk4 and Mk5 before version 5.6.0 are affected") is
+    one thought split over two lines, and the strict rule missed it. A paragraph is not a short
+    field, so body copy still has to state the whole boundary in a single sentence.
+
+    The cost of a false positive here is a held story, so the bias is deliberately toward
+    missing one rather than holding the desk. A boundary story wrongly classified ordinary
+    still publishes, just without the panel; the prose rules in writer.md still forbid the
+    writer restating a range it was not given."""
+    for chunk in texts:
+        for sent in _SENTENCE.split(str(chunk or "")):
+            if _TRIGGER.search(sent) and _BOUNDARY_SHAPE.search(sent):
+                return True
+    # A headline carries the trigger and the claim carries the range often enough that a
+    # strict same-sentence rule alone missed real advisories ("Coldcard firmware flaw" /
+    # "Mk4 and Mk5 before version 5.6.0 are affected"). Short fields are allowed to pair
+    # across the boundary between them, because a headline is one thought and pairing it
+    # with the claim beneath it is not the loose whole-document match that over-fired.
+    short = [str(t or "") for t in texts if 0 < len(str(t or "")) <= _SHORT_FIELD]
+    return bool(short and any(_TRIGGER.search(t) for t in short)
+                and any(_BOUNDARY_SHAPE.search(t) for t in short))
 
 
 def story_is_boundary_class(story, brief=None):
