@@ -183,27 +183,59 @@ RETIRED_ARTICLES = {
 # Topic tags: deterministic keyword rules over the story text, computed at build time so
 # every story (old and new) gets them without touching the pipeline. Order = priority;
 # a story keeps at most 3.
+# TAG_RULES is in DISPLAY ORDER, most specific first, and that ordering is load-bearing:
+# tags_for returns matches in this order and _hero_tag shows the first, so whatever sits at
+# the top of this list is the label most of the site ends up wearing.
+#
+# It used to be "regulation", with the broadest pattern in the file, and the result was
+# measurable: 111 of 156 published stories rendered "regulation" on the homepage, 71% of the
+# site under one chip. "treasury" matched corporate treasury operations, "bill", "law",
+# "approval" and "charge[sd]?" matched ordinary body prose, and a story could not be about
+# litigation at all because there was no bucket for it. It also degraded related_stories,
+# which scores on shared tags and so was matching almost everything to almost everything.
+#
+# Two changes. "regulation" now means an agency or a legislature ACTING, not any sentence
+# that mentions a law; litigation moved to its own "legal" bucket where it belongs. And the
+# list is ordered by how much the tag narrows the story down rather than by accident of
+# authorship. "bitcoin" sits near the bottom on purpose: nearly every story on this desk
+# mentions bitcoin, so it is the least informative thing the desk can say about one.
 TAG_RULES = [
-    ("regulation", r"\b(sec|cftc|occ|doj|regulat\w*|congress|senate|bill|law|lawsuit|court|"
-                   r"charge[sd]?|ruling|sanction\w*|treasury|cbdc|imf|legislat\w*|approval)\b"),
-    ("security", r"\b(exploit\w*|hack\w*|stolen|theft|vulnerabilit\w*|bug|drained|breach|"
-                 r"ponzi|fraud|scam\w*|phishing|attacker\w*)\b"),
-    ("bitcoin", r"\b(bitcoin|btc|bip \d+|bip-\d+|miner\w*|mining|halving)\b"),
-    ("ethereum", r"\b(ethereum|eth|validator\w*|staking|vitalik)\b"),
-    ("defi", r"\b(defi|protocol\w*|tvl|oracle\w*|lending|dex|liquidity)\b"),
-    ("stablecoins", r"\b(stablecoin\w*|usdt|usdc|tether|circle|dai)\b"),
+    ("security", r"\b(exploit\w*|hack\w*|stolen|theft|vulnerabilit\w*|drained|breach\w*|"
+                 r"ponzi|fraud|scam\w*|phishing|attacker\w*|rug ?pull)\b"),
     ("etfs-funds", r"\b(etf\w*|grayscale|blackrock|ishares|fund flows)\b"),
+    ("stablecoins", r"\b(stablecoin\w*|usdt|usdc|tether|dai)\b"),
+    ("legal", r"\b(lawsuit\w*|sue[sd]?|suing|court|judge|judicial|indict\w*|prosecutor\w*|"
+              r"plea|pleaded|guilty|settlement|subpoena\w*|sentenc\w*|litigation|"
+              r"attorney general|class action)\b"),
+    ("macro", r"\b(fomc|federal reserve|rate (?:decision|cut|hike)|interest rates?|"
+              r"cpi|inflation|jobs report|treasury yield\w*|ecb|bank of england)\b"),
+    ("regulation", r"\b(sec|cftc|occ|fincen|doj|finra|esma|fca|"
+                   r"regulat\w*|rulemaking|congress|senate|parliament|lawmaker\w*|"
+                   r"legislat\w*|cbdc|inquiry|executive order|sanction\w*|"
+                   r"comment period|federal register)\b"),
+    ("exchanges", r"\b(exchange\w*|binance|coinbase|kraken|okx|bitmex|bybit|bitfinex|"
+                  r"gemini|custodian\w*|custody|delist\w*|shuts? down|wind(?:s|ing)? down)\b"),
+    ("ethereum", r"\b(ethereum|eth|validator\w*|staking|vitalik)\b"),
+    ("defi", r"\b(defi|tvl|oracle\w*|lending|dex|liquidity pool\w*|amm|"
+             r"aave|uniswap|curve finance|compound|makerdao|tokeniz\w*)\b"),
+    ("protocols", r"\b(cardano|solana|zcash|near|avalanche|polkadot|cosmos|chainlink|"
+                  r"litecoin|monero|governance|hard ?fork|soft ?fork|mainnet|testnet|"
+                  r"node software|upgrade\w*|shielded|privacy pool\w*)\b"),
+    ("bitcoin", r"\b(bitcoin|btc|bip ?-?\d+|miner\w*|mining|halving)\b"),
     ("markets", r"\b(price\w*|rally|selloff|sell-off|surge\w*|plunge\w*|all-time high|"
-                r"market cap|liquidation\w*)\b"),
+                r"market cap|liquidation\w*|volume\w*|institutional|trading)\b"),
 ]
 _TAG_RES = [(tag, re.compile(pat, re.I)) for tag, pat in TAG_RULES]
 
 
 def tags_for(item):
-    body = item.get("body") or []
+    """Up to three topic tags, most specific first. See TAG_RULES for why the order matters.
+
+    Matched against the headline, dek and key fact ONLY, never the body. A tag is a claim
+    about what the story IS about, and a 600-word body mentions enough to match most rules
+    in the list: that is how "regulation" ended up on 71% of the site."""
     text = " ".join([item.get("title") or "", item.get("dek") or "",
-                     item.get("key_fact") or ""] +
-                    [p if isinstance(p, str) else "" for p in body])
+                     item.get("key_fact") or ""])
     return [tag for tag, rx in _TAG_RES if rx.search(text)][:3]
 
 
@@ -979,16 +1011,49 @@ def _is_wrap(item):
     return str(item.get("id", "")).startswith("wrap-")
 
 
+BL_FRESH_HOURS = 24  # an edition's read is a read of THAT day; see current_bottom_line
+
+
+def current_bottom_line(items, max_age_hours=BL_FRESH_HOURS):
+    """The newest edition read, or None when it has aged out. ONE selector, two callers.
+
+    There was no staleness rule at all here, and the cost was visible on the front page: on
+    2026-07-31 the hero still carried the July 28 Evening Brief telling readers to watch an
+    FOMC decision that had happened two days before the build. Both call sites took wraps[0]
+    unconditionally, and the only edition-recency rule in the file is relative (the archive's
+    sorted({dates})[:2]) so it can never expire and governs a different surface anyway.
+
+    AGED AGAINST THE NEWEST CONTENT, NOT A WALL CLOCK. Every reader-facing date in this build
+    is derived from the content (see build(): "never a wall clock"), because a build has to be
+    reproducible: reading the clock would make two builds of the same commit differ. The
+    newest item is the right reference regardless. What makes a Bottom Line stale is not the
+    passage of time as such, it is the desk having published things since that the read does
+    not account for. If the desk went completely silent the wrap IS the newest item, its age
+    is zero, and it stands, which is correct: it remains the last thing the desk said, and
+    there is no newer reporting for it to be out of step with.
+
+    An empty slot beats a three-day-old brief framing a past decision as upcoming."""
+    wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
+    if not wraps:
+        return None
+    ed = wraps[0]  # load_content sorts newest-first; wraps outrank stories within a date
+    ref = max((d for d in (_parse_utc(i) for i in items if not i.get("example")) if d),
+              default=None)
+    when = _parse_utc(ed)
+    if ref and when and (ref - when).total_seconds() / 3600 > max_age_hours:
+        return None
+    return ed
+
+
 def bottom_line_card(items):
     """THE BOTTOM LINE (owner directive 2026-07-15): the desk's signature element, the
     newest edition's 3-5 sentence read, refreshed every slot (and by breaking runs).
     Rendered as the compact card that rides beside the lead story (owner directive
     2026-07-17: lead first, Bottom Line to its right, same arrangement as the front
     page), reusing the home hero's card styling."""
-    wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
-    if not wraps:
+    ed = current_bottom_line(items)
+    if not ed:
         return ""
-    ed = wraps[0]  # load_content sorts newest-first; wraps outrank stories within a date
     name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
     return (f'<a class="hero-bl news-bl" href="/articles/{esc(ed["slug"])}.html">'
             f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
@@ -1157,9 +1222,8 @@ def render_home(items, flows, pulse, cm, dateline):
         # The Bottom Line rides shotgun: the day's summary as the hero square beside the
         # lead, replacing the standalone band lower on the page.
         bl_card = ""
-        bl_wraps = [i for i in items if _is_wrap(i) and i.get("bottom_line") and not i.get("example")]
-        if bl_wraps:
-            ed = bl_wraps[0]
+        ed = current_bottom_line(items)
+        if ed:
             ed_name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
             bl_card = (f'<a class="hero-bl" href="/articles/{esc(ed["slug"])}.html">'
                        f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
@@ -1177,7 +1241,7 @@ def render_home(items, flows, pulse, cm, dateline):
                  '<span class="hero-body"><span class="hl-title">All stories &rarr;</span></span></a>')
         desk_html = f"""<div class="sec-head"><h2>Today at the desk</h2><span class="bar"></span></div>
   <div class="hero-band">{hero_video}<div class="hero-band-inner">
-    <div class="hero-grid">{lead_html}{bl_card}</div>
+    <div class="hero-grid{"" if bl_card else " solo"}">{lead_html}{bl_card}</div>
     <div class="hero-more-lab">More from the desk</div>
     <div class="hero-more">{more}</div>
   </div></div>"""

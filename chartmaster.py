@@ -126,12 +126,34 @@ def digest():
                    for side in ("gainers", "losers")},
     }
     if flows.get("volatile"):
+        vol = flows["volatile"]
         d["whale_flows"] = {
             "window_hours": flows.get("window_hours"),
-            "volatile_net_usd": flows["volatile"].get("net_usd"),
-            "direction": flows["volatile"].get("direction"),
+            "volatile_net_usd": vol.get("net_usd"),
+            "direction": vol.get("direction"),
+            # THE SIGN CONVENTION, STATED. It was not, and it cost the desk the daily
+            # edition: the trace check read volatile_net_usd of -112,735,021 next to
+            # direction "onto exchanges", assumed net meant inflow minus outflow, computed
+            # +112.8M from the same board's own asset rows, and killed the edition as
+            # internally contradictory. The board was right; nothing told the reader which
+            # way the sign ran. A signed number whose convention is implicit is a number
+            # every consumer has to guess at, and one of them guessed wrong every slot for
+            # three days while the workflow swallowed the failure.
+            #
+            # net_plain is the belt-and-braces version: an unambiguous English sentence, so
+            # a consumer never has to do sign arithmetic to say what happened at all.
+            "net_convention": "volatile_net_usd = outflow_usd - inflow_usd. POSITIVE means "
+                              "net value LEAVING exchanges; NEGATIVE means net value moving "
+                              "ONTO exchanges. The 'direction' field states the same thing "
+                              "in words and is authoritative.",
+            "net_plain": _net_plain(vol.get("net_usd"), vol.get("direction")),
             "stablecoin_buying_power_usd": (flows.get("stablecoins") or {}).get("net_buying_power_usd"),
-            "by_asset": flows.get("by_asset"),
+            # Same treatment per asset row: the trace check also tried to reconcile
+            # these against the aggregate and reported a "magnitude mismatch".
+            "by_asset": [dict(a, net_plain=_net_plain(
+                a.get("net_usd"),
+                "off exchanges" if (a.get("net_usd") or 0) >= 0 else "onto exchanges"))
+                for a in (flows.get("by_asset") or [])],
             "biggest_onto_exchanges": [{k: m.get(k) for k in ("symbol", "usd", "to")}
                                        for m in flows.get("top_inflows", [])[:3]],
             "biggest_off_exchanges": [{k: m.get(k) for k in ("symbol", "usd", "from")}
@@ -139,6 +161,20 @@ def digest():
             "weekly_net_usd_recent": [w.get("net_usd") for w in (flows.get("history") or [])[-4:]],
         }
     return d
+
+
+
+def _net_plain(net, direction):
+    """One unambiguous sentence for the net whale flow, magnitude and direction together.
+
+    Deliberately drops the sign rather than reporting it. The magnitude and the direction
+    are the two facts; the sign is an encoding of the direction, and carrying both invites a
+    consumer to reconcile them and get it wrong. That is exactly what happened."""
+    try:
+        mag = abs(float(net or 0))
+    except (TypeError, ValueError):
+        return ""
+    return f"${mag:,.0f} net moving {direction or 'unknown direction'}"
 
 
 # The no-advice/no-prediction belt: deterministic, runs on whatever the model returns.

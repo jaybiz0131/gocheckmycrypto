@@ -136,6 +136,7 @@ def layer1_canary():
     fails.extend(_fedreg_canary())
     fails.extend(_dedupe_guard_canary())
     fails.extend(_boundary_canary())
+    fails.extend(_front_page_canary())
     fails.extend(_preview_suppression_canary())
     fails.extend(_consistency_gate_canary())
     fails.extend(_merge_state_canary())
@@ -730,6 +731,99 @@ def _preview_suppression_canary():
            "held-after-approval: the annotation stopped naming the story or the gate")
     _check(ap.held_after_approval_notes([]) == [] and ap.held_after_approval_notes(None) == [],
            fails, "held-after-approval: an empty run no longer annotates nothing")
+    return fails
+
+
+def _front_page_canary():
+    """Two front-page defects found in the 2026-07-31 review, pinned so they cannot return.
+
+    Both were the same kind of bug: a rule that looked like it governed something and did
+    not. Neither failed a build, neither showed up in a link check, and both were visible to
+    any reader who opened the homepage."""
+    fails = []
+    import datetime as _d
+    import site_build as sb
+
+    # (1) THE BOTTOM LINE HAD NO STALENESS RULE AT ALL. On 2026-07-31 the hero still carried
+    # the July 28 Evening Brief, telling readers to watch an FOMC decision that had happened
+    # two days before the build.
+    def _it(slug, wrap, hours_old, bl=None):
+        when = (_d.datetime(2026, 7, 31, 12, tzinfo=_d.timezone.utc)
+                - _d.timedelta(hours=hours_old))
+        out = {"slug": slug, "id": ("wrap-" + slug if wrap else "c1"), "kind": "brief",
+               "title": "The Evening Brief: the day in crypto",
+               "date": when.strftime("%Y-%m-%d"),
+               "published_utc": when.strftime("%Y-%m-%dT%H:%M:%SZ")}
+        if bl:
+            out["bottom_line"] = bl
+        return out
+
+    for label, items, want in (
+        ("a fresh edition", [_it("w", 1, 0, "read")], True),
+        ("an edition 3h old with a story since", [_it("s", 0, 0), _it("w", 1, 3, "read")], True),
+        # the exact 2026-07-31 shape: an old edition with newer reporting on the site
+        ("a 25h-old edition with a story since", [_it("s", 0, 0), _it("w", 1, 25, "read")], False),
+        # the desk going quiet is NOT staleness: nothing newer exists to contradict the read
+        ("a 72h-old edition with nothing since", [_it("w", 1, 72, "read")], True),
+    ):
+        got = sb.current_bottom_line(items) is not None
+        _check(got == want, fails,
+               f"front page: {label} is {'shown' if got else 'retired'} and should be "
+               f"{'shown' if want else 'retired'}; the Bottom Line staleness rule changed")
+    _check("current_bottom_line(" in inspect.getsource(sb.render_home)
+           and "current_bottom_line(" in inspect.getsource(sb.bottom_line_card), fails,
+           "front page: a Bottom Line surface stopped going through current_bottom_line and "
+           "is taking wraps[0] unconditionally again, which is how the July 28 brief held the "
+           "hero on a July 31 build")
+
+    # (2) TAG COLLAPSE. "regulation" was declared first with the broadest pattern in the file
+    # and _hero_tag shows tags[0], so 111 of 156 published stories rendered "regulation".
+    _check(sb.tags_for({"title": "Company reports record corporate treasury operations",
+                        "dek": "", "key_fact": ""}) != ["regulation"], fails,
+           "front page: 'regulation' matches corporate treasury again; that one word is much "
+           "of how the tag reached 71% of the site")
+    litig = sb.tags_for({"title": "Judge dismisses class action lawsuit against the exchange",
+                         "dek": "", "key_fact": ""})
+    # ORDER IS THE MECHANISM, so it needs a fixture that can see it. The litigation case
+    # below cannot: "regulation" no longer matches a lawsuit at all, so moving it back to the
+    # top of TAG_RULES left that assertion green and the sabotage run went clean. This story
+    # matches legal AND regulation AND exchanges, so only the ordering decides what shows.
+    both = sb.tags_for({"title": "SEC sues Coinbase over its unregistered exchange",
+                        "dek": "", "key_fact": ""})
+    _check(both and both[0] == "legal", fails,
+           f"front page: a story matching legal, regulation and exchanges displays "
+           f"{(both or [None])[0]!r}; TAG_RULES is ordered most-specific-first and _hero_tag "
+           f"shows tags[0], so that ordering is the entire mechanism")
+    _check(litig and litig[0] == "legal", fails,
+           f"front page: a litigation story tags {litig} rather than leading with 'legal'; "
+           f"the legal bucket exists because litigation is not rulemaking")
+    # A tag claims what the story IS about, so it never reads the body: a 600-word body
+    # mentions enough to match most of the rules in the list.
+    _check(not sb.tags_for({"title": "Quiet day on the desk", "dek": "", "key_fact": "",
+                            "body": ["The SEC, the CFTC and Congress were all mentioned here, "
+                                     "alongside an exploit, a stablecoin and an ETF."]}), fails,
+           "front page: tags_for is reading the body again; that is how one story came to "
+           "match nearly every rule in the list")
+    # ...and the live corpus must stay spread. Deliberately loose: this fires on collapse,
+    # not on a news cycle that happens to run heavy on one topic for a week.
+    try:
+        items = [i for i in sb.load_content() if not i.get("example")]
+    except Exception:
+        items = []
+    if len(items) >= 40:
+        lead = {}
+        for i in items:
+            t = sb.tags_for(i)
+            if t:
+                lead[t[0]] = lead.get(t[0], 0) + 1
+        top, n = max(lead.items(), key=lambda kv: kv[1]) if lead else ("", 0)
+        _check(n / len(items) <= 0.40, fails,
+               f"front page: {n/len(items):.0%} of published stories display {top!r}; the "
+               f"taxonomy has collapsed to one chip again (it was 71% 'regulation')")
+        untagged = sum(1 for i in items if not sb.tags_for(i))
+        _check(untagged / len(items) <= 0.15, fails,
+               f"front page: {untagged}/{len(items)} published stories carry no tag at all; "
+               f"narrowing the rules has left a hole rather than a taxonomy")
     return fails
 
 

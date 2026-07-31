@@ -148,6 +148,15 @@ jobs:
         if: steps.key.outputs.have_key == 'true'
         run: python3 hackwatch.py || true
 
+      # EDITION GAP CHECK. The edition step above is `wrap.py || echo warning`, which is the
+      # right fail-open posture and also why a broken edition is silent: the job stays green
+      # and the warning scrolls past. It went unnoticed for three days, with the July 28
+      # Evening Brief still holding the homepage hero on July 31. This counts the gap so the
+      # next one is a flag rather than a discovery. Advisory, like the checks above it.
+      - name: Daily edition gap check (is the guaranteed edition actually running?)
+        if: steps.key.outputs.have_key == 'true'
+        run: python3 edition_check.py || true
+
       # ESCALATE THE COVERAGE GAP (owner directive 2026-07-31). calendar_check knew the
       # FOMC decision was uncovered on the day it happened and said so in a ::warning::
       # nobody reads, so the desk missed the week's biggest event twice over: once to the

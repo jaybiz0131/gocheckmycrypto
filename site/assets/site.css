@@ -380,6 +380,9 @@ a.mh-family:hover{text-decoration:underline}
   rgba(7,12,18,.72) 0%,rgba(7,12,18,.42) 60%,rgba(7,12,18,.22) 100%)}
 .hero-band-inner{position:relative;z-index:2;padding:18px}
 .hero-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:14px;align-items:start}
+/* No current Bottom Line (see current_bottom_line: it retires rather than going stale).
+   The lead takes the full width instead of sitting beside an empty 1fr column. */
+.hero-grid.solo{grid-template-columns:1fr}
 .hero-lead{display:block;text-decoration:none;color:inherit;border-radius:10px;
   padding:18px 20px 16px;background:rgba(8,13,20,.82);
   border:1px solid rgba(255,255,255,.09);border-top:3px solid var(--rule);
