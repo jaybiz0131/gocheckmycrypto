@@ -178,6 +178,29 @@ RETIRED_ARTICLES = {
         "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
     "us-treasury-sanctions-iranian-firms-using-bitcoin-for-maritime-extortion":
         "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
+
+    "aave-approves-deprecation-of-50-assets-and-exit-from-six-chains":
+        "aave-retires-50-assets-and-exits-six-chains-consolidating-away-from-low-value-markets",
+    "ai-compute-stocks-bounce-as-hut-8-iren-land-billions-in-new-contracts":
+        "hut-8-and-iren-announce-multi-billion-dollar-ai-data-center-contracts-mining-stocks-surge",
+    "bitmex-sued-for-collateral-theft-and-insider-trading-as-shutdown-looms":
+        "bitmex-faces-class-action-lawsuit-alleging-collateral-theft-and-insider-trading-as-exchange-announces-shutdown",
+    "cftc-blocks-michigan-court-order-mandates-kalshiex-fulfill-trades":
+        "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
+    "cftc-overrides-michigan-court-order-orders-kalshiex-to-fulfill-pending-trades":
+        "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
+    "cftc-overrides-michigan-court-orders-kalshiex-to-fulfill-prediction-market-trades":
+        "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
+    "cftc-overrides-michigan-court-orders-kalshiex-to-fulfill-trades":
+        "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
+    "trump-targets-brazil-s-pix-while-dollar-stablecoins-dominate-country-s-crypto-payments":
+        "trump-tariffs-brazil-s-pix-while-dollar-stablecoins-already-own-90-of-crypto-payments",
+    "uk-parliament-launches-formal-inquiry-into-banking-restrictions-on-crypto-firms":
+        "u-k-parliament-launches-formal-inquiry-into-bank-restrictions-on-crypto-firms",
+    "visa-launches-stablecoin-platform-with-open-usd-pressuring-circle-s-business-model":
+        "visa-launches-stablecoin-platform-for-open-usd-upending-issuer-revenue-model",
+    "visa-launches-visa-stablecoin-platform-for-open-usd-as-circle-s-competitive-moat-narrows":
+        "visa-launches-stablecoin-platform-for-open-usd-upending-issuer-revenue-model",
 }
 
 # Topic tags: deterministic keyword rules over the story text, computed at build time so
@@ -378,6 +401,27 @@ def destyle(text):
     """House style: no em/en dashes in site copy (model drafts sometimes use them)."""
     return (str(text or "").replace(" \u2014 ", ", ").replace("\u2014", ", ")
             .replace(" \u2013 ", ", ").replace("\u2013", "-"))
+
+
+
+def resolve_retired(url):
+    """Point a link at the canonical when it names a slug that has since been merged away.
+
+    The daily editions cite the desk's OWN stories by URL, and those URLs are frozen in the
+    edition's data the day it publishes. Merge a duplicate later and every edition that cited
+    it is left pointing at a page that no longer builds. The redirect catches the reader, so
+    nothing is broken, but a site that links to its own redirects has quietly decided the
+    link check will always have a little noise in it, and a link check with acceptable noise
+    stops being a link check.
+
+    Resolving at render time rather than migrating the stored data is the point: the next
+    merge fixes its own back-references, with no data migration to remember and no second
+    place for the mapping to live."""
+    m = re.match(r"^(?:https?://[^/]+)?/articles/(.+?)(?:\.html)?$", str(url or ""))
+    if not m:
+        return url
+    canon = RETIRED_ARTICLES.get(m.group(1))
+    return f"/articles/{canon}.html" if canon else url
 
 
 def load_content():
@@ -899,7 +943,8 @@ def render_article(item, all_items=None):
     src_html = ""
     if srcs:
         lis = "".join(
-            f'<li><a href="{esc(s.get("url",""))}" rel="nofollow">{esc(source_label(s))}</a></li>'
+            f'<li><a href="{esc(resolve_retired(s.get("url","")))}" rel="nofollow">'
+            f'{esc(source_label(s))}</a></li>'
             for s in srcs)
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol></div>'
     rel_html = ""
