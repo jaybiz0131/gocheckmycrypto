@@ -157,6 +157,13 @@ jobs:
         if: steps.key.outputs.have_key == 'true'
         run: python3 edition_check.py || true
 
+      # DUPLICATE BACKLOG. The guard stops a duplicate at publish; this asks what is already
+      # on the site. It replaced a scan that only compared stories published on the SAME DAY
+      # and therefore reported the CFTC/Kalshi cluster as five articles when it was six.
+      - name: Duplicate audit (cross-day, whole corpus)
+        if: steps.key.outputs.have_key == 'true'
+        run: python3 dupe_audit.py || true
+
       # ESCALATE THE COVERAGE GAP (owner directive 2026-07-31). calendar_check knew the
       # FOMC decision was uncovered on the day it happened and said so in a ::warning::
       # nobody reads, so the desk missed the week's biggest event twice over: once to the

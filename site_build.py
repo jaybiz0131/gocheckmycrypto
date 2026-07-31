@@ -174,6 +174,10 @@ def source_label(src):
 # This map is the audit trail as well as the mechanism: every entry is a URL the desk retired
 # and where it went. Add here, never remove.
 RETIRED_ARTICLES = {
+    "cftc-orders-kalshiex-to-honor-trades-a-michigan-state-court-directed-it-to-cancel":
+        "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
+    "u-s-sanctions-iran-linked-maritime-insurance-scheme-that-accepted-bitcoin":
+        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
     "us-treasury-sanctions-iranian-maritime-firms-behind-bitcoin-denominated-hormuz-insurance-scheme":
         "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
     "us-treasury-sanctions-iranian-firms-using-bitcoin-for-maritime-extortion":

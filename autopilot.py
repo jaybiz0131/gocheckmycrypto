@@ -131,8 +131,21 @@ def main():
         words = body_word_count((drafts.get(cid, {}) or {}).get("article_draft", {}) or {})
         source_chars = (briefs.get(cid) or {}).get("source_chars", 0)
         c = clusters.get(cid) or {}
-        _draft = (drafts.get(cid, {}) or {}).get("article_draft", {}) or {}
-        kf = _draft.get("key_fact", "") or c.get("snippet", "")
+        _d = drafts.get(cid, {}) or {}
+        _draft = _d.get("article_draft", {}) or {}
+        # THE CLAIM THE READER GETS, and it does NOT live on article_draft. That object's
+        # schema (prompts/writer.md) is title/body/bottom_line/human_take/sources/status/
+        # not_financial_advice, with no key_fact at all, so `_draft.get("key_fact", "")`
+        # could only ever return "" and fall through to the raw aggregate snippet. Since
+        # dedupe._claim_signature() reads key_fact exclusively, the guard was judging the
+        # shipped TITLE against a feed blurb, and a thin blurb yields a claim signature too
+        # small to match anything. That is how a fourth copy of the same OFAC sanctions
+        # story published at 15:09 on 2026-07-31, hours after this guard went live and in
+        # the same run where it correctly held three other near-duplicates.
+        # key_fact belongs to script_skeleton. Ordered richest-first.
+        kf = ((_d.get("script_skeleton") or {}).get("key_fact")
+              or _draft.get("key_fact")
+              or c.get("snippet", ""))
         # THE HEADLINE THE READER GETS. story["headline"] is the EDITOR's ranked headline;
         # what ships is the writer's rewrite (site_build ingest publishes
         # payload["article"]["title"]). Judging the wrong one is not academic: on 2026-07-30
