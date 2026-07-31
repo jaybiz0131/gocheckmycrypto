@@ -161,6 +161,23 @@ def source_label(src):
     return outlet
 
 
+# RETIRED ARTICLES: retired slug -> the canonical slug that absorbed it.
+#
+# The desk published the same Treasury designation three times on 2026-07-30 (15:25 Protos,
+# 18:40 and 18:55 both off one Defiant URL). The fullest of the three survives, the reporting
+# only the others carried was folded into it, and these two 301 there. Deleting them would
+# 404 anyone who linked or shared them, which turns our filing error into the reader's
+# problem.
+#
+# This map is the audit trail as well as the mechanism: every entry is a URL the desk retired
+# and where it went. Add here, never remove.
+RETIRED_ARTICLES = {
+    "us-treasury-sanctions-iranian-maritime-firms-behind-bitcoin-denominated-hormuz-insurance-scheme":
+        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
+    "us-treasury-sanctions-iranian-firms-using-bitcoin-for-maritime-extortion":
+        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
+}
+
 # Topic tags: deterministic keyword rules over the story text, computed at build time so
 # every story (old and new) gets them without touching the pipeline. Order = priority;
 # a story keeps at most 3.
@@ -808,6 +825,13 @@ def render_article(item, all_items=None):
     if (item.get("corrected") or "").strip():
         ribbon += (f'<div class="callout corrected"><b>Correction.</b> '
                    f'{esc(destyle(item["corrected"]))}</div>')
+    # A CONSOLIDATION is a structural error, not a factual one: the desk published the same
+    # development more than once and merged them. It gets its own label rather than reusing
+    # Correction, because "Correction" has to keep meaning "we got a fact wrong" or it stops
+    # meaning anything. Same instinct as the corrections policy, applied one level up.
+    if (item.get("consolidated") or "").strip():
+        ribbon += (f'<div class="callout"><b>Editor\'s note.</b> '
+                   f'{esc(destyle(item["consolidated"]))}</div>')
     key = ""
     if item.get("key_fact"):
         key = (f'<div class="keyfact"><span class="lab">The key fact</span>'
@@ -3322,7 +3346,15 @@ def build():
     w("news-sitemap.xml", render_news_sitemap(items))
     w("robots.txt", f"User-agent: *\nAllow: /\n\n"
       f"Sitemap: {ORIGIN}/sitemap.xml\nSitemap: {ORIGIN}/news-sitemap.xml\n")
-    w("_redirects", "/*  /404.html  404\n")
+    # RETIRED URLS keep working. When the desk publishes the same development more than once
+    # and the duplicates are merged, the surviving story takes the reporting and the retired
+    # slugs 301 here. Never delete a published URL: someone linked it, and a 404 punishes the
+    # reader for our filing error. Order matters, Netlify takes the first match, so these
+    # must precede the catch-all.
+    redirects = "".join(f"/articles/{old}.html  /articles/{new}.html  301\n"
+                        f"/articles/{old}  /articles/{new}  301\n"
+                        for old, new in sorted(RETIRED_ARTICLES.items()))
+    w("_redirects", redirects + "/*  /404.html  404\n")
     n_live = sum(1 for i in items if not i.get("example"))
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "
           f"+ {len(items) - n_live} example, plus home/archive/method/about/standards/404.")
