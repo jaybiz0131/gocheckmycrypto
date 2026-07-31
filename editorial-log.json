@@ -2838,5 +2838,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-31",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c129",
+    "headline": "US Sanctions Iranian Marine Insurers Accepting Bitcoin for Strait of Hormuz Passage",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Treasury Secretary Scott Bessent tied the measure to the regime's economic pressure and National Security Presidential Memorandum 2' but does not include the direct quote that appears in the brief: 'With its economy in freefall and inflation in the triple digits, the regime is desperate for cash. The United States will not allow Iran to hold global commerce hostage or use international shipping to finance the IRGC's terrorism, aggression, and repression.' The brief contains this as a data_point with 'reported' confidence; the draft should either include it or acknowledge its absence. The omission weakens accountability and attribution.",
+     "The draft mentions 'Operation Epic Fury' indirectly ('a pattern of Iranian state-linked entities turning to crypto rails as conventional banking channels close') but the brief's data_point explicitly states the release ties the scheme to revenue streams 'decimated by Operation Epic Fury'. This specific claim is in the brief but absent from the draft without explanation, and Operation Epic Fury is a material contextual fact that should be named."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Global Banks Test Tokenized Money for Cross-Border Payments in $1 Million BIS Pilot",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case includes 'The sources do not address regulatory uncertainty, interoperability with non-participating central banks or payment systems, or how the model scales beyond pilot participants.' The draft acknowledges small scale ('$1 million across 30 transactions'), lack of integration with existing infrastructure, and scale risk, but does not address the regulatory uncertainty or interoperability risks flagged in the bear_case. These are material limitations that should appear in a balanced treatment.",
+     "The draft frame\u2014'Institutional tokenization reaches production scale'\u2014is overstated given that the brief explicitly records the prototype was 'not directly integrated with banks' existing payment infrastructure' and the pilot's small size. The language 'reaches production scale' suggests maturity and readiness that the facts do not support. This reads as promotional framing rather than proportionate to evidence."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Tillis and Gallego submit revised ethics language for Clarity Act to White House",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Specifics of the revised ethics compromise have not been reported' but then offers no forward momentum or newsworthy angle beyond that fact. The brief itself marks thin=true with zero source_chars and only one data_point. The draft reads as a placeholder; it smuggles no new facts but it also fails to deliver reportable news\u2014the only factual claim (revised language sent to White House) is acknowledged as incomplete. A story that admits it has no specifics and provides no context on what the White House objections were, what recess timeline applies, or why this moment matters is not a finished draft. It is a stub waiting for reporting to fill in. Reject on grounds that this does not meet the standard of a completed story, only a research note."
+    ]
+   },
+   {
+    "id": "c044",
+    "headline": "Robinhood prediction markets eclipse crypto trading revenue in Q2",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The brief sources do not specify...' and 'The open questions are material...' in the body text. This is metacommentary about the research brief itself, not reporting on the story. The draft should either omit this self-reference entirely or move it to internal editorial notes. As written, it reads as the writer apologizing for thin sourcing within the published article, which violates the firewall between brief and draft.",
+     "The draft contains speculative framing ('The story would break if...') in the bottom_line that functions as prediction rather than forward-looking analysis tied to verifiable developments. This crosses into editorial speculation unsupported by data_points."
+    ]
+   }
+  ]
  }
 ]
