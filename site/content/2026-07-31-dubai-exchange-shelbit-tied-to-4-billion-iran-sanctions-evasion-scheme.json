@@ -1,0 +1,32 @@
+{
+  "id": "c002",
+  "slug": "dubai-exchange-shelbit-tied-to-4-billion-iran-sanctions-evasion-scheme",
+  "kind": "brief",
+  "title": "Dubai Exchange Shelbit Tied to $4 Billion Iran Sanctions-Evasion Scheme",
+  "dek": "Shelbit, an unlicensed Dubai exchange run by Iranian expatriate Siavash Kayvanpour, allegedly moved hundreds of millions of dollars for a $4 billion Iranian sanctions-evasion operation linking illegal gambling platforms, Iran's central bank, and entities tied to the Islamic Revolutionary Guard Corps. The operation funneled money to major exchanges including Binance, exposing global crypto platforms to secondary sanctions liability.",
+  "date": "2026-07-31",
+  "published_utc": "2026-07-31T12:31:34Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Shelbit moved hundreds of millions of dollars to major crypto exchanges on behalf of sanctioned Iranian entities, with proceeds traced to Iran's central bank and IRGC-linked wallets.",
+  "bottom_line": "The scheme demonstrates that crypto's transparency advantage cuts both ways: flows are traceable but scale and complexity can overwhelm exchange compliance teams in real time. Watch whether regulators now impose liability for indirect funneling through unlicensed exchanges, and whether Binance or other platforms face enforcement action for the flows that passed through their systems despite Shelbit's lack of a direct account. The premise holds only if investigators' tracing methodology holds up under regulatory scrutiny.",
+  "human_take": "",
+  "body": [
+    "A Dubai-based unlicensed crypto exchange has emerged as a central node in a $4 billion Iranian sanctions-evasion operation, funneling hundreds of millions of dollars to major platforms including Binance on behalf of sanctioned entities tied to Iran's central bank and the Islamic Revolutionary Guard Corps, according to reporting by investigative firms cited by CoinDesk.",
+    "Shelbit, run by Iranian expatriate Siavash Kayvanpour, served as a primary customer gateway for an illegal gambling network based in Dubai that operates more than 2,000 platforms. The network's proceeds flowed through Shelbit to major crypto exchanges, mixing dirty money with mainstream infrastructure in a way that exposed global platforms to secondary sanctions liability.",
+    "Per investigative reporting, Shelbit interacts directly with Iran's central bank, wallets linked to the IRGC as identified by the Israeli government, and Nobitex, an Iranian exchange that the U.S. government sanctioned earlier this year. Some of the crypto flowing into Shelbit came from what investigators described as an Iranian bitcoin mining operation, creating a chain that began with newly minted coins and ended in major exchange liquidity pools.",
+    "John Wojcik, senior analyst at TRM Labs, described the operation in scope: \"This is by far the biggest Iranian illegal gambling network ever discovered and one of the biggest in the world.\" The scale places it among the largest Iranian sanctions-evasion networks discovered since 2016, when the U.S. broke up a roughly $20 billion IRGC gold-for-oil operation based in Turkey. In May of this year, the U.S. seized $1 billion in crypto from Iran.",
+    "Binance, responding to the reporting, stated that Shelbit had never held an account on its platform and that transactions linked to Shelbit were not flagged as high risk before investigation. The exchange said it subsequently investigated users associated with Shelbit, froze relevant accounts, and reported them to law enforcement. Reuters, however, could not independently determine whether the IRGC directly controlled Shelbit or the gambling network itself, leaving the question of operational command structure unresolved by the sourced investigation.",
+    "Rich Sanders, an independent blockchain researcher focused on Iran, offered a direct assessment: \"It's an IRGC operation, and that's plain as day.\" The Central Bank of Iran has been sanctioned under U.S. counterterrorism authorities since 2019 over its support for the IRGC, its Quds Force, and Hezbollah.",
+    "The discovery underscores exposure across crypto's mainstream infrastructure: exchanges did not catch flows that investigators later traced to sanctioned entities, and the use of Shelbit as an intermediary obscured the ultimate destination of funds until detailed blockchain forensics revealed the pattern."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/07/31/dubai-based-crypto-exchange-tied-to-usd4-billion-iran-sanctioned-evasion-network-reuters",
+      "url": "https://www.coindesk.com/business/2026/07/31/dubai-based-crypto-exchange-tied-to-usd4-billion-iran-sanctioned-evasion-network-reuters"
+    }
+  ],
+  "update_of": "us-treasury-sanctions-iranian-maritime-firms-behind-bitcoin-denominated-hormuz-insurance-scheme"
+}
