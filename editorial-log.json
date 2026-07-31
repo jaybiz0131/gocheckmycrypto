@@ -2879,5 +2879,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-31",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c011",
+    "headline": "Coldcard Hardware Wallet Flaw Exposed Seed Generation; 594 BTC Stolen in 25-Minute Sweep",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The Mk3 model was released before the vulnerability was introduced' but then immediately contradicts itself by saying 'The flaw entered the device in firmware version 4.0.0, shipped in March 2021.' This is internally inconsistent. The brief does not clarify whether Mk3 was released before or after March 2021, making it impossible to verify whether this claim is smuggled or just poorly written. The sentence creates liability confusion about device timeline.",
+     "Draft claims 'Block, a blockchain security firm' without attribution inline to source. The brief confirms Block is named in the CoinDesk article, but the draft never attributes this characterization to CoinDesk; it presents 'Block' as an unattributed entity description that may not appear in the source material itself."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "New York AG Sues Kalshi for $36 Billion Over Gambling Allegations as CFTC Seeks to Block State Enforcement",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The CFTC asked a court to intervene and block the state from enforcing against Kalshi' and later 'By filing first to block state intervention, the federal regulator staked a claim to exclusive jurisdiction.' The brief's data_point says 'CFTC asked a court to stop New York from enforcing against Kalshi the day before the state filed the lawsuit'\u2014these are two different claims. The first (asking to block enforcement generally) is in the brief; the second (filing first to block intervention, staking a jurisdictional claim) is inference or smuggled interpretation not present in the source brief. The draft moved from reporting what happened to characterizing motive and strategy without brief support.",
+     "Draft is thin (brief shows thin: true) but provides no evidence of how the brief's four open_questions were resolved or why they were not addressed. The brief explicitly flags that regulatory basis, CFTC license scope, legal theory, and timeline are all unknown\u2014the draft should either surface this uncertainty or explain why it is omitted. Presenting only two data points as settled fact without acknowledging the open_questions violates the accuracy rule when the brief itself identifies critical missing information."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Institutions now account for 72% of crypto spot trading, reshaping market structure",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case is empty, yet the draft contains no explicit risk paragraph or caveat about data limitations. The final paragraph ('The data is drawn from a single OTC desk...') appears to be a caveat about generalizability, but this is not in the brief's bear_case and reads as a post-hoc addition rather than an integrated balance statement. The draft should either remove this caveat (if the brief does not support it) or the brief should have included it as a documented limitation."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Fake staking site drains $8.5 million in XRP from dozens of investors promising easy yield",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The scammers ran the fraudulent site from October 16 to October 23, 2025' but the brief data_point says 'from October 16 to October 23' without specifying the year. The draft adds '2025' as a fact not present in the brief's sourced claims. This is smuggled information\u2014the year must come from the source URL or be flagged as unconfirmed.",
+     "The draft states 'As of late March 2026, Flare Network reported over $160 million in total value locked and more than 887,000 active addresses' as though this is part of the Flare backstory in the main narrative. This data point appears in the brief but is not sourced to the CoinDesk article provided\u2014it reads as context that may come from Flare's own reporting or external sources, not from the article the draft was written from. Attribution or confirmation of source is required.",
+     "The statement 'Police indicated that scammers may have operated from an unknown overseas location through the third suspect still wanted for arrest' presents the scammers' location as a new inference not explicitly stated in any brief data_point. The brief notes the third suspect's 'unknown location,' but the draft conflates this with a statement about where 'scammers may have operated,' which is interpretation beyond the brief's reported facts."
+    ]
+   }
+  ]
  }
 ]
