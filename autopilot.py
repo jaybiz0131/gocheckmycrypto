@@ -29,102 +29,15 @@ import subprocess
 import sys
 
 import common
+# The dedupe guard is chassis-level: one module, identical across the three desks. See
+# dedupe.py for why it was extracted and what each rule is defending against. Re-exported
+# here because callers and canaries have always reached for these through autopilot.
+from dedupe import (NOVELTY_MIN, classify_published, is_coverage, same_event,  # noqa: F401
+                    _claim_signature, _covered_signature, _headline_overlap,   # noqa: F401
+                    _OUTLETS, _signature, _words)                              # noqa: F401
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
-
-
-def _words(s):
-    return set(re.findall(r"[a-z]{4,}", (s or "").lower()))
-
-
-# Ubiquitous crypto vocabulary: shared between UNRELATED stories, so it is not an event
-# fingerprint. Two stories both saying "Bitcoin"/"SEC"/"ETF" are not the same story.
-_UBIQUITOUS = {
-    "bitcoin", "btc", "ethereum", "eth", "crypto", "cryptocurrency", "sec", "cftc", "etf",
-    "token", "tokens", "blockchain", "defi", "stablecoin", "stablecoins", "market",
-    "markets", "price", "prices", "exchange", "exchanges", "million", "billion", "billions",
-    "trillion", "the", "and", "for", "with", "over", "into", "from", "u.s", "us", "new",
-    "law", "bill", "act", "vote", "firm", "firms", "coin", "network", "protocol",
-}
-
-
-def _signature(*texts):
-    """Event fingerprint: the DISTINCTIVE tokens that name a specific event. Proper nouns
-    (Hut, IREN, Maruwa, Worldcoin, Grayscale, Parliament) and numbers/amounts (2,300,
-    3,800, 1.65, 110), minus the ubiquitous crypto vocabulary two unrelated stories share.
-    Two stories about the SAME event share these even when the headline words differ:
-    'Amazon Japan supplier to pay 2,300 contractors' and 'AZ-COM Maruwa to pay 2,300
-    partners' share {amazon, japan, 2300} though word-overlap is only 0.43."""
-    blob = " ".join(t or "" for t in texts)
-    proper = re.findall(r"\b([A-Z][A-Za-z0-9.\-]{2,}|[A-Z]{2,})\b", blob)
-    nums = re.findall(r"\b\d[\d,\.]*\b", blob)
-    sig = {p.lower().rstrip(".").replace(",", "") for p in proper}
-    sig |= {n.replace(",", "").rstrip(".") for n in nums}
-    return {t for t in sig if t and t not in _UBIQUITOUS and len(t) >= 2}
-
-
-def same_event(a_title, a_kf, b_title, b_kf, word_thr=0.7, sig_thr=2):
-    """True if two stories cover the same event: high headline-word overlap OR >= sig_thr
-    shared distinctive fingerprint tokens (the news-dedup signal word overlap misses)."""
-    wa, wb = _words(a_title), _words(b_title)
-    if wa and wb and len(wa & wb) / min(len(wa), len(wb)) >= word_thr:
-        return True
-    return len(_signature(a_title, a_kf) & _signature(b_title, b_kf)) >= sig_thr
-
-
-# Outlet / wire names: they appear as proper nouns in the signature but are not part of the
-# EVENT, so a new outlet on the same story is not a new development.
-_OUTLETS = {
-    "coindesk", "cointelegraph", "decrypt", "theblock", "block", "defiant", "thedefiant",
-    "blockworks", "blockonomi", "beacon", "reuters", "bloomberg", "forbes", "fortune",
-    "cnbc", "messari", "nansen", "arkham", "lookonchain", "protos", "beincrypto",
-    "cryptoslate", "dlnews", "axios", "wsj", "techcrunch", "coinshares",
-}
-
-
-def _headline_overlap(a_title, b_title):
-    wa, wb = _words(a_title), _words(b_title)
-    return len(wa & wb) / min(len(wa), len(wb)) if wa and wb else 0.0
-
-
-def classify_published(headline, key_fact="", within_days=21):
-    """Relate a candidate to the recently published corpus (widened from 5 to 21 days so
-    multi-week running stories stay linked):
-      ('rehash', title, slug)  near-duplicate to HOLD: same event, near-identical framing.
-      ('update', title, slug)  a genuine development to publish AS AN UPDATE of the original.
-      ('new', None, None)      unseen.
-    Split rule: same event is matched as before; a near-identical HEADLINE (>=50% word
-    overlap) is a rehash (the 5x-Kalshi case); the same event with a different angle plus
-    >=2 new distinctive, non-outlet specifics (new actor/mechanism/number, e.g. the Ostium
-    'Tornado Cash / 10,540 ETH' follow-up) is a development. The update links the EARLIEST
-    matched story (the origin), so 'develops our earlier reporting' points at the first take."""
-    cutoff = (datetime.datetime.now(datetime.timezone.utc)
-              - datetime.timedelta(days=within_days)).isoformat() if within_days else ""
-    matches = []
-    for p in glob.glob(os.path.join(HERE, "site", "content", "*.json")):
-        try:
-            d = json.load(open(p, encoding="utf-8"))
-        except Exception:
-            continue
-        if str(d.get("id", "")).startswith("wrap-") or d.get("example"):
-            continue
-        when = d.get("published_utc") or (d.get("date", "") + "T00:00:00Z")
-        if cutoff and when < cutoff:
-            continue
-        if same_event(headline, key_fact, d.get("title", ""), d.get("key_fact", "")):
-            matches.append((when, d.get("title", ""), d.get("slug", ""), d.get("key_fact", "")))
-    if not matches:
-        return ("new", None, None)
-    # a near-identical headline against ANY match => rehash (hold)
-    if any(_headline_overlap(headline, m[1]) >= 0.5 for m in matches):
-        top = min(matches, key=lambda m: m[0])
-        return ("rehash", top[1], top[2])
-    origin = min(matches, key=lambda m: m[0])  # earliest = the story this one develops
-    new = _signature(headline, key_fact) - _signature(origin[1], origin[3]) - _OUTLETS
-    if len(new) >= 2:
-        return ("update", origin[1], origin[2])
-    return ("rehash", origin[1], origin[2])
 
 
 def body_word_count(article_draft):
@@ -151,30 +64,6 @@ def breaking_two_source_holds(headline, source_names):
     return "unconfirmed" not in (headline or "").lower()
 
 
-def is_coverage(d):
-    """False for anything that is not coverage of an event happening.
-
-    Two kinds get excluded, for the same reason: neither reports an event, so neither can
-    be the thing a later story is duplicating.
-
-    EDITIONS (wrap-) synthesise the day's own published stories.
-
-    PREVIEWS (the Week Ahead) announce that something WILL happen. This one was not
-    theoretical. The Week Ahead published 2026-07-27 listed "Wednesday, July 29: FOMC rate
-    decision", and same_event() correctly matched that against the real story when the Fed
-    actually decided. The FOMC story was ranked #1, VERIFIED against federalreserve.gov,
-    and APPROVED, then held as already-published, so the desk missed the week's biggest
-    event because it had told readers to expect it. Every event the Week Ahead flags was
-    pre-suppressed for the following five days: the better the preview, the worse the
-    blackout."""
-    if str(d.get("id", "")).startswith("wrap-"):
-        return False
-    if (str(d.get("id", "")).startswith("week-ahead-")
-            or (d.get("category") or "").strip().lower() == "week ahead"):
-        return False
-    return True
-
-
 def held_after_approval_notes(held):
     """The annotation lines for stories the desk VERIFIED and APPROVED and then held.
 
@@ -195,30 +84,10 @@ def held_after_approval_notes(held):
         out.append(line)
     return out
 
-def already_published(headline, key_fact="", within_days=5):
-    """A follow-up on yesterday's event should update the existing article, not publish a
-    new one. This holds any story that covers the SAME EVENT as one already published in the
-    last `within_days` (event fingerprint, not just headline words), so the desk stops
-    re-running the UK inquiry / Hut 8-IREN / Amazon-Japan story as fresh coverage. Returns
-    the matched (title, url) so the caller can log it, or None.
-
-    Only real coverage can suppress; see is_coverage."""
-    cutoff = (datetime.datetime.now(datetime.timezone.utc)
-              - datetime.timedelta(days=within_days)).isoformat() if within_days else ""
-    for p in glob.glob(os.path.join(HERE, "site", "content", "*.json")):
-        try:
-            d = json.load(open(p, encoding="utf-8"))
-        except Exception:
-            continue
-        if not is_coverage(d):
-            continue
-        if cutoff and (d.get("published_utc") or d.get("date", "") + "T00:00:00Z") < cutoff:
-            continue
-        if same_event(headline, key_fact, d.get("title", ""), d.get("key_fact", "")):
-            return (d.get("title", ""), f"/articles/{d.get('slug','')}.html")
-    return None
-
-
+# already_published() lived here and was never called by anything. Its corpus scan and its
+# is_coverage() preview filter are now inside classify_published(), which is the gate that
+# actually runs. Keeping a second, unreachable copy is how the FOMC preview fix came to pass
+# its canary while never executing in production.
 def main():
     import consistency  # lazy: consistency imports from this module, so avoid an import cycle
     tpl_path = os.path.join(OUT, "approval_template.json")
@@ -262,8 +131,14 @@ def main():
         words = body_word_count((drafts.get(cid, {}) or {}).get("article_draft", {}) or {})
         source_chars = (briefs.get(cid) or {}).get("source_chars", 0)
         c = clusters.get(cid) or {}
-        kf = (drafts.get(cid, {}) or {}).get("article_draft", {}).get("key_fact", "") or c.get("snippet", "")
-        headline = story.get("headline", "")
+        _draft = (drafts.get(cid, {}) or {}).get("article_draft", {}) or {}
+        kf = _draft.get("key_fact", "") or c.get("snippet", "")
+        # THE HEADLINE THE READER GETS. story["headline"] is the EDITOR's ranked headline;
+        # what ships is the writer's rewrite (site_build ingest publishes
+        # payload["article"]["title"]). Judging the wrong one is not academic: on 2026-07-30
+        # the 18:40 duplicate scored 0.44 word-overlap as the editor wrote it and 0.75 as it
+        # actually shipped, and 0.75 would have held it.
+        headline = _draft.get("title") or story.get("headline", "")
         src_names = [c.get("source", "")] + [x.get("name", "")
                                              for x in (c.get("corroboration") or [])]
         if story.get("verifier_verdict") != "VERIFIED":
