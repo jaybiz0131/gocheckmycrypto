@@ -133,6 +133,13 @@ jobs:
         if: steps.key.outputs.have_key == 'true'
         run: python3 calendar_check.py || true
 
+      # The exploit half of the same question. Nobody schedules a hack, so the curated
+      # calendar cannot cover this beat; an independent ledger can. Keyless, advisory,
+      # never fails the run. See hackwatch.py.
+      - name: Exploit coverage check (DefiLlama hacks ledger vs what the desk published)
+        if: steps.key.outputs.have_key == 'true'
+        run: python3 hackwatch.py || true
+
       # ESCALATE THE COVERAGE GAP (owner directive 2026-07-31). calendar_check knew the
       # FOMC decision was uncovered on the day it happened and said so in a ::warning::
       # nobody reads, so the desk missed the week's biggest event twice over: once to the
@@ -168,10 +175,17 @@ jobs:
                   headers=hdrs, method=method)
               return json.load(urllib.request.urlopen(req))
 
-          try:
-              gaps = json.load(open("out/calendar_gaps.json", encoding="utf-8"))["uncovered"]
-          except Exception as e:
-              print(f"no calendar gap report to act on ({e})"); raise SystemExit
+          # Both coverage checks feed ONE flag. Two issues for "the desk missed something"
+          # would halve the attention each gets, which is the opposite of the point.
+          gaps, read_any = [], False
+          for report in ("out/calendar_gaps.json", "out/hack_gaps.json"):
+              try:
+                  gaps += json.load(open(report, encoding="utf-8"))["uncovered"]
+                  read_any = True
+              except Exception:
+                  pass
+          if not read_any:
+              print("no coverage gap report to act on"); raise SystemExit
 
           issues = api(f"https://api.github.com/repos/{repo}/issues?state=open&labels=calendar")
           existing = next((i for i in issues if i["title"] == title), None)
@@ -193,8 +207,8 @@ jobs:
               f"- **{e.get('date')}** ({e.get('kind')}) {e.get('title')}\n"
               f"  - nothing published matching `{e.get('match')}`\n"
               f"  - source: {e.get('source', 'n/a')}" for e in gaps)
-          body = (f"The desk's own curated calendar lists {len(gaps)} event(s) that are due "
-                  f"and carry no matching story.\n\n{lines}\n\n"
+          body = (f"{len(gaps)} event(s) the desk should have covered and did not.\n\n"
+                  f"{lines}\n\n"
                   "This is advisory: it does not block publishing, and it is fine to close "
                   "if the desk decided the event was not worth covering. It reopens if a "
                   "different event goes uncovered.\n\n"

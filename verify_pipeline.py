@@ -131,6 +131,7 @@ def layer1_canary():
     fails.extend(_window_belt_canary())
     fails.extend(_coin_screen_canary())
     fails.extend(_regwatch_canary())
+    fails.extend(_hackwatch_canary())
     fails.extend(_preview_suppression_canary())
     fails.extend(_consistency_gate_canary())
     fails.extend(_merge_state_canary())
@@ -154,6 +155,62 @@ def layer1_canary():
           "end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.")
     return 0
 
+
+def _hackwatch_canary():
+    """The exploit coverage check, offline against a fixture ledger.
+
+    Nobody schedules a hack, so the curated calendar cannot cover this beat and an
+    independent ledger is the only way to answer "did we miss one?". Run against the live
+    dataset over 30 days this found five uncovered exploits above $1M, including a $21.3M
+    one, so the check earns its place; these cases keep it honest.
+
+    The asymmetry matters: a false "uncovered" is a flag someone closes, a false "covered"
+    is silence. So coverage requires BOTH the protocol name and exploit language, and the
+    story must not predate the hack."""
+    fails = []
+    import datetime as _dt
+    import hackwatch as hw
+
+    today = _dt.date(2026, 7, 30)
+    ts = int(_dt.datetime(2026, 7, 29, tzinfo=_dt.timezone.utc).timestamp())
+    ledger = [
+        {"date": ts, "amount": 21_300_000, "name": "BonkDAO", "technique": "Governance",
+         "chain": ["Solana"], "source": "http://x"},
+        {"date": ts, "amount": 5_000, "name": "Dustcoin", "technique": "Rug"},
+    ]
+
+    def run(stories):
+        hw._corpus = lambda within_days=14: stories
+        return hw.gaps(days_back=4, today=today, hacks=ledger)
+
+    _check([e["title"] for e in run([])] == ["BonkDAO exploit, $21,300,000"], fails,
+           "hackwatch: missed an uncovered exploit, or flagged one below the floor")
+
+    _check(run([("2026-07-29", "bonkdao drained in a governance exploit")]) == [], fails,
+           "hackwatch: real coverage was not recognised, which turns the flag into noise")
+
+    _check(len(run([("2026-07-29", "bonkdao announces a new staking program")])) == 1, fails,
+           "hackwatch: a story that merely names the protocol counted as exploit coverage; "
+           "a false 'covered' is silent and is the failure that matters")
+
+    _check(len(run([("2026-07-28", "bonkdao hit by an exploit")])) == 1, fails,
+           "hackwatch: a story published BEFORE the exploit counted as coverage of it")
+
+    _check(hw.gaps(days_back=4, today=_dt.date(2026, 8, 20), hacks=ledger) == [], fails,
+           "hackwatch: an exploit outside the window is still being flagged")
+
+    # an unreachable ledger must return None, which main() treats as "no check ran"
+    hw._fetch = lambda *a, **k: (_ for _ in ()).throw(OSError("down"))
+    _check(hw.gaps(days_back=4, today=today) is None, fails,
+           "hackwatch: an unreachable source no longer fails open; a check that cannot run "
+           "must never look like a clean result")
+
+    _check(hw._name_terms("AFX Bridge") == ["afx bridge", "bridge"] or
+           hw._name_terms("AFX Bridge") == ["afx bridge"], fails,
+           "hackwatch: name terms changed shape unexpectedly")
+    _check("the" not in hw._name_terms("The Pool"), fails,
+           "hackwatch: a short leading word became a match term and will match everything")
+    return fails
 
 def _regwatch_canary():
     """A tracked storyline must belong to the jurisdiction whose measure it is.
