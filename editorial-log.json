@@ -3147,5 +3147,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-31",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c021",
+    "headline": "Coldcard hardware wallet flaw exposes bitcoin private keys to attackers; 594 BTC stolen in 25 minutes",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states '594 bitcoin, worth about $38 million' but does not attribute this valuation inline to CoinDesk or clarify the exchange rate used. While the brief confirms the 594 BTC figure and ~$38 million value, the draft should have explicitly attributed the price conversion to the source to avoid implying current market pricing.",
+     "The draft claims 'Exposure depends on the firmware the device was running at the moment the wallet was first created, not on when the hardware was bought' but this critical distinction is not present in the brief's data_points, making it a SMUGGLED fact not traceable to the research brief."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Dubai-based crypto exchange tied to $4 billion Iran sanctions-evasion network involving illegal gambling and IRGC-linked entities",
+    "category": "balance",
+    "reasons": [
+     "The draft opens with 'A vast Dubai-based illegal gambling network is allegedly channeling millions of dollars in cryptocurrency through Shelbit' and presents Shelbit as a state-backed operation throughout, but the bear_case explicitly states 'Reuters said it could not determine whether the IRGC directly controlled Shelbit or the gambling network.' The draft includes Rich Sanders' claim that 'It's an IRGC operation, and that's plain as day,' but immediately after (in the next sentence) says 'However, Reuters said it could not determine whether the IRGC directly controlled Shelbit'\u2014this hedging is buried and not proportionate. The opening paragraph should have signaled uncertainty rather than treating IRGC control as established fact.",
+     "The draft states 'Shelbit has moved hundreds of millions of dollars to some of the most prominent crypto companies, including Binance' but the bear_case identifies a direct contradiction: 'Binance said Shelbit had never held an account on its platform... which would contradict the allegation that Shelbit moved hundreds of millions of dollars through Binance directly.' The draft includes Binance's denial but does not reconcile the logical conflict between 'moved hundreds of millions to Binance' and 'never held an account on our platform.' This leaves readers confused about what actually happened."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Tether Q2 profit fell 69% YoY; excess reserves halved to $4.1 billion",
+    "category": "accuracy",
+    "reasons": [
+     "The title claims 'Tether Q2 profit fell 69% YoY' but the draft itself acknowledges in paragraph 4: 'The 69% decline in year-over-year profit mentioned in initial reporting cannot be independently verified against the source text, as no Q2 2025 comparable is provided.' This is a smuggled fact\u2014the brief's open_questions explicitly flag that 'No prior-year comparison is given for Q2 2025 operating profit...so the year-over-year decline of 69% mentioned in the headline cannot be verified against the source text alone.' A fact the writer cannot verify from the brief cannot appear in the headline or body as fact."
+    ]
+   },
+   {
+    "id": "c152",
+    "headline": "BIS Project Agor\u00e1 Completes Multi-Currency Tokenized Settlement Trial",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Previous central bank digital currency pilots, including those by the Federal Reserve and ECB, used simulated transactions or small-value test funds.' This claim does not appear in the brief's data_points and is not sourced to Cointelegraph. It is a smuggled comparative fact introduced without research support.",
+     "The draft claims 'Wholesale payment pilots often involve 5 to 10 banks' as context. This benchmark figure is not in the brief and constitutes unsourced industry assertion.",
+     "The brief is marked thin=true with only 3 data_points and 0 source_chars, yet the draft adds interpretive scaffolding (comparisons to Fed/ECB pilots, typical pilot size norms, characterizations of 'shift from simulation-based' models) that exceeds what the single Cointelegraph source supports. The writer has patched the thin brief with outside knowledge rather than noting what remains unknown."
+    ]
+   }
+  ]
  }
 ]

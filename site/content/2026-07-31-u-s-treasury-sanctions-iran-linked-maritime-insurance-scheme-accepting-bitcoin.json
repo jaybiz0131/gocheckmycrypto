@@ -1,0 +1,29 @@
+{
+  "id": "c013",
+  "slug": "u-s-treasury-sanctions-iran-linked-maritime-insurance-scheme-accepting-bitcoin",
+  "kind": "brief",
+  "title": "U.S. Treasury sanctions Iran-linked maritime insurance scheme accepting Bitcoin",
+  "dek": "The U.S. Treasury designated two Iranian maritime insurance entities, Persian Gulf Marine Insurance Company and HormuzSafe Marine Services Authority, for accepting Bitcoin and other digital assets to bypass Western sanctions on shipping through the Strait of Hormuz. Treasury characterized the arrangement as extortion rather than insurance and signaled enforcement action against crypto-enabled sanctions evasion schemes.",
+  "date": "2026-07-31",
+  "published_utc": "2026-07-31T21:22:19Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "Treasury sanctioned an Iran-backed platform explicitly accepting Bitcoin to circumvent sanctions on one of the world's most critical shipping chokepoints, marking a direct federal enforcement action against cryptocurrency-enabled sanctions evasion.",
+  "bottom_line": "Watch for Treasury's enforcement guidance on secondary sanctions targeting foreign companies that transacted with the designated entities via cryptocurrency, and whether on-chain forensics can identify and trace payments before the designation date. Any enforcement action that identifies specific foreign firms or cryptocurrency addresses would signal a new capability in sanctions enforcement against digital-asset payment routes.",
+  "human_take": "",
+  "body": [
+    "The U.S. Treasury designated two Iranian maritime insurance entities for accepting Bitcoin and other digital assets as part of an Iran-backed scheme to circumvent Western sanctions on shipping through the Strait of Hormuz. The entities, Persian Gulf Marine Insurance Company and HormuzSafe Marine Services Authority (also known as Hormuz Safe), were sanctioned under an executive order covering Iran's petroleum and petrochemical sectors, per CoinDesk's reporting.",
+    "Treasury described the arrangement not as traditional insurance but as extortion, noting that the policies covered risks such as vessel seizures that are overwhelmingly created by Iran itself. Hormuz Safe was developed by Iran's Ministry of Economy and accepts payment in Bitcoin and other digital assets as part of what Treasury characterized as the regime's attempts to bypass Western sanctions, per CoinDesk. Designation means U.S. persons are barred from transacting with the two companies, and foreign firms that deal with them risk secondary sanctions. Payments in Bitcoin carry the same exposure as payments through banks under the sanctions regime, according to Treasury's statement.",
+    "CoinDesk reported the existence of the plan on May 18, based on state-linked Fars News accounts describing an economy ministry proposal to manage shipping through the Strait using Bitcoin-settled marine insurance policies. At that time, the platform's website displayed only a landing page and CoinDesk could not verify whether it was operational or whether any cargo owners had used it. Fars claimed the model could generate more than $10 billion without explaining the methodology behind that figure.",
+    "The policies were approved by the Persian Gulf Strait Authority, an IRGC-backed body that Treasury had designated in May, per CoinDesk's reporting. Treasury Secretary Scott Bessent said in a statement, per CoinDesk, that with Iran's economy in freefall and inflation running in the triple digits, the regime is desperate for cash. The Strait of Hormuz remains one of the world's most important energy chokepoints, and traffic through it has thinned during weeks of U.S. strikes on Iran that have kept oil prices elevated.",
+    "Several material questions about the scheme's operational scope remain unanswered by the source materials. CoinDesk could not establish whether Hormuz Safe became operational between May 18 and the July 31 designation, or whether any Bitcoin or digital asset transactions actually occurred before the sanctions took effect. The sources do not identify which foreign companies or ship operators, if any, engaged with the platform or made cryptocurrency payments. Enforcement of secondary sanctions on foreign entities that may have transacted with the designated firms through pseudonymous blockchain transfers presents an unresolved challenge."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/07/31/u-s-sanctions-iran-linked-bitcoin-insurance-scheme-for-strait-of-hormuz-ships",
+      "url": "https://www.coindesk.com/policy/2026/07/31/u-s-sanctions-iran-linked-bitcoin-insurance-scheme-for-strait-of-hormuz-ships"
+    }
+  ]
+}
