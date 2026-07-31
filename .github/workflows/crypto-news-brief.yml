@@ -129,6 +129,14 @@ jobs:
       # story on the day. This reads data/week_calendar.json every run and flags any due
       # event with no coverage dated on or after it. Advisory: warns for the editor, never
       # blocks a publish (|| true keeps a coverage judgment out of the failure path).
+      # Federal rulemaking onto the calendar BEFORE the news carries it. regwatch.py can
+      # only see measures the desk already covered, so the desk's regulatory awareness was
+      # entirely downstream of feeds. Keyless, advisory, and read by calendar_check only;
+      # the reader-facing Week Ahead still runs off the curated file. See fedreg.py.
+      - name: Federal Register sweep (rulemaking onto the calendar)
+        if: steps.key.outputs.have_key == 'true'
+        run: python3 fedreg.py || true
+
       - name: Known-event coverage check (calendar vs what the desk published)
         if: steps.key.outputs.have_key == 'true'
         run: python3 calendar_check.py || true

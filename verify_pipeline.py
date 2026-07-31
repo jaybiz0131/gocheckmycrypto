@@ -132,6 +132,7 @@ def layer1_canary():
     fails.extend(_coin_screen_canary())
     fails.extend(_regwatch_canary())
     fails.extend(_hackwatch_canary())
+    fails.extend(_fedreg_canary())
     fails.extend(_preview_suppression_canary())
     fails.extend(_consistency_gate_canary())
     fails.extend(_merge_state_canary())
@@ -155,6 +156,67 @@ def layer1_canary():
           "end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.")
     return 0
 
+
+def _fedreg_canary():
+    """Federal rulemaking onto the calendar, offline against fixture documents.
+
+    The desk's regulatory awareness ran entirely off its own published stories via
+    regwatch, so it could not know about a rule until someone else wrote about it. This
+    closes that, and these cases pin the two things that make it trustworthy."""
+    fails = []
+    import datetime as _dt
+    import fedreg as fr
+
+    doc = {"title": "Permitted Payment Stablecoin Issuer Customer Identification Programs",
+           "abstract": "FinCEN is proposing requirements for stablecoin issuers.",
+           "publication_date": "2026-06-22", "type": "Proposed Rule",
+           "comments_close_on": "2026-08-21", "document_number": "2026-1",
+           "agencies": [{"name": "Financial Crimes Enforcement Network"}],
+           "html_url": "http://fr/1", "docket_ids": ["FINCEN-2026-0001"]}
+    ev = fr.events(docs=[doc], today=_dt.date(2026, 7, 31))
+    kinds = {e["kind"] for e in ev}
+    _check("proposed rule" in kinds, fails,
+           "fedreg: the rule's publication is no longer an event")
+    _check("comment deadline" in kinds, fails,
+           "fedreg: the comment deadline is no longer an event; that deadline is the "
+           "forward-looking thing this module exists to surface")
+    dl = next((e for e in ev if e["kind"] == "comment deadline"), None)
+    _check(dl and dl["date"] == "2026-08-21", fails,
+           "fedreg: the deadline event is not dated on the closing date")
+    _check(dl and ["fincen", "stablecoin"] in dl["match"], fails,
+           "fedreg: match groups lost the agency+topic pairing, so coverage of the rule "
+           "cannot be recognised")
+
+    # a passed deadline is history, not a forthcoming event
+    _check(not [e for e in fr.events(docs=[doc], today=_dt.date(2026, 9, 30))
+                if e["kind"] == "comment deadline"], fails,
+           "fedreg: a closed comment period is still being carried as a deadline")
+
+    # an off-topic rule from a covered agency must not reach the calendar
+    off = dict(doc, title="Submarine Cable Landing Licence Rules",
+               abstract="Review of licensing procedures.", comments_close_on=None,
+               document_number="2026-2")
+    _check(fr.events(docs=[off], today=_dt.date(2026, 7, 31)) == [], fails,
+           "fedreg: an off-topic rule reached the calendar; the term filter is what keeps "
+           "this from burying the real ones")
+
+    # THE QUIET FAILURE. The API returns zero for a quoted OR term the moment a date filter
+    # is added, which looks exactly like "no crypto rulemaking" and is undetectable
+    # downstream. One query per term is the fix; a single combined term must not come back.
+    _check(isinstance(fr.TERMS, (list, tuple)) and len(fr.TERMS) >= 4, fails,
+           "fedreg: TERMS collapsed to a combined query; the API silently returns zero for "
+           "a quoted OR expression once a date filter is applied, which reads as clean")
+    _check(not any(" OR " in t for t in fr.TERMS), fails,
+           "fedreg: a term contains an OR expression, which the API drops to zero when "
+           "combined with a date filter")
+
+    # the reader-facing Week Ahead must keep running off the CURATED calendar only
+    import inspect
+    import week_ahead
+    _check("fedreg" not in inspect.getsource(week_ahead), fails,
+           "fedreg: week_ahead now reads the generated calendar; machine-selected entries "
+           "would reach readers in a published story without review")
+    return fails
 
 def _hackwatch_canary():
     """The exploit coverage check, offline against a fixture ledger.

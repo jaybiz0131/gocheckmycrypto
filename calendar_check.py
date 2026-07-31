@@ -28,6 +28,7 @@ import common
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CALENDAR = os.path.join(HERE, "data", "week_calendar.json")
+FEDREG = os.path.join(HERE, "data", "fedreg_calendar.json")
 CONTENT = os.path.join(HERE, "site", "content")
 
 DAYS_BACK = 3    # an event stays "due" for a few days; the desk gets more than one slot
@@ -56,11 +57,22 @@ def _corpus(within_days=14):
 def gaps(days_back=DAYS_BACK, days_ahead=DAYS_AHEAD, today=None):
     """Events that are due and carry no matching story in the desk's recent corpus."""
     today = today or datetime.date.today()
-    try:
-        cal = json.load(open(CALENDAR, encoding="utf-8"))
-    except Exception as e:
-        common.gh("warning", f"calendar_check: calendar unreadable ({e})")
+    # TWO calendars: the curated one, and the one fedreg.py generates from the Federal
+    # Register. Both are checked here because an uncovered federal rule is the same kind of
+    # miss as an uncovered scheduled event. Note that week_ahead.py reads ONLY the curated
+    # file: this check is editor-facing, the Week Ahead is reader-facing, and machine-
+    # selected entries do not belong in published copy without review. See fedreg.py.
+    events = []
+    for path, label in ((CALENDAR, "calendar"), (FEDREG, "federal register calendar")):
+        try:
+            events += (json.load(open(path, encoding="utf-8")) or {}).get("events") or []
+        except FileNotFoundError:
+            pass  # fedreg has simply not run yet; the curated calendar still checks
+        except Exception as e:
+            common.gh("warning", f"calendar_check: {label} unreadable ({e})")
+    if not events:
         return []
+    cal = {"events": events}
     lo = (today - datetime.timedelta(days=days_back)).isoformat()
     hi = (today + datetime.timedelta(days=days_ahead)).isoformat()
     corpus = _corpus()

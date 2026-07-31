@@ -18,3 +18,7 @@ site/publish/
 
 # local-only test dependency (axe-core for accessibility runs); never shipped
 node_modules/
+
+# Generated every run by fedreg.py and consumed by calendar_check.py in the same job.
+# Not committed: it would change on every run for a file nothing reads between runs.
+data/fedreg_calendar.json
