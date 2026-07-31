@@ -2985,5 +2985,28 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-31",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c018",
+    "headline": "Coldcard Hardware Wallet Flaw Exposed 594 Bitcoin to Coordinated Theft",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bitcoin traded above $64,000 in early Asian hours following the drain, and the widespread theft appeared to have little visible impact on the market price.' This claim appears in the brief's data_points but the brief's bear_case notes 'The theft had little visible impact on bitcoin's market price, which may underestimate the long-term reputational damage to hardware wallet trust.' The draft presents the market-price observation as a standalone fact without the contextual caveat that this price stability may mask deeper reputational damage. The brief's bear_case explicitly exists to complicate this reading, and the draft has sanded it down by omission rather than inclusion."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "New York Sues Kalshi, Alleges Unlicensed Gambling Operation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Kalshi...is federally licensed by the Commodity Futures Trading Commission' but the brief provides no data point confirming this fact. The draft has smuggled in a claim about CFTC licensing that does not appear in the research brief's data_points.",
+     "The draft claims 'Kalshi...secured a $40 billion valuation in a June funding round' and attributes this to context about the lawsuit, but the brief's data point about the $40 billion valuation does not specify the timing as 'June' or place it in a 'funding round.' The draft has added temporal specificity not in the brief."
+    ]
+   }
+  ]
  }
 ]
