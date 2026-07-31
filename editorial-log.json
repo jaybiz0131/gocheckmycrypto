@@ -3189,5 +3189,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-31",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "Dubai exchange at center of $4 billion Iran sanctions-evasion network",
+    "category": "balance",
+    "reasons": [
+     "Bear case tension unresolved in prose: Brief's bear_case states 'Reuters reported it could not confirm direct IRGC control over Shelbit or the gambling network, leaving attribution ambiguous,' but draft paragraph 3 presents Rich Sanders' quote 'It's an IRGC operation, and that's plain as day' without immediately following with Reuters' explicit contradiction. The Sanders quote appears as editorial fact-claim rather than as one contested voice among several, tilting framing toward certainty when the brief requires ambiguity.",
+     "Binance denial underplayed: Brief's bear_case flags 'Binance denied Shelbit ever held an account on its platform, complicating the direct-fund-movement narrative,' but draft places Binance's denial only after asserting 'Shelbit has moved hundreds of millions of dollars to major crypto platforms, including Binance.' The narrative order suggests fund movement as established fact, then Binance pushback as afterthought, rather than presenting the contradiction as live tension from the start."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "Circle secures New York trust charter as custody authority expands",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Circle itself was the first company to receive a BitLicense, the NYDFS's initial digital asset business license, nearly six years ago.' The brief's data_point says 'Circle was the first company to receive a BitLicense from the NYDFS nearly six years ago' without the qualifier 'initial digital asset business license.' The draft adds a descriptive element ('initial digital asset business license') that does not appear in the brief and may not be accurate\u2014BitLicense was not NYDFS's 'initial' license type, merely the first one granted. This is a smuggled characterization not supported by source material.",
+     "The draft states 'No other crypto platforms currently hold both a federal national trust bank charter and a state limited purpose trust charter in New York, according to available reporting.' This claim does not appear in the brief's data_points. It is a new assertion about competitive positioning that was not researched and verified in the brief."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Tether's reserve buffer falls 50% to $4.11 billion amid USDT growth",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Tether's Q2 profit of $1.5 billion represents a 69% decline year-over-year, according to prior-period data cited in the reporting.' The brief contains no data_point about year-over-year profit comparison or a 69% decline figure. This is a smuggled claim\u2014a specific percentage decline that was not in the research brief and cannot be traced to a verified source in the brief.",
+     "The draft claims 'Each dollar of excess reserves now backstops a larger fraction of stablecoin issuance' and calculates the reserve compression from '4.5% to 2.2% of liabilities.' While the brief does provide the math ($4.11B / $183.64B = 2.2%), the 4.5% figure for Q1 is not explicitly stated in the brief's data_points and relies on unstated prior-period information. The writer performed a calculation not grounded in a data_point."
+    ]
+   }
+  ]
  }
 ]
