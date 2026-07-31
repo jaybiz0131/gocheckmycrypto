@@ -1,0 +1,32 @@
+{
+  "id": "c003",
+  "slug": "tether-q2-profit-falls-69-as-reserve-buffer-halves-to-4-1-billion",
+  "kind": "brief",
+  "title": "Tether Q2 Profit Falls 69% as Reserve Buffer Halves to $4.1 Billion",
+  "dek": "Tether reported $1.5 billion in operating profit for Q2 2026, down from $4.9 billion a year earlier, while its excess reserve cushion fell to $4.11 billion from $8.23 billion. The issuer added physical gold and bitcoin to its holdings despite both assets declining in value during the quarter.",
+  "date": "2026-07-31",
+  "published_utc": "2026-07-31T18:54:03Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Excess reserves fell by half in a single quarter to $4.11 billion, even as USDT issuance grew by $446 million to $184.6 billion.",
+  "bottom_line": "Tether Q2 profit down 69% YoY ($4.9B to $1.5B); excess reserves halved to ~$4.1B; adds gold and BTC to reserves despite weaker stablecoin market backdrop.",
+  "human_take": "",
+  "body": [
+    "Tether's excess reserve buffer, the cushion above liabilities that underpins confidence in USDT redemptions, fell by roughly half in three months to $4.11 billion as of June 30, 2026, according to CoinDesk's reporting. The decline came even as the stablecoin issuer posted $1.5 billion in operating profit for the quarter, a 69% drop from $4.9 billion in Q2 2025.",
+    "The shrinking safety margin raises a material question: how quickly can Tether replenish reserves if redemptions accelerate or market conditions deteriorate further, especially as the issuer has tilted into volatile assets like bitcoin and gold that themselves declined in value during the quarter?",
+    "Tether held $187.75 billion in total assets against $183.64 billion in liabilities as of June 30, according to an attestation by audit firm BDO reported by CoinDesk. That $4.11 billion spread represents a 2.2% buffer. Three months prior, the firm held $8.23 billion in excess reserves, a 4.7% buffer. The $1.5 billion Q2 operating profit, driven by returns on U.S. Treasury holdings and repurchase agreements, was insufficient to offset the reserve drawdown, per CoinDesk's account.",
+    "During the same quarter, Tether increased its physical gold holdings by 14 metric tons to roughly 146.2 metric tons. However, the total value of those gold reserves fell to $18.84 billion from $19.84 billion as gold prices dropped roughly 15% to just over $4,000 per ounce, CoinDesk reported. Tether also added approximately 1,796 bitcoin to its holdings, lifting total bitcoin reserves to 98,933 BTC. Despite the larger position, bitcoin holdings' reported value fell to $5.80 billion from $6.62 billion as the bitcoin price used in Tether's accounting declined to $58,600 from $68,200, according to CoinDesk.",
+    "Tether's stablecoin issuance, meanwhile, continued to grow: USDT expanded by about $446 million to $184.6 billion during Q2, per CoinDesk. This means liabilities grew while the excess reserve buffer shrank, widening the ratio of stablecoin liability to excess capital.",
+    "The sources leave unaddressed what triggered the sharp 50% reserve depletion in a single quarter, whether large redemptions, investment losses, operational use, or a combination of factors, and whether Tether's move into bitcoin and gold at these valuations reduces or increases overall reserve stability under stress scenarios.",
+    "The Bottom Line: If Tether's reserve buffer continues to contract at this pace, the issuer's capacity to absorb market shocks or fund large redemptions narrows materially. Watch for the next quarterly update and any significant moves in USDT demand or reserve composition that signal whether the drawdown was episodic or directional."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/07/31/tether-posts-usd1-5-billion-operating-profit-in-q2-as-reserve-buffer-falls-by-half",
+      "url": "https://www.coindesk.com/business/2026/07/31/tether-posts-usd1-5-billion-operating-profit-in-q2-as-reserve-buffer-falls-by-half"
+    }
+  ],
+  "update_of": "tether-s-usdt-hits-2-year-countdown-threatening-its-position-on-u-s-crypto-platforms"
+}
