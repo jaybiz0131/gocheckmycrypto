@@ -130,6 +130,7 @@ def layer1_canary():
     fails.extend(_whale_flow_canary())
     fails.extend(_window_belt_canary())
     fails.extend(_coin_screen_canary())
+    fails.extend(_regwatch_canary())
     fails.extend(_preview_suppression_canary())
     fails.extend(_consistency_gate_canary())
     fails.extend(_merge_state_canary())
@@ -153,6 +154,82 @@ def layer1_canary():
           "end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.")
     return 0
 
+
+def _regwatch_canary():
+    """A tracked storyline must belong to the jurisdiction whose measure it is.
+
+    The tracker paired an unhomed instrument with every country named ANYWHERE in a story,
+    so a US Treasury sanctions piece citing Executive Order 13902, which also noted that
+    the sanctioned shipping companies were based in China and Hong Kong, filed
+    "China :: Executive Order" and "Hong Kong :: Executive Order". Those are not
+    imprecise, they are false: neither country issued it.
+
+    Jurisdictions now come from the headline and lede. The canary pins that the rule holds
+    AND that it did not over-correct, because a tracker that files nothing is as useless as
+    one that files nonsense."""
+    fails = []
+    import regwatch as rw
+
+    story = {"title": "US Treasury sanctions Iranian firms using Bitcoin for maritime extortion",
+             "dek": "OFAC designated two insurers under a US executive order.",
+             "key_fact": "Both firms now fall under Executive Order 13902.",
+             "body": ["The Treasury also designated eight shipping companies based in "
+                      "China, Hong Kong and the Marshall Islands in the same action."]}
+    full = rw._story_text(story)
+    _, instr, _ = rw.extract(full)
+    juris, _, _ = rw.extract(rw.subject_text(story))
+    keys = {f"{a} :: {b}" for a, b in rw._pairs(juris, instr)}
+    for bogus in ("China :: Executive Order", "Hong Kong :: Executive Order"):
+        _check(bogus not in keys, fails,
+               f"regwatch: filed {bogus!r}; a country mentioned in the body is not the "
+               f"issuer of the measure")
+    _check("United States :: Executive Order" in keys, fails,
+           "regwatch: the story's actual jurisdiction stopped being filed, which is the "
+           "over-correction that makes the tracker useless")
+
+    # a jurisdiction named only in the body is a mention, not a storyline
+    only_body = {"title": "Russia's parliament passes crypto market law",
+                 "dek": "A transition period runs to 2027.",
+                 "key_fact": "Retail investors face an annual cap.",
+                 "body": ["EU countermeasures may tighten as reliance on crypto grows."]}
+    j2, _, _ = rw.extract(rw.subject_text(only_body))
+    _check("Russia" in j2, fails,
+           "regwatch: Russia is invisible again; six regulatory headlines named it and the "
+           "tracker filed them under the European Union instead")
+    _check("European Union" not in j2, fails,
+           "regwatch: a body-only mention is being tracked as that jurisdiction's own "
+           "storyline")
+
+    # The WIRING, not just the helpers. The first version of this canary tested _pairs and
+    # subject_text underneath update(), so a regression that reverted update() to body-wide
+    # jurisdictions passed clean. story_pairs is the real filing decision; exercise it.
+    keys2 = {f"{a} :: {b}" for a, b in rw.story_pairs(story)[0]}
+    _check("United States :: Executive Order" in keys2
+           and "China :: Executive Order" not in keys2, fails,
+           "regwatch: story_pairs files the wrong jurisdiction; the rule is not wired into "
+           "the path update() actually takes")
+
+    # Replay must not touch committed state. wrap.py calls update() on every edition,
+    # including the replay this verifier runs, so without the guard a TEST RUN writes the
+    # ledger. Sabotage-testing this very canary did exactly that: it wrote five false
+    # storylines into regwatch.json that survived restoring the code, because update only
+    # ever adds.
+    import os as _os
+    _before = _os.environ.get("CRYPTO_LLM_MODE")
+    try:
+        _os.environ["CRYPTO_LLM_MODE"] = "replay"
+        _stat = _os.stat(rw.LEDGER).st_mtime_ns if _os.path.exists(rw.LEDGER) else None
+        rw.update()
+        _after = _os.stat(rw.LEDGER).st_mtime_ns if _os.path.exists(rw.LEDGER) else None
+        _check(_stat == _after, fails,
+               "regwatch: update() wrote the committed ledger during a replay run; a "
+               "verification must never mutate committed state")
+    finally:
+        if _before is None:
+            _os.environ.pop("CRYPTO_LLM_MODE", None)
+        else:
+            _os.environ["CRYPTO_LLM_MODE"] = _before
+    return fails
 
 def _coin_screen_canary():
     """Lock the on-chain supply check, offline.

@@ -36,6 +36,12 @@ JURISDICTIONS = [
     "United Kingdom", "U.K.", "Britain", "China", "Hong Kong", "Japan", "South Korea",
     "Singapore", "India", "Brazil", "Canada", "Australia", "Switzerland", "UAE",
     "Dubai", "Nigeria", "Turkey", "Argentina", "Mexico", "Thailand", "Vietnam",
+    # Added 2026-07-31 from the corpus, not from a guess: Russia appeared in the HEADLINE
+    # of six regulatory stories the tracker could not see, including a parliament passing a
+    # crypto market law with a 2027 transition, which is exactly the kind of dated storyline
+    # this module exists to hold. It was filing under "European Union" instead, because the
+    # body mentioned EU countermeasures. France appeared in two.
+    "Russia", "France",
 ]
 
 # Named instruments: the things that actually carry deadlines. Extend freely.
@@ -101,6 +107,14 @@ def load():
     return {}
 
 
+def subject_text(d):
+    """The headline and lede: what the story is ABOUT, as opposed to what it mentions.
+
+    Jurisdictions are read from here and nowhere else. See _pairs for why."""
+    return " ".join([str(d.get("title") or ""), str(d.get("dek") or ""),
+                     str(d.get("key_fact") or "")])
+
+
 def extract(text):
     """Return (canonical jurisdictions, instruments, stated_dates) found in one story."""
     found = set()
@@ -127,7 +141,24 @@ def extract(text):
 
 def _pairs(juris, instr):
     """Jurisdiction/instrument pairs to file. An instrument with a known home pairs ONLY
-    with that home; everything else pairs with each jurisdiction named in the story."""
+    with that home; everything else pairs with each jurisdiction the story is ABOUT.
+
+    "About" is load-bearing and it means the headline and lede, not the body. Pairing an
+    unhomed instrument with every country named anywhere in the text produced entries that
+    were simply false: a US Treasury sanctions story naming Executive Order 13902, which
+    also mentioned that the sanctioned shipping companies were based in China and Hong
+    Kong, filed "China :: Executive Order" and "Hong Kong :: Executive Order" as if those
+    countries had issued it.
+
+    Proximity was the obvious fix and it is wrong. In that story the Executive Order sits
+    110 characters from "U.S." and 2,130 from "China", which separates cleanly, but the
+    CLARITY Act sits 3,644 characters from "U.S." in a story that is entirely about it. A
+    distance rule tuned to kill the false pairs kills the real ones too.
+
+    The headline is the honest authority: a newsroom states its subject there. Measured
+    over the corpus this drops five pairs and adds none, and all five are false. Two are
+    hypotheticals ("similar actions could target India's UPI", "EU countermeasures may
+    tighten") which are the exact shape of a mention that is not a storyline."""
     out = []
     for i in instr:
         home = INSTRUMENT_HOME.get(i.lower())
@@ -140,9 +171,42 @@ def _pairs(juris, instr):
     return out
 
 
+def story_pairs(d):
+    """(pairs, dates) for one story: the whole filing decision in one place.
+
+    update() calls this rather than assembling the rule inline, so the canary can exercise
+    the real path. The first version put the rule in update() and the canary tested the
+    helpers underneath it, which meant a regression in the WIRING passed clean."""
+    text = _story_text(d)
+    if not REG_SIGNAL.search(text):
+        return [], []
+    # Instruments and dates come from the WHOLE story: a deadline stated in paragraph four
+    # is still the deadline. Jurisdictions come from the headline and lede only, because
+    # that is where a story says whose measure it is. See _pairs.
+    _, instr, dates = extract(text)
+    juris, _, _ = extract(subject_text(d))
+    # A trackable storyline needs something to track: a NAMED instrument, or a stated date.
+    # "A country appeared in a regulation-flavoured story" is not a storyline and would bury
+    # the real threads.
+    if not instr and not dates:
+        return [], []
+    if not juris and not instr:
+        return [], []
+    return _pairs(juris, instr), dates
+
 def update(days=45):
     """Fold the desk's recently published stories into the ledger. An entry is keyed by
-    jurisdiction + instrument so a storyline accumulates instead of being re-created."""
+    jurisdiction + instrument so a storyline accumulates instead of being re-created.
+
+    NO-OP IN REPLAY. wrap.py calls this on every edition, including the offline replay the
+    verifier runs, so a test run was writing to the committed ledger. That is not
+    theoretical: sabotage-testing the canary for this very module wrote five false
+    storylines into regwatch.json, and they survived the code being restored, because
+    update only ever adds. A verification run must not mutate committed state, which is the
+    rule publish.py and chartmaster.py already follow."""
+    if os.environ.get("CRYPTO_LLM_MODE", "live") == "replay":
+        print("regwatch [REPLAY]: ledger untouched")
+        return load()
     led = load()
     cutoff = (datetime.datetime.now(datetime.timezone.utc)
               - datetime.timedelta(days=days)).isoformat()
@@ -157,18 +221,10 @@ def update(days=45):
             continue  # editions summarize stories; never track them as sources
         if (d.get("published_utc") or "") < cutoff:
             continue
-        text = _story_text(d)
-        if not REG_SIGNAL.search(text):
+        pairs, dates = story_pairs(d)
+        if not pairs:
             continue
-        juris, instr, dates = extract(text)
-        # A trackable storyline needs something to track: a NAMED instrument, or a stated
-        # date. "A country appeared in a regulation-flavoured story" is not a storyline and
-        # would bury the real threads (Taiwan's consultation, the GENIUS Act deadline).
-        if not instr and not dates:
-            continue
-        if not juris and not instr:
-            continue
-        for j, i in _pairs(juris, instr):
+        for j, i in pairs:
             key = f"{j} :: {i}"
             e = led.get(key, {"jurisdiction": j, "instrument": i, "dates": [],
                               "stories": [], "first_seen": d.get("date", "")})
