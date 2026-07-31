@@ -3008,5 +3008,58 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-07-31",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c021",
+    "headline": "Coldcard Mk3 Firmware Flaw Leads to $38 Million Bitcoin Theft",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Coinkite stated that users who generated seeds on an Mk3 running version 4.0.1 or later should assume their wallets are at risk,' but the brief data_point says 'Coinkite warned users who generated a seed on an Mk3 running version 4.0.1 or later' without the word 'should assume.' More critically, the brief's boundary specifies 'affected: Mk3 running version 4.0.1 or later' but the vulnerability was 'introduced in Coldcard firmware 4.0.0 in March 2021'\u2014the draft does not clarify why 4.0.1 or later is the warning threshold if 4.0.0 introduced the flaw. This gap between the flaw's introduction (4.0.0) and the warning threshold (4.0.1+) is not explained in the brief and should not be paraphrased without source confirmation.",
+     "The draft states 'Block and Coinkite cautioned that their analyses remain preliminary' but the brief data_point is 'Both Block and Coinkite describe their analyses as preliminary.' The word 'cautioned' implies an intentional warning stance not present in the source claim; this is a subtle but material reframing of tone.",
+     "The draft references 'Bitcoin was trading above $64,000 in early Asian trading on July 31' and attributes this to the theft context, but the brief lists this as a separate data_point with no causal connection. The juxtaposition in the draft ('Bitcoin was trading above $64,000...and the widespread drain appeared to have little direct impact') creates a false narrative link; the price point should either be removed or clearly separated from the theft narrative."
+    ]
+   },
+   {
+    "id": "c050",
+    "headline": "US Treasury Sanctions Iranian Shipping Firm Accepting Bitcoin",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Hormuz Safe's explicit acceptance of digital assets signals that state-level actors are integrating cryptocurrency into sanctions evasion workflows,' but the brief contains only two data_points: (1) 'OFAC sanctioned Iranian firms including one called Hormuz Safe' and (2) 'Hormuz Safe accepts payment in Bitcoin and other digital assets.' The phrase 'state-level actors' and the assertion that this 'signals' cryptocurrency integration into evasion 'workflows' is not in the brief; the brief does not confirm Hormuz Safe is a state actor, only that it is an Iranian firm. This is a smuggled inference.",
+     "The draft states 'The designation suggests that US authorities have visibility into crypto-based payments flowing to or through designated Iranian shipping entities,' but no data_point in the brief supports the claim that US authorities have demonstrated 'visibility into crypto-based payments.' The brief only confirms that OFAC designated the firm; visibility is inferred by the writer, not reported.",
+     "The draft states the action is 'a rare public instance of OFAC targeting entities for using cryptocurrency to circumvent shipping insurance controls' but the brief does not confirm this is rare, nor does it detail what shipping insurance controls are being circumvented. These specifics do not appear in the source data_points provided."
+    ]
+   },
+   {
+    "id": "c049",
+    "headline": "Circle Wins New York Trust Charter for Stablecoin Operations",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Circle received approval from the New York Department of Financial Services (NYDFS) for a trust charter,' but the brief's core_claim says only that 'Circle received New York Department of Financial Services trust charter approval.' The word 'approval' in the draft is not in the brief; the brief does not confirm the charter was approved. The data_point states 'Circle won federal OCC approval to establish a national trust bank weeks before the NYDFS charter approval,' but this confirms only that an NYDFS approval occurred, not that it was granted to Circle. The draft has smuggled the assertion that NYDFS approved Circle's charter application; the brief confirms only that an approval event happened, leaving the actual approval outcome unconfirmed.",
+     "The draft claims 'The dual licensing grants Circle custody and fiduciary powers to support USDC issuance and operations,' but the brief contains no data_point confirming what powers the NYDFS charter grants. The brief's open_questions include 'What specific custody and fiduciary powers does the New York trust charter grant Circle?' This indicates the powers are not confirmed in the source. The draft presents as fact what is unknown.",
+     "The draft states 'Regulatory agencies at both federal and state levels have now authorized Circle to hold customer assets and exercise fiduciary duties,' but no data_point confirms what the NYDFS authorization permits. The brief lists only one data_point about the OCC federal approval. The state-level specifics are not in the brief."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "New York sues Kalshi, alleges it offers a gambling platform 'plain and simple'",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions section flags uncertainty about 'whether the lawsuit seeks the $36 billion in damages reported in the headline (the source text states 'three times Kalshi's gains' but does not specify the dollar amount of those gains).' The draft never quantifies the damages in dollar terms and correctly avoids this trap, but the phrasing 'penalties equal to three times Kalshi's gains' in the opening paragraph could mislead readers into thinking a specific dollar amount was established. The brief itself acknowledges the dollar figure is unconfirmed; the draft should have signaled this ambiguity or left the dollar penalty unspecified rather than stating 'three times Kalshi's gains' as though the multiplication was calculable from reported figures."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "BitMine adds $73 million in ETH, now holds 4.8% of Ethereum supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine Immersion Technologies purchased 42,197 ETH worth approximately $73 million' and 'BitMine's total holdings were valued at $11.1 billion, with the company valuing its ETH position at $1,800 per coin.' All data_points in the brief carrying these figures are marked 'announced-not-verified' confidence, but the draft presents them as settled fact without any hedge or confidence qualifier. The brief's confidence label must survive in prose; this is a liability violation.",
+     "The draft describes the Defiant reporting as providing the holdings data consistently 'across several independent market trackers,' but the brief's corresponding data_point (claim about consistency across trackers) is marked only 'reported' confidence, not independently verified. The draft's phrasing ('reported consistently across several independent market trackers') suggests independent confirmation rather than single-source reporting, overselling the confidence level."
+    ]
+   }
+  ]
  }
 ]
