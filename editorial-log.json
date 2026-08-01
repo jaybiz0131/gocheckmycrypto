@@ -3264,5 +3264,57 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-01",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "1,196 Coldcard wallets drained of 1,082 BTC in attack exploiting weak seed generation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the claim about Galaxy Research mapping the theft to Galaxy Research, but then states 'according to CoinDesk' in the opening sentence. The brief shows all data points sourced to CoinDesk, not Galaxy Research directly. The draft should clarify Galaxy Research's findings came via CoinDesk reporting, not as an independent source.",
+     "The draft claims 'according to Galaxy Research' in paragraph one, but the brief's data point says 'Galaxy Research mapped the full event on Friday, finding the theft occurred across six blocks' - sourced to CoinDesk. This represents Galaxy Research as a primary source when it is actually reported through CoinDesk. The attribution structure creates liability confusion about the origin of the analysis."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Shelbit, Dubai exchange, alleged hub of $4 billion Iran sanctions-evasion network",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states John Wojcik is a 'senior analyst at TRM Labs and former researcher at the UN Office on Drugs and Crime,' but the brief's data point says he is 'senior analyst at TRM Labs and former researcher at Infoblox, who spent seven years investigating illegal gambling for the United Nations Office on Drugs and Crime.' The draft omits 'Infoblox' and mischaracterizes his background. His research affiliation was at Infoblox, not directly at UNODC.",
+     "The draft includes a quote 'It's an IRGC operation, and that's plain as day' attributed to Rich Sanders, but immediately after states 'However, Reuters could not determine whether the IRGC directly controlled Shelbit or the gambling network.' This juxtaposition creates misleading emphasis: Sanders' assertion is presented as fact when the very next sentence says Reuters could not verify direct IRGC control. The brief's bear_case explicitly flags this uncertainty, but the draft buries the contradicting finding in the middle of a paragraph rather than treating it as a substantive balance issue."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "New York sues Kalshi, alleges it offers a gambling platform 'plain and simple'",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The lawsuit follows an October 2025 cease-and-desist order from the New York State Gaming Commission' but the brief data_point says only 'The lawsuit follows an October cease-and-desist order from the New York State Gaming Commission' without specifying 2025. The year 2025 is smuggled into the draft and does not appear in the brief.",
+     "The draft claims 'A federal judge denied Kalshi's bid to block state regulators on July 7 and rejected an injunction pending appeal on July 27, according to CoinDesk's reporting.' The brief contains these dates but does not attribute them to 'CoinDesk's reporting'\u2014the data_point simply states the dates as fact from the same source URL. The added attribution phrase is a paraphrase that alters the sourcing claim slightly, but more critically, the draft then adds editorial analysis ('Those rulings suggest judicial skepticism of Kalshi's federal preemption argument, though the July 27 rejection does not necessarily forecast the outcome of the state's underlying case') that goes beyond what the brief supports. This interpretive layer is not in the brief's data_points and represents original analysis not in the research base."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Tether posts $1.5 billion operating profit in Q2 as reserve buffer falls by half",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The figure marks a 69% year-over-year decline from an implied $4.9 billion operating profit in Q2 2025.' The word 'implied' appears in the draft but the brief data_point says 'Tether reported $1.5 billion in net operating profit for the second quarter of 2026' and does not contain or justify the derivation of a $4.9 billion Q2 2025 figure. The brief's bear_case mentions 'from implied $4.9 billion in Q2 2025' but this is the brief's own characterization of the calculation, not a fact in the source. The draft presents this as if it traces back to reporting, when in fact it is an inference the brief made that may not be in the underlying CoinDesk article. The writer has adopted the brief's inference as though it were published data.",
+     "The draft states 'The timing of reserve depletion remains unexplained. If Tether deployed $4 billion in cash to purchase gold and bitcoin during Q2, the strategic rationale for those acquisitions at a time of rising rates and falling commodity prices is unclear from available reporting.' This speculative conditional ($4 billion deployed) and the editorial commentary about strategic rationale do not appear in the brief's data_points or open_questions. The brief's open_questions ask why the reserve fell, but the draft is adding its own hypothetical ($4 billion) and interpretation (rising rates, falling prices as context) that exceed the brief."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "XRP Ledger reintroduces two features withdrawn over critical security flaws",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Jazzi Cooper, head of product at RippleX, announced the xrpld 3.3.0 release on Friday' but brief data_point spells the name 'Jazzi Cooper' (not 'Jazzi'). More critically, the draft does not clarify the temporal framing: if the article is published after Friday August 1, the use of past tense 'announced...on Friday' is accurate; if published before, it is inaccurate. The brief timestamp is 2026-08-01 but the draft's publication date is unstated, creating ambiguity about whether 'Friday' and 'next week' in the draft are consistent with the source date.",
+     "Draft states 'xrpld 3.3.0 release, expected the week of August 1, 2026' in the bottom_line, but the brief does not specify 'the week of August 1'\u2014only that it is 'expected next week' as of the August 1 source timestamp. The draft's bottom_line should track the brief's language or be explicit about editorial interpretation of the timing.",
+     "The brief flags boundary_required: true and boundary_ok: false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft does not include a boundary block (a disclaimer about version timing or voting thresholds that may shift). This is a structural compliance gap flagged by the brief itself."
+    ]
+   }
+  ]
  }
 ]
