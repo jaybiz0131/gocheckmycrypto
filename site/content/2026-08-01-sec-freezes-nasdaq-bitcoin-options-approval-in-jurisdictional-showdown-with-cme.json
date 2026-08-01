@@ -1,0 +1,31 @@
+{
+  "id": "c004",
+  "slug": "sec-freezes-nasdaq-bitcoin-options-approval-in-jurisdictional-showdown-with-cme",
+  "kind": "brief",
+  "title": "SEC Freezes Nasdaq Bitcoin Options Approval in Jurisdictional Showdown With CME",
+  "dek": "The SEC has paused Nasdaq's approval of cash-settled bitcoin index options (QBTC) and will reconsider the decision following a legal challenge from CME Group. CME argues bitcoin is a commodity under CFTC jurisdiction, not SEC authority. Interested parties have until August 24 to submit statements on the matter.",
+  "date": "2026-08-01",
+  "published_utc": "2026-08-01T18:07:47Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "The SEC froze Nasdaq's May 2026 approval of cash-settled bitcoin index options after CME challenged the agency's jurisdiction, arguing bitcoin is a commodity that falls exclusively under CFTC authority, not the SEC's.",
+  "bottom_line": "Watch for the SEC's response by late August or September: a ruling in CME's favor would eliminate the QBTC product as structured, while SEC approval despite the challenge would signal the agency believes it has securities-market jurisdiction over bitcoin derivatives. Either outcome reshapes competitive dynamics between regulated derivatives venues and raises questions about which other crypto derivatives approvals may be stalled pending this decision.",
+  "human_take": "",
+  "body": [
+    "The SEC has paused its May approval of Nasdaq's cash-settled bitcoin index options, known as QBTC, and will conduct a full commission review after CME Group challenged the agency's authority to oversee the product. The dispute hinges on a fundamental question: whether bitcoin derivatives fall under SEC or CFTC jurisdiction.",
+    "CME filed its challenge on June 11, and the stay has remained in place since then. According to CoinDesk's reporting, CME argues that bitcoin is a commodity, not a security, and therefore options tied directly to its value fall under the CFTC's exclusive jurisdiction. If CME prevails, the SEC would lose authority to approve QBTC entirely, forcing Nasdaq either to register as a CFTC-regulated futures or swaps venue or redesign the contracts to track a security such as a spot bitcoin exchange-traded fund.",
+    "Nasdaq's May approval envisioned the CFTC granting exemptions that would allow Nasdaq and the Options Clearing Corporation to offer the product through the securities market. CME contested this approach, arguing that agencies cannot use exemptions to transfer regulatory authority from one regulator to another. CME also warned that the approval could set a precedent allowing securities exchanges to list derivatives on other commodities, potentially fragmenting oversight.",
+    "The stakes extend beyond QBTC. CME already operates regulated bitcoin futures and options markets. If Nasdaq launches a competing product without CFTC registration, it would create an unregulated competitor to CME's established platforms, all of which use CME CF benchmarks for both their underlying index and final settlement price, per the reporting.",
+    "Nasdaq's QBTC remains suspended while the full SEC commission reviews the earlier approval. Interested parties have until August 24 to submit statements supporting or opposing the decision. No timeline has been announced for the SEC's final ruling on the jurisdictional question."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/08/01/sec-to-review-nasdaq-bitcoin-options-approval-after-cme-challenge",
+      "url": "https://www.coindesk.com/policy/2026/08/01/sec-to-review-nasdaq-bitcoin-options-approval-after-cme-challenge"
+    }
+  ],
+  "update_of": "zcash-seals-1-7-billion-shielded-pool-as-ironwood-upgrade-activates",
+  "developing": true
+}

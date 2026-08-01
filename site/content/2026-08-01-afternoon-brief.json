@@ -1,0 +1,62 @@
+{
+  "id": "wrap-md-2026-08-01",
+  "slug": "afternoon-brief-2026-08-01",
+  "kind": "brief",
+  "title": "The Afternoon Brief: Regulators multiply fronts as Coldcard flaw drains 594 BTC",
+  "dek": "A jurisdictional fight over bitcoin derivatives, a state lawsuit against Kalshi, and a hardware wallet entropy flaw all landed the same day Tether's reserve buffer halved and Coinbase missed on trading volume.",
+  "date": "2026-08-01",
+  "published_utc": "2026-08-01T18:15:03Z",
+  "category": "daily edition",
+  "rank": -2,
+  "author": "Crypto Cronkite",
+  "key_fact": "The SEC's freeze on Nasdaq's bitcoin options approval adds a fourth simultaneous regulatory front to a market already absorbing weak earnings and a wallet security failure, while the desk's own boards show Fear and Greed still stuck at 27.",
+  "bottom_line": "Regulatory friction widened today rather than narrowed, with the SEC freezing its own Nasdaq bitcoin options approval after a CME jurisdictional challenge, New York suing Kalshi over gambling law, and Treasury sanctioning Iran-linked entities that accepted Bitcoin to evade sanctions. Those actions landed alongside Coinbase's earnings miss, a 69% drop in Tether's quarterly profit with its reserve buffer halved, and Coinkite's disclosure that a Coldcard entropy flaw preceded a reported 594 BTC theft. The desk's boards show Fear and Greed at 27, bitcoin ETF flows negative on July 31 after a mixed five-session stretch, and net whale flows moving off exchanges overall even as ether flows moved the other way. The coming checkpoints are the SEC's August 24 comment deadline on QBTC and the CLARITY Act's August 8 date, both of which the desk's regulatory tracking has already flagged.",
+  "human_take": "",
+  "body": [
+    "Bitcoin traded near $62,679.77 on the desk's board as of August 1, down 0.22% on the day and 5.14% over the past week, with the Fear and Greed Index reading 27, within its recent 20-to-33 range. That backdrop framed a day in which regulatory friction widened rather than narrowed: the SEC froze its own May approval of Nasdaq's cash-settled bitcoin index options (QBTC) after CME Group challenged the agency's jurisdiction, arguing bitcoin derivatives belong exclusively to the CFTC, per CoinDesk's reporting. Interested parties have until August 24 to file statements, the desk reported.",
+    "That jurisdictional question echoed elsewhere. New York sued Kalshi on July 31, alleging the prediction-market platform runs an unlicensed gambling business despite its federal CFTC license, seeking triple damages plus $100,000 per unauthorized wager offer, according to Attorney General Letitia James's filing as reported by the desk. Separately, the U.S. Treasury sanctioned two Iranian maritime insurance entities, Persian Gulf Marine Insurance Company and HormuzSafe Marine Services Authority, for accepting Bitcoin to bypass sanctions on shipping through the Strait of Hormuz, per Treasury's own statement. A related story detailed a $4 billion Iran sanctions-evasion scheme routed through the unlicensed Dubai exchange Shelbit into major platforms including Binance, per investigative reporting cited by the desk.",
+    "On the corporate and market side, Circle completed a dual federal-and-state banking structure, adding a New York limited purpose trust charter on July 31 to the OCC national trust bank authorization it received earlier in July, the desk reported. Coinbase's Q2 results told a weaker story: $1.22 billion in revenue and $208 million in adjusted EBITDA, missing analyst expectations even as the exchange captured a record 10.3% share of global crypto trading volume, per CoinDesk. Tether posted $1.5 billion in Q2 operating profit, down 69% from $4.9 billion a year earlier, while its reserve buffer fell to $4.11 billion from $8.23 billion the prior quarter, even as USDT issuance grew by about $446 million to $184.6 billion, according to a BDO attestation cited by the desk.",
+    "A security story added a different kind of risk: Coinkite told Coldcard owners that seeds generated across current firmware versions relied on a software fallback rather than the hardware random number generator, and that updating firmware does not repair a seed already created. Decrypt, cited in the desk's reporting, put losses at 594 BTC drained from roughly 500 wallets within 25 minutes, though Coinkite's own advisory does not state a figure.",
+    "The reporting attributes Coinbase's miss to subdued spot trading volumes and depressed prices squeezing transaction revenue, its largest line item. Tether's profit decline and reserve drawdown are reported as facts without the desk's reporting stating a specific cause beyond the quarter's asset-value declines in the gold and bitcoin it added to reserves. The SEC-CME dispute and the Kalshi suit both turn on the same underlying question, which regulator holds authority over crypto-adjacent products, though the reporting does not say when either will resolve.",
+    "The desk's Whale Watch board shows $77,223,303 net moving off exchanges over the past 48 hours, driven by $85,856,699 in bitcoin net outflows, with the largest single move $157.5 million in BTC leaving Coinbase. Ether ran the other way, with $8,633,396 net moving onto exchanges, led by $68.3 million into Coinbase Institutional, countering the broader withdrawal trend. Leverage data shows OKX bitcoin liquidations over the past 23 hours at 233 total, $1,020,722 in longs against $392,824 in shorts, with funding positive on bitcoin (+0.0044% per 8 hours, annualized 4.8%) and Solana (+0.0034%, annualized 3.7%). ETF flows diverge by asset: bitcoin ETFs saw a net outflow of $265.4 million on July 31, part of a five-session net outflow of $61.5 million with only one day matching that direction, while ether ETFs took in $9.0 million that same day, contributing to a $10.0 million five-session net inflow across two consecutive same-direction days.",
+    "Ahead, the CLARITY Act faces an August 8 date per the desk's regulatory tracking, and the SEC's QBTC review carries an August 24 comment deadline. Coinkite has said a formal technical review is coming, which would clarify how many wallets remain exposed. South Korea's crypto tax implementation remains set for January 1, 2027, per the desk's prior reporting."
+  ],
+  "sources": [
+    {
+      "title": "Circle wins New York trust charter after OCC national bank approval",
+      "url": "/articles/circle-wins-new-york-trust-charter-after-occ-national-bank-approval.html"
+    },
+    {
+      "title": "Coinbase Reports Weak Quarter as Trading Volumes Stall",
+      "url": "/articles/coinbase-reports-weak-quarter-as-trading-volumes-stall.html"
+    },
+    {
+      "title": "Coinkite Warns Coldcard Seeds Carry Far Less Entropy Than Intended",
+      "url": "/articles/coinkite-warns-coldcard-seeds-carry-far-less-entropy-than-intended.html"
+    },
+    {
+      "title": "Dubai Exchange Shelbit Tied to $4 Billion Iran Sanctions-Evasion Scheme",
+      "url": "/articles/dubai-exchange-shelbit-tied-to-4-billion-iran-sanctions-evasion-scheme.html"
+    },
+    {
+      "title": "New York sues Kalshi, alleges it operates unlicensed gambling business",
+      "url": "/articles/new-york-sues-kalshi-alleges-it-operates-unlicensed-gambling-business.html"
+    },
+    {
+      "title": "Tether posts $1.5 billion operating profit in Q2 as reserve buffer falls by half",
+      "url": "/articles/tether-posts-1-5-billion-operating-profit-in-q2-as-reserve-buffer-falls-by-half.html"
+    },
+    {
+      "title": "Tether Q2 Profit Falls 69% as Reserve Buffer Halves to $4.1 Billion",
+      "url": "/articles/tether-q2-profit-falls-69-as-reserve-buffer-halves-to-4-1-billion.html"
+    },
+    {
+      "title": "U.S. Treasury sanctions Iran-linked maritime insurance scheme accepting Bitcoin",
+      "url": "/articles/u-s-treasury-sanctions-iran-linked-maritime-insurance-scheme-accepting-bitcoin.html"
+    },
+    {
+      "title": "SEC Freezes Nasdaq Bitcoin Options Approval in Jurisdictional Showdown With CME",
+      "url": "/articles/sec-freezes-nasdaq-bitcoin-options-approval-in-jurisdictional-showdown-with-cme.html"
+    }
+  ]
+}

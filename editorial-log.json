@@ -3316,5 +3316,63 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-01",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "Coldcard Seed Generation Flaw Drains $70 Million from 1,196 Wallets Without Device Access",
+    "category": "accuracy",
+    "reasons": [
+     "The draft references 'Anthropic published research showing one of its models halving the security of a candidate post-quantum algorithm in 60 hours, against a design that had survived two years of expert review.' This claim appears in the brief as a data_point but is disconnected from the Coldcard vulnerability narrative and is not explained or contextualized. It reads as a non-sequitur imported from a different story and creates confusion about the article's scope.",
+     "The draft states 'There is no user-accessible test to determine whether a seed was generated on vulnerable firmware, forcing owners to assume the worst rather than verify their exposure.' The brief's matching data_point says 'There is no test to run against your own wallet that reveals whether your seed sits inside the reproducible range.' The draft's phrasing ('generated on vulnerable firmware') misframes the issue\u2014the problem is not knowing whether a seed *is* in the reproducible range, not whether it was generated on vulnerable firmware. This is an accuracy drift that could mislead readers about what they cannot verify."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Dubai Exchange Shelbit Routed Hundreds of Millions for $4 Billion Iran Sanctions-Evasion Network",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case states: 'Reuters could not determine whether the IRGC directly controlled Shelbit or the gambling network, leaving the precise organizational structure and command authority unconfirmed.' The draft acknowledges Reuters' uncertainty only in one sentence: 'Reuters reported it could not determine whether the IRGC directly controlled Shelbit or the gambling network.' However, Rich Sanders is quoted saying 'It's an IRGC operation' and the article repeatedly frames Shelbit as connected to IRGC 'entities' and structures without adequately signaling the unresolved attribution question. The draft should either elevate the Reuters caveat or reframe Sanders' claim as opinion/analysis rather than settled fact. As written, it reads as though the IRGC control is confirmed despite the explicit bear_case caveat."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Tether Reports $1.5 Billion Q2 Profit as Reserve Cushion Shrinks by Half",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the reserve cushion, expressed as a ratio of excess reserves to outstanding USDT, fell to roughly 2.2% of circulating supply' but the brief's open_questions explicitly flag that 'the headline claims a 69% YoY drop, but the source text does not state a prior-year comparison figure.' This 69% YoY figure appears in the draft title ('Q2 Profit as Reserve Cushion Shrinks by Half') and throughout the narrative but is not present in any data_point in the brief. The writer has smuggled a year-over-year comparison not backed by the research.",
+     "The draft contains the claim 'Tether's profitability remains substantial, but the pace of reserve erosion raises a core question for markets dependent on USDT stability' without any data_point establishing what constitutes 'substantial' profitability relative to prior periods, or whether $1.5B Q2 profit represents growth or decline YoY. The brief does not provide year-over-year profit comparison data."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Russia Bans Crypto Mining in Moscow Region Until 2032",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked thin=true with only 2 data_points and source_chars=0, indicating minimal research depth. The draft appropriately acknowledges uncertainty throughout ('critical details remain unconfirmed,' 'unclear whether,' 'not been explained'), but the opening sentence 'Russia has issued a decree banning crypto mining across Moscow region through 2032' presents this as settled fact when the brief itself lists as an open_question: 'What is the full text of the decree\u2014was it signed by a specific regional authority or federal decree, and does it apply to Moscow city, Moscow Region, or both?' The confidence label in the data_point is 'reported' (not 'confirmed'), and the draft does not signal this uncertainty in the lede. The title also presents the ban as definitive ('Russia Bans') without hedging language matching the uncertainty in the brief's open_questions."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "XRP Ledger Reintroduces Two Withdrawn Features With Security Fixes",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Batch already carries a record of being voted down, per CoinDesk' but the brief's corresponding data_point says only 'Batch already has a record of being voted down' with no attribution to how or when it was voted down beyond the February 2026 incident already described. The phrasing 'record of being voted down' in the brief is singular/past tense for the February event; the draft's use of 'already carries a record' implies multiple rejections and conflates the February security incident with a separate governance vote outcome not clearly established in the brief.",
+     "Draft reports 'Other pending amendments have drawn only roughly a third of validator support each' but the brief's data_point specifies 'The lending protocol and single-asset vault amendments have each drawn roughly a third of validator support'\u2014naming specific amendments. The draft generalizes to 'other pending amendments,' which is a smuggled characterization not supported by the source data (only two amendments are named as having third-level support)."
+    ]
+   },
+   {
+    "id": "c113",
+    "headline": "ECB Proposes Accessibility Standards for Digital Euro App",
+    "category": "clarity",
+    "reasons": [
+     "The draft reads as a near-disclaimer of its own story. Paragraphs 2 and 3 essentially say 'we don't know what was proposed, when it happens, who is involved, or how it compares to standards.' A story that spends 40% of its body explaining what it doesn't contain has inverted its burden: it should either report actual standards (if the brief had them) or decline to run. The brief is thin (two data_points), but the draft doesn't tighten around what is known; instead it amplifies the gaps, reading as filler rather than reporting.",
+     "The bottom_line says 'The story's substance depends on seeing the actual requirements, not the announcement alone'\u2014which is a tacit admission the draft has no substance to report. A bottom_line should forward the story (what to watch for next), not confess the story is empty."
+    ]
+   }
+  ]
  }
 ]
