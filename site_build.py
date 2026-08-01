@@ -20,6 +20,7 @@ USAGE
   python3 site_build.py [--ingest]
 """
 
+import glob
 import hashlib
 import json
 import os
@@ -447,6 +448,11 @@ def load_content():
                 continue
             c = json.load(open(os.path.join(CONTENT, fn), encoding="utf-8"))
             c.setdefault("slug", slugify(c.get("title", "")))
+            # Derived, not stored, so the 103 stories published before the flag existed are
+            # labelled too. Editions are excluded: a daily wrap cites the day's stories and
+            # is not a single-outlet claim.
+            if "developing" not in c:
+                c["developing"] = (not _is_wrap(c)) and len(c.get("sources") or []) < 2
             items.append(c)
     # newest first by date then id
     # newest date first; within a date, the editor's rank (1 = lead); unranked (intro,
@@ -821,12 +827,23 @@ def render_body(body):
     return "\n".join(out)
 
 
-def verdict_badge(verdict):
+def verdict_badge(verdict, item=None):
+    """The verdict, plus a developing flag when the story rests on a single outlet.
+
+    The two say different things and both matter. "Verified" means the verifier checked the
+    claims against the sources that existed; "Developing" means only one outlet has carried
+    it yet. A story can honestly be both, and showing only the first is the part that
+    oversells."""
+    out = ""
     if verdict == "VERIFIED":
-        return '<span class="badge verified">Verified</span>'
-    if verdict in ("NEEDS-HUMAN-REVIEW", "REVIEW"):
-        return '<span class="badge review">Editor reviewed</span>'
-    return ""
+        out = '<span class="badge verified">Verified</span>'
+    elif verdict in ("NEEDS-HUMAN-REVIEW", "REVIEW"):
+        out = '<span class="badge review">Editor reviewed</span>'
+    if item is not None and item.get("developing"):
+        out += ('<span class="badge developing" title="Only one outlet has carried this so '
+                'far. The desk publishes it as developing rather than corroborated.">'
+                'Developing, single source</span>')
+    return out
 
 
 def sig_block():
@@ -900,7 +917,7 @@ def share_row(url, title):
 
 def render_article(item, all_items=None):
     dateline = fmt_date(item.get("date"))
-    badge = verdict_badge(item.get("verdict"))
+    badge = verdict_badge(item.get("verdict"), item)
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
     topic_chips = "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item))
     ribbon = ""
@@ -1025,7 +1042,7 @@ def render_article(item, all_items=None):
 # ---- cards / index / archive -------------------------------------------------
 
 def card(item):
-    badge = verdict_badge(item.get("verdict"))
+    badge = verdict_badge(item.get("verdict"), item)
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
     tag += "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item)[:2])
     href = f'/articles/{esc(item["slug"])}.html'
@@ -1156,7 +1173,7 @@ def render_news(items, dateline, pulse=None):
     if live:
         lead = live[0]
         rest = live[1:]
-        badge = verdict_badge(lead.get("verdict"))
+        badge = verdict_badge(lead.get("verdict"), lead)
         lead_tags = tags_for(lead)
         tag = (f'<span class="tag topic">{esc(lead_tags[0])}</span>' if lead_tags
                else f'<span class="tag">{esc(lead.get("category", "news"))}</span>')
@@ -1277,7 +1294,7 @@ def render_home(items, flows, pulse, cm, dateline):
         lead_html = (f'<a class="hero-lead" href="/articles/{esc(lead["slug"])}.html">'
                      f'<span class="hero-kick"><span class="kicker">Lead story</span>{_hero_tag(lead)}</span>'
                      f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
-                     f'<span class="hl-meta">{verdict_badge(lead.get("verdict"))}'
+                     f'<span class="hl-meta">{verdict_badge(lead.get("verdict"), lead)}'
                      f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
         # The Bottom Line rides shotgun: the day's summary as the hero square beside the
         # lead, replacing the standalone band lower on the page.
@@ -3264,6 +3281,90 @@ def render_thanks(dateline):
 
 # ---- ingest approved payloads -----------------------------------------------
 
+DEDUPE_WINDOW_H = 24  # the owner's spec: entity + event-date overlap inside 24 hours
+
+
+def same_event_on_disk(item, window_h=DEDUPE_WINDOW_H, content=None):
+    """(path, story) of an already-published story covering this same event, or (None, None).
+
+    THE LAST GATE, and it exists because the one before it can be raced. autopilot's guard
+    reads the corpus committed on disk, which is correct until two runs overlap: the 18:41
+    run had not pushed when the 18:47 run checked out, so the second run's disk did not
+    contain the first run's story and the guard had nothing to match against. Two Tether
+    earnings stories published thirteen minutes apart carrying the SAME cluster id, which is
+    only possible across runs, because within one run the id is a dict key.
+
+    Ingest is the right place for the backstop. It is the moment content actually enters the
+    site, it runs after publish.py in the same job, and by then the day's other stories are
+    on disk whatever route they arrived by. A guard here also catches content that reaches
+    site/content without passing autopilot at all.
+
+    Matching is dedupe.same_event (entity and signature overlap), bounded to a window,
+    because two unrelated stories about one company weeks apart are not one event."""
+    from datetime import timedelta
+    import dedupe
+    when = _parse_utc(item)
+    if not when:
+        return None, None
+    for path in sorted(glob.glob(os.path.join(content or CONTENT, "*.json"))):
+        if os.path.basename(path).startswith("_"):
+            continue
+        try:
+            other = json.load(open(path, encoding="utf-8"))
+        except Exception:
+            continue
+        if other.get("example") or other.get("slug") == item.get("slug"):
+            continue
+        # An edition summarises the day; it is not a duplicate of the stories in it.
+        if _is_wrap(other) or _is_wrap(item):
+            continue
+        other_when = _parse_utc(other)
+        if not other_when or abs((when - other_when).total_seconds()) > window_h * 3600:
+            continue
+        if not dedupe.same_event(other.get("title", ""), other.get("key_fact", ""),
+                                 item.get("title", ""), item.get("key_fact", "")):
+            continue
+        # same_event is the CANDIDATE filter, never the verdict, and merging on it alone is
+        # destructive in a way the publish gate's version is not: holding a story loses a
+        # duplicate, merging the wrong pair loses a real one. Tested against live content it
+        # matched a Kalshi gambling lawsuit to a Tether earnings report.
+        #
+        # So the same second test the gate applies: how much did the newcomer actually add,
+        # measured against everything the published story already covered. Below the gate's
+        # own NOVELTY_MIN means it said nothing new, which is the definition of a duplicate
+        # this desk already enforces at publish time.
+        novel = (dedupe._claim_signature(item)
+                 - dedupe._covered_signature(other) - dedupe._OUTLETS)
+        if len(novel) < dedupe.NOVELTY_MIN:
+            return path, other
+    return None, None
+
+
+def merge_into_existing(path, prior, incoming):
+    """Fold a duplicate into the story already published, and keep the published URL.
+
+    UPDATES rather than replaces, deliberately. The existing story owns a URL that may
+    already be indexed and linked, so its slug, title and body stand. What the second copy
+    genuinely adds is sourcing, so its sources are unioned in, and the fact that an update
+    landed is stamped so the page can say when it was last touched.
+
+    The prose is NOT rewritten from the incoming copy. A later retelling of the same event is
+    usually not better reporting, it is the same reporting again, and silently swapping the
+    body of a published story is a bigger risk than the duplicate it would fix. Anything the
+    second copy really adds is a job for a human, and merged_from records what to look at."""
+    seen = {(s.get("url") or "").strip() for s in (prior.get("sources") or [])}
+    for s in (incoming.get("sources") or []):
+        u = (s.get("url") or "").strip()
+        if u and u not in seen:
+            prior.setdefault("sources", []).append(s)
+            seen.add(u)
+    prior["updated_utc"] = incoming.get("published_utc") or prior.get("published_utc")
+    prior.setdefault("merged_from", []).append({
+        "id": incoming.get("id"), "title": incoming.get("title"),
+        "published_utc": incoming.get("published_utc")})
+    json.dump(prior, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+
+
 def ingest():
     """Promote approved payloads (out/published/*.json from publish.py) into committed content."""
     if not os.path.isdir(PUBLISHED):
@@ -3292,7 +3393,7 @@ def ingest():
         updates_map = json.load(open(os.path.join(HERE, "out", "updates.json"), encoding="utf-8"))
     except Exception:
         pass
-    n = 0
+    n, merged = 0, 0
     for fn in sorted(os.listdir(PUBLISHED)):
         if not fn.endswith(".json"):
             continue
@@ -3335,11 +3436,26 @@ def ingest():
         # for a house-style rule that has never applied to quoted material anyway.
         if boundary.is_complete(art.get("boundary")):
             item["boundary"] = {f: str(art["boundary"][f]) for f in boundary.FIELDS}
+        # SINGLE SOURCE IS A DISCLOSURE, NOT A DETAIL. The homepage sells verification
+        # "against outlets deliberately spread across the political spectrum", and a story
+        # resting on one outlet cannot deliver that whatever its verdict says. 76% of
+        # published stories carried one source while their clusters averaged 17 corroborating
+        # outlets, so most of this is now fixed upstream (editor.attach_corroboration). What
+        # genuinely has one outlet gets labelled rather than quietly presented as verified.
+        item["developing"] = len(srcs) < 2
+        prior_path, prior = same_event_on_disk(item)
+        if prior_path:
+            merge_into_existing(prior_path, prior, item)
+            print(f"  MERGED {rec.get('id')} into {os.path.basename(prior_path)} "
+                  f"(same event within {DEDUPE_WINDOW_H}h; no second story created)")
+            merged += 1
+            continue
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
         json.dump(item, open(out, "w", encoding="utf-8"), indent=2)
         print(f"  ingested {rec.get('id')} -> {os.path.relpath(out)}")
         n += 1
-    print(f"ingest: promoted {n} approved item(s) into site content.")
+    print(f"ingest: promoted {n} approved item(s) into site content"
+          + (f", merged {merged} duplicate(s) into an existing story." if merged else "."))
     return n
 
 

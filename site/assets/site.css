@@ -238,6 +238,8 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .boundary dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);padding-top:2px}
 .boundary dd{margin:0;font-size:16px;line-height:1.5;color:var(--ink);overflow-wrap:anywhere}
 @media (max-width:520px){.boundary .brow{grid-template-columns:1fr;gap:2px}}
+/* Single-outlet stories say so. See verdict_badge(). */
+.badge.developing{background:#FDF3E3;color:#8A5A00;border:1px solid #E9D2A3}
 .keyfact{background:var(--card);border-left:3px solid var(--rule);padding:14px 18px;border-radius:0 6px 6px 0;margin:22px 0}
 .keyfact .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--rule);font-weight:700}
 .keyfact p{font-family:var(--serif);font-size:18px;margin:5px 0 0;color:var(--ink);line-height:1.5}

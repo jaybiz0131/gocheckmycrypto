@@ -95,6 +95,7 @@ def run(client=None):
 
     obj = client.call_json("editor", system, user,
                            validate=lambda o: validate(o, top_n))
+    attach_corroboration(obj, items)
 
     obj["_meta"] = {"stage": "2-editor", "mode": client.mode,
                     "candidates": len(items["clusters"]),
@@ -105,6 +106,43 @@ def run(client=None):
           f"-> {path} [mode={client.mode}]")
     return obj
 
+
+
+def attach_corroboration(obj, items):
+    """Carry the cluster's real corroborating outlets onto each ranked story. DETERMINISTIC.
+
+    source_urls was whatever the model chose to echo back, defaulting to []. The editor is
+    handed each cluster's corroboration list and simply did not repeat it, so 76% of
+    published stories carried exactly one source while the clusters behind them averaged 17
+    corroborating outlets. The desk was doing the cross-outlet work and then throwing the
+    evidence away at the first stage that could have kept it.
+
+    Copied rather than requested, for the same reason the boundary fields are: a model asked
+    to repeat a list of URLs will drop some, and there is no reason to ask. The model's own
+    source_urls are kept and unioned in, in case it cited something outside the cluster.
+
+    This is the input to a two-source rule, not the rule itself. Whether a story with one
+    outlet may publish is an editorial decision; this makes the honest count available to
+    whoever decides."""
+    by_id = {c.get("id"): c for c in (items.get("clusters") or [])}
+    for r in obj.get("ranked", []):
+        c = by_id.get(r.get("id")) or {}
+        urls, seen = [], set()
+        for u in list(r.get("source_urls") or []) + [c.get("url")] + \
+                [x.get("url") for x in (c.get("corroboration") or [])]:
+            u = (u or "").strip()
+            if u and u not in seen:
+                seen.add(u); urls.append(u)
+        r["source_urls"] = urls
+        # Outlet names travel too, so a later stage can say WHO corroborated without
+        # re-deriving it from a URL.
+        names, nseen = [], set()
+        for nm in [c.get("source")] + [x.get("name") for x in (c.get("corroboration") or [])]:
+            nm = (nm or "").strip()
+            if nm and nm not in nseen:
+                nseen.add(nm); names.append(nm)
+        r["source_outlets"] = names
+        r["source_count"] = len(urls)
 
 def main():
     try:

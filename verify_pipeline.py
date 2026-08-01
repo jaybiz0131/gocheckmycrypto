@@ -198,6 +198,7 @@ def layer1_canary():
     fails.extend(_dedupe_guard_canary())
     fails.extend(_boundary_canary())
     fails.extend(_front_page_canary())
+    fails.extend(_ingest_dedupe_canary())
     fails.extend(_preview_suppression_canary())
     fails.extend(_consistency_gate_canary())
     fails.extend(_merge_state_canary())
@@ -794,6 +795,135 @@ def _preview_suppression_canary():
            fails, "held-after-approval: an empty run no longer annotates nothing")
     return fails
 
+
+
+def _ingest_dedupe_canary():
+    """The ingest backstop, and the corroboration the editor used to drop.
+
+    Two Tether earnings stories published thirteen minutes apart on 2026-07-31 carrying the
+    SAME cluster id, which is only possible across two overlapping runs: the first had not
+    pushed when the second checked out, so autopilot's guard read a corpus that did not
+    contain it. The publish-time gate cannot see a sibling that does not exist on its disk
+    yet, so the last gate has to sit where content actually lands."""
+    fails = []
+    import site_build as sb
+    import dedupe
+
+    a = {"slug": "tether-a", "title": "Tether posts $1.5 billion operating profit in Q2 as "
+         "reserve buffer falls by half", "date": "2026-07-31",
+         "published_utc": "2026-07-31T18:41:06Z",
+         "key_fact": "Tether's operating profit fell 69% year-over-year while its reserve "
+         "buffer halved in a single quarter, even as USDT issuance grew by $446 million.",
+         "sources": [{"url": "https://www.coindesk.com/business/2026/07/31/t"}],
+         # VERBATIM body of the story that actually published at 18:41. Stripping it made
+         # this fixture fail on the first run: _covered_signature reads title, key fact AND
+         # body, so a prior story with no body "covers" almost nothing and its duplicate
+         # looks novel. A fixture must not be thinner than the story it stands in for.
+         "body": ["Tether reported $1.5 billion in net operating profit for Q2 2026, down 69% from $4.9 billion in the year-ago quarter, per CoinDesk. The stablecoin issuer's reserve buffer, the cushion between assets and liabilities, fell to $4.11 billion as of June 30, 2026, compared with $8.23 billion three months earlier, according to CoinDesk.", "Tether held $187.75 billion in assets against $183.64 billion in liabilities as of June 30, 2026, per a BDO attestation cited by CoinDesk. USDT issuance increased by about $446 million to $184.6 billion during Q2 2026, according to CoinDesk's reporting.", "The company increased physical gold holdings by 14 metric tons to roughly 146.2 metric tons during Q2 2026, up from 132.2 metric tons at the start of the quarter, per CoinDesk. Despite the increase in physical units, the value of those holdings fell to $18.84 billion from $19.84 billion during the quarter because the gold price dropped about 15% to just over $4,000 per ounce, according to CoinDesk."]}
+    b = {"slug": "tether-b", "title": "Tether Q2 Profit Falls 69% as Reserve Buffer Halves "
+         "to $4.1 Billion", "date": "2026-07-31", "published_utc": "2026-07-31T18:54:03Z",
+         "key_fact": "Excess reserves fell by half in a single quarter to $4.11 billion, "
+         "even as USDT issuance grew by $446 million to $184.6 billion.",
+         "sources": [{"url": "https://www.coindesk.com/business/2026/07/31/t"}]}
+    unrelated = {"slug": "kalshi", "title": "New York sues Kalshi, alleges it operates an "
+                 "unlicensed gambling business", "date": "2026-07-31",
+                 "published_utc": "2026-07-31T12:31:34Z",
+                 "key_fact": "The New York attorney general sued Kalshi over sports event "
+                 "contracts, alleging unlicensed gambling."}
+
+    import json as _j, os as _o, tempfile as _t
+    d = _t.mkdtemp()
+    _j.dump(a, open(_o.path.join(d, "a.json"), "w"))
+    _j.dump(unrelated, open(_o.path.join(d, "u.json"), "w"))
+
+    path, prior = sb.same_event_on_disk(b, content=d)
+    _check(bool(path) and prior.get("slug") == "tether-a", fails,
+           "ingest-dedupe: the second Tether earnings story is not caught against the first; "
+           "this is the pair that published thirteen minutes apart across two runs")
+
+    # merging the wrong pair is worse than missing one: a hold loses a duplicate, a bad merge
+    # loses a real story. same_event alone matched Kalshi to Tether in testing.
+    far = dict(b, slug="tether-c", published_utc="2026-08-03T18:54:03Z", date="2026-08-03")
+    _check(not sb.same_event_on_disk(far, content=d)[0], fails,
+           "ingest-dedupe: the same event three days later still merges; the 24h window is "
+           "not being applied and unrelated later coverage will be folded into old stories")
+    # against a corpus holding ONLY the Tether story, so this asks the real question. Run
+    # against a corpus that also held Kalshi, it matched Kalshi to itself, which is correct
+    # behaviour and a useless assertion.
+    d2 = _t.mkdtemp()
+    _j.dump(a, open(_o.path.join(d2, "a.json"), "w"))
+
+    # THE CASE THE NOVELTY TEST EXISTS FOR, and the one the first version of this canary
+    # could not see: a genuine follow-up that same_event DOES match. Dropping the novelty
+    # test passed the sabotage run clean, because every other fixture here fails same_event
+    # anyway. Merging this pair would silently delete real reporting, which is the one
+    # outcome worse than a duplicate. Verbatim from the two Ostium stories the desk published.
+    origin = {"slug": "ostium-origin", "date": "2026-07-16",
+              "published_utc": "2026-07-16T07:33:18Z",
+              "title": "Ostium Suffers $18 Million Exploit as Oracle Attack Wave Continues "
+                       "to Hit DeFi",
+              "key_fact": "An attacker drained $18 million in USDC from Ostium's vault by "
+                          "submitting oracle reports with future-dated timestamps, exposing "
+                          "a critical gap in price-feed validation.",
+              "body": ["The attack targeted Ostium's price-feed validation."]}
+    followup = {"slug": "ostium-followup", "date": "2026-07-16",
+                "published_utc": "2026-07-16T19:20:00Z",
+                "title": "Ostium Vault Exploiter Routes 10,540 ETH to Tornado Cash",
+                "key_fact": "The Ostium OLP vault lost approximately $24M USDC via oracle "
+                            "manipulation; the exploiter converted stolen stablecoins to "
+                            "12,086 ETH total and routed 10,540 ETH through Tornado Cash."}
+    d3 = _t.mkdtemp()
+    _j.dump(origin, open(_o.path.join(d3, "o.json"), "w"))
+    _check(dedupe.same_event(origin["title"], origin["key_fact"],
+                             followup["title"], followup["key_fact"]), fails,
+           "ingest-dedupe: this fixture no longer trips same_event, so it cannot test whether "
+           "the novelty gate protects a real development; replace it with a pair that does")
+    _check(not sb.same_event_on_disk(followup, content=d3)[0], fails,
+           "ingest-dedupe: a genuine follow-up (new actor, new amount, Tornado Cash) is being "
+           "merged into the original exploit story. Merging away real reporting is worse than "
+           "publishing a duplicate: the duplicate is visible and this is not")
+    _check(not sb.same_event_on_disk(unrelated, content=d2)[0], fails,
+           "ingest-dedupe: an unrelated story merges into an existing one; the novelty test "
+           "that separates a duplicate from a different story is not running")
+    _check(not sb.same_event_on_disk(dict(b, id="wrap-x"), content=d)[0], fails,
+           "ingest-dedupe: an edition is being treated as a duplicate of the stories it "
+           "summarises, which is what an edition is for")
+
+    # the merge keeps the published URL and loses no sourcing
+    import copy as _c
+    tgt = _o.path.join(d, "a.json")
+    before = _j.load(open(tgt))
+    merged_in = dict(b, sources=[{"url": "https://example.test/second-outlet"}])
+    sb.merge_into_existing(tgt, _c.deepcopy(before), merged_in)
+    after = _j.load(open(tgt))
+    _check(after.get("slug") == before.get("slug") and after.get("title") == before.get("title"),
+           fails, "ingest-dedupe: the merge changed the published story's slug or title; the "
+                  "existing URL may already be indexed and linked")
+    _check(len(after.get("sources") or []) == 2, fails,
+           "ingest-dedupe: the duplicate's sourcing was dropped rather than folded in; the "
+           "one thing a second copy reliably adds is another outlet")
+    _check(after.get("merged_from"), fails,
+           "ingest-dedupe: the merge left no record of what was folded in")
+
+    # THE CORROBORATION THE EDITOR DROPPED: 76% of stories carried one source while their
+    # clusters averaged 17 corroborating outlets.
+    import editor
+    obj = {"ranked": [{"id": "c1", "headline": "h", "why_it_matters": "w", "source_urls": []}]}
+    items = {"clusters": [{"id": "c1", "url": "https://primary.test/a", "source": "Primary",
+                           "corroboration": [{"name": "Outlet B", "url": "https://b.test/x"},
+                                             {"name": "Outlet C", "url": "https://c.test/y"}]}]}
+    editor.attach_corroboration(obj, items)
+    r = obj["ranked"][0]
+    _check(len(r.get("source_urls") or []) == 3 and r.get("source_count") == 3, fails,
+           f"editor: corroborating outlets are not being carried onto the ranked story "
+           f"(got {r.get('source_urls')}); the desk gathers them and then publishes one source")
+    _check("Outlet B" in (r.get("source_outlets") or []), fails,
+           "editor: corroborating outlet NAMES are not carried, so no later stage can say "
+           "who corroborated without re-deriving it from a URL")
+    _check("attach_corroboration(" in inspect.getsource(editor.run), fails,
+           "editor: attach_corroboration is no longer called from run(), so source_urls is "
+           "back to whatever the model chose to echo")
+    return fails
 
 def _front_page_canary():
     """Two front-page defects found in the 2026-07-31 review, pinned so they cannot return.
