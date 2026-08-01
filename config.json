@@ -5,9 +5,9 @@
   "lookback_hours": 30,
   "top_n": 8,
   "budget": {
-    "max_tokens_per_run": 220000,
+    "max_tokens_per_run": 400000,
     "max_usd_per_run": 1.5,
-    "note": "Hard fail-closed cap sized to the Haiku economy; a typical full run lands ~$0.15-0.30."
+    "note": "Fail-closed cap. The token and USD caps must express the SAME limit and they did not: 220k tokens fires at roughly $0.32-0.41 on Haiku while the USD cap allows $1.50, so the token cap was binding at about a quarter of the approved spend and a normal run already sat at 50-100% of it. A News run on 2026-07-31 drafted 8 of 8 stories and then died in the approver at 227,860 tokens, spending everything and publishing nothing. 400k keeps a full run near $0.60, still well under the USD cap, which is now the limit that actually binds. Cutting top_n from 12 to 8 was tried first and did not fix it."
   },
   "models": {
     "editor": {

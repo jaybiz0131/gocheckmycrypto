@@ -166,6 +166,16 @@ def run(client=None):
     chunk_size = len(stories) if client.mode == "replay" else 3
     drafts = []
     for i in range(0, len(stories), chunk_size):
+        # STOP DRAFTING BEFORE THE APPROVER IS STARVED. The approver is the fail-closed gate
+        # and the last llm stage, so a run that drafts every story and then cannot afford to
+        # judge them publishes nothing at all: that is what happened on 2026-07-31, 8 of 8
+        # drafted and the whole run discarded. Fewer stories approved beats none.
+        if client.mode != "replay" and client.budget.would_starve_approver():
+            common.gh("warning",
+                      f"writer: stopping after {len(drafts)} draft(s) of {len(stories)}; "
+                      f"continuing would leave the approver unable to run and the whole run "
+                      f"would publish nothing. Remaining stories roll to the next slot.")
+            break
         chunk = stories[i:i + chunk_size]
         user = ("Draft these verified stories. Two formats each, DRAFT-tagged, human_take "
                 "left empty.\n\n" + boards_blurb
