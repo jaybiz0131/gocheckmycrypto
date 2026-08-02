@@ -35,19 +35,26 @@ on:
         type: boolean
         default: false
 
-# PUBLISH LOCK (directive item 9): one publish at a time per repo. The group is shared
-# with the watcher's breaking runs, so a breaking run QUEUES behind an in-flight scheduled
-# run instead of racing its push (the Pet-divergence class, prevented structurally).
-concurrency:
-  group: crypto-publish
-  cancel-in-progress: false
-
+# PUBLISH LOCK (directive item 9): one publish at a time per repo. The lock lives at the
+# JOB level below, not up here, and that placement is load-bearing: GitHub IGNORES a
+# reusable workflow's workflow-level concurrency when it is invoked via workflow_call, so
+# a workflow-level group here never covered the watcher's breaking runs; they were in NO
+# group at all and raced scheduled briefs (every push failure 2026-07-25..29 had a
+# concurrent run of the other workflow pushing within the same minutes). Job-level
+# concurrency applies in every trigger mode: schedule, dispatch, and workflow_call.
 permissions:
   contents: write   # autopilot commits auto-approved VERIFIED stories into site/content
   issues: write     # deploy_check opens a flag issue if a push never deploys
 
 jobs:
   brief:
+    # THE actual publish lock (see the header comment): one brief job at a time, whether
+    # this workflow was scheduled, dispatched, or called by the watcher. GitHub queues at
+    # most one pending job per group; a third overlapping run is superseded, and the
+    # watcher's slot recovery re-fires any slot that loses its turn.
+    concurrency:
+      group: crypto-publish
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

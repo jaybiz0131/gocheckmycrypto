@@ -5,8 +5,11 @@
 # Thresholds are configurable without code changes via repo Variables:
 #   WATCH_MOVE_PCT (default 5.0), WATCH_MIN_SOURCES (4), WATCH_FRESH_MIN (90),
 #   WATCH_COOLDOWN_MIN (120: quiet while coverage is already fresh).
-# The called workflow shares the crypto-publish concurrency group, so a breaking run
-# QUEUES behind any in-flight scheduled publish: never races it (directive item 9).
+# Serialization against scheduled publishes comes from the JOB-level crypto-publish
+# concurrency group inside the called workflow's brief job (directive item 9). It must
+# stay at job level there: GitHub ignores a reusable workflow's workflow-level
+# concurrency under workflow_call, which is how breaking runs raced scheduled briefs
+# through 2026-07-29.
 name: Breaking-news watcher
 
 on:
