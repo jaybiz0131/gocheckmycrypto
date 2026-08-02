@@ -103,4 +103,20 @@ Rank at most {TOP_N} stories. KEEP THE OUTPUT COMPACT, in this exact discipline:
 - "why_it_matters" is 1-2 tight lines; no essays.
 - Your final answer must be ONLY the JSON object: no preamble, no commentary, no code fence.
 
-OUTPUT CONTRACT (hard): top-level keys are exactly "ranked" and "rejected", both lists. Every id comes ONLY from the input clusters; never invent, rename, or suffix an id. JSON only, nothing else.
+MANDATORY CALENDAR DECISIONS (when the input contains that section): the desk's forward
+calendar, which the published Week Ahead story promised to readers, lists events now due
+and not yet covered. For EACH listed event add one entry to a top-level
+"calendar_decisions" list:
+  { "title": "<the event title exactly as given>",
+    "decision": "cover" | "pass",
+    "cluster_id": "<required for cover: the ranked cluster covering it>",
+    "reason": "<required for pass: one concrete line>" }
+A pass is a legitimate editorial call (a non-event, a story better held for
+confirmation), but it must be stated; a missing decision fails the run. A cover must
+actually rank the named cluster. Breaking a promise the desk printed is worse than a
+quiet miss, so weigh promised events accordingly.
+
+OUTPUT CONTRACT (hard): top-level keys are exactly "ranked" and "rejected", both lists,
+plus "calendar_decisions" ONLY when the input contains a MANDATORY CALENDAR DECISIONS
+section. Every id comes ONLY from the input clusters; never invent, rename, or suffix an
+id. JSON only, nothing else.

@@ -46,11 +46,16 @@ def _corpus(within_days=14):
             continue
         if d.get("example") or (d.get("date", "") < cutoff):
             continue
-        body = d.get("body") or []
-        body = body if isinstance(body, list) else [str(body)]
+        # Headline fields ONLY, deliberately not the body (2026-08-02): a story ABOUT an
+        # event names it in the title, dek, or key fact. Body-wide matching let the
+        # Coinbase earnings story claim coverage of Strategy's Q2 because its body used
+        # the common noun "strategy" near "earnings", and the desk's promised event
+        # sailed by marked covered. An event genuinely handled inside a broader story
+        # now fires the duty anyway, and the editor's stated pass ("covered within X")
+        # is the honest, logged answer.
         out.append((d.get("date", ""),
                     " ".join([str(d.get("title", "")), str(d.get("dek", "")),
-                              str(d.get("key_fact", ""))] + [str(b) for b in body]).lower()))
+                              str(d.get("key_fact", ""))]).lower()))
     return out
 
 

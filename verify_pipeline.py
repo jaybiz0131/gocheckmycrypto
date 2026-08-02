@@ -238,6 +238,7 @@ def layer1_canary():
     fails.extend(_preview_suppression_canary())
     fails.extend(_consistency_gate_canary())
     fails.extend(_merge_state_canary())
+    fails.extend(_calendar_duty_canary())
 
     # full offline replay end-to-end over the fixture
     e2e_fails = _replay_e2e()
@@ -1083,6 +1084,72 @@ def _front_page_canary():
         _check(untagged / len(items) <= 0.15, fails,
                f"front page: {untagged}/{len(items)} published stories carry no tag at all; "
                f"narrowing the rules has left a hole rather than a taxonomy")
+    return fails
+
+
+def _calendar_duty_canary():
+    """The calendar duty is a MANDATE, not advice (2026-08-02: the FOMC decision died at
+    the approver three runs straight and Strategy Q2 never entered intake, while the
+    Week Ahead had promised readers both). This pins the enforcement semantics: a due
+    event with no decision fails, a cover naming an unranked cluster fails, an empty
+    pass reason fails, and a stated pass or a real cover passes."""
+    import editor as ed
+    import llm as llmlib
+    fails = []
+    duties = [{"title": "FOMC rate decision", "kind": "macro", "date": "2026-07-29",
+               "match": [["fomc"]], "_cluster_ids": ["c1"]}]
+    ranked = {"ranked": [{"id": "c1", "headline": "Fed holds", "why_it_matters": "x"}],
+              "rejected": []}
+
+    def dies(obj, label):
+        try:
+            ed.enforce_duties(obj, duties)
+            fails.append(f"calendar duty: {label} was NOT caught")
+        except llmlib.LLMError:
+            pass
+
+    def lives(obj, label):
+        try:
+            ed.enforce_duties(obj, duties)
+        except llmlib.LLMError as e:
+            fails.append(f"calendar duty: {label} wrongly rejected ({e})")
+
+    dies(dict(ranked), "a due event with no decision at all")
+    dies(dict(ranked, calendar_decisions=[{"title": "FOMC rate decision",
+                                           "decision": "cover", "cluster_id": "c9"}]),
+         "a cover naming an unranked cluster")
+    dies(dict(ranked, calendar_decisions=[{"title": "FOMC rate decision",
+                                           "decision": "pass", "reason": "  "}]),
+         "a pass with an empty reason")
+    dies(dict(ranked, calendar_decisions=[{"title": "FOMC rate decision",
+                                           "decision": "maybe"}]),
+         "a decision that is neither cover nor pass")
+    lives(dict(ranked, calendar_decisions=[{"title": "FOMC rate decision",
+                                            "decision": "cover", "cluster_id": "c1"}]),
+          "a real cover")
+    lives(dict(ranked, calendar_decisions=[{"title": "FOMC rate decision",
+                                            "decision": "pass",
+                                            "reason": "held for the minutes"}]),
+          "a stated pass")
+    # the synthetic-intake path: an event no feed carried still becomes decidable
+    items = {"clusters": []}
+    ev = [{"title": "Strategy second-quarter results", "kind": "earnings",
+           "date": "2026-07-30", "match": [["strategy", "earnings"]],
+           "source": "https://example.com/ir", "source_name": "Strategy IR",
+           "detail": "Q2 results"}]
+    ed.ensure_duty_clusters(items, ev)
+    if not items["clusters"] or not ev[0].get("_cluster_ids"):
+        fails.append("calendar duty: unclustered event did not get synthetic intake")
+    else:
+        c = items["clusters"][0]
+        missing = [k for k in ("id", "headline", "source", "source_tier", "url",
+                               "timestamp", "snippet", "corroboration", "shill_score",
+                               "shill_flags", "shill_rejected") if k not in c]
+        if missing:
+            fails.append(f"calendar duty: synthetic cluster missing fields {missing}")
+    if not fails:
+        print("calendar-duty canary: mandate enforced (no silent decision, no fake "
+              "cover, no empty pass), synthetic intake complete.")
     return fails
 
 

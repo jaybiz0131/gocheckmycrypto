@@ -12,16 +12,130 @@ USAGE
   CRYPTO_LLM_MODE=replay python3 editor.py   # offline replay (tests only)
 """
 
+import datetime
+import re
 import sys
 
 import common
 import llm as llmlib
+import calendar_check
 
 
 EDITOR_MAX_CLUSTERS = 120
 
 
-def build_user(items, top_n):
+# ---- the calendar duty (2026-08-02) --------------------------------------------------------
+# The calendar was advisory and the desk missed two events it had PROMISED readers in the
+# Week Ahead story: the FOMC decision died at the approver three runs straight with nobody
+# noticing the pattern, and Strategy's Q2 never entered intake at all because no feed
+# clustered it. calendar_check wrote out/calendar_gaps.json "for the editor", but nothing
+# ever read it, and it ran after the pipeline in a workspace about to be discarded.
+# Now the duty is structural: every due-uncovered event is handed to the editor as a
+# MANDATORY decision (cover it, or pass with a stated reason), a synthetic cluster built
+# from the event's own source URL guarantees there is always intake to cover from, and a
+# deterministic check fails the run if any decision is missing. Covering stays a judgment
+# call; silently not deciding is no longer possible.
+
+def calendar_duties(mode):
+    """Due-uncovered events, or [] outside live mode (replay fixtures predate the
+    calendar; the enforcement logic itself is canaried in verify_pipeline). A broken
+    calendar warns and skips rather than stopping the news: fail-closed protects what
+    the desk SAYS, and a duty roster is not copy. The advisory workflow step still
+    warns independently, so a dead calendar cannot go quiet."""
+    if mode != "live":
+        return []
+    try:
+        return calendar_check.gaps()
+    except Exception as e:
+        common.gh("warning", f"editor: calendar unreadable, duty roster skipped ({e})")
+        return []
+
+
+def ensure_duty_clusters(items, duties):
+    """A decision to cover needs intake to cover FROM (brief-bound law: no fact outside
+    sources). For each duty, find the clusters whose text already matches the event's
+    AND-groups; an event no feed carried gets a synthetic single-source cluster built
+    from the calendar entry's own source URL, which then rides the verifier, researcher
+    and every downstream gate exactly like any other single-source cluster."""
+    clusters = items["clusters"]
+
+    def text(c):
+        return (str(c.get("headline", "")) + " " + str(c.get("snippet", ""))).lower()
+
+    for i, ev in enumerate(duties):
+        groups = [[t.lower() for t in g if t] for g in (ev.get("match") or []) if g]
+        ev["_cluster_ids"] = [c["id"] for c in clusters
+                             if any(all(t in text(c) for t in g) for g in groups)]
+        if not ev["_cluster_ids"]:
+            slug = re.sub(r"[^a-z0-9]+", "-", str(ev.get("title", "")).lower())[:40]
+            cid = f"cal-{i}-{slug}".strip("-")
+            clusters.append({
+                "id": cid,
+                "headline": str(ev.get("title", "")),
+                "source": str(ev.get("source_name") or "desk calendar"),
+                "source_tier": 2,
+                "url": str(ev.get("source", "")),
+                "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                "snippet": str(ev.get("detail", ""))[:400],
+                "corroboration": [],
+                "shill_score": 0, "shill_flags": [], "shill_rejected": False,
+            })
+            ev["_cluster_ids"] = [cid]
+    return items
+
+
+def duty_section(duties):
+    if not duties:
+        return ""
+    lines = []
+    for ev in duties:
+        lines.append(f"- \"{ev.get('title')}\" ({ev.get('kind')}, {ev.get('date')}): "
+                     f"candidate cluster id(s): {', '.join(ev['_cluster_ids'])}")
+    return ("\n\nMANDATORY CALENDAR DECISIONS. The desk's forward calendar (which the "
+            "published Week Ahead story promised to readers) lists these events as due "
+            "and not yet covered:\n" + "\n".join(lines) +
+            "\nFor EACH event you MUST record a decision in the calendar_decisions "
+            "output field: either cover it (rank one of its candidate clusters and cite "
+            "that cluster_id) or pass with a concrete reason (a legitimate pass exists: "
+            "a non-event, a story better held for confirmation). Silence is not an "
+            "option; a missing decision fails this run.\n")
+
+
+def enforce_duties(obj, duties):
+    """Deterministic: every duty carries a decision; cover names a ranked cluster;
+    pass states a reason. Raises LLMError so the contract ladder retries with the
+    failure explained."""
+    if not duties:
+        return
+    decisions = obj.get("calendar_decisions")
+    if not isinstance(decisions, list):
+        raise llmlib.LLMError(
+            "calendar_decisions missing: every MANDATORY CALENDAR DECISION event needs "
+            "an entry {title, decision: cover|pass, cluster_id (for cover), reason "
+            "(for pass)}")
+    by_title = {str(d.get("title", "")).strip().lower(): d for d in decisions}
+    ranked_ids = {r.get("id") for r in obj.get("ranked", [])}
+    for ev in duties:
+        d = by_title.get(str(ev.get("title", "")).strip().lower())
+        if not d:
+            raise llmlib.LLMError(f"calendar_decisions has no entry for due event "
+                                  f"'{ev.get('title')}'")
+        if d.get("decision") == "cover":
+            if d.get("cluster_id") not in ranked_ids:
+                raise llmlib.LLMError(
+                    f"decision covers '{ev.get('title')}' via cluster "
+                    f"'{d.get('cluster_id')}' but no ranked story carries that id; "
+                    f"rank it or pass with a reason")
+        elif d.get("decision") == "pass":
+            if not str(d.get("reason", "")).strip():
+                raise llmlib.LLMError(f"pass on '{ev.get('title')}' needs a concrete "
+                                      f"reason; an empty reason is a silent miss")
+        else:
+            raise llmlib.LLMError(f"decision for '{ev.get('title')}' must be "
+                                  f"'cover' or 'pass', got {d.get('decision')!r}")
+
+
+def build_user(items, top_n, duties=None):
     pool = items["clusters"]
     if len(pool) > EDITOR_MAX_CLUSTERS:
         # Newest first, keep the cap: a 180-cluster day overwhelms the editor's output
@@ -30,6 +144,11 @@ def build_user(items, top_n):
         pool = sorted(pool, key=lambda c: c.get("timestamp") or "0", reverse=True)
         print(f"editor: {len(items['clusters'])} clusters -> capped to newest {EDITOR_MAX_CLUSTERS}")
         pool = pool[:EDITOR_MAX_CLUSTERS]
+        # a duty's candidate cluster must never be capped out of the editor's sight: the
+        # mandate to decide is meaningless if the thing to decide about was dropped
+        duty_ids = {cid for ev in (duties or []) for cid in ev.get("_cluster_ids", [])}
+        have = {c["id"] for c in pool}
+        pool += [c for c in items["clusters"] if c["id"] in duty_ids - have]
     clusters = []
     for c in pool:
         clusters.append({
@@ -63,10 +182,11 @@ def build_user(items, top_n):
              if recent else "\n\n")
     return (f"Here are {len(clusters)} deduplicated story clusters from the last "
             f"{items['_meta'].get('lookback_hours', '?')} hours. Rank the top {top_n} real "
-            f"stories and reject the shill." + shelf + json.dumps(clusters, indent=2))
+            f"stories and reject the shill." + shelf + duty_section(duties or [])
+            + json.dumps(clusters, indent=2))
 
 
-def validate(obj, top_n):
+def validate(obj, top_n, duties=None):
     if not isinstance(obj, dict) or "ranked" not in obj or "rejected" not in obj:
         import json as _json
         raise llmlib.LLMError("editor output missing 'ranked'/'rejected' -- got: "
@@ -82,6 +202,7 @@ def validate(obj, top_n):
         r.setdefault("source_urls", [])
         r.setdefault("confidence", "medium")
         r.setdefault("category", "other")
+    enforce_duties(obj, duties or [])
     return obj
 
 
@@ -90,12 +211,24 @@ def run(client=None):
     top_n = cfg["top_n"]
     items = common.read_out("items.json")
     client = client or llmlib.Client(cfg)
+    duties = calendar_duties(client.mode)
+    if duties:
+        ensure_duty_clusters(items, duties)
+        common.write_out("items.json", items)  # downstream stages see the same intake
+        print(f"editor: {len(duties)} mandatory calendar decision(s) due: "
+              + "; ".join(str(e.get("title")) for e in duties))
     system = common.load_prompt("editor.md", TOP_N=top_n)
-    user = build_user(items, top_n)
+    user = build_user(items, top_n, duties)
 
     obj = client.call_json("editor", system, user,
-                           validate=lambda o: validate(o, top_n))
+                           validate=lambda o: validate(o, top_n, duties))
     attach_corroboration(obj, items)
+    for d in obj.get("calendar_decisions") or []:
+        # a pass is legitimate but never quiet: it goes in the run log as an annotation
+        # a human scans, and in editor.json where the record survives the run
+        common.gh("notice", f"calendar decision: {d.get('decision')} "
+                            f"'{d.get('title')}'"
+                            + (f" ({d.get('reason')})" if d.get("reason") else ""))
 
     obj["_meta"] = {"stage": "2-editor", "mode": client.mode,
                     "candidates": len(items["clusters"]),
