@@ -3652,5 +3652,62 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-02",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c005",
+    "headline": "Bitcoin cold-wallet attack spreads to 4,500 addresses as losses near $89 million",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The first wave opened on July 30, sweeping 1,083 bitcoin from 1,196 addresses in 41 minutes at close to one coin per victim' but then later states 'The sweeping has not stopped almost three days later.' This creates a timeline problem: if the attack started July 30 and it's 'almost three days later,' the story would be dated August 2. The brief's CoinDesk source is dated 2026-08-02, which is consistent. However, the phrase 'almost three days later' is a relative time reference that will become inaccurate the moment this story publishes on any other date. This is smuggled temporality not anchored in the brief's data points.",
+     "The draft claims 'the attacker is now working through wallets worth a few thousand dollars each, a decline from the high-value targets of the opening hours' but the brief's data point states 'The attacker working through Coldcard-generated keys is now emptying wallets worth a few thousand dollars each' without the comparative framing about 'decline from high-value targets.' The characterization of a 'decline' is an interpretation beyond what the brief supports."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Iran-linked exchange sent $676 million to Binance wallets in alleged sanctions-evasion operation: Reuters",
+    "category": "accuracy",
+    "reasons": [
+     "The draft's bottom_line reads: 'Watch for Binance's official response to the allegations and for any announcement of regulatory investigation or enforcement action from OFAC or the DOJ. Reuters's full investigation, when or if made public, will be the reference for the evidence chain and for any subsequent enforcement steps.' This bottom_line is copied verbatim from the c005 story (the Coldcard article) and is completely unrelated to the Iran-Shelbit-Binance sanctions story. This is a critical error: the wrong bottom_line was pasted into the wrong draft."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Russian decree bans crypto mining across Moscow region through 2032",
+    "category": "accuracy",
+    "reasons": [
+     "The draft's bottom_line reads: 'Watch for Binance's official response to the allegations and for any announcement of regulatory investigation or enforcement action from OFAC or the DOJ. Reuters's full investigation, when or if made public, will be the reference for the evidence chain and for any subsequent enforcement steps.' This bottom_line is copied from the c013 story (the Iran-Shelbit sanctions story) and has no relationship to the Moscow mining ban story. This is the same copy-paste error as c013: the wrong bottom_line in the wrong draft."
+    ]
+   },
+   {
+    "id": "c063",
+    "headline": "BitMine Adds $73M in ETH, Holding Now 4.8% of Supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states BitMine is 'The New York-listed company' and later refers to it as 'New York-listed,' but the brief data_point specifies 'BitMine's stock trades under ticker BMNR on the NYSE.' The draft should have included the ticker symbol inline to attribute the venue claim properly and give readers a way to verify.",
+     "The draft claims 'a $71 million stake in Eightco Holdings, which trades on Nasdaq under the ticker ORBS' but this conflates two pieces of information from the brief without clarifying whether ORBS is the ticker for Eightco or a separate entity. The brief says 'BitMine holds a $180 million stake in Beast Industries and a $71 million stake in Eightco Holdings (NASDAQ: ORBS)' which is ambiguous; the draft should have either clarified or flagged the ambiguity back to research."
+    ]
+   },
+   {
+    "id": "c064",
+    "headline": "SBI Holdings Leads $76M Series C Into EDX Markets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'SBI Group is handling the domestic handling of U.S. dollar-denominated stablecoins including RLUSD and USDC' but the brief data_point says 'handling the domestic onboarding of U.S. dollar-denominated stablecoins.' The draft's word choice 'handling the domestic handling' is redundant, but more critically, 'onboarding' and 'handling' are materially different claims about what SBI is doing. The draft has paraphrased a more specific operational claim ('onboarding') into a vaguer one ('handling'). This softens the factual claim and should be corrected to track the brief."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "SummerFi to wind down after seven years, citing exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Defiant reported on July 6 that Summer Finance was drained of $6 million in a flash-loan exploit' but the brief's confidence label for this claim is 'reported', not verified. The draft presents this as a settled factual account without signaling that it is The Defiant's report of an event, not an independently confirmed event. The very next sentence acknowledges the discrepancy ('SummerFi has separately characterized the incident as NAV manipulation'), which creates internal tension\u2014the first sentence should signal the source attribution and contested nature of the claim more clearly to avoid implying independent verification.",
+     "The draft closes with 'Users of SummerFi must now manage migration of assets without formal guidance or a published timeline from the platform.' This is a characterization that reads as advice or a prescription for user action. While factually grounded in the brief's data_points that SummerFi 'did not state an effective wind-down date' and 'has not published a schedule,' the phrasing 'must now manage' steps into prescriptive territory that borders on trade/asset-movement advice. The same fact can be stated more neutrally: 'SummerFi's announcement provided no wind-down date or guidance on asset movement.'"
+    ]
+   }
+  ]
  }
 ]
