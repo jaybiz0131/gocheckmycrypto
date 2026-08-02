@@ -452,7 +452,8 @@ def load_content():
             # labelled too. Editions are excluded: a daily wrap cites the day's stories and
             # is not a single-outlet claim.
             if "developing" not in c:
-                c["developing"] = (not _is_wrap(c)) and len(c.get("sources") or []) < 2
+                c["developing"] = ((not _is_wrap(c)) and len(c.get("sources") or []) < 2
+                                   and not c.get("also_reported_by"))
             items.append(c)
     # newest first by date then id
     # newest date first; within a date, the editor's rank (1 = lead); unranked (intro,
@@ -979,6 +980,11 @@ def render_article(item, all_items=None):
             f'{esc(source_label(s))}</a></li>'
             for s in srcs)
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol></div>'
+    also = [str(x) for x in (item.get("also_reported_by") or []) if str(x).strip()]
+    if also:
+        src_html += (f'<p class="also-reported">Also reported by '
+                     f'{esc(", ".join(also[:8]))}. The desk cites only the pages it drew '
+                     f'facts from; these outlets independently carried the same development.</p>')
     rel_html = ""
     for rel in related_stories(item, all_items or []):
         rel_html += (f'<li><a href="/articles/{esc(rel["slug"])}.html">{esc(rel.get("title"))}</a>'
@@ -3442,7 +3448,12 @@ def ingest():
         # published stories carried one source while their clusters averaged 17 corroborating
         # outlets, so most of this is now fixed upstream (editor.attach_corroboration). What
         # genuinely has one outlet gets labelled rather than quietly presented as verified.
-        item["developing"] = len(srcs) < 2
+        item["also_reported_by"] = [str(x) for x in (art.get("also_reported_by") or []) if x]
+        # Corroborated by other outlets is not "developing", whatever the citation count:
+        # the badge exists to disclose a story resting on one outlet's word, and this one is
+        # resting on several. Sources stay honest (what the desk actually drew on) and the
+        # corroboration renders as its own labelled line.
+        item["developing"] = len(srcs) < 2 and not item["also_reported_by"]
         prior_path, prior = same_event_on_disk(item)
         if prior_path:
             merge_into_existing(prior_path, prior, item)

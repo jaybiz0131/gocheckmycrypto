@@ -959,6 +959,38 @@ def _ingest_dedupe_canary():
     _check("attach_corroboration(" in inspect.getsource(editor.run), fails,
            "editor: attach_corroboration is no longer called from run(), so source_urls is "
            "back to whatever the model chose to echo")
+
+    # ...AND THE HOP AFTER IT. The editor fix alone changed nothing on the page: the first
+    # live run after it still shipped three stories at one source each, because the writer
+    # model writes its own sources list and that is what publishes. The corroborating
+    # outlets must ride the draft as a field the model never touches.
+    import writer as writer_mod
+    wobj = {"drafts": [{"id": "c1",
+                        "article_draft": {"title": "t", "body": "b", "bottom_line": "x",
+                                          "sources": ["https://primary.test/a"],
+                                          "also_reported_by": ["MODEL SAID SO"]},
+                        "script_skeleton": {"headline": "t", "summary": "s",
+                                            "key_fact": "k", "sources": []}}]}
+    wstories = [{"id": "c1", "headline": "t", "why_it_matters": "w",
+                 "source_outlets": ["Primary", "Outlet B", "Outlet C"]}]
+    writer_mod.validate(wobj, wstories)
+    got = wobj["drafts"][0]["article_draft"].get("also_reported_by")
+    _check(got == ["Outlet B", "Outlet C"], fails,
+           f"writer: also_reported_by is {got!r}, not the corroborating outlets copied from "
+           f"the editor (primary excluded, model overridden); the outlet list is shrinking "
+           f"at a model hop again")
+    # the assertion names the READ SIDE of the assignment, because a sabotage that kept the
+    # key but assigned [] still contained the bare string and passed the first version.
+    _check('art.get("also_reported_by")' in inspect.getsource(sb.ingest), fails,
+           "site_build: ingest no longer reads also_reported_by off the draft, so the "
+           "writer's copy dies one hop before the page")
+    _check('also-reported' in inspect.getsource(sb.render_article), fails,
+           "site_build: the article page no longer renders the also-reported line; the "
+           "corroboration is carried all the way to the page and then not shown")
+    # corroborated is not "developing": the badge discloses a story resting on ONE outlet
+    _check(sb.verdict_badge("VERIFIED", {"developing": False,
+                                          "also_reported_by": ["B"]}).count("Developing") == 0,
+           fails, "site_build: a corroborated story renders the Developing badge")
     return fails
 
 def _front_page_canary():

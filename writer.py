@@ -98,6 +98,19 @@ def validate(obj, stories):
         skel.setdefault("human_take", "")
         skel["human_take"] = ""
         _carry_boundary(art, by_id[d["id"]])
+        # WHO ELSE REPORTED THIS, copied not requested, the third instance of the same
+        # lesson in two days. The editor deterministically attaches every corroborating
+        # outlet (attach_corroboration), the writer receives all of them, and the model then
+        # writes its own sources list, which is what publishes: the first live run after the
+        # editor fix still shipped three stories at one source each. Any hop where a model
+        # restates a list is a hop where the list shrinks.
+        #
+        # A separate field, NOT appended to sources. Sources are what the desk drew facts
+        # from; these outlets carried the same development and corroborate that it happened.
+        # Conflating the two would inflate the citation list with pages the writer never
+        # used, which is its own kind of dishonest.
+        _outlets = list((by_id[d["id"]].get("source_outlets") or []))[1:]  # [0] is the primary
+        art["also_reported_by"] = _outlets
         d["article_draft"], d["script_skeleton"] = art, skel
     return obj
 
