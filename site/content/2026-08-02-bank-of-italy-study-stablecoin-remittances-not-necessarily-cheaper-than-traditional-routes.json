@@ -1,0 +1,30 @@
+{
+  "id": "c003",
+  "slug": "bank-of-italy-study-stablecoin-remittances-not-necessarily-cheaper-than-traditional-routes",
+  "kind": "brief",
+  "title": "Bank of Italy Study: Stablecoin Remittances Not Necessarily Cheaper Than Traditional Routes",
+  "dek": "A Bank of Italy mystery-shopping study of 200 USDC remittances across 10 international corridors found end-to-end costs ranging from 0.3% to nearly 9%, with blockchain fees negligible. Fiat conversion, FX spreads, and banking infrastructure dominate total costs. The finding challenges marketing claims that stablecoins offer near-instant, cheap cross-border transfers.",
+  "date": "2026-08-02",
+  "published_utc": "2026-08-02T00:05:59Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "End-to-end stablecoin remittance costs ranged from 0.3% to 9% depending on corridor and provider, with blockchain transaction fees accounting for only a negligible portion of the total cost.",
+  "bottom_line": "Watch whether stablecoin remittance costs narrow as MiCA-regulated off-ramps mature in Europe and as domestic instant payment systems integrate with crypto infrastructure. The study's finding that blockchain fees are negligible means future cost improvements depend entirely on reducing fiat conversion spreads and banking fees, not on further technological innovation on-chain. Any study directly comparing stablecoin and traditional remittance costs through the same corridors would be the data point that either validates or refutes the Bank of Italy's skepticism.",
+  "human_take": "",
+  "body": [
+    "The Bank of Italy tested stablecoin remittances and found costs ranging from negligible to steep, undermining claims that the technology delivers near-instant cheap international transfers. A mystery-shopping study of 200 USDC remittances across 10 international corridors, published as Markets, Infrastructures and Payment Systems Paper No. 86, found end-to-end costs ranging from roughly 0.3% to almost 9% of the value transferred depending on the corridor and service providers used, per CoinDesk's reporting. Settlement times differed widely: around 20 minutes where domestic instant payment systems supported withdrawals, as long as two business days when recipients relied on conventional bank transfers.",
+    "Transfers tracked were from Italy to destinations including Argentina, Brazil, South Africa, the UAE and Japan. The critical finding was what did not cost much: network gas fees accounted for only a negligible share of the total cost. Instead, the largest expenses came before and on-chain after the transfer: converting euros into USDC, withdrawing funds into local currency, foreign exchange spreads, and fees charged by exchanges and domestic banking networks. On Layer-2 networks and newer blockchains, moving digital dollars can cost less than a cent, yet the study's results show that on-chain cheapness masks off-chain friction.",
+    "Stablecoins only deliver their headline cost advantages when both sender and recipient remain inside the crypto ecosystem, the study implies. Every conversion between fiat and stablecoins introduces another intermediary, typically a centralized exchange, broker, or payments provider, along with additional fees and foreign exchange markups. Today's stablecoin remittance market often replaces traditional correspondent banks with a different set of intermediaries rather than eliminating middlemen entirely, per CoinDesk's reporting of the study.",
+    "The Bank of Italy did acknowledge that stablecoins can reduce costs in specific corridors, and that their always-on settlement and programmability remain meaningful advantages over legacy payment rails. As regulated off-ramp providers proliferate under frameworks such as Europe's MiCA regime and domestic instant payment systems become more closely integrated with digital asset infrastructure, competitive pressure could narrow conversion fees. However, foreign exchange spreads are likely to remain an unavoidable component of international payments even as other fees narrow, the bank noted.",
+    "The study's scope was methodology-limited to mystery shopping rather than a comprehensive market survey of all available remittance providers in each corridor. No quantitative comparison to traditional remittance operators such as MoneyGram, Western Union, or bank wire transfers is provided in available reporting, leaving the question of whether 0.3% to 9% represents a genuine cost advantage or merely different intermediaries unresolved."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/08/01/bank-of-italy-research-suggests-stablecoins-aren-t-necessarily-cheaper-for-remittances",
+      "url": "https://www.coindesk.com/business/2026/08/01/bank-of-italy-research-suggests-stablecoins-aren-t-necessarily-cheaper-for-remittances"
+    }
+  ],
+  "developing": true
+}

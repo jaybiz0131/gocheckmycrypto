@@ -3374,5 +3374,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-02",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "Bitcoin cold-wallet attack spreads to 4,500 addresses as losses near $89 million",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'A third wave, flagged early Sunday by Galaxy Research' but the brief data_point says 'Wave three (flagged early Sunday by Galaxy Research)' without specifying which Sunday. The draft uses 'early Sunday' as if it's a definite calendar reference, but the brief provides no absolute date for this wave\u2014only that it occurred 'between Friday midday and Saturday morning UTC' and was flagged Sunday. The timing is ambiguous and could mislead readers about when the flagging occurred relative to the Friday-Saturday attack window.",
+     "Draft reports 'sweeping had not stopped almost three days after the first wave' but attributes this only to CoinDesk generally. The brief states this as 'Sweeping had not stopped almost three days after wave one, and the falling average haul indicates the profitable end of the key space is already picked over'\u2014a mixed claim combining observation (sweeping continued) with interpretation (key space exhaustion). The draft should attribute the observation and the inference separately, or note that the inference is CoinDesk's analytical conclusion rather than raw fact."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Iran-linked exchange sent $676 million to Binance in alleged sanctions-evasion operation: Reuters",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case states: 'Reuters' reporting forms the basis of the claims; no independent corroboration by other outlets is evident in the provided source text.' The draft does not surface this critical limitation. It presents the allegations as established fact throughout ('A Dubai-based cryptocurrency exchange called Shelbit has processed over $4 billion...') without ever signaling that these are Reuters allegations with no independent verification. A reader finishing this draft would not understand the source-dependence risk.",
+     "The draft does not adequately reflect the open_questions about mechanism and Binance's knowledge. The sentence 'The investigation does not disclose the mechanism by which Shelbit routed funds to Binance, whether the transfer occurred through public market trades, direct wallet movements, or intermediary accounts, nor does it state whether Binance knowingly processed the flows or remained unaware of their origin' buries critical unknowns in a hedge paragraph. The bear_case risk (no corroboration + no mechanism clarity + no evidence of Binance knowledge) should shape the opening framing, not appear as afterthought."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Russian decree bans crypto mining across Moscow region through 2032",
+    "category": "clarity",
+    "reasons": [
+     "The draft is extremely thin (68 words of body) and the brief is also thin (three data_points, empty bear_case, four open_questions). However, the brief's open_questions directly identify the gaps that undermine this story's usefulness: 'What was the scope of mining activity in Moscow region prior to the ban?' and 'What triggered the decree at this specific time?' Without those answers, readers cannot assess whether this ban is a material shift in global mining geography or regional theater. The draft claims 'Moscow had represented one of the few remaining large-scale mining corridors in Russia' but the brief contains no data_point supporting the size or significance of Moscow mining activity. This is SMUGGLED context not in the brief.",
+     "The draft's bottom_line asks readers to watch for 'enforcement details and exemptions' but the brief identifies as open the much more foundational question of whether the decree actually targets significant mining activity or is largely symbolic. A reader should know the baseline scope before being asked to monitor enforcement."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "XRP Ledger Reintroduces Two Features Disabled Over Critical Bugs",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Batch already has a record of being voted down in February' without qualification. The brief data point says 'Batch reached its voting phase in February and validators were advised to reject it after the flaw was found.' The draft's phrasing ('voted down') presents a completed vote as fact, while the brief indicates validators were advised to reject it during the voting phase. This distinction matters: advised-to-reject is not the same as voted-down, and the brief does not confirm a completed rejection vote occurred.",
+     "The draft says 'no independent verification of those fixes is disclosed in available sources' in the opening. The brief's bear_case explicitly states 'No independent verification is provided in the source that the bugs in Batch and Permission Delegation are actually fixed.' This is an open question/gap in the source material, not a fact that should appear as editorial claim in the draft's lead. The draft presents absence of verification as a finding about the sources, when it is an absence the writer acknowledges. This reads as smuggling a critical caveat into the narrative without attributing it as the brief's own uncertainty.",
+     "The draft says 'The source does not explain what specific technical changes address the prior vulnerabilities in either Batch or Permission Delegation' at the end. This is a meta-observation about the source's reporting gaps, not a fact from the brief's data_points. It belongs in the bottom_line or open_questions framing, not as a sentence in body prose presented as reporting."
+    ]
+   }
+  ]
  }
 ]
