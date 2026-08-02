@@ -3587,5 +3587,70 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-02",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "Bitcoin cold-wallet attack spreads to 4,500 addresses as losses near $89 million",
+    "category": "accuracy",
+    "reasons": [
+     "Bottom line states 'Represents largest bitcoin cold-storage breach since FTX' but the brief contains no comparison to FTX or any claim about the scale relative to FTX. This fact is smuggled and not in the research brief.",
+     "Bottom line states breach 'driving behavioral shift to exchanges' but the brief contains no data point, sourcing, or evidence of behavioral changes. This is editorial inference presented as fact.",
+     "Draft states 'A second wave followed' but provides no details about the second wave's size, timing, or characteristics. The brief lists only wave one and wave three details, leaving wave two unspecified in the research, yet the draft mentions it as established fact."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Iran-linked exchange sent $676 million to Binance wallets in alleged sanctions-evasion operation: Reuters",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Shelbit is 'tied to Iranian gambling sites, the central bank, and the IRGC' but brief data_point says only 'tied to Iranian gambling sites, the central bank, and the IRGC'\u2014these are reported claims from Reuters via The Block. The draft presents this as established without attribution or confidence qualifier. The brief lists confidence as 'reported' (second-hand via The Block), which should read as less certain in prose.",
+     "Draft's body claims 'Binance, a U.S.-listed exchange' but the brief contains no sourcing or data point confirming Binance's listing status. This is general knowledge smuggled outside the brief's data.",
+     "The draft relies entirely on The Block summary of Reuters reporting, yet describes Reuters as the direct source ('according to Reuters reporting, per The Block'). The attribution is backwards: The Block is the primary source here, not Reuters."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Coldcard Exploit Triggers Inflow to Exchanges, Reversing Post-FTX Self-Custody Trend",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Daily exchange deposits of Bitcoin transfers under 10 BTC spiked on July 31 to 7,300 BTC' but the brief data_point says '7.3K BTC' which equals 7,300\u2014this is accurate. However, the draft then later states 'Combined volume of all transfers smaller than 1 BTC reached 39,600 BTC on Friday' without clarifying which Friday or which day relative to the exploit timeline. The brief states this occurred 'on Friday' but the exploit began 'Friday, July 30, 2026' and the spike data refers to July 31. The draft should explicitly state 'July 31' for the <1 BTC figure to avoid temporal ambiguity.",
+     "The draft attributes 'CoinDesk's reporting and on-chain analysis from CryptoQuant' in the opening but then treats CryptoQuant head Julio Moreno's statements as CoinDesk reporting throughout. While Moreno is cited by CoinDesk, the attribution line should clarify the source chain more carefully to avoid reader confusion about whether CryptoQuant independently verified findings or merely commented on CoinDesk reporting.",
+     "The draft states Binance Founder 'CZ was among those prompted to rethink the safety of hardware wallets' but the brief data_point is vague ('was among those prompted to rethink the safety of hardware wallets and self-custody in general'). The draft does not indicate the confidence level of this claim or its source; it appears presented as settled fact when the brief does not clarify whether this is a direct quote, a reported statement, or an inference."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "BitMine Accumulates 42,200 ETH, Holdings Reach 4.8% of Supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states BitMine's stake in Beast Industries is '$180 million' but the brief data_point says '$180 million stake in Beast Industries'\u2014however, the draft earlier states BitMine holds '206 BTC, a $180 million stake in Beast Industries' which conflates the BTC holding with the stake amount. The brief lists these as separate items: '206 BTC' and 'a $180 million stake in Beast Industries'. The sentence structure in the draft creates ambiguity about whether the $180 million applies to both or just to Beast Industries.",
+     "The draft states 'BitMine's total crypto and other holdings valued at $11.1 billion, with the ETH position valued at approximately $1,800 per coin' but the brief data_point is marked 'announced-not-verified'. The draft presents this valuation without signaling the confidence level; the brief data_point explicitly marks the $1,800 per coin valuation as 'announced-not-verified' and the draft should reflect that uncertainty or attribution.",
+     "The brief's bear_case notes 'The $73 million purchase amount and 4.8%-of-supply calculation were reported by market trackers; BitMine's own post did not separately break out the weekly purchase amount from cumulative total, introducing potential ambiguity in the figures' but the draft presents these figures as direct, unambiguous facts without any caveat about their derivation or verification status."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "SBI Holdings Leads $76M Series C in EDX Markets, Deepening Institutional Crypto Infrastructure",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'SBI Holdings, founded in 1999 and based in Tokyo' but the brief separates these into two distinct data_points with different confidence levels: 'SBI Holdings is a Tokyo-based financial group founded in 1999' marked 'announced-not-verified'. The draft combines unverified background information into a single declarative sentence without signaling the confidence gap.",
+     "The draft states 'EDX Markets operates an institutional-only crypto trading venue' and repeats this description twice in the body, treating it as established fact. The brief marks both instances of this claim as 'reported' but the draft does not attribute the description inline to The Defiant on either occurrence, creating the false impression it is common knowledge rather than reported.",
+     "The draft quotes Yoshitaka Kitao as stating the passage about JPYSC, RLUSD, and USDC but the brief data_point includes the full quote from The Defiant. The draft should verify that all quoted material is attributed; however, the draft does not make clear this is a paraphrase or direct quote from a press release reported by The Defiant rather than an independently verified statement."
+    ]
+   },
+   {
+    "id": "c068",
+    "headline": "Minnesota Crypto ATM Ban Takes Effect Following $1M in Reported Losses",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Minnesota has enacted a ban on crypto automated teller machines' and 'Minnesota's action places the state among jurisdictions implementing restrictions on these kiosks,' presenting the ban as fact and already in effect. The brief's only data point is marked 'reported' confidence and contains no verification that the ban has been enacted or taken effect. The draft should reflect this as an announced action pending verification, not settled regulatory fact.",
+     "The draft presents 'approximately $1 million in reported losses' with attribution to Cointelegraph, but does not attribute the specific regulatory action or ban announcement itself back to a source. The brief's single data point covers the losses; the existence and enactment of the ban is not explicitly sourced in the brief and appears smuggled into the draft."
+    ]
+   }
+  ]
  }
 ]
