@@ -218,18 +218,115 @@ def conflicts(surface_list=None):
     return found
 
 
+def _changed_paths():
+    """Repo-relative paths this run has modified or created (uncommitted, so at gate
+    time that is exactly the run's own output). None when git cannot answer, and the
+    caller must then fail closed and treat every conflict as blocking."""
+    import subprocess
+    try:
+        r = subprocess.run(["git", "status", "--porcelain"], cwd=HERE,
+                           capture_output=True, text=True, timeout=30)
+        if r.returncode != 0:
+            return None
+        return {ln[3:].strip().strip('"') for ln in r.stdout.splitlines() if len(ln) > 3}
+    except Exception:
+        return None
+
+
+def surface_paths():
+    """surface name -> repo-relative source file, mirroring surfaces()."""
+    out = {"chart-master": "site/data/chartmaster.json",
+           "whale-board": "site/data/flows.json"}
+    for p in glob.glob(os.path.join(CONTENT, "*.json")):
+        try:
+            d = json.load(open(p, encoding="utf-8"))
+        except Exception:
+            continue
+        out[f"story:{d.get('slug', '?')}"] = os.path.relpath(p, HERE)
+    return out
+
+
+def _flag_issue(lines):
+    """Open ONE issue for live-vs-live contradictions (dedup by title). A pre-existing
+    conflict must ping a human loudly, precisely because the gate no longer kills runs
+    over it. No token -> the workflow log warning is the whole alarm."""
+    tok, repo = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPOSITORY")
+    if not tok or not repo:
+        print("::notice::no GITHUB_TOKEN in env; live-vs-live contradiction reported in "
+              "log only")
+        return
+    import urllib.request
+    title = "Consistency: live surfaces contradict (human retire/correct needed)"
+    hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+    try:
+        req = urllib.request.Request(
+            f"https://api.github.com/repos/{repo}/issues?state=open&labels=pipeline",
+            headers=hdrs)
+        if any(i["title"] == title for i in json.load(urllib.request.urlopen(req))):
+            print("live-contradiction issue already open; not duplicating")
+            return
+        body = ("The consistency gate found contradictions between surfaces that are "
+                "ALREADY live and that this run did not write. Publishing was allowed "
+                "(blocking could not have removed them; it only starved the desk, the "
+                "2026-07-28..30 deadlock class). A human needs to retire or correct the "
+                "wrong surface.\n\n" + "\n".join(f"- {ln}" for ln in lines) +
+                "\n\nClose after the surface is corrected or ages off the homepage.")
+        req = urllib.request.Request(
+            f"https://api.github.com/repos/{repo}/issues",
+            data=json.dumps({"title": title, "body": body,
+                             "labels": ["pipeline"]}).encode(),
+            headers=hdrs, method="POST")
+        urllib.request.urlopen(req)
+        print("live-contradiction issue opened")
+    except Exception as e:
+        print(f"::warning::could not file the live-contradiction issue: {e}")
+
+
 def main():
     bad = conflicts()
     if not bad:
         print("consistency gate: homepage surfaces agree on every checked metric.")
         return 0
+    # FAIL-CLOSED IS SCOPED TO WHAT THIS RUN WROTE (2026-08-02, from the failure
+    # taxonomy): the gate's job is to stop THIS RUN from shipping a new contradiction.
+    # AUTHORED text the run produced (a story, the Chart Master read) that collides with
+    # anything still blocks, hard. But a contradiction between two surfaces the run did
+    # not write is already on the live site whether or not we publish; blocking cannot
+    # remove it, and through 2026-07-28..30 it only deadlocked the desk while the fix
+    # (fresh coverage aging the stale claim off the homepage) was the very thing being
+    # blocked. Those now warn + open a flag issue instead. A refreshed data board
+    # (flows.json) is data, not authorship: the tape moving against an already-live
+    # sentence is the passage of time, and holding back the tape is not an option.
+    changed = _changed_paths()
+    paths = surface_paths()
+    authored = lambda s: s.startswith("story:") or s == "chart-master"
+
+    def run_wrote(s):
+        if changed is None:
+            return True  # git unavailable: fail closed, everything blocks
+        return authored(s) and paths.get(s) in changed
+
+    blocking, preexisting = [], []
     for c in bad:
-        print(f"::error::consistency gate: '{c['metric']}' contradiction: "
-              f"{c['a']} says {c['a_dir']} ({c['a_scope']}) but {c['b']} says "
-              f"{c['b_dir']} ({c['b_scope']}). Two surfaces on one viewport may not "
-              f"assert opposite directions at a colliding window; name the window or "
-              f"fix the wrong surface before anything publishes.")
-    return 1
+        (blocking if run_wrote(c["a"]) or run_wrote(c["b"]) else preexisting).append(c)
+
+    def describe(c):
+        return (f"'{c['metric']}' contradiction: {c['a']} says {c['a_dir']} "
+                f"({c['a_scope']}) but {c['b']} says {c['b_dir']} ({c['b_scope']}).")
+
+    for c in blocking:
+        print(f"::error::consistency gate: {describe(c)} This run wrote one of these "
+              f"surfaces. Two surfaces on one viewport may not assert opposite "
+              f"directions at a colliding window; name the window or fix the wrong "
+              f"surface before anything publishes.")
+    if preexisting:
+        lines = [describe(c) for c in preexisting]
+        for ln in lines:
+            print(f"::warning::consistency gate (pre-existing, not this run's writing): "
+                  f"{ln} Publish allowed; a human must retire or correct the wrong "
+                  f"surface.")
+        _flag_issue(lines)
+    return 1 if blocking else 0
 
 
 if __name__ == "__main__":

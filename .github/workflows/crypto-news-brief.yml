@@ -276,6 +276,10 @@ jobs:
       # boards/edition are generated so it checks exactly what would ship.
       - name: Cross-surface consistency gate (no contradictions on one viewport)
         if: steps.key.outputs.have_key == 'true'
+        env:
+          # for the pre-existing-contradiction flag issue; a conflict between two
+          # already-live surfaces warns + files an issue instead of killing the run
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 consistency_gate.py
 
       - name: Commit and push published content (deploys the site)
