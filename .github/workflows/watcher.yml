@@ -14,9 +14,15 @@ name: Breaking-news watcher
 
 on:
   schedule:
-    # :17/:47 (odd minutes drift far less on GitHub's scheduler than :00/:30). The :47
-    # tick also catches the evening slot's 23:45 recovery deadline same-day.
-    - cron: "17,47 * * * *"
+    # Four registrations per hour, not a 15-minute cadence promise. Measured 2026-07-19
+    # ..08-02: GitHub's scheduler fired only 96 of ~687 scheduled ticks (median gap 174
+    # minutes, p90 8.4 HOURS), so breaking-news latency was hours, not the 30 minutes
+    # the charter assumes. Each cron line is its own registration and ticks get dropped
+    # per-registration, so denser odd-minute entries raise the effective fire rate at
+    # zero cost (public repo: Actions minutes are free; the watch job is no-model, ~$0).
+    # If latency still matters after this, the real fix is an external cron hitting
+    # workflow_dispatch with a PAT: Jack's call, needs a secret only he can mint.
+    - cron: "2,17,32,47 * * * *"
   workflow_dispatch: {}
 
 permissions:
