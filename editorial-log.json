@@ -3417,5 +3417,71 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-02",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "Bitcoin cold-wallet attack spreads to 4,500 addresses as losses near $89 million",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Wave one took exactly one victim per transaction' but brief data_point says 'Wave one took exactly one at a time'\u2014the draft invents transaction-level detail not in the brief.",
+     "Draft claims 'Wave three batched an average of six victims into each sweep, compared to one victim per transaction in wave one'\u2014the comparison to 'transaction' is added by writer; brief only says wave one took 'exactly one at a time' without specifying transaction granularity.",
+     "Draft attributes 'averaging close to a full coin per victim' to 'CoinDesk's reporting' in opening paragraph but does not inline-attribute the specific calculation of 1,083\u00f71,196=0.906 BTC/victim; later states 'wave one took 1.08 bitcoin per victim on average' which differs from the opening approximation and creates internal inconsistency on a key figure.",
+     "Draft states 'roughly 208 bitcoin from 1,912 addresses' for wave three but arithmetic check: if wave three is 0.11 BTC per victim on average across 1,912 addresses, that would be ~210 BTC, not 208\u2014this is a marginal discrepancy but the brief does not explicitly state 208, only that Galaxy Research 'flagged' the third wave."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Iran-linked exchange sent $676 million to Binance in alleged sanctions-evasion operation: Reuters",
+    "category": "balance",
+    "reasons": [
+     "Brief contains no bear_case items, yet the open_questions are substantive and the story turns entirely on unverified allegations. Draft acknowledges 'The reporting leaves critical details unconfirmed' but this caveat appears only in the bottom_line, not in the body. The headline and opening two paragraphs present the allegations as settled fact ('alleged sanctions-evasion operation', 'Shelbit's inclusion of entities linked to Iranian state institutions') without proportionate hedging in the prose itself.",
+     "Draft states 'The scale and duration of the alleged operation raise compliance and regulatory questions' but provides no counter-voice, source verification detail, Binance response, or regulatory comment. For a story resting entirely on a Reuters allegation with no independent verification in the brief, the body reads as one-sided.",
+     "The brief is marked thin=true with only 3 data_points and no bear_case; the body should reflect that thinness more visibly rather than building narrative confidence through framing like 'represents a significant sanctions risk' without sourcing or qualification."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Russian decree bans crypto mining across Moscow region through 2032",
+    "category": "clarity",
+    "reasons": [
+     "Draft opens with enforcement claim ('bans cryptocurrency mining') but brief contains no data_point on whether the ban is legally binding, how it will be enforced, or what penalties exist. The opening sentence should signal uncertainty: the brief notes enforcement mechanisms are an open question.",
+     "Draft states 'removes an estimated 1 gigawatt of mining capacity from global networks' but the brief only reports that mining 'consumes 1 GW' according to regional energy officials' estimates\u2014not that removal is confirmed. The draft treats an estimate of current consumption as if it were a confirmed removal.",
+     "Brief is thin (2 data_points, no bear_case, 6 open_questions including 'Are there enforcement mechanisms?'). Draft does not adequately signal to reader that the core claim (ban) rests on a single Block article with no independent confirmation or official decree text cited. Bottom_line acknowledges 'does not confirm enforcement mechanisms' but body gives no hint of that uncertainty."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "XRP Ledger Seeks Validator Approval for Five Amendments, Two Replacing Features Disabled for Critical Bugs",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Batch reached its voting phase in February' but the brief data_point says it 'reached its voting phase in February' without specifying a year. Given the timestamp is 2026-08-01, this is ambiguous\u2014it could mean February 2026 or February 2025. The draft should clarify which year to avoid reader confusion about the timeline.",
+     "The draft attributes the Permission Delegation vulnerability disclosure to 'September 2025' but does not state this is when the flaw was disclosed versus when it was discovered or when the amendment was disabled. The brief states 'Permission Delegation faced a separate critical flaw disclosed in September 2025' but the exact confidence and attribution should be verified against the source to ensure the date is accurate and not smuggled."
+    ]
+   },
+   {
+    "id": "c066",
+    "headline": "Minnesota Enacts Crypto ATM Ban Following $1 Million in Reported Scams",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Minnesota has enacted a ban on cryptocurrency ATMs' but the brief contains only two data_points, neither of which provides detail on the law's scope, enforcement, or retroactivity. The draft goes beyond the brief by stating 'The ban represents a direct state-level response to concrete financial harm' and 'Minnesota's move suggests that documented consumer losses...can trigger broader prohibitions'\u2014these are interpretive framings unsupported by the sparse brief. The thin=true flag and zero source_chars confirm the brief is underdeveloped.",
+     "The draft speculates on enforcement scope ('whether the restriction applies retroactively to existing ATM operators or only to new installations, and whether all cryptocurrency ATM types are covered or only those meeting specific criteria') without citing any data_point from the brief that addresses these mechanics. This introduces uncertainty language that reads as though the writer is filling gaps in the research rather than reporting from it.",
+     "The draft's bottom_line invokes 'enforcement actions against existing crypto ATM operators' and 'court ruling striking down the ban' as watch items, but the brief contains no data_point about legal challenges, litigation risk, or enforcement mechanisms. These are speculative outcomes not grounded in the brief."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "EDX Markets Closes $76M Series C Led by SBI Holdings",
+    "category": "accuracy",
+    "reasons": [
+     "Draft quotes Acu\u00f1a-Rohter as saying 'the Series C \"strengthens our ability to deliver the capabilities and market access that financial institutions need to engage with digital assets confidently and at scale,\"' but the brief's data_point quotes him saying 'Their investment strengthens our ability...' The draft has reworded and omitted 'Their investment' at the start, changing the attribution and substance of what was said. Paraphrase is fine; altering a direct quote is not.",
+     "Draft states 'SBI Holdings, a Tokyo-listed financial group that runs SBI Shinsei Bank and SBI Securities among other units' but the brief data_point says 'Tokyo-based financial group founded in 1999' with no mention of 'Tokyo-listed.' The draft added a detail (listing status) not in the brief.",
+     "Draft omits the fuller Kitao quote provided in brief that contextualizes his statement within SBI's broader JPYSC and stablecoin strategy. The brief provides a complete quote; the draft paraphrases only fragments of it. While paraphrase is permitted, the actual quote in the brief should be used or clearly marked as paraphrased, not presented as a quote ('stated...that') when the actual words are reordered and abbreviated."
+    ]
+   }
+  ]
  }
 ]
