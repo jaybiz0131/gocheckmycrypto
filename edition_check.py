@@ -107,9 +107,47 @@ def main():
                   f"edition_check: {msg}. The edition is supposed to run three times a day "
                   f"and the workflow step is fail-open, so a broken edition is silent unless "
                   f"something counts the gap. Read the wrap step's log for the gate it failed.")
+        _flag_issue(msg)
     else:
         print(f"edition_check: OK, {msg}.")
     return 0
+
+
+def _flag_issue(msg):
+    """A warning inside a green run is a named anti-pattern (owner ruling 2026-08-03):
+    every fail-open either fails closed or escalates to a flag issue. The edition step
+    stays fail-open, so breach of the gap threshold files ONE deduplicated issue. Three
+    sports editions died in a row on 2026-08-02..03 with only ::warning:: lines to show
+    for it; this is the bell that was missing. No token -> the annotation above is the
+    whole alarm, stated here so the gap in coverage is visible in the log."""
+    import urllib.request
+    tok = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    repo = os.environ.get("GITHUB_REPOSITORY")
+    if not tok or not repo:
+        print("edition_check: no GH token in env; gap reported in annotations only")
+        return
+    title = "Edition gap: the guaranteed daily edition has stopped"
+    hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+    try:
+        req = urllib.request.Request(
+            f"https://api.github.com/repos/{repo}/issues?state=open&labels=pipeline",
+            headers=hdrs)
+        if any(i["title"] == title for i in json.load(urllib.request.urlopen(req))):
+            print("edition-gap issue already open; not duplicating")
+            return
+        body = (f"{msg}.\n\nThe edition step is fail-open by design (stories must never "
+                "be blocked by a dead edition), so this issue is the loud part. Read the "
+                "wrap step's log in the most recent brief runs for the belt or gate the "
+                "edition died on. Close after the next published edition.")
+        req = urllib.request.Request(
+            f"https://api.github.com/repos/{repo}/issues",
+            data=json.dumps({"title": title, "body": body,
+                             "labels": ["pipeline"]}).encode(),
+            headers=hdrs, method="POST")
+        urllib.request.urlopen(req)
+        print("edition-gap issue opened")
+    except Exception as e:
+        print(f"edition_check: could not file the gap issue ({e.__class__.__name__})")
 
 
 def _newer_story(path, cutoff):
