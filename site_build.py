@@ -72,7 +72,7 @@ ACCESSIBILITY_AXE_VERSION = "4.12.1"
 ACCESSIBILITY_PAGE_COUNT = "30"       # 20 standalone + 8 Market Pulse boards + 2 article samples
 ACCESSIBILITY_ARTICLE_COUNT = "141"
 
-NAV = [("Home", "/index.html"), ("Latest", "/news.html"),
+NAV = [("Home", "/index.html"), ("The Edition", "/news.html"),
        ("Whale Watch", "/flows.html"), ("Market Pulse", "/pulse.html"),
        ("Chart Master", "/chartmaster.html"), ("Learn", "/learn.html"),
        ("Archive", "/archive.html"), ("About", "/about.html")]
@@ -3638,6 +3638,15 @@ def build():
                         f"/articles/{old}  /articles/{new}  301\n"
                         for old, new in sorted(RETIRED_ARTICLES.items()))
     w("_redirects", redirects + "/*  /404.html  404\n")
+    # THE EDITION (owner spec 2026-08-03): the composed front replaces the Latest tab
+    # at its own URL, and every edition day is preserved as a back issue under
+    # /edition/. Rendering layer only; ranking and content come from the items as
+    # published. Written LAST so the composed front wins the /news.html route.
+    import edition as _edition
+    n_ed = _edition.build(items, w)
+    if n_ed:
+        print(f"site: The Edition composed for {n_ed} day(s) -> news.html + /edition/")
+
     n_live = sum(1 for i in items if not i.get("example"))
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "
           f"+ {len(items) - n_live} example, plus home/archive/method/about/standards/404.")
