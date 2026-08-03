@@ -3801,5 +3801,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-03",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c094",
+    "headline": "Coldcard Firmware Bug Enables $114M Bitcoin Theft from 5,200+ Victims",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The exploit surfaced on July 30' but the brief data_point says 'The exploit surfaced on July 30 and is caused by a firmware bug that made Coldcard-generated seeds guessable' with confidence 'reported'. However, the draft also references events on July 29 (Goodman's emptying between 9:36-9:43 pm on July 29), which contradicts or predates the July 30 surface date. The brief does not clarify the timeline: did the exploit surface on July 30 but attacks occur on July 29? This ambiguity in the source material is not resolved in the draft, and the draft presents the July 30 date as settled fact without acknowledging the temporal inconsistency with victim losses on July 29.",
+     "The draft includes ACEIN's consideration of 'BlackRock's IBIT ETF as next moves' but the brief data_point says 'considering multisig setup, Block's Bitkey, or BlackRock's IBIT ETF as next moves.' The draft correctly cites the source, but this quote and the user-story context (a victim reconsidering self-custody entirely) reads as editorial framing of surrender to custodial solutions rather than a neutral report. The story does not contain a bear_case data point indicating that victims are abandoning self-custody for ETFs, only that one victim is considering it. Presenting this as illustrative of a trend without source support is smuggled analysis."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "Bitget Exits Japan, Closing All Positions by Year-End",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case states: 'Bitget did not identify a specific regulatory change or action behind the decision and did not immediately respond to CoinDesk's request for further information, leaving open whether this is a strategic exit or response to imminent enforcement.' The draft includes this point ('Bitget did not identify a specific regulatory trigger or communication from the FSA behind the announcement and did not immediately respond to CoinDesk's request for further information, leaving open whether this is a strategic exit or response to imminent enforcement') but buries it in the fourth paragraph as an afterthought rather than prominently featuring the uncertainty about Bitget's true motivation. The headline and opening frame the exit as a compliance response to 'tightened Japanese cryptocurrency regulations' without proportional skepticism about whether enforcement is actual or preemptive. A story that leads with regulatory certainty but admits deep uncertainty about the trigger violates balance: the bear_case deserves placement and weight equal to the headline's certainty."
+    ]
+   },
+   {
+    "id": "c091",
+    "headline": "BitMine Adds $73 Million in ETH, Pushing Holdings to 4.8% of Supply",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'BitMine's total crypto and other holdings are valued at $11.1 billion, announced-not-verified' but this figure does not appear in the brief's data_points. The brief lists many individual holdings (BTC, ETH, Beast Industries stake, Eightco stake, cash) but no aggregate $11.1B figure. This is a smuggled fact not present in the research.",
+     "Draft refers to 'Fundstrat's Tom Lee' as BitMine's chair, implying Lee is still at Fundstrat while leading BitMine. The brief data_point says 'BitMine is chaired by Fundstrat's Tom Lee' with 'reported' confidence, but the draft should flag potential conflict of interest or clarify current affiliation status, not assume dual roles as established fact."
+    ]
+   },
+   {
+    "id": "c029",
+    "headline": "Ripple invests in ZILO and Licuido to deepen tokenized capital markets push",
+    "category": "accuracy",
+    "reasons": [
+     "Draft opens with 'Ripple has invested in ZILO and Licuido, two firms providing transfer-agency and collateral-management infrastructure, according to reporting by The Block and Cointelegraph.' However, the brief contains only two data_points, both marked 'reported' confidence, and neither specifies what ZILO or Licuido do. The characterizations 'providing transfer-agency and collateral-management infrastructure' and 'ZILO operates a transfer agency platform for tokenized securities. Licuido manages collateral mobility for institutions' are not in the brief and appear to be writer inference or external research, violating the hard rule that facts must trace to the brief.",
+     "Draft states 'the company has previously announced partnerships with institutions in the tokenized securities space' with no supporting data_point in the brief. This is a historical claim about Ripple not present in research.",
+     "Draft references 'The investment amounts, close dates, and integration timelines have not been disclosed' as if confirming a negative fact. The brief's open_questions list these as unknowns, but the draft presents this as established reporting rather than acknowledged gaps, conflating verification with research."
+    ]
+   },
+   {
+    "id": "c090",
+    "headline": "NEAR Governance Votes to Eliminate Developer Gas Rebate",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents the bear_case items (minimal dissent, limited tokenomics benefit, uneven applicability across dApps) as narrative observations rather than as stated risks from the brief. The sentence 'The overwhelming vote tally (4.66 million veNEAR in favor versus 1,819 against) suggests minimal dissent from the House of Stake' treats the bear_case concern as the writer's inference rather than as a stated limitation in the source. Per protocol, bear_case claims marked as unconfirmed or concerning must be flagged as such in prose, not absorbed into seeming-neutral analysis."
+    ]
+   }
+  ]
  }
 ]
