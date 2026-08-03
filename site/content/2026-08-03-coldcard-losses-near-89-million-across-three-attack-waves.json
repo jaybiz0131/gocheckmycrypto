@@ -1,0 +1,49 @@
+{
+  "id": "catchup-coldcard-20260803",
+  "slug": "coldcard-losses-near-89-million-across-three-attack-waves",
+  "kind": "brief",
+  "title": "Coldcard Theft Grows to Nearly $89 Million Across Three Waves, With a Suspected Fourth Underway",
+  "dek": "Galaxy Research counts 1,367 bitcoin drained from 4,585 addresses since July 30, and its research head flags a suspected fourth wave that began Sunday. Coinkite has destroyed affected stock awaiting shipment.",
+  "date": "2026-08-03",
+  "published_utc": "2026-08-03T15:03:49Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "author": "Crypto Cronkite",
+  "update_of": "coinkite-warns-coldcard-seeds-carry-far-less-entropy-than-intended",
+  "key_fact": "Galaxy Research's confirmed count as of August 1 stood at 1,367 bitcoin, approximately $88.6 million at the prices it cited, taken from 4,585 addresses across three waves; a suspected fourth wave identified by Galaxy's Alex Thorn on Sunday moved a further 388.93 bitcoin from 462 addresses and is not yet in the confirmed total.",
+  "boundary": {
+    "affected": "Seeds generated on Mk2 or Mk3 firmware 4.0.1 through 4.1.9, on Mk4 or Mk5 before version 5.6.0 or Edge 6.6.0X, or on Q before version 1.5.0Q or Edge 6.6.0QX, per the version list Block published and Coinkite's advisory.",
+    "fixed": "Firmware Mk3 4.2.0 or later, Mk4 and Mk5 5.6.0 or later (Edge 6.6.0X), Q 1.5.0Q or later (Edge 6.6.0QX). Updating stops NEW seeds from being weak; funds on a seed generated under an affected version remain exposed until moved.",
+    "user_action": "If your seed was generated on an affected version, move funds to a wallet whose seed was generated on patched firmware or with independent dice entropy. Do not wait for a confirmed fourth wave to settle the question.",
+    "advisory_url": "https://blog.coinkite.com/coldcard-mk3-seed-generation-warning/"
+  },
+  "human_take": "",
+  "bottom_line": "",
+  "body": [
+    "When this desk first reported the Coldcard seed flaw on July 31, the figure in circulation was approximately $38 million, attributed at the time to Decrypt's reporting on the first sweep. That figure is now a historical marker. As of August 1, Galaxy Research counted 1,367 bitcoin, approximately $88.6 million at the prices it cited, drained from 4,585 addresses across three distinct waves.",
+    "The first wave, on July 30, took 1,083 bitcoin from 1,196 addresses in 41 minutes, per Galaxy Research's reconstruction, an average of close to one full coin per victim. The third wave, over Friday into Saturday UTC, swept 208 bitcoin from 1,912 addresses, per the same analysis: far more victims, far smaller balances, which is consistent with attackers working down a list from the richest derivable wallets to the rest.",
+    "A fourth wave is suspected but not yet in the confirmed count. Alex Thorn, Galaxy's head of research, identified 218 transactions between blocks 960,778 and 960,792 on Sunday that moved 388.93 bitcoin from 462 suspected victim addresses to freshly created destinations over roughly two and a half hours. Thorn called it a likely fourth organized wave; this desk carries it as suspected until Galaxy folds it into its confirmed total.",
+    "The cause has an unusually precise engineering description. Block, whose researchers traced the flaw, states that Coldcard firmware contained an RNG integration error causing ngu.random to use MicroPython's deterministic Yasmarang fallback instead of the STM32 hardware random number generator. In plain terms: seed generation that was supposed to draw from hardware randomness drew from a predictable software fallback, leaving a bounded set of possible keys that attackers could derive and sweep.",
+    "Coinkite's response has escalated with the numbers. Beyond the firmware advisory this desk covered on July 31, the company has destroyed Coldcard devices that were awaiting shipment with affected firmware and emailed existing customers migration instructions, per BleepingComputer's reporting, with the shipment halt also reported by Benzinga.",
+    "The affected-version boundary has widened since the first advisory. Block's published list covers seeds generated on Mk2 or Mk3 firmware 4.0.1 through 4.1.9, Mk4 or Mk5 before 5.6.0 or Edge 6.6.0X, and Q before 1.5.0Q or Edge 6.6.0QX. The direction of the fix is unchanged and worth stating carefully: updated firmware protects seeds generated AFTER the update; a seed generated under an affected version stays derivable no matter what firmware runs today, and the funds on it are safe only once moved.",
+    "What remains unknown: whether the waves share one operator (Galaxy is confident each wave is internally one operator and will not link them to each other), whether the suspected fourth wave will be confirmed, and how much of the remaining exposed balance is still sitting on derivable seeds. The desk will carry each of those as it resolves."
+  ],
+  "sources": [
+    {
+      "title": "CoinDesk: Bitcoin cold-wallet attack spreads to 4,500 addresses as losses near $89 million (Aug 1, 20:10 UTC)",
+      "url": "https://www.coindesk.com/tech/2026/08/02/bitcoin-cold-wallet-attack-spreads-to-4-500-addresses-as-losses-near-usd89-million"
+    },
+    {
+      "title": "BleepingComputer: COLDCARD wallet RNG flaw likely linked to $88 million Bitcoin theft (Aug 2)",
+      "url": "https://www.bleepingcomputer.com/news/security/coldcard-wallet-rng-flaw-likely-linked-to-88-million-bitcoin-theft/"
+    },
+    {
+      "title": "Coinkite advisory: COLDCARD Mk3 seed generation warning",
+      "url": "https://blog.coinkite.com/coldcard-mk3-seed-generation-warning/"
+    },
+    {
+      "title": "Benzinga: Coinkite halts shipments, destroys remaining affected stock",
+      "url": "https://www.benzinga.com/crypto/cryptocurrency/26/08/60863134/bitcoin-coldcard-wallet-hack-86-million-stolen"
+    }
+  ]
+}
