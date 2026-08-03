@@ -1501,11 +1501,28 @@ def _replay_e2e():
                            capture_output=True, text=True, env=env)
         _check(r.returncode == 0, fails, f"wrap dry-run failed: {(r.stdout + r.stderr)[-200:]}")
         if r.returncode == 0:
-            wp = common.read_out("wrap-preview.json")
-            _check(wp.get("rank", 0) < 0, fails, "wrap: edition rank must be negative (leads the page)")
-            _check(wp.get("human_take") == "", fails, "wrap: human_take must be empty")
-            _check("—" not in json.dumps(wp), fails, "wrap: em dash leaked into the edition")
-            _check(wp.get("sources"), fails, "wrap: edition must cite the desk's own stories")
+            if "no published stories in the window" in (r.stdout or ""):
+                # HONEST SILENCE IS A LEGAL STATE (2026-08-03 wedge postmortem): wrap
+                # reads the desk's REAL site/content even in replay, and when the tape
+                # goes stale the dry run rightly declines to fabricate an edition. The
+                # canary then crashed on the missing preview file, which hard-gated the
+                # brief workflow, which meant a desk quiet past the story window COULD
+                # NEVER RUN AGAIN to break its own silence: 2026-08-03's dead desk.
+                # Fail-closed must never depend on the desk already being alive.
+                print("canary: wrap dry-run declined honestly (no stories in the "
+                      "window); edition belts will exercise on the next content day")
+            else:
+                try:
+                    wp = common.read_out("wrap-preview.json")
+                except FileNotFoundError:
+                    wp = None
+                    _check(False, fails, "wrap dry-run exited 0 with no preview and no "
+                                         "honest-silence marker (unknown silent path)")
+                if wp is not None:
+                    _check(wp.get("rank", 0) < 0, fails, "wrap: edition rank must be negative (leads the page)")
+                    _check(wp.get("human_take") == "", fails, "wrap: human_take must be empty")
+                    _check("—" not in json.dumps(wp), fails, "wrap: em dash leaked into the edition")
+                    _check(wp.get("sources"), fails, "wrap: edition must cite the desk's own stories")
 
         digest.run(date="canary")
         qmd = os.path.join(common.OUT_DIR, "review_queue", "canary.md")
