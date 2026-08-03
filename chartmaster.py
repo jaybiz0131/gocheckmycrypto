@@ -179,10 +179,18 @@ def _net_plain(net, direction):
 
 # The no-advice/no-prediction belt: deterministic, runs on whatever the model returns.
 # The prompt already forbids these; the belt makes the rule survivable under model drift.
+# 2026-08-03 (external audit, owner ruling): the combat-and-injury metaphor class joins
+# the belt. "Shorts are bleeding" drifted through branded as commentary, and the no-hype
+# promise does not carry a commentary exception: positioning pain is reported in numbers
+# (funding, liquidations, open interest), never in blood.
 BANNED = re.compile(
     r"\b(you should|buy now|sell now|time to (buy|sell)|price target|take profits?|"
     r"load up|going to (rise|fall|pump|dump|moon)|will (rise|fall|hit|reach|break)|"
-    r"expect(ed)? to (rise|fall|hit|reach)|likely to (rise|fall)|guaranteed)\b", re.I)
+    r"expect(ed)? to (rise|fall|hit|reach)|likely to (rise|fall)|guaranteed|"
+    r"bleed(s|ing)?|bloodbath|blood in the (water|streets)|carnage|massacre[ds]?|"
+    r"slaughter(ed)?|obliterat(e|ed|ion)|annihilat(e|ed|ion)|wrecked|rekt|"
+    r"pain trade|crushed the (bulls|bears)|(bulls|bears|shorts|longs) (are |got )?"
+    r"(crushed|punished|destroyed|burn(ed|t)))\b", re.I)
 
 
 def _dedash(s):
