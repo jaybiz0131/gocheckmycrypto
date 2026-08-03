@@ -3751,5 +3751,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-03",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c013",
+    "headline": "Coldcard wallet exploit enters fourth wave, researchers estimate $114M in Bitcoin losses",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Two further waves over the weekend brought observed losses to 1,367 bitcoin across 4,585 addresses' but the brief's data_point for this claim specifies these are losses from 'two further waves' without clarifying whether 1,367 is the sum of waves 2 and 3 or a different aggregate. The math in the draft (1,083 + 1,367 = 2,450 bitcoin from waves 1-3, leaving 366 for wave 4 from 1,816 total) is internally inconsistent with the claim of '5,200 addresses across four waves' when only 1,196 + 4,585 = 5,781 are mentioned. This suggests either a smuggled calculation or misreading of the brief's data.",
+     "The draft presents Thorn's pattern-matching analysis without direct victim reports as settled fact ('Researchers estimate') rather than flagging the methodological limitation that the bear_case explicitly flags: 'Thorn published findings on pattern matching alone without direct victim reports, choosing speed over confirmation, introducing potential for false positives in loss estimates.' This confidence qualifier is missing from the prose."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "SEC keeps Nasdaq bitcoin options on hold as CME argues exclusive CFTC jurisdiction",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains only one data_point with substance, and the draft adds material claims not in that data_point. Specifically: the draft states 'CME argues the contracts are commodity option swaps subject exclusively to the CFTC's oversight' and 'CME's position, if accepted, would establish that bitcoin options fall under commodity swaps regulation' but the brief's single data_point only says CME is 'arguing that the contracts are commodity option swaps subject exclusively to the CFTC's oversight.' The draft's elaboration on implications ('a distinction that carries material implications for market structure, custody, and approval timelines') is not sourced to the brief.",
+     "The draft body is 118 words for a story marked thin=true with only one reported data_point and zero source_chars in the brief. This thinness is acceptable for length, but the draft introduces speculative framing ('a regulatory turf war,' 'blocking Nasdaq's market entry and establishing precedent') that exceeds what a single reported claim can support. The brief's angle describes a turf war, but the draft does not attribute this framing to reporting\u2014it presents it as narrative fact."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Robinhood secures UK crypto registration ahead of October 2027 regime launch",
+    "category": "balance",
+    "reasons": [
+     "The brief identifies an empty bear_case, but the draft should still surface open_questions or caveats. The draft fails to acknowledge that the brief's open_questions\u2014specifically what technical requirements differ between the 2020 and October 2027 frameworks, and the status of other major platforms' registration efforts\u2014remain unresolved. The sentence 'The precise technical requirements of the October 2027 regime and how it differs from the existing 2020 framework remain undetailed in available sources' appears late and weakly framed; it reads as a weakness in sources rather than a material risk to the premise. A draft without any substantive bear case or doubt language when sources explicitly say 'precise technical requirements remain undetailed' creates an impression of false clarity."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Bernstein: CLARITY Act failure would trigger selloff but regulatory acceleration could limit damage",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'The gap between statutory certainty and executive rulemaking remains unaddressed by Bernstein's analysis' is SMUGGLED\u2014it is author analysis, not in the brief. The brief does not contain a data_point stating that Bernstein failed to address or acknowledge this gap. The writer inserted editorial judgment ('remains unaddressed') that was not sourced to the brief or CoinDesk reporting, violating the hard rule that facts come from research only.",
+     "The paragraph beginning 'If the Clarity Act passes' synthesizes a reported claim (that CLARITY would establish rules, reduce uncertainty, unlock adoption) but then extends it with specifics ('clarify the division between securities and commodities oversight', 'establish a long-term framework for decentralized finance') that appear in the brief's data_point but are presented in the draft as though they are Bernstein's own forward-looking expectation, when the brief sources them as widely-held views of what the bill would do. The distinction matters: the draft reads as Bernstein forecasting effects; the brief says Bernstein cited arguments supporters make. The prose should clarify this was reported, not Bernstein's independent forecast."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "U.S.-Japan intervention revives yen carry trade fears for bitcoin",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'bitcoin from roughly $62,000 to $49,000 in a week, a roughly 20% drawdown' but this math is incorrect: $49,000 / $62,000 = 79%, meaning a ~21% drawdown, not 20%. More critically, the brief data_point says 'roughly 20% drawdown' and the draft should have used that language exactly rather than asserting its own calculation; the writer has introduced a factual claim (the precise percentage) not present in the brief and then performed arithmetic that does not match even that claim.",
+     "The draft presents 'Bitcoin's 52-week rolling correlation with USD/JPY reached minus 0.90' as a single precise figure, but correlation data is dynamic and time-bound. The brief's data_point uses the same language ('reached minus 0.90'), so this traces, but the draft should signal that this is a point-in-time measure given the context of ongoing market intervention. The phrasing 'reached' is acceptable as reported, but no caveat appears about whether this correlation persists post-intervention."
+    ]
+   }
+  ]
  }
 ]
