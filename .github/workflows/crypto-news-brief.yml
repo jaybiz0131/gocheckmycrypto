@@ -171,6 +171,16 @@ jobs:
       # DUPLICATE BACKLOG. The guard stops a duplicate at publish; this asks what is already
       # on the site. It replaced a scan that only compared stories published on the SAME DAY
       # and therefore reported the CFTC/Kalshi cluster as five articles when it was six.
+      # KILL-STREAK ALARM (owner ruling 2026-08-03, N=3): three consecutive approver
+      # kills on one development with no publish files one digest issue quoting every
+      # kill verbatim, so a human can judge legitimate-versus-theater. The writer
+      # carries prior objections into the next draft automatically; this is the bell.
+      - name: Kill-streak check (is the desk abandoning a development it owns?)
+        if: steps.key.outputs.have_key == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 kill_streak.py || true
+
       - name: Duplicate audit (cross-day, whole corpus)
         if: steps.key.outputs.have_key == 'true'
         run: python3 dupe_audit.py || true
