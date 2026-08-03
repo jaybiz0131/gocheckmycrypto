@@ -175,6 +175,10 @@ def source_label(src):
 # This map is the audit trail as well as the mechanism: every entry is a URL the desk retired
 # and where it went. Add here, never remove.
 RETIRED_ARTICLES = {
+    "tether-posts-1-5-billion-operating-profit-in-q2-as-reserve-buffer-falls-by-half":
+        "tether-q2-profit-falls-69-as-reserve-buffer-halves-to-4-1-billion",
+    "u-s-treasury-sanctions-iran-linked-maritime-insurance-scheme-accepting-bitcoin":
+        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
     "cftc-orders-kalshiex-to-honor-trades-a-michigan-state-court-directed-it-to-cancel":
         "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
     "u-s-sanctions-iran-linked-maritime-insurance-scheme-that-accepted-bitcoin":
