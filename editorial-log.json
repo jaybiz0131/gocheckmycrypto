@@ -3709,5 +3709,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-03",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "Reuters: Dubai Exchange Linked to IRGC Sent $676 Million to Binance",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Reuters reported that Shelbit...transferred $676 million to Binance wallets' but the source is The Block reporting on Reuters. The draft presents this as directly sourced to Reuters when the only attribution in hand is secondary. The Block article is a summary/coverage piece, not the original investigation.",
+     "The draft does not clarify the confidence level of the underlying allegations. The brief marks all claims as 'reported' but does not specify whether Reuters has independently verified the $676 million figure, the Shelbit-Binance connection, or IRGC ties. The open_questions explicitly flag that 'What is the source of the Reuters reporting and are there independent confirmations' remain unanswered. The draft should reflect this uncertainty more clearly\u2014e.g., 'Reuters alleges' rather than presenting it as confirmed fact."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "SEC Maintains Freeze on Nasdaq Bitcoin Options as CME Claims CFTC Jurisdiction",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'The SEC continues to hold Nasdaq's bitcoin options application' but the brief provides only one data_point: 'CME argues the contracts are commodity option swaps subject exclusively to the CFTC's oversight.' The phrase 'continues to hold' implies an ongoing state, but the brief contains no data_point confirming the SEC has frozen the application, when it began, or on what grounds. The draft is smuggling a fact not in the brief.",
+     "The draft states 'The SEC's review of that argument remains ongoing with no announced timeline for resolution' but the brief contains no data_point about the timeline or whether the review is actively occurring. This is inference beyond the brief's scope."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "BitMine Now Holds 4.8% of Ethereum's Circulating Supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine's CEO, Fundstrat analyst Tom Lee' but the brief says 'BitMine's company is chaired by Fundstrat's Tom Lee'\u2014chair and CEO are different roles. The brief does not confirm Tom Lee holds the CEO title.",
+     "The draft claims 'BitMine did not increase its staked Ethereum in this period; its staked ETH holdings remained unchanged at 4,879,157 tokens' but this fact is not in the brief's data_points. The brief only states the staked total remained unchanged; it does not assert whether BitMine did or did not increase staked ETH during the acquisition period. This is a smuggled interpretation."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "DeFi Platform SummerFi Winds Down After Seven Years, Citing Exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's data_point 8 states Kulechov said SummerFi 'has been a nice ride for their team,' but the draft quotes him only as saying the platform is 'an OG in DeFi' and noting the stakes/costs. The specific 'nice ride' phrase is missing from the draft and cannot be verified as paraphrased; this is a dropped attributed claim from the source material.",
+     "The draft states 'The announcement of wind-down on the platform's official X account did not specify a shutdown timeline' but does not cite The Defiant as the source for this claim. The brief data_point 6 attributes 'SummerFi did not state an effective wind-down date' to The Defiant; the draft presents this as observed fact without inline attribution to the reporting source, creating an orphaned claim."
+    ]
+   }
+  ]
  }
 ]
