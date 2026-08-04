@@ -4174,5 +4174,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Coldcard Hardware Wallet Exploit Remains Active, Draining Bitcoin in Real Time",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites Vincent Bouzon as 'cybersecurity expert at Ledger' but this attribution and quote do not appear in the research brief's data_points. The brief contains no data_point with Bouzon's name, affiliation, or the quoted statement about 'failure of one implementation.' This is a smuggled fact outside the brief.",
+     "The draft states 'The fix requires manual user action: affected users must upgrade their firmware, generate a new seed, and migrate their funds to a new wallet.' This procedural claim does not appear in any data_point in the brief and represents new information injected by the writer."
+    ]
+   },
+   {
+    "id": "c174",
+    "headline": "Senate Democrats Request SEC Investigation Into Trump Memecoin Amid $3.81B in Investor Losses",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The letter characterizes early trading profits as potentially based on speculation of inside information rather than confirmed evidence.' This statement about how the letter characterizes something is the writer's editorial gloss, not a fact from the brief. The brief's data_point says 'Some observers have speculated that early trading profits could have been based on inside information' \u2014 a different framing. The writer has inserted an interpretive claim not found in the source material.",
+     "The draft states 'Some observers have speculated that early trading profits could have been based on inside information, though the sources do not provide confirmed evidence of insider trading.' The parenthetical qualification ('though the sources do not provide...') is writer commentary not drawn from the brief's data_points or bear_case, representing editorial reasoning not backed by the research."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "BlackRock tokenizes $311 billion European money market funds on Ethereum",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The onchain share classes are available in Bermuda, Estonia, France, Germany, Ireland, Lithuania, Luxembourg, Malta, the Netherlands, Spain, Sweden, Singapore, and the U.K.' but lists 13 jurisdictions when the brief says '15 European markets' and the data_point claims '15 markets.' The count is materially wrong and the inclusion of non-European jurisdictions (Bermuda, Singapore) contradicts the 'European' framing in the core claim and title. This is a factual error in the draft, not a paraphrase."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "BitGo shifts $7.4 billion Wrapped Bitcoin from LayerZero to Chainlink",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'BitGo moved $7.4 billion in Wrapped Bitcoin to Chainlink CCIP, migrating the asset away from LayerZero as its cross-chain infrastructure provider, according to The Block.' However, the data_point confidence label is 'reported,' not confirmed, and the brief explicitly flags this as thin (thin: true). The draft presents the Kelp exploit connection without the qualifying uncertainty the brief requires: 'the reporting does not specify the timeline between the exploit and BitGo's announcement, nor does it confirm that the exploit occurred on LayerZero infrastructure itself. Kelp's relationship to LayerZero, and whether it was the direct catalyst for BitGo's decision, is unconfirmed in the sourced reporting.' The draft acknowledges this caveat deep in paragraph three, but the opening and body allow readers to infer causation (Kelp \u2192 BitGo migration) when the sources do not establish it. This violates the confidence labeling requirement."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "Ethereum researchers propose burning validator rewards to cap staking at 50%",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title references 'Hegelot deadline' which is not present in the brief's data_points, open_questions, or stated source material. This is a smuggled fact with no research support.",
+     "The draft states 'The brief also does not explain the significance of the \"Hegelot deadline\"' which is circular reasoning: the writer introduces a term not in the brief, then acknowledges the brief doesn't explain it. This term must be removed or sourced from the actual article text, which the brief does not provide.",
+     "The draft asserts the proposal 'would cancel issuance' as a core claim, but this data_point is marked 'reported' confidence only\u2014acceptable to include\u2014yet the draft does not signal this is from The Block reporting specifically, creating attribution ambiguity that could imply independent verification."
+    ]
+   }
+  ]
  }
 ]
