@@ -218,7 +218,19 @@ class Client:
         parts = [b.get("text", "") for b in resp_json.get("content", []) if b.get("type") == "text"]
         text = "".join(parts).strip()
         if not text:
-            raise LLMError(f"{stage}: empty model response -> failing closed")
+            # OBSERVABILITY ONLY (2026-08-04): behaviour is unchanged, this still fails
+            # closed. Four empty responses across three desks were all on the same model
+            # and the message carried nothing to tell an exhausted output budget from a
+            # thinking-only response from a genuinely empty one, so the postmortems could
+            # not close. stop_reason, the block types actually returned, and the usage
+            # counts make the next occurrence answerable from the log alone.
+            blocks = [b.get("type") for b in resp_json.get("content", [])]
+            u = resp_json.get("usage", {}) or {}
+            raise LLMError(
+                f"{stage}: empty model response -> failing closed "
+                f"[model={model} stop_reason={resp_json.get('stop_reason')} "
+                f"blocks={blocks or 'none'} max_tokens={body.get('max_tokens')} "
+                f"out_tokens={u.get('output_tokens')}]")
         return text
 
     def _post_with_retry(self, stage, req, attempts=4):
