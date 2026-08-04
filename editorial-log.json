@@ -3934,5 +3934,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "Coldcard Hardware Wallet Exploit Drains $114 Million; Fourth Wave Continues",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Coldcard confirmed the vulnerability affects certain Mk3 devices set up on firmware 4.0.1 or later, as well as Mk4, Mk5, and Q devices on older firmware' but the brief's boundary_ok field is false and notes that the affected/fixed versions do not appear verbatim in the advisory. The writer has smuggled firmware version specifications and device compatibility claims that cannot be verified in the source document.",
+     "The draft presents firmware versions and affected device lists as confirmed fact ('certain Mk3 devices set up on firmware 4.0.1 or later, as well as Mk4, Mk5, and Q devices on older firmware') without attribution or confidence qualification, despite the brief marking these facts as unverified against the source."
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "Mastercard Completes BVNK Acquisition",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'The acquisition amount ($1.8B) appears in the headline but not in the fetched source text\u2014confirmation of deal size is unavailable' in open_questions, yet the draft title references 'Mastercard Completes BVNK Acquisition' without stating the deal value, avoiding the error but leaving the core claim incomplete. More critically: the brief contains only one data_point ('Mastercard will leverage BVNK's expertise to help enterprises scale use cases involving stablecoins and tokenized assets') from a source with source_chars=0, indicating no actual text was retrieved. The draft should be rejected because the research foundation is too thin to publish: the source document appears to be inaccessible or empty, and the writer proceeded with claims from a failed fetch."
+    ]
+   },
+   {
+    "id": "c137",
+    "headline": "Nigeria establishes tax collection rules for digital asset platforms",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Framework specifies how existing tax obligations apply to crypto transactions' but the brief data_point says only that it 'specifies how existing tax obligations apply to crypto disposals and rewards'\u2014the draft generalizes beyond what the source reports.",
+     "Draft claims 'implementation timeline and specific withholding rates for different transaction types are also unclear' but these details are not mentioned in the brief's data_points or open_questions; the writer has smuggled analysis about what is unclear without sourcing it to the brief."
+    ]
+   },
+   {
+    "id": "c113",
+    "headline": "SummerFi to Wind Down After Seven Years, Citing Exploit",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case contains three specific risk items: (1) the unreconciled discrepancy between NAV manipulation vs. flash-loan characterization, (2) structural challenges in DeFi frontend economics, and (3) lack of wind-down timeline/asset recovery guidance. The draft acknowledges items 1 and 3 in passing but does not elevate them proportionately. Item 2\u2014the structural fragility argument\u2014is mentioned only in the final sentence ('operational burden') rather than as a substantive risk framing. The draft reads as a straightforward closure announcement rather than a story that stress-tests the fragility claim the brief identifies as central to the story's meaning. A reader should finish knowing why DeFi frontends are structurally doomed, not just that two happened to close."
+    ]
+   }
+  ]
  }
 ]
