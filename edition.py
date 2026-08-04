@@ -143,121 +143,129 @@ CSS = """
 [data-theme="eink"] *{transition:none !important; animation:none !important;
   text-shadow:none !important;}
 [data-theme="eink"] body{font-family:Georgia,'Times New Roman',serif;}
-*{box-sizing:border-box; margin:0;}
+.ed-sheet *{box-sizing:border-box;}
+
 html{scroll-behavior:smooth;}
-@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;}
+.ed-sheet }{
 body{background:var(--paper); color:var(--ink); font-family:var(--serif);
   font-size:1.0625rem; line-height:1.55;}
-a{color:var(--link); text-decoration:none;}
-a:hover{text-decoration:underline;}
-a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
-.ed-skip{position:absolute;left:-9999px}
-.ed-skip:focus{left:.5rem;top:.5rem;background:var(--ink);color:var(--paper);
+.ed-sheet a{color:var(--link); text-decoration:none;}
+.ed-sheet a:hover{text-decoration:underline;}
+.ed-sheet a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.ed-sheet .ed-skip{position:absolute;left:-9999px}
+.ed-sheet .ed-skip:focus{left:.5rem;top:.5rem;background:var(--ink);color:var(--paper);
   padding:.4rem .7rem;z-index:9}
-.sheet{max-width:76rem; margin:0 auto; padding:0 1.25rem 4rem;}
-/* topbar */
+.ed-sheet{max-width:76rem; margin:0 auto; padding:0 1.25rem 4rem;
+  background:var(--paper); color:var(--ink); font-family:var(--serif);
+  font-size:1.0625rem; line-height:1.55;}
+.ed-sheet /* topbar */
 .topbar{display:flex; justify-content:space-between; align-items:baseline;
   padding:.55rem 0; border-bottom:1px solid var(--rule);
   font-family:var(--sans); font-size:.72rem;
   letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint);}
-.topbar .modes{display:flex; gap:.9rem;}
-.topbar button{background:none; border:none; padding:0; cursor:pointer;
+.ed-sheet .topbar .modes{display:flex; gap:.9rem;}
+.ed-sheet .topbar button{background:none; border:none; padding:0; cursor:pointer;
   font:inherit; color:var(--ink-faint); letter-spacing:.08em; text-transform:uppercase;}
-.topbar button[aria-pressed="true"]{color:var(--ink); border-bottom:2px solid var(--accent);}
-.topbar button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
-@media(max-width:40rem){.topbar{flex-wrap:wrap;justify-content:center;gap:.4rem .9rem}}
-/* masthead */
+.ed-sheet .topbar button[aria-pressed="true"]{color:var(--ink); border-bottom:2px solid var(--accent);}
+.ed-sheet .topbar button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+@media(max-width:40rem){.topbar{flex-wrap:wrap;justify-content:center;gap:.4rem .9rem}
+.ed-sheet }{
+.ed-sheet /* masthead */
 .masthead{text-align:center; padding:1.6rem 0 .9rem;}
-.masthead h1{font-weight:600; font-size:clamp(2.4rem,6vw,4.4rem);
+.ed-sheet .masthead h1{font-weight:600; font-size:clamp(2.4rem,6vw,4.4rem);
   letter-spacing:.01em; line-height:1;}
-.masthead .motto{font-family:var(--sans); font-size:.72rem;
+.ed-sheet .masthead .motto{font-family:var(--sans); font-size:.72rem;
   letter-spacing:.22em; text-transform:uppercase; color:var(--ink-faint);
   margin-top:.55rem;}
-.dateline{display:flex; justify-content:space-between; align-items:center;
+.ed-sheet .dateline{display:flex; justify-content:space-between; align-items:center;
   border-top:2px solid var(--rule-heavy); border-bottom:1px solid var(--rule-heavy);
   padding:.4rem 0; margin-top:1rem;
   font-family:var(--sans); font-size:.78rem;
   letter-spacing:.06em; text-transform:uppercase;}
-@media(max-width:40rem){.dateline{flex-wrap:wrap;gap:.2rem .9rem;justify-content:center}}
-.sections{display:flex; gap:1.4rem; flex-wrap:wrap; justify-content:center;
+@media(max-width:40rem){.dateline{flex-wrap:wrap;gap:.2rem .9rem;justify-content:center}
+.ed-sheet }{
+.ed-sheet .sections{display:flex; gap:1.4rem; flex-wrap:wrap; justify-content:center;
   padding:.55rem 0; border-bottom:1px solid var(--rule);
   font-family:var(--sans); font-size:.78rem; letter-spacing:.1em;
   text-transform:uppercase;}
-.sections a{color:var(--ink-soft);}
-.sections a[aria-current]{color:var(--accent); font-weight:600;}
-/* front grid */
+.ed-sheet .sections a{color:var(--ink-soft);}
+.ed-sheet .sections a[aria-current]{color:var(--accent); font-weight:600;}
+.ed-sheet /* front grid */
 .front{display:grid; gap:0 2.2rem; margin-top:1.6rem; grid-template-columns:1fr;}
 @media(min-width:900px){
   .front{grid-template-columns:1.9fr 1fr;}
-  .lead{border-right:1px solid var(--rule); padding-right:2.2rem;}
-}
-.kicker{font-family:var(--sans); font-size:.7rem; font-weight:600;
+.ed-sheet .lead{border-right:1px solid var(--rule); padding-right:2.2rem;}
+.ed-sheet }{
+.ed-sheet .kicker{font-family:var(--sans); font-size:.7rem; font-weight:600;
   letter-spacing:.16em; text-transform:uppercase; color:var(--accent);}
-.lead h2{font-weight:600; font-size:clamp(1.7rem,3.6vw,2.6rem);
+.ed-sheet .lead h2{font-weight:600; font-size:clamp(1.7rem,3.6vw,2.6rem);
   line-height:1.12; margin:.35rem 0 .5rem; letter-spacing:-.005em;}
-.lead h2 a{color:var(--ink);}
-.dek{font-size:1.08rem; font-style:italic; color:var(--ink-soft);
+.ed-sheet .lead h2 a{color:var(--ink);}
+.ed-sheet .dek{font-size:1.08rem; font-style:italic; color:var(--ink-soft);
   margin-bottom:.9rem; line-height:1.4;}
-.byline{font-family:var(--sans); font-size:.72rem;
+.ed-sheet .byline{font-family:var(--sans); font-size:.72rem;
   letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint);
   margin-bottom:.9rem;}
-.lead .body{column-count:1; column-gap:2rem; column-rule:1px solid var(--rule);}
-@media(min-width:640px){ .lead .body{column-count:2;} }
-.body p{margin-bottom:.85rem; text-align:justify; hyphens:auto;}
-.body p:first-of-type::first-letter{
+.ed-sheet .lead .body{column-count:1; column-gap:2rem; column-rule:1px solid var(--rule);}
+@media(min-width:640px){ .lead .body{column-count:2;}
+.ed-sheet }{
+.ed-sheet .body p{margin-bottom:.85rem; text-align:justify; hyphens:auto;}
+.ed-sheet .body p:first-of-type::first-letter{
   float:left; font-size:3.4em; line-height:.82; padding:.04em .08em 0 0; font-weight:600;}
-.continued{font-family:var(--sans); font-size:.78rem; letter-spacing:.05em;
+.ed-sheet .continued{font-family:var(--sans); font-size:.78rem; letter-spacing:.05em;
   text-transform:uppercase; font-weight:600;}
-.continued a{color:var(--accent);}
-/* rail */
+.ed-sheet .continued a{color:var(--accent);}
+.ed-sheet /* rail */
 .rail article{padding:0 0 1.1rem; margin-bottom:1.1rem; border-bottom:1px solid var(--rule);}
-.rail article:last-child{border-bottom:none;}
-.rail h3{font-weight:600; font-size:1.22rem; line-height:1.2; margin:.3rem 0 .35rem;}
-.rail h3 a{color:var(--ink);}
-.rail p{font-size:.98rem; color:var(--ink-soft);}
-/* the Brief */
+.ed-sheet .rail article:last-child{border-bottom:none;}
+.ed-sheet .rail h3{font-weight:600; font-size:1.22rem; line-height:1.2; margin:.3rem 0 .35rem;}
+.ed-sheet .rail h3 a{color:var(--ink);}
+.ed-sheet .rail p{font-size:.98rem; color:var(--ink-soft);}
+.ed-sheet /* the Brief */
 .brief{margin-top:2.2rem; border-top:2px solid var(--rule-heavy); padding-top:1.1rem;}
-.brief-head{display:flex; align-items:baseline; gap:1rem; margin-bottom:.8rem;}
-.brief-head .kicker{color:var(--ink);}
-.brief-head .stamp{font-family:var(--sans); font-size:.72rem; color:var(--ink-faint);
+.ed-sheet .brief-head{display:flex; align-items:baseline; gap:1rem; margin-bottom:.8rem;}
+.ed-sheet .brief-head .kicker{color:var(--ink);}
+.ed-sheet .brief-head .stamp{font-family:var(--sans); font-size:.72rem; color:var(--ink-faint);
   letter-spacing:.05em; text-transform:uppercase;}
-.brief-cols{column-count:1; column-gap:2.2rem; column-rule:1px solid var(--rule);
+.ed-sheet .brief-cols{column-count:1; column-gap:2.2rem; column-rule:1px solid var(--rule);
   font-size:1rem;}
-@media(min-width:760px){ .brief-cols{column-count:3;} }
-.brief-cols p{margin-bottom:.8rem; text-align:justify; hyphens:auto;}
-.brief-cites{margin-top:.9rem; padding-top:.6rem; border-top:1px solid var(--rule);
+@media(min-width:760px){ .brief-cols{column-count:3;}
+.ed-sheet }{
+.ed-sheet .brief-cols p{margin-bottom:.8rem; text-align:justify; hyphens:auto;}
+.ed-sheet .brief-cites{margin-top:.9rem; padding-top:.6rem; border-top:1px solid var(--rule);
   font-family:var(--sans); font-size:.8rem; color:var(--ink-soft);}
-.brief-cites a{margin-right:1.2rem;}
-/* down-page */
+.ed-sheet .brief-cites a{margin-right:1.2rem;}
+.ed-sheet /* down-page */
 .downpage{margin-top:2rem; border-top:1px solid var(--rule-heavy); padding-top:1.2rem;
   display:grid; gap:1.4rem 2.2rem; grid-template-columns:1fr;}
-@media(min-width:760px){ .downpage{grid-template-columns:repeat(3,1fr);} }
-.downpage article{border-left:2px solid var(--rule); padding-left:.9rem;}
-.downpage h3{font-weight:600; font-size:1.05rem; line-height:1.25; margin:.25rem 0 .3rem;}
-.downpage h3 a{color:var(--ink);}
-.downpage p{font-size:.92rem; color:var(--ink-soft); font-style:italic;}
-/* back issues + folio */
+@media(min-width:760px){ .downpage{grid-template-columns:repeat(3,1fr);}
+.ed-sheet }{
+.ed-sheet .downpage article{border-left:2px solid var(--rule); padding-left:.9rem;}
+.ed-sheet .downpage h3{font-weight:600; font-size:1.05rem; line-height:1.25; margin:.25rem 0 .3rem;}
+.ed-sheet .downpage h3 a{color:var(--ink);}
+.ed-sheet .downpage p{font-size:.92rem; color:var(--ink-soft); font-style:italic;}
+.ed-sheet /* back issues + folio */
 .backrow{margin-top:2rem;font-family:var(--sans);font-size:.78rem;color:var(--ink-faint);
   letter-spacing:.05em}
-.folio{margin-top:2.6rem; border-top:2px solid var(--rule-heavy); padding-top:.7rem;
+.ed-sheet .folio{margin-top:2.6rem; border-top:2px solid var(--rule-heavy); padding-top:.7rem;
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:.6rem;
   font-family:var(--sans); font-size:.75rem; color:var(--ink-faint);
   letter-spacing:.05em;}
-.folio a{color:var(--ink-soft);}
-/* print: the paper edition (demo base; page-break tuning is inference where the
+.ed-sheet .folio a{color:var(--ink-soft);}
+.ed-sheet /* print: the paper edition (demo base; page-break tuning is inference where the
    demo is silent) */
 @media print{
   @page{margin:14mm 12mm}
-  .topbar,.sections,.backrow{display:none;}
-  body{background:#fff; color:#000; font-size:10.5pt;}
-  .sheet{max-width:100%; padding:0;}
-  .lead .body{column-count:2;}
-  .brief-cols{column-count:3;}
-  a{color:#000;}
-  .front{grid-template-columns:2fr 1fr;}
-  .rail article,.downpage article{break-inside:avoid;}
-}
-"""
+.ed-sheet .topbar, .ed-sheet .sections, .ed-sheet .backrow{display:none;}
+body{background:#fff; color:#000; font-size:10.5pt;}
+.ed-sheet .sheet{max-width:100%; padding:0;}
+.ed-sheet .lead .body{column-count:2;}
+.ed-sheet .brief-cols{column-count:3;}
+.ed-sheet a{color:#000;}
+.ed-sheet .front{grid-template-columns:2fr 1fr;}
+.ed-sheet .rail article, .ed-sheet .downpage article{break-inside:avoid;}
+.ed-sheet }{"""
 
 
 JS = """
@@ -400,45 +408,49 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     prev_links = " &middot; ".join(
         f'<a href="/edition/{d}.html">{d}</a>' for d in all_days[:14] if d != day)
 
-    return f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{esc(slot)} &middot; {esc(desk["name"])}</title>
-<meta name="description" content="The composed daily edition of {esc(desk["name"])}: the desk's ranked reporting and {esc(_brief_name(ed))}, as one front page.">
-<link rel="canonical" href="{esc(desk["origin"])}{esc(canonical_path)}">
-<style>{CSS}</style>
-</head>
-<body>
-<a class="ed-skip" href="#main">Skip to main content</a>
-<div class="sheet">
+    return f"""<style>{CSS}</style>
+<main class="ed-sheet">
 {topbar}
 {head}
-<main class="front" id="main">
+<div class="front">
 {lead_html}
 <aside class="rail" aria-label="Top stories">{rail_html}</aside>
-</main>
+</div>
 {brief_html}
 {down_html}
 <div class="backrow">Back issues: {prev_links}</div>
-<footer class="folio">
+<div class="folio">
   <span>{esc(desk["folio"])}</span>
-  <span><a href="/standards.html">Standards &amp; Corrections</a> &middot; <a href="/about.html">About</a> &middot; <a href="/archive.html">Archive</a></span>
-</footer>
+  <span><a href="/standards.html">Standards &amp; Corrections</a> &middot; <a href="/archive.html">Archive</a></span>
 </div>
-<script>{JS}</script>
-</body>
-</html>"""
+</main>
+<script>{JS}</script>"""
 
 
-def build(items, w, desk=DESK):
-    """Render the edition front at the Latest route plus every back issue. Called from
-    site_build.build(); touches nothing else. `desk` is the whole skinning surface."""
+def build(items, w, desk=DESK, shell=None):
+    """Render the edition at the Latest route plus every back issue. `shell` is the
+    site's own page wrapper, so the Edition carries the site masthead, nav and footer
+    like every other page (owner correction 2026-08-04: it is a page OF the site).
+    `desk` remains the entire per-desk skinning surface."""
     days = edition_days(items)
     if not days:
         return 0
-    w("news.html", render_front(desk, items, days[0], days, canonical_path="/news.html"))
+
+    def page(day, path):
+        ed, _ = select(items, day)
+        body = render_front(desk, items, day, days, canonical_path=path)
+        title = f"{_edition_slot(ed)} - {desk['name']}"
+        if shell is None:
+            return ("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">"
+                    "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+                    f"<title>{esc(title)}</title></head><body>{body}</body></html>")
+        return shell(title,
+                     f"The composed daily edition of {desk['name']}: the desk's ranked "
+                     f"reporting and its brief, as one front page.",
+                     "The Edition", body, _human_date(day).upper(),
+                     path=path, brand="cronkite", og_type="website")
+
+    w("news.html", page(days[0], "/news.html"))
     for d in days:
-        w(f"edition/{d}.html", render_front(desk, items, d, days,
-                                            canonical_path=f"/edition/{d}.html"))
+        w(f"edition/{d}.html", page(d, f"/edition/{d}.html"))
     return len(days)
