@@ -1,0 +1,36 @@
+{
+  "id": "c109",
+  "slug": "bitcoin-bridge-boltz-halts-swaps-indefinitely-citing-ai-assisted-attacks",
+  "kind": "brief",
+  "title": "Bitcoin Bridge Boltz Halts Swaps Indefinitely, Citing AI-Assisted Attacks",
+  "dek": "Boltz, a non-custodial swap bridge powering Lightning and Liquid payments in major wallets, suspended its services indefinitely on August 3 after months of automated, AI-assisted attacks accelerated faster than its team could patch. The shutdown cuts off swap rails for Bull Bitcoin, Aqua, and ZEUS, though user funds remain safe under the bridge's atomic swap design.",
+  "date": "2026-08-04",
+  "published_utc": "2026-08-04T00:35:26Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "Boltz stated attackers 'iterate faster than a team our size can find and patch,' signaling a security asymmetry between distributed open-source teams and AI-armed adversaries.",
+  "bottom_line": "Boltz's indefinite suspension exposes a security asymmetry that may affect any small, open-source Bitcoin infrastructure project: well-funded attackers armed with automated tools can iterate faster than resource-constrained teams can patch. Watch for whether major wallet developers can restore swap functionality without Boltz, and whether the incident prompts funding or organizational changes in Bitcoin's open-source infrastructure stack.",
+  "human_take": "",
+  "body": [
+    "Boltz, the non-custodial swap bridge that has become the default infrastructure for Lightning and Liquid payments across Bitcoin wallets, disabled all swap services indefinitely on August 3 at 5:54 am ET. The team stated the suspension will last until further notice, according to The Defiant reporting.",
+    "The shutdown removes a critical swap layer from wallets including Bull Bitcoin, Aqua, and ZEUS at a moment when Bitcoin infrastructure faces mounting security pressure. But the bridge's architecture shields user funds from risk, and the company says losses fell to its own account, not depositors.",
+    "Boltz stated in its announcement: \"Over the past months we have seen a steady rise in automated, AI-assisted probing of our infrastructure, and we have dealt with several exploits.\" The team added that \"attackers now iterate faster than a team our size can find and patch,\" and described pressure intensifying as it found itself \"actively targeted by what appear to be multiple resourceful groups.\" After reviewing its own security scans, Boltz concluded it \"cannot responsibly re-enable Boltz swaps.\" The company stated: \"What we are seeing is a major paradigm shift for Bitcoin services operating on an open source stack, and it needs careful analysis. Do not expect swap services to resume shortly.\"",
+    "The exploits Boltz contained over preceding months cost the company money but never endangered user funds, since Boltz is a non-custodial atomic swap service by design. \"To be explicit: no user funds were ever at risk. Boltz is non-custodial by design. And as a fully bootstrapped company, the losses were ours alone,\" the team stated. The Boltz API remains online to process refunds for in-flight swaps cooperatively, and unilateral refunds work without its infrastructure.",
+    "The shutdown marks an escalation after Boltz disabled its EVM swaps (USDT, USDC, TBTC, WBTC and RBTC) on August 1, citing \"a bug in our EVM integration.\" Boltz launched in April 2019 and has grown to become the default swap plumbing across Bitcoin's layers, adding Rootstock, chain swaps between Liquid and the mainchain, a BTCPay Server plugin, and stablecoin swaps on Tron, Solana and EVM chains.",
+    "Francis Pouliot, CEO of Bull Bitcoin, said the company is \"immediately shifting our priorities\" to restore Lightning payments and Liquid-to-bitcoin swaps for wallet users. He warned that until those functions are restored, \"they will fail without explanation.\" Because Bull Bitcoin is a member of the Liquid federation, Pouliot said \"no user funds will be stuck on Liquid.\" He stated: \"I will not let this situation linger. I will fix it, no matter what it takes.\"",
+    "Samson Mow, CEO of JAN3 (the firm behind the Aqua wallet), said restoring Liquid and Lightning swaps is the team's top priority. Aqua has \"offered to help Boltz address issues in their infrastructure,\" Mow said. User funds on Aqua remain safe and under user control, he added.",
+    "Lightning wallet ZEUS, which runs its own instance of Boltz's open-source stack, took it offline as well, stating per The Defiant: \"We're following suit with our instance at swaps.zeuslsp.com.\" BTC Sessions noted that wallets using Boltz for Lightning swaps \"will not function as expected now,\" while Liquid transactions themselves keep working.",
+    "The Boltz suspension arrives amid a broader wave of infrastructure compromises. An exploit of Coldcard hardware wallets, traced to a 2021 firmware bug that made seed phrases guessable, has drained roughly $114 million in BTC since July 30, with a fourth wave hitting on Monday. Francis Pouliot drew a line between the Coldcard exploit and the Boltz shutdown: \"First, the Coldcard exploit. Now, a critical piece of Lightning infrastructure goes offline. We are undoubtedly on the losing end of the Token War.\"",
+    "Lucas Ferreira, executive director of bitcoin research and development nonprofit Vinteum, said the episode shows the resource gap facing Bitcoin's infrastructure builders. \"Boltz has a brilliant team, but it's a small team facing increasingly sophisticated, AI-powered groups of hackers,\" Ferreira said. \"We'll need more funding for the open-source space if we want our infrastructure to remain secure and resilient.\""
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/defi/bitcoin-bridge-boltz-halts-swaps-indefinitely-citing-ai-assisted-attacks",
+      "url": "https://thedefiant.io/news/defi/bitcoin-bridge-boltz-halts-swaps-indefinitely-citing-ai-assisted-attacks"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": true
+}
