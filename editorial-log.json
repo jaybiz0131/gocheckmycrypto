@@ -4050,5 +4050,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c011",
+    "headline": "Coldcard Hardware Wallet Exploit Drains $114M, Remains Active",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Mk3 devices set up on firmware 4.0.1 or later, and Mk4, Mk5 and Q devices on older firmware' but the brief's boundary notes that the fixed state 'Mk4, Mk5 and Q owners on firmware below 5.6.0 or 1.5.0Q after updating' does not appear verbatim in the source. The draft does not clearly delineate which firmware versions of Mk4, Mk5, Q are vulnerable versus safe; it says devices on 'older firmware' are affected but then prescribes updating to specific versions (5.6.0 or 1.5.0Q), creating ambiguity about exactly which firmware states are vulnerable. This distinction matters for user safety and must be traced cleanly to the source."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "BlackRock tokenizes EUR 311 billion in European money market funds via JPMorgan's Kinexys",
+    "category": "accuracy",
+    "reasons": [
+     "Title states 'EUR 311 billion' but the draft body and all data_points cite '$311 billion' (USD equivalent). The brief's core_claim and data_points use '$311 billion'. The currency conversion is not addressed in the brief, making the EUR figure a smuggled fact not present in research."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "BitGo replaces LayerZero with Chainlink CCIP for $7.3 billion WBTC, pushing total migration tally to $14.5 billion",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'BitGo is replacing LayerZero with Chainlink CCIP as the exclusive cross-chain infrastructure provider for $7.3 billion of wrapped bitcoin (WBTC)' but the data_point says '$7.4 billion according to CoinMarketCap.' The brief shows an internal inconsistency ($7.3B vs $7.4B), and the draft uses the $7.3B figure without acknowledging the discrepancy or sourcing it clearly. The cumulative math in the brief ($7.24B earlier + $7.4B BitGo) yields $14.64B, not $14.5B as stated in the draft's opening. The draft must either use the brief's stated $7.3B and explain its source, or flag the inconsistency.",
+     "The sentence 'Adding WBTC's $7.4 billion to the $7.24 billion covered by earlier migration announcements takes the total funds moving their cross-chain infrastructure to CCIP to roughly $14.6 billion' appears in the brief's data_points but the draft states the total 'now pushes the total announced tally to approximately $14.5 billion.' This is a mathematical discrepancy between brief and draft that creates liability."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Clarity Act Stalled as Warren Requests SEC Investigation of Trump's Memecoin Over Ethics Dispute",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'If Democrats win anticipated gains in midterm congressional elections, Warren would likely run the banking committee' \u2014 but the brief's corresponding data_point says 'If Democrats win the electoral bump they are anticipating in the midterm congressional elections, there is a narrow chance for the party to return to Senate majority.' The draft omits the critical qualification that Democrats would need to regain Senate *majority* first; the current phrasing implies Democrats already have majority status and are merely seeking gains, which is factually misleading about the political threshold required.",
+     "The draft does not surface the bear_case that 'the SEC investigation request comes from Democrats opposing the Clarity Act, limiting its credibility as an impartial regulatory action' \u2014 this is a material counterargument to the framing that the request raises genuine regulatory concerns. The brief identifies this as a key risk to the premise."
+    ]
+   }
+  ]
  }
 ]
