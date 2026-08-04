@@ -1,0 +1,33 @@
+{
+  "id": "c113",
+  "slug": "dex-spot-volume-hit-a-record-24-of-cex-volume-in-july",
+  "kind": "brief",
+  "title": "DEX Spot Volume Hit a Record 24% of CEX Volume in July",
+  "dek": "Decentralized exchanges captured 24.14% of centralized exchange spot volume in July 2026, the highest ratio since tracking began in 2019, even as overall DEX volume fell 26% month-over-month to $130.77 billion. The shift reflects concentration of flow during a structural downturn rather than a volume rebound.",
+  "date": "2026-08-04",
+  "published_utc": "2026-08-04T00:14:42Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "DEXs reached 24.14% of CEX spot volume in July, their highest share since 2019, despite DEX volumes declining 26% to $130.77 billion.",
+  "bottom_line": "The 24% DEX-to-CEX ratio marks a record, but the mechanism is contraction, not expansion: CEX volumes fell faster than DEX volumes. Watch whether the ratio holds if overall crypto trading rebounds, and whether Robinhood Chain's contribution proves sustainable beyond its July launch honeymoon or reflects one-time platform migration.",
+  "human_take": "",
+  "body": [
+    "Decentralized exchanges captured 24.14% of centralized exchange spot volume in July 2026, the highest ratio since The Block's data series began in 2019, according to The Defiant reporting. The milestone arrived during a broader collapse in overall crypto trading activity: DEX spot volume fell 26% in July to $130.77 billion from $177.55 billion in June, marking the lowest monthly total since September 2024.",
+    "The ratio climb reflects a structural shift in how traders access liquidity during a bear phase. From 2024 through the first half of 2026, DEX-to-CEX ratios stayed between 10% and 21%, per The Defiant. The July jump to 24% occurred not because DEX volume surged but because centralized exchange volumes contracted faster, concentrating relative market share on decentralized venues.",
+    "Solana led DEX activity by chain volume with roughly $49.5 billion, followed by BNB Chain at $31.6 billion, Ethereum at $28.6 billion, and Base at $21.9 billion, according to DefiLlama data cited by The Defiant. Uniswap held the largest venue share with $52.04 billion in trailing 30-day volume, with PancakeSwap at $17.59 billion and Pump.fun's PumpSwap at $17.3 billion.",
+    "Robinhood Chain, which launched its public mainnet on July 1, emerged as the fifth-largest chain by DEX volume, accumulating roughly $14.7 billion over 30 days. Uniswap Labs deployed v2, v3, v4, and UniswapX on Robinhood Chain on July 2. Daily DEX volume on the chain peaked at $943.6 million on July 11, with Uniswap handling nearly all of it. The rapid ramp on a new chain suggests concentrated institutional or platform-driven activity rather than organic retail adoption.",
+    "Stablecoin pairs comprised about $31.5 billion of July's DEX activity, roughly 30%, per Blockworks data cited by The Defiant. Tokenized-equity DEX volume dropped sharply to $1.4 billion in July from June's $3.56 billion, the second-highest month on record. The decline signals volatility in emerging asset classes despite the headline gains in overall DEX market share.",
+    "Daily DEX volume topped $6 billion only once all of July, on July 8, indicating thin liquidity conditions even as the ratio climbs. K33 Research attributed the overall July slump to seasonal summer lull rather than a structural market decline, suggesting that DEX market-share gains may prove temporary if centralized volumes recover with autumn trading activity."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/defi/dex-spot-volume-hit-a-record-24-of-cex-volume-in-july",
+      "url": "https://thedefiant.io/news/defi/dex-spot-volume-hit-a-record-24-of-cex-volume-in-july"
+    }
+  ],
+  "update_of": "cftc-extends-comment-window-on-24-7-futures-and-energy-perpetuals-rule",
+  "also_reported_by": [],
+  "developing": true
+}

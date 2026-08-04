@@ -3851,5 +3851,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c021",
+    "headline": "Blockchain Association Counters Sheriffs' Group Claims on Clarity Act Before August Recess",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence: 'Bernstein flagged that failure of the Clarity Act could send crypto lower, though The Block's reporting does not detail that analysis further.' \u2014 This claim does not appear in the brief's data_points. The brief mentions Bernstein flagged market significance but does not provide source attribution or quote for the 'send crypto lower' assertion. This is smuggled information not traced to the research brief."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Robinhood wins UK crypto registration before new regulatory regime kicks off",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The new comprehensive framework will open applications at the end of September 2026 and close at the end of February 2027' but brief data_point says 'end of September' and 'end of February next year (2027)' without specifying which September\u2014the brief is ambiguous on whether September 2026 or 2027. The draft has resolved this ambiguity in a way not present in the source material.",
+     "Draft claims 'Firms already registered under the 2020 regime may have done substantial compliance work in advance' but brief data_point says 'may have done a lot of the heavy lifting'\u2014paraphrase is acceptable, but the word 'substantial' is the writer's editorial judgment and narrows the source's open language without sourcing that narrowing."
+    ]
+   },
+   {
+    "id": "c034",
+    "headline": "Ripple Invests in ZILO and Licuido for Tokenized Capital Markets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Ripple made investments in ZILO and Licuido, but the brief's only data point marks this claim as 'announced-not-verified'\u2014confidence label that must survive into prose. The draft presents the investment as fact without hedging language like 'announced', 'according to Ripple', or 'claimed'. This reads as settled when the brief itself flags it as unconfirmed.",
+     "The draft states the investments are 'intended to bring regulated transfer agency, issuance, and collateral mobility services' without attribution; brief does not confirm Ripple's stated intent, only that investments were announced. This is paraphrase beyond the brief's scope."
+    ]
+   }
+  ]
  }
 ]
