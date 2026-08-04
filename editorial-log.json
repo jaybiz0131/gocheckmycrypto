@@ -4016,5 +4016,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "Coldcard warns of active exploit draining $114 million from affected wallets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Coldcard developers issued an urgent advisory stating, \"Please treat this as urgent. Migrate your funds,\"' presenting this as a direct quote from Coldcard. However, the brief's data_point says 'Coldcard developers wrote \"Please treat this as urgent. Migrate your funds\"' but this is marked as reported from CoinDesk, not as a verified direct quote from an official Coldcard advisory. The draft presents it as a fabricated direct quote when the source is a CoinDesk paraphrase.",
+     "The draft's bottom_line states 'The premise holds if exploit activity continues and funds keep draining from migrating wallets despite the advisory.' This is a conditional that requires new information (post-advisory drain activity) not present in the brief to be true. The brief makes no claim about drains continuing after the advisory; this is the writer smuggling a testable condition that goes beyond the brief."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "FBI supervisory agent pleads guilty to stealing $1 million in crypto from seized accounts",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Yarmoch 'pleaded guilty to stealing approximately $1 million' in the opening paragraph. The brief's data_point says 'Yarmoch allegedly stole more than $1 million' and the open_questions explicitly flag 'Whether Yarmoch has formally pleaded guilty or is still contesting charges\u2014the source indicates he \"allegedly\" stole...but does not confirm a guilty plea or conviction.' The draft converts an alleged claim into a confirmed guilty plea without evidence in the brief.",
+     "The draft states 'he was fired the same day' (July 31). The brief's data_point says 'Yarmoch was suspended for a couple of days before being fired and arrested on July 31,' meaning suspension preceded the July 31 arrest/firing date. The timeline in the draft is inaccurate.",
+     "The draft states 'The forfeiture of approximately $925,000 to the government, according to CoinDesk' but the brief's open_questions explicitly note 'The total amount forfeited to the government\u2014the headline mentions ~$925K forfeited, but the source text does not state this figure.' The writer is using a figure that the brief itself flags as not actually appearing in the source. This is a smuggled fact."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "Mastercard Completes BVNK Acquisition",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Mastercard announced completion of its acquisition of BVNK' but the brief's data_points only confirm the acquisition was 'completed'\u2014the actual announcement/date is not in the brief. The distinction matters: completion and announcement are different events and may have different dates.",
+     "The brief's open_questions explicitly flag 'What was the acquisition price? (The brief states $1.8B, but source_texts are empty.)' indicating price data exists in the brief but was not included in the draft. However, the core issue is that the brief is marked 'thin: true' with 'source_chars: 0', meaning the actual Block article text was not provided to research. The draft cannot trace its claims\u2014'Mastercard stated it will leverage BVNK's expertise to help enterprises scale use cases involving stablecoins and tokenized assets'\u2014back to the brief's data_points without the source text. The brief's data_point mirrors this claim but without visibility into the source document, the draft is unverifiable against the protocol rule: every fact must trace to the brief."
+    ]
+   }
+  ]
  }
 ]
