@@ -1,24 +1,20 @@
-# macOS
-.DS_Store
 
-# Session-local tool config
-.claude/
-
-# Python bytecode (CI and local runs; never commit)
 __pycache__/
+.claude/
+.DS_Store
 *.pyc
-
+# `python3 site_build.py`. The site SOURCE (assets, site/content/, site/data/) IS committed.
+# Generated every run by fedreg.py and consumed by calendar_check.py in the same job.
+# local-only test dependency (axe-core for accessibility runs); never shipped
+# macOS
+# Not committed: it would change on every run for a file nothing reads between runs.
 # Pipeline runtime outputs (regenerated each run: review queue, drafts, approvals,
 # published payloads). The pipeline CODE, prompts, config, and fixtures ARE committed.
-out/
-
+# Python bytecode (CI and local runs; never commit)
+# Session-local tool config
 # The site deploy folder is a build artifact, fully reproducible from
-# `python3 site_build.py`. The site SOURCE (assets, site/content/, site/data/) IS committed.
-site/publish/
-
-# local-only test dependency (axe-core for accessibility runs); never shipped
-node_modules/
-
-# Generated every run by fedreg.py and consumed by calendar_check.py in the same job.
-# Not committed: it would change on every run for a file nothing reads between runs.
 data/fedreg_calendar.json
+node_modules/
+out/
+review/
+site/publish/
