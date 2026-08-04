@@ -4124,5 +4124,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Coldcard hardware wallet exploit drains $114 million as attacks persist",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A possible fourth wave of sweeps ran throughout the day on Aug. 3' but the brief's corresponding data_point says 'A possible fourth wave of sweeps ran throughout the day on Aug. 3' \u2014 both match, but the draft then says this took place on 'August 3' while the brief timestamp is '2026-08-04', creating ambiguity about whether the brief itself is internally consistent. The draft should reflect the brief's language exactly: the brief says 'throughout the day' not 'throughout August 3'.",
+     "The boundary_ok flag in both draft and brief is false, with explicit boundary_reasons stating that the affected/fixed device firmware versions do not appear verbatim in the CoinDesk advisory. The draft contains these exact specifications in prose ('Mk3 devices set up on firmware 4.0.1 or later and Mk4, Mk5 and Q devices on older firmware versions' and 'Mk3 owners should move their funds immediately if the wallet was set up on firmware 4.0.1 or later. Mk4, Mk5 and Q owners on firmware below 5.6.0 or 1.5.0Q should update') but the boundary document flags these as unverified against the source. The draft should not present unverified boundary specifications as confirmed fact."
+    ]
+   },
+   {
+    "id": "c041",
+    "headline": "Mastercard announces completion of BVNK acquisition",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains only a single data_point ('Mastercard will leverage BVNK's expertise to help enterprises scale use cases involving stablecoins and tokenized assets') and explicitly flags thin=true with source_chars=0, indicating the source text is empty or a stub. The draft is defensible as a tight short piece, but the bottom_line contains a smuggled fact: 'reported elsewhere as $1.8B, but unconfirmed in this source.' This price is not in the brief, not in the sourced Block article (which the brief notes has no text), and appears to come from reporting outside the provided brief. The instruction is absolute: 'no fact exists outside the brief.' A price assertion violates this rule even when hedged as unconfirmed.",
+     "The bottom_line also includes interpretive speculation ('may signal either that the integration is still in early stages or that details will emerge through other channels') that goes beyond the brief's open_questions and reads as editorial judgment rather than forward-looking summary."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "BlackRock debuts tokenized money market funds on Ethereum across 15 European markets",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'launched 12 tokenized share classes across six money market funds covering $311 billion in assets under management' but the brief core_claim specifies '\u20ac287 billion' not '$311 billion'. The draft uses USD while the brief uses EUR\u2014these are materially different figures (approximately \u20ac287B \u2248 $314B at current rates, but the brief's figure should be reported as stated in euros, not converted to dollars without attribution or clarification). The data_point confirms '$311 billion' from CoinDesk, so this is traceable, but the brief's core_claim uses EUR and this discrepancy should be flagged or reconciled in prose."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "BitGo migrates $7.4 billion in Wrapped Bitcoin from LayerZero to Chainlink CCIP",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'The Kelp exploit, which resulted in a $292 million loss, took place on LayerZero infrastructure' but the brief's data_point only states 'A Kelp exploit resulted in $292M loss' with no confirmation that it 'took place on LayerZero infrastructure.' The draft asserts a causal link (exploit on LayerZero) that is not in the sourced brief. The brief's open_questions explicitly ask 'What was the timeline of the Kelp exploit relative to BitGo's migration announcement?' and 'Are there other custodians or major institutions planning similar LayerZero-to-Chainlink migrations?'\u2014indicating Kelp's relationship to LayerZero is unconfirmed. The writer has smuggled a causal claim not present in the research.",
+     "Draft states 'Specific details about which technical vulnerabilities or risk factors drove BitGo's decision to migrate, or the precise timeline between the Kelp exploit and BitGo's announcement, are not confirmed in available reporting'\u2014this is the writer acknowledging gaps, which is good practice. However, the earlier claim that Kelp 'took place on LayerZero infrastructure' contradicts this transparency and asserts without warrant that LayerZero was the site of the exploit."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "Senators seek SEC probe of President Trump's memecoin as crypto bill stalls",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains no data_points in the brief to support any of its factual claims. The brief explicitly shows data_points: [] (empty array). Every claim in the draft\u2014that Warren and Blumenthal called for an SEC probe, that The Block reported it, that investor losses are cited, that the Clarity Act faces delays over ethics concerns\u2014is SMUGGLED because it appears nowhere in the brief's data_points.",
+     "The rule is absolute: 'no fact exists outside the brief.' This draft builds an entire narrative from a single source URL with zero documented data points backing the claims made. The writer has patched facts into the draft that the research phase did not validate and record."
+    ]
+   }
+  ]
  }
 ]
