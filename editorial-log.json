@@ -4090,5 +4090,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c011",
+    "headline": "Coldcard Exploit Drains $114 Million as Vulnerability Remains Active",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Mk4, Mk5, and Q owners on firmware below 5.6.0 or 1.5.0Q should update, create a new wallet, and then move their coins across, according to CoinDesk's account of Coldcard's guidance.' This specific firmware version threshold (5.6.0 or 1.5.0Q) appears in the brief's data_point but the draft does not attribute it inline to CoinDesk or identify it as reported guidance; it reads as though it is drawn from the source but the source URL provided (CoinDesk article) cannot be verified to contain these specific version numbers verbatim. The boundary_ok field in both draft and brief is marked false with the reason that the fixed version numbers 'do not appear verbatim in the advisory.' This is a smuggled fact\u2014stated as sourced but not verifiable from the named source.",
+     "The draft presents the firmware version numbers as direct Coldcard guidance ('according to CoinDesk's account of Coldcard's guidance') but the brief's own metadata flags that these specific numbers cannot be verified in the source. The writer has stated a fact as confirmed when the research flagged it as unverifiable."
+    ]
+   },
+   {
+    "id": "c056",
+    "headline": "BlackRock launches tokenized money market funds on Solana and Ethereum",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BlackRock has launched a tokenized money market fund for stablecoin reserves on both Solana and Ethereum, according to Decrypt and Cointelegraph reporting.' However, the brief contains zero data_points\u2014source_chars is 0 and the open_questions note 'No source text was fetched; the snippet provides only headline-level information.' The writer has smuggled a definitive claim of launch (past tense) when the brief provides no underlying facts to support it. The brief's thin=true status with zero data_points means the story cannot be written with confidence at this level of specificity.",
+     "The draft later hedges with 'The specific details of the fund...were not independently confirmed by available reporting,' which contradicts the confident opening statement 'BlackRock has launched.' This internal contradiction signals the writer was aware of source weakness but led with a claim unsupported by the brief's actual content."
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "BitMine Adds $73 Million in ETH, Total Holdings Reach 4.8% of Supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Tom Lee of Fundstrat' chairs BitMine, but the brief data_point says 'BitMine Immersion Technologies is chaired by Fundstrat's Tom Lee'\u2014this is reported-level confidence and accurately attributed. However, the draft then claims 'Tom Lee's stated conviction about crypto as a wartime store of value' in the bottom_line and watchlist sections. The brief's data_point says 'Tom Lee has framed crypto as a \"wartime store of value\" in prior remarks' (reported confidence), but the draft attributes this framing directly to Lee's conviction about crypto as a treasury strategy for BitMine specifically, which is a leap beyond what the brief supports. The brief does not establish that Lee's wartime-store-of-value framing is connected to or justifies BitMine's ETH accumulation strategy.",
+     "The draft states 'At the current pace of approximately $73 million per week, BitMine would reach that target within months' but the brief provides no data about how many months or any timeline calculation. This is a calculation the writer performed, not sourced from the brief.",
+     "The draft claims 'An insider warned of a cash gap at BitMine in June' but the brief's bear_case only says 'An insider warned of a cash gap at BitMine in June, raising questions about the sustainability of the company's acquisition pace.' The draft then adds detail: 'per The Defiant's reporting.' However, the data_points show the sourcing as 'Tom Lee publicly defended the company's funding model in June after an insider warned of a cash gap'\u2014which is subtly different framing (Lee's defense is reported; the insider warning itself is mentioned but not independently confirmed as having been reported by The Defiant). The draft should flag this as unconfirmed or limit it to The Defiant's reporting of Lee's defense, not of the warning itself."
+    ]
+   }
+  ]
  }
 ]

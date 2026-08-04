@@ -1,0 +1,31 @@
+{
+  "id": "c003",
+  "slug": "wells-fargo-launches-tokenized-deposits-for-24-7-corporate-settlement",
+  "kind": "brief",
+  "title": "Wells Fargo launches tokenized deposits for 24/7 corporate settlement",
+  "dek": "Wells Fargo will offer tokenized deposits on its proprietary blockchain starting this fall, beginning with round-the-clock USD-GBP transactions for select corporate clients. Tokenized deposits are conventional bank balances on a blockchain that carry standard deposit insurance and regulatory protections. The bank joins JPMorgan and Citi in offering institutional tokenized settlement rails.",
+  "date": "2026-08-04",
+  "published_utc": "2026-08-04T19:05:12Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "Wells Fargo will launch tokenized deposits this fall for select corporate clients, starting with USD-to-GBP settlement on its proprietary blockchain, and expand to more clients, countries, and currencies throughout 2027.",
+  "bottom_line": "Monitor the fall launch and initial adoption rates among Wells Fargo's corporate client base. The announcement would face credibility challenges if the bank delays the USD-GBP pair rollout or if interoperability with The Clearing House's shared network does not materialize by late 2027.",
+  "human_take": "",
+  "body": [
+    "Wells Fargo will offer tokenized deposits for select corporate and commercial clients later this year, starting with enabling round-the-clock U.S. dollar-to-British pound transactions on its proprietary blockchain, according to CoinDesk reporting. Payments will run on the bank's proprietary blockchain and be routed automatically through its existing client interface.",
+    "Tokenized deposits are conventional bank balances held on a blockchain. They remain commercial bank money and carry the same regulatory protections and deposit-insurance eligibility as existing deposit products. The initial rollout will expand to more clients, countries, and currencies throughout 2027.",
+    "Round-the-clock settlement, programmable payments, and parity with existing deposit protections are listed as future enhancements, with the system allowing clients to move, program, and settle funds 24/7/365 when fully deployed. Future features will include conditional payments using smart contracts. The platform could support in-house custodial wallets and connections to other blockchains. Wells Fargo can also integrate with a shared tokenized-deposit network being developed by The Clearing House.",
+    "Wells Fargo joins JPMorgan and Citi, which already operate institutional tokenized-deposit services. The rollout follows Wells Fargo's March trademark application for WFUSD, which could be associated with a deposit token or stablecoin. The bank has been developing blockchain payment rails since at least 2019, when it announced Wells Fargo Digital Cash for internal cross-border transfers. Wells Fargo later started settling foreign-exchange transactions with HSBC through a shared blockchain.",
+    "The move reflects a broader shift among major banks toward tokenized infrastructure as an answer to stablecoins. By offering 24/7 settlement and programmable payments on tokenized deposits, banks are positioning themselves to retain corporate treasury and payments business that might otherwise migrate to decentralized or stablecoin-based alternatives."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/08/04/wells-fargo-to-offer-tokenized-deposits-for-24-7-corporate-payments",
+      "url": "https://www.coindesk.com/business/2026/08/04/wells-fargo-to-offer-tokenized-deposits-for-24-7-corporate-payments"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": true
+}
