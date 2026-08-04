@@ -139,6 +139,19 @@ def gather_stories(hours=36):
     return out
 
 
+def _dedash(text):
+    """House style, applied mechanically: no em/en dashes, entity forms included.
+    Same substitutions as site_build.destyle and chartmaster._dedash, applied here so
+    the edition never loses a slot to a defect the desk can simply fix."""
+    s = str(text or "")
+    for ent in ("&mdash;", "&#8212;", "&#x2014;", "&#X2014;"):
+        s = s.replace(ent, "\u2014")
+    for ent in ("&ndash;", "&#8211;", "&#x2013;", "&#X2013;"):
+        s = s.replace(ent, "\u2013")
+    s = s.replace(" \u2014 ", ", ").replace("\u2014", ", ")
+    return s.replace(" \u2013 ", ", ").replace("\u2013", "-")
+
+
 def belts(article_body, dek, bottom_line, boards=None):
     """Deterministic checks; returns a list of problems (empty = pass)."""
     problems = []
@@ -326,6 +339,19 @@ def main():
         # dash, advice, Bottom-Line lane) retries with the error explained and then gets
         # the Sonnet rescue rung, instead of a same-model retry repeating the mistake
         # (Haiku wrote 993 words against the cap twice before this).
+        #
+        # EXCEPT DASHES, which are REPAIRED, not retried (2026-08-03: the evening
+        # edition died on one em dash, its rescue rung came back empty, and the desk
+        # published no edition that slot). House style is a mechanical substitution the
+        # site already performs at render (site_build.destyle) and in the Chart Master's
+        # read (chartmaster._dedash); bouncing it to a paid model retry that can fail
+        # closed traded a certainty for a coin flip. The belt below still runs, so a
+        # dash the substitution somehow misses fails the edition exactly as before.
+        for k in ("hook_title", "dek", "body", "bottom_line"):
+            if isinstance(o.get(k), str):
+                o[k] = _dedash(o[k])
+            elif isinstance(o.get(k), list):
+                o[k] = [_dedash(x) if isinstance(x, str) else x for x in o[k]]
         for k in ("hook_title", "dek", "body", "bottom_line"):
             if not str(o.get(k, "")).strip():
                 raise llmlib.LLMError(f"wrap output missing '{k}'")
