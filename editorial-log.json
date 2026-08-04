@@ -4224,5 +4224,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c145",
+    "headline": "US and UK Regulators Affirm Support for Stablecoins and Tokenization",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'US and UK regulators met on July 8 to reaffirm support for stablecoins and tokenization frameworks' but brief data_point only confirms 'US and UK regulators held a meeting on July 8' with confidence 'reported'. The phrase 'to reaffirm support' is smuggled interpretation not present in the brief.",
+     "Draft claims the meeting 'reaffirmed support for stablecoins and tokenization frameworks' but brief's core_claim only states they 'reaffirm support for stablecoins and tokenization through GENIUS Act implementation and cross-border cooperation.' The draft's framing of what was reaffirmed goes beyond what the brief establishes.",
+     "Draft is extremely thin (5 sentences, no substantive detail) for a story making specific factual claims about regulatory intent. Brief explicitly marks 'thin: true' with source_chars of 0, indicating the brief itself lacks reporting depth. The story should either be rejected for insufficient sourcing or rewritten to match the brief's sparse information without overstatement."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "BlackRock launches tokenized money market funds across 15 European markets via JPMorgan's Kinexys",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The onchain share classes are available in Bermuda, Estonia, France, Germany, Ireland, Lithuania, Luxembourg, Malta, the Netherlands, Spain, Sweden, Singapore, and the U.K.' but the brief's data_point says only '15 European markets' without naming them. The draft has smuggled a list of jurisdictions (including non-European ones like Bermuda and Singapore) that is not in the brief. The writer cannot patch geographic specificity from external sources."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "BitGo migrates $7.4 billion Wrapped Bitcoin from LayerZero to Chainlink CCIP",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'The specific timeline between the Kelp exploit and BitGo's announcement is not confirmed in available reporting, nor has the reporting specified whether the exploit occurred on LayerZero infrastructure itself. The relationship between Kelp's loss and BitGo's decision to migrate remains unconfirmed in the sourced coverage.' This meta-level caveat about what is and is not confirmed is editorial voice, not a fact from the brief. The brief's bear_case does state the Kelp exploit 'raised institutional concerns about the security model,' but the draft's extended hedge paragraph goes beyond the brief's confidence language and introduces doubt that is not present in the data_points (all marked 'reported'). The brief's angle explicitly links Kelp to the migration; the draft undercuts that causal claim without brief support for doing so."
+    ]
+   },
+   {
+    "id": "c127",
+    "headline": "BitMine adds $73M in ETH, holdings near 5% of supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BitMine Immersion Technologies, the largest corporate holder of Ethereum' without attribution or qualification. The brief data_point says 'BitMine is the largest corporate holder of ETH' with confidence 'reported'\u2014meaning it came from The Defiant. The draft must attribute this claim inline to The Defiant to trace it back to source.",
+     "The draft attributes all numbers to 'The Defiant' globally at top, but the brief distinguishes confidence levels: the $73M purchase, 42,197 ETH, 5.74M total holdings, and 4.8% supply figure are labeled 'announced-not-verified' in the brief. The draft presents these as settled fact without any signal of verification status. The prose must flag these as announced figures, not independently confirmed.",
+     "The sentence 'BitMine has cited 5% of ETH's total supply as a benchmark for its treasury strategy, per The Defiant's reporting' correctly attributes, but the draft later writes 'At the current accumulation rate, the company is approaching that threshold' as if this is fact, when it is a projection/inference not appearing in the brief's data_points."
+    ]
+   }
+  ]
  }
 ]
