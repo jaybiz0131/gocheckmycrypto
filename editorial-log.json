@@ -3974,5 +3974,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "Coldcard Firmware Flaw Enables Ongoing Theft; Company Urges Immediate Fund Migration",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'A fourth wave of sweeps ran throughout a single day, taking roughly 449 BTC from 709 addresses' but brief data_point says 'A possible fourth wave of sweeps ran throughout the day' (emphasis on 'possible'). The draft removes the qualifier that signals uncertainty, presenting a possible event as confirmed fact.",
+     "Draft contains claim about 'Bitcoin price near $63,800' (from brief data_point 9) but this claim does not appear anywhere in the draft body\u2014it was collected in the brief but never used. This is not a violation per se, but the absence of this data point in the story when other details are included suggests selective reporting.",
+     "Boundary verification failed in both draft and brief metadata: the affected/fixed device specifications and user action guidance do not appear verbatim in the cited CoinDesk advisory URL. The draft repeats these unverified boundary specifications without flagging them as unconfirmed, creating liability if the advisory was misread or misquoted at the research stage."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "FBI Supervisory Agent Arrested for Stealing $1 Million in Crypto From Investigated Wallets",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Yarmoch 'admitted to stealing approximately $1 million' but does not cite the source of this admission. The brief's open_questions ask 'What is the status of the prosecution and any plea agreements?' suggesting the status was not fully confirmed in the source material. The draft treats 'admitted' as a settled fact without attribution to a specific court document or plea, when the brief data_points only say he was 'arrested in connection with' the theft.",
+     "Draft claims Yarmoch 'entered a guilty plea and forfeited approximately $925,000 of the stolen cryptocurrency' at the end, but this claim does not appear in the brief's data_points. This is a smuggled fact: the guilty plea status is a critical detail that should have appeared in the brief if verified, and its absence signals it was not confirmed at research stage."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "U.S.-Japan intervention revives yen carry trade fears for bitcoin",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'USD/JPY almost hit 164, its weakest level since 1986, before snapping back to 156.5 on Monday' but the brief's open_questions section flags uncertainty about the intervention amount (~$36.6B mentioned in why_it_matters but absent from the source text). More critically, the draft omits the data point about the total amount spent in the intervention\u2014a material fact for understanding the scale of policy response. The story cannot verify this figure from CoinDesk's reporting alone, making it a potential smuggled fact."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "BitGo shifts $7.3B WBTC to Chainlink, pushing LayerZero exodus to $14.5B",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The aggregate of all announced LayerZero-to-Chainlink migrations nears $14.6 billion by adding WBTC's $7.4 billion to the $7.24 billion covered by earlier announcements.' This math ($7.4B + $7.24B = $14.64B) contradicts the core_claim and multiple data_points which state the total is $14.5 billion, not $14.6 billion. The writer has smuggled a new calculation rather than reporting the figure as stated in the source.",
+     "The title claims 'pushing LayerZero exodus to $14.5B' but the draft body then contradicts this with '$14.6 billion.' The brief states the total is $14.5 billion (per data_point 3); the draft introduces an inconsistency that was not in the source material."
+    ]
+   }
+  ]
  }
 ]
