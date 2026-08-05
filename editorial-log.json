@@ -4644,5 +4644,49 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c069",
+    "headline": "Bitcoin Red Team Audit Identifies 85 Critical Flaws Across 390 Open-Source Repositories",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Coldcard RNG vulnerability drained over $100 million' as established fact, but the brief marks this claim confidence as 'reported' only\u2014meaning it is announced by the source but not independently verified. The draft does not signal this uncertainty; it should read as 'According to Bitcoin Magazine' or similar qualifier to match the confidence level.",
+     "The draft claims 'The Red Team was mobilized to assess whether the Coldcard flaw was an isolated incident' but this causal narrative does not appear in the brief's data_points. The brief only notes timing ('in the wake of'), not stated motivation. This is smuggled inference, not reported fact.",
+     "The draft states the audit 'comes in the wake of the Coldcard hardware wallet RNG vulnerability' but does not attribute this temporal sequencing to Bitcoin Magazine; it reads as the writer's own analysis rather than reported information."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Russia Enacts Exchange Regulation While Maintaining Cryptocurrency Payment Ban",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Russia signed legislation to regulate cryptocurrency exchanges' and attributes this to 'Bitcoin Magazine reporting on August 5, 2026.' The brief's data_point states 'Putin signed a law to regulate crypto exchanges in Russia' but does not include a date in the data_point itself. The draft assigns the August 5, 2026 date to the reporting timestamp, not the legislative action; this is accurate attribution, but the draft then states 'while preserving a prohibition on using digital assets as a payment method' which reads as the writer's synthesis rather than directly reported language. The source must be checked for whether this characterization\u2014'while preserving'\u2014appears in the reporting.",
+     "The draft claims 'Citizens in Russia will not be able to use Bitcoin or other cryptocurrencies to purchase goods or services' which matches the brief's data_point language 'use Bitcoin for payments (e.g., 'buy coffee with Bitcoin')', but the brief's confidence on this point is 'reported' only. The draft does not flag this as reported/unconfirmed; it reads as settled fact."
+    ]
+   },
+   {
+    "id": "c153",
+    "headline": "Taiwan to Mandate Travel Rule for Domestic Crypto Transfers from October",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'Travel Rule requirements will extend to overseas platforms by the end of 2027' attributes this claim to Cointelegraph in the body without inline source attribution. The data_point in the brief confirms this is from Cointelegraph, but the prose reads as authorial interpretation rather than reported fact. More critically, the opening sentence 'Taiwan's regulator will require Virtual Asset Service Providers (VASPs) to comply with Travel Rule standards for domestic cryptocurrency transfers starting in October, according to Cointelegraph' smuggles in the identifier 'Taiwan's regulator' without specifying which body, when the brief's open_questions explicitly flag this as unknown. The draft presents unconfirmed institutional detail as settled fact.",
+     "The paragraph beginning 'Travel Rule mandates that VASPs collect and share customer information...' describes Travel Rule mechanics but introduces dates and provenance ('adopted by the Financial Action Task Force in 2019') that do not appear in the brief's data_points. This is new factual material not in the research record and constitutes a smuggled fact."
+    ]
+   },
+   {
+    "id": "c164",
+    "headline": "Warren documents concern that UAE's World Liberty Financial investment may have influenced U.S. tech export decision",
+    "category": "accuracy",
+    "reasons": [
+     "Opening sentence states Warren 'has formally pressed' Lutnick 'according to a statement from the Senate Banking Committee minority,' but the brief data_point says the source is 'Warren-presses-lutnick' from the Senate Banking Committee and the confidence is 'reported,' not a direct verified statement. The prose reads as Warren having taken an action (pressed), when the brief only confirms the reported account exists; this conflates Warren's documented action with the actuality of the action itself.",
+     "First data_point confidence is marked 'announced-not-verified' for Warren's title as Ranking Member, but the draft presents this as settled fact without any qualifier ('Senator Elizabeth Warren, ranking member...'). An 'announced-not-verified' claim must read tentatively in prose.",
+     "The claim about Sheikh Tahnoon's identity as 'the UAE's top national security official' appears in both the draft and brief but carries 'reported' confidence. The draft presents this as factual context without attribution or hedging; if Warren's letter makes this claim, the attribution should be explicit ('according to Warren's letter') rather than embedded as background fact."
+    ]
+   }
+  ]
  }
 ]
