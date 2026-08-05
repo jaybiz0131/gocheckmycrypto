@@ -4612,5 +4612,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c157",
+    "headline": "Taiwan Plans Travel Rule for Domestic Crypto Transfers from October",
+    "category": "balance",
+    "reasons": [
+     "Brief flagged as 'thin: true' with only 2 data_points and empty bear_case array. Draft acknowledges the thinness explicitly ('The brief does not specify...') and dedicates an entire paragraph to what is NOT known. This verbose uncertainty framing reads as padding and undermines the story's authority on a thin brief. A thin brief warrants a tight, factual story without meta-commentary about source gaps; instead the draft reads as defensive and simultaneously signals low-confidence in its own material.",
+     "The bottom_line contains speculative future events ('mass delisting', 'jurisdictional conflicts') that exceed what the two reported data_points support. This expands the story's scope beyond what the brief provides."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Bitcoin Red Team Files 4,962 Findings, 85 Critical Flaws Across 390 Open-Source Repos",
+    "category": "accuracy",
+    "reasons": [
+     "Brief metadata flags 'boundary_required: true' and 'boundary_ok: false' with explicit reason: 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft cites concrete numbers (4,962 findings, 85 critical flaws, 390 repos, $100 million) without a date, version number, or temporal boundary clarifying when this audit occurred or what scope was covered. The draft is built on data_points that lack a boundary anchor, violating the desk's required liability line for threshold stories.",
+     "The brief's open_questions explicitly note 'The fetched source text is truncated (appears to be HTML/CSS formatting code rather than article body)' and 'No independent verification or third-party confirmation of the vulnerability counts is present in the source text.' The draft cites these numbers as fact without flagging the source truncation or lack of independent verification, presenting unconfirmed counts as reported fact."
+    ]
+   },
+   {
+    "id": "c127",
+    "headline": "Circle Names BlackRock, Visa, ICE, DTCC as Founding Arc Validators; Permissioned Model Raises Decentralization Questions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft names 'Sumitomo Corporation' as one of the 11 founding validators in the opening paragraph, but the brief's data_point lists only 11 institutions and does not name Sumitomo Corporation. The data_point lists: BlackRock, DTCC, Galaxy, Global Payments, ICE, Mastercard, MoneyGram, SBI Group, Standard Chartered, Visa, and Circle. Sumitomo is not mentioned in the brief and appears to be smuggled information not sourced to the brief."
+    ]
+   }
+  ]
  }
 ]
