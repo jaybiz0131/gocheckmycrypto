@@ -4530,5 +4530,49 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c153",
+    "headline": "EU MiCA Register Reaches 321 Authorized Crypto Service Providers",
+    "category": "accuracy",
+    "reasons": [
+     "Body claims 'The same update added three entities to a separate list of non-compliant service providers' but the brief does not specify whether these three were added or whether they were already on the non-compliant list. The data_point only states 'Three entities were added to the non-compliant register' without clarifying if this is new information in this cycle or existing data. The phrasing 'added three' requires certainty not present in the brief.",
+     "Body states 'new providers entering the licensed pool' but brief does not specify how many new providers were added in this cycle, only that total reached 321. The claim of 'new providers' as a discrete quantity is inferred, not sourced.",
+     "Body references 'four cycles of updates since the regulation's initial deadline' but brief contains no data point confirming this is the fourth cycle or how many total update cycles have occurred. This is smuggled framing."
+    ]
+   },
+   {
+    "id": "c055",
+    "headline": "Boltz Non-Custodial Bitcoin Bridge Suspends Swaps Over Vulnerability Discovery Velocity",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Boltz did not disclose the specific vulnerabilities discovered, the number of attack attempts, or a timeline for resumption or permanent shutdown, according to Decrypt.' This is inferred editorial commentary, not a fact from the brief. The brief contains only two data points: that Boltz suspended swaps and cited vulnerability discovery velocity. The claim about what was 'not disclosed' is the writer inferring absence of information, not reporting presence of information from the source. This is smuggled reasoning.",
+     "The entire fourth paragraph ('The incident underscores a second-order risk...') makes claims about bridge architecture, software layer constraints, and 'automated vulnerability discovery' that do not appear in the brief's data points. The brief does not confirm attackers 'use AI-assisted fuzzing'\u2014that phrase appears only in the brief's angle (narrative framing), not in data_points (verified facts). The draft presents this as established fact: 'when attackers use AI-assisted fuzzing to locate flaws' and 'If vulnerability discovery tools continue to improve'\u2014neither of which is in the brief's factual record.",
+     "The phrase 'vulnerability discovery accelerates' in the bottom_line echoes the brief's angle but the draft has no data point confirming the rate or acceleration of discovery. The brief marks this as an open question ('Has Boltz or other bridges disclosed technical details about the vulnerability discovery method used by attackers?'), meaning it is unconfirmed."
+    ]
+   },
+   {
+    "id": "c049",
+    "headline": "Circle Names 11 Founding Validators for Arc Stablecoin Blockchain",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case includes three substantive risks: (1) heavy institutional validator participation may centralize governance, (2) institutional validators may face regulatory/fiduciary constraints, and (3) reliance on traditional finance entities exposes Arc to regulatory risk if a validator faces enforcement. The draft mentions these concerns only in passing and buries them in a paragraph about 'gaps' in public disclosure, rather than presenting them as material risks to the network model. The draft's framing ('The validator roster reflects three categories of infrastructure...Circle did not publicly disclose...') reads as a disclosure-completeness story, not a governance-risk story. The bear_case is sanded down.",
+     "The bottom_line says 'If governance power is concentrated among the institutional validators, it would affect how decentralized the network actually operates'\u2014but this is framed as a conditional future discovery rather than as an existing structural risk that the brief's bear_case already identifies. The draft should front the centralization tension, not defer it to post-launch scrutiny."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "Bitcoin holds $64K as spot ETF inflows sustain floor without demand catalyst",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites 'The desk's Fear and Greed Index stands at 29 (Fear)' and 'Bitcoin's technical posture' with specific figures (200-day moving average, MACD below signal line, 49% down from $124,773.51 12-month high) and 'Whale Watch data tracking $197.95 million in Bitcoin moving off exchanges' with Kraken outflows of $116.6M and $81.3M. None of these data points appear in the research brief. The brief contains only three data_points: Bitcoin near $64K, $211.5M spot ETF inflows, and analyst bottom-signal commentary. All additional technical metrics, index readings, and whale movement figures are smuggled facts not sourced to the brief.",
+     "The draft states 'The Leverage board showed the desk's Whale Watch data' and references internal desk tools ('The desk's Fear and Greed Index'). These are presented as factual sources but do not appear in the research brief at all. The brief's single source is The Block article; no internal desk data is listed as a data_point."
+    ]
+   }
+  ]
  }
 ]
