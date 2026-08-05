@@ -4574,5 +4574,43 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c170",
+    "headline": "Banking Minority Staff Analysis Identifies Loopholes in Digital Asset Market Clarity Act",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the analysis 'identifies loopholes in the current bill text' but does not specify what those loopholes are. The brief's second data_point claims the analysis 'identifies loopholes...that risks Americans' pensions and the financial system, jeopardizes national security, and will turbocharge Trump's crypto corruption'\u2014this partisan framing ('turbocharge Trump's crypto corruption') is in the brief but absent from the draft. The draft softens the claim to 'raises concerns' without the specific substantive charges in the source material. The brief explicitly flags that 'the source text does not specify which five loopholes were identified' and 'does not provide the full text or link to the detailed loopholes,' yet the draft presents the concerns as fact without qualifying the absence of detail or the partisan language in the original statement."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "Bitcoin Holds $64K as Spot ETFs Draw Inflows; Analysts Flag Capitulation Signals",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'Unable to verify from provided source texts' and 'source_chars': 0, indicating the source text is empty and unavailable for fact verification. The draft presents as factual reporting ('Bitcoin remained near $64,000 on Tuesday', '$211.5 million in net inflows', 'Glassnode data shows have reached a 3.5-year extreme', '$197.9 million of BTC moving off exchanges', '$116.6 million and $81.3 million in separate outflows', '$5.1 million in net Bitcoin ETF inflows on July 28', '$402.6 million' in cumulative outflows) without accessible source material to verify any of these numbers or claims. The brief's open_questions flag that 'source texts are empty; no analyst quotes, on-chain metrics, or mechanism are available for verification.' The draft smuggles specific numbers and attributions (Glassnode, desk's Whale Watch board, desk's ETF flows board, Kraken) that cannot be traced to the source because the source is inaccessible."
+    ]
+   },
+   {
+    "id": "c052",
+    "headline": "Circle Names Visa, Mastercard, BlackRock, DTCC, and ICE as Arc Validators Ahead of September Launch",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'The fetched source text is empty' and 'source_chars': 0, indicating the Decrypt article is inaccessible for verification. The draft presents specific factual claims (500 million transactions, September launch, named validator firms, Coinbase renewal on 'existing terms') as if sourced from the article, but these claims cannot be verified against the actual source material. The brief's open_questions state that 'all data points are sourced from the snippet alone' and 'details on validator selection criteria, Arc's consensus mechanism, transaction throughput targets for mainnet, and any regulatory approvals required for September launch are not available in the source materials.' The draft should not present numbers and institutional commitments as reported fact when the source text is empty and unverifiable."
+    ]
+   },
+   {
+    "id": "c157",
+    "headline": "EU's MiCA Register Expands to 321 Authorized Crypto-Asset Service Providers; Non-Compliance Flagged",
+    "category": "accuracy",
+    "reasons": [
+     "The brief states 'The fetched source text is empty' and 'source_chars': 0, making the Cointelegraph article inaccessible for fact-checking. The draft presents specific claims (321 authorized CASPs, 12 new entrants, 3 non-compliant entities, MiCA entry in December 2023) as verified reporting without access to the source. The brief's open_questions explicitly flag that 'all data points are sourced from the snippet alone' and that 'Names of the 12 newly authorized CASPs, identities of the three non-compliant entities, and reasons for non-compliance are not available in the source materials.' The draft cannot be approved when sourced facts are unverifiable due to inaccessible source text."
+    ]
+   }
+  ]
  }
 ]
