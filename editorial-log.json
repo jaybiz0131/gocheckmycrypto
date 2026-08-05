@@ -4366,5 +4366,67 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c024",
+    "headline": "Coldcard Hardware Wallet Exploit Drains $114 Million; Vulnerability Remains Active",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A fourth wave of sweeps ran throughout August 3' but the brief's data_point says 'A possible fourth wave of sweeps' \u2014 the draft removes the 'possible' qualifier, presenting speculation as fact.",
+     "The draft claims 'Coldcard identified two groups of affected devices' but no such statement appears in the brief's data_points; this is smuggled information not sourced to the research.",
+     "The draft presents the Coldcard quote as direct speech with quotation marks, but the brief lists it as a 'reported' claim from a single source; presenting it as a fabricated quote without inline attribution to the source is a compliance violation."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "Wells Fargo Launches Tokenized Deposits for 24/7 Corporate Settlement",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'round-the-clock U.S. dollar-to-British pound transactions' but the brief's data_point 1 says 'enabling round-the-clock U.S. dollar-to-British pound transactions' \u2014 a subtle but critical difference; the draft converts a future capability into a current feature.",
+     "The draft claims 'When operational, the platform will allow clients to move, program, and settle funds 24/7/365' but the brief's data_point 2 frames this as something 'the bank frames ... as future enhancements, saying the system will let clients move, program and settle funds 24/7/365 when fully deployed' \u2014 the draft removes the 'when fully deployed' qualifier, making it sound more imminent than the source supports.",
+     "The draft states Wells Fargo 'will automatically route eligible payments through tokenized deposits' as current fact, but the brief data_point 4 says 'The system will automatically route' \u2014 future tense with no launch date confirmed; this is presented as a current capability rather than an announced intention."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Circle Names BlackRock, DTCC, Visa as Arc Validators; Q2 Revenue Hits $701 Million",
+    "category": "clarity",
+    "reasons": [
+     "The brief is marked 'thin: true' with minimal data_points (three total) and zero bear_case items; the draft correctly reflects this sparsity but fails to open with stakes \u2014 it opens with a list of names ('Circle announced that BlackRock, Visa, DTCC...') rather than why this matters. For a thin story, the opening must compensate by anchoring readers to consequence, not institutional names.",
+     "The bottom_line asks readers to 'Watch for an official disclosure of all 11 validators by name' but the brief never states there are 11 total validators; the draft infers from 'named BlackRock, Visa, DTCC and eight others' that 3+8=11, but this arithmetic is not in the source and introduces a fact not in the brief."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "BitGo migrates $7.3 billion WBTC from LayerZero to Chainlink CCIP",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'BitGo originally selected LayerZero in 2024 to expand WBTC across blockchains, deploying it first on Avalanche and BNB Chain' is not present in the brief's data_points. The brief notes BitGo's historical selection of LayerZero but does not specify 2024 as the year or Avalanche and BNB Chain as the first deployment targets. This is a fact smuggled beyond the brief's sourced claims.",
+     "Sentence 'Under that configuration, each cross-chain transfer required approval from BitGo's own verifier and either LayerZero or Polyhedra, creating a three-party sign-off structure' elaborates on the three-party structure in a way that goes beyond what the brief supports. While the brief data_point mentions 'BitGo's own verifier and either LayerZero or Polyhedra,' the prose adds interpretive framing ('creating a three-party sign-off structure') not explicitly confirmed in the source attribution."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "Bitcoin Bridge Boltz Halts Swaps After AI-Assisted Attacks Outpace Patching",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly marks this as 'thin': true with zero source_chars and open_questions listing that 'No source text was fetched; the snippet alone provides the core claim.' The draft elaborates substantially beyond the core claim with specific analytical language ('AI-assisted tools were locating bugs', 'collapse the window between disclosure and patching', 'bridges and other infrastructure where funds flow continuously through unpatched code') that does not appear in the brief and cannot be verified against source material. The draft reads as writer inference layered onto a headline, not as reported fact.",
+     "The brief's open_questions explicitly state that details on 'which vulnerabilities were discovered, what AI tools or techniques were used, how many attacks occurred, financial impact, timeline of the shutdown decision, Boltz's technical response plan, and whether users' funds remain at risk' are NEEDED but missing. The draft does acknowledge this gap in the fourth paragraph ('The specific vulnerabilities, the number of attacks that succeeded, the financial exposure...are not yet detailed in public reporting'), which is good, but it should not have written analytical prose about the nature of the vulnerability discovery or the patching gap without source support for those characterizations."
+    ]
+   },
+   {
+    "id": "c136",
+    "headline": "EU MiCA Register Expands to 321 Authorized Crypto Service Providers",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin': true with zero source_chars. The open_questions state: 'No source text was fetched; the snippet alone provides the core claim.' The core claim is that the register expanded to 321 CASPs in the fourth update and three entities were added to the non-compliant register. The draft invents factual details: it states 'This fourth wave added 12 newly authorized companies to the register' without this appearing in the brief's data_points. The brief does not confirm the number '12'; it only confirms the headline count of 321 and the three non-compliant adds. The '12 newly authorized companies' claim has no source material behind it.",
+     "The draft also states 'MiCA, the EU's framework for crypto service providers, required all CASPs to be registered by June 30, 2024' as if it is part of the reported news, but this is background/regulatory fact, not from the source being cited. It should have been framed as prior context or sourced separately."
+    ]
+   }
+  ]
  }
 ]
