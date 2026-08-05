@@ -1,0 +1,55 @@
+{
+  "id": "wrap-am-2026-08-05",
+  "slug": "morning-brief-2026-08-05",
+  "kind": "brief",
+  "title": "The Morning Brief: Bhutan deploys treasury, Boltz halts, regulation stalls",
+  "dek": "Bhutan's sovereign bitcoin reserve enters active management via 3iQ market-neutral strategies while Boltz swap infrastructure suspends indefinitely due to AI-assisted attacks. Simultaneously, the Clarity Act stalls over government ethics rules, and an FBI supervisory agent faces charges for stealing $1 million in seized crypto.",
+  "date": "2026-08-05",
+  "published_utc": "2026-08-05T12:31:34Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The day exposes three fault lines in crypto infrastructure and governance: the security gap between small open-source teams and AI-armed attackers, the political gridlock over whether officials can hold digital assets, and the lack of controls over cryptocurrency held by federal law enforcement.",
+  "bottom_line": "Three narratives converged on August 4 and 5: sovereign treasuries moving from passive holding to active deployment of bitcoin reserves; open-source infrastructure unable to defend itself against AI-assisted attack; and political gridlock over government ethics in crypto preventing major market-structure legislation from clearing the Senate before recess. The Clarity Act floor vote is set for August 8, and South Africa's comment deadline is September 30. The Bhutan mandate disclosures and Boltz's next status update will test whether institutional confidence in bitcoin's productive use can survive the security and governance gaps exposed this week.",
+  "human_take": "",
+  "body": [
+    "Bitcoin infrastructure and regulatory pressure collided on multiple fronts this morning, with the clearest thread being the growing gap between institutional adoption and the security and governance frameworks meant to support it.",
+    "Bhutan's Gelephu Mindfulness City hired 3iQ to deploy part of its 10,000 BTC national reserve through market-neutral strategies including basis trades and lending, rather than hold it passively, per the desk's reporting on August 4. The move signals confidence that bitcoin treasuries can generate returns above custodial yield, but the lack of disclosure on mandate size and strategy leaves the initiative's scale impossible to assess. The reporting also notes an unresolved discrepancy: May coverage indicated roughly $1 billion in bitcoin had left Bhutan's sovereign fund wallets, a fact disputed by the government, and GMC has not clarified which portion of the reserve is being deployed versus held as long-term national asset.",
+    "In sharp contrast, Bitcoin's actual infrastructure layer faces a security crisis. Boltz, the non-custodial swap bridge powering Lightning and Liquid payments across wallets including Bull Bitcoin, Aqua, and ZEUS, suspended all services indefinitely on August 3, citing AI-assisted attacks that iterate faster than the team can patch. Per The Defiant reporting, the shutdown removes a critical swap layer at a moment of mounting pressure on open-source Bitcoin infrastructure. User funds remain protected under the bridge's atomic swap design, but the incident exposes a structural asymmetry: well-funded attackers armed with automated tools can outpace resource-constrained teams.",
+    "On the regulatory front, the Digital Asset Market Clarity Act has stalled in its final week before Senate recess, frozen by dispute over whether government officials can hold digital assets. Senators Elizabeth Warren and Richard Blumenthal requested an SEC investigation into President Trump's $TRUMP memecoin, which the desk's reporting shows resulted in $3.8 billion in losses across nearly a million investors, while Trump's financial disclosure indicated $636 million in gains. The token has fallen from above $46 to $1.47. The White House has yet to respond to a tougher ethics provision sent by bipartisan senators, and the Clarity Act cannot move to a floor vote without resolution of that standoff.",
+    "Adding to the day's credibility concerns, the FBI arrested supervisory special agent Patrick Steven Yarmoch on July 31 after he allegedly stole approximately $1 million in cryptocurrency from wallets of people under investigation, using keys he obtained from FBI systems. The court filing and arrest raise immediate questions about how federal agencies control access to seized digital assets and what safeguards exist to prevent insider theft.",
+    "On the institutional adoption side, Wells Fargo will offer tokenized deposits for select corporate clients starting this fall, beginning with round-the-clock USD-to-GBP settlement on its proprietary blockchain, and will expand to more currencies and countries throughout 2027. BlackRock unveiled 12 tokenized share classes across six European money market funds covering $311 billion in combined assets, available in 15 European markets, built with JPMorgan's Kinexys platform. Both moves target institutional cash management and fixed-income settlement.",
+    "South Africa's National Treasury and Reserve Bank released a draft rulebook requiring all offshore crypto transfers to flow through authorized providers and be reported to the central bank's Financial Surveillance Department, with comments due by September 30. The framework does not yet distinguish between different types of digital assets, leaving open questions about how stablecoins and tokens will be treated.",
+    "The desk's boards show bitcoin at $63,653.85 on August 5, down 0.34 percent in the past 24 hours and down 1.59 percent over the past week, per the tape. The Fear and Greed Index stands at 27, in Fear territory, and bitcoin remains 49 percent below its 12-month high of $124,773.51. The desk's Whale Watch board shows $287.16 million in net outflows from exchanges over the past 48 hours, with $233.4 million of that in bitcoin moving off-exchange and $53.8 million in ethereum following suit. ETF flows on August 4 show $211.5 million net inflow to bitcoin funds and $53.1 million to ethereum, continuing the positive trend from the prior five sessions. Stablecoin reserves stand at $305.9 billion, down 1.16 percent over the past month."
+  ],
+  "sources": [
+    {
+      "title": "Bhutan's GMC puts part of its bitcoin treasury to work with 3iQ on market-neutral strategy",
+      "url": "/articles/bhutan-s-gmc-puts-part-of-its-bitcoin-treasury-to-work-with-3iq-on-market-neutral-strategy.html"
+    },
+    {
+      "title": "Bitcoin Bridge Boltz Halts Swaps Indefinitely, Citing AI-Assisted Attacks",
+      "url": "/articles/bitcoin-bridge-boltz-halts-swaps-indefinitely-citing-ai-assisted-attacks.html"
+    },
+    {
+      "title": "Clarity Act stalls as Warren demands SEC probe into Trump's $TRUMP memecoin",
+      "url": "/articles/clarity-act-stalls-as-warren-demands-sec-probe-into-trump-s-trump-memecoin.html"
+    },
+    {
+      "title": "FBI Supervisory Agent Arrested for Stealing $1 Million in Cryptocurrency from Seized Wallets",
+      "url": "/articles/fbi-supervisory-agent-arrested-for-stealing-1-million-in-cryptocurrency-from-seized-wallets.html"
+    },
+    {
+      "title": "South Africa proposes cross-border crypto rules requiring authorized providers and central bank reporting",
+      "url": "/articles/south-africa-proposes-cross-border-crypto-rules-requiring-authorized-providers-and-central-bank-reporting.html"
+    },
+    {
+      "title": "Wells Fargo launches tokenized deposits for 24/7 corporate settlement",
+      "url": "/articles/wells-fargo-launches-tokenized-deposits-for-24-7-corporate-settlement.html"
+    },
+    {
+      "title": "BlackRock launches tokenized European money market funds via JPMorgan",
+      "url": "/articles/blackrock-launches-tokenized-european-money-market-funds-via-jpmorgan.html"
+    }
+  ]
+}
