@@ -4266,5 +4266,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-04",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Coldcard Hardware Wallet Exploit Drains $114 Million; Vulnerability Remains Active",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The device maker confirmed Tuesday that an exploit affecting certain firmware versions has drained as much as $114 million' but the brief's data_point says 'A possible fourth wave' (emphasis on 'possible'), indicating uncertainty not reflected in the draft's definitive framing.",
+     "The draft presents 'The flaw has remained dormant in firmware since 2021' as established fact, but the brief data_point says 'The flaw has been dormant in firmware since 2021, in cases where a single key controls the funds with no second approval required'\u2014the conditional scope is stripped in the draft.",
+     "The quote attributed to Vincent Bouzon in the draft ('key generation must be anchored in secure hardware, with an architecture that cannot silently downgrade to an untrusted software-based source') appears as a reported statement but is not marked with any confidence qualifier (unconfirmed, announced-not-verified, or quoted) in the brief, and the draft characterizes it as Bouzon's characterization of Coldcard's specific flaw when the brief shows it as a general principle he stated."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "BlackRock Tokenizes $311 Billion in European Money Market Assets on Kinexys",
+    "category": "accuracy",
+    "reasons": [
+     "The title states the tokenization occurred 'on Kinexys' but the brief only confirms JPMorgan's Kinexys platform was used for the partnership/infrastructure; the brief does not specify Kinexys as the blockchain network itself, and the open_questions explicitly note that the blockchain network beyond Kinexys is unclear from the source.",
+     "The draft claims 'The offering does not specify minimum investment sizes, lock-up periods, or what proportion of the $311 billion in assets has been tokenized versus made available for tokenization' as a factual statement about what the offering does not specify, but this is an inference about absence rather than a reported fact in the brief."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "BitGo migrates $7.3B in WBTC from LayerZero to Chainlink CCIP",
+    "category": "accuracy",
+    "reasons": [
+     "Bottom line states '$7.4B in Wrapped Bitcoin' but the draft body and brief consistently cite '$7.3 billion' as the BitGo migration amount. The $7.4B figure refers to total WBTC market cap, not the BitGo migration size. This conflates two different numbers and misstates the core fact of the story.",
+     "Draft states total migrations are 'roughly $14.6 billion' in body but bottom line says 'near $15B'\u2014inconsistent with each other and the brief's '$14.5 billion.' The brief's figure should be used consistently; the draft's rounding variance creates factual slippage."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Senate Democrats block Clarity Act over Trump memecoin ethics dispute",
+    "category": "accuracy",
+    "reasons": [
+     "Sixth paragraph states 'The reporting notes the investigation request is likely to pack more political needling than actual regulatory results,' which appears to be an editorial characterization not explicitly present in the brief's bear_case or data_points. The brief notes this as a bear_case item ('undermining the legal basis...may be primarily tactical rather than substantive'), but the draft presents it as CoinDesk reporting ('The reporting notes'), which misattributes the framing. The assessment belongs in analysis, not as a sourced claim.",
+     "The draft does not adequately surface the bear_case fact that 'the SEC investigation request is likely to pack more political needling than actual regulatory results' with appropriate confidence-lowering language. This claim about the likelihood of ineffectiveness should be tagged or framed as skeptical/tactical analysis, not stated as settled reporting."
+    ]
+   },
+   {
+    "id": "c043",
+    "headline": "Mastercard Completes BVNK Acquisition",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions note states: 'the snippet cites $1.8B but source text is empty'\u2014the deal price is not confirmed in the source material. The draft does not mention or hedge around a price, which is correct, but the brief indicates uncertainty about the closing date that the draft acknowledges ('the exact closing date... are not confirmed') without stating whether The Block article itself provided this or whether it remained unconfirmed after the source was checked. The draft's statement 'The specifics of Mastercard's launch roadmap, customer commitments, and the timeline for rolling out new stablecoin-based products remain unconfirmed' is appropriate given the brief, but 'key details remain open: the exact closing date and deal price are not confirmed in available reporting' repeats this without tracing to a source statement. The brief does not provide a data_point confirming that The Block reported the closing as occurred; it only states the core_claim that Mastercard 'completed' the acquisition. The draft should either cite The Block as confirming completion or hedge the headline itself."
+    ]
+   }
+  ]
  }
 ]
