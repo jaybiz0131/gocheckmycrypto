@@ -4688,5 +4688,54 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-05",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c067",
+    "headline": "Bitcoin infrastructure audit uncovers 4,962 findings, 85 rated critical",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The audit was initiated in response to the Coldcard RNG vulnerability, which resulted in losses exceeding $100 million' but the brief data_point says only 'The Coldcard RNG vulnerability drained over $100 million.' The draft claims the audit was initiated *in response to* Coldcard, which is causal framing not present in the brief. The brief does not establish that the audit was caused by or directly responsive to the Coldcard incident\u2014it only establishes sequence. This is smuggled causal logic."
+    ]
+   },
+   {
+    "id": "c150",
+    "headline": "EU MiCA Register Reaches 321 Authorized Crypto-Asset Service Providers",
+    "category": "balance",
+    "reasons": [
+     "The brief contains no bear_case items, yet the draft manufactures doubt and caution throughout ('remains unreported', 'impossible to assess', 'unknown from available reporting', 'not stated', 'No details'). The draft reads skeptically of thin source material rather than reporting the facts that exist. This is appropriate editorial judgment for a thin brief, but it inverts the angle: the brief frames this as 'regulatory momentum' and a 'counter-example to narratives of crypto regulation stalling,' while the draft leads with what is unknown and unknowable. The opening sentence states the fact (321 authorized CASPs), but the body immediately pivots to what Cointelegraph did not report, creating an impression of cover-up or incompleteness rather than reporting a milestone. The final sentence of the opening paragraph\u2014'making it impossible to assess whether the pace of authorizations is accelerating or stabilizing'\u2014is fair analytical criticism, but the draft should signal that the source is thin, not imply the source was negligent. Reframe the story to lead with the regulatory activity confirmed (the 321 number, the fourth update) and relegate unknowns to an 'open questions' tone in the bottom_line, not the body."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Yellow Card Raises $40M From Institutional Investors to Link Banks to Stablecoin Rails",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Yellow Card's Global USD Accounts allow businesses to hold dollars, hold and swap stablecoins, manage treasury operations, and collect or disburse local currencies through domestic payment rails in more than 50 countries.' This claim appears in the brief's data_points with the exact same language and source attribution to CoinDesk. However, the brief's bear_case explicitly states: 'The specific stablecoins Yellow Card supports and whether they represent the company's own issuance or third-party assets are not stated in the reporting.' The draft should either flag this ambiguity inline (e.g., 'The specific stablecoins Yellow Card supports are undisclosed') or not present the product feature as settled fact. As written, the draft presents a product capability without disclosing what stablecoins power it\u2014a material gap for a story about crypto payments infrastructure.",
+     "The draft states Yellow Card's valuation 'is significantly higher than the $200 million valuation it held in 2022 but has not yet reached $1 billion.' The brief's bear_case marks the valuation as 'unconfirmed by CEO or PR team; CoinDesk reporting is based on a single unnamed source close to the matter.' This confidence qualifier does not appear in the draft. The statement should read: 'The company's current valuation is described by CoinDesk's unnamed sources as significantly higher than $200 million in 2022 but below $1 billion' or similar, to preserve the source uncertainty flagged in the brief."
+    ]
+   },
+   {
+    "id": "c162",
+    "headline": "Senate Banking Minority Staff Releases Analysis of Digital Asset Market Clarity Act Loopholes",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The analysis states the bill jeopardizes national security, per the Minority Staff's framing in the release.' The brief's corresponding data_point includes a claim that the bill 'will turbocharge Trump's crypto corruption'\u2014a partisan characterization not present in the draft. The draft sanitizes this claim by omitting the second half entirely. This is not paraphrase; it is selective fact-dropping that misrepresents what the staff memo actually says.",
+     "The draft presents all four data_points as 'reported' confidence without qualification, but the brief shows the memo itself does not detail the five loopholes, cannot substantiate pension/national security claims, and lacks point-by-point rebuttals. The draft should signal these gaps more clearly in the prose\u2014e.g., 'The staff claims without detailed evidence that...' or 'The analysis references five loopholes but does not specify them in the public release.' Instead, the draft reads as though the claims are settled fact."
+    ]
+   },
+   {
+    "id": "c151",
+    "headline": "Taiwan To Enforce Travel Rule for Domestic Crypto Transfers Starting October",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Taiwan's financial regulator plans to apply Travel Rule requirements to domestic cryptocurrency transfers between service providers, according to Cointelegraph.' The brief shows source_chars=0, indicating the Cointelegraph article was not actually fetched or reviewed by research. The data_points are marked 'reported' but the underlying source text is empty. The writer cannot verify that Cointelegraph made this claim at all. This is a red line: facts must be traceable to reviewed sources.",
+     "The draft opens with confidence ('plans to apply Travel Rule requirements... begins in October 2026') using language that treats an unverified outlet claim as fact. With a zero-character source and no secondary confirmation, this should read as 'according to reporting' or be flagged as 'unconfirmed' in tone."
+    ]
+   }
+  ]
  }
 ]
