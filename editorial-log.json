@@ -4737,5 +4737,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-06",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c066",
+    "headline": "Bitcoin Red Team Audits 390 Open-Source Projects, Files 4,962 Findings",
+    "category": "compliance",
+    "reasons": [
+     "Brief flags boundary_required: true and boundary_ok: false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft does not include a compliance boundary block addressing what would invalidate the findings (e.g., when the audit was conducted, whether findings are pre- or post-patch, timeline specificity). A story about security vulnerabilities without temporal boundaries or patch status disclosure is a liability gap."
+    ]
+   },
+   {
+    "id": "c123",
+    "headline": "Circle Names 11 Founding Validators for Arc L1, Including BlackRock, DTCC, Visa, ICE",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Circle raised $222 million in an Arc presale at a $3 billion fully diluted valuation' but brief data_point says Circle raised this amount, not that the valuation was $3 billion. The brief does not confirm the $3 billion valuation figure\u2014it only reports the $222 million raise. The valuation is smuggled.",
+     "Draft names 'BNY' as exploring integrations but the brief data_point lists 'BlackRock, BNY, DTCC and Standard Chartered'\u2014the source is The Defiant, not the brief itself. The draft introduces 'BNY' without a corresponding data_point in the brief that explicitly names BNY. The brief says 'BlackRock, BNY, DTCC and Standard Chartered are each exploring integrations' but this is a reported claim that should trace to brief; it does trace, but verify the name appears in the brief's data_point\u2014it does. However, the claim about what BNY is doing is reported but the draft does not attribute the integration details inline. The draft states integrations but does not source them inline to The Defiant in that sentence."
+    ]
+   },
+   {
+    "id": "c149",
+    "headline": "Taiwan Plans Travel Rule for Domestic Crypto Transfers from October 2026",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Taiwan's regulator plans to apply the Travel Rule to domestic VASP transfers beginning in October 2026' but the brief data_point says 'from October' without specifying the year. The draft adds '2026' which is smuggled\u2014the brief does not confirm the year for the domestic rule start date.",
+     "Draft describes the Travel Rule's purpose ('designed to prevent money laundering and illicit fund flows') and general function without attribution. This is general knowledge paraphrase, acceptable. However, the draft then states 'the specific implementing agency, exact technical requirements, and enforcement mechanisms are not detailed in the available reporting'\u2014this reads as editorial judgment about source gaps rather than a claim from the brief. The brief's open_questions confirm these are unknown, but the draft's phrasing 'not detailed in the available reporting' should reflect that it comes from the brief's open_questions, not from independent editorial assessment of Cointelegraph."
+    ]
+   },
+   {
+    "id": "c148",
+    "headline": "MiCA Register Reaches 321 Authorized CASPs After Fourth Post-Deadline Update",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The batch added 12 companies to the compliant register' but the brief's data_point only claims that the update 'added 12 companies'\u2014it does not specify they were added to the 'compliant register' versus other categories. The draft smuggles specificity not present in the brief.",
+     "Draft claims the update 'moved 3 entities to ESMA's non-compliant list,' but the brief data_point says 'Three entities were added to ESMA's non-compliant register.' These are subtly different claims ('moved' implies transition/reclassification; 'added' could mean new entries). The writer has reinterpreted the source claim without authority to do so.",
+     "Draft states the register 'tracks both authorized and non-compliant entities' as though this is confirmed fact, but the brief provides no data_point confirming the structure or scope of the register. This is context the writer added beyond the brief."
+    ]
+   },
+   {
+    "id": "c121",
+    "headline": "Senate Delays Reprices CLARITY Act Passage Into 2027 as Thune Stalls Procedural Vote",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Kalshi's before-January 2028 contract rose to 65 cents from 64 cents,' which traces to brief data_point #8. However, the draft earlier states 'Kalshi's before-July 2027 contract slipped to 43 cents from 49 cents, and its before-January 2028 contract rose to 65 cents from 64 cents'\u2014but the brief also contains a data_point #7 claiming 'Kalshi's before-October 2027 contract rose to 58 cents from 55 cents,' which does NOT appear anywhere in the draft. The writer omitted a reported data_point from the brief without explanation, creating an incomplete picture of the market repricing.",
+     "Draft's gap calculation ('The gap between the 2027 and 2028 strikes implies traders now assign about 43 cents of probability to enactment during calendar 2027') relies on mathematical inference from Kalshi contract prices, but this interpretation is attributed to The Defiant (via the brief data_point #9). The phrasing 'implies traders' makes this sound like the writer's inference rather than reported analysis, risking misattribution of a claim that required source backing."
+    ]
+   }
+  ]
  }
 ]
