@@ -1,0 +1,38 @@
+{
+  "id": "c008",
+  "slug": "bitcoin-fork-risk-replay-attack-could-drain-real-btc-if-holders-sell-during-split",
+  "kind": "brief",
+  "title": "Bitcoin Fork Risk: Replay Attack Could Drain Real BTC If Holders Sell During Split",
+  "dek": "A planned Bitcoin fork tied to BIP-110 could create two chains accepting identical transactions until early September. Without replay protection in place, selling forked coins could trigger a replay attack that also spends the seller's actual bitcoin on the main chain.",
+  "date": "2026-08-08",
+  "published_utc": "2026-08-08T18:56:53Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Transactions signed to move forked coins can be replayed on Bitcoin's main chain, draining the seller's real BTC in the process.",
+  "bottom_line": "The safest course for non-experts is to avoid moving coins during the potential split. Watch miner signaling for any unexpected acceleration toward 55%, which would indicate a real fork risk; if signaling remains below 10%, the minority chain is unlikely to sustain. The story's premise inverts if the fork never reaches blocks 961,632 or if signaling collapses entirely.",
+  "human_take": "",
+  "body": [
+    "Bitcoin may split into two chains in the next few days, and transactions signed on one chain can execute on both until early September, according to reporting from CoinDesk. Without replay protection in place, holders who attempt to sell coins from the minority fork face a material loss: the signed transaction can be broadcast on Bitcoin's main chain, sending the seller's actual bitcoin to the same address at the cost of a transaction fee on both chains.",
+    "The fork stems from BIP-110, a proposal to exclude pictures, text and other non-payment data from Bitcoin transactions for one year. Activation requires 1,109 marked blocks out of a 2,016-block stretch, or 55%, via miner signaling. As of Friday, Aug. 8, miner signaling for BIP-110 was running near 2.6%, making a minority branch likely to produce blocks very slowly or stop advancing altogether.",
+    "From block 961,632, expected this weekend, computers running BIP-110 software will reject any block that does not carry the BIP-110 mark, regardless of miner agreement. This enforced divergence creates two separate chains initially accepting identical transactions. Bitcoin developer Kevin Loaec flagged the replay risk this week and stated that large holders could be targeted first.",
+    "A replay attack does not drain an entire wallet. Only the coins put up for sale move, leaving as real bitcoin rather than fork version, with a transaction fee paid on both chains. Coins that never move cannot be replayed because there is no signed transaction to copy. The actual restrictions on transaction data do not switch on until block 965,664, expected around the start of September. Until then, holders would need to deliberately create coins that exist on only one branch before spending safely to avoid replay attacks.",
+    "The bear case centers on miner signaling's extreme weakness: at 2.6%, a minority fork may never materialize or may stall after a few blocks, rendering the replay risk theoretical rather than practical. The fork protection mechanism is built into BIP-110 itself and activates around early September, creating a window of vulnerability but not an indefinite one. Additionally, the advisory assumes users will attempt to sell fork coins at offered prices; if adoption is too low or the minority chain has no exchange liquidity, the temptation to sell may not arise.",
+    "What remains unclear: what percentage of nodes have BIP-110 software installed and ready to enforce the fork condition; whether any exchanges or miners will continue to extend the minority chain once it emerges, or if it will stall immediately; the actual economic value of the forked coins if a minority chain persists; and whether other developer warnings exist beyond Kevin Loaec's statement."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/08/08/bitcoin-holders-risk-losing-real-btc-if-they-sell-coins-from-bip-110-fork-says-developer",
+      "url": "https://www.coindesk.com/tech/2026/08/08/bitcoin-holders-risk-losing-real-btc-if-they-sell-coins-from-bip-110-fork-says-developer"
+    }
+  ],
+  "boundary": {
+    "affected": "Bitcoin holders who move coins (sign and broadcast transactions) between block 961,632 and block 965,664, particularly on the minority BIP-110 chain.",
+    "fixed": "No explicit fixed version or block number provided; replay protection is built into BIP-110 and switches on at block 965,664.",
+    "user_action": "The safest course for non-experts is to avoid moving coins during the potential split. Coins that never move cannot be replayed because there is no signed transaction to copy.",
+    "advisory_url": "https://www.coindesk.com/tech/2026/08/08/bitcoin-holders-risk-losing-real-btc-if-they-sell-coins-from-bip-110-fork-says-developer"
+  },
+  "also_reported_by": [],
+  "developing": true
+}

@@ -4922,5 +4922,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-08",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c018",
+    "headline": "Senate Majority Leader Thune files cloture on Clarity Act, schedules September 15 vote",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'At least seven non-Republicans will need to support the cloture motion to clear the 60-vote threshold required to advance the bill.' This claim is not in the brief's data_points. The brief says 'at least seven non-Republicans will need to support the cloture motion' but does not attribute this to The Block's reporting, and the math underlying this statement (60-vote threshold, Republican seat count) is not confirmed in the brief. The writer has derived or smuggled a procedural detail that should either come directly quoted from the source or be omitted."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Hardware Wallet Sales in Russia More Than Double as New Crypto Rules Near",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Wildberries recorded unit sales rise of 84% in the first half from a year earlier' but the brief data_point specifies '84% year-on-year' with timestamp 2026-08-08, which would mean comparing H1 2026 to H1 2025. The draft's phrasing 'first half from a year earlier' is ambiguous and does not clearly attribute this to year-over-year comparison. More critically, the brief marks boundary_required=true and boundary_ok=false with explicit boundary_reasons citing 'version, date range or threshold' but the draft contains no boundary block addressing the temporal scope of these comparisons or the transition dates (Sept 1, 2026 and July 1, 2027). The brief data itself has a timestamp of Aug 8, 2026 but compares sales from H1 2026; this version/date mismatch required a boundary block per the brief's own metadata and is missing from the draft."
+    ]
+   },
+   {
+    "id": "c093",
+    "headline": "Tokyo Lawson Scans JPYC Stablecoin Payment at Standard Register, No Crypto Terminal Required",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Executives at the demonstration included Canal Payment Service President Ryosuke Shimizu, JPYC Representative Director Noritaka Okabe, HashPort CEO Seihaku Yoshida, and Taro Tamura, general manager of Lawson's financial company and marketing strategy division' but this information does not appear in the body text and is only listed as a data_point in the brief, not in the source citation to The Defiant article. This fact was not verified as present in the draft's cited source.",
+     "The draft does not include attribution for the executive names mentioned. The brief's data_point 15 lists these executives but the draft body does not incorporate them, creating a gap between sourced information and draft content."
+    ]
+   }
+  ]
  }
 ]

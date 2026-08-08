@@ -1,0 +1,32 @@
+{
+  "id": "c007",
+  "slug": "new-xrp-ledger-amendments-target-530-million-in-tokenized-wall-street-assets",
+  "kind": "brief",
+  "title": "New XRP Ledger Amendments Target $530 Million in Tokenized Wall Street Assets",
+  "dek": "XRP Ledger version 3.3.0 proposes six amendments including Confidential Transfers, which would encrypt token balances and payment amounts while keeping accounts and token types visible. The feature targets more than $530 million of tokenized real-world assets already on the ledger, including Treasury debt, securities, and institutional liquidity products.",
+  "date": "2026-08-08",
+  "published_utc": "2026-08-08T18:56:53Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "The Confidential Transfers amendment would encrypt balances and payment amounts on Multi-Purpose Tokens using zero-knowledge cryptography, enabling institutions to keep transaction values private while remaining on a public blockchain. The ledger can verify that transactions sum correctly without reading the encrypted numbers.",
+  "bottom_line": "Watch whether Confidential Transfers achieves the required 80% validator support and, if it does go live, whether any major institutional issuer actually adopts the encrypted format. The premise that privacy tools will drive institutional RWA adoption on XRPL would be invalidated if the amendment fails to reach consensus or if existing issuers decline to use encryption despite its availability.",
+  "human_take": "",
+  "body": [
+    "The XRP Ledger's developer community released version 3.3.0 this week with six proposed amendments targeting institutional real-world assets on the network, according to CoinDesk. The centerpiece is Confidential Transfers, which would encrypt token balances and payment amounts on Multi-Purpose Tokens while keeping the accounts and token types visible to the public ledger. The feature uses zero-knowledge cryptography, allowing the network to verify that a transaction is mathematically valid and that account balances remain solvent without exposing the underlying numbers to observers.",
+    "More than $1.38 billion of distributed real-world assets are currently tracked on XRPL, including $845.7 million of RLUSD (Ripple's USD stablecoin), $212.6 million from Ondo, $116.1 million from VERT Capital, and $55.4 million from Archax. That accounting leaves more than $530 million of tracked tokenized assets outside RLUSD, according to CoinDesk's analysis. Societe Generale sits at $11.6 million on the ledger. Aviva Investors launched a tokenized share class of its U.S. Dollar Liquidity Fund on XRPL last month, following a partnership announcement with Ripple in February.",
+    "The other five amendments address institutional workflow barriers. The Batch amendment can package up to eight transactions together in an all-or-nothing mode, where every step succeeds or none does. The Sponsor amendment lets one account cover another's fees and reserve requirements, removing the need for new users to hold XRP before transacting. Permission Delegation authorizes another party to submit only specified transaction types, giving a fund administrator limited authority without handing over full control. Dynamic MPT lets issuers change certain token properties after issuance. Version 3.3.0 also cuts memory use by 10 to 15 percent and improves node synchronization speed.",
+    "XRLP amendments require at least 80 percent support from trusted validators, held continuously for two weeks, before activation, according to CoinDesk. Confidential Transfers stays narrow in its first version: holders must opt into the encrypted format, and it currently works only for direct Multi-Purpose Token payments between accounts. The feature does not cover trades on XRPL's built-in exchange, escrow, or checks, limiting its utility for some institutional workflows.",
+    "The bear case identifies three structural risks: first, opt-in design means institutions may choose to leave balances public, limiting privacy adoption; second, the feature's narrow scope in version 1.0 may not satisfy all institutional compliance and operational needs; and third, none of the six amendments are yet live, and approval is not guaranteed since each requires the sustained 80 percent validator threshold. The real test remains whether Aviva, Ondo, or other existing XRPL issuers will actually opt into encrypted balances once available, rather than continuing to publish balances publicly."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/08/07/new-xrp-ledger-amendments-target-usd530-million-in-tokenized-wall-street-assets",
+      "url": "https://www.coindesk.com/tech/2026/08/07/new-xrp-ledger-amendments-target-usd530-million-in-tokenized-wall-street-assets"
+    }
+  ],
+  "update_of": "wall-street-claims-tokenization-priority-but-production-deployment-remains-sparse",
+  "also_reported_by": [],
+  "developing": true
+}
