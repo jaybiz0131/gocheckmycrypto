@@ -4788,5 +4788,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-08",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Resolution BCB No. 584/2026' but the brief data_points do not specify this resolution number\u2014it appears only in the draft, not sourced to the CoinDesk article listed. This is a smuggled fact.",
+     "The draft states the requirement was 'published August 7' but the brief lists the source timestamp as '2026-08-08T15:25:38Z' (August 8), creating a factual inconsistency that is not explained or sourced within the brief.",
+     "The draft claims 'Regina Pedroso, president of Brazilian tokenization group Abtoken, said the policy could impose costs on legitimate users and weaken the competitiveness of domestic exchanges, according to CoinDesk's reporting.' This is the only named source for the bear_case, but it is paraphrased without attribution inline to CoinDesk or Abtoken in the body\u2014it appears as a standalone attributed sentence that reads as CoinDesk's framing rather than Pedroso's direct statement."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Another Bitcoin infrastructure exploit hits, this time draining Lightning payment servers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The vulnerability had been reported to BTCPay by members of the Bitcoin Red Team, a group of developers that has been using AI models to scan bitcoin codebases and has filed thousands of findings across hundreds of projects since this week.' The brief data_point 8 states 'a group of developers that began pointing AI models at bitcoin codebases this week and has filed thousands of findings across hundreds of projects since.' The draft changes 'since this week' to a dangling 'since this week' at the end of a different clause, creating ambiguity about the timeline. This is imprecise paraphrasing of a time-sensitive claim.",
+     "The draft's closing paragraph states 'For affected advisories on patching, consult BTCPay's official security guidance.' This language mirrors the boundary advisory language but directs readers to 'BTCPay's official security guidance' rather than the advisory_url provided in the boundary. It is unclear whether this constitutes proper compliance with the advisory directive.",
+     "The draft does not attribute the statement about 'real-time exploitations already reported at multiple operators' to any specific source within the brief data_points. This claim appears in the lead but is not explicitly sourced."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Bitcoin and ether ETFs draw $1.1 billion in inflows, strongest week since April",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports specific ETF flow figures ('Bitcoin ETFs posting a net inflow of $5.1 million on July 28, 2026, and ether ETFs recording an inflow of $11.7 million on July 27, 2026. Over the preceding five sessions, Bitcoin ETFs had drawn outflows totaling $402.6 million, while ether ETFs recorded inflows of $77.5 million') and cumulative inflows ('Bitcoin ETFs have amassed $51.432 billion in cumulative net inflows since inception... Ether ETFs have accumulated $11.223 billion') that do not appear anywhere in the research brief's data_points. These are smuggled facts attributed to 'the desk's ETF flows board' rather than traced to the primary source (The Block article). The brief contains no data_points for these specific figures; they must be verified against source or removed.",
+     "The draft includes a specific detail about 'fear index reading of 29' that does not appear in any data_point in the brief, making this a smuggled fact."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "U.S. shed 23,000 jobs in July, pushing Fed rate-hike odds below 50%",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Before Friday's release, traders were nearly evenly split on whether the Fed would hike rates in September, per CoinDesk.' The brief's corresponding data point says 'Before the jobs report, markets were split on whether the Fed would hike rates at its next policy meeting in September, with CME FedWatch showing 55% chance of a rate hike.' The draft omits the 55% figure that clarifies the pre-report baseline and instead paraphrases as 'nearly evenly split,' which is imprecise given 55% is not 50%. This softens the quantitative grounding of the claim."
+    ]
+   }
+  ]
  }
 ]

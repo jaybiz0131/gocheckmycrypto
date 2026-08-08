@@ -1,0 +1,33 @@
+{
+  "id": "c010",
+  "slug": "u-s-treasury-sanctions-two-crypto-exchanges-for-iran-money-movement",
+  "kind": "brief",
+  "title": "U.S. Treasury sanctions two crypto exchanges for Iran money movement",
+  "dek": "OFAC designated Shelbit and Aban Tether as sanctions targets for facilitating millions in cryptocurrency transfers linked to Iran's Islamic Revolutionary Guard Corps. The action expands U.S. enforcement against Iranian crypto networks and pressures exchanges to block funds tied to sanctioned entities.",
+  "date": "2026-08-08",
+  "published_utc": "2026-08-08T16:11:50Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 5,
+  "author": "Crypto Cronkite",
+  "key_fact": "Treasury OFAC sanctioned crypto exchanges Shelbit and Aban Tether for processing more than $5 million in funds linked to Iran's IRGC.",
+  "bottom_line": "Treasury's sanction of two exchanges marks the fifth wave of enforcement against Iranian crypto networks since January 2026, suggesting institutional adoption of enforcement mechanisms. Watch for stablecoin issuers' compliance responses and whether regulated exchanges implement stricter screening for IRGC-connected wallets; failure to do so could invite secondary sanctions or financial penalties.",
+  "human_take": "",
+  "body": [
+    "The U.S. Treasury Department's Office of Foreign Assets Control sanctioned crypto exchanges Shelbit and Aban Tether on August 7, 2026, for facilitating money movement linked to Iran's Islamic Revolutionary Guard Corps, per CoinDesk reporting.",
+    "OFAC alleged that IRGC-linked wallets sent more than $1 million in cryptocurrency to Shelbit addresses, while more than $2 million flowed from Shelbit addresses back to IRGC wallets. Separately, wallets controlled by Siavash Kayvanpour sent over $2 million to Nobitex, Iran's largest crypto exchange. Aban Tether has processed millions of dollars in transactions involving sanctioned Iranian exchanges, including Nobitex, Wallex, Bitpin, and Ramzinex, according to the Treasury.",
+    "Treasury Secretary Scott Bessent said in a statement: \"The Iranian regime's reliance on digital assets and shadow banking networks is further evidence that Economic Fury is working. Whether in dollars, rials, or crypto, Treasury will hunt down and dismantle the illicit financial networks that keep the regime afloat.\" The remark references the Treasury's broader Iran sanctions regime, known informally as \"Economic Fury.\"",
+    "OFAC also sanctioned Siavash Kayvanpour and several companies tied to him in Georgia, Poland, and the United Arab Emirates. The action forms part of an accelerating enforcement campaign against Iranian crypto finance. In January 2026, Treasury sanctioned Zedcex and Zedxion, marking the first crypto exchanges targeted under Iran-specific financial sanctions. In June, the Treasury blacklisted Nobitex and several other Iranian crypto exchanges. Last month, the U.S. sanctioned four crypto wallets linked to Iran's central bank, and stablecoin issuer Tether froze approximately $131 million held in those wallets.",
+    "Aban Tether exchange appears unrelated to stablecoin issuer Tether, though CoinDesk confirmed this distinction with Tether Inc. The name similarity may cause confusion among users and compliance teams. The distinction matters because stablecoin issuers face direct regulatory pressure to freeze or block funds moving through their rails, whereas exchange platforms operate under different licensing and oversight regimes depending on their jurisdiction.",
+    "The sanctions action does not halt the broader reality: cryptocurrencies offer sanctioned entities a channel to move funds when traditional banking networks cut them off. Blockchain transactions leave a public trail for investigators, but sophisticated actors can employ mixers, atomic swaps, and cross-chain bridges to obscure transaction origins. The Treasury's approach relies on identifying endpoints (exchanges, wallets, individuals) and freezing assets in place, rather than preventing the initial movement."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+      "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges"
+    }
+  ],
+  "update_of": "dubai-exchange-shelbit-tied-to-4-billion-iran-sanctions-evasion-scheme",
+  "also_reported_by": [],
+  "developing": true
+}
