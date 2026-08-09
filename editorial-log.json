@@ -5218,5 +5218,44 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The rule applies to transfers exceeding $10,000' but brief data_point specifies 'transfers exceeding the equivalent of $10,000, whether through a single transaction or several on the same day.' The draft omits the critical detail about aggregation across multiple daily transactions, which materially changes the threshold's practical effect and user exposure."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Brazil to tighten crypto fraud controls with new 24-hour wait on transfers to self-custody wallets",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'whether the rule applies to Brazilian residents, exchanges, or both are not detailed in the available reporting,' but brief data_point c007 establishes this rule applies to 'transfers to foreign platforms and self-custody wallets' by customers who 'deposit the country's fiat currency reais, or crypto with an exchange and then seek to send the funds abroad.' This scope information exists in the research base and should have been traced; the draft's claim of missing detail is a smuggled gap that should have been caught during research, not left for the reader to verify against external sources."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Bitcoin Red Team Says AI Is Finding Critical Exploits Across Core Projects",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'More than a dozen vulnerabilities were disclosed' but the brief data_point says 'More than a dozen vulnerabilities were disclosed' \u2014 however, the draft then states 'Decrypt's reporting does not detail the specific projects affected, the nature or severity of the flaws, or the timeline and scope of responsible disclosure for each finding.' This is acceptable as an acknowledgment of limits. But the sentence 'The brief source material for this story could not be accessed for independent verification of the specific claims, the identity of affected projects, or the nature of the disclosed exploits' is SMUGGLED meta-commentary about the reporting process that does not appear in the brief and violates the wall between reporting and internal editorial notes. This reads as a confession of thin sourcing published in the article itself, which is not a reporting technique\u2014it is a failure to report. The draft should either verify claims or not publish; publishing with an admission it could not verify is not a journalistic option."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Hardware wallet sales in Russia more than double ahead of new crypto rules; retailers silent on driver",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Hardware wallet unit sales surged in Russia during the first half of 2026' and 'more than double' in the title, but the data points show M.Video rose 107% Q-o-Q (not half-year comparison) and Wildberries rose 84% year-on-year (first half 2026 vs. first half 2025). The M.Video figure is quarter-on-quarter growth within H1, not a statement about H1 overall growth rate, and conflating these two different time periods as both evidence of 'doubling' is misleading. The title's 'more than double' claim is not directly supported by the Wildberries YoY figure (84%) or accurately represents the M.Video QoQ figure without clarifying it's intra-period.",
+     "The draft introduces the Coldcard vulnerability disclosed July 30, 2026 with the claim 'estimated losses exceeding $116 million' and frames it as potentially affecting 'consumer confidence in the subsequent period.' This data point appears in the brief, but the draft's suggestion that the vulnerability 'raises questions about whether the vulnerability affected consumer confidence' speculates beyond what the brief supports. The brief lists this as a bear_case item noting it 'could undermine confidence,' but the draft's phrasing ('raises questions about whether...affected') introduces causality analysis not present in the source reporting."
+    ]
+   }
+  ]
  }
 ]
