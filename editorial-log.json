@@ -4953,5 +4953,64 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-08",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "U.S. Senate opens first stage of crypto Clarity Act voting to give bill a chance next month",
+    "category": "balance",
+    "reasons": [
+     "The draft's bottom_line reads 'Major U.S. legislative milestone: Clarity Act advances to September vote after cloture filing, clearing procedural hurdle needed for passage on market structure and stablecoin rules.' This framing as a 'major milestone' and 'clearing procedural hurdle needed for passage' oversells the procedural step. The brief's bear_case emphasizes that 'the bill is in a long-shot position to get approval in September' and that 'if the partisan rift remains, it's highly unlikely that Clarity can become law this year.' The draft should reflect the fragility of the path forward, not present the cloture filing as clearing a hurdle toward passage.",
+     "The opening paragraph states the cloture motion 'opening the first procedural stage toward a potential Senate floor vote in September' without adequate weight to the brief's bear_case that Democratic support remains in severe doubt and White House approval is not yet secured. The lead buries the fragility of the bill's path and reads as optimistic momentum rather than conditional procedural positioning."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Bitcoin, ether ETFs draw $1.1 billion in best inflow week since April, despite low volume",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains the claim 'Bloomberg analyst Eric Balchunas tied the inflow run to the Coldcard wallet exploit, per The Block's reporting.' However, the brief notes 'The source_texts field is empty; the brief is built from the snippet and headline alone. No independent verification of the $1.1 billion figure, timing, or analyst attribution is available from the fetched page text.' The writer has paraphrased a claim from a source that was not independently verified in the research process. Attribution to Balchunas should carry a confidence marker reflecting that the attribution itself comes from a headline/snippet with no full-text verification, or the claim should be removed.",
+     "The brief explicitly marks the article as 'thin: true' with 'source_chars: 0', meaning the research was conducted on snippet and headline only with no source text available for verification. The draft presents all claims (the $1.1B figure, the four-month claim, the Balchunas attribution) with the same confidence as if they had been verified against full source text. The accuracy chain is broken: facts derived from unverified snippets should not appear in the draft without flagging their limited verification status."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Hardware wallet sales in Russia more than double as new crypto rules near",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line discusses 'miner support for BIP-110' and 'UASF' and 'minority chain', but this draft is about Russian hardware wallet sales, not Bitcoin soft forks. The bottom_line is from a different story (c001) and has been pasted into the wrong draft. This is a critical accuracy failure\u2014the forward-looking guidance contradicts the entire story.",
+     "The draft's footer and not_financial_advice clause are present and correct, but the bottom_line invalidates the narrative coherence of the piece."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Bitcoin enters BIP-110 mandatory signaling phase with less than 3% miner support",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Strategy chairman Michael Saylor' but the brief identifies him only as 'Strategy chairman' without confirmation of which organization. The brief data_point says 'Strategy chairman Michael Saylor' but does not clarify what strategy or which firm. This attribution is ambiguous in the brief itself, and the draft copies it without clarification. If Saylor is not the chairman of a 'Strategy' organization, this is a smuggled fact.",
+     "The draft cites two sources but the brief only includes one source URL in data_points (CoinDesk). The second source (theblock.co) appears in the draft's sources list but has no corresponding data_point in the brief. Under the hard rule 'no fact exists outside the brief,' facts from The Block have not been traced to the research brief and are smuggled."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Bitcoin Red Team reports 150 repositories scanned and vulnerabilities disclosed via AI",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly notes 'Source text is unavailable (empty)' and 'source_chars: 0', indicating the actual Decrypt article was never fetched. The draft cites specific claims ('A volunteer Bitcoin Red Team reports scanning 150 Bitcoin repositories and disclosing more than a dozen vulnerabilities using artificial intelligence, according to Decrypt') but these facts cannot be verified against the source because the source content was not retrieved. This violates the hard rule: facts must be traced to research, and when source text is empty, the facts in the draft are unverifiable and must be rejected.",
+     "The draft states 'The specific projects affected, the nature of the flaws, and whether responsible disclosure practices were followed...have not been detailed in the source material,' but this admission itself proves the writer is working from an unavailable source. The draft should not run at all given thin=true and source_chars=0."
+    ]
+   },
+   {
+    "id": "c079",
+    "headline": "IMF Signals Stablecoins Could Boost Dollar-Token Demand",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'IMF First Deputy Managing Director Dan Katz said users may favor digital dollars...' but the brief identifies the source as 'Cointelegraph's reporting' with confidence label 'reported', not a direct quote or verified statement from Katz himself. The draft should flag this as reported-not-verified or attribute it clearly to Cointelegraph's claim about what Katz said, not present it as a direct IMF statement."
+    ]
+   }
+  ]
  }
 ]
