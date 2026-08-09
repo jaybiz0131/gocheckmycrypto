@@ -5257,5 +5257,35 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "Brazil's central bank orders crypto exchanges to delay transfers over $10,000",
+    "category": "compliance",
+    "reasons": [
+     "boundary_ok is false; the draft flags that 'affected' and 'fixed' boundary fields do not appear verbatim in the advisory URL, yet the draft is submitted with boundary_required=true and boundary_ok=false. Per compliance rules, a story requiring boundary verification that fails that verification must not be approved for publication. The desk cannot publish a regulatory boundary piece without confirmed source text."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Bitcoin fork BIP-110 mines two blocks in eight hours, then stalls on inherited difficulty",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The fork's slow block production rate makes this deadline unreachable, effectively killing the attempt,' but the brief's open_questions include 'Will any other mining pools or operators continue to mine BIP-110 blocks, or will the chain remain dormant indefinitely?' This is not a concluded fact in the brief but an open question; the draft presents it as settled when the reporting source does not."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Russian Hardware Wallet Sales Surge Ahead of September Regulatory Deadline",
+    "category": "accuracy",
+    "reasons": [
+     "The brief marks boundary_required=true and boundary_ok=false, indicating this story depends on a version, date range, or threshold that lacks a boundary block in the brief. The draft cites specific dates (September 1, 2026; July 1, 2027; July 30, 2026) and specific financial figures ($116 million Coldcard loss) without boundary confirmation in the source material. The brief's own boundary_reasons flag 'this story turns on a version, date range or threshold but the brief carries no boundary block'\u2014this is a structural liability the draft has inherited and amplified by committing to precise dates and loss figures."
+    ]
+   }
+  ]
  }
 ]

@@ -1,0 +1,68 @@
+{
+  "id": "wrap-pm-2026-08-09",
+  "slug": "evening-brief-2026-08-09",
+  "kind": "brief",
+  "title": "The Evening Brief: ETF inflows return as jobs data softens, security risks persist",
+  "dek": "A weak July jobs report pushed Fed rate-hike odds below 50 percent and coincided with bitcoin ETFs posting their strongest week since April, even as a Lightning-node exploit, a stalled Bitcoin fork, and Trump Media's retreat from crypto kept execution risk in the frame.",
+  "date": "2026-08-09",
+  "published_utc": "2026-08-09T20:09:22Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Bitcoin ETF inflows turned positive this week after months of net outflows, but the desk's board shows the year-to-date picture still deeply negative, so one strong week has not yet reversed the broader trend.",
+  "bottom_line": "A weak July jobs report cut September Fed hike odds to 46 percent from 55 percent and coincided with bitcoin spot ETFs posting $853.54 million in net inflows for the week ended August 7, their strongest week since mid-April, per CoinDesk, even as the desk's own board shows year-to-date ETF flows still roughly $4.5 billion negative. Separately, a BTCPay Server exploit drained Lightning nodes and prompted an emergency patch, the contentious BIP-110 fork stalled after two blocks per CoinDesk's reporting, and Trump Media terminated its Crypto.com treasury partnership, while Bybit won a preliminary injunction over North Korea's $1.5 billion Ethereum theft and Treasury sanctioned two exchanges tied to Iran. The reporting does not link the security and institutional-retreat stories to the macro shift; they registered as separate developments on the same day. Watch the CLARITY Act and the related executive order, both carrying a stated Sept. 1, 2026 date, along with BTCPay's forthcoming postmortem on the scope of the Lightning exploit and whether the XRP Ledger's Confidential Transfers amendment reaches the 80 percent validator support it needs.",
+  "human_take": "",
+  "body": [
+    "Since this morning's brief, the day's throughline shifted from operational failure toward a macro-driven return of ETF demand, without erasing the security and institutional-retreat stories that opened the day. The U.S. lost 23,000 jobs in July against a forecast gain of 80,000, per CoinDesk's reporting, and the miss, compounded by downward revisions to May and June, pulled September Fed rate-hike odds from 55 percent to 46 percent. That repricing coincided with bitcoin spot ETFs pulling in $853.54 million for the week ended August 7, CoinDesk reported, the strongest weekly total since mid-April, with BlackRock's IBIT accounting for $693 million of it.",
+    "The morning's operational stories remain live. BTCPay Server confirmed attackers exploited a credential-theft flaw to drain Lightning nodes running LND, with Foundation and Citadel21 among those swept, and ordered anyone running the software to patch to version 2.4.2 or take servers offline, as the desk reported. The contentious BIP-110 fork, which the morning brief flagged as a replay-attack risk for anyone selling coins during a split, resolved by early afternoon: the minority chain mined only two blocks in roughly eight hours before stalling at block 961,633 while the main chain advanced 48 blocks in the same window, per CoinDesk's reporting, with miner signaling never approaching the 55 percent threshold needed to force activation.",
+    "On the enforcement side, Bybit won a preliminary injunction freezing stolen assets tied to the Lazarus Group's $1.5 billion Ethereum theft from February 2025, a rare civil court win against a state-linked actor, while Treasury's OFAC sanctioned exchanges Shelbit and Aban Tether for processing more than $5 million linked to Iran's IRGC, the desk reported. Institutional signals stayed mixed: Trump Media and Crypto.com terminated their CRO treasury venture citing market saturation, even as T. Rowe Price's newly launched TKNZ ETF holds dogecoin alongside BTC and ETH, and the XRP Ledger proposed a Confidential Transfers amendment targeting more than $530 million in tokenized assets beyond its RLUSD stablecoin holdings. Separately, Hyperliquid's gross protocol revenue fell 43 percent over four quarters to $202 million even as the platform's share of global perpetual open interest climbed to 9 percent, CoinDesk reported, as a fee-sharing model shifted revenue toward external developers.",
+    "The reporting does not tie these threads to a single cause. The jobs miss and dovish Fed repricing plausibly explain the ETF inflow turn and the day's modest risk-asset firmness, per CoinDesk's framing of the two stories together, but the security exploit, the fork outcome, and Trump Media's exit read as separate, unrelated developments the stories do not connect to the macro narrative.",
+    "The desk's boards show bitcoin at $65,131.86, up 0.33 percent on the day and 8.64 percent over 30 days, with the Fear and Greed Index at 31, still in \"Fear\" territory near the bottom of its 30-day range. The ETF flow board shows $101.7 million of net BTC inflows on August 7 alone, part of a five-session run of $865.3 million, consistent with CoinDesk's reported weekly figure; but cumulative flows for the year remain at roughly $52.2 billion versus a stated year-to-date deficit of $4.5 billion the desk reported separately, meaning this week's strength has not undone months of redemptions. The Whale Watch board shows $103 million net moving off exchanges over the past 48 hours, led by outflows from Kraken, though the board's own weekly series swings between an outflow of $146.9 million and an inflow of over $1 billion across recent weeks, showing no settled directional trend beneath the latest snapshot."
+  ],
+  "sources": [
+    {
+      "title": "Active exploit drains Lightning nodes running BTCPay; immediate patching required",
+      "url": "/articles/active-exploit-drains-lightning-nodes-running-btcpay-immediate-patching-required.html"
+    },
+    {
+      "title": "Bitcoin Fork Risk: Replay Attack Could Drain Real BTC If Holders Sell During Split",
+      "url": "/articles/bitcoin-fork-risk-replay-attack-could-drain-real-btc-if-holders-sell-during-split.html"
+    },
+    {
+      "title": "Bybit secures asset freeze in $1.5 billion North Korea hack lawsuit",
+      "url": "/articles/bybit-secures-asset-freeze-in-1-5-billion-north-korea-hack-lawsuit.html"
+    },
+    {
+      "title": "New XRP Ledger Amendments Target $530 Million in Tokenized Wall Street Assets",
+      "url": "/articles/new-xrp-ledger-amendments-target-530-million-in-tokenized-wall-street-assets.html"
+    },
+    {
+      "title": "Trump Media terminates Crypto.com CRO treasury deal, signals retreat from crypto push",
+      "url": "/articles/trump-media-terminates-crypto-com-cro-treasury-deal-signals-retreat-from-crypto-push.html"
+    },
+    {
+      "title": "U.S. job losses in July reshape Fed rate expectations",
+      "url": "/articles/u-s-job-losses-in-july-reshape-fed-rate-expectations.html"
+    },
+    {
+      "title": "U.S. Treasury sanctions two crypto exchanges for Iran money movement",
+      "url": "/articles/u-s-treasury-sanctions-two-crypto-exchanges-for-iran-money-movement.html"
+    },
+    {
+      "title": "Bitcoin investors pour $853 million into spot ETFs. BlackRock's IBIT claims the bulk",
+      "url": "/articles/bitcoin-investors-pour-853-million-into-spot-etfs-blackrock-s-ibit-claims-the-bulk.html"
+    },
+    {
+      "title": "Controversial Bitcoin fork BIP-110 mines two blocks, then stops",
+      "url": "/articles/controversial-bitcoin-fork-bip-110-mines-two-blocks-then-stops.html"
+    },
+    {
+      "title": "Hyperliquid's revenue decline outpaces trading boom as fee-sharing eats into token backing",
+      "url": "/articles/hyperliquid-s-revenue-decline-outpaces-trading-boom-as-fee-sharing-eats-into-token-backing.html"
+    },
+    {
+      "title": "T. Rowe Price launches active crypto ETF with dogecoin, reframes memecoins as infrastructure tests",
+      "url": "/articles/t-rowe-price-launches-active-crypto-etf-with-dogecoin-reframes-memecoins-as-infrastructure-tests.html"
+    }
+  ]
+}
