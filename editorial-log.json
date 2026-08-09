@@ -5012,5 +5012,66 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The rule takes effect January 1, 2027, under Resolution BCB No. 584/2026, according to CoinDesk's reporting.' The brief's data_point says the resolution was 'published Aug. 7' but the draft does not include this publication date, which is a material fact for understanding the timeline and newsworthiness of the story.",
+     "The draft attributes the CoinDesk reporting inline but does not attribute the Cointelegraph source URL provided in the sources list to any claim in the body, creating ambiguity about which outlet reported which fact. The brief requires traceability of all facts to their sources."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "U.S. Senate opens first stage of crypto Clarity Act voting to give bill a chance next month",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case includes 'The bill missed its window to get a vote before the Senate's summer break, leaving it in a long-shot position to get approval in September.' The draft mentions this reality only obliquely ('The bill missed its window to get a vote before the Senate's summer break, leaving it in a long-shot position to get approval in September') but buries the severity of the long-shot framing. The opening and bulk of the story emphasize the procedural filing as positioning ('sets the bill up for an initial procedural vote almost immediately after the Senate returns'), which could mislead a reader into seeing this as forward progress rather than a last-ditch effort.",
+     "The draft frames September as a genuine opportunity ('potentially clearing that initial hurdle quickly') without adequate weight to the bear_case that partisan rifts, unresolved ethics disputes, and Democratic skepticism make passage 'highly unlikely.' The bottom_line corrects this, but the body's framing is disproportionate to the evidence of obstacles in the brief."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Bitcoin, ether ETFs draw $1.1 billion in best inflow week since April, despite low volume",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes an entire paragraph of detailed intra-week flows data ('The desk's ETF flows board showed Bitcoin ETFs attracted $5.1 million in net inflows on July 28, the latest reporting date...') and a second paragraph of ether-specific flows ('Ether ETFs showed a different pattern...') plus a third paragraph of leverage and liquidation data ('The inflow timing coincided with broader market volatility...') that do not appear anywhere in the brief's data_points. These are smuggled facts not sourced to the research brief. The brief is marked 'thin: true' and contains only 3 data_points; the draft introduces at least 8 new data points (specific dollar amounts, dates, ratios, and positioning metrics) with no brief support.",
+     "The brief provides no data on 'The desk's flows board,' 'The desk's Leverage board,' OKX positioning, long-short ratios of 1.85, $1.98 billion open interest, or liquidation figures ($7.4M short vs $3.9M long). These granular market metrics cannot be traced to either The Block or Cointelegraph reporting URLs provided. The writer has introduced proprietary desk data that was never authorized by the brief."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Bitcoin Red Team says AI is finding critical exploits across core projects",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The original Decrypt article text could not be accessed for this story, limiting independent verification of the claims.' This is a meta-commentary about the reporting process, not a fact from the brief. The brief itself notes source_chars: 0, indicating empty source text, but the draft should not editorialize about access problems. The story should either report what was confirmed or spike entirely.",
+     "The entire story relies on three data_points from a source that provided zero characters of text. The draft acknowledges the source is inaccessible ('The original Decrypt article text could not be accessed'), yet still publishes claims (150 repositories, 'more than a dozen vulnerabilities', 'open-source AI platform') as if reported fact. A story built on an empty source is not a story\u2014it is a stub masquerading as coverage."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Hardware wallet sales in Russia more than double as new crypto rules near",
+    "category": "balance",
+    "reasons": [
+     "The draft states 'Neither M.Video nor Wildberries explicitly cited regulatory deadlines as the driver of the demand surge in their disclosures to CoinDesk. The connection between the sales spike and the incoming rules is inferred from timing rather than confirmed by retailer commentary.' This acknowledgment belongs in the story body, not buried at the end as a disclaimer. The lead and opening frames the hardware wallet surge as a reaction to 'tightening cryptocurrency regulations' and 'ahead of tightening cryptocurrency regulations,' but the body later admits the retailers never confirmed this motivation. The bear_case item 'Neither retailer identified the driving force behind the demand, leaving the regulatory connection inferred rather than confirmed' was not balanced into the story structure. The causal link is presented as fact in the opening, then undermined three paragraphs later. This is a balance failure: the brief's core caveat should frame the story from paragraph one.",
+     "The draft includes significant detail on the Coldcard flaw ($116M+ losses, July 30 date, firmware weakness) and hardware wallet technical risks, which is good, but this risk material comes after the regulatory narrative is already established as the frame. The bear_case risks should be weighted earlier and more prominently to balance the rush-to-buy framing."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "IMF official says domestic stablecoins could drive demand for dollar tokens",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'IMF First Deputy Managing Director Dan Katz' but the brief does not confirm the name 'Dan Katz'\u2014it only says 'IMF first deputy managing director' made statements. The name appears nowhere in the provided data_points and cannot be verified against the brief's sole source (Cointelegraph). This is a smuggled fact.",
+     "The draft presents the Cointelegraph reporting as settled fact ('An IMF official has publicly suggested') but the confidence label in the brief is 'reported', which in Cronkite protocol means the claim is single-sourced and should carry hedging language ('according to', 'as reported by'). The draft does hedge this in the second sentence ('per the outlet's account') but not in the opening claim, creating an accuracy problem.",
+     "The draft then explicitly acknowledges 'The brief does not provide direct confirmation of Katz's statement' in the third paragraph, which is a red flag: the draft is simultaneously asserting the fact and admitting it cannot trace it to the brief. This violates the hard rule that no fact exists outside the brief."
+    ]
+   }
+  ]
  }
 ]

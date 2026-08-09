@@ -1,0 +1,34 @@
+{
+  "id": "c000",
+  "slug": "controversial-bitcoin-fork-bip-110-mines-two-blocks-then-stops",
+  "kind": "brief",
+  "title": "Controversial Bitcoin fork BIP-110 mines two blocks, then stops",
+  "dek": "The BIP-110 fork attempt produced only two blocks in roughly eight hours before stalling, while the main Bitcoin chain advanced 48 blocks over the same period. The fork inherited Bitcoin's mining difficulty but had only 2.53% of hashpower, creating a 350-day recalculation window versus Bitcoin's 14-day cycle.",
+  "date": "2026-08-09",
+  "published_utc": "2026-08-09T11:05:03Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "BIP-110 fork stalled at block 961,633 after eight hours while main chain reached block 961,681, revealing the technical fragility of minority forks with insufficient mining consensus.",
+  "bottom_line": "Watch whether BIP-110 backers attempt a respin with higher mining incentives or pursue a user-activated soft fork (UASF) mechanism instead. The fork's failure to gain traction signals minimal genuine consensus for the proposal; a meaningful revival would require a substantial shift in miner or node signaling, which the brief does not show.",
+  "human_take": "",
+  "body": [
+    "The BIP-110 Bitcoin fork attempt produced only two blocks in roughly eight hours after going live, then stalled entirely. Over the same period, the main Bitcoin chain advanced 48 blocks, exposing the technical fragility of a contentious protocol proposal that fell far short of the consensus required to activate without a split.",
+    "BIP-110 aimed to temporarily ban storing non-financial data such as images and text in Bitcoin transactions for one year. Backers argued that the practice clogs the network and pushes up transaction costs for users sending money. Critics countered that anyone paying the fee has bought the right to use the space however they like, and that miners and node operators should not decide which transactions count as legitimate. The fork went live at block 961,632, per CoinDesk's reporting.",
+    "The fork faced a structural problem inherited from Bitcoin itself: mining difficulty. Bitcoin recalculates mining difficulty every 2,016 blocks, aiming to keep blocks arriving roughly every ten minutes. The BIP-110 fork inherited Bitcoin's current difficulty setting but with only 2.53% of hashpower according to two weeks of signaling data, per CoinDesk. At that hashrate, recalculating difficulty would take 350 days versus Bitcoin's 14-day cycle. The result: blocks arrived at intervals of several hours instead of ten minutes, leaving the fork chain frozen in practical terms.",
+    "The fork chain fell to block 961,633 by the time the main chain reached block 961,681, according to CoinDesk's monitoring. At the pace of the past day, the BIP-110 chain will not reach block 963,647, the signaling deadline, by the end of the two-week window, per CoinDesk's analysis.",
+    "Activation of BIP-110 required 55% of blocks signaling support without a split. Only 2.53% of blocks had signaled for it over the prior two weeks, according to CoinDesk. AntPool mined the first non-signaling block that the main network accepted but BIP-110 nodes rejected, per CoinDesk. A miner using Ocean produced the alternative block that the breakaway chain followed, according to CoinDesk's report.",
+    "Participants in the fork faced another risk: replay attacks. Both the fork chain and main Bitcoin chain still accepted identical transactions, meaning a signed transaction sending fork coins also works on Bitcoin. A buyer could rebroadcast the same transaction and collect real BTC from the same seller, per CoinDesk's analysis. The fork chain's slow block times made trading the fork coin impractical and dangerous, creating little incentive for liquidity or price discovery.",
+    "The fork's stall occurred before reaching its signaling window end, making the activation mechanism moot and leaving the minority-chain participants with an economically unviable chain and replay-attack exposure."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/08/09/controversial-bitcoin-fork-bip-110-mines-two-blocks-then-stops",
+      "url": "https://www.coindesk.com/tech/2026/08/09/controversial-bitcoin-fork-bip-110-mines-two-blocks-then-stops"
+    }
+  ],
+  "update_of": "michael-saylor-warns-bip-110-spam-filter-threatens-bitcoin-s-neutrality",
+  "also_reported_by": [],
+  "developing": true
+}
