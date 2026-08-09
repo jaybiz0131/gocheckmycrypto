@@ -5287,5 +5287,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "Brazil's central bank mandates 24-hour delays on crypto transfers abroad starting Jan. 1",
+    "category": "compliance",
+    "reasons": [
+     "boundary_ok=false indicates the advisory boundary was required but the verbatim text for 'affected' and 'fixed' fields does not appear in the source. The draft must either include a boundary section with verified verbatim language from the advisory or remove the boundary_required flag. As written, the draft cannot pass compliance review when boundary_required=true and boundary_ok=false."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Brazil implements 24-hour hold on crypto transfers to self-custody wallets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'On August 8, the central bank issued Resolution BCB No. 584/2026' but the brief's data_point shows the resolution was published on August 7, 2026. The draft also claims 'The new rule extends that delay framework specifically to self-custody withdrawals' and 'This represents Brazil's second regulatory move in 48 hours,' but the brief does not contain information about what the first move was or confirmation that these are two separate rules. The brief's open_question explicitly asks 'What is the first regulatory move mentioned in the 48-hour window?' indicating this detail is not in the source. The draft cannot make claims about sequence, causation, or whether these are related moves without that information in the brief."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Bitcoin and ether ETFs post $1.1 billion inflows in strongest week since April",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bloomberg analyst Eric Balchunas tied the inflow run to the Coldcard wallet exploit' but the brief explicitly flags this as 'reported by The Block but not independently verified in the source material.' The draft does not signal uncertainty or unconfirmed status; it presents the claim as settled fact. Per the hard rule, confidence labels must survive in prose.",
+     "The draft claims 'several Bitcoin funds have drawn inflows on a daily basis since the vulnerability came to light' but the brief has no data point confirming daily inflows tied to Coldcard; this is smuggled detail not in the brief.",
+     "The draft introduces new material ('Hardware wallet vulnerabilities, including the Coldcard flaw disclosed in late July...') that goes beyond what the brief's thin sourcing supports\u2014the brief's open_questions note the source text is empty and the brief was built from snippet alone, making this elaboration speculative."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Russian hardware wallet sales surge amid imminent cryptocurrency regulation",
+    "category": "balance",
+    "reasons": [
+     "The draft opens with 'Russian retail demand for hardware wallets accelerated sharply' and frames the story as a response to regulatory urgency, but then acknowledges mid-article that 'neither M.Video nor Wildberries identified regulation as the explicit driver of the surge.' The bear_case explicitly warns that 'causation between the regulatory timeline and demand spikes is inferred by the article but not confirmed by either company.' The draft's framing suggests causation throughout without proportionate skepticism; this is the inverse of balance\u2014it leads with inference as fact, then hedges it.",
+     "The draft states 'The timing of the sales increase aligns with the regulatory timeline, but the retailers themselves did not confirm this connection'\u2014this sentence appears buried and weakens the story's opening premise. The angle should dominate the framing, not be buried as a footnote after the lead has already claimed causation.",
+     "The brief flags that neither retailer identified the driver; the draft should open with that fact, not bury it. As written, readers infer regulatory causation from the title and opening before learning the retailers never confirmed it."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Bitcoin Red Team Says AI Is Finding Critical Exploits Across Core Projects",
+    "category": "accuracy",
+    "reasons": [
+     "Body paragraph 3 states 'The bear case is straightforward: active investigations can drag without resolution, and funds transferred before an investigation begins may carry limited post-hoc liability. Zhou has not been charged, and the investigation's scope and likely outcome remain unconfirmed.' This text does not belong in a story about Bitcoin AI vulnerabilities; it is copied from brief c008 (the World Liberty/Zhou story) and is factually irrelevant to the bitcoin security story. This is a critical draft assembly error that corrupts the story's accuracy.",
+     "The draft's entire bear case paragraph discusses Zhou, investigations, and liability\u2014none of which appear in the c014 brief's bear_case array (which is empty). The bitcoin story has no bear case articulated and should address skepticism about the vulnerability claims themselves (false positives, unconfirmed findings, lack of maintainer response), not regulatory investigations into unrelated figures."
+    ]
+   }
+  ]
  }
 ]
