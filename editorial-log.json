@@ -5113,5 +5113,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c004",
+    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Resolution BCB No. 584/2026, published August 7' but the brief data_point says 'published Aug. 7' without specifying the year 2026 in that source sentence; the draft adds a year that is not explicitly in the cited source material and cannot be verified from the brief's data.",
+     "The draft claims 'The hold is not permanent' and 'Exchanges can release a transfer before 24 hours if their risk review finds no signs of wrongdoing, according to CoinDesk.' The brief's bear_case states 'Hardware wallets do not bypass Russia's withdrawal restrictions to personal wallets that take effect July 1, 2027'\u2014this is from c003, not c004; however, the c004 brief does not contain a bear_case item addressing whether the 24-hour hold can actually be shortened in practice, making the 'not permanent' framing a premise without counter-evidence in the brief. The draft presents the early-release mechanism as fact without noting any ambiguity."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Hardware wallet sales in Russia more than double as new crypto rules near",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens: 'Hardware wallet sales in Russia surged in the months preceding the country's regulatory shift, though retailers have not confirmed what drove the demand.' This claim\u2014that retailers 'have not confirmed what drove the demand'\u2014is not in the brief's data_points. The brief's data_point 11 states 'Neither M.Video nor Wildberries identified the driving force behind renewed hardware wallet demand,' but the draft's phrasing ('have not confirmed') implies they could have but did not, whereas the brief's language ('did not identify') is neutral about whether confirmation was sought or attempted. This is a subtle semantic shift that introduces an inference not in the source material.",
+     "The draft includes 'Coinkite disclosed a Coldcard firmware flaw on July 30, 2026 that weakened seed generation, leading to estimated losses of over $116 million' but then immediately states 'Hardware wallet ownership carries technical risks that timing alone cannot mitigate.' This statement\u2014'timing alone cannot mitigate'\u2014is not in the brief; the brief's bear_case says hardware wallets 'do not bypass Russia's withdrawal restrictions' and 'do not eliminate device, backup, and seed-security risks,' but does not make the claim about mitigation timing. This is an added inference beyond the brief."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "T. Rowe Price Includes Dogecoin in Active Multi-Token Crypto ETF, Citing Network Stress Test Logic",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line includes market price data ('DOGE down 19.15% over the past 30 days and down 75.7% from its 12-month high') that does not appear in the research brief's data_points or sources. This fact was not in the brief and cannot be verified against the CoinDesk article cited. Per protocol, all facts must trace back to the brief; new information is smuggled and must be rejected."
+    ]
+   }
+  ]
  }
 ]
