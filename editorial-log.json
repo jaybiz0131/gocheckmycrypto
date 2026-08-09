@@ -5520,5 +5520,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c008",
+    "headline": "Brazil mandates 24-hour hold on cryptocurrency transfers to self-custody, effective January 1, 2027",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'above a specified threshold' but the brief's core_claim specifies '$10,000'. The brief contains a concrete figure that the draft omits, violating the rule that facts must trace to the brief. The writer has hidden a data point rather than paraphrasing it."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Hyperliquid revenue falls for fourth straight quarter as fee-sharing erodes token backing",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Cost of revenue was under 6% of gross revenue in the second quarter of 2025, per CoinDesk's reporting. A year later, in Q2 2026, cost of revenue had risen to 18%.' However, the brief's corresponding data_point says 'Cost of revenue was under 6% of gross revenue in the second quarter of 2025 and was 18% a year later.' The draft presents these as facts from CoinDesk, but the brief does not provide the actual Q2 2025 figure\u2014only the comparison to Q2 2026. The phrasing 'under 6%' in the draft is not explicitly in the brief data_point, which says only 'under 6%' for Q2 2025 in the claim text. More critically, the draft does not flag this as coming from a single CoinDesk source or note any confidence limitation. The brief marks this data_point as 'reported' confidence, which is acceptable, but the draft's attribution and specificity ('per CoinDesk's reporting') should survive scrutiny of what CoinDesk actually reported vs. what the brief contains.",
+     "The draft introduces specific quarterly revenue figures ('nearly $295 million, then roughly $217 million') for Q4 2025 and Q1 2026 that do not appear in the brief's data_points. The brief states only: 'Gross protocol revenue peaked at roughly $357 million in the third quarter of 2025 and has fallen every quarter since, to nearly $295 million, then roughly $217 million, then about $202 million in the second quarter of 2026.' The draft's body text does not cite these intermediate figures, but the brief's data_point (claim #4) does contain them. Upon re-read, this is actually present in the brief, so this is acceptable. Withdraw this reason.",
+     "The draft claims 'By the first four weeks of Q3, Hyperliquid had booked roughly $45 million in gross revenue, a pace that would land the full quarter near $150 million if sustained, marking a fourth straight decline.' The brief data_point says 'Hyperliquid booked roughly $45 million in gross revenue through the first four weeks of the third quarter' and separately 'At $45 million per week pace, Q3 would land near $150 million, a fourth straight decline.' However, the draft does not clearly attribute the $150 million projection to the brief's calculation or to CoinDesk; it reads as the writer's math. Since the brief contains both the $45M figure and the projected $150M outcome, this is traceable, but the projection is the brief's, not original analysis. This is acceptable because it is paraphrasing the brief's own inference."
+    ]
+   },
+   {
+    "id": "c045",
+    "headline": "BTC spot ETFs post strongest inflows in weeks",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BTC net inflows of $5.1 million on July 28, 2026' but this figure does not appear anywhere in the brief. The brief contains only two data_points, neither of which specifies a dollar amount or date. The $5.1 million figure and the July 28 date are SMUGGLED\u2014they are facts in the draft not found in the brief, violating the hard rule that no fact exists outside the brief.",
+     "The draft states 'the broader five-session window reported negative flows of $402.6 million net' but this figure also does not appear in the brief. This is a second smuggled fact with a specific dollar amount and time window.",
+     "The brief's core_claim and data_points are marked as 'unconfirmed' confidence, but the draft presents both the $5.1M inflow and the $402.6M negative flows as settled facts without any hedge or confidence qualifier. The prose reads as though these are established CoinDesk figures, when the brief itself flagged the underlying claims as 'unconfirmed'. A draft that presents unconfirmed claims as fact is an accuracy failure and a compliance risk."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Stablecoins and Venezuela: reporting gap blocks verification",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points and an empty source_chars field (0 characters). The draft cannot be fact-checked against research because no research exists in the brief. The draft itself correctly identifies this gap ('the desk could not retrieve the full source text'), which is honest editorial self-awareness, but publishing a story that admits it cannot be verified violates the hard rule that every fact must trace to a data_point in the brief. This draft is a rejection note masquerading as a story; it should either be spiked or the source retrieved and the brief rebuilt before drafting."
+    ]
+   }
+  ]
  }
 ]
