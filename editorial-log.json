@@ -5338,5 +5338,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "Brazil's Central Bank Orders Exchanges to Delay Large Crypto Transfers Abroad",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains boundary_required=true but boundary_ok=false, indicating that the boundary (affected/fixed/user_action) specifications do not match the source material verbatim. The draft cannot be published when boundary requirements fail validation. The desk must either verify the boundary language against the source directly or remove the boundary block before approval."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Bitcoin Red Team Reports 12+ Vulnerabilities Across 150 Repositories via AI Scanning",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points (empty array), meaning no factual claims are sourced to research. The draft contains multiple claims\u2014'scanned 150 Bitcoin repositories', 'more than a dozen vulnerabilities', 'open-source AI platform'\u2014that have no data_point support in the brief. Per hard rule, facts must trace to the brief; this draft smuggles claims outside it.",
+     "The brief's own open_questions state 'Source text is empty; no details available', confirming the source material was not ingested. Publishing a story from an empty source is a liability violation regardless of Decrypt's authority."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "US spot Bitcoin ETFs post best week since April with $1B inflows",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'marking their third-strongest weekly inflow since October 2025' but the brief's core_claim says 'third-strongest weekly performance since October 2025'\u2014different time periods. The brief says October 2025; the draft says October 2025. However, the critical issue is that the brief explicitly notes in open_questions: 'The specific dates and dollar figures for the inflows claimed to be the first and second strongest are not available in the sources.' The draft treats this ranking as fact without acknowledging the confirmation gap. The draft should flag that the 'third-strongest' claim cannot be independently verified against missing first and second-strongest data.",
+     "The draft claims 'Bitcoin trading at 63,653.85 USD as of July 29, down 1.59% over the prior seven days and 49% below its 12-month high of 124,773.51 USD' but this data does not appear in the brief's data_points or open_questions. This is smuggled market data not in the research brief.",
+     "The draft states 'No breakdown by provider is available from the sources' and 'the distribution across iShares, Fidelity, Grayscale, and other issuers remains unconfirmed' but then presents the $1B figure as settled fact without caveat. The brief's open_questions flag this gap; the draft should present the inflow number with a confidence signal matching the brief's 'thin: true' assessment."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Hardware wallet sales surge in Russia ahead of September crypto rules",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Russia's new crypto regime takes effect September 1, introducing regulated exchanges and digital depositories while maintaining a ban on domestic crypto payments.' The brief's data_point #7 specifies the regime 'allowing regulated exchanges and digital depositories, while letting some retail investors buy liquid cryptocurrencies after testing and within a 300,000-ruble annual cap per intermediary.' The draft omits the 300,000-ruble annual cap and the testing requirement for retail investors\u2014facts present in the brief but not in the draft. This is selective omission of material regulatory detail."
+    ]
+   }
+  ]
  }
 ]
