@@ -5073,5 +5073,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "Bitcoin and Ether spot ETFs recorded $1.1 billion in inflows in best week since April",
+    "category": "accuracy",
+    "reasons": [
+     "The phrase 'the confluence of the inflows and the security incident has prompted analyst commentary linking institutional buying to the disruption, though the brief does not establish whether Balchunas cited direct feedback from fund managers or inferred the connection from the timing' introduces editorial speculation and hedging about Balchunas's reasoning that is not present in the brief's data_point, which simply states he 'tied the inflows to the Coldcard wallet exploit.' The draft's epistemic qualifier ('though the brief does not establish') admits the writer is adding analysis beyond what the brief supports.",
+     "The sentence 'The desk's Leverage board recorded that Bitcoin open interest at OKX stood at 1.98 billion dollars as of July 29, with long-short positioning at 1.85 in favor of longs, indicating sustained demand for leveraged long bets alongside the spot ETF inflows' introduces a completely new data point (OKX open interest and long-short positioning) that does not appear anywhere in the brief's data_points, sources, or open_questions. This is smuggled information."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Bitcoin Red Team says AI is finding critical exploits across core projects",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Decrypt article that published these claims could not be independently verified for this story because the source text was not retrieved.' This admits the core facts cannot be traced back to the source document. The hard rule is: no fact exists outside the brief. The brief contains only three data_points (150 repos, 'more than a dozen' vulns, open-source AI platform), all marked 'reported' from Decrypt with source_chars: 0, indicating the source was never retrieved. The desk cannot approve a story built on a single inaccessible source when verification is explicitly impossible. This is an accuracy failure: the facts are smuggled in without verification."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Venezuela's sanctions are stablecoins' proof of concept",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The story's single fact comes from reporting the desk could not access for verification.' The brief contains only one data_point with source_chars: 0 and no retrieved source text. The core claim rests entirely on a source the desk never retrieved. The hard rule is: no fact exists outside the brief, and facts must trace to verified sources. A story built on an inaccessible single source cannot meet the accuracy standard. This is an accuracy failure: facts cannot be verified against the source document."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "DTCC Treasury Onchain Claim: source material unavailable for verification",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents a story about an unverified claim as though it were reportable news. The core problem is structural: the brief itself has zero data_points and explicitly marks the story as unverifiable ('source text is empty'). The draft should not exist in publishable form\u2014it reads as a meta-commentary on research failure, not a news story. The sentence 'The Blockworks article carrying this claim could not be retrieved for verification' acknowledges the story cannot be reported. Publishing this would mean running a story whose lead fact is admittedly unverified, violating the hard rule that facts must trace to the brief and the brief must have evidence. The bottom_line correctly redirects to research; the body should not exist.",
+     "No independent confirmation of any claim (DTCC announcement, Canton partnership, Lighter token launch, Treasury volumes) exists in the brief. The draft correctly identifies this but then proceeds to write the story anyway, framing unverified speculation as reportable institutional news."
+    ]
+   }
+  ]
  }
 ]
