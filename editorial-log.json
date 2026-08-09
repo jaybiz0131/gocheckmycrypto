@@ -5178,5 +5178,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
+    "category": "compliance",
+    "reasons": [
+     "The draft includes regulatory boundary information (affected, fixed, user_action) in the metadata, but boundary_ok is false with unresolved boundary_reasons. Per compliance rules, when boundary_required=true and boundary_ok=false, the draft cannot be approved until the boundary text is verified against the source advisory. The affected parties, effective date, and user action must appear verbatim in the source material before publication."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Bitcoin and Ether ETFs draw $1.1B in best weekly inflows since April",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The desk's ETF flows board showed Bitcoin ETFs attracted $5.1 million in net inflows on July 28' and 'Ether ETFs showed a divergent pattern on July 27, drawing $11.7 million in net inflows.' These specific dollar amounts, dates, and per-asset breakdowns do not appear in any data_point from the brief. The brief contains only aggregate weekly data ($1.1B combined); the daily figures and per-asset daily figures are SMUGGLED facts not sourced in the brief and must be removed or traced back to research."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Bitcoin fork BIP-110 mines two blocks in eight hours, stalls with 2.53% hashpower",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'The proposal required 55% of blocks to signal support over a two-week window to activate without splitting the network' is ambiguous and potentially misleading. The brief data point states '55% of blocks to signal support to activate without a split,' but the draft adds 'over a two-week window' as a constraint on the 55% threshold itself. The brief's separate data point clarifies 'BIP-110 nodes require all blocks to signal support over a two-week window running to block 963,647'\u2014meaning nodes require 100% signaling during that window, not 55%. The draft conflates two distinct rules and misrepresents the activation requirement.",
+     "Sentence 'With only 2.53% of hashpower behind it, the fork will not reach sufficient signaling depth to satisfy BIP-110 nodes' requirement that all blocks signal support during the window' correctly states the requirement but does not clarify that the 55% threshold was the pre-split activation rule (now irrelevant post-fork), while the current rule is 100% signaling\u2014a critical distinction the draft obscures by grouping them under a single remedial paragraph."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "SPIKE: Source material unavailable",
+    "category": "accuracy",
+    "reasons": [
+     "The draft body itself is a meta-rejection statement, not a publishable news story. It reads as internal desk communication ('This story is rejected and returned to research') rather than reporting. The source document is confirmed unavailable (source_chars: 0), making all three data points unverifiable. No facts in the draft can be traced to source material because no source material exists. Per the hard rule 'no fact exists outside the brief,' and when the brief's sources are inaccessible, the draft cannot be approved for publication.",
+     "The draft violates the core protocol: it attempts to publish an explanation of why publication is impossible rather than either (a) publishing a story with verified facts, or (b) spiking silently and returning to research. Publishing a story that says 'this story cannot be verified' is not a valid output mode."
+    ]
+   }
+  ]
  }
 ]
