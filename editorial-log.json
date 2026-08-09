@@ -5145,5 +5145,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
+    "category": "compliance",
+    "reasons": [
+     "The brief indicates boundary_ok is false with specific reasons that the affected and fixed fields do not appear verbatim in the source. The draft was flagged as boundary_required=true but boundary_ok=false, meaning the story crosses a regulatory/advisory threshold and the specific language could not be verified in the source. This is a compliance failure: the desk cannot publish a story with unverified regulatory boundaries when the brief explicitly flags the mismatch."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Russian Hardware Wallet Retail Sales Surge Ahead of September Cryptocurrency Rules",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Beginning July 1, 2027, Russian law will bar withdrawals from regulated digital depositories to personal wallets. After that date, all crypto transactions must route through regulated entities, and banks must refuse to process transactions outside that framework.' The brief data_point says 'Russian law bars withdrawals from Russian digital depositories to personal wallets, with a transition period running until July 1, 2027.' The draft inverts the timeline: the law bars withdrawals until (not after) July 1, 2027. The withdrawal restrictions end on that date, not begin. This is a material factual error about the regulatory timeline.",
+     "Draft also states the framework 'retaining the existing ban on domestic crypto payments' but the brief data_point says the framework 'retains the ban on domestic crypto payments'\u2014this phrasing correctly tracks the brief. However, the inverted July 1 date is a separate and critical accuracy failure that undermines the core regulatory narrative."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Brazil imposes 24-hour hold on crypto transfers above $10,000, effective January 1, 2027",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Brazilian authorities framed the measure as a fraud prevention control' but no such framing or statement from Brazilian authorities appears in the brief's data_points. The brief's angle attributes this framing to the writer's interpretation, not to reported statements from authorities.",
+     "The draft states 'The rule applies uniformly to all crypto assets and does not exempt stablecoins, per The Block's reporting' but the brief's data_points do not include a source statement that explicitly confirms non-exemption; only that stablecoins are covered. This reads as smuggled specificity.",
+     "The brief is marked thin=true with only 2 data_points and zero source_chars, yet the draft presents multiple unconfirmed details as fact: 'applies uniformly to all crypto assets,' 'covers all cryptocurrencies including fiat-backed stablecoins' (stated twice, reinforcing false certainty). The brief's open_questions section lists these same details as unconfirmed, and the draft's third paragraph correctly flags them as unconfirmed\u2014but the first two paragraphs present them as settled, violating the single-source rule."
+    ]
+   }
+  ]
  }
 ]

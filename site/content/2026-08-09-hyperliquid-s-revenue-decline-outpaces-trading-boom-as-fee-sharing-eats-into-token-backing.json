@@ -1,0 +1,34 @@
+{
+  "id": "c000",
+  "slug": "hyperliquid-s-revenue-decline-outpaces-trading-boom-as-fee-sharing-eats-into-token-backing",
+  "kind": "brief",
+  "title": "Hyperliquid's revenue decline outpaces trading boom as fee-sharing eats into token backing",
+  "dek": "Hyperliquid's gross protocol revenue fell 43% over four quarters to $202 million in Q2 2026 despite open interest climbing to $11 billion and the platform settling 9% of global perpetual positions. A fee-sharing model launched in October 2025 permits external developers to deploy markets and retain half of trading fees, with builder-deployed markets now representing roughly half of all volume.",
+  "date": "2026-08-09",
+  "published_utc": "2026-08-09T17:41:33Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Gross protocol revenue has declined each quarter from a peak of $357 million in Q3 2025, while builder-deployed markets grew from 2% of perp volume at the start of 2026 to roughly 50% by August.",
+  "bottom_line": "Watch for Hyperliquid's Q3 2026 revenue figures and the pace of builder-market growth to signal whether the fee-sharing model stabilizes as a sustainable architecture or accelerates toward a margin compression floor. The story inverts if the Assistance Fund's token buyback rate stabilizes relative to gross revenue, or if regulatory action against commodity perps materially curtails RWA volume. Until then, the tension between platform growth and token fundamentals remains the core watch.",
+  "human_take": "",
+  "body": [
+    "Hyperliquid's perpetual futures platform is settling roughly 9% of all global open perp positions, a climb from under 7% in late May, yet the exchange's gross protocol revenue has fallen every quarter for a year, landing at $202 million in the second quarter of 2026, according to CoinDesk's reporting. This represents a 43% decline from the peak of roughly $357 million in the third quarter of 2025. The contradiction exposes a structural risk: the platform's success is cannibilizing the earnings that underpin the HYPE token's valuation.",
+    "The revenue collapse stems from a permissionless fee-sharing architecture launched in October 2025. Hyperliquid Improvement Proposal 3 (HIP-3) permits anyone who stakes 500,000 HYPE (worth about $28 million at current prices) to deploy their own perpetual futures market on Hyperliquid's order books and retain up to half the trading fees. Builder-deployed markets were about 2% of the platform's perp volume at the start of 2026 and are now roughly half of it, per CoinDesk's data.",
+    "Open interest on Hyperliquid reached just above $11 billion on July 13, 2026, the platform's highest level in 2026, and perpetual futures volume over the past 30 days ran to nearly $178 billion. Real-world asset perps hit a record $3.6 billion in open interest in July and overtook bitcoin as the platform's largest market by that measure. Between July 13 and July 19, tokenized stocks and commodities did $25 billion in volume, 52% of the weekly total, outpacing crypto perps for the first time. Yet as volume expanded, the platform's take shrank: cost of revenue, the portion of fees Hyperliquid hands straight back to builders, market makers and its own liquidity vault, was under 6% of gross revenue in Q2 2025 and reached 18% a year later.",
+    "Trade.xyz accounts for more than 90% of all HIP-3 open interest, concentrating platform risk on a single deployer's oracle choices and margin settings. On a Monday in the week of publication, a single trade on a thin Korean pre-market venue dropped Trade.xyz's SK Hynix contract 19% and triggered liquidations the firm has since agreed to reimburse, according to CoinDesk.",
+    "Hyperliquid routes about 97% of trading fees into its Assistance Fund, which buys the token on the open market and retires it, having taken roughly 44.5 million HYPE out of circulation so far. The fund bought nearly $290 million of HYPE in Q3 2025 and roughly $149 million in Q2 2026, close to half as much. Through the first four weeks of Q3 2026, Hyperliquid booked roughly $45 million in gross revenue, a pace that would land the quarter near $150 million if sustained, a fourth straight decline.",
+    "HYPE traded near $55 on Friday of publication week, down 5% on the week and roughly 28% below the June 16 record near $77, per CoinDesk. Annualized earnings of about $785 million put the token at roughly 16 times its circulating market value and about 70 times fully diluted. Spot HYPE ETFs posted their first weekly outflow in the week to July 17, roughly $7 million, ending a nine-week inflow run. Institutional holders including Multicoin Capital and Bitwise have moved sizeable amounts of HYPE to exchanges over the past month, per CoinDesk's reporting.",
+    "Near-term pressures mount: nearly 10 million HYPE unlocked to core contributors on August 6, about $550 million at current prices, with a monthly series running through 2027 against a circulating supply of only 222 million. Singapore's MAS added the platform to its investor alert list in late June, following earlier U.K. warnings. CME and ICE executives have pushed the CFTC to review Hyperliquid's commodity perps, according to CoinDesk. Robinhood Chain, the brokerage's month-old network, has been clearing more than $600 million in daily decentralized-exchange volume on memecoin trading and now draws more daily speculative activity than Hyperliquid does, per CoinDesk's reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/08/09/hyperliquid-s-rwa-perps-boom-is-eating-into-the-revenue-that-backs-hype",
+      "url": "https://www.coindesk.com/business/2026/08/09/hyperliquid-s-rwa-perps-boom-is-eating-into-the-revenue-that-backs-hype"
+    }
+  ],
+  "update_of": "bitmex-shuts-down-after-11-years-as-perpetuals-pioneer",
+  "also_reported_by": [],
+  "developing": true
+}
