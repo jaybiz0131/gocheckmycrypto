@@ -5473,5 +5473,52 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c008",
+    "headline": "Brazil imposes 24-hour hold on crypto transfers to self-custody wallets, effective January 2027",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states the threshold is '10,000 reais, approximately equivalent to $10,000 USD' but the brief's data_point makes no USD equivalence claim. The approximate conversion is smuggled from outside the brief.",
+     "Brief flags 'boundary_required': true and 'boundary_ok': false with explicit reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft proceeds without a boundary block despite this desk flag. This violates the hard rule that a story flagged as requiring but lacking a boundary block must be rejected before publication."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Bitcoin security effort claims AI found 12+ flaws across ecosystem",
+    "category": "balance",
+    "reasons": [
+     "Brief identifies empty bear_case (no adversarial framing provided), yet draft opens with structural skepticism ('raises a structural question') and dedicates an entire paragraph to what is NOT confirmed by the source. This inverts the balance: the draft reads more cautious than the brief warrants. However, the deeper issue is that the draft correctly flags the open_questions as unresolved but does so in a way that reads as though the story itself is thin and speculative\u2014which it is. The writer should either (a) reject the story as too thin, or (b) lead with the vulnerability count and platform as the lede, not the epistemological gap. As written, the piece reads as though filing doubt rather than reporting an event. The phrase 'However, the Decrypt reporting does not specify which vulnerabilities were identified...' is a hedge that belongs in a qual section, not as the climax of a story about a security disclosure. This violates balance by making the source's silence the story rather than the claim itself."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Russian hardware wallet sales surge ahead of new crypto rules",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Russian law bars withdrawals from digital depositories to personal wallets until that date' and 'crypto transactions must route through regulated entities and banks must refuse to process transactions outside that framework' after July 1, 2027. The brief data_point reads: 'Russian law bars withdrawals from Russian digital depositories to personal wallets with a transition period running until July 1, 2027.' The distinction matters: the brief does not claim that after July 1, 2027, all crypto transactions must route through regulated entities and banks will refuse external routing. The draft has interpolated a consequence (mandatory routing + bank refusal post-July-1) that is not explicitly in the brief's data_point. This is a smuggled inference about the legal architecture after the transition deadline. The brief says the transition period expires; the draft says what must happen then. Accuracy violation: the draft went beyond the sourced claim."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Venezuela's sanctions are stablecoins' proof of concept",
+    "category": "accuracy",
+    "reasons": [
+     "Core claim in brief is 'Unable to verify: source_texts are empty' with zero data_points and thin=true. The draft presents the Venezuela stablecoin narrative as reportage ('reportedly,' 'according to Blockworks reporting') when the brief contains no verified source material to back any factual claim. The opening sentence 'Venezuela...has reportedly become a live test case' smuggles a framing (proof of concept) that does not appear in the brief's data. The entire narrative arc from 'necessity' through 'functional need' is constructed without a data point to anchor it. A thin brief with empty source_texts should produce a story that explicitly flags the reporting gap; instead, this draft reads as though Blockworks' reporting has been reviewed and validated when the brief shows the source was never obtained."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "World Liberty received $100 million from businessman investigated for money laundering",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'the desk's review of available reporting found no public disclosure indicating that World Liberty performed heightened compliance review' and 'the absence of disclosure on a compliance matter of this magnitude suggests a potential gap.' This is original analysis and a negative fact claim (that disclosure does not exist) not present in the brief. The brief contains only two data_points, both marked 'reported' confidence, and neither address whether World Liberty conducted due diligence or disclosed anything. The draft has moved from 'no public disclosure found' (desk research) to editorial inference ('suggests a potential gap between standard institutional practice'), which is synthesis not in the brief. Additionally, the draft's accusatory framing\u2014'potential gap,' 'should have disclosed,' 'high-risk funding source'\u2014exceeds what two 'reported' confidence claims support and reads as editorializing compliance liability rather than reporting facts."
+    ]
+   }
+  ]
  }
 ]
