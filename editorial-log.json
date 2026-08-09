@@ -5379,5 +5379,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c008",
+    "headline": "Brazil to mandate 24-hour hold on crypto transfers above 10,000 reais starting January 1, 2027",
+    "category": "compliance",
+    "reasons": [
+     "Metadata field 'boundary_required' is set to true and 'boundary_ok' is false, indicating the story turns on a version/date/threshold that lacks boundary block verification. The draft proceeds without noting this unresolved boundary issue, violating the desk's liability protocol for stories where regulatory details or thresholds cannot be independently confirmed."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "BIP-110 Bitcoin fork produces two blocks, stalls with 2.53% hashpower support",
+    "category": "compliance",
+    "reasons": [
+     "Metadata field 'boundary_required' is set to true and 'boundary_ok' is false, indicating the story turns on a version/date/threshold that lacks boundary block verification. The draft proceeds without noting this unresolved boundary issue, violating the desk's liability protocol for stories where technical or regulatory details cannot be independently confirmed."
+    ]
+   },
+   {
+    "id": "c059",
+    "headline": "US Spot Bitcoin ETFs Post Best Week Since April With $1B Inflows",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Best Week Since April With $1B Inflows' in title and opens with 'their strongest week since mid-April 2026' but the brief's data_point says 'best weekly inflows since April 2026'\u2014the draft adds specificity ('mid-April') not present in the source material.",
+     "Draft references 'Bitcoin itself traded near $63,653, down 1.59% over the prior seven days and 49% below its 12-month high of $124,773, per the desk's market data as of July 29' but none of these figures (price, weekly decline %, 12-month high, date) appear in the brief or its sources\u2014this is smuggled data from outside the research brief.",
+     "The draft extensively discusses internal contradictions between daily desk ETF flow figures ($5.1M inflows July 28, $402.6M five-session outflow) and the $1B weekly claim, but these daily figures do not appear in the brief and constitute original analysis/calculation not sourced to the brief."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Hardware Wallet Sales in Russia More Than Double as New Crypto Rules Near",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'M.Video hardware-wallet unit sales rose 107% in Q2 from Q1' but the brief data_point specifies this is Q2 2026 vs Q1; the draft does not clarify the year context in its opening, creating potential ambiguity about which years are being compared.",
+     "Draft omits the M.Video sales-by-value figure (92% increase in Q2 vs Q1) listed in brief data_point #2, reducing balance of the evidence presented.",
+     "Draft omits the Wildberries sales-value figure (60% increase in H1 2026 vs H1 2025) listed in brief data_point #4, again reducing the full picture of retailer performance data available in the brief."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "World Liberty received $100 million from businessman under British money-laundering investigation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft refers to 'Guren Zhou' but the brief identifies him as 'Guren \"Bobby\" Zhou'. The full name with the known alias should appear at first mention for accuracy and to match the sourced identity.",
+     "The draft states the funding source 'creates potential compliance and reputational exposure' but does not trace this characterization back to the brief's bear_case or data_points. The brief's bear_case explicitly states the exposure exists; the draft should attribute or substantiate this claim rather than advance it as independent analysis."
+    ]
+   }
+  ]
  }
 ]
