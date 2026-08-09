@@ -5430,5 +5430,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-09",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "World Liberty received $100 million from businessman under UK money-laundering investigation",
+    "category": "balance",
+    "reasons": [
+     "Bear case items present in brief are materially diluted or softened in draft. Brief bear_case states 'No public disclosures suggest World Liberty conducted enhanced due diligence or disclosed the donor's investigation status to regulators or investors prior to accepting the $100 million'\u2014a concrete compliance failure. Draft reads this as 'no public disclosure suggests' (passive observation) rather than as an affirmative due-diligence gap. The sentence 'However, no public disclosure suggests World Liberty conducted enhanced due diligence or reported the donor's investigation status to any regulator prior to accepting the funds' uses hedging language ('no public disclosure suggests') that allows readers to infer World Liberty may have done diligence privately; the brief's bear_case frames this as a disclosed compliance shortfall. This softening weakens the reputational risk signal the story should carry.",
+     "The draft speculates on hypothetical future regulatory exposure ('could face secondary compliance questions') without establishing present-tense liability or stating clearly that World Liberty accepted $100M from a person under active AML investigation without disclosed enhanced due diligence. The story reads as cautionary commentary rather than as an account of a due-diligence failure already evident. This framing would read as protective of World Liberty if the investigation yields charges."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Hyperliquid's RWA perps boom is eating into the revenue that backs HYPE",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'At the current pace, third-quarter 2026 revenue is expected to land near $150 million' but the brief data_point says 'Hyperliquid booked roughly $45 million in gross revenue through the first four weeks of the third quarter.' Four weeks into a quarter is not yet enough data to project the full quarter at $150 million without showing the math; the draft presents a projection as settled fact without attribution to a named forecast or analyst.",
+     "The draft claims 'Cost of revenue rose to 18% of gross revenue from under 6% a year earlier, per CoinDesk's reporting.' The brief states this was 'in the second quarter of 2025; a year later it was 18%.' The draft's phrasing 'a year earlier' is ambiguous and could be read as referring to one year before Q2 2026 (which would be Q2 2025), making the comparison valid, but the attribution and specificity lag the brief's precision. This is borderline but the lack of quarter-year specificity in the draft weakens accountability."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Bitcoin Red Team reports AI found critical vulnerabilities across core projects",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case array is empty, but the draft contains an entire paragraph dedicated to a bear case: 'The bear case hinges on responsible disclosure coordination. Volunteer security teams operating without formal embargo agreements with core maintainers can inadvertently trigger a race between patch development and public exploitation...' This bear case was not in the research brief and represents narrative construction by the writer rather than synthesis of provided research. The writer has inferred a reasonable concern, but the hard rule is: no fact exists outside the brief. Framing and argument scaffolding count as facts if they appear as settled analysis rather than open questions.",
+     "The draft also states 'The reported vulnerability count exceeds what typical manual audits uncover in a single review cycle, and the scale of the repository scan is broader than most third-party security assessments of Bitcoin infrastructure' without these comparative claims appearing in the brief's data_points. These are evaluative claims that may be true but do not come from the research."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Hardware wallet sales in Russia surge ahead of September crypto rules",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'M.Video recorded a 107% increase in hardware wallet unit sales from Q1 to Q2 2026' but the brief provides no data point for Q1-to-Q2 comparison; brief only confirms '107% in Q2 from Q1' (ambiguous interval). More critically, brief data_point 2 introduces 'M.Video hardware-wallet sales by value increased 92% in Q2 from Q1,' which does not appear in the draft at all\u2014the draft omits the value-side metric entirely, smuggling the selection of unit growth over value growth without disclosure of both figures.",
+     "Draft claims 'hardware wallets do not bypass Russia's withdrawal restrictions to personal wallets, which remain prohibited until July 1, 2027' but then states 'After that date, all crypto transactions must route through regulated entities and banks must refuse to process transactions outside the framework.' This conflates two separate restrictions (depository-to-personal-wallet withdrawals vs. all-transaction routing) without clarity on whether hardware wallets become fully prohibited post-July 1 or merely constrained. Brief data_point 12 on withdrawal bans and data_point 8 on post-July-1 routing are distinct; draft merges them ambiguously.",
+     "Draft presents the Coldcard flaw as a reason to doubt hardware wallet security going forward, but the brief does not provide a direct causal link between the flaw and the sales spike\u2014only that it introduces 'risk.' The draft's placement of the vulnerability in the same sentence as 'The surge in Russian hardware wallet sales reflects timing alignment' reads as though the flaw is part of the causal story, when the brief's structure treats it as a separate bear_case risk factor, not a explanation for the surge itself."
+    ]
+   }
+  ]
  }
 ]
