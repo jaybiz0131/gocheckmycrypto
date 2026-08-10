@@ -5787,5 +5787,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c041",
+    "headline": "Brazil's $319B Crypto Market Faces October Licensing Deadline",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CoinDesk has not independently verified the regulatory authority or the specific entities affected' but this sentence appears nowhere in the brief's data_points, open_questions, or bear_case. This is a smuggled editorial judgment not sourced to the research brief.",
+     "The phrase 'crypto advocates argue that custody delays...may drive users toward unregulated offshore platforms' is not in the brief's bear_case. The bear_case only states that the delay 'reduces user access to their own assets and adds friction to the market.' The offshore platforms claim is new inference, not reported fact."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "UK's FCA to regulate tokenized gold in wholesale markets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Simon Walls, executive director of markets at the FCA, stated in CoinDesk's reporting: \"Tokenization has the potential to transform wholesale markets, reshaping how assets are issued, traded and settled.\"' This quote is attributed to Simon Walls in the brief's data_point as a direct quote from CoinDesk, but the draft presents it without attribution to CoinDesk or clarification of its source within the quote itself\u2014it reads as a standalone quote from Walls to the draft's author rather than a quote that CoinDesk obtained and reported. The attribution must be explicit inline: the fact that this quote came from CoinDesk's reporting must be clear in the prose."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "Ethereum roadmap elevates quantum resistance and privacy to first-class priorities",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case identifies four significant risks: (1) deep uncertainty and potential delays in execution engine design; (2) VDFs deprioritization removing a security mechanism without explicit replacement; (3) EVM demotion causing ecosystem fragmentation and forcing developer migration; (4) post-quantum signatures creating larger storage/bandwidth overhead. The draft touches the first issue lightly in the final paragraph ('significant uncertainty and potential delays') but entirely omits the second, third, and fourth bear cases. The draft presents the roadmap shift as strategic recalibration without substantive discussion of the technical risks and ecosystem disruption the brief flagged. A reader would not understand from this draft that deprioritizing VDFs removes a security mechanism, that demoting the EVM could force migration of millions of contracts, or that post-quantum signatures carry material overhead\u2014all documented in the brief. This imbalance understates the stakes."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "Standard Chartered initiates LINK coverage with $200 price target by end-2030",
+    "category": "compliance",
+    "reasons": [
+     "Title frames '$200 price target' as a factual anchor without qualification. This reads as a price prediction being presented as settled fact and could be interpreted as investment guidance. The target should be framed as 'Standard Chartered projects' or 'targets,' with clear attribution that this is the bank's thesis, not market consensus.",
+     "Phrase 'Chainlink's current price and positioning relative to the $200 target depend on adoption trajectories' invites readers to evaluate an entry point by comparison to the bank's target\u2014a compliance edge case that should be removed or reframed neutrally."
+    ]
+   }
+  ]
  }
 ]
