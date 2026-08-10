@@ -5688,5 +5688,53 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "UK's FCA Drafts Rules for Tokenized Gold to Defend London's Trading Dominance",
+    "category": "balance",
+    "reasons": [
+     "Bear case item ('FCA tokenization effort is not linked to a specific retail use case, suggesting limited immediate consumer impact') appears only in a single sentence buried at the end of the body ('The bear case, per the brief, centers on...') rather than integrated into the narrative. This reads as a checkbox insertion rather than a substantive counterweight to the regulatory momentum framing. The draft emphasizes competitive urgency, economic projections, and FCA confidence without letting the bear case\u2014that this is wholesale-only with no immediate consumer application\u2014shape the reader's sense of scope or impact proportionately."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Coinsbuy Exchange Hit by $8.07M Coordinated TRON-Ethereum Attack; Vector Unknown",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Coinsbuy's claims ('all affected amounts have been covered in full by the company from its own reserves,' 'No client has borne any loss,' and 'The platform is stable and operating normally') as announced-not-verified in the brief, but the draft presents them as settled fact in the body without qualification. The sentence 'Coinsbuy announced that the incident has been \"contained\" and that \"all affected amounts have been covered in full by the company from its own reserves.\" The exchange also stated: \"No client has borne any loss. The platform is stable and operating normally.\" These claims are announced by Coinsbuy and have not been independently verified.' does include a weak attribution at the end, but the preceding three sentences present the claims as statement of fact, not announcement-pending-verification. Confidence labels must survive in prose."
+    ]
+   },
+   {
+    "id": "c097",
+    "headline": "Ethereum Products Lead $600M Crypto ETP Rebound in July, Despite Bitcoin's Volume Dominance",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'The desk's ETF flows board showed the desk's own data: U.S. spot ether ETF net inflows stood at $53.1 million on Aug. 4...' introduces internal desk data that does not appear in the research brief's data_points. The brief attributes these daily flow figures to 'The Defiant / Farside Investors' but the draft text claims this is 'the desk's own data,' which smuggles a new sourcing claim and conflicts with the brief's attribution. This sentence must either be removed or reattributed cleanly to Farside Investors without the 'desk's own data' framing."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "H100 Triples Bitcoin Holdings to 3,506 BTC Through Equity-Financed Acquisition",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims H100 is 'one of Europe's largest corporate Bitcoin holders' but brief states it is 'Europe's number-two Bitcoin holder.' These are materially different claims; 'number-two' is a specific ranking, 'one of the largest' is vague and weaker. The draft softens a precise data point from the brief.",
+     "Draft states 'The specific identity of the acquisition target, its prior Bitcoin holdings, and the precise ranking of Bitcoin holders H100 is approaching are not detailed in the available reporting' but the brief explicitly claims H100 is 'Europe's number-two Bitcoin holder,' which is a precise ranking. The draft contradicts its own brief by saying the ranking is undetailed when the brief provides it."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "Bybit Sues North Korea Over $1.5B Hack, Wins Asset-Freeze Order",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The $48.4 million recovered and $30.5 million frozen represent 5.2 percent of the $1.5 billion stolen' but this math is incorrect: ($48.4M + $30.5M) / $1,500M = 5.27%, which rounds to 5.3%, not 5.2%. More critically, the brief's bear_case explicitly states 'Recovery is only 3.2% of the total loss ($48.4M of $1.5B)', suggesting the $30.5M frozen should not be counted as recovered. The draft conflates frozen assets with actual recovery, misrepresenting the asset-freeze order's actual outcome.",
+     "Draft claims the bear_case says recovery is '5.2 percent' but the brief's bear_case explicitly contradicts this by stating recovery is '3.2%' of total loss ($48.4M alone). The draft must either use the brief's figure or flag the discrepancy; instead it presents an unsourced calculation as fact."
+    ]
+   }
+  ]
  }
 ]
