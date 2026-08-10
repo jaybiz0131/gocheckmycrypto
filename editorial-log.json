@@ -5562,5 +5562,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "Bitcoin rallies to $65,209 on Iran-Oman Strait of Hormuz deal talk",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'FET adding 2.10% after weeks of underperformance' in the NEAR protocol paragraph, but this data point does not appear in the brief's data_points list. The brief mentions 'NEAR protocol gained 3.79% as AI tokens broadly recovered' but includes no FET figure or timeline ('weeks of underperformance'). This is smuggled information not present in the research brief.",
+     "The claim about the $68,000 to $72,000 band being 'seen as the next pivotal level' appears in the draft body but is not explicitly stated in the brief's data_points; the brief only mentions 'BTC breaking out of its current range' as a condition for altcoin rotation. The specific price band is an inference not directly sourced."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Bybit wins asset freeze in North Korea hack lawsuit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bybit has recovered $48.4 million of the stolen funds and frozen an additional $30.5 million' and later calculates 'Of the original $1.5 billion stolen, $78.9 million has been recovered or frozen.' This arithmetic ($48.4M + $30.5M = $78.9M) is correct, but the brief contains only five data_points, none of which specify that Bybit recovered AND frozen these amounts as separate figures. The brief's data_points say Bybit 'recovered $48.4 million' and 'frozen $30.5 million' but do not state these are both attributable to the same lawsuit or that they sum to the total recovered/frozen. The draft treats the two as confirmed separate achievements of the lawsuit; the brief does not establish both came from the court order. This is a potential smuggling of a combinatorial claim.",
+     "The draft states 'the lawsuit brought by a cryptocurrency platform against a state actor, a rare precedent in cross-border crypto theft litigation' as though this is a settled fact from the brief. The brief's core_claim and angle do mention 'lawsuit against North Korea' and 'enforcement victory,' but the brief's open_questions include 'Are there other defendants or entities named in the lawsuit beyond North Korea?'\u2014suggesting the scope and structure of the lawsuit are not fully confirmed. The draft should flag this ambiguity rather than presenting 'lawsuit...against a state actor' as definitive."
+    ]
+   },
+   {
+    "id": "c067",
+    "headline": "Australia suspends Cryptolink Bitcoin ATM operator over AML reporting failures",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Cointelegraph's reporting notes that Cryptolink was previously fined 56,340 dollars' but the brief marks this data_point with confidence 'reported', not verified. The draft presents this as a settled fact without qualification, when the brief's confidence label signals it comes from Cointelegraph reporting alone and should be attributed inline with appropriate caution given the thin source base.",
+     "The draft asserts 'Regulators in multiple jurisdictions have moved against ATM providers over the past two years' without citing a data_point in the brief. This claim is smuggled; it does not appear in the brief's data_points and violates the rule that facts must trace to research.",
+     "The draft acknowledges 'the source text was not retrieved for independent review' in the final paragraph, but then earlier presents the three core claims (suspension, fine amount, 'basic reporting' framing) as established fact without flagging that they rest on an inaccessible source. The bear_case notes 'only the headline and snippet are available for verification,' which should have forced either the suspension of this draft or explicit hedging in the prose (e.g., 'according to Cointelegraph's reporting, which the desk did not independently access')."
+    ]
+   }
+  ]
  }
 ]

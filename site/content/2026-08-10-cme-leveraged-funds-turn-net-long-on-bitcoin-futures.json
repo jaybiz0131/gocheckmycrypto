@@ -1,0 +1,31 @@
+{
+  "id": "c003",
+  "slug": "cme-leveraged-funds-turn-net-long-on-bitcoin-futures",
+  "kind": "brief",
+  "title": "CME leveraged funds turn net long on bitcoin futures",
+  "dek": "Hedge funds on CME have shifted from structural short positions to net long bitcoin futures for the first time in years, abandoning basis-trading arbitrage as yields on the trade collapsed below Treasury rates. The shift signals renewed bullish positioning among major institutional traders.",
+  "date": "2026-08-10",
+  "published_utc": "2026-08-10T11:32:23Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "Leveraged funds on CME are now net long bitcoin futures, a rare flip from years of structural shorts driven by basis trading, as the three-month futures basis fell to 3% versus 3.8% Treasury yields.",
+  "bottom_line": "Watch for sustained positioning data from CME to determine whether leveraged funds remain net long or if the move is temporary. A persistent shift would signal a meaningful change in institutional conviction; rapid reversion to shorts would suggest the move was tactical rather than directional. The basis trade's collapse removes an old structural constraint on how hedge funds position, but does not guarantee bullish outcomes without evidence of follow-through buying.",
+  "human_take": "",
+  "body": [
+    "Leveraged funds on CME have shifted to net long bitcoin futures for the first time in years, abandoning a structural short position that had persisted through basis-trading arbitrage, according to CryptoQuant CEO Ki Young Ju in reporting by CoinDesk.",
+    "The basis trade, which profits from the premium of futures over spot prices, has historically locked institutional hedge funds into net short positions on CME. Traders would buy spot bitcoin or bitcoin ETFs while simultaneously selling futures contracts, locking in the difference between the two prices as carry profit. That strategy required sustained short exposure on futures.",
+    "The trade has become uneconomical. The annualized three-month bitcoin futures basis has fallen to approximately 3 percent, according to CoinDesk's reporting, below the 3.8 percent yield available on two-year U.S. Treasury notes. Basis traders have unwound positions as bitcoin rebounded from around $58,000 on July 1 to above $65,000, and the lower carry returns combined with funding, margin, and execution risks have made the trade structurally less attractive.",
+    "With carry profits no longer offsetting the cost of holding shorts, hedge funds face a choice: exit the market or take outright directional exposure. The net-long flip indicates funds are now betting on bitcoin appreciation rather than extracting mechanical arbitrage returns. \"You cannot run a traditional carry trade with an aggregate net-long futures position,\" Ki Young Ju stated in CoinDesk's reporting. \"The suits are now betting on bitcoin's upside.\"",
+    "The basis trade was never a pure expression of institutional conviction on bitcoin's price direction. Its collapse as a viable strategy removes a structural headwind that had kept major derivatives players consistently short. Whether the shift to net long reflects new bullish conviction or simply the rational unwinding of an arbitrage that no longer pencils remains an open question."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/markets/2026/08/10/a-rare-cme-shift-hedge-funds-abandon-structural-shorts-to-bet-on-a-bitcoin-rally",
+      "url": "https://www.coindesk.com/markets/2026/08/10/a-rare-cme-shift-hedge-funds-abandon-structural-shorts-to-bet-on-a-bitcoin-rally"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": true
+}
