@@ -1,0 +1,50 @@
+{
+  "id": "wrap-am-2026-08-10",
+  "slug": "morning-brief-2026-08-10",
+  "kind": "brief",
+  "title": "The Morning Brief: ETF Inflows Return, But the Weekly Trend Still Lags",
+  "dek": "Bitcoin spot ETFs logged $853.54 million in net inflows for the week ended August 7, 2026, their strongest weekly total since mid-April, even as the funds remain $4.5 billion in the red year-to-date.",
+  "date": "2026-08-10",
+  "published_utc": "2026-08-10T12:37:53Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The week of August 7 produced the strongest ETF inflow week in four months, but bitcoin is still down 1.6% over the past 7 days per the desk's boards, and the CME futures market shows leveraged funds flipping net long for the first time in years, a structural shift the desk's boards do not yet confirm with sustained price follow-through.",
+  "bottom_line": "Bitcoin spot ETFs recorded $853.54 million in net inflows for the week ended August 7, 2026, their strongest week since mid-April, though the funds remain $4.5 billion in the red for the year, per the desk's reporting. CryptoQuant's CEO told the desk that leveraged funds on CME have turned net long bitcoin futures for the first time in years as the basis trade's profitability collapsed, while the desk's own boards show bitcoin down 1.59% over the past 7 days and $65.01 million in net bitcoin value moving onto exchanges over the past 48 hours. Elsewhere, a minority Bitcoin fork called BIP-110 stalled after two blocks, Hyperliquid's revenue kept falling even as its market share grew, and Coinsbuy lost $8.07 million to a cross-chain attack whose mechanism remains unexplained. Coming days will show whether the ETF inflow week holds up in subsequent prints and whether Hyperliquid's third-quarter results clarify its revenue trajectory.",
+  "human_take": "",
+  "body": [
+    "The week's most concrete fact is a number with a footnote attached: Bitcoin spot ETFs took in $853.54 million in net inflows for the week ended August 7, 2026, the strongest weekly total since mid-April, according to the desk's reporting. BlackRock's IBIT accounted for $693 million of that sum. But the same reporting notes that year-to-date, the funds remain roughly $4.5 billion in the red, a reminder that one strong week follows months of redemptions tied to bitcoin's 33% first-half decline. The desk's own ETF-flows board shows the most recent daily print, for August 7, at $101.7 million in net inflows, with the last five sessions summing to $865.3 million and five consecutive days moving in the same direction, broadly consistent with the weekly figure reported.",
+    "Elsewhere, the day's stories describe a market testing its own structure rather than its price. A minority Bitcoin fork called BIP-110, aimed at temporarily banning non-financial data in transactions, mined only two blocks in eight hours before stalling at block 961,633, while the main chain advanced 48 blocks over the same window, according to the desk's reporting. The fork controlled just 2.53% of hashpower, leaving it with a 350-day difficulty-recalculation window versus Bitcoin's normal 14 days, a technical detail the reporting says exposed how far the effort fell short of the consensus needed to activate cleanly.",
+    "On the institutional side, T. Rowe Price, which manages $1.9 trillion, launched an actively managed multi-token ETF called TKNZ in July, holding roughly 60% in BTC and ETH with a 1.26% dogecoin allocation that the fund's digital-assets head frames as a stress test of network infrastructure rather than speculation, per the desk's reporting. Separately, CryptoQuant's CEO told the desk that leveraged funds on CME have flipped to net long bitcoin futures for the first time in years, abandoning the structural short positions tied to basis-trade arbitrage as the three-month futures basis fell to 3% against a 3.8% Treasury yield.",
+    "Not every story this week was about growth. Hyperliquid's gross protocol revenue has fallen every quarter for a year, down 43% to $202 million in the second quarter, even as the platform now settles about 9% of global perpetual futures open interest, according to the desk's reporting. The decline traces to a fee-sharing architecture that lets external developers deploy markets and keep half the fees, with builder-deployed markets rising from 2% of volume in January to roughly half by August, a dynamic the reporting frames as platform growth cannibalizing the token's underlying economics. And Coinsbuy lost $8.07 million on August 9 in a coordinated attack across TRON and Ethereum using the Bridgers cross-chain swapper, beginning with a 5 USDT test transaction before draining eight TRON wallets and three Ethereum wallets; the exchange refilled the drained wallets within 24 hours, and the desk's reporting says researchers have not yet established the specific attack mechanism.",
+    "On why these threads moved together, the reporting is direct where it can be and silent where it can't. The ETF inflow uptick followed a weak jobs report and shifting Fed expectations, per the desk's coverage, though whether that single week reflects a durable shift in institutional demand or a one-off data point is a question the reporting leaves open. The CME futures flip is attributed to the collapse of the basis trade's profitability, not to a broader bullish catalyst the reporting names. The BIP-110 and Hyperliquid stories are each attributed to structural and consensus mechanics within their own systems, not to any single external driver.",
+    "The desk's boards show a market that has not caught up to the ETF headline. Bitcoin trades at $63,653.85, down 0.34% over 24 hours and down 1.59% over the past 7 days, with the Fear and Greed Index at 30, within its 22-to-33 range of the past 30 days. The Whale Watch board shows $65.01 million in net bitcoin value moving onto exchanges over the past 48 hours, almost entirely into Binance, a flow that leans toward selling pressure rather than accumulation. OKX funding for BTC remains modest at 0.63% over eight hours, annualizing to 6.8%, with a long-short ratio of 1.14, a slight long lean but not an extreme one. Together, the boards describe a market in a holding pattern even as the ETF and futures-positioning stories point toward renewed institutional interest.",
+    "Looking ahead, the desk's regulatory tracking lists several checkpoints without dates confirmed here for BIP-110 or MiCA, so no near-term date can be named for either. The CLARITY Act and the related Executive Order carry stated dates of September 1, 2026, and January 1, 2027, from the desk's prior coverage. South Korea's crypto tax measure has a stated effective date of January 1, 2027. Watchers of the ETF story should track the next several weeks of daily and weekly flow data to see whether the August 7 week holds or reverts toward the year's net-outflow trend, and watch for Hyperliquid's third-quarter revenue figures as a test of whether its fee-sharing model stabilizes or continues compressing."
+  ],
+  "sources": [
+    {
+      "title": "Bitcoin investors pour $853 million into spot ETFs. BlackRock's IBIT claims the bulk",
+      "url": "/articles/bitcoin-investors-pour-853-million-into-spot-etfs-blackrock-s-ibit-claims-the-bulk.html"
+    },
+    {
+      "title": "Controversial Bitcoin fork BIP-110 mines two blocks, then stops",
+      "url": "/articles/controversial-bitcoin-fork-bip-110-mines-two-blocks-then-stops.html"
+    },
+    {
+      "title": "Hyperliquid's revenue decline outpaces trading boom as fee-sharing eats into token backing",
+      "url": "/articles/hyperliquid-s-revenue-decline-outpaces-trading-boom-as-fee-sharing-eats-into-token-backing.html"
+    },
+    {
+      "title": "T. Rowe Price launches active crypto ETF with dogecoin, reframes memecoins as infrastructure tests",
+      "url": "/articles/t-rowe-price-launches-active-crypto-etf-with-dogecoin-reframes-memecoins-as-infrastructure-tests.html"
+    },
+    {
+      "title": "CME leveraged funds turn net long on bitcoin futures",
+      "url": "/articles/cme-leveraged-funds-turn-net-long-on-bitcoin-futures.html"
+    },
+    {
+      "title": "Coinsbuy loses $8.07 million in coordinated two-blockchain attack",
+      "url": "/articles/coinsbuy-loses-8-07-million-in-coordinated-two-blockchain-attack.html"
+    }
+  ]
+}

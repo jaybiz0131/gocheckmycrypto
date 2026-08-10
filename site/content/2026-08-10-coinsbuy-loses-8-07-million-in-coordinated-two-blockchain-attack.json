@@ -1,0 +1,33 @@
+{
+  "id": "c001",
+  "slug": "coinsbuy-loses-8-07-million-in-coordinated-two-blockchain-attack",
+  "kind": "brief",
+  "title": "Coinsbuy loses $8.07 million in coordinated two-blockchain attack",
+  "dek": "An attacker drained $8.07 million from Coinsbuy on August 9, 2026, in a coordinated assault across two blockchains using the Bridgers cross-chain swapper. The attacker began with a test 5 USDT transaction, then emptied eight TRON wallets of 6.04 million USDT and three Ethereum wallets of 1.89 million USDT and 77 ETH. Coinsbuy refilled the drained wallets within 24 hours, suggesting researchers believe private keys were not compromised.",
+  "date": "2026-08-10",
+  "published_utc": "2026-08-10T12:31:14Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "$8.07 million stolen from Coinsbuy across TRON and Ethereum in under an hour via Bridgers cross-chain swapper on August 9, 2026.",
+  "bottom_line": "Researchers have not established the specific attack mechanism, leaving open whether the same vector could affect other exchanges using similar cross-chain or custody infrastructure. Watch for Coinsbuy's official explanation of how the withdrawal paths were accessed and what operational changes have been implemented. If the vulnerability traces to Bridgers or another shared service, broader industry impact becomes material.",
+  "human_take": "",
+  "body": [
+    "An attacker drained $8.07 million from Coinsbuy across TRON and Ethereum in under an hour on August 9, 2026, according to CoinDesk's reporting. The assault exposed a novel cross-chain attack vector that bypassed custody controls without compromising private keys, raising questions about how the attacker accessed withdrawal paths on a major exchange.",
+    "The breach unfolded in two coordinated phases across separate blockchains. The attacker opened with a 5 USDT test transaction, then emptied eight TRON wallets of 6.04 million USDT. On Ethereum, three wallets were drained of 1.89 million USDT and 77 ETH. Cross-chain swapper Bridgers linked the two operations, per CoinDesk: its Ethereum payout contract sent funds directly into the Ethereum swap wallet, creating a single coordinated attack despite the blockchain separation.",
+    "After draining the wallets, the attacker routed approximately 79% of the stolen funds through instant exchange FixedFloat using roughly 50 single-use addresses, according to CoinDesk's analysis. When contacted by Specter Investigations, ChangeNOW froze a six-figure sum of the outflow. Approximately 282 ETH (roughly $542,000) across five addresses remains unmoved as of the reporting date.",
+    "Coinsbuy refilled the drained wallets within 24 hours to within 0.05% of their pre-attack balances, per CoinDesk. That rapid restoration behavior indicates researchers believe the team does not believe private keys were compromised, suggesting the vulnerability lay in withdrawal access logic rather than key exposure.",
+    "The incident marks a significant security breach for a major exchange. Through late July 2026, the industry had seen roughly $972 million stolen across the sector, according to CoinDesk's reporting. Coinsbuy has not issued a public statement about the breach, the recovery timeline, or the specific attack vector.",
+    "The speed of the assault, under an hour across two blockchains, and the use of a legitimate cross-chain service to coordinate it raise questions about whether the vulnerability exists in Coinsbuy's infrastructure, in Bridgers, or in a third-party service they share with other platforms. Those details remain unresolved."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/08/10/crypto-exchange-coinsbuy-loses-usd8-million-in-coordinated-two-blockchain-attack",
+      "url": "https://www.coindesk.com/business/2026/08/10/crypto-exchange-coinsbuy-loses-usd8-million-in-coordinated-two-blockchain-attack"
+    }
+  ],
+  "update_of": "clarity-act-faces-slim-odds-of-pre-recess-passage-as-majority-leader-signals-timing-crunch",
+  "also_reported_by": [],
+  "developing": true
+}

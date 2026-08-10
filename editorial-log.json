@@ -5596,5 +5596,57 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c022",
+    "headline": "Brazil mandating 24-hour holds on crypto transfers to self-custody wallets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the regulation is 'effective January 1, 2027' as fact, but the brief's data_point only confirms 'New rule takes effect on Jan. 1, 2027' with confidence label 'reported'\u2014meaning it comes from secondary reporting. The brief contains five open_questions about critical unconfirmed details (threshold amount, regulatory agency, enforcement mechanism, scope, exemptions), but the draft presents implementation as settled law with 'is implementing a new regulation requiring a 24-hour wait' and 'is set in law with a firm effective date' in the bottom_line. This reads as more certain than the brief supports. The draft should flag that the effective date itself comes from reporting, not official regulatory text.",
+     "The draft claims 'the rule covers cryptocurrencies including fiat-backed stablecoins' as fact. This data_point is marked 'reported' confidence, meaning it is secondary reporting. The brief's open_questions list makes clear the specific coverage\u2014threshold amounts, asset types, scope of applicability\u2014are unconfirmed. The draft should either flag this as reported-but-unconfirmed or attribute it inline to The Block."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "UK's FCA drafting rules for tokenized gold as wholesale collateral",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes a paragraph about gold prices ('The price of gold reached an all-time high of roughly $5,595 a troy ounce in January, but it has since slipped and is currently priced at about $4,340') that does not appear in any data_point in the brief. This is a smuggled fact\u2014it exists in the CoinDesk source but the brief did not extract it as a data_point, meaning the writer added it beyond the research boundary. This violates the hard rule: 'no fact exists outside the brief.'",
+     "The draft quotes Simon Walls as saying 'Tokenization has the potential to transform wholesale markets, reshaping how assets are issued, traded and settled' and then immediately states 'That view is not universal: the FCA had not responded to CoinDesk's request for further comment at press time, indicating uncertainty about how publicly the agency intends to back the tokenized gold project at this stage.' The brief's bear_case item is: 'The FCA had not responded to CoinDesk's request for further comment at press time, indicating the agency may not be ready to fully publicize or confirm details of its tokenized gold framework.' The draft's interpretation\u2014'indicating uncertainty about how publicly the agency intends to back the tokenized gold project'\u2014goes beyond the brief's stated reasoning and imports a motivational inference ('intends to back') not supported by the data point. The bear_case says the lack of response indicates lack of *readiness to publicize*, not strategic ambivalence about backing the project."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "MicroStrategy sells 1,690 BTC, raises $653M via stock sale",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'MicroStrategy sold 1,690 bitcoin for $108.6 million' but then states the sale price was '$64,262 per coin net of fees.' Math check: 1,690 \u00d7 $64,262 = $108,603,380, which rounds to $108.6 million. However, the brief's data_point says 'The 1,690 bitcoin were sold at an average price of $64,262, net of fees and expenses' without explicitly stating total proceeds. The draft presents $108.6 million as fact, but this is derived math, not a stated data point in the brief. The brief lists it as a data point ('Strategy sold 1,690 bitcoin for $108.6 million') so this is actually fine. RETRACTED.",
+     "Draft claims 'The divestment thus crystallizes per-coin losses of roughly $11,123 on the sold portion, according to the math embedded in CoinDesk's reporting.' This is calculated as $75,385 - $64,262 = $11,123. While the brief's bear_case states 'Sale occurred at $64,262 average price per BTC, below the $75,385 average acquisition price, crystallizing losses of approximately $11,123 per coin on the sold portion,' the draft attributes this to 'math embedded in CoinDesk's reporting.' This is a subtle but important distinction: the draft implies CoinDesk performed and reported the calculation, but the brief does not state CoinDesk explicitly framed it this way. The draft should either attribute to the brief's bear_case framing or qualify as the writer's own math. As written, it misattributes the source of the analysis."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Bitcoin ETFs attract $853M in week's largest inflow since April",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case includes 'Analysts are split on whether the return of institutional money marks a genuine turn,' but this claim does not appear in the draft. The draft acknowledges the year-to-date deficit and notes that 'one week of capital return does not signal sustained conviction,' but it does not surface the fact that analyst opinion itself is divided. This omission flattens a key risk element and makes the cautionary stance appear editorial rather than evidence-based.",
+     "The draft states 'Daily inflow totals shrank as the week wore on, CoinDesk reported, suggesting momentum may be cooling.' The brief's bear_case notes 'Daily inflow totals shrank as the week wore on, suggesting momentum may not be sustaining,' but the draft's language ('may be cooling') is weaker and more speculative than the brief's framing. This is a minor balance issue but worth noting: the draft softens an evidential claim from the bear_case."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Bitcoin Rises to $65,209 as Iran-Oman Talks on Strait of Hormuz Lower Geopolitical Risk",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Worldcoin (WLD), which posted a 13% gain over 24 hours but remains down 91% from its record high one year ago' \u2014 but the brief data_point says 'remains in a deep downtrend, down 91% from its record high one year ago' with no mention of a 13% 24-hour gain. The 13% figure is not in the brief and appears smuggled.",
+     "Draft lists specific altcoin prices and movements (ENA $0.0907, NEAR 3.79%, FET 2.10%) that are presented as fact but the brief data_point only mentions 'selected coins showed recovery' without these specific figures. These precise price points should trace back to the source but are not explicitly confirmed in the brief's data_points.",
+     "Draft states 'Lighter (LIT), which slipped 0.94%, extending losses after a July rally exceeding 200%' \u2014 the brief says 'one of the only notable altcoins in the red as its slide following July's 200%-plus rally continues to grind lower' but does not specify the 0.94% figure in the data_point."
+    ]
+   }
+  ]
  }
 ]
