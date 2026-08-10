@@ -5736,5 +5736,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "UK's FCA drafts rules for tokenized gold to protect London's market share",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes two facts about gold prices ('The price of gold reached an all-time high of roughly $5,595 a troy ounce in January' and 'Gold is currently priced at about $4,340 a troy ounce') that appear in the brief's data_points but are never mentioned or traced in the body text. These figures are smuggled into the brief but not into the draft itself\u2014a reversal of the smuggling problem, but still a failure to use material from the research. More critically, these price points are unrelated to the core story about FCA tokenized gold rules and read as padding. The draft should either integrate them with attribution or the brief should not include them."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "Brazil plans 24-hour delay on crypto self-custody transfers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the withdrawal delay is part of a broader regulatory framework' and references 'an October licensing deadline for crypto platforms operating in Brazil,' but the brief contains no data_point for an October licensing deadline. The only mention in the brief is in open_questions ('What is the October licensing deadline mentioned in why_it_matters and how does it relate to the January 2027 implementation?'), which confirms this fact was never established in the source material. The draft smuggled this claim without research backing.",
+     "The draft correctly flags uncertainty about enforcement mechanism and exemptions, but those qualifications do not cure the missing sourcing for the October deadline claim."
+    ]
+   },
+   {
+    "id": "c035",
+    "headline": "World Liberty received $100M from businessman under investigation for money laundering",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'World Liberty, a crypto venture affiliated with former President Donald Trump' but the brief does not contain this characterization. The brief refers to it only as 'a Trump-affiliated crypto entity,' which is present in the brief's angle. However, the term 'affiliated with' in the draft could be interpreted as stronger than what the reporting supports. More critically, the draft describes World Liberty only as 'a crypto venture' in the opening without the Trump affiliation stated there\u2014this phrasing choice creates ambiguity about what fact is being sourced where.",
+     "The draft states 'according to reporting by The New York Times as cited by The Block' but the brief's data points attribute all claims to The Block only, not to the New York Times directly. The attribution structure in the draft implies the writer accessed the NYT reporting; the brief shows only Block reporting. This creates a sourcing claim not present in the brief."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "H100 Acquires 2,455 BTC, Raising Total Holdings to 3,506 BTC via Share Issuance",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The acquisition more than triples H100's prior bitcoin holdings' but the brief explicitly flags this as an open question: 'What was H100's bitcoin holding before the acquisition (the headline says holdings \"more than triples\" but the exact pre-acquisition amount is not stated in available source text)?' The draft converts an unconfirmed inference into a stated fact without a confirmed data point.",
+     "The draft introduces unreported detail: 'H100's use of equity issuance as the acquisition vehicle, rather than debt or existing cash, carries implications for shareholder dilution that the brief does not specify.' This is editorial inference, not a fact from the brief. The brief does not report that H100 chose equity over debt or cash; it only reports that equity was used.",
+     "The fourth paragraph beginning 'The Block's reporting does not disclose...' is appropriate candor about gaps, but it appears after the draft has already stated unconfirmed claims as fact, making the structure misleading rather than clarifying."
+    ]
+   },
+   {
+    "id": "c049",
+    "headline": "Bitcoin ETFs Attract $854M Inflows Over Five Days as Rate-Hike Bets Fade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft introduces a new data point not in the brief: 'The desk's ETF flows board showed $5.1 million in net bitcoin ETF inflows on July 28 and $77.5 million in eth ETF inflows over the same five-session window, per the desk's data as of July 29. Bitcoin ETFs have accumulated $51.432 billion in net inflows since their launch.' These figures are not sourced to Decrypt or any source in the brief's data_points; they appear to come from internal desk data that was never included in the research brief, violating the hard rule that 'no fact exists outside the brief.'",
+     "The draft acknowledges but then overstates the bear case. It says 'Daily inflow totals shrank as the week progressed, according to the same reporting, suggesting that institutional momentum may have weakened through the window'\u2014turning the bear case into a narrative of declining momentum in the lead, when the brief presents this as one item in a split analyst view. The framing gives weight to weakness before establishing that the inflows themselves were material."
+    ]
+   }
+  ]
  }
 ]

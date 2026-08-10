@@ -1,0 +1,62 @@
+{
+  "id": "wrap-pm-2026-08-10",
+  "slug": "evening-brief-2026-08-10",
+  "kind": "brief",
+  "title": "The Evening Brief: ETF Inflows Extend, CME Funds Turn Long, Strategy Trims Bitcoin",
+  "dek": "Bitcoin spot ETFs booked their strongest week since mid-April and CME leveraged funds flipped to net long futures positioning, even as Strategy sold bitcoin at a loss and Hyperliquid's revenue kept falling.",
+  "date": "2026-08-10",
+  "published_utc": "2026-08-10T20:28:05Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Institutional flow and futures positioning both turned more constructive this week, but corporate treasury behavior, protocol economics, and a failed fork all point to a market still working through mixed signals rather than a single clean trend.",
+  "bottom_line": "Bitcoin spot ETFs logged their strongest weekly inflow since mid-April, $853.54 million for the week of August 7, and the desk's boards show that streak continuing into this week, while CryptoQuant's CEO told CoinDesk that CME leveraged funds have turned net long bitcoin futures for the first time in years as the basis trade's profitability collapsed. Those improving flow and positioning signals sat alongside Strategy selling 1,690 bitcoin at a loss on its remaining cost basis, Hyperliquid's revenue falling 43% even as its market share grew, a minority Bitcoin fork stalling after two blocks, and an unexplained $8.07 million cross-chain theft at Coinsbuy. Mastercard's completed $1.8 billion purchase of BVNK and T. Rowe Price's multi-token TKNZ fund extended a separate thread of traditional-finance entry into stablecoin and crypto infrastructure. The desk's Whale Watch and leverage boards show a cautious tape, Fear and Greed at 30, alongside the improving ETF and futures data. The nearest dated checkpoint on the desk's regulatory watch is the CLARITY Act's September 1, 2026 date, with the FCA's tokenized gold rules and Hyperliquid's third-quarter revenue also due for follow-up in the coming weeks.",
+  "human_take": "",
+  "body": [
+    "Bitcoin spot ETFs posted their strongest weekly inflow since mid-April, $853.54 million for the week ended August 7, 2026, with BlackRock's IBIT drawing $693 million of that total, as the desk reported this morning. The desk's ETF flow board shows the trend carrying into this week: a $101.7 million net inflow on August 7 itself, part of a five-session streak worth $865.3 million combined, though the funds remain $4.5 billion in the red year to date after months of heavier redemptions. Alongside that, leveraged funds on CME have shifted to net long bitcoin futures positioning for the first time in years, according to CryptoQuant CEO Ki Young Ju, per CoinDesk, after the three-month futures basis fell to 3% against 3.8% Treasury yields and eroded the profitability of the basis trade that had kept those funds structurally short.",
+    "Not every signal points the same way. Strategy, the bitcoin treasury arm of MicroStrategy, sold 1,690 bitcoin for $108.6 million at an average price of $64,262 to fund a preferred-share repurchase, and separately raised $653.1 million through common stock sales, per CoinDesk. The sale reduced its holdings to 840,447 BTC, which still carry a $75,385 average cost basis, meaning the position sits underwater at the price the company sold into. Hyperliquid's gross protocol revenue fell 43% over four quarters to $202 million in the second quarter, even as the platform's open interest reached $11 billion and it settled roughly 9% of global perpetual positions, up from under 7% in late May; the desk's reporting ties the decline to a fee-sharing model, HIP-3, that has grown builder-deployed markets from 2% of volume at the start of the year to roughly half of it today.",
+    "On the infrastructure and security side, a minority Bitcoin fork called BIP-110 produced only two blocks in eight hours before stalling at block 961,633, while the main chain advanced 48 blocks to 961,681 over the same window, exposing how far the proposal fell short of the mining consensus needed to activate cleanly. Coinsbuy lost $8.07 million on August 9 in a coordinated attack across TRON and Ethereum using the Bridgers cross-chain swapper, draining 6.04 million USDT from eight TRON wallets and 1.89 million USDT plus 77 ETH from three Ethereum wallets; Coinsbuy refilled the wallets within 24 hours, which researchers read as evidence private keys were not compromised, though the exact access mechanism remains unexplained.",
+    "Institutional adoption continued on two fronts. Mastercard completed its $1.8 billion acquisition of stablecoin infrastructure firm BVNK, beating a reported offer of up to $2.5 billion from Coinbase, with BVNK's founders citing cultural fit over price, following Stripe's $1.1 billion Bridge acquisition in late 2024. T. Rowe Price, which manages $1.9 trillion, launched its actively managed TKNZ multi-token ETF in July, holding roughly 60% in BTC and ETH plus a 1.26% dogecoin allocation that portfolio manager Blue Macellari frames as an infrastructure stress test rather than speculation. Separately, the UK's FCA is consulting institutions on rules for tokenized gold to defend London's 70% share of global OTC gold trading volume, with formal rules expected within the next few months, per the FCA's own timeline cited by CoinDesk.",
+    "On drivers, the desk's ETF story links this week's inflow rebound to a weak jobs report and shifting Fed rate expectations, while cautioning that one strong week does not by itself confirm a durable shift in institutional demand against a $4.5 billion year-to-date deficit. The CME positioning flip is tied specifically to the basis trade's collapsing profitability rather than a stated view on price. Hyperliquid's revenue decline is tied to its own fee-sharing architecture cannibalizing the earnings base. The reporting does not say what specifically let the Coinsbuy attacker access withdrawal paths across two chains.",
+    "The desk's own boards show a market still cautious by sentiment even as some flow metrics improve. The Fear and Greed Index reads 30, labeled Fear, within its 22-33 range of the past 30 days. Bitcoin trades at $64,030.91, down 1.27% over 24 hours but up 1.8% over seven days and 7.62% over 30, sitting 48.7% below its 12-month high with an RSI of 49. The Whale Watch board shows $60.2 million in net bitcoin value moving off exchanges over the past 24 hours, while stablecoin buying power reads slightly negative at -$36.8 million, meaning marginally more stablecoin value moved onto exchanges than off over the same window; the board's largest single movements were near-matched roughly $499.9 million USDT transfers at Binance in both directions, consistent with exchange rebalancing rather than a clear directional signal. Leverage data on OKX shows a BTC long-short ratio of 1.35 with $12.5 million in long liquidations against $1.9 million in shorts over 23 hours, and total crypto market capitalization at $2.275 trillion, down 1.37% over 24 hours, with bitcoin dominance at 56.5%.",
+    "The nearest dated regulatory checkpoint the desk has covered is the CLARITY Act's September 1, 2026 date, following earlier Senate procedural delays that pushed expectations for passage into 2027. On other fronts, watch for the FCA's formal tokenized gold rules, expected within the next few months per its own timeline; Hyperliquid's third-quarter revenue print as a test of whether its fee-sharing model stabilizes; further disclosure from Coinsbuy on how its withdrawal paths were accessed; whether Strategy continues selling bitcoin or reverses toward accumulation; and whether BIP-110 backers attempt a respin, none of which the record currently supports."
+  ],
+  "sources": [
+    {
+      "title": "Bitcoin investors pour $853 million into spot ETFs. BlackRock's IBIT claims the bulk",
+      "url": "/articles/bitcoin-investors-pour-853-million-into-spot-etfs-blackrock-s-ibit-claims-the-bulk.html"
+    },
+    {
+      "title": "Controversial Bitcoin fork BIP-110 mines two blocks, then stops",
+      "url": "/articles/controversial-bitcoin-fork-bip-110-mines-two-blocks-then-stops.html"
+    },
+    {
+      "title": "Hyperliquid's revenue decline outpaces trading boom as fee-sharing eats into token backing",
+      "url": "/articles/hyperliquid-s-revenue-decline-outpaces-trading-boom-as-fee-sharing-eats-into-token-backing.html"
+    },
+    {
+      "title": "T. Rowe Price launches active crypto ETF with dogecoin, reframes memecoins as infrastructure tests",
+      "url": "/articles/t-rowe-price-launches-active-crypto-etf-with-dogecoin-reframes-memecoins-as-infrastructure-tests.html"
+    },
+    {
+      "title": "CME leveraged funds turn net long on bitcoin futures",
+      "url": "/articles/cme-leveraged-funds-turn-net-long-on-bitcoin-futures.html"
+    },
+    {
+      "title": "Coinsbuy loses $8.07 million in coordinated two-blockchain attack",
+      "url": "/articles/coinsbuy-loses-8-07-million-in-coordinated-two-blockchain-attack.html"
+    },
+    {
+      "title": "Mastercard Closes $1.8 Billion Acquisition of Stablecoin Infrastructure Firm BVNK",
+      "url": "/articles/mastercard-closes-1-8-billion-acquisition-of-stablecoin-infrastructure-firm-bvnk.html"
+    },
+    {
+      "title": "Strategy sells 1,690 bitcoin, raises $653 million from MSTR shares",
+      "url": "/articles/strategy-sells-1-690-bitcoin-raises-653-million-from-mstr-shares.html"
+    },
+    {
+      "title": "UK's FCA to regulate tokenized gold to preserve London's place as the top hub for bullion",
+      "url": "/articles/uk-s-fca-to-regulate-tokenized-gold-to-preserve-london-s-place-as-the-top-hub-for-bullion.html"
+    }
+  ]
+}
