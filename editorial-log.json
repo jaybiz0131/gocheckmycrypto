@@ -5858,5 +5858,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "SEC Charges Adit Ventures Management, CEO, and General Partners With Fraud",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC's filing specifies allegations of fraud but does not disclose the specific mechanisms, claimed investor losses, the timeline of alleged conduct, or the remedies the agency is seeking.' This is a meta-claim about what the SEC filing contains, but the brief explicitly notes 'No source text fetched; unable to verify' and lists as an open_question 'Cannot confirm whether this is a settled action, pending litigation, or the stage of enforcement.' The writer has asserted negative facts (what the filing does not disclose) without source material to support that characterization. The brief contains zero data_points and source_chars of 0, meaning no actual source text was retrieved. The draft should not make claims about what an SEC filing does or does not contain when the source material was never fetched.",
+     "The draft claims 'No settlement announcement has been made, and the current status of the litigation, including whether charges remain pending or have been resolved, is not stated in the available source material.' This is another negative assertion about the source material that cannot be verified given the brief explicitly states no source text was fetched (source_chars: 0). The writer has inferred the absence of information as a fact to report, which requires confirmation from actual source review."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "UK's FCA Drafts Rules for Tokenized Gold as London Defends Bullion Trading Dominance",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes the claim 'The price of gold reached an all-time high of roughly $5,595 a troy ounce in January, but has since slipped to about $4,340.' This data_point appears in the brief with 'confidence': 'reported', but it is entirely absent from the draft's body text. More critically, this claim about gold prices is not substantively connected to the story's core narrative about the FCA drafting tokenized gold rules. The inclusion of gold price history in the brief but omission from the draft suggests the writer correctly identified this as off-topic detail. However, the presence of this data_point in the brief raises a question: if the CoinDesk source included gold price data, why was it not deemed relevant enough to mention? The draft's silence on this data_point is the correct editorial choice, but the brief's inclusion of it suggests scope creep in the source gathering phase. No rejection warranted on this basis alone.",
+     "All other factual claims in the draft (70% London market share, 33 billion pounds projection, May FCA/BoE announcement, Chris Woolard's July plan, tokenization definition, FCA and Simon Walls quotes, expected timeline of 'next few months') trace cleanly to data_points in the brief and are properly attributed to CoinDesk. The draft correctly marks FCA/Walls statements with the source attribution pattern appropriate to 'announced-not-verified' confidence labels. Bear_case elements (China's challenge to London's dominance, early consultation status without concrete timeline) are present in the draft. Bottom_line appropriately flags what to watch (formal rule proposal, custody standards, collateral frameworks) and poses a forward question about competitive outcome. The draft does not read as financial advice or trade recommendation."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "BTCPay Server supporters offer up to 3 BTC for recovery bounty after critical exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The brief does not specify the nature of the vulnerability, which BTCPay versions or wallet types are affected, how many funds or assets are at risk, or the timeline for patching.' This is meta-commentary about the brief itself, not reporting on the incident. The sentence breaks the hard rule that facts come from research, not editorial observation. If these details are genuinely missing from the source, the story should say 'BTCPay has not disclosed...' or 'Technical details on the vulnerability remain unavailable,' not comment on the brief's contents.",
+     "The draft acknowledges boundary_required=true and boundary_ok=false but then publishes anyway without resolution. The story cannot answer whether readers are affected, which violates the boundary contract: this is a version/threshold story without a version or threshold."
+    ]
+   },
+   {
+    "id": "c105",
+    "headline": "Bitcoin's BIP Editors Remove Luke Dashjr Two Days After BIP-110 Fork Stalled",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'approximately 26 hours after Mark Erhardt filed a motion' but provides no source attribution for the 26-hour timeframe itself. The brief's data_point claims 'The removal took about 26 hours' but gives no URL or verification. The draft treats this as a timestamped fact (Erhardt filed at 2:53 p.m. ET Sunday, removal confirmed at 4:52 p.m. ET Monday) but never explicitly states where the 2:53 p.m. and 4:52 p.m. timestamps come from or confirms them in the source. Readers cannot verify the 26-hour claim without attribution.",
+     "The draft says 'All 51 signaling blocks for BIP-110 occurred between heights 959,616 and 961,631' but this fact appears nowhere in the brief's data_points. It is smuggled from outside the research. This is a hard violation."
+    ]
+   },
+   {
+    "id": "c042",
+    "headline": "Brazil's $319B Crypto Market Faces October Licensing Deadline",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The regulatory action affects a market valued at $319 billion' and later 'Brazil's $319 billion market' as settled fact. The brief's data_point marks the $319 billion valuation as 'reported' confidence (sourced to Decrypt), but the draft presents it without attribution inline. The attribution should appear in the sentence itself (e.g., 'a market valued at $319 billion according to Decrypt') to preserve the confidence label and source transparency.",
+     "The draft's third paragraph acknowledges that 'Decrypt's reporting does not clarify critical details' (which categories of businesses, requirements, scope, enforcement), yet these details are flagged as open_questions in the brief, not as absent from Decrypt's reporting. The draft smuggles an editorial judgment (that Decrypt failed to clarify) that is not in the brief. The brief does not state that Decrypt was unclear; it only lists what is unknown. The draft should not impute reporting failures to the source."
+    ]
+   }
+  ]
  }
 ]
