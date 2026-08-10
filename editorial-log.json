@@ -5827,5 +5827,36 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c024",
+    "headline": "BTCPay Server Supporters Offer 3 BTC Recovery Bounty After Critical Exploit",
+    "category": "compliance",
+    "reasons": [
+     "Draft header indicates boundary_required: true and boundary_ok: false due to missing boundary block, but the story does not flag or explain this limitation to readers. The brief signals the story cannot be published without a version/date boundary that the brief does not contain. The draft must either include a boundary explanation or be held until the brief contains the required boundary data."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "Ethereum Roadmap Elevates Privacy and Quantum Resistance as Core Priorities",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'British has previously stated that the upgrades included in what is called Lean Ethereum will form the protocol's third major iteration'\u2014'British' is an undefined reference that does not appear in the brief. The data_point attributes this claim to Buterin, not 'British.' This appears to be either a name error or smuggled information not in the research brief."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "Bybit Sues North Korea Over $1.5B Hack, Secures Asset Freeze",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bybit has recovered $48.4 million from the hack and secured a freeze on $30.5 million more through civil litigation against North Korea.' The brief data_points confirm both figures are reported by Decrypt, but the brief's open_questions explicitly flag: 'No details on whether the recovered $48.4 million was seized through law enforcement action, civil judgment, voluntary repatriation, or another mechanism.' The draft presents the recovery as a fait accompli without indicating confidence uncertainty or the mechanism gap; this elides a material open question that should qualify the claim.",
+     "The draft later states 'The sources do not disclose the legal mechanism by which the court order was obtained, which court issued the freeze, or the jurisdiction under which Bybit is suing'\u2014this is accurate hedging\u2014but the opening sentences treat the recovery and freeze as settled facts without the same hedging language. The confidence level should be uniform across the claim; either all of it is reported-but-unconfirmed, or the mechanism gap belongs in the lede as a caveat, not buried in paragraph 3."
+    ]
+   }
+  ]
  }
 ]
