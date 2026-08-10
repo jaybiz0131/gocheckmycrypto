@@ -5648,5 +5648,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-10",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c034",
+    "headline": "Brazil to tighten crypto fraud controls with new 24-hour wait on transfers to self-custody wallets",
+    "category": "balance",
+    "reasons": [
+     "The brief identifies this as a 'thin' story (thin: true) with only one data_point. The draft correctly reflects the thinness by frontloading uncertainty: 'Critical details remain unconfirmed' and 'The original source material is unavailable for independent verification.' However, the draft then synthesizes bear_case reasoning ('Without clarity on which agency is enforcing the rule...the rule's real-world impact is speculative') and open_questions into the body as if they are settled editorial analysis rather than unresolved gaps. The bear_case and open_questions should have been pulled into the brief but are not populated in the brief object itself (bear_case is an empty array). The draft compensates by writing the uncertainty into the prose, which is appropriate, but this creates a structural issue: the draft is doing the work of the brief's missing bear_case. The draft reads as though the writer had to do the editorial heavy-lifting that the brief should have supplied. This is allowable if the result is balanced, but the opening ('Brazil will implement a new cryptocurrency regulation effective January 1, 2027...') states the rule as fact without immediate qualification. The reader does not learn until paragraph 3 that the rule is unverified. For a story this thin and unconfirmed, the lede should foreground the uncertainty, not bury it.",
+     "The brief's bear_case is empty, yet the draft includes a full bear_case paragraph. This suggests the writer inferred the bear_case from context rather than from research guidance. While the inferred bear_case is reasonable, it violates the hard rule that facts (and analytical frameworks) originate in the brief, not in drafting."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Bitcoin spot ETFs pull in $853.54 million as institutional capital returns",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'The broader pool of bitcoin spot ETFs saw cumulative net flows of $51.432 billion since inception through July 28, per the desk's ETF flows board. On the latest date in the desk's data, July 28, bitcoin spot ETFs logged a net inflow of $5.1 million.' \u2014 This cumulative figure of $51.432 billion since inception is not in the brief's data_points and cannot be traced to the source. The brief contains no data_point about cumulative flows since inception; it only covers weekly flows and year-to-date flows. This is smuggled information."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Vitalik Buterin places privacy and quantum resistance at center of Ethereum roadmap",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin: true' with only 2 data_points and 0 source_chars, yet the draft contains multiple unsourced claims: 'The move addresses two distinct threats: quantum computing's eventual ability to break current elliptic-curve cryptography, and regulatory pressure on privacy features in financial infrastructure.' This interpretive framing about 'regulatory pressure on privacy features' is not in the brief's data_points. The brief's angle mentions 'regulatory privacy scrutiny,' but the draft's specific claim about regulatory pressure on privacy features in financial infrastructure extends beyond the source material provided."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "CFTC Establishes Innovation Advisory Committee, Inaugural Meeting August 20",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CFTC Chairman Michael S. Selig announced the inaugural meeting' but the brief labels all data_points as 'announced-not-verified' confidence. The draft must flag this uncertainty in prose (e.g., 'according to the CFTC press release, which has not been independently verified' or similar language signaling the confidence level). Confidence labels must survive into the prose; presenting an announced-but-unverified claim as settled fact violates the brief's own confidence tagging.",
+     "The entire draft treats all claims from the press release as confirmed facts without any hedging language that signals 'announced-not-verified' status. Every major fact in this story (committee creation, August 20 meeting, Selig's sponsorship, Passalacqua's role, the charter description) carries that confidence label and must be read in prose as unconfirmed announcements, not as verified events."
+    ]
+   }
+  ]
  }
 ]
