@@ -5909,5 +5909,54 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c002",
+    "headline": "Ravencoin network attempts reversal of four days of transactions after critical block flaw",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states RVN 'fell 17 percent over 24 hours to about $0.0029' but brief data_point says 'RVN fell 17% over 24 hours to about $0.0029' without specifying the timeframe of measurement relative to publication. The draft presents a specific price point as fact without temporal anchor to when that 24-hour window occurred relative to August 11 reporting date, creating ambiguity about whether this is a current snapshot or a historical reference point that may no longer be accurate at publication.",
+     "The draft claims 'RVN fell 17 percent over 24 hours' and separately states 'The asset is down 77 percent over the past year'\u2014these are both present-tense claims about price movements, but neither the draft nor brief establishes the reference point or date these measurements were taken from, creating liability if the asset's price or performance has shifted by publication time."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Coinbase wins Abu Dhabi tokenized securities license",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Last month, Mubadala Capital... tokenized one of its private-market investment strategies' but the brief timestamp is August 11, 2026, and the data_point says 'Last month' without specifying the calendar month. If the brief was published August 11, 'last month' would be July 2026, but the brief provides no month/year anchor, leaving the temporal reference unverified and potentially stale or incorrect at publication.",
+     "Draft claims 'In 2023, the company's asset management arm initiated Project Diamond' but the brief data_point provides no year for Project Diamond's initiation. The writer has smuggled a specific year (2023) that does not appear in the research brief, violating the core rule that no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "Riot Platforms stock jumps 25% after-hours on reported $9.1B AI deal with Anthropic",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Neither Anthropic nor Riot Platforms has publicly confirmed or commented on the deal's existence, terms, or timeline.' This is a factual claim about what two companies have or have not said. The brief contains no data_point confirming this negative claim\u2014it only documents that The Block reported the deal. The writer has asserted something beyond what the research brief supports: that both companies have been silent. This is smuggled information not in the brief."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "BTCPay offers $190,000 bounty after Lightning vulnerability drained merchant wallets",
+    "category": "compliance",
+    "reasons": [
+     "The draft metadata shows boundary_required: true and boundary_ok: false with reasons citing 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft was flagged at submission as incomplete per the desk's compliance protocol, yet was submitted for approval without correction. A boundary block is a hard requirement when the story's liability hinges on a version cutoff, threshold, or date range. This is a compliance failure."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "UK lawmakers press banks over crypto access ahead of new FCA regime",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Parliament views the issue as a material constraint on crypto business formation and custody' by citing banking access as 'one of the single biggest barriers to growth'\u2014but this quote does not appear in the brief's single data_point, which only states lawmakers 'asked banks to explain how the new FCA crypto regime may change their policies.' The characterization of Parliament's view is smuggled beyond the reported fact.",
+     "Draft states 'the substantive nature of the regulatory change opaque' and 'which features of the new FCA regime are expected to shift banking policy' remain unspecified\u2014but then uses The Block as the sole source for all claims. The brief itself lists these gaps in open_questions, confirming they were not answered by the source. The draft should not present a source's silence as editorial uncertainty when the brief confirms the source did not report those details."
+    ]
+   }
+  ]
  }
 ]
