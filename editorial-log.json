@@ -6033,5 +6033,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c134",
+    "headline": "Russia's central bank proposes regulated exchange trading of Bitcoin, Ether, and USDT",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The proposal follows a crypto law signed by President Vladimir Putin last week' but the brief provides no detail on what this law authorizes or its scope. The brief's open_questions explicitly flag 'What does Putin's crypto law explicitly authorize, and does it address domestic ownership, trading, or both?' indicating the nature of the law is unconfirmed. The draft presents this as settled fact when it should be qualified or omitted.",
+     "The draft claims the central bank proposal 'signals a shift toward sovereign adoption of crypto assets rather than prohibition' and 'appears to be creating pathways for institutional and retail participation.' These interpretations are not in the brief's data_points and represent analysis beyond what the two reported facts support. The brief is thin (only two data points) and these inferences exceed the reported scope."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "Ravencoin rolls back four days of transactions after critical block validation flaw",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Ravencoin is rolling back all transactions since August 7 at 15:44 UTC' but the brief's language is conditional: 'Ravencoin is rolling back four days of transactions after attackers exploited...' The brief data_points say 'are rebuilding the blockchain from block 4,487,775' (future-tense action), not that the rollback has been completed. The draft presents this as already done ('is rolling back') when the brief indicates it is a proposed action by the pools.",
+     "The draft uses em dashes throughout ('Two mining pools, 2Miners and RavenMiner, together control most of Ravencoin's computing power and are now rebuilding the blockchain from block 4,487,775, the last block before the exploit, effectively erasing all deposits, withdrawals, and payments in the four-day window.'). The compliance rule prohibits em dashes."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "BTCPay offers $190,000 bounty after bitcoin payment servers drained in exploit",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'BTCPay Server announced a recovery bounty' but brief confirms only that 'BTCPay Server is offering a bounty'\u2014no public announcement source is cited in the brief. The word 'announced' implies official statement; the brief's confidence is 'reported' (third-hand via CoinDesk). This conflates reported claim with verified announcement.",
+     "Draft claims 'If multiple reports contribute to a recovery, the bounty will be split among contributors based on the amount recovered and the value of information provided' but the brief data_point says 'the bounty will be split with the victims according to how much each lost and how useful the information proved'\u2014the draft adds 'contributors' as recipients alongside victims, which is a new claim not in the brief."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Luke Dashjr removed as Bitcoin BIP editor after controversial BIP-110 fork stalls",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states BIP-110 was 'a hard-fork proposal' but brief describes it as 'a failed soft-fork attempt.' The draft later contradicts itself by calling it 'a breakaway Bitcoin chain' (which aligns with hard-fork) but the opening attribution to CoinDesk contradicts the brief's core characterization. Hard-fork vs. soft-fork is a material technical distinction and must match the brief.",
+     "Draft claims 'Dashjr was one of the most prominent Bitcoin developers driving the BIP-110 initiative' in the final data_point, but this claim does not appear in any of the brief's data_points. The brief identifies Dashjr as accused of editorial abuse in promoting BIP-110, not as a principal driver. This is smuggled information."
+    ]
+   }
+  ]
  }
 ]
