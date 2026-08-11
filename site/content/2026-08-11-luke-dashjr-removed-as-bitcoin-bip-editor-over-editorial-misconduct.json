@@ -1,0 +1,47 @@
+{
+  "id": "c016",
+  "slug": "luke-dashjr-removed-as-bitcoin-bip-editor-over-editorial-misconduct",
+  "kind": "brief",
+  "title": "Luke Dashjr removed as Bitcoin BIP editor over editorial misconduct",
+  "dek": "Luke Dashjr was removed from his position as Bitcoin BIP editor after accusations that he abused editorial authority during the BIP-110 fork attempt. The forked chain acquired only 2.6% miner support versus the 55% threshold required and mined just two blocks. Dashjr called the removal an abuse of power and announced a sabbatical from his role at mining pool Ocean.",
+  "date": "2026-08-11",
+  "published_utc": "2026-08-11T18:02:40Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "Dashjr was removed for abusing editorial authority by assigning a BIP number to BIP-110 and merging updates without due process before the proposal was discussed.",
+  "bottom_line": "Watch whether the BIP Editors publish formal governance procedures and whether other editors face similar removal motions, which would clarify whether this was incident-specific accountability or the emergence of structured governance. Dashjr's appeal or reinstatement announcement would also test the finality and legitimacy of the removal.",
+  "human_take": "",
+  "body": [
+    "Luke Dashjr was removed from his position as editor of Bitcoin improvement proposals (BIPs) after accusations that he abused editorial authority during the BIP-110 fork attempt, according to CoinDesk reporting. Bitcoin developer Mark Erhardt wrote a motion for Dashjr's removal on August 9, which was acted upon.",
+    "Dashjr was accused of assigning a BIP number to BIP-110 before it had undergone community discussion and of merging updates into the BIP repository without following due process, per CoinDesk. His removal action was his first merge since May 2024, and he left fewer than 1% of BIP Editor comments in the repository since additional editors began serving in April 2024, according to the same reporting.",
+    "BIP-110 was an attempt to set up a breakaway Bitcoin chain that would restrict non-financial data such as images and text. The proposal was triggered by the popularity of the Ordinals protocol starting in 2023. BIP-110 required a 55% miner support threshold to succeed but acquired support from only around 2.6% of miners, according to CoinDesk. The forked chain mined only two blocks before activity ceased.",
+    "Dashjr characterized his removal as an abuse of power in a post on X, per CoinDesk reporting. He is taking a sabbatical from his role as chair and chief technology officer of mining pool Ocean.",
+    "The removal raises questions about how power is checked in Bitcoin's open governance structure. The BIP Editors group operates without clearly documented formal charter or enforcement authority, and sources do not specify whether Dashjr's removal is permanent, subject to appeal, or how successor editors are chosen. Dashjr's minimal recent activity in the role also complicates the narrative: he left fewer than 1% of comments in nearly 16 months under the expanded editor structure, raising questions about whether the removal was performance-based or retaliatory."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/08/11/luke-dashjr-removed-as-bitcoin-bip-editor-after-controversial-bip-110-fork-stalls",
+      "url": "https://www.coindesk.com/tech/2026/08/11/luke-dashjr-removed-as-bitcoin-bip-editor-after-controversial-bip-110-fork-stalls"
+    },
+    {
+      "title": "https://decrypt.co/375310/luke-dashjr-removed-as-bip-editor-after-bip-110-bitcoin-fork-stalls",
+      "url": "https://decrypt.co/375310/luke-dashjr-removed-as-bip-editor-after-bip-110-bitcoin-fork-stalls"
+    },
+    {
+      "title": "https://bitcoinmagazine.com/news/luke-dashjr-removed-as-bitcoin-bip-editor",
+      "url": "https://bitcoinmagazine.com/news/luke-dashjr-removed-as-bitcoin-bip-editor"
+    },
+    {
+      "title": "https://thedefiant.io/news/blockchains/bitcoin-bip-editors-remove-luke-dashjr-after-bip-110-fork-stalled",
+      "url": "https://thedefiant.io/news/blockchains/bitcoin-bip-editors-remove-luke-dashjr-after-bip-110-fork-stalled"
+    }
+  ],
+  "update_of": "controversial-bitcoin-fork-bip-110-mines-two-blocks-then-stops",
+  "also_reported_by": [
+    "Decrypt",
+    "Bitcoin Magazine"
+  ],
+  "developing": false
+}

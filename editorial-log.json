@@ -6108,5 +6108,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c048",
+    "headline": "Ravencoin Exploit Forces Chain Rollback, Erasing Days of Transactions",
+    "category": "accuracy",
+    "reasons": [
+     "Draft includes 'The broader market context from the desk's leverage board showed BTC open interest at $1.98B with a 1.85 long-to-short ratio on OKX as of July 29' \u2014 this data point does not appear anywhere in the research brief. The leverage board data is smuggled from outside the brief's fact base.",
+     "Brief explicitly flags boundary_required: true and boundary_ok: false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block' \u2014 the draft was published without resolving this structural gap. The draft cannot safely run without a boundary statement clarifying the status of the rollback (proposed, underway, completed, disputed)."
+    ]
+   },
+   {
+    "id": "c065",
+    "headline": "Hackers drain $8.07 million from Coinsbuy in cross-chain attack",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly notes 'No source texts were provided; all factual claims cannot be verified against primary sources' and lists zero data_points. The draft contains multiple facts ($8.07 million, Tron and Ethereum blockchains, $100,000 recovery bounty, routing through exchanges, Decrypt and Cointelegraph reporting) that cannot be traced to data_points in the brief. The rule is absolute: no fact exists outside the brief. With zero data_points and a 'thin: true' designation, this draft should either be rejected outright or be structured entirely differently (e.g., as a 'we cannot confirm' piece). As written, it presents facts as reported without any corresponding data_point to anchor them.",
+     "The draft attributes claims to 'Decrypt reporting' and 'Decrypt and Cointelegraph' inline, but the brief contains zero source texts and zero data_points. There is no evidentiary bridge from brief to draft."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "New Bitcoin addresses jump as Coldcard exploit triggers user migration",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Block's reporting attributes the address creation increase to the Coldcard exploit' but the brief contains zero data_points confirming any causal link between the exploit and the address spike. The brief explicitly flags in open_questions: 'Cannot confirm whether the address creation jump directly correlates to Coldcard users or broader market migration.' The draft presents correlation as reported fact when the brief marks it unconfirmed.",
+     "The draft opens with 'The timing aligns with a Coldcard wallet exploit, suggesting defensive user behavior' without confidence labels. The brief marks the Coldcard exploit details as entirely unverified ('No source text provided; cannot verify the Coldcard exploit details, timing, or scope'). Presenting a timing alignment as established fact when the exploit itself is unverified is a liability line breach."
+    ]
+   },
+   {
+    "id": "c149",
+    "headline": "South Korea eliminates Travel Rule threshold for all crypto transfers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'South Korea has removed its 1 million won Travel Rule threshold' in past tense, presenting it as an accomplished fact. The brief's core_claim and data_points use 'will remove' and 'reported' confidence, indicating this is announced-not-verified. The brief's open_questions note 'cannot verify the effective date of the threshold removal.' The draft should use conditional or announced language ('announced plans to remove' or 'said it will remove'), not past tense.",
+     "The draft lacks any confidence label or hedge language for an unverified regulatory announcement. A statement 'South Korea has removed' reads as settled fact when the source confidence is only 'reported' and the brief explicitly flags the effective date as unconfirmed."
+    ]
+   }
+  ]
  }
 ]
