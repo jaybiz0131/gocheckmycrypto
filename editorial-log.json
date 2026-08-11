@@ -6150,5 +6150,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c050",
+    "headline": "Ravencoin Network Experiences Critical Exploit; Chain Rollback Risk",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points and source_chars of 0, indicating no source material was provided to the writer. The draft makes specific factual claims ('Ravencoin network experienced a critical exploit', 'Two mining pools controlling majority hash power are rebuilding the blockchain', 'reversed deposits and payments from Friday onward') that cannot be traced to any data_point in the brief. The open_questions section explicitly states 'No source text provided; unable to verify' the core facts of the story. The draft violates the hard rule that 'no fact exists outside the brief' and should never have been drafted from an empty brief."
+    ]
+   },
+   {
+    "id": "c044",
+    "headline": "Riot Platforms stock jumps 25% after-hours on reported $9.1 billion Anthropic compute deal",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'No source text provided; unable to verify deal terms, payment structure, hardware specifications, delivery timeline, or exclusivity clauses' and 'Unable to verify the 25% after-hours stock jump or the timing relative to announcement.' The draft presents the stock jump as fact in the headline and opening paragraph without attribution or confidence labeling, violating the rule that unverified claims must be marked as such.",
+     "The draft states 'The Block reported' and later 'The Block's reporting has not been independently verified or publicly confirmed' but the headline treats the 25% stock jump as established fact without any attribution or caveat. The brief contains zero data_points, meaning no facts were independently researched\u2014only The Block's unverified reporting exists. The draft should have flagged the stock move claim as unconfirmed in the opening.",
+     "The brief's open_questions include 'Unable to confirm whether the $9.1 billion is base contract value or includes extension options; the relationship between base and extended value is unclear from snippet alone.' The draft states definitively that the base is $9.1 billion and extensions could bring it to $16.1 billion, presenting unclear information as settled fact."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Brazil's largest bank Ita\u00fa partners with OpenAssets on tokenized securities pilot",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the quote to 'OpenAssets CEO Gabor Gurbacs' but the brief data_point identifies him as 'Gabor Gurbacs, chairman and CEO of OpenAssets.' The draft understates his title; while not fatal, this represents imprecision in attribution that should match the source brief exactly.",
+     "More critically, the draft omits a key data_point from the brief: the funding round included 'members of the family that founded Ita\u00fa Unibanco' as investors in OpenAssets. The draft mentions 'Valor Capital Group' and 'Tether' but drops the family investor detail, which is material context for understanding Ita\u00fa's institutional alignment with OpenAssets and could signal internal family-office participation. This is a smuggled omission\u2014the fact is in the brief but not in the draft."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "BTCPay offers $190,000 bounty after bitcoin payment servers drained in exploit",
+    "category": "accuracy",
+    "reasons": [
+     "Final sentence of body ('A key open question remains unresolved: what was the specific vulnerability...') states facts not in the brief's data_points. The brief lists this as an open_question, not a reported fact. The draft presents it as an unresolved assertion about BTCPay's disclosure status, but no data_point confirms BTCPay has or has not released a patch or disclosed the vulnerability mechanism. This crosses from reporting to editorial commentary and smuggles unstated factual claims about BTCPay's actions.",
+     "The quoted phrase 'especially during this period of rapid, AI-driven change' appears in data_point 14 but does not appear in the draft body. The draft paraphrases BTCPay's advice to 'keep funds in cold storage and move excess out of hot wallets regularly' but omits the temporal qualifier 'especially during this period' that frames the urgency. This is not a material omission per se, but combined with the final sentence's unsourced claim, suggests the writer may be editorializing beyond the brief's scope."
+    ]
+   }
+  ]
  }
 ]
