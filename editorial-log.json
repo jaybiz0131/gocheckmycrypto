@@ -5958,5 +5958,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c021",
+    "headline": "SEC to Propose Regulation Crypto Framework for Digital Asset Offerings on August 14",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC issued a Monday night notice announcing the Friday meeting with unusually short notice' but this claim does not appear in the brief's data_points. The brief includes a data_point about 'unusually short notice' but the draft's phrasing about 'Monday night' and 'Friday meeting' introduces a new temporal detail not in the research.",
+     "The draft includes a full paragraph on prior policy statements and formal rulemaking durability ('staff statements have little long-term durability...A formal rule would be more difficult to reverse') that reads as interpretive analysis rather than reported fact. While the brief mentions this in bear_case and data_points, the draft presents it as exposition without clear attribution to the source.",
+     "The draft embeds the bear_case as a separate paragraph at the end ('Bear case: The timeline for finalization spans months...') which violates the protocol: bear_case items must be woven into the prose or clearly attributed; they cannot appear as a labeled section in the final draft."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "Riot Platforms surges 20% in pre-market trading on $9.1 billion Anthropic deal",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case contains four substantive risk points, including mining revenue decline, bitcoin treasury depletion, 16-month revenue gap, and sector valuation concerns. The draft mentions the revenue gap and treasury sales only in the bottom_line watchlist, not in the main narrative. The body reads as celebratory of the Anthropic deal without proportional weight to the concurrent bitcoin-mining revenue decline (down to $113.7M) or the aggressive 27% bitcoin-treasury reduction. A reader of the draft alone would not understand the financial pressure driving the pivot, making the framing unbalanced against the brief's risk profile."
+    ]
+   },
+   {
+    "id": "c133",
+    "headline": "South Korea removes Travel Rule threshold for crypto transfers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'South Korea will eliminate its 1 million won Travel Rule threshold' and 'apply information-sharing requirements to all transfers between registered crypto service providers' as settled facts. However, the brief indicates the source has zero source_chars and empty source texts, meaning no actual reporting exists to verify these claims. The brief confidence is 'reported' but the source material is empty\u2014this is a SMUGGLED fact presented without evidence.",
+     "The draft presents the Travel Rule mechanism and its purpose as established fact ('The Travel Rule mandates that financial institutions collect and share customer information') without this being part of the brief's data_points. The writer is defining rather than reporting.",
+     "The entire story rests on a claim traceable to a source with no text content. This fails the hard rule: facts must trace to research briefs with actual source material. An empty source_chars (0) and empty source texts should have prevented publication of ANY factual claims beyond acknowledgment that a Cointelegraph headline exists."
+    ]
+   }
+  ]
  }
 ]
