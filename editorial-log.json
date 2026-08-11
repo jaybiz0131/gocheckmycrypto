@@ -6075,5 +6075,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c068",
+    "headline": "Bank of Russia Approves Bitcoin Trading For Retail Investors",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points and thin=true, yet the draft makes specific factual claims not traceable to research: 'Bitcoin Magazine and Cointelegraph reporting' are cited as sources in the draft but appear nowhere in the brief's data_points. The draft cites two URLs as sources, but the brief contains no data_points with source URLs to validate against.",
+     "The draft presents claims about 'legislative frameworks established under recent Russian law' and 'regulatory approval signals Russia's intent' as though confirmed, but the brief's open_questions show these details are unconfirmed. The draft acknowledges this midway ('remain unconfirmed from primary sources') but opens with the unqualified claim 'Russia's central bank has approved,' violating the rule that unconfirmed claims must read that way in prose.",
+     "The draft cites 'Bitcoin Magazine' and 'Cointelegraph' as reporting sources in the body but provides no way for a reader to trace those claims back to those outlets\u2014only two generic URLs appear in the sources list. This is a structural accuracy failure: the draft asserts news outlets reported something without showing readers where."
+    ]
+   },
+   {
+    "id": "c040",
+    "headline": "Riot Platforms Secures $9.1 Billion, 20-Year AI Compute Deal With Anthropic",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Second-quarter revenue rose 14% to $174.2 million, including $23.2 million from data centers' in the paragraph about headwinds, but this claim does not appear in any data_point in the brief. The brief's data_point 8 states only 'Second-quarter revenue rose 14% to $174.2 million, including $23.2 million from data centers'\u2014but this figure appears nowhere else in the brief and is not connected to the claim in the draft's narrative. The writer smuggled in revenue context not present in the research brief's data_points.",
+     "The draft attributes the claim about rival miners trading 40% below record highs to 'CoinDesk reported that competitors such as Cipher Mining (CIFR), TeraWulf (WULF) and IREN (IREN) are trading...' but the source URL in data_point 12 is the same Anthropic deal story. This suggests either the writer over-attributed to a single source or sourced a claim from outside the brief. The brief's data_point 12 lists the same URL; a reader checking the URL would expect to find ticker-symbol data on rival miners within a Riot Anthropic deal story, which is implausible. This is a sourcing accuracy problem."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Luke Dashjr removed as Bitcoin BIP editor after editorial violations in BIP-110 soft-fork push",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'The BIP-110 forked chain mined only two blocks and then halted' uses past tense 'halted' but the brief data_point says 'ground to a halt' which is ambiguous about whether it was active and then stopped versus never gained traction. More critically, this phrasing implies intentional cessation, whereas the brief's language and context (2.6% miner support vs 55% required) suggests it never achieved sufficient hashpower to continue\u2014a different causation that changes the narrative of what happened."
+    ]
+   }
+  ]
  }
 ]
