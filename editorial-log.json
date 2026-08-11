@@ -5992,5 +5992,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "Ravencoin Miners Building Replacement Chain to Erase Four Days of Transactions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Four days of transactions' in the title and body ('erase four days of transactions', 'all transactions since August 7 at risk') but the brief does not establish that four days is the correct scope. The brief confirms the first bad block appeared at 15:44 UTC on Aug. 7 and the pools are rebuilding from block 4,487,775, but does not verify the four-day duration. This is a derived fact, not traced to the source.",
+     "The draft describes 'critical software flaw' and states the flaw 'allowed invalid blocks to be added to the network' but does not cite the specific technical details. The brief's open_questions explicitly flag 'What specific software flaw allowed invalid blocks to be created, and how did attackers exploit it?' indicating this detail was not confirmed in reporting. The draft should acknowledge the flaw's nature is unconfirmed or omit the characterization."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "BTCPay Offers $190,000 Bounty After Exploit Drains Merchant Bitcoin Wallets",
+    "category": "compliance",
+    "reasons": [
+     "boundary_ok is false and boundary_required is true, but the draft contains no boundary block (date range, version, or threshold marker). The story hinges on 'last week' as a temporal fact but carries no qualifying language like 'as of August 11, 2026' or similar. This violates the desk's boundary protocol and creates liability if the story is read out of temporal context."
+    ]
+   },
+   {
+    "id": "c056",
+    "headline": "Brazil Imposes October 30 Licensing Deadline for Crypto Market",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Brazil is imposing an October 30 deadline' as settled fact, but the brief contains only two data_points, both labeled 'reported'\u2014meaning the information comes from Decrypt alone and carries no independent confirmation. The draft reads the deadline as formally imposed, when the source reporting alone is insufficient to warrant that framing. The phrasing should reflect uncertainty: 'Brazil has announced' or 'according to Decrypt, Brazil is imposing' with inline attribution.",
+     "The draft claims 'signals a shift from informal to regulated crypto operations in the country' and 'marks a formal supervisory regime'\u2014interpretive claims not present in the brief's data_points. These are editorial judgment, not reported facts. They must either be removed or attributed to a source."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Luke Dashjr removed from Bitcoin BIP editorship over BIP-110 fork attempt",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the chain ground to a halt' in the opening paragraph, but the brief and sources indicate only the BIP-110 *forked* chain mined two blocks and halted\u2014the principal Bitcoin network continued unaffected. The phrasing in the draft is ambiguous and could mislead readers into thinking the main Bitcoin chain was affected.",
+     "The draft characterizes BIP-110 as 'a controversial soft-fork proposal' but the brief data_point and context indicate it was 'an attempt to set up a breakaway Bitcoin chain'\u2014a hard fork, not a soft fork. This is a material technical distinction that changes the nature of what Dashjr attempted."
+    ]
+   }
+  ]
  }
 ]
