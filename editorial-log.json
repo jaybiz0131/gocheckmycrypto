@@ -6416,5 +6416,44 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c011",
+    "headline": "Russia restricts retail crypto trading to three assets with annual purchase caps",
+    "category": "compliance",
+    "reasons": [
+     "The draft includes a boundary block in the metadata (boundary_required: false, boundary_ok: false) with specific affected/fixed/user_action fields, but the brief explicitly marks boundary_required: false and boundary_ok: false with a note that the affected field does not appear verbatim in the source. The draft should not carry boundary information if the brief does not support it. The compliance issue is that a boundary block was constructed and included in the metadata when the brief itself flagged boundary_ok: false, signaling the boundary language cannot be verified against the source."
+    ]
+   },
+   {
+    "id": "c023",
+    "headline": "Coreum bridge loses nearly $200,000 in XRP after fake deposit exploit",
+    "category": "compliance",
+    "reasons": [
+     "The draft metadata sets boundary_required: true and boundary_ok: false with the reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' However, the draft itself contains no boundary block in its output fields (boundary, boundary_required, boundary_ok are all absent or null in the presentable draft body). The brief also marks boundary_required: true but provides no boundary object. This is a structural compliance failure: the story involves a financial impact (nearly $200,000 loss, 97-minute window, 17-of-28 relayer threshold) that may affect user decisions, but neither the brief nor the draft provides the required boundary specification to make the liability line clear. The desk cannot publish this without a vetted boundary block or removal of boundary_required flag."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "CFTC Invokes Emergency Authority to Keep Kalshi Operating Amid New York State Lawsuit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CFTC Chairman Michael S. Selig' but the brief provides no confirmation of this person's name or title. The quote is attributed to the CFTC press release, but the identity of the speaker is not in the data_points and cannot be verified from the brief.",
+     "The draft claims the CFTC 'exercised rarely-used emergency authority to order KalshiEX to continue operations' but the brief's data_points do not contain language confirming this was 'rarely-used' or detailing what the emergency order specifically commanded. This characterization goes beyond what the brief supports."
+    ]
+   },
+   {
+    "id": "c132",
+    "headline": "CFTC Sues Goliath Ventures Over Alleged $397M DeFi Liquidity Pool Ponzi Scheme",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Another $21 million went onto corporate credit cards, including more than $4.9 million on world travel, $2.9 million on luxury apparel, jewelry and travel concierge services, and over $400,000 on school tuition, soccer expenses, tutoring, and pet grooming for Delgado's family.' The brief's corresponding data point says 'over $400,000 on school tuition, soccer expenses and tutoring for Delgado's children along with pet grooming.' The draft adds 'pet grooming' as a standalone family expense when the source groups it with school/tutoring expenses for the children only. This is a minor but material change to the factual claim about what the money was spent on."
+    ]
+   }
+  ]
  }
 ]
