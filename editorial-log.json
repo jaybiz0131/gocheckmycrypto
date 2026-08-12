@@ -6534,5 +6534,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c024",
+    "headline": "XRP Bridge Drained for $200,000 After Software Failed to Verify Deposits",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'drained approximately 200,000 XRP' and 'worth about $200,000' but brief's core_claim and data_points specify '97% of a reserve in 97 minutes' and open question asks 'what percentage was drained before it was detected.' Draft presents a specific number ($200,000) without noting that this is the value of stolen tokens, not the total reserve size or percentage drained. The brief explicitly flags that sources do not specify 'how much XRP was held in the reserve wallet at the time of the exploit or what percentage was drained,' yet the draft does not flag this uncertainty for the reader.",
+     "Draft states the drain 'began at 19:16 UTC on August 9 and completed in 97 minutes' but does not clarify (as the angle does) that 97% of the reserve was drained in that window. The percentage missing from the prose is material to understanding the exploit's severity relative to total reserve."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Standard Chartered-backed Anchorpoint launches Hong Kong dollar stablecoin with institutional access",
+    "category": "balance",
+    "reasons": [
+     "Brief contains empty bear_case array, yet the draft reads as entirely bullish on HKDAP adoption and Hong Kong's regulatory framework. No risk paragraph or skeptical framing appears in the story. A stablecoin launch by a new issuer in a new regulatory regime should at minimum surface competitive risks (HSBC, Payward) and regulatory execution risk more explicitly than the current framing allows. The story as written would look like a promotional piece if retail adoption fails or regulatory requirements burden the issuer, but the brief provided no bear case for the writer to reflect."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Fidelity files to add staking to $898 million ether fund with quarterly payouts",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Fidelity filed to add ether staking to its Fidelity Ethereum Fund (FETH), allowing the fund to stake up to 100 percent of its ether and distribute 15 percent of gross staking rewards quarterly while retaining 85 percent for service providers.' The brief's data_point states: 'Fidelity would retain 85% of gross staking rewards, while the remaining 15% would go to the fund sponsor, custodians and node operators.' The draft reverses the distribution: it says Fidelity distributes 15% and retains 85%, but the brief says Fidelity retains 85% (for itself, fund sponsor) and 15% goes to service providers. The actual shareholder payout structure is inverted in the draft's opening sentence, creating material liability if the fee structure is misrepresented."
+    ]
+   },
+   {
+    "id": "c138",
+    "headline": "CFTC Sues Goliath Ventures Over Alleged $397 Million DeFi Liquidity Pool Ponzi",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the CFTC sued on 'August 12, 2026' but the brief data_points indicate the timestamp is '2026-08-11T20:45:26Z' and the brief's core_claim says 'August 12, 2026'\u2014this is internally consistent in the brief but the draft's opening sentence 'sued Goliath Ventures Inc. and its CEO Christopher Delgado on August 12, 2026' needs verification. The brief says the suit was filed 'on Tuesday (filed in federal court in Orlando)' per The Defiant reporting, but the exact date should match the source precisely. The data_point timestamp shows 2026-08-11, suggesting reporting on that date about a Tuesday filing\u2014this ambiguity between reported date and filing date is not resolved in the brief's language, making the draft's definitive 'August 12, 2026' statement unverifiable against the brief.",
+     "The draft attributes 'approximately $838,000 traced from customer deposits bought a yacht in September 2025, per The Defiant's reporting' but this attribution appears mid-paragraph without a source tag. All data_points in the brief show 'reported' confidence from The Defiant single source, but inline attribution in the body should clarify each factual claim's origin to meet liability standards; attributing dollar figures to 'The Defiant's reporting' in prose is weaker than the desktop standard of inline source notation.",
+     "The draft states 'Federal prosecutors in the Middle District of Florida charged Delgado with wire fraud and money laundering on February 20, 2026' and 'In June 2026, Delgado pleaded guilty to conspiracy to commit wire fraud, wire fraud, and money laundering'\u2014the brief's data_points support both claims, but the draft does not attribute these criminal-process facts inline to source, leaving liability exposure on dates and charges that require courtroom verification."
+    ]
+   }
+  ]
  }
 ]
