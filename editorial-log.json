@@ -6622,5 +6622,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c141",
+    "headline": "CFTC and SEC Sue Goliath Ventures Over $397M DeFi Liquidity Pool Ponzi",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'In June 2026, Delgado pleaded guilty to conspiracy to commit wire fraud, wire fraud and money laundering, admitting he orchestrated the fraud and spent millions of dollars of customer money on himself.' This is presented as a completed fact. However, the brief's confidence label for this data point is 'reported'\u2014meaning it comes from The Defiant's reporting of the CFTC complaint allegations, not from independent court records or sentencing documentation. The draft must either attribute this explicitly to the complaint/The Defiant's reporting or flag it as alleged/announced-not-verified to maintain liability boundaries."
+    ]
+   },
+   {
+    "id": "c135",
+    "headline": "Solana Came Within 4.5 Points of Losing Finality After Teraswitch Routing Fault",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'No validators implemented automatic failover or hot-swap systems, according to Marinade's analysis as reported by The Defiant, meaning the 59 validators had to return manually after routing reconverged.' This claim does not appear in the brief's data_points. The brief's bear_case includes 'No validators implemented automatic failover or hot-swap systems; 59 validators holding 80.2 million SOL had to return manually after routing reconverged, indicating inadequate automated recovery for critical infrastructure,' but bear_case items are analysis/interpretation, not confirmed data points. The draft presents this as a fact found in reporting when it is actually the writer's inference from the bear_case. A fact about what validators did or did not implement must trace to a data_point, not to bear_case reasoning.",
+     "The boundary_ok field is set to false with a note that 'this story turns on a version, date range or threshold but the brief carries no boundary block,' indicating the desk flagged a missing boundary for a story dependent on precision thresholds (28.83% vs. 33.34%, 4.5 percentage points). The draft was approved for publication despite this flag. A boundary block is required before publication when the story's stakes depend on exact figures or thresholds that could shift with new reporting. This is a compliance/editorial integrity issue: the draft should not have been sent to approval without a boundary block, or the boundary_required flag should have been set to false before drafting."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "SEC Issues No-Action Letter Permitting Franklin Templeton Funds to Invest in Onchain BENJI Cash Management System",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC issued a no-action letter to Franklin Templeton permitting the company's registered funds to invest in BENJI/FOBXX' but the brief data_points say only 'Franklin Templeton received a no-action letter from the SEC' without specifying who issued it or confirming it was the SEC (as opposed to another agency). The source URL is inaccessible in the brief (source_chars: 0), making verification impossible.",
+     "The draft describes BENJI/FOBXX as 'an onchain system for cash management' and 'an onchain money market fund' interchangeably, but the brief data_point only states it is 'an onchain system for cash management.' The claim it is a 'money market fund' is not in the brief and cannot be verified.",
+     "The draft states 'The letter clears the way for traditional registered investment funds to hold positions in the onchain money market fund without SEC enforcement action,' but the brief provides no detail about enforcement action risks or what the letter 'clears the way for' beyond the basic fact that funds can invest in BENJI/FOBXX. This interpretation is the writer's addition, not supported by the brief's thin data."
+    ]
+   }
+  ]
  }
 ]
