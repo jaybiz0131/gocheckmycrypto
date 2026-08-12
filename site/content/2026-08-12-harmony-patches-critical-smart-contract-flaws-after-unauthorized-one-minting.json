@@ -1,0 +1,31 @@
+{
+  "id": "c124",
+  "slug": "harmony-patches-critical-smart-contract-flaws-after-unauthorized-one-minting",
+  "kind": "brief",
+  "title": "Harmony Patches Critical Smart Contract Flaws After Unauthorized ONE Minting",
+  "dek": "Harmony released patch v2026.1.1 fixing two validation bugs: a quorum check that accepted zero-validator signatures and a receipt-replay mechanism that allowed resubmission of already-spent cross-shard transfers. An estimated 4 billion ONE tokens were minted without backing, representing about 26% of supply. Harmony halted its bridge, froze wallets, and is evaluating a rollback.",
+  "date": "2026-08-12",
+  "published_utc": "2026-08-12T16:09:56Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "Two critical smart contract flaws allowed an attacker to mint approximately 4 billion ONE tokens (26% of supply) without corresponding debits, forcing Harmony to halt its bridge and consider a full chain rollback.",
+  "bottom_line": "Watch for Harmony's official announcement of the total unauthorized ONE minted and whether it commits to a rollback, and if so, to which block height and with what impact on recognized balances. If Harmony moves forward without a rollback and the community fragments over finality, the choice will have reshaped the network's relationship with immutability.",
+  "human_take": "",
+  "body": [
+    "Harmony released mainnet patch v2026.1.1 on August 12, fixing two critical smart contract validation flaws that allowed unauthorized minting of ONE tokens, according to The Defiant's reporting. An onchain account identified as Juiceberg claimed that approximately 4 billion ONE tokens, representing about 26% of supply, were created without matching debits, with an estimated 2.8 billion of that amount reaching exchanges before transfers were halted.",
+    "The first flaw lay in pre-staking-epoch quorum verification. The verifier compared the full committee size against a threshold rather than counting the actual validators enabled in the signer bitmap. An all-zero bitmap combined with an all-zero identity aggregate BLS signature could satisfy the quorum check, per The Defiant. The patch, referenced in pull request 5101, now counts enabled bitmap entries and rejects a nil mask.",
+    "The second flaw affected cross-shard receipt validation. Cross-shard receipts are records crediting assets transferred from another Harmony shard. For receipts from older epochs, the spent marker relied on proof fields that were not authenticated against the signed block header. This meant a genuine receipt already applied could be resubmitted with changed proof identifiers, crediting the destination again with no corresponding debit at the source. The fix derives the spent marker from the signed header instead, according to the reporting.",
+    "Harmony identified four wallets for exchanges to block and paused its bridge. However, Harmony has not confirmed the 4 billion ONE estimate or stated which exchanges were asked to freeze funds. The staking API endpoint carries no field identifying disputed or replayed balances, leaving total unauthorized ONE unresolved from official sources. Harmony is evaluating rollback options but has not committed to one, identified a specific block to roll back to, or provided parameters on what transactions a rollback would reverse.",
+    "Harmony faced a similar supply dispute after the Horizon bridge lost about 99 million dollars in 2022, when the foundation proposed minting either 4.97 billion or 2.48 billion ONE to reimburse affected users. That proposal drew objections over dilution. A rollback decision in the current situation carries ecosystem-wide consequences and no clear precedent within Harmony itself."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/hacks/harmony-patches-pre-staking-quorum-and-receipt-replay-flaws-after-one-mint-claim",
+      "url": "https://thedefiant.io/news/hacks/harmony-patches-pre-staking-quorum-and-receipt-replay-flaws-after-one-mint-claim"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": true
+}

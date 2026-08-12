@@ -6384,5 +6384,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c020",
+    "headline": "XRP Bridge Drained for $200,000 After Software Mistook Fake Deposits for Real",
+    "category": "accuracy",
+    "reasons": [
+     "The phrase 'The drain drained 99.7% of the bridge's reserves' appears in the draft but does not appear in the brief's data_points. The brief states the drain was '99.7% of bridge reserves' in the angle summary, but this is an analytical framing, not a source-backed data_point. The sentence reads as a smuggled fact without explicit attribution to CoinDesk."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "CFTC Invokes Emergency Powers to Override New York Ban on Kalshi",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CFTC Chairman Michael S. Selig stated that New York intends to block event contract derivatives \"before the courts get the chance to issue final rulings,\"' but the brief's data_point shows the actual quote is 'New York intends to make event contract derivatives waste away under its iron curtain of state gaming laws before the courts get the chance to issue final rulings.' The draft has paraphrased and softened Selig's language in a way that materially changes the tone and emphasis of the CFTC's position.",
+     "The draft claims 'The emergency invocation appears to be the CFTC's first documented use of this authority for a crypto or derivatives exchange' but this claim does not appear in the brief's data_points. The brief's open_questions section asks 'What prior cases has the CFTC cited for emergency authority, and is this the first use of that power for a crypto or derivatives exchange?' indicating this is unconfirmed. The writer has smuggled an unverified claim into the draft."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Bank of England to test stablecoin, digital currency use in cross-border finance",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Phase 2 introduces three workstreams, the first of which will build an SME 'bankable profile'...' but the brief lists only one data_point about workstreams (the bankable profile workstream). The draft asserts there are three workstreams without naming or sourcing the other two; this is smuggled information not in the brief.",
+     "Draft includes Marc Boiron quote ('For digital money to actually move the world's trade, its different forms have to work together\u2014public and private, central bank money and stablecoins') attributed to 'CEO of Polygon Labs' but this quote does not appear in any data_point in the brief. Fabricated or unverified quotes violate the hard rule that facts come only from the brief."
+    ]
+   }
+  ]
  }
 ]
