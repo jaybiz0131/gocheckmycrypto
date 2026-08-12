@@ -6341,5 +6341,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "CFTC Invokes Emergency Authority to Override New York Lawsuit Against KalshiEX",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CFTC Chairman Michael S. Selig stated in the release that New York intended to ban event contract derivatives under state gaming laws before courts could issue final rulings on the dispute. Selig argued that event contracts are interstate financial instruments...' and later 'Selig said. \"These are financial exchanges that offer financial instruments and operate across state lines.\"' However, all quoted material in the brief is marked 'announced-not-verified' confidence. The draft presents these claims as direct quotes from Selig, but the brief's data_points show only what the CFTC Press Release announced, not verified independent confirmation. The draft should either attribute to 'the CFTC release' or mark the quotes as announced-not-verified in the prose; presenting them as settled facts from Selig without qualification violates the accuracy requirement for unconfirmed claims.",
+     "The draft states 'New York Attorney General Letitia James sought a temporary restraining order prohibiting KalshiEX from offering all event contracts nationwide and requested more than $36 billion in damages.' The brief data_point (confidence: 'announced-not-verified') says New York 'seeks' these remedies, not that James 'sought' them in past tense. The draft's word choice softens the unconfirmed status by using past tense as though the action is settled rather than announced by the CFTC. This is a subtle but material drift from the brief's uncertainty labeling."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "XRP bridge drained for $200,000 after software mistook fake deposits for real ones",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the drain began at '19:16 UTC' but this specific timestamp does not appear in the brief's data_points. The brief only confirms '97 minutes on Aug. 9' and that the system was halted, but does not provide the start time. This fact is smuggled and must be traced back to research.",
+     "The draft references 'draining 99.7% of the reserve' as a precise figure, but the brief states '99.7%' only in the angle/summary context, not confirmed in individual data_points as a verified claim. Verify this percentage against the source."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "A routing bug took Solana 86% of the way to losing finality",
+    "category": "accuracy",
+    "reasons": [
+     "The draft's opening claims 'approximately 29% of staked Solana' but the brief's data_point says 'almost 29% of staked SOL'\u2014a minor semantic difference, but more critically, the draft then states the network was brought to '86% of the way toward a 33% finality-loss threshold' without explaining the math. If 29% is offline, that is 87.9% of the way to 33% loss, not 86%. This discrepancy suggests either a calculation error in the draft or misinterpretation of the source figure.",
+     "The draft's final paragraph admits 'Decrypt did not report the duration of the outage, the specific hosting provider involved, the exact nature of the routing misconfiguration, or the remedial measures.' This is meta-commentary about the source's gaps, not reporting. It belongs in analysis, not in the body of a news draft. This reads as the writer patching holes in thin reporting rather than letting the brief speak for itself."
+    ]
+   },
+   {
+    "id": "c056",
+    "headline": "SEC Schedules August 14 Vote on Regulation Crypto Proposal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The August 14 meeting will allow the SEC commissioners to vote on whether to advance the proposal' but the brief's single data_point says only 'The SEC has set an open meeting to consider moving forward with its Regulation Crypto proposal.' The phrase 'vote on whether to advance' is not in the brief and adds specificity (a commissioners' vote, advance as a distinct action) that is not confirmed in the source.",
+     "The draft claims the proposal is 'meant to provide regulatory clarity on token classification without congressional action' and is described as 'the SEC's most visible attempt' to do so\u2014these characterizations of intent and relative visibility are not present in the brief's single data_point and appear smuggled.",
+     "The draft states 'Decrypt's reporting does not specify the proposal's exact scope, which provisions related to token safe harbors it may contain, or the timeline for final rulemaking if approved'\u2014this is the writer editorializing about gaps in the source rather than reporting what the brief confirms. The brief itself lists these as open_questions, not as things the draft should meta-comment on."
+    ]
+   }
+  ]
  }
 ]
