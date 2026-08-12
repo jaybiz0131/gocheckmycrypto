@@ -6575,5 +6575,52 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Russia Limits Retail Crypto Trading to Three Assets, $3,600 Annual Cap Per Broker",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'starting September 1' as a definite date, but the brief's open_questions include 'Have the draft rules been finalized, and if so, have they been published in an official Russian regulatory register?' and the bear_case notes 'the rules remain draft rules at the time of reporting.' The draft presents unconfirmed implementation timing as fact without qualification."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Coreum XRP Bridge Drained of $200,000 After Software Accepted Fake Deposits as Real",
+    "category": "compliance",
+    "reasons": [
+     "The draft header marks boundary_required=true and boundary_ok=false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft violates the desk's boundary protocol by publishing a story flagged as requiring but lacking boundary specification. This is a compliance gate failure."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Fidelity Moves to Add Staking and Quarterly Payouts to $898 Million Ethereum ETF",
+    "category": "accuracy",
+    "reasons": [
+     "Paragraph 5 includes market data ('ethereum is trading at $1,904.72, down 60.6% from its 12-month high but showing short-term momentum: up 6.36% over the past 30 days and 1.81% over the past week') that does not appear in any data_point in the brief. This is smuggled information sourced from 'the desk's market data as of July 29' but the brief contains no such data_point. Facts must trace to research briefs; real-time price data inserted by the writer violates the hard rule."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Goldman Sachs Acquires NEOS for $2.25 Billion, Vaults Into Bitcoin Income ETF Market",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'BTCI has fallen roughly 43% over the past year' but the brief data_point says 'down 42.55% over the past year, with shares falling from a 52-week high of $65.87 to around $28.40.' The draft rounds to 43% while the brief specifies 42.55%. Minor variance acceptable; however, the sentence 'BTCI's performance has weighed on its valuation' in paragraph 6 presents an interpretive claim (causation between performance and valuation) that does not appear as a discrete fact in any data_point and crosses from reporting into analysis. The bear_case lists the performance fact but does not support the causal claim about valuation impact."
+    ]
+   },
+   {
+    "id": "c136",
+    "headline": "SEC Advances Tokenized-Securities Exemption That Could Enable 24/7 Trading",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC's Friday meeting agenda does not list the innovation exemption' and 'The only item listed is whether to issue a release proposing new rules for a tailored offering regime for certain investment contracts involving crypto assets.' However, the brief data_point says 'The SEC's Friday meeting agenda does not list the innovation exemption; its only item is whether to issue a release proposing new rules for \"a tailored offering regime for certain investment contracts involving crypto assets,\" a separate initiative concerning crypto offerings.' The draft presents the Friday meeting as having only one item total, which is not stated in the brief. The brief says the innovation exemption is not on the agenda and separately identifies what is on the agenda, but does not confirm that single item is the only item. The writer has smuggled in definitional clarity ('the only item') not present in the source material.",
+     "The opening sentence 'SEC Chair Paul Atkins is advancing an innovation exemption for tokenized listed securities intended to create an interim framework for compliant onchain trading' uses 'is advancing' in present tense as though the exemption is actively being promoted at the Commission level, but the brief and data_points consistently show Atkins made personal remarks with disclaimers that they were 'his own views rather than those of the Commission or other commissioners.' The draft's framing obscures this critical uncertainty about whether the Commission itself has adopted or is advancing the exemption, versus Atkins personally advocating for it."
+    ]
+   }
+  ]
  }
 ]
