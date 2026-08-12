@@ -6655,5 +6655,49 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "CFTC Invokes Emergency Authority to Override New York Lawsuit Against KalshiEX",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CFTC Chairman Michael S. Selig stated in the agency's press release that Congress did not intend for derivatives exchanges to be regulated under a patchwork of state gaming laws.' However, the brief shows two separate quotes from Selig: one vivid quote ('New York intends to make event contract derivatives waste away under its iron curtain...') and a second quote about Congress's intent. The draft omits the first, more colorful quote entirely and should either include both or acknowledge it is selecting one.",
+     "The draft says 'the network came within approximately 20 million tokens of that threshold' but attributes this only to CoinDesk. The brief shows this claim appears in the CoinDesk data_point but the draft should verify whether the 4.5 percentage points calculation (from the title and opening) is independently derived or also sourced to CoinDesk, and reconcile the two formulations.",
+     "The draft describes the emergency order as something that 'halts New York's enforcement action before merits adjudication' in the bottom_line, but the brief's confidence label on the emergency order claim is 'announced-not-verified.' The draft prose reads this as settled fact without hedging language appropriate to an unverified announcement."
+    ]
+   },
+   {
+    "id": "c131",
+    "headline": "Solana Network Came Within 4.5 Percentage Points of Finality Loss After ISP Routing Failure",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'validators with backup systems never switched on, per CoinDesk' but the brief's data_point says 'Most affected validators, including Helius, stayed offline for the full 33 minutes because their backup systems never switched on, per CoinDesk.' The draft generalizes to 'validators with backup systems' when the source and brief specify only 'most affected validators.' This is a factual narrowing that goes beyond paraphrase.",
+     "The draft's opening claims the outage brought the network 'within 4.5 percentage points of the one-third stake delinquency threshold' but then later states 'The network came within approximately 20 million tokens of that threshold, per CoinDesk's reporting.' These are two different framings of proximity. The brief shows CoinDesk reports the 20 million token figure; the 4.5 percentage point claim needs explicit sourcing and the draft should not use both formulations as though they measure the same thing without reconciliation.",
+     "The draft refers to 'Solana's own prescribed safety limits' for ISP concentration, but the brief data_point only says AS20326 'controlled more staked tokens than Solana-prescribed safety limits.' The draft does not establish what those limits are or cite them; it asserts the limits exist but leaves them undefined, which could mislead readers about whether Solana formally published such limits."
+    ]
+   },
+   {
+    "id": "c055",
+    "headline": "XRP Bridge Drained: Software Approved Fake Deposits as Real",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'XRP dipped below $1 yesterday, its first sub-dollar print since November 2024' and 'XRP has lost 45% of its value this year, and is 74% below its all-time high.' These price-movement claims appear in the brief's data_points but are completely absent from the draft body. More critically, these claims are factually smuggled into the sources list (third source URL points to a Harmony/ONE story, not an XRP story), creating attribution liability. The draft never mentions XRP price at all, but if these figures were to appear, they would need proper sourcing and inline attribution\u2014they cannot be verified against the provided sources."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Goldman Sachs acquires NEOS Investments for $2.25 billion, gaining bitcoin covered-call ETF",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Goldman registered 'the Goldman Sachs Bitcoin Premium Income ETF with the SEC on April 14' but the brief says 'April 2026'\u2014the draft reads 'April 14' without a year, creating ambiguity when the brief itself uses 'April 2026' as the filing date. This is a smuggled date specification.",
+     "Draft claims 'BlackRock released its own bitcoin income ETF, BITA, on Nasdaq on June 16, about two months ahead of Goldman's filing' but does not explicitly state the year (2026). While context suggests 2026, the date is incomplete and should match the brief's precision.",
+     "Draft states Goldman will rank 'eighth among active ETF managers globally' but the exact phrasing in the brief is 'eighth-largest active ETF manager globally'\u2014a minor variance, but the brief provides this ranking as a specific reported claim and the draft should preserve exact attribution."
+    ]
+   }
+  ]
  }
 ]
