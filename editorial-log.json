@@ -6265,5 +6265,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "Russia limits retail crypto trading to bitcoin, ether, and USDT",
+    "category": "accuracy",
+    "reasons": [
+     "The phrase 'The rules add specifics to July legislation that opens regulated crypto trading but did not specify which assets retail investors could buy' is unclear and potentially inaccurate. The brief states 'The three-asset restriction adds specifics to July legislation that opened regulated crypto trading but did not specify which assets retail investors could buy,' but the draft's phrasing 'The three-asset restriction adds specifics to July legislation that opened regulated crypto trading from September 1 but did not specify which assets retail investors could buy' changes the implied timeline. The brief's data_point says the rules 'add specifics to July legislation that opens regulated crypto trading' without saying the July legislation itself specifies September 1; the draft inserts 'from September 1' in a way that modifies the original source claim.",
+     "The draft states 'CoinDesk's reporting flags this as a design choice rather than a confirmed loophole, but the mechanism exists in the rules as written' regarding the per-intermediary cap. This claim about how CoinDesk characterized it (as 'design choice rather than confirmed loophole') does not appear in the brief's data_points. The brief only notes that the mechanism is flagged and exists; the writer has added editorial characterization ('design choice') that is not sourced to the brief."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "Standard Chartered-Backed Anchorpoint Launches HKDAP Stablecoin",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'began an institutional rollout of HKDAP, a Hong Kong dollar stablecoin, following licensing approval' but the brief's data_point only confirms 'The rollout followed licensing approval' without specifying that it has already begun. The phrase 'began an institutional rollout' asserts a completed action not confirmed in the source material.",
+     "The draft introduces the characterization of HKDAP as 'a potential settlement and liquidity tool for institutional digital asset operations in the region' as editorial interpretation, not a reported fact from the brief. This goes beyond paraphrasing the source material."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "U.S. CPI Inflation Slows to 3.4% as Expected; Bitcoin Holds Near $64,000",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'June's 0.4% decline' for month-over-month CPI, but the brief data_point says 'June's 0.4% decline'\u2014this matches. However, the draft then says 'falling from June's 0.4% decline' which is confusing phrasing. More critically, the draft says CPI 'rose 0.1% month-over-month in July, matching economists' forecast and falling from June's 0.4% decline'\u2014this is contradictory. If June was a 0.4% *decline* (negative), then July's +0.1% is a *rise* from that baseline, not a fall. The phrasing 'falling from June's 0.4% decline' creates ambiguity about whether the 0.1% represents a decrease in inflation rate or an increase. The brief clearly states June was -0.4% (decline) and July was +0.1% (increase), so the narrative construction is misleading.",
+     "The draft contains the statement 'Treasury yields declined following the inflation print' in paragraph 3, but this claim does not appear in the brief's data_points. The brief states yields 'remained under pressure, maintaining pre-CPI weakness,' implying the decline was not a response to the CPI print but pre-existing. This is a smuggled claim not backed by the brief."
+    ]
+   }
+  ]
  }
 ]
