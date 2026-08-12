@@ -34,6 +34,8 @@ jobs:
     outputs:
       trigger: ${{ steps.w.outputs.trigger }}
       breaking: ${{ steps.w.outputs.breaking }}
+      # the edition slug a slot-recovery fire is for; empty on market/news triggers
+      slot: ${{ steps.w.outputs.slot }}
       reason: ${{ steps.w.outputs.reason }}
     steps:
       - uses: actions/checkout@v4
@@ -56,6 +58,7 @@ jobs:
     uses: ./.github/workflows/crypto-news-brief.yml
     with:
       breaking: ${{ needs.watch.outputs.breaking == 'true' }}
+      slot: ${{ needs.watch.outputs.slot }}
     secrets: inherit
     permissions:
       contents: write
