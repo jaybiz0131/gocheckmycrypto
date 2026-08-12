@@ -1,0 +1,41 @@
+{
+  "id": "c023",
+  "slug": "xrp-bridge-drained-for-200-000-after-software-mistook-fake-deposits-for-real-ones",
+  "kind": "brief",
+  "title": "XRP bridge drained for $200,000 after software mistook fake deposits for real ones",
+  "dek": "An attacker drained 199,916 XRP from the Coreum-to-XRP bridge by exploiting software that registered non-existent deposits as real, issuing unbacked bridged XRP that could then be exchanged for genuine reserves. The drain took 97 minutes on August 9 before the system was halted. All 28 relayers ran the same buggy code, meaning consensus collapsed entirely when the flaw was systemic.",
+  "date": "2026-08-12",
+  "published_utc": "2026-08-12T19:18:04Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "Nearly 200,000 XRP, worth about $200,000, were drained from the bridge by exploiting a software flaw that let the bridge register non-existent deposits as real, issuing unbacked bridged XRP that the attacker then used to withdraw genuine XRP from the reserve wallet.",
+  "bottom_line": "Watch for any compensation plan or reimbursement process from tx, and monitor FBI recovery efforts on the stolen XRP addresses. If tx cannot recover the funds or offer credible restitution, the incident will test whether unbacked bridged tokens can retain value or user confidence. The premise of this story inverts if tx announces a buyback, claims process, or insurance pool within days.",
+  "human_take": "",
+  "body": [
+    "Nearly 200,000 XRP, worth about $200,000, left the Coreum-to-XRP bridge in 97 minutes on August 9 after an attacker exploited a flaw that let the bridge register non-existent deposits as real. The theft represents 99.7% of the bridge's XRP reserve and exposes a cascade of failures in consensus design, code audit, and operational diversity that allowed 28 ostensibly independent relayers to reach identical wrong conclusions at scale.",
+    "The bridge connects the XRP Ledger to tx, a separate blockchain that rebranded from Coreum this March and focuses on tokenizing real-world assets. The attacker found a way to make the bridge's software issue receipts for deposits that never actually delivered XRP to the vault. This allowed the attacker to claim bridged XRP on the tx chain without the genuine backing required to redeem it.",
+    "According to CoinDesk's reporting, the attacker created transactions that the bridge's deposit-detection system recognized as valid even though they delivered no XRP to the reserve. The relayer software, which watches both blockchains and approves transfers when the bridge's records say a withdrawal is owed, processed payments carrying the bridge's memo without first verifying the destination address. Per Protos, the destination was the hacker's wallet, yet a seemingly valid memo existed that fooled the system.",
+    "Each payout was authorized by 17 of the bridge's 28 relayers, a majority signing off exactly as designed, according to CoinDesk. But all 28 relayers ran the same buggy code, meaning the consensus mechanism collapsed entirely because the flaw was systemic. Ostensibly independent operators reached identical conclusions and signed off on all of the withdrawals because they were all running identical flawed software, per Protos.",
+    "Tx, the operator, confirmed the deposit-detection flaw, according to CoinDesk's reporting. The company said the attacker exploited software that incorrectly recognized transactions that delivered no XRP to the reserve. Bridged XRP on the tx chain is now admittedly not fully backed, per the company's statement reported by Protos, meaning all holders of bridged XRP face potential loss pending recovery or reissue.",
+    "The bridge had undergone multiple internal and third-party audits prior to deployment, according to tx's statement reported by Protos. Yet the deposit-detection flaw and the destination-address verification gap passed all of them, raising questions about audit scope and rigor. Tx has identified and fixed the vulnerable code, engaged blockchain forensics specialists and filed a complaint with the FBI's Internet Crime Complaint Center, according to CoinDesk. The stolen XRP did not stay put, however, per the desk's reporting: onchain tracking shows most of it moved onward within hours through several other addresses, likely complicating recovery.",
+    "Tx has not said how affected holders will be made whole, according to CoinDesk. This leaves open whether losses will be socialized, recovered via FBI action, or borne by individual users holding now-unbacked bridged XRP on the tx chain."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/08/12/xrp-bridge-drained-for-usd200-000-after-software-mistook-fake-deposits-for-real-ones",
+      "url": "https://www.coindesk.com/tech/2026/08/12/xrp-bridge-drained-for-usd200-000-after-software-mistook-fake-deposits-for-real-ones"
+    },
+    {
+      "title": "https://decrypt.co/375441/xrp-drained-tx-bridge",
+      "url": "https://decrypt.co/375441/xrp-drained-tx-bridge"
+    },
+    {
+      "title": "https://protos.com/coreum-bridge-loses-99-7-of-xrp-reserve-in-200k-exploit/",
+      "url": "https://protos.com/coreum-bridge-loses-99-7-of-xrp-reserve-in-200k-exploit/"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": false
+}

@@ -6455,5 +6455,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c021",
+    "headline": "Harmony Patches Critical Exploit That Minted Billions of Unauthorized ONE Tokens",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'roughly 4 billion new tokens' and '26% of the roughly 15 billion ONE in circulation'; brief data_point marked 'unconfirmed' says 'Onchain account Juiceberg claimed that four billion ONE...was created' but also notes 'Harmony has not confirmed the 4 billion ONE or 2.8 billion exchanged figures reported by Juiceberg'. The draft presents Juiceberg's unconfirmed claim as settled fact without confidence hedge. The phrase 'an exploit created roughly 4 billion new tokens' must read 'an apparent exploit allegedly created roughly 4 billion new tokens, according to onchain observer Juiceberg' to match the brief's 'unconfirmed' label.",
+     "Draft states 'ONE token plunged approximately 40%' but brief data_point says 'ONE token plunged about 40%' sourced to CoinDesk headline which reads 'harmony-s-one-falls-26-after-attacker' (26% not 40%). The brief's own data_point claims '40%' but CoinDesk's URL headline contradicts this. The draft should either use '26%' per CoinDesk's URL or flag the discrepancy; presenting '40%' without noting the conflict is a liability.",
+     "Draft does not disclose that the 4 billion figure and 26% supply-dilution claim originate from Juiceberg, an unconfirmed source. Per brief: 'Harmony has not issued its own confirmation of the 4 billion ONE figure...both reported by onchain observer Juiceberg and quoted in Harmony's initial response but not stated as the protocol's independent findings.' The draft must attribute these figures to Juiceberg and mark them as unconfirmed; presenting them as fact without source attribution violates the hard rule that facts trace to research."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Goldman Sachs leaps into bitcoin income ETFs with $2.25 billion NEOS buyout",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'BTCI has fallen roughly 42.55% over the past year, with shares falling from a 52-week high of $65.87 to around $28.40' but the brief's bear_case says 'BTCI has fallen roughly 43% over the past year.' The draft introduces a precise figure (42.55%) not present in the brief data_point, which only says '0.99%' expense ratio and references the 43% decline without the decimal precision. This appears to be a calculation or sourcing not backed by the brief.",
+     "Draft claims 'Goldman will control more than $130 billion in total ETF assets' but the brief data_point says 'As of June 30, 2026, Goldman Sachs Asset Management, Innovator from Goldman Sachs Asset Management and NEOS manage more than $130 billion in ETF assets under supervision.' The draft omits the temporal qualifier ('as of June 30, 2026') and the clarifying 'under supervision' language, which materially changes the claim's precision and current accuracy."
+    ]
+   },
+   {
+    "id": "c062",
+    "headline": "SEC schedules August 14 meeting to advance Regulation Crypto proposal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The framework is designed to create a pathway for certain digital assets to operate outside traditional securities registration requirements' but this characterization is not present in the brief's single data point, which only confirms the meeting date and proposal name. The brief's open_questions make clear that 'specific exemptions' and 'eligible asset categories' are unknown. The draft's framing of what the framework is 'designed' to do reads as interpretation rather than reported fact.",
+     "The brief is marked thin=true with only one data point and source_chars=0, indicating source material was minimal or unavailable. The draft should reflect this thinness more explicitly; instead it presents design intent as settled when the brief itself lists this as an open question."
+    ]
+   }
+  ]
  }
 ]
