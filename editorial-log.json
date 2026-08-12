@@ -6489,5 +6489,50 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c011",
+    "headline": "Russia Restricts Retail Crypto Trading to Bitcoin, Ether, USDT From September 1",
+    "category": "accuracy",
+    "reasons": [
+     "Paragraph 3 states: 'The brief does not specify what enforcement mechanisms the central bank intends to deploy to prevent such aggregation.' This is not a fact from the brief; it is a meta-commentary about the brief's gaps. This sentence smuggles editorial judgment about source adequacy into the news prose and should not appear. Remove or rephrase as 'The central bank has not specified enforcement mechanisms to prevent such aggregation' if the source supports it.",
+     "Paragraph 4 states 'The restriction represents a tightening of the regulatory framework beyond what the July legislation established' but the brief does not compare the scope of July legislation to these August rules; this is analytical inference not sourced to the brief. Either cite CoinDesk's reporting for this framing or remove.",
+     "Paragraph 5 states 'The sources do not specify the criteria that define a qualified investor' and 'CoinDesk's reporting does not indicate whether the Russian central bank has published or plans to publish a full regulatory framework document.' These are meta-statements about source silence, not facts, and should not appear in the draft."
+    ]
+   },
+   {
+    "id": "c023",
+    "headline": "XRP bridge drained for $200,000 after software mistook fake deposits for real ones",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'per Protos' reporting, the relayer code processed payments carrying the bridge's memo without verifying the destination address' but attributes this specific technical detail to Protos when the brief's data_point 11 attributes the identical claim to CoinDesk, not Protos. The Protos data_point 19 says only 'A seemingly valid memo existed, yet the destination was the hacker's wallet' without the full technical explanation of the memo vs. destination address failure.",
+     "The draft claims '99.7% of the XRP reserve had been drained' but the brief's data_point says the attacker drained '99.7% of the XRP reserve' via the Protos source. However, the draft later states 'By the time tx halted the bridge, 99.7% of the XRP reserve had been drained' as a summary statement, which is supported. The first invocation is accurate.",
+     "The draft says 'According to tx, the bridge's software incorrectly registered transactions that never delivered XRP to the reserve as deposits' but data_point 7 attributes this to CoinDesk reporting what tx confirmed, not directly to tx's own statement. The phrasing 'According to tx' is technically correct per data_point 7 and 12 which say 'According to tx' and 'TX confirmed,' but the writer should verify the attribution matches the source outlet order in the brief."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Harmony's ONE dives 40% after an attack appears to mint tokens equal to quarter of supply",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case item 'Onchain account Juiceberg claimed that four billion ONE...was created and that 2.8 billion ONE was sent to exchanges' is marked in the data_points as 'unconfirmed' confidence (data_point 13), but the draft presents Juiceberg's claim without adequate hedging of its unconfirmed status. The draft states 'The desktop account Juiceberg claimed that 4 billion ONE was created and that 2.8 billion was sent to exchanges, per The Defiant, though Harmony quoted Juiceberg's post in its initial response but did not state those numbers as its own findings' which does note Harmony's lack of independent confirmation, but the opening claim that '4 billion unauthorized tokens' were minted is presented as confirmed fact when the sole quantification comes from the unconfirmed Juiceberg source. This conflates Harmony's admission of a flaw (confirmed) with the specific 4 billion figure (unconfirmed).",
+     "The brief's bear_case lists 'Many in the industry view a rollback as antithetical to blockchain's core principle of immutability' and 'Undoing an attack via rollback can also undo legitimate transactions made after the exploit, as seen with Ravencoin's attempted rollback the day before.' The draft includes the first point ('Many in the industry view a rollback as antithetical to blockchain's core principle of immutability') but omits the second point about Ravencoin entirely. The bear_case is not fully represented."
+    ]
+   },
+   {
+    "id": "c043",
+    "headline": "CFTC invokes emergency authority to order Kalshi to continue operating in New York",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The CFTC had previously sued New York over its stance on prediction markets' but the brief lists this as a single data_point with confidence 'reported' and provides no detail about timing, outcome, or current status. The phrase 'had previously' in the draft suggests a resolved historical action, but the brief does not clarify whether this suit is ongoing, settled, or what its current posture is. This reads as assumed context not present in the brief.",
+     "The draft claims the CFTC 'used what it describes as emergency authority' but does not identify which statute or regulatory mechanism provides this emergency authority. The open_questions in the brief explicitly flag 'What specific mechanism or statute did the CFTC cite for its emergency authority order?' This suggests the brief itself does not contain the statutory basis. The draft should either mark this as unconfirmed or omit the claim entirely; instead it presents it as settled fact.",
+     "The draft states 'The jurisdictional question of whether prediction markets fall under state gaming authority or federal derivatives authority remains unresolved in the courts' in the closing paragraph, but the brief's open_question asks 'Has a federal court issued a final ruling on whether prediction markets fall under state gaming jurisdiction or federal derivatives jurisdiction, or is the jurisdictional question still unresolved?' The phrasing of the open question as an either/or suggests the brief does not confirm the current status. The draft asserts it as resolved (unresolved) without that confirmation in the data_points."
+    ]
+   }
+  ]
  }
 ]
