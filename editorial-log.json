@@ -6192,5 +6192,44 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c028",
+    "headline": "CFTC Orders Kalshi to Continue Operating Despite New York Lawsuit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the story to 'The Block's reporting' in the opening, but the brief's single data_point cites The Block as the source. However, the draft then states 'the sources available to this desk do not specify what operational restrictions or remedies the CFTC order imposes'\u2014this is appropriate epistemic caution, but it undermines the entire premise that this is reportable as a news story rather than a holding pattern. A draft that leads with 'flexed emergency authority' but then immediately pivots to 'we don't actually know what the order does' reads as half-baked. The brief is marked thin=true with only one data_point and no bear_case; a one-sentence story from a secondary outlet does not meet the desk's bar for publication without primary source verification (CFTC press release, court filing, or Kalshi statement). The draft should either be rejected as too thin to run or rebuilt from c001's primary-source brief."
+    ]
+   },
+   {
+    "id": "c053",
+    "headline": "Russia Approves Bitcoin, Ethereum, and USDT for Retail Trading; Excludes XRP",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'XRP's exclusion despite the liquidity standard applied to approved assets suggests regulatory discretion unrelated to market depth alone'\u2014this is analysis/inference, not a fact from the brief. The brief's data_point says 'the central bank's liquidity bar was the approval criterion' but does not say XRP meets or fails that criterion. The draft then claims 'This raises the possibility that assets may be selectively blocked on geopolitical or policy grounds'\u2014this is speculation unsupported by the brief's data_points. The bear_case in the brief says exclusion 'suggests' discretion unrelated to market depth; the draft should have said 'suggests' or 'raises questions,' not treated it as established fact.",
+     "The draft states in the body: 'However, the sources do not specify why XRP was excluded or what additional factors the central bank weighed in its decision.' This is appropriate epistemic caution, but it immediately undercuts the preceding sentence which reads as analytical conclusion rather than reported fact. The story is internally contradictory: it presents speculation as fact, then admits the facts are missing. The draft is too thin (brief=true, one outlet, no primary source, no rationale for XRP exclusion) to run without further reporting."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "Ravencoin Network Attempts Rollback of Four Days of Transactions After Critical Exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The first bad block appeared at height 4,487,776 at 15:44 UTC on Aug. 7' but the brief data_point says 'The first bad block appeared at height 4,487,776 at 15:44 UTC on Aug. 7'\u2014this is consistent. However, the draft's opening claims 'rolling back four days' but provides no source data confirming the four-day span. The brief's title and core_claim reference 'four days' but no data_point establishes when the rollback window ends or began relative to the Aug. 7 timestamp. The phrase 'four days of blockchain history' is presented as fact without a boundary confirmation (block height, timestamp, or transaction count) that grounds it to the brief. The brief itself flags 'boundary_required: true' and 'boundary_ok: false', indicating this story cannot be published without a confirmed end-date or block-height threshold for the rollback window, which the draft lacks."
+    ]
+   },
+   {
+    "id": "c123",
+    "headline": "Riot Platforms Leases 191 Megawatts to Unnamed AI Company for $9.1 Billion Over 20 Years",
+    "category": "balance",
+    "reasons": [
+     "Brief's bear_case contains six substantive risk items (unnamed counterparty, unverified projections, execution risk, revenue timing gap, mining deterioration, 20-year uncertainty) but the draft contains no dedicated risk paragraph. The bottom_line mentions execution risk and lease cancellation but does not surface the counterparty opacity, forward-looking estimate caveats, or the 14+ month cash-burn gap before revenue begins. The brief explicitly flags that Riot's Q2 net loss and negative EBITDA 'reflect deteriorating mining fundamentals, not improved operational efficiency,' but the draft presents mining revenue decline neutrally without emphasizing the structural weakness the bear case identifies. This omission materially understates the fragility of Riot's position during the buildout phase."
+    ]
+   }
+  ]
  }
 ]
