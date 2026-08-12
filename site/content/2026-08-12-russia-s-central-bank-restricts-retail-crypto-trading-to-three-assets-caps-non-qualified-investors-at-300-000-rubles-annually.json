@@ -1,0 +1,34 @@
+{
+  "id": "c001",
+  "slug": "russia-s-central-bank-restricts-retail-crypto-trading-to-three-assets-caps-non-qualified-investors-at-300-000-rubles-annually",
+  "kind": "brief",
+  "title": "Russia's Central Bank Restricts Retail Crypto Trading to Three Assets, Caps Non-Qualified Investors at 300,000 Rubles Annually",
+  "dek": "Russia's central bank has formally restricted retail cryptocurrency trading on regulated exchanges to bitcoin, ether, and USDT, effective September 1. Non-qualified investors face a 300,000-ruble annual purchase cap per intermediary, while qualified investors have no limit. Crypto payments inside Russia remain prohibited.",
+  "date": "2026-08-12",
+  "published_utc": "2026-08-12T11:26:00Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Starting September 1, Russian retail investors can trade only BTC, ETH, and USDT on regulated exchanges, capped at roughly $3,600 annually per broker unless they qualify as institutional investors.",
+  "bottom_line": "Sovereign regulatory move: Russia's central bank formally restricts retail crypto trading to BTC, ETH, USDT with 300,000-ruble annual cap per intermediary, a major policy decision affecting market access.",
+  "human_take": "",
+  "body": [
+    "Russia's central bank has formally established the first official whitelist of tradeable cryptocurrencies for retail investors on regulated exchanges, according to CoinDesk's reporting. Starting September 1, non-qualified investors will be restricted to bitcoin, ether, and USDT only, with an annual purchase limit of 300,000 rubles (approximately $3,600) per intermediary. Qualified investors face no cap.",
+    "The move adds operational detail to crypto legislation passed in July that authorized regulated trading to begin September 1. The central bank designated Tether's dollar-linked token as the sole stablecoin available to retail traders, excluding other stablecoins and all altcoins from the retail whitelist.",
+    "The cap applies per intermediary rather than across an investor's total purchases, a structure that potentially allows wealthier retail investors to circumvent the annual limit by spreading transactions across multiple brokers or exchanges, according to CoinDesk.",
+    "Qualified investors, whose definition and verification process remain unspecified in available reporting, have no purchase restrictions under the new rules.",
+    "Crypto payments inside Russia remain prohibited under current law, limiting practical utility of assets traders acquire under the new framework. The framework therefore permits trading for speculative or holding purposes only.",
+    "The bear case centers on three constraints: the whitelist excludes all altcoins and limits portfolio diversification for Russian retail traders; the per-intermediary structure may allow circumvention of the cap; and the prohibition on crypto payments inside Russia reduces the traded assets' real-world function. How the central bank will enforce the per-intermediary limit across brokers, and what qualifies as a \"qualified investor\" under Russian law, remain open questions.",
+    "The Bottom Line: Watch for the September 1 implementation date and the first enforcement actions if retail investors attempt multi-broker limit circumvention. If the central bank enforces the per-intermediary cap strictly and raises the threshold for qualified investor status, it signals a retail-restrictive posture; looser enforcement would indicate the cap is more symbolic than binding."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/08/12/russia-moves-to-restrict-retail-crypto-trading-to-bitcoin-ether-and-usdt",
+      "url": "https://www.coindesk.com/policy/2026/08/12/russia-moves-to-restrict-retail-crypto-trading-to-bitcoin-ether-and-usdt"
+    }
+  ],
+  "update_of": "russia-s-sberbank-to-launch-crypto-trading-infrastructure-by-december",
+  "also_reported_by": [],
+  "developing": true
+}

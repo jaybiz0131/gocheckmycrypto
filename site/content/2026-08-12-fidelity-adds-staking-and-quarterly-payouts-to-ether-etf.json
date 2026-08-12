@@ -1,0 +1,33 @@
+{
+  "id": "c006",
+  "slug": "fidelity-adds-staking-and-quarterly-payouts-to-ether-etf",
+  "kind": "brief",
+  "title": "Fidelity Adds Staking and Quarterly Payouts to Ether ETF",
+  "dek": "Fidelity is adding ether staking and quarterly cash distributions to its Fidelity Ethereum Fund (FETH), which holds $898 million in net assets. The fund will retain 85% of gross staking rewards after paying node operators and service providers, following IRS safe-harbor rules that protect grantor-trust tax status.",
+  "date": "2026-08-12",
+  "published_utc": "2026-08-12T11:26:00Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 5,
+  "author": "Crypto Cronkite",
+  "key_fact": "FETH will stake ether and distribute net rewards quarterly, keeping 85% for shareholders and paying 15% to operators, node providers, and custodians.",
+  "bottom_line": "Watch for FETH's staking launch date and track the actual staking rate once live, which will signal how much capital Fidelity intends to deploy. The institutional concentration of ether staking could reshape validator economics and solo-staker viability if multiple large funds move substantially into the same node operators.",
+  "human_take": "",
+  "body": [
+    "Fidelity is expanding its Fidelity Ethereum Fund (FETH) to include ether staking and quarterly cash distributions to shareholders, according to CoinDesk reporting. FETH, which holds $898 million in net assets, will stake ether and distribute net rewards to investors four times per year, provided the arrangement complies with rules issued by the IRS in November 2025 that allow qualifying crypto trusts to stake without forfeiting grantor-trust tax status.",
+    "Under the proposed structure, FETH could stake as much as 100% of its ether holdings under normal conditions, though Fidelity has set no minimum staking requirement. The fund will hold a reserve of ether to cover redemptions, fund expenses, and other liquidity needs. Blockdaemon, Figment, and Galaxy are named as the trust's node operators, according to CoinDesk.",
+    "Fidelity will retain 85% of gross staking rewards. The remaining 15% goes to the fund sponsor, custodians, and node operators to cover infrastructure and service costs. Net staking rewards (after the 15% cut) will first be used to cover fund expenses, then distributed as quarterly cash payouts to shareholders. The fund may also sell some ether to raise additional cash for distributions if needed.",
+    "The IRS safe harbor requires that qualifying trusts distribute staking rewards at least quarterly, per CoinDesk. This mechanism allows institutional ether holders to participate in consensus rewards without converting the fund's tax status or triggering unintended security reclassification.",
+    "Other major asset managers have followed similar paths: Grayscale and 21Shares are adding staking to existing ether funds, and BlackRock introduced a separate staking product, according to CoinDesk. The trend reflects investor appetite for yield on crypto holdings within regulated fund structures.",
+    "The sources do not specify a launch date for the staking feature or detail the redemption mechanics if staked ether cannot be immediately withdrawn to meet investor redemptions. Fidelity has not disclosed whether the amended registration statement sets a target staking percentage or allocation strategy.",
+    "The bear case: Fidelity sets no minimum staking, meaning the fund could theoretically hold all ether liquid without staking if market conditions warrant. The fund's need to reserve ether for redemptions and expenses also constrains the proportion actually deployable for yield. The 15% capture by service providers reduces net yield compared to solo staking."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/08/12/fidelity-moves-to-add-staking-quarterly-payouts-to-near-usd900-million-ether-etf",
+      "url": "https://www.coindesk.com/business/2026/08/12/fidelity-moves-to-add-staking-quarterly-payouts-to-near-usd900-million-ether-etf"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": true
+}

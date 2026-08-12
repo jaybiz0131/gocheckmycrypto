@@ -6231,5 +6231,39 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c046",
+    "headline": "Harmony's ONE Token Falls 40% After Exploit Creates 4 Billion Unauthorized Tokens",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'token fell approximately 40% in Asian morning trading on August 12' but brief core_claim and first data_point say 'fell about 40%' without specifying time-of-day context. More critically, the draft's bottom_line says 'crashes token 37%' which directly contradicts the 40% figure stated in the body. The brief contains no 37% figure; this appears to be a smuggled or misremembered number that introduces factual contradiction within the draft itself.",
+     "Draft claims 'roughly 26% against the approximately 15 billion ONE tokens' but the brief's data_point 3 states 'roughly 26% against that supply' without confirming pre-exploit supply as 15 billion. The 15 billion figure appears in the draft but is not explicitly confirmed in any brief data_point; it is only implied by reverse calculation. This is the writer inferring rather than reporting a confirmed fact."
+    ]
+   },
+   {
+    "id": "c051",
+    "headline": "SEC Schedules Open Meeting on Regulation Crypto Proposal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the proposal may create a safe harbor for crypto token projects' but the brief's single data point only confirms the SEC scheduled an open meeting to 'consider moving forward with' the proposal\u2014not that it may create a safe harbor. The safe harbor claim is not in the brief and appears smuggled from the Decrypt headline.",
+     "The draft explicitly states 'Regulation Crypto has not been detailed in the available source material' and 'The sources do not specify which token categories would qualify,' signaling the writer knows the source is thin. This is a 1-data-point brief (thin=true) with zero source_chars reported. A story this hollow should either be held or rewritten to honestly signal that no details exist yet, not published as a 'may create a safe harbor' assertion."
+    ]
+   },
+   {
+    "id": "c130",
+    "headline": "Ravencoin Mining Pools Attempt Chain Rewrite After Critical Exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the fork would erase 'four days of transactions' but the brief's open_questions note an inconsistency: 'the snippet says three days, the source text says four days.' The draft presents a single figure as fact without flagging this unresolved discrepancy in the reporting.",
+     "The draft claims 'RavenMiner said in a message on its website that its nodes are running an emergency fix' using present tense, but the brief data_point uses 'already running,' suggesting a state at the time of reporting. The temporal ambiguity about whether the reorg has begun or is in preparation remains unresolved in the draft.",
+     "The draft does not address the brief's open_question about whether the reorganization 'has already begun or remains in preparation'\u2014a material distinction for readers evaluating the immediacy of the threat. This is a fact gap, not a stylistic choice."
+    ]
+   }
+  ]
  }
 ]
