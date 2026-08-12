@@ -6298,5 +6298,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c116",
+    "headline": "Coreum Bridge Drained of 199,916 XRP; Relayers Failed Destination Validation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'XRP dipped below $1, its first sub-dollar print since November 2024' and 'XRP has lost 45% of its value this year and is 74% below its all-time high.' These claims appear in the brief's data_points but are not about the bridge exploit itself; they are contextual price movements that drift away from the core incident narrative. More critically, these price claims are marked 'reported' confidence in the brief but are not causally connected to the bridge attack described in the draft. The draft does not explicitly attribute these claims to Protos or establish that they were part of the same reporting\u2014they read as the writer's contextual color rather than facts from the source. This violates the rule that every fact must trace back to the brief and be clearly sourced inline.",
+     "The draft does not include the two critical bear_case items that explicitly appear in the brief: (1) 'Which third-party auditors reviewed the bridge before deployment, and why did they not catch the destination validation flaw?' and (2) the specific finding that 'The attacker did not need to steal private keys; the mechanism worked because relayer software failed to verify destination addresses in deposit validation.' The draft mentions audits generally but does not highlight that the auditors failed to catch this specific flaw, which is a material element of the bear case the brief identified."
+    ]
+   },
+   {
+    "id": "c050",
+    "headline": "Harmony ONE Drops 37% After Attacker Mints 4 Billion Tokens",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The exploit inflated the token's total supply by roughly 25%.' The brief's bear_case says 'The 4 billion minted tokens represent approximately 25% of total ONE supply,' but the draft does not cite this figure to the brief or provide a source. The writer appears to have calculated or inferred this percentage, which is a smuggled fact not explicitly stated in the single Decrypt source provided. The brief includes this as a data_point, but the draft presents it as established fact without attribution.",
+     "The draft asserts 'Harmony's decision will signal to the market whether it treats the blockchain as a permanent ledger or as a system that can be edited retroactively when major errors occur.' This is analysis and interpretation that does not appear in the brief's data_points or core_claim. It is the writer's editorial voice framed as stake, not a fact from the source.",
+     "The draft mentions 'Ethereum rolled back the DAO in 2016 to reverse theft, but the choice remains contested.' This historical reference does not appear in the brief at all and is smuggled context. The hard rule is that facts come from the brief; historical precedent is not in the source material provided."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Russia Restricts Retail Crypto Trading to Three Assets, Caps Non-Qualified Investors at $3,600 Annually",
+    "category": "compliance",
+    "reasons": [
+     "Draft header flags 'boundary_required: true' and 'boundary_ok: false' with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block'. The draft does not include a boundary/version block clarifying whether the September 1 regulations are final or proposed. This is a compliance requirement that was flagged as missing and remains unresolved in the published draft."
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "CFTC and SEC sue Goliath Ventures over $397 million DeFi liquidity pool Ponzi",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'In January 2025, Goliath had announced a partnership with a compliance and regulatory firm' but the brief data_point says 'In January 2025 Goliath announced a partnership with a 'regulatory and compliance firm' that was owned and controlled by Goliath's own head of compliance.' The draft omits the critical detail that the firm was owned and controlled by Goliath's head of compliance, which is essential to understanding the fraud mechanism and appears nowhere else in the draft's account of the scheme.",
+     "Draft states the cease-and-desist occurred in 'September 2025' generically, but brief specifies 'Sept. 9' as the date the cease-and-desist was sent. More critically, the draft says 'Goliath sued the journalist on September 22, 2025' but provides no attribution to source. The brief lists 'Goliath sued the journalist for defamation on Sept. 22, 2025' as a reported data_point; however, the draft should have attributed this lawsuit claim inline to The Defiant or acknowledged it came from the complaint.",
+     "Draft states 'A bankruptcy receiver filed for Goliath's insolvency in the Southern District of Florida on March 16, 2026' but brief says 'A receiver filed for bankruptcy of Goliath in the Southern District of Florida on March 16, 2026.' The draft's phrasing 'filed for Goliath's insolvency' is not the precise language in the brief's data_point, which says the receiver 'filed for bankruptcy of Goliath.' This conflation of insolvency filing language with the actual bankruptcy filing language represents a subtle but material difference in legal precision."
+    ]
+   }
+  ]
  }
 ]
