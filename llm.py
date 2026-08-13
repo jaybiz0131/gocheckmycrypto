@@ -208,6 +208,18 @@ class Client:
         if model == "claude-fable-5":
             body["fallbacks"] = [{"model": "claude-opus-4-8"}]
             headers["anthropic-beta"] = "server-side-fallback-2026-06-01"
+        # ROOT CAUSE of the 2026-07-20/21 news-desk run failures, ported here 2026-08-13
+        # after this desk hit the same wall (wraprescue truncated mid-JSON on two rungs
+        # and the evening slot died): claude-sonnet-5 runs ADAPTIVE THINKING BY DEFAULT
+        # when the thinking param is omitted, and thinking bills as OUTPUT tokens inside
+        # max_tokens. On heavy prompts the model spends most of the budget thinking and
+        # truncates the JSON contract mid-object; the contract ladder's rescue rung is
+        # ALSO Sonnet, so it hits the same wall and the stage fails closed. JSON stages
+        # need the whole budget for the payload, so thinking is explicitly disabled on
+        # Sonnet calls (this covers the rescue rung and wraprescue, the only Sonnet
+        # callers).
+        if model.startswith("claude-sonnet-5"):
+            body["thinking"] = {"type": "disabled"}
         data = json.dumps(body).encode("utf-8")
         req = urllib.request.Request(API_URL, data=data, method="POST", headers=headers)
         resp_json = self._post_with_retry(stage, req)
@@ -284,10 +296,23 @@ def extract_json(text):
     in prose or a ```json fence despite instructions; this recovers the object defensively."""
     if not text:
         return None
-    try:
-        return json.loads(text)
-    except Exception:
-        pass
+    # strict=False: edition bodies carry real newlines inside JSON strings (build_item
+    # splits body on \n), and pretty-printing models emit them unescaped; the default
+    # strict parser rejects any control character inside a string and burned complete,
+    # well-formed wraprescue editions (2026-07-21).
+    # models sometimes wrap the object in a markdown fence despite instructions;
+    # strip it before parsing (the brace scan below is the deeper fallback)
+    stripped = text.strip()
+    if stripped.startswith("```"):
+        stripped = stripped.split("\n", 1)[-1]
+        if stripped.rstrip().endswith("```"):
+            stripped = stripped.rstrip()[:-3]
+    for cand in (text, stripped):
+        for strict in (True, False):
+            try:
+                return json.loads(cand, strict=strict)
+            except Exception:
+                pass
     start = text.find("{")
     while start != -1:
         depth = 0
@@ -311,7 +336,7 @@ def extract_json(text):
                     depth -= 1
                     if depth == 0:
                         try:
-                            return json.loads(text[start:i + 1])
+                            return json.loads(text[start:i + 1], strict=False)
                         except Exception:
                             break
         start = text.find("{", start + 1)
