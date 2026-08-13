@@ -7000,5 +7000,55 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c125",
+    "headline": "Teraswitch Routing Fault Knocked 28.83% of Solana Stake Offline, Brought Finality Within 4.5 Points of Halt",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Solana requires at least 66 percent of stake to vote on a block for it to be confirmed, and finality also requires at least 31 subsequent confirmed blocks.' The brief data_point says 'On Solana, a block becomes confirmed after at least 66% of stake votes on it; finalization also requires at least 31 subsequent confirmed blocks.' The draft has rephrased this to imply that both conditions (66% votes AND 31 blocks) apply to the confirmation step, when the brief's wording more clearly separates confirmation (66%) from finalization (31 blocks). This is a subtle but material shift in how the consensus mechanics are presented.",
+     "The draft states 'The episode affected 90 validators and cost them a combined 333 SOL in rewards.' The brief's confidence label for this claim is 'reported', not 'confirmed' or 'verified', yet the draft presents it as a settled fact without any hedge. While the brief does contain this as a reported claim, presentation should reflect the 'reported' status given the sensitivity of financial loss attribution.",
+     "The draft opens with 'A routing fault at Teraswitch, a carrier used by dozens of Solana validators' but the brief does not establish that Teraswitch is 'used by dozens of Solana validators'\u2014only that AS20326 carried 118.89 million staked SOL. This is a small inferential leap that goes beyond the brief's data points."
+    ]
+   },
+   {
+    "id": "c129",
+    "headline": "Harmony Patches Quorum and Receipt-Replay Flaws After Unauthorized ONE Minting Claim",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Unconfirmed analysis by onchain account Juiceberg claimed that approximately 4 billion ONE tokens' but the brief's data_point labels this claim with confidence 'unconfirmed'. The draft does use the word 'Unconfirmed' at the start of the sentence, but then states the figure directly ('4 billion ONE tokens, or about 26 percent of the circulating supply, were created through these flaws') without maintaining the uncertainty qualifier through the entire statement. The phrasing 'were created' reads as settled fact; proper attribution requires the uncertainty to travel with the claim throughout.",
+     "The draft states 'Harmony's staking API reported 15.3297 billion ONE in total supply and 15.0105 billion in circulating supply at epoch 3003, while CoinGecko listed 14.87 billion as both circulating and total supply, leaving a gap between the two figures unresolved.' The brief contains these numbers but does not explicitly call this a 'gap' or state it remains 'unresolved'\u2014those are inferences by the writer. While the brief's bear_case does mention 'A gap between CoinGecko's 14.87B supply and Harmony's staking API 15.33B total supply remains unresolved,' the draft has introduced interpretive language ('leaving a gap...unresolved') not explicitly present in the reported facts."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Goldman Sachs acquires bitcoin income ETF manager NEOS for up to $2.25 billion",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'BTCI launched in October 2024 and crossed $1 billion in assets in under two years' but brief data_point states 'BTCI launched in October 2024 and has crossed $1 billion in assets in under two years.' The article is dated August 12, 2026, making the launch to present day approximately 22 months, not 'under two years.' This is either a factual error or the brief's phrasing is imprecise; the draft amplifies potential ambiguity by restating it as settled fact rather than attributing the claim inline to CoinDesk as written."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "SEC issues no-action letter for Franklin Templeton to use onchain BENJI system",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Franklin Templeton had previously launched FOBXX, an onchain money market fund' but the brief contains no data_point supporting that FOBXX was already launched prior to the no-action letter. Brief only states that the no-action letter 'enables Franklin Templeton's traditional registered funds to invest in the BENJI/FOBXX onchain money market fund.' The draft introduces new information not present in the research brief\u2014that FOBXX had been launched before the SEC letter\u2014without attribution."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "SEC chair describes tokenized-securities framework, but exemption remains undefined",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'Bloomberg reported August 11 that the measure could pave the way for 24/7 trading of stock tokens on blockchains' appears in the draft as a direct fact but the brief data_point says Bloomberg's report was cited *by* The Defiant\u2014The Defiant is the source of record here, not Bloomberg. The draft treats Bloomberg as a primary source when it is a secondary report relayed through The Defiant. This conflates attribution.",
+     "The draft states 'Commissioner Hester Peirce emphasized that tokenized securities remain subject to all federal securities laws, including restrictions that can prevent retail investors from trading some synthetic products away from a national securities exchange' but the brief's corresponding data_point says Peirce 'stated that tokenized securities are still securities and the same legal requirements apply to onchain and offchain versions, including restrictions.' The draft's addition of 'synthetic products' is not in the brief's data_point and is a smuggled specification that goes beyond what was reported."
+    ]
+   }
+  ]
  }
 ]

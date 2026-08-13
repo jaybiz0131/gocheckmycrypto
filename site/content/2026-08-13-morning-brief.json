@@ -1,0 +1,68 @@
+{
+  "id": "wrap-am-2026-08-13",
+  "slug": "morning-brief-2026-08-13",
+  "kind": "brief",
+  "title": "The Morning Brief: Stablecoins and Security: Regulation Tightens as Bridges Collapse",
+  "dek": "Central banks and regulators moved to formalize stablecoin rules across three continents while critical infrastructure failures exposed the fragility of bridge security. The morning picture mixes institutional adoption with operational risk.",
+  "date": "2026-08-13",
+  "published_utc": "2026-08-13T12:51:50Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Stablecoin frameworks are crystallizing globally, Hong Kong, Russia, and the BOE are all moving from concept to live rules, but the day's bridge exploits and validator outages revealed that the security underpinnings of decentralized finance remain untested at scale.",
+  "bottom_line": "Today's picture splits between regulatory progress and infrastructure fragility. Central banks and regulators are formalizing stablecoin and settlement frameworks in real time, the BOE, Russia, Hong Kong, and major Japanese banks all moved beyond concept into operational or near-operational status, but three separate bridge exploits and validator outages in a single reporting cycle exposed systemic risks in the underlying security model. The desk's Whale Watch board shows heavy bitcoin inflows to major exchanges, while ETF flows turned negative for bitcoin but remain positive for ethereum. Watch for the BOE and Treasury's Phase 2 assessment later this year, Russia's September 1 retail trading rules taking effect, Harmony's rollback decision, and the outcome of recovery efforts on the XRP bridge theft; any failure to contain or compensate for these incidents will test whether institutional adoption can survive operational risk.",
+  "human_take": "",
+  "body": [
+    "The morning's dominant thread is regulatory crystallization around stablecoins and cross-border settlement. Three separate jurisdictions moved past pilot phase into operational frameworks. The Bank of England's Digital Pound Lab entered Phase 2 to test whether public stablecoins and a prospective central bank digital currency can operate in a single transaction for trade finance, with results feeding into a formal government assessment later this year. In Hong Kong, Anchorpoint Financial launched beta access for HKDAP, a Hong Kong dollar stablecoin backed by one of the first two issuer licences issued under the regime that took effect in August 2025. And Russia's central bank formalized the first official whitelist of tradeable cryptocurrencies for retail investors on regulated exchanges starting September 1, restricting non-qualified traders to bitcoin, ether, and USDT only, capped at 300,000 rubles (roughly $3,600) annually per intermediary.",
+    "Institutional crypto infrastructure also expanded. Fidelity is adding ether staking and quarterly cash distributions to its Fidelity Ethereum Fund (FETH), which holds $898 million in net assets, keeping 85% of gross staking rewards after operators and custodians. Goldman Sachs agreed to acquire NEOS Investments for up to $2.25 billion to gain BTCI, a $1.1 billion bitcoin synthetic income ETF yielding roughly 27% through covered-call strategies, positioning Goldman to compete directly with BlackRock's newer BITA fund. And Mitsubishi UFJ Financial Group, Japan's largest bank, is preparing a proof-of-concept to settle Japanese government bond transactions on the Canton blockchain, targeting real-time settlement versus the traditional 1-3 day cycle.",
+    "But the day also exposed critical operational failures in decentralized infrastructure. Nearly 200,000 XRP were drained from the Coreum-to-XRP bridge in 97 minutes after an attacker exploited software that registered non-existent deposits as real, leaving the bridge with 99.7% of its XRP reserve gone. The flaw allowed all 28 relayers, ostensibly independent, to reach identical wrong conclusions at scale. Separately, Solana came within 4.5 percentage points of a complete network halt when a routing defect at Teraswitch, an internet infrastructure provider, knocked validators representing 28.83% of staked tokens offline; finality would have stopped if delinquency exceeded 33.34%. Harmony released patch v2026.1.1 fixing two critical smart contract validation flaws that allowed an attacker to mint approximately 4 billion ONE tokens, representing 26% of supply, forcing the network to halt its bridge and consider a full chain rollback.",
+    "On the regulatory side, the CFTC's Division of Market Oversight issued an advisory reminding designated contract markets of compliance obligations when self-certifying incentive programs for prediction markets, citing an increasing number of procedural and substantive deficiencies in recent filings.",
+    "The desk's boards show fear holding at 29 on the Crypto Fear and Greed Index (30-day range 25 to 33). Bitcoin is trading at $63,503.46, up 0.15% in 24 hours but down 49.1% from its 12-month high of $124,739.81; ethereum is at $1,884.90, up 0.38% in 24 hours but down 60.9% from its 12-month high. On the week, bitcoin is flat and ethereum up 1.44%; on the month, bitcoin up 5.9% and ethereum up 17.2%. The desk's Whale Watch board shows $163.9 million net moving onto exchanges over the last 72 hours, with $220.1 million in bitcoin deposits to Binance and Kraken leading the inflow, offset by $169.9 million in USDT leaving Bitfinex. Bitcoin ETF flows turned negative on August 12 at -$61.1 million after five sessions of net inflows totaling $41.4 million; ethereum ETF flows were positive at $7.4 million on August 12 with last five sessions cumulative at $132.8 million. Leverage funding remains elevated: BTC at 0.84% per 8 hours (9.2% annualized) and ETH at 0.78% per 8 hours (8.5% annualized) on OKX, with 24-hour BTC liquidations at $5.2 million longs and $1.3 million shorts."
+  ],
+  "sources": [
+    {
+      "title": "Bank of England Tests Stablecoin-CBDC Interoperability for Trade Finance",
+      "url": "/articles/bank-of-england-tests-stablecoin-cbdc-interoperability-for-trade-finance.html"
+    },
+    {
+      "title": "Fidelity Adds Staking and Quarterly Payouts to Ether ETF",
+      "url": "/articles/fidelity-adds-staking-and-quarterly-payouts-to-ether-etf.html"
+    },
+    {
+      "title": "Harmony Patches Critical Smart Contract Flaws After Unauthorized ONE Minting",
+      "url": "/articles/harmony-patches-critical-smart-contract-flaws-after-unauthorized-one-minting.html"
+    },
+    {
+      "title": "Russia's Central Bank Restricts Retail Crypto Trading to Three Assets, Caps Non-Qualified Investors at 300,000 Rubles Annually",
+      "url": "/articles/russia-s-central-bank-restricts-retail-crypto-trading-to-three-assets-caps-non-qualified-investors-at-300-000-rubles-annually.html"
+    },
+    {
+      "title": "Standard Chartered-led Anchorpoint launches Hong Kong dollar stablecoin",
+      "url": "/articles/standard-chartered-led-anchorpoint-launches-hong-kong-dollar-stablecoin.html"
+    },
+    {
+      "title": "XRP bridge drained for $200,000 after software mistook fake deposits for real ones",
+      "url": "/articles/xrp-bridge-drained-for-200-000-after-software-mistook-fake-deposits-for-real-ones.html"
+    },
+    {
+      "title": "CFTC Tightens Prediction Market Self-Certification Rules",
+      "url": "/articles/cftc-tightens-prediction-market-self-certification-rules.html"
+    },
+    {
+      "title": "CFTC Warns Prediction Markets on Faulty Incentive Filings",
+      "url": "/articles/cftc-warns-prediction-markets-on-faulty-incentive-filings.html"
+    },
+    {
+      "title": "Goldman Sachs Acquires NEOS Investments for $2.25 Billion, Gaining Bitcoin Income ETF Platform",
+      "url": "/articles/goldman-sachs-acquires-neos-investments-for-2-25-billion-gaining-bitcoin-income-etf-platform.html"
+    },
+    {
+      "title": "MUFG to test real-time blockchain settlement for Japanese government bond trades",
+      "url": "/articles/mufg-to-test-real-time-blockchain-settlement-for-japanese-government-bond-trades.html"
+    },
+    {
+      "title": "Solana Came Within 4.5 Percentage Points of Network Halt After Teraswitch Routing Failure",
+      "url": "/articles/solana-came-within-4-5-percentage-points-of-network-halt-after-teraswitch-routing-failure.html"
+    }
+  ]
+}
