@@ -1,0 +1,39 @@
+{
+  "id": "c029",
+  "slug": "trezor-shipping-provider-shipmonk-breached-exposing-13-689-customer-records",
+  "kind": "brief",
+  "title": "Trezor Shipping Provider ShipMonk Breached, Exposing 13,689 Customer Records",
+  "dek": "Trezor's third-party shipping provider ShipMonk suffered a breach exposing personal and order data of 13,689 customers across seven countries, including names, addresses, emails and phone numbers. Trezor's own systems and hardware wallet devices remain uncompromised, but the exposure creates precise targeting vectors for phishing and physical attacks against known hardware wallet owners.",
+  "date": "2026-08-13",
+  "published_utc": "2026-08-13T18:03:01Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "ShipMonk exposed names, addresses, email addresses and phone numbers of 13,689 Trezor customers across the U.S., U.K., Sweden, Colombia, Brazil, Italy and Portugal for orders delivered between May 10 and Aug. 8, 2026.",
+  "bottom_line": "Watch for completion of Trezor and ShipMonk's breach investigation and whether additional data categories are disclosed as accessed. The broader signal: whether hardware wallet companies and their vendors adopt industry-wide standards for limiting customer identifying information in fulfillment systems, or whether similar vendor breaches continue to expose crypto owners to targeting by bad actors.",
+  "human_take": "",
+  "body": [
+    "Trezor hardware wallet's third-party shipping provider ShipMonk suffered a breach exposing personal and order data of 13,689 customers across seven countries, according to The Defiant. ShipMonk informed Trezor of unauthorized access to its systems on Aug. 10, 2026. Trezor's own systems remained uncompromised and the cryptographic security of Trezor devices was not affected.",
+    "Affected orders were delivered between May 10 and Aug. 8 to customers in the U.S., U.K., Sweden, Colombia, Brazil, Italy and Portugal, per The Defiant's reporting. Of the 13,689 exposed records, 11,742 customers had their full name, email address, phone number and shipping address exposed, while 1,947 customers had their name, city and email address disclosed, according to The Defiant.",
+    "Trezor said all affected customers were contacted separately by email from help@trezor.io. Trezor attributed the scope of the breach to a 90-day data-retention policy that applies to its fulfillment partners. The company's published privacy policy states that names, addresses, phone numbers and emails used for delivery are deleted from Trezor and fulfillment-partner systems after 90 days, subject to exceptions for unresolved order issues.",
+    "This is the first breach since Trezor's 2013 founding to expose customer phone numbers and shipping addresses, according to The Defiant. The exposure carries material physical security risk: a public repository maintained by Jameson Lopp documents known physical attacks against bitcoin and crypto owners dating back to 2014, including home invasions, kidnappings, robberies and extortion. Trezor warned recipients to expect more sophisticated phishing attempts and said scammers could use the information for fake emails, phone calls and letters, or to impersonate Trezor, a bank or a crypto exchange.",
+    "This is the second major hardware wallet company in 2026 to suffer vendor-chain data exposure. Ledger disclosed in January 2026 that its commerce provider Global-e suffered a breach exposing names, postal addresses, email addresses, phone numbers and order details. Ledger also disclosed a separate ecommerce and marketing database breach in 2020 affecting a subset of customers' names, postal addresses, phone numbers and order information.",
+    "Trezor said ShipMonk has secured and hardened the affected systems while the companies investigate exactly what happened and which data was accessed. The investigation remains ongoing, per Trezor's disclosure. In response to the breach, Trezor aims to make an Anonymous Delivery option available in the European Union by September 2026 and in the U.S. by the end of 2026, including locker pickup and automatic deletion of shipping identifiers after delivery."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/security/trezor-shipping-provider-breach-exposes-data-of-13-689-customers",
+      "url": "https://thedefiant.io/news/security/trezor-shipping-provider-breach-exposes-data-of-13-689-customers"
+    },
+    {
+      "title": "https://www.theblock.co/news/business/2026-08-13-trezor-shipping-provider-breach-exposes-personal-data-nearly-14000-customers-411702",
+      "url": "https://www.theblock.co/news/business/2026-08-13-trezor-shipping-provider-breach-exposes-personal-data-nearly-14000-customers-411702"
+    }
+  ],
+  "update_of": "bitmex-to-shut-down-operations-on-september-23-2026",
+  "also_reported_by": [
+    "The Block"
+  ],
+  "developing": false
+}

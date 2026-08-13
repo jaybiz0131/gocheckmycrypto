@@ -7050,5 +7050,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c143",
+    "headline": "SEC Chair Atkins Backs Tokenized-Securities Exemption; Framework Details Remain Unclear",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'Commissioner Hester Peirce cautioned that tokenized securities remain subject to the same legal restrictions as conventional securities, including rules that can prevent retail investors from trading synthetic products away from a national securities exchange.' is a paraphrase of the brief's data_point that quotes Peirce as saying 'Tokenized securities are still securities.' The draft shifts from a direct claim to a cautionary framing ('cautioned') that is not present in the source material as described in the brief. More critically, the phrase 'including rules that can prevent retail investors from trading synthetic products away from a national securities exchange' appears to be elaboration not explicitly attributed to Peirce in the brief's data_point; the brief's Peirce quote is limited to the principle that the same legal requirements apply."
+    ]
+   },
+   {
+    "id": "c050",
+    "headline": "Hawaii To Ban Cash Deposits at Crypto ATMs From October 1",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The restriction aims to interrupt a fraud vector commonly used against elderly and vulnerable populations.' This claim does not appear in the brief's data_points. The brief's data_point says only 'Lawmakers targeted deposits that scammers rely on.' The draft has smuggled in detail about 'elderly and vulnerable populations' that is not in the research brief and thus violates the hard rule that no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c142",
+    "headline": "Solana came within striking distance of finality halt after Teraswitch routing failure",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case contains four substantive points, including the critical observation that 'no validators implemented automatic failover, indicating reliance on manual remediation rather than robust infrastructure redundancy.' The draft mentions Marinade's commitment to 'review' and 'publish' findings on failover capability but does not surface the bear case finding that failover systems appear to be absent. This softens a key resilience concern that the brief itself flagged as material.",
+     "The bear_case point 'The network did not actually halt finality\u2014delinquency remained at 28.83%, below the 33.34% threshold, suggesting resilience worked as designed' is not reflected in the draft. The draft frames the incident as a near-miss without acknowledging that the system's design actually prevented the failure, which is a meaningful counterweight to the alarm-bell framing.",
+     "The bear_case observation that 'Teraswitch's root-cause analysis remains incomplete; the underlying defect (Miami edge routers or AMS2 route reflector) has not been identified' appears only as 'had not identified whether the underlying defect was in its Miami edge routers or the AMS2 route reflector'\u2014reported neutrally rather than flagged as an unresolved vulnerability, which dampens the risk framing the brief intends."
+    ]
+   }
+  ]
  }
 ]
