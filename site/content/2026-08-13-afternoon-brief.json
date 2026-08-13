@@ -1,0 +1,85 @@
+{
+  "id": "wrap-md-2026-08-13",
+  "slug": "afternoon-brief-2026-08-13",
+  "kind": "brief",
+  "title": "The Afternoon Brief: CPI Fails to Move Bitcoin a Third Straight Month",
+  "dek": "July inflation matched expectations and barely registered on bitcoin's price, while regulators on three continents formalized stablecoin and trading rules and a series of infrastructure failures kept security concerns alive.",
+  "date": "2026-08-13",
+  "published_utc": "2026-08-13T20:00:06Z",
+  "category": "daily edition",
+  "rank": -2,
+  "author": "Crypto Cronkite",
+  "key_fact": "Bitcoin's muted reaction to a third consecutive in-line CPI print, alongside a bitcoin ETF flip to outflows this week, suggests macro data has stopped being the market's main driver even as regulatory and infrastructure stories accumulate underneath it.",
+  "bottom_line": "July's CPI print matched consensus and barely moved bitcoin, the third straight month a major inflation release failed to shift price meaningfully, per the desk's own reporting. Underneath that quiet macro backdrop, the Bank of England, Russia, Hong Kong's Anchorpoint, and Japan's MUFG all advanced stablecoin or settlement frameworks toward operational status, while Solana's near-halt and Trezor's vendor breach kept infrastructure risk in view. The desk's ETF Flows board shows bitcoin funds swung to a $61.1 million net outflow on August 12 after five prior sessions of $41.4 million in net inflows, and the Whale Watch board shows $262.8 million in net bitcoin value moving onto exchanges over the past 48 hours. Watch for Russia's retail trading rules taking effect September 1, the Bank of England's Phase 2 assessment due later this year, and follow-ups on Harmony's rollback decision and Teraswitch's root-cause report.",
+  "human_take": "",
+  "body": [
+    "The single fact anchoring today's picture is that July CPI landed at 3.4% year over year and 0.1% month over month, matching consensus, with core CPI easing to 2.5% from 2.6% in June, and bitcoin barely moved on it. According to the desk's own reporting, bitcoin traded from roughly $63,800 to roughly $64,100 in the four hours around the release, a change of about 0.47%, the third straight month a major inflation print has failed to produce the 5% to 10% swings it once did. The desk's boards now put bitcoin at $63,653.85, down 0.34% on the day, down 1.59% over the past week, and down 2.97% over the past 30 days, a picture of gradual drift rather than reaction to any single data point.",
+    "Around that quiet macro story, the day's reporting clusters into two threads: regulatory formalization and infrastructure fragility. On regulation, the Bank of England moved its Digital Pound Lab into Phase 2, testing stablecoin-CBDC interoperability for cross-border trade finance with NOBO Finance, Dun & Bradstreet, and Polygon Labs. Russia's central bank formalized a retail whitelist limiting non-qualified investors to bitcoin, ether, and USDT with a 300,000-ruble ($3,600) annual cap per intermediary, effective September 1. Hong Kong's Anchorpoint, backed by Standard Chartered, launched beta access for its HKDAP stablecoin through HashKey Exchange and OSL Group. Japan's MUFG is preparing a proof-of-concept to settle government bond trades on the Canton blockchain in real time, alongside a joint stablecoin exploration with two other major Japanese banks targeted for March 2027. The CFTC, meanwhile, issued an advisory warning designated contract markets about deficiencies in prediction-market incentive filings tied to event contracts, citing risks including wash-trading concerns, though it stopped short of naming platforms or taking enforcement action.",
+    "On infrastructure, Solana came within 4.5 percentage points of a full network halt on August 12 after a routing failure at internet provider Teraswitch knocked 28.83% of staked validators offline, approaching the one-third delinquency threshold that would have stopped block finalization. Trezor disclosed that its third-party shipping vendor ShipMonk was breached, exposing personal data for 13,689 customers, though Trezor's own systems and devices were unaffected. These sit alongside the bridge and minting exploits reported earlier today involving Harmony and the Coreum-to-XRP bridge.",
+    "The reporting does not tie these threads to a single cause. The CPI story frames the muted price reaction as a market that has stopped treating routine inflation data as decisive, without specifying why. The regulatory moves in the UK, Russia, Hong Kong, and Japan appear to reflect independent national processes reaching maturity around the same window rather than a coordinated response to any single event. The infrastructure incidents, a validator outage, a shipping breach, and a bridge drain from earlier reporting, are described as separate technical failures with distinct root causes, not a common vulnerability.",
+    "The desk's Market Pulse shows a Fear and Greed reading of 29, within its recent 25 to 33 range, consistent with a market that is cautious but not panicked. Ether has outperformed bitcoin over the past week, up 1.81% and up 6.36% over 30 days even as it trades 0.78% lower today at $1,904.72, a divergence the boards do not explain but that sits alongside today's Fidelity news adding staking and quarterly payouts to its ether ETF. The ETF Flows board shows bitcoin funds recorded a net outflow of $61.1 million on August 12, the same day covered by today's CPI story, a reversal after positive net flows of $41.4 million over the prior five sessions; ether ETFs saw a smaller net inflow of $7.4 million on August 12 against $132.8 million over the same five-session window. The Whale Watch board shows $262.8 million in net bitcoin value moving onto exchanges over the past 48 hours, led by transfers to Coinbase Institutional and Binance, a pattern that has swung between large inflows and outflows over the past four weekly readings and does not point in one consistent direction.",
+    "Several regulatory checkpoints named in the desk's own reporting remain ahead. Russia's retail trading restrictions take effect September 1, 2026, with a further date of December 1, 2026, also on record. The Bank of England's Phase 2 trade-finance test feeds into a formal government assessment later this year, though no specific date has been set. The CFTC's advisory leaves open whether designated contract markets will amend filings or face further scrutiny. Watch also for Harmony's rollback decision and Teraswitch's root-cause report, both flagged in today's earlier coverage, as the next concrete markers of whether this week's infrastructure failures get resolved cleanly or leave lasting damage to confidence in the affected systems."
+  ],
+  "sources": [
+    {
+      "title": "Bank of England Tests Stablecoin-CBDC Interoperability for Trade Finance",
+      "url": "/articles/bank-of-england-tests-stablecoin-cbdc-interoperability-for-trade-finance.html"
+    },
+    {
+      "title": "Fidelity Adds Staking and Quarterly Payouts to Ether ETF",
+      "url": "/articles/fidelity-adds-staking-and-quarterly-payouts-to-ether-etf.html"
+    },
+    {
+      "title": "Harmony Patches Critical Smart Contract Flaws After Unauthorized ONE Minting",
+      "url": "/articles/harmony-patches-critical-smart-contract-flaws-after-unauthorized-one-minting.html"
+    },
+    {
+      "title": "Russia's Central Bank Restricts Retail Crypto Trading to Three Assets, Caps Non-Qualified Investors at 300,000 Rubles Annually",
+      "url": "/articles/russia-s-central-bank-restricts-retail-crypto-trading-to-three-assets-caps-non-qualified-investors-at-300-000-rubles-annually.html"
+    },
+    {
+      "title": "Standard Chartered-led Anchorpoint launches Hong Kong dollar stablecoin",
+      "url": "/articles/standard-chartered-led-anchorpoint-launches-hong-kong-dollar-stablecoin.html"
+    },
+    {
+      "title": "XRP bridge drained for $200,000 after software mistook fake deposits for real ones",
+      "url": "/articles/xrp-bridge-drained-for-200-000-after-software-mistook-fake-deposits-for-real-ones.html"
+    },
+    {
+      "title": "Bitcoin Barely Moved on the July CPI Print, for the Third Month Running",
+      "url": "/articles/bitcoin-barely-moved-on-the-july-cpi-print-for-the-third-month-running.html"
+    },
+    {
+      "title": "CFTC Tightens Prediction Market Self-Certification Rules",
+      "url": "/articles/cftc-tightens-prediction-market-self-certification-rules.html"
+    },
+    {
+      "title": "CFTC Warns Prediction Markets on Faulty Incentive Filings",
+      "url": "/articles/cftc-warns-prediction-markets-on-faulty-incentive-filings.html"
+    },
+    {
+      "title": "Crypto Firms Ask AI Labs for Vetted Access to Frontier Security Models",
+      "url": "/articles/crypto-firms-ask-ai-labs-for-vetted-access-to-frontier-security-models.html"
+    },
+    {
+      "title": "Figure reports Q2 revenue of $226 million, marketplace volume hits $4.3 billion",
+      "url": "/articles/figure-reports-q2-revenue-of-226-million-marketplace-volume-hits-4-3-billion.html"
+    },
+    {
+      "title": "Goldman Sachs Acquires NEOS Investments for $2.25 Billion, Gaining Bitcoin Income ETF Platform",
+      "url": "/articles/goldman-sachs-acquires-neos-investments-for-2-25-billion-gaining-bitcoin-income-etf-platform.html"
+    },
+    {
+      "title": "MUFG to test real-time blockchain settlement for Japanese government bond trades",
+      "url": "/articles/mufg-to-test-real-time-blockchain-settlement-for-japanese-government-bond-trades.html"
+    },
+    {
+      "title": "Solana Came Within 4.5 Percentage Points of Network Halt After Teraswitch Routing Failure",
+      "url": "/articles/solana-came-within-4-5-percentage-points-of-network-halt-after-teraswitch-routing-failure.html"
+    },
+    {
+      "title": "Trezor Shipping Provider ShipMonk Breached, Exposing 13,689 Customer Records",
+      "url": "/articles/trezor-shipping-provider-shipmonk-breached-exposing-13-689-customer-records.html"
+    }
+  ]
+}

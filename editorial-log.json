@@ -7124,5 +7124,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "CFTC announces inaugural Innovation Advisory Committee meeting for August 20",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'According to a CFTC press release' but the brief confidence label is 'announced-not-verified' for all data points. The draft must signal the unverified status. The prose should read 'The CFTC announced' or 'per a CFTC press release announcement' to reflect the confidence level, not present it as settled fact via 'according to.'"
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Baltimore sues Kalshi and Polymarket; names Coinbase, Robinhood, Webull",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin: true' with only three data_points and no bear_case. The draft adds interpretive claims not in the brief: 'This enforcement action may signal a new regulatory front: municipalities and state attorneys general acting directly against prediction market operators and retail platforms, potentially circumventing the federal CFTC's established preemption framework for derivatives regulation.' This interpretation\u2014that this suit circumvents CFTC preemption or establishes a new regulatory vector\u2014is not in the brief data_points and is smuggled analysis, not reported fact.",
+     "The draft claims 'The strategic value of such an approach would depend on whether state and local courts accept municipal jurisdiction on national platforms and whether CFTC preemption arguments apply to sports betting allegations brought under state and local law rather than federal commodities statutes.' This is speculative legal analysis not grounded in the brief and exceeds the scope of what was reported."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Figure revenue doubles as blockchain loan marketplace volumes surge",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Revenue was up 113% from a year earlier' in opening paragraph ('more than doubling'), but brief data_point says 'Revenue was up 113% from a year earlier'\u2014a 113% increase is 2.13x, not 'more than doubling' (2x). The draft's paraphrase 'more than doubling' overstates the growth. The brief itself contains the precise figure (113%); the draft should use it or say 'doubled' without 'more than'.",
+     "Draft contains open_questions paragraph at end that repeats verbatim from the brief's open_questions section. This is structural smuggling of editorial commentary into the story body. Open questions belong in the brief as reporting direction, not in the published draft. The paragraph beginning 'The open questions around Figure's trajectory...' must be removed or reframed as reported uncertainty, not editorial scaffolding."
+    ]
+   },
+   {
+    "id": "c144",
+    "headline": "SEC Chair Atkins Describes Innovation Exemption for Tokenized Listed Securities; Agenda Status Unclear",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bloomberg reported in August that the measure could pave the way for 24/7 trading of stock tokens on blockchains' without inline attribution to Bloomberg. The brief's data_point says 'Bloomberg reported Aug. 11' but the draft only says 'August' and does not name Bloomberg in the sentence itself, creating ambiguity about whether this is Defiant's paraphrase or Bloomberg's reporting. The sentence reads as though it comes from Defiant's reporting (the only source cited), violating the inline attribution standard.",
+     "The draft does not clearly signal that Atkins's core claim is 'announced-not-verified' per the brief. The opening paragraph states 'SEC Chair Paul Atkins has publicly described an innovation exemption framework' as settled fact, but the brief marks the core claim 'announced-not-verified.' The disclaimers in paragraph 2 about Atkins's personal views appear too late and do not adequately convey the confidence level required by the brief. The phrasing should signal upfront that these are unverified announcements, not confirmed SEC positions."
+    ]
+   }
+  ]
  }
 ]
