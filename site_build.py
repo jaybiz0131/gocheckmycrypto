@@ -175,6 +175,10 @@ def source_label(src):
 # This map is the audit trail as well as the mechanism: every entry is a URL the desk retired
 # and where it went. Add here, never remove.
 RETIRED_ARTICLES = {
+    "solana-network-came-within-minutes-of-full-freeze-after-routing-glitch-knocked-out-28-of-stake":
+        "solana-came-within-4-5-percentage-points-of-network-halt-after-teraswitch-routing-failure",
+    "coreum-bridge-loses-99-7-of-xrp-reserve-in-200k-exploit-via-fake-deposit-transactions":
+        "xrp-bridge-drained-for-200-000-after-software-mistook-fake-deposits-for-real-ones",
     "tether-posts-1-5-billion-operating-profit-in-q2-as-reserve-buffer-falls-by-half":
         "tether-q2-profit-falls-69-as-reserve-buffer-halves-to-4-1-billion",
     "u-s-treasury-sanctions-iran-linked-maritime-insurance-scheme-accepting-bitcoin":
