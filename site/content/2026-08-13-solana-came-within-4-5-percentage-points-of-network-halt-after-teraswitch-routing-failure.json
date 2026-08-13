@@ -1,0 +1,42 @@
+{
+  "id": "c131",
+  "slug": "solana-came-within-4-5-percentage-points-of-network-halt-after-teraswitch-routing-failure",
+  "kind": "brief",
+  "title": "Solana Came Within 4.5 Percentage Points of Network Halt After Teraswitch Routing Failure",
+  "dek": "A routing defect at Teraswitch (AS20326), an internet infrastructure provider, knocked validators representing 28.83% of Solana's staked tokens offline on August 12. The network came within approximately 20 million tokens of the one-third stake delinquency threshold that would stop block finalization entirely.",
+  "date": "2026-08-13",
+  "published_utc": "2026-08-13T00:13:00Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "28.83% of Solana's staked validators went delinquent after Teraswitch customers in Europe and Asia-Pacific lost internet reachability; finality would have halted if delinquency exceeded 33.34%.",
+  "bottom_line": "Watch for Teraswitch's full root-cause report and Marinade's concentration limits review to determine whether validators will be forced to diversify away from Teraswitch and whether automatic failover becomes a protocol standard. If another single-provider outage approaches finality before those guardrails take effect, the premise of Solana's resilience will be invalidated.",
+  "human_take": "",
+  "body": [
+    "Solana's network came within striking distance of a complete halt on August 12 after a routing defect at Teraswitch, an internet infrastructure provider serving validators across Europe and Asia-Pacific, knocked 28.83% of staked validators offline. The network approached the one-third stake delinquency threshold at which block finalization stops entirely, per The Defiant's reporting.",
+    "On Solana, a block becomes confirmed after at least 66% of stake votes on it; finalization also requires at least 31 subsequent confirmed blocks. If delinquency exceeds one-third of all staked tokens, neither confirmation nor finalization can occur, halting the network. The outage brought Solana within approximately 20 million tokens of that threshold, according to CoinDesk's reporting.",
+    "Teraswitch (AS20326) carried 118.89 million SOL, more than one-quarter of all staked SOL, per The Defiant. A default route associated with Teraswitch's Miami site was propagated with its metric and routing communities stripped. A route reflector at AMS2 sent the altered route into the provider's European and Asia-Pacific markets. Downstream core routers rejected the malformed route, leaving the affected sites without an acceptable default path. Engineers identified the malformed route within 10 minutes and removed Miami from the private backbone; service was restored at 4:16:15 a.m. UTC, according to The Defiant.",
+    "94% of Teraswitch's 118.89 million SOL went dark at once. Another 14.1 million SOL on Latitude.sh, Limestone, Butterfly Research and Allnodes went down in the same minutes. Roughly 90 validators were hit and together lost 333 SOL in rewards, a relatively small sum covered by validator bonds, per CoinDesk. Most of the affected validators, including Helius, stayed offline for the full 33 minutes because their backup systems never switched on, according to CoinDesk. 59 validators holding 80.2 million SOL returned in the same narrow window and nobody failed over before routing reconverged, per The Defiant.",
+    "Teraswitch had not identified whether the underlying defect was in its Miami edge routers or the AMS2 route reflector and said a full report would follow, according to The Defiant. The network came within 4.5 percentage points of losing finality, per The Defiant's analysis. Solana's status page listed no incident for August 12, despite the network approaching critical instability, per The Defiant.",
+    "Marinade said it will review its concentration limits by autonomous system and data center and publish whether validators use hot-swap systems and automatic failover. In February 2024, a software bug halted Solana's block finalization for about five hours after more than 95% of cluster stake stalled, per The Defiant.",
+    "The bear case: Solana's status page listed no incident for August 12, suggesting lack of official acknowledgment despite the network coming within 4.5 percentage points of finality loss. Most affected validators, including Helius, failed to execute failover procedures. Teraswitch had not identified the root defect at time of reporting. Another 14.1 million SOL on other providers went down simultaneously, and Marinade could not determine whether this reflected a shared dependency or coincidence, suggesting systemic infrastructure fragility beyond Teraswitch. Marinade's concentration review and Teraswitch's root-cause report remain outstanding with no timeline given for addressing the shared infrastructure risk."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/blockchains/marinade-says-28-83-of-solana-stake-went-delinquent-nearing-finality-halt",
+      "url": "https://thedefiant.io/news/blockchains/marinade-says-28-83-of-solana-stake-went-delinquent-nearing-finality-halt"
+    },
+    {
+      "title": "https://www.coindesk.com/tech/2026/08/12/smart-contract-blockchain-solana-nearly-froze-wednesday-marinade-finance-says",
+      "url": "https://www.coindesk.com/tech/2026/08/12/smart-contract-blockchain-solana-nearly-froze-wednesday-marinade-finance-says"
+    },
+    {
+      "title": "https://decrypt.co/375404/a-routing-bug-took-solana-86-of-the-way-to-losing-finality",
+      "url": "https://decrypt.co/375404/a-routing-bug-took-solana-86-of-the-way-to-losing-finality"
+    }
+  ],
+  "update_of": "solana-network-came-within-minutes-of-full-freeze-after-routing-glitch-knocked-out-28-of-stake",
+  "also_reported_by": [],
+  "developing": false
+}

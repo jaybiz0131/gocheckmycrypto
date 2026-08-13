@@ -6772,5 +6772,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c062",
+    "headline": "Harmony's ONE Sinks 37% After Critical Smart Contract Flaws Enable Unauthorized Token Minting",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Around 2.8 billion of the tokens were quickly funneled to exchanges' but the brief's corresponding data_point says 'Around 2.8 billion of the minted tokens were quickly funneled to exchanges, pushing ONE down as much as 40% to a record low.' The draft omits the price movement detail and presents a narrower claim than the source material supports, but more critically, the bear_case explicitly states 'Harmony has not confirmed...that 2.8 billion reached exchanges; figures come from onchain analysis that Harmony quoted but did not validate.' The draft does not flag this as unconfirmed or analyst-derived; it reads as established fact.",
+     "Draft reports '4 billion ONE tokens (26% of supply)' without attribution or confidence label. The brief's data_point is marked 'reported' (meaning journalist-reported, not official confirmation) and the bear_case explicitly notes 'Harmony has not publicly confirmed the 4 billion ONE mint total.' The draft should flag this as claimed/reported, not as settled fact."
+    ]
+   },
+   {
+    "id": "c055",
+    "headline": "Coreum/XRP Bridge Drained After Relayer Software Accepts Fake Deposit Evidence",
+    "category": "accuracy",
+    "reasons": [
+     "Draft cites three sources in the sources array, but the brief's open_questions explicitly state: 'The Decrypt and Defiant source texts provided do not contain any content about the Coreum bridge exploit; only the Protos URL carried substantive details. The Defiant article discusses Boltz (a Bitcoin swap service), not Coreum. Why was Decrypt listed as reporting this story if its URL does not contain the exploit narrative?' The draft's sources list includes Decrypt and Defiant URLs that do not actually report this exploit. This violates the hard rule that every fact must trace to the brief's sourcing, and the brief itself flags that two of the three cited sources do not contain the narrative. The draft is built on broken attribution.",
+     "The brief carries 'boundary_required': true and 'boundary_ok': false with explicit reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft has no boundary/context block establishing the scope or recency of the claim. A story turning on an unverified date or threshold without a boundary block is a compliance and accuracy risk."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "CFTC Invokes Emergency Authority Over KalshiEX as New York Sues",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The CFTC's emergency authority halts the immediate threat to KalshiEX' in the bottom_line, but no data point in the brief states that the emergency order prevents or halts any threat. The brief confirms the CFTC ordered KalshiEX to 'continue operations' but does not characterize this as halting a threat. This is a smuggled interpretation not grounded in the brief.",
+     "The draft introduces 'CFTC Chairman Michael S. Selig' by name, but the brief data point attributes only a quote to 'CFTC Chairman Michael S. Selig' and does not independently confirm the chairman's name via the sources listed. The Decrypt source may not verify the name independently. This is a factual claim (the identity of the chairman) not explicitly confirmed in the brief's data points."
+    ]
+   },
+   {
+    "id": "c132",
+    "headline": "SEC Chair Atkins Describes Innovation Exemption for Tokenized Securities",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case contains six distinct risk items, including explicit disclaimers on Atkins' remarks, legal requirements for tokenized securities under Peirce, SIFMA's specific warnings about fragmentation and unequal safeguards, and risks to third-party tokenized products (no voting rights, bankruptcy exposure). The draft acknowledges the disclaimers and mentions Peirce's and SIFMA's positions, but does not integrate the bear_case into a proportionate risk paragraph. The draft reads as though the exemption is advancing when the bear_case establishes it remains Atkins' personal view with no scheduled vote and explicit legal constraints already in place. The framing is tilted toward regulatory momentum without adequate weight to the open questions and constraints documented in the brief."
+    ]
+   },
+   {
+    "id": "c071",
+    "headline": "Goldman Sachs to acquire NEOS Investments for up to $2.25 billion, gaining bitcoin covered-call ETF",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'BTCI launched in October 2024 and crossed $1 billion in assets in under two years.' October 2024 to present (August 2026) is 10 months, not 'under two years.' The brief's data_point says 'under two years' but the draft's phrasing with the October 2024 launch date makes the claim internally contradictory and misleading about timeline.",
+     "Draft claims 'BTCI has declined 42.55% over the past year, with shares falling from a 52-week high of $65.87 to around $28.40.' The brief contains two separate data_points: one saying 'roughly 43%' and another saying '42.55% over the past year, with shares falling from a 52-week high of $65.87 to around $28.40.' The draft conflates these as a single claim but the precision of the second (42.55%, exact prices) does not appear justified as a single sourced fact; the writer has smuggled precision by merging two distinct data_points.",
+     "Draft states 'Goldman had registered its own Goldman Sachs Bitcoin Premium Income ETF with the SEC in April 2026' but the brief data_point says 'Goldman registered the Goldman Sachs Bitcoin Premium Income ETF with the SEC on April 14.' The draft omits the specific date (April 14) which is a material detail present in the brief; more critically, it weakens the narrative by not specifying the month in relation to BlackRock's June launch, which is the point of the comparison."
+    ]
+   }
+  ]
  }
 ]
