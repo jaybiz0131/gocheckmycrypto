@@ -3638,10 +3638,13 @@ def build():
     # slugs 301 here. Never delete a published URL: someone linked it, and a 404 punishes the
     # reader for our filing error. Order matters, Netlify takes the first match, so these
     # must precede the catch-all.
+    # /rss.xml is the address readers and aggregators try first; the desk publishes at
+    # /feed.xml, so alias rather than leave a 404 (2026-08-13 audit).
+    rss_alias = "/rss.xml  /feed.xml  301\n"
     redirects = "".join(f"/articles/{old}.html  /articles/{new}.html  301\n"
                         f"/articles/{old}  /articles/{new}  301\n"
                         for old, new in sorted(RETIRED_ARTICLES.items()))
-    w("_redirects", redirects + "/*  /404.html  404\n")
+    w("_redirects", rss_alias + redirects + "/*  /404.html  404\n")
     # THE EDITION (owner spec 2026-08-03): the composed front replaces the Latest tab
     # at its own URL, and every edition day is preserved as a back issue under
     # /edition/. Rendering layer only; ranking and content come from the items as
