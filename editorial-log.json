@@ -6905,5 +6905,57 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c023",
+    "headline": "Russia Restricts Retail Crypto Trading to Bitcoin, Ether, and USDT",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CoinDesk's reporting notes the mechanism exists in the rules as written but does not confirm whether Russian regulators view this as a design choice or an oversight.' This is editorial interpretation not present in the brief's data_points. The brief lists the per-intermediary cap structure as a reported fact but contains no data_point about CoinDesk's confirmation or uncertainty about regulator intent. The writer inserted analytical judgment not sourced in the research.",
+     "The draft claims 'CoinDesk's reporting does not specify the criteria that define a qualified investor or whether the Russian central bank has published or plans to publish a full regulatory framework document.' This is the writer's own observation about what the source does NOT say, not a fact from the brief. It reads as the writer testing the source's completeness rather than reporting what the brief contained.",
+     "The draft states 'The sources do not address whether the whitelist will be expanded beyond these three assets in future, or whether this is a permanent retail restriction.' This is again the writer's meta-commentary about source gaps, not a fact from the research brief. The brief lists these as open_questions, not as reported facts, and the draft presents them as if they were reporting limitations rather than uncertain matters."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "Harmony Patches Smart Contract Vulnerabilities After Unauthorized ONE Minting Claimed",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Onchain account Juiceberg claimed, based on unconfirmed analysis, that approximately 4 billion ONE was created and that 2.8 billion ONE was sent to exchanges.' The brief's data_point 6 has confidence 'unconfirmed' and should be signaled as such in the prose. The draft does use the word 'claimed' and 'unconfirmed analysis,' which partly signals the uncertainty, but this appears in the middle of a paragraph describing technical fixes presented as fact. The reader may not parse that Juiceberg's numbers are unconfirmed amid reported fact claims.",
+     "The draft says 'Harmony has not disclosed how much ONE was actually frozen from the four blocked wallets or which exchanges were asked to implement the freeze.' This is the writer's observation about what Harmony did NOT disclose, which is not a fact in the brief. The brief states only that 'Harmony identified four wallets for exchanges to block' (reported) and that Harmony 'has not disclosed' details (this specific framing does not appear in any brief data_point). The writer is inferring a disclosure gap, not reporting from the research."
+    ]
+   },
+   {
+    "id": "c055",
+    "headline": "XRP Bridge Drained of 99.7% of Reserves After Deposit Validation Flaw",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'BTCI launched in October 2024 and crossed $1 billion in assets in under two years' but this is mathematically impossible (October 2024 to present August 2026 is less than 2 years). The brief data_point says 'under two years' which appears to be the source error, but the draft must not propagate a mathematically incoherent claim. Trace back to source or flag as unverified.",
+     "The draft characterizes all facts as from a single Decrypt article but provides no inline attribution to specific claims within that article (e.g., 'According to Decrypt's reporting, the flaw allowed...' appears twice but the mechanism details, audit names, and recovery status are lumped together without clear sourcing within the piece)."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Anchorpoint Launches Hong Kong Dollar Stablecoin With Licensed Distributors",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'four months after securing one of Hong Kong's first two issuer licences' but provides no date for when the license was secured. The brief data_point says 'four months after securing' but the brief also states 'Hong Kong's stablecoin rules took effect on August 1, 2025.' If the rules took effect August 1, 2025, and Anchorpoint secured a license four months before the beta launch (which the brief timestamps at August 12, 2026), the license would have been issued ~April 2026. The timeline is internally inconsistent and the draft does not clarify the license issuance date, making the 'four months' claim unmoored.",
+     "The draft says Anchorpoint 'could extend HKDAP to retail users as early as the end of 2026' but this is a forward-looking assertion from a single source dated August 12, 2026. The brief tags this as 'reported' confidence, but the draft reads it as a signal of intent rather than a specific announced plan. The phrasing 'signaling it could' softens attribution but still presents a speculation as fact. Either attribute more precisely ('Anchorpoint announced plans to...') or mark as contingent/unconfirmed."
+    ]
+   },
+   {
+    "id": "c063",
+    "headline": "CFTC Invokes Emergency Powers to Keep Kalshi Trading Despite New York Suit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'New York's lawsuit sought to bar Kalshi's event contracts on grounds that the brief does not specify' and later 'the brief does not disclose the specific statutory mechanism the CFTC cited for its emergency authority.' These are metacommentary about the brief's gaps inserted into the narrative. This violates the hard rule that facts must exist in the brief; admissions of missing information belong in a memo to the writer, not in published prose. The draft reads as incomplete and shifts burden to the reader to understand what information the reporting lacks.",
+     "The draft's opening paragraph ('The CFTC exercised emergency authority to keep Kalshi operational after the New York Attorney General moved to bar its contracts nationwide') is the only substantive fact presented, and it traces to the single data_point marked 'reported' confidence. However, the draft then immediately undercuts itself with three consecutive sentences admitting what is unknown, which collapses the story into a meta-commentary on reporting gaps rather than a news story. Either report what happened, or hold for more facts."
+    ]
+   }
+  ]
  }
 ]
