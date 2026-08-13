@@ -7082,5 +7082,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c143",
+    "headline": "SEC Chair Atkins Advocates for Tokenized-Securities Exemption; Commission Action Unclear",
+    "category": "balance",
+    "reasons": [
+     "The draft states 'The exemption does not appear on the SEC's published meeting agenda for Friday' but frames this as uncertainty about whether it will be voted on. The brief's bear_case identifies that the agenda absence creates ambiguity about whether formal action will occur\u2014this risk is properly noted. However, the draft's treatment of Atkins' personal disclaimers ('Atkins was expressing his own views rather than those of the Commission or other commissioners') is accurate but the framing in the opening paragraph ('SEC Chair Paul Atkins has described an innovation exemption framework') could mislead readers into thinking this represents institutional SEC position rather than one commissioner's personal advocacy. The balance between his personal vs. institutional authority should be weighted more heavily in the lead.",
+     "The draft underweights Commissioner Peirce's contrary statement ('Tokenized securities are still securities') in the context of Atkins' advocacy. While both perspectives appear, Peirce's statement appears late and should be more prominently positioned as a counter-position to Atkins' framework proposal, not as supporting detail."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "MUFG Pilots Real-Time Blockchain Settlement for Japanese Government Bonds",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'JPMorgan's Kinexys network has facilitated blockchain-based intraday U.S. Treasury-bond repos since 2020.' The brief's data_point says 'Blockchain-based intraday U.S. Treasury-bond repos have existed for several years through JPMorgan's Kinexys network, which went live in 2020.' The draft's phrasing 'has facilitated... since 2020' is a paraphrase that appears accurate to the source claim. However, the claim is marked 'reported' confidence in the brief, meaning it comes from the single CoinDesk article. This is a fact about JPMorgan's product history that should be independently verifiable but is sourced only to one outlet reporting on MUFG's announcement. The draft presents it as established fact without qualification. This is not a smuggled fact (it is in the brief), but presenting a 'reported' confidence claim about a third party's historical product launch as unqualified fact is a balance/accuracy boundary issue.",
+     "The draft contains no bear_case section despite the brief including an empty bear_case array. While no bear_case was provided, the brief's open_questions (timeline, regulatory approvals, volume expectations, security comparisons) suggest material uncertainties that should appear in the draft. The draft's bottom_line addresses 'timeline and scope of the proof-of-concept phase, any regulatory approvals required from the Financial Services Agency' correctly, but the body contains no discussion of regulatory risk or uncertainty beyond a single sentence: 'Japan's regulatory environment, governed by the Financial Services Agency and Bank of Japan, will determine whether MUFG can expand the pilot into production.' This is insufficient given the open_questions focus on FSA/BoJ approval as a critical unknowns."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Figure reports $87 million net income as tokenized loan volume reaches $4.3 billion",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Figure reported net income of $87 million, a 192% increase from $30 million year-over-year' but the brief does not specify the quarterly or annual period. The draft presents these as annualized or established figures without qualification, while the brief's open_questions list explicitly asks 'What was the quarterly period covered by the $87 million net income and $4.3 billion loan volume figures?' This indicates the period was not confirmed in the source reporting and should not be presented as fact without temporal qualification.",
+     "The draft omits critical context from the brief's bear_case and open_questions: no revenue breakdown, no loan loss rates, no indication whether results are recurring or one-time gains. The brief identifies these as material unknowns that affect interpretation of profitability. The draft presents $87M net income as a clean 'financial milestone' without noting that sustainability is unaddressed in the reporting, which undersells the bear_case and misrepresents the state of the evidence."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "South Korean Court Sentences Delio CEO to 15 Years for $50 Million Fraud",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Do Kwon, co-founder of Terraform Labs, orchestrated one of the largest frauds in financial history when the TerraUSD and Luna ecosystem collapsed in May 2022, wiping out roughly 40 billion dollars in investor funds, per CoinDesk.' The brief's data_point on Do Kwon identifies him as 'South Korean co-founder of Terraform Labs' but the draft removes the 'South Korean' descriptor. More critically, the brief attributes this claim to CoinDesk as a sourced fact, but the claim about Do Kwon's role and the Terra collapse appears in the draft as part of comparative context for South Korean crypto enforcement without Do Kwon's nationality qualifier. However, the primary accuracy issue is: the brief characterizes Do Kwon as an enforcement target ('Kwon remains a significant enforcement target') but the draft presents the Terra collapse as a completed historical fact attributed to CoinDesk's single source on the Delio case. This is source creep\u2014attributing comparative historical context to a single current-event source when the brief does not establish that CoinDesk's Delio article was the origin point for Do Kwon details. The Do Kwon claim should either be re-sourced to a separate Do Kwon/Terra article or flagged as paraphrase from the source, not direct attribution to CoinDesk.",
+     "The draft states 'In 2022, seven executives of the crypto exchange V Global were sentenced to prison for a 1.7 billion dollar fraud, with former CEO Lee Byung-gul receiving 22 years.' This entire sentence is attributed to CoinDesk via 'per CoinDesk' in the previous sentence, but the brief lists this as a separate data_point sourced to the same CoinDesk URL. Attributing multiple different historical cases (V Global, Do Kwon/Terra, and Delio) to a single current-event source article without inline attribution for each case creates false confidence in the sourcing. Each comparative case should be individually attributed inline or removed if the source is only the Delio CoinDesk article."
+    ]
+   }
+  ]
  }
 ]
