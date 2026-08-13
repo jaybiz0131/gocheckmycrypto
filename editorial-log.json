@@ -6865,5 +6865,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c043",
+    "headline": "Harmony Acknowledges Exploit; Onchain Observer Says 4 Billion ONE Tokens Unauthorized, Claims Unconfirmed",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'ONE token fell 26% in price' but brief data_point claims 'ONE price collapsed 37-40%'. The 26% figure is not in the brief and represents a material factual discrepancy on a core claim.",
+     "Draft introduces claim 'Juiceberg's claim that 4 billion ONE tokens represent roughly 25% of the circulating supply' but this calculation/attribution is not in the brief; the brief only states the 4 billion figure came from Juiceberg and that it triggered price concern, not that Juiceberg made a percentage claim."
+    ]
+   },
+   {
+    "id": "c055",
+    "headline": "Coreum XRP Bridge Lost 99.7% of Reserves After Deposit-Validation Flaw Slipped Through Audits",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states '$200K, representing 99.7% of its reserves' but the brief lists only two data points about amounts: '99.7% of reserves ($200K)' and 'lost 99.7% of reserves ($200K)'. The phrasing in the draft is ambiguous\u2014it could read as '$200K being 99.7% of reserves' or '$200K representing the full reserve value.' The brief does not clarify which. Given the ambiguity introduced by the draft's phrasing, this reads as an accuracy problem: the writer has created a statement not clearly supported by the brief's structure.",
+     "Draft claims 'No secondary defense mechanisms halted the exploit in progress' but the brief's bear_case states only 'no secondary defense mechanisms prevented or halted the exploit in progress,' which is the same claim\u2014however, the draft presents this as a direct fact derived from reporting, when it is actually an inference/editorial judgment from the brief's bear_case section. Bear_case items are editorial framings, not reported data_points, and should not be presented as discovered facts in the prose."
+    ]
+   },
+   {
+    "id": "c135",
+    "headline": "CFTC, SEC Sue Goliath Ventures Over $397M DeFi Ponzi Scheme",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Delgado pleaded guilty in June 2026 to conspiracy to commit wire fraud, wire fraud, and money laundering' but the brief data_point says 'In June he pleaded guilty to conspiracy to commit wire fraud, wire fraud and money laundering, admitting he orchestrated the fraud and spent millions of dollars of customer money on himself.' The timing is ambiguous in the brief itself (charged Feb 20, pleaded June per brief), but the draft presents the June guilty plea as a fact without noting it follows a Feb 2026 criminal charge. More critically, the draft says 'Federal prosecutors in the Middle District of Florida charged Delgado with wire fraud and money laundering on February 20, 2026' but the brief data_point says 'Federal prosecutors in the Middle District of Florida charged Delgado with wire fraud and money laundering on Feb. 20, 2026'\u2014the brief does NOT include 'conspiracy to commit wire fraud' in the Feb 20 charge, only in the June plea. The draft conflates the two by listing all three counts at the Feb 20 charge point. This is a material accuracy error: the sequence and charge counts must track the brief."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Standard Chartered-led Anchorpoint Launches Hong Kong Dollar Stablecoin HKDAP",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Hong Kong passed stablecoin legislation in May 2025, nearly two months before the U.S. GENIUS Act was signed into law' but the brief data_point says 'nearly two months before' without specifying when the GENIUS Act was signed. The draft presents this as settled fact when the brief does not establish the GENIUS Act signing date as a verified data point, only that HK preceded it by 'nearly two months.' This is a smuggled comparative claim not fully grounded in the brief."
+    ]
+   }
+  ]
  }
 ]
