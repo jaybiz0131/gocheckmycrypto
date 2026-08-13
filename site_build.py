@@ -3347,6 +3347,18 @@ def same_event_on_disk(item, window_h=DEDUPE_WINDOW_H, content=None):
         # measured against everything the published story already covered. Below the gate's
         # own NOVELTY_MIN means it said nothing new, which is the definition of a duplicate
         # this desk already enforces at publish time.
+        # BETTER SOURCING OUTRANKS NOVELTY (owner-approved, 2026-08-13 audit). The novelty
+        # test asks "did this add anything?", and a corroborated retelling usually adds
+        # plenty: new outlets, sharper numbers, a corrected framing. That is exactly why it
+        # sailed past this gate and published alongside the weaker original. The desk ran a
+        # single-source piece saying Solana came "within minutes of full freeze" and, three
+        # hours later, a three-source piece putting it 4.5 points from a halt. Two live
+        # articles, one of them overstated, and nothing reconciling them.
+        #
+        # So a same-event story with STRICTLY more sources is a merge candidate whatever its
+        # novelty score, and merge_into_existing replaces the prose for that case alone.
+        if len(item.get("sources") or []) > len(other.get("sources") or []):
+            return path, other
         novel = (dedupe._claim_signature(item)
                  - dedupe._covered_signature(other) - dedupe._OUTLETS)
         if len(novel) < dedupe.NOVELTY_MIN:
@@ -3366,6 +3378,25 @@ def merge_into_existing(path, prior, incoming):
     usually not better reporting, it is the same reporting again, and silently swapping the
     body of a published story is a bigger risk than the duplicate it would fix. Anything the
     second copy really adds is a job for a human, and merged_from records what to look at."""
+    # THE ONE CASE THE PROSE IS REPLACED (owner-approved, 2026-08-13). The rule above
+    # holds for equal or weaker retellings and is right: the same reporting again is not
+    # better reporting. But when the newcomer carries strictly more sources it IS better
+    # reporting, and leaving the thinner telling standing is how an overstatement outlived
+    # its own correction for a day. The URL, slug and original publication time survive;
+    # the words and the sourcing become the better ones, and the page says so.
+    upgraded = len(incoming.get("sources") or []) > len(prior.get("sources") or [])
+    if upgraded:
+        old_title = prior.get("title", "")
+        for f in ("title", "dek", "key_fact", "body", "bottom_line", "boundary",
+                  "also_reported_by", "developing"):
+            if f in incoming:
+                prior[f] = incoming[f]
+        prior["consolidated"] = (
+            "This story was updated in place with a better-sourced account of the same "
+            "event, carrying "
+            f"{len(incoming.get('sources') or [])} sources against the original "
+            f"{len(prior.get('sources') or [])}. The earlier version was headlined "
+            f"\u201c{old_title}\u201d. The URL and publication time are unchanged.")
     seen = {(s.get("url") or "").strip() for s in (prior.get("sources") or [])}
     for s in (incoming.get("sources") or []):
         u = (s.get("url") or "").strip()
