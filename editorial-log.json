@@ -6957,5 +6957,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c046",
+    "headline": "SEC Framework for Tokenized Stocks Could Come This Week",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The announcement could be the biggest development for crypto this year' is in the brief as a data_point with 'unconfirmed' confidence, but this claim does not appear in the draft body at all. The brief includes it; the draft omits it entirely. This is not paraphrase or proportionate gatekeeping\u2014it is selective omission of a sourced claim from the brief.",
+     "The draft correctly flags the claim as unconfirmed in tone ('may announce') but does not report the second data_point from the brief (that Decrypt called this potentially 'the biggest development for crypto this year'). The brief requires the writer to surface all data_points; omitting one misrepresents the full scope of the Decrypt reporting."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Solana neared a freeze threshold Wednesday, Marinade Finance says. The Foundation says it held up under stress.",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Solana came within 4.5 percentage points of complete halt' but the brief provides no percentage calculation or margin. The brief says '20 million tokens of the freeze threshold' but does not state total staked SOL, making the 4.5 percentage point claim unverifiable against the brief.",
+     "The draft claims 'Teraswitch fixed the routing issue in about 10 minutes' but attributes this to 'the company' without clarity. The brief's data_point says 'The company fixed the issue in about 10 minutes' but does not identify which company (Teraswitch or another). This is ambiguous in the source and should not have been stated as settled fact without confirmation.",
+     "The draft presents 'The Solana Foundation stated that the network held up under stress' as a statement of fact, but the brief contains no data_point confirming a Foundation statement or its exact wording. This appears to be paraphrased inference rather than sourced claim."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "XRP Bridge Drained After Software Treats Fake Deposits as Real",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The flaw went undetected during multiple audits, per Decrypt' but then states 'Available reporting does not specify which auditors reviewed the bridge code, the scope of their reviews.' This is contradictory: if the auditors are unknown, the draft cannot claim the flaw went undetected 'during multiple audits' without specifying which audits. The brief confirms the flaw was undetected in audits but does not provide audit names, which should have prevented the draft from naming 'multiple audits' with such certainty.",
+     "The draft's entire fourth paragraph ('Available reporting does not specify...') acknowledges gaps in the brief but then makes the information appear incomplete rather than admitting the draft is built on thin sourcing. This editorial admission belongs in the brief's open_questions, not in the final published draft prose, which should not highlight its own evidentiary gaps to readers."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Goldman Sachs acquires NEOS Investments for $2.25 billion to scale bitcoin income ETFs",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Goldman filed its Bitcoin Premium Income ETF on 'April 14, 2026' but the brief states the filing was on 'April 14' without a year. The brief's data_point says 'April 14' and the draft adds '2026', which is a smuggled date not in the research brief.",
+     "The draft claims BTCI 'launched in October 2024' but this is temporally impossible in a story dated August 2026 if it crossed $1B 'in under two years.' October 2024 to August 2026 is less than two years but the framing 'in under two years' from October 2024 would mean crossing $1B by October 2026 at the latest. The brief's data_point says 'crossed $1 billion in under two years' without specifying the launch date clearly enough to verify the October 2024 claim independently exists in the brief."
+    ]
+   }
+  ]
  }
 ]
