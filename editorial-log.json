@@ -6699,5 +6699,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-12",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "CFTC Invokes Emergency Authority to Override New York's Attempt to Shut Down KalshiEX",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The CFTC invoked rarely-used emergency authority on August 11, 2026, ordering KalshiEX to continue operating' but the brief data_point specifies the confidence level as 'announced-not-verified' for the emergency authority claim. The draft presents this as settled fact without hedging language ('announced', 'according to the CFTC', or similar qualifier). All announced-not-verified claims must be attributed and hedged in prose.",
+     "The draft attributes the 'iron curtain' and 'waste away' quotes to CFTC Chairman Selig in quotation marks, but the brief data_point shows this is paraphrased language from an announced statement, not a direct verified quote. Using quotation marks around announced-not-verified material is a liability violation."
+    ]
+   },
+   {
+    "id": "c124",
+    "headline": "Coreum bridge drained of 99.7% XRP reserve in $200K exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'TX conceded that bridged XRP on the tx chain \"is not currently fully backed,\"' but the brief data_point 9 attributes this quote to TX's statement. The draft presents this as a concession of fact rather than TX's characterization. More critically, the draft should signal that this is TX's own admission (which it does via 'conceded'), but the phrasing risks implying permanent insolvency. However, the core issue is: the brief does not contain a data_point establishing whether the $200K drained constitutes the entirety of the loss or if additional unbacked bridged XRP exists elsewhere. The draft's bottom_line states 'If bridged XRP remains unrecovered and unbacked, holders of that asset face permanent loss'\u2014this is conditional phrasing that survives, but the phrase 'permanent loss' crosses into prediction/advice territory by quantifying holder impact without a recovery timeline from the brief."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Goldman Sachs acquires NEOS Investments for $2.25 billion to enter bitcoin income ETFs",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Goldman Sachs Asset Management, Innovator from Goldman Sachs Asset Management, and NEOS manage more than $130 billion in ETF assets under supervision' but brief data_point 12 says the same and data_point 13 then states 'Combined with Goldman's existing $40 billion in options-based ETF assets and the Innovator Capital Management acquisition announced in December, Goldman will control more than $130 billion in total ETF assets.' The draft conflates two separate figures: the $130B (which includes NEOS pre-acquisition) and the post-acquisition ranking claim. The second sentence of that paragraph in the draft ('Combined with Goldman's existing $40 billion...Goldman will rank eighth-largest') does not appear in the brief's data_points. The brief data_point 13 says Goldman 'will control more than $130 billion' but does NOT say 'Combined with Goldman's existing $40 billion'\u2014those are two different baselines. This is a SMUGGLED fact: the draft is adding a new calculation ($40B + $130B) that is not in the brief. The ranking claim ('eighth-largest active ETF manager globally') also appears only in the draft, not in the brief data_points, making it a smuggled attribution."
+    ]
+   },
+   {
+    "id": "c137",
+    "headline": "CFTC and SEC Sue Goliath Ventures Over Alleged $397 Million DeFi Liquidity Pool Ponzi",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CFTC Enforcement director David I. Miller said his division' but this quote does not appear in the body of the draft. The brief includes this data_point but the draft does not incorporate it, creating an inconsistency between what was researched and what was drafted. Either the quote should appear in the draft or be removed from the sources list.",
+     "The draft states the SEC 'filed its own civil action against Delgado and Goliath the same day' but does not attribute this to a source inline. The Defiant is cited as the sole source, but attribution to The Defiant is missing from this claim in the body."
+    ]
+   }
+  ]
  }
 ]
