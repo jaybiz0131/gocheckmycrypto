@@ -1,0 +1,69 @@
+{
+  "id": "wrap-am-2026-08-14",
+  "slug": "morning-brief-2026-08-14",
+  "kind": "brief",
+  "title": "The Morning Brief: Bitcoin Shrugs Off CPI Again as Infrastructure Cracks Show",
+  "dek": "A third straight in-line inflation print barely moved bitcoin, while the day's real volatility showed up in a Solana routing failure that nearly halted the network and a vendor breach exposing Trezor customer data.",
+  "date": "2026-08-14",
+  "published_utc": "2026-08-14T11:30:24Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The market's muted reaction to macro data continues, but the day's stories point to infrastructure and vendor risk, not price swings, as the places stress actually showed up.",
+  "bottom_line": "Wednesday's reporting shows a market where macro headlines are losing their grip, bitcoin moved under half a percent on an in-line July CPI print, the third straight month that has happened, while the day's real stress showed up in infrastructure and vendor security: a routing failure took Solana within about 20 million tokens of a full network halt, and a breach at Trezor's shipping vendor exposed data for nearly 14,000 customers. The CFTC opened two regulatory threads, a tightened self-certification advisory for prediction markets and an August 20 Innovation Advisory Committee meeting with comments open through August 27. The desk's own boards show bitcoin ETFs posting a second straight day of net outflows after a volatile prior stretch, while ether ETFs held a modest inflow trend, and the Whale Watch board shows net BTC value moving onto exchanges over the past 48 hours. Coming checkpoints include the CFTC's August 20 committee meeting, Teraswitch's root-cause report on the Solana incident, and the ongoing Trezor-ShipMonk breach investigation.",
+  "human_take": "",
+  "body": [
+    "The single thread running through Wednesday's reporting is that headline macro events have stopped moving bitcoin, while the real volatility of the day showed up elsewhere, in network infrastructure and third-party vendor security. The July CPI print, released August 12 at 3.4% year over year and matching consensus, produced a bitcoin move of roughly 0.47% around the release, the third consecutive month a major inflation data point has failed to move the market meaningfully, as the desk reported. Meanwhile Solana came within roughly 20 million tokens, or about 4.5 percentage points of stake, of a full network halt after a routing failure at an internet infrastructure provider, and a breach at Trezor's shipping vendor exposed records for nearly 14,000 customers.",
+    "On the regulatory and market-structure side, the CFTC issued two related actions on August 12: an advisory tightening self-certification rules for prediction market incentive programs, citing deficiencies that impede the agency's ability to evaluate compliance, and an announcement that its new Innovation Advisory Committee will hold its inaugural meeting on August 20 to discuss crypto, AI, and prediction markets, with public comment open through August 27. Neither action names specific platforms or signals enforcement yet.",
+    "On the corporate and institutional side, Goldman Sachs agreed to acquire NEOS Investments for up to $2.25 billion, gaining the $1.1 billion BTCI bitcoin income ETF and pushing Goldman into direct competition with BlackRock's newer BITA fund. Figure Technology Solutions reported Q2 revenue of $226 million, up 113% year over year, with net income climbing 192% to $87 million on $4.3 billion in marketplace volume. MUFG, Japan's largest bank, is preparing a proof-of-concept to settle Japanese government bond trades on the Canton blockchain in real time, versus the current one-to-three-day cycle, and is separately exploring a jointly issued stablecoin with two other Japanese megabanks by March 2027. And KPMG completed the first independent Big Four audit of Tether, issuing an unqualified opinion on the stablecoin's 2025 reserves, which exceeded liabilities by $6.814 billion.",
+    "The reporting does not give a single unifying cause for these developments. The CPI muted reaction is described in the story itself as a data point that used to swing prices 5% to 10% now moving them under half a percent, without an explanation for why sensitivity has faded. The Solana outage is attributed specifically to a routing defect at Teraswitch, an internet provider serving European and Asia-Pacific validators, rather than any protocol-level flaw. The CFTC's actions are framed as a response to filing deficiencies the agency says it has observed, without naming which platforms triggered the concern.",
+    "The desk's own boards show a market in a defensive posture that only partly matches the day's calm-macro narrative. The Fear and Greed Index sits at 29, within its recent 30-day range of 25 to 33, still labeled Fear. Bitcoin trades at $62,813 on the boards, down 0.97% in 24 hours and down 49.6% from its 12-month high of $124,739, with RSI at 41.7 and price below its 200-day average. The Whale Watch board shows $145.4 million in net BTC value moving onto exchanges over the past 48 hours, led by large transfers into Coinbase Institutional, a reversal from the prior week's swings which included a $746.8 million net outflow followed by an $812.9 million net inflow onto exchanges in the two weeks before that. ETF flows tell a similar story: bitcoin ETFs saw $131.1 million in net outflows on August 13, extending to $227.3 million net outflows across the last five sessions, a negative turn after periods of inflow: ether ETFs, by contrast, took in $5.9 million on August 13 and $46.6 million over the last five sessions, holding a modest positive trend.",
+    "The coming days carry several named checkpoints. The CFTC's Innovation Advisory Committee holds its first meeting on August 20, with public comments accepted through August 27, and any DCM responses to the prediction market advisory would clarify its practical bite. Watch for Teraswitch's root-cause report on the Solana routing failure and whether Marinade or other stakers move to limit concentration with any single infrastructure provider. On the corporate side, Goldman's NEOS acquisition is expected to close in early 2027 pending regulatory approval, and Figure's next quarterly results will show whether its marketplace volume growth holds. Trezor and ShipMonk's breach investigation remains open, with the scope of exposed data not yet fully disclosed."
+  ],
+  "sources": [
+    {
+      "title": "Bitcoin Barely Moved on the July CPI Print, for the Third Month Running",
+      "url": "/articles/bitcoin-barely-moved-on-the-july-cpi-print-for-the-third-month-running.html"
+    },
+    {
+      "title": "CFTC Tightens Prediction Market Self-Certification Rules",
+      "url": "/articles/cftc-tightens-prediction-market-self-certification-rules.html"
+    },
+    {
+      "title": "CFTC to convene Innovation Advisory Committee on August 20 for crypto, AI, and prediction markets discussion",
+      "url": "/articles/cftc-to-convene-innovation-advisory-committee-on-august-20-for-crypto-ai-and-prediction-markets-discussion.html"
+    },
+    {
+      "title": "CFTC Warns Prediction Markets on Faulty Incentive Filings",
+      "url": "/articles/cftc-warns-prediction-markets-on-faulty-incentive-filings.html"
+    },
+    {
+      "title": "Crypto Firms Ask AI Labs for Vetted Access to Frontier Security Models",
+      "url": "/articles/crypto-firms-ask-ai-labs-for-vetted-access-to-frontier-security-models.html"
+    },
+    {
+      "title": "Figure reports Q2 revenue of $226 million, marketplace volume hits $4.3 billion",
+      "url": "/articles/figure-reports-q2-revenue-of-226-million-marketplace-volume-hits-4-3-billion.html"
+    },
+    {
+      "title": "Goldman Sachs Acquires NEOS Investments for $2.25 Billion, Gaining Bitcoin Income ETF Platform",
+      "url": "/articles/goldman-sachs-acquires-neos-investments-for-2-25-billion-gaining-bitcoin-income-etf-platform.html"
+    },
+    {
+      "title": "MUFG to test real-time blockchain settlement for Japanese government bond trades",
+      "url": "/articles/mufg-to-test-real-time-blockchain-settlement-for-japanese-government-bond-trades.html"
+    },
+    {
+      "title": "Solana Came Within 4.5 Percentage Points of Network Halt After Teraswitch Routing Failure",
+      "url": "/articles/solana-came-within-4-5-percentage-points-of-network-halt-after-teraswitch-routing-failure.html"
+    },
+    {
+      "title": "Trezor Shipping Provider ShipMonk Breached, Exposing 13,689 Customer Records",
+      "url": "/articles/trezor-shipping-provider-shipmonk-breached-exposing-13-689-customer-records.html"
+    },
+    {
+      "title": "KPMG completes first full audit of Tether, issuing unqualified opinion on $180B stablecoin reserves",
+      "url": "/articles/kpmg-completes-first-full-audit-of-tether-issuing-unqualified-opinion-on-180b-stablecoin-reserves.html"
+    }
+  ]
+}

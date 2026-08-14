@@ -7207,5 +7207,46 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-14",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "SEC postpones Regulation Crypto proposal indefinitely, citing scheduling conflict",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case explicitly states 'Wall Street and White House concerns are cited in the headline as reasons for the delay, suggesting political and industry opposition to the rule,' but the draft contains no mention of Wall Street or White House concerns whatsoever. The brief's core bear case is completely absent from the draft.",
+     "The draft presents the postponement as a straightforward 'scheduling conflict' without any hint of the political or industry resistance documented in the brief's bear_case, materially underweighting the story's actual contention."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "Trezor shipping provider breach exposes data on 13,689 customers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'This was the first breach in Trezor's 13-year history to expose customer phone numbers and shipping addresses,' but the brief data_point says 'This was the first breach since Trezor was founded in 2013 to expose customer phone numbers and shipping addresses.' The draft claims 13 years from an unspecified present date; the brief anchors to 2013. If the current date is August 2026 (as evidenced by the source timestamps), then 2026 minus 2013 is 13 years, so the math is correct, but the phrasing 'in Trezor's 13-year history' is imprecise and creates ambiguity about whether Trezor was founded 13 years ago or the breach occurred 13 years ago. This is a minor accuracy slip in framing a specific historical fact from the brief."
+    ]
+   },
+   {
+    "id": "c023",
+    "headline": "MUFG Tests Blockchain Settlement for Japanese Government Bond Trades",
+    "category": "balance",
+    "reasons": [
+     "Brief's bear_case notes 'The sources provide no criticism, regulatory obstacles, timeline risks, or competing views on the initiative. The story is presented as an uncontested strategic move by MUFG.' Draft reproduces this unbalanced framing without any substantive pushback or skeptical framing. The draft acknowledges open questions exist ('no timeline for proof-of-concept completion or live deployment has been announced') but presents them as mere gaps rather than as risk factors that should shade the narrative tone. A story this positive about an unproven, untested initiative should either include regulatory or technical skepticism or reframe the narrative as speculative. As written, it reads as promotional.",
+     "The draft states MUFG 'is preparing a proof-of-concept' and describes the Canton network as the infrastructure that 'will underpin the test'\u2014but no timeline, no regulatory clarity, no technical obstacles, and no competing skeptical voices appear. This is pure upside momentum reporting on an announced intention, not a reported event."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Figure Reports Q2 Revenue of $226M on $4.3B Loan Marketplace Volume",
+    "category": "balance",
+    "reasons": [
+     "Brief's bear_case explicitly states: 'The sources provide no criticism, regulatory headwinds, competitive threats, credit-quality concerns, or counterarguments to the growth narrative. The story is entirely positive momentum reporting.' Draft reproduces this imbalance. The final paragraph acknowledges gaps ('No independently verified data on credit loss rates, delinquency metrics on the marketplace portfolio, or the capital composition of the 489 origination partners appears in the available sources') but buries this weakness at the end without integrating skepticism into the narrative framing.",
+     "The draft leads with and sustains a purely bullish momentum narrative\u2014revenue growth, marketplace volume growth, partner growth, stablecoin circulation growth\u2014and never once introduces a countervailing risk, regulatory challenge, credit quality concern, or competitive threat. A story about a blockchain lending platform posting record growth without any interrogation of credit quality, regulatory risk, or stress-test viability reads as a shill piece if the market turns or the platform faces losses. The skeleton is there (in the final paragraph) but it needs to actually shape the story."
+    ]
+   }
+  ]
  }
 ]
