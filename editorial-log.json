@@ -7315,5 +7315,28 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-14",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c014",
+    "headline": "SEC cancels Reg Crypto proposal meeting, cites scheduling issue, sets no replacement date",
+    "category": "accuracy",
+    "reasons": [
+     "Claim: 'sources close to the negotiations suggest no clear path exists to obtain sufficient common ground among lawmakers and the White House.' This attributed claim does not appear in the brief's data_points. The brief states the Clarity Act requires a 60-vote threshold and 'It remains unclear whether negotiations among lawmakers and the White House will find enough common ground,' but contains no data_point sourced to 'sources close to the negotiations.' This is smuggled information not in the brief.",
+     "Claim: 'Senate negotiations on the Digital Asset Market Clarity Act...have stalled.' The brief lists the Clarity Act as 'expected to establish legal foundation' and notes unclarty about passage likelihood, but no data_point explicitly confirms negotiations have 'stalled.' The word 'stalled' reads as writer interpretation beyond the reported facts."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Cboe seeks SEC approval for first US 3x leveraged Bitcoin and Ether ETFs",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'For Bitcoin trading at $63,653.85 as of 29 July 2026' introduces a specific price point ($63,653.85) that does not appear in the brief's data_points. This is a smuggled fact not traceable to the research brief. The brief contains no Bitcoin price data."
+    ]
+   }
+  ]
  }
 ]
