@@ -7165,5 +7165,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c126",
+    "headline": "Tether Completes First Full KPMG Audit, Withholds Statements and Sidesteps PCAOB Standards",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The audited reserve position showed $6.814 billion in equity, with assets of $192.88 billion against liabilities of $186.07 billion' but the brief's data_point 7 indicates the BDO December 31, 2025 report showed assets of $192.88 billion and liabilities of $186.54 billion (equity of $6.338 billion), not $186.07 billion. The draft uses figures that appear to conflate different time periods or sources without attribution.",
+     "The draft claims 'The audited equity of $6.814 billion exceeds what Tether reported in its December 31, 2025 BDO quarterly attestation by $476 million' but the brief states the BDO report showed $6.338 billion in equity, making the difference $476 million ($6.814B - $6.338B = $476M). However, the draft's presentation is unclear whether $6.338B or another figure is the correct baseline, and the exact liabilities figure ($186.07B vs $186.54B) is never clarified as a discrepancy.",
+     "The draft states 'KPMG physically counted and inspected every individual gold bar held by Tether' with confidence 'announced-not-verified' in the brief, but the draft presents this as established fact without qualification or attribution to The Defiant's reporting specifically. This crosses the line from paraphrase to unqualified claim of an announced-not-verified assertion."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Baltimore Sues Kalshi, Polymarket, and Three Retail Brokers Over Alleged Illegal Sports Betting",
+    "category": "clarity",
+    "reasons": [
+     "The brief is marked 'thin': true with only three data_points and zero source_chars, indicating minimal reporting. The draft is proportionally short but reads as undersourced even for the limited reporting available. The phrase 'The specific damages sought, the legal theory for holding the retail brokers jointly liable for the prediction market operators' activities, and the scheduled hearing date were not disclosed in the available reporting' flags important gaps but does not compensate for the lack of forward-looking stakes or context about why Baltimore is the first mover or what prediction market regulation looks like elsewhere.",
+     "The bottom_line says 'Watch for the defendants' responses and any statement from the prediction market platforms on their legal defense' but the draft contains no framing of what these platforms have previously claimed about their legal status or what their likely defense posture would be. The story lacks even minimal context for why this lawsuit matters beyond 'it tests whether prediction markets can operate legally'\u2014a tautology that does not clarify stakes.",
+     "The draft opens with the lawsuit fact but does not lead with why this moment matters: is this the first such suit? Is Baltimore particularly aggressive? Are prediction markets newly accessible through retail brokers in ways that triggered this? The angle in the brief ('First coordinated municipal enforcement targeting prediction markets and their integration with mainstream retail brokers') is not reflected in the draft's opening, leaving the story flat."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "MUFG preparing proof-of-concept for real-time onchain Japanese government bond settlement",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'JPMorgan's Kinexys network for blockchain-based intraday U.S. Treasury bond repos went live in 2020' but this claim is sourced only to CoinDesk's reporting on the MUFG initiative. This is a fact about JPMorgan's separate infrastructure that is not independently verified in the brief's data_points and appears to be added context from the writer rather than traced back to the single CoinDesk source provided. The brief includes this as a data_point attributed to CoinDesk, but the original CoinDesk article on MUFG would only mention Kinexys in passing as context; the specific 2020 date and operational status require independent verification and cannot be smuggled in via a single secondary source."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "South Korean court sentences Delio CEO to 15 years for $50 million embezzlement",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Do Kwon, the South Korean co-founder of Terraform Labs behind the TerraUSD algorithmic stablecoin and Luna token, orchestrated one of the largest frauds in financial history when the ecosystem collapsed in May 2022, wiping out roughly $40 billion in investor funds.' The brief data_point says 'Do Kwon, the South Korean co-founder of Terraform Labs...' but Do Kwon is not South Korean; he is American-born. The brief itself contains this error, but the draft should not propagate unverified biographical claims from the source. This is a smuggled factual claim about nationality not properly sourced or verified."
+    ]
+   }
+  ]
  }
 ]

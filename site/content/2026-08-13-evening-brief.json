@@ -1,0 +1,78 @@
+{
+  "id": "wrap-pm-2026-08-13",
+  "slug": "evening-brief-2026-08-13",
+  "kind": "brief",
+  "title": "The Evening Brief: A Quiet Tape, a Loud Backlog of Fixes",
+  "dek": "Bitcoin closed the day little changed even as the desk's boards showed net value moving onto exchanges over 48 hours, while Harmony, the XRP-Coreum bridge, and Solana all worked through the aftermath of infrastructure failures reported this week.",
+  "date": "2026-08-13",
+  "published_utc": "2026-08-13T23:01:04Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Bitcoin is roughly flat on the day and down slightly over the week even as it remains up over the month, and the desk's Whale Watch board shows net bitcoin value moving onto exchanges over the past 48 hours, a pairing worth watching rather than a resolved signal.",
+  "bottom_line": "Bitcoin closed roughly flat on the day and down slightly over the week per the desk's Market Pulse board, even as the month remains positive, while the desk's Whale Watch board shows $262.8 million in net bitcoin value moving onto exchanges over the past 48 hours. The day's stories centered on infrastructure failures, Harmony's unauthorized ONE minting, the XRP-Coreum bridge drain, and Solana's near-halt from a Teraswitch routing defect, alongside institutional progress from Anchorpoint, MUFG, Goldman's NEOS acquisition, and Figure's Q2 results. ETF flows diverged by asset, with bitcoin funds extending a five-session net outflow to $99.8 million while ether funds built a five-session net inflow of $47.2 million. Coming checkpoints include the CFTC's Innovation Advisory Committee meeting on August 20 with comments due August 27, Harmony's rollback decision, Teraswitch's root-cause report, and Russia's retail trading rules taking effect September 1.",
+  "human_take": "",
+  "body": [
+    "The day's throughline is a market that is calm on the surface and busy underneath. The desk's Market Pulse board has bitcoin at $63,371.72, down 0.06% over 24 hours and down 0.16% over the past week, though still up 5.68% over the past 30 days. That flatness echoes the desk's own reporting this morning and midday on the July CPI print, which came in at 3.4% year over year, matching consensus, and produced only a roughly 0.47% bitcoin move in the four hours around the release on August 12, the third straight month a major inflation print has failed to move the market meaningfully.",
+    "Under that quiet price action, three separate infrastructure failures continued playing out. Harmony's patch v2026.1.1, released August 12, fixed two validation flaws that let an attacker mint an estimated 4 billion ONE tokens, about 26% of supply, without backing; the chain remains halted at the bridge and is weighing a rollback. Separately, the Coreum-to-XRP bridge, now branded tx, lost nearly 200,000 XRP worth about $200,000 in 97 minutes on August 9 after all 28 of its relayers ran the same flawed code and accepted fabricated deposits as real. And Solana came within roughly 20 million staked tokens, about 4.5 percentage points, of a full network halt on August 12 after a routing defect at infrastructure provider Teraswitch knocked 28.83% of staked validators offline, just short of the one-third delinquency threshold that would stop block finalization. Separately, Trezor disclosed that its shipping vendor ShipMonk was breached, exposing names, addresses, emails and phone numbers for 13,689 customers across seven countries, a data exposure that does not touch device security but creates targeting risk for known hardware wallet owners.",
+    "Alongside the security thread, institutional building continued. Standard Chartered-backed Anchorpoint opened beta access to HKDAP, a Hong Kong dollar stablecoin, with HashKey Exchange and OSL Group as authorized distributors and a retail rollout planned for late 2026. MUFG, Japan's largest bank, is preparing a proof-of-concept for real-time settlement of Japanese government bonds on the Canton network, aiming to compress a 1-3 day settlement cycle to real-time, and is also exploring a jointly issued stablecoin with two other major Japanese banks by March 2027. Goldman Sachs agreed to pay up to $2.25 billion for NEOS Investments, gaining the $1.1 billion BTCI bitcoin income ETF and pushing Goldman into the eighth spot among global active ETF managers. Figure Technology reported Q2 revenue of $226 million, up 113% year over year, with $4.3 billion in Consumer Loan Marketplace volume. And more than three dozen crypto firms, including Coinbase, Block and BitGo, signed a letter asking AI labs for vetted early access to frontier cybersecurity models, explicitly not asking for safety filters to be loosened.",
+    "On regulation, the CFTC issued an advisory on August 12 flagging procedural and substantive deficiencies in prediction market incentive-program filings under Regulations 40.5 and 40.6, and separately announced the inaugural meeting of its Innovation Advisory Committee for August 20 to discuss crypto, AI and prediction markets, with public comments accepted through August 27.",
+    "The reporting does not give a single cause tying the day's infrastructure failures together beyond the recurring pattern of consensus or validation code running identically across supposedly independent operators, whether Harmony's quorum check, the 28 identical relayers on the XRP bridge, or Solana's concentrated reliance on Teraswitch.",
+    "The desk's boards show a market that has not reacted sharply to any of this. Bitcoin's RSI sits at 45.2 with fear-and-greed at 29, in the fear range where it has sat for the past 30 days. The Whale Watch board shows $262.8 million in net bitcoin value moving onto exchanges over the past 48 hours, continuing the pattern the desk flagged earlier today, with large transfers into Coinbase Institutional and Binance. ETF flows disagree by asset: bitcoin funds saw a further $3.6 million net outflow on August 13, extending a five-session net outflow of $99.8 million, while ether funds took in $6.5 million on August 13, building a five-session net inflow of $47.2 million. Leverage data show BTC and ETH funding near 11% annualized on OKX with long-short ratios above 1.8, and liquidations over the past 24 hours modestly favored longs on both assets.",
+    "Coming days carry several concrete checkpoints. The CFTC's Innovation Advisory Committee holds its first meeting August 20, with public comments due August 27. Harmony's rollback decision and any disclosure of the total unauthorized ONE minted remain open. Recovery efforts on the XRP-Coreum bridge theft and any tx compensation plan are unresolved. Teraswitch's root-cause report and Marinade's review of validator concentration limits will show whether Solana's near-halt prompts structural changes. Russia's retail trading restrictions take effect September 1, and Anchorpoint's retail HKDAP rollout is slated for late 2026."
+  ],
+  "sources": [
+    {
+      "title": "Harmony Patches Critical Smart Contract Flaws After Unauthorized ONE Minting",
+      "url": "/articles/harmony-patches-critical-smart-contract-flaws-after-unauthorized-one-minting.html"
+    },
+    {
+      "title": "Standard Chartered-led Anchorpoint launches Hong Kong dollar stablecoin",
+      "url": "/articles/standard-chartered-led-anchorpoint-launches-hong-kong-dollar-stablecoin.html"
+    },
+    {
+      "title": "XRP bridge drained for $200,000 after software mistook fake deposits for real ones",
+      "url": "/articles/xrp-bridge-drained-for-200-000-after-software-mistook-fake-deposits-for-real-ones.html"
+    },
+    {
+      "title": "Bitcoin Barely Moved on the July CPI Print, for the Third Month Running",
+      "url": "/articles/bitcoin-barely-moved-on-the-july-cpi-print-for-the-third-month-running.html"
+    },
+    {
+      "title": "CFTC Tightens Prediction Market Self-Certification Rules",
+      "url": "/articles/cftc-tightens-prediction-market-self-certification-rules.html"
+    },
+    {
+      "title": "CFTC to convene Innovation Advisory Committee on August 20 for crypto, AI, and prediction markets discussion",
+      "url": "/articles/cftc-to-convene-innovation-advisory-committee-on-august-20-for-crypto-ai-and-prediction-markets-discussion.html"
+    },
+    {
+      "title": "CFTC Warns Prediction Markets on Faulty Incentive Filings",
+      "url": "/articles/cftc-warns-prediction-markets-on-faulty-incentive-filings.html"
+    },
+    {
+      "title": "Crypto Firms Ask AI Labs for Vetted Access to Frontier Security Models",
+      "url": "/articles/crypto-firms-ask-ai-labs-for-vetted-access-to-frontier-security-models.html"
+    },
+    {
+      "title": "Figure reports Q2 revenue of $226 million, marketplace volume hits $4.3 billion",
+      "url": "/articles/figure-reports-q2-revenue-of-226-million-marketplace-volume-hits-4-3-billion.html"
+    },
+    {
+      "title": "Goldman Sachs Acquires NEOS Investments for $2.25 Billion, Gaining Bitcoin Income ETF Platform",
+      "url": "/articles/goldman-sachs-acquires-neos-investments-for-2-25-billion-gaining-bitcoin-income-etf-platform.html"
+    },
+    {
+      "title": "MUFG to test real-time blockchain settlement for Japanese government bond trades",
+      "url": "/articles/mufg-to-test-real-time-blockchain-settlement-for-japanese-government-bond-trades.html"
+    },
+    {
+      "title": "Solana Came Within 4.5 Percentage Points of Network Halt After Teraswitch Routing Failure",
+      "url": "/articles/solana-came-within-4-5-percentage-points-of-network-halt-after-teraswitch-routing-failure.html"
+    },
+    {
+      "title": "Trezor Shipping Provider ShipMonk Breached, Exposing 13,689 Customer Records",
+      "url": "/articles/trezor-shipping-provider-shipmonk-breached-exposing-13-689-customer-records.html"
+    }
+  ]
+}
