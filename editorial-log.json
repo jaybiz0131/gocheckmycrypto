@@ -7403,5 +7403,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-14",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c058",
+    "headline": "Abu Dhabi's Mubadala Holds $490M Bitcoin Position Through BlackRock Trust",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bitcoin ranks as a significant asset in at least two Abu Dhabi sovereign wealth funds based on regulatory filings' but the brief's data_point says 'Bitcoin is the most important asset in two of Abu Dhabi sovereign wealth funds.' The draft materially softens the claim from 'most important' to merely 'significant,' changing the factual assertion without source support.",
+     "The draft claims the $490M stake is 'the second-largest single holding in the fund's 13F portfolio' and later says it 'indicates the fund has elevated Bitcoin to compete with stakes in traditional equities, commodities, and fixed income for capital deployment decisions.' This editorializes beyond what the brief reports\u2014the brief says it is the second-largest holding but does not report what it competes with or what that ranking signifies for allocation frameworks. The inference about portfolio strategy is the writer's interpolation, not a fact from the brief."
+    ]
+   },
+   {
+    "id": "c111",
+    "headline": "Ireland Proposes Stricter Crypto Rules on Private Wallets, Overseas Firms",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains only one substantive data point in the brief and the brief itself is marked 'thin: true' with only 0 source_chars, yet the draft presents the claim as established fact without any qualifier about confirmation status. The brief's single data_point is marked 'confidence: reported' and the source URL returns zero characters of reportable content, suggesting the Cointelegraph article may not exist or may not substantiate the claim. The draft should either mark this as 'announced-not-verified' or 'unconfirmed' in prose, or reject publication until the source can be verified.",
+     "The second paragraph introduces a novel framing\u2014'enforcement gaps' and 'regulatory tightening in an EU member state where crypto enforcement is increasingly active'\u2014that does not appear in the brief's single data_point. This is editorial inference not supported by the research."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "French tax breach exposes 678,000 people as wrench attacks surge",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states '2026 is shaping up to be the worst year on record for wrench attacks targeting crypto holders in France, per the same report' but the brief's data_point says 'on pace to make 2026 the worst year ever,' which is a confidence distinction the draft erases. The brief treats both claims as 'reported' confidence, but the draft's phrasing ('is shaping up') weakens the certainty in ways not supported by the source framing.",
+     "The draft acknowledges in its own middle section that 'the sources do not establish a direct causal link between the specific data exposed and the mechanics of the attacks themselves,' but then reasserts in the final paragraph that the breach 'is being leveraged by criminal networks' as settled fact. This smuggles causation the brief explicitly flags as unestablished into the closing narrative."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Binance blocks 16 exchanges including HTX under EU Russia sanctions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Binance announced it will block transactions from 16 exchanges, citing compliance with EU Russia sanctions regulations' but the brief's core_claim and data_points specify 'will block transactions with 11 exchanges' (the newly blocked ones), with the 16 total being 11 new plus 5 already blocked. The draft opens with the 16 total figure but does not clearly establish that 5 were pre-existing blocks, creating ambiguity about what is new versus total.",
+     "The draft's opening sentence conflates the two numbers without clarity: '16 exchanges... The action affects 11 newly restricted venues; five exchanges were already blocked.' This reconstruction is accurate but the lead sentence should have been precise about scope from the start, not corrected mid-graph."
+    ]
+   }
+  ]
  }
 ]
