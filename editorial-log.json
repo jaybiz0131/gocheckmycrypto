@@ -7288,5 +7288,32 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-14",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c027",
+    "headline": "Binance blocks transactions with HTX, other exchanges under EU Russia sanctions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Binance will block transactions with 'HTX and other exchanges' but the core_claim in the brief specifies '16 exchanges, including HTX and 10 others.' The draft fails to report the total number of affected platforms (16), misrepresenting the scale of the enforcement action.",
+     "The brief explicitly states 'data_points: []' and 'source_chars: 0', indicating the source text was not provided. The draft contains multiple specific claims ('HTX, the cryptocurrency exchange previously known as Huobi, is named as one of the affected platforms', 'enforcement extending from direct customer transactions into infrastructure-level transaction routing') that cannot be traced back to data_points in the brief. These are smuggled facts written beyond the research.",
+     "The brief's open_questions note 'Source text not provided; all material facts about the 16 exchanges, the specific EU sanctions cited, effective date, and Binance's stated rationale are unavailable for verification.' The draft presents these as known facts rather than indicating they remain unconfirmed, violating the confidence-label survivability rule."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Norway's $1.3T Sovereign Wealth Fund Discloses Record Indirect Bitcoin Exposure",
+    "category": "accuracy",
+    "reasons": [
+     "Core claim in brief states 'Strategy accounts for 86% of that exposure' but the draft never mentions Strategy by name or its 86% share. The brief's core_claim is partially absent from the prose.",
+     "Draft states 'the source text does not specify the size of total bitcoin exposure' but the brief's core_claim explicitly references that Strategy accounts for 86%\u2014a sized claim that should have been in the draft or flagged as unverified.",
+     "The draft does not name Bitmine as the Ethereum-focused investment vehicle, though the brief's data_point identifies it: 'stake in Ethereum treasury firm Bitmine.' The draft refers only to an 'Ethereum-focused investment vehicle' without the name provided in the brief.",
+     "Open question states 'the specific mechanisms by which Strategy accounts for 86% of indirect bitcoin exposure...are unavailable for verification' but this is a core_claim, not an open question. The draft should acknowledge this central claim is unverified or unavailable, not omit it entirely."
+    ]
+   }
+  ]
  }
 ]
