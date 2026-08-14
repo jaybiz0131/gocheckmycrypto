@@ -7338,5 +7338,70 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-14",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "SEC delays innovation exemption for tokenized securities, cancels Reg Crypto meeting",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'The SEC had already pushed back its self-imposed deadline multiple times, most recently appearing ready to proceed in May of this year' is not supported by brief data_points. The brief states 'The SEC previously seemed ready to release the exemption in May of this year, after repeatedly pushing back its self-imposed deadline to do so'\u2014but this is a single reported claim, not a confirmed sequence. The draft presents it as established fact without qualification.",
+     "Sentence 'SEC Commissioner Hester Peirce told CoinDesk in her statement that she did not expect synthetic tokens to be included' attributes a quote/statement to Peirce, but the brief data_point only says 'SEC Commissioner Hester Peirce told CoinDesk that she did not expect the innovation exemption to include synthetic security tokens.' The draft adds 'in her statement' without source confirmation; no statement document is cited in the brief.",
+     "Sentence 'Analysts at Citi project that tokenized assets could reach a $5.5 trillion market by 2030, though such projections carry wide uncertainty' is accurate to the brief, but the draft's hedge phrase 'though such projections carry wide uncertainty' is not in the brief's data_point and reads as editorial hedging rather than reporting what was said. The draft should either report the projection plain or note in the brief if uncertainty was part of Citi's analysis."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Binance restricts transactions with HTX under EU Russia sanctions compliance",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'data_points': [] (empty) and 'source_chars': 0, indicating the research brief contains no extracted facts from the source. The draft was written without a populated data_points list and therefore violates the hard rule: 'no fact exists outside the brief.' Every factual claim in the draft (HTX restriction, other exchanges, EU sanctions basis, secondary sanctions mechanism, $197.9M BTC outflow) cannot be traced to a data_point because none exist in the brief.",
+     "The draft invokes specific figures ('$197.9 million of BTC', '$116.6 million', '$81.3 million', 'Kraken', '48 hours to August 14') and attributes them to 'CoinDesk's Whale Watch board,' but no data_point in the brief supports this. This is smuggled information.",
+     "The brief's open_questions explicitly state 'Source text was not provided; unable to extract data points,' yet the draft proceeds as if facts were confirmed. The brief is too thin and unsourced to support this draft; it should have been rejected at research stage or drafted with heavy caveats."
+    ]
+   },
+   {
+    "id": "c023",
+    "headline": "Israel's largest bank launches crypto trading via Galaxy partnership",
+    "category": "accuracy",
+    "reasons": [
+     "Launch timing 'early 2027' appears only in the draft headline and opening, but the brief explicitly states: 'Source texts were not provided; unable to extract launch timing (early 2027 from headline only).' This means the writer extracted a fact from the headline alone, not from the source text itself, violating the hard rule that facts must trace to research brief data_points.",
+     "The phrase 'follows a softer regulatory stance at the Bank of Israel' is stated as established fact in the draft body, but the brief's open_questions explicitly flag: 'No information on whether the Bank of Israel explicitly approved this offering or what regulatory changes preceded it.' This is a smuggled claim not supported by the brief's data.",
+     "The statement about 'regulatory clarity' in the US crypto trading context and Galaxy's 'expanded' footprint are contextual elaborations unsupported by any data_point in the brief."
+    ]
+   },
+   {
+    "id": "c041",
+    "headline": "Coldcard exploit losses estimated at $150M-plus as theft activity slows",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points\u2014the data_points array is empty. The draft is entirely unsupported: every claim about the $150M estimate, the exploit mechanics, the firmware versions, the slowdown in theft, and Galaxy Research's analysis has no corresponding data_point in the brief to trace back to.",
+     "The brief flags multiple critical open_questions including 'What is the specific vulnerability in Coldcard that enabled the theft?' and 'How did Galaxy Research arrive at the $150 million estimate?' The draft presents these as settled facts without caveating them as unconfirmed or announced-not-verified.",
+     "The draft includes a 'Bear case' section that does not appear in the brief's bear_case (which is empty). The writer fabricated the bear case wholesale rather than drawing from the brief."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "Washington court blocks most Kalshi prediction market offerings despite CFTC approval",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'reporting does not detail the legal basis cited by the Washington court for overriding federal approval' and 'The court's reasoning and any safety or consumer protection rationale are not yet public,' but then the draft itself elaborates extensively on the regulatory conflict, the CFTC's role, and the legal question at stake\u2014all context not present in the brief's two data_points.",
+     "The phrase 'whether Kalshi or the CFTC plan to appeal the order or challenge the court's jurisdiction' is presented as an open question in the draft, but the brief does not contain this language; this is a writer-added open question, not one from the research.",
+     "The bear case paragraph in the draft ('The Washington ruling may signal broader state-level resistance...') does not appear in the brief's bear_case array, which is empty. The writer constructed this risk narrative independently rather than drawing from the brief."
+    ]
+   },
+   {
+    "id": "c045",
+    "headline": "Ireland implements first national AML strategy with enhanced private wallet checks",
+    "category": "accuracy",
+    "reasons": [
+     "The phrase 'Ireland has introduced its first national anti-money-laundering strategy' states a present-tense accomplished fact, but the brief's data_points label both claims as 'reported'\u2014meaning sourced from Decrypt's reporting, not verified independently. The draft should flag this as reported/announced, not settled. The opening sentence reads as a direct statement of fact rather than what a single outlet reported.",
+     "The claim 'brings the country closer to broader European Union regulatory convergence on digital asset oversight' is SMUGGLED\u2014it does not appear in the brief's data_points or open_questions. This is interpretive framing added by the writer, not research."
+    ]
+   }
+  ]
  }
 ]
