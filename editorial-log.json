@@ -7248,5 +7248,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-14",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c025",
+    "headline": "Israel's Largest Bank Plans Crypto Trading Launch via Galaxy Partnership",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The country received an estimated $22 billion in onchain crypto value during the 12 months ending June 2025, per The Block's reporting.' The brief's data_point attributes this claim to The Block with confidence 'reported', but the brief itself does not provide the specific time period or year. The draft specifies 'June 2025' and '12 months ending June 2025' as a precise data point, but the brief shows only 'reported' confidence without those temporal markers visible in the source metadata. This appears to be a factual specification beyond what the brief authorizes\u2014the writer has added precision (the June 2025 endpoint and the 12-month window) that is not traceable to the brief's data_point entry."
+    ]
+   },
+   {
+    "id": "c026",
+    "headline": "Binance blocks transactions from 16 exchanges under EU sanctions compliance",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The list includes HTX and 10 other named exchanges' but the brief's open_questions note unclear whether HTX and '10 other exchanges' are part of the 16 or separate. The draft presents a specific composition (HTX + 10 others = at least 11, implying 5 more unnamed) that cannot be confirmed from the source text provided to the brief. This is a smuggled fact.",
+     "Draft claims 'The list includes HTX and 10 other named exchanges' but only HTX is named in the draft body itself; the other 10 are not listed. This creates a factual claim (that 10 others are named) unsupported by the draft's own content or the brief's data."
+    ]
+   },
+   {
+    "id": "c029",
+    "headline": "Norway sovereign wealth fund's indirect bitcoin exposure hits all-time high",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'One strategy accounts for 86% of that exposure' and 'The fund also disclosed a new $88 million stake in Bitmine' but the brief explicitly notes 'Source text not provided; unable to extract the absolute dollar amount of total bitcoin exposure, the name or details of the strategy accounting for 86%.' The draft presents these figures as confirmed facts when the brief marks them as unconfirmed.",
+     "Draft names 'Bitmine' as a specific investment vehicle and describes it in relation to 'Ethereum treasury strategies' but the brief states 'No information available on Bitmine's business model, holdings, or why Norges Bank chose this as its Ethereum treasury vehicle.' The draft smuggles in characterization (Ethereum treasury vehicle) not present in the source material."
+    ]
+   },
+   {
+    "id": "c040",
+    "headline": "ShipMonk Breach Exposes Contact and Address Data for 13,689 Trezor Customers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A comparable breach at Ledger in January 2026, through commerce provider Global-e, exposed similar data for Ledger customers.' The brief's data_point on this incident says 'A January 2026 incident at commerce provider Global-e exposed names, postal addresses, email addresses, phone numbers and order details for Ledger customers, while leaving Ledger devices and systems unaffected.' The draft does not make clear that Ledger itself was not breached\u2014only the third-party Global-e provider was\u2014which could mislead readers into thinking Ledger's systems were compromised like ShipMonk's. This creates liability confusion about the scope of the incident and fails to preserve the distinction critical to the angle (supply-chain vs. internal breach)."
+    ]
+   }
+  ]
  }
 ]
