@@ -7496,5 +7496,51 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-15",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c024",
+    "headline": "Norway's sovereign wealth fund discloses Ethereum stake amid Bitcoin exposure peak",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's core_claim states 'Strategy holdings accounting for 86% of that exposure,' but the draft never mentions this 86% figure. The draft says 'a single strategy accounts for a significant portion' which is vague and does not match the specific data point in the brief.",
+     "The brief lists only ONE data_point (the Bitmine stake), yet the draft treats the Bitcoin all-time-high claim as reportable fact. The brief explicitly marks the Bitcoin ATH as unconfirmed in open_questions and bear_case is empty, but the draft presents it as settled reporting without confidence attribution.",
+     "The body states 'reports indicate the fund has reached an all-time high in indirect Bitcoin exposure' without attributing this to any source outlet. The data_points contain no Bitcoin ATH claim; only The Block's Bitmine report is sourced. The ATH narrative is smuggled."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Binance enforces EU Russia sanctions by blocking 11 exchanges; details scarce",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's data_points array is empty (source_chars: 0). The draft cites The Block and Cointelegraph but provides no traceable facts: it names HTX and '10 other exchanges' but the brief has no data supporting either the list or the count.",
+     "The draft states 'Binance announced it will block transactions with HTX and 10 other exchanges' but the brief's open_questions explicitly flag that 'unable to verify which specific exchanges are blocked, the exact number affected.' The draft presents unverified specifics as reported fact.",
+     "The brief marks source_chars as 0 and open_questions state the source texts are empty/unavailable. The draft should not have been written from this brief; the rule is facts trace to brief data_points, and this brief contains none on the core claim."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "French tax breach exposes nearly 678,000 people as crypto wrench attacks pile up",
+    "category": "accuracy",
+    "reasons": [
+     "The draft body contains extensive editorial commentary ('The brief does not confirm...', 'Sources also do not define...', 'The claim that 2026 is tracking as...') that reads as meta-analysis of source gaps rather than reporting. This violates the hard rule that facts go back to research; the draft is performing the research function itself rather than reporting from the brief.",
+     "The core claim\u2014that a breach 'contributed to' wrench attacks\u2014is stated in the brief but the draft explicitly walks it back ('the sources do not establish whether the tax authority's exposed data was directly used'), presenting uncertainty as fact while simultaneously disclaiming the fact. This creates liability: readers cannot tell what happened from what the writer doubts.",
+     "The draft attributes the 'worst year on record' claim to sources but immediately qualifies it as 'rests on comparisons to prior years that are not detailed,' undermining the attribution. If the comparison is unverified per the brief's open_questions, the draft cannot present it as a source claim without confidence labeling ('sources say, without detailed baseline')."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "Ireland's New AML Strategy Brings 'Enhanced Checks' on Private Crypto Wallets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Ireland announced enhanced anti-money laundering due diligence requirements' as a settled fact, but the brief's core_claim uses the same language ('introduced'), and the brief explicitly flags in open_questions that 'Source text is empty' and provides 'no detail on what enhanced checks entail.' The draft cannot report what was announced without source text confirming the announcement content.",
+     "The draft states Ireland's move is 'part of a trend toward restricting unmonitored private wallet transfers,' but this interpretive framing is not in the brief's data_points or angle; it is smuggled analysis. The brief's angle mentions 'part of a global shift' but the draft must cite that to Decrypt, not present it as the writer's synthesis.",
+     "The phrase 'Ireland's first dedicated AML strategy focused on digital assets' is attributed to Decrypt as 'per the outlet's reporting,' but no source text is available (source_chars: 0) to verify Decrypt made this exact claim or this framing. Attribution without source access is a liability problem."
+    ]
+   }
+  ]
  }
 ]
