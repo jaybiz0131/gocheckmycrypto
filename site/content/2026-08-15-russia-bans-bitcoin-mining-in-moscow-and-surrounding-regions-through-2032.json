@@ -1,0 +1,39 @@
+{
+  "id": "c003",
+  "slug": "russia-bans-bitcoin-mining-in-moscow-and-surrounding-regions-through-2032",
+  "kind": "brief",
+  "title": "Russia bans Bitcoin mining in Moscow and surrounding regions through 2032",
+  "dek": "Under government decree No. 936, signed July 25 and published July 31, Russia has banned cryptocurrency mining and pool participation in Moscow, the Moscow Region, and parts of Kursk through December 31, 2032. The measure cites power grid stability; Russia currently holds the world's second-largest Bitcoin mining share at 16.4% of global hash power.",
+  "date": "2026-08-15",
+  "published_utc": "2026-08-15T23:28:53Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Russia, which accounts for 16.4% of global Bitcoin hash power (175 exahashes per second in Q1 2026), has banned mining and pool participation in Moscow and surrounding regions through 2032 due to power grid strain.",
+  "bottom_line": "Watch whether the ban extends to other Russian regions beyond Moscow, Kursk, Irkutsk, Buryatia, and Zabaykalsky Krai, and track changes in global hash distribution as miners relocate. The order would be invalidated if Russia reverses the ban before its 2032 expiration, as it has done with previous mining restrictions.",
+  "human_take": "",
+  "body": [
+    "Russia has banned cryptocurrency mining and pool participation in Moscow, the Moscow Region, and parts of Kursk through December 31, 2032, according to CoinDesk reporting on government decree No. 936, signed July 25 and published July 31. The measure directly cuts mining capacity in the world's second-largest Bitcoin mining jurisdiction and signals how power-grid strain can override recent legalization.",
+    "Russia accounted for an estimated 175 exahashes per second, or 16.4% of Bitcoin's global computing power, in the first quarter, placing it second only to the United States, per Luxor's Hashrate Index cited by CoinDesk. Mining currently consumes roughly 1 gigawatt in the Moscow power system, and the region's data-center capacity could reach 3.6 gigawatts, or 17% of peak demand, by 2032, according to Interfax reporting on the decree.",
+    "Russia's Energy Ministry stated that a year-round restriction was needed to reduce the risk of power-capacity shortages as energy-intensive mining facilities connect to regional grids. The decree follows a pattern of reversals: Russia legalized registered crypto mining in 2024, then banned the activity in 10 regions through March 2031, citing electricity demand. Year-round restrictions were later extended to southern Irkutsk and most areas of Buryatia and Zabaykalsky Krai.",
+    "The timing intersects with Russia's use of mined Bitcoin for international payments. Russian companies had been using domestically mined bitcoin in international settlements after legal changes designed to counter Western restrictions, according to Finance Minister Anton Siluanov in December 2024, as reported by CoinDesk. Legislation passed by parliament in July maintained Russia's ban on domestic crypto payments but preserved exceptions for foreign-trade settlements and transactions involving mined cryptocurrency.",
+    "That strategy has already drawn international sanctions. The U.S. Treasury sanctioned BitRiver and 10 subsidiaries in 2022, saying Russian mining companies helped the country monetize its energy resources and could offset the impact of sanctions, per CoinDesk. The Moscow ban may invite further pressure on remaining Russian mining operations tied to sanctions evasion.",
+    "The sources do not specify what proportion of Russia's 175 exahashes per second of hash power was located in the newly restricted Moscow and Kursk regions, leaving the actual capacity impact unclear. The decree follows a pattern of regulatory reversals, suggesting further shifts are possible."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/08/15/why-the-world-s-second-largest-bitcoin-mining-power-is-shutting-down-rigs-in-its-capital-city",
+      "url": "https://www.coindesk.com/policy/2026/08/15/why-the-world-s-second-largest-bitcoin-mining-power-is-shutting-down-rigs-in-its-capital-city"
+    }
+  ],
+  "update_of": "bitmart-exchange-to-shut-down-after-nine-years-bmx-token-falls-58",
+  "boundary": {
+    "affected": "Moscow, the surrounding Moscow Region and parts of Kursk; prohibition includes crypto mining and pool participation",
+    "fixed": "After Dec. 31, 2032",
+    "user_action": "Mining and pool participation must cease in the named jurisdictions",
+    "advisory_url": "https://www.coindesk.com/policy/2026/08/15/why-the-world-s-second-largest-bitcoin-mining-power-is-shutting-down-rigs-in-its-capital-city"
+  },
+  "also_reported_by": [],
+  "developing": true
+}
