@@ -7445,5 +7445,56 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-15",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c020",
+    "headline": "Binance blocks 16 exchanges under EU sanctions enforcement",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The action affects 11 newly restricted venues; five exchanges were already blocked' but the brief data_point only says Binance will block 'from 16 exchanges, including five already blocked.' The draft adds a new fact ('11 newly restricted') not present in the brief\u2014this is a smuggled calculation/inference, not a paraphrase of reported data.",
+     "Draft claims 'the specific EU sanctions designation against the affected platforms remains unconfirmed in available reporting.' The brief's core_claim says the block is related to 'EU Russia sanctions,' but the brief contains zero data_points confirming what those sanctions are or whether they target the exchanges. The draft is correct that this is unconfirmed, but it should flag the claim in the core_claim itself as unconfirmed/reported rather than stating it without confidence labeling. The brief marks all three data_points as 'reported' with no confidence downgrade, yet the draft correctly identifies this as uncertain\u2014a misalignment the draft should resolve by either trusting the brief or explicitly downgrading."
+    ]
+   },
+   {
+    "id": "c086",
+    "headline": "Galaxy Digital cuts CLARITY Act passage odds to 10%",
+    "category": "accuracy",
+    "reasons": [
+     "Draft opens with 'Galaxy Digital lowered its probability assessment for passage of the Digital Asset Market Clarity Act to 10%' but the brief data_points do not contain the 10% figure. The core_claim mentions '10%' but no data_point in the brief provides a source attribution for this number. The draft cites Cointelegraph but the brief offers no verbatim confirmation that Cointelegraph reported a specific '10%' figure\u2014this fact is smuggled from the headline/title without a traceable data_point.",
+     "Draft states Galaxy 'identified a narrow Senate legislative window upon lawmakers' return in September as a constraint on the timing of any passage attempt.' The brief data_point says Galaxy 'cited a narrow Senate window when lawmakers return in September as a constraint on passage timing,' but the draft adds 'a constraint on the timing of any passage attempt'\u2014a subtle but new interpretation not in the source material. The brief's phrasing is passive ('constraint on passage timing'); the draft's is causal ('constraint on any attempt'). This reads like interpolation."
+    ]
+   },
+   {
+    "id": "c023",
+    "headline": "Norway's sovereign fund discloses record indirect bitcoin exposure via Strategy",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Strategy accounts for 86% of the fund's indirect crypto holdings' but brief's data_point says only that Strategy accounts for 86% of bitcoin exposure specifically, not all crypto holdings. The draft conflates bitcoin exposure with total crypto exposure.",
+     "Draft claims 'Both holdings represent an escalation of Norges Bank's crypto portfolio' but the brief contains no data point establishing that Strategy holdings increased or that this represents an escalation\u2014only that it is at all-time high. The word 'escalation' imports a claim of change not supported by the brief."
+    ]
+   },
+   {
+    "id": "c039",
+    "headline": "Mubadala disclosed $490M stake in BlackRock Bitcoin ETF as second-largest holding",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states the $490M stake 'ranks as the second-largest single holding across Mubadala's entire 13F portfolio' but the brief's data_point uses identical language ('second-largest single holding across Mubadala's entire 13F portfolio'). The brief also flags that 'the sourced text is truncated' and 'the full article content is not available for verification.' The writer has presented a fact from a truncated source as confirmed when the brief itself marks the source as incomplete and unverifiable.",
+     "Draft headline claims 'as second-largest holding' which implies verification of rank across the entire portfolio, but brief explicitly states source is truncated (source_chars: 310, marked as incomplete). This is a smuggled claim presented as fact from an unreliable source."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Payward Reports $508M Q2 Adjusted Revenue as Non-Trading Products Offset Volume Decline",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'crypto trading volume fell 13% to $310 billion' as a reported figure, but the brief's data_point labels this claim as 'reported' confidence from The Block. However, the brief's open_questions flag that 'No source text fetched; unable to confirm which revenue streams...drove the growth,' raising doubt about whether the volume figure was actually verified. The draft presents this as settled fact without hedging language ('according to The Block' is present, but the open_questions suggest the source text was not retrieved to verify these numbers). The desk cannot approve a story relying on unverified secondary reporting when the brief itself flags the source was not fetched.",
+     "The draft claims 'deposit, staking, lending, or custody products are generating material revenue outside of trading commissions' but acknowledges 'The reported data does not specify which revenue streams contributed to the 17% growth.' This is smuggled inference: the brief provides no data_point confirming that non-trading products generated the growth\u2014only that volume fell while revenue rose. The causal link (non-trading products drove growth) is the writer's inference, not a data point from the brief."
+    ]
+   }
+  ]
  }
 ]

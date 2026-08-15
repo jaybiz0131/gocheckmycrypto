@@ -1,0 +1,49 @@
+{
+  "id": "wrap-am-2026-08-15",
+  "slug": "morning-brief-2026-08-15",
+  "kind": "brief",
+  "title": "The Morning Brief: Regulatory convergence: CFTC convenes, SEC delays, OCC approves",
+  "dek": "The federal crypto regulatory apparatus moved in three directions this week: the CFTC formally launched its Innovation Advisory Committee with Trump's expected attendance, the SEC postponed its Regulation Crypto proposal without a new date, and the OCC granted World Liberty preliminary approval for a federal bank charter and USD1 stablecoin issuance. Meanwhile, KPMG completed Tether's first Big Four audit and Bank Leumi announced early-2027 crypto trading.",
+  "date": "2026-08-15",
+  "published_utc": "2026-08-15T11:00:07Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "U.S. regulatory momentum has shifted unevenly: the CFTC and OCC are moving forward on crypto infrastructure at the federal level, while the SEC's Reg Crypto timeline remains unclear, leaving securities offerings and tokenization in regulatory limbo heading into 2027.",
+  "bottom_line": "The CFTC's formal advisory committee launch and the OCC's World Liberty approval signal federal willingness to build crypto infrastructure, while Trump's expected White House meeting with crypto CEOs underscores executive engagement. Conversely, the SEC's Reg Crypto postponement leaves securities and tokenization in regulatory limbo. KPMG's Tether audit and Bank Leumi's early-2027 launch represent incremental transparency and adoption wins, but whale flows onto exchanges and turning ETF outflows suggest institutional caution on price direction. Watch for the CFTC's August 20 meeting agenda and any concrete policy recommendations, a new SEC Reg Crypto proposal date, World Liberty's preopening requirements and timeline to final approval, and Senate progress on the Digital Asset Market Clarity Act by September 1, 2026.",
+  "human_take": "",
+  "body": [
+    "The CFTC formally entered the crypto policy space this week with the announcement of its Innovation Advisory Committee's inaugural meeting on August 20, 2026, to address crypto assets, artificial intelligence, and prediction markets. Per the agency's press release, the meeting will be streamed live and the public may submit comments by August 27. The timing carries political weight: President Trump is expected to attend a White House meeting Wednesday with crypto CEOs who sit on the committee, according to people briefed on the planning, just before the Thursday CFTC session begins. This marks rare direct presidential engagement with the digital asset sector at a formal advisory moment.",
+    "In parallel, the OCC granted preliminary conditional approval to World Liberty Trust Company for a federal bank charter on August 14, clearing the way for the Trump-affiliated entity to issue USD1, a fiat-backed stablecoin for institutional clients, and provide digital asset custody services. The approval is not final; World Liberty must still meet additional preopening requirements, and the entity remains structurally separated from the traditional banking system without Federal Reserve access or FDIC insurance. Any announcement that these limits will be removed would materially alter the picture.",
+    "The SEC's signal, by contrast, moved backward: the agency cancelled the Friday meeting at which it planned to propose Regulation Crypto, citing an unforeseen scheduling conflict, and has not announced a new date. Regulation Crypto is designed to create a limited framework allowing crypto issuers to offer investment contracts without full SEC registration, and is a centerpiece of SEC Chairman Paul Atkins's digital asset regulatory plan. The postponement leaves securities offerings and tokenization in regulatory uncertainty heading into the fall.",
+    "Transparency in the stablecoin market advanced with KPMG U.S.'s completion of the first independent Big Four audit of Tether International. KPMG issued an unqualified opinion on Tether's 2025 financial statements, finding that reserves exceeded liabilities by $6.814 billion and that the company's transactions, systems, valuations, and gold holdings were fairly presented. The milestone addresses long-standing investor concerns about USDT's backing after years of attestations rather than full audits, though the lack of public access to the full audit report limits independent verification of scope and methodology.",
+    "International adoption signals also emerged: Bank Leumi, Israel's largest bank, announced it will launch cryptocurrency trading in bitcoin, ether, and solana through the Leumi Trade app beginning in early 2027, with Galaxy Digital providing trading and custody infrastructure via GalaxyOne Institutional. This marks the first Israeli bank to embed crypto trading directly into its regulated retail banking interface.",
+    "The tape reflects caution. Per the desk's Whale Watch board, large holders moved $145.4 million net onto exchanges in the 72 hours ending this morning, with the largest inflows directed to Coinbase Institutional, suggesting institutional liquidation or positioning adjustment. Bitcoin ETF flows turned negative on August 14, recording outflows of $56.2 million after three weeks of inflows totaling $385.2 million net in the last five sessions. Ether recorded a modest inflow of $5.9 million on August 13. Bitcoin trades at $62,971.97, down 0.02% in the 24 hours ending this morning and off 2.48% over the week, while Ether is at $1,878.77, down 0.08% in 24 hours. The fear and greed index stands at 34, in the fear zone, after a 30-day range of 25 to 34. Funding rates remain positive on OKX futures for both BTC (0.0072% 8-hour, 7.8% annualized) and ETH (0.0046% 8-hour, 5.1% annualized), consistent with long-weighted positioning, but liquidations in the 24-hour window show $2.5 million in BTC longs and $2.3 million in ETH longs liquidated versus $1.5 million and $755K in shorts, suggesting long-side stress."
+  ],
+  "sources": [
+    {
+      "title": "CFTC to convene Innovation Advisory Committee on August 20 for crypto, AI, and prediction markets discussion",
+      "url": "/articles/cftc-to-convene-innovation-advisory-committee-on-august-20-for-crypto-ai-and-prediction-markets-discussion.html"
+    },
+    {
+      "title": "Bank Leumi launches crypto trading via Galaxy partnership in early 2027",
+      "url": "/articles/bank-leumi-launches-crypto-trading-via-galaxy-partnership-in-early-2027.html"
+    },
+    {
+      "title": "KPMG completes first full audit of Tether, issuing unqualified opinion on $180B stablecoin reserves",
+      "url": "/articles/kpmg-completes-first-full-audit-of-tether-issuing-unqualified-opinion-on-180b-stablecoin-reserves.html"
+    },
+    {
+      "title": "OCC Grants World Liberty Conditional Bank Charter Approval",
+      "url": "/articles/occ-grants-world-liberty-conditional-bank-charter-approval.html"
+    },
+    {
+      "title": "SEC Postpones Regulation Crypto Proposal Meeting Without New Date",
+      "url": "/articles/sec-postpones-regulation-crypto-proposal-meeting-without-new-date.html"
+    },
+    {
+      "title": "Trump expected at White House meeting with crypto CEOs on new CFTC advisory panel",
+      "url": "/articles/trump-expected-at-white-house-meeting-with-crypto-ceos-on-new-cftc-advisory-panel.html"
+    }
+  ]
+}
