@@ -7811,5 +7811,67 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-16",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c054",
+    "headline": "Ethereum developers to narrow 66 proposals tied to Hego\u0442\u0430 upgrade",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains zero data_points and explicitly states 'No source text fetched; unable to determine which of the 66 proposals are under consideration.' The draft presents the 66 proposals and narrowing process as established fact ('66 competing proposals must be narrowed') without marking these as unconfirmed or announced-not-verified. This is a smuggled fact\u2014the brief offers no source evidence for the core claim itself.",
+     "The upgrade name is spelled 'Hegot\u00e1' in the brief's open_questions section ('Unable to verify the upgrade's name spelling or confirm whether 'Hegot\u00e1' is the official designation'), yet the draft title uses a Cyrillic character ('Hego\u0442\u0430'). This is a factual inconsistency that suggests the draft introduced information not in the brief."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Prediction market Novig sues Wisconsin AG in escalating regulatory dispute",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly state 'unable to identify the other four states where Novig has sued.' The draft claims 'The litigation centers on sports contracts and regulatory jurisdiction. Novig's decision to litigate rather than negotiate suggests the company believes state restrictions on its operations overreach legal authority or violate federal law, though the specific legal theory advanced in the Wisconsin case is not yet confirmed in available reporting.' This is inference presented as fact about Novig's belief/strategy, not a data point from the brief.",
+     "The draft states 'filing lawsuits in five states' and 'The Wisconsin lawsuit marks the latest in a series of filings that began on August 4' as though these details are confirmed, but the brief contains only the single data point 'Novig has sued officials in five states including Wisconsin since Aug. 4' with no detail on the sequence, timing relative to August 4, or confirmation of five total suits. The phrasing 'marks the latest in a series of filings that began on August 4' smuggles temporal ordering not in the brief."
+    ]
+   },
+   {
+    "id": "c000",
+    "headline": "SEC cancels open meeting on crypto rulemaking as Congressional negotiations stall",
+    "category": "accuracy",
+    "reasons": [
+     "Brief data_point 6 states the Clarity Act would not receive a vote 'prior to the Senate's August recess' and mentions 'ahead of the Senate's first vote on the legislation next month.' Draft states 'The Clarity Act itself will not receive a Senate vote prior to the chamber's August recess' but then claims 'Further SEC action may not occur until after the Senate breaks again in early October'\u2014this conflates two recess periods. The brief does not establish that a vote is expected 'next month' (which would be September post-recess); the draft's October timeline appears to be writer inference, not from the brief.",
+     "Brief data_point 6 says lawmakers are concerned about 'ongoing negotiations over the Clarity Act ahead of the Senate's first vote on the legislation next month'\u2014this is qualified language suggesting the vote timing is uncertain/prospective. Draft presents 'Further SEC action may not occur until after the Senate breaks again in early October' as firm fact without attribution or qualification, when the brief itself does not confirm an October date for legislative action."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Critical macOS Screen Sharing vulnerability actively exploited for Monero mining",
+    "category": "accuracy",
+    "reasons": [
+     "Draft opens with 'Hackers are actively exploiting a critical macOS Screen Sharing vulnerability to install Monero miners on affected systems, according to reporting from a Dutch cyber agency cited by The Block.' The brief's core_claim and all three data_points source only to The Block, not the Dutch cyber agency directly. The draft attributes the exploitation claim to the Dutch agency via The Block, but the brief does not establish that the Dutch agency is the originating source\u2014only that The Block reported it. This misrepresents the chain of attribution.",
+     "Draft states 'U.S. officials rated the severity of the vulnerability a critical 9.8/10 on the CVSS scale, per The Block's reporting.' The brief data_point 1 says the same thing. However, the brief's boundary_ok field is 'false' with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft does not disclose this critical gap: which macOS versions are vulnerable, whether a patch exists, what the CVE is, or when exploitation began. The draft acknowledges these gaps in paragraph 2 but then proceeds to write a news story that treats the threat as actionable without these facts. This violates the rule that confidence and uncertainty must survive into prose\u2014the draft should flag that the reporting is thin and recommend holding."
+    ]
+   },
+   {
+    "id": "c035",
+    "headline": "Robinhood enters prediction markets as competition with Kalshi and DraftKings intensifies",
+    "category": "accuracy",
+    "reasons": [
+     "Brief contains only two data_points, both marked 'reported' with minimal specificity: 'Robinhood is pushing deeper into high-margin market design' and 'Kalshi and DraftKings are competitors in the prediction market space.' Draft expands this into multiple specific claims not in the brief: 'Kalshi operates under CFTC (Commodity Futures Trading Commission) oversight as a designated contract market, while DraftKings' prediction market offerings operate within state sports betting frameworks.' Neither of these regulatory framework claims appears in the brief's data_points. These are factual assertions about regulatory status that must trace to the brief; they do not.",
+     "Draft states 'Robinhood's entry likely requires a clear regulatory pathway, which Blockworks reporting does not detail'\u2014this is speculative inference, not from the brief. The brief does not mention regulatory pathway or approval at all.",
+     "Brief is marked 'thin: true' with only two spare data_points and multiple open_questions, including 'What specific prediction market product or platform has Robinhood launched or entered?' and 'When did Robinhood enter or announce its prediction market offering?' The draft does not disclose this thinness; it reads as a constructed narrative when the actual reporting is minimal and does not establish what Robinhood's product is, when it launched, or whether it has launched at all."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "Bitcoin ETF inflows strengthen; details remain thin",
+    "category": "accuracy",
+    "reasons": [
+     "The phrase 'HumidiFi tokenizes' appears in the headline and body but the brief's open_questions explicitly flag this as 'absent from available source text' with unknown relationship to the ETF inflows claim. The draft acknowledges the gap but does not resolve it\u2014the phrase remains in the story without sourcing or explanation, violating the rule that every fact must trace to the brief.",
+     "The brief contains only one data_point with confidence 'reported': 'Bitcoin ETFs posted their strongest inflows in weeks.' The draft then introduces specific figures ($5.1 million on July 28, 2026; $51.4 billion year-to-date) attributed to 'the desk's ETF flows board,' which does not appear in the brief's sources or data_points. These are smuggled facts, unsourced to the research brief.",
+     "The draft reads as editorial skepticism toward the Blockworks source rather than as a news story grounded in the brief. A thin brief (thin=true) justifies a short, tight story, but not one that foregrounds what the source did not say rather than what it did."
+    ]
+   }
+  ]
  }
 ]

@@ -1,0 +1,57 @@
+{
+  "id": "wrap-pm-2026-08-16",
+  "slug": "evening-brief-2026-08-16",
+  "kind": "brief",
+  "title": "The Evening Brief: Russia mines out; Senate targets Trump's bank; scams surge on MiCA migration",
+  "dek": "Russia banned bitcoin mining across Moscow through 2032, removing 16.4% of global hash power. Senate Democrats introduced legislation to bar sitting presidents from owning banks. The EU's MiCA deadline displaced 10 million users and triggered a coordinated scam wave.",
+  "date": "2026-08-16",
+  "published_utc": "2026-08-16T23:35:49Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Three regulatory actions, Russia's mining ban, the Senate bill targeting presidential bank ownership, and the MiCA enforcement deadline, each removed or displaced capacity in different parts of the crypto ecosystem, while institutional investors showed mixed conviction in bitcoin ETFs and the desk's boards recorded net selling pressure.",
+  "bottom_line": "Russia's mining ban removed 16.4% of global hash power from one jurisdiction through 2032, the Senate introduced legislation to bar presidential bank ownership in response to World Liberty Financial's charter approval, and the EU's MiCA enforcement deadline on July 1 displaced up to 10 million users into 323 licensed platforms while scammers exploited the migration window. Per the desk's ETF Flows board, bitcoin funds posted three consecutive days of net outflows as of August 14, totaling $385.2 million, and the Whale Watch board shows $62.6 million in net BTC moving onto exchanges over the past 72 hours, consistent with the Fear and Greed Index at 34. Watch Senate roll-call votes in mid-September on the Clarity Act yield language, the CFTC Innovation Advisory Committee's inaugural session on Thursday, and follow-up data on MiCA-related scam losses and whether the elevated phishing baseline persists as a structural feature of EU regulation; the decisive frame is whether regulatory friction accelerates or White House engagement with crypto CEOs dampens legislative opposition.",
+  "human_take": "",
+  "body": [
+    "Russia banned cryptocurrency mining and pool participation in Moscow, the Moscow Region, and parts of Kursk through December 31, 2032, according to government decree No. 936 signed July 25 and published July 31. The measure directly cuts mining capacity in the world's second-largest Bitcoin mining jurisdiction. Russia accounted for an estimated 175 exahashes per second, or 16.4% of Bitcoin's global computing power in Q1 2026, placing it second only to the United States, per the desk's reporting citing Luxor's Hashrate Index. The ban cites power grid strain, with mining currently consuming roughly 1 gigawatt in the Moscow power system and regional data-center capacity potentially reaching 3.6 gigawatts by 2032, according to Interfax reporting the desk cited.",
+    "In Washington, the Senate Banking Committee's Democratic minority introduced the Ending Presidential Corruption in Banking Act on August 15, in response to the Office of the Comptroller of the Currency's approval of World Liberty Financial's national bank charter on January 5, 2026. The bill would prohibit Presidents, Vice Presidents, their immediate families, and senior government officials from owning or controlling banks. The measure represents a direct legislative response to what Senator Elizabeth Warren and eight co-sponsors characterize as an unprecedented conflict of interest. JPMorgan Chase CEO Jamie Dimon stated in June that the Senate's Digital Asset Market Clarity Act had \"almost no legal protections\" to prevent illicit finance and that banks \"will fight it\" if stablecoin yield provisions remain unchanged. The Clarity Act requires 60 Senate votes, with debate scheduled to conclude in mid-September before midterm elections, and several Republican senators already signaling they may withhold support without bank-friendly adjustments.",
+    "Meanwhile, the EU's Markets in Crypto-Assets Regulation came into full force on July 1, forcing more than 1,700 unlicensed crypto platforms to exit and displacing up to 10 million users into only 323 licensed alternatives. The mass migration created an immediate window that scammers exploited. European regulators now report a coordinated surge in regulatory impersonation scams, with the European Securities and Markets Authority confirming criminals have misused its identity, name, and logo in falsified documents. France's AMF documented scammers posing as AMF employees and convincing victims to pay upfront fees to recover stolen funds. The Netherlands' AFM and Austria's Financial Market Authority issued warnings targeting retail users to verify migration providers against the official ESMA register before transferring assets.",
+    "Institutional bitcoin positioning showed divergent signals. Tudor Investment raised its direct stake in BlackRock's spot bitcoin ETF (IBIT) by 18.9% to 688,529 shares in Q2 2026, ending a year-long series of quarterly reductions and reversing 12 months of consecutive cuts. The Q2 stake was valued at $22.9 million; current holdings are worth approximately $24.5 million. However, the position remains 91.4% below the 8.05 million-share peak reached at year-end 2024, when it was valued at $427 million. UBS increased its call option exposure on IBIT to 1.95 million underlying shares in Q2 2026, a 24-fold increase from 80,000 shares in Q1, while direct IBIT holdings rose 12% to 407,890 shares worth approximately $13.6 million. UBS cut put option exposure roughly in half, shifting its net posture more bullish, though direct holdings remain below the 548,614 shares held at year-end 2025. The desk's reporting notes that one quarter of buying after sustained selling does not by itself establish renewed conviction, and that the position's size relative to Tudor's total portfolio suggests bitcoin remains a modest allocation.",
+    "Capital concentration into regulated infrastructure hardened in H1 2026. Crypto startups raised $11.2 billion across 377 disclosed funding rounds, with zero dollars going to permissionless, ungoverned projects, according to NeosLegal tracking cited by the desk. Payments and stablecoins captured $3.7 billion, prediction markets pulled in $2 billion, and crypto exchanges and trading platforms raised $1.7 billion. All disclosed institutional capital flowed to businesses requiring regulatory approval to operate. The hardware wallet provider SafePal disclosed on Sunday that an authorization flaw in its order-tracking plug-in exposed names, addresses, and contact details of 39,798 customers who placed orders between March 2025 and April 2026, though no cryptocurrency funds, seed phrases, private keys, or government identification documents were compromised.",
+    "The desk's boards recorded net selling pressure. Bitcoin traded at $63,653.85 on August 16, down 0.34% in 24 hours and 2.97% over 30 days, with the Fear and Greed Index at 34 (Fear). Bitcoin ETF flows were negative on August 14 at negative $56.2 million, with the last five sessions showing net outflows of $385.2 million and three consecutive days of outflows. The desk's Whale Watch board shows $62.6 million in net bitcoin value moving onto exchanges over the past 72 hours, with the biggest single inflow being $62.6 million in BTC to Coinbase. Separately, $149.8 million in USDT moved onto Bitfinex, indicating stablecoin buying power remained available on the margin despite the broader selling posture. Open interest on BTC futures at OKX stands at $2.1 billion with funding at 0.01% for the 8-hour rate (11.0% annualized), and the long-short ratio sits at 2.24, suggesting leveraged longs remain positioned aggressively relative to shorts despite the outflow pattern."
+  ],
+  "sources": [
+    {
+      "title": "Russia bans Bitcoin mining in Moscow and surrounding regions through 2032",
+      "url": "/articles/russia-bans-bitcoin-mining-in-moscow-and-surrounding-regions-through-2032.html"
+    },
+    {
+      "title": "Senate Democrats Introduce Bill to Bar Presidents From Owning Banks, Following World Liberty Financial Charter Approval",
+      "url": "/articles/senate-democrats-introduce-bill-to-bar-presidents-from-owning-banks-following-world-liberty-financial-charter-approval.html"
+    },
+    {
+      "title": "Tudor Investment reverses bitcoin ETF selldown, raises IBIT stake 18.9% in Q2",
+      "url": "/articles/tudor-investment-reverses-bitcoin-etf-selldown-raises-ibit-stake-18-9-in-q2.html"
+    },
+    {
+      "title": "UBS surges Bitcoin call options 24-fold while trimming direct holdings in Q2 2026",
+      "url": "/articles/ubs-surges-bitcoin-call-options-24-fold-while-trimming-direct-holdings-in-q2-2026.html"
+    },
+    {
+      "title": "Banks versus crypto: the stablecoin yield battle reshapes Senate arithmetic",
+      "url": "/articles/banks-versus-crypto-the-stablecoin-yield-battle-reshapes-senate-arithmetic.html"
+    },
+    {
+      "title": "Institutional funding in H1 2026: $11.2 billion to regulated crypto, none disclosed to permissionless projects",
+      "url": "/articles/institutional-funding-in-h1-2026-11-2-billion-to-regulated-crypto-none-disclosed-to-permissionless-projects.html"
+    },
+    {
+      "title": "MiCA compliance deadline sparked a surge in regulator impersonation scams across the EU",
+      "url": "/articles/mica-compliance-deadline-sparked-a-surge-in-regulator-impersonation-scams-across-the-eu.html"
+    },
+    {
+      "title": "SafePal discloses breach exposing 40,000 customers' personal data",
+      "url": "/articles/safepal-discloses-breach-exposing-40-000-customers-personal-data.html"
+    }
+  ]
+}
