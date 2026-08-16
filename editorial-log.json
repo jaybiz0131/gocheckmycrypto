@@ -7629,5 +7629,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-16",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c054",
+    "headline": "Tokenized stock holders more than double as monthly volume surges",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Tokenized equities reached 1.31 million holders over the past month' and 'holders...more than doubled', but the brief does not provide a prior baseline, only the current figure. The draft then acknowledges this gap mid-body ('Cointelegraph reporting does not disclose the prior-period holder count or volume figures against which the current numbers are measured'), creating internal contradiction. The opening sentence asserts the doubling as fact when the brief only reports the current month's figure at reported confidence. The draft cannot claim doubling happened without a prior baseline in the brief."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Tudor Investment reverses year-long IBIT selldown with 18.9% stake increase in Q2 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Tudor 'first disclosed IBIT shares in mid-2024 and amassed 8.05 million shares worth $427 million by year-end 2024' but the brief data_point says 'Tudor first disclosed 869,565 IBIT shares in mid-2024 and increased the position to 8.05 million shares worth $427 million by year-end 2024.' The draft omits the initial disclosure quantity (869,565), which is a material fact about the starting point and scale of the buildup. This is not paraphrase; it is selective fact omission that changes the narrative of how aggressively Tudor moved.",
+     "The bottom_line contains the phrase 'tactical tactical trim' which is a typographical error ('tactical' repeated) and reads as unpolished, undermining credibility."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Institutional capital in H1 2026: $11.2 billion to regulated crypto, zero to permissionless projects",
+    "category": "balance",
+    "reasons": [
+     "The draft fails to adequately surface the bear_case from the brief. The bear_case explicitly states: 'The $11.2 billion figure counts only disclosed rounds and excludes undisclosed deals, understating the actual funding volume and potentially missing early-stage permissionless projects that raise privately' and 'Retail users continue to trade on unlicensed venues.' The draft mentions the undisclosed-rounds caveat late in the piece via Irina Heaver's statement, but does not prominently feature the risk that the headline claim ('zero to permissionless projects') may be an artifact of disclosure bias rather than market reality. The bear_case warning that 'retail users continue to trade on unlicensed venues' is never addressed, leaving the framing\u2014that permissionless has died\u2014unchallenged by the counterevidence in the brief itself.",
+     "The title 'Institutional capital in H1 2026: $11.2 billion to regulated crypto, zero to permissionless projects' is presented as a definitive market statement, but the brief's own bear_case flags that permissionless projects may have raised capital 'privately' and that the zero figure may reflect disclosure methodology, not market preference. The draft should qualify or contextualize this claim more forcefully given the brief's explicit caveats, or move the disclaimer higher and make it more prominent."
+    ]
+   },
+   {
+    "id": "c053",
+    "headline": "Bybit launches pre-IPO perpetuals for Unitree and Moonshot AI as platforms expand into private markets",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'Bybit's TradFi derivatives suite now spans more than 200 products across equities, ETFs, commodities, indices, and private companies, per Cointelegraph' attributes the 200+ figure to Cointelegraph, but the brief data_point provides no timestamp or context for when this milestone was reached. The draft presents this as current fact without qualification; the brief marks it 'reported' but does not confirm whether Cointelegraph stated 200+ or if this is the writer's inference from the two new additions.",
+     "Sentence 'However, the sources do not disclose how Bybit prices these contracts, settles expiries, or manages counterparty risk in the absence of transparent market data for private equity valuations' is SMUGGLED. The brief's open_questions include 'How does Bybit price and settle these pre-IPO perpetuals without transparent market data?' but this is listed as an unanswered question, not a reported fact. The draft presents absence of disclosure as if sourced from available reporting; it is not.",
+     "Sentence 'Bybit's framework for geographic restrictions, leverage limits, or accredited-investor requirements is not detailed in the available reporting' similarly smuggles a negative claim (what Bybit's reporting does NOT contain) as though it came from the source. The brief lists these as open_questions, not as sourced findings."
+    ]
+   }
+  ]
  }
 ]
