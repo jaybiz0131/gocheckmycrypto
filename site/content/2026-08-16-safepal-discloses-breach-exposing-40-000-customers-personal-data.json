@@ -1,0 +1,36 @@
+{
+  "id": "c001",
+  "slug": "safepal-discloses-breach-exposing-40-000-customers-personal-data",
+  "kind": "brief",
+  "title": "SafePal discloses breach exposing 40,000 customers' personal data",
+  "dek": "The hardware wallet provider SafePal disclosed that an authorization flaw in its order-tracking plug-in exposed names, addresses, and contact details of 39,798 customers who placed orders between March 2025 and April 2026. No private keys, seed phrases, or cryptocurrency assets were compromised, but affected users now face heightened phishing risk.",
+  "date": "2026-08-16",
+  "published_utc": "2026-08-16T17:29:47Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "39,798 SafePal customers' names, addresses, and contact details were exposed through an authorization flaw in the company's order-processing plug-in, though crypto assets and private keys remained secure.",
+  "bottom_line": "SafePal's breach did not compromise crypto assets or private keys, but exposed 40,000 customers' identities and addresses to targeted phishing and impersonation attacks, a risk that extends beyond the wallet infrastructure itself. Watch for follow-up reports on the volume and sophistication of phishing campaigns targeting SafePal users in the coming weeks, and for whether the company's 90-day data retention policy becomes an industry standard for custody and order-processing systems.",
+  "human_take": "",
+  "body": [
+    "The hardware wallet provider SafePal disclosed on Sunday that an authorization flaw in a plug-in used to track customer orders exposed the names, physical addresses, and contact details of 39,798 customers, according to CoinDesk reporting. The exposure affected customers who placed orders between March 2, 2025, and April 11, 2026.",
+    "The breach reveals a distinction that has become routine in crypto security disclosures: the wallet's cryptographic core remained intact. SafePal confirmed that no cryptocurrency funds, seed phrases, private keys, bank details, or government identification documents were compromised. The flaw was not in the wallet's key storage or signing mechanism, but in a supplementary order-processing system, an authorization vulnerability that allowed attackers to access other customers' order information via API manipulation.",
+    "SafePal notified affected customers by email from the address security@safepal.com and deployed a fix to the vulnerable plug-in. The company subsequently hired an independent third-party security firm to audit the patch and review its order-processing systems. Going forward, SafePal said it will retain customers' personal data in its order system for only 90 days from the date of collection, a policy shift driven by the incident.",
+    "The exposure, however, created immediate operational risk for affected users. SafePal's own investigation identified and removed more than 30 fraudulent websites and phishing links tied to the breach, according to CoinDesk. The company warned customers who had shared private keys or seed phrases with anyone claiming to be SafePal staff, via phishing email, phone call, or letter, to treat their wallets as compromised and move assets to a new wallet. A verification tool deployed on SafePal's website allows customers to check whether their order data was affected.",
+    "The breach occurred amid a broader series of wallet-related security incidents. Earlier this month, attackers exploited a flaw in Coldcard hardware wallets to steal at least $120 million in bitcoin, according to CoinDesk reporting. That incident underscored a vulnerability that extends beyond single-vendor infrastructure: even hardware wallets sold on open markets can be subject to supply-chain or vendor-specific attacks.",
+    "For SafePal customers, the exposure of verified contact details and physical addresses creates a vector for social engineering and impersonation. The company's identification of 30+ phishing sites already created in response to the breach demonstrates that threat actors have already begun executing such campaigns. Security researchers have long flagged that personal information leaks often precede targeted phishing waves, giving attackers a foundation of verified customer details to work from."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/08/16/crypto-wallet-safepal-reveals-a-data-breach-exposing-nearly-40-000-customers-order-info",
+      "url": "https://www.coindesk.com/tech/2026/08/16/crypto-wallet-safepal-reveals-a-data-breach-exposing-nearly-40-000-customers-order-info"
+    },
+    {
+      "title": "https://www.theblock.co/news/business/2026-08-16-wallet-provider-safepal-says-data-breach-exposed-personal-info-of-nearly-40000-customers-411934",
+      "url": "https://www.theblock.co/news/business/2026-08-16-wallet-provider-safepal-says-data-breach-exposed-personal-info-of-nearly-40000-customers-411934"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": false
+}

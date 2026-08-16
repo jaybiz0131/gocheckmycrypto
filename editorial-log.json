@@ -7714,5 +7714,58 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-16",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c063",
+    "headline": "Ethereum developers narrow scope of Hegot\u00e1 privacy upgrade proposals",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Ethereum protocol developers are narrowing the scope of 66 proposals tied to the Hegot\u00e1 upgrade' but the brief contains only one data_point with confidence 'reported,' and that data_point does not specify that developers are actively narrowing proposals\u2014only that the upgrade 'aims to introduce more native privacy.' The narrowing action is not sourced in the brief.",
+     "The draft states 'The narrowing process will consolidate competing proposals into a more focused set of changes' as fact, but this process and its method are not present in any data_point in the brief.",
+     "The draft presents as settled fact that 'Which proposals survive the selection process will signal the developers' consensus,' but no data_point establishes that a selection process is underway or its criteria. This is interpretation/speculation, not reporting."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Venezuela stablecoin adoption: reporting unavailable for verification",
+    "category": "accuracy",
+    "reasons": [
+     "The draft treats the Blockworks article as a source document and reports its claim, but the brief explicitly shows source_chars: 0 and data_points: [], indicating the underlying reporting was never retrieved or reviewed. The hard rule is no fact exists outside the brief; a claim from an inaccessible source is not a fact in the brief and should not appear in the draft as reportage.",
+     "The draft opens with 'Blockworks reported in August 2026 that Venezuela uses stablecoins...' This treats an unverified, unretrieved source as a confirmed report. The brief's open_questions explicitly state 'No source text provided; unable to verify specific claims', making the draft's framing of this as reportage a violation of accuracy rules."
+    ]
+   },
+   {
+    "id": "c062",
+    "headline": "DefiLlama delays Apple app launch after fake apps drain users",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports specific claims\u2014'DefiLlama, a major cryptocurrency analytics platform, delayed the launch of its Apple app after discovering counterfeit applications...according to Cointelegraph reporting on August 15, 2026. The founder cited the phishing apps as the reason for postponing the official launch'\u2014but the brief shows source_chars: 0 and data_points: [], indicating no source text was retrieved or reviewed.",
+     "The hard rule is no fact exists outside the brief. The draft opens with attributions to Cointelegraph and reports the DefiLlama delay as fact, but the brief contains zero data points to support these claims. This is smuggled reporting: facts that are not in the brief cannot appear in the draft as settled reportage."
+    ]
+   },
+   {
+    "id": "c069",
+    "headline": "Senate Democrats Introduce Bill to Bar Presidents from Owning Banks Following OCC Approval of Trump Family Crypto Charter",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'World Liberty Financial submitted its charter application to the OCC on January 5, 2026' but the brief data_point says the application was submitted on January 5, 2026, while the brief's core_claim describes the approval as happening 'on an unspecified date in 2026.' The draft presents the application date as fact but should note the approval date remains unspecified per the brief.",
+     "The draft claims Warren 'stated in a committee release that Trump is now the first president in history to approve, operate, and supervise his own bank' but this is a paraphrase of a quoted statement in the brief. The draft should either quote Warren directly (as the brief shows) or clearly indicate this is her framed characterization, not an independent fact.",
+     "The draft references 'Executive Order 14215' as controlling the OCC per 'Senate Democrats' account' but presents this as settled fact without the confidence label. The brief marks this as 'reported' confidence and attributes it to Senate Democrats' characterization. The draft should preserve that attribution and confidence level more clearly."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "UBS Increases Bitcoin ETF Call Options by 24-Fold While Reducing Put Exposure",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains language that reads as a trade signal or investment thesis: 'signaling institutional confidence in Bitcoin's price appreciation' and the bottom_line phrases 'signals institutional rotation toward upside positioning.' These framings imply Bitcoin will appreciate based on UBS's positioning, which crosses into price prediction territory. The desk's liability line prohibits reading investment positions as predictive signals about future price movement.",
+     "The phrase 'If direct IBIT holdings remain below 2025 levels while call exposure stays elevated, the gap may indicate UBS is using derivatives as a client hedging tool rather than a pure proprietary bet' in the bottom_line speculates on causality and meaning of UBS's positioning in a way that could read as interpretive financial analysis rather than event reporting."
+    ]
+   }
+  ]
  }
 ]
