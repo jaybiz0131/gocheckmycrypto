@@ -7767,5 +7767,49 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-16",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c008",
+    "headline": "Russia Bans Bitcoin Mining in Moscow and Surrounding Regions Through 2032 to Preserve Power Grid Stability",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Russia legalized registered crypto mining in 2024' in the fifth paragraph; however, the brief data_point says Russia legalized it in 2024 BEFORE imposing bans, but does not state when legalization occurred. The sentence structure in the draft suggests 2024 legalization is confirmed fact from the source, but the brief itself does not confirm the year of legalization\u2014only that bans came after legalization. This is smuggled detail not in the brief.",
+     "The draft claims 'Mining currently consumes roughly 1 gigawatt in the Moscow power system' as a stated fact; this figure appears in the brief but is attributed only to 'the reporting' without independent verification. The draft presents it as settled fact without caveat, when the brief itself marks this as reported data with no confidence higher than 'reported'."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Paul Tudor Jones' firm reverses year-long IBIT selldown, raises Bitcoin ETF stake 18.9% in Q2",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Tudor held 576,523 shares at end of 2025, but the brief data_point specifies the end-of-year 2025 position as 576,523 shares. The draft then states Q1 2026 position as 579,083 shares (derived from 688,529 - 109,446), but this figure does not appear in the brief. This is a smuggled fact: the 18.9% calculation and the Q1 2026 figure of 579,083 shares are not in the brief's data_points.",
+     "Draft states holdings 'worth $22.9 million as of June 30' but also includes a parenthetical claim '(as of the article date in August 2026)' for $24.5 million in the brief. The brief data_point says '$22.9 million' at June 30, 2026, but the draft omits the subsequent valuation at article date. More critically, the brief lists a data_point claiming holdings 'are now worth around $24.5 million (as of the article date in August 2026)' but the draft only uses the $22.9 million June 30 figure, creating an internal inconsistency with the brief itself that the draft does not resolve."
+    ]
+   },
+   {
+    "id": "c065",
+    "headline": "Tokenized equities holders and volumes surge, sources and baseline unclear",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case is empty (bear_case: []), indicating no substantive bear argument was developed. However, the draft is structured as a lengthy skeptical critique of the reporting, with multiple paragraphs devoted to what is unverified or unconfirmed. The draft's body and bottom_line directly contradict the angle stated in the brief ('RWA adoption accelerating at scale'), presenting instead a cautionary narrative about unconfirmed figures and missing methodology. This is not balance; this is a draft that inverts the angle. The brief's thin=true flag indicates thin research, which should have resulted in a tighter, more neutral report of what Cointelegraph claimed\u2014not an investigative takedown of Cointelegraph's sourcing.",
+     "The bottom_line in the draft ('Cointelegraph's reporting should be cross-checked... remains reported but unconfirmed') directly contradicts the bottom_line in the draft metadata ('Tokenized equities hit 1.31M holders with monthly transfer volume up 179% to $23B; RWA adoption accelerating at scale'). The draft body is a red-team critique; the metadata bottom_line is the original angle. These are irreconcilable.",
+     "The draft reads as though the writer was tasked to report a bullish RWA adoption story but instead produced a skeptical audit of the source. That pivot is not the writer's prerogative; if the brief is thin and the data unconfirmed, the story should be thin and cautious, not inverted into a takedown."
+    ]
+   },
+   {
+    "id": "c063",
+    "headline": "Ethereum core devs narrowing 66 proposals for Hegoata privacy upgrade",
+    "category": "accuracy",
+    "reasons": [
+     "Core claim of '66 proposals being narrowed' is not verified in the brief: the only data_point states Hegoata aims to introduce privacy, with confidence 'reported', but the brief's open_questions explicitly state 'the core claim of 66 proposals being narrowed...are not verified against primary sources' and 'No source text was fetched'. The draft treats the 66-proposal narrowing as settled fact when the brief marks it unverified.",
+     "The draft cites Cointelegraph as source but the brief notes thin=true and source_chars=0, indicating no actual source text was retrieved to confirm the 66-proposal claim. The writer has smuggled an unconfirmed central fact into the narrative.",
+     "The draft's entire framing\u2014'narrowing 66 proposals', 'prioritized execution', evaluation of 'which privacy approaches are technically sound'\u2014rests on a claim the brief itself flags as unverified and not supported by fetched source material."
+    ]
+   }
+  ]
  }
 ]
