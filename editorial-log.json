@@ -7671,5 +7671,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-16",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c054",
+    "headline": "Ethereum Developers Narrowing 66 Proposals for Hegot\u00e1 Privacy Upgrade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states '66 proposals are tied to the upgrade and developers are narrowing the set for implementation' but the brief's first data_point says 'are being narrowed' without specifying that implementation has been decided. The draft's language ('for implementation') suggests selection has occurred or is underway in a definitive way; the brief only confirms proposals exist and are being narrowed. This is a subtle smuggling of agency/progress not present in the source.",
+     "The body paragraph beginning 'The source does not disclose...' violates the hard rule that no meta-commentary about what sources lack belongs in the article itself. This reads as the writer's analytical scaffold, not published prose. The draft should either omit these open questions from the body (leaving them for the bottom_line context) or reframe them as genuine unknowns the field faces, not editorial gaps."
+    ]
+   },
+   {
+    "id": "c056",
+    "headline": "Tokenized Equities Volume Surges to $23.1 Billion Monthly",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports '1.31 million holders of tokenized equities' but the brief's data_point says 'Tokenized equities reached 1.31 million holders over the past month.' The brief's language ('over the past month') suggests this is a newly achieved threshold or a recent measurement, not a standing population. The draft's phrasing ('reached 1.31 million holders') without temporal clarity could imply a total count rather than month-over-month activity, creating ambiguity about whether this is a cumulative figure or a period snapshot.",
+     "The body paragraph 'Cointelegraph's reporting does not disclose...' and 'The sources do not address...' again embeds meta-analytical commentary directly into published prose. This is editorial scaffolding, not reporting. The draft reads as the writer's working notes rather than finished journalism. The open questions belong in context (bottom_line) or should be reframed as genuine industry unknowns, not as gaps in a single source."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Institutional capital in H1 2026: $11.2 billion to regulated crypto, zero to permissionless projects",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Prediction markets alone pulled in capital in all six months of the period, accumulating 34 rounds totaling $2 billion' but the brief data_point says 'Prediction markets pulled in capital in every single month of the first half of 2026, a total of 34 rounds in six months'\u2014the draft's phrasing 'all six months' is ambiguous and could be misread as claiming rounds in every single month when the brief only confirms funding presence across the six-month period, not monthly consistency. This is a minor distinction but the accuracy standard requires precision.",
+     "Draft characterizes the Bitget CEO statement as evidence that 'retail users continue to trade largely outside these funded venues: on Bitget's tokenized equities, 95% of volume comes from individuals trading a few hundred dollars at a time, 24/7, largely on unlicensed or alternative platforms' but the brief's data_point states 'On Bitget's tokenized equities, 95% of volume comes from individuals trading a few hundred dollars at a time, 24/7, largely outside the venues that raised the money.' The draft adds 'unlicensed or alternative platforms' which is an inference not present in the brief's data_point. This is SMUGGLED interpretation."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "JPMorgan Cuts Polymarket Banking, Pursues IPO Role",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'JPMorgan terminated Polymarket's banking relationship in October' as a settled fact. The brief marks this claim as 'reported' confidence, which in Crypto Cronkite protocol means second-hand (The Block citing Financial Times), not primary-sourced. The draft should signal this is reported, not verified independently.",
+     "The draft introduces a specific compliance concern narrative ('compliance, regulatory, or reputational concerns') and connects it to CFTC enforcement and SEC disclosure requirements without any data point in the brief supporting WHY JPMorgan cut ties. The brief's bear_case notes only that the termination 'signals' such concerns; the draft writes them as established causation.",
+     "The draft states 'JPMorgan maintains what Polymarket describes as a \"close, active relationship\"' as though this is a direct quote or documented characterization. The brief data_point says only that the claim appears in The Block/FT reporting; the draft presents it as Polymarket's own description, a subtle but material attribution shift that overstates sourcing."
+    ]
+   }
+  ]
  }
 ]
