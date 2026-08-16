@@ -7586,5 +7586,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c074",
+    "headline": "Kalshi ordered to halt prediction market contracts in Washington",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The CFTC ordered Kalshi' in the opening paragraph, but the brief's core_claim attributes the order to 'the CFTC' while the data_points themselves contain no attribution to CFTC\u2014only to Cointelegraph reporting. The regulatory authority is marked as an open_question in the brief ('Which specific regulatory body issued the order?'). The draft presents an unconfirmed attribution as fact."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "French tax authority data breach exposed 678,000 people as wrench attacks surge",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents 'wrench attacks in France are piling up in connection with the tax data breach' as fact, but the brief marks this as 'reported' confidence only\u2014a single-source claim from The Block. The draft should signal this is The Block's reporting, not independently verified fact.",
+     "The draft states '2026 on pace to become France's worst year on record for violent crimes targeting crypto holders' as settled fact. The brief explicitly flags in open_questions that 'historical baseline for wrench attacks in France in prior years' is unknown. The draft acknowledges this gap in its own fourth paragraph but leads with the unqualified claim, creating liability.",
+     "The draft body does not attribute the 'piling up' and '2026 worst year' claims inline to The Block on first mention; attribution comes only via 'per The Block' in paragraph 2, after the claims have already been stated as fact in paragraph 1."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Tokenized stock holders reach 1.31 million as monthly volume surges 179%",
+    "category": "balance",
+    "reasons": [
+     "The draft opens with the headline figures (1.31M holders, 179% surge) as positive adoption signals without immediate context that the brief marks all data_points as 'reported' confidence only from a single source (Cointelegraph).",
+     "The brief does not provide a bear_case, but the open_questions and methodological gaps ('no underlying data sources or methodologies disclosed', 'no composition breakdown', 'unable to verify') should surface as caution in the draft body. The draft does acknowledge these gaps in paragraph 3, but that paragraph reads as an appendix rather than integrated editorial voice\u2014it comes only after the positive framing is established.",
+     "The draft states 'Growth in holders and trading volume has been framed by the industry as evidence that institutional and retail participants are adopting the infrastructure at scale' without labeling this as unverified framing. This sentence presents a narrative claim as fact."
+    ]
+   },
+   {
+    "id": "c080",
+    "headline": "Senate Democrats Introduce Presidential Banking Restrictions Bill After Trump Crypto Company Approval",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'On January 5, 2026, the Trump family crypto company applied to the OCC for the charter' but the brief's corresponding data_point says 'On January 5, 2026, the Trump Family crypto company World Liberty Financial (WLF) applied to the OCC for a national bank charter' with confidence 'announced-not-verified'. The draft then reports the approval as a completed fact ('The Office of the Comptroller of the Currency approved World Liberty Financial's application') without flagging the 'announced-not-verified' confidence label. A claim marked 'announced-not-verified' in the brief must read as unconfirmed in the prose; instead, the draft presents both the application date and approval as settled facts.",
+     "The draft attributes 'President Trump is now the first President in history to approve, operate, and supervise his own bank' to Warren without noting the source is a Senate Democratic minority statement making a political claim, not an independently verified fact. The brief flags all data_points as 'announced-not-verified'; the draft presents this characterization as Warren's direct statement without qualification, obscuring that it is a Democratic partisan framing of disputed regulatory action."
+    ]
+   }
+  ]
  }
 ]
