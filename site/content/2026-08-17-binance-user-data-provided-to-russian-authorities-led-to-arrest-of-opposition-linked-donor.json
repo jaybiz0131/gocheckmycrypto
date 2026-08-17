@@ -1,0 +1,33 @@
+{
+  "id": "c002",
+  "slug": "binance-user-data-provided-to-russian-authorities-led-to-arrest-of-opposition-linked-donor",
+  "kind": "brief",
+  "title": "Binance user data provided to Russian authorities led to arrest of opposition-linked donor",
+  "dek": "Binance provided Russian authorities with customer data including passport details, address, and phone number for Yuri Belenkiy, enabling his September 2025 detention on charges of financing Ukrainian military groups through donations totaling over $700. The disclosure raises questions about data-sharing practices, GDPR compliance, and sanctions enforcement in contested geopolitical conflicts.",
+  "date": "2026-08-17",
+  "published_utc": "2026-08-17T10:59:49Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "Binance supplied Russian authorities with detailed customer records for Yuri Belenkiy, a Russian IT specialist, who was arrested and detained in September 2025 on allegations of financing Ukrainian military organizations.",
+  "bottom_line": "The Binance disclosure reveals a compliance pressure point where lawful-order obligations may conflict with privacy law and sanctions screening in geopolitical conflicts. Watch for European regulatory response: GDPR enforcement actions or U.S. sanctions inquiries would clarify whether Binance's data-sharing standards are adequate, or whether exchanges must implement additional screening for politically contested jurisdictions.",
+  "human_take": "",
+  "body": [
+    "Binance provided Russian authorities with customer records that directly enabled the detention and prosecution of Yuri Belenkiy, a Russian IT specialist arrested in September 2025 on charges of financing Ukrainian military organizations, according to reporting by Reuters and covered by CoinDesk. The exchange supplied Belenkiy's date of birth, address, phone number, passport number, copies of his Russian passport, and his Bulgarian residency permit following requests from investigators.",
+    "Belenkiy had transferred over $700 through Binance to Ukrainian military groups and an organization associated with the Azov Brigade, which Moscow classifies as a terrorist organization. The payments were made between January 2023 and March 2024 after an appeal by exiled Kremlin critic Arkady Babchenko, according to Russia's Investigative Committee. Belenkiy remains in jail awaiting trial.",
+    "Investigators reportedly received two responses from case@binanceholdings.ru after requesting Belenkiy's transaction history. Binance's website had directed Russian and Belarusian law enforcement agencies to that email address. Per CoinDesk, Binance's current law-enforcement guidelines state that the exchange requires a valid court order, police order, or warrant before providing user information in criminal investigations.",
+    "Binance said it cooperates with lawful law enforcement requests subject to applicable legal, privacy, and regulatory requirements, according to CoinDesk. The company declined to discuss Belenkiy's case or whether the disclosure may have breached European data protection rules. Binance sold its Russian business to CommEX in September 2023, stating at the time that operating in the country did not fit its compliance strategy and that it would retain no revenue-sharing arrangement or option to repurchase the business.",
+    "The case presents unresolved tensions: Binance claims compliance with what it characterizes as a lawful order, yet the reporting does not establish whether the company verified that Russian authorities provided a formal court order, warrant, or police order in accordance with its own stated guidelines. Additionally, the sources do not clarify whether the data transfer complied with the General Data Protection Regulation or other European privacy frameworks, or whether any European regulators have opened investigations.",
+    "A further ambiguity: the legal classification of the donations themselves. Russian authorities classifies the Azov Brigade as terrorist, but the designation is contested internationally. Whether donations to Ukrainian military organizations or the Azov Brigade violate applicable OFAC or other U.S. sanctions lists is not addressed in the reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/08/17/binance-handed-user-data-to-russia-that-led-to-a-ukrainian-donor-s-arrest",
+      "url": "https://www.coindesk.com/policy/2026/08/17/binance-handed-user-data-to-russia-that-led-to-a-ukrainian-donor-s-arrest"
+    }
+  ],
+  "update_of": "binance-makes-fighting-crypto-crime-more-difficult-says-new-report",
+  "also_reported_by": [],
+  "developing": true
+}

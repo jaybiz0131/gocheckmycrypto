@@ -1,0 +1,63 @@
+{
+  "id": "wrap-am-2026-08-17",
+  "slug": "morning-brief-2026-08-17",
+  "kind": "brief",
+  "title": "The Morning Brief: Russia bans mining; Senate pushes back on crypto policy",
+  "dek": "Russia pulled the plug on bitcoin mining across Moscow and surrounding regions through 2032, citing power-grid strain, while Democrats introduced legislation to bar presidents from owning banks in response to World Liberty Financial's charter approval. Regulatory pressure on crypto is intensifying across jurisdictions and sectors.",
+  "date": "2026-08-17",
+  "published_utc": "2026-08-17T11:07:30Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The day's dominant thread is regulation tightening faster than the market can absorb: Russia's mining ban pulls capacity offline despite crypto's legal status, EU enforcement under MiCA is establishing precedent through fines and scam warnings, and the U.S. Senate Democrats are opening a new legislative front against the administration's crypto policies, all while institutional capital continues concentrating in regulated businesses.",
+  "bottom_line": "Today's regulatory moves across Russia, the EU, and the U.S. Senate establish a pattern: governments are tightening policy through enforcement (MiCA fines), capacity restrictions (mining bans), and legislative action (conflict-of-interest bills), while institutional capital concentrates exclusively in regulated businesses. The MiCA enforcement deadline's displacement of 10 million users created both a compliance milestone and a scam vector. Watch Senate votes in mid-September on the Digital Asset Market Clarity Act's 60-vote threshold, Austria's MiCA enforcement precedent for similar actions across EU regulators, and whether Russia extends the mining ban beyond Moscow Region, each would clarify whether today's tightening reflects a coordinated shift or scattered pressure points.",
+  "human_take": "",
+  "body": [
+    "Cryptocurrency regulation moved at multiple speeds today, each with immediate material consequences. Russia's government decree banning mining and pool participation in Moscow, Moscow Region, and parts of Kursk through December 31, 2032, removes capacity from the world's second-largest mining jurisdiction. Russia accounts for 16.4% of global Bitcoin hash power, or 175 exahashes per second in Q1 2026, per the desk's reporting. The measure cites power-grid stability and project that mining could consume up to 17% of peak demand by 2032. This represents a reversal of Russia's recent legalization of crypto, demonstrating that policy can shift on infrastructure grounds despite formal legal status.",
+    "In the U.S., Senate Democrats led by Elizabeth Warren introduced the Ending Presidential Corruption in Banking Act on August 15 in direct response to the OCC's approval of World Liberty Financial's national bank charter. The bill would prohibit Presidents, Vice Presidents, their immediate families, and senior officials from owning or controlling banks. Warren stated that President Trump is now the first president in history to approve, operate, and supervise his own bank. The measure signals the opening of a legislative front against the administration's crypto policies, though the reporting does not address passage prospects under current Senate arithmetic.",
+    "The EU's Markets in Crypto-Assets regulation is entering enforcement phase with measurable impact. The MiCA deadline on July 1 forced 1,700 unlicensed platforms to exit, leaving only 323 licensed operators and displacing up to 10 million users. The migration created an opening for scammers to impersonate regulators and licensed exchanges. Austria's Financial Market Authority issued the bloc's first published MiCA enforcement action, fining Bitpanda 70,000 euros for failing to submit a white paper 20 working days before publication and for omitting required regulatory disclosures in marketing materials. The fine establishes a precedent for technical compliance enforcement.",
+    "Institutional capital continues flowing exclusively to regulated infrastructure. H1 2026 saw 11.2 billion dollars in disclosed funding across 377 rounds, with zero dollars reaching permissionless or ungoverned projects. Payments and stablecoins captured 3.7 billion dollars, prediction markets 2 billion dollars, and exchanges 1.7 billion dollars. This represents a structural shift in how capital sources view the sector's future.",
+    "Two security incidents widened the risk surface. SafePal disclosed that an authorization flaw in its order-tracking plug-in exposed names, addresses, and contact details of 39,798 customers. The breach did not compromise private keys or crypto assets, but left users vulnerable to targeted phishing. More significantly, Binance provided Russian authorities with customer data including passport details and address for Yuri Belenkiy, enabling his September 2025 arrest on charges of financing Ukrainian military groups. The disclosure raises questions about data-sharing compliance in contested geopolitical conflicts.",
+    "Tudor Investment reversed its year-long bitcoin ETF selldown, raising its IBIT stake 18.9% to 688,529 shares in Q2 2026. The position is valued at approximately 24.5 million dollars but remains 91.4% below its late-2024 peak of 8.05 million shares. The desk's reporting notes that one quarter of buying after sustained selling does not establish renewed conviction; the story is whether the reversal sustains or returns to trimming.",
+    "The desk's Whale Watch board shows 62.6 million dollars in bitcoin moving onto exchanges in the 72-hour window, concentrated at Coinbase. Stablecoin buying power on exchanges stands at 149.8 million dollars, the largest inflow being USDT to Bitfinex at 149.8 million dollars. Bitcoin ETF flows turned negative on August 14, down 56.2 million dollars after three consecutive days of inflows; last five sessions show net outflows of 385.2 million dollars. Ether ETF flows remain positive at 5.9 million dollars on August 13, with the last five sessions at plus 46.6 million dollars. The tape's whale accumulation onto exchanges and negative bitcoin ETF flows together suggest institutional interest is diverging by platform type.",
+    "On-chain momentum shows bitcoin at 63,626 dollars with RSI 14 at 48.6, neither overbought nor oversold; MACD is below signal line. Bitcoin is down 1.92% this week and up 0.06% month-to-date. The coin trades 49% below its 12-month high of 124,740 dollars. Ethereum is at 1,904 dollars, up 1.62% in 24 hours, and showing similar neutral momentum with RSI at 55.5. The fear-greed index stands at 31, indicating fear, within its 30-day range of 25 to 34."
+  ],
+  "sources": [
+    {
+      "title": "Russia bans Bitcoin mining in Moscow and surrounding regions through 2032",
+      "url": "/articles/russia-bans-bitcoin-mining-in-moscow-and-surrounding-regions-through-2032.html"
+    },
+    {
+      "title": "Senate Democrats Introduce Bill to Bar Presidents From Owning Banks, Following World Liberty Financial Charter Approval",
+      "url": "/articles/senate-democrats-introduce-bill-to-bar-presidents-from-owning-banks-following-world-liberty-financial-charter-approval.html"
+    },
+    {
+      "title": "Tudor Investment reverses bitcoin ETF selldown, raises IBIT stake 18.9% in Q2",
+      "url": "/articles/tudor-investment-reverses-bitcoin-etf-selldown-raises-ibit-stake-18-9-in-q2.html"
+    },
+    {
+      "title": "Banks versus crypto: the stablecoin yield battle reshapes Senate arithmetic",
+      "url": "/articles/banks-versus-crypto-the-stablecoin-yield-battle-reshapes-senate-arithmetic.html"
+    },
+    {
+      "title": "Institutional funding in H1 2026: $11.2 billion to regulated crypto, none disclosed to permissionless projects",
+      "url": "/articles/institutional-funding-in-h1-2026-11-2-billion-to-regulated-crypto-none-disclosed-to-permissionless-projects.html"
+    },
+    {
+      "title": "MiCA compliance deadline sparked a surge in regulator impersonation scams across the EU",
+      "url": "/articles/mica-compliance-deadline-sparked-a-surge-in-regulator-impersonation-scams-across-the-eu.html"
+    },
+    {
+      "title": "SafePal discloses breach exposing 40,000 customers' personal data",
+      "url": "/articles/safepal-discloses-breach-exposing-40-000-customers-personal-data.html"
+    },
+    {
+      "title": "Austria's FMA fines Bitpanda \u20ac70,000 for MiCA compliance failures",
+      "url": "/articles/austria-s-fma-fines-bitpanda-70-000-for-mica-compliance-failures.html"
+    },
+    {
+      "title": "Binance user data provided to Russian authorities led to arrest of opposition-linked donor",
+      "url": "/articles/binance-user-data-provided-to-russian-authorities-led-to-arrest-of-opposition-linked-donor.html"
+    }
+  ]
+}

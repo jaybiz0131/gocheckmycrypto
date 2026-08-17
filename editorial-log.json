@@ -7873,5 +7873,49 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c015",
+    "headline": "Bitcoin miner HIVE signs five-year $350M AI cloud infrastructure contract",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'HIVE's move into GPU cloud services signals that a major publicly listed miner is pursuing diversification into infrastructure services' but the brief contains no data point confirming HIVE is publicly listed. This fact is smuggled and must trace to the research brief.",
+     "The draft states the deal 'marks the company's second large NVIDIA cluster agreement announced within two months' but provides no sourcing or date context for the prior deal. The brief confirms this claim is reported, but the draft should attribute it inline to The Block as it does other facts.",
+     "The entire draft is built on a source ('The Block') that was never actually fetched according to the brief ('source_chars: 0'). The desk cannot verify any of these numbers (350M, 70M ARR, five years) independently because no source text exists in the research record. This violates the hard rule that facts must trace to the brief."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Strait of Hormuz shipping halted as US-Iran ceasefire expires, reviving oil-price tail risk",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bitcoin held near $63,300 on Monday, still below the $64,000 level it has failed to sustain.' The brief data_point says 'Bitcoin held near $63,300 on Monday, still boxed below $64,000.' The phrasing 'failed to sustain' is interpretive language not present in the source and imputes a narrative of weakness that goes beyond what the brief reported\u2014this is a smuggled characterization, not a paraphrase of the source fact."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Ethereum Foundation announces Plat\u00e5berget testnet for Glamsterdam upgrade with breaking changes",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The upgrade brings breaking changes for a wide range of application infrastructure. Any tool that relies on a hardcapped maximum gas limit, including wallets, indexers, and gas estimators, will break and requires updates, per the Foundation's announcement.' The brief marks this claim with confidence 'announced-not-verified', but the draft presents it as settled fact without any hedging language ('announced', 'the Foundation claims', or similar). The confidence label must survive in the prose.",
+     "The draft states 'The core gas repricing mechanic alters how transactions are metered at runtime.' This statement appears to paraphrase technical details from the brief's data_points, but the brief's language is more cautious ('announced-not-verified'). The technical explanation in the draft reads as verified technical fact rather than announced proposal language.",
+     "The draft states 'EIP-8037 introduces a separate state gas dimension for operations that create new state.' and 'Individual operations also change price.' These are technical claims marked 'announced-not-verified' in the brief but presented in the draft as objective technical descriptions without qualification language."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Venezuela's sanctions are stablecoins' proof of concept",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Venezuela, banned from the US dollar system under American sanctions' as a founding premise, but the brief data_point only says 'Venezuela is banned from the dollar system' without attribution to American sanctions. The draft smuggles in the causal claim (sanctions \u2192 ban) not present in the brief's sourced data.",
+     "The draft states 'Venezuela lacks dollar access, stablecoins provide a dollar-denominated asset on chain, and the gap between those two facts has apparently been filled' but the brief contains no data point confirming the gap has been filled\u2014only that Venezuela uses stablecoins. The draft treats a speculative connection as settled fact.",
+     "The draft attributes the stablecoin use claim to 'Blockworks reporting' but provides no inline attribution in the body paragraphs where the mechanism and practice are described, violating the requirement that figures and claims be attributed inline to their outlets."
+    ]
+   }
+  ]
  }
 ]
