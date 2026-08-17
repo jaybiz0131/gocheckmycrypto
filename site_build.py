@@ -337,7 +337,7 @@ def render_news_sitemap(items, window_hours=48):
             continue
         pub = _w3c_dt(it.get("published_utc") or it.get("date"))
         rows.append(
-            f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}.html</loc>\n"
+            f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}</loc>\n"
             f"    <news:news><news:publication><news:name>{esc(NAME)}</news:name>"
             f"<news:language>en</news:language></news:publication>\n"
             f"    <news:publication_date>{esc(pub)}</news:publication_date>\n"
@@ -754,7 +754,14 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
-    url = ORIGIN + path
+    # ONE URL PER PAGE (2026-08-17, ported from news/sports). Netlify's Pretty URLs serve
+    # every page at both /articles/foo and /articles/foo.html and rewrite internal links to
+    # the extensionless form. A .html canonical meant Google crawled the linked URL, read a
+    # canonical pointing elsewhere, and filed every story as "Alternate page with proper
+    # canonical tag"; the same mismatch made og:url disagree with the URL people share, so
+    # scrapers cached previews under a URL nobody sends. If Pretty URLs is ever disabled
+    # this must revert with it, or every canonical points at a 404.
+    url = ORIGIN + (path[:-5] if path.endswith(".html") else path)
     # one identity per page: site-brand pages carry the umbrella in the title tail and
     # social tags; Cronkite's own pages keep the desk name
     site_name = NAME if brand == "cronkite" else FAMILY
@@ -1019,7 +1026,7 @@ def render_article(item, all_items=None):
     {bottom}
     <p class="signoff">{esc(SLOGAN)}</p>
     {sig_block()}
-    {share_row(ORIGIN + f"/articles/{item['slug']}.html", item.get("title") or "")}
+    {share_row(ORIGIN + f"/articles/{item['slug']}", item.get("title") or "")}
     {src_html}
     {rel_html}
     <p class="nfa">{esc(NFA)}</p>
@@ -3646,14 +3653,17 @@ def build():
             "/accessibility.html", "/privacy.html", "/terms.html"]
     # standard sitemap: static pages (no lastmod) + article URLs WITH lastmod from the
     # story's own publish timestamp, so Google sees freshness on every deploy
-    static_urls = "".join(f"  <url><loc>{ORIGIN}{esc(p)}</loc></url>\n" for p in locs)
+    # static pages name the same extensionless form the canonical does (2026-08-17)
+    static_urls = "".join(
+        f"  <url><loc>{ORIGIN}{esc(p[:-5] if p.endswith('.html') else p)}</loc></url>\n"
+        for p in locs)
     art_urls = ""
     for it in items:
         if it.get("example"):
             continue
         lm = _w3c_dt(it.get("published_utc") or it.get("date") or "")
         lmtag = f"<lastmod>{esc(lm)}</lastmod>" if lm else ""
-        art_urls += f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}.html</loc>{lmtag}</url>\n"
+        art_urls += f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}</loc>{lmtag}</url>\n"
     w("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
       + static_urls + art_urls + "</urlset>\n")
