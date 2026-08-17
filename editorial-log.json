@@ -8155,5 +8155,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c052",
+    "headline": "Losses Top $115M In Coldcard Bitcoin Hack: Galaxy Research",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Galaxy Digital reported $115 million in confirmed bitcoin losses from a Coldcard hardware wallet exploit, according to Bitcoin Magazine.' The brief's only data_point says the figure comes from 'Galaxy Digital's figures' via Bitcoin Magazine, but the brief does not establish who discovered or initially reported the exploit\u2014only that Galaxy Digital quantified losses at $115M. The draft's attribution is ambiguous and may misrepresent the source chain. The sentence should clarify whether Galaxy Digital conducted the investigation or received the figure from another source.",
+     "The draft presents the $115M figure with 'confirmed' language and 'Galaxy Digital reported,' but the brief's confidence label is only 'reported,' not 'confirmed.' The confidence downgrade must appear in the prose to flag that the $115M has not been independently verified."
+    ]
+   },
+   {
+    "id": "c037",
+    "headline": "Treasury Proposes Rules Defining Who Can Legally Sell Stablecoins in US",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The proposed rules relate to the Guaranteed, Efficient, New In-law Underwritten Synthetic (GENIUS) Act framework, which Congress advanced earlier this cycle.' This claim does not appear in the brief's data_points. The brief mentions a 'January 2027 deadline for Treasury to finalize stablecoin regulations' but does not cite the GENIUS Act by name or confirm Congress advanced it. The writer has smuggled a legislative detail not in the research.",
+     "The draft attributes the January 2027 deadline to 'the Guaranteed, Efficient, New In-law Underwritten Synthetic (GENIUS) Act framework,' but the brief does not provide this attribution. The deadline appears only as context in the brief's open_questions; the draft invented the legislative source."
+    ]
+   },
+   {
+    "id": "c114",
+    "headline": "CFTC reviewing framework for AI compute futures as CME targets October launch",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'The mechanism by which a financial derivative on compute would hedge real-world GPU scarcity without basis risk is also left unaddressed' presents editorial analysis/speculation about how derivatives would function. This is not a fact from the brief and goes beyond reporting what Cointelegraph stated. The brief contains no data_point about basis risk mechanics or hedging efficacy; the writer has imported their own analytical skepticism rather than sticking to reported claims."
+    ]
+   }
+  ]
  }
 ]
