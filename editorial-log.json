@@ -7917,5 +7917,47 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c005",
+    "headline": "Coldcard's public code failed to catch seed-generation bug that enabled $100M theft",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Coinkite, Coldcard's maker, released version 4.0.0 in 2021' but the brief data point says 'The seed-generation failure entered Coldcard during a major 2021 software change' without confirming the specific version number 4.0.0 was released in 2021. The draft presents a date with more precision than the brief supports.",
+     "The draft claims 'Bitcoin developer James O'Beirne later identified the switck account as belonging to Coinkite co-founder Peter Gray, based on matching cryptographic signatures across 58 code changes' but the brief data point says O'Beirne found '58 code changes published under that name carrying the same cryptographic signature Gray used on changes published under his own name.' The draft's phrasing\u2014'matching cryptographic signatures across 58 code changes'\u2014is ambiguous about whether all 58 carried matching signatures or whether the match was observed across a subset. The brief is clearer: all 58 changes under 'switck' carried a signature matching Gray's published signature.",
+     "The draft reports 'Goodman's case illustrates the depth of the exposure' and describes his security precautions (safe deposit boxes, no internet connection, no sharing), but does not explicitly state from the brief whether Goodman himself failed to conduct code review or was merely a victim. The inference that his case 'illustrates' the broader tension is the draft's editorial addition, not a fact from the brief."
+    ]
+   },
+   {
+    "id": "c035",
+    "headline": "SEC delays crypto fundraising rule after legal threat from Wall Street trade group",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The administration is now waiting to see whether the Digital Asset Market Clarity Act passes in September' but the brief labels this claim as 'unconfirmed'. The draft presents an unconfirmed claim as settled fact without hedging language ('sources indicate' or 'reported' qualification). The brief explicitly warns that this data point carries 'unconfirmed' confidence.",
+     "The draft states 'No details on SIFMA's specific legal arguments or objections were disclosed in Decrypt's reporting' but this acknowledgment of absence is not a fact from the brief; it is the writer adding commentary about what was not reported. The brief contains no data point about the absence of SIFMA details.",
+     "The draft claims 'The postponement leaves the market without regulatory clarity on whether capital raises conducted on crypto rails will receive SEC safe harbor' but the brief's data points do not establish that SEC safe harbor was the specific regulatory question at issue. This expands the scope of the postponement's impact beyond what the brief supports."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "Bitcoin miner HIVE signs five-year GPU cloud contract valued at $350 million",
+    "category": "accuracy",
+    "reasons": [
+     "Brief explicitly flags 'thin: true' and 'source_chars: 0', indicating the source text was not provided to researchers. The writer has smuggled material details not verified in the brief: no data_point in the brief confirms customer identity, contract performance conditions, or whether the $70M ARR is incremental vs. existing revenue. The open_questions section explicitly states 'Source text not provided; unable to verify contract terms.' The draft presents these unverified details as settled fact."
+    ]
+   },
+   {
+    "id": "c042",
+    "headline": "Paul Tudor Jones' firm reverses bitcoin ETF retreat, raises BlackRock IBIT stake 18.9% in Q2",
+    "category": "accuracy",
+    "reasons": [
+     "Brief explicitly flags 'thin: true' and 'source_chars: 0', indicating source text was not provided to researchers. The open_questions section states: 'Source text not provided; unable to verify the basis for the $22.9M valuation (BTC price used), timing of Q2 filings, or prior liquidation timeline.' The draft presents the prior year-long liquidation as fact ('had been liquidating its IBIT position throughout the prior year') without verification in any data_point. The brief does not contain a data_point confirming this timeline; it only reports the Q2 increase."
+    ]
+   }
+  ]
  }
 ]
