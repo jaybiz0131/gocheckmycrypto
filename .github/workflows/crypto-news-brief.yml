@@ -128,6 +128,7 @@ jobs:
       # never a zero-content slot). Fail-open for the brief: an edition failure warns
       # loudly but never blocks story publishing.
       - name: The Daily Edition (Morning / Afternoon / Evening Brief + The Bottom Line)
+        id: wrap
         if: steps.key.outputs.have_key == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -140,7 +141,17 @@ jobs:
           SLOT_CRON: ${{ github.event.schedule }}
           # the slot a recovery fire is FOR (outranks cron and clock in wrap.py)
           SLOT_NAME: ${{ inputs.slot }}
-        run: python3 wrap.py || echo "::warning::daily edition failed its gates; stories unaffected"
+        run: |
+          # FAIL-LOUD (owner ruling 2026-08-17, fix 2): the exit code is captured and
+          # enforced by the LAST step of the job, after stories publish. An edition
+          # failure no longer hides inside a green run, and it still cannot block
+          # story publishing. wrap.py exits 0 on publish AND on honest silence.
+          rc=0
+          python3 wrap.py || rc=$?
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          if [ "$rc" != "0" ]; then
+            echo "::error::daily edition failed its gates (exit $rc); stories publish normally and the final step will mark this run FAILED"
+          fi
 
       # KNOWN-EVENT COVERAGE CHECK (audit item 5, 2026-07-28): the desk knew the Zcash
       # Ironwood activation date nine days early, published it in passing, and still had no
@@ -499,3 +510,38 @@ jobs:
           PINGED: ${{ steps.ping.outputs.pinged }}
           RUN_ID: ${{ github.run_id }}
         run: python3 scripts/ops_ledger.py || echo "::warning::ops ledger append failed (observability only, run unaffected)"
+
+      # FAIL-LOUD EDITION GATE (owner-approved Design 2, 2026-08-17): runs dead last
+      # so stories, the deploy probe, artifacts, the hook ping, and the ops ledger all
+      # complete before the run is failed. If wrap.py exited non-zero, this opens a
+      # slot-named issue and marks the run failed. Honest silence (wrap exit 0 without
+      # publishing, e.g. the slot is already served) stays green. The ordering is the
+      # requirement: story publishing completes even when the edition fails and the
+      # run goes red.
+      - name: Fail the run if the edition stage failed
+        if: always() && steps.wrap.outputs.rc != '' && steps.wrap.outputs.rc != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const now = new Date();
+            const h = now.getUTCHours();
+            const slot = h < 14 ? "morning" : h < 20 ? "afternoon" : "evening";
+            const date = now.toISOString().slice(0, 10);
+            const title = `Edition stage failed: ${slot} ${date}`;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              `wrap.py exited ${{ steps.wrap.outputs.rc }} in this run: ${runUrl}`,
+              "",
+              "Stories published normally; only the edition stage failed. Slot recovery",
+              "re-fires the slot on its own; this issue exists so a repeating edition",
+              "failure gets human eyes. Close after the next green slot."
+            ].join("\n");
+            const { owner, repo } = context.repo;
+            const existing = await github.rest.issues.listForRepo({ owner, repo, state: "open", per_page: 100 });
+            const open = existing.data.find(i => i.title === title);
+            if (open) {
+              await github.rest.issues.createComment({ owner, repo, issue_number: open.number, body: `Failed again: ${runUrl}` });
+            } else {
+              await github.rest.issues.create({ owner, repo, title, body });
+            }
+            core.setFailed(`Edition stage failed (${slot} ${date}); stories were unaffected.`);
