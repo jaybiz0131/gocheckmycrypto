@@ -1,0 +1,37 @@
+{
+  "id": "c038",
+  "slug": "ethereum-hegot-upgrade-66-proposals-on-the-table-frame-transactions-fate-undecided",
+  "kind": "brief",
+  "title": "Ethereum Hegot\u00e1 Upgrade: 66 Proposals on the Table, Frame Transactions' Fate Undecided",
+  "dek": "The 2027 Ethereum Hegot\u00e1 upgrade has 66 proposals under review, per CoinDesk reporting. Frame Transactions (EIP-8141) would let users customize how transactions are approved and paid for without intermediaries, but it has not yet cleared the approval bar; only one proposal, FOCIL, has been approved so far.",
+  "date": "2026-08-17",
+  "published_utc": "2026-08-17T19:58:12Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Sixty-six proposals are under consideration for Hegot\u00e1; Frame Transactions, the privacy-focused candidate, falls short of approval to progress as of August 17.",
+  "bottom_line": "Watch the core developer meetings in the coming weeks to see which of the 66 proposals survive narrowing. The inclusion or exclusion of Frame Transactions will signal whether Ethereum's developers prioritize base-layer privacy infrastructure or see it as a problem for applications to solve. If approval rates remain low and Frame Transactions does not advance, the upgrade may land with fewer privacy gains than the current proposal slate suggests.",
+  "human_take": "",
+  "body": [
+    "Ethereum developers are reviewing 66 proposals for the 2027 Hegot\u00e1 upgrade, according to CoinDesk reporting on August 17. The proposal set includes privacy infrastructure changes, alterations to block production speed, shifts in validator economics, and quantum-resistant cryptography preparation. As of mid-August, the proposal submission window has closed, and developer consensus will narrow the field over the coming core developer meetings.",
+    "The privacy angle centers on Frame Transactions, formally Ethereum Improvement Proposal 8141, which would allow users to customize how transactions are approved, executed, and paid for without relying on intermediaries. Per CoinDesk, an ordinary user with Frame Transactions in place could operate a wallet where someone else covers fees, bundle several actions into one payment, or change the cryptography approving a transaction without moving to a new account.",
+    "Frame Transactions is one of three related proposals designed to reduce external infrastructure that privacy applications currently require. Keyed Nonces (EIP-8250) would let transactions use separate counters instead of queueing behind a single nonce, so a delayed transaction no longer blocks everything behind it, according to CoinDesk. EIP-8272 would let a transaction prove itself against a recent cryptographic record without depending on information that might change while it waits. Together, the three would strip away some middleman layers privacy systems now need.",
+    "Cryptoographic privacy tools already exist on Ethereum and can hide information using proofs, per CoinDesk's reporting. The challenge has been infrastructure: getting those transactions onto the blockchain requires extra services, and many privacy designs route users through relayers, outside services that submit transactions on their behalf. Frame Transactions aims to move that capability into the base layer.",
+    "Ethereum itself would not become private under these proposals. Sending ETH between two standard addresses would remain as visible as it is today, per CoinDesk. Only users who opt into Frame Transactions would see customized transaction approval and payment flows.",
+    "However, Frame Transactions has been marked as considered for Hegot\u00e1 but falls short of approval to progress, according to CoinDesk. Only one of the 66 proposals has cleared approval so far: FOCIL, a censorship-resistance measure that lets a group of network operators compile a list of transactions that must be included, removing that decision from any single block builder. The low approval rate underscores the high bar for inclusion and the uncertainty ahead. What survives the 66-proposal set will be decided over the next few core developer meetings, per CoinDesk's reporting.",
+    "Other Hegot\u00e1 candidates under review would speed up block production, alter validator rewards, and prepare Ethereum for post-quantum cryptography, per CoinDesk. The deadline for new proposals passed on August 6."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/08/17/ethereum-s-next-big-upgrade-has-66-proposals-including-a-major-privacy-fix",
+      "url": "https://www.coindesk.com/tech/2026/08/17/ethereum-s-next-big-upgrade-has-66-proposals-including-a-major-privacy-fix"
+    },
+    {
+      "title": "https://decrypt.co/375787/ethereum-developers-privacy-hegota-upgrade",
+      "url": "https://decrypt.co/375787/ethereum-developers-privacy-hegota-upgrade"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": false
+}

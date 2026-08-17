@@ -7982,5 +7982,48 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c014",
+    "headline": "Binance gave Russian authorities data that led to Ukrainian donor's arrest",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Russian authorities requested Belenkiy's transaction history from Binance by sending queries to case@binanceholdings.ru' but the brief data_point only says 'Investigators reportedly received two responses from case@binanceholdings.ru after requesting Belenkiy's transaction history.' The brief does not confirm that authorities sent requests to that address; it only confirms they received responses. The draft has reversed the logical flow and smuggled an unconfirmed detail about where the request was sent."
+    ]
+   },
+   {
+    "id": "c106",
+    "headline": "CFTC opens rulemaking on AI compute futures as CME targets October launch",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The CFTC has opened a public comment period on rules for AI compute futures contracts, according to Cointelegraph reporting.' The brief's core_claim says the CFTC 'opened rulemaking' but the brief explicitly notes in open_questions that 'No source text was fetched; the snippet alone provides the claim.' The brief does not confirm a public comment period is open; it only confirms the core claim from a headline. The draft has introduced 'public comment period' as fact without source text to verify it.",
+     "The draft claims 'CME is planning to launch such derivatives in October' but the brief does not specify October as a planned launch date\u2014only that CME is 'planning an October launch.' The source character count is 0, meaning no full text was available to verify whether 'October' is a firm date or a proposed/targeted date. The draft should signal uncertainty ('targeting October' per the brief's angle language).",
+     "The entire section 'Proponents argue the contracts fill a real need as demand for AI training outpaces available hardware' is not present in the brief's data_points and the source was not fetched. This is a smuggled claim."
+    ]
+   },
+   {
+    "id": "c048",
+    "headline": "SafePal wallet breach exposes ~40,000 customers to physical security risk",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The stolen data has begun circulating on cybercrime forums' and 'their personal information is now in the hands of threat actors' as established fact. The brief's open_questions note: 'The current status of the stolen data (still circulating, removed from forums, law enforcement involvement) is not documented in available sources.' The brief does not confirm the data is currently circulating; it only notes that this detail is unknown. The draft presents an unconfirmed status as fact.",
+     "The draft claims the breach 'The flaw allowed unauthorized access to personal information without requiring private keys or seed phrases' with confidence, but the brief explicitly states 'Whether private keys or seed phrases were exposed is not stated' in open_questions. The draft's negative assertion (that keys/phrases were NOT exposed) exceeds what the brief allows.",
+     "The draft's entire paragraph beginning 'Theft and coercion become realistic threats...' and 'The risk is especially acute for customers likely holding significant assets...' are analytical extrapolations not sourced in the brief's data_points. No brief data confirms asset size, customer profile information, or the likelihood of physical threats; these are the writer's inferences presented as reporting."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "HIVE's BUZZ HPC Signs $350 Million Five-Year AI Compute Contract",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'This contract is HIVE's second major NVIDIA cluster deal announced in a two-month window' but the brief's data_point only states this fact came from The Block reporting; the brief does not establish which was the first deal, when it was announced, or its value. The draft treats this as settled fact without disclosing that key details (the prior contract, its timing, its value) remain open questions per the brief.",
+     "The draft states 'Bitcoin miners holding or acquiring NVIDIA chips have moved into GPU cloud services as an alternative revenue stream to volatility-prone mining' \u2014 this is a generalized claim not present in the brief's data_points and reads as analysis inserted beyond the reported facts."
+    ]
+   }
+  ]
  }
 ]
