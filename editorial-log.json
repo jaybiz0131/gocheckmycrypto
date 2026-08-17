@@ -7959,5 +7959,28 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "Coldcard Bug Enabled $100 Million Bitcoin Theft Over Years Without Device Access",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Goodman reported on August 1 in an X post that his Coldcard had never been connected to the internet, was stored in a safe deposit box, and his seed phrase was stored in a separate safe deposit box.' The brief data point contains a direct quote: 'Perhaps the hardest part about this is that I did everything right,' which is not included in the draft. The draft paraphrases the substance but omits the actual quote that appears in the source material, treating reported speech as a summary when the brief provided it as a direct quotation. This is a factual accuracy gap\u2014the quote exists in the source but the draft did not preserve it."
+    ]
+   },
+   {
+    "id": "c038",
+    "headline": "SEC Postpones Crypto Fundraising Framework Amid Wall Street Legal Pressure",
+    "category": "accuracy",
+    "reasons": [
+     "The draft introduces CoinDesk fear sentiment data ('CoinDesk's desk boards show fear sentiment at 29 on the 0-100 scale as of July 29, within the 30-day range of 11-33') that does not appear in the brief's data_points. This is smuggled information outside the research.",
+     "The draft states 'when that bill is scheduled for a vote in September' as a settled fact, but the brief lists 'When is the Clarity Act expected to be voted on' as an open_question, indicating the vote timing is unconfirmed."
+    ]
+   }
+  ]
  }
 ]
