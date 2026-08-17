@@ -37,6 +37,15 @@ THE CONTRACT (non-negotiable):
   weekly inflows, flows have turned negative this week"): that is the accurate story, and
   a bare direction word that contradicts the desk's own boards will hold the entire
   publish at the consistency gate.
+- A FLOW FIGURE KEEPS ITS ASSET CLASS. The Whale Watch board reports flows per asset,
+  and on this desk the asset decides what the number MEANS: the board's own note says
+  coins moving off exchanges suggest accumulation or self-custody, while stablecoins are
+  the opposite. So a BTC outflow of $176.9 million from one exchange is "$176.9 million
+  in bitcoin", never "$176.9 million withdrawn" and never folded into a multi-asset or
+  total-flows claim. Carry the asset word from the board into the sentence. Dropping it
+  is the one case where a correctly rounded, correctly attributed figure still reads as
+  a different claim than the data supports, and the trace check will reject the edition
+  for it (2026-08-17: it did, twice, and the desk published no evening edition).
 - TIME-STAMP YOUR PRICES: desk_boards are the CURRENT tape; prices inside stories are
   HISTORICAL (the level when that story was reported). Never present a story's price as
   the current level. If they differ, the current number comes from the boards and the
