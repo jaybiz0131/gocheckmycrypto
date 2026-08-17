@@ -8058,5 +8058,38 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c014",
+    "headline": "Binance provided Russian authorities with customer data tied to Ukrainian donor's arrest",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Belenkiy 'transferred more than $700' but the brief data_point says 'more than $700' without specifying currency. The draft presents this as fact without attribution inline to CoinDesk, and the figure is trivially small for a terrorism financing case\u2014this needs source clarity and context or removal.",
+     "The draft claims 'Binance stated in September 2023 that it was exiting Russia and would retain no operational ties to the market' but the brief data_point says 'Binance sold its Russian business to CommEX in September 2023, saying operating in the country did not fit its compliance strategy.' The draft's language about 'no operational ties' is stronger than the brief supports; the brief specifies a business sale but does not confirm zero post-sale data operations.",
+     "The draft paragraph beginning 'Binance's published law-enforcement guidelines state...' and continuing with 'The source does not confirm whether Russian requests met this threshold' reads as original analysis rather than a paraphrase of the brief. The brief lists the guideline requirement as a data_point and identifies the unresolved threshold question in bear_case, but the draft integrates them as a single passage without clear separation of reported fact from unresolved liability\u2014this blurs liability attribution."
+    ]
+   },
+   {
+    "id": "c106",
+    "headline": "CFTC seeks public input on AI compute futures as CME targets October launch",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The CFTC is seeking public input on rules for AI compute futures contracts' but the brief contains no data_point confirming the CFTC is seeking public input\u2014only that CME is targeting October and that regulatory review 'could' create a market. The claim about CFTC seeking input is smuggled; it does not appear in the brief's data_points.",
+     "The draft includes 'the specific contract specifications on which the CFTC is requesting feedback remain unconfirmed' which presupposes CFTC feedback-requesting activity not established in the brief. This is circular reasoning layered on a smuggled fact."
+    ]
+   },
+   {
+    "id": "c046",
+    "headline": "Tudor Investment Corp reverses bitcoin ETF selloff, raises IBIT stake 18.9% in Q2",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Tudor's prior year of selling had positioned the fund away from bitcoin; the Q2 reversal reengages direct holdings' which accurately reflects the brief. However, the inclusion of unsourced ETF flows data ('$5.1M in net inflows on 28 July 2026, with five-session net flows of -$402.6M') introduces facts not in the brief and attributed to an internal system rather than the research brief's sources."
+    ]
+   }
+  ]
  }
 ]
