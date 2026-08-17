@@ -8115,5 +8115,45 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c051",
+    "headline": "Coldcard Hardware Wallet Breach Losses Reach $115 Million",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A security breach in Coldcard hardware wallets resulted in $115 million in bitcoin losses, according to figures confirmed by Galaxy Digital and reported by Bitcoin Magazine on August 17, 2026.' However, the brief's confidence label for both data points is 'reported', not 'confirmed.' The brief's open_questions note: 'No source text was successfully fetched from the article; the only content is page markup.' The draft misrepresents the status of these claims by using 'confirmed' and stating facts as settled when the source itself could not be verified. The brief is thin (thin=true) with only page markup recovered, yet the draft presents unverified claims as definitive.",
+     "The draft contains multiple claims about the incident ('How the breach occurred', 'whether it targeted a specific firmware version', 'what steps Coldcard and affected users are pursuing') presented as absent from reporting, but these are not in the brief's data_points either. This reads as the writer filling gaps with analysis rather than sticking to what the brief actually contains."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Binance handed user data to Russia that led to a Ukrainian donor's arrest",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case includes three substantive items: (1) Binance's guidelines require a valid court order but the source does not confirm whether Russia provided one; (2) Binance declined to discuss whether the disclosure breached European data protection rules, leaving the legal basis unconfirmed; (3) The documents were obtained from relatives through an advocacy organization, not independently verified from Binance's records or Russian authorities. The draft mentions the first point in the bottom_line ('The source does not confirm whether Russia provided a valid court order') but does not surface these risks in the body prose itself. The body reads as a straightforward narrative of what happened without proportionate weight given to the unconfirmed and potentially non-compliant nature of the data transfer. A reader finishing the body would believe Binance handed over data to Russia; a reader finishing the bear_case would understand the legal foundation and verification status remain unclear. The draft should either add a risk paragraph in the body or reframe opening language to reflect the 'allegedly' / 'reportedly' confidence level throughout."
+    ]
+   },
+   {
+    "id": "c052",
+    "headline": "Jane Street Holds Nearly $1B Bitcoin Position via Spot ETFs",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Jane Street acquired approximately $1 billion in bitcoin through regulated spot ETF products' as a fact. The brief's single data_point claims only 'Jane Street bought Bitcoin via spot ETFs' with confidence 'reported'. The brief explicitly flags in open_questions that 'No verification of the ~$1B figure is present in the source material; the headline claim and snippet cite it, but the article body is truncated and does not contain the supporting detail.' The draft presents an unverified dollar amount as settled fact, smuggling a number that the brief itself identifies as lacking source support.",
+     "The draft's body paragraph states 'Spot bitcoin ETFs began trading in the United States in early 2024' as background context. This is not in the brief and appears to be writer-supplied; it may be factually correct but it is not sourced to the brief's single research document, violating the rule that no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c040",
+    "headline": "SEC Postpones Crypto Fundraising Framework; Sources Cite SIFMA Pressure and Clarity Act",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case explicitly states: 'The SEC's stated reason was a scheduling issue, not regulatory substance, leaving open whether crypto fundraising rules will ultimately proceed at all.' This critical caveat\u2014that the postponement may reflect logistics rather than regulatory pressure, and that the framework may never ship\u2014does not appear in the draft body. The draft opens with the postponement and then pivots immediately to SIFMA pressure and the Clarity Act's influence, framing regulatory/political obstruction as the primary driver. The bear_case deserves at least a sentence acknowledging that the SEC's public statement cited only 'an unforeseen scheduling issue' and that this may be the whole story. Without it, the draft leans toward the unconfirmed narrative and away from the skepticism the research itself contains."
+    ]
+   }
+  ]
  }
 ]
