@@ -8091,5 +8091,29 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c014",
+    "headline": "Binance Handed User Data to Russia That Led to Ukrainian Donor's Arrest",
+    "category": "balance",
+    "reasons": [
+     "The bear_case item 'Binance states it complies with lawful law enforcement requests and requires valid court orders or warrants before disclosure' is present in the brief but is severely underweighted in the draft. The draft opens with liability and arrest without adequately surfacing Binance's defense posture until paragraph 4 ('Binance's current law enforcement guidelines require...'), and even then treats it as background rather than as a substantive rebuttal to the liability framing. The draft's structure emphasizes the arrest and data provision (paragraphs 1-3) and only then introduces compliance claims, creating a prosecutorial rather than balanced narrative.",
+     "The bear_case point about lack of text for the Russian legal request ('sources do not provide the text of any Russian legal request or court order that may have compelled the data release') is mentioned in the draft but undersized relative to the opening liability accusations. A balanced treatment would lead with or prominently surface the unknown status of legal compulsion before building a narrative of wrongdoing."
+    ]
+   },
+   {
+    "id": "c049",
+    "headline": "SafePal exposes 39,798 customer addresses and phone numbers; data now for sale on crime forums",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'Customers were reporting phishing messages months before SafePal's public disclosure, per The Defiant, raising questions about incident response timing' presents a bare temporal claim without the confidence caveat. The brief marks this as 'reported' but the draft reads it as established fact without attribution to SafePal's own disclosure or The Defiant's framing. The scam-protection FAQ quote that follows mitigates this slightly, but the initial sentence should include 'according to The Defiant' or similar attribution inline.",
+     "The statement 'Chainalysis counted 46 violent crypto robberies globally through late June 2026 and about $30 million stolen, against $58 million for all of 2025' is sourced to The Defiant in the brief, but the draft does not attribute this figure. It reads as standalone context. The attribution 'per The Defiant's framing' earlier in the paragraph does not clearly cover this separate claim. Trace: The Defiant reports Chainalysis data, but the draft must make that chain explicit or it reads as unsourced macro analysis."
+    ]
+   }
+  ]
  }
 ]
