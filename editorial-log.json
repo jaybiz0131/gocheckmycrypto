@@ -1,37 +1,6 @@
 [
  {
   "date": "2026-07-15",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c039",
-    "headline": "Treasury OFAC Sanctions Iran-Linked Crypto Wallets, Freezes $130 Million",
-    "category": "accuracy",
-    "reasons": [
-     "The draft attributes the announcement to 'Treasury Secretary Scott Bessent' but the brief data_point says only that Bessent 'says OFAC sanctioned' the wallets. The draft's opening treats this as a direct announcement from Bessent ('Treasury Secretary Scott Bessent announced'), but the brief's single source is reporting from The Block, not a Treasury statement or Bessent's own words. This is a meaningful distinction: the draft presents a direct announcement where the brief only confirms reported speech. The draft should attribute the claim to The Block's reporting, not present it as a Bessent announcement."
-    ]
-   },
-   {
-    "id": "c118",
-    "headline": "DTCC Runs Live Tokenized Securities Trades Across 40 Institutional Firms",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'bringing nearly 40 financial firms and technology providers into what DTCC called its largest tokenization production effort' in the opening sentence. The brief's data_point 3 attributes the 'nearly 40' count to the Wall Street Journal, not to DTCC. The brief's data_point 2 says DTCC claimed 'more than two dozen firms,' which is lower. The draft conflates WSJ's reporting with DTCC's own claim, smuggling in a higher participant count under DTCC's authority when the brief shows DTCC only claimed 'more than two dozen.' This misattributes the source of the 'nearly 40' figure and overstates what DTCC itself said."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "White House Convenes on CLARITY Act Ethics Provision as August Recess Nears",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states: 'On Tuesday, a few Democratic senators held a press conference calling for Clarity Act opposition if it does not sever Trump's ties to the sector.' The brief's data_point says: 'On Tuesday, a few Democratic senators held a press conference to call for Clarity Act opposition if it doesn't sever Trump's \"corrupt\" ties to the sector.' The word 'corrupt' appears in the brief but is omitted from the draft. This is a material factual difference\u2014the brief attributes that characterization to the senators; the draft softens it.",
-     "The data_point about Chief of Staff Susie Wiles is marked 'unconfirmed' in the brief but presented as fact in the draft body: 'White House officials, potentially including Chief of Staff Susie Wiles, are expected at the Thursday meeting, according to CoinDesk reporting from unnamed sources.' The hedge 'potentially' appears, but the confidence label 'unconfirmed' must survive in the prose for anonymous-sourced claims. The current phrasing reads as settled reporting when it is explicitly unconfirmed."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-15",
   "approved": 5,
   "rejected": [
    {
@@ -8230,6 +8199,51 @@
      "The draft states 'South Korea has moved to restrict access to Polymarket' and 'The country joins more than 30 other jurisdictions that have taken similar steps to block or limit the platform.' The brief's confidence label for this claim is 'reported'\u2014meaning it comes from CoinDesk reporting alone, not verified independently. The draft presents this as settled fact without any hedge or attribution that signals the claim is unconfirmed. Per the protocol, 'a brief claim marked \"unconfirmed\" or \"announced-not-verified\" must read that way in the prose.' This fails that requirement.",
      "The draft includes an entire paragraph of interpretation and detail ('The specific enforcement mechanisms, penalties, or market rules South Korea identified as problematic were not detailed in available reporting. The timeline for when the restriction takes effect and whether it applies to existing or prospective users remains unclear from the sources reviewed.') that restates open_questions from the brief. Per the protocol, 'a sentence that does [restate open_questions, \"the absence of\", \"remains unreported\"] is category \"accuracy\"'\u2014the writer is forbidden from narrating absence. This paragraph violates that rule and must be removed or the claim must be traced to a source.",
      "The brief notes 'the brief is built from the snippet alone' and 'cannot be verified without access to the article text.' The draft's specificity (the exact regulatory argument about peer-to-peer nature, the reference to crypto-based gambling) depends on CoinDesk reporting that the brief itself could not fully verify. The draft has no margin for error and no signal that the story rests on a single source's interpretation."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-18",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "SEC Proposes New Regulation Crypto Assets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC's announcement marks the first major standalone framework the agency has issued specifically for crypto investment contracts' but this claim does not appear in the brief's data_points and cannot be verified from the source (source_chars: 0, text not fetched). This is a smuggled factual claim.",
+     "The draft references 'the SEC's official release and supporting documentation' as if details exist there, but the brief explicitly states 'The source text was not fetched; the brief cannot verify the proposal's scope, effective date, which specific asset types are covered, or specific compliance requirements.' The writer is presenting unverified details as available when the research shows they are not.",
+     "The phrase 'Details on the proposal's scope, effective date, which specific asset types are covered, and the compliance timeline are available in the SEC's official release' is misleading\u2014the brief's open_questions show these details were NOT fetched and thus NOT verified as available. This reads as editorial hand-waving over a thin brief."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Wyoming joins $15 billion LayerZero exodus with state stablecoin move",
+    "category": "accuracy",
+    "reasons": [
+     "The headline and opening claim 'Wyoming has publicly replaced its blockchain infrastructure away from LayerZero citing security grounds' is stated as fact, but the brief shows source_chars: 0 and explicitly lists as an open question: 'the brief cannot verify the specific security vulnerability or incident that triggered Wyoming's decision.' The core claim in the brief is narrower (state entity made the move) but the brief itself could not verify the security-grounds justification or any details. The draft presents this as confirmed reporting from CoinDesk, but the research brief's own data_points list is empty and open_questions indicate the security concern was never verified.",
+     "The draft states 'The exact composition of that figure, the identities of other entities involved, and the total value at stake remain unreported' but this sentence narrates absence in a way that implies the brief contained enough context to know what is missing. Per the approval protocol, a sentence restating open_questions as though it explains the story is itself an accuracy violation\u2014the writer is creating the appearance of reporting when the brief was too thin to even frame the gaps correctly.",
+     "The phrase 'Wyoming's move may prompt similar reviews at other state entities or institutional allocators' is speculation beyond the brief's scope and reads as editorial inference rather than reported fact."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Citi plans to launch bitcoin custody for institutional clients later this year",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the news to 'CoinDesk, The Block, and Decrypt' but the brief's data_points are empty and source_chars: 0, meaning no source text was actually fetched or verified. The sources list in the draft shows three URLs, but the research brief confirms 'No source texts were provided; all claims rest on the snippet and headline alone.' The writer is presenting a multi-source consensus without verification.",
+     "The draft claims 'Custody+ is positioned to support institutional allocators seeking traditional finance infrastructure for bitcoin holdings' and 'removes that dependency' on crypto-native custodians, but these are editorial inferences and framings, not facts from verified reporting. The brief's open_questions include 'Custody+ platform details' and whether it 'operates in-house or via partnership is unknown.' The draft is narrating the meaning of the move as if those details were confirmed.",
+     "The statement 'Custody+ addresses a structural friction point in institutional crypto adoption' is analysis/interpretation, not fact, and the brief does not contain data supporting the claim that this is the barrier Citi is solving."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Ethereum's Hegotas upgrade changes gas cost for new-address transfers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'sending ETH to a brand-new address will cost more gas than sending to an existing one' but the brief's data_point says 'Sending ETH to a brand-new address will cost more than sending to an existing one'\u2014these are contradictory claims about the direction of the cost change. The draft's interpretation (new addresses cost MORE) is consistent with the brief, but the phrasing in the brief data_point is ambiguous and the draft amplifies a specific interpretation without noting the ambiguity.",
+     "The draft asserts 'The upgrade's technical mechanism and exact new gas costs are not detailed in available reporting' and 'The timing of Hegotas activation and which vendors have begun testing the change also remain unconfirmed'\u2014these are restatements of open_questions presented as factual findings. Per the protocol, the writer is forbidden from narrating absence. This sentence should not appear in the draft."
     ]
    }
   ]
