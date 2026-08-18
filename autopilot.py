@@ -32,7 +32,8 @@ import common
 # The dedupe guard is chassis-level: one module, identical across the three desks. See
 # dedupe.py for why it was extracted and what each rule is defending against. Re-exported
 # here because callers and canaries have always reached for these through autopilot.
-from dedupe import (NOVELTY_MIN, classify_published, is_coverage, same_event,  # noqa: F401
+from dedupe import (NOVELTY_MIN, classify_published, is_coverage, same_event,
+                    adds_nothing_new as dedupe_nothing_new,  # noqa: F401
                     _claim_signature, _covered_signature, _headline_overlap,   # noqa: F401
                     _OUTLETS, _signature, _words)                              # noqa: F401
 
@@ -191,6 +192,15 @@ def main():
                                                    "in this same run", "matched": "", "matched_slug": ""})
                 print(f"autopilot: HELD same-run duplicate of an event already approved this "
                       f"run ('{headline[:60]}')")
+            elif dedupe_nothing_new(headline, kf)[0]:
+                _rep_t, _rep_s = dedupe_nothing_new(headline, kf)
+                story["decision"] = "hold"
+                reruns += 1
+                held_after_approval.append(
+                    {"headline": headline, "gate": "adds nothing the desk already published",
+                     "matched": _rep_t or "", "matched_slug": _rep_s or ""})
+                print(f"autopilot: HELD zero-novelty retelling of "
+                      f"'{(_rep_t or '')[:52]}' ('{headline[:44]}')")
             elif rel == "update":
                 # a genuine development: publish it AS AN UPDATE of the origin story instead
                 # of dropping the follow-up (the old guard's silent HOLD lost these, e.g. the
