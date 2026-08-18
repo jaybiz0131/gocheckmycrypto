@@ -5,49 +5,6 @@
   "rejected": [
    {
     "id": "c031",
-    "headline": "U.S. Treasury Freezes Over $130 Million in Iran-Linked Crypto Wallets",
-    "category": "accuracy",
-    "reasons": [
-     "The draft attributes the $130 million figure and the sanctioning action to 'Treasury Secretary Scott Bessent' via The Block reporting, but the brief's data_point credits only 'Treasury Secretary Scott Bessent stated' without confirming Bessent made a public statement. The draft reads this as verified reporting when the brief's confidence is 'reported'\u2014second-hand attribution to a source that may not have directly quoted or confirmed the Secretary's statement. This is a smuggled verification claim.",
-     "The draft states 'The scope of the freeze, the specific wallets involved, and the blockchains on which they reside have not been detailed in available sources'\u2014accurately reflecting the brief's open_questions\u2014but this acknowledgment does not cure the liability problem: a $130M figure with no on-chain verification, no wallet addresses, and no independent confirmation is presented as fact from a single secondary source (The Block). The brief itself is thin (true) and single-sourced; the draft should flag this as unverified, not state it as settled fact in the lede."
-    ]
-   },
-   {
-    "id": "c030",
-    "headline": "Japan Passes Bill Reclassifying Crypto as Financial Product, Cuts Tax Rate to 20%",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Japan has passed legislation establishing crypto as a regulated financial product under a revised tax framework, lowering the maximum tax rate on crypto gains to approximately 20% from the current maximum of approximately 55%, per reporting by The Block.' The brief contains only ONE data_point: the tax rate claim. The claim that 'legislation establishing crypto as a regulated financial product' was passed is not in the brief. The brief's core_claim says 'passed legislation establishing crypto as a financial product'\u2014but the data_points do not verify that the legislation passed; only The Block's single report that it 'passes' exists. The draft presents a bill as passed law without confirming passage date, enforcement date, or that it has cleared final vote. This is a smuggled fact beyond what the brief supports.",
-     "The draft opens with 'Japan has passed legislation' as settled fact, but the brief's single data_point is 'reported' confidence on the tax rate only. No data_point confirms the bill has passed, been enacted, or become law. The draft conflates announcement with passage."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "Circle suspended Tether-backed fund over market manipulation concerns",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Circle suspended Heka Funds after discovering that Tether had made an undisclosed $800 million investment in the fund, citing suspected market manipulation concerns.' The brief shows that Tether's investment was undisclosed, but the brief does not confirm that Circle's suspension reason was specifically cited as 'suspected market manipulation concerns.' The brief states Circle suspended Heka Funds 'over suspected market manipulation concerns' but does not attribute the causal link between discovering Tether's investment and citing market manipulation concerns\u2014these may be separate facts. The phrasing 'after discovering that Tether had made an undisclosed $800 million investment...citing suspected market manipulation concerns' implies causation and simultaneity that the brief does not support.",
-     "The second paragraph claims 'An undisclosed $800 million investment by a stablecoin issuer in a fund that offers services raises questions about issuer governance and transparency standards.' This interpretive commentary about what 'raises questions' is not in the brief's data_points and appears as the writer's analysis rather than reported fact. The brief's bear_case includes the substance, but the draft presents it as reportage.",
-     "The draft says 'The Block's reporting does not specify what specific market manipulation activities or patterns Circle identified' but offers no page reference or quote showing The Block addressed and declined to detail these. The brief marks it as an open_question, not as reported-but-unspecified. This distinction matters: the former suggests reporting exists but was withheld; the latter concedes the brief itself is thin."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Some U.S. Senate Democrats Come Out Against Clarity Act, Calling It a 'Corrupt' Bill",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'the focus shifts to midterm elections' but the brief says 'the focus on this fall's midterm elections'\u2014the draft removes the temporal qualifier 'this fall,' making it ambiguous whether midterms are imminent or distant. More critically, the draft presents Murphy's characterization of Trump's crypto efforts as 'bilking supporters into buying a worthless token while providing a hidden avenue for mass-scale bribery' as a direct quote or paraphrase without attribution, when the data_point marks it as reported speech. The draft should either attribute this directly to Murphy or make clear it is his characterization, not established fact.",
-     "The draft claims 'Murphy argued that if the bill protects Trump's dominance over an industry he will have regulatory control over, the bill itself becomes a corruption mechanism,' which paraphrases the data_point, but then immediately states 'If this system does not stop Trump's corruption of the entire industry, Murphy said, this bill is worthless.' The second sentence is a direct quote from the data_point, but the draft presents both as connected thoughts without distinguishing which is paraphrase and which is direct quote. This creates ambiguity about what Murphy actually said versus editorial framing."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-15",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c031",
     "headline": "Treasury Freezes Over $130 Million in Iran-Linked Crypto Wallets",
     "category": "accuracy",
     "reasons": [
@@ -8224,6 +8181,49 @@
     "reasons": [
      "The draft states 'The US financial regulator granted conditional approval' but the brief's core claim says 'gave conditional approval' without specifying which regulator. The draft then says 'the US financial regulator' again in the second sentence without naming the OCC until much later. The title correctly names 'OCC' but the body text uses vague 'US financial regulator' twice before ever identifying which agency, creating ambiguity. More critically: the brief does not contain a data_point specifying that the OCC (rather than another regulator) issued this approval. The Cointelegraph URL mentions 'occ' but the brief's data_point does not explicitly state 'OCC' as the regulating body\u2014only 'the US financial regulator.' This is a gap between what the brief establishes and what the draft asserts as fact.",
      "The draft states World Liberty Financial is 'affiliated with the Trump family' but this claim does not appear in any data_point in the brief. The brief's angle mentions 'Trump-affiliated' but angles are not data sources; only data_points are. This is smuggled information."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-18",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "Metaplanet launching U.S. bitcoin treasury subsidiary with 2,100 BTC",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Metaplanet's contribution of 2,100 BTC constitutes the bulk of the subsidiary's initial capitalization' and mentions a '$2.5 million' cash contribution, but the brief's open_questions explicitly flag 'unable to verify the deal valuation of $134.6 million' and 'Unclear whether the 2,100 BTC is Metaplanet's existing holdings or newly acquired.' The draft presents unverified details as fact without hedge language like 'according to reports' or 'announced' that would match the brief's 'announced-not-verified' posture.",
+     "Draft states the subsidiary will 'operate as a regulated bitcoin treasury holding company' but the brief's open_questions note: no detail available on 'regulatory or tax treatment' and 'how the U.S. entity will operate in the capital markets.' The draft asserts regulatory status that the brief marks as unconfirmed."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Citi launching bitcoin custody for institutional clients in 2026",
+    "category": "accuracy",
+    "reasons": [
+     "Draft names the platform 'Custody+' as a settled fact, but the brief's open_questions state 'the brief cannot verify the Custody+ platform name.' This is a smuggled detail not confirmed in source text.",
+     "Draft claims the platform 'will allow institutional clients to hold bitcoin alongside traditional assets within a single regulated custody framework,' but the brief's open_questions note the text 'cannot verify... whether other institutional features exist beyond bitcoin and traditional assets co-holding.' The draft presents a capability as confirmed when it remains unverified."
+    ]
+   },
+   {
+    "id": "c012",
+    "headline": "Ethereum's next upgrade breaks the '21,000 gas' rule wallets rely on",
+    "category": "accuracy",
+    "reasons": [
+     "Draft names the upgrade 'Ethereum's next upgrade' without identifying it by name (Hegotas or Glamsterdam per brief). The brief's open_questions ask 'What is the exact new gas calculation model under Hegotas/Glamsterdam?' indicating the upgrade has a specific name that belongs in the story for readers to track the change. Omission of the upgrade name is a factual gap that makes the story incomplete and unverifiable.",
+     "Draft states 'Developers who hard-coded 21,000 gas as the cost of a simple ETH transfer will find their software producing inaccurate fee estimates' but the brief does not confirm what the new cost will be\u2014only that sending to a new address costs 'more' than to an existing one. The draft's specificity about 'inaccurate fee estimates' goes beyond the reported fact (reported: the model breaks the assumption; not reported: the magnitude or specific new values). This is a degree of confident detail not supported by the source."
+    ]
+   },
+   {
+    "id": "c027",
+    "headline": "Securitize launches tokenized fixed-income fund from Neuberger Berman across four blockchains",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Neuberger Berman manages $230 billion in fixed-income assets' as a fact from the brief, but the brief's core_claim attributes only the $230 billion figure to Neuberger Berman's fixed-income platform. The draft then adds 'and is part of a $613 billion broader asset management group'\u2014this second claim ($613 billion total AUM) is not present in any data_point in the brief. This is a smuggled fact: the writer added information not in the research.",
+     "Draft names the fund 'HINC' in the bottom_line ('If institutional allocations are material...') but the brief's data_point refers to 'HINC' and identifies it as available across four blockchains, yet the draft body never names the fund product. The brief's open_questions ask 'What does HINC stand for and what is its investment strategy?' indicating HINC is the fund name. The draft should identify the fund by name in the body; omitting it while using it in the bottom_line creates confusion and suggests incomplete reporting.",
+     "Draft explicitly states in the body: 'Neither The Block's reporting nor currently available sources clarify the fund size, minimum investment thresholds, coupon rate, maturity date, custody mechanics, or expected launch timing.' This is a narration of absence\u2014restating what is unreported. Per the approval protocol, a sentence that narrates absence of information is category 'accuracy' because it violates the rule against restating open_questions. The writer is forbidden from saying 'nobody knows X'; that is the open_questions slot's job."
     ]
    }
   ]
