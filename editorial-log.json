@@ -1,29 +1,5 @@
 [
  {
-  "date": "2026-07-14",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c010",
-    "headline": "U.S. Government Moves $288 Million in Seized Bitcoin and Ether to Coinbase Prime",
-    "category": "accuracy",
-    "reasons": [
-     "The final paragraph smuggles facts not in the brief: 'The desk's own Whale Watch board, tracking a separate 72-hour window, showed a net $161.8 million of bitcoin moving onto exchanges, with $113.8 million heading to OKX and further flows to Coinbase institutional' has no corresponding data_point anywhere in the research brief. No fact exists outside the brief; these figures must go back to research, not be patched by the writer.",
-     "Everything else traces cleanly (Farace 2,875 BTC/$178M, BTC-e 925.512 BTC/$57M, Krewson 30,007 ETH/$53.09M, $20.65B holdings, custody caveat), but the smuggled Whale Watch data alone forces rejection."
-    ]
-   },
-   {
-    "id": "c127",
-    "headline": "US spot Bitcoin ETFs record $425M single-day outflow",
-    "category": "accuracy",
-    "reasons": [
-     "The paragraph 'the desk's ETF flows board showed the most recent Bitcoin figure, dated July 10, 2026, at a positive $90.4 million net, with cumulative Bitcoin ETF inflows of $51.33 billion' is smuggled: none of these figures, the July 10 date, or the $51.33B cumulative number appear anywhere in the brief's two data_points. Facts outside the brief cannot be patched in by the writer; they must go back to research.",
-     "The bottom_line's 'a quick return to net inflows on the desk's ETF board' also leans on this unsourced desk-board data rather than brief-backed material."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-15",
   "approved": 4,
   "rejected": [
@@ -8216,6 +8192,48 @@
     "reasons": [
      "The draft states 'The sources also indicated that the administration is waiting to see whether the Digital Asset Market Clarity Act passes in September' but the brief marks this claim as 'unconfirmed.' The draft must flag this confidence level in prose. The sentence reads as settled reporting ('The sources also indicated') when it should read as 'According to unconfirmed reporting' or similar signal to the reader that this is alleged, not verified.",
      "The draft states 'Unconfirmed reporting from Decrypt's sources alleges that a legal threat from SIFMA... contributed to the delay' but does not apply the 'unconfirmed' tag to the second unconfirmed claim about the Clarity Act timing in the same paragraph, creating an inconsistency in how confidence labels are surfaced to readers."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-18",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c123",
+    "headline": "South Korea's Media Commission moves to block Polymarket, citing illegal gambling",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Korea Media and Communications Commission is moving to block Polymarket' but the brief's single data point uses confidence 'reported,' indicating this is a report from Cointelegraph, not a verified institutional action. The prose should reflect uncertainty about whether the Commission has actually 'moved to block' or merely reported to be considering it. The distinction between 'the Commission said' and 'the Commission moved' matters for liability.",
+     "The draft claims 'the specific legal basis or statute cited by the Commission remains unclear' but this is smuggled analysis not present in the brief. The brief's open_questions ask what the basis is; the draft should not assert the Commission cited something while claiming its basis is unclear. Either report what was cited or report that no citation was disclosed."
+    ]
+   },
+   {
+    "id": "c122",
+    "headline": "China authorizes 8 new banks for digital yuan network as operator count reaches 30",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The e-CNY program, formally launched in 2020, has grown from a pilot in four cities to a nationwide network involving banks, payment service providers, and digital wallet operators.' This historical and contextual claim does not appear in the brief's data_points or sources. The brief contains only three data points, none of which reference the 2020 launch date, the four-city pilot, or the current scope of operators beyond the 30 banks. This is smuggled historical information not in the research brief.",
+     "The draft characterizes the addition of 8 operators as 'a material acceleration of network integration.' This is interpretive analysis not supported by comparison data in the brief. The brief's open_questions ask 'how does this expansion compare to prior waves' but no comparative data is provided in the brief, making this characterization unsourced."
+    ]
+   },
+   {
+    "id": "c025",
+    "headline": "Fiji deports alleged 'Crypto Program' operator to face U.S. charges over $165 million scheme",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The open questions around this case include the specific charges Zimbardi faces, the operational mechanism of the scheme, how long he remained in Fiji, and whether co-conspirators or facilitators have been identified.' and 'Asset seizure and recovery efforts are also unconfirmed in available reporting.' These statements introduce the writer's own characterization of open questions rather than reporting facts from the brief. The brief itself explicitly lists open_questions, but the draft should not insert editorial commentary about what is 'unconfirmed in available reporting'\u2014that crosses from fact reporting into analysis. The sentence 'The absence of reported bear case items from the sources means the reporting has not captured what skeptics or competing exchanges have raised...' in c131 shows this problem more clearly.",
+     "The draft's framing that 'The use of an offshore jurisdiction (Fiji) as an operational base before extradition suggests a deliberate strategy to complicate prosecution and asset recovery' is inference not in the brief. The brief does not contain this claim; the writer has added interpretive reasoning about strategy and motivation."
+    ]
+   },
+   {
+    "id": "c131",
+    "headline": "CFTC seeks public input on AI compute futures as CME targets October launch",
+    "category": "accuracy",
+    "reasons": [
+     "The sentence 'The absence of reported bear case items from the sources means the reporting has not captured what skeptics or competing exchanges have raised about systemic risk, basis risk, or market design flaws in compute futures. This gap should be watched as further information emerges.' is the writer's meta-commentary about reporting gaps, not a fact from the brief. The writer is narrating their own editorial judgment ('this gap should be watched') rather than reporting. This violates the rule that facts come from the brief; editorial analysis about what *should* be watched belongs in the bottom_line, not the body.",
+     "The phrase 'The timing indicates regulatory coordination between the exchange and the derivatives regulator, though the specific deadline for public comment and the scope of the CFTC's concerns remain unreported' injects the writer's inference ('indicates regulatory coordination') as a fact. The brief does not support the claim that there is coordination; it only states the CFTC is seeking input and CME targets October. This is analysis smuggled as reporting."
     ]
    }
   ]
