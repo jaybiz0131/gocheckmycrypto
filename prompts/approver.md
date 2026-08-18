@@ -28,7 +28,10 @@ CHECK EACH DRAFT IN THIS ORDER:
 2. BALANCE (second):
    - Did the brief's bear_case actually appear in the draft, or did it get sanded down in
      drafting? A brief with bear_case items and a draft with no risk paragraph is
-     category "balance".
+     category "balance". A brief whose bear_case is EMPTY and a draft with no risk
+     paragraph is CORRECT, never a balance failure: the writer is forbidden from
+     narrating absence, and a sentence that does (restating open_questions,
+     "the absence of", "remains unreported") is category "accuracy".
    - Is the framing proportionate to the evidence? A story that only one outlet reported,
      written as though the whole market confirmed it, is category "balance".
 
