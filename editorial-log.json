@@ -1,37 +1,5 @@
 [
  {
-  "date": "2026-07-15",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c017",
-    "headline": "Stripe and Advent bid $53 billion for PayPal in unsolicited offer",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Circle Internet's USDC, the second-largest stablecoin at roughly $42 billion in market cap' but brief lists no data point specifying USDC market cap. This figure is smuggled\u2014not in the brief.",
-     "Draft claims 'Stripe has recently moved toward independent stablecoin offerings, developing its own blockchain called Tempo' but brief data point says 'Stripe has recently moved toward offering stablecoin and other blockchain-based services more independently, developing its own mainnet called Tempo.' The word 'mainnet' is material; draft substitutes 'blockchain' without briefing support for that characterization."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Japan reclassifies crypto as a financial asset, cuts top tax rate to 20%",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Parliament approved legislation on July 15' but the brief data_point says 'Parliament approved legislation...on Wednesday (as of 2026-07-15)' with confidence 'reported'. The brief does not confirm the specific date as approval date\u2014it says 'as of' that date, suggesting the article was published then, not that Parliament voted then. The draft smuggles a specific approval date not verified in the brief."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "x402 AI Payment Protocol Enters Mainstream With Visa, Mastercard, Ripple Backing",
-    "category": "accuracy",
-    "reasons": [
-     "The sentence 'When the World Wide Web's architects designed HTTP in 1996, they set aside response code 402 labeled \"Payment Required\" but never implemented it' contains a factual claim that HTTP was designed in 1996. The brief states the code was set aside '30 years ago' (relative to July 2026, which would be ~1996), but the draft uses a specific year (1996) as a hard fact. The brief's data_point says 'HTTP 402 response code was set aside 30 years ago' without specifying 1996 explicitly. The draft converts a relative timeframe into a precise historical fact not directly confirmed in the source data_point. This is a minor smuggle of temporal specificity.",
-     "The sentence 'SoftBank founder and CEO Masayoshi Son predicted that by 2040, some 100 trillion AI agents will have been created, per CoinDesk citing NHK reporting' attributes the prediction to CoinDesk but the brief's data_point says 'CoinDesk (citing NHK reporting)' as the attribution. The phrasing 'per CoinDesk' suggests CoinDesk is the primary source, when the structure indicates CoinDesk is merely relaying NHK reporting. This is an attribution clarity issue that could mislead on provenance. The source chain should read: SoftBank prediction \u2192 NHK reporting \u2192 CoinDesk coverage, but 'per CoinDesk citing NHK' is ambiguous about whether CoinDesk independently verified or merely reported NHK's claim."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-16",
   "approved": 5,
   "rejected": [
@@ -8244,6 +8212,39 @@
     "reasons": [
      "The draft states 'sending ETH to a brand-new address will cost more gas than sending to an existing one' but the brief's data_point says 'Sending ETH to a brand-new address will cost more than sending to an existing one'\u2014these are contradictory claims about the direction of the cost change. The draft's interpretation (new addresses cost MORE) is consistent with the brief, but the phrasing in the brief data_point is ambiguous and the draft amplifies a specific interpretation without noting the ambiguity.",
      "The draft asserts 'The upgrade's technical mechanism and exact new gas costs are not detailed in available reporting' and 'The timing of Hegotas activation and which vendors have begun testing the change also remain unconfirmed'\u2014these are restatements of open_questions presented as factual findings. Per the protocol, the writer is forbidden from narrating absence. This sentence should not appear in the draft."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-18",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Metaplanet Brings 2,100 Bitcoin to U.S. Public Markets via Super League Merger",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'At current bitcoin prices around $63,653 per coin, per the desk's market data' but this price is not in the research brief's data_points. Market prices must come from sourced, time-stamped data; 'desk's market data' without a source URL is smuggled information. This violates the hard rule that no fact exists outside the brief.",
+     "The calculation '2,100 bitcoin contribution represents approximately $133.7 million in bitcoin value' depends on the unsourced $63,653 price and therefore cannot be verified against the brief."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "South Korea joins more than 30 jurisdictions restricting Polymarket access",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'The source_texts field is empty; the brief cannot be widened beyond the snippet. No concrete facts, dates, regulator names, specific regulatory mechanism, enforcement timeline, or quote-level detail can be extracted from fetched text.' The draft provides attributable facts (South Korea, CoinDesk reporting, regulator's position on peer-to-peer structure) that do not appear in the data_points (which is an empty list). These facts are SMUGGLED from the source link rather than grounded in the research brief itself.",
+     "The brief is marked 'thin': true with 'data_points': [], indicating the research is insufficient to support a full draft. The writer has fabricated detail from the source URL rather than respecting the hard rule that 'no fact exists outside the brief.' The source URL itself is not a data point; only extracted, verified facts in the brief qualify."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "Bitcoin Wallet Maker BitBox Says AI Found Severe Flaws in Firmware",
+    "category": "accuracy",
+    "reasons": [
+     "The brief explicitly states 'The source_texts field is empty; the brief cannot be expanded from the snippet alone. No CVE identifiers, firmware version numbers, vulnerability types, patch release date, user base size, affected wallet models, timeline for the discovery process, or official BitBox statement can be extracted from fetched text.' The draft provides specific claims (BitBox is Swiss, two severe vulnerabilities, AI models aided discovery, no user losses, older firmware versions remain exposed) that do not appear in the data_points (which is an empty list).",
+     "The brief is marked 'thin': true with 'data_points': [], signaling research failure. The writer has extracted details from the Decrypt URL rather than adhering to the hard rule that facts must be present in the research brief. A URL is not a data point; only verified facts extracted into the brief structure qualify for publication."
     ]
    }
   ]
