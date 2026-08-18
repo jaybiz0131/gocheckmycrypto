@@ -1,32 +1,6 @@
 [
  {
   "date": "2026-07-15",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c028",
-    "headline": "Circle Suspended Tether-Backed Fund Over Market Manipulation Concerns",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Circle's suspension came after discovering Tether's stake in the fund, suggesting Circle either lacked visibility into the investment beforehand or learned of it during a governance or compliance review.' This is editorial speculation (suggesting two scenarios) not present in the brief's data_points. The brief only confirms that Circle suspended the fund and that Tether had invested $800M; it does not establish the temporal relationship or Circle's prior knowledge state.",
-     "The draft states 'If Circle detected market manipulation, it could suggest trades designed to artificially move prices or extract value from other market participants rather than capitalize on natural arbitrage opportunities.' This is conditional speculation about what the manipulation might entail. The brief's data_point says Circle identified 'suspected market manipulation' but does not characterize its nature. The draft's conditional reasoning goes beyond the reported fact.",
-     "The draft asserts 'Neither Circle nor Tether has publicly commented on the suspension or its grounds, leaving the details of the alleged manipulation and Circle's specific concerns outside confirmed reporting.' This statement about their silence is not in the brief and constitutes a new factual claim (absence of public comment)."
-    ]
-   },
-   {
-    "id": "c014",
-    "headline": "Senate Democrats block Clarity Act without ethics provision banning presidential crypto involvement",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Murphy alleged Trump's crypto activity constituted 'the biggest corruption racket in the history of this country' by 'bilking supporters into buying assets and providing a hidden avenue for mass scale bribery.' The brief's data_point 9 shows the actual quote includes 'worthless token'\u2014the draft omits this material detail and paraphrases in a way that softens the accusation by removing the explicit 'worthless' characterization of the asset itself.",
-     "The draft paraphrases Murphy's statement as 'the bill would be worthless if it did not address what he characterized as Trump's dominance over an industry' but the brief's data_point 3 shows Murphy's actual statement was conditional: 'If this system does not stop Trump's corruption... this bill is worthless' and 'If it protects Trump's dominance... the bill is... a fundamental corruption if it gives Trump's corruption the protection of law.' The draft flattens a nuanced conditional argument into a simpler claim about dominance alone.",
-     "The draft mentions Senator Elizabeth Warren is 'associated with' this position (per brief data_point 11: 'their position is also associated with Senator Elizabeth Warren'), but Warren is not mentioned anywhere in the draft body despite appearing in the brief. The draft should either include her or explicitly note she was not present at the press conference, rather than omitting her entirely while the brief flags the association."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-15",
   "approved": 4,
   "rejected": [
    {
@@ -8213,6 +8187,49 @@
     "category": "accuracy",
     "reasons": [
      "The draft states the deal is 'executed through Super League' and describes Super League as a vehicle/entity with governance and mechanics, but the brief explicitly notes 'No details on Super League's identity, structure, or track record are available' and 'the brief is constructed from the snippet and headline alone.' The draft smuggles assumed knowledge about Super League's role and status that does not appear in the CoinDesk reporting per the brief. The phrase 'The mechanics of the nanocap structure, the specific governance of the treasury vehicle, and the timeline for launch remain as reported by CoinDesk at the valuation cited' contradicts itself\u2014it claims mechanics remain as reported while simultaneously acknowledging they are not detailed. This is an accuracy failure: the draft presents structural details about the deal's execution as fact when the brief confirms they are unavailable."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-18",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c003",
+    "headline": "Wyoming joins reported LayerZero exodus with state stablecoin move",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The report characterizes related institutional departures from LayerZero as a \"$15 billion exodus,\" though the scale and participation in that figure have not been independently verified.' This sentence narrates the absence of verification as a hedge, but the brief's confidence label for the core claim is 'reported'\u2014not 'unconfirmed' or 'announced-not-verified'. The draft's self-qualified language suggests a confidence level lower than what the brief data supports. The writer should either present the $15 billion figure as reported by CoinDesk (in line with 'reported' confidence) or if the writer believes it unconfirmed, that contradicts the brief's data_points classification.",
+     "The draft says 'The magnitude of the \"$15 billion\" figure attributed to the broader exodus remains unconfirmed in available reporting.' This statement narrates absence and uncertainty, which is forbidden under the protocol when the brief provides no data_point labeled 'unconfirmed' or 'announced-not-verified' to support it. The writer has injected skepticism not present in the brief's research."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Metaplanet launches U.S. bitcoin treasury company with 2,100 BTC",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The initial investment is valued at $134.6 million' but the brief shows the deal is described as '$135 million.' The draft then claims these are separate facts (2,100 BTC + $2.5M = $134.6M valuation, versus $135M deal size), but the brief does not support this arithmetic breakdown or dual-valuation framing. The writer appears to have smuggled a calculation ($134.6M) that is not explicitly in the brief's data_points, which only state the individual components and the $135M deal size.",
+     "The phrase 'By establishing a dedicated U.S. entity, Metaplanet gains exposure to North American institutional networks and positions itself to influence corporate treasury adoption' goes beyond what the brief supports. The brief angle mentions 'positioning itself to influence corporate treasury adoption in a market where institutional bitcoin holdings have accelerated,' but the draft's claim about what Metaplanet 'gains' and its strategic positioning is narrative interpretation not grounded in reported facts."
+    ]
+   },
+   {
+    "id": "c015",
+    "headline": "Ethereum upgrade changes gas cost model, breaking wallet assumptions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Software built around a flat fee will calculate transaction costs incorrectly after the upgrade' but the brief's corresponding data_point states 'Software built around a flat fee will calculate the sum incorrectly under the new gas model.' The word 'sum' in the brief is vague and unclear; the draft has interpreted this as 'transaction costs' without confirmation from the source that 'sum' specifically refers to transaction costs. This is a paraphrase that adds specificity not present in the brief.",
+     "The draft opens with 'The flat 21,000 gas rule for simple transfers has anchored wallet fee estimation across the ecosystem. Wallet developers, service providers, and user-facing software have hard-coded this assumption into their systems.' This narrative about historical reliance and hard-coding is not in the brief's data_points. It reads as writer interpretation of context rather than reported fact from CoinDesk."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "South Korea restricts Polymarket access, joining 30-plus jurisdictions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'South Korea has moved to restrict access to Polymarket' and 'The country joins more than 30 other jurisdictions that have taken similar steps to block or limit the platform.' The brief's confidence label for this claim is 'reported'\u2014meaning it comes from CoinDesk reporting alone, not verified independently. The draft presents this as settled fact without any hedge or attribution that signals the claim is unconfirmed. Per the protocol, 'a brief claim marked \"unconfirmed\" or \"announced-not-verified\" must read that way in the prose.' This fails that requirement.",
+     "The draft includes an entire paragraph of interpretation and detail ('The specific enforcement mechanisms, penalties, or market rules South Korea identified as problematic were not detailed in available reporting. The timeline for when the restriction takes effect and whether it applies to existing or prospective users remains unclear from the sources reviewed.') that restates open_questions from the brief. Per the protocol, 'a sentence that does [restate open_questions, \"the absence of\", \"remains unreported\"] is category \"accuracy\"'\u2014the writer is forbidden from narrating absence. This paragraph violates that rule and must be removed or the claim must be traced to a source.",
+     "The brief notes 'the brief is built from the snippet alone' and 'cannot be verified without access to the article text.' The draft's specificity (the exact regulatory argument about peer-to-peer nature, the reference to crypto-based gambling) depends on CoinDesk reporting that the brief itself could not fully verify. The draft has no margin for error and no signal that the story rests on a single source's interpretation."
     ]
    }
   ]
