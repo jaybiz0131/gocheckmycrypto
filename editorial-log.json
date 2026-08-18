@@ -8187,5 +8187,37 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-08-17",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c037",
+    "headline": "Treasury Proposes Rules Restricting Stablecoin Sales to US Customers",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The US Treasury has proposed new rules that would restrict which entities can sell stablecoins to US customers' but brief specifies the rules are 'under the GENIUS Act.' The GENIUS Act reference is in the brief's core_claim and is material regulatory context that the draft omits. This is a smuggled gap: the reader cannot assess the statutory authority or scope without knowing the rule emanates from a specific Act.",
+     "Draft refers to 'Treasury's statement and the proposed rule text' as future events to watch, but does not establish from the brief whether Treasury has already published the rule text or only announced it. The brief states rules are 'in public comment phase' (confirmed in data_point 2) but the draft does not make clear whether the full rule text is currently available or remains unpublished, creating ambiguity about what exists now versus what to watch for."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "HIVE's GPU cloud unit signs $350 million five-year contract",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'This marks the second major NVIDIA cluster agreement announced by BUZZ HPC within two months' but then immediately notes 'The prior deal was not detailed in the available reporting.' The brief confirms this is reported by The Block but does not provide details on the prior deal. The draft should not claim this as a known fact without attribution specificity or should note the reporting is thin on the prior deal. The sentence 'according to The Block' applies only to the current deal, not the historical claim."
+    ]
+   },
+   {
+    "id": "c042",
+    "headline": "SEC delays crypto fundraising rulemaking, citing unforeseen scheduling issue",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The sources also indicated that the administration is waiting to see whether the Digital Asset Market Clarity Act passes in September' but the brief marks this claim as 'unconfirmed.' The draft must flag this confidence level in prose. The sentence reads as settled reporting ('The sources also indicated') when it should read as 'According to unconfirmed reporting' or similar signal to the reader that this is alleged, not verified.",
+     "The draft states 'Unconfirmed reporting from Decrypt's sources alleges that a legal threat from SIFMA... contributed to the delay' but does not apply the 'unconfirmed' tag to the second unconfirmed claim about the Clarity Act timing in the same paragraph, creating an inconsistency in how confidence labels are surfaced to readers."
+    ]
+   }
+  ]
  }
 ]
