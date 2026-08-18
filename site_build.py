@@ -1096,6 +1096,33 @@ def desk_strip():
 </div></section>"""
 
 
+_NOW_CACHE = None
+
+
+def _build_now():
+    """Build-time 'now' for the editions staleness rule, ported from the sports desk.
+    SITE_BUILD_NOW (ISO timestamp) overrides the wall clock so a build stays
+    reproducible when it has to be."""
+    import datetime as _dt
+    global _NOW_CACHE
+    if _NOW_CACHE is None:
+        env = os.environ.get("SITE_BUILD_NOW", "")
+        try:
+            _NOW_CACHE = _dt.datetime.fromisoformat(env.replace("Z", "+00:00"))
+        except ValueError:
+            _NOW_CACHE = _dt.datetime.now(_dt.timezone.utc)
+    return _NOW_CACHE
+
+
+def _fresh_hours(item, now):
+    import datetime as _dt
+    try:
+        ts = (item.get("published_utc") or "").replace("Z", "+00:00")
+        return (now - _dt.datetime.fromisoformat(ts)).total_seconds() / 3600.0
+    except (ValueError, TypeError):
+        return 1e9
+
+
 def _blink_when(item):
     """Edition timestamp with a clock-style blinking colon (CSS animates .tick-colon)."""
     t = fmt_when(item)
@@ -1346,7 +1373,13 @@ def render_home(items, flows, pulse, cm, dateline):
 
     # The Editions: the desk's daily synthesis as its own strip, one card per slot
     # (morning / midday / evening), newest first, never older than the current news cycle.
-    wraps = [i for i in items if _is_wrap(i) and not i.get("example")]
+    # EDITIONS STALENESS (owner directive 2026-07-27, ported from sports/news 2026-08-18;
+    # this desk never received the port): a card older than 24 hours never renders and
+    # the strip collapses entirely when nothing fresh exists; the live-dot only ever
+    # sits on a fresh card. A stale brief wearing a live-dot reads as a sync failure.
+    _now = _build_now()
+    wraps = [i for i in items if _is_wrap(i) and not i.get("example")
+             and _fresh_hours(i, _now) <= 24]
     ed_cards, seen_slots = [], set()
     if wraps:
         recent = sorted({w.get("date", "") for w in wraps}, reverse=True)[:2]
