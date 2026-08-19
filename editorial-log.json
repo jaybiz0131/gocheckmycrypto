@@ -1,46 +1,6 @@
 [
  {
   "date": "2026-07-18",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c036",
-    "headline": "Citadel Securities Makes $400M Crypto.com Bet, Pushing Digital Asset Valuation to $20B",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's bear_case explicitly flags 'The source text is empty; no detailed terms, conditions, or strategic rationale from either party are documented in the fetched material.' with source_chars: 0. The draft presents only 3 data points as reported facts but provides no evidence of the substantive detail needed to support even the modest claims made. The second paragraph states 'specific terms of the investment, Citadel's governance role, and the company's broader crypto strategy remain undisclosed'\u2014which is accurate\u2014but the first paragraph asserts Citadel Securities 'invested $400 million in Crypto.com' and that this is 'the exchange's first institutional funding round' as though these are settled facts. Given the source is empty and the brief itself is thin (thin: true), the draft should reflect much greater caution about the scale, nature, and confidence level of the claims. The draft reads as if multiple facts have been verified when the brief shows the source material contains zero characters of supporting detail.",
-     "The draft states 'The investment marks a significant entry by a major traditional Wall Street market maker into the digital asset infrastructure space' as a definitive assessment, but this framing claim is not in the brief's data_points and cannot be verified against an empty source. This is editorial assertion presented without source attribution or appropriate hedging."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "DOG Mode vs. BIP-110: Inside the Bitcoin client built to bypass data restrictions",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Leonidas claims removing the dust limit would release approximately $25 million in padding back to Ordinals and Runes ecosystems' but presents this as a factual consequence. The brief's data_point correctly labels this as a claim by Leonidas ('Leonidas claims...'), not a verified outcome. The draft should preserve the attribution and tentativeness, not present it as settled fact."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Bank of America appoints heads of digital assets and AI transformation",
-    "category": "balance",
-    "reasons": [
-     "The brief is marked 'thin': true with only 2 data_points and 0 source_chars, indicating a shallow sourcing situation. The bear_case is empty (no risks or counterarguments documented in the brief). The draft's body offers reasonable framing around the limitations of leadership appointments as signals, but the brief provides no bear_case material to balance against the structural-commitment framing. An empty bear_case combined with a thin brief should have prompted either: (a) a much tighter, more cautious draft, or (b) rejection on balance grounds because the story cannot be adequately contextualized. The current draft reads as institutional-friendly without documented risks or skepticism to weigh it against."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "ECB Board Member Flags Stablecoin Risk to Bank Deposits",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'stablecoin supply, with a 30-day decline of 1.5 percent' but this data point does not appear in the brief. The brief contains no stablecoin supply figures or decline metrics. This is smuggled information introduced by the writer outside the research brief.",
-     "The draft characterizes Cipollone's warning as identifying 'a three-layer threat' multiple times, but the brief's data_points only state he 'identified a three-layer threat'\u2014they do not detail what those three layers are. The draft then glosses over this with 'The three-layer threat framing reflects ECB concern that stablecoins...could redirect customer deposits' without sourcing this interpretation to the Decrypt article. The draft is filling in gaps that the brief correctly flagged as open_questions."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-18",
   "approved": 3,
   "rejected": [
    {
@@ -8324,6 +8284,56 @@
     "reasons": [
      "No research brief was provided for c009. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites The Defiant and CoinDesk as sources but provides no URLs or quotes; facts cannot be verified against the actual source material. The draft makes specific claims (transaction matched and netted obligations, settlement ran through conventional systems, banks did not disclose transaction size) that cannot be traced to the provided source links without access to their full content. This violates the rule that facts must be traceable to research.",
      "The draft attributes claims to 'The Defiant and CoinDesk' generically in the opening paragraph without inline attribution to specific claims, making it impossible to verify which outlet reported which fact."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c004",
+    "headline": "Bitcoin surges above $68,000, liquidating $1.4 billion shorts as Treasury bond buybacks expand",
+    "category": "balance",
+    "reasons": [
+     "The draft presents the Treasury buyback as a direct causal driver of the crypto move ('CoinDesk reports the Treasury's bond buyback expansion as a driver of improved risk appetite, linking traditional asset management directly to crypto leverage and spot price movement'), but the brief's bear_case is empty and open_questions explicitly flag that 'No independent verification of... the causal mechanism between Treasury policy and crypto liquidation is available.' The draft asserts causation without acknowledging it as unverified; the bottom_line attempts balance but the body text has already sold the linkage as fact. A single-source story with an unverified macro causal claim, presented without skepticism in the body, reads as a shill for risk-appetite narratives and would embarrass the desk if the connection was coincidental.",
+     "The draft states 'No independent verification of the $1.4 billion liquidation figure... is available in the fetched material' but then repeats CoinDesk's figures (Bitcoin rose 6%, $1.4B shorts liquidated, Treasury doubled buybacks) as settled facts without any hedge. The statement that verification is unavailable contradicts the framing of those numbers as reliable. Either they are verified (in which case the disclaimer is false) or they are not (in which case they should be hedged as 'CoinDesk reported' rather than stated as fact)."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Bitcoin surges above $68,000, liquidating $1.4 billion shorts as Treasury bond buybacks expand",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'US Treasury expanded the size of its long-dated bond buyback program' but the brief data_point says 'US Treasury doubled the size of its bond buybacks.' The draft softens 'doubled' to 'expanded,' which is a material change to a core fact. The brief's open_questions explicitly flag 'No detail on...magnitude of Treasury buyback'\u2014this is exactly the kind of magnitude claim the writer must not paraphrase downward.",
+     "The draft presents the causal link between Treasury buybacks and crypto price movement as settled fact ('The Treasury's buyback expansion is reported as a concrete driver') when the brief's open_questions explicitly state 'No independent verification...or the stated nexus between Treasury action and crypto price movement.' The brief marks all claims 'reported' confidence, not verified; the prose must signal that epistemic status, not smooth it into causation."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "OCC races to finalize GENIUS Act stablecoin rules by November",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The GENIUS Act, signed into law by President Trump, takes effect in January 2027' but the brief's data_point only confirms 'GENIUS Act stablecoin law signed by President Trump' and 'GENIUS Act has January 2027 effective date'\u2014two separate claims. The draft presents these as a single causal sequence ('signed...takes effect'), but the brief does not establish when it was signed relative to the January 2027 date. This is a smuggled temporal narrative not in the brief.",
+     "The draft asserts 'A November deadline leaves minimal margin for revisions if industry comment or internal review surfaces conflicts' but the brief contains no data about comment period length, revision likelihood, or conflict risk. This is editorial speculation dressed as analysis, not a fact from research."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "HSBC and Standard Chartered Execute First Live Settlement on Swift's Blockchain Ledger",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites two URLs (The Defiant and CoinDesk) but the approver cannot access those sources to verify facts. The protocol requires facts to come from the brief when one exists, and when none exists, facts must be verifiable from cited sources, which cannot be done here. The story cannot be approved without a brief or source text available for verification."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Injective Receives SEC Registration as Transfer Agent for Tokenized Securities",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Injective has obtained SEC registration as a transfer agent' and 'By registering Injective as a transfer agent, the SEC has granted a blockchain protocol the same regulatory authority' as fact, but the brief confidence label is 'reported', not 'confirmed' or 'verified'. This is a material regulatory claim requiring explicit hedging in the prose (e.g., 'according to The Block', 'Injective announced', or 'reportedly'). The draft presents it as settled fact rather than reported claim.",
+     "The draft narrates open_questions as though they are answered or settled. Specifically, it states Injective 'now holds regulated standing to track who owns tokenized securities' without acknowledging that the specific regulatory conditions, permitted asset classes, and compliance exposures (all open_questions in the brief) remain unknown. The draft should signal uncertainty around scope and conditions."
     ]
    }
   ]
