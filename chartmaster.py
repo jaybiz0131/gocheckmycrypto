@@ -158,7 +158,21 @@ def digest():
                                        for m in flows.get("top_inflows", [])[:3]],
             "biggest_off_exchanges": [{k: m.get(k) for k in ("symbol", "usd", "from")}
                                       for m in flows.get("top_outflows", [])[:3]],
-            "weekly_net_usd_recent": [w.get("net_usd") for w in (flows.get("history") or [])[-4:]],
+            # LABELLED, NOT INFERABLE (owner report 2026-08-19). This was a bare list of
+            # signed numbers, and the desk's own two models read the sign opposite ways in
+            # the SAME run: the wrap writer called two negative weeks "outflows" and killed
+            # the edition, while an adjudicator read the same list and dropped the
+            # objection. The convention (negative = value moving ONTO exchanges) was stated
+            # only in prose elsewhere, so every model touching the number had to guess. The
+            # direction now ships WITH the number: the writer copies a label, the checker
+            # compares strings, and nobody infers a sign.
+            "weekly_net_usd_recent": [
+                {"net_usd": w.get("net_usd"),
+                 "direction": ("off_exchanges" if (w.get("net_usd") or 0) >= 0
+                               else "onto_exchanges"),
+                 "label": (f"${abs(w.get('net_usd') or 0)/1e6:,.0f}M moved "
+                           f"{'OFF' if (w.get('net_usd') or 0) >= 0 else 'ONTO'} exchanges")}
+                for w in (flows.get("history") or [])[-4:]],
         }
     return d
 

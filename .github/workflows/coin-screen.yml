@@ -24,8 +24,12 @@ on:
 permissions:
   contents: write
 
+# PUBLISH LOCK, SHARED WITH THE BRIEF (owner report 2026-08-19): this
+# workflow pushes to main, so it must queue behind a running brief instead
+# of moving main underneath it. A push landing mid-run is what made the
+# brief rebase onto a conflicting edition file and lose the run's stories.
 concurrency:
-  group: coin-screen
+  group: crypto-publish
   cancel-in-progress: false
 
 jobs:
