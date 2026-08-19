@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-07-17",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c113",
-    "headline": "CFTC Orders Kalshi to Honor Trades a Michigan Court Told It to Cancel",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case identifies three material risk factors: (1) Michigan state court previously ruled for cancellation, creating direct conflict; (2) CFTC's emergency authority invocation may itself be challenged as overreach; (3) sources lack detail on underlying facts. The draft presents only the CFTC's position and Chairman Selig's statements without any acknowledgment that the Michigan court's order remains in potential appellate dispute, that the CFTC's emergency authority is itself contestable, or that the underlying factual grounds for the state court's decision are not reported. The framing reads as a CFTC victory rather than an escalating conflict with unresolved legal questions. A balanced draft would include a paragraph acknowledging Michigan's likely appeal path and the theoretical vulnerability of the CFTC's emergency invocation to state challenge."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "Stripe bids $53 billion for PayPal, staking claim to integrated digital dollar stack",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'PayPal has 400+ million active consumer accounts' but brief data_point specifies '400+ million active consumer accounts' (reported confidence). The draft later shifts to '440 million consumer wallets' in the Citi quote without source attribution\u2014this number does not appear in any brief data_point and is smuggled.",
-     "Draft claims Stripe 'joined the Open USD consortium in June 2026' but brief says Stripe joined 'last month (June 2026)' with timestamp 2026-07-16. The draft reads as historical fact when the brief marks it as recent/announced.",
-     "The Brownlee quote is marked 'unconfirmed' in the brief but the draft presents it as analysis without qualification ('Per Brownlee's analysis, unconfirmed but worth noting' is insufficient\u2014'unconfirmed' claims must read as speculative or attributed opinion, not analytical fact)."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "Alpaca raises $435 million to expand tokenized equity infrastructure, now curating $1.5B in on-chain stocks",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Alpaca raised $135 million in equity funding and $300 million in debt' but the brief data_point says 'Debt financing, primarily from Kraken parent Payward and BMO, brought the total package to $435 million'\u2014the debt amount ($300 million) is not specified in the brief and is smuggled.",
-     "Draft claims Alpaca 'now holds more than $1.5 billion in underlying stocks' but brief says 'more than $1.5 billion of underlying stocks'\u2014this is consistent paraphrasing. However, the draft then states Alpaca 'clears or custodies approximately 94 percent of tokenized U.S. equities' which matches the brief ('roughly 94%'), so this is accurate."
-    ]
-   },
-   {
-    "id": "c107",
-    "headline": "Ostium Vault Exploiter Routes 10,540 ETH to Tornado Cash",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'PeckShield reported this information via a post on Thursday (July 16, 2026)' but the brief attributes all facts to The Defiant as the sole source, not PeckShield. The draft conflates PeckShield as a primary source when the brief cites only The Defiant. This is a sourcing accuracy error.",
-     "The draft says 'According to blockchain analysis firm PeckShield' in the opening paragraph, attributing the $24M figure and exploit details to PeckShield, but the brief's data_points all cite The Defiant as source_name. The writer has smuggled PeckShield attribution not present in the brief's source structure."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-17",
   "approved": 5,
   "rejected": [
    {
@@ -8300,6 +8258,53 @@
     "reasons": [
      "Claim 'The penalty marks the first published MiCA enforcement action in Europe since the regulation came into force' is not in the brief. The brief's open_question asks 'Whether this is the first MiCA penalty globally or only in Austria,' indicating this status was unconfirmed. The draft presents an unverified claim as settled fact.",
      "Claim 'Bitpanda, founded in 2014 and headquartered in Vienna, operates as a cryptocurrency exchange and custody provider serving retail and institutional clients across Europe. The company has raised over $300 million in venture funding and holds licenses under both Austrian and EU regulatory frameworks' is not in the brief data_points and represents smuggled background information beyond what the source texts provided."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "China Adds 20 E-CNY Operators in 2026, Including 8 Banks in Single Week",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The expansion occurred across two rounds of additions throughout 2026' but the brief's open_questions explicitly flag that 'The source text does not detail the timing or composition of the first round of 12 operators added earlier in 2026.' This is smuggled detail not present in the brief's data_points\u2014the brief only confirms 20 operators total and 8 in a single week, not the internal structure of 'two rounds'. The writer inferred a narrative structure (first round, second round) that the source material does not support.",
+     "The draft states 'tripled the size of the e-CNY operator roster from its prior baseline' but does not acknowledge that the actual prior number is unverified. The brief's data_point says 'tripled' but the open_questions note 'the total number before this expansion' is not provided. The draft should flag this uncertainty per the protocol's requirement that confidence labels survive in prose."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "FASB proposes accounting framework to treat qualifying stablecoins as cash equivalents",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The FASB proposal does not specify which stablecoins currently meet the proposed criteria' and 'the precise definitions and verification mechanisms are not disclosed in available reporting.' However, the brief has zero data_points\u2014no source material was provided to the writer. The writer has smuggled editorial assessment ('does not specify', 'are not disclosed') where the brief explicitly states the source has empty character count (source_chars: 0). The writer is narrating absence of information as though it came from checking the source, when the source text was never provided to research. This violates the hard rule that no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c023",
+    "headline": "Wyoming replaces blockchain infrastructure in connection with state stablecoin move",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states: 'The reported security grounds cited for Wyoming's decision are not detailed in available sources.' This is a narrated absence\u2014the writer is explicitly stating what is NOT in the reporting. The brief's open_questions section lists this same gap ('What specific security vulnerability or incident prompted Wyoming's decision'), but the brief carries zero data_points on the security rationale. The writer cannot narrate the absence of information; only the brief's data_points and bear_case are permitted in prose. Stating 'are not detailed' or 'are not disclosed' treats gaps as facts, which smuggles editorializing into the draft."
+    ]
+   },
+   {
+    "id": "c134",
+    "headline": "Bitcoin ETFs add $189M as August net inflows approach $1B",
+    "category": "accuracy",
+    "reasons": [
+     "Paragraph 3 introduces new factual claims not in the brief: 'The desk's ETF flows board showed Bitcoin ETFs with a net inflow of $5.1 million on July 28, the most recent prior data available from that board, and noted a five-session net outflow of $402.6 million in the prior window.' These specific numbers ($5.1M on July 28, $402.6M in prior window) do not appear in any data_point in the brief and violate the hard rule that facts must trace back to research. This is smuggled information."
+    ]
+   },
+   {
+    "id": "c046",
+    "headline": "Chinese InsurTech Firm Zhibao Adds 2,380 Bitcoin in $154.7M Treasury Pivot",
+    "category": "balance",
+    "reasons": [
+     "The brief's bear_case array is empty, yet the draft's angle ('sovereign-adjacent adoption of crypto assets within China's regulated financial services sector') frames this as a significant institutional signal. The open_questions section explicitly flags critical unknowns: timing, investor composition, regulatory response, whether this is one-off or strategic, and the actual BTC valuation mechanism. The draft presents the transaction as a concrete capital allocation signal ('represents a direct corporate allocation of a major cryptocurrency asset by a regulated financial services firm') without adequate caveats. This overweights the significance of an unverified, thinly-sourced claim (Decrypt only, no corroboration listed) and reads as credulous in a market context where a single report of a Chinese crypto transaction warrants skepticism given regulatory opacity. The draft does not sufficiently surface the speculative nature of the interpretation."
     ]
    }
   ]
