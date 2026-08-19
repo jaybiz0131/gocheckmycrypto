@@ -1,31 +1,6 @@
 [
  {
   "date": "2026-07-16",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c021",
-    "headline": "Ostium drained of $18 million in oracle manipulation exploit",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The attack indicates either compromised access to the PriceUpKeep component, misconfigured access controls, or an insider actor with registration rights' but the brief does not contain this analysis. This is speculative diagnosis not present in the source material.",
-     "Draft claims 'This pattern suggests protocol teams are failing to implement or learn from defenses against known attack vectors' but the brief supports only that the pattern exists, not the causal claim about team failure to learn. The brief bear_case notes the pattern mirrors recent exploits but does not attribute it to learning failure.",
-     "Draft states 'Oracle and keeper-system exploits have been a recurring vulnerability across DeFi in recent years' as a standalone claim without attribution to the brief's supporting evidence. The brief data_point frames this as context but the draft presents it as established fact without a source hedge."
-    ]
-   },
-   {
-    "id": "c005",
-    "headline": "Alpaca raises $135 million for tokenized stock infrastructure",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Alpaca's market position presents both opportunity and risk. The firm's dominance at 94% of cleared tokenized equities signals institutional trust in its infrastructure, but this concentration creates single-point-of-failure risk and potential regulatory scrutiny.' This analysis of risk and single-point-of-failure is not in the brief's data_points or bear_case. The brief identifies that 'Alpaca controls ~94% of cleared/custodied tokenized equities, creating single-point-of-failure risk and regulatory scrutiny' as a bear_case item, but the draft presents this as the writer's own analysis ('presents both opportunity and risk') rather than as established reporting or argument from the source. This is SMUGGLED editorial reasoning not traceable to the brief.",
-     "The draft states 'The company did not disclose a new valuation in the Series E announcement, despite raising $135 million, raising questions about whether the firm's valuation has stalled relative to the $1.15 billion Series D valuation from January.' This is presented as a fact ('did not disclose') but the brief's bear_case and open_questions only note that 'Alpaca did not disclose a new valuation in this funding announcement' as an observation to explore, not a confirmed fact that appears in the reported source material. The inference that valuation 'has stalled' is editorial speculation not in the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-16",
   "approved": 5,
   "rejected": [
    {
@@ -8244,6 +8219,51 @@
     "reasons": [
      "Draft states 'August net inflows to Bitcoin ETFs have reached $951 million' as fact, but the brief's open_questions note 'Breakdown between inflows and outflows is not provided; net figure only'\u2014this signals the $951M figure itself may be unclear/unverified in source. The brief does not confirm whether $951M is a verified 'net' figure or an announced-but-unconfirmed one. The draft presents it without hedging language required by brief confidence labeling.",
      "Draft narrative 'August trajectory suggests year-to-date inflows may exceed $1 billion' in the brief's angle is NOT supported by any data_point in the brief and does NOT appear in the source material per the open_questions; this is smuggled analysis, not reported fact. The draft must not narrate the angle as discovered fact."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c004",
+    "headline": "China Triples Digital Yuan Bank Network This Year, Adds 8 in Latest Round",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The addition of 20 operators represents a threefold expansion of PBOC's digital yuan bank roster year-to-date' but the brief lists as an open question: 'What was the baseline number of operators before the 20 new additions (needed to verify 'tripled' claim)'. The draft presents 'threefold' as fact when the source text was not provided and the baseline cannot be verified. The writer has smuggled a mathematical claim that the brief explicitly flags as unconfirmed."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Metaplanet Launches U.S. Bitcoin Treasury Company With $135M Capital Injection",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Metaplanet, a Tokyo-listed firm' but the brief identifies it as 'a Tokyo-listed firm' without confirmation of listing status in the data_points. The core_claim and data_points do not independently verify Tokyo listing; CoinDesk is the sole source.",
+     "Draft claims '2,100 BTC at current prices exceeds $130 million in notional value' \u2014 this is a price calculation not present in the brief's data_points. The brief states the total valuation is $134.6 million (which includes both BTC and cash); the draft's separate price extrapolation of the BTC alone is smuggled math, not reported fact."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Ripple raises $275 million in senior notes for prime brokerage expansion",
+    "category": "accuracy",
+    "reasons": [
+     "Brief contains no data_points and source_chars=0; brief itself marks the source text as empty and unable to verify key details (rating, investor composition, coupon rate, maturity, use-of-proceeds specificity, whether offering was 'investment grade').",
+     "Draft claims the offering 'represents Ripple's entry into investment-grade debt markets' and describes the platform as an institutional 'custody and execution venue'\u2014neither of these details appears in the brief's data_points, and the brief explicitly states it cannot confirm whether the offering was 'investment grade' or terms of the debt.",
+     "Draft states the offering is from 'institutional investors' and adds business model context ('custody and execution venue for institutional traders and asset managers') that do not appear in the brief; these are smuggled facts beyond the research boundary.",
+     "The brief's open_questions flag that source verification is impossible; the draft should not be approved without a verified source the desk can audit."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "FASB proposes framework for stablecoins as corporate cash equivalents",
+    "category": "accuracy",
+    "reasons": [
+     "Brief contains no data_points and source_chars=0; brief explicitly states it cannot verify FASB's specific redemption and reserve conditions, which stablecoins would qualify, timeline, or industry response.",
+     "Draft claims the proposal 'conditions the classification on redemption guarantees and reserve backing' and specifies that it 'would apply only to stablecoins meeting specific conditions around redemption assurance and reserve transparency'\u2014these are details presented as fact in the draft but do not appear as verified data_points in the brief.",
+     "Draft states 'Under current accounting standards, stablecoins have no clear classification pathway' with specificity about the accounting friction; the brief does not provide this contextual claim.",
+     "The brief's open_questions flag that source text is empty and core details cannot be verified; the draft should not proceed without a source the desk can audit for these specific technical claims."
     ]
    }
   ]
