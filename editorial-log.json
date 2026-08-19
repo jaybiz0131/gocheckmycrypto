@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-07-17",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c122",
-    "headline": "CFTC Overrides Michigan Court, Orders Kalshi to Honor Cancelled Trades",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case explicitly notes that 'The sources do not raise skeptical counterarguments or risks to the CFTC's position. No state regulatory body, Michigan court, or opposing counsel perspective is included in the source text.' The draft contains zero counterargument, skepticism, or Michigan's legal position, presenting the CFTC's assertion as established fact without any opposing view. This violates the desk's obligation to surface the brief's own identification of missing context.",
-     "The draft states 'The CFTC's emergency order asserts that they do not' (regarding state power) as though the assertion settled the matter, when the open_questions flag that Michigan's response and grounds for potential appeal are unknown. The draft should acknowledge this uncertainty rather than treating the CFTC's position as conclusive."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "SBI Holdings completes acquisition of Singapore's Coinhako",
-    "category": "balance",
-    "reasons": [
-     "Brief is marked thin=true with only 3 data_points and minimal source material. Draft appropriately matches this thinness, but the bottom_line statement 'insufficient public detail exists to assess the acquisition's strategic meaning or scale' and 'leaves the story incomplete' reads as editorial hesitation rather than forward-looking stakes. For a thin brief, the correct move is to report what is known cleanly and use the bottom_line to identify what would clarify the story next (e.g., 'Watch for SBI's integration announcement' rather than apologizing for incompleteness). The angle in the brief frames this as a strategic positioning play ('positioning for tokenized settlement plays'); the draft abandons that framing entirely and treats the story as a data gap. Either commit to the angle with available facts or reject the story as unpublishable; do not publish it as a confession of thinness."
-    ]
-   },
-   {
-    "id": "c126",
-    "headline": "HSBC Wins Bank of England Approval for Digital Securities Sandbox",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'HSBC Orion received approval from the Bank of England to enter the Digital Securities Sandbox' but brief data_point says 'HSBC Orion was approved by the Bank of England to go live in its Digital Securities Sandbox'\u2014the brief explicitly says 'go live', indicating operational status, not just entry approval. The draft's framing softens the claim to mere 'approval to enter' rather than 'go live', which is a material difference in what the approval means.",
-     "Draft describes this as conducting trading 'within the sandbox environment' but the brief's angle and core_claim frame this as 'live tokenized securities trading'\u2014a sandbox test is not the same as live trading. The draft's language ('sandbox environment') contradicts the significance implied by the brief's framing ('live tokenized securities trading under regulatory supervision'). This ambiguity obscures whether HSBC is actually trading or in a controlled test phase."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-17",
   "approved": 4,
   "rejected": [
    {
@@ -8318,6 +8286,41 @@
      "The draft claims 'The announcement sent yields sharply lower and drove a broad rally across stocks, bonds, and gold' but the brief's open_questions explicitly flag: 'No specific yields quoted (10-year, 2-year, etc.) or magnitude of the decline' and 'No detail on gold or broader equity index moves\u2014only assertion that stocks rallied.' The draft presents as confirmed fact what the brief identifies as unverified detail.",
      "The draft states 'Bitcoin moved near $67,000 amid the broader asset rally, per MarketWatch's reporting' but the brief's open_questions note: 'No confirmation whether Bitcoin's $67K move was a close, intraday peak, or projected price.' The draft asserts a specific price level without capturing the uncertainty flagged in the research.",
      "The draft claims the move 'reflects crypto's correlation with risk-asset demand in an environment where Treasury policy shifts affect institutional allocation decisions' but this causal/mechanism claim does not appear in any data_point in the brief. This is analysis smuggled outside the research boundary."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "SEC Announces Regulation Crypto Assets Proposal",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line states '$75M exemption thresholds' as fact, but the brief explicitly marks this unverifiable: 'Cannot verify the '$75M' exemption threshold mentioned in why_it_matters against source text.' This fact does not appear in any data_point and the brief lists it as an open_question.",
+     "The bottom_line asserts 'investment-contract safe harbor and token-offering exemptions' as concrete features of the proposal, but the brief's only data_point is marked 'announced-not-verified' and the brief's open_questions explicitly state 'Cannot confirm detailed scope of investment contracts... or which asset categories are covered.' The draft presents unverified details as settled.",
+     "The bottom_line invokes 'Congress stalls on CLARITY Act' but this claim appears nowhere in the brief's data_points or sources. This is smuggled information."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Bitcoin reaches $69,700 as Treasury expands bond buyback program",
+    "category": "balance",
+    "reasons": [
+     "The draft's entire narrative frame\u2014'Bitcoin rallied to $69,700... The move coincided with the U.S. Treasury's announcement'\u2014creates a causal implication between two events on the same day. The brief's bear_case explicitly warns 'The source text does not explicitly establish a causal link between the Treasury announcement and Bitcoin's price movement; correlation does not imply causation.' The draft acknowledges this caveat later ('CoinDesk's reporting does not establish a direct causal link') but the opening framing and headline structure have already presented them as linked, undermining the brief's central caveat. A reader stopping after the first two sentences walks away with the correlation-as-causation impression the brief flagged as the risk.",
+     "The draft presents the Treasury announcement and its mechanism as settled fact ('an expansion of the program signals a shift... An expansion of the program signals a shift') without attribution or hedging, when the brief lists as open_question: 'What is the specific magnitude of the Treasury bond buyback expansion?' and 'What is the exact mechanism by which lower long-dated yields support Bitcoin, as reported in the source?' The mechanism language reads as the writer's interpretation, not the source's claim."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "HSBC and Standard Chartered Execute First Live Settlement on Swift Blockchain Ledger",
+    "category": "accuracy",
+    "reasons": [
+     "Draft asserts 'This marks the first live transaction executed through the ledger since its deployment, though Swift has piloted similar functionality with other banks over preceding months' but no brief exists to verify this claim. The instruction is absolute: 'no fact exists outside the brief.' With no brief provided, every factual claim must be verified against the cited sources themselves, which this approval system cannot access. The draft cannot be approved without confirmation that these sources actually support each statement about deployment history, pilot programs, and transaction firsts.",
+     "Draft states 'HSBC and Standard Chartered completed the first live cross-border transaction using Swift's blockchain-based ledger on August 19, 2026' \u2014 the date and transaction sequence cannot be verified without access to the source URLs, and the absence of a brief means no research authority exists to validate this is the actual first transaction or that the date is correct.",
+     "Multiple specific technical claims about Swift's ledger architecture, settlement mechanics, and netting functionality are presented as fact ('Swift's ledger is a proprietary system built on blockchain technology, operated by the SWIFT cooperative for member banks' use in real-time settlement. The system runs 24/7') but without a brief and without the ability to verify sources, these cannot be approved. Any of these could be inaccurate or mischaracterized."
     ]
    }
   ]
