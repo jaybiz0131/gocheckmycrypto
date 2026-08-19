@@ -1,37 +1,5 @@
 [
  {
-  "date": "2026-07-16",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c016",
-    "headline": "U.S. Sanctions Four Iran Central Bank Crypto Wallets, Tether Freezes $131M USDT",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'The action breaks with the ceasefire agreement between the U.S. and Iran, which has given way to resumed air and drone strikes' is not supported by the brief. The data_point claims 'The action follows a ceasefire agreement between the U.S. and Iran breaking down and air and drone strikes resuming,' which describes temporal sequence only\u2014the draft mischaracterizes this as a causal claim ('breaks with') that is not in the source material. This is a smuggled interpretation, not a paraphrase of the brief.",
-     "The opening sentence 'showing that cryptocurrency's transparency can work as a surveillance tool for government policy' is framing/analysis not present in any data_point. The brief contains facts about enforcement capacity; the draft adds interpretive claim about surveillance function as stated fact."
-    ]
-   },
-   {
-    "id": "c124",
-    "headline": "Ostium Vault Exploiter Routes 10,540 ETH to Tornado Cash",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'the attacker converting stolen stablecoins to ether and routing 10,540 ETH into Tornado Cash' but brief data says the exploiter swapped stablecoins for 12,080 ETH (per one data_point) or 12,086 ETH (per PeckShield diagram in another data_point), then routed 10,540 ETH to Tornado. The draft omits the discrepancy between the total swapped (~12,080\u201312,086 ETH) and the amount laundered (10,540 ETH), collapsing two separate figures into one claim and losing the ~1,500\u20131,500 ETH unaccounted for in the narrative.",
-     "Bottom_line claims '$18\u201324M' loss but draft body only supports '$24 million' as the current figure per The Defiant's reporting. The bottom_line introduces a range ($18\u201324M) that is not justified by the brief; the brief notes 'up-to-$18 million reported when first surfaced' but the current reporting is $24 million, not a range."
-    ]
-   },
-   {
-    "id": "c003",
-    "headline": "Citadel Securities commits $400 million to Crypto.com at $20 billion valuation",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Crypto.com is also developing offerings in prediction markets and tokenized real-world assets (RWAs), according to the announcement, though neither of those claims has been independently verified.' This sentence appears to acknowledge the unconfirmed status but then immediately uses the claim as fact in the opening narrative ('The exchange plans to use the capital to expand into tokenized securities, derivatives and other asset classes'). The brief marks both 'Crypto.com is developing offerings in prediction markets and tokenized real-world assets (RWAs)' and 'Crypto.com will use the capital to expand into tokenized securities, derivatives and other asset classes' as 'announced-not-verified' confidence level. These unconfirmed claims should not appear in the main narrative as settled fact without confidence qualifiers visible to readers. The disclaimer sentence comes too late and the damage is done\u2014readers already absorbed the claims as announced fact."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-17",
   "approved": 4,
   "rejected": [
@@ -8282,6 +8250,56 @@
     "reasons": [
      "The draft introduces a new data source ('the desk's ETF flows board') with specific figures ($5.1 million on July 28, $402.6 million net outflow) that do not appear in the research brief. This violates the hard rule that no fact exists outside the brief. The writer has smuggled internal desk data into the story without research support.",
      "The sentence 'The desk's ETF flows board showed Bitcoin ETFs with a net inflow of $5.1 million on July 28 (the most recent available data), and a five-session net outflow of $402.6 million in the same window' introduces unvetted internal figures and confuses the narrative by mixing unattributed desk data with Cointelegraph's reported figures, creating potential liability if those internal numbers are inaccurate or misinterpreted."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "SEC Proposes Regulation Crypto Assets Framework",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC's official press release serves as the primary source for this development' and 'The SEC press release text was not fetched as part of this reporting, leaving the framework's operative provisions unverified at this time.' This is a narration of absence/meta-commentary about reporting failure rather than news. Per the compliance rule, the writer is forbidden from narrating absence. The entire body should be removed or rewritten to report only what is actually known from the headline/URL itself.",
+     "The sentence 'The proposal's scope, specific exemptions, safe harbor mechanisms, timeline for public comment, and coverage details remain unavailable' is explicit narration of what was NOT reported, which violates the accuracy rule against restating open_questions as article prose."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "China Triples e-CNY Operator Network to 30 Banks in 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains three separate sentences narrating absence: 'The identities of the 20 newly added operators, the criteria PBOC applied to vet them, and any target for further expansion remain unreported.' and 'Transaction volumes, user adoption metrics, and the specific dates of the two expansion rounds are also not available in current coverage.' Per the accuracy rule, the writer is forbidden from narrating absence and must not restate open_questions as article prose. These sentences must be removed entirely."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Wyoming Public Entity Replaces LayerZero Blockchain Infrastructure for State Stablecoin",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Wyoming 'has publicly replaced LayerZero blockchain infrastructure' and that this represents 'the first reported case of a U.S. government entity explicitly rejecting a major crypto infrastructure provider on security grounds.' The brief's open_questions state that 'the claim that this is the first U.S. government entity to publicly replace LayerZero on security grounds cannot be verified without source text' and note that 'no source text was provided.' The draft presents an unverified claim as settled fact, violating the hard rule that facts must trace to brief data_points. The data_points array is empty.",
+     "The draft states 'CoinDesk's headline characterizes related departures from LayerZero as a broader exodus, citing a figure of $15 billion. The composition of that figure, the identities of other entities involved in departures, and the scale of the movements remain unconfirmed in available reporting.' This correctly flags the $15 billion figure as unconfirmed, but the opening paragraph has already asserted Wyoming's replacement as fact without confirmation. The brief notes 'no source text was provided; the brief is built from the headline, snippet, and metadata only,' meaning the writer had no access to underlying reporting to verify the core claim."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Bitcoin Rallies to $65,000 on U.S. Treasury Bond Buyback Announcement",
+    "category": "accuracy",
+    "reasons": [
+     "The draft asserts 'Bitcoin rallied to $65,000 following a U.S. Treasury announcement by Scott Bessent of at least a doubling in the size of its long-dated bond buybacks' as the opening claim. The brief's open_questions explicitly state: 'No source text was provided; the brief is built from the headline, snippet, and metadata only' and 'Critical details are absent: the specific timing of the Treasury announcement relative to Bitcoin's move to $65K, whether the price move preceded or followed the announcement.' The data_points confirm only that 'Bitcoin topped $65,000' and that Bessent announced a doubling, but do not establish the causal sequence or timing relationship that the draft's lead sentence implies.",
+     "The draft states 'CoinDesk's reporting links the announcement to Bitcoin's move above $65,000, though the explicit causal mechanism described by market participants or Treasury officials remains unconfirmed.' This correctly flags causal uncertainty in the later prose, but the opening has already presented causation as settled ('rallied to $65,000 following'), violating the rule that confidence labels and unconfirmed relationships must be preserved in the draft. The causal claim smuggles information beyond what the brief's data_points support: the brief note says 'the causal link between the Treasury announcement and Bitcoin's move to $65,000 is stated in the why_it_matters field but is not confirmed in the provided source material.'"
+    ]
+   },
+   {
+    "id": "c062",
+    "headline": "Bitpanda hit with \u20ac70,000 MiCA penalty in Austria",
+    "category": "accuracy",
+    "reasons": [
+     "Claim 'The penalty marks the first published MiCA enforcement action in Europe since the regulation came into force' is not in the brief. The brief's open_question asks 'Whether this is the first MiCA penalty globally or only in Austria,' indicating this status was unconfirmed. The draft presents an unverified claim as settled fact.",
+     "Claim 'Bitpanda, founded in 2014 and headquartered in Vienna, operates as a cryptocurrency exchange and custody provider serving retail and institutional clients across Europe. The company has raised over $300 million in venture funding and holds licenses under both Austrian and EU regulatory frameworks' is not in the brief data_points and represents smuggled background information beyond what the source texts provided."
     ]
    }
   ]
