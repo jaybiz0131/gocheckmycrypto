@@ -4,37 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c012",
-    "headline": "Citadel Securities Invests $400 Million in Crypto.com, Valuing Exchange at $20 Billion",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case states 'The sources provide no dissenting views, risk assessments, regulatory concerns, or skeptical analysis regarding the valuation, the market maturity of tokenized securities/RWAs, or execution risks.' The draft acknowledges this absence in the final paragraph ('The sources do not provide detail on Citadel Securities' ownership stake...nor do they offer skeptical analysis of the $20 billion valuation, execution risks...') but does not materially address or synthesize the bear case into the body narrative. The story reads as a one-sided institutional-capital-convergence narrative without substantive risk framing. A brief with identified bear_case gaps requires either those gaps to be transparently surfaced throughout (they are only mentioned in a disclaiming final paragraph) or for the draft to decline the story. The final paragraph reads as a compliance gesture rather than genuine balance integration."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "T. Rowe Price launches actively managed multi-token crypto ETF, signaling institutional sophistication",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'passive single-token crypto ETFs typically charge 0.20% to 0.25% annually' \u2014 this comparison figure does not appear in the brief's data_points and is smuggled information. The brief does not provide competitor fee benchmarks; the writer added this to strengthen the fee argument without source attribution.",
-     "Draft claims 'Historical data from traditional active equity funds show that most fail to outperform their passive benchmarks after fees over multi-year periods' \u2014 this is a generalized claim about equity fund history that is not in the brief and introduced as context without attribution. It may be true but it is not research-backed by the brief."
-    ]
-   },
-   {
-    "id": "c115",
-    "headline": "Ostium Vault Exploiter Routes 10,540 ETH to Tornado Cash",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The $24 million drain therefore represented approximately 63% of the protocol's total value locked' but does not trace the calculation. The brief says TVL was $37.80 million; $24M \u00f7 $37.80M = 63.5%, which is accurate. However, the more significant issue: the draft says 'The attacker swapped the stolen stablecoins for 12,086 ETH' but the brief data_point says '12.08 thousand ETH' (which is 12,080 ETH when numerically rendered). The draft uses 12,086 ETH without source attribution to reconcile this discrepancy. The brief also notes '26.4 million and 23.4 million' USDC flowing to the wallet before the swap\u2014the draft mentions these figures but does not clarify whether they are separate instances, cumulative, or represent tracing ambiguity. The brief's open_question asks 'What was the specific nature of the oracle exploit?' and the draft correctly flags this as unknown, but the phrasing 'The attack vector was an oracle vulnerability, per The Defiant's reporting, though the specific nature of the exploit, a price feed manipulation, stale data issue, or flash loan attack, was not detailed in available sources' adds 'flash loan attack' as an option not mentioned in the brief's open_questions. The draft is smuggling a new hypothetical into the oracle vulnerability framing."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-17",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c122",
     "headline": "CFTC Overrides Michigan Court, Orders Kalshi to Honor Cancelled Trades",
     "category": "balance",
@@ -8305,6 +8274,50 @@
     "category": "balance",
     "reasons": [
      "The brief's bear_case array is empty, yet the draft's angle ('sovereign-adjacent adoption of crypto assets within China's regulated financial services sector') frames this as a significant institutional signal. The open_questions section explicitly flags critical unknowns: timing, investor composition, regulatory response, whether this is one-off or strategic, and the actual BTC valuation mechanism. The draft presents the transaction as a concrete capital allocation signal ('represents a direct corporate allocation of a major cryptocurrency asset by a regulated financial services firm') without adequate caveats. This overweights the significance of an unverified, thinly-sourced claim (Decrypt only, no corroboration listed) and reads as credulous in a market context where a single report of a Chinese crypto transaction warrants skepticism given regulatory opacity. The draft does not sufficiently surface the speculative nature of the interpretation."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "SEC Proposes New Regulation Crypto Assets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC has proposed a new regulatory framework titled \"Regulation Crypto Assets\"' but the brief's open_questions explicitly note: 'No source text was fetched; the SEC press release content is unavailable.' The draft treats an unverified press release URL as a confirmed fact. The core claim itself cannot be verified from the sources provided.",
+     "The draft asserts 'Congress has stalled on the CLARITY Act and related legislation' without this claim appearing in any data_point in the brief. This is smuggled information outside the research.",
+     "The brief marks this as 'thin: true' with 'data_points: []' (empty). The draft should reflect that all substantive details are unavailable, not assert regulatory content as fact."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "Injective Affiliate Receives SEC Transfer Agent Registration",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with a factual claim ('an Injective affiliate has received SEC transfer agent registration status') that does not appear in the brief's data_points. The brief explicitly states 'Unable to verify core claim from provided sources' and lists zero data_points. The writer has smuggled a fact not in the research.",
+     "The draft then undercuts itself by admitting the brief 'carries no source text' and cannot assess scope or significance. This self-contradiction\u2014stating a fact as settled, then confessing it is unverified\u2014is a liability exposure. The draft should either report the Cointelegraph claim with explicit confidence framing ('Cointelegraph reported that...') or reject the story entirely."
+    ]
+   },
+   {
+    "id": "c136",
+    "headline": "Bitcoin ETFs log $189M inflow; August total reaches $951M",
+    "category": "accuracy",
+    "reasons": [
+     "The draft introduces a new factual claim not in the brief: 'The desk's ETF flows board showed Bitcoin ETFs with a net inflow of $5.1 million on July 28, the most recent data available from that board prior to the Cointelegraph reporting window, and recorded a five-session net outflow of $402.6 million in that earlier period.' These figures ($5.1M, $402.6M, July 28 date) do not appear anywhere in the research brief. This is a smuggled fact pulled from an external source (an internal desk board), not from the Cointelegraph reporting the brief was built on.",
+     "The writer has no authorization to layer in proprietary internal data to establish context unless the brief explicitly included it as a data_point. The hard rule is 'no fact exists outside the brief.' The July 28 comparison and five-session outflow figures are new information the writer patched in."
+    ]
+   },
+   {
+    "id": "c153",
+    "headline": "Treasury doubles bond buyback plan; yields fall, assets rally",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The announcement sent yields sharply lower and drove a broad rally across stocks, bonds, and gold' but the brief's open_questions explicitly flag: 'No specific yields quoted (10-year, 2-year, etc.) or magnitude of the decline' and 'No detail on gold or broader equity index moves\u2014only assertion that stocks rallied.' The draft presents as confirmed fact what the brief identifies as unverified detail.",
+     "The draft states 'Bitcoin moved near $67,000 amid the broader asset rally, per MarketWatch's reporting' but the brief's open_questions note: 'No confirmation whether Bitcoin's $67K move was a close, intraday peak, or projected price.' The draft asserts a specific price level without capturing the uncertainty flagged in the research.",
+     "The draft claims the move 'reflects crypto's correlation with risk-asset demand in an environment where Treasury policy shifts affect institutional allocation decisions' but this causal/mechanism claim does not appear in any data_point in the brief. This is analysis smuggled outside the research boundary."
     ]
    }
   ]

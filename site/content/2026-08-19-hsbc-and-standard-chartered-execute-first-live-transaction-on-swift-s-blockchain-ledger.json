@@ -1,0 +1,38 @@
+{
+  "id": "c006",
+  "slug": "hsbc-and-standard-chartered-execute-first-live-transaction-on-swift-s-blockchain-ledger",
+  "kind": "brief",
+  "title": "HSBC and Standard Chartered Execute First Live Transaction on Swift's Blockchain Ledger",
+  "dek": "HSBC and Standard Chartered completed the first live cross-border bank-to-bank transaction using Swift's blockchain-based ledger for tokenized deposits. The ledger matched and netted obligations before final settlement through existing systems. Swift's July announcement named 17 banks preparing to pilot the infrastructure.",
+  "date": "2026-08-19",
+  "published_utc": "2026-08-19T15:23:46Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "Two major global banks moved from pilot readiness to live production on Swift's blockchain ledger, executing a cross-border transaction that matched and netted obligations before settlement.",
+  "bottom_line": "Watch for announcements from other banks in the 17-bank group on their own live transactions and any expansion of the ledger's functionality timeline. If additional major banks move to live production within weeks rather than months, institutional adoption of blockchain-coordinated settlement will be moving faster than prior public commitments suggested. If settlement continues to depend entirely on existing systems, the ledger's role remains coordination only.",
+  "human_take": "",
+  "body": [
+    "HSBC and Standard Chartered have completed the first live cross-border bank-to-bank transaction using Swift's blockchain-based ledger for tokenized deposits, according to The Defiant. The transaction marks the transition from pilot readiness to live production on Swift's shared infrastructure for matching and netting bank obligations.",
+    "In this transaction, the two banks exchanged payment messages using the ledger and recorded the resulting obligations on their own tokenized-deposit infrastructure: HSBC's Tokenised Deposit Service and Standard Chartered's equivalent system. Swift's ledger then matched and netted those obligations before final settlement took place through existing banking systems. Swift's role was coordination and netting, not final settlement; the resulting claims remained tokenized-deposit obligations held by each bank.",
+    "Swift designed the ledger as an orchestration layer for bank-issued tokenized deposits held on participating banks' own ledgers. The infrastructure is intended to allow customer funds to move overnight and on weekends before final settlement through existing systems, preserving each bank's deposit infrastructure while enabling continuous liquidity flow outside conventional banking hours.",
+    "Swift announced in July that 17 banks across six continents were preparing to pilot live transactions on the ledger. That group included HSBC and Standard Chartered, along with ANZ, BNP Paribas, BNY, Citi, DBS, First Abu Dhabi Bank, FirstRand, Itau Unibanco, Lloyds Bank, Mashreq, MUFG Bank, OCBC, UBS, UOB and Wells Fargo. Swift said the ledger's functionality and availability will expand after this initial controlled go-live phase.",
+    "The transaction did not disclose its value, currencies, or geographic corridor. The Defiant reported that it remains unclear whether this was ordinary production activity or a controlled, staged live transaction designed to demonstrate readiness.",
+    "A key constraint: final settlement still routes through existing banking infrastructure. The blockchain ledger handles matching and netting of obligations recorded as tokenized deposits, but does not replace conventional settlement systems. This architecture preserves regulatory compliance and existing bank deposit frameworks while adding a 24/7 coordination layer on top."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/tradfi-and-fintech/hsbc-and-standard-chartered-complete-first-live-transaction-on-swift-blockchain-ledger",
+      "url": "https://thedefiant.io/converge/tradfi-and-fintech/hsbc-and-standard-chartered-complete-first-live-transaction-on-swift-blockchain-ledger"
+    },
+    {
+      "title": "https://www.coindesk.com/business/2026/08/19/hsbc-standard-chartered-execute-first-live-banking-transaction-on-swift-s-24-7-ledger",
+      "url": "https://www.coindesk.com/business/2026/08/19/hsbc-standard-chartered-execute-first-live-banking-transaction-on-swift-s-24-7-ledger"
+    }
+  ],
+  "also_reported_by": [
+    "CoinDesk"
+  ],
+  "developing": false
+}
