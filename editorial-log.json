@@ -4,45 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c084",
-    "headline": "France orders ISPs to block Polymarket",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'This is the first major regulatory shutdown of a U.S.-based prediction market platform in Europe.' This claim does not appear in the brief's data_points. The brief's core_claim and angle use language like 'first major regulatory shutdown' and 'escalating enforcement,' but no data_point explicitly states this is the first such action. The writer has smuggled a comparative claim (first in Europe) not sourced in the research brief."
-    ]
-   },
-   {
-    "id": "c021",
-    "headline": "ECB board member warns stablecoins may drain bank deposits",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Cipollone 'articulated a three-layer threat that banks face from digital payments and pitched the digital euro as the only structural answer to the stablecoin challenge.' The brief's data_points confirm he 'articulated a three-layer threat' and 'pitched the digital euro as the only structural answer,' but the brief contains zero detail about what those three layers actually are. The draft presents this framework as established fact without the substance. More critically, the draft does not acknowledge that the brief marks this entire claim as sourced only from Decrypt with source_chars: 0 (no source text available for verification), yet the draft presents it without any hedging language ('according to Decrypt,' 'reportedly') that would flag the thinness of the underlying reporting. The writer has treated an unverified framework as settled fact."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "DOG Mode Reopens Bitcoin's Governance Fault Line Over Relay Policies",
-    "category": "balance",
-    "reasons": [
-     "The bear_case includes the claim that 'The significance of DOG Mode adoption as a governance risk remains unproven\u2014whether it will achieve meaningful adoption is explicitly an open question per the source,' but the draft presents this uncertainty only in the bottom_line ('remains an open question'), not in the body prose itself. The body states 'Whether DOG Mode achieves meaningful adoption among node operators remains an open question, per CoinDesk's reporting' only in paragraph 4, but this hedging language does not appear until late and the earlier narrative frames DOG Mode's effects (mempool fragmentation, fee estimation impact, power shift from brokers) as though they are live concerns rather than contingent on adoption that is unproven. The bear_case items about fragmentation risks and unproven significance should surface earlier and more prominently in the narrative arc to match the source's actual confidence level."
-    ]
-   },
-   {
-    "id": "c075",
-    "headline": "BitMine Accumulates 4.8% of Ethereum Supply; Staking Posture Raises Questions",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'approximately 863,000 ETH unstaked and not generating yield' but this figure does not appear in the brief's data_points. The brief notes BitMine's staked ETH total at 4,879,157 and total holdings at 5,742,237, which implies ~863,080 unstaked\u2014but the writer computed this rather than sourcing it from The Defiant. Paraphrase of sourced figures is acceptable; arithmetic derived from two sourced figures without explicit source attribution for the derived claim risks liability if the underlying numbers are later corrected.",
-     "The draft references a 'June funding concern' and 'cash-gap concern in BitMine's funding model' but the brief's data_point only states that 'Tom Lee publicly defended the company's funding model in June following an insider warning of a cash gap.' The draft presents this as a known fact ('In June, The Defiant reported that an insider warning flagged a cash gap...') when the brief's confidence is 'reported'\u2014meaning The Defiant reported Lee's defense, not independently that a cash gap existed. The draft should attribute the cash-gap claim explicitly to the insider warning or to Lee's acknowledgment of it, not as a standalone fact."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-18",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c003",
     "headline": "Trump Imposes 25% Tariff on Brazil Over Pix Payments System as Dollar Stablecoins Dominate Crypto",
     "category": "accuracy",
@@ -8327,6 +8288,56 @@
      "The draft states 'Injective has obtained SEC registration as a transfer agent' as a settled fact, but the brief's only data_point is marked 'reported' (not 'confirmed' or 'verified'), meaning the claim comes from Injective's own announcement via The Block. The prose should signal this is what Injective says it obtained, not what has been independently verified to have occurred.",
      "The draft presents 'Transfer agent registration is a formal SEC designation that subjects the entity to federal compliance, audit, and operational standards' as established fact, but this is not in the brief's data_points and reads as the writer's own knowledge insertion rather than sourced reporting.",
      "The sentence 'The registration clears Injective to operate as the regulated backbone for tracking who owns tokenized assets' asserts an outcome (that it clears operations) that goes beyond what the brief supports: the brief only says Injective says the registration gives it a regulated way to keep track of ownership. Whether it 'clears' operation is a legal conclusion not in the source."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-19",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c042",
+    "headline": "SEC proposes crypto token offering rules as Congress stalls on legislation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC has not yet announced a comment period or timeline for implementation' and 'the exact parameters of which token offerings would qualify for protection under the new safe harbors are subjects The Block did not detail in its initial reporting.' These sentences narrate absence and restate open_questions, violating the rule that 'the writer is forbidden from narrating absence.' The brief identifies these as open_questions; the draft should not editorialize about what is 'not yet' announced or 'not detailed,' as this becomes the writer's commentary, not reported fact.",
+     "The draft contains no data_points to anchor any claims. The brief is marked thin=true with zero data_points and an empty bear_case. The draft proceeds as though facts were confirmed when the brief shows only a core_claim with no supporting data. Every substantive claim (safe harbors exist, SEC proposal exists, Clarity Act is stalled) must trace to a data_point; none do."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Maya Protocol halts after exploit drains $1.7 million through linked vulnerabilities",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Whether Maya Protocol's vulnerabilities were discovered through external audits, internal testing, or only after the exploit itself remains unconfirmed in available reporting.' This is a sentence that narrates absence by restating an open_question ('Were the vulnerabilities known to the team before the exploit, or discovered only after?'). Per the approval rule: 'a sentence that does (restating open_questions, 'the absence of', 'remains unreported') is category accuracy.' The writer is forbidden from editorializing about what remains unknown.",
+     "The draft also states 'the protocol has not yet announced a recovery plan, a timeline for restarting, or details on how affected users will be addressed.' This again narrates absence of future announcements, which is not a reported fact from the sources."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Bitcoin rises past $70,000 on macro catalysts",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's open_questions explicitly state: 'Source text was not provided; unable to extract specific catalyst details (Treasury buyback terms, Fed statement text, timing, magnitude).' and 'Unable to verify the headline's attribution to Treasury buyback announcement and softer Fed signals against the actual source reporting.' The draft claims 'The move came as several catalysts sent crypto-related assets higher, linking near-term price action to broader macroeconomic signals' and 'The move occurred amid a wider market rally in crypto assets tied to policy and monetary developments' but provides no detail on what those catalysts are. The brief identifies this as unverified; the draft treats it as reported fact without attribution to specific policy announcements or Fed actions that can be traced to the source."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "HSBC and Standard Chartered Execute First Live Settlement on Swift's Blockchain Ledger",
+    "category": "accuracy",
+    "reasons": [
+     "Brief does not exist for this story. Per protocol, every fact must trace to a data_point in the brief, and the brief explicitly states 'no brief exists for this story.' The draft cannot be verified against research authority and must be rejected at intake."
+    ]
+   },
+   {
+    "id": "c055",
+    "headline": "Decrypt Reports Zhibao Private Placement in Bitcoin, Details Remain Unconfirmed",
+    "category": "balance",
+    "reasons": [
+     "The bottom_line reads as a confident summary ('completed $154.7M private placement entirely in bitcoin') when the brief's confidence label for all four core data points is 'reported' (unverified). The bottom_line should signal that this is reported-not-verified, not treat it as established fact.",
+     "The brief's bear_case includes 'Source text is empty; no independent corroboration available from the fetched Decrypt article' and lists six open_questions about firm identity, transaction date, investor names, regulatory status, and Zhibao's own confirmation. The draft body does surface these gaps extensively, but the bottom_line erases them entirely, presenting the claim as settled rather than contingent.",
+     "The bottom_line phrase 'sovereign/institutional bitcoin adoption' frames the reported transaction as evidence of a market trend when the story itself establishes it has not been independently confirmed. This is framing disproportionate to the evidence: a single-outlet report with zero verification should not anchor a narrative about institutional adoption."
     ]
    }
   ]
