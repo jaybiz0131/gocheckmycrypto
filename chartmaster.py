@@ -166,11 +166,23 @@ def digest():
             # only in prose elsewhere, so every model touching the number had to guess. The
             # direction now ships WITH the number: the writer copies a label, the checker
             # compares strings, and nobody infers a sign.
+            # EVERY RECORD SAYS WHICH WEEK IT IS (owner report 2026-08-20). Labelling the
+            # direction fixed the sign, and the very next edition died on the OTHER
+            # inferable convention in the same array: the writer read the series in the
+            # wrong chronological direction and called an extension a reversal. The source
+            # history already carries week_ending and this board was dropping it, leaving
+            # position as the only clue to time. With the week on every element, order
+            # carries no meaning that has to be guessed, and "most recent" is a lookup.
+            "weekly_net_usd_recent_note": (
+                "Each record names its own week; order is not meaningful. direction and "
+                "label state the sign: negative net_usd means value moved ONTO exchanges."),
             "weekly_net_usd_recent": [
-                {"net_usd": w.get("net_usd"),
+                {"week_ending": w.get("week_ending"),
+                 "net_usd": w.get("net_usd"),
                  "direction": ("off_exchanges" if (w.get("net_usd") or 0) >= 0
                                else "onto_exchanges"),
-                 "label": (f"${abs(w.get('net_usd') or 0)/1e6:,.0f}M moved "
+                 "label": (f"week ending {w.get('week_ending')}: "
+                           f"${abs(w.get('net_usd') or 0)/1e6:,.0f}M moved "
                            f"{'OFF' if (w.get('net_usd') or 0) >= 0 else 'ONTO'} exchanges")}
                 for w in (flows.get("history") or [])[-4:]],
         }
