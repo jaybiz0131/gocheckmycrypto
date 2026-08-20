@@ -4,40 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c008",
-    "headline": "US regulators miss GENIUS Act's one-year deadline for final stablecoin rules",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The GENIUS Act set a statutory deadline for regulators to complete final rulemaking' but the brief does not specify what that deadline was or when it was supposed to expire. The draft asserts a fact ('that deadline has now passed') that is not grounded in the brief's data_points, which only confirm the Jan. 18, 2027 effective date remains unchanged. The brief itself flags this as an open question: 'What specific one-year deadline did regulators miss, and when was it supposed to expire?' The draft should not assert an unverified deadline passage as fact.",
-     "The draft claims 'issuers must comply with the Jan. 18, 2027 effective date regardless of whether the final rules are published' but the brief provides no data_point addressing what happens to issuers if final rules are not published. This is a legal interpretation not grounded in the brief."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "Uniswap governance votes on v4 fees and Robinhood Chain, both feeding UNI burn",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Both proposals, one covering v4 protocol fees and the other addressing Robinhood Chain deployment, are expected to increase the burn rate if passed.' The brief contains no data_point about expectations of burn rate increase; the brief's data_points only confirm that voting runs July 19-26 and that both proposals route new fees into the UNI burn system. The phrase 'expected to increase the burn rate' is smuggled reasoning not present in the source material.",
-     "Draft claims 'Routing new fee streams into this burn system makes the token increasingly deflationary as network activity grows.' This is analytical inference, not a fact from the brief. The brief confirms fees are routed to the burn system but does not state the deflationary consequence is expected or confirmed.",
-     "The draft is thin and sources are marked as source_chars: 0, indicating the writer has no visibility into the actual source content. The brief itself is marked thin: true with only 2 data_points. The writer should not be inferring causation (new fees \u2192 increased burn \u2192 deflation) beyond what the brief states."
-    ]
-   },
-   {
-    "id": "c060",
-    "headline": "Kaspersky documents malware framework targeting crypto investors",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'Kaspersky, a major cybersecurity firm, has identified a malware framework' but the brief and source both attribute this to Cointelegraph reporting of Kaspersky's work. The draft should make clear this is Cointelegraph's report of Kaspersky's identification, not direct Kaspersky attribution, given the source URL is Cointelegraph.",
-     "Draft presents 'Social engineering remains one of the most effective attack methods' and 'Trojanized applications deployed through trusted platforms like GitHub lower the barrier to initial compromise' as general facts, but these are not in the brief's data_points. The brief contains only two data_points, both specific to this incident; these sentences appear to be writer interpolation beyond the research brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-19",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c001",
     "headline": "Tether's USDT hits 2-year countdown threatening its position on U.S. crypto platforms",
     "category": "accuracy",
@@ -8339,6 +8305,49 @@
     "reasons": [
      "The brief contains zero data_points (data_points: []). The draft makes specific factual claims\u2014'The OCC is racing to finalize the national stablecoin charter framework by November,' 'less than three months from the sources' publication date to regulatory finalization,' 'January 2027 effective date'\u2014but none of these claims appear in the brief's data_points. Per protocol, facts must trace back to data_points in the brief. With an empty data_points array, the draft has smuggled all its facts outside the research.",
      "The brief explicitly notes 'No source texts were provided' and lists open_questions rather than confirmed claims. The draft presents timeline claims and regulatory mechanics as reported fact when the brief itself confirms no verified data points exist."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-20",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "Bitcoin Tops $71,000 as Shorts Liquidate",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'The desk's board showed 969 liquidations across long and short positions in the 23-hour window prior to market data publication, with shorts liquidated at $7.4 million and longs at $3.9 million over that span' introduces data (969 liquidations, $7.4M shorts, $3.9M longs, 23-hour window) that does not appear in the brief's data_points. This is smuggled information from an internal desk board, not from the research brief.",
+     "Sentence 'On the desk's Leverage board, BTC open interest on OKX stood at $1.98 billion as of the reporting window, with funding rates at 0.0047 percent per 8-hour period (5.2 percent annualized)' cites internal desk data not sourced in the brief. The brief contains no data_point for OKX open interest or funding rates.",
+     "These internal metrics are not attributed to any external source in the brief and violate the hard rule that no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Trump Backs CLARITY Act at White House Crypto Event",
+    "category": "accuracy",
+    "reasons": [
+     "Sentence 'President Trump met with technology sector CEOs at the White House on August 19, ahead of the first Innovation Advisory Committee meeting scheduled at the Commodity Futures Trading Commission, according to CoinDesk' contains a temporal claim ('ahead of') and a specific institutional detail (CFTC, Innovation Advisory Committee) that is not in the brief's single data_point, which only states that CEOs 'met with the president in advance of this week's first Innovation Advisory Committee at the CFTC.' The draft adds specificity about timing and institutional structure not present in the sourced brief.",
+     "The phrase 'The CFTC's Innovation Advisory Committee, which convened for its first formal meeting following Trump's stated support, was established to address emerging asset classes and trading mechanisms' describes institutional purpose and establishment that is not in the brief's data_points and reads as background information smuggled from general knowledge rather than the research brief."
+    ]
+   },
+   {
+    "id": "c054",
+    "headline": "Maya Protocol Halts Network After Exploit Drains Bitcoin",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'CACAO token experienced a price decline' but the brief's data_point says 'CACAO token plunged following the exploit'\u2014'plunged' is a substantively stronger claim than 'decline' and materially changes the magnitude of the reported impact. The writer weakened the source claim without explanation.",
+     "The draft acknowledges 'The brief does not specify the exact timing of the exploit' and other open questions, then restates those absences as if they are facts about what the source does not contain. This violates the rule against narrating absence: sentences like 'the source material does not detail whether Maya Protocol maintains insurance' are reader-facing claims that belong in open_questions, not in the draft body. The draft has conflated the brief's open_questions list with reportable facts."
+    ]
+   },
+   {
+    "id": "c110",
+    "headline": "UK tax authority issued 81,000 warning letters to crypto holders in 2025/2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft quotes Chauhan as saying 'tracking unpaid taxes of wealthy crypto users will become easier' but the brief's data_point quotes her as saying it will be like 'shooting fish in a barrel.' These are materially different claims: 'easier' is weak and neutral; 'shooting fish in a barrel' is vivid and idiomatically means easy to an extreme. The writer sanitized the quote and changed its force.",
+     "The draft states new offshore reporting powers arrive 'in 2027' but the brief's open_question asks 'When exactly do the new offshore reporting powers take effect?' with a note that the source says 'next year' from a 2026 article, implying 2027 but with no precise date given. The draft presents '2027' as confirmed fact when the brief flags it as uncertain/inferred. Confidence label violation."
     ]
    }
   ]
