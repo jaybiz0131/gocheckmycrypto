@@ -176,7 +176,12 @@ def main():
                   f"({words} words from {source_chars} chars of source material)")
         else:
             rel, mtitle, mslug = classify_published(headline, kf)  # against the committed corpus
-            if rel == "rehash":
+            # ADDS NOTHING = REHASH; ADDS ANYTHING = NEWS (owner directive 2026-08-20).
+            # "rehash" is NOVELTY_MIN=2, so a follow-up carrying a single new fact was
+            # held as a duplicate of the story it developed. Only an exact retelling is
+            # held now; a development with anything new falls through to the update branch
+            # below, which publishes it chained to its origin story.
+            if rel == "rehash" and dedupe_nothing_new(headline, kf)[0]:
                 story["decision"] = "hold"
                 reruns += 1
                 held_after_approval.append(
