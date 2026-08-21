@@ -1,0 +1,32 @@
+{
+  "id": "c089",
+  "slug": "solana-activates-350-millisecond-slots-on-mainnet",
+  "kind": "brief",
+  "title": "Solana Activates 350-Millisecond Slots on Mainnet",
+  "dek": "Solana activated a 350-millisecond slot time at slot 440,208,000 in epoch 1019, cutting block time for the first time since genesis. The network plans a staged path to 200 milliseconds through separate feature gates, with each step contingent on block skip rates staying within tolerance.",
+  "date": "2026-08-21",
+  "published_utc": "2026-08-21T23:33:52Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Solana reduced its target slot time from 400 to 350 milliseconds on mainnet, marking the first slot-time reduction in the protocol's history.",
+  "bottom_line": "Watch for the next reduction to 300 milliseconds and whether block skip rates trigger a pause before it occurs. If the network sustains stable participation through each step, the path to 200 milliseconds validates Solana's theory that faster slots strengthen throughput without degrading consensus. If block skip rates spike at any stage, the network may stall short of the 200-millisecond target.",
+  "human_take": "",
+  "body": [
+    "Solana activated a 350-millisecond slot time on mainnet at slot 440,208,000 in epoch 1019, according to The Defiant's reporting. The shift cuts the network's target block time from 400 milliseconds for the first time since Solana's inception, compressing the window for leaders to complete blocks and accelerating transaction confirmation times.",
+    "The upgrade follows a staged path rather than an immediate jump to Solana's eventual 200-millisecond endpoint. The approved sequence moves from the current 350 milliseconds to 300, then 250, and finally 200 milliseconds, per SIMD-0525 feature gate activation. Each additional 50-millisecond reduction will activate through a separate feature gate in a later epoch, allowing the network to pause if block skip rates climb.",
+    "Shorter slots compress the time for a leader to complete blocks, for the next leader to receive transactions through Gulf Stream, and for other validators to replay and vote on blocks. Jacob Creech, vice president of technology at the Solana Foundation, described the move as Solana's first slot-time reduction and said 300 milliseconds is the next target. Validator-client improvements, particularly in Turbine and Replay, enabled the plan, according to The Defiant.",
+    "The upgrade does not change the number of ticks per slot, the four-slot leader span, or the number of slots in an epoch. Because slots arrive more quickly, validators move through epochs in less elapsed time. Solana's documentation still describes the default slot duration as 400 milliseconds, even though the explorer shows the 350-millisecond feature as active.",
+    "The Solana Foundation says the network will not advance to the next reduction if block skip rates are too high. Solana labels the overall upgrade a breaking change and says required indexing changes remain to be determined. Anza's tentative Agave v4.2 schedule targets all four staged reductions for mainnet activation, though the Solana upgrade page does not list a calendar date or specific epoch for the 300-millisecond step.",
+    "The staged approach creates implementation risk for downstream services, as indexing changes required to support shorter slots have not yet been published. Solana's documentation lag, still listing 400 milliseconds as the default despite the active 350-millisecond feature, could confuse operators preparing their infrastructure."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/blockchains/solana-activates-350-millisecond-slots-on-mainnet",
+      "url": "https://thedefiant.io/news/blockchains/solana-activates-350-millisecond-slots-on-mainnet"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": true
+}
