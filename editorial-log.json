@@ -1,37 +1,6 @@
 [
  {
   "date": "2026-07-20",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c007",
-    "headline": "Bank of Korea prepares for live CBDC transactions with 9 banks in September",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'the participating banks are Gyeongnam Bank, iM Bank, KB Kookmin, Shinhan, Hana, and Woori Financial Group' but names only six banks. The brief's data_point claims 'nine participating banks' but only lists six names. The draft should either name all nine or explicitly note that only six were named in reporting, rather than implying the list is complete with 'are' phrasing."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "STORY CANNOT PROCEED: Hut 8 and IREN AI contracts unverified",
-    "category": "accuracy",
-    "reasons": [
-     "The draft is titled 'STORY CANNOT PROCEED' and explicitly states the brief contains no extracted source text and unverified claims. This is a meta-rejection, not a story draft. The brief's data_points array is empty (length 0) and source_chars is 0, confirming no primary source extraction occurred. The draft correctly identifies the research failure but should not have been submitted as a story candidate at all. Return to researcher before resubmission."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Amazon Japan supplier to pay drivers via regulated yen stablecoin",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence: 'Nikkei Asia reported that Maruwa is considering a formal business partnership with JPYC Inc. and making a 1 billion yen investment in the token, though CoinDesk noted this remains under consideration, not yet confirmed.' The brief data_point lists Nikkei Asia as the source, but the draft attributes the claim to CoinDesk and sources only CoinDesk URLs. The brief flags this claim as reported confidence from CoinDesk, not Nikkei Asia. If Nikkei was the original source, the draft must attribute it directly to Nikkei, not credit CoinDesk for noting the caveat. Attribution mismatch between brief and draft on secondary reporting.",
-     "Sentence: 'The sources do not specify a confirmed go-live date for Maruwa's rollout to its 2,300 partners.' This meta-statement about what sources do not contain is appropriate for balance but borders on editorializing. The open_questions field in the brief flags go-live timing as unknown, so this is fair, but phrasing it as 'sources do not specify' rather than 'a go-live date was not announced' slightly shifts voice from reporting to research critique."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-20",
   "approved": 3,
   "rejected": [
    {
@@ -8283,6 +8252,20 @@
      "The brief field states 'no brief exists for this story'; the draft cites a single CoinDesk URL as its source. The approval protocol requires that facts trace to either a brief's data_points OR the draft's own cited sources. The CoinDesk article itself is not provided for verification. The draft makes multiple specific factual claims (that Selig told the Innovation Advisory Committee, that he 'put staff on notice', that this represents 'the first public signal' from Selig's leadership) that cannot be verified against the cited URL without access to the article itself. Under the rule 'no fact exists outside the brief,' and with no brief provided, these claims are unverifiable and must be rejected as potentially smuggled.",
      "The draft presents multiple confidence-sensitive claims as settled fact without qualification. 'Selig told the agency's inaugural Innovation Advisory Committee' and 'Selig indicated the CFTC intends to proceed' are stated as definite, but without a brief to mark confidence levels, the liability exposure is uncontrolled.",
      "The draft states 'The statement to the Innovation Advisory Committee was the first public signal of this posture from Selig's CFTC leadership.' This is a claim of exclusivity and novelty that requires either a comprehensive search of prior statements or explicit sourcing to a brief data_point; neither exists here."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-21",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c018",
+    "headline": "CFTC Chief Signals Unilateral Crypto Rulemaking if Clarity Act Stalls",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The draft cites a single CoinDesk source, but the approval protocol requires that every fact in the draft trace to either a data_point in a research brief OR to the draft's cited sources. The draft makes multiple specific claims about CFTC Chairman Mike Selig's remarks, his directives to staff, and the Clarity Act's legislative status. Without a brief, these claims cannot be verified against research; the source URL provided is the only verification baseline. The draft presents Selig's statements as direct quotes and paraphrases but the CoinDesk article itself is not provided for inspection. Under the hard rule 'no fact exists outside the brief,' and with no brief provided, this draft cannot be approved without access to the source material to trace each claim."
     ]
    }
   ]
