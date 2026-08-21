@@ -4,48 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c078",
-    "headline": "US agencies miss GENIUS Act deadline for final stablecoin rules",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Final regulations are now targeted for July 2028, more than two years after the original deadline' but the brief contains no data point specifying when the original GENIUS Act deadline was or confirming July 2028 as the new target. This is smuggled information not in the brief.",
-     "The draft claims 'regulators issued 10 proposed rules instead' but the brief does not specify which agencies issued these rules, what they cover, or provide any detail beyond the count. The draft presents this as settled fact without the qualification level the thin brief warrants.",
-     "The bear_case mentions uncertainty discouraging investment, which the draft paraphrases as 'potentially discouraging capital formation and platform investment,' but the brief does not provide evidence or reporting to support this causal claim\u2014it appears as the writer's inference rather than a reported fact."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "France orders internet providers to block Polymarket ahead of World Cup final",
-    "category": "balance",
-    "reasons": [
-     "The brief contains an empty bear_case array, yet the draft includes the sentence 'It also raises questions about how accessible decentralized services remain when national regulators move against them'\u2014a critical caveat that frames decentralized protocols as vulnerable. This is a framing choice unsupported by the brief's reporting and leans into regulatory pessimism without evidence in the data_points.",
-     "The draft is extremely thin (only 2 data_points, both reported, no depth on mechanics, justification, or enforcement effectiveness), and the story reads as though a major regulatory intervention occurred without explaining what the stated legal basis was, whether providers actually complied, or what the actual impact on users was. For a story about regulatory overreach, the absence of those details\u2014which are in the brief's open_questions\u2014leaves the piece under-reported and one-sided."
-    ]
-   },
-   {
-    "id": "c072",
-    "headline": "Cardano activates van Rossem hard fork, paving way for Leios scalability upgrade",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Ouroboros Leios scalability upgrade expected later in 2026' but the brief's data_point says 'expected later in 2026' with confidence 'reported'. The draft then later says 'Ouroboros Leios, the planned follow-up upgrade... is designed to increase...' without signaling that specific technical details are absent from the brief. However, the larger problem: the draft claims 'The specific percentage or absolute cost reductions achieved by the van Rossem activation were not disclosed. Similarly, the exact block height or activation date of the hard fork was not reported.' These are meta-statements about what sources did not disclose, which is fair, BUT the brief contains only 2 data_points with extremely thin sourcing (source_chars: 0 indicates the Cointelegraph source URL returns no actual article text). The draft is reporting facts as though verified when the brief itself indicates the source material is empty or inaccessible. This violates the rule that facts must trace back to actual data in the brief."
-    ]
-   },
-   {
-    "id": "c070",
-    "headline": "South Korea eyes September launch for second phase of CBDC pilot",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'test tokenized bank deposits for the distribution of government subsidies' but the brief's data_point reads 'test government subsidy payments using tokenized bank deposits'\u2014a subtle but material difference in mechanism. The draft implies tokenized deposits are the vehicle; the brief suggests tokenized deposits are already established infrastructure being used to distribute subsidies. The draft's phrasing introduces ambiguity not present in the source.",
-     "The draft claims 'The specific identities of the two regional banks have not been disclosed, per Cointelegraph's reporting' but the brief contains no data_point confirming or denying disclosure status. This is new information smuggled in from outside the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-20",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c007",
     "headline": "Bank of Korea prepares for live CBDC transactions with 9 banks in September",
     "category": "accuracy",
@@ -8309,6 +8267,22 @@
     "category": "accuracy",
     "reasons": [
      "No research brief was provided for this story. Per protocol, every factual claim must trace to a data_point in a research brief. The draft cites only one source (CoinDesk), but the protocol requires facts to be verified against a brief's data_points with confidence labels. Without a brief, core claims cannot be audited: CFTC Chair Mike Selig's directive, the Innovation Advisory Committee meeting, the specific framing of independent rulemaking as conditional on Congressional failure, and characterizations of Selig's intent all lack the brief-anchored confidence architecture this desk requires. The story cannot be approved without the brief it was written from."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-21",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c011",
+    "headline": "CFTC Chair Signals Unilateral Crypto Rules If Congress Stalls",
+    "category": "accuracy",
+    "reasons": [
+     "The brief field states 'no brief exists for this story'; the draft cites a single CoinDesk URL as its source. The approval protocol requires that facts trace to either a brief's data_points OR the draft's own cited sources. The CoinDesk article itself is not provided for verification. The draft makes multiple specific factual claims (that Selig told the Innovation Advisory Committee, that he 'put staff on notice', that this represents 'the first public signal' from Selig's leadership) that cannot be verified against the cited URL without access to the article itself. Under the rule 'no fact exists outside the brief,' and with no brief provided, these claims are unverifiable and must be rejected as potentially smuggled.",
+     "The draft presents multiple confidence-sensitive claims as settled fact without qualification. 'Selig told the agency's inaugural Innovation Advisory Committee' and 'Selig indicated the CFTC intends to proceed' are stated as definite, but without a brief to mark confidence levels, the liability exposure is uncontrolled.",
+     "The draft states 'The statement to the Innovation Advisory Committee was the first public signal of this posture from Selig's CFTC leadership.' This is a claim of exclusivity and novelty that requires either a comprehensive search of prior statements or explicit sourcing to a brief data_point; neither exists here."
     ]
    }
   ]
