@@ -4,29 +4,6 @@
   "approved": 6,
   "rejected": [
    {
-    "id": "c116",
-    "headline": "Grayscale files S-1 for spot Worldcoin ETF",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'According to The Defiant' but then makes claims about regulatory uncertainty and SEC treatment that are not present in the brief's data_points. The phrase 'Key regulatory questions include how the agency will treat the World ID identity component, whether data privacy concerns will trigger additional scrutiny' goes beyond what The Defiant reported and reads as the writer's own inference rather than reported fact.",
-     "The statement 'The SEC's review timeline and regulatory conditions for approval are not detailed in available reporting' is accurate, but the subsequent paragraph ('Key regulatory questions include...') then presents those unconfirmed regulatory concerns as if they are settled analytical framing rather than open questions from the brief. This smuggles the writer's interpretation into the news layer."
-    ]
-   },
-   {
-    "id": "c047",
-    "headline": "Cardano Activates Van Rossem Hard Fork Via Community Vote",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Cardano activated the Van Rossem hard fork following a token-holder vote' and that 'The upgrade marks what the chain describes as the first major protocol change where no company or central entity unilaterally approved the activation.' The brief's single data_point states only that the hard fork 'activated on-chain governance upgrade via token-holder vote for the first time in Cardano's history'\u2014it does not confirm that no company or entity retained override power, only that the vote occurred. The draft presents the decentralization claim as fact when the brief's open_questions explicitly ask 'Did any company or founding entity retain the ability to veto or override the vote, or was it truly unilateral community control?'\u2014indicating this was unverified. This is a confidence mismatch: a reported/unconfirmed claim presented as settled."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-21",
-  "approved": 6,
-  "rejected": [
-   {
     "id": "c048",
     "headline": "Cardano Completes Hard Fork Via Community Vote",
     "category": "accuracy",
@@ -8175,6 +8152,23 @@
     "reasons": [
      "No research brief was provided for this story. Per protocol, every fact in the draft must trace to either a data_point in the brief OR be verified against the cited source. The desk cannot approve a draft where fact-checking relies on trusting that the writer consulted The Defiant correctly. The writer's hard rule is that facts come from research briefs; when no brief exists, the draft cannot be vetted against the intended protocol. The story may be accurate, but it cannot be approved under this system without a brief.",
      "The draft contains multiple specific technical claims (slot time from 400ms to 350ms, 200ms target, epoch-by-epoch rollout) that have no brief to anchor them. Without a brief data_point to trace, these cannot be verified as having been reported by The Defiant or confirmed elsewhere."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-22",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c028",
+    "headline": "Shinhan Bank Partners With Solana Ecosystem for Tokenized Fund Proof of Concept",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. Per protocol, every fact must trace to the draft's cited sources or be rejected.",
+     "The draft cites a single source (The Block URL) but does not exist in the input for verification.",
+     "Without a brief to validate against, and without access to the cited URL's actual content, the approval workflow cannot verify: (1) that Shinhan Bank announced this partnership, (2) that the participants are the Solana Foundation, Etherfuse, and Orca, (3) that it is a proof-of-concept for a Korean won-denominated tokenized fund, or (4) that The Block reported these facts.",
+     "The draft asserts specific institutional partnerships and blockchain mechanics that cannot be confirmed against research materials provided to the approval stage."
     ]
    }
   ]
