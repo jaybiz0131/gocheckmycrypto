@@ -1,41 +1,6 @@
 [
  {
   "date": "2026-07-21",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c036",
-    "headline": "Trump Agrees to Ethics Provision as Crypto Bill Inches Closer to Senate Vote",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Clarity Act is described as a significant effort to codify regulatory clarity for digital assets' but the brief's data_point says it is 'landmark U.S. crypto market structure legislation'\u2014these are materially different claims. The draft softens the characterization to 'significant effort' when the brief establishes it as 'landmark.'",
-     "The draft claims 'Details on the specific ethics language Trump agreed to remain limited in available reporting' but the brief contains no data_point confirming that details are limited or unavailable. This is new information not sourced to the brief.",
-     "Both data_points in the brief are marked 'unconfirmed' but the draft presents them as settled fact without qualification ('Trump agreed', 'The Clarity Act is described'). The confidence label 'unconfirmed' must surface in prose\u2014e.g., 'according to unconfirmed reporting' or 'allegedly agreed.'"
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Bitcoin Miners Land Massive AI Compute Contracts",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Hut 8 shares jumped as much as 17% Monday' but the brief data_point says 'jumped as much as 17%' with no day-of-week specified in the source. The word 'Monday' is smuggled\u2014it does not appear in the brief's data_points and represents information not traced to the provided research.",
-     "The draft states 'IREN surged as much as 19%' but the brief's data_point is 'surged as much as 19%'\u2014matching so far. However, the draft then elaborates that IREN 'also raised its year-end AI Cloud annualized run-rate revenue target to more than $4 billion' as if this happened on the same day as the stock surge. The brief separates these claims across data_points but does not specify temporal relationship. The prose construction ('announced $2.8 billion in new multiyear cloud services contracts with AI developers. The company also raised its year-end AI Cloud annualized run-rate revenue target') implies both occurred in the same announcement window, but the brief does not confirm simultaneity, only that both happened."
-    ]
-   },
-   {
-    "id": "c035",
-    "headline": "SEC charges Florida man and company in alleged $22 million crypto mining fraud",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The SEC charged a Florida man and his company with operating a crypto asset mining scheme' but the brief's data_points only confirm 'The SEC charged defendants in an alleged crypto asset mining scheme' without specifying that it was one Florida man or confirming the defendant's identity. The open_questions explicitly ask 'What is the name of the Florida man charged?', indicating this detail was not confirmed by the source.",
-     "The draft presents the scheme as definitively 'Ponzi-like' in the third paragraph ('operating Ponzi-like structures underneath'), but the brief's core_claim uses the qualifier 'alleged' and lists this as one interpretation among open questions about specific mechanics. Confidence level 'reported' does not support unqualified characterization as Ponzi structure.",
-     "The draft refers to the company as 'Mining Automatic' but the brief does not list this name in any data_point. This is smuggled information not traced to the source brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-21",
   "approved": 6,
   "rejected": [
    {
@@ -8173,6 +8138,43 @@
     "reasons": [
      "No research brief was provided for this story. Per the protocol, every fact in the draft must trace to either a data_point in a research brief OR be directly verifiable from the cited sources. The draft cites only The Defiant article as a source, but the approver cannot verify whether the facts in the draft (350ms activation, previous 400ms slot time, 200ms target, epoch-by-epoch adjustment process, the framing of trade-offs) are actually present in that article without access to it. The protocol rule is absolute: no fact exists outside the brief. Without a brief, the draft cannot be approved because verification is impossible.",
      "The draft makes specific technical claims (slot time reduction from 400ms to 350ms, incremental epoch-by-epoch adjustments toward 200ms, the relationship between slot time and validator load) that require confirmation against a research brief or direct source text. A single URL citation is not sufficient proof of fact when the brief itself is missing."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-22",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c028",
+    "headline": "Shinhan Bank runs proof-of-concept with Solana Foundation for Korean won tokenized fund",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. Per protocol, every fact must trace to the draft's own cited source (The Block URL provided) or be rejected as smuggled.",
+     "The draft names four partners: Shinhan Bank, Solana Foundation, Etherfuse, and Orca. No access to the actual Block article is available in this review context to verify these names are correct and attributed accurately.",
+     "The draft makes a substantive claim about the 'proof-of-concept' scope and parties involved, but without the source document in front of the approver, the claim cannot be verified as accurately reported from the source or partially invented during drafting.",
+     "Protocol violation: a draft without a brief must be reviewable against its source; the approver cannot access the source to verify."
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "Washington Moves on Crypto: Trump, SEC, and CFTC Signal Regulatory Action",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. Per protocol, every fact must trace to the draft's own cited source (Decrypt URL provided) or be rejected as smuggled.",
+     "The draft makes five distinct factual claims: (1) Trump urged tech executives to support a fair version of the Clarity Act in a private setting; (2) the CFTC warned it would write its own rulemaking if the bill stalls; (3) the SEC advanced its first crypto fundraising framework; (4) the Clarity Act has stalled in Congress; (5) Decrypt's reporting does not indicate coordination among the three developments.",
+     "Without access to the actual Decrypt article, the approver cannot verify that these claims are accurately paraphrased from the source or whether details have been added, subtracted, or reframed in ways that alter meaning.",
+     "Protocol violation: a draft without a brief must be reviewable against its source; the approver cannot access the source to verify. The draft also presents internal hedging ('does not specify', 'does not indicate') that suggests the writer may have inferred or narrated absence from the source, a category-accuracy violation if the source did not explicitly address these points."
+    ]
+   },
+   {
+    "id": "c090",
+    "headline": "Solana Activates 350-Millisecond Slots on Mainnet",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. Per protocol, every fact in the draft must trace to either a data_point in the brief OR be verified against the cited source. The desk cannot approve a draft where fact-checking relies on trusting that the writer consulted The Defiant correctly. The writer's hard rule is that facts come from research briefs; when no brief exists, the draft cannot be vetted against the intended protocol. The story may be accurate, but it cannot be approved under this system without a brief.",
+     "The draft contains multiple specific technical claims (slot time from 400ms to 350ms, 200ms target, epoch-by-epoch rollout) that have no brief to anchor them. Without a brief data_point to trace, these cannot be verified as having been reported by The Defiant or confirmed elsewhere."
     ]
    }
   ]
