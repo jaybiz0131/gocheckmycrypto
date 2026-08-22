@@ -1,30 +1,5 @@
 [
  {
-  "date": "2026-07-21",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c048",
-    "headline": "Cardano Completes Hard Fork Via Community Vote",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Cardano triggered a hard fork upgrade driven by token-holder governance without founder or company intervention' and states this is 'the protocol's first major upgrade executed through community vote rather than developer or institutional directive,' but the brief's single data_point only confirms the event was 'reported' by Decrypt, not verified. The draft presents this as established fact when the confidence is 'reported' only.",
-     "The draft opens with 'Cardano triggered a hard fork upgrade' as a definitive statement, but the brief indicates the source is unavailable to verify core specifics (what changed, how voting occurred, mechanism used). The draft should flag uncertainty about the governance mechanism's actual implementation.",
-     "The draft extensively discusses what the brief's open_questions and bear_case note are unconfirmed: participation rates, approval margin, voting threshold, activation time. The draft acknowledges these are 'unconfirmed' but frames the core claim (that the hard fork was completed via token-holder governance) as fact when the source does not verify the mechanism."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "Telegram plans 'largest rollout of a non-custodial crypto wallet in human history'",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'summer 2026' but the brief's data_point timestamp is '2026-07-21T15:20:25Z' (July 21, 2026), which is already past summer. The draft presents a future announcement as though it is still pending, when the timestamp evidence suggests this is a retrospective report of an event that has already occurred or been announced. The temporal framing is inverted relative to the source evidence.",
-     "The draft does not flag the 'unconfirmed' confidence label prominently for any of the four data points. The phrase 'Pavel Durov confirmed' and 'Telegram CEO Pavel Durov confirmed' reads as settled fact, but the brief marks all four core claims (Durov's confirmation, the 1 billion user target, the summer 2026 timeline, and the Gram wallet name) as 'unconfirmed.' The draft should signal this uncertainty explicitly in the prose per the hard rule on confidence labels."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-22",
   "approved": 4,
   "rejected": [
@@ -8169,6 +8144,21 @@
      "The draft cites a single source (The Block URL) but does not exist in the input for verification.",
      "Without a brief to validate against, and without access to the cited URL's actual content, the approval workflow cannot verify: (1) that Shinhan Bank announced this partnership, (2) that the participants are the Solana Foundation, Etherfuse, and Orca, (3) that it is a proof-of-concept for a Korean won-denominated tokenized fund, or (4) that The Block reported these facts.",
      "The draft asserts specific institutional partnerships and blockchain mechanics that cannot be confirmed against research materials provided to the approval stage."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-22",
+  "approved": 1,
+  "rejected": [
+   {
+    "id": "c025",
+    "headline": "Three Regulatory Moves Shape Crypto Policy Debate: Trump Pushes Clarity Act, CFTC Warns of Independent Rules, SEC Advances Fundraising Framework",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites a single Decrypt URL but claims three separate developments (Trump's call, CFTC warning, SEC framework). The brief note states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The draft provides only one source URL but narrates three distinct regulatory moves. It is unclear from the provided source whether all three developments are actually reported in that single article, and the draft does not inline-attribute each claim to its specific reporting outlet within The Decrypt piece. This creates ambiguity about whether the writer is smuggling facts from outside the source or making unsupported connections between separate reports.",
+     "The draft states 'Decrypt reported that Trump's private appeal to tech executives was framed as a call to support a \"fair version\" of the bill' but then admits 'the reporting does not specify which provisions Trump considered fair or which executives attended the setting.' This is not a confidence-label issue; it is a structural problem: the draft presents a direct quote fragment ('fair version') as coming from Decrypt without establishing that Decrypt actually reported Trump used those exact words in that exact setting, or whether the outlet was paraphrasing a secondhand account."
     ]
    }
   ]
