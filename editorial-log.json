@@ -1,58 +1,6 @@
 [
  {
   "date": "2026-07-23",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c046",
-    "headline": "Nine institutional firms pledge $15M to defend Bitcoin against quantum computing threats",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Mike Schmidt, executive director of Bitcoin developer funding nonprofit Brink, will coordinate the consortium's work on a volunteer basis' but the brief data_point says he 'will coordinate the consortium's work on a volunteer basis' without specifying that this is future/announced coordination. The confidence label is 'reported,' meaning it has been announced but not yet verified as occurring. The draft should indicate this is a stated plan, not a confirmed role assumption."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Bitcoin and Ethereum-linked protocols lose $35M across three attacks in six hours",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case emphasizes that 'Verus's repeated failures...demonstrate that even bounty recoveries do not guarantee protocol security or operational discipline,' yet the draft presents the Verus redeposit decision matter-of-factly without editorial framing of the negligence or risk it represents. The narrative acknowledges the facts but softens the culpability by treating it as procedural rather than highlighting the systemic failure.",
-     "The draft devotes substantial text to OpenAI's AI security breach and draws implications ('For crypto protocols, there is no chargeback, no undo, no insurance pool') but the brief's open_questions note that the specific 'entry point or social engineering vector' that led to key compromise at AFX and B2 is unknown. The draft treats the OpenAI disclosure as directly causal to the attacks without establishing that connection in the brief.",
-     "The draft mentions 'In 24 hours, four teams were drained, according to CoinDesk: Verus, B2, AFX, and Balance' but provides no details, dollar amounts, or attribution for Balance. The brief's open_questions flag that 'the source mentions...a Balance team drained in the 24-hour window, but provides no amounts or details for Balance,' yet the draft cites it as established fact alongside the three attacks it does detail, inflating the scope without supporting evidence in the brief."
-    ]
-   },
-   {
-    "id": "c118",
-    "headline": "Bitcoin ETFs Log Seven-Session Inflow Streak, Approaching $1B",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Ethernet ETFs also recorded sustained inflows'\u2014this is a factual error. The brief contains no data point about 'Ethernet ETFs'; the brief makes no mention of Ethereum or any other asset class. The writer has smuggled in a new claim not in the research brief.",
-     "Draft states 'desk's board showing $38 million in net inflows on July 20'\u2014this figure and date do not appear in the brief's data_points. The only date in the brief is July 23 for the Bitcoin ETF inflows; the July 20 figure is smuggled.",
-     "Draft states 'cumulative Ethereum ETF inflows to $11.1 billion since inception'\u2014this figure does not appear in the brief. A new fact inserted without research support."
-    ]
-   },
-   {
-    "id": "c066",
-    "headline": "Kazakhstan Requires Bitcoin Miners to Fund State Crypto Reserve",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states the decree 'was signed' on July 7 and attributes this to 'Bitcoin Magazine's reporting,' but the data_point in the brief marks the decree as 'announced-not-verified' with confidence label 'announced-not-verified.' The draft presents an unverified announcement as settled fact without the confidence hedge required by the accuracy rule. The prose must signal that verification status.",
-     "Draft states 'miners must...transfer a portion of mined assets to the reserve' but the brief's data_point uses the same language with 'reported' confidence. However, the draft's opening sentence ('According to Bitcoin Magazine's reporting, miners must meet...and transfer a portion') fails to distinguish the announced decree claim ('announced-not-verified') from the operational requirements claim ('reported'). The decree's existence is unverified; the writer treats it as confirmed."
-    ]
-   },
-   {
-    "id": "c000",
-    "headline": "SEC Schedules Roundtable on 24-Hour Equity Trading Infrastructure",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The announcement provides no detail on which market participants will be invited, what specific operational or technical challenges the roundtable will explore, or what timeline the SEC envisions for any implementation.' This is editorial speculation about what the SEC press release does NOT contain, not a fact from the brief. The brief contains only two data_points (both announced-not-verified), neither of which supports a claim about what the press release omits.",
-     "Draft states 'The press release does not specify whether the roundtable will address settlement cycles, margin requirements, custody arrangements, or coordination with other infrastructure providers such as FINRA, the DTCC, or clearinghouses.' This is the writer inferring absence of detail from the brief's open_questions, not reporting from the brief. Open questions are not facts to report as what the SEC failed to clarify; they are reporting gaps the brief acknowledges. The writer has smuggled editorial judgment into factual prose."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-23",
   "approved": 4,
   "rejected": [
    {
@@ -8011,6 +7959,21 @@
     "reasons": [
      "No research brief was provided for this draft. The approval protocol requires that every fact in a draft trace to either a data_point in the brief OR be rejected as smuggled. With no brief, the entire draft cannot be verified against the desk's evidentiary standard. The draft cites 'CoinDesk's reporting' and 'the desk's' various boards (Whale Watch, Leverage, Fear and Greed Index) but these are claims about external sources and internal tools, not verifiable facts from a research brief. The 24% weekly surge, the $64,000 level, the $197.95M outflow, the OKX open interest figures, the funding rates, and the ETH/SOL performance all lack a research brief to anchor them.",
      "The source URL provided (https://www.coindesk.com/markets/2026/08/24/crypto-roars-back-as-bitcoin-posts-its-second-best-week-since-early-2021) contains a future date (2026) which is impossible and suggests the draft was not written against actual sourced research."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-24",
+  "approved": 0,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "Bitcoin Declines as Major Outflows Resume",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The instruction states: 'no fact exists outside the brief.' Without a brief to validate against, every factual claim in the draft must be independently verifiable from the cited sources. The draft cites 'desk_boards (2026-07-29)' and a CoinDesk article, but desk boards are internal tools, not third-party sources that can be independently verified by readers or the desk's liability review. The protocol requires facts to trace to research briefs, and when no brief exists, the draft cannot be approved without external sourcing for each claim.",
+     "The specific price points, percentages, and liquidation figures (Bitcoin $63,653.85, Whale Watch outflows of $197.95M, Kraken outflows of $116.6M and $81.3M, OKX open interest $1.98B, 969 liquidations totaling $11.3M, Ethereum $1,904.72, Solana $73.25, Fear and Greed Index at 29, Bitcoin volatility 31.5%, RSI 47.4) cannot be verified as accurate without a brief or independent third-party attribution in the body of the story. Attribution to internal desk boards is not sufficient for publication."
     ]
    }
   ]
