@@ -1,50 +1,6 @@
 [
  {
   "date": "2026-07-25",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c031",
-    "headline": "Poolin, Once Commanding 20% of Bitcoin's Hashrate, Files for Bankruptcy With $173M Debt",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Poolin froze withdrawals in 2022 and has not resumed operations since' but then later says 'Four years elapsed between the 2022 withdrawal freeze and the bankruptcy filing,' which would place the filing in 2026. The brief does not specify the bankruptcy filing date, only that the company 'froze withdrawals in 2022.' The phrase 'has not resumed operations since' is not explicitly confirmed in the brief's data points and represents a claim about continuous non-operation that goes beyond what the brief supports. The accuracy of the timeline is undermined by the writer's own math."
-    ]
-   },
-   {
-    "id": "c008",
-    "headline": "Brazilian Farmers Tokenize Dairy Cows for B3 Loans, Bypassing Credit Caps",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Cowmed 'already tracks about 100,000 dairy cows across more than 1,000 farms, representing roughly $395 million in herd value,' but the brief data_point says the herd is worth 'over $395 million,' not 'roughly $395 million.' More critically, this is presented as existing baseline fact without qualification, when the brief itself contains open questions about how many of these 100,000 cows are 'currently enrolled in the B3 tokenization program beyond the pilot of 10'\u2014the draft smuggles a scale assumption that is not established in the brief.",
-     "The draft states 'the system allows replacement with a live animal, but double-pledging is blocked at the protocol level' as settled fact. The brief's bear_case explicitly flags that 'No independent verification that the collars actually prevent fraud or double-pledging in practice; the mechanism is described but not audited.' The draft presents this safeguard as operational rather than claimed/unverified.",
-     "The draft includes McKinsey and Standard Chartered forecasts ($4 trillion by 2030, $30 trillion by 2034) presented as industry consensus without confidence labels. The brief marks these as 'reported' only; they are third-party projections, not independently confirmed market data. The draft should flag these as forecasts, not facts."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "State Department Announces Freedom Tech Program With Bitcoin Policy Institute, Palantir",
-    "category": "accuracy",
-    "reasons": [
-     "The draft presents the program as real and official ('The U.S. State Department is launching...') without flagging the 'announced-not-verified' confidence label on all four core data_points in the brief. Every factual claim in this story is marked 'announced-not-verified' in the brief\u2014this means the announcement came from Bitcoin Magazine, not from the State Department itself. The draft must reflect that the State Department has not independently confirmed this program exists. The sentence 'The U.S. State Department is launching a Freedom Tech Excellence Program' reads as a settled fact when it is only a claim published by a crypto outlet.",
-     "The draft states 'No State Department official has commented on the program's goals' but earlier asserts 'The U.S. State Department is launching' without a source or verification qualifier. This creates a contradiction: if no official has commented, how is the launch confirmed? The draft conflates Bitcoin Magazine's report with State Department action.",
-     "The draft says 'The State Department has not responded to requests for clarification as of publication,' implying the desk reached out, but the brief provides no evidence of outreach attempts. This is an unsourced claim."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "Samsung Wallet Will Add Stablecoin Support, Timing Undisclosed",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Samsung shipped over 75 million Galaxy devices in the US alone' but this figure does not appear in the research brief's data_points. The brief only mentions '75 million US Galaxy users' in the context of Coinbase One adoption (October 2025), not total devices shipped. This is a smuggled fact without source attribution in the brief.",
-     "Draft references 'Samsung's first credit card, issued by Barclays on the Visa network in the US' (Galaxy Card) in the body but this detail appears only in the brief's data_points and should be attributed inline to The Defiant if included, or omitted if not central to the stablecoin story. The draft does not attribute this.",
-     "Draft states 'Samsung did not respond to requests for comment and published no official newsroom release, per The Defiant' but the brief's data_point says 'Samsung's newsroom published no release on the plan, and the company did not respond to Cointelegraph's request for comment.' The draft attributes the no-comment response to 'The Defiant' when the brief attributes it to 'Cointelegraph'\u2014a factual discrepancy in attribution."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-25",
   "approved": 5,
   "rejected": [
    {
@@ -7782,6 +7738,28 @@
      "The URL cited contains an apparent fabrication or error: the URL includes '2026-08-24' (a future date two years hence) in the path, which is not a credible date format for a news story published in August 2024. This suggests the URL may be fabricated or corrupted, rendering the source unverifiable.",
      "The draft contains characterizations ('heightened sanctions campaign') and interpretations ('underscores a shift in how U.S. regulators view cryptocurrency's role') that go beyond The Block's reporting and are not attributed to any source.",
      "No research brief exists to support the factual claims in the draft."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-24",
+  "approved": 0,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Bitcoin posts second-best week since early 2021 amid Treasury buybacks and ETF inflows",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this draft. Per protocol, every fact must trace to either a research brief data_point OR to the draft's cited sources. The draft cites a single CoinDesk URL (dated 2026-08-24) as its source, but the story contains dozens of specific figures (24% weekly gain, 63,653.85 BTC price, 1.98B OKX open interest, 197.95M whale outflows, 5.1M ETF inflow on July 28, etc.) that cannot be verified against the provided source link without access to that article. The protocol forbids the writer from patching facts independently; facts must originate in the brief or be traceable to cited reporting. Without the brief, and with only one source URL provided (which cannot be evaluated in this context), the accuracy of these precise figures cannot be confirmed. The story reads as a market summary assembled from internal desk boards and data feeds, but those sources are not explicitly cited inline for each figure."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "U.S. Treasury targets digital assets in escalated Iran sanctions campaign",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this draft. The protocol requires every fact to trace to a research brief data_point or cited source. The draft cites a single Block URL and makes a core claim\u2014that the U.S. Treasury has imposed sanctions on digital assets as part of Iran enforcement\u2014but then immediately admits: 'No details were provided in available reporting on which specific digital assets, addresses, or platforms were designated, or what mechanisms the Treasury is employing to enforce the restrictions.' This is a flag that the story is built on a single reported announcement with no verification, no OFAC list confirmation, no Treasury statement quoted, and no secondary reporting. The story cannot be anchored; it rests entirely on The Block's account of what Treasury stated, but contains no direct quote, no attribution of the specific claim to a named Treasury official or document, and no independent confirmation. The statement 'The Treasury Department stated it is zeroing in on digital assets' is unsourced within the draft itself and appears to paraphrase The Block's reporting, but without the brief, the claim that this is what Treasury actually stated (vs. what The Block reported Treasury said) cannot be verified."
     ]
    }
   ]
