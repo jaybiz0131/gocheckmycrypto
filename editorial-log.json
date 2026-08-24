@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-07-23",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c016",
-    "headline": "Cross-Chain Protocols Drained for $35+ Million in Six-Hour Attack Wave",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'In 24 hours, four teams were drained for the same underlying reason: loss of trusted control' and mentions 'Verus, B\u00b2, AFX and Balance' but the brief's data_point only confirms three named protocols (AFX, Verus, B\u00b2). The fourth protocol 'Balance' is referenced in the brief as a data_point claim but never detailed in the source texts or explained. The draft presents this as confirmed fact without the necessary supporting detail from the brief.",
-     "The paragraph beginning 'OpenAI disclosed this week that during an internal evaluation...' appears to smuggle an entirely new topic (AI security breaches at Hugging Face) that is tangential to the core story about crypto bridge exploits. While it appears in the brief's data_points, the narrative placement and length (three sentences) make it read as editorial commentary rather than sourced reporting on the crypto attacks themselves, and it dilutes focus from the core claim."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "Clarity Act Passage Odds Fall to 38% as Democrats Demand Revisions",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Senate Republicans published a new draft of the Clarity Act earlier that Wednesday, including an ethics provision agreed to by the White House and President Donald Trump.' However, the brief data_point says the ethics provision was 'agreed to by the White House and President Donald Trump'\u2014but does not specify that Trump himself agreed, only that the White House did. This is a factual distinction the draft overstates.",
-     "The draft includes two sentences on macro conditions (oil, Treasury yields, Iran military strike) that consume 20% of the story's word count but are presented as context for 'cryptocurrency valuations' pressure. While these appear in the brief, the draft frames them as directly causal ('headwinds independent of legislative progress') without the brief establishing that causal link. The macro section reads as editorial argument rather than reported fact and distracts from the Clarity Act story."
-    ]
-   },
-   {
-    "id": "c000",
-    "headline": "SEC Convenes Roundtable on 24-Hour Equity Trading",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the SEC 'announced a roundtable scheduled for September 17, 2026' but the brief marks this claim as 'announced-not-verified'. The draft presents it as settled fact without hedging language ('announced', 'says', 'according to', 'pending verification'). An announced-but-unverified claim must read differently in prose than a confirmed fact.",
-     "The draft omits critical precision: all three data_points in the brief carry 'announced-not-verified' confidence, but the draft treats them as confirmed events without qualification or attribution."
-    ]
-   },
-   {
-    "id": "c120",
-    "headline": "Bitcoin ETFs record $69M inflow, extending seven-session streak to $1B",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bitcoin traded at $66,674 on July 22, down 46.6% from its 12-month high' and '30-day volatility at 32.7%'. These price and volatility figures do not appear in the research brief and are not attributed to any source in the draft. Per the hard rule, facts must trace to data_points in the brief; smuggled market data violates accuracy.",
-     "The draft adds 'cumulative Bitcoin ETF inflows stand at $51.648 billion year-to-date as of July 21' and 'Ethereum spot ETFs...recorded $38 million in inflows on July 20 and have accumulated $11.145 billion cumulatively.' These figures are attributed to 'the desk's ETF flows board' but do not appear in the brief's data_points. This is new information inserted without research support."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-23",
   "approved": 3,
   "rejected": [
    {
@@ -7974,6 +7932,22 @@
     "reasons": [
      "No research brief was provided for this story. The instruction states: 'no fact exists outside the brief.' Without a brief to validate against, every factual claim in the draft must be independently verifiable from the cited sources. The draft cites 'desk_boards (2026-07-29)' and a CoinDesk article, but desk boards are internal tools, not third-party sources that can be independently verified by readers or the desk's liability review. The protocol requires facts to trace to research briefs, and when no brief exists, the draft cannot be approved without external sourcing for each claim.",
      "The specific price points, percentages, and liquidation figures (Bitcoin $63,653.85, Whale Watch outflows of $197.95M, Kraken outflows of $116.6M and $81.3M, OKX open interest $1.98B, 969 liquidations totaling $11.3M, Ethereum $1,904.72, Solana $73.25, Fear and Greed Index at 29, Bitcoin volatility 31.5%, RSI 47.4) cannot be verified as accurate without a brief or independent third-party attribution in the body of the story. Attribution to internal desk boards is not sufficient for publication."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-24",
+  "approved": 0,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "Whale outflows and positive funding signal modest institutional engagement in crypto markets",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction is explicit: 'no fact exists outside the brief.' With no brief, every factual claim must be directly verifiable from the cited sources. The draft cites 'desk_boards (data_date: 2026-07-29)' as a source for whale flows, funding rates, ETF flows, and Fear/Greed Index data, but desk_boards is an internal tool, not a publishable source attribution. The CoinDesk URL provided does not match the content described (it is dated 2026-08-24, after the data_date of 2026-07-29, and its headline does not match the claims in the draft). Without a brief to establish what the desk verified, and without proper external source attribution for the core numerical claims, the entire draft is unsourced.",
+     "The draft attributes market drivers ('Treasury buybacks, ETF inflows, and dollar weakness') to CoinDesk but then immediately undermines that attribution ('independent confirmation of the specific scale and timing of those moves is not available from the desk's current data'), which signals the desk did not verify the claim against its own sources and is instead paraphrasing a third-party report without confirmation\u2014a violation of the no-fact-outside-brief rule when no brief exists to authorize it.",
+     "The specific data points (whale outflows of $197.9M, $116.6M, $81.3M; funding rates of 0.0047%, 0.0011%, -2.5%; Bitcoin long-to-short ratio of 1.85:1; open interest of $1.98B; ETF flows of $5.1M, $11.7M, $402.6M, $77.5M; Fear/Greed Index of 29; drawdowns of 49%, 60.6%, 70.4%, 67.7%) have no cited source except 'desk_boards,' which is not a publishable attribution."
     ]
    }
   ]
