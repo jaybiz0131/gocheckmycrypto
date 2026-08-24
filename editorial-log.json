@@ -1,44 +1,5 @@
 [
  {
-  "date": "2026-07-23",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c020",
-    "headline": "Three Crypto Bridges Drained of $35 Million in Six Hours: Keys, Not Cryptography, Compromised",
-    "category": "accuracy",
-    "reasons": [
-     "The draft mentions 'four teams (Verus, B\u00b2, AFX and Balance) were drained' but the brief's core_claim and data_points only document three incidents: AFX Trade ($24.15M), Verus-Ethereum ($7.54M), and B\u00b2 Network ($3.86M). Balance appears nowhere in the research brief. This is a smuggled fact\u2014the writer introduced a fourth victim not present in the source material. The open_questions section of the brief itself flags this as unconfirmed ('Is the fourth protocol mentioned (Balance) confirmed as a fourth victim, or is that still under investigation?'), meaning the writer presented an open question as settled fact."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "Clarity Act Slides Past August 7 Deadline as Democrats Demand Ethics Safeguards",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Senate Majority Leader John Thune...confirmed that the Clarity Act...will likely miss the August 7 deadline' but the core_claim in the brief says Thune 'will likely miss the August 7 deadline needed for reasonable 2026 passage.' The brief's language is softer ('likely miss') and qualified ('for reasonable 2026 passage'); the draft hardens it to a direct confirmation without qualification. More critically, the draft later states Thune said 'I would like to at least get Clarity started' before recess\u2014his own words show uncertainty, not confirmation of a missed deadline. The framing inverts the source's caution into false certainty."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "South Korea's oldest crypto exchange is now part of the $1 trillion Mirae Group family",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Mirae Asset Group 'held assets under management of $1 trillion as of May' but the source URL in the brief shows '$800 billion' in the title. The draft claims $1 trillion; the brief data_point claims $1 trillion; but the source_url title contradicts both. This is a factual discrepancy that must be traced to the original CoinDesk report. The writer cannot have smuggled a number; the brief itself contains the $1 trillion figure in data_points, but the source_url metadata suggests $800 billion. This creates ambiguity about which number is accurate to the underlying reporting."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "SEC Pays $150,000 to Settle Coinbase FOIA Lawsuit Over Deleted Gensler Messages",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'the SEC's Inspector General reported that the agency accidentally deleted Gensler's text messages from October 2022 to September 2023' in September 2025, then later says 'The SEC told the National Archives about the deleted phones in July 2025.' This temporal sequence is contradictory\u2014the brief's bear_case notes 'It told the National Archives in July 2025, months after the Inspector General's September 2025 report,' but the draft does not clarify this sequence and appears to place the IG report after the National Archives notification. The draft must resolve the chronological order of these events as stated in the brief's bear_case.",
-     "The draft attributes the Brian Armstrong quote to 'According to CoinDesk,' but this appears to be a direct quote with internal commentary ('The Gensler SEC deleted texts at the height of the anti-crypto campaign, FDIC buried evidence, it was all uncovered after we fought to expose the truth'). The attribution is correct but the phrasing could confuse readers about whether CoinDesk verified the quote or merely reported it. This is a minor clarity issue but acceptable given the inline attribution."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-24",
   "approved": 4,
   "rejected": [
@@ -7931,6 +7892,20 @@
      "The draft cites a CoinDesk article dated August 24, 2026, but no research brief was provided. The approval protocol requires every fact to trace to a data_point in the brief. Without a brief, the desk has no way to verify that CoinDesk reported what the draft attributes to it, that the specific figures (24% surge, Treasury buybacks, ETF inflows, weaker dollar) are accurately paraphrased from that source, or that the source even exists. The draft's core structure\u2014'CoinDesk reported X; desk data shows Y'\u2014cannot be validated.",
      "The draft also contains internal logical problems: it states the desk's data cutoff is July 29, yet the article discusses events attributed to August 24 (26 days later). The draft acknowledges a 'gap in the timeline' but frames this as normal market volatility rather than a potential data verification failure. Without the brief, there is no way to confirm whether the CoinDesk article is real, whether its claims are accurately represented, or whether the temporal mismatch reflects an error in sourcing.",
      "The draft references six internal desk data sources (Market Pulse, Whale Watch, Leverage board, ETF Flows board, Fear and Greed Index) but provides no brief to validate that these figures were drawn correctly from those systems or that the figures themselves are accurate."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-24",
+  "approved": 0,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "Story c009 cannot be drafted without research brief",
+    "category": "accuracy",
+    "reasons": [
+     "Draft submitted without research brief. Per desk protocol, every fact in a published story must trace back to a data_point in a research brief with source and confidence label. This draft is a meta-narrative about the absence of the brief itself, not a story that can be fact-checked against source material. The draft cannot proceed without the brief it was supposed to be written from."
     ]
    }
   ]
