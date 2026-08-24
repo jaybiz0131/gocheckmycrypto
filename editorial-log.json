@@ -5,49 +5,6 @@
   "rejected": [
    {
     "id": "c000",
-    "headline": "CFTC warns prediction markets against broad template certifications for event contracts",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'In a related action, the CFTC extended the regulatory status of Kraken's derivatives exchange' and 'the last trade having executed in that period' (early 2025). The brief's data_point says 'The last trade on Kraken Derivatives Exchange was executed in early 2025,' but this appears to be reporting a fact about Kraken's dormant status that is properly sourced. However, the framing 'in a related action' creates false equivalence: the Kraken extension is not a related action to the prediction markets advisory\u2014it is a separate regulatory notice. The sentence structure implies causal or thematic connection that does not exist in the source material.",
-     "The draft introduces 'CFTC Chairman Mike Selig' by that name, but the brief's data_point attributes only the general claim about his priority-setting to CoinDesk without confirming the first name 'Mike' or surname 'Selig' appears in the source. This is a minor accuracy risk if the name came from the article; confirm the source material contains 'Mike Selig' before publication."
-    ]
-   },
-   {
-    "id": "c061",
-    "headline": "KB Kookmin Bank Launches Cross-Border Payments on JPMorgan's Kinexys Blockchain",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'KB Kookmin Bank announced it will launch cross-border payment services on JPMorgan's Kinexys blockchain platform, supporting import and export businesses across 10 countries' but the brief contains only three data_points with no information about which countries are included. The draft later acknowledges 'The specific countries included in the 10-country network remain unidentified,' creating internal contradiction. More critically: the brief is marked 'thin': true with 'source_chars': 0, indicating the source material itself contains almost no substantive information. The draft inflates this skeletal brief into a full narrative with interpretive claims like 'marking a shift from experimental blockchain pilots to operational integration' and 'signals institutional acceptance of blockchain-based settlement for trade finance' that are not present in the data_points provided.",
-     "The phrase 'marking a shift from experimental blockchain pilots to operational integration by a major Asian financial institution' is interpretation/analysis not grounded in the brief's data_points, which contain only announcement facts."
-    ]
-   },
-   {
-    "id": "c056",
-    "headline": "BitMine Accumulates $73 Million in Ethereum, Nearing 5% Supply Target",
-    "category": "accuracy",
-    "reasons": [
-     "The opening sentence states BitMine 'purchased approximately 42,197 ETH worth roughly $73 million over one week' but the data_point confidence labels for these claims are 'announced-not-verified,' not 'reported' or 'confirmed.' The draft presents these as settled fact without qualification. Per the compliance rule, announced-not-verified claims must read as such in prose ('claims,' 'announced,' 'according to company statements' rather than as direct assertion). The draft's unqualified presentation of a $73M purchase figure marked unverified is a liability exposure.",
-     "The draft states 'BitMine as the largest corporate holder of Ethereum' but this claim's confidence is only 'reported,' not independently verified. The phrasing 'positioning BitMine as' (in the brief) becomes assertion in the draft. Given the thin source and unverified purchase figures, this superlative claim should carry hedging language.",
-     "The statement 'the company values its ETH position at $1,800 per coin' is marked 'announced-not-verified' in the brief but presented as objective fact in the draft without attribution or qualification."
-    ]
-   },
-   {
-    "id": "c053",
-    "headline": "SummerFi to Wind Down After Seven Years, Citing Exploit",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'SummerFi has since characterized the incident as NAV (net asset value) manipulation rather than a flash-loan hack, per the outlet's reporting.' However, the brief data point says 'SummerFi has separately characterized the incident as NAV manipulation rather than a flash-loan hack, and this account has not been independently reconciled with the earlier description.' The draft omits the critical qualifier that the discrepancy 'has not been independently reconciled by external auditors or blockchain analysis' (stated later in the draft itself). This creates an internal inconsistency: the earlier sentence presents SummerFi's characterization as fact without the uncertainty flag that appears in the next sentence. The confidence label 'reported' does not survive in the first mention.",
-     "The draft claims 'The Defiant reported on July 6 that Summer Finance was drained of $6 million in what was characterized as a flash-loan exploit.' However, the brief data point attributes this to The Defiant's reporting on July 6. The draft then immediately pivots to SummerFi's competing characterization without clearly signaling that the July 6 reporting and the later SummerFi account are in conflict. The structure misleads the reader into treating both as settled facts in sequence rather than as a disputed incident."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-26",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c000",
     "headline": "CFTC Warns Prediction Markets Against Template Certifications for Event Contracts",
     "category": "accuracy",
     "reasons": [
@@ -7703,6 +7660,21 @@
     "reasons": [
      "No research brief was provided for this draft. The approval protocol requires that every fact in a draft trace either to a data_point in the brief OR, when no brief exists, be directly verifiable from the cited sources. The draft cites only one source (The Block, August 24) but makes multiple claims that cannot be verified without access to that article: the specific announcement date, the characterization of the shift in U.S. policy, the claim that no figures were reported, and the assertion that specific mechanics remain unreported. The draft cannot be approved without confirmation that these claims appear in the cited source or without a research brief that establishes them. The protocol forbids the writer from patching facts post-hoc; this draft must either be submitted with a brief or rejected pending source verification by the desk.",
      "The sentences 'No figures on asset seizures, wallet addresses targeted, or transaction volumes affected were reported in The Block's available account. The specific mechanics of how the Treasury will enforce these sanctions against digital-asset holders and intermediaries remain unreported.' narrate the absence of information rather than reporting what was confirmed. Per protocol, a writer is forbidden from narrating absence; these sentences restate open_questions and violate the accuracy rule."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-24",
+  "approved": 0,
+  "rejected": [
+   {
+    "id": "c022",
+    "headline": "U.S. Treasury targets digital assets in expanded Iran sanctions regime",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The instruction protocol requires that 'no fact exists outside the brief'\u2014meaning all facts must trace to either the brief's data_points OR, when no brief exists, to independently verifiable sources. The draft cites a single URL (The Block article) as its only source, but the approver cannot verify that URL's contents, publication date (August 24, 2026), or what The Block actually reported without access to that source document. The entire factual scaffolding (that Treasury is targeting digital assets for Iran sanctions, that The Block reported this on that date, the characterization of what The Block's coverage did and did not include) rests on an unverified external source. This violates the hard rule that facts must be traceable to documented research.",
+     "The draft makes specific claims about what The Block's reporting 'does not' contain ('No figures on asset seizures', 'does not detail which specific digital assets', 'does not specify the Treasury's strategic reasoning'). These negative claims about omissions in a source document cannot be verified by the approver and represent the writer narrating absence\u2014a prohibition in the protocol when a brief's bear_case is empty or absent."
     ]
    }
   ]
