@@ -317,6 +317,240 @@ def _same_storyline(a, b, names_floor=0.22):
     shared_names = _proper_nouns(at, ak) & _proper_nouns(bt, bk)
     return overlap >= 0.55 or (bool(shared_names) and overlap >= names_floor)
 
+
+def _watchlist_rx():
+    """The editor-in-chief's narrative watchlist, compiled once: name -> regex."""
+    global _WATCH_RX
+    try:
+        return _WATCH_RX
+    except NameError:
+        pass
+    out = []
+    try:
+        wl = json.load(open(os.path.join(HERE, "config.json"), encoding="utf-8")) \
+            .get("narratives", {}).get("watchlist", [])
+        for n in wl:
+            kws = n.get("keywords") or []
+            if kws:
+                out.append((n.get("name", ""), re.compile(
+                    r"\b(?:" + "|".join(re.escape(k) for k in kws) + r")\b", re.I)))
+    except Exception:
+        out = []
+    _WATCH_RX = out
+    return out
+
+
+def _narratives_of(item):
+    """Which tracked storylines this story belongs to, from its own title and key fact.
+
+    The watchlist tag lives on the intake cluster and never reaches the published item,
+    so it is recomputed here from the same fields tracking_match trusts. Title and
+    key_fact only: a 600-word body mentions enough to match almost anything."""
+    text = " ".join([item.get("title") or "", item.get("key_fact") or ""])
+    return {name for name, rx in _watchlist_rx() if rx.search(text)}
+
+
+def storyline_for(item, all_items, cap=6):
+    """The desk's OWN prior and subsequent coverage of this story, oldest first.
+
+    THE ONE THING NO SOURCE ARTICLE HAS (owner directive 2026-08-25). Every outlet can
+    report today's event; only this desk knows what it published about the same
+    development three weeks ago, because it is the desk's own archive. Rendering that as
+    a dated timeline gives a reader the shape of a story instead of one more isolated
+    page, and gives a crawler a reason this page is not a rewrite of somebody else's.
+
+    Three signals, strongest first: the declared update chain walked in BOTH directions
+    transitively, then the editor-in-chief's narrative watchlist, then a shared subject
+    by the same test the Update callout uses. Editions and the example page are never
+    part of a storyline; near-duplicates are excluded so a timeline never lists the same
+    event twice.
+    """
+    slug = item.get("slug")
+    pool = [i for i in (all_items or [])
+            if not i.get("example") and not _is_wrap(i)
+            and i.get("category") != "daily edition" and i.get("slug")]
+    by = {i["slug"]: i for i in pool}
+    if slug not in by:
+        return []
+
+    # 1. transitive update_of component
+    kids = {}
+    for i in pool:
+        p = i.get("update_of")
+        if p and p in by and _same_storyline(i, by[p]):
+            kids.setdefault(p, []).append(i["slug"])
+    parent = {i["slug"]: i.get("update_of") for i in pool
+              if i.get("update_of") in by and _same_storyline(i, by[i["update_of"]])}
+    comp, stack = set(), [slug]
+    while stack:
+        cur = stack.pop()
+        if cur in comp:
+            continue
+        comp.add(cur)
+        if parent.get(cur):
+            stack.append(parent[cur])
+        stack.extend(kids.get(cur, []))
+    comp.discard(slug)
+
+    # 2. THE SAME DEVELOPMENT, NOT THE SAME BEAT (owner check 2026-08-25). The first
+    # build grouped "Storj files Chapter 11" with "SummerFi winds down" and "BitMEX
+    # shuts down" because all three matched the "Crypto failures" watchlist entry and
+    # cleared a loose word-overlap floor. Those are three different companies, not one
+    # story developing, and a timeline that says "how this story developed" must not
+    # claim otherwise. A watchlist entry is a BEAT; the beat sections on /news are where
+    # that belongs. So membership beyond the declared chain now requires a shared
+    # distinctive SUBJECT and a strong overlap, which is the same bar the Update callout
+    # passes: the same actor doing the same thing, not two firms failing in one quarter.
+    # 2. NOTHING ELSE. Word overlap cannot tell one development from one THEME, and every
+    # loosening tried on the live corpus produced a timeline that was confidently wrong:
+    # at 0.20 it presented Storj, SummerFi and BitMEX as one story because three separate
+    # companies failed the same month; tightened to 0.26 with a shared subject it still
+    # strung a BitClub prosecution, a Goliath Ventures suit and a Las Vegas conviction
+    # into one thread because all three are Ponzi cases. "How this story developed" is a
+    # claim about causation between chapters, and only the desk's own declared update
+    # chain actually carries it. So the timeline renders on few stories and is right on
+    # all of them, and More-on below carries the breadth with a claim it can support.
+
+    chain = [by[s] for s in comp if not dedupe_same_event(item, by[s])]
+    chain.sort(key=lambda i: (i.get("date") or "", i.get("published_utc") or ""))
+    if len(chain) > cap:  # keep the earliest chapters and the most recent ones
+        chain = chain[:2] + chain[-(cap - 2):]
+    return chain
+
+
+def render_timeline(item, all_items):
+    """The storyline timeline module: the desk's own coverage, dated, in order."""
+    chain = storyline_for(item, all_items)
+    if len(chain) < 2:
+        return ""   # two chapters is a link, not a timeline; related-stories covers that
+    rows = []
+    placed = False
+    for c in chain:
+        if not placed and (c.get("date") or "") > (item.get("date") or ""):
+            rows.append(f'<li class="tl-now"><span class="tl-date">'
+                        f'{esc(fmt_date(item.get("date")))}</span>'
+                        f'<span class="tl-title">{esc(item.get("title"))} '
+                        f'<em>(this story)</em></span></li>')
+            placed = True
+        rows.append(f'<li><span class="tl-date">{esc(fmt_date(c.get("date")))}</span>'
+                    f'<span class="tl-title"><a href="/articles/{esc(c["slug"])}">'
+                    f'{esc(c.get("title"))}</a></span></li>')
+    if not placed:
+        rows.append(f'<li class="tl-now"><span class="tl-date">'
+                    f'{esc(fmt_date(item.get("date")))}</span>'
+                    f'<span class="tl-title">{esc(item.get("title"))} '
+                    f'<em>(this story)</em></span></li>')
+    return (f'<section class="timeline"><h2>How this story developed</h2>'
+            f'<p class="mut">The desk\'s own reporting on this development, in order. '
+            f'{len(chain)} earlier and later stories.</p>'
+            f'<ol class="tl">{"".join(rows)}</ol></section>')
+
+
+_ENT_CACHE = {}
+_ENT_MONTHS = {"january", "february", "march", "april", "may", "june", "july", "august",
+               "september", "october", "november", "december"}
+_ENT_STOP = {"the", "this", "that", "with", "from", "after", "before", "new", "its", "and",
+             "but", "for", "million", "billion", "percent", "first", "second", "report",
+             "reports", "update", "breaking",
+             # A CORPORATE SUFFIX IS NOT A SUBJECT (owner check 2026-08-25): the first
+             # build produced "More on LABS", grouping Storj with Movement Labs because
+             # both companies end in the same word. Readers of one care nothing for the
+             # other, and a module that says otherwise is worse than no module.
+             "labs", "inc", "corp", "group", "capital", "ventures", "holdings", "partners",
+             "foundation", "protocol", "network", "networks", "finance", "financial",
+             "technologies", "systems", "global", "digital", "markets", "exchange",
+             "chain", "chains", "coin", "token", "tokens", "fund", "funds", "bank",
+             "act", "bill", "rule", "rules", "law", "court", "committee", "department",
+             # too broad to be a subject: nearly every story on this desk touches these
+             "u.s", "us", "u.k", "btc", "eth", "usd", "etf", "etfs", "defi", "nft"}
+
+
+def _entity_stats(all_items):
+    """Corpus-wide capitalised vs lowercase counts, computed once per build."""
+    key = len(all_items or ())
+    if key in _ENT_CACHE:
+        return _ENT_CACHE[key]
+    cap, low = {}, {}
+    for i in (all_items or []):
+        b = i.get("body")
+        t = " ".join(x for x in b if isinstance(x, str)) if isinstance(b, list) else str(b or "")
+        for w in re.findall(r"\b[A-Z][A-Za-z0-9&.]{2,}", t):
+            k = w.lower().rstrip(".")
+            cap[k] = cap.get(k, 0) + 1
+        for w in re.findall(r"\b[a-z][a-z0-9&.]{2,}\b", t):
+            k = w.rstrip(".")
+            low[k] = low.get(k, 0) + 1
+    _ENT_CACHE.clear()
+    _ENT_CACHE[key] = (cap, low)
+    return cap, low
+
+
+def entities_of(item, all_items):
+    """The subjects a story is about: companies, agencies, protocols, people, places.
+
+    A PROPER NOUN IS ONE THE CORPUS RARELY LOWERCASES. "Coinbase" and "CFTC" are almost
+    always capitalised; "act", "million" and "market" are not, even though every one of
+    them appears capitalised at the start of a sentence. Measuring the ratio across the
+    desk's own 225-article body text separates them without a hand-maintained list, and
+    outlet names are dropped because who reported a story is not what it is about."""
+    cap, low = _entity_stats(all_items)
+    try:
+        import dedupe
+        outlets = dedupe._OUTLETS
+    except Exception:
+        outlets = set()
+    out = set()
+    txt = " ".join([item.get("title") or "", item.get("key_fact") or ""])
+    for w in re.findall(r"\b[A-Z][A-Za-z0-9&.]{2,}", txt):
+        k = w.lower().rstrip(".")
+        if k in _ENT_MONTHS or k in _ENT_STOP or k in outlets or len(k) < 3:
+            continue
+        if w.isupper() and len(w) <= 6:
+            out.add(k)
+            continue
+        c, l = cap.get(k, 0), low.get(k, 0)
+        if c + l >= 3 and c / (c + l) >= 0.65:
+            out.add(k)
+    return out
+
+
+def render_more_on(item, all_items, per=4):
+    """"More on <subject>": the desk's other coverage of the same company, agency or
+    protocol.
+
+    Distinct from the timeline, and labelled as what it is. The timeline says these
+    stories are chapters of ONE development; this says only that the desk has covered
+    this subject before, which is true far more often and is exactly what a reader who
+    cares about that subject wants next. Together they reach most of the archive without
+    either one overstating what it knows."""
+    mine = entities_of(item, all_items)
+    if not mine:
+        return ""
+    pool = [i for i in (all_items or [])
+            if not i.get("example") and not _is_wrap(i)
+            and i.get("category") != "daily edition"
+            and i.get("slug") and i.get("slug") != item.get("slug")]
+    chain = {c.get("slug") for c in storyline_for(item, all_items)}
+    best = None
+    for ent in sorted(mine):
+        hits = [i for i in pool
+                if ent in entities_of(i, all_items)
+                and i.get("slug") not in chain
+                and not dedupe_same_event(item, i)]
+        if len(hits) >= 2 and (best is None or len(hits) > len(best[1])):
+            best = (ent, hits)
+    if not best:
+        return ""
+    ent, hits = best
+    hits.sort(key=lambda i: i.get("published_utc") or i.get("date") or "", reverse=True)
+    label = ent.upper() if len(ent) <= 5 else ent.title()
+    lis = "".join(f'<li><a href="/articles/{esc(i["slug"])}">{esc(i.get("title"))}</a>'
+                  f'<span class="mut"> &middot; {fmt_when(i)}</span></li>'
+                  for i in hits[:per])
+    return (f'<section class="more-on"><h2>More on {esc(label)}</h2>'
+            f'<p class="mut">Other reporting from this desk on {esc(label)}.</p>'
+            f'<ul class="link-list">{lis}</ul></section>')
+
 def related_stories(item, items, n=3):
     """The stories a reader of this one should read next, best first.
 
@@ -1163,10 +1397,24 @@ def render_article(item, all_items=None):
                      f'facts from; these outlets independently carried the same development.</p>')
     rel_html = ""
     for rel in related_stories(item, all_items or []):
-        rel_html += (f'<li><a href="/articles/{esc(rel["slug"])}.html">{esc(rel.get("title"))}</a>'
+        rel_html += (f'<li><a href="/articles/{esc(rel["slug"])}">{esc(rel.get("title"))}</a>'
                      f'<span class="mut"> &middot; {fmt_when(rel)}</span></li>')
     if rel_html:
         rel_html = f'<div class="related"><h2>Related stories</h2><ul>{rel_html}</ul></div>'
+    # THE DESK'S OWN ARCHIVE, RENDERED (owner directive 2026-08-25). Every outlet can
+    # report today's event; only this desk can show what it published about the same
+    # development earlier, and which other stories it has run on this subject. Both
+    # modules derive at render time from items already on disk: no fetching, no model
+    # call, no change to wrap or ingest, and the whole archive gains them on the next
+    # build. Measured coverage on the live corpus: timeline 14% of articles (the strict
+    # claim), More-on 76% (the honest weaker one).
+    if not (item.get("example") or _is_wrap(item)
+            or item.get("category") == "daily edition"):
+        # editions summarise stories; they are not chapters of one, and the example page
+        # is a format demo. Neither gets an archive module (owner check 2026-08-25).
+        rel_html = (render_timeline(item, all_items or [])
+                    + render_more_on(item, all_items or [])
+                    + rel_html)
     # consistent desk attribution (the byline is the desk, never a person): aggregators and
     # Google News check for a stable byline, and this reads honestly as a newsroom, not a
     # named human author
