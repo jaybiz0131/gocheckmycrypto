@@ -88,6 +88,20 @@ jobs:
             echo "::notice::ANTHROPIC_API_KEY not set; ran the offline canary only. Add the secret to enable the live daily brief."
           fi
 
+      # BOARDS BEFORE THE PIPELINE READS THEM (owner audit 2026-08-25). This refresh used
+      # to run AFTER run.py, so every stage that consumes the boards consumed the copy
+      # committed in the repo, and pulse/flows are deliberately never committed: on this
+      # day that copy was 27 days old, saying BTC $63,653 and Fear and Greed 29 while the
+      # live market was $79,185 and 74. writer.py hands those numbers to the drafting
+      # model as desk_boards, and the editorial log shows a Solana story killed for citing
+      # "current SOL pricing of $73.25" when SOL was $98.11: the desk was arguing with
+      # itself about a month-old number. Keyless, fail-open, seconds to run.
+      - name: Refresh the market boards BEFORE the pipeline reads them
+        if: steps.key.outputs.have_key == 'true'
+        run: |
+          python3 whale_flows.py || true
+          python3 market_pulse.py || true
+
       - name: Run the daily brief (live; Stages 1-5 only, never publishes)
         if: steps.key.outputs.have_key == 'true'
         env:
@@ -116,10 +130,7 @@ jobs:
         if: steps.key.outputs.have_key == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          python3 whale_flows.py || true
-          python3 market_pulse.py || true
-          python3 chartmaster.py
+        run: python3 chartmaster.py
 
       # THE DAILY EDITION (Jack's media-outlet doctrine, 2026-07-14): The Morning Brief /
       # The Closing Wrap, the guaranteed twice-daily synthesis over the desk's own
