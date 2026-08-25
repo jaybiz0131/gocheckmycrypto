@@ -4,39 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c085",
-    "headline": "Russia's Sberbank to Launch Crypto Trading Infrastructure by Year-End",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'by December 1, 2026' and 'by December' and 'by year-end' as if these are equivalent, but the brief's data_point specifies only 'by Dec. 1' from Cointelegraph. The phrase 'by year-end' in the body (paragraph 2) paraphrases the deadline in a looser way than the source supports\u2014'year-end' could mean December 31, not December 1. This conflates two different deadlines and should be corrected to match the reported date precisely."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "South Korea trading giant puts receivables onchain in tokenization test with LG CNS",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case identifies three explicit risk factors: regulatory risks and technical constraints not reported in the source, lack of detail on dispute resolution, and the caveat that pilot success does not guarantee production scalability. The draft addresses none of these. The story reads as a straightforward institutional adoption narrative without any countervailing skepticism about whether tokenization will actually solve the claimed problems or scale beyond this pilot. A draft that omits the entire bear_case when the source material explicitly flags it is unbalanced.",
-     "The draft opens with 'Real-world corporate assets are moving onto blockchain at enterprise scale' \u2014 a confident framing that overstates what a single pilot proves. The brief's bear_case notes pilots do not guarantee production adoption or scaling. The draft should hedge or note the pilot status more clearly to match the evidence."
-    ]
-   },
-   {
-    "id": "c070",
-    "headline": "BitMine Adds $73 Million in ETH, Pushing Holdings to 4.8% of Supply",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states BitMine's total holdings are valued at $11.1 billion, but the brief data_point specifies 'BitMine's total crypto and other holdings are valued at $11.1 billion'\u2014a critical distinction. The draft's phrasing is ambiguous about whether this includes non-crypto assets or only crypto, creating potential for misinterpretation of the company's total position.",
-     "The draft introduces an institutional ETH inflow figure ($11.145 billion YTD) and a specific spot ETF inflow ($38 million on July 20) that do not appear in the brief's data_points. These facts are smuggled and must be traced back to research before publication.",
-     "The draft references 'The Defiant's reporting' multiple times but attributes only the core transaction data to the outlet. All facts in this story trace to a single source (The Defiant URL), yet the draft creates an impression of multiple independent confirmations. This obscures confidence levels: the brief marks the purchase amount as 'announced-not-verified' and total holdings as 'announced-not-verified,' but the prose reads these as settled facts without qualification."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-27",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c019",
     "headline": "Storj files Chapter 11 bankruptcy as crypto infrastructure sector faces collapse",
     "category": "accuracy",
@@ -7603,6 +7570,40 @@
     "category": "accuracy",
     "reasons": [
      "No research brief was provided for this story. The instruction protocol requires that 'every fact goes back to research' and that 'no fact exists outside the brief.' With no brief, the approver cannot verify whether the claims in the draft trace to the single cited source (Cointelegraph) or whether any facts have been introduced that the source does not carry. The draft itself acknowledges sourcing thinness ('Cointelegraph is the sole source', 'does not carry quotes from Standard Chartered or HKDAP issuer commentary'), but without a brief documenting what Cointelegraph actually reported versus what the draft asserts, verification is impossible. The protocol requires rejection under accuracy when the factual chain cannot be verified."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-25",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c125",
+    "headline": "India to Pilot Tokenized Bonds on Wholesale Digital Rupee",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. The draft cites only one source (Cointelegraph) but provides no verifiable link or article content. The core claims\u2014that India is preparing a pilot in September, that REC will issue the debt, that this is the first live use of wholesale CBDC in sovereign debt tokenization\u2014cannot be traced to any accessible source document. The rule 'no fact exists outside the brief' inverts here: with no brief, facts must trace to primary sources or the story cannot run. A single Cointelegraph URL stub is not sufficient attribution.",
+     "The draft asserts 'the first live use of India's wholesale CBDC in a sovereign debt tokenization experiment' as fact, but this superlative claim (first) is not sourced to any data point and cannot be verified from the URL provided."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Thailand's SEC launches consultation on Bitcoin and Ether ETF rules",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. The draft cites two Cointelegraph URLs, both appearing to be the same article with one a duplicate RSS variant. No additional sources are provided. The draft makes multiple factual claims unsupported by any provided source document: (1) 'Thailand's Securities and Exchange Commission has opened public consultation on draft rules for Bitcoin and Ether exchange-traded funds'; (2) 'standards for qualifying foreign digital asset custodians' are specified in the draft rules; (3) 'Hong Kong approved Bitcoin and Ether spot ETFs in 2024'; (4) 'Japan and South Korea maintain separate regulatory regimes for crypto asset funds'; (5) 'Thailand's consultation phase typically precedes final rules within months'. None of these can be verified from the cited sources, which are stubs without accessible content.",
+     "The rule 'no fact exists outside the brief' applies in reverse when no brief is provided: every fact must trace to a primary source document the desk can verify. A single Cointelegraph URL is not sufficient; the source document itself or a wire-service confirmation is required. The draft reads as though the writer has reporting context the sources do not show."
+    ]
+   },
+   {
+    "id": "c129",
+    "headline": "Standard Chartered becomes first bank distributor of HKD stablecoin",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for c129. The protocol states: 'every draft fact must then trace to the draft's own cited sources or be rejected.' However, the cited source is a single URL (https://cointelegraph.com/news/standard-chartered-hkdap-stablecoin-distribution) that cannot be verified against the input materials. The approver cannot validate whether the draft accurately reflects what Cointelegraph actually reported without access to the source text itself.",
+     "Specific factual claims in the draft (Standard Chartered being 'the first traditional banking institution' to distribute HKDAP, Q4 2026 timeline for money-market fund settlement, the technical details about custody and redemption) cannot be traced to any data_point in a brief, and the approver has no independent access to the cited Cointelegraph article to confirm them.",
+     "This is a structural accuracy problem: without a brief or direct access to verify the source, the desk cannot publish this story under the protocol's hard rule that 'no fact exists outside the brief.' The draft must be rejected and the story must be re-researched with a proper brief attached."
     ]
    }
   ]
