@@ -1,46 +1,5 @@
 [
  {
-  "date": "2026-07-26",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c000",
-    "headline": "Senate faces two-week window to pass Clarity Act; ethics provision unresolved",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Senator Elizabeth Warren 'called the bill \"dead on arrival\"' but the brief data_point says Warren said the bill 'should be dead on arrival'\u2014these are materially different claims (predictive vs. normative). The draft presents her statement as a completed judgment; the brief shows it as a conditional opinion about what should happen. This is not paraphrase; it changes the factual claim about what Warren said."
-    ]
-   },
-   {
-    "id": "c054",
-    "headline": "BitMine Accumulates 42,197 ETH, Nears 5% Supply Target",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'BitMine holds a $180 million stake in Beast Industries' but the brief lists this as reported fact without naming the company. The draft introduces a company name 'Beast Industries' that does not appear in the brief's data_points, which refer only to a '$180 million stake' without naming the investee. This is a smuggled fact not present in the research.",
-     "The draft states 'a $71 million stake in Eightco Holdings, which trades as ORBS on Nasdaq' but the brief data_point only says 'BitMine holds a $71 million stake in Eightco Holdings (NASDAQ: ORBS)' without the additional characterization 'which trades as ORBS on Nasdaq' in that particular phrasing\u2014minor but the company name and ticker linkage should be verified as present in brief before stating it as fact. However, re-reading the brief, it does state '(NASDAQ: ORBS)' so this is acceptable paraphrase.",
-     "The draft presents 'Tom Lee, chair of BitMine and head of research at Fundstrat' but the brief data_point states 'BitMine is chaired by Fundstrat's Tom Lee'\u2014the draft reverses the attribution order and adds 'head of research at Fundstrat' as a title. The brief confirms he is chair of BitMine and associated with Fundstrat, but the draft's specific phrasing of his dual role title should trace directly to the brief. The brief does not explicitly state he is 'head of research at Fundstrat,' only that he is 'of Fundstrat.' This is a minor inference but edges into smuggled characterization."
-    ]
-   },
-   {
-    "id": "c061",
-    "headline": "South Korea's Largest Bank to Launch Blockchain Payments on JPMorgan's Kinexys",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the platform is called 'JPMorgan's Kinexys' but the brief data_point lists it as 'JPMorgan's blockchain platform' without naming it 'Kinexys.' The title and first paragraph both name the platform 'Kinexys,' but this name does not appear in any brief data_point. The brief does not confirm the platform is called 'Kinexys'\u2014only that it is JPMorgan's platform. This is a smuggled fact not traced to research.",
-     "The brief is marked 'thin: true' with 'source_chars: 0,' indicating minimal sourcing. The draft elaborates extensively on blockchain settlement mechanics and trade friction ('Wire transfers, correspondent banking chains, and settlement delays create operational drag...Blockchain-based settlement can collapse multi-day settlement windows into minutes') without these details appearing in the brief's five data_points. This represents substantial new information not in the research."
-    ]
-   },
-   {
-    "id": "c001",
-    "headline": "CFTC Warns Prediction Markets Against Template Certifications",
-    "category": "balance",
-    "reasons": [
-     "The bear_case in the brief identifies three substantive risks: (1) CFTC jurisdictional authority remains in legal doubt and faces Supreme Court review, (2) multiple U.S. states are contesting CFTC authority on illegal sports gambling grounds, and (3) the advisory itself suggests widespread non-compliance indicating reactive enforcement. The draft mentions the jurisdictional dispute and state challenges in passing (one paragraph, late in the story) but does not weight them proportionately to the forward-looking liability they pose to the enforcement advisory's credibility. The draft frames the advisory as a tightening signal; the bear_case suggests that signal may be hollow if courts constrain CFTC authority. A reader of this draft would not grasp that the primary regulator's ability to enforce this advisory is itself under active legal challenge and may be diminished or reversed. This is a material omission of risk context that makes the story read as a regulatory-action story rather than a contested regulatory claim."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-27",
   "approved": 4,
   "rejected": [
@@ -7620,6 +7579,30 @@
      "Draft states 'At current SOL pricing of $73.25, the proposed 9,000 daily burn would equal approximately $659,250 daily' in paragraph 3, but then contradicts itself by stating in the title and paragraph 1 that the burn equals roughly '$800,000.' This math error ($73.25 \u00d7 9,000 = $658,750, not $800,000) indicates the writer smuggled in a number from the source headline without verifying it against the stated price. The brief contains no data_point specifying a $800,000 figure; it only states the proposal 'would raise daily fee burns from approximately 650 SOL to as much as 9,000 SOL, equivalent to roughly $800,000 at current prices' (core_claim) without pinning a specific price. The writer invented the reconciliation by inserting a price ($73.25) that does not appear in the brief.",
      "The brief explicitly marks multiple details as open_questions and thin=true (limited source material). The draft then compounds this by stating 'available reporting does not specify the exact mechanism...the timeline...the details of the third governance proposal. The voting threshold and current community sentiment on these proposals remain unreported in available sources'\u2014which violates the rule against narrating absence. The desk is forbidden from restating open_questions as prose; these should be cut entirely or the story restructured to avoid that framing.",
      "The draft is salvageable by cutting the contradictory price language and the absence-narration sentences, but the math error and the invented price point indicate the writer did not validate the source against the brief and is a first-order accuracy failure."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-25",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c024",
+    "headline": "Strategy Raises $2 Billion, Halts Bitcoin Buying Since June",
+    "category": "accuracy",
+    "reasons": [
+     "The draft introduces a claim not in the brief: 'The desk's Whale Watch board showed $151.2 million in BTC moving onto exchanges over the past day, with $394 million flowing into Coinbase institutional.' This is smuggled data from an internal source ('the desk's Whale Watch board') that does not appear in any of the three cited sources or the brief's data points. The protocol hard rule is: no fact exists outside the brief. This entire clause is fabricated external to the research.",
+     "The phrase 'A resumption of Bitcoin buying would signal confidence; sustained cash hoarding would reinforce skepticism about the rally's durability at current levels' is interpretive framing that reads as investment guidance about market signals and price durability\u2014proximate to a trade implication. Combined with the cash hoarding language, this edges toward prescriptive investor-facing analysis rather than neutral reporting.",
+     "The draft also contains speculative interpretation ('This could signal either caution about near-term price levels or a deliberate shift away...') presented as the writer's own analysis in the bear case paragraph, when the brief's bear case items are factual pauses in accumulation and cash establishment, not interpretations of what they signal."
+    ]
+   },
+   {
+    "id": "c122",
+    "headline": "Standard Chartered Becomes First Bank Distributor of HKD Stablecoin",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The instruction protocol requires that 'every fact goes back to research' and that 'no fact exists outside the brief.' With no brief, the approver cannot verify whether the claims in the draft trace to the single cited source (Cointelegraph) or whether any facts have been introduced that the source does not carry. The draft itself acknowledges sourcing thinness ('Cointelegraph is the sole source', 'does not carry quotes from Standard Chartered or HKDAP issuer commentary'), but without a brief documenting what Cointelegraph actually reported versus what the draft asserts, verification is impossible. The protocol requires rejection under accuracy when the factual chain cannot be verified."
     ]
    }
   ]
