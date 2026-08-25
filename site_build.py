@@ -887,7 +887,8 @@ MOTION_JS = (
 
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
-          live_js=False, brand="site", og_type="website", schema_extra="", og_image=None):
+          live_js=False, brand="site", og_type="website", schema_extra="", og_image=None,
+          canonical_path=None):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
              '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
@@ -898,7 +899,11 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     # canonical tag"; the same mismatch made og:url disagree with the URL people share, so
     # scrapers cached previews under a URL nobody sends. If Pretty URLs is ever disabled
     # this must revert with it, or every canonical points at a 404.
-    url = ORIGIN + (path[:-5] if path.endswith(".html") else path)
+    # CANONICAL MAY POINT ELSEWHERE (owner SEO audit 2026-08-25): a composite page whose
+    # unique content already lives on its own URL should name that URL as canonical
+    # rather than compete with it. Everything else keeps the self-referential canonical.
+    _cp = canonical_path or path
+    url = ORIGIN + (_cp[:-5] if _cp.endswith(".html") else _cp)
     # one identity per page: site-brand pages carry the umbrella in the title tail and
     # social tags; Cronkite's own pages keep the desk name
     site_name = NAME if brand == "cronkite" else FAMILY
@@ -1370,6 +1375,107 @@ def render_bottom_line_history(items, dateline):
                  "The Bottom Line", body, dateline, path="/bottom-line.html", brand="cronkite")
 
 
+
+# The beats the desk actually covers, with a standing description. A hub page whose only
+# content is links is a page with nothing of its own to say, which is what Google reports
+# as "crawled, currently not indexed" (owner SEO audit 2026-08-25).
+NEWS_BEATS = [
+    ("Regulation and enforcement", ("regulation", "enforcement", "policy", "legal", "sec", "cftc"),
+     "Rulemaking, enforcement actions and court decisions, from the agencies' own filings "
+     "wherever the desk can read them. The desk reports what a regulator did, not what it "
+     "is rumoured to be considering."),
+    ("Market structure", ("markets", "etf", "etfs", "flows", "derivatives", "liquidity", "price"),
+     "Prices, ETF flows, leverage and liquidations, measured on the desk's own boards as "
+     "well as reported. Where a number comes from the desk's instruments, the story says so."),
+    ("Protocol and infrastructure", ("protocol", "upgrade", "ethereum", "bitcoin", "layer2",
+                                     "network", "mining"),
+     "Upgrades, forks, client releases and the plumbing beneath them, sourced to the "
+     "protocol teams' own announcements where they exist."),
+    ("Security and exploits", ("security", "hack", "exploit", "breach", "scam", "fraud"),
+     "Exploits, breaches and the money that moved, cross-checked against an independent "
+     "exploit ledger so a missed incident shows up as a gap, not silence."),
+    ("Business and institutions", ("business", "company", "exchange", "institutional",
+                                  "funding", "adoption", "stablecoin"),
+     "Exchanges, issuers, banks and the institutions moving into the asset class: what was "
+     "announced, by whom, and what was actually signed."),
+]
+
+
+def _beat_of(item):
+    t = set(tags_for(item)) | {(item.get("category") or "").lower()}
+    text = " ".join([item.get("title") or "", item.get("key_fact") or ""]).lower()
+    for name, keys, _desc in NEWS_BEATS:
+        if t & set(keys) or any(k in text for k in keys):
+            return name
+    return None
+
+
+def _news_beats(live, per=6):
+    """The corpus grouped by beat, each with a standing description of what it covers."""
+    buckets = {}
+    for i in sorted(live, key=lambda x: x.get("published_utc") or x.get("date") or "",
+                    reverse=True):
+        b = _beat_of(i)
+        if b:
+            buckets.setdefault(b, []).append(i)
+    secs = []
+    for name, _keys, desc in NEWS_BEATS:
+        rows = buckets.get(name) or []
+        if len(rows) < 3:
+            continue
+        lis = "".join(
+            f'<li><a href="/articles/{esc(i["slug"])}">{esc(i.get("title"))}</a>'
+            f'<span class="mut"> &middot; {fmt_when(i)}</span></li>' for i in rows[:per])
+        secs.append(f'<section class="sec"><div class="wrap">'
+                    f'<div class="sec-head"><h2>{esc(name)}</h2><span class="bar"></span></div>'
+                    f'<p class="lede">{esc(desc)}</p>'
+                    f'<p class="mut">{len(rows)} stories on this beat.</p>'
+                    f'<ul class="link-list">{lis}</ul></div></section>')
+    return "".join(secs)
+
+
+def _news_threads(live, max_threads=6):
+    """Ongoing storylines, built from the desk's OWN declared update chains.
+
+    This is the part no aggregator can copy: the desk knows which of its stories develop
+    which, so a reader can follow a thread from its origin instead of meeting each chapter
+    as an unconnected page."""
+    by_slug = {i.get("slug"): i for i in live}
+    kids = {}
+    for i in live:
+        p = i.get("update_of")
+        if p and p in by_slug and _same_storyline(i, by_slug[p]):
+            kids.setdefault(p, []).append(i)
+    threads = sorted(kids.items(), key=lambda kv: -len(kv[1]))[:max_threads]
+    if not threads:
+        return ""
+    out = []
+    for root, children in threads:
+        chain = [by_slug[root]] + sorted(children, key=lambda x: x.get("date") or "")
+        lis = "".join(f'<li><a href="/articles/{esc(c["slug"])}">{esc(c.get("title"))}</a>'
+                      f'<span class="mut"> &middot; {fmt_when(c)}</span></li>' for c in chain)
+        out.append(f'<div class="thread"><h3>{esc(by_slug[root].get("title"))}</h3>'
+                   f'<ol class="link-list">{lis}</ol></div>')
+    return ('<section class="sec"><div class="wrap">'
+            '<div class="sec-head"><h2>Storylines the desk is following</h2>'
+            '<span class="bar"></span></div>'
+            '<p class="lede">Developments the desk has covered more than once, in order. '
+            'Each thread is the desk\'s own reporting on one story as it moved.</p>'
+            + "".join(out) + '</div></section>')
+
+
+def _news_collection_schema(live):
+    """CollectionPage + ItemList so the hub declares what it is."""
+    newest = sorted(live, key=lambda x: x.get("published_utc") or "", reverse=True)[:10]
+    data = {"@context": "https://schema.org", "@type": "CollectionPage",
+            "name": f"Crypto news by beat and storyline - {NAME}",
+            "url": ORIGIN + "/news",
+            "mainEntity": {"@type": "ItemList", "itemListElement": [
+                {"@type": "ListItem", "position": n + 1,
+                 "url": f"{ORIGIN}/articles/{i.get('slug')}",
+                 "name": i.get("title")} for n, i in enumerate(newest)]}}
+    return f'<script type="application/ld+json">{json.dumps(data, ensure_ascii=False)}</script>'
+
 def render_news(items, dateline, pulse=None):
     live = [i for i in items if not i.get("example")]
     bl = bottom_line_card(live)
@@ -1419,9 +1525,14 @@ def render_news(items, dateline, pulse=None):
     # journalism
     # the ticker and desk strip are secondary chrome; the news itself is the main landmark
     body = (market_strip(pulse) + desk_strip() + '<main class="news-main">' + lead_html + grid
+            + _news_beats(live) + _news_threads(live)
             + trust_block() + flow_teaser() + newsletter() + '</main>')
-    return shell(f"Latest news - {NAME}", DESC, "Latest", body, dateline, path="/news.html",
-                 brand="cronkite")
+    return shell(f"Crypto news by beat and storyline - {NAME}",
+                 "Every story the desk has published, grouped by beat and by the "
+                 "storylines it follows, with what each beat covers and how the desk "
+                 "verifies it.",
+                 "Latest", body, dateline, path="/news.html", brand="cronkite",
+                 schema_extra=_news_collection_schema(live))
 
 
 def render_home(items, flows, pulse, cm, dateline):
