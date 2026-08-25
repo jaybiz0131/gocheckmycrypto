@@ -18,6 +18,7 @@ USAGE
 """
 
 import json
+import re
 import sys
 
 import common
@@ -60,7 +61,14 @@ def gather_sources(story, mode):
         if len(text) >= 200:
             fetched_ok += 1
         checks.append({"url": url, "http_status": m["status"],
-                       "source_text": text if len(text) >= 200 else "",
+                       # KEEP WHAT THE PUBLISHER GAVE US (owner audit 2026-08-25). This
+                       # discarded anything under 200 chars, which threw away the exact
+                       # og:description and JSON-LD text the extractor had just recovered
+                       # (97-147 chars of the publisher's own summary), so eight stories
+                       # a run still reached the writer as "0 chars of source text". The
+                       # writer's own floor decides what is too thin to write from; this
+                       # stage's job is to carry whatever was actually read.
+                       "source_text": text,
                        "text_origin": "page", "fetch_meta": diag,
                        "text_excerpt": (text[:1500] if text else f"(unreadable: {diag})")})
     # PUBLISHER'S OWN FEED TEXT, ONLY WHEN NO PAGE COULD BE READ (owner report
@@ -68,8 +76,13 @@ def gather_sources(story, mode):
     # entry carries the publisher's own words, the desk verifies and briefs from those,
     # labeled as exactly that. The page always wins when any page was readable, and the
     # fallback never stacks on top of real text, so source_chars stays honest.
-    if checks and all(len(c.get("source_text") or "") < 300 for c in checks) \
-            and len(feed_text) >= 300:
+    # THE DESK'S OWN INSTRUMENT, when nobody readable covered a market claim
+    if checks and all(len(c.get("source_text") or "") < 200 for c in checks):
+        bc = _board_check(str(story.get("headline") or ""))
+        if bc:
+            checks.append(bc)
+    if checks and all(len(c.get("source_text") or "") < 200 for c in checks) \
+            and len(feed_text) >= 150:
         checks.append({"url": (story.get("source_urls") or [""])[0], "http_status": None,
                        "source_text": feed_text[:6000], "text_origin": "feed",
                        "fetch_meta": "publisher feed text; no article page was readable",
@@ -121,6 +134,78 @@ def _with_siblings(story, clusters):
         pass
     return {**story, "source_urls": urls[:6], "feed_text": feed_text}
 
+
+
+# Quantities the desk measures FIRST-HAND on its own boards. A market-move claim is the
+# one class where the desk is not dependent on any publisher: it computes the number
+# itself, every run, from keyless public APIs. See the boundary note in _board_check.
+# A MARKET-QUANTITY claim needs an ASSET and a MOVEMENT, not just a money word: an
+# acquisition headline containing "asking price" is not a market-move story, and the
+# first draft of this pattern attached the boards to one (owner audit 2026-08-25).
+_BOARD_ASSET = re.compile(
+    r"\b(bitcoin|btc|ether|ethereum|eth|solana|sol|xrp|crypto market|total market cap|"
+    r"etf|etfs|futures|open interest|stablecoin supply)\b", re.I)
+_BOARD_MOVE = re.compile(
+    r"\b(rall(?:y|ies|ied)|surge[sd]?|slump[sd]?|jump[sd]?|fell|falls|drop(?:s|ped)?|"
+    r"climb(?:s|ed)?|advance[sd]?|extends?|gain(?:s|ed)?|lose[s]?|lost|"
+    r"inflow[s]?|outflow[s]?|liquidation[s]?|short squeeze|funding rate[s]?|"
+    r"dominance|fear and greed|tops|hits|holds (?:above|below)|"
+    r"\d+\s*(?:percent|%)|\$\d)\b", re.I)
+
+
+class _BoardClaim:
+    """Both an asset and a movement must be present for the boards to have anything to say."""
+    @staticmethod
+    def search(text):
+        t = text or ""
+        return _BOARD_ASSET.search(t) and _BOARD_MOVE.search(t)
+
+
+_BOARD_CLAIM = _BoardClaim
+
+
+def _board_check(headline, boards=None):
+    """The desk's own measured market data as a first-party source_check, or None.
+
+    WHY THIS IS LEGITIMATE (owner directive 2026-08-25). The residue of unverifiable
+    crypto stories is market-move items that one walled outlet reported and nobody
+    readable covered: a seven-day advance, an ETF inflow streak, a liquidation cascade.
+    The desk measures every one of those quantities ITSELF, every run, from keyless
+    public APIs, and prompts/writer.md already calls the boards the desk's structural
+    advantage and licenses citing them by name. chartmaster.py already adjudicates
+    EDITION claims against these same boards through three deterministic belts, so
+    boards-as-arbiter is established practice here; this simply makes the same evidence
+    available one stage earlier, where it decides whether a story can be told at all.
+
+    THE BOUNDARY IS HARD. Boards measure quantities, never events, intent, causation,
+    announcements or regulatory action. A board can confirm that bitcoin rose 25 percent
+    over seven days; it can say nothing about WHY, about who said what, or about a
+    filing, a lawsuit or a partnership. So this attaches only to headlines that make a
+    market-quantity claim, it is labeled desk_board so the verifier and the writer both
+    know what they are looking at, and it never replaces reporting: it is a source that
+    happens to be the desk's own instrument.
+    """
+    if not _BOARD_CLAIM.search(headline or ""):
+        return None
+    try:
+        import chartmaster
+        b = boards if boards is not None else chartmaster.digest()
+    except Exception:
+        return None
+    if not b:
+        return None
+    keep = {k: b.get(k) for k in ("data_date", "as_of", "fear_greed", "assets", "leverage",
+                                  "market", "etf_flows", "movers", "whale_flows")
+            if b.get(k) is not None}
+    text = ("The desk's own market boards, measured this run from public APIs. These are "
+            "first-party measurements of market QUANTITIES only: they can confirm or "
+            "refute a price, a change over a window, an ETF net flow, open interest, "
+            "funding, liquidations, exchange flows and Fear and Greed. They say nothing "
+            "about events, announcements, filings, causation or intent.\n"
+            + json.dumps(keep, indent=1)[:5000])
+    return {"url": "desk://market-boards", "http_status": 200, "source_text": text,
+            "text_origin": "desk_board", "fetch_meta": "first-party desk measurement",
+            "text_excerpt": text[:1500]}
 
 def build_user(enriched):
     # The model sees the 1500-char excerpts, not the full extractions (cost discipline);

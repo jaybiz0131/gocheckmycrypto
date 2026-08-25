@@ -184,6 +184,16 @@ def _stale(when, days=1):
     return (now.date() - d.date()).days >= days
 
 
+
+def _day(when):
+    """The UTC calendar day a surface was frozen on, or '' when it is live/unknown."""
+    if not when:
+        return ""
+    try:
+        return datetime.datetime.fromisoformat(str(when).replace("Z", "+00:00")).date().isoformat()
+    except Exception:
+        return ""
+
 def conflicts(surface_list=None):
     """Every pair of surfaces asserting opposite single directions on the same metric at
     a colliding window. Same stated window collides; an unscoped claim ('') collides with
@@ -201,15 +211,26 @@ def conflicts(surface_list=None):
         for sname, text, when in surf:
             for scope, dirs in directions(text, m).items():
                 if len(dirs) == 1:
-                    takes.append((sname, scope, next(iter(dirs)), _stale(when)))
+                    takes.append((sname, scope, next(iter(dirs)), _stale(when), _day(when)))
         for i in range(len(takes)):
             for j in range(i + 1, len(takes)):
-                (sa, ca, da, xa), (sb, cb, db, xb) = takes[i], takes[j]
+                (sa, ca, da, xa, ya), (sb, cb, db, xb, yb) = takes[i], takes[j]
                 if sa == sb or da == db:
                     continue
                 # one side frozen on an earlier day, the other live: time, not conflict
                 live = {"chart-master", "whale-board"}
                 if (xa and sb in live) or (xb and sa in live):
+                    continue
+                # TWO EDITIONS FROM DIFFERENT DAYS ARE NOT IN CONFLICT (owner audit
+                # 2026-08-25). Every metric this gate tracks is a market DIRECTION, and a
+                # direction is a fact about a day: whales moved onto exchanges on Monday
+                # and off them on Wednesday, and both editions were right when written.
+                # Colliding them made the gate fail every run once the flow reversed,
+                # which is alarm fatigue on a gate whose whole value is being believed.
+                # Two surfaces from the SAME day still collide, because that is one
+                # homepage contradicting itself, which is the reporting problem this gate
+                # exists to catch.
+                if sa not in live and sb not in live and ya and yb and ya != yb:
                     continue
                 if ca == cb or ca == "" or cb == "":
                     found.append({"metric": name,
