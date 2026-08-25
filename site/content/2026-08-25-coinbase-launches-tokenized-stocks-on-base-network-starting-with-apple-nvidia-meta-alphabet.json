@@ -1,0 +1,37 @@
+{
+  "id": "c019",
+  "slug": "coinbase-launches-tokenized-stocks-on-base-network-starting-with-apple-nvidia-meta-alphabet",
+  "kind": "brief",
+  "title": "Coinbase launches tokenized stocks on Base network, starting with Apple, Nvidia, Meta, Alphabet",
+  "dek": "Coinbase has issued tokenized versions of Apple, Nvidia, Meta, and Alphabet on its Base network under Abu Dhabi regulation, with real shares held 1:1 by SEC-registered custodian Alpaca Securities. The launch enters Coinbase into a $2.48 billion tokenized equities sector dominated by Ondo and Backed, though US customers remain excluded.",
+  "date": "2026-08-25",
+  "published_utc": "2026-08-25T13:32:34Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 9,
+  "author": "Crypto Cronkite",
+  "key_fact": "Coinbase tokenized stocks trade 24/7 on Base; real shares are held 1:1 by Alpaca Securities, an SEC-registered broker-dealer, under a segregated custody deed of trust.",
+  "bottom_line": "Watch the volumes and holder count over coming weeks to gauge non-US demand. The open question is whether Coinbase's 24/7 trading and SEC-registered custody model will attract users away from competitors like Ondo, which offers voting rights but faces different regulatory positioning. If the SEC grants domestic relief, the addressable market would expand substantially; without it, Coinbase's product remains geographically constrained.",
+  "human_take": "",
+  "body": [
+    "Coinbase has launched tokenized versions of four major US stocks on its Base network, marking the exchange's entry into the $2.48 billion tokenized equities sector. The tokens, named NVDAc, METAc, AAPLc, and GOOGLc, track Nvidia, Meta, Apple, and Alphabet respectively. According to The Defiant, the tokens went live Monday and are available to eligible non-US users without requiring a brokerage account.",
+    "Real shares backing the tokens are held 1:1 by Alpaca Securities LLC, an SEC-registered broker-dealer, in segregated accounts; the issuer, Coinbase Onchain SPV Ltd (incorporated in Abu Dhabi Global Market in June 2026), holds them as bare trustee under a deed of trust. Coinbase won its Abu Dhabi Financial Services Regulatory Authority permission for the tokenization hub earlier this month. Chainlink serves as the official oracle, publishing total return values that fold in dividend and split adjustments. Oracle feeds run 24/5 and freeze during corporate actions, though the tokens themselves trade 24/7 on Base.",
+    "Early activity was modest. By late Monday, The Defiant reported combined on-chain value of roughly $4.55 million across the four tokens, with $3.06 million of decentralized exchange liquidity and $10.8 million of 24-hour volume. NVDAc, the largest, had 6,794.49 tokens outstanding and 1,745 holders. Pricing held close to underlying stocks: NVDAc changed hands at $208.51 against Nvidia's $208.48 close; AAPLc at $311.23 against Apple's $310.34; and METAc at $558.50 against Meta's $559.02.",
+    "Aerodrome, the Base decentralized exchange, holds the deepest liquidity pool for each token. AERO, the exchange's native token, traded at $0.5334 late Monday, up 11.3% on the day and 29% over the week. Aerodrome holds $265.8 million in total value locked against a $522 million market capitalization. Base itself carries $5.49 billion in total value locked, the fourth-largest among all chains, per The Defiant.",
+    "The structure carries restrictions. Creation costs 1 basis point and redemption 5 basis points of the invested amount. Minting and redemption are limited to KYC-verified Authorized Participants; secondary trading is permissionless. Token holders receive dividends but carry a 5% distribution fee on gross value before the 30% US withholding rate applied to non-US persons. Token holders have no direct voting rights in underlying companies; the SPV may pass along shareholder instructions only from 'Vested Holders' registered in the legal register after clearing KYC and AML checks. Unvested holders cannot vote or redeem, and vesting conditions can change after purchase. Tokens are offered under Regulation S and unavailable to US persons; the tokenization entity can freeze or blacklist wallets in prohibited jurisdictions.",
+    "The B20 token standard used here is built as a precompile on Base, meaning every integrator shares one audited implementation. Base's documentation warns integrators that oracle feeds freeze over weekends while tokens trade 24/7, and never to settle or liquidate against a stale feed. One B20 token does not permanently equal one share; a multiplier scales each token's claim as dividends reinvest and splits apply, keeping raw balances fixed while entitlement adjusts.",
+    "Tokenized public equities form a $2.48 billion market, up 5.18% over 30 days, with 2.12 million holders and $27.28 billion in monthly transfer volume, per The Defiant. Ondo Finance leads the sector with $872.7 million across 406 assets, followed by Backed's xStocks at $588 million and Binance's bStocks at $552.7 million. The sector nearly doubled since March and crossed $2.3 billion in mid-July. Coinbase enters with four tickers and has announced more are coming. Ondo wired shareholder voting into more than 250 tokenized stocks through Broadridge in April, a feature absent from Coinbase's structure. Coinbase's US customers remain unable to buy any of the new tokens; the exchange asked the SEC for relief to offer tokenized equities domestically in June 2025, and that request remains pending."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/defi/coinbase-launches-tokenized-stocks-on-base",
+      "url": "https://thedefiant.io/news/defi/coinbase-launches-tokenized-stocks-on-base"
+    },
+    {
+      "title": "https://dailyhodl.com/2026/08/25/coinbase-tokenized-stocks-go-live-on-base-bringing-apple-and-nvidia-shares-to-defi-24-7/",
+      "url": "https://dailyhodl.com/2026/08/25/coinbase-tokenized-stocks-go-live-on-base-bringing-apple-and-nvidia-shares-to-defi-24-7/"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": false
+}

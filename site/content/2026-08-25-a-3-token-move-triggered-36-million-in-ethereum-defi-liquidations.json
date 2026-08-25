@@ -1,0 +1,37 @@
+{
+  "id": "c002",
+  "slug": "a-3-token-move-triggered-36-million-in-ethereum-defi-liquidations",
+  "kind": "brief",
+  "title": "A 3% token move triggered $36 million in Ethereum DeFi liquidations",
+  "dek": "A single wallet's $320,000 in rapid trades on Pendle pushed PT-reUSD prices down 3%, cascading into $36.4 million in liquidations across Morpho borrowers. The incident exposed structural fragility in DeFi: oracle vulnerability when collateral is a derivative, thin liquidity in niche assets, and cross-protocol contagion paths.",
+  "date": "2026-08-25",
+  "published_utc": "2026-08-25T13:32:34Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "For every dollar the trader spent, roughly $114 in positions got liquidated across Morpho, according to Crypto Briefing's reporting.",
+  "bottom_line": "Single wallet's yield-token purchase cascaded into $36M liquidations across DeFi borrowers. Concrete example of oracle/collateral fragility in DeFi; market-structure risk documented.",
+  "human_take": "",
+  "body": [
+    "Thirty-six million dollars in Ethereum lending positions liquidated in minutes after a single wallet's rapid trades on Pendle pushed PT-reUSD prices down 3%. According to Crypto Briefing, the cascade exposed how thin liquidity in derivative collateral can trigger cross-protocol contagion even when the underlying trade itself was modest in size.",
+    "On August 25, 2026, wallet 0x854e\u2026690d executed 11 consecutive Pendle trades between 04:28 and 04:37 UTC, spending approximately $320,000 to convert SY-reUSD into over 9.5 million YT-reUSD. The nine-minute execution window moved PT-reUSD prices 3% lower and sent the implied annual yield for the PT-reUSD/YT-reUSD market above 20%, per Crypto Briefing's reporting.",
+    "The price move cascaded into Morpho, where borrowers had deployed PT-reUSD as collateral for USDC and USDT loans. Crypto Briefing reports that 33 liquidation events occurred across 19 to 20 borrower positions. Over 38 million PT-reUSD was seized, and roughly $35.19 million in USDC debt and $960,000 in USDT debt were repaid through liquidation, totaling $36.4 million in affected positions. Critically, no bad debt was created, per Crypto Briefing, meaning every liquidated position held sufficient collateral to cover its outstanding loan.",
+    "The structure of the incident exposed three layers of fragility. First, borrower positions carried LTV ratios of 91.5% before the incident, leaving less than a 10% buffer before liquidation, according to Crypto Briefing. Second, Pendle's PT-reUSD oracle uses the lower of two values: a 15-minute market average or a fixed discount curve with roughly 6% annual discount. When 11 trades execute in under nine minutes in a thin market, the 15-minute average shifts meaningfully, according to Crypto Briefing's analysis. Third, PT-reUSD is a derivative instrument, not a liquid base asset like ETH or USDC, expanding the manipulation surface area compared to traditional DeFi collateral.",
+    "Pendle launched a USDC vault on Morpho around August 4, 2026, approximately three weeks before the incident. The vault attracted over $15 million in deposits, with the majority allocated to PT-reUSD markets, per Crypto Briefing. Before the trades, implied yields for PT-reUSD sat around 11% with a December 10, 2026 maturity date.",
+    "Crypto Briefing's data shows that for every dollar the trader spent, roughly $114 in positions got liquidated across Morpho. Pendle has acknowledged the incident and said it is reviewing its oracle configurations, according to Crypto Briefing.",
+    "The Bottom Line: Watch whether Pendle's oracle adjustment extends beyond PT-reUSD to other yield-token markets, and whether Morpho or other lending protocols revise their LTV caps for derivative collateral more broadly. The story's premise inverts if protocols implement time-weighted average prices longer than 15 minutes or if yield-farming adoption pivots away from Pendle derivative collateral and toward base-layer assets."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/08/25/a-3-token-move-just-triggered-usd36-million-in-ethereum-defi-liquidations",
+      "url": "https://www.coindesk.com/tech/2026/08/25/a-3-token-move-just-triggered-usd36-million-in-ethereum-defi-liquidations"
+    },
+    {
+      "title": "https://cryptobriefing.com/morpho-liquidations-pendle-reusd-cascade/",
+      "url": "https://cryptobriefing.com/morpho-liquidations-pendle-reusd-cascade/"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": false
+}
