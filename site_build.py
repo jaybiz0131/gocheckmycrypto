@@ -275,20 +275,121 @@ def tags_for(item):
     return [tag for tag, rx in _TAG_RES if rx.search(text)][:3]
 
 
+
+_STORY_STOP = {"the","a","an","and","or","of","to","for","in","on","with","from","as","at",
+               "its","it","that","this","after","over","amid","says","said","new","first",
+               "crypto","bitcoin","btc","report","reports"}
+
+
+def _content_words(*texts):
+    out = set()
+    for t in texts:
+        out |= {w for w in re.findall(r"[a-z][a-z0-9.]{2,}", (t or "").lower())
+                if w not in _STORY_STOP}
+    return out
+
+
+def _proper_nouns(*texts):
+    out = set()
+    for t in texts:
+        out |= {w.lower() for w in re.findall(r"\b[A-Z][A-Za-z0-9&.-]{2,}", t or "")
+                if w.lower() not in _STORY_STOP}
+    return out
+
+
+def _same_storyline(a, b, names_floor=0.22):
+    """True when two stories visibly share a subject, by their own words.
+
+    THE BAR MATCHES THE CLAIM (owner SEO audit 2026-08-25). Measured on the 58 declared
+    update edges, vocabulary overlap runs a median of 0.10 and the band from 0.14 to 0.22
+    is a coin flip: "Russia passes crypto law" over "Russia's parliament passes crypto
+    law" is the same story, but "Storj files Chapter 11" over "Movement Labs files
+    Chapter 11" is two different bankruptcies that merely share the words. So the DEFAULT
+    is strict, because the Update callout asserts a lineage in the desk's own voice and a
+    false assertion is worse than a missing link. A "read next" link claims far less, so
+    the related picker passes a lower floor deliberately."""
+    at, bt = a.get("title") or "", b.get("title") or ""
+    ak, bk = a.get("key_fact") or "", b.get("key_fact") or ""
+    aw, bw = _content_words(at, ak), _content_words(bt, bk)
+    if not aw or not bw:
+        return False
+    overlap = len(aw & bw) / min(len(aw), len(bw))
+    shared_names = _proper_nouns(at, ak) & _proper_nouns(bt, bk)
+    return overlap >= 0.55 or (bool(shared_names) and overlap >= names_floor)
+
 def related_stories(item, items, n=3):
-    """Stories sharing a topic tag, newest first. Turns a one-story visit into a session."""
-    mine = set(tags_for(item))
-    if not mine:
+    """The stories a reader of this one should read next, best first.
+
+    REBUILT (owner SEO audit 2026-08-25). The old picker scored on shared topic tags
+    alone and was measured actively harmful on the live corpus: 8% of its picks were
+    good, 46% of the 849 internal links it emitted pointed at DAILY EDITIONS rather than
+    stories, 38 article pages carried a related block that was 100% editions, and 64% of
+    real stories received no inbound related link at all while two pages absorbed 55 and
+    54 each. A funnelling link graph where most of the corpus is an internal orphan is a
+    mechanical cause of "crawled, currently not indexed".
+
+    Now, in order: the article's own storyline (its update chain, both directions, which
+    the old picker hit 0.1% of the time and is the single most useful link there is),
+    then same-subject stories by the shared-proper-noun test, then shared tags as a
+    fallback. Editions are never linked from a story: they are summaries OF stories and
+    linking them dilutes the story graph. A near-duplicate of this story is never linked
+    either, because that teaches a crawler the two pages are interchangeable.
+    """
+    slug = item.get("slug")
+    pool = [o for o in items
+            if o is not item and not o.get("example")
+            and o.get("slug") != slug
+            and not _is_wrap(o) and o.get("category") != "daily edition"
+            and not o.get("superseded_by")]
+    if not pool:
         return []
+    chain = set()
+    if item.get("update_of"):
+        chain.add(item["update_of"])
+    chain |= {o.get("slug") for o in pool if o.get("update_of") == slug}
+    mine = set(tags_for(item))
     scored = []
-    for other in items:
-        if other is item or other.get("example") or other.get("slug") == item.get("slug"):
+    for o in pool:
+        if dedupe_same_event(item, o):
+            continue  # a near-duplicate is not a "read next"
+        if o.get("slug") in chain:
+            rank = 3
+        elif _same_storyline(item, o, names_floor=0.16):
+            rank = 2
+        elif mine and (mine & set(tags_for(o))):
+            rank = 1
+        else:
             continue
-        shared = len(mine & set(tags_for(other)))
-        if shared:
-            scored.append((shared, other.get("date", ""), other))
-    scored.sort(key=lambda t: (t[0], t[1]), reverse=True)
-    return [o for _, _, o in scored[:n]]
+        scored.append((rank, o, abs(_date_gap(item, o))))
+    # WITHIN A RANK, NEAREST IN TIME (owner SEO audit 2026-08-25). Sorting the tag
+    # fallback by recency alone funnelled the whole corpus into a handful of hub pages:
+    # the first rebuild left 75% of stories with no inbound link while two pages absorbed
+    # 130 and 87. Coverage is the point of this module, so neighbours in time win, which
+    # spreads inbound links across the archive instead of stacking them on the newest
+    # broadly-tagged story.
+    scored.sort(key=lambda t: (-t[0], t[2]))
+    return [o for _, o, _ in scored[:n]]
+
+
+def _date_gap(a, b):
+    """Days between two items, large when either date is unusable."""
+    import datetime as _dt
+    try:
+        da = _dt.date.fromisoformat(str(a.get("date"))[:10])
+        db = _dt.date.fromisoformat(str(b.get("date"))[:10])
+        return (da - db).days
+    except Exception:
+        return 9999
+
+
+def dedupe_same_event(a, b):
+    """dedupe.same_event on two published items, fail-open."""
+    try:
+        import dedupe
+        return dedupe.same_event(a.get("title", ""), a.get("key_fact", ""),
+                                 b.get("title", ""), b.get("key_fact", ""))
+    except Exception:
+        return False
 
 
 def _w3c_dt(raw):
@@ -978,10 +1079,20 @@ def render_article(item, all_items=None):
                   'format Crypto Cronkite publishes in. The content is illustrative only.</div>')
     if item.get("update_of"):
         prev = next((i for i in (all_items or []) if i.get("slug") == item["update_of"]), None)
-        prev_title = prev.get("title") if prev else "our earlier story"
-        ribbon += (f'<div class="callout"><b>Update.</b> This story develops our earlier '
-                   f'reporting: <a href="/articles/{esc(item["update_of"])}.html">'
-                   f'{esc(prev_title)}</a>.</div>')
+        # ONLY CLAIM A LINEAGE THE PAGES ACTUALLY SHARE (owner SEO audit 2026-08-25). This
+        # callout tells the reader, in the desk's own voice, that the piece develops an
+        # earlier story, and autopilot writes update_of automatically from a fuzzy
+        # matcher. An audit of the 58 live edges found roughly 30 that share no proper
+        # noun and under 0.50 headline overlap: a Trezor shipping breach "developing" a
+        # BitMEX shutdown, a UK tax-letter story "developing" a New York lawsuit against
+        # Kalshi. Each one is a false statement to the reader and an internal link that
+        # teaches a crawler the wrong thing. The edge still rides in the data (nothing is
+        # deleted); it simply is not ASSERTED unless the two pages visibly share the
+        # story, which is a deterministic check, not a judgement call.
+        if prev and _same_storyline(item, prev):
+            ribbon += (f'<div class="callout"><b>Update.</b> This story develops our earlier '
+                       f'reporting: <a href="/articles/{esc(item["update_of"])}">'
+                       f'{esc(prev.get("title"))}</a>.</div>')
     # A correction is a feature of an honest desk (standards page): show it plainly. The
     # aging loop (corrections.py) and manual reconciliations both write item["corrected"].
     if (item.get("corrected") or "").strip():
