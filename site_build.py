@@ -54,9 +54,7 @@ CF_ANALYTICS_TOKEN = "ee5216c8411a41d78c7c4f679406ef4b"  # Cloudflare Web Analyt
 DESC = ("Crypto Cronkite is an independent crypto news desk built with one intention: get the "
         "stories right and keep the data honest. Plus the Whale Watch and Market Pulse data "
         "desks. We report events, we never advise trades.")
-FAMILY_DESC = ("GoCheckMyCrypto is crypto, checked: the Crypto Cronkite news desk with the shill "
-               "stripped out, whale money flows, live market dashboards, and The Chart Master. "
-               "Built to get the stories right and keep the data honest. Never financial advice.")
+FAMILY_DESC = ("Independent crypto news with the shill stripped out, plus live whale flows and market dashboards the desk measures itself. Never financial advice.")
 NFA = ("Not financial advice. Crypto Cronkite reports events and explains what they may mean. "
        "It never tells you to buy or sell anything. Do your own research.")
 YEAR = "2026"
@@ -1456,7 +1454,11 @@ def render_article(item, all_items=None):
          "datePublished": item.get("published_utc") or item.get("date"),
          "dateModified": item.get("published_utc") or item.get("date"),
          "author": {"@type": "Organization", "name": NAME, "url": ORIGIN + "/news.html"},
-         "publisher": {"@type": "Organization", "name": FAMILY, "url": ORIGIN + "/",
+         # ONE PUBLISHER IDENTITY (crawl audit 2026-08-25): the @id is the same node the
+         # homepage Organization block defines, so a crawler resolves both to one entity.
+         # The full object stays because Google News wants a sized publisher logo here.
+         "publisher": {"@type": "Organization", "@id": ORIGIN + "/#publisher",
+                       "name": FAMILY, "url": ORIGIN + "/",
                        "logo": {"@type": "ImageObject", "url": ORIGIN + "/publisher-logo-512.png",
                                 "width": 512, "height": 512}}},
         {"@type": "BreadcrumbList", "itemListElement": [
@@ -1783,6 +1785,26 @@ def render_news(items, dateline, pulse=None):
                  schema_extra=_news_collection_schema(live))
 
 
+
+def home_schema():
+    """Organization + WebSite for the homepage.
+
+    Article pages have carried NewsArticle and BreadcrumbList since launch and /news now
+    carries CollectionPage, but the HOMEPAGE, the page a crawler reaches first and the one
+    that should establish who publishes everything else, emitted no structured data at all
+    (crawl audit 2026-08-25). The publisher block here is the same identity the article
+    schema names, so the two agree."""
+    org = {"@type": "NewsMediaOrganization", "@id": ORIGIN + "/#publisher",
+           "name": FAMILY, "url": ORIGIN + "/",
+           "logo": {"@type": "ImageObject", "url": ORIGIN + "/publisher-logo-512.png",
+                    "width": 512, "height": 512},
+           "description": FAMILY_DESC}
+    site = {"@type": "WebSite", "@id": ORIGIN + "/#website", "url": ORIGIN + "/",
+            "name": FAMILY, "publisher": {"@id": ORIGIN + "/#publisher"}}
+    return ('<script type="application/ld+json">'
+            + json.dumps({"@context": "https://schema.org", "@graph": [org, site]},
+                         ensure_ascii=False) + "</script>")
+
 def render_home(items, flows, pulse, cm, dateline):
     """The GoCheckMyCrypto front door, built for the RETURNING reader: live markets strip,
     today's headlines, the storylines the desk is tracking, then the four desks. The brand
@@ -1976,7 +1998,7 @@ def render_home(items, flows, pulse, cm, dateline):
      No hype, no paid promotion, and never financial advice. Everything here is free; every
      number comes with an explanation in plain language.</p>
 </section></main>""" + newsletter()
-    return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "Home", body, dateline, path="/")
+    return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "Home", body, dateline, path="/", schema_extra=home_schema())
 
 
 def flow_teaser():
