@@ -37,7 +37,16 @@ def gather_sources(story, mode):
                            "text_excerpt": "(skipped: replay mode is offline)"})
         return checks
     feed_text = str(story.get("feed_text") or "")
-    for url in (story.get("source_urls", []) or [])[:3]:
+    # UP TO 6 URLS FOR 3 READABLE PAGES (ported from the news desk's 2026-07-21 fix,
+    # which this desk never received; owner directive 2026-08-25): most major crypto
+    # outlets now wall their article pages (CoinDesk 429, The Block/Blockworks 403,
+    # Cointelegraph/Decrypt render client-side), so a cluster headed by a walled outlet
+    # burned all three slots on unreadable pages while a fetchable corroborating outlet
+    # sat fourth in the list. A blocked URL no longer consumes a slot.
+    fetched_ok = 0
+    for url in (story.get("source_urls", []) or [])[:6]:
+        if fetched_ok >= 3:
+            break
         m = common.fetch_page_meta(url)
         text = common.extract_article_text(m["body"]) if m["body"] else ""
         diag = (f"status={m['status']} final={str(m['final_url'])[:120]} "
@@ -48,6 +57,8 @@ def gather_sources(story, mode):
             # diagnostic while a 403 challenge, a 429, a JS shell and a timeout all
             # looked identical. One slot of these lines names the dominant blocker.
             common.gh("warning", f"source fetch thin: {diag} :: {url}")
+        if len(text) >= 200:
+            fetched_ok += 1
         checks.append({"url": url, "http_status": m["status"],
                        "source_text": text if len(text) >= 200 else "",
                        "text_origin": "page", "fetch_meta": diag,

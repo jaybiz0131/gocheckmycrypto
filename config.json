@@ -178,6 +178,31 @@
           "crypto",
           "stablecoin"
         ]
+      },
+      {
+        "name": "CryptoSlate",
+        "tier": "mixed",
+        "url": "https://cryptoslate.com/feed/"
+      },
+      {
+        "name": "BeInCrypto",
+        "tier": "mixed",
+        "url": "https://beincrypto.com/feed/"
+      },
+      {
+        "name": "U.Today",
+        "tier": "mixed",
+        "url": "https://u.today/rss"
+      },
+      {
+        "name": "The Daily Hodl",
+        "tier": "mixed",
+        "url": "https://dailyhodl.com/feed/"
+      },
+      {
+        "name": "Crypto Briefing",
+        "tier": "mixed",
+        "url": "https://cryptobriefing.com/feed/"
       }
     ],
     "keywords_note": "Optional per-feed 'keywords' gate: broad official/markets feeds (all of DOJ, all top business stories) keep only items matching a keyword in headline+snippet, so they cannot flood the editor with irrelevant news. Items matching a 'narratives' watchlist entry always pass the gate.",
@@ -205,7 +230,8 @@
       "max_items": 8,
       "note": "Large on-chain moves from Whale Alert's FREE public alert archive (keyless; their keyed v1 REST API was retired behind $29.95/mo WebSocket and $699/mo Enterprise plans, neither of which fits -- see DEVIATIONS D7). The archive is newest-first and refreshed continuously; the loader in common.py streams just the window's slice. Only very large moves ($50M+ roughly) appear, which suits the brief. A fetch failure is a documented skip, never a pipeline failure. Capped at max_items so on-chain data cannot flood the brief. Feeds the Whale Watch board too (whale_flows.py)."
     },
-    "max_items_per_feed": 40
+    "max_items_per_feed": 40,
+    "walled_majors_note": "READABLE-OUTLET ADDITIONS 2026-08-25 (owner directive, same playbook as sports' ESPN replacement): CoinDesk (429), The Block (403), Blockworks (403) now wall their article pages, and Cointelegraph/Decrypt/Bitcoin Magazine render client-side with no server prose, so stories headed by them could not be verified and the desk went dark 08-23..25. The walled majors STAY configured: their headlines still drive clustering, corroboration counts and narrative tags. The additions above were live-probed the day they were added: article pages extract 2,300-5,900 chars under the desk's own UA, and several also ship full content:encoded feed text (BeInCrypto ~10K chars), which the feed_text intake now carries for verification when a page is walled. Tier mixed: the shill belts and editor tiering do their normal job on this tier."
   },
   "narratives": {
     "note": "The desk's ongoing-storyline watchlist, maintained by the editor-in-chief the same way shill_rules.json is tuned. A cluster whose headline/snippet matches any keyword gets tagged with the narrative's name in items.json, the editor treats a genuine development in a tagged narrative as presumptively rank-worthy, and watchlist matches always pass a feed's keyword gate. Add narratives as they emerge, retire them when they resolve.",
