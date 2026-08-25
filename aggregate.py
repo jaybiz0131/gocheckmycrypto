@@ -332,6 +332,10 @@ def within_lookback(items, hours):
     return kept
 
 
+# Cross-outlet containment merge; see dedupe() for the measurement behind these numbers.
+CONTAIN_THR = 0.6
+CONTAIN_MIN_SHARED = 3
+
 def dedupe(items, cfg):
     """Greedy cluster of near-identical stories. Same URL, or headline-token Jaccard over the
     configured threshold, collapses into one cluster. The highest source_tier becomes the
@@ -348,12 +352,45 @@ def dedupe(items, cfg):
         for cl in clusters:
             same_url = it["url"] and it["url"] in cl["urls"]
             sim = 0.0
+            contained = False
             if len(it["_tokens"]) >= min_tok:
                 base = cl["members"][0]["_tokens"]
                 inter = len(it["_tokens"] & base)
                 union = len(it["_tokens"] | base) or 1
                 sim = inter / union
-            if same_url or sim >= thr:
+                # CONTAINMENT, NOT JUST JACCARD (owner directive 2026-08-25). Jaccard
+                # divides by the UNION, so two outlets covering one event with headlines
+                # of different lengths score low and never merge: "Las Vegas businessman
+                # convicted in $24 million AI supercomputer Ponzi scheme" and "Las Vegas
+                # businessman faces 280 years in prison over $24M crypto fraud" are the
+                # same conviction and scored nowhere near 0.6. The cost was severe and
+                # invisible: on a live 240-cluster intake only THREE clusters carried any
+                # corroboration at all, so every story looked like a single-source
+                # exclusive, the verifier had nothing to corroborate against and punted
+                # 10 of 12 to human review, the two-source breaking gate could never
+                # clear, and the editor ranked 240 near-duplicates for 12 slots.
+                #
+                # Dividing by the SHORTER headline asks the right question: does the
+                # smaller headline sit inside the larger one? Thresholds measured against
+                # a live intake: 0.7 and 0.6 produced 9 and 17 cross-outlet merges with
+                # ZERO false pairs on inspection; 0.5 broke (a three-word opinion headline
+                # is trivially "contained", pairing an Iran-sanctions story with "Gold and
+                # silver won 2025"). The shared-token floor blocks that failure mode
+                # directly, and dedupe._words is the chassis tokenizer the publish-time
+                # guard already uses.
+                # against ANY member, not just the first: outlets file the same event
+                # under many phrasings and the greedy loop compares against members[0]
+                # only, which left six separate "Coinbase launches tokenized stocks"
+                # clusters. The containment test is precise enough (measured: zero false
+                # pairs) that single-linkage chaining is safe here.
+                for mem in cl["members"]:
+                    shared = it["_tokens"] & mem["_tokens"]
+                    if (len(shared) >= CONTAIN_MIN_SHARED
+                            and len(shared) / min(len(it["_tokens"]), len(mem["_tokens"]))
+                            >= CONTAIN_THR):
+                        contained = True
+                        break
+            if same_url or sim >= thr or contained:
                 cl["members"].append(it)
                 if it["url"]:
                     cl["urls"].add(it["url"])
