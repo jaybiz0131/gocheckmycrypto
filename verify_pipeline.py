@@ -365,9 +365,18 @@ def _hackwatch_canary():
     _check(hw.gaps(days_back=4, today=_dt.date(2026, 8, 20), hacks=ledger) == [], fails,
            "hackwatch: an exploit outside the window is still being flagged")
 
-    # an unreachable ledger must return None, which main() treats as "no check ran"
+    # an unreachable ledger must return None, which main() treats as "no check ran".
+    # CAPTURED STDOUT (owner report 2026-08-25): this deliberate OSError("down") made
+    # hackwatch print a REAL "hacks ledger unreachable" ::warning:: annotation on every
+    # run since 2026-07-31, and the phantom trained the operator to believe the live
+    # ledger was down for weeks while the real hackwatch step succeeded minutes later.
+    # The assertion is unchanged; only the test's side-channel noise is contained.
+    import contextlib as _ctx
+    import io as _io
     hw._fetch = lambda *a, **k: (_ for _ in ()).throw(OSError("down"))
-    _check(hw.gaps(days_back=4, today=today) is None, fails,
+    with _ctx.redirect_stdout(_io.StringIO()):
+        _hw_ok = hw.gaps(days_back=4, today=today) is None
+    _check(_hw_ok, fails,
            "hackwatch: an unreachable source no longer fails open; a check that cannot run "
            "must never look like a clean result")
 

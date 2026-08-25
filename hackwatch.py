@@ -168,7 +168,47 @@ def main():
                   f"Source: {e['source']}")
     print(f"hackwatch: {len(missed)} exploit(s) above ${FLOOR_USD:,} with no coverage "
           f"-> out/hack_gaps.json (advisory; the editor decides)")
+    # AN UNCOVERED EIGHT-FIGURE EXPLOIT MUST RING A BELL, NOT SCROLL A LOG (owner
+    # directive 2026-08-25, after TAC $7.5M and TermFinance $8.5M both passed as
+    # warning lines). One deduplicated issue per open state, same pattern as
+    # edition_check: no token means the annotations above stay the whole alarm.
+    _flag_issue(missed)
     return 0
+
+
+def _flag_issue(missed):
+    import urllib.request
+    tok = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    repo = os.environ.get("GITHUB_REPOSITORY")
+    if not (tok and repo and missed):
+        return
+    title = "Hackwatch: uncovered exploit above $1M"
+    hdrs = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+    body_lines = ["The exploit ledger lists these and the desk has published nothing on them:", ""]
+    for e in missed:
+        body_lines.append(f"- {e['date']}: {e['title']} ({e['detail']}) - {e['source']}")
+    body_lines += ["", "Close after coverage publishes or after ruling the exploit out of scope."]
+    body = "\n".join(body_lines)
+    try:
+        req = urllib.request.Request(
+            f"https://api.github.com/repos/{repo}/issues?state=open&labels=pipeline",
+            headers=hdrs)
+        openi = json.load(urllib.request.urlopen(req, timeout=20))
+        hit = next((i for i in openi if i["title"] == title), None)
+        if hit:
+            req = urllib.request.Request(
+                f"https://api.github.com/repos/{repo}/issues/{hit['number']}/comments",
+                data=json.dumps({"body": body}).encode(), headers=hdrs, method="POST")
+        else:
+            req = urllib.request.Request(
+                f"https://api.github.com/repos/{repo}/issues",
+                data=json.dumps({"title": title, "body": body,
+                                 "labels": ["pipeline"]}).encode(),
+                headers=hdrs, method="POST")
+        urllib.request.urlopen(req, timeout=20)
+        print("hackwatch: flag issue filed/updated")
+    except Exception as e:
+        print(f"hackwatch: flag issue failed ({e}); the warnings above are the alarm")
 
 
 if __name__ == "__main__":

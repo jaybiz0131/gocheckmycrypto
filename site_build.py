@@ -410,6 +410,19 @@ def load_pulse():
     return None
 
 
+
+def tracking_match(story, rx):
+    """True when a story is genuinely ABOUT a tracked storyline, not merely mentioning
+    it. A title hit qualifies alone; otherwise two or more hits across title+key_fact.
+    The dek and body never qualify: the dek is where comparative asides live and the
+    body mentions everything, which is how one GENIUS Act article wore three chips.
+    Module level so the canary can pin the regression (ported from sports/news)."""
+    title = story.get("title") or ""
+    if rx.search(title):
+        return True
+    text = " ".join([title, story.get("key_fact") or ""])
+    return len(rx.findall(text)) >= 2
+
 def destyle(text):
     """House style: no em/en dashes in site copy (model drafts sometimes use them).
 
@@ -1419,15 +1432,28 @@ def render_home(items, flows, pulse, cm, dateline):
                                encoding="utf-8")).get("narratives", {}).get("watchlist", [])
     except Exception:
         watch = []
+    # TAG INTEGRITY, PORTED (2026-08-25; sports/news had it since 2026-07-27, this desk
+    # never did): the old rule matched a SINGLE keyword hit anywhere INCLUDING THE BODY,
+    # so "CLARITY Act" and "Stablecoin law" both landed on one GENIUS Act article whose
+    # body mentioned both, and "Sovereign adoption" landed on a tokenized-securities
+    # pilot. A chip's story must be ABOUT the storyline: a title hit qualifies alone,
+    # otherwise two hits across title+key_fact (never the dek, never the body). And one
+    # article carries at most one chip: the first storyline to claim it keeps it.
+    _chip_slugs_used = set()
     for n in watch:
         kws = n.get("keywords") or []
         if not kws:
             continue
         rx = re.compile(r"\b(?:" + "|".join(re.escape(k) for k in kws) + r")\b", re.I)
-        hit = next((i for i in live if rx.search(" ".join(
-            [i.get("title") or "", i.get("dek") or "", i.get("key_fact") or ""] +
-            [p for p in (i.get("body") or []) if isinstance(p, str)]))), None)
+        cands = [i for i in live if not i.get("superseded_by") and tracking_match(i, rx)]
+        cands.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
+        hit = cands[0] if cands else None
+        if hit and hit.get("slug") in _chip_slugs_used:
+            print(f"tracking: chip {n.get('name')!r} skipped; its newest match "
+                  f"{hit.get('slug')!r} already carries another chip")
+            hit = None
         if hit:
+            _chip_slugs_used.add(hit.get("slug"))
             chips.append(f'<a class="chip" href="/articles/{esc(hit["slug"])}.html">'
                          f'{esc(n.get("name", ""))}</a>')
     if chips:
