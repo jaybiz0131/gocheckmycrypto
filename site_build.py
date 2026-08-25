@@ -1026,10 +1026,19 @@ def render_article(item, all_items=None):
     srcs = item.get("sources") or []
     src_html = ""
     if srcs:
-        lis = "".join(
-            f'<li><a href="{esc(resolve_retired(s.get("url","")))}" rel="nofollow">'
-            f'{esc(source_label(s))}</a></li>'
-            for s in srcs)
+        def _src_li(s):
+            url = resolve_retired(s.get("url", ""))
+            # THE DESK'S OWN INSTRUMENT IS NOT A LINK (owner audit 2026-08-25). A
+            # board-verified market story cites desk://market-boards, which rendered in
+            # the Sources block as a dead anchor reading "market-boards". It is a real
+            # source and it should say what it is, in plain words, and point at the
+            # boards the reader can actually see.
+            if url.startswith("desk://"):
+                return ('<li>The desk\'s own market boards, measured this run '
+                        '(<a href="/">see the live boards</a>)</li>')
+            return (f'<li><a href="{esc(url)}" rel="nofollow">'
+                    f'{esc(source_label(s))}</a></li>')
+        lis = "".join(_src_li(s) for s in srcs)
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol></div>'
     also = [str(x) for x in (item.get("also_reported_by") or []) if str(x).strip()]
     if also:
