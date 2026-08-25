@@ -173,30 +173,19 @@ def source_label(src):
 # This map is the audit trail as well as the mechanism: every entry is a URL the desk retired
 # and where it went. Add here, never remove.
 RETIRED_ARTICLES = {
-    "solana-network-came-within-minutes-of-full-freeze-after-routing-glitch-knocked-out-28-of-stake":
-        "solana-came-within-4-5-percentage-points-of-network-halt-after-teraswitch-routing-failure",
-    "coreum-bridge-loses-99-7-of-xrp-reserve-in-200k-exploit-via-fake-deposit-transactions":
-        "xrp-bridge-drained-for-200-000-after-software-mistook-fake-deposits-for-real-ones",
-    "tether-posts-1-5-billion-operating-profit-in-q2-as-reserve-buffer-falls-by-half":
-        "tether-q2-profit-falls-69-as-reserve-buffer-halves-to-4-1-billion",
-    "u-s-treasury-sanctions-iran-linked-maritime-insurance-scheme-accepting-bitcoin":
-        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
-    "cftc-orders-kalshiex-to-honor-trades-a-michigan-state-court-directed-it-to-cancel":
-        "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
-    "u-s-sanctions-iran-linked-maritime-insurance-scheme-that-accepted-bitcoin":
-        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
-    "us-treasury-sanctions-iranian-maritime-firms-behind-bitcoin-denominated-hormuz-insurance-scheme":
-        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
-    "us-treasury-sanctions-iranian-firms-using-bitcoin-for-maritime-extortion":
-        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
-
     "aave-approves-deprecation-of-50-assets-and-exit-from-six-chains":
         "aave-retires-50-assets-and-exits-six-chains-consolidating-away-from-low-value-markets",
     "ai-compute-stocks-bounce-as-hut-8-iren-land-billions-in-new-contracts":
         "hut-8-and-iren-announce-multi-billion-dollar-ai-data-center-contracts-mining-stocks-surge",
+    "amazon-japan-logistics-firm-az-com-maruwa-to-pay-2-300-partners-with-regulated-yen-stablecoin-jpyc":
+        "amazon-japan-supplier-to-pay-2-300-contractors-using-regulated-yen-stablecoin",
+    "bitcoin-s-largest-holder-saylor-opposes-bip-110-spam-filter-on-neutrality-grounds":
+        "michael-saylor-warns-bip-110-spam-filter-threatens-bitcoin-s-neutrality",
     "bitmex-sued-for-collateral-theft-and-insider-trading-as-shutdown-looms":
         "bitmex-faces-class-action-lawsuit-alleging-collateral-theft-and-insider-trading-as-exchange-announces-shutdown",
     "cftc-blocks-michigan-court-order-mandates-kalshiex-fulfill-trades":
+        "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
+    "cftc-orders-kalshiex-to-honor-trades-a-michigan-state-court-directed-it-to-cancel":
         "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
     "cftc-overrides-michigan-court-order-orders-kalshiex-to-fulfill-pending-trades":
         "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
@@ -204,10 +193,30 @@ RETIRED_ARTICLES = {
         "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
     "cftc-overrides-michigan-court-orders-kalshiex-to-fulfill-trades":
         "cftc-overrides-michigan-court-order-mandates-kalshiex-fulfill-pending-trades",
+    "coreum-bridge-loses-99-7-of-xrp-reserve-in-200k-exploit-via-fake-deposit-transactions":
+        "xrp-bridge-drained-for-200-000-after-software-mistook-fake-deposits-for-real-ones",
+    "ecb-picks-36-firms-including-deutsche-bank-and-revolut-for-digital-euro-pilot":
+        "ecb-selects-36-firms-for-digital-euro-pilot-starting-in-2027",
+    "ethereum-foundation-confirms-validator-crash-bug-surfaced-by-ai":
+        "ethereum-foundation-discloses-validator-crash-bug-found-with-ai-help",
+    "ostium-suffers-18-million-exploit-as-oracle-attack-wave-continues-to-hit-defi":
+        "ostium-loses-18-million-to-oracle-manipulation-attack-via-priceupkeep-exploit",
+    "solana-network-came-within-minutes-of-full-freeze-after-routing-glitch-knocked-out-28-of-stake":
+        "solana-came-within-4-5-percentage-points-of-network-halt-after-teraswitch-routing-failure",
+    "tether-posts-1-5-billion-operating-profit-in-q2-as-reserve-buffer-falls-by-half":
+        "tether-q2-profit-falls-69-as-reserve-buffer-halves-to-4-1-billion",
     "trump-targets-brazil-s-pix-while-dollar-stablecoins-dominate-country-s-crypto-payments":
         "trump-tariffs-brazil-s-pix-while-dollar-stablecoins-already-own-90-of-crypto-payments",
+    "u-s-sanctions-iran-linked-maritime-insurance-scheme-that-accepted-bitcoin":
+        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
+    "u-s-treasury-sanctions-iran-linked-maritime-insurance-scheme-accepting-bitcoin":
+        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
     "uk-parliament-launches-formal-inquiry-into-banking-restrictions-on-crypto-firms":
         "u-k-parliament-launches-formal-inquiry-into-bank-restrictions-on-crypto-firms",
+    "us-treasury-sanctions-iranian-firms-using-bitcoin-for-maritime-extortion":
+        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
+    "us-treasury-sanctions-iranian-maritime-firms-behind-bitcoin-denominated-hormuz-insurance-scheme":
+        "us-sanctions-iranian-marine-insurers-accepting-bitcoin-for-strait-of-hormuz-passage",
     "visa-launches-stablecoin-platform-with-open-usd-pressuring-circle-s-business-model":
         "visa-launches-stablecoin-platform-for-open-usd-upending-issuer-revenue-model",
     "visa-launches-visa-stablecoin-platform-for-open-usd-as-circle-s-competitive-moat-narrows":
