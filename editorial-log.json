@@ -1,49 +1,6 @@
 [
  {
   "date": "2026-07-27",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c019",
-    "headline": "Storj files Chapter 11 bankruptcy as crypto infrastructure sector faces collapse",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'BitMEX announced shutdown on July 23 after 11 years of operation with daily volume collapsed to roughly $400,000' but the brief data_point states 'BitMEX announced shutdown on July 23 after 11 years with daily volume down to roughly $400,000; its BMEX token fell more than 90%.' The draft omits the BMEX token decline entirely, and more critically, presents the shutdown as final when the brief's same data_point reveals parent HDR Global Trading said the platform 'was not insolvent and assets exceeded liabilities, pointing to a strategic review following approximately $200 million in regulatory fines and a failed sale process'\u2014the draft fails to convey this ambiguity about whether shutdown is confirmed or strategic.",
-     "Draft states 'BitMart announced a wind-down on Sunday, halting new deposits and trading orders immediately' but the brief specifies 'BitMart announced wind-down on Sunday, halting new deposits and trading orders immediately, ending all trading on August 26 and setting January 2027 closure'\u2014the draft omits the specific closure dates, which are material facts about the company's timeline."
-    ]
-   },
-   {
-    "id": "c126",
-    "headline": "BNY Mellon European Subsidiary Registers Under EU's MiCA Regulation",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'ESMA's third post-deadline update to the MiCA register, which added 15 crypto asset service providers' but the brief's data_point says 'ESMA added 15 crypto asset service providers (CASPs) in the third post-deadline update.' The draft conflates the update number with the count added in that specific update. The brief does not clarify whether 15 is the cumulative total or the count in this third update alone. The sentence structure 'third post-deadline update to the MiCA register, which added 15' reads as if 15 were added in the third update, but the brief does not explicitly confirm this.",
-     "The draft asserts 'BNY Mellon is a major player in custody and asset servicing for institutional clients' without attribution. This is general knowledge about BNY Mellon, not a fact in the brief. The brief contains no data_point supporting this claim; it only states the registration fact itself. The writer smuggled institutional context.",
-     "The draft states 'whether BNY Mellon will offer exchange services, custody, transfer agency, wallet providers, or advisory functions under its MiCA authorization remains unclear' \u2014 this is an inference about uncertainty, not a fact from the brief. While the brief's open_questions note the scope is unspecified, the draft presents a specific enumerated list of service types that does not appear in the source material provided in the brief."
-    ]
-   },
-   {
-    "id": "c109",
-    "headline": "Ether ETFs Pull $104M, Tripling Bitcoin's Weekly Inflows",
-    "category": "accuracy",
-    "reasons": [
-     "ETH price stated as '$1,936, up 0.6% over the past 24 hours' in draft, but brief data_point says 'up 1.1% in the past 24 hours'\u2014factual discrepancy on price movement",
-     "Bitcoin price stated as '$66,674.57, up 2.26% in the past 24 hours' in draft, but brief data_point says 'Bitcoin sits at $64,780, little changed over 24 hours'\u2014price and percentage movement both contradict brief",
-     "Draft claims bitcoin 'trades 46.6% below its 12-month high' but this figure does not appear in any brief data_point and is smuggled information"
-    ]
-   },
-   {
-    "id": "c037",
-    "headline": "SparkKitty Malware Hidden in Mobile Apps Scans Photos for Crypto Wallet Seed Phrases",
-    "category": "accuracy",
-    "reasons": [
-     "Brief is marked thin=true with only 2 data_points, neither of which provides scope, remediation status, or infection confirmation details. Draft's fourth and fifth paragraphs state 'Critical open questions include how many applications contain the malware, which app stores or categories are affected, whether the malware has been observed actively exfiltrating seed phrases or represents a code-based capability disclosure, and what notification or removal protocols app operators have enacted.' These are framed as unanswered questions in the brief's open_questions list, not as facts established by the brief. The framing is correct here\u2014these are presented as unknowns\u2014but the open_questions themselves acknowledge the brief contains no source material to support claims about scope, active theft, or remediation. This is acceptable as-is because the draft properly signals uncertainty. However, the draft sources only 'The Block' link, which itself appears to be a repost or summary with no primary research cited in the brief. The entire story rests on a single secondary source with no attributed primary investigation from Check Point visible in the provided source URL. This violates the principle that facts must trace to data_points; the data_points themselves do not cite Check Point's original disclosure, only The Block's reporting of it."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-27",
   "approved": 3,
   "rejected": [
    {
@@ -7604,6 +7561,50 @@
      "No research brief was provided for c129. The protocol states: 'every draft fact must then trace to the draft's own cited sources or be rejected.' However, the cited source is a single URL (https://cointelegraph.com/news/standard-chartered-hkdap-stablecoin-distribution) that cannot be verified against the input materials. The approver cannot validate whether the draft accurately reflects what Cointelegraph actually reported without access to the source text itself.",
      "Specific factual claims in the draft (Standard Chartered being 'the first traditional banking institution' to distribute HKDAP, Q4 2026 timeline for money-market fund settlement, the technical details about custody and redemption) cannot be traced to any data_point in a brief, and the approver has no independent access to the cited Cointelegraph article to confirm them.",
      "This is a structural accuracy problem: without a brief or direct access to verify the source, the desk cannot publish this story under the protocol's hard rule that 'no fact exists outside the brief.' The draft must be rejected and the story must be re-researched with a proper brief attached."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-25",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c125",
+    "headline": "India to pilot tokenized corporate bonds using wholesale digital rupee in September",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this draft. The approval protocol requires: 'no fact exists outside the brief.' For stories without briefs, every fact must trace to the draft's own cited sources.",
+     "The draft cites two Cointelegraph URLs that appear to be URL patterns rather than verified source material (the second is identical with only UTM parameters appended, a common duplication artifact).",
+     "Critical claims lack supporting detail from the cited sources: (1) 'September pilot' timing is stated but no source text excerpt provided; (2) 'REC issuing the debt' is named but no verification of REC's role is shown; (3) 'select investors' scope is unquantified and unsourced; (4) 'settlement in digital rupee' is claimed but no confirmation of currency mechanics appears in source documentation.",
+     "The desk cannot verify whether the Cointelegraph URLs contain the stated facts or are placeholder patterns. Without source text confirmation, every claim in the body is effectively smuggled."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Thailand's SEC Opens Consultation on Bitcoin and Ether ETF Rules",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this draft. The approval protocol requires: 'no fact exists outside the brief.' For stories without briefs, every fact must trace to the draft's own cited sources.",
+     "The draft cites two Cointelegraph URLs that appear to be URL patterns rather than verified source material (the second is identical with only UTM parameters appended, a common duplication artifact).",
+     "Critical claims lack supporting detail from the cited sources: (1) 'opened public consultation' is stated but no consultation period, document link, or formal announcement date provided; (2) 'proposed qualification standards for foreign digital asset custodians' is named but no detail on what standards are proposed; (3) 'growing set of markets introducing regulated spot crypto ETF frameworks' is a comparative claim unsupported by the cited sources; (4) 'most Thai financial institutions lack in-house crypto custody capability' is an assertion about the Thai market with no source attribution.",
+     "The desk cannot verify whether the Cointelegraph URLs contain the stated facts or are placeholder patterns. Without source text confirmation, multiple claims in the body are effectively smuggled."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Las Vegas Businessman Convicted in $24 Million Crypto Ponzi Scheme",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The protocol requires all facts to trace to a brief's data_points. Without a brief, every factual claim in the draft must be verified against the cited source before publication, but the approval system cannot access external URLs. The story cannot be approved without a brief or an explicit waiver from editorial policy. The desk rule is: no fact exists outside the brief. This story has no brief."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Bitcoin Rally Driven by Collapsing Open Interest, Not Leverage Buildup",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bitcoin 24-hour price change is negative at -0.72%' in the bear_case section of the brief, but this claim does not appear anywhere in the draft body. This is a factual claim from the research materials that the writer failed to include in the narrative. More critically, the draft's opening paragraph attributes the 24.42% seven-day rally and 25.9% thirty-day rally to 'reporting from Decrypt on August 25,' but the brief's data_points show the Decrypt source URL and timestamp as 2026-08-25T10:57:02Z, which is a specific moment in time on that day. The draft does not clarify that these are point-in-time prices from that specific hour, creating potential confusion about whether the figures are end-of-day or intraday. More problematically, the draft uses 'according to reporting from Decrypt' when the brief shows the price/percentage data comes from 'desk://market-boards' (Crypto Cronkite's own verified-on-chain boards), not from Decrypt. Decrypt is sourced only for the open-interest collapse claim. The attribution is factually wrong: the writer attributed desk data to an external source."
     ]
    }
   ]

@@ -1,0 +1,40 @@
+{
+  "id": "c024",
+  "slug": "layerzero-unveils-atlas-exchange-engine-built-on-zero-blockchain",
+  "kind": "brief",
+  "title": "LayerZero Unveils ATLAS Exchange Engine Built on Zero Blockchain",
+  "dek": "LayerZero unveiled ATLAS, an exchange engine built on its Zero blockchain that provides matching, clearing, settlement, and risk management to institutional and decentralized trading venues. The system routes trading fees through ZRO burns and market-creator incentives without operating its own frontend. Zero has not reached mainnet.",
+  "date": "2026-08-25",
+  "published_utc": "2026-08-25T23:56:54Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "ATLAS provides back-end exchange infrastructure to third-party venues, which keep 20-65% of trading fees depending on ZRO staked, with the remainder split between market creators (25%) and ZRO token burns (75%).",
+  "bottom_line": "Watch whether Zero reaches mainnet and whether LayerZero publishes a launch date for ATLAS; both remain absent. The story's premise depends entirely on institutional adoption, which will reveal itself only when live venues go live. If ATLAS launches without clear mainnet certainty or if institutional venues do not adopt the fee-sharing model, the token's value proposition collapses.",
+  "human_take": "",
+  "body": [
+    "LayerZero announced ATLAS, an exchange engine built on its Zero blockchain that provides matching, clearing, settlement, and risk management to institutional and decentralized trading venues, per The Defiant's reporting on August 25. The system has no consumer-facing frontend; instead, every user accesses ATLAS through a third-party application, which keeps between 20% and 65% of trading fees depending on ZRO staked and volume routed.",
+    "ATLAS operates as infrastructure underneath trading venues rather than as a competitor to them. According to LayerZero's stated reasoning, trading venues will not build on rails owned by a competitor that could siphon away their users. \"Trading venues should not have to build on infrastructure that siphons their own users away from them,\" LayerZero quoted in The Defiant's coverage.",
+    "The fee structure routes revenue after the venue takes its rebate: 25% goes to whoever created the market being traded, and 75% goes toward buying and burning ZRO token. Rebate tiers require venues to stake ZRO, scaling to 1% of total supply at the highest tier. ATLAS charges one all-in trading fee that already embeds the venue's economics, according to The Defiant.",
+    "ATLAS ships in two configurations: Open ATLAS for crypto-native applications and prediction markets, and Institutional ATLAS, which lets an institution set the rules its markets enforce. The announcement lists perps, spot, stocks, commodities, bonds, memes, and predictions as trade types ATLAS can handle. LayerZero has given no launch date for ATLAS, nor has Zero blockchain reached mainnet.",
+    "Test environments show ATLAS with sub-millisecond median latency, 1.418 milliseconds at the 95th percentile, and 2.641 milliseconds at the 99th percentile, per The Defiant. LayerZero expects double-digit microsecond latency in a colocated setup. At launch, ATLAS will be provisioned for 200,000 transactions per second, according to the announcement. None of these figures come from a live deployment.",
+    "The announcement lists Citadel Securities, the Depository Trust & Clearing Corporation (DTCC), and Intercontinental Exchange (ICE) as collaborators on Zero. LayerZero announced Zero on February 10 alongside investments from Citadel Securities and ARK Invest; Tether announced a strategic investment in LayerZero Labs that day without naming an amount. ZRO rose 40% on the Zero announcement, per The Defiant.",
+    "ZRO traded at $1.29 at 16:01 UTC on announcement day, up 12.5% on the day and 63% over the past week, according to The Defiant. ZRO bottomed at $1.06 at 09:00 UTC hours before the ATLAS announcement. The token's market cap is $454 million on $170 million of 24-hour volume. ZRO is down 83% from its December 2024 peak of $7.47 and roughly 39% down over the past year. The all-time low of $0.71 was set on July 31.",
+    "LayerZero's historical performance claims have diverged: the ATLAS announcement states its OFT token standard has moved $290 billion in volume across 160+ chains, a July 29 blog post put OFT volume at $260B+ across 170+ chains, and LayerZero's homepage still states $200 billion. DefiLlama tracks $153.5 billion in cumulative bridge volume for LayerZero, $6.87 billion in total value locked, and $288.6 million in bridge volume over the past 24 hours. LayerZero ranks third among bridge protocols by total value locked per DefiLlama. In May, LayerZero's incident report disclosed that Kelp's rsETH bridge had been downgraded from two-of-two to one-of-one decentralized verifier network configuration. An April attack on Kelp's rsETH bridge drained roughly $292 million; a LayerZero developer had been socially engineered six weeks before. LayerZero now requires at least three-of-three verification by default."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/blockchains/layerzero-unveils-atlas-exchange-engine",
+      "url": "https://thedefiant.io/news/blockchains/layerzero-unveils-atlas-exchange-engine"
+    },
+    {
+      "title": "https://www.theblock.co/news/ecosystems/2026-08-25-zro-token-layerzero-atlas-exchange-infrastructure-zero-blockchain-412736",
+      "url": "https://www.theblock.co/news/ecosystems/2026-08-25-zro-token-layerzero-atlas-exchange-infrastructure-zero-blockchain-412736"
+    }
+  ],
+  "also_reported_by": [
+    "The Block"
+  ],
+  "developing": false
+}
