@@ -1,27 +1,31 @@
 {
-  "id": "c118",
-  "slug": "india-plans-first-tokenized-bonds-using-wholesale-cbdc",
-  "kind": "brief",
-  "title": "India plans first tokenized bonds using wholesale CBDC",
-  "dek": "India's state-controlled REC will issue tokenized corporate bonds in September using blockchain settlement and wholesale digital rupee payments. The pilot marks sovereign adoption of tokenization for capital markets infrastructure.",
-  "date": "2026-08-25",
-  "published_utc": "2026-08-25T16:14:45Z",
-  "category": "news",
-  "verdict": "VERIFIED",
-  "rank": 7,
-  "author": "Crypto Cronkite",
-  "key_fact": "REC to issue tokenized corporate bonds in September using wholesale CBDC for settlement with select investors.",
-  "bottom_line": "Watch for the September issuance to complete and for India to publish pilot metrics on settlement speed, cost, or institutional adoption. If the debt sells and settles without material delays, expect announcements of a broader rollout; failure or delays would signal technical or regulatory hurdles to tokenized sovereign debt markets.",
-  "human_take": "",
-  "body": [
-    "India's state-controlled Renewable Energy Corporation will issue its first tokenized corporate bonds in September, settling transactions using blockchain-based technology and wholesale digital rupee payments to select investors.\nThe issuance represents a shift from central bank digital currency research into live debt markets infrastructure. According to Cointelegraph, investors in the pilot will use wholesale CBDC to complete purchases, anchoring the bond settlement to India's sovereign digital rupee.\nThe wholesale CBDC used in settlement is distinct from retail central bank digital currencies; it operates between financial institutions and settles high-value transactions on permissioned blockchain networks.\nCointelegraph reports the September launch will involve select institutional investors, though details on participant count, issuance size, or the specific blockchain platform remain unreported."
-  ],
-  "sources": [
-    {
-      "title": "https://cointelegraph.com/news/india-tokenized-bonds-digital-rupee?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-      "url": "https://cointelegraph.com/news/india-tokenized-bonds-digital-rupee?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
-    }
-  ],
-  "also_reported_by": [],
-  "developing": true
+ "id": "c118",
+ "slug": "india-plans-first-tokenized-bonds-using-wholesale-cbdc",
+ "kind": "brief",
+ "title": "India plans first tokenized bonds using wholesale CBDC",
+ "dek": "India's state-controlled REC will issue tokenized corporate bonds in September using blockchain settlement and wholesale digital rupee payments. The pilot marks sovereign adoption of tokenization for capital markets infrastructure.",
+ "date": "2026-08-25",
+ "published_utc": "2026-08-25T16:14:45Z",
+ "category": "news",
+ "verdict": "VERIFIED",
+ "rank": 7,
+ "author": "Crypto Cronkite",
+ "key_fact": "REC to issue tokenized corporate bonds in September using wholesale CBDC for settlement with select investors.",
+ "bottom_line": "Watch for the September issuance to proceed on schedule and for REC to report settlement speed, cost, and adoption metrics afterward. If the pilot stalls, delays, or is quietly shelved, it signals that interoperability between tokenization rails and wholesale CBDCs remains unresolved for sovereigns. Conversely, a smooth execution and follow-on announcements of expanded issuance would suggest other central banks have a working template to follow.",
+ "human_take": "",
+ "body": [
+  "India's state-controlled REC will issue tokenized corporate bonds in September using blockchain-based settlement and wholesale digital rupee payments, according to Cointelegraph's reporting. The move represents a sovereign test of whether blockchain infrastructure and central bank digital currency can execute capital markets issuance at production scale.",
+  "Tokenized bonds settle via distributed ledger rather than traditional clearinghouse channels, and payments flow through the wholesale CBDC (the digital rupee tier designed for interbank transactions) rather than cash or bank transfers. The combination represents a live test of both technologies in a real debt issuance context.",
+  "The pilot is structured as a capital markets infrastructure trial. Success would mean demonstrating that blockchain settlement and CBDC payment rails can handle institutional debt issuance without friction, cost overruns, or technical failure. Failure or delays would signal that the technical or regulatory stacks remain immature for sovereign adoption at scale.",
+  "Open questions include the size of the bond issuance, the specific blockchain platform and payment infrastructure, the institutional participants, and the metrics that will define completion of the pilot."
+ ],
+ "sources": [
+  {
+   "title": "https://cointelegraph.com/news/india-tokenized-bonds-digital-rupee?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+   "url": "https://cointelegraph.com/news/india-tokenized-bonds-digital-rupee?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+  }
+ ],
+ "also_reported_by": [],
+ "developing": true,
+ "rewritten": "2026-07-14 depth backfill (three-role pipeline)"
 }

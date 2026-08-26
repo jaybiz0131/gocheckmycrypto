@@ -1,28 +1,34 @@
 {
-  "id": "c126",
-  "slug": "hyperliquid-and-phantom-petition-cftc-to-exempt-defi-from-broker-rules",
-  "kind": "brief",
-  "title": "Hyperliquid and Phantom Petition CFTC to Exempt DeFi From Broker Rules",
-  "dek": "Hyperliquid and Phantom have filed a formal petition asking the CFTC to exempt non-custodial wallets and DeFi from broker rules. The request seeks to codify how the agency treats onchain derivatives. Coverage appears in The Defiant and Cointelegraph.",
-  "date": "2026-07-10",
-  "category": "news",
-  "verdict": "NEEDS-HUMAN-REVIEW",
-  "rank": 4,
-  "author": "Crypto Cronkite",
-  "key_fact": "Hyperliquid and Phantom petitioned the CFTC to exempt non-custodial wallets and DeFi from broker rules.",
-  "human_take": "A policy ask, not a rule change. The desk will be watching what the CFTC actually does with it.",
-  "body": [
-    "Hyperliquid and Phantom have asked the CFTC to exempt non-custodial wallets and DeFi from broker rules, according to The Defiant and Cointelegraph.",
-    "The petition seeks to codify exemptions that would shape how the CFTC regulates onchain derivatives."
-  ],
-  "sources": [
-    {
-      "title": "https://thedefiant.io/news/regulation/hyperliquid-phantom-ask-cftc-to-exempt-defi-from-broker-rules",
-      "url": "https://thedefiant.io/news/regulation/hyperliquid-phantom-ask-cftc-to-exempt-defi-from-broker-rules"
-    },
-    {
-      "title": "https://cointelegraph.com/news/phantom-hyperliquid-ask-cftc-to-modernize-rules-for-onchain-derivatives?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-      "url": "https://cointelegraph.com/news/phantom-hyperliquid-ask-cftc-to-modernize-rules-for-onchain-derivatives?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
-    }
-  ]
+ "id": "c126",
+ "slug": "hyperliquid-and-phantom-petition-cftc-to-exempt-defi-from-broker-rules",
+ "kind": "brief",
+ "title": "Hyperliquid and Phantom Petition CFTC to Exempt DeFi From Broker Rules",
+ "dek": "Hyperliquid and Phantom have filed a formal petition asking the CFTC to exempt non-custodial wallets and DeFi from broker rules. The request seeks to codify how the agency treats onchain derivatives. Coverage appears in The Defiant and Cointelegraph.",
+ "date": "2026-07-10",
+ "category": "news",
+ "verdict": "NEEDS-HUMAN-REVIEW",
+ "rank": 4,
+ "author": "Crypto Cronkite",
+ "key_fact": "Hyperliquid and Phantom petitioned the CFTC to exempt non-custodial wallets and DeFi from broker rules.",
+ "human_take": "",
+ "body": [
+  "Two major crypto platforms filed a joint petition with the CFTC this week requesting that onchain protocol software and non-custodial wallets be formally exempted from broker and exchange registration requirements. The move seeks to establish legal clarity around how the agency treats derivatives traded directly on blockchain infrastructure, a distinction that could reshape how DeFi protocols operate under U.S. oversight.",
+  "According to The Defiant's reporting, Hyperliquid Policy Center and Phantom filed the petition in response to a joint request for information the CFTC and SEC issued in mid-June, asking the industry to weigh in on rules that may hinder financial-technology innovation. The petition makes three specific asks: confirmation that publishing onchain protocol software alone does not trigger exchange or clearinghouse registration; a clear regulatory path for already-registered firms to run regulated functions like matching and clearing on onchain infrastructure; and formalization of the no-action relief the CFTC granted Phantom in March into a standing rule that would apply to other non-custodial wallet providers.",
+  "The petitioners argued that onchain markets allow users to hold their own funds and trade directly without the chain of intermediaries that traditional broker-dealer rules assume. That structural difference, they contend, warrants regulatory treatment distinct from conventional market venues.",
+  "The petition arrives amid shifting CFTC leadership. CFTC Chairman Michael Selig took office in December and approved the first U.S.-regulated bitcoin perpetual futures contract in May, according to The Defiant. That approval has drawn a legal challenge from CME Group, which sued the CFTC arguing that perpetual futures should be classified as swaps rather than futures contracts. CME's lawsuit creates competing legal frameworks around perpetual futures classification that could bear on how the agency evaluates exemptions for onchain derivatives.",
+  "The bear case centers on two pressure points. CME Group's ongoing legal challenge to perpetual futures classification could complicate any CFTC exemption by establishing competing frameworks for how derivatives on onchain infrastructure should be regulated. Additionally, regulators may view the functional distinction between onchain markets and traditional broker-dealers as nominal, since both ultimately match buyers and sellers in the same way.",
+  "The Bottom Line: Watch whether the CFTC signals openness to codifying protocol software as outside the scope of broker-dealer rules, and whether CME's lawsuit shapes the agency's stance on perpetual futures classification. A formal exemption would establish a legal carve-out for wallet providers and protocol developers; silence or rejection would leave the regulatory exposure that prompted the petition in the first place."
+ ],
+ "sources": [
+  {
+   "title": "https://thedefiant.io/news/regulation/hyperliquid-phantom-ask-cftc-to-exempt-defi-from-broker-rules",
+   "url": "https://thedefiant.io/news/regulation/hyperliquid-phantom-ask-cftc-to-exempt-defi-from-broker-rules"
+  },
+  {
+   "title": "https://cointelegraph.com/news/phantom-hyperliquid-ask-cftc-to-modernize-rules-for-onchain-derivatives?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+   "url": "https://cointelegraph.com/news/phantom-hyperliquid-ask-cftc-to-modernize-rules-for-onchain-derivatives?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+  }
+ ],
+ "bottom_line": "",
+ "rewritten": "2026-07-14 depth backfill (three-role pipeline)"
 }

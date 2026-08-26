@@ -1,32 +1,34 @@
 {
-  "id": "c071",
-  "slug": "russia-passes-law-to-regulate-crypto-exchanges-keeps-payment-ban-in-place",
-  "kind": "brief",
-  "title": "Russia Passes Law to Regulate Crypto Exchanges, Keeps Payment Ban in Place",
-  "dek": "Russian President Vladimir Putin signed a law establishing exchange licensing requirements and regulating digital currencies, while maintaining a prohibition on using crypto as payment within Russia. The law caps retail investor trading at 300,000 rubles ($3,700) annually, though qualified investors face no limits.",
-  "date": "2026-08-05",
-  "published_utc": "2026-08-05T21:57:57Z",
-  "category": "news",
-  "verdict": "VERIFIED",
-  "rank": 1,
-  "author": "Crypto Cronkite",
-  "key_fact": "Russia formalized crypto exchange regulation while preserving its 2022 payment prohibition, despite Putin's 2024 public statements praising Bitcoin's utility.",
-  "bottom_line": "Russia has formalized exchange oversight while preserving its payment ban, creating a regulated trading environment without crypto-as-money functionality. Watch whether the qualified investor exemption and foreign-trade carve-out become de facto channels for broader crypto use, and whether the \"most liquid cryptocurrency\" definition expands or contracts in implementation.",
-  "human_take": "",
-  "body": [
-    "Russian President Vladimir Putin has signed a law establishing a formal regulatory framework for digital currencies and digital rights in the country, according to Bitcoin Magazine. The legislation permits only registered entities to operate as exchanges and creates a two-tier trading structure tied to investor qualification status.",
-    "Retail investors are now capped at 300,000 rubles, approximately $3,700, per year for trading what the law defines as \"most liquid cryptocurrencies.\" Qualified investors face no restrictions on trading volume. The new rules establish exchange licensing as a formal requirement, shifting Russia's approach from de facto prohibition toward managed participation.",
-    "The law explicitly prohibits digital currencies and digital rights from functioning as a means of payment or legal tender within Russia, per Bitcoin Magazine. This payment ban has been in place since 2022. However, the law includes a specific carve-out: Russians engaged in foreign trade or crypto mining may use digital currencies to settle payments under contracts with non-residents, the outlet reported.",
-    "The move creates a stated tension with public messaging from the Russian leadership. In 2024, Putin said, \"For example, Bitcoin, who can ban it? Nobody,\" and highlighted Russia's competitive advantages in Bitcoin mining due to access to cheap energy, according to Bitcoin Magazine. Yet the new law maintains the payment restriction that predates those comments and introduces a retail trading cap.",
-    "The scope of which cryptocurrencies fall under \"most liquid\" remains undefined in the available regulatory reporting, leaving ambiguity about which assets retail participants may access under the 300,000-ruble threshold."
-  ],
-  "sources": [
-    {
-      "title": "https://bitcoinmagazine.com/news/russia-keeps-payment-ban-in-place",
-      "url": "https://bitcoinmagazine.com/news/russia-keeps-payment-ban-in-place"
-    }
-  ],
-  "update_of": "russia-s-parliament-passes-crypto-market-law-with-3-800-annual-cap-for-retail-investors",
-  "also_reported_by": [],
-  "developing": true
+ "id": "c071",
+ "slug": "russia-passes-law-to-regulate-crypto-exchanges-keeps-payment-ban-in-place",
+ "kind": "brief",
+ "title": "Russia Passes Law to Regulate Crypto Exchanges, Keeps Payment Ban in Place",
+ "dek": "Russian President Vladimir Putin signed a law establishing exchange licensing requirements and regulating digital currencies, while maintaining a prohibition on using crypto as payment within Russia. The law caps retail investor trading at 300,000 rubles ($3,700) annually, though qualified investors face no limits.",
+ "date": "2026-08-05",
+ "published_utc": "2026-08-05T21:57:57Z",
+ "category": "news",
+ "verdict": "VERIFIED",
+ "rank": 1,
+ "author": "Crypto Cronkite",
+ "key_fact": "Russia formalized crypto exchange regulation while preserving its 2022 payment prohibition, despite Putin's 2024 public statements praising Bitcoin's utility.",
+ "bottom_line": "Watch for the release of the 'most liquid cryptocurrencies' list and the regulatory timeline for exchange licensing, as both will determine market participation thresholds and domestic exchange activity. The stability of the domestic payment ban and how strictly the foreign-trade carve-out is enforced will indicate whether Russia is building a contained trading market or laying groundwork for wider crypto adoption in cross-border settlement.",
+ "human_take": "",
+ "body": [
+  "President Vladimir Putin signed a law establishing exchange licensing requirements for digital currencies while preserving a prohibition on using cryptocurrency as payment or legal tender within Russia, according to Bitcoin Magazine's reporting.",
+  "The legislation creates a two-tier system for retail and qualified investors. Retail participants are limited to trading the most liquid cryptocurrencies, capped at 300,000 rubles ($3,700) annually. Qualified investors face no restrictions on trading amounts. Only registered entities may operate as exchanges under the new framework.",
+  "The payment ban, in effect since 2022, remains intact despite Putin's 2024 statements that Bitcoin cannot be banned. Russians are prohibited from using digital currencies and digital rights as a means of payment or legal tender domestically. However, two carve-outs allow crypto use for international settlements: Russians engaged in foreign trade with non-residents may use crypto for contract settlements, and those involved in cryptocurrency mining may also use digital currencies for payments.",
+  "The law's definition of 'most liquid cryptocurrencies', the assets available to retail traders, remains unspecified in available reporting, creating ambiguity about which assets will be accessible to smaller investors and how that list may shift during implementation.",
+  "The bear case hinges on several constraints. The retail cap severely limits market participation for non-qualified investors, potentially reducing exchange liquidity. The foreign-trade and mining carve-outs, though narrow in scope, create potential channels for circumventing the payment ban, a detail that may draw scrutiny from international regulators. The payment ban itself stands in tension with Putin's public optimism about Bitcoin's uncensorability, revealing a gap between rhetoric and regulatory action.",
+  "Implementation details remain open: the timeline for exchange licensing, enforcement mechanisms for violations, how qualified investor status will be verified, and whether the law applies to decentralized exchanges or only registered centralized venues are all unconfirmed in the source material."
+ ],
+ "sources": [
+  {
+   "title": "https://bitcoinmagazine.com/news/russia-keeps-payment-ban-in-place",
+   "url": "https://bitcoinmagazine.com/news/russia-keeps-payment-ban-in-place"
+  }
+ ],
+ "update_of": "russia-s-parliament-passes-crypto-market-law-with-3-800-annual-cap-for-retail-investors",
+ "also_reported_by": [],
+ "developing": true,
+ "rewritten": "2026-07-14 depth backfill (three-role pipeline)"
 }
