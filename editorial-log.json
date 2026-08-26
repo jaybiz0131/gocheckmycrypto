@@ -1,37 +1,5 @@
 [
  {
-  "date": "2026-07-28",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c027",
-    "headline": "Crypto hacks topped $1 billion in first half of 2026, Blockaid data shows",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Ethereum and Solana projects absorbed the largest shares of the damage' and that 'these two major smart contract chains account for more than 65 percent of the first-half total.' This claim\u2014that ETH+SOL represent >65% of $1B total\u2014is not present in the brief's data_points. The brief provides only that Ethereum lost $332M and Solana lost $326M ($658M combined). A 65% claim would require stating those chains represent $650M+ of the total, but the brief does not confirm what percentage of the $1B total these losses represent. This is a smuggled quantitative claim."
-    ]
-   },
-   {
-    "id": "c034",
-    "headline": "Morgan Stanley launches Ethereum and Solana ETFs with market-low fees and staking rewards",
-    "category": "balance",
-    "reasons": [
-     "Brief contains empty bear_case array, yet draft does not acknowledge the absence of critical risks or downsides. The draft presents Morgan Stanley's entry as unambiguously positive ('signals Wall Street's continued embrace', 'accelerates institutionalization') without any countervailing perspective on regulatory, competitive, or performance risks. A story about institutional crypto products entering the market should surface tensions (e.g., custody risks, fee compression hurting profitability, regulatory clawback) even if the brief was thin on them. The draft reads as bullish framing where balance demands skepticism.",
-     "The sentence 'Roughly 2.5 years after the first spot Bitcoin ETF began trading, major institutional platforms are now bundling Ethereum and Solana exposure into fund structures' overstates exclusivity ('major institutional platforms') when the brief only documents Morgan Stanley's launch. No competitive context is provided to show whether this is actually a trend or a single entrant."
-    ]
-   },
-   {
-    "id": "c164",
-    "headline": "Hong Kong prepares banks for quantum threats amid tokenization push",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Specific metrics, compliance obligations, or recommended cryptographic standards tied to the index have not been disclosed.' This is a claim about what was NOT disclosed\u2014an absence of information. This claim does not trace to any data_point in the brief. The brief contains only three narrow data_points (index publication, 2030 target, tokenization expansion); it says nothing about what Cointelegraph did or did not disclose about metrics, standards, or obligations. The writer has inferred a negative fact not present in the research brief, violating the hard rule that no fact exists outside the brief.",
-     "The draft also states 'visibility into whether the mandate extends to tokenized asset infrastructure specifically remains unclear.' This is another negative claim (what remains unclear) not supported by any data_point in the brief. The brief lists this as an open_question, meaning the writer knew it was unresolved\u2014but presenting it as a standalone fact in the draft body, rather than in the bottom_line or explicitly labeled as undetermined, smuggles editorial interpretation into the news narrative."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-29",
   "approved": 3,
   "rejected": [
@@ -7623,6 +7591,72 @@
     "reasons": [
      "No research brief was provided for this story. The protocol requires that every fact in a draft trace back to a data_point in the brief, or if no brief exists, to a named primary source with on-record attribution. The draft cites only Cointelegraph (a secondary aggregator) as a source. The specific claims\u2014that Thailand's SEC 'has opened formal consultations,' that draft rules include 'qualification standards for foreign digital asset custodians,' and the details about ETF mechanics\u2014cannot be verified as first-hand reporting or wire-service attribution. A single secondary-source URL does not meet the desk's liability standard for publication of regulatory announcements that could affect market participants.",
      "The draft presents regulatory action ('has opened formal consultations') as established fact when the sourcing is a single aggregator link, not a primary authority (the Thai SEC itself, a wire service, or an on-record official statement). This is a compliance risk for a story about government action."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-26",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c034",
+    "headline": "Tornado Cash developer Roman Storm's retrial rescheduled to April 2027",
+    "category": "accuracy",
+    "reasons": [
+     "No brief was provided for this story. The instruction requires that 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites three sources (The Block, Decrypt, Cointelegraph) but does not provide access to their content to verify facts. Critical facts cannot be traced: the April 2027 date, the conviction on one count of money transmission, the jury deadlock on other charges, the arrest year (2023), and the specific charges. Without either a brief or accessible source material, facts cannot be verified against the approval protocol's first requirement."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Dallas Fed warns tokenized deposits and AI agents pose lending-capacity risk",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'could erode the nation's bank lending capacity and raise borrowing costs' and later references a specific dollar impact, but the brief's bear_case explicitly states: 'The source texts do not quantify the $700 billion figure or provide the mechanism by which it was calculated; the headline's specific dollar amount is not present in the fetched source material.' The draft does not cite the $700 billion figure in its body, but the mechanism claimed\u2014that tokenized deposits cause a $700 billion loss in lending capacity\u2014is unconfirmed per the brief's own documentation. The draft presents the Dallas Fed's concern as established policy-relevant fact without flagging the unresolved quantification issue that the brief identifies as missing from source material."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Japan's Financial Regulators Launch Joint Blockchain Settlement Study",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Japan's Financial Services Agency, Finance Ministry, and Bank of Japan are launching a joint development plan' and 'moving to study how blockchain could enable immediate cash settlement.' The brief's open_questions include: 'Have the Financial Services Agency, Finance Ministry, or Bank of Japan issued an official statement or joint announcement detailing the initiative?' This signals the sources do not contain a primary or official confirmation of the joint plan. The draft presents the initiative as established fact ('are launching') when the sourcing is secondary reporting of unconfirmed agency coordination. A fact this specific about named government bodies' official actions requires either on-record primary sourcing or explicit attribution to reported claims (not direct assertion in the narrative voice)."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "Taurus Connects Institutional Platforms to Swift's Blockchain Ledger",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites Cointelegraph as the source for all claims: 'according to reporting by Cointelegraph,' 'The platform operator expects first institutional clients to connect within days, with initial distributed-ledger transactions expected within weeks.' These specific timelines and claims about Taurus's expectations cannot be verified against the sources provided. The sources are identical URLs (one with UTM parameters), making them a single source, and without access to the actual Cointelegraph article text, no independent verification is possible. Under the no-brief protocol, claims must be verifiable to their sources; a URL alone with no brief to anchor claims is insufficient. The story cannot be approved without a research brief providing data_point verification."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Revolut rolls out euro stablecoin to select European customers",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The draft makes several specific factual claims: EURR is 'backed by reserves held by Stripe's Luxembourg subsidiary,' the rollout is 'to a select group of customers in Denmark, Poland, and Portugal,' and 'This structure contrasts with some dollar-denominated stablecoins, which have faced scrutiny over reserve backing and issuer transparency.' None of these claims can be verified against the provided source URLs without accessing the full articles. Additionally, the draft's analytical framing\u2014'The reserve arrangement with Stripe's Luxembourg entity signals coordination between fintech and payment infrastructure layers'\u2014is the writer's interpretation, not a claim from the sources. Without a research brief to verify what each source actually reports versus what is narrative interpretation, the desk cannot clear these claims for publication. The story cannot be approved without a research brief providing data_point verification."
+    ]
+   },
+   {
+    "id": "c142",
+    "headline": "India Plans First Tokenized Bonds Using Wholesale CBDC",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states: 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one source (Cointelegraph URL) but provides no access to verify any claims against that source. The entire draft therefore cannot be verified against primary evidence.",
+     "Critical facts appear unsourced within the draft: 'September pilot,' 'Rural Electrification Corporation (REC) as issuer,' 'select group of investors,' 'tokenized debt issued by REC and settled directly via the wholesale digital rupee network,' 'wholesale digital rupee entered limited use in 2022,' 'expanded to include government securities settlement.' None of these are attributed inline to Cointelegraph or any other outlet.",
+     "The draft presents technical definitions ('wholesale CBDCs are digital versions of national currencies designed for transactions between financial institutions and central banks, distinguished from retail CBDCs intended for public use') without source attribution, suggesting either desk synthesis or unattributed source paraphrase.",
+     "The bottom_line references outcomes ('September pilot completes on schedule,' 'REC or the RBI publish results') that may not appear in the source and reads as the writer's forward speculation rather than reporting from the brief."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "LayerZero Unveils Trading Infrastructure for Institutional Crypto and Tokenized Markets",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The protocol requires that every fact in a draft trace back to either a data_point in the brief OR be explicitly sourced to a cited outlet inline in the draft text. The draft cites CoinDesk and The Defiant in the sources array but does not attribute specific claims to those outlets within the body prose itself. Claims like 'LayerZero launched ATLAS', 'backed by Citadel Securities', 'DTCC and ICE are exploring', and 'ZRO surged on the announcement' appear as desk voice rather than explicitly attributed reporting. Without a brief to anchor these facts, and without inline attribution in the body, these claims cannot be verified as originating from the cited sources. The story cannot run without either a completed research brief or inline attribution of every factual claim to its named outlet.",
+     "The statement 'The desk's Market Pulse board showed ZRO down 13.8 percent on the day as of August 26' attributes a statistic to an internal desk tool rather than to an external source, which violates the rule that facts originate in the brief or are attributed to external outlets."
     ]
    }
   ]

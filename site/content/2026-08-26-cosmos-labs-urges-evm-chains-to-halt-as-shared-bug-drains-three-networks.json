@@ -67,5 +67,13 @@
     "advisory_url": "https://thedefiant.io/news/blockchains/cosmos-labs-urges-evm-chains-halt-shared-bug-drains-three-networks"
   },
   "also_reported_by": [],
-  "developing": false
+  "developing": false,
+  "updated_utc": "2026-08-26T16:46:23Z",
+  "merged_from": [
+    {
+      "id": "c116",
+      "title": "Critical Bug in Cosmos EVM Module Triggers Halt Orders and Multi-Chain Exploits",
+      "published_utc": "2026-08-26T16:46:23Z"
+    }
+  ]
 }
