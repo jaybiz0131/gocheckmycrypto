@@ -1,40 +1,6 @@
 [
  {
   "date": "2026-07-28",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c001",
-    "headline": "CME sues CFTC over approval of onchain perpetual futures",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'CME sues CFTC over approval of onchain perpetual futures' and 'filed suit against the CFTC and its Chairman Mike Selig this week,' but the brief does not specify when the lawsuit was filed\u2014only that it challenges the approval. The phrase 'this week' is not in the brief and introduces a temporal claim not sourced.",
-     "The draft refers to 'Mike Selig' as CFTC Chairman, but the brief and data consistently refer to him as 'Mike Selig'\u2014this is accurate. However, the draft's opening sentence saying CME 'sued the CFTC and its Chairman Mike Selig' personalizes the defendant in a way that may overstate liability exposure; the brief indicates the suit is against the CFTC's decision, not a personal suit against the chairman.",
-     "The draft states 'Perpetual futures are derivative contracts that allow users to speculate on the price of an asset with leverage and no expiration date, according to CoinDesk's reporting.' The brief data_point says 'Perpetual futures are decentralized derivative contracts'\u2014the draft omits 'decentralized,' which is a material structural descriptor present in the source brief."
-    ]
-   },
-   {
-    "id": "c014",
-    "headline": "Thailand's SEC files criminal complaint against Bitkub over concealed $50 million hack",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'According to CoinDesk's reporting, the SEC and Bitkub made good the losses by the end of October 2021.' The brief data_point says 'The SEC and Bitkub made good the losses by the end of October 2021'\u2014but this attribution is problematic. The brief does not specify who made good the losses (Bitkub alone, or jointly with SEC oversight). The draft's phrasing ('the SEC and Bitkub made good') is an inference not explicitly stated in the brief and could mischaracterize regulatory responsibility. The brief says only that losses were made whole; the draft invokes SEC participation without sourcing it.",
-     "The draft opens with 'Thailand's Securities and Exchange Commission has filed a criminal complaint against Bitkub...along with two former directors' but the phrasing 'along with two former directors' could read as though the SEC also named the directors as co-defendants, which is accurate per brief. However, the next sentence attributes the losses to 'the breach' without clarity on who Bitkub was\u2014was the exchange itself a victim, or complicit? The brief supports that Bitkub was the platform operator and the theft occurred on it, which the draft conveys adequately."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "Fanatics Acquires Regulated Exchange to Accelerate Prediction Markets Growth",
-    "category": "balance",
-    "reasons": [
-     "Brief's bear_case states 'The source text does not identify any stated regulatory risks, criticisms, or skeptical perspectives on the acquisition itself.' The draft lacks any substantive risk or skeptical framing to match this liability. The brief acknowledges this gap; the draft does not surface it or flag what remains unknown about regulatory approval, integration risk, or competitive positioning. A pure-positive acquisition story without even a 'watch for' risk paragraph fails balance when the brief explicitly notes absence of pushback.",
-     "The draft states 'The story invalidates if regulatory scrutiny slows the integration or if Fanatics cannot compete on product velocity and liquidity against Kalshi and Polymarket' in the bottom_line but provides zero in-draft risk framing to prepare readers for these scenarios. The bear_case is invisible in the prose itself."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-28",
   "approved": 5,
   "rejected": [
    {
@@ -7586,6 +7552,48 @@
     "category": "accuracy",
     "reasons": [
      "Draft cites three sources (CoinDesk, The Block, Cointelegraph) but provides no research brief. Per protocol, every fact must trace to either the brief or verified sources. The sources are URLs only with no verification that they contain the facts in the draft. The protocol's hard rule is 'no fact exists outside the brief.' Without a brief, the desk cannot verify whether the facts about the BankChain Alliance, the 39 state banking associations, the 2027 launch date, the focus on stablecoins/tokenized deposits/automated settlement, or the governance/technical details are accurately sourced or have been altered in drafting. The draft contains numerous specific claims (coalition size, timeline, stated focus areas) that cannot be confirmed against cited URLs alone."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-26",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "Japan Advances Blockchain Settlement Network for Stocks and Bonds",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The development plans are scheduled to begin this year' but the brief data_point says 'The development plans are scheduled to start this year (2026)' and the article is dated 2026-08-26. The phrase 'this year' is ambiguous to a reader in 2026 or later and should be replaced with the specific year from the brief.",
+     "The sentence 'Japan joins a growing roster of sovereign nations and major financial centers exploring tokenized settlement infrastructure' introduces a comparative claim (that other nations are doing similar work) that does not appear anywhere in the brief's data_points, bear_case, or open_questions. This is smuggled information not sourced to the research."
+    ]
+   },
+   {
+    "id": "c058",
+    "headline": "U.S. Treasury Targets Iran's Crypto Sector with Sanctions Authority",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The designation places cryptocurrency operations alongside technology, gold, aviation, and shipping in Treasury's enforcement campaign' but the brief's data_point lists five sectors as 'digital assets, technology, gold, aviation, and shipping.' The draft uses 'cryptocurrency operations' as a substitute for 'digital assets,' which is a paraphrase of the source term. More critically, the draft later states 'Decrypt's reporting identifies five sectors in the campaign' while only two data_points appear in the brief, neither of which provides explicit enumeration. The draft is drawing from the Decrypt source directly rather than from the research brief's synthesized data_points.",
+     "The phrase 'described in reporting as \"Economic D-Day\"' attributes the quote to reporting but the brief attributes it to the same source (Decrypt). The draft's phrasing suggests the campaign's official name is 'Economic D-Day' when the brief indicates this is Decrypt's characterization. This is a subtle but meaningful misattribution of voice.",
+     "The draft contains multiple claims about Iran's use of cryptocurrency to circumvent sanctions ('Iran has used cryptocurrency to circumvent existing sanctions on its financial system, moving value across borders through digital channels that sidestep traditional banking infrastructure') that do not appear in any brief data_point, bear_case item, or open_question. These are smuggled facts not traceable to the research."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Las Vegas businessman convicted in $24 million crypto Ponzi scheme",
+    "category": "accuracy",
+    "reasons": [
+     "Draft cites only one source (CoinDesk), but no research brief exists. The hard rule is that facts must trace to the brief or be smuggled. Without a brief, the desk cannot verify that the conviction details, defendant identity, victim count ($24M), investor count (400+), prison exposure (280 years mentioned in URL), or any other fact matches what the source actually reports. The draft must be written against a completed brief before publication, or rejected if the brief does not exist.",
+     "The defendant's name is not mentioned in the draft body, making it impossible to verify the reputational claim against a named person or confirm the story identifies the correct individual."
+    ]
+   },
+   {
+    "id": "c131",
+    "headline": "India plans first tokenized bonds using wholesale CBDC",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief provided for this story. Per the hard rule: 'no fact exists outside the brief.' Without a brief, every factual claim in the draft must be verified against the cited sources themselves. The draft cites only Cointelegraph URLs but provides no brief data_points to validate against. This violates the core protocol requirement that facts must trace back to research briefs. A draft without a brief cannot be approved; it must be rejected at research stage before drafting occurs."
     ]
    }
   ]

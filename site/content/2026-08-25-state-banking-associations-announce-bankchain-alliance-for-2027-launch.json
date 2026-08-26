@@ -2,23 +2,23 @@
   "id": "c000",
   "slug": "state-banking-associations-announce-bankchain-alliance-for-2027-launch",
   "kind": "brief",
-  "title": "State Banking Associations Announce BankChain Alliance for 2027 Launch",
-  "dek": "Thirty-nine U.S. state bankers associations announced the BankChain Alliance on August 25, 2026, targeting a 2027 launch of a permissioned blockchain network for tokenized deposits, stablecoins, and payments. The Texas Bankers Association is leading the effort, with Kathy Kraninger, president and CEO of the Florida Bankers Association, serving as interim chair.",
+  "title": "Tornado Cash Developer Roman Storm's Retrial Postponed to April 2027",
+  "dek": "Federal Judge Katherine Polk Failla postponed the retrial of Tornado Cash developer Roman Storm to April 26, 2027, per The Block's reporting. Storm's legal team filed a Rule 29 motion for acquittal arguing insufficient evidence supports his conviction on money transmitting charges. The delay extends judicial review of whether the evidence meets the threshold for conviction.",
   "date": "2026-08-25",
   "published_utc": "2026-08-25T23:56:54Z",
   "category": "news",
   "verdict": "VERIFIED",
   "rank": 2,
   "author": "Crypto Cronkite",
-  "key_fact": "Thirty-nine U.S. state bankers associations announced the BankChain Alliance, a permissioned blockchain network scheduled for 2027 launch to serve community banks with tokenized deposits, bank-issued stablecoins, and smart payment tools within a regulated banking framework.",
-  "bottom_line": "Watch for the announcement of a technology partner and the governance structure that emerges among the 39 associations. The critical inflection points are regulatory approval (from the FDIC, Federal Reserve, or OCC) and whether the bank-issued stablecoins are dollar-pegged or allow other designs. The premise holds if community banks begin integrating with the network in 2027; it falters if technology selection deadlocks or if federal banking regulators withhold formal approval.",
+  "key_fact": "Storm's retrial, originally proposed for October 2026, is now set for April 26, 2027, pending the judge's decision on his acquittal motion.",
+  "bottom_line": "The focus now shifts to Judge Failla's decision on whether the evidence supporting Storm's conviction meets the legal threshold, a ruling due well before the April 2027 retrial date. If the acquittal motion succeeds, it would overturn the earlier guilty verdict and signal prosecutorial overreach; if denied, the case proceeds to a new jury trial with fresh evidentiary burdens on both sides. Watch for the judge's written ruling on the Rule 29 motion, which will clarify her view of the government's case.",
   "human_take": "",
   "body": [
-    "Thirty-nine U.S. state bankers associations announced the BankChain Alliance on August 25, 2026, according to Crypto Briefing reporting, positioning a permissioned blockchain network as the regulated banking sector's direct entry into distributed ledger infrastructure. The network targets a 2027 launch.",
-    "The Texas Bankers Association is leading the alliance, with Kathy Kraninger, president and CEO of the Florida Bankers Association, serving as interim chair, per Crypto Briefing. Kraninger previously directed the Consumer Financial Protection Bureau.",
-    "The planned service menu includes tokenized deposits, smart payment tools, automated settlement, and bank-issued stablecoins, according to Crypto Briefing's reporting. Tokenized deposits would allow banks to represent customer deposits as digital tokens on the blockchain, functioning as a digital twin of a traditional bank deposit while remaining protected by existing banking regulations. Bank-issued stablecoins would be backed by actual deposits and subject to existing oversight, representing a fundamentally different product design than stablecoins currently circulating in crypto markets, per the same reporting.",
-    "The BankChain Alliance emphasizes interoperability with other networks, suggesting the network won't operate as a walled garden, according to Crypto Briefing. The alliance backers position their effort as separate from the Cari Network, which has pursued similar goals around bank-centric digital infrastructure, though they characterize the BankChain effort as potentially broader.",
-    "No technology partner or specific blockchain protocol has been selected yet, according to Crypto Briefing. Enterprise blockchain platforms like Hyperledger, R3's Corda, or a customized version of an Ethereum-compatible chain are all plausible candidates, per the reporting, but that decision remains underway."
+    "Federal Judge Katherine Polk Failla has postponed the retrial of Tornado Cash developer Roman Storm to April 26, 2027, according to The Block. The delay keeps Storm's conviction status in limbo while the court reviews his motion for acquittal on grounds of insufficient evidence.",
+    "Storm was convicted on August 6, 2025, on conspiracy charges related to operating an unlicensed money transmitting business. Prosecutors sought a retrial on two additional unresolved charges and had proposed an October 2026 start date, per The Block. Storm's legal team instead requested the postponement, which Judge Failla granted with a two-page order signed August 25 in the Southern District of New York.",
+    "The postponement centers on a Rule 29 motion filed by Storm's defense, which argues that prosecutors failed to present sufficient evidence to support the guilty verdict, according to The Block. Judge Failla has excluded time under the Speedy Trial Act through April 26, 2027, stating that \"the ends of justice would be served by excluding time under the Speedy Trial Act through April 26, 2027, and that this would outweigh the interests of the public and the defendant in a speedy retrial.\"",
+    "The court has set a timeline for the months ahead. Government expert disclosures are due February 5, 2027, with defense disclosures due March 5, 2027, per The Block. Daubert motions and motions in limine, which address admissibility of evidence and expert testimony, are due March 30, 2027. A final pretrial conference is scheduled for April 20, 2027, six days before the retrial begins.",
+    "Storm's case has become a central data point in the debate over privacy-mixer enforcement. The earlier conviction showed prosecutors can pursue developers under money transmitting statutes, but the acquittal motion leaves that verdict open to reversal. Whether Judge Failla rules the evidence sufficient to sustain conviction or grants the motion could reshape the legal landscape for privacy-focused protocols."
   ],
   "sources": [
     {
@@ -28,11 +28,34 @@
     {
       "title": "https://cryptobriefing.com/us-banking-associations-bankchain-alliance-blockchain/",
       "url": "https://cryptobriefing.com/us-banking-associations-bankchain-alliance-blockchain/"
+    },
+    {
+      "title": "https://www.theblock.co/news/regulation/2026-08-26-tornado-cash-roman-storm-retrial-april-2027-412761",
+      "url": "https://www.theblock.co/news/regulation/2026-08-26-tornado-cash-roman-storm-retrial-april-2027-412761"
+    },
+    {
+      "title": "https://decrypt.co/376577/roman-storms-tornado-cash-retrial-pushed-to-april-2027",
+      "url": "https://decrypt.co/376577/roman-storms-tornado-cash-retrial-pushed-to-april-2027"
+    },
+    {
+      "title": "https://cointelegraph.com/news/roman-storm-retrial-delayed-april-2027",
+      "url": "https://cointelegraph.com/news/roman-storm-retrial-delayed-april-2027"
     }
   ],
   "update_of": "senate-majority-leader-thune-skips-clarity-cloture-filing-traders-reprice-passage-to-2027",
   "also_reported_by": [
-    "Crypto Briefing"
+    "Decrypt",
+    "Cointelegraph",
+    "BeInCrypto"
   ],
-  "developing": false
+  "developing": false,
+  "consolidated": "This story was updated in place with a better-sourced account of the same event, carrying 3 sources against the original 2. The earlier version was headlined “State Banking Associations Announce BankChain Alliance for 2027 Launch”. The URL and publication time are unchanged.",
+  "updated_utc": "2026-08-26T12:38:43Z",
+  "merged_from": [
+    {
+      "id": "c029",
+      "title": "Tornado Cash Developer Roman Storm's Retrial Postponed to April 2027",
+      "published_utc": "2026-08-26T12:38:43Z"
+    }
+  ]
 }

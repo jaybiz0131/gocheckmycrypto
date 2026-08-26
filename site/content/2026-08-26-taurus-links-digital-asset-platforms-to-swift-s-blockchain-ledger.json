@@ -1,0 +1,61 @@
+{
+  "id": "c117",
+  "slug": "taurus-links-digital-asset-platforms-to-swift-s-blockchain-ledger",
+  "kind": "brief",
+  "title": "Taurus links digital asset platforms to Swift's blockchain ledger",
+  "dek": "Taurus has integrated its tokenization and custody platforms with Swift's blockchain ledger. First institutional clients are expected to connect within days, with initial DLT transactions through Taurus platforms expected within weeks.",
+  "date": "2026-08-26",
+  "published_utc": "2026-08-26T12:38:43Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "Taurus integrated its tokenization and custody platforms with Swift's blockchain ledger, with first institutional clients set to connect within days.",
+  "bottom_line": "Watch for the first named institutional client to complete a transaction on this integration and what asset class moves first (securities, commodities, stablecoins). If transaction volumes remain minimal or deployment extends beyond the reported timeframe, it would signal slower-than-expected institutional appetite for DLT settlement.",
+  "human_take": "",
+  "body": [
+    "Taurus has integrated its tokenization and custody platforms with Swift's blockchain ledger, according to Cointelegraph reporting. First institutional clients are expected to connect within days, with initial DLT transactions through Taurus platforms expected within weeks.",
+    "The integration connects institutional custody and tokenization infrastructure directly to Swift's distributed ledger, reducing operational handoffs between traditional settlement rails and blockchain-native assets. Taurus provides custody and tokenization services to institutional investors, while Swift operates the messaging backbone for most international financial transactions.",
+    "Cointelegraph reports the integration represents a step toward institutional adoption of distributed ledger technology for asset issuance and transfer. The timeline indicates near-term deployment, though neither Taurus nor Swift has named specific institutional participants or use cases."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/news/taurus-digital-asset-platforms-swift-blockchain-ledger",
+      "url": "https://cointelegraph.com/news/taurus-digital-asset-platforms-swift-blockchain-ledger"
+    },
+    {
+      "title": "https://cointelegraph.com/news/taurus-digital-asset-platforms-swift-blockchain-ledger?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/taurus-digital-asset-platforms-swift-blockchain-ledger?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-26T12:36:34Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78464.99,
+        "chg_24h_pct": -0.06
+      },
+      {
+        "symbol": "ETH",
+        "price": 2464.27,
+        "chg_24h_pct": 0.91
+      }
+    ],
+    "fng": {
+      "value": 65,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 8.8,
+      "open_interest_usd": 2268323854
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 116196324,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}

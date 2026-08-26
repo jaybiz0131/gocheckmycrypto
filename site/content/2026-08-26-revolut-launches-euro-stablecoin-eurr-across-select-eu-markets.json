@@ -1,0 +1,68 @@
+{
+  "id": "c005",
+  "slug": "revolut-launches-euro-stablecoin-eurr-across-select-eu-markets",
+  "kind": "brief",
+  "title": "Revolut launches euro stablecoin EURR across select EU markets",
+  "dek": "Revolut has launched EURR, a euro-pegged stablecoin, to selected customers in Denmark, Poland, and Portugal. The token maintains a 1:1 value with the euro, with reserves held by a Stripe subsidiary and issuance regulated under the EU's MiCA framework.",
+  "date": "2026-08-26",
+  "published_utc": "2026-08-26T12:38:43Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 9,
+  "author": "Crypto Cronkite",
+  "key_fact": "Revolut's EURR stablecoin launched in three EU countries with regulated issuance under MiCA and reserves held by a Stripe subsidiary, per reporting from Decrypt and U.Today.",
+  "bottom_line": "Watch for Revolut's expansion timeline beyond Denmark, Poland, and Portugal, and whether transaction volumes and customer adoption metrics are disclosed. EURR's regulatory licensing under MiCA provides clarity on custody and issuance that many stablecoins lack, but the narrow rollout suggests a proof-of-concept phase rather than full EU market penetration. The path to material adoption depends on whether Revolut opens the product to broader customer segments and promotes cross-border on-chain euro transfers as a use case.",
+  "human_take": "",
+  "body": [
+    "Revolut has begun rolling out EURR, a euro-pegged stablecoin, to selected customers in Denmark, Poland, and Portugal. The token maintains a 1:1 value with the euro and is designed to enable on-chain movement of euros among eligible users across supported blockchain networks, according to reporting from Decrypt and U.Today.",
+    "The structural setup underscores a push toward regulated euro tokenization. EURR is issued by Bridge Building S.A., a Luxembourg-based company licensed as a crypto-asset service provider and electronic money institution under the Markets in Crypto-Assets (MiCA) regulation, overseen by Luxembourg's Commission de Surveillance du Secteur Financier. Reserves backing the stablecoin are held by a Luxembourg subsidiary of Stripe, the payments platform, adding a known institutional custodian to the arrangement. Revolut itself operates the stablecoin through Digital Assets Europe Ltd, which is registered as a MiCA crypto-asset service provider under regulation by Cyprus's Securities and Exchange Commission.",
+    "The two-tier regulatory structure, with both the issuer and the service provider holding separate MiCA licenses, reflects the EU's framework for bringing crypto-assets under formal oversight. This differs from earlier stablecoin models where reserves and issuance lived outside clear regulatory jurisdiction.",
+    "Eligible customers can move EURR to external wallets and across supported blockchain networks, though the sources do not specify which networks are included. The rollout is limited to three countries and a subset of Revolut's customer base, with eligibility criteria not disclosed. No fee structure or redemption mechanics are described in the available reporting.",
+    "The bear case hinges on scale and expansion pace. The launch is limited to selected customers in three EU markets, and the timeline for broader European rollout has not been announced. Without clarity on transaction volumes, fees, or daily/annual limits, the user economics remain opaque. The anonymity of the initial customer group also leaves the addressable market size uncertain."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/08/26/euro-stablecoins-get-a-mainstream-push-as-revolut-begins-rolling-out-eurr-in-europe",
+      "url": "https://www.coindesk.com/business/2026/08/26/euro-stablecoins-get-a-mainstream-push-as-revolut-begins-rolling-out-eurr-in-europe"
+    },
+    {
+      "title": "https://decrypt.co/376575/revolut-launches-euro-pegged-eurr-stablecoin",
+      "url": "https://decrypt.co/376575/revolut-launches-euro-pegged-eurr-stablecoin"
+    },
+    {
+      "title": "https://u.today/revolut-launches-euro-backed-stablecoin",
+      "url": "https://u.today/revolut-launches-euro-backed-stablecoin"
+    }
+  ],
+  "update_of": "mica-compliance-deadline-sparked-a-surge-in-regulator-impersonation-scams-across-the-eu",
+  "board_snapshot": {
+    "as_of": "2026-08-26T12:36:34Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78464.99,
+        "chg_24h_pct": -0.06
+      },
+      {
+        "symbol": "ETH",
+        "price": 2464.27,
+        "chg_24h_pct": 0.91
+      }
+    ],
+    "fng": {
+      "value": 65,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 8.8,
+      "open_interest_usd": 2268323854
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 116196324,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
