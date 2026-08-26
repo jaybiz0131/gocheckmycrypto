@@ -1,0 +1,56 @@
+{
+  "id": "c126",
+  "slug": "india-plans-september-pilot-of-tokenized-bonds-using-wholesale-cbdc",
+  "kind": "brief",
+  "title": "India plans September pilot of tokenized bonds using wholesale CBDC",
+  "dek": "India is planning a September pilot of tokenized corporate bonds using the Reserve Bank of India's wholesale central bank digital currency, with state-owned REC issuing the debt.",
+  "date": "2026-08-26",
+  "published_utc": "2026-08-26T11:07:00Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 5,
+  "author": "Crypto Cronkite",
+  "key_fact": "India plans a September 2026 pilot of tokenized corporate bonds settled in wholesale CBDC (RBI e-Rupee), issued by state-controlled REC.",
+  "bottom_line": "Watch for the pilot's launch date and initial participation levels. If the test scales to larger bond issuances or includes other state-backed issuers, it would signal India is building a tokenized debt market. If it remains a confined sandbox, it suggests the RBI is still evaluating the technical and operational case for wholesale CBDC securities settlement.",
+  "human_take": "",
+  "body": [
+    "India plans to test tokenized corporate bonds in a September pilot program using the Reserve Bank of India's wholesale central bank digital currency, according to Cointelegraph. The state-controlled Rural Electrification Corporation (REC) will serve as the bond issuer, with payments to be made in wholesale e-Rupee.\nWholesale CBDCs differ from retail versions: they are designed for bank-to-bank and institutional settlement rather than consumer payments. By testing tokenized debt on a wholesale CBDC rail, India's central bank is exploring how distributed ledger technology can streamline the issuance and settlement of government-backed corporate securities.\nThe pilot brings together three layers of financial infrastructure: tokenization (converting a traditional bond into a digital asset), central bank money (the e-Rupee settlement layer), and a state-owned issuer. The structure lets the RBI observe how blockchain-based settlement performs with institutional-grade fixed income products."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/news/india-tokenized-bonds-digital-rupee?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/india-tokenized-bonds-digital-rupee?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "update_of": "senate-majority-leader-thune-skips-clarity-cloture-filing-traders-reprice-passage-to-2027",
+  "board_snapshot": {
+    "as_of": "2026-08-26T11:04:56Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 63653.85,
+        "chg_24h_pct": -0.34
+      },
+      {
+        "symbol": "ETH",
+        "price": 1904.72,
+        "chg_24h_pct": -0.78
+      }
+    ],
+    "fng": {
+      "value": 65,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 9.5,
+      "open_interest_usd": 2299628707
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 116196324,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
