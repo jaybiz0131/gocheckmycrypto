@@ -125,6 +125,36 @@ def digest():
                           for m in (pulse.get("movers") or {}).get(side, [])[:3]]
                    for side in ("gainers", "losers")},
     }
+    # WINDOW SIGNS, PRECOMPUTED (2026-08-25). The 23:33Z run burned every wrap retry
+    # and two chartmaster retries on the same class of failure: day -0.4% while week
+    # +24.8%, and the model kept writing unscoped or wrong-window direction claims that
+    # the deterministic belts then rejected. The belts were right every time; the model
+    # was being asked to derive per-window signs from raw numbers under prose pressure.
+    # So the digest now states them, in words, next to the rule the belts enforce. This
+    # is input, not a new check: the belts stay exactly as they are.
+    signs = []
+    for a in d["assets"]:
+        row = {"symbol": a.get("symbol")}
+        disagree = set()
+        for label, key in (("day", "chg_24h_pct"), ("week", "chg_7d_pct"),
+                           ("month", "chg_30d_pct")):
+            v = a.get(key)
+            if v is None:
+                continue
+            row[label] = f"{'up' if v >= 0 else 'down'} {v:+.1f}%"
+            disagree.add(v >= 0)
+        row["windows_disagree"] = len(disagree) > 1
+        signs.append(row)
+    d["window_signs"] = {
+        "rule": "When any two windows disagree for an asset, EVERY directional claim "
+                "about it must name its window explicitly (e.g. 'down 0.4% on the day' "
+                "or 'up 24.8% on the week'), never a bare 'bitcoin is rising/falling'. "
+                "The same scoping applies to whale flows and ETF flows: every direction "
+                "claim names its window ('onto exchanges over the last 24 hours', 'weekly "
+                "net inflow'). These directions are precomputed from the numbers in this "
+                "digest; do not restate a direction that contradicts this table.",
+        "assets": signs,
+    }
     if flows.get("volatile"):
         vol = flows["volatile"]
         d["whale_flows"] = {

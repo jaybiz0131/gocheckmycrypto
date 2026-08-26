@@ -173,6 +173,10 @@ def source_label(src):
 # This map is the audit trail as well as the mechanism: every entry is a URL the desk retired
 # and where it went. Add here, never remove.
 RETIRED_ARTICLES = {
+    # cross-day audit 2026-08-25: the same anticipatory CoinDesk-sourced story told
+    # twice three days apart, zero novel claims in the retelling
+    "new-clarity-act-draft-may-drop-this-week-sources-tell-coindesk":
+        "new-clarity-act-draft-may-arrive-as-soon-as-next-week-source",
     "aave-approves-deprecation-of-50-assets-and-exit-from-six-chains":
         "aave-retires-50-assets-and-exits-six-chains-consolidating-away-from-low-value-markets",
     "ai-compute-stocks-bounce-as-hut-8-iren-land-billions-in-new-contracts":
@@ -1419,7 +1423,8 @@ def render_article(item, all_items=None):
             or item.get("category") == "daily edition"):
         # editions summarise stories; they are not chapters of one, and the example page
         # is a format demo. Neither gets an archive module (owner check 2026-08-25).
-        rel_html = (render_timeline(item, all_items or [])
+        rel_html = (render_board_panel(item)
+                    + render_timeline(item, all_items or [])
                     + render_more_on(item, all_items or [])
                     + rel_html)
     # consistent desk attribution (the byline is the desk, never a person): aggregators and
@@ -2212,9 +2217,9 @@ def render_learn(dateline):
     """The Learn tier index. Renders from explainers.EXPLAINERS, so a new entry there is
     the only edit an added explainer needs."""
     import explainers
-    return shell(f"Explainers - {NAME}",
-                 "Evergreen explainers on how crypto works: custody, tax, and the "
-                 "practical mechanics behind the desk's reporting.",
+    return shell(f"Learn crypto: explainers, boards, and glossary - {NAME}",
+                 "Evergreen explainers, how the desk verifies stories, how to read its "
+                 "market boards, and a glossary of the terms its reporting uses.",
                  "", explainers.learn_index_body(), dateline, path="/learn.html")
 
 
@@ -4009,6 +4014,110 @@ def merge_into_existing(path, prior, incoming):
     json.dump(prior, open(path, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
 
+
+def _board_snapshot_for(published_utc):
+    """A compact, honest snapshot of the desk's boards, or None if it would lie."""
+    try:
+        pulse = json.load(open(os.path.join(HERE, "site", "data", "pulse.json"),
+                               encoding="utf-8"))
+        flows = json.load(open(os.path.join(HERE, "site", "data", "flows.json"),
+                               encoding="utf-8"))
+        if pulse.get("example") or flows.get("example"):
+            return None
+        as_of = pulse.get("generated_utc") or ""
+        # staleness guard: boards older than 6 hours are the previous session's market
+        if published_utc and as_of:
+            from datetime import datetime, timezone
+            fmt = "%Y-%m-%dT%H:%M:%SZ"
+            try:
+                age = (datetime.strptime(published_utc[:19] + "Z", fmt)
+                       - datetime.strptime(as_of[:19] + "Z", fmt)).total_seconds()
+                if age > 6 * 3600 or age < -3600:
+                    return None
+            except ValueError:
+                return None
+        want = {"BTC", "ETH"}
+        assets = [{"symbol": a["symbol"], "price": a.get("price"),
+                   "chg_24h_pct": a.get("chg_24h_pct")}
+                  for a in (pulse.get("assets") or [])
+                  if isinstance(a, dict) and a.get("symbol") in want]
+        fng = pulse.get("fng") or {}
+        lev = {}
+        for a in ((pulse.get("leverage") or {}).get("assets") or []):
+            if isinstance(a, dict) and a.get("symbol") == "BTC":
+                lev = {"funding_annual_pct": a.get("funding_annual_pct"),
+                       "open_interest_usd": a.get("open_interest_usd")}
+                break
+        vol = flows.get("volatile") or {}
+        snap = {"as_of": as_of, "assets": assets,
+                "fng": {"value": fng.get("value"), "label": fng.get("label")},
+                "leverage": lev,
+                "flows": {"window_hours": flows.get("window_hours"),
+                          "net_usd": vol.get("net_usd"),
+                          "direction": vol.get("direction")}}
+        return snap if assets else None
+    except Exception:
+        return None
+
+
+def render_board_panel(item):
+    """The market, as this desk measured it, when this story published.
+
+    Renders only from the snapshot stamped at ingest, never from live data: showing
+    today's prices on last month's story would be a lie in the desk's own voice. Only
+    market-facing beats get the panel; a court ruling does not need a BTC price."""
+    snap = item.get("board_snapshot")
+    if not snap or not snap.get("assets"):
+        return ""
+    # MARKET-FACING = NAMES AN ASSET AND A MOVEMENT, the same test the verifier's
+    # board-check uses to decide a story makes a market claim. The beat classifier is
+    # the wrong gate here: it routes "Bitcoin slides as leverage unwinds" to Protocol
+    # because the word Bitcoin outweighs the price verbs (measured 2026-08-25).
+    try:
+        import verifier as _v
+        txt = f"{item.get('title') or ''} {item.get('key_fact') or ''}"
+        if not (_v._BOARD_ASSET.search(txt) and _v._BOARD_MOVE.search(txt)):
+            return ""
+    except Exception:
+        return ""
+    rows = ""
+    for a in snap["assets"]:
+        try:
+            chg = float(a.get("chg_24h_pct") or 0)
+            cls = "up" if chg >= 0 else "down"
+            rows += (f'<div class="bp-row"><span class="bp-k">{esc(a["symbol"])}</span>'
+                     f'<span class="bp-v">${a["price"]:,.0f}</span>'
+                     f'<span class="bp-d {cls}">{chg:+.1f}% 24h</span></div>')
+        except (TypeError, ValueError, KeyError):
+            continue
+    fng = snap.get("fng") or {}
+    if fng.get("value") is not None:
+        rows += (f'<div class="bp-row"><span class="bp-k">Fear &amp; Greed</span>'
+                 f'<span class="bp-v">{esc(str(fng["value"]))}</span>'
+                 f'<span class="bp-d">{esc(str(fng.get("label") or ""))}</span></div>')
+    fl = snap.get("flows") or {}
+    if fl.get("net_usd") is not None:
+        try:
+            rows += (f'<div class="bp-row"><span class="bp-k">Whale flow '
+                     f'{int(fl.get("window_hours") or 24)}h</span>'
+                     f'<span class="bp-v">${abs(float(fl["net_usd"]))/1e6:,.0f}M</span>'
+                     f'<span class="bp-d">{esc(str(fl.get("direction") or ""))}</span></div>')
+        except (TypeError, ValueError):
+            pass
+    lev = snap.get("leverage") or {}
+    if lev.get("funding_annual_pct") is not None:
+        rows += (f'<div class="bp-row"><span class="bp-k">BTC funding</span>'
+                 f'<span class="bp-v">{float(lev["funding_annual_pct"]):+.1f}%/yr</span>'
+                 f'<span class="bp-d">perp lean</span></div>')
+    if not rows:
+        return ""
+    when = esc((snap.get("as_of") or "")[:16].replace("T", " ") + " UTC")
+    return (f'<aside class="board-panel"><h2>The market when this story published</h2>'
+            f'<p class="mut">Measured by this desk\'s own boards at {when}, the run '
+            f'this story shipped in. Not live numbers: the '
+            f'<a href="/">front page</a> has those.</p>'
+            f'<div class="bp-grid">{rows}</div></aside>')
+
 def ingest():
     """Promote approved payloads (out/published/*.json from publish.py) into committed content."""
     if not os.path.isdir(PUBLISHED):
@@ -4072,6 +4181,16 @@ def ingest():
         }
         if updates_map.get(rec.get("id")):
             item["update_of"] = updates_map[rec.get("id")]
+        # THE DESK'S OWN MEASUREMENTS, AT THE MOMENT OF PUBLISH (owner directive
+        # 2026-08-25: every article should carry something no source article has). The
+        # boards are refreshed earlier in the same workflow run, so at ingest they are
+        # the desk's measurement of the market this story shipped into. Stamped once,
+        # never updated: an old story showing TODAY'S prices would be dishonest, which
+        # is also why the guard refuses a stamp when the board data is stale or the
+        # fixture. Old items simply lack the field and render no panel.
+        snap = _board_snapshot_for(published_utc)
+        if snap:
+            item["board_snapshot"] = snap
         # The boundary block passes through UNSCRUBBED and UNDESTYLED, alone among the
         # fields here. Every other value is the desk's own prose and gets house style; these
         # four are the vendor's words, checked character-for-character against the advisory

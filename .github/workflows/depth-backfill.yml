@@ -1,0 +1,65 @@
+# Depth backfill: dispatch-only. Re-runs thin published stories through the current
+# researcher -> writer -> approver chain (rewrite_thin.py), preserving every URL, date,
+# and verdict; only APPROVED rewrites that are actually LONGER are applied. Built for
+# the 2026-08-25 depth push: 21 stories sat under 250 words, the band Search Console
+# files as thin. Never scheduled; the owner dispatches it after reviewing the plan.
+name: Depth backfill (rewrite thin stories in place)
+
+on:
+  workflow_dispatch:
+    inputs:
+      thin_words:
+        description: "Rewrite stories whose body is under this many words"
+        type: string
+        default: "250"
+
+concurrency:
+  group: news-publish     # queue behind any in-flight desk run; never race a publish
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: main }
+      - uses: actions/setup-python@v7
+        with: { python-version: "3.12" }
+
+      - name: Rewrite thin stories through the full chain
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          THIN_WORDS: ${{ inputs.thin_words }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::ANTHROPIC_API_KEY not set; the rewrite chain needs it"; exit 1
+          fi
+          python3 rewrite_thin.py --apply
+
+      - name: Rebuild the site from the deepened content
+        run: |
+          pip install --quiet Pillow || true
+          python3 site_build.py
+
+      - name: Commit and push the deepened stories
+        run: |
+          git config user.name "Jack Berno"
+          git config user.email "297991518+jaybiz0131@users.noreply.github.com"
+          git add site/content
+          if git diff --cached --quiet; then
+            echo "::notice::No rewrites were approved and longer; nothing changed."
+          else
+            n=$(git diff --cached --name-only | wc -l | tr -d ' ')
+            git commit -m "depth backfill: $n thin stories deepened in place (URLs unchanged)"
+            ok=false
+            for i in 1 2 3; do
+              if git push; then ok=true; break; fi
+              echo "::warning::push rejected (attempt $i); rebasing and retrying"
+              git pull --rebase --autostash origin main || { git rebase --abort || true; exit 1; }
+            done
+            [ "$ok" = true ] || { echo "::error::push failed after retries"; exit 1; }
+          fi

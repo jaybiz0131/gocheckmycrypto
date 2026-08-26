@@ -27,7 +27,9 @@ from site_build import destyle
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONTENT = os.path.join(HERE, "site", "content")
-THIN_WORDS = 150
+# Overridable so the depth-backfill workflow can sweep a wider band than the launch-era
+# default: 250 covers the thin tail Search Console flags, 150 only the broken one.
+THIN_WORDS = int(os.environ.get("THIN_WORDS", "150"))
 
 
 def body_words(body):

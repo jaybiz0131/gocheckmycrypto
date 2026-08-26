@@ -265,8 +265,114 @@ def learn_index_body():
      <a href="/news.html">Latest</a>; this is the background that makes the reporting
      easier to read.</p>
   <div class="lx-grid">{cards}</div>
+
+  <h2>How this desk verifies a story</h2>
+  <p>Every story on this site passes through a verification stage separate from the one
+     that wrote it, and the standard is tiered by what the source is, not who repeated
+     it. One primary source, a regulator's own filing, an exchange's own notice, a
+     court docket, is enough on its own. An established outlet's reporting publishes
+     with attribution to that outlet. A source the desk could not actually read can
+     never make a story verified, no matter how many other places repeated it. Stories
+     that fail land in a review queue for a human; they do not publish quietly.</p>
+  <p>The desk also measures the market itself every run, and when a story makes a
+     market claim, the claim is checked against those measurements before it ships.
+     The full policy is on the <a href="/method.html">method page</a>, and the
+     <a href="/standards.html">standards page</a> covers corrections.</p>
+
+  <h2>How to read the boards</h2>
+  <p>The boards on the <a href="/">front page</a> are the desk's own measurements,
+     refreshed each run, not quotes from another site. Each one answers a narrow
+     question, and each has limits worth knowing.</p>
+  <h3>Whale Watch</h3>
+  <p>Large on-chain transfers over a rolling window, split by whether coins moved onto
+     exchanges or off them. Coins moving onto an exchange MAY precede selling; coins
+     moving off often go to custody. Neither is a promise: exchanges shuffle their own
+     wallets, and a single internal transfer can look like a whale. The
+     <a href="/onchain-flows.html">on-chain flows explainer</a> covers what this board
+     can and cannot tell you.</p>
+  <h3>Market pulse</h3>
+  <p>Prices, movers, stablecoin peg deviations, and the Fear and Greed index in one
+     view. The index is a sentiment composite, not a forecast: extreme readings tell
+     you how crowded a mood is, not what happens next.</p>
+  <h3>Leverage</h3>
+  <p>Funding rates and open interest, which show how much borrowed money sits in the
+     market and which direction it leans. Crowded leverage is why small moves cascade
+     into liquidation runs; the number explains the violence of a move, not its cause.</p>
+
+  <h2>Terms this desk's reporting uses</h2>
+  <p>Short and honest definitions, in the sense the desk means them. Anchors are
+     stable, so a story can link a term directly.</p>
+  <dl class="gloss">
+    <dt id="stablecoin">Stablecoin</dt>
+    <dd>A token designed to hold a fixed value, usually one dollar, backed by reserves
+        or a mechanism that is only as good as its issuer and its audits. When a
+        stablecoin trades meaningfully away from its peg, that gap is the story.</dd>
+    <dt id="custody">Custody</dt>
+    <dd>Who actually holds the keys. On an exchange, the exchange does; in a hardware
+        wallet, you do. Most crypto losses in practice are custody failures, not
+        market moves. See <a href="/cold-storage.html">cold storage, explained</a>.</dd>
+    <dt id="etf-flows">ETF flows</dt>
+    <dd>Net money entering or leaving exchange-traded funds that hold crypto. Inflows
+        mean new shares were created to meet demand; outflows the reverse. Flows lag a
+        day and say nothing about who is buying.</dd>
+    <dt id="open-interest">Open interest</dt>
+    <dd>The total size of outstanding derivative positions. Rising open interest with a
+        rising price means new money is entering; rising open interest with a falling
+        price means shorts are pressing.</dd>
+    <dt id="funding-rate">Funding rate</dt>
+    <dd>The periodic payment between long and short perpetual-futures holders that keeps
+        the contract near the spot price. A strongly positive rate means longs are
+        crowded and paying for the privilege.</dd>
+    <dt id="liquidation">Liquidation</dt>
+    <dd>A forced close of a leveraged position when its margin runs out. Cascading
+        liquidations are why crypto moves fast: each forced sale pushes the price into
+        the next trader's trigger.</dd>
+    <dt id="halving">Halving</dt>
+    <dd>The scheduled cut, roughly every four years, of the new bitcoin issued per
+        block. It changes supply mechanics on a known date; what the price does around
+        it is narrative, not mechanics.</dd>
+    <dt id="l2">Layer 2</dt>
+    <dd>A network that settles transactions off the main chain and posts summaries back
+        to it, trading some trust assumptions for speed and cost. Fees and security
+        vary widely between designs.</dd>
+    <dt id="defi">DeFi</dt>
+    <dd>Financial services, lending, trading, yield, run by on-chain programs instead of
+        firms. The code executes exactly as written, which is the appeal and the risk:
+        most large crypto thefts are DeFi code flaws.</dd>
+    <dt id="cbdc">CBDC</dt>
+    <dd>A central bank digital currency: state-issued digital money, the opposite of a
+        decentralised asset. Reporting on CBDCs is about policy and surveillance
+        trade-offs, not markets.</dd>
+    <dt id="etf">Spot ETF</dt>
+    <dd>A regulated fund that holds the asset itself and trades on a stock exchange. It
+        moved crypto exposure into ordinary brokerage accounts, which is why its flow
+        numbers carry weight.</dd>
+    <dt id="self-custody">Seed phrase</dt>
+    <dd>The list of words that can regenerate a wallet's keys. Anyone who has it has the
+        coins; no legitimate party will ever ask for it. Most theft that is not a code
+        exploit starts with a phished seed phrase.</dd>
+    <dt id="exploit">Exploit</dt>
+    <dd>A theft through a flaw in a protocol's code or operations. The desk reports the
+        measured loss and the failure class, and treats recovery promises as claims
+        until money demonstrably moves back.</dd>
+    <dt id="fear-greed">Fear and Greed index</dt>
+    <dd>A composite of volatility, momentum, and sentiment inputs scored 0 to 100. It
+        describes the crowd's mood today. It has no predictive record worth trading
+        on, which is why the desk cites it as context and never as a signal.</dd>
+    <dt id="tokenized">Tokenised assets</dt>
+    <dd>Traditional instruments, funds, bonds, deposits, issued as on-chain tokens. The
+        interesting questions are legal, what claim the token actually confers, and
+        operational, who can freeze or reverse it.</dd>
+  </dl>
+
+  <h2>Where to go from here</h2>
+  <p>The reporting itself is organised by beat and storyline on the
+     <a href="/news.html">news page</a>. The <a href="/method.html">method page</a>
+     documents the pipeline end to end, and
+     <a href="/how-we-make-money.html">how we make money</a> is exactly what it says.</p>
+
   <p class="nfa">Explainers are educational. They describe how things work and are not
-     advice about your particular holdings.</p>
+     advice about your particular holdings. Nothing on this site is financial advice.</p>
 </section></main>"""
 
 
