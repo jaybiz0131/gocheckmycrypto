@@ -1,42 +1,6 @@
 [
  {
   "date": "2026-07-28",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c015",
-    "headline": "Inside the CME and CFTC's battle over onchain perpetual futures",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'CFTC and its chairman Mike Selig' but the brief consistently identifies him as 'Mike Selig' without a middle initial or alternate spelling. The draft uses 'Selig' throughout, which matches the brief, so this is consistent.",
-     "The draft claims 'Interest spiked in perpetual contracts on oil prices traded on offshore decentralized finance platforms like Hyperliquid' around 'the start of the Iran conflict.' The brief data_point states 'Tension between CME and CFTC mounted around the start of Iran conflict, which saw interest spike in perpetual contracts on oil prices traded on offshore DeFi exchanges like Hyperliquid.' This is reported-confidence sourced to CoinDesk and traces correctly.",
-     "The draft states 'Non-U.S. perpetual futures volume reportedly grew to $60 trillion last year' and attributes this to 'data cited by CoinDesk.' The brief confirms this exact claim with reported confidence. However, the word 'reportedly' correctly flags the attribution without overstating certainty.",
-     "The draft presents Chervinsky's affiliation as 'CEO of the Hyperliquid Policy Center (a Washington D.C.-based non-profit focused on compliant decentralized finance, backed by a $28 million initiative from the Hyper Foundation)' but the brief's data_point says the center is 'a Washington D.C.-based non-profit focused on creating compliant DeFi in the U.S., heavily focused on perps and on-chain financial infrastructure, backed by a $28 million initiative from the Hyper Foundation.' The draft adds 'compliant' language and omits 'heavily focused on perps' but the core facts are there and the attribution is accurate.",
-     "The draft includes a paragraph about Duffy debating 'then-FTX CEO Sam Bankman-Fried on the industry's efforts to cut out intermediaries months before the company collapsed.' The brief confirms this fact with reported confidence. This traces correctly.",
-     "Critical issue: The draft's bottom_line states 'CFTC and CME clash over regulatory jurisdiction after CFTC approves first crypto perpetual listing; major policy dispute over whether onchain perps are CEA-compliant.' The phrase 'CEA-compliant' (Commodity Exchange Act) does not appear in the brief's data_points, bottom_line, or core_claim. The brief discusses 'whether perpetuals fit existing commodity law' and CME's claim that perps should be regulated as 'swaps,' but never uses 'CEA-compliant' as the framing. This is a subtle but real addition of interpretive language not in the research."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "Morgan Stanley debuts ether and solana exchange-traded products after bitcoin fund success",
-    "category": "balance",
-    "reasons": [
-     "Brief's bear_case states 'Source text provides no criticisms, regulatory risks, competitive pressure metrics, or bear-case commentary; story is presented as unambiguously positive institutional expansion.' The draft contains zero offsetting risk or critical perspective: no mention of regulatory challenges, no competitive pressure from existing altcoin ETPs, no friction points in adoption, no concerns about staking implementation risks, and no acknowledgment of the altcoin market's volatility relative to bitcoin. The sentence 'The size of Morgan Stanley's distribution network means these products could meaningfully shift capital flows to ETH and SOL' in the bottom_line gestures toward impact but offers no counterweight to the unrelenting bullish framing throughout. A story this promotional\u2014especially one trailing institutional adoption narratives\u2014requires at minimum a sentence acknowledging regulatory headwinds, execution risk, or competitive dynamics to survive the red-team test."
-    ]
-   },
-   {
-    "id": "c131",
-    "headline": "Storj Files Chapter 11, Proposes Token-to-Equity Path for Holders",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bitcoin was little changed over the same 24-hour window' but this claim does not appear in the brief's data_points. The brief includes a data_point about 'Bitcoin was little changed over the same 24-hour window' (confidence: reported), but the draft presents no comparable reference to Bitcoin's price movement. This is either a smuggled fact or the draft is missing context that would justify its inclusion. Either way, it violates the hard rule that facts must trace back to the brief.",
-     "The draft presents Storj's statement 'This is a decisive, positive step. The business underneath is strong and right-sized. What holds it back are legacy obligations from an earlier chapter' as a direct quote from Kaloyan Raev, but the brief's data_point attributes only the second and third sentences to Raev's statement, suggesting potential misattribution or quotation of a partial/reframed statement in the draft."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-28",
   "approved": 2,
   "rejected": [
    {
@@ -7594,6 +7558,67 @@
     "category": "accuracy",
     "reasons": [
      "No research brief provided for this story. Per the hard rule: 'no fact exists outside the brief.' Without a brief, every factual claim in the draft must be verified against the cited sources themselves. The draft cites only Cointelegraph URLs but provides no brief data_points to validate against. This violates the core protocol requirement that facts must trace back to research briefs. A draft without a brief cannot be approved; it must be rejected at research stage before drafting occurs."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-26",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c030",
+    "headline": "Tornado Cash developer Roman Storm's retrial scheduled for April 2027",
+    "category": "accuracy",
+    "reasons": [
+     "The protocol instruction states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites three URLs (The Block, Decrypt, Cointelegraph) as sources, but those URLs are not accessible for verification by the approval process. The core facts\u2014that Storm will face retrial in April 2027, that a jury deadlocked on money-laundering charges, that he was convicted on one money-transmitting charge\u2014cannot be verified against the brief's data_points because no brief was provided. The instruction requires tracing facts to sources when no brief exists; URLs alone do not constitute traceable verification in this approval context.",
+     "The draft states 'The jury's deadlock on the broader money-laundering charges meant those counts could not result in conviction and instead moved to retrial' without clarifying whether this is standard legal procedure (and thus not a fact needing sourcing) or a specific detail about Storm's case that requires source attribution. This ambiguity about what is procedural knowledge versus case-specific reporting makes verification impossible."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "U.S. Treasury designates Iran's digital asset sector as primary sanctions target",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims Treasury designated Iran's digital asset sector as 'a primary sanctions target' and places it 'alongside technology, gold, aviation, and shipping.' The brief data_points confirm only that 'Digital assets are among five sectors targeted' and lists the five sectors. The brief does not state that Treasury formally designated the sector; it only reports that digital assets are 'among' targets in a campaign. The draft's language\u2014'has designated Iran's digital asset sector as a primary sanctions target'\u2014presents an announcement of a formal designation that the brief attributes only to Decrypt's reporting, not to an official Treasury statement. The brief's confidence label is 'reported' (not 'announced' or 'confirmed'), meaning the claim is second-hand. The draft reads the claim as settled fact without hedging language ('according to reporting,' 'Decrypt reports') that would preserve the second-hand nature.",
+     "The phrase 'The move places digital assets alongside...' treats the designation as a confirmed action ('the move') rather than Decrypt's characterization of reported information.",
+     "No source confirms what 'Economic D-Day' is or whether it is an official Treasury campaign name or Decrypt's framing; the draft presents it as Treasury's campaign language without attribution."
+    ]
+   },
+   {
+    "id": "c142",
+    "headline": "U.S. inflation rises in July, stays above Fed target",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The elevated reading has moved the Federal Reserve closer to voting for a rate hike at its next meeting, MarketWatch reports.' The brief's data_point says the inflation 'potentially pushes the Federal Reserve closer to a vote to raise interest rates next month.' The draft omits the hedge word 'potentially' and presents the causal link ('has moved') as fait accompli rather than as MarketWatch's assessment. This shifts the claim from reported analysis to stated fact.",
+     "Draft contains no specific inflation numbers, percentages, or identification of which gauge was used ('the Fed's primary inflation gauge' is generic; the brief references 'the main inflation gauge' but neither specifies PCE, CPI, or exact readings). The brief's open_questions explicitly flag the missing exact PCE rate and how far above 2% it sits. The draft's vagueness on the magnitude may be appropriate given the brief's thinness, but the claim about moving the Fed 'closer to' a rate hike reads more confident than the source warrants.",
+     "The statement 'has moved the Federal Reserve closer to voting for a rate hike' is causal language that attributes motivation/probability shift to a single data point, which exceeds what MarketWatch reporting (per the brief) confirms; MarketWatch reported the potential, not the certainty of Fed movement."
+    ]
+   },
+   {
+    "id": "c134",
+    "headline": "India plans first tokenized bonds using wholesale CBDC",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the hard rule ('no fact exists outside the brief'), every factual claim must trace to either a provided data_point or be rejected. The draft cites only Cointelegraph but provides no research brief with data_points to validate against. The entire story\u2014India's September pilot, REC's role, e-Rupee (w) timing, settlement mechanics, prior pilot history\u2014cannot be verified against research without a brief. The desk cannot publish without a brief.",
+     "The draft asserts specific facts about e-Rupee (w) history ('has existed since late 2023'), prior pilots ('interbank transfers and forex settlement'), and REC's infrastructure lending operations\u2014none of which can be traced to data_points because no brief was provided."
+    ]
+   },
+   {
+    "id": "c137",
+    "headline": "Thailand opens consultation on Bitcoin and Ether ETF rules",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the hard rule ('no fact exists outside the brief'), every factual claim must trace to either a provided data_point or be rejected. The draft cites only Cointelegraph but provides no research brief with data_points to validate against. Claims about Thailand's SEC consultation, custodian qualification standards, the distinction between spot and derivatives ETFs, and the regional precedent ('Hong Kong, Singapore, and the Philippines') cannot be verified. The draft's assertion that 'No other ASEAN nation has yet approved spot crypto ETFs' is an open factual claim with no source to check it against.",
+     "The final sentence ('whether BTC and ETH ETF products launch within calendar year 2026') reads as a prediction framed as forward guidance, which borders on compliance risk without a brief to show what the sources actually said."
+    ]
+   },
+   {
+    "id": "c120",
+    "headline": "Taurus integrates digital asset platforms with SWIFT blockchain ledger",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this draft. Per the approval protocol, the hard rule is 'no fact exists outside the brief.' Without a brief to validate against, every factual claim in the draft must be independently verifiable from the single cited source (Cointelegraph). The draft makes multiple specific claims that cannot be verified against the provided source URL alone: the completion of integration, the timeline 'within days' for first clients, 'within weeks' for live transactions, the description of SWIFT Bridge as a 'distributed ledger designed to settle tokenized assets on permissioned networks,' the claim that SWIFT 'operates it as a neutral settlement rail,' the characterization of Taurus's role, and the assertion that SWIFT's ledger infrastructure 'has reached production maturity.' Without access to the actual Cointelegraph article text or a research brief summarizing its claims with confidence labels, these facts cannot be traced to source material. The protocol requires rejection when facts cannot be sourced to the brief or explicitly verified reporting."
     ]
    }
   ]

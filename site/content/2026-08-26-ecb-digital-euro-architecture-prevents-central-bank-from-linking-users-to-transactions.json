@@ -1,0 +1,61 @@
+{
+  "id": "c003",
+  "slug": "ecb-digital-euro-architecture-prevents-central-bank-from-linking-users-to-transactions",
+  "kind": "brief",
+  "title": "ECB: digital euro architecture prevents central bank from linking users to transactions",
+  "dek": "Piero Cipollone, a member of the ECB's governing council, stated the Eurosystem would be structurally unable to link individuals to digital euro transactions. Banks handling the transfers would retain that ability, he said. Civil society groups have expressed skepticism of the privacy claims.",
+  "date": "2026-08-26",
+  "published_utc": "2026-08-26T14:26:56Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "The ECB claims its technical architecture for the digital euro can prevent the central bank itself from linking individuals to transactions, though commercial banks could still do so.",
+  "bottom_line": "Watch whether the ECB publishes the technical specifications of the digital euro's privacy mechanism, and whether civil society groups or regulators in EU member states signal acceptance of the bank-level visibility Cipollone acknowledged. If commercial banks face pressure from national governments to share transaction data with tax authorities or law enforcement at volumes that overwhelm the Eurosystem's structural blindness, the privacy claim's practical value would collapse.",
+  "human_take": "",
+  "body": [
+    "The European Central Bank has designed its digital euro so the Eurosystem itself cannot link individuals to transactions, according to Piero Cipollone, a member of the ECB's governing council. That structural separation, Cipollone stated, delivers a privacy guarantee absent in regular bank transfers. The claim addresses a central tension in central bank digital currency design: surveillance risk. If a CBDC's issuer can observe every transaction, the door opens to unprecedented financial monitoring by the state.\nCipollone's assurance comes with a critical caveat. Banks that handle digital euro transfers would retain the ability to link individuals to transactions. The Eurosystem's blindness to transaction flows does not extend to the commercial intermediaries processing them. This means privacy protection operates at one layer of the architecture, not across the whole system.\nThe distinction Cipollone drew mirrors a familiar privacy trade-off in digital payments: encryption can hide a message from a platform operator while leaving it visible to the transport layer or to the recipient. In the digital euro's case, the ECB would occupy a role analogous to a platform operator unable to see transaction contents, while banks would see them in full."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/08/26/the-digital-euro-will-offer-more-privacy-than-regular-bank-transfers-ecb-says",
+      "url": "https://www.coindesk.com/policy/2026/08/26/the-digital-euro-will-offer-more-privacy-than-regular-bank-transfers-ecb-says"
+    },
+    {
+      "title": "https://decrypt.co/376590/digital-euro-will-offer-maximum-level-of-privacy-ecb-board-member-says",
+      "url": "https://decrypt.co/376590/digital-euro-will-offer-maximum-level-of-privacy-ecb-board-member-says"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-26T14:25:01Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 63653.85,
+        "chg_24h_pct": -0.34
+      },
+      {
+        "symbol": "ETH",
+        "price": 1904.72,
+        "chg_24h_pct": -0.78
+      }
+    ],
+    "fng": {
+      "value": 65,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.9,
+      "open_interest_usd": 2264880103
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 119026630,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Decrypt"
+  ],
+  "developing": false
+}
