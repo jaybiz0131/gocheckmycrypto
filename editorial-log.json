@@ -1,46 +1,6 @@
 [
  {
   "date": "2026-07-28",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c005",
-    "headline": "Zcash Seals $1.7 Billion Shielded Pool as Ironwood Upgrade Activates",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Ironwood's record-keeping is built to remain recoverable if quantum computers break current cryptography' but the brief data_point says 'remain verifiable' not 'recoverable.' These mean different things cryptographically; the draft has introduced a factual error not present in the source brief."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "Morgan Stanley Debuts Ether and Solana Exchange-Traded Products",
-    "category": "accuracy",
-    "reasons": [
-     "Draft includes a quote: 'Amy Oldenburg, head of digital asset strategy at Morgan Stanley, stated: \"Digital assets are becoming an increasingly important component of diversified investment portfolios.\"' This quote appears in the brief's data_points but NOT in the body of the draft itself. The draft violates the hard rule against fabricated quotes\u2014a quote must be sourced directly from the original reporting, not smuggled from a data_point list without confirmation it appears in the CoinDesk article text."
-    ]
-   },
-   {
-    "id": "c007",
-    "headline": "Core Scientific signs $14 billion AMD AI partnership, exits bitcoin mining",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Core Scientific's self-mining revenue fell 66% to $21.5 million in the second quarter, down from $63.2 million in the prior year' but the brief's data_point says the comparison is 'down from $63.2 million in the prior year' without specifying whether that prior year figure is Q2 2025 or an annual figure. The language 'prior year' is ambiguous in the brief itself, but the draft presents it as a clean Q2-to-Q2 comparison without qualification. This requires verification from the source that the comparison is actually apples-to-apples Q2 2025 to Q2 2026."
-    ]
-   },
-   {
-    "id": "c123",
-    "headline": "BitMine accumulates 42K ETH in a week, edges toward 5% supply target",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with 'BitMine Immersion Technologies (NYSE: BMNR)' but the brief provides no data point confirming the full legal name is 'BitMine Immersion Technologies' or that the ticker is BMNR on NYSE. The brief lists 'BitMine is chaired by Fundstrat's Tom Lee' with confidence 'reported' and 'BitMine's stock trades under ticker BMNR on the NYSE' with confidence 'reported,' but does not provide the full corporate name 'BitMine Immersion Technologies.' The writer has smuggled the full name by inference.",
-     "The draft states 'an insider flagged concerns about a cash gap in BitMine's funding model' but the brief lists this only in open_questions and bear_case, not as a confirmed data_point. The bear_case item reads 'The Defiant previously covered warnings from an insider about a cash gap...' which is itself unconfirmed reporting from The Defiant. The draft presents this as settled fact ('The Defiant previously reported that an insider flagged concerns') when it should carry uncertainty language matching its source confidence.",
-     "The draft's confidence level on the weekly purchase ($73 million) and holdings data is 'announced-not-verified' per the brief, but the draft presents these figures as straightforward fact without any hedge language. Language such as 'according to the company's holdings update' is present but insufficient when the underlying confidence is 'announced-not-verified'\u2014the draft should signal that these numbers come from company announcement and remain unverified by independent sources."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-28",
   "approved": 5,
   "rejected": [
    {
@@ -7619,6 +7579,50 @@
     "category": "accuracy",
     "reasons": [
      "No research brief was provided for this draft. Per the approval protocol, the hard rule is 'no fact exists outside the brief.' Without a brief to validate against, every factual claim in the draft must be independently verifiable from the single cited source (Cointelegraph). The draft makes multiple specific claims that cannot be verified against the provided source URL alone: the completion of integration, the timeline 'within days' for first clients, 'within weeks' for live transactions, the description of SWIFT Bridge as a 'distributed ledger designed to settle tokenized assets on permissioned networks,' the claim that SWIFT 'operates it as a neutral settlement rail,' the characterization of Taurus's role, and the assertion that SWIFT's ledger infrastructure 'has reached production maturity.' Without access to the actual Cointelegraph article text or a research brief summarizing its claims with confidence labels, these facts cannot be traced to source material. The protocol requires rejection when facts cannot be sourced to the brief or explicitly verified reporting."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-26",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c032",
+    "headline": "Tornado Cash developer Roman Storm's retrial rescheduled to April 2027",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites four sources (The Block, Decrypt, Cointelegraph, BeInCrypto) but does not provide URLs or quotes from those sources that verify the core facts. Critical factual claims\u2014the April 2027 retrial date, that Storm was convicted last year, that the jury deadlocked on other counts, the specific charges (money transmitting, money laundering conspiracy)\u2014cannot be verified against the sources listed because the sources are not accessible in the approval materials. Without verifiable source material, every fact in the draft is unconfirmed.",
+     "The draft presents Cipollone's statement about privacy as a hard commitment ('formally committing') but the brief labels this claim 'announced-not-verified,' meaning it should read as an announcement, not settled fact.",
+     "The draft states 'Storm was convicted last year' as established fact, but without access to the cited sources, this cannot be verified."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "ECB claims digital euro will offer 'maximum level of privacy' amid surveillance fears",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'The European Central Bank is formally committing to a digital euro architecture that prevents central bank surveillance of user transactions.' The brief marks the claim 'The Eurosystem would not be able to link individuals to transactions in the digital euro' as 'announced-not-verified,' not verified fact. A statement labeled 'announced-not-verified' in the brief must be presented as an announcement or claim, not as the desk's own characterization of what the ECB 'is formally committing to.' The phrasing in the draft reads as settled architectural fact rather than as a claim Cipollone announced.",
+     "The second sentence attributes the statement to 'Piero Cipollone, an ECB board member, stated per Decrypt'\u2014this is correct. However, the opening sentence uses the desk's voice to assert the commitment as fact before introducing the source or confidence level. This violates the rule that 'announced-not-verified' claims must read as announcements, not as the desk's own account of what the ECB is doing."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Euro stablecoins get a mainstream push as Revolut begins rolling out EURR in Europe",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story (brief returns note='no brief exists...'). Under the desk's hard rule, 'no fact exists outside the brief'; the approver cannot verify facts against a brief that does not exist.",
+     "The draft cites two sources (CoinDesk and Decrypt), but the approver has no access to those URLs and cannot trace claims to them. The rule requires tracing to brief data_points; absent a brief, the approver cannot discharge that duty.",
+     "This is a structural failure: the story should not have arrived for approval without a brief. Rejecting forces the desk to require brief-first workflow."
+    ]
+   },
+   {
+    "id": "c142",
+    "headline": "Thailand moves closer to Bitcoin, Ether ETFs with draft rules",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The protocol requires that every fact in a draft trace back to a data_point in the brief, or if no brief exists, to a named primary source with on-record attribution. The draft cites only Cointelegraph (a secondary aggregator) as a source. The specific claims\u2014that Thailand's SEC 'has opened formal consultations,' that draft rules include 'qualification standards for foreign digital asset custodians,' and the details about ETF mechanics\u2014cannot be verified as first-hand reporting or wire-service attribution. A single secondary-source URL does not meet the desk's liability standard for publication of regulatory announcements that could affect market participants.",
+     "The draft presents regulatory action ('has opened formal consultations') as established fact when the sourcing is a single aggregator link, not a primary authority (the Thai SEC itself, a wire service, or an on-record official statement). This is a compliance risk for a story about government action."
     ]
    }
   ]

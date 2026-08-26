@@ -1,47 +1,49 @@
 {
-  "id": "c111",
+  "id": "c115",
   "slug": "cosmos-labs-urges-evm-chains-to-halt-as-shared-bug-drains-three-networks",
   "kind": "brief",
-  "title": "Cosmos Labs urges EVM chains to halt as shared bug drains three networks",
-  "dek": "A vulnerability in Cosmos Labs' EVM module has been exploited on MANTRA, TAC, and KiiChain between August 20-22, draining approximately $9.7 million from KiiChain and $7.5 million from TAC. Cosmos Labs recommended immediate halts and upgrades to v0.6.2 or v0.7.2, though the halt recommendation came after all three chains had already been exploited. Two of three underlying defects remain unfixed upstream.",
+  "title": "Cosmos Labs Urges EVM Chains To Halt As Shared Bug Drains Three Networks",
+  "dek": "Cosmos Labs disclosed a critical vulnerability in its Cosmos EVM module affecting multiple chains. Attackers drained at least $9.7 million from KiiChain and approximately $7.5 million from TAC between August 20-22. The incident follows a disclosure failure: Labs published a security fix publicly on August 19 without notifying affected chains privately, creating a two-day exploit window.",
   "date": "2026-08-26",
-  "published_utc": "2026-08-26T12:38:43Z",
+  "published_utc": "2026-08-26T16:00:31Z",
   "category": "news",
   "verdict": "VERIFIED",
   "rank": 11,
   "author": "Crypto Cronkite",
-  "key_fact": "Three Cosmos EVM chains were exploited between August 20-22 via an underflow flaw in the staking precompile, with losses exceeding $17 million. Cosmos Labs published a public patch on August 19 without advance notice to affected chains, then issued a halt recommendation on August 22 after the exploits had already occurred.",
-  "bottom_line": "Watch for Cosmos Labs' timeline to publish the two remaining undisclosed defects and whether they issue a formal security advisory with a CVE identifier. If the remaining defects are not patched upstream within days, or if more chains report exploits, it would signal ongoing exposure across the Cosmos EVM ecosystem and potentially force community discussion about governance and disclosure practices.",
+  "key_fact": "Three chains running Cosmos EVM module were attacked between Aug. 20 and Aug. 22 after Cosmos Labs published a security fix publicly without first notifying downstream chains; KiiChain lost 148 million KII (worth $9.7 million) and TAC lost 2.9 billion TAC (worth $7.5 million).",
+  "bottom_line": "Watch for Cosmos Labs to publish a formal security advisory or CVE that names the two undisclosed defects and identifies which chains remain exposed after applying only the public patch. The status of fund recovery on KiiChain, TAC, and the KuCoin deposit address will signal whether affected chains can restore user balances through coordination with exchanges or protocol-level remediation. If the other two defects remain unfixed upstream and undisclosed, the premise that a published patch provides security will be invalidated.",
   "human_take": "",
   "body": [
-    "Affected: any public blockchain running a version of its Cosmos EVM module below v0.6.2 or v0.7.2. Fixed versions: v0.6.2 or v0.7.2. User action: immediately halt the blockchain and upgrade it to include the patches in those releases.",
-    "Cosmos Labs recommended that any public blockchain running Cosmos EVM module below v0.6.2 or v0.7.2 should immediately halt and upgrade to include the patches in those releases, per The Defiant reporting. The recommendation was posted at 11:19 a.m. New York time on Tuesday, August 26. The disclosure followed exploits on three chains between August 20 and August 22: MANTRA, TAC, and KiiChain. Two remain frozen.",
-    "The vulnerability stems from three upstream defects, according to The Defiant: an underflow in the staking precompile when it writes a post-delegation balance back to the EVM, plus two bugs that remain undisclosed. Attackers exploited the underflow by computing the address their exploit contract would deploy to, converting that address into a vesting account, then deploying the contract onto it. The contract inherited vesting status, delegated one wei more than its spendable balance, and underflowed its mirrored EVM balance to roughly 2^256, per The Defiant's technical analysis.",
-    "KiiChain attacker drained 148 million KII from wallets on August 22, repeating the same technique 18 times against different targets. The loss was worth roughly $9.7 million at the $0.0653 KII price traded at 21:00 UTC on August 22, per CoinGecko and The Defiant. KiiChain halted the network at block 9,355,723, timestamped 22:50:58 UTC on August 22. About 80.7 million KII (54.4%) sits in attacker addresses that the halt immobilized; 67.6 million was bridged to BNB Smart Chain through Hyperlane, where 64.6 million was sold on DEXs for roughly 1.61 million BUSD; 3 million went to a KuCoin deposit address, according to The Defiant.",
-    "TAC halted at block 24,671,475 on August 22 at 23:58 UTC and remains there. TAC attacker drained 2,985,651,403 TAC between accounts, representing about 62% of the token's circulating supply per CoinGecko and The Defiant. Per The Defiant and Protos reporting, the TAC loss was valued at around $7.5 million. MANTRA halted late on August 20 at block 17,449,398 and resumed block production at about 05:30 UTC on August 22 on a patched v8.4.0 binary; chain data shows the gap running from 23:13 UTC on August 20 to 03:38 UTC on August 22, per The Defiant.",
-    "Cosmos Labs published a fix for one of the three defects in a public repository on Wednesday, August 19, with no advance notice to downstream chains, did not flag the release as security critical, and did not tell affected chains that a public release had happened until Friday, August 21, two days later, according to The Defiant. Halt recommendation was not made until Saturday, August 22, after Mantra, TAC, and KiiChain had all been compromised. Both v0.6.2 and v0.7.2 releases carry boilerplate stating they contain important security fixes and are state breaking, with no CVE, no advisory reference and nothing identifying the entry as a live exploit path, per The Defiant. Two of the three defects are still unfixed upstream at Cosmos Labs; only the underflow has been patched publicly. Any Cosmos EVM chain with vesting accounts enabled that has applied the official upstream fix alone remains exposed to the other two defects, according to The Defiant.",
-    "Cosmos Labs first commented on the incident on X on August 24 at 1:06 p.m. New York time, stating an ongoing security incident has impacted users of the Cosmos EVM module and that it had advised chains in contact with it to request that validators halt their chains, per The Defiant. Cosmos Labs has not published a security advisory for the flaw. Per Protos reporting, four networks using the module (MANTRA, TAC, KiiChain, and Nesa) all appear to be affected by the bug, which was quietly patched last week. Saga EVM, another Cosmos EVM network, lost approximately $7 million in January, per Protos.",
-    "The disclosure process drew criticism: according to The Defiant, KiiChain's incident report directly blames Cosmos Labs for the vulnerability being avoidable due to negligent disclosure practices. The public patch preceded private notification to affected chains by two days, enabling the exploit window."
+    "Cosmos Labs recommended on Tuesday that any public blockchain running a version of its Cosmos EVM module below v0.6.2 or v0.7.2 immediately halt and upgrade to patch a critical vulnerability. The vulnerability had already been exploited: three chains running the module, MANTRA, TAC, and KiiChain, were attacked between August 20 and 22, with attackers draining at least $9.7 million from KiiChain and approximately $7.5 million from TAC, according to The Defiant.",
+    "The vulnerability is composed of three upstream defects: an underflow in the staking precompile when it writes a post-delegation balance back to the EVM, plus two bugs that remain undisclosed. The exploit worked by computing the address of a contract before deployment, converting that address into a vesting account, then deploying the contract onto it. The contract inherited vesting status, delegated one wei more than its spendable balance, and underflowed its mirrored EVM balance to approximately 2^256, giving the attacker access to a near-infinite balance.",
+    "KiiChain halted the network at block 9,355,723 on August 22 at 22:50:58 UTC after attackers drained 148 million KII in 18 repeated attacks against different targets. About 80.7 million KII, or 54.4 percent, sits in attacker addresses that the halt immobilized and will be moved to recovery wallets at restart. However, 67.6 million KII was bridged to BNB Smart Chain through Hyperlane and sold on decentralized exchanges for roughly 1.61 million BUSD. A final 3 million KII went to a KuCoin deposit address; KiiChain said confirmation is still pending on whether it can be recovered. TAC halted at block 24,671,475 on August 22 at 23:58 UTC after an attacker drained 2.9 billion TAC, representing approximately 62 percent of the token's circulating supply. TAC said on August 24 it would publish a post-mortem and relaunch plan the following day, according to The Defiant; neither had appeared by Tuesday afternoon.",
+    "The disclosure timeline exposes how a breakdown in responsible disclosure practices turned a patchable bug into a live exploit window. Cosmos Labs published a fix for one of the three defects in a public repository on August 19 but gave no advance notice to downstream chains, did not flag the release as security-critical, and did not tell affected chains that a public release had happened until Friday, August 21, two days later. The halt recommendation was not made until August 22, after MANTRA, TAC, and KiiChain had all been compromised. MANTRA halted late on August 20 at block 17,449,398 and says block production resumed at 05:30 UTC on August 22 on a patched v8.4.0 binary. Nesa and MANTRA halted in advance of Cosmos Labs' warning, with seemingly no user funds affected.",
+    "The v0.6.2 and v0.7.2 release notes both carry generic boilerplate language, stating they contain important security fixes and are state-breaking, with no CVE, no advisory reference, and nothing identifying the entry as a live exploit path. The cosmos/evm advisory page still lists three published advisories, the newest from March. Two of the three defects remain unfixed upstream at Cosmos Labs; only the underflow has been patched publicly. Any Cosmos EVM chain with vesting accounts enabled that has applied the official upstream fix alone remains exposed to the other two defects. Cosmos Labs has commented on the incident twice, both times on social media, and has not responded to KiiChain's account of the disclosure. KiiChain called the loss avoidable in a post-mortem report, openly blaming Cosmos Labs' disclosure process for creating what it termed the window it was robbed in.",
+    "Another Cosmos EVM network, Saga EVM, lost approximately $7 million in January, indicating a pattern of vulnerability across chains using the module."
   ],
   "sources": [
     {
       "title": "https://thedefiant.io/news/blockchains/cosmos-labs-urges-evm-chains-halt-shared-bug-drains-three-networks",
       "url": "https://thedefiant.io/news/blockchains/cosmos-labs-urges-evm-chains-halt-shared-bug-drains-three-networks"
+    },
+    {
+      "title": "https://protos.com/cosmos-labs-under-fire-over-disclosure-of-bug-affecting-four-blockchains/",
+      "url": "https://protos.com/cosmos-labs-under-fire-over-disclosure-of-bug-affecting-four-blockchains/"
     }
   ],
-  "update_of": "cftc-to-convene-innovation-advisory-committee-on-august-20-for-crypto-ai-and-prediction-markets-discussion",
+  "update_of": "cosmos-labs-urges-evm-chains-to-halt-as-shared-bug-drains-three-networks",
   "board_snapshot": {
-    "as_of": "2026-08-26T12:36:34Z",
+    "as_of": "2026-08-26T15:58:08Z",
     "assets": [
       {
         "symbol": "BTC",
-        "price": 78464.99,
-        "chg_24h_pct": -0.06
+        "price": 78058.01,
+        "chg_24h_pct": -0.58
       },
       {
         "symbol": "ETH",
-        "price": 2464.27,
-        "chg_24h_pct": 0.91
+        "price": 2450.19,
+        "chg_24h_pct": 0.34
       }
     ],
     "fng": {
@@ -49,13 +51,13 @@
       "label": "Greed"
     },
     "leverage": {
-      "funding_annual_pct": 8.8,
-      "open_interest_usd": 2268323854
+      "funding_annual_pct": 6.2,
+      "open_interest_usd": 2272240308
     },
     "flows": {
       "window_hours": 24,
-      "net_usd": 116196324,
-      "direction": "off exchanges"
+      "net_usd": -169871499,
+      "direction": "onto exchanges"
     }
   },
   "boundary": {
@@ -65,5 +67,5 @@
     "advisory_url": "https://thedefiant.io/news/blockchains/cosmos-labs-urges-evm-chains-halt-shared-bug-drains-three-networks"
   },
   "also_reported_by": [],
-  "developing": true
+  "developing": false
 }
