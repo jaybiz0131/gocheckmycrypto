@@ -1,54 +1,6 @@
 [
  {
   "date": "2026-07-29",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c022",
-    "headline": "BlackRock, Fidelity, and Wall Street Giants Publicly Back Crypto Regulation Bill",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'SoFi CEO Anthony Noto welcomed Goldman Sachs' support on X, noting that the two firms have taken a different stance than some banks on crypto regulation.' The brief data point says Noto 'noted that the two firms have taken a different stance than some banks on crypto regulation,' but the draft presents this as Noto welcoming Goldman's support, which suggests Goldman took a position first and Noto reacted to it. The brief does not contain evidence that Goldman's support came before Noto's statement or that Noto was responding to Goldman specifically\u2014only that both firms backed the bill. This rewrites the causal sequence beyond what the brief supports."
-    ]
-   },
-   {
-    "id": "c043",
-    "headline": "Core Scientific and AMD Partner on Multi-Gigawatt AI Data-Center Build",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the deal 'includes warrants for Core Scientific to purchase AMD stock,' but the brief data point specifies 'warrants to buy CORZ stock.' CORZ is Core Scientific's own ticker symbol, not AMD's (which is AMD). The draft misidentifies the stock underlying the warrants, materially changing the nature of the equity arrangement from self-dealing/buyback language to an AMD equity stake. This is a factual error that crosses the accuracy line.",
-     "The brief is marked 'thin: true' with source_chars: 0, indicating the research is minimal. The draft adds specifics about Core Scientific's 'mining heritage,' 'power procurement, cooling, and distributed infrastructure' capabilities, and the claim that these 'translate to AI data-center deployment.' None of these details appear in the three data points provided in the brief. These are smuggled editorial inferences, not facts from research."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "Russia's Central Bank Drafts Crypto Capital Rules, Framework Set for September 2026",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The European Union announced its 21st sanction package four days before the Bank of Russia's announcement, targeting 14 cryptocurrency firms including A7, a stablecoin network with $120 billion in assets.' This claim appears in the brief as a single data_point but the draft treats it as a direct causal or contextual relationship without clarity that this is inferred framing. More critically, the claim that A7 is 'a stablecoin network' is not explicitly stated in the brief's data_point, which only identifies it as a sanctioned entity with $120 billion in assets. The draft has introduced characterization ('stablecoin network') not present in the source brief."
-    ]
-   },
-   {
-    "id": "c052",
-    "headline": "Morgan Stanley Launches Spot Ethereum and Solana ETPs",
-    "category": "balance",
-    "reasons": [
-     "The brief includes a bear_case item ('bear_case': []) that is empty, and the draft contains no substantive counterbalance or skepticism about the announcement itself. However, the core liability issue is more acute: the draft admits 'What remains unconfirmed from available reporting is the fee structure, the underlying custody and settlement mechanism, the staking reward treatment (if any), and whether these are U.S.-domiciled products or international offerings.' This acknowledgment of unconfirmed details is appropriate, but it creates a structural problem: the story is written from a single Decrypt report with no secondary sourcing and the draft openly states material facts are missing. A one-source story that confesses its own incompleteness reads as rushed. The story should either find secondary confirmation of the basic facts or be held. As drafted, it borders on promotional\u2014announcing a product launch without verification of basic operational details."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Trade.xyz oracle liquidated $60 million after faithfully relaying outsized external trade",
-    "category": "accuracy",
-    "reasons": [
-     "The claim 'Research into crypto market structure shows that perpetual futures often lead spot markets in bitcoin and ether, and pre-IPO perpetuals on SpaceX's first trading day priced the stock more accurately than the bookbuild that set the offering' is not in the brief's data_points. This is smuggled research/analysis not traced to the CoinDesk source and appears to be the writer inserting independent contextual reasoning rather than reporting from the source.",
-     "The phrase 'suggesting the crash may have anticipated broader Korean asset repricing' is interpretive analysis inferring causation between the Trade.xyz crash and SK Hynix's decline hours later. The brief reports these as temporal facts (crash happened, decline happened) but the draft presents narrative causation not supported by the source data_points."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-29",
   "approved": 2,
   "rejected": [
    {
@@ -7657,6 +7609,40 @@
     "reasons": [
      "No research brief was provided for this story. The protocol requires that every fact in a draft trace back to either a data_point in the brief OR be explicitly sourced to a cited outlet inline in the draft text. The draft cites CoinDesk and The Defiant in the sources array but does not attribute specific claims to those outlets within the body prose itself. Claims like 'LayerZero launched ATLAS', 'backed by Citadel Securities', 'DTCC and ICE are exploring', and 'ZRO surged on the announcement' appear as desk voice rather than explicitly attributed reporting. Without a brief to anchor these facts, and without inline attribution in the body, these claims cannot be verified as originating from the cited sources. The story cannot run without either a completed research brief or inline attribution of every factual claim to its named outlet.",
      "The statement 'The desk's Market Pulse board showed ZRO down 13.8 percent on the day as of August 26' attributes a statistic to an internal desk tool rather than to an external source, which violates the rule that facts originate in the brief or are attributed to external outlets."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-26",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "Dallas Fed researchers warn tokenized deposits could constrain bank lending",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Dallas Fed researchers do not appear to have named a specific regulatory response or quantified mechanism for constraining lending in available source material' and 'The research itself has not been independently verified or published by other Federal Reserve banks or financial regulators as of August 26.' However, the brief's core_claim asserts the constraint is 'approximately $700 billion' and the draft's opening paragraph claims researchers 'have identified a novel systemic risk' without the hedging language required. The $700 billion figure appears in the core_claim and in a data_point marked 'reported' (confidence), but the draft never explicitly states that figure\u2014it only alludes to it indirectly through sourcing attribution. More critically, the draft presents the mechanism as established fact ('have identified') when the brief itself flags this as thin sourcing and unconfirmed methodology. The closing paragraph contradicts the opening by admitting lack of quantification, which is accuracy drift: the draft cannot both assert the researchers 'have identified' a risk AND acknowledge the research 'has not been independently verified.' This self-contradiction signals the draft overstated what the sources actually support.",
+     "The draft attributes the $700 billion figure to reporting but never directly states it, creating ambiguity about whether this is the desk's inference or a finding from the sources. The open_questions in the brief ask 'What specific Dallas Fed report or research paper contains the $700 billion figure and underlying methodology? Sources do not name or link the primary research'\u2014yet the draft does not signal to readers that the primary research itself is not available or verified."
+    ]
+   },
+   {
+    "id": "c031",
+    "headline": "Tornado Cash developer Roman Storm's retrial scheduled for April 2027",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per protocol, every fact must trace to either a brief data_point or to the draft's own cited sources. The draft cites three sources (The Block, Decrypt, Cointelegraph) but provides no URLs or timestamps that can be verified. The specific factual claims\u2014that Storm was convicted on a money-transmitting count, that a jury hung on other charges, and that retrial is scheduled for April 2027\u2014cannot be traced to verifiable sources as presented. The protocol requires facts to go back to research; when no brief exists and sources are not independently verifiable from the citations given, the story cannot be approved.",
+     "The draft's opening sentence states 'Roman Storm, a developer of Tornado Cash, was convicted on a count of money transmitting' but provides no date for this conviction, making it impossible to verify this is a current/recent development rather than historical fact being misrepresented as breaking news.",
+     "The sources list includes three URLs that appear plausible but cannot be authenticated within this review process to confirm they actually report the claims made. Without a brief and without independently verifiable source access, the accuracy standard cannot be met."
+    ]
+   },
+   {
+    "id": "c140",
+    "headline": "Thailand SEC Opens Comment on Bitcoin and Ethereum ETF Rules Requiring Domestic Custody",
+    "category": "compliance",
+    "reasons": [
+     "The draft metadata flags 'boundary_required: true' and 'boundary_ok: false', indicating a version/date/threshold story without a boundary block in the brief. The story turns on specific regulatory thresholds (v0.6.2 or v0.7.2 versions, 80% net asset value, Sept. 20 comment deadline, year-end 2026 implementation target) but the brief contains no boundary object defining affected systems, fixed versions, user actions, or advisory URL.",
+     "This creates a compliance liability: a reader cannot determine from the draft alone what systems are in scope, what versions are safe, or what action they should take. A version-gated regulatory story with no boundary block is a desk liability flag that was already surfaced in the brief metadata but not remedied in the draft."
     ]
    }
   ]

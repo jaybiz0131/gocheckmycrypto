@@ -1,0 +1,70 @@
+{
+  "id": "c024",
+  "slug": "coinbase-better-make-token-backed-mortgages-generally-available",
+  "kind": "brief",
+  "title": "Coinbase, Better make token-backed mortgages generally available",
+  "dek": "Coinbase and Better Mortgage are expanding Bitcoin-backed mortgage access to all Coinbase One members with a 1% closing-cost credit capped at $10,000. The product pairs a conforming mortgage with a separate crypto-collateralized loan, allowing borrowers to pledge Bitcoin as down-payment support without liquidating holdings.",
+  "date": "2026-08-26",
+  "published_utc": "2026-08-26T23:56:28Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 9,
+  "author": "Crypto Cronkite",
+  "key_fact": "Coinbase One members can now access Bitcoin-backed mortgages nationwide with a lender-funded credit of 1% of the mortgage amount, capped at $10,000, after the product debuted in June and began broader US rollout.",
+  "bottom_line": "Watch adoption numbers among Coinbase One members and whether Better expands the product to non-Coinbase users, which would signal broader institutional comfort with crypto-collateralized real estate lending. If mortgage origination volumes from crypto collateral cross measurable thresholds, it could indicate whether this hybrid model becomes a durable fintech product category or remains a niche offering tied to specific exchange ecosystems.",
+  "human_take": "",
+  "body": [
+    "Coinbase and Better Mortgage have expanded Bitcoin-backed mortgage access to all eligible Coinbase One members nationwide, introducing a 1% closing-cost credit capped at $10,000 for qualifying borrowers. The product pairs a traditional conforming mortgage with a separate loan secured by pledged Bitcoin, allowing borrowers to use crypto holdings as collateral without liquidating them for down payments.",
+    "Better introduced the product in March, initially offering borrowers the choice to pledge Bitcoin or USDC. The company debuted the first Bitcoin-backed mortgage in June, according to Bitcoin Magazine, and has now begun broader rollout across the United States. U.Today reports that borrowers across the US have gained access to the offering, with Coinbase One members now eligible for the closing-cost incentive.",
+    "The mechanics, as U.Today describes them, pair two separate loans. A borrower purchasing a $500,000 home, for example, could pledge $250,000 in Bitcoin to support a $100,000 down payment, according to U.Today. The pledged Bitcoin must be worth at least 250% of the down payment loan amount, meaning that Bitcoin backing is heavily overcollateralized. Better originates and services both the standard mortgage and the collateralized loan, while Coinbase provides infrastructure for holding the crypto collateral. Bitcoin collateral is held in Better's custodial account on Coinbase Prime.",
+    "U.Today reports that the arrangement does not involve margin calls triggered by normal market movements, distinguishing it from margin lending products where collateral liquidation occurs at predetermined threshold prices. Borrowers remain responsible for both the mortgage and the collateralized loan.",
+    "The product is structured under Fannie Mae guidelines, according to Cointelegraph reporting, positioning it as a conforming mortgage that institutional investors can purchase on the secondary market. This regulatory standing distinguishes the offering from unregulated crypto lending products that have faced scrutiny from federal agencies.",
+    "The 1% credit incentive is lender-funded, meaning Better or Coinbase covers the cost rather than passing it to the borrower. Coinbase One membership, which carries its own membership fee and service tiers, gates access to the incentive. Bitcoin-backed mortgage products are not new to crypto finance. U.Today notes that Ledn announced a Bitcoin-backed mortgage in December 2021, and Miami-based fintech Milo announced what it called its first U.S. crypto mortgage in January 2022."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/business/2026-08-26-coinbase-better-make-token-backed-mortgages-generally-available-412810",
+      "url": "https://www.theblock.co/news/business/2026-08-26-coinbase-better-make-token-backed-mortgages-generally-available-412810"
+    },
+    {
+      "title": "https://bitcoinmagazine.com/news/coinbase-better-announce-bitcoin-mortgages",
+      "url": "https://bitcoinmagazine.com/news/coinbase-better-announce-bitcoin-mortgages"
+    },
+    {
+      "title": "https://u.today/coinbase-rolls-out-bitcoin-backed-mortgages-in-us",
+      "url": "https://u.today/coinbase-rolls-out-bitcoin-backed-mortgages-in-us"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-26T23:54:25Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79038.16,
+        "chg_24h_pct": 0.67
+      },
+      {
+        "symbol": "ETH",
+        "price": 2504.76,
+        "chg_24h_pct": 2.57
+      }
+    ],
+    "fng": {
+      "value": 65,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 4.8,
+      "open_interest_usd": 2295896324
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -169871499,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "U.Today"
+  ],
+  "developing": false
+}

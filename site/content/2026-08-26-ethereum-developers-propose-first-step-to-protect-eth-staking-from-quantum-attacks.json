@@ -1,0 +1,63 @@
+{
+  "id": "c004",
+  "slug": "ethereum-developers-propose-first-step-to-protect-eth-staking-from-quantum-attacks",
+  "kind": "brief",
+  "title": "Ethereum developers propose first step to protect ETH staking from quantum attacks",
+  "dek": "Ethereum developers have drafted a proposal to allow validators to deposit with quantum-resistant cryptographic keys up to 8,192 bytes while permanently retiring BLS signatures currently used on the network. The move represents a protocol-level hardening against future quantum computing threats.",
+  "date": "2026-08-26",
+  "published_utc": "2026-08-26T23:56:28Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "The proposal would allow validator keys to grow to 8,192 bytes and permanently retire BLS signatures, reshaping how new validators can participate in Ethereum staking.",
+  "bottom_line": "Watch for the proposal's progression from draft to formal Ethereum Improvement Proposal (EIP) status and any developer consensus around specific quantum-resistant signature schemes. The permanent retirement of BLS signatures would represent an unusual step for Ethereum: most protocol changes are additive or allow backward compatibility, so this proposal's irreversible mechanism warrants close attention to how the community responds and whether migration timelines emerge.",
+  "human_take": "",
+  "body": [
+    "Ethereum developers have drafted a proposal to harden the network's staking infrastructure against future quantum computing threats by allowing validators to use quantum-resistant cryptographic keys while permanently retiring the BLS signatures currently used across the protocol.",
+    "The proposal, according to Decrypt, would expand validator keys to 8,192 bytes and include a mechanism to permanently retire BLS signatures. The move represents a permanent infrastructure choice: once BLS signatures are locked out, new validators would be unable to use the legacy cryptographic format, even if they chose to do so.",
+    "Per Decrypt's reporting, the proposal is framed as a draft specification, meaning it remains in early development before any formal specification or implementation work. The shift to quantum-resistant keys addresses a long-standing concern in cryptography: that sufficiently powerful quantum computers could eventually break the elliptic-curve cryptography that secures most blockchain systems today, including Ethereum's current validator key infrastructure.",
+    "The larger validator set would be one consequence of the change. Decrypt reports that permitting keys up to 8,192 bytes, compared to current key sizes, would alter the data footprint of the staking contract and the deposit mechanism itself. This expanded size reflects the mathematical requirements of post-quantum cryptographic algorithms, which generally require longer keys to achieve equivalent security margins against quantum attacks.",
+    "The proposal does not specify which post-quantum cryptographic schemes Ethereum developers are considering, nor does it outline a timeline for moving from draft to formal specification or live deployment. Open questions include the mechanics of validator migration, whether existing validators would face a mandatory upgrade or operate in parallel with new quantum-resistant validators during a transition period, and how the protocol would handle validators who do not upgrade."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/08/26/ethereum-developers-propose-first-step-to-protect-eth-staking-from-quantum-attacks",
+      "url": "https://www.coindesk.com/tech/2026/08/26/ethereum-developers-propose-first-step-to-protect-eth-staking-from-quantum-attacks"
+    },
+    {
+      "title": "https://decrypt.co/376599/ethereum-devs-propose-deposit-contract-overhaul-to-quantum-proof-staking",
+      "url": "https://decrypt.co/376599/ethereum-devs-propose-deposit-contract-overhaul-to-quantum-proof-staking"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-26T23:54:25Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79038.16,
+        "chg_24h_pct": 0.67
+      },
+      {
+        "symbol": "ETH",
+        "price": 2504.76,
+        "chg_24h_pct": 2.57
+      }
+    ],
+    "fng": {
+      "value": 65,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 4.8,
+      "open_interest_usd": 2295896324
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -169871499,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
