@@ -1,0 +1,65 @@
+{
+  "id": "c020",
+  "slug": "starkware-executes-first-quantum-resistant-bitcoin-transaction-on-mainnet",
+  "kind": "brief",
+  "title": "StarkWare executes first quantum-resistant Bitcoin transaction on mainnet",
+  "dek": "StarkWare demonstrated a working quantum-resistant Bitcoin transaction on mainnet using Avihu Levy's QSB scheme, operating within existing consensus rules. The transaction cost up to $200 and required manual miner submission, pointing to the friction and protocol-level upgrades still needed for widespread quantum safety on Bitcoin.",
+  "date": "2026-08-27",
+  "published_utc": "2026-08-27T04:31:02Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "A quantum-resistant Bitcoin transaction has been executed on mainnet, but full quantum safety requires a protocol-level upgrade Bitcoin has not yet undertaken.",
+  "bottom_line": "StarkWare's mainnet execution demonstrates quantum-resistant Bitcoin spending is technically feasible within existing rules, but watch for signals on when Bitcoin moves toward a protocol upgrade that would make such protection automatic rather than manual. The $200 cost and miner-submission requirement are red flags for practical deployment, and no timeline for a protocol-level fix has been announced.",
+  "human_take": "",
+  "body": [
+    "StarkWare has moved quantum-resistant cryptography from proposal to working code on Bitcoin mainnet, executing what the team describes as the first quantum-resistant Bitcoin transaction using Avihu Levy's QSB scheme. The demonstration carries real weight, as it shows a path to quantum safety without a network fork, yet the transaction's cost and operational friction reveal why widespread adoption will require deeper protocol changes.",
+    "According to Cointelegraph's reporting, Levy's QSB scheme, first proposed in April, has now moved to an onchain demonstration. The scheme operates within Bitcoin's existing consensus rules, meaning the transaction did not require a hard fork or soft fork to execute. Cointelegraph reports that the scheme is designed to protect Bitcoin spending from quantum computing threats using only the tools already available in Bitcoin's ruleset.",
+    "The Block reports that the experimental transaction cost up to $200 and required direct miner submission. That friction underscores why this is a proof of concept rather than a deployable solution: the manual workflow and elevated cost make it impractical for Bitcoin holders to use at scale today. Cointelegraph reports that Bitcoin still needs a protocol-level upgrade to make it fully safe from quantum computing threats, a change that would move quantum resistance from an opt-in workaround to a network-wide default.",
+    "The open question now is the timeline and mechanism for that protocol-level change. The QSB scheme proves the concept works on mainnet, but shifting it from an experimental transaction to the standard protection for all Bitcoin holders requires a consensus process and fork coordination that the network has not yet initiated.",
+    "The Bottom Line: StarkWare's mainnet execution demonstrates quantum-resistant Bitcoin spending is technically feasible within existing rules, but watch for signals on when Bitcoin moves toward a protocol upgrade that would make such protection automatic rather than manual. The $200 cost and miner-submission requirement are red flags for practical deployment, and no timeline for a protocol-level fix has been announced."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/defi/2026-08-26-first-quantum-resistant-bitcoin-transaction-starkware-412863",
+      "url": "https://www.theblock.co/news/defi/2026-08-26-first-quantum-resistant-bitcoin-transaction-starkware-412863"
+    },
+    {
+      "title": "https://cointelegraph.com/news/starkware-quantum-resistant-bitcoin-transaction-mainnet",
+      "url": "https://cointelegraph.com/news/starkware-quantum-resistant-bitcoin-transaction-mainnet"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-27T04:28:59Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78804.1,
+        "chg_24h_pct": -0.27
+      },
+      {
+        "symbol": "ETH",
+        "price": 2493.09,
+        "chg_24h_pct": -0.53
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 7.3,
+      "open_interest_usd": 2277109493
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -169871499,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Cointelegraph"
+  ],
+  "developing": false
+}

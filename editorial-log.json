@@ -1,67 +1,6 @@
 [
  {
   "date": "2026-07-29",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c170",
-    "headline": "Federal Reserve holds rates steady; three officials dissent in favor of a hike",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Ether fell 0.78% and SOL fell 0.6% in the prior 24 hours' but brief data_point c130 says 'Ether rose 0.7% and SOL 0.4%' \u2014 these are contradictory price movements. The draft's figures do not appear in the brief at all and appear to be smuggled.",
-     "Draft references 'Chair Warsh' in narrative context ('Who is Chair Warsh and what is his specific hawkish stance') but this figure does not appear in any data_point or the brief itself; the open_questions flag notes 'the source text does not name him or elaborate on his position,' indicating this is not from the Fed statement provided."
-    ]
-   },
-   {
-    "id": "c141",
-    "headline": "White House crypto adviser rejects law enforcement's proposed Clarity Act amendments",
-    "category": "accuracy",
-    "reasons": [
-     "Brief explicitly flags thin=true with only one data_point and zero source_chars. The draft invokes specifics not in the brief: 'Law enforcement agencies typically push for stricter rules around custody, self-reporting, and transaction transparency' \u2014 this is writer interpretation, not sourced. The brief itself acknowledges it cannot assess 'the scope or nature of the disagreement.'",
-     "Draft claims 'the sources provided do not detail what specific amendments law enforcement has proposed' \u2014 but sources is singular (Cointelegraph). The draft then speculates about what law enforcement 'typically' proposes, which is external knowledge, not from the brief.",
-     "The only fact in the brief is one quote from one outlet. The draft constructs an entire narrative scaffold (Senate voting window, procedural breakdown, election cycle politics) that does not trace to any data_point. This violates the hard rule: no fact exists outside the brief."
-    ]
-   },
-   {
-    "id": "c130",
-    "headline": "Morgan Stanley launches spot Ethereum and Solana ETPs with 0.14% fees and staking rewards",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The timing of the ETH and SOL launch came as ether fell 0.78% and SOL fell 0.6% in the prior 24 hours, per the desk's boards as of July 29, 2026. Bitcoin's decline was milder at 0.34%. The broader market moved higher, with total crypto market cap up 0.78% to 2.27 trillion dollars.' None of these price figures or market-cap figures appear in the brief. The brief data_point says 'Ether rose 0.7% and SOL 0.4%' \u2014 opposite direction and different magnitudes. This is a critical factual discrepancy that will cause liability if market data is wrong.",
-     "Draft references 'per the desk's boards' and 'per the desk's data' \u2014 attributing to internal systems, not the Defiant source. This invokes facts outside the brief without sourcing them to the single provided outlet."
-    ]
-   },
-   {
-    "id": "c152",
-    "headline": "Hungary removes crypto conversion checks, grants first MiCA license to CoinCash",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'CoinCash's authorization represents the first instance of a Hungarian entity receiving a full MiCA license from national regulators' but the brief only confirms 'This is Hungary's first MiCA-compliant digital asset services license'\u2014the draft adds the qualifier 'from national regulators' which is not in the source and changes the scope of the claim in a way that requires verification.",
-     "The draft states the removal of mandatory conversion checks 'reduces friction for crypto-to-fiat transactions' but the brief data_point only says Hungary 'removed mandatory third-party checks for crypto conversions'\u2014the draft interprets the function and impact ('reduces friction', 'crypto-to-fiat') beyond what the source confirms, smuggling analysis as fact."
-    ]
-   },
-   {
-    "id": "c158",
-    "headline": "South Korea drafts stablecoin bill as opposition pushes to scrap crypto tax",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'opposition lawmakers are pushing to repeal a 22 percent crypto tax scheduled to take effect in 2027' but the brief data_point says 'Opposition lawmakers seek to scrap a 22% crypto tax due in 2027'\u2014minor paraphrase acceptable, but the draft then states the tax is 'scheduled to take effect' presenting it as certain when the brief indicates it is 'due' (scheduled but not yet enacted), potentially overstating the timeline certainty.",
-     "Draft states 'The FSC's bill would establish formal oversight of stablecoins and digital asset service providers' but the brief data_point only confirms the FSC is 'drafting a government-backed digital asset bill covering stablecoins and exchanges'\u2014the draft adds interpretive language ('would establish formal oversight') that goes beyond what the source reports about the bill's purpose or scope."
-    ]
-   },
-   {
-    "id": "c160",
-    "headline": "Tether signs tokenization deal with Nairobi Securities Exchange",
-    "category": "accuracy",
-    "reasons": [
-     "The brief states confidence on all data_points as 'reported', but contains zero source_chars (source_chars: 0), indicating the source text was not provided to the researcher. The draft cites Cointelegraph reporting but the brief has no data points with actual source content to verify against. The statement 'according to Cointelegraph' appears twice in the draft but the brief provides no quoted or paraphrased language from the source to confirm what Cointelegraph actually reported versus what the writer inferred.",
-     "The draft claims 'The types of securities to be tokenized, regulatory approval status in Kenya, and implementation timeline have not been specified by either party, according to the available reporting' \u2014 this is the writer adding analytical judgment (that details are missing) rather than reporting a fact from the brief. No data_point in the brief states that these details were unspecified; the brief merely lists them as open_questions. The draft is smuggling interpretive commentary as reported fact."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-29",
   "approved": 4,
   "rejected": [
    {
@@ -7643,6 +7582,61 @@
     "reasons": [
      "The draft metadata flags 'boundary_required: true' and 'boundary_ok: false', indicating a version/date/threshold story without a boundary block in the brief. The story turns on specific regulatory thresholds (v0.6.2 or v0.7.2 versions, 80% net asset value, Sept. 20 comment deadline, year-end 2026 implementation target) but the brief contains no boundary object defining affected systems, fixed versions, user actions, or advisory URL.",
      "This creates a compliance liability: a reader cannot determine from the draft alone what systems are in scope, what versions are safe, or what action they should take. A version-gated regulatory story with no boundary block is a desk liability flag that was already surfaced in the brief metadata but not remedied in the draft."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-27",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "Dallas Fed Research Flags Tokenized Deposits as Banking Systemic Risk",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The headline figure of $700 billion in constrained lending capacity does not appear in the fetched source material' but then presents this as a fact that the Dallas Fed research 'quantifies' or 'frames' the risk. The brief explicitly flags this $700 billion figure as unsourced and notes it 'does not appear in the source texts provided.' The draft's own body acknowledges the figure is not in the sources, but the headline and framing still treat it as a Dallas Fed claim without labeling it as unverified or announced-but-unconfirmed. This violates the rule that confidence labels must survive into prose.",
+     "The draft opens with 'have warned that tokenized deposits enabling faster, rate-sensitive bank switching could constrain bank lending and raise borrowing costs' as a settled fact, but this is only 'reported' confidence\u2014meaning it comes from secondary sources (CoinDesk/Decrypt) reporting on Dallas Fed research that is not itself published or linked. The prose should indicate that these are claims reported about the research, not independent confirmation of the mechanism."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Japan announces blockchain settlement network for stocks and government bonds",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Japanese regulators view blockchain settlement as a mechanism to prevent institutional investors and foreign capital from migrating to overseas markets with faster or more efficient trading systems,' but the brief's single data point only states regulators are 'racing to modernize national settlement systems to prevent institutional investors and foreign capital from fleeing to overseas markets.' The draft adds an interpretive detail ('faster or more efficient trading systems') that is not in the source material and goes beyond what the brief supports.",
+     "The brief is extremely thin (one data point, 159 source characters, thin=true) and the draft's second paragraph invents specificity not present in the source: 'The infrastructure modernization is being positioned as a response to capital flight risks' and 'Japanese regulators view blockchain settlement as a mechanism' are interpretations beyond the single sourced claim. The draft should stay within the bounds of the one reported fact.",
+     "The lead paragraph frames this as 'a major institution-nation effort to retain capital amid global competition for market share'\u2014this competitive framing ('global competition') is not in the brief and represents added interpretation of strategic intent."
+    ]
+   },
+   {
+    "id": "c110",
+    "headline": "Taurus integrates digital asset platforms with SWIFT's blockchain ledger",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per protocol, every fact must trace to the draft's own cited sources.",
+     "Draft cites two Cointelegraph URLs (one base, one with RSS parameters\u2014same article). The claim 'Taurus has linked its digital asset platforms to SWIFT's blockchain-based settlement ledger' cannot be verified against the brief because no brief exists and the cited source URL cannot be inspected by this system.",
+     "Specific factual claims present no trace path: 'Taurus expects first institutional clients to connect within days' and 'initial distributed ledger technology transactions expected within weeks' are time-bound claims requiring source verification that cannot be audited without access to the actual article.",
+     "The draft contains material forward-looking claims ('within days', 'within weeks') that are not anchored to a research brief and appear to lack secondary confirmation (only one source listed).",
+     "Without a brief, the desk cannot audit whether confidence labels are being respected, whether bear case was included, or whether the story's framing is proportionate to the evidence base."
+    ]
+   },
+   {
+    "id": "c023",
+    "headline": "Coinbase and Better Expand Bitcoin-Backed Mortgages to Coinbase One Members",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. Per the protocol, every fact must trace to a data_point in the brief, or if no brief exists, to the draft's own cited sources. The draft cites three sources (The Block, U.Today, Bitcoin Magazine), but the approver cannot verify facts against those URLs without access to their content. The protocol requires that facts be traced to either a brief or to verifiable primary sources. Without a brief and without the ability to access and verify the cited URLs, there is no way to confirm that claims like '1% closing-cost credit' or 'Coinbase One members' tier access appear in those sources. The story cannot be approved on accuracy grounds when the evidentiary chain cannot be established.",
+     "The claim about '1% closing-cost credit' is stated as a specific factual detail but its source within the cited materials is not attributable inline, creating an accuracy gap."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Tornado Cash Developer Roman Storm's Retrial Scheduled for April 2027",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. Per the protocol, every fact must trace to a data_point in a brief or, if no brief exists, to the draft's own cited sources. The draft cites four sources (The Block, Decrypt, Cointelegraph), but the approver cannot verify facts against those URLs without access to their content. Critical claims include 'jury previously convicted Storm on one count of money transmitting', 'did not reach a verdict on other charges', 'retrial scheduled for April 2027', and 'Treasury Department sanctioned the protocol in August 2022'. Without a brief and without the ability to access and verify the cited URLs, there is no way to confirm these facts are accurately reported from those sources. The protocol requires that facts be traced to either a brief or to verifiable primary sources. This chain cannot be established.",
+     "The claim about the August 2022 Treasury Department sanction of Tornado Cash is stated but its evidentiary source is not clear; it reads as the draft's own framing rather than attributed to the cited sources."
     ]
    }
   ]
