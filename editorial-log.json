@@ -4,48 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c015",
-    "headline": "Russia charges Telegram founder Durov with aiding terrorism, issues wanted notice",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Gram token was renamed from Toncoin to Gram in June 2026' but the brief data_point says 'native token was renamed from Toncoin to Gram in June 2026'\u2014the draft attributes this to Telegram/TON as an action they took, when the brief only reports what occurred without clarifying agency. More critically, the draft later says 'Durov said Telegram would roll out a native, non-custodial Gram wallet' implying Gram is a token/asset Telegram controls, but the brief distinguishes between Gram (the token) and Telegram's wallet feature. The conflation of Telegram's product roadmap with TON's token renaming creates ambiguity about which entity owns or controls Gram.",
-     "The draft states 'Earlier in July 2026, Durov said Telegram will roll out a native, non-custodial Gram wallet to every Telegram app user' but the brief data_point says 'Durov said Telegram will roll out a native, non-custodial Gram wallet to every Telegram app'\u2014the draft adds 'user' which subtly changes the meaning from 'every app' to 'every user.' This is a minor but material paraphrase shift that introduces imprecision."
-    ]
-   },
-   {
-    "id": "c135",
-    "headline": "H1 2026 crypto hacks hit record 212 incidents; North Korea-linked actors drive 55% of losses",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'North Korea-linked actors accounted for 55 percent of all H1 2026 losses, or roughly 609 million dollars, through three major breaches' and then lists KelpDAO ($292M), Drift ($285M), and implies a third (Humanity Protocol). However, $292M + $285M = $577M, not $609M. The brief data_point 13 states 'KelpDAO, Drift, and Humanity Protocol attacks account for roughly $609 million, or about 55% of all first-half 2026 losses,' but the brief does not provide Humanity Protocol's dollar amount. The draft cannot assert $609M without providing the Humanity Protocol figure from the brief; instead it lists only two figures that sum to $577M and leaves the gap unexplained, creating a mathematical inconsistency that fails fact-tracing.",
-     "The draft cites 'DefiLlama's hacks database lists nine exploits in the last week of July 2026 alone' followed by specific AFX Bridge and Verus-Ethereum losses. However, the brief data_points do not specify that The Defiant article (the only source) actually cites DefiLlama for the 'nine exploits in the last week of July' claim versus just the specific bridge hacks. The draft constructs a causal chain (nine exploits \u2192 two examples) that is not explicitly supported by the brief's sourcing."
-    ]
-   },
-   {
-    "id": "c153",
-    "headline": "Hungary Repeals Crypto Checks as First MiCA License Is Granted",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains no bear_case items, yet the draft implies regulatory certainty ('MiCA, the European Union's comprehensive rulebook for digital asset markets, requires member states to license and oversee crypto asset service providers') without caveating the risks outlined in the brief's open_questions. More critically, the draft states 'CoinCash's authorization indicates Hungary is processing MiCA applications and issuing licenses in advance of broader implementation timelines across the bloc' \u2014 this inference about 'broader implementation timelines' and competitive speed is not supported by any data_point in the brief. The brief provides no information about broader EU timelines or whether Hungary is early or on schedule.",
-     "The draft claims 'The repeal of mandatory third-party checks for conversions removes a compliance friction point' but the brief contains no data_point explaining what these checks were, why they existed, or whether their removal actually reduces friction versus creates new risks. This characterization is the writer's interpretation, not a fact from research."
-    ]
-   },
-   {
-    "id": "c159",
-    "headline": "South Korea plans stablecoin rules as opposition pushes crypto tax repeal",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states '22% capital gains tax on cryptocurrency transactions scheduled to take effect in 2027' but brief says '22% crypto tax due in 2027' without specifying 'capital gains'\u2014this is an unsourced specificity not in the brief's data_point, which only says 'scrap a 22% crypto tax due in 2027'. The writer has added definitional detail ('capital gains') not present in the source material.",
-     "Draft claims 'The 22% rate applies to capital gains above a threshold' but the brief contains no data_point supporting a threshold structure. This is smuggled factual material."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-29",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c143",
     "headline": "White House crypto adviser rejects prosecutors' Clarity Act amendments",
     "category": "accuracy",
@@ -7637,6 +7595,33 @@
     "reasons": [
      "No research brief was provided for this story. Per the protocol, every fact must trace to a data_point in a brief or, if no brief exists, to the draft's own cited sources. The draft cites four sources (The Block, Decrypt, Cointelegraph), but the approver cannot verify facts against those URLs without access to their content. Critical claims include 'jury previously convicted Storm on one count of money transmitting', 'did not reach a verdict on other charges', 'retrial scheduled for April 2027', and 'Treasury Department sanctioned the protocol in August 2022'. Without a brief and without the ability to access and verify the cited URLs, there is no way to confirm these facts are accurately reported from those sources. The protocol requires that facts be traced to either a brief or to verifiable primary sources. This chain cannot be established.",
      "The claim about the August 2022 Treasury Department sanction of Tornado Cash is stated but its evidentiary source is not clear; it reads as the draft's own framing rather than attributed to the cited sources."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-27",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c034",
+    "headline": "First quantum-resistant Bitcoin transaction executed on mainnet",
+    "category": "compliance",
+    "reasons": [
+     "Brief explicitly flags boundary_required: true and boundary_ok: false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block'. This is a desk-level compliance stop: the story cannot run without a boundary block because the core factual claim (block 964,199, April proposal to August execution) is time-dependent and version-sensitive, and the brief provides no independent verification block to anchor the dates.",
+     "The draft opens on a specific block number and timeline ('from April to onchain execution') without a boundary statement that would lock these facts to a source URL and timestamp for desk verification if the blockchain data or dates later shift.",
+     "This is a procedural rejection, not a factual error in the draft itself: the facts may be correct, but the desk's protocol requires a boundary block for any story turning on versioned or time-sensitive claims in crypto/blockchain reporting. The draft cannot be saved by cutting sentences because the entire premise rests on specific block heights and dates."
+    ]
+   },
+   {
+    "id": "c230",
+    "headline": "Whale Alert flags large Bitcoin transfer; transaction details unavailable",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents '871 BTC with an estimated value of approximately $68 million' as a fact drawn from Whale Alert, but the brief marks this claim as 'unconfirmed' (confidence label). The brief's bear_case explicitly states that 'No actual transaction data, addresses, amounts, timestamps, or wallet labels were accessible' from the five source URLs provided. The draft's phrasing ('flagged large Bitcoin transfers on August 26' with '871 BTC...to Coinbase') reads as confirmation when the brief contains no confirmed transaction data\u2014only a headline/snippet reference marked unconfirmed.",
+     "The draft states 'The desk's Whale Watch board showed $68.4 million of BTC moving onto Coinbase in the 48-hour window ending August 27, consistent with the headline figure' but this internal desk data point is not in the brief's data_points list and therefore is smuggled; the brief contains no reference to Whale Watch board corroboration.",
+     "The draft claims 'recipient confirmation could not be verified' and later 'recipient confirmation' but simultaneously asserts in the opening paragraph and bottom_line that the recipient is Coinbase without caveating that this identification itself comes only from an unconfirmed headline. The unconfirmed confidence label on 'Recipient identified as Coinbase' must be surfaced in prose\u2014this is presented as settled.",
+     "The draft does not signal that all three core factual claims (amount, recipient, source) carry 'unconfirmed' confidence. A reader comes away believing Whale Alert flagged a specific 871 BTC transfer to Coinbase; the brief says the actual transaction details are inaccessible and only a headline exists."
     ]
    }
   ]

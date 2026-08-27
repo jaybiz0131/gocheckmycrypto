@@ -1,0 +1,64 @@
+{
+  "id": "c026",
+  "slug": "charles-schwab-to-add-solana-avalanche-and-chainlink-to-crypto-trading-platform",
+  "kind": "brief",
+  "title": "Charles Schwab to add Solana, Avalanche and Chainlink to crypto trading platform",
+  "dek": "Charles Schwab announced it will add Solana, Avalanche, and Chainlink to its Schwab Crypto platform in the coming months, expanding beyond Bitcoin and Ethereum. The brokerage began offering direct BTC and ETH trading in May at 75 basis points per transaction. The move signals retail institutional appetite for established layer-1 and oracle assets.",
+  "date": "2026-08-27",
+  "published_utc": "2026-08-27T15:10:52Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Charles Schwab is expanding Schwab Crypto to include Solana, Avalanche, and Chainlink, adding to Bitcoin and Ethereum access launched in May.",
+  "bottom_line": "Watch for the launch dates for each asset and any changes to the fee structure. Schwab's 75 basis points per transaction remains substantially higher than spot trading on crypto exchanges, typically 10 to 50 basis points, so the utility case depends on whether Schwab positions these assets as portfolio holdings rather than trading vehicles.",
+  "human_take": "",
+  "body": [
+    "Charles Schwab announced it will add Solana, Avalanche, and Chainlink to its Schwab Crypto platform in the coming months, according to Crypto Briefing's reporting. The three assets will join Bitcoin and Ethereum, which began trading directly on the platform in May.",
+    "The brokerage launched Schwab Crypto in May with direct access to BTC and ETH trading at 75 basis points per transaction, per Crypto Briefing. Clients can manage crypto alongside traditional investments through Schwab's existing platforms.",
+    "Joe Vietri, Head of Digital Assets at Charles Schwab, stated the expansion reflects client demand for established crypto assets. According to Crypto Briefing's account of his comments, Vietri said the additions are consistent with Schwab's approach to provide clients with access to familiar cryptocurrencies backed by an ecosystem of education, tools, resources, and support. Schwab plans to add more digital assets over time, the outlet reports.",
+    "The specific launch window within the coming months has not been disclosed. No minimum investment or account balance requirements, staking services, or details on custody and regulatory compliance for the new assets have been announced."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/charles-schwab-to-add-solana-avalanche-and-chainlink-to-crypto-platform/",
+      "url": "https://cryptobriefing.com/charles-schwab-to-add-solana-avalanche-and-chainlink-to-crypto-platform/"
+    },
+    {
+      "title": "https://www.theblock.co/news/business/2026-08-27-charles-schwab-add-solana-avalanche-chainlink-to-crypto-trading-platform-412923",
+      "url": "https://www.theblock.co/news/business/2026-08-27-charles-schwab-add-solana-avalanche-chainlink-to-crypto-trading-platform-412923"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-27T15:08:28Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 80301.06,
+        "chg_24h_pct": 1.62
+      },
+      {
+        "symbol": "ETH",
+        "price": 2522.6,
+        "chg_24h_pct": 0.65
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 2.3,
+      "open_interest_usd": 2259707273
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -301256533,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false
+}
