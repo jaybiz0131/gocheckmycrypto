@@ -1,47 +1,6 @@
 [
  {
   "date": "2026-07-29",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c143",
-    "headline": "White House crypto adviser rejects prosecutors' Clarity Act amendments",
-    "category": "accuracy",
-    "reasons": [
-     "The draft presents the Cointelegraph claim as reportage but acknowledges in the body that 'The full text of the prosecutors' proposed amendments could not be independently verified' and 'Neither the specific content of the changes nor their policy rationale has been disclosed in verified reporting.' This contradicts the lead, which frames the claim as established fact ('US prosecutors proposed changes'). The brief marks this as 'unconfirmed' with confidence label unconfirmed, meaning the draft must signal uncertainty in the prose itself\u2014not bury it in paragraph 2. The opening sentence reads as announcement, not allegation or claim.",
-     "The draft cites only Cointelegraph with zero source characters in the brief, yet the body acknowledges the source is inaccessible ('could not be independently verified from available source material'). Publishing a story with a single unverified source that the desk cannot access violates the hard rule that facts go back to research. This is a smuggled claim dressed in cautionary language after the fact."
-    ]
-   },
-   {
-    "id": "c016",
-    "headline": "Russia charges Telegram founder with aiding terrorism; wanted list issued",
-    "category": "balance",
-    "reasons": [
-     "The draft omits the bear_case entirely. The brief's bear_case includes three substantive points: (1) the Interpol Red Notice status is ambiguous and may not constitute an executable warrant; (2) the terrorism charges may be geopolitically motivated given they reference Ukrainian intelligence; (3) the charges follow prior restrictions and fines and may reflect political pressure rather than new evidence. The draft mentions the Interpol ambiguity briefly in paragraph 5 but presents no counter-argument or skeptical framing of the 'aiding terrorism' charge itself. A reader finishing this draft will not encounter the possibility that Russia's accusations are contested or geopolitically motivated\u2014essential context for a story about a US-founded platform and a major crypto ecosystem. This is material omission of the bear_case, not proportionate balance."
-    ]
-   },
-   {
-    "id": "c125",
-    "headline": "BitMine builds toward 5% of Ethereum supply with $73 million weekly purchase",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'BitMine's total crypto and other holdings are valued at $1.1 billion' but brief data_point claims 'BitMine's total crypto and other holdings are valued at $11.1 billion' (data_point 6). The draft understates the total by $10 billion\u2014a material factual error that must trace to the source.",
-     "Draft claims 'BitMine is the largest corporate holder of the asset' (referring to ETH) but brief confidence label is only 'reported', meaning this ranking claim should acknowledge it comes from The Defiant's reporting, not independent verification. The framing reads as settled fact rather than reported claim."
-    ]
-   },
-   {
-    "id": "c130",
-    "headline": "Morgan Stanley Launches Spot Ether and Solana ETPs With Native Staking",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Morgan Stanley's broader ETF and ETP lineup, launched in 2023, has grown to more than $14 billion across 22 products, including the three digital asset trusts.' The brief's data_point says the lineup has 'grown past $14 billion' and includes '22 products, including the three digital asset trusts.' The phrasing 'more than $14 billion' in the draft is slightly stronger than 'past $14 billion' in the source and introduces ambiguity about whether the brief itself contains this figure or The Defiant reported it. This is a minor but detectable drift from the source language.",
-     "The draft includes the sentence 'Ether rose 0.7% and SOL rose 0.4% in the 24 hours prior to the report, both trailing Bitcoin's 1.3% gain.' This appears in the brief's data_points as a reported claim, but it is not mentioned anywhere in the draft's body text prior to this check and does not appear in the sources cited. This sentence is SMUGGLED\u2014it appears in the data_point list but was never worked into the actual narrative and attribution is unclear. Either this fact should be removed from the draft or clearly attributed inline."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-29",
   "approved": 3,
   "rejected": [
    {
@@ -7622,6 +7581,44 @@
      "The draft states 'The desk's Whale Watch board showed $68.4 million of BTC moving onto Coinbase in the 48-hour window ending August 27, consistent with the headline figure' but this internal desk data point is not in the brief's data_points list and therefore is smuggled; the brief contains no reference to Whale Watch board corroboration.",
      "The draft claims 'recipient confirmation could not be verified' and later 'recipient confirmation' but simultaneously asserts in the opening paragraph and bottom_line that the recipient is Coinbase without caveating that this identification itself comes only from an unconfirmed headline. The unconfirmed confidence label on 'Recipient identified as Coinbase' must be surfaced in prose\u2014this is presented as settled.",
      "The draft does not signal that all three core factual claims (amount, recipient, source) carry 'unconfirmed' confidence. A reader comes away believing Whale Alert flagged a specific 871 BTC transfer to Coinbase; the brief says the actual transaction details are inaccessible and only a headline exists."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-27",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c143",
+    "headline": "[UNABLE TO DRAFT: No verified research brief]",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this submission. The draft itself is a rejection notice, not a draft to be approved. Per protocol, 'every fact in a Crypto Cronkite story must trace to a cited source.' The source URL cannot be accessed and no brief was provided to establish verified facts.",
+     "The draft lists three material forward-looking claims (Taurus linked to SWIFT, clients expected within days, transactions expected within weeks) but notes they lack verification and cannot be audited for confidence labels or source traceability.",
+     "This story cannot proceed without either an accessible research brief or revised sources that can be inspected. The desk must resubmit."
+    ]
+   },
+   {
+    "id": "c047",
+    "headline": "Bitcoin ETFs Draw $2.8B in Eight-Day Streak as BTC Tests $80K",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per instructions, every draft fact must trace to cited sources or be rejected. The draft cites only one source (Decrypt), but makes multiple specific factual claims that cannot be verified against the brief because no brief exists.",
+     "The draft asserts 'August is tracking toward its strongest month for ETF inflows since October 2025 if the current pace holds.' This is a forward-looking projection that requires the brief to support it. Without a brief, this cannot be verified.",
+     "The draft states 'The desk's ETF flows board showed Bitcoin spot ETFs logged $232.2 million in net inflows on August 26 alone' and provides cumulative figures ($54.659 billion since inception). These are highly specific numbers that must come from the research brief or a named source. The draft cites only Decrypt, which is unlikely to contain the desk's internal ETF flows board data.",
+     "The claim that this represents 'consistent institutional demand independent of daily price moves' is interpretive analysis not clearly attributed to the single cited source."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "Bitcoin researchers propose quantum-resistant signature scheme that preserves network capacity",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin: true' with only one data_point and no specific technical details provided. The draft attempts to expand on the brief's thin sourcing by making interpretive claims about what SHRINCS 'addresses' and how it 'allows' quantum-resistant approvals while 'minimizing capacity loss.'",
+     "The draft states 'The SHRINCS proposal addresses this tension by allowing quantum-resistant approvals while minimizing the capacity loss relative to other post-quantum designs under consideration.' This goes beyond what the single CoinDesk source likely supports. The brief's open_questions explicitly ask 'What are the specific technical details of SHRINCS, and how does it compare quantitatively to other post-quantum signature proposals?' suggesting the source does not provide these comparisons.",
+     "The phrase 'while minimizing the capacity loss relative to other post-quantum designs' is a comparative claim not substantiated by the brief or likely by a single CoinDesk article. The brief's open question 'What existing post-quantum signature designs are being compared, and by how much does SHRINCS improve capacity preservation?' indicates this comparison is absent from the reporting.",
+     "The draft's framing suggests SHRINCS successfully solves the capacity problem ('addresses this tension'), but the bottom_line acknowledges 'The technical specifics and comparative capacity numbers, which remain unclear from available reporting,' creating internal contradiction and indicating the draft overstates what the source supports."
     ]
    }
   ]

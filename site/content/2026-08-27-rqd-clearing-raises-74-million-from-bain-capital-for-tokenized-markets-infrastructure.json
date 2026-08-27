@@ -1,0 +1,62 @@
+{
+  "id": "c002",
+  "slug": "rqd-clearing-raises-74-million-from-bain-capital-for-tokenized-markets-infrastructure",
+  "kind": "brief",
+  "title": "RQD* Clearing raises $74 million from Bain Capital for tokenized markets infrastructure",
+  "dek": "RQD* Clearing, a securities clearing and custody firm, closed a $74 million minority growth investment led by Bain Capital Tech Opportunities on August 27, 2026. Capital is earmarked for geographic expansion and acceleration into digital assets and tokenization infrastructure.",
+  "date": "2026-08-27",
+  "published_utc": "2026-08-27T15:38:46Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "RQD* Clearing closed a $74 million minority growth investment led by Bain Capital Tech Opportunities, with participation from ABN AMRO Clearing Bank and Nyca Partners.",
+  "bottom_line": "Watch for regulatory guidance from the SEC and FINRA on clearing and custody requirements for tokenized equities. The timeline and technical scope of RQD*'s tokenization rollout, and whether major broker-dealers formally commit settlement volume to the infrastructure, will signal whether this capital deployment reflects near-term production adoption or longer-term positioning.",
+  "human_take": "",
+  "body": [
+    "RQD* Clearing, a securities clearing and custody firm, closed a $74 million minority growth investment led by Bain Capital Tech Opportunities on August 27, 2026, according to Crypto Briefing. ABN AMRO Clearing Bank and Nyca Partners participated in the round.\nThe capital is earmarked for geographic expansion across North America, Asia, and the Middle East, and for accelerated development of digital assets and tokenization infrastructure, per Crypto Briefing's reporting.\nThe firm has cleared approximately 515 million equity transactions representing roughly $2 trillion in notional value, and 64.8 million options contracts with a premium value of $120.7 billion, according to Crypto Briefing. Those figures represent approximately 2.43% of the National Market System equities market and 0.63% of the options market.\nThe firm has processed over 543 million total ledger transactions. RQD* was founded between 2019 and 2021 and is headquartered at 1 World Trade Center in New York.\nPrior to this investment, RQD* raised a $10 million Series A in October 2023 and received a strategic investment from Gentree Fund in May 2026. In March 2026, according to Crypto Briefing, RQD* announced a partnership with Blue Ocean ATS to develop clearing infrastructure for tokenized equities under the National Market System regulatory framework. The firm launched on the EquiLend securities lending platform in April 2026."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/08/27/clearing-firm-rqd-raises-usd74-million-as-wall-street-prepares-for-tokenized-markets",
+      "url": "https://www.coindesk.com/business/2026/08/27/clearing-firm-rqd-raises-usd74-million-as-wall-street-prepares-for-tokenized-markets"
+    },
+    {
+      "title": "https://cryptobriefing.com/rqd-clearing-raises-74m-tokenized-markets/",
+      "url": "https://cryptobriefing.com/rqd-clearing-raises-74m-tokenized-markets/"
+    }
+  ],
+  "update_of": "brazil-s-largest-bank-ita-enters-tokenized-securities-pilot-with-openassets",
+  "board_snapshot": {
+    "as_of": "2026-08-27T15:36:43Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 80445.5,
+        "chg_24h_pct": 1.81
+      },
+      {
+        "symbol": "ETH",
+        "price": 2517.78,
+        "chg_24h_pct": 0.46
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 0.5,
+      "open_interest_usd": 2258919994
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -169871499,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false
+}

@@ -1,0 +1,63 @@
+{
+  "id": "c059",
+  "slug": "tokenized-deposits-could-reduce-bank-lending-and-raise-borrowing-costs-dallas-fed-researchers-warn",
+  "kind": "brief",
+  "title": "Tokenized deposits could reduce bank lending and raise borrowing costs, Dallas Fed researchers warn",
+  "dek": "Dallas Fed researchers warn that tokenized deposits, being faster and more rate-sensitive than traditional bank accounts, could force banks to shift capital away from lending into safer assets. The shift would constrain credit availability and raise borrowing costs across the broader economy.",
+  "date": "2026-08-27",
+  "published_utc": "2026-08-27T15:38:46Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "Two Dallas Fed economists said tokenized deposits could make bank funding less stable, prompting banks to hold more liquid assets or use costlier debt.",
+  "bottom_line": "Watch whether other Federal Reserve districts or the SEC respond to this Dallas Fed framing with guidance on tokenized deposit regulation. The research suggests that any large-scale migration to tokenized deposits would trigger measurable constraints on bank lending capacity, making the adoption timeline and scale a key macro variable to monitor.",
+  "human_take": "",
+  "body": [
+    "Two Dallas Fed economists warn that tokenized deposits could force banks to hold more liquid, safer assets instead of extending credit to borrowers, potentially shrinking lending and raising costs across the economy.",
+    "Tokenized deposits, being faster and more rate-sensitive than traditional bank accounts, would make bank funding flows less stable, according to Decrypt's reporting. Banks responding to faster deposit outflows would shift capital away from lending, the researchers said.",
+    "Per Cointelegraph's reporting, the economists said that constrained lending and higher funding costs would push banks toward holding more liquid assets or tapping costlier debt markets to fund operations. The shift could tighten credit availability for businesses and consumers seeking loans.",
+    "Tokenized deposits represent bank accounts converted onto blockchain rails, enabling near-instant transfers and instant rate adjustments. Traditional bank deposits, by contrast, typically settle within days and carry regulatory rate floors.",
+    "The Dallas Fed research identifies a structural tension: faster, more liquid deposit products could improve consumer financial utility but simultaneously force the banking system to hold less productive capital. Exactly how large this effect could be remains an open question in the reporting; the sources do not specify the $700 billion figure cited in reporting headlines or identify the underlying Dallas Fed research paper containing that estimate."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/376609/tokenized-deposits-bank-lending-dallas-fed",
+      "url": "https://decrypt.co/376609/tokenized-deposits-bank-lending-dallas-fed"
+    },
+    {
+      "title": "https://cointelegraph.com/news/tokenized-deposits-us-credit-costs-dallas-fed-economists?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/tokenized-deposits-us-credit-costs-dallas-fed-economists?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-27T15:36:43Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 80445.5,
+        "chg_24h_pct": 1.81
+      },
+      {
+        "symbol": "ETH",
+        "price": 2517.78,
+        "chg_24h_pct": 0.46
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 0.5,
+      "open_interest_usd": 2258919994
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -169871499,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
