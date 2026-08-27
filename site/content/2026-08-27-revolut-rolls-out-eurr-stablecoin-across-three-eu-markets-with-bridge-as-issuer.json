@@ -1,0 +1,60 @@
+{
+  "id": "c122",
+  "slug": "revolut-rolls-out-eurr-stablecoin-across-three-eu-markets-with-bridge-as-issuer",
+  "kind": "brief",
+  "title": "Revolut rolls out EURR stablecoin across three EU markets with Bridge as issuer",
+  "dek": "Revolut has begun rolling out EURR, its euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal, with Bridge Building S.A. (a Stripe company) serving as the regulated issuer and redemption counterparty. As of Aug. 25, \u20ac374 of EURR was in circulation, fully backed by cash deposits. Wider availability is expected later in 2026.",
+  "date": "2026-08-27",
+  "published_utc": "2026-08-27T20:46:10Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "Revolut has begun rolling out EURR, a euro-backed stablecoin under the EU's Markets in Crypto-Assets framework, to selected customers in Denmark, Poland, and Portugal, with Bridge Building operating as the regulated issuer.",
+  "bottom_line": "Watch for adoption metrics: monthly active users holding EURR, transaction volumes, and expansion beyond the three test markets. If EURR's circulation remains under \u20ac10 million by end of 2026 while EURC continues growing, it would signal that network effect and multi-chain presence favor Circle's entry point despite Revolut's scale.",
+  "human_take": "",
+  "body": [
+    "Revolut has begun rolling out EURR, a euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal, with Bridge Building S.A. serving as the regulated issuer and redemption counterparty, according to The Defiant.",
+    "EURR operates as an e-money token under the European Union's Markets in Crypto-Assets framework. Bridge Building, which is owned by Stripe, holds the electronic money institution license issued by Luxembourg's Commission de Surveillance du Secteur Financier on June 29, 2026. Users can move between euros, crypto, external wallets, and supported blockchain networks. Tokenholders have the right to redeem EURR at par against Bridge at any time, subject to applicable terms.",
+    "As of Aug. 25, \u20ac374 of EURR was in circulation, with all reserves held as cash deposits in credit institutions, according to Bridge's reserve page. Bridge identifies Ethereum and Polygon as the chains on which EURR trades. Revolut expects wider availability later in 2026, and stablecoins tied to other currencies are also in development.",
+    "Revolut operates with more than 75 million customers, making it a major potential distribution channel for on-chain euro transfers. However, early circulation figures remain minimal compared to competitors. Circle reported \u20ac394.5 million of EURC in circulation as of Aug. 24, deployed across seven blockchain networks: Avalanche, Base, Cronos, Ethereum, Solana, Stellar, and World Chain. Circle's EURC operates under an electronic money institution license issued by France's Autorit\u00e9 de Contr\u00f4le Prudentiel et de R\u00e9solution.",
+    "The rollout demonstrates how MiCA-compliant infrastructure enables regulated stablecoins to operate through mainstream fintech apps. Whether EURR gains material adoption depends on friction reduction between the fiat on-ramp and blockchain access, and whether Revolut's user base begins converting euros to EURR at scale."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/tradfi-and-fintech/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer",
+      "url": "https://thedefiant.io/converge/tradfi-and-fintech/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer"
+    }
+  ],
+  "update_of": "revolut-launches-euro-stablecoin-eurr-across-select-eu-markets",
+  "board_snapshot": {
+    "as_of": "2026-08-27T20:44:01Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 80005.97,
+        "chg_24h_pct": 1.25
+      },
+      {
+        "symbol": "ETH",
+        "price": 2505.12,
+        "chg_24h_pct": -0.05
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -1.8,
+      "open_interest_usd": 2214745708
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -169871499,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

@@ -1,57 +1,5 @@
 [
  {
-  "date": "2026-07-29",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c169",
-    "headline": "Federal Reserve holds rates at 3.5\u20133.75%; three committee members vote for hike",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'Economic activity is expanding at a solid pace despite elevated uncertainty' but the brief data_point specifies 'despite elevated uncertainty, in part from the Middle East conflict.' The draft omits the Middle East conflict attribution, which is a material detail from the source statement that changes the context of the economic assessment.",
-     "Draft states 'Crypto and other risk assets tracked the Fed's messaging closely' with no data point in the brief supporting this claim. This is smuggled information not present in the research."
-    ]
-   },
-   {
-    "id": "c025",
-    "headline": "Robinhood's prediction markets exceed crypto trading revenue in Q2",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims Robinhood generated '$100 million from cryptocurrency trading' but the brief data_point states only '$100 million' without the word 'from' or the full description. More critically, the brief itself is marked 'thin': true with 'source_chars': 0, indicating the source document was not provided to the researcher. With a thin brief and zero source characters, the writer cannot verify whether the $100 million figure is accurate, a comparison figure, or even what it represents. The story should not have been written from a thin brief with no source material.",
-     "The draft contains no attribution inline. 'According to The Block' appears in the first sentence but subsequent claims (the structural change in retail behavior, the explanation of event contract appeal) lack inline attribution and may constitute the writer's analysis rather than reported fact."
-    ]
-   },
-   {
-    "id": "c155",
-    "headline": "Hungary repeals crypto checks as first MiCA license is granted",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'MiCA...took effect in June 2023' but the brief provides no data point confirming this date. This is a smuggled fact not present in the research brief and must be removed or traced to a source.",
-     "The draft claims 'CoinCash's authorization means it can now offer services across the EU' but the brief only confirms CoinCash received authorization under MiCA; the draft adds a jurisdictional scope claim not in the brief's data points."
-    ]
-   },
-   {
-    "id": "c161",
-    "headline": "South Korea plans stablecoin rules as opposition pushes crypto tax repeal",
-    "category": "balance",
-    "reasons": [
-     "The brief identifies a bear_case as empty (no items listed), but the draft constructs and presents a bear case that is not derived from the research brief: 'If the opposition fails to repeal the tax...could reduce trading volume' and 'If the FSC's bill is delayed or weakened.' These are writer-generated speculation, not brief-sourced risks. When the brief provides no bear_case items, the draft should not invent them as though they came from research.",
-     "The draft also adds speculative comparative framing ('potential advantage relative to other jurisdictions') and market-impact language ('reinforce that position; conversely...drive volume') without data points in the brief supporting these market-consequence claims."
-    ]
-   },
-   {
-    "id": "c131",
-    "headline": "Morgan Stanley launches Ethereum and Solana spot ETPs with staking rewards pass-through",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The 0.14% fee sits near the floor of the established spot ether product category' but the brief's confidence label for this claim is 'reported,' not verified independently. More critically, this is a comparative claim (sitting 'near the floor') that goes beyond what the brief supports\u2014the brief only confirms the 0.14% fee itself, not its competitive positioning relative to other products.",
-     "The draft claims 'These launches follow the Morgan Stanley Bitcoin Trust, which launched earlier in 2026 as the first cryptocurrency ETP from a U.S. bank-affiliated asset manager' with confidence 'reported,' but presents it as settled fact without the caveat that this is based on Defiant's reporting and not independently verified.",
-     "The draft states 'Ethereum and Solana on NYSE Arca, expanding the firm's crypto product footprint into the two largest proof-of-stake networks.' The brief notes Bitcoin is proof-of-work, not proof-of-stake. The claim about 'two largest proof-of-stake networks' is correct, but the phrasing 'expanding...into the two largest' could mislead readers into thinking these are the two largest crypto assets overall, when Bitcoin (proof-of-work) is larger. This is a framing issue that requires clarification."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-30",
   "approved": 4,
   "rejected": [
@@ -7619,6 +7567,57 @@
      "The draft states 'The SHRINCS proposal addresses this tension by allowing quantum-resistant approvals while minimizing the capacity loss relative to other post-quantum designs under consideration.' This goes beyond what the single CoinDesk source likely supports. The brief's open_questions explicitly ask 'What are the specific technical details of SHRINCS, and how does it compare quantitatively to other post-quantum signature proposals?' suggesting the source does not provide these comparisons.",
      "The phrase 'while minimizing the capacity loss relative to other post-quantum designs' is a comparative claim not substantiated by the brief or likely by a single CoinDesk article. The brief's open question 'What existing post-quantum signature designs are being compared, and by how much does SHRINCS improve capacity preservation?' indicates this comparison is absent from the reporting.",
      "The draft's framing suggests SHRINCS successfully solves the capacity problem ('addresses this tension'), but the bottom_line acknowledges 'The technical specifics and comparative capacity numbers, which remain unclear from available reporting,' creating internal contradiction and indicating the draft overstates what the source supports."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-27",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c051",
+    "headline": "Bitcoin ETFs Draw $2.8B in Eight-Day Streak as BTC Tests $80K",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this draft. The instruction states 'no fact exists outside the brief,' which is the hard rule. Without a brief, every single claim in the draft cannot be traced against research; the writer has no documented source pool to work from.",
+     "The draft cites Decrypt and CoinDesk as sources, but those are secondary-news URLs, not research briefs. The protocol requires facts to trace to a research brief's data_points, not to wire-service links.",
+     "Multiple specific claims (e.g., '$2.8 billion over eight consecutive days,' '$232.2 million on Aug. 26,' 'cumulative $54.659 billion,' 'RSI 81.8,' 'August tracking toward strongest month since October 2025') cannot be verified against a brief because no brief was provided.",
+     "The desk cannot publish a story without a research brief to anchor the facts. This is a process failure, not a drafting failure."
+    ]
+   },
+   {
+    "id": "c132",
+    "headline": "Virtu and Tradeweb complete on-chain repo using Marshall Islands digital bond",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'first documented on-chain repo using sovereign digital bond collateral' but brief contains no data_point supporting 'first documented' superlative. Brief says transaction occurred; it does not establish primacy or exclusivity.",
+     "Sentence 'demonstrates potential for velocity gains in secured lending markets if liquidity and regulatory frameworks scale' is analyst interpretation unattributed in brief. It reads as the desk's independent analysis of 'potential,' not a reported fact.",
+     "Draft attributes settlement speed (under 10 minutes) to The Defiant, and brief confirms it, but the comparative frame 'Traditional repo markets settle in T+0 to T+2 depending on collateral type' is not in the brief and appears to be desk knowledge being passed off as context. This is a secondary claim smuggled past the brief.",
+     "Brief is thin (only 4 data_points, 442 source chars) but draft elaborates on institutional significance and market context without sourcing those elaborations back to the reporting.",
+     "No bear_case in brief; draft has no risk paragraph, which is correct per the protocol. However, the framing as a 'milestone' and 'proof-of-concept' suggests institutional adoption is plausible without qualification that this is a single transaction among tens of thousands daily in repo markets."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Core Lightning Node Operators Told to Go Offline Over Unpatched AI-Discovered Vulnerabilities",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'neither binaries nor an official advisory had appeared' as of Wednesday afternoon, but the timestamp in brief data_points is Aug. 27, 12:08:33Z. Draft must make clear what 'Wednesday afternoon' means relative to publication; without explicit date/time, this is temporally vague and may mislead readers about recency if published days later.",
+     "Draft says 'Core Lightning developers...directed node operators to either take their nodes offline or upgrade to a release that does not yet exist' but the brief data_point says 'told node operators to take their nodes offline unless they upgrade to a release that has not been published yet.' The draft's phrasing ('either...or') is logically different from the brief's 'unless.' The brief's formulation means operators can stay online if they DO upgrade; draft's suggests a binary choice. This is a material semantic shift.",
+     "Draft reports 'AI-generated vulnerability reports were accurate' but does not qualify the scope: the brief says 'several' (plural) were confirmed accurate. Draft says 'multiple' in one place but 'several' in brief. The draft also states Core Lightning 'announced it would publish binaries carrying fixes while holding back details' but brief says 'publish binaries carrying fixes for many of the reported vulnerabilities,' which is narrower than 'carrying fixes' alone implies.",
+     "Coldcard figure: draft says '$114 million in BTC since July 30' but brief data_point says 'roughly $114 million in BTC since July 30'\u2014draft dropped the 'roughly' qualifier, converting an approximate figure to a stated fact.",
+     "Draft writes 'On August 13, Core Lightning said it was aiming to have a point release out within the next few days' but brief timestamps the statement as Aug. 27, not Aug. 13 in the sourcing. This is internally inconsistent and may confuse readers about the timeline.",
+     "Bitcoin price detail in draft ('Bitcoin traded at $78,490 on Wednesday afternoon, down 0.5% over 24 hours and up about 15% on the week') is in the brief data_points but draft does not include it. This is correct (it's extraneous to the story), but the draft does not mention Bitcoin price at all, so there's no violation here\u2014just noting the brief supplied it."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "UK Tax Authority Reports 17,600 Taxpayers Disclosed $1.87 Billion in Crypto Gains",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states '240 taxpayers reported combined gains of $975 million' but the brief's open_questions flag a direct conflict in the sources: CoinDesk's headline says 'more than $1.3 million each' (which would total ~$312 million for 240 people), while Cointelegraph reports $975 million combined. The brief explicitly notes this discrepancy remains unresolved in source text. The draft presents the Cointelegraph figure as fact without acknowledging the conflict or flagging the ambiguity.",
+     "The draft does not clarify whether the $1.87 billion total and the $975 million subtotal refer to the same tax year or cohort, though the brief's open_questions identify this as unresolved in sources. Presenting both figures without qualification creates reader confusion about what population each describes."
     ]
    }
   ]
