@@ -78,6 +78,11 @@ NAV = [("Home", "/index.html"), ("The Edition", "/news.html"),
 
 # ---- helpers -----------------------------------------------------------------
 
+try:
+    import family_modules as _fam
+except ImportError:      # resolver absent: articles carry no module
+    _fam = None
+
 def esc(s):
     return (str(s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
             .replace('"', "&quot;"))
@@ -1430,6 +1435,17 @@ def render_article(item, all_items=None):
     # consistent desk attribution (the byline is the desk, never a person): aggregators and
     # Google News check for a stable byline, and this reads honestly as a newsroom, not a
     # named human author
+    # ONE tool module, only when the headline says the story is about it. Here
+    # the destination is usually this site's own cold-storage explainer, so it
+    # is an internal route rather than a cross-site one, but it still carries
+    # attribution so the family rollup counts it the same way.
+    tool_html = ""
+    if _fam is not None:
+        _m = _fam.tool_module("crypto", item.get("slug", ""), _fam.story_text(item))
+        if _m:
+            tool_html = (f'<aside class="tool-module"><p class="tm-k">Practical next step</p>'
+                         f'<p><a href="{esc(_m["url"])}" rel="noopener">{esc(_m["text"])}</a>'
+                         f'. Free, no account.</p></aside>')
     author = esc(item.get("author", "Crypto Cronkite"))
     if author in ("Crypto Cronkite", "Crypto Cronkite Desk"):
         author = "the Crypto Cronkite Desk"
@@ -1448,6 +1464,7 @@ def render_article(item, all_items=None):
     <p class="signoff">{esc(SLOGAN)}</p>
     {sig_block()}
     {share_row(ORIGIN + f"/articles/{item['slug']}", item.get("title") or "")}
+    {tool_html}
     {src_html}
     {rel_html}
     <p class="nfa">{esc(NFA)}</p>
