@@ -429,12 +429,15 @@ def check(client, obj, stories, boards, extras=None):
             _NEGA = (" does not match ", " do not match ", " not supported ",
                      " cannot be verified ", " not establish ", " conflicts ",
                      " no match ", " not carried ", " not in the inputs ",
-                     " not a match ", " is absent ")
+                     " not a match ", " is absent ", " not accurate ", " inaccurate ")
             _POSA = (" match the data exactly ", " matches the data exactly ",
                      " match these figures exactly ", " matches these figures exactly ",
                      " no problem ", " not a problem ", " confirmed correct ",
                      " matches the edition ", " supported by the inputs ",
-                     " the inputs support ", " claims match ", " is correct ")
+                     " the inputs support ", " claims match ", " is correct ",
+                     # the sports desk's run 668 phrasing (2026-08-27)
+                     " is accurate ", " statement is accurate ",
+                     " statements are accurate ", " claims are accurate ")
             if not any(t in _fsa for t in _NEGA) and any(t in _fsa for t in _POSA):
                 print(f"::notice::wrapcheck: dropped self-refuting 'absent' item whose "
                       f"own reasoning ends by asserting the inputs carry it "
