@@ -66,6 +66,13 @@ BOTTOM_LINE_LINT = [
     r"\bnext\s+leg\b", r"\bbreak(out|down)\s+(toward|to|above|below)\b",
     r"\bmove\s+(higher|lower)\b", r"\b(up|down)side\s+(ahead|coming|from\s+here)\b",
     r"\bprice\s+target\b", r"\bpath\s+to\s+\$", r"\bheading\s+(higher|lower|toward)\b",
+    # THE WATCH LINE IS NOT A PRICE CALL (2026-08-27): "watch whether RSI mean
+    # reversion triggers a pullback, or if sustained ETF inflows push price past
+    # $80,000" killed the 2026-08-26 evening slot at the trace check, which has one
+    # retry and no ladder. These two shapes recur; belting them here means the
+    # contract ladder rewrites the line at draft time instead.
+    r"\bpush(es|ed)?\s+(the\s+)?price\s+(past|above|below|toward)\b",
+    r"\btriggers?\s+a\s+(pullback|rally|correction|breakout|rebound)\b",
 ]
 
 
