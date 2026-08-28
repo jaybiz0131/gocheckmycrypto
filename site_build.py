@@ -3978,6 +3978,24 @@ def same_event_on_disk(item, window_h=DEDUPE_WINDOW_H, content=None):
         #
         # So a same-event story with STRICTLY more sources is a merge candidate whatever its
         # novelty score, and merge_into_existing replaces the prose for that case alone.
+        # SAME EVENT IS NOT ENOUGH TO TOUCH A PUBLISHED STORY (owner report 2026-08-28).
+        # The comment above says same_event is a candidate filter and then both branches
+        # below treat it as the verdict anyway. It cost exactly what was predicted: a
+        # BankChain alliance story and a Roman Storm retrial story matched (they share
+        # little beyond the year 2027), the retrial had more sources, and it overwrote the
+        # BankChain article in place. The published page then carried a Roman Storm body
+        # under a BankChain URL with both stories' citations beneath a SOURCES VERIFIED
+        # badge. So the candidate must now also be the same STORYLINE, by the same test
+        # the Update callout uses: real content overlap on a shared subject. The two
+        # stories above fail it outright.
+        #
+        # This is _same_storyline ALONE. entities_of was tried alongside it and dropped:
+        # it scores a token by how often the CORPUS lowercases it, and a two-document
+        # comparison has no corpus, so it reported "no shared subject" for a genuine
+        # Solana-halt upgrade exactly as readily as for the false pair. The storyline
+        # test separates both correctly by itself.
+        if not _same_storyline(item, other, 0.22):
+            continue
         if len(item.get("sources") or []) > len(other.get("sources") or []):
             return path, other
         novel = (dedupe._claim_signature(item)
@@ -4018,12 +4036,24 @@ def merge_into_existing(path, prior, incoming):
             f"{len(incoming.get('sources') or [])} sources against the original "
             f"{len(prior.get('sources') or [])}. The earlier version was headlined "
             f"\u201c{old_title}\u201d. The URL and publication time are unchanged.")
-    seen = {(s.get("url") or "").strip() for s in (prior.get("sources") or [])}
-    for s in (incoming.get("sources") or []):
-        u = (s.get("url") or "").strip()
-        if u and u not in seen:
-            prior.setdefault("sources", []).append(s)
-            seen.add(u)
+    if upgraded:
+        # CITATIONS BELONG TO THE PROSE THEY SUPPORT (owner report 2026-08-28). Unioning
+        # was right while the body always stood: two tellings of one event, both sets of
+        # sources genuinely underwrite it. It is wrong on this branch, the one that swaps
+        # the words, because the previous story's citations were verified against text
+        # that no longer exists on the page. The desk shipped a Roman Storm retrial
+        # article citing BankChain coverage under a SOURCES VERIFIED badge. On an upgrade
+        # the incoming sources REPLACE; the displaced ones stay in merged_from as the
+        # record of what was there.
+        prior["superseded_sources"] = prior.get("sources") or []
+        prior["sources"] = incoming.get("sources") or []
+    else:
+        seen = {(s.get("url") or "").strip() for s in (prior.get("sources") or [])}
+        for s in (incoming.get("sources") or []):
+            u = (s.get("url") or "").strip()
+            if u and u not in seen:
+                prior.setdefault("sources", []).append(s)
+                seen.add(u)
     prior["updated_utc"] = incoming.get("published_utc") or prior.get("published_utc")
     prior.setdefault("merged_from", []).append({
         "id": incoming.get("id"), "title": incoming.get("title"),

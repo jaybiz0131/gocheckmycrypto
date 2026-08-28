@@ -475,13 +475,26 @@ def section_network():
 
 
 def main():
+    _now = datetime.now(timezone.utc)
+    _now_s = _now.strftime("%Y-%m-%dT%H:%M:%SZ")
     pulse = {
-        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "generated": _now.strftime("%Y-%m-%d"),
         # DATA-AGE TRIPWIRE (audit 2026-07-28): the boards are only as fresh as the deploy
         # that built them. A date alone cannot tell a reader (or the renderer) whether that
         # was an hour ago or yesterday, so stamp the full instant and let site_build show
         # it and label the board stale when it outruns the refresh promise.
-        "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        #
+        # THE STAMP IS THE AGE OF THE DATA, NOT OF THE ATTEMPT (owner report 2026-08-28).
+        # This was written as "now" unconditionally, while the carry-forward below keeps a
+        # FAILED section's previous values. On Netlify, where this runs at every deploy and
+        # CoinGecko rate-limits the build IP, that combination shipped July prices wearing a
+        # same-morning timestamp: the site showed BTC $63,654 stamped 07:05 UTC on 28 Aug,
+        # 21% below the market, while the desk's own story that week quoted $79,291. Every
+        # honesty mechanism downstream reads this field (data_stamp's stale banner, the
+        # ticker's built-vintage label, the article board snapshot), so a false stamp here
+        # silently disarmed all of them at once. generated_utc is now the OLDEST section
+        # actually present, so a board is only as fresh as its stalest number.
+        "generated_utc": _now_s,
         "note": ("Free public market data, computed with standard formulas at build time: "
                  "sentiment from alternative.me, prices from CoinGecko, stablecoin float from "
                  "DefiLlama, Bitcoin network data from mempool.space. Market data, not news, "
@@ -500,22 +513,46 @@ def main():
         prev = json.load(open(SITE_DATA, encoding="utf-8"))
     except Exception:
         prev = {}
-    got = 0
+    prev_sec = (prev.get("sections_utc") or {})
+    prev_gen = (prev.get("generated_utc") or "").strip()
+    got, sections_utc, carried = 0, {}, []
     for name, fn in sections:
         try:
             pulse[name] = fn()
+            sections_utc[name] = _now_s
             got += 1
         except Exception as e:
             if prev.get(name):
                 pulse[name] = prev[name]
+                # the carried values keep the age they were fetched at, so nothing
+                # inherits this run's freshness by riding along in the same file
+                sections_utc[name] = prev_sec.get(name) or prev_gen or ""
+                carried.append(name)
                 common.gh("warning", f"market_pulse: section '{name}' failed ({e}) -> "
-                                     f"carrying the previous snapshot's {name} forward")
+                                     f"carrying the previous snapshot's {name} forward "
+                                     f"(dated {sections_utc[name] or 'unknown'})")
             else:
                 common.gh("warning", f"market_pulse: section '{name}' failed ({e}) -> omitted")
     if got == 0:
         common.gh("warning", "market_pulse: every source failed -> nothing written "
                              "(the previous snapshot stands).")
         return 0
+    # provenance, then the honest headline stamp: written_utc is when this ran, and
+    # generated_utc drops back to the oldest section the file actually carries. An unknown
+    # age counts as the oldest thing there is, because it cannot be shown to be fresh.
+    pulse["written_utc"] = _now_s
+    pulse["sections_utc"] = sections_utc
+    if carried:
+        pulse["carried_forward"] = carried
+        if any(not sections_utc.get(n) for n in carried):
+            pulse["generated_utc"] = ""     # data_stamp renders "age cannot be verified"
+        else:
+            pulse["generated_utc"] = min(v for v in sections_utc.values() if v)
+        pulse["generated"] = (pulse["generated_utc"] or _now_s)[:10]
+        common.gh("warning",
+                  f"market_pulse: {len(carried)} section(s) carried forward "
+                  f"({', '.join(carried)}); the board is stamped with its oldest data "
+                  f"({pulse['generated_utc'] or 'age unknown'}), not this run's clock")
     os.makedirs(os.path.dirname(SITE_DATA), exist_ok=True)
     json.dump(pulse, open(SITE_DATA, "w", encoding="utf-8"), indent=2)
     common.write_out("market_pulse.json", pulse)

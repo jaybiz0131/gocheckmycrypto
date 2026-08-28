@@ -1214,10 +1214,22 @@ def _merge_state_canary():
                                 {"date": "2026-07-29", "headline": "mine"})["headline"] == "mine",
            fails, "merge_state: chartmaster ignored the later date")
 
+    # The allowlist is pinned deliberately: anything auto-resolved during a rebase can
+    # silently overwrite real work, so growing it is a reviewed decision, not a drift.
+    # pulse.json and flows.json joined on 2026-08-28, when the publish step started
+    # staging the market boards it had always refreshed and thrown away. Both are
+    # regenerated snapshots rather than records, and merge_board keeps the one whose
+    # DATA is newer, so an auto-resolve here cannot lose reporting.
     _check(set(ms.KNOWN) == {"editorial-log.json", "regwatch.json",
-                             "site/data/chartmaster.json"}, fails,
+                             "site/data/chartmaster.json", "site/data/pulse.json",
+                             "site/data/flows.json"}, fails,
            "merge_state: the auto-resolve allowlist changed; anything added here can "
            "silently overwrite real work during a rebase")
+    # the board merger must pick by data age, never by which file was written last
+    _check(ms.merge_board({"generated_utc": "2026-08-28T12:00:00Z"},
+                          {"generated_utc": "2026-07-29T01:55:52Z"}
+                          )["generated_utc"] == "2026-08-28T12:00:00Z", fails,
+           "merge_state: a stale carried-forward board overwrote a fresher one")
     return fails
 
 

@@ -51,7 +51,8 @@ import subprocess
 import sys
 
 # The only paths this script will resolve. Anything else conflicting is a real conflict.
-KNOWN = ("editorial-log.json", "regwatch.json", "site/data/chartmaster.json")
+KNOWN = ("editorial-log.json", "regwatch.json", "site/data/chartmaster.json",
+         "site/data/pulse.json", "site/data/flows.json")
 
 
 # EDITION FILES ALSO HAVE A DETERMINISTIC RESOLUTION (owner report 2026-08-19). A slot's
@@ -145,10 +146,31 @@ def merge_chartmaster(upstream, replayed):
     return replayed if str(replayed.get("date", "")) > str(upstream.get("date", "")) else upstream
 
 
+def merge_board(upstream, replayed):
+    """Market boards: the FRESHER SNAPSHOT WINS, by the age of its data.
+
+    pulse.json and flows.json became staged files on 2026-08-28 (the run's refreshed
+    numbers used to stay in the runner and never reach readers), which makes them
+    conflict between overlapping runs exactly as chartmaster.json always has. Same
+    reasoning as that merger, with one difference that matters: compare generated_utc,
+    the age of the DATA, not the date the file was written. A run that carried a failed
+    section forward now honestly reports its oldest data, and this must not let that
+    older snapshot overwrite a genuinely fresh one just because it was written later.
+    Ties and unknowns go to upstream, which is already published."""
+    if not replayed:
+        return upstream
+    if not upstream:
+        return replayed
+    return replayed if str(replayed.get("generated_utc", "")) > \
+        str(upstream.get("generated_utc", "")) else upstream
+
+
 MERGERS = {
     "editorial-log.json": merge_editorial_log,
     "regwatch.json": merge_regwatch,
     "site/data/chartmaster.json": merge_chartmaster,
+    "site/data/pulse.json": merge_board,
+    "site/data/flows.json": merge_board,
 }
 
 

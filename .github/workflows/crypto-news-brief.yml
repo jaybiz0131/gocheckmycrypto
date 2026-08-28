@@ -349,7 +349,17 @@ jobs:
         run: |
           git config user.name "Jack Berno"
           git config user.email "297991518+jaybiz0131@users.noreply.github.com"
-          git add site/content site/data/chartmaster.json editorial-log.json regwatch.json
+          # SHIP THE BOARDS THE PIPELINE JUST READ (owner report 2026-08-28). This staged
+          # chartmaster.json but NOT pulse.json or flows.json, so the numbers refreshed at
+          # the top of this run lived only in the runner: the deployed site kept whatever
+          # was last committed, which was 29 July. That is why the Chart Master's prose
+          # (committed, fresh) sat next to an RSI from a month earlier (not committed), and
+          # why a story quoting BTC at $79,291 rendered beside a board reading $63,654.
+          # Netlify re-runs both refreshers at deploy, but its build IP is rate-limited, so
+          # the committed snapshot is the fallback that actually reaches readers: it has to
+          # be current.
+          git add site/content site/data/chartmaster.json site/data/pulse.json \
+                  site/data/flows.json editorial-log.json regwatch.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"
@@ -389,7 +399,8 @@ jobs:
               # refuses anything else, so a real conflict still fails loudly.
               if ! git pull --rebase --autostash origin main; then
                 if python3 merge_state.py; then
-                  git add editorial-log.json regwatch.json site/data/chartmaster.json
+                  git add editorial-log.json regwatch.json site/data/chartmaster.json \
+                          site/data/pulse.json site/data/flows.json
                   GIT_EDITOR=true git rebase --continue \
                     || { echo "::error::rebase could not continue after auto-resolve"; \
                          git rebase --abort || true; exit 1; }
