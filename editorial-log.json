@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-07-30",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c133",
-    "headline": "US Treasury designates Iranian maritime firm for Bitcoin-based sanctions evasion",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'according to a report by Cointelegraph' but provides no substantive facts from that source. The brief is marked 'thin: true' with 'source_chars: 0', indicating the Cointelegraph URL yielded no usable reporting. The draft invokes Cointelegraph as authority but smuggles in analytical framing ('Treasury enforcement focus', 'Treasury's ongoing effort to map and interdict') that is not in the brief's data_points and cannot be sourced to the provided URL. The open_questions make clear what basic facts are missing: specific Bitcoin transactions, wallet addresses, timeline, amounts involved, and other intermediaries. Publishing a story this thin with unverified details presented as fact creates liability.",
-     "The phrase 'adds another data point to the regulatory record of crypto's role in illicit finance' presents editorial interpretation as fact and goes beyond what the brief supports. This is synthesis, not reporting."
-    ]
-   },
-   {
-    "id": "c156",
-    "headline": "Federal Reserve Holds Rates Steady; Three Officials Dissent for a Hike",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Beth M. Hammack, Minneapolis Federal Reserve President Neel Kashkari, and Lorie K. Logan' as the three dissenters. The construction is ambiguous and appears to conflate Hammack's title with Kashkari's; the brief data_point lists them as three separate officials without claiming Hammack holds Kashkari's title. The draft should clarify titles or list them separately to avoid misattribution.",
-     "The draft claims 'The statement does not provide specific forward guidance on the timeline or conditions for future rate adjustments, nor does it detail the Committee's medium-term inflation expectations or Warsh's personal stance on policy targets.' This is an editorial inference about what is *absent* from the statement, not a fact in the brief. The brief's open_questions flag these as unknowns, but the draft presents absence as a statement fact, smuggling analytical commentary into reporting."
-    ]
-   },
-   {
-    "id": "c049",
-    "headline": "Robinhood Q2 Revenue Hits Record $1.31B; Prediction Markets Now Exceed Crypto Trading",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's open_questions section explicitly states: 'The provided source text is empty; all data points come from the snippet alone. No source document was fetched to verify the $1.31 billion revenue, $156 million prediction market figure, $100 million crypto trading figure, or the 38% decline.' The draft presents all of these figures as reported fact, but the brief acknowledges they are unverified against the actual source document. This violates the hard rule: facts must trace to the brief, and the brief itself flags these as reported-but-not-independently-confirmed.",
-     "The brief marks thin=true and source_chars=0, signaling the research is incomplete. The draft should acknowledge the unverified status of the revenue figures or be rejected pending actual source verification. The current prose ('per Decrypt's reporting' and 'as reported by Decrypt') treats secondary reporting as sufficient, but when the underlying source was never fetched, the brief is contaminated and the draft cannot be approved."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "BitRiver founder transferred to detention on fraud charges in Russia",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The company operated as Russia's largest crypto mining infrastructure provider' without this claim appearing in the research brief's data_points. This is a factual assertion about market position that is not sourced to the CoinDesk reporting listed in the brief.",
-     "The draft claims 'En+, the multibillion-dollar corporation that produces 5% of the world's aluminum and manages digital and crypto mining infrastructure projects' but the brief's data_point says En+ 'manages digital, technology and crypto mining infrastructure projects'\u2014the draft adds 'and' between 'digital' and 'technology' when the brief lists them in sequence, and more critically, the draft presents En+'s aluminum production as part of the same sentence without attribution clarity. The aluminum claim comes from the brief but is not clearly separated from the infrastructure claim in the draft's phrasing, risking conflation."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-30",
   "approved": 5,
   "rejected": [
    {
@@ -7600,6 +7558,57 @@
      "The draft claims 'Spot bitcoin ETFs recorded an eighth consecutive day of net inflows' on August 27, but the brief's data_point 10 explicitly states 'BTC spot ETF net inflows on latest date (27 Aug 2026): -$35.3 million (outflow).' This is a direct contradiction. The brief notes in open_questions that the 'eight-day streak' claim from Decrypt may have ended on Aug 27 or use a different date window. The draft presents the inflow streak as current fact without noting that the latest date shows an outflow that breaks the streak.",
      "The draft does not acknowledge or report the outflow on Aug 27 that appears in the brief's data_point 10 and bear_case item 1. A reader would be misled into believing the inflow streak continued through August 27 when the desk's own market boards show it reversed that day.",
      "The draft states the inflow streak represents 'the longest run of inflows in four months' but this is reported from Decrypt (brief data_point 1) without attribution inline. The attribution is missing: 'According to Decrypt' or similar attribution clause does not appear before this claim in the draft's first sentence."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-28",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "SEC charges 38 entities for false adviser filings targeting retail investors",
+    "category": "accuracy",
+    "reasons": [
+     "Brief note states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites a single SEC press release URL as its source, but the draft contains no facts that can be verified against that source without access to the document itself. The approval protocol requires facts to trace to research brief data_points or, when no brief exists, to be verifiable against named sources by the desk. A single press-release citation with no extracted data_points provided means the desk cannot audit whether the claimed 38 entities, August 27 date, Forms ADV filing window (2025-2026), or the characterization of misrepresentations match the source document. This is an unauditable state: the writer has not given the desk the factual scaffolding to check the story. The story cannot run without a brief or without the desk explicitly extracting and verifying the key facts from the SEC source."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Evernorth Clears SEC Registration, Heads to September Shareholder Vote for Nasdaq Listing",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A shareholder vote is scheduled for September 30 on the listing of Evernorth on Nasdaq under ticker XRPN' and later 'A yes vote on September 30 would represent the first major precedent for a public company listing with XRP as its primary holding.' However, the brief's data_point explicitly states 'A September 30 shareholder vote is scheduled for Evernorth's Nasdaq listing' with confidence 'reported'\u2014this is reporting scheduled event. The draft misrepresents the sequence: SEC clearance has occurred (effective S-4), the shareholder vote is scheduled, but listing is not guaranteed to occur on or after September 30. The phrasing 'heads to September shareholder vote for Nasdaq listing' in the title and 'one shareholder vote away from becoming a Nasdaq-listed XRP treasury vehicle' conflates the vote with the outcome. The brief contains no data_point stating what happens if the vote passes or the timeline to actual listing post-vote. The draft smuggles in temporal certainty ('will become') that the brief does not support."
+    ]
+   },
+   {
+    "id": "c021",
+    "headline": "Bitcoin holds above $79,000 as spot ETF inflows extend to ninth consecutive day",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Bitcoin traded at $79,971.94 on August 28' but brief core_claim and all data_points reference August 27, 2026 as the reporting date for ETF streak and institutional flows. The price point itself is dated August 28 in the brief (verified-on-chain timestamp), but the lead conflates the August 27 ETF-streak milestone with an August 28 price snapshot without clarifying the date shift, creating ambiguity about which day's activity anchors the story. A reader will not know if the nine-day streak runs through August 27 (as brief states) or August 28.",
+     "Draft reports Ethereum 24-hour returns down 0.29%, SOL down 1.35%, XRP down 1.83%, ADA down 1.14%, and total crypto market cap down 1.49%, but these figures do not appear in the brief's data_points. The brief lists bear_case items about altcoin weakness but provides no specific percentage returns for individual coins or the market cap movement. These are smuggled facts outside the brief."
+    ]
+   },
+   {
+    "id": "c034",
+    "headline": "Charles Schwab expands crypto platform to Solana, Avalanche, Chainlink",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The approval protocol requires every fact in the draft to trace to a data_point in the brief, or be rejected as smuggled. Without a brief, the entire draft cannot be verified against the desk's research standard.",
+     "Additional accuracy liability: draft states Schwab Crypto 'began offering direct trading in Bitcoin and Ethereum to retail clients at 75 basis points per transaction' in May 2026\u2014a specific fee figure that would require confirmation in a brief but is unsourced here.",
+     "Draft claims this is 'the platform's first additions since its May 2026 launch'\u2014a fact that would need to be verified against the brief's data_points."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "UK tax authority reports $1.87 billion in crypto gains, with concentration among high earners",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims '$975 million of the total reported amount' is captured by the 240 high earners, but brief bear_case flags this is unclear: the $1.3M+ threshold and $975M combined total do not arithmetically align (would imply ~$4.06M average per person if 240 people reported $975M combined, contradicting the headline threshold). The brief itself marks this as unresolved and a source discrepancy, not a settled fact.",
+     "Draft presents the 240-person cohort and $975M figure as settled fact without flagging the arithmetic tension or methodological ambiguity that the brief identifies as an open question. The bear_case explicitly notes 'discrepancy between headline claim ($1.3M+) and reported combined total ($975M for 240 people) suggests either threshold classification or rounding methodology not explained in sources.'",
+     "Draft should either flag this discrepancy explicitly in the prose or avoid presenting it as a clean fact. Treating an unresolved methodological question as established narrative is a liability."
     ]
    }
   ]
