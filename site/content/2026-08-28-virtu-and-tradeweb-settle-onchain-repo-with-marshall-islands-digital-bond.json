@@ -1,0 +1,61 @@
+{
+  "id": "c124",
+  "slug": "virtu-and-tradeweb-settle-onchain-repo-with-marshall-islands-digital-bond",
+  "kind": "brief",
+  "title": "Virtu and Tradeweb settle onchain repo with Marshall Islands digital bond",
+  "dek": "Virtu, M1X Global, and Tradeweb completed a repurchase agreement using a Marshall Islands sovereign digital bond (USDM1) as collateral, settling on the Canton Network in under 10 minutes, per Cointelegraph.",
+  "date": "2026-08-28",
+  "published_utc": "2026-08-28T01:29:05Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "Virtu, M1X Global, and Tradeweb completed an onchain repo using USDM1 (a Marshall Islands sovereign digital bond) as collateral, settling in under 10 minutes on Canton Network.",
+  "bottom_line": "Virtu and Tradeweb have now demonstrated an onchain repo settlement using a sovereign digital bond as collateral. Watch for follow-up transactions from these parties, announcements of additional participants, and regulatory commentary on whether the settlement speed and mechanics observed here can scale to production volumes in traditional repo markets.",
+  "human_take": "",
+  "body": [
+    "Virtu, M1X Global, and Tradeweb completed a repurchase agreement using a Marshall Islands sovereign digital bond (USDM1) as collateral, according to Cointelegraph. The transaction settled on the Canton Network in under 10 minutes, executing the full repo cycle onchain.",
+    "The transaction represents the firms testing settlement infrastructure for institutional-grade collateral on blockchain networks. The USDM1 bond, issued by the Marshall Islands, served as the underlying asset in the repo agreement, with the Canton Network handling the execution and clearing of the transaction.",
+    "No transaction size, repo rate, or detailed terms were disclosed in available reporting. The sources do not indicate whether this represents a one-off settlement test or the beginning of recurring transaction flow among the participants."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/news/virtu-tradeweb-complete-onchain-repo-using-marshall-islands-digital-bond",
+      "url": "https://cointelegraph.com/news/virtu-tradeweb-complete-onchain-repo-using-marshall-islands-digital-bond"
+    },
+    {
+      "title": "https://cointelegraph.com/news/virtu-tradeweb-complete-onchain-repo-using-marshall-islands-digital-bond?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/virtu-tradeweb-complete-onchain-repo-using-marshall-islands-digital-bond?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-28T01:26:58Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 81059.63,
+        "chg_24h_pct": 0.99
+      },
+      {
+        "symbol": "ETH",
+        "price": 2527.67,
+        "chg_24h_pct": 0.65
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 6.4,
+      "open_interest_usd": 2314016702
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -169871499,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}

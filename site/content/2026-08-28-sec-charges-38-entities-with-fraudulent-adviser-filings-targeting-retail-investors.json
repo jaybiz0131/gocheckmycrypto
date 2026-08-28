@@ -1,0 +1,62 @@
+{
+  "id": "c000",
+  "slug": "sec-charges-38-entities-with-fraudulent-adviser-filings-targeting-retail-investors",
+  "kind": "brief",
+  "title": "SEC charges 38 entities with fraudulent adviser filings targeting retail investors",
+  "dek": "The SEC charged 38 entities with filing fraudulent Forms ADV between 2025 and 2026 to falsely portray themselves as legitimate U.S. investment advisers. The scheme allegedly was orchestrated by Hong Kong resident Guanhua Su. The filings contained misrepresentations about business addresses, phone numbers, fund auditors, and ownership structures. A parallel criminal case against Su is being pursued by the Department of Justice.",
+  "date": "2026-08-28",
+  "published_utc": "2026-08-28T01:29:05Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "The SEC charged 38 entities with material misrepresentations in Forms ADV filed between 2025 and 2026; default judgments and $1.2 million civil penalties were entered against two defendants in April 2026.",
+  "bottom_line": "The SEC has dismantled a coordinated 38-entity fraud that exploited its own registration database as a legitimacy tool. Watch for criminal prosecution outcomes against Guanhua Su in Hong Kong, recovery of funds through civil settlements, and whether the SEC implements verification procedures for foreign registrants filing Forms ADV.",
+  "human_take": "",
+  "body": [
+    "The Securities and Exchange Commission charged 38 entities with filing false Forms ADV between 2025 and 2026 to fraudulently present themselves as legitimate U.S. investment advisers, according to an SEC press release issued on August 27. The SEC alleges that a number of the defendants used IP addresses traced to foreign jurisdictions to connect to the Commission's filing system.\nThe defendants allegedly made material misrepresentations on their Forms ADV filings. According to the SEC press release, they listed places of business at Colorado addresses where they had no physical presence and provided phone numbers that were disconnected or belonged to unrelated businesses. The filings disclosed ownership structures and financial data that were identical or nearly identical across multiple purported exempt reporting advisers (ERAs), the SEC said. The defendants also claimed their private funds' financial statements had been audited by one of two independent public accounting firms, neither of which appears in any public registry of federal or state accountancy boards.\nSome defendants were marketed on websites displaying fake SEC registration certificates, even though they were not registered, according to the SEC.\nThe SEC filed complaints in United States District Court for the District of Colorado charging the defendants with violations of Sections 204(a) and 207 of the Investment Advisers Act of 1940.\nIn April 2026, default judgments were entered against Supreme Power Capital Management and AI Financial Education Foundation, according to Crypto Briefing. Each entity was ordered to pay $1.2 million in civil penalties and faced permanent injunctions barring future violations. The SEC removed all 38 entities' ERA filings from its website. The SEC seeks permanent injunctions, conduct-based injunctions prohibiting further Form ADV filings as exempt reporting advisers, and civil penalties against all defendants.\nGuanhua Su, a Hong Kong resident, is the alleged orchestrator.  The Department of Justice is pursuing a parallel criminal case against Su charging securities fraud conspiracy.\nThe SEC's Office of Investor Education and Assistance issued an alert warning that scammers are using ERA filings to create a false impression of legitimacy and lure investors into scams. The SEC cautioned that investors should be wary of purported ERAs offering investment advice directly to individuals or claiming SEC registration."
+  ],
+  "sources": [
+    {
+      "title": "https://www.sec.gov/newsroom/press-releases/2026-78-sec-38-entities-feigned-legitimacy-us-advisers-through-false-filings-lure-retail-investors",
+      "url": "https://www.sec.gov/newsroom/press-releases/2026-78-sec-38-entities-feigned-legitimacy-us-advisers-through-false-filings-lure-retail-investors"
+    },
+    {
+      "title": "https://cryptobriefing.com/sec-charges-38-entities-false-filings/",
+      "url": "https://cryptobriefing.com/sec-charges-38-entities-false-filings/"
+    }
+  ],
+  "update_of": "bybit-secures-asset-freeze-in-1-5-billion-north-korea-hack-lawsuit",
+  "board_snapshot": {
+    "as_of": "2026-08-28T01:26:58Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 81059.63,
+        "chg_24h_pct": 0.99
+      },
+      {
+        "symbol": "ETH",
+        "price": 2527.67,
+        "chg_24h_pct": 0.65
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 6.4,
+      "open_interest_usd": 2314016702
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -169871499,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false
+}

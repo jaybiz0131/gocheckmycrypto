@@ -1,0 +1,66 @@
+{
+  "id": "c119",
+  "slug": "coinbase-and-better-take-bitcoin-backed-mortgages-from-waitlist-to-general-availability",
+  "kind": "brief",
+  "title": "Coinbase and Better take bitcoin-backed mortgages from waitlist to general availability",
+  "dek": "Better Mortgage and Coinbase moved their bitcoin-backed home-financing product from closed waitlist to general availability on August 27. The product lets qualifying U.S. borrowers pledge bitcoin as collateral for a down-payment loan structured as a conventional Fannie Mae-conforming mortgage plus a separate second lien secured by the pledged BTC. Better reported $260 million in projected loan volume from waitlist interest.",
+  "date": "2026-08-28",
+  "published_utc": "2026-08-28T01:29:05Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 9,
+  "author": "Crypto Cronkite",
+  "key_fact": "Bitcoin-backed mortgages are now available to qualifying U.S. borrowers, structured as a standard mortgage paired with a bitcoin-secured second loan for the down payment, allowing HODLers to retain price upside while accessing home equity.",
+  "bottom_line": "The move from waitlist to general availability signals institutional acceptance of crypto-backed mortgages as a regulated RWA product, but near-term volume depends on whether waitlist projections translate to closures. Watch for origination announcements and the number of eligible jurisdictions at launch; a slow rollout or low close rate would indicate that regulatory constraints or borrower qualification barriers remain steeper than the $260 million projection suggests.",
+  "human_take": "",
+  "body": [
+    "Better Mortgage and Coinbase opened their bitcoin-backed home-financing product to general availability on August 27, moving the product beyond a closed waitlist that opened in June. According to The Defiant, the companies first announced the partnership in March, with Coinbase directing prospective borrowers to register for early access. Better reported that waitlist responses represented more than $260 million in projected loan volume before general availability, though that figure is a projection from prospective borrowers, not approved or closed mortgages.",
+    "The product does not require borrowers to sell bitcoin to fund a down payment. Instead, it pairs a conventional, Fannie Mae-conforming mortgage with a separate down-payment loan secured by pledged bitcoin and a second lien on the home. Both loans carry the same interest rate and repayment term, producing one combined monthly payment, according to The Defiant. Better originates, underwrites and services the loans; Coinbase supplies account connectivity and Coinbase Prime custodial infrastructure.",
+    "Bitcoin is valued at 40% of its market value for collateral purposes, equivalent to a 250% collateralization ratio. Better's example cited in The Defiant states $250,000 of bitcoin can support a $100,000 down-payment loan. The bitcoin moves from the borrower's Coinbase account to Better's custodial account on Coinbase Prime upon closing.",
+    "Bitcoin price declines alone do not trigger margin calls, collateral top-ups or liquidation, according to The Defiant. However, Coinbase's support documentation states Better may liquidate the pledged bitcoin after the borrower is 60 days delinquent on the down-payment loan. The collateral remains under Better's control until the mortgage is repaid or refinanced. The pledged assets may not be sold, transferred or repledged without Better's prior written consent.",
+    "Coinbase One members who qualify for a Better loan can receive closing-cost credits equal to 1% of the principal balance of each loan, capped at $10,000 in aggregate and limited by eligible closing costs. Coinbase stated it may promote as much as $10,000 \"back\" at closing, defined as a lender credit. Better pays the closing-cost credits; Coinbase does not underwrite or service either loan.",
+    "General availability does not equal universal eligibility. Better's terms require a minimum FICO score of 680, compliance with Fannie Mae conforming-loan criteria, and a property in an eligible jurisdiction. The terms state the program may be offered only in select states and jurisdictions, and every loan remains subject to underwriting and credit approval. The sources do not disclose how many states or jurisdictions qualify at launch."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/cefi/coinbase-and-better-take-bitcoin-backed-mortgages-beyond-the-waitlist",
+      "url": "https://thedefiant.io/converge/cefi/coinbase-and-better-take-bitcoin-backed-mortgages-beyond-the-waitlist"
+    },
+    {
+      "title": "https://cointelegraph.com/news/better-launches-bitcoin-backed-mortgages-powered-by-coinbase",
+      "url": "https://cointelegraph.com/news/better-launches-bitcoin-backed-mortgages-powered-by-coinbase"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-28T01:26:58Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 81059.63,
+        "chg_24h_pct": 0.99
+      },
+      {
+        "symbol": "ETH",
+        "price": 2527.67,
+        "chg_24h_pct": 0.65
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 6.4,
+      "open_interest_usd": 2314016702
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -169871499,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Cointelegraph"
+  ],
+  "developing": false
+}
