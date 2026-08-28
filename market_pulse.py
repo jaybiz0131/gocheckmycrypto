@@ -474,6 +474,12 @@ def section_network():
             "retarget_blocks": diff.get("remainingBlocks")}
 
 
+# The sections that ARE "the market boards" for stamping purposes. etf_flows is a
+# separate board with its own cadence (daily prints, published late), so its age is
+# recorded per-section and must not decide whether live prices look stale.
+CORE_SECTIONS = ("fng", "assets", "movers", "stables", "leverage", "market", "network")
+
+
 def main():
     _now = datetime.now(timezone.utc)
     _now_s = _now.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -544,10 +550,21 @@ def main():
     pulse["sections_utc"] = sections_utc
     if carried:
         pulse["carried_forward"] = carried
-        if any(not sections_utc.get(n) for n in carried):
+        # WHAT "THE MARKET BOARDS" ACTUALLY SHOW drives the headline stamp, and nothing
+        # else does. Taking the oldest of ALL sections was the first cut and it overshot
+        # on its first live run: prices, movers, leverage and sentiment all fetched clean
+        # at BTC $79,355, one slow ETF-flow source carried forward, and the whole board
+        # would have worn a "30 days ago" banner over numbers that were seconds old.
+        # Understating freshness is a smaller lie than overstating it, but it is still
+        # one, and a banner that cries stale over live prices teaches readers to ignore
+        # the banner that matters. So the stamp is the oldest CORE section, the ones the
+        # market boards render, while every section keeps its own date in sections_utc
+        # for any board that wants to stamp itself.
+        core = [v for k, v in sections_utc.items() if k in CORE_SECTIONS]
+        if any(not sections_utc.get(n) for n in carried if n in CORE_SECTIONS):
             pulse["generated_utc"] = ""     # data_stamp renders "age cannot be verified"
-        else:
-            pulse["generated_utc"] = min(v for v in sections_utc.values() if v)
+        elif core:
+            pulse["generated_utc"] = min(core)
         pulse["generated"] = (pulse["generated_utc"] or _now_s)[:10]
         common.gh("warning",
                   f"market_pulse: {len(carried)} section(s) carried forward "
