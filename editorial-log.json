@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-07-30",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c002",
-    "headline": "CME flags unresolved tax treatment of perpetual futures amid regulatory litigation",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Rustin Diehl is 'Emeritus Fellow at Georgetown Law' but the brief identifies him as 'Allegis Law, Emeritus Fellow at Georgetown Law.' The draft omits his primary affiliation (Allegis Law), which is a material attribution gap that misrepresents his professional standing.",
-     "The draft quotes Gottlieb as predicting 'there's going to be a lot of litigation about it,' with courts now empowered to 'ignore the CFTC and read the statute for themselves' if ambiguity exists. The brief's data_point attributes this as Gottlieb predicting 'there's going to be a lot of litigation about it,' with the Supreme Court having 'told courts that if there is ambiguity in the statute, they can ignore the CFTC and read the statute for themselves.' The draft conflates Gottlieb's prediction with an assertion about what the Supreme Court 'told' courts to do, which is a material reframing that adds interpretive weight not present in the source attribution."
-    ]
-   },
-   {
-    "id": "c032",
-    "headline": "Ostium blames off-chain breach for $24 million exploit, rules out smart contract flaw",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Ostium has attributed a $24 million exploit to an off-chain operational failure rather than a vulnerability in its smart contracts, according to The Block' but the brief contains only three data points with minimal detail. The draft then elaborates extensively on what 'off-chain breach' means\u2014'private keys, API credentials, centralized databases, or operational systems'\u2014and speculates about mechanisms ('custodial failure, a configuration error, or a compromise of administrative access') that do not appear in the brief's data_points. This constitutes smuggled analysis/interpretation beyond what the source brief supports.",
-     "The draft's entire second and third paragraphs pose interpretive questions ('However, Ostium has not specified which of these occurred...', 'The separation of trader collateral from the $24 million loss raises a structural question...') that belong in open_questions, not in the draft itself. The brief marks this as 'thin: true' with only 3 data points and 0 source_chars, indicating the source material is minimal. The draft inflates thin source material into speculative forensics that exceed the brief."
-    ]
-   },
-   {
-    "id": "c005",
-    "headline": "Institutional crypto trading hits a record 72%, narrowing volatility and altcoin participation",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case identifies three specific risks: (1) concentration excluding smaller altcoins from capital and reducing market diversity, (2) lower volatility constraining retail trading profits during future rallies, and (3) broad-based altcoin rallies becoming less likely. The draft mentions the third point directly but fails to surface the first two bear-case items. The draft does not discuss how concentration might harm smaller altcoin projects or how lower volatility (45% vs 70%) could reduce profitability for retail traders during future rallies. A brief with explicit bear_case requires proportional risk coverage in the draft; this one reads as a one-directional narrative about institutional efficiency rather than a balanced assessment of structural tradeoffs."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-30",
   "approved": 4,
   "rejected": [
    {
@@ -7609,6 +7577,53 @@
      "Draft claims '$975 million of the total reported amount' is captured by the 240 high earners, but brief bear_case flags this is unclear: the $1.3M+ threshold and $975M combined total do not arithmetically align (would imply ~$4.06M average per person if 240 people reported $975M combined, contradicting the headline threshold). The brief itself marks this as unresolved and a source discrepancy, not a settled fact.",
      "Draft presents the 240-person cohort and $975M figure as settled fact without flagging the arithmetic tension or methodological ambiguity that the brief identifies as an open question. The bear_case explicitly notes 'discrepancy between headline claim ($1.3M+) and reported combined total ($975M for 240 people) suggests either threshold classification or rounding methodology not explained in sources.'",
      "Draft should either flag this discrepancy explicitly in the prose or avoid presenting it as a clean fact. Treating an unresolved methodological question as established narrative is a liability."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-28",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c020",
+    "headline": "SEC clears Evernorth XRP treasury for Nasdaq listing; shareholder vote set for Sept. 30",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states SEC 'has approved' Form S-4; brief data_point says 'approved'. However, the draft cites CoinDesk as source, but all 18 data_points in brief cite U.Today as source. CoinDesk URL in draft sources does not match any brief data_point source URL.",
+     "Draft sources list only one CoinDesk URL, but brief contains reporting from both U.Today (primary source for all detailed claims) and Decrypt (one data_point on SEC path clarity). The draft does not cite U.Today or Decrypt despite using facts exclusively from U.Today's reporting per the brief.",
+     "Attribution is broken: every detail in the draft (SBI $200M, Ripple 126.8M XRP, Arrington 211.3M XRP, 473M initial reserve, $233.7M impairment, $2.36 to $1 price, VWAP mechanism, Birla background, treasury deployment plans) comes from U.Today according to brief, but draft attributes only the opening sentence to CoinDesk without attribution chain.",
+     "This is a sourcing failure: the desk's rule is facts go back to research. The brief shows U.Today as the reporting source; the draft sources omit U.Today entirely, creating liability if CoinDesk did not independently report these specific numbers or if the outlet names diverge in court or on air."
+    ]
+   },
+   {
+    "id": "c007",
+    "headline": "SBI Holdings acquires 20% stake in Indonesian brokerage Ajaib for $270 million",
+    "category": "accuracy",
+    "reasons": [
+     "Brief explicitly states in open_questions: 'The fetched CoinDesk source text contains only the headline claim; the article body is not available.' This is a critical red flag that the only data_point (the 20% stake and $270M value and stated purpose) cannot be verified beyond headline-level confirmation.",
+     "Draft expands the story with claims not in the three data_points: 'The investment represents nation-state-backed institutional entry into Southeast Asian crypto infrastructure' \u2014 no data_point supports 'nation-state-backed' framing; this is analysis the writer added.",
+     "Draft adds: 'a region where legacy banking and blockchain-based payments remain largely separate' \u2014 not in brief.",
+     "Draft adds: 'Ajaib's existing retail brokerage footprint gives SBI an established distribution channel in a high-growth market' \u2014 no data_point confirms Ajaib's current business model or retail footprint; this is smuggled context.",
+     "Bottom line references 'yen stablecoin integration mechanics' and 'technical specifications' \u2014 the brief's own open_questions flag that 'No explicit confirmation of yen stablecoin integration details or technical specifications beyond the stated goal.' The writer is stating unknowns as watch-fors, but the story body already treated them as confirmed strategy.",
+     "The story cannot be published from this brief without independent sourcing of the business model and regional payment context claims."
+    ]
+   },
+   {
+    "id": "c046",
+    "headline": "Charles Schwab Expands Crypto Trading Beyond Bitcoin and Ethereum",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction is absolute: 'no fact exists outside the brief.' The draft cites Decrypt but provides no research brief to verify facts against. The writer cannot cite a single source (Decrypt) and claim coverage of Schwab's announcement without a brief documenting what Decrypt actually reported versus what the writer inferred or added. Every factual claim in the draft must trace to a brief data_point or be rejected.",
+     "Specific smuggled facts: (1) 'announced plans to expand' \u2014 is this a formal Schwab announcement or Decrypt's reporting of expected plans? (2) 'No launch date has been disclosed' \u2014 how does the writer know this was not disclosed? (3) 'Solana, Avalanche, and Chainlink rank among the top 20 cryptocurrencies by market value' \u2014 this is market-fact commentary not sourced to the Decrypt article and not in any brief. (4) 'Schwab Crypto launched in May 2026 with Bitcoin and Ethereum trading at 75 basis points per transaction, according to previous reporting' \u2014 'previous reporting' is not a citable source and this fact appears nowhere in the draft's sources list. (5) The entire third paragraph about May 2026 launch and 75bps fees is unsourced within the brief provided."
+    ]
+   },
+   {
+    "id": "c122",
+    "headline": "Ninth Circuit Rules Kalshi Sports Contracts Are Not Swaps, Splitting With Third Circuit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The panel, comprising Judges Ryan Nelson, Bridget Bade, and Kenneth Lee, held that Nevada may enforce its gaming laws against the prediction market.' However, the brief's data point on this ruling says the Ninth Circuit held sports contracts are 'not swaps under the Commodity Exchange Act' and allowed Nevada to enforce gaming laws. The logic is correct but the phrasing 'held that Nevada may enforce' is imprecise: the ruling did not affirmatively grant Nevada enforcement power; it rather held the contracts fall outside federal CEA jurisdiction, thereby leaving Nevada's preexisting authority intact. This distinction matters in regulatory analysis. The draft should clarify that the ruling removed federal preemption barriers, not that it affirmatively granted state power."
     ]
    }
   ]

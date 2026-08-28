@@ -1,0 +1,65 @@
+{
+  "id": "c028",
+  "slug": "bitwise-solana-etf-crosses-1-billion-first-sol-product-to-reach-threshold",
+  "kind": "brief",
+  "title": "Bitwise Solana ETF Crosses $1 Billion, First SOL Product to Reach Threshold",
+  "dek": "Bitwise's Solana staking ETF (BSOL) crossed $1 billion in assets under management on Aug. 26, according to The Defiant and The Block. The fund holds 9.33 million SOL and accounts for nearly 79 percent of total Solana ETF inflows tracked by Farside Investors.",
+  "date": "2026-08-28",
+  "published_utc": "2026-08-28T21:16:52Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "BSOL held $1.0175 billion in net assets as of Aug. 26, making it the first Solana ETF to reach $1 billion AUM, concentrating 79 percent of all measured Solana ETF inflows.",
+  "bottom_line": "Watch whether BSOL's inflow momentum holds and whether the fund achieves its 100 percent staking target. If inflows sustain and staking rises, the milestone signals genuine institutional appetite for Solana leverage. If inflows plateau or compete products begin drawing meaningful share, BSOL's dominance may reflect product-specific features rather than broad SOL demand.",
+  "human_take": "",
+  "body": [
+    "Bitwise's Solana staking ETF (BSOL) crossed $1 billion in assets under management on Aug. 26, according to The Defiant, becoming the first Solana ETF to reach the milestone. The fund held 9,332,360.79 SOL with a market value of $1.018 billion and net assets of $1.0175 billion as of that date, per The Defiant's reporting citing Glassnode data.",
+    "The achievement reflects strong institutional inflows to Solana ETF products broadly. Solana spot ETFs drew $138 million of net inflows over a 10-day period, their strongest stretch on record according to Glassnode, with a single-day high of $47 million on Tuesday, The Defiant reported. On Aug. 27 alone, six Solana ETF products tracked by Farside Investors took in $56.1 million, with BSOL capturing $40.2 million, Grayscale's GSOL receiving $6.2 million, and Fidelity's FSOL drawing $5.8 million.",
+    "BSOL's dominance in the inflow race is marked. The fund accounts for nearly 79 percent of total Solana ETF inflows across six products tracked by Farside Investors, with cumulative net flow of $1.0114 billion against $1.284 billion for the entire group. BSOL pairs direct SOL exposure with staking rewards and began trading on Oct. 28, 2025.",
+    "As of Aug. 26, 96 percent of BSOL's assets were staked, producing a 5.80 percent net staking reward rate against the fund's stated target of staking 100 percent of assets, The Defiant reported. The 4-percentage-point gap between current staking and the target suggests either operational constraints or deliberate reserve positioning.",
+    "The concentration of inflows in a single product creates structural dependency on BSOL's continued appeal. Competing Solana ETFs have drawn substantially smaller net flows, and BSOL's share of the total raises questions about whether broader Solana ETF demand is robust or narrowly focused on one provider's staking mechanics."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/markets/bitwise-solana-etf-is-first-to-cross-1-billion",
+      "url": "https://thedefiant.io/converge/markets/bitwise-solana-etf-is-first-to-cross-1-billion"
+    },
+    {
+      "title": "https://www.theblock.co/news/markets/2026-08-28-bitwise-fund-is-first-solana-etf-to-hit-1-billion-aum-413035",
+      "url": "https://www.theblock.co/news/markets/2026-08-28-bitwise-fund-is-first-solana-etf-to-hit-1-billion-aum-413035"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-28T21:14:38Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77347.44,
+        "chg_24h_pct": -3.64
+      },
+      {
+        "symbol": "ETH",
+        "price": 2426.55,
+        "chg_24h_pct": -3.38
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2255962326
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 183949754,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Block"
+  ],
+  "developing": false
+}

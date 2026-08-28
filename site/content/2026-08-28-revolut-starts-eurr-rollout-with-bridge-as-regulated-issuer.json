@@ -1,0 +1,61 @@
+{
+  "id": "c120",
+  "slug": "revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer",
+  "kind": "brief",
+  "title": "Revolut Starts EURR Rollout With Bridge as Regulated Issuer",
+  "dek": "Revolut began rolling out EURR, its euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal, with Bridge Building S.A. as the regulated issuer. The rollout brings the first branded onchain euro through a fintech app to Revolut's 75+ million-user base, with wider European availability expected later in 2026.",
+  "date": "2026-08-28",
+  "published_utc": "2026-08-28T21:16:52Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "EURR is issued by Bridge Building, a Luxembourg-licensed electronic money institution authorized on June 29, 2026, with all reported backing (EUR 374 as of Aug. 25) held as cash deposits in regulated credit institutions.",
+  "bottom_line": "Watch the circulation growth over the next two weeks as the rollout expands beyond the three pilot markets: the EUR 374 starting point is minimal compared to Circle's EUR 394.5 million, but Revolut's embedded distribution channel inside a fintech app with 75+ million potential users represents a structural advantage that does not depend on independent exchanges or bridges. The limiting factor is not infrastructure but adoption friction inside Revolut's product.",
+  "human_take": "",
+  "body": [
+    "Revolut began rolling out EURR, its euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal. Per The Defiant, Bridge Building S.A. serves as the regulated issuer and redemption counterparty, with Revolut Digital Assets Europe Ltd acting as the offeror and admitting EURR to trading on the Revolut X platform.",
+    "Bridge Building is authorized as an electronic money institution in Luxembourg, with authorization recorded by the Commission de Surveillance du Secteur Financier on June 29, 2026. Per The Defiant's verification of the regulator's active registry, Bridge also holds crypto-asset service provider status with custody, exchange and transfer permissions. According to The Defiant, Bridge is described by Revolut as a Stripe company.",
+    "URR is an e-money token under the European Union's Markets in Crypto-Assets framework, meaning it qualifies for regulatory treatment distinct from unregulated stablecoins. Per The Defiant, tokenholders have the right to redeem EURR at par against Bridge at any time, subject to applicable terms and redemption process.",
+    "Bridge's reserve page, reviewed by The Defiant, states that funds received for EURR are safeguarded in segregated accounts at regulated credit institutions or invested in eligible, highly liquid euro-denominated instruments. As of Aug. 25, Bridge reported EUR 374 in EURR circulation with EUR 374 in reserve assets, all held as cash deposits in credit institutions.",
+    "Users can move between euros, crypto, external wallets and supported blockchain networks. Per The Defiant, Bridge identifies Ethereum and Polygon as EURR deployment chains. Revolut expects wider EURR availability later in 2026 and said stablecoins tied to other currencies are also in development.",
+    "For comparison, Circle reported EUR 394.5 million of EURC in circulation as of Aug. 24, according to The Defiant. Circle's EURC is available on Avalanche, Base, Cronos, Ethereum, Solana, Stellar and World Chain, issued under an electronic money institution license from France's Autorit\u00e9 de Contr\u00f4le Prudentiel et de R\u00e9solution."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/tradfi-and-fintech/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer",
+      "url": "https://thedefiant.io/converge/tradfi-and-fintech/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer"
+    }
+  ],
+  "update_of": "hyperliquid-s-revenue-decline-outpaces-trading-boom-as-fee-sharing-eats-into-token-backing",
+  "board_snapshot": {
+    "as_of": "2026-08-28T21:14:38Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77347.44,
+        "chg_24h_pct": -3.64
+      },
+      {
+        "symbol": "ETH",
+        "price": 2426.55,
+        "chg_24h_pct": -3.38
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2255962326
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 183949754,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
