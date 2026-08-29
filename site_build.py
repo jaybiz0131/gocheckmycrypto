@@ -178,10 +178,21 @@ def source_label(src):
 # This map is the audit trail as well as the mechanism: every entry is a URL the desk retired
 # and where it went. Add here, never remove.
 RETIRED_ARTICLES = {
+    "39-u-s-banking-associations-form-bankchain-alliance-to-build-proprietary-blockchain-by-2027":
+        "state-banking-associations-announce-bankchain-alliance-for-2027-launch",
+    # owner audit 2026-08-29: one event told two or three times in 72 hours
+    "coinbase-better-make-token-backed-mortgages-generally-available":
+        "coinbase-and-better-take-bitcoin-backed-mortgages-from-waitlist-to-general-availability",
+    "revolut-launches-euro-stablecoin-eurr-across-select-eu-markets":
+        "revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer",
+    "revolut-rolls-out-eurr-stablecoin-across-three-eu-markets-with-bridge-as-issuer":
+        "revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer",
+    "us-treasury-adds-digital-assets-to-iran-sanctions-authority":
+        "u-s-treasury-brings-iran-s-crypto-sector-under-sanctions-authority",
     # cross-day audit 2026-08-25: the same anticipatory CoinDesk-sourced story told
     # twice three days apart, zero novel claims in the retelling
     "new-clarity-act-draft-may-drop-this-week-sources-tell-coindesk":
-        "new-clarity-act-draft-may-arrive-as-soon-as-next-week-source",
+        "new-clarity-act-draft-may-arrive-as-soon-as-next-week-sources-say",
     "aave-approves-deprecation-of-50-assets-and-exit-from-six-chains":
         "aave-retires-50-assets-and-exits-six-chains-consolidating-away-from-low-value-markets",
     "ai-compute-stocks-bounce-as-hut-8-iren-land-billions-in-new-contracts":
@@ -4440,6 +4451,20 @@ def build():
     # /rss.xml is the address readers and aggregators try first; the desk publishes at
     # /feed.xml, so alias rather than leave a 404 (2026-08-13 audit).
     rss_alias = "/rss.xml  /feed.xml  301\n"
+    # A REDIRECT TO A 404 IS WORSE THAN NO REDIRECT (owner audit 2026-08-29). Every
+    # survivor in RETIRED_ARTICLES must actually render, or the retired URL sends a
+    # reader and a crawler into a dead end. This shipped once: a survivor slug was
+    # transcribed from a truncated console listing ("...next-week-source" for
+    # "...next-week-sources-say") and the 301 pointed at nothing for a day. Build-time
+    # assertion, loud, because the failure is invisible from the map alone.
+    _rendered = {i.get("slug") for i in items if i.get("slug")}
+    _dangling = sorted(v for v in set(RETIRED_ARTICLES.values()) if v not in _rendered)
+    if _dangling:
+        for v in _dangling:
+            print(f"::error::RETIRED_ARTICLES points at a survivor that does not exist: "
+                  f"{v} (the retired URLs mapped to it would 301 into a 404)")
+        raise SystemExit(f"site: {len(_dangling)} dangling redirect target(s); fix "
+                         f"RETIRED_ARTICLES before shipping")
     redirects = "".join(f"/articles/{old}.html  /articles/{new}.html  301\n"
                         f"/articles/{old}  /articles/{new}  301\n"
                         for old, new in sorted(RETIRED_ARTICLES.items()))

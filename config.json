@@ -12,25 +12,25 @@
  "models": {
   "editor": {
    "model": "claude-haiku-4-5",
-   "max_tokens": 8000
+   "max_tokens": 12000
   },
   "verifier": {
    "model": "claude-haiku-4-5",
-   "max_tokens": 6000
+   "max_tokens": 10000
   },
   "researcher": {
    "model": "claude-haiku-4-5",
-   "max_tokens": 8000,
+   "max_tokens": 20000,
    "note": "Role 1 of the three-role editorial pipeline (2026-07-14): builds the structured research brief (data points + confidence labels + bear case) from the fetched source pages. Fact fidelity is the whole job, so it gets the judgment model; thinking bills as output tokens, hence the cap."
   },
   "writer": {
    "model": "claude-haiku-4-5",
-   "max_tokens": 8000,
+   "max_tokens": 20000,
    "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates."
   },
   "approver": {
    "model": "claude-haiku-4-5",
-   "max_tokens": 5000,
+   "max_tokens": 8000,
    "note": "Role 3: post-draft last line of defense (accuracy/liability -> balance -> quality, categorized rejections). Adversarial judgment, so the judgment model; a different call from the writer so the builder never approves their own work."
   },
   "note": "PRE-REVENUE AGENT ECONOMY (owner directive 2026-07-14, supersedes the 2026-07-10 quality-first note): claude-haiku-4-5 on every desk stage; the deterministic fail-closed gates (source liveness, dedup, depth gate, belts, two-source breaking rule) are the quality floor, not the model. The weekly family compliance monitor (gcm-newsroom compliance.yml) keeps claude-sonnet-5. REVERSAL TRIGGERS: sustained newsletter/follower growth -> model upgrade review; ~5k monthly pageviews -> writer back to claude-sonnet-5; first sustained revenue month -> full matrix re-review. Upgrades are one-line model swaps here; no pipeline logic changes.",
@@ -383,5 +383,6 @@
    }
   }
  },
- "top_n_note": "Raised 8 -> 12 (owner directive 2026-08-20, 'we have to get the news out'). The editor ranks top_n stories per run and roughly half die at the approver, so 8 capped a run at about 4 published and pushed real news below the line: the day the desk missed an overnight missile barrage and a ballistic-missile launch it also ranked only 8 candidates. Budget headroom is real, a typical run costs $0.15-0.30 against a $1.50 fail-closed cap, and the cap still governs."
+ "top_n_note": "Raised 8 -> 12 (owner directive 2026-08-20, 'we have to get the news out'). The editor ranks top_n stories per run and roughly half die at the approver, so 8 capped a run at about 4 published and pushed real news below the line: the day the desk missed an overnight missile barrage and a ballistic-missile launch it also ranked only 8 candidates. Budget headroom is real, a typical run costs $0.15-0.30 against a $1.50 fail-closed cap, and the cap still governs.",
+ "_max_tokens_note": "Stage output ceilings match the news and sports desks (2026-08-29). This desk sat at researcher 8000 while both siblings ran 20000, and on 29 Aug the researcher produced exactly 8000 tokens twice in a row, truncating mid-JSON and failing the run closed before any story was written. The desk went dark for a full day while the siblings published normally, which is precisely why nothing looked broken. A ceiling is not a spend: the $1.50 per-run budget still governs, and BudgetError still stops the run. The error message names its own fix; this is that fix."
 }
