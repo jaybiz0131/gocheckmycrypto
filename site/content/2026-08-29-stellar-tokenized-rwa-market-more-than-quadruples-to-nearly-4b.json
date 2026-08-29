@@ -1,0 +1,60 @@
+{
+  "id": "c086",
+  "slug": "stellar-tokenized-rwa-market-more-than-quadruples-to-nearly-4b",
+  "kind": "brief",
+  "title": "Stellar tokenized RWA market more than quadruples to nearly $4B",
+  "dek": "Stellar's tokenized real-world asset market grew approximately 360% in 2026 to nearly $4 billion, according to RedStone data cited by The Defiant. Four products account for most of the growth: Amundi and Spiko Overnight Swap Fund at $713 million, Spiko T-Bill fund at $536 million, Ondo's USDY at more than $533 million, and VuMe Bond 2030 at $500 million.",
+  "date": "2026-08-29",
+  "published_utc": "2026-08-29T19:43:11Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "Stellar's RWA supply grew from about $785 million in January to more than $3 billion in July 2026, while the network's total DeFi TVL stood at $213 million.",
+  "bottom_line": "Watch whether RedStone's 55 SEP-40 price feeds resolve the settlement schedule mismatch that has so far kept RWAs isolated from DeFi usability. If RWA issuance continues to outpace collateral pool adoption, the constraint remains structural rather than temporary. The DTCC's planned arrival on Stellar in 2027 would mark the first major custodian migration; institutional readiness will be tested at that inflection.",
+  "human_take": "",
+  "body": [
+    "Stellar's tokenized real-world asset market has grown from approximately $785 million in January to more than $3 billion in July 2026, according to RedStone data reported by The Defiant. The growth represents an approximate 360% increase over the first seven months of the year.\nFour products account for most of the expansion. The Amundi and Spiko Overnight Swap Fund reached $713 million, Spiko's T-Bill fund stood at $536 million, Ondo's USDY exceeded $533 million, and VuMe Bond 2030 reached $500 million. RedStone, which tracks the market, adopted Stellar's SEP-40 oracle standard in June and now provides 55 SEP-40 price feeds spanning Treasuries, corporate credit, tokenized gold and money market funds across the network.\nThe RWA surge has far outpaced Stellar's decentralized finance sector. The network's total DeFi value locked was $213 million as of RedStone's July report, per The Defiant. Lending protocol Blend held $127 million in total value locked, though only $2 million sat in pools that accept RWAs as collateral. DefiLlama reported a separate measure of Stellar's total value locked at $232.72 million with Blend at $150.03 million.\nThe difference between on-chain RWA issuance and the infrastructure to use those assets in lending reveals a structural constraint.\nThe Depository Trust and Clearing Corporation, which holds $114 trillion in assets under custody, plans to bring DTC-custodied assets to Stellar in 2027, according to RedStone's report cited by The Defiant. XLM traded at $0.1835 on the Friday of the report, down 0.9% over 24 hours, with a market capitalization of $6.36 billion.\nThe Bottom Line: Watch whether RedStone's 55 SEP-40 price feeds resolve the settlement schedule mismatch that has so far kept RWAs isolated from DeFi usability. If RWA issuance continues to outpace collateral pool adoption, the constraint remains structural rather than temporary."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/markets/stellar-tokenized-rwa-market-nears-4b-after-fourfold-2026-growth",
+      "url": "https://cointelegraph.com/markets/stellar-tokenized-rwa-market-nears-4b-after-fourfold-2026-growth"
+    },
+    {
+      "title": "https://thedefiant.io/converge/defi/stellar-rwa-3-billion-defi-tvl-gap-redstone-report",
+      "url": "https://thedefiant.io/converge/defi/stellar-rwa-3-billion-defi-tvl-gap-redstone-report"
+    }
+  ],
+  "update_of": "hyperliquid-s-revenue-decline-outpaces-trading-boom-as-fee-sharing-eats-into-token-backing",
+  "board_snapshot": {
+    "as_of": "2026-08-29T18:51:26Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78224.89,
+        "chg_24h_pct": 0.52
+      },
+      {
+        "symbol": "ETH",
+        "price": 2454.61,
+        "chg_24h_pct": 0.5
+      }
+    ],
+    "fng": {
+      "value": 68,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 2.0,
+      "open_interest_usd": 2234914903
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 176185469,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
