@@ -1,49 +1,6 @@
 [
  {
   "date": "2026-07-30",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c002",
-    "headline": "Global Banks Test Tokenized Money for Cross-Border Payments in BIS Pilot",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'roughly $1 million in real-value transactions' but the brief's data_point specifies 'roughly $1 million (CHF 800,000)' \u2014 the draft omits the Swiss franc equivalent that appears in the source, creating ambiguity about whether the figure is USD or another currency. The brief's own data_point uses both figures; the draft should too.",
-     "The draft says 'about 30 transactions that settled in an average of roughly 80 seconds' but conflates two separate claims from the brief: one data_point says 'about 30 transactions' and another says 'settled in roughly 80 seconds on a shared ledger' without explicitly stating these were the average settlement time per transaction. The phrasing 'settled in an average of roughly 80 seconds' is not directly traceable to a single data_point and reads as an inferential combination rather than a reported fact."
-    ]
-   },
-   {
-    "id": "c029",
-    "headline": "JPMorgan signals Clarity Act decline as material headwind for institutional crypto entry",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The bank warned that parts of the Clarity Act could discourage institutional adoption, though the specific provisions and the magnitude of JPMorgan's outlook revision remain undisclosed in available reporting.' This claim about JPMorgan warning that parts of the Clarity Act could discourage adoption is not present in the brief's data_points. The brief only confirms JPMorgan identified falling odds of passage as a setback; it does not confirm JPMorgan warned the bill could discourage adoption. This is a smuggled fact not in the research.",
-     "The draft is substantially under-sourced relative to the thin brief (thin=true, source_chars=0). With only one thin data_point and several open questions unresolved, the draft should either be much shorter or flag the lack of detail. The current prose reads as having more reporting depth than the brief supports, creating liability if the original Block article did not contain the discourage-adoption language."
-    ]
-   },
-   {
-    "id": "c124",
-    "headline": "BitMine Adds $73 Million in ETH, Pushing Holdings to 4.8% of Supply",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Tom Lee has previously framed crypto as a \"wartime store of value,\" language that reflects the company's broader thesis on digital assets.' The brief data_point says 'Tom Lee has framed crypto as a \"wartime store of value\" in prior remarks,' but this is sourced to The Defiant article about BitMine's ETH holdings. The phrasing 'previously framed' and the attribution to prior remarks suggests this quote comes from a source outside the Defiant article, yet no separate source is provided. This is either a smuggled fact or an improperly attributed paraphrase from The Defiant article itself.",
-     "The draft closes with 'A prior warning from an insider raised questions about BitMine's cash position in June, though the company has continued deploying capital. The source and sustainability of funding for weekly purchases of this scale remain unaddressed in available reporting.' The brief's bear_case mentions 'An insider previously warned of a cash gap at BitMine in June,' but the draft softens this to 'a prior warning' and adds interpretation ('The source and sustainability of funding for weekly purchases of this scale remain unaddressed'). This framing implies the insider warning was vague or unconfirmed, but the brief presents it as a concrete fact. The phrasing obscures rather than clarifies the bear case and may understate the seriousness of the funding question."
-    ]
-   },
-   {
-    "id": "c034",
-    "headline": "Hyperscale Data Liquidates 100 Bitcoin to Fund Michigan AI Data Center",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states 'Source texts are empty; no primary source material available to verify the 100 BTC sale claim, the credit facility terms, the Michigan location, or the funding amount.' Yet the draft presents these facts as established: 'Hyperscale Data, a mining-linked infrastructure firm, sold 100 bitcoin and secured a bitcoin-backed credit facility.' This is a smuggled claim\u2014facts must trace to research material, not rest on empty sources.",
-     "The brief's core_claim is unverified and marked thin=true with zero data_points. The draft has no confidence qualifier (like 'reportedly' or 'according to sources') in the lead sentence establishing the central transaction. An unconfirmed deal presented as fact is a liability breach.",
-     "The draft cites 'reporting by The Block and Cointelegraph' as attribution, but the brief shows source_chars: 0, meaning no text was provided to verify those outlets carried the story with those specific details. The writer is vouching for sources they did not read."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-30",
   "approved": 5,
   "rejected": [
    {
@@ -7642,6 +7599,21 @@
      "The draft presents as fact what the brief flags as unconfirmed: 'advanced' vs 'passed' is a material difference (advanced = committee action; passed = floor vote). The brief does not contain a data_point confirming a floor vote or full Senate passage.",
      "The draft body says 'advanced,' which is closer to the reportage confidence level, but the bottom_line shifts to 'Watch whether California's memecoin restrictions survive the state legislative process' \u2014 language that would be inappropriate if Senate passage were already confirmed, yet the bottom_line also says 'The premise holds if the bill advances to the Assembly,' suggesting passage is still uncertain.",
      "This internal inconsistency (treating passage as both confirmed and uncertain) reflects the brief's thinness and unverified status. A single source with 'reported' confidence and no independent verification cannot support a definitive claim of 'passed.'"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-29",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c092",
+    "headline": "SEC Sues 38 Crypto Advisory Firms for Displaying Fake Registration Certificates",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC filed 38 civil complaints' but the brief only confirms that Protos reported this on August 28. The brief does not contain an SEC press release, SEC filing, or SEC official statement as source material\u2014only secondary reporting from Protos. The claim that the SEC 'filed' these complaints reads as if confirmed by primary source when only a single secondary source (Protos) supports it. The desk rule forbids smuggling facts outside the brief; this fact exists in the brief only as 'reported' confidence, not verified.",
+     "The draft states 'The SEC has not yet quantified investor losses' in the final paragraph. This is phrased as a present assertion about SEC action/inaction, but the brief's corresponding data_point says 'SEC has not quantified investor losses in the initial complaints'\u2014a narrow claim about what the complaints document contains, not about SEC knowledge overall. The draft broadens the claim beyond what the brief carries."
     ]
    }
   ]

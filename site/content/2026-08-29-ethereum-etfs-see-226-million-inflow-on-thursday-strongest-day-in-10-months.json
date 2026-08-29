@@ -1,0 +1,56 @@
+{
+  "id": "c038",
+  "slug": "ethereum-etfs-see-226-million-inflow-on-thursday-strongest-day-in-10-months",
+  "kind": "brief",
+  "title": "Ethereum ETFs see $226 million inflow on Thursday, strongest day in 10 months",
+  "dek": "Ethereum ETFs recorded $226 million in inflows on a single day, the highest daily tally in 10 months. Nine consecutive sessions have brought in $1.4 billion total, per Decrypt's reporting.",
+  "date": "2026-08-29",
+  "published_utc": "2026-08-29T15:19:54Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "$226 million flowed into Ethereum ETFs on Thursday, marking the strongest single day in 10 months and part of a nine-session streak totaling $1.4 billion in inflows.",
+  "bottom_line": "Readers should watch for whether the nine-session inflow streak continues and whether reporting clarifies which ETF products and geographic regions are driving the flows. A break in the streak or a return to outflows would signal a shift in institutional positioning.",
+  "human_take": "",
+  "body": [
+    "Ethereum ETFs recorded $226 million in inflows on Thursday, marking their strongest single day in 10 months, according to Decrypt. The inflow is part of a nine-session streak that has brought $1.4 billion into the funds.\nThe pace of inflows stands against a period of institutional hesitancy toward Ethereum. Decrypt does not specify which Ethereum ETF products are included in the figure or whether the total covers U.S., international, or global markets; it also does not detail what factors drove the consecutive sessions of inflows or how Thursday's single-day haul compares to Bitcoin ETF inflows on the same day, despite the headline's reference to matching Bitcoin's numbers."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/376810/ethereum-etfs-take-226m-in-a-day-almost-matching-bitcoins-haul",
+      "url": "https://decrypt.co/376810/ethereum-etfs-take-226m-in-a-day-almost-matching-bitcoins-haul"
+    }
+  ],
+  "update_of": "figure-reports-q2-revenue-of-226-million-marketplace-volume-hits-4-3-billion",
+  "board_snapshot": {
+    "as_of": "2026-08-29T15:17:32Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77936.05,
+        "chg_24h_pct": 0.15
+      },
+      {
+        "symbol": "ETH",
+        "price": 2444.7,
+        "chg_24h_pct": 0.09
+      }
+    ],
+    "fng": {
+      "value": 68,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.3,
+      "open_interest_usd": 2233994610
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -179272105,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

@@ -1,0 +1,59 @@
+{
+  "id": "c187",
+  "slug": "sberbank-plans-crypto-backed-loans-using-bitcoin-ethereum-tether",
+  "kind": "brief",
+  "title": "Sberbank Plans Crypto-Backed Loans Using Bitcoin, Ethereum, Tether",
+  "dek": "Russia's largest bank, Sberbank, plans to offer loans collateralized by Bitcoin and eventually Ethereum and Tether once Russian regulators permit their public circulation. The bank tested the model with a mining firm and is preparing custody services as digital assets take on a larger role in Russia's financial system.",
+  "date": "2026-08-29",
+  "published_utc": "2026-08-29T15:19:54Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "Sberbank, Russia's largest bank, plans to offer loans collateralized by Bitcoin, with Ethereum and Tether to follow pending Bank of Russia authorization for public circulation.",
+  "bottom_line": "Watch for Bank of Russia authorization announcements on Ethereum and Tether public circulation, which will determine whether Sberbank's lending model expands beyond Bitcoin. The premise holds only if Russian regulators permit the stablecoins' domestic use; any reversal in that authorization would constrain the bank's planned product rollout.",
+  "human_take": "",
+  "body": [
+    "Sberbank, Russia's largest bank, plans to offer corporate loans collateralized by Bitcoin and eventually Ethereum and Tether, according to Crypto Briefing's reporting. The move marks a major sovereign institution integrating crypto-backed lending into its formal product suite, contingent on regulatory authorization from the Bank of Russia for the stablecoins' public circulation.",
+    "The bank's shift reflects a deeper institutional adaptation to digital assets as sanctions and cross-border trade constraints reshape Russia's financial infrastructure. Sberbank has already tested the model: per Crypto Briefing, the bank successfully conducted a crypto-backed loan with mining firm AO Intelion Data in December of the prior year, giving management confidence in the collateral mechanism.",
+    "Anatoly Popov, deputy chairman of Sberbank's management board, stated that the bank is prepared to adapt its existing products once legislation comes fully into force, according to Crypto Briefing. Bitcoin will be available immediately under current rules, but Ethereum and Tether are subject to separate authorization. The bank is also working on crypto custody services to support the broader shift in digital assets' role within Russia's economy and international settlements.",
+    "Sberbank had anticipated regulatory changes and built practical experience in advance, per Crypto Briefing. The bank plans to gradually expand its digital-asset products, including lending secured by crypto holdings, as the regulatory environment solidifies. The specifics of collateral ratios, interest rates, and client rollout remain unreported in available coverage.",
+    "The Bank of Russia's authorization for Ethereum and Tether public circulation has not yet been confirmed, meaning the full suite of collateral options remains contingent on further regulatory approval. Sanctions implications and responses from Western authorities to Russian institutional crypto integration are not addressed in the available reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/sberbank-usdt-loan-collateral-russia/",
+      "url": "https://cryptobriefing.com/sberbank-usdt-loan-collateral-russia/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-29T15:17:32Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77936.05,
+        "chg_24h_pct": 0.15
+      },
+      {
+        "symbol": "ETH",
+        "price": 2444.7,
+        "chg_24h_pct": 0.09
+      }
+    ],
+    "fng": {
+      "value": 68,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.3,
+      "open_interest_usd": 2233994610
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -179272105,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
