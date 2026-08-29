@@ -1,0 +1,67 @@
+{
+  "id": "c082",
+  "slug": "bullish-commits-100m-stablecoin-facility-to-usd-ai-for-gpu-backed-loans",
+  "kind": "brief",
+  "title": "Bullish Commits $100M Stablecoin Facility to USD.AI for GPU-Backed Loans",
+  "dek": "Bullish has provided a $100 million stablecoin facility to USD.AI, a protocol financing GPU and AI infrastructure through collateralized loans. The facility expands on-chain lending into compute-hardware asset backing as demand for AI buildout capital rises.",
+  "date": "2026-08-29",
+  "published_utc": "2026-08-29T18:53:55Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "Bullish minted $100 million of sUSDai to fund GPU-backed loans through USD.AI, which held $265 million in loan reserves and $491.1 million in total value locked as of August 28, 2026.",
+  "bottom_line": "Watch for the pace of drawdowns against the $100 million facility and the performance of USD.AI's loan portfolio as GPU prices and utilization rates fluctuate. If defaults or collateral liquidations exceed protections built into the SPV structure, the model's assumptions about compute-asset credit quality will be tested publicly.",
+  "human_take": "",
+  "body": [
+    "Bullish, a crypto trading and infrastructure firm, has provided a $100 million stablecoin facility to USD.AI, a lending protocol that finances GPU and AI computing infrastructure through collateralized loans, according to reporting by The Defiant and Cointelegraph.",
+    "Bullish minted $100 million of sUSDai, a stablecoin representation, to capitalize the facility. As of 5 p.m. UTC on August 28, 2026, USD.AI held $265 million in loan reserves and $491.1 million in total value locked across its protocol, per on-chain verification reported by The Defiant.",
+    "The facility operates through a structured collateral framework. Borrowers establish a special-purpose vehicle (SPV) beneath a parent holding company, assigning GPUs, customer contracts, data-center agreements, and revenue accounts to that entity. USD.AI holds a first-priority claim over the SPV's assets and equity. When compute customers make contracted payments into the SPV's controlled revenue account, the SPV pays principal and interest to USD.AI before remaining revenue may be distributed to the operating company.",
+    "Fund deployment follows a three-stage gate. USD.AI places committed loan funds in escrow. Once servers are installed and independently verified as online, the escrow agent pays the equipment manufacturer or authorized supplier. This structure ties capital release to physical asset verification rather than upfront disbursement.",
+    "The bear case for asset-backed GPU lending is material. USD.AI documentation identifies borrower default, collateral depreciation, counterparty failure, enforcement delays, and liquidation losses as core risks. The SPV structure preserves lenders' claim on machines and contracts but cannot eliminate default scenarios entirely.",
+    "The Bullish facility enters a market now testing whether collateralized compute assets can sustain institutional lending as AI infrastructure buildout accelerates. Open questions include the expected drawdown schedule, interest rate terms, performance covenants that might allow Bullish to curtail the facility, enforceability of USD.AI's SPV claims across jurisdictions where hardware is deployed, and how GPU depreciation is factored into loan-to-value calculations and revaluation cadence."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/defi/bullish-provides-usd-ai-100-million-facility-for-gpu-backed-loans",
+      "url": "https://thedefiant.io/news/defi/bullish-provides-usd-ai-100-million-facility-for-gpu-backed-loans"
+    },
+    {
+      "title": "https://cointelegraph.com/news/bullish-provides-usdai-100m-stablecoin-facility-gpu-backed-loans?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/bullish-provides-usdai-100m-stablecoin-facility-gpu-backed-loans?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "update_of": "hyperliquid-s-revenue-decline-outpaces-trading-boom-as-fee-sharing-eats-into-token-backing",
+  "board_snapshot": {
+    "as_of": "2026-08-29T18:51:26Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78224.89,
+        "chg_24h_pct": 0.52
+      },
+      {
+        "symbol": "ETH",
+        "price": 2454.61,
+        "chg_24h_pct": 0.5
+      }
+    ],
+    "fng": {
+      "value": 68,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 2.7,
+      "open_interest_usd": 2238841611
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 176185469,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Cointelegraph"
+  ],
+  "developing": false
+}

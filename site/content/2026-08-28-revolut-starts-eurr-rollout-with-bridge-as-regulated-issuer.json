@@ -2,29 +2,28 @@
   "id": "c120",
   "slug": "revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer",
   "kind": "brief",
-  "title": "Revolut Starts EURR Rollout With Bridge as Regulated Issuer",
-  "dek": "Revolut began rolling out EURR, its euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal, with Bridge Building S.A. as the regulated issuer. The rollout brings the first branded onchain euro through a fintech app to Revolut's 75+ million-user base, with wider European availability expected later in 2026.",
+  "title": "Revolut Rolls Out EURR Stablecoin in Three European Markets",
+  "dek": "Revolut began distributing EURR, a euro-backed stablecoin issued by Bridge Building S.A., to selected customers in Denmark, Poland, and Portugal. Bridge is a Luxembourg-authorized electronic money institution owned by Stripe. Wider rollout across the European Economic Area is planned for later in 2026.",
   "date": "2026-08-28",
   "published_utc": "2026-08-28T21:16:52Z",
   "category": "news",
   "verdict": "VERIFIED",
   "rank": 11,
   "author": "Crypto Cronkite",
-  "key_fact": "EURR is issued by Bridge Building, a Luxembourg-licensed electronic money institution authorized on June 29, 2026, with all reported backing (EUR 374 as of Aug. 25) held as cash deposits in regulated credit institutions.",
-  "bottom_line": "Watch the circulation growth over the next two weeks as the rollout expands beyond the three pilot markets: the EUR 374 starting point is minimal compared to Circle's EUR 394.5 million, but Revolut's embedded distribution channel inside a fintech app with 75+ million potential users represents a structural advantage that does not depend on independent exchanges or bridges. The limiting factor is not infrastructure but adoption friction inside Revolut's product.",
+  "key_fact": "As of Aug. 28, approximately 250,961 EURR tokens are in circulation, fully backed by euro cash deposits in segregated accounts at regulated credit institutions.",
+  "bottom_line": "EURR's 250,961-token circulation against 2 million eligible users suggests adoption remains nascent despite Revolut's retail distribution advantage and 16 million existing crypto users. Watch for the timing and geographic scope of the announced later-2026 EEA rollout, and whether transfer volume and active addresses accelerate as access widens. A material lag in adoption relative to the user base would signal limited retail demand for onchain euros even when offered through a trusted fintech interface.",
   "human_take": "",
   "body": [
-    "Revolut began rolling out EURR, its euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal. Per The Defiant, Bridge Building S.A. serves as the regulated issuer and redemption counterparty, with Revolut Digital Assets Europe Ltd acting as the offeror and admitting EURR to trading on the Revolut X platform.",
-    "Bridge Building is authorized as an electronic money institution in Luxembourg, with authorization recorded by the Commission de Surveillance du Secteur Financier on June 29, 2026. Per The Defiant's verification of the regulator's active registry, Bridge also holds crypto-asset service provider status with custody, exchange and transfer permissions. According to The Defiant, Bridge is described by Revolut as a Stripe company.",
-    "URR is an e-money token under the European Union's Markets in Crypto-Assets framework, meaning it qualifies for regulatory treatment distinct from unregulated stablecoins. Per The Defiant, tokenholders have the right to redeem EURR at par against Bridge at any time, subject to applicable terms and redemption process.",
-    "Bridge's reserve page, reviewed by The Defiant, states that funds received for EURR are safeguarded in segregated accounts at regulated credit institutions or invested in eligible, highly liquid euro-denominated instruments. As of Aug. 25, Bridge reported EUR 374 in EURR circulation with EUR 374 in reserve assets, all held as cash deposits in credit institutions.",
-    "Users can move between euros, crypto, external wallets and supported blockchain networks. Per The Defiant, Bridge identifies Ethereum and Polygon as EURR deployment chains. Revolut expects wider EURR availability later in 2026 and said stablecoins tied to other currencies are also in development.",
-    "For comparison, Circle reported EUR 394.5 million of EURC in circulation as of Aug. 24, according to The Defiant. Circle's EURC is available on Avalanche, Base, Cronos, Ethereum, Solana, Stellar and World Chain, issued under an electronic money institution license from France's Autorit\u00e9 de Contr\u00f4le Prudentiel et de R\u00e9solution."
+    "Revolut began rolling out EURR, a euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal around Aug. 20, with phased expansion starting Aug. 26, according to The Defiant and Crypto Briefing. Bridge Building S.A., a Luxembourg-authorized electronic money institution owned by Stripe, serves as the legal issuer and redemption counterparty. Revolut Digital Assets Europe Ltd acts as the offeror and admits EURR to trading on its Revolut X platform.\nWider rollout across the European Economic Area is expected later in 2026.\nThe token is fully collateralized by euro cash held in segregated accounts at regulated credit institutions. Bridge's reserve page states funds received for EURR are safeguarded in such accounts or invested in eligible, highly liquid euro-denominated instruments. Tokenholders have the right to redeem EURR at par against Bridge at any time, subject to applicable terms and redemption process.\nERUR lives on Ethereum and Polygon, with plans to expand to additional chains. Users can move between euros, crypto, external wallets, and supported blockchain networks. Stablecoins tied to other currencies are in development.\nERUR is classified as an e-money token under the EU's Markets in Crypto-Assets (MiCA) framework. Bridge is authorized as an electronic money institution in Luxembourg by the Commission de Surveillance du Secteur Financier, with active listing as a crypto-asset service provider holding custody, exchange, and transfer permissions as of June 29, 2026.\nThe rollout occurs alongside Revolut's phase-out of Tether's USDT across the EEA and Switzerland, effective Aug. 31. According to Crypto Briefing, the USDT removal is driven by MiCA compliance requirements that Tether has struggled to meet in the European market. For context, Circle Internet Financial Europe SAS issues EURC under an electronic money institution license from France's Autorité de Contrôle Prudentiel et de Résolution. Circle reported 394.5 million EURC in circulation as of Aug. 24, identified on Avalanche, Base, Cronos, Ethereum, Solana, Stellar, and World Chain. The entire euro stablecoin market is estimated between 673 million and 826 million by Crypto Briefing."
   ],
   "sources": [
     {
       "title": "https://thedefiant.io/converge/tradfi-and-fintech/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer",
       "url": "https://thedefiant.io/converge/tradfi-and-fintech/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer"
+    },
+    {
+      "title": "https://cryptobriefing.com/revolut-eurr-stablecoin-launch/",
+      "url": "https://cryptobriefing.com/revolut-eurr-stablecoin-launch/"
     }
   ],
   "update_of": "hyperliquid-s-revenue-decline-outpaces-trading-boom-as-fee-sharing-eats-into-token-backing",
@@ -57,5 +56,20 @@
     }
   },
   "also_reported_by": [],
-  "developing": true
+  "developing": false,
+  "consolidated": "This story was updated in place with a better-sourced account of the same event, carrying 2 sources against the original 1. The earlier version was headlined “Revolut Starts EURR Rollout With Bridge as Regulated Issuer”. The URL and publication time are unchanged.",
+  "superseded_sources": [
+    {
+      "title": "https://thedefiant.io/converge/tradfi-and-fintech/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer",
+      "url": "https://thedefiant.io/converge/tradfi-and-fintech/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer"
+    }
+  ],
+  "updated_utc": "2026-08-29T18:53:55Z",
+  "merged_from": [
+    {
+      "id": "c078",
+      "title": "Revolut Rolls Out EURR Stablecoin in Three European Markets",
+      "published_utc": "2026-08-29T18:53:55Z"
+    }
+  ]
 }

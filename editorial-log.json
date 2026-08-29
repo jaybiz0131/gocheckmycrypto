@@ -1,40 +1,5 @@
 [
  {
-  "date": "2026-07-30",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c124",
-    "headline": "BitMine adds $73M in ETH, nearing 5% of supply threshold",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'BitMine Immersion Technologies, the NYSE-listed company chaired by Fundstrat's Tom Lee' but the brief data_point says confidence is 'reported' for Tom Lee being chair and 'reported' for NYSE ticker BMNR. The draft presents this as established fact without qualification, but the company name 'BitMine Immersion Technologies' does not appear in any brief data_point and ticker symbol verification is marked 'reported' not 'confirmed'\u2014the company identity itself may need inline attribution or confidence caveat.",
-     "Draft writes 'The $73 million figure and 4.8%-of-supply calculation were reported consistently across several independent market trackers monitoring BitMine's disclosure, per The Defiant' but this claim appears in the brief as a single data_point attributed only to The Defiant (not multiple independent trackers), with confidence 'reported'. The phrase 'several independent market trackers' is smuggled; the brief says The Defiant reported it, not that multiple trackers independently verified it.",
-     "All substantive holdings figures (42,197 ETH, 5,742,237 ETH, 206 BTC, $180M Beast stake, $71M Eightco stake, $527M cash, $1,800/coin valuation) carry confidence label 'announced-not-verified' in the brief, but the draft presents them as established facts without any hedging language. A claim marked 'announced-not-verified' must read that way in prose."
-    ]
-   },
-   {
-    "id": "c030",
-    "headline": "Senate sends revised Clarity Act ethics language to White House",
-    "category": "accuracy",
-    "reasons": [
-     "The brief is marked 'thin': true with 'source_chars': 0, indicating the source provided no usable content. The draft contains multiple claims not present in the data_points: 'ethics language within the bill has emerged as a sticking point' (appears in brief but not in data_points), 'two revisions have been submitted and rejected' (never appears in brief), 'Previous compromise attempts have failed, per The Block's reporting' (brief mentions 'trying again' but not explicit failure of prior attempts in data_points), and 'The Senate's decision to send a second revision' (assumes prior revision; brief only mentions current revision).",
-     "Draft states 'The nature of the specific ethical provisions in dispute is not publicly detailed' and 'the fact that two revisions have been submitted and rejected suggests'\u2014these are editorial inferences, not data from the brief. The brief contains zero data_points about content, number of revisions, or rejection details.",
-     "The open_questions section in the draft ('What specific ethics provisions triggered White House objections? Does the revised language materially change the bill's substance?') is presented as reportorial summary but these are the exact open_questions from the brief, not findings. This conflates the brief's unknowns with the draft's claimed knowledge."
-    ]
-   },
-   {
-    "id": "c143",
-    "headline": "Aviva Investors launches tokenized fund after Central Bank of Ireland approval",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Central Bank of Ireland approved a tokenized share class for a regulated USD liquidity fund' as fact, but the brief marks this data point with confidence 'announced-not-verified'. The draft must signal that this approval has been announced but not independently verified, not present it as settled fact.",
-     "The opening sentence 'Aviva Investors, a regulated asset manager, launched a tokenized share class...' presents the launch as confirmed when the core brief claim and lead data point only confirm the announcement/approval stage. The phrasing should reflect the unconfirmed status."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-07-31",
   "approved": 4,
   "rejected": [
@@ -7627,6 +7592,38 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'A January 2026 US-led operation that resulted in the ousting of former President Nicol\u00e1s Maduro.' This is a reputationally damaging claim about a named political figure (describing removal from office via a US-led operation) that appears to rest on a single secondary source (Crypto Briefing). The brief itself flags this as sourced to Crypto Briefing, a crypto-focused outlet, not a wire service or on-record primary source. A specific allegation of US involvement in overthrowing a named head of state requires more than one secondary source and should not run in the desk's own voice without direct attribution to the primary source of that claim (which is not provided in the brief or sources list). This violates the reputationally-damaging-claim rule."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-29",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c030",
+    "headline": "Ethereum ETFs Post Strongest Day in 10 Months",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with '$226 million in inflows on Thursday, marking their strongest single day in 10 months' but this is attributed only to Decrypt. The brief's data_points confirm both the $226M figure and the '10 months' claim from Decrypt. However, the draft then introduces a second factual claim: 'The desk's ETF flows board confirmed that Ethereum ETFs posted an inflow of $102.1 million on August 28 and showed a net inflow of $815.7 million over the last five trading sessions, with 10 consecutive same-direction days.' These specific figures ($102.1M, $815.7M, '10 consecutive same-direction days') DO NOT APPEAR in any data_point in the brief. The brief contains no reference to 'the desk's ETF flows board' as a source, no $102.1M figure, no $815.7M five-session figure, and no count of 'consecutive same-direction days.' The draft has smuggled external research into the story. This is a hard rule violation: facts must come from the brief.",
+     "The brief's bear_case is entirely absent from the draft. The bear_case notes that the source does not explain what drove the streak, does not provide fund-by-fund breakdown, and does not offer Bitcoin comparison context. The draft should either include these limitations or acknowledge them implicitly; instead, it presents a narrative of 'sustained institutional demand' and 'shift in institutional positioning' as though confirmed, when the brief itself contains no data_point justifying that characterization beyond raw inflow numbers."
+    ]
+   },
+   {
+    "id": "c089",
+    "headline": "Tokenized Equities See 415% Jump in Monthly Transfer Volume to $29.5B",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one source (Cointelegraph), but the title and body contain specific numbers (415%, $29.5B, 'more than doubled', 'exceeded two times growth') that must be verified against that source. The approver cannot access URLs to verify whether the Cointelegraph article actually reports these exact figures or whether the writer has paraphrased or modified them. Without a brief to anchor the claims or the ability to verify the source, this story cannot be approved under the hard rule that 'no fact exists outside the brief.' The writer should have provided a research brief with data_points extracted from the Cointelegraph article."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Quantum Threat Accelerates: CoinDesk Reports AI Model Breakthrough in Post-Quantum Cryptography Attack",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with a claim not present in the brief or the cited CoinDesk source: 'An Anthropic AI model has reduced the computational work required to break a leading post-quantum cryptography candidate by a factor of 67 million.' The brief's data_point does say this exact claim came from CoinDesk reporting, but the draft then immediately adds a second claim\u2014'The breakthrough has prompted migration efforts across major blockchain protocols to quantum-resistant signature schemes'\u2014which is the writer's own synthesis, not stated in the brief. The brief attributes only 'Bitcoin and Ethereum published their own migration plans this week' to CoinDesk; it does not claim CoinDesk reported that the Anthropic breakthrough 'prompted' those plans. This is a causal inference the writer introduced.",
+     "The draft later admits 'CoinDesk did not name the Anthropic model or provide details on the magnitude of attack-work reduction relative to current threat assessments,' which directly contradicts the opening sentence's authority. If CoinDesk did not provide those details, the writer cannot have confidence-qualified the claim to 'reported' level\u2014it must read as 'announced-not-verified' or carry explicit hedging. The draft presents a stark AI breakthrough as settled fact, then walks it back mid-story, creating reader confusion about what was actually reported."
     ]
    }
   ]
