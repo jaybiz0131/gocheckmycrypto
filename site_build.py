@@ -4323,6 +4323,30 @@ def build():
     # dateline reflects the newest content (or a neutral standing line), never a wall clock
     newest = next((i.get("date") for i in items if not i.get("example") and i.get("date")), None)
     dateline = fmt_date(newest).upper() if newest else "AN HONEST CRYPTO NEWS DESK"
+    # SAY IT WHEN THE NEWSROOM HAS NOT PUBLISHED TODAY (owner audit 2026-08-29). On 29 Aug
+    # the pipeline failed closed on a truncated researcher response, so the news layer
+    # froze at 28 Aug while the data desks, which refresh at DEPLOY time and never touch
+    # the pipeline, kept serving live 29 Aug prices. The page then read AUGUST 28 above a
+    # market that was plainly today's, and a reader had no way to tell which half was
+    # wrong. The audit asked for a build failure on that mismatch; that would be the wrong
+    # trade, because it takes the whole site down over a missed slot and punishes the
+    # reader for the desk's gap. Saying so is better than hiding it or dying: the masthead
+    # carries the real age of the newest story, the boards stay live and labelled, and the
+    # two no longer silently contradict each other.
+    _stale_note = ""
+    if newest:
+        try:
+            import datetime as _dt
+            _age_h = ((_dt.datetime.now(_dt.timezone.utc).date()
+                       - _dt.date.fromisoformat(newest)).days) * 24
+            if _age_h >= 24:
+                _days = _age_h // 24
+                _stale_note = (f"NEWEST STORY {_days} DAY{'S' if _days > 1 else ''} OLD - "
+                               f"THE MARKET BOARDS BELOW ARE LIVE")
+        except ValueError:
+            pass
+    if _stale_note:
+        dateline = f"{dateline} - {_stale_note}"
 
     import shutil
     if os.path.isdir(PUBLISH):
