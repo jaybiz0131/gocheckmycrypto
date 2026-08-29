@@ -4,38 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c004",
-    "headline": "Global Banks Complete Live Tokenized Cross-Border Payment Pilot Processing $1 Million",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The test involved five central banks and covered the U.S. dollar, euro, British pound, Japanese yen, Swiss franc and South Korean won' but the brief data_point says 'Project Agor\u00e1 involved five central banks and 28 commercial lenders'; the draft never explicitly states how many central banks participated or names them. The claim about five central banks is in the brief but the draft conflates this with the currency coverage in a way that obscures whether five CBs issued all six currencies.",
-     "Draft claims 'The pilot used tokenized central bank reserves and commercial bank deposits, two forms of traditional bank money' but this is interpretive framing not present in the brief's data_points, which state the pilot 'used tokenized central bank reserves and commercial bank deposits' without the characterization that these are 'two forms of traditional bank money.' This is a minor inference but pushes beyond reported fact."
-    ]
-   },
-   {
-    "id": "c128",
-    "headline": "BitMine adds $73 million in ETH, reaches 4.8% of supply",
-    "category": "accuracy",
-    "reasons": [
-     "The draft describes BitMine as a 'market maker' in the opening paragraph, but the brief and data identify it as a corporate blockchain investor and institutional asset holder. This mischaracterizes the company's primary business model and violates the accuracy requirement that facts trace to the brief."
-    ]
-   },
-   {
-    "id": "c043",
-    "headline": "Robinhood's prediction markets top crypto and equities revenue in Q2",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Robinhood's Q2 results offer a window into where retail capital is moving' and 'equities revenue' as a separate category, but the brief contains no data_point for equities revenue figures. The draft later admits 'the company also does not break out equities revenue separately,' creating internal contradiction and presenting as fact what is unconfirmed.",
-     "The draft states 'exceeding both cryptocurrency trading...and equities revenue' but the brief only confirms prediction markets ($156M) exceeded crypto ($100M). The equities comparison is smuggled\u2014not in the brief's data_points."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-30",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c124",
     "headline": "BitMine adds $73M in ETH, nearing 5% of supply threshold",
     "category": "accuracy",
@@ -7614,6 +7582,51 @@
     "reasons": [
      "The draft states 'The SEC filed 38 civil complaints' but the brief only confirms that Protos reported this on August 28. The brief does not contain an SEC press release, SEC filing, or SEC official statement as source material\u2014only secondary reporting from Protos. The claim that the SEC 'filed' these complaints reads as if confirmed by primary source when only a single secondary source (Protos) supports it. The desk rule forbids smuggling facts outside the brief; this fact exists in the brief only as 'reported' confidence, not verified.",
      "The draft states 'The SEC has not yet quantified investor losses' in the final paragraph. This is phrased as a present assertion about SEC action/inaction, but the brief's corresponding data_point says 'SEC has not quantified investor losses in the initial complaints'\u2014a narrow claim about what the complaints document contains, not about SEC knowledge overall. The draft broadens the claim beyond what the brief carries."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-29",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c128",
+    "headline": "Cosmos misjudged a critical bug for 4 months before hackers stole nearly $6 million across 6 chains",
+    "category": "compliance",
+    "reasons": [
+     "Brief carries boundary_required: true and boundary_ok: false with explicit flag 'this story turns on a version, date range or threshold but the brief carries no boundary block.' This is a procedural red flag that the story hinges on temporal or threshold claims without a boundary statement to delimit desk liability.",
+     "The story centers on timeline criticality: April 25 initial report \u2192 May 15 silent patch \u2192 August reassessment \u2192 August 19 patched releases \u2192 August 19-20 morning public disclosure \u2192 less than 12 hours to first exploitation. This exact sequence is the entire basis for the negligence claim ('four-month delay'), and no boundary statement exists to establish what constitutes timely/untimely response or whether these dates are fully verified vs. reconstructed.",
+     "The desk published without the procedural safety gate that the brief flagged as missing. This is not a fact-checking issue; it is a compliance gate that was set and ignored.",
+     "Desk rule: boundary_required=true + boundary_ok=false = do not publish without boundary block."
+    ]
+   },
+   {
+    "id": "c038",
+    "headline": "Ethereum ETFs Post $226M Inflow in Single Day, Strongest Session in 10 Months",
+    "category": "accuracy",
+    "reasons": [
+     "The draft introduces data from 'the desk's ETF flows board' ($102.1 million on August 28, $12.97 billion YTD, $815.7 million over five sessions, ten consecutive days) that does not appear in the research brief. The brief only cites Decrypt as the source for $226M Thursday inflow and $1.4B nine-session streak. All other figures are smuggled from an undocumented source.",
+     "The draft states 'Ethereum, the second-largest cryptocurrency by market capitalization, traded at $2,443.26' and provides specific Bitcoin price and percentage moves with no source attribution. These price points and market-cap claims are not in the brief."
+    ]
+   },
+   {
+    "id": "c131",
+    "headline": "Spot XRP ETFs Post Strongest Weekly Inflow of 2026",
+    "category": "accuracy",
+    "reasons": [
+     "Brief explicitly flags source unavailability: 'The primary source (BeInCrypto URL) returned a 403 error; all data points derive from the snippet alone, not fetched source text.' This is a red flag that facts have not been independently verified against the original source.",
+     "Brief marks thin=true with open_questions noting 'Whether this inflow surge is sustained or a one-week spike is not addressed in available sources.' The story treats the $110.49M figure as a fact, but the brief does not contain independent on-chain or third-party verification of this number.",
+     "The desk's hard rule is 'no fact exists outside the brief.' The brief itself is thin (few data_points) because the source URL is broken. Publishing from a broken source via a secondary snippet violates the verification standard.",
+     "Market data claim ('XRP itself was up 0.67 percent on the day and 26.02 percent over the week as of August 29, per the desk's market data') is not in the brief at all. This is smuggled sourcing\u2014the desk's own price feed is not the research brief."
+    ]
+   },
+   {
+    "id": "c169",
+    "headline": "US Secures Majority Control of Venezuelan Oil Reserves in 100-Year Joint Venture",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A January 2026 US-led operation that resulted in the ousting of former President Nicol\u00e1s Maduro.' This is a reputationally damaging claim about a named political figure (describing removal from office via a US-led operation) that appears to rest on a single secondary source (Crypto Briefing). The brief itself flags this as sourced to Crypto Briefing, a crypto-focused outlet, not a wire service or on-record primary source. A specific allegation of US involvement in overthrowing a named head of state requires more than one secondary source and should not run in the desk's own voice without direct attribution to the primary source of that claim (which is not provided in the brief or sources list). This violates the reputationally-damaging-claim rule."
     ]
    }
   ]

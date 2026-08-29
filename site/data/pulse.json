@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-29",
-  "generated_utc": "2026-08-29T15:17:32Z",
+  "generated_utc": "2026-08-29T15:37:27Z",
   "note": "Free public market data, computed with standard formulas at build time: sentiment from alternative.me, prices from CoinGecko, stablecoin float from DefiLlama, Bitcoin network data from mempool.space. Market data, not news, not advice.",
   "fng": {
     "value": 68,
@@ -106,17 +106,17 @@
     {
       "symbol": "BTC",
       "name": "bitcoin",
-      "price": 77936.05,
-      "chg_24h_pct": 0.15,
-      "rsi14": 70.9,
+      "price": 77852.63,
+      "chg_24h_pct": 0.04,
+      "rsi14": 70.8,
       "macd_above_signal": true,
-      "sma50": 66998.85,
-      "sma200": 69289.2,
+      "sma50": 66997.18,
+      "sma200": 69288.78,
       "above_sma200": true,
       "golden_cross": false,
-      "pct_from_high_12m": -37.5,
+      "pct_from_high_12m": -37.6,
       "high_12m_usd": 124739.81,
-      "vol30_pct": 44.0,
+      "vol30_pct": 44.1,
       "spark": [
         71320.293065,
         66727.264155,
@@ -181,7 +181,7 @@
         78973.886936,
         79018.034058,
         80268.374747,
-        77936.049868
+        77852.633643
       ],
       "spark_sma50": [
         77248.745497,
@@ -247,7 +247,7 @@
         65465.51208,
         66069.366529,
         66429.791415,
-        66998.850622
+        66997.182297
       ],
       "spark_sma200": [
         79360.362362,
@@ -313,7 +313,7 @@
         69066.09311,
         69156.147924,
         69205.499373,
-        69289.198344
+        69288.781263
       ],
       "spark_high": 80268.37,
       "spark_low": 58566.09,
@@ -325,11 +325,11 @@
     {
       "symbol": "ETH",
       "name": "ethereum",
-      "price": 2444.7,
-      "chg_24h_pct": 0.09,
+      "price": 2443.26,
+      "chg_24h_pct": 0.03,
       "rsi14": 70.2,
       "macd_above_signal": true,
-      "sma50": 2004.5,
+      "sma50": 2004.48,
       "sma200": 2019.59,
       "above_sma200": true,
       "golden_cross": false,
@@ -400,7 +400,7 @@
         2481.879431,
         2506.343106,
         2511.461241,
-        2444.704231
+        2443.255598
       ],
       "spark_sma50": [
         2238.489309,
@@ -466,7 +466,7 @@
         1934.604791,
         1962.176285,
         1977.560521,
-        2004.504061
+        2004.475088
       ],
       "spark_sma200": [
         2490.815222,
@@ -532,7 +532,7 @@
         2009.681758,
         2013.704724,
         2015.799893,
-        2019.594316
+        2019.587073
       ],
       "spark_high": 2514.97,
       "spark_low": 1566.01,
@@ -544,9 +544,9 @@
     {
       "symbol": "SOL",
       "name": "solana",
-      "price": 105.09,
-      "chg_24h_pct": 0.94,
-      "rsi14": 75.2,
+      "price": 104.98,
+      "chg_24h_pct": 0.83,
+      "rsi14": 75.1,
       "macd_above_signal": true,
       "sma50": 80.16,
       "sma200": 81.7,
@@ -619,7 +619,7 @@
         98.867219,
         102.048904,
         109.177306,
-        105.090276
+        104.97882
       ],
       "spark_sma50": [
         86.358173,
@@ -685,7 +685,7 @@
         77.747357,
         78.470373,
         79.098142,
-        80.161009
+        80.15878
       ],
       "spark_sma200": [
         104.142921,
@@ -751,7 +751,7 @@
         81.272818,
         81.393339,
         81.503046,
-        81.70017
+        81.699613
       ],
       "spark_high": 109.18,
       "spark_low": 62.18,
@@ -763,15 +763,15 @@
     {
       "symbol": "XRP",
       "name": "ripple",
-      "price": 1.3948,
-      "chg_24h_pct": 0.82,
-      "rsi14": 65.3,
+      "price": 1.3927,
+      "chg_24h_pct": 0.67,
+      "rsi14": 65.2,
       "macd_above_signal": true,
       "sma50": 1.14,
       "sma200": 1.28,
       "above_sma200": true,
       "golden_cross": false,
-      "pct_from_high_12m": -55.3,
+      "pct_from_high_12m": -55.4,
       "high_12m_usd": 3.1214,
       "vol30_pct": 83.2,
       "spark": [
@@ -838,7 +838,7 @@
         1.480402,
         1.422487,
         1.453606,
-        1.394798
+        1.392726
       ],
       "spark_sma50": [
         1.394514,
@@ -904,7 +904,7 @@
         1.106846,
         1.118854,
         1.126123,
-        1.137753
+        1.137712
       ],
       "spark_sma200": [
         1.645529,
@@ -970,7 +970,7 @@
         1.278561,
         1.278393,
         1.278455,
-        1.27811
+        1.2781
       ],
       "spark_high": 1.52,
       "spark_low": 0.99,
@@ -982,11 +982,11 @@
     {
       "symbol": "BNB",
       "name": "binancecoin",
-      "price": 691.13,
-      "chg_24h_pct": -0.03,
-      "rsi14": 68.5,
+      "price": 690.3,
+      "chg_24h_pct": -0.15,
+      "rsi14": 68.1,
       "macd_above_signal": true,
-      "sma50": 607.66,
+      "sma50": 607.65,
       "sma200": 617.12,
       "above_sma200": true,
       "golden_cross": false,
@@ -1057,7 +1057,7 @@
         704.093585,
         707.479637,
         712.050388,
-        691.127237
+        690.297297
       ],
       "spark_sma50": [
         644.662119,
@@ -1123,7 +1123,7 @@
         595.214126,
         600.004202,
         602.881342,
-        607.661658
+        607.645059
       ],
       "spark_sma200": [
         733.696128,
@@ -1189,7 +1189,7 @@
         615.631097,
         616.132522,
         616.492244,
-        617.122912
+        617.118763
       ],
       "spark_high": 712.05,
       "spark_low": 545.86,
@@ -1201,17 +1201,17 @@
     {
       "symbol": "DOGE",
       "name": "dogecoin",
-      "price": 0.0853,
-      "chg_24h_pct": 0.14,
-      "rsi14": 60.0,
+      "price": 0.0851,
+      "chg_24h_pct": -0.1,
+      "rsi14": 59.7,
       "macd_above_signal": true,
       "sma50": 0.07,
       "sma200": 0.09,
       "above_sma200": false,
       "golden_cross": false,
-      "pct_from_high_12m": -70.5,
+      "pct_from_high_12m": -70.6,
       "high_12m_usd": 0.2893,
-      "vol30_pct": 66.6,
+      "vol30_pct": 66.7,
       "spark": [
         0.10094,
         0.092615,
@@ -1276,7 +1276,7 @@
         0.090053,
         0.08768,
         0.089144,
-        0.08534
+        0.085142
       ],
       "spark_sma50": [
         0.103338,
@@ -1342,7 +1342,7 @@
         0.073219,
         0.07367,
         0.074006,
-        0.074479
+        0.074475
       ],
       "spark_sma200": [
         0.114027,
@@ -1408,7 +1408,7 @@
         0.089402,
         0.089285,
         0.089243,
-        0.08915
+        0.089149
       ],
       "spark_high": 0.1,
       "spark_low": 0.07,
@@ -1420,17 +1420,17 @@
     {
       "symbol": "ADA",
       "name": "cardano",
-      "price": 0.202,
-      "chg_24h_pct": -0.56,
-      "rsi14": 53.1,
+      "price": 0.2008,
+      "chg_24h_pct": -1.11,
+      "rsi14": 52.4,
       "macd_above_signal": false,
       "sma50": 0.18,
       "sma200": 0.23,
       "above_sma200": false,
       "golden_cross": false,
-      "pct_from_high_12m": -78.3,
+      "pct_from_high_12m": -78.4,
       "high_12m_usd": 0.9304,
-      "vol30_pct": 78.3,
+      "vol30_pct": 78.5,
       "spark": [
         0.230816,
         0.212656,
@@ -1495,7 +1495,7 @@
         0.221429,
         0.212376,
         0.213796,
-        0.201961
+        0.200835
       ],
       "spark_sma50": [
         0.251423,
@@ -1561,7 +1561,7 @@
         0.179592,
         0.18085,
         0.181787,
-        0.183226
+        0.183203
       ],
       "spark_sma200": [
         0.319142,
@@ -1627,7 +1627,7 @@
         0.226914,
         0.226207,
         0.225792,
-        0.225154
+        0.225148
       ],
       "spark_high": 0.23,
       "spark_low": 0.14,
@@ -1745,105 +1745,105 @@
     ],
     "gainers": [
       {
+        "symbol": "GNO",
+        "name": "Gnosis",
+        "price": 131.58,
+        "chg_24h_pct": 8.56,
+        "mcap_usd": 346830148,
+        "rank": 120,
+        "gecko_id": "gnosis"
+      },
+      {
         "symbol": "DASH",
         "name": "Dash",
-        "price": 42.07,
-        "chg_24h_pct": 8.79,
-        "mcap_usd": 539379703,
+        "price": 41.81,
+        "chg_24h_pct": 8.08,
+        "mcap_usd": 535948278,
         "rank": 100,
         "gecko_id": "dash"
       },
       {
         "symbol": "ICP",
         "name": "Internet Computer",
-        "price": 2.53,
-        "chg_24h_pct": 4.61,
-        "mcap_usd": 1406045062,
+        "price": 2.52,
+        "chg_24h_pct": 4.43,
+        "mcap_usd": 1402334019,
         "rank": 59,
         "gecko_id": "internet-computer"
       },
       {
         "symbol": "ZEC",
         "name": "Zcash",
-        "price": 838.59,
-        "chg_24h_pct": 3.53,
-        "mcap_usd": 14175082234,
+        "price": 836.47,
+        "chg_24h_pct": 3.06,
+        "mcap_usd": 14139565100,
         "rank": 11,
         "gecko_id": "zcash"
       },
       {
         "symbol": "CC",
         "name": "Canton",
-        "price": 0.11627,
-        "chg_24h_pct": 3.17,
-        "mcap_usd": 4586276575,
+        "price": 0.116221,
+        "chg_24h_pct": 2.93,
+        "mcap_usd": 4585789123,
         "rank": 23,
         "gecko_id": "canton-network"
-      },
-      {
-        "symbol": "\u5e01\u5b89\u4eba\u751f",
-        "name": "\u5e01\u5b89\u4eba\u751f (BinanceLife)",
-        "price": 0.512044,
-        "chg_24h_pct": 3.0,
-        "mcap_usd": 512043643,
-        "rank": 102,
-        "gecko_id": "bianrensheng"
       }
     ],
     "losers": [
       {
-        "symbol": "STX",
-        "name": "Stacks",
-        "price": 0.247071,
-        "chg_24h_pct": -7.66,
-        "mcap_usd": 460096739,
-        "rank": 111,
-        "gecko_id": "blockstack"
-      },
-      {
-        "symbol": "SPX",
-        "name": "SPX6900",
-        "price": 0.52828,
-        "chg_24h_pct": -7.31,
-        "mcap_usd": 491821980,
-        "rank": 105,
-        "gecko_id": "spx6900"
-      },
-      {
         "symbol": "ENA",
         "name": "Ethena",
-        "price": 0.158073,
-        "chg_24h_pct": -6.95,
-        "mcap_usd": 1553559563,
+        "price": 0.156632,
+        "chg_24h_pct": -9.46,
+        "mcap_usd": 1539195770,
         "rank": 54,
         "gecko_id": "ethena"
       },
       {
-        "symbol": "INJ",
-        "name": "Injective",
-        "price": 5.07,
-        "chg_24h_pct": -5.98,
-        "mcap_usd": 507038823,
-        "rank": 103,
-        "gecko_id": "injective-protocol"
+        "symbol": "SPX",
+        "name": "SPX6900",
+        "price": 0.522304,
+        "chg_24h_pct": -9.31,
+        "mcap_usd": 486496264,
+        "rank": 105,
+        "gecko_id": "spx6900"
+      },
+      {
+        "symbol": "STX",
+        "name": "Stacks",
+        "price": 0.246555,
+        "chg_24h_pct": -8.57,
+        "mcap_usd": 459802641,
+        "rank": 112,
+        "gecko_id": "blockstack"
       },
       {
         "symbol": "JUP",
         "name": "Jupiter",
-        "price": 0.219677,
-        "chg_24h_pct": -5.98,
-        "mcap_usd": 729395531,
+        "price": 0.219273,
+        "chg_24h_pct": -6.49,
+        "mcap_usd": 728017043,
         "rank": 86,
         "gecko_id": "jupiter-exchange-solana"
+      },
+      {
+        "symbol": "INJ",
+        "name": "Injective",
+        "price": 5.06,
+        "chg_24h_pct": -5.7,
+        "mcap_usd": 506116756,
+        "rank": 103,
+        "gecko_id": "injective-protocol"
       }
     ],
     "top100": [
       {
         "symbol": "BTC",
         "name": "Bitcoin",
-        "price": 77949,
-        "chg_24h_pct": -1.83,
-        "mcap_usd": 1564968398665,
+        "price": 77854,
+        "chg_24h_pct": -1.71,
+        "mcap_usd": 1563056144231,
         "rank": 1,
         "gecko_id": "bitcoin",
         "spark7d": [
@@ -1880,9 +1880,9 @@
       {
         "symbol": "ETH",
         "name": "Ethereum",
-        "price": 2445.15,
-        "chg_24h_pct": -2.45,
-        "mcap_usd": 295083689050,
+        "price": 2443.31,
+        "chg_24h_pct": -2.5,
+        "mcap_usd": 294855041935,
         "rank": 2,
         "gecko_id": "ethereum",
         "spark7d": [
@@ -1921,7 +1921,7 @@
         "name": "Tether",
         "price": 1.0,
         "chg_24h_pct": -0.01,
-        "mcap_usd": 183414386463,
+        "mcap_usd": 183415857470,
         "rank": 3,
         "gecko_id": "tether",
         "spark7d": [
@@ -1959,8 +1959,8 @@
         "symbol": "XRP",
         "name": "XRP",
         "price": 1.39,
-        "chg_24h_pct": -2.11,
-        "mcap_usd": 87484461328,
+        "chg_24h_pct": -1.97,
+        "mcap_usd": 87385929915,
         "rank": 5,
         "gecko_id": "ripple",
         "spark7d": [
@@ -1999,7 +1999,7 @@
         "name": "USDC",
         "price": 0.999982,
         "chg_24h_pct": -0.01,
-        "mcap_usd": 74065074188,
+        "mcap_usd": 74065512564,
         "rank": 6,
         "gecko_id": "usd-coin",
         "spark7d": [
@@ -2036,9 +2036,9 @@
       {
         "symbol": "SOL",
         "name": "Solana",
-        "price": 105.03,
-        "chg_24h_pct": -1.1,
-        "mcap_usd": 61354310347,
+        "price": 104.97,
+        "chg_24h_pct": -1.36,
+        "mcap_usd": 61321543564,
         "rank": 7,
         "gecko_id": "solana",
         "spark7d": [
@@ -2075,9 +2075,9 @@
       {
         "symbol": "TRX",
         "name": "TRON",
-        "price": 0.338349,
-        "chg_24h_pct": -0.69,
-        "mcap_usd": 32117317977,
+        "price": 0.338223,
+        "chg_24h_pct": -0.81,
+        "mcap_usd": 32111527942,
         "rank": 8,
         "gecko_id": "tron",
         "spark7d": [
@@ -2114,9 +2114,9 @@
       {
         "symbol": "HYPE",
         "name": "Hyperliquid",
-        "price": 82.88,
-        "chg_24h_pct": -1.16,
-        "mcap_usd": 18436328458,
+        "price": 83.03,
+        "chg_24h_pct": -0.58,
+        "mcap_usd": 18474888192,
         "rank": 10,
         "gecko_id": "hyperliquid",
         "spark7d": [
@@ -2153,9 +2153,9 @@
       {
         "symbol": "ZEC",
         "name": "Zcash",
-        "price": 838.59,
-        "chg_24h_pct": 3.53,
-        "mcap_usd": 14175082234,
+        "price": 836.47,
+        "chg_24h_pct": 3.06,
+        "mcap_usd": 14139565100,
         "rank": 11,
         "gecko_id": "zcash",
         "spark7d": [
@@ -2192,9 +2192,9 @@
       {
         "symbol": "DOGE",
         "name": "Dogecoin",
-        "price": 0.085321,
-        "chg_24h_pct": -2.09,
-        "mcap_usd": 13283975107,
+        "price": 0.08515,
+        "chg_24h_pct": -2.22,
+        "mcap_usd": 13256065882,
         "rank": 12,
         "gecko_id": "dogecoin",
         "spark7d": [
@@ -2231,9 +2231,9 @@
       {
         "symbol": "RAIN",
         "name": "Rain",
-        "price": 0.01764019,
-        "chg_24h_pct": -2.44,
-        "mcap_usd": 12510275084,
+        "price": 0.01764126,
+        "chg_24h_pct": -2.78,
+        "mcap_usd": 12512108051,
         "rank": 13,
         "gecko_id": "rain",
         "spark7d": [
@@ -2272,7 +2272,7 @@
         "name": "LEO Token",
         "price": 9.65,
         "chg_24h_pct": 1.86,
-        "mcap_usd": 8873806449,
+        "mcap_usd": 8873820208,
         "rank": 15,
         "gecko_id": "leo-token",
         "spark7d": [
@@ -2309,9 +2309,9 @@
       {
         "symbol": "XMR",
         "name": "Monero",
-        "price": 465.67,
-        "chg_24h_pct": -1.53,
-        "mcap_usd": 8753429493,
+        "price": 465.38,
+        "chg_24h_pct": -2.05,
+        "mcap_usd": 8749475601,
         "rank": 16,
         "gecko_id": "monero",
         "spark7d": [
@@ -2348,9 +2348,9 @@
       {
         "symbol": "LINK",
         "name": "Chainlink",
-        "price": 11.43,
-        "chg_24h_pct": -2.56,
-        "mcap_usd": 8550520180,
+        "price": 11.38,
+        "chg_24h_pct": -3.38,
+        "mcap_usd": 8510924997,
         "rank": 17,
         "gecko_id": "chainlink",
         "spark7d": [
@@ -2387,9 +2387,9 @@
       {
         "symbol": "WBT",
         "name": "WhiteBIT Coin",
-        "price": 71.86,
-        "chg_24h_pct": -1.83,
-        "mcap_usd": 8475969207,
+        "price": 71.78,
+        "chg_24h_pct": -1.8,
+        "mcap_usd": 8467436703,
         "rank": 18,
         "gecko_id": "whitebit",
         "spark7d": [
@@ -2426,9 +2426,9 @@
       {
         "symbol": "ADA",
         "name": "Cardano",
-        "price": 0.201957,
-        "chg_24h_pct": -3.23,
-        "mcap_usd": 7573113453,
+        "price": 0.200758,
+        "chg_24h_pct": -3.76,
+        "mcap_usd": 7529907044,
         "rank": 19,
         "gecko_id": "cardano",
         "spark7d": [
@@ -2465,9 +2465,9 @@
       {
         "symbol": "XLM",
         "name": "Stellar",
-        "price": 0.179378,
-        "chg_24h_pct": -1.64,
-        "mcap_usd": 6221804274,
+        "price": 0.17901,
+        "chg_24h_pct": -1.7,
+        "mcap_usd": 6208380751,
         "rank": 20,
         "gecko_id": "stellar",
         "spark7d": [
@@ -2504,9 +2504,9 @@
       {
         "symbol": "BCH",
         "name": "Bitcoin Cash",
-        "price": 246.13,
-        "chg_24h_pct": -2.95,
-        "mcap_usd": 4942773564,
+        "price": 244.72,
+        "chg_24h_pct": -3.51,
+        "mcap_usd": 4915512650,
         "rank": 21,
         "gecko_id": "bitcoin-cash",
         "spark7d": [
@@ -2543,9 +2543,9 @@
       {
         "symbol": "DAI",
         "name": "Dai",
-        "price": 1.0,
-        "chg_24h_pct": 0.03,
-        "mcap_usd": 4602413559,
+        "price": 0.999976,
+        "chg_24h_pct": 0.01,
+        "mcap_usd": 4602368574,
         "rank": 22,
         "gecko_id": "dai",
         "spark7d": [
@@ -2582,9 +2582,9 @@
       {
         "symbol": "CC",
         "name": "Canton",
-        "price": 0.11627,
-        "chg_24h_pct": 3.17,
-        "mcap_usd": 4586276575,
+        "price": 0.116221,
+        "chg_24h_pct": 2.93,
+        "mcap_usd": 4585789123,
         "rank": 23,
         "gecko_id": "canton-network",
         "spark7d": [
@@ -2621,9 +2621,9 @@
       {
         "symbol": "USD1",
         "name": "USD1",
-        "price": 0.999617,
+        "price": 0.999702,
         "chg_24h_pct": -0.03,
-        "mcap_usd": 4146949295,
+        "mcap_usd": 4147381931,
         "rank": 24,
         "gecko_id": "usd1-wlfi",
         "spark7d": [
@@ -2660,9 +2660,9 @@
       {
         "symbol": "USDE",
         "name": "Ethena USDe",
-        "price": 0.999977,
+        "price": 0.999976,
         "chg_24h_pct": -0.0,
-        "mcap_usd": 4067233034,
+        "mcap_usd": 4067220273,
         "rank": 25,
         "gecko_id": "ethena-usde",
         "spark7d": [
@@ -2699,9 +2699,9 @@
       {
         "symbol": "LTC",
         "name": "Litecoin",
-        "price": 49.15,
-        "chg_24h_pct": 0.02,
-        "mcap_usd": 3811633786,
+        "price": 49.05,
+        "chg_24h_pct": -0.41,
+        "mcap_usd": 3804272812,
         "rank": 26,
         "gecko_id": "litecoin",
         "spark7d": [
@@ -2739,8 +2739,8 @@
         "symbol": "GRAM",
         "name": "Gram (prev. Toncoin)",
         "price": 1.36,
-        "chg_24h_pct": -2.59,
-        "mcap_usd": 3766986393,
+        "chg_24h_pct": -2.64,
+        "mcap_usd": 3762604997,
         "rank": 27,
         "gecko_id": "the-open-network",
         "spark7d": [
@@ -2778,8 +2778,8 @@
         "symbol": "USDG",
         "name": "Global Dollar",
         "price": 1.0,
-        "chg_24h_pct": 0.01,
-        "mcap_usd": 3330486578,
+        "chg_24h_pct": 0.0,
+        "mcap_usd": 3330392829,
         "rank": 28,
         "gecko_id": "global-dollar",
         "spark7d": [
@@ -2816,9 +2816,9 @@
       {
         "symbol": "HBAR",
         "name": "Hedera",
-        "price": 0.075545,
-        "chg_24h_pct": -2.3,
-        "mcap_usd": 3311254063,
+        "price": 0.075431,
+        "chg_24h_pct": -2.36,
+        "mcap_usd": 3306260441,
         "rank": 29,
         "gecko_id": "hedera-hashgraph",
         "spark7d": [
@@ -2855,9 +2855,9 @@
       {
         "symbol": "AVAX",
         "name": "Avalanche",
-        "price": 7.34,
-        "chg_24h_pct": -0.89,
-        "mcap_usd": 3170326065,
+        "price": 7.33,
+        "chg_24h_pct": -1.19,
+        "mcap_usd": 3162491673,
         "rank": 30,
         "gecko_id": "avalanche-2",
         "spark7d": [
@@ -2892,51 +2892,12 @@
         ]
       },
       {
-        "symbol": "SHIB",
-        "name": "Shiba Inu",
-        "price": 5.16e-06,
-        "chg_24h_pct": -2.67,
-        "mcap_usd": 3042015061,
-        "rank": 31,
-        "gecko_id": "shiba-inu",
-        "spark7d": [
-          5e-06,
-          6e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          6e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06,
-          5e-06
-        ]
-      },
-      {
         "symbol": "SUI",
         "name": "Sui",
-        "price": 0.745553,
-        "chg_24h_pct": -2.31,
-        "mcap_usd": 3037777101,
-        "rank": 32,
+        "price": 0.744081,
+        "chg_24h_pct": -2.74,
+        "mcap_usd": 3031446847,
+        "rank": 31,
         "gecko_id": "sui",
         "spark7d": [
           0.817738,
@@ -2970,50 +2931,89 @@
         ]
       },
       {
-        "symbol": "UNI",
-        "name": "Uniswap",
-        "price": 4.5,
-        "chg_24h_pct": -1.95,
-        "mcap_usd": 2803151724,
-        "rank": 34,
-        "gecko_id": "uniswap",
+        "symbol": "SHIB",
+        "name": "Shiba Inu",
+        "price": 5.14e-06,
+        "chg_24h_pct": -3.28,
+        "mcap_usd": 3032562873,
+        "rank": 32,
+        "gecko_id": "shiba-inu",
         "spark7d": [
-          4.225378,
-          4.366949,
-          4.229612,
-          4.140788,
-          4.501586,
-          4.56864,
-          4.418108,
-          4.356512,
-          4.314643,
-          4.307353,
-          4.367313,
-          4.362411,
-          4.355552,
-          4.287663,
-          4.263256,
-          4.306019,
-          4.202415,
-          4.379796,
-          4.377224,
-          4.456922,
-          4.610668,
-          4.684914,
-          4.661256,
-          4.581711,
-          4.377523,
-          4.424778,
-          4.411967,
-          4.407269
+          5e-06,
+          6e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          6e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06,
+          5e-06
+        ]
+      },
+      {
+        "symbol": "PYUSD",
+        "name": "PayPal USD",
+        "price": 0.999963,
+        "chg_24h_pct": -0.01,
+        "mcap_usd": 2800726282,
+        "rank": 34,
+        "gecko_id": "paypal-usd",
+        "spark7d": [
+          0.99984,
+          0.999894,
+          0.999941,
+          0.999961,
+          0.999791,
+          0.999842,
+          0.999946,
+          0.99982,
+          0.999763,
+          0.999746,
+          0.999797,
+          0.999868,
+          1.000014,
+          0.999966,
+          0.999871,
+          0.999966,
+          0.999895,
+          0.999958,
+          0.99989,
+          0.999804,
+          0.999958,
+          1.00007,
+          0.999965,
+          0.99996,
+          0.99973,
+          0.999974,
+          0.999924,
+          0.999964
         ]
       },
       {
         "symbol": "CRO",
         "name": "Cronos",
-        "price": 0.057769,
-        "chg_24h_pct": -1.68,
-        "mcap_usd": 2803029606,
+        "price": 0.057697,
+        "chg_24h_pct": -1.93,
+        "mcap_usd": 2799482179,
         "rank": 35,
         "gecko_id": "crypto-com-chain",
         "spark7d": [
@@ -3048,50 +3048,50 @@
         ]
       },
       {
-        "symbol": "PYUSD",
-        "name": "PayPal USD",
-        "price": 1.0,
-        "chg_24h_pct": -0.01,
-        "mcap_usd": 2800979586,
+        "symbol": "UNI",
+        "name": "Uniswap",
+        "price": 4.49,
+        "chg_24h_pct": -1.66,
+        "mcap_usd": 2796924142,
         "rank": 36,
-        "gecko_id": "paypal-usd",
+        "gecko_id": "uniswap",
         "spark7d": [
-          0.99984,
-          0.999894,
-          0.999941,
-          0.999961,
-          0.999791,
-          0.999842,
-          0.999946,
-          0.99982,
-          0.999763,
-          0.999746,
-          0.999797,
-          0.999868,
-          1.000014,
-          0.999966,
-          0.999871,
-          0.999966,
-          0.999895,
-          0.999958,
-          0.99989,
-          0.999804,
-          0.999958,
-          1.00007,
-          0.999965,
-          0.99996,
-          0.99973,
-          0.999974,
-          0.999924,
-          0.999964
+          4.225378,
+          4.366949,
+          4.229612,
+          4.140788,
+          4.501586,
+          4.56864,
+          4.418108,
+          4.356512,
+          4.314643,
+          4.307353,
+          4.367313,
+          4.362411,
+          4.355552,
+          4.287663,
+          4.263256,
+          4.306019,
+          4.202415,
+          4.379796,
+          4.377224,
+          4.456922,
+          4.610668,
+          4.684914,
+          4.661256,
+          4.581711,
+          4.377523,
+          4.424778,
+          4.411967,
+          4.407269
         ]
       },
       {
         "symbol": "XAUT",
         "name": "Tether Gold",
-        "price": 4457.1,
-        "chg_24h_pct": -2.0,
-        "mcap_usd": 2731414443,
+        "price": 4456.93,
+        "chg_24h_pct": -1.97,
+        "mcap_usd": 2731314403,
         "rank": 38,
         "gecko_id": "tether-gold",
         "spark7d": [
@@ -3129,8 +3129,8 @@
         "symbol": "NEAR",
         "name": "NEAR Protocol",
         "price": 1.85,
-        "chg_24h_pct": -1.16,
-        "mcap_usd": 2408324474,
+        "chg_24h_pct": -1.4,
+        "mcap_usd": 2411238623,
         "rank": 39,
         "gecko_id": "near",
         "spark7d": [
@@ -3165,51 +3165,12 @@
         ]
       },
       {
-        "symbol": "OKB",
-        "name": "OKB",
-        "price": 112.93,
-        "chg_24h_pct": 0.41,
-        "mcap_usd": 2371552061,
-        "rank": 40,
-        "gecko_id": "okb",
-        "spark7d": [
-          110.035345,
-          111.137055,
-          110.861989,
-          108.526905,
-          109.953891,
-          110.508451,
-          111.739368,
-          113.893944,
-          114.580926,
-          114.798159,
-          117.416973,
-          114.990032,
-          114.158571,
-          113.989711,
-          113.792419,
-          114.066479,
-          109.757213,
-          113.161062,
-          112.03133,
-          113.17082,
-          114.639836,
-          113.675722,
-          113.07869,
-          112.892398,
-          108.444472,
-          110.472827,
-          110.398639,
-          111.767441
-        ]
-      },
-      {
         "symbol": "M",
         "name": "MemeCore",
-        "price": 1.035,
-        "chg_24h_pct": -0.17,
-        "mcap_usd": 2346098778,
-        "rank": 41,
+        "price": 1.052,
+        "chg_24h_pct": 2.04,
+        "mcap_usd": 2384473124,
+        "rank": 40,
         "gecko_id": "memecore",
         "spark7d": [
           1.110373,
@@ -3243,11 +3204,50 @@
         ]
       },
       {
+        "symbol": "OKB",
+        "name": "OKB",
+        "price": 112.68,
+        "chg_24h_pct": 0.46,
+        "mcap_usd": 2366216363,
+        "rank": 41,
+        "gecko_id": "okb",
+        "spark7d": [
+          110.035345,
+          111.137055,
+          110.861989,
+          108.526905,
+          109.953891,
+          110.508451,
+          111.739368,
+          113.893944,
+          114.580926,
+          114.798159,
+          117.416973,
+          114.990032,
+          114.158571,
+          113.989711,
+          113.792419,
+          114.066479,
+          109.757213,
+          113.161062,
+          112.03133,
+          113.17082,
+          114.639836,
+          113.675722,
+          113.07869,
+          112.892398,
+          108.444472,
+          110.472827,
+          110.398639,
+          111.767441
+        ]
+      },
+      {
         "symbol": "RLUSD",
         "name": "Ripple USD",
         "price": 1.001,
         "chg_24h_pct": 0.03,
-        "mcap_usd": 2340224692,
+        "mcap_usd": 2340132085,
         "rank": 42,
         "gecko_id": "ripple-usd",
         "spark7d": [
@@ -3284,9 +3284,9 @@
       {
         "symbol": "TAO",
         "name": "Bittensor",
-        "price": 238.29,
-        "chg_24h_pct": -3.25,
-        "mcap_usd": 2286984218,
+        "price": 237.97,
+        "chg_24h_pct": -3.16,
+        "mcap_usd": 2282785377,
         "rank": 43,
         "gecko_id": "bittensor",
         "spark7d": [
@@ -3324,8 +3324,8 @@
         "symbol": "USDY",
         "name": "Ondo US Dollar Yield",
         "price": 1.14,
-        "chg_24h_pct": 0.63,
-        "mcap_usd": 2187353238,
+        "chg_24h_pct": -0.57,
+        "mcap_usd": 2173364307,
         "rank": 44,
         "gecko_id": "ondo-us-dollar-yield",
         "spark7d": [
@@ -3362,9 +3362,9 @@
       {
         "symbol": "PAXG",
         "name": "PAX Gold",
-        "price": 4461.58,
-        "chg_24h_pct": -2.0,
-        "mcap_usd": 1924338249,
+        "price": 4461.96,
+        "chg_24h_pct": -1.96,
+        "mcap_usd": 1924540651,
         "rank": 45,
         "gecko_id": "pax-gold",
         "spark7d": [
@@ -3401,9 +3401,9 @@
       {
         "symbol": "AAVE",
         "name": "Aave",
-        "price": 124.27,
-        "chg_24h_pct": -0.41,
-        "mcap_usd": 1916824619,
+        "price": 123.58,
+        "chg_24h_pct": -0.89,
+        "mcap_usd": 1905394970,
         "rank": 46,
         "gecko_id": "aave",
         "spark7d": [
@@ -3440,9 +3440,9 @@
       {
         "symbol": "PUMP",
         "name": "Pump.fun",
-        "price": 0.00476326,
-        "chg_24h_pct": -1.64,
-        "mcap_usd": 1889511256,
+        "price": 0.00476942,
+        "chg_24h_pct": -1.58,
+        "mcap_usd": 1890606236,
         "rank": 47,
         "gecko_id": "pump-fun",
         "spark7d": [
@@ -3479,9 +3479,9 @@
       {
         "symbol": "ASTER",
         "name": "Aster",
-        "price": 0.698686,
-        "chg_24h_pct": 0.18,
-        "mcap_usd": 1886460354,
+        "price": 0.69961,
+        "chg_24h_pct": 0.43,
+        "mcap_usd": 1889377486,
         "rank": 48,
         "gecko_id": "aster-2",
         "spark7d": [
@@ -3518,9 +3518,9 @@
       {
         "symbol": "WLFI",
         "name": "World Liberty Financial",
-        "price": 0.058056,
-        "chg_24h_pct": -0.7,
-        "mcap_usd": 1844828583,
+        "price": 0.058052,
+        "chg_24h_pct": -0.51,
+        "mcap_usd": 1844812084,
         "rank": 49,
         "gecko_id": "world-liberty-financial",
         "spark7d": [
@@ -3557,9 +3557,9 @@
       {
         "symbol": "ONDO",
         "name": "Ondo",
-        "price": 0.354161,
-        "chg_24h_pct": -3.88,
-        "mcap_usd": 1724525941,
+        "price": 0.352717,
+        "chg_24h_pct": -4.24,
+        "mcap_usd": 1717636879,
         "rank": 50,
         "gecko_id": "ondo-finance",
         "spark7d": [
@@ -3596,9 +3596,9 @@
       {
         "symbol": "MNT",
         "name": "Mantle",
-        "price": 0.517891,
-        "chg_24h_pct": -0.41,
-        "mcap_usd": 1710228855,
+        "price": 0.516184,
+        "chg_24h_pct": -0.78,
+        "mcap_usd": 1704698298,
         "rank": 51,
         "gecko_id": "mantle",
         "spark7d": [
@@ -3635,9 +3635,9 @@
       {
         "symbol": "SKY",
         "name": "Sky",
-        "price": 0.068493,
-        "chg_24h_pct": -0.2,
-        "mcap_usd": 1604364005,
+        "price": 0.068448,
+        "chg_24h_pct": -0.53,
+        "mcap_usd": 1603804141,
         "rank": 52,
         "gecko_id": "sky",
         "spark7d": [
@@ -3674,9 +3674,9 @@
       {
         "symbol": "MORPHO",
         "name": "Morpho",
-        "price": 2.43,
-        "chg_24h_pct": -4.25,
-        "mcap_usd": 1595128017,
+        "price": 2.42,
+        "chg_24h_pct": -4.56,
+        "mcap_usd": 1590631751,
         "rank": 53,
         "gecko_id": "morpho",
         "spark7d": [
@@ -3713,9 +3713,9 @@
       {
         "symbol": "ENA",
         "name": "Ethena",
-        "price": 0.158073,
-        "chg_24h_pct": -6.95,
-        "mcap_usd": 1553559563,
+        "price": 0.156632,
+        "chg_24h_pct": -9.46,
+        "mcap_usd": 1539195770,
         "rank": 54,
         "gecko_id": "ethena",
         "spark7d": [
@@ -3752,9 +3752,9 @@
       {
         "symbol": "PEPE",
         "name": "Pepe",
-        "price": 3.65e-06,
-        "chg_24h_pct": -3.6,
-        "mcap_usd": 1537395478,
+        "price": 3.63e-06,
+        "chg_24h_pct": -4.28,
+        "mcap_usd": 1530131200,
         "rank": 55,
         "gecko_id": "pepe",
         "spark7d": [
@@ -3791,9 +3791,9 @@
       {
         "symbol": "USDD",
         "name": "USDD",
-        "price": 0.999886,
+        "price": 0.999766,
         "chg_24h_pct": 0.04,
-        "mcap_usd": 1518358225,
+        "mcap_usd": 1518242167,
         "rank": 56,
         "gecko_id": "usdd",
         "spark7d": [
@@ -3830,9 +3830,9 @@
       {
         "symbol": "DOT",
         "name": "Polkadot",
-        "price": 0.843327,
-        "chg_24h_pct": -3.21,
-        "mcap_usd": 1433897390,
+        "price": 0.840768,
+        "chg_24h_pct": -3.24,
+        "mcap_usd": 1429563297,
         "rank": 58,
         "gecko_id": "polkadot",
         "spark7d": [
@@ -3869,9 +3869,9 @@
       {
         "symbol": "ICP",
         "name": "Internet Computer",
-        "price": 2.53,
-        "chg_24h_pct": 4.61,
-        "mcap_usd": 1406045062,
+        "price": 2.52,
+        "chg_24h_pct": 4.43,
+        "mcap_usd": 1402334019,
         "rank": 59,
         "gecko_id": "internet-computer",
         "spark7d": [
@@ -3908,9 +3908,9 @@
       {
         "symbol": "WLD",
         "name": "Worldcoin",
-        "price": 0.377882,
-        "chg_24h_pct": -5.04,
-        "mcap_usd": 1367547533,
+        "price": 0.377079,
+        "chg_24h_pct": -5.47,
+        "mcap_usd": 1364824960,
         "rank": 60,
         "gecko_id": "worldcoin-wld",
         "spark7d": [
@@ -3947,9 +3947,9 @@
       {
         "symbol": "U",
         "name": "United Stables",
-        "price": 0.999558,
+        "price": 0.999562,
         "chg_24h_pct": -0.0,
-        "mcap_usd": 1276784612,
+        "mcap_usd": 1276717468,
         "rank": 64,
         "gecko_id": "united-stables",
         "spark7d": [
@@ -3986,9 +3986,9 @@
       {
         "symbol": "USDGO",
         "name": "USDGO",
-        "price": 0.999977,
+        "price": 1.0,
         "chg_24h_pct": 0.0,
-        "mcap_usd": 1249398089,
+        "mcap_usd": 1249545268,
         "rank": 65,
         "gecko_id": "usdgo",
         "spark7d": [
@@ -4026,8 +4026,8 @@
         "symbol": "ETC",
         "name": "Ethereum Classic",
         "price": 7.54,
-        "chg_24h_pct": -1.64,
-        "mcap_usd": 1192001119,
+        "chg_24h_pct": -1.71,
+        "mcap_usd": 1190624812,
         "rank": 67,
         "gecko_id": "ethereum-classic",
         "spark7d": [
@@ -4064,9 +4064,9 @@
       {
         "symbol": "POL",
         "name": "POL (ex-MATIC)",
-        "price": 0.104896,
-        "chg_24h_pct": -2.34,
-        "mcap_usd": 1122886713,
+        "price": 0.104897,
+        "chg_24h_pct": -2.65,
+        "mcap_usd": 1122880363,
         "rank": 68,
         "gecko_id": "polygon-ecosystem-token",
         "spark7d": [
@@ -4103,9 +4103,9 @@
       {
         "symbol": "BTW",
         "name": "Bitway",
-        "price": 0.399618,
-        "chg_24h_pct": 1.6,
-        "mcap_usd": 1082223268,
+        "price": 0.399899,
+        "chg_24h_pct": -1.12,
+        "mcap_usd": 1083151891,
         "rank": 69,
         "gecko_id": "bitway",
         "spark7d": [
@@ -4142,9 +4142,9 @@
       {
         "symbol": "PI",
         "name": "Pi Network",
-        "price": 0.092237,
-        "chg_24h_pct": 0.93,
-        "mcap_usd": 1025213932,
+        "price": 0.092187,
+        "chg_24h_pct": 0.89,
+        "mcap_usd": 1024508874,
         "rank": 70,
         "gecko_id": "pi-network",
         "spark7d": [
@@ -4181,9 +4181,9 @@
       {
         "symbol": "QNT",
         "name": "Quant",
-        "price": 61.37,
-        "chg_24h_pct": -1.52,
-        "mcap_usd": 892511918,
+        "price": 61.41,
+        "chg_24h_pct": -1.62,
+        "mcap_usd": 893358596,
         "rank": 73,
         "gecko_id": "quant-network",
         "spark7d": [
@@ -4220,9 +4220,9 @@
       {
         "symbol": "LIT",
         "name": "Lighter",
-        "price": 3.52,
-        "chg_24h_pct": 0.62,
-        "mcap_usd": 880663174,
+        "price": 3.5,
+        "chg_24h_pct": 1.04,
+        "mcap_usd": 875018823,
         "rank": 75,
         "gecko_id": "lighter",
         "spark7d": [
@@ -4259,9 +4259,9 @@
       {
         "symbol": "GT",
         "name": "Gate",
-        "price": 7.98,
-        "chg_24h_pct": -1.5,
-        "mcap_usd": 851257385,
+        "price": 8.01,
+        "chg_24h_pct": -1.1,
+        "mcap_usd": 853713345,
         "rank": 77,
         "gecko_id": "gatechain-token",
         "spark7d": [
@@ -4298,9 +4298,9 @@
       {
         "symbol": "NEXO",
         "name": "NEXO",
-        "price": 0.825136,
-        "chg_24h_pct": -3.25,
-        "mcap_usd": 825136319,
+        "price": 0.823849,
+        "chg_24h_pct": -2.92,
+        "mcap_usd": 823479503,
         "rank": 79,
         "gecko_id": "nexo",
         "spark7d": [
@@ -4337,9 +4337,9 @@
       {
         "symbol": "JST",
         "name": "JUST",
-        "price": 0.099478,
-        "chg_24h_pct": 2.72,
-        "mcap_usd": 814601281,
+        "price": 0.099511,
+        "chg_24h_pct": 2.31,
+        "mcap_usd": 814852991,
         "rank": 80,
         "gecko_id": "just",
         "spark7d": [
@@ -4377,8 +4377,8 @@
         "symbol": "ATOM",
         "name": "Cosmos Hub",
         "price": 1.51,
-        "chg_24h_pct": -0.12,
-        "mcap_usd": 797919086,
+        "chg_24h_pct": -0.37,
+        "mcap_usd": 795742301,
         "rank": 81,
         "gecko_id": "cosmos",
         "spark7d": [
@@ -4415,9 +4415,9 @@
       {
         "symbol": "ALGO",
         "name": "Algorand",
-        "price": 0.087006,
-        "chg_24h_pct": -2.2,
-        "mcap_usd": 786298574,
+        "price": 0.087022,
+        "chg_24h_pct": -2.45,
+        "mcap_usd": 786366289,
         "rank": 82,
         "gecko_id": "algorand",
         "spark7d": [
@@ -4454,9 +4454,9 @@
       {
         "symbol": "VVV",
         "name": "Venice Token",
-        "price": 16.29,
-        "chg_24h_pct": -4.99,
-        "mcap_usd": 776265874,
+        "price": 16.18,
+        "chg_24h_pct": -5.66,
+        "mcap_usd": 770920971,
         "rank": 83,
         "gecko_id": "venice-token",
         "spark7d": [
@@ -4493,9 +4493,9 @@
       {
         "symbol": "KAS",
         "name": "Kaspa",
-        "price": 0.02788621,
-        "chg_24h_pct": -3.78,
-        "mcap_usd": 771581337,
+        "price": 0.0278347,
+        "chg_24h_pct": -3.83,
+        "mcap_usd": 770210319,
         "rank": 84,
         "gecko_id": "kaspa",
         "spark7d": [
@@ -4533,8 +4533,8 @@
         "symbol": "RENDER",
         "name": "Render",
         "price": 1.45,
-        "chg_24h_pct": -3.03,
-        "mcap_usd": 752241363,
+        "chg_24h_pct": -3.22,
+        "mcap_usd": 750854514,
         "rank": 85,
         "gecko_id": "render-token",
         "spark7d": [
@@ -4571,9 +4571,9 @@
       {
         "symbol": "JUP",
         "name": "Jupiter",
-        "price": 0.219677,
-        "chg_24h_pct": -5.98,
-        "mcap_usd": 729395531,
+        "price": 0.219273,
+        "chg_24h_pct": -6.49,
+        "mcap_usd": 728017043,
         "rank": 86,
         "gecko_id": "jupiter-exchange-solana",
         "spark7d": [
@@ -4610,9 +4610,9 @@
       {
         "symbol": "GHO",
         "name": "GHO",
-        "price": 0.999279,
-        "chg_24h_pct": -0.04,
-        "mcap_usd": 698496052,
+        "price": 0.999263,
+        "chg_24h_pct": -0.02,
+        "mcap_usd": 698492950,
         "rank": 88,
         "gecko_id": "gho",
         "spark7d": [
@@ -4649,9 +4649,9 @@
       {
         "symbol": "STABLE",
         "name": "\u200b\u200bStable",
-        "price": 0.02634336,
-        "chg_24h_pct": -1.17,
-        "mcap_usd": 680728285,
+        "price": 0.02631618,
+        "chg_24h_pct": -0.44,
+        "mcap_usd": 680039436,
         "rank": 89,
         "gecko_id": "stable-2",
         "spark7d": [
@@ -4688,9 +4688,9 @@
       {
         "symbol": "TRUMP",
         "name": "Official Trump",
-        "price": 2.69,
-        "chg_24h_pct": -4.39,
-        "mcap_usd": 675705054,
+        "price": 2.67,
+        "chg_24h_pct": -5.68,
+        "mcap_usd": 669550304,
         "rank": 90,
         "gecko_id": "official-trump",
         "spark7d": [
@@ -4727,9 +4727,9 @@
       {
         "symbol": "BDX",
         "name": "Beldex",
-        "price": 0.079578,
+        "price": 0.079533,
         "chg_24h_pct": 0.02,
-        "mcap_usd": 626307486,
+        "mcap_usd": 625995140,
         "rank": 91,
         "gecko_id": "beldex",
         "spark7d": [
@@ -4766,9 +4766,9 @@
       {
         "symbol": "ARB",
         "name": "Arbitrum",
-        "price": 0.088159,
-        "chg_24h_pct": -2.33,
-        "mcap_usd": 588733658,
+        "price": 0.087735,
+        "chg_24h_pct": -2.53,
+        "mcap_usd": 585842554,
         "rank": 92,
         "gecko_id": "arbitrum",
         "spark7d": [
@@ -4805,9 +4805,9 @@
       {
         "symbol": "VET",
         "name": "VeChain",
-        "price": 0.00677303,
-        "chg_24h_pct": -1.97,
-        "mcap_usd": 582379603,
+        "price": 0.00675412,
+        "chg_24h_pct": -2.36,
+        "mcap_usd": 580861867,
         "rank": 93,
         "gecko_id": "vechain",
         "spark7d": [
@@ -4844,9 +4844,9 @@
       {
         "symbol": "PENGU",
         "name": "Pudgy Penguins",
-        "price": 0.00922752,
-        "chg_24h_pct": -2.22,
-        "mcap_usd": 580045323,
+        "price": 0.00917732,
+        "chg_24h_pct": -3.38,
+        "mcap_usd": 576977183,
         "rank": 94,
         "gecko_id": "pudgy-penguins",
         "spark7d": [
@@ -4883,9 +4883,9 @@
       {
         "symbol": "FIL",
         "name": "Filecoin",
-        "price": 0.683832,
-        "chg_24h_pct": -2.57,
-        "mcap_usd": 568737435,
+        "price": 0.683119,
+        "chg_24h_pct": -2.64,
+        "mcap_usd": 568128038,
         "rank": 95,
         "gecko_id": "filecoin",
         "spark7d": [
@@ -4920,51 +4920,12 @@
         ]
       },
       {
-        "symbol": "CAKE",
-        "name": "PancakeSwap",
-        "price": 1.72,
-        "chg_24h_pct": -0.13,
-        "mcap_usd": 553994105,
-        "rank": 96,
-        "gecko_id": "pancakeswap-token",
-        "spark7d": [
-          1.7074,
-          1.720302,
-          1.698191,
-          1.686385,
-          1.739437,
-          1.746702,
-          1.725055,
-          1.734076,
-          1.764488,
-          1.762583,
-          1.782235,
-          1.747754,
-          1.741118,
-          1.721826,
-          1.715156,
-          1.745768,
-          1.702977,
-          1.73515,
-          1.725471,
-          1.731278,
-          1.757631,
-          1.761169,
-          1.753642,
-          1.739933,
-          1.697872,
-          1.71168,
-          1.707044,
-          1.710078
-        ]
-      },
-      {
         "symbol": "FLR",
         "name": "Flare",
-        "price": 0.00634779,
-        "chg_24h_pct": -0.52,
-        "mcap_usd": 552846403,
-        "rank": 97,
+        "price": 0.00634935,
+        "chg_24h_pct": -0.18,
+        "mcap_usd": 553143983,
+        "rank": 96,
         "gecko_id": "flare-networks",
         "spark7d": [
           0.007109,
@@ -4998,11 +4959,50 @@
         ]
       },
       {
+        "symbol": "CAKE",
+        "name": "PancakeSwap",
+        "price": 1.72,
+        "chg_24h_pct": -0.22,
+        "mcap_usd": 552429479,
+        "rank": 97,
+        "gecko_id": "pancakeswap-token",
+        "spark7d": [
+          1.7074,
+          1.720302,
+          1.698191,
+          1.686385,
+          1.739437,
+          1.746702,
+          1.725055,
+          1.734076,
+          1.764488,
+          1.762583,
+          1.782235,
+          1.747754,
+          1.741118,
+          1.721826,
+          1.715156,
+          1.745768,
+          1.702977,
+          1.73515,
+          1.725471,
+          1.731278,
+          1.757631,
+          1.761169,
+          1.753642,
+          1.739933,
+          1.697872,
+          1.71168,
+          1.707044,
+          1.710078
+        ]
+      },
+      {
         "symbol": "XDC",
         "name": "XDC Network",
-        "price": 0.02757955,
-        "chg_24h_pct": -2.27,
-        "mcap_usd": 550119912,
+        "price": 0.02758122,
+        "chg_24h_pct": -2.65,
+        "mcap_usd": 550210870,
         "rank": 98,
         "gecko_id": "xdce-crowd-sale",
         "spark7d": [
@@ -5039,9 +5039,9 @@
       {
         "symbol": "DASH",
         "name": "Dash",
-        "price": 42.07,
-        "chg_24h_pct": 8.79,
-        "mcap_usd": 539379703,
+        "price": 41.81,
+        "chg_24h_pct": 8.08,
+        "mcap_usd": 535948278,
         "rank": 100,
         "gecko_id": "dash",
         "spark7d": [
@@ -5078,9 +5078,9 @@
       {
         "symbol": "ETHFI",
         "name": "Ether.fi",
-        "price": 0.536056,
-        "chg_24h_pct": -5.14,
-        "mcap_usd": 517481369,
+        "price": 0.534019,
+        "chg_24h_pct": -5.22,
+        "mcap_usd": 515332001,
         "rank": 101,
         "gecko_id": "ether-fi",
         "spark7d": [
@@ -5117,9 +5117,9 @@
       {
         "symbol": "\u5e01\u5b89\u4eba\u751f",
         "name": "\u5e01\u5b89\u4eba\u751f (BinanceLife)",
-        "price": 0.512044,
-        "chg_24h_pct": 3.0,
-        "mcap_usd": 512043643,
+        "price": 0.508253,
+        "chg_24h_pct": 1.99,
+        "mcap_usd": 508405458,
         "rank": 102,
         "gecko_id": "bianrensheng",
         "spark7d": [
@@ -5156,9 +5156,9 @@
       {
         "symbol": "INJ",
         "name": "Injective",
-        "price": 5.07,
-        "chg_24h_pct": -5.98,
-        "mcap_usd": 507038823,
+        "price": 5.06,
+        "chg_24h_pct": -5.7,
+        "mcap_usd": 506116756,
         "rank": 103,
         "gecko_id": "injective-protocol",
         "spark7d": [
@@ -5195,9 +5195,9 @@
       {
         "symbol": "TUSD",
         "name": "TrueUSD",
-        "price": 0.998206,
-        "chg_24h_pct": 0.0,
-        "mcap_usd": 493628011,
+        "price": 0.998286,
+        "chg_24h_pct": -0.0,
+        "mcap_usd": 493675352,
         "rank": 104,
         "gecko_id": "true-usd",
         "spark7d": [
@@ -5234,9 +5234,9 @@
       {
         "symbol": "SPX",
         "name": "SPX6900",
-        "price": 0.52828,
-        "chg_24h_pct": -7.31,
-        "mcap_usd": 491821980,
+        "price": 0.522304,
+        "chg_24h_pct": -9.31,
+        "mcap_usd": 486496264,
         "rank": 105,
         "gecko_id": "spx6900",
         "spark7d": [
@@ -5273,9 +5273,9 @@
       {
         "symbol": "USDTB",
         "name": "USDtb",
-        "price": 0.999984,
+        "price": 0.999988,
         "chg_24h_pct": -0.01,
-        "mcap_usd": 483430464,
+        "mcap_usd": 483435037,
         "rank": 106,
         "gecko_id": "usdtb",
         "spark7d": [
@@ -5312,9 +5312,9 @@
       {
         "symbol": "AERO",
         "name": "Aerodrome Finance",
-        "price": 0.488303,
-        "chg_24h_pct": -4.66,
-        "mcap_usd": 479870631,
+        "price": 0.487912,
+        "chg_24h_pct": -4.71,
+        "mcap_usd": 479490358,
         "rank": 107,
         "gecko_id": "aerodrome-finance",
         "spark7d": [
@@ -5351,9 +5351,9 @@
       {
         "symbol": "CRV",
         "name": "Curve DAO",
-        "price": 0.303128,
+        "price": 0.302587,
         "chg_24h_pct": -4.37,
-        "mcap_usd": 470599681,
+        "mcap_usd": 469711067,
         "rank": 108,
         "gecko_id": "curve-dao-token",
         "spark7d": [
@@ -5390,9 +5390,9 @@
       {
         "symbol": "APT",
         "name": "Aptos",
-        "price": 0.54254,
-        "chg_24h_pct": -2.72,
-        "mcap_usd": 465583410,
+        "price": 0.541126,
+        "chg_24h_pct": -2.9,
+        "mcap_usd": 464434522,
         "rank": 109,
         "gecko_id": "aptos",
         "spark7d": [
@@ -5429,9 +5429,9 @@
       {
         "symbol": "HASH",
         "name": "Provenance Blockchain",
-        "price": 0.00807182,
-        "chg_24h_pct": 1.08,
-        "mcap_usd": 462378036,
+        "price": 0.00810628,
+        "chg_24h_pct": 1.33,
+        "mcap_usd": 464183976,
         "rank": 110,
         "gecko_id": "hash-2",
         "spark7d": [
@@ -5466,51 +5466,12 @@
         ]
       },
       {
-        "symbol": "STX",
-        "name": "Stacks",
-        "price": 0.247071,
-        "chg_24h_pct": -7.66,
-        "mcap_usd": 460096739,
-        "rank": 111,
-        "gecko_id": "blockstack",
-        "spark7d": [
-          0.197676,
-          0.228074,
-          0.214055,
-          0.217654,
-          0.228699,
-          0.231021,
-          0.224652,
-          0.239499,
-          0.235831,
-          0.228497,
-          0.239846,
-          0.267533,
-          0.261759,
-          0.2605,
-          0.274756,
-          0.26823,
-          0.276779,
-          0.269112,
-          0.257299,
-          0.257039,
-          0.262217,
-          0.256656,
-          0.260123,
-          0.270803,
-          0.256424,
-          0.254531,
-          0.251927,
-          0.243965
-        ]
-      },
-      {
         "symbol": "EURC",
         "name": "EURC",
         "price": 1.16,
-        "chg_24h_pct": -0.28,
-        "mcap_usd": 460043098,
-        "rank": 112,
+        "chg_24h_pct": -0.25,
+        "mcap_usd": 460056959,
+        "rank": 111,
         "gecko_id": "euro-coin",
         "spark7d": [
           1.169848,
@@ -5544,11 +5505,50 @@
         ]
       },
       {
+        "symbol": "STX",
+        "name": "Stacks",
+        "price": 0.246555,
+        "chg_24h_pct": -8.57,
+        "mcap_usd": 459802641,
+        "rank": 112,
+        "gecko_id": "blockstack",
+        "spark7d": [
+          0.197676,
+          0.228074,
+          0.214055,
+          0.217654,
+          0.228699,
+          0.231021,
+          0.224652,
+          0.239499,
+          0.235831,
+          0.228497,
+          0.239846,
+          0.267533,
+          0.261759,
+          0.2605,
+          0.274756,
+          0.26823,
+          0.276779,
+          0.269112,
+          0.257299,
+          0.257039,
+          0.262217,
+          0.256656,
+          0.260123,
+          0.270803,
+          0.256424,
+          0.254531,
+          0.251927,
+          0.243965
+        ]
+      },
+      {
         "symbol": "VIRTUAL",
         "name": "Virtuals Protocol",
-        "price": 0.694243,
-        "chg_24h_pct": -4.05,
-        "mcap_usd": 457079311,
+        "price": 0.691168,
+        "chg_24h_pct": -3.99,
+        "mcap_usd": 455062240,
         "rank": 113,
         "gecko_id": "virtual-protocol",
         "spark7d": [
@@ -5585,9 +5585,9 @@
       {
         "symbol": "ZRO",
         "name": "LayerZero",
-        "price": 1.094,
-        "chg_24h_pct": -3.71,
-        "mcap_usd": 386361594,
+        "price": 1.092,
+        "chg_24h_pct": -5.22,
+        "mcap_usd": 386025523,
         "rank": 116,
         "gecko_id": "layerzero",
         "spark7d": [
@@ -5624,9 +5624,9 @@
       {
         "symbol": "PYTH",
         "name": "Pyth Network",
-        "price": 0.04817911,
-        "chg_24h_pct": 0.59,
-        "mcap_usd": 379408618,
+        "price": 0.04811374,
+        "chg_24h_pct": 0.03,
+        "mcap_usd": 378906545,
         "rank": 117,
         "gecko_id": "pyth-network",
         "spark7d": [
@@ -5661,12 +5661,51 @@
         ]
       },
       {
+        "symbol": "GNO",
+        "name": "Gnosis",
+        "price": 131.58,
+        "chg_24h_pct": 8.56,
+        "mcap_usd": 346830148,
+        "rank": 120,
+        "gecko_id": "gnosis",
+        "spark7d": [
+          123.215384,
+          123.464992,
+          122.698181,
+          122.679704,
+          123.600342,
+          124.134229,
+          123.13798,
+          123.549022,
+          123.017465,
+          122.895527,
+          122.886942,
+          123.338705,
+          122.213909,
+          121.20215,
+          121.282638,
+          122.070495,
+          120.515162,
+          122.575524,
+          122.32472,
+          121.847307,
+          122.329725,
+          120.687113,
+          121.213324,
+          120.372348,
+          118.155448,
+          118.57226,
+          116.947182,
+          117.669592
+        ]
+      },
+      {
         "symbol": "UB",
         "name": "Unibase",
-        "price": 0.138957,
-        "chg_24h_pct": 2.1,
-        "mcap_usd": 347392359,
-        "rank": 120,
+        "price": 0.137343,
+        "chg_24h_pct": 0.84,
+        "mcap_usd": 342787922,
+        "rank": 121,
         "gecko_id": "unibase",
         "spark7d": [
           0.121165,
@@ -5697,45 +5736,6 @@
           0.136363,
           0.142059,
           0.135211
-        ]
-      },
-      {
-        "symbol": "FET",
-        "name": "Artificial Superintelligence Alliance",
-        "price": 0.151744,
-        "chg_24h_pct": -5.65,
-        "mcap_usd": 343162032,
-        "rank": 121,
-        "gecko_id": "fetch-ai",
-        "spark7d": [
-          0.161203,
-          0.162484,
-          0.158478,
-          0.158464,
-          0.165517,
-          0.165703,
-          0.161937,
-          0.16531,
-          0.175337,
-          0.173576,
-          0.1758,
-          0.171678,
-          0.169039,
-          0.163715,
-          0.16524,
-          0.162832,
-          0.159802,
-          0.16863,
-          0.164156,
-          0.164117,
-          0.167467,
-          0.164367,
-          0.162408,
-          0.161657,
-          0.151191,
-          0.149749,
-          0.147318,
-          0.148153
         ]
       }
     ]
@@ -5821,10 +5821,10 @@
       {
         "symbol": "BTC",
         "venue": "OKX",
-        "funding_8h_pct": 0.0048,
-        "funding_annual_pct": 5.3,
+        "funding_8h_pct": 0.0047,
+        "funding_annual_pct": 5.1,
         "next_funding_utc": "16:00 UTC",
-        "open_interest_usd": 2233994610,
+        "open_interest_usd": 2235002952,
         "funding_history_pct": [
           0.01,
           0.01,
@@ -5880,7 +5880,7 @@
           2950906168,
           2890575518
         ],
-        "long_short_ratio": 1.26,
+        "long_short_ratio": 1.28,
         "long_short_history": [
           1.27,
           2.08,
@@ -5911,22 +5911,22 @@
           1.09,
           0.97,
           1.09,
-          1.26
+          1.28
         ],
         "liquidations": {
           "window_hours": 24,
-          "count": 1600,
-          "longs_usd": 17819116,
+          "count": 1599,
+          "longs_usd": 17818751,
           "shorts_usd": 2052676
         }
       },
       {
         "symbol": "ETH",
         "venue": "OKX",
-        "funding_8h_pct": 0.0096,
-        "funding_annual_pct": 10.5,
+        "funding_8h_pct": 0.009,
+        "funding_annual_pct": 9.8,
         "next_funding_utc": "16:00 UTC",
-        "open_interest_usd": 1530762215,
+        "open_interest_usd": 1534279246,
         "funding_history_pct": [
           0.01,
           0.01,
@@ -6017,18 +6017,18 @@
         ],
         "liquidations": {
           "window_hours": 24,
-          "count": 1508,
-          "longs_usd": 16890218,
-          "shorts_usd": 3015258
+          "count": 1506,
+          "longs_usd": 16889565,
+          "shorts_usd": 3012083
         }
       },
       {
         "symbol": "SOL",
         "venue": "OKX",
-        "funding_8h_pct": -0.004,
-        "funding_annual_pct": -4.4,
+        "funding_8h_pct": -0.0043,
+        "funding_annual_pct": -4.7,
         "next_funding_utc": "16:00 UTC",
-        "open_interest_usd": 340388447,
+        "open_interest_usd": 342489824,
         "funding_history_pct": [
           0.01,
           0.01,
@@ -6084,7 +6084,7 @@
           411000523,
           386773377
         ],
-        "long_short_ratio": 1.68,
+        "long_short_ratio": 1.67,
         "long_short_history": [
           2.5,
           2.67,
@@ -6115,22 +6115,22 @@
           1.78,
           1.1,
           1.49,
-          1.68
+          1.67
         ],
         "liquidations": {
           "window_hours": 24,
-          "count": 691,
-          "longs_usd": 3724972,
-          "shorts_usd": 993571
+          "count": 621,
+          "longs_usd": 3674577,
+          "shorts_usd": 754068
         }
       },
       {
         "symbol": "XRP",
         "venue": "OKX",
-        "funding_8h_pct": 0.0087,
-        "funding_annual_pct": 9.5,
+        "funding_8h_pct": 0.0075,
+        "funding_annual_pct": 8.2,
         "next_funding_utc": "16:00 UTC",
-        "open_interest_usd": 106446533,
+        "open_interest_usd": 106273118,
         "funding_history_pct": [
           0.01,
           0.01,
@@ -6186,7 +6186,7 @@
           126708595,
           115951144
         ],
-        "long_short_ratio": 2.46,
+        "long_short_ratio": 2.51,
         "long_short_history": [
           3.04,
           3.18,
@@ -6217,22 +6217,22 @@
           2.42,
           2.21,
           2.39,
-          2.46
+          2.51
         ],
         "liquidations": {
           "window_hours": 24,
-          "count": 266,
-          "longs_usd": 1235681,
-          "shorts_usd": 237567
+          "count": 263,
+          "longs_usd": 1235654,
+          "shorts_usd": 237534
         }
       },
       {
         "symbol": "DOGE",
         "venue": "OKX",
-        "funding_8h_pct": 0.0054,
-        "funding_annual_pct": 5.9,
+        "funding_8h_pct": 0.0051,
+        "funding_annual_pct": 5.6,
         "next_funding_utc": "16:00 UTC",
-        "open_interest_usd": 88012258,
+        "open_interest_usd": 88036206,
         "funding_history_pct": [
           0.01,
           0.01,
@@ -6288,7 +6288,7 @@
           113651442,
           105632632
         ],
-        "long_short_ratio": 3.93,
+        "long_short_ratio": 3.94,
         "long_short_history": [
           3.76,
           5.45,
@@ -6319,7 +6319,7 @@
           3.65,
           3.48,
           3.77,
-          3.93
+          3.94
         ],
         "liquidations": {
           "window_hours": 24,
@@ -6332,8 +6332,8 @@
     "note": "Perpetual-swap funding and open interest from public exchange data (single-venue snapshots, not market-wide totals)."
   },
   "market": {
-    "total_mcap_usd": 2647454456295,
-    "mcap_change_24h_pct": -4.35,
+    "total_mcap_usd": 2646316833766,
+    "mcap_change_24h_pct": -4.43,
     "btc_dominance_pct": 59.0
   },
   "etf_flows": {
@@ -6436,18 +6436,18 @@
   "network": {
     "fastest_fee": 1,
     "hour_fee": 1,
-    "difficulty_change_pct": -1.0,
-    "retarget_blocks": 1075
+    "difficulty_change_pct": -0.8,
+    "retarget_blocks": 1072
   },
-  "written_utc": "2026-08-29T15:17:32Z",
+  "written_utc": "2026-08-29T15:37:27Z",
   "sections_utc": {
-    "fng": "2026-08-29T15:17:32Z",
-    "assets": "2026-08-29T15:17:32Z",
-    "movers": "2026-08-29T15:17:32Z",
-    "stables": "2026-08-29T15:17:32Z",
-    "leverage": "2026-08-29T15:17:32Z",
-    "market": "2026-08-29T15:17:32Z",
-    "etf_flows": "2026-08-29T15:17:32Z",
-    "network": "2026-08-29T15:17:32Z"
+    "fng": "2026-08-29T15:37:27Z",
+    "assets": "2026-08-29T15:37:27Z",
+    "movers": "2026-08-29T15:37:27Z",
+    "stables": "2026-08-29T15:37:27Z",
+    "leverage": "2026-08-29T15:37:27Z",
+    "market": "2026-08-29T15:37:27Z",
+    "etf_flows": "2026-08-29T15:37:27Z",
+    "network": "2026-08-29T15:37:27Z"
   }
 }
