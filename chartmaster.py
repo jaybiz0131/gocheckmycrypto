@@ -145,6 +145,34 @@ def digest():
             disagree.add(v >= 0)
         row["windows_disagree"] = len(disagree) > 1
         signs.append(row)
+    # FLOW WINDOWS TOO (2026-08-29). Yesterday's window_signs covered asset PRICES and
+    # the editions kept dying anyway, on the other half of the same failure: "ETF flow
+    # claim says pos at the day window but the digest's day number points the other way"
+    # and "unscoped ETF flow direction while the daily and five-session numbers disagree".
+    # The belts were right each time; the model was again being asked to derive per-window
+    # signs from raw numbers under prose pressure, this time for flows. So the flows state
+    # their own directions in words, exactly as the prices now do.
+    flow_signs = []
+    for k, v in (d.get("etf_flows") or {}).items():
+        if not isinstance(v, dict):
+            continue
+        day, wk = v.get("latest_net_usd_m"), v.get("last5_sessions_net_usd_m")
+        row = {"board": f"{k.upper()} ETF flows"}
+        if day is not None:
+            row["day"] = f"{'inflow' if day >= 0 else 'outflow'} of ${abs(day):,.1f}M"
+        if wk is not None:
+            row["five_sessions"] = (f"net {'inflow' if wk >= 0 else 'outflow'} of "
+                                    f"${abs(wk):,.1f}M")
+        if day is not None and wk is not None:
+            row["windows_disagree"] = (day >= 0) != (wk >= 0)
+        flow_signs.append(row)
+    wf = d.get("whale_flows") or {}
+    if wf.get("direction"):
+        flow_signs.append({"board": "Whale Watch",
+                           f"last_{wf.get('window_hours', 24)}h": str(wf["direction"]),
+                           "windows_disagree": False})
+    if flow_signs:
+        d["flow_signs"] = flow_signs
     d["window_signs"] = {
         "rule": "When any two windows disagree for an asset, EVERY directional claim "
                 "about it must name its window explicitly (e.g. 'down 0.4% on the day' "
