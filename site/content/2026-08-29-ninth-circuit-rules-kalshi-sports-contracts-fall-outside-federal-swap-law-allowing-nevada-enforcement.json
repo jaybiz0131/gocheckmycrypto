@@ -1,0 +1,32 @@
+{
+  "id": "c019",
+  "slug": "ninth-circuit-rules-kalshi-sports-contracts-fall-outside-federal-swap-law-allowing-nevada-enforcement",
+  "kind": "brief",
+  "title": "Ninth Circuit rules Kalshi sports contracts fall outside federal swap law, allowing Nevada enforcement",
+  "dek": "The Ninth Circuit Court of Appeals held Friday that Kalshi's sports event contracts are not swaps under the Commodity Exchange Act, removing a federal preemption barrier and allowing Nevada to enforce its gaming laws. The ruling contradicts the Third Circuit's April decision in an identical case, creating a circuit split.",
+  "date": "2026-08-29",
+  "published_utc": "2026-08-29T13:34:04Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "The Ninth Circuit panel held that sports outcomes are outcomes of events, not occurrences of events themselves, and that Kalshi's interpretation of the CEA's swap definition 'knows no limiting principle.'",
+  "bottom_line": "Watch for Kalshi's district court proceedings in Nevada on the remanded election-contract claims and any petition to the Supreme Court seeking resolution of the circuit split on identical statutory text. The Third and Ninth Circuits' contradictory holdings on swaps classification would be invalidated by a Supreme Court grant, which would settle Kalshi's status nationwide but only after months or years of review.",
+  "human_take": "",
+  "body": [
+    "The Ninth Circuit Court of Appeals held Friday that Kalshi's sports event contracts are not swaps under the Commodity Exchange Act, removing a federal preemption barrier and allowing Nevada to enforce its gaming laws against the prediction market platform. The decision, rendered in KalshiEX LLC v. Assad, directly contradicts the Third Circuit's April ruling on an identical product in an identical legal framework, creating a circuit split that invites Supreme Court review.",
+    "Judges Ryan Nelson, Bridget Bade, and Kenneth Lee heard the case on the Ninth Circuit panel. Judge Nelson wrote the majority opinion, with Judge Lee filing a concurrence. The panel's core holding turns on statutory interpretation: the CEA defines a swap to include an agreement dependent on \"the occurrence, nonoccurrence, or the extent of the occurrence of an event.\" The Ninth Circuit held that whether a particular team wins the Super Bowl is the outcome of an event, not the occurrence of an event itself. The court stated that Kalshi's broad interpretation \"knows no limiting principle because anything could be defined as an event.\"",
+    "The panel also held that Kalshi's self-certification of the sports contracts violated both the CEA's special rule for event contracts and 17 C.F.R. section 40.11(a), the CFTC regulation barring event contracts that involve, relate to, or reference gaming. Judge Lee filed a concurrence noting that the special rule \"appears to give the CFTC discretion whether to ban altogether gaming contracts,\" but concluded the question does not require answering now because section 40.11 currently bars such contracts.",
+    "The Third Circuit reached the opposite conclusion on the same statutory language in its April 6 opinion in KalshiEX LLC v. Flaherty. That court's 2-1 majority, written by Judge Porter, held that sports outcomes can be \"associated with a potential financial, economic, or commercial consequence\" and therefore qualify as swaps under the CEA. The Third Circuit found both field and conflict preemption, leaving New Jersey blocked from enforcing its gambling laws. Judge Roth dissented, arguing the presumption against preemption applies to gambling because states have traditionally regulated it.",
+    "Kalshi now operates under contradictory legal regimes across jurisdictions: federal shielding in New Jersey under the Third Circuit ruling while facing state gaming enforcement in Nevada under the Ninth Circuit ruling. Neither ruling ends its underlying lawsuit; both appeals concerned preliminary injunctions and likelihood of success at that early stage, not final judgments on the merits. The Ninth Circuit decision covers only the sports contracts and remanded Nevada's challenges to Kalshi's election contracts for the district court to reconsider under the new opinion.",
+    "Kalshi has been expanding beyond event contracts into crypto derivatives, filing to add perpetual futures on 12 altcoins days after the CFTC cleared its bitcoin contract and moving further onchain through a partnership with oracle provider RedStone. The company now faces uncertainty about which of its product lines will survive legal challenge in which jurisdictions."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/regulation/ninth-circuit-says-kalshi-sports-contracts-aren-t-swaps-splitting-with-third-circuit",
+      "url": "https://thedefiant.io/news/regulation/ninth-circuit-says-kalshi-sports-contracts-aren-t-swaps-splitting-with-third-circuit"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": true
+}
