@@ -1,29 +1,6 @@
 [
  {
   "date": "2026-07-31",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c018",
-    "headline": "Coldcard Hardware Wallet Flaw Exposed 594 Bitcoin to Coordinated Theft",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bitcoin traded above $64,000 in early Asian hours following the drain, and the widespread theft appeared to have little visible impact on the market price.' This claim appears in the brief's data_points but the brief's bear_case notes 'The theft had little visible impact on bitcoin's market price, which may underestimate the long-term reputational damage to hardware wallet trust.' The draft presents the market-price observation as a standalone fact without the contextual caveat that this price stability may mask deeper reputational damage. The brief's bear_case explicitly exists to complicate this reading, and the draft has sanded it down by omission rather than inclusion."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "New York Sues Kalshi, Alleges Unlicensed Gambling Operation",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Kalshi...is federally licensed by the Commodity Futures Trading Commission' but the brief provides no data point confirming this fact. The draft has smuggled in a claim about CFTC licensing that does not appear in the research brief's data_points.",
-     "The draft claims 'Kalshi...secured a $40 billion valuation in a June funding round' and attributes this to context about the lawsuit, but the brief's data point about the $40 billion valuation does not specify the timing as 'June' or place it in a 'funding round.' The draft has added temporal specificity not in the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
   "approved": 3,
   "rejected": [
    {
@@ -7613,6 +7590,54 @@
      "The draft states institutional adoption 'have grown' and 'tokenization activity have grown' (grammatical error aside) but does not specify which institutions, asset classes, or timeframes, and offers no source attribution for these claims beyond the single URL.",
      "The draft acknowledges 'the reporting does not isolate which asset classes or institutions drove the fourfold expansion' \u2014 this signals the source itself is thin, but the draft does not indicate the confidence level or sourcing pattern (primary vs. secondary reporting) of the underlying claim.",
      "Without a research brief, there is no established bear_case or open_questions to validate against; the draft's open-ended framing cannot be confirmed as proportionate to evidence."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c056",
+    "headline": "Russia's Sber to accept USDT, Ether as loan collateral under new framework",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The instruction states that every draft fact must trace back to a research brief OR the draft's own cited sources. The draft cites only Cointelegraph, but the draft contains multiple specific claims that cannot be verified against that single source URL provided: (1) Sber's acceptance of USDT, Ether, and Bitcoin as collateral; (2) the characterization of 'a newly introduced legal structure'; (3) the assertion that 'new legislation establishes rules for crypto trading in Russia'. The single Cointelegraph link provided is a generic URL and the draft does not quote or directly attribute specific facts to it inline. Without a research brief or inline attribution of each factual claim to a specific source passage, claims like 'Sber accepts USDT and Ether as loan collateral' remain unverified against the stated evidentiary standard.",
+     "The draft also contains speculative framing ('places digital assets into a formal institutional lending apparatus', 'signals a widening range of collateral options') that reads as interpretive narration rather than reported fact, yet no quotation or on-record source is provided to ground these characterizations."
+    ]
+   },
+   {
+    "id": "c064",
+    "headline": "Treasury GENIUS Act rules require US exchanges to audit foreign stablecoins or delist",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The draft claims the Treasury 'has proposed rules under the newly enacted GENIUS Act' but provides only one source URL (CryptoSlate). The draft makes specific assertions about the GENIUS Act being 'newly enacted' and details about Treasury 'proposed rules' requiring exchanges to 'audit foreign stablecoins or delist', yet these claims are not inline-attributed to the source or directly quoted from it. The draft presents the GENIUS Act as settled legislative fact ('represents the Treasury's first comprehensive stablecoin legislation') without verification that the Act is actually enacted versus proposed. Without a research brief and without inline source attribution for each factual claim, the evidentiary standard is not met.",
+     "The characterization 'The burden of proof rests with the provider, not the regulator' is interpretive analysis that requires explicit sourcing or quotation to validate, which is not provided."
+    ]
+   },
+   {
+    "id": "c109",
+    "headline": "Charles Schwab Adds Solana, Avalanche, Chainlink to Crypto Platform",
+    "category": "accuracy",
+    "reasons": [
+     "Story relies entirely on a single secondary source (The Daily Hodl) for all factual claims, but no research brief was provided to validate the facts against primary sources. The approval protocol requires that when no brief exists, facts must trace to the draft's own cited sources OR to a brief. Here, the single cited source is sufficient as the fallback, but the draft itself acknowledges The Daily Hodl 'does not specify which assets were included in the initial May rollout or provide detail on the timeline for adding these three tokens beyond the phrase \"coming months.\"' This self-aware caveat about source weakness is appropriate, but it signals that the core claims (the rollout dates, asset list, timeline) depend on a single secondary outlet with acknowledged gaps. The story is factually defensible but thin; however, the real problem is structural: without a brief to anchor claims, and with only one source cited that the draft admits is vague on key details, this story lacks the evidentiary foundation the desk requires. A fact-check against the brief is impossible because there is no brief."
+    ]
+   },
+   {
+    "id": "c059",
+    "headline": "Stellar's Tokenized RWA Market Reaches Nearly $4 Billion After Fourfold Growth in 2026",
+    "category": "accuracy",
+    "reasons": [
+     "Story cites only one secondary source (Cointelegraph) and no research brief was provided. The approval protocol requires facts to trace either to a brief OR to the draft's own cited sources when no brief exists. The draft itself acknowledges critical gaps in the Cointelegraph reporting: 'does not isolate which asset classes...drove the fourfold expansion, nor does it identify which specific institutions contributed to the growth or their share of the market.' The bottom_line then compounds the problem by calling for 'confirmation of the $4 billion figure from alternative sources or on-chain analysis, since Cointelegraph's original reporting is the sole source cited here'\u2014a flagging that the core number ($4 billion) rests on a single unconfirmed outlet. The draft is self-aware about its evidentiary weakness but does not resolve it. Without a brief and with only one source for the headline claim, the desk cannot verify the $4 billion figure or the fourfold growth rate. This is not a matter of polish: the story's central fact is unanchored."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "Tokenized stock transfer volume surges 415% in 30 days",
+    "category": "accuracy",
+    "reasons": [
+     "The brief slot contains only a note stating 'no brief exists for this story.' Per protocol, the writer's hard rule is that 'no fact exists outside the brief.' With no research brief provided, every factual claim in the draft must be independently verifiable from the source URL. The source URL provided (cointelegraph.com) cannot be accessed to verify the claims about 415% surge, $29.5B volume, active addresses doubling, and token holders doubling. Without a brief or accessible primary source verification, these facts are unsourced under the desk's protocol and the story cannot be approved."
     ]
    }
   ]
