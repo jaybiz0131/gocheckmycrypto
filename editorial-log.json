@@ -4,38 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c016",
-    "headline": "Coldcard Mk3 firmware flaw enabled $38 million bitcoin theft in 25-minute sweep",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Approximately 594 bitcoin, worth about $38 million, was stolen from around 500 single-signature wallets in under 30 minutes' but later says 'in a three-block window between 01:31 and 01:56 UTC.' The brief data_point specifies '25-minute' theft (matching the title), but the draft text says 'under 30 minutes' then 'under 30 minutes' again later\u2014this is inconsistent with the brief's core claim of '25-minute sweep' and creates factual ambiguity about the theft duration that is not resolved in the source URL provided.",
-     "The draft includes a paragraph stating 'The actual mechanism by which the device serial number and clock values can be reliably extracted or measured by an attacker in the field is not detailed in available sources, representing a significant gap in the technical disclosure.' This is a bear_case item from the brief, but it is presented as narrative fact rather than as a caveat or uncertainty label. The brief's bear_case notes this is a gap; the draft should flag this as an unresolved question, not assert it as a concluded fact.",
-     "The draft claims 'Block published its findings without full testing to confirm exploitability because exploitation was already under way, per CoinDesk's reporting.' This conflates two separate claims: (1) Block published without full testing, and (2) exploitation was already under way. The brief data_point says 'Block published its findings without full testing to confirm exploitability because exploitation was already under way'\u2014this is reported, but the draft's phrasing could mislead readers into thinking the 'because' relationship is causal fact rather than Block's stated justification, which should be attributed as such."
-    ]
-   },
-   {
-    "id": "c003",
-    "headline": "Circle secures New York trust charter as crypto regulatory push accelerates",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Circle 'received approval from the U.S. Office of the Comptroller of the Currency (OCC) to establish a national trust bank' 'Earlier in July 2026', but the brief data_point says 'Earlier this month (July 2026)' without specifying which month the article was written. The article header date is 2026-07-31, making 'earlier this month' technically correct but the phrasing 'Earlier in July 2026' in the draft is tighter than justified\u2014it could imply early July when the brief does not confirm the exact date. More critically, the brief's open_questions explicitly flag 'The exact date in July 2026 that Circle received OCC approval is not specified,' meaning the draft should not assert a timeline ('Earlier in July') that the brief itself marks as unknown."
-    ]
-   },
-   {
-    "id": "c124",
-    "headline": "BitMine Adds $73 Million in ETH, Holdings Reach 4.8% of Circulating Supply",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'ETH spot ETFs took in $11.7 million on July 27, with five-session net flows at $77.5 million positive' and attributes this to 'the desk's ETF flows board' and 'the latest available data.' This is smuggled information not present in the research brief. The brief contains no data_point about ETH ETF flows, July 27 inflows, or any five-session flow figures. The writer has introduced external market data outside the research protocol."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c018",
     "headline": "Coldcard Hardware Wallet Flaw Exposed 594 Bitcoin to Coordinated Theft",
     "category": "accuracy",
@@ -7615,6 +7583,36 @@
      "The draft opens with 'An Anthropic AI model reduced the computational work needed to break a leading post-quantum signature candidate by a factor of 67 million last month, according to CoinDesk reporting.' However, the brief's core_claim attributes this to Ripple's announcement/reporting, not Anthropic directly. The CoinDesk article referenced is about Ripple preparing the XRP Ledger, not about Anthropic's model. The Anthropic finding is mentioned in the CoinDesk piece, but the draft presents it as the primary news when the brief's core_claim and angle show Ripple's preparation is the actual story.",
      "The draft states 'Bitcoin and Ethereum published their own migration plans to quantum-resistant cryptography this week, per CoinDesk.' The brief shows only that a CoinDesk article reported this claim, but the brief's angle and open_questions reveal that 'the sources provide no concrete details on Ripple's specific plan, timeline, or technical approach.' The brief does not support the assertion that Bitcoin and Ethereum have published concrete migration plans\u2014only that CoinDesk reported they did. Without a second source and given the thinness of the brief (thin=true), this framing overstates confidence in what was actually announced.",
      "The draft's entire framing centers on Anthropic's breakthrough and industry-wide migration, but the brief's core_claim is specifically about Ripple. The story has smuggled a new framing (Anthropic breakthrough as the lede) that is not the brief's angle (Ripple's preparation as the response to the Anthropic finding)."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c058",
+    "headline": "Tokenized stock transfer volume surges 415% in 30 days to $29.5B",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief provided for this draft; per instructions, every fact must trace to cited sources. The single source cited is a Cointelegraph URL about tokenized stock volume.",
+     "The draft claims a '415% surge' but the URL headline states '416%' \u2014 a numerical discrepancy between draft and source suggests the draft was not verified against the actual source text.",
+     "The draft asserts 'active addresses and holders more than doubled' but provides no source verification for this specific claim within the single Cointelegraph article cited.",
+     "The draft states 'The brief does not indicate what drove the volume spike' but there is no brief present; this meta-commentary about a nonexistent brief is inaccurate and breaks the fourth wall.",
+     "Without a research brief to establish data_points, confidence labels, and bear_case integration, the draft cannot be validated against the desk's standard accuracy protocol."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "Stellar tokenized RWA market expands to nearly $4B",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief provided for this draft; per instructions, every fact must trace to cited sources.",
+     "The draft claims 'nearly $4B' and 'roughly fourfold' growth 'over the year' but provides a single Cointelegraph URL as sole source; without access to the source text or a brief establishing these figures as data_points, the numbers cannot be validated.",
+     "The draft states institutional adoption 'have grown' and 'tokenization activity have grown' (grammatical error aside) but does not specify which institutions, asset classes, or timeframes, and offers no source attribution for these claims beyond the single URL.",
+     "The draft acknowledges 'the reporting does not isolate which asset classes or institutions drove the fourfold expansion' \u2014 this signals the source itself is thin, but the draft does not indicate the confidence level or sourcing pattern (primary vs. secondary reporting) of the underlying claim.",
+     "Without a research brief, there is no established bear_case or open_questions to validate against; the draft's open-ended framing cannot be confirmed as proportionate to evidence."
     ]
    }
   ]
