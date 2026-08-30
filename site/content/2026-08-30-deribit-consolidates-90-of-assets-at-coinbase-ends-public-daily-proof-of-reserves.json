@@ -1,0 +1,62 @@
+{
+  "id": "c073",
+  "slug": "deribit-consolidates-90-of-assets-at-coinbase-ends-public-daily-proof-of-reserves",
+  "kind": "brief",
+  "title": "Deribit Consolidates 90% of Assets at Coinbase, Ends Public Daily Proof of Reserves",
+  "dek": "Deribit is moving roughly 90% of client assets into Coinbase custody and will remove its daily public Proof of Reserves dashboard on September 1, 2026. Regulatory audits will continue, but customers will lose access to real-time Merkle-tree verification they could perform independently each day.",
+  "date": "2026-08-30",
+  "published_utc": "2026-08-30T01:14:54Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Deribit will end public daily Proof of Reserves verification on September 1, 2026, replacing customer-accessible Merkle proofs with regulator-required but non-public audit controls.",
+  "bottom_line": "Watch whether Deribit offers any periodic public Proof of Reserves attestation or replacement transparency mechanism after September 1, and track how customers access the promised audited financial statements on demand. The story's premise holds if regulatory audits prove sufficient; it shifts if customer-initiated audits reveal gaps or if other exchanges move toward similar public-to-private transparency transitions.",
+  "human_take": "",
+  "body": [
+    "Deribit will remove its public Proof of Reserves dashboard on September 1, 2026, ending a daily verification layer that customers could independently check to confirm their balance inclusion. The move follows the migration of roughly 90% of client assets into Coinbase custody since Coinbase acquired the derivatives platform in August 2025, according to CryptoSlate's reporting.",
+    "The current Proof of Reserves system uses a privacy-preserving binary Merkle tree and daily snapshot, allowing each client to use a unique proof identifier to find hashed entries representing their balances. Any observer can sum the file's liabilities and compare the total against wallet balances publicly disclosed by Deribit. After September 1, that daily public verification will no longer exist.",
+    "Deribit's current methodology excludes assets held with third-party custodians because they are outside Deribit's direct control, naming Copper ClearLoop as an example. The source reporting does not specify whether the 90% of assets now held at Coinbase was already excluded from prior public snapshots or whether this represents new non-public custodial concentration.",
+    "Deribit has not promised a replacement public dashboard or continued client-level Merkle verification after the September 1 cutoff. Instead, the firm stated that clients and counterparties may request audited financial statements and other due-diligence material, a less frequent and less directly verifiable form of evidence.",
+    "Deribit operates as Deribit FZE, a regulated virtual asset service provider in Dubai under the Virtual Assets Regulatory Authority (VARA). VARA rules require covered firms to maintain reserves equal to 100% of client liabilities, hold them one-to-one in the same asset, and reconcile them daily. Deribit must also obtain an independent third-party reserve audit at least every six months and submit wallet addresses monthly to the regulator, along with quarterly statements demonstrating compliance with reserve requirements. The VARA framework allows assets to be held directly or through third-party custodians while requiring segregation from company assets and preserving clients' legal title.",
+    "Deribit's disclosures name Coinbase at the brand level but do not identify the specific Coinbase legal entity holding the migrated assets. A separate VARA service-provider list names Coinbase for custody and self-custody technology without specifying which Coinbase entity is involved. This structural opacity limits transparency about the actual custodial architecture, even as regulatory oversight continues.",
+    "The removal does not cancel regulatory obligations applying to Deribit FZE; reserve reconciliation and audit controls remain in place. However, they will not be publicly visible on the same daily basis that customers previously could access independently."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/deribit-moved-90-of-client-assets-to-coinbase-then-killed-its-daily-proof-of-reserves-check/",
+      "url": "https://cryptoslate.com/deribit-moved-90-of-client-assets-to-coinbase-then-killed-its-daily-proof-of-reserves-check/"
+    }
+  ],
+  "update_of": "hyperliquid-s-revenue-decline-outpaces-trading-boom-as-fee-sharing-eats-into-token-backing",
+  "board_snapshot": {
+    "as_of": "2026-08-30T01:12:32Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78109.07,
+        "chg_24h_pct": -0.15
+      },
+      {
+        "symbol": "ETH",
+        "price": 2457.7,
+        "chg_24h_pct": 0.03
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 2.8,
+      "open_interest_usd": 2215650558
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 108365081,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

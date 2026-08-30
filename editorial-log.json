@@ -4,38 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c012",
-    "headline": "Coldcard Mk3 Firmware Flaw Enables $38 Million Bitcoin Theft in Single Sweep",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Coinkite warned users who generated a seed on an Mk3 running version 4.0.1 or later,' but the brief data_point says 'Coinkite warned users who generated a seed on an Mk3 running version 4.0.1 or later'\u2014this appears identical. However, the logic is backwards: users who generated seeds on 4.0.0 are vulnerable; the warning should apply to those who used 4.0.0, not those who upgraded to 4.0.1 or later. The brief's phrasing is ambiguous but the draft does not clarify this critical distinction. Re-reading the brief: it states users should be warned if they 'generated a seed on an Mk3 running version 4.0.1 or later'\u2014meaning they are NOT vulnerable if they generated after updating. But the vulnerability applies to seeds generated while 4.0.0 was active. The draft's sentence mirrors the brief but obscures the actual exposure window (4.0.0 only, March 2021 onwards). This is a smuggled ambiguity that creates liability: readers will not understand that 4.0.1 *patched* the flaw and that only pre-patch seeds are at risk."
-    ]
-   },
-   {
-    "id": "c021",
-    "headline": "Institutional traders now dominate crypto spot volumes, reshaping market volatility and altcoin dynamics",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Wintermute's OTC desk' as the source for the 72% institutional trading volume figure, but the brief's bear_case explicitly flags that 'The 72% figure is drawn from Wintermute's OTC desk specifically; it is unclear how representative this is of the broader crypto market including CEX volumes.' The draft does not acknowledge or communicate this representativeness caveat, presenting a single-desk figure as if it characterizes the broader market structure. This is a material gap between what the brief flagged as uncertain and what the draft asserts as settled fact."
-    ]
-   },
-   {
-    "id": "c036",
-    "headline": "Tillis and Gallego resubmit revised ethics language for Clarity Act to White House",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'The White House approval is a necessary step before the bill can move forward, according to The Block's reporting' but the brief contains no data_point supporting this claim. The single data_point only states 'Senators are attempting to get President Donald Trump to sign off on revised ethics language' \u2014 attempting is not the same as requiring White House approval as a necessary legislative step.",
-     "The draft states 'The Clarity Act has been a focal point of U.S. cryptocurrency regulation efforts, designed to establish a framework for how digital assets are classified and regulated across federal agencies' but this background is not in the brief's data_points and appears smuggled from general knowledge rather than the source.",
-     "The draft mentions 'The timing is critical, as the Senate recess deadline creates a fixed window for legislative action' but the brief's open_questions include 'What is the Senate recess deadline mentioned in the headline?' \u2014 indicating the specific deadline is not confirmed in the source, yet the draft presents it as established fact."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c016",
     "headline": "Coldcard Mk3 firmware flaw enabled $38 million bitcoin theft in 25-minute sweep",
     "category": "accuracy",
@@ -7605,6 +7573,48 @@
     "reasons": [
      "Brief metadata flags 'boundary_required': true and 'boundary_ok': false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' This is a desk-level editorial hold: the story cannot run without explicit sign-off that a boundary block exists or is not needed. The brief does not carry one. The draft does not indicate it ran the story against a boundary check. Desk rule is that boundary stories do not publish without that clearance.",
      "This is a compliance gate, not a factual error. The facts are all traceable and confidence labels are safe. The hold is procedural: the desk must decide whether this story's date-specific claims (2024-25 tax year, January 2026 CARF collection start, 2027 report arrival, Jan. 31, 2027 tax deadline) require boundary review before publication."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c065",
+    "headline": "Stellar tokenized RWA market expands to nearly $4 billion",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Stellar's real-world asset tokenization market reached nearly $4 billion in 2026' and 'expanding roughly fourfold over the year.' No research brief was provided for this story. The hard rule is: 'no fact exists outside the brief.' Without a brief, facts must trace to the draft's own cited sources. The Cointelegraph URLs provided are identical and both appear to be the same article. The approver cannot independently verify these sources are accessible or contain the claimed figures. The draft presents specific quantitative claims ($4B, fourfold growth) as settled fact without indicating source confidence or whether Cointelegraph itself verified these figures or simply reported an announcement. The brief notes say 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected'\u2014but both sources are the same URL, and the approver has no way to confirm the article contains these specific claims or that they are not unconfirmed/announced figures."
+    ]
+   },
+   {
+    "id": "c066",
+    "headline": "Tokenized stock transfer volume and holder participation expand",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Tokenized equity markets recorded growth in both transfer volume and active participation over the past 30 days, according to Cointelegraph reporting. The expansion included increases in active addresses and the count of holders participating in on-chain equity settlement.' No research brief was provided. The hard rule requires all facts to trace to either a brief or to verifiable cited sources. Both source URLs are identical and point to an article with the title 'tokenized-stock-transfer-volume-jumps-416-in-30-days-to-295b', which suggests specific quantitative claims (416% jump, $295B figure). However, the draft does not report these specific numbers; it uses vague language ('growth', 'increases') without confidence labels or indication of whether these are announced figures or independently verified. The draft's paraphrasing obscures what the source actually reported. Additionally, the phrasing 'according to Cointelegraph reporting' does not clarify whether Cointelegraph independently verified the data or reported figures from another source (likely on-chain analytics or a tokenization platform). Without access to the source or a research brief, the approver cannot confirm the attribution is accurate or the claims are properly qualified."
+    ]
+   },
+   {
+    "id": "c086",
+    "headline": "XRP Spot ETF Weekly Inflows Hit $110.49 Million",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims XRP price was 'up 9.8 percent on the week' but brief data_point states 'SOL gained roughly 19% over the past week'\u2014this is a data mismatch. The brief contains no specific XRP price data for the week ending August 28. The draft attributes week-over-week price movement to XRP without sourcing it in the brief.",
+     "Draft cites 'the desk's market data' for XRP pricing, which is not a source from the brief and constitutes smuggled information.",
+     "Brief is explicitly marked thin=true with significant open_questions (which specific products, market price during week, macro/micro drivers, outflow activity). Draft reads as complete and assured despite thin sourcing."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Anthropic AI Model Advances Post-Quantum Cryptography Timeline",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'An Anthropic AI model reduced the computational work needed to break a leading post-quantum signature candidate by a factor of 67 million last month, according to CoinDesk reporting.' However, the brief's core_claim attributes this to Ripple's announcement/reporting, not Anthropic directly. The CoinDesk article referenced is about Ripple preparing the XRP Ledger, not about Anthropic's model. The Anthropic finding is mentioned in the CoinDesk piece, but the draft presents it as the primary news when the brief's core_claim and angle show Ripple's preparation is the actual story.",
+     "The draft states 'Bitcoin and Ethereum published their own migration plans to quantum-resistant cryptography this week, per CoinDesk.' The brief shows only that a CoinDesk article reported this claim, but the brief's angle and open_questions reveal that 'the sources provide no concrete details on Ripple's specific plan, timeline, or technical approach.' The brief does not support the assertion that Bitcoin and Ethereum have published concrete migration plans\u2014only that CoinDesk reported they did. Without a second source and given the thinness of the brief (thin=true), this framing overstates confidence in what was actually announced.",
+     "The draft's entire framing centers on Anthropic's breakthrough and industry-wide migration, but the brief's core_claim is specifically about Ripple. The story has smuggled a new framing (Anthropic breakthrough as the lede) that is not the brief's angle (Ripple's preparation as the response to the Anthropic finding)."
     ]
    }
   ]
