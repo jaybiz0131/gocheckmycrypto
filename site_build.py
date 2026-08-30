@@ -4220,10 +4220,24 @@ def ingest():
         # the writer model sometimes slips a process note about the review status into the
         # copy ("Note: flagged for human review."); the article is the finished story only,
         # so any such sentence is stripped from every published field at the door
+        # THE READER GETS THE NEWS, NEVER THE NEWSROOM'S NOTES (quality audit
+        # 2026-08-30: on the crypto desk roughly half the sampled stories narrated
+        # their own research gaps in the body, "Decrypt does not specify...",
+        # "remains unreported in available coverage", and the sports desk shipped a
+        # literal empty clause, "Awful Announcing reports that ." left behind by a
+        # sentence repair). Both classes are process residue, mechanical to detect,
+        # and cutting a whole sentence cannot invent anything.
         note = re.compile(r"(?:Note:\s*)?[^.!?]*(?:flagged for|pending)\s+human\s+review[^.!?]*[.!?]?\s*"
-                          r"|[^.!?]*human review before publication[^.!?]*[.!?]?\s*", re.I)
+                          r"|[^.!?]*human review before publication[^.!?]*[.!?]?\s*"
+                          r"|[^.!?]*(?:do(?:es)? not (?:specify|state|say|disclose|name)"
+                          r"|not (?:specified|disclosed|named|stated) in"
+                          r"|remains? unreported|unavailable in (?:the )?available"
+                          r"|available (?:coverage|reporting) does not"
+                          r"|could not be independently)[^.!?]*[.!?]?\s*", re.I)
+        dangling = re.compile(r"[^.!?]*\b(?:reports?|said|says|stated|writes?|notes?)"
+                              r"\s+that\s*[.!?](?=\s|$)", re.I)
         def scrub(text):
-            return note.sub("", destyle(text)).strip()
+            return dangling.sub("", note.sub("", destyle(text))).strip()
         paras = [scrub(p) for p in paras]
         paras = [p for p in paras if p]
         item = {
