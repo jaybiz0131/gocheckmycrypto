@@ -1,50 +1,6 @@
 [
  {
   "date": "2026-07-31",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c004",
-    "headline": "Coldcard Firmware Flaw Exposes 600 Bitcoin to Theft; Industry Questions Self-Custody Model",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states '600 bitcoin ($38 million)' but the brief data_point says 'approximately 600 bitcoin ($38 million)'. The word 'approximately' is material to confidence; the draft should preserve it or note uncertainty.",
-     "The draft claims 'The discovery has reignited a debate over the viability of self-custody as a security model' but the brief contains no data_point about the discovery 'reigniting' debate\u2014this is narrative construction beyond the sourced facts.",
-     "The draft states Coldcard users 'must generate entirely new wallets and move their funds' as a definitive requirement, but the brief data_point says this is what 'Coinkite CEO NVK stated' in an open letter. The draft obscures the attribution; this is a recommendation from the vendor, not a universal requirement.",
-     "The story hinges on 'affected users' count and severity but never specifies a boundary: the brief open_questions flag this ('How many individual Coldcard users were affected') and the draft carries zero detail on scope, making the headline claim of mass exposure unsupported."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "Dubai Exchange Shelbit Linked to $4 Billion Iran Sanctions-Evasion Network",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Rich Sanders, an independent blockchain researcher and investigator focused on Iran, told CoinDesk: \"It's an IRGC operation, and that's plain as day.\"' But the brief data_point attributes this quote to Sanders with no qualifier about his confidence or the basis for the assertion. The draft then immediately presents Reuters' contradictory finding ('Reuters, however, reported it could not determine whether the IRGC directly controlled either entity') which mutes the Sanders claim. The structure implies Sanders has certainty the evidence does not support\u2014the brief itself notes this is a contested point.",
-     "The draft names 'John Wojcik, a senior analyst at TRM Labs' but the brief data_point says Wojcik 'is a former researcher at Infoblox and now senior analyst at TRM Labs who spent seven years investigating illegal gambling for the United Nations Office on Drugs and Crime.' The draft drops the 'former researcher at Infoblox' detail and the credential chain, weakening attribution authority for his claim about the network's scale.",
-     "The draft states the scheme 'channels hundreds of millions of dollars through major crypto platforms including Binance' as direct fact, but this is sourced reporting from TRM Labs and Chainalysis investigations, not Binance confirmation. Binance explicitly stated 'Shelbit had never held an account on its platform.' The draft does not adequately signal the investigative finding versus the exchange's denial, creating a contradiction that obscures rather than clarifies."
-    ]
-   },
-   {
-    "id": "c007",
-    "headline": "Circle secures New York trust charter for fiduciary and custody services",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'USDC, Circle's flagship stablecoin, has a market capitalization exceeding $71.8 billion' but the brief data point says 'USDC has a market capitalization exceeding $71.8 billion' without attribution. The draft does not attribute this figure to any source inline, violating the requirement to trace every fact back to a data_point and attribute figures to their outlets. The brief lists this as a CoinDesk-reported figure, so attribution is required in prose.",
-     "The draft mentions 'Circle Co-Founder, Chairman, and CEO Jeremy Allaire said: \"Earning a New York trust charter has been a longstanding objective for Circle given the regulatory clarity that comes with it.\"' This is a fabricated quote format. The brief data_point says Jeremy Allaire 'stated' this, not that he said it in quotation marks in the way presented. The exact quote attribution and wording must match the source or be paraphrased without quotes; the draft presents it as a direct quote without verifying quote mark fidelity against the original CoinDesk article."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "New York sues Kalshi prediction market, alleging unlicensed gambling operation",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case contains four substantive points: (1) Kalshi's federal licensing argument, (2) the Minnesota federal court ruling granting a preliminary injunction, (3) Kalshi's rapid user growth, and (4) prior federal judicial rejections of state-blocking efforts. The draft addresses items 1, 2, and 4 in the final paragraph but buries them in a single sentence about 'broader tension between state and federal regulatory authority' and does not meaningfully weigh their implications. Item 3 (user growth as a complication to enforcement) is mentioned only in a previous paragraph without connecting it to the bear case that such growth 'may complicate New York's enforcement efforts.' The draft's framing emphasizes the lawsuit as a high-stakes clash without proportionate treatment of the evidence that federal courts have already begun ruling against state-level gambling bans on CEA grounds, which directly undermines the premise that the outcome is unresolved. This creates an imbalance: the bear case exists in the brief but reads as subordinate or secondary in the draft, when the Minnesota ruling is structurally equivalent in importance to the New York lawsuit itself."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
   "approved": 4,
   "rejected": [
    {
@@ -7630,6 +7586,55 @@
     "category": "accuracy",
     "reasons": [
      "The draft itself acknowledges that no research brief exists and that figures cannot be reported under desk standards. This is a correctly self-rejected submission. The body states 'No research brief containing sourced data_points, confidence labels, or bear_case material was provided for it, so none of the figures associated with it can be reported under desk standards.' The story cannot proceed without a brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c060",
+    "headline": "Russia's Sber Bank Plans to Accept Bitcoin, Ether, USDT as Loan Collateral",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The approval protocol requires that 'every fact in the draft traces back to a data_point in the brief.' Without a brief, the desk cannot verify whether the facts in the draft (Sber accepting Bitcoin, Ether, USDT as collateral; new Russian legislation governing crypto trading; scope and timing of the program) are accurately sourced to Cointelegraph or whether the Cointelegraph article itself contains these claims. The single source URL provided cannot be independently verified here. The draft must be rejected pending a research brief or direct verification against the source document."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Treasury Proposed Rule on GENIUS Act: US Exchanges Must Justify Foreign Stablecoin Offerings",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. The protocol requires that every fact trace to a data_point in the brief, or in the absence of a brief, to named sources. The draft makes specific claims about the GENIUS Act, the Treasury's proposed rule, the compliance burden on service providers, and the standard for 'reasonable grounds to trust'\u2014but the desk cannot verify these claims against the CryptoSlate source without the source document itself. A single URL is not sufficient evidence that CryptoSlate reported these details accurately or that the draft's paraphrasing is faithful. The draft must be rejected pending a research brief or direct source verification."
+    ]
+   },
+   {
+    "id": "c064",
+    "headline": "Tokenized Equity Trading Surges: Volume Hits $29.5B, Active Users Double",
+    "category": "accuracy",
+    "reasons": [
+     "Draft cites a single source (Cointelegraph) for all facts but the brief note states 'no brief exists for this story; every draft fact must then trace to the draft's own cited sources or be rejected'. The source URL provided is a link to Cointelegraph, which is a secondary reporting outlet, not primary data. The 30-day period, $29.5B figure, 415% increase, and claims about 'doubling of active addresses and token holders' cannot be verified as originating from the Cointelegraph article without access to that article's sources. The instruction protocol requires facts to trace either to a research brief's data_points OR to primary sources in the draft's own citation chain. A single secondary outlet URL does not constitute traceable primary sourcing for specific numerical claims that may themselves be unverified in that outlet's reporting.",
+     "The phrase 'according to Cointelegraph's reporting' suggests the desk is relying on secondary reporting as primary fact, which violates the rule that facts must trace to either brief data_points or identifiable primary sources. No primary data source (exchange, protocol, on-chain metric provider) is cited."
+    ]
+   },
+   {
+    "id": "c063",
+    "headline": "Stellar tokenized RWA market expands to nearly $4B on fourfold 2026 growth",
+    "category": "accuracy",
+    "reasons": [
+     "The draft acknowledges in its own body that 'Cointelegraph's account is the sole sourced reporting available for these figures' and notes that 'The reporting does not specify which asset classes, institutions, or use cases drove the fourfold expansion.' This is the writer confessing that the $4 billion figure and the 'fourfold 2026 growth' claim rest on a single secondary source with no primary verification and no underlying data transparency. The instruction protocol requires facts to trace to either a research brief (none exists here) or identifiable primary sources. A secondary outlet reporting unverified figures from an unnamed source chain does not meet this standard.",
+     "The title promises 'fourfold 2026 growth' but the body admits the reporting 'does not detail...the pace of growth within the year,' creating a misleading headline-to-body disconnect. The reader cannot distinguish between claimed year-over-year growth and intra-year volatility."
+    ]
+   },
+   {
+    "id": "c127",
+    "headline": "RLUSD supply on Ethereum surpasses XRPL, grows 93% in 30 days",
+    "category": "accuracy",
+    "reasons": [
+     "The entire draft rests on a claim that no research brief exists to support. The instruction is explicit: 'every draft fact must then trace to the draft's own cited sources or be rejected.' The only source cited is a Crypto Briefing URL, but the brief slot states 'no brief exists for this story.' The draft cannot be verified against research protocol because it was not written from research. The writer has submitted a story without the required research infrastructure.",
+     "The core facts\u2014RLUSD supply on Ethereum surpassing XRPL, the 93% 30-day growth rate, the comparison to USDC/USDT\u2014all depend on a single cited source (Crypto Briefing) that the approver cannot inspect. Under the protocol, facts must trace to a brief's data_points with confidence labels. This draft bypassed that requirement entirely."
     ]
    }
   ]

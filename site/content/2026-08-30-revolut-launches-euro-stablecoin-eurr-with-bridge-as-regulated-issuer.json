@@ -18,7 +18,7 @@
     "The launch structures issuance and distribution as separate functions under the European Union's Markets in Crypto-Assets framework (MiCA). Bridge Building is authorized as an electronic money institution by Luxembourg's Commission de Surveillance du Secteur Financier (CSSF), authorized on June 29, 2026, and also holds crypto-asset service provider status with permissions for custody, exchange and transfer. Luxembourg's regulator lists Bridge as both an active electronic money institution and an active crypto-asset service provider.",
     "Revolut told users it has more than 75 million customers, though EURR access is initially limited to eligible users in the three test markets. Users can move between euros, crypto, external wallets and supported blockchain networks. Bridge identifies Ethereum and Polygon as EURR chains. Revolut stated that more markets are set to follow and wider EURR availability is expected later in 2026, with stablecoins tied to other currencies also in development.",
     "Tokenholders have the right to redeem EURR at par against Bridge at any time, subject to applicable terms and redemption process. Bridge's reserve page states that funds received for EURR are safeguarded in segregated accounts at regulated credit institutions or invested in eligible, highly liquid euro-denominated instruments. As of August 25, 2026, the supply snapshot showed 374 euros in EURR circulation backed by 374 euros in reserve assets, with all reported backing held as cash deposits in credit institutions.",
-    "Circle Internet Financial Europe SAS issues EURC, a competing euro stablecoin, under an electronic money institution license from France's Autorit\u00e9 de Contr\u00f4le Prudentiel et de R\u00e9solution (ACPR). Circle reported 394.5 million euros of EURC in circulation as of August 24, deployed across Avalanche, Base, Cronos, Ethereum, Solana, Stellar and World Chain. The EURR supply remains extremely small relative to EURC, reflecting the nascent stage of the rollout.",
+    "Circle Internet Financial Europe SAS issues EURC, a competing euro stablecoin, under an electronic money institution license from France's Autorité de Contrôle Prudentiel et de Résolution (ACPR). Circle reported 394.5 million euros of EURC in circulation as of August 24, deployed across Avalanche, Base, Cronos, Ethereum, Solana, Stellar and World Chain. The EURR supply remains extremely small relative to EURC, reflecting the nascent stage of the rollout.",
     "The rollout is limited to three test markets with no guarantee of success or timeline for full expansion across Revolut's user base."
   ],
   "sources": [
@@ -57,5 +57,13 @@
     }
   },
   "also_reported_by": [],
-  "developing": true
+  "developing": true,
+  "updated_utc": "2026-08-30T19:51:10Z",
+  "merged_from": [
+    {
+      "id": "c056",
+      "title": "Revolut starts EURR rollout with Bridge as regulated issuer",
+      "published_utc": "2026-08-30T19:51:10Z"
+    }
+  ]
 }
