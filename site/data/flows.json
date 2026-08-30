@@ -1,13 +1,13 @@
 {
   "example": false,
   "generated": "2026-08-30",
-  "generated_utc": "2026-08-30T16:55:31Z",
+  "generated_utc": "2026-08-30T19:35:31Z",
   "window_hours": 48,
-  "txn_count": 10,
+  "txn_count": 8,
   "volatile": {
-    "inflow_usd": 443576088,
-    "outflow_usd": 600822185,
-    "net_usd": 157246097,
+    "inflow_usd": 284864936,
+    "outflow_usd": 461050405,
+    "net_usd": 176185469,
     "direction": "off exchanges"
   },
   "stablecoins": {
@@ -18,23 +18,23 @@
   "by_asset": [
     {
       "symbol": "BTC",
-      "inflow_usd": 443576088,
-      "outflow_usd": 600822185,
-      "net_usd": 157246097
+      "inflow_usd": 284864936,
+      "outflow_usd": 461050405,
+      "net_usd": 176185469
     }
   ],
   "by_exchange": [
     {
       "exchange": "kraken",
-      "inflow_usd": 316536689,
+      "inflow_usd": 157825537,
       "outflow_usd": 266551281,
-      "net_usd": -49985408
+      "net_usd": 108725744
     },
     {
       "exchange": "coinbase institutional",
       "inflow_usd": 127039399,
-      "outflow_usd": 268829148,
-      "net_usd": 141789749
+      "outflow_usd": 129057368,
+      "net_usd": 2017969
     },
     {
       "exchange": "okex",
@@ -44,18 +44,6 @@
     }
   ],
   "top_inflows": [
-    {
-      "symbol": "BTC",
-      "amount": 2040.0,
-      "usd": 158711152.0,
-      "to": "kraken",
-      "from": "unknown wallet",
-      "blockchain": "bitcoin",
-      "hash": "874b44ecb3c5b2a5025e87ecba968b78705c9ce4c472e0131ec29ce4b97b4ec3",
-      "url": "",
-      "ts": 1787940404.0,
-      "stable": false
-    },
     {
       "symbol": "BTC",
       "amount": 2039.0,
@@ -104,18 +92,6 @@
       "hash": "21f71427188c1f991a61d2bb5855ba93ce822935540432a21d50ba9b72851b72",
       "url": "",
       "ts": 1787947081.0,
-      "stable": false
-    },
-    {
-      "symbol": "BTC",
-      "amount": 1794.0,
-      "usd": 139771780.0,
-      "to": "unknown wallet",
-      "from": "coinbase institutional",
-      "blockchain": "bitcoin",
-      "hash": "f90d4f8f60da8f518a943871ba007bb2ba74949ead5bb446362f1d7e06ce64d3",
-      "url": "",
-      "ts": 1787936281.0,
       "stable": false
     },
     {
@@ -187,13 +163,13 @@
     },
     {
       "week_ending": "Jun 28",
-      "net_usd": 1060533148,
-      "moves": 74
+      "net_usd": 1150980438,
+      "moves": 75
     },
     {
       "week_ending": "Jul 05",
-      "net_usd": 1667601992,
-      "moves": 98
+      "net_usd": 1577154702,
+      "moves": 97
     },
     {
       "week_ending": "Jul 12",
@@ -227,13 +203,13 @@
     },
     {
       "week_ending": "Aug 23",
-      "net_usd": -1061859490,
-      "moves": 76
+      "net_usd": -946132334,
+      "moves": 77
     },
     {
       "week_ending": "Aug 30",
-      "net_usd": -659068691,
-      "moves": 82
+      "net_usd": -774795847,
+      "moves": 81
     }
   ],
   "weekly_median_abs_usd": 561443165

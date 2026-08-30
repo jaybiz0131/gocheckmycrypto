@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-07-31",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c021",
-    "headline": "Coldcard firmware flaw enables $38 million bitcoin theft from 500 wallets in 25 minutes",
-    "category": "accuracy",
-    "reasons": [
-     "Title claims '$38 million bitcoin theft' but the brief's core_claim and data_point specify 'approximately 594 bitcoin (worth $38 million)'; the draft does not establish that 594 BTC = $38M at time of theft, and no data_point in brief provides the $38M valuation. The title smuggles a valuation not present in the source material.",
-     "Draft states 'moving 1,324 chunks of bitcoin across 500 transactions inside a three-block window' but the data_point says 'moving 1,324 chunks of bitcoin across 500 transactions inside a three-block window'\u2014the phrase 'chunks' is non-standard terminology not explained in the brief, and the draft does not clarify what a 'chunk' is.",
-     "Draft claims 'The vulnerability was introduced in Coldcard firmware 4.0.0 via a commit dated March 1, 2021' but the brief data_point says the vulnerability was 'introduced in Coldcard firmware 4.0.0' with a commit 'dated March 1, 2021'\u2014this is consistent, but the draft also says the flaw 'caused devices to skip their hardware randomness generator' which the brief marks as 'reported', not verified-on-chain; however, the draft later states 'A build setting instructed the device to skip its hardware randomness generator' which is a different technical detail. The draft conflates two related but distinct mechanisms.",
-     "Draft marks Mk4, Q and Mk5 as 'appear unaffected based on Coinkike's early analysis, though this assessment remains preliminary'\u2014note the typo 'Coinkike' instead of 'Coinkite', but more critically, the brief's data_point is marked 'announced-not-verified' and the draft correctly conveys this uncertainty, so this survives."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "Dubai-based Shelbit exchange linked to $4 billion Iran sanctions-evasion network",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case explicitly states: 'Binance publicly stated Shelbit had never held an account on its platform and that transactions linked to Shelbit were not considered high risk, suggesting the reporting outlets' characterization of fund flows to Binance may face exchange rebuttal.' The draft reports Binance's denial ('Binance said Shelbit had never held an account on its platform') but does not flag the logical tension: if Shelbit never held an account on Binance, how did 'hundreds of millions of dollars' flow 'through major crypto exchanges including Binance' as claimed in the opening paragraph? This direct contradiction is central to the bear_case and is present in the draft without editorial resolution or skepticism. The draft fails to surface the evidentiary problem flagged in the brief.",
-     "The draft opens with 'Shelbit...is at the center of a $4 billion Iranian sanctions-evasion network that has moved hundreds of millions of dollars through major crypto exchanges including Binance.' The bear_case notes: 'The $4 billion figure applies to the entire sanctions-evasion network, not exclusively to Shelbit's role; the breakdown of direct Shelbit transaction volume is not specified.' The draft presents the network scope as a single entity without noting that Shelbit's specific contribution may be a subset. The opening reads as a single fact when it is actually a network aggregate."
-    ]
-   },
-   {
-    "id": "c008",
-    "headline": "Circle Gains New York Trust Charter, Deepening Institutional Banking Footprint",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Circle's stock price remained flat Friday morning at $64.24, per reporting.' This fact does not appear in the research brief's data_points. The brief contains no stock price data. This is a smuggled fact introduced by the writer without research authorization."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "28 Global Banks Complete Live Cross-Border Settlements in BIS Project Agora",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The pilot processed roughly $1 million (CHF 800,000) in real-value transactions across 30 transactions in six currencies.' The brief's data_point says 'across six currencies' but does not confirm that exactly 30 transactions occurred. The brief says 'about $1 million in transfers through 30 transactions' in a separate data point, but the first data point only specifies '$1 million (CHF 800,000) in real-value transactions across six currencies' without mentioning transaction count. The writer has conflated or combined data points in a way that introduces specificity (30 transactions) not clearly attributed to the source in the brief. The sentence structure implies all three details (amount, transaction count, currencies) came from a single reporting, but the brief does not confirm this integration."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
   "approved": 3,
   "rejected": [
    {
@@ -7627,6 +7585,51 @@
      "No research brief exists for this story. Per the approval protocol, every fact must trace to either a research brief or the draft's own cited sources. The draft cites only one source (The Daily Hodl article URL), and the approver cannot access external URLs to verify claims. The draft makes specific factual assertions: (1) Schwab will add SOL, AVAX, and LINK; (2) the rollout will occur 'in the coming months'; (3) Schwab Crypto rolled out in May 2026; (4) the platform already offers a 'base set of assets'. Without access to the source article itself, none of these facts can be verified as coming from The Daily Hodl or as accurately paraphrased from it. The protocol forbids facts to exist outside the brief; when no brief exists, facts must be traceable to primary sources or on-record statements. A single secondary outlet (The Daily Hodl, a crypto news aggregator) reporting a company expansion is the minimum evidentiary threshold, but the approver cannot confirm the source says what the draft claims it says.",
      "The draft contains no direct quote from The Daily Hodl or Schwab. The phrase 'according to The Daily Hodl' is used, but the draft provides no specific language, headline, date of publication, or other means by which the desk can independently verify the article exists or contains the claims stated. A URL without the ability to check it is not a sufficient audit trail.",
      "The draft asserts 'The platform began rolling out to clients in May 2026' as fact. This is a specific date claim attributed to The Daily Hodl reporting, but it appears nowhere in the draft's own language as a quote or explicit attribution within the body. It is paraphrased, and the approver cannot verify the paraphrase against the source."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c059",
+    "headline": "Sber, Russia's largest bank, to accept Bitcoin, Ethereum, and USDT as loan collateral",
+    "category": "accuracy",
+    "reasons": [
+     "Draft contains zero research brief, yet makes multiple factual claims that must trace back to sources: 'Sber plans to accept Bitcoin, Ethereum, and USDT as collateral'; 'Russia formalized cryptocurrency regulation under a new law'; 'permits banks and financial institutions to hold and trade digital assets'; 'the bank has not disclosed valuation methodology, loan-to-collateral ratios, or which borrower categories are eligible'; 'Russia has been developing a central bank digital currency (CBDC)'.",
+     "Only one source is cited: Cointelegraph URL. Per desk protocol, facts not present in cited sources or in a research brief cannot be published.",
+     "The draft states 'According to Cointelegraph's reporting' for the CBDC framing, but other major claims in the opening paragraph (Sber's collateral acceptance, the regulatory framework, institutional adoption signal) lack inline attribution and cannot be verified against the brief (which does not exist).",
+     "Without a brief data_points list, the writer has no documented source authority for: the fact that Sber is Russia's largest bank by assets; the fact that this is a 'new regulated framework'; the claim that the bank 'has not disclosed' specific terms (absence claims require positive assertion or refutation from a named source).",
+     "The story violates the hard rule: 'no fact exists outside the brief.' With no brief provided, every fact must trace inline to its source. Paraphrases of Cointelegraph are not inline-attributed in the opening sentences."
+    ]
+   },
+   {
+    "id": "c062",
+    "headline": "STORY BLOCKED: Research brief required",
+    "category": "accuracy",
+    "reasons": [
+     "This is not a draft for approval; it is a blocker message from the desk itself explaining why the story is killed. It should not appear in the approvals queue.",
+     "The 'draft' is explicitly labeled 'STORY BLOCKED: Research brief required' and its body is a protocol explanation to the writer, not a news story.",
+     "No brief exists; the draft contains no sources array; the entire submission is a desk notice, not a publishable text."
+    ]
+   },
+   {
+    "id": "c069",
+    "headline": "Treasury's GENIUS Act rules would require US exchanges to audit foreign stablecoins",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. Per desk protocol, every fact must trace to either a sourced research brief or the draft's own cited sources. The draft cites only one URL (CryptoSlate), but the protocol requires facts to be traceable through a research brief with confidence labels and sourced data_points. The draft presents multiple specific claims about Treasury rules, the GENIUS Act framework, and compliance mechanisms that cannot be verified against a brief structure. This violates the hard rule: 'no fact exists outside the brief.'",
+     "The story makes specific claims about Treasury proposed rules, provider accountability mechanisms, delisting requirements, and enforcement weight shifts, but these are attributed only to 'CryptoSlate's reporting' and 'CryptoSlate's account' without a corresponding research brief that would establish confidence levels (reported/confirmed/unconfirmed/announced-not-verified). A single secondary source reporting on a regulatory proposal, without a brief-based confidence label, does not meet the desk's standard for regulatory claims."
+    ]
+   },
+   {
+    "id": "c063",
+    "headline": "Story withheld pending research brief",
+    "category": "accuracy",
+    "reasons": [
+     "The draft itself acknowledges that no research brief exists and that figures cannot be reported under desk standards. This is a correctly self-rejected submission. The body states 'No research brief containing sourced data_points, confidence labels, or bear_case material was provided for it, so none of the figures associated with it can be reported under desk standards.' The story cannot proceed without a brief."
     ]
    }
   ]

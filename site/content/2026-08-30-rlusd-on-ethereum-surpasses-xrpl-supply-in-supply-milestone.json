@@ -1,0 +1,61 @@
+{
+  "id": "c121",
+  "slug": "rlusd-on-ethereum-surpasses-xrpl-supply-in-supply-milestone",
+  "kind": "brief",
+  "title": "RLUSD on Ethereum Surpasses XRPL Supply in Supply Milestone",
+  "dek": "Ripple's RLUSD stablecoin supply on Ethereum reached $1.33B (56.1% of total) as of August 30, surpassing XRPL's $1.04B (43.9%) for the first time. Ethereum supply grew 93% over 30 days. The shift reflects institutional preference for DeFi composability and yield over native blockchain payments infrastructure.",
+  "date": "2026-08-30",
+  "published_utc": "2026-08-30T19:37:35Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "RLUSD on Ethereum reached $1.33B in August 30, surpassing XRPL's $1.04B, with $256.5M of the $303.7M total supply growth in the past 30 days occurring on Ethereum, according to Crypto Briefing.",
+  "bottom_line": "Watch whether XRPL can retain or regain share of RLUSD supply through infrastructure upgrades or whether institutional stablecoin deployment continues to consolidate on Ethereum. If Ethereum's share reaches 70% or higher, it signals that Ripple's dual-chain strategy has materially shifted toward DeFi-first infrastructure, fundamentally reordering the role of its native blockchain.",
+  "human_take": "",
+  "body": [
+    "Ripple's RLUSD stablecoin supply on Ethereum reached $1.33 billion (56.1% of total supply) as of August 30, 2026, surpassing the XRPL's $1.04 billion (43.9%) for the first time since mid-2026, according to Crypto Briefing. Total RLUSD supply sits at approximately $2.37 billion.",
+    "Ethereum's supply surged roughly 93% over the past 30 days. During that period, roughly $1.39 billion of RLUSD was minted while approximately $606.8 million was burned, adding $303.7 million to total market cap. Ethereum accounted for $256.5 million, or about 84% of the net increase.",
+    "The concentration of Ethereum RLUSD reveals institutional deployment patterns. The single largest concentration lives inside Aave's lending contracts, which hold roughly $330 million. Ripple's own deployer wallet on Ethereum accounts for another $114 million. The typical RLUSD holder on Ethereum sits on about $106,000, compared to about $15,000 on XRPL, which has more than 69,000 individual RLUSD wallets.",
+    "RLUSD launched on December 17, 2024, under a New York Department of Financial Services trust company charter and was positioned as a dual-chain asset at launch. XRPL handles fast, cheap transactions for cross-border payments while Ethereum integrates into the broader DeFi ecosystem. By late June 2026, the split between chains was nearly even: Ethereum carried about $802 million while XRPL held roughly $796 million.",
+    "Protocols like Aave became magnets for RLUSD deposits, offering yield opportunities that do not exist in the same form on XRPL. Ripple's minting and burning patterns tilted toward Ethereum as institutional counterparties increasingly preferred settling on the network where their other DeFi positions live. XRPL's lower fees and faster finality make it practical for retail users and smaller payment flows. For an institution deploying $10 million into a lending protocol, XRPL's advantages matter less than the depth of DeFi infrastructure available on Ethereum.",
+    "Aave's $330 million RLUSD position concentrates the Ethereum pool within a single protocol, and Ethereum's dominance in RLUSD supply concentrates institutional stablecoin activity on a single network. The dramatic 93% monthly growth on Ethereum may also mask underlying retail adoption challenges on XRPL, where growth has slowed."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/rlusd-ethereum-supply-surpasses-xrpl/",
+      "url": "https://cryptobriefing.com/rlusd-ethereum-supply-surpasses-xrpl/"
+    }
+  ],
+  "update_of": "bullish-commits-100m-stablecoin-facility-to-usd-ai-for-gpu-backed-loans",
+  "board_snapshot": {
+    "as_of": "2026-08-30T19:35:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78883.56,
+        "chg_24h_pct": 0.84
+      },
+      {
+        "symbol": "ETH",
+        "price": 2504.88,
+        "chg_24h_pct": 1.94
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 4.0,
+      "open_interest_usd": 2208059417
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 176185469,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

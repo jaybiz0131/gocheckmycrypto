@@ -1,0 +1,61 @@
+{
+  "id": "c128",
+  "slug": "thorchain-deploys-native-monero-and-zcash-swaps",
+  "kind": "brief",
+  "title": "THORChain Deploys Native Monero and Zcash Swaps",
+  "dek": "THORChain released version 3.20 on August 25, enabling direct swaps of Monero and Zcash against Bitcoin, Ethereum, and stablecoins. Monero's price rose roughly 8.9% following the upgrade. Privacy coin integration comes as major centralized exchanges have delisted XMR and ZEC under regulatory pressure.",
+  "date": "2026-08-30",
+  "published_utc": "2026-08-30T19:37:35Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "THORChain version 3.20 deployed August 25, 2026, enables native XMR and ZEC swaps through self-custodial liquidity pools without wrapped tokens or exchange intermediation.",
+  "bottom_line": "Watch whether THORChain's Protocol-Owned Liquidity attracts sustainable external pool participation or whether the privacy coin pools remain protocol-dependent and shallow. The premise of this deployment depends on liquidity depth deepening beyond the initial phase; if slippage remains prohibitive beyond the first weeks, adoption will stall.",
+  "human_take": "",
+  "body": [
+    "THORChain released version 3.20 on August 25, 2026, deploying native support for Monero (XMR) and Zcash (ZEC) swaps directly against Bitcoin, Ethereum, and stablecoins, according to Crypto Briefing. Monero's price rose roughly 8.9% following the upgrade announcement.",
+    "The deployment removes the need for wrapped tokens or centralized exchange intermediaries to trade privacy coins. Traders can now swap XMR or ZEC through THORChain's liquidity pools while maintaining self-custody throughout the transaction, meaning users retain control of their assets at all times.",
+    "Version 3.20 introduces two new mechanisms to address liquidity concerns. The Protocol-Owned Liquidity (POL) feature allocates protocol capital directly into its own XMR and ZEC pools, bootstrapping depth without requiring external liquidity providers. A companion Stable Reserve mechanism enables fee-free stablecoin swaps, reducing friction on entry and exit trades.",
+    "THORChain's development team demonstrated live Monero swaps in May 2026, and preliminary code had been quietly folded into earlier releases before this formal rollout. The project has described Monero integration as one of its most technically complex efforts to date. The protocol adopted a phased launch strategy, acknowledging that liquidity for XMR and ZEC pools will likely be thin at the outset. Shallow pools mean higher slippage on larger trades, so the early phase will probably work best for smaller swaps while liquidity depth builds organically.",
+    "The upgrade comes as major centralized exchanges have reduced or ended Monero trading under regulatory pressure. Binance dropped Monero in multiple jurisdictions. OKX delisted privacy coins, and Kraken trimmed its privacy coin offerings in certain markets. By deploying protocol-controlled capital into its own privacy coin pools, THORChain can sustainably bootstrap the liquidity depth that outside providers might be slow to commit given regulatory headwinds.",
+    "THORChain's Protocol-Owned Liquidity feature's ability to sustain deep pools long-term remains unproven, and the open questions around regulatory exposure to non-custodial privacy coin protocols versus exchange-level enforcement remain unanswered."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/thorchain-native-monero-swaps-xmr-boost/",
+      "url": "https://cryptobriefing.com/thorchain-native-monero-swaps-xmr-boost/"
+    }
+  ],
+  "update_of": "coinsbuy-loses-8-07-million-in-coordinated-two-blockchain-attack",
+  "board_snapshot": {
+    "as_of": "2026-08-30T19:35:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78883.56,
+        "chg_24h_pct": 0.84
+      },
+      {
+        "symbol": "ETH",
+        "price": 2504.88,
+        "chg_24h_pct": 1.94
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 4.0,
+      "open_interest_usd": 2208059417
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 176185469,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
