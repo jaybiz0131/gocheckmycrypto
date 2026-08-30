@@ -1,0 +1,88 @@
+{
+  "id": "wrap-am-2026-08-30",
+  "slug": "morning-brief-2026-08-30",
+  "kind": "brief",
+  "title": "The Morning Brief: Institutions embrace crypto infrastructure as sector fractures on custody",
+  "dek": "Friday's reporting shows major financial institutions rolling out stablecoin rails and collateralized lending, while a Solana card exploit and regulatory pivot on derivatives reserves expose growing custody and transparency questions at the operational core of institutional crypto adoption.",
+  "date": "2026-08-30",
+  "published_utc": "2026-08-30T17:04:30Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The day's pattern splits sharply: mainstream finance is moving into crypto infrastructure (BitGo acquiring trading ops, Schwab expanding to SOL/AVAX/LINK, Revolut deploying euro stablecoins, banks launching joint stablecoin venture), while custody and reserve verification are contracting, Deribit ending public Proof of Reserves on September 1, and an attacker draining $500,859 from Avici card balances through a misconfigured contract, suggesting that institutional entry is proceeding faster than the underlying security and transparency frameworks are maturing.",
+  "bottom_line": "Institutional adoption is advancing fast on product and custody infrastructure, but transparency controls are tightening at the moment adoption accelerates. Deribit's removal of public Proof of Reserves on September 1, paired with Avici's card-balance drain on Friday, tests whether institutional investors will accept custody arrangements backed by regulatory audits rather than customer-accessible cryptographic proof. Vietnam's September 1 enforcement of unlicensed trading penalties will signal whether the five exchanges achieve license approval on schedule and whether the state can consolidate 17 million unregulated users into a licensed market. Watch BitGo's integration of NYDIG's trading team and client book for signs of smooth transition or defection, and track whether the multinational stablecoin consortium names its full membership and launch timeline. The premise of institutional infrastructure expansion holds so long as security incidents remain isolated; a second material exploit or custody failure would fracture the momentum.",
+  "human_take": "",
+  "body": [
+    "Institutional crypto finance is accelerating on two tracks that diverge sharply: product expansion and custody opacity. On the first track, major financial institutions are building infrastructure at scale. BitGo acquired NYDIG's institutional trading arm for approximately $42.5 million in cash and stock plus a $15 million earnout, bringing 30 employees and client relationships in derivatives and capital-markets services into BitGo's custody and settlement stack. Separately, a consortium of more than a dozen major banks including Bank of America, Wells Fargo, and Santander is advancing plans for a global stablecoin venture initially focused on the U.S. dollar, reversing years of institutional skepticism about blockchain-based payment infrastructure. Charles Schwab will add Solana, Avalanche, and Chainlink to its Schwab Crypto platform, which launched in May 2026 with Bitcoin and Ethereum at 75 basis points per transaction. Revolut has begun rolling out EURR, a euro-backed stablecoin issued by Bridge Building (a Stripe company) under MiCA regulation, to selected customers in Denmark, Poland, and Portugal. Russia's Sberbank plans to offer corporate loans collateralized by Bitcoin, with Ethereum and Tether to follow pending Bank of Russia authorization. Bullish committed a $100 million stablecoin facility to USD.AI to finance GPU and AI infrastructure through collateralized loans, expanding on-chain lending into compute-hardware asset backing.",
+    "On the second track, custody and transparency are contracting in ways that test institutional confidence. Deribit will remove its public daily Proof of Reserves dashboard on September 1, 2026, ending customer-accessible Merkle-tree verification after consolidating roughly 90% of client assets into Coinbase custody. While regulatory audits will continue under Dubai's VARA framework, customers lose direct verification access to daily snapshots that previously let them independently confirm balance inclusion. A day prior, an attacker exploited a vulnerability in Rain's Solana card issuer contract, draining $500,859.22 from 1,685 Avici user card balances on Friday. Avici pledged full refund from treasury, and on-chain analysis shows the attacker signed 14,672 transactions by exploiting a misconfigured signature-verification function that let them register as collateral admin. The vulnerability sat in Rain's contract, not Avici's self-custodial wallets, but the incident exposes how a single misconfigured account shared across two upgradeable programs can drain consumer balances while self-custody wallets remain safe.",
+    "ETH ETF inflows jumped to $226 million on Thursday, marking the strongest single day in 10 months and part of a nine-session streak totaling $1.4 billion in inflows, per Decrypt's reporting. Bitcoin ETF flows turned negative on August 28, posting an outflow of $201.9 million on the day against a five-session net inflow of $924.5 million, per the desk's ETF boards. The asymmetry signals institutional rebalancing or profit-taking in Bitcoin after three weeks of gains.",
+    "Regulatory checkpoints are arriving. Vietnam is enforcing unlicensed trading penalties effective September 1, 2026, under Government Resolution No. 05/2025/NQ-CP, which establishes a five-year pilot for tokenized assets through 2030 with mandatory VND settlement and VND 10 trillion (~$383 million) minimum capital per exchange. Five exchanges are moving toward approval. The European Union's MiCA framework checkpoint passes August 31, though Revolut's EURR rollout already clears that gate. The HMRC released its first crypto-specific tax data Friday: 17,600 UK investors reported \u00a31.38 billion in gains in 2024-25, with 240 whale investors earning over \u00a31 million each accounting for \u00a3717 million. The data establishes a baseline before mandatory third-party reporting begins in 2027.",
+    "The desk's boards show Bitcoin up 1.2% on the day at $79,201.48 and up 8.5% on the week, while Ethereum is up 2.7% on the day at $2,524.22 and up 8.5% on the week. The desk's Fear & Greed Index stands at 69 (Greed), at the upper end of a 25-74 range over the last 30 days. On leverage, Bitcoin open interest on OKX sits at $2.22 billion with a 1.21 long-to-short ratio and funding rates at 2.3% annualized, signaling moderately elevated leveraged positioning. In the whale flows board, the desk's 48-hour net shows $157.2 million in bitcoin moving off exchanges, though weekly flows paint a different picture: the week ending August 30 saw $659 million in bitcoin flow onto exchanges, following weeks of Aug. 23 ($1.06 billion onto exchanges) and Aug. 16 ($441 million onto exchanges). The current outflow contradicts the three-week inbound trend, suggesting intraweek volatility in positioning rather than a sustained directional shift."
+  ],
+  "sources": [
+    {
+      "title": "BitGo acquires NYDIG institutional trading arm for $42.5M plus $15M earnout",
+      "url": "/articles/bitgo-acquires-nydig-institutional-trading-arm-for-42-5m-plus-15m-earnout.html"
+    },
+    {
+      "title": "Bullish Commits $100M Stablecoin Facility to USD.AI for GPU-Backed Loans",
+      "url": "/articles/bullish-commits-100m-stablecoin-facility-to-usd-ai-for-gpu-backed-loans.html"
+    },
+    {
+      "title": "Ethereum ETFs see $226 million inflow on Thursday, strongest day in 10 months",
+      "url": "/articles/ethereum-etfs-see-226-million-inflow-on-thursday-strongest-day-in-10-months.html"
+    },
+    {
+      "title": "More than a dozen major banks moving forward with stablecoin venture",
+      "url": "/articles/more-than-a-dozen-major-banks-moving-forward-with-stablecoin-venture.html"
+    },
+    {
+      "title": "Ninth Circuit rules Kalshi sports contracts fall outside federal swap law, allowing Nevada enforcement",
+      "url": "/articles/ninth-circuit-rules-kalshi-sports-contracts-fall-outside-federal-swap-law-allowing-nevada-enforcement.html"
+    },
+    {
+      "title": "Revolut Rolls Out EURR Stablecoin in Three EU Markets With Bridge as Issuer",
+      "url": "/articles/revolut-rolls-out-eurr-stablecoin-in-three-eu-markets-with-bridge-as-issuer.html"
+    },
+    {
+      "title": "Sberbank Plans Crypto-Backed Loans Using Bitcoin, Ethereum, Tether",
+      "url": "/articles/sberbank-plans-crypto-backed-loans-using-bitcoin-ethereum-tether.html"
+    },
+    {
+      "title": "Solana Neobank Avici Confirms 1,685 Users Lost $500,859 in Rain Card Contract Exploit",
+      "url": "/articles/solana-neobank-avici-confirms-1-685-users-lost-500-859-in-rain-card-contract-exploit.html"
+    },
+    {
+      "title": "Stellar tokenized RWA market more than quadruples to nearly $4B",
+      "url": "/articles/stellar-tokenized-rwa-market-more-than-quadruples-to-nearly-4b.html"
+    },
+    {
+      "title": "Charles Schwab to Expand Crypto Platform with Solana, Avalanche, and Chainlink",
+      "url": "/articles/charles-schwab-to-expand-crypto-platform-with-solana-avalanche-and-chainlink.html"
+    },
+    {
+      "title": "Deribit Consolidates 90% of Assets at Coinbase, Ends Public Daily Proof of Reserves",
+      "url": "/articles/deribit-consolidates-90-of-assets-at-coinbase-ends-public-daily-proof-of-reserves.html"
+    },
+    {
+      "title": "Deribit ends daily proof-of-reserves check as 90% of assets move to Coinbase custody",
+      "url": "/articles/deribit-ends-daily-proof-of-reserves-check-as-90-of-assets-move-to-coinbase-custody.html"
+    },
+    {
+      "title": "HMRC releases first crypto tax data: \u00a31.38B in gains concentrated among 240 UK investors",
+      "url": "/articles/hmrc-releases-first-crypto-tax-data-1-38b-in-gains-concentrated-among-240-uk-investors.html"
+    },
+    {
+      "title": "Revolut launches euro stablecoin EURR with Bridge as regulated issuer",
+      "url": "/articles/revolut-launches-euro-stablecoin-eurr-with-bridge-as-regulated-issuer.html"
+    },
+    {
+      "title": "Russia's Sber plans USDT and Ether loans under new regulated crypto framework",
+      "url": "/articles/russia-s-sber-plans-usdt-and-ether-loans-under-new-regulated-crypto-framework.html"
+    },
+    {
+      "title": "Vietnam launches regulated tokenized-asset market with five-year pilot and mandatory VND settlement",
+      "url": "/articles/vietnam-launches-regulated-tokenized-asset-market-with-five-year-pilot-and-mandatory-vnd-settlement.html"
+    }
+  ]
+}

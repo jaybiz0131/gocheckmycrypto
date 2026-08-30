@@ -1,59 +1,6 @@
 [
  {
   "date": "2026-07-31",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c021",
-    "headline": "Coldcard Mk3 Firmware Flaw Leads to $38 Million Bitcoin Theft",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Coinkite stated that users who generated seeds on an Mk3 running version 4.0.1 or later should assume their wallets are at risk,' but the brief data_point says 'Coinkite warned users who generated a seed on an Mk3 running version 4.0.1 or later' without the word 'should assume.' More critically, the brief's boundary specifies 'affected: Mk3 running version 4.0.1 or later' but the vulnerability was 'introduced in Coldcard firmware 4.0.0 in March 2021'\u2014the draft does not clarify why 4.0.1 or later is the warning threshold if 4.0.0 introduced the flaw. This gap between the flaw's introduction (4.0.0) and the warning threshold (4.0.1+) is not explained in the brief and should not be paraphrased without source confirmation.",
-     "The draft states 'Block and Coinkite cautioned that their analyses remain preliminary' but the brief data_point is 'Both Block and Coinkite describe their analyses as preliminary.' The word 'cautioned' implies an intentional warning stance not present in the source claim; this is a subtle but material reframing of tone.",
-     "The draft references 'Bitcoin was trading above $64,000 in early Asian trading on July 31' and attributes this to the theft context, but the brief lists this as a separate data_point with no causal connection. The juxtaposition in the draft ('Bitcoin was trading above $64,000...and the widespread drain appeared to have little direct impact') creates a false narrative link; the price point should either be removed or clearly separated from the theft narrative."
-    ]
-   },
-   {
-    "id": "c050",
-    "headline": "US Treasury Sanctions Iranian Shipping Firm Accepting Bitcoin",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Hormuz Safe's explicit acceptance of digital assets signals that state-level actors are integrating cryptocurrency into sanctions evasion workflows,' but the brief contains only two data_points: (1) 'OFAC sanctioned Iranian firms including one called Hormuz Safe' and (2) 'Hormuz Safe accepts payment in Bitcoin and other digital assets.' The phrase 'state-level actors' and the assertion that this 'signals' cryptocurrency integration into evasion 'workflows' is not in the brief; the brief does not confirm Hormuz Safe is a state actor, only that it is an Iranian firm. This is a smuggled inference.",
-     "The draft states 'The designation suggests that US authorities have visibility into crypto-based payments flowing to or through designated Iranian shipping entities,' but no data_point in the brief supports the claim that US authorities have demonstrated 'visibility into crypto-based payments.' The brief only confirms that OFAC designated the firm; visibility is inferred by the writer, not reported.",
-     "The draft states the action is 'a rare public instance of OFAC targeting entities for using cryptocurrency to circumvent shipping insurance controls' but the brief does not confirm this is rare, nor does it detail what shipping insurance controls are being circumvented. These specifics do not appear in the source data_points provided."
-    ]
-   },
-   {
-    "id": "c049",
-    "headline": "Circle Wins New York Trust Charter for Stablecoin Operations",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Circle received approval from the New York Department of Financial Services (NYDFS) for a trust charter,' but the brief's core_claim says only that 'Circle received New York Department of Financial Services trust charter approval.' The word 'approval' in the draft is not in the brief; the brief does not confirm the charter was approved. The data_point states 'Circle won federal OCC approval to establish a national trust bank weeks before the NYDFS charter approval,' but this confirms only that an NYDFS approval occurred, not that it was granted to Circle. The draft has smuggled the assertion that NYDFS approved Circle's charter application; the brief confirms only that an approval event happened, leaving the actual approval outcome unconfirmed.",
-     "The draft claims 'The dual licensing grants Circle custody and fiduciary powers to support USDC issuance and operations,' but the brief contains no data_point confirming what powers the NYDFS charter grants. The brief's open_questions include 'What specific custody and fiduciary powers does the New York trust charter grant Circle?' This indicates the powers are not confirmed in the source. The draft presents as fact what is unknown.",
-     "The draft states 'Regulatory agencies at both federal and state levels have now authorized Circle to hold customer assets and exercise fiduciary duties,' but no data_point confirms what the NYDFS authorization permits. The brief lists only one data_point about the OCC federal approval. The state-level specifics are not in the brief."
-    ]
-   },
-   {
-    "id": "c016",
-    "headline": "New York sues Kalshi, alleges it offers a gambling platform 'plain and simple'",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's open_questions section flags uncertainty about 'whether the lawsuit seeks the $36 billion in damages reported in the headline (the source text states 'three times Kalshi's gains' but does not specify the dollar amount of those gains).' The draft never quantifies the damages in dollar terms and correctly avoids this trap, but the phrasing 'penalties equal to three times Kalshi's gains' in the opening paragraph could mislead readers into thinking a specific dollar amount was established. The brief itself acknowledges the dollar figure is unconfirmed; the draft should have signaled this ambiguity or left the dollar penalty unspecified rather than stating 'three times Kalshi's gains' as though the multiplication was calculable from reported figures."
-    ]
-   },
-   {
-    "id": "c126",
-    "headline": "BitMine adds $73 million in ETH, now holds 4.8% of Ethereum supply",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'BitMine Immersion Technologies purchased 42,197 ETH worth approximately $73 million' and 'BitMine's total holdings were valued at $11.1 billion, with the company valuing its ETH position at $1,800 per coin.' All data_points in the brief carrying these figures are marked 'announced-not-verified' confidence, but the draft presents them as settled fact without any hedge or confidence qualifier. The brief's confidence label must survive in prose; this is a liability violation.",
-     "The draft describes the Defiant reporting as providing the holdings data consistently 'across several independent market trackers,' but the brief's corresponding data_point (claim about consistency across trackers) is marked only 'reported' confidence, not independently verified. The draft's phrasing ('reported consistently across several independent market trackers') suggests independent confirmation rather than single-source reporting, overselling the confidence level."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
   "approved": 4,
   "rejected": [
    {
@@ -7638,6 +7585,48 @@
     "category": "accuracy",
     "reasons": [
      "The brief slot contains only a note stating 'no brief exists for this story.' Per protocol, the writer's hard rule is that 'no fact exists outside the brief.' With no research brief provided, every factual claim in the draft must be independently verifiable from the source URL. The source URL provided (cointelegraph.com) cannot be accessed to verify the claims about 415% surge, $29.5B volume, active addresses doubling, and token holders doubling. Without a brief or accessible primary source verification, these facts are unsourced under the desk's protocol and the story cannot be approved."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c058",
+    "headline": "Russia's Sber to accept USDT, Ether, Bitcoin as loan collateral under new framework",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per protocol, every fact must trace to cited sources or be rejected. The draft cites only Cointelegraph URLs, but provides no direct quotations or specific reporting details that can be verified against those sources. The claim that Sber will accept USDT, Ether, and Bitcoin as loan collateral under a new Russian law is stated as fact throughout the draft, but the sourcing is a generic URL with no byline, date, or excerpt. The statement 'Cointelegraph reports the initiative but does not detail implementation timelines, minimum collateral amounts, or loan terms' is a meta-claim about what Cointelegraph did or did not report, but the desk has no independent access to the source content to verify this characterization. Without a brief or direct source verification, the core claims cannot be approved."
+    ]
+   },
+   {
+    "id": "c061",
+    "headline": "Stellar tokenized RWA market surges to nearly $4B",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief was provided for this story. Per protocol, every fact in the draft must trace to a data_point in the brief, or if no brief exists, must be verifiable in the cited source. The draft cites only Cointelegraph as a source, but the approver has no brief data_points to validate against. The protocol requires that 'no fact exists outside the brief.' With no brief provided, the entire story cannot be certified as compliant with the desk's factual standards. The writer cannot patch facts at approval stage; facts go back to research."
+    ]
+   },
+   {
+    "id": "c066",
+    "headline": "Treasury's Proposed Rule on Foreign Stablecoins Sets Audit or Delisting Standard",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the approval protocol, every fact must trace to either a research brief or the draft's own cited sources. The draft cites only one source (CryptoSlate reporting), but makes multiple specific factual claims about Treasury policy that cannot be independently verified against the CryptoSlate article without access to that source document. The protocol forbids the approver from accepting 'trust me' attribution to a URL. The only citation is a secondary outlet (CryptoSlate), not a primary Treasury document, Treasury announcement, or on-record statement from a Treasury official. A proposed rule on foreign stablecoins tied to the GENIUS Act is a regulatory matter of material consequence; a single secondary-source report is insufficient baseline for publication under the desk's liability standard, particularly where the draft makes specific claims about the rule's mechanism ('binary choice', 'burden on service provider', 'reliance on representation'), enforcement ('not detailed'), and scope ('does not require ongoing audit'). Without a brief or primary source, these claims cannot be fact-checked against their origin.",
+     "The draft states 'According to CryptoSlate's reporting' multiple times but never quotes or provides specific language from that reporting. The desk cannot verify whether CryptoSlate used the phrase 'binary choice', whether it stated the burden is on the service provider, or whether it reported that the rule does not require ongoing audit. Paraphrase requires the source to be available for spot-check; a URL alone is not sufficient.",
+     "The draft uses the phrase 'proposed rule' and attributes it to Treasury, but provides no announcement date, no Treasury statement, no link to a Treasury docket or Federal Register notice, and no confirmation that this is an official Treasury proposal versus CryptoSlate's interpretation of draft language or rumor."
+    ]
+   },
+   {
+    "id": "c112",
+    "headline": "Schwab Adds Solana, Avalanche, Chainlink to Crypto Trading Platform",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. Per the approval protocol, every fact must trace to either a research brief or the draft's own cited sources. The draft cites only one source (The Daily Hodl article URL), and the approver cannot access external URLs to verify claims. The draft makes specific factual assertions: (1) Schwab will add SOL, AVAX, and LINK; (2) the rollout will occur 'in the coming months'; (3) Schwab Crypto rolled out in May 2026; (4) the platform already offers a 'base set of assets'. Without access to the source article itself, none of these facts can be verified as coming from The Daily Hodl or as accurately paraphrased from it. The protocol forbids facts to exist outside the brief; when no brief exists, facts must be traceable to primary sources or on-record statements. A single secondary outlet (The Daily Hodl, a crypto news aggregator) reporting a company expansion is the minimum evidentiary threshold, but the approver cannot confirm the source says what the draft claims it says.",
+     "The draft contains no direct quote from The Daily Hodl or Schwab. The phrase 'according to The Daily Hodl' is used, but the draft provides no specific language, headline, date of publication, or other means by which the desk can independently verify the article exists or contains the claims stated. A URL without the ability to check it is not a sufficient audit trail.",
+     "The draft asserts 'The platform began rolling out to clients in May 2026' as fact. This is a specific date claim attributed to The Daily Hodl reporting, but it appears nowhere in the draft's own language as a quote or explicit attribution within the body. It is paraphrased, and the approver cannot verify the paraphrase against the source."
     ]
    }
   ]
