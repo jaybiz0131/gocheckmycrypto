@@ -1,0 +1,67 @@
+{
+  "id": "c119",
+  "slug": "bnb-chain-and-robinhood-chain-host-top-seven-tokenized-stocks-generating-4-3b-in-dex-volume",
+  "kind": "brief",
+  "title": "BNB Chain and Robinhood Chain host top seven tokenized stocks, generating $4.3B in DEX volume",
+  "dek": "The top seven most-traded tokenized stocks all trade on BNB Chain or Robinhood Chain, collectively generating $4.3 billion in decentralized exchange volume over 30 days. BNB Chain averaged $676.8 million in daily volume; Robinhood Chain, which launched July 1, averaged $29.7 million daily. Uniswap processed $1.5 billion in stock token trades on Robinhood Chain in six weeks.",
+  "date": "2026-08-30",
+  "published_utc": "2026-08-30T22:07:14Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "BNB Chain and Robinhood Chain host the top seven tokenized stocks with combined $4.3 billion in 30-day DEX volume, with BNB Chain's daily average roughly 23 times larger than Robinhood Chain's.",
+  "bottom_line": "Watch whether regulatory scrutiny of tokenized stock trading follows the concentration of volume on BNB and Robinhood Chains, and whether Uniswap's 99% liquidity dominance on Robinhood Chain attracts competing protocols or draws enforcement attention. The premise fails if issuers lose their ability to structure these instruments as debt securities or if settlement and composability advantages erode under compliance pressure.",
+  "human_take": "",
+  "body": [
+    "Decentralized trading in tokenized equities is concentrating on two blockchain networks. The top seven most-traded tokenized stocks all live on either BNB Chain or Robinhood Chain, collectively generating $4.3 billion in decentralized exchange volume over the past 30 days, according to Crypto Briefing's reporting.",
+    "BNB Chain dominates the pair. It averaged $676.8 million in daily decentralized exchange volume for tokenized stocks over a seven-day stretch in late July 2026, per Crypto Briefing. Robinhood Chain, which launched on July 1, averaged $29.7 million per day during the same window, making BNB Chain's daily volume roughly 23 times larger.",
+    "Robinhood Chain's growth accelerated sharply in the first weeks after launch. Within two weeks of going live, its tokenized real-world assets grew fivefold to approximately $70 million. By late August, Uniswap, the dominant liquidity venue on the chain, had processed approximately $1.5 billion in stock token trades in just six weeks. On August 29, Uniswap hit a single-day peak of $130 million in stock token volume on Robinhood Chain, according to Crypto Briefing.",
+    "The tokenized stocks themselves are structured as ERC-20 debt securities. Robinhood Stock Tokens track the price of major US equities and ETFs but do not confer actual ownership rights. Holders have no voting rights and receive no direct dividend payments unless the issuer builds that function in. Robinhood Chain was built as a Layer-2 using Arbitrum's technology and operates with roughly 100-millisecond block times. There are now over 190 Robinhood Stock Tokens available, covering AAPL, NVDA, GOOG, and other major equities.",
+    "Trading activity is heavily concentrated in US equities and certain pre-IPO entities, with names like Nvidia and SpaceX among the most popular. Approximately 60% of stock token trading activity on Uniswap occurs outside traditional US market hours. More than half the demand for trading tokenized US equities comes from times when the New York Stock Exchange is closed, per Crypto Briefing's analysis. Traditional stock markets operate roughly 6.5 hours a day, five days a week, which is about 27% of the hours in a work week and less than 20% of total hours.",
+    "BNB Chain's activity extends across a broader asset base. Cumulative tokenized stock DEX volume on BNB Chain has now surpassed $5.2 billion. BNB Chain leverages Binance's bStocks product alongside issuers like Ondo Global Markets, offering traders access to more than 700 tokenized assets. By comparison, Solana-based venues for tokenized stocks recorded combined daily averages of just $11 to $13 million during the same period as the Robinhood Chain measurement.",
+    "Uniswap controls around 99% of the tokenized stock DEX liquidity on Robinhood Chain, per Crypto Briefing. The exchange was integrated at Robinhood Chain's launch with its full protocol suite, including versions 2, 3, 4, and UniswapX. On Robinhood Chain, traders can swap between tokenized stocks and popular memecoins without leaving the protocol. Tokenized stocks settle on-chain in seconds rather than the T+1 settlement cycle used by traditional brokerages and are composable with other DeFi protocols, meaning holders can theoretically use a tokenized Nvidia position as collateral to borrow stablecoins.",
+    "The structural risks are material. Holders of tokenized stocks do not receive actual shares and have no SIPC insurance if something goes wrong, according to Crypto Briefing. The legal claim to economic performance that debt security structure conveys remains untested in most jurisdictions."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/bnb-robinhood-chain-tokenized-stocks-volume/",
+      "url": "https://cryptobriefing.com/bnb-robinhood-chain-tokenized-stocks-volume/"
+    },
+    {
+      "title": "https://cryptobriefing.com/uniswap-robinhood-chain-stock-token-trading/",
+      "url": "https://cryptobriefing.com/uniswap-robinhood-chain-stock-token-trading/"
+    }
+  ],
+  "update_of": "figure-reports-q2-revenue-of-226-million-marketplace-volume-hits-4-3-billion",
+  "board_snapshot": {
+    "as_of": "2026-08-30T19:35:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78883.56,
+        "chg_24h_pct": 0.84
+      },
+      {
+        "symbol": "ETH",
+        "price": 2504.88,
+        "chg_24h_pct": 1.94
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.8,
+      "open_interest_usd": 2166712429
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 175824806,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}

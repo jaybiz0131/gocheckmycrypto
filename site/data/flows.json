@@ -1,13 +1,13 @@
 {
   "example": false,
   "generated": "2026-08-30",
-  "generated_utc": "2026-08-30T19:49:12Z",
+  "generated_utc": "2026-08-30T22:05:15Z",
   "window_hours": 48,
-  "txn_count": 8,
+  "txn_count": 6,
   "volatile": {
-    "inflow_usd": 284864936,
-    "outflow_usd": 461050405,
-    "net_usd": 176185469,
+    "inflow_usd": 127039399,
+    "outflow_usd": 302864205,
+    "net_usd": 175824806,
     "direction": "off exchanges"
   },
   "stablecoins": {
@@ -18,23 +18,23 @@
   "by_asset": [
     {
       "symbol": "BTC",
-      "inflow_usd": 284864936,
-      "outflow_usd": 461050405,
-      "net_usd": 176185469
+      "inflow_usd": 127039399,
+      "outflow_usd": 302864205,
+      "net_usd": 175824806
     }
   ],
   "by_exchange": [
-    {
-      "exchange": "kraken",
-      "inflow_usd": 157825537,
-      "outflow_usd": 266551281,
-      "net_usd": 108725744
-    },
     {
       "exchange": "coinbase institutional",
       "inflow_usd": 127039399,
       "outflow_usd": 129057368,
       "net_usd": 2017969
+    },
+    {
+      "exchange": "kraken",
+      "inflow_usd": 0,
+      "outflow_usd": 108365081,
+      "net_usd": 108365081
     },
     {
       "exchange": "okex",
@@ -44,18 +44,6 @@
     }
   ],
   "top_inflows": [
-    {
-      "symbol": "BTC",
-      "amount": 2039.0,
-      "usd": 157825537.0,
-      "to": "kraken",
-      "from": "unknown wallet",
-      "blockchain": "bitcoin",
-      "hash": "a7f001ca648c5e478b5fddd3e8d08e234d89caabef32439cc52665b01fc1554f",
-      "url": "",
-      "ts": 1787953807.0,
-      "stable": false
-    },
     {
       "symbol": "BTC",
       "amount": 888.0,
@@ -82,18 +70,6 @@
     }
   ],
   "top_outflows": [
-    {
-      "symbol": "BTC",
-      "amount": 2039.0,
-      "usd": 158186200.0,
-      "to": "unknown wallet",
-      "from": "kraken",
-      "blockchain": "bitcoin",
-      "hash": "21f71427188c1f991a61d2bb5855ba93ce822935540432a21d50ba9b72851b72",
-      "url": "",
-      "ts": 1787947081.0,
-      "stable": false
-    },
     {
       "symbol": "BTC",
       "amount": 1397.0,
@@ -168,23 +144,23 @@
     },
     {
       "week_ending": "Jul 05",
-      "net_usd": 1577154702,
-      "moves": 97
+      "net_usd": 1725655705,
+      "moves": 98
     },
     {
       "week_ending": "Jul 12",
-      "net_usd": 561443165,
-      "moves": 52
+      "net_usd": 412942162,
+      "moves": 51
     },
     {
       "week_ending": "Jul 19",
-      "net_usd": -146926230,
-      "moves": 62
+      "net_usd": -86718503,
+      "moves": 63
     },
     {
       "week_ending": "Jul 26",
-      "net_usd": 445888652,
-      "moves": 53
+      "net_usd": 385680925,
+      "moves": 52
     },
     {
       "week_ending": "Aug 02",
@@ -212,5 +188,5 @@
       "moves": 81
     }
   ],
-  "weekly_median_abs_usd": 561443165
+  "weekly_median_abs_usd": 441465186
 }

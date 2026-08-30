@@ -4,48 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c021",
-    "headline": "Coldcard hardware wallet flaw exposes bitcoin private keys to attackers; 594 BTC stolen in 25 minutes",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states '594 bitcoin, worth about $38 million' but does not attribute this valuation inline to CoinDesk or clarify the exchange rate used. While the brief confirms the 594 BTC figure and ~$38 million value, the draft should have explicitly attributed the price conversion to the source to avoid implying current market pricing.",
-     "The draft claims 'Exposure depends on the firmware the device was running at the moment the wallet was first created, not on when the hardware was bought' but this critical distinction is not present in the brief's data_points, making it a SMUGGLED fact not traceable to the research brief."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "Dubai-based crypto exchange tied to $4 billion Iran sanctions-evasion network involving illegal gambling and IRGC-linked entities",
-    "category": "balance",
-    "reasons": [
-     "The draft opens with 'A vast Dubai-based illegal gambling network is allegedly channeling millions of dollars in cryptocurrency through Shelbit' and presents Shelbit as a state-backed operation throughout, but the bear_case explicitly states 'Reuters said it could not determine whether the IRGC directly controlled Shelbit or the gambling network.' The draft includes Rich Sanders' claim that 'It's an IRGC operation, and that's plain as day,' but immediately after (in the next sentence) says 'However, Reuters said it could not determine whether the IRGC directly controlled Shelbit'\u2014this hedging is buried and not proportionate. The opening paragraph should have signaled uncertainty rather than treating IRGC control as established fact.",
-     "The draft states 'Shelbit has moved hundreds of millions of dollars to some of the most prominent crypto companies, including Binance' but the bear_case identifies a direct contradiction: 'Binance said Shelbit had never held an account on its platform... which would contradict the allegation that Shelbit moved hundreds of millions of dollars through Binance directly.' The draft includes Binance's denial but does not reconcile the logical conflict between 'moved hundreds of millions to Binance' and 'never held an account on our platform.' This leaves readers confused about what actually happened."
-    ]
-   },
-   {
-    "id": "c003",
-    "headline": "Tether Q2 profit fell 69% YoY; excess reserves halved to $4.1 billion",
-    "category": "accuracy",
-    "reasons": [
-     "The title claims 'Tether Q2 profit fell 69% YoY' but the draft itself acknowledges in paragraph 4: 'The 69% decline in year-over-year profit mentioned in initial reporting cannot be independently verified against the source text, as no Q2 2025 comparable is provided.' This is a smuggled fact\u2014the brief's open_questions explicitly flag that 'No prior-year comparison is given for Q2 2025 operating profit...so the year-over-year decline of 69% mentioned in the headline cannot be verified against the source text alone.' A fact the writer cannot verify from the brief cannot appear in the headline or body as fact."
-    ]
-   },
-   {
-    "id": "c152",
-    "headline": "BIS Project Agor\u00e1 Completes Multi-Currency Tokenized Settlement Trial",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Previous central bank digital currency pilots, including those by the Federal Reserve and ECB, used simulated transactions or small-value test funds.' This claim does not appear in the brief's data_points and is not sourced to Cointelegraph. It is a smuggled comparative fact introduced without research support.",
-     "The draft claims 'Wholesale payment pilots often involve 5 to 10 banks' as context. This benchmark figure is not in the brief and constitutes unsourced industry assertion.",
-     "The brief is marked thin=true with only 3 data_points and 0 source_chars, yet the draft adds interpretive scaffolding (comparisons to Fed/ECB pilots, typical pilot size norms, characterizations of 'shift from simulation-based' models) that exceeds what the single Cointelegraph source supports. The writer has patched the thin brief with outside knowledge rather than noting what remains unknown."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-07-31",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c010",
     "headline": "Dubai exchange at center of $4 billion Iran sanctions-evasion network",
     "category": "balance",
@@ -7635,6 +7593,39 @@
     "reasons": [
      "The entire draft rests on a claim that no research brief exists to support. The instruction is explicit: 'every draft fact must then trace to the draft's own cited sources or be rejected.' The only source cited is a Crypto Briefing URL, but the brief slot states 'no brief exists for this story.' The draft cannot be verified against research protocol because it was not written from research. The writer has submitted a story without the required research infrastructure.",
      "The core facts\u2014RLUSD supply on Ethereum surpassing XRPL, the 93% 30-day growth rate, the comparison to USDC/USDT\u2014all depend on a single cited source (Crypto Briefing) that the approver cannot inspect. Under the protocol, facts must trace to a brief's data_points with confidence labels. This draft bypassed that requirement entirely."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-30",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c068",
+    "headline": "Treasury's GENIUS Act rules would require US exchanges to audit foreign stablecoins or delist them",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. The protocol requires that every fact in a draft trace to either a research brief data_point or be rejected. Without a brief, the draft cannot be verified against the desk's research standard. The single CryptoSlate source provided is insufficient for desk verification of regulatory claims of this specificity and liability weight.",
+     "The draft makes specific claims about Treasury rule mechanics ('demonstrate reasonable grounds to believe', 'burden of proof from regulator to provider', 'applies specifically to foreign-issued payment stablecoins') without a research brief to anchor those claims or confirm confidence levels. A regulatory story of this scope requires either a full brief with sourced data_points or rejection."
+    ]
+   },
+   {
+    "id": "c057",
+    "headline": "Russia's Sberbank to accept Bitcoin, Ethereum, and USDT as loan collateral under new regulated framework",
+    "category": "accuracy",
+    "reasons": [
+     "No brief exists for this story. The protocol requires that every fact in a draft trace to either a research brief data_point or be rejected. Without a brief, the draft cannot be verified against the desk's research standard.",
+     "The draft makes a specific claim about an effective date ('effective September 1, 2026') that depends on verification of a forward-looking announcement. Without a brief confirming Cointelegraph sourced this date directly and assigning a confidence level, the desk cannot publish a date-specific claim about institutional policy implementation.",
+     "The draft acknowledges gaps ('collateral terms and margin requirements have not been disclosed', 'does not specify whether Sberbank will hold the crypto collateral in cold storage') but presents the announced framework as settled fact without indicating confidence limitations. A story about a new financial product with acknowledged unknown custody and liquidation terms requires a brief to establish which claims are confirmed and which are announced-not-verified."
+    ]
+   },
+   {
+    "id": "c060",
+    "headline": "Stellar's tokenized real-world asset market expands to nearly $4 billion in 2026",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only Cointelegraph URLs (two identical or near-identical links to the same article). However, the draft makes specific factual claims that cannot be independently verified from the URLs provided: the exact $4 billion figure, the 'nearly quadrupling' year-over-year growth rate, the characterization of 'institutional adoption,' and compositional claims ('encompasses securities, commodities, fiat currency representations'). Without access to the actual Cointelegraph article text or a research brief with data points, these claims are SMUGGLED\u2014asserted as fact but unverifiable by the approval process. The desk cannot publish a story whose factual foundation is a dead link or inaccessible source."
     ]
    }
   ]
