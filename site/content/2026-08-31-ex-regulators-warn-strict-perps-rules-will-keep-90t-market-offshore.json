@@ -1,0 +1,66 @@
+{
+  "id": "c027",
+  "slug": "ex-regulators-warn-strict-perps-rules-will-keep-90t-market-offshore",
+  "kind": "brief",
+  "title": "Ex-Regulators Warn Strict Perps Rules Will Keep $90T Market Offshore",
+  "dek": "Former SEC and CFTC officials are urging lighter-touch regulation of perpetual futures to bring the $90 trillion market into US jurisdiction. The CLARITY Act, which would clarify SEC-CFTC boundaries on digital assets, remains stalled in the Senate despite House passage and committee approval. Regulatory debate now centers on whether principles-based standards can compete with offshore platforms.",
+  "date": "2026-08-31",
+  "published_utc": "2026-08-31T17:43:52Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "Former Chair Giancarlo and ex-Chair Massad argue that strict US perps rules will keep the offshore-dominated $90 trillion market beyond US reach.",
+  "bottom_line": "The CLARITY Act's passage through the House and Senate committee signals bipartisan appetite for clarity, but its stall in the full Senate suggests deep disagreement on whether the US should compete for perps volume or restrict leverage outright. The ex-regulators' case rests on the assumption that lighter rules will capture market share; the bill's legislative gridlock suggests Congress is not convinced.",
+  "human_take": "",
+  "body": [
+    "Former SEC Chair Tim Massad and ex-CFTC Chairman J. Christopher Giancarlo are calling for principles-based regulation of crypto derivatives, warning that overly strict rules will keep the perpetual futures market outside US jurisdiction as the CLARITY Act remains stalled in the Senate.",
+    "Perpetual futures, or perps, let traders take leveraged long or short positions without expiration, allowing continuous rollover of bets. The market operates almost entirely outside US jurisdiction, according to Crypto Briefing's reporting. The annual notional volume in perp contracts runs roughly $90 trillion, dwarfing the spot market by an order of magnitude. Platforms like Binance, Bybit, and OKX have captured the lion's share of activity, serving global users from jurisdictions with lighter or nonexistent regulatory requirements.",
+    "Massad and Giancarlo, along with former SEC Chair Jay Clayton, have jointly urged both the SEC and CFTC to develop coordinated standards focused on major tokens like Bitcoin and Ethereum, without attempting to rewrite existing legal definitions. Their position reflects a conviction that a lighter regulatory touch is necessary to bring any meaningful portion of the offshore market onshore.",
+    "The Digital Asset Market Clarity Act, or CLARITY Act, aims to draw a clean jurisdictional line between the SEC and CFTC on which tokens count as securities and which as commodities. The House passed it on July 17, 2025, with a 294-134 bipartisan vote. The Senate Banking Committee advanced its own version 15-9 in May 2026. But ethics disputes and competing legislative priorities have kept the bill in recess limbo, Crypto Briefing reports.",
+    "Meanwhile, the CFTC has approved perpetual futures contracts on regulated platforms like Kalshi. Kalshi generated more than $1 billion in trade volume shortly after launching its crypto perpetuals product in mid-2026, per Crypto Briefing. On September 2, 2025, the SEC and CFTC jointly confirmed that registered exchanges can legally offer certain leveraged or margined spot crypto asset transactions, opening another regulatory window.",
+    "But onshore venues remain at a structural disadvantage competing against offshore platforms that offer higher leverage, more token pairs, and fewer compliance hurdles. Massad and Giancarlo's warning is that absent a clearer, lighter-touch statutory framework, that gap will only widen. The Trump administration's general openness to crypto innovation has given the agencies some political cover to push boundaries, but agency guidance can be reversed by the next administration. Statutes, they imply, are stickier."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/376936/sec-cftc-crypto-perps-trading-onshore",
+      "url": "https://decrypt.co/376936/sec-cftc-crypto-perps-trading-onshore"
+    },
+    {
+      "title": "https://cryptobriefing.com/former-sec-cftc-officials-lighter-crypto-regulation/",
+      "url": "https://cryptobriefing.com/former-sec-cftc-officials-lighter-crypto-regulation/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-31T13:43:05Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78738.82,
+        "chg_24h_pct": 1.39
+      },
+      {
+        "symbol": "ETH",
+        "price": 2466.96,
+        "chg_24h_pct": 2.1
+      }
+    ],
+    "fng": {
+      "value": 62,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 7.1,
+      "open_interest_usd": 2147441716
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 17474317,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false
+}

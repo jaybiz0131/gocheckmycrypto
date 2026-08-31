@@ -1,58 +1,6 @@
 [
  {
   "date": "2026-08-01",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c003",
-    "headline": "1,196 Coldcard wallets drained of 1,082 BTC in attack exploiting weak seed generation",
-    "category": "accuracy",
-    "reasons": [
-     "The draft attributes the claim about Galaxy Research mapping the theft to Galaxy Research, but then states 'according to CoinDesk' in the opening sentence. The brief shows all data points sourced to CoinDesk, not Galaxy Research directly. The draft should clarify Galaxy Research's findings came via CoinDesk reporting, not as an independent source.",
-     "The draft claims 'according to Galaxy Research' in paragraph one, but the brief's data point says 'Galaxy Research mapped the full event on Friday, finding the theft occurred across six blocks' - sourced to CoinDesk. This represents Galaxy Research as a primary source when it is actually reported through CoinDesk. The attribution structure creates liability confusion about the origin of the analysis."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Shelbit, Dubai exchange, alleged hub of $4 billion Iran sanctions-evasion network",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states John Wojcik is a 'senior analyst at TRM Labs and former researcher at the UN Office on Drugs and Crime,' but the brief's data point says he is 'senior analyst at TRM Labs and former researcher at Infoblox, who spent seven years investigating illegal gambling for the United Nations Office on Drugs and Crime.' The draft omits 'Infoblox' and mischaracterizes his background. His research affiliation was at Infoblox, not directly at UNODC.",
-     "The draft includes a quote 'It's an IRGC operation, and that's plain as day' attributed to Rich Sanders, but immediately after states 'However, Reuters could not determine whether the IRGC directly controlled Shelbit or the gambling network.' This juxtaposition creates misleading emphasis: Sanders' assertion is presented as fact when the very next sentence says Reuters could not verify direct IRGC control. The brief's bear_case explicitly flags this uncertainty, but the draft buries the contradicting finding in the middle of a paragraph rather than treating it as a substantive balance issue."
-    ]
-   },
-   {
-    "id": "c018",
-    "headline": "New York sues Kalshi, alleges it offers a gambling platform 'plain and simple'",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The lawsuit follows an October 2025 cease-and-desist order from the New York State Gaming Commission' but the brief data_point says only 'The lawsuit follows an October cease-and-desist order from the New York State Gaming Commission' without specifying 2025. The year 2025 is smuggled into the draft and does not appear in the brief.",
-     "The draft claims 'A federal judge denied Kalshi's bid to block state regulators on July 7 and rejected an injunction pending appeal on July 27, according to CoinDesk's reporting.' The brief contains these dates but does not attribute them to 'CoinDesk's reporting'\u2014the data_point simply states the dates as fact from the same source URL. The added attribution phrase is a paraphrase that alters the sourcing claim slightly, but more critically, the draft then adds editorial analysis ('Those rulings suggest judicial skepticism of Kalshi's federal preemption argument, though the July 27 rejection does not necessarily forecast the outcome of the state's underlying case') that goes beyond what the brief supports. This interpretive layer is not in the brief's data_points and represents original analysis not in the research base."
-    ]
-   },
-   {
-    "id": "c005",
-    "headline": "Tether posts $1.5 billion operating profit in Q2 as reserve buffer falls by half",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The figure marks a 69% year-over-year decline from an implied $4.9 billion operating profit in Q2 2025.' The word 'implied' appears in the draft but the brief data_point says 'Tether reported $1.5 billion in net operating profit for the second quarter of 2026' and does not contain or justify the derivation of a $4.9 billion Q2 2025 figure. The brief's bear_case mentions 'from implied $4.9 billion in Q2 2025' but this is the brief's own characterization of the calculation, not a fact in the source. The draft presents this as if it traces back to reporting, when in fact it is an inference the brief made that may not be in the underlying CoinDesk article. The writer has adopted the brief's inference as though it were published data.",
-     "The draft states 'The timing of reserve depletion remains unexplained. If Tether deployed $4 billion in cash to purchase gold and bitcoin during Q2, the strategic rationale for those acquisitions at a time of rising rates and falling commodity prices is unclear from available reporting.' This speculative conditional ($4 billion deployed) and the editorial commentary about strategic rationale do not appear in the brief's data_points or open_questions. The brief's open_questions ask why the reserve fell, but the draft is adding its own hypothetical ($4 billion) and interpretation (rising rates, falling prices as context) that exceed the brief."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "XRP Ledger reintroduces two features withdrawn over critical security flaws",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Jazzi Cooper, head of product at RippleX, announced the xrpld 3.3.0 release on Friday' but brief data_point spells the name 'Jazzi Cooper' (not 'Jazzi'). More critically, the draft does not clarify the temporal framing: if the article is published after Friday August 1, the use of past tense 'announced...on Friday' is accurate; if published before, it is inaccurate. The brief timestamp is 2026-08-01 but the draft's publication date is unstated, creating ambiguity about whether 'Friday' and 'next week' in the draft are consistent with the source date.",
-     "Draft states 'xrpld 3.3.0 release, expected the week of August 1, 2026' in the bottom_line, but the brief does not specify 'the week of August 1'\u2014only that it is 'expected next week' as of the August 1 source timestamp. The draft's bottom_line should track the brief's language or be explicit about editorial interpretation of the timing.",
-     "The brief flags boundary_required: true and boundary_ok: false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft does not include a boundary block (a disclaimer about version timing or voting thresholds that may shift). This is a structural compliance gap flagged by the brief itself."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-01",
   "approved": 2,
   "rejected": [
    {
@@ -7581,6 +7529,38 @@
     "reasons": [
      "Draft states 'The protocol has not independently confirmed the $9.3 million damage figure,' but the brief's bear_case explicitly flags this: 'More Markets team has not confirmed any loss and stated it is still investigating the claim.' This is the core tension the brief carries. However, the draft presents the Blockaid valuation as settled fact ('Security firm Blockaid valued the initial impact at $9.3 million') and only much later, in a separate sentence, notes the protocol has not confirmed it. This structure implies the $9.3 million figure is established before acknowledging the team hasn't confirmed it\u2014a misleading ordering that obscures the bear case.",
      "More critically: the draft opens with 'More Markets suffered an exploit' as an unqualified statement. The brief's bear case states 'More Markets team has not confirmed any loss and stated it is still investigating the claim'\u2014meaning the exploit itself remains unconfirmed by the protocol operator. A reader would finish the headline and opening sentence believing an exploit definitely occurred; the actual status is that Blockaid reported it and More Markets is investigating. This is an accuracy failure: a material uncertainty is presented as established fact."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-31",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c023",
+    "headline": "Russia's Largest Bank Forecasts $46 Billion in First-Year Crypto Exchange Trading Under New Rules",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites The Block as the source for Sberbank's forecast and Anatoly Popov's quote, but the brief's data_points attribute all claims to Bitcoin Magazine. The draft states 'according to The Block's reporting' and names Popov as 'Deputy Chairman of the Executive Board,' but the brief lists Bitcoin Magazine as the source_name for those exact claims. This is a sourcing mismatch that misattributes the origin of the reporting."
+    ]
+   },
+   {
+    "id": "c033",
+    "headline": "White House Staffer Fined $172K for Trading on Unreleased Speech Data",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The draft cites only two URLs (Decrypt and Daily Hodl) as sources. Per the hard rule, all facts must trace to either a research brief data_point or cited sources. The draft makes several factual claims that cannot be verified against the cited URLs without access to those pages: the exact fine amount ($172,000), Perez's job title ('teleprompter operator'), his profit amount ($107,500), the claim that CFTC approved Kalshi in 2025, and the mechanism of his trades. Without a brief to anchor these facts and without being able to verify them against the cited sources in this submission, these claims are unverified. The desk cannot publish a story on two wire-service cites alone when those cites are not provided for verification and the facts are specific allegations against a named individual.",
+     "Reputationally damaging claim about Gabriel Perez: the draft alleges he committed insider trading and profited from non-public government information. This is a specific allegation of financial misconduct against a named individual. The draft cites only two secondary sources (Decrypt and Daily Hodl), neither of which is primary or on-record from the CFTC itself. A regulatory enforcement order exists (the CFTC action), but the draft does not cite the actual CFTC order, only news coverage of it. Single secondary sourcing on a named individual's alleged misconduct fails the desk's compliance standard."
+    ]
+   },
+   {
+    "id": "c034",
+    "headline": "Polygon Quietly Patched Security Vulnerabilities Before Disclosure",
+    "category": "accuracy",
+    "reasons": [
+     "No research brief exists for this story. The draft cites only one source: Decrypt. Per the hard rule, all facts must trace to either a research brief data_point or a cited source. The draft makes several factual claims: that Polygon deployed two hard forks named Austin and Kyoto, that they patched denial-of-service and consensus vulnerabilities, that the patches were deployed before public disclosure, that Polygon stated vulnerabilities were never exploited, and that the hard forks affected Bor and Heimdall clients. A single news outlet citation cannot be verified in this submission. The draft also notes 'The specifics... are not detailed in available reporting, nor are the precise dates of deployment and disclosure identified'\u2014acknowledging the source material itself is thin. The desk cannot build an entire story on one unverified news cite, especially when that cite's own reporting is admittedly incomplete on core dates and technical details.",
+     "The draft speculates on Polygon's intent and governance implications ('preserved the security window', 'trade-off between operational security and governance transparency remains unresolved') based only on Decrypt reporting. These interpretations go beyond what a single secondary source can reasonably carry, especially on a technical protocol matter where the source itself lacks specifics."
     ]
    }
   ]

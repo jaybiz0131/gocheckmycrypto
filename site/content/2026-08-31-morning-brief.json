@@ -1,0 +1,97 @@
+{
+  "id": "wrap-am-2026-08-31",
+  "slug": "morning-brief-2026-08-31",
+  "kind": "brief",
+  "title": "The Morning Brief: Institutional crypto adoption accelerates; DeFi security tested by $75M exploit",
+  "dek": "Friday brought stablecoin launches, broker expansions, and tokenized-stock volume concentration alongside a critical test of DeFi's resilience: Cronos halted after a $75 million lending protocol attack. The week closed with regulatory clarity emerging on custody rules and market structure.",
+  "date": "2026-08-31",
+  "published_utc": "2026-08-31T17:53:12Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Institutional onboarding is moving faster than DeFi's defenses: while Charles Schwab expands crypto offerings, Revolut launches a regulated euro stablecoin, and tokenized stocks concentrate on two blockchains, Cronos' network-level halt to contain a Tectonic exploit exposed the fragility of collateral systems relying on thin governance tokens. The contrast defines the market's current state: retail infrastructure is professionalizing while core protocol risk remains acute.",
+  "bottom_line": "Institutional adoption is advancing across three channels, broker platforms, regulated stablecoins, and tokenized equities, as regulatory frameworks clarify custody rules and tax compliance. Yet Cronos' network halt to contain a $75 million DeFi exploit revealed that collateral systems remain fragile when governance tokens lack liquidity depth, and whether protocols can close this gap faster than institutional flows accelerate is now the critical test. Watch for Cronos' recovery timeline, Schwab's concrete launch dates for SOL, AVAX, and LINK, Vietnam's September 1 enforcement of unlicensed trading penalties, and the SEC's October custody notice, each checkpoint will signal whether institutional infrastructure can outpace DeFi's unresolved risks.",
+  "human_take": "",
+  "body": [
+    "The week's dominant thread is institutional adoption moving through multiple channels simultaneously, each narrowing the perimeter of crypto that operates outside traditional finance. But that progress collides with a sharp reminder that DeFi's collateral infrastructure is still untested at scale.",
+    "On the adoption front, Charles Schwab announced plans to add Solana (SOL), Avalanche (AVAX), and Chainlink (LINK) to Schwab Crypto accounts in the coming months, expanding beyond the Bitcoin and Ethereum trading launched in May 2026. The platform charges 75 basis points per transaction. Separately, Revolut began rolling out EURR, a euro-backed stablecoin, to customers in Denmark, Poland, and Portugal, with Bridge Building (a Stripe company) serving as the licensed e-money issuer under the EU's Markets in Crypto-Assets framework. Both moves represent wealth managers and fintech platforms treating crypto assets as standard product offerings rather than experimental sidelines.",
+    "Tokenized-stock trading shows a different form of concentration: the top seven most-traded tokenized stocks all trade on BNB Chain or Robinhood Chain, collectively generating $4.3 billion in DEX volume over 30 days, per the desk's reporting. BNB Chain averaged $676.8 million in daily volume; Robinhood Chain, which launched July 1, averaged $29.7 million daily. Uniswap processed $1.5 billion in stock token trades on Robinhood Chain in six weeks. This concentration raises a single critical question the reporting does not yet answer: whether regulatory scrutiny will follow the volume, especially if settlement or composability become enforcement targets.",
+    "On network infrastructure, RLUSD on Ethereum reached $1.33 billion in supply as of August 30, surpassing XRPL's $1.04 billion for the first time. Ethereum supply grew roughly 93% over the past 30 days, accounting for about 84% of the net increase. Ripple's stablecoin is flowing toward DeFi; XRPL's role is shrinking. Vietnam formalized a five-year pilot for tokenized assets under Government Resolution No. 05/2025/NQ-CP, signed September 9, 2025, mandating VND settlement, real-world backing, and a VND 10 trillion minimum capital per exchange. Five exchanges are moving toward approval, and unlicensed trading penalties take effect September 1, 2026.",
+    "But Friday night brought a rupture: Cronos validators halted the entire blockchain on August 31 after an attacker exploited a price-manipulation vulnerability in the Tectonic lending protocol, putting approximately $75 million at risk. The attacker pushed TONIC's price up 100x in 20 minutes, used the inflated token as collateral to borrow assets, and triggered a network-level emergency intervention. Most attacker funds remained on-chain; about $6 million reached Ethereum before validators froze the network. This is the first time network-level emergency intervention was needed to contain a DeFi failure, and it exposes a pattern: collateral systems relying on thin governance tokens lack defenses against rapid price moves. The reporting does not specify whether the halt remains active or what Cronos' recovery plan entails.",
+    "On Ethereum itself, the validator activation queue hit a 36-day bottleneck: 2.06 million ETH awaits entry at the network's 256 ETH per epoch activation limit, costing new stakers an estimated $348,000 to $366,000 daily in foregone consensus rewards. Staked ETH reached 42 million, or 35% of total supply. The exit queue held only 96 ETH, creating sharp asymmetry between entry and departure demand. Whether protocol developers propose raising the activation cap will determine if this constraint persists as material friction on staking growth.",
+    "Regulatory clarification is proceeding on parallel tracks. The SEC's proposed custody rule rewrite entered White House review on August 25, with an October 2026 notice of proposed rulemaking targeted. The framework clarifies how wealth managers and funds can hold crypto assets in compliance with federal safeguarding standards. Former SEC Chair Tim Massad and ex-CFTC Chairman J. Christopher Giancarlo are urging principles-based regulation of perpetual futures to bring the $90 trillion market into US jurisdiction, warning that strict rules will keep it offshore. The CLARITY Act, which would clarify SEC-CFTC boundaries on digital assets, has passed the House and committee but remains stalled in the full Senate, suggesting deep disagreement on whether the US should compete for perps volume or restrict leverage outright.",
+    "On compliance, HMRC published its first crypto-specific Capital Gains Tax data for 2024-25: 17,600 UK filers reported \u00a31.38 billion in gains, with 240 whale investors earning over \u00a31 million each accounting for \u00a3717 million. This baseline emerges before mandatory third-party reporting begins in 2027. Deribit will shut down its public daily Proof of Reserves page on September 1, 2026, after moving roughly 90% of client assets to Coinbase custody. Clients will lose direct verification access; audited statements will be available only on request. Russia's Sber announced plans to accept USDT and Ether as loan collateral alongside Bitcoin following regulatory clearance for public crypto trading.",
+    "THORChain deployed version 3.20 on August 25, enabling native Monero and Zcash swaps directly against Bitcoin, Ethereum, and stablecoins. Monero's price rose roughly 8.9% following the upgrade. The deployment removes the need for wrapped tokens or centralized exchange intermediaries, but whether THORChain's pools attract sustainable external liquidity beyond the initial phase remains untested. Polygon deployed two hard forks, Austin and Kyoto, to patch denial-of-service and consensus flaws prior to public announcement. Polygon claimed the vulnerabilities were never exploited, but the reporting does not provide independent verification or detail the timeline between deployment and disclosure.",
+    "Corporate treasury accumulation accelerated: Strive purchased 1,800 BTC between August 24 and August 28 for $143 million at $79,431 per bitcoin, raising total holdings to 23,156 BTC and entering the top five corporate treasuries. Luke Dashjr, a 16-year Bitcoin Core developer, exited OCEAN Mining on August 29 following a mutual separation over differing visions on mining protocol developments. He is pursuing a new mining venture called CONVOY. The separation statement cited protocol disagreement without naming a specific proposal. Finally, the CFTC settled insider-trading charges against Gabriel Perez, a former White House teleprompter operator, for $172,000 after he traded prediction market contracts on advance knowledge of presidential speeches. He profited more than $107,500 before the regulator caught him."
+  ],
+  "sources": [
+    {
+      "title": "BNB Chain and Robinhood Chain host top seven tokenized stocks, generating $4.3B in DEX volume",
+      "url": "/articles/bnb-chain-and-robinhood-chain-host-top-seven-tokenized-stocks-generating-4-3b-in-dex-volume.html"
+    },
+    {
+      "title": "Charles Schwab to Expand Crypto Platform with Solana, Avalanche, and Chainlink",
+      "url": "/articles/charles-schwab-to-expand-crypto-platform-with-solana-avalanche-and-chainlink.html"
+    },
+    {
+      "title": "Deribit ends daily proof-of-reserves check as 90% of assets move to Coinbase custody",
+      "url": "/articles/deribit-ends-daily-proof-of-reserves-check-as-90-of-assets-move-to-coinbase-custody.html"
+    },
+    {
+      "title": "HMRC releases first crypto tax data: \u00a31.38B in gains concentrated among 240 UK investors",
+      "url": "/articles/hmrc-releases-first-crypto-tax-data-1-38b-in-gains-concentrated-among-240-uk-investors.html"
+    },
+    {
+      "title": "Revolut launches euro stablecoin EURR with Bridge as regulated issuer",
+      "url": "/articles/revolut-launches-euro-stablecoin-eurr-with-bridge-as-regulated-issuer.html"
+    },
+    {
+      "title": "RLUSD on Ethereum Surpasses XRPL Supply in Supply Milestone",
+      "url": "/articles/rlusd-on-ethereum-surpasses-xrpl-supply-in-supply-milestone.html"
+    },
+    {
+      "title": "Russia's Sber plans USDT and Ether loans under new regulated crypto framework",
+      "url": "/articles/russia-s-sber-plans-usdt-and-ether-loans-under-new-regulated-crypto-framework.html"
+    },
+    {
+      "title": "THORChain Deploys Native Monero and Zcash Swaps",
+      "url": "/articles/thorchain-deploys-native-monero-and-zcash-swaps.html"
+    },
+    {
+      "title": "Vietnam launches regulated tokenized-asset market with five-year pilot and mandatory VND settlement",
+      "url": "/articles/vietnam-launches-regulated-tokenized-asset-market-with-five-year-pilot-and-mandatory-vnd-settlement.html"
+    },
+    {
+      "title": "Cronos halts blockchain after $75 million lending exploit hits Tectonic (August 31)",
+      "url": "/articles/cronos-halts-blockchain-after-75-million-lending-exploit-hits-tectonic-august-31.html"
+    },
+    {
+      "title": "Ethereum's Validator Queue Hits 36-Day Bottleneck, Costing Stakers $350K Daily",
+      "url": "/articles/ethereum-s-validator-queue-hits-36-day-bottleneck-costing-stakers-350k-daily.html"
+    },
+    {
+      "title": "Ex-Regulators Warn Strict Perps Rules Will Keep $90T Market Offshore",
+      "url": "/articles/ex-regulators-warn-strict-perps-rules-will-keep-90t-market-offshore.html"
+    },
+    {
+      "title": "Ex-White House Teleprompter Operator Fined $172,000 for Prediction Market Insider Trading (August 30, 2026)",
+      "url": "/articles/ex-white-house-teleprompter-operator-fined-172-000-for-prediction-market-insider-trading-august-30-2026.html"
+    },
+    {
+      "title": "Luke Dashjr Exits Mining Pool Ocean After Split Over Bitcoin Mining's Future",
+      "url": "/articles/luke-dashjr-exits-mining-pool-ocean-after-split-over-bitcoin-mining-s-future.html"
+    },
+    {
+      "title": "Polygon Deployed Austin and Kyoto Hard Forks to Patch DoS and Consensus Flaws Before Public Disclosure",
+      "url": "/articles/polygon-deployed-austin-and-kyoto-hard-forks-to-patch-dos-and-consensus-flaws-before-public-disclosure.html"
+    },
+    {
+      "title": "SEC Crypto Custody Rewrite Enters White House Review, October Notice Planned",
+      "url": "/articles/sec-crypto-custody-rewrite-enters-white-house-review-october-notice-planned.html"
+    },
+    {
+      "title": "Strive Becomes Fifth-Largest Public Bitcoin Treasury After 1,800 BTC Purchase",
+      "url": "/articles/strive-becomes-fifth-largest-public-bitcoin-treasury-after-1-800-btc-purchase.html"
+    }
+  ]
+}

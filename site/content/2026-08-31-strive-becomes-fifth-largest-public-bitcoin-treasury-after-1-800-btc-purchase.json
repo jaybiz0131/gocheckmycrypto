@@ -1,0 +1,65 @@
+{
+  "id": "c019",
+  "slug": "strive-becomes-fifth-largest-public-bitcoin-treasury-after-1-800-btc-purchase",
+  "kind": "brief",
+  "title": "Strive Becomes Fifth-Largest Public Bitcoin Treasury After 1,800 BTC Purchase",
+  "dek": "Strive purchased 1,800 BTC between August 24 and August 28 for $143 million at an average price of $79,431 per bitcoin, raising total holdings to 23,156 BTC. The acquisition moves Strive into the top five corporate treasuries and comes as the company's stock has risen nearly 40% year-to-date.",
+  "date": "2026-08-31",
+  "published_utc": "2026-08-31T17:43:52Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "Strive acquired 1,800 BTC for $143M at $79,431 per BTC, becoming the fifth-largest public bitcoin treasury with 23,156 BTC total.",
+  "bottom_line": "Strive acquires 1,800 BTC, enters top-five corporate treasuries; analyst raises 2026 forecast to 27K BTC, signaling institutional momentum in bitcoin accumulation.",
+  "human_take": "",
+  "body": [
+    "Strive purchased 1,800 BTC between August 24 and August 28 for $143 million at an average price of $79,431 per bitcoin, according to reports confirmed by Bitcoin Magazine and Cointelegraph. Total holdings after the purchase stand at 23,156 BTC worth $1.8 billion at current prices. The acquisition moves Strive into the top five corporate treasuries, behind only Strategy, Twenty One, Metaplanet, and MARA.\nStrive's stock (NASDAQ: ASST) traded 9 percent higher at approximately 12:30 pm New York time on the announcement day. Year-to-date, the stock has risen nearly 40 percent. Strive's year-to-date Bitcoin yield reached 40.8 percent as of its August 28 filing, up from less than 37 percent in early June.\nStrive was founded in 2025 by former Ohio gubernatorial candidate Vivek Ramaswamy after raising $750 million specifically to acquire bitcoin. In January 2026, Strive completed the acquisition of Semler Scientific in an all-stock deal, marking the first instance of a publicly traded Bitcoin treasury company acquiring another such company. CEO Matt Cole described the company as debt-free with zero margin requirements and zero encumbered bitcoin, a structure that distinguishes it from some larger competitors that employ leverage.\nThe August purchase followed a 1,110 BTC acquisition the week prior, indicating sustained accumulation momentum. The company had previously bought bitcoin at various price points as it executed its treasury-building strategy.\nThe Bottom Line: Strive's entry into the top five treasuries demonstrates how newer entrants can accumulate scale rapidly through consistent purchasing, but the company's performance depends on whether it sustains this acquisition pace and whether its debt-free structure remains competitive as leverage-using competitors scale."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/business/2026-08-31-strive-becomes-fifth-largest-public-bitcoin-treasury-1800-btc-buy-td-cowen-lifts-asst-price-target-413112",
+      "url": "https://www.theblock.co/news/business/2026-08-31-strive-becomes-fifth-largest-public-bitcoin-treasury-1800-btc-buy-td-cowen-lifts-asst-price-target-413112"
+    },
+    {
+      "title": "https://bitcoinmagazine.com/news/strive-becomes-fifth-biggest-treasury",
+      "url": "https://bitcoinmagazine.com/news/strive-becomes-fifth-biggest-treasury"
+    },
+    {
+      "title": "https://cointelegraph.com/news/strive-buys-1800-bitcoin-143m-btc-purchase",
+      "url": "https://cointelegraph.com/news/strive-buys-1800-bitcoin-143m-btc-purchase"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-31T13:43:05Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78738.82,
+        "chg_24h_pct": 1.39
+      },
+      {
+        "symbol": "ETH",
+        "price": 2466.96,
+        "chg_24h_pct": 2.1
+      }
+    ],
+    "fng": {
+      "value": 62,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 7.1,
+      "open_interest_usd": 2147441716
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 17474317,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Bitcoin Magazine"
+  ],
+  "developing": false
+}
