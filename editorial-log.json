@@ -1,63 +1,5 @@
 [
  {
-  "date": "2026-08-01",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c009",
-    "headline": "Coldcard Seed Generation Flaw Drains $70 Million from 1,196 Wallets Without Device Access",
-    "category": "accuracy",
-    "reasons": [
-     "The draft references 'Anthropic published research showing one of its models halving the security of a candidate post-quantum algorithm in 60 hours, against a design that had survived two years of expert review.' This claim appears in the brief as a data_point but is disconnected from the Coldcard vulnerability narrative and is not explained or contextualized. It reads as a non-sequitur imported from a different story and creates confusion about the article's scope.",
-     "The draft states 'There is no user-accessible test to determine whether a seed was generated on vulnerable firmware, forcing owners to assume the worst rather than verify their exposure.' The brief's matching data_point says 'There is no test to run against your own wallet that reveals whether your seed sits inside the reproducible range.' The draft's phrasing ('generated on vulnerable firmware') misframes the issue\u2014the problem is not knowing whether a seed *is* in the reproducible range, not whether it was generated on vulnerable firmware. This is an accuracy drift that could mislead readers about what they cannot verify."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "Dubai Exchange Shelbit Routed Hundreds of Millions for $4 Billion Iran Sanctions-Evasion Network",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case states: 'Reuters could not determine whether the IRGC directly controlled Shelbit or the gambling network, leaving the precise organizational structure and command authority unconfirmed.' The draft acknowledges Reuters' uncertainty only in one sentence: 'Reuters reported it could not determine whether the IRGC directly controlled Shelbit or the gambling network.' However, Rich Sanders is quoted saying 'It's an IRGC operation' and the article repeatedly frames Shelbit as connected to IRGC 'entities' and structures without adequately signaling the unresolved attribution question. The draft should either elevate the Reuters caveat or reframe Sanders' claim as opinion/analysis rather than settled fact. As written, it reads as though the IRGC control is confirmed despite the explicit bear_case caveat."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "Tether Reports $1.5 Billion Q2 Profit as Reserve Cushion Shrinks by Half",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'the reserve cushion, expressed as a ratio of excess reserves to outstanding USDT, fell to roughly 2.2% of circulating supply' but the brief's open_questions explicitly flag that 'the headline claims a 69% YoY drop, but the source text does not state a prior-year comparison figure.' This 69% YoY figure appears in the draft title ('Q2 Profit as Reserve Cushion Shrinks by Half') and throughout the narrative but is not present in any data_point in the brief. The writer has smuggled a year-over-year comparison not backed by the research.",
-     "The draft contains the claim 'Tether's profitability remains substantial, but the pace of reserve erosion raises a core question for markets dependent on USDT stability' without any data_point establishing what constitutes 'substantial' profitability relative to prior periods, or whether $1.5B Q2 profit represents growth or decline YoY. The brief does not provide year-over-year profit comparison data."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "Russia Bans Crypto Mining in Moscow Region Until 2032",
-    "category": "accuracy",
-    "reasons": [
-     "The brief is marked thin=true with only 2 data_points and source_chars=0, indicating minimal research depth. The draft appropriately acknowledges uncertainty throughout ('critical details remain unconfirmed,' 'unclear whether,' 'not been explained'), but the opening sentence 'Russia has issued a decree banning crypto mining across Moscow region through 2032' presents this as settled fact when the brief itself lists as an open_question: 'What is the full text of the decree\u2014was it signed by a specific regional authority or federal decree, and does it apply to Moscow city, Moscow Region, or both?' The confidence label in the data_point is 'reported' (not 'confirmed'), and the draft does not signal this uncertainty in the lede. The title also presents the ban as definitive ('Russia Bans') without hedging language matching the uncertainty in the brief's open_questions."
-    ]
-   },
-   {
-    "id": "c008",
-    "headline": "XRP Ledger Reintroduces Two Withdrawn Features With Security Fixes",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Batch already carries a record of being voted down, per CoinDesk' but the brief's corresponding data_point says only 'Batch already has a record of being voted down' with no attribution to how or when it was voted down beyond the February 2026 incident already described. The phrasing 'record of being voted down' in the brief is singular/past tense for the February event; the draft's use of 'already carries a record' implies multiple rejections and conflates the February security incident with a separate governance vote outcome not clearly established in the brief.",
-     "Draft reports 'Other pending amendments have drawn only roughly a third of validator support each' but the brief's data_point specifies 'The lending protocol and single-asset vault amendments have each drawn roughly a third of validator support'\u2014naming specific amendments. The draft generalizes to 'other pending amendments,' which is a smuggled characterization not supported by the source data (only two amendments are named as having third-level support)."
-    ]
-   },
-   {
-    "id": "c113",
-    "headline": "ECB Proposes Accessibility Standards for Digital Euro App",
-    "category": "clarity",
-    "reasons": [
-     "The draft reads as a near-disclaimer of its own story. Paragraphs 2 and 3 essentially say 'we don't know what was proposed, when it happens, who is involved, or how it compares to standards.' A story that spends 40% of its body explaining what it doesn't contain has inverted its burden: it should either report actual standards (if the brief had them) or decline to run. The brief is thin (two data_points), but the draft doesn't tighten around what is known; instead it amplifies the gaps, reading as filler rather than reporting.",
-     "The bottom_line says 'The story's substance depends on seeing the actual requirements, not the announcement alone'\u2014which is a tacit admission the draft has no substance to report. A bottom_line should forward the story (what to watch for next), not confess the story is empty."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-02",
   "approved": 4,
   "rejected": [
@@ -7561,6 +7503,41 @@
     "reasons": [
      "No research brief exists for this story. The draft cites only one source: Decrypt. Per the hard rule, all facts must trace to either a research brief data_point or a cited source. The draft makes several factual claims: that Polygon deployed two hard forks named Austin and Kyoto, that they patched denial-of-service and consensus vulnerabilities, that the patches were deployed before public disclosure, that Polygon stated vulnerabilities were never exploited, and that the hard forks affected Bor and Heimdall clients. A single news outlet citation cannot be verified in this submission. The draft also notes 'The specifics... are not detailed in available reporting, nor are the precise dates of deployment and disclosure identified'\u2014acknowledging the source material itself is thin. The desk cannot build an entire story on one unverified news cite, especially when that cite's own reporting is admittedly incomplete on core dates and technical details.",
      "The draft speculates on Polygon's intent and governance implications ('preserved the security window', 'trade-off between operational security and governance transparency remains unresolved') based only on Decrypt reporting. These interpretations go beyond what a single secondary source can reasonably carry, especially on a technical protocol matter where the source itself lacks specifics."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-31",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c027",
+    "headline": "Cronos Halts, Rewinds Blockchain After $75M Tectonic Exploit on August 30",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Crypto.com 'supplied one of the largest retail onramps for Tectonic and had spent months promoting the protocol,' but this claim is not in the brief's data_points. The brief states Crypto.com 'supplied one of the largest retail onramps' and 'spent months promoting the protocol' as separate facts, neither of which appears in the provided data_points. The detail that Crypto.com spent months promoting is introduced in the draft without brief support.",
+     "The draft states 'Tectonic's oracle relied on only two price sources: VVS Finance and Crypto.com itself' as a standalone assertion in the second paragraph, but this specific claim appears only later in the context of explaining the exploit mechanism. The brief data_point says 'Tectonic's oracle page lists only two data sources for the USD price of TONIC: VVS Finance and Crypto.com'\u2014which is present\u2014but the draft's earlier placement and standalone presentation before the mechanism is explained may mislead about causation.",
+     "The draft's lead claims 'Validators then executed a state rewind, erasing and reordering transactions to return the chain to its pre-exploit condition' but the brief's corresponding data_point says 'Cronos validators erased some of the blockchain's history by reverting to the pre-exploit state and then resuming block production.' The draft's language 'erasing and reordering' is not supported; the brief says 'reverting' and 'erased some.' The draft overstates the scope of what was reversed."
+    ]
+   },
+   {
+    "id": "c024",
+    "headline": "Strategy Buys 4,603 BTC for $369.7M, Holdings Hit 845,050 as Buying Resumes",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Total holdings reached 845,050 BTC, valued at $63.73 billion' but this phrasing conflates reported holdings with a current market valuation that does not appear in the brief. The brief data_point says 'Aggregate cost of 845,050 BTC holdings is $63.73 billion at an average cost of $75,412'\u2014this is aggregate COST BASIS, not current value. At $80,318/BTC (the purchase price in the brief), 845,050 BTC would be worth ~$67.9B; the draft's $63.73B figure is the cumulative cost basis, not marked-to-market value, and stating it without that distinction misleads readers about Strategy's unrealized gains.",
+     "Draft states 'Strategy's average acquisition price of $80,318 per bitcoin stands $1,540 above the trading price on August 31 ($78,738.82 per the desk's data)' in the bottom_line. The source $78,738.82 figure does not appear in the brief; this is new information sourced to 'the desk's data' rather than to a data_point in the brief. Per the hard rule, no fact exists outside the brief.",
+     "Bear case in brief includes 'The company had shifted to active capital management after June and engaged in four subsequent bitcoin sales before this purchase, suggesting uncertain conviction during the gap period'\u2014this framing of 'uncertain conviction' is a judgmental interpretation not supported by the reported facts and does not appear in the draft, which is correct, but the draft does not address the tension that the brief's bear_case identifies: why the four sales if conviction was high? The draft narrates the sales as historical fact but does not surface the strategic ambiguity the brief flags."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Hyperliquid in Talks With Payward to Route Perpetuals Through US-Regulated Bitnomial",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'the Trump administration signaled it was working to bring Hyperliquid onshore, per The Block' but the brief data_point is 'The deal comes weeks after Trump said his administration was working to bring Hyperliquid onshore.' These are not identical claims: one attributes the signal to 'the Trump administration' (institutional attribution), the other to Trump himself (personal attribution). The brief does not contain the full statement, its date, or confirmation of administrative action vs. a Trump statement. The distinction matters for accuracy: a president's off-hand comment is not the same as an administration policy signal.",
+     "Draft states 'Payward has reportedly presented the CFTC with an outline of the proposed structure, though regulatory approval has not been confirmed' but this claim does not appear in the brief's data_points. The brief's bear_case says 'Regulatory approval is still pending according to the snippet; Payward has reportedly presented the CFTC with an outline of the proposed structure but no confirmation of CFTC acceptance exists' but this is context on the bear_case, not a confirmed data_point with sourcing. The draft smuggles in the CFTC presentation claim without it appearing in any data_point."
     ]
    }
   ]
