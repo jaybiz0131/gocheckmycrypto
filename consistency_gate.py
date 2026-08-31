@@ -30,6 +30,8 @@ import os
 import re
 import sys
 
+import consistency
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONTENT = os.path.join(HERE, "site", "content")
 DATA = os.path.join(HERE, "site", "data")
@@ -239,6 +241,84 @@ def conflicts(surface_list=None):
     return found
 
 
+# Asset-class and market-structure words shared across unrelated headlines; a pair must
+# share a token beyond these before its figures are comparable.
+_GENERIC_MARKET_TOKENS = {
+    "etf", "etfs", "bitcoin", "btc", "ethereum", "eth", "solana", "sol",
+    "crypto", "cryptocurrency", "stablecoin", "stablecoins", "token", "tokens",
+    "exchange", "exchanges", "blockchain", "defi",
+}
+
+
+def figure_conflicts_live(within_days=30):
+    """Live-vs-live USD figure sweep (Avici audit 2026-08-31). The figure belt
+    (consistency.figure_conflicts) only ever judges a NEW candidate at publish time, and
+    autopilot exempts updates from it entirely, so two already-live stories carried >$1M
+    and $500,859 for the same Avici drain and nothing ever compared them. This sweeps
+    every live pair from the last within_days sharing a headline-level primary entity
+    and flags same-magnitude (max/min <= 3), materially different (>15%) USD figures
+    from title+key_fact, the same bar the belt uses. A pair is exempt only when the
+    newer story's update_of names the older AND the older carries a non-empty
+    'corrected' note: an acknowledged lineage whose origin still asserts the stale
+    number is exactly the contradiction this exists to catch.
+
+    Hits come back in the conflict-dict shape conflicts() uses, so main() routes them
+    through the same scoping: block only what this run wrote, warn + flag issue for
+    pre-existing pairs (never the 2026-07-28..30 deadlock class)."""
+    recs = []
+    for p in glob.glob(os.path.join(CONTENT, "*.json")):
+        try:
+            d = json.load(open(p, encoding="utf-8"))
+        except Exception:
+            continue
+        if str(d.get("id", "")).startswith("wrap-") or d.get("example"):
+            continue
+        when = d.get("published_utc") or (d.get("date", "") + "T00:00:00Z")
+        recs.append((when, d))
+    cutoff = (datetime.datetime.now(datetime.timezone.utc)
+              - datetime.timedelta(days=within_days)).isoformat()
+    recs = sorted((r for r in recs if r[0] >= cutoff), key=lambda t: t[0])
+    found = []
+    for i in range(len(recs)):
+        for j in range(i + 1, len(recs)):
+            older, newer = recs[i][1], recs[j][1]
+            # mag: tokens are figure fingerprints, not names; pairing on one would
+            # collide any two stories whose titles carry same-magnitude numbers. Broad
+            # market vocabulary is likewise no identity: 'etfs' paired an $853M bitcoin
+            # flow story with a $1.4B ethereum one on this sweep's first corpus run.
+            # The desk's direction metrics already cover the big-asset surfaces.
+            shared = {e for e in (consistency.primary_entities(older.get("title", ""))
+                                  & consistency.primary_entities(newer.get("title", "")))
+                      if not e.startswith("mag:") and e not in _GENERIC_MARKET_TOKENS}
+            if not shared:
+                continue
+            if (newer.get("update_of") == older.get("slug")
+                    and (older.get("corrected") or "").strip()):
+                continue
+            figs_a = consistency.usd_figures(
+                f"{older.get('title', '')} {older.get('key_fact', '')}")
+            figs_b = consistency.usd_figures(
+                f"{newer.get('title', '')} {newer.get('key_fact', '')}")
+            hit = None
+            for fa in figs_a:
+                for fb in figs_b:
+                    hi, lo = max(fa, fb), min(fa, fb)
+                    if lo <= 0:
+                        continue
+                    if hi / lo <= 3 and (hi - lo) / hi > 0.15:
+                        hit = (fa, fb)
+                        break
+                if hit:
+                    break
+            if hit:
+                found.append({"metric": f"USD figure: {sorted(shared)[0]}",
+                              "a": f"story:{older.get('slug', '?')}",
+                              "a_dir": f"${hit[0]:,.0f}", "a_scope": "title/key_fact",
+                              "b": f"story:{newer.get('slug', '?')}",
+                              "b_dir": f"${hit[1]:,.0f}", "b_scope": "title/key_fact"})
+    return found
+
+
 def _changed_paths():
     """Repo-relative paths this run has modified or created (uncommitted, so at gate
     time that is exactly the run's own output). None when git cannot answer, and the
@@ -304,7 +384,7 @@ def _flag_issue(lines):
 
 
 def main():
-    bad = conflicts()
+    bad = conflicts() + figure_conflicts_live()
     if not bad:
         print("consistency gate: homepage surfaces agree on every checked metric.")
         return 0

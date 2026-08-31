@@ -971,7 +971,7 @@ def _ingest_dedupe_canary():
     _j.dump(a, open(_o.path.join(d, "a.json"), "w"))
     _j.dump(unrelated, open(_o.path.join(d, "u.json"), "w"))
 
-    path, prior = sb.same_event_on_disk(b, content=d)
+    path, prior, _mode = sb.same_event_on_disk(b, content=d)
     _check(bool(path) and prior.get("slug") == "tether-a", fails,
            "ingest-dedupe: the second Tether earnings story is not caught against the first; "
            "this is the pair that published thirteen minutes apart across two runs")

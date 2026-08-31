@@ -85,6 +85,41 @@ def held_after_approval_notes(held):
         out.append(line)
     return out
 
+def queue_origin_correction(origin_slug, conflict, update_headline):
+    """A just-approved UPDATE materially revises a figure its origin story still asserts
+    (the Avici >$1M vs $500,859 class, audit 2026-08-31). The update publishes anyway,
+    revising figures is what updates are FOR, but the origin page now carries a stale
+    number, so queue THAT story for the corrections loop. The flag rides in
+    out/aging_report.json in the exact shape corrections.py reads: {"file": <content
+    json basename>, "reason": ...}, and the reason becomes the visible correction note
+    (capped at 160 chars there), so it is written for a reader."""
+    fname = ""
+    for p in glob.glob(os.path.join(HERE, "site", "content", "*.json")):
+        try:
+            if json.load(open(p, encoding="utf-8")).get("slug") == origin_slug:
+                fname = os.path.basename(p)
+                break
+        except Exception:
+            continue
+    if not fname:
+        return
+    reason = (f"the desk's own update revised this story's "
+              f"${conflict['published_usd']:,.0f} figure for '{conflict['entity']}' to "
+              f"${conflict['candidate_usd']:,.0f}")
+    try:
+        report = common.read_out("aging_report.json")
+    except Exception:
+        report = {}
+    flags = report.get("flags", [])
+    if not any(f.get("file") == fname for f in flags):
+        flags.append({"file": fname, "reason": reason})
+    report["flags"] = flags
+    common.write_out("aging_report.json", report)
+    common.gh("warning", f"autopilot: update '{str(update_headline)[:60]}' revises a "
+              f"figure the origin story still asserts; queued {fname} for the "
+              f"corrections loop")
+
+
 # already_published() lived here and was never called by anything. Its corpus scan and its
 # is_coverage() preview filter are now inside classify_published(), which is the gate that
 # actually runs. Keeping a second, unreachable copy is how the FOMC preview fix came to pass
@@ -210,9 +245,17 @@ def main():
                 # a genuine development: publish it AS AN UPDATE of the origin story instead
                 # of dropping the follow-up (the old guard's silent HOLD lost these, e.g. the
                 # Ostium 'Tornado Cash' development of the $18M hack). Updates are meant to
-                # revise figures, so the consistency belt below does not apply to them.
+                # revise figures, so the consistency belt below does not HOLD them, but a
+                # material revision leaves the ORIGIN page asserting the stale number (the
+                # Avici class, audit 2026-08-31), so the belt still runs against just the
+                # origin and a hit queues that story for the corrections loop.
                 story["update_of"] = mslug
                 updates[cid] = mslug
+                revs = [x for x in consistency.figure_conflicts(headline, kf,
+                                                                within_days=None)
+                        if x.get("slug") == mslug]
+                if revs:
+                    queue_origin_correction(mslug, revs[0], headline)
                 print(f"autopilot: APPROVED as an UPDATE of '{(mtitle or '')[:48]}' "
                       f"(update_of={mslug})")
                 story["decision"] = "approve"

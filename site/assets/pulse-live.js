@@ -23,11 +23,13 @@
   if (!$all("[data-live]").length) return;
 
   // ---- formatters (mirror site_build.py) ----
+  // CoinMarketCap convention, same as _price_fmt: dollars and cents from $1 up, four
+  // significant digits below $1, always fixed notation (never exponent form).
   function fmtPrice(p) {
     if (!p && p !== 0) return "?";
-    if (p >= 100) return "$" + Math.round(p).toLocaleString("en-US");
     if (p >= 1) return "$" + p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    return "$" + p.toFixed(6).replace(/0+$/, "").replace(/\.$/, "");
+    if (!p) return "$0";
+    return "$" + p.toFixed(Math.min(100, 3 - Math.floor(Math.log10(p))));
   }
   function fmtTick(n) {
     var a = Math.abs(n), s = n < 0 ? "-" : "";

@@ -48,11 +48,22 @@ WHAT THIS SCREEN ACTUALLY TESTS
                  reject. On-chain total supply is a ceiling that cannot be argued with: a
                  token cannot circulate more than exists. Read keyless from Blockscout.
 
-                 ONLY for tokens that live on Ethereum and nowhere else. A multi-chain
-                 token's Ethereum supply is a fraction of its real total, so the comparison
-                 would flag honest coins by the dozen; Chainlink alone lists 84 chains. The
-                 guard is doing real work rather than being defensive: of Chainlink, Maker
-                 and Shiba Inu, only SHIB qualifies for the check at all.
+                 ONLY for tokens NATIVE to Ethereum (asset_platform_id says so) that live
+                 nowhere else. A multi-chain token's Ethereum supply is a fraction of its
+                 real total, so the comparison would flag honest coins by the dozen;
+                 Chainlink alone lists 84 chains. And a coin native to its own chain
+                 reports asset_platform_id null yet can still list a legacy Ethereum
+                 contract: BNB's mostly-burned ERC-20 once read as a 339x ceiling breach
+                 and knocked the #4 coin by cap off the board. The guard is doing real
+                 work rather than being defensive: of Chainlink, Maker and Shiba Inu,
+                 only SHIB qualifies for the check at all.
+
+  CROSS-LISTING, applied at apply() time rather than cached as a per-coin verdict. Owner
+  ruling: the board should match CoinMarketCap's listings. CoinGecko ranks tokenized
+  treasuries and exchange-book instruments CMC does not track, so a coin whose symbol is
+  absent from CMC's top 150 is dropped even when it passes every market test above. The
+  weekly refresh stores the symbol set in the cache; see CMC_LISTING below for the
+  fail-open rules.
 
   STABLECOINS GET NO EXEMPTION (owner's ruling, 2026-07-29). The captive test catches some
   smaller stablecoins whose liquidity sits in one pool, USDS at 98.3% on a single Uniswap
@@ -80,7 +91,9 @@ COST CONTROL, and why screening is NOT part of the build
 
 FAIL-SAFE
   If screening cannot run, the previous cached verdicts still apply. A network problem
-  must never silently return the board to publishing unscreened caps.
+  must never silently return the board to publishing unscreened caps. The same rule
+  holds per coin: a coin whose checks errored this run keeps whatever verdict it had,
+  and a verdict is released only by an actual clean pass.
 
 USAGE
   python3 coin_screen.py            # refresh the cache, print what changed
@@ -137,11 +150,25 @@ SUPPLY_TOLERANCE = 1.20
 ONCHAIN_MARGIN = 1.05
 BLOCKSCOUT_TOKEN = "https://eth.blockscout.com/api/v2/tokens/"
 
+# THE CROSS-LISTING FILTER (owner ruling: the board should match CoinMarketCap's
+# listings). The endpoint is CMC's keyless data-api: unofficial, working today, and
+# treated accordingly. Everything about it FAILS OPEN: a failed fetch or an implausibly
+# small result carries the previous cached set forward, and with no cached set at all
+# apply() simply skips the filter. And because symbols are not unique, a CoinGecko
+# top-10 coin is never dropped on this filter alone: a symbol collision must not knock
+# out a major.
+CMC_LISTING = ("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing"
+               "?start=1&limit=150&sortBy=market_cap&sortType=desc&convert=USD")
+CMC_MIN_SYMBOLS = 50
+CMC_RANK_EXEMPT = 10
+CMC_REASON = "not in CMC top 150"
+
 REASONS = {
     "captive": "one venue accounts for nearly all reported volume",
     "untraded": "no meaningful reported trading",
     "supply": "market cap computed on supply the coin's own listing does not confirm",
     "onchain": "market cap computed on more supply than exists on chain",
+    CMC_REASON: "not ranked in CoinMarketCap's top 150 listings",
 }
 
 
@@ -189,16 +216,40 @@ def apply(coins, cache=None, limit=100):
     that WOULD HAVE BEEN on the published board. Failures further down the fetched list
     were never going to be shown, so naming them to a reader would be noise dressed up as
     transparency."""
+    cache = cache if cache is not None else load_cache()
     bad = excluded_ids(cache)
+    cmc = {str(s).upper() for s in (cache.get("cmc_symbols") or [])}
     would_have_shown = {(c.get("id") or "") for c in coins[:limit]}
     kept, dropped = [], []
     for c in coins:
-        if (c.get("id") or "") in bad:
+        if (c.get("id") or "") in bad or _cmc_dropped(c, cmc):
             if (c.get("id") or "") in would_have_shown:
                 dropped.append(c)
         else:
             kept.append(c)
     return kept[:limit], dropped
+
+
+def _cmc_dropped(coin, cmc_symbols):
+    """True when the cross-listing filter removes this coin: its symbol is absent from
+    the cached CMC top-150 set. No set means no filter (fail open), and a CoinGecko
+    top-10 coin never drops on this test alone: symbols are not unique, so a collision
+    must not knock out a major."""
+    if not cmc_symbols:
+        return False
+    rank = coin.get("market_cap_rank")
+    if rank is not None and rank <= CMC_RANK_EXEMPT:
+        return False
+    return (coin.get("symbol") or "").upper() not in cmc_symbols
+
+
+def why_dropped(cache, coin):
+    """(reason, why) for a coin apply() dropped: its cached verdict when there is one,
+    otherwise the cross-listing filter, the only other way off the board."""
+    e = (cache or {}).get("excluded", {}).get(coin.get("id") or "") or {}
+    if e.get("reason"):
+        return e["reason"], e.get("why") or REASONS.get(e["reason"], e["reason"])
+    return CMC_REASON, REASONS[CMC_REASON]
 
 
 # ---- screening (the expensive half, run on a cache miss) ----------------------
@@ -220,14 +271,19 @@ def _venue_profile(get_json, coin_id):
 
 
 def _detail(get_json, coin_id):
-    """The coin's own listing: its stated circulating supply and the chains it lives on.
+    """The coin's own listing: stated circulating supply, native platform, and the
+    chains it lives on.
 
-    One call for both. `platforms` is what makes the on-chain check safe: an Ethereum
-    supply read is only a valid ceiling for a token that exists ONLY on Ethereum."""
+    One call for all three. `asset_platform_id` plus `platforms` is what makes the
+    on-chain check safe: an Ethereum supply read is only a valid ceiling for a token
+    NATIVE to Ethereum that exists nowhere else. A coin native to its own chain reports
+    asset_platform_id null yet can still list a legacy Ethereum contract (BNB's
+    mostly-burned ERC-20), so platforms alone is not proof."""
     d = get_json(f"https://api.coingecko.com/api/v3/coins/{coin_id}"
                  "?localization=false&tickers=false&market_data=true"
                  "&community_data=false&developer_data=false&sparkline=false")
     return {"circulating": (d.get("market_data") or {}).get("circulating_supply"),
+            "asset_platform_id": d.get("asset_platform_id"),
             "platforms": {k: v for k, v in (d.get("platforms") or {}).items()
                           if k and v and str(v).strip()}}
 
@@ -261,6 +317,15 @@ def _onchain_supply(get_json, contract):
     return int(raw) / (10 ** int(dec))
 
 
+def _cmc_symbols(get_json):
+    """Uppercase symbols of CoinMarketCap's top 150 by market cap, from the keyless
+    data-api. Unofficial endpoint; refresh() treats every problem here as carry the
+    previous set forward, never as a verdict."""
+    d = get_json(CMC_LISTING)
+    rows = ((d.get("data") or {}).get("cryptoCurrencyList")) or []
+    return {str(r.get("symbol") or "").upper() for r in rows if r.get("symbol")}
+
+
 def judge(coin, get_json):
     """Screen one coin. Returns a verdict dict when it fails, or None when it passes.
 
@@ -283,10 +348,17 @@ def judge(coin, get_json):
                 "detail": {"listed_supply": listed, "own_supply": own,
                            "ratio": round(listed / own, 2)}}
 
-    # The independent read, last because it costs a second host. Only Ethereum-only tokens
-    # qualify, and an unreadable contract is not evidence: this module excludes on evidence
-    # and never on a failed request, so anything unclear falls through to a pass.
-    contract = _ethereum_only_contract(detail["platforms"])
+    # The independent read, last because it costs a second host. Only a token NATIVE to
+    # Ethereum (asset_platform_id says so) that lives nowhere else qualifies: a coin
+    # native to its own chain reports asset_platform_id null but can still carry a
+    # legacy Ethereum contract in platforms, and reading BNB's mostly-burned ERC-20 as
+    # the ceiling excluded the #4 coin by cap. When in doubt there is no check, this
+    # module's standing rule. An unreadable contract is likewise not evidence: exclusion
+    # is on evidence, never on a failed request, so anything unclear falls through to a
+    # pass.
+    contract = None
+    if detail.get("asset_platform_id") == "ethereum":
+        contract = _ethereum_only_contract(detail["platforms"])
     if contract and listed:
         try:
             chain_supply = _onchain_supply(get_json, contract)
@@ -305,9 +377,10 @@ def screen(coins, get_json, verbose=True):
 
     Only coins that clear the cheap ratio pre-filter get paid API calls. A coin whose
     checks error out is left OUT of the excluded set: we exclude on evidence, never on a
-    failed request."""
+    failed request. Its id is recorded in error_ids instead, so refresh() can carry the
+    previous verdict forward; an error is not a clean pass either."""
     cache = {"generated_utc": _now().strftime("%Y-%m-%dT%H:%M:%SZ"),
-             "excluded": {}, "checked": 0, "errors": 0}
+             "excluded": {}, "checked": 0, "errors": 0, "error_ids": []}
 
     for c in coins:
         mc = c.get("market_cap") or 0
@@ -325,6 +398,7 @@ def screen(coins, get_json, verbose=True):
             verdict = judge(c, get_json)
         except Exception as e:
             cache["errors"] += 1
+            cache["error_ids"].append(c.get("id") or "")
             if verbose:
                 print(f"::warning::coin screen could not check "
                       f"{c.get('symbol', '?').upper()}: {e}")
@@ -370,6 +444,33 @@ def refresh(coins, get_json, force=False, verbose=True):
         if verbose:
             print("::warning::coin screen checked nothing, keeping previous verdicts")
         return old
+    # Sticky verdicts: an errored check is no more a clean pass than it is a failure, so
+    # a coin whose checks errored this run keeps whatever verdict it had. Without this,
+    # one rate-limited call quietly puts a captive coin back on the board for a week.
+    for cid in fresh.get("error_ids", []):
+        if cid in (old.get("excluded") or {}) and cid not in fresh["excluded"]:
+            fresh["excluded"][cid] = old["excluded"][cid]
+            if verbose:
+                print(f"  keep {old['excluded'][cid].get('symbol') or cid}: "
+                      "errored this run, previous verdict stands")
+    # The cross-listing set rides the same cache. Fail open on the unofficial endpoint:
+    # a bad fetch or an implausibly small set carries the previous set forward, and with
+    # no previous set apply() simply skips the filter.
+    try:
+        syms = _cmc_symbols(get_json)
+    except Exception as e:
+        if verbose:
+            print(f"::warning::CMC listing fetch failed, carrying previous set: {e}")
+        syms = set()
+    if len(syms) >= CMC_MIN_SYMBOLS:
+        fresh["cmc_symbols"] = sorted(syms)
+        fresh["cmc_fetched_utc"] = _now().strftime("%Y-%m-%dT%H:%M:%SZ")
+    elif old.get("cmc_symbols"):
+        if verbose and syms:
+            print(f"::warning::CMC listing implausibly small ({len(syms)} symbols), "
+                  "carrying previous set")
+        fresh["cmc_symbols"] = old["cmc_symbols"]
+        fresh["cmc_fetched_utc"] = old.get("cmc_fetched_utc")
     os.makedirs(os.path.dirname(CACHE), exist_ok=True)
     with open(CACHE, "w") as f:
         json.dump(fresh, f, indent=1, sort_keys=True)
@@ -387,6 +488,7 @@ if __name__ == "__main__":
           f"(candidates: cap/volume >= {CANDIDATE_RATIO}x)")
     out = refresh(universe, _get, force=True)
     print(f"\nchecked {out['checked']}, excluded {len(out['excluded'])}, "
-          f"errors {out.get('errors', 0)}")
+          f"errors {out.get('errors', 0)}, "
+          f"CMC symbols {len(out.get('cmc_symbols') or [])}")
     for cid, e in sorted(out["excluded"].items(), key=lambda kv: kv[1]["rank"] or 999):
         print(f"  #{e['rank']:>3} {e['symbol']:<12} ${e['market_cap'] / 1e9:7.2f}B  {e['why']}")

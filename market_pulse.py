@@ -261,7 +261,7 @@ def section_movers(top_n=5, universe=100, fetch=160):
     for c in dropped:
         print(f"::notice::top100: dropped {(c.get('symbol') or '').upper()} "
               f"(rank {c.get('market_cap_rank')}), "
-              f"{screen['excluded'][c['id']]['why']}")
+              f"{coin_screen.why_dropped(screen, c)[1]}")
 
     def pack(c, spark=False):
         chg = c.get("price_change_percentage_24h")
@@ -282,7 +282,7 @@ def section_movers(top_n=5, universe=100, fetch=160):
             "screened_out": [{"symbol": (c.get("symbol") or "").upper(),
                               "name": c.get("name") or "",
                               "rank": c.get("market_cap_rank"),
-                              "reason": screen["excluded"][c["id"]]["reason"]}
+                              "reason": coin_screen.why_dropped(screen, c)[0]}
                              for c in dropped],
             "gainers": [pack(c) for c in reversed(movers[-top_n:])],
             "losers": [pack(c) for c in movers[:top_n]],

@@ -195,8 +195,10 @@ RETIRED_ARTICLES = {
         "new-clarity-act-draft-may-arrive-as-soon-as-next-week-sources-say",
     "aave-approves-deprecation-of-50-assets-and-exit-from-six-chains":
         "aave-retires-50-assets-and-exits-six-chains-consolidating-away-from-low-value-markets",
+    # re-pointed 2026-08-31: the old target was itself retired into the 07-20 telling,
+    # and a redirect must land on a live page, never on another redirect
     "ai-compute-stocks-bounce-as-hut-8-iren-land-billions-in-new-contracts":
-        "hut-8-and-iren-announce-multi-billion-dollar-ai-data-center-contracts-mining-stocks-surge",
+        "hut-8-and-iren-book-billions-in-ai-capacity-lifting-miner-equities",
     "amazon-japan-logistics-firm-az-com-maruwa-to-pay-2-300-partners-with-regulated-yen-stablecoin-jpyc":
         "amazon-japan-supplier-to-pay-2-300-contractors-using-regulated-yen-stablecoin",
     "bitcoin-s-largest-holder-saylor-opposes-bip-110-spam-filter-on-neutrality-grounds":
@@ -241,6 +243,25 @@ RETIRED_ARTICLES = {
         "visa-launches-stablecoin-platform-for-open-usd-upending-issuer-revenue-model",
     "visa-launches-visa-stablecoin-platform-for-open-usd-as-circle-s-competitive-moat-narrows":
         "visa-launches-stablecoin-platform-for-open-usd-upending-issuer-revenue-model",
+    # family audit 2026-08-31: retroactive cleanup of the duplicate clusters that predate
+    # the 2026-08-30 merge-path fix, one event told twice in each; the fullest telling
+    # survives (sources first, then body length) and the other's sourcing was folded in
+    "bitmex-to-shut-down-operations-on-september-23-2026":
+        "bitmex-shuts-down-after-11-years-as-perpetuals-pioneer",
+    "brazilian-farmers-tokenize-dairy-cows-to-bypass-bank-lending-restrictions":
+        "brazilian-farmers-tokenize-dairy-cows-for-credit-on-b3-exchange",
+    "deribit-ends-daily-proof-of-reserves-check-as-90-of-assets-move-to-coinbase-custody":
+        "deribit-consolidates-90-of-assets-at-coinbase-ends-public-daily-proof-of-reserves",
+    "fed-cbdc-set-to-be-banned-until-2031-under-housing-law-provision":
+        "housing-bill-with-cbdc-ban-becomes-law-without-trump-s-signature",
+    "hut-8-and-iren-announce-multi-billion-dollar-ai-data-center-contracts-mining-stocks-surge":
+        "hut-8-and-iren-book-billions-in-ai-capacity-lifting-miner-equities",
+    "sbi-group-consolidates-asia-s-digital-asset-infrastructure-targeting-yen-settlement-dominance":
+        "japan-s-sbi-group-is-building-asia-s-first-cross-border-digital-asset-empire",
+    "u-s-fbi-intelligence-agent-arrested-in-connection-with-theft-of-1-million-in-crypto":
+        "fbi-supervisory-agent-arrested-for-stealing-1-million-in-cryptocurrency-from-seized-wallets",
+    "uk-parliament-launches-inquiry-into-banking-restrictions-on-crypto-firms":
+        "u-k-parliament-launches-formal-inquiry-into-bank-restrictions-on-crypto-firms",
 }
 
 # Topic tags: deterministic keyword rules over the story text, computed at build time so
@@ -305,7 +326,19 @@ def tags_for(item):
 
 _STORY_STOP = {"the","a","an","and","or","of","to","for","in","on","with","from","as","at",
                "its","it","that","this","after","over","amid","says","said","new","first",
-               "crypto","bitcoin","btc","report","reports"}
+               "crypto","bitcoin","btc","report","reports",
+               # A DATE IS NOT A SUBJECT (ported from the sports/news desks, 2026-08-31).
+               # On the general-news corpus the storyline test merged two unrelated
+               # obituaries whose ONLY shared capitalized token was "August", from the
+               # datelines in both key facts. Months, weekdays and the day's other
+               # furniture words carry no subject identity, so none of them may count as
+               # a shared name or a content word here.
+               "january","february","march","april","may","june","july",
+               "august","september","october","november","december",
+               "monday","tuesday","wednesday","thursday","friday","saturday","sunday",
+               "today","yesterday","tomorrow","week","month","year",
+               "his","her","their","officials","authorities","federal","state",
+               "u.s","u.s.","us"}
 
 
 def _content_words(*texts):
@@ -611,9 +644,14 @@ def related_stories(item, items, n=3):
     mine = set(tags_for(item))
     scored = []
     for o in pool:
-        if dedupe_same_event(item, o):
+        # THE UPDATE CHAIN OUTRANKS THE NEAR-DUPLICATE SKIP (Avici audit 2026-08-31): a
+        # declared update of this story is dedupe_same_event-positive almost by
+        # definition, so testing dedupe first silently discarded the one link a
+        # superseded page needs most.
+        in_chain = o.get("slug") in chain
+        if not in_chain and dedupe_same_event(item, o):
             continue  # a near-duplicate is not a "read next"
-        if o.get("slug") in chain:
+        if in_chain:
             rank = 3
         elif _same_storyline(item, o, names_floor=0.16):
             rank = 2
@@ -1137,13 +1175,21 @@ MOTION_JS = (
     'vids.forEach(function(v){if(!v.classList.contains("motion-lazy"))vo.observe(v)});'
     'var lz=vids.filter(function(v){return v.classList.contains("motion-lazy")});'
     'if(lz.length){var arm=function(){lz.forEach(function(v){vo.observe(v)});'
-    'removeEventListener("scroll",arm)};addEventListener("scroll",arm,{passive:true})}'
+    'removeEventListener("scroll",arm)};addEventListener("scroll",arm,{passive:true});'
+    # A lazy video already on screen at load (short page, restored scroll position) would
+    # otherwise wait for a scroll that may never come: arm its observer right away.
+    'if(lz.some(inView))arm()}'
     'var ro=new IntersectionObserver(function(es){es.forEach(function(e){'
     'if(e.isIntersecting){e.target.classList.add("in");ro.unobserve(e.target)}})},'
     '{rootMargin:"0px 0px -5% 0px"});'
     '[].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){ro.observe(el)})}'
     'else{[].slice.call(document.querySelectorAll(".reveal")).forEach(function(el){el.classList.add("in")})}'
     'apply();'
+    # Hidden-tab loads (cmd-click, session restore): Chrome rejects play() for background
+    # media to save power and never retries on its own, so re-apply when the tab becomes
+    # visible again, and on pageshow for bfcache restores.
+    'document.addEventListener("visibilitychange",function(){if(!document.hidden)apply()});'
+    'window.addEventListener("pageshow",function(){apply()});'
     '})()</script>')
 
 
@@ -1365,6 +1411,32 @@ def render_article(item, all_items=None):
             ribbon += (f'<div class="callout"><b>Update.</b> This story develops our earlier '
                        f'reporting: <a href="/articles/{esc(item["update_of"])}">'
                        f'{esc(prev.get("title"))}</a>.</div>')
+    # THE ORIGIN SIDE OF THE SAME EDGE (Avici audit 2026-08-31). update_of renders a
+    # callout on the NEW page only, so a superseded story stayed live, VERIFIED-badged,
+    # with no hint that later reporting replaced it. Same honesty gate as above: the
+    # edge is asserted only when the two pages visibly share the story. The link goes to
+    # the NEWEST chain member, walked forward, because an update of the update
+    # supersedes this page too.
+    succ = [i for i in (all_items or [])
+            if i is not item and i.get("slug")
+            and i.get("update_of") == item.get("slug")
+            and _same_storyline(item, i)]
+    if succ:
+        seen = {item.get("slug")} | {s.get("slug") for s in succ}
+        frontier = list(succ)
+        while frontier:
+            cur = frontier.pop()
+            for i in (all_items or []):
+                if (i.get("slug") and i.get("slug") not in seen
+                        and i.get("update_of") == cur.get("slug")
+                        and _same_storyline(cur, i)):
+                    seen.add(i.get("slug"))
+                    succ.append(i)
+                    frontier.append(i)
+        newest = max(succ, key=lambda i: i.get("published_utc") or i.get("date") or "")
+        ribbon += (f'<div class="callout"><b>Update.</b> This story has been superseded '
+                   f'by later reporting: <a href="/articles/{esc(newest["slug"])}">'
+                   f'{esc(newest.get("title"))}</a>.</div>')
     # A correction is a feature of an honest desk (standards page): show it plainly. The
     # aging loop (corrections.py) and manual reconciliations both write item["corrected"].
     if (item.get("corrected") or "").strip():
@@ -1874,8 +1946,16 @@ def render_home(items, flows, pulse, cm, dateline):
         # bare "-$434.5M net onto exchanges" reads ambiguously. Magnitude + word is unambiguous.
         ww_line = (f"{fmt_usd(abs(wnet))} net {'off' if wnet >= 0 else 'onto'} exchanges in the "
                    f"last {_win_phrase(flows.get('window_hours', 24))}.")
+    # The three board cards carry the boards' own hero loops (owner complaint 2026-08-31:
+    # the Whale Watch / Market Pulse / Chart Master graphics never moved; they were still
+    # PNGs of the animated scenes). Same lazy poster+video pattern as the board pages, and
+    # the wrapper repeats the poster as a CSS background (the .ww-panel trick) because
+    # reduced-motion removes video nodes outright and the card must keep its still.
     cards.append(f"""<a class="dash-card home-card" href="/flows.html">
-      <img class="dash-hero-img" src="/assets/whale-watch-banner.png" alt="Whale Watch: market pulse, on-chain insights" loading="lazy">
+      <span class="dash-hero-img" role="img" aria-label="Whale Watch: market pulse, on-chain insights" style="background:#091625 url(/assets/whale-watch-banner.png) center 30%/cover no-repeat">
+        <video class="dash-hero-img motion-video motion-lazy" muted loop playsinline preload="none" poster="/assets/whale-watch-banner.png" aria-hidden="true" tabindex="-1" style="margin-bottom:0">
+          <source src="/assets/whale/whale-loop.webm" type="video/webm">
+          <source src="/assets/whale/whale-loop.mp4" type="video/mp4"></video></span>
       <span class="lab">Whale Watch</span>
       <span class="dash-stat" style="font-size:19px">{esc(ww_line)}</span>
       <p class="pc-note">Where the whales are moving money: onto exchanges or into cold
@@ -1886,7 +1966,10 @@ def render_home(items, flows, pulse, cm, dateline):
     if fng:
         mp_line = f"Fear &amp; Greed today: {fng.get('value', '?')}, {esc((fng.get('label') or '').lower())}."
     cards.append(f"""<a class="dash-card home-card" href="/pulse.html">
-      <img class="dash-hero-img" src="/assets/market-pulse-banner.png" alt="Market Pulse: live dashboards" loading="lazy">
+      <span class="dash-hero-img" role="img" aria-label="Market Pulse: live dashboards" style="background:#091625 url(/assets/market-pulse-banner.png) center 30%/cover no-repeat">
+        <video class="dash-hero-img motion-video motion-lazy" muted loop playsinline preload="none" poster="/assets/market-pulse-banner.png" aria-hidden="true" tabindex="-1" style="margin-bottom:0">
+          <source src="/assets/pulse/pulse-loop.webm" type="video/webm">
+          <source src="/assets/pulse/pulse-loop.mp4" type="video/mp4"></video></span>
       <span class="lab">Market Pulse</span>
       <span class="dash-stat" style="font-size:19px">{mp_line}</span>
       <p class="pc-note">Sentiment, price posture, top movers, the top 100, stablecoin dry
@@ -1894,7 +1977,10 @@ def render_home(items, flows, pulse, cm, dateline):
       <span class="dash-open">See the dashboards &rarr;</span></a>""")
     cm_line = (cm or {}).get("headline") or "The wizard reads the tape."
     cards.append(f"""<a class="dash-card home-card" href="/chartmaster.html">
-      <img class="dash-hero-img" src="/assets/chart-master-banner.png" alt="The Chart Master, crypto wizard" loading="lazy">
+      <span class="dash-hero-img" role="img" aria-label="The Chart Master, crypto wizard" style="background:#091625 url(/assets/chart-master-banner.png) center 30%/cover no-repeat">
+        <video class="dash-hero-img motion-video motion-lazy" muted loop playsinline preload="none" poster="/assets/chart-master-banner.png" aria-hidden="true" tabindex="-1" style="margin-bottom:0">
+          <source src="/assets/wizard/wizard-loop.webm" type="video/webm">
+          <source src="/assets/wizard/wizard-loop.mp4" type="video/mp4"></video></span>
       <span class="lab">The Chart Master</span>
       <span class="dash-stat" style="font-size:19px">&ldquo;{esc(cm_line)}&rdquo;</span>
       <p class="pc-note">The resident wizard's plain-language read of the boards, plus the
@@ -3501,13 +3587,16 @@ def render_pulse_movers(pulse, dateline):
 
 
 def _price_fmt(price):
+    # CoinMarketCap's convention (owner ruling 2026-08-31): dollars and cents from $1 up
+    # (SOL is $103.50, not $104), four significant digits below $1, always fixed notation.
+    # Mirrored by fmtPrice in pulse-live.js, which rewrites these cells in the browser:
+    # change both together.
     if not price:
         return "?"
-    if price >= 100:
-        return f"${price:,.0f}"
     if price >= 1:
         return f"${price:,.2f}"
-    return "$" + f"{price:.6f}".rstrip("0").rstrip(".")
+    import math
+    return f"${price:.{3 - math.floor(math.log10(price))}f}"
 
 
 def _top100_rows(coins):
@@ -3937,7 +4026,9 @@ DEDUPE_WINDOW_H = 24  # the owner's spec: entity + event-date overlap inside 24 
 
 
 def same_event_on_disk(item, window_h=DEDUPE_WINDOW_H, content=None):
-    """(path, story) of an already-published story covering this same event, or (None, None).
+    """(path, story, mode) of an already-published story covering this same event, or
+    (None, None, None). mode is "merge" (fold the newcomer into the published URL) or
+    "chain" (publish it, but as a declared update_of lineage).
 
     THE LAST GATE, and it exists because the one before it can be raced. autopilot's guard
     reads the corpus committed on disk, which is correct until two runs overlap: the 18:41
@@ -3957,7 +4048,7 @@ def same_event_on_disk(item, window_h=DEDUPE_WINDOW_H, content=None):
     import dedupe
     when = _parse_utc(item)
     if not when:
-        return None, None
+        return None, None, None
     for path in sorted(glob.glob(os.path.join(content or CONTENT, "*.json"))):
         if os.path.basename(path).startswith("_"):
             continue
@@ -3965,11 +4056,22 @@ def same_event_on_disk(item, window_h=DEDUPE_WINDOW_H, content=None):
             other = json.load(open(path, encoding="utf-8"))
         except Exception:
             continue
-        if other.get("example") or other.get("slug") == item.get("slug"):
+        if other.get("example"):
             continue
         # An edition summarises the day; it is not a duplicate of the stories in it.
         if _is_wrap(other) or _is_wrap(item):
             continue
+        if other.get("slug") == item.get("slug"):
+            # Skip-self applies ONLY to the item's own dated file, seen again on re-ingest.
+            # Content files are named {date}-{slug}.json but articles render to
+            # /articles/{slug}.html, so the SAME slug in a DIFFERENT dated file is two
+            # stories colliding at one URL: the strongest duplicate signal there is, not a
+            # reason to look away. The old blanket slug skip let a retelling that minted
+            # the identical title bypass this whole gate (three live collisions on the
+            # news desk, family audit 2026-08-31).
+            if os.path.basename(path) == f"{item.get('date')}-{item.get('slug')}.json":
+                continue
+            return path, other, "merge"
         other_when = _parse_utc(other)
         if not other_when or abs((when - other_when).total_seconds()) > window_h * 3600:
             continue
@@ -4013,13 +4115,46 @@ def same_event_on_disk(item, window_h=DEDUPE_WINDOW_H, content=None):
         # test separates both correctly by itself.
         if not _same_storyline(item, other, 0.22):
             continue
+        # THREE TIERS AND AN ESCAPE, the full decision the 2026-08-30 fix gave the sports
+        # and news desks while this desk kept its two-tier August gate (family audit
+        # 2026-08-31). fwd = what the newcomer adds over the published story; rev = what
+        # the published story says that the newcomer does NOT cover.
+        #   fwd < NOVELTY_MIN: the newcomer adds nothing -> merge; the published prose
+        #     stands and its sources join.
+        #   rev < NOVELTY_MIN: the published story is fully covered by the newcomer, a
+        #     superset retelling -> merge. This is the tier the August guard lacked, and
+        #     the one the Deribit pair walked through: fwd 2, rev 0, equal sources, and
+        #     it minted a second URL for one custody story.
+        #   more sources: a corroborated reframing merges even when rev > 0, because the
+        #     overstated claims it corrects are exactly the ones it does not repeat.
+        #     (the Solana-halt correction class, owner-approved 2026-08-13)
+        #   both add things the other lacks -> two genuine developments of one storyline
+        #     -> NOT merged; the caller chains update_of instead, so the pair renders as
+        #     a lineage rather than as two orphan pages.
+        _sig_item = dedupe._claim_signature(item) - dedupe._OUTLETS
+        _sig_other = dedupe._claim_signature(other) - dedupe._OUTLETS
+        fwd = len(_sig_item - dedupe._covered_signature(other))
+        rev = len(_sig_other - dedupe._covered_signature(item))
+        # NO SIGNATURE, NO VERDICT (dedupe's own 2026-08-21 rule): an empty claim
+        # signature makes its novelty count zero VACUOUSLY, so a story whose distinctive
+        # tokens are all stopworded away would read as "adds nothing" and merge into the
+        # wrong pair. A tier only speaks when its signature actually exists.
+        # A RETELLING KEEPS THE HEADLINE'S SUBJECT; A REACTION SHIFTS IT (2026-08-30).
+        # A reaction story can fully cover the event it reacts to, so the coverage tiers
+        # alone would read it as a superset retelling and replace the original. Every
+        # verified August leak was a near-same-headline pair (overlap 0.45 to 1.0), so
+        # merge additionally requires the headlines to agree; a pair that shares the
+        # event but not the headline is a lineage and chains instead.
+        _hov = dedupe._headline_overlap(item.get("title") or "", other.get("title") or "")
+        _mode = "merge" if _hov >= 0.45 else "chain"
+        if _sig_item and fwd < dedupe.NOVELTY_MIN:
+            return path, other, _mode
+        if _sig_other and rev < dedupe.NOVELTY_MIN:
+            return path, other, _mode
         if len(item.get("sources") or []) > len(other.get("sources") or []):
-            return path, other
-        novel = (dedupe._claim_signature(item)
-                 - dedupe._covered_signature(other) - dedupe._OUTLETS)
-        if len(novel) < dedupe.NOVELTY_MIN:
-            return path, other
-    return None, None
+            return path, other, _mode
+        return path, other, "chain"
+    return None, None, None
 
 
 def merge_into_existing(path, prior, incoming):
@@ -4289,13 +4424,20 @@ def ingest():
         # resting on several. Sources stay honest (what the desk actually drew on) and the
         # corroboration renders as its own labelled line.
         item["developing"] = len(srcs) < 2 and not item["also_reported_by"]
-        prior_path, prior = same_event_on_disk(item)
-        if prior_path:
+        prior_path, prior, mode = same_event_on_disk(item)
+        if prior_path and mode == "merge":
             merge_into_existing(prior_path, prior, item)
             print(f"  MERGED {rec.get('id')} into {os.path.basename(prior_path)} "
                   f"(same event within {DEDUPE_WINDOW_H}h; no second story created)")
             merged += 1
             continue
+        if prior_path and mode == "chain" and not item.get("update_of"):
+            # two genuine developments of one storyline: publish, but as a LINEAGE. The
+            # editor is supposed to declare this and usually does not, so ingest declares
+            # it deterministically from what is actually on disk.
+            item["update_of"] = prior.get("slug")
+            print(f"  CHAINED {rec.get('id')} as update of {prior.get('slug')[:56]} "
+                  f"(same storyline, distinct development)")
         out = os.path.join(CONTENT, f"{date}-{slug}.json")
         json.dump(item, open(out, "w", encoding="utf-8"), indent=2)
         print(f"  ingested {rec.get('id')} -> {os.path.relpath(out)}")
