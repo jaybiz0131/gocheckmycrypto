@@ -1,0 +1,56 @@
+{
+  "id": "c009",
+  "slug": "ex-white-house-teleprompter-operator-fined-172-000-for-prediction-market-insider-trading-august-30-2026",
+  "kind": "brief",
+  "title": "Ex-White House Teleprompter Operator Fined $172,000 for Prediction Market Insider Trading (August 30, 2026)",
+  "dek": "Gabriel Perez, a former White House teleprompter operator, agreed to pay $172,000 to settle CFTC charges for trading prediction market contracts on advance knowledge of presidential speeches. The case establishes federal enforcement precedent for insider trading in crypto-adjacent derivatives markets.",
+  "date": "2026-08-31",
+  "published_utc": "2026-08-31T01:22:46Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "Perez profited more than $107,500 by trading 'presidential mention market' contracts based on non-public access to Trump speeches before delivery.",
+  "bottom_line": "The CFTC settlement establishes that non-public access to executive communications can trigger insider-trading liability on prediction markets. Platforms and traders should clarify how they screen for information asymmetries and what obligations they owe to segregate or restrict trading by users with policy-access roles.",
+  "human_take": "",
+  "body": [
+    "Gabriel Perez, a former White House teleprompter operator, agreed to pay $172,000 to settle CFTC charges that he traded prediction market contracts on advance knowledge of presidential speeches. The settlement marks a federal enforcement action against information asymmetry in crypto-adjacent derivatives markets.\nAccording to Decrypt's reporting, Perez used his access to Trump's speeches before delivery to bet on 'presidential mention market' contracts. He profited more than $107,500 from the trades before the CFTC caught him. The $172,000 payment reflects the profit forfeiture plus a civil fine imposed by the regulator.\nPrediction markets trade conditional derivatives, typically binary contracts settled on the outcome of a discrete event. The 'presidential mention markets' Perez traded allowed him to wager on whether specific topics or names would be mentioned in an upcoming address, giving him an information advantage over other traders who lacked access to the speech text in advance."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/376909/white-house-teleprompter-fined-prediction-market-trading",
+      "url": "https://decrypt.co/376909/white-house-teleprompter-fined-prediction-market-trading"
+    }
+  ],
+  "update_of": "coinsbuy-loses-8-07-million-in-coordinated-two-blockchain-attack",
+  "board_snapshot": {
+    "as_of": "2026-08-30T22:05:15Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77608.46,
+        "chg_24h_pct": -0.06
+      },
+      {
+        "symbol": "ETH",
+        "price": 2416.09,
+        "chg_24h_pct": -0.01
+      }
+    ],
+    "fng": {
+      "value": 62,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 7.4,
+      "open_interest_usd": 2087719441
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 108365081,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

@@ -1,0 +1,63 @@
+{
+  "id": "c010",
+  "slug": "polygon-deployed-austin-and-kyoto-hard-forks-to-patch-dos-and-consensus-flaws-before-public-disclosure",
+  "kind": "brief",
+  "title": "Polygon Deployed Austin and Kyoto Hard Forks to Patch DoS and Consensus Flaws Before Public Disclosure",
+  "dek": "Polygon deployed two hard forks, Austin on its Bor client and Kyoto on Heimdall, to patch denial-of-service and consensus-hardening vulnerabilities before announcing them publicly, according to Decrypt and Cointelegraph. Polygon claims the flaws were never exploited, but sources do not detail the disclosure timeline or validator upgrade readiness.",
+  "date": "2026-08-31",
+  "published_utc": "2026-08-31T01:22:46Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "Polygon silently deployed Austin and Kyoto hard forks closing DoS and consensus flaws prior to public disclosure; the no-exploitation claim is Polygon's assertion, unverified by independent sources.",
+  "bottom_line": "The disclosure and timing of validator notification for the Austin and Kyoto upgrades remain unconfirmed in available reporting. Independent documentation of the upgrade adoption rate across Polygon's validator set and a precise timeline from deployment to public disclosure would clarify whether the silent-patch approach posed operational risk to the network.",
+  "human_take": "",
+  "body": [
+    "Polygon Labs disclosed security vulnerabilities patched through two hard forks on its core clients prior to public announcement, according to Decrypt and Cointelegraph. The Austin hard fork on the Bor client and the Kyoto hard fork on Heimdall closed denial-of-service and consensus-hardening flaws.",
+    "Polygon stated the vulnerabilities were never exploited in the wild. However, the sources do not provide independent verification of that claim or detail the timeline between quiet deployment and public disclosure.",
+    "The flaws posed denial-of-service and validator risks to the network, per Cointelegraph's reporting. Specific technical details of the vulnerabilities, the exact deployment dates of the hard forks, and the scope of validator upgrade coverage before disclosure are not detailed in available reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/376911/polygon-quietly-patched-security-flaws",
+      "url": "https://decrypt.co/376911/polygon-quietly-patched-security-flaws"
+    },
+    {
+      "title": "https://cointelegraph.com/news/polygon-discloses-security-flaws-fixed-in-recent-hard-forks?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/polygon-discloses-security-flaws-fixed-in-recent-hard-forks?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-08-30T22:05:15Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77608.46,
+        "chg_24h_pct": -0.06
+      },
+      {
+        "symbol": "ETH",
+        "price": 2416.09,
+        "chg_24h_pct": -0.01
+      }
+    ],
+    "fng": {
+      "value": 62,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 7.4,
+      "open_interest_usd": 2087719441
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 108365081,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Cointelegraph"
+  ],
+  "developing": false
+}
