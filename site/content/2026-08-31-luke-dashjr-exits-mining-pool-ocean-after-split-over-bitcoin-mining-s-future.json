@@ -1,0 +1,38 @@
+{
+  "id": "c009",
+  "slug": "luke-dashjr-exits-mining-pool-ocean-after-split-over-bitcoin-mining-s-future",
+  "kind": "brief",
+  "title": "Luke Dashjr Exits Mining Pool Ocean After Split Over Bitcoin Mining's Future",
+  "dek": "Bitcoin Core developer Luke Dashjr resigned as chairman, CTO, and director of OCEAN Mining on August 29, 2026 following a mutual separation over differing visions on mining protocol developments. OCEAN repurchased all of Dashjr's equity. Dashjr will pursue a new mining venture called CONVOY.",
+  "date": "2026-08-31",
+  "published_utc": "2026-08-31T13:45:04Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 9,
+  "author": "Crypto Cronkite",
+  "key_fact": "Luke Dashjr, a 16-year Bitcoin Core developer and co-founder of OCEAN Mining, exited all ownership and leadership roles after disagreeing with the pool over recent mining protocol developments.",
+  "bottom_line": "CONVOY's launch timeline and whether it attracts measurable hashpower will determine if this split signals genuine miner dissent on protocol direction or remains a corporate separation. OCEAN's hashrate share showed no measurable exodus in the reported windows.",
+  "human_take": "",
+  "body": [
+    "Luke Dashjr, a 16-year veteran Bitcoin Core developer and co-founder of mining pool OCEAN, resigned as chairman, chief technology officer, and director on August 29, 2026 following a mutual separation with the pool. OCEAN repurchased all of Dashjr's equity; the buyout price was not disclosed.",
+    "The joint separation statement cited differing visions following recent protocol developments but did not name a specific proposal, such as BIP-110, Bitcoin Knots, proof-of-work changes, or other technical initiatives, as the direct cause of the disagreement.",
+    "Dashjr will pursue a new mining venture called CONVOY. At the time of reporting, CONVOY had not published an operational pool, disclosing no endpoint, codebase, participating miners, infrastructure, fees, or block-template policy. No transfer of miners, staff other than Dashjr, or infrastructure from OCEAN to CONVOY was disclosed.",
+    "OCEAN's hashrate share measured at 2.45 percent of the network on a point snapshot (4 of 163 previous blocks as of August 30 at 07:07 UTC), with block-share-derived estimate of about 24.57 exahashes per second. Over a trailing-week window, OCEAN accounted for 29 of 1,007 blocks (2.88 percent), according to CryptoSlate's reporting, with latest weekly hashrate placing the pool at 25.33 EH/s and 2.86 percent of the network.",
+    "OCEAN added dedicated BIP-110 and no-signal endpoints in July, then returned its default endpoint to the non-BIP-110 chain on August 9 while keeping both choices live, per CryptoSlate. The pool said its DATUM system lets participating miners control block construction. OCEAN stated it will continue operating its transparent, non-custodial pool. The pool did not disclose its remaining ownership structure or successor appointments."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/08/31/luke-dashjr-exits-mining-pool-ocean-after-split-over-bitcoin-mining-s-future",
+      "url": "https://www.coindesk.com/business/2026/08/31/luke-dashjr-exits-mining-pool-ocean-after-split-over-bitcoin-mining-s-future"
+    },
+    {
+      "title": "https://cryptoslate.com/veteran-bitcoin-developer-luke-dashjr-exits-ocean-pool-will-hash-power-follow-him-to-new-pool/",
+      "url": "https://cryptoslate.com/veteran-bitcoin-developer-luke-dashjr-exits-ocean-pool-will-hash-power-follow-him-to-new-pool/"
+    }
+  ],
+  "update_of": "luke-dashjr-removed-as-bitcoin-bip-editor-over-editorial-misconduct",
+  "also_reported_by": [
+    "CryptoSlate"
+  ],
+  "developing": false
+}

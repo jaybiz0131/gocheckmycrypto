@@ -4,48 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c020",
-    "headline": "Critical randomness flaw in Coldcard firmware enabled $38M theft across 500 wallets",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Block, the security firm that traced the flaw' but the brief contains no data_point identifying Block as a security firm or attributing the tracing to Block. The brief only states 'Block said it disclosed its findings to Coinkite' and 'Block published without full testing.' The draft adds institutional identity ('security firm') not present in the brief.",
-     "Draft states 'The flaw affected Coldcard's paper wallet private keys, seed-splitting masks, device cloning keys, and Key Teleport transfers, all produced by the same compromised generator, according to CoinDesk' \u2014 but the brief data_point says 'The exposure runs past wallet seeds to include Coldcard's paper wallet private keys, seed-splitting masks, device cloning keys and Key Teleport transfers' without confirming that all of these were actually affected or exploited, only that the exposure 'runs past' seeds. The draft's wording 'affected' and 'all produced by' overstates the brief's 'exposure.' The brief's bear_case notes 'Are there confirmed cases of the flaw affecting paper wallets, device cloning keys, or Key Teleport transfers, or are those attack surfaces theoretical?' \u2014 indicating these are theoretical, not confirmed. Draft treats theoretical exposure as confirmed fact."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "New York AG sues federally licensed Kalshi, alleges unlicensed gambling operation",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'New York State Gaming Commission had issued an October cease-and-desist order against Kalshi prior to the lawsuit' but provides no year for 'October.' The brief data_point says 'New York State Gaming Commission issued an October cease-and-desist order against Kalshi prior to the lawsuit' with equal vagueness. However, the story is dated July 31, 2026, making 'October' ambiguous: October 2025 or October 2026? The draft should clarify the year or the brief should supply it. As written, the sentence is factually unclear and could mislead readers about timeline.",
-     "Draft states 'Kalshi added 3 million users during the World Cup tournament, more than double the 2 million the firm said it had at the start of May' \u2014 this implies Kalshi had 2 million at start of May and added 3 million during the World Cup. But the brief data_point says 'adding 3 million users during the course of the tournament, more than double the 2 million the firm said it had at the start of May.' This is ambiguous: did Kalshi have 2 million at start of May and grow to 5 million (adding 3M), or did the 3M added represent more than a doubling of 2M (meaning 3M > 4M, which is impossible)? The draft repeats the brief's ambiguous math without resolving it. If the intent is that 3M was added and that represented a doubling (so prior base was ~1.5M, not 2M), the numbers contradict. This is a smuggled ambiguity that should have been flagged to the brief writer."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "Dubai-based crypto exchange tied to $4 billion Iran sanctioned-evasion network",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states Rich Sanders is 'an independent blockchain researcher focused on Iran' but brief identifies him as 'an independent blockchain researcher and investigator focused on Iran.' More critically, the brief's data_point 12 identifies the IRGC supreme leader as 'Mojtaba Hosseini Khamenei,' but the draft omits this name entirely in its IRGC description. This is not paraphrase\u2014it's selective fact-stripping of a named entity that appeared in the source brief.",
-     "Draft fails to surface the bear_case adequately. Brief explicitly lists two bear_case items: (1) 'Reuters reported it could not confirm direct IRGC control over Shelbit or the gambling network, limiting attribution certainty' and (2) 'Binance stated Shelbit had never held an account on its platform, suggesting funds may have flowed through other paths or intermediaries not yet identified.' The draft mentions Reuters' lack of confirmation in one sentence mid-body ('Reuters reported it could not confirm direct IRGC control over Shelbit or the gambling network independently'), but the second bear_case point\u2014the tension between 'Shelbit moved funds to major crypto platforms, including Binance' and Binance's claim of no account relationship\u2014is not adequately foregrounded or explained. The draft reads as if Shelbit clearly accessed Binance, when the brief's bear_case flags this as unclear. This is balance failure: a story claiming a $4B pipeline to Binance without clearly stating upfront that the mechanism is disputed invites regulatory liability."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "Tether posts $1.5 billion operating profit in Q2 as reserve buffer falls by half",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Tether's reserve buffer halved in a single quarter despite $1.5 billion in operating profit, indicating cash burn exceeding reported earnings.' This is SMUGGLED analysis not in the brief. The brief data_points establish the facts: $1.5B profit, $4.11B buffer (down from $8.23B), but do not claim or establish that 'cash burn exceeds reported earnings.' The open_questions explicitly flag this: 'Why did the reserve buffer decline by $4.12 billion ($8.23B to $4.11B) despite $1.5 billion in operating profit\u2014what other cash outflows occurred?' The writer has answered an open question with an inference (cash burn > earnings) unsupported by data in the brief. The brief acknowledges the discrepancy is unexplained; the draft presents it as established fact in the bottom_line.",
-     "Draft contains a factual error in the body: 'The value of Tether's bitcoin holdings fell to $5.80 billion from $6.62 billion as the reference bitcoin price used in the reports declined to $58,600 from $68,200.' The brief data_point 8 states '$5.80 billion from $6.62 billion as the bitcoin price used in the reports declined to $58,600 from $68,200.' These are the exact numbers, but the direction of decline is ambiguous in the source (both 'declined to' statements). However, the more critical issue: the draft then uses these prices as fact ('$58,600', '$68,200') when the open_questions explicitly ask 'What is the market price of gold and bitcoin on the June 30 attestation date, and does it differ from the $4,000/oz and $58,600 BTC prices cited in the text?' This flags that the reporting source's price figures themselves are unverified. The draft presents unconfirmed reference prices as settled fact."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-01",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c003",
     "headline": "1,196 Coldcard wallets drained of 1,082 BTC in attack exploiting weak seed generation",
     "category": "accuracy",
@@ -7608,6 +7566,21 @@
     "reasons": [
      "Draft c059 cites a Cointelegraph article as its sole source, but no research brief was provided. The approval protocol requires that every fact in the draft trace either to a data_point in a brief or to a cited primary source. The draft makes specific claims (Sberbank plans to accept BTC, ETH, USDT as collateral; effective September 1, 2026; Russia introduced regulated crypto trading framework) that appear only in a secondary news report. No independent source documentation, no regulatory filing, no official Sberbank announcement is cited or available for verification. Without a brief or primary-source backing, these claims cannot be certified as accurate.",
      "The draft also presents the regulatory framework claim ('The law effective September 1 creates the framework...') as settled fact without qualification, despite relying on a single secondary outlet reporting."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-08-31",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c075",
+    "headline": "More Markets Lending Reserve Drained for $9.3M via Ankr LST, E-Mode Exploit on August 31",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The protocol has not independently confirmed the $9.3 million damage figure,' but the brief's bear_case explicitly flags this: 'More Markets team has not confirmed any loss and stated it is still investigating the claim.' This is the core tension the brief carries. However, the draft presents the Blockaid valuation as settled fact ('Security firm Blockaid valued the initial impact at $9.3 million') and only much later, in a separate sentence, notes the protocol has not confirmed it. This structure implies the $9.3 million figure is established before acknowledging the team hasn't confirmed it\u2014a misleading ordering that obscures the bear case.",
+     "More critically: the draft opens with 'More Markets suffered an exploit' as an unqualified statement. The brief's bear case states 'More Markets team has not confirmed any loss and stated it is still investigating the claim'\u2014meaning the exploit itself remains unconfirmed by the protocol operator. A reader would finish the headline and opening sentence believing an exploit definitely occurred; the actual status is that Blockaid reported it and More Markets is investigating. This is an accuracy failure: a material uncertainty is presented as established fact."
     ]
    }
   ]
