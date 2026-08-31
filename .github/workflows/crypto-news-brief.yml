@@ -27,6 +27,18 @@ on:
     - cron: "40 10 * * *"   # Morning Brief slot, 10:40 UTC = 6:40am Eastern
     - cron: "8 17 * * *"    # Midday Update slot, 17:08 UTC = 1:08pm Eastern
     - cron: "8 23 * * *"    # Evening Wrap slot, 23:08 UTC = 7:08pm Eastern
+    # RETRY TICKS (ported from the sports desk 2026-08-31: crypto was the only desk
+    # of the three without them, and in the Aug 26-31 window its slot crons fired
+    # hours late or never while the siblings' retries kept them at 3/3). Each retry
+    # is inside its slot's edition window and COST-NEUTRAL: the slot guard below
+    # stands the run down before any model call when the slot's edition already
+    # exists, so a retry only spends when the primary was skipped or failed. Keep
+    # these in sync with CRON_SLOT in wrap.py. The evening slot has no retry: its
+    # window ends at midnight, and the watcher's recovery (which now follows a
+    # missed evening slot across midnight to 05:00) covers it.
+    - cron: "55 10 * * *"   # Morning retry
+    - cron: "23 17 * * *"   # Midday retry
+    - cron: "25 11 * * *"   # Second morning retry: the morning cycle must be live before 12:00 UTC
   workflow_dispatch: {}
   # the breaking-news watcher (watcher.yml) calls this workflow with breaking=true
   workflow_call:
@@ -98,6 +110,45 @@ jobs:
             echo "::notice::ANTHROPIC_API_KEY not set; ran the offline canary only. Add the secret to enable the live daily brief."
           fi
 
+      # SLOT GUARD (ported from the sports desk 2026-08-31): on schedule ticks
+      # (primary or retry), if this slot's edition is already on disk the day is
+      # served and the run stands down before any model call. Manual dispatch always
+      # runs; breaking runs always run (they regenerate the slot edition on purpose);
+      # watcher recovery fires only when the edition is missing, so it always passes.
+      # Adapted for this desk's drift reality: the cron names the slot (wrap.py's
+      # CRON_SLOT, retries included) and a pre-05:00 evening fire belongs to the
+      # PREVIOUS day, exactly as wrap.py dates it; the clock is only the fallback.
+      - name: Slot guard (a retry tick stands down when the slot is already served)
+        id: guard
+        env:
+          EVENT: ${{ github.event_name }}
+          BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
+          SLOT_CRON: ${{ github.event.schedule }}
+        run: |
+          python3 - <<'PYEOF'
+          import datetime, os
+          serve = "true"
+          if os.environ.get("EVENT") == "schedule" and os.environ.get("BREAKING") != "1":
+              now = datetime.datetime.now(datetime.timezone.utc)
+              cron_slug = {"40 10 * * *": "morning-brief", "55 10 * * *": "morning-brief",
+                           "25 11 * * *": "morning-brief", "8 17 * * *": "afternoon-brief",
+                           "23 17 * * *": "afternoon-brief", "8 23 * * *": "evening-brief"}
+              slug = cron_slug.get((os.environ.get("SLOT_CRON") or "").strip())
+              day = now.date()
+              if slug is None:
+                  slug = ("morning-brief" if now.hour < 14 else
+                          "afternoon-brief" if now.hour < 20 else "evening-brief")
+              elif slug == "evening-brief" and now.hour < 5:
+                  day = day - datetime.timedelta(days=1)
+              if os.path.exists(os.path.join("site", "content",
+                                             f"{day.isoformat()}-{slug}.json")):
+                  serve = "false"
+                  print(f"::notice::Slot guard: {slug} is already published for "
+                        f"{day.isoformat()}; standing down before any model call "
+                        f"(retry ticks are free when the primary served the slot).")
+          open(os.environ["GITHUB_OUTPUT"], "a").write(f"serve={serve}\n")
+          PYEOF
+
       # BOARDS BEFORE THE PIPELINE READS THEM (owner audit 2026-08-25). This refresh used
       # to run AFTER run.py, so every stage that consumes the boards consumed the copy
       # committed in the repo, and pulse/flows are deliberately never committed: on this
@@ -107,13 +158,13 @@ jobs:
       # "current SOL pricing of $73.25" when SOL was $98.11: the desk was arguing with
       # itself about a month-old number. Keyless, fail-open, seconds to run.
       - name: Refresh the market boards BEFORE the pipeline reads them
-        if: steps.key.outputs.have_key == 'true'
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         run: |
           python3 whale_flows.py || true
           python3 market_pulse.py || true
 
       - name: Run the daily brief (live; Stages 1-5 only, never publishes)
-        if: steps.key.outputs.have_key == 'true'
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CRYPTOPANIC_TOKEN: ${{ secrets.CRYPTOPANIC_TOKEN }}
@@ -125,7 +176,7 @@ jobs:
       # is the gate. VERIFIED stories auto-publish; NEEDS-HUMAN-REVIEW stays queued for a
       # human take; REJECT never ships. The push below auto-deploys via Netlify.
       - name: Autopilot publish of VERIFIED stories
-        if: steps.key.outputs.have_key == 'true'
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         env:
           # breaking runs enforce the additive two-source gate (single-source holds unless
           # headline-labeled unconfirmed); scheduled runs pass '0'
@@ -137,7 +188,7 @@ jobs:
       # The read is committed (Netlify does not regenerate it at build time); flows/pulse
       # are NOT committed here because every Netlify build refreshes them itself.
       - name: Refresh the boards and generate the Chart Master's read
-        if: steps.key.outputs.have_key == 'true'
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 chartmaster.py
@@ -150,7 +201,7 @@ jobs:
       # loudly but never blocks story publishing.
       - name: The Daily Edition (Morning / Afternoon / Evening Brief + The Bottom Line)
         id: wrap
-        if: steps.key.outputs.have_key == 'true'
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           # a breaking run REGENERATES the current slot's edition so The Bottom Line
@@ -345,7 +396,7 @@ jobs:
 
       - name: Commit and push published content (deploys the site)
         id: publish
-        if: steps.key.outputs.have_key == 'true'
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         run: |
           git config user.name "Jack Berno"
           git config user.email "297991518+jaybiz0131@users.noreply.github.com"
@@ -528,7 +579,12 @@ jobs:
       # No hook secret -> documented skip.
       - name: Refresh the website (Netlify build hook -> data desk update)
         id: ping
-        if: always()
+        # RETRY GUARD ON THE PING (ported with the slot guard 2026-08-31): a retry
+        # tick that stood down because its slot was already served must not buy a
+        # paid build either. The guard already gates the model calls and the
+        # publish; this line closes the last leak. A run that failed before the
+        # guard ran (serve empty) also skips the ping.
+        if: always() && steps.guard.outputs.serve == 'true'
         env:
           HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
           PUSHED: ${{ steps.publish.outputs.pushed }}
@@ -562,6 +618,7 @@ jobs:
           EV: ${{ github.event_name }}
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
           CRON: ${{ github.event.schedule }}
+          SERVE: ${{ steps.guard.outputs.serve }}
           PUSHED: ${{ steps.publish.outputs.pushed }}
           PINGED: ${{ steps.ping.outputs.pinged }}
           RUN_ID: ${{ github.run_id }}
@@ -577,11 +634,40 @@ jobs:
       - name: Fail the run if the edition stage failed
         if: always() && steps.wrap.outputs.rc != '' && steps.wrap.outputs.rc != '0'
         uses: actions/github-script@v9
+        env:
+          # the slot this run WAS, resolved the same way wrap.py resolves it
+          # (2026-08-31): wall-clock getUTCHours() mislabeled drifted runs, so issue
+          # #67 said "morning 2026-08-31" for the Aug-30 EVENING cron's run
+          SLOT_CRON: ${{ github.event.schedule }}
+          SLOT_NAME: ${{ inputs.slot }}
         with:
           script: |
+            const CRON_SLOT = {
+              "40 10 * * *": "morning", "55 10 * * *": "morning", "25 11 * * *": "morning",
+              "8 17 * * *": "afternoon", "23 17 * * *": "afternoon",
+              "8 23 * * *": "evening"
+            };
+            const NAME_SLOT = {
+              "morning": "morning", "morning-brief": "morning",
+              "midday": "afternoon", "afternoon-brief": "afternoon",
+              "evening": "evening", "evening-brief": "evening", "closing": "evening"
+            };
+            const cron = (process.env.SLOT_CRON || "").trim();
+            const slotName = (process.env.SLOT_NAME || "").trim().toLowerCase();
+            let slot = NAME_SLOT[slotName] || CRON_SLOT[cron];
             const now = new Date();
-            const h = now.getUTCHours();
-            const slot = h < 14 ? "morning" : h < 20 ? "afternoon" : "evening";
+            // a fire earlier in the day than its cron's hour wrapped past midnight:
+            // the slot belongs to its own (previous) day, exactly as wrap.py dates it
+            if (CRON_SLOT[cron]) {
+              const cronHour = parseInt(cron.split(/\s+/)[1], 10);
+              if (now.getUTCHours() < cronHour) now.setUTCDate(now.getUTCDate() - 1);
+            } else if (slot === "evening" && now.getUTCHours() < 5) {
+              now.setUTCDate(now.getUTCDate() - 1);
+            }
+            if (!slot) {
+              const h = now.getUTCHours();
+              slot = h < 14 ? "morning" : h < 20 ? "afternoon" : "evening";
+            }
             const date = now.toISOString().slice(0, 10);
             const title = `Edition stage failed: ${slot} ${date}`;
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;

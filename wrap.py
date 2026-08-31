@@ -159,6 +159,55 @@ def _dedash(text):
     return s.replace(" \u2013 ", ", ").replace("\u2013", "-")
 
 
+def _scope_etf_flows(text, boards):
+    """Deterministic repair for the one belt failure the ladder could not write its
+    way out of (2026-08-31): an unscoped ETF flow-direction phrase while the day and
+    five-session numbers disagree in sign. The signs disagreed continuously from
+    ~Aug 28 and Haiku tripped this belt on nearly every attempt Aug 26-31, so the
+    desk lost slot after slot to a defect that is mechanical to fix. Same posture as
+    the dash repair in wrap_shape: repair at draft time instead of a paid retry that
+    repeats the mistake.
+
+    Each unscoped direction phrase near an ETF mention gets the window its OWN
+    direction matches appended ("on the day" / "on the week"). The scope words are
+    chosen to bucket correctly in the shared lexicon (consistency_gate.METRICS):
+    "sessions" buckets as the DAY window there, so the five-session net is scoped
+    "on the week", never "across five sessions", which would re-fail the belt. A
+    phrase whose direction matches NEITHER window is left alone and still fails the
+    belt: that is a wrong fact, not a missing scope."""
+    text = str(text or "")
+    try:
+        import consistency_gate as cg
+    except Exception:
+        return text
+    btc = ((boards or {}).get("etf_flows") or {}).get("btc") or {}
+    day = btc.get("latest_net_usd_m") or 0
+    wk = btc.get("last5_sessions_net_usd_m") or 0
+    day_sign, wk_sign = (day > 0) - (day < 0), (wk > 0) - (wk < 0)
+    if not (day_sign and wk_sign) or day_sign == wk_sign:
+        return text  # the repair is only defined while the two windows disagree
+    low = text.lower()
+    if len(low) != len(text):
+        return text  # lower() shifted offsets; do not risk a misplaced insert
+    m = cg.METRICS["spot ETF flows"]
+    scope_for = {("pos" if day_sign > 0 else "neg"): "on the day",
+                 ("pos" if wk_sign > 0 else "neg"): "on the week"}
+    edits = set()
+    for c in re.finditer(m["context"], low):
+        window_lo = max(0, c.start() - m["span"])
+        window = low[window_lo:c.end() + m["span"]]
+        if any(re.search(m[s], window) for s in ("week", "day")):
+            continue  # already scoped; a wrong-window claim is the belt's to fail
+        dirs = [k for k in ("pos", "neg") if re.search(m[k], window)]
+        if len(dirs) != 1:
+            continue  # no direction claimed, or dual-grain phrasing the belt permits
+        for dm in re.finditer(m[dirs[0]], window):
+            edits.add((window_lo + dm.end(), scope_for[dirs[0]]))
+    for pos, phrase in sorted(edits, reverse=True):
+        text = text[:pos] + " " + phrase + text[pos:]
+    return text
+
+
 def belts(article_body, dek, bottom_line, boards=None):
     """Deterministic checks; returns a list of problems (empty = pass)."""
     problems = []
@@ -219,7 +268,7 @@ def belts(article_body, dek, bottom_line, boards=None):
     return problems
 
 
-def check(client, obj, stories, boards, extras=None):
+def check(client, obj, stories, boards, extras=None, edition_date=None):
     """Independent trace check: every specific fact must come from the inputs.
 
     CALIBRATION (2026-07-26): three straight days of good editions died here on false
@@ -239,7 +288,19 @@ def check(client, obj, stories, boards, extras=None):
 
     `extras` carries any additional permitted inputs the edition was WRITTEN from
     (e.g. the jurisdiction tracker): auditing against fewer inputs than the writer had
-    rejects legitimate claims as unverifiable, which cost the 2026-08-12 midday slot."""
+    rejects legitimate claims as unverifiable, which cost the 2026-08-12 midday slot.
+
+    `edition_date` is the edition's own slot-anchored ISO date (2026-08-31): without
+    it the checker had no way to catch a wrong "today is Friday" framing, because the
+    calibration protected weekday references consistent with input datelines, and a
+    Sunday edition written as a Friday is exactly that when Friday stories dominate
+    the inputs."""
+    ed_day = None
+    if edition_date:
+        try:
+            ed_day = datetime.date.fromisoformat(edition_date).strftime("%A")
+        except ValueError:
+            pass
     user = ("Audit this daily edition against its ONLY permitted inputs. Return every "
             "PROBLEM you find. A problem is exactly one of: a specific fact (number, "
             "name, date, event, outcome) that is ABSENT from the inputs; a specific fact "
@@ -249,7 +310,7 @@ def check(client, obj, stories, boards, extras=None):
             "(a) the same date or number in a different format ('July 15' vs '15 July "
             "2026'; '60,000' vs 'nearly 60,000'); (b) sums or combinations of input "
             "numbers when the edition labels them as combined or in total; (c) a weekday "
-            "reference consistent with an input story's own dateline; (d) paraphrase of "
+            "reference to a PAST event consistent with that story's own dateline; (d) paraphrase of "
             "an event the inputs carry; (e) phrasing that could be more precise but is "
             "not wrong. Connecting and synthesizing the inputs is allowed and expected; "
             "when two inputs differ because one is newer, the newer figure governs and "
@@ -269,7 +330,12 @@ def check(client, obj, stories, boards, extras=None):
             + "\n\nINPUT STORIES:\n" + json.dumps(stories, indent=1)
             + "\n\nINPUT BOARDS:\n" + json.dumps(boards, indent=1)
             + (("\n\nADDITIONAL PERMITTED INPUTS:\n" + json.dumps(extras, indent=1))
-               if extras else ""))
+               if extras else "")
+            + ((f"\n\nEDITION DATE (computed, authoritative): the edition's own date is "
+                f"{edition_date}, a {ed_day}. A weekday presented as the edition's "
+                f"current day that is not {ed_day} is a CONTRADICTED fact; a weekday "
+                f"reference to a past event is judged against that story's own dateline.")
+               if ed_day else ""))
     KINDS = {"absent", "contradicted", "advice", "register"}
 
     # EVIDENCE IS VERIFIED, NOT TRUSTED (2026-08-12, same evening as the derived
@@ -359,6 +425,27 @@ def check(client, obj, stories, boards, extras=None):
     # edition; fail-closed on real contradictions is unchanged.
     inputs_text = _norm(json.dumps([stories, boards, extras or {}]))
     inputs_words = set(inputs_text.split())
+
+    # BOARDS ARE LICENSED INPUT (2026-08-31): board JSON is inherently paraphrase, so
+    # a board-derived figure can never match the verbatim window, and when the binary
+    # adjudicator then errored the rejection stood; that chain killed slots over the
+    # edition quoting wrap's own permitted boards. An 'absent' claim whose
+    # best-matching input chunk is a desk board is a claim ABOUT the boards, and the
+    # deterministic direction/window belts already patrol board misstatements. The
+    # >= 2 floor keeps a single stray shared word ("etf") from laundering an
+    # invented fact through this drop.
+    _story_words = [set(_norm(json.dumps(st)).split()) for st in stories]
+    _board_words = [set(_norm(json.dumps({k: val})).split())
+                    for k, val in (boards or {}).items()]
+
+    def _from_boards(claim):
+        cw = set(_norm(claim).split()) - _STOP
+        if not cw:
+            return False
+        best_story = max((len(cw & ws) for ws in _story_words), default=0)
+        best_board = max((len(cw & ws) for ws in _board_words), default=0)
+        return best_board >= 2 and best_board > best_story
+
     screened = []
     for p in v["problems"]:
         if p["kind"] == "register":
@@ -421,11 +508,25 @@ def check(client, obj, stories, boards, extras=None):
         # final-sentence rule as the contradicted class: explicit support assertions
         # only, with a negation veto, so a real absence whose reasoning merely
         # mentions matching stays listed and still goes to adjudication.
+        # THE VERDICT ALSO LIVES UP FRONT AND IN THE RECEIPT (2026-08-31): the
+        # Aug 27-29 editions died on items whose no-problem verdict was stated in
+        # brackets at the START of the rationale or in the EVIDENCE field
+        # ("[Not a problem per rules (e)...]", "[No problem found; claim supported
+        # by input board.]"), which a final-sentence-only read never saw. The first
+        # sentence and the evidence note are now screened with the same
+        # explicit-assertion plus negation-veto rule, per candidate.
         if p["kind"] == "absent":
             _rat = str(p.get("why", "") or p.get("evidence", ""))
             _rs = [x for x in re.split(r"(?<=[.!?])\s+", _rat.strip()) if x]
-            _fsa = " " + " ".join(re.sub(r"[^a-z0-9]+", " ",
-                                          (_rs[-1] if _rs else "").lower()).split()) + " "
+
+            def _normsent(s):
+                return " " + " ".join(re.sub(r"[^a-z0-9]+", " ", s.lower()).split()) + " "
+
+            _cands = [_normsent(_rs[-1] if _rs else "")]
+            if len(_rs) > 1:
+                _cands.append(_normsent(_rs[0]))
+            if str(p.get("evidence", "")).strip():
+                _cands.append(_normsent(str(p.get("evidence", ""))))
             _NEGA = (" does not match ", " do not match ", " not supported ",
                      " cannot be verified ", " not establish ", " conflicts ",
                      " no match ", " not carried ", " not in the inputs ",
@@ -437,11 +538,21 @@ def check(client, obj, stories, boards, extras=None):
                      " the inputs support ", " claims match ", " is correct ",
                      # the sports desk's run 668 phrasing (2026-08-27)
                      " is accurate ", " statement is accurate ",
-                     " statements are accurate ", " claims are accurate ")
-            if not any(t in _fsa for t in _NEGA) and any(t in _fsa for t in _POSA):
+                     " statements are accurate ", " claims are accurate ",
+                     # the phrasings that killed the Aug 27-29 slots (2026-08-31)
+                     " not a problem per rules ", " no actionable problem ",
+                     " claim supported by input board ", " no problem found ",
+                     " correctly states ")
+            if any(not any(t in c for t in _NEGA) and any(t in c for t in _POSA)
+                   for c in _cands):
                 print(f"::notice::wrapcheck: dropped self-refuting 'absent' item whose "
-                      f"own reasoning ends by asserting the inputs carry it "
+                      f"own reasoning or evidence asserts the inputs carry it "
                       f"({str(p.get('claim'))[:80]!r})")
+                continue
+            if _from_boards(p["claim"]):
+                print(f"::notice::wrapcheck: dropped 'absent' item whose claim's "
+                      f"best-matching input chunk is the desk's own boards, wrap's "
+                      f"licensed input ({str(p.get('claim'))[:80]!r})")
                 continue
         # ORDER-INDEPENDENT (owner report 2026-08-19). The sliding verbatim window could
         # not match reordered words, so "the Sept. 13 opener against Detroit" failed to
@@ -524,6 +635,13 @@ def check(client, obj, stories, boards, extras=None):
         days = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
                 "Saturday", "Sunday")
         seen, lines = set(), []
+        # the edition's own day rides every legend UNCONDITIONALLY (2026-08-31): a
+        # bare wrong "Friday" carries no ISO date to legend, so without this line
+        # nothing deterministic could contradict a mislabeled edition day
+        if ed_day:
+            lines.append(f"the edition's own date is {edition_date}, a {ed_day}; a "
+                         f"weekday presented as the edition's current day that is not "
+                         f"{ed_day} is a contradicted fact")
         for ds in re.findall(r"\b20\d\d-\d\d-\d\d\b", " ".join(excerpts)):
             if ds in seen:
                 continue
@@ -656,7 +774,8 @@ def main():
     # once-per-slot guard and skipped, so morning AND midday were lost from one drift.
     # github.event.schedule names the cron exactly; the clock is only the fallback for
     # dispatch and watcher-fired runs.
-    CRON_SLOT = {"40 10 * * *": "morning", "8 17 * * *": "midday", "8 23 * * *": "evening"}
+    CRON_SLOT = {"40 10 * * *": "morning", "8 17 * * *": "midday", "8 23 * * *": "evening",
+                 "55 10 * * *": "morning", "25 11 * * *": "morning", "23 17 * * *": "midday"}
     cron = (os.environ.get("SLOT_CRON") or "").strip()
     # SLOT_NAME: the slot this run was fired FOR, named by the caller, and it outranks
     # both the cron and the clock. The watcher's slot recovery re-fires the pipeline for
@@ -681,9 +800,26 @@ def main():
             now = now - datetime.timedelta(hours=now.hour + 1)
     elif cron in CRON_SLOT:
         edition = CRON_SLOT[cron]
-        # an evening cron that drifts past midnight still belongs to its own day
-        if edition == "evening" and now.hour < 5:
+        # A cron that drifts past midnight still belongs to its OWN day, for ALL three
+        # slots, judged by the cron's own scheduled hour: a fire earlier in the day than
+        # the cron's hour can only mean the fire wrapped past midnight (crons never fire
+        # early). The old evening-only <05:00 anchor missed both halves of this:
+        # Aug 27's midday cron fired 01:26 and published the NEXT day's afternoon brief
+        # 15 hours early (consuming the real Aug-28 slot), and Aug 27's evening cron
+        # fired 06:52, outside the 5-hour window, so it targeted Aug 28's evening.
+        # The evening brief still publishes onto its own day (the closing wrap read a
+        # little late); a wrapped morning or midday fire is a slot whose day has ENDED,
+        # so it stands down instead of writing itself onto the next day.
+        try:
+            cron_hour = int(cron.split()[1])
+        except (IndexError, ValueError):
+            cron_hour = None
+        if cron_hour is not None and now.hour < cron_hour:
             now = now - datetime.timedelta(hours=now.hour + 1)
+            if edition != "evening":
+                print(f"wrap: cron {cron!r} fired past midnight; the {edition} slot's "
+                      f"own day ({now.date().isoformat()}) has ended -> skip")
+                return 0
     elif now.hour < 5:
         edition = "evening"
         now = now - datetime.timedelta(hours=now.hour + 1)  # anchor date to the slot's day
@@ -765,7 +901,17 @@ def main():
     cfg = common.load_config()
     client = llmlib.Client(cfg)
     system = common.load_prompt("wrap.md")
-    user = (f"edition: {edition}\n\ntodays_stories:\n{json.dumps(stories, indent=1)}\n\n"
+    # THE WRITER IS TOLD WHAT DAY IT IS (2026-08-31): it never was, so it inferred
+    # "today" from the datelines inside the input stories, and the Sunday Aug 30
+    # morning brief framed the whole edition as a Friday because the weekend story
+    # window was dominated by Friday-dated reporting. Computed from the slot-anchored
+    # `date`, never a fresh now(), so the midnight-drift anchoring above is preserved.
+    day_name = datetime.date.fromisoformat(date).strftime("%A")
+    user = (f"edition: {edition}\n"
+            f"edition_date: {day_name}, {date} (this is today; any weekday word "
+            f"describing the edition's own day must be {day_name}; input stories may "
+            f"describe earlier days by their own datelines)\n\n"
+            f"todays_stories:\n{json.dumps(stories, indent=1)}\n\n"
             + (f"desk_boards:\n{json.dumps(boards, indent=1)}\n\n" if boards else
                "desk_boards: (unavailable this run)\n\n")
             + (("regulatory_watch (live storylines the desk has covered, with dates its own "
@@ -796,8 +942,41 @@ def main():
         for k in ("hook_title", "dek", "body", "bottom_line"):
             if not str(o.get(k, "")).strip():
                 raise llmlib.LLMError(f"wrap output missing '{k}'")
+        # THE WORD CAP IS REPAIRED, NOT RETRIED (2026-08-31, the dash posture): the
+        # Aug 30 evening slot burned rungs on 1062- and 1140-word bodies. A body over
+        # the 1050 belt is truncated at the last paragraph boundary that brings it
+        # under the cap, never below the 120 minimum (a body that cannot be truncated
+        # legally still fails the belt exactly as before).
+        body = str(o.get("body", ""))
+        if len(body.split()) > 1050:
+            paras = body.split("\n")
+            while paras and len(" ".join(paras).split()) > 1050:
+                paras.pop()
+            repaired = "\n".join(paras).rstrip()
+            if len(repaired.split()) >= 120:
+                print(f"::notice::wrap: repaired over-cap body ({len(body.split())} "
+                      f"words) by truncating at a paragraph boundary to "
+                      f"{len(repaired.split())} words")
+                o["body"] = repaired
         probs = belts(str(o.get("body", "")), str(o.get("dek", "")),
                       str(o.get("bottom_line", "")), boards)
+        # UNSCOPED FLOW DIRECTION IS REPAIRED TOO (2026-08-31): when the ONLY belt
+        # failure is an unscoped ETF flow direction while the day and five-session
+        # signs disagree, the window each claim's own direction matches is appended
+        # deterministically from the same digest the belt reads (see
+        # _scope_etf_flows), instead of burning a rung on the failure mode Haiku
+        # repeated on nearly every attempt Aug 26-31. A direction contradicting BOTH
+        # windows still fails: that is a wrong fact, not a missing scope.
+        if probs and all("unscoped ETF flow direction" in p for p in probs):
+            for k in ("dek", "body", "bottom_line"):
+                if isinstance(o.get(k), str):
+                    o[k] = _scope_etf_flows(o[k], boards)
+            reprobed = belts(str(o.get("body", "")), str(o.get("dek", "")),
+                             str(o.get("bottom_line", "")), boards)
+            if not reprobed:
+                print("::notice::wrap: repaired unscoped ETF flow direction by naming "
+                      "the window each claim's own direction matches")
+            probs = reprobed
         if probs:
             raise llmlib.LLMError("edition failed deterministic belts: " + "; ".join(probs))
         return o
@@ -809,7 +988,7 @@ def main():
         ok, reasons = (True, [])
         if client.mode == "live":
             ok, reasons = check(client, obj, stories, boards or {},
-                                extras=regwatch_block or None)
+                                extras=regwatch_block or None, edition_date=date)
         if ok:
             break
         if attempt == 2:

@@ -25,11 +25,15 @@ WHAT IT DOES
   is an editorial judgment, and a check that could block publishing over one would be worse
   than the problem it reports.
 
-THE THRESHOLD is 26 hours, not 24. Three slots a day means a healthy desk is never more than
-about 8 hours from an edition, so 26 is generous by design: it clears a slot that legitimately
-failed plus the next one, and only fires once a gap is no longer explainable as a bad run.
+THE THRESHOLD is per-slot, not a single age (2026-08-31). The old 26-hour rule measured
+the age of the single NEWEST edition, so a desk shipping one edition a day never breached:
+on Aug 31 at 01:32 it printed OK while the desk had delivered 0-1 of its 3 promised slots
+on each of the previous four days. The breach now counts slot windows: fewer than 2 of the
+last 3 CLOSED slot windows carrying their edition file is a breach. The current in-progress
+slot is excluded (conservative grace: drift and the watcher's recovery may still serve it),
+so a single legitimately failed slot still never breaches on its own.
 
-USAGE  python3 edition_check.py [--max-age-hours N]
+USAGE  python3 edition_check.py
 """
 
 import datetime
@@ -43,7 +47,14 @@ import common
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONTENT = os.path.join(HERE, "site", "content")
 
-MAX_AGE_HOURS = 26
+# The slot schedule, mirroring the brief workflow's crons and wrap.py's day anchoring.
+# close > 24h means the slot's window (its recovery net included) crosses midnight, and
+# such a window belongs to the day it STARTED on; keep in sync with watcher.SLOT_DEADLINES.
+SLOTS = (  # (edition slug, scheduled minutes-of-UTC-day, window-close minutes)
+    ("morning-brief", 10 * 60 + 40, 17 * 60),
+    ("afternoon-brief", 17 * 60 + 8, 23 * 60),
+    ("evening-brief", 23 * 60 + 8, 29 * 60),
+)
 
 
 def _when(item):
@@ -82,10 +93,27 @@ def gap_hours(now=None, content=None):
     return (now - best[0]).total_seconds() / 3600, best[1]
 
 
+def slot_ledger(now=None, content=None, count=3):
+    """The last `count` slot windows that have CLOSED, oldest first, each as
+    (slot day ISO, slug, edition file exists). A window still open, the in-progress
+    slot, is not counted: grace, conservatively, because drift and the watcher's
+    recovery may yet serve it. Pure function for tests."""
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    content = content or CONTENT
+    rows = []
+    for back in range(3, -1, -1):
+        day = now.date() - datetime.timedelta(days=back)
+        midnight = datetime.datetime.combine(
+            day, datetime.time(tzinfo=datetime.timezone.utc))
+        for slug, _start, close in SLOTS:
+            if midnight + datetime.timedelta(minutes=close) > now:
+                continue
+            rows.append((day.isoformat(), slug,
+                         os.path.exists(os.path.join(content, f"{day.isoformat()}-{slug}.json"))))
+    return rows[-count:]
+
+
 def main():
-    argv = sys.argv[1:]
-    limit = (int(argv[argv.index("--max-age-hours") + 1])
-             if "--max-age-hours" in argv else MAX_AGE_HOURS)
     hours, ed = gap_hours()
     if hours is None:
         common.gh("error", "edition_check: the desk has published NO daily edition at all.")
@@ -110,17 +138,26 @@ def main():
                               cwd=HERE, capture_output=True, text=True, timeout=10).stdout.strip()
     except Exception:
         head = "unknown"
-    msg = (f"newest edition is {hours:.0f}h old ({ed.get('date')}, "
-           f"{(ed.get('title') or '')[:60]}), {since} story/stories published since "
-           f"[tree HEAD: {head}]")
-    if hours > limit:
+    # PER-SLOT ACCOUNTING (2026-08-31): the desk promises three editions a day, so
+    # the breach question is "are the slots being served?", never "how old is the
+    # newest edition?". The old newest-age rule printed OK on Aug 31 at 01:32 while
+    # the desk had delivered 0-1 of 3 slots on each of the previous four days.
+    ledger = slot_ledger()
+    served = sum(1 for _, _, ok in ledger if ok)
+    missing = [f"{d} {slug}" for d, slug, ok in ledger if not ok]
+    msg = (f"{served} of the last {len(ledger)} closed slot windows served"
+           + (f" (missing: {', '.join(missing)})" if missing else "")
+           + f"; newest edition is {hours:.0f}h old ({ed.get('date')}, "
+             f"{(ed.get('title') or '')[:60]}), {since} story/stories published since "
+             f"[tree HEAD: {head}]")
+    if served < 2:
         common.gh("error",
                   f"edition_check: {msg}. The edition is supposed to run three times a day "
                   f"and the workflow step is fail-open, so a broken edition is silent unless "
-                  f"something counts the gap. Read the wrap step's log for the gate it failed.")
+                  f"something counts the slots. Read the wrap step's log for the gate it failed.")
         _flag_issue(msg)
         # AN ABSTAINED EDITION IS AS LOUD AS A FAILED ONE (owner directive 2026-08-25):
-        # wrap declining with zero stories is correct behaviour, but three consecutive
+        # wrap declining with zero stories is correct behaviour, but repeated
         # honest silences is an outage, and this counter is the only thing that sees
         # it. Exit 3 so the workflow's dead-last gate can mark the run failed AFTER
         # stories publish; the annotation and the issue above are unchanged.

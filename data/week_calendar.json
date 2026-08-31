@@ -87,6 +87,48 @@
    "source": "https://www.stocktitan.net/news/MSTR/strategy-announces-earnings-release-date-and-live-video-webinar-for-99tfu7jmzh2f.html",
    "source_name": "Strategy (via StockTitan)",
    "note": "Match terms deliberately avoid bare 'strategy': the company name is a common noun and body prose matched it against the Coinbase earnings story (2026-08-02). Ticker and founder are distinctive; the calendar's own rule against bare entity names applies double to entities named after common nouns."
+  },
+  {
+   "date": "2026-09-11",
+   "kind": "macro",
+   "title": "August CPI release",
+   "detail": "The Bureau of Labor Statistics releases the Consumer Price Index for August 2026 at 8:30 a.m. Eastern, the last full inflation print before the September 15-16 FOMC meeting.",
+   "match": [
+    [
+     "cpi"
+    ],
+    [
+     "consumer price index"
+    ],
+    [
+     "inflation",
+     "august"
+    ]
+   ],
+   "source": "https://www.bls.gov/schedule/news_release/cpi.htm",
+   "source_name": "Bureau of Labor Statistics",
+   "note": "Release date verified against the BLS schedule page 2026-08-31 (reference month August 2026: Sep. 11, 2026, 08:30 AM)."
+  },
+  {
+   "date": "2026-09-16",
+   "kind": "macro",
+   "title": "FOMC rate decision",
+   "detail": "The Federal Open Market Committee meets Tuesday and Wednesday; the rate decision lands Wednesday at 2:00 p.m. Eastern with a press conference at 2:30. This meeting carries a Summary of Economic Projections, so the dot plot updates.",
+   "match": [
+    [
+     "fomc"
+    ],
+    [
+     "federal open market committee"
+    ],
+    [
+     "fed",
+     "rate decision"
+    ]
+   ],
+   "source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "source_name": "Federal Reserve",
+   "note": "Meeting dates (September 15-16, SEP-carrying per the calendar's asterisk) verified against the Federal Reserve's FOMC calendar page 2026-08-31."
   }
  ]
 }

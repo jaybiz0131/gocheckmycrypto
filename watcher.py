@@ -2,11 +2,16 @@
 """
 watcher.py: the BREAKING-NEWS WATCHER (directive item 2, 2026-07-14). NO MODEL CALLS.
 
-Runs every 30 minutes (watcher.yml). Two plain-threshold triggers, both configurable via
+Runs every 30 minutes (watcher.yml). Three plain-threshold triggers, all configurable via
 env (repo Variables in CI):
   1. PRICE: any major asset (BTC/ETH/SOL/XRP) moved more than WATCH_MOVE_PCT (default 5.0)
      percent in the last hour, per CoinGecko's keyless market_chart (no state needed:
      the 1h delta is computed from the chart itself).
+  1b. GRIND: any major moved more than WATCH_MOVE_24H_PCT (default 4.0) percent over the
+     same day chart's full span (first vs last point: zero extra requests, same
+     fail-quiet posture). The Aug 27-29 BTC slide from ~$81.4K to sub-$78K was -4.2%
+     total; the one-hour trigger was mathematically blind to it even in the degenerate
+     all-in-one-hour case.
   2. NEWS: the desk's own RSS aggregation (aggregate.py, deterministic) shows a fresh
      cluster (last WATCH_FRESH_MIN minutes, default 90) carried by at least
      WATCH_MIN_SOURCES (default 4) INDEPENDENT sources.
@@ -33,6 +38,7 @@ UA = {"User-Agent": "CryptoCronkite-watcher/1.0"}
 
 # `or` (not a get() default): unset repo Variables reach CI as EMPTY strings
 MOVE_PCT = float(os.environ.get("WATCH_MOVE_PCT") or "5.0")
+MOVE_24H_PCT = float(os.environ.get("WATCH_MOVE_24H_PCT") or "4.0")
 MIN_SOURCES = int(os.environ.get("WATCH_MIN_SOURCES") or "4")
 FRESH_MIN = int(os.environ.get("WATCH_FRESH_MIN") or "90")
 COOLDOWN_MIN = int(os.environ.get("WATCH_COOLDOWN_MIN") or "120")
@@ -60,21 +66,38 @@ def emit(trigger, reason="", breaking=True, slot=""):
 # edition, the one-edition-per-slot skip and dedup guards make it rerun-safe). A slot
 # that RAN but FAILED also leaves no edition, so transient failures self-retry too.
 SLOT_DEADLINES = (  # (edition slug, deadline minutes-of-UTC-day, window end)
+    # Each recovery window is CLAMPED to a boundary wrap.py resolves correctly (the
+    # sports desk's rule: a recovery run past the boundary would write the NEXT
+    # edition and re-fire until window end). The evening window CROSSES MIDNIGHT
+    # (2026-08-31): the old 23:45-24:00 window, keyed on now.date(), made a missed
+    # evening slot structurally unrecoverable once the clock passed 00:00, which is
+    # why no evening brief published after Aug 22. wrap.py anchors a pre-05:00
+    # evening fire to the previous day (SLOT_NAME outranks the clock), so the window
+    # runs to 05:00 next day and no further: past 05:00 a recovery would date itself
+    # onto the new day.
     ("morning-brief", 12 * 60 + 10, 17 * 60),        # cron 10:40; recover 12:10-17:00
     ("afternoon-brief", 18 * 60 + 40, 23 * 60),      # cron 17:08; recover 18:40-23:00
-    ("evening-brief", 23 * 60 + 45, 24 * 60),        # cron 23:08; recover 23:45-24:00
+    ("evening-brief", 23 * 60 + 45, 29 * 60),        # cron 23:08; recover 23:45-05:00(+1d)
 )
 
 
 def missed_slot(now=None, content_dir=None):
-    """Return the edition slug of a missed slot, or None. Pure function for the canary."""
+    """Return the edition slug of a missed slot, or None. Pure function for the canary.
+
+    The edition file is keyed to the SLOT'S OWN day, not now.date(): a window that
+    crosses midnight (evening) checks the previous day's file, matching how wrap.py
+    dates the recovered edition."""
     now = now or datetime.datetime.now(datetime.timezone.utc)
     content_dir = content_dir or os.path.join(HERE, "site", "content")
     minutes = now.hour * 60 + now.minute
-    today = now.date().isoformat()
     for slug, deadline, window_end in SLOT_DEADLINES:
-        if deadline <= minutes < window_end and not os.path.exists(
-                os.path.join(content_dir, f"{today}-{slug}.json")):
+        slot_day, m = now.date(), minutes
+        if window_end > 24 * 60 and minutes < window_end - 24 * 60:
+            # in the wrapped hours of a cross-midnight window, the slot's day is
+            # yesterday and the clock reads as hour 24+
+            slot_day, m = slot_day - datetime.timedelta(days=1), minutes + 24 * 60
+        if deadline <= m < window_end and not os.path.exists(
+                os.path.join(content_dir, f"{slot_day.isoformat()}-{slug}.json")):
             return slug
     return None
 
@@ -94,8 +117,12 @@ def desk_published_recently():
 
 
 def hourly_move():
-    """Largest 1h move among the majors, from CoinGecko's keyless day chart."""
+    """Largest 1h AND 24h moves among the majors, from ONE CoinGecko keyless day chart
+    per asset. The 24h read is the same chart's first point vs its last (zero extra
+    requests, same fail-quiet posture): it exists because a grinding multi-hour
+    drawdown never trips the 1-hour threshold (2026-08-31)."""
     worst = (0.0, "")
+    worst24 = (0.0, "")
     for cid, sym in MAJORS.items():
         try:
             url = (f"https://api.coingecko.com/api/v3/coins/{cid}/market_chart"
@@ -106,6 +133,11 @@ def hourly_move():
             if len(prices) < 3:
                 continue
             now_ts, now_px = prices[-1]
+            first_px = prices[0][1]
+            if first_px:
+                pct24 = (now_px - first_px) / first_px * 100
+                if abs(pct24) > abs(worst24[0]):
+                    worst24 = (pct24, sym)
             hour_ago = now_ts - 3600_000
             past_px = min(prices, key=lambda p: abs(p[0] - hour_ago))[1]
             if past_px:
@@ -116,7 +148,7 @@ def hourly_move():
             continue  # a flaky feed must never fake a trigger either way
         import time
         time.sleep(3)  # keyless CoinGecko rate courtesy
-    return worst
+    return worst, worst24
 
 
 def hot_cluster():
@@ -162,15 +194,22 @@ def main():
     if desk_published_recently():
         emit(False, f"desk published within the last {COOLDOWN_MIN}m; coverage is fresh")
         return 0
-    pct, sym = hourly_move()
+    (pct, sym), (pct24, sym24) = hourly_move()
     if abs(pct) >= MOVE_PCT:
         emit(True, f"{sym} moved {pct:+.1f}% in the last hour (threshold {MOVE_PCT}%)")
+        return 0
+    # the grinding-drawdown trigger (2026-08-31): the Aug 27-29 BTC slide from ~$81.4K
+    # to sub-$78K was -4.2% in total, so the 1-hour trigger provably could not fire
+    if abs(pct24) >= MOVE_24H_PCT:
+        emit(True, f"{sym24} moved {pct24:+.1f}% over the last 24 hours "
+                   f"(threshold {MOVE_24H_PCT}%)")
         return 0
     hot = hot_cluster()
     if hot:
         emit(True, hot + f" (threshold {MIN_SOURCES} sources / {FRESH_MIN}m)")
         return 0
-    emit(False, f"max 1h move {sym} {pct:+.1f}%, no {MIN_SOURCES}-source fresh cluster")
+    emit(False, f"max 1h move {sym} {pct:+.1f}%, max 24h move {sym24} {pct24:+.1f}%, "
+                f"no {MIN_SOURCES}-source fresh cluster")
     return 0
 
 

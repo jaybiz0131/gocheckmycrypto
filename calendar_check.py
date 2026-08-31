@@ -22,6 +22,7 @@ import datetime
 import glob
 import json
 import os
+import re
 import sys
 
 import common
@@ -33,6 +34,27 @@ CONTENT = os.path.join(HERE, "site", "content")
 
 DAYS_BACK = 3    # an event stays "due" for a few days; the desk gets more than one slot
 DAYS_AHEAD = 0   # only events that have actually happened count as uncovered
+STALE_DAYS = 10  # a curated calendar whose newest entry is older than this is dead weight
+
+
+def staleness_days(today=None):
+    """Days since the newest CURATED calendar entry, or None when the file is
+    unreadable or empty. Deterministic. Only the curated file counts: fedreg's
+    calendar regenerates itself every run, so it can never rot the same way.
+    WHY (2026-08-31): the curated calendar's newest entry sat at 2026-07-30 while
+    Jackson Hole, a scheduled and weeks-known event, came and went unflagged; a
+    no-surprises mechanism that nobody refreshes is a mechanism that flags nothing,
+    and nothing said so."""
+    today = today or datetime.date.today()
+    try:
+        events = (json.load(open(CALENDAR, encoding="utf-8")) or {}).get("events") or []
+    except Exception:
+        return None
+    dates = sorted(e.get("date", "") for e in events
+                   if re.match(r"^20\d\d-\d\d-\d\d$", str(e.get("date", ""))))
+    if not dates:
+        return None
+    return (today - datetime.date.fromisoformat(dates[-1])).days
 
 
 def _corpus(within_days=14):
@@ -108,6 +130,15 @@ def main():
 
     def opt(name, default):
         return int(argv[argv.index(name) + 1]) if name in argv else default
+
+    stale = staleness_days()
+    if stale is not None and stale > STALE_DAYS:
+        common.gh("warning",
+                  f"calendar_check: the curated calendar is STALE: its newest entry is "
+                  f"{stale} days old. A calendar nobody refreshes can flag nothing "
+                  f"(Jackson Hole passed unflagged while the newest entry sat at "
+                  f"2026-07-30). Refresh data/week_calendar.json with the next weeks' "
+                  f"scheduled events.")
 
     missed = gaps(opt("--days-back", DAYS_BACK), opt("--days-ahead", DAYS_AHEAD))
     common.write_out("calendar_gaps.json",
