@@ -4,57 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c002",
-    "headline": "Bitcoin cold-wallet attack spreads to 4,500 addresses as losses near $89 million",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Galaxy Research flagged the opening wave on July 30' but the brief data_point says 'Galaxy Research flagged a third wave of sweeps early Sunday'\u2014these are contradictory claims about which wave Galaxy Research flagged and when. The draft presents the July 30 event as the opening wave flagged by Galaxy Research, but the brief's core_claim and data_points do not establish July 30 as Galaxy Research's initial flag.",
-     "The draft claims 'The brief does not disclose whether Coldcard has released a patched firmware version, when such a patch may have shipped, or how many devices remain on the vulnerable March 2021 release' in the body text. This is meta-commentary on the brief's gaps, not a fact from the brief, and violates the hard rule that facts must come from the brief. The writer should not footnote the brief's incompleteness in the article body."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "Iran-linked exchange sent $676 million to Binance in alleged sanctions-evasion operation",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Reuters reports that Dubai-based exchange Shelbit transferred $676 million to Binance as part of an alleged sanctions-evasion operation, according to The Block's reporting.' This is contradictory attribution: it says 'Reuters reports' but then cites 'according to The Block's reporting.' The brief's only source is The Block citing Reuters; the draft must attribute to The Block (citing Reuters), not state Reuters reports directly.",
-     "The draft contains the sentence 'The available source material from The Block's coverage is limited, and the full Reuters reporting underlying these claims is not included in the brief.' This is meta-commentary on the brief's limitations placed into article body text. This violates the hard rule\u2014facts come from the brief, not commentary on the brief's adequacy. The writer should not air the gap in sourcing as part of the published draft; this belongs in editorial notes, not the story."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Russian decree bans crypto mining across Moscow region through 2032",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Russia has issued a decree banning cryptocurrency mining across the Moscow region through 2032' as an opening fact, but the brief data_points only confirm 'The ban applies across the Moscow region through 2032'\u2014they do not confirm that Russia (federal) issued a decree. The brief's core_claim says 'Russia has issued a decree' but the data_points do not establish the issuing authority. The draft should not assert the issuing body without explicit confirmation in a data_point.",
-     "The draft contains the sentence 'The available reporting does not specify the exact legal mechanism of the decree, whether it is an administrative order, federal law, or regional regulation.' This is meta-commentary on gaps in the brief inserted into article body, violating the hard rule. The writer should not explain what the brief does not contain as part of the published article."
-    ]
-   },
-   {
-    "id": "c058",
-    "headline": "BitMine Adds $73M in ETH, Pushing Holdings to 4.8% of Supply",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states BitMine 'is the largest corporate holder of ETH' and 'holds...the largest corporate concentration of ETH on record' but brief confidence label is only 'reported', not independently verified. The draft presents this as settled fact without qualification; it should note this is per reporting or carry a confidence hedge.",
-     "Draft claims 'BitMine has publicly cited controlling 5% of Ethereum's total supply as a target in its treasury strategy' but the brief data_point says only that 'BitMine has cited controlling 5% of ETH's total supply as a benchmark for its treasury strategy'\u2014'cited' and 'publicly cited' are materially different. The brief does not confirm the company made this public; this is a smuggled qualifier that inflates confidence."
-    ]
-   },
-   {
-    "id": "c068",
-    "headline": "Russia expands cryptocurrency mining ban to Moscow, Moscow Region through 2032",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the ban extends 'through 2032' but the brief's data_point says only 'The ban extends through 2032' with confidence 'reported'. The draft should either attribute this timeline to Cointelegraph inline or mark it as unconfirmed given that the brief does not establish independent verification of the 2032 endpoint. The sentence 'The 2032 endpoint indicates a six-year compliance window at minimum' treats the date as confirmed fact without attribution or confidence qualifier.",
-     "The draft claims 'The restrictions cite 1 GW of power consumption and grid stress as the rationale' as a standalone statement. The brief's data_point says the restrictions 'are cited as responding to' these concerns\u2014the passive voice attribution to 'restrictions' rather than to a named source is a smuggled confidence upgrade. The draft must attribute this rationale claim inline to Cointelegraph and avoid presenting it as authoritative Russian policy reasoning."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-02",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c011",
     "headline": "Iran-linked exchange sent $676 million to Binance wallets in alleged sanctions-evasion operation: Reuters",
     "category": "accuracy",
@@ -7499,6 +7448,22 @@
     "reasons": [
      "The draft states Revolut began rollout 'to selected customers in Denmark, Poland, and Poland'\u2014Poland is listed twice, but the brief core_claim and all data_points specify 'Denmark, Poland and Portugal.' This is a factual error: the third country is Portugal, not Poland repeated.",
      "The draft later correctly states 'the three initial test markets (Denmark, Poland, Portugal)' in the bottom_line, creating internal contradiction within the draft itself and proving the opening statement is wrong."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-01",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c014",
+    "headline": "London Stock Exchange Partners With Payward for 24/5 Tokenized UK Stock Trading",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites CoinDesk as the source, but the brief's data_points list Cointelegraph as the source for the core facts about the LSE-Payward partnership. The draft's source URL points to CoinDesk, but this divergence creates ambiguity about which outlet reported what. More critically, the draft does not attribute specific claims inline to outlets\u2014it presents the partnership, launch date, and xStocks framework as general facts without specifying which outlet reported each element.",
+     "The draft states 'according to CoinDesk' in the opening but then continues with technical details about xStocks and the partnership without reattribution. The brief's data_points show the core partnership claim came from Cointelegraph (per the brief's source_url), not CoinDesk.",
+     "The draft's sources list only CoinDesk, but the brief identifies Cointelegraph as a source. The desk rule requires facts to trace back to the brief; if the brief sourced this to Cointelegraph and the draft sources only CoinDesk, the attribution chain is broken."
     ]
    }
   ]

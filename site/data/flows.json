@@ -1,7 +1,7 @@
 {
   "example": false,
   "generated": "2026-09-01",
-  "generated_utc": "2026-09-01T12:33:34Z",
+  "generated_utc": "2026-09-01T15:09:22Z",
   "window_hours": 24,
   "txn_count": 13,
   "volatile": {
@@ -207,38 +207,38 @@
   "history": [
     {
       "week_ending": "Jun 09",
-      "net_usd": 2003509438,
-      "moves": 128
+      "net_usd": 1749036982,
+      "moves": 120
     },
     {
       "week_ending": "Jun 16",
-      "net_usd": 26220895,
-      "moves": 42
+      "net_usd": 77086975,
+      "moves": 40
     },
     {
       "week_ending": "Jun 23",
-      "net_usd": 96021399,
-      "moves": 38
+      "net_usd": 200179681,
+      "moves": 41
     },
     {
       "week_ending": "Jun 30",
-      "net_usd": 1761092425,
-      "moves": 92
+      "net_usd": 1607354870,
+      "moves": 91
     },
     {
       "week_ending": "Jul 07",
-      "net_usd": 1415008767,
-      "moves": 88
+      "net_usd": 1412989256,
+      "moves": 87
     },
     {
       "week_ending": "Jul 14",
-      "net_usd": -367617441,
-      "moves": 65
+      "net_usd": -260415481,
+      "moves": 66
     },
     {
       "week_ending": "Jul 21",
-      "net_usd": -184749376,
-      "moves": 44
+      "net_usd": -291951336,
+      "moves": 41
     },
     {
       "week_ending": "Jul 28",
@@ -247,29 +247,29 @@
     },
     {
       "week_ending": "Aug 04",
-      "net_usd": 1203098819,
-      "moves": 56
+      "net_usd": 1104681502,
+      "moves": 61
     },
     {
       "week_ending": "Aug 11",
-      "net_usd": -493246153,
-      "moves": 89
+      "net_usd": -342562006,
+      "moves": 85
     },
     {
       "week_ending": "Aug 18",
-      "net_usd": -488582543,
-      "moves": 21
+      "net_usd": -540849373,
+      "moves": 20
     },
     {
       "week_ending": "Aug 25",
-      "net_usd": -1040329705,
-      "moves": 87
+      "net_usd": -924133381,
+      "moves": 94
     },
     {
       "week_ending": "Sep 01",
-      "net_usd": -226456229,
-      "moves": 91
+      "net_usd": -342652553,
+      "moves": 84
     }
   ],
-  "weekly_median_abs_usd": 493246153
+  "weekly_median_abs_usd": 540849373
 }
