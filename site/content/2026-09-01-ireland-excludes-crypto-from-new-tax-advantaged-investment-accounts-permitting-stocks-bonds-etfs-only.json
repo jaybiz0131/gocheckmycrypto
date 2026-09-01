@@ -1,0 +1,62 @@
+{
+  "id": "c005",
+  "slug": "ireland-excludes-crypto-from-new-tax-advantaged-investment-accounts-permitting-stocks-bonds-etfs-only",
+  "kind": "brief",
+  "title": "Ireland excludes crypto from new tax-advantaged investment accounts, permitting stocks, bonds, ETFs only",
+  "dek": "Ireland's planned retail savings scheme will permit only listed stocks, bonds, and ETFs; crypto and derivatives are excluded as higher-risk products. The policy represents an explicit regulatory choice to keep crypto out of a flagship tax-incentivized investment vehicle in an EU jurisdiction.",
+  "date": "2026-09-01",
+  "published_utc": "2026-09-01T01:49:16Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "Ireland is barring cryptocurrency from its new tax-advantaged investment account scheme, limiting eligible assets to stocks, bonds, and ETFs.",
+  "bottom_line": "",
+  "human_take": "",
+  "body": [
+    "Ireland's planned tax-advantaged investment accounts will include stocks, bonds, and ETFs, according to reporting from CoinDesk and Cointelegraph. Cryptocurrency and derivatives have been excluded from the scheme as higher-risk products. Account providers will handle tax reporting to simplify investor compliance.",
+    "The policy represents an explicit regulatory decision to keep crypto out of a flagship retail savings incentive."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/08/31/ireland-bars-crypto-from-new-tax-advantaged-investment-accounts",
+      "url": "https://www.coindesk.com/business/2026/08/31/ireland-bars-crypto-from-new-tax-advantaged-investment-accounts"
+    },
+    {
+      "title": "https://cointelegraph.com/news/ireland-crypto-tax-advantaged-investment-accounts?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/ireland-crypto-tax-advantaged-investment-accounts?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-01T01:47:11Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78551.43,
+        "chg_24h_pct": -0.0
+      },
+      {
+        "symbol": "ETH",
+        "price": 2466.77,
+        "chg_24h_pct": 0.01
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 1.6,
+      "open_interest_usd": 2143584406
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 108365081,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Cointelegraph"
+  ],
+  "developing": false
+}

@@ -1,0 +1,71 @@
+{
+  "id": "c021",
+  "slug": "hyperliquid-in-advanced-talks-with-kraken-parent-on-us-perpetuals-entry-through-bitnomial",
+  "kind": "brief",
+  "title": "Hyperliquid in advanced talks with Kraken parent on US perpetuals entry through Bitnomial",
+  "dek": "Hyperliquid Labs is in advanced talks with Payward, Kraken's parent, to bring perpetual futures to US traders through Bitnomial, a CFTC-regulated futures exchange. Both companies declined to comment, and regulatory approval remains pending.",
+  "date": "2026-09-01",
+  "published_utc": "2026-09-01T01:49:16Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "Hyperliquid Labs is in advanced talks with Payward to launch perpetual futures in the US via Bitnomial, a CFTC-regulated exchange that Payward acquired in April 2026.",
+  "bottom_line": "The timeline for CFTC review and the scope of products offered (whether all HIP-3 markets or a restricted subset) will determine whether this model sets a template for other offshore platforms seeking US entry. Regulatory approval is not assured, and the companies remain silent on financial terms and custody arrangements.",
+  "human_take": "",
+  "body": [
+    "Hyperliquid Labs is in advanced talks with Payward, the parent company of Kraken, to bring perpetual futures to US traders through Bitnomial, a CFTC-regulated futures exchange, according to reporting by The Defiant and The Block. A deal would allow US-based traders to access perpetual futures tied to tokens built on Hyperliquid's blockchain, though any agreement would require regulatory sign-off.",
+    "Payward completed its acquisition of Bitnomial in April 2026. Bitnomial was designated as a contract market by the Commodity Futures Trading Commission in 2020 and has assembled licenses covering an exchange, clearinghouse and brokerage. In May 2026, Kraken announced plans for CFTC-regulated perpetual futures to trade through Kraken Pro, with those contracts listed on Bitnomial and offered through NinjaTrader Clearing, a CFTC-registered futures commission merchant.",
+    "Hyperliquid's public interface currently bars US residents and entities from using it, according to the platform's terms. The platform handles more than $4 billion in daily trading volume. Representatives of Payward and Hyperliquid Labs declined to comment to Bloomberg on the reported talks.",
+    "Onchain researcher Shaunda Devens observed testnet features on Hyperliquid including wallet whitelisting and controls that would allow a deployer to cancel user orders, close positions and move collateral. Devens identified a test deployment named 'Kraken HIP-3 test DEX,' referring to Hyperliquid's HIP-3 system for permissionless, builder-deployed perpetual markets. However, Devens cautioned that anyone could launch a testnet exchange under any name, and the observation does not confirm Kraken's involvement or establish that HIP-3 is part of the talks. For now, Bitnomial is the only regulated venue confirmed in the structure reported by Bloomberg, while a HIP-3 implementation remains unconfirmed.",
+    "According to U.Today, Payward has presented the CFTC with a proposal outlining the structure. Any deal would still require regulatory approval. The potential agreement would represent Hyperliquid's first direct push into the US market."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/defi/bloomberg-hyperliquid-in-advanced-talks-with-kraken-parent-on-us-perpetuals-push",
+      "url": "https://thedefiant.io/news/defi/bloomberg-hyperliquid-in-advanced-talks-with-kraken-parent-on-us-perpetuals-push"
+    },
+    {
+      "title": "https://u.today/hyperliquid-eyes-us-launch-through-kraken",
+      "url": "https://u.today/hyperliquid-eyes-us-launch-through-kraken"
+    },
+    {
+      "title": "https://www.theblock.co/news/markets/2026-08-31-hyperliquid-eyes-us-entry-kraken-parent-payward-perpetual-futures-deal-bloomberg-413129",
+      "url": "https://www.theblock.co/news/markets/2026-08-31-hyperliquid-eyes-us-entry-kraken-parent-payward-perpetual-futures-deal-bloomberg-413129"
+    }
+  ],
+  "update_of": "cftc-sues-goliath-ventures-over-397-million-defi-ponzi-scheme",
+  "board_snapshot": {
+    "as_of": "2026-09-01T01:47:11Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78551.43,
+        "chg_24h_pct": -0.0
+      },
+      {
+        "symbol": "ETH",
+        "price": 2466.77,
+        "chg_24h_pct": 0.01
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 1.6,
+      "open_interest_usd": 2143584406
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 108365081,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Defiant",
+    "U.Today"
+  ],
+  "developing": false
+}
