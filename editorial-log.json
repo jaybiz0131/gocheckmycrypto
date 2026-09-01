@@ -1,59 +1,6 @@
 [
  {
   "date": "2026-08-02",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c011",
-    "headline": "Iran-linked exchange sent $676 million to Binance wallets in alleged sanctions-evasion operation: Reuters",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Reuters reported' but the only source provided is a Block summary. The draft cites reporting 'according to The Block's summary of the reporting' in the body but the title and opening attribute the claim directly to Reuters without the summary intermediary. This creates a false impression of direct Reuters access when the actual source is secondhand Block reporting.",
-     "The draft claims 'No statement from Binance, Shelbit, or U.S. regulators is included in the available reporting' but the brief shows source_chars: 0, indicating no source text was provided to the writer at all. The writer cannot claim to know what is 'available' vs. what is absent when the source itself was not provided. This is speculation about the source, not reporting from the brief.",
-     "The draft states 'The reporting does not specify whether Binance had prior knowledge...' and 'The specific nature of the alleged sanctions evasion...is not clarified in the source text.' These negative claims about what the source does not contain cannot be verified when the actual Reuters article and Block summary text were not provided to the writer. The writer is inventing limitations of the source."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Russian decree bans crypto mining across Moscow region through 2032",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'The power consumption baseline and the methodology for that estimate are not detailed in available reporting' but the brief shows source_chars: 0, indicating no source text was provided. The writer cannot credibly report what is or is not detailed in a source when the source text itself was never supplied.",
-     "Draft states 'The enforcement mechanism...are not specified in the source text' and 'It is unclear whether this is the first such regional ban Russia has issued' \u2014 these are negative claims about source content that cannot be verified when source_chars: 0. The writer is asserting knowledge of source limitations without access to the source."
-    ]
-   },
-   {
-    "id": "c001",
-    "headline": "Coldcard Hardware Wallet Exploit Drives Bitcoin Holders Back to Exchanges",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Julio Moreno, head of research at blockchain analytics firm CryptoQuant, noted that the spike in small deposits was \"the highest since February 6,\" adding, \"The Bitcoin plebs had not moved this amount of BTC in a day since the FTX collapse,\" according to CoinDesk.' The brief provides these as two separate data_points with reported confidence, but the draft combines them as a single paraphrased quote without attribution to two distinct statements. More critically, the draft presents the second statement as if it came in the same breath as the first, when the brief shows them as separate quotes. This is a misrepresentation of source material.",
-     "The draft includes the sentence 'Per the desk's Market Pulse, the fear-greed index stood at 29 (Fear) as of July 29, marking an elevated anxiety environment across the asset class.' This claim does not appear anywhere in the brief's data_points. The brief contains no mention of any fear-greed index or Market Pulse data. This is smuggled information not derived from the research brief."
-    ]
-   },
-   {
-    "id": "c059",
-    "headline": "BitMine Adds $73 Million in ETH, Holdings Reach 4.8% of Supply",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case includes 'An insider previously warned of a cash gap at BitMine in June 2026, though CEO Tom Lee publicly defended the company's funding model at that time.' The draft mentions this only in a single subordinate clause buried in the penultimate paragraph: 'An insider previously warned of a cash gap at BitMine in June 2026, though CEO Tom Lee publicly defended the company's funding model at that time.' This critical risk signal is mentioned but not given weight proportionate to its significance. The draft then immediately pivots to neutral framing ('The decision to accumulate unstaked ETH...') without developing the cash runway concern. A reader could finish this story believing BitMine's funding is solid, when the brief flags a material open question about cash burn rate and runway. The bear_case is present but sanded down.",
-     "The draft's framing\u2014'aggressive weekly purchases signal sustained institutional conviction'\u2014reads as affirming rather than neutral about BitMine's strategy. Combined with the buried cash-gap warning, this creates an imbalance between bullish narrative and bearish signal. The bottom_line asks readers to 'watch' for a funding breakdown, but the story's body text does not adequately foreground the vulnerability that would justify that watch."
-    ]
-   },
-   {
-    "id": "c067",
-    "headline": "Minnesota Crypto ATM Ban Takes Effect After $1M in Reported Losses",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Minnesota has enacted a ban on cryptocurrency automated teller machines' as settled fact, but the brief's only data point is marked 'confidence: reported'\u2014meaning it is a claim from Cointelegraph, not independently verified state action. The draft should signal this is a reported action, not confirmed regulatory enactment.",
-     "The draft claims the ban was enacted 'following state officials' documentation of approximately $1 million in losses,' attributing agency and proof to state officials, but the brief attributes the $1M figure to 'Cointelegraph's reporting,' not state documentation. This conflates news reporting with official verification.",
-     "The draft lists multiple open_questions from the brief (effective date, scope of ban, exemptions, enforcement mechanisms, applicability to remote services) but presents the ban as already in effect and fully defined. The brief's thin=true tag and these open questions indicate material ambiguity that should surface in the prose."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-02",
   "approved": 2,
   "rejected": [
    {
@@ -7464,6 +7411,22 @@
      "The draft cites CoinDesk as the source, but the brief's data_points list Cointelegraph as the source for the core facts about the LSE-Payward partnership. The draft's source URL points to CoinDesk, but this divergence creates ambiguity about which outlet reported what. More critically, the draft does not attribute specific claims inline to outlets\u2014it presents the partnership, launch date, and xStocks framework as general facts without specifying which outlet reported each element.",
      "The draft states 'according to CoinDesk' in the opening but then continues with technical details about xStocks and the partnership without reattribution. The brief's data_points show the core partnership claim came from Cointelegraph (per the brief's source_url), not CoinDesk.",
      "The draft's sources list only CoinDesk, but the brief identifies Cointelegraph as a source. The desk rule requires facts to trace back to the brief; if the brief sourced this to Cointelegraph and the draft sources only CoinDesk, the attribution chain is broken."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-01",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c012",
+    "headline": "Singapore Proposes 100% Reserves and Yield Ban for Stablecoin Issuers",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Singapore's financial watchdog has proposed stablecoin rules' but brief identifies the watchdog as 'MAS' (Monetary Authority of Singapore). The brief includes this institutional detail; the draft omits it. While 'financial watchdog' is a paraphrase, the specific identity of the regulating body is material for regulatory reporting and should not be left ambiguous when the brief provides it.",
+     "More critically: the draft is extremely thin (two sentences of substantive content) given that brief describes 'thin: true' but still carries four confirmed data_points. The draft captures only reserve and yield requirements but omits the meaningful angle: the foreign stablecoin recognition pathway. This is not merely thin; it's substantially incomplete. The foreign recognition piece is a data_point in the brief and central to the story's angle (global regulatory convergence and which stablecoins remain viable), yet it appears only obliquely in the bottom_line, not in the body. A reader would not understand from the draft body that Singapore is opening to foreign stablecoin recognition\u2014a key differentiator from pure tightening.",
+     "The opening reads as definition-heavy ('The requirement for 100% reserves means stablecoin issuers must hold cash or equivalent') rather than stakes-led, despite the brief carrying substantive angle about global regulatory direction."
     ]
    }
   ]
