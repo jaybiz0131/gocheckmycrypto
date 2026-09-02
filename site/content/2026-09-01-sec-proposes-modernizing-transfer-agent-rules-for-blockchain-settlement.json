@@ -2,24 +2,43 @@
   "id": "c026",
   "slug": "sec-proposes-modernizing-transfer-agent-rules-for-blockchain-settlement",
   "kind": "brief",
-  "title": "SEC Proposes Modernizing Transfer Agent Rules for Blockchain Settlement",
-  "dek": "The SEC has proposed updating transfer agent rules, largely unchanged since the 1980s, to address blockchain-based recordkeeping, tokenized securities, and automated market infrastructure. The move removes a major regulatory gap for on-chain securities settlement.",
+  "title": "SEC Proposes First Overhaul of Transfer-Agent Rules Since Late 1970s, Formally Embracing Blockchain",
+  "dek": "The SEC proposed substantive amendments to transfer-agent rules for the first time since the late 1970s and early 1980s, explicitly modernizing them to accommodate distributed-ledger technology for securities recordkeeping. The proposal updates compliance obligations around electronic systems, data security, and operational resilience, and calls for new disclosures on blockchain-based share registers.",
   "date": "2026-09-01",
   "published_utc": "2026-09-01T23:57:02Z",
   "category": "news",
   "verdict": "VERIFIED",
   "rank": 8,
   "author": "Crypto Cronkite",
-  "key_fact": "The SEC has proposed new standards for transfer agents covering recordkeeping, cybersecurity, and safeguarding as blockchain and tokenization reshape securities markets.",
-  "bottom_line": "The SEC's comment period closure date and the specific technical standards for blockchain-based recordkeeping and safeguarding will determine whether this proposal opens a genuine on-chain settlement pathway or remains symbolic. Implementation timelines for existing transfer agents will signal the seriousness of the proposed modernization.",
+  "key_fact": "Transfer-agent rules written for paper certificates now formally embrace onchain share registers and tokenized securities, removing regulatory ambiguity that has shadowed blockchain settlement infrastructure since a May 2025 staff FAQ.",
+  "bottom_line": "The 60-day comment period opens the rule to challenge and revision before final adoption. The critical question is whether existing blockchain-based transfer agents or tokenization firms already operating under the May 2025 staff FAQ will face retroactive compliance obligations or grandfather protections once the rule takes effect.",
   "human_take": "",
   "body": [
-    "The SEC has proposed new standards for transfer agents addressing recordkeeping, cybersecurity, and safeguarding as blockchain and tokenization reshape securities markets, according to Cointelegraph and The Block. The proposal modernizes rules largely unchanged since the 1980s and is designed to address blockchain-based recordkeeping, tokenized securities, and increasingly automated market infrastructure.",
-    "Transfer agents, the institutions that maintain records of security ownership and manage settlement, have operated under regulations that predate modern technology and were not drafted to accommodate on-chain infrastructure. The SEC proposal closes that gap, establishing compliance pathways for blockchain-based systems to handle securities recordkeeping and settlement functions.",
-    "The move signals formal SEC acknowledgment that tokenized securities and on-chain settlement are moving beyond pilot and proof-of-concept into infrastructure that requires clear regulatory standards. By establishing modern transfer agent standards, the SEC creates a licensed pathway for blockchain-native capital markets rather than forcing them to operate outside the regulatory framework.",
-    "The proposal does not yet specify the exact standards for cybersecurity, safeguarding, or recordkeeping systems, and comment periods, implementation timelines, and the scope of which blockchain platforms would qualify remain to be disclosed."
+    "The SEC proposed the first substantive overhaul of transfer-agent rules since the late 1970s and early 1980s on September 1, explicitly modernizing them to accommodate distributed-ledger technology and onchain securities settlement. The move formalizes what has been a legal gray zone for blockchain-based share registers, transforming nonbinding staff guidance into binding regulatory framework.",
+    "SEC Chair Paul Atkins stated the proposal would \"streamline and modernize the Commission's rules to reflect transfer agents' current processes and operations, including the use of electronic communications and blockchain technology in connection with securities offerings and the transfer of shares.\" Commissioners Hester Peirce and Mark Uyeda also approved the proposal.",
+    "Amendations to Rules 17ad-6 and 17ad-7 would establish a single retention period for most transfer-agent records and modernize provisions governing electronic systems and third-party recordkeepers, per The Defiant's reporting. Amendments to Rules 17ad-1 and 17ad-9 would update terminology to reflect contemporary electronic recordkeeping and communications technology. A rewritten Rule 17ad-12 would require transfer agents to maintain written policies designed to safeguard securities and funds and to identify, measure, monitor and mitigate material risks from their operations. Under the same rule, transfer agents would need a business continuity plan and a separate bank account for issuer, securityholder and third-party funds. Proposed Rule 17ad-30 would separately require written compliance policies and procedures.",
+    "The proposing release identifies blockchain data integrity, the security of tokenized securities and distributed-ledger operating models as risks transfer agents must manage. The SEC noted current rules are silent on information security, cybersecurity, disaster recovery and operational risk despite the industry's use of connected and automated systems. New Form TA-2 questions would require agents to report how many share registers they keep on distributed ledgers.",
+    "In May 2025, the SEC's Division of Trading and Markets issued a nonbinding staff FAQ stating a registered transfer agent could use distributed-ledger technology as all or part of its official master securityholder file if it complied with existing federal securities requirements. The May 2025 FAQ stated a transfer agent would not need to keep an exclusively offchain duplicate of the master file, and transaction details such as wallet addresses, balances and transaction IDs could be maintained onchain while names, tax identifiers and other private information remained in proprietary offchain systems. Commissioner Peirce asked whether future rules should allow identifiers such as email and digital wallet addresses instead of requiring names and physical addresses.",
+    "The public comment period will remain open for 60 days after the date of publication in the Federal Register, per the SEC press release."
   ],
   "sources": [
+    {
+      "title": "https://www.sec.gov/newsroom/press-releases/2026-81-sec-proposes-modernize-rules-registered-transfer-agents",
+      "url": "https://www.sec.gov/newsroom/press-releases/2026-81-sec-proposes-modernize-rules-registered-transfer-agents"
+    },
+    {
+      "title": "https://thedefiant.io/converge/regulation/sec-proposes-transfer-agent-rules-for-blockchain-based-share-records",
+      "url": "https://thedefiant.io/converge/regulation/sec-proposes-transfer-agent-rules-for-blockchain-based-share-records"
+    },
+    {
+      "title": "https://decrypt.co/377149/sec-proposes-first-transfer-agent-overhaul-in-40-years-citing-tokenization",
+      "url": "https://decrypt.co/377149/sec-proposes-first-transfer-agent-overhaul-in-40-years-citing-tokenization"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": false,
+  "consolidated": "This story was updated in place with a better-sourced account of the same event, carrying 3 sources against the original 2. The earlier version was headlined “SEC Proposes Modernizing Transfer Agent Rules for Blockchain Settlement”. The URL and publication time are unchanged.",
+  "superseded_sources": [
     {
       "title": "https://www.theblock.co/news/regulation/2026-09-01-sec-seeks-update-1970s-era-transfer-agent-rules-for-blockchain-age-413278",
       "url": "https://www.theblock.co/news/regulation/2026-09-01-sec-seeks-update-1970s-era-transfer-agent-rules-for-blockchain-age-413278"
@@ -29,8 +48,12 @@
       "url": "https://cointelegraph.com/news/sec-proposes-transfer-agent-overhaul-as-securities-move-onchain"
     }
   ],
-  "also_reported_by": [
-    "Cointelegraph"
-  ],
-  "developing": false
+  "updated_utc": "2026-09-02T19:48:00Z",
+  "merged_from": [
+    {
+      "id": "c002",
+      "title": "SEC Proposes First Overhaul of Transfer-Agent Rules Since Late 1970s, Formally Embracing Blockchain",
+      "published_utc": "2026-09-02T19:48:00Z"
+    }
+  ]
 }

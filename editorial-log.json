@@ -1,55 +1,5 @@
 [
  {
-  "date": "2026-08-03",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c094",
-    "headline": "Coldcard Firmware Bug Enables $114M Bitcoin Theft from 5,200+ Victims",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The exploit surfaced on July 30' but the brief data_point says 'The exploit surfaced on July 30 and is caused by a firmware bug that made Coldcard-generated seeds guessable' with confidence 'reported'. However, the draft also references events on July 29 (Goodman's emptying between 9:36-9:43 pm on July 29), which contradicts or predates the July 30 surface date. The brief does not clarify the timeline: did the exploit surface on July 30 but attacks occur on July 29? This ambiguity in the source material is not resolved in the draft, and the draft presents the July 30 date as settled fact without acknowledging the temporal inconsistency with victim losses on July 29.",
-     "The draft includes ACEIN's consideration of 'BlackRock's IBIT ETF as next moves' but the brief data_point says 'considering multisig setup, Block's Bitkey, or BlackRock's IBIT ETF as next moves.' The draft correctly cites the source, but this quote and the user-story context (a victim reconsidering self-custody entirely) reads as editorial framing of surrender to custodial solutions rather than a neutral report. The story does not contain a bear_case data point indicating that victims are abandoning self-custody for ETFs, only that one victim is considering it. Presenting this as illustrative of a trend without source support is smuggled analysis."
-    ]
-   },
-   {
-    "id": "c007",
-    "headline": "Bitget Exits Japan, Closing All Positions by Year-End",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case states: 'Bitget did not identify a specific regulatory change or action behind the decision and did not immediately respond to CoinDesk's request for further information, leaving open whether this is a strategic exit or response to imminent enforcement.' The draft includes this point ('Bitget did not identify a specific regulatory trigger or communication from the FSA behind the announcement and did not immediately respond to CoinDesk's request for further information, leaving open whether this is a strategic exit or response to imminent enforcement') but buries it in the fourth paragraph as an afterthought rather than prominently featuring the uncertainty about Bitget's true motivation. The headline and opening frame the exit as a compliance response to 'tightened Japanese cryptocurrency regulations' without proportional skepticism about whether enforcement is actual or preemptive. A story that leads with regulatory certainty but admits deep uncertainty about the trigger violates balance: the bear_case deserves placement and weight equal to the headline's certainty."
-    ]
-   },
-   {
-    "id": "c091",
-    "headline": "BitMine Adds $73 Million in ETH, Pushing Holdings to 4.8% of Supply",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'BitMine's total crypto and other holdings are valued at $11.1 billion, announced-not-verified' but this figure does not appear in the brief's data_points. The brief lists many individual holdings (BTC, ETH, Beast Industries stake, Eightco stake, cash) but no aggregate $11.1B figure. This is a smuggled fact not present in the research.",
-     "Draft refers to 'Fundstrat's Tom Lee' as BitMine's chair, implying Lee is still at Fundstrat while leading BitMine. The brief data_point says 'BitMine is chaired by Fundstrat's Tom Lee' with 'reported' confidence, but the draft should flag potential conflict of interest or clarify current affiliation status, not assume dual roles as established fact."
-    ]
-   },
-   {
-    "id": "c029",
-    "headline": "Ripple invests in ZILO and Licuido to deepen tokenized capital markets push",
-    "category": "accuracy",
-    "reasons": [
-     "Draft opens with 'Ripple has invested in ZILO and Licuido, two firms providing transfer-agency and collateral-management infrastructure, according to reporting by The Block and Cointelegraph.' However, the brief contains only two data_points, both marked 'reported' confidence, and neither specifies what ZILO or Licuido do. The characterizations 'providing transfer-agency and collateral-management infrastructure' and 'ZILO operates a transfer agency platform for tokenized securities. Licuido manages collateral mobility for institutions' are not in the brief and appear to be writer inference or external research, violating the hard rule that facts must trace to the brief.",
-     "Draft states 'the company has previously announced partnerships with institutions in the tokenized securities space' with no supporting data_point in the brief. This is a historical claim about Ripple not present in research.",
-     "Draft references 'The investment amounts, close dates, and integration timelines have not been disclosed' as if confirming a negative fact. The brief's open_questions list these as unknowns, but the draft presents this as established reporting rather than acknowledged gaps, conflating verification with research."
-    ]
-   },
-   {
-    "id": "c090",
-    "headline": "NEAR Governance Votes to Eliminate Developer Gas Rebate",
-    "category": "accuracy",
-    "reasons": [
-     "The draft presents the bear_case items (minimal dissent, limited tokenomics benefit, uneven applicability across dApps) as narrative observations rather than as stated risks from the brief. The sentence 'The overwhelming vote tally (4.66 million veNEAR in favor versus 1,819 against) suggests minimal dissent from the House of Stake' treats the bear_case concern as the writer's inference rather than as a stated limitation in the source. Per protocol, bear_case claims marked as unconfirmed or concerning must be flagged as such in prose, not absorbed into seeming-neutral analysis."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-04",
   "approved": 5,
   "rejected": [
@@ -7360,6 +7310,49 @@
      "The bottom_line also states 'The sustainability of inflows into XRP products, given the recent decline, depends on whether the next reporting window shows continued net inflows or a reversal'\u2014a forward-looking analytical claim that is appropriate for bottom_line, but the preceding sentence about '21 participating financial institutions' makes no sense in an XRP context and signals editorial error.",
      "The brief's open_questions explicitly notes: 'CoinDesk source text provided is empty/null; the only data comes from snippet and market boards. No full reporting detail is available to verify causation, timing, or source of the inflows.' The draft cites only one URL (a CoinDesk headline) and asserts details (11 consecutive sessions, $170M, Q2 filings naming Goldman/Jane Street/Millennium) without the backing detail the brief acknowledges is missing. The draft presents 'CoinDesk reporting' as its authority, but the brief reveals the source material is incomplete.",
      "The brief notes the inflows are over an unspecified date range and the only source URL is provided without full text. The draft states '11 consecutive inflow sessions' as fact, but the brief's open_questions ask 'Over what exact date range did the 11 inflow sessions occur?' If the source detail is unavailable, the fact cannot be confirmed independent of the snippet."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c023",
+    "headline": "21 Major Banks and Asset Managers Form Stablecoin Venture Targeting 2027 Launch",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Twenty-one major financial institutions announced formation of a jointly-backed stablecoin venture on September 1' but only four named institutions are identified (Bank of America, Citigroup, Goldman Sachs, Wells Fargo). The brief's data_points do not provide the names of the remaining 17 institutions. The draft smuggles specificity (the complete roster) that the brief does not carry. Additionally, the brief flags the full list as an open question, indicating it was not confirmed in the reporting.",
+     "The draft presents the H1 2027 launch window as a definite plan, but the brief's data_point only states 'a planned debut in 2027' without specificity to H1. The draft narrows the timeframe beyond what the brief confirms."
+    ]
+   },
+   {
+    "id": "c039",
+    "headline": "G20 Finance Leaders Commit to Establishing 'Clear Pathways' for Digital Assets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'All G20 member countries...agreed on statements' but the brief's data_point says 'All G20 member countries agreed on statements recognizing the transformative role of digital asset innovation.' The brief explicitly lists as an open question 'Which G20 members dissented or abstained from the digital asset statements?' This means the brief itself acknowledges the possibility that consensus was not universal, contradicting the draft's use of 'all.' The draft presents unanimous agreement when the underlying sources (per the brief's research) left this unconfirmed.",
+     "The draft uses the phrase 'agreed on official statements' but the brief's bear_case is empty and open_questions include 'Does this represent binding policy commitments or non-binding guidance?' The draft does not flag the ambiguity about whether these are formal commitments or advisory statements, which is material to the story's meaning."
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "Japan-listed Remixpoint liquidates all altcoins, consolidates to 1,506 BTC, Sept. 1",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line contains a calculation ('15.5% return on the transaction value') that does not appear in the brief and cannot be verified against the provided data points. The brief states the net profit was \u00a5117.77 million and transaction proceeds were \u00a5878.81 million, but the 15.5% figure is a new calculation introduced by the writer. This is a smuggled fact: all calculations must be traced back to the brief's data or explicitly marked as the desk's own math with clear attribution of the underlying figures.",
+     "The phrasing 'suggesting management's initial investment thesis underperformed expectations and prompted the abrupt strategic reversal' in the bottom_line characterizes causation and intent that goes beyond what the brief supports. The brief's bear_case notes underperformance but does not confirm it as the cause of the reversal; this is interpretive overreach for a summary line that should state what is known, not what may be inferred."
+    ]
+   },
+   {
+    "id": "c163",
+    "headline": "Arkham links $30M Bitcoin sale to Lazarus on Hyperliquid as CME sues over perpetuals classification",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states that the Arkham analysis was 'reported by CoinDesk' but the brief indicates it was 'reviewed by CoinDesk.' These are different claims about CoinDesk's role. The brief data_point says 'Arkham analysis reviewed by CoinDesk found' while the draft says 'Arkham analysis reported by CoinDesk identified.' This conflates reporting with reviewing and misrepresents the sourcing relationship.",
+     "The draft claims Bloomberg reported Hyperliquid-Payward talks 'on the same day as the Arkham analysis (Aug. 31)' but the only source provided is CryptoSlate, which reported both items. The draft attributes the Bloomberg report to Bloomberg but provides no Bloomberg source URL or independent verification. This is a sourcing claim not in the brief.",
+     "The draft states the brief 'does not establish whether a Bitnomial perpetuals offering would share liquidity with Hyperliquid's existing order book or whether positions would settle on Hyperliquid's chain' as factual narration. The brief does note this as an open_question and in bear_case items, but the draft is using the absence of information as its own affirmative claim. Per the instruction that 'a sentence that does (restating open_questions, \"the absence of\", \"remains unreported\") is category accuracy,' this phrasing violates that rule."
     ]
    }
   ]
