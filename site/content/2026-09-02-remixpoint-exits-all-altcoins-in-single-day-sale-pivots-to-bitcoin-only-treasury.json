@@ -1,0 +1,76 @@
+{
+  "id": "c033",
+  "slug": "remixpoint-exits-all-altcoins-in-single-day-sale-pivots-to-bitcoin-only-treasury",
+  "kind": "brief",
+  "title": "Remixpoint exits all altcoins in single-day sale, pivots to Bitcoin-only treasury",
+  "dek": "Japanese public company Remixpoint sold its entire Ethereum, Solana, XRP, and Dogecoin holdings on September 1, 2026, consolidating its crypto portfolio into Bitcoin. The sale generated \u00a5117.77 million in realized gains and now positions the company as a Bitcoin-only treasury holder ranked 38th among public entities.",
+  "date": "2026-09-02",
+  "published_utc": "2026-09-02T21:57:44Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Remixpoint sold all altcoin holdings for \u00a5878.81 million on September 1, 2026, recording a \u00a5117.77 million gain and consolidating entirely into Bitcoin.",
+  "bottom_line": "Remixpoint's three-month pivot from building altcoin positions to exiting them entirely suggests internal strategy volatility rather than a decisive institutional signal. The company's modest Bitcoin holdings and the timing of its exit, after Dogecoin losses and amid a broader August recovery across crypto assets, leave open whether the consolidation reflects conviction about Bitcoin's relative merit or a tactical reposition driven by short-term performance pressures.",
+  "human_take": "",
+  "body": [
+    "Japanese public company Remixpoint liquidated its entire Ethereum, Solana, XRP, and Dogecoin holdings in a single transaction on September 1, 2026, consolidating its cryptocurrency treasury entirely into Bitcoin, according to Decrypt's reporting.",
+    "The altcoin sale generated \u00a5878.81 million ($4.47 million) against a book value of \u00a5761.04 million ($3.87 million), yielding a realized gain of \u00a5117.77 million ($598,400). Ethereum contributed \u00a560.20 million ($305,900) in profit, Solana added \u00a549.30 million ($250,500), and XRP produced \u00a511.52 million ($58,500). Dogecoin was the sole losing position, recording a \u00a53.26 million ($16,500) loss.",
+    "Before the exit, Remixpoint's Ethereum and Solana holdings had generated \u00a529.87 million ($151,800) in combined staking rewards. The company cited assessment of market conditions, each asset's individual risk and return profile, and its overall financial strategy as the rationale for the shift, per Decrypt. U.Today reported that Remixpoint adopted what it termed a \"selection and concentration\" strategy after weighing altcoin volatility.",
+    "The decision represents a marked reversal from June, when Remixpoint began accumulating altcoins and built a large XRP position of approximately 1.2 million tokens, according to U.Today. The company's internal financial models had projected crypto-segment revenue of up to \u00a512.44 billion.",
+    "Remixpoint now holds approximately 1,501 Bitcoin, according to Bitcoin Treasuries data cited by Decrypt, ranking 38th among public-company Bitcoin holders. The company's Bitcoin lending operation generated 14.92 BTC in fees from February 24 through August 31, 2026, valued at \u00a5164.22 million ($834,300). Decrypt reported the company expects to record the \u00a5117.77 million realized gain as business-segment revenue in the second quarter of its fiscal year ending March 31, 2027, with sale proceeds potentially funding battery-storage projects and balance-sheet strengthening."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/377228/remixpoint-xrp-ethereum-bitcoin-only",
+      "url": "https://decrypt.co/377228/remixpoint-xrp-ethereum-bitcoin-only"
+    },
+    {
+      "title": "https://u.today/japans-remixpoint-dumps-millions-in-xrp-and-altcoins-to-go-all-in-on-bitcoin",
+      "url": "https://u.today/japans-remixpoint-dumps-millions-in-xrp-and-altcoins-to-go-all-in-on-bitcoin"
+    },
+    {
+      "title": "https://www.theblock.co/news/business/2026-09-02-japan-listed-remixpoint-sells-all-eth-sol-xrp-and-doge-holdings-in-shift-to-bitcoin-only-crypto-strategy-413333",
+      "url": "https://www.theblock.co/news/business/2026-09-02-japan-listed-remixpoint-sells-all-eth-sol-xrp-and-doge-holdings-in-shift-to-bitcoin-only-crypto-strategy-413333"
+    },
+    {
+      "title": "https://beincrypto.com/remixpoint-dat-bitcoin-only-treasury/",
+      "url": "https://beincrypto.com/remixpoint-dat-bitcoin-only-treasury/"
+    }
+  ],
+  "update_of": "trezor-shipping-provider-shipmonk-breached-exposing-13-689-customer-records",
+  "board_snapshot": {
+    "as_of": "2026-09-02T21:55:42Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77296.69,
+        "chg_24h_pct": -0.15
+      },
+      {
+        "symbol": "ETH",
+        "price": 2390.59,
+        "chg_24h_pct": -1.12
+      }
+    ],
+    "fng": {
+      "value": 63,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.5,
+      "open_interest_usd": 2243696670
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 421257244,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Decrypt",
+    "U.Today",
+    "BeInCrypto"
+  ],
+  "developing": false
+}

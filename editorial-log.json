@@ -1,57 +1,6 @@
 [
  {
   "date": "2026-08-04",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c118",
-    "headline": "Coldcard Thefts Near $114 Million as Fourth Attack Wave Hits",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bitcoin traded at about $62,600 on Monday' but this fact does not appear in the brief's data_points. The brief only contains a data_point claiming 'Bitcoin traded at about $62,600 on Monday, according to CoinGecko, putting losses at roughly $114 million' as a source attribution, but the draft does not attribute this figure to CoinGecko or cite it inline. The draft uses the price to calculate the $114 million valuation in the lede but never attributes where the $62,600 price came from, violating the attribution requirement.",
-     "The draft contains a reference to 'Thieves stole $282 million in bitcoin and litecoin in January through a social-engineering scam targeting hardware wallet users' in the brief's data_points, but this claim does not appear anywhere in the draft body. This is a data_point in the brief that was omitted entirely, which while not a smuggled fact, suggests incomplete briefing coverage.",
-     "The boundary_reasons field in both draft and brief note 'this story turns on a version, date range or threshold but the brief carries no boundary block' and boundary_ok=false. The story is entirely predicated on firmware versions (4.0.0 vs 4.2.0 vs 5.6.0 etc.) and the March 1, 2021 commit date as pivotal facts, yet no boundary definition exists in the brief to establish what versions/dates define the vulnerability scope. This is a structural liability issue: the draft cannot establish clean causation without a boundary statement."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Bernstein Sees Another Leg Lower for Crypto Markets if Clarity Act Stalls",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case includes 'The sources do not quantify the magnitude of the forecast selloff or provide a price target for crypto.' The draft acknowledges this late: 'The sources do not quantify the magnitude of the forecast selloff or provide a specific price target for crypto.' However, this acknowledgment appears in the final paragraph as a disclaimer statement, not as an integrated part of the market analysis. The draft presents Bernstein's forecast as consequential ('another leg lower,' immediate negative reaction) without proportioning the uncertainty or magnitude limitation into the framing of the bullish case. A reader finishing paragraph 2 believes Bernstein has quantified the selloff risk; the caveat arrives too late.",
-     "The draft states 'Bernstein expects the crypto industry's political influence to remain strong ahead of the U.S. midterm elections and sees the current downturn ending in late third or early fourth quarter.' This is a price-path forecast framed without adequate qualification that it is Bernstein's view, not a reported market consensus. Pairing 'downturn ending in late third or early fourth quarter' with no explicit hedge language ('Bernstein expects' appears at the front but the sentence structure permits misreading as desk consensus) risks reading as a recommendation on timing. The compliance risk is moderate but present."
-    ]
-   },
-   {
-    "id": "c008",
-    "headline": "Bitget Set to Exit Japan, Close All Remaining Positions by Year-End",
-    "category": "compliance",
-    "reasons": [
-     "Brief metadata flags 'boundary_required': true and 'boundary_ok': false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block'. The draft contains specific dates (Aug. 3, Nov. 1, Dec. 31, mid-July for legislation, 'next year' for rules taking effect) that are threshold-critical to the story's stakes. Without a boundary block clarifying what constitutes factual error if dates shift or if the story's trigger changes, the desk's liability exposure is unmanaged. This is a compliance gate the draft cannot pass."
-    ]
-   },
-   {
-    "id": "c014",
-    "headline": "Robinhood Wins UK Crypto Registration Before New Regulatory Regime Launches",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with 'Robinhood's UK arm was added to the Financial Conduct Authority's list of registered cryptoasset companies as of July 31, according to CoinDesk reporting.' The brief data_point states the same fact. However, the draft then states 'The registration means Robinhood meets the regulator's anti-money laundering requirements under the existing framework that has been in effect since 2020 and now numbers over 50 approved companies.' This interpretation\u2014that the registration *means* Robinhood meets AML requirements\u2014goes beyond the brief's data_point, which only states that 'An existing FCA registration means Robinhood meets the regulator's requirements for anti-money laundering (AML).' The brief's phrasing is cautious; the draft presents it as settled fact about what the registration accomplishes. More critically, the draft then adds 'including Ripple, Kraken and traditional finance giants like BlackRock and BNY' as members of the 50+ approved list. The brief states 'now numbers over 50 approved companies, including Ripple, Kraken and traditional finance giants like BlackRock and BNY,' but this is presented as the brief's own claim, not a data_point sourced to CoinDesk. The draft treats this as CoinDesk reporting when it is framing from the brief. Trace check fails: the composition of the 50+ list is not independently verified as reported by CoinDesk in the provided brief data."
-    ]
-   },
-   {
-    "id": "c033",
-    "headline": "Ripple invests in ZILO and Licuido to deepen tokenized capital markets push",
-    "category": "balance",
-    "reasons": [
-     "Brief's bear_case is empty ([]), yet draft constructs an entire bear case paragraph ('The bear case centers on execution risk and regulatory uncertainty...') with claims not in the brief: 'no timeline is confirmed,' 'no deployment milestones have been made public,' 'Approval from financial regulators... is a lengthy process.' These are inferences, not reported facts from the brief's data_points.",
-     "Draft adds speculative framing about 'nascent' tokenized securities infrastructure and 'ongoing regulatory debate' that are not sourced to the brief's two data_points.",
-     "Open questions in draft ('which jurisdiction will govern these services,' 'whether ZILO and Licuido hold required regulatory licenses') are not in the brief's open_questions list and represent writer inference rather than disclosed uncertainty."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
   "approved": 4,
   "rejected": [
    {
@@ -7365,6 +7314,45 @@
      "The draft opens with 'Arbitrum DAO earned $6.2 million in first-half 2026 revenue, according to The Block,' but the brief's bear_case states: 'The Block source carrying the headline and core $6.2M figure returns a 403 paywall error; the first-half revenue claim cannot be verified from fetched text, only the snippet and downstream reporting.' The writer cannot attribute a central claim to a source that the research confirms is inaccessible and unverified. This violates the hard rule that facts must trace to the brief's data_points.",
      "The draft contains specificity about fee splits that goes beyond what the brief confirms: 'The licensing agreement requires chains deployed outside Arbitrum One and Arbitrum Nova to pay 10% of their Protocol Net Revenue to the Arbitrum Foundation, split as 8% to the DAO treasury and 2% to development funding, according to The Defiant.' However, the brief's open_questions ask: 'What is the precise definition of 'Protocol Net Revenue' in the Arbitrum licensing agreement, and does it include or exclude application-layer fees?' and 'Is the $6.2M H1 figure gross revenue or net of operational costs or other deductions?' The draft presents unresolved definitional questions as settled facts.",
      "The draft states 'Robinhood Chain contributed 35% of the DAO's monthly income in July' but then calculates forward from a single day (Sept. 1) in a different paragraph. These are different time periods and the brief's data_points treat them separately. Conflating monthly contribution (July) with daily extrapolation (Sept. 1) creates a false equivalence: July's 35% contribution is historical; Sept. 1's $192k/day calculation is forward-looking. The draft does not clearly signal this temporal shift."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c036",
+    "headline": "G20 members recognize digital assets' role in economic growth, call for cross-border improvements",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims G20 members 'agreed that digital assets could support broad-based economic growth' but the brief's data_point says this is what 'G20 officials' said digital assets 'could support'\u2014a reported statement, not an agreement on the claim itself. The phrasing in the draft reads as desk voice asserting the claim rather than reporting what officials stated.",
+     "The draft opens with 'G20 member countries, under US presidency, agreed that digital assets could support broad-based economic growth' but the brief's core_claim and data_points do not support an agreement ON that economic-growth proposition\u2014only that members agreed on statements RECOGNIZING the transformative role. The draft conflates the agreement (on statements) with endorsement of the growth claim itself.",
+     "The draft lacks attribution for the critical claims. The first paragraph should attribute the 'broad-based economic growth' framing directly to the source and outlet, not present it as established fact. The brief shows Cointelegraph and The Block as separate sources for different claims; the draft blends them without inline attribution."
+    ]
+   },
+   {
+    "id": "c041",
+    "headline": "SEC Proposes First Major Transfer-Agent Rule Update Since Late 1970s, Explicitly Enabling Blockchain",
+    "category": "accuracy",
+    "reasons": [
+     "Brief contains only ONE data_point with minimal detail: 'The SEC proposed new standards for transfer agents covering recordkeeping, cybersecurity and safeguarding.' The brief is thin (thin=true, only 1 data_point, 3575 source_chars).",
+     "Draft makes multiple claims NOT present in the brief's single data_point: (1) 'first major overhaul of transfer-agent rules since the late 1970s' \u2014 not in brief; (2) 'explicitly enables blockchain' in title and 'explicitly accommodates blockchain-based securities infrastructure' in body \u2014 brief says 'blockchain and tokenization reshape securities markets' but does not confirm explicit blockchain enabling language; (3) 'immutable recordkeeping on distributed networks, cryptographic security, and custody of digital assets' as operational details \u2014 these are inferences the writer added, not stated in brief; (4) 'transfer agents operating on-chain would have explicit standards to follow' \u2014 speculative, not in brief.",
+     "The sentence 'Updating their regulatory framework to include distributed ledger technology signals the SEC's recognition that on-chain securities issuance and settlement are moving from theoretical to practical' narrates interpretation and confidence the brief does not support.",
+     "Brief's bear_case is empty ([]); draft contains no risk paragraph, which is correct per protocol. But the draft's opening framing ('explicitly enables blockchain') goes beyond what the single brief data_point establishes, creating liability if the proposal's actual language is narrower or conditional.",
+     "Brief's open_questions are substantive (what specific standards, finalization timeline, whether blockchain is defined, transition periods); the thinness of the brief combined with expansive claims in the draft creates an accuracy gap."
+    ]
+   },
+   {
+    "id": "c018",
+    "headline": "XRP ETF inflows reach $170 million over 11 consecutive days; Goldman Sachs, Jane Street disclosed as holders",
+    "category": "accuracy",
+    "reasons": [
+     "Title and opening body claim '$170 million over 11 consecutive days' but the source URL title in the brief shows 'USD160 million over nine days', creating a numerical discrepancy not explained by the brief's data_points.",
+     "Data point states '11 straight sessions of inflows totaling $170 million' but the source URL headline says 'nine days' and '$160 million', indicating the draft contains smuggled information beyond what the brief carries or a misread of the source.",
+     "The brief's open_questions explicitly flag 'Whether the 11-day inflow streak started on a specific date or continues through the reporting date'\u2014the draft presents this as a closed fact without noting the ambiguity.",
+     "Draft states 'The 11-day inflow period represents an extended window' and later 'The 11-day inflow streak has ended or continues beyond the reporting date'\u2014a contradiction that suggests the draft is uncertain about timing, and that uncertainty should have been flagged as unconfirmed rather than narrated as settled fact in the opening."
     ]
    }
   ]
