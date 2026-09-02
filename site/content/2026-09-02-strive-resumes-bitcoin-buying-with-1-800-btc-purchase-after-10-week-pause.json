@@ -1,0 +1,56 @@
+{
+  "id": "c051",
+  "slug": "strive-resumes-bitcoin-buying-with-1-800-btc-purchase-after-10-week-pause",
+  "kind": "brief",
+  "title": "Strive resumes Bitcoin buying with 1,800 BTC purchase after 10-week pause",
+  "dek": "Strive, a Nasdaq-listed asset manager, purchased 1,800 Bitcoin at an average price of $79,431 per coin, totaling approximately $143 million, per Decrypt. The purchase lifted Strive's total holdings to 23,156 BTC, elevating it to the fifth-largest public Bitcoin holder.",
+  "date": "2026-09-02",
+  "published_utc": "2026-09-02T02:18:35Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "After a 10-week buying pause, Strive resumed Bitcoin accumulation, suggesting renewed institutional appetite for Bitcoin as a corporate treasury asset following a period of market consolidation.",
+  "bottom_line": "The timing and size of Strive's resumed buying activity will clarify whether institutional treasuries are entering a new accumulation cycle or treating the current price level as a tactical opportunity.",
+  "human_take": "",
+  "body": [
+    "Strive, a Nasdaq-listed asset manager, purchased 1,800 Bitcoin at an average price of $79,431 per coin, adding approximately $143 million to its holdings, per Decrypt. The purchase marks the firm's first significant accumulation after a 10-week pause and elevates its total Bitcoin position to 23,156 BTC.",
+    "The acquisition signals a return to institutional Bitcoin accumulation at a major treasury firm, following a period of consolidation in the broader crypto market. Strive's renewed buying comes as Bitcoin traded in the $77,000 to $80,000 range over the preceding weeks."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/376992/strive-adds-143-million-bitcoin",
+      "url": "https://decrypt.co/376992/strive-adds-143-million-bitcoin"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-02T02:16:32Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77057.14,
+        "chg_24h_pct": -0.46
+      },
+      {
+        "symbol": "ETH",
+        "price": 2400.35,
+        "chg_24h_pct": -0.72
+      }
+    ],
+    "fng": {
+      "value": 63,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2228270340
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 148035129,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

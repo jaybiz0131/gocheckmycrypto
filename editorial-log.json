@@ -1,62 +1,5 @@
 [
  {
-  "date": "2026-08-02",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c005",
-    "headline": "Bitcoin cold-wallet attack spreads to 4,500 addresses as losses near $89 million",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The first wave opened on July 30, sweeping 1,083 bitcoin from 1,196 addresses in 41 minutes at close to one coin per victim' but then later states 'The sweeping has not stopped almost three days later.' This creates a timeline problem: if the attack started July 30 and it's 'almost three days later,' the story would be dated August 2. The brief's CoinDesk source is dated 2026-08-02, which is consistent. However, the phrase 'almost three days later' is a relative time reference that will become inaccurate the moment this story publishes on any other date. This is smuggled temporality not anchored in the brief's data points.",
-     "The draft claims 'the attacker is now working through wallets worth a few thousand dollars each, a decline from the high-value targets of the opening hours' but the brief's data point states 'The attacker working through Coldcard-generated keys is now emptying wallets worth a few thousand dollars each' without the comparative framing about 'decline from high-value targets.' The characterization of a 'decline' is an interpretation beyond what the brief supports."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Iran-linked exchange sent $676 million to Binance wallets in alleged sanctions-evasion operation: Reuters",
-    "category": "accuracy",
-    "reasons": [
-     "The draft's bottom_line reads: 'Watch for Binance's official response to the allegations and for any announcement of regulatory investigation or enforcement action from OFAC or the DOJ. Reuters's full investigation, when or if made public, will be the reference for the evidence chain and for any subsequent enforcement steps.' This bottom_line is copied verbatim from the c005 story (the Coldcard article) and is completely unrelated to the Iran-Shelbit-Binance sanctions story. This is a critical error: the wrong bottom_line was pasted into the wrong draft."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Russian decree bans crypto mining across Moscow region through 2032",
-    "category": "accuracy",
-    "reasons": [
-     "The draft's bottom_line reads: 'Watch for Binance's official response to the allegations and for any announcement of regulatory investigation or enforcement action from OFAC or the DOJ. Reuters's full investigation, when or if made public, will be the reference for the evidence chain and for any subsequent enforcement steps.' This bottom_line is copied from the c013 story (the Iran-Shelbit sanctions story) and has no relationship to the Moscow mining ban story. This is the same copy-paste error as c013: the wrong bottom_line in the wrong draft."
-    ]
-   },
-   {
-    "id": "c063",
-    "headline": "BitMine Adds $73M in ETH, Holding Now 4.8% of Supply",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states BitMine is 'The New York-listed company' and later refers to it as 'New York-listed,' but the brief data_point specifies 'BitMine's stock trades under ticker BMNR on the NYSE.' The draft should have included the ticker symbol inline to attribute the venue claim properly and give readers a way to verify.",
-     "The draft claims 'a $71 million stake in Eightco Holdings, which trades on Nasdaq under the ticker ORBS' but this conflates two pieces of information from the brief without clarifying whether ORBS is the ticker for Eightco or a separate entity. The brief says 'BitMine holds a $180 million stake in Beast Industries and a $71 million stake in Eightco Holdings (NASDAQ: ORBS)' which is ambiguous; the draft should have either clarified or flagged the ambiguity back to research."
-    ]
-   },
-   {
-    "id": "c064",
-    "headline": "SBI Holdings Leads $76M Series C Into EDX Markets",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'SBI Group is handling the domestic handling of U.S. dollar-denominated stablecoins including RLUSD and USDC' but the brief data_point says 'handling the domestic onboarding of U.S. dollar-denominated stablecoins.' The draft's word choice 'handling the domestic handling' is redundant, but more critically, 'onboarding' and 'handling' are materially different claims about what SBI is doing. The draft has paraphrased a more specific operational claim ('onboarding') into a vaguer one ('handling'). This softens the factual claim and should be corrected to track the brief."
-    ]
-   },
-   {
-    "id": "c060",
-    "headline": "SummerFi to wind down after seven years, citing exploit",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Defiant reported on July 6 that Summer Finance was drained of $6 million in a flash-loan exploit' but the brief's confidence label for this claim is 'reported', not verified. The draft presents this as a settled factual account without signaling that it is The Defiant's report of an event, not an independently confirmed event. The very next sentence acknowledges the discrepancy ('SummerFi has separately characterized the incident as NAV manipulation'), which creates internal tension\u2014the first sentence should signal the source attribution and contested nature of the claim more clearly to avoid implying independent verification.",
-     "The draft closes with 'Users of SummerFi must now manage migration of assets without formal guidance or a published timeline from the platform.' This is a characterization that reads as advice or a prescription for user action. While factually grounded in the brief's data_points that SummerFi 'did not state an effective wind-down date' and 'has not published a schedule,' the phrasing 'must now manage' steps into prescriptive territory that borders on trade/asset-movement advice. The same fact can be stated more neutrally: 'SummerFi's announcement provided no wind-down date or guidance on asset movement.'"
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-03",
   "approved": 4,
   "rejected": [
@@ -7386,6 +7329,57 @@
     "category": "accuracy",
     "reasons": [
      "The core claim\u2014that Hyperliquid Labs is in 'advanced talks' with Payward\u2014is marked 'unconfirmed' in the brief (confidence label explicit). The draft opens with 'Payward...is in advanced talks with Hyperliquid Labs' and repeats this framing throughout without signaling the unconfirmed status. The brief's bear_case explicitly states 'Representatives of Payward and Hyperliquid Labs declined to comment to Bloomberg, and talks remain unconfirmed by the companies.' The draft acknowledges non-comment and unconfirmed status only in mid-body paragraphs ('the arrangement remains unconfirmed by either company'), but by then has already presented the central claim as settled fact in the opening. A reader stopping after the first paragraph would believe talks are confirmed. This violates the hard rule that confidence labels must survive in prose: 'unconfirmed' claims must read as unconfirmed, not as events the desk reports as fact."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c022",
+    "headline": "Wallets Linked to Lazarus Group Moved $30M on Hyperliquid as Platform Pursues U.S. Regulatory Path (August 31, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states: 'Crypto wallets linked to the OFAC-sanctioned Lazarus Group moved $30 million in digital assets through Hyperliquid in the three weeks prior to August 31, 2026.' This contains a temporal detail ('three weeks prior') that does not appear in the brief. Brief data_point 1 says only that wallets 'moved $30 million' and data_point 2 says movement 'occurred weeks after.' The phrase 'three weeks prior to August 31' is a specific factual claim (duration and endpoint) not supported by the brief.",
+     "Draft further states: 'The activity occurred weeks after regulators signaled a potential regulatory pathway for the platform to operate in U.S. markets.' The brief says 'movement occurred weeks after regulators signaled a potential pathway.' The draft's phrasing is close but the brief does not specify the endpoint date of that 'weeks after' window relative to August 31. This is a smuggled temporal inference."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "21 Major Banks Form Stablecoin Venture, Target H1 2027 Launch",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The firms will form a new company in the second half of 2026' but today is 2026-09-02 (September 2, 2026), which is already in H2 2026. The brief's data point uses the same language ('second half of 2026'), but this phrasing in the draft now reads as though a future event has already occurred or is imminent in a way that could mislead readers about timing. The draft should clarify whether formation is expected to occur within the next 3 months or use 'are planning to form' to signal futurity more clearly. As written, a reader on Sept 2 could interpret this as an event already scheduled and underway."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "London Stock Exchange Partners With Payward on 24/5 Tokenized UK Stocks",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's data points are sparse and thin (three data points total, one of which is a paraphrase of reporting context). The core facts\u2014that LSE is partnering with Payward on 24/5 tokenized UK stocks with a 2027 launch\u2014are all present and sourced. However, the draft body contains a paragraph ('No source material specifies...') that violates the desk's core rule: 'the writer never patches them' and 'the narration itself stays neutral.' This paragraph explicitly narrates the absence of information (custody model, specific stocks, regulatory details, technical architecture) by saying 'No source material specifies' and 'Sources do not detail.' This is forbidden: the writer is not permitted to restate open_questions or unconfirmed elements as narrative admissions of gap-filling. The desk's rule is to report what sources say, not to narrate what they do not say. This entire paragraph should be removed; the story can stand on the three confirmed facts without the gap-narrative."
+    ]
+   },
+   {
+    "id": "c098",
+    "headline": "Japan's 10-year borrowing costs hit 30-year high; debt service to rise 17% next year",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'the 40-year maturity trading at 4.28%, near a prior record set in May.' However, the brief's bear_case explicitly states '30-year JGBs formally traded a couple basis points higher in May 2026, meaning the current 4.18% level is not technically an all-time high.' The draft incorrectly describes the 40-year yield (4.28%) as 'near a prior record set in May,' when the brief clarifies that May's prior record was only a couple basis points higher (around 4.4% per the data_point). This misrepresents the historical context. More importantly, the brief's bear_case notes that '30-year JGB formal history runs only back to 1999, so historical comparison to the 1990s requires investors to have constructed de facto 30-year hold periods using other durations.' The draft's opening claim that the 10-year yield 'reached 3% on Tuesday, September 1, 2026, marking its highest level since September 1996' is based on a brief data_point, but the draft does not acknowledge the caveat that 30-year formal history is limited. However, the brief does explicitly support the 10-year reaching a 30-year high, so this is acceptable.",
+     "The draft states 'Markets now expect a further hike to 1.25% this month, per Protos,' but the brief data_point says 'Markets now expect a hike to an even more expensive 1.25% cost of borrowing this month.' The phrasing 'cost of borrowing' is imprecise language in the brief itself. The draft's use of '1.25%' as a policy rate is consistent with the brief, but the brief's awkward phrasing 'cost of borrowing' for a policy rate hike introduces ambiguity. However, given the context and the earlier statement that 'The Bank of Japan raised its policy rate to 1% in June,' it is clear the 1.25% refers to the policy rate, not borrowing costs. This is acceptable.",
+     "The draft reports that the intervention 'Within eleven days, the yen was fading again relative to the dollar, trading back near 160 per dollar by week's end.' The brief data_point states 'Eleven days after intervention, yen was fading again relative to the dollar, and this week it traded back near 160 per dollar.' However, today is Wednesday, 2026-09-02, and the intervention occurred on July 31. Eleven days after July 31 is August 11. The phrase 'by week's end' in the draft is ambiguous\u2014it could refer to the week ending August 11, or the week before today (September 2). The brief's phrasing 'this week' is also ambiguous given the timestamp. This creates ambiguity about which week is being referenced, and the draft's 'by week's end' could mislead readers about the timeline."
+    ]
+   },
+   {
+    "id": "c110",
+    "headline": "Kalshi Issues First Lifetime Ban for Republican Politician Over Insider Bets",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Santos reportedly held event contracts on the 2026 State of the Union and was investigated for using inside information to trade them.' The brief data_point says Santos was 'banned over a lifetime trading ban related to event contracts on the 2026 State of the Union,' but does not confirm that he was investigated for or that the ban was specifically for 'using inside information to trade them.' The mechanism and evidence for the alleged insider trading are flagged in the bear_case as missing from sources. The draft presents the alleged insider trading as established fact when the brief itself marks this detail as unconfirmed/unsourced.",
+     "The draft claims this is 'Kalshi's first disciplinary action against elected officials or insiders on political contracts,' but this claim does not appear in any data_point. The brief's core_claim and data_points say only that this is the first enforcement against Santos and Buckhout, not that it is Kalshi's first enforcement action against any elected officials or insiders. This is a smuggled fact not carried by the brief.",
+     "The draft states 'the sources do not detail the specific evidence or mechanism Kalshi used to detect or prove insider trading by either party' \u2014 presenting uncertainty as fact. Per the balance/accuracy rule, a sentence that restates open_questions or the absence of information from sources is category accuracy: the desk does not narrate what was not reported. This sentence should be removed rather than run."
     ]
    }
   ]

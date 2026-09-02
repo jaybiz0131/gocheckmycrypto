@@ -1,0 +1,62 @@
+{
+  "id": "c014",
+  "slug": "robinhood-chain-s-memecoin-boom-drives-arbitrum-token-surge-protocol-revenue-tops-arbitrum-one",
+  "kind": "brief",
+  "title": "Robinhood Chain's memecoin boom drives Arbitrum token surge; protocol revenue tops Arbitrum One",
+  "dek": "Robinhood Chain collected $2.13 million in chain fees over 24 hours, with $1.92 million in net protocol revenue, according to The Defiant. ARB rose 25% in response, reaching $0.1087. Memecoin trading, not the intended tokenized equity use case, accounts for most of the chain's activity.",
+  "date": "2026-09-02",
+  "published_utc": "2026-09-02T02:18:35Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "Robinhood Chain generated more fee revenue in 24 hours than Arbitrum One did over the same period, making it the largest single revenue source for Arbitrum licensing fees and triggering a 10% fee share ($192,000 daily at current rates) to Arbitrum DAO.",
+  "bottom_line": "Robinhood Chain's fee revenue will determine whether the 10% licensing flow to Arbitrum DAO scales into material treasury income or contracts if memecoin activity cools. The governance vote on Arbitrum One's fee mechanism will clarify how DAO leadership intends to allocate revenue from the expanding ecosystem.",
+  "human_take": "",
+  "body": [
+    "A newly-launched Layer 2 designed for tokenized equity trading has become the largest single revenue source for its parent ecosystem in just two months, triggering a 25% surge in ARB token price as the Arbitrum network begins collecting real fees on licensed chains.\nRobinhood Chain, deployed on July 1, collected $2.13 million in chain fees over 24 hours on August 31, with $1.92 million flowing as net protocol revenue after deducting Ethereum Layer 1 execution costs and the chain's 10% fee obligation to Arbitrum under its license agreement, per The Defiant.  The disparity elevated ARB to $0.1087, up 25% on the day and 14% over seven days, trading as low as $0.08347.\nEvery Arbitrum chain deployed outside Arbitrum One and Nova owes 10% of its net revenue under the licensing model that grants access to Arbitrum technology. At Monday's revenue rate, that 10% obligation works out to approximately $192,000 per day, split as 8% to the Arbitrum DAO treasury and 2% to the developer guild.\nRobinhood Chain has scaled rapidly since launch. The network processed $1.49 billion in decentralized exchange volume over 24 hours on August 31, up 6.2% from the prior day, 131.1% over seven days and 517.4% over 30 days, according to The Defiant.  Over 30 days, the network has accumulated $17.75 billion in DEX volume and $7.25 billion over the past week. Applications on Robinhood Chain earned $14.3 million in total fees and retained $3 million in revenue over 24 hours, excluding stablecoin issuers, liquid staking and gas fees. The chain passed Ethereum on this application revenue measure on August 29 and has held that lead since.\nYet the revenue surge stems largely from memecoin trading rather than the institutional tokenized equity market Robinhood positioned at launch. Memecoin trading arrived in week one of the chain's operations, and CEO Vlad Tenev stated the chain works for memes as well. By late July, the network carried more tokenized stock volume than Solana's venues combined, but most of that volume was a byproduct of memecoin trades. Applications on the chain out-earned Ethereum's over 24 hours, but memecoin trading produces most of that revenue ahead of the tokenized equities that formed the original pitch.\nARB's market value stands at approximately $726 million on 6.678 billion circulating tokens. The token is 95.5% below the $2.39 it reached in January 2024, and Arbitrum governance faces competing pressures: a separate proposal is under constitutional vote to replace Timeboost with priority gas auctions on Arbitrum One, signaling governance friction over fee routing and fee allocation mechanisms.\nBitcoin and broader markets remained subdued on the day. Bitcoin was at $77,787, down 0.71% on the day and 1.75% on the week. Ether stood at $2,437, down 0.92% on the day and 1.42% on the week. Total crypto market value reached $2.72 trillion, up 0.22% over 24 hours, on $78.4 billion of volume, with bitcoin dominance at 57.9%.\nSolana led decentralized exchange activity with $2.5 billion in volume, followed by Robinhood Chain, Ethereum at $1.3 billion, BNB Chain at $1.12 billion, Base at $878.8 million and Hyperliquid at $446.9 million."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/markets/arbitrum-jumps-25-on-robinhood-chain-fees-as-bitcoin-holds-78000",
+      "url": "https://thedefiant.io/news/markets/arbitrum-jumps-25-on-robinhood-chain-fees-as-bitcoin-holds-78000"
+    },
+    {
+      "title": "https://thedefiant.io/news/blockchains/robinhood-chain-dex-volume-hits-usd1-49-billion-as-pons-takes-two-thirds-of-launchpad-fees",
+      "url": "https://thedefiant.io/news/blockchains/robinhood-chain-dex-volume-hits-usd1-49-billion-as-pons-takes-two-thirds-of-launchpad-fees"
+    }
+  ],
+  "update_of": "bnb-chain-and-robinhood-chain-host-top-seven-tokenized-stocks-generating-4-3b-in-dex-volume",
+  "board_snapshot": {
+    "as_of": "2026-09-02T02:16:32Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77057.14,
+        "chg_24h_pct": -0.46
+      },
+      {
+        "symbol": "ETH",
+        "price": 2400.35,
+        "chg_24h_pct": -0.72
+      }
+    ],
+    "fng": {
+      "value": 63,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2228270340
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 148035129,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Defiant"
+  ],
+  "developing": false
+}
