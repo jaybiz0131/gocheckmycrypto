@@ -1,0 +1,36 @@
+{
+  "id": "c026",
+  "slug": "sec-proposes-modernizing-transfer-agent-rules-for-blockchain-settlement",
+  "kind": "brief",
+  "title": "SEC Proposes Modernizing Transfer Agent Rules for Blockchain Settlement",
+  "dek": "The SEC has proposed updating transfer agent rules, largely unchanged since the 1980s, to address blockchain-based recordkeeping, tokenized securities, and automated market infrastructure. The move removes a major regulatory gap for on-chain securities settlement.",
+  "date": "2026-09-01",
+  "published_utc": "2026-09-01T23:57:02Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "The SEC has proposed new standards for transfer agents covering recordkeeping, cybersecurity, and safeguarding as blockchain and tokenization reshape securities markets.",
+  "bottom_line": "The SEC's comment period closure date and the specific technical standards for blockchain-based recordkeeping and safeguarding will determine whether this proposal opens a genuine on-chain settlement pathway or remains symbolic. Implementation timelines for existing transfer agents will signal the seriousness of the proposed modernization.",
+  "human_take": "",
+  "body": [
+    "The SEC has proposed new standards for transfer agents addressing recordkeeping, cybersecurity, and safeguarding as blockchain and tokenization reshape securities markets, according to Cointelegraph and The Block. The proposal modernizes rules largely unchanged since the 1980s and is designed to address blockchain-based recordkeeping, tokenized securities, and increasingly automated market infrastructure.",
+    "Transfer agents, the institutions that maintain records of security ownership and manage settlement, have operated under regulations that predate modern technology and were not drafted to accommodate on-chain infrastructure. The SEC proposal closes that gap, establishing compliance pathways for blockchain-based systems to handle securities recordkeeping and settlement functions.",
+    "The move signals formal SEC acknowledgment that tokenized securities and on-chain settlement are moving beyond pilot and proof-of-concept into infrastructure that requires clear regulatory standards. By establishing modern transfer agent standards, the SEC creates a licensed pathway for blockchain-native capital markets rather than forcing them to operate outside the regulatory framework.",
+    "The proposal does not yet specify the exact standards for cybersecurity, safeguarding, or recordkeeping systems, and comment periods, implementation timelines, and the scope of which blockchain platforms would qualify remain to be disclosed."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/regulation/2026-09-01-sec-seeks-update-1970s-era-transfer-agent-rules-for-blockchain-age-413278",
+      "url": "https://www.theblock.co/news/regulation/2026-09-01-sec-seeks-update-1970s-era-transfer-agent-rules-for-blockchain-age-413278"
+    },
+    {
+      "title": "https://cointelegraph.com/news/sec-proposes-transfer-agent-overhaul-as-securities-move-onchain",
+      "url": "https://cointelegraph.com/news/sec-proposes-transfer-agent-overhaul-as-securities-move-onchain"
+    }
+  ],
+  "also_reported_by": [
+    "Cointelegraph"
+  ],
+  "developing": false
+}
