@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-08-03",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c010",
-    "headline": "Reuters: Dubai Exchange Linked to IRGC Sent $676 Million to Binance",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Reuters reported that Shelbit...transferred $676 million to Binance wallets' but the source is The Block reporting on Reuters. The draft presents this as directly sourced to Reuters when the only attribution in hand is secondary. The Block article is a summary/coverage piece, not the original investigation.",
-     "The draft does not clarify the confidence level of the underlying allegations. The brief marks all claims as 'reported' but does not specify whether Reuters has independently verified the $676 million figure, the Shelbit-Binance connection, or IRGC ties. The open_questions explicitly flag that 'What is the source of the Reuters reporting and are there independent confirmations' remain unanswered. The draft should reflect this uncertainty more clearly\u2014e.g., 'Reuters alleges' rather than presenting it as confirmed fact."
-    ]
-   },
-   {
-    "id": "c007",
-    "headline": "SEC Maintains Freeze on Nasdaq Bitcoin Options as CME Claims CFTC Jurisdiction",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with 'The SEC continues to hold Nasdaq's bitcoin options application' but the brief provides only one data_point: 'CME argues the contracts are commodity option swaps subject exclusively to the CFTC's oversight.' The phrase 'continues to hold' implies an ongoing state, but the brief contains no data_point confirming the SEC has frozen the application, when it began, or on what grounds. The draft is smuggling a fact not in the brief.",
-     "The draft states 'The SEC's review of that argument remains ongoing with no announced timeline for resolution' but the brief contains no data_point about the timeline or whether the review is actively occurring. This is inference beyond the brief's scope."
-    ]
-   },
-   {
-    "id": "c057",
-    "headline": "BitMine Now Holds 4.8% of Ethereum's Circulating Supply",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'BitMine's CEO, Fundstrat analyst Tom Lee' but the brief says 'BitMine's company is chaired by Fundstrat's Tom Lee'\u2014chair and CEO are different roles. The brief does not confirm Tom Lee holds the CEO title.",
-     "The draft claims 'BitMine did not increase its staked Ethereum in this period; its staked ETH holdings remained unchanged at 4,879,157 tokens' but this fact is not in the brief's data_points. The brief only states the staked total remained unchanged; it does not assert whether BitMine did or did not increase staked ETH during the acquisition period. This is a smuggled interpretation."
-    ]
-   },
-   {
-    "id": "c054",
-    "headline": "DeFi Platform SummerFi Winds Down After Seven Years, Citing Exploit",
-    "category": "accuracy",
-    "reasons": [
-     "The brief's data_point 8 states Kulechov said SummerFi 'has been a nice ride for their team,' but the draft quotes him only as saying the platform is 'an OG in DeFi' and noting the stakes/costs. The specific 'nice ride' phrase is missing from the draft and cannot be verified as paraphrased; this is a dropped attributed claim from the source material.",
-     "The draft states 'The announcement of wind-down on the platform's official X account did not specify a shutdown timeline' but does not cite The Defiant as the source for this claim. The brief data_point 6 attributes 'SummerFi did not state an effective wind-down date' to The Defiant; the draft presents this as observed fact without inline attribution to the reporting source, creating an orphaned claim."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-03",
   "approved": 3,
   "rejected": [
    {
@@ -7380,6 +7338,51 @@
      "The draft states 'Santos reportedly held event contracts on the 2026 State of the Union and was investigated for using inside information to trade them.' The brief data_point says Santos was 'banned over a lifetime trading ban related to event contracts on the 2026 State of the Union,' but does not confirm that he was investigated for or that the ban was specifically for 'using inside information to trade them.' The mechanism and evidence for the alleged insider trading are flagged in the bear_case as missing from sources. The draft presents the alleged insider trading as established fact when the brief itself marks this detail as unconfirmed/unsourced.",
      "The draft claims this is 'Kalshi's first disciplinary action against elected officials or insiders on political contracts,' but this claim does not appear in any data_point. The brief's core_claim and data_points say only that this is the first enforcement against Santos and Buckhout, not that it is Kalshi's first enforcement action against any elected officials or insiders. This is a smuggled fact not carried by the brief.",
      "The draft states 'the sources do not detail the specific evidence or mechanism Kalshi used to detect or prove insider trading by either party' \u2014 presenting uncertainty as fact. Per the balance/accuracy rule, a sentence that restates open_questions or the absence of information from sources is category accuracy: the desk does not narrate what was not reported. This sentence should be removed rather than run."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c024",
+    "headline": "Singapore proposes 100% reserves and yield ban for stablecoin issuers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Singapore's proposed rules 'mirrors requirements already in place in the United States and European Union.' The brief's data_point says the rules are 'aligned with U.S. and EU frameworks,' not that they mirror existing requirements. 'Mirrors' implies identity or near-identity; 'aligned' means directionally similar but potentially different in implementation details. This is a material escalation of the claim beyond what the brief carries.",
+     "The draft presents the yield ban as an established constraint with a full paragraph of economic impact ('revenue from yield-generating investments...has been a traditional revenue stream') without indicating that this is analysis rather than reported fact. The brief's bear_case identifies the yield ban impact as a criticism to report, but the draft narrates it as established market practice without attribution to critics or proposals.",
+     "The brief is thin (true=true, only 4 data_points). The draft should have traced more carefully to those four claims and avoided unpacked economic arguments."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Spot XRP ETFs log 11 straight inflow days, pull in $170 million",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Q2 institutional filings reveal Goldman Sachs, Jane Street, and Millennium Management among the largest professional holders of the products, per CoinDesk's reporting.' The brief's data_point #3 states 'Goldman Sachs, Jane Street, and Millennium Management are among the biggest professional holders of spot XRP ETFs per Q2 filings,' attributed to CoinDesk. However, the brief's bear_case item #3 explicitly flags: 'No source text confirms the identity of the institutions or the size of their positions; the brief relies on Q2 filings not quoted in the source texts.' The open_questions section reiterates: 'The source texts provided do not include the actual CoinDesk article; the market boards confirm inflows but do not name the institutions or provide Q2 filing detail. The institutional claim relies on the snippet and headline alone.' This means the institutional names come from a headline or snippet only, not from quoted source material. The draft presents this as settled fact, but the brief flags it as unverified institutional detail. The claim should be attributed more tentatively or marked as unconfirmed in confidence.",
+     "The brief's bear_case and open_questions note that 'no source clarifies whether the 11-day inflow period extends through September 2 or ended before it.' The draft does not address this uncertainty; it narrates the 11-day streak as a completed fact without noting when it ended relative to today (September 2, 2026)."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Japan-listed Remixpoint exits all altcoins, shifts $5.5M into bitcoin-only strategy",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the altcoin sale 'netted \u00a5878.81 million' but the brief's data_point 3 describes this as 'approximately $5.5 million in USD'\u2014a conversion figure. The brief does not contain a data_point that reconciles these two figures or confirms the \u00a5878.81M figure as the sale proceeds; data_point 2 confirms the \u00a5878.81M as 'the total value of the altcoin sale' but this figure appears only in the brief's data_point, not as verified in the sources themselves per the brief structure. The draft imports both figures as established fact when the brief shows only secondary-source reporting of the USD conversion and yen figure without independent verification of their equivalence.",
+     "The draft reports the revenue-sharing language ('Remixpoint said the gain from altcoin sales will be recognized as business-division revenue in the second quarter of fiscal 2027') exists in Crypto Briefing per the brief (data_point 15), but this sentence does not appear in the draft body. However, the draft does state 'The firm said the altcoin sale proceeds could support expansion of grid-scale battery storage, financial position reinforcement, and shareholder-value initiatives'\u2014this is data_point 16 and correctly attributed. The issue is internal consistency: the brief contains data_point 15 (fiscal 2027 revenue recognition) which is material forward-guidance that the draft omits entirely, weakening the accuracy of the reconstruction.",
+     "The draft attributes the altcoin sale net profit claim ('Remixpoint recorded a realized gain of \u00a5117.77 million') to the reporting generally but does not specify it comes from data_point 5 (U.Today, confidence 'reported'). The brief marks this as 'reported' confidence, which means it is carried on secondary source without independent verification. The draft treats it as a bare fact without any hedging language or attribution specificity that would signal to a reader this is a wire-service report, not a disclosed filing."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "Robinhood Chain memecoin surge sends Arbitrum licensing fees to $1.92M daily, lifts ARB 25% on September 1",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Robinhood Chain collected $1.92 million in chain revenue in 24 hours as of September 1' but the brief contains two conflicting data_points: data_point 1 states 'Robinhood Chain collected $2.13 million in chain fees over 24 hours' (confidence: reported) and data_point 2 states 'Robinhood Chain collected $1.92 million in chain revenue over 24 hours' (confidence: reported). Both are sourced to the same Defiant article but show different figures. The draft uses $1.92M without acknowledging that the source also reports $2.13M, or without explaining why one figure was chosen over the other. This is a factual discrepancy the draft cannot resolve from the brief alone.",
+     "The draft states 'The spike sent ARB, Arbitrum's governance token, up 25% over 24 hours, per The Defiant's reporting' but later states 'ARB rose 14% over seven days, The Defiant reports. The token traded as low as $0.08347 before the rally and last changed hands at $0.1087'. The second passage uses past tense 'last changed hands' which implies a completed transaction in the past, but if the article is dated September 1 and the events are contemporaneous, the use of 'last changed hands' could be read as reporting a historical price point not current to September 1. This creates ambiguity about whether the $0.1087 price is the price at the time of the article or a past price. The brief's data_points do not clarify the temporal relationship.",
+     "The draft states the revenue explosion 'stems from memecoin trading, not the tokenized equity and onchain lending use cases Robinhood pitched when it launched the chain on July 1.' The brief does not explicitly state that Robinhood pitched 'tokenized equity and onchain lending' as the primary use cases at launch. Data_point 19 says 'Robinhood launched the chain on July 1 with 24/7 stock tokens, onchain lending and plans for agentic trading' but does not characterize whether these were pitched as primary use cases versus secondary. The draft's framing ('not...use cases Robinhood pitched') implies a contrast that is not established in the brief."
     ]
    }
   ]
