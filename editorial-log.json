@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-04",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c021",
-    "headline": "Blockchain Association Counters Sheriffs' Group Claims on Clarity Act Before August Recess",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence: 'Bernstein flagged that failure of the Clarity Act could send crypto lower, though The Block's reporting does not detail that analysis further.' \u2014 This claim does not appear in the brief's data_points. The brief mentions Bernstein flagged market significance but does not provide source attribution or quote for the 'send crypto lower' assertion. This is smuggled information not traced to the research brief."
-    ]
-   },
-   {
-    "id": "c014",
-    "headline": "Robinhood wins UK crypto registration before new regulatory regime kicks off",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The new comprehensive framework will open applications at the end of September 2026 and close at the end of February 2027' but brief data_point says 'end of September' and 'end of February next year (2027)' without specifying which September\u2014the brief is ambiguous on whether September 2026 or 2027. The draft has resolved this ambiguity in a way not present in the source material.",
-     "Draft claims 'Firms already registered under the 2020 regime may have done substantial compliance work in advance' but brief data_point says 'may have done a lot of the heavy lifting'\u2014paraphrase is acceptable, but the word 'substantial' is the writer's editorial judgment and narrows the source's open language without sourcing that narrowing."
-    ]
-   },
-   {
-    "id": "c034",
-    "headline": "Ripple Invests in ZILO and Licuido for Tokenized Capital Markets",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims Ripple made investments in ZILO and Licuido, but the brief's only data point marks this claim as 'announced-not-verified'\u2014confidence label that must survive into prose. The draft presents the investment as fact without hedging language like 'announced', 'according to Ripple', or 'claimed'. This reads as settled when the brief itself flags it as unconfirmed.",
-     "The draft states the investments are 'intended to bring regulated transfer agency, issuance, and collateral mobility services' without attribution; brief does not confirm Ripple's stated intent, only that investments were announced. This is paraphrase beyond the brief's scope."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
   "approved": 3,
   "rejected": [
    {
@@ -7353,6 +7321,50 @@
      "The draft states that the Arkham analysis was 'reported by CoinDesk' but the brief indicates it was 'reviewed by CoinDesk.' These are different claims about CoinDesk's role. The brief data_point says 'Arkham analysis reviewed by CoinDesk found' while the draft says 'Arkham analysis reported by CoinDesk identified.' This conflates reporting with reviewing and misrepresents the sourcing relationship.",
      "The draft claims Bloomberg reported Hyperliquid-Payward talks 'on the same day as the Arkham analysis (Aug. 31)' but the only source provided is CryptoSlate, which reported both items. The draft attributes the Bloomberg report to Bloomberg but provides no Bloomberg source URL or independent verification. This is a sourcing claim not in the brief.",
      "The draft states the brief 'does not establish whether a Bitnomial perpetuals offering would share liquidity with Hyperliquid's existing order book or whether positions would settle on Hyperliquid's chain' as factual narration. The brief does note this as an open_question and in bear_case items, but the draft is using the absence of information as its own affirmative claim. Per the instruction that 'a sentence that does (restating open_questions, \"the absence of\", \"remains unreported\") is category accuracy,' this phrasing violates that rule."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c037",
+    "headline": "G20 finance leaders commit to digital asset innovation pathways",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the G20 agreed to 'clear pathways' for digital assets, but the brief's core_claim uses the identical phrase 'clear pathways for digital assets' without presenting any data_point that defines what those pathways are or what they contain. The draft then notes (correctly) that 'it is unclear whether the \"clear pathways\" language refers to a coordinated set of rules or reflects each nation's separate obligation to establish domestic clarity.' This is an open_question from the brief, not a reported fact. The draft frames 'clear pathways' as a substantive agreement when the brief itself treats its substance as unknown. The lead and opening paragraphs present this as a concrete commitment when the brief's own open_questions flag that the meaning is undefined."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Spot XRP ETFs pull $170 million over 11-day inflow streak",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states '$170 million in net fund flows' but the source URL in the brief contains conflicting figures: the headline mentions '$160 million over nine days' while the brief's open_questions flag asks 'The CoinDesk headline mentions a $160M figure while the story summary says $170M; which is the accurate figure?' This discrepancy between headline and body text in the source is unresolved in the brief itself, making the $170M figure unverified.",
+     "The draft presents the 11-day inflow streak as fact ('have logged 11 consecutive sessions') but the brief's open_questions note this figure appears in a headline about 'nine days' in the same source, creating internal inconsistency about whether the window is 9 or 11 days. The brief does not clarify which is correct.",
+     "The brief explicitly flags the figure discrepancy as an open question ('The CoinDesk headline mentions a $160M figure while the story summary says $170M; which is the accurate figure?'). The writer must resolve this at source before claiming a single number; presenting unverified disputed figures as settled fact violates the hard rule that no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Sality malware dismantled after 8 years of stealing Bitcoin and Ethereum",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports a completed event ('CrowdStrike and federal authorities have dismantled Sality') as historical fact, but the brief contains no data point confirming the dismantling is complete or what 'dismantled' operationally means. The brief's bear_case explicitly flags this ambiguity: 'It is unclear whether the operation's command-and-control servers were seized or only whether infected endpoints were neutralized.' The writer cannot assert completion without clarification from source.",
+     "The brief's bear_case and open_questions make clear that multiple critical operational details are missing from the source: 'which federal agencies participated', 'the timeline from discovery to takedown', 'the estimated total cryptocurrency stolen', 'the number of victims affected', 'whether the operation's command-and-control servers were seized or only whether infected endpoints were neutralized.' The draft presents a clean narrative of dismantling without signaling these gaps, misrepresenting the certainty of the reporting.",
+     "The draft states 'more than 15,000 infected machines' but the brief's bear_case notes 'The scale of the infection points to wide distribution through drive-by downloads, email attachments, or other mass-deployment vectors common to botnet operations'\u2014inferring distribution method from a number is original analysis, not reporting from the brief."
+    ]
+   },
+   {
+    "id": "c030",
+    "headline": "Arbitrum DAO Reports $6.2M First-Half Income as Robinhood Chain Licensing Accelerates",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Arbitrum DAO earned $6.2 million in first-half 2026 revenue, according to The Block,' but the brief's bear_case states: 'The Block source carrying the headline and core $6.2M figure returns a 403 paywall error; the first-half revenue claim cannot be verified from fetched text, only the snippet and downstream reporting.' The writer cannot attribute a central claim to a source that the research confirms is inaccessible and unverified. This violates the hard rule that facts must trace to the brief's data_points.",
+     "The draft contains specificity about fee splits that goes beyond what the brief confirms: 'The licensing agreement requires chains deployed outside Arbitrum One and Arbitrum Nova to pay 10% of their Protocol Net Revenue to the Arbitrum Foundation, split as 8% to the DAO treasury and 2% to development funding, according to The Defiant.' However, the brief's open_questions ask: 'What is the precise definition of 'Protocol Net Revenue' in the Arbitrum licensing agreement, and does it include or exclude application-layer fees?' and 'Is the $6.2M H1 figure gross revenue or net of operational costs or other deductions?' The draft presents unresolved definitional questions as settled facts.",
+     "The draft states 'Robinhood Chain contributed 35% of the DAO's monthly income in July' but then calculates forward from a single day (Sept. 1) in a different paragraph. These are different time periods and the brief's data_points treat them separately. Conflating monthly contribution (July) with daily extrapolation (Sept. 1) creates a false equivalence: July's 35% contribution is historical; Sept. 1's $192k/day calculation is forward-looking. The draft does not clearly signal this temporal shift."
     ]
    }
   ]
