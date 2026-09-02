@@ -4,56 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c013",
-    "headline": "Coldcard wallet exploit enters fourth wave, researchers estimate $114M in Bitcoin losses",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Two further waves over the weekend brought observed losses to 1,367 bitcoin across 4,585 addresses' but the brief's data_point for this claim specifies these are losses from 'two further waves' without clarifying whether 1,367 is the sum of waves 2 and 3 or a different aggregate. The math in the draft (1,083 + 1,367 = 2,450 bitcoin from waves 1-3, leaving 366 for wave 4 from 1,816 total) is internally inconsistent with the claim of '5,200 addresses across four waves' when only 1,196 + 4,585 = 5,781 are mentioned. This suggests either a smuggled calculation or misreading of the brief's data.",
-     "The draft presents Thorn's pattern-matching analysis without direct victim reports as settled fact ('Researchers estimate') rather than flagging the methodological limitation that the bear_case explicitly flags: 'Thorn published findings on pattern matching alone without direct victim reports, choosing speed over confirmation, introducing potential for false positives in loss estimates.' This confidence qualifier is missing from the prose."
-    ]
-   },
-   {
-    "id": "c032",
-    "headline": "SEC keeps Nasdaq bitcoin options on hold as CME argues exclusive CFTC jurisdiction",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains only one data_point with substance, and the draft adds material claims not in that data_point. Specifically: the draft states 'CME argues the contracts are commodity option swaps subject exclusively to the CFTC's oversight' and 'CME's position, if accepted, would establish that bitcoin options fall under commodity swaps regulation' but the brief's single data_point only says CME is 'arguing that the contracts are commodity option swaps subject exclusively to the CFTC's oversight.' The draft's elaboration on implications ('a distinction that carries material implications for market structure, custody, and approval timelines') is not sourced to the brief.",
-     "The draft body is 118 words for a story marked thin=true with only one reported data_point and zero source_chars in the brief. This thinness is acceptable for length, but the draft introduces speculative framing ('a regulatory turf war,' 'blocking Nasdaq's market entry and establishing precedent') that exceeds what a single reported claim can support. The brief's angle describes a turf war, but the draft does not attribute this framing to reporting\u2014it presents it as narrative fact."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Robinhood secures UK crypto registration ahead of October 2027 regime launch",
-    "category": "balance",
-    "reasons": [
-     "The brief identifies an empty bear_case, but the draft should still surface open_questions or caveats. The draft fails to acknowledge that the brief's open_questions\u2014specifically what technical requirements differ between the 2020 and October 2027 frameworks, and the status of other major platforms' registration efforts\u2014remain unresolved. The sentence 'The precise technical requirements of the October 2027 regime and how it differs from the existing 2020 framework remain undetailed in available sources' appears late and weakly framed; it reads as a weakness in sources rather than a material risk to the premise. A draft without any substantive bear case or doubt language when sources explicitly say 'precise technical requirements remain undetailed' creates an impression of false clarity."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "Bernstein: CLARITY Act failure would trigger selloff but regulatory acceleration could limit damage",
-    "category": "accuracy",
-    "reasons": [
-     "The sentence 'The gap between statutory certainty and executive rulemaking remains unaddressed by Bernstein's analysis' is SMUGGLED\u2014it is author analysis, not in the brief. The brief does not contain a data_point stating that Bernstein failed to address or acknowledge this gap. The writer inserted editorial judgment ('remains unaddressed') that was not sourced to the brief or CoinDesk reporting, violating the hard rule that facts come from research only.",
-     "The paragraph beginning 'If the Clarity Act passes' synthesizes a reported claim (that CLARITY would establish rules, reduce uncertainty, unlock adoption) but then extends it with specifics ('clarify the division between securities and commodities oversight', 'establish a long-term framework for decentralized finance') that appear in the brief's data_point but are presented in the draft as though they are Bernstein's own forward-looking expectation, when the brief sources them as widely-held views of what the bill would do. The distinction matters: the draft reads as Bernstein forecasting effects; the brief says Bernstein cited arguments supporters make. The prose should clarify this was reported, not Bernstein's independent forecast."
-    ]
-   },
-   {
-    "id": "c000",
-    "headline": "U.S.-Japan intervention revives yen carry trade fears for bitcoin",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'bitcoin from roughly $62,000 to $49,000 in a week, a roughly 20% drawdown' but this math is incorrect: $49,000 / $62,000 = 79%, meaning a ~21% drawdown, not 20%. More critically, the brief data_point says 'roughly 20% drawdown' and the draft should have used that language exactly rather than asserting its own calculation; the writer has introduced a factual claim (the precise percentage) not present in the brief and then performed arithmetic that does not match even that claim.",
-     "The draft presents 'Bitcoin's 52-week rolling correlation with USD/JPY reached minus 0.90' as a single precise figure, but correlation data is dynamic and time-bound. The brief's data_point uses the same language ('reached minus 0.90'), so this traces, but the draft should signal that this is a point-in-time measure given the context of ongoing market intervention. The phrasing 'reached' is acceptable as reported, but no caveat appears about whether this correlation persists post-intervention."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-03",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c094",
     "headline": "Coldcard Firmware Bug Enables $114M Bitcoin Theft from 5,200+ Victims",
     "category": "accuracy",
@@ -7383,6 +7333,33 @@
      "The draft opens with 'Robinhood Chain collected $1.92 million in chain revenue in 24 hours as of September 1' but the brief contains two conflicting data_points: data_point 1 states 'Robinhood Chain collected $2.13 million in chain fees over 24 hours' (confidence: reported) and data_point 2 states 'Robinhood Chain collected $1.92 million in chain revenue over 24 hours' (confidence: reported). Both are sourced to the same Defiant article but show different figures. The draft uses $1.92M without acknowledging that the source also reports $2.13M, or without explaining why one figure was chosen over the other. This is a factual discrepancy the draft cannot resolve from the brief alone.",
      "The draft states 'The spike sent ARB, Arbitrum's governance token, up 25% over 24 hours, per The Defiant's reporting' but later states 'ARB rose 14% over seven days, The Defiant reports. The token traded as low as $0.08347 before the rally and last changed hands at $0.1087'. The second passage uses past tense 'last changed hands' which implies a completed transaction in the past, but if the article is dated September 1 and the events are contemporaneous, the use of 'last changed hands' could be read as reporting a historical price point not current to September 1. This creates ambiguity about whether the $0.1087 price is the price at the time of the article or a past price. The brief's data_points do not clarify the temporal relationship.",
      "The draft states the revenue explosion 'stems from memecoin trading, not the tokenized equity and onchain lending use cases Robinhood pitched when it launched the chain on July 1.' The brief does not explicitly state that Robinhood pitched 'tokenized equity and onchain lending' as the primary use cases at launch. Data_point 19 says 'Robinhood launched the chain on July 1 with 24/7 stock tokens, onchain lending and plans for agentic trading' but does not characterize whether these were pitched as primary use cases versus secondary. The draft's framing ('not...use cases Robinhood pitched') implies a contrast that is not established in the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-02",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c023",
+    "headline": "Twenty-One Major Banks and Asset Managers Form Stablecoin Venture, Plan 2027 Launch",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Twenty-one major financial institutions' as a fact in the lede, but the brief's first data_point says 'Twenty-one major financial institutions including Citi, Goldman, and other global banks and asset managers'\u2014and then explicitly notes in open_questions: 'Which 21 institutions are part of the consortium? The sources name only Citi, Goldman Sachs, and Bank of America.' The draft presents the full roster as known when it is explicitly unconfirmed in the brief.",
+     "The draft's second paragraph repeats 'The names disclosed so far are Citi, Goldman Sachs, and Bank of America. The full roster of all twenty-one institutions has not been publicly detailed in available reporting'\u2014which correctly states uncertainty. However, the lede already smuggled the number as settled fact, creating internal contradiction and misleading a reader on first read.",
+     "The brief is marked thin=true with only 3 data_points and 147 source_chars; the story is appropriately short, but the lede's false certainty about a number that sources do not confirm violates the hard rule."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "XRP Spot ETFs Log 11 Consecutive Inflow Sessions Totaling $170 Million",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line contains the phrase: 'The full list of the 21 participating financial institutions and their specific share sizes in XRP ETF products are the next data points'\u2014but this story is about XRP ETFs, not the stablecoin venture from c023. The bottom_line is copied or cross-contaminated from a different story and is factually incoherent in the context of an XRP ETF inflow article.",
+     "The bottom_line also states 'The sustainability of inflows into XRP products, given the recent decline, depends on whether the next reporting window shows continued net inflows or a reversal'\u2014a forward-looking analytical claim that is appropriate for bottom_line, but the preceding sentence about '21 participating financial institutions' makes no sense in an XRP context and signals editorial error.",
+     "The brief's open_questions explicitly notes: 'CoinDesk source text provided is empty/null; the only data comes from snippet and market boards. No full reporting detail is available to verify causation, timing, or source of the inflows.' The draft cites only one URL (a CoinDesk headline) and asserts details (11 consecutive sessions, $170M, Q2 filings naming Goldman/Jane Street/Millennium) without the backing detail the brief acknowledges is missing. The draft presents 'CoinDesk reporting' as its authority, but the brief reveals the source material is incomplete.",
+     "The brief notes the inflows are over an unspecified date range and the only source URL is provided without full text. The draft states '11 consecutive inflow sessions' as fact, but the brief's open_questions ask 'Over what exact date range did the 11 inflow sessions occur?' If the source detail is unavailable, the fact cannot be confirmed independent of the snippet."
     ]
    }
   ]

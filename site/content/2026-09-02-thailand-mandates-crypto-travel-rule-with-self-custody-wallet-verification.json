@@ -1,0 +1,31 @@
+{
+  "id": "c143",
+  "slug": "thailand-mandates-crypto-travel-rule-with-self-custody-wallet-verification",
+  "kind": "brief",
+  "title": "Thailand mandates crypto Travel Rule with self-custody wallet verification",
+  "dek": "Thailand's Securities and Exchange Commission finalized crypto Travel Rule requirements for digital asset operators, including verification that users control self-hosted wallets and five-year transaction data retention, effective February 2027.",
+  "date": "2026-09-02",
+  "published_utc": "2026-09-02T19:32:16Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Thailand joins the global Travel Rule enforcement wave, requiring crypto platforms to verify self-custody wallet control and retain transaction records for five years starting February 2027.",
+  "bottom_line": "Thailand's February 2027 Travel Rule effective date is a compliance deadline for any crypto platform serving Thai users. The requirement to verify self-custody wallet control introduces a new friction point in the user workflow and establishes Thailand as a Travel Rule enforcement jurisdiction in Southeast Asia. How platforms will technically verify wallet control without compromising user privacy will determine whether this regulation remains a procedural check or becomes a practical barrier to self-custody transactions.",
+  "human_take": "",
+  "body": [
+    "Thailand's Securities and Exchange Commission finalized crypto Travel Rule requirements for digital asset operators, effective February 2027, according to Cointelegraph's reporting on September 2.",
+    "The requirements include verification that users control self-hosted wallets and mandatory five-year retention of transaction data. Digital asset operators must confirm whether a user sending cryptocurrency to an external address owns that address themselves.",
+    "Thailand joins a growing list of jurisdictions adopting Travel Rule compliance frameworks that extend anti-money-laundering scrutiny to self-custody transactions. The self-hosted wallet verification requirement creates a procedural boundary: operators must confirm private-key control before processing certain transfers, adding friction to decentralized transaction flows.",
+    "The specific mechanism by which operators are expected to verify self-custody control, the scope of which operators fall under the requirements, and penalties for non-compliance are not detailed in the source reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/news/thailand-crypto-travel-rule-self-custodial-wallet-checks?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/thailand-crypto-travel-rule-self-custodial-wallet-checks?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "update_of": "goldman-sachs-acquires-neos-investments-for-2-25-billion-gaining-bitcoin-income-etf-platform",
+  "also_reported_by": [],
+  "developing": true
+}
