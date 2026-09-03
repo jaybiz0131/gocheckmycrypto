@@ -1437,6 +1437,41 @@ def _consistency_gate_canary():
     _check(_cs.comparable_pair({"etfs"}, cg._GENERIC_MARKET_TOKENS) == set(), fails,
            "figure belt: generic market vocabulary must not pair alone")
 
+
+    # THE CONTRADICTION IS NOT THE WHOLE RUN (2026-09-03, run 33789773967): an unscoped
+    # Chart Master whale line made the gate exit 1, which discarded the afternoon
+    # edition AND the day's verified stories. The gate now withholds the colliding
+    # surface and lets the rest publish; only what it cannot resolve fails the run.
+    _paths = {"chart-master": "site/data/chartmaster.json",
+              "story:a-brief-2026-09-03": "site/content/2026-09-03-a-brief.json",
+              "story:plain-story": "site/content/2026-09-03-plain.json"}
+    _c = {"metric": "whale exchange flows",
+          "a": "story:a-brief-2026-09-03", "a_dir": "pos", "a_scope": "multiday",
+          "b": "chart-master", "b_dir": "neg", "b_scope": "unscoped"}
+    _both = set(_paths.values())
+    _check(cg.is_blocking(_c, _both, _paths), fails,
+           "consistency gate: a run that wrote both colliding surfaces must block")
+    # the unscoped board is the offender by the gate's own name-the-window rule
+    _check(cg._victim_rank("chart-master", "unscoped", _paths, _both)
+           < cg._victim_rank("story:a-brief-2026-09-03", "multiday", _paths, _both), fails,
+           "consistency gate: the unscoped surface must be withheld before the edition")
+    _check(cg._victim_rank("story:plain-story", "multiday", _paths, _both)
+           < cg._victim_rank("story:a-brief-2026-09-03", "multiday", _paths, _both), fails,
+           "consistency gate: a story must be withheld before the guaranteed edition")
+    _check(cg._victim_rank("chart-master", "unscoped", _paths, set()) is None, fails,
+           "consistency gate: a surface this run did not write is never withheld")
+    # a live UNSCOPED claim may not veto a new surface that named its window
+    _one = {"site/content/2026-09-03-a-brief.json"}
+    _check(not cg.is_blocking(_c, _one, _paths), fails,
+           "consistency gate: a live unscoped claim must not block a scoped new surface")
+    # ...but a live SCOPED claim that genuinely disagrees still blocks
+    _c2 = dict(_c, b_scope="multiday")
+    _check(cg.is_blocking(_c2, _one, _paths), fails,
+           "consistency gate: a real scoped contradiction must still block")
+    # git unavailable: fail closed
+    _check(cg.is_blocking(_c, None, _paths), fails,
+           "consistency gate: with git unavailable every conflict must block")
+
     return fails
 
 

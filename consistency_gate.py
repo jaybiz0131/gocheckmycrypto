@@ -387,6 +387,131 @@ def _flag_issue(lines):
         print(f"::warning::could not file the live-contradiction issue: {e}")
 
 
+def _revert(path):
+    """Restore one repo file to HEAD, or delete it when this run created it."""
+    import subprocess
+    r = subprocess.run(["git", "checkout", "HEAD", "--", path], cwd=HERE,
+                       capture_output=True, text=True)
+    if r.returncode == 0:
+        return True
+    try:
+        os.remove(os.path.join(HERE, path))
+        return True
+    except OSError:
+        return False
+
+
+# What the gate withholds first when this run's surfaces collide. The offender by the
+# gate's OWN rule is the unscoped claim ("name the window"), so it goes first. After
+# that, a regenerated data read is cheaper to withhold than reporting: chartmaster.py
+# already treats a rejected read as "the previous read stands", and the whale board is
+# a tape snapshot. Editions are last, because the edition is the guaranteed product.
+def _victim_rank(surface, scope, paths, changed):
+    if paths.get(surface) not in (changed or ()):
+        return None                      # not this run's to withhold
+    unscoped = 0 if str(scope or "").strip().lower() in ("", "unscoped") else 1
+    if surface in ("chart-master", "whale-board"):
+        kind = 0
+    elif "-brief-" in surface or surface.endswith("-brief"):
+        kind = 2                         # a daily edition: withhold last
+    else:
+        kind = 1                         # a story
+    return (unscoped, kind)
+
+
+def _quarantine(blocking, changed, paths):
+    """Withhold the single surface most responsible for a blocking conflict.
+
+    THE CONTRADICTION IS NOT THE WHOLE RUN (2026-09-03). This gate is the last step
+    before commit/push and it exited non-zero on any conflict, so one false positive
+    discarded EVERYTHING the run had produced: on 2026-09-03 an unscoped Chart Master
+    line about whale flows threw away the afternoon edition and the day's verified
+    stories, and the morning before, a figure pair keyed on 'fbi' did the same. The
+    desk already ruled this class the other way twice (the story is not the sentence,
+    2026-08-21; the edition is not the sentence, 2026-09-02): cut the offending part
+    deterministically and ship the rest.
+
+    So the gate now withholds ONE surface, rechecks, and repeats up to three times.
+    Nothing is rewritten (a withheld file returns to its committed state, or is
+    removed when this run created it), so this can never invent or alter a claim; it
+    only declines to publish the piece that collides. A conflict it cannot resolve
+    that way still fails the run, fail-closed, exactly as before."""
+    withheld = []
+    for _ in range(3):
+        if not blocking:
+            break
+        cands = []
+        for c in blocking:
+            for side, scope in ((c["a"], c.get("a_scope")), (c["b"], c.get("b_scope"))):
+                rank = _victim_rank(side, scope, paths, changed)
+                if rank is not None:
+                    cands.append((rank, side))
+        cands = [c for c in cands if c[1] not in withheld]
+        if not cands:
+            break
+        victim = min(cands)[1]
+        path = paths.get(victim)
+        if not path or not _revert(path):
+            break
+        withheld.append(victim)
+        # A WITHHELD SURFACE IS NO LONGER THIS RUN'S WRITING. Once reverted, what sits
+        # there is whatever was already live, so a collision with it belongs to the
+        # pre-existing class the gate already decided to warn about rather than block
+        # (2026-08-02). Without this the recheck read a stale changed-set, saw the
+        # restored file as still authored by this run, and cascaded into withholding
+        # the edition too: the first test of this path withheld the Chart Master AND
+        # the afternoon brief, which is the outcome the whole change exists to prevent.
+        changed = set(changed or ()) - {path}
+        print(f"::warning::consistency gate: WITHHELD {victim} ({path}) so the rest of "
+              f"this run can publish. The surface returns to its committed state and "
+              f"regenerates on the next slot; nothing was rewritten.")
+        blocking = _blocking_now(changed, paths)
+    return blocking, withheld
+
+
+UNSCOPED = ("", "unscoped")
+
+
+def _run_wrote(s, changed, paths):
+    authored = s.startswith("story:") or s == "chart-master"
+    if changed is None:
+        return True                      # git unavailable: fail closed
+    return authored and paths.get(s) in changed
+
+
+def is_blocking(c, changed, paths):
+    """Does this conflict belong to THIS run, such that publishing would ship it?
+
+    Two exemptions, both from the desk's own rules:
+      - neither side is this run's writing: already live, blocking cannot remove it
+        (2026-08-02, the 2026-07-28..30 deadlock class);
+      - this run's side NAMED ITS WINDOW and the colliding live side did not. The
+        gate's whole demand is "name the window"; a live unscoped claim collides with
+        every window by construction, so letting it veto a properly scoped new surface
+        would punish the run that followed the rule and freeze the desk until a human
+        retires the old line. It warns and files a flag instead (2026-09-03: an
+        unscoped Chart Master whale line blocked a correctly scoped afternoon edition
+        and the day's stories went unpublished).
+    """
+    a_run = _run_wrote(c["a"], changed, paths)
+    b_run = _run_wrote(c["b"], changed, paths)
+    if not (a_run or b_run):
+        return False
+    a_uns = str(c.get("a_scope") or "").strip().lower() in UNSCOPED
+    b_uns = str(c.get("b_scope") or "").strip().lower() in UNSCOPED
+    if a_run and not b_run and not a_uns and b_uns:
+        return False
+    if b_run and not a_run and not b_uns and a_uns:
+        return False
+    return True
+
+
+def _blocking_now(changed, paths):
+    """Recompute the conflicts this run is responsible for, from the files on disk."""
+    return [c for c in (conflicts() + figure_conflicts_live())
+            if is_blocking(c, changed, paths)]
+
+
 def main():
     bad = conflicts() + figure_conflicts_live()
     if not bad:
@@ -404,26 +529,31 @@ def main():
     # sentence is the passage of time, and holding back the tape is not an option.
     changed = _changed_paths()
     paths = surface_paths()
-    authored = lambda s: s.startswith("story:") or s == "chart-master"
-
-    def run_wrote(s):
-        if changed is None:
-            return True  # git unavailable: fail closed, everything blocks
-        return authored(s) and paths.get(s) in changed
-
     blocking, preexisting = [], []
     for c in bad:
-        (blocking if run_wrote(c["a"]) or run_wrote(c["b"]) else preexisting).append(c)
+        (blocking if is_blocking(c, changed, paths) else preexisting).append(c)
 
     def describe(c):
         return (f"'{c['metric']}' contradiction: {c['a']} says {c['a_dir']} "
                 f"({c['a_scope']}) but {c['b']} says {c['b_dir']} ({c['b_scope']}).")
 
+    if blocking:
+        for c in blocking:
+            print(f"::warning::consistency gate: {describe(c)} This run wrote one of "
+                  f"these surfaces; withholding the colliding one rather than the "
+                  f"whole run.")
+        lines = [describe(c) for c in blocking]
+        blocking, withheld = _quarantine(blocking, changed, paths)
+        if withheld and not blocking:
+            _flag_issue([f"WITHHELD {', '.join(withheld)} at publish: " + ln
+                         for ln in lines])
+            print(f"consistency gate: withheld {len(withheld)} surface(s); the rest of "
+                  f"the run publishes.")
     for c in blocking:
         print(f"::error::consistency gate: {describe(c)} This run wrote one of these "
-              f"surfaces. Two surfaces on one viewport may not assert opposite "
-              f"directions at a colliding window; name the window or fix the wrong "
-              f"surface before anything publishes.")
+              f"surfaces and withholding could not resolve it. Two surfaces on one "
+              f"viewport may not assert opposite directions at a colliding window; "
+              f"name the window or fix the wrong surface before anything publishes.")
     if preexisting:
         lines = [describe(c) for c in preexisting]
         for ln in lines:
