@@ -278,6 +278,9 @@ def figure_conflicts_live(within_days=30):
     cutoff = (datetime.datetime.now(datetime.timezone.utc)
               - datetime.timedelta(days=within_days)).isoformat()
     recs = sorted((r for r in recs if r[0] >= cutoff), key=lambda t: t[0])
+    # RECURRING ACTORS DO NOT PAIR ALONE (2026-09-03, run 33768445949): "fbi" paired an
+    # agent's $1M theft with a $560K Hamas seizure and blocked the publish. See
+    # consistency.comparable_pair.
     found = []
     for i in range(len(recs)):
         for j in range(i + 1, len(recs)):
@@ -289,7 +292,8 @@ def figure_conflicts_live(within_days=30):
             # The desk's direction metrics already cover the big-asset surfaces.
             shared = {e for e in (consistency.primary_entities(older.get("title", ""))
                                   & consistency.primary_entities(newer.get("title", "")))
-                      if not e.startswith("mag:") and e not in _GENERIC_MARKET_TOKENS}
+                      if not e.startswith("mag:")}
+            shared = consistency.comparable_pair(shared, _GENERIC_MARKET_TOKENS)
             if not shared:
                 continue
             if (newer.get("update_of") == older.get("slug")

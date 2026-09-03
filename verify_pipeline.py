@@ -1421,6 +1421,20 @@ def _consistency_gate_canary():
     _check(blocks([("story:a", "bitcoin rose today", today),
                    ("chart-master", "bitcoin fell today", None)]), fails,
            "consistency gate: same-day contradiction with a live board was not caught")
+
+    # RECURRING ACTORS DO NOT PAIR FIGURES ALONE (2026-09-03, run 33768445949): "fbi"
+    # paired an agent's $1M theft with a $560K Hamas seizure and blocked the publish.
+    # A subject entity still pairs on its own; two shared entities always pair.
+    import consistency as _cs
+    _check(_cs.comparable_pair({"fbi"}) == set(), fails,
+           "figure belt: a lone recurring actor (fbi) must not pair two stories")
+    _check(_cs.comparable_pair({"avici"}) == {"avici"}, fails,
+           "figure belt: a lone subject entity (avici) must still pair")
+    _check(_cs.comparable_pair({"fbi", "avici"}) == {"fbi", "avici"}, fails,
+           "figure belt: two shared entities must pair even when one is an actor")
+    _check(_cs.comparable_pair({"etfs"}, cg._GENERIC_MARKET_TOKENS) == set(), fails,
+           "figure belt: generic market vocabulary must not pair alone")
+
     return fails
 
 

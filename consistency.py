@@ -51,6 +51,37 @@ def primary_entities(title, key_fact=""):
     return {t for t in _signature(title, key_fact) if not t.replace(".", "").isdigit()} - _OUTLETS
 
 
+# A RECURRING ACTOR IS NOT AN IDENTITY (2026-09-03, run 33768445949). The figure belts
+# pair two stories on ONE shared headline entity, and "fbi" paired "FBI supervisory agent
+# arrested for stealing $1 million" with "DOJ says FBI seized $560K in Hamas
+# cryptocurrency": two unrelated events, one institution, and the gate blocked the whole
+# publish. An institution, venue, issuer or state that headlines unrelated events every
+# week names an ACTOR, not an event; a figure pair keyed on it alone says nothing. A
+# subject entity (a protocol with one exploit, Avici) still pairs on its own, which is
+# exactly the case the belt exists for, and two shared entities always pair. Grep-class
+# by design, like the gate's own generic-market list; extend it when a new actor trips.
+RECURRING_ACTORS = frozenset("""
+fbi sec doj cftc treasury fed irs fincen ofac occ fdic congress senate house court
+judge supreme federal state government police interpol europol
+binance coinbase kraken okx bybit bitfinex gemini bitstamp robinhood paypal stripe
+visa mastercard tether circle ripple blackrock fidelity grayscale vanguard microstrategy
+strategy jpmorgan goldman citi citigroup hsbc barclays ubs morgan stanley wells fargo
+sofi revolut nubank standard chartered
+trump biden hamas iran russia china korea japan india brazil uk eu us usa america
+american europe european london york hong kong dubai singapore
+""".split())
+
+
+def comparable_pair(shared, generic=frozenset()):
+    """The entities on which two stories may be treated as the same subject: all of them
+    when two or more are shared; a single shared entity only if it is neither a
+    recurring actor nor generic market vocabulary. Empty means not comparable."""
+    shared = {e for e in shared if e not in generic and not e.startswith("mag:")}
+    if len(shared) >= 2:
+        return shared
+    return {e for e in shared if e not in RECURRING_ACTORS}
+
+
 def figure_conflicts(headline, key_fact="", update_of=None, within_days=30):
     """Return a list of same-entity, same-magnitude, materially different figure conflicts
     between this candidate and recently published stories (excluding the update_of origin)."""
@@ -76,7 +107,7 @@ def figure_conflicts(headline, key_fact="", update_of=None, within_days=30):
         when = d.get("published_utc") or (d.get("date", "") + "T00:00:00Z")
         if cutoff and when < cutoff:
             continue
-        shared = cand_ents & primary_entities(d.get("title", ""))
+        shared = comparable_pair(cand_ents & primary_entities(d.get("title", "")))
         if not shared:
             continue
         pub_figs = usd_figures(f"{d.get('title','')} {d.get('key_fact','')}")
