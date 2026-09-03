@@ -1,46 +1,6 @@
 [
  {
   "date": "2026-08-04",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c011",
-    "headline": "Coldcard Hardware Wallet Exploit Drains $114M, Remains Active",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Mk3 devices set up on firmware 4.0.1 or later, and Mk4, Mk5 and Q devices on older firmware' but the brief's boundary notes that the fixed state 'Mk4, Mk5 and Q owners on firmware below 5.6.0 or 1.5.0Q after updating' does not appear verbatim in the source. The draft does not clearly delineate which firmware versions of Mk4, Mk5, Q are vulnerable versus safe; it says devices on 'older firmware' are affected but then prescribes updating to specific versions (5.6.0 or 1.5.0Q), creating ambiguity about exactly which firmware states are vulnerable. This distinction matters for user safety and must be traced cleanly to the source."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "BlackRock tokenizes EUR 311 billion in European money market funds via JPMorgan's Kinexys",
-    "category": "accuracy",
-    "reasons": [
-     "Title states 'EUR 311 billion' but the draft body and all data_points cite '$311 billion' (USD equivalent). The brief's core_claim and data_points use '$311 billion'. The currency conversion is not addressed in the brief, making the EUR figure a smuggled fact not present in research."
-    ]
-   },
-   {
-    "id": "c009",
-    "headline": "BitGo replaces LayerZero with Chainlink CCIP for $7.3 billion WBTC, pushing total migration tally to $14.5 billion",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'BitGo is replacing LayerZero with Chainlink CCIP as the exclusive cross-chain infrastructure provider for $7.3 billion of wrapped bitcoin (WBTC)' but the data_point says '$7.4 billion according to CoinMarketCap.' The brief shows an internal inconsistency ($7.3B vs $7.4B), and the draft uses the $7.3B figure without acknowledging the discrepancy or sourcing it clearly. The cumulative math in the brief ($7.24B earlier + $7.4B BitGo) yields $14.64B, not $14.5B as stated in the draft's opening. The draft must either use the brief's stated $7.3B and explain its source, or flag the inconsistency.",
-     "The sentence 'Adding WBTC's $7.4 billion to the $7.24 billion covered by earlier migration announcements takes the total funds moving their cross-chain infrastructure to CCIP to roughly $14.6 billion' appears in the brief's data_points but the draft states the total 'now pushes the total announced tally to approximately $14.5 billion.' This is a mathematical discrepancy between brief and draft that creates liability."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "Clarity Act Stalled as Warren Requests SEC Investigation of Trump's Memecoin Over Ethics Dispute",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'If Democrats win anticipated gains in midterm congressional elections, Warren would likely run the banking committee' \u2014 but the brief's corresponding data_point says 'If Democrats win the electoral bump they are anticipating in the midterm congressional elections, there is a narrow chance for the party to return to Senate majority.' The draft omits the critical qualification that Democrats would need to regain Senate *majority* first; the current phrasing implies Democrats already have majority status and are merely seeking gains, which is factually misleading about the political threshold required.",
-     "The draft does not surface the bear_case that 'the SEC investigation request comes from Democrats opposing the Clarity Act, limiting its credibility as an impartial regulatory action' \u2014 this is a material counterargument to the framing that the request raises genuine regulatory concerns. The brief identifies this as a key risk to the premise."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
   "approved": 5,
   "rejected": [
    {
@@ -7318,6 +7278,30 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'The SEC proposed comprehensive amendments to transfer agent rules on September 1, 2026' but the brief's data_points show the timestamp as '2026-09-02T14:29:01Z' and the core_claim states 'On September 1, 2026, the SEC proposed.' The brief itself carries conflicting dates (core_claim says Sept 1, data_point timestamp says Sept 2). More problematically, the bottom_line states 'The proposal has not yet been published in the Federal Register as of September 3,' which is today's date per the scenario. The bear_case also flags that 'The proposal is not yet effective; it has not been published in the Federal Register as of the reporting cutoff.' This creates a liability issue: the draft opens by reporting the proposal as an accomplished fact ('proposed comprehensive amendments... on September 1, 2026') without signaling in the lead or early prose that this was a staff proposal announcement that has not yet been formally published in the Federal Register. The distinction matters because the May 2025 FAQ precedent is explicitly described as carrying 'no legal force.' A reader could interpret the opening as describing a final or near-final rule when it remains in proposal stage pre-publication. The bear_case concern should surface in the draft's treatment."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-03",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c118",
+    "headline": "Robinhood Chain Gas Fees Jump 82-Fold in 11 Days to Top Every Other Blockchain",
+    "category": "accuracy",
+    "reasons": [
+     "The draft's lead paragraph states: 'Robinhood Chain's base fee surged from $54,254 on August 22 to $4.45 million on September 2, according to The Defiant, allowing the two-month-old blockchain to collect more daily gas revenue than any other chain tracked.' The brief data points confirm these numbers are from The Defiant. However, the phrasing '$54,254 on August 22' and '$4.45 million on September 2' is ambiguous: it reads as if these are cumulative daily figures, but the brief clarifies these are gas fees (revenues), not base fees in gwei. The draft conflates 'base fee' (a unit price in gwei) with 'gas fees collected' (revenue in dollars). The very next sentence says 'The 82-fold increase pushed execution costs from under a cent per transaction to roughly 32 cents,' which correctly describes per-transaction costs, not base fees. This internal contradiction is an accuracy error.",
+     "The draft opening conflates 'base fee' as a dollar amount ('surged from $54,254... to $4.45 million') when the brief clearly distinguishes between the base fee in gwei (0.02 to 0.467+) and the dollar gas revenue collected ($54,254 to $4.45 million). The title also says 'Gas Fees Jump 82-Fold' which is accurate for revenue but the body's use of 'base fee surged' is technically incorrect terminology that will confuse readers about whether we're discussing price-per-unit or total revenue."
+    ]
+   },
+   {
+    "id": "c119",
+    "headline": "Polymarket Launches Perpetual Futures With 20x Leverage on Thursday",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens: 'Polymarket opened perpetual futures trading to the public on Thursday with up to 20x leverage on 67 contracts across crypto, stocks, commodities, and indices, per The Defiant.' The date 'Thursday' is ambiguous and violates the protocol: today is Thursday, September 3, 2026. If the launch occurred on Thursday (today), the phrasing 'opened perpetual futures trading to the public on Thursday' uses past tense for a same-day event. The protocol requires that same-day or future events not be written as completed historical facts. The data point says 'Polymarket Perps launched on Thursday with 67 contracts available as of 4:25 p.m. ET' with confidence 'reported' and timestamp '2026-09-03T20:52:25Z' - this is a same-day event. The draft should use conditional or provisional framing ('launches today' or 'opened earlier today' with a time-marker), not the settled past tense 'opened on Thursday.'",
+     "The protocol rule states: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The Polymarket perps launch is reported as a Thursday launch with a Thursday timestamp. If this occurred on today (Thursday, Sept 3), the draft's use of settled past tense without temporal markers treating it as historical fact violates the rule."
     ]
    }
   ]
