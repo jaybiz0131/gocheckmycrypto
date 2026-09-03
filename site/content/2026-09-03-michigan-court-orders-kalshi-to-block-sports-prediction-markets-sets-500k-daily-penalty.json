@@ -1,0 +1,61 @@
+{
+  "id": "c029",
+  "slug": "michigan-court-orders-kalshi-to-block-sports-prediction-markets-sets-500k-daily-penalty",
+  "kind": "brief",
+  "title": "Michigan court orders Kalshi to block sports prediction markets, sets $500K daily penalty",
+  "dek": "Ingham County Circuit Judge Rosemarie Aquilina issued a preliminary injunction on September 2 requiring Kalshi to geofence Michigan residents and stop accepting their sports wagers, with a $500,000 per-day penalty for non-compliance. The order escalates a state-versus-federal regulatory conflict after the CFTC invoked emergency powers to keep Kalshi trading.",
+  "date": "2026-09-03",
+  "published_utc": "2026-09-03T14:56:39Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Judge Aquilina imposed a $500,000-per-day financial penalty and geofencing requirement on Kalshi for offering sports prediction products to Michigan residents, with the CFTC's emergency intervention creating direct legal collision.",
+  "bottom_line": "The injunction stands until final judgment; Kalshi's appeal and the CFTC's emergency authorization create conflicting legal pathways that will likely converge in federal court. If Kalshi complies with Michigan's order, its ability to operate in the state ends; if it complies with the CFTC authorization, the $500K daily penalty accrues. The next flashpoint is whether federal courts override state injunctions or whether state court findings of irreparable harm hold.",
+  "human_take": "",
+  "body": [
+    "Ingham County Circuit Judge Rosemarie Aquilina issued a preliminary injunction on September 2 requiring Kalshi to geofence Michigan residents and bar them from all sports prediction wagering, with a $500,000 per-day financial penalty for non-compliance.",
+    "The order marks the conversion of a temporary restraining order, first issued in June, into a binding injunction that stands until a final judgment in the case. It arrives as the Commodity Futures Trading Commission has invoked emergency powers to keep Kalshi trading nationally, creating a direct collision between state court enforcement and federal regulatory authority.",
+    "According to Decrypt's reporting, Judge Aquilina found that Michigan and its residents face \"immediate and irreparable harm\" from Kalshi's \"sports betting operation masquerading as an investment opportunity.\" The injunction identifies Kalshi's acceptance of 18-year-old bettors in a state requiring bettors to be 21, and characterizes the platform as sidestepping patron protections, undercutting funding for schools and gambling-prevention programs, and depriving tribal nations of revenue while ignoring their sovereignty.",
+    "Kalshi must prevent account creation, deposits, and funding by Michigan residents; cease all paid placements, influencer marketing, push notifications, and in-app advertising directed at the state; and employ a third-party geolocation provider licensed by the Michigan Gaming Control Board within specifications set by the board. The ban covers not only direct sports bets but products \"functionally similar\" to them, including parlays, moneyline bets, in-game wagers, and proposition bets. Within three business days, Kalshi must send the order to every futures commission merchant offering its sports contracts, along with Michigan's lawyers' contact details. Kalshi will not be held liable for what those merchants do after receiving the order, per the reporting.",
+    "The case began in March 2026 when Michigan Attorney General Dana Nessel sued under the state's Lawful Sports Betting Act. Kalshi moved the case to federal court and lost, returning it to Ingham County. Both sides asked the judge to rule at an August 17 hearing.",
+    "Kalshi's defense team includes Neal Katyal, a former acting U.S. solicitor general. A Washington state judge ordered Kalshi to drop most markets there in August 2026. Days after the Washington order, the CFTC used emergency powers to keep Kalshi trading. The CFTC has sued nine states, including Illinois, Arizona, Connecticut, Wisconsin, and Minnesota. President Donald Trump called state officials who oppose prediction markets \"SCUM,\" per Decrypt's account.",
+    "The preliminary injunction remains subject to reversal or modification based on full litigation."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/377238/michigan-judge-bars-kalshi-sports-bets-threatens-500k-daily-fine",
+      "url": "https://decrypt.co/377238/michigan-judge-bars-kalshi-sports-bets-threatens-500k-daily-fine"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-03T14:54:35Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 80124.26,
+        "chg_24h_pct": 3.66
+      },
+      {
+        "symbol": "ETH",
+        "price": 2475.51,
+        "chg_24h_pct": 3.54
+      }
+    ],
+    "fng": {
+      "value": 65,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.3,
+      "open_interest_usd": 2311165216
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -73273964,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
