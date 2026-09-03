@@ -21,3 +21,10 @@ site/publish/
 # Debug debris from manual GitHub API log fetches (a saved 403 body was accidentally
 # committed 2026-08-25 and removed 2026-08-31); never commit it again.
 joblog.txt
+
+# macOS/iCloud conflicted-copy artifacts ("wrap 2.py", "crypto-news-brief 2.yml").
+# Every one found on 2026-09-03 was a byte-exact older revision of its real file, so
+# nothing is lost by ignoring them, and a stray copy of a workflow file in
+# .github/workflows/ would register as a SECOND scheduled job if it were ever committed.
+* [0-9].*
+* [0-9]
