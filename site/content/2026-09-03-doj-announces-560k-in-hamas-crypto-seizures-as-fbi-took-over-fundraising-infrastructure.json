@@ -1,0 +1,64 @@
+{
+  "id": "c018",
+  "slug": "doj-announces-560k-in-hamas-crypto-seizures-as-fbi-took-over-fundraising-infrastructure",
+  "kind": "brief",
+  "title": "DOJ announces $560K in Hamas crypto seizures as FBI took over fundraising infrastructure",
+  "dek": "The US Department of Justice disclosed that FBI operations seized $560,000 in digital assets tied to Hamas fundraising and took control of domains and servers to intercept ongoing donations. Court-authorized warrants issued across 2025 targeted cryptocurrency addresses distributed through encrypted channels and fundraising websites.",
+  "date": "2026-09-03",
+  "published_utc": "2026-09-03T19:47:28Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "FBI agents maintained operational control of seized domains and servers, allowing them to intercept cryptocurrency donations intended for Hamas and obtain information about thousands of people attempting to contribute.",
+  "bottom_line": "The breakdown of the $560,000 seizure by asset type and warrant date would clarify the scope of the June Tether and Binance operations.",
+  "human_take": "",
+  "body": [
+    "The US Department of Justice disclosed that FBI operations seized $560,000 in digital assets tied to Hamas' military wing and took operational control of domains and servers used to collect cryptocurrency donations and recruit supporters. According to CryptoSlate's reporting, court-authorized warrants issued in March, June, and October 2025 targeted rotating donation addresses distributed through encrypted chats and fundraising websites.",
+    "The seizures centered on AlQassam.ps and related domains tied to the Al Qassam Brigades, Hamas' military wing. Per CryptoSlate, affidavits filed in July and August detailed how authenticated responses from fund@alqassam.ps were routed through host.alaqsaflood.org, allowing investigators to trace the donation pipeline.",
+    "Exchanges received court orders directing asset transfers. According to CryptoSlate, Binance was directed to transfer specified account balances into FBI-controlled wallets, while in the June warrant, Tether was ordered to burn targeted USDT and reissue an equivalent amount to a US law-enforcement-controlled address.",
+    "After seizing the infrastructure, FBI agents intercepted crypto donations intended for Hamas and obtained additional information about people attempting to contribute, according to CryptoSlate. The broader investigation identified thousands of people who contacted Hamas online seeking to donate through cryptocurrency or traditional payment methods. The DOJ disclosure does not establish that every identified person completed a donation or committed an offense.",
+    "Special Agent in Charge Justin A. Garris of the FBI Albuquerque Field Office stated, per CryptoSlate: \"Reducing the capabilities of foreign terrorist organization's ability to receive donations and creating distrust in communications to their donors was the primary focus of this latest operation.\"",
+    "The bear case centers on limited granularity in the DOJ's disclosure. The agency did not specify how much of the thousands of identified donor contacts came directly from the seized servers versus other investigation methods, according to CryptoSlate's reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/09/02/doj-says-hamas-crypto-seizures-reached-usd560-000-as-fbi-took-over-fundraising-sites",
+      "url": "https://www.coindesk.com/business/2026/09/02/doj-says-hamas-crypto-seizures-reached-usd560-000-as-fbi-took-over-fundraising-sites"
+    },
+    {
+      "title": "https://cryptoslate.com/how-fbi-turned-hamas-crypto-fundraising-pipeline-into-a-law-enforcement-trap/",
+      "url": "https://cryptoslate.com/how-fbi-turned-hamas-crypto-fundraising-pipeline-into-a-law-enforcement-trap/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-03T14:54:35Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 80124.26,
+        "chg_24h_pct": 3.66
+      },
+      {
+        "symbol": "ETH",
+        "price": 2475.51,
+        "chg_24h_pct": 3.54
+      }
+    ],
+    "fng": {
+      "value": 65,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 4.7,
+      "open_interest_usd": 2401450571
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -64977358,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}

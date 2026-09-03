@@ -2,22 +2,25 @@
   "id": "c126",
   "slug": "standard-chartered-offers-spot-bitcoin-and-ether-trading-to-institutional-clients-in-uae",
   "kind": "brief",
-  "title": "Standard Chartered offers spot Bitcoin and Ether trading to institutional clients in UAE",
-  "dek": "Standard Chartered announced it will offer institutional clients spot Bitcoin and Ether trading in the UAE, claiming to be the first major global bank to do so. The source provides no operational, compliance, or timeline details.",
+  "title": "Standard Chartered Launches Spot Bitcoin and Ether Trading in UAE, September 3, 2026",
+  "dek": "Standard Chartered announced institutional spot Bitcoin and Ether trading in the United Arab Emirates, becoming the first Global Systemically Important Bank to offer the service in the country. The move extends the bank's crypto footprint following a 2024 custody launch and a 2025 London crypto trading desk.",
   "date": "2026-09-03",
   "published_utc": "2026-09-03T14:56:39Z",
   "category": "news",
   "verdict": "VERIFIED",
   "rank": 6,
   "author": "Crypto Cronkite",
-  "key_fact": "",
-  "bottom_line": "Standard Chartered's official announcement is the primary source for this claim. Readers seeking operational and compliance detail should contact the bank directly or await a more complete disclosure from the company or UAE regulators.",
+  "key_fact": "Standard Chartered is the first Global Systemically Important Bank to offer institutional spot Bitcoin and Ether trading in the UAE.",
+  "bottom_line": "The service signals institutional finance's willingness to embed crypto trading and custody in regulated non-US jurisdictions. Monitor whether other Global Systemically Important Banks follow into the UAE market or whether Standard Chartered extends the offering to other regions or asset classes.",
   "human_take": "",
   "body": [
-    "Standard Chartered announced it will offer institutional clients access to spot Bitcoin and Ether trading in the United Arab Emirates, claiming to be the first major global bank to do so in the jurisdiction.",
-    "According to Cointelegraph's reporting, the offering is described as regulated."
+    "Standard Chartered announced on September 3 that it now offers institutional clients spot Bitcoin and Ether trading in the United Arab Emirates, becoming the first Global Systemically Important Bank to deliver the service in the country. The offering combines execution with secure custody, governance, and global bank connectivity.\nThe move marks the bank's third major crypto initiative in as many years. Standard Chartered launched digital asset custody services in the UAE in 2024 and established a crypto trading desk in London in 2025, integrating it into the bank's forex trading operation. In 2025, the bank also debuted Libeara, a blockchain unit designed to help institutions tokenize traditional assets.\nAccording to Standard Chartered CEO Rola Abu Manneh, the UAE's clear digital assets regulatory framework supports institutional participation and innovation, making it an attractive jurisdiction for crypto settlement and trading operations. The offering targets eligible institutional clients but the bank has not disclosed minimum asset thresholds, fee structures, or whether retail expansion is planned.\nThe service remains the first of its kind from a global bank in the UAE, per reported coverage. Standard Chartered did not disclose the specific custody and settlement mechanics, whether custody is physical delivery or cash settlement, or any other operational details beyond the announcement."
   ],
   "sources": [
+    {
+      "title": "https://bitcoinmagazine.com/news/standard-chartered-debuts-bitcoin-trading",
+      "url": "https://bitcoinmagazine.com/news/standard-chartered-debuts-bitcoin-trading"
+    },
     {
       "title": "https://cointelegraph.com/news/standard-chartered-bitcoin-ether-trading-uae?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
       "url": "https://cointelegraph.com/news/standard-chartered-bitcoin-ether-trading-uae?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
@@ -52,5 +55,20 @@
     }
   },
   "also_reported_by": [],
-  "developing": true
+  "developing": false,
+  "consolidated": "This story was updated in place with a better-sourced account of the same event, carrying 2 sources against the original 1. The earlier version was headlined “Standard Chartered offers spot Bitcoin and Ether trading to institutional clients in UAE”. The URL and publication time are unchanged.",
+  "superseded_sources": [
+    {
+      "title": "https://cointelegraph.com/news/standard-chartered-bitcoin-ether-trading-uae?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/standard-chartered-bitcoin-ether-trading-uae?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "updated_utc": "2026-09-03T19:47:28Z",
+  "merged_from": [
+    {
+      "id": "c003",
+      "title": "Standard Chartered Launches Spot Bitcoin and Ether Trading in UAE, September 3, 2026",
+      "published_utc": "2026-09-03T19:47:28Z"
+    }
+  ]
 }
