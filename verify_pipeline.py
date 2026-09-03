@@ -22,9 +22,10 @@ a live notify-only check that never blocks a run.
     Any deviation -> ::error:: + exit 1.
 
   LAYER 2  live source check (NOTIFY-ONLY, exit 3 on content mismatch, never blocks a run).
-    Fetches each configured RSS feed and asserts HTTP 200 + looks-like-a-feed. A broken feed
-    -> ::error:: + exit 3 (CI marks it failed / opens an issue) but never blocks. A network
-    error -> ::warning:: only.
+    Fetches each configured RSS feed and asserts HTTP 200 + looks-like-a-feed + carries at
+    least one item (a feed-shaped channel serving zero items is as dead as a 404). A broken
+    feed -> ::error:: + exit 3 (CI marks it failed / opens an issue) but never blocks. A
+    network error -> ::warning:: only.
 
 USAGE
   python3 verify_pipeline.py canary     # Layer 1 only (exit 0 pass / 1 fail)
@@ -36,6 +37,7 @@ import inspect
 import glob
 import json
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -1875,6 +1877,15 @@ def _failclosed_canaries(cfg):
 
 # ---- Layer 2 -----------------------------------------------------------------
 
+# Counts RSS <item> and Atom <entry> elements, namespace prefixes included, closing tags
+# excluded. The trailing class is what keeps <itunes:owner> and <items> out of the count.
+_ITEM_TAG = re.compile(r"<(?:[a-z0-9_.-]+:)?(?:item|entry)[\s/>]")
+
+
+def _feed_items(body):
+    return len(_ITEM_TAG.findall(body))
+
+
 def layer2_sources():
     cfg = common.load_config()
     fails = []
@@ -1884,7 +1895,11 @@ def layer2_sources():
             req = urllib.request.Request(url, headers={"User-Agent": common.UA})
             with urllib.request.urlopen(req, timeout=30) as r:
                 code = r.getcode()
-                head = r.read(2000).decode("utf-8", "replace").lower()
+                # Whole body, not the first 2000 bytes. The head is enough to see the feed
+                # SHAPE, but the items sit past it and an empty channel is only visible
+                # from a full-body count (the zero-item check below).
+                body = r.read().decode("utf-8", "replace").lower()
+                head = body[:2000]
         except Exception as e:
             gh("warning", f"sources: '{name}' fetch failed ({url}): {e} -- soft warning only, NOT failing")
             continue
@@ -1923,8 +1938,31 @@ def layer2_sources():
             gh("error", f"sources: '{name}' did not look like an RSS/Atom feed: {url}")
             fails.append({"feed": name, "url": url,
                           "status": "HTTP 200 but not feed-shaped", "fallback": "n/a"})
-        else:
-            print(f"LAYER 2 sources: OK '{name}' -> HTTP 200, feed-shaped.")
+            continue
+        # A feed can serve a perfectly valid channel carrying ZERO items, which a
+        # shape-only check reads as healthy forever: on 2026-09-03 all four Google News
+        # lanes on the sports desk went to 0 items in production an hour after serving 12
+        # each, and this probe saw nothing wrong. An empty channel is the same class of
+        # dead as a 404, so it gets the same two attempts as the fallback probe above:
+        # zero items is often a transient miss, and only a feed still empty on the second
+        # read is worth filing.
+        items = _feed_items(body)
+        if items == 0:
+            time.sleep(3)
+            try:
+                rreq = urllib.request.Request(url, headers={"User-Agent": common.UA})
+                with urllib.request.urlopen(rreq, timeout=30) as rr:
+                    if rr.getcode() == 200:
+                        items = _feed_items(rr.read().decode("utf-8", "replace").lower())
+            except Exception:
+                pass
+        if items == 0:
+            gh("error", f"sources: '{name}' -> HTTP 200 and feed-shaped but ZERO items "
+                        f"on two reads: {url}")
+            fails.append({"feed": name, "url": url,
+                          "status": "HTTP 200 but zero items", "fallback": "n/a"})
+            continue
+        print(f"LAYER 2 sources: OK '{name}' -> HTTP 200, feed-shaped.")
     if fails:
         # Machine-readable failure list: the verify workflow's flag issue names the
         # feeds from this file instead of sending the owner into the run logs.
