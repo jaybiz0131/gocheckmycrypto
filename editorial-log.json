@@ -4,46 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c000",
-    "headline": "Coldcard Hardware Wallet Exploit Drains $114 Million; Fourth Wave Continues",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Coldcard confirmed the vulnerability affects certain Mk3 devices set up on firmware 4.0.1 or later, as well as Mk4, Mk5, and Q devices on older firmware' but the brief's boundary_ok field is false and notes that the affected/fixed versions do not appear verbatim in the advisory. The writer has smuggled firmware version specifications and device compatibility claims that cannot be verified in the source document.",
-     "The draft presents firmware versions and affected device lists as confirmed fact ('certain Mk3 devices set up on firmware 4.0.1 or later, as well as Mk4, Mk5, and Q devices on older firmware') without attribution or confidence qualification, despite the brief marking these facts as unverified against the source."
-    ]
-   },
-   {
-    "id": "c033",
-    "headline": "Mastercard Completes BVNK Acquisition",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states 'The acquisition amount ($1.8B) appears in the headline but not in the fetched source text\u2014confirmation of deal size is unavailable' in open_questions, yet the draft title references 'Mastercard Completes BVNK Acquisition' without stating the deal value, avoiding the error but leaving the core claim incomplete. More critically: the brief contains only one data_point ('Mastercard will leverage BVNK's expertise to help enterprises scale use cases involving stablecoins and tokenized assets') from a source with source_chars=0, indicating no actual text was retrieved. The draft should be rejected because the research foundation is too thin to publish: the source document appears to be inaccessible or empty, and the writer proceeded with claims from a failed fetch."
-    ]
-   },
-   {
-    "id": "c137",
-    "headline": "Nigeria establishes tax collection rules for digital asset platforms",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Framework specifies how existing tax obligations apply to crypto transactions' but the brief data_point says only that it 'specifies how existing tax obligations apply to crypto disposals and rewards'\u2014the draft generalizes beyond what the source reports.",
-     "Draft claims 'implementation timeline and specific withholding rates for different transaction types are also unclear' but these details are not mentioned in the brief's data_points or open_questions; the writer has smuggled analysis about what is unclear without sourcing it to the brief."
-    ]
-   },
-   {
-    "id": "c113",
-    "headline": "SummerFi to Wind Down After Seven Years, Citing Exploit",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case contains three specific risk items: (1) the unreconciled discrepancy between NAV manipulation vs. flash-loan characterization, (2) structural challenges in DeFi frontend economics, and (3) lack of wind-down timeline/asset recovery guidance. The draft acknowledges items 1 and 3 in passing but does not elevate them proportionately. Item 2\u2014the structural fragility argument\u2014is mentioned only in the final sentence ('operational burden') rather than as a substantive risk framing. The draft reads as a straightforward closure announcement rather than a story that stress-tests the fragility claim the brief identifies as central to the story's meaning. A reader should finish knowing why DeFi frontends are structurally doomed, not just that two happened to close."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c003",
     "headline": "Coldcard Firmware Flaw Enables Ongoing Theft; Company Urges Immediate Fund Migration",
     "category": "accuracy",
@@ -7353,6 +7313,41 @@
      "Data point states '11 straight sessions of inflows totaling $170 million' but the source URL headline says 'nine days' and '$160 million', indicating the draft contains smuggled information beyond what the brief carries or a misread of the source.",
      "The brief's open_questions explicitly flag 'Whether the 11-day inflow streak started on a specific date or continues through the reporting date'\u2014the draft presents this as a closed fact without noting the ambiguity.",
      "Draft states 'The 11-day inflow period represents an extended window' and later 'The 11-day inflow streak has ended or continues beyond the reporting date'\u2014a contradiction that suggests the draft is uncertain about timing, and that uncertainty should have been flagged as unconfirmed rather than narrated as settled fact in the opening."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-03",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c032",
+    "headline": "Remixpoint exits all altcoins, consolidates $115M portfolio into Bitcoin only, September 1",
+    "category": "accuracy",
+    "reasons": [
+     "Bitcoin holding discrepancy: The brief data_point states 'the company now holds 1,501 BTC' but the draft body states 'approximately 1,506 BTC'. The title also says '$115M' while the body says 'valued near $116 million'. These are material factual differences that do not track to the source and represent new information, not paraphrase.",
+     "The draft reports the September 1 event as having occurred (past tense throughout: 'liquidated', 'generated', 'realized'), which is correct given today's date is 2026-09-03, after the event. However, the BTC count variance between brief (1,501) and draft (1,506) is a 5-BTC discrepancy unexplained by any data point and suggests the draft imported information not in the brief."
+    ]
+   },
+   {
+    "id": "c121",
+    "headline": "Coinbase launches regulated crypto derivatives in Canada",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Coinbase 'launched regulated crypto derivatives in Canada on September 2' as a completed past event. Today is Thursday 2026-09-03. The source timestamp is 2026-09-02T20:55:55Z, which is yesterday. However, the protocol requires scheduled events to be written as upcoming unless they occurred before today. A September 2 event is a past event and should be reported as such. This is correct. However, re-reading: the draft does report it as past ('launched...on September 2'), which is appropriate since today is September 3. Correction: this is ACCURATE.",
+     "However: The draft contains no information about which regulatory body approved or oversees these derivatives, what the specific eligibility requirements are, or confirmation that these are actually 'regulated' by an identified Canadian regulator. The word 'regulated' appears in the headline and opening, but the brief's open_questions explicitly note 'What regulatory body approved or oversees these derivatives offerings in Canada?' The brief does not provide this data point. The draft's use of 'regulated crypto derivatives' without specifying the regulator or regulatory framework is a claim not in the brief.",
+     "The phrase 'TradFi-grade infrastructure' and 'institutional-grade crypto trading tools' are characterizations not explicitly supported by data points in the brief."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "CrowdStrike, federal authorities dismantle Sality botnet that stole $150K in crypto over 8 years",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states Sality 'operated undetected for 8 years' as a settled fact in the opening sentence, but the brief marks the exact timeframe as an open_question: 'What was the exact timeframe of Sality's 8-year operation (start and end dates)?' The phrase 'undetected' also mischaracterizes the brief's claim: the brief says the operation 'ran for 8 years' (reported), not that it was literally undetected the entire time. The draft smuggles temporal precision and a detection-evasion narrative that exceeds the brief's confidence level.",
+     "Draft presents 'Russia-based malware operation' as fact in opening, but the brief's data point says 'Russia-based Sality' without sourcing nationality to a data point that separates operation location from actor location. The draft reads as having confirmed Russian state/criminal origin when the brief only reports CoinDesk's labeling.",
+     "The phrase 'operated undetected for 8 years' in paragraph 1 reads as a definitive claim when the open_questions explicitly ask whether the 8-year timeframe is verified and when the operation occurred. This is a confidence smuggle: reported\u2192assumed-confirmed."
     ]
    }
   ]
