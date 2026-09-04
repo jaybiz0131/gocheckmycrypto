@@ -40,6 +40,17 @@
    "/articles/austria-s-fma-fines-bitpanda-70-000-for-mica-compliance-failures.html"
   ]
  },
+ "European Union :: DORA": {
+  "dates": [],
+  "first_seen": "2026-09-04",
+  "instrument": "DORA",
+  "jurisdiction": "European Union",
+  "last_seen": "2026-09-04",
+  "last_title": "IMF says El Salvador's post-June 2025 bitcoin holdings came from private donations",
+  "stories": [
+   "/articles/imf-says-el-salvador-s-post-june-2025-bitcoin-holdings-came-from-private-donations.html"
+  ]
+ },
  "European Union :: Markets in Crypto-Assets": {
   "dates": [
    "Aug. 26",
@@ -52,11 +63,11 @@
   "last_seen": "2026-09-01",
   "last_title": "Revolut Rolls Out EURR Stablecoin Backed by Bridge, a Stripe Company",
   "stories": [
+   "/articles/revolut-rolls-out-eurr-stablecoin-in-three-eu-markets-with-bridge-as-issuer.html",
+   "/articles/mica-compliance-deadline-sparked-a-surge-in-regulator-impersonation-scams-across-the-eu.html",
    "/articles/austria-s-fma-fines-bitpanda-70-000-for-mica-compliance-failures.html",
    "/articles/revolut-launches-euro-stablecoin-eurr-with-bridge-as-regulated-issuer.html",
-   "/articles/revolut-rolls-out-eurr-stablecoin-backed-by-bridge-a-stripe-company.html",
-   "/articles/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer.html",
-   "/articles/revolut-rolls-out-eurr-stablecoin-in-three-eu-markets-with-bridge-as-issuer.html"
+   "/articles/revolut-rolls-out-eurr-stablecoin-backed-by-bridge-a-stripe-company.html"
   ]
  },
  "European Union :: MiCA": {
@@ -176,17 +187,19 @@
    "January 20",
    "July 22, 2026",
    "October 1",
-   "July 22"
+   "July 22",
+   "December 20"
   ],
   "first_seen": "2026-07-16",
   "instrument": "(unnamed measure)",
   "jurisdiction": "United States",
-  "last_seen": "2026-07-19",
-  "last_title": "Trump tariffs Brazil's Pix while dollar stablecoins already own 90% of crypto payments",
+  "last_seen": "2026-09-04",
+  "last_title": "FinCEN ties $12.7B to crypto investment scams run from Southeast Asian compounds",
   "stories": [
    "/articles/alpaca-raises-135-million-to-expand-tokenized-equities-infrastructure.html",
    "/articles/trump-targets-brazil-s-pix-while-dollar-stablecoins-dominate-country-s-crypto-payments.html",
-   "/articles/trump-tariffs-brazil-s-pix-while-dollar-stablecoins-already-own-90-of-crypto-payments.html"
+   "/articles/trump-tariffs-brazil-s-pix-while-dollar-stablecoins-already-own-90-of-crypto-payments.html",
+   "/articles/fincen-ties-12-7b-to-crypto-investment-scams-run-from-southeast-asian-compounds.html"
   ]
  },
  "United States :: Bank Secrecy Act": {

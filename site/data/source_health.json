@@ -1,5 +1,5 @@
 {
- "checked_utc": "2026-09-04T19:52:36Z",
+ "checked_utc": "2026-09-04T22:02:58Z",
  "sources": [
   {
    "name": "SEC Press Releases",
@@ -52,7 +52,7 @@
    "tier": "major",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 57,
+   "items": 37,
    "newest_age_h": null,
    "lane_state": "OK"
   },
@@ -171,22 +171,22 @@
    "kind": "rss",
    "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
    "tier": "major",
-   "state": "OK",
-   "detail": "HTTP 200",
-   "items": 10,
+   "state": "DEAD",
+   "detail": "URLError",
+   "items": 0,
    "newest_age_h": null,
-   "lane_state": "OK"
+   "lane_state": "DEAD"
   },
   {
    "name": "CryptoSlate",
    "kind": "rss",
    "url": "https://cryptoslate.com/feed/",
    "tier": "mixed",
-   "state": "OK",
-   "detail": "HTTP 200",
-   "items": 10,
+   "state": "DEAD",
+   "detail": "URLError",
+   "items": 0,
    "newest_age_h": null,
-   "lane_state": "OK"
+   "lane_state": "DEAD"
   },
   {
    "name": "BeInCrypto",

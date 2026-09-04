@@ -1,0 +1,70 @@
+{
+  "id": "c001",
+  "slug": "amc-ceo-condemns-robinhood-s-tokenized-stock-product-signals-legal-action",
+  "kind": "brief",
+  "title": "AMC CEO condemns Robinhood's tokenized stock product, signals legal action",
+  "dek": "AMC Entertainment CEO Adam Aron called Robinhood's unregistered tokenized stock tokens \"contemptible\" and \"vile\" on September 3, stating the company has no connection to the product and instructing outside counsel to investigate immediately. Robinhood's tokens track 190+ companies and are issued through a Jersey-based entity, giving holders price exposure but no legal claim on the underlying company.",
+  "date": "2026-09-04",
+  "published_utc": "2026-09-04T21:52:30Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "AMC CEO Adam Aron formally opposed Robinhood's tokenized stock product on September 3, calling it unregistered and detestable, and instructing outside securities counsel to investigate whether the practice is legal.",
+  "bottom_line": "AMC's instruction to outside counsel marks the first formal legal notice to Robinhood from an affected company. Whether AMC pursues action depends on legal grounds its counsel identifies by mid-September. The structural question unresolved by this dispute: does a tokenized synthetic product tracking a company's stock price constitute an unregistered security under US law when issued offshore and geo-restricted from US persons.",
+  "human_take": "",
+  "body": [
+    "AMC Entertainment CEO Adam Aron publicly opposed Robinhood's tokenized stock tokens on September 3, calling the practice \"contemptible, outrageous, disgusting, detestable, inexcusable, and vile\" in a public statement. Aron said AMC Entertainment has no connection to the tokens, does not condone them, and questioned how the practice could possibly be legal. The company instructed outside securities counsel to investigate the matter immediately.",
+    "Robinhood's stock token program tracks more than 190 companies and is structured as tokenized debt securities issued by Robinhood Assets (Jersey) Limited. Token holders receive economic exposure to a share price but hold no legal or beneficial rights in the underlying security or any claim against the company itself. An AMC token holder has no claim on AMC at all, according to Decrypt's reporting.",
+    "The tokens are not registered in the United States and cannot be offered or delivered to US persons. They are further restricted in Canada, the United Kingdom, and Switzerland. The base prospectus was approved by Liechtenstein's Financial Market Authority under EU rules. Robinhood's issuer page states that the Jersey entity \"is not regulated,\" and any consents it holds amount to neither supervision nor endorsement.",
+    "This is not the first challenge to Robinhood's tokenization approach. Decrypt reported that Robinhood airdropped tokens tracking OpenAI and SpaceX to European users last year. OpenAI said it had not partnered with Robinhood, was not involved, did not endorse the product, and that any transfer of its equity required approval it had not given. Anthropic and OpenAI warned this year that unauthorized vehicles selling exposure to their shares could leave buyers with nothing.",
+    "Robinhood CEO Vlad Tenev called the stock token launch a milestone and said thousands of private companies could follow. SEC Commissioner Hester Peirce warned in a statement made after Robinhood's rollout that blockchains do \"not have magical abilities to transform the nature of the underlying asset.\"",
+    "Lawyers quoted in Decrypt's coverage question whether AMC has a securities law basis to challenge the tokens. However, they note that the tokens' branding and marketing could leave room for a dispute about whether the product misrepresents its nature or relationship to AMC."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/377378/amc-ceo-calls-robinhood-stock-tokens-contemptible-and-vile",
+      "url": "https://decrypt.co/377378/amc-ceo-calls-robinhood-stock-tokens-contemptible-and-vile"
+    },
+    {
+      "title": "https://www.coindesk.com/business/2026/09/04/amc-ceo-tells-robinhood-to-stop-issuing-stock-token-as-industry-executives-weigh-in",
+      "url": "https://www.coindesk.com/business/2026/09/04/amc-ceo-tells-robinhood-to-stop-issuing-stock-token-as-industry-executives-weigh-in"
+    },
+    {
+      "title": "https://decrypt.co/377461/send-your-lawyers-robinhood-not-backing-down-amc",
+      "url": "https://decrypt.co/377461/send-your-lawyers-robinhood-not-backing-down-amc"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-04T21:50:42Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79781.06,
+        "chg_24h_pct": -1.83
+      },
+      {
+        "symbol": "ETH",
+        "price": 2456.2,
+        "chg_24h_pct": -2.05
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -2.6,
+      "open_interest_usd": 2201493608
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 1625790,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "CoinDesk"
+  ],
+  "developing": false
+}

@@ -1,0 +1,75 @@
+{
+  "id": "c020",
+  "slug": "trezor-discloses-67-000-additional-customers-exposed-in-shipmonk-breach-total-reaches-80-700",
+  "kind": "brief",
+  "title": "Trezor discloses 67,000 additional customers exposed in ShipMonk breach; total reaches 80,700",
+  "dek": "Hardware wallet maker Trezor revealed that 67,000 additional US customers had names, emails, phone numbers, and home addresses leaked in a logistics partner breach. The exposed orders span November 2019 to August 2021. Total affected customers now exceed 80,700 across multiple regions.",
+  "date": "2026-09-04",
+  "published_utc": "2026-09-04T21:52:30Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "An additional 67,000 US customers' full personal information, including home addresses and order data, was exposed in the ShipMonk breach extending back to 2019, expanding the total breach scope from 13,689 to approximately 80,700 customers.",
+  "bottom_line": "The breach timeline reveals a six-year retention of customer data that Trezor believed was being deleted under a 90-day policy. The key question now is whether Trezor will offer credit monitoring, identity protection, or direct compensation to the 80,700 affected customers, and whether the company will pursue legal or contractual action against ShipMonk for retaining data in violation of written assurances.",
+  "human_take": "",
+  "body": [
+    "Trezor announced on September 4 that 67,000 additional US customers had their names, emails, phone numbers, shipping addresses, and order numbers exposed in a breach at third-party logistics provider ShipMonk. The newly disclosed data spans orders placed between November 2019 and August 2021, extending the breach window far beyond Trezor's stated 90-day data retention policy.",
+    "The additional exposure brings the total number of affected customers to approximately 80,700 across multiple regions. Trezor initially disclosed on August 10 that ShipMonk had informed it of customer data exposure affecting roughly 13,689 people. On September 2, ShipMonk revealed to Trezor that the breach actually extended back to 2019 and 2021, expanding the scope by 67,000 US customers plus 1,947 additional records from other regions with names, cities, and emails.",
+    "According to Decrypt, the intrusion traces to a critical SQL injection flaw in the analytics tool Metabase, disclosed on August 6, which allowed unauthenticated attackers to steal credentials for connected databases. ShipMonk has reportedly received extortion emails attributed to ShinyHunters, though that attribution remains unconfirmed.",
+    "Trezor stated that throughout its entire relationship with ShipMonk, it repeatedly requested and received written assurances confirming data deletion in line with the company's contract and data policy. The company said it was \"very disappointed\" that despite these confirmations, the data was not deleted in ShipMonk's systems. Bitcoin Magazine reports that Trezor initially claimed its 90-day data policy helped mitigate the leak, but now acknowledges the policy was never enforced and data was never deleted.",
+    "The leaked records identify confirmed hardware wallet owners at specific addresses, creating a target list for physical attacks and sophisticated phishing campaigns. Decrypt reported that Trezor and rival Ledger customers were already receiving forged letters in February printed with holograms, QR codes, and forged executive signatures. Cybercrime consultant David Sehyeon Baek told Decrypt that stolen address data remains useful for years because people rarely move or change their numbers.",
+    "Trezor confirmed that its own systems were not breached and devices, private keys, and wallet backups remain untouched. The company is working to ship anonymous delivery as quickly as possible, an option using locker pickup, neutral packaging, and generic sender details so customers need not hand over a home address. Trezor is also arranging an additional audit of the mailing partner."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/business/2026-09-04-trezor-says-shipmonk-breach-affected-another-67000-customers-413540",
+      "url": "https://www.theblock.co/news/business/2026-09-04-trezor-says-shipmonk-breach-affected-another-67000-customers-413540"
+    },
+    {
+      "title": "https://bitcoinmagazine.com/news/trezor-data-breach-worse-than-reported",
+      "url": "https://bitcoinmagazine.com/news/trezor-data-breach-worse-than-reported"
+    },
+    {
+      "title": "https://decrypt.co/377389/67000-more-trezor-customers-exposed-as-data-breach-widens",
+      "url": "https://decrypt.co/377389/67000-more-trezor-customers-exposed-as-data-breach-widens"
+    },
+    {
+      "title": "https://protos.com/trezor-says-mailing-breach-leaked-67k-more-users-than-first-thought/",
+      "url": "https://protos.com/trezor-says-mailing-breach-leaked-67k-more-users-than-first-thought/"
+    }
+  ],
+  "update_of": "uk-tax-service-issued-81-000-warning-letters-to-crypto-holders-in-past-year",
+  "board_snapshot": {
+    "as_of": "2026-09-04T21:50:42Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79781.06,
+        "chg_24h_pct": -1.83
+      },
+      {
+        "symbol": "ETH",
+        "price": 2456.2,
+        "chg_24h_pct": -2.05
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -2.6,
+      "open_interest_usd": 2201493608
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 1625790,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Bitcoin Magazine"
+  ],
+  "developing": false
+}
