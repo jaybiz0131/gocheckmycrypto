@@ -1,0 +1,76 @@
+{
+  "id": "wrap-am-2026-09-04",
+  "slug": "morning-brief-2026-09-04",
+  "kind": "brief",
+  "title": "The Morning Brief: Institutional flows reverse after August surge; regulatory collision looms",
+  "dek": "Bitcoin and Ether ETF inflows resume Friday as G20 finance leaders endorse crypto for economic growth. Simultaneously, a Michigan court imposed $500K daily penalties on prediction-market platform Kalshi while the CFTC defends its approval, and the SEC overhauled transfer-agent rules for the first time in 40 years to embrace blockchain recordkeeping.",
+  "date": "2026-09-04",
+  "published_utc": "2026-09-04T05:40:36Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Capital is moving into spot crypto products and regulatory bodies are building infrastructure for on-chain finance, but state-versus-federal jurisdictional collisions are intensifying, and a Supreme Court petition on prediction-market authority signals the conflict will reach the highest court.",
+  "bottom_line": "Institutional capital is flowing into spot Bitcoin and Ether products while global policy bodies, the G20, the SEC, and G-SIB banks, are building infrastructure to embed crypto and tokenization into finance. But regulatory authority over crypto derivatives and prediction markets is fracturing: a Michigan state court and the CFTC are in direct collision over Kalshi, multiple federal appeals courts have disagreed on jurisdiction, and New Jersey has petitioned the Supreme Court to settle the question. The SEC's transfer-agent overhaul and the September 17 roundtable suggest coordinated infrastructure modernization is advancing, while the Michigan injunction, the CFTC's dismissal filing, and the SCOTUS petition signal that institutional adoption and regulatory fragmentation are advancing on separate tracks. Monitor the Supreme Court's decision on whether to grant New Jersey's petition, whether the Michigan court's $500K daily penalty order stands through Kalshi's appeal, and the 60-day comment period on the SEC's transfer-agent rules.",
+  "human_take": "",
+  "body": [
+    "Bitcoin ETF inflows of $730.8 million arrived on Thursday, per the desk's market data, extending a momentum that began in August. Ether ETFs turned positive year-to-date at $732 million cumulative inflows, and XRP ETF products reached $502 million. The desk's ETF flow board shows Ether inflows of $141.4 million on Thursday, with both Bitcoin and Ether maintaining inflow momentum over the past five trading sessions.",
+    "Institutional sentiment at the policy level shifted in crypto's favor. G20 finance leaders, with the United States chairing, agreed on statements recognizing the transformative role of digital asset innovation and its potential to support broad-based economic growth, according to the desk's reporting on Tuesday. The consensus positions digital assets as tools for economic expansion rather than speculative instruments. Separately, Hashkey became the first Asian crypto service provider to join the Depository Trust & Clearing Corporation's working group on tokenization innovation, which spans more than 100 financial institutions including Goldman Sachs and JPMorgan. Standard Chartered, a Global Systemically Important Bank, announced institutional spot Bitcoin and Ether trading in the UAE on Wednesday, marking the first time such a bank has offered the service in the country.",
+    "Infrastructure modernization accelerated sharply. The SEC released a 421-page proposal on Wednesday rewriting transfer-agent rules for the first time since the early 1980s, explicitly accommodating blockchain-native recordkeeping, distributed ledger platforms, and tokenized securities. The proposal opens regulatory space for on-chain master files and smart-contract-driven issuance, addressing a ruleset that predates distributed ledgers entirely. On the same day, the SEC announced a September 17 roundtable on 24-hour U.S. stock trading, signaling coordinated market-structure modernization beyond tokenization alone.",
+    "Regulatory collisions intensified in parallel. A Michigan state court issued a preliminary injunction on Tuesday requiring Kalshi to geofence Michigan residents and block them from sports prediction wagering, with a $500,000 per-day penalty for non-compliance. The order converts a temporary restraining order issued in June into binding injunction, and arrives as the CFTC has invoked emergency powers to keep Kalshi trading nationally. The CFTC filed to dismiss CME Group's lawsuit challenging the agency's approval of Kalshi's Bitcoin perpetual contract on Wednesday, arguing the exchange lacks standing to demonstrate concrete financial harm. On Tuesday, New Jersey became the first state to petition the U.S. Supreme Court to resolve whether states or the federal CFTC regulate prediction-market sports products, a question that has split federal appeals courts. Thailand's Securities and Exchange Commission finalized crypto Travel Rule requirements effective February 2027, requiring crypto platforms to verify that users control self-hosted wallets and retain transaction data for five years. A validator-reward protocol bug in Core DAO allowed excess distributions, prompting an emergency hard fork without network rollback; Coinbase and four other exchanges restricted CORE transfers in response.",
+    "The reporting notes the move reflects management's reassessment of altcoin volatility over the summer."
+  ],
+  "sources": [
+    {
+      "title": "Bitcoin ETF inflows reach $3.52B in August, best month of 2026",
+      "url": "/articles/bitcoin-etf-inflows-reach-3-52b-in-august-best-month-of-2026.html"
+    },
+    {
+      "title": "G20 finance leaders agree digital assets can support broad-based economic growth",
+      "url": "/articles/g20-finance-leaders-agree-digital-assets-can-support-broad-based-economic-growth.html"
+    },
+    {
+      "title": "Hashkey joins DTCC working group as first Asian crypto service provider, Sept. 2",
+      "url": "/articles/hashkey-joins-dtcc-working-group-as-first-asian-crypto-service-provider-sept-2.html"
+    },
+    {
+      "title": "Japan-listed Remixpoint liquidates all altcoin holdings, consolidates portfolio to bitcoin-only strategy",
+      "url": "/articles/japan-listed-remixpoint-liquidates-all-altcoin-holdings-consolidates-portfolio-to-bitcoin-only-strategy.html"
+    },
+    {
+      "title": "New Jersey petitions Supreme Court to decide: states or CFTC regulate prediction markets",
+      "url": "/articles/new-jersey-petitions-supreme-court-to-decide-states-or-cftc-regulate-prediction-markets.html"
+    },
+    {
+      "title": "Remixpoint exits all altcoins in single-day sale, pivots to Bitcoin-only treasury",
+      "url": "/articles/remixpoint-exits-all-altcoins-in-single-day-sale-pivots-to-bitcoin-only-treasury.html"
+    },
+    {
+      "title": "Thailand mandates crypto Travel Rule with self-custody wallet verification",
+      "url": "/articles/thailand-mandates-crypto-travel-rule-with-self-custody-wallet-verification.html"
+    },
+    {
+      "title": "CFTC Files to Dismiss CME's Lawsuit Over Crypto Perpetual Futures",
+      "url": "/articles/cftc-files-to-dismiss-cme-s-lawsuit-over-crypto-perpetual-futures.html"
+    },
+    {
+      "title": "Core DAO plans emergency hard fork after validators drew excess rewards",
+      "url": "/articles/core-dao-plans-emergency-hard-fork-after-validators-drew-excess-rewards.html"
+    },
+    {
+      "title": "DOJ announces $560K in Hamas crypto seizures as FBI took over fundraising infrastructure",
+      "url": "/articles/doj-announces-560k-in-hamas-crypto-seizures-as-fbi-took-over-fundraising-infrastructure.html"
+    },
+    {
+      "title": "Michigan court orders Kalshi to block sports prediction markets, sets $500K daily penalty",
+      "url": "/articles/michigan-court-orders-kalshi-to-block-sports-prediction-markets-sets-500k-daily-penalty.html"
+    },
+    {
+      "title": "SEC proposes first transfer-agent overhaul in 40+ years, embraces blockchain for securities records",
+      "url": "/articles/sec-proposes-first-transfer-agent-overhaul-in-40-years-embraces-blockchain-for-securities-records.html"
+    },
+    {
+      "title": "Standard Chartered Launches Spot Bitcoin and Ether Trading in UAE, September 3, 2026",
+      "url": "/articles/standard-chartered-offers-spot-bitcoin-and-ether-trading-to-institutional-clients-in-uae.html"
+    }
+  ]
+}
