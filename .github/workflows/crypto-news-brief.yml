@@ -316,6 +316,16 @@ jobs:
         if: steps.key.outputs.have_key == 'true'
         run: python3 dupe_audit.py || true
 
+      # IS EVERY SOURCE ACTUALLY SERVING? Advisory, never a gate (source_health.py
+      # always exits 0). The scoreboard ran baseball-only for days and three working
+      # intake lanes were retired as dead, both because a permanent source failure and
+      # a quiet night produced identical output. This annotates only REGRESSIONS
+      # against the committed baseline, so a standing problem stays quiet and a feed
+      # that changed state overnight is the thing that speaks.
+      - name: Source health (did any feed change state since the last run?)
+        if: always()
+        run: python3 source_health.py --quiet || true
+
       # ESCALATE THE COVERAGE GAP (owner directive 2026-07-31). calendar_check knew the
       # FOMC decision was uncovered on the day it happened and said so in a ::warning::
       # nobody reads, so the desk missed the week's biggest event twice over: once to the
@@ -443,7 +453,8 @@ jobs:
           # the committed snapshot is the fallback that actually reaches readers: it has to
           # be current.
           git add site/content site/data/chartmaster.json site/data/pulse.json \
-                  site/data/flows.json editorial-log.json regwatch.json
+                  site/data/flows.json editorial-log.json regwatch.json \
+                  site/data/source_health.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"
