@@ -5,56 +5,6 @@
   "rejected": [
    {
     "id": "c012",
-    "headline": "Coldcard hardware wallet exploit drains $114 million as attacks persist",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'A possible fourth wave of sweeps ran throughout the day on Aug. 3' but the brief's corresponding data_point says 'A possible fourth wave of sweeps ran throughout the day on Aug. 3' \u2014 both match, but the draft then says this took place on 'August 3' while the brief timestamp is '2026-08-04', creating ambiguity about whether the brief itself is internally consistent. The draft should reflect the brief's language exactly: the brief says 'throughout the day' not 'throughout August 3'.",
-     "The boundary_ok flag in both draft and brief is false, with explicit boundary_reasons stating that the affected/fixed device firmware versions do not appear verbatim in the CoinDesk advisory. The draft contains these exact specifications in prose ('Mk3 devices set up on firmware 4.0.1 or later and Mk4, Mk5 and Q devices on older firmware versions' and 'Mk3 owners should move their funds immediately if the wallet was set up on firmware 4.0.1 or later. Mk4, Mk5 and Q owners on firmware below 5.6.0 or 1.5.0Q should update') but the boundary document flags these as unverified against the source. The draft should not present unverified boundary specifications as confirmed fact."
-    ]
-   },
-   {
-    "id": "c041",
-    "headline": "Mastercard announces completion of BVNK acquisition",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains only a single data_point ('Mastercard will leverage BVNK's expertise to help enterprises scale use cases involving stablecoins and tokenized assets') and explicitly flags thin=true with source_chars=0, indicating the source text is empty or a stub. The draft is defensible as a tight short piece, but the bottom_line contains a smuggled fact: 'reported elsewhere as $1.8B, but unconfirmed in this source.' This price is not in the brief, not in the sourced Block article (which the brief notes has no text), and appears to come from reporting outside the provided brief. The instruction is absolute: 'no fact exists outside the brief.' A price assertion violates this rule even when hedged as unconfirmed.",
-     "The bottom_line also includes interpretive speculation ('may signal either that the integration is still in early stages or that details will emerge through other channels') that goes beyond the brief's open_questions and reads as editorial judgment rather than forward-looking summary."
-    ]
-   },
-   {
-    "id": "c016",
-    "headline": "BlackRock debuts tokenized money market funds on Ethereum across 15 European markets",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'launched 12 tokenized share classes across six money market funds covering $311 billion in assets under management' but the brief core_claim specifies '\u20ac287 billion' not '$311 billion'. The draft uses USD while the brief uses EUR\u2014these are materially different figures (approximately \u20ac287B \u2248 $314B at current rates, but the brief's figure should be reported as stated in euros, not converted to dollars without attribution or clarification). The data_point confirms '$311 billion' from CoinDesk, so this is traceable, but the brief's core_claim uses EUR and this discrepancy should be flagged or reconciled in prose."
-    ]
-   },
-   {
-    "id": "c030",
-    "headline": "BitGo migrates $7.4 billion in Wrapped Bitcoin from LayerZero to Chainlink CCIP",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'The Kelp exploit, which resulted in a $292 million loss, took place on LayerZero infrastructure' but the brief's data_point only states 'A Kelp exploit resulted in $292M loss' with no confirmation that it 'took place on LayerZero infrastructure.' The draft asserts a causal link (exploit on LayerZero) that is not in the sourced brief. The brief's open_questions explicitly ask 'What was the timeline of the Kelp exploit relative to BitGo's migration announcement?' and 'Are there other custodians or major institutions planning similar LayerZero-to-Chainlink migrations?'\u2014indicating Kelp's relationship to LayerZero is unconfirmed. The writer has smuggled a causal claim not present in the research.",
-     "Draft states 'Specific details about which technical vulnerabilities or risk factors drove BitGo's decision to migrate, or the precise timeline between the Kelp exploit and BitGo's announcement, are not confirmed in available reporting'\u2014this is the writer acknowledging gaps, which is good practice. However, the earlier claim that Kelp 'took place on LayerZero infrastructure' contradicts this transparency and asserts without warrant that LayerZero was the site of the exploit."
-    ]
-   },
-   {
-    "id": "c027",
-    "headline": "Senators seek SEC probe of President Trump's memecoin as crypto bill stalls",
-    "category": "accuracy",
-    "reasons": [
-     "The draft contains no data_points in the brief to support any of its factual claims. The brief explicitly shows data_points: [] (empty array). Every claim in the draft\u2014that Warren and Blumenthal called for an SEC probe, that The Block reported it, that investor losses are cited, that the Clarity Act faces delays over ethics concerns\u2014is SMUGGLED because it appears nowhere in the brief's data_points.",
-     "The rule is absolute: 'no fact exists outside the brief.' This draft builds an entire narrative from a single source URL with zero documented data points backing the claims made. The writer has patched facts into the draft that the research phase did not validate and record."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c012",
     "headline": "Coldcard Hardware Wallet Exploit Remains Active, Draining Bitcoin in Real Time",
     "category": "accuracy",
     "reasons": [
@@ -7291,6 +7241,56 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'The Office of the Comptroller of the Currency granted a provisional charter to OpenReserve' as an accomplished fact. The brief's only substantive data_point on this approval carries confidence label 'reported' and cites a CoinDesk article dated 2026-09-03 (yesterday relative to publication date 2026-09-04). However, the draft provides no date and reads the approval as an unqualified fact without any indication it is a very recent single-source report. More critically: the brief itself is marked 'thin: true' with only 3 data_points and 165 source_chars, indicating the reporter had minimal sourcing. A grant of a bank charter is a significant regulatory action; presenting it without attribution inline to CoinDesk, without a timestamp showing how recent the report is, and without any caveat about single-source reporting on a major regulatory decision risks reading as established fact when it is actually a fresh report from one outlet that may be the first to break it or may be recirculating an announcement. The prose should either name CoinDesk inline ('according to CoinDesk') or include date context ('announced on Sept. 3, 2026 by CoinDesk') to be transparent about recency and sourcing. The current phrasing launders a single recent report into timeless regulatory fact."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-04",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c004",
+    "headline": "Bitcoin ETFs take $730.8 million on September 4, largest day since January",
+    "category": "accuracy",
+    "reasons": [
+     "The title states inflows of '$730.8 million' but the brief's core_claim specifies '$730.9 million'. The draft body also uses '$730.8 million' in the opening sentence while the brief data_point says '$730.9 million'. This discrepancy across the brief's own sources (Cointelegraph reports $730.9M per brief, yet draft reports $730.8M) creates ambiguity about which figure is accurate. The draft must match the brief's stated figure exactly.",
+     "The bottom_line uses '$731M' (rounded), which introduces a third figure. While rounding is acceptable in a summary line, the body text should use the precise figure from the primary source as cited in the brief.",
+     "the draft dates September 4, 2026 as a Thursday; September 4, 2026 is a Friday"
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Standard Chartered launches institutional spot Bitcoin and Ether trading in UAE",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains two data_points (items 10 and 11) reporting price forecasts and market commentary from Geoffrey Kendrick, Standard Chartered's Global Head of Digital Assets Research, specifically: a $100,000 price forecast being 'too low' and potential 'overshoot towards the all-time high (USD126k) before year-end'. These claims appear in the brief with 'reported' confidence but are completely absent from the draft. The hard rule states: no fact exists outside the brief, and conversely, facts in the brief must appear in the draft unless deliberately omitted by editorial judgment. More critically, these are analyst price predictions embedded in the news story, which creates compliance exposure (category 'compliance' would also apply). The draft omits material information from its source brief, either accidentally (accuracy failure) or deliberately without marking the cut (editorial judgment failure). The story cannot run as drafted without either including these claims or explicitly justifying their omission to the desk."
+    ]
+   },
+   {
+    "id": "c100",
+    "headline": "Revolut Launches EURR Stablecoin With Bridge as Regulated Issuer",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Bridge reported 374 EURR in circulation backed by 374 euros' and 'All of the reported backing held as cash deposits' but brief data_point specifies '\u20ac374 in reserve assets' and 'All of the reported backing held as cash deposits in credit institutions.' The draft omits 'in credit institutions' from the first statement, creating potential ambiguity about reserve composition in that sentence.",
+     "More critically: Draft claims 'Circle's EURC, also EU-regulated and issued by Circle Internet Financial Europe SAS under a French electronic money license, had 394.5 million euros in circulation as of August 24, trading on seven chains including Avalanche, Base, Cronos, Solana, and others.' The brief data_point lists the seven chains as 'Avalanche, Base, Cronos, Ethereum, Solana, Stellar and World Chain.' The draft says 'including Avalanche, Base, Cronos, Solana, and others' but the brief explicitly identifies all seven. This is an accuracy error: the draft presents an incomplete list as exhaustive by use of 'including' without 'and others,' then adds 'and others,' creating confusion about whether the cited chains are complete or partial. The brief identifies EURC on seven specific chains; the draft should either list all seven or clearly indicate it is partial. As written, it suggests the writer did not verify against the brief's complete list."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "IMF Confirms El Salvador's Bitcoin Reserves Funded by Private Donations, Not Public Money",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The IMF announced on September 3 a staff-level agreement with El Salvador' but today is Friday, September 4, 2026. A staff-level agreement announced on September 3 is a past event and should be reported as such ('announced on September 3' is correct). However, the draft later says 'The IMF's confirmation comes as El Salvador's economic growth has outpaced earlier forecasts' and 'The IMF is now projecting 4.5% growth for 2026' without temporal clarity. The core issue: the draft attributes to the IMF a confirmation about 'no public funds for Bitcoin accumulation under its current framework' but the brief's data_points show this is reported by Crypto Briefing and Cointelegraph, not a direct IMF statement. The draft presents IMF findings as if the IMF directly confirmed these facts, when in fact the desk is relying on secondary reporting of a staff-level agreement. The brief explicitly flags this in open_questions: 'No direct IMF statement or official IMF document is quoted; claims derive from third-party reporting of the staff-level agreement.' The draft reads as though the IMF itself announced Bitcoin funding details, when the IMF agreement was reported by news outlets interpreting the agreement.",
+     "The phrase 'has transferred operational control of its electronic Chivo wallet to a private operator' is stated as fact, but the brief's open_questions note: 'The identity of the private operator taking control of Chivo is not disclosed in the fetched sources' and 'The timeline of when the Chivo wallet transfer to private operation occurred is not specified.' The draft presents this as a confirmed action in the IMF agreement without acknowledging that the sources do not specify timing or the operator's identity. This is a smuggled fact\u2014the detail exists in the draft but not with sufficient specificity in the brief."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "OCC Grants Provisional Charter to Crypto-Native Bank OpenReserve",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked thin=true with only three data_points, all from a single source (CoinDesk). The brief's bear_case is empty and open_questions list five substantial unknowns about timeline, services, regulatory conditions, capitalization, and OCC public statement. The draft's body is 74 words and adds no substance beyond the title: it restates the charter grant, defines what a provisional charter is, and admits that 'The specific services OpenReserve will offer, the timeline for conversion to a permanent charter, and the regulatory conditions attached to the provisional grant are not disclosed in available reporting.' This is a narration of absence\u2014the draft is describing what is NOT in the sources rather than reporting what IS. The protocol forbids this: 'a sentence that does (restating open_questions, 'the absence of', 'remains unreported') is category accuracy.' The entire body is a restatement of unknowns. The story cannot exist at this thickness without fabricating detail or violating the no-absence rule."
     ]
    }
   ]
