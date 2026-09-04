@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-08-04",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c145",
-    "headline": "US and UK Regulators Affirm Support for Stablecoins and Tokenization",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'US and UK regulators met on July 8 to reaffirm support for stablecoins and tokenization frameworks' but brief data_point only confirms 'US and UK regulators held a meeting on July 8' with confidence 'reported'. The phrase 'to reaffirm support' is smuggled interpretation not present in the brief.",
-     "Draft claims the meeting 'reaffirmed support for stablecoins and tokenization frameworks' but brief's core_claim only states they 'reaffirm support for stablecoins and tokenization through GENIUS Act implementation and cross-border cooperation.' The draft's framing of what was reaffirmed goes beyond what the brief establishes.",
-     "Draft is extremely thin (5 sentences, no substantive detail) for a story making specific factual claims about regulatory intent. Brief explicitly marks 'thin: true' with source_chars of 0, indicating the brief itself lacks reporting depth. The story should either be rejected for insufficient sourcing or rewritten to match the brief's sparse information without overstatement."
-    ]
-   },
-   {
-    "id": "c016",
-    "headline": "BlackRock launches tokenized money market funds across 15 European markets via JPMorgan's Kinexys",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The onchain share classes are available in Bermuda, Estonia, France, Germany, Ireland, Lithuania, Luxembourg, Malta, the Netherlands, Spain, Sweden, Singapore, and the U.K.' but the brief's data_point says only '15 European markets' without naming them. The draft has smuggled a list of jurisdictions (including non-European ones like Bermuda and Singapore) that is not in the brief. The writer cannot patch geographic specificity from external sources."
-    ]
-   },
-   {
-    "id": "c032",
-    "headline": "BitGo migrates $7.4 billion Wrapped Bitcoin from LayerZero to Chainlink CCIP",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'The specific timeline between the Kelp exploit and BitGo's announcement is not confirmed in available reporting, nor has the reporting specified whether the exploit occurred on LayerZero infrastructure itself. The relationship between Kelp's loss and BitGo's decision to migrate remains unconfirmed in the sourced coverage.' This meta-level caveat about what is and is not confirmed is editorial voice, not a fact from the brief. The brief's bear_case does state the Kelp exploit 'raised institutional concerns about the security model,' but the draft's extended hedge paragraph goes beyond the brief's confidence language and introduces doubt that is not present in the data_points (all marked 'reported'). The brief's angle explicitly links Kelp to the migration; the draft undercuts that causal claim without brief support for doing so."
-    ]
-   },
-   {
-    "id": "c127",
-    "headline": "BitMine adds $73M in ETH, holdings near 5% of supply",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'BitMine Immersion Technologies, the largest corporate holder of Ethereum' without attribution or qualification. The brief data_point says 'BitMine is the largest corporate holder of ETH' with confidence 'reported'\u2014meaning it came from The Defiant. The draft must attribute this claim inline to The Defiant to trace it back to source.",
-     "The draft attributes all numbers to 'The Defiant' globally at top, but the brief distinguishes confidence levels: the $73M purchase, 42,197 ETH, 5.74M total holdings, and 4.8% supply figure are labeled 'announced-not-verified' in the brief. The draft presents these as settled fact without any signal of verification status. The prose must flag these as announced figures, not independently confirmed.",
-     "The sentence 'BitMine has cited 5% of ETH's total supply as a benchmark for its treasury strategy, per The Defiant's reporting' correctly attributes, but the draft later writes 'At the current accumulation rate, the company is approaching that threshold' as if this is fact, when it is a projection/inference not appearing in the brief's data_points."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-04",
   "approved": 3,
   "rejected": [
    {
@@ -7275,6 +7233,30 @@
      "Draft states 'The platform's move follows the Financial Conduct Authority's decision to lift its retail ban on crypto ETPs in October, as reported by CoinDesk.' This describes a SCHEDULED FUTURE EVENT (October) as having already occurred and been acted upon (past tense 'follows'). Today is 2026-09-04; October 2026 has not yet arrived.",
      "The sequence is logically impossible: Hargreaves Lansdown cannot have begun listing (reported September 4) in response to an FCA decision that takes effect in the future (October). The draft conflates announcement timing with effective date timing.",
      "Brief data_point states 'The FCA decided to lift its retail ban on crypto ETPs in October' (confidence: reported), meaning the decision was announced but the ban lift is not yet effective. Draft must make this temporal distinction clear."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-04",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c234",
+    "headline": "Whale Alert Flags 250M USDC Transfer on Solana",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'The transaction pages themselves do not disclose the originating wallet address, the recipient address, or confirmation of whether the issuance is authorized by Circle' \u2014 this is narrating absence, forbidden under the protocol. The writer is restating open_questions as though they are facts the draft has checked.",
+     "Brief's bear_case explicitly notes 'No confirmation whether the mint is authorized by Circle (USDC issuer) or represents a supply manipulation event' \u2014 this is an open question, not a fact the draft can report as having investigated and found wanting.",
+     "The entire second half of the draft (paragraph 3 onwards) reads as the desk narrating what it could not verify, rather than reporting what Whale Alert said. This violates accuracy: facts must come from the brief or be rejected, and absences cannot be narrated as findings."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "UK's largest retail platform lists crypto ETPs after FCA retail ban reversal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The FCA lifted its retail ban on crypto ETPs in October 2026' and 'The FCA's decision to lift the retail ban on crypto ETPs is scheduled to take effect in October 2026.' These are contradictory: the first reads as past tense (already lifted), the second as future (scheduled). The brief's data_point says 'The FCA lifted its retail ban on crypto ETPs in October' with confidence 'reported', but today is September 4, 2026, and October 2026 has not yet occurred. The draft conflates an announced decision with an effective date. The lead sentence 'has begun listing cryptocurrency ETPs...follows the Financial Conduct Authority's announced decision to lift its retail ban in October 2026' is internally incoherent: if the ban lift is scheduled for October (future from today), Hargreaves Lansdown cannot have already begun listing based on a regulatory green light that has not yet gone into effect. This is a factual contradiction that misleads the reader about the timeline and the causal relationship between FCA action and platform action."
     ]
    }
   ]

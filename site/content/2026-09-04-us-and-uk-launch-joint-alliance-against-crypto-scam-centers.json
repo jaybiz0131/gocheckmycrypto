@@ -1,0 +1,57 @@
+{
+  "id": "c139",
+  "slug": "us-and-uk-launch-joint-alliance-against-crypto-scam-centers",
+  "kind": "brief",
+  "title": "US and UK Launch Joint Alliance Against Crypto Scam Centers",
+  "dek": "The US and UK have signed a first-of-its-kind agreement to coordinate investigations and prosecutions of crypto investment scam centers. The arrangement includes parallel probes and information sharing, with a private-sector disruption operation planned for London in October.",
+  "date": "2026-09-04",
+  "published_utc": "2026-09-04T19:43:45Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "US and UK authorities signed a coordinated enforcement agreement targeting crypto investment fraud, marking the first formal bilateral alliance of its kind between the two nations on this issue.",
+  "bottom_line": "The specifics of which agencies lead the coordination, the formal designation of the agreement, and the operational scope of the October disruption event will determine whether this represents sustained bilateral enforcement infrastructure or a limited pilot. Details on the targeted criminal networks and the enforcement tools available under the agreement are the clearest measures of its teeth.",
+  "human_take": "",
+  "body": [
+    "The United States and United Kingdom have signed a first-of-its-kind agreement to coordinate investigations and prosecutions targeting crypto investment scam centers, according to Cointelegraph. The alliance represents an explicit commitment by two major financial jurisdictions to align enforcement strategy against transnational crypto fraud networks.",
+    "The agreement establishes parallel investigations and information-sharing protocols between the two nations' law enforcement bodies. Beyond coordination on existing cases, US and UK authorities are planning a joint private-sector disruption operation in London scheduled for October, per Cointelegraph's reporting.",
+    "The move signals a strategic shift in how developed financial systems are approaching crypto-related fraud. Rather than operating independently, the US and UK are formalizing channels to pool intelligence on scam operations that often cross borders and use international networks to route stolen funds and recruit victims."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/news/us-uk-joint-alliance-crypto-scam-centers",
+      "url": "https://cointelegraph.com/news/us-uk-joint-alliance-crypto-scam-centers"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-04T19:41:44Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79660.02,
+        "chg_24h_pct": -1.97
+      },
+      {
+        "symbol": "ETH",
+        "price": 2454.87,
+        "chg_24h_pct": -2.1
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -2.2,
+      "open_interest_usd": 2199346726
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 19463056,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

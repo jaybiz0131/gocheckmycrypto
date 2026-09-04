@@ -1,0 +1,67 @@
+{
+  "id": "c009",
+  "slug": "imf-says-el-salvador-s-post-june-2025-bitcoin-holdings-came-from-private-donations",
+  "kind": "brief",
+  "title": "IMF says El Salvador's post-June 2025 bitcoin holdings came from private donations",
+  "dek": "The IMF confirmed on September 3 that El Salvador has not deployed public funds to accumulate bitcoin since its last program review, with the government citing private donations as the source of holdings growth. The country has also transferred majority control of its state-backed Chivo wallet to a private operator.",
+  "date": "2026-09-04",
+  "published_utc": "2026-09-04T19:43:45Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "The IMF reported that El Salvador's bitcoin holdings accumulated after June 2025 were funded by private donations, not public money, per documentation provided by the Salvadoran government.",
+  "bottom_line": "The IMF's September 3 confirmation of donation-only funding clears one pillar of its $1.4 billion loan agreement and signals tighter oversight of El Salvador's bitcoin strategy under the program. The private documentation supporting the donations claim has not been made public; verification of the amount held and the specific dates and sources of each donation remains outside public view.",
+  "human_take": "",
+  "body": [
+    "The IMF confirmed on September 3 that El Salvador has not used public funds to accumulate bitcoin since the fund's last program review. In a Thursday report, the IMF said the country received bitcoin from private donations, citing documentation provided by the Salvadoran government to verify the claim.\nThe IMF also stated that the government had transferred majority ownership and operational control of Chivo, its state-backed digital wallet launched in 2021, to a private operator. Public participation in the government-sponsored wallet has been largely wound down, per Bitcoin Magazine's reporting of the IMF statement.\nThe fund imposed a constraint that no further bitcoin accumulation beyond the documented donations is expected going forward. The IMF said it reached understandings with El Salvador on steps to modernize the legal, regulatory, and supervisory framework for digital assets and to strengthen governance and risk-management arrangements for public-sector crypto-asset holdings.\nOne year earlier, according to Decrypt's reporting, the IMF had claimed El Salvador's total bitcoin holdings had not moved and were merely being shuffled between government wallets, suggesting earlier opacity about the true acquisition history.\nPresident Nayib Bukele pledged in 2022 that the country would buy one bitcoin per day, though the source of those purchases remained unclear. In 2024, Bukele acknowledged that Salvadorans were not using cryptocurrency to buy goods as originally anticipated but maintained that the government was continuing to accumulate holdings. El Salvador became the first country to adopt bitcoin as legal tender in 2021."
+  ],
+  "sources": [
+    {
+      "title": "https://bitcoinmagazine.com/news/el-salvador-isnt-buying-bitcoin-says-imf",
+      "url": "https://bitcoinmagazine.com/news/el-salvador-isnt-buying-bitcoin-says-imf"
+    },
+    {
+      "title": "https://cointelegraph.com/news/el-salvador-bitcoin-private-donations-imf?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/el-salvador-bitcoin-private-donations-imf?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    },
+    {
+      "title": "https://decrypt.co/377392/imf-now-says-donations-funded-el-salvadors-bitcoin-growth",
+      "url": "https://decrypt.co/377392/imf-now-says-donations-funded-el-salvadors-bitcoin-growth"
+    }
+  ],
+  "update_of": "binance-user-data-provided-to-russian-authorities-led-to-arrest-of-opposition-linked-donor",
+  "board_snapshot": {
+    "as_of": "2026-09-04T19:41:44Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79660.02,
+        "chg_24h_pct": -1.97
+      },
+      {
+        "symbol": "ETH",
+        "price": 2454.87,
+        "chg_24h_pct": -2.1
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -2.2,
+      "open_interest_usd": 2199346726
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 19463056,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Decrypt",
+    "Bitcoin Magazine"
+  ],
+  "developing": false
+}

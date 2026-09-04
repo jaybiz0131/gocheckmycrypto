@@ -1,0 +1,63 @@
+{
+  "id": "c044",
+  "slug": "fincen-ties-12-7b-to-crypto-investment-scams-run-from-southeast-asian-compounds",
+  "kind": "brief",
+  "title": "FinCEN ties $12.7B to crypto investment scams run from Southeast Asian compounds",
+  "dek": "The US Treasury's FinCEN identified $12.7 billion in suspicious financial activity tied to crypto investment scams operated from compounds in Cambodia, Laos, and Burma. Analysis of 33,904 reports filed between September 2023 and December 2025 shows scammers convert victim funds into stablecoins and move them through offshore exchanges.",
+  "date": "2026-09-04",
+  "published_utc": "2026-09-04T19:43:45Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "FinCEN linked $12.7 billion in suspicious activity to transnational crypto investment scams run from Southeast Asian compounds, analyzing 33,904 reports over 27 months.",
+  "bottom_line": "FinCEN's $12.7 billion figure quantifies the scale of transnational crypto fraud but carries caveats: the agency acknowledges potential double-counting and inflation from wider use of its own alert terminology. The $1 billion recovery rate against $1.8 billion interdicted since 2015 underscores the difficulty of asset repatriation once funds move offshore.",
+  "human_take": "",
+  "body": [
+    "The US Treasury's Financial Crimes Enforcement Network identified $12.7 billion in suspicious financial activity linked to crypto investment scams operated from compounds in Southeast Asia, according to Decrypt's reporting. The analysis covered 33,904 reports filed between September 2023 and December 2025, submitted by approximately 1,300 financial institutions.",
+    "Money services businesses, mostly crypto firms, filed 55% of the reports and flagged $5.5 billion. Banks filed 41% of reports and flagged $6.4 billion. Securities firms accounted for the remainder, flagging $784.5 million.",
+    "Filings grew by an average of 10.9% per month, while reported sums grew by 18% monthly. In October 2023, there were 590 reports totaling $485.7 million; by December 2025, 2,482 reports totaled $833.5 million.",
+    "Scammers deployed at least 22 different digital assets, most commonly Ethereum, USDT and USDC. Blockchain analysis showed proceeds were nearly always swapped into stablecoins, almost exclusively USDT, then pushed through decentralized finance protocols or exchanges outside the United States.",
+    "Scammers reused collection addresses across multiple victims simultaneously. Victims spanned all 50 states and funded losses from retirement accounts, home equity lines, second mortgages and personal loans. One victim sent nearly $640,000 from retirement funds; another lost more than $1 million over six months.",
+    "Elder exploitation appeared in approximately 25% of reports, against the 24.4% share of the US population aged 60 and over, leading FinCEN to conclude older adults are neither disproportionately victimized nor disproportionately robbed in these schemes. The FBI counted $4.8 billion in fraud losses among Americans over 60 in 2024.",
+    "The compounds sit mostly in Cambodia, Laos and Burma, per reporting of the FinCEN analysis. The United Nations estimates the staffing at hundreds of thousands of people, many trafficked through fake job advertisements. Interpol has warned the model is spreading beyond Southeast Asia.",
+    "US authorities seized more than $25 million tied to such schemes in 2026. Since 2015, FinCEN's Rapid Response Program has interdicted $1.8 billion and recovered just over $1 billion for 5,790 American victims.",
+    "FinCEN cautioned that the climb in reports and reported sums may partly reflect wider adoption of the search term from its 2023 alert and that totals can double-count transfers, attempted payments and filer errors. The agency devoted a section of the report to self-harm, noting victims are sometimes at risk after discovering the fraud, and pointed them to the 988 Suicide and Crisis Lifeline."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/377386/fincen-ties-12-7b-to-crypto-scams-run-from-asian-compounds",
+      "url": "https://decrypt.co/377386/fincen-ties-12-7b-to-crypto-scams-run-from-asian-compounds"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-04T19:41:44Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79660.02,
+        "chg_24h_pct": -1.97
+      },
+      {
+        "symbol": "ETH",
+        "price": 2454.87,
+        "chg_24h_pct": -2.1
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -2.2,
+      "open_interest_usd": 2199346726
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 19463056,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
