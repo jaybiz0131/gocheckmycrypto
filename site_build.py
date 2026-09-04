@@ -312,7 +312,34 @@ TAG_RULES = [
 _TAG_RES = [(tag, re.compile(pat, re.I)) for tag, pat in TAG_RULES]
 
 
+# TAGS ARE PURE AND THEY ARE COMPUTED O(n^2) (2026-09-04). related_stories asks for the
+# tags of every candidate against every item, so a 483-story corpus makes ~233,000
+# tags_for calls in one build. At 3.5ms each that is fourteen minutes, and the build has
+# to finish inside Netlify's limit. The function is a pure read of fields that do not
+# change during a build, so it is memoised on the story's own id. This was found by the
+# build blowing past ten minutes right after the tag rules were widened: the quadratic
+# call pattern was always here, the longer patterns only made each call expensive enough
+# to notice.
+_TAGS_CACHE = {}
+
+
 def tags_for(item):
+    # SLUG, NOT ID. "id" is a per-run sequence number and it repeats: c001 appears 13
+    # times in the sports corpus, so keying on it served one story's tags to twelve
+    # others. Measured before it shipped: 231 of 483 stories got the wrong tags. A
+    # shallow key is not an identity, which is the rule this desk keeps relearning.
+    _ck = item.get("slug")
+    if _ck is not None:
+        _hit = _TAGS_CACHE.get(_ck)
+        if _hit is not None:
+            return _hit
+    _res = _tags_for_uncached(item)
+    if _ck is not None:
+        _TAGS_CACHE[_ck] = _res
+    return _res
+
+
+def _tags_for_uncached(item):
     """Up to three topic tags, most specific first. See TAG_RULES for why the order matters.
 
     Matched against the headline, dek and key fact ONLY, never the body. A tag is a claim
