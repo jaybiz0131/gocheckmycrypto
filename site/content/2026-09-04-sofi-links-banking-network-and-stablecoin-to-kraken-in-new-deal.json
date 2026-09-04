@@ -1,0 +1,61 @@
+{
+  "id": "c055",
+  "slug": "sofi-links-banking-network-and-stablecoin-to-kraken-in-new-deal",
+  "kind": "brief",
+  "title": "SoFi links banking network and stablecoin to Kraken in new deal",
+  "dek": "SoFi and Kraken parent Payward announced a partnership routing SoFi's crypto customer orders through Kraken Prime institutional trading and listing SoFiUSD stablecoin on Kraken's exchange. The deal bridges retail banking rails to 24/7 on-chain settlement infrastructure.",
+  "date": "2026-09-04",
+  "published_utc": "2026-09-04T19:28:54Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "SoFi will send digital asset order flow to Kraken Prime, which will compare prices across multiple venues, while Payward joins SoFi's Exchange Network and lists SoFiUSD on Kraken.",
+  "bottom_line": "SoFi has now integrated retail trading, institutional prime brokerage, and its own stablecoin across a major exchange, effectively validating 24/7 on-chain infrastructure for banking customers. Whether other nationally chartered banks follow SoFi's model to integrate institutional and retail crypto access through similar partnerships will signal whether this arrangement is a template or an outlier.",
+  "human_take": "",
+  "body": [
+    "SoFi and Kraken parent Payward announced a partnership linking retail banking services to institutional crypto trading and settlement infrastructure. SoFi will route its digital asset customer orders to Kraken Prime, Kraken's prime brokerage arm that launched in 2025, according to Bitcoin Magazine.",
+    "Kraken Prime uses smart order routing to compare prices and depth across multiple venues and execute where the fill is best, per Bitcoin Magazine's reporting. SoFi customers will see no change to the app itself as a result of the routing arrangement, and their orders will execute through Kraken Prime's infrastructure without visible modification to the user experience.",
+    "Payward is joining the SoFi Exchange Network, the bank's real-time settlement system, and will list SoFiUSD on Kraken, according to Bitcoin Magazine. Kraken Prime's institutional and business clients will gain access to SoFi's business banking services and round-the-clock fiat settlement, per Bitcoin Magazine. Qualified custody services will follow later.",
+    "SoFi holds a national bank charter and has 15.8 million members, per Bitcoin Magazine. The company last year became the first nationally chartered bank in the United States to launch crypto services for retail customers, allowing members to buy, sell and hold bitcoin directly within their bank accounts, according to Bitcoin Magazine.",
+    "The partnership follows SoFi's earlier arrangements with Deutsche B\u00f6rse on foreign exchange and derivatives infrastructure, Nasdaq on a tokenized equities gateway, and Franklin Templeton on tokenizing exchange-traded funds, according to Bitcoin Magazine. Each of these partnerships extends banking rails into on-chain markets, and this latest agreement with Kraken broadens SoFi's institutional and 24/7 settlement capabilities.",
+    "The deal validates infrastructure for round-the-clock asset settlement using stablecoins and connects institutional prime brokerage to a retail bank's customer base. SoFi's network approach positions it as a bridge between traditional banking rails and decentralized markets, with custody and additional institutional services planned."
+  ],
+  "sources": [
+    {
+      "title": "https://bitcoinmagazine.com/news/kraken-sofi-partnership",
+      "url": "https://bitcoinmagazine.com/news/kraken-sofi-partnership"
+    }
+  ],
+  "update_of": "hyperliquid-in-advanced-talks-with-kraken-parent-on-us-perpetuals-entry-through-bitnomial",
+  "board_snapshot": {
+    "as_of": "2026-09-04T19:27:49Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79792.03,
+        "chg_24h_pct": -1.81
+      },
+      {
+        "symbol": "ETH",
+        "price": 2456.36,
+        "chg_24h_pct": -2.05
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -1.6,
+      "open_interest_usd": 2203698493
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 19463056,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

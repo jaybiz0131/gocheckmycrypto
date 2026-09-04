@@ -1,0 +1,65 @@
+{
+  "id": "c029",
+  "slug": "us-bitcoin-etfs-report-the-largest-inflow-day-since-january-worth-730-8-million",
+  "kind": "brief",
+  "title": "US bitcoin ETFs report the largest inflow day since January, worth $730.8 million",
+  "dek": "Bitcoin spot ETFs recorded a net inflow of $730.8 million on September 3, 2026, their largest single day since January, as the desk's ETF flows board confirmed. Fed Governor Christopher Waller's dovish comments are attributed by analysts as a driver of the capital surge.",
+  "date": "2026-09-04",
+  "published_utc": "2026-09-04T19:28:54Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "The desk's ETF flows board recorded net inflow of $730.8 million on September 3, 2026, with cumulative year-to-date inflows of $55,512 million across US bitcoin ETFs.",
+  "bottom_line": "The $730.8 million inflow is the largest in eight months, but Bitcoin fell 1.81% the next day and the crypto market shed 4.14%, which complicates the narrative of a durable institutional reversal. Whether this inflow represents a durable repositioning on rate expectations or a single tactical move becomes clear as ETF flows evolve over the coming weeks.",
+  "human_take": "",
+  "body": [
+    "US-listed spot Bitcoin ETFs drew $730.8 million on September 3, 2026, their largest single-day inflow since January, according to the desk's ETF flows board. The inflow came as Bitcoin price reclaimed the $80,000 level, per Cointelegraph's reporting.",
+    "Fed Governor Christopher Waller's dovish comments are attributed by analysts cited in The Block's reporting as a driver of the capital surge into bitcoin products. The timing and scale of the inflow suggest institutional positioning in response to signals of a potential shift toward looser monetary policy.",
+    "The desk's market boards showed Bitcoin at $79,792.03 as of Friday, September 4, down 1.81% in the 24 hours prior. Over the week ending September 4, Bitcoin rose 1.63%, and over the month it rose 22.66%. However, Bitcoin remains 36.0% below its 12-month high of $124,739.81 reached earlier in the year.",
+    "Ethereum ETFs also recorded inflow on September 3, pulling in $141.4 million, a fraction of Bitcoin's $730.8 million. The broader crypto market capitalization fell 4.14% in the 24 hours to September 4, despite the prior day's institutional inflow, and Bitcoin dominance held at 59.2%.",
+    "Year-to-date, US bitcoin ETFs have accumulated $55,512 million in net inflows. Ethereum ETFs have drawn $13,159 million cumulatively. The September 3 inflow broke a two-day streak of same-direction flows, per the desk's board data, suggesting a shift in institutional positioning after a period of either outflows or muted activity.",
+    "The size of the single-day inflow stands out, but the immediate price weakness that followed raises questions about the durability of the rebound. Bitcoin's weakness on September 4 and the broader market decline suggest the capital injection did not establish a sustained bid."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/markets/2026-09-04-us-bitcoin-etfs-largest-inflow-day-since-january-413515",
+      "url": "https://www.theblock.co/news/markets/2026-09-04-us-bitcoin-etfs-largest-inflow-day-since-january-413515"
+    },
+    {
+      "title": "desk://market-boards",
+      "url": "desk://market-boards"
+    }
+  ],
+  "update_of": "ubs-surges-bitcoin-call-options-24-fold-while-trimming-direct-holdings-in-q2-2026",
+  "board_snapshot": {
+    "as_of": "2026-09-04T19:27:49Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79792.03,
+        "chg_24h_pct": -1.81
+      },
+      {
+        "symbol": "ETH",
+        "price": 2456.36,
+        "chg_24h_pct": -2.05
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -1.6,
+      "open_interest_usd": 2203698493
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 19463056,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
