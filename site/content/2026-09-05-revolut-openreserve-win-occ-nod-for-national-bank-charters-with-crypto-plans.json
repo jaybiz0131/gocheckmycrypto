@@ -1,0 +1,59 @@
+{
+  "id": "c087",
+  "slug": "revolut-openreserve-win-occ-nod-for-national-bank-charters-with-crypto-plans",
+  "kind": "brief",
+  "title": "Revolut, OpenReserve Win OCC Nod for National Bank Charters with Crypto Plans",
+  "dek": "The U.S. Office of the Comptroller of the Currency granted preliminary approval to fintech firms Revolut and OpenReserve to establish national banks offering digital asset and stablecoin services. The green light marks institutional legitimacy for regulated crypto services integrated into the U.S. banking system.",
+  "date": "2026-09-05",
+  "published_utc": "2026-09-05T19:01:11Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "Revolut and OpenReserve each received OCC preliminary approval for national bank charters with explicit mandates to offer digital asset and stablecoin services.",
+  "bottom_line": "The key test will be whether preliminary approval converts to final charter issuance and whether the scope of permitted crypto services matches the banks' initial plans. Regulatory changes to stablecoin or digital asset treatment at the federal or state level could narrow or delay those permissions.",
+  "human_take": "",
+  "body": [
+    "The U.S. Office of the Comptroller of the Currency has granted preliminary approval to Revolut and OpenReserve to establish national banks with explicit plans to offer digital asset and stablecoin services, according to Cointelegraph reporting on September 4. The move signals regulatory acceptance of crypto and stablecoins as core banking functions within the U.S. financial system.",
+    "Preliminary approval represents a formal step toward charter authorization but does not guarantee final approval or immediate operations. Both firms remain subject to additional regulatory scrutiny and ongoing compliance review before commencing banking operations.",
+    "The charters explicitly contemplate digital asset and stablecoin services as part of each bank's planned business model. The scope of which specific assets each bank may custody, trade, or issue, and under what capital and reserve requirements, has not been disclosed in available reporting.",
+    "Preliminary approval also does not insulate these banks from regulatory risk. Stablecoin and digital asset services remain subject to evolving federal and state regulation; changes to statutory requirements or SEC or CFTC guidance could alter the permissible scope or operational terms of these services post-approval."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/news/revolut-openreserve-occ-approval-national-bank-crypto-plan",
+      "url": "https://cointelegraph.com/news/revolut-openreserve-occ-approval-national-bank-crypto-plan"
+    }
+  ],
+  "update_of": "sberbank-plans-crypto-backed-loans-using-bitcoin-ethereum-tether",
+  "board_snapshot": {
+    "as_of": "2026-09-05T18:59:07Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79978.14,
+        "chg_24h_pct": 0.39
+      },
+      {
+        "symbol": "ETH",
+        "price": 2479.39,
+        "chg_24h_pct": 0.95
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 0.7,
+      "open_interest_usd": 2157703900
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 99583285,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

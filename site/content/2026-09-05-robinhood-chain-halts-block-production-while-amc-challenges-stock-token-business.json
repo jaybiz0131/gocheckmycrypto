@@ -1,0 +1,61 @@
+{
+  "id": "c098",
+  "slug": "robinhood-chain-halts-block-production-while-amc-challenges-stock-token-business",
+  "kind": "brief",
+  "title": "Robinhood Chain Halts Block Production While AMC Challenges Stock Token Business",
+  "dek": "Robinhood Chain, the Ethereum layer-2 launched July 1, halted block production for at least 14 minutes on September 4, according to CryptoSlate. The outage occurred as AMC Entertainment CEO Adam Aron publicly challenged the legality of AMC stock tokens trading on the network and demanded Robinhood cease trading them. Robinhood's chief legal officer responded that the company would not stop and invited AMC's lawyers to challenge the offering.",
+  "date": "2026-09-05",
+  "published_utc": "2026-09-05T19:01:11Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "Robinhood Chain experienced a significant infrastructure failure during peak growth, with block production halting 14 minutes on September 4, two months after mainnet launch, while the network simultaneously faces legal pressure from AMC Entertainment over unauthorized stock token issuance.",
+  "bottom_line": "The disclosure of the block production outage's root cause and Robinhood's response will clarify whether the infrastructure failure is systemic or isolated. Separately, whether AMC or other corporate issuers initiate legal action will determine whether the stock token model can survive without corporate consent, a question that could reshape the entire tokenized assets market.",
+  "human_take": "",
+  "body": [
+    "Robinhood Chain, the Ethereum layer-2 network launched on mainnet July 1, halted block production for at least 14 minutes on September 4, according to CryptoSlate. The network stalled transactions before activity began recovering. Robinhood had not publicly disclosed the cause of the interruption at the time of reporting.",
+    "The outage struck during a period of rapid expansion. The network has generated about $23 million in cumulative fees, with roughly $4 million collected in a recent 24-hour period. Token Terminal estimated that Robinhood Chain accounted for 78.5% of layer-2 blockchain revenue over the past 30 days, putting it ahead of all competing layer-2 networks. At that pace, the network's revenue would annualize to roughly $1.7 billion. Total value locked on Robinhood Chain climbed nearly 27% over the past week to roughly $840 million, per DeFiLlama.",
+    "Simultaneously, AMC Entertainment CEO Adam Aron publicly challenged the legality of AMC stock tokens trading on the network. Aron stated: \"They are not registered under U.S. securities laws. I find this practice to be contemptible, outrageous, disgusting, detestable, inexcusable, vile. How can it possibly be legal? We have no connection to this at all, and do not condone it in any way.\" AMC asked Robinhood to voluntarily cease trading AMC stock tokens and stated that if Robinhood did not comply, AMC's securities counsel had been asked to determine whether they could force Robinhood to stop.",
+    "Robinhood's chief legal officer Dan Gallagher responded: \"We know a little something about the US securities laws and will not 'DECIST.' Send your lawyers and we'll educate them.\"",
+    "Stock Tokens are ERC-20 tokens issued by Robinhood Assets Limited, a Jersey entity. Holders receive economic exposure to the performance of the referenced security but gain no legal or beneficial ownership of the underlying shares and no claim against the company whose stock is tracked. Stock Tokens are not registered under U.S. securities laws and cannot be offered or sold to U.S. persons. Robinhood creates an instrument linked to each company's share price without that company participating in the issuance, with the legal relationship instead running between the token holder and Robinhood's Jersey entity.",
+    "OpenAI previously raised a similar objection after Robinhood introduced tokens referencing the privately held company, saying the instruments were not OpenAI equity, that it had not partnered with Robinhood and that it did not endorse the offering.",
+    "Robinhood has become the largest Stock Token issuer by holder count in roughly two months, reaching about 862,800 holders. Stock Tokens on Robinhood Chain now represent more than $200 million of active real-world assets. The wider tokenized-stock market has expanded more than eightfold over the past six months to roughly 2.6 million holders. Tokenized stocks generated about $6.4 billion in decentralized exchange volume over the past 30 days, up more than 90% from the preceding period. PancakeSwap accounted for about $3.1 billion of tokenized stock decentralized exchange volume and Uniswap another $2.5 billion, giving the two exchanges the overwhelming majority of activity."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/a-major-outage-and-corporate-backlash-hit-robinhood-chain-at-the-peak-of-its-growth",
+      "url": "https://cryptoslate.com/a-major-outage-and-corporate-backlash-hit-robinhood-chain-at-the-peak-of-its-growth"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-05T18:59:07Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79978.14,
+        "chg_24h_pct": 0.39
+      },
+      {
+        "symbol": "ETH",
+        "price": 2479.39,
+        "chg_24h_pct": 0.95
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 0.7,
+      "open_interest_usd": 2157703900
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 99583285,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
