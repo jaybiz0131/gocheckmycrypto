@@ -1,55 +1,6 @@
 [
  {
   "date": "2026-08-05",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c012",
-    "headline": "Coldcard confirms active exploitation; $114M drained as fourth sweep occurs",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Mk4, Mk5 and Q devices on older firmware' as affected, but the brief data_point specifies 'Mk4, Mk5 and Q devices on older firmware' without defining what 'older' means. The draft later clarifies this as 'firmware below 5.6.0 or 1.5.0Q' in the remediation paragraph, but the initial claim in the body is ambiguous and does not match the precision in the brief's affected/fixed boundary.",
-     "The draft presents Vincent Bouzon's quote as implying a 'broader architectural weakness in how hardware wallets generate that entropy, not merely a one-off Coldcard bug,' but this interpretation is the writer's inference, not stated in the brief's data_point, which only records his direct quote. The phrase 'His comment implies' is speculative analysis added by the writer beyond what the brief supports."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Wells Fargo launches tokenized deposits for 24/7 corporate settlement",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Wells Fargo will offer tokenized deposits for select corporate and commercial clients later this year, starting with U.S. dollar-to-British pound transactions on its proprietary blockchain,' but the brief data_point says 'later this year' (in 2026 context, which is future tense from the publication date). The draft then uses future tense throughout, which is correct, but the phrase 'will offer...later this year' combined with 'starting with' implies deployment has a confirmed date. The brief does not provide a specific launch date beyond 'later this year,' and the source timestamp is 2026-08-04, making 'later this year' ambiguous in credibility.",
-     "The draft claims 'Wells Fargo filed a March trademark application for WFUSD, which could be associated with a deposit token or stablecoin,' attributing this to CoinDesk. However, this is a reported fact marked as 'reported' confidence in the brief, meaning it comes from the source, but the draft's framing 'which could be associated with' is speculative language added by the writer. The brief does not include language about what WFUSD 'could be' associated with\u2014it reports the filing and the possible association. The writer's hedging is appropriate but the attribution and specificity of the claim need to match the brief exactly."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "BitGo shifts $7.3B WBTC from LayerZero to Chainlink CCIP",
-    "category": "accuracy",
-    "reasons": [
-     "Claim: 'The $292 million Kelp DAO exploit, reported by CoinDesk as having been powered by LayerZero, occurred earlier this year.' The brief's data_point states the exploit 'was powered by LayerZero' with confidence 'reported', but the draft immediately hedges this by saying 'nor does it confirm whether the exploit occurred on LayerZero infrastructure itself or on Kelp's implementation using LayerZero' and 'The relationship between Kelp's loss and BitGo's decision to migrate remains unconfirmed in the sourced reporting.' This contradicts the initial assertion. The draft cannot both assert the exploit was 'powered by LayerZero' and then claim the relationship to LayerZero remains unconfirmed. The sourced confidence label must survive in prose: the draft should reflect the ambiguity upfront, not state it as fact then hedge it away."
-    ]
-   },
-   {
-    "id": "c043",
-    "headline": "Mastercard completes BVNK acquisition",
-    "category": "accuracy",
-    "reasons": [
-     "The draft omits the $1.8 billion acquisition price entirely. The brief includes this as a core data_point with 'reported' confidence from The Block. The draft states 'The sourced reporting does not disclose the acquisition price' but the brief clearly includes it. This is a smuggled omission: the writer either did not check the brief against the draft, or chose to suppress a material fact. The price is the lead fact and must appear."
-    ]
-   },
-   {
-    "id": "c061",
-    "headline": "Former FBI supervisory agent charged with stealing nearly $1M from seized crypto wallets",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'A former FBI supervisory counterintelligence official was charged' as settled fact, but brief marks all core claims as 'unconfirmed'. The prose must signal uncertainty: 'allegedly' or 'according to Decrypt's unconfirmed reporting' is required, not buried disclaimer.",
-     "Draft opens with 'was charged' without attribution to source confidence level. Brief's 'unconfirmed' label must survive in the prose itself, not just in the caveating second sentence."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
   "approved": 2,
   "rejected": [
    {
@@ -7250,6 +7201,23 @@
     "reasons": [
      "The draft contains the phrase 'the organization represents local law enforcement across the country, a constituency with constituency with direct interest in financial crime investigation and prosecution.' This is a duplicate phrase ('constituency with constituency') and a substantive claim about what the NSA represents. The brief does not contain a data point confirming the NSA's composition or reach. This claim is smuggled; it must either be sourced to the CoinDesk article or removed.",
      "The draft states 'The NSA's prior statement had focused on concerns about cryptocurrency's use in crime and the risks of weakening enforcement tooling.' The brief confirms the prior opposition existed and what it warned about, but the draft adds detail ('weakening enforcement tooling') that does not appear in the brief's data points. This is a paraphrase that adds specificity not sourced to the provided materials."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-05",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c021",
+    "headline": "US Bitcoin ETFs Draw $731M on September 4, Largest Day Since January",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims Bitcoin ETFs drew '$730.9 million' on September 4, but the brief's market board data shows 'BTC spot ETF latest daily inflow on September 4, 2026 was $174.6 million.' The Cointelegraph source reports $730.9M, but the desk's own verified market board data contradicts this figure. The desk's own high-confidence verified data must control.",
+     "The draft states 'Bitcoin price climbed toward $80,000 on the day' but the brief's verified market board data shows Bitcoin was '$79,702.42' on September 4 with a '+0.04%' 24-hour change. The brief's bear_case notes the discrepancy between the reported intraday high of $80,000 and the closing/reference price of $79,702.42, but the draft does not acknowledge this and presents the move as settled fact without attribution or caveat.",
+     "The draft cites 'Cointelegraph reported that Fed Governor Christopher Waller's dovish comments drove the significant inflow' but the brief explicitly marks this as unverified in its bear_case: 'No independent verification in source texts of Fed Governor Waller's specific dovish comments or their exact content\u2014causation attributed but not documented in fetched sources.' The draft attributes causation without hedging language or confidence labels required by the desk's rules.",
+     "the draft dates September 4, 2026 as a Thursday; September 4, 2026 is a Friday"
     ]
    }
   ]
