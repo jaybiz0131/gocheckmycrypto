@@ -4,46 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c148",
-    "headline": "Taiwan Announces October Start for Domestic Travel Rule Implementation",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Taiwan's financial regulator has announced' but brief does not specify which regulator made the announcement. The brief notes this as an open question: 'Which regulator announced this plan, and what is the formal regulatory authority or guidance document?' The draft presents an unconfirmed institutional attribution as settled fact.",
-     "Draft claims Travel Rule 'begins domestically, applying the rule to transfers between local service providers before extending jurisdiction to cross-border transactions' but the brief only confirms domestic application starting in October and overseas expansion by end-2027. The draft adds interpretive language about 'jurisdiction' and sequencing that goes beyond the reported facts."
-    ]
-   },
-   {
-    "id": "c147",
-    "headline": "ESMA MiCA Register Expands to 321 Authorized CASPs in Fourth Update",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states '12 companies to the list of authorized crypto asset service providers' but the brief explicitly notes in open_questions: 'The identities of the 12 companies added in this update are not specified in available sources.' The draft presents a count as fact when the source material does not name any of the 12 entities. This is a factual claim unsupported by the brief.",
-     "Draft claims 'three entities were added to ESMA's non-compliant register' but then immediately acknowledges 'Available sources do not identify...the three non-compliant entities by name.' The brief confirms this gap. Presenting '12 companies' and 'three entities' as facts when they are unnamed and unverifiable in the source material violates the rule that facts must trace to brief data_points with specificity."
-    ]
-   },
-   {
-    "id": "c116",
-    "headline": "15 attackers now draining vulnerable Coldcard wallets, with $130 million in losses",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Law enforcement departments around the world are investigating the criminal activity' but this claim does not appear in any data_point in the brief. This is a smuggled fact introduced by the writer without research support."
-    ]
-   },
-   {
-    "id": "c155",
-    "headline": "Story Withdrawn: Insufficient Source Material",
-    "category": "accuracy",
-    "reasons": [
-     "Draft body states 'Snippet reference indicates a July 8 meeting between US and UK regulators discussing the GENIUS Act, payment modernization, and digital asset oversight, but this claim remains unconfirmed' \u2014 this is not a report of facts; it is an editorial meta-statement about source insufficiency. The draft is positioned as a withdrawal/kill decision, not as a publishable story. A draft titled 'Story Withdrawn' cannot be approved as a published piece; if the story cannot run, it should not appear in the approval queue as a draft."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c153",
     "headline": "EU MiCA Register Reaches 321 Authorized Crypto Service Providers",
     "category": "accuracy",
@@ -7159,6 +7119,22 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'By mid-January 2026, the count had climbed to approximately 89,955, crossing 90,000 shortly after.' This describes a past event (mid-January 2026) as already having occurred. Today is 2026-09-06, so January 2026 is in the past and this is correctly written as completed. However, the draft also states earlier 'Early in 2026, on-chain dashboards recorded roughly 22,609 unique hook addresses that had been initialized.' This is vague; 'early 2026' is defined in the brief's data_point as simply recorded earlier in 2026, but the specific timestamp placement is unclear in the draft. More critically: the phrase 'By mid-January 2026' is problematic because the Crypto Briefing source was published 2026-09-05T19:30:12Z (September 5, 2026, in the future relative to today 2026-09-06 review date), yet the draft narrates January 2026 as already having crossed 90K. The timeline internal to the draft is internally consistent with past events, but the source timestamp shows the Crypto Briefing piece was dated September 5, 2026\u2014meaning the 90K crossing 'shortly after' mid-January would have been in January or early February 2026, which is seven months in the past. This is factually sound. Re-reading the instructions: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The events in the draft (January 2026, crossing 90K) are dated BEFORE today (September 6, 2026), so they are correctly written as past-tense completed events. This does NOT trigger the rule. The draft is accurate on timeline."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-06",
+  "approved": 9,
+  "rejected": [
+   {
+    "id": "c116",
+    "headline": "Tether Holds $122B in US Treasuries, Aims for Top 5 Buyer Ranking",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states: 'Tether has described itself as the fifth-largest purchaser of US Treasuries when hedge fund activity is excluded from the rankings, though the outlet does not independently verify that categorization.' This sentence correctly attributes Tether's claim and flags the lack of independent verification\u2014appropriate handling of an unconfirmed assertion.",
+     "However, the draft then states: 'Tether's CEO stated expectations that Tether will climb into the top 10 purchasers of T-bills in 2026.' This is a forward-looking prediction presented as CEO expectation. The data_point #8 in the brief correctly sources this as 'Tether's CEO stated expectations.' The draft follows the source correctly here.",
+     "The critical failure: The draft opens with 'Tether holds over $122 billion in direct US Treasury bill holdings' and 'roughly 83% of reserves' without qualification. Data_points #1 and #3 are sourced to Crypto Briefing and labeled 'reported,' but Crypto Briefing itself did not verify these figures\u2014they came from Tether's own reporting. The protocol requires that confidence labels ('reported' vs. 'announced-not-verified' vs. 'unconfirmed') survive into prose. A statement sourced only to Crypto Briefing reporting Tether's own claimed holdings should signal that these are Tether-claimed figures, not independently verified holdings. The draft presents Tether's Treasury holdings and allocation percentages as settled fact without attribution to Tether itself or a qualifier like 'according to Tether's reporting' on first reference. This is a confidence-label failure: 'reported' means the outlet reported it, not that it was independently confirmed."
     ]
    }
   ]

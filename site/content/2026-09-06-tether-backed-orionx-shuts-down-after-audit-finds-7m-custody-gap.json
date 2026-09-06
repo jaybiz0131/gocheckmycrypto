@@ -1,0 +1,33 @@
+{
+  "id": "c052",
+  "slug": "tether-backed-orionx-shuts-down-after-audit-finds-7m-custody-gap",
+  "kind": "brief",
+  "title": "Tether-Backed Orionx Shuts Down After Audit Finds $7M Custody Gap",
+  "dek": "Orionx, a Chile-based crypto exchange that received strategic investment from Tether in June 2025, is permanently closing after a forensic audit uncovered more than $7 million in customer assets moved to wallets outside the platform's custody. The exchange suspended withdrawals on September 3, 2026, and filed criminal complaints against two former executives for misappropriation spanning 2018 to 2021.",
+  "date": "2026-09-06",
+  "published_utc": "2026-09-06T11:40:42Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "Orionx discovered and disclosed a $7 million plus custody gap spanning Bitcoin, Ethereum, XRP, and Polygon, allegedly misappropriated by former executives from 2018 to 2021, per Cointelegraph and Crypto Briefing.",
+  "bottom_line": "Orionx's restitution plan and its funding source remain the immediate question. The CMF's explicit refusal to oversee closure or recovery means user recovery depends entirely on whatever assets Orionx can liquidate and however the exchange structures payments. The parallel question is regulatory: whether Chile's rejection of Orionx's license application in June 2026 constitutes the first formal action that triggered the forensic audit, or whether the audit preceded the rejection.",
+  "human_take": "",
+  "body": [
+    "Orionx, one of Chile's most prominent crypto exchanges, is permanently shutting down after a forensic audit uncovered more than $7 million in customer assets that had been moved to wallets outside the platform's custody, according to Crypto Briefing. The exchange suspended withdrawals and announced its closure on September 3, 2026. Over 100,000 registered users are now facing uncertainty about whether they will recover their funds.\nTether made a strategic investment in Orionx in June 2025 as part of the platform's Series A funding round, per Crypto Briefing. The deal was supposed to supercharge Orionx's stablecoin services across Latin America and position the platform as a regional gateway for digital dollar adoption. Fifteen months later, that strategy collapsed.\nAccording to Crypto Briefing, the forensic audit identified discrepancies in Bitcoin, Ethereum, XRP, and Polygon holdings.  The company launched in 2017, meaning the alleged theft was occurring while the exchange was building its user base and reputation.\nChile's Financial Market Commission, the CMF, rejected Orionx's application for regulatory authorization in June 2026, per Crypto Briefing. The rejection confirmed that the exchange had been operating without the proper licenses required under Chile's Fintech Law. The CMF has made clear that it will not oversee the closure or any restitution process, leaving Orionx to manage the situation independently.\nOrionx has announced a phased plan for asset restitution, though according to Crypto Briefing, the exchange has stopped short of guaranteeing that all users will be made whole. Cointelegraph reports that Orionx filed criminal complaints against the former executives, but neither outlet provides details on what assets or collateral remain available to satisfy claims or how the restitution plan will be funded.\nThe custody failure spans multiple years and occurred before Tether's involvement. The misappropriation discovery came years after the alleged acts, raising questions about what internal controls existed and whether Tether conducted audits between its June 2025 investment and the June 2026 regulatory rejection. No statement from Tether on its post-investment oversight or its role in the closure process appears in the available reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/news/orionx-shut-down-7-million-move-outside-wallets",
+      "url": "https://cointelegraph.com/news/orionx-shut-down-7-million-move-outside-wallets"
+    },
+    {
+      "title": "https://cryptobriefing.com/orionx-shuts-down-7m-custody-gap/",
+      "url": "https://cryptobriefing.com/orionx-shuts-down-7m-custody-gap/"
+    }
+  ],
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false
+}
