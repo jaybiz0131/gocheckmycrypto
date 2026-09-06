@@ -1,0 +1,62 @@
+{
+  "id": "c005",
+  "slug": "coinbase-backed-router-protocol-to-shut-down-by-september-30-burning-303-million-tokens",
+  "kind": "brief",
+  "title": "Coinbase-backed Router Protocol to shut down by September 30, burning 303 million tokens",
+  "dek": "Router Protocol, a cross-chain interoperability platform backed by Coinbase Ventures, announced permanent shutdown by September 30, 2026, with a planned burn of 303,333,198 ROUTE tokens. The project cited low Web3 liquidity, high operational costs, and insufficient bridging revenue as the core drivers. ROUTE token price collapsed roughly 50% to an all-time low near $0.00004 following the announcement.",
+  "date": "2026-09-06",
+  "published_utc": "2026-09-06T19:07:09Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "A four-year-old, Coinbase-backed infrastructure project failed because revenue from bridging services could not cover the operational costs of running the platform, forcing a complete shutdown by September 30, 2026.",
+  "bottom_line": "The shutdown by September 30, 2026 will test whether competitors with deeper cash reserves can sustain bridging operations under competitive fee pressure. Any surviving bridge protocol's approach to reserve-building versus token buyback-and-burn will signal whether this was Router's idiosyncratic risk or a structural problem across the category.",
+  "human_take": "",
+  "body": [
+    "Router Protocol, a cross-chain interoperability platform backed by Coinbase Ventures, announced permanent shutdown by September 30, 2026, according to Crypto Briefing. The project will burn 303,333,198 ROUTE tokens from its treasury reserve, representing over 30 percent of the 1 billion maximum token supply.",
+    "The announcement triggered a collapse in ROUTE token price, with the asset falling roughly 50 percent to an all-time low near $0.00004 following disclosure, per Crypto Briefing's reporting.",
+    "RouterProtocol had been operating for more than four years and launched its own Router Chain L1 blockchain in 2024. Over the past year, according to Crypto Briefing, the team attempted to commercialize the platform, license its technology to other projects, and find a buyer willing to take over operations. None of those efforts produced a viable path forward.",
+    "The fundamental obstacle was unit economics. Revenue from bridging services simply could not cover what it cost to run the platform, per Crypto Briefing. Low Web3 liquidity, high operational costs, and anemic bridge revenue all contributed to the decision. The project had been running 100 percent of its historical bridging fees through buyback-and-burn programs rather than building cash reserves, according to Crypto Briefing. When conditions deteriorated, there was no financial cushion to fall back on.",
+    "Two security exploits occurred in 2025, one in February and another chain-level breach in July, per Crypto Briefing. The team did not cite security incidents as the primary drivers of the shutdown. Centralized exchanges have been advised to manage their own timelines for delisting ROUTE and processing withdrawals, leaving token holders facing an uncertain window to exit their positions as each exchange sets different deadlines.",
+    "Competitors including LayerZero, Across, Axelar, and deBridge continue to operate. The fundamental need for moving assets between blockchains has not disappeared. The key vulnerability Router Protocol exposed is the fee-to-cost ratio problem: bridging fees are kept low by competition, while the costs of maintaining secure cross-chain infrastructure remain stubbornly high. Projects that funnel all revenue into token buybacks rather than operational reserves are essentially betting that market conditions will never deteriorate, per Crypto Briefing."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/router-protocol-shutdown-burn-route-tokens/",
+      "url": "https://cryptobriefing.com/router-protocol-shutdown-burn-route-tokens/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-06T19:05:07Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79903.18,
+        "chg_24h_pct": 0.1
+      },
+      {
+        "symbol": "ETH",
+        "price": 2492.61,
+        "chg_24h_pct": 0.51
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.4,
+      "open_interest_usd": 2102099979
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 99583285,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false
+}
