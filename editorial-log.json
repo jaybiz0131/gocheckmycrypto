@@ -1,68 +1,6 @@
 [
  {
   "date": "2026-08-05",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c024",
-    "headline": "Coldcard urges users to move bitcoin as exploit is still in progress",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states '449 BTC from 709 addresses' but brief data_point says 'roughly 449 BTC from 709 addresses'\u2014the word 'roughly' modifies the claim and must survive in prose to match confidence level 'reported' (not 'confirmed'). Presenting estimated figures as precise facts inflates confidence.",
-     "Draft quotes Coldcard as 'Please treat this as urgent. Migrate your funds. Follow the advisory for your model, upgrade your device, generate a new seed, and carefully move your funds.' but the brief marks this as 'reported' confidence sourced from CoinDesk, not a direct quote from Coldcard itself. The quotation marks and attribution chain are misleading\u2014the quote is what CoinDesk reported Coldcard said, not a Coldcard statement verified directly."
-    ]
-   },
-   {
-    "id": "c038",
-    "headline": "Senators seek SEC probe of President Trump's memecoin as crypto bill enters pivotal week",
-    "category": "accuracy",
-    "reasons": [
-     "Draft names 'Chris Blumenthal' as a senator, but the brief names only 'Chris Blumenthal' without a full first name verification. The Block URL does not appear in the full text provided to confirm the exact spelling. More critically, the draft provides no detail on what the senators' specific allegations or concerns are\u2014the brief lists as an open_question 'What specific allegations or concerns are Warren and Blumenthal raising about Trump's memecoin?' The story cites The Block but provides no substance on the core claim beyond the fact that a request was made.",
-     "Draft says the bill 'is stalled over an ethics question' per brief data_point, but the brief itself marks as open_question 'What is the nature of the 'ethics question' holding up the Clarity Act?' The draft presents as fact what the brief labels unresolved. This conflates reported event (request made) with unverified detail (the specific reason for stall)."
-    ]
-   },
-   {
-    "id": "c041",
-    "headline": "BitGo moves $7.3 billion in Wrapped Bitcoin to Chainlink CCIP",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states '$7.3 billion in Wrapped Bitcoin' but brief data_point claims '$7.4 billion in Wrapped Bitcoin.' This is a direct numerical discrepancy of $100 million\u2014a factual error, not paraphrase.",
-     "Draft states 'approximately $14.5 billion' in total migration but brief data_point says 'near $15 billion.' The draft has softened both figures downward from the brief. Neither statement is qualified as 'reported' with uncertainty in the data_point itself, so the writer has introduced their own estimate rather than faithfully reporting the source claim.",
-     "Draft cites source URL ending in '/bitgo-moves-7-4-billion-wrapped-bitcoins-to-chainlink-ccip-in-latest-layerzero-exodus' which contains '$7.4 billion' in the slug itself\u2014the draft's use of '$7.3 billion' contradicts the URL it cites."
-    ]
-   },
-   {
-    "id": "c025",
-    "headline": "Circle announces BlackRock, Visa, DTCC as Arc validators; Q2 revenue hits $701 million",
-    "category": "balance",
-    "reasons": [
-     "Brief contains explicit bear_case: empty list. Draft contains no risk paragraph, counterbalance, or caveats about what validator announcement means operationally. The story reads as a straight institutional-adoption win without acknowledging that the brief's own open_questions flag that validator roles and governance power are undefined. A ceremonial announcement framed as infrastructure anchoring without operational detail is materially one-sided.",
-     "Draft body states 'The validator roster anchors Arc with major institutional financial infrastructure players' as a positive framing, but the brief's own open_questions ('What specific responsibilities and requirements do Arc validators have?') and thinness flag (thin: true) indicate the story lacks substance to support that framing. The draft should signal uncertainty about what this announcement operationally means."
-    ]
-   },
-   {
-    "id": "c048",
-    "headline": "Bitcoin bridge Boltz suspends all swaps indefinitely after AI-powered attacks exploit vulnerabilities faster than patches can deploy",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states: 'The speed advantage of AI-powered attackers implies that traditional software development cycles are now insufficient for security-critical DeFi infrastructure, unconfirmed but consistent with the operational decision.' This sentence smuggles in speculation (the implication of what the speed advantage 'implies' about broader DeFi architecture) that is not in the brief's data_points. The brief's bear_case contains the structural claim ('vulnerability gap may be structural rather than remediable'), but the draft's sentence goes further by making a generalized claim about DeFi infrastructure cycles. The hedge 'unconfirmed but consistent' does not rescue a claim that should not appear outside the brief at all. This is a writer editorializing as analysis.",
-     "Draft opens with 'AI-powered attacks exploit vulnerabilities faster than patches can deploy' in the title and lede, which is the reported claim, but the specific framing of AI as the causal agent comes only from the brief's data_point about 'AI-powered attackers cited as the accelerant.' The brief's own open_questions make clear ('What specific vulnerabilities or attack vectors did AI discover?') that the nature and scope of AI's role is unconfirmed. The draft's title and opening treat this as settled fact rather than reported claim."
-    ]
-   },
-   {
-    "id": "c145",
-    "headline": "US and UK regulators affirm joint support for stablecoins, tokenization in July meeting",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The GENIUS Act, according to available reporting, is part of the US legislative push to clarify regulatory roles across agencies and define standards for digital asset platforms.' This is a characterization of GENIUS Act scope and substance that does not appear in the brief's data_points. The brief only confirms that the meeting 'highlighted implementation of the GENIUS Act'\u2014not what the act itself does. The writer has smuggled a definition of the act's purpose without a source.",
-     "The sentence 'The UK's inclusion in the discussion suggests the two countries are coordinating on definitions and enforcement mechanisms to reduce arbitrage opportunities for platforms operating in both jurisdictions' is speculative analysis not grounded in the brief. The brief reports only that regulators met and reaffirmed commitment; it does not contain data supporting the claim about coordination on definitions or enforcement mechanisms.",
-     "The phrase 'Payment modernization, emphasized in the meeting, points to central bank digital currencies, stablecoin-based settlement, and tokenized financial instruments as use cases both regulators actively support' goes beyond the brief. The brief's data_point says regulators 'emphasized payment modernization and cross-border cooperation' but does not define what payment modernization encompasses. Listing CBDCs, stablecoin settlement, and tokenized instruments as specific use cases is writer inference, not reported fact."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
   "approved": 4,
   "rejected": [
    {
@@ -7190,6 +7128,37 @@
     "reasons": [
      "The draft states 'The company plans to bring more than $10 billion in historical loans onchain' as a fact attributed to Cointelegraph reporting, but the brief's open_questions include 'What is the $1 billion figure in the headline relative to the 2,079 records' and lists the $10B as an unresolved question about timeline and scope. The brief does not confirm that $10 billion is the planned total; it notes the Cointelegraph headline references $1 billion, creating ambiguity the draft resolves without source support.",
      "The draft claims Pineapple Financial 'has begun onboarding its loan file archive to the blockchain' as established fact, but only 2,079 records have been migrated to date according to the brief. The present-perfect phrasing ('has begun') overstates the scope and suggests an active, ongoing program when the brief reveals only a pilot snapshot. The brief's open_questions ask whether these are 'actively performing or archived/paid-off records,' indicating the use case and status remain unclear."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-05",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c067",
+    "headline": "Poland Upholds Crypto Bill Veto as Zondacrypto Scandal Widens",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The timing of the veto's survival alongside the widening scandal creates a political backdrop hostile to crypto frameworks, with operator misconduct serving as evidence of institutional failure within the sector.' This narrative claim about operator misconduct serving as evidence of sector-wide institutional failure is not supported by any data_point in the brief. The brief reports only that Zondacrypto's investigation is expanding and the operator entered bankruptcy; it does not establish that this misconduct evidence applies to the sector broadly or that the desk should narrate it as such. The writer has smuggled interpretive framing not present in the research.",
+     "The draft is extremely thin (brief shows thin=true, only 3 data_points) and lacks any specifics about the veto, the bill's provisions, or the investigation's scope. The brief's own open_questions ask what the bill's provisions were and what the investigation's scope and allegations were\u2014facts the draft does not provide. A reader is left unable to understand what was vetoed, what Zondacrypto did, or why the timing matters beyond headline assertion."
+    ]
+   },
+   {
+    "id": "c070",
+    "headline": "Pineapple Financial puts $1B in mortgage records on Injective",
+    "category": "accuracy",
+    "reasons": [
+     "The draft's headline claims 'Pineapple Financial puts $1B in mortgage records on Injective' but the brief's data_points do not establish a direct equivalence between the $1 billion figure and the 2,079 onchain records. The brief lists '$1 billion in mortgage records' and '2,079 onchain records' as separate facts without confirming they represent the same transaction set or clarifying the relationship. The draft's opening paragraph compounds this by stating 'has tokenized $1 billion in existing loan records onto Injective blockchain' followed immediately by 'The migration has grown to 2,079 onchain records'\u2014this sequencing implies the 2,079 records equal $1 billion, but the brief does not support that equivalence. The writer has inferred a relationship not stated in the source material."
+    ]
+   },
+   {
+    "id": "c143",
+    "headline": "Uniswap v4 hooks reach 90,000 unique implementations on deployed pools",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'By mid-January 2026, the count had climbed to approximately 89,955, crossing 90,000 shortly after.' This describes a past event (mid-January 2026) as already having occurred. Today is 2026-09-06, so January 2026 is in the past and this is correctly written as completed. However, the draft also states earlier 'Early in 2026, on-chain dashboards recorded roughly 22,609 unique hook addresses that had been initialized.' This is vague; 'early 2026' is defined in the brief's data_point as simply recorded earlier in 2026, but the specific timestamp placement is unclear in the draft. More critically: the phrase 'By mid-January 2026' is problematic because the Crypto Briefing source was published 2026-09-05T19:30:12Z (September 5, 2026, in the future relative to today 2026-09-06 review date), yet the draft narrates January 2026 as already having crossed 90K. The timeline internal to the draft is internally consistent with past events, but the source timestamp shows the Crypto Briefing piece was dated September 5, 2026\u2014meaning the 90K crossing 'shortly after' mid-January would have been in January or early February 2026, which is seven months in the past. This is factually sound. Re-reading the instructions: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The events in the draft (January 2026, crossing 90K) are dated BEFORE today (September 6, 2026), so they are correctly written as past-tense completed events. This does NOT trigger the rule. The draft is accurate on timeline."
     ]
    }
   ]

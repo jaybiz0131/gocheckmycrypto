@@ -1,0 +1,55 @@
+{
+  "id": "c075",
+  "slug": "fed-stablecoin-research-exposes-how-the-same-dollar-could-count-twice-in-m1-or-m2",
+  "kind": "brief",
+  "title": "Fed stablecoin research exposes how the same dollar could count twice in M1 or M2",
+  "dek": "Federal Reserve staff published September 4 research outlining how regulated payment stablecoins could enter U.S. monetary aggregates M1 or M2, subject to adjustments for reserve overlap and geographic circulation. The framework identifies a core problem: dollars held as reserve backing could be counted twice if already captured in money supply, a calculation the sources leave unquantified.",
+  "date": "2026-09-05",
+  "published_utc": "2026-09-05T23:55:03Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "The Fed's framework exposes a fundamental accounting vulnerability: stablecoins backed by bank deposits or money-fund assets already counted in M1 or M2 could inflate those aggregates unless regulators segregate new tokens from their reserves.",
+  "bottom_line": "The Fed's framework lays out technical prerequisites for stablecoin integration into official money supply measures, but the research itself documents three unsolved problems: reserve overlap remains unquantified, geographic isolation of U.S.-held stablecoins is imperfect, and blockchain activity data bundles payment with trading and arbitrage in 60% of transactions. Movement on any of these three fronts would signal tangible progress toward M1 or M2 inclusion.",
+  "human_take": "",
+  "body": [
+    "Federal Reserve staff published a research note on September 4, 2026, outlining a conditional accounting framework for how regulated payment stablecoins could enter U.S. monetary aggregates M1 or M2, according to CryptoSlate. Payment stablecoins are excluded from the U.S. monetary aggregates today. The note makes future treatment depend on economic use alongside adjustments for reserve assets already counted elsewhere and the separation of U.S. circulation from global activity. The note is independent staff research, reflects only its authors' views, and is not part of a Federal Reserve policy deliberation. Existing monetary aggregate definitions remain unchanged.\nM1 is the narrowest official U.S. money measure containing currency and highly liquid balances used for transactions. M2 includes M1 plus less liquid savings-type assets, including small-denomination time deposits and retail money market funds. If stablecoins are used predominantly as a stable store of value or as liquidity for crypto trading, non-M1 M2 may be the better fit; if they become a common medium of exchange for household and business payments, their immediate transferability could support an M1 classification.\nThe core problem the Fed identifies is straightforward: some bank deposits and money-fund net assets are already captured in M1 or M2. If an issuer places reserve dollars in a bank deposit or money fund and issues stablecoins against that reserve, counting the tokens at face value could add a new line to the aggregate while part of the backing remains in another counted component. Only reserve assets already represented in M1 or M2 create overlap; the overlap depends on the backing composition and the statistical treatment of each reserve asset.\nCircle reports most of its USDC reserve is held in the Circle Reserve Fund, an SEC-registered government money market fund that can hold cash, short-dated U.S. Treasuries, and overnight U.S. Treasury repurchase agreements. Circle also holds Treasury securities outside the fund and cash at regulated financial institutions. Circle's July 31, 2026 assurance reported 71.826 billion USDC in circulation and reserve assets with a fair value of $71.904 billion. A defensible net estimate for money-supply adjustment would have to match reported reserve categories against exact money-stock components already counted, remove only genuine overlaps, and preserve backing assets outside the aggregates; the current sources leave that increment unquantified.\nGeography is a separate problem: a dollar stablecoin issued by a U.S.-regulated company can move globally on a public blockchain, while transaction records generally lack enough geographic information to identify the portion belonging inside a U.S. measure. GENIUS applies to U.S.-regulated issuers without distinguishing domestic from international circulation, so additional reporting may be needed to isolate U.S. circulation from global activity. An issuer's total outstanding tokens map imperfectly onto U.S.-held money.\nThe Fed's functional test asks whether stablecoins behave more like transaction money or savings. Raw blockchain transfer counts are insufficient because a single smart-contract transaction can emit several transfer events.  Roughly one third of transactions analyzed by BIS generated multiple steps or event logs, while nearly 60% of transfer events occurred inside complex transactions. Complex transaction bundles can combine trading, lending, arbitrage, liquidity provision, and settlement; treating every emitted event as a standalone payment can exaggerate both activity counts and the apparent payment role of stablecoins.\nUnder GENIUS, permitted reserves can include bank deposits, Treasury instruments, and government money funds. The Fed says standardized circulation data and a reporting chain suitable for monetary-statistics compilation would be required for stablecoin inclusion in M1 or M2."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/fed-economists-stablecoin-research-exposes-how-the-same-dollar-could-count-twice-in-m1-or-m2/",
+      "url": "https://cryptoslate.com/fed-economists-stablecoin-research-exposes-how-the-same-dollar-could-count-twice-in-m1-or-m2/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-05T23:53:02Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79822.62,
+        "chg_24h_pct": 0.19
+      },
+      {
+        "symbol": "ETH",
+        "price": 2481.54,
+        "chg_24h_pct": 1.04
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 0.5,
+      "open_interest_usd": 2152900680
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 99583285,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

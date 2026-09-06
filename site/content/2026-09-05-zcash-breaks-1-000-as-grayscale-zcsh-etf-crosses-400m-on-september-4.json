@@ -1,0 +1,61 @@
+{
+  "id": "c077",
+  "slug": "zcash-breaks-1-000-as-grayscale-zcsh-etf-crosses-400m-on-september-4",
+  "kind": "brief",
+  "title": "Zcash breaks $1,000 as Grayscale ZCSH ETF crosses $400M on September 4",
+  "dek": "Zcash crossed $1,000 on September 4, hitting an intraday high of $1,050.70, as Grayscale's ZCSH spot ETF reached $414.7 million in assets within nine days of launch on August 25. The token has nearly doubled over the past month and returned to the top 10 cryptos by market cap for the first time since 2018.",
+  "date": "2026-09-05",
+  "published_utc": "2026-09-05T23:55:03Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "Grayscale's ZCSH ETF grew from $304.6 million at launch on August 25 to $414.7 million by September 3, while Zcash price climbed to $1,050.70 intraday.",
+  "bottom_line": "Whether Zcash sustains a top-10 ranking depends on whether the current rally persists once momentum cools and whether regulatory treatment of privacy coins remains stable. The next inflection point is Zcash's planned improvements to transaction throughput and its formal verification work on the shielded pool against undetectable inflation bugs.",
+  "human_take": "",
+  "body": [
+    "Zcash crossed $1,000 for the first time in roughly a decade on September 4, with an intraday high of $1,050.70, according to CryptoSlate. The move lifted the privacy token into the top 10 cryptocurrencies by market capitalization for the first time since 2018.",
+    "The breakout coincided with broader strength in crypto markets, as Bitcoin surpassed $82,000 and Ethereum reclaimed $2,500 that same day. Zcash was up roughly 20 percent over the prior 24 hours as of September 4 and nearly 100 percent over the past month.",
+    "Grayscale's ZCSH spot ETF, which began trading on NYSE Arca on August 25, held $414.7 million in assets as of September 3. The ETF launched with $304.6 million, inherited from Grayscale's Zcash Trust, and grew by roughly $110 million in less than two weeks. ZCSH's holdings of ZEC rose from 387,849 coins at launch to 428,613 by September 3, while shares outstanding climbed to 5.35 million.",
+    "Derivatives activity accelerated alongside spot price strength. Roughly $40 million of Zcash futures shorts were liquidated in 24 hours, per CryptoSlate. Zcash futures open interest crossed $2 billion for the first time, and 24-hour futures volume climbed above $6 billion, the highest level since mid-August.",
+    "Zcash uses zero-knowledge cryptography to conceal sending and receiving addresses and transaction amounts in shielded transactions. The protocol has a fixed 21 million coin supply cap. The token was trading around $40 one year ago, meaning the move to $1,000 represents a 25-fold appreciation over that window.",
+    "The bear case for Zcash's durability centers on regulatory risk and Bitcoin's entrenched position. Shielded transactions complicate sanctions screening and anti-money laundering controls, creating compliance concerns that have historically weighed more heavily on privacy coins than on Bitcoin. Bitcoin accounts for roughly 93 percent of the market capitalization of Grayscale's Currencies Crypto Sector, a dominance that alternatives including Litecoin have failed to disrupt. Even after its recent gains, Zcash remains worth less than 1 percent of Bitcoin's market cap."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/zcash-breaks-1000-as-its-spot-etf-crosses-400-million-in-assets/",
+      "url": "https://cryptoslate.com/zcash-breaks-1000-as-its-spot-etf-crosses-400-million-in-assets/"
+    }
+  ],
+  "update_of": "coinbase-launches-tokenized-stocks-on-base-network-starting-with-apple-nvidia-meta-alphabet",
+  "board_snapshot": {
+    "as_of": "2026-09-05T23:53:02Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79822.62,
+        "chg_24h_pct": 0.19
+      },
+      {
+        "symbol": "ETH",
+        "price": 2481.54,
+        "chg_24h_pct": 1.04
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 0.5,
+      "open_interest_usd": 2152900680
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 99583285,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
