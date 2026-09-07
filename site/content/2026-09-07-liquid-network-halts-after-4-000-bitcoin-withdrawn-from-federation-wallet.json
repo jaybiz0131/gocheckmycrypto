@@ -1,0 +1,71 @@
+{
+  "id": "c003",
+  "slug": "liquid-network-halts-after-4-000-bitcoin-withdrawn-from-federation-wallet",
+  "kind": "brief",
+  "title": "Liquid Network Halts After 4,000 Bitcoin Withdrawn From Federation Wallet",
+  "dek": "Attackers exploited an LBTC inflation bug to extract approximately 4,000 bitcoin (worth $320 million) from the Liquid sidechain's federation reserve on September 6. The attackers left on-chain messages claiming to be white-hats and asking for contact; Blockstream has paused bridge nodes and exchanges have frozen LBTC deposits and withdrawals.",
+  "date": "2026-09-07",
+  "published_utc": "2026-09-07T00:36:26Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Approximately 4,000 BTC was withdrawn from Liquid's federation wallet after an LBTC inflation bug was exploited, leaving the sidechain paused and users unable to redeem the underlying bitcoin backing their tokens.",
+  "bottom_line": "Whether the attackers return the funds will determine whether users regain access to their LBTC redemption rights. The timeline for restoring bridge nodes and re-enabling deposits and withdrawals has not been announced by Blockstream or federation members.",
+  "human_take": "",
+  "body": [
+    "Attackers extracted approximately 4,000 bitcoin from the Liquid sidechain's federation wallet on September 6 by exploiting an LBTC inflation bug, per Bitcoin Magazine. The Liquid Network, a federated sidechain of Bitcoin founded by Blockstream, immediately paused bridge nodes and halted deposits and withdrawals across exchanges. The federation now holds around 207 BTC, down from over 4,200 BTC before the extraction, according to Blockstream's proof of reserves page.",
+    "Users holding LBTC, the sidechain's representation of bitcoin, cannot currently redeem the underlying BTC that nominally backs their tokens. The attackers left on-chain messages claiming white-hat status and requesting contact. Blockstream said it is attempting to reach them through on-chain signed messages while federation members work to restore network operations.",
+    "The attack exploited a consensus bug in the LBTC sidechain that allowed the creation of over 4,000 LBTC that did not exist before, according to Bitcoin Magazine. The attackers then cashed out those tokens for on-chain bitcoin from the federation. Because the transaction appeared valid under the buggy consensus rules, the federation members' hardware security modules signed the BTC withdrawal automatically.",
+    "The withdrawal was carried out through the SideSwap Peg-out Authorization Key, per Crypto Briefing. Neither that key nor any other keys were compromised, the team said. After moving the funds to an address ending in 6gyqjlte, the attackers signed a new transaction with an OP_RETURN message saying, 'we are whitehats. contact us on chain,' according to Bitcoin Magazine. A message in a later OP_RETURN provided a Signal handle, though Crypto Briefing notes this may be spam unconnected to the stolen funds. A small transaction to the hacker address from a Blockstream public address included an OP_RETURN with an email contact, though that origin remains unconfirmed.",
+    "Liquid launched in 2018 with the goal of improving liquidity and speeding up Bitcoin transfers between exchanges, brokers and other users, per Crypto Briefing. Early participants included Bitfinex, OKCoin, BitMEX and SIX Digital Exchange. The network requires 11 of 15 federation members to sign a valid multi-signature transaction to move coins from the treasury.",
+    "Other assets on Liquid, including USDT, DePix and real-world assets, were unaffected by the pause. JAN3 CEO Samson Mow said on social media that Aqua's Liquid features were affected and that on-chain bitcoin still worked. Bridge nodes remain paused, limiting access to the sidechain, which continues to produce blocks."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/defi/2026-09-06-liquid-network-pauses-after-purported-white-hat-hackers-withdraw-320-million-in-bitcoin-413626",
+      "url": "https://www.theblock.co/news/defi/2026-09-06-liquid-network-pauses-after-purported-white-hat-hackers-withdraw-320-million-in-bitcoin-413626"
+    },
+    {
+      "title": "https://bitcoinmagazine.com/news/alleged-white-hat-hackers-withdraw-4000-bitcoin-from-blockstreams-liquid-network-federation-reserves",
+      "url": "https://bitcoinmagazine.com/news/alleged-white-hat-hackers-withdraw-4000-bitcoin-from-blockstreams-liquid-network-federation-reserves"
+    },
+    {
+      "title": "https://cryptobriefing.com/white-hat-hacker-drains-liquid-network-btc/",
+      "url": "https://cryptobriefing.com/white-hat-hacker-drains-liquid-network-btc/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-07T00:34:22Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 80205.69,
+        "chg_24h_pct": -0.15
+      },
+      {
+        "symbol": "ETH",
+        "price": 2518.31,
+        "chg_24h_pct": 0.17
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -0.4,
+      "open_interest_usd": 2084403306
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 99583285,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Bitcoin Magazine",
+    "Crypto Briefing"
+  ],
+  "developing": false
+}

@@ -1,0 +1,61 @@
+{
+  "id": "c058",
+  "slug": "arbitrum-watchdog-committee-flags-three-defi-projects-for-grant-misuse-sets-september-10-deadline",
+  "kind": "brief",
+  "title": "Arbitrum Watchdog Committee flags three DeFi projects for grant misuse, sets September 10 deadline",
+  "dek": "The Arbitrum Watchdog Committee has given Good Entry, Limitless, and APX Finance until September 10 to respond to misuse findings and return 457,553 ARB combined, or face votes on permanent exclusion from future DAO programs. As of September 5, none of the three projects had responded in the proposal thread.",
+  "date": "2026-09-07",
+  "published_utc": "2026-09-07T00:36:26Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 9,
+  "author": "Crypto Cronkite",
+  "key_fact": "Three DeFi projects face permanent exclusion votes by the Arbitrum DAO if they do not respond and return flagged ARB by September 10, 2026.",
+  "bottom_line": "The September 10 deadline will test whether decentralized grant oversight can recover misused funds or whether enforcement relies on reputational sanction alone. The absence of responses from the three projects by September 5 suggests either non-engagement or inability to mount a credible defense.",
+  "human_take": "",
+  "body": [
+    "The Arbitrum Watchdog Committee has flagged three DeFi projects for misuse of grant funds and given them until September 10 to respond and return tokens totaling 457,553 ARB, according to CryptoSlate's reporting. If the projects do not comply, each will face an off-chain Snapshot vote on permanent exclusion from future Arbitrum DAO programs.",
+    "The three flagged projects are Good Entry, Limitless, and APX Finance. As of September 5, none had responded in the proposal thread.",
+    "Good Entry was accused of distributing 142,839 ARB to 1,032 ineligible users during and after the Short-Term Incentives Program, based on on-chain analysis by the committee. The committee also alleged self-farming by wallets connected to Good Entry team addresses and said the project refused to provide clarification. Good Entry had requested 200,000 ARB in its grant application.",
+    "Limitless is accused of swapping 75,000 ARB into USDC and transferring the funds to Base. The watchdog said team members could not be reached for clarification or recovery. The 75,000 ARB figure matches the amount Limitless requested in its LTIPP application.",
+    "APX Finance is tied to 239,714 ARB in flagged issues, including an unspecified substantial portion left unutilized in treasury addresses, late transfers to distributor contracts, and alleged team-linked Sybil activity. APX Finance had requested 525,000 ARB in its application. The committee did not break down the 239,714 ARB by issue.",
+    "If the Snapshot votes result in exclusion, the scope depends on the project's status. For operating projects, the ban would cover founders, current team members, and affiliated contributors. For projects no longer active, it would apply only to founders. The votes seek social consensus and require no on-chain action. A ban would make covered projects or individuals ineligible for future programs run by the Arbitrum DAO but would not freeze wallets or disable protocols.",
+    "As of September 2, the broader Watchdog program had received 90 reports, recovered approximately 532,000 ARB, and distributed approximately 268,000 ARB in reporter bounties."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/three-defi-projects-face-possible-exclusion-from-future-arbitrum-dao-programs/",
+      "url": "https://cryptoslate.com/three-defi-projects-face-possible-exclusion-from-future-arbitrum-dao-programs/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-07T00:34:22Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 80205.69,
+        "chg_24h_pct": -0.15
+      },
+      {
+        "symbol": "ETH",
+        "price": 2518.31,
+        "chg_24h_pct": 0.17
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -0.4,
+      "open_interest_usd": 2084403306
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 99583285,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

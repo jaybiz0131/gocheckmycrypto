@@ -1,0 +1,55 @@
+{
+  "id": "c106",
+  "slug": "japan-s-forex-reserves-fall-below-1-trillion-after-record-yen-buying-intervention",
+  "kind": "brief",
+  "title": "Japan's forex reserves fall below $1 trillion after record yen-buying intervention",
+  "dek": "Japan's foreign currency reserves fell to $994.9 billion at the end of August 2026, below $1 trillion for the first time in recent memory, after the Ministry of Finance spent a record \u00a515.3993 trillion ($96.5 billion) on yen-buying interventions in a single month. Japan liquidated $87.8 billion in foreign securities, predominantly US Treasuries.",
+  "date": "2026-09-07",
+  "published_utc": "2026-09-07T00:36:26Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "Japan's FX reserves dropped below $1 trillion after a record $96.5 billion monthly intervention to defend the yen, with nearly all the cash coming from US Treasury sales.",
+  "bottom_line": "The pace and scale of Japan's August interventions were unprecedented. The critical measure is whether the yen stabilizes enough to slow future interventions or whether Japan must sustain or accelerate the current cadence, which at current rates would exhaust reserves in months rather than years.",
+  "human_take": "",
+  "body": [
+    "Japan's foreign currency reserves declined to $994.9 billion at the end of August 2026, falling below the $1 trillion mark for the first time in recent memory, according to Crypto Briefing's reporting. The drop followed the largest monthly intervention in Japan's history.\nThe Ministry of Finance reported \u00a515.3993 trillion in yen-buying interventions between July 30 and August 26, 2026, equivalent to approximately $96.5 billion. The figure surpasses all previous monthly records and brings cumulative 2026 interventions to more than \u00a527 trillion, exceeding all prior annual totals.\nOn July 31, Japan and the United States conducted a coordinated yen-buying intervention, the first such joint operation in approximately 28 years. The last US-Japan joint intervention occurred in the late 1990s during the Asian financial crisis.\nTotal official reserve assets, including gold, special drawing rights, and IMF reserve positions, stood at approximately $1.287 trillion at the end of July.\nJapan is the largest foreign holder of US Treasuries. Crypto Briefing reports that if Treasury sales continue at the pace observed in August, they could put upward pressure on US Treasury yields at a time when the bond market is navigating uncertainty around Federal Reserve policy."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/japan-forex-reserves-drop-yen-intervention/",
+      "url": "https://cryptobriefing.com/japan-forex-reserves-drop-yen-intervention/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-07T00:34:22Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 80205.69,
+        "chg_24h_pct": -0.15
+      },
+      {
+        "symbol": "ETH",
+        "price": 2518.31,
+        "chg_24h_pct": 0.17
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -0.4,
+      "open_interest_usd": 2084403306
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 99583285,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

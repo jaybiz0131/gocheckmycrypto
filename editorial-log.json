@@ -4,44 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c170",
-    "headline": "Banking Minority Staff Analysis Identifies Loopholes in Digital Asset Market Clarity Act",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the analysis 'identifies loopholes in the current bill text' but does not specify what those loopholes are. The brief's second data_point claims the analysis 'identifies loopholes...that risks Americans' pensions and the financial system, jeopardizes national security, and will turbocharge Trump's crypto corruption'\u2014this partisan framing ('turbocharge Trump's crypto corruption') is in the brief but absent from the draft. The draft softens the claim to 'raises concerns' without the specific substantive charges in the source material. The brief explicitly flags that 'the source text does not specify which five loopholes were identified' and 'does not provide the full text or link to the detailed loopholes,' yet the draft presents the concerns as fact without qualifying the absence of detail or the partisan language in the original statement."
-    ]
-   },
-   {
-    "id": "c027",
-    "headline": "Bitcoin Holds $64K as Spot ETFs Draw Inflows; Analysts Flag Capitulation Signals",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states 'Unable to verify from provided source texts' and 'source_chars': 0, indicating the source text is empty and unavailable for fact verification. The draft presents as factual reporting ('Bitcoin remained near $64,000 on Tuesday', '$211.5 million in net inflows', 'Glassnode data shows have reached a 3.5-year extreme', '$197.9 million of BTC moving off exchanges', '$116.6 million and $81.3 million in separate outflows', '$5.1 million in net Bitcoin ETF inflows on July 28', '$402.6 million' in cumulative outflows) without accessible source material to verify any of these numbers or claims. The brief's open_questions flag that 'source texts are empty; no analyst quotes, on-chain metrics, or mechanism are available for verification.' The draft smuggles specific numbers and attributions (Glassnode, desk's Whale Watch board, desk's ETF flows board, Kraken) that cannot be traced to the source because the source is inaccessible."
-    ]
-   },
-   {
-    "id": "c052",
-    "headline": "Circle Names Visa, Mastercard, BlackRock, DTCC, and ICE as Arc Validators Ahead of September Launch",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states 'The fetched source text is empty' and 'source_chars': 0, indicating the Decrypt article is inaccessible for verification. The draft presents specific factual claims (500 million transactions, September launch, named validator firms, Coinbase renewal on 'existing terms') as if sourced from the article, but these claims cannot be verified against the actual source material. The brief's open_questions state that 'all data points are sourced from the snippet alone' and 'details on validator selection criteria, Arc's consensus mechanism, transaction throughput targets for mainnet, and any regulatory approvals required for September launch are not available in the source materials.' The draft should not present numbers and institutional commitments as reported fact when the source text is empty and unverifiable."
-    ]
-   },
-   {
-    "id": "c157",
-    "headline": "EU's MiCA Register Expands to 321 Authorized Crypto-Asset Service Providers; Non-Compliance Flagged",
-    "category": "accuracy",
-    "reasons": [
-     "The brief states 'The fetched source text is empty' and 'source_chars': 0, making the Cointelegraph article inaccessible for fact-checking. The draft presents specific claims (321 authorized CASPs, 12 new entrants, 3 non-compliant entities, MiCA entry in December 2023) as verified reporting without access to the source. The brief's open_questions explicitly flag that 'all data points are sourced from the snippet alone' and that 'Names of the 12 newly authorized CASPs, identities of the three non-compliant entities, and reasons for non-compliance are not available in the source materials.' The draft cannot be approved when sourced facts are unverifiable due to inaccessible source text."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c157",
     "headline": "Taiwan Plans Travel Rule for Domestic Crypto Transfers from October",
     "category": "balance",
@@ -7114,6 +7076,22 @@
     "reasons": [
      "The draft omits a data point from the brief: ETH price movement (changed hands near $2,512 on Sunday, roughly 49% higher over 90 days). This price data appears in the brief but is completely absent from the draft body. The brief is not thin on this point\u2014it is a specific, sourced claim. Omission of sourced facts is as much a liability as smuggling new ones.",
      "The draft states 'Account separation, another feature, detaches a wallet from its original key' but the brief's data point is 'EIP-8141 detaches an account from its original key, allowing wallets to rotate keys or rebuild access through a second device or trusted contact.' The draft has removed 'rotate keys' and 'rebuild access through a second device or trusted contact'\u2014material details that frame what the feature does. This is not paraphrase; this is loss of specificity on how the mechanism actually works."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-07",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c076",
+    "headline": "LeBron James Partners With Polymarket Prediction Market",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Giannis Antetokounmpo became a Kalshi shareholder earlier in 2026, according to BeInCrypto' and then uses this fact to claim it 'intensified the rivalry between Kalshi and Polymarket.' The brief's data_point says: 'Giannis Antetokounmpo became a Kalshi shareholder earlier in 2026, which intensified the rivalry between Kalshi and Polymarket, according to BeInCrypto.' The draft correctly reports the fact. However, the parenthetical 'which intensified the rivalry' is presented as a statement of fact attributed to BeInCrypto in the brief, but in the draft it is presented as narrative analysis without clear attribution. The brief lists this as a single reported claim; the draft should carry the attribution explicitly if the source made the causal claim, or omit the 'intensified' framing if it is the writer's inference. As written, the draft blurs whether BeInCrypto said the shareholder move intensified rivalry or whether that is the writer's characterization. This is a minor but real attribution failure. Additionally: the draft references 'pending litigation' in the bottom_line and body as if these are open cases, which they are (dated July and August 2026, before today's date of Sept. 7). That is correct. However, the draft states 'Baltimore sued both Polymarket and Kalshi in August 2026' and 'New York sued Kalshi in July 2026 for more than $36 billion'\u2014both past tense, both correctly dated before today. No accuracy failure there. The core problem is the Giannis claim's attribution.",
+     "the draft dates September 10, 2026 as a Tuesday; September 10, 2026 is a Thursday",
+     "the draft dates September 10, 2026 as a Tuesday; September 10, 2026 is a Thursday"
     ]
    }
   ]
