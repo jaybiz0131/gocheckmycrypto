@@ -1,50 +1,6 @@
 [
  {
   "date": "2026-08-05",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c069",
-    "headline": "Bitcoin Red Team Audit Identifies 85 Critical Flaws Across 390 Open-Source Repositories",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Coldcard RNG vulnerability drained over $100 million' as established fact, but the brief marks this claim confidence as 'reported' only\u2014meaning it is announced by the source but not independently verified. The draft does not signal this uncertainty; it should read as 'According to Bitcoin Magazine' or similar qualifier to match the confidence level.",
-     "The draft claims 'The Red Team was mobilized to assess whether the Coldcard flaw was an isolated incident' but this causal narrative does not appear in the brief's data_points. The brief only notes timing ('in the wake of'), not stated motivation. This is smuggled inference, not reported fact.",
-     "The draft states the audit 'comes in the wake of the Coldcard hardware wallet RNG vulnerability' but does not attribute this temporal sequencing to Bitcoin Magazine; it reads as the writer's own analysis rather than reported information."
-    ]
-   },
-   {
-    "id": "c070",
-    "headline": "Russia Enacts Exchange Regulation While Maintaining Cryptocurrency Payment Ban",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with 'Russia signed legislation to regulate cryptocurrency exchanges' and attributes this to 'Bitcoin Magazine reporting on August 5, 2026.' The brief's data_point states 'Putin signed a law to regulate crypto exchanges in Russia' but does not include a date in the data_point itself. The draft assigns the August 5, 2026 date to the reporting timestamp, not the legislative action; this is accurate attribution, but the draft then states 'while preserving a prohibition on using digital assets as a payment method' which reads as the writer's synthesis rather than directly reported language. The source must be checked for whether this characterization\u2014'while preserving'\u2014appears in the reporting.",
-     "The draft claims 'Citizens in Russia will not be able to use Bitcoin or other cryptocurrencies to purchase goods or services' which matches the brief's data_point language 'use Bitcoin for payments (e.g., 'buy coffee with Bitcoin')', but the brief's confidence on this point is 'reported' only. The draft does not flag this as reported/unconfirmed; it reads as settled fact."
-    ]
-   },
-   {
-    "id": "c153",
-    "headline": "Taiwan to Mandate Travel Rule for Domestic Crypto Transfers from October",
-    "category": "accuracy",
-    "reasons": [
-     "The sentence 'Travel Rule requirements will extend to overseas platforms by the end of 2027' attributes this claim to Cointelegraph in the body without inline source attribution. The data_point in the brief confirms this is from Cointelegraph, but the prose reads as authorial interpretation rather than reported fact. More critically, the opening sentence 'Taiwan's regulator will require Virtual Asset Service Providers (VASPs) to comply with Travel Rule standards for domestic cryptocurrency transfers starting in October, according to Cointelegraph' smuggles in the identifier 'Taiwan's regulator' without specifying which body, when the brief's open_questions explicitly flag this as unknown. The draft presents unconfirmed institutional detail as settled fact.",
-     "The paragraph beginning 'Travel Rule mandates that VASPs collect and share customer information...' describes Travel Rule mechanics but introduces dates and provenance ('adopted by the Financial Action Task Force in 2019') that do not appear in the brief's data_points. This is new factual material not in the research record and constitutes a smuggled fact."
-    ]
-   },
-   {
-    "id": "c164",
-    "headline": "Warren documents concern that UAE's World Liberty Financial investment may have influenced U.S. tech export decision",
-    "category": "accuracy",
-    "reasons": [
-     "Opening sentence states Warren 'has formally pressed' Lutnick 'according to a statement from the Senate Banking Committee minority,' but the brief data_point says the source is 'Warren-presses-lutnick' from the Senate Banking Committee and the confidence is 'reported,' not a direct verified statement. The prose reads as Warren having taken an action (pressed), when the brief only confirms the reported account exists; this conflates Warren's documented action with the actuality of the action itself.",
-     "First data_point confidence is marked 'announced-not-verified' for Warren's title as Ranking Member, but the draft presents this as settled fact without any qualifier ('Senator Elizabeth Warren, ranking member...'). An 'announced-not-verified' claim must read tentatively in prose.",
-     "The claim about Sheikh Tahnoon's identity as 'the UAE's top national security official' appears in both the draft and brief but carries 'reported' confidence. The draft presents this as factual context without attribution or hedging; if Warren's letter makes this claim, the attribution should be explicit ('according to Warren's letter') rather than embedded as background fact."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
   "approved": 3,
   "rejected": [
    {
@@ -7085,6 +7041,37 @@
      "The draft claims 'the desk's ETF flows board showed net inflows of $986.7 million over five sessions' in August, but this figure does not appear in the brief's data_points. The brief cites The Block's $3.52 billion August total and Daily Hodl's $730.87 million September 3 figure, but the $986.7 million five-session figure is smuggled from an undisclosed source outside the research brief.",
      "The draft states 'The desk's ETF flows board showed BTC net inflows of $174.6 million on September 4 and ETH net inflows of $25.9 million the same day' and references it as evidence of 'inflow momentum over the preceding five sessions'\u2014these figures and this data source do not appear anywhere in the brief and represent facts introduced outside the approved research.",
      "The headline promises '$987 Million Last Week' but the brief explicitly flags in bear_case that The Block source could not be fetched (HTTP 403 paywall) to verify the weekly figure. The draft runs this unverified number prominently in the headline without noting its verification status, violating the confidence-label requirement for unconfirmed claims."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-07",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c098",
+    "headline": "Philippine central bank proposes 12-month freeze on new payment operator registrations",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the central bank 'has proposed' a freeze as past action, but the brief data_point is timestamped 2026-09-07 and marked 'reported', indicating this is a current announcement. The phrasing 'has proposed' is acceptable for same-day reporting. However, the core issue is that the draft is incomplete: the brief contains an explicit bear_case noting that 'scope, implementation timeline, and specific transaction limits remain undefined,' but the draft treats these as unknown future clarifications rather than acknowledged limitations of what was actually announced. The sentence 'The proposal's scope, implementation timeline, and specific transaction limits remain undefined in available reporting' reads as the desk adopting the bear_case language as its own framing device, which violates the rule against narrating absence. The brief's bear_case is empty (empty list), meaning there is no substantive opposition or risk to report\u2014only open questions. The draft should not construct a risk narrative from unanswered questions; it should report what was announced and note what remains unconfirmed in the announcement itself."
+    ]
+   },
+   {
+    "id": "c004",
+    "headline": "Solana activates Transaction v1 on September 11 2026, expanding transaction capacity",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Solana activates its Transaction v1 feature on Wednesday, September 11 2026' as though it is an event that has already occurred. Today is Monday, September 7, 2026; September 11 is four days in the future. Scheduled events must be written as upcoming, not past tense. The language 'activates on Wednesday' reads as prospective and correct, but the title 'Solana activates Transaction v1 on September 11 2026' uses simple present tense in a way that could be misread as reporting a completed action. More critically, the brief's data_point states only 'Transaction v1 feature activates Wednesday' without specifying the year or full date. The draft adds the specific date 'September 11 2026' which is not in the brief\u2014this is smuggled information. The brief provides only 'Wednesday' as sourced; the writer added the calendar date without brief support.",
+     "the draft dates September 11, 2026 as a Wednesday; September 11, 2026 is a Friday"
+    ]
+   },
+   {
+    "id": "c036",
+    "headline": "Bottomline Partners With Chainlink to Connect 600-Plus Banks to Blockchain Settlement",
+    "category": "compliance",
+    "reasons": [
+     "The bottom_line contains multiple compliance violations: (1) It projects future price movement and volatility with 'LINK's 57-day rally may have outrun the partnership's practical near-term impact'\u2014this reads as a price prediction dressed in cautious language, which violates the price-prediction guardrail. (2) It contains a trade-timing signal: 'The signal to watch is whether a named pilot launches within the next six months; without that, LINK's 57-day rally may have outrun...' This implicitly suggests LINK's upside is exhausted, which is investment positioning advice. (3) The body contains the phrase 'LINK touched $13.64 on September 7, its highest price since January 18' presented as market fact, followed by detailed price metrics (6.8% move, open interest, 57% gain, 11-month high) that collectively frame LINK as a momentum story and potential trade. While these are reported facts, their density and prominence in the narrative, combined with the bottom_line's directional framing, creates an implicit buy/sell signal. The draft does not cross into explicit 'investors should' language, but it violates the spirit of the no-prediction rule by using price data to narrate a momentum narrative that concludes with a timing judgment."
     ]
    }
   ]

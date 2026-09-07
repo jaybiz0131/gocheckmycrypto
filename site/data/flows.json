@@ -1,13 +1,13 @@
 {
   "example": false,
   "generated": "2026-09-07",
-  "generated_utc": "2026-09-07T15:51:51Z",
+  "generated_utc": "2026-09-07T19:31:09Z",
   "window_hours": 72,
-  "txn_count": 13,
+  "txn_count": 7,
   "volatile": {
-    "inflow_usd": 541076851,
-    "outflow_usd": 620680235,
-    "net_usd": 79603384,
+    "inflow_usd": 55018906,
+    "outflow_usd": 154602191,
+    "net_usd": 99583285,
     "direction": "off exchanges"
   },
   "stablecoins": {
@@ -18,29 +18,23 @@
   "by_asset": [
     {
       "symbol": "BTC",
-      "inflow_usd": 541076851,
-      "outflow_usd": 620680235,
-      "net_usd": 79603384
+      "inflow_usd": 55018906,
+      "outflow_usd": 154602191,
+      "net_usd": 99583285
     }
   ],
   "by_exchange": [
-    {
-      "exchange": "coinbase",
-      "inflow_usd": 179633794,
-      "outflow_usd": 466078044,
-      "net_usd": 286444250
-    },
-    {
-      "exchange": "coinbase institutional",
-      "inflow_usd": 306424151,
-      "outflow_usd": 154602191,
-      "net_usd": -151821960
-    },
     {
       "exchange": "bitfinex",
       "inflow_usd": 120107999,
       "outflow_usd": 180094500,
       "net_usd": 59986501
+    },
+    {
+      "exchange": "coinbase institutional",
+      "inflow_usd": 0,
+      "outflow_usd": 154602191,
+      "net_usd": 154602191
     },
     {
       "exchange": "binance",
@@ -56,18 +50,6 @@
     }
   ],
   "top_inflows": [
-    {
-      "symbol": "BTC",
-      "amount": 2628.0,
-      "usd": 209245106.0,
-      "to": "coinbase institutional",
-      "from": "unknown wallet",
-      "blockchain": "bitcoin",
-      "hash": "ec076528cf3bd9e20a95f281a7982fbd5710f9e36e23d65b34b40b8bc8c9e98c",
-      "url": "",
-      "ts": 1788547724.0,
-      "stable": false
-    },
     {
       "symbol": "USDT",
       "amount": 120000000.0,
@@ -94,66 +76,18 @@
     },
     {
       "symbol": "BTC",
-      "amount": 1220.0,
-      "usd": 97179045.0,
-      "to": "coinbase institutional",
+      "amount": 691.0,
+      "usd": 55018906.0,
+      "to": "okex",
       "from": "unknown wallet",
       "blockchain": "bitcoin",
-      "hash": "6c5f2bce4128615b36824d426b81d2ff2d6558f32176440ce34f2cc491b37425",
+      "hash": "94b50b1a7bb715aea3274964c9c170596f70cc35d80426803a6e9071a33a8fce",
       "url": "",
-      "ts": 1788547724.0,
-      "stable": false
-    },
-    {
-      "symbol": "BTC",
-      "amount": 1135.0,
-      "usd": 90376331.0,
-      "to": "coinbase",
-      "from": "unknown wallet",
-      "blockchain": "bitcoin",
-      "hash": "0da35e24dff305d46a9a67f052f9773366f72a6674c5f66ac342665819b66b5b",
-      "url": "",
-      "ts": 1788546332.0,
-      "stable": false
-    },
-    {
-      "symbol": "BTC",
-      "amount": 1121.0,
-      "usd": 89257463.0,
-      "to": "coinbase",
-      "from": "unknown wallet",
-      "blockchain": "bitcoin",
-      "hash": "5baef59f2694d235ef9c62a19cd8f64f46360af007d9a8d1486e2a35916b142d",
-      "url": "",
-      "ts": 1788546332.0,
+      "ts": 1788577639.0,
       "stable": false
     }
   ],
   "top_outflows": [
-    {
-      "symbol": "BTC",
-      "amount": 2928.0,
-      "usd": 233039022.0,
-      "to": "unknown wallet",
-      "from": "coinbase",
-      "blockchain": "bitcoin",
-      "hash": "83d3fb85a9bb6f21437fa9bc8ea2659c9130545c17c46e893979bf27439db9d5",
-      "url": "",
-      "ts": 1788547041.0,
-      "stable": false
-    },
-    {
-      "symbol": "BTC",
-      "amount": 2928.0,
-      "usd": 233039022.0,
-      "to": "unknown wallet",
-      "from": "coinbase",
-      "blockchain": "bitcoin",
-      "hash": "83d3fb85a9bb6f21437fa9bc8ea2659c9130545c17c46e893979bf27439db9d5",
-      "url": "",
-      "ts": 1788547041.0,
-      "stable": false
-    },
     {
       "symbol": "USDT",
       "amount": 180000000.0,
@@ -208,63 +142,63 @@
   "history": [
     {
       "week_ending": "Jun 15",
-      "net_usd": 225276822,
-      "moves": 47
+      "net_usd": 180695847,
+      "moves": 44
     },
     {
       "week_ending": "Jun 22",
-      "net_usd": 40356471,
-      "moves": 36
+      "net_usd": 45243910,
+      "moves": 39
     },
     {
       "week_ending": "Jun 29",
-      "net_usd": 1519329271,
-      "moves": 83
+      "net_usd": 1514651331,
+      "moves": 84
     },
     {
       "week_ending": "Jul 06",
-      "net_usd": 1335658195,
-      "moves": 95
+      "net_usd": 1335448696,
+      "moves": 91
     },
     {
       "week_ending": "Jul 13",
-      "net_usd": 291382701,
-      "moves": 47
+      "net_usd": -52271664,
+      "moves": 58
     },
     {
       "week_ending": "Jul 20",
-      "net_usd": 46695145,
-      "moves": 63
+      "net_usd": 179931374,
+      "moves": 54
     },
     {
       "week_ending": "Jul 27",
-      "net_usd": 484757651,
+      "net_usd": 701696775,
       "moves": 55
     },
     {
       "week_ending": "Aug 03",
-      "net_usd": 1084655036,
-      "moves": 51
+      "net_usd": 1074694563,
+      "moves": 52
     },
     {
       "week_ending": "Aug 10",
-      "net_usd": -378524341,
-      "moves": 90
+      "net_usd": -439047289,
+      "moves": 88
     },
     {
       "week_ending": "Aug 17",
-      "net_usd": -187243599,
+      "net_usd": -186044579,
       "moves": 24
     },
     {
       "week_ending": "Aug 24",
-      "net_usd": -952786485,
-      "moves": 80
+      "net_usd": -1029524922,
+      "moves": 81
     },
     {
       "week_ending": "Aug 31",
-      "net_usd": -672502349,
-      "moves": 94
+      "net_usd": -533000499,
+      "moves": 92
     },
     {
       "week_ending": "Sep 07",
@@ -272,5 +206,5 @@
       "moves": 59
     }
   ],
-  "weekly_median_abs_usd": 378524341
+  "weekly_median_abs_usd": 439047289
 }

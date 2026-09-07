@@ -1,0 +1,60 @@
+{
+  "id": "c182",
+  "slug": "india-issues-first-tokenized-corporate-bond-using-central-bank-digital-currency-for-settlement",
+  "kind": "brief",
+  "title": "India issues first tokenized corporate bond using central bank digital currency for settlement",
+  "dek": "REC Ltd., India's state-owned power financier, issued a \u20b9500 crore ($59 million) tokenized corporate bond with atomic settlement via the RBI's wholesale CBDC. HDFC Bank and ICICI Bank were among roughly 20 institutional buyers. The issuance was nearly eight times oversubscribed.",
+  "date": "2026-09-07",
+  "published_utc": "2026-09-07T19:33:09Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "Settlement occurred atomically through the Reserve Bank of India's wholesale Central Bank Digital Currency, eliminating counterparty risk and enabling same-day listing on the NSE and BSE.",
+  "bottom_line": "Secondary market liquidity and trading volumes for REC's tokenized bond will determine whether same-day T+0 settlement delivers the claimed advantages over conventional T+1/T+2 cycles, and whether follow-on issuers like L&T demonstrate sustained institutional demand.",
+  "human_take": "",
+  "body": [
+    "India's state-owned power financier REC Ltd. raised \u20b9500 crore (approximately $59 million) through the country's first tokenized corporate bond, with settlement executed atomically via the Reserve Bank of India's wholesale CBDC. HDFC Bank and ICICI Bank, India's two largest private sector banks, were among roughly 20 institutional buyers, per Crypto Briefing.",
+    "The bond carried a coupon rate of 7.30 percent and a tenor of roughly one year and nine months. Bids totaled around \u20b9796 crore, making the issuance nearly eight times oversubscribed against its base issue size. The exchange of securities and cash occurred simultaneously, with same-day pay-in and listing on both the National Stock Exchange and the Bombay Stock Exchange, according to Crypto Briefing.",
+    "Ownership records for the bonds live on a distributed ledger rather than in legacy depository systems, using DEMAT 2.0 securities accounts, an upgrade from India's existing dematerialized account system. To participate, institutional buyers needed access to both DEMAT 2.0 securities accounts and RBI wholesale CBDC wallets. No public blockchain tokens or crypto assets are involved in the transaction. The distributed ledger is permissioned and sits within the regulatory perimeter of the Securities and Exchange Board of India and the RBI, operating under SEBI's regulatory sandbox framework with access limited exclusively to qualified institutional investors.",
+    "Atomic settlement eliminates counterparty risk during the settlement window. Same-day listing means investors can access secondary market liquidity immediately rather than waiting through the typical T+1 or T+2 cycle, per Crypto Briefing. Europe has seen tokenized bond issuances from sovereign and corporate issuers under the EU's DLT Pilot Regime, and Hong Kong has run its own tokenized green bond program.",
+    "The restriction to qualified institutional investors serves a dual purpose, according to Crypto Briefing: it contains risk while generating the kind of institutional data that regulators need before deciding whether to scale the framework more broadly. L&T, one of India's largest engineering and construction conglomerates, has reportedly proposed its own tokenized bond offering. Most tokenized bond projects elsewhere have relied on commercial bank money or stablecoin equivalents for the cash leg, making the RBI's direct integration of wholesale CBDC a structural distinction."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/india-first-tokenized-bond-hdfc-icici-rec/",
+      "url": "https://cryptobriefing.com/india-first-tokenized-bond-hdfc-icici-rec/"
+    }
+  ],
+  "update_of": "philippines-central-bank-proposes-12-month-freeze-on-payment-operator-registrations",
+  "board_snapshot": {
+    "as_of": "2026-09-07T19:31:10Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79217.38,
+        "chg_24h_pct": -1.38
+      },
+      {
+        "symbol": "ETH",
+        "price": 2491.59,
+        "chg_24h_pct": -0.89
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.3,
+      "open_interest_usd": 2184767192
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 99583285,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
