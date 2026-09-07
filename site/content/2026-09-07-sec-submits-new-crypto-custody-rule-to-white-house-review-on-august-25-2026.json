@@ -1,0 +1,56 @@
+{
+  "id": "c081",
+  "slug": "sec-submits-new-crypto-custody-rule-to-white-house-review-on-august-25-2026",
+  "kind": "brief",
+  "title": "SEC submits new crypto custody rule to White House review on August 25, 2026",
+  "dek": "The SEC's rewritten custody framework for investment advisers and investment companies entered OMB review on August 25, 2026, replacing a failed 2023 safeguarding proposal. The crypto-focused rule targets an October 2026 notice of proposed rulemaking, but public records show only the agenda entry, not the draft's actual provisions.",
+  "date": "2026-09-07",
+  "published_utc": "2026-09-07T15:53:52Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "The SEC submitted its rewritten custody rule (RIN 3235-AN46) to the White House Office of Management and Budget on August 25, 2026, establishing a crypto-specific regulatory framework for adviser and investment company asset custody.",
+  "bottom_line": "The October 2026 NPRM deadline will either land on time or slip, revealing the White House review's pace and whether the SEC has consensus on the rule's scope. The published draft text will determine whether the new approach succeeds where the 2023 proposal failed, particularly on the unresolved question of which custodians qualify and what segregation or insolvency protections the rule will require.",
+  "human_take": "",
+  "body": [
+    "The SEC's proposed rewrite of custody rules for investment advisers and investment companies entered White House review on August 25, 2026, according to The Defiant. The crypto-focused framework replaces a separate 2023 safeguarding proposal that the Commission formally withdrew in June 2025, announcing that any future action would require a new proposed rule.\nThe SEC's 2026 regulatory agenda says the planned rule would clarify how investment advisers and investment companies can custody crypto assets under Commission requirements, per The Defiant. Current adviser rules require a qualified custodian to maintain client funds and securities in separate client accounts or accounts held by an adviser as agent or trustee. The new agenda covers both investment adviser client assets and investment company fund assets, and the SEC intends to remove what it considers outdated provisions.\nThe White House Office of Management and Budget (OIRA) entry and the SEC's agenda description are the only publicly available materials so far, The Defiant reports. The draft rule text itself remains unreleased.The 2023 safeguarding proposal, withdrawn after industry pushback, would have retained qualified custodians while broadening the adviser rule beyond funds and securities to all client assets, including crypto. It also proposed protections intended to segregate client assets and protect them if a custodian became insolvent, alongside updated recordkeeping requirements, according to The Defiant.\nAdvisers and investment companies have raised questions about holding crypto assets in compliance with current custody requirements, per The Defiant. A 2025 White House order says agencies must continue following Executive Order 12866 processes for submitting regulations to OIRA for review."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/regulation/sec-crypto-custody-rewrite-enters-white-house-review",
+      "url": "https://thedefiant.io/converge/regulation/sec-crypto-custody-rewrite-enters-white-house-review"
+    }
+  ],
+  "update_of": "uk-tax-service-issued-81-000-warning-letters-to-crypto-holders-in-past-year",
+  "board_snapshot": {
+    "as_of": "2026-09-07T15:51:51Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78814.89,
+        "chg_24h_pct": -1.89
+      },
+      {
+        "symbol": "ETH",
+        "price": 2473.17,
+        "chg_24h_pct": -1.62
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.2,
+      "open_interest_usd": 2176304807
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 79603384,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

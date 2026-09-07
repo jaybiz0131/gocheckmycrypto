@@ -4,38 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c157",
-    "headline": "Taiwan Plans Travel Rule for Domestic Crypto Transfers from October",
-    "category": "balance",
-    "reasons": [
-     "Brief flagged as 'thin: true' with only 2 data_points and empty bear_case array. Draft acknowledges the thinness explicitly ('The brief does not specify...') and dedicates an entire paragraph to what is NOT known. This verbose uncertainty framing reads as padding and undermines the story's authority on a thin brief. A thin brief warrants a tight, factual story without meta-commentary about source gaps; instead the draft reads as defensive and simultaneously signals low-confidence in its own material.",
-     "The bottom_line contains speculative future events ('mass delisting', 'jurisdictional conflicts') that exceed what the two reported data_points support. This expands the story's scope beyond what the brief provides."
-    ]
-   },
-   {
-    "id": "c070",
-    "headline": "Bitcoin Red Team Files 4,962 Findings, 85 Critical Flaws Across 390 Open-Source Repos",
-    "category": "accuracy",
-    "reasons": [
-     "Brief metadata flags 'boundary_required: true' and 'boundary_ok: false' with explicit reason: 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft cites concrete numbers (4,962 findings, 85 critical flaws, 390 repos, $100 million) without a date, version number, or temporal boundary clarifying when this audit occurred or what scope was covered. The draft is built on data_points that lack a boundary anchor, violating the desk's required liability line for threshold stories.",
-     "The brief's open_questions explicitly note 'The fetched source text is truncated (appears to be HTML/CSS formatting code rather than article body)' and 'No independent verification or third-party confirmation of the vulnerability counts is present in the source text.' The draft cites these numbers as fact without flagging the source truncation or lack of independent verification, presenting unconfirmed counts as reported fact."
-    ]
-   },
-   {
-    "id": "c127",
-    "headline": "Circle Names BlackRock, Visa, ICE, DTCC as Founding Arc Validators; Permissioned Model Raises Decentralization Questions",
-    "category": "accuracy",
-    "reasons": [
-     "The draft names 'Sumitomo Corporation' as one of the 11 founding validators in the opening paragraph, but the brief's data_point lists only 11 institutions and does not name Sumitomo Corporation. The data_point lists: BlackRock, DTCC, Galaxy, Global Payments, ICE, Mastercard, MoneyGram, SBI Group, Standard Chartered, Visa, and Circle. Sumitomo is not mentioned in the brief and appears to be smuggled information not sourced to the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-05",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c069",
     "headline": "Bitcoin Red Team Audit Identifies 85 Critical Flaws Across 390 Open-Source Repositories",
     "category": "accuracy",
@@ -7092,6 +7060,31 @@
      "The draft states 'Giannis Antetokounmpo became a Kalshi shareholder earlier in 2026, according to BeInCrypto' and then uses this fact to claim it 'intensified the rivalry between Kalshi and Polymarket.' The brief's data_point says: 'Giannis Antetokounmpo became a Kalshi shareholder earlier in 2026, which intensified the rivalry between Kalshi and Polymarket, according to BeInCrypto.' The draft correctly reports the fact. However, the parenthetical 'which intensified the rivalry' is presented as a statement of fact attributed to BeInCrypto in the brief, but in the draft it is presented as narrative analysis without clear attribution. The brief lists this as a single reported claim; the draft should carry the attribution explicitly if the source made the causal claim, or omit the 'intensified' framing if it is the writer's inference. As written, the draft blurs whether BeInCrypto said the shareholder move intensified rivalry or whether that is the writer's characterization. This is a minor but real attribution failure. Additionally: the draft references 'pending litigation' in the bottom_line and body as if these are open cases, which they are (dated July and August 2026, before today's date of Sept. 7). That is correct. However, the draft states 'Baltimore sued both Polymarket and Kalshi in August 2026' and 'New York sued Kalshi in July 2026 for more than $36 billion'\u2014both past tense, both correctly dated before today. No accuracy failure there. The core problem is the Giannis claim's attribution.",
      "the draft dates September 10, 2026 as a Tuesday; September 10, 2026 is a Thursday",
      "the draft dates September 10, 2026 as a Tuesday; September 10, 2026 is a Thursday"
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-07",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c004",
+    "headline": "Solana Transaction v1 Activates Today, Triples Maximum Transaction Size",
+    "category": "accuracy",
+    "reasons": [
+     "Draft reports an event scheduled for today (September 7, 2026) as having already happened with present-tense 'is activating' in the opening. The protocol instruction states 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The CoinDesk source timestamp is 2026-09-07T12:08:11Z, and the brief confirms activation is scheduled for that date. The brief data point says 'activates Wednesday (September 7, 2026)'\u2014a future/scheduled event, not a past one. The draft's present tense 'is activating on September 7, 2026' (opening sentence) and 'The upgrade is live as of today' (bottom line) treat a scheduled event as though it has already occurred, which violates the protocol rule for handling same-day scheduled events.",
+     "Bottom line explicitly states 'The upgrade is live as of today' when the brief characterizes activation as scheduled/upcoming, not confirmed-live."
+    ]
+   },
+   {
+    "id": "c028",
+    "headline": "Bitcoin Spot ETFs Drew $987 Million Last Week as August Inflows Hit 11-Month High",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'the desk's ETF flows board showed net inflows of $986.7 million over five sessions' in August, but this figure does not appear in the brief's data_points. The brief cites The Block's $3.52 billion August total and Daily Hodl's $730.87 million September 3 figure, but the $986.7 million five-session figure is smuggled from an undisclosed source outside the research brief.",
+     "The draft states 'The desk's ETF flows board showed BTC net inflows of $174.6 million on September 4 and ETH net inflows of $25.9 million the same day' and references it as evidence of 'inflow momentum over the preceding five sessions'\u2014these figures and this data source do not appear anywhere in the brief and represent facts introduced outside the approved research.",
+     "The headline promises '$987 Million Last Week' but the brief explicitly flags in bear_case that The Block source could not be fetched (HTTP 403 paywall) to verify the weekly figure. The draft runs this unverified number prominently in the headline without noting its verification status, violating the confidence-label requirement for unconfirmed claims."
     ]
    }
   ]
