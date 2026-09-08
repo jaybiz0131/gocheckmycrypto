@@ -1,0 +1,54 @@
+{
+  "id": "wrap-am-2026-09-08",
+  "slug": "morning-brief-2026-09-08",
+  "kind": "brief",
+  "title": "The Morning Brief: India's tokenized bond marks settlement shift; custody rule nears review",
+  "dek": "India executed the first tokenized corporate bond via central bank digital currency, demonstrating T+0 atomic settlement for institutional buyers. Meantime, the SEC's rewritten crypto custody framework entered White House review, with an October notice of proposed rulemaking target.",
+  "date": "2026-09-08",
+  "published_utc": "2026-09-08T13:52:39Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Regulatory momentum on custody and stablecoin frameworks is accelerating globally, India's proof-of-concept, the SEC's OMB submission, and Revolut's euro-token launch across the EU, while enforcement actions in Poland, Chile, and the Philippines signal tighter gatekeeping of crypto service access.",
+  "bottom_line": "India's tokenized bond achieved atomic settlement through central bank digital currency while the SEC's custody rule entered White House review targeting October notice; both move regulatory infrastructure toward institutional crypto use. Revolut's EURR token rollout across three EU nations and the SEC's October deadline represent twin checkpoints on regulated stablecoin and custody availability. Enforcement escalations in Poland, Chile, and the Philippines underscore jurisdictions' shift toward stricter gatekeeping of VASP access and custody arrangements, signaling a tightening compliance environment alongside regulatory framework-building.",
+  "human_take": "",
+  "body": [
+    "India's state-owned power financier REC Ltd. raised \u20b9500 crore (approximately $59 million) through the country's first tokenized corporate bond, with atomic settlement via the Reserve Bank of India's wholesale CBDC. The bond attracted roughly 20 institutional buyers, including HDFC Bank and ICICI Bank, with bids totaling around \u20b9796 crore, nearly eight times oversubscribed. Securities and cash exchanged simultaneously, with same-day pay-in and listing on both the National Stock Exchange and the Bombay Stock Exchange. The issuance carried a 7.30 percent coupon and tenor of roughly one year and nine months.",
+    "The move signals institutional demand for T+0 settlement and eliminates counterparty risk in India's capital markets. Whether follow-on issuers sustain the model and whether secondary-market liquidity materializes will determine whether the efficiency gains justify broader adoption.",
+    "In the United States, the SEC's rewritten custody framework for investment advisers and investment companies entered White House Office of Management and Budget review on August 25, 2026. The crypto-focused rule targets an October 2026 notice of proposed rulemaking, replacing a 2023 safeguarding proposal that the Commission formally withdrew in June 2025. The SEC's agenda description says the planned rule will clarify how investment advisers and investment companies can custody crypto assets under Commission requirements. The draft rule text remains unreleased, and the agency intends to remove what it considers outdated provisions from current rules. The 2023 proposal, which faced industry pushback, would have retained qualified custodians while broadening the adviser rule to cover all client assets, including crypto, and included protections intended to segregate client assets and protect them if a custodian became insolvent.",
+    "In Europe, Revolut has begun rolling out EURR, its euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal. Bridge Building S.A., a Luxembourg-authorized electronic money institution, serves as issuer and redemption counterparty. As of August 25, only 374 euros in EURR was in circulation with full backing in regulated credit institution deposits. The token is structured as an e-money token under the European Union's Markets in Crypto-Assets framework. Revolut has promised broader European availability later in 2026.",
+    "Enforcement action accelerated in multiple jurisdictions. Polish prosecutors charged Roman \u017b. with organized crime and misappropriation in the Zondacrypto investigation, marking the fifth suspect charged as the exchange collapse, which froze customer withdrawals in April, continues to leave approximately 1.3 million clients unable to access their accounts with estimated losses of at least $94 million. The Philippine central bank proposed a 12-month freeze on new payment operator registrations and stricter controls on arrangements involving virtual asset service providers, signaling tighter gatekeeping of crypto-adjacent payment flows during a period of global VASP regulatory crackdowns. In Chile, Orionx suspended customer withdrawals and began winding down operations after a forensic audit found approximately $7 million in custodied assets transferred to wallets outside the platform's control between 2018 and 2021. The exchange filed a criminal complaint against two former executives. The audit reconciled Orionx's internal ledger against blockchain data and found differences of approximately $3.93 million in Bitcoin, $2.29 million in Ether, $762,017 in XRP, and $201 in Polygon, totaling roughly $6.98 million.",
+    "On the margins, Harmony, a layer-1 blockchain launched in 2019, is proposing a voluntary network shutdown and migration of ONE tokens to Ethereum, reversing an August rejection of a similar proposal and citing threats from state actors and AI agents. The proposal includes redirection of newly issued tokens toward what the team calls The Remix Economy for AI Video initiative.",
+    "The tape shows Bitcoin down 1.34 percent on the day to $78,037 but up 22.5 percent on the month, while Ethereum fell 1.42 percent on the day to $2,454 but gained 29.81 percent over the past 30 days. Per the desk's window-scoping rule, both assets have diverged directionally across timeframes. Bitcoin ETF flows came in with a net inflow of $174.6 million on September 4 and a net inflow of $986.7 million over the last five sessions, per the desk's ETF flows board. Ethereum ETF flows recorded an inflow of $25.9 million on September 4 and $215.3 million over five sessions. The desk's Whale Watch board shows $140.4 million in bitcoin moving off exchanges over the week ending September 8, reversing two prior weeks in which $541 million and $1.1 billion moved onto exchanges. Ethereum saw $106.1 million moving onto exchanges over the same window. Stablecoin buying power stands at $258 million. The Fear & Greed Index sits at 69 (Greed), within a 30-day range of 27 to 74."
+  ],
+  "sources": [
+    {
+      "title": "India issues first tokenized corporate bond using central bank digital currency for settlement",
+      "url": "/articles/india-issues-first-tokenized-corporate-bond-using-central-bank-digital-currency-for-settlement.html"
+    },
+    {
+      "title": "Philippines Central Bank Proposes 12-Month Freeze on Payment Operator Registrations",
+      "url": "/articles/philippines-central-bank-proposes-12-month-freeze-on-payment-operator-registrations.html"
+    },
+    {
+      "title": "Revolut launches EURR stablecoin in Denmark, Poland, Portugal with Bridge as issuer",
+      "url": "/articles/revolut-launches-eurr-stablecoin-in-denmark-poland-portugal-with-bridge-as-issuer.html"
+    },
+    {
+      "title": "SEC submits new crypto custody rule to White House review on August 25, 2026",
+      "url": "/articles/sec-submits-new-crypto-custody-rule-to-white-house-review-on-august-25-2026.html"
+    },
+    {
+      "title": "Chilean exchange Orionx halts withdrawals after forensic audit finds $7M in asset transfers",
+      "url": "/articles/chilean-exchange-orionx-halts-withdrawals-after-forensic-audit-finds-7m-in-asset-transfers.html"
+    },
+    {
+      "title": "Harmony blockchain proposes voluntary shutdown, citing AI and state-actor threats",
+      "url": "/articles/harmony-blockchain-proposes-voluntary-shutdown-citing-ai-and-state-actor-threats.html"
+    },
+    {
+      "title": "Polish prosecutors charge fifth suspect in Zondacrypto investigation",
+      "url": "/articles/polish-prosecutors-charge-fifth-suspect-in-zondacrypto-investigation.html"
+    }
+  ]
+}

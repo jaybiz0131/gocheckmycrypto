@@ -1,0 +1,31 @@
+{
+  "id": "c098",
+  "slug": "chilean-exchange-orionx-halts-withdrawals-after-forensic-audit-finds-7m-in-asset-transfers",
+  "kind": "brief",
+  "title": "Chilean exchange Orionx halts withdrawals after forensic audit finds $7M in asset transfers",
+  "dek": "Orionx, a Chilean cryptocurrency exchange, suspended customer withdrawals and began winding down operations after a forensic audit found approximately $7 million in custodied assets transferred to external wallets. The exchange has filed a criminal complaint against two former executives.",
+  "date": "2026-09-08",
+  "published_utc": "2026-09-08T13:41:34Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "An on-chain audit reconciling Orionx's internal ledger against blockchain data found roughly $7 million in customer assets transferred to wallets outside the platform's control between 2018 and 2021, with differences spanning Bitcoin, Ether, XRP, and Polygon.",
+  "bottom_line": "The completion of each stage in Orionx's five-stage restitution process will determine whether customers ever recover funds; criminal proceedings against Zibert and D\u00edaz and any Chilean court rulings on liability will shape what restitution looks like.",
+  "human_take": "",
+  "body": [
+    "Orionx, a Chilean cryptocurrency exchange, suspended customer withdrawals and began a definitive wind-down after a forensic audit found more than $7 million in custodied assets transferred to wallets outside the company's control, according to The Defiant. The exchange filed a report with Chile's Public Prosecutor's Office and a criminal complaint dated September 2 against former executives, identified by La Tercera as Roberto Zibert, a former general manager, and Joaqu\u00edn D\u00edaz, a former technology manager, accused of disloyal administration. Cointelegraph reported that Zibert and D\u00edaz denied the allegations, saying they never acted against customers' interests.",
+    "The external audit reconciled Orionx's internal records against data visible on the relevant blockchains. The audit found differences of approximately $3.93 million in Bitcoin, $2.29 million in Ether, $762,017 in XRP, and $201 in Polygon, totaling roughly $6.98 million across all assets. The complaint separately characterized the resulting loss at approximately $6.07 million. Outbound transfers were omitted from the internal ledger or offset by unsupported accounting adjustments, according to The Defiant's reporting. The complaint alleges the questioned movements occurred between 2018 and 2021.",
+    "The complaint alleges that 79 BTC linked to Orionx custody moved via a Celsius account maintained by Zibert and an account associated with comisiones@orionx.com to an unidentified account. An account linked to D\u00edaz received more than $1.5 million in 14 transactions, per the complaint.",
+    "Orionx operates without regulatory authorization in Chile. The country's Commission for the Financial Market (CMF) rejected Orionx's application for registration and authorization under Chile's Fintech Law on June 19, stating the platform had not demonstrated that it held the guarantees required of authorized providers. After the rejection, Orionx could only conclude existing operations rather than enter new ones. The CMF said it neither supervises the wind-down nor has authority to order the return of customer funds because Orionx is not registered or authorized by the regulator.",
+    "The regulator's guidance for customers is to submit claims directly to Orionx and retain evidence of their balances, including account statements, transaction records, and communications with the exchange. Customers may also pursue restitution through Chilean courts or report suspected crimes to judicial authorities. Orionx's restitution process comprises five stages: a public closure notice, opening support chat, reconciling all balances, approving a restitution plan, and returning funds. Orionx is currently at stage one. The exchange says it will seek to return as much of customers' assets as possible but does not guarantee full recovery."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/cefi/orionx-halts-withdrawals-and-winds-down-after-alleged-7m-asset-transfers",
+      "url": "https://thedefiant.io/news/cefi/orionx-halts-withdrawals-and-winds-down-after-alleged-7m-asset-transfers"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": true
+}
