@@ -1,0 +1,64 @@
+{
+  "id": "c003",
+  "slug": "visa-opens-settlement-data-to-blockchain-lenders-as-stablecoin-card-volume-hits-20b-annual-run-rate",
+  "kind": "brief",
+  "title": "Visa Opens Settlement Data to Blockchain Lenders as Stablecoin Card Volume Hits $20B Annual Run Rate",
+  "dek": "Visa's stablecoin settlement volume reached a $20 billion annualized run rate, up 15x year over year. The payment giant is now pairing that transaction data with blockchain lending tools to help card issuers access capital, formalizing stablecoin settlement as institutional infrastructure.",
+  "date": "2026-09-08",
+  "published_utc": "2026-09-08T19:54:07Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "Visa's stablecoin settlement volume surpassed $20 billion annualized run rate, up 15x year over year, and the company is opening that settlement data to on-chain lenders to finance card issuers.",
+  "bottom_line": "The test is whether blockchain lenders actually step in to finance card issuers or whether capital remains constrained by regulatory uncertainty. Watch for the first credit facilities announced by named lenders using Visa settlement data, and track whether new stablecoin card programs cite access to that on-chain capital as a competitive advantage.",
+  "human_take": "",
+  "body": [
+    "Visa's stablecoin settlement volume surpassed $20 billion annualized run rate and increased 15x year over year, according to CoinDesk. The payment network is now pairing that transaction data with blockchain lending tools to help card issuers access capital, per Decrypt's reporting.",
+    "The mechanism is straightforward: Visa will make settlement data available to on-chain lenders, who can use that transaction flow as collateral to extend credit to the fintechs and stablecoin-linked card programs driving the growth. Blockchain lenders gain visibility into real payment velocity; card issuers gain access to capital markets that traditional finance has historically closed to them.",
+    "Stablecoin cards have moved from niche to scale faster than traditional fintech credit products. A 15x year-over-year increase in settlement volume suggests adoption is accelerating across geographies and use cases. Visa's choice to formalize the data connection to lenders signals that the payment giant now views stablecoin settlement as institutional infrastructure mature enough to support secondary credit markets.",
+    "This follows a pattern of traditional finance integrating blockchain rails into their core business rather than treating crypto as a separate product line. Visa is not issuing the credit itself; instead, it is enabling specialist blockchain lenders to underwrite risk against real payment data flowing through its network."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/09/08/visa-opens-settlement-data-to-help-blockchain-lenders-finance-crypto-cards-as-volume-surges",
+      "url": "https://www.coindesk.com/business/2026/09/08/visa-opens-settlement-data-to-help-blockchain-lenders-finance-crypto-cards-as-volume-surges"
+    },
+    {
+      "title": "https://decrypt.co/377696/visa-onchain-lending-finance-stablecoin-card",
+      "url": "https://decrypt.co/377696/visa-onchain-lending-finance-stablecoin-card"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-08T19:52:05Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78391.83,
+        "chg_24h_pct": -0.89
+      },
+      {
+        "symbol": "ETH",
+        "price": 2478.33,
+        "chg_24h_pct": -0.44
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.2,
+      "open_interest_usd": 2167770139
+    },
+    "flows": {
+      "window_hours": 168,
+      "net_usd": 28063564,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Decrypt"
+  ],
+  "developing": false
+}

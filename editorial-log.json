@@ -1,49 +1,6 @@
 [
  {
   "date": "2026-08-08",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c001",
-    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Resolution BCB No. 584/2026' but the brief data_points do not specify this resolution number\u2014it appears only in the draft, not sourced to the CoinDesk article listed. This is a smuggled fact.",
-     "The draft states the requirement was 'published August 7' but the brief lists the source timestamp as '2026-08-08T15:25:38Z' (August 8), creating a factual inconsistency that is not explained or sourced within the brief.",
-     "The draft claims 'Regina Pedroso, president of Brazilian tokenization group Abtoken, said the policy could impose costs on legitimate users and weaken the competitiveness of domestic exchanges, according to CoinDesk's reporting.' This is the only named source for the bear_case, but it is paraphrased without attribution inline to CoinDesk or Abtoken in the body\u2014it appears as a standalone attributed sentence that reads as CoinDesk's framing rather than Pedroso's direct statement."
-    ]
-   },
-   {
-    "id": "c005",
-    "headline": "Another Bitcoin infrastructure exploit hits, this time draining Lightning payment servers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The vulnerability had been reported to BTCPay by members of the Bitcoin Red Team, a group of developers that has been using AI models to scan bitcoin codebases and has filed thousands of findings across hundreds of projects since this week.' The brief data_point 8 states 'a group of developers that began pointing AI models at bitcoin codebases this week and has filed thousands of findings across hundreds of projects since.' The draft changes 'since this week' to a dangling 'since this week' at the end of a different clause, creating ambiguity about the timeline. This is imprecise paraphrasing of a time-sensitive claim.",
-     "The draft's closing paragraph states 'For affected advisories on patching, consult BTCPay's official security guidance.' This language mirrors the boundary advisory language but directs readers to 'BTCPay's official security guidance' rather than the advisory_url provided in the boundary. It is unclear whether this constitutes proper compliance with the advisory directive.",
-     "The draft does not attribute the statement about 'real-time exploitations already reported at multiple operators' to any specific source within the brief data_points. This claim appears in the lead but is not explicitly sourced."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "Bitcoin and ether ETFs draw $1.1 billion in inflows, strongest week since April",
-    "category": "accuracy",
-    "reasons": [
-     "The draft reports specific ETF flow figures ('Bitcoin ETFs posting a net inflow of $5.1 million on July 28, 2026, and ether ETFs recording an inflow of $11.7 million on July 27, 2026. Over the preceding five sessions, Bitcoin ETFs had drawn outflows totaling $402.6 million, while ether ETFs recorded inflows of $77.5 million') and cumulative inflows ('Bitcoin ETFs have amassed $51.432 billion in cumulative net inflows since inception... Ether ETFs have accumulated $11.223 billion') that do not appear anywhere in the research brief's data_points. These are smuggled facts attributed to 'the desk's ETF flows board' rather than traced to the primary source (The Block article). The brief contains no data_points for these specific figures; they must be verified against source or removed.",
-     "The draft includes a specific detail about 'fear index reading of 29' that does not appear in any data_point in the brief, making this a smuggled fact."
-    ]
-   },
-   {
-    "id": "c017",
-    "headline": "U.S. shed 23,000 jobs in July, pushing Fed rate-hike odds below 50%",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Before Friday's release, traders were nearly evenly split on whether the Fed would hike rates in September, per CoinDesk.' The brief's corresponding data point says 'Before the jobs report, markets were split on whether the Fed would hike rates at its next policy meeting in September, with CME FedWatch showing 55% chance of a rate hike.' The draft omits the 55% figure that clarifies the pre-report baseline and instead paraphrases as 'nearly evenly split,' which is imprecise given 55% is not 50%. This softens the quantitative grounding of the claim."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-08",
   "approved": 3,
   "rejected": [
    {
@@ -7039,6 +6996,40 @@
     "reasons": [
      "The draft states the activation date as 'September 9, 2026' but the brief data_point says 'Transaction v1 feature activates Wednesday' with timestamp 2026-09-07. Today is Tuesday, 2026-09-08, making Wednesday September 9, 2026\u2014correct. However, the brief's core_claim uses relative framing ('Wednesday') while the draft converts this to an absolute date. The source itself (CoinDesk article dated 2026-09-07) would have meant Wednesday was September 9 from that publication perspective. The draft should preserve the reporting framing or verify the absolute date independently; instead it treats a relative reference as confirmed calendar fact. This is a minor but real smuggling of specificity not in the brief.",
      "More critically: the draft writes 'The upgrade triples the maximum size' as settled fact, but the brief's bear_case explicitly notes 'Source text does not specify which services or what the exact upgrade path is'\u2014suggesting CoinDesk's reporting itself is incomplete on key details. The draft goes further than the source warrants by asserting tripling as the mechanism without qualification. The brief's open_questions include 'What is the exact new transaction size limit (current size is not stated in source),' which indicates the CoinDesk piece did not nail down whether 'tripling' means a stated multiplier or an inference. The draft presents inference as fact."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-08",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c026",
+    "headline": "Robinhood Takes Stakes in Crypto.com and OG.com, Routes Football Contracts to CFTC-Regulated Exchange",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Robinhood will route college and pro football event contracts to OG.com's CFTC-regulated exchange, beginning phased rollout to eligible U.S. customers starting today, September 8, 2026.' The data_point in the brief says only 'The rollout begins in phases to eligible U.S. customers starting September 8' without specifying 'today.' Since today IS September 8, 2026, the phrasing 'starting today' is accurate, but this requires verification that the draft was not written before Sept 8 and then dated incorrectly. However, a larger problem: the draft later states 'Robinhood will route retail volume through OG.com's exchange' and discusses football contracts routing, but the brief data_point 7 says 'College and pro football contracts will be split across OG.com, Kalshi and Rothera depending on what each exchange lists.' The draft's framing suggests exclusive OG.com routing for football, while the brief indicates split routing. This is a material accuracy failure.",
+     "The draft includes two sentences about stock price movements ('Robinhood shares climbed about 3.4% in premarket trading Tuesday to roughly $126' and 'CRO, Crypto.com's native token, jumped more than 6% to $0.06 with a daily high of $0.065') that are not in the body but these claims ARE in the brief's data_points as reported facts. However, including intraday price movements in a news story about corporate actions can read as providing market timing information or investment signals, even if technically reported. The protocol flags this as potential compliance risk when stock/token prices appear in promotional context without clear disclaimer.",
+     "The draft states 'Robinhood built its prediction markets hub on Kalshi's contracts, then started shifting volume to Rothera' and later 'Adding OG.com gives Robinhood a third infrastructure supplier instead of depending on a single one.' This accurately reflects the brief, but the framing of 'third supplier' combined with the equity stakes in two of three creates a routing conflict narrative that, while supported by the brief's bear_case, is not explicitly stated as Robinhood's strategy in any sourced claim. The draft narrative implies concentration strategy without attributing this interpretation to a named source."
+    ]
+   },
+   {
+    "id": "c113",
+    "headline": "Orionx Exchange in Chile Halts Withdrawals, Begins Liquidation After $7M Asset Transfers",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Orionx filed a criminal complaint against two former executives on September 2' but the brief data_point says 'Orionx filed a report with Chile's Public Prosecutor's Office and a criminal complaint dated Sept. 2 against former executives.' The draft's phrasing implies Orionx filed the complaint; the brief clarifies that Orionx filed a report to the prosecutor and the complaint dates to Sept. 2\u2014the agent and mechanism are ambiguous in the brief itself, but the draft's phrasing 'Orionx filed a criminal complaint' reads as though Orionx generated the formal complaint rather than reported the matter. This is a smuggled interpretation: the brief says Orionx filed a report to authorities; the draft converts that to Orionx filing a criminal complaint, which narrows and changes the factual claim."
+    ]
+   },
+   {
+    "id": "c050",
+    "headline": "Middle East and North Africa Crypto Volume Hits $350B as Investors Hedge Against Conflict and Currency Risk",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents all data_points as though they carry equal confidence to on-record reporting, but the brief marks every single volume claim and growth figure as 'announced-not-verified' confidence level. The draft states these figures with attribution to The Daily Hodl and Decrypt but does not carry the 'unverified' or 'announced' qualification into the prose. Sentences like 'Turkey leads regional activity at nearly $200 billion annually' read as settled fact, not as a reported-but-unconfirmed claim.",
+     "The draft's final paragraph acknowledges the verification gap ('The Daily Hodl and Decrypt do not cite independent verification'), but this appears only as a caveat at the end. By that point, the reader has absorbed the $350B figure, regional breakdowns, and growth rates as established data. The brief's bear_case explicitly flags that 'All figures and claims originate solely from the Bitcoin Policy Institute; no independent verification' is present\u2014this is not a minor methodological note, it is the core limitation and should frame the entire story, not be buried at para 4.",
+     "The draft states 'Saudi Arabia posted the fastest growth at 154 percent year-on-year' without qualification. The brief's open_questions ask what time periods these rates cover and whether 2022-to-2026 growth is the basis. The phrase 'year-on-year' implies a single YoY figure, not a multi-year growth trajectory. This level of precision is not present in the brief data_point, which only says the claim exists in the Daily Hodl reporting without specifying the time window."
     ]
    }
   ]
