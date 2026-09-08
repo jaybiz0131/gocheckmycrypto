@@ -1,54 +1,5 @@
 [
  {
-  "date": "2026-08-05",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c067",
-    "headline": "Bitcoin infrastructure audit uncovers 4,962 findings, 85 rated critical",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The audit was initiated in response to the Coldcard RNG vulnerability, which resulted in losses exceeding $100 million' but the brief data_point says only 'The Coldcard RNG vulnerability drained over $100 million.' The draft claims the audit was initiated *in response to* Coldcard, which is causal framing not present in the brief. The brief does not establish that the audit was caused by or directly responsive to the Coldcard incident\u2014it only establishes sequence. This is smuggled causal logic."
-    ]
-   },
-   {
-    "id": "c150",
-    "headline": "EU MiCA Register Reaches 321 Authorized Crypto-Asset Service Providers",
-    "category": "balance",
-    "reasons": [
-     "The brief contains no bear_case items, yet the draft manufactures doubt and caution throughout ('remains unreported', 'impossible to assess', 'unknown from available reporting', 'not stated', 'No details'). The draft reads skeptically of thin source material rather than reporting the facts that exist. This is appropriate editorial judgment for a thin brief, but it inverts the angle: the brief frames this as 'regulatory momentum' and a 'counter-example to narratives of crypto regulation stalling,' while the draft leads with what is unknown and unknowable. The opening sentence states the fact (321 authorized CASPs), but the body immediately pivots to what Cointelegraph did not report, creating an impression of cover-up or incompleteness rather than reporting a milestone. The final sentence of the opening paragraph\u2014'making it impossible to assess whether the pace of authorizations is accelerating or stabilizing'\u2014is fair analytical criticism, but the draft should signal that the source is thin, not imply the source was negligent. Reframe the story to lead with the regulatory activity confirmed (the 321 number, the fourth update) and relegate unknowns to an 'open questions' tone in the bottom_line, not the body."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Yellow Card Raises $40M From Institutional Investors to Link Banks to Stablecoin Rails",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Yellow Card's Global USD Accounts allow businesses to hold dollars, hold and swap stablecoins, manage treasury operations, and collect or disburse local currencies through domestic payment rails in more than 50 countries.' This claim appears in the brief's data_points with the exact same language and source attribution to CoinDesk. However, the brief's bear_case explicitly states: 'The specific stablecoins Yellow Card supports and whether they represent the company's own issuance or third-party assets are not stated in the reporting.' The draft should either flag this ambiguity inline (e.g., 'The specific stablecoins Yellow Card supports are undisclosed') or not present the product feature as settled fact. As written, the draft presents a product capability without disclosing what stablecoins power it\u2014a material gap for a story about crypto payments infrastructure.",
-     "The draft states Yellow Card's valuation 'is significantly higher than the $200 million valuation it held in 2022 but has not yet reached $1 billion.' The brief's bear_case marks the valuation as 'unconfirmed by CEO or PR team; CoinDesk reporting is based on a single unnamed source close to the matter.' This confidence qualifier does not appear in the draft. The statement should read: 'The company's current valuation is described by CoinDesk's unnamed sources as significantly higher than $200 million in 2022 but below $1 billion' or similar, to preserve the source uncertainty flagged in the brief."
-    ]
-   },
-   {
-    "id": "c162",
-    "headline": "Senate Banking Minority Staff Releases Analysis of Digital Asset Market Clarity Act Loopholes",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The analysis states the bill jeopardizes national security, per the Minority Staff's framing in the release.' The brief's corresponding data_point includes a claim that the bill 'will turbocharge Trump's crypto corruption'\u2014a partisan characterization not present in the draft. The draft sanitizes this claim by omitting the second half entirely. This is not paraphrase; it is selective fact-dropping that misrepresents what the staff memo actually says.",
-     "The draft presents all four data_points as 'reported' confidence without qualification, but the brief shows the memo itself does not detail the five loopholes, cannot substantiate pension/national security claims, and lacks point-by-point rebuttals. The draft should signal these gaps more clearly in the prose\u2014e.g., 'The staff claims without detailed evidence that...' or 'The analysis references five loopholes but does not specify them in the public release.' Instead, the draft reads as though the claims are settled fact."
-    ]
-   },
-   {
-    "id": "c151",
-    "headline": "Taiwan To Enforce Travel Rule for Domestic Crypto Transfers Starting October",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Taiwan's financial regulator plans to apply Travel Rule requirements to domestic cryptocurrency transfers between service providers, according to Cointelegraph.' The brief shows source_chars=0, indicating the Cointelegraph article was not actually fetched or reviewed by research. The data_points are marked 'reported' but the underlying source text is empty. The writer cannot verify that Cointelegraph made this claim at all. This is a red line: facts must be traceable to reviewed sources.",
-     "The draft opens with confidence ('plans to apply Travel Rule requirements... begins in October 2026') using language that treats an unverified outlet claim as fact. With a zero-character source and no secondary confirmation, this should read as 'according to reporting' or be flagged as 'unconfirmed' in tone."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-06",
   "approved": 3,
   "rejected": [
@@ -7072,6 +7023,41 @@
     "category": "compliance",
     "reasons": [
      "The bottom_line contains multiple compliance violations: (1) It projects future price movement and volatility with 'LINK's 57-day rally may have outrun the partnership's practical near-term impact'\u2014this reads as a price prediction dressed in cautious language, which violates the price-prediction guardrail. (2) It contains a trade-timing signal: 'The signal to watch is whether a named pilot launches within the next six months; without that, LINK's 57-day rally may have outrun...' This implicitly suggests LINK's upside is exhausted, which is investment positioning advice. (3) The body contains the phrase 'LINK touched $13.64 on September 7, its highest price since January 18' presented as market fact, followed by detailed price metrics (6.8% move, open interest, 57% gain, 11-month high) that collectively frame LINK as a momentum story and potential trade. While these are reported facts, their density and prominence in the narrative, combined with the bottom_line's directional framing, creates an implicit buy/sell signal. The draft does not cross into explicit 'investors should' language, but it violates the spirit of the no-prediction rule by using price data to narrate a momentum narrative that concludes with a timing judgment."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-08",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c004",
+    "headline": "Ethereum's Frame Transactions Feature Locked Into Hegot\u00e1 Upgrade",
+    "category": "accuracy",
+    "reasons": [
+     "The title and opening claim state that EIP-8141 Frame Transactions 'has moved from draft stage toward mainnet deployment by being locked into the Hegot\u00e1 upgrade.' However, the brief's data point explicitly states 'The proposal is not scheduled for any upgrade' (confidence: reported). The brief's own open_questions flag this contradiction: 'The snippet says the feature was locked into the Hegot\u00e1 upgrade, but the source text says it is not scheduled for any upgrade\u2014which is accurate?' The draft resolves this ambiguity in the wrong direction, presenting a scheduled upgrade as fact when the brief says no upgrade has been scheduled.",
+     "The lead sentence commits to an upgrade lock that the brief does not support. This is the core factual claim of the story and it is not traceable to the brief's data points."
+    ]
+   },
+   {
+    "id": "c002",
+    "headline": "Polish Prosecutors Charge Fifth Suspect in Zondacrypto Collapse Investigation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Roman \u017b.' as the suspect's identifier, correctly sourced from the brief. However, the body text then later identifies this person only by initial and abbreviation, which matches the source. The core liability issue is that the story charges a named (albeit redacted) individual with 'organized crime and misappropriation offenses' and attributes this to Cointelegraph as a single secondary source. Per the desk's rule on reputationally damaging claims about named individuals: 'A specific allegation of misconduct against a named individual carried on a single secondary source is category compliance.' Even with the name redacted to 'Roman \u017b.,' this is an accusation of criminal conduct tied to a prosecutorial action. Wire-service or on-record-primary sourcing would satisfy the sufficiency bar, but the draft cites only Cointelegraph (secondary) for the core charge. CoinDesk is cited separately for the exchange history and loss figure, not for the charges themselves.",
+     "The brief's data points confirm the charge was reported by Cointelegraph and CoinDesk, but the charge itself\u2014a specific allegation of organized crime\u2014is attributed solely to one secondary outlet in the draft prose."
+    ]
+   },
+   {
+    "id": "c005",
+    "headline": "Solana activates Transaction v1 to triple transaction size on September 9",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states event as occurring on Wednesday, September 9, 2026, but today is Tuesday, September 8, 2026. The event is one day away and is being written as a future event (correct), but the phrasing 'activates Wednesday, September 9, 2026' could be read as already confirmed to happen. However, the word 'activates' in future tense is acceptable for an imminent scheduled event.",
+     "Critical accuracy failure: The draft claims 'According to CoinDesk reporting, the upgrade enables complex proofs and large multisignature operations to fit within one transaction, removing a technical constraint on DeFi applications and multisig workflows' but does not attribute the CoinDesk claim with inline attribution. The sentence reads as desk narration ('removing a technical constraint') rather than CoinDesk's reported assessment.",
+     "The brief's open_questions include 'What is the exact new transaction size limit (in bytes or other units)?' and 'Will there be a grace period for services to update, or is September 9 a hard cutoff?'\u2014questions that suggest uncertainty about key details. The draft presents the September 9 activation and the forced update requirement as settled fact without qualification or attribution of these claims to CoinDesk.",
+     "Bottom line references 'services that do not update by that date' but the brief's open_question flags uncertainty about whether there IS a hard cutoff or a grace period. The draft resolves this open question as fact ('will face compatibility issues') without sourcing."
     ]
    }
   ]

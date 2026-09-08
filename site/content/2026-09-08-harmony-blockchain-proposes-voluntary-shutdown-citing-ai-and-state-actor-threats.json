@@ -1,0 +1,66 @@
+{
+  "id": "c016",
+  "slug": "harmony-blockchain-proposes-voluntary-shutdown-citing-ai-and-state-actor-threats",
+  "kind": "brief",
+  "title": "Harmony blockchain proposes voluntary shutdown, citing AI and state-actor threats",
+  "dek": "Harmony, a layer-1 blockchain launched in 2019, is proposing a voluntary network sunset and migration of ONE tokens to Ethereum, redirecting emissions to an AI video business. The move reverses an August rejection of a similar proposal and cites threats from advanced AI models and state actors.",
+  "date": "2026-09-08",
+  "published_utc": "2026-09-08T00:37:36Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "Harmony Team stated the threats posed by state actors and AI agents are too great, proposing to shut down the mainnet and move ONE to Ethereum via snapshot migration.",
+  "bottom_line": "Validators and ONE holders must assess whether the September 10 deadline and final snapshot trigger a binding migration or remain subject to community vote. The disclosure of a go-live date, a governance voting threshold, and technical details on The Remix Economy's structure will clarify whether this proposal advances to implementation.",
+  "human_take": "",
+  "body": [
+    "Harmony, a layer-1 blockchain launched in 2019 using proof-of-stake and sharding, is proposing a voluntary shutdown of its mainnet. According to Decrypt reporting, Harmony Team stated that the threats posed by state actors and AI agents are too great, and the network cannot remain viable under those conditions.",
+    "The proposal marks a reversal from August, when Harmony rejected a similar migration plan. This time, the shutdown would include a migration of ONE tokens to Ethereum and a redirection of newly issued tokens toward what the team calls The Remix Economy for AI Video initiative.",
+    "Under the plan, ONE balances would be recorded at the network's final block, and that snapshot would determine each token holder's allocation of replacement tokens on Ethereum. The migration would cover wallets, staked tokens, validator rewards, smart contracts, and holdings on centralized exchanges. Replacement tokens would be airdropped to the same wallet addresses on Ethereum, with delegated stakes and unclaimed rewards going to individual governor vaults.",
+    "The Harmony Team proposes paying eligible validators and their delegators from a $1.372 million pool in four quarterly installments, contingent on validators retaining their stakes, signing an agreement, and serving as governors. The total supply and emission rate of ONE would remain unchanged; tokens issued through emissions would be allocated to the AI video initiative instead.",
+    "Users with assets in smart contracts are subject to a separate constraint. According to the proposal, users are urged to exit all smart contracts before September 10, 2026, as multisig safes, liquidity pools, and onchain applications cannot be migrated. The announcement references threats from frontier AI models, including Anthropic's Claude Mythos and OpenAI's GPT-6 Astra. In August, Harmony confirmed an exploit in which an attacker created roughly 4 billion unauthorized ONE tokens, prompting the team to release a patch and consider a rollback.",
+    "The sources provide no alternative view from other blockchain developers, security researchers, or Harmony community members. The rationale that AI and state-actor threats have become too great is stated by Harmony but not independently verified or quantified in the available reporting. The proposal is described as nonbinding, raising questions about whether validators and token holders will actually cooperate. The plan's redirect of emissions to The Remix Economy for AI Video remains vague, with no details on management, governance, or expected returns disclosed."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/377579/harmony-ai-threats-blockchain-shutdown",
+      "url": "https://decrypt.co/377579/harmony-ai-threats-blockchain-shutdown"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-07T19:31:10Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 79217.38,
+        "chg_24h_pct": -1.38
+      },
+      {
+        "symbol": "ETH",
+        "price": 2491.59,
+        "chg_24h_pct": -0.89
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.1,
+      "open_interest_usd": 2149478414
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 99583285,
+      "direction": "off exchanges"
+    }
+  },
+  "boundary": {
+    "affected": "Users with assets in smart contracts, multisig safes, liquidity pools, and onchain apps on Harmony blockchain.",
+    "fixed": "Assets withdrawn to EOA wallets or centralized exchanges before the snapshot at the network's final block.",
+    "user_action": "Users are urged to exit all smart contracts before September 10, 2026.",
+    "advisory_url": "https://decrypt.co/377579/harmony-ai-threats-blockchain-shutdown"
+  },
+  "also_reported_by": [],
+  "developing": true
+}
