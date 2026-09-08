@@ -1927,7 +1927,7 @@ def layer2_sources():
     for f in cfg["sources"]["rss"]:
         name, url = f["name"], f["url"]
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": common.UA})
+            req = urllib.request.Request(url, headers={"User-Agent": common.ua_for(url)})
             with urllib.request.urlopen(req, timeout=30) as r:
                 code = r.getcode()
                 # Whole body, not the first 2000 bytes. The head is enough to see the feed
@@ -1951,7 +1951,7 @@ def layer2_sources():
                 fb_note = "fallback probe failed twice"
                 for attempt in (1, 2):
                     try:
-                        freq = urllib.request.Request(fb, headers={"User-Agent": common.UA})
+                        freq = urllib.request.Request(fb, headers={"User-Agent": common.ua_for(fb)})
                         with urllib.request.urlopen(freq, timeout=30) as fr:
                             if fr.getcode() == 200:
                                 fb_note = "fallback OK"
@@ -1985,7 +1985,7 @@ def layer2_sources():
         if items == 0:
             time.sleep(3)
             try:
-                rreq = urllib.request.Request(url, headers={"User-Agent": common.UA})
+                rreq = urllib.request.Request(url, headers={"User-Agent": common.ua_for(url)})
                 with urllib.request.urlopen(rreq, timeout=30) as rr:
                     if rr.getcode() == 200:
                         items = _feed_items(rr.read().decode("utf-8", "replace").lower())

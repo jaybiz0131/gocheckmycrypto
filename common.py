@@ -136,7 +136,7 @@ def fetch_page_meta(url, timeout=25, retries=2):
     meta = {"status": None, "final_url": url, "content_type": "", "bytes": 0,
             "body": "", "error": "", "attempts": 0}
     headers = {
-        "User-Agent": UA,
+        "User-Agent": ua_for(url),
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
     }
@@ -418,7 +418,7 @@ def whale_archive_transactions(window_hours, archive_url=WHALE_ARCHIVE_URL,
     import gzip
     import time
     cutoff = time.time() - window_hours * 3600
-    req = urllib.request.Request(archive_url, headers={"User-Agent": UA})
+    req = urllib.request.Request(archive_url, headers={"User-Agent": ua_for(archive_url)})
     txns = []
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         gz = gzip.GzipFile(fileobj=resp)
