@@ -1,46 +1,6 @@
 [
  {
   "date": "2026-08-08",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c031",
-    "headline": "Volunteer Security Team Reports AI-Driven Vulnerability Scanning Across Bitcoin Repos",
-    "category": "accuracy",
-    "reasons": [
-     "The phrase 'volunteer security effort' is not in the brief; the brief refers to 'Bitcoin Red Team,' a specific entity. The draft should name the entity directly rather than paraphrase it as 'volunteer security team.'",
-     "The draft states the Red Team 'is building an open-source AI platform' (present continuous), but the brief's data point says 'Building an open-source AI platform' without tense specification from the source. The draft's present-tense commitment overstates what Decrypt reported.",
-     "The draft claims the scan 'targeted core Bitcoin infrastructure projects' but the brief only states '150 Bitcoin repositories' were scanned\u2014no characterization of 'core' appears in the source data point, and this reads as an editorial addition not supported by the brief."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "Bitcoin and ether ETFs draw $1.1 billion in best inflow week since April",
-    "category": "accuracy",
-    "reasons": [
-     "The draft cites 'Our Leverage board recorded that Bitcoin liquidations stood at $11.3 million in the prior 24-hour window, with the long-short ratio at OKX at 1.85 in favor of longs.' This data does not appear in the research brief's data_points. It is either sourced from an internal system not documented in the brief or smuggled from an undocumented source, violating the hard rule that no fact exists outside the brief."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "U.S. Treasury sanctions two crypto exchanges for Iran financial ties",
-    "category": "accuracy",
-    "reasons": [
-     "The draft includes an extended paragraph beginning 'The bear case is straightforward: blockchain transactions leave immutable...' and ending with 'Tether's demonstrated willingness to freeze sanctioned accounts...' This entire passage reads as editorial analysis or the writer's own interpretation. It does not appear as a data_point or explicit statement in the research brief. The bear_case in the brief contains only three items about transaction trails, enforcement lag, and stablecoin issuer limitations\u2014none of which are expanded into prose in the brief itself. The draft appears to have elaborated the bear_case into argumentative exposition rather than reporting documented claims from the source material."
-    ]
-   },
-   {
-    "id": "c017",
-    "headline": "U.S. sheds 23,000 jobs in July, cutting Fed September rate-hike odds below 50%",
-    "category": "compliance",
-    "reasons": [
-     "The phrase 'weaker-than-expected labor data...supports risk assets including crypto by lowering the probability of tightening monetary conditions' in the angle reads as an implicit trade recommendation (softer labor data = buy crypto). The draft then reinforces this with 'Bitcoin remained modestly higher at $65,000 on the session following the report' positioned immediately after Fed odds language, creating causal inference of directional benefit. While the draft includes the not-financial-advice disclaimer, the body prose frames crypto as beneficiary of the economic data shift, crossing into personalized-advice territory. Restructure to report market reactions as fact without causal valence toward crypto specifically."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-08",
   "approved": 5,
   "rejected": [
    {
@@ -7001,6 +6961,32 @@
     "category": "accuracy",
     "reasons": [
      "The draft claims 'The addition of SIX and TWINT marks a transition to testing phase for the sandbox,' but the brief does not state that SIX and TWINT's addition caused or marks the sandbox's transition to testing. The brief data_point only says they 'have joined' the sandbox; the timing of their entry relative to the testing phase is not established in the brief. The draft's causal framing ('marks a transition') is narrative interpretation not supported by sourced facts. The brief's open_questions explicitly ask 'When did the sandbox initially launch, and what triggered the transition to testing phase?' indicating this causality is unresolved. A reader would infer from 'marks a transition' that these organizations triggered the phase change, which the source does not confirm."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-09",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c005",
+    "headline": "Germany proposes 25% crypto tax, ending 12-month tax-free gains",
+    "category": "accuracy",
+    "reasons": [
+     "Brief contains only one data_point: the claim that existing holdings retain current tax treatment. The draft adds two major factual claims not in the brief: (1) that a 25% flat tax rate is proposed, and (2) that the regime imposes a flat 25% tax 'starting in 2028.' The brief's core_claim mentions '25% tax starting 2028' but the sole data_point provides no detail on the mechanism, rate structure, or implementation method\u2014only that existing holdings are grandfathered. The draft states these as settled facts when the brief supports only the grandfathering claim with sourced reporting.",
+     "The draft opens with 'has proposed a new tax regime... and impose a 25% levy' without attribution to whether this 25% figure comes from CoinDesk reporting or is the writer's characterization. CoinDesk headline is cited in sources but the article body does not explicitly verify the 25% figure or the 2028 date in the draft's own language.",
+     "Brief identifies itself as 'thin: true' with only one data_point and notes 'open_questions' include 'What is the exact mechanism and timeline for the 25% tax implementation in 2028?' The draft presents mechanism and timeline as confirmed when the brief itself flags these as unknown."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Bitcoin and oil move together as geopolitical tension rises",
+    "category": "accuracy",
+    "reasons": [
+     "Core claim states Bitcoin 'advanced to as high as $79,700' on the day of Iranian strikes. Draft opens with 'Bitcoin advanced alongside crude oil as Brent topped $100 per barrel in response to Iranian strikes... Bitcoin reached as high as $79,700 during the session.' However, brief's bear_case explicitly flags: 'Market boards data shows BTC down 0.89% on 2026-09-08, contradicting the narrative of a sustained climb; the $79,700 high may have occurred intraday or on a subsequent date not covered by the fetched source data.' The draft then provides the market boards data showing a 0.89% *decline* on Sept 8 but frames the $79,700 intraday high as supporting a narrative of upward momentum during geopolitical stress. The opening sentence creates an impression of sustained advance that the price data contradicts.",
+     "Brief data shows as of Sept 8, Bitcoin was $78,391.83 (down 0.89% that day). The timing of the $79,700 high is unspecified in both brief and sources; it is stated as fact but when it occurred relative to the Iranian strikes is not confirmed by the CoinDesk reporting cited. Linking the $79,700 high causally to Iranian strikes without timestamp confirmation of when that high was reached is speculation not supported by sourced reporting.",
+     "Brief's open_questions include 'What exact time did Bitcoin reach $79,700 and Brent reach $100?' and 'Which Iranian strikes or geopolitical events triggered the move, and when did they occur?' The draft does not answer these but presents the correlation as factual without the temporal specificity required to support the causal claim."
     ]
    }
   ]

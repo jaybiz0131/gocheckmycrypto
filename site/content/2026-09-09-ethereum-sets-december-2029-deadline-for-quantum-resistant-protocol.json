@@ -1,0 +1,28 @@
+{
+  "id": "c023",
+  "slug": "ethereum-sets-december-2029-deadline-for-quantum-resistant-protocol",
+  "kind": "brief",
+  "title": "Ethereum sets December 2029 deadline for quantum-resistant protocol",
+  "dek": "The Ethereum Foundation fixed December 2029 as a non-negotiable deadline for making Layer 1 quantum-resistant across execution, consensus, and data layers. Only two Ethereum Improvement Proposals received mandatory inclusion: FOCIL (which distributes transaction inclusion across validators) and Frame Transactions (which makes signature schemes upgradeable without hard forks). Meeting the deadline requires a 7.2-month fork cadence; a fallback option extends to 12 months but leaves the protocol running with reduced security guarantees through the quantum threat window.",
+  "date": "2026-09-09",
+  "published_utc": "2026-09-09T14:06:15Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "The Ethereum Foundation locked December 2029 as a fixed deadline for full post-quantum cryptographic readiness across all protocol layers, narrowing Heget\u00ed to two mandatory features and demanding a 7.2-month fork pace to meet it.",
+  "bottom_line": "The 7.2-month fork cadence is the constraint to monitor. Client developers and the research community must deliver stable implementations and testing frameworks on that schedule; any slip suggests the fallback 12-month path becomes necessary, which the Foundation acknowledges leaves Ethereum running with reduced guarantees through 2030. The January 2027 expert reassessment is the next decision point: whether the deadline holds or adjusts based on progress and Q-day estimates.",
+  "human_take": "",
+  "body": [
+    "The Ethereum Foundation fixed December 2029 as a non-negotiable deadline for making Ethereum's Layer 1 quantum-resistant across execution, consensus, and data layers, according to The Defiant. The deadline will be treated as non-negotiable at least until a reassessment with outside experts in January 2027. The Foundation is planning for the possible arrival of cryptographically capable quantum computers as early as 2030, though most estimates place such arrival later and some suggest it may never occur.\nTo meet the deadline, Ethereum will need to develop several forks in parallel. Reaching full post-quantum readiness five forks after Glamsterdam would require an average cadence of 7.2 months per fork, according to The Defiant. A fallback milestone two forks after Heget\u00ed could be reached on a 12-month cadence, but would keep Ethereum running through Q-day with reduced guarantees rather than provide the full design.\nThe quantum target is being used to narrow the scope of Heget\u00ed, the upgrade planned after Glamsterdam. The Ethereum Foundation's Protocol cluster graded all 62 Ethereum Improvement Proposals submitted for Heget\u00ed. Only two EIPs received the \"must ship\" designation: EIP-7805 (FOCIL) and EIP-8141 (Frame Transactions).\nFOCIL would let multiple validators require eligible transactions to appear in a block, reducing users' dependence on centralized block builders for inclusion. Frame Transactions would make account validation, execution, and gas payment programmable at the protocol level, providing a route to new signature schemes without a separate hard fork for each scheme. The Foundation identifies these as Heget\u00ed's consensus- and execution-layer headliners and says they must ship together safely because their interaction creates the fork's main engineering and testing burden, per The Defiant.\nEIP-8365, another A-tier item, would begin retiring withdrawal credentials tied to cryptography vulnerable to quantum attacks.\nQuick Slots, which would shorten Ethereum's slot time, received a B grade and can still be considered individually under the B-tier rule after stable S- and A-tier devnets if time remains, but would need a complete specification, prototype, assessment of downstream effects, and confirmation it will not complicate the planned consensus redesign to reach A-tier. Hash-Chain RANDAO, a proposed consensus-hardening change, was kept at B because the cluster wants to avoid redesigning one cryptographic component before the complete post-quantum consensus design exists.\nSeveral proposals were declined for Heget\u00ed. The controversial EIP to reduce validator rewards was rejected. Several validator-facing proposals were also declined, including custom sweep thresholds, withdrawal-credential preregistration, and a beacon-block reporting field. A tapered issuance burn and a mandatory burn of execution rewards were declined because the cluster said issuance and reward policy belong in a broader ecosystem process, per The Defiant.\nThe Foundation is considering swapping the ordering of later forks: bringing post-quantum attestations forward to K* and moving mandatory execution proofs back to L*, which would accelerate the largest remaining piece of post-quantum consensus work. The ordering of later forks will be finalized only after the research matures and client capacity is better understood. Roughly 60 researchers and engineers across the Foundation's nine teams contributed 397 grades before contested proposals were discussed."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/blockchains/ethereum-foundation-sets-2029-quantum-target-and-narrows-hegot-scope",
+      "url": "https://thedefiant.io/news/blockchains/ethereum-foundation-sets-2029-quantum-target-and-narrows-hegot-scope"
+    }
+  ],
+  "update_of": "kyrgyzstan-approves-crypto-framework-liquidates-kgst-issuer-on-september-5",
+  "also_reported_by": [],
+  "developing": true
+}
