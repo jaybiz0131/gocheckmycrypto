@@ -38,19 +38,20 @@ RULES THIS FILE IS BUILT TO KEEP
     second place that asks for it.
 
 ROUTING RULE (written down deliberately, per directive):
-  Trezor pays a higher commission than Ledger. That fact must never influence which device
-  the copy points a reader toward. The routing is by FIT ONLY:
-    - Reader is Bitcoin focused, or wants source code they or others can audit
-      -> Trezor is the better fit.
-    - Reader holds many chains, or wants phone access to the device
-      -> Ledger is the better fit.
-  If those two sentences ever stop matching the products, change the copy, not the logic.
-  Both devices are legitimate and well regarded, and the page says so plainly.
+  This desk carried two hardware wallets and routed between them by FIT ONLY, never by
+  commission rate. Trezor was removed on 2026-09-09 by owner directive, so there is
+  nothing left to route between and the rule changes shape rather than lapsing:
+    - The criteria section carries the page. A reader who works through it should be able
+      to evaluate a device we do not name, and buy that one instead.
+    - A lineup of one cannot be justified by fit, which makes this the weakest position
+      the page can hold. It is honest only while the criteria above it stay complete
+      enough to argue against the device we do name.
+    - If a second device is ever carried again, fit decides and the rate is not consulted,
+      exactly as before.
 """
 
 # ---- AFFILIATE CONFIG: the only place these URLs exist ------------------------
 LEDGER_STORE = "https://shop.ledger.com/?r=c1480b445e30"
-TREZOR_STORE = "https://affil.trezor.io/aff_c?offer_id=133&aff_id=846461"
 COINLEDGER_URL = "https://coinledger.io?fpr=nikki98"
 COINLEDGER_CODE = "CRYPTOTAX10"
 
@@ -66,8 +67,6 @@ SOURCES = [
      "https://www.sipc.org/for-investors/what-sipc-protects"),
     ("Ledger, Best practices to securely buy your Ledger device",
      "https://www.ledger.com/academy/topics/ledgersolutions/best-practices-to-securely-buy-ledger-signer"),
-    ("Trezor, Is my device safe to use?",
-     "https://trezor.io/support/troubleshooting/device-issues/is-my-device-safe-to-use"),
 ]
 
 
@@ -120,16 +119,6 @@ PARTNERS = [
         "kind": "Hardware wallets",
         "terms": "We earn a commission when someone buys through our link to Ledger's "
                  "own store. It costs the reader nothing extra.",
-        "where": "Cold storage, explained and Counterfeit hardware wallets",
-        "where_url": "/cold-storage.html",
-    },
-    {
-        "name": "Trezor",
-        "kind": "Hardware wallets",
-        "terms": "We earn a commission when someone buys through our link to Trezor's "
-                 "own store. It costs the reader nothing extra. Trezor pays us more than "
-                 "Ledger does, which is exactly why our recommendation between them is "
-                 "written to follow what suits the reader and never the rate.",
         "where": "Cold storage, explained and Counterfeit hardware wallets",
         "where_url": "/cold-storage.html",
     },
@@ -518,17 +507,16 @@ def counterfeit_devices_body():
      for, which is why the guidance here ends where our custody explainer already pointed.
      If you are still deciding whether a hardware wallet is the right tool at all, that is
      the question <a href="/cold-storage.html">cold storage, explained</a> works through,
-     including which of the two devices fits which kind of holder.</p>
+     including the criteria worth judging a device on before you buy one.</p>
 
   <h2>Where to buy</h2>
-  <p class="affil-note">We earn a commission if you buy through the links below. It costs
+  <p class="affil-note">We earn a commission if you buy through the link below. It costs
      you nothing extra and it does not change what we recommend. Separately, and for
-     reasons that have nothing to do with us, both links go to the manufacturers' own
-     stores, because that is the one purchase route this page does not ask you to
+     reasons that have nothing to do with us, the link goes to the manufacturer's own
+     store, because that is the one purchase route this page does not ask you to
      verify.</p>
   <div class="cta-row">
     {_cta(LEDGER_STORE, "Ledger", "Multi-chain and mobile access", "ledger.com")}
-    {_cta(TREZOR_STORE, "Trezor", "Bitcoin focus and open source", "trezor.io")}
   </div>
 
   <h2>Sources</h2>
@@ -740,41 +728,66 @@ def cold_storage_body():
      expect. A hardware wallet is a security device, and a device that passed through
      unknown hands before reaching you cannot be assumed to be untouched. The specific
      risks are tampered hardware and, more commonly, a recovery card that arrives already
-     filled in, which is not a backup but somebody else's keys. Both manufacturers give
-     the same guidance: buy from their own store or a reseller they list as authorized,
-     and treat marketplace listings on general retail sites as unverified. That means no
-     Amazon, no eBay, no third-party marketplace seller, however convenient.</p>
+     filled in, which is not a backup but somebody else's keys. Ledger's own guidance is
+     to buy from its store or a reseller it lists as authorized, and to treat marketplace
+     listings on general retail sites as unverified. That means no Amazon, no eBay, no
+     third-party marketplace seller, however convenient.</p>
   <p>If a device has already arrived and you want to check it before trusting it with
-     anything, the signs of a prepared device and the manufacturers' own verification steps
+     anything, the signs of a prepared device and the manufacturer's own verification steps
      are in <a href="/counterfeit-devices.html">counterfeit hardware wallets</a>.</p>
 
-  <h2>Ledger and Trezor</h2>
-  <p>These are the two established names, both legitimate and both well regarded. They are
-     built on different philosophies, which is what should decide between them.</p>
-  <p><b>Ledger</b> builds around a certified secure element, the same class of tamper
-     resistant chip used in passports and bank cards, and supports a broad range of chains
-     and tokens. Its devices pair with a phone, and the premium model adds Bluetooth and a
-     larger screen for checking transactions on the device itself. The lineup runs from an
-     entry model with a small screen to a premium model with a larger display.</p>
-  <p><b>Trezor</b> builds around open source: the firmware and much of the hardware design
-     are published, so the security claims can be audited by anyone rather than taken on
-     trust. Its roots and its focus are Bitcoin, and its entry model is the cheaper way
-     into hardware storage. The lineup runs from a straightforward entry model to a
-     premium model with a colour touchscreen.</p>
-  <p>Choosing between them is mostly one question. If you hold Bitcoin above all and want
-     security you or anyone else can inspect in the source code, Trezor fits better. If
-     you hold assets across many chains and want to manage them from a phone, Ledger fits
-     better. Either device does the core job, which is keeping keys off an
-     internet-connected machine.</p>
+  <h2>How to judge a hardware wallet</h2>
+  <p>Every device in this category does the same core job, which is keeping keys off an
+     internet-connected machine. What separates them is narrower than the marketing
+     suggests, and it is worth knowing the criteria before any brand name enters the
+     picture, because these are the questions that let you evaluate a device nobody
+     recommended to you.</p>
+  <ul class="rule-list">
+    <li><strong>How the keys are protected.</strong> Some devices hold keys in a certified
+        secure element, the same class of tamper resistant chip used in passports and bank
+        cards. Others use a general purpose chip and publish their hardware and firmware
+        designs so the protection can be inspected rather than taken on trust. Both are
+        defensible engineering positions, and which one reassures you is a real preference
+        rather than a settled technical verdict.</li>
+    <li><strong>Whether the device can prove what it is running.</strong> A hardware wallet
+        should be able to demonstrate that it is genuine, and it should tell you on its own
+        screen when the firmware on it is not the manufacturer's. A device that cannot show
+        you either thing is asking for trust it has not earned.</li>
+    <li><strong>What it holds.</strong> Some devices cover a broad range of chains and
+        tokens, others concentrate on fewer. Check the specific assets you hold rather than
+        the headline number, because coverage is uneven below the largest few chains.</li>
+    <li><strong>How you confirm a transaction.</strong> The screen is the security feature.
+        You are checking an address and an amount on a display the malware on your computer
+        cannot edit, so a bigger screen is not a luxury, it is more of the thing you bought
+        the device for.</li>
+    <li><strong>Whether you can buy it direct.</strong> A manufacturer that sells to you
+        from its own store removes the supply chain question entirely, which is the single
+        largest risk in owning one of these.</li>
+  </ul>
+  <p>Nothing on that list requires a brand name to apply. If a device you found yourself
+     answers those five questions well, it is a reasonable device.</p>
+
+  <h2>The device we point readers to</h2>
+  <p>We name one rather than publish a lineup, because a lineup has to be maintained and a
+     stale one misleads. <b>Ledger</b> is the device this desk currently points readers
+     toward. It builds around a certified secure element, supports a broad range of chains
+     and tokens, and pairs with a phone, and its premium model adds Bluetooth and a larger
+     screen for checking transactions on the device itself. Its app carries a genuine check
+     that challenges the device and verifies the answer against a key installed at the
+     factory.</p>
+  <p>That is a recommendation, not a ranking, and it is worth being plain about what it is
+     not. It is not a claim that nothing else is as good, and it is not the output of a
+     comparison we ran this month. If a device you are considering answers the five
+     questions above, buy that one instead. The criteria are the part of this page we would
+     defend hardest.</p>
 
   <h2>Where to buy</h2>
   <p class="affil-note">We earn a commission if you buy through the links below. It costs
      you nothing extra and it does not change what we recommend. Separately, and for
-     reasons that have nothing to do with us, both links go to the manufacturers' own
-     stores, because that is where the supply chain is verifiable.</p>
+     reasons that have nothing to do with us, the link goes to the manufacturer's own
+     store, because that is where the supply chain is verifiable.</p>
   <div class="cta-row">
     {_cta(LEDGER_STORE, "Ledger", "Multi-chain and mobile access", "ledger.com")}
-    {_cta(TREZOR_STORE, "Trezor", "Bitcoin focus and open source", "trezor.io")}
   </div>
 
   <h2>Sources</h2>
