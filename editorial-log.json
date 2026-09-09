@@ -1,37 +1,6 @@
 [
  {
   "date": "2026-08-08",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c018",
-    "headline": "Senate Majority Leader Thune files cloture on Clarity Act, schedules September 15 vote",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'At least seven non-Republicans will need to support the cloture motion to clear the 60-vote threshold required to advance the bill.' This claim is not in the brief's data_points. The brief says 'at least seven non-Republicans will need to support the cloture motion' but does not attribute this to The Block's reporting, and the math underlying this statement (60-vote threshold, Republican seat count) is not confirmed in the brief. The writer has derived or smuggled a procedural detail that should either come directly quoted from the source or be omitted."
-    ]
-   },
-   {
-    "id": "c001",
-    "headline": "Hardware Wallet Sales in Russia More Than Double as New Crypto Rules Near",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Wildberries recorded unit sales rise of 84% in the first half from a year earlier' but the brief data_point specifies '84% year-on-year' with timestamp 2026-08-08, which would mean comparing H1 2026 to H1 2025. The draft's phrasing 'first half from a year earlier' is ambiguous and does not clearly attribute this to year-over-year comparison. More critically, the brief marks boundary_required=true and boundary_ok=false with explicit boundary_reasons citing 'version, date range or threshold' but the draft contains no boundary block addressing the temporal scope of these comparisons or the transition dates (Sept 1, 2026 and July 1, 2027). The brief data itself has a timestamp of Aug 8, 2026 but compares sales from H1 2026; this version/date mismatch required a boundary block per the brief's own metadata and is missing from the draft."
-    ]
-   },
-   {
-    "id": "c093",
-    "headline": "Tokyo Lawson Scans JPYC Stablecoin Payment at Standard Register, No Crypto Terminal Required",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Executives at the demonstration included Canal Payment Service President Ryosuke Shimizu, JPYC Representative Director Noritaka Okabe, HashPort CEO Seihaku Yoshida, and Taro Tamura, general manager of Lawson's financial company and marketing strategy division' but this information does not appear in the body text and is only listed as a data_point in the brief, not in the source citation to The Defiant article. This fact was not verified as present in the draft's cited source.",
-     "The draft does not include attribution for the executive names mentioned. The brief's data_point 15 lists these executives but the draft body does not incorporate them, creating a gap between sourced information and draft content."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-08",
   "approved": 2,
   "rejected": [
    {
@@ -6987,6 +6956,32 @@
      "Core claim states Bitcoin 'advanced to as high as $79,700' on the day of Iranian strikes. Draft opens with 'Bitcoin advanced alongside crude oil as Brent topped $100 per barrel in response to Iranian strikes... Bitcoin reached as high as $79,700 during the session.' However, brief's bear_case explicitly flags: 'Market boards data shows BTC down 0.89% on 2026-09-08, contradicting the narrative of a sustained climb; the $79,700 high may have occurred intraday or on a subsequent date not covered by the fetched source data.' The draft then provides the market boards data showing a 0.89% *decline* on Sept 8 but frames the $79,700 intraday high as supporting a narrative of upward momentum during geopolitical stress. The opening sentence creates an impression of sustained advance that the price data contradicts.",
      "Brief data shows as of Sept 8, Bitcoin was $78,391.83 (down 0.89% that day). The timing of the $79,700 high is unspecified in both brief and sources; it is stated as fact but when it occurred relative to the Iranian strikes is not confirmed by the CoinDesk reporting cited. Linking the $79,700 high causally to Iranian strikes without timestamp confirmation of when that high was reached is speculation not supported by sourced reporting.",
      "Brief's open_questions include 'What exact time did Bitcoin reach $79,700 and Brent reach $100?' and 'Which Iranian strikes or geopolitical events triggered the move, and when did they occur?' The draft does not answer these but presents the correlation as factual without the temporal specificity required to support the causal claim."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-09",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c018",
+    "headline": "22-year-old Singaporean pleads guilty to $245M crypto theft conspiracy",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Lam pleaded guilty to leading an international social-engineering conspiracy' in the opening paragraph, but the brief's data_point 3 says only that 'Malone Lam pleaded guilty to participating in a RICO conspiracy.' The brief's data_point 5 says he 'led' a social-engineering scheme, but the brief's core_claim and data_point 3 say 'participating in' a RICO conspiracy\u2014not 'leading' it. The draft conflates 'led social-engineering scheme' with 'led RICO conspiracy'; these are not the same claim in the source material.",
+     "More critically: the draft's opening paragraph claims Lam 'led an international social-engineering conspiracy,' but data_point 3 says he 'pleaded guilty to participating in a RICO conspiracy'\u2014'participating' is the verb in the primary charge, not 'leading.' Data_point 5 says he 'led' a social-engineering scheme specifically, which is narrower than claiming leadership of the full RICO enterprise.",
+     "This is a factual mischaracterization of the guilty plea's scope: the desk cannot upgrade 'participated in' to 'led' without sourcing that distinction. The brief itself signals this ambiguity by providing both data_point 3 ('participated') and data_point 5 ('led social engineering'), but the draft collapses them without attribution."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "Bitcoin down 0.1% on September 9 as broader market declines",
+    "category": "accuracy",
+    "reasons": [
+     "The title claims 'Bitcoin down 0.1%' but the body states BTC fell 0.11% on September 9. This is a minor discrepancy but the title misrepresents the draft's own data.",
+     "The title references 'oil tops USD100' and 'equities drop after Iran strikes' but these claims do not appear anywhere in the brief's data_points or the body text. The brief explicitly notes in open_questions that 'No source text provided carries reporting on oil prices, European equities, Iran-US escalation, or geopolitical causation.' The title smuggles claims not supported by the brief.",
+     "The brief's open_questions identify that market boards show $81,264.7 as the high on the day, but the headline's reference to broader market moves (oil, equities, Iran) has no sourced support in the brief. These causal claims are unverified."
     ]
    }
   ]

@@ -1,0 +1,65 @@
+{
+  "id": "c001",
+  "slug": "u-s-freezes-52-8m-in-usdt-tied-to-xinbi-guarantee-scam-marketplace",
+  "kind": "brief",
+  "title": "U.S. Freezes $52.8M in USDT Tied to Xinbi Guarantee Scam Marketplace",
+  "dek": "The U.S. Secret Service froze $52.8 million in USDT across 52 wallets linked to Xinbi Guarantee on September 8, 2026, a Chinese-language Telegram marketplace operating as an escrow system for scam tools and stolen data. Treasury designated it a transnational criminal organization; scammers responded by moving funds to USDD, a decentralized stablecoin.",
+  "date": "2026-09-09",
+  "published_utc": "2026-09-09T19:45:04Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "$52.8 million in USDT frozen across 52 wallets on September 8, 2026, with $1.8 million escaping to USDD within hours.",
+  "bottom_line": "Enforcement on centralized stablecoin issuers moved $52.8 million out of circulation within a single day, but scammers demonstrated ability to move $1.8 million across to USDD within hours. The critical question is whether USDD's partial reliance on USDT reserves creates a new vulnerability or whether decentralized alternatives will sustain criminal use regardless of backing mechanism.",
+  "human_take": "",
+  "body": [
+    "The U.S. Secret Service froze $52.8 million in USDT across 52 wallets connected to Xinbi Guarantee on September 8, 2026, marking one of the largest enforcement actions against a crypto-enabled scam operation. Treasury's Office of Foreign Assets Control designated Xinbi as a transnational criminal organization on September 9, the same classification applied to drug cartels.",
+    "Xinbi operates as a Chinese-language Telegram marketplace where vendors post escrow deposits to prove creditworthiness before selling tools scammers use to defraud targets worldwide, from stolen personal data to money-laundering services. According to Decrypt, blockchain analytics firm Elliptic tracked Xinbi for several years, and their intelligence directly enabled the freezing action.",
+    "Since 2022, Xinbi and its merchants have processed at least $24 billion in transactions, making it the second-largest illicit online marketplace ever tracked, per Elliptic's analysis. Only Huione Guarantee moved more, processing $31 billion before Telegram shut it down in May 2025 following years of public exposure by Elliptic. Much of Xinbi's volume originates from \"pig butchering\" scams, where a stranger builds false online relationships over weeks or months before convincing victims to pour savings into bogus investment apps.",
+    "Two of the frozen wallets, containing roughly $12 million, were seized outright under a warrant unsealed by the Department of Justice. Treasury also sanctioned two firms supporting Xinbi's operations: Singapore-based SafeW Technology and Cambodia-based Anwen Technology. The UK had already sanctioned Xinbi in March.",
+    "On-chain data, per Decrypt, shows that Xinbi's business address activated on September 8 had 1.8 million USDT escape with only 37,839 USDT frozen, indicating rapid movement in the hours before full wallet constraints took effect. Xinbi swapped approximately $2.8 million of its remaining USDT into USDD, a stablecoin launched by Tron founder Justin Sun that has no central issuer able to freeze wallets, through a decentralized exchange. However, USDD markets itself as decentralized while partly backing its reserves with USDT itself, embedding the very asset with freeze capability into its alternative.",
+    "Xinbi posted a statement condemning the \"arbitrary freezing\" of its funds and promised to compensate customers. The DOJ's Scam Center Strike Force, launched in November 2025, has seized roughly $938 million in scam-linked cryptocurrency since beginning operations, according to Decrypt. The Strike Force also deployed agents to Madagascar to help local authorities take down 13 Chinese-run scam compounds and process evidence from nearly 400 arrestees, including more than 3,200 seized devices."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/377804/secret-service-freezes-crypto-telegram-bazaar-xinbi",
+      "url": "https://decrypt.co/377804/secret-service-freezes-crypto-telegram-bazaar-xinbi"
+    },
+    {
+      "title": "https://www.coindesk.com/policy/2026/09/09/u-s-treasury-sanctions-another-widespread-cyber-scam-hub-xinbi-guarantee",
+      "url": "https://www.coindesk.com/policy/2026/09/09/u-s-treasury-sanctions-another-widespread-cyber-scam-hub-xinbi-guarantee"
+    }
+  ],
+  "update_of": "uk-tax-service-issued-81-000-warning-letters-to-crypto-holders-in-past-year",
+  "board_snapshot": {
+    "as_of": "2026-09-09T19:43:03Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78368.06,
+        "chg_24h_pct": -0.11
+      },
+      {
+        "symbol": "ETH",
+        "price": 2473.79,
+        "chg_24h_pct": -0.45
+      }
+    ],
+    "fng": {
+      "value": 66,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2116216681
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -112896249,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
