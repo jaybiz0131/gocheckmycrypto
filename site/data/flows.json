@@ -1,9 +1,9 @@
 {
   "example": false,
-  "generated": "2026-09-08",
-  "generated_utc": "2026-09-08T19:52:05Z",
+  "generated": "2026-09-09",
+  "generated_utc": "2026-09-09T00:37:25Z",
   "window_hours": 168,
-  "txn_count": 44,
+  "txn_count": 43,
   "volatile": {
     "inflow_usd": 1603957133,
     "outflow_usd": 1632020697,
@@ -11,9 +11,9 @@
     "direction": "off exchanges"
   },
   "stablecoins": {
-    "inflow_usd": 919981612,
+    "inflow_usd": 819951612,
     "outflow_usd": 883177154,
-    "net_buying_power_usd": 36804458
+    "net_buying_power_usd": -63225542
   },
   "by_asset": [
     {
@@ -38,9 +38,9 @@
     },
     {
       "exchange": "coinbase",
-      "inflow_usd": 714218025,
+      "inflow_usd": 614188025,
       "outflow_usd": 847155935,
-      "net_usd": 132937910
+      "net_usd": 232967910
     },
     {
       "exchange": "binance",
@@ -213,70 +213,70 @@
   "window_widened_from": 24,
   "history": [
     {
-      "week_ending": "Jun 16",
-      "net_usd": 122803840,
-      "moves": 43
+      "week_ending": "Jun 17",
+      "net_usd": 256377320,
+      "moves": 42
     },
     {
-      "week_ending": "Jun 23",
-      "net_usd": 199602382,
+      "week_ending": "Jun 24",
+      "net_usd": 115286901,
       "moves": 44
     },
     {
-      "week_ending": "Jun 30",
-      "net_usd": 1580319493,
-      "moves": 88
+      "week_ending": "Jul 01",
+      "net_usd": 1545668019,
+      "moves": 98
     },
     {
-      "week_ending": "Jul 07",
-      "net_usd": 1390286876,
-      "moves": 87
+      "week_ending": "Jul 08",
+      "net_usd": 1424938350,
+      "moves": 77
     },
     {
-      "week_ending": "Jul 14",
-      "net_usd": -217682916,
+      "week_ending": "Jul 15",
+      "net_usd": -135044065,
       "moves": 69
     },
     {
-      "week_ending": "Jul 21",
-      "net_usd": -225646604,
+      "week_ending": "Jul 22",
+      "net_usd": -131547189,
       "moves": 39
     },
     {
-      "week_ending": "Jul 28",
-      "net_usd": 1011741838,
+      "week_ending": "Jul 29",
+      "net_usd": 1005320815,
       "moves": 49
     },
     {
-      "week_ending": "Aug 04",
-      "net_usd": 1104681502,
-      "moves": 61
+      "week_ending": "Aug 05",
+      "net_usd": 1183611560,
+      "moves": 63
     },
     {
-      "week_ending": "Aug 11",
-      "net_usd": -407166813,
-      "moves": 86
+      "week_ending": "Aug 12",
+      "net_usd": -656414114,
+      "moves": 83
     },
     {
-      "week_ending": "Aug 18",
-      "net_usd": -437532762,
-      "moves": 21
+      "week_ending": "Aug 19",
+      "net_usd": -332783306,
+      "moves": 22
     },
     {
-      "week_ending": "Aug 25",
-      "net_usd": -1094230219,
-      "moves": 93
+      "week_ending": "Aug 26",
+      "net_usd": -1198979675,
+      "moves": 92
     },
     {
-      "week_ending": "Sep 01",
+      "week_ending": "Sep 02",
       "net_usd": -48986252,
-      "moves": 88
+      "moves": 89
     },
     {
-      "week_ending": "Sep 08",
+      "week_ending": "Sep 09",
       "net_usd": 28063564,
-      "moves": 44
+      "moves": 43
     }
   ],
-  "weekly_median_abs_usd": 407166813
+  "weekly_median_abs_usd": 332783306
 }

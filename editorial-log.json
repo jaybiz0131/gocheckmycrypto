@@ -1,57 +1,6 @@
 [
  {
   "date": "2026-08-08",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c004",
-    "headline": "U.S. Senate Advances Crypto Clarity Act to First Procedural Vote",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Senate Majority Leader John Thune filed a motion to proceed on the Digital Assets Market Clarity Act early Saturday' but brief data_point says this occurred 'early Saturday' after 'a marathon overnight Senate voting session.' The draft omits the context of the marathon session, but more critically, the timestamp in the brief is 2026-08-08T09:07:24Z (Friday morning), not Saturday. The draft's temporal claim cannot be verified against the source as presented in the brief.",
-     "Draft claims 'The bill formally titled an act to provide for a system of regulation of the offer and sale of digital commodities by the Securities and Exchange Commission and the Commodity Futures Trading Commission requires 60 votes to clear cloture.' However, the brief's data_point separates the formal title from the cloture vote requirement into two separate claims. The draft conflates them in a way that creates ambiguity about whether the 60-vote requirement is part of the formal bill title (it is not) or a separate procedural fact (it is). This is sloppy drafting that could mislead readers about statutory language."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "U.S. Treasury Sanctions Two Iranian Crypto Exchanges Linked to IRGC",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The U.S. Treasury's Office of Foreign Assets Control sanctioned crypto exchanges Shelbit and Aban Tether on August 7, 2026' but the brief's first data_point states 'OFAC sanctioned Shelbit Exchange and Iran-based Aban Tether on Friday (August 8, 2026, per the article's timing reference).' The brief itself flags a date discrepancy: the timestamp is 2026-08-07T18:42:44Z but the note indicates Friday would be August 8. The draft uses August 7 without acknowledging this ambiguity or flagging it as announced-not-verified. Given the brief's own uncertainty, the draft should either use 'Friday' or flag the date as unconfirmed.",
-     "Draft states 'CoinDesk reached out to Tether to confirm whether the exchange Aban Tether is unrelated to stablecoin issuer Tether but did not report confirmation of the relationship.' This is accurate to the brief. However, the draft then proceeds to use the phrase 'Aban Tether' repeatedly throughout without ever explicitly stating in the body that the relationship to Tether (the stablecoin issuer) is unconfirmed. The brief's bear_case explicitly flags this as an open question. The draft should have either (a) stated upfront in the first or second paragraph that Aban Tether's relationship to Tether remains unconfirmed, or (b) used a phrasing like 'Iran-based Aban Tether (unconfirmed relationship to stablecoin issuer Tether)' on first mention. As written, a reader could infer Aban Tether is connected to Tether without understanding the verification gap."
-    ]
-   },
-   {
-    "id": "c005",
-    "headline": "BTCPay Server vulnerability exposes Lightning nodes to credential theft and fund drainage",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'attackers drained Lightning nodes running behind BTCPay Server after exploiting a critical vulnerability that exposed the credentials protecting them' but this claim conflates two separate moments: the exposure of credentials and the subsequent drainage. The brief's data_point says 'Attackers drained Lightning nodes running behind BTCPay Server late on Friday after exploiting a critical vulnerability that exposed the credentials protecting them'\u2014which reads the same way, but the issue is that the draft does not distinguish between when the vulnerability was exploited (exposing credentials) and when funds were actually drained. The phrase 'late Friday' appears in the body but the temporal sequence of credential exposure vs. fund drainage is ambiguous and could mislead readers about the attack timeline.",
-     "The draft includes the claim 'BTCPay Server, the largest open source payment processor for merchants accepting instant Bitcoin payments over Lightning' but this superlative ('largest') does not appear in any data_point in the brief. The brief makes no claim about BTCPay being the largest; it only identifies BTCPay as 'the fastest-growing Lightning payment processor' in the angle. The word 'largest' is smuggled.",
-     "The draft states that 'the vulnerability was under active exploitation in the wild before BTCPay's public warning went out, according to CoinDesk' but the corresponding data_point (about the Bitcoin Red Team's reasoning) says 'by the time BTCPay's public warning went out, attackers were already exploiting this one against live servers.' The draft's phrasing ('under active exploitation in the wild before') is a tightened paraphrase that is acceptable, but it is attributed directly to CoinDesk when the source attribution should reflect that this inference comes from Red Team reasoning reported by CoinDesk. This is a minor attribution issue but still technically inaccurate presentation of source."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "Bitcoin and Ethereum ETFs post $1.1 billion inflow week, strongest since April",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bloomberg analyst Eric Balchunas tied the run to the Coldcard wallet exploit' but the corresponding data_point says 'Bloomberg analyst Eric Balchunas tied the run to the Coldcard wallet exploit' with no additional context. The draft then adds 'a security event that appears to have driven some capital toward regulated custody products.' The phrase 'appears to have driven' introduces speculation ('appears') that is not in the data_point. The data_point states only that Balchunas 'tied' the inflow to the exploit, not that it 'appears to have driven' capital. The draft is adding interpretive language not supported by the brief.",
-     "The draft introduces entirely new factual claims not in the brief: 'The desk's ETF flows board shows Bitcoin ETFs attracted $5.1 million in net inflows on July 28, the latest reporting date, extending a streak of positive flows. Over the prior five trading sessions, Bitcoin ETFs showed $402.6 million in net outflows.' These specific dollar amounts ($5.1 million, $402.6 million) and the temporal specificity (July 28, five trading sessions) do not appear anywhere in the brief's data_points. These are smuggled facts from a source outside the research brief."
-    ]
-   },
-   {
-    "id": "c008",
-    "headline": "Trump Media terminates Crypto.com CRO treasury partnership",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Trump Media bought $105 million of CRO in September 2025' but the brief data_point says 'Trump Media committed $105 million to purchase CRO in September 2025'\u2014a material difference. 'Committed' is not the same as 'bought.' The brief's language is more cautious and accurate to what was reported; the draft's language makes a stronger claim not supported by the source material."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-08",
   "approved": 4,
   "rejected": [
    {
@@ -7030,6 +6979,28 @@
      "The draft presents all data_points as though they carry equal confidence to on-record reporting, but the brief marks every single volume claim and growth figure as 'announced-not-verified' confidence level. The draft states these figures with attribution to The Daily Hodl and Decrypt but does not carry the 'unverified' or 'announced' qualification into the prose. Sentences like 'Turkey leads regional activity at nearly $200 billion annually' read as settled fact, not as a reported-but-unconfirmed claim.",
      "The draft's final paragraph acknowledges the verification gap ('The Daily Hodl and Decrypt do not cite independent verification'), but this appears only as a caveat at the end. By that point, the reader has absorbed the $350B figure, regional breakdowns, and growth rates as established data. The brief's bear_case explicitly flags that 'All figures and claims originate solely from the Bitcoin Policy Institute; no independent verification' is present\u2014this is not a minor methodological note, it is the core limitation and should frame the entire story, not be buried at para 4.",
      "The draft states 'Saudi Arabia posted the fastest growth at 154 percent year-on-year' without qualification. The brief's open_questions ask what time periods these rates cover and whether 2022-to-2026 growth is the basis. The phrase 'year-on-year' implies a single YoY figure, not a multi-year growth trajectory. This level of precision is not present in the brief data_point, which only says the claim exists in the Daily Hodl reporting without specifying the time window."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-09",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c126",
+    "headline": "Uzbekistan Begins Government Bond-Backed Stablecoin Payment Pilot",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Uzbekistan has launched testing of HUMO' but the brief only confirms Uzbekistan 'has begun testing HUMO.' The word 'launched' implies an official, public announcement or rollout that the brief's confidence level ('reported') does not support. The brief's open_questions ask 'What is the expected duration of the pilot phase,' indicating the scope and formality of the launch remain unclear from the source. A reader would understand 'launched' as a confirmed official action; 'begun testing' is more cautious and accurate to the sourced reporting."
+    ]
+   },
+   {
+    "id": "c131",
+    "headline": "Swiss Stablecoin Sandbox Enters Testing Phase, Adds Two Partners",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The addition of SIX and TWINT marks a transition to testing phase for the sandbox,' but the brief does not state that SIX and TWINT's addition caused or marks the sandbox's transition to testing. The brief data_point only says they 'have joined' the sandbox; the timing of their entry relative to the testing phase is not established in the brief. The draft's causal framing ('marks a transition') is narrative interpretation not supported by sourced facts. The brief's open_questions explicitly ask 'When did the sandbox initially launch, and what triggered the transition to testing phase?' indicating this causality is unresolved. A reader would infer from 'marks a transition' that these organizations triggered the phase change, which the source does not confirm."
     ]
    }
   ]
