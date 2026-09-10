@@ -1,46 +1,6 @@
 [
  {
   "date": "2026-08-09",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c010",
-    "headline": "Bitcoin and Ether spot ETFs recorded $1.1 billion in inflows in best week since April",
-    "category": "accuracy",
-    "reasons": [
-     "The phrase 'the confluence of the inflows and the security incident has prompted analyst commentary linking institutional buying to the disruption, though the brief does not establish whether Balchunas cited direct feedback from fund managers or inferred the connection from the timing' introduces editorial speculation and hedging about Balchunas's reasoning that is not present in the brief's data_point, which simply states he 'tied the inflows to the Coldcard wallet exploit.' The draft's epistemic qualifier ('though the brief does not establish') admits the writer is adding analysis beyond what the brief supports.",
-     "The sentence 'The desk's Leverage board recorded that Bitcoin open interest at OKX stood at 1.98 billion dollars as of July 29, with long-short positioning at 1.85 in favor of longs, indicating sustained demand for leveraged long bets alongside the spot ETF inflows' introduces a completely new data point (OKX open interest and long-short positioning) that does not appear anywhere in the brief's data_points, sources, or open_questions. This is smuggled information."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "Bitcoin Red Team says AI is finding critical exploits across core projects",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Decrypt article that published these claims could not be independently verified for this story because the source text was not retrieved.' This admits the core facts cannot be traced back to the source document. The hard rule is: no fact exists outside the brief. The brief contains only three data_points (150 repos, 'more than a dozen' vulns, open-source AI platform), all marked 'reported' from Decrypt with source_chars: 0, indicating the source was never retrieved. The desk cannot approve a story built on a single inaccessible source when verification is explicitly impossible. This is an accuracy failure: the facts are smuggled in without verification."
-    ]
-   },
-   {
-    "id": "c014",
-    "headline": "Venezuela's sanctions are stablecoins' proof of concept",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The story's single fact comes from reporting the desk could not access for verification.' The brief contains only one data_point with source_chars: 0 and no retrieved source text. The core claim rests entirely on a source the desk never retrieved. The hard rule is: no fact exists outside the brief, and facts must trace to verified sources. A story built on an inaccessible single source cannot meet the accuracy standard. This is an accuracy failure: facts cannot be verified against the source document."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "DTCC Treasury Onchain Claim: source material unavailable for verification",
-    "category": "accuracy",
-    "reasons": [
-     "The draft presents a story about an unverified claim as though it were reportable news. The core problem is structural: the brief itself has zero data_points and explicitly marks the story as unverifiable ('source text is empty'). The draft should not exist in publishable form\u2014it reads as a meta-commentary on research failure, not a news story. The sentence 'The Blockworks article carrying this claim could not be retrieved for verification' acknowledges the story cannot be reported. Publishing this would mean running a story whose lead fact is admittedly unverified, violating the hard rule that facts must trace to the brief and the brief must have evidence. The bottom_line correctly redirects to research; the body should not exist.",
-     "No independent confirmation of any claim (DTCC announcement, Canton partnership, Lighter token launch, Treasury volumes) exists in the brief. The draft correctly identifies this but then proceeds to write the story anyway, framing unverified speculation as reportable institutional news."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
   "approved": 2,
   "rejected": [
    {
@@ -6892,5 +6852,38 @@
   "date": "2026-09-10",
   "approved": 7,
   "rejected": []
+ },
+ {
+  "date": "2026-09-10",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c060",
+    "headline": "US Treasury Secretary Bessent Strongly Urges Senate To Pass Clarity Act Before September 15 Vote",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Senate is scheduled to vote on the Clarity Act next week' as a fact, but today is September 10, 2026. The brief's data_point says 'Senators will vote on the Clarity Act next week' with timestamp 2026-09-09, which would place the vote in the week of Sept 15-19. The draft is written in present tense as though reporting a current event, but a scheduled future vote should be written as upcoming ('is scheduled to' is correct phrasing, but the framing in context reads as though confirmation has occurred). However, the more critical issue: the draft title says 'Bessent Strongly Urges Senate To Pass Clarity Act Before September 15 Vote' \u2014 this specifies a September 15 vote date that does not appear in the brief. The brief only says 'next week' without specifying September 15. This is a smuggled fact not in the research brief."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Nasdaq Invests $100 Million in Kraken Parent Payward at $21 Billion Valuation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Payward faced a valuation reset after filing a confidential S-1 with the SEC in November 2025, which the company shelved in March 2026.' The brief's data_point says 'Co-CEO Arjun Sethi confirmed in April that the company filed a confidential draft S-1 with the SEC in November 2025' but does NOT contain information that the company shelved it in March 2026. This fact is not in the brief and represents smuggled information.",
+     "The draft includes Nasdaq's stock price performance ('Nasdaq shares traded at $93.68 on Thursday morning, down 0.6% from Wednesday's close, giving the exchange operator a market capitalization of about $52 billion') which appears in the brief's data_points but is not relevant to the core story and reads as extraneous market data. More critically, this is dated 'Thursday morning' but today is Thursday 2026-09-10, so this phrasing is ambiguous about timing and may be reporting a live intraday price as historical fact.",
+     "The draft's bottom_line contains language that may constitute framing rather than forward-looking analysis: 'The absence of terms on the surveillance contract and the lack of governance disclosure create dependency and potential conflict of interest between a vendor and an investor' \u2014 this characterization of potential conflict goes beyond what the brief's data_points support. The brief states facts about non-disclosure, but the 'dependency and potential conflict of interest' framing appears to be editorial interpretation not grounded in a specific data_point."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "Researchers halve quantum attack estimate for Bitcoin, Ethereum",
+    "category": "accuracy",
+    "reasons": [
+     "The entire draft rests on a single data_point marked 'reported' confidence: 'Humans and AI agents beat Google's March result on a core calculation used by Shor's algorithm.' The brief itself flags this as a thin brief (thin: true) with only one data_point and 200 source characters. The draft adds substantive claims not in the brief: 'The finding extends the timeline for quantum threats', 'If the quantum attack resource benchmark is substantially lower than feared, the urgency to deploy quantum-resistant protocol upgrades declines', and 'researchers gain additional time to develop and test defenses.' These are logical inferences from the core claim, but they are presented as established facts rather than conditional implications, and the brief contains no data_point supporting them. The draft also states 'The new result, beating that benchmark, suggests the attack pathway may be simpler or cheaper than the earlier estimate indicated' \u2014 'may be' is appropriately hedged, but the core claim that the benchmark was beaten by 50% appears nowhere in the single data_point, which contains no percentage figure. The headline claims a specific '50%' reduction but the brief's data_point does not quantify it.",
+     "The draft's opening paragraph contains the claim 'The computational resources needed to launch a quantum attack on Bitcoin and Ethereum may be 50% lower than recently estimated' \u2014 this '50%' figure does not appear in the brief's single data_point. The brief's core_claim mentions '50% lower' in the angle section, but the data_points do not specify this number. The writer has imported the angle's narrative framing into the draft as a fact."
+    ]
+   }
+  ]
  }
 ]

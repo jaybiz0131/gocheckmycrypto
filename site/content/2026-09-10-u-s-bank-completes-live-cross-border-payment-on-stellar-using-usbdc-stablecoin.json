@@ -1,0 +1,67 @@
+{
+  "id": "c114",
+  "slug": "u-s-bank-completes-live-cross-border-payment-on-stellar-using-usbdc-stablecoin",
+  "kind": "brief",
+  "title": "U.S. Bank Completes Live Cross-Border Payment on Stellar Using USBDC Stablecoin",
+  "dek": "U.S. Bank completed a live cross-border payment between North American and European entities using USBDC, a dollar-backed stablecoin issued on the Stellar blockchain. The transaction included freezing and clawback controls and remained integrated with the bank's compliance systems. The pilot outpaces a consortium of 21 financial institutions that committed to launching a shared interbank token by 2027.",
+  "date": "2026-09-10",
+  "published_utc": "2026-09-10T17:31:01Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "U.S. Bank completed a live cross-border payment using USBDC, a native stablecoin on Stellar, connecting a permissionless blockchain to the bank's internal risk and compliance systems.",
+  "bottom_line": "Whether USBDC moves beyond internal bank operations to external client use will determine if this pilot signals institutional adoption of permissionless chains or remains a contained proof-of-concept. The absence of disclosed regulatory approval from banking authorities (OCC, Fed, FDIC) leaves open the question of whether permissionless chain settlement faces regulatory barriers the bank has not yet published.",
+  "human_take": "",
+  "body": [
+    "U.S. Bank completed a live cross-border payment between its North American and European entities using USBDC, a dollar-backed stablecoin the bank issued on Stellar, according to The Defiant. The transaction settled on the Stellar blockchain while remaining connected to the bank's core finance, risk, compliance and operations systems.\nThe pilot tested freezing and clawback capabilities alongside minting and payment redemption. U.S. Bank's internally developed Digital Asset Platform, which issues and moves tokenized assets, linked the bank's existing infrastructure to the blockchain network. According to U.Today's reporting, the USBDC stablecoin's code includes freezing and clawback functions, allowing the bank to immediately freeze or return funds if a payment reaches the wrong address or draws attention from financial intelligence authorities.\nGunjan Kedia, chairman and chief executive officer at U.S. Bank, said the pilot \"demonstrates our ability to accelerate global cash management and money movement capabilities.\" Jamie Walker, head of digital assets and money movement at U.S. Bank, stated the bank's focus is on \"delivering solutions that solve real client challenges while maintaining the safety, security and reliability that clients expect from U.S. Bank.\"\nAt the initial stage, according to U.Today, USBDC will remain a closed instrument used only for the bank's internal settlements and treasury operations. The bank has not disclosed the transaction amount, whether USBDC will eventually be offered to external clients, what assets back the token, or where reserves are held.\nUses still under review, per The Defiant, include liquidity management, collateral mobility and cross-border treasury operations. U.S. Bank now joins Franklin Templeton and DTCC in building on the Stellar network, according to The Defiant.\nU.S. Bank's move stands apart from a consortium of approximately 21 financial institutions, including Goldman Sachs, which committed to launching a shared interbank token by 2027. Stellar Development Foundation CEO Denelle Dixon called the U.S. Bank launch a major precedent, emphasizing the live pilot as \"a clear example of real institutional adoption,\" according to U.Today."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/defi/us-bank-usbdc-stablecoin-stellar-cross-border-pilot",
+      "url": "https://thedefiant.io/converge/defi/us-bank-usbdc-stablecoin-stellar-cross-border-pilot"
+    },
+    {
+      "title": "https://u.today/stellar-xlm-lands-us-banks-stablecoin-innovation-ceo-opens-up-on-global-cash-strategy",
+      "url": "https://u.today/stellar-xlm-lands-us-banks-stablecoin-innovation-ceo-opens-up-on-global-cash-strategy"
+    },
+    {
+      "title": "https://cointelegraph.com/news/us-bank-launches-usbdc-stablecoin-with-live-cross-border-payment?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/us-bank-launches-usbdc-stablecoin-with-live-cross-border-payment?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "update_of": "sberbank-plans-crypto-backed-loans-using-bitcoin-ethereum-tether",
+  "board_snapshot": {
+    "as_of": "2026-09-10T13:59:10Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77143.49,
+        "chg_24h_pct": -1.46
+      },
+      {
+        "symbol": "ETH",
+        "price": 2432.92,
+        "chg_24h_pct": -1.4
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2261510788
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -157923460,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "U.Today",
+    "Cointelegraph"
+  ],
+  "developing": false
+}
