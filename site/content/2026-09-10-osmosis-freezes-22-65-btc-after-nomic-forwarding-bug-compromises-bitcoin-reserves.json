@@ -1,0 +1,59 @@
+{
+  "id": "c144",
+  "slug": "osmosis-freezes-22-65-btc-after-nomic-forwarding-bug-compromises-bitcoin-reserves",
+  "kind": "brief",
+  "title": "Osmosis freezes 22.65 BTC after Nomic forwarding bug compromises Bitcoin reserves",
+  "dek": "Osmosis froze 22.65 BTC following a flaw in Nomic's custom forwarding system that allowed a double-spend, creating unbacked nBTC tokens. The flaw leaves 36.03% of allBTC's backing in question, with 110.57 allBTC in circulation backed by only 39.84 valid nBTC. Minting and redemption are paused pending a governance vote to confiscate the frozen BTC and allocate community-pool funds to restore parity.",
+  "date": "2026-09-10",
+  "published_utc": "2026-09-10T14:01:12Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "A double-spend flaw in Nomic's forwarding system created 39.84 BTC of unbacked allBTC tokens, leaving 36.03% of allBTC's collateral impaired and minting/redemption frozen pending governance action.",
+  "bottom_line": "The governance vote to confiscate the frozen BTC and allocate community funds remains pending, leaving allBTC's path to full backing dependent on a political process with no announced timeline. If the community pool lacks sufficient Bitcoin to close the remaining 17.19 BTC gap, allBTC holders face the prospect of redemptions at a discount.",
+  "human_take": "",
+  "body": [
+    "Osmosis froze 22.65 BTC following a flaw in Nomic's custom forwarding system that allowed a double-spend creating unbacked nBTC vouchers, according to CryptoSlate. The flaw has left 36.03% of allBTC's backing in question, with 110.57 allBTC in circulation backed by only 39.84 valid nBTC at the reporting cutoff. About 70.73 BTC-equivalent of other backing remains valid after the impairment.",
+    "allBTC is a basket asset on Osmosis containing multiple forms of Bitcoin collateral. The flaw permitted a transaction to be counted twice in Nomic's forwarding logic, generating false vouchers and allowing 22.65 allBTC tokens to be minted without corresponding Bitcoin deposits. On-chain researcher Rarma traced the principal minting to June 25, with 22.65060846 allBTC created during July 17 activity remaining unmoved at publication. Public disclosure came more than two months after the apparent exploit activity.",
+    "Osmosis stated that neither its chain nor the Inter-Blockchain Communication protocol was compromised, per CryptoSlate. The bug was isolated to Nomic's forwarding logic. SlowMist's incident database described the event as a Nomic bridge double-spend. Nomic and allBTC inflows and outflows have been frozen, while allBTC minting and redemption are paused.",
+    "The frozen 22.65 BTC has not been seized or returned to the basket. Osmosis plans to ask governance to confiscate it and use Bitcoin from the community pool to cover the remainder, according to CryptoSlate. If governance recovers the full frozen amount, it would still need about 17.19 BTC to replace the 39.84 BTC impairment. No matching seizure or recapitalization measure appeared among the latest 20 on-chain proposals as of September 9.",
+    "Osmosis governance administers the allBTC contract, while a 3-of-6 moderator subDAO can pause the pool or mark a constituent asset as corrupted. Nomic's Bitcoin custody documentation says reserve disbursals require signatures representing more than 90% of its signatory set's voting power. Until enough valid backing is restored, allBTC holders remain collectively exposed because claims on the basket exceed its valid BTC-equivalent assets, and redemption at full parity depends on the governance decision and the size of any community-pool contribution."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/osmosis-freezes-22-65-btc-after-nomic-forwarding-bug-compromises-bitcoin-reserves/",
+      "url": "https://cryptoslate.com/osmosis-freezes-22-65-btc-after-nomic-forwarding-bug-compromises-bitcoin-reserves/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-10T13:59:10Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77143.49,
+        "chg_24h_pct": -1.46
+      },
+      {
+        "symbol": "ETH",
+        "price": 2432.92,
+        "chg_24h_pct": -1.4
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2261772567
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -148588494,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
