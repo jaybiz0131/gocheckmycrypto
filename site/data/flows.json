@@ -1,13 +1,13 @@
 {
   "example": false,
-  "generated": "2026-09-09",
-  "generated_utc": "2026-09-09T19:43:03Z",
+  "generated": "2026-09-10",
+  "generated_utc": "2026-09-10T00:35:21Z",
   "window_hours": 24,
-  "txn_count": 2,
+  "txn_count": 1,
   "volatile": {
-    "inflow_usd": 112896249,
+    "inflow_usd": 57966065,
     "outflow_usd": 0,
-    "net_usd": -112896249,
+    "net_usd": -57966065,
     "direction": "onto exchanges"
   },
   "stablecoins": {
@@ -18,9 +18,9 @@
   "by_asset": [
     {
       "symbol": "BTC",
-      "inflow_usd": 112896249,
+      "inflow_usd": 57966065,
       "outflow_usd": 0,
-      "net_usd": -112896249
+      "net_usd": -57966065
     }
   ],
   "by_exchange": [
@@ -29,12 +29,6 @@
       "inflow_usd": 57966065,
       "outflow_usd": 0,
       "net_usd": -57966065
-    },
-    {
-      "exchange": "kraken",
-      "inflow_usd": 54930184,
-      "outflow_usd": 0,
-      "net_usd": -54930184
     }
   ],
   "top_inflows": [
@@ -49,88 +43,76 @@
       "url": "",
       "ts": 1788946838.0,
       "stable": false
-    },
-    {
-      "symbol": "BTC",
-      "amount": 700.0,
-      "usd": 54930184.0,
-      "to": "kraken",
-      "from": "unknown wallet",
-      "blockchain": "bitcoin",
-      "hash": "21961ff3a0d35e3646a9229de286981e13cf5f8585c5dff4130b4285db8d701a",
-      "url": "",
-      "ts": 1788910136.0,
-      "stable": false
     }
   ],
   "top_outflows": [],
   "note": "Data: Whale Alert public alert archive; exchanges identified by name, and only the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is buying power arriving, so they are scored separately. Market data, not news, not advice.",
   "history": [
     {
-      "week_ending": "Jun 17",
-      "net_usd": 153422831,
-      "moves": 41
+      "week_ending": "Jun 18",
+      "net_usd": 59134799,
+      "moves": 42
     },
     {
-      "week_ending": "Jun 24",
-      "net_usd": 199830650,
-      "moves": 53
+      "week_ending": "Jun 25",
+      "net_usd": 294118682,
+      "moves": 52
     },
     {
-      "week_ending": "Jul 01",
-      "net_usd": 1695004946,
-      "moves": 98
+      "week_ending": "Jul 02",
+      "net_usd": 1827150495,
+      "moves": 101
     },
     {
-      "week_ending": "Jul 08",
-      "net_usd": 1191057674,
-      "moves": 70
+      "week_ending": "Jul 09",
+      "net_usd": 1058912125,
+      "moves": 67
     },
     {
-      "week_ending": "Jul 15",
+      "week_ending": "Jul 16",
       "net_usd": -147897539,
-      "moves": 78
+      "moves": 79
     },
     {
-      "week_ending": "Jul 22",
-      "net_usd": -215393974,
-      "moves": 34
+      "week_ending": "Jul 23",
+      "net_usd": -86624131,
+      "moves": 35
     },
     {
-      "week_ending": "Jul 29",
-      "net_usd": 1209382493,
-      "moves": 49
+      "week_ending": "Jul 30",
+      "net_usd": 1080612650,
+      "moves": 47
     },
     {
-      "week_ending": "Aug 05",
-      "net_usd": 1157115477,
-      "moves": 78
+      "week_ending": "Aug 06",
+      "net_usd": 1209322264,
+      "moves": 80
     },
     {
-      "week_ending": "Aug 12",
-      "net_usd": -1000072294,
-      "moves": 68
+      "week_ending": "Aug 13",
+      "net_usd": -1052279081,
+      "moves": 66
     },
     {
-      "week_ending": "Aug 19",
-      "net_usd": -150495525,
-      "moves": 23
+      "week_ending": "Aug 20",
+      "net_usd": -81502674,
+      "moves": 27
     },
     {
-      "week_ending": "Aug 26",
-      "net_usd": -1511131746,
-      "moves": 95
+      "week_ending": "Aug 27",
+      "net_usd": -1580124597,
+      "moves": 91
     },
     {
-      "week_ending": "Sep 02",
-      "net_usd": 435653660,
-      "moves": 85
+      "week_ending": "Sep 03",
+      "net_usd": 370676302,
+      "moves": 89
     },
     {
-      "week_ending": "Sep 09",
-      "net_usd": -555961722,
-      "moves": 46
+      "week_ending": "Sep 10",
+      "net_usd": -490984364,
+      "moves": 42
     }
   ],
-  "weekly_median_abs_usd": 555961722
+  "weekly_median_abs_usd": 490984364
 }

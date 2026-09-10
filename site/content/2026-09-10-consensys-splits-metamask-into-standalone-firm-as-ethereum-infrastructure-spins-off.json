@@ -1,0 +1,66 @@
+{
+  "id": "c004",
+  "slug": "consensys-splits-metamask-into-standalone-firm-as-ethereum-infrastructure-spins-off",
+  "kind": "brief",
+  "title": "Consensys Splits MetaMask Into Standalone Firm as Ethereum Infrastructure Spins Off",
+  "dek": "Consensys Software Inc. will rebrand as MetaMask under Joe Lubin, while a newly formed Consensys entity takes over Ethereum protocols and institutional blockchain infrastructure. The separation is expected to complete by end of 2026, leaving key questions about IPO timing and asset ownership unresolved.",
+  "date": "2026-09-10",
+  "published_utc": "2026-09-10T00:37:22Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 9,
+  "author": "Crypto Cronkite",
+  "key_fact": "Consensys Software Inc. will rebrand as MetaMask and separate from its Ethereum protocols and institutional infrastructure business by end of 2026, with Joe Lubin moving to chairman and CEO of MetaMask.",
+  "bottom_line": "MetaMask and the new Consensys entity remain silent on which will pursue the IPO process initiated in October 2025, and when. The LINEA token unlock on September 10 and the absence of a MASK token launch despite October 2025 domain registration set near-term tests of institutional confidence in the separated entities' execution.",
+  "human_take": "",
+  "body": [
+    "Consensys Software Inc. will rebrand as MetaMask under Joe Lubin as chairman and CEO, while a newly formed Consensys entity will house its Ethereum protocols and institutional blockchain infrastructure business. The separation is expected to complete by end of 2026, according to reporting by Decrypt on September 9.",
+    "The split marks the first structural separation of MetaMask, the wallet with more than 100 million downloads across roughly 190 countries, from the enterprise infrastructure business that emerged from Consensys' 2014 founding. MetaMask has facilitated trillions of dollars in cumulative transaction volume, per Decrypt. The new Consensys will be led by CEO Mike Kriak and President David Cunningham, with Lubin serving as executive chairman.",
+    "MetaMask's recent product moves suggest a pivot toward retail finance. The wallet added Bitcoin support in December after adding Solana, allowing users to manage BTC alongside assets on Ethereum and other supported networks. MetaMask launched Money Account in June, a self-custody feature combining stablecoin yield, payments and trading in a single balance, according to The Defiant's reporting. The Money Account launched on June 30 paying up to 4% on stablecoin balances. MetaMask issued its mUSD stablecoin in 2025 on Ethereum and the layer-2 network Linea, with plans to use the token for payments through the MetaMask debit card.",
+    "The newly separated Consensys will continue developing Linea, an Ethereum layer-2 network; Besu, an Ethereum execution client used for permissioned blockchain networks; and Teku, an Ethereum consensus client. Per The Defiant, Linea holds $29 million in DeFi deposits and $38.1 million in stablecoins issued on it. The LINEA token trades at $0.002664, down 2.2% over 24 hours and 94% below its September 2025 all-time high, with a market capitalization of $65.3 million. Another 960 million LINEA tokens unlock on September 10, according to The Defiant. The LINEA token launched at roughly a $500 million market capitalization a year ago.",
+    "The announcement carries significant silences. Lubin confirmed on The Block's podcast in September 2025 that a MASK token was coming, tied to \"the decentralization of certain aspects of the MetaMask platform,\" per The Defiant. The company registered a claim.metamask.io domain in October 2025 and has not shipped a MASK token since.The announcement also does not clarify which company takes Infura, whose website now brands it as part of MetaMask Developer, according to The Defiant.",
+    "Users need to take no action as part of the separation.",
+    "A June 2026 Citi report estimated tokenized assets could reach $5.5 trillion to $8.2 trillion by 2030, per The Defiant."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/09/09/consensys-to-split-metamask-into-its-own-firm-while-staying-silent-on-ipo",
+      "url": "https://www.coindesk.com/business/2026/09/09/consensys-to-split-metamask-into-its-own-firm-while-staying-silent-on-ipo"
+    },
+    {
+      "title": "https://www.theblock.co/news/business/2026-09-09-consensys-splits-metamask-institutional-ethereum-infrastructure-businesses-414022",
+      "url": "https://www.theblock.co/news/business/2026-09-09-consensys-splits-metamask-institutional-ethereum-infrastructure-businesses-414022"
+    }
+  ],
+  "update_of": "uk-tax-service-issued-81-000-warning-letters-to-crypto-holders-in-past-year",
+  "board_snapshot": {
+    "as_of": "2026-09-10T00:35:21Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78219.39,
+        "chg_24h_pct": -0.08
+      },
+      {
+        "symbol": "ETH",
+        "price": 2465.96,
+        "chg_24h_pct": -0.06
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.1,
+      "open_interest_usd": 2083658475
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -57966065,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
