@@ -1,45 +1,6 @@
 [
  {
   "date": "2026-08-09",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c007",
-    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The rule applies to transfers exceeding $10,000' but brief data_point specifies 'transfers exceeding the equivalent of $10,000, whether through a single transaction or several on the same day.' The draft omits the critical detail about aggregation across multiple daily transactions, which materially changes the threshold's practical effect and user exposure."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "Brazil to tighten crypto fraud controls with new 24-hour wait on transfers to self-custody wallets",
-    "category": "accuracy",
-    "reasons": [
-     "Draft claims 'whether the rule applies to Brazilian residents, exchanges, or both are not detailed in the available reporting,' but brief data_point c007 establishes this rule applies to 'transfers to foreign platforms and self-custody wallets' by customers who 'deposit the country's fiat currency reais, or crypto with an exchange and then seek to send the funds abroad.' This scope information exists in the research base and should have been traced; the draft's claim of missing detail is a smuggled gap that should have been caught during research, not left for the reader to verify against external sources."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Bitcoin Red Team Says AI Is Finding Critical Exploits Across Core Projects",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'More than a dozen vulnerabilities were disclosed' but the brief data_point says 'More than a dozen vulnerabilities were disclosed' \u2014 however, the draft then states 'Decrypt's reporting does not detail the specific projects affected, the nature or severity of the flaws, or the timeline and scope of responsible disclosure for each finding.' This is acceptable as an acknowledgment of limits. But the sentence 'The brief source material for this story could not be accessed for independent verification of the specific claims, the identity of affected projects, or the nature of the disclosed exploits' is SMUGGLED meta-commentary about the reporting process that does not appear in the brief and violates the wall between reporting and internal editorial notes. This reads as a confession of thin sourcing published in the article itself, which is not a reporting technique\u2014it is a failure to report. The draft should either verify claims or not publish; publishing with an admission it could not verify is not a journalistic option."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "Hardware wallet sales in Russia more than double ahead of new crypto rules; retailers silent on driver",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Hardware wallet unit sales surged in Russia during the first half of 2026' and 'more than double' in the title, but the data points show M.Video rose 107% Q-o-Q (not half-year comparison) and Wildberries rose 84% year-on-year (first half 2026 vs. first half 2025). The M.Video figure is quarter-on-quarter growth within H1, not a statement about H1 overall growth rate, and conflating these two different time periods as both evidence of 'doubling' is misleading. The title's 'more than double' claim is not directly supported by the Wildberries YoY figure (84%) or accurately represents the M.Video QoQ figure without clarifying it's intra-period.",
-     "The draft introduces the Coldcard vulnerability disclosed July 30, 2026 with the claim 'estimated losses exceeding $116 million' and frames it as potentially affecting 'consumer confidence in the subsequent period.' This data point appears in the brief, but the draft's suggestion that the vulnerability 'raises questions about whether the vulnerability affected consumer confidence' speculates beyond what the brief supports. The brief lists this as a bear_case item noting it 'could undermine confidence,' but the draft's phrasing ('raises questions about whether...affected') introduces causality analysis not present in the source reporting."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
   "approved": 5,
   "rejected": [
    {
@@ -6885,6 +6846,31 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'August 2026 consumer inflation data released today' but this is a CPI story misdated as c013 (India bond tokenization). The draft body does not match the brief at all\u2014it appears to be the c007 CPI story accidentally filed under c013. Every fact in the draft (CPI figures, Fed Chair Warsh, inflation data) is absent from the c013 brief, which concerns Indian corporate bond tokenization. The entire draft is off-topic and must be rejected."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-11",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c013",
+    "headline": "Kalshi Seeks Approval for Stock and ETF Perpetual Futures as CFTC and SEC Spar Over Jurisdiction",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'Kalshi received CFTC approval for Bitcoin perpetual contracts in May 2026' and 'recently launched gold and silver perps in September 2026'. Both are marked 'reported' in brief, but draft uses past tense for current date (Friday 2026-09-11). The gold/silver launch in September 2026 as a completed event is problematic if it refers to a future date relative to today; if September has already passed in the current moment, this is acceptable. However, the phrasing 'recently launched' suggests a very recent completion. The brief timestamp shows 2026-09-11 (today), so a September 2026 launch would be today or in the past. This appears to work, but the claim about 'plans to file' in the draft body suggests the equity perp filing has not yet occurred\u2014which is correct. However, the draft does not clearly signal whether gold/silver are truly already live as of today or announced-not-yet-live.",
+     "More critically: the draft states 'Kalshi is also eyeing expansion into agricultural commodity perpetual futures, with WTI crude oil reportedly on the wish list' does NOT appear in the draft body at all, though it is in the brief as data_point 13. The draft omits this entirely, which is acceptable editorial judgment (not every brief point must run). However, the draft DOES claim facts about gold and silver perps that imply they are live products, when the brief labels them as part of the same 'reported' confidence tier without explicit completion confirmation.",
+     "The real accuracy issue: draft says 'Kalshi recently launched gold and silver perps in September 2026' as past fact, but today IS September 11, 2026. A September launch described as already completed on September 11 is borderline depending on exact launch date. The brief does not specify launch date within September, only 'September 2026.' This is not a hard false claim, but it borders on imprecise confidence attribution."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Core CPI Posts Faster-Than-Expected Rise in August; Fed Rate Decision Looms September 15-16",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's bear_case explicitly flags that the CoinDesk source text is minimal and does not contain the specific core CPI figures, forecast miss, or Fed rate-hike probability in fetched source_text itself. The brief marks the source as thin (thin=true) with only 853 source_chars and notes that http_status is null, indicating the full article was not retrieved. The draft presents the 0.3% print, 0.2% forecast, and 70% rate-hike odds as direct reportage ('according to CoinDesk reporting') when the brief documents that these claims appear in the headline and metadata but are not present in the actual source text that was available for verification.",
+     "The brief's open_questions state: 'The CoinDesk article URL did not return a full source text (http_status is null); confirmation of the 0.3% print, 0.2% forecast, and 70% rate-hike odds probability should come from a primary source or fuller reporting.' The draft does not reflect this verification gap and instead attributes these core numerical claims directly to CoinDesk as though they were confirmed in the article body."
     ]
    }
   ]

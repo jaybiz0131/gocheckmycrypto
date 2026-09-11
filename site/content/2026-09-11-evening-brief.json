@@ -1,0 +1,73 @@
+{
+  "id": "wrap-pm-2026-09-11",
+  "slug": "evening-brief-2026-09-11",
+  "kind": "brief",
+  "title": "The Evening Brief: Inflation beats, Fed decision near; institutions build crypto infrastructure",
+  "dek": "Core inflation topped expectations today, locking in 70% odds of a Fed rate hike on September 15-16. Against that headwind, institutional adoption of tokenized settlement and stablecoins advanced across the U.S., EU, and UK.",
+  "date": "2026-09-11",
+  "published_utc": "2026-09-11T23:56:27Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "The desk's boards show bitcoin moving off exchanges in a single day ($51.2M from Coinbase institutional) even as inflation data pressures valuations, reflecting a split between macro rate risk and institution-building in blockchain infrastructure.",
+  "bottom_line": "August inflation beat expectations today, raising Fed rate-hike odds to 70% for next week's meeting and pressuring near-term crypto valuations, as the desk reported. Simultaneously, institutional adoption of blockchain-based settlement and regulated stablecoins accelerated across the U.S., EU, and UK in a coordinated wave. The desk's boards show bitcoin moving off exchanges in a single day even as the broader week shows net inflows, signaling institutional positioning across mixed macro conditions. The September 15-16 FOMC decision will determine whether rate action reinforces the inflation pressure or whether institutional infrastructure buildout proves resilient to higher discount rates. Watch the Senate's cloture vote on the Clarity Act the same day at 2:15 p.m., the UK House of Commons for passage of the digital assets strategy amendment, and Fnality and U.S. Bank for regulatory approval timelines on their euro, dollar, and cross-border systems.",
+  "human_take": "",
+  "body": [
+    "Friday brought two countervailing currents to the crypto market. August core inflation climbed 0.3% month-over-month, beating consensus expectations of 0.2%, locking in roughly 70% odds of a 25-basis-point Fed rate hike at the September 15-16 Federal Open Market Committee meeting, per the desk's reporting. Rates drive the discount rates investors apply to assets with no cash flow, making the inflation print a direct pressure on crypto valuations.",
+    "Simultaneously, institutional adoption of blockchain-based financial infrastructure accelerated across three major jurisdictions. U.S. Bank completed a live cross-border payment using USBDC, a dollar-backed stablecoin the bank issued on Stellar, with freezing and clawback controls integrated into the bank's compliance systems. Fnality, the tokenized settlement platform, named Jon Cunliffe, former Bank of England deputy governor, to chair its UK board as the company prepares to launch euro and US dollar systems alongside its existing sterling platform. Nasdaq's venture arm invested $100 million in Payward, Kraken's parent company, at a $21 billion valuation, extending a partnership to distribute tokenized Nasdaq-listed equities on Kraken's platform. Revolut began rolling out EURR, a euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal under the EU's Markets in Crypto-Assets regulation, with Bridge Building S.A. as the regulated issuer. UniCredit, Italy's second-largest bank, is selecting a technology provider to build infrastructure for cryptocurrency custody, trading, and tokenized investment offerings.",
+    "On the regulatory front, the UK House of Lords voted 194-138 on September 11 to approve an amendment requiring the Treasury to develop a mandatory national strategy covering cryptoassets, stablecoins, and tokenized securities. The amendment must still pass the House of Commons before taking effect. In Washington, Senate Republicans released a revised 630-page Clarity Act on September 10, with a procedural cloture vote scheduled for September 15 at 2:15 p.m. The vote requires 60 votes to proceed to floor debate; Republicans hold 53 seats, meaning seven Democratic votes are necessary if all Republicans support the motion.",
+    "Enforcement also accelerated. The U.S. Justice Department and Treasury Department seized Xinbi's Telegram channels and restrained $52.8 million in USDT tied to a platform that processed over $24 billion for scam operations across Southeast Asia, with investigators identifying 47 additional wallets in the laundering network.",
+    "On security, Osmosis froze 22.65 BTC following a flaw in Nomic's custom forwarding system that allowed a double-spend, creating unbacked nBTC tokens. The flaw leaves 36.03% of allBTC's collateral impaired, with minting and redemption paused pending a governance vote to confiscate the frozen BTC and allocate community-pool funds to restore parity.",
+    "The desk's Whale Watch board shows $51.2 million in bitcoin moving off exchanges over the past 24 hours from Coinbase institutional, reversing the week-to-date direction. For the week ending September 11, the board shows $552 million in bitcoin moved onto exchanges overall, compared to $504 million moving off exchanges the week ending September 4. ETF flows present a split: Bitcoin ETFs saw an inflow of $3.8 million on Friday against net outflows of $271.1 million over the last five sessions, while Ethereum ETFs recorded an inflow of $34.2 million on the day and $40.6 million over the same five-session window, showing consistent demand. The desk's boards show ethereum up 5.59% on the day and bitcoin up 1.62%, while the market-wide fear-greed index stands at 56, in \"Greed\" territory."
+  ],
+  "sources": [
+    {
+      "title": "Ex-BoE deputy governor chairs Fnality supervisory board as platform expands to euro and dollar",
+      "url": "/articles/ex-boe-deputy-governor-chairs-fnality-supervisory-board-as-platform-expands-to-euro-and-dollar.html"
+    },
+    {
+      "title": "Nasdaq Invests $100 Million in Kraken Parent Payward at $21 Billion Valuation (September 10)",
+      "url": "/articles/nasdaq-invests-100-million-in-kraken-parent-payward-at-21-billion-valuation-september-10.html"
+    },
+    {
+      "title": "Osmosis freezes 22.65 BTC after Nomic forwarding bug compromises Bitcoin reserves",
+      "url": "/articles/osmosis-freezes-22-65-btc-after-nomic-forwarding-bug-compromises-bitcoin-reserves.html"
+    },
+    {
+      "title": "Polymarket Names Former Amazon Finance Chief Warren Jenson as First CFO",
+      "url": "/articles/polymarket-names-former-amazon-finance-chief-warren-jenson-as-first-cfo.html"
+    },
+    {
+      "title": "U.S. Bank Completes Live Cross-Border Payment on Stellar Using USBDC Stablecoin",
+      "url": "/articles/u-s-bank-completes-live-cross-border-payment-on-stellar-using-usbdc-stablecoin.html"
+    },
+    {
+      "title": "Core inflation beat forecast in August; Fed rate hike odds rise to roughly 70% ahead of September 15-16 meeting",
+      "url": "/articles/core-inflation-beat-forecast-in-august-fed-rate-hike-odds-rise-to-roughly-70-ahead-of-september-15-16-meeting.html"
+    },
+    {
+      "title": "Revolut Launches Euro Stablecoin EURR in Three EU Markets With Bridge as Issuer",
+      "url": "/articles/revolut-launches-euro-stablecoin-eurr-in-three-eu-markets-with-bridge-as-issuer.html"
+    },
+    {
+      "title": "Senate Republicans unveil revised Clarity Act on September 10, with cloture vote set for September 15",
+      "url": "/articles/senate-republicans-unveil-revised-clarity-act-on-september-10-with-cloture-vote-set-for-september-15.html"
+    },
+    {
+      "title": "UK and U.S. Authorities Hold Joint CCP Resolution Tabletop Exercise on September 3, 2026",
+      "url": "/articles/uk-and-u-s-authorities-hold-joint-ccp-resolution-tabletop-exercise-on-september-3-2026.html"
+    },
+    {
+      "title": "UK House of Lords backs digital assets strategy on September 11",
+      "url": "/articles/uk-house-of-lords-backs-digital-assets-strategy-on-september-11.html"
+    },
+    {
+      "title": "UniCredit Selecting Technology Partner for Crypto Custody, Trading, Tokenized Products",
+      "url": "/articles/unicredit-selecting-technology-partner-for-crypto-custody-trading-tokenized-products.html"
+    },
+    {
+      "title": "US seizes Xinbi Telegram channels, restrains $52.8M in USDT tied to $24B black market",
+      "url": "/articles/us-seizes-xinbi-telegram-channels-restrains-52-8m-in-usdt-tied-to-24b-black-market.html"
+    }
+  ]
+}
