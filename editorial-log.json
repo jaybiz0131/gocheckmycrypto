@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-09",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c004",
-    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Resolution BCB No. 584/2026, published August 7' but the brief data_point says 'published Aug. 7' without specifying the year 2026 in that source sentence; the draft adds a year that is not explicitly in the cited source material and cannot be verified from the brief's data.",
-     "The draft claims 'The hold is not permanent' and 'Exchanges can release a transfer before 24 hours if their risk review finds no signs of wrongdoing, according to CoinDesk.' The brief's bear_case states 'Hardware wallets do not bypass Russia's withdrawal restrictions to personal wallets that take effect July 1, 2027'\u2014this is from c003, not c004; however, the c004 brief does not contain a bear_case item addressing whether the 24-hour hold can actually be shortened in practice, making the 'not permanent' framing a premise without counter-evidence in the brief. The draft presents the early-release mechanism as fact without noting any ambiguity."
-    ]
-   },
-   {
-    "id": "c003",
-    "headline": "Hardware wallet sales in Russia more than double as new crypto rules near",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens: 'Hardware wallet sales in Russia surged in the months preceding the country's regulatory shift, though retailers have not confirmed what drove the demand.' This claim\u2014that retailers 'have not confirmed what drove the demand'\u2014is not in the brief's data_points. The brief's data_point 11 states 'Neither M.Video nor Wildberries identified the driving force behind renewed hardware wallet demand,' but the draft's phrasing ('have not confirmed') implies they could have but did not, whereas the brief's language ('did not identify') is neutral about whether confirmation was sought or attempted. This is a subtle semantic shift that introduces an inference not in the source material.",
-     "The draft includes 'Coinkite disclosed a Coldcard firmware flaw on July 30, 2026 that weakened seed generation, leading to estimated losses of over $116 million' but then immediately states 'Hardware wallet ownership carries technical risks that timing alone cannot mitigate.' This statement\u2014'timing alone cannot mitigate'\u2014is not in the brief; the brief's bear_case says hardware wallets 'do not bypass Russia's withdrawal restrictions' and 'do not eliminate device, backup, and seed-security risks,' but does not make the claim about mitigation timing. This is an added inference beyond the brief."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "T. Rowe Price Includes Dogecoin in Active Multi-Token Crypto ETF, Citing Network Stress Test Logic",
-    "category": "accuracy",
-    "reasons": [
-     "The bottom_line includes market price data ('DOGE down 19.15% over the past 30 days and down 75.7% from its 12-month high') that does not appear in the research brief's data_points or sources. This fact was not in the brief and cannot be verified against the CoinDesk article cited. Per protocol, all facts must trace back to the brief; new information is smuggled and must be rejected."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
   "approved": 5,
   "rejected": [
    {
@@ -6882,6 +6850,47 @@
     "reasons": [
      "The entire draft rests on a single data_point marked 'reported' confidence: 'Humans and AI agents beat Google's March result on a core calculation used by Shor's algorithm.' The brief itself flags this as a thin brief (thin: true) with only one data_point and 200 source characters. The draft adds substantive claims not in the brief: 'The finding extends the timeline for quantum threats', 'If the quantum attack resource benchmark is substantially lower than feared, the urgency to deploy quantum-resistant protocol upgrades declines', and 'researchers gain additional time to develop and test defenses.' These are logical inferences from the core claim, but they are presented as established facts rather than conditional implications, and the brief contains no data_point supporting them. The draft also states 'The new result, beating that benchmark, suggests the attack pathway may be simpler or cheaper than the earlier estimate indicated' \u2014 'may be' is appropriately hedged, but the core claim that the benchmark was beaten by 50% appears nowhere in the single data_point, which contains no percentage figure. The headline claims a specific '50%' reduction but the brief's data_point does not quantify it.",
      "The draft's opening paragraph contains the claim 'The computational resources needed to launch a quantum attack on Bitcoin and Ethereum may be 50% lower than recently estimated' \u2014 this '50%' figure does not appear in the brief's single data_point. The brief's core_claim mentions '50% lower' in the angle section, but the data_points do not specify this number. The writer has imported the angle's narrative framing into the draft as a fact."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-11",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c120",
+    "headline": "Liquid Network resumes block production after $320M exploit",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports block production resumption as a completed event ('has resumed') but the brief provides no date or confirmation this occurred before today (2026-09-11). Cointelegraph's timestamp is 2026-09-10T16:38:16Z, meaning the article was published Sept 10. The draft should clarify whether resumption was Sept 10 or use future tense if timing is unclear from the source.",
+     "More critically: the draft states 'White hats returned 3,400 BTC from the breach' but the brief's data point says 'White hats returned 3,400 BTC from a $320 million withdrawal'\u2014the draft's phrasing misrepresents the source claim. The brief does not identify these actors as 'white hats' doing recovery work; it reports a withdrawal return. This is a material semantic shift that mischaracterizes the nature of the returned funds.",
+     "The statement 'The withdrawal of the recovered BTC and ongoing suspension of core operations leave the network in a partial state of operation' invents narrative detail not in the brief. The brief does not describe a 'withdrawal' of recovered funds; it reports white hats returned BTC and transactions/pegs remain suspended. This is conflation."
+    ]
+   },
+   {
+    "id": "c119",
+    "headline": "UK House of Lords Votes 194-138 to Require Treasury Digital Asset Strategy",
+    "category": "balance",
+    "reasons": [
+     "Brief contains no bear_case items, which is correct for a factual legislative vote. However, the draft's bottom_line raises open_questions about timeline, enforcement mechanisms, and Labour position\u2014questions that belong in the body or are better left unraised in a thin story. The real problem: the draft body is extremely thin (two sentences) and reads as a bare announcement rather than explaining significance. A story this short on a parliamentary amendment needs either more context (what prompted the amendment, which MPs backed it, what Labour's prior stance was) or shorter, tighter language. The 'institutional recognition' claim in sentence two is editorializing without evidence.",
+     "The second sentence ('The amendment's passage signals institutional recognition...') reprises the angle verbatim without adding reporting. The draft offers no reporting that explains what makes this vote news beyond the fact it happened and the vote margin."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "SEC Transfer-Agent Rule Overhaul Could Ease Tokenized Securities Record-Keeping",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The SEC proposed an overhaul of transfer-agent rules' as a present-tense completed action. The brief contains only one data point with confidence 'reported' that 'The SEC's new proposal aims to overhaul transfer-agent rules.' The CoinDesk source is dated 2026-09-10, which is yesterday (today is 2026-09-11). The phrasing 'proposed' (past tense, completed action) is appropriate for yesterday's news. However, the brief's open_questions include 'When is the proposal expected to be voted on or finalized?' which indicates the proposal may be announced but not yet formally proposed or the formal proposal date is unclear from the source. The draft treats this as a settled fact without the tentativeness the brief's sparse reporting warrants. Additionally, the draft introduces the claim that the change 'could reduce reconciliation costs and legal uncertainty' which appears in the data_point as 'The rule change would reduce reconciliation costs and legal uncertainty for tokenized securities' but no source URL differentiates this as reported separately. The CoinDesk headline itself ('why-a-new-sec-plan-could-end-the-legal-headaches') uses conditional language ('could'), but the draft's opening paragraph states it as near-certain ('designed to eliminate'). This overstates the brief's sourcing."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Researchers report 86% reduction in quantum-attack benchmark for Bitcoin, Ethereum",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims researchers achieved '86% improvement over a benchmark Google published in March 2026' and later restates '86% reduction describes the improvement in computational resources.' The brief's core_claim states the reduction is 'by 86% compared to Google's March 2026 result.' However, the draft also cites CoinDesk's headline from the sources list: 'crypto-researchers-cut-bitcoin-and-ethereum-quantum-attack-estimate-by-50'\u2014which indicates a 50% reduction, not 86%. The brief's data_point confirms only that 'humans and AI agents beating Google's March result' on a calculation, with no specific percentage stated in the brief itself. The 86% figure appears in the core_claim but the CoinDesk URL headline contradicts it (50%). This is a factual discrepancy between the brief's core_claim and the cited source headline. The draft cannot reconcile these. The brief is thin (one data point) and The Block's coverage is listed in 'also_reported_by' but no Block URL is in sources. The 86% vs 50% discrepancy means the draft either misread the brief or the brief contains an error; either way, the draft runs an unverified number that contradicts its own cited source's headline."
     ]
    }
   ]

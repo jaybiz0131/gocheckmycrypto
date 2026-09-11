@@ -1,0 +1,62 @@
+{
+  "id": "c130",
+  "slug": "us-seizes-xinbi-telegram-channels-restrains-52-8m-in-usdt-tied-to-24b-black-market",
+  "kind": "brief",
+  "title": "US seizes Xinbi Telegram channels, restrains $52.8M in USDT tied to $24B black market",
+  "dek": "The U.S. Treasury and Justice Department have seized Xinbi's Telegram channels and restrained $52.8 million in USDT as part of enforcement against a platform that processed over $24 billion in crypto and fiat for scam operations across Southeast Asia. Investigators identified 47 additional wallets linked to the laundering network.",
+  "date": "2026-09-11",
+  "published_utc": "2026-09-11T00:10:34Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "The DOJ seized Xinbi's Telegram command channels and restrained $52.8 million in USDT, targeting a platform that processed $24 billion for scam operations across Southeast Asia.",
+  "bottom_line": "The extent of criminal charges filed against Xinbi operators, the recovery of the outstanding 47 wallets, and whether international coordination with Southeast Asian authorities yields additional seizures will determine the long-term impact of this action on black-market crypto infrastructure.",
+  "human_take": "",
+  "body": [
+    "The U.S. Justice Department and Treasury Department have seized Xinbi's Telegram channels and restrained $52.8 million in USDT as part of an enforcement action against a platform that processed over $24 billion in cryptocurrency and fiat currency for scam operations across Southeast Asia, according to Cointelegraph.",
+    "Investigators seized two wallets directly and identified 47 additional wallets across Xinbi's alleged laundering network, per Cointelegraph. The action targets the social-media infrastructure and wallet ecosystem that enabled Xinbi to operate as a black-market exchange, reflecting an enforcement approach focused on dismantling command-and-control channels rather than pursuing individual transactions.",
+    "Xinbi supported scam operations across Southeast Asia using a platform architecture built around Telegram for coordination and cryptocurrency for cross-border settlement. The $24 billion in reported flows represents the aggregate value of transactions processed through the network, per the Treasury's assessment cited by Cointelegraph."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/news/us-sanctions-xinbi-restrains-52m-crypto",
+      "url": "https://cointelegraph.com/news/us-sanctions-xinbi-restrains-52m-crypto"
+    },
+    {
+      "title": "https://cointelegraph.com/news/us-sanctions-xinbi-restrains-52m-crypto?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/us-sanctions-xinbi-restrains-52m-crypto?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "update_of": "u-s-freezes-52-8m-in-usdt-tied-to-xinbi-guarantee-scam-marketplace",
+  "board_snapshot": {
+    "as_of": "2026-09-11T00:08:30Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76630.91,
+        "chg_24h_pct": -2.11
+      },
+      {
+        "symbol": "ETH",
+        "price": 2442.31,
+        "chg_24h_pct": -1.02
+      }
+    ],
+    "fng": {
+      "value": 56,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 9.6,
+      "open_interest_usd": 2242241880
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -102993276,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
