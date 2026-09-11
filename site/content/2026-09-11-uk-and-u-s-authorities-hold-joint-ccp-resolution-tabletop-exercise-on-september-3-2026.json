@@ -1,0 +1,65 @@
+{
+  "id": "c000",
+  "slug": "uk-and-u-s-authorities-hold-joint-ccp-resolution-tabletop-exercise-on-september-3-2026",
+  "kind": "brief",
+  "title": "UK and U.S. Authorities Hold Joint CCP Resolution Tabletop Exercise on September 3, 2026",
+  "dek": "Senior regulators from the CFTC, SEC, FDIC, Federal Reserve Board, and Bank of England conducted a tabletop exercise on September 3, 2026, to discuss hypothetical central counterparty resolution frameworks. The meeting is part of an ongoing series since 2017 focused on joint preparation for clearing-house failure scenarios.",
+  "date": "2026-09-11",
+  "published_utc": "2026-09-11T17:16:16Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 5,
+  "author": "Crypto Cronkite",
+  "key_fact": "Five major U.S. and UK financial regulators conducted a joint tabletop exercise on September 3, 2026, to test central counterparty resolution coordination, signaling active institutional preparation for systemic clearing-house failure.",
+  "bottom_line": "The regulators' ongoing tabletop exercises indicate active preparation for CCP failure scenarios, but the absence of disclosed operational changes or detailed findings makes it unclear whether new capabilities or policy shifts have emerged from this latest coordination round.",
+  "human_take": "",
+  "body": [
+    "Senior officials from the CFTC, SEC, FDIC, Federal Reserve Board, and Bank of England conducted a tabletop exercise on September 3, 2026, focused on hypothetical central counterparty (CCP) resolution scenarios. The meeting tested coordination mechanisms that would support financial stability in the event of a clearing-house failure.",
+    "Central counterparties, which stand between buyers and sellers to guarantee settlement, process trillions of dollars in derivative transactions daily. The tabletop exercise examined information-sharing protocols and communications arrangements that UK and U.S. authorities have developed to manage a potential CCP failure across borders.",
+    "According to the CFTC's press release, the September 3 meeting continued a regular series of senior-level convenings that began in 2017. Participants reviewed recent joint analytical work on CCP resolution and acknowledged the importance of maintaining dialogue between the two countries on this subject.",
+    "The SEC's readout noted that participants committed to continuing to share analyses and coordinate policy work relating to CCP resolution frameworks. No specific policy recommendations or changes emerged from the announcement.",
+    "The exercise did not disclose which clearing houses or failure scenarios were modeled, and neither the CFTC nor SEC statement detailed operational changes or new protocols implemented since the prior meeting in this coordination series."
+  ],
+  "sources": [
+    {
+      "title": "https://www.cftc.gov/PressRoom/PressReleases/9296-26",
+      "url": "https://www.cftc.gov/PressRoom/PressReleases/9296-26"
+    },
+    {
+      "title": "https://www.sec.gov/newsroom/press-releases/2026-87-joint-readout-principals-meeting-us-uk-authorities-regarding-central-counterparty-resolution",
+      "url": "https://www.sec.gov/newsroom/press-releases/2026-87-joint-readout-principals-meeting-us-uk-authorities-regarding-central-counterparty-resolution"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-11T17:14:12Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77795.39,
+        "chg_24h_pct": 1.62
+      },
+      {
+        "symbol": "ETH",
+        "price": 2573.85,
+        "chg_24h_pct": 5.59
+      }
+    ],
+    "fng": {
+      "value": 56,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 6.4,
+      "open_interest_usd": 2144367637
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -38436062,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "SEC Press Releases"
+  ],
+  "developing": false
+}

@@ -6,46 +6,6 @@
    {
     "id": "c007",
     "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
-    "category": "compliance",
-    "reasons": [
-     "The draft includes regulatory boundary information (affected, fixed, user_action) in the metadata, but boundary_ok is false with unresolved boundary_reasons. Per compliance rules, when boundary_required=true and boundary_ok=false, the draft cannot be approved until the boundary text is verified against the source advisory. The affected parties, effective date, and user action must appear verbatim in the source material before publication."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Bitcoin and Ether ETFs draw $1.1B in best weekly inflows since April",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The desk's ETF flows board showed Bitcoin ETFs attracted $5.1 million in net inflows on July 28' and 'Ether ETFs showed a divergent pattern on July 27, drawing $11.7 million in net inflows.' These specific dollar amounts, dates, and per-asset breakdowns do not appear in any data_point from the brief. The brief contains only aggregate weekly data ($1.1B combined); the daily figures and per-asset daily figures are SMUGGLED facts not sourced in the brief and must be removed or traced back to research."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Bitcoin fork BIP-110 mines two blocks in eight hours, stalls with 2.53% hashpower",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'The proposal required 55% of blocks to signal support over a two-week window to activate without splitting the network' is ambiguous and potentially misleading. The brief data point states '55% of blocks to signal support to activate without a split,' but the draft adds 'over a two-week window' as a constraint on the 55% threshold itself. The brief's separate data point clarifies 'BIP-110 nodes require all blocks to signal support over a two-week window running to block 963,647'\u2014meaning nodes require 100% signaling during that window, not 55%. The draft conflates two distinct rules and misrepresents the activation requirement.",
-     "Sentence 'With only 2.53% of hashpower behind it, the fork will not reach sufficient signaling depth to satisfy BIP-110 nodes' requirement that all blocks signal support during the window' correctly states the requirement but does not clarify that the 55% threshold was the pre-split activation rule (now irrelevant post-fork), while the current rule is 100% signaling\u2014a critical distinction the draft obscures by grouping them under a single remedial paragraph."
-    ]
-   },
-   {
-    "id": "c014",
-    "headline": "SPIKE: Source material unavailable",
-    "category": "accuracy",
-    "reasons": [
-     "The draft body itself is a meta-rejection statement, not a publishable news story. It reads as internal desk communication ('This story is rejected and returned to research') rather than reporting. The source document is confirmed unavailable (source_chars: 0), making all three data points unverifiable. No facts in the draft can be traced to source material because no source material exists. Per the hard rule 'no fact exists outside the brief,' and when the brief's sources are inaccessible, the draft cannot be approved for publication.",
-     "The draft violates the core protocol: it attempts to publish an explanation of why publication is impossible rather than either (a) publishing a story with verified facts, or (b) spiking silently and returning to research. Publishing a story that says 'this story cannot be verified' is not a valid output mode."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c007",
-    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
     "category": "accuracy",
     "reasons": [
      "Draft states 'The rule applies to transfers exceeding $10,000' but brief data_point specifies 'transfers exceeding the equivalent of $10,000, whether through a single transaction or several on the same day.' The draft omits the critical detail about aggregation across multiple daily transactions, which materially changes the threshold's practical effect and user exposure."
@@ -6891,6 +6851,40 @@
     "category": "accuracy",
     "reasons": [
      "The draft describes the pilot as establishing 'a working model for tokenized asset settlement on sovereign digital payment rails' and states 'India's $620 billion corporate bond market sits at the entry point of blockchain settlement via the RBI's wholesale CBDC.' These are interpretive claims not supported by the data_points in the brief. The brief confirms only that the pilot 'turns corporate bonds into digital tokens and settles payment through the RBI's wholesale digital rupee' and that secondary trading and retail access are 'expected in later phases.' The draft overstates the maturity and confirms the working status of the model beyond what the brief supports. Additionally, the brief contains no bear_case, and the draft narrative does not flag any operational or adoption risks despite the pilot being early-stage."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c041",
+    "headline": "Nasdaq Ventures Agrees to Invest $100 Million in Payward at $21 Billion Valuation",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Nasdaq Ventures agreed to invest $100 million' in opening and body as settled fact. Brief data_point 33 specifies 'The announcement describes an agreement to invest, not a completed transaction' with confidence 'reported'. The word 'agreed' obscures non-closure; the draft should clarify the investment has been announced but not yet closed, matching the brief's characterization.",
+     "Draft says 'Nasdaq's forward-looking disclosure labels both the investment benefits and Payward's adoption of the surveillance product as uncertain' but this paraphrase weakens the bear_case item that states these are 'not guarantees of future performance'\u2014the draft's phrasing could mislead readers into thinking the labels are mere boilerplate rather than a material disclosure of risk.",
+     "Draft reports 'The announced investment agreement has not yet closed' only in the final paragraph, after narrative has already established the deal as done ('agreed to invest'). This buries the non-closure in a competitor comparison paragraph rather than leading with it or integrating it into the opening claim."
+    ]
+   },
+   {
+    "id": "c118",
+    "headline": "U.S. Bank Completes Live Cross-Border Stablecoin Payment on Stellar",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'U.S. Bank, the sixth-largest U.S. bank by assets, completed a live cross-border payment using USBDC.' This claim does not appear in the research brief data_points. Brief data_point 1 states 'U.S. Bank completed a live cross-border payment between its North American and European entities using USBDC on Stellar'\u2014the brief does not include U.S. Bank's rank by assets. This is smuggled information not in the research base.",
+     "Draft reports 'U.S. Bank did not disclose the amount of money that moved in the pilot or clarify whether USBDC will be offered to clients.' This directly restates bear_case item 1 and 2 as unsourced narrative fact, violating the protocol that bear_case items must be presented either as quotes from named sources or flagged as such. The draft presents the absence of disclosure as a fact without attribution to The Defiant or any source.",
+     "Draft reports 'The bank did not provide details on what backs the token, where reserves sit, or whether the pilot will progress to production deployment'\u2014again directly lifting bear_case language into unattributed body text. These are editorial assessments of gaps, not reported facts."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "India Begins Tokenizing $620 Billion Corporate Bond Market With Digital Rupee Settlement",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'August 2026 consumer inflation data released today' but this is a CPI story misdated as c013 (India bond tokenization). The draft body does not match the brief at all\u2014it appears to be the c007 CPI story accidentally filed under c013. Every fact in the draft (CPI figures, Fed Chair Warsh, inflation data) is absent from the c013 brief, which concerns Indian corporate bond tokenization. The entire draft is off-topic and must be rejected."
     ]
    }
   ]
