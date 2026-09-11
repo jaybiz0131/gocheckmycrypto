@@ -1,0 +1,61 @@
+{
+  "id": "wrap-am-2026-09-11",
+  "slug": "morning-brief-2026-09-11",
+  "kind": "brief",
+  "title": "The Morning Brief: Inflation beats, Fed rate hike odds rise; institutions move onto exchanges",
+  "dek": "August core inflation topped expectations, pushing Fed rate-hike odds to 70% ahead of next week's meeting. Institutional buyers moved $115 million in bitcoin onto exchanges, even as traditional finance continues integrating crypto infrastructure.",
+  "date": "2026-09-11",
+  "published_utc": "2026-09-11T13:44:04Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Hotter-than-expected inflation data is the day's primary driver for crypto markets, raising near-term rate risk. Simultaneously, institutional adoption moves forward: U.S. Bank completed a live cross-border payment on Stellar, Nasdaq invested $100 million in Payward, and Fnality expanded beyond sterling. The cohort tells a story of simultaneous macro headwind and structural adoption.",
+  "bottom_line": "August core inflation beat expectations, raising Federal Reserve rate-hike odds to 70% ahead of the September 15-16 meeting and pressuring crypto valuations. Simultaneously, institutional adoption of tokenized settlement and stablecoins advanced: U.S. Bank completed a live cross-border payment on Stellar, Nasdaq invested $100 million in Payward at $21 billion, and Fnality expanded to euro and dollar systems. The desk's boards show $115 million in bitcoin moving onto exchanges today, reversing last week's outflow trend, with leverage remaining long-skewed on futures venues. Watch the FOMC decision on September 15-16 for rate action, and track whether institutional inflows resume next week or reverse further as rate expectations shift.",
+  "human_take": "",
+  "body": [
+    "Core inflation rose 0.3% month-over-month in August, beating consensus forecasts of 0.2%, according to the desk's reporting. The surprise has reset interest-rate expectations: traders now price in roughly a 70% chance of a 25-basis-point rate hike at the Federal Open Market Committee meeting on September 15-16. Bitcoin traded near $76,000 on the release before recovering slightly; on Friday the desk's boards show bitcoin at $76,630.91, down 2.11% on the day and 2.45% over the week, though up 19.89% on the month.",
+    "The inflation print matters because rates set the cost of capital globally and anchor the discount rates used to value assets with no cash flows, a category that includes crypto. A hotter-than-expected reading days before a policy meeting can lock in near-term action, especially when other data has also surprised to the upside. The desk's fear-greed index stands at 56, in greed territory, and the index has ranged from 29 to 74 over the past 30 days, signaling volatile sentiment.",
+    "Institutional infrastructure deployment continued in parallel. U.S. Bank completed a live cross-border payment between its North American and European entities using USBDC, a dollar-backed stablecoin the bank issued on the Stellar blockchain, per the desk's reporting. The transaction settled on-chain while remaining connected to U.S. Bank's core finance, risk, compliance and operations systems, with freezing and clawback capabilities intact. The bank has not disclosed whether USBDC will move beyond internal settlement to external client use, leaving open the path to broader adoption.",
+    "Nasdaq's venture arm invested $100 million in Payward, the parent company of crypto exchange Kraken, valuing the company at $21 billion. The deal extends a partnership struck in March to distribute tokenized Nasdaq-listed equities on Kraken's platform, with voting rights intact. Nasdaq plans to launch its own token in Q2 2027. Fnality, a tokenized settlement platform, expanded its supervisory board to include Jon Cunliffe, former Bank of England deputy governor, as it prepares to launch euro and US dollar systems alongside its existing sterling platform.",
+    "Revolut began rolling out EURR, a euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal, with Bridge Building S.A. (a Stripe company) serving as the regulated issuer under the EU's Markets in Crypto-Assets framework. Supply remains limited: EURR stood at approximately \u20ac374 million, far below EURC's \u20ac394.5 million, per the desk's reporting.",
+    "On enforcement, the U.S. Justice Department and Treasury Department seized Xinbi's Telegram channels and restrained $52.8 million in USDT as part of action against a platform that processed over $24 billion for scam operations across Southeast Asia. Investigators identified 47 additional wallets in the laundering network.",
+    "A technical failure in Nomic's forwarding system left Osmosis facing a collateral impairment: a double-spend flaw created 39.84 BTC of unbacked allBTC tokens, leaving 36.03% of allBTC's backing in question. Osmosis froze 22.65 BTC and paused minting and redemption pending a governance vote to confiscate frozen funds and restore parity, with no announced timeline for the vote.",
+    "The desk's boards show the market down 1.67% on the day and holding steady above its 200-day moving average. Bitcoin dominance stands at 58.4%. On the leverage side, BTC open interest at OKX sits at $2.2 billion with a long-short ratio of 1.52 and positive funding at 0.0033% per 8-hour window (3.6% annualized), suggesting leverage remains long-skewed. Over the past 24 hours, 100 BTC liquidations occurred, with longs liquidated for $495,358 and shorts for $322,294.",
+    "The desk's Whale Watch board shows $114.98 million in bitcoin moving onto exchanges over the past 24 hours, with the largest flows into Coinbase institutional ($89.6 million) and Coinbase ($76.5 million).",
+    "BTC ETF flows turned negative on September 10 with a $282.7 million outflow, reversing three days of inflows; over the past five sessions, flows remain net positive at $455.9 million, according to the desk's boards. ETH ETF flows similarly show a $29.9 million outflow on the day against net inflows of $147.8 million over five sessions. The windows disagree for both assets, with institutional buying strong on the week but absent today."
+  ],
+  "sources": [
+    {
+      "title": "Ex-BoE deputy governor chairs Fnality supervisory board as platform expands to euro and dollar",
+      "url": "/articles/ex-boe-deputy-governor-chairs-fnality-supervisory-board-as-platform-expands-to-euro-and-dollar.html"
+    },
+    {
+      "title": "Nasdaq Invests $100 Million in Kraken Parent Payward at $21 Billion Valuation (September 10)",
+      "url": "/articles/nasdaq-invests-100-million-in-kraken-parent-payward-at-21-billion-valuation-september-10.html"
+    },
+    {
+      "title": "Osmosis freezes 22.65 BTC after Nomic forwarding bug compromises Bitcoin reserves",
+      "url": "/articles/osmosis-freezes-22-65-btc-after-nomic-forwarding-bug-compromises-bitcoin-reserves.html"
+    },
+    {
+      "title": "Polymarket Names Former Amazon Finance Chief Warren Jenson as First CFO",
+      "url": "/articles/polymarket-names-former-amazon-finance-chief-warren-jenson-as-first-cfo.html"
+    },
+    {
+      "title": "U.S. Bank Completes Live Cross-Border Payment on Stellar Using USBDC Stablecoin",
+      "url": "/articles/u-s-bank-completes-live-cross-border-payment-on-stellar-using-usbdc-stablecoin.html"
+    },
+    {
+      "title": "Core inflation beat forecast in August; Fed rate hike odds rise to roughly 70% ahead of September 15-16 meeting",
+      "url": "/articles/core-inflation-beat-forecast-in-august-fed-rate-hike-odds-rise-to-roughly-70-ahead-of-september-15-16-meeting.html"
+    },
+    {
+      "title": "Revolut Launches Euro Stablecoin EURR in Three EU Markets With Bridge as Issuer",
+      "url": "/articles/revolut-launches-euro-stablecoin-eurr-in-three-eu-markets-with-bridge-as-issuer.html"
+    },
+    {
+      "title": "US seizes Xinbi Telegram channels, restrains $52.8M in USDT tied to $24B black market",
+      "url": "/articles/us-seizes-xinbi-telegram-channels-restrains-52-8m-in-usdt-tied-to-24b-black-market.html"
+    }
+  ]
+}

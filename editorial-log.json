@@ -1,39 +1,6 @@
 [
  {
   "date": "2026-08-09",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c006",
-    "headline": "Brazil's central bank orders exchanges to delay large crypto transfers abroad",
-    "category": "compliance",
-    "reasons": [
-     "The brief indicates boundary_ok is false with specific reasons that the affected and fixed fields do not appear verbatim in the source. The draft was flagged as boundary_required=true but boundary_ok=false, meaning the story crosses a regulatory/advisory threshold and the specific language could not be verified in the source. This is a compliance failure: the desk cannot publish a story with unverified regulatory boundaries when the brief explicitly flags the mismatch."
-    ]
-   },
-   {
-    "id": "c005",
-    "headline": "Russian Hardware Wallet Retail Sales Surge Ahead of September Cryptocurrency Rules",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Beginning July 1, 2027, Russian law will bar withdrawals from regulated digital depositories to personal wallets. After that date, all crypto transactions must route through regulated entities, and banks must refuse to process transactions outside that framework.' The brief data_point says 'Russian law bars withdrawals from Russian digital depositories to personal wallets, with a transition period running until July 1, 2027.' The draft inverts the timeline: the law bars withdrawals until (not after) July 1, 2027. The withdrawal restrictions end on that date, not begin. This is a material factual error about the regulatory timeline.",
-     "Draft also states the framework 'retaining the existing ban on domestic crypto payments' but the brief data_point says the framework 'retains the ban on domestic crypto payments'\u2014this phrasing correctly tracks the brief. However, the inverted July 1 date is a separate and critical accuracy failure that undermines the core regulatory narrative."
-    ]
-   },
-   {
-    "id": "c009",
-    "headline": "Brazil imposes 24-hour hold on crypto transfers above $10,000, effective January 1, 2027",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Brazilian authorities framed the measure as a fraud prevention control' but no such framing or statement from Brazilian authorities appears in the brief's data_points. The brief's angle attributes this framing to the writer's interpretation, not to reported statements from authorities.",
-     "The draft states 'The rule applies uniformly to all crypto assets and does not exempt stablecoins, per The Block's reporting' but the brief's data_points do not include a source statement that explicitly confirms non-exemption; only that stablecoins are covered. This reads as smuggled specificity.",
-     "The brief is marked thin=true with only 2 data_points and zero source_chars, yet the draft presents multiple unconfirmed details as fact: 'applies uniformly to all crypto assets,' 'covers all cryptocurrencies including fiat-backed stablecoins' (stated twice, reinforcing false certainty). The brief's open_questions section lists these same details as unconfirmed, and the draft's third paragraph correctly flags them as unconfirmed\u2014but the first two paragraphs present them as settled, violating the single-source rule."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
   "approved": 4,
   "rejected": [
    {
@@ -6891,6 +6858,39 @@
     "category": "accuracy",
     "reasons": [
      "The draft claims researchers achieved '86% improvement over a benchmark Google published in March 2026' and later restates '86% reduction describes the improvement in computational resources.' The brief's core_claim states the reduction is 'by 86% compared to Google's March 2026 result.' However, the draft also cites CoinDesk's headline from the sources list: 'crypto-researchers-cut-bitcoin-and-ethereum-quantum-attack-estimate-by-50'\u2014which indicates a 50% reduction, not 86%. The brief's data_point confirms only that 'humans and AI agents beating Google's March result' on a calculation, with no specific percentage stated in the brief itself. The 86% figure appears in the core_claim but the CoinDesk URL headline contradicts it (50%). This is a factual discrepancy between the brief's core_claim and the cited source headline. The draft cannot reconcile these. The brief is thin (one data point) and The Block's coverage is listed in 'also_reported_by' but no Block URL is in sources. The 86% vs 50% discrepancy means the draft either misread the brief or the brief contains an error; either way, the draft runs an unverified number that contradicts its own cited source's headline."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-11",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c038",
+    "headline": "Nasdaq invests $100 million in Payward at $21 billion valuation; extends tokenized-equities partnership",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Kraken became the first crypto firm granted access to the Federal Reserve's core payments system in March, according to Decrypt's reporting' but then proceeds to treat this historical fact (March 2026) as settled evidence in the present. This claim appears in the brief's data_points and is sourced to Decrypt, which is appropriate. However, the placement and framing in the draft\u2014in the penultimate paragraph after discussing future launch timelines\u2014creates an ambiguous temporal context. The bigger accuracy issue is that the draft cites 'Decrypt's reporting' inline but Decrypt is listed as one of three sources at the foot of the article. No link to a separate Decrypt article about Kraken's Fed access is provided, and the brief does not mark this as 'announced-not-verified' or explain what the original Decrypt source said. The confidence label in the brief is 'reported,' which is appropriate, but the inline attribution 'according to Decrypt's reporting' without a URL or date makes the claim traceable only to the brief itself, not to an independent Decrypt article that readers can verify. This is a sourcing gap: the desk's rule is that facts go back to research. If Decrypt reported this separately, the desk needs a URL to that report, not an attribution to Decrypt's 'reporting' in general.",
+     "The draft claims 'Nasdaq must give members at least 30 calendar days' notice before trading begins,' which is in the brief. However, the draft does not note that this is a regulatory requirement, not a Nasdaq choice, and the brief does not clarify whether this 30-day notice is mandatory, a Nasdaq policy, or a timeline the companies expect to follow. The brief's corresponding data_point is marked 'reported,' suggesting it comes from the source material, but the brief does not indicate whether this is a rule the SEC imposed, a Nasdaq commitment, or an industry standard. Without clarity on the nature of this requirement, readers may misunderstand whether the notice is a regulatory hurdle or a procedural step.",
+     "The draft states that the companies 'expect to launch Nasdaq Equity Tokens, or NETs, in the second quarter of 2027,' but the brief's corresponding data_point says 'The companies expect to launch NETs in the second quarter of 2027, the back end of the H1 2027 window Nasdaq gave in March.' The draft omits the qualifying language 'the back end of the H1 2027 window,' which provides important context: Q2 2027 is the later end of a previously stated range, not a newly announced target. This omission softens the uncertainty around timing.",
+     "The draft does not mention that Nasdaq's official release does not disclose a valuation, the size of the stake, or governance rights. The brief flags this as a data_point: 'Nasdaq's release does not disclose a valuation, the size of the stake, whether the $100 million buys newly issued or existing shares, or any governance rights.' The draft cites the $21 billion valuation attributed to Bloomberg, which is correct, but fails to note that Nasdaq itself has not confirmed this figure. This is a material distinction: the story rests on Nasdaq's investment, but Nasdaq has not officially disclosed the valuation. The draft should flag that the $21 billion figure comes from Bloomberg, not Nasdaq's own disclosure."
+    ]
+   },
+   {
+    "id": "c128",
+    "headline": "UK House of Lords Passes Digital Asset Strategy Amendment 194-138 (September 10)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the vote 'proceeded against the Labour government's stated position' but the brief does not provide evidence of Labour's stated position on this amendment. The brief notes 'Labour government's resistance' and 'Why did Labour oppose the amendment and what is their stated position on crypto/DLT infrastructure?' is an open question in the brief. The draft asserts a fact (Labour's stated opposition) that is not confirmed in the research brief."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "India Tokenizes Corporate Bonds on Digital Rupee in SEBI Pilot (September 11)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft describes the pilot as establishing 'a working model for tokenized asset settlement on sovereign digital payment rails' and states 'India's $620 billion corporate bond market sits at the entry point of blockchain settlement via the RBI's wholesale CBDC.' These are interpretive claims not supported by the data_points in the brief. The brief confirms only that the pilot 'turns corporate bonds into digital tokens and settles payment through the RBI's wholesale digital rupee' and that secondary trading and retail access are 'expected in later phases.' The draft overstates the maturity and confirms the working status of the model beyond what the brief supports. Additionally, the brief contains no bear_case, and the draft narrative does not flag any operational or adoption risks despite the pilot being early-stage."
     ]
    }
   ]
