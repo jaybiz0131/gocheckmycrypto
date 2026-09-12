@@ -1,0 +1,60 @@
+{
+  "id": "c082",
+  "slug": "sec-crypto-custody-rule-enters-white-house-review-october-nprm-targeted",
+  "kind": "brief",
+  "title": "SEC Crypto Custody Rule Enters White House Review; October NPRM Targeted",
+  "dek": "The SEC's proposed rewrite of custody rules for investment advisers and investment companies, designed to clarify how these entities can custody crypto assets, entered White House review on August 25, 2026. The agency targets October 2026 for a notice of proposed rulemaking. The new rule replaces a 2023 safeguarding proposal the SEC withdrew in June 2025.",
+  "date": "2026-09-12",
+  "published_utc": "2026-09-12T13:45:25Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "SEC custody rule rewrite entered White House review August 25, 2026, targeting October 2026 for NPRM; no proposed text is publicly available.",
+  "bottom_line": "The October 2026 NPRM date is a target with no legal deadline, creating risk of further delay. The key determinant of institutional adoption will be which existing provisions the SEC removes and which custodian protections survive the rewrite; these details remain unavailable pending public release of the proposed text.",
+  "human_take": "",
+  "body": [
+    "The SEC's proposed rewrite of custody rules for investment advisers and investment companies, designed to clarify how these entities can custody crypto assets, entered White House review on August 25, 2026, according to The Defiant's reporting. The 2026 SEC regulatory agenda says the planned rule would clarify how investment advisers and investment companies can custody crypto assets under Commission requirements.",
+    "The current adviser custody rule covers client funds and securities and generally requires a qualified custodian to maintain them in separate client accounts or accounts held by an adviser as agent or trustee. The new agenda covers both investment adviser client assets and investment-company fund assets and says the SEC intends to remove burdens from provisions it considers outdated.",
+    "White House review entry RIN 3235-AN46, \"Amendments to the Custody Rules,\" is listed at the proposed-rule stage with an August 25, 2026 date on the Office of Information and Regulatory Affairs (OIRA) current-review data, per The Defiant. The SEC agenda identifies this RIN as an SEC action under the Investment Advisers Act and Investment Company Act. The current agenda targets October 2026 for a notice of proposed rulemaking and lists no legal deadline.",
+    "No proposed rule text is currently public. The OIRA entry and SEC agenda provide descriptions only, not the draft's provisions.",
+    "The earlier safeguarding proposal, issued in February 2023 under a different regulatory identifier, would have retained qualified custodians while broadening the adviser rule beyond funds and securities to all client assets, including crypto. The earlier proposal also included protections intended to segregate client assets and protect them if a custodian became insolvent, alongside updated recordkeeping requirements. The SEC formally withdrew the 2023 safeguarding proposal in June 2025 and said any future regulatory action in the area would require a new proposed rule.",
+    "A 2025 White House order says agencies must continue following Executive Order 12866 processes for submitting regulations to OIRA for review."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/regulation/sec-crypto-custody-rewrite-enters-white-house-review",
+      "url": "https://thedefiant.io/converge/regulation/sec-crypto-custody-rewrite-enters-white-house-review"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-12T13:43:24Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77282.21,
+        "chg_24h_pct": 0.1
+      },
+      {
+        "symbol": "ETH",
+        "price": 2539.16,
+        "chg_24h_pct": 0.97
+      }
+    ],
+    "fng": {
+      "value": 63,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 2.2,
+      "open_interest_usd": 2116858152
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -226996468,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

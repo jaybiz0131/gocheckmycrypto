@@ -1,0 +1,56 @@
+{
+  "id": "wrap-am-2026-09-12",
+  "slug": "morning-brief-2026-09-12",
+  "kind": "brief",
+  "title": "The Morning Brief: Fed rate decision looms as inflation beats; Senate votes on Clarity Act",
+  "dek": "A stronger-than-expected August inflation print has pushed Fed rate-hike odds to roughly 70% ahead of the September 15-16 policy meeting, while the Senate schedules a procedural vote on the revised Clarity Act for the same day. Overseas, regulators are moving: the UK House of Lords backed a digital-assets strategy, India launched a tokenized bond pilot, and European banks are racing into regulated crypto services.",
+  "date": "2026-09-12",
+  "published_utc": "2026-09-12T13:55:15Z",
+  "category": "daily edition",
+  "rank": -1,
+  "author": "Crypto Cronkite",
+  "key_fact": "Two major U.S. policy decisions converge on September 15: the Fed's rate path and the Senate's first procedural test of crypto legislation. Inflation data and leverage positioning suggest markets are bracing for tighter monetary conditions, while offshore regulators are cementing institutional frameworks faster than U.S. Congress is acting.",
+  "bottom_line": "The desk reported Friday that core inflation beat consensus and pushed Fed rate-hike odds to roughly 70% ahead of the September 15-16 meeting, tightening the near-term rate backdrop just as the Senate schedules a procedural vote on the revised Clarity Act for the same day. ETH ETF inflows resumed on Friday after outflows earlier in the week, while the desk's Whale Watch board shows $827 million in bitcoin moving onto exchanges this week, the largest weekly inflow since late August. Two policy checkpoints now converge on September 15: the Fed's rate decision and the Senate's first procedural test of crypto legislation. The SEC's custody-rule rewrite targets October 2026 for proposed-rulemaking release, and the UK FCA crypto framework is set to take effect October 25, 2027. What to watch: whether the Senate cloture vote reaches 60, whether the Fed raises rates as markets now expect, and whether Osmosis's proposed reserve-filling mechanism recovers funds from the Nomic breach.",
+  "human_take": "",
+  "body": [
+    "On Friday, August core consumer prices climbed 0.3% month-over-month, topping consensus expectations of 0.2%, and traders immediately repriced rate bets. Per the reporting, markets now price in roughly a 70% chance of a 25-basis-point rate hike at the September 15-16 Federal Open Market Committee meeting. As the desk reported, the August inflation data matters because rates drive the cost of borrowing globally and anchor the discount rates investors use to value crypto and other assets with no cash flow.",
+    "That same day, Senate Republicans released a revised 630-page Clarity Act, scheduled for a procedural cloture vote on September 15 at 2:15 p.m. The vote requires 60 votes to proceed to floor debate. Republicans hold 53 seats; if all vote to proceed, seven Democratic votes are needed to reach 60. According to the reporting, the revised text tightens definitions around decentralized finance and clarifies credit-union digital-asset activity, incorporating more than 114 separate provisions at Democrats' request. The changes target three areas: requiring non-decentralized protocols to register with the CFTC, limiting DeFi provisions to spot and cash transactions in response to Native American concerns about prediction markets, and clarifying which digital-asset activities credit unions may conduct. The outcome of the September 15 cloture vote will determine whether the bill advances to debate; if it passes, floor amendments and final passage votes follow.",
+    "Overseas, regulation is consolidating faster. The UK House of Lords voted 194 to 138 on Friday to approve an amendment requiring the Treasury to develop a mandatory national strategy covering cryptoassets, stablecoins, tokenized securities, and digital financial infrastructure. The amendment arrives as the UK's Financial Conduct Authority has finalized its own regulatory framework for cryptoassets, set to take effect on October 25, 2027. Italy's second-largest bank UniCredit is selecting a technology provider to build infrastructure for cryptocurrency custody, trading, and tokenized investment offerings, positioning itself among a cohort of major European banks racing to launch regulated crypto services under the EU's Markets in Crypto-Assets Regulation. India's Securities and Exchange Board deployed Demat 2.0, a live pilot program issuing $107 million in tokenized corporate bonds settled via wholesale CBDC and distributed ledger technology, marking a sovereign regulator's first institutional-scale deployment of tokenized securities on blockchain-based infrastructure.",
+    "On the security front, Osmosis discovered a 40-BTC solvency breach only after the Nomic protocol halted operations, 74 days after the exploit occurred on June 25. Per the reporting, an attacker minted 40.650602 BTC of nBTC on Osmosis with no Bitcoin backing it, leaving 36% of Osmosis allBTC reserves unbacked. Two separate bugs on the Nomic chain combined to enable the false transaction; the Osmosis and IBC protocols themselves were not compromised. The SEC's proposed rewrite of custody rules for investment advisers and investment companies entered White House review on August 25, 2026, targeting October 2026 for a notice of proposed rulemaking. The new rule clarifies how these entities can custody crypto assets and replaces a 2023 safeguarding proposal the SEC withdrew in June 2025.",
+    "On the tape, leverage and flows paint a mixed picture. The desk's boards show bitcoin up 0.1% on the day but down 0.0% on the week, while up 23.0% on the month. Ethereum is up 1.0% on the day and up 6.2% on the week and up 36.5% on the month. On Friday, BTC ETF flows recorded an outflow of $13.2 million, continuing a four-day net outflow streak; the last five sessions show a net outflow of $288.1 million. The desk's Whale Watch board shows $226.996 million in bitcoin moving onto exchanges over the last 24 hours, with the largest single transactions sending $164.9 million in bitcoin to Coinbase and $108.1 million to Coinbase Institutional. This follows a pattern: the week ending September 5 saw $494 million in bitcoin move off exchanges, but the week ending September 12 has reversed to $827 million moving onto exchanges. On OKX, BTC long liquidations totaled $2.26 million over the last 20 hours, while short liquidations reached $157,352, indicating heavy long positioning under pressure. ETH on OKX shows an inverse pattern: $193,565 in short liquidations over the last 5 hours, with zero long liquidations, suggesting shorts are being squeezed."
+  ],
+  "sources": [
+    {
+      "title": "Core inflation beat forecast in August; Fed rate hike odds rise to roughly 70% ahead of September 15-16 meeting",
+      "url": "/articles/core-inflation-beat-forecast-in-august-fed-rate-hike-odds-rise-to-roughly-70-ahead-of-september-15-16-meeting.html"
+    },
+    {
+      "title": "Senate Republicans unveil revised Clarity Act on September 10, with cloture vote set for September 15",
+      "url": "/articles/senate-republicans-unveil-revised-clarity-act-on-september-10-with-cloture-vote-set-for-september-15.html"
+    },
+    {
+      "title": "UK and U.S. Authorities Hold Joint CCP Resolution Tabletop Exercise on September 3, 2026",
+      "url": "/articles/uk-and-u-s-authorities-hold-joint-ccp-resolution-tabletop-exercise-on-september-3-2026.html"
+    },
+    {
+      "title": "UK House of Lords backs digital assets strategy on September 11",
+      "url": "/articles/uk-house-of-lords-backs-digital-assets-strategy-on-september-11.html"
+    },
+    {
+      "title": "UniCredit Selecting Technology Partner for Crypto Custody, Trading, Tokenized Products",
+      "url": "/articles/unicredit-selecting-technology-partner-for-crypto-custody-trading-tokenized-products.html"
+    },
+    {
+      "title": "India's SEBI Launches Tokenized Bond Pilot with $107 Million in Issuance",
+      "url": "/articles/india-s-sebi-launches-tokenized-bond-pilot-with-107-million-in-issuance.html"
+    },
+    {
+      "title": "Osmosis discovered 40-BTC Nomic exploit after 74-day delay",
+      "url": "/articles/osmosis-discovered-40-btc-nomic-exploit-after-74-day-delay.html"
+    },
+    {
+      "title": "SEC Crypto Custody Rule Enters White House Review; October NPRM Targeted",
+      "url": "/articles/sec-crypto-custody-rule-enters-white-house-review-october-nprm-targeted.html"
+    }
+  ]
+}

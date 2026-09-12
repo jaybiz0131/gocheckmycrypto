@@ -1,36 +1,6 @@
 [
  {
   "date": "2026-08-09",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c007",
-    "headline": "Brazil's central bank orders crypto exchanges to delay transfers over $10,000",
-    "category": "compliance",
-    "reasons": [
-     "boundary_ok is false; the draft flags that 'affected' and 'fixed' boundary fields do not appear verbatim in the advisory URL, yet the draft is submitted with boundary_required=true and boundary_ok=false. Per compliance rules, a story requiring boundary verification that fails that verification must not be approved for publication. The desk cannot publish a regulatory boundary piece without confirmed source text."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Bitcoin fork BIP-110 mines two blocks in eight hours, then stalls on inherited difficulty",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'The fork's slow block production rate makes this deadline unreachable, effectively killing the attempt,' but the brief's open_questions include 'Will any other mining pools or operators continue to mine BIP-110 blocks, or will the chain remain dormant indefinitely?' This is not a concluded fact in the brief but an open question; the draft presents it as settled when the reporting source does not."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "Russian Hardware Wallet Sales Surge Ahead of September Regulatory Deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The brief marks boundary_required=true and boundary_ok=false, indicating this story depends on a version, date range, or threshold that lacks a boundary block in the brief. The draft cites specific dates (September 1, 2026; July 1, 2027; July 30, 2026) and specific financial figures ($116 million Coldcard loss) without boundary confirmation in the source material. The brief's own boundary_reasons flag 'this story turns on a version, date range or threshold but the brief carries no boundary block'\u2014this is a structural liability the draft has inherited and amplified by committing to precise dates and loss figures."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
   "approved": 3,
   "rejected": [
    {
@@ -6871,6 +6841,20 @@
     "reasons": [
      "The brief's bear_case explicitly flags that the CoinDesk source text is minimal and does not contain the specific core CPI figures, forecast miss, or Fed rate-hike probability in fetched source_text itself. The brief marks the source as thin (thin=true) with only 853 source_chars and notes that http_status is null, indicating the full article was not retrieved. The draft presents the 0.3% print, 0.2% forecast, and 70% rate-hike odds as direct reportage ('according to CoinDesk reporting') when the brief documents that these claims appear in the headline and metadata but are not present in the actual source text that was available for verification.",
      "The brief's open_questions state: 'The CoinDesk article URL did not return a full source text (http_status is null); confirmation of the 0.3% print, 0.2% forecast, and 70% rate-hike odds probability should come from a primary source or fuller reporting.' The draft does not reflect this verification gap and instead attributes these core numerical claims directly to CoinDesk as though they were confirmed in the article body."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-12",
+  "approved": 9,
+  "rejected": [
+   {
+    "id": "c034",
+    "headline": "UniCredit Selecting Crypto Custody Provider (September 11)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'according to Bloomberg reporting cited by Bitcoin Magazine on September 11' but the brief's data_point says the reporting 'cites people familiar with the matter via Bloomberg on Friday.' The brief's source_url and timestamp (2026-09-11) indicate Bitcoin Magazine published on September 11, but the brief does not confirm that Bloomberg itself reported this story independently. The draft presents Bloomberg as the primary source when the brief only indicates it was cited secondhand by Bitcoin Magazine. This overstates the sourcing chain."
     ]
    }
   ]

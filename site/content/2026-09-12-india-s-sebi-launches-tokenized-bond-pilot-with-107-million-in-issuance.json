@@ -1,0 +1,63 @@
+{
+  "id": "c018",
+  "slug": "india-s-sebi-launches-tokenized-bond-pilot-with-107-million-in-issuance",
+  "kind": "brief",
+  "title": "India's SEBI Launches Tokenized Bond Pilot with $107 Million in Issuance",
+  "dek": "India's securities regulator deployed the Demat 2.0 pilot, issuing $107 million in tokenized corporate bonds settled via wholesale CBDC and smart contracts on a distributed ledger. The program marks a major sovereign regulator's first live deployment of tokenized securities at institutional scale.",
+  "date": "2026-09-12",
+  "published_utc": "2026-09-12T13:45:25Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "$107 million in tokenized corporate bonds issued through SEBI's Demat 2.0 pilot, settled using India's wholesale CBDC and distributed ledger technology.",
+  "bottom_line": "The outcome to watch is whether the $107 million issuance sustains momentum into Q4 2026 or remains a one-time pilot exercise. The key test: does a second round of issuance occur, and do international regulators cite this model as precedent for their own institutional tokenization frameworks.",
+  "human_take": "",
+  "body": [
+    "India's Securities and Exchange Board (SEBI) has deployed Demat 2.0, a live pilot program for tokenized corporate bonds, with $107 million in issuance already recorded. According to Cointelegraph's reporting, settlement occurs via wholesale CBDC and distributed ledger technology, with smart contracts automating the bond servicing and clearing process.",
+    "The pilot represents a sovereign regulator's first institutional-scale deployment of tokenized securities on a blockchain-based infrastructure. Rather than pilot-only testing on sandboxed networks, Demat 2.0 has moved to live issuance and settlement, using India's own wholesale CBDC as the settlement currency and distributed ledger technology as the rails.",
+    "Smart contracts handle settlement and service of the bonds on the DLT platform, according to Cointelegraph. The use of a nation's CBDC for settlement distinguishes this from prior tokenized-bond experiments in other jurisdictions, which have relied on traditional payment systems or cryptocurrency settlement layers.",
+    "The program name, Demat 2.0, signals an upgrade to India's existing Dematerialized Securities (Demat) account infrastructure, the decades-old system for holding shares and bonds in electronic form. The tokenization addition extends that infrastructure into blockchain-native asset issuance and clearing."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/regulation/2026-09-11-indias-sebi-demat-2-0-pilot-debuts-with-over-100-million-in-tokenized-bonds-414252",
+      "url": "https://www.theblock.co/news/regulation/2026-09-11-indias-sebi-demat-2-0-pilot-debuts-with-over-100-million-in-tokenized-bonds-414252"
+    },
+    {
+      "title": "https://cointelegraph.com/news/india-launches-tokenized-bond-pilot-with-107m-issued",
+      "url": "https://cointelegraph.com/news/india-launches-tokenized-bond-pilot-with-107m-issued"
+    }
+  ],
+  "update_of": "coinbase-launches-tokenized-stocks-on-base-network-starting-with-apple-nvidia-meta-alphabet",
+  "board_snapshot": {
+    "as_of": "2026-09-12T13:43:24Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77282.21,
+        "chg_24h_pct": 0.1
+      },
+      {
+        "symbol": "ETH",
+        "price": 2539.16,
+        "chg_24h_pct": 0.97
+      }
+    ],
+    "fng": {
+      "value": 63,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 2.2,
+      "open_interest_usd": 2116858152
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -226996468,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
