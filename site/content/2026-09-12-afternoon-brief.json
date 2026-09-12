@@ -1,0 +1,62 @@
+{
+  "id": "wrap-md-2026-09-12",
+  "slug": "afternoon-brief-2026-09-12",
+  "kind": "brief",
+  "title": "The Afternoon Brief: Fed decision and Senate vote collide on September 15",
+  "dek": "Saturday's markets are pricing a 70% chance of a Fed rate hike on September 15-16, the same day the Senate votes to advance the revised Clarity Act. Bitcoin has recovered to $77,120 after Friday's CPI shock, while whales are moving substantial BTC onto exchanges. Regulatory progress accelerates globally: India deployed a $107 million tokenized bond pilot, the UK House of Lords backed a digital-assets strategy, and European banks are racing to launch regulated crypto services under MiCA.",
+  "date": "2026-09-12",
+  "published_utc": "2026-09-12T19:25:10Z",
+  "category": "daily edition",
+  "rank": -2,
+  "author": "Crypto Cronkite",
+  "key_fact": "Two major policy decisions converge on September 15: the Fed's rate call and the Senate's first procedural test of crypto legislation, with markets now pricing in rate increases and traders watching whether seven Democratic votes materialize for the Clarity Act's cloture threshold.",
+  "bottom_line": "The desk reported Friday that core inflation beat consensus, pushing Fed rate-hike odds to roughly 70% for the September 15-16 meeting, and that the Senate scheduled a cloture vote on the Clarity Act for the same day. Two policy checkpoints now converge on September 15: the Fed's rate decision and the Senate's procedural test of crypto legislation, with Democratic votes holding the legislative outcome. The SEC's custody-rule rewrite targets October 2026 for proposed-rulemaking release, the UK FCA framework is set for October 25, 2027, and Osmosis's reserve-filling mechanism remains untested against the $40 million breach discovered this week.",
+  "human_take": "",
+  "body": [
+    "Two policy votes collide this week. On September 15-16, the Federal Open Market Committee meets with markets now pricing roughly a 70% chance of a 25-basis-point rate hike, per CME's FedWatch tool cited in the desk's reporting. The same day, the Senate schedules a cloture vote at 2:15 p.m. on the revised Clarity Act, requiring 60 votes to proceed to debate. Republicans hold 53 seats, meaning seven Democratic votes are necessary if all Republicans support the motion.",
+    "The inflation trigger came Friday when core CPI rose 0.3% month-over-month in August, beating consensus expectations of 0.2%, as the desk reported. Headline CPI matched forecasts at 0.4%, with gasoline accounting for more than a third of the headline gain.",
+    "On the legislative front, Senate Republicans unveiled a revised 630-page Clarity Act on September 10, tightening DeFi registration requirements and limiting DeFi provisions to spot and cash transactions. Senator Cynthia Lummis said the changes reflect \"bipartisan hard work over August\" and incorporate more than 114 separate provisions at Democrats' request, targeting credit-union digital-asset activity, requiring non-decentralized protocols to register with the Commodity Futures Trading Commission, and restricting DeFi to spot and cash transactions in response to Native American concerns about prediction markets. The bill still faces Democratic skepticism on ethics and illicit-finance provisions, with the seven uncommitted votes holding the procedural outcome.",
+    "Overseas, regulatory momentum is accelerating. India's Securities and Exchange Board deployed Demat 2.0 on Saturday, issuing $107 million in tokenized corporate bonds settled via wholesale CBDC and distributed ledger technology, a sovereign regulator's first institutional-scale deployment of tokenized securities at live scale, not in a sandbox. The UK House of Lords voted 194 to 138 on September 11 to approve an amendment requiring the Treasury to develop a mandatory national strategy covering cryptoassets, stablecoins, tokenized securities, and digital financial infrastructure. The amendment must still clear the House of Commons to take effect. Meanwhile, UniCredit, Italy's second-largest bank, is selecting a technology provider to build infrastructure for cryptocurrency custody, trading, and tokenized investment offerings, aligning with similar moves across European banks operating under the EU's MiCA regulatory framework.",
+    "Security gaps emerged in the Cosmos ecosystem. Osmosis discovered a solvency breach affecting 40.650602 BTC of nBTC only after the Nomic protocol halted, revealing that an attacker exploited bugs in Nomic's custom forwarding mechanism on June 25 to mint BTC with no backing. Osmosis did not detect the exploit until 74 days later, leaving 36% of its allBTC reserves unbacked. Two separate bugs on the Nomic chain combined to enable the false transaction; the Osmosis and IBC protocols themselves were not compromised, per the reporting.",
+    "The SEC's proposed rewrite of custody rules for investment advisers and investment companies, designed to clarify how these entities can custody crypto assets, entered White House review on August 25 and targets October 2026 for a notice of proposed rulemaking. The XRP Ledger activated the fixCleanup3_3_0 amendment on September 11 at 11:29 UTC with 88.57% validator consensus, bundling maintenance fixes for transaction handling, automated market makers, Checks, and other protocol features into mandatory network rules. Node operators must upgrade to xrpld 3.3.0 or later to avoid amendment blocking.",
+    "The desk's Whale Watch board shows $173.4 million in bitcoin moving onto exchanges over the last 24 hours, with $164.9 million flowing to Coinbase alone. Weekly data reveal a sharp reversal: after the week ending September 5 saw $494 million move off exchanges, the week ending September 12 has $827 million moving onto exchanges, the largest weekly inflow since the week ending August 22. Bitcoin is down 0.1% on the day and down 0.2% on the week, but up 22.8% on the month; Ethereum is up 0.2% on the day, up 5.4% on the week, and up 35.5% on the month. The desk's Fear & Greed index stands at 63 on Saturday, in Greed territory, and total stablecoin supply is $310.2 billion, up 1.31% over 30 days."
+  ],
+  "sources": [
+    {
+      "title": "Core inflation beat forecast in August; Fed rate hike odds rise to roughly 70% ahead of September 15-16 meeting",
+      "url": "/articles/core-inflation-beat-forecast-in-august-fed-rate-hike-odds-rise-to-roughly-70-ahead-of-september-15-16-meeting.html"
+    },
+    {
+      "title": "Senate Republicans unveil revised Clarity Act on September 10, with cloture vote set for September 15",
+      "url": "/articles/senate-republicans-unveil-revised-clarity-act-on-september-10-with-cloture-vote-set-for-september-15.html"
+    },
+    {
+      "title": "UK and U.S. Authorities Hold Joint CCP Resolution Tabletop Exercise on September 3, 2026",
+      "url": "/articles/uk-and-u-s-authorities-hold-joint-ccp-resolution-tabletop-exercise-on-september-3-2026.html"
+    },
+    {
+      "title": "UK House of Lords backs digital assets strategy on September 11",
+      "url": "/articles/uk-house-of-lords-backs-digital-assets-strategy-on-september-11.html"
+    },
+    {
+      "title": "UniCredit Selecting Technology Partner for Crypto Custody, Trading, Tokenized Products",
+      "url": "/articles/unicredit-selecting-technology-partner-for-crypto-custody-trading-tokenized-products.html"
+    },
+    {
+      "title": "India's SEBI Launches Tokenized Bond Pilot with $107 Million in Issuance",
+      "url": "/articles/india-s-sebi-launches-tokenized-bond-pilot-with-107-million-in-issuance.html"
+    },
+    {
+      "title": "Osmosis discovered 40-BTC Nomic exploit after 74-day delay",
+      "url": "/articles/osmosis-discovered-40-btc-nomic-exploit-after-74-day-delay.html"
+    },
+    {
+      "title": "SEC Crypto Custody Rule Enters White House Review; October NPRM Targeted",
+      "url": "/articles/sec-crypto-custody-rule-enters-white-house-review-october-nprm-targeted.html"
+    },
+    {
+      "title": "XRP Ledger Activates fixCleanup3_3_0 Amendment on September 11",
+      "url": "/articles/xrp-ledger-activates-fixcleanup3-3-0-amendment-on-september-11.html"
+    }
+  ]
+}

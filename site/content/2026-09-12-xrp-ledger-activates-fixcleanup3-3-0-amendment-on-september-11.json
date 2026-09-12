@@ -1,0 +1,65 @@
+{
+  "id": "c104",
+  "slug": "xrp-ledger-activates-fixcleanup3-3-0-amendment-on-september-11",
+  "kind": "brief",
+  "title": "XRP Ledger Activates fixCleanup3_3_0 Amendment on September 11",
+  "dek": "The XRP Ledger activated the fixCleanup3_3_0 amendment on September 11, 2026 at 11:29 UTC, bundling maintenance fixes for transaction handling, automated market makers, Checks, and other protocol features into mandatory network consensus rules. Node operators and custodians must upgrade to xrpld 3.3.0 or later or face amendment blocking, which prevents ledger validation, transaction submission, and consensus participation.",
+  "date": "2026-09-12",
+  "published_utc": "2026-09-12T19:15:36Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "fixCleanup3_3_0 went live with 88.57% validator consensus (31 of 35 validations) at ledger 106,911,489, making immediate software upgrades mandatory for all network participants.",
+  "bottom_line": "Node operators running XRP Ledger infrastructure must verify they are on xrpld 3.3.0 or later to avoid amendment blocking. The fix enables future features but does not activate them; watch whether BatchV1_1 and PermissionDelegationV1_1 reach majority consensus in the coming weeks.",
+  "human_take": "",
+  "body": [
+    "The XRP Ledger activated the fixCleanup3_3_0 amendment on September 11, 2026 at 11:29 UTC in validated ledger 106,911,489, according to CryptoSlate. The amendment bundles maintenance corrections affecting Checks, automated market makers, pseudo-accounts, permissioned trading, Single Asset Vaults, and infrastructure for the Lending Protocol into mandatory network consensus rules.",
+    "The update reached 88.57% validator consensus, with 31 of 35 validations supporting the amendment against a threshold of 28, per CryptoSlate. Code supporting fixCleanup3_3_0 has been available since xrpld 3.3.0 was released August 6.",
+    "The fixes address specific edge cases in transaction handling. CheckCash and CheckCancel now reject an all-zero CheckID during preflight with a temMALFORMED error, CryptoSlate reports. A narrow divide-by-zero condition involving AMMWithdraw returns tecAMM_FAILED instead of tefEXCEPTION, according to the same source.",
+    "Once an amendment activates, servers that do not support it become amendment blocked, unable to determine whether ledgers are valid, submit or process transactions, or participate in consensus, per XRPL documentation cited by CryptoSlate. Restoring those functions requires software that supports the active amendment. The project recommends operators use the latest appropriate xrpld release.",
+    "The activation does not mean all features bundled with version 3.3.0 are now live. Separate amendments covering LendingProtocol, SingleAssetVault, BatchV1_1, ConfidentialTransfer, DynamicMPT, PermissionDelegationV1_1, and Sponsor remained disabled on September 12. U.Today reports the Lending Protocol will receive a v1.1 update in XRPL 3.4.0 next week, improving aspects of Lending v1.0. Lending and Single Asset Vault will see regular updates and evolve as dynamic features gaining functionality over time, U.Today adds.",
+    "Other amendments in flight are approaching thresholds. BatchV1_1, which allows multiple transactions to be bundled and processed together, has gained 71.43% support and is nearing the 80% majority threshold, per U.Today. The amendment replaces Batch, fixing a critical bug in the original implementation. PermissionDelegationV1_1, allowing accounts to delegate permissions to others, has secured 51.43% support and passed an independent security review by Cantina Security and the XRPL quality assurance test suite, U.Today reports."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/xrp-ledger-just-quietly-activated-critical-foundation-for-its-upcoming-new-lending-protocol/",
+      "url": "https://cryptoslate.com/xrp-ledger-just-quietly-activated-critical-foundation-for-its-upcoming-new-lending-protocol/"
+    },
+    {
+      "title": "https://u.today/xrp-ledger-upgraded-new-fix-amendment-strengthens-protocol",
+      "url": "https://u.today/xrp-ledger-upgraded-new-fix-amendment-strengthens-protocol"
+    }
+  ],
+  "update_of": "uk-house-of-lords-backs-digital-assets-strategy-on-september-11",
+  "board_snapshot": {
+    "as_of": "2026-09-12T19:13:35Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77119.82,
+        "chg_24h_pct": -0.11
+      },
+      {
+        "symbol": "ETH",
+        "price": 2520.67,
+        "chg_24h_pct": 0.23
+      }
+    ],
+    "fng": {
+      "value": 63,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2120444113
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -173412829,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
