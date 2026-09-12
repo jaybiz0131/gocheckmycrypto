@@ -2006,6 +2006,86 @@ def home_schema():
             + json.dumps({"@context": "https://schema.org", "@graph": [org, site]},
                          ensure_ascii=False) + "</script>")
 
+# EVERGREEN PICKS (newsroom work order 2026-09-12). The homepage linked the newest
+# stories and the editions; nothing linked the desk's best work, so an article's only
+# inbound link was a related-stories slot on a page nobody crawls either. This is the
+# curated set: 25 articles linked directly from the front door with their own headlines as
+# anchor text.
+#
+# "Best" is scored from what the desk already records rather than invented, because this
+# desk has no quality score and making one up is how a ranking starts lying. Four signals,
+# all of them proxies for SEARCH SHELF-LIFE, which is the thing the work order actually
+# asks for:
+#   - sources: a story checked against four sources outlives one checked against one
+#   - depth: body length, which separates a real piece from a two-paragraph recap
+#   - lineage: a story other stories update is a running subject, not a result
+#   - subject: rulemaking, enforcement, exploits and explainers keep being searched;
+#     a daily price move is searched that afternoon and never again
+# A pure recap is demoted hard, which is the whole point: those are the pages that decay.
+_EVERGREEN_SUBJECT = re.compile(
+    r"\b(regulat\w*|\bsec\b|\bcftc\b|lawsuit|sue[sd]?|court|ruling|settle\w*|fine[sd]?|"
+    r"clarity act|legislation|\bbill\b|rulemaking|licence|license|charter|custod\w*|"
+    r"\betf\b|approv\w*|listing|delist\w*|halving|upgrade|fork|exploit|hack\w*|breach|"
+    r"stablecoin|reserve\w*|audit|tokeniz\w*|how to|what is|explain\w*|guide|"
+    r"framework|compliance|sanction\w*)\b", re.I)
+
+
+def evergreen_picks(items, n=25):
+    live = [i for i in items
+            if not i.get("example") and not i.get("superseded_by") and not _is_wrap(i)]
+    scored = []
+    for it in live:
+        body = it.get("body") or []
+        words = sum(len(str(b).split()) for b in body)
+        srcs = len(it.get("sources") or [])
+        blob = " ".join([it.get("title") or "", it.get("dek") or "", it.get("key_fact") or ""])
+        tags = set(tags_for(it))
+        score = 0.0
+        score += min(srcs, 5) * 2.0                      # corroboration, capped
+        score += min(words / 250.0, 4.0)                 # depth, capped
+        if it.get("continued_by") or it.get("update_of"):
+            score += 3.0                                 # a running subject
+        if _EVERGREEN_SUBJECT.search(blob):
+            score += 4.0                                 # searched for months
+        if words < 200:
+            score -= 6.0                                 # a wire-length price note
+        scored.append((score, it.get("published_utc") or "", it))
+    scored.sort(key=lambda t: (-t[0], t[1]), reverse=False)
+    # One per subject line, so the module does not spend six of its slots on one saga.
+    picked, seen = [], set()
+    for _sc, _when, it in scored:
+        # This desk has no _subject_words (it never needed the supersede floor), so the
+        # de-duplication uses a local split: 4+ letter title words minus the ones every
+        # crypto headline carries, which would otherwise collapse unrelated stories.
+        _generic = {"crypto", "bitcoin", "market", "price", "after", "amid", "with",
+                    "from", "over", "into", "says", "report", "reports", "first",
+                    "billion", "million", "week", "year", "launch", "launches"}
+        key = frozenset(w for w in re.findall(r"[a-z]{4,}", (it.get("title") or "").lower())
+                        if w not in _generic)
+        if any(len(key & k) >= 2 for k in seen):
+            continue
+        seen.add(key)
+        picked.append(it)
+        if len(picked) >= n:
+            break
+    return picked
+
+
+def evergreen_block(items):
+    picks = evergreen_picks(items)
+    if len(picks) < 6:
+        return ""
+    lis = "".join(
+        f'<li><a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title"))}</a></li>'
+        for i in picks)
+    return (f'<section class="evergreen"><div class="sec-head"><h2>Stories worth keeping</h2>'
+            f'<span class="bar"></span></div>'
+            f'<p class="lede" style="margin:0 0 12px">The reporting that holds up after the '
+            f'news cycle moves on: contracts and lawsuits, broadcast and ownership changes, '
+            f'and the rulings that decide seasons.</p>'
+            f'<ul class="eg-list">{lis}</ul></section>')
+
+
 def render_home(items, flows, pulse, cm, dateline):
     """The GoCheckMyCrypto front door, built for the RETURNING reader: live markets strip,
     today's headlines, the storylines the desk is tracking, then the four desks. The brand
@@ -2211,6 +2291,7 @@ def render_home(items, flows, pulse, cm, dateline):
     # The Bottom Line lives in the hero square beside the lead (owner call 2026-07-16);
     # the standalone band below is retired on home. /bottom-line.html keeps the history.
     body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
+  {evergreen_block(items)}
   <h1 class="sr-only">{esc(FAMILY)}: crypto news and market data, checked</h1>
   {desk_html}
   {editions_html}
@@ -4794,8 +4875,14 @@ def build():
     # priority: the pages a reader starts from (boards, learn, editorial), the
     # evergreen coverage hubs, then the newest N stories
     hub_locs = [f"/coverage/{sl}.html" for sl, _nm, _st in hubs]
-    prio = locs + hub_locs + [f"/articles/{i['slug']}.html" for i in arts_sorted[:PRIORITY_N]]
-    older = arts_sorted[PRIORITY_N:]
+    # Best, not newest: the same evergreen ranking the homepage links, so the file Google
+    # is asked to read whole and the front door agree on what matters. This desk was pruned
+    # from 419 pages to 194 and still shows 47 crawled-not-indexed; pushing the newest 30
+    # at it was refilling the queue the prune was meant to clear.
+    _ev = {i.get("slug") for i in evergreen_picks(arts_sorted, PRIORITY_N)}
+    _prio_arts = [i for i in arts_sorted if i.get("slug") in _ev]
+    prio = locs + hub_locs + [f"/articles/{i['slug']}.html" for i in _prio_arts]
+    older = [i for i in arts_sorted if i.get("slug") not in _ev]
     archive_arts = [i for i in older if _within_days(i, 60)]
     n_aged = len(older) - len(archive_arts)
     archive = [f"/articles/{i['slug']}.html" for i in archive_arts]
