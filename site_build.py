@@ -1125,20 +1125,17 @@ def market_strip(pulse=None):
 
 
 def newsletter():
-    return f"""<section class="news" aria-label="Get the brief"><div class="wrap">
-  <h2>Get the brief</h2>
-  <p>The day's real crypto news, de-shilled and fact-checked, with the honest take. No hype,
-     no moon calls. One email, on a cadence we can actually keep.</p>
-  <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="company" action="/thanks.html">
-    <input type="hidden" name="form-name" value="newsletter">
-    <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
-    <button type="submit">Subscribe</button>
-  </form>
-  <p class="fine">Emails are stored by Netlify Forms, delivered to our company inbox, and used
-     only to send the newsletter. Never sold, never shared. Unsubscribe anytime. See our
-     <a href="/privacy.html">privacy policy</a>. Not financial advice.</p>
-</div></section>"""
+    """NO EMAIL CAPTURE (family law, reaffirmed by directive v2 2026-09-12).
+
+    The desk collected addresses through Netlify Forms for a newsletter that was
+    never launched, which means it held personal data it had no use for and no
+    schedule to justify. The markup is gone rather than hidden: a form that is
+    display:none still posts if a crawler or a script reaches it.
+
+    Returns empty so every historical call site is a no-op. If a newsletter is
+    ever deliberately approved, rebuild this from the approval, not from here.
+    """
+    return ""
 
 
 def trust_block():
@@ -1977,7 +1974,7 @@ def render_news(items, dateline, pulse=None):
     # the ticker and desk strip are secondary chrome; the news itself is the main landmark
     body = (market_strip(pulse) + desk_strip() + '<main class="news-main">' + lead_html + grid
             + _news_beats(live) + _news_threads(live)
-            + trust_block() + flow_teaser() + newsletter() + '</main>')
+            + trust_block() + flow_teaser() + '</main>')
     return shell(f"Crypto news by beat and storyline - {NAME}",
                  "Every story the desk has published, grouped by beat and by the "
                  "storylines it follows, with what each beat covers and how the desk "
@@ -2302,7 +2299,7 @@ def render_home(items, flows, pulse, cm, dateline):
      flows, live dashboards that teach you what they mean, and a wizard who reads the tape.
      No hype, no paid promotion, and never financial advice. Everything here is free; every
      number comes with an explanation in plain language.</p>
-</section></main>""" + newsletter()
+</section></main>"""
     return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "Home", body, dateline, path="/", schema_extra=home_schema())
 
 
@@ -3390,6 +3387,38 @@ def mp_hero():
 # as current. Age is measured at BUILD time (the moment of publication), which is also when
 # the generators run, so a healthy deploy stamps an age of roughly zero.
 BOARD_FRESH_HOURS = 12  # the promise: three daily briefs plus the noon rebuild
+
+
+BOARD_ALARM_HOURS = 24     # see _board_age_alarm; deliberately above routine carry-forward
+
+
+def _board_age_alarm(pulse):
+    """Tell the desk, loudly, when the Board has stopped refreshing. See the call site."""
+    import datetime as _dt
+    ts = ((pulse or {}).get("generated_utc") or "").strip()
+    if not ts:
+        print("::error::board: pulse.json carries no generated_utc, so its age cannot be "
+              "checked at all. The Board may be showing anything.")
+        return
+    try:
+        gen = _dt.datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_dt.timezone.utc)
+    except ValueError:
+        print(f"::error::board: pulse.json generated_utc is unparseable ({ts!r}); the "
+              f"Board's age cannot be checked.")
+        return
+    age = (_dt.datetime.now(_dt.timezone.utc) - gen).total_seconds() / 3600
+    carried = (pulse or {}).get("carried_forward") or []
+    if age > BOARD_ALARM_HOURS:
+        print(f"::error::board: the Board is {age:.0f}h old (generated {ts}), past the "
+              f"{BOARD_ALARM_HOURS}h alarm. Routine CoinGecko rate-limiting carries a "
+              f"section forward for hours, not a day, so this means a source has stopped "
+              f"answering. Sections carried: {carried or 'none'}. The page is already "
+              f"showing its stale banner to readers.")
+    elif carried:
+        print(f"board: {age:.1f}h old, section(s) carried forward: {carried} "
+              f"(normal; alarm at {BOARD_ALARM_HOURS}h)")
+    else:
+        print(f"board: fresh, {age:.1f}h old")
 
 
 def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
@@ -4740,6 +4769,20 @@ def build():
 
     flows = load_flows()
     pulse = load_pulse()
+    # THE BOARD IS ON THE FAIL-LOUD BELT (directive v2, 2026-09-12). data_stamp already
+    # tells the READER when the board is old, and it does that honestly: an explicit
+    # "Stale data" banner with the real age. What was missing was telling the DESK, so a
+    # board could sit stale for days with only the page admitting it.
+    #
+    # 24 hours, not 12. Measured across Aug 28 to Sep 12: CoinGecko rate-limits the assets
+    # section on roughly a third of builds, the section carries forward, and the board
+    # legitimately ships data 5 to 18 hours old with an honest stamp. A 12-hour alarm would
+    # fire on normal operation and be ignored inside a week; 24 hours cannot be reached by
+    # routine carry-forward and means something is actually stuck.
+    #
+    # An ::error:: annotation, not a build failure. A dead price feed must not stop the
+    # desk publishing journalism, and the board already degrades visibly on its own.
+    _board_age_alarm(pulse)
     cm = load_chartmaster()
     w("index.html", render_home(items, flows, pulse, cm, dateline))
     w("news.html", render_news(items, dateline, pulse=pulse))
@@ -4929,7 +4972,11 @@ def build():
     redirects = "".join(f"/articles/{old}.html  /articles/{new}.html  301\n"
                         f"/articles/{old}  /articles/{new}  301\n"
                         for old, new in sorted(RETIRED_ARTICLES.items()))
-    w("_redirects", rss_alias + redirects + "/*  /404.html  404\n")
+    # /market-pulse was the Board's old path and now 404s; anything still linking it
+    # (directive v2, 2026-09-12) should land on the Board rather than an error page.
+    board_alias = ("/market-pulse      /pulse  301\n"
+                   "/market-pulse.html /pulse  301\n")
+    w("_redirects", rss_alias + board_alias + redirects + "/*  /404.html  404\n")
     # THE EDITION (owner spec 2026-08-03): the composed front replaces the Latest tab
     # at its own URL, and every edition day is preserved as a back issue under
     # /edition/. Rendering layer only; ranking and content come from the items as
