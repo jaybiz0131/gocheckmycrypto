@@ -7,8 +7,11 @@
 name: Publicist (LinkedIn)
 
 on:
-  schedule:
-    - cron: "30 13 * * 2,4"   # Tue + Thu, 13:30 UTC = 9:30am Eastern (brand cadence, not firehose)
+    # DISABLED per strategy (2026-07-21): LinkedIn is currently the government-sales
+    # channel; the desk must not post there. Schedule removed; manual dispatch kept
+    # for the day this is re-enabled on explicit direction. Sports was disabled at the
+    # time; this desk was missed and kept firing until D1 (2026-09-13).
+    # - cron: "30 13 * * 2,4"
   workflow_dispatch: {}
 
 # PUBLISH LOCK, SHARED WITH THE BRIEF (owner report 2026-08-19): this
