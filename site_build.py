@@ -2249,7 +2249,7 @@ def board_tiles(pulse, flows, deltas):
 
     vol = (flows or {}).get("volatile") or {}
     wnet = vol.get("net_usd")
-    if isinstance(wnet, (int, float)) and not (flows or {}).get("example"):
+    if isinstance(wnet, (int, float)) and _flows_have_data(flows):
         onto = wnet < 0
         out.append({
             "key": "whales", "label": "Whale flows", "phone": True,
@@ -2341,12 +2341,34 @@ def board_tile_grid(tiles, learn_href):
     return f'<div class="bd-tiles">{"".join(cards)}</div>'
 
 
+def _flows_have_data(flows):
+    """Does the whale feed have a reading, or a window it could not fill?
+
+    THE FAKE-ZERO RULE (CLAUDE.md P3, "never a fake zero"). On the 01:06Z build
+    flows.json came back with by_asset [] and inflow, outflow and net all 0, and
+    every surface bound to it published that as fact: a "$0" Whale flows tile
+    reading "off exchanges", and a Since yesterday row saying exchange balances
+    fell by -$0. Neither is true. Nothing was measured. A day with genuinely no
+    qualifying transfer would still carry per-asset rows, so an empty by_asset
+    with zeroed totals is an ABSENT reading, and every whale surface omits itself
+    rather than print a zero it did not observe.
+    """
+    if not flows or flows.get("example"):
+        return False
+    if flows.get("by_asset"):
+        return True
+    vol = flows.get("volatile") or {}
+    return bool((vol.get("inflow_usd") or 0) or (vol.get("outflow_usd") or 0))
+
+
 def _bd_ww_chart(flows):
     """Artboard 1 module 6: diverging bars, one row per asset, centre axis.
     Rows come from whatever `by_asset` actually holds. The mockup draws four
     (BTC, ETH, USDT, SOL); the live feed some days carries one. Drawing the
     missing three at zero would be a picture of data we do not have, so the
     chart draws the rows that exist and the caption says how many."""
+    if not _flows_have_data(flows):
+        return ""
     rows = [r for r in ((flows or {}).get("by_asset") or [])
             if isinstance(r.get("inflow_usd"), (int, float))
             or isinstance(r.get("outflow_usd"), (int, float))]
@@ -2403,7 +2425,7 @@ def _bd_since_rows(tiles, deltas, pulse, flows):
                          f"{fd['prev']:g} to {now_v:g}", "up" if pts > 0 else "down", abs(pts)))
     vol = (flows or {}).get("volatile") or {}
     wnet = vol.get("net_usd")
-    if isinstance(wnet, (int, float)) and not (flows or {}).get("example"):
+    if isinstance(wnet, (int, float)) and _flows_have_data(flows):
         onto = wnet < 0
         rows.append((f"Exchange balances {'rose' if onto else 'fell'}",
                      f"{'+' if onto else '-'}{fmt_usd(abs(wnet))}",
@@ -2472,7 +2494,7 @@ def _bd_brief_card(ed):
             f'</div></div>')
 
 
-def _bd_edition_card(items, tiles, ed, span_full=False):
+def _bd_edition_card(items, tiles, ed, flows_for_edition=None, span_full=False):
     """The Evening Edition card. Its list is built from the Edition's own data:
     real tile count, real story count for today, real correction count. A row whose
     number cannot be counted is left out rather than guessed."""
@@ -2483,7 +2505,8 @@ def _bd_edition_card(items, tiles, ed, span_full=False):
     rows = [("The Board at the close", f"{len(tiles)} tiles")]
     if todays:
         rows.append(("Checked stories", f"{len(todays)} today"))
-    rows.append(("Whale Watch, 24h", "1 chart"))
+    if _flows_have_data(flows_for_edition):
+        rows.append(("Whale Watch, 24h", "1 chart"))
     corr = sum(1 for i in live if i.get("corrected"))
     rows.append(("Corrections, if any", f"{corr}" if corr else "none"))
     kv = "".join(f'<div class="bd-kv"><span>{esc(k)}</span>'
@@ -2577,26 +2600,38 @@ _LEARN_TILE = {"cold-storage": "Custody", "crypto-tax": "Tax",
                "onchain-flows": "Whale flows", "counterfeit-devices": "Custody"}
 
 
-def _bd_learn_cards(n=4):
-    """Module 8. Until C2 ships there are no per-tile explainer pages, so this renders
-    the explainers that actually exist rather than four links to pages that do not.
-    C2 replaces the source list; the markup does not change."""
-    import explainers as _ex
-    picks = [e for e in (_ex.EXPLAINERS or []) if e.get("status") == "published"][:n]
+def _bd_learn_cards(tiles, n=4):
+    """Module 8. Four of the eight TILE explainers, in Board order.
+
+    This module's heading is "Every tile has a plain-language explainer", and until
+    C2 shipped there were no tile explainers, so it rendered the four standing guides
+    instead: cold storage, tax, on-chain flows, counterfeit devices. None of those is
+    a Board tile, so the heading and the cards contradicted each other on the live
+    page. Now that C2 exists the cards are tile explainers and the two agree. The
+    guides still have their own tier on /learn.
+
+    Ordered by the tiles actually on the Board today, so a tile the feed dropped does
+    not send a reader to an explainer for a number the page is not showing.
+    """
+    by_tile = {e.get("board_tile"): e for e in load_explainers()}
+    picks = []
+    for t in tiles:
+        ex = by_tile.get(next((k for k, v in _TILE_KEY.items() if v == t.get("key")), None))
+        if ex:
+            picks.append((t["label"], ex))
+        if len(picks) >= n:
+            break
     if not picks:
         return ""
-    out = []
-    for e in picks:
-        slug = e.get("slug") or ""
-        mins = _learn_read_min(slug)
-        out.append(
-            f'<a class="bd-card" href="/{esc(slug)}.html" style="text-decoration:none">'
-            f'<span class="bd-label">{esc(_LEARN_TILE.get(slug, "Explainer"))}</span>'
-            f'<span class="bd-h3">{esc(e.get("title") or "")}</span>'
-            f'<span class="bd-read">{esc(e.get("blurb") or "")}</span>'
-            + (f'<span class="bd-stamp">{mins} min read</span>' if mins else "")
-            + '</a>')
-    return f'<div class="bd-cards4">{"".join(out)}</div>'
+    cards = "".join(
+        f'<a class="bd-card" href="/learn/{esc(ex["slug"])}.html" style="text-decoration:none">'
+        f'<span class="bd-label">{esc(label)}</span>'
+        f'<span class="bd-h3">{esc(ex.get("title") or "")}</span>'
+        f'<span class="bd-read">{esc(ex.get("meta_description") or "")}</span>'
+        + (f'<span class="bd-stamp">{esc(ex["read_time"])} read</span>'
+           if ex.get("read_time") else "") + '</a>'
+        for label, ex in picks)
+    return f'<div class="bd-cards4">{cards}</div>'
 
 
 def _ledger_url():
@@ -2842,6 +2877,12 @@ RECORD_LANES = [
     ("exchanges-and-security", "Exchanges and security", ("exchanges", "security"), True),
     ("stablecoins", "Stablecoins", ("stablecoins",), False),
     ("network-and-mining", "Network and mining", ("protocols", "bitcoin"), False),
+    # Added for C4 under the one-taxonomy rule: /news storylines and the Record use
+    # the SAME lanes with the same names. Both clear the five-story floor on tags the
+    # desk already applies, measured on live content: defi 10, markets plus macro 18,
+    # counting only stories no earlier lane claimed.
+    ("defi", "DeFi", ("defi",), False),
+    ("markets-and-macro", "Markets and macro", ("markets", "macro"), False),
 ]
 
 # Slugs whose pages are standing explainers rather than dated reporting. Used only for
@@ -3009,6 +3050,219 @@ def render_record(items, dateline):
                  "receipts behind it.", "", body, dateline, path="/record.html")
 
 
+# ---- C4: the news hub ---------------------------------------------------------
+# /news.html was a flat dump of every live story. It is now the Record tier, then
+# one section per storyline, then a month archive, with a paginated page per
+# storyline behind it.
+#
+# ONE TAXONOMY. The storylines here are RECORD_LANES: the same lanes, the same
+# names, the same tag rules the Record uses. There is no second Tracking-only
+# classification to drift out of sync with the first.
+#
+# REACHABILITY, which is the whole point of the rebuild. Every live story is
+# reachable at a click depth of three or less from the front page:
+#   home -> /news -> /news/<lane> -> /news/<lane>/page/N   (a lane's stories)
+#   home -> /news -> /news/archive/YYYY-MM                 (anything unclaimed)
+# and no page renders with fewer than NEWS_MIN_STORIES entries.
+NEWS_PER_SECTION = 6      # stories shown inline per storyline on the hub
+NEWS_PER_PAGE = 24        # stories per paginated storyline page
+NEWS_MIN_STORIES = 5      # a lane below this is not given a page (no thin pages)
+NEWS_RECENT_DAYS = 60     # a lane whose newest story is older than this is "past"
+
+
+def _news_lane_index(items):
+    """Every live story bucketed into its lane, newest first. First lane in
+    RECORD_LANES order claims a story, so nothing is double counted."""
+    live = [i for i in (items or [])
+            if not i.get("example") and not _is_wrap(i) and not i.get("superseded_by")]
+    live.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
+    claimed, lanes = set(), []
+    for slug, name, tags, _home in RECORD_LANES:
+        want = set(tags)
+        got = []
+        for i in live:
+            if i.get("slug") in claimed:
+                continue
+            if want & set(tags_for(i)):
+                got.append(i)
+                claimed.add(i.get("slug"))
+        lanes.append({"slug": slug, "name": name, "items": got})
+    rest = [i for i in live if i.get("slug") not in claimed]
+    # Newest first: the hub is ordered by which storyline moved most recently.
+    lanes.sort(key=lambda L: (L["items"][0].get("published_utc") or "") if L["items"] else "",
+               reverse=True)
+    return lanes, rest, live
+
+
+def _news_row(i):
+    tags = tags_for(i)
+    return (f'<div class="nh-row"><a class="nh-t" href="/articles/{esc(i["slug"])}.html">'
+            f'{esc(i.get("title") or "")}</a>'
+            f'<span class="nh-m">{verdict_badge(i.get("verdict"), i)}'
+            f'<span class="bd-stamp">{esc(fmt_when(i))}</span>'
+            + (f'<span class="bd-stamp">{esc(tags[0])}</span>' if tags else "")
+            + '</span></div>')
+
+
+def _news_month_archive(live):
+    """Month buckets, newest first. Every story has a month, so this is the floor
+    under reachability: a story its lane never showed is still one click from here."""
+    by = {}
+    for i in live:
+        m = (i.get("published_utc") or "")[:7]
+        if len(m) == 7:
+            by.setdefault(m, []).append(i)
+    return dict(sorted(by.items(), reverse=True))
+
+
+def _news_month_label(m):
+    """"September 2026" from "2026-09". fmt_date returns a full day stamp, and
+    slicing three characters off it produced "September 1, 2"."""
+    import datetime as _dt
+    try:
+        return _dt.date(int(m[:4]), int(m[5:7]), 1).strftime("%B %Y")
+    except Exception:
+        return m
+
+
+def _news_jsonld(url, name, desc, rows, crumbs):
+    """CollectionPage + ItemList + BreadcrumbList, as specified."""
+    items = [{"@type": "ListItem", "position": n,
+              "url": f"{ORIGIN}/articles/{i['slug']}.html",
+              "name": (i.get("title") or "")[:110]}
+             for n, i in enumerate(rows[:30], start=1)]
+    crumb = [{"@type": "ListItem", "position": n, "name": nm,
+              "item": f"{ORIGIN}{href}"} for n, (nm, href) in enumerate(crumbs, start=1)]
+    # shell() injects schema_extra into the head verbatim, so it carries its own
+    # script tag; returning bare JSON put nothing on the page at all.
+    return '\n<script type="application/ld+json">' + json.dumps({
+        "@context": "https://schema.org", "@type": "CollectionPage",
+        "url": f"{ORIGIN}{url}", "name": name, "description": desc,
+        "isPartOf": {"@type": "WebSite", "name": FAMILY, "url": ORIGIN},
+        "breadcrumb": {"@type": "BreadcrumbList", "itemListElement": crumb},
+        "mainEntity": {"@type": "ItemList", "numberOfItems": len(rows),
+                       "itemListElement": items},
+    }, separators=(",", ":")) + "</script>"
+
+
+def _news_section(lane, past=False):
+    rows = lane["items"]
+    if not rows:
+        return ""
+    shown = rows[:NEWS_PER_SECTION]
+    more = ""
+    if len(rows) >= NEWS_MIN_STORIES and len(rows) > len(shown):
+        more = (f'<a class="bd-more" href="/news/{esc(lane["slug"])}.html">'
+                f'All {len(rows)} in {esc(lane["name"].lower())}</a>')
+    newest = fmt_when(rows[0]) if rows else ""
+    return (f'<section class="bd-mod" id="{esc(lane["slug"])}">'
+            f'<div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">{esc(lane["name"])}</span>'
+            f'<span class="bd-stamp">{len(rows)} stories'
+            f'{", newest " + esc(newest) if newest and not past else ""}</span>'
+            f'</div>{more}</div>'
+            f'<div class="nh-rows">{"".join(_news_row(i) for i in shown)}</div></section>')
+
+
+def render_news_hub(items, dateline, pulse=None):
+    """/news.html (C4)."""
+    lanes, rest, live = _news_lane_index(items)
+    import datetime as _dt
+    cutoff = (_build_now() - _dt.timedelta(days=NEWS_RECENT_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    current = [L for L in lanes if L["items"] and (L["items"][0].get("published_utc") or "") >= cutoff]
+    past = [L for L in lanes if L["items"] and L not in current]
+
+    rec = record_sections(items, home=True)
+    months = _news_month_archive(live)
+    marc = "".join(
+        f'<a class="nh-mo" href="/news/archive/{esc(m)}.html">'
+        f'<span class="nh-mo-m">{esc(_news_month_label(m))}</span>'
+        f'<span class="bd-stamp">{len(v)} stories</span></a>'
+        for m, v in months.items())
+    arch = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">Archive</span>'
+            f'<h2 class="bd-h2">Every story by month</h2></div>'
+            f'<a class="bd-more" href="/archive.html">Full archive</a></div>'
+            f'<div class="nh-months">{marc}</div></section>') if marc else ""
+
+    past_html = ""
+    if past:
+        past_html = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                     f'<span class="bd-eyebrow">Past storylines</span>'
+                     f'<h2 class="bd-h2">Quiet for {NEWS_RECENT_DAYS} days or more</h2>'
+                     f'</div></div>'
+                     + "".join(_news_section(L, past=True) for L in past) + '</section>')
+
+    body = f"""<main class="wrap"><section class="page">
+  <h1 class="lx-h1" style="margin-bottom:6px">The news desk</h1>
+  <p class="lx-dek">{len(live)} checked stories, grouped by the storyline they belong to.
+     Every source linked, every figure tied to a Board number.</p>
+  {rec}
+  <div class="bd-sec" style="margin-top:26px"><div class="bd-sec-l">
+    <span class="bd-eyebrow">Storylines</span>
+    <h2 class="bd-h2">What the desk is following</h2></div></div>
+  {"".join(_news_section(L) for L in current)}
+  {past_html}
+  {arch}
+</section></main>"""
+    return shell(f"Crypto news by storyline - {NAME}",
+                 "Every checked story on the desk, grouped by storyline: regulation, "
+                 "ETFs, exchanges and security, stablecoins, network, DeFi and markets.",
+                 "News desk", body, dateline, path="/news.html",
+                 schema_extra=_news_jsonld("/news.html", "The news desk",
+                                           "Checked crypto stories by storyline", live,
+                                           [("Home", "/"), ("News desk", "/news.html")]))
+
+
+def render_news_lane(lane, page, pages, dateline):
+    """/news/<slug>.html and /news/<slug>/page/N.html."""
+    rows = lane["items"][(page - 1) * NEWS_PER_PAGE: page * NEWS_PER_PAGE]
+    base = f"/news/{lane['slug']}.html"
+    nav = []
+    if page > 1:
+        prev = base if page == 2 else f"/news/{lane['slug']}/page/{page-1}.html"
+        nav.append(f'<a class="bd-more" href="{esc(prev)}">&larr; Newer</a>')
+    if page < pages:
+        nav.append(f'<a class="bd-more" href="/news/{esc(lane["slug"])}/page/{page+1}.html">'
+                   f'Older &rarr;</a>')
+    url = base if page == 1 else f"/news/{lane['slug']}/page/{page}.html"
+    title = f"{lane['name']} - crypto news by storyline"
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/news.html">News desk</a> / {esc(lane["name"])}</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(lane["name"])}</h1>
+  <p class="lx-dek">{len(lane["items"])} checked stories in this storyline.
+     {f"Page {page} of {pages}." if pages > 1 else ""}</p>
+  <div class="nh-rows">{"".join(_news_row(i) for i in rows)}</div>
+  <div class="lx-actions">{"".join(nav)}</div>
+</section></main>"""
+    return shell(f"{title} - {NAME}",
+                 f"Every checked story the desk has published on {lane['name'].lower()}.",
+                 "News desk", body, dateline, path=url,
+                 schema_extra=_news_jsonld(url, lane["name"],
+                                           f"Crypto stories on {lane['name'].lower()}", rows,
+                                           [("Home", "/"), ("News desk", "/news.html"),
+                                            (lane["name"], base)]),
+                 noindex=False)
+
+
+def render_news_month(month, rows, dateline):
+    """/news/archive/YYYY-MM.html."""
+    url = f"/news/archive/{month}.html"
+    label = _news_month_label(month)
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/news.html">News desk</a> / Archive / {esc(label)}</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(label)}</h1>
+  <p class="lx-dek">{len(rows)} checked stories published this month.</p>
+  <div class="nh-rows">{"".join(_news_row(i) for i in rows)}</div>
+</section></main>"""
+    return shell(f"Crypto news, {label} - {NAME}",
+                 f"Every checked story the desk published in {label}.",
+                 "News desk", body, dateline, path=url,
+                 schema_extra=_news_jsonld(url, label, f"Crypto stories from {label}", rows,
+                                           [("Home", "/"), ("News desk", "/news.html"),
+                                            (label, url)]))
+
+
 def render_home(items, flows, pulse, cm, dateline):
     """The GoCheckMyCrypto front door, inverted (C1, Artboards 1 and 2).
 
@@ -3050,7 +3304,7 @@ def render_home(items, flows, pulse, cm, dateline):
   </div><a class="bd-more" href="/pulse.html">How the Board is built</a></div>
   {stamp}
   {board_tile_grid(tiles, learn_href)}
-  <a class="bd-allboard bd-phone-only" href="/pulse.html">See all eight tiles on the Board</a>
+  <a class="bd-allboard bd-phone-only" href="/pulse.html">See all {len(tiles)} tiles on the Board</a>
 </section>"""
 
     # The day's edition, freshness-gated. current_bottom_line is the gate: it is what
@@ -3058,7 +3312,7 @@ def render_home(items, flows, pulse, cm, dateline):
     # resolved value rather than each re-deriving it.
     edition_item = current_bottom_line(items)
     brief = _bd_brief_card(edition_item)
-    edition = _bd_edition_card(items, tiles, edition_item, span_full=not brief)
+    edition = _bd_edition_card(items, tiles, edition_item, flows, span_full=not brief)
     brief_row = f'<section class="bd-row3">{brief}{edition}</section>'
 
     ww = _bd_ww_chart(flows)
@@ -3075,7 +3329,7 @@ def render_home(items, flows, pulse, cm, dateline):
             '<span><span class="bd-sq" style="background:var(--up)"></span>Off exchanges</span>'
             '</div>'
             f'{ww}'
-            '<p class="bd-src">Source: Whale Alert public feed, transfers above $1M. Onto '
+            '<p class="bd-src">Source: Whale Alert public feed, transfers of $50M and up. Onto '
             'exchanges is usually sell positioning; off exchanges is usually storage.</p></div>')
     since = _bd_since_rows(tiles, deltas, pulse, flows)
     ww_row = f'<section class="bd-row3">{ww_card}{since}</section>' if (ww_card or since) else ""
@@ -3091,7 +3345,7 @@ def render_home(items, flows, pulse, cm, dateline):
   {news}
 </section>"""
 
-    learn = _bd_learn_cards()
+    learn = _bd_learn_cards(tiles)
     learn_mod = ""
     if learn:
         learn_mod = f"""<section class="bd-mod" aria-labelledby="bd-learn">
@@ -5794,7 +6048,25 @@ def build():
     _board_age_alarm(pulse)
     cm = load_chartmaster()
     w("index.html", render_home(items, flows, pulse, cm, dateline))
-    w("news.html", render_news(items, dateline, pulse=pulse))
+    w("news.html", render_news_hub(items, dateline, pulse=pulse))
+    # C4: a page per storyline, paginated, plus a page per month. Together these are
+    # what makes every live story reachable within three clicks of the front page.
+    _nh_lanes, _nh_rest, _nh_live = _news_lane_index(items)
+    _nh_urls = []
+    for _L in _nh_lanes:
+        if len(_L["items"]) < NEWS_MIN_STORIES:
+            continue                       # no thin pages
+        _pages = max(1, -(-len(_L["items"]) // NEWS_PER_PAGE))
+        for _pg in range(1, _pages + 1):
+            _rel = (f'news/{_L["slug"]}.html' if _pg == 1
+                    else f'news/{_L["slug"]}/page/{_pg}.html')
+            w(_rel, render_news_lane(_L, _pg, _pages, dateline))
+            _nh_urls.append("/" + _rel)
+    for _m, _rows in _news_month_archive(_nh_live).items():
+        _rel = f"news/archive/{_m}.html"
+        w(_rel, render_news_month(_m, _rows, dateline))
+        _nh_urls.append("/" + _rel)
+    print(f"news hub: {len(_nh_lanes)} storyline(s), {len(_nh_urls)} hub page(s)")
     w("flows.html", render_flows(flows, dateline))
     w("pulse.html", render_pulse_hub(pulse, flows, cm, dateline))
     w("chartmaster.html", render_chartmaster(cm, dateline))
@@ -5949,6 +6221,13 @@ def build():
     # C2: the explainers ride in the priority tier. They are the evergreen half of
     # this desk's search surface and they do not age out the way a story does.
     learn_locs = [f"/learn/{e['slug']}.html" for e in load_explainers()]
+    # C4: the storyline hubs are the desk's own topic pages and the crawl path to
+    # every story. First pages only; page 2 onward is reachable from page 1 and does
+    # not need its own priority entry.
+    _c4_lanes, _c4_rest, _c4_live = _news_lane_index(arts_sorted)
+    learn_locs += [f"/news/{L['slug']}.html" for L in _c4_lanes
+                   if len(L["items"]) >= NEWS_MIN_STORIES]
+    learn_locs += [f"/news/archive/{m}.html" for m in _news_month_archive(_c4_live)]
     prio = locs + learn_locs + hub_locs + [f"/articles/{i['slug']}.html" for i in _prio_arts]
     older = [i for i in arts_sorted if i.get("slug") not in _ev]
     archive_arts = [i for i in older if _within_days(i, 60)]

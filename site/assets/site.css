@@ -1035,3 +1035,24 @@ html.motion-off .badge-anim:hover img{transform:none}
 @media (max-width:900px){
   .w-learn{min-height:44px;display:flex;align-items:center}
 }
+
+/* ---- News hub (C4) --------------------------------------------------------------- */
+.nh-rows{display:flex;flex-direction:column;gap:0}
+.nh-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:11px 0;border-bottom:1px solid var(--line)}
+.nh-row:last-child{border-bottom:0}
+.nh-t{font:600 17px/1.35 var(--serif);color:var(--ink);text-decoration:none;flex:1 1 auto}
+.nh-t:hover{text-decoration:underline;color:var(--ink)}
+.nh-m{display:flex;align-items:center;gap:10px;flex:0 0 auto;flex-wrap:wrap;
+  justify-content:flex-end}
+.nh-months{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.nh-mo{display:flex;flex-direction:column;gap:2px;min-height:44px;justify-content:center;
+  border:1px solid var(--line);border-radius:8px;padding:10px 14px;background:var(--card);
+  text-decoration:none;color:inherit}
+.nh-mo:hover{border-color:var(--rule);text-decoration:none}
+.nh-mo-m{font:600 16px/1.2 var(--serif);color:var(--ink)}
+@media (max-width:900px){
+  .nh-row{flex-direction:column;gap:5px;padding:12px 0}
+  .nh-m{justify-content:flex-start}
+  .nh-t{font-size:16px;min-height:44px;display:flex;align-items:center}
+}
