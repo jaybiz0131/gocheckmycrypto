@@ -52,7 +52,7 @@ THEME_COLOR = "#B42318"                       # browser chrome + manifest
 OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, generated at build time
 CF_ANALYTICS_TOKEN = "ee5216c8411a41d78c7c4f679406ef4b"  # Cloudflare Web Analytics site token; empty renders no beacon
 DESC = ("Crypto Cronkite is an independent crypto news desk built with one intention: get the "
-        "stories right and keep the data honest. Plus the Whale Watch and Market Pulse data "
+        "stories right and keep the data honest. Plus the Whale Watch and Board data "
         "desks. We report events, we never advise trades.")
 FAMILY_DESC = ("Independent crypto news with the shill stripped out, plus live whale flows and market dashboards the desk measures itself. Never financial advice.")
 NFA = ("Not financial advice. Crypto Cronkite reports events and explains what they may mean. "
@@ -67,12 +67,18 @@ MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "A
 # records it. See render_accessibility().
 ACCESSIBILITY_TESTED_ON = "28 July 2026"
 ACCESSIBILITY_AXE_VERSION = "4.12.1"
-ACCESSIBILITY_PAGE_COUNT = "30"       # 20 standalone + 8 Market Pulse boards + 2 article samples
+ACCESSIBILITY_PAGE_COUNT = "30"       # 20 standalone + 8 Board pages + 2 article samples
 ACCESSIBILITY_ARTICLE_COUNT = "141"
 
-NAV = [("Home", "/index.html"), ("The Edition", "/news.html"),
-       ("Whale Watch", "/flows.html"), ("Market Pulse", "/pulse.html"),
+# C1, Artboard 1. "Market Pulse" is "The Board" everywhere in chrome, titles and
+# copy; /pulse.html stays the URL and /market-pulse keeps its 301, so no link that
+# ever worked stops working. "Home" leaves the row because the wordmark already
+# goes home and the Board is now the front page's own subject; "News desk" and
+# "The Edition" split what one entry used to carry, which is the whole point of the
+# inversion: the checked stories and the composed daily read are different things.
+NAV = [("The Board", "/pulse.html"), ("Whale Watch", "/flows.html"),
        ("Chart Master", "/chartmaster.html"), ("Learn", "/learn.html"),
+       ("News desk", "/news.html"), ("The Edition", "/bottom-line.html"),
        ("Archive", "/archive.html"), ("About", "/about.html")]
 
 
@@ -1168,12 +1174,12 @@ def footer(brand="site"):
         who = f"{esc(NAME)}"
         note = ("Crypto Cronkite is GoCheckMyCrypto's independent news desk, built with one "
                 "intention: get the stories right and keep the data honest. Whale Watch and "
-                "Market Pulse show market data, not news. Sources are linked on every story.")
+                "the Board show market data, not news. Sources are linked on every story.")
     else:
         who = f"{esc(FAMILY)}"
         note = ("GoCheckMyCrypto is an independent crypto site, built with one intention: get "
                 "the stories right and keep the data honest. Crypto Cronkite is its news desk; "
-                "Whale Watch and Market Pulse show market data, not news. Sources are linked "
+                "Whale Watch and the Board show market data, not news. Sources are linked "
                 "on every story.")
     return f"""<footer class="site"><div class="wrap">
   <div class="frow">
@@ -1343,7 +1349,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 
 # When a story cites the desk's own boards ("the desk's Whale Watch board showed..."),
 # the mention becomes a link to that board. Escape-then-link, longest names first.
-BOARD_LINKS = [("Whale Watch", "/flows.html"), ("Market Pulse", "/pulse.html"),
+BOARD_LINKS = [("Whale Watch", "/flows.html"), ("The Board", "/pulse.html"),
                ("Leverage board", "/pulse/leverage.html"),
                ("ETF flows board", "/pulse/etf.html"), ("ETF Flows board", "/pulse/etf.html")]
 
@@ -2084,224 +2090,836 @@ def evergreen_block(items):
             f'<ul class="eg-list">{lis}</ul></section>')
 
 
-def render_home(items, flows, pulse, cm, dateline):
-    """The GoCheckMyCrypto front door, built for the RETURNING reader: live markets strip,
-    today's headlines, the storylines the desk is tracking, then the four desks. The brand
-    pitch lives below the information, not above it."""
-    live = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)]
-    desk_stat = f"{len(live)} verified stories on the desk" if live else "The first brief lands soon"
+# ---- C1: The Board ------------------------------------------------------------
+# Artboards 1 and 2. Every tile binds to a real pulse.json key; a tile whose value
+# is missing is DROPPED, not rendered empty, and a tile with no prior-day value
+# renders without its delta row (the 2026-09-13 delta ruling). Nothing here
+# fabricates a number, and nothing prints a zero to stand in for "unknown".
+
+_ARROW_UP = ('<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">'
+             '<path d="M6 10V2M2.5 5.5L6 2l3.5 3.5" fill="none" stroke="currentColor" '
+             'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>')
+_ARROW_DN = ('<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">'
+             '<path d="M6 2v8M2.5 6.5L6 10l3.5-3.5" fill="none" stroke="currentColor" '
+             'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>')
+
+
+def _bd_spark(values, w=64, h=22):
+    """A 64x22 sparkline, or nothing at all. Two points cannot show a shape, and a
+    flat line drawn from one repeated value would be a picture of data we do not
+    have."""
+    vals = [v for v in (values or []) if isinstance(v, (int, float))]
+    if len(vals) < 4:
+        return ""
+    lo, hi = min(vals), max(vals)
+    span = (hi - lo) or 1.0
+    step = w / (len(vals) - 1)
+    pts = " ".join(f"{i * step:.0f},{h - 3 - ((v - lo) / span) * (h - 6):.0f}"
+                   for i, v in enumerate(vals))
+    return (f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" aria-hidden="true">'
+            f'<polyline fill="none" stroke="var(--muted)" stroke-width="2" '
+            f'stroke-linecap="round" stroke-linejoin="round" points="{pts}"></polyline></svg>')
+
+
+def _bd_pct(p):
+    return f"{p:+.1f}%".replace("+-", "-")
+
+
+def _bd_delta_pct(pct, since="since yesterday"):
+    if pct is None:
+        return ""
+    cls = "up" if pct >= 0 else "down"
+    arrow = _ARROW_UP if pct >= 0 else _ARROW_DN
+    return (f'<div class="bd-delta {cls}">{arrow}{_bd_pct(pct)}'
+            f'<span class="bd-since">{esc(since)}</span></div>')
+
+
+def _fng_band(v):
+    """The Fear and Greed band word. Same thresholds the index itself publishes."""
+    if v is None:
+        return ""
+    if v <= 24:
+        return "Extreme fear"
+    if v <= 44:
+        return "Fear"
+    if v <= 55:
+        return "Neutral"
+    if v <= 74:
+        return "Greed"
+    return "Extreme greed"
+
+
+def _fee_band(f):
+    if f is None:
+        return ""
+    if f <= 5:
+        return "fees low"
+    if f <= 30:
+        return "fees moderate"
+    return "fees high"
+
+
+def _etf_streak(recent, latest):
+    """How many consecutive sessions the flow has kept its sign, latest included.
+    Returns (n, word) or (0, "") when the series is too short to make the claim."""
+    if not isinstance(latest, (int, float)) or latest == 0:
+        return 0, ""
+    seq = [r.get("net_usd_m") for r in (recent or [])
+           if isinstance(r.get("net_usd_m"), (int, float))]
+    if not seq or seq[-1] != latest:
+        seq = seq + [latest]
+    sign = 1 if latest > 0 else -1
+    n = 0
+    for v in reversed(seq):
+        if (v > 0) - (v < 0) != sign:
+            break
+        n += 1
+    if n < 2:
+        return 0, ""
+    return n, ("day in" if sign > 0 else "day out")
+
+
+def _ordinal(n):
+    if 10 <= n % 100 <= 20:
+        return f"{n}th"
+    return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
+
+
+def board_tiles(pulse, flows, deltas):
+    """The eight Board tiles as dicts, in Artboard 1 order. A tile whose value is
+    missing is omitted entirely: rule 5, a module with no data is omitted, not faked.
+
+    `phone` marks the six tiles Artboard 2 keeps at 390; the other two are reachable
+    through the "See all eight tiles" link rather than hidden behind a truncation the
+    reader cannot see.
+    """
+    pulse = pulse or {}
+    out = []
+    d = deltas or {}
+
+    btc = _btc(pulse)
+    if isinstance(btc.get("price"), (int, float)):
+        rsi, above = btc.get("rsi14"), btc.get("above_sma200")
+        bits = []
+        if above is True:
+            bits.append("Above its 200-day average.")
+        elif above is False:
+            bits.append("Below its 200-day average.")
+        if isinstance(rsi, (int, float)):
+            word = ("reads stretched" if rsi >= 70 else
+                    "reads washed out" if rsi <= 30 else "sits mid-range")
+            bits.append(f"RSI at {rsi:g} {word}.")
+        out.append({
+            "key": "bitcoin", "label": "Bitcoin", "phone": True,
+            "value": _price_fmt(btc["price"]),
+            "spark": _bd_spark(btc.get("spark") or btc.get("price_history")),
+            "delta": _bd_delta_pct((d.get("bitcoin") or {}).get("pct")),
+            "read": " ".join(bits) or "The price of one bitcoin, in dollars.",
+            "learn": "bitcoin-200-day-rsi"})
+
+    mkt = (pulse.get("market") or {}).get("total_mcap_usd")
+    if isinstance(mkt, (int, float)):
+        out.append({
+            "key": "market", "label": "Whole market", "phone": False,
+            "value": fmt_usd(mkt), "spark": "",
+            "delta": _bd_delta_pct((d.get("market") or {}).get("pct")),
+            "read": "The value of every coin combined. It rises with Bitcoin and "
+                    "faster with the rest.",
+            "learn": "total-market-cap"})
+
+    etf = (pulse.get("etf_flows") or {}).get("btc") or {}
+    net_m = etf.get("latest_net_usd_m")
+    if isinstance(net_m, (int, float)):
+        n, word = _etf_streak(etf.get("recent"), net_m)
+        drow = ""
+        if n:
+            cls = "up" if net_m > 0 else "down"
+            arrow = _ARROW_UP if net_m > 0 else _ARROW_DN
+            drow = (f'<div class="bd-delta {cls}">{arrow}{_ordinal(n)} {word}'
+                    f'<span class="bd-since">net, {esc(etf.get("latest_date") or "prior session")}'
+                    f'</span></div>')
+        out.append({
+            "key": "etf", "label": "Spot ETF flows", "phone": True,
+            "value": f"{'+' if net_m > 0 else ''}{fmt_usd(net_m * 1_000_000)}"
+                     if net_m else fmt_usd(0),
+            "spark": _bd_spark([r.get("net_usd_m") for r in (etf.get("recent") or [])]),
+            "delta": drow,
+            "read": "Money entering the U.S. spot Bitcoin ETFs. Inflows are buying pressure.",
+            "learn": "spot-etf-flows"})
+
+    vol = (flows or {}).get("volatile") or {}
+    wnet = vol.get("net_usd")
+    if isinstance(wnet, (int, float)) and not (flows or {}).get("example"):
+        onto = wnet < 0
+        out.append({
+            "key": "whales", "label": "Whale flows", "phone": True,
+            "value": fmt_usd(abs(wnet)),
+            "badge": '<span class="bd-badge dat">24h</span>',
+            "delta": f'<div class="bd-delta {"down" if onto else "up"}">'
+                     f'{_ARROW_DN if onto else _ARROW_UP}'
+                     f'{"onto exchanges" if onto else "off exchanges"}'
+                     f'<span class="bd-since">24h net</span></div>',
+            "read": "Coins moving onto exchanges are usually positioned to sell. "
+                    "Off exchanges means holding.",
+            "learn": "whale-exchange-flows"})
+
+    oi = _oi_total(pulse)
+    if isinstance(oi, (int, float)) and oi:
+        out.append({
+            "key": "leverage", "label": "Leverage", "phone": True,
+            "value": fmt_usd(oi), "spark": "",
+            "delta": _bd_delta_pct((d.get("leverage") or {}).get("pct"), "open interest"),
+            "read": "How much is borrowed to bet. More leverage means bigger swings "
+                    "in both directions.",
+            "learn": "open-interest-funding"})
+
+    st = (pulse.get("stables") or {}).get("total_usd")
+    if isinstance(st, (int, float)):
+        out.append({
+            "key": "stables", "label": "Stablecoin dry powder", "phone": True,
+            "value": fmt_usd(st),
+            "spark": _bd_spark((pulse.get("stables") or {}).get("spark")),
+            "delta": _bd_delta_pct((d.get("stables") or {}).get("pct")),
+            "read": "Dollars parked on the sidelines inside crypto. When this grows, "
+                    "buyers are waiting.",
+            "learn": "stablecoin-dry-powder"})
+
+    fng = pulse.get("fng") or {}
+    fv = fng.get("value")
+    if isinstance(fv, (int, float)):
+        band = esc(fng.get("label") or _fng_band(fv))
+        fd = d.get("fng") or {}
+        since = ""
+        if isinstance(fd.get("prev"), (int, float)):
+            pts = fd.get("points") or 0
+            since = (f'<span class="bd-since">'
+                     f'{"up" if pts > 0 else "down" if pts < 0 else "level"} from '
+                     f'{fd["prev"]:g} yesterday</span>')
+        out.append({
+            "key": "fng", "label": "Crowd sentiment", "phone": True,
+            "value": f"{fv:g}", "spark": "",
+            "delta": f'<div class="bd-delta band"><span class="bd-dot"></span>{band}{since}</div>',
+            "read": "The Fear and Greed index, 0 to 100. Extremes tend to mark turning "
+                    "points, not entries.",
+            "learn": "fear-and-greed"})
+
+    net = pulse.get("network") or {}
+    fee = net.get("fastest_fee")
+    if isinstance(fee, (int, float)):
+        nd = d.get("network") or {}
+        pts = nd.get("points")
+        if pts is None:
+            tail = ""
+        elif pts == 0:
+            tail = '<span class="bd-since">unchanged</span>'
+        else:
+            tail = f'<span class="bd-since">{pts:+g} sat/vB since yesterday</span>'
+        out.append({
+            "key": "network", "label": "Network", "phone": False,
+            "value": f"{fee:g} sat/vB", "spark": "",
+            "delta": f'<div class="bd-delta flat">{esc(_fee_band(fee))}{tail}</div>',
+            "read": "Cheap fees mean a quiet chain. Spikes mean everyone is moving "
+                    "coins at once.",
+            "learn": "network-fees"})
+    return out
+
+
+def board_tile_grid(tiles, learn_href):
+    """The 4-up tile grid. `learn_href` resolves a tile's Explained link: C2 has not
+    shipped yet, so every tile points at /learn until it does."""
     cards = []
-    cards.append(f"""<a class="dash-card home-card" href="/news.html">
-      <img class="dash-hero-img" src="/assets/crypto-cronkite-banner.png" alt="Crypto Cronkite: market news and on-chain insights" loading="lazy">
-      <span class="lab">Latest news</span>
-      <span class="dash-stat" style="font-size:19px">{esc(desk_stat)}</span>
-      <p class="pc-note">The day's real crypto stories with the paid promotion stripped out,
-      every source linked. And that's the way it is.</p>
-      <span class="dash-open">Read the latest &rarr;</span></a>""")
-    ww_line = "Follow the money on-chain."
-    if flows and not flows.get("example") and flows.get("volatile"):
-        wnet = flows["volatile"].get("net_usd", 0)
-        # Show the magnitude, not a signed value: the direction word carries the sign, so a
-        # bare "-$434.5M net onto exchanges" reads ambiguously. Magnitude + word is unambiguous.
-        ww_line = (f"{fmt_usd(abs(wnet))} net {'off' if wnet >= 0 else 'onto'} exchanges in the "
-                   f"last {_win_phrase(flows.get('window_hours', 24))}.")
-    # The three board cards carry the boards' own hero loops (owner complaint 2026-08-31:
-    # the Whale Watch / Market Pulse / Chart Master graphics never moved; they were still
-    # PNGs of the animated scenes). Same lazy poster+video pattern as the board pages, and
-    # the wrapper repeats the poster as a CSS background (the .ww-panel trick) because
-    # reduced-motion removes video nodes outright and the card must keep its still.
-    cards.append(f"""<a class="dash-card home-card" href="/flows.html">
-      <span class="dash-hero-img" role="img" aria-label="Whale Watch: market pulse, on-chain insights" style="background:#091625 url(/assets/whale-watch-banner.png) center 30%/cover no-repeat">
-        <video class="dash-hero-img motion-video motion-lazy" muted loop playsinline preload="none" poster="/assets/whale-watch-banner.png" aria-hidden="true" tabindex="-1" style="margin-bottom:0">
-          <source src="/assets/whale/whale-loop.webm" type="video/webm">
-          <source src="/assets/whale/whale-loop.mp4" type="video/mp4"></video></span>
-      <span class="lab">Whale Watch</span>
-      <span class="dash-stat" style="font-size:19px">{esc(ww_line)}</span>
-      <p class="pc-note">Where the whales are moving money: onto exchanges or into cold
-      storage, aggregated so the signal beats the noise.</p>
-      <span class="dash-open">Follow the money &rarr;</span></a>""")
-    fng = (pulse or {}).get("fng") or {}
-    mp_line = "Seven dashboards, explained in plain language."
-    if fng:
-        mp_line = f"Fear &amp; Greed today: {fng.get('value', '?')}, {esc((fng.get('label') or '').lower())}."
-    cards.append(f"""<a class="dash-card home-card" href="/pulse.html">
-      <span class="dash-hero-img" role="img" aria-label="Market Pulse: live dashboards" style="background:#091625 url(/assets/market-pulse-banner.png) center 30%/cover no-repeat">
-        <video class="dash-hero-img motion-video motion-lazy" muted loop playsinline preload="none" poster="/assets/market-pulse-banner.png" aria-hidden="true" tabindex="-1" style="margin-bottom:0">
-          <source src="/assets/pulse/pulse-loop.webm" type="video/webm">
-          <source src="/assets/pulse/pulse-loop.mp4" type="video/mp4"></video></span>
-      <span class="lab">Market Pulse</span>
-      <span class="dash-stat" style="font-size:19px">{mp_line}</span>
-      <p class="pc-note">Sentiment, price posture, top movers, the top 100, stablecoin dry
-      powder, and network vitals. Live data, honest charts, every term taught.</p>
-      <span class="dash-open">See the dashboards &rarr;</span></a>""")
-    cm_line = (cm or {}).get("headline") or "The wizard reads the tape."
-    cards.append(f"""<a class="dash-card home-card" href="/chartmaster.html">
-      <span class="dash-hero-img" role="img" aria-label="The Chart Master, crypto wizard" style="background:#091625 url(/assets/chart-master-banner.png) center 30%/cover no-repeat">
-        <video class="dash-hero-img motion-video motion-lazy" muted loop playsinline preload="none" poster="/assets/chart-master-banner.png" aria-hidden="true" tabindex="-1" style="margin-bottom:0">
-          <source src="/assets/wizard/wizard-loop.webm" type="video/webm">
-          <source src="/assets/wizard/wizard-loop.mp4" type="video/mp4"></video></span>
-      <span class="lab">The Chart Master</span>
-      <span class="dash-stat" style="font-size:19px">&ldquo;{esc(cm_line)}&rdquo;</span>
-      <p class="pc-note">The resident wizard's plain-language read of the boards, plus the
-      Oracle Challenge and the Wizard's Exam. Learn the charts by playing them.</p>
-      <span class="dash-open">Enter the tower &rarr;</span></a>""")
+    for t in tiles:
+        top = f'<span class="bd-label">{esc(t["label"])}</span>{t.get("spark") or t.get("badge") or ""}'
+        hide = "" if t.get("phone") else " bd-hide-phone"
+        cards.append(
+            f'<div class="bd-card bd-tile{hide}" style="gap:8px">'
+            f'<div class="bd-tile-top">{top}</div>'
+            f'<div class="bd-value">{esc(t["value"])}</div>'
+            f'{t.get("delta") or ""}'
+            f'<p class="bd-read">{esc(t["read"])}</p>'
+            f'<a href="{esc(learn_href(t))}">Explained</a></div>')
+    return f'<div class="bd-tiles">{"".join(cards)}</div>'
 
-    # The front page (owner directive 2026-07-16): a network-style hero mosaic. Several
-    # lead stories visible at once with explicit hierarchy (the editor's rank orders them),
-    # editions in their own strip below. No carousel: every ranked story is on screen.
-    stories = [i for i in items if not i.get("example") and not _is_wrap(i)]
 
-    def _hero_tag(item):
-        tags = tags_for(item)
-        return f'<span class="tag topic">{esc(tags[0])}</span>' if tags else ""
+def _bd_ww_chart(flows):
+    """Artboard 1 module 6: diverging bars, one row per asset, centre axis.
+    Rows come from whatever `by_asset` actually holds. The mockup draws four
+    (BTC, ETH, USDT, SOL); the live feed some days carries one. Drawing the
+    missing three at zero would be a picture of data we do not have, so the
+    chart draws the rows that exist and the caption says how many."""
+    rows = [r for r in ((flows or {}).get("by_asset") or [])
+            if isinstance(r.get("inflow_usd"), (int, float))
+            or isinstance(r.get("outflow_usd"), (int, float))]
+    if not rows:
+        return ""
+    rows = sorted(rows, key=lambda r: (r.get("inflow_usd") or 0) + (r.get("outflow_usd") or 0),
+                  reverse=True)[:6]
+    peak = max(max(r.get("inflow_usd") or 0, r.get("outflow_usd") or 0) for r in rows) or 1
+    W, AX, LAB, ARM = 640, 330, 60, 260
+    row_h, top = 36, 8
+    H = top + row_h * len(rows) + 6
+    parts = [f'<line x1="{AX}" y1="4" x2="{AX}" y2="{H - 4}" stroke="var(--line)" '
+             f'stroke-width="1"></line>']
+    aria = []
+    for i, r in enumerate(rows):
+        y = top + i * row_h
+        cy = y + 9
+        sym = str(r.get("symbol") or "?")[:5]
+        inf = r.get("inflow_usd") or 0      # onto exchanges
+        outf = r.get("outflow_usd") or 0    # off exchanges
+        wi = max(2, round(inf / peak * ARM))
+        wo = max(2, round(outf / peak * ARM))
+        parts.append(f'<text x="{LAB}" y="{cy + 4}" font-family="var(--mono)" font-size="12" '
+                     f'font-weight="700" fill="var(--ink)" text-anchor="end">{esc(sym)}</text>')
+        parts.append(f'<rect x="{AX - 2 - wi}" y="{y}" width="{wi}" height="12" rx="4" '
+                     f'fill="var(--down)"></rect>')
+        parts.append(f'<text x="{AX - 10 - wi}" y="{cy + 4}" font-family="var(--mono)" '
+                     f'font-size="11.5" fill="var(--muted)" text-anchor="end">'
+                     f'{esc(fmt_usd(inf))}</text>')
+        parts.append(f'<rect x="{AX + 2}" y="{y}" width="{wo}" height="12" rx="4" '
+                     f'fill="var(--up)"></rect>')
+        parts.append(f'<text x="{AX + 10 + wo}" y="{cy + 4}" font-family="var(--mono)" '
+                     f'font-size="11.5" fill="var(--muted)">{esc(fmt_usd(outf))}</text>')
+        aria.append(f"{sym}: {fmt_usd(inf)} onto exchanges, {fmt_usd(outf)} off")
+    return (f'<div class="bd-scroll"><svg class="bd-chart" width="{W}" height="{H}" '
+            f'viewBox="0 0 {W} {H}" role="img" aria-label="Exchange flows over the last 24 '
+            f'hours. {esc("; ".join(aria))}.">{"".join(parts)}</svg></div>')
 
-    desk_html = ""
-    if stories:
-        lead = stories[0]
-        dek_html = f'<p class="hero-dek">{esc(lead["dek"])}</p>' if lead.get("dek") else ""
-        # The desk set: an ambient video loop behind the lead card. It is scenery for
-        # WHATEVER story leads, never an illustration of it (no caption, no linkage), and
-        # the scrim guarantees the headline always beats the motion. Reduced-motion
-        # readers get the poster still only (script below removes the video pre-load).
-        hero_video = (
-            '<video class="hero-video motion-video" autoplay muted loop playsinline preload="none" '
-            'poster="/assets/hero/hero-poster.jpg" aria-hidden="true" tabindex="-1">'
-            '<source src="/assets/hero/hero-loop.webm" type="video/webm">'
-            '<source src="/assets/hero/hero-loop.mp4" type="video/mp4"></video>'
-            '<span class="hero-scrim" aria-hidden="true"></span>')
-        lead_html = (f'<a class="hero-lead" href="/articles/{esc(lead["slug"])}.html">'
-                     f'<span class="hero-kick"><span class="kicker">Lead story</span>{_hero_tag(lead)}</span>'
-                     f'<h3>{esc(lead.get("title"))}</h3>{dek_html}'
-                     f'<span class="hl-meta">{verdict_badge(lead.get("verdict"), lead)}'
-                     f'<span class="dateline">{fmt_when(lead)}</span></span></a>')
-        # The Bottom Line rides shotgun: the day's summary as the hero square beside the
-        # lead, replacing the standalone band lower on the page.
-        bl_card = ""
-        ed = current_bottom_line(items)
-        if ed:
-            ed_name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
-            bl_card = (f'<a class="hero-bl" href="/articles/{esc(ed["slug"])}.html">'
-                       f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
-                       f'<span class="hero-bl-src">{ed_name} &middot; {_blink_when(ed)}</span>'
-                       f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
-                       f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>')
-        more = "".join(
-            f'<a class="hero-item" href="/articles/{esc(i["slug"])}.html">'
-            f'<span class="hero-num">{n:02d}</span><span class="hero-body">'
-            f'<span class="hero-kick">{_hero_tag(i)}</span>'
-            f'<span class="hl-title">{esc(i.get("title"))}</span>'
-            f'<span class="dateline">{fmt_when(i)}</span></span></a>'
-            for n, i in enumerate(stories[1:6], start=2))
-        more += ('<a class="hero-item more" href="/news.html">'
-                 '<span class="hero-body"><span class="hl-title">All stories &rarr;</span></span></a>')
-        desk_html = f"""<div class="sec-head"><h2>Today at the desk</h2><span class="bar"></span></div>
-  <div class="hero-band">{hero_video}<div class="hero-band-inner">
-    <div class="hero-grid{"" if bl_card else " solo"}">{lead_html}{bl_card}</div>
-    <div class="hero-more-lab">More from the desk</div>
-    <div class="hero-more">{more}</div>
-  </div></div>"""
 
-    # The Editions: the desk's daily synthesis as its own strip, one card per slot
-    # (morning / midday / evening), newest first, never older than the current news cycle.
-    # EDITIONS STALENESS (owner directive 2026-07-27, ported from sports/news 2026-08-18;
-    # this desk never received the port): a card older than 24 hours never renders and
-    # the strip collapses entirely when nothing fresh exists; the live-dot only ever
-    # sits on a fresh card. A stale brief wearing a live-dot reads as a sync failure.
-    _now = _build_now()
-    wraps = [i for i in items if _is_wrap(i) and not i.get("example")
-             and _fresh_hours(i, _now) <= 24]
-    ed_cards, seen_slots = [], set()
-    if wraps:
-        recent = sorted({w.get("date", "") for w in wraps}, reverse=True)[:2]
-        for w in wraps:
-            if len(ed_cards) >= 3:
+def _bd_since_rows(tiles, deltas, pulse, flows):
+    """Module 6 right: the largest moves and band crossings, capped at four.
+    Built only from deltas that exist; with nothing to say the card is omitted."""
+    d, rows = deltas or {}, []
+    fd = d.get("fng") or {}
+    if isinstance(fd.get("prev"), (int, float)):
+        now_v = ((pulse or {}).get("fng") or {}).get("value")
+        a, b = _fng_band(fd["prev"]), _fng_band(now_v)
+        pts = fd.get("points") or 0
+        if a and b and a != b:
+            rows.append((f"Sentiment crossed into {b}", f"{fd['prev']:g} to {now_v:g}",
+                         "up" if pts > 0 else "down", abs(pts) + 100))
+        elif pts:
+            rows.append(("Sentiment " + ("rose" if pts > 0 else "fell"),
+                         f"{fd['prev']:g} to {now_v:g}", "up" if pts > 0 else "down", abs(pts)))
+    vol = (flows or {}).get("volatile") or {}
+    wnet = vol.get("net_usd")
+    if isinstance(wnet, (int, float)) and not (flows or {}).get("example"):
+        onto = wnet < 0
+        rows.append((f"Exchange balances {'rose' if onto else 'fell'}",
+                     f"{'+' if onto else '-'}{fmt_usd(abs(wnet))}",
+                     "down" if onto else "up", 60))
+    etf = ((pulse or {}).get("etf_flows") or {}).get("btc") or {}
+    n, word = _etf_streak(etf.get("recent"), etf.get("latest_net_usd_m"))
+    if n:
+        inflow = (etf.get("latest_net_usd_m") or 0) > 0
+        rows.append((f"ETF streak {'extended' if n > 2 else 'started'}",
+                     f"{n} days {'in' if inflow else 'out'}", "up" if inflow else "down", 50))
+    for key, name in (("bitcoin", "Bitcoin"), ("market", "Whole market"),
+                      ("leverage", "Leverage"), ("stables", "Dry powder")):
+        pct = (d.get(key) or {}).get("pct")
+        if isinstance(pct, (int, float)) and abs(pct) >= 0.1:
+            rows.append((f"{name} {'rose' if pct > 0 else 'fell'}", _bd_pct(pct),
+                         "up" if pct > 0 else "down", abs(pct)))
+    nd = d.get("network") or {}
+    if nd.get("points") == 0:
+        fee = ((pulse or {}).get("network") or {}).get("fastest_fee")
+        rows.append(("Fees unchanged", f"{fee:g} sat/vB", "flat", 0.05))
+    if not rows:
+        return ""
+    rows.sort(key=lambda r: -r[3])
+    html = "".join(f'<div class="bd-kv"><span>{esc(t)}</span>'
+                   f'<span class="v {c}">{esc(v)}</span></div>' for t, v, c, _ in rows[:4])
+    return (f'<div class="bd-card" style="gap:10px;padding:20px 22px 18px">'
+            f'<span class="bd-eyebrow">Since yesterday</span>'
+            f'<div class="bd-h3" style="font-size:22px">What changed on the Board</div>'
+            f'<div style="display:flex;flex-direction:column;gap:10px">{html}</div>'
+            f'<p class="bd-src">Recomputed at every build from the same public sources '
+            f'the Board uses.</p></div>')
+
+
+def _bd_brief_card(ed):
+    """Today's Board brief: the day's edition, rendered as the lead card. Returns ""
+    when there is no fresh edition, and the Edition card then spans the row."""
+    if not ed:
+        return ""
+    paras = []
+    for src in (ed.get("dek"), ed.get("bottom_line"), ed.get("key_fact")):
+        t = (src or "").strip()
+        if t and t not in paras:
+            paras.append(t)
+        if len(paras) == 2:
+            break
+    if not paras:
+        return ""
+    # THE HEADLINE IS THE TITLE'S HOOK, not the dek. Artboard 1 draws a two-line
+    # serif headline over two body paragraphs; this desk's deks run to 490
+    # characters, which rendered as an eight-line wall of 34px serif and buried the
+    # two paragraphs under it. The hook after the slot name is the one field written
+    # to be read as a headline.
+    hl = (ed.get("title") or "").split(":", 1)[-1].strip()
+    if not hl:
+        hl = (ed.get("dek") or "").strip()
+    body = "".join(f"<p>{esc(p)}</p>" for p in paras)
+    return (f'<div class="bd-card bd-brief bd-span2">'
+            f'<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">'
+            f'<span class="bd-eyebrow">Today\'s Board brief</span>'
+            f'<span class="bd-stamp">{esc(fmt_when(ed))}</span>'
+            f'<span class="bd-badge ok">Verified</span></div>'
+            f'<div class="bd-brief-hl">{esc(hl)}</div>{body}'
+            f'<div class="bd-brief-foot"><span class="bd-by">Crypto Cronkite, '
+            f'The GoCheckMyCrypto desk. Every figure above links to its Board tile.</span>'
+            f'<a class="bd-more" href="/articles/{esc(ed["slug"])}.html">Read the full brief</a>'
+            f'</div></div>')
+
+
+def _bd_edition_card(items, tiles, ed, span_full=False):
+    """The Evening Edition card. Its list is built from the Edition's own data:
+    real tile count, real story count for today, real correction count. A row whose
+    number cannot be counted is left out rather than guessed."""
+    now = _build_now()
+    today = now.date().isoformat()
+    live = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)]
+    todays = [i for i in live if (i.get("published_utc") or "")[:10] == today]
+    rows = [("The Board at the close", f"{len(tiles)} tiles")]
+    if todays:
+        rows.append(("Checked stories", f"{len(todays)} today"))
+    rows.append(("Whale Watch, 24h", "1 chart"))
+    corr = sum(1 for i in live if i.get("corrected"))
+    rows.append(("Corrections, if any", f"{corr}" if corr else "none"))
+    kv = "".join(f'<div class="bd-kv"><span>{esc(k)}</span>'
+                 f'<span class="v">{esc(v)}</span></div>' for k, v in rows)
+    cta = (f'<a class="bd-btn" href="/articles/{esc(ed["slug"])}.html">Read tonight\'s Edition</a>'
+           if ed else '<a class="bd-btn" href="/bottom-line.html">Past editions</a>')
+    tail = ('<a class="bd-more" href="/bottom-line.html">Past editions</a>' if ed else "")
+    span = " bd-span2" if span_full else ""
+    return (f'<div class="bd-card bd-ed{span}">'
+            f'<div style="display:flex;flex-direction:column;gap:10px">'
+            f'<span class="bd-eyebrow">The Evening Edition</span>'
+            f'<div class="bd-h3" style="font-size:24px">One read a day, at {esc(EVENING_SLOT_UTC)}</div>'
+            f'<p class="bd-read" style="font-size:15px">The day\'s checked stories and the '
+            f'Board\'s closing numbers in a single newspaper-style page. No hype, no paid '
+            f'promotion, no sponsored coins.</p>'
+            f'<div class="bd-ed-list"><span class="bd-label">In tonight\'s Edition</span>'
+            f'{kv}</div></div>'
+            f'<div class="bd-cta">{cta}{tail}</div></div>')
+
+
+def _bd_outlet(src):
+    """Just the outlet: "Reuters", not "Reuters: the whole headline". source_label is
+    built for a citation list under an article and returns the article title; a card
+    footer needs the masthead name and nothing else."""
+    from urllib.parse import urlparse
+    url = (src.get("url") if isinstance(src, dict) else src) or ""
+    if not isinstance(url, str) or not url.startswith("http"):
+        name = (src.get("name") or src.get("outlet") or "") if isinstance(src, dict) else ""
+        return name.strip()
+    host = urlparse(url).netloc.lower().removeprefix("www.")
+    if host in OUTLETS:
+        return OUTLETS[host]
+    bare = host.removesuffix(".com").removesuffix(".org").removesuffix(".io")
+    return bare.rsplit(".", 1)[-1].replace("-", " ").title() if bare else ""
+
+
+def _bd_news_cards(items, n=4):
+    """Module 7. Four most recent published stories, each with its sources line."""
+    live = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)
+            and not i.get("superseded_by")][:n]
+    if not live:
+        return ""
+    cards = []
+    for i in live:
+        srcs = []
+        for src in (i.get("sources") or []):
+            lab = _bd_outlet(src)
+            if lab and lab not in srcs:
+                srcs.append(lab)
+            if len(srcs) == 3:
                 break
-            if (w.get("date") or "") not in recent:
-                continue
-            title = w.get("title") or ""
-            kick, _, hook = title.partition(":")
-            if not hook:
-                kick, hook = "The Daily Edition", title
-            if kick in seen_slots:
-                continue
-            seen_slots.add(kick)
-            fact = w.get("key_fact") or w.get("dek") or ""
-            dot = '<span class="live-dot"></span>' if not ed_cards else ''
-            ed_cards.append(
-                f'<a class="edition-card reveal" href="/articles/{esc(w["slug"])}.html">'
-                f'<span class="ed-kick">{esc(kick)}{dot}</span>'
-                f'<span class="ed-title">{esc(hook.strip())}</span>'
-                f'<span class="ed-fact">{esc(fact)}</span>'
-                f'<span class="dateline">{_blink_when(w)}</span></a>')
-    editions_html = ""
-    if ed_cards:
-        editions_html = (f'<div class="sec-head" style="margin-top:26px"><h2>The Editions</h2>'
-                         f'<span class="bar"></span></div>'
-                         f'<p class="pc-note" style="margin:0 0 10px">The desk\'s daily synthesis: '
-                         f'one evening read over everything published that day.</p>'
-                         f'<div class="edition-strip">{"".join(ed_cards)}</div>')
+        src = (f'<p class="bd-src">Sources: {esc(", ".join(srcs))}</p>' if srcs else "")
+        read = (i.get("dek") or i.get("key_fact") or "").strip()
+        cards.append(
+            f'<a class="bd-card" href="/articles/{esc(i["slug"])}.html" '
+            f'style="text-decoration:none">'
+            f'<span class="bd-cardtop">'
+            f'{verdict_badge(i.get("verdict"), i)}'
+            f'<span class="bd-stamp">{esc(fmt_when(i))}</span></span>'
+            f'<span class="bd-h3">{esc(i.get("title") or "")}</span>'
+            f'{f"<span class=bd-read>{esc(read)}</span>" if read else ""}{src}</a>')
+    return f'<div class="bd-cards4">{"".join(cards)}</div>'
 
-    # Tracking: the narratives watchlist, each chip linking to its latest published chapter.
-    track_html = ""
-    chips = []
+
+# The Edition's slot. Directive v2 cut the composed Edition from three a day to
+# one and kept the evening slot, because it is the one that lands on time: over
+# 09-05 to 09-07 it was the only slot inside 45 minutes of its cron. This is the
+# cron in crypto-news-brief.yml, and the two must move together.
+EVENING_SLOT_UTC = "23:08 UTC"
+
+
+def _learn_read_min(slug):
+    """Read time from the explainer's own word count at 220 wpm. Derived from the
+    real page, never typed in by hand, so it cannot drift from the copy. Returns
+    None when the page has no body function here, and the card then omits the line
+    rather than printing a guess."""
+    import explainers as _ex
+    fn = getattr(_ex, slug.replace("-", "_") + "_body", None)
+    if not fn:
+        return None
     try:
-        watch = json.load(open(os.path.join(HERE, "config.json"),
-                               encoding="utf-8")).get("narratives", {}).get("watchlist", [])
+        words = len(re.sub(r"<[^>]+>", " ", fn()).split())
     except Exception:
-        watch = []
-    # TAG INTEGRITY, PORTED (2026-08-25; sports/news had it since 2026-07-27, this desk
-    # never did): the old rule matched a SINGLE keyword hit anywhere INCLUDING THE BODY,
-    # so "CLARITY Act" and "Stablecoin law" both landed on one GENIUS Act article whose
-    # body mentioned both, and "Sovereign adoption" landed on a tokenized-securities
-    # pilot. A chip's story must be ABOUT the storyline: a title hit qualifies alone,
-    # otherwise two hits across title+key_fact (never the dek, never the body). And one
-    # article carries at most one chip: the first storyline to claim it keeps it.
-    _chip_slugs_used = set()
-    _hub_by_name = {nm: sl for sl, nm, _st in coverage_hubs(items)}
-    for n in watch:
-        kws = n.get("keywords") or []
-        if not kws:
-            continue
-        # A storyline with a Full coverage hub sends its chip there instead of the
-        # newest chapter: the hub leads with that chapter anyway, and one URL
-        # collecting these clicks is the consolidation point (2026-09-01).
-        _hub_slug = _hub_by_name.get(n.get("name", ""))
-        if _hub_slug:
-            chips.append(f'<a class="chip" href="/coverage/{esc(_hub_slug)}.html">'
-                         f'{esc(n.get("name", ""))}</a>')
-            continue
-        rx = re.compile(r"\b(?:" + "|".join(re.escape(k) for k in kws) + r")\b", re.I)
-        cands = [i for i in live if not i.get("superseded_by") and tracking_match(i, rx)]
-        cands.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
-        hit = cands[0] if cands else None
-        if hit and hit.get("slug") in _chip_slugs_used:
-            print(f"tracking: chip {n.get('name')!r} skipped; its newest match "
-                  f"{hit.get('slug')!r} already carries another chip")
-            hit = None
-        if hit:
-            _chip_slugs_used.add(hit.get("slug"))
-            chips.append(f'<a class="chip" href="/articles/{esc(hit["slug"])}.html">'
-                         f'{esc(n.get("name", ""))}</a>')
-    if chips:
-        track_html = (f'<div class="tracking"><span class="lab">Tracking</span>{"".join(chips)}'
-                      f'<span class="mut">the storylines the desk is following</span></div>')
+        return None
+    return max(1, round(words / 220)) if words else None
 
-    # The Bottom Line lives in the hero square beside the lead (owner call 2026-07-16);
-    # the standalone band below is retired on home. /bottom-line.html keeps the history.
-    body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
-  {evergreen_block(items)}
-  <h1 class="sr-only">{esc(FAMILY)}: crypto news and market data, checked</h1>
-  {desk_html}
-  {editions_html}
-  {track_html}
-  <div class="dash-grid home-grid">{"".join(cards)}</div>
-  <p class="lede home-lede" style="margin-top:22px">Built with one intention: get the stories
-     right and keep the data honest. Real news with the shill stripped out, on-chain money
-     flows, live dashboards that teach you what they mean, and a wizard who reads the tape.
-     No hype, no paid promotion, and never financial advice. Everything here is free; every
-     number comes with an explanation in plain language.</p>
+
+# Which Board tile each existing explainer teaches. C2 ships eight explainers with
+# `board_tile` in their own front matter and replaces this map.
+_LEARN_TILE = {"cold-storage": "Custody", "crypto-tax": "Tax",
+               "onchain-flows": "Whale flows", "counterfeit-devices": "Custody"}
+
+
+def _bd_learn_cards(n=4):
+    """Module 8. Until C2 ships there are no per-tile explainer pages, so this renders
+    the explainers that actually exist rather than four links to pages that do not.
+    C2 replaces the source list; the markup does not change."""
+    import explainers as _ex
+    picks = [e for e in (_ex.EXPLAINERS or []) if e.get("status") == "published"][:n]
+    if not picks:
+        return ""
+    out = []
+    for e in picks:
+        slug = e.get("slug") or ""
+        mins = _learn_read_min(slug)
+        out.append(
+            f'<a class="bd-card" href="/{esc(slug)}.html" style="text-decoration:none">'
+            f'<span class="bd-label">{esc(_LEARN_TILE.get(slug, "Explainer"))}</span>'
+            f'<span class="bd-h3">{esc(e.get("title") or "")}</span>'
+            f'<span class="bd-read">{esc(e.get("blurb") or "")}</span>'
+            + (f'<span class="bd-stamp">{mins} min read</span>' if mins else "")
+            + '</a>')
+    return f'<div class="bd-cards4">{"".join(out)}</div>'
+
+
+def _ledger_url():
+    import explainers as _ex
+    return getattr(_ex, "LEDGER_STORE", "/cold-storage.html")
+
+
+def _bd_cold_storage():
+    """Module 9. C5 ships this properly; C1 renders it with the Ledger option only,
+    per the 2026-09-13 ruling that removed the Trezor box. The disclosure line is
+    as written in the spec and is not conditional on how many options show."""
+    return (
+        '<div class="bd-card" style="padding:22px 24px 20px;gap:12px">'
+        '<div class="bd-sec-l">'
+        '<span class="bd-eyebrow">Keep it off the exchange</span>'
+        '<span class="bd-h2" style="font-size:20px">Cold storage, chosen on criteria, '
+        'not hype</span></div>'
+        '<div class="bd-cold">'
+        '<p class="bd-read" style="font-size:15px">If you hold more than you would be fine '
+        'losing, the coins should not live on an exchange. We judge hardware wallets on the '
+        'things that matter: open-source firmware, breach history, recovery, and price. We '
+        'link only to the maker, and we say so.</p>'
+        '<div class="bd-opt"><span class="bd-label">Meets the criteria</span>'
+        '<div class="bd-h3">Ledger</div>'
+        '<p class="bd-read">Read the breach history page before you decide. Buy from the '
+        'maker, never a marketplace listing.</p>'
+        f'<a class="bd-pill" href="{esc(_ledger_url())}" rel="sponsored nofollow noopener" '
+        'target="_blank">Buy direct from Ledger</a></div>'
+        '</div>'
+        '<p class="bd-disc">Disclosure: we earn a commission if you buy through these links. '
+        'Your price does not change. Buy only from the manufacturer, never a marketplace '
+        'listing.</p></div>')
+
+
+# ---- C8: The Record -----------------------------------------------------------
+# Addendum of 2026-09-13. What the desk has published that stays true after the news
+# moves on, grouped into lanes, each lane led by its strongest piece. This replaces
+# the "Stories worth keeping" list, which was 25 bare links doing nothing to say what
+# any of them was. The name changes everywhere; no URL changes.
+#
+# LANES ARE TAGS, not a new taxonomy. Each lane names tags this desk already applies,
+# so a lane's inventory is whatever the desk actually published into it and there is
+# no second classification to keep in sync. Counts today: regulation 186, legal 71,
+# stablecoins 109, exchanges 107, security 89, etfs-funds 58, protocols 55.
+#
+# HOMEPAGE SHOWS THREE, the Record page shows all five. A lane with no featured piece
+# is omitted rather than rendered empty (addendum item 5).
+RECORD_LANES = [
+    ("regulation-and-policy", "Regulation and policy", ("regulation", "legal"), True),
+    ("etfs-and-institutions", "ETFs and institutions", ("etfs-funds",), True),
+    ("exchanges-and-security", "Exchanges and security", ("exchanges", "security"), True),
+    ("stablecoins", "Stablecoins", ("stablecoins",), False),
+    ("network-and-mining", "Network and mining", ("protocols", "bitcoin"), False),
+]
+
+# Slugs whose pages are standing explainers rather than dated reporting. Used only for
+# the one-word type line on a read-further row.
+_RECORD_EXPLAINER_SLUGS = {"cold-storage", "crypto-tax", "onchain-flows",
+                           "counterfeit-devices"}
+
+
+def _record_type(item, hub_slugs):
+    if (item.get("slug") or "") in _RECORD_EXPLAINER_SLUGS:
+        return "Explainer"
+    if (item.get("slug") or "") in hub_slugs:
+        return "Living table"
+    if item.get("continued_by") or item.get("update_of"):
+        return "Running story"
+    return "Checked story"
+
+
+def _record_inventory(items):
+    """Every evergreen pick, bucketed by lane. One piece appears in one lane only: the
+    first lane in RECORD_LANES order that claims it, so a regulation story tagged
+    `exchanges` too does not headline both."""
+    picks = evergreen_picks(items, n=60)
+    claimed, by_lane = set(), {}
+    for slug, name, tags, _home in RECORD_LANES:
+        want = set(tags)
+        lane = []
+        for it in picks:
+            key = it.get("slug")
+            if key in claimed:
+                continue
+            if want & set(tags_for(it)):
+                lane.append(it)
+                claimed.add(key)
+        by_lane[slug] = lane
+    return by_lane, picks
+
+
+def _record_bars(lane_items, w=440, h=54, months=6):
+    """The lane's own publishing cadence: pieces per month over the last six months.
+    This is the "small data element built from the lane's own content" the addendum
+    asks for, and it is the one such element this desk can build without inventing a
+    status model it does not have. A lane with nothing to count draws nothing."""
+    import datetime as _dt
+    now = _build_now()
+    buckets, labels = [], []
+    for k in range(months - 1, -1, -1):
+        y, m = now.year, now.month - k
+        while m <= 0:
+            m += 12
+            y -= 1
+        buckets.append(sum(1 for i in lane_items
+                           if (i.get("published_utc") or "")[:7] == f"{y:04d}-{m:02d}"))
+        labels.append(_dt.date(y, m, 1).strftime("%b"))
+    if not any(buckets):
+        return ""
+    peak = max(buckets) or 1
+    bw, gap = 46, 12
+    base, top = h - 16, 6
+    parts = []
+    for i, (n, lab) in enumerate(zip(buckets, labels)):
+        x = i * (bw + gap)
+        bh = max(2, round((n / peak) * (base - top)))
+        parts.append(f'<rect x="{x}" y="{base - bh}" width="{bw}" height="{bh}" rx="2" '
+                     f'fill="var(--rule)" opacity="{0.35 + 0.65 * (n / peak):.2f}"></rect>')
+        parts.append(f'<text x="{x + bw / 2:.0f}" y="{h - 4}" font-family="var(--mono)" '
+                     f'font-size="10.5" fill="var(--muted)" text-anchor="middle">{lab}</text>')
+    total = (bw + gap) * len(buckets) - gap
+    aria = ", ".join(f"{l} {n}" for l, n in zip(labels, buckets))
+    return (f'<svg class="bd-chart" width="{total}" height="{h}" viewBox="0 0 {total} {h}" '
+            f'role="img" aria-label="Pieces published in this lane by month: {esc(aria)}.">'
+            f'{"".join(parts)}</svg>')
+
+
+def _record_lane(slug, name, lane_items, hub_slugs, page=False):
+    """One lane: the featured piece on the left, three more on the right."""
+    if not lane_items:
+        return ""
+    feat = lane_items[0]
+    rest = lane_items[1:4]
+    newest = max((i.get("published_utc") or "") for i in lane_items)[:10]
+    status = (f"{len(lane_items)} pieces in the Record, newest {esc(newest)}"
+              if newest else f"{len(lane_items)} pieces in the Record")
+    srcs = []
+    for i in lane_items[:6]:
+        for s in (i.get("sources") or []):
+            lab = _bd_outlet(s)
+            if lab and lab not in srcs:
+                srcs.append(lab)
+    receipts = (f'Receipts: {esc(", ".join(srcs[:4]))}' if srcs
+                else "Receipts: every source linked on the piece")
+    dek = (feat.get("dek") or feat.get("key_fact") or "").strip()
+    left = (
+        f'<div class="bd-card bd-rec-feat">'
+        f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(name)}</span>'
+        f'{verdict_badge(feat.get("verdict"), feat)}'
+        f'<span class="bd-stamp">{status}</span></div>'
+        f'<a class="bd-rec-hl" href="/articles/{esc(feat["slug"])}.html">'
+        f'{esc(feat.get("title") or "")}</a>'
+        + (f'<p class="bd-read" style="font-size:15px">{esc(dek)}</p>' if dek else "")
+        + _record_bars(lane_items)
+        + f'<div class="bd-brief-foot"><span class="bd-src">{receipts}</span>'
+          f'<a class="bd-more" href="/articles/{esc(feat["slug"])}.html">Read the piece</a>'
+          f'</div></div>')
+    rows = "".join(
+        f'<div class="bd-rec-row"><a class="bd-rec-t" href="/articles/{esc(i["slug"])}.html">'
+        f'{esc(i.get("title") or "")}</a>'
+        f'<span class="bd-src">{esc(_record_type(i, hub_slugs))}</span></div>'
+        for i in rest)
+    all_href = f"#{esc(slug)}" if page else f"/record.html#{esc(slug)}"
+    right = ""
+    if rows:
+        right = (f'<div class="bd-card bd-rec-more">'
+                 f'<span class="bd-label">Read further in {esc(name.lower())}</span>'
+                 f'<div class="bd-rec-rows">{rows}</div>'
+                 f'<a class="bd-more" href="{all_href}">All {esc(name.lower())}</a></div>')
+    return f'<section class="bd-rec-lane" id="{esc(slug)}">{left}{right}</section>'
+
+
+def record_sections(items, home=True):
+    """The Record: header plus one lane section per lane. Three lanes on the homepage,
+    every lane on /record.html."""
+    by_lane, _picks = _record_inventory(items)
+    hub_slugs = {sl for sl, _n, _s in coverage_hubs(items)}
+    lanes = "".join(
+        _record_lane(slug, name, by_lane.get(slug) or [], hub_slugs, page=not home)
+        for slug, name, _tags, on_home in RECORD_LANES
+        if (on_home or not home))
+    if not lanes.strip():
+        return ""
+    head = (f'<div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">The Record</span>'
+            f'<h2 class="bd-h2">What stays true after the news moves on</h2></div>'
+            + (f'<a class="bd-more" href="/record.html">The full Record</a>' if home else "")
+            + '</div>')
+    return f'<section class="bd-mod" aria-labelledby="bd-rec">{head}{lanes}</section>'
+
+
+def record_full_index(items, shown=12):
+    """Addendum item 4. The remaining evergreen titles as plain links in three columns,
+    so the internal-link count the priority sitemap relies on survives the change from a
+    wall of links to a set of lane sections. This replaces the wall, it does not delete
+    the links."""
+    picks = evergreen_picks(items, n=40)
+    rest = picks[shown:]
+    if len(rest) < 6:
+        return ""
+    links = "".join(f'<a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
+                    for i in rest)
+    return (f'<section class="bd-mod bd-rec-index">'
+            f'<div class="bd-cardtop"><span class="bd-label">The Record, full index</span>'
+            f'<a class="bd-more" href="/record.html">Open the Record</a></div>'
+            f'<div class="bd-rec-cols">{links}</div></section>')
+
+
+def render_record(items, dateline):
+    """/record.html: every lane, same shape as the homepage sections."""
+    body = f"""<main class="wrap"><section class="page">
+  <h1 class="sr-only">The Record: what stays true after the news moves on</h1>
+  {record_sections(items, home=False)}
+  {record_full_index(items, shown=0)}
 </section></main>"""
-    return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "Home", body, dateline, path="/", schema_extra=home_schema())
+    return shell(f"The Record - {NAME}",
+                 "The desk's standing work, by lane: what each piece establishes and the "
+                 "receipts behind it.", "", body, dateline, path="/record.html")
+
+
+def render_home(items, flows, pulse, cm, dateline):
+    """The GoCheckMyCrypto front door, inverted (C1, Artboards 1 and 2).
+
+    THE INVERSION. The old front page led with the newsroom: a hero mosaic of
+    stories, then the four board cards as destinations. The Board now leads and the
+    stories follow it, because the Board is the thing this desk has that a reader
+    cannot get from a headline aggregator, and because every story on this desk is
+    written against a Board number anyway. The four dashboard cards are gone from
+    the homepage: nav carries them, and they were four clicks competing with the
+    numbers themselves.
+
+    WHAT IS HONEST HERE. Every tile, row and card below is built from data that
+    exists in this build. A tile with no value is dropped; a tile with no prior-day
+    value renders without its delta row; a delta measured against a carried-forward
+    section is not computed at all. The Whale Watch chart draws the assets the feed
+    returned rather than the four the mockup happens to show. Nothing on this page
+    is a placeholder and nothing is a fabricated number.
+    """
+    pulse = pulse or {}
+    deltas = board_deltas(pulse)
+    tiles = board_tiles(pulse, flows, deltas)
+
+    # C2 has not shipped, so every Explained link lands on /learn. C2 rewires this
+    # one function and the tiles follow.
+    def learn_href(tile):
+        return "/learn.html"
+
+    stamp = data_stamp(pulse, what="The Board")
+
+    board_mod = ""
+    if tiles:
+        board_mod = f"""<section class="bd-mod" aria-labelledby="bd-board">
+  <div class="bd-sec"><div class="bd-sec-l">
+    <span class="bd-eyebrow">The Board</span>
+    <h2 class="bd-h2" id="bd-board">Every number that matters today, in plain language</h2>
+  </div><a class="bd-more" href="/pulse.html">How the Board is built</a></div>
+  {stamp}
+  {board_tile_grid(tiles, learn_href)}
+  <a class="bd-allboard bd-phone-only" href="/pulse.html">See all eight tiles on the Board</a>
+</section>"""
+
+    # The day's edition, freshness-gated. current_bottom_line is the gate: it is what
+    # keeps a stale brief off the front page, and both surfaces below share this one
+    # resolved value rather than each re-deriving it.
+    edition_item = current_bottom_line(items)
+    brief = _bd_brief_card(edition_item)
+    edition = _bd_edition_card(items, tiles, edition_item, span_full=not brief)
+    brief_row = f'<section class="bd-row3">{brief}{edition}</section>'
+
+    ww = _bd_ww_chart(flows)
+    ww_card = ""
+    if ww:
+        ww_card = (
+            '<div class="bd-card bd-span2" style="gap:12px;padding:20px 24px 18px">'
+            '<div class="bd-sec" style="border:none;padding:0"><div class="bd-sec-l">'
+            '<span class="bd-eyebrow">Whale Watch</span>'
+            '<span class="bd-h2" style="font-size:20px">Exchange flows, last 24 hours</span>'
+            '</div><a class="bd-more" href="/flows.html">Open Whale Watch</a></div>'
+            '<div class="bd-legend">'
+            '<span><span class="bd-sq" style="background:var(--down)"></span>Onto exchanges</span>'
+            '<span><span class="bd-sq" style="background:var(--up)"></span>Off exchanges</span>'
+            '</div>'
+            f'{ww}'
+            '<p class="bd-src">Source: Whale Alert public feed, transfers above $1M. Onto '
+            'exchanges is usually sell positioning; off exchanges is usually storage.</p></div>')
+    since = _bd_since_rows(tiles, deltas, pulse, flows)
+    ww_row = f'<section class="bd-row3">{ww_card}{since}</section>' if (ww_card or since) else ""
+
+    news = _bd_news_cards(items)
+    news_mod = ""
+    if news:
+        news_mod = f"""<section class="bd-mod" aria-labelledby="bd-news">
+  <div class="bd-sec"><div class="bd-sec-l">
+    <span class="bd-eyebrow">From the news desk</span>
+    <h2 class="bd-h2" id="bd-news">Checked stories, each tied to a Board number</h2>
+  </div><a class="bd-more" href="/news.html">All stories</a></div>
+  {news}
+</section>"""
+
+    learn = _bd_learn_cards()
+    learn_mod = ""
+    if learn:
+        learn_mod = f"""<section class="bd-mod" aria-labelledby="bd-learn">
+  <div class="bd-sec"><div class="bd-sec-l">
+    <span class="bd-eyebrow">Learn the Board</span>
+    <h2 class="bd-h2" id="bd-learn">Every tile has a plain-language explainer</h2>
+  </div><a class="bd-more" href="/learn.html">All explainers</a></div>
+  {learn}
+</section>"""
+
+    body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
+  <h1 class="sr-only">{esc(FAMILY)}: the Board, and crypto news checked against it</h1>
+  {board_mod}
+  {brief_row}
+  {ww_row}
+  {news_mod}
+  {record_sections(items, home=True)}
+  {learn_mod}
+  <section class="bd-mod">{_bd_cold_storage()}</section>
+  {record_full_index(items)}
+</section></main>"""
+    return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "The Board", body, dateline,
+                 path="/", schema_extra=home_schema())
 
 
 def flow_teaser():
@@ -2624,7 +3242,7 @@ def render_accessibility(dateline):
   <h2>What was tested, and when</h2>
   <p>Last full review: <strong>{ACCESSIBILITY_TESTED_ON}</strong>.</p>
   <p>The review covered <strong>{ACCESSIBILITY_PAGE_COUNT} pages</strong>: every standalone
-     page on the site, including the home page, Latest, Whale Watch, Market Pulse and each
+     page on the site, including the home page, Latest, Whale Watch, the Board and each
      of its eight boards, Chart Master, the Learn explainers, Archive, and the trust and
      policy pages. Articles are generated from a single shared template, so two article
      pages were tested as samples of it rather than all {ACCESSIBILITY_ARTICLE_COUNT} of
@@ -3353,20 +3971,20 @@ PULSE_DESKS = [
 
 
 def _dash_crumb():
-    return '<span class="kicker"><a href="/pulse.html">Market Pulse</a> &middot; dashboard</span>'
+    return '<span class="kicker"><a href="/pulse.html">The Board</a> &middot; dashboard</span>'
 
 
 def mp_hero():
     # The pulse loop is header atmosphere only (never adjacent to live numbers: the whole
     # board renders below on the plain background). Strictly lazy like the other section
     # videos: no autoplay attribute, motion-lazy pool, poster first paint.
-    return ('<section class="ww-hero mp-hero" aria-label="Market Pulse"><div class="ww-heroinner"><div class="ww-panel">'
+    return ('<section class="ww-hero mp-hero" aria-label="The Board"><div class="ww-heroinner"><div class="ww-panel">'
             '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
             'poster="/assets/pulse/pulse-poster.jpg" aria-hidden="true" tabindex="-1">'
             '<source src="/assets/pulse/pulse-loop.webm" type="video/webm">'
             '<source src="/assets/pulse/pulse-loop.mp4" type="video/mp4"></video>'
             '<span class="ww-scrim" aria-hidden="true"></span>'
-            '<span class="ww-panel-fg"><span class="kicker">Market Pulse</span>'
+            '<span class="ww-panel-fg"><span class="kicker">The Board</span>'
             '<span class="ww-title">The Board</span></span>'
             '</div></div></section>')
 
@@ -3555,7 +4173,7 @@ def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None):
     stamp = data_stamp(data) if data is not None else ""
     body = (f'<main class="wrap"><section class="page">\n{body_inner}\n{stamp}\n'
             f'</section></main>')
-    return shell(f"{title} - Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
+    return shell(f"{title} - The Board - {NAME}", desc, "The Board", body, dateline,
                  body_class="ww-dark", path=f"/pulse/{slug}.html", live_js=live)
 
 
@@ -3705,7 +4323,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
   {data_stamp(pulse, what="The market boards")}
   <p class="nfa">{esc(pulse.get("note", ""))} {esc(NFA)}</p>
 </section></main>'''
-    return shell(f"The Board - Market Pulse - {NAME}", desc, "Market Pulse", body, dateline,
+    return shell(f"The Board - {NAME}", desc, "The Board", body, dateline,
                  body_class="ww-dark", path="/pulse.html", live_js=True)
 
 def render_pulse_sentiment(pulse, dateline):
@@ -4244,7 +4862,7 @@ def render_pulse_network(pulse, dateline):
 def cm_hero():
     # The wizard loop is the column's satirical mascot, a character and never an
     # authority claim: it appears exactly once, as the page-top panel (same slot the
-    # Whale Watch and Market Pulse headers use), with no predictive framing anywhere
+    # Whale Watch and Board headers use), with no predictive framing anywhere
     # in this markup. Strictly lazy: no autoplay attribute, preload="none", the
     # motion-lazy pool arms on first scroll, poster paints first.
     return ('<section class="ww-hero cm-hero" aria-label="The Chart Master"><div class="ww-heroinner"><div class="ww-panel">'
@@ -4906,6 +5524,7 @@ def build():
     w("about.html", render_about(dateline))
     w("standards.html", render_standards(dateline))
     w("learn.html", render_learn(dateline))
+    w("record.html", render_record(items, dateline))
     w("how-we-make-money.html", render_how_we_make_money(dateline))
     w("cold-storage.html", render_cold_storage(dateline))
     w("crypto-tax.html", render_crypto_tax(dateline))
@@ -4973,7 +5592,8 @@ def build():
             "/pulse/sentiment.html", "/pulse/posture.html",
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
-            "/archive.html", "/bottom-line.html", "/method.html", "/about.html", "/standards.html",
+            "/archive.html", "/bottom-line.html", "/record.html",
+            "/method.html", "/about.html", "/standards.html",
             "/learn.html", "/cold-storage.html", "/crypto-tax.html", "/counterfeit-devices.html",
             "/onchain-flows.html",
             "/how-we-make-money.html",
