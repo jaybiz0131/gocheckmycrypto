@@ -1812,7 +1812,7 @@ def render_bottom_line_history(items, dateline):
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">The Bottom Line</span>
   <h1>The daily reads</h1>
-  <p class="lede">Three times a day the desk closes its edition with The Bottom Line: what
+  <p class="lede">Once a day the desk closes its edition with The Bottom Line: what
      happened, why it mattered, and what the calendar says comes next. Synthesis of the
      desk's verified reporting, never a prediction and never advice. Every read is kept.</p>
   {"".join(rows) if rows else '<p class="lede">The first edition lands soon.</p>'}
@@ -1964,9 +1964,10 @@ def render_news(items, dateline, pulse=None):
   </div></section>"""
         grid = ('<section class="sec"><div class="wrap"><div class="empty">'
                 '<span class="k">No brief published yet</span>'
-                '<p style="margin:.6em 0 0">Every story here will have been ranked by an AI editor, '
-                'checked against its sources by an independent AI verifier, and approved by a human. '
-                'That gate is the whole point, so we would rather publish nothing than publish junk.</p>'
+                '<p style="margin:.6em 0 0">Every story here will have been ranked for significance, '
+                'checked against its sources by an independent verification pass, and held if it '
+                'fails that check. That gate is the whole point, so we would rather publish '
+                'nothing than publish junk.</p>'
                 '</div></div></section>')
     # news first: lead story (Bottom Line beside it), then the rest of the day's stories;
     # the promise strip and the whale teaser read as the footer beats, never above the
@@ -2237,7 +2238,7 @@ def render_home(items, flows, pulse, cm, dateline):
         editions_html = (f'<div class="sec-head" style="margin-top:26px"><h2>The Editions</h2>'
                          f'<span class="bar"></span></div>'
                          f'<p class="pc-note" style="margin:0 0 10px">The desk\'s daily synthesis: '
-                         f'morning, midday, and evening reads over everything published.</p>'
+                         f'one evening read over everything published that day.</p>'
                          f'<div class="edition-strip">{"".join(ed_cards)}</div>')
 
     # Tracking: the narratives watchlist, each chip linking to its latest published chapter.
@@ -2436,10 +2437,6 @@ def render_method(items, dateline):
         earns money is set out on <a href="/how-we-make-money.html">how we make money</a>.</li>
   </ul>
 
-  <p>Stories on this site are produced with AI assistance and reviewed before publication,
-     under the human editor-in-chief described above. We say so because you should know what
-     you are reading.</p>
-
   <p>When we get something wrong we aim to fix it and say so on the story itself. Our sourcing
      and corrections policy is on <a href="/standards.html">standards and corrections</a>.</p>
 
@@ -2468,13 +2465,12 @@ def render_about(dateline):
   <p>Alongside the news, <b>Whale Watch</b> follows the money on-chain, the large exchange flows most
      coverage ignores. It is market data, clearly labelled, never dressed up as news.</p>
 
-  <h2>The machine does the grind. A human owns the judgment.</h2>
-  <p>An AI newsroom does the reading, the triage, the fact-checking, and the first draft, every day,
-     without getting tired. But the machine is the staff, not the editor. A story runs only when an
-     independent verification pass confirms it against its sources; anything flagged waits for the
-     human editor-in-chief, who oversees the desk, overrides the machine where judgment differs, and
-     owns every take: no opinion ever goes out in a human voice unless a human wrote it. If that
-     standard ever slips, we drop the cadence before we drop the standard.</p>
+  <h2>How a story gets published</h2>
+  <p>A story runs only when an independent verification pass confirms it against its sources, and
+     every source is linked so you can check the work yourself. A human editor-in-chief oversees the
+     desk, can hold or remove anything, and owns every take: no opinion ever goes out in a human
+     voice unless a human wrote it. If that standard ever slips, we drop the cadence before we drop
+     the standard.</p>
 
   <h2>Our bias</h2>
   <p>We are biased toward the reader and against the shill. We weight official and primary sources
@@ -2597,10 +2593,6 @@ def render_standards(dateline):
      error, tell us and we will check it against the source. A correction is a feature of an
      honest desk, not a failure.</p>
 
-  <h2>AI disclosure</h2>
-  <p>Stories on this site are produced with AI assistance and reviewed before publication,
-     under a human editor-in-chief who oversees the desk. Opinion, analysis and corrections
-     are human work. We say so because you should know what you are reading.</p>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Standards - {NAME}", "Crypto Cronkite standards, verification, and corrections policy.",
