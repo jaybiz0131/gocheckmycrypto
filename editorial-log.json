@@ -1,53 +1,6 @@
 [
  {
   "date": "2026-08-09",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c008",
-    "headline": "Brazil imposes 24-hour hold on crypto transfers to self-custody wallets, effective January 2027",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states the threshold is '10,000 reais, approximately equivalent to $10,000 USD' but the brief's data_point makes no USD equivalence claim. The approximate conversion is smuggled from outside the brief.",
-     "Brief flags 'boundary_required': true and 'boundary_ok': false with explicit reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft proceeds without a boundary block despite this desk flag. This violates the hard rule that a story flagged as requiring but lacking a boundary block must be rejected before publication."
-    ]
-   },
-   {
-    "id": "c012",
-    "headline": "Bitcoin security effort claims AI found 12+ flaws across ecosystem",
-    "category": "balance",
-    "reasons": [
-     "Brief identifies empty bear_case (no adversarial framing provided), yet draft opens with structural skepticism ('raises a structural question') and dedicates an entire paragraph to what is NOT confirmed by the source. This inverts the balance: the draft reads more cautious than the brief warrants. However, the deeper issue is that the draft correctly flags the open_questions as unresolved but does so in a way that reads as though the story itself is thin and speculative\u2014which it is. The writer should either (a) reject the story as too thin, or (b) lead with the vulnerability count and platform as the lede, not the epistemological gap. As written, the piece reads as though filing doubt rather than reporting an event. The phrase 'However, the Decrypt reporting does not specify which vulnerabilities were identified...' is a hedge that belongs in a qual section, not as the climax of a story about a security disclosure. This violates balance by making the source's silence the story rather than the claim itself."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "Russian hardware wallet sales surge ahead of new crypto rules",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Russian law bars withdrawals from digital depositories to personal wallets until that date' and 'crypto transactions must route through regulated entities and banks must refuse to process transactions outside that framework' after July 1, 2027. The brief data_point reads: 'Russian law bars withdrawals from Russian digital depositories to personal wallets with a transition period running until July 1, 2027.' The distinction matters: the brief does not claim that after July 1, 2027, all crypto transactions must route through regulated entities and banks will refuse external routing. The draft has interpolated a consequence (mandatory routing + bank refusal post-July-1) that is not explicitly in the brief's data_point. This is a smuggled inference about the legal architecture after the transition deadline. The brief says the transition period expires; the draft says what must happen then. Accuracy violation: the draft went beyond the sourced claim."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Venezuela's sanctions are stablecoins' proof of concept",
-    "category": "accuracy",
-    "reasons": [
-     "Core claim in brief is 'Unable to verify: source_texts are empty' with zero data_points and thin=true. The draft presents the Venezuela stablecoin narrative as reportage ('reportedly,' 'according to Blockworks reporting') when the brief contains no verified source material to back any factual claim. The opening sentence 'Venezuela...has reportedly become a live test case' smuggles a framing (proof of concept) that does not appear in the brief's data. The entire narrative arc from 'necessity' through 'functional need' is constructed without a data point to anchor it. A thin brief with empty source_texts should produce a story that explicitly flags the reporting gap; instead, this draft reads as though Blockworks' reporting has been reviewed and validated when the brief shows the source was never obtained."
-    ]
-   },
-   {
-    "id": "c007",
-    "headline": "World Liberty received $100 million from businessman investigated for money laundering",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'the desk's review of available reporting found no public disclosure indicating that World Liberty performed heightened compliance review' and 'the absence of disclosure on a compliance matter of this magnitude suggests a potential gap.' This is original analysis and a negative fact claim (that disclosure does not exist) not present in the brief. The brief contains only two data_points, both marked 'reported' confidence, and neither address whether World Liberty conducted due diligence or disclosed anything. The draft has moved from 'no public disclosure found' (desk research) to editorial inference ('suggests a potential gap between standard institutional practice'), which is synthesis not in the brief. Additionally, the draft's accusatory framing\u2014'potential gap,' 'should have disclosed,' 'high-risk funding source'\u2014exceeds what two 'reported' confidence claims support and reads as editorializing compliance liability rather than reporting facts."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
   "approved": 4,
   "rejected": [
    {
@@ -6797,6 +6750,31 @@
     "reasons": [
      "The research brief's core_claim states: 'The source_texts provided do not contain any reporting on Lisk (LSK) price movement, liquidations, or the claimed 500% spike and crash.' The open_questions section confirms: 'No source text from the claimed primary URL (https://beincrypto.com/lsk-price-surge-short-squeeze/) was successfully fetched; only a paywall message was returned.' The draft treats all four data points (900% climb above $2, 500% intraday surge, $0.80 retreat, and 'largest liquidation event') as established facts in narrative voice. These facts exist only as 'reported' confidence labels from a source that was not successfully retrieved. The entire draft is built on unverified claims marked as reporting from a URL the research team could not access. No fact in the draft can be traced to actual source text.",
      "The draft presents the event as having occurred ('Lisk (LSK) climbed above $2 on Sunday, September 13...triggered what BeInCrypto characterized...') when the only basis for these claims is snippet-level attribution to a paywalled article. A paywall message is not reporting; it is absence of reporting."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c071",
+    "headline": "Thailand SEC Proposes Same-Owner Rule for Stablecoin Transfers Through Licensed Operators",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Thailand's SEC Board approved a stablecoin consultation proposal on September 3' but the brief's data point says the board 'approved the stablecoin consultation principles on Sept. 3' and the draft later states 'The SEC opened the public consultation on September 11'. The language in the draft conflates board approval of principles with approval of a 'proposal,' creating ambiguity about what was approved on Sept. 3 versus what was opened on Sept. 11. The brief is clear: the board approved principles on Sept. 3, and the consultation document opened Sept. 11. The draft should not elide this distinction.",
+     "The draft claims 'withdrawals would likewise have to go to an account or wallet verified as the customer's own' and earlier 'stablecoins entering a customer account at a digital asset operator would have to come from an account or wallet verified as belonging to that customer.' These sentences are presented as description of the rule's mechanics, but the brief's core claim and data points describe this as the 'same-owner requirement' and 'same-owner test.' The brief data point 5 says 'The restriction would stop a customer from using a Thai SEC-supervised platform to receive a transfer from someone else's wallet or to send stablecoins to another person's wallet.' The draft's wording is more permissive than the brief's characterization suggests\u2014it allows transfers 'verified as belonging to that customer,' which could include joint accounts or third-party custodians. The brief's formulation is 'same-owner'\u2014same person, not same-verified-account. The draft should use the brief's framing to avoid overstating permissiveness."
+    ]
+   },
+   {
+    "id": "c078",
+    "headline": "Trump Meets on CLARITY Act Paragraph; Senate Cloture Vote Tuesday, Sept. 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'President Trump called advisers into a Friday meeting to debate one paragraph of the CLARITY Act' but marks this claim as coming from 'Politico's reporting cited by BeInCrypto.' The brief's corresponding data_point carries confidence label 'unconfirmed' and notes 'Politico broke the story, citing two people granted anonymity.' The draft does not signal that this claim is unconfirmed or anonymous-sourced; it presents the meeting as established fact without qualification. Per protocol, a brief claim marked 'unconfirmed' must read that way in prose.",
+     "Similarly, the draft reports 'The disputed text would restrict the president, vice president, senior officials, and their spouses from launching or promoting their own cryptocurrencies' without noting this comes from unconfirmed sources, while the brief marks this claim as 'unconfirmed.'",
+     "The draft states 'Cloture requires 60 votes; Republicans hold 53 seats, meaning seven Democrats must cross the aisle' but this math is presented without caveat. If Republicans hold 53 seats and 60 votes are needed for cloture, the math is correct. However, the brief does not appear to verify current seat counts as of September 13, 2026; this is a factual assertion about live congressional composition not explicitly in the brief's data_points, making it a smuggled fact."
     ]
    }
   ]

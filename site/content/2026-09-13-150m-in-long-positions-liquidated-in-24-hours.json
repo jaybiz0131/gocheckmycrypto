@@ -1,0 +1,55 @@
+{
+  "id": "c126",
+  "slug": "150m-in-long-positions-liquidated-in-24-hours",
+  "kind": "brief",
+  "title": "$150M in Long Positions Liquidated in 24 Hours",
+  "dek": "Crypto Briefing reports $150 million in long positions were liquidated over 24 hours, reflecting margin breaches and a shift in market sentiment. The liquidations signal a deleveraging phase as traders face forced position closures amid volatility.",
+  "date": "2026-09-13",
+  "published_utc": "2026-09-13T15:09:31Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "A $150 million liquidation of long positions occurred in a single 24-hour window, per Crypto Briefing reporting.",
+  "bottom_line": "The $150 million event itself is historical; the forward signal is whether additional liquidation cascades materialize in the coming 48 hours. Funding rates and open interest across exchanges will show whether leverage is truly leaving the market or simply relocating.",
+  "human_take": "",
+  "body": [
+    "Crypto Briefing reports $150 million in long positions were liquidated over 24 hours, reflecting a sharp move against leveraged traders in the derivatives market. The forced closures occur when margin requirements are breached, forcing traders out of positions regardless of intent.\nSuch liquidation events signal a deleveraging phase, according to Crypto Briefing's reporting. The closures typically indicate a shift in market sentiment away from overly optimistic positioning, as traders reassess confidence in certain crypto assets reaching previously anticipated price targets.\nMarket participants are monitoring further liquidation events closely to assess whether deleveraging continues, Crypto Briefing reports. The outcome depends partly on whether major exchanges and institutional investors maintain or shift their positioning, which may influence odds for any specific asset reaching significant price milestones.\nThis is not financial advice."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/150m-in-crypto-long-positions-liquidated-in-24-hours-whaleinsider/",
+      "url": "https://cryptobriefing.com/150m-in-crypto-long-positions-liquidated-in-24-hours-whaleinsider/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-13T15:07:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77112.74,
+        "chg_24h_pct": -0.19
+      },
+      {
+        "symbol": "ETH",
+        "price": 2486.53,
+        "chg_24h_pct": -1.53
+      }
+    ],
+    "fng": {
+      "value": 61,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.8,
+      "open_interest_usd": 2175667758
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -226996468,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
