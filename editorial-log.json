@@ -1,46 +1,6 @@
 [
  {
   "date": "2026-08-10",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c034",
-    "headline": "Brazil to tighten crypto fraud controls with new 24-hour wait on transfers to self-custody wallets",
-    "category": "balance",
-    "reasons": [
-     "The brief identifies this as a 'thin' story (thin: true) with only one data_point. The draft correctly reflects the thinness by frontloading uncertainty: 'Critical details remain unconfirmed' and 'The original source material is unavailable for independent verification.' However, the draft then synthesizes bear_case reasoning ('Without clarity on which agency is enforcing the rule...the rule's real-world impact is speculative') and open_questions into the body as if they are settled editorial analysis rather than unresolved gaps. The bear_case and open_questions should have been pulled into the brief but are not populated in the brief object itself (bear_case is an empty array). The draft compensates by writing the uncertainty into the prose, which is appropriate, but this creates a structural issue: the draft is doing the work of the brief's missing bear_case. The draft reads as though the writer had to do the editorial heavy-lifting that the brief should have supplied. This is allowable if the result is balanced, but the opening ('Brazil will implement a new cryptocurrency regulation effective January 1, 2027...') states the rule as fact without immediate qualification. The reader does not learn until paragraph 3 that the rule is unverified. For a story this thin and unconfirmed, the lede should foreground the uncertainty, not bury it.",
-     "The brief's bear_case is empty, yet the draft includes a full bear_case paragraph. This suggests the writer inferred the bear_case from context rather than from research guidance. While the inferred bear_case is reasonable, it violates the hard rule that facts (and analytical frameworks) originate in the brief, not in drafting."
-    ]
-   },
-   {
-    "id": "c021",
-    "headline": "Bitcoin spot ETFs pull in $853.54 million as institutional capital returns",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'The broader pool of bitcoin spot ETFs saw cumulative net flows of $51.432 billion since inception through July 28, per the desk's ETF flows board. On the latest date in the desk's data, July 28, bitcoin spot ETFs logged a net inflow of $5.1 million.' \u2014 This cumulative figure of $51.432 billion since inception is not in the brief's data_points and cannot be traced to the source. The brief contains no data_point about cumulative flows since inception; it only covers weekly flows and year-to-date flows. This is smuggled information."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "Vitalik Buterin places privacy and quantum resistance at center of Ethereum roadmap",
-    "category": "accuracy",
-    "reasons": [
-     "The brief is marked 'thin: true' with only 2 data_points and 0 source_chars, yet the draft contains multiple unsourced claims: 'The move addresses two distinct threats: quantum computing's eventual ability to break current elliptic-curve cryptography, and regulatory pressure on privacy features in financial infrastructure.' This interpretive framing about 'regulatory pressure on privacy features' is not in the brief's data_points. The brief's angle mentions 'regulatory privacy scrutiny,' but the draft's specific claim about regulatory pressure on privacy features in financial infrastructure extends beyond the source material provided."
-    ]
-   },
-   {
-    "id": "c000",
-    "headline": "CFTC Establishes Innovation Advisory Committee, Inaugural Meeting August 20",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'CFTC Chairman Michael S. Selig announced the inaugural meeting' but the brief labels all data_points as 'announced-not-verified' confidence. The draft must flag this uncertainty in prose (e.g., 'according to the CFTC press release, which has not been independently verified' or similar language signaling the confidence level). Confidence labels must survive into the prose; presenting an announced-but-unverified claim as settled fact violates the brief's own confidence tagging.",
-     "The entire draft treats all claims from the press release as confirmed facts without any hedging language that signals 'announced-not-verified' status. Every major fact in this story (committee creation, August 20 meeting, Selig's sponsorship, Passalacqua's role, the charter description) carries that confidence label and must be read in prose as unconfirmed announcements, not as verified events."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-10",
   "approved": 3,
   "rejected": [
    {
@@ -6697,6 +6657,30 @@
     "reasons": [
      "The draft's lead sentence and opening paragraph present the $5.14M vs. $304K comparison as a current snapshot ('as of September 13, 2026'), but the brief's bear_case explicitly flags: 'The comparison uses a single 24-hour snapshot; Solana's app revenue could be subject to high volatility depending on meme-coin launch cycles and trading platform activity.' This uncertainty is material context that must appear in the prose. The draft does not signal that this is a single-day snapshot subject to volatility; it presents the 16.9x ratio as though it reflects sustained positioning. A reader would be misled into thinking this gap is structural rather than potentially cyclical.",
      "The draft narrates: 'Base, launched by Coinbase as an Ethereum Layer-2, has consistently ranked below Solana and other leading chains in daily app revenue.' The brief's bear_case states: 'Base's transaction volumes have shown some life at various points, suggesting the revenue gap may not be structural but cyclical.' The draft omits this critical caveat and frames the gap as consistent/structural ('consistently ranked below'), contradicting the brief's own uncertainty about whether the pattern holds."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c068",
+    "headline": "Study: 46 of 68 Audited DeFi Protocol Attacks Occurred Outside Audit Scope, Accounting for $681M in H1 2026 Losses",
+    "category": "accuracy",
+    "reasons": [
+     "Title states '$681M in H1 2026 Losses' but the brief's open_questions note flags confusion about the $885M headline figure. The draft body correctly reports $680.97M as the outside-scope losses from the 68-audited-incident subset, which matches the title. However, the brief itself notes the source text does not provide the full preprint, and the CryptoSlate headline may conflate different figures. The title's $681M figure is accurate to the body and brief, but the brief's own open_question flags that '$685M' or '$885M' may be different aggregations in the source. This is a sourcing ambiguity that should be resolved before publication: the title should clarify whether $681M is the outside-scope subset ($680.97M) or a different figure."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Revolut Exposed Customer KYC and Bitcoin Transaction Data Via Spoofed Government Email",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains only two data_points, both attributed to Cointelegraph (via the timestamp and source_name fields). The draft opens by attributing reporting to 'The Block and Cointelegraph,' but The Block URL is included in the sources array. However, the brief's data_points do not mention The Block as a source for any of the core claims. The first data_point ('A fake government domain email was used to trick Revolut...') is sourced only to Cointelegraph in the brief. The draft attributes this claim to both outlets, but the brief provides no evidence that The Block independently reported the same fact. This is a sourcing mismatch: the draft attributes claims to outlets not listed as sources in the brief data_points.",
+     "The brief contains only two data_points, making it extremely thin (thin=true). The first data_point is attributed only to Cointelegraph in the brief's source_name field; The Block is listed in the draft's sources array but not connected to any data_point in the brief. The draft's opening sentence 'according to reporting by The Block and Cointelegraph' cannot be verified against the brief, which does not list The Block as a source for the core claim.",
+     "The draft's second paragraph attributes speculation to 'Onchain investigator ZachXBT' with the qualifier 'remains unconfirmed and based on patterns rather than official disclosure from Revolut.' The brief's second data_point marks this as 'unconfirmed' confidence, which the draft correctly signals. However, the brief does not specify where ZachXBT's statement appears (The Block? Cointelegraph? A separate tweet?), and the draft presents it as 'according to reporting by The Block and Cointelegraph' in the opening, then attributes the ZachXBT angle to them without clarifying the source. This is a compliance issue: an 'unconfirmed' claim sourced to wire coverage without specifying which outlet reported the speculation, or whether ZachXBT's statement is independently verified, creates ambiguity about the chain of attribution."
     ]
    }
   ]
