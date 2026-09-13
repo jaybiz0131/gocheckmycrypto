@@ -1,0 +1,78 @@
+{
+  "id": "wrap-pm-2026-09-12",
+  "slug": "evening-brief-2026-09-12",
+  "kind": "brief",
+  "title": "The Evening Brief: Rate hike and Senate vote collide Tuesday; Revolut breach exposes crypto holdings",
+  "dek": "Two converging policy decisions on September 15, a likely Fed rate hike and a Senate procedural vote on the Clarity Act, frame the week ahead, while a security breach at Revolut exposed bitcoin transaction histories and passport data. Regulatory momentum continues to accelerate globally, with India's tokenized bond pilot now live and UK authorities moving toward mandatory digital-assets strategy.",
+  "date": "2026-09-12",
+  "published_utc": "2026-09-12T23:05:00Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "September 15 brings twin policy tests: the Fed is expected to raise rates with 70% probability, and the Senate will vote on advancing crypto legislation, both moving in the same direction as global regulators push forward on digital assets and tokenization.",
+  "bottom_line": "Two policy tests converge on September 15: markets are pricing a 70% chance of a Fed rate hike, and the Senate will vote on advancing the revised Clarity Act, with Democratic votes holding the legislative outcome. A security breach at Revolut exposed bitcoin transaction histories tied to high-net-worth users, highlighting custody and privacy risks. Regulatory momentum accelerates abroad: India deployed a $107 million tokenized bond pilot live, the UK House of Lords backed a digital-assets strategy, and European banks are racing into regulated crypto services. The desk's boards show bitcoin moving onto exchanges at its heaviest weekly pace since late August, while ETH ETF inflows resumed on Friday after outflows earlier in the week. What to watch: the Senate cloture vote on September 15 at 2:15 p.m., the Fed's rate decision on September 15-16, the SEC custody-rule proposed rulemaking in October 2026, and whether Osmosis's reserve mechanism recovers funds from the Nomic breach.",
+  "human_take": "",
+  "body": [
+    "The week converges on two policy decisions on September 15 that will shape near-term market conditions and legislative trajectory. The desk reported Friday that core consumer prices climbed 0.3% month-over-month in August, beating consensus expectations of 0.2%, and that this hotter print has pushed Fed rate-hike odds to roughly 70% ahead of the September 15-16 Federal Open Market Committee meeting. On the same day, the Senate is scheduled to vote at 2:15 p.m. on a motion to proceed to debate on the revised Clarity Act, which requires 60 votes; Republicans hold 53 seats, meaning seven Democratic votes are necessary if all Republicans support the motion. As the desk reported Friday, Senator Cynthia Lummis released a 630-page revised version of the bill on September 10, tightening DeFi registration requirements and limiting DeFi provisions to spot and cash transactions. The convergence of these two events means markets will price both rate expectations and legislative risk simultaneously.",
+    "A separate security incident underscores the stakes of crypto custody and privacy. Revolut disclosed this weekend that it handed over passport copies, verification selfies, and complete bitcoin transaction histories to a malicious actor after falling for a fraudulent data request spoofed from a legitimate government agency's email domain with valid authentication credentials. The company said a limited number of customers were affected and that systems and funds remained unaffected, but the exposure of identity documents and blockchain activity tied to high-net-worth users creates immediate risk: full passport scans combined with proof of significant crypto holdings furnish the information needed to orchestrate physical threats, a risk class known as wrench attacks. Whether regulators will require stronger, multi-factor authentication protocols for sensitive data-disclosure requests remains to be seen in law enforcement's investigation.",
+    "Regulatory momentum continues to accelerate abroad, independent of U.S. policy. India's Securities and Exchange Board deployed Demat 2.0, a live pilot for tokenized corporate bonds, with $107 million in issuance already recorded and settlement occurring via wholesale CBDC and distributed ledger technology, per the desk's reporting on Saturday. This represents a sovereign regulator's first institutional-scale deployment of tokenized securities on blockchain infrastructure. The UK House of Lords voted 194 to 138 on September 11 to approve an amendment requiring the UK Treasury to develop a mandatory national strategy covering cryptoassets, stablecoins, tokenized securities, and digital financial infrastructure, though the amendment must still clear the House of Commons before taking effect. The UK's Financial Conduct Authority crypto framework is set to take effect October 25, 2027, leaving a window during which crypto firms operate under interim rules. UniCredit, Italy's second-largest bank, is selecting a technology provider to build infrastructure for cryptocurrency custody, trading, and tokenized investment offerings, placing it among European banks racing to launch regulated crypto services under the EU's Markets in Crypto-Assets Regulation. Thailand's Securities and Exchange Commission opened public consultation on September 11 on a stablecoin proposal requiring same-owner verification for all deposits and withdrawals through licensed crypto firms; comments are due September 25.",
+    "Protocol updates and adoption metrics show continued momentum. The XRP Ledger activated the fixCleanup3_3_0 amendment on September 11 at 11:29 UTC with 88.57% validator consensus, bundling maintenance fixes into mandatory network consensus rules; node operators running older versions risk amendment blocking. XRP itself posted a 29.7% monthly gain through September 11, when it traded near $1.32, as stablecoins on the XRP Ledger reached $1.126 billion in total supply. Uniswap processed $70.6 billion in trading volume over the past 30 days, a roughly 38% jump above its January-through-July average of $51.1 billion, with Robinhood Chain contributing approximately $26 billion or roughly 37% of total volume, though sustainability of the spike remains uncertain. A separate incident exposed a longer security vulnerability: Osmosis discovered a 40-bitcoin exploit on the Nomic chain only after 74 days, when Nomic halted; the breach left 36% of Osmosis allBTC reserves unbacked, per the desk's reporting on Saturday.",
+    "The SEC's custody-rule rewrite, designed to clarify how investment advisers and investment companies can custody crypto assets, entered White House review on August 25 and targets October 2026 for a notice of proposed rulemaking, though the target carries no legal deadline and carries risk of further delay. The proposed rule replaces a 2023 safeguarding proposal the SEC withdrew in June 2025, and the details of which existing provisions will be removed and which custodian protections will survive remain unavailable pending public release of the proposed text.",
+    "The desk's own boards show conflicting cross-window signals. Bitcoin has fallen 5.0% over the past week and is down 0.1% on Saturday, but is up 23.0% on the month. ETH is down 0.1% on Saturday and up 0.7% over seven days, but up 36.9% over 30 days. XRP gained 0.1% on Saturday but fell 5.8% over the week while rising 29.0% monthly. The desk's Whale Watch board shows $827 million in bitcoin moving onto exchanges during the week ending September 13, the largest weekly inflow since late August, reversing the $494 million moved off exchanges the prior week. Bitcoin ETF flows turned negative on September 11, with net outflows of $13.2 million on the day and cumulative net outflows of $288.1 million over the five sessions ending September 11, while ETH ETF flows show an inflow of $216.4 million on September 11 and cumulative net inflows of $222.8 million over five sessions, both flows consistent in direction within their respective windows. Bitcoin traded at $77,224.12 on Saturday, down 0.05% on the day but up 23.02% on the month; the desk's market boards show bitcoin at $77,224.12, below the $78,000 level where it traded Friday after recovering from the CPI shock.",
+    "Two converg policy deadlines frame the week: the Senate cloture vote on the Clarity Act at 2:15 p.m. on September 15, requiring 60 votes to advance, and the Fed's rate decision on September 15-16. The key test will be whether Democratic senators supply the seven votes needed to reach 60 if all Republicans support the motion. The SEC custody rule targets October 2026 for proposed-rulemaking release. Thailand's stablecoin proposal comment window closes September 25. Whether the Fed raises rates as markets now expect, whether the Senate advances crypto legislation, and whether Osmosis's proposed reserve-filling mechanism recovers funds from the Nomic breach all remain open questions in the coming days."
+  ],
+  "sources": [
+    {
+      "title": "Core inflation beat forecast in August; Fed rate hike odds rise to roughly 70% ahead of September 15-16 meeting",
+      "url": "/articles/core-inflation-beat-forecast-in-august-fed-rate-hike-odds-rise-to-roughly-70-ahead-of-september-15-16-meeting.html"
+    },
+    {
+      "title": "Senate Republicans unveil revised Clarity Act on September 10, with cloture vote set for September 15",
+      "url": "/articles/senate-republicans-unveil-revised-clarity-act-on-september-10-with-cloture-vote-set-for-september-15.html"
+    },
+    {
+      "title": "UK and U.S. Authorities Hold Joint CCP Resolution Tabletop Exercise on September 3, 2026",
+      "url": "/articles/uk-and-u-s-authorities-hold-joint-ccp-resolution-tabletop-exercise-on-september-3-2026.html"
+    },
+    {
+      "title": "UK House of Lords backs digital assets strategy on September 11",
+      "url": "/articles/uk-house-of-lords-backs-digital-assets-strategy-on-september-11.html"
+    },
+    {
+      "title": "UniCredit Selecting Technology Partner for Crypto Custody, Trading, Tokenized Products",
+      "url": "/articles/unicredit-selecting-technology-partner-for-crypto-custody-trading-tokenized-products.html"
+    },
+    {
+      "title": "India's SEBI Launches Tokenized Bond Pilot with $107 Million in Issuance",
+      "url": "/articles/india-s-sebi-launches-tokenized-bond-pilot-with-107-million-in-issuance.html"
+    },
+    {
+      "title": "Osmosis discovered 40-BTC Nomic exploit after 74-day delay",
+      "url": "/articles/osmosis-discovered-40-btc-nomic-exploit-after-74-day-delay.html"
+    },
+    {
+      "title": "SEC Crypto Custody Rule Enters White House Review; October NPRM Targeted",
+      "url": "/articles/sec-crypto-custody-rule-enters-white-house-review-october-nprm-targeted.html"
+    },
+    {
+      "title": "XRP Ledger Activates fixCleanup3_3_0 Amendment on September 11",
+      "url": "/articles/xrp-ledger-activates-fixcleanup3-3-0-amendment-on-september-11.html"
+    },
+    {
+      "title": "Bitcoin Activity, Passports Exposed After Revolut Falls for Fake Government Request",
+      "url": "/articles/bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request.html"
+    },
+    {
+      "title": "Thailand SEC Proposes Same-Owner Rule for Stablecoin Transfers, Comments Due September 25",
+      "url": "/articles/thailand-sec-proposes-same-owner-rule-for-stablecoin-transfers-comments-due-september-25.html"
+    },
+    {
+      "title": "Uniswap Processes $70.6B in Monthly Volume, Surpassing Three Closest Competitors Combined, September 13, 2026",
+      "url": "/articles/uniswap-processes-70-6b-in-monthly-volume-surpassing-three-closest-competitors-combined-september-13-2026.html"
+    },
+    {
+      "title": "XRP Rebounded 29.7% in September as XRPL Stablecoin Base Hit $1.1 Billion",
+      "url": "/articles/xrp-rebounded-29-7-in-september-as-xrpl-stablecoin-base-hit-1-1-billion.html"
+    }
+  ]
+}

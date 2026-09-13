@@ -1,0 +1,59 @@
+{
+  "id": "c068",
+  "slug": "thailand-sec-proposes-same-owner-rule-for-stablecoin-transfers-comments-due-september-25",
+  "kind": "brief",
+  "title": "Thailand SEC Proposes Same-Owner Rule for Stablecoin Transfers, Comments Due September 25",
+  "dek": "Thailand's Securities and Exchange Commission opened public consultation on September 11 on a stablecoin proposal requiring same-owner verification for all deposits and withdrawals through licensed crypto firms. Transfers to third-party wallets would be prohibited. Comments are due September 25.",
+  "date": "2026-09-13",
+  "published_utc": "2026-09-13T00:54:53Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "Thailand's SEC is proposing a same-owner requirement for stablecoin transfers: a customer using a supervised platform could only move USDT or similar assets from verified accounts that belong to that customer and to verified accounts that also belong to that customer.",
+  "bottom_line": "The September 25 deadline marks the formal consultation window for the proposal. Whether Thailand's SEC revises the same-owner requirement based on feedback, narrows its scope, or implements it as drafted will set a precedent for how stablecoins function through regulated platforms across Asia.",
+  "human_take": "",
+  "body": [
+    "Thailand's Securities and Exchange Commission has opened public consultation on a stablecoin regulatory proposal that would prohibit peer-to-peer transfers through licensed crypto platforms. The SEC Board approved consultation principles on September 3 and opened the comment window on September 11, with responses due by September 25.",
+    "Under the proposal, stablecoins entering or leaving a customer's account at a digital asset operator would be required to come from, or go to, an account or wallet verified as belonging to that same customer. The restriction stops a customer from using a Thai SEC-supervised platform to receive stablecoins from someone else's wallet or send stablecoins to another person's wallet.",
+    "Transfer values would also be required to align with the customer's income source and financial position. Both inbound and outbound transfers would be capped at 5 million baht per day per person per operator, or roughly $136,000 USD at current rates. Caps would not apply to transfers between accounts at SEC-supervised operators when both firms comply with the Travel Rule, to specified operator business transfers, Bank of Thailand-authorized operators, or stablecoin and baht market makers.",
+    "The SEC said the measures respond to significant growth in stablecoin transaction volume and value, particularly involving USDT. The regulator cited patterns associated with money laundering risks, cybercrime, and circumvention of international money-transfer rules as the rationale. The proposal is separate from Thailand's Travel Rule, which requires digital asset operators to collect information about transfer parties and verify ownership of certain self-hosted wallets. That Travel Rule takes effect on February 27, 2027.",
+    "The ownership test remains at the consultation stage and no effective date has been announced. The measure's final form and implementation timeline depend on feedback collected during the comment period."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/thailands-stablecoin-proposal-would-block-transfers-to-other-peoples-wallets/",
+      "url": "https://cryptoslate.com/thailands-stablecoin-proposal-would-block-transfers-to-other-peoples-wallets/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-13T00:52:33Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77224.12,
+        "chg_24h_pct": -0.05
+      },
+      {
+        "symbol": "ETH",
+        "price": 2524.1,
+        "chg_24h_pct": -0.05
+      }
+    ],
+    "fng": {
+      "value": 61,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.1,
+      "open_interest_usd": 2121644836
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 0,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

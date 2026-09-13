@@ -1,0 +1,67 @@
+{
+  "id": "c007",
+  "slug": "bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request",
+  "kind": "brief",
+  "title": "Bitcoin Activity, Passports Exposed After Revolut Falls for Fake Government Request",
+  "dek": "Revolut disclosed it handed over passport copies, verification selfies, and complete Bitcoin transaction histories to a malicious actor after falling for a fraudulent data request spoofed from a legitimate government agency's email domain. The company said a limited number of customers were affected and that systems and funds remained unaffected.",
+  "date": "2026-09-13",
+  "published_utc": "2026-09-13T00:54:53Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "Revolut fulfilled a fraudulent data request disguised with valid domain authentication credentials from a government agency email, exposing full identity documents and blockchain activity tied to what sources describe as high-net-worth users.",
+  "bottom_line": "The incident exposes a vulnerability in how fintech firms authenticate requests from government agencies: spoofed domains with valid authentication certificates bypass human verification. Whether regulators will require stronger, multi-factor authentication protocols for sensitive data disclosure requests remains to be seen in law enforcement's investigation.",
+  "human_take": "",
+  "body": [
+    "Revolut disclosed that a fraudulent data request, spoofed from a legitimate government agency's email domain and carrying valid authentication credentials, led the company to hand over passport copies, verification selfies, and full Bitcoin transaction histories from an unspecified number of customers.",
+    "The exposure of identity documents and blockchain activity tied to high-net-worth users raises immediate security concerns: complete passport scans combined with proof of significant crypto holdings create the information set needed to orchestrate physical threats against documented targets, a risk class known informally as wrench attacks.",
+    "According to Decrypt's reporting, the fraudulent request appeared to originate from an authorized government agency account, sent from an unauthorized email using that agency's official domain. The message carried valid domain authentication credentials. Revolut, believing the request genuine, fulfilled it. The company later said it had blocked the email address and alerted the relevant agency, law enforcement and regulators.",
+    "The data handed over included full name, date of birth, occupation, postal address, email, phone number, passport or driver's license copy, verification selfie, account statements with IBAN and wallet reference numbers, withdrawal records, and full transaction history including Bitcoin activity. Revolut stated that no biometric facial telemetry data was exposed.",
+    "A Revolut spokesperson confirmed the breach in language describing it as a sophisticated impersonation attack. The company said a limited number of customers were affected, that its systems remained unaffected, and that customer funds were unharmed. Revolut declined to specify how many people were hit or which agency was impersonated.",
+    "Social media commentary cited by Decrypt argued the episode demonstrates that know-your-customer rules have created attack surface and data liability without delivering meaningful regulatory benefit. Security researcher ZachXBT characterized the incident as appearing to target high-net-worth users specifically, a concern given reported increases in violent attacks against known crypto holders.",
+    "Revolut is currently weighing an initial public offering and launched its euro-pegged EURR stablecoin earlier this year."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/378114/revolut-passports-bitcoin-activity-data-breach",
+      "url": "https://decrypt.co/378114/revolut-passports-bitcoin-activity-data-breach"
+    },
+    {
+      "title": "https://www.coindesk.com/tech/2026/09/12/bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request",
+      "url": "https://www.coindesk.com/tech/2026/09/12/bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-13T00:52:33Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77224.12,
+        "chg_24h_pct": -0.05
+      },
+      {
+        "symbol": "ETH",
+        "price": 2524.1,
+        "chg_24h_pct": -0.05
+      }
+    ],
+    "fng": {
+      "value": 61,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.1,
+      "open_interest_usd": 2121644836
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 0,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Decrypt"
+  ],
+  "developing": false
+}

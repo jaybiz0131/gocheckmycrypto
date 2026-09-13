@@ -1,47 +1,6 @@
 [
  {
   "date": "2026-08-09",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c007",
-    "headline": "Brazil's Central Bank Orders Exchanges to Delay Large Crypto Transfers Abroad",
-    "category": "compliance",
-    "reasons": [
-     "The draft contains boundary_required=true but boundary_ok=false, indicating that the boundary (affected/fixed/user_action) specifications do not match the source material verbatim. The draft cannot be published when boundary requirements fail validation. The desk must either verify the boundary language against the source directly or remove the boundary block before approval."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Bitcoin Red Team Reports 12+ Vulnerabilities Across 150 Repositories via AI Scanning",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains zero data_points (empty array), meaning no factual claims are sourced to research. The draft contains multiple claims\u2014'scanned 150 Bitcoin repositories', 'more than a dozen vulnerabilities', 'open-source AI platform'\u2014that have no data_point support in the brief. Per hard rule, facts must trace to the brief; this draft smuggles claims outside it.",
-     "The brief's own open_questions state 'Source text is empty; no details available', confirming the source material was not ingested. Publishing a story from an empty source is a liability violation regardless of Decrypt's authority."
-    ]
-   },
-   {
-    "id": "c060",
-    "headline": "US spot Bitcoin ETFs post best week since April with $1B inflows",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'marking their third-strongest weekly inflow since October 2025' but the brief's core_claim says 'third-strongest weekly performance since October 2025'\u2014different time periods. The brief says October 2025; the draft says October 2025. However, the critical issue is that the brief explicitly notes in open_questions: 'The specific dates and dollar figures for the inflows claimed to be the first and second strongest are not available in the sources.' The draft treats this ranking as fact without acknowledging the confirmation gap. The draft should flag that the 'third-strongest' claim cannot be independently verified against missing first and second-strongest data.",
-     "The draft claims 'Bitcoin trading at 63,653.85 USD as of July 29, down 1.59% over the prior seven days and 49% below its 12-month high of 124,773.51 USD' but this data does not appear in the brief's data_points or open_questions. This is smuggled market data not in the research brief.",
-     "The draft states 'No breakdown by provider is available from the sources' and 'the distribution across iShares, Fidelity, Grayscale, and other issuers remains unconfirmed' but then presents the $1B figure as settled fact without caveat. The brief's open_questions flag this gap; the draft should present the inflow number with a confidence signal matching the brief's 'thin: true' assessment."
-    ]
-   },
-   {
-    "id": "c006",
-    "headline": "Hardware wallet sales surge in Russia ahead of September crypto rules",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Russia's new crypto regime takes effect September 1, introducing regulated exchanges and digital depositories while maintaining a ban on domestic crypto payments.' The brief's data_point #7 specifies the regime 'allowing regulated exchanges and digital depositories, while letting some retail investors buy liquid cryptocurrencies after testing and within a 300,000-ruble annual cap per intermediary.' The draft omits the 300,000-ruble annual cap and the testing requirement for retail investors\u2014facts present in the brief but not in the draft. This is selective omission of material regulatory detail."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-09",
   "approved": 3,
   "rejected": [
    {
@@ -6819,6 +6778,60 @@
     "reasons": [
      "The draft states 'Base recorded a $100 million daily peak 26 days prior to the article date of September 12, 2026' per the brief data_point, but the draft's opening sentence reads 'according to reporting on September 12' without temporal qualification. The phrasing creates ambiguity about whether the $100M daily volume occurred on September 12 or 26 days prior. The brief's data_point c159 explicitly notes the peak was 26 days before publication; the draft should clarify this was a historical peak, not today's trading.",
      "The draft reports 'Cumulative trading volume in tokenized stocks on Base exceeded $228 million within one month of launch on August 24, 2026' as an event that occurred, but does not clearly establish whether this cumulative figure was measured as of September 12 or as of an earlier date. The brief states this is one month of data, but the draft does not specify the measurement endpoint."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c061",
+    "headline": "Revolut Begins EURR Stablecoin Rollout in Three EU Markets Under MiCA",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'As of August 25, Bridge reported \u20ac374 in EURR in circulation' but the brief data_point says '\u20ac374' without currency symbol context in the source timestamp. The draft then states this is 'backed by \u20ac374 in reserve assets, all held as cash deposits in credit institutions.' This is missing the currency symbol on the first instance and creates potential ambiguity about whether \u20ac374 million or \u20ac374 is being reported. The brief's data_point for Bridge's reserves says '\u20ac374 in EURR' and '\u20ac374 in reserve' but does not specify if this is euros or millions of euros. The draft's phrasing 'As of August 25, Bridge reported \u20ac374' without a millions qualifier creates factual ambiguity that the brief itself may not resolve cleanly. However, examining the brief more carefully: it states 'Bridge reported \u20ac374 in EURR in circulation' as the claim. The draft mirrors this but the original source precision is unclear from the brief provided. This is a case where the brief's own data_point lacks precision, but the draft compounds it by not flagging the ambiguity.",
+     "More critically: the draft states 'Bridge Building S.A., a Stripe-owned company authorized as a Luxembourg electronic money institution' but the brief says 'Bridge Building is described by Revolut as a Stripe company' with confidence 'reported.' The draft presents Stripe ownership as a stated fact in the narration, not as a claim described by Revolut. This is a subtle but important difference: the brief's wording indicates Revolut made this claim, but the draft's framing reads it as the desk's own verified fact."
+    ]
+   },
+   {
+    "id": "c020",
+    "headline": "Blockstream Refuses Ransom Demand as Liquid Sidechain Exploit Reaches Law Enforcement Threshold, September 13, 2026",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates September 10, 2026 as a Friday; September 10, 2026 is a Thursday"
+    ]
+   },
+   {
+    "id": "c114",
+    "headline": "Grayscale Files to Convert Litecoin Trust to NYSE-Listed ETF, September 11, 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The title states the filing occurred on September 11, 2026, which is two days before the publication date of today, September 13, 2026. However, the brief's data_point timestamp is 2026-09-12T00:00:00Z, indicating the filing information was reported on September 12, not that it occurred on September 11. The draft conflates the filing date with the reporting date. Additionally, the brief does not contain a data point confirming September 11 as the filing date itself\u2014only that it was reported on September 12. This is a factual claim not supported by the brief."
+    ]
+   },
+   {
+    "id": "c145",
+    "headline": "2,130 BTC Moved to Coinbase on September 11",
+    "category": "accuracy",
+    "reasons": [
+     "The draft adds factual claims about BTC futures open interest on OKX ($2.12 billion), long-to-short ratio (1.69), and eight-hour funding rates (0.47%, annualizing to 5.1%) that do not appear anywhere in the research brief.",
+     "The brief explicitly notes as an open question that 'Whale Alert transaction detail pages returned only login/API prompts; actual transaction data (timestamps, amounts per tx) could not be verified from fetched source texts,' yet the draft presents the transfer as a completed fact without qualification.",
+     "The brief is marked 'thin: true' with minimal data_points; the draft substantially exceeds the evidentiary base by introducing futures market context that was not researched or vetted.",
+     "The rule is absolute: no fact exists outside the brief. The OKX derivatives data is smuggled and creates liability exposure if those figures are incorrect or if market conditions change before publication."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Robinhood CEO: Securities Issuers Shouldn't Veto Tokenized Stock Products",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states Tenev 'posted on Friday, September 11' as a completed past action. Today is Sunday, September 13, 2026, so Friday September 11 is in the past and this framing is correct temporally.",
+     "However, the brief contains only two data_points: one claims Tenev 'said' issuers should control shareholder rights but not veto separate products, and one claims he made 'this statement in a post on Friday.' The brief itself provides no detail about what that post contained, when it was published, or the full text of his argument.",
+     "The draft characterizes Tenev's position with interpretive language ('Tenev's framing distinguishes between controlling the terms of actual shareholding and preventing others from creating derivative products') that is a paraphrase of the brief data_point but goes beyond what is stated in the source reporting as quoted in the brief.",
+     "More critically: the draft states 'According to CoinDesk, Tenev argued that securities issuers should retain control over shareholder rights but should not have veto power over separate products that track their publicly traded shares.' This exact phrasing appears to be the writer's own interpretation of CoinDesk's reporting, not a direct quote or explicit paraphrase attributable to the source. The brief data_point says Tenev 'should control shareholder rights, but not separate products that track their publicly traded shares'\u2014which is subtly different and does not match the draft's 'retain control' and 'veto power' language.",
+     "The brief marks this story 'thin: true' and explicitly flags open questions about what prompted the statement, regulatory precedent, and Robinhood's plans. The draft attempts to construct a coherent narrative from incomplete source material without flagging these gaps to the reader."
     ]
    }
   ]
