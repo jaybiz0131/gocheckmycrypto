@@ -1,40 +1,6 @@
 [
  {
   "date": "2026-08-10",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c001",
-    "headline": "Bitcoin rallies to $65,209 on Iran-Oman Strait of Hormuz deal talk",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'FET adding 2.10% after weeks of underperformance' in the NEAR protocol paragraph, but this data point does not appear in the brief's data_points list. The brief mentions 'NEAR protocol gained 3.79% as AI tokens broadly recovered' but includes no FET figure or timeline ('weeks of underperformance'). This is smuggled information not present in the research brief.",
-     "The claim about the $68,000 to $72,000 band being 'seen as the next pivotal level' appears in the draft body but is not explicitly stated in the brief's data_points; the brief only mentions 'BTC breaking out of its current range' as a condition for altcoin rotation. The specific price band is an inference not directly sourced."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "Bybit wins asset freeze in North Korea hack lawsuit",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bybit has recovered $48.4 million of the stolen funds and frozen an additional $30.5 million' and later calculates 'Of the original $1.5 billion stolen, $78.9 million has been recovered or frozen.' This arithmetic ($48.4M + $30.5M = $78.9M) is correct, but the brief contains only five data_points, none of which specify that Bybit recovered AND frozen these amounts as separate figures. The brief's data_points say Bybit 'recovered $48.4 million' and 'frozen $30.5 million' but do not state these are both attributable to the same lawsuit or that they sum to the total recovered/frozen. The draft treats the two as confirmed separate achievements of the lawsuit; the brief does not establish both came from the court order. This is a potential smuggling of a combinatorial claim.",
-     "The draft states 'the lawsuit brought by a cryptocurrency platform against a state actor, a rare precedent in cross-border crypto theft litigation' as though this is a settled fact from the brief. The brief's core_claim and angle do mention 'lawsuit against North Korea' and 'enforcement victory,' but the brief's open_questions include 'Are there other defendants or entities named in the lawsuit beyond North Korea?'\u2014suggesting the scope and structure of the lawsuit are not fully confirmed. The draft should flag this ambiguity rather than presenting 'lawsuit...against a state actor' as definitive."
-    ]
-   },
-   {
-    "id": "c067",
-    "headline": "Australia suspends Cryptolink Bitcoin ATM operator over AML reporting failures",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Cointelegraph's reporting notes that Cryptolink was previously fined 56,340 dollars' but the brief marks this data_point with confidence 'reported', not verified. The draft presents this as a settled fact without qualification, when the brief's confidence label signals it comes from Cointelegraph reporting alone and should be attributed inline with appropriate caution given the thin source base.",
-     "The draft asserts 'Regulators in multiple jurisdictions have moved against ATM providers over the past two years' without citing a data_point in the brief. This claim is smuggled; it does not appear in the brief's data_points and violates the rule that facts must trace to research.",
-     "The draft acknowledges 'the source text was not retrieved for independent review' in the final paragraph, but then earlier presents the three core claims (suspension, fine amount, 'basic reporting' framing) as established fact without flagging that they rest on an inaccessible source. The bear_case notes 'only the headline and snippet are available for verification,' which should have forced either the suspension of this draft or explicit hedging in the prose (e.g., 'according to Cointelegraph's reporting, which the desk did not independently access')."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-10",
   "approved": 3,
   "rejected": [
    {
@@ -6749,6 +6715,25 @@
      "ZachXBT's speculation is labeled 'unconfirmed' in the brief but the draft presents it as a claim without any confidence hedge or explicit attribution of uncertainty. The phrase 'OnChain investigator ZachXBT speculated' does attribute the claim, but 'speculated' is insufficient to preserve the 'unconfirmed' label\u2014it reads as reporting what he said, not as marking the underlying allegation as unverified.",
      "More critically: the brief's thin=true flag, source_chars=97, and open_questions list reveal the brief itself is skeletal. The draft contains zero independent verification of Revolut's confirmation of the breach. The brief data_points say Revolut 'exposed' data and was vulnerable, but the draft claims 'Revolut confirmed that customer KYC data and Bitcoin transaction histories were exposed'\u2014treating an alleged incident as confirmed without showing Revolut's own public statement or direct attribution.",
      "The draft attributes the reporting to 'The Block and Cointelegraph on September 12, 2026' but the brief provides no Block source\u2014only a single Cointelegraph URL. The Block URL in the draft sources list does not appear in the brief's data_points, meaning that attribution was added by the writer and is not in the research."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-13",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c122",
+    "headline": "Federal Reserve Faces 90% Rate Hike Probability by Year-End; PCE Revision Set for September 30",
+    "category": "accuracy",
+    "reasons": [
+     "The draft title states 'PCE Revision Set for September 30' as a scheduled future event. Today is September 13, 2026. The brief data_point says 'Bureau of Economic Analysis is set to release its August Personal Consumption Expenditures report on September 30.' The draft body confirms this is a scheduled future release. However, the title's phrasing 'Set for September 30' is technically correct for a future event, but the body's language 'is set to release' and 'are penciling in monthly core PCE gains' all correctly treat September 30 as upcoming. The title is acceptable as written.",
+     "The draft presents 'markets are pricing in roughly 90% odds of a rate hike at the September 15-16 FOMC meeting' in present tense. Today is September 13; the meeting is September 15-16. This is a scheduled future event presented in reportorial present tense, which is standard. No violation.",
+     "The draft states 'Goldman Sachs and JPMorgan estimate that May 2026 core PCE could fall from a reported 3.4 percent year-over-year to 3.2 to 3.3 percent range after revisions.' This is traced to the brief. However, the brief's data_point says 'estimate' (they forecast/project). The word 'could' in the draft softens it appropriately for a forward-looking estimate. No violation.",
+     "The draft presents 'Anna Wong at Bloomberg Economics has noted that the revisions are likely to soften what have appeared to be stubborn spikes in core inflation, with revised methodology designed to more accurately reflect pricing dynamics in cloud computing, streaming services, and healthcare delivery.' The attribution is clear and direct. The claim is marked 'reported' in the brief. No violation.",
+     "Critical issue: The draft states 'Some Fed officials have publicly expressed discomfort with tightening when the labor market shows signs of cooling.' The brief's data_point says 'Some Fed officials have publicly expressed discomfort with tightening when the labor market shows signs of cooling.' This is properly attributed as coming from the source. However, the draft then uses this factually in context, which is correct. No violation here either.",
+     "The core accuracy problem: The draft's lead and framing treat the September 15-16 FOMC meeting as though it has a 90% hike probability that is CERTAIN OR IMMINENT, but the brief's bear_case explicitly includes 'BMO Capital Markets maintains a contrarian base case of a hold through 2026, arguing current data does not yet justify departure from hold position.' The draft acknowledges BMO's position but does not weight it proportionately in the lead. The first sentence leads with '90% probability' as if it is settled, when the brief's bear_case flags that a credible economist argues for a hold. This is not an accuracy violation per se (the 90% figure is traced), but it is a BALANCE violation masked as accuracy\u2014the draft leads with consensus without surfacing the contradictory expert view in equivalent space."
     ]
    }
   ]

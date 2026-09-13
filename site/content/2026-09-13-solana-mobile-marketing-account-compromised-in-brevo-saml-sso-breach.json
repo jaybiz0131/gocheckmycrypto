@@ -1,0 +1,55 @@
+{
+  "id": "c111",
+  "slug": "solana-mobile-marketing-account-compromised-in-brevo-saml-sso-breach",
+  "kind": "brief",
+  "title": "Solana Mobile Marketing Account Compromised in Brevo SAML SSO Breach",
+  "dek": "Solana Mobile's third-party marketing email account was compromised through a SAML SSO vulnerability affecting 138 Brevo customer accounts. Solana Mobile disabled the account and found no evidence of emails sent from its own account. Contact data for 43 of the compromised Brevo accounts were exported by attackers.",
+  "date": "2026-09-13",
+  "published_utc": "2026-09-13T19:40:02Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "Brevo email platform SAML SSO vulnerability compromised 138 customer accounts including Solana Mobile; six accounts used to send phishing emails, 43 had contacts exported, Solana Mobile's account showed no fraudulent email activity to its knowledge.",
+  "bottom_line": "Solana Mobile's verification with Brevo is ongoing; export of 43 contact lists from other compromised accounts poses risk to any users who received Solana Mobile marketing materials. The incident shows that third-party email infrastructure vulnerabilities can expose a crypto project's user contact database.",
+  "human_take": "",
+  "body": [
+    "Solana Mobile's third-party marketing email account was compromised during a wider security incident at email provider Brevo affecting 138 Brevo customer accounts. The incident stemmed from a Security Assertion Markup Language Single Sign-On (SAML SSO) vulnerability in Brevo's infrastructure.\nSolana Mobile identified unauthorized access to its Brevo account, disabled the account, and is working with Brevo to understand the scope of information accessed. To Solana Mobile's knowledge, no emails were sent from the Solana Mobile account, though the company stated it is continuing to verify this claim with Brevo.\nAcross the 138 compromised Brevo accounts, attackers conducted varied activities. Six accounts were used to send phishing emails to the contacts stored there. Messages sent through those accounts passed usual email authentication checks and looked genuine, according to Brevo. For 43 accounts, contacts were exported by attackers. Ninety-three accounts showed no meaningful activity. Brevo disabled all links in the identified phishing emails as a preventive measure.\nSolana Mobile builds crypto-focused smartphones for the Solana ecosystem. The company issued a warning to users: Solana Mobile will never ask for your seed phrase, private keys, or wallet recovery details. The statement signals concern that exported contact lists could feed downstream phishing campaigns targeting Solana Mobile users.\nSolana Mobile has not yet fully verified the scope of information accessed from its compromised Brevo account. Ongoing verification with Brevo remains in progress. Contact data for 43 of the compromised accounts were exported, creating risk of continued targeting of those contacts.\nThe Bottom Line:"
+  ],
+  "sources": [
+    {
+      "title": "https://dailyhodl.com/2026/09/13/solana-mobile-suspends-marketing-email-account-after-unauthorized-access/",
+      "url": "https://dailyhodl.com/2026/09/13/solana-mobile-suspends-marketing-email-account-after-unauthorized-access/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-13T15:07:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77112.74,
+        "chg_24h_pct": -0.19
+      },
+      {
+        "symbol": "ETH",
+        "price": 2486.53,
+        "chg_24h_pct": -1.53
+      }
+    ],
+    "fng": {
+      "value": 61,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 10.4,
+      "open_interest_usd": 2164507164
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -173412829,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

@@ -2,34 +2,38 @@
   "id": "c007",
   "slug": "bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request",
   "kind": "brief",
-  "title": "Bitcoin Activity, Passports Exposed After Revolut Falls for Fake Government Request",
-  "dek": "Revolut disclosed it handed over passport copies, verification selfies, and complete Bitcoin transaction histories to a malicious actor after falling for a fraudulent data request spoofed from a legitimate government agency's email domain. The company said a limited number of customers were affected and that systems and funds remained unaffected.",
+  "title": "Revolut Breach Exposes Passports, Bitcoin Histories After Spoofed Government Email",
+  "dek": "Revolut fulfilled a fraudulent data request sent from a spoofed government agency email domain, exposing customer KYC documents, passport copies, and full Bitcoin transaction histories. The fintech said a limited number of customers were affected and that systems and funds remain unaffected. Revolut declined to disclose the number affected or which agency was impersonated.",
   "date": "2026-09-13",
   "published_utc": "2026-09-13T00:54:53Z",
   "category": "news",
   "verdict": "VERIFIED",
   "rank": 2,
   "author": "Crypto Cronkite",
-  "key_fact": "Revolut fulfilled a fraudulent data request disguised with valid domain authentication credentials from a government agency email, exposing full identity documents and blockchain activity tied to what sources describe as high-net-worth users.",
-  "bottom_line": "The incident exposes a vulnerability in how fintech firms authenticate requests from government agencies: spoofed domains with valid authentication certificates bypass human verification. Whether regulators will require stronger, multi-factor authentication protocols for sensitive data disclosure requests remains to be seen in law enforcement's investigation.",
+  "key_fact": "Fraudulent email from spoofed government domain, bearing valid domain authentication, led Revolut to hand over passport copies, addresses, phone numbers, account statements, and Bitcoin transaction histories to an unauthorized actor.",
+  "bottom_line": "Revolut's undisclosed victim count and agency identity limit visibility into downstream targeting risk. The breach exemplifies the doxing risk created when a single platform holds identity documents, contact information, and crypto transaction history together.",
   "human_take": "",
   "body": [
-    "Revolut disclosed that a fraudulent data request, spoofed from a legitimate government agency's email domain and carrying valid authentication credentials, led the company to hand over passport copies, verification selfies, and full Bitcoin transaction histories from an unspecified number of customers.",
-    "The exposure of identity documents and blockchain activity tied to high-net-worth users raises immediate security concerns: complete passport scans combined with proof of significant crypto holdings create the information set needed to orchestrate physical threats against documented targets, a risk class known informally as wrench attacks.",
-    "According to Decrypt's reporting, the fraudulent request appeared to originate from an authorized government agency account, sent from an unauthorized email using that agency's official domain. The message carried valid domain authentication credentials. Revolut, believing the request genuine, fulfilled it. The company later said it had blocked the email address and alerted the relevant agency, law enforcement and regulators.",
-    "The data handed over included full name, date of birth, occupation, postal address, email, phone number, passport or driver's license copy, verification selfie, account statements with IBAN and wallet reference numbers, withdrawal records, and full transaction history including Bitcoin activity. Revolut stated that no biometric facial telemetry data was exposed.",
-    "A Revolut spokesperson confirmed the breach in language describing it as a sophisticated impersonation attack. The company said a limited number of customers were affected, that its systems remained unaffected, and that customer funds were unharmed. Revolut declined to specify how many people were hit or which agency was impersonated.",
-    "Social media commentary cited by Decrypt argued the episode demonstrates that know-your-customer rules have created attack surface and data liability without delivering meaningful regulatory benefit. Security researcher ZachXBT characterized the incident as appearing to target high-net-worth users specifically, a concern given reported increases in violent attacks against known crypto holders.",
-    "Revolut is currently weighing an initial public offering and launched its euro-pegged EURR stablecoin earlier this year."
+    "Revolut fulfilled a fraudulent data request sent from a spoofed government agency email domain, exposing customer identity documents, contact information, and full Bitcoin transaction histories to an unauthorized actor. The message carried valid domain authentication credentials, causing Revolut to treat it as genuine and comply with the request.",
+    "The exposed data included full identity details: name, date of birth, and occupation. Contact information included postal address, email, and phone number. Document verification data included a copy of the victim's passport or driver's license and selfie provided during KYC verification. Revolut said no biometric facial telemetry data was involved.",
+    "Financial data exposed included account statements with IBAN and wallet reference numbers, withdrawal records, and full transaction history including Bitcoin. This combination of personal identity, contact, and crypto transaction data creates material risk for targeted theft or physical attacks.",
+    "Revolut confirmed the breach in a statement to Decrypt: a sophisticated external impersonation scam where an unauthorised third party utilised a legitimate government agency domain email to submit fraudulent requests for information. The company said a limited number of customers were affected, disabled the email address, and alerted the agency, law enforcement, and regulators. Revolut stated systems and customer funds were unaffected.",
+    "Revolut declined to disclose how many people were hit or which agency was impersonated, limiting public assessment of breach scope. Crypto security researcher ZachXBT said the incident appeared to target high-net-worth users and raised concern given a surge in violent wrench attacks against known crypto holders. Several users on social media argued the episode shows know-your-customer rules have created risk without meaningful benefit.",
+    "The breach joins a rough stretch for firms holding crypto users' personal data. Hardware wallet maker Trezor recently saw a support-vendor breach widen to expose tens of thousands of additional customers, and X appears to have suffered its own data breach prompting widespread password resets.",
+    "The Bottom Line: Revolut's refusal to disclose the number of affected customers or which agency was impersonated limits assessment of whether exposed contacts have already entered phishing or physical-theft targeting pipelines. The incident demonstrates that domain authentication alone is insufficient protection against social-engineering attacks on custodians holding consolidated KYC data."
   ],
   "sources": [
+    {
+      "title": "https://www.theblock.co/news/business/2026-09-12-revolut-says-customer-kyc-bitcoin-transaction-data-exposed-after-fake-request-from-govt-domain-414516",
+      "url": "https://www.theblock.co/news/business/2026-09-12-revolut-says-customer-kyc-bitcoin-transaction-data-exposed-after-fake-request-from-govt-domain-414516"
+    },
     {
       "title": "https://decrypt.co/378114/revolut-passports-bitcoin-activity-data-breach",
       "url": "https://decrypt.co/378114/revolut-passports-bitcoin-activity-data-breach"
     },
     {
-      "title": "https://www.coindesk.com/tech/2026/09/12/bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request",
-      "url": "https://www.coindesk.com/tech/2026/09/12/bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request"
+      "title": "https://cointelegraph.com/news/revolut-says-customer-data-exposed-through-fake-government-email?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/revolut-says-customer-data-exposed-through-fake-government-email?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
     }
   ],
   "board_snapshot": {
@@ -61,7 +65,26 @@
     }
   },
   "also_reported_by": [
-    "Decrypt"
+    "Cointelegraph"
   ],
-  "developing": false
+  "developing": false,
+  "consolidated": "This story was updated in place with a better-sourced account of the same event, carrying 3 sources against the original 2. The earlier version was headlined “Bitcoin Activity, Passports Exposed After Revolut Falls for Fake Government Request”. The URL and publication time are unchanged.",
+  "superseded_sources": [
+    {
+      "title": "https://decrypt.co/378114/revolut-passports-bitcoin-activity-data-breach",
+      "url": "https://decrypt.co/378114/revolut-passports-bitcoin-activity-data-breach"
+    },
+    {
+      "title": "https://www.coindesk.com/tech/2026/09/12/bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request",
+      "url": "https://www.coindesk.com/tech/2026/09/12/bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request"
+    }
+  ],
+  "updated_utc": "2026-09-13T19:40:02Z",
+  "merged_from": [
+    {
+      "id": "c014",
+      "title": "Revolut Breach Exposes Passports, Bitcoin Histories After Spoofed Government Email",
+      "published_utc": "2026-09-13T19:40:02Z"
+    }
+  ]
 }
