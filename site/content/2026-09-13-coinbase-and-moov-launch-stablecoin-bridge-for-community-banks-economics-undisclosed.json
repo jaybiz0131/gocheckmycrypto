@@ -1,0 +1,55 @@
+{
+  "id": "c070",
+  "slug": "coinbase-and-moov-launch-stablecoin-bridge-for-community-banks-economics-undisclosed",
+  "kind": "brief",
+  "title": "Coinbase and Moov Launch Stablecoin Bridge for Community Banks, Economics Undisclosed",
+  "dek": "Coinbase and payments platform Moov announced a partnership on September 10, 2026, enabling community banks and credit unions to offer stablecoin services through their existing customer relationships. Coinbase provides custody and payments infrastructure; Moov connects to banks' systems; the banks retain the customer interface.",
+  "date": "2026-09-13",
+  "published_utc": "2026-09-13T19:25:18Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "Coinbase and Moov announced September 10, 2026, a three-party service architecture in which community banks offer stablecoin payments through their own interfaces while Coinbase provides custody and Moov supplies the platform bridge.",
+  "bottom_line": "The first community bank deployments will reveal whether reserve inflows return to participating institutions or concentrate at Coinbase and larger settlement banks, and whether stablecoin adoption reduces or restructures retail deposits at those banks.",
+  "human_take": "",
+  "body": [
+    "Coinbase and payments platform Moov announced a partnership on September 10, 2026, according to CryptoSlate, that will enable community banks and credit unions to offer stablecoin services through their existing customer relationships. Coinbase will provide fund custody via its CDP Custodial Wallet accounts and orchestrate stablecoin movement through its Payments API. Moov will integrate those functions into the systems used by its bank and credit union customers.\nThe structure places three parties between a business and the stablecoin rail: the bank or credit union owns the primary customer interaction, Moov supplies the payments platform connection, and Coinbase provides the announced custody and movement components. According to Moov CEO Wade Arnold, business customers currently go outside their primary financial institution to accept stablecoins. The partnership aims to embed that service inside the institution's existing payments experience.\nMoov reports a customer base of more than 1,000 community banks and credit unions, per Coinbase's statement. That figure describes the potential distribution footprint; live, contracted and pilot institutions remain unquantified, and the companies gave no implementation timetable.\nThe arrangement could preserve a bank's customer connection while exposing it to crypto infrastructure for the first time. However, control of the economics, data and operational risk remains unresolved until the companies disclose their terms. Fees, revenue sharing, transaction-data access, compliance allocation and liability are out of public view. Each institution's supported stablecoins, networks, custodial-balance ownership and fiat-settlement route are similarly unspecified.\nDepositional consequence remains an open question.  However, stablecoin holders would receive no pass-through deposit insurance. An instrument that meets the statutory definition of a bank deposit remains a deposit regardless of the technology used. Yet a payment stablecoin and a tokenized deposit can give customers a digital-dollar experience while representing different legal claims. A qualifying tokenized deposit remains the issuing bank's liability; access to a third-party stablecoin can keep the payment experience inside a bank channel while the customer's converted funds may cease to be a deposit at that bank.\nThe outcome depends on who buys them, what assets are converted and where stablecoin issuers place their reserves. Domestic customers converting transaction-account balances can reduce deposits, especially when issuers hold reserves outside banks. If issuers keep reserves in bank deposits, more funding can stay in the system, though it may move from dispersed retail accounts toward concentrated, uninsured wholesale balances. The effect on any one community bank also depends on whether reserve money returns to that institution or is concentrated with larger custodial and settlement banks.\nThe Fed identified partnerships, custody services, settlement accounts and white-label infrastructure as possible ways banks can stay connected to digital payment flows. Yet the Fed also described a deeper structural tension: stablecoins may separate the payment relationship from the deposit-funded lending model that banks have historically used to serve households and businesses. The Moov arrangement puts both possibilities in one product design: a bank may keep the customer conversation and gain a service that would otherwise require its own crypto stack; Coinbase may gain transaction and custody activity while customers access stablecoins through their primary institution. The destination of deposits and revenue remains unsettled."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/coinbase-gives-community-banks-a-stablecoin-bridge-while-supplying-infrastructure-underneath/",
+      "url": "https://cryptoslate.com/coinbase-gives-community-banks-a-stablecoin-bridge-while-supplying-infrastructure-underneath/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-13T15:07:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77112.74,
+        "chg_24h_pct": -0.19
+      },
+      {
+        "symbol": "ETH",
+        "price": 2486.53,
+        "chg_24h_pct": -1.53
+      }
+    ],
+    "fng": {
+      "value": 61,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 10.4,
+      "open_interest_usd": 2165732084
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -173412829,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
