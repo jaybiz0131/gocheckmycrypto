@@ -3389,6 +3389,118 @@ def mp_hero():
 BOARD_FRESH_HOURS = 12  # the promise: three daily briefs plus the noon rebuild
 
 
+SNAPSHOT_DIR = os.path.join(HERE, "site", "data", "snapshots")
+
+
+def snapshot_pulse(pulse):
+    """Keep one DATED snapshot of the Board per calendar day (ruling, 2026-09-13).
+
+    Written at the first build after 00:00 UTC and never overwritten, so the file named
+    for a date holds that day's opening state. A rolling "previous build" was rejected on
+    purpose: this desk builds several times a day, so "since the last build" would mean
+    four hours in the afternoon and eighteen overnight, and the phrase on the page says
+    "since yesterday". A dated file makes that phrase true at every build of the day.
+
+    Snapshots are retained. They cost a few KB a day and become the 30-day series later.
+    """
+    ts = (pulse or {}).get("generated_utc") or ""
+    if not ts:
+        return
+    import datetime as _dt
+    today = _dt.datetime.now(_dt.timezone.utc).date().isoformat()
+    path = os.path.join(SNAPSHOT_DIR, f"pulse-{today}.json")
+    if os.path.exists(path):
+        return
+    os.makedirs(SNAPSHOT_DIR, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(pulse, fh)
+    print(f"board: wrote opening snapshot {os.path.basename(path)}")
+
+
+def prior_snapshot():
+    """Yesterday's dated snapshot, or None. Calendar yesterday, not the last build."""
+    import datetime as _dt
+    y = (_dt.datetime.now(_dt.timezone.utc).date() - _dt.timedelta(days=1)).isoformat()
+    path = os.path.join(SNAPSHOT_DIR, f"pulse-{y}.json")
+    try:
+        return json.load(open(path, encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def _pct(now_v, then_v):
+    try:
+        now_v, then_v = float(now_v), float(then_v)
+    except (TypeError, ValueError):
+        return None
+    if not then_v:
+        return None
+    return (now_v - then_v) / abs(then_v) * 100.0
+
+
+def _btc(pulse):
+    for a in (pulse or {}).get("assets") or []:
+        if a.get("symbol") == "BTC":
+            return a
+    return {}
+
+
+def _oi_total(pulse):
+    tot = 0
+    for a in ((pulse or {}).get("leverage") or {}).get("assets") or []:
+        tot += a.get("open_interest_usd") or 0
+    return tot or None
+
+
+def board_deltas(pulse, prev=None):
+    """Per-tile change since calendar yesterday. Absent keys mean NO delta row.
+
+    Two rules the page depends on, both from the 2026-09-13 ruling:
+      - No prior value for a tile -> the tile renders without its delta row. Never a
+        placeholder, never a zero standing in for "unknown".
+      - A tile whose section was CARRIED FORWARD on either side shows no delta. A delta
+        measured against a carried-forward value is a delta against nothing: the number
+        did not hold steady, it simply was not re-fetched. This desk carries a section on
+        roughly a third of builds, so this is the common case, not the edge.
+    """
+    prev = prev if prev is not None else prior_snapshot()
+    if not prev:
+        return {}
+    carried = set((pulse or {}).get("carried_forward") or []) \
+        | set((prev or {}).get("carried_forward") or [])
+    out = {}
+
+    if "assets" not in carried:
+        d = _pct(_btc(pulse).get("price"), _btc(prev).get("price"))
+        if d is not None:
+            out["bitcoin"] = {"pct": d}
+    if "market" not in carried:
+        d = _pct(((pulse or {}).get("market") or {}).get("total_mcap_usd"),
+                 ((prev or {}).get("market") or {}).get("total_mcap_usd"))
+        if d is not None:
+            out["market"] = {"pct": d}
+    if "leverage" not in carried:
+        d = _pct(_oi_total(pulse), _oi_total(prev))
+        if d is not None:
+            out["leverage"] = {"pct": d}
+    if "stables" not in carried:
+        d = _pct(((pulse or {}).get("stables") or {}).get("total_usd"),
+                 ((prev or {}).get("stables") or {}).get("total_usd"))
+        if d is not None:
+            out["stables"] = {"pct": d}
+    if "fng" not in carried:
+        a = ((pulse or {}).get("fng") or {}).get("value")
+        b = ((prev or {}).get("fng") or {}).get("value")
+        if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+            out["fng"] = {"points": a - b, "prev": b}
+    if "network" not in carried:
+        a = ((pulse or {}).get("network") or {}).get("fastest_fee")
+        b = ((prev or {}).get("network") or {}).get("fastest_fee")
+        if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+            out["network"] = {"points": a - b, "prev": b}
+    return out
+
+
 BOARD_ALARM_HOURS = 24     # see _board_age_alarm; deliberately above routine carry-forward
 
 
