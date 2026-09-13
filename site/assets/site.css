@@ -1056,3 +1056,20 @@ html.motion-off .badge-anim:hover img{transform:none}
   .nh-m{justify-content:flex-start}
   .nh-t{font-size:16px;min-height:44px;display:flex;align-items:center}
 }
+
+/* ---- News hub jump chips (C4 follow-up) ------------------------------------------
+   The hub runs past 10,000 px at 390. Without these the only way to reach a lower
+   storyline on a phone is to scroll the whole page. Scrolls sideways, 44px tall. */
+.nh-jump{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.nh-chip{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;
+  border-radius:999px;background:var(--tag-bg);color:var(--tag-fg);font-size:13px;
+  font-weight:600;text-decoration:none;white-space:nowrap}
+.nh-chip:hover{background:var(--line);color:var(--ink);text-decoration:none}
+.nh-chip-n{font:700 11px/1 var(--mono);opacity:.7}
+@media (max-width:900px){
+  .nh-jump{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+    padding-bottom:2px;margin:12px 0 2px}
+  .nh-jump::-webkit-scrollbar{display:none}
+}
+/* A jumped-to section must not land under the sticky nav. */
+.bd-mod[id]{scroll-margin-top:64px}

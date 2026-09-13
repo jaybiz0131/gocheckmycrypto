@@ -3172,6 +3172,11 @@ def render_news_hub(items, dateline, pulse=None):
     current = [L for L in lanes if L["items"] and (L["items"][0].get("published_utc") or "") >= cutoff]
     past = [L for L in lanes if L["items"] and L not in current]
 
+    # Jump chips, in the same order the sections render.
+    jump = "".join(
+        f'<a class="nh-chip" href="#{esc(L["slug"])}">{esc(L["name"])}'
+        f'<span class="nh-chip-n">{len(L["items"])}</span></a>' for L in current)
+
     rec = record_sections(items, home=True)
     months = _news_month_archive(live)
     marc = "".join(
@@ -3201,6 +3206,7 @@ def render_news_hub(items, dateline, pulse=None):
   <div class="bd-sec" style="margin-top:26px"><div class="bd-sec-l">
     <span class="bd-eyebrow">Storylines</span>
     <h2 class="bd-h2">What the desk is following</h2></div></div>
+  <nav class="nh-jump" aria-label="Jump to a storyline">{jump}</nav>
   {"".join(_news_section(L) for L in current)}
   {past_html}
   {arch}
@@ -6227,12 +6233,14 @@ def build():
     _c4_lanes, _c4_rest, _c4_live = _news_lane_index(arts_sorted)
     learn_locs += [f"/news/{L['slug']}.html" for L in _c4_lanes
                    if len(L["items"]) >= NEWS_MIN_STORIES]
-    learn_locs += [f"/news/archive/{m}.html" for m in _news_month_archive(_c4_live)]
+    _c4_months = [f"/news/archive/{m}.html" for m in _news_month_archive(_c4_live)]
     prio = locs + learn_locs + hub_locs + [f"/articles/{i['slug']}.html" for i in _prio_arts]
     older = [i for i in arts_sorted if i.get("slug") not in _ev]
     archive_arts = [i for i in older if _within_days(i, 60)]
     n_aged = len(older) - len(archive_arts)
-    archive = [f"/articles/{i['slug']}.html" for i in archive_arts]
+    # Month archive pages ride the archive tier with the stories they index; /news
+    # and the storyline pages stay in priority.
+    archive = _c4_months + [f"/articles/{i['slug']}.html" for i in archive_arts]
     w("sitemap-priority.xml", _urlset(prio))
     w("sitemap-archive.xml", _urlset(archive))
     w("sitemap.xml",
