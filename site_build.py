@@ -2631,6 +2631,198 @@ def _bd_cold_storage():
         'listing.</p></div>')
 
 
+# ---- C2: the explainer pages --------------------------------------------------
+# Artboard 3. Eight pages at /learn/<slug>, one per Board tile, built from the
+# markdown in learn/. THE COPY IS FINAL: this code renders it and never edits it.
+# The one exception is on the record: ruling 0.4 changed 04's transfer threshold
+# from $1 million to $50 million because whale_flows.FALLBACK_MIN_USD says
+# 50_000_000, and that edit is in the markdown itself, not applied here.
+#
+# The live block reads the SAME pulse.json the Board reads, bound to the tile named
+# in the page's own front matter, so an explainer can never quote a number the
+# homepage disagrees with: there is one source and one formatter for both.
+LEARN_DIR = os.path.join(HERE, "learn")
+
+# front matter board_tile -> the key board_tiles() uses.
+_TILE_KEY = {"bitcoin": "bitcoin", "market": "market", "etf_flows": "etf",
+             "whale_flows": "whales", "leverage": "leverage",
+             "stablecoins": "stables", "sentiment": "fng", "network": "network"}
+
+_LIVE_RX = re.compile(r"^\[LIVE FROM THE BOARD:.*\]\s*$", re.M)
+_BACK_RX = re.compile(r"^\[Back to the Board\]\s*$", re.M)
+
+
+def _md_inline(t):
+    """Bold, italic and links only. These files use nothing else, and a general
+    markdown engine would be a dependency plus a licence to render whatever a future
+    file happens to contain."""
+    t = esc(t)
+    t = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', t)
+    t = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", t)
+    t = re.sub(r"(?<!\*)\*([^*]+)\*(?!\*)", r"<em>\1</em>", t)
+    return t
+
+
+def parse_explainer(path):
+    """Front matter plus body. Returns None for a file without both."""
+    raw = open(path, encoding="utf-8").read()
+    parts = raw.split("---", 2)
+    if len(parts) < 3:
+        return None
+    meta = {}
+    for line in parts[1].splitlines():
+        if ":" in line:
+            k, _, v = line.partition(":")
+            meta[k.strip()] = v.strip()
+    meta["body"] = parts[2]
+    meta["file"] = os.path.basename(path)
+    slug = (meta.get("slug") or "").strip("/")
+    meta["slug"] = slug.split("/")[-1] if slug else ""
+    return meta if meta["slug"] and meta.get("title") else None
+
+
+def load_explainers():
+    if not os.path.isdir(LEARN_DIR):
+        return []
+    out = []
+    for f in sorted(os.listdir(LEARN_DIR)):
+        if not f.endswith(".md"):
+            continue
+        m = parse_explainer(os.path.join(LEARN_DIR, f))
+        if m:
+            out.append(m)
+    return out
+
+
+def _explainer_html(body, tile_live, related_html):
+    """Markdown to HTML for exactly the shapes these files use: h1, h2, paragraphs,
+    the two bracket slots, and the closing italic note."""
+    body = _LIVE_RX.sub("\x00LIVE\x00", body)
+    body = _BACK_RX.sub("\x00BACK\x00", body)
+    out, buf = [], []
+
+    def flush():
+        if buf:
+            txt = " ".join(x.strip() for x in buf).strip()
+            if txt:
+                out.append(f"<p>{_md_inline(txt)}</p>")
+            buf.clear()
+
+    in_related = False
+    for line in body.splitlines():
+        st = line.strip()
+        if st == "\x00LIVE\x00":
+            flush(); out.append(tile_live); continue
+        if st == "\x00BACK\x00":
+            flush(); continue                      # the action row is rendered below
+        if st.startswith("# "):
+            flush(); continue                      # the h1 is rendered from front matter
+        if st.startswith("## "):
+            flush()
+            head = st[3:].strip()
+            # "Related on the Board" becomes the bound three-card module, so its own
+            # hand-written paragraphs are dropped rather than duplicated beneath it.
+            if head.lower().startswith("related on the board"):
+                in_related = True
+                continue
+            in_related = False
+            out.append(f'<h2 class="lx-h2">{esc(head)}</h2>')
+            continue
+        if in_related:
+            continue
+        if not st:
+            flush(); continue
+        buf.append(st)
+    flush()
+    html = "\n".join(out)
+    # The closing italic disclaimer is the desk's standing note, rendered as such.
+    html = html.replace("<p><em>This page is education, not advice. Do your own research.</em></p>",
+                        '<p class="lx-nfa">This page is education, not advice. '
+                        'Do your own research.</p>')
+    return html + related_html
+
+
+def _tile_live_block(tile, pulse):
+    """Artboard 3's "Live from the Board" card, bound to this page's tile. With no
+    tile value there is no card: an explainer still reads correctly without it, and a
+    live block with nothing live in it is the placeholder rule 5 forbids."""
+    if not tile:
+        return ""
+    cls = "up" if "up" in (tile.get("delta") or "") else (
+        "down" if "down" in (tile.get("delta") or "") else "")
+    src = ((pulse or {}).get("note") or "").strip()
+    asof = _ticker_built(pulse)
+    return (
+        f'<div class="bd-card lx-live">'
+        f'<div class="bd-cardtop"><span class="lx-live-lab">Live from the Board</span>'
+        f'<span class="bd-badge dat">{esc(tile["label"])}</span></div>'
+        f'<div class="lx-live-row"><span class="lx-live-v {cls}">{esc(tile["value"])}</span>'
+        f'<span class="bd-read" style="font-size:15px">{esc(tile["read"])}</span></div>'
+        f'{tile.get("delta") or ""}'
+        f'<div class="bd-brief-foot"><span class="bd-stamp">{esc(asof)}'
+        f'{(". Source: " + esc(src)) if src else ""}</span>'
+        f'<a class="bd-more" href="/pulse.html" style="white-space:nowrap">'
+        f'See it on the Board</a></div></div>')
+
+
+def _related_block(meta, tiles_by_key, by_slug):
+    """Three tiles that move with this one, from the page's own related_tiles."""
+    want = [t.strip() for t in (meta.get("related_tiles") or "").split(";") if t.strip()]
+    cards = []
+    for name in want[:3]:
+        key = _TILE_KEY.get(name)
+        tile = tiles_by_key.get(key) if key else None
+        ex = by_slug.get(key)
+        if not tile and not ex:
+            continue
+        label = tile["label"] if tile else (ex.get("board_tile") or name)
+        title = ex["title"] if ex else f"{label}, explained"
+        blurb = (ex.get("meta_description") if ex else (tile or {}).get("read")) or ""
+        href = f'/learn/{ex["slug"]}.html' if ex else "/pulse.html"
+        rt = (ex.get("read_time") or "") if ex else ""
+        cards.append(
+            f'<a class="bd-card" href="{esc(href)}" style="text-decoration:none">'
+            f'<span class="bd-label">{esc(label)}</span>'
+            f'<span class="bd-h3">{esc(title)}</span>'
+            f'<span class="bd-read">{esc(blurb)}</span>'
+            + (f'<span class="bd-stamp">{esc(rt)} read</span>' if rt else "") + '</a>')
+    if not cards:
+        return ""
+    return (f'<section class="bd-mod lx-related">'
+            f'<div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">Related on the Board</span>'
+            f'<h2 class="bd-h2" style="font-size:22px">Three tiles that move with this one'
+            f'</h2></div></div>'
+            f'<div class="bd-cards3">{"".join(cards)}</div></section>')
+
+
+def render_explainer(meta, pulse, flows, items, dateline, tiles_by_key, by_tilekey):
+    tile = tiles_by_key.get(_TILE_KEY.get(meta.get("board_tile") or ""))
+    live = _tile_live_block(tile, pulse)
+    related = _related_block(meta, tiles_by_key, by_tilekey)
+    dek = ""
+    m = re.search(r"^\*(.+?)\*$", meta["body"], re.M)
+    if m:
+        dek = m.group(1).strip()
+        meta["body"] = meta["body"].replace(m.group(0), "", 1)
+    ed = current_bottom_line(items)
+    brief_link = (f'<a class="bd-more" href="/articles/{esc(ed["slug"])}.html">'
+                  f'Read today\'s Board brief</a>' if ed else "")
+    body = f"""<main class="wrap narrow lx"><article class="page">
+  <div class="lx-meta"><span class="bd-eyebrow">Learn the Board</span>
+    <span class="bd-stamp">{esc((tile or {}).get("label") or meta.get("board_tile") or "")} tile</span>
+    <span class="bd-stamp">{esc(meta.get("read_time") or "")}</span></div>
+  <h1 class="lx-h1">{esc(meta["title"])}</h1>
+  {f'<p class="lx-dek">{_md_inline(dek)}</p>' if dek else ""}
+  {_explainer_html(meta["body"], live, "")}
+  <div class="lx-actions"><a class="bd-btn" href="/pulse.html">Back to the Board</a>
+    {brief_link}</div>
+</article></main>
+<div class="wrap">{related}</div>"""
+    return shell(meta["title"], meta.get("meta_description") or "", "Learn", body, dateline,
+                 path=f"/learn/{meta['slug']}.html")
+
+
 # ---- C8: The Record -----------------------------------------------------------
 # Addendum of 2026-09-13. What the desk has published that stays true after the news
 # moves on, grouped into lanes, each lane led by its strongest piece. This replaces
@@ -2841,8 +3033,11 @@ def render_home(items, flows, pulse, cm, dateline):
 
     # C2 has not shipped, so every Explained link lands on /learn. C2 rewires this
     # one function and the tiles follow.
+    by_tile = {_TILE_KEY.get(e.get("board_tile") or ""): e for e in load_explainers()}
+
     def learn_href(tile):
-        return "/learn.html"
+        ex = by_tile.get(tile.get("key"))
+        return f'/learn/{ex["slug"]}.html' if ex else "/learn.html"
 
     stamp = data_stamp(pulse, what="The Board")
 
@@ -3161,14 +3356,87 @@ def render_counterfeit_devices(dateline):
                  path="/counterfeit-devices.html")
 
 
+def _learn_card(label, title, blurb, href, read=""):
+    return (f'<a class="bd-card" href="{esc(href)}" style="text-decoration:none">'
+            f'<span class="bd-label">{esc(label)}</span>'
+            f'<span class="bd-h3">{esc(title)}</span>'
+            f'<span class="bd-read">{esc(blurb)}</span>'
+            + (f'<span class="bd-stamp">{esc(read)}</span>' if read else "") + '</a>')
+
+
 def render_learn(dateline):
-    """The Learn tier index. Renders from explainers.EXPLAINERS, so a new entry there is
-    the only edit an added explainer needs."""
-    import explainers
-    return shell(f"Learn crypto: explainers, boards, and glossary - {NAME}",
-                 "Evergreen explainers, how the desk verifies stories, how to read its "
-                 "market boards, and a glossary of the terms its reporting uses.",
-                 "", explainers.learn_index_body(), dateline, path="/learn.html")
+    """/learn (C3): the explainer hub, mirroring the Board.
+
+    The old page was four headings over thirteen bare links. This is three carded
+    tiers: the eight Board explainers in Board order, then the Chart Master's
+    practice surfaces, then the custody and tax education. Every card carries a
+    label, a title, a blurb and, where the length can be measured from the page
+    itself, a read time. Where it cannot be measured the line is omitted rather
+    than guessed, which is the same rule the tiles follow.
+    """
+    exps = load_explainers()
+    order = [k for k in ("bitcoin", "market", "etf_flows", "whale_flows", "leverage",
+                         "stablecoins", "sentiment", "network")]
+    by_tile = {e.get("board_tile"): e for e in exps}
+    tile_names = {"bitcoin": "Bitcoin", "market": "Whole market",
+                  "etf_flows": "Spot ETF flows", "whale_flows": "Whale flows",
+                  "leverage": "Leverage", "stablecoins": "Stablecoin dry powder",
+                  "sentiment": "Crowd sentiment", "network": "Network"}
+    board_cards = "".join(
+        _learn_card(tile_names.get(t, t), by_tile[t]["title"],
+                    by_tile[t].get("meta_description") or "",
+                    f'/learn/{by_tile[t]["slug"]}.html',
+                    (by_tile[t].get("read_time") or "") and f'{by_tile[t]["read_time"]} read')
+        for t in order if t in by_tile)
+
+    # The Chart Master's surfaces are interactive, not articles: a read time would be
+    # a fiction. Each card says what the thing is instead.
+    cm_cards = "".join([
+        _learn_card("Daily read", "The Chart Master's read of the boards",
+                    "One plain-language pass over what the numbers are doing today, and "
+                    "what would change the read.", "/chartmaster.html"),
+        _learn_card("Practice", "The Oracle Challenge",
+                    "Call the next move on a real chart and keep a record. Learning the "
+                    "tape by playing it, with your hit rate kept honest.",
+                    "/chartmaster.html#oracle"),
+        _learn_card("Test yourself", "The Wizard's Exam",
+                    "Questions on the indicators the boards use. Wrong answers explain "
+                    "themselves.", "/chartmaster.html#exam"),
+        _learn_card("Reference", "The Spellbook",
+                    "The terms this desk's reporting uses, defined once, in the order a "
+                    "beginner meets them.", "/chartmaster.html#rsi101"),
+    ])
+
+    import explainers as _ex
+    guide_cards = "".join(
+        _learn_card(_LEARN_TILE.get(e.get("slug"), "Guide"), e.get("title") or "",
+                    e.get("blurb") or "", f'/{e.get("slug")}.html',
+                    (lambda m: f"{m} min read" if m else "")(
+                        _learn_read_min(e.get("slug") or "")))
+        for e in (_ex.EXPLAINERS or []) if e.get("status") == "published")
+
+    def sec(eye, h2, cards, more=""):
+        if not cards:
+            return ""
+        return (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
+                f'<span class="bd-eyebrow">{esc(eye)}</span>'
+                f'<h2 class="bd-h2">{esc(h2)}</h2></div>{more}</div>'
+                f'<div class="bd-cards4">{cards}</div></section>')
+
+    body = f"""<main class="wrap"><section class="page">
+  <h1 class="lx-h1" style="margin-bottom:6px">Learn the Board</h1>
+  <p class="lx-dek">Every number this desk publishes has a page explaining what it
+     measures, why it moves, and what it does not tell you. No jargon left undefined.</p>
+  {sec("The eight tiles", "One explainer for every number on the Board", board_cards,
+       '<a class="bd-more" href="/pulse.html">Open the Board</a>')}
+  {sec("The Chart Master", "Learn the charts by reading and playing them", cm_cards,
+       '<a class="bd-more" href="/chartmaster.html">Enter the tower</a>')}
+  {sec("Owning it safely", "Custody, counterfeits, and tax", guide_cards)}
+</section></main>"""
+    return shell(f"Learn the Board: every crypto number explained - {NAME}",
+                 "Plain-language explainers for every number on the Board: ETF flows, "
+                 "whale flows, leverage, dry powder, sentiment, network fees and more.",
+                 "Learn", body, dateline, path="/learn.html")
 
 
 def render_cold_storage(dateline):
@@ -4193,14 +4461,25 @@ def render_pulse_hub(pulse, flows, cm, dateline):
             "market. Market data, not advice.")
     pulse = pulse or {}
     W = []
+    _lx = {e.get("board_tile"): f'/learn/{e["slug"]}.html' for e in load_explainers()}
 
-    def widget(href, lab, stat, sub="", mini="", stat_color="", cls=""):
+    # C2: each tile that has an explainer carries its "Explained" link here as well as
+    # on the homepage. A link cannot nest inside a link, so a tile with an explainer
+    # becomes a div holding two anchors: the card destination, stretched over the whole
+    # card by a pseudo-element, and the Explained link sitting above it. Tiles without
+    # an explainer keep the plain anchor they had.
+    def widget(href, lab, stat, sub="", mini="", stat_color="", cls="", learn=""):
         color = f' style="color:{stat_color}"' if stat_color else ""
-        W.append(f'''<a class="dash-card widget{cls}" href="{href}">
-      <span class="lab">{lab}</span>
-      <span class="dash-stat"{color}>{stat}</span>
-      {f'<span class="w-sub">{sub}</span>' if sub else ""}
-      {f'<div class="pc-spark">{mini}</div>' if mini else ""}</a>''')
+        inner = (f'<span class="lab">{lab}</span>'
+                 f'<span class="dash-stat"{color}>{stat}</span>'
+                 + (f'<span class="w-sub">{sub}</span>' if sub else "")
+                 + (f'<div class="pc-spark">{mini}</div>' if mini else ""))
+        if learn:
+            W.append(f'''<div class="dash-card widget has-learn{cls}">
+      <a class="w-main" href="{href}">{inner}</a>
+      <a class="w-learn" href="{learn}">Explained</a></div>''')
+        else:
+            W.append(f'''<a class="dash-card widget{cls}" href="{href}">{inner}</a>''')
 
     # The read: the desk's synthesis of everything below, full width (not a card)
     if (cm or {}).get("headline"):
@@ -4218,7 +4497,8 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                f'<span data-live="price:BTC">{esc(_price_fmt(btc.get("price")))}</span>{chg_s}',
                f'RSI {btc.get("rsi14", 0):.0f} &middot; '
                f'{"above" if btc.get("above_sma200") else "below"} 200-day',
-               spark_widget((btc.get("spark") or [])[-30:], "30d"))
+               spark_widget((btc.get("spark") or [])[-30:], "30d"),
+               learn=_lx.get("bitcoin", ""))
     mkt = pulse.get("market") or {}
     if mkt.get("total_mcap_usd"):
         mchg = mkt.get("mcap_change_24h_pct")
@@ -4229,7 +4509,8 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                    f'<span class="w-range">BTC is {dom:.1f}% of the whole crypto market</span>')
         widget("/pulse/prices.html", "Price &middot; Whole market",
                f'{esc(fmt_tick(mkt["total_mcap_usd"]))}{mchg_s}',
-               'total crypto market cap &middot; 24h change', dom_bar)
+               'total crypto market cap &middot; 24h change', dom_bar,
+               learn=_lx.get("market", ""))
     etf = (pulse.get("etf_flows") or {}).get("btc") or {}
     if etf.get("latest_net_usd_m") is not None:
         latest = etf["latest_net_usd_m"]
@@ -4239,7 +4520,8 @@ def render_pulse_hub(pulse, flows, cm, dateline):
         widget("/pulse/etf.html", "Flows &middot; ETF flows",
                f'{"+" if latest >= 0 else ""}{esc(fmt_usd(latest * 1e6))}',
                f'BTC spot ETFs, {esc(etf.get("latest_date", ""))}', mini,
-               stat_color="var(--up)" if latest >= 0 else "var(--down)")
+               stat_color="var(--up)" if latest >= 0 else "var(--down)",
+               learn=_lx.get("etf_flows", ""))
 
     # Row 2 - where the money is moving, and how leveraged the bets are
     if flows and flows.get("volatile"):
@@ -4252,7 +4534,8 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                f'{esc(fmt_usd(abs(wnet)))}',
                f'net {"off" if wnet >= 0 else "onto"} exchanges, '
                f'{esc(_win_phrase(flows.get("window_hours", 24)))}', wmini,
-               stat_color="var(--up)" if wnet >= 0 else "var(--down)")
+               stat_color="var(--up)" if wnet >= 0 else "var(--down)",
+               learn=_lx.get("whale_flows", ""))
     lev = (pulse.get("leverage") or {}).get("assets") or []
     btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
     if btcl:
@@ -4267,14 +4550,16 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                     f'{q.get("window_hours", "?")}h &middot; mostly {side}')
         widget("/pulse/leverage.html", "Positioning &middot; Leverage",
                f'{btcl.get("funding_8h_pct", 0):+.4f}% <span class="w-unit">/8h</span>', sub,
-               spark_widget(btcl.get("oi_history_usd") or [], "30d open interest"))
+               spark_widget(btcl.get("oi_history_usd") or [], "30d open interest"),
+               learn=_lx.get("leverage", ""))
     stables = pulse.get("stables") or {}
     if stables.get("total_usd"):
         chg = stables.get("change_30d_pct", 0)
         widget("/pulse/stablecoins.html", "Flows &middot; Stablecoin dry powder",
                esc(fmt_usd(stables["total_usd"])),
                f'<span class="w-delta {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span> in 30 days',
-               spark_widget((stables.get("spark") or [])[-60:], "60d"))
+               spark_widget((stables.get("spark") or [])[-60:], "60d"),
+               learn=_lx.get("stablecoins", ""))
 
     # Row 3 - the supporting desks: the day's action, the mood, the chain
     movers = pulse.get("movers") or {}
@@ -4297,7 +4582,8 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                f'{v} &middot; {esc((fng.get("label") or "").lower())}',
                "the foil: what the crowd feels, not what the money does",
                spark_widget((fng.get("history") or [])[-30:], "30d", dollars=False),
-               stat_color=_fng_band_color(v))
+               stat_color=_fng_band_color(v),
+               learn=_lx.get("sentiment", ""))
     network = pulse.get("network") or {}
     if network.get("fastest_fee") is not None:
         fee = network.get("fastest_fee", 0) or 0
@@ -4308,7 +4594,8 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                     f'<span class="w-range">sat/vB = satoshis per virtual byte, the bid for block space</span>')
         widget("/pulse/network.html", "Chain &middot; Bitcoin network",
                f'{network.get("fastest_fee", "?")} <span class="w-unit">sat/vB</span>',
-               f'next-block fee: {busy}', net_mini, cls=" mspan")
+               f'next-block fee: {busy}', net_mini, cls=" mspan",
+               learn=_lx.get("network", ""))
 
     body = mp_hero() + f'''<main class="wrap"><section class="page">
   <div class="ey" style="margin:14px 0 0">
@@ -5525,6 +5812,17 @@ def build():
     w("standards.html", render_standards(dateline))
     w("learn.html", render_learn(dateline))
     w("record.html", render_record(items, dateline))
+    # C2: /learn/<slug>.html, one per Board tile. Same pulse.json and same tile
+    # builder the homepage uses, so an explainer cannot quote a number the Board
+    # disagrees with.
+    _lx_deltas = board_deltas(pulse)
+    _lx_tiles = {t["key"]: t for t in board_tiles(pulse, flows, _lx_deltas)}
+    _lx_all = load_explainers()
+    _lx_by_tile = {_TILE_KEY.get(e.get("board_tile") or ""): e for e in _lx_all}
+    for _ex in _lx_all:
+        w(os.path.join("learn", f"{_ex['slug']}.html"),
+          render_explainer(_ex, pulse, flows, items, dateline, _lx_tiles, _lx_by_tile))
+    print(f"learn: {len(_lx_all)} explainer page(s) -> /learn/")
     w("how-we-make-money.html", render_how_we_make_money(dateline))
     w("cold-storage.html", render_cold_storage(dateline))
     w("crypto-tax.html", render_crypto_tax(dateline))
@@ -5648,7 +5946,10 @@ def build():
     # at it was refilling the queue the prune was meant to clear.
     _ev = {i.get("slug") for i in evergreen_picks(arts_sorted, PRIORITY_N)}
     _prio_arts = [i for i in arts_sorted if i.get("slug") in _ev]
-    prio = locs + hub_locs + [f"/articles/{i['slug']}.html" for i in _prio_arts]
+    # C2: the explainers ride in the priority tier. They are the evergreen half of
+    # this desk's search surface and they do not age out the way a story does.
+    learn_locs = [f"/learn/{e['slug']}.html" for e in load_explainers()]
+    prio = locs + learn_locs + hub_locs + [f"/articles/{i['slug']}.html" for i in _prio_arts]
     older = [i for i in arts_sorted if i.get("slug") not in _ev]
     archive_arts = [i for i in older if _within_days(i, 60)]
     n_aged = len(older) - len(archive_arts)

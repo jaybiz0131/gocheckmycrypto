@@ -991,3 +991,47 @@ html.motion-off .badge-anim:hover img{transform:none}
     min-height:44px;display:flex;align-items:center}
   .bd-rec-cols a{padding:2px 0}
 }
+
+/* ---- Explainer pages (C2, Artboard 3) -------------------------------------------- */
+.lx .page{padding-top:36px;display:flex;flex-direction:column;gap:18px}
+.lx-meta{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.lx-h1{font:600 44px/1.1 var(--serif);letter-spacing:-.015em;margin:0;color:var(--ink)}
+.lx-dek{font:500 italic 22px/1.4 var(--serif);color:var(--muted);margin:0}
+.lx-h2{font:600 26px/1.25 var(--serif);margin:14px 0 0;color:var(--ink)}
+.lx p{font-size:17px;line-height:1.6;margin:0;color:var(--ink)}
+.lx-nfa{font-size:13.5px !important;color:var(--faint) !important;font-style:italic;
+  margin-top:8px !important}
+/* The live card carries the desk rule colour so the one live thing on an evergreen
+   page is visibly the live thing. */
+.lx-live{border-color:var(--rule);gap:8px;padding:18px 20px 16px}
+.lx-live-lab{font:700 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--rule)}
+.lx-live-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.lx-live-v{font:600 44px/1.05 var(--serif);letter-spacing:-.015em;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.lx-live-v.up{color:var(--up)}.lx-live-v.down{color:var(--down)}
+.lx-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px}
+.lx-related{padding-top:40px}
+@media (max-width:900px){
+  .lx-h1{font-size:32px}
+  .lx-dek{font-size:18px}
+  .lx-h2{font-size:22px}
+  .lx-live-v{font-size:34px}
+  .lx .page{padding-top:22px;gap:14px}
+}
+
+/* ---- /pulse tiles that carry an explainer (C2) ----------------------------------
+   A link cannot nest inside a link. A tile with an explainer is therefore a div
+   holding two anchors: the card destination, stretched over the card by a
+   pseudo-element so the whole tile stays clickable exactly as before, and the
+   Explained link raised above it. Tiles with no explainer keep the plain anchor. */
+.dash-card.has-learn{position:relative}
+.w-main{display:flex;flex-direction:column;color:inherit;text-decoration:none;min-width:0}
+.w-main::after{content:"";position:absolute;inset:0;border-radius:8px}
+.w-main:hover{text-decoration:none}
+.w-learn{position:relative;z-index:1;align-self:flex-start;margin-top:8px;
+  font-size:13px;font-weight:600}
+.dash-card.has-learn:focus-within{border-color:var(--rule)}
+@media (max-width:900px){
+  .w-learn{min-height:44px;display:flex;align-items:center}
+}
