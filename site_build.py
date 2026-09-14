@@ -2351,6 +2351,9 @@ def board_tiles(pulse, flows, deltas):
     return out
 
 
+CC_DATA = None       # set at build by living_tables.load()
+CC_BUILT = set()     # which C-C tables actually built this run
+
 _SER_PULSE = None    # set by board_tile_grid so tiles can draw their series
 _SER_FLOWS = None
 
@@ -3182,6 +3185,125 @@ def watchlist_row(pulse):
             f'no account, no cookie, nothing logged.</p></section>')
 
 
+# ---- C-C: living tables as Record features -------------------------------------
+# Three pages, each the featured piece of its Record lane, each with a dated stamp and
+# a source line. A table whose source did not resolve is not built and its lane link is
+# not rendered, so the Record never points at a page that is not there.
+
+CC_TABLES = [
+    {"key": "stables_by_issuer", "slug": "stablecoin-supply-by-issuer",
+     "lane": "stablecoins", "title": "Stablecoin supply, by issuer",
+     "h1": "Which stablecoins hold the dry powder",
+     "dek": "Circulating supply by issuer, and each one's share of the total. The same "
+            "source the dry-powder tile on the Board reads.",
+     "desc": "Stablecoin circulating supply by issuer, with each one's share of the "
+             "total and its change over the past week."},
+    {"key": "whales_by_week", "slug": "whale-flows-by-week",
+     "lane": "network-and-mining", "title": "Whale flows, by week",
+     "h1": "Exchange flows, week by week",
+     "dek": "Net movement onto or off exchanges, one row per week, from the same feed "
+            "Whale Watch reads.",
+     "desc": "Weekly net exchange flows from the Whale Alert feed: how much moved onto "
+             "or off exchanges each week, and how many transfers made it up."},
+    {"key": "etf_by_issuer", "slug": "etf-flows-by-issuer",
+     "lane": "etfs-and-institutions", "title": "Spot ETF flows, by issuer",
+     "h1": "Which funds are taking the money",
+     "dek": "Daily net flow per fund, from the same holdings table the Board's ETF tile "
+            "reads.",
+     "desc": "Daily spot Bitcoin ETF flows broken out by issuer, from the filings the "
+             "Board's ETF tile aggregates."},
+]
+
+
+def _cc_stables_table(t):
+    rows = "".join(
+        f'<tr><td class="lt-prop">{esc(r.get("symbol") or "")}</td>'
+        f'<td class="lt-what">{esc(r.get("name") or "")}</td>'
+        f'<td class="lt-when"><span class="bd-stamp">{esc(fmt_usd(r["circulating_usd"]))}'
+        f'</span></td>'
+        f'<td class="lt-when"><span class="bd-stamp">'
+        f'{r["share_pct"]:.1f}%</span></td>'
+        f'<td class="lt-when">'
+        + (f'<span class="bd-stamp {"up" if r["chg_7d_pct"] >= 0 else "down"}">'
+           f'{r["chg_7d_pct"]:+.1f}%</span>' if isinstance(r.get("chg_7d_pct"), (int, float))
+           else '<span class="bd-src">not stated</span>')
+        + '</td></tr>' for r in t["rows"])
+    return (f'<thead><tr><th>Symbol</th><th>Issuer</th><th>Circulating</th>'
+            f'<th>Share</th><th>7 days</th></tr></thead><tbody>{rows}</tbody>')
+
+
+def _cc_whales_table(t):
+    rows = "".join(
+        f'<tr><td class="lt-prop">{esc(w.get("week_ending") or "")}</td>'
+        f'<td class="lt-what">{"onto exchanges" if (w.get("net_usd") or 0) < 0 else "off exchanges"}</td>'
+        f'<td class="lt-when"><span class="bd-stamp {"down" if (w.get("net_usd") or 0) < 0 else "up"}">'
+        f'{esc(fmt_usd(abs(w.get("net_usd") or 0)))}</span></td>'
+        f'<td class="lt-when"><span class="bd-stamp">{w.get("moves", "")}</span></td></tr>'
+        for w in reversed(t["weeks"]))
+    return (f'<thead><tr><th>Week ending</th><th>Direction</th><th>Net</th>'
+            f'<th>Transfers</th></tr></thead><tbody>{rows}</tbody>')
+
+
+def _cc_etf_table(t):
+    issuers = t["issuers"]
+    head = "".join(f"<th>{esc(i)}</th>" for i in issuers)
+    rows = ""
+    for d in reversed(t["days"]):
+        cells = ""
+        for i in issuers:
+            v = (d.get("funds") or {}).get(i)
+            cls = "" if v is None else ("up" if v >= 0 else "down")
+            cells += (f'<td class="lt-when"><span class="bd-stamp {cls}">'
+                      f'{v:+.1f}</span></td>' if v is not None
+                      else '<td class="lt-when"><span class="bd-src">-</span></td>')
+        rows += (f'<tr><td class="lt-prop">{esc(d.get("date") or "")}</td>{cells}'
+                 f'<td class="lt-when"><span class="bd-stamp">'
+                 f'{d.get("total_usd_m", 0):+.1f}</span></td></tr>')
+    return (f'<thead><tr><th>Date</th>{head}<th>Total</th></tr></thead>'
+            f'<tbody>{rows}</tbody>')
+
+
+_CC_RENDER = {"stables_by_issuer": _cc_stables_table,
+              "whales_by_week": _cc_whales_table,
+              "etf_by_issuer": _cc_etf_table}
+
+
+def _cc_stamp(iso):
+    """The table's as-of time, in UTC. This desk stamps in UTC throughout: it covers a
+    market with no closing bell, and an Eastern stamp would imply one."""
+    import datetime as _dt
+    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%MZ"):
+        try:
+            t = _dt.datetime.strptime(iso, fmt)
+            return t.strftime("%H:%M UTC, %-d %b %Y")
+        except Exception:
+            continue
+    return ""
+
+
+def render_living_table_page(spec, data, dateline):
+    t = (data.get("tables") or {}).get(spec["key"])
+    if not t:
+        return None
+    body_rows = _CC_RENDER[spec["key"]](t)
+    n = len(t.get("rows") or t.get("weeks") or t.get("days") or [])
+    url = f'/tables/{spec["slug"]}.html'
+    body = f"""<main class="wrap"><section class="page">
+  <p class="bd-stamp"><a href="/record.html">The Record</a> / {esc(spec["title"])}</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(spec["h1"])}</h1>
+  <p class="lx-dek">{esc(spec["dek"])}</p>
+  <div class="bd-cardtop"><span class="bd-badge dat">Living table</span>
+    <span class="bd-stamp">{n} rows, as of {esc(_cc_stamp(data.get("fetched_at") or ""))}</span>
+  </div>
+  <div class="lt-wrap"><table class="lt">{body_rows}</table></div>
+  <p class="bd-src" style="margin-top:14px">Source: {esc(t.get("source") or "")}.
+     Rebuilt at every site build; a row appears when the source publishes it and never
+     before.</p>
+</section></main>"""
+    return url, shell(f'{spec["title"]} - {NAME}', spec["desc"], "", body, dateline,
+                      path=url)
+
+
 # ---- C8: The Record -----------------------------------------------------------
 # Addendum of 2026-09-13. What the desk has published that stays true after the news
 # moves on, grouped into lanes, each lane led by its strongest piece. This replaces
@@ -3317,6 +3439,15 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False):
         f'<span class="bd-src">{esc(_record_type(i, hub_slugs))}</span></div>'
         for i in rest)
     all_href = f"#{esc(slug)}" if page else f"/record.html#{esc(slug)}"
+    # C-C: a lane with a living table leads its read-further list with it, and only
+    # when that table actually built this run.
+    _cc = next((t for t in CC_TABLES
+                if t.get("lane") == slug and t["key"] in CC_BUILT), None)
+    if _cc:
+        rows = (f'<div class="bd-rec-row">'
+                f'<a class="bd-rec-t" href="/tables/{esc(_cc["slug"])}.html">'
+                f'{esc(_cc["title"])}</a>'
+                f'<span class="bd-src">Living table</span></div>') + rows
     right = ""
     if rows:
         right = (f'<div class="bd-card bd-rec-more">'
@@ -6414,6 +6545,25 @@ def build():
     w("about.html", render_about(dateline))
     w("standards.html", render_standards(dateline))
     w("learn.html", render_learn(dateline))
+    # C-C: the living tables. Each is independent; one whose source did not resolve
+    # is not built and its lane does not link it.
+    global CC_DATA, CC_BUILT
+    CC_DATA, CC_BUILT = None, set()
+    try:
+        import living_tables as _lt
+        _lt.refresh()
+        CC_DATA = _lt.load()
+    except Exception as _e:
+        print(f"living_tables: unavailable ({type(_e).__name__}); tables withheld")
+    if CC_DATA:
+        for _spec in CC_TABLES:
+            _got = render_living_table_page(_spec, CC_DATA, dateline)
+            if _got:
+                _u, _html = _got
+                w(_u.lstrip("/"), _html)
+                CC_BUILT.add(_spec["key"])
+        print(f"living tables: {len(CC_BUILT)} page(s) -> /tables/")
+
     w("record.html", render_record(items, dateline))
     # C2: /learn/<slug>.html, one per Board tile. Same pulse.json and same tile
     # builder the homepage uses, so an explainer cannot quote a number the Board

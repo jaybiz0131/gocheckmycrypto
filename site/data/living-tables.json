@@ -1,0 +1,201 @@
+{
+ "fetched_at": "2026-09-14T21:43:06Z",
+ "tables": {
+  "stables_by_issuer": {
+   "rows": [
+    {
+     "chg_7d_pct": 0.011156077257701291,
+     "circulating_usd": 183375050807,
+     "name": "Tether",
+     "peg": "peggedUSD",
+     "share_pct": 58.72,
+     "symbol": "USDT"
+    },
+    {
+     "chg_7d_pct": -0.4554111942071448,
+     "circulating_usd": 74365310161,
+     "name": "USD Coin",
+     "peg": "peggedUSD",
+     "share_pct": 23.82,
+     "symbol": "USDC"
+    },
+    {
+     "chg_7d_pct": 2.2489683743903255,
+     "circulating_usd": 6750291756,
+     "name": "Sky Dollar",
+     "peg": "peggedUSD",
+     "share_pct": 2.16,
+     "symbol": "USDS"
+    },
+    {
+     "chg_7d_pct": -0.5864370842531996,
+     "circulating_usd": 4787262906,
+     "name": "Dai",
+     "peg": "peggedUSD",
+     "share_pct": 1.53,
+     "symbol": "DAI"
+    },
+    {
+     "chg_7d_pct": 6.773420762190763,
+     "circulating_usd": 4666541622,
+     "name": "Ethena USDe",
+     "peg": "peggedUSD",
+     "share_pct": 1.49,
+     "symbol": "USDe"
+    },
+    {
+     "chg_7d_pct": 2.1591915719820998,
+     "circulating_usd": 4357103253,
+     "name": "World Liberty Financial USD",
+     "peg": "peggedUSD",
+     "share_pct": 1.4,
+     "symbol": "USD1"
+    },
+    {
+     "chg_7d_pct": 1.877784780617131,
+     "circulating_usd": 3259957418,
+     "name": "Global Dollar",
+     "peg": "peggedUSD",
+     "share_pct": 1.04,
+     "symbol": "USDG"
+    },
+    {
+     "chg_7d_pct": -5.886718971970462,
+     "circulating_usd": 2740484363,
+     "name": "PayPal USD",
+     "peg": "peggedUSD",
+     "share_pct": 0.88,
+     "symbol": "PYUSD"
+    },
+    {
+     "chg_7d_pct": -3.771742020072044,
+     "circulating_usd": 2709041289,
+     "name": "BlackRock USD",
+     "peg": "peggedUSD",
+     "share_pct": 0.87,
+     "symbol": "BUIDL"
+    },
+    {
+     "chg_7d_pct": -0.7703277065355896,
+     "circulating_usd": 2604039211,
+     "name": "Circle USYC",
+     "peg": "peggedUSD",
+     "share_pct": 0.83,
+     "symbol": "USYC"
+    },
+    {
+     "chg_7d_pct": -1.0280231893312508,
+     "circulating_usd": 2382713704,
+     "name": "Ripple USD",
+     "peg": "peggedUSD",
+     "share_pct": 0.76,
+     "symbol": "RLUSD"
+    },
+    {
+     "chg_7d_pct": 1.278274324817441,
+     "circulating_usd": 2231720801,
+     "name": "Ondo US Dollar Yield",
+     "peg": "peggedUSD",
+     "share_pct": 0.71,
+     "symbol": "USDY"
+    },
+    {
+     "chg_7d_pct": 10.187070858898807,
+     "circulating_usd": 1506988183,
+     "name": "USDD",
+     "peg": "peggedUSD",
+     "share_pct": 0.48,
+     "symbol": "USDD"
+    },
+    {
+     "chg_7d_pct": 2.6808450396897276,
+     "circulating_usd": 1391920380,
+     "name": "USDGO",
+     "peg": "peggedUSD",
+     "share_pct": 0.45,
+     "symbol": "USDGO"
+    },
+    {
+     "chg_7d_pct": 2.9545930615169747,
+     "circulating_usd": 1315148920,
+     "name": "United Stables",
+     "peg": "peggedUSD",
+     "share_pct": 0.42,
+     "symbol": "U"
+    }
+   ],
+   "source": "DefiLlama stablecoin circulating supply",
+   "total_usd": 312261586913
+  },
+  "whales_by_week": {
+   "source": "Whale Alert public feed, transfers of $50M and up",
+   "weeks": [
+    {
+     "moves": 39,
+     "net_usd": 45243910,
+     "week_ending": "Jun 22"
+    },
+    {
+     "moves": 87,
+     "net_usd": 1585207107,
+     "week_ending": "Jun 29"
+    },
+    {
+     "moves": 89,
+     "net_usd": 1331003956,
+     "week_ending": "Jul 06"
+    },
+    {
+     "moves": 61,
+     "net_usd": -110477070,
+     "week_ending": "Jul 13"
+    },
+    {
+     "moves": 50,
+     "net_usd": 172025744,
+     "week_ending": "Jul 20"
+    },
+    {
+     "moves": 55,
+     "net_usd": 701696775,
+     "week_ending": "Jul 27"
+    },
+    {
+     "moves": 54,
+     "net_usd": 1128450903,
+     "week_ending": "Aug 03"
+    },
+    {
+     "moves": 88,
+     "net_usd": -617802256,
+     "week_ending": "Aug 10"
+    },
+    {
+     "moves": 22,
+     "net_usd": -61045952,
+     "week_ending": "Aug 17"
+    },
+    {
+     "moves": 81,
+     "net_usd": -1029524922,
+     "week_ending": "Aug 24"
+    },
+    {
+     "moves": 92,
+     "net_usd": -533000499,
+     "week_ending": "Aug 31"
+    },
+    {
+     "moves": 63,
+     "net_usd": 266906367,
+     "week_ending": "Sep 07"
+    },
+    {
+     "moves": 29,
+     "net_usd": -725342492,
+     "week_ending": "Sep 14"
+    }
+   ]
+  }
+ }
+}
