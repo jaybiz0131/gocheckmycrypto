@@ -1,39 +1,6 @@
 [
  {
   "date": "2026-08-12",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c003",
-    "headline": "Russia limits retail crypto trading to bitcoin, ether, and USDT",
-    "category": "accuracy",
-    "reasons": [
-     "The phrase 'The rules add specifics to July legislation that opens regulated crypto trading but did not specify which assets retail investors could buy' is unclear and potentially inaccurate. The brief states 'The three-asset restriction adds specifics to July legislation that opened regulated crypto trading but did not specify which assets retail investors could buy,' but the draft's phrasing 'The three-asset restriction adds specifics to July legislation that opened regulated crypto trading from September 1 but did not specify which assets retail investors could buy' changes the implied timeline. The brief's data_point says the rules 'add specifics to July legislation that opens regulated crypto trading' without saying the July legislation itself specifies September 1; the draft inserts 'from September 1' in a way that modifies the original source claim.",
-     "The draft states 'CoinDesk's reporting flags this as a design choice rather than a confirmed loophole, but the mechanism exists in the rules as written' regarding the per-intermediary cap. This claim about how CoinDesk characterized it (as 'design choice rather than confirmed loophole') does not appear in the brief's data_points. The brief only notes that the mechanism is flagged and exists; the writer has added editorial characterization ('design choice') that is not sourced to the brief."
-    ]
-   },
-   {
-    "id": "c026",
-    "headline": "Standard Chartered-Backed Anchorpoint Launches HKDAP Stablecoin",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'began an institutional rollout of HKDAP, a Hong Kong dollar stablecoin, following licensing approval' but the brief's data_point only confirms 'The rollout followed licensing approval' without specifying that it has already begun. The phrase 'began an institutional rollout' asserts a completed action not confirmed in the source material.",
-     "The draft introduces the characterization of HKDAP as 'a potential settlement and liquidity tool for institutional digital asset operations in the region' as editorial interpretation, not a reported fact from the brief. This goes beyond paraphrasing the source material."
-    ]
-   },
-   {
-    "id": "c001",
-    "headline": "U.S. CPI Inflation Slows to 3.4% as Expected; Bitcoin Holds Near $64,000",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'June's 0.4% decline' for month-over-month CPI, but the brief data_point says 'June's 0.4% decline'\u2014this matches. However, the draft then says 'falling from June's 0.4% decline' which is confusing phrasing. More critically, the draft says CPI 'rose 0.1% month-over-month in July, matching economists' forecast and falling from June's 0.4% decline'\u2014this is contradictory. If June was a 0.4% *decline* (negative), then July's +0.1% is a *rise* from that baseline, not a fall. The phrasing 'falling from June's 0.4% decline' creates ambiguity about whether the 0.1% represents a decrease in inflation rate or an increase. The brief clearly states June was -0.4% (decline) and July was +0.1% (increase), so the narrative construction is misleading.",
-     "The draft contains the statement 'Treasury yields declined following the inflation print' in paragraph 3, but this claim does not appear in the brief's data_points. The brief states yields 'remained under pressure, maintaining pre-CPI weakness,' implying the decline was not a response to the CPI print but pre-existing. This is a smuggled claim not backed by the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-12",
   "approved": 4,
   "rejected": [
    {
@@ -6475,6 +6442,38 @@
      "The draft presents the state AGs' concern ('restricts their ability to bring securities and commodities cases') as the story's core without acknowledging the bear case: that the Clarity Act's final text may actually preserve those powers. A critical factual dispute exists in the brief itself\u2014the AGs allege restriction, but CryptoSlate reports the Act preserves protections.",
      "Per desk rule (CONTESTED TERMINOLOGY NEVER RUNS IN THE DESK'S OWN VOICE): When a story touches a jurisdictional dispute where one party claims preemption and another claims preservation, the draft must report both positions with attribution. Instead, the draft narrates the AGs' framing ('restricts their ability,' 'shifting control,' 'without state-level recourse') as though it is settled fact, adopting the plaintiffs' vocabulary without the counter-narrative.",
      "The draft reads as a one-sided account of a contested legal claim. The brief flags that the primary source (CoinDesk article) is inaccessible to verify the AGs' specific allegations, and the secondary source (CryptoSlate) suggests the opposite is true."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c019",
+    "headline": "Bitcoin rises to $78,260 as crypto outperforms amid AI slowdown concerns (September 14, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "Draft reports XRP liquidation ratio as shorts 'taking losses' and includes statement that 'short liquidations' occurred in both Solana and XRP. Brief data shows Solana liquidations as '$80,702 in longs liquidated, $459,146 in shorts liquidated' and XRP as '$287,242 in longs liquidated, $902,426 in shorts liquidated.' The draft reads: 'Solana and XRP showed mixed liquidation flows, with shorts taking losses in both assets.' This is accurate to brief. However, the preceding sentence about Bitcoin and Ethereum states: 'Liquidations on the day favored long unwinding in Bitcoin and Ethereum (BTC longs $534,871 liquidated against $0 shorts; ETH longs $1,239,162 against $0 shorts).' This is correct per brief. The XRP long-to-short ratio statement 'suggesting concentrated bullish positioning' combined with '$902,426 in shorts liquidated' does accurately reflect shorts being liquidated in a bull move. On closer inspection, the draft's language is technically correct to the data and does not misrepresent liquidation direction.",
+     "However, the draft contains an unattributed claim about market context: 'even as broader equity indices fell on calls for slower artificial intelligence development.' The brief's open_questions explicitly state: 'The sources do not explain what 'calls to slow AI development' were made, by whom, or provide specific quotes driving the Nasdaq 100 futures decline.' The draft presents this causal link as established fact without sourcing to any data_point in the brief. This is a SMUGGLED claim\u2014a fact reported in the draft that does not appear in the brief research.",
+     "The core_claim in the brief is: 'Bitcoin rose 1.88% in the 24 hours to September 14, 2026, while Nasdaq 100 index futures fell and crude oil gained, with crypto assets outperforming during a broad risk-off move driven by AI slowdown calls.' The brief itself carries this claim, but it is listed in angle/context, not verified in a data_point. The open_questions confirm the draft has no sourced explanation for WHY equities fell. The draft cannot assert causation ('fell on calls for slower artificial intelligence development') when the brief explicitly flags this as unresolved."
+    ]
+   },
+   {
+    "id": "c131",
+    "headline": "Circle Names 11 Founding Validators for Arc Launch Sept. 16, Including BlackRock and DTCC",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Circle named 11 founding validators' in the title and opening, but the brief's data_point specifies '11 founding validators for Arc's mainnet launch on September 16, tying major Wall Street institutions to a permissioned blockchain network.' However, the body later states 'The 11 publicly identified validators represent the founding cohort; the additional validators beyond that group have not been identified in available reporting.' The brief's data_point 11 says the launch configuration is 'expected to use about 20 SOC 2-certified validators' and counts 'more than the 12 organizations publicly identified in the founding cohort.' This is internally inconsistent: the draft claims 11 validators but later says 11 are identified plus unidentified additional ones, while the brief indicates 12 organizations have been publicly identified out of an expected 20 at launch. The title and lead misstate the founding cohort size relative to what the brief supports."
+    ]
+   },
+   {
+    "id": "c135",
+    "headline": "India's SEBI launches tokenized corporate bond pilot on digital rupee settlement (September 10, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the pilot 'completed' and bonds 'are issued' on September 10, 2026, but the brief's data_point clarifies that the three issuances were completed on September 7 and 9, with SEBI's announcement of Demat 2.0 coming on September 10. The draft conflates announcement date with issuance completion date, misrepresenting the timeline of events."
     ]
    }
   ]

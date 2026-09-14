@@ -1,28 +1,21 @@
 {
   "example": false,
   "generated": "2026-09-14",
-  "generated_utc": "2026-09-14T23:13:50Z",
+  "generated_utc": "2026-09-14T23:40:49Z",
   "window_hours": 72,
-  "txn_count": 4,
+  "txn_count": 2,
   "volatile": {
-    "inflow_usd": 62580323,
-    "outflow_usd": 57550174,
-    "net_usd": -5030149,
-    "direction": "onto exchanges"
+    "inflow_usd": 0,
+    "outflow_usd": 0,
+    "net_usd": 0,
+    "direction": "off exchanges"
   },
   "stablecoins": {
     "inflow_usd": 327941130,
     "outflow_usd": 0,
     "net_buying_power_usd": 327941130
   },
-  "by_asset": [
-    {
-      "symbol": "BTC",
-      "inflow_usd": 62580323,
-      "outflow_usd": 57550174,
-      "net_usd": -5030149
-    }
-  ],
+  "by_asset": [],
   "by_exchange": [
     {
       "exchange": "kraken",
@@ -35,12 +28,6 @@
       "inflow_usd": 157134597,
       "outflow_usd": 0,
       "net_usd": -157134597
-    },
-    {
-      "exchange": "coinbase",
-      "inflow_usd": 62580323,
-      "outflow_usd": 57550174,
-      "net_usd": -5030149
     }
   ],
   "top_inflows": [
@@ -67,34 +54,9 @@
       "url": "",
       "ts": 1789177251.0,
       "stable": true
-    },
-    {
-      "symbol": "BTC",
-      "amount": 811.0,
-      "usd": 62580323.0,
-      "to": "coinbase",
-      "from": "unknown wallet",
-      "blockchain": "bitcoin",
-      "hash": "88564b95a56b3f657c39a283c61fefcff352fdd1001f554dd9ac196a0a34b9df",
-      "url": "",
-      "ts": 1789168687.0,
-      "stable": false
     }
   ],
-  "top_outflows": [
-    {
-      "symbol": "BTC",
-      "amount": 745.0,
-      "usd": 57550174.0,
-      "to": "unknown wallet",
-      "from": "coinbase",
-      "blockchain": "bitcoin",
-      "hash": "5ac2fbcf7514e112e44efb7c21e4a3a4ce66603d479c1e8a20875f9ce202a271",
-      "url": "",
-      "ts": 1789169072.0,
-      "stable": false
-    }
-  ],
+  "top_outflows": [],
   "note": "Data: Whale Alert public alert archive; exchanges identified by name, and only the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is buying power arriving, so they are scored separately. Market data, not news, not advice.",
   "window_widened_from": 24,
   "history": [
@@ -145,13 +107,13 @@
     },
     {
       "week_ending": "Aug 24",
-      "net_usd": -1414178311,
-      "moves": 81
+      "net_usd": -1362116143,
+      "moves": 82
     },
     {
       "week_ending": "Aug 31",
-      "net_usd": -323228343,
-      "moves": 90
+      "net_usd": -375290511,
+      "moves": 89
     },
     {
       "week_ending": "Sep 07",
