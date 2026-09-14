@@ -1,40 +1,6 @@
 [
  {
   "date": "2026-08-11",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c021",
-    "headline": "SEC to Propose Regulation Crypto Framework for Digital Asset Offerings on August 14",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The SEC issued a Monday night notice announcing the Friday meeting with unusually short notice' but this claim does not appear in the brief's data_points. The brief includes a data_point about 'unusually short notice' but the draft's phrasing about 'Monday night' and 'Friday meeting' introduces a new temporal detail not in the research.",
-     "The draft includes a full paragraph on prior policy statements and formal rulemaking durability ('staff statements have little long-term durability...A formal rule would be more difficult to reverse') that reads as interpretive analysis rather than reported fact. While the brief mentions this in bear_case and data_points, the draft presents it as exposition without clear attribution to the source.",
-     "The draft embeds the bear_case as a separate paragraph at the end ('Bear case: The timeline for finalization spans months...') which violates the protocol: bear_case items must be woven into the prose or clearly attributed; they cannot appear as a labeled section in the final draft."
-    ]
-   },
-   {
-    "id": "c016",
-    "headline": "Riot Platforms surges 20% in pre-market trading on $9.1 billion Anthropic deal",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case contains four substantive risk points, including mining revenue decline, bitcoin treasury depletion, 16-month revenue gap, and sector valuation concerns. The draft mentions the revenue gap and treasury sales only in the bottom_line watchlist, not in the main narrative. The body reads as celebratory of the Anthropic deal without proportional weight to the concurrent bitcoin-mining revenue decline (down to $113.7M) or the aggressive 27% bitcoin-treasury reduction. A reader of the draft alone would not understand the financial pressure driving the pivot, making the framing unbalanced against the brief's risk profile."
-    ]
-   },
-   {
-    "id": "c133",
-    "headline": "South Korea removes Travel Rule threshold for crypto transfers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'South Korea will eliminate its 1 million won Travel Rule threshold' and 'apply information-sharing requirements to all transfers between registered crypto service providers' as settled facts. However, the brief indicates the source has zero source_chars and empty source texts, meaning no actual reporting exists to verify these claims. The brief confidence is 'reported' but the source material is empty\u2014this is a SMUGGLED fact presented without evidence.",
-     "The draft presents the Travel Rule mechanism and its purpose as established fact ('The Travel Rule mandates that financial institutions collect and share customer information') without this being part of the brief's data_points. The writer is defining rather than reporting.",
-     "The entire story rests on a claim traceable to a source with no text content. This fails the hard rule: facts must trace to research briefs with actual source material. An empty source_chars (0) and empty source texts should have prevented publication of ANY factual claims beyond acknowledgment that a Cointelegraph headline exists."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-11",
   "approved": 4,
   "rejected": [
    {
@@ -6575,6 +6541,40 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'Tuesday cloture vote on the Clarity Act' and 'Wednesday Federal Reserve decision' as upcoming events. Today is Monday, 2026-09-14. These are correctly written as scheduled future events, so that is not the issue. However, the brief's open_questions include 'What is the reference to Trump's ethics deal in the headline and how does it affect legislative momentum, per the sources?' This suggests the source material contains a reference to Trump's ethics deal that is completely absent from the draft. The title itself mentions no such detail, and the body omits it entirely. If the brief identifies an open question about this detail being present in sources, the draft cannot simply elide it\u2014either it must be reported (if it appeared in the Decrypt source) or acknowledged as not found (if inaccessible). The omission suggests the writer did not engage with all material in the source or did not report a salient claim present there."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c110",
+    "headline": "Bitcoin tops $79,166 as Trump signals possible end to US-Iran war",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents the geopolitical de-escalation as a settled catalyst for Bitcoin's price movement, but the brief's bear_case explicitly notes: 'The source text provides no independent verification from Trump or his administration of any statement about ending the US-Iran war; the alleged geopolitical catalyst is reported as \"renewed signs\" and \"hints\" rather than direct confirmation.' The draft's opening sentence ('Bitcoin rose to $79,166.65 on September 14, up 3.06% in 24 hours, as reported signals of a possible end to the US-Iran war cooled oil prices') presents this unverified claim as causal fact without attribution or confidence qualifier. The brief flags this as 'announced-not-verified' territory and the draft fails to preserve that uncertainty.",
+     "The draft attributes the Trump signals narrative to Cointelegraph but does not indicate that the source itself only reports 'hints' and 'renewed signs' rather than direct Trump statements. The reader is left believing a causation was confirmed when the brief's bear_case identifies this as a key vulnerability: no independent verification exists."
+    ]
+   },
+   {
+    "id": "c099",
+    "headline": "SEC custody rule rewrite enters White House review on August 25",
+    "category": "accuracy",
+    "reasons": [
+     "The title states 'SEC custody rule rewrite enters White House review on August 25,' but the brief's first data point and the draft body both reference 'Aug. 25' without clarity on which year. Given that today is September 14, 2026, and the article is dated today, 'August 25' must refer to August 25, 2026\u2014just three weeks ago. However, the draft's phrasing 'entered White House Office of Management and Budget review on August 25' could be misread as a past event dated in an ambiguous earlier year. This is not a major error but borders on the unclear; however, the larger issue is below.",
+     "More critically: the draft states 'The SEC's regulatory agenda targets October 2026 for a notice of proposed rulemaking.' This is a future event (today is September 14, 2026; October 2026 is upcoming). The language 'targets October 2026' correctly signals future intent, so this phrasing survives. However, the instructions state: 'a draft that reports an event dated after today as having already happened is an accuracy REJECT.' The draft does not make that error\u2014it correctly uses 'targets' and 'intends' for future events. Review shows the draft properly handles the October 2026 target date as prospective."
+    ]
+   },
+   {
+    "id": "c016",
+    "headline": "Bitcoin at $79,167 as altcoins post gains; Ethereum ETF inflows persist",
+    "category": "accuracy",
+    "reasons": [
+     "The brief's core_claim and open_questions explicitly flag that the Nasdaq 100 futures decline and Saudi pipeline closure are NOT verified in the provided source texts. The brief states: 'The snippet claims Nasdaq 100 index futures fell 1.65% on calls to slow AI development and crude rose on Saudi pipeline closure, but no sources in the provided fetched text carry independent reporting of these macro events.' The draft does not report these macro events, so this is not the issue. However, the draft omits the core narrative tension that was briefed: that crypto outperformed during a sector selloff. The brief's angle explicitly states 'Crypto assets outperformed traditional tech during a sector selloff driven by AI slowdown calls,' but the draft never mentions the Nasdaq decline, the AI slowdown narrative, crude oil, or any macro context that would establish this decoupling. The draft reads as a pure technicals-and-flows recap with no reference to the briefed angle about asymmetric performance.",
+     "The bear_case notes that 'Cardano lacked both markers' (golden cross and above SMA200), but the draft states only 'Cardano lacked both markers' without explicitly confirming Cardano is BELOW its 200-day average as well. The brief data confirms 'Cardano below SMA200: no explicit data point provided' but the drafting is ambiguous about whether Cardano is above or below.",
+     "XRP 7-day change: Brief lists '5.35%' but draft never reports the 7-day figure for XRP, only 24-hour (9.84%), 30-day (35.74%). This is omission rather than smuggled fact, but the asymmetric reporting (XRP 7-day absent while Solana and Bitcoin 7-day are present) creates potential confusion about whether data was missing or forgotten."
     ]
    }
   ]
