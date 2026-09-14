@@ -50,9 +50,18 @@ CONTENT = os.path.join(HERE, "site", "content")
 # The slot schedule, mirroring the brief workflow's crons and wrap.py's day anchoring.
 # close > 24h means the slot's window (its recovery net included) crosses midnight, and
 # such a window belongs to the day it STARTED on; keep in sync with watcher.SLOT_DEADLINES.
+# ONE EDITION A DAY SINCE DIRECTIVE v2 (2026-09-12). The desk still runs three brief
+# SLOTS and still publishes stories at each; what changed is that only the evening slot
+# COMPOSES AN EDITION. This table is edition accounting, so it lists the slot that
+# produces one.
+#
+# Leaving all three here made this check fail every single day from 12 Sep: it counted
+# two editions the desk had deliberately stopped producing as two misses, and with
+# `served < 2` that is an automatic breach. Six brief runs and three watcher runs failed
+# on it before anyone read past the red X, and every one of them had published its
+# stories first. The pipeline was never broken; the instrument was measuring a promise
+# the desk no longer makes.
 SLOTS = (  # (edition slug, scheduled minutes-of-UTC-day, window-close minutes)
-    ("morning-brief", 10 * 60 + 40, 17 * 60),
-    ("afternoon-brief", 17 * 60 + 8, 23 * 60),
     ("evening-brief", 23 * 60 + 8, 29 * 60),
 )
 
@@ -228,7 +237,7 @@ def main():
                               cwd=HERE, capture_output=True, text=True, timeout=10).stdout.strip()
     except Exception:
         head = "unknown"
-    # PER-SLOT ACCOUNTING (2026-08-31): the desk promises three editions a day, so
+    # PER-SLOT ACCOUNTING (2026-08-31): the desk promises an edition every day, so
     # the breach question is "are the slots being served?", never "how old is the
     # newest edition?". The old newest-age rule printed OK on Aug 31 at 01:32 while
     # the desk had delivered 0-1 of 3 slots on each of the previous four days.
@@ -242,7 +251,7 @@ def main():
              f"[tree HEAD: {head}]")
     if served < 2:
         common.gh("error",
-                  f"edition_check: {msg}. The edition is supposed to run three times a day "
+                  f"edition_check: {msg}. The edition is supposed to run once a day "
                   f"and the workflow step is fail-open, so a broken edition is silent unless "
                   f"something counts the slots. Read the wrap step's log for the gate it failed.")
         _flag_issue(msg)
