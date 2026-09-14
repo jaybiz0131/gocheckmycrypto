@@ -4,48 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c048",
-    "headline": "Ravencoin Exploit Forces Chain Rollback, Erasing Days of Transactions",
-    "category": "accuracy",
-    "reasons": [
-     "Draft includes 'The broader market context from the desk's leverage board showed BTC open interest at $1.98B with a 1.85 long-to-short ratio on OKX as of July 29' \u2014 this data point does not appear anywhere in the research brief. The leverage board data is smuggled from outside the brief's fact base.",
-     "Brief explicitly flags boundary_required: true and boundary_ok: false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block' \u2014 the draft was published without resolving this structural gap. The draft cannot safely run without a boundary statement clarifying the status of the rollback (proposed, underway, completed, disputed)."
-    ]
-   },
-   {
-    "id": "c065",
-    "headline": "Hackers drain $8.07 million from Coinsbuy in cross-chain attack",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly notes 'No source texts were provided; all factual claims cannot be verified against primary sources' and lists zero data_points. The draft contains multiple facts ($8.07 million, Tron and Ethereum blockchains, $100,000 recovery bounty, routing through exchanges, Decrypt and Cointelegraph reporting) that cannot be traced to data_points in the brief. The rule is absolute: no fact exists outside the brief. With zero data_points and a 'thin: true' designation, this draft should either be rejected outright or be structured entirely differently (e.g., as a 'we cannot confirm' piece). As written, it presents facts as reported without any corresponding data_point to anchor them.",
-     "The draft attributes claims to 'Decrypt reporting' and 'Decrypt and Cointelegraph' inline, but the brief contains zero source texts and zero data_points. There is no evidentiary bridge from brief to draft."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "New Bitcoin addresses jump as Coldcard exploit triggers user migration",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The Block's reporting attributes the address creation increase to the Coldcard exploit' but the brief contains zero data_points confirming any causal link between the exploit and the address spike. The brief explicitly flags in open_questions: 'Cannot confirm whether the address creation jump directly correlates to Coldcard users or broader market migration.' The draft presents correlation as reported fact when the brief marks it unconfirmed.",
-     "The draft opens with 'The timing aligns with a Coldcard wallet exploit, suggesting defensive user behavior' without confidence labels. The brief marks the Coldcard exploit details as entirely unverified ('No source text provided; cannot verify the Coldcard exploit details, timing, or scope'). Presenting a timing alignment as established fact when the exploit itself is unverified is a liability line breach."
-    ]
-   },
-   {
-    "id": "c149",
-    "headline": "South Korea eliminates Travel Rule threshold for all crypto transfers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'South Korea has removed its 1 million won Travel Rule threshold' in past tense, presenting it as an accomplished fact. The brief's core_claim and data_points use 'will remove' and 'reported' confidence, indicating this is announced-not-verified. The brief's open_questions note 'cannot verify the effective date of the threshold removal.' The draft should use conditional or announced language ('announced plans to remove' or 'said it will remove'), not past tense.",
-     "The draft lacks any confidence label or hedge language for an unverified regulatory announcement. A statement 'South Korea has removed' reads as settled fact when the source confidence is only 'reported' and the brief explicitly flags the effective date as unconfirmed."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-11",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c050",
     "headline": "Ravencoin Network Experiences Critical Exploit; Chain Rollback Risk",
     "category": "accuracy",
@@ -6524,6 +6482,36 @@
     "reasons": [
      "The draft body itself acknowledges the source is inaccessible and unverifiable ('Both supplied URLs return HTTP 401 (paywall) errors, making the story unreadable and unverifiable'). The desk's hard rule is that facts must trace to data_points in the brief. Here, the brief's only data_point is marked 'confidence: reported' and sourced to a paywall-blocked URL. No readable source exists to verify the core claim (10-year yield at 5% since 2007). The draft is a meta-commentary on why the story cannot be reported, not a story itself.",
      "The draft cannot fulfill its core journalistic obligation: it cannot verify the yield level, timing, or context. Publishing this draft\u2014even as written\u2014would represent reporting a fact (10-year Treasury yield touched 5% on 2026-09-14) without readable source confirmation."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c035",
+    "headline": "Symbiosis recovered 15 BTC after bridge exploit that minted 46.1B fake tokens but yielded only $336K in proceeds",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Symbiosis recovered 15 Bitcoin from a bridge exploit after an attacker minted 46.1 billion syBTC but realized only approximately $336,000 in proceeds.' The brief's bear_case explicitly flags that 'Recovery of 15 BTC leaves the scale of the loss unclear\u2014no source states the total value stolen or the portion that remains unreturned.' The draft presents the $336K as the attacker's realized proceeds without clarifying from the brief what portion of total stolen value this represents, or whether additional funds remain at risk. The phrasing 'but realized only' invites the reader to treat $336K as the damage figure when the brief's own bear_case indicates this is incomplete information."
+    ]
+   },
+   {
+    "id": "c099",
+    "headline": "Revolut attackers demand 10,000 BTC ransom after spoofed government email exposed customer passports and crypto histories",
+    "category": "accuracy",
+    "reasons": [
+     "The draft contains the sentence 'According to Protos, crypto analyst Max Karpel\u00e8s pointed out that a payment of 10,000 BTC would be easily traced on-chain, making it extremely difficult to convert to fiat currency, and many observers on social media have expressed skepticism about whether the ransom demand is genuine.' However, the brief's data_points do not include 'Max Karpel\u00e8s' as a source for this skepticism claim. The brief's bear_case states 'Crypto analyst Max Karpels pointed out that such a payment of 10,000 BTC would be easily traced, making it extremely difficult to cash out.' and 'Many on social media have expressed doubt that the ransom demand is real.' These are separate bear_case statements, not integrated data_points. The draft smuggles the name 'Max Karpel\u00e8s' as an attributed analyst comment when the brief does not identify him as a named source in the data_points; the brief lists him only in bear_case without attribution URL. This is a fact pattern not carried in the sourced data_points."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Bitcoin Rises 2.59% to $78,810 as Nasdaq Tumbles on AI Concerns",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'Bitcoin rose 2.59% to $78,810.18 on September 14, 2026' and attributes this to 'the desk's market boards.' However, the brief's data_point for this claim carries confidence label 'verified-on-chain,' not 'reported.' The desk's market boards are an internal source (desk://), not a primary external verification. More problematically, the draft later cites CoinDesk reporting: 'according to the desk's market boards, while Nasdaq 100 index futures fell 1.65% on calls to slow AI development and crude oil gained nearly 4% on a Saudi pipeline closure, per CoinDesk reporting.' This splits attribution between two sources for a single price move narrative, but only the Nasdaq and crude data are attributed to CoinDesk; the Bitcoin price and percentage gain remain attributed to internal boards. The brief identifies a critical open question: 'What specifically triggered the AI slowdown calls that sent Nasdaq futures down 1.65%?' and notes the CoinDesk article was not fully fetched (only headline/snippet available). The draft presents the causation (AI slowdown \u2192 Nasdaq down, Bitcoin up as decoupling) as settled fact when the brief's own bear_case states 'the staff attributes the decoupling to sits out the AI selloff, but the desk boards show crypto market cap declining...suggesting the decoupling may be narrative, not confirmed.' The draft does not surface this uncertainty and instead narrates the decoupling as an observed market fact without the qualification the brief requires."
     ]
    }
   ]
