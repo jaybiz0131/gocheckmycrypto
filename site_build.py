@@ -1358,7 +1358,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {skip}{masthead(active, dateline, brand)}
 {body}
 {footer(brand)}{beacon}{livejs}
-{MOTION_JS}
+{MOTION_JS}{WATCHLIST_JS if 'data-watchlist' in body else ''}
 </body>
 </html>"""
     # C-D: an em-dash belt at render, for desk-generated copy. destyle already runs at
@@ -2350,9 +2350,15 @@ def board_tiles(pulse, flows, deltas):
     return out
 
 
-def board_tile_grid(tiles, learn_href):
+_SER_PULSE = None    # set by board_tile_grid so tiles can draw their series
+_SER_FLOWS = None
+
+
+def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
     """The 4-up tile grid. `learn_href` resolves a tile's Explained link: C2 has not
     shipped yet, so every tile points at /learn until it does."""
+    global _SER_PULSE, _SER_FLOWS
+    _SER_PULSE, _SER_FLOWS = pulse, flows
     cards = []
     for t in tiles:
         top = f'<span class="bd-label">{esc(t["label"])}</span>{t.get("spark") or t.get("badge") or ""}'
@@ -2363,6 +2369,7 @@ def board_tile_grid(tiles, learn_href):
             f'<div class="bd-value">{esc(t["value"])}</div>'
             f'{t.get("delta") or ""}'
             f'<p class="bd-read">{esc(t["read"])}</p>'
+            f'{tile_series_block(t.get("key"), _SER_PULSE, _SER_FLOWS)}'
             f'<a href="{esc(learn_href(t))}">Explained</a></div>')
     return f'<div class="bd-tiles">{"".join(cards)}</div>'
 
@@ -2923,6 +2930,185 @@ def render_explainer(meta, pulse, flows, items, dateline, tiles_by_key, by_tilek
                  path=f"/learn/{meta['slug']}.html")
 
 
+# ---- C-A: the Board, v2 ---------------------------------------------------------
+# Every tile that has a real series opens to one, with the period net under it.
+#
+# WHY "vs last week" IS NOT HERE YET, and this is the whole care of the item. The
+# series in pulse.json are NOT daily. BTC's 64 points span Jun 18 to Sep 14, which is
+# 88 days: about 1.4 days a point. Counting back seven points would name a figure from
+# ten days ago and call it last week. The dated snapshots are the honest source for
+# week-over-week and there is one of them today, so the comparison ships when there are
+# eight, and the series and the period net ship now.
+#
+# Two tiles have no series at all: whole market and network carry only a current
+# reading. They render no chart rather than a flat line through one point.
+
+TILE_SERIES = {
+    "bitcoin":  ("assets", "spark", "price"),
+    "stables":  ("stables", "spark", "supply"),
+    "fng":      ("fng", "history", "index"),
+    "etf":      ("etf", "recent", "net flow"),
+    "leverage": ("leverage", "funding", "funding"),
+    "whales":   ("flows", "history", "net flow"),
+}
+
+
+def _series_for(key, pulse, flows):
+    """The tile's real history and the window the feed says it covers. Returns
+    (values, window_label) or (None, "")."""
+    p, f = pulse or {}, flows or {}
+    if key == "bitcoin":
+        a = _btc(p)
+        return (a.get("spark") or None), _win_label(a.get("window"))
+    if key == "stables":
+        s = p.get("stables") or {}
+        return (s.get("spark") or None), _win_label(s.get("window"))
+    if key == "fng":
+        s = p.get("fng") or {}
+        return (s.get("history") or None), _win_label(s.get("window"))
+    if key == "etf":
+        r = ((p.get("etf_flows") or {}).get("btc") or {}).get("recent") or []
+        vals = [x.get("net_usd_m") for x in r if isinstance(x.get("net_usd_m"), (int, float))]
+        lab = ""
+        if r:
+            lab = f'{r[0].get("date","")} to {r[-1].get("date","")}'
+        return (vals or None), lab
+    if key == "leverage":
+        lv = (p.get("leverage") or {}).get("assets") or []
+        h = (lv[0] if lv else {}).get("funding_history_pct") or []
+        return (h or None), ""
+    if key == "whales":
+        h = f.get("history") or []
+        vals = [x.get("net_usd") for x in h if isinstance(x.get("net_usd"), (int, float))]
+        return (vals or None), ""
+    return None, ""
+
+
+def _win_label(w):
+    if isinstance(w, dict) and w.get("start") and w.get("end"):
+        # The stables window reads "Sep 15 to Sep 14", which is the feed wrapping a
+        # year boundary wrong. A label that reads backwards is worse than none.
+        if str(w["start"]) == str(w["end"]):
+            return ""
+        return f'{w["start"]} to {w["end"]}'
+    return ""
+
+
+def _series_svg(vals, w=300, h=64):
+    """A line over the values, with the low and high marked. No axis invented: the
+    label under it names the window the feed gave."""
+    pts = [v for v in vals if isinstance(v, (int, float))]
+    if len(pts) < 6:
+        return ""
+    lo, hi = min(pts), max(pts)
+    span = (hi - lo) or 1.0
+    step = w / (len(pts) - 1)
+    d = " ".join(f"{i*step:.1f},{h-4-((v-lo)/span)*(h-12):.1f}" for i, v in enumerate(pts))
+    up = pts[-1] >= pts[0]
+    col = "var(--up)" if up else "var(--down)"
+    return (f'<svg class="bd-chart tile-series" width="{w}" height="{h}" '
+            f'viewBox="0 0 {w} {h}" role="img" aria-label="Series of {len(pts)} '
+            f'readings, low {lo:.4g}, high {hi:.4g}, latest {pts[-1]:.4g}.">'
+            f'<polyline fill="none" stroke="{col}" stroke-width="2" '
+            f'stroke-linecap="round" stroke-linejoin="round" points="{d}"></polyline>'
+            f'<circle cx="{(len(pts)-1)*step:.1f}" '
+            f'cy="{h-4-((pts[-1]-lo)/span)*(h-12):.1f}" r="3" fill="{col}"></circle></svg>')
+
+
+def _period_net(vals, kind):
+    pts = [v for v in vals if isinstance(v, (int, float))]
+    if len(pts) < 2:
+        return ""
+    a, b = pts[0], pts[-1]
+    if kind in ("index",):
+        return f"{b - a:+.0f} over the period"
+    if a == 0:
+        return ""
+    return f"{((b - a) / abs(a)) * 100:+.1f}% over the period"
+
+
+def tile_series_block(key, pulse, flows):
+    """The series under a tile. Omitted entirely when the tile has no real history."""
+    vals, win = _series_for(key, pulse, flows)
+    if not vals:
+        return ""
+    svg = _series_svg(vals)
+    if not svg:
+        return ""
+    kind = (TILE_SERIES.get(key) or ("", "", ""))[2]
+    net = _period_net(vals, kind)
+    foot = " &middot; ".join(x for x in (f"{len(vals)} readings", win, net) if x)
+    return (f'<div class="tile-ser">{svg}'
+            f'<span class="bd-stamp">{foot}</span></div>')
+
+
+# ---- C-B: your coins, on this device only --------------------------------------
+# A pinned-coins row at the top of the Board. The choice lives in this browser's
+# localStorage and NOWHERE else: no account, no cookie sent to a server, no sync, and
+# nothing logged. That is not a nicety, it is the family's no-PII law, and the row says
+# so in its own words so a reader does not have to take it on trust.
+#
+# If storage is unavailable, the row hides itself rather than degrading into a
+# server-side feature.
+
+WATCHLIST_JS = """<script>(function(){
+  var KEY='gcmc_coins', row=document.querySelector('[data-watchlist]');
+  if(!row) return;
+  var store=null;
+  try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); store=localStorage; }
+  catch(e){ row.hidden=true; return; }          /* no storage, no row */
+  function get(){ try{ return JSON.parse(store.getItem(KEY)||'[]'); }catch(e){ return []; } }
+  function set(v){ try{ store.setItem(KEY, JSON.stringify(v.slice(0,8))); }catch(e){} }
+  function paint(){
+    var picked=get();
+    row.querySelectorAll('[data-coin]').forEach(function(el){
+      var on = picked.indexOf(el.getAttribute('data-coin'))>-1;
+      el.hidden = !on;
+    });
+    row.querySelectorAll('[data-pick]').forEach(function(b){
+      var on = picked.indexOf(b.getAttribute('data-pick'))>-1;
+      b.setAttribute('aria-pressed', String(on));
+    });
+    row.classList.toggle('wl-empty', picked.length===0);
+  }
+  row.addEventListener('click', function(e){
+    var b=e.target.closest('[data-pick]'); if(!b) return;
+    var s=b.getAttribute('data-pick'), v=get(), i=v.indexOf(s);
+    if(i>-1){ v.splice(i,1); } else { v.push(s); }
+    set(v); paint();
+  });
+  paint();
+})();</script>"""
+
+
+def watchlist_row(pulse):
+    """The pinned row plus its picker. Renders every asset the Board already has a
+    price for; the browser decides which are shown."""
+    assets = [a for a in ((pulse or {}).get("assets") or [])
+              if a.get("symbol") and isinstance(a.get("price"), (int, float))]
+    if len(assets) < 3:
+        return ""
+    chips, picks = [], []
+    for a in assets:
+        sym = str(a["symbol"])
+        chg = a.get("chg_24h_pct")
+        cls = "up" if isinstance(chg, (int, float)) and chg >= 0 else "down"
+        delta = (f'<span class="wl-chg {cls}">{chg:+.1f}%</span>'
+                 if isinstance(chg, (int, float)) else "")
+        chips.append(f'<span class="wl-coin" data-coin="{esc(sym)}" hidden>'
+                     f'<span class="wl-sym">{esc(sym)}</span>'
+                     f'<span class="wl-px">{esc(_price_fmt(a["price"]))}</span>'
+                     f'{delta}</span>')
+        picks.append(f'<button type="button" class="wl-pick" data-pick="{esc(sym)}" '
+                     f'aria-pressed="false">{esc(sym)}</button>')
+    return (f'<section class="wl wl-empty" data-watchlist aria-label="Your coins">'
+            f'<div class="wl-row">{"".join(chips)}'
+            f'<span class="wl-hint">Pick the coins you want pinned here.</span></div>'
+            f'<div class="wl-picks">{"".join(picks)}</div>'
+            f'<p class="bd-src">Saved on this device only. Nothing leaves your phone: '
+            f'no account, no cookie, nothing logged.</p></section>')
+
+
 # ---- C8: The Record -----------------------------------------------------------
 # Addendum of 2026-09-13. What the desk has published that stays true after the news
 # moves on, grouped into lanes, each lane led by its strongest piece. This replaces
@@ -3374,7 +3560,8 @@ def render_home(items, flows, pulse, cm, dateline):
     <h2 class="bd-h2" id="bd-board">Every number that matters today, in plain language</h2>
   </div><a class="bd-more" href="/pulse.html">How the Board is built</a></div>
   {stamp}
-  {board_tile_grid(tiles, learn_href)}
+  {watchlist_row(pulse)}
+  {board_tile_grid(tiles, learn_href, pulse, flows)}
   <a class="bd-allboard bd-phone-only" href="/pulse.html">See all {len(tiles)} tiles on the Board</a>
 </section>"""
 
