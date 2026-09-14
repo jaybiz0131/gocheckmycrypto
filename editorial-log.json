@@ -1,37 +1,6 @@
 [
  {
   "date": "2026-08-10",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c024",
-    "headline": "BTCPay Server Supporters Offer 3 BTC Recovery Bounty After Critical Exploit",
-    "category": "compliance",
-    "reasons": [
-     "Draft header indicates boundary_required: true and boundary_ok: false due to missing boundary block, but the story does not flag or explain this limitation to readers. The brief signals the story cannot be published without a version/date boundary that the brief does not contain. The draft must either include a boundary explanation or be held until the brief contains the required boundary data."
-    ]
-   },
-   {
-    "id": "c027",
-    "headline": "Ethereum Roadmap Elevates Privacy and Quantum Resistance as Core Priorities",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'British has previously stated that the upgrades included in what is called Lean Ethereum will form the protocol's third major iteration'\u2014'British' is an undefined reference that does not appear in the brief. The data_point attributes this claim to Buterin, not 'British.' This appears to be either a name error or smuggled information not in the research brief."
-    ]
-   },
-   {
-    "id": "c054",
-    "headline": "Bybit Sues North Korea Over $1.5B Hack, Secures Asset Freeze",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bybit has recovered $48.4 million from the hack and secured a freeze on $30.5 million more through civil litigation against North Korea.' The brief data_points confirm both figures are reported by Decrypt, but the brief's open_questions explicitly flag: 'No details on whether the recovered $48.4 million was seized through law enforcement action, civil judgment, voluntary repatriation, or another mechanism.' The draft presents the recovery as a fait accompli without indicating confidence uncertainty or the mechanism gap; this elides a material open question that should qualify the claim.",
-     "The draft later states 'The sources do not disclose the legal mechanism by which the court order was obtained, which court issued the freeze, or the jurisdiction under which Bybit is suing'\u2014this is accurate hedging\u2014but the opening sentences treat the recovery and freeze as settled facts without the same hedging language. The confidence level should be uniform across the claim; either all of it is reported-but-unconfirmed, or the mechanism gap belongs in the lede as a caveat, not buried in paragraph 3."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-10",
   "approved": 3,
   "rejected": [
    {
@@ -6635,6 +6604,28 @@
      "The draft states 'Stablecoins account for only 3 percent of global payments' as a settled fact attributed to the WTO, but the brief marks this data_point as 'reported' confidence only\u2014sourced to a single Cointelegraph article, not to an official WTO publication or statement. The sentence reads as verified fact when it is secondary-sourced reporting and should be qualified.",
      "The draft paraphrases the WTO's assessment without attribution to a named person or official. The sentence 'The WTO's assessment focuses on the structural barrier rather than technical deficiency' and 'the WTO indicated' lacks specificity: it does not name which WTO official made this statement or cite direct language. All statements attributed to an institution must be sourced to a named individual or official statement.",
      "The draft states 'multiple friction points in global finance' but the brief's data_point says 'could improve five key friction points'\u2014the draft obscures the specific number. The open_questions section confirms the source does not specify which five, but the draft should either state the number as the source does or omit the specificity claim entirely."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c085",
+    "headline": "Revolut data breach: attackers stole customer IDs and Bitcoin histories, demand 10,000 BTC",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Crypto analyst Max Karpis, per Protos, pointed out that such a payment would be easily traced on the blockchain, making it extremely difficult to cash out' but the brief attributes this claim to 'Crypto analyst Max Karpis, per Protos' while the brief's source is Protos. The draft correctly attributes to Protos but presents the analysis without indicating Karpis's position or the speculative nature of the claim. More critically, the draft does not properly track the sourcing: the brief does attribute the blockchain-tracing observation to Karpis via Protos, so this is accurate. However, the statement 'The Bank has not indicated whether it intends to negotiate with the attackers or whether the alleged material currently circulating online represents the full dataset stolen' appears in the draft as editorial narration without attribution, when it should be marked as Revolut's position or stated as unconfirmed. The brief lists this as a data_point with confidence 'reported' but the draft presents it as settled fact in the desk's voice rather than as a reported claim."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "Bitcoin Holds Above $77,000 as Tech Stocks Fall on AI Pacing Calls",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports premarket trading moves and futures prices from a morning on September 14, 2026, as completed facts. Today is Monday, September 14, 2026. The draft opens 'Bitcoin traded above $77,000 on the morning of September 14' and reports specific times ('7:42 a.m. Eastern on September 14') for a market session that is currently ongoing or in the future relative to today's timestamp. The bottom_line states 'Resolution...depends on the US cash market open at 9:30 a.m. Eastern on September 14,' which is correct\u2014but this contradicts the body's treatment of premarket moves as historical fact. The brief's data_points all carry timestamp '2026-09-14' with confidence 'reported,' but this does not clarify whether the reporting time preceded or followed the market events. The draft conflates intraday premarket snapshots (which occurred before 9:30 a.m. open) as settled fact without clarifying they are from before the cash session has begun. A draft written after 7:42 a.m. on the same day is permissible, but the prose must make clear these are morning snapshots, not closed positions. The sentence 'The US equity cash session opens at 9:30 a.m. Eastern on September 14' reads as instructional context for a future event, undermining the narrative framing of earlier paragraphs as historical reporting. The body treats September 14 market data as complete when the cash market has not yet opened."
     ]
    }
   ]

@@ -1,0 +1,60 @@
+{
+  "id": "c087",
+  "slug": "sec-crypto-custody-rewrite-enters-white-house-review",
+  "kind": "brief",
+  "title": "SEC Crypto Custody Rewrite Enters White House Review",
+  "dek": "The SEC's proposed rewrite of custody rules for investment advisers and investment companies entered White House OMB review on August 25, 2026. The new framework targets October 2026 for a notice of proposed rulemaking, replacing a separate 2023 safeguarding proposal the Commission formally withdrew in June 2025.",
+  "date": "2026-09-14",
+  "published_utc": "2026-09-14T16:49:14Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "The SEC's crypto custody rule rewrite (RIN 3235-AN46) is now in formal White House review as of August 25, marking the first regulatory pathway through OMB since the 2023 proposal was withdrawn.",
+  "bottom_line": "The October 2026 notice-of-proposed-rulemaking target will indicate whether the SEC intends to move toward a final rule or remains in exploratory stages. The actual provisions affecting custodian qualification, asset segregation, and insolvency protections remain undrafted at this stage, leaving the scope of the final framework unconfirmed.",
+  "human_take": "",
+  "body": [
+    "The SEC's proposed rewrite of custody rules for investment advisers and investment companies entered White House OMB review on August 25, 2026, according to The Defiant's reporting. The action creates a new regulatory pathway for clarifying how registered advisers and investment companies can hold digital assets for clients, a question that has remained unanswered since the Commission withdrew a separate 2023 proposal in June 2025.",
+    "The proposal, identified by regulatory code RIN 3235-AN46 and titled \"Amendments to the Custody Rules,\" targets October 2026 for a notice of proposed rulemaking. The agenda lists no legal deadline binding the SEC to that date; it is an internal target subject to OMB review completion.",
+    "Under current SEC custody rules, investment advisers must generally maintain client funds and securities in accounts held by a qualified custodian, kept separate or held as agent or trustee. The proposed rule would address how crypto assets fit into that framework for both investment advisers and investment-company fund assets. Per the SEC's agenda, advisers and investment companies have raised compliance questions about holding digital assets under existing requirements.",
+    "The 2023 proposal the SEC abandoned would have expanded the custody rule to all adviser client assets and added protections involving asset segregation and custodian insolvency safeguards. That earlier action, issued in February 2023, operated under a different regulatory identifier. The new 2026 action is structured to replace it entirely, requiring fresh proposed rulemaking rather than a revision of the withdrawn proposal.",
+    "White House review under Executive Order 12866 is standard for major regulatory actions and does not guarantee approval or timeline acceleration. A 2025 White House order confirmed that agencies must continue submitting significant regulations to OMB for this review process.",
+    "The Bottom Line: The October 2026 notice-of-proposed-rulemaking target will indicate whether the SEC intends to move toward a final rule or remains in exploratory stages. The actual provisions affecting custodian qualification, asset segregation, and insolvency protections remain undrafted at this stage, leaving the scope of the final framework unconfirmed."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/regulation/sec-crypto-custody-rewrite-enters-white-house-review",
+      "url": "https://thedefiant.io/converge/regulation/sec-crypto-custody-rewrite-enters-white-house-review"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-14T16:31:09Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78676.28,
+        "chg_24h_pct": 2.42
+      },
+      {
+        "symbol": "ETH",
+        "price": 2521.78,
+        "chg_24h_pct": 1.82
+      }
+    ],
+    "fng": {
+      "value": 57,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.7,
+      "open_interest_usd": 2164340555
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": -226786673,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
