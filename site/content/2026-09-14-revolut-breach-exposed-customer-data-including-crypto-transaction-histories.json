@@ -1,0 +1,72 @@
+{
+  "id": "c099",
+  "slug": "revolut-breach-exposed-customer-data-including-crypto-transaction-histories",
+  "kind": "brief",
+  "title": "Revolut breach exposed customer data including crypto transaction histories",
+  "dek": "An attacker impersonating a government agency obtained customer identity documents, account statements, and transaction records from Revolut. The attacker is demanding 10,000 BTC in ransom and threatening daily data releases; Revolut has not confirmed the demand or authenticated the leaked material.",
+  "date": "2026-09-14",
+  "published_utc": "2026-09-14T22:03:05Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "An unauthorized third party used a spoofed government email to trick Revolut into disclosing customer PII, passports, and transaction histories including crypto activity; the attacker is demanding 10,000 BTC (~$780 million) in ransom.",
+  "bottom_line": "Whether Revolut or law enforcement can verify the authenticity of leaked data now circulating will determine whether this represents a genuine breach or inflated extortion claims. The absence of a precise victim count and Revolut's non-confirmation of the ransom leave open what the attacker actually obtained and whether negotiation occurs.",
+  "human_take": "",
+  "body": [
+    "An unidentified attacker using a spoofed government agency email obtained customer information from Revolut, including identity documents, account statements, and transaction records that include cryptocurrency activity. According to Protos, the attacker is now demanding 10,000 BTC, valued at roughly $780 million, in exchange for not releasing additional customer data.",
+    "Revolut disclosed the breach on September 14, describing the incident as a \"sophisticated external impersonation scam where an unauthorized third party utilized a legitimate government agency domain email to submit fraudulent requests for information.\" The bank stated it detected and blocked the fraudulent email address upon discovery and alerted relevant government agencies, enforcement bodies, data protection authorities, and financial regulators. Revolut confirmed that its systems and customer funds were not affected.",
+    "According to Protos, the information potentially disclosed included names, dates of birth, addresses, email addresses, phone numbers, passport copies, and driving license images. Customer notifications reportedly also referenced account statements, IBANs, withdrawal records, and transaction histories, including Bitcoin activity. Revolut declined to specify the number of affected customers, stating only that the count was \"very limited.\"",
+    "Former Mt. Gox CEO Mark Karpel\u00e8s disclosed that he was among those affected, sharing a copy of Revolut's notification indicating his account statements, IBANs, withdrawal records, and full transaction histories including BTC transactions may have been exposed. On-chain investigator ZachXBT has suggested the attackers may have specifically targeted wealthy Revolut customers, with the attack appearing to involve a relatively small number of high-net-worth users, per Protos.",
+    "The threat actors have begun publishing customer data and, according to The Daily Hodl, are threatening daily releases until Revolut pays. The attackers have also accused Revolut of negligence around privacy protections and of sharing sensitive information with countries outside its jurisdiction. Cointelegraph reports the attackers are promising to release additional messages, operational insights, and internal data in coming days.",
+    "Revolut has not confirmed the ransom demand or authenticated any material circulating online. Crypto analyst Max Karpis, cited by Protos, noted that a 10,000 BTC payment would be easily traced, making it extremely difficult for attackers to cash out, raising questions about whether the ransom demand is credible. Many social media users have expressed skepticism about the demand's authenticity."
+  ],
+  "sources": [
+    {
+      "title": "https://protos.com/what-we-know-about-the-revolut-customer-data-leak/",
+      "url": "https://protos.com/what-we-know-about-the-revolut-customer-data-leak/"
+    },
+    {
+      "title": "https://cointelegraph.com/news/revolut-attackers-threaten-daily-customer-data-leaks?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/revolut-attackers-threaten-daily-customer-data-leaks?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    },
+    {
+      "title": "https://dailyhodl.com/2026/09/14/revolut-attackers-leak-customer-data-demand-daily-payments/",
+      "url": "https://dailyhodl.com/2026/09/14/revolut-attackers-leak-customer-data-demand-daily-payments/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-14T22:00:59Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78763.69,
+        "chg_24h_pct": 2.53
+      },
+      {
+        "symbol": "ETH",
+        "price": 2547.21,
+        "chg_24h_pct": 2.85
+      }
+    ],
+    "fng": {
+      "value": 57,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 4.8,
+      "open_interest_usd": 2083435180
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": -5030149,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Cointelegraph",
+    "The Daily Hodl"
+  ],
+  "developing": false,
+  "update_of": "revolut-breach-exposes-customer-data-via-government-domain-trick-attackers-demand-10-000-btc"
+}

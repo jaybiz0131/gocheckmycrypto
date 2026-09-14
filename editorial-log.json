@@ -1,39 +1,6 @@
 [
  {
   "date": "2026-08-11",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c068",
-    "headline": "Bank of Russia Approves Bitcoin Trading For Retail Investors",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains zero data_points and thin=true, yet the draft makes specific factual claims not traceable to research: 'Bitcoin Magazine and Cointelegraph reporting' are cited as sources in the draft but appear nowhere in the brief's data_points. The draft cites two URLs as sources, but the brief contains no data_points with source URLs to validate against.",
-     "The draft presents claims about 'legislative frameworks established under recent Russian law' and 'regulatory approval signals Russia's intent' as though confirmed, but the brief's open_questions show these details are unconfirmed. The draft acknowledges this midway ('remain unconfirmed from primary sources') but opens with the unqualified claim 'Russia's central bank has approved,' violating the rule that unconfirmed claims must read that way in prose.",
-     "The draft cites 'Bitcoin Magazine' and 'Cointelegraph' as reporting sources in the body but provides no way for a reader to trace those claims back to those outlets\u2014only two generic URLs appear in the sources list. This is a structural accuracy failure: the draft asserts news outlets reported something without showing readers where."
-    ]
-   },
-   {
-    "id": "c040",
-    "headline": "Riot Platforms Secures $9.1 Billion, 20-Year AI Compute Deal With Anthropic",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Second-quarter revenue rose 14% to $174.2 million, including $23.2 million from data centers' in the paragraph about headwinds, but this claim does not appear in any data_point in the brief. The brief's data_point 8 states only 'Second-quarter revenue rose 14% to $174.2 million, including $23.2 million from data centers'\u2014but this figure appears nowhere else in the brief and is not connected to the claim in the draft's narrative. The writer smuggled in revenue context not present in the research brief's data_points.",
-     "The draft attributes the claim about rival miners trading 40% below record highs to 'CoinDesk reported that competitors such as Cipher Mining (CIFR), TeraWulf (WULF) and IREN (IREN) are trading...' but the source URL in data_point 12 is the same Anthropic deal story. This suggests either the writer over-attributed to a single source or sourced a claim from outside the brief. The brief's data_point 12 lists the same URL; a reader checking the URL would expect to find ticker-symbol data on rival miners within a Riot Anthropic deal story, which is implausible. This is a sourcing accuracy problem."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Luke Dashjr removed as Bitcoin BIP editor after editorial violations in BIP-110 soft-fork push",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'The BIP-110 forked chain mined only two blocks and then halted' uses past tense 'halted' but the brief data_point says 'ground to a halt' which is ambiguous about whether it was active and then stopped versus never gained traction. More critically, this phrasing implies intentional cessation, whereas the brief's language and context (2.6% miner support vs 55% required) suggests it never achieved sufficient hashpower to continue\u2014a different causation that changes the narrative of what happened."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-11",
   "approved": 4,
   "rejected": [
    {
@@ -6542,6 +6509,21 @@
      "The brief attributes the 46.1 billion syBTC minted figure and $336,000 proceeds figure to 'snippet attribution to Blockaid' with source URL pointing to The Defiant Kaiko article, which is a misattribution error in the brief itself. However, the draft cites these figures without a clear, direct source.",
      "The draft states 'The attacker had minted approximately 46.1 billion syBTC but realized only about $336,000 in actual proceeds' without an explicit source attribution in that sentence. The sources list shows Cointelegraph and The Block reporting the recovery, but the brief's data_points show those specific financial figures lack a clear primary source within the sources provided.",
      "The brief's data_points for the 46.1B syBTC and $336k figures are marked with a malformed source attribution ('snippet attribution to Blockaid' and URL to wrong article), indicating these figures were not properly sourced in the research. The draft should not carry unsourced figures."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c129",
+    "headline": "Story c129 Cannot Be Drafted: Source Pages Blocked",
+    "category": "accuracy",
+    "reasons": [
+     "The draft body itself acknowledges the source is inaccessible and unverifiable ('Both supplied URLs return HTTP 401 (paywall) errors, making the story unreadable and unverifiable'). The desk's hard rule is that facts must trace to data_points in the brief. Here, the brief's only data_point is marked 'confidence: reported' and sourced to a paywall-blocked URL. No readable source exists to verify the core claim (10-year yield at 5% since 2007). The draft is a meta-commentary on why the story cannot be reported, not a story itself.",
+     "The draft cannot fulfill its core journalistic obligation: it cannot verify the yield level, timing, or context. Publishing this draft\u2014even as written\u2014would represent reporting a fact (10-year Treasury yield touched 5% on 2026-09-14) without readable source confirmation."
     ]
    }
   ]

@@ -1,0 +1,60 @@
+{
+  "id": "c113",
+  "slug": "crypto-gains-on-oil-retreat-amid-signals-of-us-iran-de-escalation",
+  "kind": "brief",
+  "title": "Crypto gains on oil retreat amid signals of US-Iran de-escalation",
+  "dek": "Bitcoin, Ethereum, and altcoins moved higher on September 14 as reported signals of a possible end to the US-Iran war pushed oil prices lower. The desk's boards show BTC at $78,763.69 (up 2.5% on the day), ETH at $2,547.21 (up 2.9%), and broad strength across major assets amid elevated derivative leverage.",
+  "date": "2026-09-14",
+  "published_utc": "2026-09-14T22:03:05Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "Bitcoin moved toward $80,000 on September 14 as reported renewed signs of possible US-Iran de-escalation eased oil prices, per Cointelegraph; the desk's boards confirm BTC at $78,763.69 with 2.53% 24-hour gain, ETH +2.85%, and fear-and-greed sentiment at 57 (Greed).",
+  "bottom_line": "A reversal in the reported Iran de-escalation signals or an official U.S. policy confirmation in either direction will test whether today's risk-on move reflects genuine geopolitical repricing or speculative positioning ahead of clarity. The sustained elevation in altcoin funding rates (SOL, XRP, DOGE all at 11.0 percent annualized) creates liquidation risk if sentiment shifts.",
+  "human_take": "",
+  "body": [
+    "Bitcoin climbed toward $80,000 on September 14 as renewed signals of a possible end to the US-Iran war halted oil price increases, according to Cointelegraph. The desk's market boards confirm Bitcoin at $78,763.69 on the day, up 2.53 percent in 24 hours, with the asset up 24.03 percent over the prior 30 days despite trading 36.9 percent below its 12-month high of $124,739.81.\nThe broader market moved higher in tandem. Ethereum traded at $2,547.21, up 2.85 percent in 24 hours and 35.28 percent over 30 days. Solana gained 3.95 percent to $103.25, XRP jumped 7.62 percent to $1.4438, and Cardano rose 3.43 percent to $0.2106. Bitcoin dominance held steady at 58.5 percent, while total crypto market capitalization stood at $2.70 trillion, down marginally 0.17 percent on the day.\nSentiment indicators showed the market shifting into risk appetite. The Fear and Greed Index registered 57, labeled Greed, within a 30-day range of 31 to 74. Bitcoin's RSI14 stood at 59.5, indicating neither overbought nor oversold territory, while the asset remained above its 200-day moving average with a golden cross in effect. Ethereum's RSI14 reached 63.3, similarly balanced. However, MACD remained below the signal line across Bitcoin, Ethereum, Solana, XRP, Dogecoin, and Cardano, suggesting momentum may not be sustained.\nDerivatives positioning showed elevated leverage in altcoins. On OKX, Solana open interest reached $280.2 million with 11.0 percent annualized funding and a 1.89 to 1 long-short ratio. XRP open interest hit $105.4 million at the same 11.0 percent annualized funding with a 1.95 to 1 long-short ratio. Dogecoin maintained the most extended long positioning at a 4.32 to 1 ratio on $85.3 million open interest. Bitcoin's long-short ratio was more balanced at 1.22 on $2.08 billion open interest and 4.8 percent annualized funding.\nETF flows continued to show institutional divergence. The desk's ETF flows board recorded Bitcoin outflows of $13.2 million on September 11 and net outflows of $288.1 million over the prior five sessions, despite the price rally. Ethereum saw inflows of $216.4 million on the same date and $222.8 million cumulatively over five days. Over 72 hours, whales moved $5.03 million in net Bitcoin onto exchanges, with stablecoin buying power on exchanges reaching $327.9 million."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/markets/bitcoin-passes-79k-oil-prices-cool-on-trump-iran-war-hints",
+      "url": "https://cointelegraph.com/markets/bitcoin-passes-79k-oil-prices-cool-on-trump-iran-war-hints"
+    },
+    {
+      "title": "desk://market-boards",
+      "url": "desk://market-boards"
+    }
+  ],
+  "update_of": "robinhood-chain-halts-block-production-while-amc-challenges-stock-token-business",
+  "board_snapshot": {
+    "as_of": "2026-09-14T22:00:59Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78763.69,
+        "chg_24h_pct": 2.53
+      },
+      {
+        "symbol": "ETH",
+        "price": 2547.21,
+        "chg_24h_pct": 2.85
+      }
+    ],
+    "fng": {
+      "value": 57,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 4.8,
+      "open_interest_usd": 2083435180
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": -5030149,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
