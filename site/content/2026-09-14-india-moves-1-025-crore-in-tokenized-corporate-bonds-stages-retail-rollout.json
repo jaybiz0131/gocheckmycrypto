@@ -1,0 +1,60 @@
+{
+  "id": "c135",
+  "slug": "india-moves-1-025-crore-in-tokenized-corporate-bonds-stages-retail-rollout",
+  "kind": "brief",
+  "title": "India moves \u20b91,025 crore in tokenized corporate bonds, stages retail rollout",
+  "dek": "India's Securities and Exchange Board announced Demat 2.0 on September 10, a framework placing corporate bonds and central bank settlement on linked digital rails. Three issuers moved \u20b91,025 crore using atomic delivery-versus-payment, with retail access and secondary-market trading reserved for a future stage.",
+  "date": "2026-09-14",
+  "published_utc": "2026-09-14T22:58:44Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "India's first three tokenized bond issuances (REC \u20b9500 crore, L&T \u20b9500 crore, IIFL \u20b925 crore) used atomic settlement between a private digital token and wholesale central bank money, preserving existing legal and economic terms while removing settlement risk.",
+  "bottom_line": "The institutional pilot confirms atomic settlement removes settlement risk from bond issuance, but the timeline and technical architecture for Stage II, when retail and secondary-market trading take effect, will determine whether depository-custodied tokenization scales to routine liquidity.",
+  "human_take": "",
+  "body": [
+    "India's Securities and Exchange Board of India announced Demat 2.0 on September 10, launching a pilot that ties corporate bonds and central bank money settlement into a synchronized digital settlement layer. Three issuers completed tokenized bond offerings on September 7 and 9, moving \u20b91,025 crore through the system while preserving the exact legal and economic terms of traditional dematerialized securities. The architecture is permissioned and depository-controlled; retail participation and secondary-market trading are explicitly deferred to a later stage.",
+    "REC Limited issued \u20b9500 crore, L&T Limited issued \u20b9500 crore, and IIFL issued \u20b925 crore in tokenized bonds, according to CryptoSlate reporting. Each bond is issued as a native digital token on a private, permissioned distributed ledger operated by India's depositories and stock exchanges. Payment uses the Reserve Bank of India's wholesale digital rupee, a central bank currency designed for financial institutions. The two legs, bond and payment, are linked for atomic delivery-versus-payment: either both settle or neither does, eliminating the window in which a buyer could send funds before receiving the security, or a seller could deliver the bond before receiving payment.",
+    "The tokenized bonds retain the same ISIN identifier, coupon, maturity, covenants, rating, and security as conventional dematerialized bonds. Issuer obligations, investor rights, and regulatory treatment remain unchanged. Issuer credit risk is unchanged. The token is the bond itself; the blockchain is a settlement rail, not a new asset class. Depositories hold and manage investors' private keys, preserving an intermediated custody model. Investors gain access to the tokenized ledger's speed and finality without managing the tokens' private keys themselves or replacing the depository record that establishes beneficial ownership.",
+    "The network is private and institutionally controlled. India's depositories own and operate it and remain the statutory, authoritative records of beneficial ownership. Market infrastructure institutions, including depositories and stock exchanges, developed the system and run its validating computers. This is not a decentralized network; it is traditional settlement infrastructure reimplemented on permissioned digital rails.",
+    "Stage I of the pilot covers institutional issuance and ledger-based asset servicing. SEBI has reserved tokenized secondary-market trading and retail participation for Stage II, leaving untested whether atomic settlement architecture can support routine secondary-market liquidity and a broader investor base. During the interim, an investor may exit through a peer-to-peer or demat-to-demat transfer handled by depositories, though payment for such transfers may occur outside the atomic setup, through the digital rupee or conventional banking channels."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/indias-tokenized-bond-pilot-starts-with-institutions-with-retail-access-planned-next/",
+      "url": "https://cryptoslate.com/indias-tokenized-bond-pilot-starts-with-institutions-with-retail-access-planned-next/"
+    }
+  ],
+  "update_of": "india-plans-first-tokenized-bonds-using-wholesale-cbdc",
+  "board_snapshot": {
+    "as_of": "2026-09-14T22:56:32Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78559.75,
+        "chg_24h_pct": 2.27
+      },
+      {
+        "symbol": "ETH",
+        "price": 2533.63,
+        "chg_24h_pct": 2.3
+      }
+    ],
+    "fng": {
+      "value": 57,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.9,
+      "open_interest_usd": 2074221018
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": -5030149,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
