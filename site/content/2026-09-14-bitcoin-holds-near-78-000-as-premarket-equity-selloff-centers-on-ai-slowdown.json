@@ -1,0 +1,60 @@
+{
+  "id": "c013",
+  "slug": "bitcoin-holds-near-78-000-as-premarket-equity-selloff-centers-on-ai-slowdown",
+  "kind": "brief",
+  "title": "Bitcoin holds near $78,000 as premarket equity selloff centers on AI slowdown",
+  "dek": "Bitcoin traded near $78,000 in early Monday morning hours on September 14 while Nasdaq 100 E-mini futures fell 1.72%, driven by AI pacing rhetoric from Anthropic's CEO and rising oil prices. Chip stocks led the decline in premarket trading, but the selloff remained concentrated, leaving Bitcoin's separation from equities unresolved until the US cash market opens.",
+  "date": "2026-09-14",
+  "published_utc": "2026-09-14T17:04:26Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "Bitcoin stood at $77,678 at 7:42 a.m. Eastern on September 14, 2026, as Nasdaq 100 E-mini futures declined 1.72% and S&P 500 futures fell 0.70%, with oil surging 3.6% and 3.3% respectively.",
+  "bottom_line": "The US cash market open at 9:30 a.m. Eastern on September 14 will determine whether Bitcoin's premarket hold above $77,600 persists or whether broader equity selling pressure pulls it lower alongside the broader market. If the weakness expands beyond chip stocks into financial or consumer equities, Bitcoin's decoupling will likely break.",
+  "human_take": "",
+  "body": [
+    "Bitcoin traded near $77,678 at 7:42 a.m. Eastern on September 14, showing little movement as Nasdaq 100 E-mini futures sank 1.72%, S&P 500 futures fell 0.70%, and Dow futures declined 0.18%, per CryptoSlate's reporting. The equity weakness followed weekend statements by Anthropic CEO Dario Amodei calling to slow the advance of frontier AI capabilities, a position Elon Musk and Sam Altman said they agreed with, according to Reuters reporting cited by CryptoSlate. The selloff landed hardest on semiconductor names: Nvidia fell more than 2%, Intel and Marvell nearly 6% each, and AMD nearly 5% in premarket trading on the day, while software names gained (ServiceNow up 3%, Adobe and Workday up 2.5% each), showing the weakness concentrated in AI infrastructure suppliers.",
+    "Crude prices surged alongside the equity decline. Brent crude rose 3.6% to $108.31 and US West Texas Intermediate rose 3.3% to $103.35 on Monday, September 14, per CryptoSlate citing Reuters. Bitcoin's near-flat premarket positioning against broader equity futures weakness marks a shift from earlier in the month, when Bitcoin had fallen below $77,000 on September 10 as oil and bond yields rose together, according to CryptoSlate's reference to September 11 coverage.",
+    "The divergence raises a question about Bitcoin's relationship to traditional risk-off dynamics, but the outcome remains unresolved. The premarket data points to 7:42 a.m. Eastern on September 14, before the US equity cash session opens at 9:30 a.m. Eastern. Bitcoin's 1.84% gain over the past 24 hours, as measured at the reporting timestamp, may not persist once broader equity selling pressure enters the market.",
+    "Anthropocentric calls to pace AI development sit alongside political resistance. President Donald Trump downplayed the calls to slow AI and emphasized maintaining the US lead over China, per NPR reporting on Sunday. That disagreement leaves uncertain whether a coordinated approach to slower AI development could take hold commercially, and what spending cuts or infrastructure shifts, if any, companies would actually implement in response.",
+    "Energy price pressure on Bitcoin predates the weekend's AI pacing announcements, suggesting oil remains a separate risk to cryptoassets even if AI policy uncertainty resolves. The brief concentrated losses in chip stocks rather than a broader equity retreat leaves room for Bitcoin to decouple if the market reprices AI infrastructure demand without triggering a wider sell-off. Establishing a durable change in Bitcoin's relationship to equities would require evidence across a longer period, not a single premarket session."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/wall-street-braces-for-a-monday-meltdown-so-why-is-bitcoin-holding-near-78000/",
+      "url": "https://cryptoslate.com/wall-street-braces-for-a-monday-meltdown-so-why-is-bitcoin-holding-near-78000/"
+    }
+  ],
+  "update_of": "coinbase-launches-tokenized-stocks-on-base-network-starting-with-apple-nvidia-meta-alphabet",
+  "board_snapshot": {
+    "as_of": "2026-09-14T17:03:18Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78753.94,
+        "chg_24h_pct": 2.52
+      },
+      {
+        "symbol": "ETH",
+        "price": 2527.77,
+        "chg_24h_pct": 2.06
+      }
+    ],
+    "fng": {
+      "value": 57,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 6.0,
+      "open_interest_usd": 2162855233
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": -173412829,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

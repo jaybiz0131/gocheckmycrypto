@@ -1,56 +1,5 @@
 [
  {
-  "date": "2026-08-10",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c000",
-    "headline": "SEC Charges Adit Ventures Management, CEO, and General Partners With Fraud",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The SEC's filing specifies allegations of fraud but does not disclose the specific mechanisms, claimed investor losses, the timeline of alleged conduct, or the remedies the agency is seeking.' This is a meta-claim about what the SEC filing contains, but the brief explicitly notes 'No source text fetched; unable to verify' and lists as an open_question 'Cannot confirm whether this is a settled action, pending litigation, or the stage of enforcement.' The writer has asserted negative facts (what the filing does not disclose) without source material to support that characterization. The brief contains zero data_points and source_chars of 0, meaning no actual source text was retrieved. The draft should not make claims about what an SEC filing does or does not contain when the source material was never fetched.",
-     "The draft claims 'No settlement announcement has been made, and the current status of the litigation, including whether charges remain pending or have been resolved, is not stated in the available source material.' This is another negative assertion about the source material that cannot be verified given the brief explicitly states no source text was fetched (source_chars: 0). The writer has inferred the absence of information as a fact to report, which requires confirmation from actual source review."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "UK's FCA Drafts Rules for Tokenized Gold as London Defends Bullion Trading Dominance",
-    "category": "accuracy",
-    "reasons": [
-     "The draft includes the claim 'The price of gold reached an all-time high of roughly $5,595 a troy ounce in January, but has since slipped to about $4,340.' This data_point appears in the brief with 'confidence': 'reported', but it is entirely absent from the draft's body text. More critically, this claim about gold prices is not substantively connected to the story's core narrative about the FCA drafting tokenized gold rules. The inclusion of gold price history in the brief but omission from the draft suggests the writer correctly identified this as off-topic detail. However, the presence of this data_point in the brief raises a question: if the CoinDesk source included gold price data, why was it not deemed relevant enough to mention? The draft's silence on this data_point is the correct editorial choice, but the brief's inclusion of it suggests scope creep in the source gathering phase. No rejection warranted on this basis alone.",
-     "All other factual claims in the draft (70% London market share, 33 billion pounds projection, May FCA/BoE announcement, Chris Woolard's July plan, tokenization definition, FCA and Simon Walls quotes, expected timeline of 'next few months') trace cleanly to data_points in the brief and are properly attributed to CoinDesk. The draft correctly marks FCA/Walls statements with the source attribution pattern appropriate to 'announced-not-verified' confidence labels. Bear_case elements (China's challenge to London's dominance, early consultation status without concrete timeline) are present in the draft. Bottom_line appropriately flags what to watch (formal rule proposal, custody standards, collateral frameworks) and poses a forward question about competitive outcome. The draft does not read as financial advice or trade recommendation."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "BTCPay Server supporters offer up to 3 BTC for recovery bounty after critical exploit",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The brief does not specify the nature of the vulnerability, which BTCPay versions or wallet types are affected, how many funds or assets are at risk, or the timeline for patching.' This is meta-commentary about the brief itself, not reporting on the incident. The sentence breaks the hard rule that facts come from research, not editorial observation. If these details are genuinely missing from the source, the story should say 'BTCPay has not disclosed...' or 'Technical details on the vulnerability remain unavailable,' not comment on the brief's contents.",
-     "The draft acknowledges boundary_required=true and boundary_ok=false but then publishes anyway without resolution. The story cannot answer whether readers are affected, which violates the boundary contract: this is a version/threshold story without a version or threshold."
-    ]
-   },
-   {
-    "id": "c105",
-    "headline": "Bitcoin's BIP Editors Remove Luke Dashjr Two Days After BIP-110 Fork Stalled",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'approximately 26 hours after Mark Erhardt filed a motion' but provides no source attribution for the 26-hour timeframe itself. The brief's data_point claims 'The removal took about 26 hours' but gives no URL or verification. The draft treats this as a timestamped fact (Erhardt filed at 2:53 p.m. ET Sunday, removal confirmed at 4:52 p.m. ET Monday) but never explicitly states where the 2:53 p.m. and 4:52 p.m. timestamps come from or confirms them in the source. Readers cannot verify the 26-hour claim without attribution.",
-     "The draft says 'All 51 signaling blocks for BIP-110 occurred between heights 959,616 and 961,631' but this fact appears nowhere in the brief's data_points. It is smuggled from outside the research. This is a hard violation."
-    ]
-   },
-   {
-    "id": "c042",
-    "headline": "Brazil's $319B Crypto Market Faces October Licensing Deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The regulatory action affects a market valued at $319 billion' and later 'Brazil's $319 billion market' as settled fact. The brief's data_point marks the $319 billion valuation as 'reported' confidence (sourced to Decrypt), but the draft presents it without attribution inline. The attribution should appear in the sentence itself (e.g., 'a market valued at $319 billion according to Decrypt') to preserve the confidence label and source transparency.",
-     "The draft's third paragraph acknowledges that 'Decrypt's reporting does not clarify critical details' (which categories of businesses, requirements, scope, enforcement), yet these details are flagged as open_questions in the brief, not as absent from Decrypt's reporting. The draft smuggles an editorial judgment (that Decrypt failed to clarify) that is not in the brief. The brief does not state that Decrypt was unclear; it only lists what is unknown. The draft should not impute reporting failures to the source."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-11",
   "approved": 3,
   "rejected": [
@@ -6626,6 +6575,41 @@
     "category": "accuracy",
     "reasons": [
      "The draft reports premarket trading moves and futures prices from a morning on September 14, 2026, as completed facts. Today is Monday, September 14, 2026. The draft opens 'Bitcoin traded above $77,000 on the morning of September 14' and reports specific times ('7:42 a.m. Eastern on September 14') for a market session that is currently ongoing or in the future relative to today's timestamp. The bottom_line states 'Resolution...depends on the US cash market open at 9:30 a.m. Eastern on September 14,' which is correct\u2014but this contradicts the body's treatment of premarket moves as historical fact. The brief's data_points all carry timestamp '2026-09-14' with confidence 'reported,' but this does not clarify whether the reporting time preceded or followed the market events. The draft conflates intraday premarket snapshots (which occurred before 9:30 a.m. open) as settled fact without clarifying they are from before the cash session has begun. A draft written after 7:42 a.m. on the same day is permissible, but the prose must make clear these are morning snapshots, not closed positions. The sentence 'The US equity cash session opens at 9:30 a.m. Eastern on September 14' reads as instructional context for a future event, undermining the narrative framing of earlier paragraphs as historical reporting. The body treats September 14 market data as complete when the cash market has not yet opened."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c085",
+    "headline": "Revolut Confirms Data Disclosure After Spoofed Government Email Attack; Attackers Post Samples, Demand 10,000 BTC",
+    "category": "accuracy",
+    "reasons": [
+     "The brief data point 14 states: 'The group accuses Revolut of negligence around privacy protections and of sharing sensitive information with countries outside its jurisdiction.' This claim from The Daily Hodl is in the brief but does NOT appear in the draft body. The draft omits the attacker's stated accusation about privacy negligence and data sharing outside jurisdiction\u2014claims that contextualize the attack framing and come from a named source in the brief.",
+     "The draft includes the line 'The threat actors have stated they will release additional messages, operational insights, and internal data daily' which aligns with brief point 13, but the omission of brief point 14 (the attacker's stated rationale/accusations) leaves the narrative incomplete relative to what the research collected."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "Symbiosis Recovers 15 BTC After Bridge Exploit; 46.1B syBTC Minted, Attacker Netted $336K",
+    "category": "accuracy",
+    "reasons": [
+     "Data points 2 and 3 in the brief both cite source_url 'https://protos.com/what-we-know-about-the-revolut-customer-data-leak/' which is the Revolut breach article, not a Symbiosis source. This is a source attribution error in the brief itself, but the writer cannot publish these claims (46.1B syBTC minted, $336K proceeds) without confirmation they appear in the actual Cointelegraph or The Block coverage cited in the draft.",
+     "The draft attributes the 46.1B syBTC figure to 'blockchain security firm Blockaid's assessment cited in reporting' but does not verify that Blockaid appears as a named source in Cointelegraph or The Block articles. The brief shows Blockaid attribution but the underlying source_url for those claims points to the wrong article (Revolut).",
+     "Without verifiable sourcing to the Symbiosis story's primary outlets (Cointelegraph, The Block), the syBTC minting scale and $336K proceeds figures cannot run as fact in the draft. This is a sourcing failure: the writer must retrace these claims to the actual published Symbiosis reporting."
+    ]
+   },
+   {
+    "id": "c086",
+    "headline": "Revolut rolls out EURR euro stablecoin through Bridge, regulated issuer in Luxembourg",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Bridge Building is described as a Stripe company' but the brief data_point says 'Bridge Building is described by Revolut as a Stripe company.' The draft removes the attribution qualifier 'by Revolut,' presenting a description of corporate ownership as an unattributed fact when the source is specifically a Revolut claim. This is material because Bridge's ownership structure is potentially material to readers assessing regulatory independence.",
+     "Draft states 'As of August 25, Bridge reported 374 EURR in circulation with 374 euros in reserve assets' but the brief specifies the claim as '\u20ac374 in reserve assets' (euros, not unitless). The draft drops the currency denomination in reserve assets, creating ambiguity about what '374' means in the reserve statement.",
+     "Draft reports 'As of Aug. 24, Circle reported \u20ac394.5 million of EURC in circulation' with euro symbol, then immediately states 'EURR's 374-euro circulation as of August 25 is negligible by comparison'\u2014mixing numerical styles and creating impression that EURC is in euros while EURR circulation is in 'euros' but comparing across different reporting dates (Aug 24 vs Aug 25) without explicit acknowledgment of the date mismatch in the comparison itself."
     ]
    }
   ]
