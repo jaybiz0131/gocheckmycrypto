@@ -1,57 +1,6 @@
 [
  {
   "date": "2026-08-10",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c010",
-    "headline": "UK's FCA drafts rules for tokenized gold to protect London's market share",
-    "category": "accuracy",
-    "reasons": [
-     "The draft includes two facts about gold prices ('The price of gold reached an all-time high of roughly $5,595 a troy ounce in January' and 'Gold is currently priced at about $4,340 a troy ounce') that appear in the brief's data_points but are never mentioned or traced in the body text. These figures are smuggled into the brief but not into the draft itself\u2014a reversal of the smuggling problem, but still a failure to use material from the research. More critically, these price points are unrelated to the core story about FCA tokenized gold rules and read as padding. The draft should either integrate them with attribution or the brief should not include them."
-    ]
-   },
-   {
-    "id": "c036",
-    "headline": "Brazil plans 24-hour delay on crypto self-custody transfers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'the withdrawal delay is part of a broader regulatory framework' and references 'an October licensing deadline for crypto platforms operating in Brazil,' but the brief contains no data_point for an October licensing deadline. The only mention in the brief is in open_questions ('What is the October licensing deadline mentioned in why_it_matters and how does it relate to the January 2027 implementation?'), which confirms this fact was never established in the source material. The draft smuggled this claim without research backing.",
-     "The draft correctly flags uncertainty about enforcement mechanism and exemptions, but those qualifications do not cure the missing sourcing for the October deadline claim."
-    ]
-   },
-   {
-    "id": "c035",
-    "headline": "World Liberty received $100M from businessman under investigation for money laundering",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'World Liberty, a crypto venture affiliated with former President Donald Trump' but the brief does not contain this characterization. The brief refers to it only as 'a Trump-affiliated crypto entity,' which is present in the brief's angle. However, the term 'affiliated with' in the draft could be interpreted as stronger than what the reporting supports. More critically, the draft describes World Liberty only as 'a crypto venture' in the opening without the Trump affiliation stated there\u2014this phrasing choice creates ambiguity about what fact is being sourced where.",
-     "The draft states 'according to reporting by The New York Times as cited by The Block' but the brief's data points attribute all claims to The Block only, not to the New York Times directly. The attribution structure in the draft implies the writer accessed the NYT reporting; the brief shows only Block reporting. This creates a sourcing claim not present in the brief."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "H100 Acquires 2,455 BTC, Raising Total Holdings to 3,506 BTC via Share Issuance",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The acquisition more than triples H100's prior bitcoin holdings' but the brief explicitly flags this as an open question: 'What was H100's bitcoin holding before the acquisition (the headline says holdings \"more than triples\" but the exact pre-acquisition amount is not stated in available source text)?' The draft converts an unconfirmed inference into a stated fact without a confirmed data point.",
-     "The draft introduces unreported detail: 'H100's use of equity issuance as the acquisition vehicle, rather than debt or existing cash, carries implications for shareholder dilution that the brief does not specify.' This is editorial inference, not a fact from the brief. The brief does not report that H100 chose equity over debt or cash; it only reports that equity was used.",
-     "The fourth paragraph beginning 'The Block's reporting does not disclose...' is appropriate candor about gaps, but it appears after the draft has already stated unconfirmed claims as fact, making the structure misleading rather than clarifying."
-    ]
-   },
-   {
-    "id": "c049",
-    "headline": "Bitcoin ETFs Attract $854M Inflows Over Five Days as Rate-Hike Bets Fade",
-    "category": "accuracy",
-    "reasons": [
-     "The draft introduces a new data point not in the brief: 'The desk's ETF flows board showed $5.1 million in net bitcoin ETF inflows on July 28 and $77.5 million in eth ETF inflows over the same five-session window, per the desk's data as of July 29. Bitcoin ETFs have accumulated $51.432 billion in net inflows since their launch.' These figures are not sourced to Decrypt or any source in the brief's data_points; they appear to come from internal desk data that was never included in the research brief, violating the hard rule that 'no fact exists outside the brief.'",
-     "The draft acknowledges but then overstates the bear case. It says 'Daily inflow totals shrank as the week progressed, according to the same reporting, suggesting that institutional momentum may have weakened through the window'\u2014turning the bear case into a narrative of declining momentum in the lead, when the brief presents this as one item in a split analyst view. The framing gives weight to weakness before establishing that the inflows themselves were material."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-10",
   "approved": 4,
   "rejected": [
    {
@@ -6647,6 +6596,59 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'The SEC targets October 2026 for a notice of proposed rulemaking' but the brief data_point says 'The current agenda targets October 2026 for a notice of proposed rulemaking and lists no legal deadline.' The brief's phrasing 'targets' with 'no legal deadline' indicates this is an internal goal, not a confirmed schedule. The draft's language 'targets' is acceptable, but the sentence that follows\u2014'The Commission targets October 2026 for a notice of proposed rulemaking to clarify how advisers and companies can custody crypto assets'\u2014treats the October date as a firm commitment. The brief's confidence label is 'reported' but the underlying source only confirms the agenda entry states an October target with no enforceable deadline. This is not smuggled information per se, but it's borderline on emphasis: a draft should preserve the contingency that 'targets' carries, not present it as a locked schedule."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c024",
+    "headline": "India's central banks pilot tokenized corporate bonds using digital rupee",
+    "category": "balance",
+    "reasons": [
+     "Brief identifies as 'thin: true' with only three data_points and a single source. The draft appropriately reflects this thinness, but the angle in the brief frames this as a 'major milestone' and 'significant precedent for sovereign-backed digital asset issuance,' which invites framing as breakthrough adoption. The draft does not adequately flag that this is an unproven pilot with no reported scale or timeline for expansion.",
+     "The bear_case in the brief is empty (an empty array), which is correct for a thin story. However, the draft's framing\u2014'first large-scale sovereign deployment,' 'material if the pilot expands'\u2014reads as forward-looking optimism without acknowledging that no evidence is presented of technical viability, regulatory pathway, or likelihood of scaling.",
+     "The $620 billion corporate bond market figure, while accurate per brief, is positioned to suggest massive addressable market without any data showing the pilot addresses a meaningful fraction or that expansion is planned or likely.",
+     "A reader could reasonably finish this draft believing India has deployed a proven, scalable tokenization framework for a major financial market, when the brief contains only: three companies raised $107M in a pilot, with no details on company identity, implementation scope, timeline, or path to adoption."
+    ]
+   },
+   {
+    "id": "c022",
+    "headline": "Symbiosis recovers 15 BTC after bridge exploit that minted 46.1 billion fake syBTC",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Symbiosis announced a 20% bounty for information leading to asset recovery after the attacker refused a white-hat bounty offer, per Cointelegraph and The Block.' The brief's data_point states the same. However, this is a critical sequencing claim: it asserts that the white-hat bounty was offered FIRST, then refused, THEN the 20% bounty was announced. The brief data_points do not establish this temporal sequence\u2014they only state the 20% bounty was offered and the attacker had refused a white-hat bounty. The draft narrative creates causality ('after the attacker refused') that is not confirmed in the brief.",
+     "The phrase 'Liquidity providers on the bridge remain unpaid despite the modest actual proceeds the attacker obtained' appears in the draft but the brief's bear_case only states 'Liquidity providers remain unpaid'\u2014it does not establish that this has been confirmed or is ongoing fact. The draft treats an unresolved uncertainty (whether LPs will eventually be compensated from the 15 BTC recovery or protocol reserves) as a settled condition."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "Bitcoin Climbs Near $78K as Tech Rout Deepens on AI Safety Calls",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Bitcoin rose to $77,678, up 1.97% on the day of September 14' but the brief data points show Bitcoin was '+1.97% over the past 24 hours' at a specific timestamp (2026-09-14T10:09:41Z), not necessarily a full day-close figure. More critically, the draft reports this as a completed event ('rose to', past tense) when the story was filed during premarket hours on September 14 before the US equity open at 9:30 a.m. Eastern. The draft itself notes 'leaving the intraday resolution to the US equity open at 9:30 a.m. Eastern on September 14 unresolved,' which directly contradicts the opening statement that prices have already 'risen' by a specific amount. This is a temporal accuracy failure: the draft presents uncertain intraday moves as settled facts.",
+     "The draft states the bottom_line as 'The December 2026 close will reveal whether AI pacing narratives durable enough to sustain a durably lower technology spending run' but uses 'December 2026 close' as a forward-looking observation. Today is September 14, 2026. December 2026 is approximately 3.5 months in the future. The phrasing is awkward but technically not falsely dated; however, the bottom_line violates the instruction that it must look forward to 'what to watch, what would invalidate it' rather than retroactively assume a future date's resolution. This sentence smuggles a prediction structure into what should be a watch-list."
+    ]
+   },
+   {
+    "id": "c112",
+    "headline": "Morgan Stanley Bitcoin Holdings Surpass $609 Million After Four Days of Inflows",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'the fund recorded zero outflow days' during an '11-day period' but the brief data point states 'MSBT did not register a single day of outflows during an 11-day stretch of steady inflows.' The claim structure in the draft is imprecise: 'zero outflow days' is presented as equivalent to 'uninterrupted daily buying over an 11-day period,' but the brief does not confirm that every single day had positive inflows\u2014only that there were no outflow days. This is a meaningful distinction: zero outflows \u2260 positive inflows every day. The draft's phrasing 'completed a streak of uninterrupted daily buying' smuggles a stronger claim (daily buying) than the brief supports (no outflow days).",
+     "The draft states 'On the same Friday, BlackRock's Bitcoin investment offerings recorded approximately $19.2 million in outflows' but the brief data point says BlackRock 'recorded about $19.2 million in Bitcoin outflows on Friday.' The draft attributes this to 'Bitcoin investment offerings' (plural, nonspecific product line) without clarifying whether this is a specific fund or the entire BlackRock Bitcoin offering suite. The brief does not specify which BlackRock product or fund had the outflows, creating ambiguity that the draft does not resolve."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Bitwise dogecoin ETF closes after 10 months; XRP and Solana funds draw $3B",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the closure as a completed fact ('is closing after 10 months of operations') but the brief's data_point uses future tense ('will close after 10 months'). Today is 2026-09-14, the same date as the CoinDesk report timestamp. The brief does not establish that the closure has already occurred as of today; it reports an announced closure. The draft must reflect this as a scheduled/announced event, not a past event.",
+     "The bottom_line makes an interpretive claim ('Dogecoin's failure to support an ETF product does not reflect weakness in the underlying asset's retail following, but rather signals institutional investors' preference for altcoins with distinct technical or network properties') that goes beyond what the brief's data_points or bear_case support. The brief's bear_case actually suggests the opposite framing: 'structural weakness in meme-coin financial products.' The writer has smuggled editorial interpretation that contradicts the research foundation."
     ]
    }
   ]
