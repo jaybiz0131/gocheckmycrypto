@@ -4,40 +4,6 @@
   "approved": 5,
   "rejected": [
    {
-    "id": "c046",
-    "headline": "Harmony's ONE Token Falls 40% After Exploit Creates 4 Billion Unauthorized Tokens",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'token fell approximately 40% in Asian morning trading on August 12' but brief core_claim and first data_point say 'fell about 40%' without specifying time-of-day context. More critically, the draft's bottom_line says 'crashes token 37%' which directly contradicts the 40% figure stated in the body. The brief contains no 37% figure; this appears to be a smuggled or misremembered number that introduces factual contradiction within the draft itself.",
-     "Draft claims 'roughly 26% against the approximately 15 billion ONE tokens' but the brief's data_point 3 states 'roughly 26% against that supply' without confirming pre-exploit supply as 15 billion. The 15 billion figure appears in the draft but is not explicitly confirmed in any brief data_point; it is only implied by reverse calculation. This is the writer inferring rather than reporting a confirmed fact."
-    ]
-   },
-   {
-    "id": "c051",
-    "headline": "SEC Schedules Open Meeting on Regulation Crypto Proposal",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'the proposal may create a safe harbor for crypto token projects' but the brief's single data point only confirms the SEC scheduled an open meeting to 'consider moving forward with' the proposal\u2014not that it may create a safe harbor. The safe harbor claim is not in the brief and appears smuggled from the Decrypt headline.",
-     "The draft explicitly states 'Regulation Crypto has not been detailed in the available source material' and 'The sources do not specify which token categories would qualify,' signaling the writer knows the source is thin. This is a 1-data-point brief (thin=true) with zero source_chars reported. A story this hollow should either be held or rewritten to honestly signal that no details exist yet, not published as a 'may create a safe harbor' assertion."
-    ]
-   },
-   {
-    "id": "c130",
-    "headline": "Ravencoin Mining Pools Attempt Chain Rewrite After Critical Exploit",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the fork would erase 'four days of transactions' but the brief's open_questions note an inconsistency: 'the snippet says three days, the source text says four days.' The draft presents a single figure as fact without flagging this unresolved discrepancy in the reporting.",
-     "The draft claims 'RavenMiner said in a message on its website that its nodes are running an emergency fix' using present tense, but the brief data_point uses 'already running,' suggesting a state at the time of reporting. The temporal ambiguity about whether the reorg has begun or is in preparation remains unresolved in the draft.",
-     "The draft does not address the brief's open_question about whether the reorganization 'has already begun or remains in preparation'\u2014a material distinction for readers evaluating the immediacy of the threat. This is a fact gap, not a stylistic choice."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-12",
-  "approved": 5,
-  "rejected": [
-   {
     "id": "c003",
     "headline": "Russia limits retail crypto trading to bitcoin, ether, and USDT",
     "category": "accuracy",
@@ -6481,6 +6447,34 @@
     "reasons": [
      "The brief's open_questions section explicitly flags that causal claims about AI slowdown and Saudi pipeline closure appear in the brief's angle/why_it_matters but are NOT present in the fetched source material. The CoinDesk source is listed in sources but no text from it was fetched. The draft body contains NO mention of AI slowdown, Saudi pipeline closure, Nasdaq 100 futures, or crude oil\u2014these do not appear. However, the bottom_line references 'macro uncertainty' without specificity, which is acceptable paraphrase. The core problem: the brief itself signals thin sourcing (thin=true) and missing reporting-level context. The draft correctly avoids the unsourced causal claims but the entire structure rests on market-board data only, with no news reporting to anchor the narrative. The draft reads as pure data journalism without newsworthiness or context beyond price movements.",
      "The draft does not violate the hard rule (no fact exists outside the brief), but the brief itself is sourced only from desk market boards with a CoinDesk headline URL that was not fetched. A market-snapshot story without reporting or reporting-grade sourcing on causation or context fails the desk's standards for publication readiness. This is not a data accuracy failure; it is a sourcing-grade failure masked by the brief's own thin labeling."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c018",
+    "headline": "Bitcoin at $78,427 after 2.09% daily gain September 14, leverage funding elevated on altcoins",
+    "category": "accuracy",
+    "reasons": [
+     "Core brief claim states: 'Nasdaq 100 index futures fell 1.65% amid AI slowdown concerns and crude gained ~4% on a Saudi pipeline closure.' The draft contains ZERO mention of Nasdaq futures, AI slowdown, or crude/Saudi pipeline. The entire macro angle promised in the brief is missing from the draft.",
+     "Brief's open_questions explicitly flag that 'Nasdaq 100 index futures decline of 1.65% is mentioned in the snippet but not in the fetched market board data; CoinDesk source text not provided.' The writer should have reported the data gap or rejected the story, not simply omitted the angle entirely.",
+     "Draft's angle states crypto is 'decoupling from tech risk-off' but the tech risk (Nasdaq decline) is never mentioned, making the decoupling claim unsupported by its own narrative.",
+     "All 70+ data_points in the brief are market-board verifications (verified-on-chain confidence). The draft correctly reports those. But the brief explicitly notes the macro context (Nasdaq, crude, pipeline closure) is NOT in the board data and requires external sourcing\u2014sourcing that the brief indicates is missing ('CoinDesk source text not provided'). Writer proceeded with the angle anyway, without the sources to support it."
+    ]
+   },
+   {
+    "id": "c006",
+    "headline": "17 state attorneys general oppose Clarity Act over federal preemption of securities and commodities cases",
+    "category": "accuracy",
+    "reasons": [
+     "Brief's open_questions and bear_case explicitly state: 'The primary CoinDesk article is not accessible in the source_texts; the bear_case and detailed mechanisms of the alleged preemption are not present in the fetched materials.' AND 'The Clarity Act final draft, per CryptoSlate, explicitly preserves SEC anti-fraud and market-manipulation authority and state consumer-protection remedies, suggesting state enforcement powers may not be as curtailed as the AGs claim.'",
+     "The draft presents the state AGs' concern ('restricts their ability to bring securities and commodities cases') as the story's core without acknowledging the bear case: that the Clarity Act's final text may actually preserve those powers. A critical factual dispute exists in the brief itself\u2014the AGs allege restriction, but CryptoSlate reports the Act preserves protections.",
+     "Per desk rule (CONTESTED TERMINOLOGY NEVER RUNS IN THE DESK'S OWN VOICE): When a story touches a jurisdictional dispute where one party claims preemption and another claims preservation, the draft must report both positions with attribution. Instead, the draft narrates the AGs' framing ('restricts their ability,' 'shifting control,' 'without state-level recourse') as though it is settled fact, adopting the plaintiffs' vocabulary without the counter-narrative.",
+     "The draft reads as a one-sided account of a contested legal claim. The brief flags that the primary source (CoinDesk article) is inaccessible to verify the AGs' specific allegations, and the secondary source (CryptoSlate) suggests the opposite is true."
     ]
    }
   ]
