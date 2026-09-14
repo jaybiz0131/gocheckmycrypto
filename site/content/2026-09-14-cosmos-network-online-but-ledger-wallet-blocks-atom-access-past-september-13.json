@@ -1,0 +1,56 @@
+{
+  "id": "c064",
+  "slug": "cosmos-network-online-but-ledger-wallet-blocks-atom-access-past-september-13",
+  "kind": "brief",
+  "title": "Cosmos network online, but Ledger Wallet blocks ATOM access past September 13",
+  "dek": "Cosmos mainnet stalled on September 8 and recovered by September 9, but Ledger Wallet support for ATOM remained broken on September 13, more than five days later. Users cannot view balances or submit transactions. Ledger has not disclosed the cause or restoration timeline.",
+  "date": "2026-09-14",
+  "published_utc": "2026-09-14T00:59:55Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "The Cosmos Hub network recovered by September 9, but Ledger Wallet's interface to ATOM remained inaccessible on September 13, revealing wallet infrastructure lag separate from network recovery.",
+  "bottom_line": "Ledger's silence after September 10 leaves users with no estimated restoration date for ATOM access. The workaround (third-party wallet interfaces) maintains hardware-wallet security but introduces operational friction during time-sensitive moves. What matters next is Ledger's next public update and whether the gap between network recovery and wallet recovery narrows.",
+  "human_take": "",
+  "body": [
+    "Cosmos mainnet recovered from a September 8 outage by September 9, but Ledger Wallet users remained unable to view ATOM balances or submit transactions as of September 13, according to CryptoSlate. The gap exposes the dependency on centralized wallet providers and reveals the operational friction users face when their primary interface breaks, even when the blockchain itself is working again.\nLedger opened the Cosmos incident at 19:41 CEST on September 8. QuickNode reported that Cosmos Mainnet stalled at block 32,878,318 at 18:12 UTC that same day. QuickNode's nodes had returned to the chain tip by 14:26 UTC on September 9, and the company marked its incident resolved at 00:24 UTC on September 12, per CryptoSlate.\nThe Cosmos Hub RPC endpoint was above block 32.9 million on September 12 and reported that the node was not catching up. The network had recovered; Ledger's service had not.\nLedger's latest status update was posted at 16:12 CEST on September 10, saying restoration work was continuing and affected features remained unavailable.\nLedger has not disclosed a cause or an estimated restoration time for the Cosmos ATOM outage. The company lists Cosmostation and Keplr as compatible third-party interfaces that can connect to a Ledger device for users who need to move ATOM urgently. Ledger's Keplr instructions tell users to open the Cosmos app on their device and choose Keplr's hardware-wallet connection option. Ledger's security guidance says users should never enter their recovery phrase into a computer or smartphone and should never share it, including with Ledger.\nCosmos Hub resumed producing blocks while Ledger Wallet access remained unavailable, showing that wallet interface outage is separate from network recovery."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/cosmos-is-back-online-after-outage-but-ledger-users-still-cant-see-or-send-their-atom/",
+      "url": "https://cryptoslate.com/cosmos-is-back-online-after-outage-but-ledger-users-still-cant-see-or-send-their-atom/"
+    }
+  ],
+  "update_of": "xrp-ledger-activates-fixcleanup3-3-0-amendment-on-september-11",
+  "board_snapshot": {
+    "as_of": "2026-09-14T00:57:50Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76790.17,
+        "chg_24h_pct": -0.04
+      },
+      {
+        "symbol": "ETH",
+        "price": 2484.34,
+        "chg_24h_pct": 0.31
+      }
+    ],
+    "fng": {
+      "value": 57,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 4.7,
+      "open_interest_usd": 2150163554
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 0,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

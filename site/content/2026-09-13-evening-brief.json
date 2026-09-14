@@ -1,0 +1,92 @@
+{
+  "id": "wrap-pm-2026-09-13",
+  "slug": "evening-brief-2026-09-13",
+  "kind": "brief",
+  "title": "The Evening Brief: Senate votes tomorrow on crypto bill; India deploys tokenized bonds",
+  "dek": "The US Senate's September 15 cloture vote on the CLARITY Act will determine whether comprehensive crypto regulation advances this year, while India's SEBI has already moved tokenized securities into live issuance at institutional scale.",
+  "date": "2026-09-13",
+  "published_utc": "2026-09-13T23:07:11Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Regulatory momentum is accelerating globally, India issuing $107 million in tokenized bonds and Thailand opening stablecoin transfer rules to public comment, while the US Senate's procedural vote tomorrow becomes the year's critical checkpoint for domestic clarity.",
+  "bottom_line": "The US Senate votes tomorrow on crypto regulation; India has already deployed tokenized bonds at institutional scale; and Thailand is consulting on stablecoin transfer restrictions. Per the desk's reporting, the September 15 cloture vote requires 60 votes and will determine whether comprehensive US crypto clarity advances or stalls until 2027. Meanwhile, infrastructure vulnerabilities across DeFi platforms, fintech custodians, and wallet providers surfaced this week, Osmosis's 74-day detection lag on a 40-BTC breach, Revolut's spoofed email exposure of customer crypto histories, and Ledger's ongoing ATOM access outage, underscoring gaps in reserve monitoring and incident response. Watch the Senate cloture vote result on September 15, Thailand's stablecoin comment deadline on September 25, and whether Osmosis's proposed reserve-filling mechanism can recover from the breach.",
+  "human_take": "",
+  "body": [
+    "The week ahead hinges on a single procedural motion. The US Senate will hold a cloture vote on the Digital Asset Market Clarity Act on September 15, 2026 at 2:15 p.m. ET, requiring 60 votes to advance the bill to debate and amendments. Republicans hold 53 seats, meaning Senate Majority Leader John Thune needs between 7 and 10 Democratic votes to clear the threshold. If the motion fails, the legislative effort effectively stalls until 2027. Two Democratic senators, Ruben Gallego and Angela Alsobrooks, supported the bill when the Senate Banking Committee advanced it by a 15-9 vote in May, per the desk's reporting. That procedural outcome will be the single most important determinant of whether the crypto industry receives statutory clarity in 2026.",
+    "Meanwhile, regulatory frameworks are moving faster in other jurisdictions. India's Securities and Exchange Board deployed Demat 2.0 on Saturday, issuing $107 million in tokenized corporate bonds settled via wholesale CBDC and smart contracts on a distributed ledger. The program represents a sovereign regulator's first institutional-scale deployment of tokenized securities on blockchain infrastructure. The key question is momentum: whether the $107 million issuance sustains into Q4 2026 or remains a one-time pilot exercise, and whether international regulators cite this model as precedent for their own institutional tokenization frameworks. Thailand's Securities and Exchange Commission has opened public consultation on a stablecoin same-owner rule, with comments due September 25. Under the proposal, stablecoins entering or leaving a customer's account at a supervised platform would be required to come from or go to an account verified as belonging to that same customer, prohibiting peer-to-peer transfers through regulated firms. The deadline marks the formal consultation window; Thailand's SEC may revise the requirement based on feedback or implement it as drafted.",
+    "Infrastructure vulnerabilities emerged across multiple platforms this weekend. Osmosis discovered that an attacker had minted 40.650602 BTC of nBTC with no Bitcoin backing on June 25, but did not detect the exploit until 74 days later, after Nomic halted operations. The breach left 36% of Osmosis's allBTC reserves unbacked. Two separate bugs on the Nomic chain combined to enable the false transaction; the Osmosis and IBC protocols themselves were not compromised, per the desk's reporting. Revolut fulfilled a fraudulent data request sent from a spoofed government agency email domain, exposing customer KYC documents, passport copies, and full Bitcoin transaction histories. The message carried valid domain authentication credentials, causing Revolut to comply with the request. Revolut declined to disclose the number of customers affected or which agency was impersonated. Solana Mobile's third-party marketing email account was compromised through a SAML SSO vulnerability affecting 138 Brevo customer accounts. To Solana Mobile's knowledge, no emails were sent from its account, though the company is continuing to verify this claim. Contact data for 43 of the compromised Brevo accounts were exported by attackers, creating risk of downstream phishing. Ledger Wallet users remained unable to view ATOM balances or submit transactions as of Sunday, more than five days after Cosmos mainnet recovered from a September 8 outage. Ledger opened the incident at 19:41 CEST on September 8; Cosmos returned to the chain tip by 14:26 UTC on September 9; Ledger's latest status update was posted at 16:12 CEST on September 10, with no cause or restoration timeline disclosed.",
+    "On the protocol side, the XRP Ledger activated the fixCleanup3_3_0 amendment on September 11 at 11:29 UTC with 88.57% validator consensus (31 of 35 validations). The amendment bundles maintenance fixes for transaction handling, automated market makers, Checks, and other features into mandatory network consensus rules. Node operators running xrpld versions earlier than 3.3.0 face amendment blocking, which prevents ledger validation, transaction submission, and consensus participation. The Lightning Development Kit released v0.2.6 on September 9, patching two critical security flaws: one that allows a malicious peer to divert funds during a splice operation, and another that can prevent nodes from restarting by corrupting saved channel state. No losses have been reported from either vulnerability. Coinbase and Moov announced on September 10 a partnership enabling community banks and credit unions to offer stablecoin services through their existing customer relationships. Coinbase provides custody via its CDP Custodial Wallet accounts and orchestrates movement through its Payments API; Moov supplies the integration bridge; the bank retains the customer interface. Moov reports a customer base of more than 1,000 community banks and credit unions, though live, contracted and pilot institutions remain unquantified, and the companies gave no implementation timetable. The structure places three parties between a business and the stablecoin rail; control of economics, data, operational risk, and liability remain undisclosed.",
+    "Market activity on the institutional side shows diverging flows. BTC saw $13.2 million in outflows on the same date, after four consecutive days of outflows totaling $288.1 million over the last five sessions. Stablecoins totaling $170.8 million in USDC moved onto Kraken and $157.1 million in USDT moved onto Binance, suggesting position building ahead of volatility. Per Crypto Briefing, $150 million in long positions were liquidated over 24 hours, reflecting margin breaches and a shift in market sentiment. Crypto Briefing's reporting says such liquidation events signal a deleveraging phase as traders reassess confidence in previously anticipated price targets. Bitcoin traded at $76,790 on the desk's tape, down 3.6% over the week but up 20.9% on the month. Ethereum traded at $2,484, up 31.9% over the month. The desk's Fear & Greed Index stands at 57 (Greed), down from a 30-day high of 74."
+  ],
+  "sources": [
+    {
+      "title": "India's SEBI Launches Tokenized Bond Pilot with $107 Million in Issuance",
+      "url": "/articles/india-s-sebi-launches-tokenized-bond-pilot-with-107-million-in-issuance.html"
+    },
+    {
+      "title": "Osmosis discovered 40-BTC Nomic exploit after 74-day delay",
+      "url": "/articles/osmosis-discovered-40-btc-nomic-exploit-after-74-day-delay.html"
+    },
+    {
+      "title": "SEC Crypto Custody Rule Enters White House Review; October NPRM Targeted",
+      "url": "/articles/sec-crypto-custody-rule-enters-white-house-review-october-nprm-targeted.html"
+    },
+    {
+      "title": "XRP Ledger Activates fixCleanup3_3_0 Amendment on September 11",
+      "url": "/articles/xrp-ledger-activates-fixcleanup3-3-0-amendment-on-september-11.html"
+    },
+    {
+      "title": "$150M in Long Positions Liquidated in 24 Hours",
+      "url": "/articles/150m-in-long-positions-liquidated-in-24-hours.html"
+    },
+    {
+      "title": "77 State Banking Associations Seek to Ban Stablecoin Balance-Based Rewards in CLARITY Act",
+      "url": "/articles/77-state-banking-associations-seek-to-ban-stablecoin-balance-based-rewards-in-clarity-act.html"
+    },
+    {
+      "title": "Revolut Breach Exposes Passports, Bitcoin Histories After Spoofed Government Email",
+      "url": "/articles/bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request.html"
+    },
+    {
+      "title": "Coinbase and Moov Launch Stablecoin Bridge for Community Banks, Economics Undisclosed",
+      "url": "/articles/coinbase-and-moov-launch-stablecoin-bridge-for-community-banks-economics-undisclosed.html"
+    },
+    {
+      "title": "Goldman, BofA, HSBC Raise Brent Crude Forecasts on Middle East Disruptions",
+      "url": "/articles/goldman-bofa-hsbc-raise-brent-crude-forecasts-on-middle-east-disruptions.html"
+    },
+    {
+      "title": "Mexican authorities raid cartel-linked crypto mining in Puebla, seize 300 GPUs (September 6-8, 2026)",
+      "url": "/articles/mexican-authorities-raid-cartel-linked-crypto-mining-in-puebla-seize-300-gpus-september-6-8-2026.html"
+    },
+    {
+      "title": "Revolut Starts EURR Rollout With Bridge as Regulated Issuer (September 13, 2026)",
+      "url": "/articles/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer-september-13-2026.html"
+    },
+    {
+      "title": "Solana Generates 16.9 Times More Daily App Revenue Than Base (September 2026)",
+      "url": "/articles/solana-generates-16-9-times-more-daily-app-revenue-than-base-september-2026.html"
+    },
+    {
+      "title": "Solana Mobile Marketing Account Compromised in Brevo SAML SSO Breach",
+      "url": "/articles/solana-mobile-marketing-account-compromised-in-brevo-saml-sso-breach.html"
+    },
+    {
+      "title": "Thailand SEC Proposes Same-Owner Rule for Stablecoin Transfers, Comments Due September 25",
+      "url": "/articles/thailand-sec-proposes-same-owner-rule-for-stablecoin-transfers-comments-due-september-25.html"
+    },
+    {
+      "title": "Cosmos network online, but Ledger Wallet blocks ATOM access past September 13",
+      "url": "/articles/cosmos-network-online-but-ledger-wallet-blocks-atom-access-past-september-13.html"
+    },
+    {
+      "title": "Lightning Development Kit v0.2.6 fixes splice fund diversion and node restart failures",
+      "url": "/articles/lightning-development-kit-v0-2-6-fixes-splice-fund-diversion-and-node-restart-failures.html"
+    },
+    {
+      "title": "Senate Procedural Vote on CLARITY Act Set for September 15, 2026",
+      "url": "/articles/senate-procedural-vote-on-clarity-act-set-for-september-15-2026.html"
+    }
+  ]
+}

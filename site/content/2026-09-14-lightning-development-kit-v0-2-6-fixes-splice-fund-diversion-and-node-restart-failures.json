@@ -1,0 +1,65 @@
+{
+  "id": "c066",
+  "slug": "lightning-development-kit-v0-2-6-fixes-splice-fund-diversion-and-node-restart-failures",
+  "kind": "brief",
+  "title": "Lightning Development Kit v0.2.6 fixes splice fund diversion and node restart failures",
+  "dek": "Lightning Development Kit v0.2.6, released September 9, 2026, patches two critical security flaws in LDK toolkit. One allows a malicious peer to divert funds during a splice operation; the other can prevent nodes from restarting by corrupting saved channel state. No losses have been reported.",
+  "date": "2026-09-14",
+  "published_utc": "2026-09-14T00:59:55Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 9,
+  "author": "Crypto Cronkite",
+  "key_fact": "Two separate critical vulnerabilities in LDK allow fund diversion during splice operations and node restart failures via corrupted ChannelManager state, both now patched in v0.2.6.",
+  "bottom_line": "Developers maintaining mobile wallets and payment services built on LDK should incorporate v0.2.6 into production systems. The two flaws create separate failure modes: fund loss during splices and complete service downtime from restart failures. Neither has been exploited in the wild, but both remain possible until applications patch.",
+  "human_take": "",
+  "body": [
+    "Lightning Development Kit v0.2.6, released September 9, 2026, patches two separate critical security flaws that could either divert funds or prevent payment-service infrastructure from recovering after shutdown. LDK is a toolkit for building Bitcoin Lightning applications and packages a Lightning implementation as a software development kit for uses including mobile wallets and payment-service infrastructure, per CryptoSlate.",
+    "The first flaw affects splice operations. A splice lets a node add funds to or remove funds from an existing payment channel by spending the channel's funding output and replacing it with a new one. A malicious peer could cause excess fee allocation during a splice, with the excess going to that peer's output, putting a small amount of funds at risk when a node initiates a splice, according to the outlet's reporting. The release describes only \"a small amount of funds at risk\" without specifying a numerical ceiling.",
+    "The second vulnerability involves two payment contracts sharing the same payment hash. After one had been successfully forwarded, receiving and immediately rejecting a bogus one could leave ChannelManager state unable to load. ChannelManager is LDK's component for managing channels and payments; restarting an existing node involves reading its saved state back into memory, called deserialization. If saved ChannelManager state is rejected during loading, the application cannot complete its normal restart, per CryptoSlate. Rejecting the bogus payment alone does not resolve the restart failure.",
+    "LDK's core implementation is compiled into applications; developers choose the surrounding storage, wallet, networking and blockchain-monitoring components. This architecture means the fix must be integrated into each application individually. The release notice reports no observed losses or exploited applications as of September 9.",
+    "With v0.2.6 available, the immediate task for affected application teams is to bring those fixes into the software they operate."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/critical-bitcoin-lightning-bugs-exposed-nodes-to-fund-theft-and-restart-failure/",
+      "url": "https://cryptoslate.com/critical-bitcoin-lightning-bugs-exposed-nodes-to-fund-theft-and-restart-failure/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-14T00:57:50Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76790.17,
+        "chg_24h_pct": -0.04
+      },
+      {
+        "symbol": "ETH",
+        "price": 2484.34,
+        "chg_24h_pct": 0.31
+      }
+    ],
+    "fng": {
+      "value": 57,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 4.7,
+      "open_interest_usd": 2150163554
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 0,
+      "direction": "off exchanges"
+    }
+  },
+  "boundary": {
+    "affected": "LDK versions prior to v0.2.6",
+    "fixed": "v0.2.6",
+    "user_action": "Developers maintaining affected applications should incorporate the patched toolkit into the software they operate.",
+    "advisory_url": "https://cryptoslate.com/critical-bitcoin-lightning-bugs-exposed-nodes-to-fund-theft-and-restart-failure/"
+  },
+  "also_reported_by": [],
+  "developing": true
+}
