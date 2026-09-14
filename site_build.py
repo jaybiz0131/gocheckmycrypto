@@ -127,7 +127,7 @@ def fmt_when(item):
     if item.get("published_utc"):
         dt = _parse_utc(item)
         if dt:
-            return f"{base} &middot; {dt.strftime('%H:%M')} UTC"
+            return f"{base} \u00b7 {dt.strftime('%H:%M')} UTC"
     return base
 
 
@@ -1265,6 +1265,25 @@ MOTION_JS = (
     '})()</script>')
 
 
+def _em_dash_belt(html):
+    """Replace em dashes in desk copy, never inside a quotation.
+
+    Splits on the quotation marks the desk actually emits, and rewrites only the odd
+    segments (outside quotes). A no-op today: crypto built output carries zero em
+    dashes, which is the point. This is a belt, and a belt that alters a quotation
+    would be worse than the drift it guards against.
+    """
+    if "\u2014" not in html and "&mdash;" not in html:
+        return html
+    import re as _re
+    parts = _re.split(r'(&ldquo;.*?&rdquo;|\u201c.*?\u201d|&quot;.*?&quot;)', html,
+                      flags=_re.S)
+    for i in range(0, len(parts), 2):          # even indexes are outside quotations
+        if "\u2014" in parts[i] or "&mdash;" in parts[i]:
+            parts[i] = destyle(parts[i])
+    return "".join(parts)
+
+
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           live_js=False, brand="site", og_type="website", schema_extra="", og_image=None,
           canonical_path=None):
@@ -1342,6 +1361,13 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {MOTION_JS}
 </body>
 </html>"""
+    # C-D: an em-dash belt at render, for desk-generated copy. destyle already runs at
+    # ingest, so article bodies arrive clean; this catches a dash written into a
+    # TEMPLATE, which nothing else would see until a reader did. It is deliberately
+    # quotation-aware, reusing destyle's own rule: the 2026-08-25 owner ruling is that
+    # a source's own words are never repunctuated, and the sports desk ships six em
+    # dashes today that are correct for exactly that reason.
+    page = _em_dash_belt(page)
     return _fingerprint_assets(page)
 
 
@@ -2176,7 +2202,7 @@ def _etf_streak(recent, latest):
         n += 1
     if n < 2:
         return 0, ""
-    return n, ("day in" if sign > 0 else "day out")
+    return n, ("day of inflows" if sign > 0 else "day of outflows")
 
 
 def _ordinal(n):
@@ -2459,7 +2485,42 @@ def _bd_since_rows(tiles, deltas, pulse, flows):
             f'the Board uses.</p></div>')
 
 
-def _bd_brief_card(ed):
+def board_summary_line(pulse, deltas, flows):
+    """C-D: a deterministic one-line read of the day, from the deltas and band
+    crossings the Board already computed. NOT written by anything: it is assembled
+    from numbers, in a fixed order, so the same inputs always produce the same
+    sentence and it can never say something the tiles do not.
+
+    Returns "" when the day has nothing to report rather than reaching for filler."""
+    bits = []
+    d = deltas or {}
+    b = (d.get("bitcoin") or {}).get("pct")
+    if isinstance(b, (int, float)):
+        bits.append(f"Bitcoin {'up' if b >= 0 else 'down'} {abs(b):.1f}% since yesterday")
+    fd = d.get("fng") or {}
+    if isinstance(fd.get("prev"), (int, float)):
+        now_v = ((pulse or {}).get("fng") or {}).get("value")
+        a, c = _fng_band(fd["prev"]), _fng_band(now_v)
+        if a and c and a != c:
+            bits.append(f"sentiment crossed from {a.lower()} into {c.lower()}")
+    etf = ((pulse or {}).get("etf_flows") or {}).get("btc") or {}
+    n, word = _etf_streak(etf.get("recent"), etf.get("latest_net_usd_m"))
+    if n:
+        bits.append(f"ETF flows in their {_ordinal(n)} {word}")
+    vol = (flows or {}).get("volatile") or {}
+    if _flows_have_data(flows) and isinstance(vol.get("net_usd"), (int, float)):
+        bits.append(f"{fmt_usd(abs(vol['net_usd']))} "
+                    f"{'onto' if vol['net_usd'] < 0 else 'off'} exchanges in 24 hours")
+    if not bits:
+        return ""
+    line = bits[0][0].upper() + bits[0][1:]
+    if len(bits) > 1:
+        line += ", " + ", ".join(bits[1:-1] + [("and " + bits[-1])]) if len(bits) > 2 \
+            else ", and " + bits[1]
+    return line + "."
+
+
+def _bd_brief_card(ed, summary=""):
     """Today's Board brief: the day's edition, rendered as the lead card. Returns ""
     when there is no fresh edition, and the Edition card then spans the row."""
     if not ed:
@@ -2481,7 +2542,10 @@ def _bd_brief_card(ed):
     hl = (ed.get("title") or "").split(":", 1)[-1].strip()
     if not hl:
         hl = (ed.get("dek") or "").strip()
-    body = "".join(f"<p>{esc(p)}</p>" for p in paras)
+    body = ""
+    if summary:
+        body += f'<p class="bd-sum">{esc(summary)}</p>'
+    body += "".join(f"<p>{esc(p)}</p>" for p in paras[:1])
     return (f'<div class="bd-card bd-brief bd-span2">'
             f'<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">'
             f'<span class="bd-eyebrow">Today\'s Board brief</span>'
@@ -2489,7 +2553,7 @@ def _bd_brief_card(ed):
             f'<span class="bd-badge ok">Verified</span></div>'
             f'<div class="bd-brief-hl">{esc(hl)}</div>{body}'
             f'<div class="bd-brief-foot"><span class="bd-by">Crypto Cronkite, '
-            f'The GoCheckMyCrypto desk. Every figure above links to its Board tile.</span>'
+            f'The GoCheckMyCrypto desk.</span>'
             f'<a class="bd-more" href="/articles/{esc(ed["slug"])}.html">Read the full brief</a>'
             f'</div></div>')
 
@@ -2845,6 +2909,7 @@ def render_explainer(meta, pulse, flows, items, dateline, tiles_by_key, by_tilek
                   f'Read today\'s Board brief</a>' if ed else "")
     body = f"""<main class="wrap narrow lx"><article class="page">
   <div class="lx-meta"><span class="bd-eyebrow">Learn the Board</span>
+    <span class="bd-stamp">{esc(meta.get("byline") or "")}</span>
     <span class="bd-stamp">{esc((tile or {}).get("label") or meta.get("board_tile") or "")} tile</span>
     <span class="bd-stamp">{esc(meta.get("read_time") or "")}</span></div>
   <h1 class="lx-h1">{esc(meta["title"])}</h1>
@@ -3317,7 +3382,7 @@ def render_home(items, flows, pulse, cm, dateline):
     # keeps a stale brief off the front page, and both surfaces below share this one
     # resolved value rather than each re-deriving it.
     edition_item = current_bottom_line(items)
-    brief = _bd_brief_card(edition_item)
+    brief = _bd_brief_card(edition_item, board_summary_line(pulse, deltas, flows))
     edition = _bd_edition_card(items, tiles, edition_item, flows, span_full=not brief)
     brief_row = f'<section class="bd-row3">{brief}{edition}</section>'
 

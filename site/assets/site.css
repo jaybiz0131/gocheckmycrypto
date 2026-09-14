@@ -1073,3 +1073,23 @@ html.motion-off .badge-anim:hover img{transform:none}
 }
 /* A jumped-to section must not land under the sticky nav. */
 .bd-mod[id]{scroll-margin-top:64px}
+
+/* ---- C-D: first-paint motion on the Board ----------------------------------------
+   Delta rows fade in on first paint. Strictly behind both gates: the OS setting and
+   the desk's own MOTION toggle. The VALUES do not animate their digits, and that is
+   deliberate: a count-up renders a sequence of numbers that were never true, on a
+   surface whose whole claim is that every number is real. The fade carries the same
+   arrival without inventing readings. */
+@media (prefers-reduced-motion:no-preference){
+  .bd-tile .bd-delta{animation:bd-fade .45s ease-out both}
+  .bd-tile:nth-child(2) .bd-delta{animation-delay:.05s}
+  .bd-tile:nth-child(3) .bd-delta{animation-delay:.10s}
+  .bd-tile:nth-child(4) .bd-delta{animation-delay:.15s}
+  .bd-tile:nth-child(5) .bd-delta{animation-delay:.20s}
+  .bd-tile:nth-child(6) .bd-delta{animation-delay:.25s}
+  .bd-tile:nth-child(7) .bd-delta{animation-delay:.30s}
+  .bd-tile:nth-child(8) .bd-delta{animation-delay:.35s}
+}
+@keyframes bd-fade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+/* The toggle wins over the media query. */
+html.motion-off .bd-tile .bd-delta{animation:none}
