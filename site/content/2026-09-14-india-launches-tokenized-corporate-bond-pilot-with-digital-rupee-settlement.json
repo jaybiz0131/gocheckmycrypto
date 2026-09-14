@@ -1,0 +1,56 @@
+{
+  "id": "c037",
+  "slug": "india-launches-tokenized-corporate-bond-pilot-with-digital-rupee-settlement",
+  "kind": "brief",
+  "title": "India Launches Tokenized Corporate Bond Pilot With Digital Rupee Settlement",
+  "dek": "India's central bank and securities regulator have launched 'Demat 2.0,' a pilot program that tokenizes corporate bonds and settles them using the wholesale digital rupee. Three companies have already raised approximately $107 million through the pilot.",
+  "date": "2026-09-14",
+  "published_utc": "2026-09-14T16:33:08Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "India's RBI and SEBI are embedding tokenization and CBDC settlement into the $620 billion corporate bond market through a live pilot that has already facilitated $107 million in raises.",
+  "bottom_line": "The extent of Demat 2.0's expansion beyond the pilot phase, the identity and maturity terms of the three companies that have raised the $107 million, and any quantified speed or cost benefits from wholesale digital rupee settlement will determine whether this infrastructure scales to the broader Indian corporate debt market.",
+  "human_take": "",
+  "body": [
+    "India's central bank and securities regulator have launched a pilot program to tokenize corporate bonds and settle them using the wholesale digital rupee, signaling institutional adoption of onchain settlement at scale in a major economy.\nThe Reserve Bank of India (RBI) and the Securities and Exchange Board of India (SEBI) introduced the pilot, called 'Demat 2.0,' according to Decrypt. The program issues and settles corporate bonds as digital tokens, with transactions flowing through the wholesale digital rupee rather than traditional settlement rails.\nThree companies have already raised approximately $107 million through the 'Demat 2.0' pilot, per Decrypt's reporting. The figure signals early traction among issuers willing to adopt the new infrastructure.\nIndia's $620 billion corporate bond market represents a substantial testing ground for tokenized settlement. The pilot embeds both tokenization and CBDC settlement into an institutional asset class, reducing friction and operational complexity compared to conventional clearance and settlement processes."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/378120/india-begins-tokenizing-its-620-billion-corporate-bond-market",
+      "url": "https://decrypt.co/378120/india-begins-tokenizing-its-620-billion-corporate-bond-market"
+    }
+  ],
+  "update_of": "coinbase-launches-tokenized-stocks-on-base-network-starting-with-apple-nvidia-meta-alphabet",
+  "board_snapshot": {
+    "as_of": "2026-09-14T16:31:09Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78676.28,
+        "chg_24h_pct": 2.42
+      },
+      {
+        "symbol": "ETH",
+        "price": 2521.78,
+        "chg_24h_pct": 1.82
+      }
+    ],
+    "fng": {
+      "value": 57,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.4,
+      "open_interest_usd": 2161664680
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": -226786673,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

@@ -1,46 +1,6 @@
 [
  {
   "date": "2026-08-10",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c041",
-    "headline": "Brazil's $319B Crypto Market Faces October Licensing Deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'CoinDesk has not independently verified the regulatory authority or the specific entities affected' but this sentence appears nowhere in the brief's data_points, open_questions, or bear_case. This is a smuggled editorial judgment not sourced to the research brief.",
-     "The phrase 'crypto advocates argue that custody delays...may drive users toward unregulated offshore platforms' is not in the brief's bear_case. The bear_case only states that the delay 'reduces user access to their own assets and adds friction to the market.' The offshore platforms claim is new inference, not reported fact."
-    ]
-   },
-   {
-    "id": "c010",
-    "headline": "UK's FCA to regulate tokenized gold in wholesale markets",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Simon Walls, executive director of markets at the FCA, stated in CoinDesk's reporting: \"Tokenization has the potential to transform wholesale markets, reshaping how assets are issued, traded and settled.\"' This quote is attributed to Simon Walls in the brief's data_point as a direct quote from CoinDesk, but the draft presents it without attribution to CoinDesk or clarification of its source within the quote itself\u2014it reads as a standalone quote from Walls to the draft's author rather than a quote that CoinDesk obtained and reported. The attribution must be explicit inline: the fact that this quote came from CoinDesk's reporting must be clear in the prose."
-    ]
-   },
-   {
-    "id": "c026",
-    "headline": "Ethereum roadmap elevates quantum resistance and privacy to first-class priorities",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case identifies four significant risks: (1) deep uncertainty and potential delays in execution engine design; (2) VDFs deprioritization removing a security mechanism without explicit replacement; (3) EVM demotion causing ecosystem fragmentation and forcing developer migration; (4) post-quantum signatures creating larger storage/bandwidth overhead. The draft touches the first issue lightly in the final paragraph ('significant uncertainty and potential delays') but entirely omits the second, third, and fourth bear cases. The draft presents the roadmap shift as strategic recalibration without substantive discussion of the technical risks and ecosystem disruption the brief flagged. A reader would not understand from this draft that deprioritizing VDFs removes a security mechanism, that demoting the EVM could force migration of millions of contracts, or that post-quantum signatures carry material overhead\u2014all documented in the brief. This imbalance understates the stakes."
-    ]
-   },
-   {
-    "id": "c031",
-    "headline": "Standard Chartered initiates LINK coverage with $200 price target by end-2030",
-    "category": "compliance",
-    "reasons": [
-     "Title frames '$200 price target' as a factual anchor without qualification. This reads as a price prediction being presented as settled fact and could be interpreted as investment guidance. The target should be framed as 'Standard Chartered projects' or 'targets,' with clear attribution that this is the bank's thesis, not market consensus.",
-     "Phrase 'Chainlink's current price and positioning relative to the $200 target depend on adoption trajectories' invites readers to evaluate an entry point by comparison to the bank's target\u2014a compliance edge case that should be removed or reframed neutrally."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-10",
   "approved": 5,
   "rejected": [
    {
@@ -6649,6 +6609,32 @@
     "reasons": [
      "The draft states the closure as a completed fact ('is closing after 10 months of operations') but the brief's data_point uses future tense ('will close after 10 months'). Today is 2026-09-14, the same date as the CoinDesk report timestamp. The brief does not establish that the closure has already occurred as of today; it reports an announced closure. The draft must reflect this as a scheduled/announced event, not a past event.",
      "The bottom_line makes an interpretive claim ('Dogecoin's failure to support an ETF product does not reflect weakness in the underlying asset's retail following, but rather signals institutional investors' preference for altcoins with distinct technical or network properties') that goes beyond what the brief's data_points or bear_case support. The brief's bear_case actually suggests the opposite framing: 'structural weakness in meme-coin financial products.' The writer has smuggled editorial interpretation that contradicts the research foundation."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c083",
+    "headline": "Revolut Breach Exposes Passports, Bitcoin Histories; Attackers Demand 10,000 BTC Ransom",
+    "category": "accuracy",
+    "reasons": [
+     "The draft presents multiple claims about the ransom demand and attacker behavior that are marked 'reported' in the brief but then qualifies some of them with hedging language that contradicts the confidence level. For example, the brief marks 'Attackers are seeking 10,000 BTC in exchange for not releasing additional customer data' as 'reported' (confident), yet the draft later states 'The company has not confirmed the 10,000 BTC ransom demand or authenticated the circulating material' and 'No independent verification of the ransom demand's authenticity has been published.' This creates a false sense that the demand itself is unverified when the brief's data point confidence is 'reported.'",
+     "The bear_case in the brief explicitly states 'Revolut has not confirmed the 10,000 BTC ransom demand, and many on social media have expressed doubt the demand is real' and 'Crypto analyst Max Karpis noted that such a BTC payment would be easily traced, making it extremely difficult to cash out\u2014questioning the credibility of the ransom demand.' These bear_case items are properly included in the draft, but the overall framing allows the unverified demand to lead the story without sufficient emphasis that the demand's authenticity is in doubt. The lede and opening paragraphs present the demand as established fact ('are demanding 10,000 Bitcoin') when the brief's own bear_case flags it as unconfirmed.",
+     "The phrase 'Crypto analyst Max Karpis noted that such a BTC payment would be easily traced on the blockchain, raising questions about the demand's credibility' is correct, but appears late in the piece after the demand has been stated multiple times as fact. The sequencing buries the credibility question and allows readers to absorb the demand as settled before encountering skepticism."
+    ]
+   },
+   {
+    "id": "c095",
+    "headline": "Stablecoins account for 3% of global payments; fragmented regulations cited as barrier",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Stablecoins account for only 3 percent of global payments' as a settled fact attributed to the WTO, but the brief marks this data_point as 'reported' confidence only\u2014sourced to a single Cointelegraph article, not to an official WTO publication or statement. The sentence reads as verified fact when it is secondary-sourced reporting and should be qualified.",
+     "The draft paraphrases the WTO's assessment without attribution to a named person or official. The sentence 'The WTO's assessment focuses on the structural barrier rather than technical deficiency' and 'the WTO indicated' lacks specificity: it does not name which WTO official made this statement or cite direct language. All statements attributed to an institution must be sourced to a named individual or official statement.",
+     "The draft states 'multiple friction points in global finance' but the brief's data_point says 'could improve five key friction points'\u2014the draft obscures the specific number. The open_questions section confirms the source does not specify which five, but the draft should either state the number as the source does or omit the specificity claim entirely."
     ]
    }
   ]

@@ -1,0 +1,66 @@
+{
+  "id": "c005",
+  "slug": "s-p-global-leads-110m-extension-of-kaiko-s-series-b-drawing-wall-street-into-crypto-data-infrastructure",
+  "kind": "brief",
+  "title": "S&P Global leads $110M extension of Kaiko's Series B, drawing Wall Street into crypto data infrastructure",
+  "dek": "S&P Global, BNP Paribas, RBC, and Nasdaq Ventures joined Kaiko's Series B extension to $110 million, more than double the 2022 round. The funding backs infrastructure for tokenized assets and 24/7 onchain data feeds as traditional finance moves to crypto rails.",
+  "date": "2026-09-14",
+  "published_utc": "2026-09-14T16:33:08Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "S&P Global led a strategic investment extending Kaiko's Series B to $110 million, with BNP Paribas, Broadridge, Nasdaq Ventures, Royal Bank of Canada, and others participating.",
+  "bottom_line": "The names on this round signal whether Wall Street sees crypto data as a structural play or a defensive hedge. Monitor whether tokenized Treasury or money market products reaching production pull material onchain volumes within the next 18 months, which would validate Kaiko's infrastructure thesis.",
+  "human_take": "",
+  "body": [
+    "S&P Global, BNP Paribas, Broadridge, Nasdaq Ventures, and Royal Bank of Canada have joined Kaiko's Series B funding extension, bringing the round total to $110 million, according to The Defiant. The figure more than doubles the original $53 million Series B announced in July 2022.",
+    "Kaiko is a digital-asset data provider that covers more than 150 exchanges and protocols. The extension marks a shift in institutional capital toward market-infrastructure plays in crypto, with traditional finance firms backing tools designed to support tokenized assets moving onto public blockchains.",
+    "The funding round includes existing shareholders Anthemis, Point Nine, and Revaia alongside strategic newcomers Bpifrance, Canton Foundation, Coinbase Ventures, DRW Venture Capital, and Stellar. Susquehanna Private Equity Investments also participated, per The Defiant.",
+    "Kaiko plans to deepen its core digital-asset market-data business and expand an infrastructure offering designed to deliver proprietary data directly to smart contracts, convert onchain financial activity into standardized offchain data formats, and support confidential valuation and analytics. The funding comes as tokenized Treasury bills, money market funds, equities, and bonds move toward production: these markets will require data systems capable of operating beyond conventional trading hours, Kaiko stated.",
+    "The investment builds on an existing partnership between S&P Global and Kaiko. On September 1, S&P Dow Jones Indices and Kaiko launched the S&P Kaiko Digital Asset Indices, a combined index suite with more than 4,000 rates and indices. Under the partnership, Kaiko provides data sourcing and calculation while S&P supplies benchmark administration, licensing, and distribution. Participating institutions have also formed a strategic industry working group chaired by Kaiko to focus on the data and infrastructure standards needed to bring tokenized products into production, The Defiant reports."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/09/14/kaiko-extends-series-b-funding-round-to-usd110-million-with-s-and-p-global-bnp-paribas",
+      "url": "https://www.coindesk.com/business/2026/09/14/kaiko-extends-series-b-funding-round-to-usd110-million-with-s-and-p-global-bnp-paribas"
+    },
+    {
+      "title": "https://thedefiant.io/converge/tradfi-and-fintech/s-p-global-leads-kaiko-funding-extension-to-110-million",
+      "url": "https://thedefiant.io/converge/tradfi-and-fintech/s-p-global-leads-kaiko-funding-extension-to-110-million"
+    }
+  ],
+  "update_of": "standard-chartered-offers-spot-bitcoin-and-ether-trading-to-institutional-clients-in-uae",
+  "board_snapshot": {
+    "as_of": "2026-09-14T16:31:09Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 78676.28,
+        "chg_24h_pct": 2.42
+      },
+      {
+        "symbol": "ETH",
+        "price": 2521.78,
+        "chg_24h_pct": 1.82
+      }
+    ],
+    "fng": {
+      "value": 57,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.4,
+      "open_interest_usd": 2161664680
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": -226786673,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Defiant"
+  ],
+  "developing": false
+}
