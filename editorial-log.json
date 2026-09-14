@@ -4,47 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c006",
-    "headline": "Ravencoin Miners Building Replacement Chain to Erase Four Days of Transactions",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Four days of transactions' in the title and body ('erase four days of transactions', 'all transactions since August 7 at risk') but the brief does not establish that four days is the correct scope. The brief confirms the first bad block appeared at 15:44 UTC on Aug. 7 and the pools are rebuilding from block 4,487,775, but does not verify the four-day duration. This is a derived fact, not traced to the source.",
-     "The draft describes 'critical software flaw' and states the flaw 'allowed invalid blocks to be added to the network' but does not cite the specific technical details. The brief's open_questions explicitly flag 'What specific software flaw allowed invalid blocks to be created, and how did attackers exploit it?' indicating this detail was not confirmed in reporting. The draft should acknowledge the flaw's nature is unconfirmed or omit the characterization."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "BTCPay Offers $190,000 Bounty After Exploit Drains Merchant Bitcoin Wallets",
-    "category": "compliance",
-    "reasons": [
-     "boundary_ok is false and boundary_required is true, but the draft contains no boundary block (date range, version, or threshold marker). The story hinges on 'last week' as a temporal fact but carries no qualifying language like 'as of August 11, 2026' or similar. This violates the desk's boundary protocol and creates liability if the story is read out of temporal context."
-    ]
-   },
-   {
-    "id": "c056",
-    "headline": "Brazil Imposes October 30 Licensing Deadline for Crypto Market",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Brazil is imposing an October 30 deadline' as settled fact, but the brief contains only two data_points, both labeled 'reported'\u2014meaning the information comes from Decrypt alone and carries no independent confirmation. The draft reads the deadline as formally imposed, when the source reporting alone is insufficient to warrant that framing. The phrasing should reflect uncertainty: 'Brazil has announced' or 'according to Decrypt, Brazil is imposing' with inline attribution.",
-     "The draft claims 'signals a shift from informal to regulated crypto operations in the country' and 'marks a formal supervisory regime'\u2014interpretive claims not present in the brief's data_points. These are editorial judgment, not reported facts. They must either be removed or attributed to a source."
-    ]
-   },
-   {
-    "id": "c014",
-    "headline": "Luke Dashjr removed from Bitcoin BIP editorship over BIP-110 fork attempt",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'the chain ground to a halt' in the opening paragraph, but the brief and sources indicate only the BIP-110 *forked* chain mined two blocks and halted\u2014the principal Bitcoin network continued unaffected. The phrasing in the draft is ambiguous and could mislead readers into thinking the main Bitcoin chain was affected.",
-     "The draft characterizes BIP-110 as 'a controversial soft-fork proposal' but the brief data_point and context indicate it was 'an attempt to set up a breakaway Bitcoin chain'\u2014a hard fork, not a soft fork. This is a material technical distinction that changes the nature of what Dashjr attempted."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-11",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c134",
     "headline": "Russia's central bank proposes regulated exchange trading of Bitcoin, Ether, and USDT",
     "category": "accuracy",
@@ -6575,6 +6534,31 @@
      "The brief's core_claim and open_questions explicitly flag that the Nasdaq 100 futures decline and Saudi pipeline closure are NOT verified in the provided source texts. The brief states: 'The snippet claims Nasdaq 100 index futures fell 1.65% on calls to slow AI development and crude rose on Saudi pipeline closure, but no sources in the provided fetched text carry independent reporting of these macro events.' The draft does not report these macro events, so this is not the issue. However, the draft omits the core narrative tension that was briefed: that crypto outperformed during a sector selloff. The brief's angle explicitly states 'Crypto assets outperformed traditional tech during a sector selloff driven by AI slowdown calls,' but the draft never mentions the Nasdaq decline, the AI slowdown narrative, crude oil, or any macro context that would establish this decoupling. The draft reads as a pure technicals-and-flows recap with no reference to the briefed angle about asymmetric performance.",
      "The bear_case notes that 'Cardano lacked both markers' (golden cross and above SMA200), but the draft states only 'Cardano lacked both markers' without explicitly confirming Cardano is BELOW its 200-day average as well. The brief data confirms 'Cardano below SMA200: no explicit data point provided' but the drafting is ambiguous about whether Cardano is above or below.",
      "XRP 7-day change: Brief lists '5.35%' but draft never reports the 7-day figure for XRP, only 24-hour (9.84%), 30-day (35.74%). This is omission rather than smuggled fact, but the asymmetric reporting (XRP 7-day absent while Solana and Bitcoin 7-day are present) creates potential confusion about whether data was missing or forgotten."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-14",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c036",
+    "headline": "Symbiosis Recovers 15 BTC After Bridge Exploit, Offers Bounty",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Symbiosis recovered 15 Bitcoin following a syBTC bridge exploit' without attribution or qualification. The brief data_point says 'Symbiosis recovered 15 Bitcoin from its bridge hack' sourced to Cointelegraph. The brief does not establish the mechanism of recovery (traced/frozen vs. returned by attacker); the draft presents recovery as fact without the open_question context: 'By what mechanism did Symbiosis recover the 15 BTC\u2014was it traced and frozen, or did the attacker return it?' This omission leaves readers without necessary context to understand the claim. The sentence smuggles a completed recovery narrative where the brief itself carries uncertainty.",
+     "The draft reports 'Roughly 46.1 billion syBTC were minted during the exploit' and 'The attacker realized approximately $336,000 in proceeds.' The brief attributes both claims to 'Blockaid (per snippet)' with confidence 'reported,' but the draft provides no source attribution inline. Neither Cointelegraph nor The Block URLs are cited as the origin of these figures. The Blockaid source is buried in the brief's metadata, not transparent in the draft's narrative. Readers cannot trace the origin of the largest numbers in the story."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Bitcoin at $78,951 on September 14; Ethereum and Solana lead on the day",
+    "category": "accuracy",
+    "reasons": [
+     "Brief's core_claim states 'Bitcoin rose 2.78% to $78,951 on 2026-09-14 while Nasdaq 100 futures fell on AI slowdown calls, with crypto outperforming equities during the selloff.' The draft contains NO mention of Nasdaq 100 futures, AI slowdown, equities performance, or any macro context establishing decoupling. The angle explicitly requires comparison to equity markets and a causal mechanism (AI slowdown impact); the draft reports only crypto prices and leverage data without that frame.",
+     "Brief lists open_questions including 'No source text documents the Nasdaq 100 futures -1.65% move or the Saudi pipeline closure claimed in the snippet' and 'No source text establishes a causal link between the AI slowdown and Bitcoin's outperformance.' The draft fails to deliver on the core_claim's central element: the equity market comparison that justified the story's angle.",
+     "The brief is thin=true and source_chars=5354 (crypto prices and leverage only), but the core_claim promised a macro context that never materialized in drafting. The story as written is a price/technical report, not the decoupling story the brief describes."
     ]
    }
   ]
