@@ -1358,7 +1358,8 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {skip}{masthead(active, dateline, brand)}
 {body}
 {footer(brand)}{beacon}{livejs}
-{MOTION_JS}{WATCHLIST_JS if 'data-watchlist' in body else ''}
+{tab_bar(path)}
+{MOTION_JS}{SW_REGISTER}{WATCHLIST_JS if 'data-watchlist' in body else ''}
 </body>
 </html>"""
     # C-D: an em-dash belt at render, for desk-generated copy. destyle already runs at
@@ -2928,6 +2929,78 @@ def render_explainer(meta, pulse, flows, items, dateline, tiles_by_key, by_tilek
 <div class="wrap">{related}</div>"""
     return shell(meta["title"], meta.get("meta_description") or "", "Learn", body, dateline,
                  path=f"/learn/{meta['slug']}.html")
+
+
+# ---- S-F: phone shell, install, share ------------------------------------------
+# A sticky bottom tab bar on phones, a manifest that installs properly, and a service
+# worker that caches THE SHELL ONLY.
+#
+# WHAT THE WORKER MUST NEVER CACHE, and why it is worth being explicit in code rather
+# than in a comment on a policy page: scores, inactives, weather and the board are the
+# whole product, and a stale score served from a cache is worse than no score. The
+# worker matches the stylesheet, the fonts and the icons, and nothing else. It never
+# touches /site/data, never an HTML page, and never anything that could carry a
+# person's own state, because there is no per-person state on this site to carry.
+
+TAB_BAR = [
+    ("Board", "/pulse.html",
+     "M3 15l4-6 3 4 3-7 4 9"),                                # a series
+    ("Whales", "/flows.html",
+     "M3 12c3-5 11-5 14 0M6 12v3M10 12v4M14 12v3"),           # flows
+    ("Learn", "/learn.html",
+     "M4 5h12v10H4zM7 8h6M7 11h6"),                           # a page
+    ("News", "/news.html",
+     "M3 5h14v10H3zM6 8h5M6 11h8"),                           # a sheet
+    ("Edition", "/bottom-line.html",
+     "M5 3h10v14H5zM8 7h4M8 10h4M8 13h3"),                    # the edition
+]
+
+
+def tab_bar(active_path=""):
+    """The phone tab bar. Hidden above the phone breakpoint in CSS rather than built
+    twice. A tab whose page is not being built this run is dropped, so the bar never
+    offers a destination that does not exist."""
+    out = []
+    for label, href, d in TAB_BAR:
+        pass
+        on = " on" if href == active_path else ""
+        out.append(
+            f'<a class="tb-item{on}" href="{esc(href)}">'
+            f'<svg viewBox="0 0 20 20" aria-hidden="true" width="20" height="20">'
+            f'<path d="{d}" fill="none" stroke="currentColor" stroke-width="1.6" '
+            f'stroke-linecap="round" stroke-linejoin="round"></path></svg>'
+            f'<span>{esc(label)}</span></a>')
+    if len(out) < 2:
+        return ""
+    return (f'<nav class="tabbar" aria-label="Sections">{"".join(out)}</nav>')
+
+
+SERVICE_WORKER = """/* GoCheckMyCrypto service worker: the shell, and nothing else.
+   The Board, the whale flows and the Edition are the product. A stale price served
+   from a cache is worse than no price, so this caches the stylesheet, the fonts and
+   the icons, and never an HTML page, never /site/data, never anything else. */
+const SHELL = 'gcmc-shell-%(v)s';
+const ASSETS = %(assets)s;
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(SHELL).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(ks =>
+    Promise.all(ks.filter(k => k !== SHELL).map(k => caches.delete(k)))
+  ).then(() => self.clients.claim()));
+});
+self.addEventListener('fetch', e => {
+  const u = new URL(e.request.url);
+  if (e.request.method !== 'GET' || u.origin !== self.location.origin) return;
+  /* Only the shell. Anything that is or could become data goes to the network. */
+  if (!ASSETS.includes(u.pathname)) return;
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+});
+"""
+
+SW_REGISTER = ("<script>if('serviceWorker' in navigator){window.addEventListener('load',"
+               "function(){navigator.serviceWorker.register('/sw.js').catch(function(){});"
+               "});}</script>")
 
 
 # ---- C-A: the Board, v2 ---------------------------------------------------------
@@ -6400,13 +6473,34 @@ def build():
                 open(os.path.join(PUBLISH, _name), "wb").write(open(_src, "rb").read())
     # A web app manifest, so saving to a home screen picks up the desk's own name and colour
     # instead of the page title and a browser default.
+    # C-E: the shell worker. Same rule as Sports: the Board is the product, and a
+    # stale price from a cache is worse than no price.
+    _sw_assets = ["/assets/site.css", "/assets/icon-192.png", "/assets/icon-512.png",
+                  "/assets/favicon.svg", "/apple-touch-icon.png"]
+    _ff = os.path.join(PUBLISH, "assets", "fonts")
+    for _f in (sorted(os.listdir(_ff)) if os.path.isdir(_ff) else []):
+        if _f.endswith((".woff2", ".woff")):
+            _sw_assets.append(f"/assets/fonts/{_f}")
+    _sw_assets = [a for a in _sw_assets
+                  if os.path.exists(os.path.join(PUBLISH, a.lstrip("/")))]
+    with open(os.path.join(PUBLISH, "sw.js"), "w", encoding="utf-8") as _swf:
+        _swf.write(SERVICE_WORKER % {"v": _build_now().strftime("%Y%m%d%H%M"),
+                                     "assets": json.dumps(_sw_assets)})
+    print(f"service worker: {len(_sw_assets)} shell asset(s), no data cached")
+
     with open(os.path.join(PUBLISH, "site.webmanifest"), "w", encoding="utf-8") as _mf:
         # FAMILY, not NAME. NAME is the byline persona on this desk (Crypto Cronkite), and
         # a home-screen label is a brand surface: the wordmark is the hero there too.
         json.dump({"name": FAMILY, "short_name": SHORT_NAME, "start_url": "/",
                    "display": "standalone", "background_color": "#FBFAF6",
                    "theme_color": THEME_COLOR,
-                   "icons": [{"src": "/apple-touch-icon.png", "sizes": "180x180",
+                   "icons": [{"src": "/assets/icon-192.png", "sizes": "192x192",
+                              "type": "image/png"},
+                             {"src": "/assets/icon-512.png", "sizes": "512x512",
+                              "type": "image/png"},
+                             {"src": "/assets/icon-maskable-512.png", "sizes": "512x512",
+                              "type": "image/png", "purpose": "maskable"},
+                             {"src": "/apple-touch-icon.png", "sizes": "180x180",
                               "type": "image/png"}]}, _mf, ensure_ascii=False, indent=1)
     # the square publisher logo at the site root (schema publisher.logo, Publisher Center):
     # 512px+ square, referenced by NewsArticle JSON-LD and available to aggregators
