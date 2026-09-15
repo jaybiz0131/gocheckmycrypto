@@ -28,7 +28,7 @@
   function fmtPrice(p) {
     if (!p && p !== 0) return "?";
     if (p >= 1) return "$" + p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    if (!p) return "$0";
+    if (!p) return "--";   /* D-6: no reading is not a price of zero; the server-rendered ticker uses "--" and the live update must agree */
     return "$" + p.toFixed(Math.min(100, 3 - Math.floor(Math.log10(p))));
   }
   function fmtTick(n) {

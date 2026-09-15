@@ -2638,6 +2638,25 @@ def _flows_have_data(flows):
     return bool((vol.get("inflow_usd") or 0) or (vol.get("outflow_usd") or 0))
 
 
+def _flow_big(v):
+    """D-6: the big number on a flows panel. Same law as the cells: a true zero says so
+    in words, a missing reading says the feed carried none, and "$0" is neither."""
+    if not isinstance(v, (int, float)):
+        return '<span class="mut" style="font-size:.5em">no reading in 24h</span>'
+    if v == 0:
+        return '<span class="mut" style="font-size:.5em">no exchange-size moves in 24h</span>'
+    return esc(fmt_usd(v))
+
+
+def _flow_cell(v):
+    """D-6: a flows table cell. Whale Watch counts exchange-size moves only, so a true
+    zero means none that big moved, which is a fact and reads as "none". A missing
+    reading is not a zero and shows nothing at all. "$0" is neither of those things."""
+    if not isinstance(v, (int, float)):
+        return '<span class="mut">no reading</span>'
+    return "none" if v == 0 else esc(fmt_usd(v))
+
+
 def _bd_ww_chart(flows):
     """Artboard 1 module 6: diverging bars, one row per asset, centre axis.
     Rows come from whatever `by_asset` actually holds. The mockup draws four
@@ -2653,7 +2672,8 @@ def _bd_ww_chart(flows):
         return ""
     rows = sorted(rows, key=lambda r: (r.get("inflow_usd") or 0) + (r.get("outflow_usd") or 0),
                   reverse=True)[:6]
-    peak = max(max(r.get("inflow_usd") or 0, r.get("outflow_usd") or 0) for r in rows) or 1
+    peak = max(max([v for v in (r.get("inflow_usd"), r.get("outflow_usd"))
+                    if isinstance(v, (int, float))] or [0]) for r in rows) or 1
     W, AX, LAB, ARM = 640, 330, 60, 260
     row_h, top = 36, 8
     H = top + row_h * len(rows) + 6
@@ -2664,22 +2684,45 @@ def _bd_ww_chart(flows):
         y = top + i * row_h
         cy = y + 9
         sym = str(r.get("symbol") or "?")[:5]
-        inf = r.get("inflow_usd") or 0      # onto exchanges
-        outf = r.get("outflow_usd") or 0    # off exchanges
-        wi = max(2, round(inf / peak * ARM))
-        wo = max(2, round(outf / peak * ARM))
+        # D-6 / punch item 4, the standing law. Two different things were both printing
+        # "$0". An ABSENT arm became zero through `or 0` and drew a number the feed never
+        # reported. A TRUE zero - and Whale Watch has real ones, because it only counts
+        # exchange-size moves, so "nothing that big moved off" is a fact - was printed as
+        # "$0", which reads as a measurement of nothing rather than as none. An absent arm
+        # now draws and says nothing; a true zero says "none", which is what it means.
+        inf = r.get("inflow_usd")
+        outf = r.get("outflow_usd")
         parts.append(f'<text x="{LAB}" y="{cy + 4}" font-family="var(--mono)" font-size="12" '
                      f'font-weight="700" fill="var(--ink)" text-anchor="end">{esc(sym)}</text>')
-        parts.append(f'<rect x="{AX - 2 - wi}" y="{y}" width="{wi}" height="12" rx="4" '
-                     f'fill="var(--down)"></rect>')
-        parts.append(f'<text x="{AX - 10 - wi}" y="{cy + 4}" font-family="var(--mono)" '
-                     f'font-size="11.5" fill="var(--muted)" text-anchor="end">'
-                     f'{esc(fmt_usd(inf))}</text>')
-        parts.append(f'<rect x="{AX + 2}" y="{y}" width="{wo}" height="12" rx="4" '
-                     f'fill="var(--up)"></rect>')
-        parts.append(f'<text x="{AX + 10 + wo}" y="{cy + 4}" font-family="var(--mono)" '
-                     f'font-size="11.5" fill="var(--muted)">{esc(fmt_usd(outf))}</text>')
-        aria.append(f"{sym}: {fmt_usd(inf)} onto exchanges, {fmt_usd(outf)} off")
+        said = []
+        if inf == 0:
+            parts.append(f'<text x="{AX - 10}" y="{cy + 4}" font-family="var(--mono)" '
+                         f'font-size="11.5" fill="var(--muted)" text-anchor="end">none'
+                         f'</text>')
+        if isinstance(inf, (int, float)) and inf:
+            wi = max(2, round(inf / peak * ARM))
+            parts.append(f'<rect x="{AX - 2 - wi}" y="{y}" width="{wi}" height="12" rx="4" '
+                         f'fill="var(--down)"></rect>')
+            parts.append(f'<text x="{AX - 10 - wi}" y="{cy + 4}" font-family="var(--mono)" '
+                         f'font-size="11.5" fill="var(--muted)" text-anchor="end">'
+                         f'{esc(fmt_usd(inf))}</text>')
+            said.append(f"{fmt_usd(inf)} onto exchanges")
+        elif inf == 0:
+            said.append("none onto exchanges")
+        if outf == 0:
+            parts.append(f'<text x="{AX + 10}" y="{cy + 4}" font-family="var(--mono)" '
+                         f'font-size="11.5" fill="var(--muted)">none</text>')
+        if isinstance(outf, (int, float)) and outf:
+            wo = max(2, round(outf / peak * ARM))
+            parts.append(f'<rect x="{AX + 2}" y="{y}" width="{wo}" height="12" rx="4" '
+                         f'fill="var(--up)"></rect>')
+            parts.append(f'<text x="{AX + 10 + wo}" y="{cy + 4}" font-family="var(--mono)" '
+                         f'font-size="11.5" fill="var(--muted)">{esc(fmt_usd(outf))}</text>')
+            said.append(f"{fmt_usd(outf)} off")
+        elif outf == 0:
+            said.append("none off")
+        aria.append(f"{sym}: " + (", ".join(said) if said
+                                  else "no exchange-size moves reported"))
     return (f'<div class="bd-scroll"><svg class="bd-chart" width="{W}" height="{H}" '
             f'viewBox="0 0 {W} {H}" role="img" aria-label="Exchange flows over the last 24 '
             f'hours. {esc("; ".join(aria))}.">{"".join(parts)}</svg></div>')
@@ -4906,8 +4949,8 @@ def render_flows(flows, dateline):
     out_rows = _move_rows(flows.get("top_outflows", []))
     ex_rows = "".join(
         f'<tr><td class="sym2" style="text-transform:none">{esc(e.get("exchange",""))}</td>'
-        f'<td class="pnum" style="color:var(--down)">{esc(fmt_usd(e.get("inflow_usd",0)))}</td>'
-        f'<td class="pnum" style="color:var(--up)">{esc(fmt_usd(e.get("outflow_usd",0)))}</td>'
+        f'<td class="pnum" style="color:var(--down)">{_flow_cell(e.get("inflow_usd"))}</td>'
+        f'<td class="pnum" style="color:var(--up)">{_flow_cell(e.get("outflow_usd"))}</td>'
         f'<td class="pnum">{"+" if e.get("net_usd",0) >= 0 else ""}{esc(fmt_usd(e.get("net_usd",0)))}</td></tr>'
         for e in flows.get("by_exchange", []))
     winp = _win_phrase(flows.get("window_hours", 24))
@@ -4945,7 +4988,7 @@ def render_flows(flows, dateline):
     </div>
     <div class="stat">
       <span class="lab">Stablecoin buying power</span>
-      <span class="big">{esc(fmt_usd(s.get("net_buying_power_usd",0)))}</span>
+      <span class="big">{_flow_big(s.get("net_buying_power_usd"))}</span>
       <span class="sub">net stablecoins onto exchanges</span>
     </div>
     {big_html}
@@ -6142,8 +6185,8 @@ def render_pulse_leverage(pulse, dateline):
             continue
         liq_rows += (f'<tr><td class="sym2">{esc(a.get("symbol",""))}</td>'
                      f'<td class="pnum">{q["count"]}</td>'
-                     f'<td class="pnum" style="color:var(--down)">{esc(fmt_usd(q.get("longs_usd", 0)))}</td>'
-                     f'<td class="pnum" style="color:var(--up)">{esc(fmt_usd(q.get("shorts_usd", 0)))}</td>'
+                     f'<td class="pnum" style="color:var(--down)">{_flow_cell(q.get("longs_usd"))}</td>'
+                     f'<td class="pnum" style="color:var(--up)">{_flow_cell(q.get("shorts_usd"))}</td>'
                      f'<td class="mut">last {q.get("window_hours", "?")}h</td></tr>')
     liq_html = ""
     if liq_rows:
