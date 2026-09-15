@@ -1208,3 +1208,26 @@ body{padding-bottom:64px}
   .cb-hero .cb-claim{font-size:26px}
   .cb-hero .cb-sell{font-size:14px}
 }
+
+/* C-9: news desk cards. Headline three lines, summary three, sources pinned to the
+   bottom at 12.5px - it was rendering larger than the summary above it. Equal heights
+   come from the clamps, not from stretching a short card beside a long one (G-5). */
+.bd-cards4>.bd-card{display:flex;flex-direction:column;gap:9px}
+.nx-h{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.nx-read{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+  overflow:hidden;font-size:15px;line-height:1.5}
+.bd-src.nx-src{margin-top:auto;font-size:12.5px;line-height:1.4;color:var(--muted)}
+
+/* C-11: the cold-storage disclosure is a footnote, not body copy: 12.5px sans, muted. */
+/* C-11: this rendered at 17px Inter - a .bd-card p rule (0,2,0) outranked the
+   .bd-disc rule (0,1,0) further up. Scoped to match, so it is a footnote again. */
+.bd-card p.bd-disc,p.bd-disc{font-family:var(--sans);font-size:12.5px;line-height:1.5;
+  font-weight:400;color:var(--muted);margin:0}
+
+/* C-16: the motion control at the right end of the ticker. */
+.motion-btn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;padding:0;background:none;cursor:pointer;
+  border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.motion-btn:hover{color:var(--ink)}
+.markets .pinbox{margin-left:10px}
+.markets .motion-btn{margin-left:auto}

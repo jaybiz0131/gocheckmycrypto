@@ -1103,13 +1103,11 @@ def masthead(active, dateline, brand="site"):
     <span class="mh-word">GoCheckMy<em class="mh-accent">Crypto</em></span>
     <span class="mh-slogan">Crypto, checked.</span>
   </a>"""
-    # Motion pause/play control (WCAG 2.2.2). Lives in the masthead so it is present on
-    # every page that carries motion (hero video, section videos, looping decorations).
-    # Starts in the "playing" state; the script flips it and remembers the choice.
-    motion_toggle = ('<button type="button" class="motion-toggle" data-motion '
-                     'aria-pressed="false" aria-label="Pause motion">'
-                     '<span class="mt-ico" aria-hidden="true"></span>'
-                     '<span class="mt-txt">Motion</span></button>')
+    # C-16: the motion control moved to the right end of the ticker (see market_strip).
+    # It is a control for the page's motion, not a piece of the site's identity, and a
+    # masthead is identity. WCAG 2.2.2 is unaffected: it is still on every page that
+    # carries the ticker, which is every page that carries motion.
+    motion_toggle = ""
     return f"""<div class="top-rule"></div>
 <header class="masthead"><div class="wrap">
   <div class="mh-top">
@@ -1187,6 +1185,7 @@ def market_strip(pulse=None):
   <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">{esc(cap_px)}</span>{cap_chg_html}</span>
   {extras}
   <span class="note">Market data, not news. Not financial advice.</span>
+  {motion_button()}
   {pin_control(pulse)}
 </div>""" + """
 <script>
@@ -2787,16 +2786,20 @@ def _bd_news_cards(items, n=4):
                 srcs.append(lab)
             if len(srcs) == 3:
                 break
-        src = (f'<p class="bd-src">Sources: {esc(", ".join(srcs))}</p>' if srcs else "")
+        # C-9: the sources line rendered at 17px, larger than the summary above it.
+        src = (f'<span class="bd-src nx-src">Sources: {esc(", ".join(srcs))}</span>'
+               if srcs else "")
         read = (i.get("dek") or i.get("key_fact") or "").strip()
+        read_html = (f'<span class="bd-read nx-read">{esc(read)}</span>'
+                     if read else "")
         cards.append(
             f'<a class="bd-card" href="/articles/{esc(i["slug"])}.html" '
             f'style="text-decoration:none">'
             f'<span class="bd-cardtop">'
             f'{verdict_badge(i.get("verdict"), i)}'
             f'<span class="bd-stamp">{esc(fmt_when(i))}</span></span>'
-            f'<span class="bd-h3">{esc(i.get("title") or "")}</span>'
-            f'{f"<span class=bd-read>{esc(read)}</span>" if read else ""}{src}</a>')
+            f'<span class="bd-h3 nx-h">{esc(i.get("title") or "")}</span>'
+            f'{read_html}{src}</a>')
     return f'<div class="bd-cards4">{"".join(cards)}</div>'
 
 
@@ -3014,7 +3017,9 @@ def _tile_live_block(tile, pulse):
         return ""
     cls = "up" if "up" in (tile.get("delta") or "") else (
         "down" if "down" in (tile.get("delta") or "") else "")
-    src = ((pulse or {}).get("note") or "").strip()
+    # C-13: the note reads "Free public market data, computed with standard formulas at
+    # build time; sentiment from alternative.me..." - a methods note, which G-9 keeps off
+    # the page. The SOURCES in it are worth naming; how they were computed is not.
     asof = _ticker_built(pulse)
     return (
         f'<div class="bd-card lx-live">'
@@ -3023,8 +3028,8 @@ def _tile_live_block(tile, pulse):
         f'<div class="lx-live-row"><span class="lx-live-v {cls}">{esc(tile["value"])}</span>'
         f'<span class="bd-read" style="font-size:15px">{esc(tile["read"])}</span></div>'
         f'{tile.get("delta") or ""}'
-        f'<div class="bd-brief-foot"><span class="bd-stamp">{esc(asof)}'
-        f'{(". Source: " + esc(src)) if src else ""}</span>'
+        f'<div class="bd-brief-foot"><span class="bd-stamp lx-live-src">{esc(asof)}'
+        f' · Sources: public market data, alternative.me, mempool.space</span>'
         f'<a class="bd-more" href="/pulse.html" style="white-space:nowrap">'
         f'See it on the Board</a></div></div>')
 
@@ -3354,6 +3359,15 @@ def watchlist_row(pulse):
     homepage came to print the Bitcoin price three times before the first story. The
     pinning itself was worth keeping and moved into the ticker; see pin_control()."""
     return ""
+
+
+def motion_button():
+    """C-16: the motion pause control, at the right end of the ticker as a small icon
+    button rather than a labelled pill in the masthead. Same data-motion hook, so the
+    existing script and the reader's remembered choice are untouched."""
+    return ('<button type="button" class="motion-btn" data-motion '
+            'aria-pressed="false" aria-label="Pause motion" title="Pause motion">'
+            '<span class="mt-ico" aria-hidden="true"></span></button>')
 
 
 def pin_control(pulse):
@@ -3835,7 +3849,11 @@ def render_news_hub(items, dateline, pulse=None):
         f'<a class="nh-chip" href="#{esc(L["slug"])}">{esc(L["name"])}'
         f'<span class="nh-chip-n">{len(L["items"])}</span></a>' for L in current)
 
-    rec = record_sections(items, home=True)
+    # C-12: /news opened with the entire Record block - five lane sections - before a
+    # single piece of news. On the news desk the Record is a pointer, not the page.
+    rec = ('<p class="lx-dek" style="margin-top:10px">'
+           '<a href="/record.html">The Record: what stays true after the news moves on '
+           '&rarr;</a></p>')
     months = _news_month_archive(live)
     marc = "".join(
         f'<a class="nh-mo" href="/news/archive/{esc(m)}.html">'
