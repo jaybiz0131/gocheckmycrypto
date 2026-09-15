@@ -533,27 +533,28 @@ _RECORD_SOURCE = {"bitcoin": "assets", "market": "market", "stables": "stables",
 
 
 def daily_record(pulse, carried):
-    """D-1: one record per UTC day per section, from the FIRST FRESH reading after
-    00:00 UTC.
+    """D-1/D-2b: two readings per UTC day per section, "o" and "c".
 
-    The Board's "since yesterday" had nothing to measure against because
-    site_build.snapshot_pulse ran inside the Netlify build sandbox, which is discarded
-    after the deploy, and the brief workflow's git add list never carried
-    site/data/snapshots. So no dated file ever reached the repo. This record lives
-    inside pulse.json, which the workflow already commits, and is written here because
-    market_pulse runs in BOTH places.
+    "o" is the first fresh reading after 00:00 UTC and never changes once set. "c" is the
+    last fresh reading of the day, overwritten on every fresh run, so at any moment it is
+    the most recent real number the desk holds for that day - and when the day ends it is
+    that day's close.
 
-    A carried-forward section never becomes the day's record: a carried reading is
-    yesterday's number wearing today's date, and a series built from those would compare
-    a day against itself. The record fills in section by section as fresh readings
-    arrive, so a section that is carried at 00:05 and fresh at 01:20 gets its 01:20
-    reading as the day's record.
+    Yesterday's close is then literally yesterday's "c". It exists on any day the desk ran
+    at all, which the first cut's 04:00 UTC guard did not: that guard required a commit
+    between midnight and 4 AM UTC, and three of the last seventeen days had none, so on
+    those days the Board silently lost its reference.
+
+    A carried-forward section never writes either value. A carried reading is yesterday's
+    number wearing today's date, and a series built from those compares a day to itself.
     """
     import datetime as _dt
-    day = _dt.datetime.now(_dt.timezone.utc).date().isoformat()
+    now = _dt.datetime.now(_dt.timezone.utc)
+    day = now.date().isoformat()
+    stamp = now.strftime("%H:%M")
     daily = pulse.get("daily") or {}
     carried = set(carried or ())
-    written = []
+    wrote_o, wrote_c = [], []
     for name, source in _RECORD_SOURCE.items():
         if source in carried:
             continue                      # not a fresh reading; not today's record
@@ -561,19 +562,29 @@ def daily_record(pulse, carried):
         if not isinstance(val, (int, float)):
             continue
         series = [r for r in (daily.get(name) or []) if isinstance(r, dict)]
-        if any(r.get("d") == day for r in series):
-            continue                      # the day already has its record
-        # the capture time travels with the record: site_build only treats a record as
-        # "yesterday's close" when it was taken near 00:00 UTC (see _prev_from_record).
-        series.append({"d": day, "v": val, "t": _dt.datetime.now(_dt.timezone.utc)
-                       .strftime("%H:%M")})
+        # The first cut of this record wrote one value per day as "v"/"t". Those rows
+        # are real readings and should not be stranded: a row with only "v" becomes both
+        # the open and the close of its day, which is what a single daily reading is.
+        for r in series:
+            if "v" in r and "o" not in r:
+                r["o"] = r["c"] = r.pop("v")
+                r["ot"] = r["ct"] = r.pop("t", "")
+        today = next((r for r in series if r.get("d") == day), None)
+        if today is None:
+            today = {"d": day, "o": val, "ot": stamp}
+            series.append(today)
+            wrote_o.append(name)
+        today["c"] = val                  # the close, until a later fresh run replaces it
+        today["ct"] = stamp
+        wrote_c.append(name)
         series.sort(key=lambda r: r.get("d") or "")
         daily[name] = series[-DAILY_KEEP:]
-        written.append(name)
     pulse["daily"] = daily
-    if written:
-        print(f"market_pulse: daily record for {day} -> {', '.join(written)}")
-    return written
+    if wrote_o:
+        print(f"market_pulse: opened {day} for {', '.join(wrote_o)}")
+    if wrote_c:
+        print(f"market_pulse: closed {day} at {stamp} for {', '.join(wrote_c)}")
+    return wrote_c
 
 
 def main():

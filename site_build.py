@@ -5490,71 +5490,61 @@ def _oi_total(pulse):
     return tot or None
 
 
-def _prev_from_record(pulse):
-    """D-2: yesterday's close, from the daily record market_pulse keeps (D-1).
+def _yesterday_close(pulse, name):
+    """D-2b: yesterday's close for one section - literally yesterday's "c" record.
 
-    Today's 00:00 UTC record IS yesterday's close: it is the first fresh reading after
-    midnight. Every build of the day compares against it, so the delta means the same
-    thing at 6 AM and at 6 PM. Before today's record exists - a few minutes after 8 PM
-    ET - a section simply has no entry here and its tile carries no delta row, which is
-    better than a delta measured against the wrong day."""
+    "c" is the last fresh reading market_pulse saw on that UTC day, so on any day the
+    desk ran at all it is that day's closing number. No timing guard is needed and the
+    phrase on the band is exact on every build."""
     import datetime as _dt
-    day = _dt.datetime.now(_dt.timezone.utc).date().isoformat()
-    daily = (pulse or {}).get("daily") or {}
+    y = (_dt.datetime.now(_dt.timezone.utc).date() - _dt.timedelta(days=1)).isoformat()
+    for r in reversed(((pulse or {}).get("daily") or {}).get(name) or []):
+        if isinstance(r, dict) and r.get("d") == y:
+            v = r.get("c")
+            return v if isinstance(v, (int, float)) else None
+    return None
 
-    def rec(name):
-        for r in reversed(daily.get(name) or []):
-            if not (isinstance(r, dict) and r.get("d") == day):
-                continue
-            # A record is yesterday's CLOSE only if it was taken near 00:00 UTC. The
-            # desk builds many times a day, so in production the day's first record
-            # lands within minutes of midnight; a record stamped mid-day means the
-            # first build of the day was late, and calling a mid-day reading
-            # "yesterday's close" would be exactly the 46-hour error D-2 is about.
-            # No usable record, no delta row, which is the rule.
-            t = str(r.get("t") or "")
-            if t and t[:2].isdigit() and int(t[:2]) >= 4:
-                return None
-            return r.get("v")
+
+def _series_prev(pulse, name):
+    """The feed's own daily series, second-to-last point: a true previous close, used
+    only for a section the record does not cover."""
+    p = pulse or {}
+    if name == "bitcoin":
+        sp = _btc(p).get("spark") or []
+    elif name == "stables":
+        sp = (p.get("stables") or {}).get("spark") or []
+    elif name == "fng":
+        sp = (p.get("fng") or {}).get("history") or []
+    else:
         return None
+    return sp[-2] if len(sp) >= 2 and isinstance(sp[-2], (int, float)) else None
 
+
+def _prev_reading(pulse):
+    """D-2b: the reference, merged PER SECTION. The record where it exists, the feed's
+    series where it does not, nothing where neither does - and a section with nothing
+    renders no delta row.
+
+    The first cut chose one dict for all tiles with `record or series`, so a section the
+    record happened to miss lost its series too."""
     out = {}
-    v = rec("bitcoin")
+    v = _yesterday_close(pulse, "bitcoin")
+    if v is None:
+        v = _series_prev(pulse, "bitcoin")
     if isinstance(v, (int, float)):
         out["assets"] = [{"symbol": "BTC", "price": v}]
-    for name, shape in (("market", ("market", "total_mcap_usd")),
-                        ("stables", ("stables", "total_usd")),
-                        ("network", ("network", "fastest_fee")),
-                        ("fng", ("fng", "value"))):
-        v = rec(name)
+    for name, (key, field) in (("market", ("market", "total_mcap_usd")),
+                               ("stables", ("stables", "total_usd")),
+                               ("network", ("network", "fastest_fee")),
+                               ("fng", ("fng", "value"))):
+        v = _yesterday_close(pulse, name)
+        if v is None:
+            v = _series_prev(pulse, name)
         if isinstance(v, (int, float)):
-            out[shape[0]] = {shape[1]: v}
-    v = rec("leverage")
+            out[key] = {field: v}
+    v = _yesterday_close(pulse, "leverage")
     if isinstance(v, (int, float)):
         out["leverage"] = {"assets": [{"open_interest_usd": v}]}
-    return out or None
-
-
-def _prev_from_series(pulse):
-    """Yesterday's readings from the feed's OWN daily series, when no dated snapshot
-    exists for yesterday (punch item 1).
-
-    Calling snapshot_pulse fixes tomorrow; it cannot fix today, because yesterday's file
-    was never written. The series the tiles already chart IS a run of daily closes, so
-    its second-to-last point is yesterday's close by construction: the same reading, from
-    the same feed, a snapshot would have held. Only tiles whose series the feed carries
-    get a value; the rest render no delta row, which is the existing rule."""
-    p = pulse or {}
-    out = {}
-    sp = _btc(p).get("spark") or []
-    if len(sp) >= 2 and isinstance(sp[-2], (int, float)):
-        out["assets"] = [{"symbol": "BTC", "price": sp[-2]}]
-    st = (p.get("stables") or {}).get("spark") or []
-    if len(st) >= 2 and isinstance(st[-2], (int, float)):
-        out["stables"] = {"total_usd": st[-2]}
-    fh = (p.get("fng") or {}).get("history") or []
-    if len(fh) >= 2 and isinstance(fh[-2], (int, float)):
-        out["fng"] = {"value": fh[-2]}
     return out or None
 
 
@@ -5574,8 +5564,7 @@ def board_deltas(pulse, prev=None):
     # UTC yesterday, which is the close of the day before. At 6 PM ET a tile then said
     # "since yesterday's close" over a 46-hour change. The daily record D-1 keeps is the
     # right reference and the header is true under it.
-    prev = prev if prev is not None else (_prev_from_record(pulse)
-                                          or _prev_from_series(pulse))
+    prev = prev if prev is not None else _prev_reading(pulse)
     if not prev:
         return {}
     carried = set((pulse or {}).get("carried_forward") or []) \
