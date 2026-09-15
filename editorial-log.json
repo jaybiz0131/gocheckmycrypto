@@ -1,46 +1,6 @@
 [
  {
   "date": "2026-08-14",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c025",
-    "headline": "Israel's Largest Bank Plans Crypto Trading Launch via Galaxy Partnership",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The country received an estimated $22 billion in onchain crypto value during the 12 months ending June 2025, per The Block's reporting.' The brief's data_point attributes this claim to The Block with confidence 'reported', but the brief itself does not provide the specific time period or year. The draft specifies 'June 2025' and '12 months ending June 2025' as a precise data point, but the brief shows only 'reported' confidence without those temporal markers visible in the source metadata. This appears to be a factual specification beyond what the brief authorizes\u2014the writer has added precision (the June 2025 endpoint and the 12-month window) that is not traceable to the brief's data_point entry."
-    ]
-   },
-   {
-    "id": "c026",
-    "headline": "Binance blocks transactions from 16 exchanges under EU sanctions compliance",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The list includes HTX and 10 other named exchanges' but the brief's open_questions note unclear whether HTX and '10 other exchanges' are part of the 16 or separate. The draft presents a specific composition (HTX + 10 others = at least 11, implying 5 more unnamed) that cannot be confirmed from the source text provided to the brief. This is a smuggled fact.",
-     "Draft claims 'The list includes HTX and 10 other named exchanges' but only HTX is named in the draft body itself; the other 10 are not listed. This creates a factual claim (that 10 others are named) unsupported by the draft's own content or the brief's data."
-    ]
-   },
-   {
-    "id": "c029",
-    "headline": "Norway sovereign wealth fund's indirect bitcoin exposure hits all-time high",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'One strategy accounts for 86% of that exposure' and 'The fund also disclosed a new $88 million stake in Bitmine' but the brief explicitly notes 'Source text not provided; unable to extract the absolute dollar amount of total bitcoin exposure, the name or details of the strategy accounting for 86%.' The draft presents these figures as confirmed facts when the brief marks them as unconfirmed.",
-     "Draft names 'Bitmine' as a specific investment vehicle and describes it in relation to 'Ethereum treasury strategies' but the brief states 'No information available on Bitmine's business model, holdings, or why Norges Bank chose this as its Ethereum treasury vehicle.' The draft smuggles in characterization (Ethereum treasury vehicle) not present in the source material."
-    ]
-   },
-   {
-    "id": "c040",
-    "headline": "ShipMonk Breach Exposes Contact and Address Data for 13,689 Trezor Customers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'A comparable breach at Ledger in January 2026, through commerce provider Global-e, exposed similar data for Ledger customers.' The brief's data_point on this incident says 'A January 2026 incident at commerce provider Global-e exposed names, postal addresses, email addresses, phone numbers and order details for Ledger customers, while leaving Ledger devices and systems unaffected.' The draft does not make clear that Ledger itself was not breached\u2014only the third-party Global-e provider was\u2014which could mislead readers into thinking Ledger's systems were compromised like ShipMonk's. This creates liability confusion about the scope of the incident and fails to preserve the distinction critical to the angle (supply-chain vs. internal breach)."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-14",
   "approved": 6,
   "rejected": [
    {
@@ -6002,6 +5962,20 @@
     "reasons": [
      "The draft's lead and title state the engineers 'have been charged' with wire fraud and CEA violations, presented as settled fact. The brief's own data_point (the final one) explicitly states: 'No formal charges from the Department of Justice, the SEC, or any other regulatory body have publicly linked specific Robinhood engineers to the 0xa1E wallet or to these trades.' This critical qualifier is completely absent from the draft. The brief marks this 'reported' confidence, meaning it is Crypto Briefing's claim that no charges have been publicly announced. The draft inverts this by stating charges as fact without any hedging language or attribution to what Crypto Briefing reported vs. what regulators have confirmed.",
      "The bear_case in the brief states: 'No formal charges from the DOJ, SEC, or any other regulatory body have been publicly announced linking the engineers to the 0xa1E wallet or trades, per the source.' This directly contradicts the draft's headline and opening assertion. The bear_case did not appear in the draft; it was sanded down entirely. A reader would believe charges were formally filed when the brief's own evidence says only that Crypto Briefing reported allegations, not that any regulatory body has acted."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c127",
+    "headline": "Standard Chartered Sets $10 End-2030 Price Target on Arbitrum Token",
+    "category": "compliance",
+    "reasons": [
+     "The draft reads as containing a price prediction and trade recommendation. The opening paragraph states 'The forecast implies approximately 70 times upside from the token's September 15 trading price of $0.137' and the bottom_line references 'whether Yoink claims the captured $7.81M as profit,' which crosses into price prediction territory prohibited by the desk's rules. More critically, the entire framing\u2014celebrating Standard Chartered's $10 price target with detailed upside calculations and runway-to-target narratives\u2014presents a bullish case without adequate balance of the bear_case risks that the brief itself documents heavily (93% fee collapse, unsustainable assumptions, structural lack of value accrual to holders). The bear_case in the brief is comprehensive and detailed; the draft mentions risks but subordinates them to the bullish thesis in tone and structure, creating a de facto recommendation."
     ]
    }
   ]
