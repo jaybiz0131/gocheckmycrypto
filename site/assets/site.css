@@ -30,7 +30,6 @@
     --shadow:0 22px 50px -30px rgba(0,0,0,.7);
   }
 }
-
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -44,7 +43,6 @@ a{color:var(--link);text-decoration:none}
 a:hover{color:var(--link-hover);text-decoration:underline}
 img{max-width:100%;height:auto}
 hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
-
 /* ---- masthead -------------------------------------------------------------- */
 .top-rule{height:4px;background:var(--rule)}
 .masthead{background:var(--card);border-bottom:1px solid var(--line)}
@@ -69,7 +67,6 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
   color:var(--muted);white-space:nowrap;text-transform:uppercase}
 .mh-nav a:hover,.mh-nav a.active{color:var(--ink);text-decoration:none}
 .mh-nav a.active{border-bottom:2px solid var(--rule);padding-bottom:8px;margin-bottom:-11px}
-
 /* ---- markets strip (live, client-side, separate from the verified news) ---- */
 .markets{background:var(--card);border-bottom:1px solid var(--line);overflow:hidden}
 .markets .wrap{display:flex;align-items:center;gap:20px;padding-top:9px;padding-bottom:9px;overflow-x:auto;scrollbar-width:none}
@@ -89,7 +86,6 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .data-stamp.stale{color:var(--ink);background:var(--card);border:1px solid var(--rule);
   border-left:4px solid var(--rule);border-radius:0 6px 6px 0;padding:12px 14px;margin-top:22px}
 .data-stamp.stale b{color:var(--rule)}
-
 /* ---- explainer commercial layer (cold storage page) ------------------------ */
 .affil-note{font-size:14.5px;line-height:1.6;color:var(--muted);background:var(--card);
   border:1px solid var(--line);border-left:3px solid var(--rule);border-radius:0 6px 6px 0;
@@ -104,7 +100,6 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .cta-line{font-family:var(--mono);font-size:12px;color:var(--muted)}
 .cta-go{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--rule);margin-top:6px}
 .src-list{font-size:14.5px;line-height:1.7;color:var(--muted);padding-left:20px}
-
 /* ---- Learn tier index (lx-, deliberately NOT .learn-, which the boards own) -- */
 .lx-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:24px 0}
 .lx-card{display:flex;flex-direction:column;gap:7px;background:var(--card);
@@ -121,7 +116,6 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .lx-go{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--rule);margin-top:auto;padding-top:6px}
 .lx-soon{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--faint);margin-top:auto;padding-top:6px}
-
 /* ---- how we make money: partner disclosure + rule list --------------------- */
 .pt-list{display:flex;flex-direction:column;gap:16px;margin:22px 0}
 .pt-row{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--rule);
@@ -136,8 +130,9 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .rule-list li{margin-bottom:12px}
 .tax-list{padding-left:20px;line-height:1.65}
 .tax-list li{margin-bottom:10px}
-@media (prefers-reduced-motion: reduce){a.lx-card{transition:none}a.lx-card:hover{transform:none}}
-
+@media (prefers-reduced-motion: reduce){a.lx-card{transition:none}
+a.lx-card:hover{transform:none}
+}
 /* ---- kicker / dateline / badges ------------------------------------------- */
 .kicker{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
   text-transform:uppercase;color:var(--rule)}
@@ -149,27 +144,23 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .badge.verified{background:var(--verified-bg);color:var(--verified-fg)}
 .badge.review{background:var(--review-bg);color:var(--review-fg)}
 .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.9}
-
 /* ---- anchor desk strip (home only) ----------------------------------------- */
 .desk{border-bottom:1px solid var(--line)}
 .desk .wrap{display:flex;align-items:center;gap:22px;padding-top:18px;padding-bottom:18px}
 .desk-coin{width:132px;height:132px;flex:none;filter:drop-shadow(0 10px 24px rgba(0,0,0,.30))}
 .desk-copy p{font-family:var(--serif);font-size:clamp(17px,2vw,21px);line-height:1.4;
   color:var(--muted);margin:5px 0 0;max-width:52ch}
-
 /* ---- hero / lead ----------------------------------------------------------- */
 .lead{padding:34px 0 10px;border-bottom:1px solid var(--line)}
 .lead h1{font-family:var(--serif);font-weight:600;line-height:1.08;letter-spacing:-.015em;
   font-size:clamp(30px,5.4vw,52px);margin:.35em 0 .2em}
 .lead .dek{font-family:var(--serif);font-size:clamp(18px,2.2vw,22px);line-height:1.45;color:var(--muted);margin:0 0 14px;max-width:44ch}
 .lead .meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px}
-
 /* ---- section headers ------------------------------------------------------- */
 .sec{padding:30px 0}
 .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
 .sec-head h1,.sec-head h2{font-family:var(--serif);font-weight:600;font-size:22px;margin:0;letter-spacing:-.01em;white-space:nowrap}
 .sec-head .bar{flex:1;height:1px;background:var(--line)}
-
 /* ---- story grid + cards ---------------------------------------------------- */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:15px 16px 14px;
@@ -182,7 +173,6 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .card .summary{font-size:14.5px;color:var(--muted);line-height:1.55;margin:0}
 .card .foot{margin-top:auto;padding-top:8px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .card .foot .src{font-family:var(--mono);font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
-
 /* ---- trust strip ("how we work") ------------------------------------------ */
 .trust{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .trust .wrap{padding:34px 22px}
@@ -193,11 +183,6 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .step .n{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--rule)}
 .step h4{font-family:var(--serif);font-size:18px;font-weight:600;margin:0}
 .step p{font-size:14px;color:var(--muted);margin:0;line-height:1.55}
-
-/* ---- newsletter ------------------------------------------------------------ */
-/* Fixed colors on purpose: the band must stay dark-on-dark in light mode, system dark
-   mode, and the ww-dark neon theme, where --ink/--paper invert (white-on-white bug). */
-.news{background:#17181C;color:#FBFAF6}
 .news .wrap{padding:40px 22px;text-align:center}
 .news h2{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3vw,30px);margin:0 0 8px;color:#FBFAF6}
 .news p{color:rgba(255,255,255,.72);max-width:52ch;margin:0 auto 20px;font-size:15px}
@@ -214,7 +199,6 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .news a{color:#9cc0e4;text-decoration:underline;text-underline-offset:2px}
 .news a:hover{color:#c3dbf2}
 .hp{position:absolute;left:-9999px}
-
 /* ---- article --------------------------------------------------------------- */
 .article{padding:34px 0 10px}
 .article .ey{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
@@ -237,7 +221,8 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .boundary .brow:first-child{border-top:0;padding-top:0}
 .boundary dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);padding-top:2px}
 .boundary dd{margin:0;font-size:16px;line-height:1.5;color:var(--ink);overflow-wrap:anywhere}
-@media (max-width:520px){.boundary .brow{grid-template-columns:1fr;gap:2px}}
+@media (max-width:520px){.boundary .brow{grid-template-columns:1fr;gap:2px}
+}
 .also-reported{font-size:13.5px;color:var(--mut);margin-top:10px;line-height:1.55}
 /* Single-outlet stories say so. See verdict_badge(). */
 .badge.developing{background:#FDF3E3;color:#8A5A00;border:1px solid #E9D2A3}
@@ -276,7 +261,9 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .stamp img{position:absolute;left:22px;top:22px;width:60px;height:60px;border-radius:50%}
 .stamp svg{position:absolute;inset:0;width:104px;height:104px}
 @media (max-width:520px){.stamp{width:88px;height:88px}
-  .stamp img{left:19px;top:19px;width:50px;height:50px}.stamp svg{width:88px;height:88px}}
+.stamp img{left:19px;top:19px;width:50px;height:50px}
+.stamp svg{width:88px;height:88px}
+}
 .sharerow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:22px 0 0;
   padding-top:16px;border-top:1px solid var(--line)}
 .share-lab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;
@@ -285,7 +272,6 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
   color:var(--ink);background:none;border:1px solid var(--line);border-radius:6px;
   padding:7px 14px;text-decoration:none;cursor:pointer;transition:border-color .15s,color .15s}
 .share-btn:hover{border-color:var(--rule);color:var(--rule)}
-
 /* ---- generic prose page (about/method/disclaimer) -------------------------- */
 .page{padding:34px 0 20px}
 .page h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4.4vw,42px);line-height:1.1;margin:.2em 0 .3em;letter-spacing:-.01em}
@@ -296,24 +282,9 @@ a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decorat
 .page ul,.page ol{padding-left:22px}
 .callout{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin:22px 0}
 .callout.corrected{border-left:4px solid var(--rule)}
-
-/* ---- whale watch DARK sub-brand theme (matches the GoCheckMyCrypto Whale Watch logo) ---- */
-body.ww-dark{
-  --paper:#091625; --card:#0f2437; --ink:#eaf6ff; --muted:#a6c4d8; --faint:#7C97AC;
-  --line:#1d374d; --rule:#f4a52a; --link:#5fcbef; --link-hover:#9fe0fb;
-  --verified-fg:#3fc8f2; --verified-bg:#0c2c3f; --review-fg:#f2c368; --review-bg:#33280f;
-  --tag-bg:#16324a; --tag-fg:#a9cfe6; --shadow:0 20px 50px -30px rgba(0,0,0,.8);
-  --up:#33e07f; --down:#ff5d52;
-  background:#091625;
-}
-body.ww-dark .lead .dek,body.ww-dark .page .lede{color:var(--muted)}
 .ww-hero{background:radial-gradient(120% 150% at 50% 0%, #123249 0%, #091625 62%);border-bottom:1px solid var(--line)}
 .ww-heroinner{max-width:920px;margin:0 auto;padding:12px 16px 14px;text-align:center}
 .ww-hero img{width:100%;max-width:880px;height:150px;object-fit:cover;object-position:center 42%;border-radius:12px;box-shadow:0 0 34px rgba(63,200,242,.20),0 14px 40px -20px rgba(0,0,0,.7)}
-body.ww-dark .chartcard{box-shadow:inset 0 0 0 1px rgba(63,200,242,.06),0 0 40px -18px rgba(63,200,242,.3)}
-body.ww-dark .stat .big.up{text-shadow:0 0 22px rgba(51,224,127,.35)}
-body.ww-dark .stat .big.down{text-shadow:0 0 22px rgba(255,93,82,.3)}
-
 /* ---- whale watch / flows --------------------------------------------------- */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:8px 0 6px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
@@ -433,12 +404,14 @@ a.mh-family:hover{text-decoration:underline}
 .hero-band .hl-meta .dateline{color:#8a93a0}
 .hero-band .badge.verified{color:#8be0ae;background:#12331f}
 @media (max-width:820px){.hero-grid{grid-template-columns:1fr}
-  .hero-more{grid-template-columns:1fr}.hero-lead h3{font-size:24px}
-  .hero-band-inner{padding:12px}
-  .hero-scrim{background:linear-gradient(180deg,
-    rgba(7,12,18,.78) 0%,rgba(7,12,18,.55) 60%,rgba(7,12,18,.3) 100%)}}
-@media (prefers-reduced-motion:reduce){.hero-video{display:none}}
-
+.hero-more{grid-template-columns:1fr}
+.hero-lead h3{font-size:24px}
+.hero-band-inner{padding:12px}
+.hero-scrim{background:linear-gradient(180deg,
+    rgba(7,12,18,.78) 0%,rgba(7,12,18,.55) 60%,rgba(7,12,18,.3) 100%)}
+}
+@media (prefers-reduced-motion:reduce){.hero-video{display:none}
+}
 /* ---- the editions strip ------------------------------------------------------ */
 .edition-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .edition-card{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit;
@@ -452,8 +425,8 @@ a.mh-family:hover{text-decoration:underline}
 .ed-fact{font-size:13px;line-height:1.5;color:var(--muted);display:-webkit-box;
   -webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .edition-card .dateline{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:auto}
-@media (max-width:820px){.edition-strip{grid-template-columns:1fr}}
-
+@media (max-width:820px){.edition-strip{grid-template-columns:1fr}
+}
 .hl-meta{display:flex;align-items:center;gap:10px}
 .hl-meta .dateline{font-family:var(--mono);font-size:11px;color:var(--faint)}
 .tracking{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:16px 0 4px;
@@ -465,8 +438,10 @@ a.mh-family:hover{text-decoration:underline}
 .tracking .mut{font-size:12px;color:var(--faint);margin-left:auto}
 .home-grid{grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}
 .home-card .dash-stat{line-height:1.3;font-size:22px}
-@media (max-width:960px){.home-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:520px){.home-grid{grid-template-columns:1fr}}
+@media (max-width:960px){.home-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:520px){.home-grid{grid-template-columns:1fr}
+}
 .gauge{width:min(260px,100%);height:auto;color:var(--ink)}
 .gauge-num{font:600 40px var(--serif);fill:var(--ink)}
 .gauge-label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
@@ -475,7 +450,6 @@ a.mh-family:hover{text-decoration:underline}
 .chartcard svg{width:100%;height:auto;display:block}
 .mp-hero{background:radial-gradient(120% 150% at 50% 0%, #0E3242 0%, #0A1822 62%)}
 .cm-hero{background:radial-gradient(120% 150% at 50% 0%, #0E3B2E 0%, #0A1822 62%)}
-.cm-hero .ww-panel{background-image:url(/assets/wizard/wizard-poster.jpg);background-position:center 24%}
 .cm-hero .ww-vid{object-position:center 24%}
 .cm-read .cm-headline{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3vw,30px);
   margin:8px 0 10px;line-height:1.15}
@@ -514,7 +488,6 @@ a.mh-family:hover{text-decoration:underline}
 .mini-range{font-family:var(--mono);font-size:10px;color:var(--faint);display:block;
   margin:-2px 0 4px;letter-spacing:.03em}
 .pulse-stack{display:grid;gap:18px;margin:8px 0 6px}
-
 .learn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin:8px 0 6px}
 .learn{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
 .learn .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
@@ -536,12 +509,12 @@ a.mh-family:hover{text-decoration:underline}
 .movetable .num{font-family:var(--mono);color:var(--rule);font-weight:600}
 .movetable .mut{color:var(--faint)}
 .movetable .pnum{font-family:var(--mono);color:var(--ink);font-weight:600}
-
 /* ---- live layer ------------------------------------------------------------- */
 .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#f4a52a;
   margin-left:7px;vertical-align:2px;animation:livepulse 2s ease-in-out infinite}
 @keyframes livepulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(244,165,42,.5)}
-  50%{opacity:.55;box-shadow:0 0 0 4px rgba(244,165,42,0)}}
+50%{opacity:.55;box-shadow:0 0 0 4px rgba(244,165,42,0)}
+}
 .daily-badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;
   letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
   border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin-left:8px;
@@ -552,8 +525,12 @@ a.mh-family:hover{text-decoration:underline}
 .live-stamp .live-dot{margin:0 7px 0 0}
 .flash{animation:valflash 0.9s ease-out}
 .flash-dn{animation:valflashdn 0.9s ease-out}
-@keyframes valflash{0%{color:#f4a52a}100%{}}
-@keyframes valflashdn{0%{color:var(--down)}100%{}}
+@keyframes valflash{0%{color:#f4a52a}
+100%{}
+}
+@keyframes valflashdn{0%{color:var(--down)}
+100%{}
+}
 .prices-table th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--faint);text-align:left;padding:10px 14px;
   border-bottom:1px solid var(--line);white-space:nowrap}
@@ -569,7 +546,6 @@ a.mh-family:hover{text-decoration:underline}
 .flow-teaser{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .flow-teaser .t{font-family:var(--serif);font-size:18px;font-weight:600}
 .flow-teaser .d{font-size:14px;color:var(--muted);margin-top:2px}
-
 /* ---- footer ---------------------------------------------------------------- */
 footer.site{border-top:2px solid var(--rule);background:var(--card);margin-top:40px}
 footer.site .wrap{padding:28px 22px 42px}
@@ -579,25 +555,22 @@ footer.site .flinks{display:flex;gap:18px;flex-wrap:wrap}
 footer.site .flinks a{font-size:13.5px;color:var(--muted)}
 footer.site .fnote{font-size:12px;color:var(--faint);line-height:1.6;margin-top:18px;max-width:80ch}
 footer.site .fnote b{color:var(--muted)}
-
 /* ---- empty state ----------------------------------------------------------- */
 .empty{background:var(--card);border:1px dashed var(--line);border-radius:8px;padding:26px;text-align:center;color:var(--muted)}
 .empty .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--rule);font-weight:700}
-
 @media (max-width:640px){
   .mh-slogan{display:none}
-  .lead{padding-top:24px}
-  .card h3{font-size:18px}
-  .desk .wrap{gap:14px;padding-top:14px;padding-bottom:14px}
-  .desk-coin{width:84px;height:84px}
+.lead{padding-top:24px}
+.card h3{font-size:18px}
+.desk .wrap{gap:14px;padding-top:14px;padding-bottom:14px}
+.desk-coin{width:84px;height:84px}
 }
-
 .board-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;align-items:start;margin-top:14px}
-@media (max-width:920px){.board-grid{grid-template-columns:1fr}}
+@media (max-width:920px){.board-grid{grid-template-columns:1fr}
+}
 .board-grid .sec-head{margin-top:0}
 .board-grid .stack .sec-head{margin-top:18px}
 .board-grid .stack .sec-head:first-child{margin-top:0}
-
 /* ---- flow ledger: signed flows as rows (phone-native; text never scales down) ---- */
 .ledger{display:flex;flex-direction:column;gap:2px}
 .lrow{display:grid;grid-template-columns:56px 1fr 92px;align-items:center;gap:10px;
@@ -615,16 +588,20 @@ footer.site .fnote b{color:var(--muted)}
 /* ---- The Board: master-dash widgets ---- */
 .widget-grid{grid-template-columns:repeat(3,1fr)}
 @media (max-width:700px){.widget-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-  .widget.mspan{grid-column:1/-1}}
+.widget.mspan{grid-column:1/-1}
+}
 /* very narrow screens (down to 320px): one widget per row so the fixed-column ledgers
    inside them have room and the page never scrolls sideways (WCAG 1.4.10) */
-@media (max-width:430px){.widget-grid{grid-template-columns:1fr}}
+@media (max-width:430px){.widget-grid{grid-template-columns:1fr}
+}
 /* Reflow (WCAG 1.4.10): let the dashboard grid tracks and their children shrink below
    intrinsic content width (grid/flex items default to min-width:auto), and let long
    section headings wrap on narrow screens instead of forcing sideways scroll. Wide data
    tables still scroll inside their own .movetable container, per the 1.4.10 exception. */
 .board-grid,.board-grid>*,.stack,.stack>*{min-width:0}
-@media (max-width:600px){.sec-head{flex-wrap:wrap}.sec-head h1,.sec-head h2{white-space:normal}}
+@media (max-width:600px){.sec-head{flex-wrap:wrap}
+.sec-head h1,.sec-head h2{white-space:normal}
+}
 .widget{padding:12px 14px;min-width:0}
 /* let dashboard cards shrink below their content's intrinsic width so the page reflows
    cleanly at 320px / 200% zoom without horizontal scroll (WCAG 1.4.10) */
@@ -642,13 +619,13 @@ footer.site .fnote b{color:var(--muted)}
 .w-delta.down{color:var(--down)}
 .w-unit{font-family:var(--mono);font-size:12px;color:var(--faint)}
 .w-read{font-family:var(--serif);font-style:italic;font-size:15.5px;line-height:1.3;display:block}
-@media (max-width:700px){.widget .dash-stat{font-size:18px}.lrow{grid-template-columns:48px 1fr 84px}}
+@media (max-width:700px){.widget .dash-stat{font-size:18px}
+.lrow{grid-template-columns:48px 1fr 84px}
+}
 /* ---- The Board: read strip + group kickers ---- */
 .widget.wide{grid-column:1/-1;padding:14px 18px}
 .widget.wide .w-read{font-size:18px}
-
 .sig-attest{display:block;font-size:12.5px;color:var(--muted);margin-top:6px;max-width:44ch;line-height:1.5}
-
 /* ---- The Bottom Line: the desk's signature element (owner directive 2026-07-15) ----- */
 .bl-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:8px}
 .bl-label{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.16em;
@@ -667,7 +644,8 @@ footer.site .fnote b{color:var(--muted)}
 .news-bl .hero-bl-src{color:var(--faint)}
 .news-bl .hero-bl-read{color:var(--ink)}
 .news-bl .hero-bl-more{color:var(--rule)}
-@media (max-width:820px){.news-grid{grid-template-columns:1fr;gap:14px}}
+@media (max-width:820px){.news-grid{grid-template-columns:1fr;gap:14px}
+}
 /* ---- motion layer: micro-details (transform/opacity only, zero layout shift) ---- */
 video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:block}
 .badge-anim{position:relative;display:inline-block;overflow:hidden;border-radius:50%;
@@ -678,17 +656,24 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
   transform:rotate(25deg) translateX(0);pointer-events:none;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
   animation:bshine 7s ease-in-out infinite}
-@keyframes bfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes bfloat{0%,100%{transform:translateY(0)}
+50%{transform:translateY(-3px)}
+}
 @keyframes bshine{0%,74%{transform:rotate(25deg) translateX(0)}
-  92%,100%{transform:rotate(25deg) translateX(340%)}}
+92%,100%{transform:rotate(25deg) translateX(340%)}
+}
 .tick-colon{animation:cblink 1.6s steps(1) infinite}
-@keyframes cblink{0%,55%{opacity:1}56%,100%{opacity:.2}}
+@keyframes cblink{0%,55%{opacity:1}
+56%,100%{opacity:.2}
+}
 .ed-kick .live-dot{margin-left:8px;vertical-align:1px}
 .sec-head .bar{position:relative;overflow:hidden}
 .sec-head .bar::after{content:"";position:absolute;inset:0;width:200%;opacity:.35;
   background:repeating-linear-gradient(90deg,transparent 0 14px,var(--rule) 14px 18px);
   animation:tdrift 26s linear infinite}
-@keyframes tdrift{0%{transform:translateX(0)}100%{transform:translateX(-72px)}}
+@keyframes tdrift{0%{transform:translateX(0)}
+100%{transform:translateX(-72px)}
+}
 .mjs .reveal{opacity:0;transform:translateY(12px)}
 .mjs .reveal.in{opacity:1;transform:translateY(0);
   transition:opacity .2s ease-out,transform .2s ease-out}
@@ -697,7 +682,8 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
   border:2px solid var(--rule);border-radius:inherit;opacity:.15;pointer-events:none;
   animation:breathe 5.5s ease-in-out infinite}
 .hero-bl{position:relative}
-@keyframes breathe{50%{opacity:.55}}
+@keyframes breathe{50%{opacity:.55}
+}
 /* Tier 3: near-invisible scan-line texture, hero band only */
 .hero-band::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
@@ -705,13 +691,10 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
 @media (prefers-reduced-motion:reduce){
   .badge-anim,.badge-anim::after,.tick-colon,.sec-head .bar::after,.hero-bl::after,
   .live-dot,.flash,.flash-dn{animation:none!important}
-  .motion-video{display:none}
-  .mjs .reveal{opacity:1;transform:none;transition:none}
-  .badge-anim:hover img{transform:none}}
-/* ---- Whale Watch section panel: contained whale loop, identity over the scrim ---- */
-.ww-panel{position:relative;overflow:hidden;border-radius:12px;max-width:880px;height:150px;
-  margin:0 auto;background:#091625 url(/assets/whale/whale-poster.jpg) center 42%/cover no-repeat;
-  box-shadow:0 0 34px rgba(63,200,242,.20),0 14px 40px -20px rgba(0,0,0,.7);text-align:left}
+.motion-video{display:none}
+.mjs .reveal{opacity:1;transform:none;transition:none}
+.badge-anim:hover img{transform:none}
+}
 .ww-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   object-position:center 42%;z-index:0}
 .ww-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,
@@ -720,17 +703,15 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
   justify-content:flex-end;padding:14px 18px}
 .ww-panel-fg .ww-title{font-family:var(--serif);font-size:26px;font-weight:700;color:#f4f1ea;
   line-height:1.1;margin-top:2px}
-@media (max-width:600px){.ww-panel{height:126px}.ww-panel-fg .ww-title{font-size:21px}}
-
+@media (max-width:600px){.ww-panel{height:126px}
+.ww-panel-fg .ww-title{font-size:21px}
+}
 /* In-text links stay underlined at rest so color is never the only cue (WCAG 1.4.1 Use of
    Color). This replaces an earlier hover-only sliding underline, which left links in prose
    distinguishable by color alone until hovered. */
 .prose a,.pc-note a,.fnote a,.flinks a,.bl-links a,.lede a,.trust-line a,
 .callout a,.sig-attest a,main p a,main li a{text-decoration:underline;text-underline-offset:2px}
-
-.mp-hero .ww-panel{background-image:url(/assets/pulse/pulse-poster.jpg);background-position:center 38%}
 .mp-hero .ww-vid{object-position:center 38%}
-
 /* ============================================================================
    ACCESSIBILITY LAYER (WCAG 2.1 AA / Section 508)
    Added by the accessibility remediation pass.
@@ -741,11 +722,9 @@ video.desk-coin{border-radius:50%;object-fit:cover;background:#0d1420;display:bl
 a.skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:#B42318;color:#fff;
   padding:10px 16px;border-radius:0 0 8px 0;font-weight:700;text-decoration:none}
 a.skip-link:focus{left:0}
-
 /* Screen-reader-only utility (visually hidden, still announced) */
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
   overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
 /* Visible focus indicator on every keyboard-focused control (WCAG 2.4.7 / 2.4.11).
    Uses :focus-visible so it shows for keyboard/AT users without ringing on mouse click. */
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
@@ -755,7 +734,6 @@ textarea:focus-visible,[tabindex]:focus-visible,summary:focus-visible{
 .hero-band a:focus-visible,.hero-band button:focus-visible,
 .ww-panel a:focus-visible,.markets .wrap:focus-visible{
   outline:3px solid #cfe0f5;outline-offset:2px}
-
 /* Motion pause/play control (WCAG 2.2.2). Subtle, sits in the masthead top corner so
    it is present on every page that carries motion (hero video, section videos, and the
    looping decorative animations). Pausing freezes all of them; the browser's
@@ -778,15 +756,14 @@ textarea:focus-visible,[tabindex]:focus-visible,summary:focus-visible{
   border-left:8px solid currentColor}
 .motion-toggle[aria-pressed="true"] .mt-ico::after{display:none}
 /* no motion to control when the OS asks for reduced motion: hide the toggle */
-@media (prefers-reduced-motion:reduce){.motion-toggle{display:none}}
-
+@media (prefers-reduced-motion:reduce){.motion-toggle{display:none}
+}
 /* Manual pause: same animation-kill list as the reduced-motion switch, driven by a class
    the toggle sets on <html>. Videos are paused via script; these freeze CSS animation. */
 html.motion-off .badge-anim,html.motion-off .badge-anim::after,html.motion-off .tick-colon,
 html.motion-off .sec-head .bar::after,html.motion-off .hero-bl::after,html.motion-off .live-dot,
 html.motion-off .flash,html.motion-off .flash-dn{animation:none!important}
 html.motion-off .badge-anim:hover img{transform:none}
-
 /* Glossary on /learn (2026-08-25): definition list styled to the card language.
    dt anchors are stable link targets, so articles can deep-link a term. */
 .gloss{margin:14px 0 6px;display:grid;gap:0;border:1px solid var(--line);
@@ -797,7 +774,6 @@ html.motion-off .badge-anim:hover img{transform:none}
 .gloss dd{margin:0;padding:0 16px 12px;font:400 14.5px/1.55 var(--sans);
   color:var(--muted)}
 .gloss dd a{color:var(--link)}
-
 /* Board panel on market stories (2026-08-25): the desk's own measurements at publish
    time, stamped at ingest and never updated. Mono numbers, board-style rows. */
 .board-panel{margin:26px 0 8px;padding:16px 18px;background:var(--card);
@@ -810,7 +786,8 @@ html.motion-off .badge-anim:hover img{transform:none}
 .bp-k{font:500 13px/1.2 var(--sans);color:var(--muted);min-width:110px}
 .bp-v{font:600 14px/1.2 var(--mono);color:var(--ink)}
 .bp-d{font:500 12px/1.2 var(--sans);color:var(--faint)}
-.bp-d.up{color:var(--up)}.bp-d.down{color:var(--down)}
+.bp-d.up{color:var(--up)}
+.bp-d.down{color:var(--down)}
 /* ---- evergreen picks: the front door's direct links to the desk's best work ------ */
 /* Two columns of plain headline links. Deliberately not cards: 25 cards would dominate
    the homepage, and the job here is to spend internal link equity on articles, not to
@@ -823,8 +800,8 @@ html.motion-off .badge-anim:hover img{transform:none}
   background:var(--rule)}
 .eg-list a{color:var(--ink);text-decoration:none;border-bottom:1px solid transparent}
 .eg-list a:hover{border-bottom-color:var(--rule);text-decoration:none}
-@media (max-width:720px){.eg-list{column-count:1}}
-
+@media (max-width:720px){.eg-list{column-count:1}
+}
 /* ============================================================================
    THE BOARD: homepage modules (C1, build orders 2026-09-13).
    Namespaced `bd-` on purpose. The mockup names its components .card, .badge,
@@ -846,7 +823,6 @@ html.motion-off .badge-anim:hover img{transform:none}
 .bd-h3{font:600 20px/1.2 var(--serif);margin:0;color:var(--ink)}
 .bd-more{font-size:13.5px;font-weight:600;white-space:nowrap}
 .bd-mod{padding:22px 0 10px;display:flex;flex-direction:column;gap:14px}
-
 .bd-card{background:var(--card);border:1px solid var(--line);border-radius:8px;
   padding:15px 16px 14px;display:flex;flex-direction:column;gap:7px;
   box-shadow:var(--shadow);box-sizing:border-box}
@@ -858,7 +834,8 @@ html.motion-off .badge-anim:hover img{transform:none}
 .bd-src{font-size:12.5px;color:var(--faint);margin:0}
 .bd-delta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;
   font:700 12.5px/1.3 var(--mono);font-variant-numeric:tabular-nums}
-.bd-delta.up{color:var(--up)}.bd-delta.down{color:var(--down)}
+.bd-delta.up{color:var(--up)}
+.bd-delta.down{color:var(--down)}
 .bd-delta.flat{color:var(--muted)}
 .bd-delta.band{color:var(--review-fg)}
 .bd-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor}
@@ -869,7 +846,6 @@ html.motion-off .badge-anim:hover img{transform:none}
   opacity:.9}
 .bd-badge.ok{background:var(--verified-bg);color:var(--verified-fg)}
 .bd-badge.dat{background:var(--tag-bg);color:var(--tag-fg)}
-
 .bd-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .bd-tile-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
 /* A verdict badge can run to "DEVELOPING" and the stamp beside it to "18:05 UTC".
@@ -877,7 +853,6 @@ html.motion-off .badge-anim:hover img{transform:none}
    not, and an unwrapped flex row pushed the whole document to 493px wide. Wrap. */
 .bd-cardtop{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .bd-tile a{font-size:13.5px;font-weight:600;margin-top:auto;padding-top:2px}
-
 .bd-row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;
   padding:22px 0 10px;align-items:stretch}
 .bd-span2{grid-column:span 2}
@@ -888,7 +863,6 @@ html.motion-off .badge-anim:hover img{transform:none}
   padding-top:4px;flex-wrap:wrap}
 .bd-by{font-size:13.5px;color:var(--muted)}
 .bd-stamp{font:400 11.5px/1.3 var(--mono);color:var(--faint)}
-
 .bd-ed{gap:10px;padding:22px 22px 20px;justify-content:space-between}
 .bd-ed-list{display:flex;flex-direction:column;gap:8px;padding-top:4px}
 .bd-kv{display:flex;justify-content:space-between;gap:10px;align-items:baseline;
@@ -905,13 +879,11 @@ html.motion-off .badge-anim:hover img{transform:none}
   font-size:15px;text-decoration:none}
 .bd-btn:hover{color:#FFFFFF;text-decoration:underline}
 .bd-cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-
 .bd-legend{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
 .bd-legend span{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted)}
 .bd-sq{width:10px;height:10px;border-radius:2px;display:inline-block}
 .bd-scroll{overflow-x:auto}
 .bd-chart{max-width:100%;height:auto;display:block}
-
 .bd-pill{display:inline-flex;align-items:center;justify-content:center;min-height:44px;
   border:1px solid var(--link);border-radius:999px;padding:0 18px;font-size:14px;
   font-weight:600;color:var(--link);box-sizing:border-box;text-align:center}
@@ -921,28 +893,26 @@ html.motion-off .badge-anim:hover img{transform:none}
   border-radius:8px;padding:14px 16px;background:var(--paper)}
 .bd-opt a{margin-top:auto}
 .bd-disc{font:400 12px/1.5 var(--mono);color:var(--faint);margin:0}
-
 .bd-phone-only{display:none}
-
 /* Artboard 2: the phone board. Two-column tiles, six visible, the rest on /pulse. */
 @media (max-width:900px){
   .bd-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .bd-value{font-size:26px}
-  .bd-read{font-size:13px}
-  .bd-row3{grid-template-columns:1fr;gap:12px}
-  .bd-span2{grid-column:span 1}
-  .bd-cold{grid-template-columns:1fr}
-  .bd-brief-hl{font-size:24px}
-  .bd-sec{flex-direction:column;align-items:flex-start;gap:6px}
-  .bd-sec-l{flex-direction:column;gap:4px}
-  .bd-h2{font-size:20px}
-  .bd-mod,.bd-row3{padding:16px 0 8px}
-  .bd-tile.bd-hide-phone{display:none}
-  .bd-phone-only{display:flex}
-  .bd-allboard{display:flex;align-items:center;justify-content:center;min-height:44px;
+.bd-value{font-size:26px}
+.bd-read{font-size:13px}
+.bd-row3{grid-template-columns:1fr;gap:12px}
+.bd-span2{grid-column:span 1}
+.bd-cold{grid-template-columns:1fr}
+.bd-brief-hl{font-size:24px}
+.bd-sec{flex-direction:column;align-items:flex-start;gap:6px}
+.bd-sec-l{flex-direction:column;gap:4px}
+.bd-h2{font-size:20px}
+.bd-mod,.bd-row3{padding:16px 0 8px}
+.bd-tile.bd-hide-phone{display:none}
+.bd-phone-only{display:flex}
+.bd-allboard{display:flex;align-items:center;justify-content:center;min-height:44px;
     width:100%;border:1px solid var(--line);border-radius:8px;background:var(--card);
     font-size:14px;font-weight:600;box-sizing:border-box}
-  .bd-disc{font-size:11px}
+.bd-disc{font-size:11px}
 }
 @media (max-width:560px){
   .bd-cards4,.bd-cards3{grid-template-columns:1fr}
@@ -951,9 +921,8 @@ html.motion-off .badge-anim:hover img{transform:none}
 .bd-cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 @media (max-width:900px){
   .bd-cards4{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .bd-cards3{grid-template-columns:1fr}
+.bd-cards3{grid-template-columns:1fr}
 }
-
 /* ---- The Record (C8) ------------------------------------------------------------
    Lane sections: featured piece left at 1.4fr, read-further right at 1fr. The old
    "Stories worth keeping" block was 25 bare links; these say what each piece is. */
@@ -978,9 +947,9 @@ html.motion-off .badge-anim:hover img{transform:none}
 @media (max-width:900px){
   /* Phone: lane sections stack, featured card then read-further; index one column. */
   .bd-rec-lane{grid-template-columns:1fr;gap:12px;margin-top:12px}
-  .bd-rec-hl{font-size:24px}
-  .bd-rec-feat{padding:18px 18px 16px}
-  .bd-rec-cols{column-count:1}
+.bd-rec-hl{font-size:24px}
+.bd-rec-feat{padding:18px 18px 16px}
+.bd-rec-cols{column-count:1}
 }
 @media (max-width:900px){
   /* Rule 7: 44px tap targets on phone. These are standalone controls, not links
@@ -989,9 +958,8 @@ html.motion-off .badge-anim:hover img{transform:none}
      min-height plus centring grows the hit area without moving the text. */
   .bd-tile > a, .bd-more, .bd-rec-t, .bd-rec-cols a, .bd-kv a{
     min-height:44px;display:flex;align-items:center}
-  .bd-rec-cols a{padding:2px 0}
+.bd-rec-cols a{padding:2px 0}
 }
-
 /* ---- Explainer pages (C2, Artboard 3) -------------------------------------------- */
 .lx .page{padding-top:36px;display:flex;flex-direction:column;gap:18px}
 .lx-meta{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
@@ -1009,17 +977,17 @@ html.motion-off .badge-anim:hover img{transform:none}
 .lx-live-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 .lx-live-v{font:600 44px/1.05 var(--serif);letter-spacing:-.015em;color:var(--ink);
   font-variant-numeric:tabular-nums}
-.lx-live-v.up{color:var(--up)}.lx-live-v.down{color:var(--down)}
+.lx-live-v.up{color:var(--up)}
+.lx-live-v.down{color:var(--down)}
 .lx-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px}
 .lx-related{padding-top:40px}
 @media (max-width:900px){
   .lx-h1{font-size:32px}
-  .lx-dek{font-size:18px}
-  .lx-h2{font-size:22px}
-  .lx-live-v{font-size:34px}
-  .lx .page{padding-top:22px;gap:14px}
+.lx-dek{font-size:18px}
+.lx-h2{font-size:22px}
+.lx-live-v{font-size:34px}
+.lx .page{padding-top:22px;gap:14px}
 }
-
 /* ---- /pulse tiles that carry an explainer (C2) ----------------------------------
    A link cannot nest inside a link. A tile with an explainer is therefore a div
    holding two anchors: the card destination, stretched over the card by a
@@ -1035,7 +1003,6 @@ html.motion-off .badge-anim:hover img{transform:none}
 @media (max-width:900px){
   .w-learn{min-height:44px;display:flex;align-items:center}
 }
-
 /* ---- News hub (C4) --------------------------------------------------------------- */
 .nh-rows{display:flex;flex-direction:column;gap:0}
 .nh-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
@@ -1053,10 +1020,9 @@ html.motion-off .badge-anim:hover img{transform:none}
 .nh-mo-m{font:600 16px/1.2 var(--serif);color:var(--ink)}
 @media (max-width:900px){
   .nh-row{flex-direction:column;gap:5px;padding:12px 0}
-  .nh-m{justify-content:flex-start}
-  .nh-t{font-size:16px;min-height:44px;display:flex;align-items:center}
+.nh-m{justify-content:flex-start}
+.nh-t{font-size:16px;min-height:44px;display:flex;align-items:center}
 }
-
 /* ---- News hub jump chips (C4 follow-up) ------------------------------------------
    The hub runs past 10,000 px at 390. Without these the only way to reach a lower
    storyline on a phone is to scroll the whole page. Scrolls sideways, 44px tall. */
@@ -1069,11 +1035,10 @@ html.motion-off .badge-anim:hover img{transform:none}
 @media (max-width:900px){
   .nh-jump{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
     padding-bottom:2px;margin:12px 0 2px}
-  .nh-jump::-webkit-scrollbar{display:none}
+.nh-jump::-webkit-scrollbar{display:none}
 }
 /* A jumped-to section must not land under the sticky nav. */
 .bd-mod[id]{scroll-margin-top:64px}
-
 /* ---- C-D: first-paint motion on the Board ----------------------------------------
    Delta rows fade in on first paint. Strictly behind both gates: the OS setting and
    the desk's own MOTION toggle. The VALUES do not animate their digits, and that is
@@ -1082,22 +1047,22 @@ html.motion-off .badge-anim:hover img{transform:none}
    arrival without inventing readings. */
 @media (prefers-reduced-motion:no-preference){
   .bd-tile .bd-delta{animation:bd-fade .45s ease-out both}
-  .bd-tile:nth-child(2) .bd-delta{animation-delay:.05s}
-  .bd-tile:nth-child(3) .bd-delta{animation-delay:.10s}
-  .bd-tile:nth-child(4) .bd-delta{animation-delay:.15s}
-  .bd-tile:nth-child(5) .bd-delta{animation-delay:.20s}
-  .bd-tile:nth-child(6) .bd-delta{animation-delay:.25s}
-  .bd-tile:nth-child(7) .bd-delta{animation-delay:.30s}
-  .bd-tile:nth-child(8) .bd-delta{animation-delay:.35s}
+.bd-tile:nth-child(2) .bd-delta{animation-delay:.05s}
+.bd-tile:nth-child(3) .bd-delta{animation-delay:.10s}
+.bd-tile:nth-child(4) .bd-delta{animation-delay:.15s}
+.bd-tile:nth-child(5) .bd-delta{animation-delay:.20s}
+.bd-tile:nth-child(6) .bd-delta{animation-delay:.25s}
+.bd-tile:nth-child(7) .bd-delta{animation-delay:.30s}
+.bd-tile:nth-child(8) .bd-delta{animation-delay:.35s}
 }
-@keyframes bd-fade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+@keyframes bd-fade{from{opacity:0;transform:translateY(3px)}
+to{opacity:1;transform:none}
+}
 /* The toggle wins over the media query. */
 html.motion-off .bd-tile .bd-delta{animation:none}
-
 /* ---- C-A: the tile series --------------------------------------------------------- */
 .tile-ser{display:flex;flex-direction:column;gap:3px;margin:2px 0 0}
 .tile-series{width:100%;height:auto;display:block}
-
 /* ---- C-B: your coins, device only ------------------------------------------------ */
 .wl{display:flex;flex-direction:column;gap:8px;margin:0 0 4px;padding:12px 14px;
   border:1px solid var(--line);border-radius:8px;background:var(--card)}
@@ -1106,7 +1071,8 @@ html.motion-off .bd-tile .bd-delta{animation:none}
 .wl-sym{font:700 12px/1.3 var(--mono);color:var(--ink)}
 .wl-px{font:400 13px/1.3 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
 .wl-chg{font:700 11.5px/1.3 var(--mono)}
-.wl-chg.up{color:var(--up)}.wl-chg.down{color:var(--down)}
+.wl-chg.up{color:var(--up)}
+.wl-chg.down{color:var(--down)}
 .wl-hint{font-size:13px;color:var(--faint);display:none}
 .wl.wl-empty .wl-hint{display:inline}
 .wl-picks{display:flex;gap:6px;flex-wrap:wrap}
@@ -1115,25 +1081,23 @@ html.motion-off .bd-tile .bd-delta{animation:none}
 .wl-pick[aria-pressed="true"]{background:var(--rule);color:#fff;border-color:var(--rule)}
 @media (max-width:900px){
   .wl-picks{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
-  .wl-picks::-webkit-scrollbar{display:none}
-  .wl-pick{min-height:44px}
+.wl-picks::-webkit-scrollbar{display:none}
+.wl-pick{min-height:44px}
 }
-
 /* ---- C-E: the phone tab bar ------------------------------------------------------ */
 .tabbar{display:none}
 @media (max-width:900px){
   .tabbar{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;
     position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--card);
     border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
-  .tb-item{display:flex;flex-direction:column;align-items:center;justify-content:center;
+.tb-item{display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:3px;min-height:52px;padding:6px 2px;text-decoration:none;color:var(--muted);
     font:600 10.5px/1.2 var(--sans)}
-  .tb-item.on{color:var(--rule)}
-  .tb-item:hover{text-decoration:none;color:var(--ink)}
-  .tb-item svg{display:block}
-  body{padding-bottom:64px}
+.tb-item.on{color:var(--rule)}
+.tb-item:hover{text-decoration:none;color:var(--ink)}
+.tb-item svg{display:block}
+body{padding-bottom:64px}
 }
-
 /* ---- C-C: living tables --------------------------------------------------------- */
 .lt-wrap{overflow-x:auto}
 .lt{width:100%;border-collapse:collapse;font-size:15px}
@@ -1144,16 +1108,17 @@ html.motion-off .bd-tile .bd-delta{animation:none}
 .lt tr:last-child td{border-bottom:0}
 .lt-prop{font-weight:600;white-space:nowrap}
 .lt-when{white-space:nowrap;font-variant-numeric:tabular-nums}
-.lt .up{color:var(--up)}.lt .down{color:var(--down)}
+.lt .up{color:var(--up)}
+.lt .down{color:var(--down)}
 @media (max-width:900px){
   .lt{font-size:14px}
-  .lt th,.lt td{padding-right:10px}
+.lt th,.lt td{padding-right:10px}
 }
-
 /* C-6: every tile the same height by construction, so the grid lines up whatever each
    tile happens to carry. The read is clamped to two lines and the foot is pushed to
    the bottom with a hairline above it, so "Explained" sits on one line across the row. */
-.bd-tiles{grid-auto-rows:214px}         /* C-6: 214px by construction, every row */
+.bd-tiles{grid-auto-rows:214px}
+/* C-6: 214px by construction, every row */
 .bd-tile{display:flex;flex-direction:column;gap:8px;height:100%;overflow:hidden}
 .bd-tile .bd-read{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
   overflow:hidden;margin:0}
@@ -1161,7 +1126,6 @@ html.motion-off .bd-tile .bd-delta{animation:none}
 .bd-tile-foot{margin-top:auto;padding-top:9px;border-top:1px solid var(--line);
   display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .bd-tile-foot .bd-stamp{white-space:nowrap}
-
 /* C-7: the since-yesterday rows, inside the brief card. They sit above the byline and
    take the space the card used to leave empty beside the Edition. */
 .bd-since-list{display:flex;flex-direction:column;gap:9px;margin-top:4px;

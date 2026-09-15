@@ -1082,23 +1082,23 @@ def load_content():
 # ---- shared chrome -----------------------------------------------------------
 
 def masthead(active, dateline, brand="site"):
-    """Each page leads with its own identity: GoCheckMyCrypto (the site) everywhere by
-    default; Crypto Cronkite (the anchor) on his news desk pages. The other identity always
-    appears exactly once, small, so nothing repeats."""
+    """ONE MASTHEAD, EVERY PAGE (C-1).
+
+    This used to render two: GoCheckMyCrypto on the hubs and a Crypto Cronkite chrome
+    (coin logo, "And that's the way it is") on all 467 article pages, the archive,
+    bottom-line, the seven coverage hubs and every edition. A reader moving from the
+    Board to a story crossed what looked like a different publication.
+
+    Crypto Cronkite is not retired, it is relocated: it remains the desk byline on
+    stories and briefs ("Crypto Cronkite, the GoCheckMyCrypto desk") and the name on
+    the About page. What leaves is the page chrome - the coin logo and the second
+    tagline. `brand` is kept in the signature so the callers that pass "cronkite" keep
+    working; it no longer selects anything."""
     nav = "".join(
         f'<a href="{esc(href)}"{" class=active" if label == active else ""}>{esc(label)}</a>'
         for label, href in NAV)
-    if brand == "cronkite":
-        fam = (f'<span class="mh-family"><img class="mh-fam-mark" src="/assets/logo.svg" '
-               f'alt="">{esc(FAMILY)}.com</span>')
-        brand_row = f"""<a class="mh-brand" href="/news.html" style="margin-top:8px">
-    <span class="badge-anim mh-badge"><img class="mh-mark coin" src="/assets/cronkite-coin.png" alt=""></span>
-    <span class="mh-word">{esc(NAME)}</span>
-    <span class="mh-slogan">{esc(SLOGAN)}</span>
-  </a>"""
-    else:
-        fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
-        brand_row = f"""<a class="mh-brand" href="/index.html" style="margin-top:8px">
+    fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
+    brand_row = f"""<a class="mh-brand" href="/index.html" style="margin-top:8px">
     <img class="mh-mark" src="/assets/logo.svg" alt="">
     <span class="mh-word">GoCheckMy<em class="mh-accent">Crypto</em></span>
     <span class="mh-slogan">Crypto, checked.</span>
@@ -1816,7 +1816,7 @@ def card(item):
     return f"""<article class="card reveal">
   <div class="row">{badge}{tag}</div>
   <h3><a href="{href}">{esc(item.get("title"))}</a></h3>
-  <p class="summary">{esc(summ[:180])}</p>
+  <p class="summary">{esc(clamp_words(summ, 180))}</p>
   <div class="foot"><span class="dateline">{fmt_when(item)}</span>
     <span class="src">{nsrc} source{"s" if nsrc != 1 else ""}</span></div>
 </article>"""
@@ -1826,11 +1826,11 @@ def desk_strip():
     # Home-only anchor-desk strip: the Crypto Cronkite portrait coin (the YouTube channel
     # face) beside the desk line. The masthead checkmark badge stays the site mark; this is
     # the anchor's face at the top of the front page. No link yet (channel tie post-launch).
+    # C-1 / G-10 (revised): the anchor's portrait coin was a 5.7MB autoplaying loop in
+    # page chrome. The coin logo and the second tagline leave the chrome; the desk line
+    # itself is the desk's voice and stays. Imagery on this site is the hero backdrop
+    # and section marks, nothing else.
     return f"""<section class="desk" aria-label="The news desk"><div class="wrap">
-  <video class="desk-coin motion-video" autoplay muted loop playsinline preload="none"
-    poster="/assets/cronkite-coin.png" aria-hidden="true" tabindex="-1" width="132" height="132">
-    <source src="/assets/hero/coin-loop.webm" type="video/webm">
-    <source src="/assets/hero/coin-loop.mp4" type="video/mp4"></video>
   <div class="desk-copy">
     <span class="kicker">From the desk</span>
     <p>{esc(DESK_LINE)}</p>
@@ -4587,18 +4587,13 @@ def flows_chart_svg(by_asset):
 
 
 def ww_hero():
-    # The whale loop is contained section dressing (never a trade signal): strictly lazy
-    # (no autoplay attribute, motion-lazy pool arms on first scroll), poster as first
-    # paint, and the section identity rides the scrim in light text.
-    return ('<section class="ww-hero" aria-label="Whale Watch"><div class="ww-heroinner"><div class="ww-panel">'
-            '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
-            'poster="/assets/whale/whale-poster.jpg" aria-hidden="true" tabindex="-1">'
-            '<source src="/assets/whale/whale-loop.webm" type="video/webm">'
-            '<source src="/assets/whale/whale-loop.mp4" type="video/mp4"></video>'
-            '<span class="ww-scrim" aria-hidden="true"></span>'
-            '<span class="ww-panel-fg"><span class="kicker">Follow the money</span>'
-            '<span class="ww-title">Whale Watch</span></span>'
-            '</div></div></section>')
+    """C-2: retired. This rendered a full-width poster strip with a 3MB loop behind it
+    (pulse-loop 3.0MB on /pulse, whale-loop 3.4MB on /flows, the wizard on
+    /chartmaster). The audit's ruling: data pages are tables and charts, never posters.
+    The page opens with its own content now; the hero the reader gets is the Board band
+    (C-21), which is one dark surface on the site rather than three."""
+    return ""
+
 
 
 def _win_phrase(hours):
@@ -4621,7 +4616,7 @@ def render_flows(flows, dateline):
     refreshes with every site build; check back soon.</p></div>
 </section></main>"""
         return shell(f"Whale Watch - {NAME}", "Follow the money: whale exchange flows.",
-                     "Whale Watch", body, dateline, body_class="ww-dark", path="/flows.html")
+                     "Whale Watch", body, dateline, path="/flows.html")
 
     v = flows.get("volatile", {})
     s = flows.get("stablecoins", {})
@@ -4778,7 +4773,7 @@ def render_flows(flows, dateline):
   <p class="nfa">{esc(flows.get("note",""))} {esc(NFA)}</p>
 </section></main>"""
     return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",
-                 "Whale Watch", body, dateline, body_class="ww-dark", path="/flows.html")
+                 "Whale Watch", body, dateline, path="/flows.html")
 
 
 # ---- market pulse -------------------------------------------------------------
@@ -5109,18 +5104,13 @@ def _dash_crumb():
 
 
 def mp_hero():
-    # The pulse loop is header atmosphere only (never adjacent to live numbers: the whole
-    # board renders below on the plain background). Strictly lazy like the other section
-    # videos: no autoplay attribute, motion-lazy pool, poster first paint.
-    return ('<section class="ww-hero mp-hero" aria-label="The Board"><div class="ww-heroinner"><div class="ww-panel">'
-            '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
-            'poster="/assets/pulse/pulse-poster.jpg" aria-hidden="true" tabindex="-1">'
-            '<source src="/assets/pulse/pulse-loop.webm" type="video/webm">'
-            '<source src="/assets/pulse/pulse-loop.mp4" type="video/mp4"></video>'
-            '<span class="ww-scrim" aria-hidden="true"></span>'
-            '<span class="ww-panel-fg"><span class="kicker">The Board</span>'
-            '<span class="ww-title">The Board</span></span>'
-            '</div></div></section>')
+    """C-2: retired. This rendered a full-width poster strip with a 3MB loop behind it
+    (pulse-loop 3.0MB on /pulse, whale-loop 3.4MB on /flows, the wizard on
+    /chartmaster). The audit's ruling: data pages are tables and charts, never posters.
+    The page opens with its own content now; the hero the reader gets is the Board band
+    (C-21), which is one dark surface on the site rather than three."""
+    return ""
+
 
 
 # DATA-AGE TRIPWIRE (audit 2026-07-28). A board is only as fresh as the deploy that built
@@ -5311,7 +5301,7 @@ def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None):
     body = (f'<main class="wrap"><section class="page">\n{body_inner}\n{stamp}\n'
             f'</section></main>')
     return shell(f"{title} - The Board - {NAME}", desc, "The Board", body, dateline,
-                 body_class="ww-dark", path=f"/pulse/{slug}.html", live_js=live)
+                 path=f"/pulse/{slug}.html", live_js=live)
 
 
 def _no_data(cmd="python3 market_pulse.py"):
@@ -5480,7 +5470,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
   <p class="nfa">{esc(pulse.get("note", ""))} {esc(NFA)}</p>
 </section></main>'''
     return shell(f"The Board - {NAME}", desc, "The Board", body, dateline,
-                 body_class="ww-dark", path="/pulse.html", live_js=True)
+                 path="/pulse.html", live_js=True)
 
 def render_pulse_sentiment(pulse, dateline):
     desc = ("The crypto Fear & Greed Index explained: what feeds the gauge, what extremes "
@@ -6016,20 +6006,13 @@ def render_pulse_network(pulse, dateline):
 
 
 def cm_hero():
-    # The wizard loop is the column's satirical mascot, a character and never an
-    # authority claim: it appears exactly once, as the page-top panel (same slot the
-    # Whale Watch and Board headers use), with no predictive framing anywhere
-    # in this markup. Strictly lazy: no autoplay attribute, preload="none", the
-    # motion-lazy pool arms on first scroll, poster paints first.
-    return ('<section class="ww-hero cm-hero" aria-label="The Chart Master"><div class="ww-heroinner"><div class="ww-panel">'
-            '<video class="ww-vid motion-video motion-lazy" muted loop playsinline preload="none" '
-            'poster="/assets/wizard/wizard-poster.jpg" aria-hidden="true" tabindex="-1">'
-            '<source src="/assets/wizard/wizard-loop.webm" type="video/webm">'
-            '<source src="/assets/wizard/wizard-loop.mp4" type="video/mp4"></video>'
-            '<span class="ww-scrim" aria-hidden="true"></span>'
-            '<span class="ww-panel-fg"><span class="kicker">The resident wizard</span>'
-            '<span class="ww-title">The Chart Master</span></span>'
-            '</div></div></section>')
+    """C-2: retired. This rendered a full-width poster strip with a 3MB loop behind it
+    (pulse-loop 3.0MB on /pulse, whale-loop 3.4MB on /flows, the wizard on
+    /chartmaster). The audit's ruling: data pages are tables and charts, never posters.
+    The page opens with its own content now; the hero the reader gets is the Board band
+    (C-21), which is one dark surface on the site rather than three."""
+    return ""
+
 
 
 def render_chartmaster(read, dateline):
@@ -6116,7 +6099,7 @@ def render_chartmaster(read, dateline):
 </section></main>
 <script defer src="/assets/chart-master.js"></script>"""
     return shell(f"The Chart Master - {NAME}", desc, "Chart Master", body, dateline,
-                 body_class="ww-dark", path="/chartmaster.html")
+                 path="/chartmaster.html")
 
 
 
