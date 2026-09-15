@@ -1231,3 +1231,76 @@ body{padding-bottom:64px}
 .motion-btn:hover{color:var(--ink)}
 .markets .pinbox{margin-left:10px}
 .markets .motion-btn{margin-left:auto}
+
+/* ---- C-18: the phone homepage --------------------------------------------------
+   11,111px against a 5,500 target (G-12). Measured first: the Record was 2,940, the
+   link index 1,497, Whale Watch 1,142. Nothing below removes a fact the reader cannot
+   reach - every tile's read is on its own page, and the Record's lanes are one tap. */
+.rec-more>summary{cursor:pointer;margin-top:14px;padding:10px 0;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);border-top:1px solid var(--line);list-style:none}
+.rec-more>summary::-webkit-details-marker{display:none}
+@media (min-width:641px){ .rec-more>summary{display:none} }
+@media (max-width:640px){
+  /* Compact tiles: label, value, delta, a small spark, Explained. The paragraph opens
+     on the tile page, which is where the room for it is. */
+  .cb-hero .bd-tiles{grid-auto-rows:auto}
+  .cb-hero .bd-tile{height:auto;min-height:0;gap:6px;padding:13px 14px}
+  .cb-hero .bd-tile .bd-read{display:none}
+  .cb-hero .bd-tile-foot{padding-top:7px}
+
+  /* Whale Watch: two rows, not the full table. */
+  .bd-row3 .bd-whale-row:nth-of-type(n+3){display:none}
+
+  /* The news desk is a list on a phone. */
+  .bd-cards4{display:flex;flex-direction:column;gap:0}
+  .bd-cards4>.bd-card{flex-direction:column;gap:6px;padding:12px 0;border-radius:0;
+    border-left:0;border-right:0;border-top:0;border-bottom:1px solid var(--line);
+    background:none}
+  .bd-cards4>.bd-card .nx-read{display:none}
+  .nx-h{-webkit-line-clamp:2;font-size:16px;line-height:1.3}
+
+  /* The Edition card is one row. */
+  .bd-ed .bd-ed-list{display:none}
+  .bd-ed .bd-read{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+    overflow:hidden}
+
+  /* The link index keeps its own pointer rather than 60 links. */
+  .bd-rec-index .bd-rec-cols{display:none}
+  .bd-rec-index::after{content:"Open the Record for the full index";display:block;
+    font-family:var(--mono);font-size:11.5px;color:var(--muted);padding-top:6px}
+}
+
+@media (max-width:640px){
+  /* C-18 / G-4. Each module header measured 183px on a phone - four of them is 732px,
+     more than the news desk they introduce. G-4 asks for 34px of space above on phone;
+     the header row wraps to one column and the H2 comes down to the phone scale. */
+  .bd-mod>.bd-sec{flex-direction:column;align-items:flex-start;gap:4px;
+    margin-top:26px;padding-bottom:8px}
+  .bd-mod>.bd-sec .bd-h2{font-size:20px;line-height:1.24}
+  .bd-mod>.bd-sec .bd-more{font-size:12px}
+
+  /* One Record lane, and its read-further column shows three rows, not the full list. */
+  .bd-rec-lane .bd-rec-rows>.bd-rec-row:nth-of-type(n+4){display:none}
+  .bd-rec-lane .lane-v3 .bd-read{display:-webkit-box;-webkit-line-clamp:3;
+    -webkit-box-orient:vertical;overflow:hidden}
+
+  /* Learn is a list of links on a phone, not a card stack. */
+  .bd-mod .bd-cards4>.bd-card .bd-read{display:none}
+
+  /* Cold storage keeps the criteria and the box; the long read clamps. */
+  .bd-cold .bd-read{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;
+    overflow:hidden}
+}
+
+@media (max-width:640px){
+  /* C-18 reads "one Record lane CARD", not one lane section: the read-further column
+     beside it is depth the "Show all lanes" control already offers. */
+  .bd-rec-lane>.bd-rec-more{display:none}
+
+  /* "The brief with its three facts": the headline and the since-yesterday rows are
+     the facts; the body paragraph is the brief itself, one tap away. */
+  .bd-brief>p:not(.bd-src){display:none}
+  .bd-brief .bd-brief-hl{display:-webkit-box;-webkit-line-clamp:3;
+    -webkit-box-orient:vertical;overflow:hidden}
+}

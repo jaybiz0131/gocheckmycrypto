@@ -3673,6 +3673,18 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, pool=None):
     return f'<section class="bd-rec-lane" id="{esc(slug)}">{left}{right}</section>'
 
 
+REC_MORE_JS = """
+<script>(function(){
+  /* C-18: ships expanded so the page is complete without JavaScript; collapsed on a
+     phone, where five lanes are a quarter of the homepage. Desktop untouched. */
+  try{
+    if (window.matchMedia && window.matchMedia('(max-width:640px)').matches){
+      document.querySelectorAll('details.rec-more').forEach(function(d){ d.open = false; });
+    }
+  }catch(e){}
+})();</script>"""
+
+
 def record_sections(items, home=True):
     """The Record: header plus one lane section per lane. Three lanes on the homepage,
     every lane on /record.html."""
@@ -3690,7 +3702,16 @@ def record_sections(items, home=True):
             f'<h2 class="bd-h2">What stays true after the news moves on</h2></div>'
             + (f'<a class="bd-more" href="/record.html">The full Record</a>' if home else "")
             + '</div>')
-    return f'<section class="bd-mod" aria-labelledby="bd-rec">{head}{lanes}</section>'
+    # C-18: on a phone the Record is 2,940px. The first lane stays; the rest go inside
+    # a details the phone closes. It ships OPEN, so a reader without JavaScript sees
+    # every lane as before - the script only closes it where the height is the problem.
+    parts = re.findall(r'<section class="bd-rec-lane".*?</section>', lanes, re.S)
+    if home and len(parts) > 1:
+        lanes = (parts[0]
+                 + f'<details class="rec-more" open><summary>Show all '
+                   f'{len(parts)} lanes</summary>{"".join(parts[1:])}</details>')
+    return (f'<section class="bd-mod" aria-labelledby="bd-rec">{head}{lanes}</section>'
+            + (REC_MORE_JS if home else ""))
 
 
 def record_full_index(items, shown=12):
