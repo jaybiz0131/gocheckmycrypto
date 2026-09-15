@@ -1,40 +1,6 @@
 [
  {
   "date": "2026-08-12",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c021",
-    "headline": "Harmony Patches Critical Exploit That Minted Billions of Unauthorized ONE Tokens",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'roughly 4 billion new tokens' and '26% of the roughly 15 billion ONE in circulation'; brief data_point marked 'unconfirmed' says 'Onchain account Juiceberg claimed that four billion ONE...was created' but also notes 'Harmony has not confirmed the 4 billion ONE or 2.8 billion exchanged figures reported by Juiceberg'. The draft presents Juiceberg's unconfirmed claim as settled fact without confidence hedge. The phrase 'an exploit created roughly 4 billion new tokens' must read 'an apparent exploit allegedly created roughly 4 billion new tokens, according to onchain observer Juiceberg' to match the brief's 'unconfirmed' label.",
-     "Draft states 'ONE token plunged approximately 40%' but brief data_point says 'ONE token plunged about 40%' sourced to CoinDesk headline which reads 'harmony-s-one-falls-26-after-attacker' (26% not 40%). The brief's own data_point claims '40%' but CoinDesk's URL headline contradicts this. The draft should either use '26%' per CoinDesk's URL or flag the discrepancy; presenting '40%' without noting the conflict is a liability.",
-     "Draft does not disclose that the 4 billion figure and 26% supply-dilution claim originate from Juiceberg, an unconfirmed source. Per brief: 'Harmony has not issued its own confirmation of the 4 billion ONE figure...both reported by onchain observer Juiceberg and quoted in Harmony's initial response but not stated as the protocol's independent findings.' The draft must attribute these figures to Juiceberg and mark them as unconfirmed; presenting them as fact without source attribution violates the hard rule that facts trace to research."
-    ]
-   },
-   {
-    "id": "c001",
-    "headline": "Goldman Sachs leaps into bitcoin income ETFs with $2.25 billion NEOS buyout",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'BTCI has fallen roughly 42.55% over the past year, with shares falling from a 52-week high of $65.87 to around $28.40' but the brief's bear_case says 'BTCI has fallen roughly 43% over the past year.' The draft introduces a precise figure (42.55%) not present in the brief data_point, which only says '0.99%' expense ratio and references the 43% decline without the decimal precision. This appears to be a calculation or sourcing not backed by the brief.",
-     "Draft claims 'Goldman will control more than $130 billion in total ETF assets' but the brief data_point says 'As of June 30, 2026, Goldman Sachs Asset Management, Innovator from Goldman Sachs Asset Management and NEOS manage more than $130 billion in ETF assets under supervision.' The draft omits the temporal qualifier ('as of June 30, 2026') and the clarifying 'under supervision' language, which materially changes the claim's precision and current accuracy."
-    ]
-   },
-   {
-    "id": "c062",
-    "headline": "SEC schedules August 14 meeting to advance Regulation Crypto proposal",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The framework is designed to create a pathway for certain digital assets to operate outside traditional securities registration requirements' but this characterization is not present in the brief's single data point, which only confirms the meeting date and proposal name. The brief's open_questions make clear that 'specific exemptions' and 'eligible asset categories' are unknown. The draft's framing of what the framework is 'designed' to do reads as interpretation rather than reported fact.",
-     "The brief is marked thin=true with only one data point and source_chars=0, indicating source material was minimal or unavailable. The draft should reflect this thinness more explicitly; instead it presents design intent as settled when the brief itself lists this as an open question."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-12",
   "approved": 4,
   "rejected": [
    {
@@ -6414,6 +6380,29 @@
     "reasons": [
      "The draft omits two reported data points from the brief that are material to the story: ETH outperformed the S&P 500 by 5,866 basis points through September 12, 2026 in Q3, and Tom Lee's claim that ETH, SOL, and BTC were the top 3 performing assets since June 30, 2026. These are explicitly in the brief as Decrypt-reported facts with 'reported' confidence and are core evidence for the 'institutional confidence in ETH as macro asset' angle. Their absence weakens the lead's claim about what Bitmine's purchases signal.",
      "The draft uses comparative framing ('Rival Ethereum treasury company SharpLink announced plans...', 'Strategy, a Bitcoin treasury company...') that positions these as context without clearly establishing they are from the same source. The brief shows all three facts (Bitmine's purchase, SharpLink's staking announcement, Strategy's buyback) come from a single Decrypt article dated September 14, 2026. The draft should either attribute all three to Decrypt inline or reorganize to make the single-source origin clear, to avoid implying independent verification across outlets."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c111",
+    "headline": "Democrats Counter GOP's Final Clarity Act Draft Hours Before Senate Vote",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Senate Democrats issued a counterproposal to Republicans' final Clarity Act draft on September 15' and 'The Democratic counterproposal contradicted that framing and introduced new language into a bill that has been under active negotiation for more than five years.' However, the brief's data point says 'Senate Democrats are reportedly PREPARING a counterproposal' (emphasis on future tense/preparation stage), not that they ISSUED it. The brief carries confidence 'reported' on the preparation; the draft presents it as a completed action that occurred on September 15. This misrepresents the timing and status of the Democratic move.",
+     "The draft characterizes the negotiator quote ('she had run out of gas on new amendments') as coming from 'sources involved in the negotiations,' but the brief flags this claim as 'unconfirmed' confidence. The draft should signal this uncertainty explicitly rather than present it as a straightforward account from negotiators."
+    ]
+   },
+   {
+    "id": "c013",
+    "headline": "S&P Global Leads $110M Extension of Kaiko Series B, Drawing Major TradFi Players",
+    "category": "accuracy",
+    "reasons": [
+     "The brief data point states that 'BNP Paribas, Bpifrance, Broadridge, Canton Foundation, Coinbase Ventures, DRW Venture Capital, Nasdaq Ventures, Royal Bank of Canada, Stellar and Susquehanna Private Equity Investments joined as strategic investors.' The draft lists 'BNP Paribas, Royal Bank of Canada, Coinbase Ventures, DRW Venture Capital, Broadridge, Bpifrance, Nasdaq Ventures, Stellar, and Susquehanna Private Equity Investments' but omits 'Canton Foundation,' which is explicitly named in the brief's investor list. This is a factual omission from the source material."
     ]
    }
   ]
