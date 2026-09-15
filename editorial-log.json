@@ -1,48 +1,5 @@
 [
  {
-  "date": "2026-08-15",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c074",
-    "headline": "Kalshi ordered to halt prediction market contracts in Washington",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The CFTC ordered Kalshi' in the opening paragraph, but the brief's core_claim attributes the order to 'the CFTC' while the data_points themselves contain no attribution to CFTC\u2014only to Cointelegraph reporting. The regulatory authority is marked as an open_question in the brief ('Which specific regulatory body issued the order?'). The draft presents an unconfirmed attribution as fact."
-    ]
-   },
-   {
-    "id": "c016",
-    "headline": "French tax authority data breach exposed 678,000 people as wrench attacks surge",
-    "category": "accuracy",
-    "reasons": [
-     "The draft presents 'wrench attacks in France are piling up in connection with the tax data breach' as fact, but the brief marks this as 'reported' confidence only\u2014a single-source claim from The Block. The draft should signal this is The Block's reporting, not independently verified fact.",
-     "The draft states '2026 on pace to become France's worst year on record for violent crimes targeting crypto holders' as settled fact. The brief explicitly flags in open_questions that 'historical baseline for wrench attacks in France in prior years' is unknown. The draft acknowledges this gap in its own fourth paragraph but leads with the unqualified claim, creating liability.",
-     "The draft body does not attribute the 'piling up' and '2026 worst year' claims inline to The Block on first mention; attribution comes only via 'per The Block' in paragraph 2, after the claims have already been stated as fact in paragraph 1."
-    ]
-   },
-   {
-    "id": "c070",
-    "headline": "Tokenized stock holders reach 1.31 million as monthly volume surges 179%",
-    "category": "balance",
-    "reasons": [
-     "The draft opens with the headline figures (1.31M holders, 179% surge) as positive adoption signals without immediate context that the brief marks all data_points as 'reported' confidence only from a single source (Cointelegraph).",
-     "The brief does not provide a bear_case, but the open_questions and methodological gaps ('no underlying data sources or methodologies disclosed', 'no composition breakdown', 'unable to verify') should surface as caution in the draft body. The draft does acknowledge these gaps in paragraph 3, but that paragraph reads as an appendix rather than integrated editorial voice\u2014it comes only after the positive framing is established.",
-     "The draft states 'Growth in holders and trading volume has been framed by the industry as evidence that institutional and retail participants are adopting the infrastructure at scale' without labeling this as unverified framing. This sentence presents a narrative claim as fact."
-    ]
-   },
-   {
-    "id": "c080",
-    "headline": "Senate Democrats Introduce Presidential Banking Restrictions Bill After Trump Crypto Company Approval",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'On January 5, 2026, the Trump family crypto company applied to the OCC for the charter' but the brief's corresponding data_point says 'On January 5, 2026, the Trump Family crypto company World Liberty Financial (WLF) applied to the OCC for a national bank charter' with confidence 'announced-not-verified'. The draft then reports the approval as a completed fact ('The Office of the Comptroller of the Currency approved World Liberty Financial's application') without flagging the 'announced-not-verified' confidence label. A claim marked 'announced-not-verified' in the brief must read as unconfirmed in the prose; instead, the draft presents both the application date and approval as settled facts.",
-     "The draft attributes 'President Trump is now the first President in history to approve, operate, and supervise his own bank' to Warren without noting the source is a Senate Democratic minority statement making a political claim, not an independently verified fact. The brief flags all data_points as 'announced-not-verified'; the draft presents this characterization as Warren's direct statement without qualification, obscuring that it is a Democratic partisan framing of disputed regulatory action."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-16",
   "approved": 4,
   "rejected": [
@@ -5785,6 +5742,24 @@
     "category": "accuracy",
     "reasons": [
      "The title states 'Revolut Begins EURR Stablecoin Rollout on September 15' as a completed past event. Today is September 15, 2026. The brief's data_point is timestamped 2026-09-15T20:39:38Z (future time on today), and the language in the brief uses 'has begun' and 'rolling out' (present perfect/progressive). The title's phrasing ('Begins...on September 15') treats the event as having already concluded, when it is either currently occurring or scheduled. This violates the protocol's rule that scheduled events are written as upcoming. The phrasing should reflect that this is happening today, not that it happened on a past date."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c024",
+    "headline": "DOJ Charges Robinhood Engineers with Insider Trading on Hyperliquid Perpetual Futures",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'charged two former Robinhood engineers' but brief does not confirm they are 'former' employees\u2014only that they 'accessed nonpublic information' while at Robinhood. The timing of separation is not in the brief and constitutes smuggled fact.",
+     "Draft attributes the quote 'corporate insiders cannot evade securities and commodities laws' to U.S. Attorney Jamie McDonald as a direct statement, but the brief's version is longer and fuller: 'Today's charges make clear that corporate insiders cannot evade the securities and commodities laws by trading based on misappropriated information in derivatives like perpetual futures, tokenized securities, or other similar financial instruments.' The partial quote as presented is a paraphrase acceptable under desk rules, but the brief does not attribute it to 'U.S. Attorney Jamie McDonald' by name\u2014it attributes to 'U.S. Attorney Jamie McDonald' only in the full brief data_point. The draft's inline paraphrase is acceptable.",
+     "No accuracy violation on this second read: the full McDonald quote appears in the brief. Reverting.",
+     "All other facts (Chai age 36, Xiang age 30, counts and sentences, $50,000+ earnings, 2025\u20132026 timeframe, Hyperliquid as decentralized platform, Coinbase/Wahi precedent, Wahi's guilty plea to wire fraud conspiracy) trace to brief data_points.",
+     "However: Draft opens with 'The Department of Justice charged two former Robinhood engineers' but the brief does not establish they are 'former'\u2014only that they were engineers who accessed nonpublic information. This is a factual insertion not in the brief."
     ]
    }
   ]

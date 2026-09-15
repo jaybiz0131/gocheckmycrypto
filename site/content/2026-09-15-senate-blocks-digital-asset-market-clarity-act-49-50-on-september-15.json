@@ -1,0 +1,72 @@
+{
+  "id": "c001",
+  "slug": "senate-blocks-digital-asset-market-clarity-act-49-50-on-september-15",
+  "kind": "brief",
+  "title": "Senate Blocks Digital Asset Market Clarity Act, 49-50, on September 15",
+  "dek": "The U.S. Senate voted 49-50 on September 15, 2026, against taking up the Digital Asset Market Clarity Act, the first comprehensive federal crypto regulatory framework. Four Senate Republicans and all Senate Democrats voted no, killing the bill after a year of bipartisan negotiations and triggering a broad selloff in digital assets.",
+  "date": "2026-09-15",
+  "published_utc": "2026-09-15T21:02:58Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "A procedural vote on the Clarity Act failed 49-50 on September 15, with four Senate Republicans (Susan Collins, Josh Hawley, Jerry Moran, Thom Tillis) joining all Democrats to block the measure.",
+  "bottom_line": "Whether Senator Tillis can force a second cloture vote before the state work period closes on October 5 will determine if the bill gets another floor vote this year. If no second vote occurs by then, the Clarity Act is dead unless a new Congress revives it in 2027.",
+  "human_take": "",
+  "body": [
+    "The U.S. Senate voted 49-50 on September 15, 2026, against a cloture motion to take up the Digital Asset Market Clarity Act (H.R. 3633), blocking the first comprehensive federal crypto market structure bill. A procedural vote required 60 votes under a unanimous consent agreement entered August 8. Four Senate Republicans voted no: Susan Collins, Josh Hawley, Jerry Moran, and Thom Tillis. No Democrat or independent voted to advance the bill.",
+    "The House passed H.R. 3633 by 294-134 in July 2025. A year of bipartisan negotiation between seven Senate Democrats (Mark Warner, Angela Alsobrooks, Cory Booker, Catherine Cortez Masto, Ruben Gallego, John Hickenlooper, and Raphael Warnock) and Republican sponsors Cynthia Lummis, John Boozman, and Tim Scott culminated in a final Republican text released Monday. According to The Defiant's reporting, that text listed 126 changes Democrats had requested. In the ethics provisions, negotiators dropped a January 20, 2029 sunset, reversed the July draft's bar on state attorney general enforcement, and raised civil penalties to 20 percent of the take or $500,000, whichever is greater.",
+    "Democrats sent a counterproposal Monday night from Minority Leader Chuck Schumer's office. The seven negotiating Democrats said in July that the Republican text fell short, citing ethics for elected officials as their first concern. Senator Ruben Gallego told reporters before the vote that the compromise reached was sound enough to have secured Democratic votes, according to CryptoSlate's reporting. Mark Warner said the new Republican package still fell short, and Democrats made another offer.",
+    "Opposition to the bill extended beyond the Senate floor. Eighteen state attorneys general, including New York's Letitia James, asked the Senate Monday to reject the legislation. James stated the Clarity Act as written would embolden scammers and strip attorneys general of authority to protect investors. Senator Susan Collins raised concerns the bill could accelerate deposit flight from community banks, an objection shared by the financial industry. Senator John Curtis said he would support opening debate but distinguished that from backing final passage, signaling Republican unity was fragile even on procedure.",
+    "Senator Tillis voted no and filed a motion to reconsider at 3:01 p.m., keeping a procedural path open for a second cloture vote. The Senate's 2026 legislative calendar sets a state work period from October 5 to November 6, with the chamber returning November 11 after the November 3 election. That leaves under three weeks of scheduled session for a second vote before the chamber closes its doors for the campaign.",
+    "Market reaction was sharp. Bitcoin traded down 4.1 percent on the day to $75,901 on the heels of the vote, with Coinbase recording a 24-hour low of $74,887.50 against an opening of $78,982.77. Ether fell 5.5 percent to $2,403. XRP dropped 11.1 percent to $1.30, Solana 5.3 percent to $97.70, and BNB 0.9 percent to $719.44. Coinbase Chief Policy Officer Faryar Shirzad said the bill addressed all seven principles Democratic senators outlined for acceptable crypto legislation, and negotiators incorporated the 126 substantive changes Democrats requested. Ripple Chief Executive Brad Garlinghouse urged senators to vote yes, saying perfect cannot be the enemy of good. Senator Lummis warned that defeat would drive the industry overseas, leave consumers vulnerable, and sideline American leadership.",
+    "Polymarket priced the Clarity Act being signed into law in 2026 at 6.5 percent after the vote, on $19.8 million cumulative volume, down 22 percentage points in 24 hours. The market had read 19.5 percent Tuesday morning, 29.5 percent Monday afternoon, and 18 percent Friday."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/regulation/senate-blocks-clarity-act-49-50-with-no-democratic-votes-to-proceed",
+      "url": "https://thedefiant.io/news/regulation/senate-blocks-clarity-act-49-50-with-no-democratic-votes-to-proceed"
+    },
+    {
+      "title": "https://cryptoslate.com/clarity-act-chances-sink-below-20-as-senates-path-to-60-votes-narrows/",
+      "url": "https://cryptoslate.com/clarity-act-chances-sink-below-20-as-senates-path-to-60-votes-narrows/"
+    }
+  ],
+  "update_of": "us-treasury-secretary-bessent-strongly-urges-senate-to-pass-clarity-act",
+  "board_snapshot": {
+    "as_of": "2026-09-15T20:37:38Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75663.6,
+        "chg_24h_pct": -3.21
+      },
+      {
+        "symbol": "ETH",
+        "price": 2399.0,
+        "chg_24h_pct": -4.6
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.2,
+      "open_interest_usd": 2096200749
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -48210673,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Cointelegraph",
+    "CryptoSlate",
+    "BeInCrypto",
+    "The Daily Hodl",
+    "U.Today"
+  ],
+  "developing": false
+}
