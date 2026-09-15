@@ -1409,7 +1409,14 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     site_name = NAME if brand == "cronkite" else FAMILY
     if brand != "cronkite" and title.endswith(f"- {NAME}"):
         title = title[: -len(NAME)] + FAMILY
+    # C-21: the Board band's backdrop poster is the LCP element by design (hero
+    # addendum item 2), so the front page preloads it at high priority. The loop is
+    # injected after the load event by script and is never preloaded. 1280 wide, the
+    # widest source in the repo (owner call, 2026-09-15).
+    lcp = ('<link rel="preload" as="image" href="/assets/hero/hero-poster.webp" '
+           'fetchpriority="high">\n' if path == "/" else "")
     robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
+    robots = lcp + robots
     beacon = ""
     if CF_ANALYTICS_TOKEN:
         beacon = ('\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
@@ -2460,6 +2467,27 @@ _SER_PULSE = None    # set by board_tile_grid so tiles can draw their series
 _SER_FLOWS = None
 
 
+CB_HERO_JS = """
+<script>(function(){
+  /* Hero addendum item 3, same contract as the Sports band: desktop only, after the
+     load event, webm only, never on a phone, never under reduced motion. */
+  try{
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia || !window.matchMedia('(min-width:1024px)').matches) return;
+    var bg = document.querySelector('.cb-hero .cb-bg');
+    if (!bg) return;
+    window.addEventListener('load', function(){
+      var v = document.createElement('video');
+      v.className = 'cb-loop'; v.muted = true; v.autoplay = true; v.loop = true;
+      v.playsInline = true; v.setAttribute('aria-hidden','true'); v.tabIndex = -1;
+      v.src = '/assets/hero/hero-loop.webm';
+      v.addEventListener('playing', function(){ bg.classList.add('has-loop'); });
+      bg.appendChild(v);
+    });
+  }catch(e){}
+})();</script>"""
+
+
 def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
     """The 4-up tile grid (C-6). `learn_href` resolves a tile's Explained link.
 
@@ -3173,7 +3201,8 @@ def _series_for(key, pulse, flows):
         vals = [x.get("net_usd_m") for x in r if isinstance(x.get("net_usd_m"), (int, float))]
         lab = ""
         if r:
-            lab = f'{r[0].get("date","")} to {r[-1].get("date","")}'
+            # same rule as _win_label: a duration, not a date range (C-6e)
+            lab = _win_label({"start": r[0].get("date", ""), "end": r[-1].get("date", "")})
         return (vals or None), lab
     if key == "leverage":
         lv = (p.get("leverage") or {}).get("assets") or []
@@ -3186,13 +3215,47 @@ def _series_for(key, pulse, flows):
     return None, ""
 
 
+def _win_date(t):
+    """The feeds label windows three different ways: "Jun 19" (no year), "31 Aug 2026",
+    and ISO. Parse all three; a year-less label takes the build's year."""
+    import datetime as _dt
+    t = str(t or "").strip()
+    for fmt in ("%Y-%m-%d", "%d %b %Y", "%b %d %Y", "%d %B %Y"):
+        try:
+            return _dt.datetime.strptime(t, fmt).date()
+        except ValueError:
+            pass
+    for fmt in ("%b %d", "%d %b"):
+        try:
+            d = _dt.datetime.strptime(t, fmt).date()
+            return d.replace(year=_build_now().year)
+        except ValueError:
+            pass
+    return None
+
+
 def _win_label(w):
-    if isinstance(w, dict) and w.get("start") and w.get("end"):
-        # The stables window reads "Sep 15 to Sep 14", which is the feed wrapping a
-        # year boundary wrong. A label that reads backwards is worse than none.
-        if str(w["start"]) == str(w["end"]):
+    """C-6(e): the period caption beside Explained, as a DURATION ("30 days"), not a
+    date range. "31 Aug 2026 to 14 Sep 2026" is 26 characters and wrapped the tile foot
+    onto a second line, which pushed the read out of a 214px tile and clipped it. The
+    span is the fact worth carrying; the endpoints are on the tile page."""
+    if not (isinstance(w, dict) and w.get("start") and w.get("end")):
+        return ""
+    a, b = str(w["start"]), str(w["end"])
+    # The stables window reads "Sep 15 to Sep 14", which is the feed wrapping a year
+    # boundary wrong. A label that reads backwards is worse than none.
+    if a == b:
+        return ""
+    da, db = _win_date(a), _win_date(b)
+    if da and db:
+        n = (db - da).days
+        if n < 1:
             return ""
-        return f'{w["start"]} to {w["end"]}'
+        if n < 14:
+            return f"{n} day{'' if n == 1 else 's'}"
+        if n < 60:
+            return f"{round(n / 7)} weeks"
+        return f"{round(n / 30)} months"
     return ""
 
 
@@ -3898,15 +3961,31 @@ def render_home(items, flows, pulse, cm, dateline):
 
     board_mod = ""
     if tiles:
-        board_mod = f"""<section class="bd-mod" aria-labelledby="bd-board">
-  <div class="bd-sec"><div class="bd-sec-l">
-    <span class="bd-eyebrow">The Board</span>
-    <h2 class="bd-h2" id="bd-board">Every number that matters today, in plain language</h2>
-  </div><a class="bd-more" href="/pulse.html">How the Board is built</a></div>
-  {stamp}
-  {board_tile_grid(tiles, learn_href, pulse, flows)}
-  <a class="bd-allboard bd-phone-only" href="/pulse.html">See all {len(tiles)} tiles on the Board</a>
-</section>"""
+        # C-21: the Board is the hero. One dark surface on this site and this is it,
+        # over the trading-desk poster under the addendum's scrim. Everything below the
+        # band is the light editorial page.
+        cm_quote = ""
+        _cm = (cm or {}) if isinstance(cm, dict) else {}
+        _read = (_cm.get("read") or _cm.get("text") or "").strip()
+        if _read:
+            cm_quote = (f'<p class="cb-cm">{esc(clamp_words(_read, 190))}</p>')
+        board_mod = f"""<section class="cb-hero" aria-labelledby="bd-board">
+  <div class="cb-bg" aria-hidden="true"></div>
+  <div class="cb-scrim" aria-hidden="true"></div>
+  <div class="wrap cb-inner">
+    <div class="bd-sec"><div class="bd-sec-l">
+      <span class="bd-eyebrow">The Board</span>
+      <h2 class="cb-claim" id="bd-board">Every number that matters today, in plain language</h2>
+    </div><a class="bd-more" href="/pulse.html">How the Board is built</a></div>
+    <p class="cb-sell">Eight numbers, read in the order a desk reads a market, each with
+      a plain-language explainer. Checked against public sources at every build.</p>
+    {stamp}
+    {board_tile_grid(tiles, learn_href, pulse, flows)}
+    <div class="cb-foot">{cm_quote}
+      <a class="bd-more" href="/pulse.html">Open the Board &rarr;</a></div>
+    <a class="bd-allboard bd-phone-only" href="/pulse.html">See all {len(tiles)} tiles on the Board</a>
+  </div>
+</section>""" + CB_HERO_JS
 
     # The day's edition, freshness-gated. current_bottom_line is the gate: it is what
     # keeps a stale brief off the front page, and both surfaces below share this one
