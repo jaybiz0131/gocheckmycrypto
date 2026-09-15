@@ -1,0 +1,61 @@
+{
+  "id": "c042",
+  "slug": "s-p-global-leads-kaiko-series-b-extension-to-110-million",
+  "kind": "brief",
+  "title": "S&P Global leads Kaiko Series B extension to $110 million",
+  "dek": "S&P Global led a strategic investment extending Kaiko's Series B to $110 million, joined by BNP Paribas, Nasdaq Ventures, Royal Bank of Canada, Coinbase Ventures, and others. The funding will expand Kaiko's digital-asset market-data business and infrastructure designed to deliver proprietary data to smart contracts and turn onchain financial activity into standardized offchain data.",
+  "date": "2026-09-15",
+  "published_utc": "2026-09-15T17:13:00Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "Major Wall Street infrastructure firms, S&P Global, BNP Paribas, Nasdaq, RBC, are formally backing crypto market data infrastructure alongside crypto native investors, signaling institutional commitment to round-the-clock markets and tokenized assets.",
+  "bottom_line": "The participation of S&P Global, BNP Paribas, Nasdaq, and RBC signals institutional infrastructure investment in 24/7 digital markets. Monitor whether the strategic working group on tokenized products issues standards or framework recommendations that influence how tokenized treasuries, money markets, and equities are priced and settled across jurisdictions.",
+  "human_take": "",
+  "body": [
+    "S&P Global led a strategic investment extending Kaiko's Series B to $110 million, according to The Defiant. BNP Paribas, Bpifrance, Broadridge, Canton Foundation, Coinbase Ventures, DRW Venture Capital, Nasdaq Ventures, Royal Bank of Canada, Stellar and Susquehanna Private Equity Investments joined as strategic investors, The Defiant reports. Existing shareholders Anthemis, Point Nine and Revaia also participated in the extension.",
+    "The $110 million total is more than twice the original Series B announced in 2022. In July 2022, Eight Roads led Kaiko's $53 million raise, with Revaia and earlier backers Alven, Anthemis, Point Nine and Underscore also participating, according to The Defiant.",
+    "The financing will strengthen Kaiko's core digital-asset market-data business and expand an infrastructure offering designed to deliver proprietary data to smart contracts, turn onchain financial activity into standardized offchain data, and support confidential valuation and analytics, The Defiant reports. Kaiko covers more than 150 exchanges and protocols.",
+    "Participating institutions joined a strategic industry working group chaired by Kaiko focused on the data and infrastructure needed to bring tokenized products into production, according to The Defiant. Tokenized Treasury bills, money market funds, equities and bonds are among the markets cited as requiring data systems capable of operating beyond conventional trading hours.",
+    "S&P Global's role builds on an existing product partnership. On September 1, S&P Dow Jones Indices and Kaiko introduced the S&P Kaiko Digital Asset Indices, The Defiant reports. The suite launched with more than 4,000 rates and indices, with Kaiko providing data sourcing and calculation while S&P supplies benchmark administration, licensing and distribution."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/tradfi-and-fintech/s-p-global-leads-kaiko-funding-extension-to-110-million",
+      "url": "https://thedefiant.io/converge/tradfi-and-fintech/s-p-global-leads-kaiko-funding-extension-to-110-million"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-15T17:10:53Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76181.28,
+        "chg_24h_pct": -2.55
+      },
+      {
+        "symbol": "ETH",
+        "price": 2415.34,
+        "chg_24h_pct": -3.95
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 7.7,
+      "open_interest_usd": 2191464311
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -48210673,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Defiant"
+  ],
+  "developing": false
+}
