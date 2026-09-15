@@ -1,0 +1,55 @@
+{
+  "id": "c117",
+  "slug": "revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer-september-15-2026",
+  "kind": "brief",
+  "title": "Revolut Starts EURR Rollout With Bridge as Regulated Issuer (September 15, 2026)",
+  "dek": "Revolut has begun rolling out EURR, a euro-backed stablecoin issued by Bridge Building S.A. (a Stripe company and Luxembourg-authorized institution), to selected customers in Denmark, Poland, and Portugal. As of August 25, \u20ac374 in EURR was in circulation.",
+  "date": "2026-09-15",
+  "published_utc": "2026-09-15T20:23:10Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "Revolut rolling out EURR (euro stablecoin) with Bridge Building S.A. as Luxembourg-regulated issuer; \u20ac374 in circulation as of August 25, 2026.",
+  "bottom_line": "EURR's \u20ac374 circulation as of late August positions it as a pilot with limited real-world traction relative to EURC's \u20ac394.5 million, but Revolut's three-country test may expand faster once broader rollout begins. The critical signal is whether adoption accelerates beyond the pilot markets in the coming months or remains constrained by Revolut's cautious geographic approach.",
+  "human_take": "",
+  "body": [
+    "Revolut has begun rolling out EURR, a euro-backed stablecoin, to selected customers in Denmark, Poland, and Portugal, according to The Defiant's reporting on September 15. Bridge Building S.A., a Stripe company and Luxembourg-authorized electronic money institution, serves as the legal issuer and redemption counterparty. Revolut Digital Assets Europe Ltd acts as the offeror and is admitting EURR to trading on the Revolut X platform.\nEURR is classified as an e-money token under the European Union's Markets in Crypto-Assets (MiCA) framework. Bridge Building was authorized as an electronic money institution by Luxembourg's Commission de Surveillance du Secteur Financier on June 29, 2026, and is listed as an active crypto-asset service provider with custody, exchange and transfer permissions. Tokenholders have the right to redeem EURR at par against Bridge at any time, subject to applicable terms and the redemption process.\nBridge's reserve page states that funds received for EURR are safeguarded in segregated accounts at regulated credit institutions or invested in eligible, highly liquid euro-denominated instruments.  Bridge identifies Ethereum and Polygon as EURR chains.\nRevolut's app reaches more than 75 million customers. Users can move between euros, crypto, external wallets and supported blockchain networks. Revolut said more markets are set to follow and expects wider EURR availability later this year. The company is also developing stablecoins tied to other currencies.\nFor context, Circle reported \u20ac394.5 million of EURC in circulation as of August 24, with EURC available on Avalanche, Base, Cronos, Ethereum, Solana, Stellar and World Chain. Circle Internet Financial Europe SAS issues EURC under an electronic money institution license from France's Autorit\u00e9 de Contr\u00f4le Prudentiel et de R\u00e9solution."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/tradfi-and-fintech/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer",
+      "url": "https://thedefiant.io/converge/tradfi-and-fintech/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-15T20:10:48Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75921.37,
+        "chg_24h_pct": -2.88
+      },
+      {
+        "symbol": "ETH",
+        "price": 2405.77,
+        "chg_24h_pct": -4.33
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.4,
+      "open_interest_usd": 2096177517
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -48210673,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
