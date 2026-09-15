@@ -23,6 +23,7 @@ USAGE
 import glob
 import hashlib
 import json
+from zoneinfo import ZoneInfo
 import os
 import re
 import sys
@@ -120,14 +121,57 @@ def _parse_utc(item):
     return None
 
 
+_ET = ZoneInfo("America/New_York")
+
+
+def _utc_dt(iso):
+    """Parse a UTC stamp in any shape the data files use. None when it is not one."""
+    import datetime as _dt
+    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%MZ", "%Y-%m-%d"):
+        try:
+            return _dt.datetime.strptime(iso or "", fmt).replace(tzinfo=_dt.timezone.utc)
+        except Exception:
+            continue
+    return None
+
+
+def fmt_short_date(iso):
+    """'Sep 11' - the meta form (G-7)."""
+    import re as _re
+    m = _re.match(r"(\d{4})-(\d{2})-(\d{2})", str(iso or ""))
+    return f"{MONTHS[int(m.group(2))][:3]} {int(m.group(3))}" if m else str(iso or "")
+
+
+def _et_clock(dt):
+    """An aware datetime to '6:17 PM ET' (G-7, C-19).
+
+    This file used to argue for UTC throughout, on the grounds that crypto has no
+    closing bell and an Eastern stamp would imply one. The audit overrules that with
+    named strings: the reader is American and reads a clock, and 'deltas since
+    yesterday's close' already sets the daily boundary the old note worried about."""
+    return dt.astimezone(_ET).strftime("%-I:%M %p ET") if dt else ""
+
+
+def _et_from_utc_hhmm(hhmm):
+    """'23:08' (UTC, how the slot is scheduled) to '7:08 PM ET', computed not written,
+    so it stays right when the clocks change."""
+    import datetime as _dt
+    try:
+        h, m = [int(x) for x in str(hhmm).split(":")[:2]]
+    except Exception:
+        return str(hhmm)
+    now = _dt.datetime.now(_dt.timezone.utc)
+    return _et_clock(now.replace(hour=h, minute=m, second=0, microsecond=0))
+
+
 def fmt_when(item):
-    """Dateline with the publish time when we have one: 'July 12, 2026 · 07:41 UTC'.
+    """Dateline with the publish time when we have one: 'July 12, 2026 · 3:41 AM ET'.
     Crypto is a 24/7 market; an expert reader needs to know 2 hours old vs 20."""
     base = esc(fmt_date(item.get("date")))
     if item.get("published_utc"):
         dt = _parse_utc(item)
         if dt:
-            return f"{base} \u00b7 {dt.strftime('%H:%M')} UTC"
+            return f"{base} \u00b7 {_et_clock(dt)}"
     return base
 
 
@@ -1034,7 +1078,7 @@ def _ticker_built(pulse):
     except ValueError:
         return "as of build"
     age_h = (_dt.datetime.now(_dt.timezone.utc) - gen).total_seconds() / 3600
-    label = f"as of {gen.strftime('%H:%M UTC')}"
+    label = f"as of {_et_clock(gen)}"
     return f'<span class="stale">{label}, stale</span>' if age_h > BOARD_FRESH_HOURS else label
 
 
@@ -2593,7 +2637,7 @@ def _bd_edition_card(items, tiles, ed, flows_for_edition=None, span_full=False):
     return (f'<div class="bd-card bd-ed{span}">'
             f'<div style="display:flex;flex-direction:column;gap:10px">'
             f'<span class="bd-eyebrow">The Evening Edition</span>'
-            f'<div class="bd-h3" style="font-size:24px">One read a day, at {esc(EVENING_SLOT_UTC)}</div>'
+            f'<div class="bd-h3" style="font-size:24px">One read a day, at {esc(_et_from_utc_hhmm(EVENING_SLOT_UTC))}</div>'
             f'<p class="bd-read" style="font-size:15px">The day\'s checked stories and the '
             f'Board\'s closing numbers in a single newspaper-style page. No hype, no paid '
             f'promotion, no sponsored coins.</p>'
@@ -2650,7 +2694,7 @@ def _bd_news_cards(items, n=4):
 # one and kept the evening slot, because it is the one that lands on time: over
 # 09-05 to 09-07 it was the only slot inside 45 minutes of its cron. This is the
 # cron in crypto-news-brief.yml, and the two must move together.
-EVENING_SLOT_UTC = "23:08 UTC"
+EVENING_SLOT_UTC = "23:08"        # the schedule, in UTC; rendered on the ET clock
 
 
 def _learn_read_min(slug):
@@ -3269,16 +3313,10 @@ _CC_RENDER = {"stables_by_issuer": _cc_stables_table,
 
 
 def _cc_stamp(iso):
-    """The table's as-of time, in UTC. This desk stamps in UTC throughout: it covers a
-    market with no closing bell, and an Eastern stamp would imply one."""
-    import datetime as _dt
-    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%MZ"):
-        try:
-            t = _dt.datetime.strptime(iso, fmt)
-            return t.strftime("%H:%M UTC, %-d %b %Y")
-        except Exception:
-            continue
-    return ""
+    """The table's as-of time on the reader's clock (C-19). See _et_clock for why this
+    is no longer UTC."""
+    dt = _utc_dt(iso)
+    return f'{_et_clock(dt)}, {dt.astimezone(_ET).strftime("%-d %b %Y")}' if dt else ""
 
 
 def render_living_table_page(spec, data, dateline):
@@ -3410,8 +3448,9 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False):
     feat = lane_items[0]
     rest = lane_items[1:4]
     newest = max((i.get("published_utc") or "") for i in lane_items)[:10]
-    status = (f"{len(lane_items)} pieces in the Record, newest {esc(newest)}"
-              if newest else f"{len(lane_items)} pieces in the Record")
+    # was "1 pieces in the Record"; no noun, so no plural to get wrong (C-20)
+    status = (f"{len(lane_items)} in the Record · newest {esc(fmt_short_date(newest))}"
+              if newest else f"{len(lane_items)} in the Record")
     srcs = []
     for i in lane_items[:6]:
         for s in (i.get("sources") or []):
@@ -5142,7 +5181,7 @@ def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
         gen = _dt.datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_dt.timezone.utc)
     except ValueError:
         return f'<p class="data-stamp">Data as of {esc(ts)}.</p>'
-    stamp = gen.strftime("%H:%M UTC on %d %b %Y").replace(" 0", " ")
+    stamp = f'{_et_clock(gen)} on {gen.astimezone(_ET).strftime("%d %b %Y")}'.replace(" 0", " ")
     age_h = (_dt.datetime.now(_dt.timezone.utc) - gen).total_seconds() / 3600
     if age_h > promise_hours:
         hrs = int(age_h)
@@ -6281,7 +6320,7 @@ def render_board_panel(item):
                  f'<span class="bp-d">perp lean</span></div>')
     if not rows:
         return ""
-    when = esc((snap.get("as_of") or "")[:16].replace("T", " ") + " UTC")
+    when = esc(_et_clock(_utc_dt((snap.get("as_of") or "")[:17] + "Z")) or "")
     return (f'<aside class="board-panel"><h2>The market when this story published</h2>'
             f'<p class="mut">Measured by this desk\'s own boards at {when}, the run '
             f'this story shipped in. Not live numbers: the '
