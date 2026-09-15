@@ -1293,7 +1293,16 @@ def footer(brand="site"):
                     # nav; repeating them here gave every page two links to each and
                     # helped invert the link graph. The footer keeps what the nav does
                     # not carry (same trim the sibling desks shipped 2026-08-25).
-                    [("How we work", "/method.html"),
+                    #
+                    # C-17 adds The Record. C-4 assumed "Archive stays in the footer
+                    # where it already is" - it did not: after Archive left the nav the
+                    # homepage linked it zero times. Both are here now. That is two more
+                    # site-wide links than the 2026-08-25 trim wanted, and the trade is
+                    # deliberate: a page the reader cannot click from the front door is
+                    # closer to not existing than the link graph is to inverted.
+                    [("The Record", "/record.html"),
+                     ("Archive", "/archive.html"),
+                     ("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"),
                      ("How we make money", "/how-we-make-money.html"),
                      ("Accessibility", "/accessibility.html"),
