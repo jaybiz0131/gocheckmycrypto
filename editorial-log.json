@@ -4,48 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c001",
-    "headline": "CFTC Orders KalshiEX to Continue Operations Under Emergency Authority",
-    "category": "accuracy",
-    "reasons": [
-     "The draft attributes a quote to 'CFTC Chairman Michael S. Selig' ('New York intends to make event contract derivatives waste away under its iron curtain of state gaming laws...') but this exact quote does not appear as a data_point in the brief. The brief lists Chairman Selig quotes about Congress's intent and New York's lack of jurisdiction, but not the 'iron curtain' quote. This is a smuggled fact\u2014paraphrased attribution to a source not verified in the brief.",
-     "The draft states 'The CFTC framed the emergency order as necessary to maintain market stability' but the brief's corresponding data_point says the CFTC 'exercised its emergency authority in response to KalshiEX's notification of a market emergency'\u2014the brief does not confirm that the CFTC explicitly framed the order as 'necessary to maintain market stability,' only that it responded to a notification. The draft adds interpretive language not grounded in the source.",
-     "The draft asserts that 'the sources available do not include the text of the CFTC's emergency order itself, only the press release' and lists this as unverified from primary sources. However, this acknowledgment of source limitation is not itself a data_point in the brief and represents the writer's editorial judgment about what is missing, not a fact traced to research. The desk instruction is that facts come from the brief, not from the writer's meta-commentary about the brief's gaps."
-    ]
-   },
-   {
-    "id": "c062",
-    "headline": "Harmony's ONE Token Drops 37% After Smart-Contract Exploit",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'An attacker exploited vulnerabilities in Harmony's consensus layer to mint tokens on August 12' but the brief's core_claim and data_points specify that the attacker minted '4 billion ONE tokens,' not merely 'tokens.' The draft omits the specific volume, which is a material fact present in the brief. More critically, the draft opens with 'exploited vulnerabilities in Harmony's consensus layer' while the brief's data_point says 'An attacker exploited smart-contract vulnerabilities in Harmony'\u2014the draft upgrades 'smart-contract vulnerabilities' to 'consensus layer vulnerabilities,' which is a factual claim not found in the brief. This is smuggled information or an unsupported interpretation.",
-     "The draft states 'The brief source material does not specify the attack's timeline, the volume of minted tokens, the attackers' identity, or how much of the unauthorized supply has moved to exchanges.' However, the brief's data_points DO specify 'the volume of minted tokens' (4 billion ONE). The draft falsely claims this information is absent from the source, contradicting the brief itself.",
-     "The draft is thin (brief.thin=true) and the source_chars field is empty (0), yet the draft still references 'quorum and receipt-replay mechanisms' as the vulnerabilities. This detail is in the brief's data_points but the source appears to have no content provided ('source_chars': 0), making this claim unverifiable against the actual Decrypt article. The writer is relying on the brief's claim without access to the source text\u2014acceptable if attributed, but the draft does not signal this limitation clearly enough."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Russia Restricts Retail Crypto Trading to Bitcoin, Ether, USDT from September 1",
-    "category": "compliance",
-    "reasons": [
-     "Draft header flags 'boundary_required': true and 'boundary_ok': false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft does turn on a specific effective date (September 1, 2026) and specific threshold (300,000 rubles, ~$3,600). The desk's boundary requirement was flagged but not satisfied. A compliance hold is warranted until a boundary block is added to the brief or the draft is revised to remove the dependency on an unverified threshold."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "Anchorpoint launches HKDAP Hong Kong dollar stablecoin with institutional distributors",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Hong Kong passed stablecoin legislation in May 2025, roughly two months before the U.S. GENIUS Act was signed into law.' This is a smuggled fact not present in the brief's data_points. The brief only confirms the Hong Kong legislation timing; the U.S. GENIUS Act signing date and the 'roughly two months' timeline are not sourced to CoinDesk reporting and cannot be verified against the provided brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-13",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c043",
     "headline": "Harmony Acknowledges Exploit; Onchain Observer Says 4 Billion ONE Tokens Unauthorized, Claims Unconfirmed",
     "category": "accuracy",
@@ -6271,6 +6229,24 @@
      "The brief data_point says the 250M USDC mint is 'verified-on-chain' (line-item confidence), yet the draft explicitly reports that Whale Alert's source pages are inaccessible and the wallet origin is unconfirmed. A fact cannot be both verified-on-chain AND unverifiable from the available sources.",
      "The draft's opening ('Whale Alert published four transaction IDs...associated with a 250 million USDC event') hedges the event as 'associated with' rather than confirmed as a mint, which is the correct posture. But this contradicts the brief's core_claim that presents the mint as settled fact.",
      "The brief's 'thin: true' flag and minimal data_points (only two) signal that the story rests on thin sourcing. The draft correctly identifies this thinness and refuses to assert the mint as occurred\u2014but that makes the brief's 'verified-on-chain' confidence label misleading. Either the brief overstates confidence or the draft is correct to hedge."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c236",
+    "headline": "250M USDC Minted on Solana in Whale Alert Flags, September 14",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims 'four transaction IDs on September 14, 2026, associated with 250,000,000 USDC' but brief data_points do not specify four separate transactions; only the core_claim mentions the mint amount and the first data_point references one transaction URL. The draft states facts (four transaction IDs, their dates, their routing) that are not substantiated in the brief.",
+     "Draft states transactions 'were routed to Circle's USDC treasury address' but brief does not confirm this detail; brief only says mint was 'to the Circle USDC treasury' in core_claim, not verified in data_points.",
+     "Draft claims 'The source pages display login and API subscription prompts, preventing independent verification' but brief contains no data_point supporting this claim about source page behavior. This is new information not in the brief.",
+     "Draft asserts 'The claim of a $250 million USDC mint and its routing to treasury cannot be corroborated from the accessible source material' but brief data_points are marked 'verified-on-chain' confidence, contradicting the draft's assertion of non-corroboration. The draft narrates absence of verification when the brief establishes on-chain verification.",
+     "Draft contains interpretive analysis ('typically reflect either routine Circle treasury operations, capital raises, or liquidity management moves') not grounded in data_points from the brief; this is the writer's speculation, not reported information."
     ]
    }
   ]
