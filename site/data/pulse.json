@@ -1,6 +1,6 @@
 {
   "generated": "2026-09-15",
-  "generated_utc": "2026-09-15T22:00:58Z",
+  "generated_utc": "2026-09-15T22:30:57Z",
   "note": "Free public market data, computed with standard formulas at build time: sentiment from alternative.me, prices from CoinGecko, stablecoin float from DefiLlama, Bitcoin network data from mempool.space. Market data, not news, not advice.",
   "fng": {
     "value": 69,
@@ -108,17 +108,17 @@
     {
       "symbol": "BTC",
       "name": "bitcoin",
-      "price": 75440.3,
-      "chg_24h_pct": -3.5,
-      "rsi14": 47.7,
+      "price": 75760.41,
+      "chg_24h_pct": -3.09,
+      "rsi14": 48.7,
       "macd_above_signal": false,
-      "sma50": 71651.02,
-      "sma200": 70227.81,
+      "sma50": 71657.42,
+      "sma200": 70229.41,
       "above_sma200": true,
       "golden_cross": true,
-      "pct_from_high_12m": -39.5,
+      "pct_from_high_12m": -39.3,
       "high_12m_usd": 124739.81,
-      "vol30_pct": 49.7,
+      "vol30_pct": 49.3,
       "spark": [
         62897.238555,
         63489.810948,
@@ -183,7 +183,7 @@
         76554.98665,
         77261.627221,
         76819.044967,
-        75440.303619
+        75760.411211
       ],
       "spark_sma50": [
         72949.747323,
@@ -249,7 +249,7 @@
         70403.230202,
         70909.630954,
         71159.64695,
-        71651.016506
+        71657.418658
       ],
       "spark_sma200": [
         77105.200313,
@@ -315,7 +315,7 @@
         69953.573245,
         70081.841799,
         70126.686498,
-        70227.814456
+        70229.414994
       ],
       "spark_high": 81264.7,
       "spark_low": 58566.09,
@@ -329,17 +329,17 @@
     {
       "symbol": "ETH",
       "name": "ethereum",
-      "price": 2392.72,
-      "chg_24h_pct": -4.85,
-      "rsi14": 49.9,
+      "price": 2402.09,
+      "chg_24h_pct": -4.48,
+      "rsi14": 50.7,
       "macd_above_signal": false,
-      "sma50": 2207.19,
-      "sma200": 2062.14,
+      "sma50": 2207.37,
+      "sma200": 2062.19,
       "above_sma200": true,
       "golden_cross": true,
-      "pct_from_high_12m": -49.0,
+      "pct_from_high_12m": -48.8,
       "high_12m_usd": 4690.84,
-      "vol30_pct": 74.1,
+      "vol30_pct": 73.7,
       "spark": [
         1710.079111,
         1708.878554,
@@ -404,7 +404,7 @@
         2437.514813,
         2525.267262,
         2476.682526,
-        2392.723842
+        2402.090233
       ],
       "spark_sma50": [
         2025.807391,
@@ -470,7 +470,7 @@
         2147.815205,
         2173.859425,
         2185.90393,
-        2207.186511
+        2207.373839
       ],
       "spark_sma200": [
         2382.516997,
@@ -536,7 +536,7 @@
         2048.637779,
         2055.281839,
         2057.399763,
-        2062.14406
+        2062.190892
       ],
       "spark_high": 2525.27,
       "spark_low": 1566.01,
@@ -550,17 +550,17 @@
     {
       "symbol": "SOL",
       "name": "solana",
-      "price": 96.6353,
-      "chg_24h_pct": -5.73,
-      "rsi14": 48.3,
+      "price": 97.2519,
+      "chg_24h_pct": -5.13,
+      "rsi14": 49.1,
       "macd_above_signal": false,
-      "sma50": 88.89,
+      "sma50": 88.9,
       "sma200": 83.28,
       "above_sma200": true,
       "golden_cross": true,
-      "pct_from_high_12m": -61.0,
+      "pct_from_high_12m": -60.7,
       "high_12m_usd": 247.6,
-      "vol30_pct": 70.8,
+      "vol30_pct": 70.0,
       "spark": [
         69.648754,
         69.675106,
@@ -625,7 +625,7 @@
         98.631258,
         101.752393,
         99.326005,
-        96.635254
+        97.251877
       ],
       "spark_sma50": [
         80.47232,
@@ -691,7 +691,7 @@
         86.341543,
         87.429297,
         87.926274,
-        88.892587
+        88.90492
       ],
       "spark_sma200": [
         98.403533,
@@ -757,7 +757,7 @@
         82.830172,
         83.06378,
         83.120014,
-        83.275141
+        83.278224
       ],
       "spark_high": 109.18,
       "spark_low": 67.63,
@@ -771,17 +771,17 @@
     {
       "symbol": "XRP",
       "name": "ripple",
-      "price": 1.2778,
-      "chg_24h_pct": -10.21,
-      "rsi14": 44.8,
+      "price": 1.2929,
+      "chg_24h_pct": -9.16,
+      "rsi14": 45.9,
       "macd_above_signal": false,
       "sma50": 1.23,
       "sma200": 1.27,
       "above_sma200": true,
       "golden_cross": false,
-      "pct_from_high_12m": -58.6,
+      "pct_from_high_12m": -58.1,
       "high_12m_usd": 3.0842,
-      "vol30_pct": 99.3,
+      "vol30_pct": 97.7,
       "spark": [
         1.145702,
         1.135208,
@@ -846,7 +846,7 @@
         1.33401,
         1.366232,
         1.341588,
-        1.277844
+        1.292858
       ],
       "spark_sma50": [
         1.307428,
@@ -912,7 +912,7 @@
         1.206483,
         1.216953,
         1.221838,
-        1.232316
+        1.232617
       ],
       "spark_sma200": [
         1.561597,
@@ -978,7 +978,7 @@
         1.27497,
         1.274958,
         1.274476,
-        1.274089
+        1.274164
       ],
       "spark_high": 1.52,
       "spark_low": 0.99,
@@ -992,17 +992,17 @@
     {
       "symbol": "BNB",
       "name": "binancecoin",
-      "price": 710.82,
-      "chg_24h_pct": -1.32,
-      "rsi14": 53.1,
+      "price": 713.76,
+      "chg_24h_pct": -0.91,
+      "rsi14": 54.0,
       "macd_above_signal": false,
-      "sma50": 658.17,
-      "sma200": 626.14,
+      "sma50": 658.23,
+      "sma200": 626.15,
       "above_sma200": true,
       "golden_cross": true,
-      "pct_from_high_12m": -45.6,
+      "pct_from_high_12m": -45.4,
       "high_12m_usd": 1307.76,
-      "vol30_pct": 46.7,
+      "vol30_pct": 46.5,
       "spark": [
         578.094114,
         580.549879,
@@ -1067,7 +1067,7 @@
         708.427849,
         727.386146,
         716.270533,
-        710.817455
+        713.764979
       ],
       "spark_sma50": [
         635.723526,
@@ -1133,7 +1133,7 @@
         642.948274,
         649.398256,
         652.353858,
-        658.166296
+        658.225247
       ],
       "spark_sma200": [
         709.745952,
@@ -1199,7 +1199,7 @@
         623.374932,
         624.742457,
         625.178499,
-        626.13978
+        626.154518
       ],
       "spark_high": 766.41,
       "spark_low": 545.86,
@@ -1213,17 +1213,17 @@
     {
       "symbol": "DOGE",
       "name": "dogecoin",
-      "price": 0.0796,
-      "chg_24h_pct": -4.79,
-      "rsi14": 43.4,
+      "price": 0.0803,
+      "chg_24h_pct": -3.94,
+      "rsi14": 44.4,
       "macd_above_signal": false,
       "sma50": 0.08,
       "sma200": 0.09,
       "above_sma200": false,
       "golden_cross": false,
-      "pct_from_high_12m": -71.8,
+      "pct_from_high_12m": -71.6,
       "high_12m_usd": 0.2827,
-      "vol30_pct": 80.2,
+      "vol30_pct": 79.5,
       "spark": [
         0.083457,
         0.08344,
@@ -1288,7 +1288,7 @@
         0.082878,
         0.08481,
         0.082433,
-        0.079625
+        0.08034
       ],
       "spark_sma50": [
         0.099715,
@@ -1354,7 +1354,7 @@
         0.07761,
         0.078218,
         0.078433,
-        0.078825
+        0.07884
       ],
       "spark_sma200": [
         0.10848,
@@ -1420,7 +1420,7 @@
         0.088338,
         0.088253,
         0.088158,
-        0.088015
+        0.088019
       ],
       "spark_high": 0.09,
       "spark_low": 0.07,
@@ -1434,17 +1434,17 @@
     {
       "symbol": "ADA",
       "name": "cardano",
-      "price": 0.1942,
-      "chg_24h_pct": -6.87,
-      "rsi14": 43.1,
+      "price": 0.1959,
+      "chg_24h_pct": -6.03,
+      "rsi14": 44.0,
       "macd_above_signal": false,
       "sma50": 0.2,
       "sma200": 0.22,
       "above_sma200": false,
       "golden_cross": false,
-      "pct_from_high_12m": -79.0,
+      "pct_from_high_12m": -78.8,
       "high_12m_usd": 0.9257,
-      "vol30_pct": 87.0,
+      "vol30_pct": 86.1,
       "spark": [
         0.163527,
         0.161991,
@@ -1509,7 +1509,7 @@
         0.204595,
         0.207334,
         0.203647,
-        0.194201
+        0.195949
       ],
       "spark_sma50": [
         0.225586,
@@ -1575,7 +1575,7 @@
         0.193728,
         0.195355,
         0.196134,
-        0.197763
+        0.197797
       ],
       "spark_sma200": [
         0.296295,
@@ -1641,7 +1641,7 @@
         0.220116,
         0.219405,
         0.218876,
-        0.217927
+        0.217936
       ],
       "spark_high": 0.23,
       "spark_low": 0.14,
@@ -5881,10 +5881,10 @@
       {
         "symbol": "BTC",
         "venue": "OKX",
-        "funding_8h_pct": 0.0038,
-        "funding_annual_pct": 4.2,
+        "funding_8h_pct": 0.0048,
+        "funding_annual_pct": 5.3,
         "next_funding_utc": "00:00 UTC",
-        "open_interest_usd": 2118406076,
+        "open_interest_usd": 2115585019,
         "funding_history_pct": [
           0.0048,
           0.0068,
@@ -5940,7 +5940,7 @@
           2874697096,
           2911256908
         ],
-        "long_short_ratio": 1.76,
+        "long_short_ratio": 1.77,
         "long_short_history": [
           1.41,
           1.19,
@@ -5971,22 +5971,22 @@
           1.69,
           1.29,
           1.83,
-          1.76
+          1.77
         ],
         "liquidations": {
           "window_hours": 1,
           "count": 100,
-          "longs_usd": 715223,
-          "shorts_usd": 582
+          "longs_usd": 652992,
+          "shorts_usd": 824448
         }
       },
       {
         "symbol": "ETH",
         "venue": "OKX",
-        "funding_8h_pct": -0.0011,
-        "funding_annual_pct": -1.2,
+        "funding_8h_pct": -0.0008,
+        "funding_annual_pct": -0.9,
         "next_funding_utc": "00:00 UTC",
-        "open_interest_usd": 1477111332,
+        "open_interest_usd": 1485348550,
         "funding_history_pct": [
           0.008,
           0.0045,
@@ -6042,7 +6042,7 @@
           1815401587,
           1807757365
         ],
-        "long_short_ratio": 2.06,
+        "long_short_ratio": 2.07,
         "long_short_history": [
           1.45,
           1.21,
@@ -6073,22 +6073,22 @@
           1.61,
           1.38,
           2.16,
-          2.06
+          2.07
         ],
         "liquidations": {
           "window_hours": 1,
           "count": 100,
-          "longs_usd": 4381308,
-          "shorts_usd": 751620
+          "longs_usd": 4345942,
+          "shorts_usd": 830078
         }
       },
       {
         "symbol": "SOL",
         "venue": "OKX",
-        "funding_8h_pct": -0.0058,
-        "funding_annual_pct": -6.4,
+        "funding_8h_pct": -0.0057,
+        "funding_annual_pct": -6.2,
         "next_funding_utc": "00:00 UTC",
-        "open_interest_usd": 247637814,
+        "open_interest_usd": 249855883,
         "funding_history_pct": [
           -0.0094,
           -0.0027,
@@ -6144,7 +6144,7 @@
           310671139,
           300303374
         ],
-        "long_short_ratio": 2.32,
+        "long_short_ratio": 2.4,
         "long_short_history": [
           2.12,
           1.56,
@@ -6175,22 +6175,22 @@
           2.22,
           1.95,
           2.28,
-          2.32
+          2.4
         ],
         "liquidations": {
           "window_hours": 4,
           "count": 100,
           "longs_usd": 175352,
-          "shorts_usd": 39276
+          "shorts_usd": 35538
         }
       },
       {
         "symbol": "XRP",
         "venue": "OKX",
-        "funding_8h_pct": 0.0072,
-        "funding_annual_pct": 7.9,
+        "funding_8h_pct": 0.0055,
+        "funding_annual_pct": 6.0,
         "next_funding_utc": "00:00 UTC",
-        "open_interest_usd": 100998384,
+        "open_interest_usd": 102801451,
         "funding_history_pct": [
           0.0099,
           0.0077,
@@ -6246,7 +6246,7 @@
           115404711,
           124481596
         ],
-        "long_short_ratio": 2.9,
+        "long_short_ratio": 3.0,
         "long_short_history": [
           3.69,
           2.8,
@@ -6277,22 +6277,22 @@
           2.89,
           2.32,
           2.62,
-          2.9
+          3.0
         ],
         "liquidations": {
-          "window_hours": 2,
+          "window_hours": 3,
           "count": 100,
-          "longs_usd": 837696,
-          "shorts_usd": 58219
+          "longs_usd": 800986,
+          "shorts_usd": 67017
         }
       },
       {
         "symbol": "DOGE",
         "venue": "OKX",
-        "funding_8h_pct": 0.0096,
-        "funding_annual_pct": 10.6,
+        "funding_8h_pct": 0.0092,
+        "funding_annual_pct": 10.1,
         "next_funding_utc": "00:00 UTC",
-        "open_interest_usd": 79335880,
+        "open_interest_usd": 79886830,
         "funding_history_pct": [
           0.01,
           0.01,
@@ -6348,7 +6348,7 @@
           108862813,
           103641495
         ],
-        "long_short_ratio": 4.68,
+        "long_short_ratio": 4.71,
         "long_short_history": [
           5.43,
           4.4,
@@ -6379,7 +6379,7 @@
           4.53,
           4.17,
           4.83,
-          4.68
+          4.71
         ],
         "liquidations": {
           "window_hours": 4,
@@ -6392,14 +6392,14 @@
     "note": "Perpetual-swap funding and open interest from public exchange data (single-venue snapshots, not market-wide totals)."
   },
   "market": {
-    "total_mcap_usd": 2576752159951,
-    "mcap_change_24h_pct": -7.0,
-    "btc_dominance_pct": 58.4
+    "total_mcap_usd": 2593992749531,
+    "mcap_change_24h_pct": -6.18,
+    "btc_dominance_pct": 58.5
   },
   "etf_flows": {
     "btc": {
       "latest_date": "15 Sep 2026",
-      "latest_net_usd_m": -56.5,
+      "latest_net_usd_m": -73.9,
       "recent": [
         {
           "date": "01 Sep 2026",
@@ -6439,14 +6439,14 @@
         },
         {
           "date": "15 Sep 2026",
-          "net_usd_m": -56.5
+          "net_usd_m": -73.9
         }
       ],
-      "cumulative_usd_m": 55327.0
+      "cumulative_usd_m": 55310.0
     },
     "eth": {
       "latest_date": "15 Sep 2026",
-      "latest_net_usd_m": -51.9,
+      "latest_net_usd_m": -49.5,
       "recent": [
         {
           "date": "01 Sep 2026",
@@ -6486,50 +6486,50 @@
         },
         {
           "date": "15 Sep 2026",
-          "net_usd_m": -51.9
+          "net_usd_m": -49.5
         }
       ],
-      "cumulative_usd_m": 13451.0
+      "cumulative_usd_m": 13454.0
     },
     "note": "US spot ETF net creations/redemptions in USD millions, as published by the funds and tabulated by Farside Investors. Flow data lags a trading day and pauses on market holidays."
   },
   "network": {
-    "fastest_fee": 1,
+    "fastest_fee": 2,
     "hour_fee": 1,
     "difficulty_change_pct": 5.3,
-    "retarget_blocks": 488
+    "retarget_blocks": 484
   },
-  "written_utc": "2026-09-15T22:30:57Z",
+  "written_utc": "2026-09-15T23:10:48Z",
   "sections_utc": {
-    "fng": "2026-09-15T22:30:57Z",
-    "assets": "2026-09-15T22:00:58Z",
+    "fng": "2026-09-15T23:10:48Z",
+    "assets": "2026-09-15T23:10:48Z",
     "movers": "2026-09-15T22:30:57Z",
-    "stables": "2026-09-15T22:30:57Z",
-    "leverage": "2026-09-15T22:30:57Z",
-    "market": "2026-09-15T22:30:57Z",
-    "etf_flows": "2026-09-15T22:30:57Z",
-    "network": "2026-09-15T22:30:57Z"
+    "stables": "2026-09-15T23:10:48Z",
+    "leverage": "2026-09-15T23:10:48Z",
+    "market": "2026-09-15T23:10:48Z",
+    "etf_flows": "2026-09-15T23:10:48Z",
+    "network": "2026-09-15T23:10:48Z"
   },
   "carried_forward": [
-    "assets"
+    "movers"
   ],
   "daily": {
     "bitcoin": [
       {
         "d": "2026-09-15",
         "o": 76396.18,
-        "c": 75440.3,
+        "c": 75760.41,
         "ot": "16:41",
-        "ct": "22:02"
+        "ct": "23:12"
       }
     ],
     "market": [
       {
         "d": "2026-09-15",
         "o": 2623324652486,
-        "c": 2576752159951,
+        "c": 2593992749531,
         "ot": "16:41",
-        "ct": "22:32"
+        "ct": "23:12"
       }
     ],
     "stables": [
@@ -6538,7 +6538,7 @@
         "o": 310309946839,
         "c": 310270633963,
         "ot": "16:41",
-        "ct": "22:32"
+        "ct": "23:12"
       }
     ],
     "fng": [
@@ -6547,25 +6547,25 @@
         "o": 69,
         "c": 69,
         "ot": "16:41",
-        "ct": "22:32"
+        "ct": "23:12"
       }
     ],
     "network": [
       {
         "d": "2026-09-15",
         "o": 1,
-        "c": 1,
+        "c": 2,
         "ot": "16:41",
-        "ct": "22:32"
+        "ct": "23:12"
       }
     ],
     "leverage": [
       {
         "d": "2026-09-15",
         "o": 4242403325,
-        "c": 4023489486,
+        "c": 4033477733,
         "ot": "16:41",
-        "ct": "22:32"
+        "ct": "23:12"
       }
     ]
   }
