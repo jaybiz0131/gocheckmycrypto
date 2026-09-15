@@ -929,11 +929,40 @@ def load_flows():
     return None
 
 
+CM_ARCHIVE = os.path.join(SITE, "data", "chartmaster")
+
+
 def load_chartmaster():
     path = os.path.join(SITE, "data", "chartmaster.json")
-    if os.path.exists(path):
-        return json.load(open(path, encoding="utf-8"))
-    return None
+    if not os.path.exists(path):
+        return None
+    cm = json.load(open(path, encoding="utf-8"))
+    # C-14: keep a dated copy. chartmaster.json is overwritten every build, so the
+    # archive the audit asks for has no history unless the desk starts keeping one.
+    # Written once per day and never overwritten, so a later build cannot rewrite what
+    # the day actually said.
+    day = str(cm.get("date") or "")[:10]
+    if day:
+        try:
+            os.makedirs(CM_ARCHIVE, exist_ok=True)
+            dst = os.path.join(CM_ARCHIVE, f"{day}.json")
+            if not os.path.exists(dst):
+                json.dump(cm, open(dst, "w", encoding="utf-8"), indent=1)
+        except Exception as e:
+            print(f"chartmaster: archive skipped ({type(e).__name__})")
+    return cm
+
+
+def load_cm_archive(limit=60):
+    """Every dated read this desk holds, newest first."""
+    import glob as _glob
+    out = []
+    for f in sorted(_glob.glob(os.path.join(CM_ARCHIVE, "*.json")), reverse=True)[:limit]:
+        try:
+            out.append(json.load(open(f, encoding="utf-8")))
+        except Exception:
+            continue
+    return out
 
 
 def load_pulse():
@@ -4005,7 +4034,12 @@ def render_home(items, flows, pulse, cm, dateline):
         # band is the light editorial page.
         cm_quote = ""
         _cm = (cm or {}) if isinstance(cm, dict) else {}
-        _read = (_cm.get("read") or _cm.get("text") or "").strip()
+        # chartmaster.json carries `headline` and `paragraphs`; there is no "read" key,
+        # which is why this card was empty after C-21 shipped.
+        _read = (_cm.get("headline") or "").strip()
+        if not _read:
+            _ps = _cm.get("paragraphs") or []
+            _read = (_ps[0] if _ps else "").strip()
         if _read:
             cm_quote = (f'<p class="cb-cm">{esc(clamp_words(_read, 190))}</p>')
         board_mod = f"""<section class="cb-hero" aria-labelledby="bd-board">
@@ -4887,7 +4921,7 @@ def render_flows(flows, dateline):
       own.</p></div>
   </div>
   {data_stamp(flows, what="This whale board")}
-  <p class="nfa">{esc(flows.get("note",""))} {esc(NFA)}</p>
+  <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",
                  "Whale Watch", body, dateline, path="/flows.html")
@@ -5413,10 +5447,67 @@ def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
             f'close. Eight numbers, one explainer each.</p>')
 
 
+_TILE_FOR_SLUG = {"prices": "bitcoin", "posture": "bitcoin", "sentiment": "fng",
+                  "stablecoins": "stables", "etf": "etf", "leverage": "leverage",
+                  "network": "network", "movers": "bitcoin"}
+
+
+def _week_ago_line(slug, data):
+    """C-15: "This time last week", from the tile's own series, and only when the series
+    actually reaches back a week - five daily points cannot answer the question, so the
+    line is omitted rather than answered from the nearest point it has.
+
+    THE UNIT FOLLOWS THE SERIES, and this is the same trap C-6 cleared off the tiles. A
+    percent change of a SIGNED series is meaningless: the first cut of this line printed
+    "ETF flows: up 58.2%" for a net-flow series that crosses zero, which is exactly the
+    "-1703.2% over the period" the audit had just removed. Flow and funding series get a
+    direction and a magnitude in their own unit; an index gets points; only a price or a
+    supply gets a percent."""
+    key = _TILE_FOR_SLUG.get(slug)
+    if not key:
+        return ""
+    vals, _win = _series_for(key, data, None)
+    pts = [v for v in (vals or []) if isinstance(v, (int, float))]
+    if len(pts) < 8:
+        return ""
+    now, then = pts[-1], pts[-8]
+    kind = (TILE_SERIES.get(key) or ("", "", ""))[2]
+    if kind in ("net flow", "funding"):
+        # A signed series: say which side of zero it sat on, in that series' own words.
+        # Funding is a RATE, not a flow - "an inflow" would be the wrong noun for it.
+        if kind == "funding":
+            word = {1: "positive", -1: "negative", 0: "flat"}
+        else:
+            word = {1: "an inflow", -1: "an outflow", 0: "flat"}
+        sgn = lambda v: 1 if v > 0 else (-1 if v < 0 else 0)
+        was, isnow = word[sgn(then)], word[sgn(now)]
+        if was == isnow:
+            return f'<p class="tile-week">This time last week: also {esc(was)}.</p>'
+        return (f'<p class="tile-week">This time last week: {esc(was)}, '
+                f'against {esc(isnow)} now.</p>')
+    if kind == "index":
+        d = now - then
+        if abs(d) < 0.5:
+            return '<p class="tile-week">This time last week: effectively unchanged.</p>'
+        return (f'<p class="tile-week">This time last week: '
+                f'{abs(d):.0f} points {"higher" if d < 0 else "lower"} than now.</p>')
+    if then == 0:
+        return ""
+    pct = ((now - then) / abs(then)) * 100
+    if abs(pct) < 0.05:
+        return '<p class="tile-week">This time last week: effectively unchanged.</p>'
+    return (f'<p class="tile-week">This time last week: '
+            f'{"up" if pct > 0 else "down"} {abs(pct):.1f}% since.</p>')
+
+
 def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None):
     stamp = data_stamp(data) if data is not None else ""
-    body = (f'<main class="wrap"><section class="page">\n{body_inner}\n{stamp}\n'
-            f'</section></main>')
+    week = _week_ago_line(slug, data) if data is not None else ""
+    # C-15: a sources line, not a methods note (G-9, same rule as C-13).
+    srcs = ('<p class="bd-src tile-src">Sources: public market data, alternative.me, '
+            'mempool.space.</p>')
+    body = (f'<main class="wrap"><section class="page">\n{body_inner}\n'
+            f'{week}{stamp}{srcs}\n</section></main>')
     return shell(f"{title} - The Board - {NAME}", desc, "The Board", body, dateline,
                  path=f"/pulse/{slug}.html", live_js=live)
 
@@ -5584,7 +5675,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
      <span data-live="stamp"></span></span></p>
   <div class="dash-grid widget-grid">{"".join(W)}</div>
   {data_stamp(pulse, what="The market boards")}
-  <p class="nfa">{esc(pulse.get("note", ""))} {esc(NFA)}</p>
+  <p class="nfa">{esc(NFA)}</p>
 </section></main>'''
     return shell(f"The Board - {NAME}", desc, "The Board", body, dateline,
                  path="/pulse.html", live_js=True)
@@ -5640,7 +5731,7 @@ def render_pulse_sentiment(pulse, dateline):
       about prices, which is exactly why it is useful and exactly why it should never be a
       buy or sell signal on its own.</p></div>
   </div>
-  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+  <p class="nfa">{esc(NFA)}</p>"""
     return _dash_shell("sentiment", "Crowd sentiment", desc, inner, dateline, data=pulse)
 
 
@@ -5691,7 +5782,7 @@ def render_pulse_posture(pulse, dateline):
       standard formulas so you can learn to read them yourself, and we will never turn them
       into a buy or sell call. That is the deal.</p></div>
   </div>
-  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+  <p class="nfa">{esc(NFA)}</p>"""
     return _dash_shell("posture", "Price posture", desc, inner, dateline, live=True, data=pulse)
 
 
@@ -5745,7 +5836,7 @@ def render_pulse_stables(pulse, dateline):
       where big chunks of it are MOVING, onto or off exchanges. Size is the fuel level, flows
       are the throttle.</p></div>
   </div>
-  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+  <p class="nfa">{esc(NFA)}</p>"""
     return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline, data=pulse)
 
 
@@ -5813,7 +5904,7 @@ def render_pulse_movers(pulse, dateline):
       already happened is how crowds get hurt. This board is a snapshot of where the action
       was, never a list of things to buy.</p></div>
   </div>
-  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+  <p class="nfa">{esc(NFA)}</p>"""
     return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True, data=pulse)
 
 
@@ -5909,7 +6000,7 @@ def render_pulse_prices(pulse, dateline):
       confirms. Freed places are filled from further down, so this is still a full
       hundred.</p></div>
   </div>{screened}
-  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+  <p class="nfa">{esc(NFA)}</p>"""
     return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True, data=pulse)
 
 
@@ -6116,7 +6207,7 @@ def render_pulse_network(pulse, dateline):
       <p>Network vitals move slowly and that is their value: they are hard to fake and hard to
       spin. They tell you about the health of the system, not tomorrow's price.</p></div>
   </div>
-  <p class="nfa">{esc((pulse or {}).get("note", ""))} {esc(NFA)}</p>"""
+  <p class="nfa">{esc(NFA)}</p>"""
     return _dash_shell("network", "Bitcoin network", desc, inner, dateline, live=True, data=pulse)
 
 
@@ -6161,12 +6252,31 @@ def render_chartmaster(read, dateline):
     he does not predict it.</p>
   </article>""" if read.get("paragraphs") else "")
 
+    # C-14: the page becomes a dated archive of reads. Today's is the first entry; the
+    # rest come from the dated files load_chartmaster keeps from this build onward. A
+    # day the desk does not hold is simply not listed - the archive shows what exists.
+    past = [r for r in load_cm_archive() if str(r.get("date")) != str(read.get("date"))]
+    archive_html = ""
+    if past:
+        rows = "".join(
+            f'<article class="bd-card cm-entry">'
+            f'<div class="bd-cardtop"><span class="bd-eyebrow">The read</span>'
+            f'<span class="bd-stamp">{esc(fmt_date(r.get("date")))}</span></div>'
+            f'<p class="cm-entry-h">{esc(destyle(r.get("headline") or ""))}</p>'
+            f'</article>' for r in past[:30])
+        archive_html = (
+            '<div class="bd-sec" style="margin-top:30px"><div class="bd-sec-l">'
+            '<span class="bd-eyebrow">The ledger</span>'
+            '<h2 class="bd-h2">Earlier reads</h2></div></div>'
+            f'<div class="cm-archive">{rows}</div>')
+
     body = cm_hero() + f"""<main class="wrap"><section class="page">
   <h1 style="margin-top:6px">The Chart Master</h1>
   <p class="lede">The desk's technician reads the boards so you learn to read them too:
      what the charts show, in plain language, with the receipts linked. He has one rule,
      carved over his door: <b>describe the tape, never predict it.</b></p>
   {read_html}
+  {archive_html}
 
   <div class="sec-head" style="margin-top:30px"><h2>The Oracle Challenge</h2><span class="bar"></span></div>
   <div class="pulse-card" id="oracle">

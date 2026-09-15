@@ -1304,3 +1304,14 @@ body{padding-bottom:64px}
   .bd-brief .bd-brief-hl{display:-webkit-box;-webkit-line-clamp:3;
     -webkit-box-orient:vertical;overflow:hidden}
 }
+
+/* C-14: the Chart Master's read as a quote card on the Board, and /chartmaster as a
+   dated ledger of earlier reads in the light system. */
+.cb-hero .cb-cm{border-left:2px solid rgba(255,255,255,.22);padding-left:14px}
+.cm-archive{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.cm-entry{padding:14px 16px;gap:7px}
+.cm-entry-h{margin:0;font:400 16px/1.45 var(--serif);color:var(--ink)}
+
+/* C-15: the tile pages carry the week-ago comparison and a sources line. */
+.tile-week{margin:14px 0 0;font-size:15px;line-height:1.5;color:var(--ink)}
+.tile-src{margin:6px 0 0;font-size:12.5px;color:var(--muted)}
