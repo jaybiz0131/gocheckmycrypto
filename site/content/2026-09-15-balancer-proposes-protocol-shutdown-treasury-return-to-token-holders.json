@@ -1,0 +1,68 @@
+{
+  "id": "c030",
+  "slug": "balancer-proposes-protocol-shutdown-treasury-return-to-token-holders",
+  "kind": "brief",
+  "title": "Balancer Proposes Protocol Shutdown, Treasury Return to Token Holders",
+  "dek": "Balancer's governance forum posted a proposal on September 14 to wind down the protocol and distribute its approximately $9 million treasury to BAL token holders in staged redemptions between May 2027 and July 2028. The shutdown follows a failed April restructuring and accelerating revenue decline, triggered by the DAO's breach of its own revenue floor.",
+  "date": "2026-09-15",
+  "published_utc": "2026-09-15T11:12:52Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 9,
+  "author": "Crypto Cronkite",
+  "key_fact": "Monthly protocol revenue fell to $30,000 in August against monthly burn of $150,000, crossing the $60,000-per-month threshold set in April's restructuring vote that would force a governance review.",
+  "bottom_line": "The Snapshot vote (September 25-29) will decide whether Balancer enters its phase-out. If approved, the first redemption window opens May 31, 2027. If rejected, the protocol continues under its April restructuring's terms; the vote outcome determines whether Balancer becomes a case study in orderly DAO exit or a test of whether reduced operating budgets can restore profitability.",
+  "human_take": "",
+  "body": [
+    "Balancer's governance forum posted a proposal on September 14 to wind down the protocol and return its treasury to BAL token holders through staged redemptions stretching from May 2027 to July 2028. The shutdown comes after the protocol's April restructuring failed to restore profitability, triggering an automatic governance review when monthly revenue fell below the mandated threshold.",
+    "The protocol faces a structural cash-flow crisis. According to The Defiant's reporting, monthly protocol revenue stood at $30,000 in August, down from $97,000 in June, against monthly burn of approximately $150,000. The April restructuring, known as BIP-918, had cut Balancer's operating budget 34 percent to $1.9 million and reduced staff from roughly 25 full-time equivalents to 12.5, while setting a review trigger if revenue fell below $60,000 monthly for three consecutive months. That threshold was crossed.",
+    "The proposal, authored by Marcus Hardt, who was added to Balancer's Treasury Council and foundation director multisig in April, cancels a buyback that token holders approved in April and replaces it with a pro-rata redemption mechanism. Under the plan, token holders burn BAL to receive their share of the treasury's non-BAL assets in kind. The $9 million treasury is larger than BAL's market capitalization of $7.71 million, per CoinGecko data cited in The Defiant's reporting. veBAL locks would unwind into 80/20 BAL/WETH pool tokens, which holders could then exit to BAL; positions held through derivative wrappers (auraBAL and sdBAL) must unwind before the first redemption round closes or forfeit their claim.",
+    "The distribution happens in three stages. Round one opens at the end of May 2027 at an announced, audited snapshot block and stays open six months, closing at the end of November 2027. Round two lands within two months of that close, at the end of January 2028, distributed as an airdrop to addresses that redeemed in round one. A final sweep six months later, at the end of July 2028, distributes whatever has arrived since round two. The winddown budget runs $150,000 from November 1 through May 2027, $30,000 from then to final sweep, and a $220,000 reserve drawn only if needed, totaling $400,000.",
+    "Operations step down in phases. On October 30, pools that can be paused move to withdrawals-only mode, with recovery mode enabled where required to keep exits open. Pools that cannot be paused keep running with protocol fee set to zero where contracts allow. The frontend, routing and communications treat everything as discontinued from that date, and bug bounty coverage ends the same day. From November 1, infrastructure steps down to a withdrawal interface, subgraph coverage and documentation, kept available through the veBAL unlock and both distribution rounds. Admin permissions, multisig roles and the Emergency subDAO are inventoried and then revoked or transferred, with treasury and distribution control retired last. An implementation specification for the claim contract is due by the end of February 2027 for comment; the contract must be audited before round one opens.",
+    "The November 2025 exploit that drained more than $128 million from legacy v2 pools accelerated the protocol's decline. Recovered funds stay outside the distribution and remain allocated to affected liquidity providers. Recovery work with private investigators and law enforcement continues under the Balancer Foundation until the entities close, with a separate vote to decide who carries recovery efforts after that. Contributors received two months of notice on August 27, running through October 31.",
+    "A Snapshot vote is scheduled for September 25 to September 29, with a 5 million BAL quorum. If the proposal fails, BIP-918's mandate and budget, the April buyback and the bug bounty remain in place. Contributors are working on a separate proposal to keep the infrastructure running under a new name."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/defi/balancer-proposes-shutting-down-and-distributing-treasury-to-bal-holders",
+      "url": "https://thedefiant.io/news/defi/balancer-proposes-shutting-down-and-distributing-treasury-to-bal-holders"
+    },
+    {
+      "title": "https://www.theblock.co/news/defi/2026-09-15-balancer-proposes-winding-down-414782",
+      "url": "https://www.theblock.co/news/defi/2026-09-15-balancer-proposes-winding-down-414782"
+    }
+  ],
+  "update_of": "u-s-treasury-brings-iran-s-crypto-sector-under-sanctions-authority",
+  "board_snapshot": {
+    "as_of": "2026-09-15T11:10:50Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77093.29,
+        "chg_24h_pct": -1.38
+      },
+      {
+        "symbol": "ETH",
+        "price": 2484.87,
+        "chg_24h_pct": -1.19
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 9.1,
+      "open_interest_usd": 2168281781
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 0,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Block"
+  ],
+  "developing": false
+}

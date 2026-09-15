@@ -1,53 +1,6 @@
 [
  {
   "date": "2026-08-12",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c012",
-    "headline": "Russia Limits Retail Crypto Trading to Three Assets, $3,600 Annual Cap Per Broker",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'starting September 1' as a definite date, but the brief's open_questions include 'Have the draft rules been finalized, and if so, have they been published in an official Russian regulatory register?' and the bear_case notes 'the rules remain draft rules at the time of reporting.' The draft presents unconfirmed implementation timing as fact without qualification."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "Coreum XRP Bridge Drained of $200,000 After Software Accepted Fake Deposits as Real",
-    "category": "compliance",
-    "reasons": [
-     "The draft header marks boundary_required=true and boundary_ok=false with reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' The draft violates the desk's boundary protocol by publishing a story flagged as requiring but lacking boundary specification. This is a compliance gate failure."
-    ]
-   },
-   {
-    "id": "c017",
-    "headline": "Fidelity Moves to Add Staking and Quarterly Payouts to $898 Million Ethereum ETF",
-    "category": "accuracy",
-    "reasons": [
-     "Paragraph 5 includes market data ('ethereum is trading at $1,904.72, down 60.6% from its 12-month high but showing short-term momentum: up 6.36% over the past 30 days and 1.81% over the past week') that does not appear in any data_point in the brief. This is smuggled information sourced from 'the desk's market data as of July 29' but the brief contains no such data_point. Facts must trace to research briefs; real-time price data inserted by the writer violates the hard rule."
-    ]
-   },
-   {
-    "id": "c002",
-    "headline": "Goldman Sachs Acquires NEOS for $2.25 Billion, Vaults Into Bitcoin Income ETF Market",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'BTCI has fallen roughly 43% over the past year' but the brief data_point says 'down 42.55% over the past year, with shares falling from a 52-week high of $65.87 to around $28.40.' The draft rounds to 43% while the brief specifies 42.55%. Minor variance acceptable; however, the sentence 'BTCI's performance has weighed on its valuation' in paragraph 6 presents an interpretive claim (causation between performance and valuation) that does not appear as a discrete fact in any data_point and crosses from reporting into analysis. The bear_case lists the performance fact but does not support the causal claim about valuation impact."
-    ]
-   },
-   {
-    "id": "c136",
-    "headline": "SEC Advances Tokenized-Securities Exemption That Could Enable 24/7 Trading",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The SEC's Friday meeting agenda does not list the innovation exemption' and 'The only item listed is whether to issue a release proposing new rules for a tailored offering regime for certain investment contracts involving crypto assets.' However, the brief data_point says 'The SEC's Friday meeting agenda does not list the innovation exemption; its only item is whether to issue a release proposing new rules for \"a tailored offering regime for certain investment contracts involving crypto assets,\" a separate initiative concerning crypto offerings.' The draft presents the Friday meeting as having only one item total, which is not stated in the brief. The brief says the innovation exemption is not on the agenda and separately identifies what is on the agenda, but does not confirm that single item is the only item. The writer has smuggled in definitional clarity ('the only item') not present in the source material.",
-     "The opening sentence 'SEC Chair Paul Atkins is advancing an innovation exemption for tokenized listed securities intended to create an interim framework for compliant onchain trading' uses 'is advancing' in present tense as though the exemption is actively being promoted at the Commission level, but the brief and data_points consistently show Atkins made personal remarks with disclaimers that they were 'his own views rather than those of the Commission or other commissioners.' The draft's framing obscures this critical uncertainty about whether the Commission itself has adopted or is advancing the exemption, versus Atkins personally advocating for it."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-12",
   "approved": 4,
   "rejected": [
    {
@@ -6362,6 +6315,41 @@
     "category": "accuracy",
     "reasons": [
      "The draft introduces 'zero-knowledge proofs' and explains them in detail ('Zero-knowledge proofs are cryptographic constructs that verify a claim without revealing the underlying data'), but the brief's data_points do not mention zero-knowledge proofs by name or definition. The brief data_point says 'The larger size gives developers more room for multi-step trades, company-wallet approvals and privacy proofs.' The draft interpolates 'zero-knowledge proofs' as the specific technical meaning of 'privacy proofs' and then provides a definition. This is SMUGGLED information: the definition of what zero-knowledge proofs are, and the assertion that they are the technical construct being referenced, does not appear in the brief. The writer has added factual claims about cryptographic function that are not sourced to the brief. Per protocol: 'no fact exists outside the brief.' A definition of a technical term introduced in the brief but not explained there cannot come from the writer's general knowledge\u2014it must come from the source material or be omitted. The draft also states 'embedding them directly in a transaction allows for privacy-preserving transactions without an additional external proof layer' which is an interpolation of benefit/function not explicitly stated in the brief's data_points."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "Solana raises transaction size limit to 4,096 bytes in mainnet upgrade",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the upgrade 'raised the transaction size limit' (past tense, completed action) on September 15, but the brief does not confirm when the upgrade activated on mainnet. This is explicitly listed as an open_question in the brief. The draft should specify that the upgrade was announced or published, not that it has already taken effect."
+    ]
+   },
+   {
+    "id": "c032",
+    "headline": "New York Attorney General James leads 17 states opposing Clarity Act before September 16 Senate procedural vote",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The Senate procedural vote on September 16 at 2:15 p.m. Eastern will test whether 60 senators support allowing debate on the Clarity Act' in the bottom_line. This specific time (2:15 p.m. Eastern) does not appear in the brief's data_points and is smuggled information not sourced in the research. The brief only confirms the vote is scheduled for September 16 and requires 60 votes; no source provided the specific time.",
+     "The draft body states the opposition letter was filed 'on September 14' but the brief's data_points do not specify when it was filed\u2014only that The Block reported it on 2026-09-14. The distinction between filing date and reporting date matters for accuracy.",
+     "The brief's data_point 6 claims the ban on federal officials 'is a direct shot at President Donald Trump's controversial TRUMP memecoin' but this framing does not appear in the draft. However, this is not a violation since the draft does not adopt this framing. The concern is the inverse: the draft should reflect what the brief carries about the Trump memecoin connection if it appears in the source reporting."
+    ]
+   },
+   {
+    "id": "c009",
+    "headline": "DOJ seeks $61 million in USDT forfeiture from alleged Iranian oil proceeds laundered on Binance",
+    "category": "accuracy",
+    "reasons": [
+     "The draft attributes the forfeiture action report to 'CoinDesk's reporting' in the first sentence, but the sources list includes The Block URL as the first source. The Block article is cited in the sources but not explicitly attributed in the opening attribution, creating ambiguity about which outlet provided the core reporting.",
+     "The draft states 'Cointelegraph reports the funds were frozen by Tether in 2025' but the brief's data_point 4 says 'The funds were frozen by Tether in 2025' with Cointelegraph as the source. However, this is now September 2026 (per the prompt date). A freeze in 2025 is being reported now in 2026, which is factually consistent but the phrasing in the draft could mislead a reader into thinking the freeze is recent rather than historical. The sentence is accurate as written but sits uncomfortably adjacent to current reporting.",
+     "The brief is marked 'thin: true' with only 4 data_points and minimal source characters (149). The draft provides only 4 sentences of body text for a story carrying enforcement allegations involving specific dollar amounts, named entities (Binance, Tether, Iran, two Chinese companies), and government action. The draft meets the brief's thinness but does not signal any of the bear_case items or open_questions, which is appropriate for a thin brief\u2014no balance failure here.",
+     "No attribution line or specific detail on which DOJ office or official filed the action. The brief does not carry this detail either, so this is not smuggled information, but it leaves the story sparse on procedural specifics."
     ]
    }
   ]
