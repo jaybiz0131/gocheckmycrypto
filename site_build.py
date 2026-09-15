@@ -2277,20 +2277,33 @@ _ARROW_DN = ('<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"
              'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>')
 
 
-def _bd_spark(values, w=64, h=22):
+def _bd_spark(values, w=64, h=22, signed=False):
     """A 64x22 sparkline, or nothing at all. Two points cannot show a shape, and a
-    flat line drawn from one repeated value would be a picture of data we do not
-    have."""
+    flat line drawn from one repeated value would be a picture of data we do not have.
+
+    ON A SIGNED SERIES, ZERO IS IN FRAME AND DRAWN. The stroke is deliberately neutral
+    here, so the line alone cannot say which side of zero a flow sits on - and on a
+    flows tile that is the whole question. Scaling to include zero and drawing the
+    crossing answers it without colouring anything."""
     vals = [v for v in (values or []) if isinstance(v, (int, float))]
     if len(vals) < 4:
         return ""
     lo, hi = min(vals), max(vals)
+    if signed:
+        lo, hi = min(lo, 0.0), max(hi, 0.0)
     span = (hi - lo) or 1.0
     step = w / (len(vals) - 1)
-    pts = " ".join(f"{i * step:.0f},{h - 3 - ((v - lo) / span) * (h - 6):.0f}"
-                   for i, v in enumerate(vals))
+
+    def _y(v):
+        return h - 3 - ((v - lo) / span) * (h - 6)
+
+    pts = " ".join(f"{i * step:.0f},{_y(v):.0f}" for i, v in enumerate(vals))
+    zero = ""
+    if signed and lo < 0 < hi:
+        zero = (f'<line x1="0" y1="{_y(0):.1f}" x2="{w}" y2="{_y(0):.1f}" '
+                f'stroke="var(--line)" stroke-width="1"></line>')
     return (f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" aria-hidden="true">'
-            f'<polyline fill="none" stroke="var(--muted)" stroke-width="2" '
+            f'{zero}<polyline fill="none" stroke="var(--muted)" stroke-width="2" '
             f'stroke-linecap="round" stroke-linejoin="round" points="{pts}"></polyline></svg>')
 
 
@@ -2415,7 +2428,8 @@ def board_tiles(pulse, flows, deltas):
             "key": "etf", "label": "Spot ETF flows", "phone": True,
             "value": f"{'+' if net_m > 0 else ''}{fmt_usd(net_m * 1_000_000)}"
                      if net_m else fmt_usd(0),
-            "spark": _bd_spark([r.get("net_usd_m") for r in (etf.get("recent") or [])]),
+            "spark": _bd_spark([r.get("net_usd_m") for r in (etf.get("recent") or [])],
+                               signed=True),
             "delta": drow,
             "read": "Money entering the U.S. spot Bitcoin ETFs. Inflows are buying pressure.",
             "learn": "spot-etf-flows"})
@@ -2427,7 +2441,13 @@ def board_tiles(pulse, flows, deltas):
         out.append({
             "key": "whales", "label": "Whale flows", "phone": True,
             "value": fmt_usd(abs(wnet)),
-            "badge": '<span class="bd-badge dat">24h</span>',
+            # C-6 asks for one sparkline per tile, in the label row. This carried a
+            # "24h" badge instead, and the window it named is already in the tile foot
+            # and in the delta line below ("24h net"). The series is signed, so it
+            # scales to include zero and draws the crossing - which is the whole
+            # question on a flows tile and cannot be read off a badge.
+            "spark": _bd_spark([r.get("net_usd") for r in ((flows or {}).get("history") or [])],
+                               signed=True),
             "delta": f'<div class="bd-delta {"down" if onto else "up"}">'
                      f'{_ARROW_DN if onto else _ARROW_UP}'
                      f'{"onto exchanges" if onto else "off exchanges"}'
@@ -2550,12 +2570,20 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
         if vals:
             win = win_lab or ""
             if not spark:
-                spark = _series_svg(vals, w=96, h=26)
+                spark = _series_svg(
+                    vals, w=96, h=26,
+                    kind=(TILE_SERIES.get(t.get("key")) or ("", "", ""))[2])
         top = f'<span class="bd-label">{esc(t["label"])}</span>{spark}'
         hide = "" if t.get("phone") else " bd-hide-phone"
         # (d) the read is authored to fit two lines; clamp on a word so a long one
         # cannot push the tile taller than its neighbours.
-        read = clamp_words(t["read"], 90)
+        # C-6(d) says the read is authored to fit two lines, "90 characters at most".
+        # Measured at 1440 the read column is 215px and holds about 24 characters a
+        # line, so two lines is ~48, not 90: the 90 assumed a wider tile than G-13's
+        # four-across allows. And a tile carrying a delta row has one line less, which
+        # is how Crowd sentiment lost "index, 0 to 100." with nothing to show it had.
+        # The budget follows the room the tile actually has.
+        read = clamp_words(t["read"], 26 if t.get("delta") else 44)
         cards.append(
             f'<div class="bd-card bd-tile{hide}">'
             f'<div class="bd-tile-top">{top}</div>'
@@ -3302,25 +3330,50 @@ def _win_label(w):
     return ""
 
 
-def _series_svg(vals, w=300, h=64):
-    """A line over the values, with the low and high marked. No axis invented: the
-    label under it names the window the feed gave."""
+def _series_svg(vals, w=300, h=64, kind=""):
+    """The Board's line. Art direction pass, and the direction is a correctness rule.
+
+    COLOUR BY WHERE IT SITS, NOT WHERE IT WALKED. This coloured on pts[-1] >= pts[0] -
+    the direction of travel - which is right for a price and wrong for anything signed.
+    A whale-flow series can end higher than it started while sitting deep in outflow,
+    and the old rule painted that green. On a signed series the fact is which side of
+    zero the latest reading is on, so that is what the colour says, and the zero line is
+    drawn so the reader can see the crossing rather than take the colour on trust.
+
+    A price or a supply keeps direction-of-travel colouring: there is no zero to cross.
+    """
     pts = [v for v in vals if isinstance(v, (int, float))]
     if len(pts) < 6:
         return ""
+    signed = kind in ("net flow", "funding")
     lo, hi = min(pts), max(pts)
+    if signed:
+        lo, hi = min(lo, 0.0), max(hi, 0.0)      # zero is always in frame
     span = (hi - lo) or 1.0
     step = w / (len(pts) - 1)
-    d = " ".join(f"{i*step:.1f},{h-4-((v-lo)/span)*(h-12):.1f}" for i, v in enumerate(pts))
-    up = pts[-1] >= pts[0]
+
+    def _y(v):
+        return h - 4 - ((v - lo) / span) * (h - 12)
+
+    d = " ".join(f"{i*step:.1f},{_y(v):.1f}" for i, v in enumerate(pts))
+    up = (pts[-1] >= 0) if signed else (pts[-1] >= pts[0])
     col = "var(--up)" if up else "var(--down)"
+    zero = ""
+    if signed and lo < 0 < hi:
+        zero = (f'<line x1="0" y1="{_y(0):.1f}" x2="{w}" y2="{_y(0):.1f}" '
+                f'stroke="var(--line)" stroke-width="1"></line>')
+    # A faint area under the line, so the shape reads at 96px as well as at 300.
+    area = (f'<polygon fill="{col}" fill-opacity="0.10" '
+            f'points="0,{h-2:.1f} {d} {w:.1f},{h-2:.1f}"></polygon>')
     return (f'<svg class="bd-chart tile-series" width="{w}" height="{h}" '
             f'viewBox="0 0 {w} {h}" role="img" aria-label="Series of {len(pts)} '
-            f'readings, low {lo:.4g}, high {hi:.4g}, latest {pts[-1]:.4g}.">'
+            f'readings, low {lo:.4g}, high {hi:.4g}, latest {pts[-1]:.4g}'
+            f'{", crossing zero" if zero else ""}.">'
+            f'{area}{zero}'
             f'<polyline fill="none" stroke="{col}" stroke-width="2" '
             f'stroke-linecap="round" stroke-linejoin="round" points="{d}"></polyline>'
             f'<circle cx="{(len(pts)-1)*step:.1f}" '
-            f'cy="{h-4-((pts[-1]-lo)/span)*(h-12):.1f}" r="3" fill="{col}"></circle></svg>')
+            f'cy="{_y(pts[-1]):.1f}" r="3" fill="{col}"></circle></svg>')
 
 
 def _period_net(vals, kind):
@@ -3340,7 +3393,7 @@ def tile_series_block(key, pulse, flows):
     vals, win = _series_for(key, pulse, flows)
     if not vals:
         return ""
-    svg = _series_svg(vals)
+    svg = _series_svg(vals, kind=(TILE_SERIES.get(key) or ("", "", ""))[2])
     if not svg:
         return ""
     # C-6(b): the meta line is gone everywhere, not only on the homepage tiles.
