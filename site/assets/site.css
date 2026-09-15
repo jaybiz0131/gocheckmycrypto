@@ -1276,7 +1276,7 @@ body{padding-bottom:64px}
      more than the news desk they introduce. G-4 asks for 34px of space above on phone;
      the header row wraps to one column and the H2 comes down to the phone scale. */
   .bd-mod>.bd-sec{flex-direction:column;align-items:flex-start;gap:4px;
-    margin-top:26px;padding-bottom:8px}
+    margin-top:20px;padding-bottom:7px}
   .bd-mod>.bd-sec .bd-h2{font-size:20px;line-height:1.24}
   .bd-mod>.bd-sec .bd-more{font-size:12px}
 
@@ -1315,3 +1315,25 @@ body{padding-bottom:64px}
 /* C-15: the tile pages carry the week-ago comparison and a sources line. */
 .tile-week{margin:14px 0 0;font-size:15px;line-height:1.5;color:var(--ink)}
 .tile-src{margin:6px 0 0;font-size:12.5px;color:var(--muted)}
+
+@media (max-width:640px){
+  /* C-18, second pass. Whale Watch turned out to be the diverging chart rather than a
+     row list, so "two rows" does not apply to it - the chart IS the reading and stays.
+     The length comes off places where the next item is one tap away instead. */
+
+  /* The news desk and Learn show three, with "All stories" / "All explainers" above. */
+  .bd-mod .bd-cards4>.bd-card:nth-of-type(n+4){display:none}
+
+  /* The Chart Master's read is a quote on the Board; on a phone it is 90px of the band
+     before the tiles, and the full read is on /chartmaster. */
+  .cb-hero .cb-cm{display:none}
+
+  /* The legend duplicates what the coloured bars and signs already say. */
+  .bd-row3 .bd-legend{display:none}
+}
+
+@media (max-width:640px){
+  /* The band's bottom padding is desktop breathing room; the light page starts right
+     under it on a phone. */
+  .cb-hero{padding-bottom:16px;margin-bottom:22px}
+}
