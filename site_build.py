@@ -2827,6 +2827,28 @@ def _flows_asof(flows):
     return f"As of {esc(when)}."
 
 
+def _ww_rows(flows):
+    """C-18: Whale Watch as two rows on a phone. The diverging chart is the reading at
+    1440 and 380px of it on a 390 screen, so the phone gets the same two facts as text -
+    the assets that actually moved, largest first - and the chart is hidden by CSS. Built
+    from the same by_asset the chart draws, so the two cannot disagree."""
+    rows = [r for r in ((flows or {}).get("by_asset") or [])
+            if isinstance(r.get("net_usd"), (int, float)) and r.get("net_usd")]
+    if not rows:
+        return ""
+    rows.sort(key=lambda r: -abs(r["net_usd"]))
+    out = []
+    for r in rows[:2]:
+        net = r["net_usd"]
+        onto = net < 0
+        out.append(f'<div class="ww-row"><span class="ww-sym">{esc(r.get("symbol") or "")}'
+                   f'</span><span class="ww-net {"down" if onto else "up"}">'
+                   f'{esc(fmt_usd(abs(net)))}</span>'
+                   f'<span class="bd-src">{"onto exchanges" if onto else "off exchanges"}'
+                   f'</span></div>')
+    return f'<div class="ww-rows">{"".join(out)}</div>'
+
+
 def flows_age(flows):
     """D-11: how old the whale file is, and what the card may therefore say.
 
@@ -4377,8 +4399,10 @@ def render_home(items, flows, pulse, cm, dateline):
       <span class="bd-eyebrow">The Board</span>
       <h2 class="cb-claim" id="bd-board">Every number that matters today, in plain language</h2>
     </div><a class="bd-more" href="/pulse.html">How the Board is built</a></div>
-    <p class="cb-sell">Eight numbers, read in the order a desk reads a market, each with
-      a plain-language explainer. Checked against public sources at every build.</p>
+    <p class="cb-sell"><span class="cb-sell-full">Eight numbers, read in the order a desk
+      reads a market, each with a plain-language explainer. Checked against public sources
+      at every build.</span><span class="cb-sell-short">Eight numbers, each with a
+      plain-language explainer.</span></p>
     {stamp}
     {board_tile_grid(tiles, learn_href, pulse, flows)}
     <div class="cb-foot">{cm_quote}
@@ -4416,7 +4440,7 @@ def render_home(items, flows, pulse, cm, dateline):
             '<span><span class="bd-sq" style="background:var(--down)"></span>Onto exchanges</span>'
             '<span><span class="bd-sq" style="background:var(--up)"></span>Off exchanges</span>'
             '</div>'
-            f'{ww}'
+            f'{ww}{_ww_rows(flows)}'
             '<p class="bd-src">Source: Whale Alert public feed, transfers of $50M and up. Onto '
             'exchanges is usually sell positioning; off exchanges is usually storage.</p></div>')
     # C-7: the since-yesterday rows live in the brief card now, so this row is just
