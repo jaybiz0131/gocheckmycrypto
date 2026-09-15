@@ -1,5 +1,5 @@
 {
- "checked_utc": "2026-09-15T19:40:56Z",
+ "checked_utc": "2026-09-15T20:10:20Z",
  "sources": [
   {
    "name": "SEC Press Releases",
@@ -72,11 +72,11 @@
    "kind": "rss",
    "url": "https://bitcoinmagazine.com/.rss/full/",
    "tier": "major",
-   "state": "DEAD",
-   "detail": "URLError",
-   "items": 0,
+   "state": "OK",
+   "detail": "HTTP 200",
+   "items": 10,
    "newest_age_h": null,
-   "lane_state": "DEAD"
+   "lane_state": "OK"
   },
   {
    "name": "Blockworks",
@@ -105,11 +105,11 @@
    "kind": "rss",
    "url": "https://thedefiant.io/feed/",
    "tier": "major",
-   "state": "DEAD",
-   "detail": "URLError",
-   "items": 0,
+   "state": "OK",
+   "detail": "HTTP 200",
+   "items": 100,
    "newest_age_h": null,
-   "lane_state": "DEAD"
+   "lane_state": "OK"
   },
   {
    "name": "Cointelegraph",
@@ -206,7 +206,7 @@
    "tier": "mixed",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 93,
+   "items": 91,
    "newest_age_h": null,
    "lane_state": "OK"
   },

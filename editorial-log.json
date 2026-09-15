@@ -1,47 +1,5 @@
 [
  {
-  "date": "2026-08-14",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c058",
-    "headline": "Abu Dhabi's Mubadala Holds $490M Bitcoin Position Through BlackRock Trust",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bitcoin ranks as a significant asset in at least two Abu Dhabi sovereign wealth funds based on regulatory filings' but the brief's data_point says 'Bitcoin is the most important asset in two of Abu Dhabi sovereign wealth funds.' The draft materially softens the claim from 'most important' to merely 'significant,' changing the factual assertion without source support.",
-     "The draft claims the $490M stake is 'the second-largest single holding in the fund's 13F portfolio' and later says it 'indicates the fund has elevated Bitcoin to compete with stakes in traditional equities, commodities, and fixed income for capital deployment decisions.' This editorializes beyond what the brief reports\u2014the brief says it is the second-largest holding but does not report what it competes with or what that ranking signifies for allocation frameworks. The inference about portfolio strategy is the writer's interpolation, not a fact from the brief."
-    ]
-   },
-   {
-    "id": "c111",
-    "headline": "Ireland Proposes Stricter Crypto Rules on Private Wallets, Overseas Firms",
-    "category": "accuracy",
-    "reasons": [
-     "The draft contains only one substantive data point in the brief and the brief itself is marked 'thin: true' with only 0 source_chars, yet the draft presents the claim as established fact without any qualifier about confirmation status. The brief's single data_point is marked 'confidence: reported' and the source URL returns zero characters of reportable content, suggesting the Cointelegraph article may not exist or may not substantiate the claim. The draft should either mark this as 'announced-not-verified' or 'unconfirmed' in prose, or reject publication until the source can be verified.",
-     "The second paragraph introduces a novel framing\u2014'enforcement gaps' and 'regulatory tightening in an EU member state where crypto enforcement is increasingly active'\u2014that does not appear in the brief's single data_point. This is editorial inference not supported by the research."
-    ]
-   },
-   {
-    "id": "c021",
-    "headline": "French tax breach exposes 678,000 people as wrench attacks surge",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states '2026 is shaping up to be the worst year on record for wrench attacks targeting crypto holders in France, per the same report' but the brief's data_point says 'on pace to make 2026 the worst year ever,' which is a confidence distinction the draft erases. The brief treats both claims as 'reported' confidence, but the draft's phrasing ('is shaping up') weakens the certainty in ways not supported by the source framing.",
-     "The draft acknowledges in its own middle section that 'the sources do not establish a direct causal link between the specific data exposed and the mechanics of the attacks themselves,' but then reasserts in the final paragraph that the breach 'is being leveraged by criminal networks' as settled fact. This smuggles causation the brief explicitly flags as unestablished into the closing narrative."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "Binance blocks 16 exchanges including HTX under EU Russia sanctions",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Binance announced it will block transactions from 16 exchanges, citing compliance with EU Russia sanctions regulations' but the brief's core_claim and data_points specify 'will block transactions with 11 exchanges' (the newly blocked ones), with the 16 total being 11 new plus 5 already blocked. The draft opens with the 16 total figure but does not clearly establish that 5 were pre-existing blocks, creating ambiguity about what is new versus total.",
-     "The draft's opening sentence conflates the two numbers without clarity: '16 exchanges... The action affects 11 newly restricted venues; five exchanges were already blocked.' This reconstruction is accurate but the lead sentence should have been precise about scope from the start, not corrected mid-graph."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-15",
   "approved": 3,
   "rejected": [
@@ -5912,6 +5870,29 @@
     "category": "accuracy",
     "reasons": [
      "The draft states the SEC entered White House review on 'August 25, 2026' and later says 'According to The Defiant's reporting on September 15.' This creates a temporal contradiction: the article itself is dated September 15 (today per the system date), but it reports an event from August 25 as having 'entered' review on that past date, then attributes the reporting to September 15. This is internally consistent with how past events are reported. However, the opening sentence presents the August 25 date as the entry date into White House review, which is correct per the brief. The real issue is that the draft reports a past event (August 25) with accurate attribution to The Defiant's September 15 reporting\u2014this is correct practice and not an accuracy error."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c120",
+    "headline": "MEV Bot Front-Runs $7.8 Million rsETH Exploit on Ethereum, September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports an event dated September 15 as having already occurred on today's date (Tuesday, 2026-09-15). The title and opening sentences describe this as a past event ('front-ran an exploit targeting a Safe wallet on September 15, capturing approximately $7.8 million'). However, the brief timestamp shows 2026-09-15T16:03:00Z, which is TODAY. The protocol requires scheduled events or same-day events still unfolding to be written as upcoming or present, not as completed past action. The phrasing 'front-ran an exploit targeting a Safe wallet on September 15' reads as historical when the event is either concurrent with publication or very recent same-day reporting. This violates the accuracy rule for temporal framing of same-day/future events."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Senate Blocks Clarity Act in Failed Procedural Vote on September 15",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the vote was '49-50' but does not specify which side received which count. The brief's core_claim states 'failed 49\u201350' without clarifying the direction. The draft's phrasing '49-50 to advance' is ambiguous about whether 49 or 50 voted in favor. Standard Senate procedure requires 60 votes to advance; a failure would mean fewer than 60 voted yes. The draft should clarify the vote was 49 in favor and 51 opposed (or state it explicitly), not leave the reader to infer which number represents support.",
+     "The draft reports 'Some House Democrats who had backed crypto legislation earlier in Congress expressed concern that major industry-backed super PACs might not support them in upcoming elections despite their votes, according to CryptoSlate reporting.' The brief's data_point states the exact same claim with the same CryptoSlate attribution. However, the brief's open_questions section flags that 'The Block articles (URLs with index 414702 and 415010) returned 403 status and are inaccessible, so the claim's original context and timing cannot be verified.' This indicates incomplete sourcing for claims in the brief itself. The draft should either attribute this to a single on-record source or flag the claim as unconfirmed by independent sources."
     ]
    }
   ]
