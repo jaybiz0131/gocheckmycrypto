@@ -1,39 +1,6 @@
 [
  {
   "date": "2026-08-13",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c062",
-    "headline": "Harmony's ONE Sinks 37% After Attacker Mints 4 Billion Tokens",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states '4 billion ONE tokens represent roughly one-quarter of the total ONE supply' but provides no source for this calculation. The brief contains only three data points, none of which specify the total ONE supply or validate the 'one-quarter' claim. This is a smuggled fact.",
-     "The draft claims 'Harmony has not disclosed the precise mechanism of the smart contract vulnerability or when the attack took place relative to the reporting date' without attribution. This is a negative claim (absence of disclosure) not present in the brief's data points and cannot be verified from the single Decrypt source provided."
-    ]
-   },
-   {
-    "id": "c055",
-    "headline": "XRP Bridge Drained After Software Treats Fake Deposits as Real",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the attacker 'creating fake deposit records without actual corresponding XRP transfers' but the brief's data point only says 'The flaw allowed an attacker to create unbacked balances through fake deposit logic'\u2014the draft's phrase 'deposit records' and 'without actual corresponding XRP transfers' are a more specific mechanism than the brief supports.",
-     "The draft claims the flaw 'persisted through multiple security audits before the exploit, raising questions about audit depth' but the brief's corresponding data point only says 'went undetected during multiple audits.' The draft's framing ('persisted through... before the exploit') imputes temporal causality and a sequence the source does not establish.",
-     "The draft opens with 'An undetected audit flaw' but the brief says the flaw is undetected by audits (it survived audits), not that it is itself an 'audit flaw.' This is a subtle reframing that misattributes where the flaw lay."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "Fidelity Seeks SEC Approval to Add Staking and Quarterly Payouts to $898M Ether ETF",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Fidelity has filed an amended registration statement' as a completed action, but the brief's open_questions include 'Has Fidelity received SEC approval for the amended registration statement, or is this still pending?' This suggests the filing status itself may be unconfirmed or in-process. The draft presents the filing as fact without qualification, when the brief indicates uncertainty about approval status."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-13",
   "approved": 3,
   "rejected": [
    {
@@ -6307,6 +6274,28 @@
     "reasons": [
      "The draft states 'the original $53 million Series B that Eight Roads led in July 2022' but the brief's data_point says 'In July 2022, Eight Roads' Alston Zecha wrote that the firm had led Kaiko's $53 million Series B raise.' This is a factual claim about a past event sourced through a single individual's statement, not a verified historical fact. The draft presents this as established timeline without qualification, but the brief itself attributes this only to what Zecha 'wrote,' indicating it is a reported claim rather than independently confirmed.",
      "The draft's lead claims S&P Global's participation 'builds on an existing product partnership' with no date or timeline provided for that partnership. While the brief confirms 'S&P Global's investment builds on an existing product partnership,' it does not specify how long that partnership has existed or when it began, creating ambiguity about causation and sequence."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c032",
+    "headline": "Balancer Proposes Orderly Shutdown, Treasury Distribution to BAL Holders",
+    "category": "accuracy",
+    "reasons": [
+     "the draft dates Sept 15, 2026 as a Monday; Sept 15, 2026 is a Tuesday"
+    ]
+   },
+   {
+    "id": "c039",
+    "headline": "S&P Global Leads $110 Million Strategic Investment in Crypto Data Firm Kaiko",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The $110 million total is more than twice the original Series B announced in July 2022, when Eight Roads' Alston Zecha led a $53 million raise.' However, the brief's data_point says 'The $110 million total is more than twice the original Series B announced in 2022' without specifying July, and then states separately 'In July 2022, Eight Roads' Alston Zecha led Kaiko's $53 million Series B raise.' The draft correctly captures that the July 2022 raise was $53 million and that $110 million is more than twice that amount. However, the claim needs verification: $110M is 2.08x $53M, which is 'more than twice' only if we round generously. More importantly, the brief data_point itself says the total is 'more than twice,' so this phrasing is authorized. This passes accuracy review."
     ]
    }
   ]
