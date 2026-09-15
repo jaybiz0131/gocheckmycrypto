@@ -4,47 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c010",
-    "headline": "SEC postpones Regulation Crypto proposal indefinitely, citing scheduling conflict",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case explicitly states 'Wall Street and White House concerns are cited in the headline as reasons for the delay, suggesting political and industry opposition to the rule,' but the draft contains no mention of Wall Street or White House concerns whatsoever. The brief's core bear case is completely absent from the draft.",
-     "The draft presents the postponement as a straightforward 'scheduling conflict' without any hint of the political or industry resistance documented in the brief's bear_case, materially underweighting the story's actual contention."
-    ]
-   },
-   {
-    "id": "c036",
-    "headline": "Trezor shipping provider breach exposes data on 13,689 customers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'This was the first breach in Trezor's 13-year history to expose customer phone numbers and shipping addresses,' but the brief data_point says 'This was the first breach since Trezor was founded in 2013 to expose customer phone numbers and shipping addresses.' The draft claims 13 years from an unspecified present date; the brief anchors to 2013. If the current date is August 2026 (as evidenced by the source timestamps), then 2026 minus 2013 is 13 years, so the math is correct, but the phrasing 'in Trezor's 13-year history' is imprecise and creates ambiguity about whether Trezor was founded 13 years ago or the breach occurred 13 years ago. This is a minor accuracy slip in framing a specific historical fact from the brief."
-    ]
-   },
-   {
-    "id": "c023",
-    "headline": "MUFG Tests Blockchain Settlement for Japanese Government Bond Trades",
-    "category": "balance",
-    "reasons": [
-     "Brief's bear_case notes 'The sources provide no criticism, regulatory obstacles, timeline risks, or competing views on the initiative. The story is presented as an uncontested strategic move by MUFG.' Draft reproduces this unbalanced framing without any substantive pushback or skeptical framing. The draft acknowledges open questions exist ('no timeline for proof-of-concept completion or live deployment has been announced') but presents them as mere gaps rather than as risk factors that should shade the narrative tone. A story this positive about an unproven, untested initiative should either include regulatory or technical skepticism or reframe the narrative as speculative. As written, it reads as promotional.",
-     "The draft states MUFG 'is preparing a proof-of-concept' and describes the Canton network as the infrastructure that 'will underpin the test'\u2014but no timeline, no regulatory clarity, no technical obstacles, and no competing skeptical voices appear. This is pure upside momentum reporting on an announced intention, not a reported event."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "Figure Reports Q2 Revenue of $226M on $4.3B Loan Marketplace Volume",
-    "category": "balance",
-    "reasons": [
-     "Brief's bear_case explicitly states: 'The sources provide no criticism, regulatory headwinds, competitive threats, credit-quality concerns, or counterarguments to the growth narrative. The story is entirely positive momentum reporting.' Draft reproduces this imbalance. The final paragraph acknowledges gaps ('No independently verified data on credit loss rates, delinquency metrics on the marketplace portfolio, or the capital composition of the 489 origination partners appears in the available sources') but buries this weakness at the end without integrating skepticism into the narrative framing.",
-     "The draft leads with and sustains a purely bullish momentum narrative\u2014revenue growth, marketplace volume growth, partner growth, stablecoin circulation growth\u2014and never once introduces a countervailing risk, regulatory challenge, credit quality concern, or competitive threat. A story about a blockchain lending platform posting record growth without any interrogation of credit quality, regulatory risk, or stress-test viability reads as a shill piece if the market turns or the platform faces losses. The skeleton is there (in the final paragraph) but it needs to actually shape the story."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-14",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c025",
     "headline": "Israel's Largest Bank Plans Crypto Trading Launch via Galaxy Partnership",
     "category": "accuracy",
@@ -6020,6 +5979,29 @@
      "The draft states 'Round two lands within two months of that close, at the end of January 2028' but the brief data_point says 'Round two lands within two months of that close' without specifying end of January 2028. The draft adds specificity not present in the brief.",
      "The draft says 'The treasury earns about $25,000 a month under current management' but the brief data_point specifies this is under 'kpk's management'\u2014a named person whose identity is not explained in the draft, creating ambiguity.",
      "The draft states 'Contributors are working on a separate proposal to keep infrastructure running under a new name' but the brief's corresponding data_point says 'Contributors are working on a separate proposal to keep the infrastructure running under a new name.' The draft presents this as established fact, but the brief does not confirm this is underway versus being discussed. However, checking the actual phrasing: both are identical. The issue is whether the brief's confidence label applies\u2014it is marked 'reported,' same as the draft. This traces correctly."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c119",
+    "headline": "Revolut Starts EURR Stablecoin Rollout in Three Markets With Bridge as Issuer",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports Bridge reported \u20ac374 in EURR in circulation as of August 25, 2026. The brief says the same fact with identical confidence ('reported'). However, the brief's data_point says 'Bridge reported \u20ac374 in EURR in circulation and \u20ac374 in reserve assets as of August 25, 2026' with a timestamp of '2026-09-15', and the source timestamp in the brief is '2026-09-15', meaning this information was reported on 2026-09-15. Today is 2026-09-15. The rollout is stated as having 'begun' in present perfect tense ('has begun rolling out'), but the earliest dated evidence in the brief (the circulation figure) is from August 25, 2026\u2014prior to today. The accuracy is technically correct on the circulation date itself, but the framing as a current rollout depends on Revolut's announcement being verified. The brief marks the core claim and rollout details as 'announced-not-verified.' The draft states 'Revolut has begun rolling out EURR' without qualification or attribution that signals this is an announcement not yet independently verified. The prose reads as confirmed fact when the brief confidence is 'announced-not-verified'\u2014a confidence label that must survive in the prose to warn readers the claim rests on company announcement alone."
+    ]
+   },
+   {
+    "id": "c174",
+    "headline": "Two Robinhood Engineers Charged in Hyperliquid Insider Trading Case",
+    "category": "accuracy",
+    "reasons": [
+     "The draft's lead and title state the engineers 'have been charged' with wire fraud and CEA violations, presented as settled fact. The brief's own data_point (the final one) explicitly states: 'No formal charges from the Department of Justice, the SEC, or any other regulatory body have publicly linked specific Robinhood engineers to the 0xa1E wallet or to these trades.' This critical qualifier is completely absent from the draft. The brief marks this 'reported' confidence, meaning it is Crypto Briefing's claim that no charges have been publicly announced. The draft inverts this by stating charges as fact without any hedging language or attribution to what Crypto Briefing reported vs. what regulators have confirmed.",
+     "The bear_case in the brief states: 'No formal charges from the DOJ, SEC, or any other regulatory body have been publicly announced linking the engineers to the 0xa1E wallet or trades, per the source.' This directly contradicts the draft's headline and opening assertion. The bear_case did not appear in the draft; it was sanded down entirely. A reader would believe charges were formally filed when the brief's own evidence says only that Crypto Briefing reported allegations, not that any regulatory body has acted."
     ]
    }
   ]
