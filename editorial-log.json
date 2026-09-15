@@ -1,29 +1,6 @@
 [
  {
   "date": "2026-08-14",
-  "approved": 6,
-  "rejected": [
-   {
-    "id": "c014",
-    "headline": "SEC cancels Reg Crypto proposal meeting, cites scheduling issue, sets no replacement date",
-    "category": "accuracy",
-    "reasons": [
-     "Claim: 'sources close to the negotiations suggest no clear path exists to obtain sufficient common ground among lawmakers and the White House.' This attributed claim does not appear in the brief's data_points. The brief states the Clarity Act requires a 60-vote threshold and 'It remains unclear whether negotiations among lawmakers and the White House will find enough common ground,' but contains no data_point sourced to 'sources close to the negotiations.' This is smuggled information not in the brief.",
-     "Claim: 'Senate negotiations on the Digital Asset Market Clarity Act...have stalled.' The brief lists the Clarity Act as 'expected to establish legal foundation' and notes unclarty about passage likelihood, but no data_point explicitly confirms negotiations have 'stalled.' The word 'stalled' reads as writer interpretation beyond the reported facts."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "Cboe seeks SEC approval for first US 3x leveraged Bitcoin and Ether ETFs",
-    "category": "accuracy",
-    "reasons": [
-     "The sentence 'For Bitcoin trading at $63,653.85 as of 29 July 2026' introduces a specific price point ($63,653.85) that does not appear in the brief's data_points. This is a smuggled fact not traceable to the research brief. The brief contains no Bitcoin price data."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-14",
   "approved": 2,
   "rejected": [
    {
@@ -5963,6 +5940,20 @@
     "category": "accuracy",
     "reasons": [
      "The draft reports the cloture vote as having occurred on September 15, 2026, using past tense throughout ('The U.S. Senate on September 15 rejected,' 'The procedural vote required'). Today's date is September 15, 2026. The brief's data_point #1 timestamp is '2026-09-15' and the core_claim states 'on September 15, 2026 failed to clear.' This creates ambiguity: if the vote occurred at 2:15 p.m. ET on September 15 (as mentioned in brief data_point #7) and today IS September 15, the vote may not yet have happened at time of publication. The desk protocol requires scheduled events to be written as upcoming. The draft uses definitive past tense ('rejected,' 'failed,' 'was') without any conditional or future framing. If the vote is scheduled for later today, this is a tense error; if it has already occurred, the timestamps in the brief should reflect a time after publication. The brief's open_questions #1 references a White House adviser comment but notes 'no source text contains the adviser's name,' yet the draft does not mention this adviser at all, so this is not a draft error\u2014but the timing ambiguity remains: a story reporting an event 'on September 15' when today IS September 15 requires temporal clarity about whether the event is past, present, or future."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c132",
+    "headline": "S&P Global Leads Kaiko Funding Extension to $110 Million",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Eight Roads led in July 2022' but the brief data_point says 'In July 2022, Eight Roads' Alston Zecha wrote that the firm had led Kaiko's $53 million Series B raise'\u2014this is attribution to a specific person's written statement, not a standalone fact. The draft presents it as unattributed historical fact without indicating it comes from a written announcement by a named individual. The phrasing creates ambiguity about whether this is direct reporting or secondary narration."
     ]
    }
   ]
