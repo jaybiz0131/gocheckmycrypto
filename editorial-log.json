@@ -1,47 +1,6 @@
 [
  {
   "date": "2026-08-12",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c024",
-    "headline": "XRP Bridge Drained for $200,000 After Software Failed to Verify Deposits",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'drained approximately 200,000 XRP' and 'worth about $200,000' but brief's core_claim and data_points specify '97% of a reserve in 97 minutes' and open question asks 'what percentage was drained before it was detected.' Draft presents a specific number ($200,000) without noting that this is the value of stolen tokens, not the total reserve size or percentage drained. The brief explicitly flags that sources do not specify 'how much XRP was held in the reserve wallet at the time of the exploit or what percentage was drained,' yet the draft does not flag this uncertainty for the reader.",
-     "Draft states the drain 'began at 19:16 UTC on August 9 and completed in 97 minutes' but does not clarify (as the angle does) that 97% of the reserve was drained in that window. The percentage missing from the prose is material to understanding the exploit's severity relative to total reserve."
-    ]
-   },
-   {
-    "id": "c008",
-    "headline": "Standard Chartered-backed Anchorpoint launches Hong Kong dollar stablecoin with institutional access",
-    "category": "balance",
-    "reasons": [
-     "Brief contains empty bear_case array, yet the draft reads as entirely bullish on HKDAP adoption and Hong Kong's regulatory framework. No risk paragraph or skeptical framing appears in the story. A stablecoin launch by a new issuer in a new regulatory regime should at minimum surface competitive risks (HSBC, Payward) and regulatory execution risk more explicitly than the current framing allows. The story as written would look like a promotional piece if retail adoption fails or regulatory requirements burden the issuer, but the brief provided no bear case for the writer to reflect."
-    ]
-   },
-   {
-    "id": "c017",
-    "headline": "Fidelity files to add staking to $898 million ether fund with quarterly payouts",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Fidelity filed to add ether staking to its Fidelity Ethereum Fund (FETH), allowing the fund to stake up to 100 percent of its ether and distribute 15 percent of gross staking rewards quarterly while retaining 85 percent for service providers.' The brief's data_point states: 'Fidelity would retain 85% of gross staking rewards, while the remaining 15% would go to the fund sponsor, custodians and node operators.' The draft reverses the distribution: it says Fidelity distributes 15% and retains 85%, but the brief says Fidelity retains 85% (for itself, fund sponsor) and 15% goes to service providers. The actual shareholder payout structure is inverted in the draft's opening sentence, creating material liability if the fee structure is misrepresented."
-    ]
-   },
-   {
-    "id": "c138",
-    "headline": "CFTC Sues Goliath Ventures Over Alleged $397 Million DeFi Liquidity Pool Ponzi",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the CFTC sued on 'August 12, 2026' but the brief data_points indicate the timestamp is '2026-08-11T20:45:26Z' and the brief's core_claim says 'August 12, 2026'\u2014this is internally consistent in the brief but the draft's opening sentence 'sued Goliath Ventures Inc. and its CEO Christopher Delgado on August 12, 2026' needs verification. The brief says the suit was filed 'on Tuesday (filed in federal court in Orlando)' per The Defiant reporting, but the exact date should match the source precisely. The data_point timestamp shows 2026-08-11, suggesting reporting on that date about a Tuesday filing\u2014this ambiguity between reported date and filing date is not resolved in the brief's language, making the draft's definitive 'August 12, 2026' statement unverifiable against the brief.",
-     "The draft attributes 'approximately $838,000 traced from customer deposits bought a yacht in September 2025, per The Defiant's reporting' but this attribution appears mid-paragraph without a source tag. All data_points in the brief show 'reported' confidence from The Defiant single source, but inline attribution in the body should clarify each factual claim's origin to meet liability standards; attributing dollar figures to 'The Defiant's reporting' in prose is weaker than the desktop standard of inline source notation.",
-     "The draft states 'Federal prosecutors in the Middle District of Florida charged Delgado with wire fraud and money laundering on February 20, 2026' and 'In June 2026, Delgado pleaded guilty to conspiracy to commit wire fraud, wire fraud, and money laundering'\u2014the brief's data_points support both claims, but the draft does not attribute these criminal-process facts inline to source, leaving liability exposure on dates and charges that require courtroom verification."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-12",
   "approved": 3,
   "rejected": [
    {
@@ -6381,6 +6340,28 @@
     "reasons": [
      "The draft states 'Tuesday's cloture motion at 2:15 p.m. Eastern' in the bottom_line, but today is Tuesday, 2026-09-15. The brief's data_point specifies 'the cloture motion on H.R. 3633 is scheduled to ripen at 2:15 p.m. Eastern,' but the brief timestamps are from 2026-09-14. The cloture vote is scheduled for September 16 (Wednesday), not September 15 (today/Tuesday). The draft's opening paragraph correctly states 'one day before a Senate cloture motion scheduled to ripen at 2:15 p.m. Eastern on September 16,' but the bottom_line incorrectly refers to it as 'Tuesday's cloture motion,' which is inaccurate given today's date.",
      "The draft introduces 'Jason Somensatto, Coin Center's director of policy' and quotes him, but this name and affiliation do not appear in the brief's data_points. The brief references 'Jason Somensatto, Coin Center's director of policy, called the limitation disappointing, noting that codifying regulatory protections still helps developers, but the absence of criminal-law protections makes Michael Lewellen's legal challenge against the Justice Department more consequential'\u2014the name is spelled 'Somensatto' in the brief but appears as 'Somensatto' in both the draft and brief, so the name is consistent. However, the substance of the attribution is present in the brief, so this is not a smuggled fact, merely a confirmation that the detail is sourced."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c007",
+    "headline": "US DOJ seeks $61 million in USDT forfeiture tied to Iranian oil proceeds laundered on Binance",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Tether froze the funds in 2025' but today is 2026-09-15. The brief data_point says 'The funds were frozen by Tether in 2025' with confidence 'reported', meaning this is a past event that occurred in 2025 and should be written in past tense as a completed action. The draft correctly uses past tense here, so this is acceptable. However, the draft cites a Cointelegraph source dated 2026-09-15 but the brief's only Cointelegraph source is from 2026-09-15. The draft claims reporting 'on September 15' but the source URL provided (https://www.theblock.co/news/regulation/2026-09-15-doj-61-million-crypto-proceeds-iranian-oil-sales-414768) is a Block URL, not Cointelegraph. The Cointelegraph URL in the brief (https://cointelegraph.com/news/doj-61m-usdt-forfeiture-iranian-oil?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound) does not match the cited Cointelegraph source attribution. Upon closer inspection, the draft attributes to 'Cointelegraph's reporting on September 15' but the sources listed include both Block and CoinDesk URLs dated 2026-09-15. The attribution is correct to the date but the source list shows the story broke across multiple outlets on the same date. This is not an accuracy error\u2014the story did report on September 15 via multiple outlets. The real issue: the draft contains NO BEAR CASE despite the brief's empty bear_case array. An empty bear_case is not a balance failure per protocol. However, the story's structure\u2014opening with DOJ enforcement action and closing with a forward-looking bottom_line about 'status of the case'\u2014does not smuggle any unstated risks into the narrative. The story is factually thin but accurate to the thin brief provided."
+    ]
+   },
+   {
+    "id": "c008",
+    "headline": "Solana Raises Transaction Size Limit to 4,096 Bytes",
+    "category": "accuracy",
+    "reasons": [
+     "The draft introduces 'zero-knowledge proofs' and explains them in detail ('Zero-knowledge proofs are cryptographic constructs that verify a claim without revealing the underlying data'), but the brief's data_points do not mention zero-knowledge proofs by name or definition. The brief data_point says 'The larger size gives developers more room for multi-step trades, company-wallet approvals and privacy proofs.' The draft interpolates 'zero-knowledge proofs' as the specific technical meaning of 'privacy proofs' and then provides a definition. This is SMUGGLED information: the definition of what zero-knowledge proofs are, and the assertion that they are the technical construct being referenced, does not appear in the brief. The writer has added factual claims about cryptographic function that are not sourced to the brief. Per protocol: 'no fact exists outside the brief.' A definition of a technical term introduced in the brief but not explained there cannot come from the writer's general knowledge\u2014it must come from the source material or be omitted. The draft also states 'embedding them directly in a transaction allows for privacy-preserving transactions without an additional external proof layer' which is an interpolation of benefit/function not explicitly stated in the brief's data_points."
     ]
    }
   ]

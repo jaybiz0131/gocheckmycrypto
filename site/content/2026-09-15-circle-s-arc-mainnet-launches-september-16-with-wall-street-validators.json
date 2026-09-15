@@ -1,0 +1,56 @@
+{
+  "id": "c156",
+  "slug": "circle-s-arc-mainnet-launches-september-16-with-wall-street-validators",
+  "kind": "brief",
+  "title": "Circle's Arc Mainnet Launches September 16 With Wall Street Validators",
+  "dek": "Circle's Arc mainnet launches September 16 with 11 founding validators including BlackRock, DTCC, Visa, Mastercard, and ICE, using a permissioned Proof-of-Authority consensus model. Arc combines permissionless application access with permissioned validation and is designed for deterministic finality. More than 100 institutional builders are on the private mainnet.",
+  "date": "2026-09-15",
+  "published_utc": "2026-09-15T10:42:50Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "Major Wall Street and payments institutions are becoming operators of a settlement network while disclaiming liability for third-party applications and assets on it, creating a structural separation between validator control and application responsibility.",
+  "bottom_line": "Circle's Arc mainnet launches Sept. 16 with 11 founding validators including BlackRock, DTCC, Visa, Mastercard; major institutional settlement layer.",
+  "human_take": "",
+  "body": [
+    "Circle's Arc mainnet launches on September 16, per CryptoSlate's reporting. BlackRock, DTCC, Visa, Mastercard, and ICE are among 11 outside institutions named as founding validators, alongside Circle as a 12th operator. More than 100 institutional and ecosystem builders are already working on Arc's private mainnet, according to the outlet.\nArc combines permissioned validation with permissionless application access. Developers can deploy contracts and users can submit transactions without joining the validator set, but only the founding validator cohort can finalize blocks. The network uses Malachite, a Proof-of-Authority consensus engine: a rotating validator proposes a block, validators vote in two stages, and more than two-thirds must pre-commit to the same block before finalization. After finalization, transactions cannot be reorganized or reversed at the consensus layer, per CryptoSlate.\nArc is designed around deterministic finality, aimed at financial firms that need a precise point when a transaction can be treated as completed. Circle has said the launch configuration is expected to use about 20 SOC 2-certified validators across multiple regions, according to CryptoSlate, more than the 12 publicly named organizations. Circle has said validator voting power is assigned through governance, but the outlet notes that public launch materials do not list individual weights for the announced institutions.\nBlackRock was among investors in Circle's private sale of ARC tokens and is expected to deploy its BUIDL money-market fund on Arc, per CryptoSlate. DTCC is both a founding validator and a planned integration partner, with DTC-custodied asset connection targeted for the second half of 2027 to bring DTC-tokenized assets onto the network. Circle says DTC-tokenized assets would retain the protections, rights and safeguards associated with traditionally held assets, though the outlet notes that those protections are tied to the planned DTCC structure rather than every application running on Arc.\nCircle's documentation states that neither Arc Network Services LLC nor the permissioned validators bear responsibility for the content, legality, or functionality of third-party applications, per CryptoSlate. Arc's launch disclosures warn that blockchain use can involve transaction errors or losses without recourse. This structural separation means a validator can help make a transaction final while the application provider, asset issuer or custodian remains responsible for what the transaction represents.\nCircle agreed in the second quarter to sell 807.5 million ARC tokens to institutional investors at 30 cents each, generating about $242.2 million in gross proceeds and implying a $3 billion fully diluted network valuation, according to CryptoSlate. BlackRock, Apollo, ARK Invest, ICE and Standard Chartered's venture arm were among investors Circle named in the original presale cohort. The ARC token has not yet launched, and Circle's whitepaper warns that its timing and final structure remain subject to change. Circle's presale agreements require ARC tokens to be delivered or Arc to have transitioned to Proof-of-Stake or delegated Proof-of-Stake by May 2028, per the outlet. Presale purchasers holding a majority of the allocation may be able to demand repayment if this deadline is not met.\nCircle has said it ultimately wants broader participation and distributed governance on Arc and may transition the network from Proof-of-Authority to a permissioned Proof-of-Stake model, per CryptoSlate.\nThe Bottom Line: Individual validator voting weights remain undisclosed at launch, and, track whether they materialize and whether Arc accumulates meaningful institutional settlement volume before the ARC token's May 2028 delivery deadline.\nAnd that's the way it is."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/circles-arc-launch-ties-wall-street-firms-to-the-network-without-making-them-its-safety-net/",
+      "url": "https://cryptoslate.com/circles-arc-launch-ties-wall-street-firms-to-the-network-without-making-them-its-safety-net/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-15T10:40:49Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76907.6,
+        "chg_24h_pct": -1.62
+      },
+      {
+        "symbol": "ETH",
+        "price": 2474.44,
+        "chg_24h_pct": -1.6
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 8.8,
+      "open_interest_usd": 2167960467
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 0,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true,
+  "update_of": "circle-names-11-founding-validators-including-blackrock-dtcc-visa-mastercard-for-arc-blockchain"
+}
