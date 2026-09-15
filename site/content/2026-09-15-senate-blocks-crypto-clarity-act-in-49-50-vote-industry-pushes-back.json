@@ -2,52 +2,58 @@
   "id": "c001",
   "slug": "senate-blocks-crypto-clarity-act-in-49-50-vote-industry-pushes-back",
   "kind": "brief",
-  "title": "Senate Blocks Crypto Clarity Act in 49-50 Vote; Industry Pushes Back",
-  "dek": "The Senate failed to advance the Digital Asset Market Clarity Act on September 15, falling short of the 60 votes needed for debate. The 600-page bill, years in negotiation and backed by the White House, collapsed over ethics provisions tied to President Trump's crypto interests and banking-sector opposition to stablecoin competition.",
+  "title": "Senate Fails Clarity Act Cloture Vote on September 15; Ethics Divide Kills Crypto Bill",
+  "dek": "The U.S. Senate failed to advance the Digital Asset Market Clarity Act on September 15, 2026, after a cloture motion fell short of 60 votes. Seven Democratic negotiators who shaped the bill voted against it, citing ethics provisions they said were too weak to prevent Trump and his appointees from profiting off crypto ventures while overseeing the industry.",
   "date": "2026-09-15",
   "published_utc": "2026-09-15T19:32:49Z",
   "category": "news",
   "verdict": "VERIFIED",
   "rank": 1,
   "author": "Crypto Cronkite",
-  "key_fact": "The Senate voted 49 to 50 on the Clarity Act cloture motion on September 15, 2026, blocking the crypto industry's marquee federal regulatory framework after months of bipartisan negotiations.",
-  "bottom_line": "The path to federal crypto regulation now faces a hard reset. The question is whether the industry pursues parallel state-level legislation, attempts a revised bill in a future Congress, or accelerates offshore expansion in response to regulatory uncertainty.",
+  "key_fact": "The cloture vote failed, blocking the measure that would have split crypto oversight between the SEC and CFTC.",
+  "bottom_line": "Democrats held enough votes to block cloture and signaled they will not support ethics language that leaves Trump's crypto interests unregulated. Revival would require reopening ethics provisions Republicans had presented as final, a process staff-level talks have already failed to resolve. The next move belongs to Republicans, who must decide whether to accept stronger enforcement mechanisms or allow the bill to remain dead through the remainder of the 2026 session.",
   "human_take": "",
   "body": [
-    "The U.S. Senate voted 49 in favor and 50 against on a cloture motion for the Digital Asset Market Clarity Act on September 15, 2026, blocking the bill from advancing to debate. The vote fell short of the 60 votes required to proceed, effectively killing the crypto industry's primary federal regulatory initiative after more than a year of negotiations.",
-    "The Clarity Act, a 600-page bill, represented bipartisan efforts to clarify which agencies oversee digital assets and set baseline rules for token issuance, exchange trading, and custody. The White House intensified outreach to Republican senators in the final days, and Ripple Chief Executive Brad Garlinghouse urged lawmakers to vote yes, saying \"Perfect can't be the enemy of good.\" Despite those pushes, the bill could not secure the support needed to clear procedural hurdles.",
-    "Ethics provisions tied to President Trump's personal crypto interests emerged as a central sticking point. Republicans, including Sen. Cynthia Lummis, incorporated tougher conflict-of-interest rules in their final legislative offer. Lummis stated: \"President Trump has now agreed to two historic ethics provisions, provisions these very members demanded. We've given you everything you've asked for, yet you keep holding the bill hostage, demanding more and more and more.\" Democrats delivered a private counterproposal after that offering but did not publicly disclose its contents. Negotiations incorporated 126 substantive changes requested by Democrats into the bill, according to Coinbase Chief Policy Officer Faryar Shirzad, who said the legislation addressed all seven principles Democratic senators outlined a year earlier for acceptable crypto market-structure legislation.",
-    "Banking-industry concerns also weighed on the outcome. Sen. Susan Collins raised questions about whether the bill could accelerate deposit flight from community banks to stablecoin-denominated products. Sen. John Curtis, despite planning to support opening debate, said the current bill text would not win his vote on final passage. Republicans held 53 Senate seats but needed 60 votes without Democratic support. Bitcoin dropped approximately 1.3 percent in the last hour during the vote and fell nearly 4 percent as \"no\" votes accumulated and the bill's failure became clear, according to Decrypt reporting.",
-    "Sen. Lummis warned that a defeat could \"drive the digital asset industry overseas, leave consumers vulnerable, and sideline American [crypto] leadership.\" The collapse leaves U.S. digital asset regulation in limbo, with no federal statutory framework governing token listing, stablecoin issuance, or derivatives trading established through the legislative process."
+    "The U.S. Senate blocked the Digital Asset Market Clarity Act on September 15, 2026, when a cloture motion to begin floor debate fell short of the required 60 votes. The measure, championed by Republicans and the crypto industry as the first comprehensive federal framework for digital assets, died over unresolved ethics provisions governing financial interests held by President Trump and his administration.",
+    "Seven Democratic senators who had spent months negotiating the bill voted against the cloture motion: Kirsten Gillibrand, Mark Warner, Cory Booker, Raphael Warnock, Ruben Gallego, Angela Alsobrooks, and Catherine Cortez Masto. Their opposition reflected a fundamental disagreement over whether final ethics language adequately prevented sitting officials from profiting from crypto ventures while overseeing crypto regulation.",
+    "The breakdown centered on a set of ethics provisions Republicans released late Sunday night, negotiated with the White House and framed as the final compromise. Sen. Elissa Slotkin said the restrictions on Trump's financial interests remained inadequate, stating the ethics provisions were \"simply too thin.\" Slotkin raised additional concerns about enforcement capacity and national security, questioning whether the Commodity Futures Trading Commission had sufficient staffing to enforce the framework's standards against money laundering tied to terrorist groups, North Korea, and Iran.",
+    "Sen. Elizabeth Warren, ranking member of the Senate Banking Committee, argued in prepared remarks that the ethics text created loopholes allowing Trump to continue profiting from his crypto ventures and create new ones. According to Warren's statement, the bill gave Trump's appointees at the Attorney General's office and the Office of Government Ethics the power to waive ethics restrictions entirely, rendering them unenforceable against the President. Warren stated: \"We need crypto regulation, but not a crypto bill written by the crypto industry to benefit only the most extreme voices in the crypto industry at the expense of our national security, our economic stability, and to help the most corrupt President in the history of the United States make himself even richer.\"",
+    "The final text, released by Republicans, incorporated 635 pages of amendments and claimed to include 126 substantive changes Democrats requested. According to CryptoSlate's reporting, Senate staff met in the Capitol hideaway office of Sen. Thom Tillis to discuss possible final changes, but staff working for Senate Banking Committee Chairman Tim Scott later ended the talks without an agreement. Sen. Bernie Sanders told the chamber that crypto billionaires had spent nearly $300 million on midterm elections while Trump and his family had collected more than $1.4 billion from crypto-related ventures in 2025 alone, per Warren's statement.",
+    "The collapse took immediate effect in crypto asset markets. Coinbase, Circle, and Galaxy led a broad decline in crypto-focused stocks, per CoinDesk's reporting. The bill's failure returned crypto regulation to legislative limbo, with no clear timeline for reviving efforts that have consumed Senate energy since late 2024.",
+    "The Clarity Act, as designed, would have split oversight between the SEC and CFTC, assigning tokens classed as commodities to the futures regulator and those meeting securities definitions to the SEC. The structure was intended to reduce legal ambiguity that has locked the industry in a prolonged cycle of enforcement and litigation."
   ],
   "sources": [
     {
-      "title": "https://www.coindesk.com/policy/2026/09/15/crypto-clarity-act-flames-out-in-failed-u-s-senate-vote",
-      "url": "https://www.coindesk.com/policy/2026/09/15/crypto-clarity-act-flames-out-in-failed-u-s-senate-vote"
-    },
-    {
-      "title": "https://www.theblock.co/news/regulation/2026-09-14-white-house-crypto-adviser-feels-very-good-ahead-senate-clarity-act-vote-tuesday-414702",
-      "url": "https://www.theblock.co/news/regulation/2026-09-14-white-house-crypto-adviser-feels-very-good-ahead-senate-clarity-act-vote-tuesday-414702"
-    },
-    {
-      "title": "https://decrypt.co/378286/crypto-clarity-act-fails-clear-senate-bitcoin-slides",
-      "url": "https://decrypt.co/378286/crypto-clarity-act-fails-clear-senate-bitcoin-slides"
+      "title": "http://www.banking.senate.gov/newsroom/minority/warren-remarks-ahead-of-clarity-act-procedural-vote-on-senate-floor",
+      "url": "http://www.banking.senate.gov/newsroom/minority/warren-remarks-ahead-of-clarity-act-procedural-vote-on-senate-floor"
     },
     {
       "title": "https://www.coindesk.com/markets/2026/09/15/crypto-stocks-sink-after-senate-rejects-clarity-act",
       "url": "https://www.coindesk.com/markets/2026/09/15/crypto-stocks-sink-after-senate-rejects-clarity-act"
     },
     {
-      "title": "https://cointelegraph.com/news/us-senate-fails-to-advance-clarity-act",
-      "url": "https://cointelegraph.com/news/us-senate-fails-to-advance-clarity-act"
+      "title": "https://cointelegraph.com/news/us-senate-fails-to-advance-clarity-act?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/us-senate-fails-to-advance-clarity-act?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
     },
     {
-      "title": "https://cryptoslate.com/clarity-act-chances-sink-below-20-as-senates-path-to-60-votes-narrows/",
-      "url": "https://cryptoslate.com/clarity-act-chances-sink-below-20-as-senates-path-to-60-votes-narrows/"
+      "title": "https://beincrypto.com/clarity-act-fails-senate-vote-circle/",
+      "url": "https://beincrypto.com/clarity-act-fails-senate-vote-circle/"
     },
     {
-      "title": "https://cryptoslate.com/xrps-path-back-to-2-now-hinges-on-whether-the-senate-passes-the-clarity-act/",
-      "url": "https://cryptoslate.com/xrps-path-back-to-2-now-hinges-on-whether-the-senate-passes-the-clarity-act/"
+      "title": "https://cryptoslate.com/trump-ethics-fight-sinks-clarity-act-in-dramatic-senate-defeat/",
+      "url": "https://cryptoslate.com/trump-ethics-fight-sinks-clarity-act-in-dramatic-senate-defeat/"
+    },
+    {
+      "title": "https://dailyhodl.com/2026/09/15/senate-fails-to-advance-crypto-clarity-act-after-key-negotiators-vote-no/",
+      "url": "https://dailyhodl.com/2026/09/15/senate-fails-to-advance-crypto-clarity-act-after-key-negotiators-vote-no/"
+    },
+    {
+      "title": "https://u.today/opinions/clarity-act-fails-again-what-it-means-for-crypto",
+      "url": "https://u.today/opinions/clarity-act-fails-again-what-it-means-for-crypto"
+    },
+    {
+      "title": "https://cointelegraph.com/markets/crypto-stocks-slide-after-clarity-act-fails-to-advance-in-senate?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/markets/crypto-stocks-slide-after-clarity-act-fails-to-advance-in-senate?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
     }
   ],
   "board_snapshot": {
@@ -80,14 +86,14 @@
   },
   "also_reported_by": [
     "CoinDesk",
-    "Decrypt",
     "Cointelegraph",
-    "CryptoSlate",
     "BeInCrypto",
-    "Crypto Briefing"
+    "CryptoSlate",
+    "The Daily Hodl",
+    "U.Today"
   ],
   "developing": false,
-  "updated_utc": "2026-09-15T20:39:39Z",
+  "updated_utc": "2026-09-15T23:49:20Z",
   "merged_from": [
     {
       "id": "c001",
@@ -98,6 +104,42 @@
       "id": "c001",
       "title": "Senate Blocks Clarity Act in 49-50 Vote on September 15",
       "published_utc": "2026-09-15T20:39:39Z"
+    },
+    {
+      "id": "c001",
+      "title": "Senate Fails Clarity Act Cloture Vote on September 15; Ethics Divide Kills Crypto Bill",
+      "published_utc": "2026-09-15T23:49:20Z"
+    }
+  ],
+  "consolidated": "This story was updated in place with a better-sourced account of the same event, carrying 8 sources against the original 7. The earlier version was headlined “Senate Blocks Crypto Clarity Act in 49-50 Vote; Industry Pushes Back”. The URL and publication time are unchanged.",
+  "superseded_sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/09/15/crypto-clarity-act-flames-out-in-failed-u-s-senate-vote",
+      "url": "https://www.coindesk.com/policy/2026/09/15/crypto-clarity-act-flames-out-in-failed-u-s-senate-vote"
+    },
+    {
+      "title": "https://www.theblock.co/news/regulation/2026-09-14-white-house-crypto-adviser-feels-very-good-ahead-senate-clarity-act-vote-tuesday-414702",
+      "url": "https://www.theblock.co/news/regulation/2026-09-14-white-house-crypto-adviser-feels-very-good-ahead-senate-clarity-act-vote-tuesday-414702"
+    },
+    {
+      "title": "https://decrypt.co/378286/crypto-clarity-act-fails-clear-senate-bitcoin-slides",
+      "url": "https://decrypt.co/378286/crypto-clarity-act-fails-clear-senate-bitcoin-slides"
+    },
+    {
+      "title": "https://www.coindesk.com/markets/2026/09/15/crypto-stocks-sink-after-senate-rejects-clarity-act",
+      "url": "https://www.coindesk.com/markets/2026/09/15/crypto-stocks-sink-after-senate-rejects-clarity-act"
+    },
+    {
+      "title": "https://cointelegraph.com/news/us-senate-fails-to-advance-clarity-act",
+      "url": "https://cointelegraph.com/news/us-senate-fails-to-advance-clarity-act"
+    },
+    {
+      "title": "https://cryptoslate.com/clarity-act-chances-sink-below-20-as-senates-path-to-60-votes-narrows/",
+      "url": "https://cryptoslate.com/clarity-act-chances-sink-below-20-as-senates-path-to-60-votes-narrows/"
+    },
+    {
+      "title": "https://cryptoslate.com/xrps-path-back-to-2-now-hinges-on-whether-the-senate-passes-the-clarity-act/",
+      "url": "https://cryptoslate.com/xrps-path-back-to-2-now-hinges-on-whether-the-senate-passes-the-clarity-act/"
     }
   ]
 }
