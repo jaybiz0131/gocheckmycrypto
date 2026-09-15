@@ -2718,15 +2718,24 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
     _SER_PULSE, _SER_FLOWS = pulse, flows
     cards = []
     for t in tiles:
+        # Punch item 3 / A-19: one sparkline and one caption, or neither. The caption
+        # names the period the SPARKLINE covers, so a caption without a line names
+        # nothing and a line without a caption leaves the reader to guess the window.
         spark = t.get("spark") or t.get("badge") or ""
         win = ""
         vals, win_lab = _series_for(t.get("key"), pulse, flows)
         if vals:
-            win = win_lab or ""
             if not spark:
                 spark = _series_svg(
                     vals, w=96, h=26,
                     kind=(TILE_SERIES.get(t.get("key")) or ("", "", ""))[2])
+            if spark:
+                # Some series carry no window in the feed (whale history, funding
+                # history). They are daily points, so the caption is their own span -
+                # a sparkline without a caption leaves the reader guessing the window.
+                win = win_lab or _span_label(len(vals))
+        if not spark:
+            win = ""
         top = f'<span class="bd-label">{esc(t["label"])}</span>{spark}'
         hide = "" if t.get("phone") else " bd-hide-phone"
         dirn = f' {t["dir"]}' if t.get("dir") in ("up", "down") else ""
@@ -3530,6 +3539,37 @@ TILE_SERIES = {
 }
 
 
+def _span_label(n_days):
+    """A-19: a caption for a daily series the feed labels with no window. Same wording
+    as _win_label so two tiles never describe the same span differently."""
+    if n_days < 2:
+        return ""
+    if n_days < 14:
+        return f"{n_days} days"
+    if n_days < 60:
+        return f"{round(n_days / 7)} weeks"
+    if n_days < 350:
+        return f"{round(n_days / 30)} months"
+    return f"{round(n_days / 365)} year" + ("s" if round(n_days / 365) != 1 else "")
+
+
+def _record_series(pulse, name, min_pts=6):
+    """A-19: a tile's series from the daily record D-1 keeps, using the "c" values -
+    each day's close. This is what finally gives Whole market, Network and Leverage a
+    sparkline, from the desk's own numbers rather than a source that does not publish
+    one. Returns (values, window_label) or (None, "").
+
+    Fewer than six points is not a shape, so it draws nothing rather than a line through
+    two dots; the record fills in a day at a time."""
+    rows = [r for r in (((pulse or {}).get("daily") or {}).get(name) or [])
+            if isinstance(r, dict) and isinstance(r.get("c"), (int, float))]
+    if len(rows) < min_pts:
+        return (None, "")
+    rows.sort(key=lambda r: r.get("d") or "")
+    lab = _win_label({"start_iso": rows[0].get("d"), "end_iso": rows[-1].get("d")})
+    return ([r["c"] for r in rows], lab)
+
+
 def _series_for(key, pulse, flows):
     """The tile's real history and the window the feed says it covers. Returns
     (values, window_label) or (None, "")."""
@@ -3554,7 +3594,13 @@ def _series_for(key, pulse, flows):
     if key == "leverage":
         lv = (p.get("leverage") or {}).get("assets") or []
         h = (lv[0] if lv else {}).get("funding_history_pct") or []
-        return (h or None), ""
+        if h:
+            return h, ""
+        return _record_series(p, "leverage")
+    if key == "market":
+        return _record_series(p, "market")
+    if key == "network":
+        return _record_series(p, "network")
     if key == "whales":
         h = f.get("history") or []
         vals = [x.get("net_usd") for x in h if isinstance(x.get("net_usd"), (int, float))]
