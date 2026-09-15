@@ -5,48 +5,6 @@
   "rejected": [
    {
     "id": "c054",
-    "headline": "Tokenized stock holders more than double as monthly volume surges",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Tokenized equities reached 1.31 million holders over the past month' and 'holders...more than doubled', but the brief does not provide a prior baseline, only the current figure. The draft then acknowledges this gap mid-body ('Cointelegraph reporting does not disclose the prior-period holder count or volume figures against which the current numbers are measured'), creating internal contradiction. The opening sentence asserts the doubling as fact when the brief only reports the current month's figure at reported confidence. The draft cannot claim doubling happened without a prior baseline in the brief."
-    ]
-   },
-   {
-    "id": "c003",
-    "headline": "Tudor Investment reverses year-long IBIT selldown with 18.9% stake increase in Q2 2026",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Tudor 'first disclosed IBIT shares in mid-2024 and amassed 8.05 million shares worth $427 million by year-end 2024' but the brief data_point says 'Tudor first disclosed 869,565 IBIT shares in mid-2024 and increased the position to 8.05 million shares worth $427 million by year-end 2024.' The draft omits the initial disclosure quantity (869,565), which is a material fact about the starting point and scale of the buildup. This is not paraphrase; it is selective fact omission that changes the narrative of how aggressively Tudor moved.",
-     "The bottom_line contains the phrase 'tactical tactical trim' which is a typographical error ('tactical' repeated) and reads as unpolished, undermining credibility."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Institutional capital in H1 2026: $11.2 billion to regulated crypto, zero to permissionless projects",
-    "category": "balance",
-    "reasons": [
-     "The draft fails to adequately surface the bear_case from the brief. The bear_case explicitly states: 'The $11.2 billion figure counts only disclosed rounds and excludes undisclosed deals, understating the actual funding volume and potentially missing early-stage permissionless projects that raise privately' and 'Retail users continue to trade on unlicensed venues.' The draft mentions the undisclosed-rounds caveat late in the piece via Irina Heaver's statement, but does not prominently feature the risk that the headline claim ('zero to permissionless projects') may be an artifact of disclosure bias rather than market reality. The bear_case warning that 'retail users continue to trade on unlicensed venues' is never addressed, leaving the framing\u2014that permissionless has died\u2014unchallenged by the counterevidence in the brief itself.",
-     "The title 'Institutional capital in H1 2026: $11.2 billion to regulated crypto, zero to permissionless projects' is presented as a definitive market statement, but the brief's own bear_case flags that permissionless projects may have raised capital 'privately' and that the zero figure may reflect disclosure methodology, not market preference. The draft should qualify or contextualize this claim more forcefully given the brief's explicit caveats, or move the disclaimer higher and make it more prominent."
-    ]
-   },
-   {
-    "id": "c053",
-    "headline": "Bybit launches pre-IPO perpetuals for Unitree and Moonshot AI as platforms expand into private markets",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'Bybit's TradFi derivatives suite now spans more than 200 products across equities, ETFs, commodities, indices, and private companies, per Cointelegraph' attributes the 200+ figure to Cointelegraph, but the brief data_point provides no timestamp or context for when this milestone was reached. The draft presents this as current fact without qualification; the brief marks it 'reported' but does not confirm whether Cointelegraph stated 200+ or if this is the writer's inference from the two new additions.",
-     "Sentence 'However, the sources do not disclose how Bybit prices these contracts, settles expiries, or manages counterparty risk in the absence of transparent market data for private equity valuations' is SMUGGLED. The brief's open_questions include 'How does Bybit price and settle these pre-IPO perpetuals without transparent market data?' but this is listed as an unanswered question, not a reported fact. The draft presents absence of disclosure as if sourced from available reporting; it is not.",
-     "Sentence 'Bybit's framework for geographic restrictions, leverage limits, or accredited-investor requirements is not detailed in the available reporting' similarly smuggles a negative claim (what Bybit's reporting does NOT contain) as though it came from the source. The brief lists these as open_questions, not as sourced findings."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-16",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c054",
     "headline": "Ethereum Developers Narrowing 66 Proposals for Hegot\u00e1 Privacy Upgrade",
     "category": "accuracy",
     "reasons": [
@@ -5760,6 +5718,22 @@
      "No accuracy violation on this second read: the full McDonald quote appears in the brief. Reverting.",
      "All other facts (Chai age 36, Xiang age 30, counts and sentences, $50,000+ earnings, 2025\u20132026 timeframe, Hyperliquid as decentralized platform, Coinbase/Wahi precedent, Wahi's guilty plea to wire fraud conspiracy) trace to brief data_points.",
      "However: Draft opens with 'The Department of Justice charged two former Robinhood engineers' but the brief does not establish they are 'former'\u2014only that they were engineers who accessed nonpublic information. This is a factual insertion not in the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c001",
+    "headline": "Senate Blocks Clarity Act on September 15 Vote",
+    "category": "accuracy",
+    "reasons": [
+     "The draft includes multiple claims from Senator Warren's remarks that are not in the brief's data_points. Warren's allegations about Trump's $1.4 billion crypto earnings in 2025, fans losing $4 billion on memecoins, and specific claims about enforcement loopholes are all listed in the brief as data_points 18-24, but the draft body makes NO mention of any of these claims. The brief explicitly includes Warren's major contentions about ethics enforcement, Trump's profit potential, and alleged structural loopholes in the bill, yet the draft omits them entirely in favor of industry-friendly framing (Shirzad's claims, Garlinghouse's quote, Lummis's statement). This is not paraphrase or synthesis\u2014it is selective omission of half the documented opposition case. A reader of this draft would not know Democrats raised specific allegations about Trump's financial conflicts or questioned the bill's enforcement architecture.",
+     "The draft reports 'Sen. Cynthia Lummis stated' the Democrats won't get to yes and that Republicans have 'given you everything' as a general negotiating dispute, but omits the documented context in the brief that this statement was made in direct rebuttal to Warren's specific allegations about Trump profiting from the bill and lacking enforcement accountability. The statement's force and meaning depend on that context, which the brief documents but the draft erases.",
+     "The bottom_line states 'Republicans must decide whether to abandon the effort or attempt to peel away Democratic votes, and Democrats must clarify what ethics provisions or enforcement mechanisms would satisfy their objections.' This is contradicted by the brief's data_points 20-24, which show Democrats did clarify their objections in detail (via Warren's remarks): they object to the lack of enforcement against the President, the carve-outs for Trump's existing ventures, and the delegation to Trump-appointed officials. The draft frames the Democratic position as vague when the brief documents it as specific."
     ]
    }
   ]
