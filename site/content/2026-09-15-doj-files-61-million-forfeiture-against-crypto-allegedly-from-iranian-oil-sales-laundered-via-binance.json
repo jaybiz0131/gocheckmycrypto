@@ -1,0 +1,62 @@
+{
+  "id": "c015",
+  "slug": "doj-files-61-million-forfeiture-against-crypto-allegedly-from-iranian-oil-sales-laundered-via-binance",
+  "kind": "brief",
+  "title": "DOJ Files $61 Million Forfeiture Against Crypto Allegedly From Iranian Oil Sales Laundered via Binance",
+  "dek": "The U.S. Department of Justice filed a civil forfeiture complaint against $61 million in cryptocurrency allegedly tied to Iran's black-market crude oil sales, with prosecutors claiming two Chinese companies, Blessed Trust and Hexa Whale, laundered the funds through Binance. The DOJ stated the proceeds were destined for Iran's government and the Islamic Revolutionary Guard Corps (IRGC).",
+  "date": "2026-09-15",
+  "published_utc": "2026-09-15T15:24:10Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "A $1.5 billion underground crypto pipeline allegedly moved black-market Iranian oil proceeds through unhosted wallets to IRGC-tied accounts; the DOJ is seizing $61 million frozen by Tether in 2025.",
+  "bottom_line": "The DOJ seeks forfeiture of frozen USDT, but civil action establishes no criminal charges against the Chinese companies or Binance staff. What matters next is whether the DOJ's broader investigation into Binance's compliance surfaces criminal referrals or penalty settlements, and whether the freeze by Tether itself signals stablecoin issuers are outpacing exchange monitoring.",
+  "human_take": "",
+  "body": [
+    "The U.S. Department of Justice filed a civil forfeiture complaint against $61 million in cryptocurrency tied to Iran's black-market crude oil and petroleum sales, according to CoinDesk's reporting. Prosecutors alleged the funds were destined for the Iranian government and its military branches, including the Islamic Revolutionary Guard Corps (IRGC), designated as a U.S. terrorist organization by Washington.\nDeputy U.S. Attorney Sean S. Buckley stated: \"Today's action demonstrates our determination to deprive the Government of Iran and its terrorist proxies of the illegal money they rely on to threaten the lives and safety of the citizens of the United States and elsewhere.\" The government contends Iran relies on black-market crude oil sales to fund military operations, foster terrorism in the Middle East, and support development of nuclear weapons and ballistic missiles, per CoinDesk.\nIran's crude exports have fallen due to a strict U.S. naval blockade and regional fighting around the Strait of Hormuz. Iran has reportedly been using crypto to bypass the blockade and keep trade flowing. The legal action coincides with escalating missile warfare between Iran and the U.S. since February, according to CoinDesk.\nProsecutors identified a $1.5 billion underground pipeline, internally dubbed \"Entity A,\" that moved black-market Iranian oil money through a complex web of unhosted cryptocurrency wallets, per CoinDesk. Unhosted wallets store digital assets outside of centralized exchanges or third parties, functioning much like stashing physical cash in a house to prevent authorities from freezing it. The network transferred massive sums of illicit cash directly to an Iranian crypto exchange, as well as digital wallets and businesses tied to the IRGC.\nTwo Chinese companies, Blessed Trust and Hexa Whale, allegedly acted as the primary facilitators coordinating the vast majority of multi-million dollar transfers, according to CoinDesk. Both companies used trading accounts on Binance to launder the black-market oil proceeds before funneling the funds back to the Iranian government and its proxies.  The civil forfeiture complaint does not allege any wrongdoing by Binance itself, only by the two Chinese company facilitators, per reporting on the case.\nBinance said it did not permit transactions with sanctioned individuals and was cooperating with law enforcement, per CoinDesk. Binance has disputed prior reporting by major outlets including the Wall Street Journal, Fortune, and the New York Times as inaccurate and filed a lawsuit against the WSJ. The Wall Street Journal reported alleged links between Iran and the two Chinese companies in February this year, and in May reported that Iran-linked funds were continuing to move through Binance in 2026, with a major Iranian financier using Binance to move $850 million worth of transactions in 2024 and 2025. U.S. senators have questioned whether Binance lied before Congress and whether it is avoiding money laundering recommendations, per Protos reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/markets/2026/09/15/u-s-doj-seeks-usd61-million-in-what-it-calls-crypto-laundered-iranian-oil-proceeds",
+      "url": "https://www.coindesk.com/markets/2026/09/15/u-s-doj-seeks-usd61-million-in-what-it-calls-crypto-laundered-iranian-oil-proceeds"
+    },
+    {
+      "title": "https://www.theblock.co/news/regulation/2026-09-15-doj-61-million-crypto-proceeds-iranian-oil-sales-414768",
+      "url": "https://www.theblock.co/news/regulation/2026-09-15-doj-61-million-crypto-proceeds-iranian-oil-sales-414768"
+    }
+  ],
+  "update_of": "sec-charges-38-entities-with-fraudulent-adviser-filings-targeting-retail-investors",
+  "board_snapshot": {
+    "as_of": "2026-09-15T15:22:07Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75984.16,
+        "chg_24h_pct": -2.8
+      },
+      {
+        "symbol": "ETH",
+        "price": 2413.36,
+        "chg_24h_pct": -4.03
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 10.1,
+      "open_interest_usd": 2224050887
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -174201358,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "CoinDesk"
+  ],
+  "developing": false
+}
