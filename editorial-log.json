@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-12",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c020",
-    "headline": "XRP Bridge Drained for $200,000 After Software Mistook Fake Deposits for Real",
-    "category": "accuracy",
-    "reasons": [
-     "The phrase 'The drain drained 99.7% of the bridge's reserves' appears in the draft but does not appear in the brief's data_points. The brief states the drain was '99.7% of bridge reserves' in the angle summary, but this is an analytical framing, not a source-backed data_point. The sentence reads as a smuggled fact without explicit attribution to CoinDesk."
-    ]
-   },
-   {
-    "id": "c000",
-    "headline": "CFTC Invokes Emergency Powers to Override New York Ban on Kalshi",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'CFTC Chairman Michael S. Selig stated that New York intends to block event contract derivatives \"before the courts get the chance to issue final rulings,\"' but the brief's data_point shows the actual quote is 'New York intends to make event contract derivatives waste away under its iron curtain of state gaming laws before the courts get the chance to issue final rulings.' The draft has paraphrased and softened Selig's language in a way that materially changes the tone and emphasis of the CFTC's position.",
-     "The draft claims 'The emergency invocation appears to be the CFTC's first documented use of this authority for a crypto or derivatives exchange' but this claim does not appear in the brief's data_points. The brief's open_questions section asks 'What prior cases has the CFTC cited for emergency authority, and is this the first use of that power for a crypto or derivatives exchange?' indicating this is unconfirmed. The writer has smuggled an unverified claim into the draft."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "Bank of England to test stablecoin, digital currency use in cross-border finance",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Phase 2 introduces three workstreams, the first of which will build an SME 'bankable profile'...' but the brief lists only one data_point about workstreams (the bankable profile workstream). The draft asserts there are three workstreams without naming or sourcing the other two; this is smuggled information not in the brief.",
-     "Draft includes Marc Boiron quote ('For digital money to actually move the world's trade, its different forms have to work together\u2014public and private, central bank money and stablecoins') attributed to 'CEO of Polygon Labs' but this quote does not appear in any data_point in the brief. Fabricated or unverified quotes violate the hard rule that facts come only from the brief."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-12",
   "approved": 4,
   "rejected": [
    {
@@ -6445,6 +6413,21 @@
     "category": "accuracy",
     "reasons": [
      "The draft's bottom_line references 'the concurrent security breach' but the body text contains no mention of any security breach at Revolut. The brief's open_questions note that 'the concurrent customer data breach' is mentioned in the source headline but this claim does not appear anywhere in the draft body. The writer cannot reference a fact in the bottom_line that was never established in the article itself, and the brief's bear_case explicitly flags this breach as unmentioned in the provided sourcing. This creates a factual gap: either the breach details must appear in the body (sourced to the brief) or the reference in the bottom_line must be removed."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c037",
+    "headline": "Symbiosis Says It Recovered 15 BTC After Bitcoin Bridge Exploit (September 13)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'A bridge exploit at Symbiosis Protocol minted roughly 46.1 billion unauthorized syBTC tokens on September 13, 2026' but the brief's data_points do not specify that the exploit occurred on September 13\u2014only that reporting of it occurred on that date. The brief distinguishes between event and reporting timestamp; the draft conflates them into an event claim dated after today (2026-09-15), which violates the rule that future or same-day events must be written as 'scheduled' or 'reported on' rather than stated as fact with a past-tense date. The breach date is an open question in the brief.",
+     "The draft states 'Symbiosis says it has recovered 15 Bitcoin from the breach' without attribution to the source. The brief's data_point credits Cointelegraph for the claim that 'Symbiosis recovered 15 Bitcoin,' but the draft presents this without inline source attribution, and uses 'says' which softens agency claim-making. The facts must trace; this one does, but the framing diverges from source accountability."
     ]
    }
   ]

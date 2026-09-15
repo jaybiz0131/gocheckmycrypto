@@ -1,0 +1,62 @@
+{
+  "id": "c141",
+  "slug": "doj-files-forfeiture-case-for-61m-in-binance-accounts-tied-to-iran-oil-laundering",
+  "kind": "brief",
+  "title": "DOJ Files Forfeiture Case for $61M in Binance Accounts Tied to Iran Oil Laundering",
+  "dek": "The US Attorney for the Southern District of New York filed a civil forfeiture complaint on September 14 seeking $61 million in cryptocurrency allegedly moved through Binance by two China-based firms to launder Iranian oil proceeds destined for the Islamic Revolutionary Guard Corps. The case follows Binance's 2023 guilty plea and $4.3 billion settlement, and uses civil forfeiture, which requires only a preponderance of evidence rather than criminal conviction.",
+  "date": "2026-09-15",
+  "published_utc": "2026-09-15T00:43:46Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "DOJ filed civil forfeiture complaint September 14 seeking $61M tied to Iranian oil sanctions evasion through Binance accounts of two Chinese firms, as part of broader Treasury initiative targeting Iran's financial networks via crypto.",
+  "bottom_line": "The complaint will proceed through civil forfeiture discovery starting in coming weeks; the DOJ will need to establish the chain of custody and blockchain evidence linking the $61 million to the alleged Iranian network. Binance's compliance credibility, already tested by the 2023 guilty plea and $4.3 billion settlement, now faces added scrutiny as the UK Financial Conduct Authority evaluates the exchange's authorization application.",
+  "human_take": "",
+  "body": [
+    "The US Attorney's Office for the Southern District of New York filed a civil forfeiture complaint on September 14, 2026, seeking $61 million in cryptocurrency allegedly held in Binance accounts controlled by two China-based entities, Blessed Trust and Hexa Whale, and used to launder proceeds from Iranian oil sales to entities connected to Iran's Islamic Revolutionary Guard Corps, which the US designates as a terrorist organization.\nAccording to Crypto Briefing's reporting, prosecutors allege that the broader network laundered over $1.5 billion in proceeds from Iranian oil sales. The two Chinese firms misrepresented their operations to financial institutions, presenting themselves as legitimate trading businesses while allegedly serving as conduits for Iranian money. Binance itself is not named as a defendant in the complaint; the DOJ's enforcement action targets the trading accounts and the assets they held, not the platform.\nThe forfeiture action is part of a coordinated campaign called Operation Economic Outcast, launched by the Treasury Department in August 2026, targeting Iran's financial networks with focus on actors exploiting crypto infrastructure to move sanctioned funds. Congressional attention to Iran-linked activity on Binance earlier in 2026 accelerated the investigative timeline and provided political cover for the enforcement push.\nCivil forfeiture requires only a preponderance of evidence (more likely than not) to succeed, a lower bar than the beyond-reasonable-doubt standard in criminal cases. The government does not need to secure a criminal conviction; it needs only to show by a preponderance of evidence that the assets are traceable to illegal activity. That evidentiary advantage signals aggressive enforcement posture: the lower threshold allows prosecutors to move faster and removes the burden of proving guilt beyond doubt.\nBinance pleaded guilty in 2023 to sanctions violations and agreed to pay $4.3 billion in penalties, one of the largest corporate settlements in US financial history. The settlement required the exchange to implement a comprehensive compliance overhaul, including enhanced transaction monitoring and more rigorous know-your-customer procedures. Yet Blessed Trust and Hexa Whale, both China-based, allegedly maintained trading accounts and moved funds through the platform after that settlement took effect, suggesting post-guilty-plea monitoring did not catch the activity.\nThe $61 million being seized is a small fraction of the alleged $1.5 billion network, per Crypto Briefing, raising questions about whether successful forfeitures will significantly degrade the broader sanctions evasion apparatus or serve primarily as a deterrent to intermediaries. Both Chinese firms are based outside US jurisdiction, which may complicate enforcement even if the assets are nominally accessible through Binance's US-regulated infrastructure.\nBinance has not publicly responded to the complaint. The case presents a material risk to Binance's regulatory standing: a pattern of sanctions violations (the 2023 guilty plea plus this current complaint of fresh Iran-linked laundering) may undermine the platform's credibility with regulators as it pursues regulatory authorization in new jurisdictions, including the UK."
+  ],
+  "sources": [
+    {
+      "title": "https://beincrypto.com/doj-61m-binance-iran-forfeiture/",
+      "url": "https://beincrypto.com/doj-61m-binance-iran-forfeiture/"
+    },
+    {
+      "title": "https://cryptobriefing.com/doj-forfeiture-iran-oil-binance-laundering/",
+      "url": "https://cryptobriefing.com/doj-forfeiture-iran-oil-binance-laundering/"
+    }
+  ],
+  "update_of": "u-s-treasury-brings-iran-s-crypto-sector-under-sanctions-authority",
+  "board_snapshot": {
+    "as_of": "2026-09-15T00:41:26Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77995.82,
+        "chg_24h_pct": -0.23
+      },
+      {
+        "symbol": "ETH",
+        "price": 2514.22,
+        "chg_24h_pct": -0.02
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.7,
+      "open_interest_usd": 2052671958
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 0,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false
+}
