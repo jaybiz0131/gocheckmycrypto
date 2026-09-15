@@ -1,45 +1,6 @@
 [
  {
   "date": "2026-08-12",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c011",
-    "headline": "Russia restricts retail crypto trading to three assets with annual purchase caps",
-    "category": "compliance",
-    "reasons": [
-     "The draft includes a boundary block in the metadata (boundary_required: false, boundary_ok: false) with specific affected/fixed/user_action fields, but the brief explicitly marks boundary_required: false and boundary_ok: false with a note that the affected field does not appear verbatim in the source. The draft should not carry boundary information if the brief does not support it. The compliance issue is that a boundary block was constructed and included in the metadata when the brief itself flagged boundary_ok: false, signaling the boundary language cannot be verified against the source."
-    ]
-   },
-   {
-    "id": "c023",
-    "headline": "Coreum bridge loses nearly $200,000 in XRP after fake deposit exploit",
-    "category": "compliance",
-    "reasons": [
-     "The draft metadata sets boundary_required: true and boundary_ok: false with the reason 'this story turns on a version, date range or threshold but the brief carries no boundary block.' However, the draft itself contains no boundary block in its output fields (boundary, boundary_required, boundary_ok are all absent or null in the presentable draft body). The brief also marks boundary_required: true but provides no boundary object. This is a structural compliance failure: the story involves a financial impact (nearly $200,000 loss, 97-minute window, 17-of-28 relayer threshold) that may affect user decisions, but neither the brief nor the draft provides the required boundary specification to make the liability line clear. The desk cannot publish this without a vetted boundary block or removal of boundary_required flag."
-    ]
-   },
-   {
-    "id": "c000",
-    "headline": "CFTC Invokes Emergency Authority to Keep Kalshi Operating Amid New York State Lawsuit",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'CFTC Chairman Michael S. Selig' but the brief provides no confirmation of this person's name or title. The quote is attributed to the CFTC press release, but the identity of the speaker is not in the data_points and cannot be verified from the brief.",
-     "The draft claims the CFTC 'exercised rarely-used emergency authority to order KalshiEX to continue operations' but the brief's data_points do not contain language confirming this was 'rarely-used' or detailing what the emergency order specifically commanded. This characterization goes beyond what the brief supports."
-    ]
-   },
-   {
-    "id": "c132",
-    "headline": "CFTC Sues Goliath Ventures Over Alleged $397M DeFi Liquidity Pool Ponzi Scheme",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Another $21 million went onto corporate credit cards, including more than $4.9 million on world travel, $2.9 million on luxury apparel, jewelry and travel concierge services, and over $400,000 on school tuition, soccer expenses, tutoring, and pet grooming for Delgado's family.' The brief's corresponding data point says 'over $400,000 on school tuition, soccer expenses and tutoring for Delgado's children along with pet grooming.' The draft adds 'pet grooming' as a standalone family expense when the source groups it with school/tutoring expenses for the children only. This is a minor but material change to the factual claim about what the money was spent on."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-12",
   "approved": 5,
   "rejected": [
    {
@@ -6428,6 +6389,31 @@
     "reasons": [
      "The draft states 'A bridge exploit at Symbiosis Protocol minted roughly 46.1 billion unauthorized syBTC tokens on September 13, 2026' but the brief's data_points do not specify that the exploit occurred on September 13\u2014only that reporting of it occurred on that date. The brief distinguishes between event and reporting timestamp; the draft conflates them into an event claim dated after today (2026-09-15), which violates the rule that future or same-day events must be written as 'scheduled' or 'reported on' rather than stated as fact with a past-tense date. The breach date is an open question in the brief.",
      "The draft states 'Symbiosis says it has recovered 15 Bitcoin from the breach' without attribution to the source. The brief's data_point credits Cointelegraph for the claim that 'Symbiosis recovered 15 Bitcoin,' but the draft presents this without inline source attribution, and uses 'says' which softens agency claim-making. The facts must trace; this one does, but the framing diverges from source accountability."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c020",
+    "headline": "Bitcoin falls 0.23% as crypto market consolidates",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports Bitcoin price data and market conditions as of September 15, 2026 (today), sourced from 'desk://market-boards'. However, the brief's bear_case flags a critical discrepancy: the headline claims Bitcoin rose 1.9% since 'midnight UTC on 2026-09-14,' but the desk's own market boards show Bitcoin fell 0.23% in the prior 24-hour session. The draft body confirms the -0.23% figure, directly contradicting the headline's implicit bullish framing. This is a factual contradiction within the draft itself between headline and body, not resolvable by reference to the brief.",
+     "More critically, the brief notes 'CoinDesk source text was not fetched; unable to verify the 1.9% Bitcoin rise, Nasdaq 100 -1.65% decline, or crude +4% move.' The brief is marked thin=true and the angle states the core premise (crypto outperformance on macro divergence) contradicts the verified desk data. The draft does not reference Nasdaq 100 futures or crude oil price movements at all, yet the brief's core_claim and angle center on macro divergence. The story appears to have been written from a macro thesis that the brief could not verify from available sources, making it a smuggled narrative (facts outside the brief).",
+     "The bear_case explicitly states 'Desk boards show Bitcoin fell 0.23% in the 24-hour window ending 2026-09-15, contradicting the headline claim of a 1.9% rise.' This warning was in the research brief; the draft headline does not claim a rise, but the brief indicates the original premise was macro-driven outperformance that could not be supported. The draft as written focuses on technicals and consolidation, which survives the brief's data, but the framing (via title and bottom_line) of Bitcoin 'consolidating' obscures the bear_case that Bitcoin is down 2.29% on the week and down 37.5% from highs\u2014a weakness narrative, not consolidation."
+    ]
+   },
+   {
+    "id": "c014",
+    "headline": "Bitmine Adds $68 Million in Ethereum, Holdings Reach 4.9% of Supply",
+    "category": "accuracy",
+    "reasons": [
+     "The draft omits two reported data points from the brief that are material to the story: ETH outperformed the S&P 500 by 5,866 basis points through September 12, 2026 in Q3, and Tom Lee's claim that ETH, SOL, and BTC were the top 3 performing assets since June 30, 2026. These are explicitly in the brief as Decrypt-reported facts with 'reported' confidence and are core evidence for the 'institutional confidence in ETH as macro asset' angle. Their absence weakens the lead's claim about what Bitmine's purchases signal.",
+     "The draft uses comparative framing ('Rival Ethereum treasury company SharpLink announced plans...', 'Strategy, a Bitcoin treasury company...') that positions these as context without clearly establishing they are from the same source. The brief shows all three facts (Bitmine's purchase, SharpLink's staking announcement, Strategy's buyback) come from a single Decrypt article dated September 14, 2026. The draft should either attribute all three to Decrypt inline or reorganize to make the single-source origin clear, to avoid implying independent verification across outlets."
     ]
    }
   ]
