@@ -4,39 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c141",
-    "headline": "CFTC and SEC Sue Goliath Ventures Over $397M DeFi Liquidity Pool Ponzi",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'In June 2026, Delgado pleaded guilty to conspiracy to commit wire fraud, wire fraud and money laundering, admitting he orchestrated the fraud and spent millions of dollars of customer money on himself.' This is presented as a completed fact. However, the brief's confidence label for this data point is 'reported'\u2014meaning it comes from The Defiant's reporting of the CFTC complaint allegations, not from independent court records or sentencing documentation. The draft must either attribute this explicitly to the complaint/The Defiant's reporting or flag it as alleged/announced-not-verified to maintain liability boundaries."
-    ]
-   },
-   {
-    "id": "c135",
-    "headline": "Solana Came Within 4.5 Points of Losing Finality After Teraswitch Routing Fault",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'No validators implemented automatic failover or hot-swap systems, according to Marinade's analysis as reported by The Defiant, meaning the 59 validators had to return manually after routing reconverged.' This claim does not appear in the brief's data_points. The brief's bear_case includes 'No validators implemented automatic failover or hot-swap systems; 59 validators holding 80.2 million SOL had to return manually after routing reconverged, indicating inadequate automated recovery for critical infrastructure,' but bear_case items are analysis/interpretation, not confirmed data points. The draft presents this as a fact found in reporting when it is actually the writer's inference from the bear_case. A fact about what validators did or did not implement must trace to a data_point, not to bear_case reasoning.",
-     "The boundary_ok field is set to false with a note that 'this story turns on a version, date range or threshold but the brief carries no boundary block,' indicating the desk flagged a missing boundary for a story dependent on precision thresholds (28.83% vs. 33.34%, 4.5 percentage points). The draft was approved for publication despite this flag. A boundary block is required before publication when the story's stakes depend on exact figures or thresholds that could shift with new reporting. This is a compliance/editorial integrity issue: the draft should not have been sent to approval without a boundary block, or the boundary_required flag should have been set to false before drafting."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "SEC Issues No-Action Letter Permitting Franklin Templeton Funds to Invest in Onchain BENJI Cash Management System",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The SEC issued a no-action letter to Franklin Templeton permitting the company's registered funds to invest in BENJI/FOBXX' but the brief data_points say only 'Franklin Templeton received a no-action letter from the SEC' without specifying who issued it or confirming it was the SEC (as opposed to another agency). The source URL is inaccessible in the brief (source_chars: 0), making verification impossible.",
-     "The draft describes BENJI/FOBXX as 'an onchain system for cash management' and 'an onchain money market fund' interchangeably, but the brief data_point only states it is 'an onchain system for cash management.' The claim it is a 'money market fund' is not in the brief and cannot be verified.",
-     "The draft states 'The letter clears the way for traditional registered investment funds to hold positions in the onchain money market fund without SEC enforcement action,' but the brief provides no detail about enforcement action risks or what the letter 'clears the way for' beyond the basic fact that funds can invest in BENJI/FOBXX. This interpretation is the writer's addition, not supported by the brief's thin data."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-12",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c001",
     "headline": "CFTC Invokes Emergency Authority to Override New York Lawsuit Against KalshiEX",
     "category": "accuracy",
@@ -6350,6 +6317,41 @@
      "The draft states 'Cointelegraph reports the funds were frozen by Tether in 2025' but the brief's data_point 4 says 'The funds were frozen by Tether in 2025' with Cointelegraph as the source. However, this is now September 2026 (per the prompt date). A freeze in 2025 is being reported now in 2026, which is factually consistent but the phrasing in the draft could mislead a reader into thinking the freeze is recent rather than historical. The sentence is accurate as written but sits uncomfortably adjacent to current reporting.",
      "The brief is marked 'thin: true' with only 4 data_points and minimal source characters (149). The draft provides only 4 sentences of body text for a story carrying enforcement allegations involving specific dollar amounts, named entities (Binance, Tether, Iran, two Chinese companies), and government action. The draft meets the brief's thinness but does not signal any of the bear_case items or open_questions, which is appropriate for a thin brief\u2014no balance failure here.",
      "No attribution line or specific detail on which DOJ office or official filed the action. The brief does not carry this detail either, so this is not smuggled information, but it leaves the story sparse on procedural specifics."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 8,
+  "rejected": [
+   {
+    "id": "c033",
+    "headline": "Ethereum, Base Developers Abandon Effort to Align Account Abstraction Proposals",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Two proposals, EIP-8130 and EIP-8141, had been discussed for alignment' but the brief's open_questions explicitly asks 'Which proposal (EIP-8141 or EIP-8130) belongs to which chain?' This indicates the brief does not establish which proposal belongs to Ethereum vs. Base. The draft assigns both proposals to both chains without source support, smuggling an unverified detail. The brief only reports that the two proposals 'were discussed for alignment but fell short' \u2014 it does not confirm both are actively owned by both chains.",
+     "The draft reports facts from a single source (Cointelegraph) but does not attribute specific claims inline. The bottom_line acknowledges the thinness ('specific technical disagreements and implementation timelines remain unreported') but the body presents the breakdown as established fact without noting that critical details are missing from the source."
+    ]
+   },
+   {
+    "id": "c034",
+    "headline": "NY Attorney General James Leads Bipartisan Opposition to Clarity Act Ahead of Senate Vote on September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The title states the vote is 'Ahead of Senate Vote on September 16' but today is September 15, 2026. A scheduled future event must be written as upcoming, not as imminent. The phrasing 'Ahead of Senate Vote on September 16' is correct, but the phrase 'The opposition arrives one day before a Senate procedural vote scheduled for September 16' is accurate. However, the sentence 'Under the bill, digital assets would largely fall under the regulatory purview of the Commodity Futures Trading Commission (CFTC)' lacks an inline source attribution \u2014 this is reported in the brief but must be traced. All data points on CFTC purview are sourced to The Block, so this is acceptable.",
+     "The draft includes: 'Trump himself signed off on the language regarding the federal official ban, per The Block.' This is a claim about what Trump did and agreed to. The brief marks this as 'reported' confidence from The Block, which is sufficient. However, the sentence about the ban being 'a direct shot at President Donald Trump's TRUMP memecoin' appears in the brief's data_points as reported but is NOT included in the draft body \u2014 this is correct editorial judgment (a loaded framing the desk chose not to repeat as its own voice).",
+     "The draft correctly attributes the attorneys general quotes to the letter and cites The Block. The bottom_line appropriately flags the open question of whether 60 votes will hold, and does not predict the outcome. All major facts trace to the brief's data_points."
+    ]
+   },
+   {
+    "id": "c234",
+    "headline": "Whale Alert Posts $250M USDC Mint Signal, Transaction Details Not Accessible",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'Whale Alert published four transaction IDs on September 14, 2026' and reports them as evidence of a '$250 million USDC mint event.' However, the brief classifies the core claim as 'unconfirmed' confidence, and the bear_case explicitly states 'The headline claim of \"250,000,000 USDC ($250,013,125) minted from unknown wallet to usdc treasury\" cannot be corroborated from the source texts provided.' The draft presents this unconfirmed claim as an event that occurred ('published four transaction IDs flagged as part of a 250 million USDC mint event') rather than as an unverified allegation.",
+     "Per brief data_point 1, the 250M USDC mint claim carries 'unconfirmed' confidence. The draft must signal this uncertainty in prose\u2014either by framing it as what Whale Alert claimed, or by using language that reflects the unconfirmed status. The current phrasing 'The claim of a $250 million USDC mint and its routing to treasury cannot be corroborated' appears later in the draft but contradicts the lead's treatment of the same claim as settled fact.",
+     "The lead paragraph asserts the event as having occurred without confidence label language, violating the hard rule that brief claims marked 'unconfirmed' must read that way in prose."
     ]
    }
   ]

@@ -2,25 +2,36 @@
   "id": "c012",
   "slug": "house-ways-and-means-committee-publishes-crypto-tax-bill-ahead-of-hearing-this-week",
   "kind": "brief",
-  "title": "House Ways and Means Committee publishes crypto tax bill ahead of hearing this week",
-  "dek": "The House Ways and Means Committee published a crypto tax bill addressing de minimis transactions, staking, and other industry-requested policies. A hearing on the proposal is scheduled for later this week.",
+  "title": "House Ways and Means releases crypto tax bill ahead of September 16 markup",
+  "dek": "The House Ways and Means Committee released a 114-page Digital Asset Tax Certainty Act on September 14, proposing tax treatment for de minimis fees, staking, mining, and stablecoins. A committee markup is scheduled for September 16, with the bill facing timeline pressure before November elections.",
   "date": "2026-09-15",
   "published_utc": "2026-09-15T11:12:52Z",
   "category": "news",
   "verdict": "VERIFIED",
   "rank": 8,
   "author": "Crypto Cronkite",
-  "key_fact": "Legislative consideration of crypto tax treatment is moving through a key revenue committee with a formal bill and hearing this week, signaling active engagement on compliance and taxation rules.",
-  "bottom_line": "The hearing this week is the next inflection point. If the committee moves the bill to markup, it signals momentum; if testimony surfaces technical or political objections, the de minimis and staking provisions could face revision. The outcome shapes what compliance requirements hit the retail market next.",
+  "key_fact": "House Ways and Means Committee Chair Jason Smith released H.R. 10357, a 114-page crypto tax framework, on September 14, with formal committee markup set for September 16.",
+  "bottom_line": "The markup scheduled for September 16 will determine whether H.R. 10357 advances to floor consideration. With the legislative calendar compressed before November elections and congressional attention diverted, the bill's survival depends on both committee passage and subsequent floor time, outcomes that remain uncertain given the House's workload and the political calendar.",
   "human_take": "",
   "body": [
-    "The House Ways and Means Committee published a crypto tax bill addressing de minimis transactions, staking, and other industry-requested policies, according to CoinDesk's reporting on September 14. A hearing on the proposal is scheduled for later this week.",
-    "The bill's treatment of de minimis transactions and staking income represents the first formal legislative text from a key revenue committee on long-standing industry compliance requests."
+    "The House Ways and Means Committee released a 114-page Digital Asset Tax Certainty Act on September 14, setting the stage for formal committee markup on September 16. According to Crypto Briefing, the bill, filed as H.R. 10357, represents the first comprehensive legislative framework to codify crypto tax treatment across multiple categories: transaction fees, staking, mining, stablecoins, and wash-sales.",
+    "The framework proposes a $10 exemption for blockchain network and transaction fees below that threshold that would not trigger a taxable event, per Crypto Briefing. That exemption does not apply to users who executed more than 5,000 transfers in the prior year, limiting relief to retail participants only.",
+    "Mining and staking rewards would be classified as ordinary income upon receipt, Crypto Briefing reports. An earlier proposal that would have allowed miners and stakers to defer taxation on unique tokens was stripped from the final text. Validators face tax liability the moment rewards hit their wallets, regardless of whether they have sold anything, according to the outlet.",
+    "The bill codifies wash-sale rules for crypto, bringing crypto in line with traditional securities, Crypto Briefing states. Qualified US dollar stablecoins receive special treatment throughout the legislation, including exclusion from wash-sale and constructive-sale rules. The bill also establishes a framework for digital asset lending where loans involving crypto as collateral would not trigger taxable events, per Crypto Briefing.",
+    "Simplified accounting rules for widely traded digital assets are included, according to Crypto Briefing. Bipartisan negotiations shaped the final text, the outlet reports. The committee dedicated a hearing to crypto taxation on June 9, 2026, and a series of narrower proposals were introduced in June focusing on specific concerns such as wash-sale applicability and charitable donation appraisal relief."
   ],
   "sources": [
     {
-      "title": "https://www.coindesk.com/policy/2026/09/14/u-s-house-panel-shares-crypto-tax-bill-ahead-of-hearing-later-this-week",
-      "url": "https://www.coindesk.com/policy/2026/09/14/u-s-house-panel-shares-crypto-tax-bill-ahead-of-hearing-later-this-week"
+      "title": "https://cryptobriefing.com/house-crypto-tax-bill-markup/",
+      "url": "https://cryptobriefing.com/house-crypto-tax-bill-markup/"
+    },
+    {
+      "title": "https://www.theblock.co/news/regulation/2026-09-15-house-committee-crypto-tax-bill-414824",
+      "url": "https://www.theblock.co/news/regulation/2026-09-15-house-committee-crypto-tax-bill-414824"
+    },
+    {
+      "title": "https://www.coindesk.com/policy/2026/09-14-u-s-house-panel-shares-crypto-tax-bill-ahead-of-hearing-later-this-week",
+      "url": "https://www.coindesk.com/policy/2026/09-14-u-s-house-panel-shares-crypto-tax-bill-ahead-of-hearing-later-this-week"
     }
   ],
   "board_snapshot": {
@@ -51,6 +62,23 @@
       "direction": "off exchanges"
     }
   },
-  "also_reported_by": [],
-  "developing": true
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false,
+  "consolidated": "This story was updated in place with a better-sourced account of the same event, carrying 3 sources against the original 1. The earlier version was headlined “House Ways and Means Committee publishes crypto tax bill ahead of hearing this week”. The URL and publication time are unchanged.",
+  "superseded_sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/09/14/u-s-house-panel-shares-crypto-tax-bill-ahead-of-hearing-later-this-week",
+      "url": "https://www.coindesk.com/policy/2026/09/14/u-s-house-panel-shares-crypto-tax-bill-ahead-of-hearing-later-this-week"
+    }
+  ],
+  "updated_utc": "2026-09-15T12:12:54Z",
+  "merged_from": [
+    {
+      "id": "c026",
+      "title": "House Ways and Means releases crypto tax bill ahead of September 16 markup",
+      "published_utc": "2026-09-15T12:12:54Z"
+    }
+  ]
 }
