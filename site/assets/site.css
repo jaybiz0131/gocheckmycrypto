@@ -1401,3 +1401,27 @@ body>*:not(.ground){position:relative;z-index:1}
 .cb-hero .bd-tile.down::before{background:linear-gradient(160deg,
   rgba(255,122,107,.16), rgba(255,122,107,0) 55%)}
 .cb-hero .bd-tile>*{position:relative;z-index:1}
+
+/* ---- A-10: the lead tile ------------------------------------------------------
+   Two columns and two rows of the four-column grid. The price is the figure on the
+   Board, the chart sits under the read, and the foot pins as it does on every tile. */
+.cb-hero .bd-tiles{grid-template-columns:repeat(4,1fr)}
+.cb-hero .cb-lead{grid-column:span 2;grid-row:span 2}
+.cb-lead .cb-lead-v{font:600 72px/1 var(--serif);letter-spacing:-.02em}
+.cb-lead .bd-read{font-size:14.5px;line-height:1.5}
+.cb-leadchart{display:block;width:100%;height:190px;margin-top:auto}
+.cb-lead .bd-tile-foot{margin-top:12px}
+
+/* A-11: the twelfth slot, the Chart Master's read. */
+.cb-cmtile{border-top:2px solid #C89A4A}
+.cb-cmtile .bd-label{color:#F0C674}
+.cb-cmread{margin:0;font:italic 400 15px/1.5 var(--serif);color:rgba(235,233,227,.90);
+  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:1100px){ .cb-hero .bd-tiles{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:640px){
+  /* A-15: the lead becomes a full-width single tile, 48px price, 120px chart. */
+  .cb-hero .bd-tiles{grid-template-columns:repeat(2,1fr)}
+  .cb-hero .cb-lead{grid-column:1 / -1;grid-row:auto}
+  .cb-lead .cb-lead-v{font-size:48px}
+  .cb-leadchart{height:120px}
+}

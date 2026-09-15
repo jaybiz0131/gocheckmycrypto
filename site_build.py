@@ -2549,6 +2549,7 @@ def board_tiles(pulse, flows, deltas):
     return out
 
 
+CM_DATA = None       # A-11: the day's Chart Master read, for the twelfth slot
 CC_DATA = None       # set at build by living_tables.load()
 CC_BUILT = set()     # which C-C tables actually built this run
 
@@ -2575,6 +2576,127 @@ CB_HERO_JS = """
     });
   }catch(e){}
 })();</script>"""
+
+
+# A-18/A-10: the lead tile's read, authored, and now true of the tile as rendered - it
+# draws the thirty days and the 200-day line (D-4 withheld this until the tile existed).
+BITCOIN_READ_LONG = ("Nothing stretched, nothing broken. Thirty days below, "
+                     "with the 200-day line for scale.")
+
+
+def _cm_slot():
+    """A-11: the twelfth slot. The Chart Master's read as a dark tile with a gold top
+    rule; when the day has no read, the newest explainer card takes the slot instead, so
+    the grid never has a hole."""
+    cm = CM_DATA or {}
+    read = (cm.get("headline") or "").strip()
+    if not read:
+        ps = cm.get("paragraphs") or []
+        read = (ps[0] if ps else "").strip()
+    if read:
+        when = fmt_short_date(str(cm.get("date") or "")[:10])
+        return (f'<div class="bd-card bd-tile cb-cmtile">'
+                f'<div class="bd-tile-top"><span class="bd-label">The Chart Master\u2019s '
+                f'read</span><span class="bd-stamp">{esc(when)}</span></div>'
+                f'<p class="cb-cmread">{esc(read)}</p>'
+                f'<div class="bd-tile-foot">'
+                f'<a href="/chartmaster.html">Every read &rarr;</a>'
+                f'<span class="bd-stamp">one read a day</span></div></div>')
+    ex = next(iter(load_explainers() or []), None)
+    if not ex:
+        return ""
+    return (f'<div class="bd-card bd-tile cb-cmtile">'
+            f'<div class="bd-tile-top"><span class="bd-label">Learn the Board</span>'
+            f'</div><p class="cb-cmread">{esc(ex.get("title") or "")}</p>'
+            f'<div class="bd-tile-foot">'
+            f'<a href="/learn/{esc(ex.get("slug") or "")}.html">Read it &rarr;</a>'
+            f'<span class="bd-stamp">explainer</span></div></div>')
+
+
+def _lead_window(btc, days=30):
+    """A-10: the last `days` of the series, and the dates that slice actually covers.
+
+    The feed's spark is 64 points evenly spaced across its own window (Jun 19 to Sep 15
+    today), so "30 days" is a slice of it, not the whole thing. The dates come from the
+    window's ISO pair (D-9) rather than from counting back from today, so the caption
+    names the span the points really cover."""
+    import datetime as _dt
+    sp = [v for v in (btc.get("spark") or []) if isinstance(v, (int, float))]
+    sm = [v for v in (btc.get("spark_sma200") or []) if isinstance(v, (int, float))]
+    w = btc.get("window") or {}
+    try:
+        a = _dt.date.fromisoformat(str(w.get("start_iso")))
+        b = _dt.date.fromisoformat(str(w.get("end_iso")))
+    except Exception:
+        return (sp, sm, "", "")
+    if len(sp) < 2:
+        return (sp, sm, "", "")
+    per = (b - a).days / (len(sp) - 1)
+    n = max(2, min(len(sp), int(round(days / per)) + 1)) if per else len(sp)
+    start = b - _dt.timedelta(days=round(per * (n - 1)))
+    return (sp[-n:], sm[-n:] if len(sm) >= n else [],
+            fmt_short_date(start.isoformat()), fmt_short_date(b.isoformat()))
+
+
+def _lead_chart(btc, w=640, h=190):
+    """A-10: the lead tile's chart. A filled area over the 30-day series, with the
+    200-day average as a dashed line, labelled with its value. The fill takes its colour
+    from the sign of the 30-day change, which is the same rule as the tile's own wash.
+
+    No series, no chart - the tile keeps its number and its read rather than drawing an
+    empty frame."""
+    pts, sma, _d0, _d1 = _lead_window(btc)
+    if len(pts) < 6:
+        return ""
+    vals = pts + [v for v in sma if isinstance(v, (int, float))]
+    lo, hi = min(vals), max(vals)
+    span = (hi - lo) or 1.0
+    pad = 16
+    step = (w - pad * 2) / (len(pts) - 1)
+
+    def _y(v):
+        return h - 22 - ((v - lo) / span) * (h - 46)
+
+    line = " ".join(f"{pad + i * step:.1f},{_y(v):.1f}" for i, v in enumerate(pts))
+    up = pts[-1] >= pts[0]
+    col = "var(--up)" if up else "var(--down)"
+    area = (f'<polygon fill="{col}" fill-opacity="0.18" points="'
+            f'{pad:.1f},{h-22:.1f} {line} {pad + (len(pts)-1)*step:.1f},{h-22:.1f}"></polygon>')
+    dash, label = "", ""
+    if len(sma) == len(pts) and isinstance(btc.get("sma200"), (int, float)):
+        d = " ".join(f"{pad + i * step:.1f},{_y(v):.1f}" for i, v in enumerate(sma))
+        dash = (f'<polyline fill="none" stroke="rgba(235,233,227,.45)" stroke-width="1.2" '
+                f'stroke-dasharray="5 4" points="{d}"></polyline>')
+        label = (f'<text x="{pad}" y="{_y(sma[-1]) - 7:.1f}" font-family="var(--mono)" '
+                 f'font-size="11" fill="rgba(235,233,227,.62)">200-day average '
+                 f'{esc(_price_fmt(btc["sma200"]))}</text>')
+    return (f'<svg class="cb-leadchart" viewBox="0 0 {w} {h}" preserveAspectRatio="none" '
+            f'role="img" aria-label="Thirty days of the Bitcoin price, low '
+            f'{lo:,.0f}, high {hi:,.0f}, latest {pts[-1]:,.0f}, with the 200-day average.">'
+            f'{area}{dash}'
+            f'<polyline fill="none" stroke="{col}" stroke-width="1.6" '
+            f'stroke-linecap="round" stroke-linejoin="round" points="{line}"></polyline>'
+            f'{label}</svg>')
+
+
+def _last_week_value(btc):
+    """A-10: "this time last week", from the same series, or "" when it does not reach
+    back a week."""
+    import datetime as _dt
+    sp = [v for v in (btc.get("spark") or []) if isinstance(v, (int, float))]
+    w = btc.get("window") or {}
+    try:
+        a = _dt.date.fromisoformat(str(w.get("start_iso")))
+        b = _dt.date.fromisoformat(str(w.get("end_iso")))
+    except Exception:
+        return ""
+    if len(sp) < 2:
+        return ""
+    per = (b - a).days / (len(sp) - 1)
+    back = int(round(7 / per)) if per else 0
+    if back < 1 or back >= len(sp):
+        return ""
+    return _price_fmt(sp[-1 - back])
 
 
 def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
@@ -2607,22 +2729,35 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
                     kind=(TILE_SERIES.get(t.get("key")) or ("", "", ""))[2])
         top = f'<span class="bd-label">{esc(t["label"])}</span>{spark}'
         hide = "" if t.get("phone") else " bd-hide-phone"
-        # A-9: the direction travels with the tile, set beside the delta it describes,
-        # so the wash can never disagree with the line under the number. A tile with no
-        # delta carries neither class - most of them on a carried-forward build.
         dirn = f' {t["dir"]}' if t.get("dir") in ("up", "down") else ""
-        # (d) the read is authored to fit two lines; clamp on a word so a long one
-        # cannot push the tile taller than its neighbours.
-        # C-6(d) says the read is authored to fit two lines, "90 characters at most".
-        # Measured at 1440 the read column is 215px and holds about 24 characters a
-        # line, so two lines is ~48, not 90: the 90 assumed a wider tile than G-13's
-        # four-across allows. And a tile carrying a delta row has one line less, which
-        # is how Crowd sentiment lost "index, 0 to 100." with nothing to show it had.
-        # The budget follows the room the tile actually has.
-        # A-18 and the standing law: authored text is never truncated. The reads are
-        # written to 48 characters now, so nothing here cuts them. The sprint-C clamp
-        # existed because the old reads did not fit; they do.
         read = t["read"]
+
+        # A-10: Bitcoin is the lead tile - two columns and two rows, the price at 72px,
+        # the 30-day chart with the 200-day average under it, and "this time last week"
+        # at the right of the label row.
+        if t.get("key") == "bitcoin":
+            btc = _btc(pulse)
+            chart = _lead_chart(btc)
+            lastwk = _last_week_value(btc)
+            _pts, _sma, _d0, _d1 = _lead_window(btc)
+            cap = f"30 days · {_d0} to {_d1}" if _d0 and _d1 else (win or "")
+            cards.append(
+                f'<div class="bd-card bd-tile cb-lead{dirn}">'
+                f'<div class="bd-tile-top"><span class="bd-label">Bitcoin · price '
+                f'posture</span>'
+                + (f'<span class="bd-stamp">this time last week {esc(lastwk)}</span>'
+                   if lastwk else "")
+                + f'</div>'
+                  f'<div class="bd-value cb-lead-v">{esc(_price_fmt(btc.get("price")))}</div>'
+                  f'{t.get("delta") or ""}'
+                  f'<p class="bd-read">{esc(BITCOIN_READ_LONG)}</p>'
+                  f'{chart}'
+                  f'<div class="bd-tile-foot">'
+                  f'<a href="{esc(learn_href(t))}">Explained &rarr;</a>'
+                + (f'<span class="bd-stamp">{esc(cap)}</span>' if cap else "")
+                + '</div></div>')
+            continue
+
         cards.append(
             f'<div class="bd-card bd-tile{hide}{dirn}">'
             f'<div class="bd-tile-top">{top}</div>'
@@ -2633,6 +2768,11 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
             f'<a href="{esc(learn_href(t))}">Explained &rarr;</a>'
             + (f'<span class="bd-stamp">{esc(win)}</span>' if win else "")
             + '</div></div>')
+
+    # A-11: twelve slots. The lead takes four, the other tiles take theirs, and the
+    # twelfth is the Chart Master's read. The grid never has a hole: with no read for
+    # the day the slot is the newest explainer card instead.
+    cards.append(_cm_slot())
     return f'<div class="bd-tiles">{"".join(cards)}</div>'
 
 
@@ -4217,8 +4357,10 @@ def render_home(items, flows, pulse, cm, dateline):
         # C-21: the Board is the hero. One dark surface on this site and this is it,
         # over the trading-desk poster under the addendum's scrim. Everything below the
         # band is the light editorial page.
+        global CM_DATA
+        CM_DATA = (cm or {}) if isinstance(cm, dict) else {}
         cm_quote = ""
-        _cm = (cm or {}) if isinstance(cm, dict) else {}
+        _cm = CM_DATA
         # chartmaster.json carries `headline` and `paragraphs`; there is no "read" key,
         # which is why this card was empty after C-21 shipped.
         _read = (_cm.get("headline") or "").strip()
