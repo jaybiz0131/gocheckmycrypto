@@ -1,46 +1,131 @@
 {
   "example": false,
   "generated": "2026-09-15",
-  "generated_utc": "2026-09-15T12:10:49Z",
-  "window_hours": 72,
-  "txn_count": 1,
+  "generated_utc": "2026-09-15T12:31:01Z",
+  "window_hours": 24,
+  "txn_count": 5,
   "volatile": {
-    "inflow_usd": 0,
-    "outflow_usd": 0,
-    "net_usd": 0,
-    "direction": "off exchanges"
+    "inflow_usd": 266684881,
+    "outflow_usd": 28657500,
+    "net_usd": -238027381,
+    "direction": "onto exchanges"
   },
   "stablecoins": {
-    "inflow_usd": 170806533,
+    "inflow_usd": 0,
     "outflow_usd": 0,
-    "net_buying_power_usd": 170806533
+    "net_buying_power_usd": 0
   },
-  "by_asset": [],
+  "by_asset": [
+    {
+      "symbol": "ETH",
+      "inflow_usd": 189816708,
+      "outflow_usd": 0,
+      "net_usd": -189816708
+    },
+    {
+      "symbol": "BTC",
+      "inflow_usd": 76868173,
+      "outflow_usd": 0,
+      "net_usd": -76868173
+    },
+    {
+      "symbol": "CRO",
+      "inflow_usd": 0,
+      "outflow_usd": 28657500,
+      "net_usd": 28657500
+    }
+  ],
   "by_exchange": [
     {
-      "exchange": "kraken",
-      "inflow_usd": 170806533,
+      "exchange": "coinbase institutional",
+      "inflow_usd": 125990685,
       "outflow_usd": 0,
-      "net_usd": -170806533
+      "net_usd": -125990685
+    },
+    {
+      "exchange": "binance",
+      "inflow_usd": 76868173,
+      "outflow_usd": 0,
+      "net_usd": -76868173
+    },
+    {
+      "exchange": "coinbase",
+      "inflow_usd": 63826023,
+      "outflow_usd": 0,
+      "net_usd": -63826023
+    },
+    {
+      "exchange": "cryptocom",
+      "inflow_usd": 0,
+      "outflow_usd": 28657500,
+      "net_usd": 28657500
     }
   ],
   "top_inflows": [
     {
-      "symbol": "USDC",
-      "amount": 170811658.0,
-      "usd": 170806533.0,
-      "to": "kraken",
-      "from": "usdc treasury",
-      "blockchain": "ethereum",
-      "hash": "0x393c2999480363c6b93196ff0c36d1e778adaac800ee362fa38b7f1e14ec5c19",
+      "symbol": "BTC",
+      "amount": 1000.0,
+      "usd": 76868173.0,
+      "to": "binance",
+      "from": "unknown wallet",
+      "blockchain": "bitcoin",
+      "hash": "d3d736cb4f013bc6930b81083ae4da740fdf795bb3d83417f3b1e62a142e33e7",
       "url": "",
-      "ts": 1789219547.0,
-      "stable": true
+      "ts": 1789461244.0,
+      "stable": false
+    },
+    {
+      "symbol": "ETH",
+      "amount": 29425.0,
+      "usd": 73818222.0,
+      "to": "coinbase institutional",
+      "from": "unknown wallet",
+      "blockchain": "ethereum",
+      "hash": "0xb5a52e4deae7cf12d5b74225edb330d2a75b2db2795b0d26443762f1a8d341a9",
+      "url": "",
+      "ts": 1789401131.0,
+      "stable": false
+    },
+    {
+      "symbol": "ETH",
+      "amount": 25474.0,
+      "usd": 63826023.0,
+      "to": "coinbase",
+      "from": "unknown wallet",
+      "blockchain": "ethereum",
+      "hash": "0x2c7de28856ad82ba812d152f9176c27c3e57ca69be956b5481e56246cbf46da3",
+      "url": "",
+      "ts": 1789392491.0,
+      "stable": false
+    },
+    {
+      "symbol": "ETH",
+      "amount": 20794.0,
+      "usd": 52172463.0,
+      "to": "coinbase institutional",
+      "from": "unknown wallet",
+      "blockchain": "ethereum",
+      "hash": "0x45fe562600cb0febdb28f58e31efd7c4c08f918dcba9314ae483ae6303c28d8a",
+      "url": "",
+      "ts": 1789401551.0,
+      "stable": false
     }
   ],
-  "top_outflows": [],
+  "top_outflows": [
+    {
+      "symbol": "CRO",
+      "amount": 500000000.0,
+      "usd": 28657500.0,
+      "to": "unknown wallet",
+      "from": "cryptocom",
+      "blockchain": "ethereum",
+      "hash": "0x6b6897e3e90ac1d6db756ab21ca26e19fd5cf5c3415be98325af7d206eee9df0",
+      "url": "",
+      "ts": 1789452311.0,
+      "stable": false
+    }
+  ],
   "note": "Data: Whale Alert public alert archive; exchanges identified by name, and only the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is buying power arriving, so they are scored separately. Market data, not news, not advice.",
-  "window_widened_from": 24,
   "history": [
     {
       "week_ending": "Jun 23",
@@ -94,18 +179,18 @@
     },
     {
       "week_ending": "Sep 01",
-      "net_usd": -226456229,
-      "moves": 91
+      "net_usd": -70399938,
+      "moves": 92
     },
     {
       "week_ending": "Sep 08",
-      "net_usd": 88263156,
-      "moves": 53
+      "net_usd": -67793135,
+      "moves": 52
     },
     {
       "week_ending": "Sep 15",
-      "net_usd": -725342492,
-      "moves": 29
+      "net_usd": -889919140,
+      "moves": 35
     }
   ],
   "weekly_median_abs_usd": 493246153
