@@ -111,6 +111,16 @@ def _date_label(ts_seconds):
     return datetime.fromtimestamp(int(ts_seconds), timezone.utc).strftime("%b %d")
 
 
+def _date_iso(ts_seconds):
+    """D-9: the unambiguous form of the same instant.
+
+    _date_label prints "%b %d" with no year, so a 365-point series labelled its window
+    "Sep 16 to Sep 15" - Sep 16 2025 to Sep 15 2026, a full year, reading as if the start
+    came after the end. Every window now carries ISO dates beside the display labels, and
+    the renderers do their arithmetic on those."""
+    return datetime.fromtimestamp(int(ts_seconds), timezone.utc).strftime("%Y-%m-%d")
+
+
 def rsi14(closes, n=14):
     if len(closes) < n + 1:
         return None
@@ -169,7 +179,9 @@ def section_fng():
     return {"value": int(newest["value"]), "label": newest["value_classification"],
             "history": hist,
             "window": {"start": _date_label(d[-1]["timestamp"]),
-                       "end": _date_label(newest["timestamp"])}}
+                       "end": _date_label(newest["timestamp"]),
+                       "start_iso": _date_iso(d[-1]["timestamp"]),
+                       "end_iso": _date_iso(newest["timestamp"])}}
 
 
 def section_assets():
@@ -218,7 +230,9 @@ def section_assets():
             "spark_sma200": downsample(sma200_win, 64),
             "spark_high": round(max(win), 2), "spark_low": round(min(win), 2),
             "window": {"start": _date_label(rows[-90][0] / 1000),
-                       "end": _date_label(rows[-1][0] / 1000)},
+                       "end": _date_label(rows[-1][0] / 1000),
+                       "start_iso": _date_iso(rows[-90][0] / 1000),
+                       "end_iso": _date_iso(rows[-1][0] / 1000)},
         })
     return out
 
@@ -236,7 +250,9 @@ def section_stables():
             "spark": downsample(year, 64),
             "spark_high": round(max(year)), "spark_low": round(min(year)),
             "window": {"start": _date_label(year_pts[0][0]),
-                       "end": _date_label(year_pts[-1][0])}}
+                       "end": _date_label(year_pts[-1][0]),
+                       "start_iso": _date_iso(year_pts[0][0]),
+                       "end_iso": _date_iso(year_pts[-1][0])}}
 
 
 def section_movers(top_n=5, universe=100, fetch=160):
@@ -480,6 +496,86 @@ def section_network():
 CORE_SECTIONS = ("fng", "assets", "movers", "stables", "leverage", "market", "network")
 
 
+DAILY_KEEP = 30        # D-1: thirty daily points per section, which is the tile window
+
+
+def _section_value(pulse, section):
+    """The one number that represents a section for the daily record. None when the
+    section is not in this run's file."""
+    p = pulse or {}
+    if section == "bitcoin":
+        for a in (p.get("assets") or []):
+            if a.get("symbol") == "BTC":
+                return a.get("price")
+        return None
+    if section == "market":
+        return (p.get("market") or {}).get("total_mcap_usd")
+    if section == "stables":
+        return (p.get("stables") or {}).get("total_usd")
+    if section == "fng":
+        return (p.get("fng") or {}).get("value")
+    if section == "network":
+        return (p.get("network") or {}).get("fastest_fee")
+    if section == "leverage":
+        tot = 0
+        for a in ((p.get("leverage") or {}).get("assets") or []):
+            v = a.get("open_interest_usd")
+            if isinstance(v, (int, float)):
+                tot += v
+        return tot or None
+    return None
+
+
+# which pulse.json section each record depends on, so a carried-forward section never
+# becomes the day's record
+_RECORD_SOURCE = {"bitcoin": "assets", "market": "market", "stables": "stables",
+                  "fng": "fng", "network": "network", "leverage": "leverage"}
+
+
+def daily_record(pulse, carried):
+    """D-1: one record per UTC day per section, from the FIRST FRESH reading after
+    00:00 UTC.
+
+    The Board's "since yesterday" had nothing to measure against because
+    site_build.snapshot_pulse ran inside the Netlify build sandbox, which is discarded
+    after the deploy, and the brief workflow's git add list never carried
+    site/data/snapshots. So no dated file ever reached the repo. This record lives
+    inside pulse.json, which the workflow already commits, and is written here because
+    market_pulse runs in BOTH places.
+
+    A carried-forward section never becomes the day's record: a carried reading is
+    yesterday's number wearing today's date, and a series built from those would compare
+    a day against itself. The record fills in section by section as fresh readings
+    arrive, so a section that is carried at 00:05 and fresh at 01:20 gets its 01:20
+    reading as the day's record.
+    """
+    import datetime as _dt
+    day = _dt.datetime.now(_dt.timezone.utc).date().isoformat()
+    daily = pulse.get("daily") or {}
+    carried = set(carried or ())
+    written = []
+    for name, source in _RECORD_SOURCE.items():
+        if source in carried:
+            continue                      # not a fresh reading; not today's record
+        val = _section_value(pulse, name)
+        if not isinstance(val, (int, float)):
+            continue
+        series = [r for r in (daily.get(name) or []) if isinstance(r, dict)]
+        if any(r.get("d") == day for r in series):
+            continue                      # the day already has its record
+        # the capture time travels with the record: site_build only treats a record as
+        # "yesterday's close" when it was taken near 00:00 UTC (see _prev_from_record).
+        series.append({"d": day, "v": val, "t": _dt.datetime.now(_dt.timezone.utc)
+                       .strftime("%H:%M")})
+        series.sort(key=lambda r: r.get("d") or "")
+        daily[name] = series[-DAILY_KEEP:]
+        written.append(name)
+    pulse["daily"] = daily
+    if written:
+        print(f"market_pulse: daily record for {day} -> {', '.join(written)}")
+    return written
+
+
 def main():
     _now = datetime.now(timezone.utc)
     _now_s = _now.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -570,6 +666,16 @@ def main():
                   f"market_pulse: {len(carried)} section(s) carried forward "
                   f"({', '.join(carried)}); the board is stamped with its oldest data "
                   f"({pulse['generated_utc'] or 'age unknown'}), not this run's clock")
+    # D-1: carry the previous file's daily records forward, then add today's from any
+    # section that fetched fresh this run.
+    try:
+        _old = json.load(open(SITE_DATA, encoding="utf-8"))
+        if isinstance(_old.get("daily"), dict):
+            pulse["daily"] = _old["daily"]
+    except Exception:
+        pass
+    daily_record(pulse, carried)
+
     os.makedirs(os.path.dirname(SITE_DATA), exist_ok=True)
     json.dump(pulse, open(SITE_DATA, "w", encoding="utf-8"), indent=2)
     common.write_out("market_pulse.json", pulse)

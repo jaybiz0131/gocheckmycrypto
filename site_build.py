@@ -2382,8 +2382,11 @@ def _dir_of(v):
     return "up" if v > 0 else "down"
 
 
-BITCOIN_READ = ("Nothing stretched, nothing broken. Thirty days below, "
-                "with the 200-day line for scale.")
+# D-4: the read has to be true of the tile AS RENDERED. The long version names a
+# thirty-day chart and a 200-day line that the tile does not draw until A-10 lands, and
+# it wrapped to four lines and broke the row. The long read ships in the same commit as
+# the 2 by 2 tile, the chart and the 200-day line - not before them.
+BITCOIN_READ = "Nothing stretched, nothing broken."
 
 
 def board_tiles(pulse, flows, deltas):
@@ -2415,6 +2418,7 @@ def board_tiles(pulse, flows, deltas):
             "value": _price_fmt(btc["price"]),
             "spark": _bd_spark(btc.get("spark") or btc.get("price_history")),
             "delta": _bd_delta_pct((d.get("bitcoin") or {}).get("pct")),
+            "dir": _dir_of((d.get("bitcoin") or {}).get("pct")),
             "read": BITCOIN_READ,
             "learn": "bitcoin-200-day-rsi"})
 
@@ -2432,17 +2436,31 @@ def board_tiles(pulse, flows, deltas):
     net_m = etf.get("latest_net_usd_m")
     if isinstance(net_m, (int, float)):
         n, word = _etf_streak(etf.get("recent"), net_m)
-        drow = ""
-        if n:
-            cls = "up" if net_m > 0 else "down"
-            arrow = _ARROW_UP if net_m > 0 else _ARROW_DN
-            drow = (f'<div class="bd-delta {cls}">{arrow}{_ordinal(n)} {word}'
-                    f'<span class="bd-since">net, {esc(etf.get("latest_date") or "prior session")}'
-                    f'</span></div>')
+        # D-3 / C-6c: the tile had a delta line only when a streak existed, so on most
+        # days it carried none at all while whale flows carried one. A flow tile's
+        # direction is a fact about every reading, not only a streak: inflow or outflow,
+        # the session it is from, and what the session before it did.
+        cls = "up" if net_m > 0 else ("down" if net_m < 0 else "")
+        arrow = _ARROW_UP if net_m > 0 else (_ARROW_DN if net_m < 0 else "")
+        dirword = "inflow" if net_m > 0 else ("outflow" if net_m < 0 else "flat")
+        _rec = [r for r in (etf.get("recent") or [])
+                if isinstance(r.get("net_usd_m"), (int, float))]
+        prior = ""
+        if len(_rec) >= 2:
+            pm = _rec[-2]["net_usd_m"]
+            prior = (f", {'+' if pm > 0 else ''}{fmt_usd(pm * 1_000_000)} "
+                     f"the day before")
+        streak = f"{_ordinal(n)} {word}, " if n else ""
+        drow = (f'<div class="bd-delta {cls}">{arrow}{esc(dirword)}'
+                f'<span class="bd-since">{esc(streak)}'
+                f'{esc(etf.get("latest_date") or "last trading day")}{esc(prior)}'
+                f'</span></div>')
         out.append({
             "key": "etf", "label": "Spot ETF flows", "phone": True,
-            "value": f"{'+' if net_m > 0 else ''}{fmt_usd(net_m * 1_000_000)}"
-                     if net_m else fmt_usd(0),
+            # D-6: a flat session is "flat", not "$0".
+            "value": (f"{'+' if net_m > 0 else ''}{fmt_usd(net_m * 1_000_000)}"
+                      if net_m else "flat"),
+            "dir": cls,
             "spark": _bd_spark([r.get("net_usd_m") for r in (etf.get("recent") or [])],
                                signed=True),
             "delta": drow,
@@ -3376,7 +3394,11 @@ def _win_label(w):
     span is the fact worth carrying; the endpoints are on the tile page."""
     if not (isinstance(w, dict) and w.get("start") and w.get("end")):
         return ""
-    a, b = str(w["start"]), str(w["end"])
+    # D-9: prefer the unambiguous dates. The display labels carry no year, so a
+    # year-long window read "Sep 16 to Sep 15" and its span computed as negative - which
+    # is why this returned nothing for the stablecoins tile rather than "12 months".
+    a = str(w.get("start_iso") or w["start"])
+    b = str(w.get("end_iso") or w["end"])
     # The stables window reads "Sep 15 to Sep 14", which is the feed wrapping a year
     # boundary wrong. A label that reads backwards is worse than none.
     if a == b:
@@ -3390,7 +3412,9 @@ def _win_label(w):
             return f"{n} day{'' if n == 1 else 's'}"
         if n < 60:
             return f"{round(n / 7)} weeks"
-        return f"{round(n / 30)} months"
+        if n < 350:
+            return f"{round(n / 30)} months"
+        return f"{round(n / 365)} year" + ("s" if round(n / 365) != 1 else "")
     return ""
 
 
@@ -5466,6 +5490,51 @@ def _oi_total(pulse):
     return tot or None
 
 
+def _prev_from_record(pulse):
+    """D-2: yesterday's close, from the daily record market_pulse keeps (D-1).
+
+    Today's 00:00 UTC record IS yesterday's close: it is the first fresh reading after
+    midnight. Every build of the day compares against it, so the delta means the same
+    thing at 6 AM and at 6 PM. Before today's record exists - a few minutes after 8 PM
+    ET - a section simply has no entry here and its tile carries no delta row, which is
+    better than a delta measured against the wrong day."""
+    import datetime as _dt
+    day = _dt.datetime.now(_dt.timezone.utc).date().isoformat()
+    daily = (pulse or {}).get("daily") or {}
+
+    def rec(name):
+        for r in reversed(daily.get(name) or []):
+            if not (isinstance(r, dict) and r.get("d") == day):
+                continue
+            # A record is yesterday's CLOSE only if it was taken near 00:00 UTC. The
+            # desk builds many times a day, so in production the day's first record
+            # lands within minutes of midnight; a record stamped mid-day means the
+            # first build of the day was late, and calling a mid-day reading
+            # "yesterday's close" would be exactly the 46-hour error D-2 is about.
+            # No usable record, no delta row, which is the rule.
+            t = str(r.get("t") or "")
+            if t and t[:2].isdigit() and int(t[:2]) >= 4:
+                return None
+            return r.get("v")
+        return None
+
+    out = {}
+    v = rec("bitcoin")
+    if isinstance(v, (int, float)):
+        out["assets"] = [{"symbol": "BTC", "price": v}]
+    for name, shape in (("market", ("market", "total_mcap_usd")),
+                        ("stables", ("stables", "total_usd")),
+                        ("network", ("network", "fastest_fee")),
+                        ("fng", ("fng", "value"))):
+        v = rec(name)
+        if isinstance(v, (int, float)):
+            out[shape[0]] = {shape[1]: v}
+    v = rec("leverage")
+    if isinstance(v, (int, float)):
+        out["leverage"] = {"assets": [{"open_interest_usd": v}]}
+    return out or None
+
+
 def _prev_from_series(pulse):
     """Yesterday's readings from the feed's OWN daily series, when no dated snapshot
     exists for yesterday (punch item 1).
@@ -5500,7 +5569,13 @@ def board_deltas(pulse, prev=None):
         did not hold steady, it simply was not re-fetched. This desk carries a section on
         roughly a third of builds, so this is the common case, not the edge.
     """
-    prev = prev if prev is not None else (prior_snapshot() or _prev_from_series(pulse))
+    # D-2: the reference is TODAY'S 00:00 UTC record, which is yesterday's close. The
+    # old path read prior_snapshot() - yesterday's OPENING, the first build after 00:00
+    # UTC yesterday, which is the close of the day before. At 6 PM ET a tile then said
+    # "since yesterday's close" over a 46-hour change. The daily record D-1 keeps is the
+    # right reference and the header is true under it.
+    prev = prev if prev is not None else (_prev_from_record(pulse)
+                                          or _prev_from_series(pulse))
     if not prev:
         return {}
     carried = set((pulse or {}).get("carried_forward") or []) \
