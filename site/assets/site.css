@@ -1149,3 +1149,21 @@ html.motion-off .bd-tile .bd-delta{animation:none}
   .lt{font-size:14px}
   .lt th,.lt td{padding-right:10px}
 }
+
+/* C-6: every tile the same height by construction, so the grid lines up whatever each
+   tile happens to carry. The read is clamped to two lines and the foot is pushed to
+   the bottom with a hairline above it, so "Explained" sits on one line across the row. */
+.bd-tiles{grid-auto-rows:214px}         /* C-6: 214px by construction, every row */
+.bd-tile{display:flex;flex-direction:column;gap:8px;height:100%;overflow:hidden}
+.bd-tile .bd-read{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;margin:0}
+.bd-tile-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.bd-tile-foot{margin-top:auto;padding-top:9px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.bd-tile-foot .bd-stamp{white-space:nowrap}
+
+/* C-7: the since-yesterday rows, inside the brief card. They sit above the byline and
+   take the space the card used to leave empty beside the Edition. */
+.bd-since-list{display:flex;flex-direction:column;gap:9px;margin-top:4px;
+  padding-top:12px;border-top:1px solid var(--line)}
+.bd-since-rows{display:flex;flex-direction:column;gap:9px}

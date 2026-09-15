@@ -77,10 +77,13 @@ ACCESSIBILITY_ARTICLE_COUNT = "141"
 # goes home and the Board is now the front page's own subject; "News desk" and
 # "The Edition" split what one entry used to carry, which is the whole point of the
 # inversion: the checked stories and the composed daily read are different things.
+# C-4: seven items. Chart Master leaves the nav - its read becomes a quote card on the
+# Board and /chartmaster becomes a dated archive under Learn (C-14) - and Archive leaves
+# because it is already in the footer. The Record was reachable from nothing.
 NAV = [("The Board", "/pulse.html"), ("Whale Watch", "/flows.html"),
-       ("Chart Master", "/chartmaster.html"), ("Learn", "/learn.html"),
-       ("News desk", "/news.html"), ("The Edition", "/bottom-line.html"),
-       ("Archive", "/archive.html"), ("About", "/about.html")]
+       ("Learn", "/learn.html"), ("News desk", "/news.html"),
+       ("The Record", "/record.html"), ("The Edition", "/bottom-line.html"),
+       ("About", "/about.html")]
 
 
 # ---- helpers -----------------------------------------------------------------
@@ -133,6 +136,20 @@ def _utc_dt(iso):
         except Exception:
             continue
     return None
+
+
+def clamp_words(text, limit, tail="\u2026"):
+    """Cut at a word boundary, never mid-word (G-11). Stops at a sentence end when one
+    falls inside the limit, so the text reads as written rather than as cut."""
+    t = " ".join(str(text or "").split())
+    if len(t) <= limit:
+        return t
+    head = t[:limit]
+    stop = max(head.rfind(". "), head.rfind("! "), head.rfind("? "))
+    if stop >= limit * 0.6:
+        return head[:stop + 1]
+    cut = head.rsplit(" ", 1)[0].rstrip(",;:-\u2014 ")
+    return (cut or head.rstrip()) + tail
 
 
 def fmt_short_date(iso):
@@ -2403,22 +2420,46 @@ _SER_FLOWS = None
 
 
 def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
-    """The 4-up tile grid. `learn_href` resolves a tile's Explained link: C2 has not
-    shipped yet, so every tile points at /learn until it does."""
+    """The 4-up tile grid (C-6). `learn_href` resolves a tile's Explained link.
+
+    ONE SPARKLINE PER TILE, IN THE LABEL ROW. Bitcoin drew two - a spark in its label
+    row and the series block below it - while Whole market drew none, so tile heights
+    differed by 90px and the grid did not line up. The label-row spark is the one, and
+    it is drawn from the same series the block used, so tiles that had no spark of
+    their own get one instead of nothing.
+
+    NO META LINE. "64 readings · Jun 18 to Sep 14 · +22.3% over the period" described
+    the dataset rather than the number, and on a signed series the percent was
+    meaningless: whale flows printed "-1703.2% over the period" and ETF flows "-95.5%",
+    both percent changes of a series that crosses zero. The window survives as the
+    period caption beside Explained, which is a fact about the reading.
+    """
     global _SER_PULSE, _SER_FLOWS
     _SER_PULSE, _SER_FLOWS = pulse, flows
     cards = []
     for t in tiles:
-        top = f'<span class="bd-label">{esc(t["label"])}</span>{t.get("spark") or t.get("badge") or ""}'
+        spark = t.get("spark") or t.get("badge") or ""
+        win = ""
+        vals, win_lab = _series_for(t.get("key"), pulse, flows)
+        if vals:
+            win = win_lab or ""
+            if not spark:
+                spark = _series_svg(vals, w=96, h=26)
+        top = f'<span class="bd-label">{esc(t["label"])}</span>{spark}'
         hide = "" if t.get("phone") else " bd-hide-phone"
+        # (d) the read is authored to fit two lines; clamp on a word so a long one
+        # cannot push the tile taller than its neighbours.
+        read = clamp_words(t["read"], 90)
         cards.append(
-            f'<div class="bd-card bd-tile{hide}" style="gap:8px">'
+            f'<div class="bd-card bd-tile{hide}">'
             f'<div class="bd-tile-top">{top}</div>'
             f'<div class="bd-value">{esc(t["value"])}</div>'
             f'{t.get("delta") or ""}'
-            f'<p class="bd-read">{esc(t["read"])}</p>'
-            f'{tile_series_block(t.get("key"), _SER_PULSE, _SER_FLOWS)}'
-            f'<a href="{esc(learn_href(t))}">Explained</a></div>')
+            f'<p class="bd-read">{esc(read)}</p>'
+            f'<div class="bd-tile-foot">'
+            f'<a href="{esc(learn_href(t))}">Explained &rarr;</a>'
+            + (f'<span class="bd-stamp">{esc(win)}</span>' if win else "")
+            + '</div></div>')
     return f'<div class="bd-tiles">{"".join(cards)}</div>'
 
 
@@ -2532,12 +2573,12 @@ def _bd_since_rows(tiles, deltas, pulse, flows):
     rows.sort(key=lambda r: -r[3])
     html = "".join(f'<div class="bd-kv"><span>{esc(t)}</span>'
                    f'<span class="v {c}">{esc(v)}</span></div>' for t, v, c, _ in rows[:4])
-    return (f'<div class="bd-card" style="gap:10px;padding:20px 22px 18px">'
-            f'<span class="bd-eyebrow">Since yesterday</span>'
-            f'<div class="bd-h3" style="font-size:22px">What changed on the Board</div>'
-            f'<div style="display:flex;flex-direction:column;gap:10px">{html}</div>'
-            f'<p class="bd-src">Recomputed at every build from the same public sources '
-            f'the Board uses.</p></div>')
+    # C-7: this was its own card carrying one line of content and a sentence about how
+    # it was computed (G-9 bans the second). The rows are the thing worth having, so
+    # they go inside the brief card, which had 260px of nothing under its text.
+    return (f'<div class="bd-since-list">'
+            f'<span class="bd-label">Since yesterday, on the Board</span>'
+            f'<div class="bd-since-rows">{html}</div></div>')
 
 
 def board_summary_line(pulse, deltas, flows):
@@ -2575,7 +2616,7 @@ def board_summary_line(pulse, deltas, flows):
     return line + "."
 
 
-def _bd_brief_card(ed, summary=""):
+def _bd_brief_card(ed, summary="", since=""):
     """Today's Board brief: the day's edition, rendered as the lead card. Returns ""
     when there is no fresh edition, and the Edition card then spans the row."""
     if not ed:
@@ -2606,7 +2647,7 @@ def _bd_brief_card(ed, summary=""):
             f'<span class="bd-eyebrow">Today\'s Board brief</span>'
             f'<span class="bd-stamp">{esc(fmt_when(ed))}</span>'
             f'<span class="bd-badge ok">Verified</span></div>'
-            f'<div class="bd-brief-hl">{esc(hl)}</div>{body}'
+            f'<div class="bd-brief-hl">{esc(hl)}</div>{body}{since}'
             f'<div class="bd-brief-foot"><span class="bd-by">Crypto Cronkite, '
             f'The GoCheckMyCrypto desk.</span>'
             f'<a class="bd-more" href="/articles/{esc(ed["slug"])}.html">Read the full brief</a>'
@@ -3155,11 +3196,13 @@ def tile_series_block(key, pulse, flows):
     svg = _series_svg(vals)
     if not svg:
         return ""
-    kind = (TILE_SERIES.get(key) or ("", "", ""))[2]
-    net = _period_net(vals, kind)
-    foot = " &middot; ".join(x for x in (f"{len(vals)} readings", win, net) if x)
+    # C-6(b): the meta line is gone everywhere, not only on the homepage tiles.
+    # "N readings" describes the dataset (G-8 bans it outright) and the period percent
+    # was a percent change of a signed series wherever the series crosses zero. The
+    # window the feed actually covers survives; it is a fact about the reading.
     return (f'<div class="tile-ser">{svg}'
-            f'<span class="bd-stamp">{foot}</span></div>')
+            + (f'<span class="bd-stamp">{esc(win)}</span>' if win else "")
+            + '</div>')
 
 
 # ---- C-B: your coins, on this device only --------------------------------------
@@ -3831,7 +3874,8 @@ def render_home(items, flows, pulse, cm, dateline):
     # keeps a stale brief off the front page, and both surfaces below share this one
     # resolved value rather than each re-deriving it.
     edition_item = current_bottom_line(items)
-    brief = _bd_brief_card(edition_item, board_summary_line(pulse, deltas, flows))
+    brief = _bd_brief_card(edition_item, board_summary_line(pulse, deltas, flows),
+                           since=_bd_since_rows(tiles, deltas, pulse, flows))
     edition = _bd_edition_card(items, tiles, edition_item, flows, span_full=not brief)
     brief_row = f'<section class="bd-row3">{brief}{edition}</section>'
 
@@ -3851,8 +3895,9 @@ def render_home(items, flows, pulse, cm, dateline):
             f'{ww}'
             '<p class="bd-src">Source: Whale Alert public feed, transfers of $50M and up. Onto '
             'exchanges is usually sell positioning; off exchanges is usually storage.</p></div>')
-    since = _bd_since_rows(tiles, deltas, pulse, flows)
-    ww_row = f'<section class="bd-row3">{ww_card}{since}</section>' if (ww_card or since) else ""
+    # C-7: the since-yesterday rows live in the brief card now, so this row is just
+    # Whale Watch, and collapses entirely when the feed gave nothing.
+    ww_row = f'<section class="bd-row3">{ww_card}</section>' if ww_card else ""
 
     news = _bd_news_cards(items)
     news_mod = ""
@@ -5216,7 +5261,10 @@ def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
         return (f'<p class="data-stamp stale"><b>Stale data.</b> {esc(what)} last refreshed '
                 f'at {stamp}, about {older} ago, and the desk refreshes it several times a '
                 f'day. Read these numbers as history, not as the current market.</p>')
-    return f'<p class="data-stamp">Data as of {stamp}. Refreshed at every site build.</p>'
+    # C-5: was "Data as of 22:17 UTC on 14 Sep 2026. Refreshed at every site build." -
+    # a clock the reader does not keep and a note about how the page was made (G-9).
+    return (f'<p class="data-stamp">As of {stamp}. Deltas are since yesterday\u2019s '
+            f'close. Eight numbers, one explainer each.</p>')
 
 
 def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None):
