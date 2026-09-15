@@ -2675,7 +2675,39 @@ def _flow_cell(v):
     return "none" if v == 0 else esc(fmt_usd(v))
 
 
-def _bd_ww_chart(flows):
+def _flows_asof(flows):
+    """D-11: one as-of line per surface, in ET, and it says plainly when the reading is
+    not current rather than letting the page imply it is."""
+    hrs, when, state = flows_age(flows)
+    if state == "gone":
+        return ("No reading in the last 24 hours. Whale Alert's feed did not answer; "
+                "the numbers below are the last the desk holds.")
+    if state == "stale":
+        return f"Last reading {esc(when)}. Not a reading of the last 24 hours."
+    return f"As of {esc(when)}."
+
+
+def flows_age(flows):
+    """D-11: how old the whale file is, and what the card may therefore say.
+
+    whale_flows.py keeps the committed file when its fetch fails, so on a failed day the
+    card would show yesterday's moves under "last 24 hours" and print "none" as a fact
+    about today. Returns (hours, as_of_et, state) where state is "fresh", "stale" or
+    "gone". A stale zero is not a fact about today, so the "none" arms go with it."""
+    import datetime as _dt
+    dt = _utc_dt((flows or {}).get("generated_utc") or "")
+    if not dt:
+        return (None, "", "gone")
+    hrs = (_dt.datetime.now(_dt.timezone.utc) - dt).total_seconds() / 3600
+    when = f'{fmt_short_date(dt.astimezone(_ET).strftime("%Y-%m-%d"))}, {_et_clock(dt)}'
+    if hrs > 24:
+        return (hrs, when, "gone")
+    if hrs > 6:
+        return (hrs, when, "stale")
+    return (hrs, _et_clock(dt), "fresh")
+
+
+def _bd_ww_chart(flows, allow_none=True):
     """Artboard 1 module 6: diverging bars, one row per asset, centre axis.
     Rows come from whatever `by_asset` actually holds. The mockup draws four
     (BTC, ETH, USDT, SOL); the live feed some days carries one. Drawing the
@@ -2713,7 +2745,7 @@ def _bd_ww_chart(flows):
         parts.append(f'<text x="{LAB}" y="{cy + 4}" font-family="var(--mono)" font-size="12" '
                      f'font-weight="700" fill="var(--ink)" text-anchor="end">{esc(sym)}</text>')
         said = []
-        if inf == 0:
+        if inf == 0 and allow_none:
             parts.append(f'<text x="{AX - 10}" y="{cy + 4}" font-family="var(--mono)" '
                          f'font-size="11.5" fill="var(--muted)" text-anchor="end">none'
                          f'</text>')
@@ -2727,7 +2759,7 @@ def _bd_ww_chart(flows):
             said.append(f"{fmt_usd(inf)} onto exchanges")
         elif inf == 0:
             said.append("none onto exchanges")
-        if outf == 0:
+        if outf == 0 and allow_none:
             parts.append(f'<text x="{AX + 10}" y="{cy + 4}" font-family="var(--mono)" '
                          f'font-size="11.5" fill="var(--muted)">none</text>')
         if isinstance(outf, (int, float)) and outf:
@@ -4222,15 +4254,22 @@ def render_home(items, flows, pulse, cm, dateline):
     edition = _bd_edition_card(items, tiles, edition_item, flows, span_full=not brief)
     brief_row = f'<section class="bd-row3">{brief}{edition}</section>'
 
-    ww = _bd_ww_chart(flows)
+    _fh, _fwhen, _fstate = flows_age(flows)
+    # D-11: a poll inside the window is what makes "none" a fact about today.
+    _fresh = _fstate == "fresh" and isinstance((flows or {}).get("txn_count"), int)
+    ww = "" if _fstate == "gone" else _bd_ww_chart(flows, allow_none=_fresh)
     ww_card = ""
     if ww:
         ww_card = (
             '<div class="bd-card bd-span2" style="gap:12px;padding:20px 24px 18px">'
             '<div class="bd-sec" style="border:none;padding:0"><div class="bd-sec-l">'
             '<span class="bd-eyebrow">Whale Watch</span>'
-            '<span class="bd-h2" style="font-size:20px">Exchange flows, last 24 hours</span>'
-            '</div><a class="bd-more" href="/flows.html">Open Whale Watch</a></div>'
+            + (f'<span class="bd-h2" style="font-size:20px">Exchange flows, last 24 '
+               f'hours</span><span class="bd-stamp">As of {esc(_fwhen)}</span>'
+               if _fstate == "fresh" else
+               f'<span class="bd-h2" style="font-size:20px">Exchange flows, last reading '
+               f'{esc(_fwhen)}</span>')
+            + '</div><a class="bd-more" href="/flows.html">Open Whale Watch</a></div>'
             '<div class="bd-legend">'
             '<span><span class="bd-sq" style="background:var(--down)"></span>Onto exchanges</span>'
             '<span><span class="bd-sq" style="background:var(--up)"></span>Off exchanges</span>'
@@ -5001,6 +5040,7 @@ def render_flows(flows, dateline):
   <h1 style="margin-top:6px">Where the whales are moving</h1>
   <p class="lede" style="margin-bottom:10px">The aggregate, not the feed: whale money onto
      exchanges (can precede selling) vs off into self-custody (accumulation), last {winp}.</p>
+  <p class="bd-src">{_flows_asof(flows)}</p>
   {ribbon}
 
   <div class="stats">
