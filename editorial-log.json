@@ -4,50 +4,6 @@
   "approved": 4,
   "rejected": [
    {
-    "id": "c076",
-    "headline": "Kalshi ordered to halt prediction markets in Washington with August 19 deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Kalshi, a prediction market platform, must implement geofencing to block users in Washington by August 19' but the brief's data_points only confirm deadlines (Aug. 19 and Sept. 2) without confirming the specific regulatory authority, the date the order was issued, or which contracts are affected. The draft presents these unconfirmed details as settled fact.",
-     "The draft opens with 'according to Cointelegraph reporting' but then immediately in paragraph 2 admits 'The specific regulatory authority that issued the order, the date it was issued, and the precise scope of contracts affected remain unconfirmed from primary sources.' This self-contradiction signals the writer smuggled in unverified facts from a single secondary source and then backtracked. The opening paragraph should reflect the unconfirmed status.",
-     "The brief explicitly flags in open_questions: 'Which regulatory authority issued the order and on what date?' and 'What is the scope of a broad range of prediction market contracts?' The draft presents the order as fact without naming the issuer or legal basis, violating the accuracy rule that unconfirmed claims must be marked as such in prose."
-    ]
-   },
-   {
-    "id": "c079",
-    "headline": "Ireland develops AML standards for cryptocurrency sector",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains zero data_points (data_points: []); the brief is thin and the source_chars field is 0, indicating no source text was provided to the researcher. The draft cites 'according to Cointelegraph' and describes specific measures ('stricter measures on transfers from private crypto wallets and oversight of overseas digital asset companies') but has no underlying brief data to support these claims.",
-     "The draft states Ireland is 'establishing industry standards' and cites 'Cointelegraph' as the source, but the hard rule is: no fact exists outside the brief. With zero data_points in the brief, the draft has smuggled in facts from a source the research team did not ingest or verify.",
-     "The draft's own second paragraph admits 'the sources do not confirm whether these are mandatory regulations or voluntary industry guidelines' and 'implementation timelines' are absent\u2014this is a tell that the writer is working from an unvetted single article, not from a research brief with curated, confidence-labeled claims. The brief's open_questions field flags: 'No source texts provided; unable to verify specific measures, timelines, enforcement mechanisms, or which Irish regulatory bodies are driving the standards.' This story should not have been drafted at all."
-    ]
-   },
-   {
-    "id": "c072",
-    "headline": "Tokenized stock holders more than double as monthly volume surges",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'Tokenized equities reached 1.31 million holders in the past month' and later states 'the baseline for the \"double\" claim in holders is also not provided.' However, the title reads 'Tokenized stock holders more than double as monthly volume surges,' which implies the 1.31 million figure represents a doubling. The brief's core_claim states 1.31 million was reached 'over the past month' but does not confirm this represents a doubling. The draft correctly identifies this ambiguity as unresolved, but the title smuggles in a 'double' claim not substantiated in the brief's data_points. The title must not claim doubling without the brief establishing a prior baseline and confirming 1.31M is double that baseline."
-    ]
-   },
-   {
-    "id": "c077",
-    "headline": "Galaxy Digital Cuts Crypto Clarity Act Passage Odds to 10%",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Galaxy Digital downgraded its probability estimate for passage of the Crypto Clarity Act to 10%, according to Cointelegraph reporting on August 15, 2026.' The brief explicitly notes 'source_chars: 0' and 'bear_case' states 'The source text is empty; the brief is built from the snippet alone.' This means the writer is attributing facts to a Cointelegraph article that was not actually provided or read\u2014the brief was constructed from a headline snippet only. The claim about the 10% figure, the reasons cited, and the September timing cannot be verified against actual source text.",
-     "The draft presents 'unresolved issues around stablecoin yield mechanics, developer protection, and ethics provisions' as Galaxy's stated reasons for the downgrade, but the brief's bear_case explicitly warns that the source provides 'no detail on...specific technical objections beyond the categories listed.' The writer has elevated vague category labels into a false appearance of detailed sourcing.",
-     "The draft lacks any hedge language ('allegedly,' 'according to Galaxy,' 'Galaxy claims') appropriate to reporting from a single outlet on an announced-not-verified statement. The framing reads as settled fact when the underlying source was not reviewed."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-15",
-  "approved": 4,
-  "rejected": [
-   {
     "id": "c074",
     "headline": "Kalshi ordered to halt prediction market contracts in Washington",
     "category": "accuracy",
@@ -5815,6 +5771,20 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'The round more than doubles Kaiko's original 2022 Series B of $53 million' but the brief data_point says '$110 million total is more than twice the original Series B announced in 2022.' The draft's claim that the round itself 'more than doubles' the original is inaccurate; the total raised (including the original $53M) is $110M, which is approximately 2.08x the original, not a doubling of the extension round. The phrasing misleads readers into thinking the new extension alone is $57M+ when the brief does not specify the extension size separately."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c117",
+    "headline": "Revolut Begins EURR Stablecoin Rollout on September 15 with Bridge as Regulated Issuer",
+    "category": "accuracy",
+    "reasons": [
+     "The title states 'Revolut Begins EURR Stablecoin Rollout on September 15' as a completed past event. Today is September 15, 2026. The brief's data_point is timestamped 2026-09-15T20:39:38Z (future time on today), and the language in the brief uses 'has begun' and 'rolling out' (present perfect/progressive). The title's phrasing ('Begins...on September 15') treats the event as having already concluded, when it is either currently occurring or scheduled. This violates the protocol's rule that scheduled events are written as upcoming. The phrasing should reflect that this is happening today, not that it happened on a past date."
     ]
    }
   ]
