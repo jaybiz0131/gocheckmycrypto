@@ -1,0 +1,55 @@
+{
+  "id": "c027",
+  "slug": "strive-reaches-25-000-btc-milestone-with-latest-36-6m-purchase",
+  "kind": "brief",
+  "title": "Strive reaches 25,000-BTC milestone with latest $36.6M purchase",
+  "dek": "Strive, a Nasdaq-listed bitcoin treasury company, purchased 469 BTC at approximately $77,954 each for $36.6 million, reaching a total holding of 25,000 BTC. The company operates a debt-free balance sheet, distinguishing it from leveraged competitors in the corporate bitcoin accumulation space.",
+  "date": "2026-09-15",
+  "published_utc": "2026-09-15T01:36:01Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "Strive now holds 25,000 BTC worth nearly $2 billion, making it the fifth-largest publicly traded bitcoin company and the fifth to reach that threshold.",
+  "bottom_line": "Strive's next weekly disclosure will clarify whether the slowdown from 1,375 to 469 BTC is tactical or structural; consistent sub-500-BTC weeks would suggest either capital constraints or a deliberately measured pace, each carrying different signals for institutional bitcoin accumulation trends.",
+  "human_take": "",
+  "body": [
+    "Strive, a Nasdaq-listed bitcoin treasury company, purchased 469 bitcoins at an average price of approximately $77,954 for $36.6 million, according to The Block's reporting. The acquisition brings Strive's total holding to 25,000 BTC, worth nearly $2 billion at current valuations, making it the fifth-largest publicly traded bitcoin treasury behind Strategy, Twenty One, Metaplanet, and MARA.\nStrive operates a debt-free balance sheet with no bonds, no credit lines, and no leveraged positions that could trigger forced liquidation in a downturn, according to Bitcoin Magazine's reporting. CEO Matt Cole has described the company as holding zero margin requirements and zero encumbered bitcoin, a model that contrasts with other major bitcoin treasuries like Strategy, which have used leverage to accumulate the leading cryptocurrency.\nThe company raised the purchase capital entirely through sales of SATA, Strive's perpetual preferred stock, per Bitcoin Magazine. Strive's stock (ASST) was trading more than 6% higher following the announcement. The company debuted as an official bitcoin treasury last year and in January 2026 completed the acquisition of Semler Scientific in an all-stock deal, the first instance of a publicly traded bitcoin treasury company acquiring another such company. Strive was founded by Vivek Ramaswamy, a former Ohio gubernatorial candidate and tech entrepreneur.\nThe latest acquisition marks a slowdown from the prior week, when Strive purchased 1,375 BTC for approximately $109 million, per The Block."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/markets/2026-09-14-strive-reaches-25000-btc-milestone-36-6-million-purchase-414631",
+      "url": "https://www.theblock.co/news/markets/2026-09-14-strive-reaches-25000-btc-milestone-36-6-million-purchase-414631"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-15T01:34:01Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 77921.65,
+        "chg_24h_pct": -0.32
+      },
+      {
+        "symbol": "ETH",
+        "price": 2514.0,
+        "chg_24h_pct": -0.03
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.6,
+      "open_interest_usd": 2050968362
+    },
+    "flows": {
+      "window_hours": 72,
+      "net_usd": 0,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
