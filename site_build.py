@@ -1152,7 +1152,8 @@ def market_strip(pulse=None):
         chg = a.get("chg_24h_pct")
         chg_html = (f'<span class="chg {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span>'
                     if chg is not None else '<span class="chg"></span>')
-        return (f'<span class="tick" data-id="{cid}"><span class="sym">{sym}</span>'
+        return (f'<span class="tick" data-id="{cid}" data-sym="{esc(sym)}">'
+                f'<span class="sym">{esc(sym)}</span>'
                 f'<span class="px">{esc(px)}</span>{chg_html}</span>')
 
     ticks = (tick("bitcoin", "BTC") + tick("ethereum", "ETH") +
@@ -1186,6 +1187,7 @@ def market_strip(pulse=None):
   <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">{esc(cap_px)}</span>{cap_chg_html}</span>
   {extras}
   <span class="note">Market data, not news. Not financial advice.</span>
+  {pin_control(pulse)}
 </div>""" + """
 <script>
 (function(){
@@ -3263,15 +3265,15 @@ WATCHLIST_JS = """<script>(function(){
   function set(v){ try{ store.setItem(KEY, JSON.stringify(v.slice(0,8))); }catch(e){} }
   function paint(){
     var picked=get();
-    row.querySelectorAll('[data-coin]').forEach(function(el){
-      var on = picked.indexOf(el.getAttribute('data-coin'))>-1;
-      el.hidden = !on;
+    /* C-3: the pin marks the coin in the ticker. Nothing is duplicated and nothing
+       extra renders when the list is empty - the ticker is the ticker either way. */
+    document.querySelectorAll('.markets .tick[data-sym]').forEach(function(t){
+      t.classList.toggle('pinned', picked.indexOf(t.getAttribute('data-sym'))>-1);
     });
     row.querySelectorAll('[data-pick]').forEach(function(b){
       var on = picked.indexOf(b.getAttribute('data-pick'))>-1;
       b.setAttribute('aria-pressed', String(on));
     });
-    row.classList.toggle('wl-empty', picked.length===0);
   }
   row.addEventListener('click', function(e){
     var b=e.target.closest('[data-pick]'); if(!b) return;
@@ -3284,31 +3286,29 @@ WATCHLIST_JS = """<script>(function(){
 
 
 def watchlist_row(pulse):
-    """The pinned row plus its picker. Renders every asset the Board already has a
-    price for; the browser decides which are shown."""
+    """C-3: retired as a section. It rendered all seven coins a second time, under the
+    ticker that had just shown them, plus a 17px privacy sentence - which is how the
+    homepage came to print the Bitcoin price three times before the first story. The
+    pinning itself was worth keeping and moved into the ticker; see pin_control()."""
+    return ""
+
+
+def pin_control(pulse):
+    """C-3: "Pin your coins" at the right end of the ticker. A details/summary, so it
+    needs no JavaScript to open and keeps keyboard behaviour. The privacy sentence lives
+    in here at 13px rather than across the page at 17px, and it still says plainly what
+    the family's no-PII law requires: the choice is this browser's and goes nowhere."""
     assets = [a for a in ((pulse or {}).get("assets") or [])
               if a.get("symbol") and isinstance(a.get("price"), (int, float))]
     if len(assets) < 3:
         return ""
-    chips, picks = [], []
-    for a in assets:
-        sym = str(a["symbol"])
-        chg = a.get("chg_24h_pct")
-        cls = "up" if isinstance(chg, (int, float)) and chg >= 0 else "down"
-        delta = (f'<span class="wl-chg {cls}">{chg:+.1f}%</span>'
-                 if isinstance(chg, (int, float)) else "")
-        chips.append(f'<span class="wl-coin" data-coin="{esc(sym)}" hidden>'
-                     f'<span class="wl-sym">{esc(sym)}</span>'
-                     f'<span class="wl-px">{esc(_price_fmt(a["price"]))}</span>'
-                     f'{delta}</span>')
-        picks.append(f'<button type="button" class="wl-pick" data-pick="{esc(sym)}" '
-                     f'aria-pressed="false">{esc(sym)}</button>')
-    return (f'<section class="wl wl-empty" data-watchlist aria-label="Your coins">'
-            f'<div class="wl-row">{"".join(chips)}'
-            f'<span class="wl-hint">Pick the coins you want pinned here.</span></div>'
-            f'<div class="wl-picks">{"".join(picks)}</div>'
-            f'<p class="bd-src">Saved on this device only. Nothing leaves your phone: '
-            f'no account, no cookie, nothing logged.</p></section>')
+    picks = "".join(
+        f'<button type="button" class="wl-pick" data-pick="{esc(str(a["symbol"]))}" '
+        f'aria-pressed="false">{esc(str(a["symbol"]))}</button>' for a in assets)
+    return (f'<details class="pinbox" data-watchlist><summary>Pin your coins</summary>'
+            f'<div class="pinbox-sheet"><div class="wl-picks">{picks}</div>'
+            f'<p class="pin-note">Saved on this device only. No account, no cookie, '
+            f'nothing logged.</p></div></details>')
 
 
 # ---- C-C: living tables as Record features -------------------------------------
@@ -3904,7 +3904,6 @@ def render_home(items, flows, pulse, cm, dateline):
     <h2 class="bd-h2" id="bd-board">Every number that matters today, in plain language</h2>
   </div><a class="bd-more" href="/pulse.html">How the Board is built</a></div>
   {stamp}
-  {watchlist_row(pulse)}
   {board_tile_grid(tiles, learn_href, pulse, flows)}
   <a class="bd-allboard bd-phone-only" href="/pulse.html">See all {len(tiles)} tiles on the Board</a>
 </section>"""

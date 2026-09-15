@@ -1131,3 +1131,20 @@ body{padding-bottom:64px}
 .bd-since-list{display:flex;flex-direction:column;gap:9px;margin-top:4px;
   padding-top:12px;border-top:1px solid var(--line)}
 .bd-since-rows{display:flex;flex-direction:column;gap:9px}
+
+/* C-3: pinning lives at the right end of the ticker. The popover is a details/summary
+   so it opens without JavaScript, and the privacy note sits inside it at 13px instead
+   of running across the page at 17px. */
+.pinbox{position:relative;margin-left:auto;flex:0 0 auto}
+.pinbox>summary{list-style:none;cursor:pointer;white-space:nowrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--muted);padding:3px 8px;border:1px solid var(--line);border-radius:999px}
+.pinbox>summary::-webkit-details-marker{display:none}
+.pinbox-sheet{position:absolute;right:0;top:calc(100% + 8px);z-index:40;width:250px;
+  padding:12px;background:var(--card);border:1px solid var(--line);border-radius:8px;
+  box-shadow:0 10px 28px rgba(0,0,0,.14)}
+.pinbox .wl-picks{display:flex;flex-wrap:wrap;gap:6px}
+.pin-note{margin:10px 0 0;font-size:13px;line-height:1.45;color:var(--muted)}
+/* a pinned coin is marked in the ticker itself; nothing is duplicated */
+.markets .tick.pinned{position:relative}
+.markets .tick.pinned .sym::before{content:"\2022";margin-right:4px;color:var(--rule)}
