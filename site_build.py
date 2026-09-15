@@ -3441,12 +3441,12 @@ def _record_bars(lane_items, w=440, h=54, months=6):
             f'{"".join(parts)}</svg>')
 
 
-def _record_lane(slug, name, lane_items, hub_slugs, page=False):
-    """One lane: the featured piece on the left, three more on the right."""
+def _record_lane(slug, name, lane_items, hub_slugs, page=False, pool=None):
+    """One lane: the featured piece on the left, three more on the right (C-10)."""
     if not lane_items:
         return ""
     feat = lane_items[0]
-    rest = lane_items[1:4]
+    rest = list(lane_items[1:4])
     newest = max((i.get("published_utc") or "") for i in lane_items)[:10]
     # was "1 pieces in the Record"; no noun, so no plural to get wrong (C-20)
     status = (f"{len(lane_items)} in the Record · newest {esc(fmt_short_date(newest))}"
@@ -3459,7 +3459,10 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False):
                 srcs.append(lab)
     receipts = (f'Receipts: {esc(", ".join(srcs[:4]))}' if srcs
                 else "Receipts: every source linked on the piece")
-    dek = (feat.get("dek") or feat.get("key_fact") or "").strip()
+    # C-10: the v3 card leads with the Bottom Line, not the dek.
+    dek = (feat.get("bottom_line") or feat.get("key_fact") or feat.get("dek") or "").strip()
+    if len(dek) > 300:
+        dek = dek[:295].rsplit(" ", 1)[0] + "..."
     left = (
         f'<div class="bd-card bd-rec-feat">'
         f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(name)}</span>'
@@ -3468,7 +3471,6 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False):
         f'<a class="bd-rec-hl" href="/articles/{esc(feat["slug"])}.html">'
         f'{esc(feat.get("title") or "")}</a>'
         + (f'<p class="bd-read" style="font-size:15px">{esc(dek)}</p>' if dek else "")
-        + _record_bars(lane_items)
         + f'<div class="bd-brief-foot"><span class="bd-src">{receipts}</span>'
           f'<a class="bd-more" href="/articles/{esc(feat["slug"])}.html">Read the piece</a>'
           f'</div></div>')
@@ -3477,6 +3479,22 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False):
         f'{esc(i.get("title") or "")}</a>'
         f'<span class="bd-src">{esc(_record_type(i, hub_slugs))}</span></div>'
         for i in rest)
+    # C-10: a lane with one story still gets a read-further column. Borrowing from the
+    # Record's own next items beats rendering half a row of nothing, which is what
+    # ETFs and institutions did. Never the lane's own feature, never a repeat.
+    if len(rest) < 3 and pool:
+        seen = {i.get("slug") for i in lane_items}
+        for i in pool:
+            if len(rest) >= 3:
+                break
+            if i.get("slug") and i["slug"] not in seen:
+                seen.add(i["slug"])
+                rest.append(i)
+        rows = "".join(
+            f'<div class="bd-rec-row"><a class="bd-rec-t" href="/articles/{esc(i["slug"])}.html">'
+            f'{esc(i.get("title") or "")}</a>'
+            f'<span class="bd-src">{esc(_record_type(i, hub_slugs))}</span></div>'
+            for i in rest)
     all_href = f"#{esc(slug)}" if page else f"/record.html#{esc(slug)}"
     # C-C: a lane with a living table leads its read-further list with it, and only
     # when that table actually built this run.
@@ -3502,7 +3520,8 @@ def record_sections(items, home=True):
     by_lane, _picks = _record_inventory(items)
     hub_slugs = {sl for sl, _n, _s in coverage_hubs(items)}
     lanes = "".join(
-        _record_lane(slug, name, by_lane.get(slug) or [], hub_slugs, page=not home)
+        _record_lane(slug, name, by_lane.get(slug) or [], hub_slugs, page=not home,
+                     pool=_picks)
         for slug, name, _tags, on_home in RECORD_LANES
         if (on_home or not home))
     if not lanes.strip():
@@ -4443,16 +4462,24 @@ def flows_chart_svg(by_asset):
     Left/red = net onto exchanges (sell pressure); right/green = net off exchanges (accumulation)."""
     if not by_asset:
         return '<div class="empty"><span class="k">No exchange-relevant whale moves in window</span></div>'
-    W, cx, half = 720, 360, 250
-    row_h, bar_h = 46, 20
+    # C-8: four columns, so a label can never land on another label. The value used to
+    # float at the end of its own bar (x = cx - length - 8, anchored end), which walks
+    # left as the bar grows; on the longest bar it reached the symbol sitting at a fixed
+    # x=8 and printed "$62.6M" over "BTC" as "$62BTC". Both labels have their own column
+    # now and the bars get what is left.
+    W, row_h, bar_h = 720, 46, 20
+    SYM_W, VAL_W, GAP = 64, 118, 10
+    bar_l, bar_r = SYM_W, W - VAL_W
+    cx = (bar_l + bar_r) / 2
+    half = (bar_r - bar_l) / 2 - GAP
     top = 44
     H = top + len(by_asset) * row_h + 16
     max_abs = max((abs(a.get("net_usd", 0)) for a in by_asset), default=1) or 1
     parts = [f'<svg viewBox="0 0 {W} {H}" width="100%" role="img" '
              f'aria-label="Net whale exchange flow by asset" style="max-width:100%;height:auto">']
     # axis labels + zero line
-    parts.append(f'<text x="{cx-12}" y="20" text-anchor="end" class="ax">&#8592; onto exchanges (sell pressure)</text>')
-    parts.append(f'<text x="{cx+12}" y="20" text-anchor="start" class="ax">off exchanges (accumulation) &#8594;</text>')
+    parts.append(f'<text x="{cx-12:.0f}" y="20" text-anchor="end" class="ax">&#8592; onto exchanges (sell pressure)</text>')
+    parts.append(f'<text x="{cx+12:.0f}" y="20" text-anchor="start" class="ax">off exchanges (accumulation) &#8594;</text>')
     parts.append(f'<line x1="{cx}" y1="30" x2="{cx}" y2="{H-8}" class="zero"/>')
     for i, a in enumerate(by_asset):
         y = top + i * row_h
@@ -4460,16 +4487,16 @@ def flows_chart_svg(by_asset):
         length = (abs(net) / max_abs) * half
         cy = y + row_h / 2
         by = cy - bar_h / 2
-        parts.append(f'<text x="8" y="{cy+5:.0f}" class="sym">{esc(a.get("symbol",""))}</text>')
+        parts.append(f'<text x="0" y="{cy+5:.0f}" class="sym">{esc(a.get("symbol",""))}</text>')
         if net < 0:  # onto exchanges, extend left, red
             parts.append(f'<rect x="{cx-length:.1f}" y="{by:.0f}" width="{length:.1f}" height="{bar_h}" '
                          f'rx="4" fill="var(--down)"/>')
-            parts.append(f'<text x="{cx-length-8:.1f}" y="{cy+5:.0f}" text-anchor="end" class="val">'
+            parts.append(f'<text x="{W:.0f}" y="{cy+5:.0f}" text-anchor="end" class="val">'
                          f'{esc(fmt_usd(net))}</text>')
         else:  # off exchanges, extend right, green
             parts.append(f'<rect x="{cx:.1f}" y="{by:.0f}" width="{length:.1f}" height="{bar_h}" '
                          f'rx="4" fill="var(--up)"/>')
-            parts.append(f'<text x="{cx+length+8:.1f}" y="{cy+5:.0f}" text-anchor="start" class="val">'
+            parts.append(f'<text x="{W:.0f}" y="{cy+5:.0f}" text-anchor="end" class="val">'
                          f'+{esc(fmt_usd(net))}</text>')
     parts.append("</svg>")
     return "".join(parts)
