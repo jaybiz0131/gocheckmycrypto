@@ -1501,6 +1501,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body class="{esc(body_class)}">
+<div class="ground" aria-hidden="true"></div>
 {skip}{masthead(active, dateline, brand)}
 {body}
 {footer(brand)}{beacon}{livejs}
@@ -2371,6 +2372,20 @@ def _ordinal(n):
     return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
 
 
+# A-18: the lead tile's read. Two lines of a double-width tile, so up to 90 characters.
+# Authored once and changed by hand. It is NOT assembled from the day's numbers: a read
+# that rewrites itself every build is a caption, and the tile already states its figures.
+def _dir_of(v):
+    """A-9: which way a signed delta points. None, or a zero change, is neither."""
+    if not isinstance(v, (int, float)) or v == 0:
+        return ""
+    return "up" if v > 0 else "down"
+
+
+BITCOIN_READ = ("Nothing stretched, nothing broken. Thirty days below, "
+                "with the 200-day line for scale.")
+
+
 def board_tiles(pulse, flows, deltas):
     """The eight Board tiles as dicts, in Artboard 1 order. A tile whose value is
     missing is omitted entirely: rule 5, a module with no data is omitted, not faked.
@@ -2400,7 +2415,7 @@ def board_tiles(pulse, flows, deltas):
             "value": _price_fmt(btc["price"]),
             "spark": _bd_spark(btc.get("spark") or btc.get("price_history")),
             "delta": _bd_delta_pct((d.get("bitcoin") or {}).get("pct")),
-            "read": " ".join(bits) or "The price of one bitcoin, in dollars.",
+            "read": BITCOIN_READ,
             "learn": "bitcoin-200-day-rsi"})
 
     mkt = (pulse.get("market") or {}).get("total_mcap_usd")
@@ -2409,8 +2424,8 @@ def board_tiles(pulse, flows, deltas):
             "key": "market", "label": "Whole market", "phone": False,
             "value": fmt_usd(mkt), "spark": "",
             "delta": _bd_delta_pct((d.get("market") or {}).get("pct")),
-            "read": "The value of every coin combined. It rises with Bitcoin and "
-                    "faster with the rest.",
+            "dir": _dir_of((d.get("market") or {}).get("pct")),
+            "read": "Every coin combined. Rises with Bitcoin.",
             "learn": "total-market-cap"})
 
     etf = (pulse.get("etf_flows") or {}).get("btc") or {}
@@ -2431,7 +2446,7 @@ def board_tiles(pulse, flows, deltas):
             "spark": _bd_spark([r.get("net_usd_m") for r in (etf.get("recent") or [])],
                                signed=True),
             "delta": drow,
-            "read": "Money entering the U.S. spot Bitcoin ETFs. Inflows are buying pressure.",
+            "read": "Money entering U.S. spot Bitcoin ETFs.",
             "learn": "spot-etf-flows"})
 
     vol = (flows or {}).get("volatile") or {}
@@ -2448,12 +2463,12 @@ def board_tiles(pulse, flows, deltas):
             # question on a flows tile and cannot be read off a badge.
             "spark": _bd_spark([r.get("net_usd") for r in ((flows or {}).get("history") or [])],
                                signed=True),
+            "dir": "down" if onto else "up",
             "delta": f'<div class="bd-delta {"down" if onto else "up"}">'
                      f'{_ARROW_DN if onto else _ARROW_UP}'
                      f'{"onto exchanges" if onto else "off exchanges"}'
                      f'<span class="bd-since">24h net</span></div>',
-            "read": "Coins moving onto exchanges are usually positioned to sell. "
-                    "Off exchanges means holding.",
+            "read": "Coins moving onto exchanges, often to sell.",
             "learn": "whale-exchange-flows"})
 
     oi = _oi_total(pulse)
@@ -2462,8 +2477,7 @@ def board_tiles(pulse, flows, deltas):
             "key": "leverage", "label": "Leverage", "phone": True,
             "value": fmt_usd(oi), "spark": "",
             "delta": _bd_delta_pct((d.get("leverage") or {}).get("pct"), "open interest"),
-            "read": "How much is borrowed to bet. More leverage means bigger swings "
-                    "in both directions.",
+            "read": "Borrowed money betting on price. Bigger swings.",
             "learn": "open-interest-funding"})
 
     st = (pulse.get("stables") or {}).get("total_usd")
@@ -2473,8 +2487,8 @@ def board_tiles(pulse, flows, deltas):
             "value": fmt_usd(st),
             "spark": _bd_spark((pulse.get("stables") or {}).get("spark")),
             "delta": _bd_delta_pct((d.get("stables") or {}).get("pct")),
-            "read": "Dollars parked on the sidelines inside crypto. When this grows, "
-                    "buyers are waiting.",
+            "dir": _dir_of((d.get("stables") or {}).get("pct")),
+            "read": "Dollars parked inside crypto, waiting.",
             "learn": "stablecoin-dry-powder"})
 
     fng = pulse.get("fng") or {}
@@ -2491,9 +2505,9 @@ def board_tiles(pulse, flows, deltas):
         out.append({
             "key": "fng", "label": "Crowd sentiment", "phone": True,
             "value": f"{fv:g}", "spark": "",
+            "dir": _dir_of((d.get("fng") or {}).get("points")),
             "delta": f'<div class="bd-delta band"><span class="bd-dot"></span>{band}{since}</div>',
-            "read": "The Fear and Greed index, 0 to 100. Extremes tend to mark turning "
-                    "points, not entries.",
+            "read": "Extremes mark turning points, not entries.",
             "learn": "fear-and-greed"})
 
     net = pulse.get("network") or {}
@@ -2510,9 +2524,9 @@ def board_tiles(pulse, flows, deltas):
         out.append({
             "key": "network", "label": "Network", "phone": False,
             "value": f"{fee:g} sat/vB", "spark": "",
+            "dir": _dir_of((d.get("network") or {}).get("points")),
             "delta": f'<div class="bd-delta flat">{esc(_fee_band(fee))}{tail}</div>',
-            "read": "Cheap fees mean a quiet chain. Spikes mean everyone is moving "
-                    "coins at once.",
+            "read": "Cheap fees mean a quiet chain.",
             "learn": "network-fees"})
     return out
 
@@ -2575,6 +2589,10 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
                     kind=(TILE_SERIES.get(t.get("key")) or ("", "", ""))[2])
         top = f'<span class="bd-label">{esc(t["label"])}</span>{spark}'
         hide = "" if t.get("phone") else " bd-hide-phone"
+        # A-9: the direction travels with the tile, set beside the delta it describes,
+        # so the wash can never disagree with the line under the number. A tile with no
+        # delta carries neither class - most of them on a carried-forward build.
+        dirn = f' {t["dir"]}' if t.get("dir") in ("up", "down") else ""
         # (d) the read is authored to fit two lines; clamp on a word so a long one
         # cannot push the tile taller than its neighbours.
         # C-6(d) says the read is authored to fit two lines, "90 characters at most".
@@ -2583,9 +2601,12 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
         # four-across allows. And a tile carrying a delta row has one line less, which
         # is how Crowd sentiment lost "index, 0 to 100." with nothing to show it had.
         # The budget follows the room the tile actually has.
-        read = clamp_words(t["read"], 26 if t.get("delta") else 44)
+        # A-18 and the standing law: authored text is never truncated. The reads are
+        # written to 48 characters now, so nothing here cuts them. The sprint-C clamp
+        # existed because the old reads did not fit; they do.
+        read = t["read"]
         cards.append(
-            f'<div class="bd-card bd-tile{hide}">'
+            f'<div class="bd-card bd-tile{hide}{dirn}">'
             f'<div class="bd-tile-top">{top}</div>'
             f'<div class="bd-value">{esc(t["value"])}</div>'
             f'{t.get("delta") or ""}'
@@ -4076,6 +4097,9 @@ def render_home(items, flows, pulse, cm, dateline):
     is a placeholder and nothing is a fabricated number.
     """
     pulse = pulse or {}
+    # Punch item 1: snapshot_pulse was written and never called from anywhere, so the
+    # desk kept no dated board file and "since yesterday" had nothing to measure.
+    snapshot_pulse(pulse)
     deltas = board_deltas(pulse)
     tiles = board_tiles(pulse, flows, deltas)
 
@@ -5399,6 +5423,29 @@ def _oi_total(pulse):
     return tot or None
 
 
+def _prev_from_series(pulse):
+    """Yesterday's readings from the feed's OWN daily series, when no dated snapshot
+    exists for yesterday (punch item 1).
+
+    Calling snapshot_pulse fixes tomorrow; it cannot fix today, because yesterday's file
+    was never written. The series the tiles already chart IS a run of daily closes, so
+    its second-to-last point is yesterday's close by construction: the same reading, from
+    the same feed, a snapshot would have held. Only tiles whose series the feed carries
+    get a value; the rest render no delta row, which is the existing rule."""
+    p = pulse or {}
+    out = {}
+    sp = _btc(p).get("spark") or []
+    if len(sp) >= 2 and isinstance(sp[-2], (int, float)):
+        out["assets"] = [{"symbol": "BTC", "price": sp[-2]}]
+    st = (p.get("stables") or {}).get("spark") or []
+    if len(st) >= 2 and isinstance(st[-2], (int, float)):
+        out["stables"] = {"total_usd": st[-2]}
+    fh = (p.get("fng") or {}).get("history") or []
+    if len(fh) >= 2 and isinstance(fh[-2], (int, float)):
+        out["fng"] = {"value": fh[-2]}
+    return out or None
+
+
 def board_deltas(pulse, prev=None):
     """Per-tile change since calendar yesterday. Absent keys mean NO delta row.
 
@@ -5410,7 +5457,7 @@ def board_deltas(pulse, prev=None):
         did not hold steady, it simply was not re-fetched. This desk carries a section on
         roughly a third of builds, so this is the common case, not the edge.
     """
-    prev = prev if prev is not None else prior_snapshot()
+    prev = prev if prev is not None else (prior_snapshot() or _prev_from_series(pulse))
     if not prev:
         return {}
     carried = set((pulse or {}).get("carried_forward") or []) \

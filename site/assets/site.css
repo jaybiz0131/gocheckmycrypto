@@ -1119,22 +1119,18 @@ body{padding-bottom:64px}
    the bottom with a hairline above it, so "Explained" sits on one line across the row. */
 .bd-tiles{grid-auto-rows:214px}
 /* C-6: 214px by construction, every row */
-.bd-tile{display:flex;flex-direction:column;gap:6px;height:100%;overflow:hidden}
+.bd-tile{display:flex;flex-direction:column;gap:6px;height:100%}
 /* A tile carrying a delta row has one line less for its read. Rather than let the
    second line vanish silently (Crowd sentiment lost "index, 0 to 100."), the delta
    sits tighter so both lines fit inside the 214px. */
 .bd-tile .bd-delta{margin:0;line-height:1.3}
-/* C-6(d): the read is two lines.
-   -webkit-line-clamp cannot do it here. The read is a direct child of a flex column, so
-   the browser blockifies -webkit-box (computed display came back flow-root) and the
-   clamp silently does nothing - the text was being hard-cut by overflow:hidden with no
-   ellipsis, a sentence stopping mid-word with no sign that it had. A two-line max-height
-   works on a flex item, and the authored budget (see board_tile_grid) is what actually
-   keeps the text inside it. */
+/* A-18 and the standing law: authored text is never truncated. The sprint-C clamp cut
+   reads that were too long; the reads are written to 48 characters now, so the BOX
+   yields instead of the sentence. Tiles keep 214px as a floor, not a ceiling. */
 /* Exact pixels, not em multiples. A fractional box height showed the TOP SLIVER of a
    third line on Crowd sentiment - letters cut through the middle, which reads as a
    rendering fault rather than as truncation. Two whole lines or nothing. */
-.bd-tile p.bd-read{margin:0;line-height:19px;max-height:38px;overflow:hidden}
+.bd-tile p.bd-read{margin:0;line-height:19px}
 .bd-tile-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .bd-tile-foot{margin-top:auto;padding-top:9px;border-top:1px solid var(--line);
   display:flex;align-items:baseline;justify-content:space-between;gap:10px}
@@ -1350,3 +1346,55 @@ body{padding-bottom:64px}
      under it on a phone. */
   .cb-hero{padding-bottom:16px;margin-bottom:22px}
 }
+
+/* ============================================================================
+   PROGRAM 3, A-1: the ground. Same layer as Sports, Crypto's own glows:
+   the family red, Whale Watch ocean, Chart Master gold. Lifted from CryptoAtmosV5.
+   ========================================================================== */
+.ground{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1100px 620px at 8% 34%, rgba(180,35,24,.22), rgba(180,35,24,0) 70%),
+    radial-gradient(900px 560px at 96% 52%, rgba(46,125,209,.16), rgba(46,125,209,0) 70%),
+    radial-gradient(900px 520px at 12% 86%, rgba(200,154,74,.20), rgba(200,154,74,0) 70%),
+    linear-gradient(180deg, #FBFAF6 0%, #F6F3EC 100%)}
+.ground::after{content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.06;mix-blend-mode:multiply}
+body>*:not(.ground){position:relative;z-index:1}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .ground{background:var(--paper)}
+  :root:not([data-theme="light"]) .ground::after{opacity:.04}
+}
+:root[data-theme="dark"] .ground{background:var(--paper)}
+:root[data-theme="dark"] .ground::after{opacity:.04}
+
+/* A-2: the trading-desk photo shows. Poster to 88%, scrim to 22/66/94. */
+.cb-hero .cb-bg{opacity:.88}
+.cb-hero .cb-scrim{background:linear-gradient(180deg,
+  rgba(19,20,25,.22) 0%, rgba(19,20,25,.66) 34%, rgba(19,20,25,.94) 100%)}
+
+/* A-3: glass tiles inside the band, with the solid fallback. */
+.cb-hero .bd-tile{background:rgba(26,28,34,.94);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+@supports ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))){
+  .cb-hero .bd-tile{background:rgba(26,28,34,.90);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+}
+
+/* A-4: the ember. The one warm accent on the dark band, anchored at its top left
+   under the cards. It is what makes the band read as the Board's own light rather
+   than a generic dark hero. Sports gets none; its warmth comes from the photo. */
+.cb-hero .cb-scrim::after{content:'';position:absolute;left:-120px;top:-80px;
+  width:720px;height:520px;pointer-events:none;
+  background:radial-gradient(closest-side, rgba(255,106,77,.22), rgba(255,106,77,0) 100%)}
+
+/* A-9: direction washes. In addition to the delta line, never instead of it - the line
+   is the reading and the wash is the glance. A tile with no delta carries neither. */
+.cb-hero .bd-tile{position:relative;isolation:isolate}
+.cb-hero .bd-tile::before{content:'';position:absolute;inset:0;z-index:0;
+  border-radius:inherit;pointer-events:none}
+.cb-hero .bd-tile.up::before{background:linear-gradient(160deg,
+  rgba(61,220,132,.16), rgba(61,220,132,0) 55%)}
+.cb-hero .bd-tile.down::before{background:linear-gradient(160deg,
+  rgba(255,122,107,.16), rgba(255,122,107,0) 55%)}
+.cb-hero .bd-tile>*{position:relative;z-index:1}
