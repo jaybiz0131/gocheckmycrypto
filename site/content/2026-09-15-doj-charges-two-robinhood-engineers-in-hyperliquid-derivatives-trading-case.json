@@ -1,0 +1,70 @@
+{
+  "id": "c026",
+  "slug": "doj-charges-two-robinhood-engineers-in-hyperliquid-derivatives-trading-case",
+  "kind": "brief",
+  "title": "DOJ Charges Two Robinhood Engineers in Hyperliquid Derivatives Trading Case",
+  "dek": "The DOJ has charged two Robinhood engineers, Hefu Chai, 36, and Huaisong Xiang, 30, with wire fraud and commodities fraud for trading perpetual futures on Hyperliquid before Robinhood announced crypto listings between 2025 and 2026. Each defendant allegedly earned more than $50,000 from nonpublic information about the listings. The charges extend insider-trading prosecution to decentralized derivatives platforms.",
+  "date": "2026-09-15",
+  "published_utc": "2026-09-15T18:58:30Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "No formal charges from the Department of Justice, the SEC, or any other regulatory body have publicly linked specific Robinhood engineers to the wallet addresses or trades alleged in the scheme, according to Crypto Briefing's reporting.",
+  "bottom_line": "The charges represent allegations by federal prosecutors, not a judgment by a court. The procedural status of the case (arraignment, next hearing) and the specific tokens or listings at the center of the alleged scheme are not reported in the available sources. What to watch: whether the defendants contest the charges and what discovery reveals about how the DOJ established that the information was nonpublic and that access was exclusive to the named engineers.",
+  "human_take": "",
+  "body": [
+    "The Department of Justice has charged two Robinhood engineers with wire fraud and commodities fraud for allegedly trading perpetual futures on the decentralized platform Hyperliquid using nonpublic information about cryptocurrency listings the company was preparing to announce.",
+    "Hefu Chai, 36, and Huaisong Xiang, 30, each face one count of commodities fraud and one count of wire fraud, according to charging documents reported by Decrypt. The alleged scheme unfolded between 2025 and 2026, with each defendant earning more than $50,000 from the trades, per the sources.",
+    "Perpetual futures allow traders to speculate on an asset's price, often with leverage, without owning the underlying asset, and unlike conventional futures contracts, they do not expire. Hyperliquid is one of the largest decentralized platforms for trading perps and has faced increased regulatory scrutiny.",
+    "The DOJ brought the charges under the Commodity Exchange Act rather than securities fraud statutes, signaling prosecutors' strategy to extend insider-trading law to derivatives markets and nonpublic corporate information about token listings. U.S. Attorney Jamie McDonald stated in the charging announcement: \"Today's charges make clear that corporate insiders cannot evade the securities and commodities laws by trading based on misappropriated information in derivatives like perpetual futures, tokenized securities, or other similar financial instruments.\"",
+    "Commodities fraud carries a maximum prison sentence of 10 years; wire fraud carries a maximum of 20 years. Robinhood cooperated with the investigation, according to prosecutors' reporting.",
+    "The case follows a precedent set by the conviction of former Coinbase product manager Ishan Wahi, who federal authorities charged over confidential token-listing information he allegedly shared with his brother and a friend. Wahi later pleaded guilty to wire fraud conspiracy in that matter.",
+    "Robinhood has expanded its crypto perpetual-futures business in recent years. The company was not charged in the proceeding, and the sources do not indicate whether internal policy changes resulted from the investigation."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/regulation/2026-09-15-doj-charges-robinhood-engineers-front-running-crypto-listings-hyperliquid-414865",
+      "url": "https://www.theblock.co/news/regulation/2026-09-15-doj-charges-robinhood-engineers-front-running-crypto-listings-hyperliquid-414865"
+    },
+    {
+      "title": "https://decrypt.co/378267/robinhood-engineers-charged-fraud-over-crypto-listing-trades",
+      "url": "https://decrypt.co/378267/robinhood-engineers-charged-fraud-over-crypto-listing-trades"
+    },
+    {
+      "title": "https://beincrypto.com/robinhood-engineers-charged-hyperliquid-insider-trading/",
+      "url": "https://beincrypto.com/robinhood-engineers-charged-hyperliquid-insider-trading/"
+    }
+  ],
+  "update_of": "doj-files-forfeiture-case-for-61m-in-binance-accounts-tied-to-iran-oil-laundering",
+  "board_snapshot": {
+    "as_of": "2026-09-15T18:56:26Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75725.28,
+        "chg_24h_pct": -3.13
+      },
+      {
+        "symbol": "ETH",
+        "price": 2398.41,
+        "chg_24h_pct": -4.63
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 6.6,
+      "open_interest_usd": 2084977014
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -48210673,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}

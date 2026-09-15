@@ -1,0 +1,61 @@
+{
+  "id": "c002",
+  "slug": "kamino-appoints-yieldstreet-co-founder-as-ceo-for-u-s-expansion",
+  "kind": "brief",
+  "title": "Kamino Appoints Yieldstreet Co-founder as CEO for U.S. Expansion",
+  "dek": "Kamino, a Solana lending protocol with $1.352 billion in total value locked, appointed Michael Weisz, co-founder of Yieldstreet, as CEO on September 15 to lead institutional growth and U.S. market expansion from a new New York headquarters. Weisz brings over two decades of fintech and private-markets experience.",
+  "date": "2026-09-15",
+  "published_utc": "2026-09-15T18:58:30Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "Kamino's total value locked increased 29.9% over the previous 30 days and ranks seventh among lending protocols tracked by DefiLlama, accounting for 2.7% of the category's $50.438 billion total.",
+  "bottom_line": "The sources do not clarify whether Weisz replaces an existing CEO or assumes a newly created executive role, leaving Kamino's governance succession unclear. What to watch: the timing and scope of Kamino's institutional and tokenized-asset product releases, and which U.S. regulatory frameworks the protocol adopts to service institutional clients from the New York office.",
+  "human_take": "",
+  "body": [
+    "Kamino, a Solana lending protocol, appointed Michael Weisz as CEO on September 15 to lead institutional growth and expansion into the U.S. market and tokenized assets. Weisz is co-founder of Yieldstreet, a fintech platform for private-market investing, and brings more than two decades of experience in fintech and private markets.\nAt the time of Weisz's appointment, the protocol held $1.352 billion in total value locked and $1.022 billion in active loans, according to DefiLlama figures cited in the sources. Over the previous 30 days, Kamino's TVL grew 29.9 percent.\nDefiLlama ranks Kamino Lend seventh among the lending protocols it tracks, accounting for 2.7 percent of the lending category's total value locked of $50.438 billion. The protocol tracks 150 yield pools and has expanded its curator tooling, which lets professional risk managers design custom lending strategies for institutions, deploy isolated lending markets with custom risk parameters, and route depositor assets across reserves.\nWeisz will lead Kamino from a new New York headquarters. In a thesis letter, he wrote: \"Tokenization worked. But what's missing is what comes after you put an asset on-chain. That requires liquidity, credit, distribution and infrastructure.\" He added that Kamino has spent four years building the foundation for those components.\nKamino is expanding into tokenized assets, per CoinDesk's reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/people/kamino-names-michael-weisz-ceo-for-us-and-institutional-expansion",
+      "url": "https://thedefiant.io/news/people/kamino-names-michael-weisz-ceo-for-us-and-institutional-expansion"
+    },
+    {
+      "title": "https://www.coindesk.com/business/2026/09/15/solana-lender-kamino-taps-yieldstreet-co-founder-as-ceo-in-wall-street-expansion",
+      "url": "https://www.coindesk.com/business/2026/09/15/solana-lender-kamino-taps-yieldstreet-co-founder-as-ceo-in-wall-street-expansion"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-15T18:56:26Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75725.28,
+        "chg_24h_pct": -3.13
+      },
+      {
+        "symbol": "ETH",
+        "price": 2398.41,
+        "chg_24h_pct": -4.63
+      }
+    ],
+    "fng": {
+      "value": 69,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 6.6,
+      "open_interest_usd": 2084977014
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -48210673,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "CoinDesk"
+  ],
+  "developing": false
+}
