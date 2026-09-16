@@ -4,38 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c052",
-    "headline": "Losses Top $115M In Coldcard Bitcoin Hack: Galaxy Research",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Galaxy Digital reported $115 million in confirmed bitcoin losses from a Coldcard hardware wallet exploit, according to Bitcoin Magazine.' The brief's only data_point says the figure comes from 'Galaxy Digital's figures' via Bitcoin Magazine, but the brief does not establish who discovered or initially reported the exploit\u2014only that Galaxy Digital quantified losses at $115M. The draft's attribution is ambiguous and may misrepresent the source chain. The sentence should clarify whether Galaxy Digital conducted the investigation or received the figure from another source.",
-     "The draft presents the $115M figure with 'confirmed' language and 'Galaxy Digital reported,' but the brief's confidence label is only 'reported,' not 'confirmed.' The confidence downgrade must appear in the prose to flag that the $115M has not been independently verified."
-    ]
-   },
-   {
-    "id": "c037",
-    "headline": "Treasury Proposes Rules Defining Who Can Legally Sell Stablecoins in US",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The proposed rules relate to the Guaranteed, Efficient, New In-law Underwritten Synthetic (GENIUS) Act framework, which Congress advanced earlier this cycle.' This claim does not appear in the brief's data_points. The brief mentions a 'January 2027 deadline for Treasury to finalize stablecoin regulations' but does not cite the GENIUS Act by name or confirm Congress advanced it. The writer has smuggled a legislative detail not in the research.",
-     "The draft attributes the January 2027 deadline to 'the Guaranteed, Efficient, New In-law Underwritten Synthetic (GENIUS) Act framework,' but the brief does not provide this attribution. The deadline appears only as context in the brief's open_questions; the draft invented the legislative source."
-    ]
-   },
-   {
-    "id": "c114",
-    "headline": "CFTC reviewing framework for AI compute futures as CME targets October launch",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'The mechanism by which a financial derivative on compute would hedge real-world GPU scarcity without basis risk is also left unaddressed' presents editorial analysis/speculation about how derivatives would function. This is not a fact from the brief and goes beyond reporting what Cointelegraph stated. The brief contains no data_point about basis risk mechanics or hedging efficacy; the writer has imported their own analytical skepticism rather than sticking to reported claims."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-17",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c037",
     "headline": "Treasury Proposes Rules Restricting Stablecoin Sales to US Customers",
     "category": "accuracy",
@@ -5448,5 +5416,19 @@
   "date": "2026-09-16",
   "approved": 4,
   "rejected": []
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c028",
+    "headline": "House Advances Crypto Tax Bill With $10 Fee Exemption, Stablecoin Rules",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The House Ways and Means Committee introduced H.R. 10357' and 'scheduled its markup for 10 a.m. Eastern on September 16.' Today is September 16, 2026. The markup is scheduled for today (a future event from the perspective of publication time), not a past event. The draft should clarify that the markup is scheduled for today or is imminent, not write it as an already-scheduled past action. More critically, if this draft is being published on September 16, the markup may have already occurred or be occurring. The brief data shows a September 15 timestamp for the reporting. The draft must clarify the temporal relationship: is markup happening today, or has it already concluded? Without that clarity, readers cannot determine whether the piece is reporting a future event or a completed one."
+    ]
+   }
+  ]
  }
 ]
