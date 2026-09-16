@@ -1,37 +1,6 @@
 [
  {
   "date": "2026-08-18",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c002",
-    "headline": "Wyoming Replaces LayerZero Citing Security, First U.S. Government to Publicly Do So",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'Wyoming became the first U.S. government entity to publicly replace its blockchain infrastructure specifically on security grounds' presents the claimed fact as settled, but the brief confidence label is 'reported'\u2014not 'confirmed' or 'verified.' The prose must acknowledge uncertainty: this claim comes from CoinDesk's reporting and has not been independently verified.",
-     "Sentence 'characterized as a broader '$15 billion LayerZero exodus'' uses scare quotes around the characterization, which is good, but the draft then states 'CoinDesk has not named other entities' as though this is established fact. The brief's open_questions reveal that the '$15 billion' figure itself is unverified; the draft should signal that the magnitude of the exodus is CoinDesk's framing, not confirmed data."
-    ]
-   },
-   {
-    "id": "c014",
-    "headline": "Ethereum's Hegotas upgrade alters gas mechanics for ETH transfers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Sending ETH to a brand-new address will cost more gas than sending to an existing address' but the brief's bear_case is empty and the only data_points confirm the CoinDesk reporting without establishing that this is actually a regulatory/substantive problem. However, the core issue is that the draft presents 'wallet software built around a flat fee assumption will calculate incorrect sums after the upgrade' as established fact from the brief, when the brief itself says 'No information on whether a formal advisory or upgrade documentation has been published' and lists the specific mechanics as unavailable. The draft treats an open_question (wallet preparation status) as settled reporting."
-    ]
-   },
-   {
-    "id": "c008",
-    "headline": "Metaplanet brings bitcoin treasury strategy to U.S. public markets",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states the deal is 'executed through Super League' and describes Super League as a vehicle/entity with governance and mechanics, but the brief explicitly notes 'No details on Super League's identity, structure, or track record are available' and 'the brief is constructed from the snippet and headline alone.' The draft smuggles assumed knowledge about Super League's role and status that does not appear in the CoinDesk reporting per the brief. The phrase 'The mechanics of the nanocap structure, the specific governance of the treasury vehicle, and the timeline for launch remain as reported by CoinDesk at the valuation cited' contradicts itself\u2014it claims mechanics remain as reported while simultaneously acknowledging they are not detailed. This is an accuracy failure: the draft presents structural details about the deal's execution as fact when the brief confirms they are unavailable."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-18",
   "approved": 3,
   "rejected": [
    {
@@ -5343,6 +5312,31 @@
     "category": "accuracy",
     "reasons": [
      "The title and opening state 'ahead of September 16 markup' and 'scheduled markup for 10 a.m. Eastern on September 16.' Today is September 16, 2026. The draft is written as though the markup has not yet occurred, which means the draft is being filed before the event has taken place. If the markup is scheduled for 'September 16' at 10 a.m. Eastern and today IS September 16, the event is either imminent (if filed very early morning) or in the past (if filed after 10 a.m. Eastern). The instruction states: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The inverse is also true: a draft cannot report a scheduled event on today's date as upcoming if it is currently past that time. The brief timestamps are dated 2026-09-15, suggesting the story was researched yesterday. If the story is being approved today (2026-09-16), and the markup is scheduled for today at 10 a.m., the draft's use of future tense ('will debate,' 'will vote,' 'will indicate') is temporally incoherent unless filed before 10 a.m. ET. The bottom_line compounds this: 'September 16 at 10 a.m. Eastern is when the House Ways and Means Committee will vote'\u2014present tense reporting of a future event on the day it occurs violates the temporal protocol. The draft should either report the event as having occurred (if filing after 10 a.m. ET on Sept 16) or should carry a clear timestamp/embargo note that it is embargoed until after the markup concludes. As written, it is temporally ambiguous and misleading."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c024",
+    "headline": "Circle launches Arc mainnet with BlackRock, DTCC, Visa and eight other founding validators",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'According to The Defiant, validators include BlackRock, Depository Trust and Clearing Corporation, Galaxy, Intercontinental Exchange, Mastercard, MoneyGram, SBI Group, Standard Chartered, Sumitomo Corporation, Visa, and Worldpay alongside Circle.' This lists 12 entities (11 plus Circle), but the title and brief both claim '11 founding validators' including Circle. The math is inconsistent: either Circle + 10 others = 11 total, or Circle + 11 others = 12 total. The draft must clarify whether the count includes or excludes Circle.",
+     "The draft mentions 'Crypto Briefing reports more than 1,200 projects have been built on Arc, with 10,000 Architect ambassadors' in one paragraph, then later states 'The developer program has more than 75,000 Arc House members, The Defiant reports' and 'More than 1,200 projects have been built on Arc, with 10,000 Architect ambassadors' in a separate paragraph attributed to Crypto Briefing. These appear to be separate metrics (Arc House members vs. Architect ambassadors vs. projects built), but the structure creates ambiguity about attribution and what each figure represents. However, this is a clarity issue, not accuracy per se, since the brief does support these numbers from both outlets.",
+     "The draft references 'Circle Agent Stack launched in May' but does not explicitly state which year (2026 vs. prior). While the brief data_points specify 'since Circle Agent Stack launched in May,' the year should be clear in the draft for temporal accuracy."
+    ]
+   },
+   {
+    "id": "c003",
+    "headline": "Deutsche Bank nears institutional crypto custody launch under EU regulation",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites only one source in the sources list ('https://www.coindesk.com/business/2026/09/16/deutsche-bank-nears-crypto-custody-service-debut-for-institutional-clients'), but the brief references multiple sources including Crypto Briefing and Cointelegraph. The draft's sources field lists only CoinDesk, yet attributes claims throughout ('per Crypto Briefing', 'according to Crypto Briefing') to Crypto Briefing. The draft must either include all sources in the sources field or remove unsourced attributions. This is a structural accuracy problem: readers cannot trace attribution.",
+     "The draft states 'Deutsche Bank is awaiting final regulatory approval from BaFin' but the brief's data_point is 'Deutsche Bank is awaiting final regulatory approval to launch its institutional custody solutions' with confidence 'reported' from Cointelegraph. The draft attributes this to Crypto Briefing without listing Cointelegraph as a source. Attribution does not match the source list."
     ]
    }
   ]

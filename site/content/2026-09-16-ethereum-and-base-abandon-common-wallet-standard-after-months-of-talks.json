@@ -1,0 +1,57 @@
+{
+  "id": "c008",
+  "slug": "ethereum-and-base-abandon-common-wallet-standard-after-months-of-talks",
+  "kind": "brief",
+  "title": "Ethereum and Base abandon common wallet standard after months of talks",
+  "dek": "Ethereum and Coinbase-backed Base have split on account-abstraction standards, with Ethereum backing EIP-8141 and Base backing EIP-8130. Developers building cross-chain applications will now face incompatible transaction systems.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T11:13:11Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 5,
+  "author": "Crypto Cronkite",
+  "key_fact": "Ethereum and Base have abandoned efforts to agree on a single account-abstraction wallet standard, instead adopting incompatible standards (EIP-8141 vs EIP-8130).",
+  "bottom_line": "The incompatibility between EIP-8141 and EIP-8130 will test whether the multi-chain ecosystem can absorb technical standards divergence, or whether Base's independence from Ethereum's standard-setting becomes a broader pattern among L2s and other chains.",
+  "human_take": "",
+  "body": [
+    "Ethereum and Coinbase-backed Base have ended efforts to agree on a shared account-abstraction wallet standard, according to CoinDesk's reporting. Ethereum is moving ahead with EIP-8141, while Base backs EIP-8130, creating incompatible transaction systems across the two networks.",
+    "Account abstraction is a technical framework that allows wallets to handle transaction validation and execution in flexible ways, separate from the account model Ethereum uses by default. A shared standard would let wallets and applications operate identically across both chains. The split means developers building products that span both Ethereum and Base will face different transaction handling on each, complicating the experience for users who move between networks.",
+    "Wallets and applications that operate across both networks now face incompatible standards, per CoinDesk's reporting. This fragmentation creates friction for developers seeking to offer seamless multi-chain experiences and requires separate implementations for each chain's chosen approach."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/09/16/ethereum-base-give-up-on-common-wallet-standard-after-months-of-talks",
+      "url": "https://www.coindesk.com/tech/2026/09/16/ethereum-base-give-up-on-common-wallet-standard-after-months-of-talks"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-16T11:10:47Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75869.48,
+        "chg_24h_pct": 0.37
+      },
+      {
+        "symbol": "ETH",
+        "price": 2404.46,
+        "chg_24h_pct": 0.29
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 1.3,
+      "open_interest_usd": 2151845322
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -164576648,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
