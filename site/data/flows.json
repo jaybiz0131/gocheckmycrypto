@@ -1,7 +1,7 @@
 {
   "example": false,
   "generated": "2026-09-16",
-  "generated_utc": "2026-09-16T10:01:19Z",
+  "generated_utc": "2026-09-16T10:41:11Z",
   "window_hours": 48,
   "txn_count": 6,
   "volatile": {
@@ -148,18 +148,18 @@
   "history": [
     {
       "week_ending": "Jun 24",
-      "net_usd": 115286901,
-      "moves": 44
+      "net_usd": 166957787,
+      "moves": 45
     },
     {
       "week_ending": "Jul 01",
-      "net_usd": 1545668019,
+      "net_usd": 1555728832,
       "moves": 98
     },
     {
       "week_ending": "Jul 08",
-      "net_usd": 1424938350,
-      "moves": 80
+      "net_usd": 1363206651,
+      "moves": 79
     },
     {
       "week_ending": "Jul 15",
@@ -174,7 +174,7 @@
     {
       "week_ending": "Jul 29",
       "net_usd": 1128381254,
-      "moves": 53
+      "moves": 54
     },
     {
       "week_ending": "Aug 05",
@@ -189,7 +189,7 @@
     {
       "week_ending": "Aug 19",
       "net_usd": -215358045,
-      "moves": 22
+      "moves": 21
     },
     {
       "week_ending": "Aug 26",
@@ -198,13 +198,13 @@
     },
     {
       "week_ending": "Sep 02",
-      "net_usd": 63063096,
-      "moves": 85
+      "net_usd": 216580516,
+      "moves": 88
     },
     {
       "week_ending": "Sep 09",
-      "net_usd": -463978944,
-      "moves": 53
+      "net_usd": -617496364,
+      "moves": 50
     },
     {
       "week_ending": "Sep 16",
@@ -212,5 +212,5 @@
       "moves": 29
     }
   ],
-  "weekly_median_abs_usd": 499958307
+  "weekly_median_abs_usd": 617496364
 }

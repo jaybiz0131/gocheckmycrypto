@@ -1,0 +1,59 @@
+{
+  "id": "c004",
+  "slug": "ethereum-and-base-abandon-shared-wallet-standard-creating-multi-chain-incompatibility",
+  "kind": "brief",
+  "title": "Ethereum and Base abandon shared wallet standard, creating multi-chain incompatibility",
+  "dek": "Ethereum is proceeding with account abstraction standard EIP-8141 while Coinbase-backed Base develops EIP-8130 separately. The failed collaboration means multi-chain wallets and applications will face incompatible transaction systems across the two networks.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T10:43:07Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "Ethereum and Base have ended standardization efforts and are moving forward with separate, incompatible account abstraction standards.",
+  "bottom_line": "The divergence between EIP-8141 and EIP-8130 will require multi-chain wallet developers to maintain separate transaction handling for each network. The next signal to track is whether either standard gains ecosystem adoption that forces the other to converge or deepens the split.",
+  "human_take": "",
+  "body": [
+    "Ethereum and Coinbase-backed Base have ended efforts to align on a common account abstraction standard, according to CoinDesk reporting. Ethereum is moving ahead with EIP-8141, while Base is backing EIP-8130, a separate standard developed independently.\nAccount abstraction refers to a set of protocol rules that determine how transactions are authorized and processed on a blockchain. When standards diverge between chains, wallets and applications that operate across both networks must maintain separate code paths for each chain's requirements, creating friction in multi-chain user experience and developer workflow.\nPer CoinDesk, the collaboration between the two chains broke down after months of talks.Cointelegraph reports that each chain is now developing its account abstraction standard independently. The sources do not indicate whether the two standards will eventually converge or remain permanently distinct.\nThe failed collaboration signals that even well-resourced, major chains struggle to coordinate on protocol design when implementation philosophy, governance philosophy, or risk tolerance diverge. No statement from either the Ethereum Foundation or Coinbase on the reasons for the breakdown appears in the available reporting."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/09/16/ethereum-base-give-up-on-common-wallet-standard-after-months-of-talks",
+      "url": "https://www.coindesk.com/tech/2026/09/16/ethereum-base-give-up-on-common-wallet-standard-after-months-of-talks"
+    },
+    {
+      "title": "https://cointelegraph.com/news/ethereum-base-wallet-standards-collaboration-breaks",
+      "url": "https://cointelegraph.com/news/ethereum-base-wallet-standards-collaboration-breaks"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-16T10:01:19Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75930.07,
+        "chg_24h_pct": 0.45
+      },
+      {
+        "symbol": "ETH",
+        "price": 2404.57,
+        "chg_24h_pct": 0.29
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 1.8,
+      "open_interest_usd": 2154339896
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -164576648,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}

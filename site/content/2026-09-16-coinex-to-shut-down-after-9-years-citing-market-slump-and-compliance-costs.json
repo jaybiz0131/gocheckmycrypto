@@ -1,0 +1,70 @@
+{
+  "id": "c037",
+  "slug": "coinex-to-shut-down-after-9-years-citing-market-slump-and-compliance-costs",
+  "kind": "brief",
+  "title": "CoinEx to shut down after 9 years, citing market slump and compliance costs",
+  "dek": "Hong Kong-based cryptocurrency exchange CoinEx will cease all operations on December 22, 2026, nine years after launching in 2017. The founder cited prolonged market weakness, shrinking trading volume, and mounting compliance obligations as reasons for the orderly wind-down. The closure exemplifies consolidation pressure on mid-tier exchanges as the largest five platforms now capture 88 percent of trading volume.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T10:43:07Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "CoinEx will close for withdrawals on December 22, 2026, after nine years of operation, as founder Haipo Yang cited mounting compliance costs relative to shrinking revenue.",
+  "bottom_line": "December 22, 2026 marks the hard deadline for CoinEx user withdrawals. The closure will test whether the concentration of volume among the five largest exchanges meets demand during any significant market stress, and whether additional mid-tier platforms follow similar wind-down paths.",
+  "human_take": "",
+  "body": [
+    "Hong Kong-based cryptocurrency exchange CoinEx will cease all operations on December 22, 2026, according to Decrypt's reporting on September 15. The shutdown marks the end of a nine-year run that began on December 22, 2017. Founder and CEO Haipo Yang cited prolonged market weakness, shrinking trading volume and liquidity, and mounting compliance costs as reasons for the orderly wind-down, stating that carrying unlimited regulatory risk for limited revenue had become unsustainable.",
+    "The closure unfolds in stages. New account registrations stopped immediately upon announcement on September 15. Futures trading moved to reduce-only mode on the same day. Non-spot services shut down on September 22, spot trading ends September 29, and withdrawals close on December 22. CoinEx will repurchase its native CET token at 0.005 USDT (its original listing price) from September 15 through September 29 with no cap on volume, then automatically convert any remaining balances at the same rate, per Decrypt's reporting.",
+    "CoinEx reported a reserve ratio above 100 percent, meaning user assets remain fully backed throughout the wind-down, according to Decrypt. Data from Nansen showed about 253.6 million dollars sitting across CoinEx-labeled wallets following the announcement, per CryptoSlate. Bitcoin accounted for more than half of on-chain holdings at roughly 134.4 million dollars, with another 27.6 million dollars deployed through Aave and USDT and ETH together accounting for more than 50 million dollars.",
+    "Yang considered selling the platform but decided against it, seeking instead a clean ending for staff, users, and token holders. He stated: \"Revenues can decline, responsibility does not.\" The exchange's 24-hour trading volume stood in the tens of millions of dollars around the time of announcement, per Decrypt.",
+    "CoinEx's exit exemplifies consolidation pressure on mid-tier exchanges. Eleven major centralized exchanges tracked by CoinMarketCap handled 4.23 trillion dollars in combined spot and derivatives volume during August, up 12.3 percent from July, according to CryptoSlate. Binance, OKX, MEXC, Bybit and Gate accounted for around 88 percent of all trading across that cohort. Binance alone captured 43.3 percent market share for a third consecutive month in August, processing about 1.83 trillion dollars, nearly three times the 681.3 billion dollars recorded by second-ranked OKX. MEXC processed 469.5 billion dollars, Bybit 410.3 billion dollars and Gate 314.7 billion dollars during August, per CryptoSlate.",
+    "CoinEx had faced regulatory action in the United States. The exchange settled a case brought by New York Attorney General Letitia James in 2023 after being accused of operating without registering as a securities and commodities broker-dealer. CoinEx agreed to refund more than 1.1 million dollars to 4,691 New York investors and pay over 600,000 dollars in penalties, according to CryptoSlate. In June 2026, TRM Labs alleged that more than 3.8 billion dollars had flowed between CoinEx and dozens of sanctioned Iranian platforms over seven years; the exchange denied the claim at the time, per Decrypt. The platform also suffered a legacy exploit in August 2026 that drained over 200,000 dollars from deprecated pools.",
+    "CoinEx is not alone. BitMEX announced it would shut down its operations after 11 years, and BitMart wound down its own nine-year run, according to Decrypt."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/business/2026-09-15-coinex-shut-down-414788",
+      "url": "https://www.theblock.co/news/business/2026-09-15-coinex-shut-down-414788"
+    },
+    {
+      "title": "https://decrypt.co/378324/coinex-shutting-down",
+      "url": "https://decrypt.co/378324/coinex-shutting-down"
+    },
+    {
+      "title": "https://cryptoslate.com/coinex-quits-after-9-years-as-crypto-trading-activity-concentrates-at-biggest-exchanges/",
+      "url": "https://cryptoslate.com/coinex-quits-after-9-years-as-crypto-trading-activity-concentrates-at-biggest-exchanges/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-16T10:01:19Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75930.07,
+        "chg_24h_pct": 0.45
+      },
+      {
+        "symbol": "ETH",
+        "price": 2404.57,
+        "chg_24h_pct": 0.29
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 1.8,
+      "open_interest_usd": 2154339896
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -164576648,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false,
+  "update_of": "hong-kong-crypto-exchange-coinex-shuts-down-after-9-years"
+}
