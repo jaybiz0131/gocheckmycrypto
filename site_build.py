@@ -2720,6 +2720,30 @@ def _lead_window(btc, days=30):
             fmt_short_date(start.isoformat()), fmt_short_date(b.isoformat()))
 
 
+def _cb_ornament(pulse):
+    """A-5: the band's ornament. Bitcoin's 30-day close series as a filled area in
+    #FF6A4D, the same series the lead tile charts, drawn from site/data and never
+    hand-made. No series, no ornament; there is never a fake one."""
+    btc = ((pulse or {}).get("assets") or [None])[0]
+    if not btc:
+        return ""
+    pts, _sma, _d0, _d1 = _lead_window(btc)
+    if len(pts) < 6:
+        return ""
+    W, H = 1200, 220
+    lo, hi = min(pts), max(pts)
+    span = (hi - lo) or 1.0
+    step = W / (len(pts) - 1)
+
+    def _y(v):
+        return H - ((v - lo) / span) * (H - 18) - 6
+
+    line = " ".join(f"{i * step:.0f},{_y(v):.0f}" for i, v in enumerate(pts))
+    return (f'<svg class="cb-orn" viewBox="0 0 {W} {H}" preserveAspectRatio="none" '
+            f'aria-hidden="true"><polygon fill="#FF6A4D" points="0,{H} {line} {W},{H}">'
+            f'</polygon></svg>')
+
+
 def _lead_chart(btc, w=640, h=190):
     """A-10: the lead tile's chart. A filled area over the 30-day series, with the
     200-day average as a dashed line, labelled with its value. The fill takes its colour
@@ -2781,7 +2805,7 @@ def _last_week_value(btc):
     return _price_fmt(sp[-1 - back])
 
 
-def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
+def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
     """The 4-up tile grid (C-6). `learn_href` resolves a tile's Explained link.
 
     ONE SPARKLINE PER TILE, IN THE LABEL ROW. Bitcoin drew two - a spark in its label
@@ -2864,7 +2888,10 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None):
     # A-11: twelve slots. The lead takes four, the other tiles take theirs, and the
     # twelfth is the Chart Master's read. The grid never has a hole: with no read for
     # the day the slot is the newest explainer card instead.
-    cards.append(_cm_slot())
+    if cm_slot:
+        # A-14: the reduced band on /pulse omits it. That page carries the Chart
+        # Master's read full width in its own section, and the band sits 300px above it.
+        cards.append(_cm_slot())
     return f'<div class="bd-tiles">{"".join(cards)}</div>'
 
 
@@ -4594,6 +4621,7 @@ def render_home(items, flows, pulse, cm, dateline):
       <a class="bd-more" href="/pulse.html">Open the Board &rarr;</a></div>
     <a class="bd-allboard bd-phone-only" href="/pulse.html">See all {len(tiles)} tiles on the Board</a>
   </div>
+  {_cb_ornament(pulse)}
 </section>""" + CB_HERO_JS
 
     # The day's edition, freshness-gated. current_bottom_line is the gate: it is what
@@ -5802,13 +5830,43 @@ def _dash_crumb():
     return '<span class="kicker"><a href="/pulse.html">The Board</a> &middot; dashboard</span>'
 
 
-def mp_hero():
-    """C-2: retired. This rendered a full-width poster strip with a 3MB loop behind it
-    (pulse-loop 3.0MB on /pulse, whale-loop 3.4MB on /flows, the wizard on
-    /chartmaster). The audit's ruling: data pages are tables and charts, never posters.
-    The page opens with its own content now; the hero the reader gets is the Board band
-    (C-21), which is one dark surface on the site rather than three."""
-    return ""
+def mp_hero(pulse=None, flows=None):
+    """A-14 / C-21: /pulse carries the same product as the homepage band, so it opens
+    with the same band at reduced height and continues on the ground.
+
+    C-2 retired what used to be here: a full-width poster strip with a 3MB loop behind
+    it (pulse-loop on /pulse, whale-loop on /flows, the wizard on /chartmaster). That
+    ruling stands, and it is why /flows and /chartmaster still open on the ground with
+    no band at all: they are data pages, and A-14 gives the band only to the two inner
+    pages that carry the homepage's own product.
+
+    Four tiles, not eight, and no sell line or Chart Master footer: the reduced band is
+    the page's opener, not a second homepage."""
+    if not pulse:
+        return ""
+    deltas = board_deltas(pulse)
+    tiles = board_tiles(pulse, flows, deltas)
+    if not tiles:
+        return ""
+    by_tile = {_TILE_KEY.get(e.get("board_tile") or ""): e for e in load_explainers()}
+
+    def learn_href(tile):
+        ex = by_tile.get(tile.get("key"))
+        return f'/learn/{ex["slug"]}.html' if ex else "/learn.html"
+
+    return f"""<section class="cb-hero cb-hero-inner" aria-labelledby="bd-board">
+  <div class="cb-bg" aria-hidden="true"></div>
+  <div class="cb-scrim" aria-hidden="true"></div>
+  <div class="wrap cb-inner">
+    <div class="bd-sec"><div class="bd-sec-l">
+      <h1 class="cb-claim" id="bd-board">The Board</h1>
+    </div><a class="bd-more" href="/learn.html">How the Board is built</a></div>
+    {data_stamp(pulse, what="The Board")}
+    {board_tile_grid(tiles[:4], learn_href, pulse, flows, cm_slot=False)}
+  </div>
+  {_cb_ornament(pulse)}
+</section>
+<div class="cb-fade" aria-hidden="true"></div>"""
 
 
 
@@ -6275,11 +6333,8 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                f'next-block fee: {busy}', net_mini, cls=" mspan",
                learn=_lx.get("network", ""))
 
-    body = mp_hero() + f'''<main class="wrap"><section class="page">
-  <div class="ey" style="margin:14px 0 0">
-    <span class="daily-badge">refreshed through the day</span></div>
-  <h1 style="margin-top:6px">The Board</h1>
-  <p class="lede" style="margin-bottom:10px">Every desk at a glance, in the order a desk
+    body = mp_hero(pulse, flows) + f'''<main class="wrap"><section class="page">
+  <p class="lede" style="margin:14px 0 10px">Every desk at a glance, in the order a desk
      reads a market: price, flows, positioning, then the day and the chain. Tap any card
      for the full board, where every number is taught in plain language.
      <span class="live-stamp"><span class="live-dot"></span>prices update in your browser

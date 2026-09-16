@@ -1425,6 +1425,11 @@ body>*:not(.ground){position:relative;z-index:1}
      sell line already says. The mono duplicate goes on phone and the sell line shows
      its first sentence; the full line is on the Board page the link goes to. */
   .cb-hero .data-stamp{display:none}
+  /* C-18 drops the mono as-of line on phone because the sell line already says it.
+     The STALE form is not that line: it is the tripwire that tells a reader these
+     numbers are history, and hiding it shipped stale data to phones with no warning.
+     The routine stamp stays hidden; the warning does not. */
+  .cb-hero .data-stamp.stale{display:block}
   .cb-hero .cb-sell{font-size:13.5px;line-height:1.45}
   .cb-hero .cb-inner{padding-top:16px}
   .cb-hero .bd-sec{padding-bottom:8px}
@@ -1558,3 +1563,18 @@ body>*:not(.ground){position:relative;z-index:1}
   .bd-rec-index{display:none}
   .bd-mod>.bd-sec{margin-top:14px}
 }
+
+/* A-5: the band ornament, Bitcoin's 30-day closes as a filled area, in the bottom
+   band under the cards at 15 percent. A-15 omits it under 720px. */
+.cb-orn{position:absolute;left:0;right:0;bottom:0;width:100%;height:220px;
+  opacity:.15;pointer-events:none;z-index:1}
+@media (max-width:720px){.cb-orn{display:none}}
+
+/* A-14: /pulse opens with the Board band at reduced height. */
+.cb-hero-inner .cb-claim{font-size:30px;white-space:nowrap}
+.cb-hero-inner .bd-sec{padding-top:26px}
+/* The stale tripwire is a light panel; in the band it rendered dark red on dark and
+   could not be read. It is the one line on the page a reader must not miss. */
+.cb-hero .data-stamp.stale{background:rgba(180,35,24,.18);
+  border-color:rgba(255,122,107,.5);color:rgba(235,233,227,.92)}
+.cb-hero .data-stamp.stale b{color:#FF7A6B}
