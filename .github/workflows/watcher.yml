@@ -22,7 +22,17 @@ on:
     # zero cost (public repo: Actions minutes are free; the watch job is no-model, ~$0).
     # If latency still matters after this, the real fix is an external cron hitting
     # workflow_dispatch with a PAT: Jack's call, needs a secret only he can mint.
-    - cron: "2,17,32,47 * * * *"
+    # PROGRAM 4, T-1 (2026-09-16): CAGED, AND THE WORKER DRIVES IT. Four registrations
+    # an hour around the clock is what produced 39 brief runs on 15 Sep. The Worker now
+    # dispatches this workflow on the half hour during US hours (T-2), which is both
+    # less often and only when a reader is awake to read the result.
+    #
+    # The cron stays as a thin safety net at :17 past, so the desk is not blind to a
+    # major event if the Worker is down. The cage lives in watcher.py, not here: an
+    # earning category, five sources, two runs a day, price triggers off. A tick that
+    # does not clear the cage costs nothing - no model call is made.
+    # - cron: "2,17,32,47 * * * *"   # REPLACED T-1
+    - cron: "17 12-23 * * *"         # hourly, US hours only, as the Worker's backstop
   workflow_dispatch: {}
 
 permissions:

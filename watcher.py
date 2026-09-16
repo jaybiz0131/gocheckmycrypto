@@ -39,9 +39,78 @@ UA = {"User-Agent": "CryptoCronkite-watcher/1.0"}
 # `or` (not a get() default): unset repo Variables reach CI as EMPTY strings
 MOVE_PCT = float(os.environ.get("WATCH_MOVE_PCT") or "5.0")
 MOVE_24H_PCT = float(os.environ.get("WATCH_MOVE_24H_PCT") or "4.0")
-MIN_SOURCES = int(os.environ.get("WATCH_MIN_SOURCES") or "4")
+MIN_SOURCES = int(os.environ.get("WATCH_MIN_SOURCES") or "5")   # T-1: raised from 4
 FRESH_MIN = int(os.environ.get("WATCH_FRESH_MIN") or "90")
 COOLDOWN_MIN = int(os.environ.get("WATCH_COOLDOWN_MIN") or "120")
+
+# PROGRAM 4, T-1 (2026-09-16): THE CAGE.
+#
+# On 15 Sep this desk made 39 brief runs, a model run and a Netlify build each. The
+# watcher is kept here (unlike the Sports desk, where it is off) because crypto
+# breaking news is a product this desk actually sells, but it now fires only for a
+# major event in the categories that earn, at most twice a day.
+#
+# Four changes, all reversible by the env vars below:
+#   1. Earning categories only. A fresh multi-source cluster is no longer enough on its
+#      own; it must be regulation, exchange security, ETFs and institutions, or a major
+#      hack. The patterns follow site_build.TAG_RULES so the watcher and the site agree
+#      on what a category is, plus a hack/exploit pattern the tag vocabulary has no
+#      entry for.
+#   2. Sources raised from 4 to 5.
+#   3. A hard cap of two breaking runs a day.
+#   4. The price triggers are off. A 5 percent hour and a 4 percent day are not events
+#      in the categories above; they are volatility, and they fired on any moving day.
+#      The Board already carries the move, and it carries it without a model run.
+BREAKING_MAX_PER_DAY = int(os.environ.get("WATCH_MAX_BREAKING_PER_DAY") or "2")
+PRICE_TRIGGERS = (os.environ.get("WATCH_PRICE_TRIGGERS") or "0") == "1"
+
+import re as _re
+EARNING = [
+    ("regulation", _re.compile(
+        r"\b(sec|cftc|occ|fincen|doj|finra|esma|fca|regulat\w*|rulemaking|congress|"
+        r"senate|parliament|lawmaker\w*|legislat\w*|cbdc|executive order|sanction\w*|"
+        r"federal register|enforcement action|indict\w*|settlement)\b", _re.I)),
+    ("exchange security", _re.compile(
+        r"\b(binance|coinbase|kraken|okx|bitmex|bybit|bitfinex|gemini|custodian\w*|"
+        r"custody|delist\w*|halt\w* withdrawals?|insolven\w*|wind(?:s|ing)? down)\b",
+        _re.I)),
+    ("etfs and institutions", _re.compile(
+        r"\b(etf\w*|grayscale|blackrock|ishares|fund flows|institutional|"
+        r"treasury (?:allocation|purchase)|pension|sovereign wealth)\b", _re.I)),
+    ("major hack", _re.compile(
+        r"\b(hack\w*|exploit\w*|breach\w*|drain\w*|stolen|theft|attacker\w*|"
+        r"rug ?pull|private keys?|bridge attack)\b", _re.I)),
+]
+
+
+def earning_category(text):
+    """Which earning category this headline belongs to, or None. T-1."""
+    for name, rx in EARNING:
+        if rx.search(text or ""):
+            return name
+    return None
+
+
+def breaking_runs_today():
+    """How many breaking runs this desk has already made today, UTC, from the T-4
+    ledger.
+
+    The ledger is the right source: it records the RUN, so a breaking run that spent
+    money and published nothing still counts against the day. Counting published
+    stories instead would let a failed run retry all day, and would let the evening
+    Edition's own stories eat the breaking allowance.
+
+    Falls back to -1 (unknown) when the ledger is missing, and an unknown count does
+    not block: the cap is a spend guard, not a publishing gate, and a watcher that
+    silently stopped firing because a file was absent is the worse failure."""
+    path = os.path.join(HERE, "ledger.json")
+    try:
+        rows = json.load(open(path, encoding="utf-8")).get("runs", [])
+    except Exception:
+        return -1
+    today = datetime.datetime.now(datetime.timezone.utc).date().isoformat()
+    return sum(1 for r in rows
+               if r.get("breaking") and (r.get("t") or "")[:10] == today)
 
 
 def emit(trigger, reason="", breaking=True, slot=""):
@@ -174,8 +243,15 @@ def hot_cluster():
         names = {c.get("source", "").strip().lower()} | {
             (x.get("name") or "").strip().lower() for x in (c.get("corroboration") or [])}
         names.discard("")
-        if len(names) >= MIN_SOURCES:
-            return f"{len(names)} sources on: {c.get('headline','')[:80]}"
+        if len(names) < MIN_SOURCES:
+            continue
+        # T-1: several sources are necessary and no longer sufficient. The story has to
+        # be in a category that earns.
+        cat = earning_category(
+            (c.get("headline") or "") + " " + (c.get("summary") or ""))
+        if not cat:
+            continue
+        return f"{cat}: {len(names)} sources on: {c.get('headline','')[:80]}"
     return None
 
 
@@ -194,22 +270,33 @@ def main():
     if desk_published_recently():
         emit(False, f"desk published within the last {COOLDOWN_MIN}m; coverage is fresh")
         return 0
-    (pct, sym), (pct24, sym24) = hourly_move()
-    if abs(pct) >= MOVE_PCT:
-        emit(True, f"{sym} moved {pct:+.1f}% in the last hour (threshold {MOVE_PCT}%)")
+    # T-1: the day's allowance. Checked before any network call, so a capped day costs
+    # nothing at all.
+    already = breaking_runs_today()
+    if already >= 0 and already >= BREAKING_MAX_PER_DAY:
+        emit(False, f"breaking cap reached: {already} of {BREAKING_MAX_PER_DAY} "
+                    f"run(s) today")
         return 0
-    # the grinding-drawdown trigger (2026-08-31): the Aug 27-29 BTC slide from ~$81.4K
-    # to sub-$78K was -4.2% in total, so the 1-hour trigger provably could not fire
-    if abs(pct24) >= MOVE_24H_PCT:
-        emit(True, f"{sym24} moved {pct24:+.1f}% over the last 24 hours "
-                   f"(threshold {MOVE_24H_PCT}%)")
-        return 0
+    if PRICE_TRIGGERS:
+        (pct, sym), (pct24, sym24) = hourly_move()
+        if abs(pct) >= MOVE_PCT:
+            emit(True, f"{sym} moved {pct:+.1f}% in the last hour (threshold {MOVE_PCT}%)")
+            return 0
+        # the grinding-drawdown trigger (2026-08-31): the Aug 27-29 BTC slide from
+        # ~$81.4K to sub-$78K was -4.2% in total, so the 1-hour trigger provably could
+        # not fire
+        if abs(pct24) >= MOVE_24H_PCT:
+            emit(True, f"{sym24} moved {pct24:+.1f}% over the last 24 hours "
+                       f"(threshold {MOVE_24H_PCT}%)")
+            return 0
     hot = hot_cluster()
     if hot:
-        emit(True, hot + f" (threshold {MIN_SOURCES} sources / {FRESH_MIN}m)")
+        emit(True, hot + f" (threshold {MIN_SOURCES} sources / {FRESH_MIN}m, "
+                         f"run {already + 1} of {BREAKING_MAX_PER_DAY} today)")
         return 0
-    emit(False, f"max 1h move {sym} {pct:+.1f}%, max 24h move {sym24} {pct24:+.1f}%, "
-                f"no {MIN_SOURCES}-source fresh cluster")
+    emit(False, f"no {MIN_SOURCES}-source fresh cluster in an earning category "
+                f"({already} of {BREAKING_MAX_PER_DAY} breaking run(s) used today; "
+                f"price triggers {'on' if PRICE_TRIGGERS else 'off'})")
     return 0
 
 
