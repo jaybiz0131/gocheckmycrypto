@@ -78,7 +78,9 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .markets .tick .chg.up{color:var(--up)}
 .markets .tick .chg.down{color:var(--down)}
 .markets .note{font-family:var(--mono);font-size:11px;color:var(--faint)}
-.markets .mkt-asof{text-transform:none;letter-spacing:0;color:var(--faint);font-weight:500}
+/* A-17: this one span was the only mono 500 on the page, and a weight is a whole
+   font file. At 400 it matches the site's other stamps and costs no extra request. */
+.markets .mkt-asof{text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400}
 /* data-age tripwire (audit 2026-07-28): a stale board says so, in both themes */
 .markets .mkt-asof .stale{color:var(--rule);font-weight:700}
 .data-stamp{font-family:var(--mono);font-size:11.5px;line-height:1.5;color:var(--faint);
@@ -1538,12 +1540,20 @@ body>*:not(.ground){position:relative;z-index:1}
 .card.cm .bd-eyebrow{color:#8A6420}
 .card.ww .bd-eyebrow,.card.cm .bd-eyebrow{display:inline-flex;align-items:center;gap:8px}
 .mk{width:44px;height:29px;object-fit:cover;border-radius:3px;flex:0 0 auto}
-.wmk{position:absolute;right:-40px;top:-46px;width:360px;height:auto;z-index:0;
+/* A-17: the watermark was an <img>. display:none on an <img> hides it but does not
+   stop the browser fetching it, so every phone load pulled whale-wm.jpg and
+   pulse-wm.jpg, 27 KB, to show neither. As a background on an empty span the phone
+   rule below actually prevents the request. */
+.wmk{position:absolute;right:-40px;top:-46px;width:360px;z-index:0;
+  background-size:100% 100%;background-repeat:no-repeat;
   opacity:.20;mix-blend-mode:multiply;pointer-events:none;
   -webkit-mask-image:radial-gradient(closest-side,#000 28%,transparent 100%);
   mask-image:radial-gradient(closest-side,#000 28%,transparent 100%)}
 .card.ww>*:not(.wmk),.card.cm>*:not(.wmk){position:relative;z-index:1}
 .cm-quote{margin:0;font:italic 400 16px/1.55 var(--serif);color:var(--ink)}
+/* Each mark keeps its own natural aspect at 360 wide, the height the <img> took. */
+.wmk-ww{background-image:url("/assets/marks/whale-wm.jpg");height:160px}
+.wmk-cm{background-image:url("/assets/marks/pulse-wm.jpg");height:244px}
 @media (max-width:720px){ .wmk{display:none} }   /* A-15 */
 
 @media (max-width:640px){

@@ -1488,7 +1488,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
           canonical_path=None):
     fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-             '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
+             '<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">')
     # ONE URL PER PAGE (2026-08-17, ported from news/sports). Netlify's Pretty URLs serve
     # every page at both /articles/foo and /articles/foo.html and rewrite internal links to
     # the extensionless form. A .html canonical meant Google crawled the linked URL, read a
@@ -2657,7 +2657,7 @@ def _cm_read_card():
         return ""
     when = fmt_short_date(str(cm.get("date") or "")[:10])
     return (f'<div class="bd-card card cm" style="gap:10px;padding:20px 22px 18px">'
-            f'<img class="wmk" src="/assets/marks/pulse-wm.jpg" alt="" aria-hidden="true">'
+            f'<span class="wmk wmk-cm" aria-hidden="true"></span>'
             f'<div class="bd-sec" style="border:none;padding:0"><div class="bd-sec-l">'
             f'<span class="bd-eyebrow"><img class="mk" src="/assets/marks/pulse-mark.webp" '
             f'width="44" height="29" alt="" aria-hidden="true">The Chart Master</span>'
@@ -4641,7 +4641,7 @@ def render_home(items, flows, pulse, cm, dateline):
     if ww:
         ww_card = (
             '<div class="bd-card bd-span2 card ww" style="gap:12px;padding:20px 24px 18px">'
-            '<img class="wmk" src="/assets/marks/whale-wm.jpg" alt="" aria-hidden="true">'
+            '<span class="wmk wmk-ww" aria-hidden="true"></span>'
             '<div class="bd-sec" style="border:none;padding:0"><div class="bd-sec-l">'
             '<span class="bd-eyebrow"><img class="mk" src="/assets/marks/whale-mark.webp" '
             'width="44" height="29" alt="" aria-hidden="true">Whale Watch</span>'
