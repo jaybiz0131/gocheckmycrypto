@@ -1,51 +1,6 @@
 [
  {
   "date": "2026-08-19",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c004",
-    "headline": "China Triples Digital Yuan Bank Network This Year, Adds 8 in Latest Round",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The addition of 20 operators represents a threefold expansion of PBOC's digital yuan bank roster year-to-date' but the brief lists as an open question: 'What was the baseline number of operators before the 20 new additions (needed to verify 'tripled' claim)'. The draft presents 'threefold' as fact when the source text was not provided and the baseline cannot be verified. The writer has smuggled a mathematical claim that the brief explicitly flags as unconfirmed."
-    ]
-   },
-   {
-    "id": "c024",
-    "headline": "Metaplanet Launches U.S. Bitcoin Treasury Company With $135M Capital Injection",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'Metaplanet, a Tokyo-listed firm' but the brief identifies it as 'a Tokyo-listed firm' without confirmation of listing status in the data_points. The core_claim and data_points do not independently verify Tokyo listing; CoinDesk is the sole source.",
-     "Draft claims '2,100 BTC at current prices exceeds $130 million in notional value' \u2014 this is a price calculation not present in the brief's data_points. The brief states the total valuation is $134.6 million (which includes both BTC and cash); the draft's separate price extrapolation of the BTC alone is smuggled math, not reported fact."
-    ]
-   },
-   {
-    "id": "c008",
-    "headline": "Ripple raises $275 million in senior notes for prime brokerage expansion",
-    "category": "accuracy",
-    "reasons": [
-     "Brief contains no data_points and source_chars=0; brief itself marks the source text as empty and unable to verify key details (rating, investor composition, coupon rate, maturity, use-of-proceeds specificity, whether offering was 'investment grade').",
-     "Draft claims the offering 'represents Ripple's entry into investment-grade debt markets' and describes the platform as an institutional 'custody and execution venue'\u2014neither of these details appears in the brief's data_points, and the brief explicitly states it cannot confirm whether the offering was 'investment grade' or terms of the debt.",
-     "Draft states the offering is from 'institutional investors' and adds business model context ('custody and execution venue for institutional traders and asset managers') that do not appear in the brief; these are smuggled facts beyond the research boundary.",
-     "The brief's open_questions flag that source verification is impossible; the draft should not be approved without a verified source the desk can audit."
-    ]
-   },
-   {
-    "id": "c016",
-    "headline": "FASB proposes framework for stablecoins as corporate cash equivalents",
-    "category": "accuracy",
-    "reasons": [
-     "Brief contains no data_points and source_chars=0; brief explicitly states it cannot verify FASB's specific redemption and reserve conditions, which stablecoins would qualify, timeline, or industry response.",
-     "Draft claims the proposal 'conditions the classification on redemption guarantees and reserve backing' and specifies that it 'would apply only to stablecoins meeting specific conditions around redemption assurance and reserve transparency'\u2014these are details presented as fact in the draft but do not appear as verified data_points in the brief.",
-     "Draft states 'Under current accounting standards, stablecoins have no clear classification pathway' with specificity about the accounting friction; the brief does not provide this contextual claim.",
-     "The brief's open_questions flag that source text is empty and core details cannot be verified; the draft should not proceed without a source the desk can audit for these specific technical claims."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
   "approved": 3,
   "rejected": [
    {
@@ -5227,6 +5182,11 @@
  {
   "date": "2026-09-16",
   "approved": 5,
+  "rejected": []
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 4,
   "rejected": []
  }
 ]

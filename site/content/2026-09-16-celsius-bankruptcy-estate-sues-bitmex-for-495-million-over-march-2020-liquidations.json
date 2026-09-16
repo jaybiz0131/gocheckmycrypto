@@ -1,0 +1,62 @@
+{
+  "id": "c002",
+  "slug": "celsius-bankruptcy-estate-sues-bitmex-for-495-million-over-march-2020-liquidations",
+  "kind": "brief",
+  "title": "Celsius bankruptcy estate sues BitMEX for $495 million over March 2020 liquidations",
+  "dek": "Celsius Network's bankruptcy estate filed a $495 million lawsuit against BitMEX on September 12, 2026, claiming the exchange fraudulently liquidated 6,360 BTC during the March 2020 market crash. The lawsuit was filed just 11 days before BitMEX's final shutdown on September 23, 2026.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T18:42:58Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "Celsius alleges BitMEX intentionally designed its platform and liquidation procedures to cause forced liquidations and defraud customers, claiming 6,360 BTC was lost during the March 2020 flash crash when Bitcoin fell from $7,200 to $5,678 in roughly 15 minutes.",
+  "bottom_line": "The court must determine whether Celsius can establish that BitMEX's liquidation system constituted fraud rather than the functioning of an accepted leveraged trading mechanism. BitMEX has not yet responded to the complaint, and the defendants' defense strategy and arguments remain unknown. The outcome will turn on what legal theory Celsius advances to distinguish intentional misconduct from the contract mechanics traders accepted when opening leveraged positions.",
+  "human_take": "",
+  "body": [
+    "Celsius Network's bankruptcy estate filed a $495 million lawsuit against BitMEX on September 12, 2026, in the US Bankruptcy Court for the Southern District of New York. The complaint names defendants including HDR Global Trading Ltd. (Seychelles-based), ABS Global Trading Ltd. (Hong Kong-based), Shine Effort Inc. Ltd., 100x Holdings Ltd. (Bermuda), and HDR Global Services Ltd. (Bermuda), collectively operating as BitMEX.\nCelsius alleges fraud, market manipulation, and wrongful liquidations during Bitcoin's March 2020 selloff. According to CryptoSlate's reporting, Bitcoin fell from about $7,200 to a 10-month low near $5,678 within roughly 15 minutes during the March 12, 2020 panic. About $702 million of positions were liquidated on BitMEX during the initial crash, with nearly all being long positions. Celsius claims to have lost 6,360 BTC during these liquidations, worth roughly $495 million around the time of filing, per CryptoSlate.\nThe complaint states, per CryptoSlate: \"While BitMEX made multiple representations that it would maintain an orderly market for its derivatives contracts, BitMEX knew these representations were false. Instead of maintaining an orderly market, BitMEX intentionally designed its platform and liquidation procedures to cause liquidations of collateral and defraud its own customers.\" The estate's claims are tied to a leveraged long position, described in CoinDesk's reporting as sitting \"awkwardly with the lender's delta-neutral marketing.\"\nBlockchain Recovery Investment Consortium (BRIC) brought the case on behalf of Celsius entities as the bankrupt lender's litigation administrator and complex asset recovery manager. BRIC was appointed in 2024 to pursue litigation and other complex assets on behalf of creditors. A September 2023 bankruptcy filing had listed HDR Global Trading Ltd., which operates as BitMEX, among possible litigation targets for claims involving negligence, fraud and market manipulation, per CryptoSlate. In October 2025, Celsius reached a $299.5 million settlement with Tether following litigation brought by the estate.\nBitMEX stopped accepting new accounts after announcing closure and began limiting customers' ability to increase positions in late August. BitMEX has settled and delisted contracts ahead of the Sept. 23 shutdown, including early settlement of several BTC and ETH perpetual swaps and futures on Sept. 16, per CryptoSlate. BitMEX has said the closure was not prompted by financial distress, a hack or immediate regulatory pressure, and that customer assets exceed liabilities. Users will retain access after trading ends to withdraw remaining balances.\nSimon Dixon, a prominent Celsius creditor, explained the timing to CryptoSlate: filing before a company completes wind-down can help preserve claims against assets, entities and counterparties before corporate structures or holdings change. Dixon stressed that there is no evidence Celsius has obtained an injunction blocking the closure or restricting asset transfers, and any such move would require separate legal action or court approval."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/09/16/celsius-sues-bitmex-for-usd495-million-over-2020-crash-liquidations",
+      "url": "https://www.coindesk.com/business/2026/09/16/celsius-sues-bitmex-for-usd495-million-over-2020-crash-liquidations"
+    },
+    {
+      "title": "https://cryptoslate.com/celsius-sues-bitmex-for-495-million-just-11-days-before-exchange-shutdown/",
+      "url": "https://cryptoslate.com/celsius-sues-bitmex-for-495-million-just-11-days-before-exchange-shutdown/"
+    }
+  ],
+  "update_of": "nasdaq-invests-100-million-in-kraken-parent-payward-at-21-billion-valuation-september-10",
+  "board_snapshot": {
+    "as_of": "2026-09-16T18:40:49Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75389.13,
+        "chg_24h_pct": -0.27
+      },
+      {
+        "symbol": "ETH",
+        "price": 2393.65,
+        "chg_24h_pct": -0.16
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 9.1,
+      "open_interest_usd": 2106439016
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -81106913,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "CryptoSlate"
+  ],
+  "developing": false
+}

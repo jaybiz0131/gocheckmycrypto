@@ -1,0 +1,65 @@
+{
+  "id": "c001",
+  "slug": "federal-reserve-raises-rates-25-basis-points-on-september-16-first-hike-since-july-2023",
+  "kind": "brief",
+  "title": "Federal Reserve raises rates 25 basis points on September 16, first hike since July 2023",
+  "dek": "The Federal Reserve raised its benchmark interest rate by 25 basis points to a range of 3.75% to 4.0% on September 16, 2026, in a unanimous 12-0 vote. The decision marked the Fed's first rate increase since July 2023 and signals a policy shift amid persistent inflation. Bitcoin initially dipped near support levels before recovering above $76,000 post-announcement.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T18:42:58Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The Fed raised rates 25 basis points to 3.75%-4.0% in a unanimous vote, its first hike since July 2023, after holding steady at 3.50%-3.75% since late 2025.",
+  "bottom_line": "The October 27-28 Federal Reserve meeting will reveal whether the committee judges inflation persistent enough to warrant additional tightening. Markets are divided on this outcome: 54% probability was assigned to rates holding at 3.75%-4.0%, per Crypto Briefing, meaning 46% of market pricing reflects the tail risk of another hike. The critical Bitcoin support zone between $73,500 and $66,900 will be the technical test of whether the post-announcement recovery proves durable.",
+  "human_take": "",
+  "body": [
+    "The Federal Reserve raised its benchmark interest rate by 25 basis points to a range of 3.75% to 4.0% on September 16, 2026, in a unanimous 12-0 vote by the Federal Open Market Committee. The decision marked the Fed's first rate increase since July 2023, when policymakers had raised rates to 5.25%-5.50% before beginning a cutting cycle in September 2024 that brought the target range down to 3.50%-3.75% by year-end 2025.\nInflation proved the decisive factor. Per Crypto Briefing reporting, the Consumer Price Index showed prices rising 3.4% annually, unchanged from July, but monthly gains accelerated to 0.4% from 0.1%, with gasoline responsible for roughly a third of that increase. The Producer Price Index rose 5.4% annually in August, accelerating from 4.8% in July, with goods prices alone jumping 1.1% on the month, more than three-quarters driven by rising energy costs, according to Decrypt's reporting. Core inflation, which excludes food and energy, picked up to 0.3% monthly from 0.2%.\nThe Fed characterized economic activity as expanding at a solid pace, with domestic spending remaining resilient, productivity growth strong and capital investment robust, per the Crypto Briefing account of the policy statement. Job gains have kept pace with growth in the workforce, while the unemployment rate has changed little. The Fed said inflation remains elevated and that the policy action would support a timelier return to its 2% goal.\nMarkets had widely priced in the move.  Traders had priced around a 54% chance that rates would remain at 3.75% to 4% following the Fed's October meeting, according to the same source, leaving open the possibility of further tightening.\nCrypto assets tested support zones directly on the announcement. Bitcoin traded near $75,500 before the Fed release and had fallen roughly 5% since the start of the week after the Senate failed to advance the Clarity Act on Tuesday, per Crypto Briefing. Ethereum was down more than 8% since Monday and traded near $2,380 before the announcement. Solana was near $96 and XRP traded around $1.26 after falling roughly 15% since Monday. Bitcoin remained flat in the minutes before and after the announcement, swinging between $75,000 and $75,800 before spiking toward $75,900, per Decrypt. The asset then reversed to roughly $75,100 within minutes. Bitcoin ultimately held above the lower end of a support band analysts had flagged between roughly $73,500 and $75,600, with a daily close below that band opening the door to $71,000 and even $66,900 on some technical models. Bitcoin began surging following the Fed release, climbing above $76,000 as markets signaled that the rate increase had largely been priced in, per Crypto Briefing. Ethereum, Solana and XRP each rose more than 1% following the announcement.\nBroader financial markets showed stress. The 10 year Treasury yield climbed above 5% on Tuesday, its highest level since 2007, before easing toward 4.95% on Wednesday, per Crypto Briefing. The S&P 500 and Nasdaq were both down roughly 2% from their early September levels. Gold was down roughly 3.5% from early September levels before the announcement, while silver had fallen around 4%. The broader crypto market lost around 2.18% on the day, per Decrypt. The Crypto Fear and Greed Index returned to neutral levels at 51 points, per Decrypt, down from 69 points the previous day, after reaching extreme greed a few weeks ago.\nThe Fed's next meeting is scheduled for October 27-28, with its following gathering and next dot-plot update set for December 8-9."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/markets/2026/09/16/fed-raises-rates-by-25-basis-points-in-first-hike-since-july-2023",
+      "url": "https://www.coindesk.com/markets/2026/09/16/fed-raises-rates-by-25-basis-points-in-first-hike-since-july-2023"
+    },
+    {
+      "title": "https://cryptobriefing.com/fed-delivers-unanimous-25-basis-point-hike-as-inflation-remains-elevated/",
+      "url": "https://cryptobriefing.com/fed-delivers-unanimous-25-basis-point-hike-as-inflation-remains-elevated/"
+    },
+    {
+      "title": "https://decrypt.co/378417/fed-hikes-rates-first-time-since-2023-bitcoin",
+      "url": "https://decrypt.co/378417/fed-hikes-rates-first-time-since-2023-bitcoin"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-16T18:40:49Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75389.13,
+        "chg_24h_pct": -0.27
+      },
+      {
+        "symbol": "ETH",
+        "price": 2393.65,
+        "chg_24h_pct": -0.16
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 9.1,
+      "open_interest_usd": 2106439016
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -81106913,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false
+}
