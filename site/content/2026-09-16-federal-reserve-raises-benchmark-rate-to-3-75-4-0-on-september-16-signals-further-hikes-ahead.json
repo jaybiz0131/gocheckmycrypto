@@ -1,0 +1,66 @@
+{
+  "id": "c143",
+  "slug": "federal-reserve-raises-benchmark-rate-to-3-75-4-0-on-september-16-signals-further-hikes-ahead",
+  "kind": "brief",
+  "title": "Federal Reserve raises benchmark rate to 3.75%-4.0% on September 16, signals further hikes ahead",
+  "dek": "The Federal Open Market Committee voted 12-0 on September 16, 2026 to raise the federal funds rate by 25 basis points to 3.75%-4.0%, the first increase since July 2023. According to reporting, 16 of 18 FOMC participants signaled at least one more quarter-point increase before year-end, citing persistent inflation.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T23:43:27Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "First rate hike since July 2023 by unanimous FOMC vote, with forward guidance pointing to additional tightening before year-end.",
+  "bottom_line": "Fed raises benchmark rate 25bp to 3.75%-4.0% in first hike since July 2023; unanimous decision with forward guidance signaling at least one more increase before year-end; direct macro driver of crypto volatility.",
+  "human_take": "",
+  "body": [
+    "The Federal Open Market Committee voted unanimously on September 16, 2026 to raise the target range for the federal funds rate by one-quarter percentage point to 3.75%-4.0%, marking the first increase in the benchmark lending rate since July 2023.",
+    "The decision reflects the Fed's assessment that economic activity remains solid despite inflation staying above target. Per the Federal Reserve's statement, the committee cited resilient domestic spending, strong productivity growth, robust capital investment, and job gains that have kept pace with workforce growth. The unemployment rate, the statement noted, has changed little.",
+    "Elevated uncertainty persists partly from geopolitical developments, but the Fed moved forward on tightening grounds, stating that \"inflation remains elevated\" and that the rate action \"will support a timelier return to the Committee's 2 percent goal.\"",
+    "Forward guidance points to additional tightening. According to Crypto Briefing's reporting, 16 of the 18 FOMC participants signaled they expect at least one more quarter-point increase before the year ends. During his post-meeting press conference, Fed Chairman Kevin Warsh emphasized the inflation concern, saying \"Inflation is too high\" and reiterating the central bank's commitment to returning price growth to its 2% objective. Rising energy prices, per Crypto Briefing, are cited as a major culprit behind the stubborn inflation readings.",
+    "Market reaction was swift. According to Crypto Briefing's reporting, the Dow Jones Industrial Average dropped 631 points (1.2% decline), while the S&P 500 fell 0.45%; the Nasdaq held essentially flat. Treasury yields climbed, with the 2-year note rising more than 6-7 basis points following the announcement. The Fed noted it is continuing its policy of maintaining ample reserves in the banking system.",
+    "Bear case: Higher borrowing costs ripple through the economy in predictable ways. Mortgages become more expensive, auto loans cost more, and corporate debt grows pricier to service. Consumer spending, which drives roughly two-thirds of US economic activity, tends to slow as credit tightens. The late-session sell-off in equities on September 16 hints at growing market anxiety about economic absorption of further tightening.",
+    "The Bottom Line: The Fed has signaled at least one additional rate hike before year-end. Markets will watch the October and November FOMC meetings for the size and timing of the next move, and any data releases on inflation in the interim that could accelerate or delay that tightening path."
+  ],
+  "sources": [
+    {
+      "title": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm"
+    },
+    {
+      "title": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-16T23:41:24Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76059.55,
+        "chg_24h_pct": 0.62
+      },
+      {
+        "symbol": "ETH",
+        "price": 2413.63,
+        "chg_24h_pct": 0.67
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 9.5,
+      "open_interest_usd": 2150460231
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 171431204,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false,
+  "update_of": "federal-reserve-raises-rates-25-basis-points-on-september-16-first-hike-since-july-2023"
+}
