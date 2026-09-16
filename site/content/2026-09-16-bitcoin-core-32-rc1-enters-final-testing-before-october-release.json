@@ -1,0 +1,65 @@
+{
+  "id": "c008",
+  "slug": "bitcoin-core-32-rc1-enters-final-testing-before-october-release",
+  "kind": "brief",
+  "title": "Bitcoin Core 32 RC1 Enters Final Testing Before October Release",
+  "dek": "Bitcoin Core 32 has entered release candidate testing with three major changes: faster block validation, updated fee estimation, and a fix for a wallet authentication flaw that could allow authenticated users to run arbitrary commands on a node. The full release is scheduled for October.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T17:12:13Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "Bitcoin Core 32 RC1 is in final testing and will ship in October with faster validation, fee changes, and a security patch for a wallet authentication vulnerability.",
+  "bottom_line": "Bitcoin Core 32 ships in October with validation and fee changes that will affect node operators and mempool dynamics. The wallet authentication flaw requires consultation with the official advisory to determine whether your current version requires immediate patching or can wait for the October stable release.",
+  "human_take": "",
+  "body": [
+    "Bitcoin Core 32 has entered release candidate testing, according to CoinDesk's reporting on September 16. The update introduces three substantive changes to how Bitcoin nodes operate: faster block validation, updated transaction fee estimation, and a security fix addressing a wallet authentication flaw.",
+    "The fee estimation changes alter how nodes price transactions, which could affect mempool behavior and transaction routing during the transition period. The validation speedup changes how nodes process blocks, potentially improving sync times for new or lagging nodes.",
+    "The security fix addresses a wallet authentication flaw that could allow an authenticated user to run arbitrary commands on a node.The advisory is the place to check for affected versions and upgrade urgency.",
+    "The full release is scheduled for October. RC1 status means the software is in final testing before a stable release, though release timelines can slip."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/09/16/bitcoin-core-32-enters-final-testing-with-faster-validation-fee-changes-and-security-fixes",
+      "url": "https://www.coindesk.com/tech/2026/09/16/bitcoin-core-32-enters-final-testing-with-faster-validation-fee-changes-and-security-fixes"
+    }
+  ],
+  "update_of": "sec-crypto-custody-rewrite-enters-white-house-review-october-notice-planned",
+  "board_snapshot": {
+    "as_of": "2026-09-16T17:10:48Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75680.31,
+        "chg_24h_pct": 0.12
+      },
+      {
+        "symbol": "ETH",
+        "price": 2388.99,
+        "chg_24h_pct": -0.35
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.5,
+      "open_interest_usd": 2130940091
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -71210745,
+      "direction": "onto exchanges"
+    }
+  },
+  "boundary": {
+    "affected": "Bitcoin Core versions prior to 32",
+    "fixed": "Bitcoin Core 32",
+    "user_action": "Upgrade to Bitcoin Core 32 upon October release",
+    "advisory_url": "https://www.coindesk.com/tech/2026/09/16/bitcoin-core-32-enters-final-testing-with-faster-validation-fee-changes-and-security-fixes"
+  },
+  "also_reported_by": [],
+  "developing": true
+}

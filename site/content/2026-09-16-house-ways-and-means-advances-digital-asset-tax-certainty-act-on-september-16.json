@@ -1,0 +1,65 @@
+{
+  "id": "c001",
+  "slug": "house-ways-and-means-advances-digital-asset-tax-certainty-act-on-september-16",
+  "kind": "brief",
+  "title": "House Ways and Means advances Digital Asset Tax Certainty Act on September 16",
+  "dek": "The U.S. House Ways and Means Committee advanced the Digital Asset Tax Certainty Act, which proposes to exclude taxes on small network fees and modify rules for mining and staking. The move comes after the broader Clarity Act stalled in the Senate.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T17:12:13Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 2,
+  "author": "Crypto Cronkite",
+  "key_fact": "The committee advanced a bill proposing to exclude taxes on small network fees and modify mining and staking tax rules, easing reporting burdens for everyday crypto transactions.",
+  "bottom_line": "The committee's advancement does not guarantee floor passage or Senate consideration. Watch for a House floor vote date and its result, and track whether senators signal interest if the bill reaches them.",
+  "human_take": "",
+  "body": [
+    "The U.S. House Ways and Means Committee advanced the Digital Asset Tax Certainty Act, a bill designed to ease tax reporting requirements for everyday cryptocurrency transactions. Per Crypto Briefing's reporting, the bill proposes to exclude taxes on small network fees, extend wash-sale rules to digital assets, and modify rules governing the taxation of mining and staking.",
+    "According to CoinDesk, the Digital Asset Tax Certainty Act would reduce complicated tax burdens that currently apply to routine crypto use. The committee's action signals a shift in approach after the broader Clarity Act, which sought more comprehensive crypto regulatory frameworks, stalled in the Senate.",
+    "The bill's provisions target specific friction points in current tax law. Crypto Briefing reports that the proposed de minimis exception and rule modifications aim to make compliance simpler for users conducting ordinary transactions.",
+    "Opposition has emerged in connection with political figures' industry ties. According to CoinDesk, Trump's industry connections spurred some pushback against the bill.",
+    "The path to House floor passage remains uncertain. No floor vote date has been scheduled, and the outcome of any such vote is not assured given the reported political resistance."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/09/16/u-s-house-s-tax-committee-advances-crypto-tax-bill-in-wake-of-clarity-act-loss",
+      "url": "https://www.coindesk.com/policy/2026/09/16/u-s-house-s-tax-committee-advances-crypto-tax-bill-in-wake-of-clarity-act-loss"
+    },
+    {
+      "title": "https://cryptobriefing.com/us-house-committee-advances-crypto-tax-bill/",
+      "url": "https://cryptobriefing.com/us-house-committee-advances-crypto-tax-bill/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-16T17:10:48Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75680.31,
+        "chg_24h_pct": 0.12
+      },
+      {
+        "symbol": "ETH",
+        "price": 2388.99,
+        "chg_24h_pct": -0.35
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.5,
+      "open_interest_usd": 2130940091
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -71210745,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false
+}

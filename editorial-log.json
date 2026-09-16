@@ -1,38 +1,5 @@
 [
  {
-  "date": "2026-08-18",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c012",
-    "headline": "Metaplanet Brings 2,100 Bitcoin to U.S. Public Markets via Super League Merger",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'At current bitcoin prices around $63,653 per coin, per the desk's market data' but this price is not in the research brief's data_points. Market prices must come from sourced, time-stamped data; 'desk's market data' without a source URL is smuggled information. This violates the hard rule that no fact exists outside the brief.",
-     "The calculation '2,100 bitcoin contribution represents approximately $133.7 million in bitcoin value' depends on the unsourced $63,653 price and therefore cannot be verified against the brief."
-    ]
-   },
-   {
-    "id": "c020",
-    "headline": "South Korea joins more than 30 jurisdictions restricting Polymarket access",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states 'The source_texts field is empty; the brief cannot be widened beyond the snippet. No concrete facts, dates, regulator names, specific regulatory mechanism, enforcement timeline, or quote-level detail can be extracted from fetched text.' The draft provides attributable facts (South Korea, CoinDesk reporting, regulator's position on peer-to-peer structure) that do not appear in the data_points (which is an empty list). These facts are SMUGGLED from the source link rather than grounded in the research brief itself.",
-     "The brief is marked 'thin': true with 'data_points': [], indicating the research is insufficient to support a full draft. The writer has fabricated detail from the source URL rather than respecting the hard rule that 'no fact exists outside the brief.' The source URL itself is not a data point; only extracted, verified facts in the brief qualify."
-    ]
-   },
-   {
-    "id": "c054",
-    "headline": "Bitcoin Wallet Maker BitBox Says AI Found Severe Flaws in Firmware",
-    "category": "accuracy",
-    "reasons": [
-     "The brief explicitly states 'The source_texts field is empty; the brief cannot be expanded from the snippet alone. No CVE identifiers, firmware version numbers, vulnerability types, patch release date, user base size, affected wallet models, timeline for the discovery process, or official BitBox statement can be extracted from fetched text.' The draft provides specific claims (BitBox is Swiss, two severe vulnerabilities, AI models aided discovery, no user losses, older firmware versions remain exposed) that do not appear in the data_points (which is an empty list).",
-     "The brief is marked 'thin': true with 'data_points': [], signaling research failure. The writer has extracted details from the Decrypt URL rather than adhering to the hard rule that facts must be present in the research brief. A URL is not a data point; only verified facts extracted into the brief structure qualify for publication."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-19",
   "approved": 5,
   "rejected": [
@@ -5283,5 +5250,10 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 5,
+  "rejected": []
  }
 ]
