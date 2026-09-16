@@ -80,7 +80,10 @@ ACCESSIBILITY_ARTICLE_COUNT = "141"
 # C-4: seven items. Chart Master leaves the nav - its read becomes a quote card on the
 # Board and /chartmaster becomes a dated archive under Learn (C-14) - and Archive leaves
 # because it is already in the footer. The Record was reachable from nothing.
-NAV = [("The Board", "/pulse.html"), ("Whale Watch", "/flows.html"),
+# N-1 and N-2 amend C-4: Home leads, and the Chart Master is reachable from the nav
+# again - its archive is the dated list of reads C-14 asked for.
+NAV = [("Home", "/index.html"), ("The Board", "/pulse.html"),
+       ("Whale Watch", "/flows.html"), ("Chart Master", "/chartmaster.html"),
        ("Learn", "/learn.html"), ("News desk", "/news.html"),
        ("The Record", "/record.html"), ("The Edition", "/bottom-line.html"),
        ("About", "/about.html")]
