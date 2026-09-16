@@ -1,13 +1,13 @@
 {
   "example": false,
   "generated": "2026-09-16",
-  "generated_utc": "2026-09-16T05:01:18Z",
+  "generated_utc": "2026-09-16T07:31:18Z",
   "window_hours": 24,
-  "txn_count": 2,
+  "txn_count": 1,
   "volatile": {
     "inflow_usd": 76868173,
-    "outflow_usd": 28657500,
-    "net_usd": -48210673,
+    "outflow_usd": 0,
+    "net_usd": -76868173,
     "direction": "onto exchanges"
   },
   "stablecoins": {
@@ -21,12 +21,6 @@
       "inflow_usd": 76868173,
       "outflow_usd": 0,
       "net_usd": -76868173
-    },
-    {
-      "symbol": "CRO",
-      "inflow_usd": 0,
-      "outflow_usd": 28657500,
-      "net_usd": 28657500
     }
   ],
   "by_exchange": [
@@ -35,12 +29,6 @@
       "inflow_usd": 76868173,
       "outflow_usd": 0,
       "net_usd": -76868173
-    },
-    {
-      "exchange": "cryptocom",
-      "inflow_usd": 0,
-      "outflow_usd": 28657500,
-      "net_usd": 28657500
     }
   ],
   "top_inflows": [
@@ -57,20 +45,7 @@
       "stable": false
     }
   ],
-  "top_outflows": [
-    {
-      "symbol": "CRO",
-      "amount": 500000000.0,
-      "usd": 28657500.0,
-      "to": "unknown wallet",
-      "from": "cryptocom",
-      "blockchain": "ethereum",
-      "hash": "0x6b6897e3e90ac1d6db756ab21ca26e19fd5cf5c3415be98325af7d206eee9df0",
-      "url": "",
-      "ts": 1789452311.0,
-      "stable": false
-    }
-  ],
+  "top_outflows": [],
   "note": "Data: Whale Alert public alert archive; exchanges identified by name, and only the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is buying power arriving, so they are scored separately. Market data, not news, not advice.",
   "history": [
     {
@@ -86,12 +61,12 @@
     {
       "week_ending": "Jul 08",
       "net_usd": 1424938350,
-      "moves": 79
+      "moves": 80
     },
     {
       "week_ending": "Jul 15",
       "net_usd": -135044065,
-      "moves": 67
+      "moves": 66
     },
     {
       "week_ending": "Jul 22",
@@ -100,18 +75,18 @@
     },
     {
       "week_ending": "Jul 29",
-      "net_usd": 1070789632,
-      "moves": 50
+      "net_usd": 1128381254,
+      "moves": 53
     },
     {
       "week_ending": "Aug 05",
-      "net_usd": 1237890931,
-      "moves": 62
+      "net_usd": 1180299309,
+      "moves": 61
     },
     {
       "week_ending": "Aug 12",
       "net_usd": -708336067,
-      "moves": 82
+      "moves": 80
     },
     {
       "week_ending": "Aug 19",

@@ -1,0 +1,66 @@
+{
+  "id": "c001",
+  "slug": "zcash-governance-vote-99-9-approve-25-second-blocks-98-9-preserve-halvings",
+  "kind": "brief",
+  "title": "Zcash Governance Vote: 99.9% Approve 25-Second Blocks, 98.9% Preserve Halvings",
+  "dek": "Zcash community governance polls closed September 14 with 2.4 million ZEC voting 99.9% to cut block times from 75 to 25 seconds and 98.9% to keep Bitcoin-style halvings over a smoothed issuance model. The changes are advisory; implementation requires development, testing, and formal ZIP consensus activation.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T07:33:18Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Nearly 2.4 million ZEC participated in governance polls on Network Upgrade 7, with overwhelming approval for tripling transaction throughput and locking in deflationary halvings every four years, rejecting a proposal to replace halvings with a smoother supply curve.",
+  "bottom_line": "The formal ZIP consensus activation process begins now. The specification, testing timeline, and network activation date for the 25-second block change will determine whether the community's 99.9% preference translates into live code by 2027 or faces delays.",
+  "human_take": "",
+  "body": [
+    "Zcash network governance sentiment polls closed on September 14, 2026, with community participation reaching nearly 2.4 million ZEC, according to CoinDesk and Crypto Briefing. Holders voted 99.9% to adopt 25-second block intervals in place of the current 75-second standard, and 98.9% to preserve Bitcoin-style halving cycles roughly every four years rather than adopt a smoothed issuance model outlined in ZIP 234.",
+    "The block-time reduction would effectively triple the network's transaction throughput without altering Zcash's hard supply cap of 21 million coins. Per Crypto Briefing's reporting, shielded transactions, which provide enhanced privacy, now account for 59.3% of recent network activity. Approximately 4.89 million ZEC currently sit in shielded pools, representing about 28.9% of circulating supply by Crypto Briefing's measure. The faster block cadence addresses privacy-focused users' demand for quicker confirmation times on confidential transactions.",
+    "The halving decision carries long-term implications for miner economics. Per Crypto Briefing, each halving cuts the block reward in half. Zcash's next halving is anticipated in late 2028. The community rejected a proposal that would replace the traditional halving cycle with a smoothed issuance curve, signaling preference for Bitcoin's deflationary model. However, Crypto Briefing notes that Zcash, with a smaller market cap and less fee revenue than Bitcoin, may confront challenges sustaining miner security after repeated halvings sooner than Bitcoin has.",
+    "Polls also addressed deprecating Sprout, Zcash's original shielded transaction system, and participants favored a later start date of 2031 for reissuance timing of coins taken out of circulation, per Crypto Briefing.",
+    "Crucially, these results are advisory only. According to Crypto Briefing, implementing the accepted proposals requires further development work, comprehensive testing, and formal consensus activation through Zcash's ZIP mechanism. Developers and the community must move the sentiment results into formal specifications, peer review, and network upgrade coordination before any protocol changes take effect."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/09/16/zcash-holders-overwhelmingly-back-faster-transactions-and-bitcoin-style-halvings",
+      "url": "https://www.coindesk.com/tech/2026/09/16/zcash-holders-overwhelmingly-back-faster-transactions-and-bitcoin-style-halvings"
+    },
+    {
+      "title": "https://cryptobriefing.com/zcash-halvings-faster-blocks-nu7/",
+      "url": "https://cryptobriefing.com/zcash-halvings-faster-blocks-nu7/"
+    }
+  ],
+  "update_of": "thorchain-deploys-native-monero-and-zcash-swaps",
+  "board_snapshot": {
+    "as_of": "2026-09-16T07:31:18Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75767.84,
+        "chg_24h_pct": 0.23
+      },
+      {
+        "symbol": "ETH",
+        "price": 2397.56,
+        "chg_24h_pct": 0.0
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 3.7,
+      "open_interest_usd": 2146539512
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -76868173,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Crypto Briefing"
+  ],
+  "developing": false
+}
