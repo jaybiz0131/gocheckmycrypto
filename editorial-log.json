@@ -1,39 +1,6 @@
 [
  {
   "date": "2026-08-17",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c038",
-    "headline": "SEC Delays Crypto Fundraising Rules Amid Wall Street Opposition and Legislative Uncertainty",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Anonymous sources told Decrypt that a legal threat from SIFMA...contributed to the postponement' without flagging the confidence level. The brief marks this claim 'unconfirmed'; the draft must signal that uncertainty in the prose (e.g., 'anonymous sources alleged' or 'unconfirmed reporting'). Presenting an unconfirmed claim as established fact violates the accuracy rule.",
-     "The draft states 'sources indicated that the administration is waiting to see whether the Digital Asset Market Clarity Act passes before proceeding' and follows with 'That claim is unconfirmed.' This meta-commentary about the brief's confidence is awkward, but the larger problem is that the brief says the administration is 'waiting to see whether the Clarity Act passes in September'\u2014the draft omits the September timing entirely, losing a key detail from the data_point.",
-     "The draft says 'The SEC has not publicly announced what triggered the delay or when the framework will be rescheduled. The agency's law enforcement guidelines page and formal statements have not addressed the postponement as of the reporting date.' This is a negative claim (what the SEC has NOT said) not grounded in any brief data_point. This is SMUGGLED reasoning, not reported fact."
-    ]
-   },
-   {
-    "id": "c001",
-    "headline": "BitMart founder rejects audit calls as users report blocked funds, staff unpaid",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case includes: 'Lee's statement that employee and client assets are treated equally does not address the fact that both groups are reportedly unpaid or unable to access funds, nor does it respond to the demand for third-party audit verification.' The draft includes Lee's statement ('employee assets are not prioritized over client assets') but does not present the counterargument that this statement fails to address the core claim. The bear_case item is present but not substantively engaged\u2014it appears as a quote without the critical framing the brief identified.",
-     "The bear_case includes: 'A single distressed-finance firm's assessment (Echo Base) that the situation can't be resolved consensually...remains unconfirmed by multiple independent sources, though it aligns with user testimonies.' The draft presents Echo Base's Dharia extensively and favorably but does not signal that his assessment is a single firm's view and unconfirmed by other independent sources. This softens the bear_case and risks reading as one-sided, especially given that Dharia is framed as an expert offering a solution BitMart rejected, rather than as a single claimholder with a commercial interest."
-    ]
-   },
-   {
-    "id": "c047",
-    "headline": "SafePal Breach Exposes 39,798 Customer Addresses, Phone Numbers to Cybercriminals",
-    "category": "accuracy",
-    "reasons": [
-     "The draft includes a claim about SFP token price ('SFP traded at $0.24 on Monday afternoon, up 7.9% over 24 hours and 1.3% on the week, per CoinGecko') that appears in the brief's data_points but does not appear anywhere in the draft body. This is not a smuggled fact\u2014it's a fact that should have been included if the brief contained it, but the absence is not an accuracy violation. However, the draft cites 'The Defiant' as the sole source throughout, while the brief lists a secondary source 'https://decrypt.co/375743/safepal-bitcoin-wallet-data-breach' (Decrypt) that is cited in the draft's sources array but never attributed inline to any specific claim in the body. The Chainalysis data point ('46 violent crypto robberies globally through late June 2026, with approximately $30 million stolen') is attributed to 'The Defiant' but the brief indicates this came from Chainalysis via The Defiant's reporting\u2014the inline attribution should clarify the chain."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-17",
   "approved": 3,
   "rejected": [
    {
@@ -5509,6 +5476,30 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'PeckShield described the incident as an approximately $7.81 million rsETH exploit' but this attribution does not appear in the brief. The brief's first data_point attributes the $7.81 million figure to 'PeckShield' via The Defiant source, but the draft text names PeckShield directly without attribution to The Defiant. This is a misplaced source attribution that changes the sourcing chain: the brief shows the figure came through The Defiant; the draft suggests direct PeckShield reporting that is not confirmed in the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c033",
+    "headline": "Balancer Proposes Shutting Down and Distributing $9 Million Treasury to BAL Holders",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Balancer's governance forum posted a proposal on Monday' but provides no date context to establish which Monday is being referenced. The brief timestamp is 2026-09-14, and today is 2026-09-16 (Wednesday). If the proposal was posted on Monday 2026-09-15, that is in the future relative to today and should not be written as a past event. If it was posted on Monday 2026-09-08, the phrase 'Monday' is vague and unhelpful. The draft must specify the date or use unambiguous temporal language tied to the brief's timestamp."
+    ]
+   },
+   {
+    "id": "c106",
+    "headline": "SEC Crypto Custody Rewrite Enters White House Review (August 25, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the rule 'entered White House review on August 25, 2026' but today is September 16, 2026. The brief confirms August 25 as the entry date, which is a past event correctly reported. However, the draft's lead reads this as a completed action that occurred in the past, which is accurate reporting of a past event, not a scheduled future event. This is correct. Upon review, the accuracy issue is different: the draft says 'entered White House review on August 25, 2026, according to The Defiant's reporting on September 16.' This is accurate\u2014the event happened on August 25 and was reported on September 16. No accuracy violation here.",
+     "The draft states 'The Commission formally withdrew the 2023 safeguarding proposal in June 2025' but the brief data_point says only 'The Commission formally withdrew the 2023 safeguarding proposal in June 2025 and said any future regulatory action in the area would require a new proposed rule.' The draft accurately reflects the brief. No violation.",
+     "Reviewing all factual claims: the RIN identifier, OIRA review status, October 2026 target date, coverage of both advisers and investment companies, the prior 2023 proposal, June 2025 withdrawal, and the note about unknown rule text all trace to brief data_points. All facts in the draft are supported by the brief."
     ]
    }
   ]
