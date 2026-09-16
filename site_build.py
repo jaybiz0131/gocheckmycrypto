@@ -2640,6 +2640,28 @@ BITCOIN_READ_LONG = ("Nothing stretched, nothing broken. Thirty days below, "
                      "with the 200-day line for scale.")
 
 
+def _cm_read_card():
+    """Decision 3: the Chart Master's read, the second of its three places - the
+    twelfth Board tile, this card, and the dated archive under Learn. A-12 gives it the
+    gold rule, the pulse mark beside the eyebrow and the same masked watermark."""
+    cm = CM_DATA or {}
+    read = (cm.get("headline") or "").strip()
+    if not read:
+        ps = cm.get("paragraphs") or []
+        read = (ps[0] if ps else "").strip()
+    if not read:
+        return ""
+    when = fmt_short_date(str(cm.get("date") or "")[:10])
+    return (f'<div class="bd-card card cm" style="gap:10px;padding:20px 22px 18px">'
+            f'<img class="wmk" src="/assets/marks/pulse-wm.jpg" alt="" aria-hidden="true">'
+            f'<div class="bd-sec" style="border:none;padding:0"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow"><img class="mk" src="/assets/marks/pulse-mark.webp" '
+            f'width="44" height="29" alt="" aria-hidden="true">The Chart Master</span>'
+            f'<span class="bd-stamp">{esc(when)}</span></div>'
+            f'<a class="bd-more" href="/chartmaster.html">Every read</a></div>'
+            f'<p class="cm-quote">{esc(read)}</p></div>')
+
+
 def _cm_slot():
     """A-11: the twelfth slot. The Chart Master's read as a dark tile with a gold top
     rule; when the day has no read, the newest explainer card takes the slot instead, so
@@ -4530,9 +4552,11 @@ def render_home(items, flows, pulse, cm, dateline):
     ww_card = ""
     if ww:
         ww_card = (
-            '<div class="bd-card bd-span2" style="gap:12px;padding:20px 24px 18px">'
+            '<div class="bd-card bd-span2 card ww" style="gap:12px;padding:20px 24px 18px">'
+            '<img class="wmk" src="/assets/marks/whale-wm.jpg" alt="" aria-hidden="true">'
             '<div class="bd-sec" style="border:none;padding:0"><div class="bd-sec-l">'
-            '<span class="bd-eyebrow">Whale Watch</span>'
+            '<span class="bd-eyebrow"><img class="mk" src="/assets/marks/whale-mark.webp" '
+            'width="44" height="29" alt="" aria-hidden="true">Whale Watch</span>'
             + (f'<span class="bd-h2" style="font-size:20px">Exchange flows, last 24 '
                f'hours</span><span class="bd-stamp">As of {esc(_fwhen)}</span>'
                if _fstate == "fresh" else
@@ -4548,7 +4572,9 @@ def render_home(items, flows, pulse, cm, dateline):
             'exchanges is usually sell positioning; off exchanges is usually storage.</p></div>')
     # C-7: the since-yesterday rows live in the brief card now, so this row is just
     # Whale Watch, and collapses entirely when the feed gave nothing.
-    ww_row = f'<section class="bd-row3">{ww_card}</section>' if ww_card else ""
+    cm_card = _cm_read_card()
+    ww_row = (f'<section class="bd-row3">{ww_card}{cm_card}</section>'
+              if (ww_card or cm_card) else "")
 
     news = _bd_news_cards(items)
     news_mod = ""

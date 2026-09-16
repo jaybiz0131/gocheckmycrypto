@@ -1520,3 +1520,23 @@ body>*:not(.ground){position:relative;z-index:1}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .sb-loop,.cb-loop{display:none!important}
 }
+
+/* ---- A-12: module colours and marks -------------------------------------------
+   Whale Watch and the Chart Master keep their own character inside the one light
+   theme: a 3px top rule, the eyebrow in the module colour, the 44x29 mark beside it,
+   and the emblem again as a masked watermark pushed past the card's top right corner
+   so no rectangle edge is ever visible. Emblems appear nowhere else. */
+.card.ww,.card.cm{position:relative;overflow:hidden;isolation:isolate}
+.card.ww{border-top:3px solid #2E7DD1}
+.card.cm{border-top:3px solid #C89A4A}
+.card.ww .bd-eyebrow{color:#2E7DD1}
+.card.cm .bd-eyebrow{color:#8A6420}
+.card.ww .bd-eyebrow,.card.cm .bd-eyebrow{display:inline-flex;align-items:center;gap:8px}
+.mk{width:44px;height:29px;object-fit:cover;border-radius:3px;flex:0 0 auto}
+.wmk{position:absolute;right:-40px;top:-46px;width:360px;height:auto;z-index:0;
+  opacity:.20;mix-blend-mode:multiply;pointer-events:none;
+  -webkit-mask-image:radial-gradient(closest-side,#000 28%,transparent 100%);
+  mask-image:radial-gradient(closest-side,#000 28%,transparent 100%)}
+.card.ww>*:not(.wmk),.card.cm>*:not(.wmk){position:relative;z-index:1}
+.cm-quote{margin:0;font:italic 400 16px/1.55 var(--serif);color:var(--ink)}
+@media (max-width:720px){ .wmk{display:none} }   /* A-15 */
