@@ -1,7 +1,7 @@
 {
   "example": false,
-  "generated": "2026-09-15",
-  "generated_utc": "2026-09-15T23:47:14Z",
+  "generated": "2026-09-16",
+  "generated_utc": "2026-09-16T00:40:49Z",
   "window_hours": 24,
   "txn_count": 2,
   "volatile": {
@@ -74,67 +74,67 @@
   "note": "Data: Whale Alert public alert archive; exchanges identified by name, and only the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is buying power arriving, so they are scored separately. Market data, not news, not advice.",
   "history": [
     {
-      "week_ending": "Jun 23",
+      "week_ending": "Jun 24",
       "net_usd": 115286901,
       "moves": 44
     },
     {
-      "week_ending": "Jun 30",
+      "week_ending": "Jul 01",
       "net_usd": 1545668019,
       "moves": 98
     },
     {
-      "week_ending": "Jul 07",
+      "week_ending": "Jul 08",
       "net_usd": 1424938350,
       "moves": 77
     },
     {
-      "week_ending": "Jul 14",
+      "week_ending": "Jul 15",
       "net_usd": -135044065,
       "moves": 69
     },
     {
-      "week_ending": "Jul 21",
+      "week_ending": "Jul 22",
       "net_usd": -131547189,
       "moves": 39
     },
     {
-      "week_ending": "Jul 28",
+      "week_ending": "Jul 29",
       "net_usd": 1005320815,
       "moves": 49
     },
     {
-      "week_ending": "Aug 04",
-      "net_usd": 1116646075,
-      "moves": 62
+      "week_ending": "Aug 05",
+      "net_usd": 1183611560,
+      "moves": 63
     },
     {
-      "week_ending": "Aug 11",
-      "net_usd": -589448629,
-      "moves": 84
+      "week_ending": "Aug 12",
+      "net_usd": -656414114,
+      "moves": 83
     },
     {
-      "week_ending": "Aug 18",
+      "week_ending": "Aug 19",
       "net_usd": -332783306,
       "moves": 22
     },
     {
-      "week_ending": "Aug 25",
+      "week_ending": "Aug 26",
       "net_usd": -1198979675,
       "moves": 92
     },
     {
-      "week_ending": "Sep 01",
+      "week_ending": "Sep 02",
       "net_usd": -48986252,
       "moves": 89
     },
     {
-      "week_ending": "Sep 08",
+      "week_ending": "Sep 09",
       "net_usd": -406012879,
       "moves": 52
     },
     {
-      "week_ending": "Sep 15",
+      "week_ending": "Sep 16",
       "net_usd": -557924372,
       "moves": 30
     }
