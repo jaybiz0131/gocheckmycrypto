@@ -64,30 +64,54 @@ COOLDOWN_MIN = int(os.environ.get("WATCH_COOLDOWN_MIN") or "120")
 BREAKING_MAX_PER_DAY = int(os.environ.get("WATCH_MAX_BREAKING_PER_DAY") or "2")
 PRICE_TRIGGERS = (os.environ.get("WATCH_PRICE_TRIGGERS") or "0") == "1"
 
+# THE PATTERNS COME FROM THE SITE, NOT FROM A COPY HERE. site_build.TAG_RULES already
+# carries regulation, exchanges, etfs-funds and security (hacks, exploits, breaches,
+# theft, rug pulls) and the site tags every story with them. A second copy in this file
+# would be correct on the day it was written and wrong the first time either one was
+# edited: the watcher would fire on a category the site no longer recognises, or miss
+# one it added. One definition, imported.
+#
+# The earning categories are named as site_build tags. "exchanges" earns because an
+# exchange story that clears five independent sources inside 90 minutes is a halt, a
+# delisting or an insolvency, not a listing announcement.
 import re as _re
-EARNING = [
-    ("regulation", _re.compile(
-        r"\b(sec|cftc|occ|fincen|doj|finra|esma|fca|regulat\w*|rulemaking|congress|"
-        r"senate|parliament|lawmaker\w*|legislat\w*|cbdc|executive order|sanction\w*|"
-        r"federal register|enforcement action|indict\w*|settlement)\b", _re.I)),
-    ("exchange security", _re.compile(
-        r"\b(binance|coinbase|kraken|okx|bitmex|bybit|bitfinex|gemini|custodian\w*|"
-        r"custody|delist\w*|halt\w* withdrawals?|insolven\w*|wind(?:s|ing)? down)\b",
-        _re.I)),
-    ("etfs and institutions", _re.compile(
-        r"\b(etf\w*|grayscale|blackrock|ishares|fund flows|institutional|"
-        r"treasury (?:allocation|purchase)|pension|sovereign wealth)\b", _re.I)),
-    ("major hack", _re.compile(
-        r"\b(hack\w*|exploit\w*|breach\w*|drain\w*|stolen|theft|attacker\w*|"
-        r"rug ?pull|private keys?|bridge attack)\b", _re.I)),
-]
+
+EARNING_TAGS = ["regulation", "exchanges", "etfs-funds", "security"]
+# A few institutional words the site's etfs-funds rule does not carry, because on the
+# site "institutional" would tag half the market stories and here it is one of four
+# gates a story must already have cleared.
+EXTRA = _re.compile(r"\b(institutional|sovereign wealth|pension fund|"
+                    r"treasury (?:allocation|purchase))\b", _re.I)
+
+
+def _earning_rules():
+    """[(tag, compiled)] for the earning tags, read from site_build. Falls back to an
+    empty list if site_build cannot be imported, and earning_category() treats that as
+    'do not fire': a watcher that cannot tell what a category is must not spend."""
+    try:
+        import site_build
+    except Exception as exc:
+        print(f"watcher: site_build import failed ({exc}); no category can be resolved")
+        return []
+    want = set(EARNING_TAGS)
+    return [(tag, _re.compile(pat, _re.I))
+            for tag, pat in site_build.TAG_RULES if tag in want]
+
+
+EARNING = _earning_rules()
 
 
 def earning_category(text):
-    """Which earning category this headline belongs to, or None. T-1."""
+    """Which earning category this headline belongs to, or None. T-1.
+
+    Order follows site_build.TAG_RULES, which is ordered most specific first, so a
+    hacked-exchange story reads as security rather than exchanges."""
+    text = text or ""
     for name, rx in EARNING:
-        if rx.search(text or ""):
+        if rx.search(text):
             return name
+    if EARNING and EXTRA.search(text):
+        return "etfs-funds"
     return None
 
 

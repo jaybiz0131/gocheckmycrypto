@@ -14,7 +14,14 @@ name: Site refresh (data desks)
 
 on:
   schedule:
-    - cron: "0 12 * * *"   # 12:00 UTC (between the 07:40 and 16:40 briefs)
+    # PROGRAM 4 (2026-09-16): the briefs this comment sat between are gone. T-1 left one
+    # brief a day per desk, the evening Edition at 23:08 UTC, so from 00:00 to 23:08 this
+    # noon refresh is the ONLY thing that moves the Board. It is one build a day and no
+    # model run, and it stays for that reason.
+    #
+    # It retires in Sprint I with R-1, when the Worker serves the Board (L-1) and the
+    # numbers stop needing a deploy to reach the page.
+    - cron: "0 12 * * *"   # 12:00 UTC, the Board's only mid-day update until L-1
   workflow_dispatch: {}
 
 permissions: {}
