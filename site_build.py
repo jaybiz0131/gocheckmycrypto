@@ -23,6 +23,7 @@ USAGE
 import glob
 import hashlib
 import json
+import dedupe
 from zoneinfo import ZoneInfo
 import os
 import re
@@ -3117,6 +3118,27 @@ def board_summary_line(pulse, deltas, flows):
     return line + "."
 
 
+def _brief_label(ed):
+    """N-5: the brief is "Today's" only when it is dated today.
+
+    Yesterday's 7:31 PM brief ran all day under "Today's Board brief" while its own
+    headline said the Senate votes "tomorrow" - a vote that had already happened. The
+    card is labelled by its date: today's is "Today's Board brief", yesterday's is
+    "Yesterday's Board brief", and anything older is named by its weekday, so the label
+    can never outrun the read."""
+    import datetime as _dt
+    d = _utc_dt(ed.get("published_utc") or ed.get("date") or "")
+    if not d:
+        return "The Board brief"
+    day = d.astimezone(_ET).date()
+    today = _build_now().astimezone(_ET).date()
+    if day == today:
+        return "Today\u2019s Board brief"
+    if day == today - _dt.timedelta(days=1):
+        return "Yesterday\u2019s Board brief"
+    return f"The Board brief, {day.strftime('%A')}"
+
+
 def _bd_brief_card(ed, summary="", since=""):
     """Today's Board brief: the day's edition, rendered as the lead card. Returns ""
     when there is no fresh edition, and the Edition card then spans the row."""
@@ -3145,7 +3167,7 @@ def _bd_brief_card(ed, summary="", since=""):
     body += "".join(f"<p>{esc(p)}</p>" for p in paras[:1])
     return (f'<div class="bd-card bd-brief bd-span2">'
             f'<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">'
-            f'<span class="bd-eyebrow">Today\'s Board brief</span>'
+            f'<span class="bd-eyebrow">{_brief_label(ed)}</span>'
             f'<span class="bd-stamp">{esc(fmt_when(ed))}</span>'
             f'<span class="bd-badge ok">Verified</span></div>'
             f'<div class="bd-brief-hl">{esc(hl)}</div>{body}{since}'
@@ -3204,10 +3226,45 @@ def _bd_outlet(src):
     return bare.rsplit(".", 1)[-1].replace("-", " ").title() if bare else ""
 
 
-def _bd_news_cards(items, n=4):
-    """Module 7. Four most recent published stories, each with its sources line."""
-    live = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)
-            and not i.get("superseded_by")][:n]
+def _bd_news_cards(items, n=4, max_age_hours=24):
+    """Module 7. The newest published stories, each with its sources line.
+
+    N-5, two rules, both about what a reader is looking at on the front page:
+
+    ONE EVENT, ONE CARD. The 3:32 PM and 5:02 PM Senate stories were both on the
+    homepage grid at once - the same vote, twice, as if two things had happened. The
+    desk's own dedupe.same_event decides; the newer card stays.
+
+    NOTHING OLDER THAN A DAY. A story that has been on the grid since the day before
+    last is not news desk, it is archive, and it is how headlines carrying "tomorrow"
+    outlive the day the word meant. Age is measured against the newest item rather than
+    the wall clock, the same reference current_bottom_line uses, so two builds of one
+    commit cannot differ.
+    """
+    import datetime as _dt
+    pool = [i for i in (items or []) if not i.get("example") and not _is_wrap(i)
+            and not i.get("superseded_by")]
+    newest = None
+    for i in pool:
+        d = _utc_dt(i.get("published_utc") or "")
+        if d and (newest is None or d > newest):
+            newest = d
+    live, kept = [], []
+    for i in pool:
+        d = _utc_dt(i.get("published_utc") or "")
+        if newest and d and (newest - d) > _dt.timedelta(hours=max_age_hours):
+            continue
+        # same_event takes titles and key facts, not items. The first cut passed the
+        # dicts and a bare except swallowed the TypeError, so the dedupe silently never
+        # ran and both Senate stories stayed on the grid.
+        if any(dedupe.same_event(i.get("title") or "", i.get("key_fact") or "",
+                                 k.get("title") or "", k.get("key_fact") or "")
+               for k in kept):
+            continue
+        kept.append(i)
+        live.append(i)
+        if len(live) >= n:
+            break
     if not live:
         return ""
     cards = []
