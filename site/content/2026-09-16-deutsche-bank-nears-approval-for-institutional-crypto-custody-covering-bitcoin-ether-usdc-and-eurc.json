@@ -1,0 +1,57 @@
+{
+  "id": "c005",
+  "slug": "deutsche-bank-nears-approval-for-institutional-crypto-custody-covering-bitcoin-ether-usdc-and-eurc",
+  "kind": "brief",
+  "title": "Deutsche Bank Nears Approval for Institutional Crypto Custody Covering Bitcoin, Ether, USDC and EURC",
+  "dek": "Deutsche Bank is awaiting final regulatory approval to launch institutional custody for Bitcoin, Ether, and select stablecoins including USDC and EURC, with plans to expand into tokenized assets after the initial debut.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T12:13:10Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "Deutsche Bank is awaiting final regulatory approval to launch institutional custody solutions for Bitcoin, Ether, and stablecoins like USDC and EURC before expanding into tokenized assets.",
+  "bottom_line": "The timing of final regulatory approval remains unannounced. Watch for an announcement of approval from German or EU regulators and the public debut date of the custody service, which will signal Deutsche Bank's official entry into the institutional crypto market in Europe.",
+  "human_take": "",
+  "body": [
+    "Deutsche Bank is awaiting final regulatory approval to launch institutional custody solutions for Bitcoin and Ether, along with stablecoins including USDC and EURC, according to CoinDesk. The bank plans to expand the service into tokenized assets after the initial launch.",
+    "The move marks entry by Germany's largest bank into institutional crypto custody, a service layer that has traditionally been served by specialized custody providers and crypto-native firms. The custody service appears designed for institutional clients seeking regulated European exposure to digital assets."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/09/16/deutsche-bank-nears-crypto-custody-service-debut-for-institutional-clients",
+      "url": "https://www.coindesk.com/business/2026/09/16/deutsche-bank-nears-crypto-custody-service-debut-for-institutional-clients"
+    }
+  ],
+  "update_of": "standard-chartered-offers-spot-bitcoin-and-ether-trading-to-institutional-clients-in-uae",
+  "board_snapshot": {
+    "as_of": "2026-09-16T12:10:47Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76150.82,
+        "chg_24h_pct": 0.74
+      },
+      {
+        "symbol": "ETH",
+        "price": 2416.17,
+        "chg_24h_pct": 0.78
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 0.3,
+      "open_interest_usd": 2156886216
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -238027381,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
