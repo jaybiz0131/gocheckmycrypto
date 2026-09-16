@@ -1,39 +1,6 @@
 [
  {
   "date": "2026-08-17",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c014",
-    "headline": "Binance provided Russian authorities with customer data tied to Ukrainian donor's arrest",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states Belenkiy 'transferred more than $700' but the brief data_point says 'more than $700' without specifying currency. The draft presents this as fact without attribution inline to CoinDesk, and the figure is trivially small for a terrorism financing case\u2014this needs source clarity and context or removal.",
-     "The draft claims 'Binance stated in September 2023 that it was exiting Russia and would retain no operational ties to the market' but the brief data_point says 'Binance sold its Russian business to CommEX in September 2023, saying operating in the country did not fit its compliance strategy.' The draft's language about 'no operational ties' is stronger than the brief supports; the brief specifies a business sale but does not confirm zero post-sale data operations.",
-     "The draft paragraph beginning 'Binance's published law-enforcement guidelines state...' and continuing with 'The source does not confirm whether Russian requests met this threshold' reads as original analysis rather than a paraphrase of the brief. The brief lists the guideline requirement as a data_point and identifies the unresolved threshold question in bear_case, but the draft integrates them as a single passage without clear separation of reported fact from unresolved liability\u2014this blurs liability attribution."
-    ]
-   },
-   {
-    "id": "c106",
-    "headline": "CFTC seeks public input on AI compute futures as CME targets October launch",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The CFTC is seeking public input on rules for AI compute futures contracts' but the brief contains no data_point confirming the CFTC is seeking public input\u2014only that CME is targeting October and that regulatory review 'could' create a market. The claim about CFTC seeking input is smuggled; it does not appear in the brief's data_points.",
-     "The draft includes 'the specific contract specifications on which the CFTC is requesting feedback remain unconfirmed' which presupposes CFTC feedback-requesting activity not established in the brief. This is circular reasoning layered on a smuggled fact."
-    ]
-   },
-   {
-    "id": "c046",
-    "headline": "Tudor Investment Corp reverses bitcoin ETF selloff, raises IBIT stake 18.9% in Q2",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Tudor's prior year of selling had positioned the fund away from bitcoin; the Q2 reversal reengages direct holdings' which accurately reflects the brief. However, the inclusion of unsourced ETF flows data ('$5.1M in net inflows on 28 July 2026, with five-session net flows of -$402.6M') introduces facts not in the brief and attributed to an internal system rather than the research brief's sources."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-17",
   "approved": 4,
   "rejected": [
    {
@@ -5500,6 +5467,38 @@
      "The draft states the rule 'entered White House review on August 25, 2026' but today is September 16, 2026. The brief confirms August 25 as the entry date, which is a past event correctly reported. However, the draft's lead reads this as a completed action that occurred in the past, which is accurate reporting of a past event, not a scheduled future event. This is correct. Upon review, the accuracy issue is different: the draft says 'entered White House review on August 25, 2026, according to The Defiant's reporting on September 16.' This is accurate\u2014the event happened on August 25 and was reported on September 16. No accuracy violation here.",
      "The draft states 'The Commission formally withdrew the 2023 safeguarding proposal in June 2025' but the brief data_point says only 'The Commission formally withdrew the 2023 safeguarding proposal in June 2025 and said any future regulatory action in the area would require a new proposed rule.' The draft accurately reflects the brief. No violation.",
      "Reviewing all factual claims: the RIN identifier, OIRA review status, October 2026 target date, coverage of both advisers and investment companies, the prior 2023 proposal, June 2025 withdrawal, and the note about unknown rule text all trace to brief data_points. All facts in the draft are supported by the brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c110",
+    "headline": "MEV Bot Front-Runs $7.8 Million rsETH Exploit on Ethereum",
+    "category": "accuracy",
+    "reasons": [
+     "The brief data_point states 'PeckShield described the incident as an approximately $7.81 million rsETH exploit,' but the draft never attributes this figure to PeckShield. The draft opens with 'approximately 2,900 rsETH worth $7.81 million' attributed only to 'The Defiant's reporting,' creating a sourcing gap: the brief's primary source for the dollar valuation is PeckShield, yet the draft presents it as The Defiant's own calculation or statement without naming the security firm."
+    ]
+   },
+   {
+    "id": "c106",
+    "headline": "SEC Crypto Custody Rewrite Enters White House Review, Replaces 2023 Proposal",
+    "category": "accuracy",
+    "reasons": [
+     "The brief data_point is marked 'announced-not-verified' with confidence label, stating 'The SEC's proposed rewrite of custody rules for investment advisers and investment companies entered White House review on Aug. 25.' The draft reports this as settled fact: 'The SEC's proposed rewrite of custody rules for investment advisers and investment companies entered White House review on August 25, according to The Defiant's reporting.' The prose must reflect the 'announced-not-verified' confidence level by signaling that this is an announcement the SEC or Defiant made, not a fact independently verified. The current phrasing presents an unconfirmed announcement as confirmed by attribution alone."
+    ]
+   },
+   {
+    "id": "c034",
+    "headline": "Balancer Proposes Winding Down Protocol and Distributing Treasury to BAL Holders",
+    "category": "accuracy",
+    "reasons": [
+     "Draft claims Cointelegraph reported on September 15, but brief shows Cointelegraph timestamp of 2026-09-15T05:29:13Z while draft sources list The Block with URL dated 2026-09-15. The Block URL is listed in draft sources but story does not attribute the core reporting to The Block, only to Cointelegraph. Sourcing attribution is unclear.",
+     "More critically: brief explicitly marks source_chars as 187 and thin=true, indicating the source material is extremely sparse. Draft adds narrative framing ('Despite product innovation and operational cost-cutting post-exploit, the protocol did not achieve sustained profitability') that elaborates beyond what the brief's 187-character source can support. The brief data_points say only 'restructuring efforts failed to revive revenue' and 'new products and reducing costs' appear in bear_case, but the draft's specific causal narrative ('product innovation and operational cost-cutting post-exploit, the protocol did not achieve sustained profitability') exceeds what a 187-character source justifies.",
+     "Open_questions include 'Identity and specific statement from Balancer Labs CEO making the proposal' \u2014 the draft opens with 'Balancer Labs CEO has proposed' but provides no CEO name, no direct quote, and no verification that a named CEO made this statement. A reputational claim about a named corporate entity (Balancer Labs) proposing shutdown rests on unnamed sourcing with no on-record CEO attribution."
     ]
    }
   ]
