@@ -1,0 +1,76 @@
+{
+  "id": "c000",
+  "slug": "senate-fails-clarity-act-cloture-vote-on-september-16-49-in-favor-50-against",
+  "kind": "brief",
+  "title": "Senate Fails Clarity Act Cloture Vote on September 16; 49 in Favor, 50 Against",
+  "dek": "The U.S. Senate failed on September 16, 2026 to pass a cloture motion on the Digital Asset Market Clarity Act, the crypto industry's most significant regulatory push, falling short of the 60 votes needed to advance to a floor vote. Seven Democrats who spent months negotiating the bill, Gillibrand, Warner, Booker, Warnock, Gallego, Alsobrooks, and Cortez Masto, voted against proceeding, citing inadequate ethics provisions restricting Trump's crypto interests and unresolved national-security concerns.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T05:03:11Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The Senate's 49-50 cloture failure on H.R. 3633 ended 2026 legislative work on a comprehensive U.S. digital asset framework, with Democrats citing ethics provisions as 'too thin' and Trump's $1.4 billion crypto profits as a conflict of interest.",
+  "bottom_line": "The collapse of the Clarity Act leaves the U.S. without a statutory digital asset framework and signals that ethics concerns about Trump's personal crypto profits have fractured the bipartisan coalition. Sponsors could attempt a revised bill with stronger ethics language, but the defection of seven Democrats who negotiated the final text suggests the bar for compromise has shifted beyond what the current White House is willing to accept.",
+  "human_take": "",
+  "body": [
+    "The U.S. Senate on September 16, 2026 failed to pass a cloture motion on the Digital Asset Market Clarity Act, marking the collapse of the crypto industry's most significant legislative push in years. According to Cointelegraph, the measure fell short of the 60 votes required to invoke cloture on the motion to proceed with H.R. 3633, the bill that would establish the country's first comprehensive regulatory framework for digital assets.\nPer CryptoSlate reporting, seven Democrats who had spent months negotiating the bill's text voted against advancing it: Senators Kirsten Gillibrand, Mark Warner, Cory Booker, Raphael Warnock, Ruben Gallego, Angela Alsobrooks, and Catherine Cortez Masto.\nThe Democratic defection came after intensive final negotiations collapsed over ethics provisions restricting crypto interests held by Trump, his family, and administration officials. According to CryptoSlate, Senate staff had met in the Capitol hideaway office of Senator Thom Tillis to discuss possible changes to those restrictions, but staff working for Senate Banking Committee Chairman Tim Scott ended the talks without reaching agreement. Republicans had released new ethics language late Sunday night, September 14, which they said they had negotiated with the White House. That text incorporated 126 substantive changes that Democrats had sought throughout the drafting process, per CryptoSlate.\nSenator Elissa Slotkin, one of the Democratic negotiators, stated that \"the ethics provisions in this bill are simply too thin,\" according to CryptoSlate. She also raised national-security concerns, saying lawmakers needed to do more work on money laundering and financing channels linked to terrorist groups, North Korea, and Iran. Senator Elizabeth Warren, in remarks at the Senate Banking Committee, stated: \"We need crypto regulation, but not a crypto bill written by the crypto industry to benefit only the most extreme voices in the crypto industry, at the expense of our national security, our economic stability, and to .\" Per Warren's remarks on the Senate Banking Committee website, she contended that the new ethics provisions amounted to \"a tiny little fig leaf\" that included multiple escape hatches: Attorney General power, waiver authority from the Office of Government Ethics, and blind-trust loopholes.\nThe collapse follows intense debate over Trump's crypto holdings. Per Warren's remarks, Trump and his family had accumulated $1.4 billion from crypto ventures in 2025 alone, and fans who bought Trump memecoins had lost nearly $4 billion. Senator Bernie Sanders, quoted by CryptoSlate, noted that crypto billionaires had spent nearly $300 million on the midterm elections.\nThe failure on the cloture motion ends the Clarity Act's prospects for advancement in 2026. CoinDesk reported that bullish crypto futures bets worth millions were liquidated within 24 hours of the vote, with Bitcoin and ether longs taking the heaviest losses.\nThe CLARITY Act had been the most substantial bipartisan effort to create a comprehensive digital asset regulatory framework in U.S. legislative history."
+  ],
+  "sources": [
+    {
+      "title": "https://www.banking.senate.gov/newsroom/minority/warren-remarks-ahead-of-clarity-act-procedural-vote-on-senate-floor",
+      "url": "https://www.banking.senate.gov/newsroom/minority/warren-remarks-ahead-of-clarity-act-procedural-vote-on-senate-floor"
+    },
+    {
+      "title": "https://www.coindesk.com/markets/2026/09/16/crypto-bulls-take-a-usd570-million-liquidation-hit-as-clarity-act-fails",
+      "url": "https://www.coindesk.com/markets/2026/09/16/crypto-bulls-take-a-usd570-million-liquidation-hit-as-clarity-act-fails"
+    },
+    {
+      "title": "https://cointelegraph.com/news/us-senate-fails-to-advance-clarity-act",
+      "url": "https://cointelegraph.com/news/us-senate-fails-to-advance-clarity-act"
+    },
+    {
+      "title": "https://cryptoslate.com/trump-ethics-fight-sinks-clarity-act-in-dramatic-senate-defeat/",
+      "url": "https://cryptoslate.com/trump-ethics-fight-sinks-clarity-act-in-dramatic-senate-defeat/"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-16T04:31:09Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 75857.36,
+        "chg_24h_pct": 0.35
+      },
+      {
+        "symbol": "ETH",
+        "price": 2404.02,
+        "chg_24h_pct": 0.27
+      }
+    ],
+    "fng": {
+      "value": 51,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 5.4,
+      "open_interest_usd": 2133480440
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -48210673,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "CoinDesk",
+    "Cointelegraph",
+    "BeInCrypto",
+    "CryptoSlate",
+    "The Daily Hodl",
+    "U.Today",
+    "Crypto Briefing"
+  ],
+  "developing": false,
+  "update_of": "senate-blocks-crypto-clarity-act-in-49-50-vote-industry-pushes-back"
+}

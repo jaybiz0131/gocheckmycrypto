@@ -1,37 +1,5 @@
 [
  {
-  "date": "2026-08-17",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c037",
-    "headline": "Treasury Proposes Rules Restricting Stablecoin Sales to US Customers",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'The US Treasury has proposed new rules that would restrict which entities can sell stablecoins to US customers' but brief specifies the rules are 'under the GENIUS Act.' The GENIUS Act reference is in the brief's core_claim and is material regulatory context that the draft omits. This is a smuggled gap: the reader cannot assess the statutory authority or scope without knowing the rule emanates from a specific Act.",
-     "Draft refers to 'Treasury's statement and the proposed rule text' as future events to watch, but does not establish from the brief whether Treasury has already published the rule text or only announced it. The brief states rules are 'in public comment phase' (confirmed in data_point 2) but the draft does not make clear whether the full rule text is currently available or remains unpublished, creating ambiguity about what exists now versus what to watch for."
-    ]
-   },
-   {
-    "id": "c032",
-    "headline": "HIVE's GPU cloud unit signs $350 million five-year contract",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'This marks the second major NVIDIA cluster agreement announced by BUZZ HPC within two months' but then immediately notes 'The prior deal was not detailed in the available reporting.' The brief confirms this is reported by The Block but does not provide details on the prior deal. The draft should not claim this as a known fact without attribution specificity or should note the reporting is thin on the prior deal. The sentence 'according to The Block' applies only to the current deal, not the historical claim."
-    ]
-   },
-   {
-    "id": "c042",
-    "headline": "SEC delays crypto fundraising rulemaking, citing unforeseen scheduling issue",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The sources also indicated that the administration is waiting to see whether the Digital Asset Market Clarity Act passes in September' but the brief marks this claim as 'unconfirmed.' The draft must flag this confidence level in prose. The sentence reads as settled reporting ('The sources also indicated') when it should read as 'According to unconfirmed reporting' or similar signal to the reader that this is alleged, not verified.",
-     "The draft states 'Unconfirmed reporting from Decrypt's sources alleges that a legal threat from SIFMA... contributed to the delay' but does not apply the 'unconfirmed' tag to the second unconfirmed claim about the Clarity Act timing in the same paragraph, creating an inconsistency in how confidence labels are surfaced to readers."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-18",
   "approved": 2,
   "rejected": [
@@ -5427,6 +5395,20 @@
     "category": "accuracy",
     "reasons": [
      "The draft states 'The House Ways and Means Committee introduced H.R. 10357' and 'scheduled its markup for 10 a.m. Eastern on September 16.' Today is September 16, 2026. The markup is scheduled for today (a future event from the perspective of publication time), not a past event. The draft should clarify that the markup is scheduled for today or is imminent, not write it as an already-scheduled past action. More critically, if this draft is being published on September 16, the markup may have already occurred or be occurring. The brief data shows a September 15 timestamp for the reporting. The draft must clarify the temporal relationship: is markup happening today, or has it already concluded? Without that clarity, readers cannot determine whether the piece is reporting a future event or a completed one."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c028",
+    "headline": "House Committee Schedules Crypto Tax Bill Markup for September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the markup as a scheduled future event ('scheduled its markup for 10 a.m. Eastern on September 16'), but today is September 16, 2026. The markup either occurred today or is occurring today. The tense and framing should reflect that the event is happening now or has happened, not that it is scheduled for a future date."
     ]
    }
   ]
