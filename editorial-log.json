@@ -1,51 +1,6 @@
 [
  {
   "date": "2026-08-18",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c000",
-    "headline": "SEC Proposes New Regulation Crypto Assets",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The SEC's announcement marks the first major standalone framework the agency has issued specifically for crypto investment contracts' but this claim does not appear in the brief's data_points and cannot be verified from the source (source_chars: 0, text not fetched). This is a smuggled factual claim.",
-     "The draft references 'the SEC's official release and supporting documentation' as if details exist there, but the brief explicitly states 'The source text was not fetched; the brief cannot verify the proposal's scope, effective date, which specific asset types are covered, or specific compliance requirements.' The writer is presenting unverified details as available when the research shows they are not.",
-     "The phrase 'Details on the proposal's scope, effective date, which specific asset types are covered, and the compliance timeline are available in the SEC's official release' is misleading\u2014the brief's open_questions show these details were NOT fetched and thus NOT verified as available. This reads as editorial hand-waving over a thin brief."
-    ]
-   },
-   {
-    "id": "c003",
-    "headline": "Wyoming joins $15 billion LayerZero exodus with state stablecoin move",
-    "category": "accuracy",
-    "reasons": [
-     "The headline and opening claim 'Wyoming has publicly replaced its blockchain infrastructure away from LayerZero citing security grounds' is stated as fact, but the brief shows source_chars: 0 and explicitly lists as an open question: 'the brief cannot verify the specific security vulnerability or incident that triggered Wyoming's decision.' The core claim in the brief is narrower (state entity made the move) but the brief itself could not verify the security-grounds justification or any details. The draft presents this as confirmed reporting from CoinDesk, but the research brief's own data_points list is empty and open_questions indicate the security concern was never verified.",
-     "The draft states 'The exact composition of that figure, the identities of other entities involved, and the total value at stake remain unreported' but this sentence narrates absence in a way that implies the brief contained enough context to know what is missing. Per the approval protocol, a sentence restating open_questions as though it explains the story is itself an accuracy violation\u2014the writer is creating the appearance of reporting when the brief was too thin to even frame the gaps correctly.",
-     "The phrase 'Wyoming's move may prompt similar reviews at other state entities or institutional allocators' is speculation beyond the brief's scope and reads as editorial inference rather than reported fact."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "Citi plans to launch bitcoin custody for institutional clients later this year",
-    "category": "accuracy",
-    "reasons": [
-     "The draft attributes the news to 'CoinDesk, The Block, and Decrypt' but the brief's data_points are empty and source_chars: 0, meaning no source text was actually fetched or verified. The sources list in the draft shows three URLs, but the research brief confirms 'No source texts were provided; all claims rest on the snippet and headline alone.' The writer is presenting a multi-source consensus without verification.",
-     "The draft claims 'Custody+ is positioned to support institutional allocators seeking traditional finance infrastructure for bitcoin holdings' and 'removes that dependency' on crypto-native custodians, but these are editorial inferences and framings, not facts from verified reporting. The brief's open_questions include 'Custody+ platform details' and whether it 'operates in-house or via partnership is unknown.' The draft is narrating the meaning of the move as if those details were confirmed.",
-     "The statement 'Custody+ addresses a structural friction point in institutional crypto adoption' is analysis/interpretation, not fact, and the brief does not contain data supporting the claim that this is the barrier Citi is solving."
-    ]
-   },
-   {
-    "id": "c015",
-    "headline": "Ethereum's Hegotas upgrade changes gas cost for new-address transfers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'sending ETH to a brand-new address will cost more gas than sending to an existing one' but the brief's data_point says 'Sending ETH to a brand-new address will cost more than sending to an existing one'\u2014these are contradictory claims about the direction of the cost change. The draft's interpretation (new addresses cost MORE) is consistent with the brief, but the phrasing in the brief data_point is ambiguous and the draft amplifies a specific interpretation without noting the ambiguity.",
-     "The draft asserts 'The upgrade's technical mechanism and exact new gas costs are not detailed in available reporting' and 'The timing of Hegotas activation and which vendors have begun testing the change also remain unconfirmed'\u2014these are restatements of open_questions presented as factual findings. Per the protocol, the writer is forbidden from narrating absence. This sentence should not appear in the draft."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-18",
   "approved": 5,
   "rejected": [
    {
@@ -5310,6 +5265,21 @@
      "The brief's core_claim states '11 founding validators' but the draft title and body state '12 founding validator entities' and '12 named entities'. The brief data_point lists 12 named validators (BlackRock, DTCC, Galaxy, ICE, Mastercard, MoneyGram, SBI Group, Standard Chartered, Sumitomo Corporation, Visa, Worldpay, and Circle), not 11. The draft is correct; the brief's core_claim contains the error. However, the draft must match the brief's facts as written, not correct them. A discrepancy between brief and draft on a core numbered claim is an accuracy failure.",
      "The brief contains a data_point about 'Global Payments completed its $24.25 billion acquisition of Worldpay in January (2026)' which does not appear in the draft. This fact is in the brief but not in the draft, suggesting the writer may have omitted context, or the brief included extraneous information. The instruction requires facts to come FROM the brief to the draft, not the reverse, so omission is acceptable. However, this signals the brief may contain facts the draft did not use.",
      "The core_claim says '11 founding validators' but the data_point and draft say 12. This internal inconsistency in the brief creates ambiguity about what the draft should report. The draft reports 12, which matches the data_point list, but contradicts the core_claim. The draft should have flagged this to the desk before publication."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c026",
+    "headline": "Circle Opens Arc Mainnet With BlackRock, DTCC, Visa Among 12 Institutional Validators",
+    "category": "accuracy",
+    "reasons": [
+     "Brief core_claim and data_point #1 state '11 founding institutional validators' but draft title and opening say '12 founding institutional validators.' The brief lists: BlackRock, DTCC, Galaxy, ICE, Mastercard, MoneyGram, SBI Group, Standard Chartered, Sumitomo Corporation, Visa, Worldpay, and Circle\u2014that is 12 entities. However, the brief's own language says '11 institutional validators' in core_claim and specifies 'BlackRock, the Depository Trust & Clearing Corporation (DTCC), Galaxy, ICE, Mastercard, MoneyGram, SBI Group, Standard Chartered, Sumitomo Corporation, Visa, Worldpay, and Circle' in data_point #1. Counting the list in data_point #1 yields 12 names. The brief's core_claim saying '11' contradicts its own list. The draft adopted the list (12) but the brief's stated number is 11. This is a factual discrepancy between brief components, and the draft cannot resolve it\u2014it must match the brief as written. The draft's count of 12 does not match the brief's stated '11 founding institutional validators' in core_claim, violating the hard rule that no fact exists outside the brief and facts must trace to brief language.",
+     "Draft says 'Circle launched Arc mainnet on September 16' and bottom_line says 'Arc's mainnet launch'\u2014today is September 16, 2026, so this is correct tense for an event that occurred today. No accuracy violation on timing."
     ]
    }
   ]
