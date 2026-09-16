@@ -1814,19 +1814,25 @@ def _contract_ladder_canary(cfg):
     import datetime as _dt
     import tempfile
     import watcher
+    # PROGRAM 4, T-1 (2026-09-16): this tested the MORNING slot, which no longer runs.
+    # The properties belong to slot recovery, not to that slot, so they are checked
+    # against the one that survives.
     with tempfile.TemporaryDirectory() as td:
-        noon = _dt.datetime(2026, 7, 15, 13, 0, tzinfo=_dt.timezone.utc)
-        _check(watcher.missed_slot(noon, td) == "morning-brief", fails,
-               "watcher recovery: missed morning slot not detected")
-        open(os.path.join(td, "2026-07-15-morning-brief.json"), "w").write("{}")
-        _check(watcher.missed_slot(noon, td) is None, fails,
+        late = _dt.datetime(2026, 7, 16, 2, 0, tzinfo=_dt.timezone.utc)
+        _check(watcher.missed_slot(late, td) == "evening-brief", fails,
+               "watcher recovery: past the deadline with no edition, did not fire")
+        open(os.path.join(td, "2026-07-15-evening-brief.json"), "w").write("{}")
+        _check(watcher.missed_slot(late, td) is None, fails,
                "watcher recovery: fired despite the edition existing")
-        early = _dt.datetime(2026, 7, 15, 11, 0, tzinfo=_dt.timezone.utc)
+        early = _dt.datetime(2026, 7, 15, 20, 0, tzinfo=_dt.timezone.utc)
         _check(watcher.missed_slot(early, td) is None, fails,
                "watcher recovery: fired before the deadline")
-        evening = _dt.datetime(2026, 7, 15, 23, 50, tzinfo=_dt.timezone.utc)
-        _check(watcher.missed_slot(evening, td) == "evening-brief", fails,
-               "watcher recovery: missed evening slot not detected")
+    # The guard that would have caught the sports desk's early Edition tonight: a slot
+    # left in SLOT_DEADLINES with no cron is re-fired on every tick for the rest of
+    # time, before the cooldown and before the cage, and each fire spends a full run.
+    _check({s[0] for s in watcher.SLOT_DEADLINES} == {"evening-brief"}, fails,
+           "watcher recovery: a slot with no cron is in SLOT_DEADLINES and would be "
+           "re-fired on every tick for the rest of time")
 
     # THE BOTTOM LINE lane gate (owner directive 2026-07-15): the signature element's
     # own guardrail must block directional/predictive language and pass clean synthesis.
