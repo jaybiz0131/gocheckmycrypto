@@ -4,40 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c001",
-    "headline": "Ethereum's Glamsterdam upgrade breaks 21,000-gas flat fee for new addresses",
-    "category": "accuracy",
-    "reasons": [
-     "Opening sentence claims the rule has governed 'for decades,' but Ethereum mainnet launched in 2015 (11 years ago), not decades. The 21,000-gas figure could not have been in place 'for decades' in its current form. This is a factual error not present in the brief.",
-     "The draft states Glamsterdam is 'scheduled to activate on Plat\u00e5berget...on Thursday' with no date context, making it impossible for readers to know when 'Thursday' is. The brief specifies '2026-08-18' in the timestamp, indicating the reporting date, but the draft provides no temporal anchor. This reads as a time-sensitive fact that cannot be verified from the brief alone.",
-     "The bear case paragraph is inserted directly into body prose ('The bear case: software rejecting...'), violating the form requirement that bear_case content should be integrated into risk discussion naturally, not labeled as such. This is a structural compliance issue with how the brief material was surfaced."
-    ]
-   },
-   {
-    "id": "c126",
-    "headline": "China adds 8 banks to digital yuan network as operator count hits 30",
-    "category": "accuracy",
-    "reasons": [
-     "The draft attributes the 30-institution claim to 'Cointelegraph's reporting' but the brief shows the source URL is a Cointelegraph RSS feed entry with 'source_chars: 0'\u2014meaning no actual source text was available to verify the claim. The writer has fabricated an attribution to a source that was never read or confirmed. This is a direct violation of the hard rule that facts must trace to the brief.",
-     "The brief has 'thin: true' with only three minimal data points and an explicitly empty bear_case. The draft acknowledges this (second paragraph) but then spends two full paragraphs listing open questions without moving the story forward. A thin brief should produce a tight story; this draft reads as padding around a thin fact. This is a clarity issue, but more critically, the attribution problem makes it a liability."
-    ]
-   },
-   {
-    "id": "c133",
-    "headline": "OCC conditionally approves World Liberty Financial for trust charter",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The US financial regulator granted conditional approval' but the brief's core claim says 'gave conditional approval' without specifying which regulator. The draft then says 'the US financial regulator' again in the second sentence without naming the OCC until much later. The title correctly names 'OCC' but the body text uses vague 'US financial regulator' twice before ever identifying which agency, creating ambiguity. More critically: the brief does not contain a data_point specifying that the OCC (rather than another regulator) issued this approval. The Cointelegraph URL mentions 'occ' but the brief's data_point does not explicitly state 'OCC' as the regulating body\u2014only 'the US financial regulator.' This is a gap between what the brief establishes and what the draft asserts as fact.",
-     "The draft states World Liberty Financial is 'affiliated with the Trump family' but this claim does not appear in any data_point in the brief. The brief's angle mentions 'Trump-affiliated' but angles are not data sources; only data_points are. This is smuggled information."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-18",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c006",
     "headline": "Metaplanet launching U.S. bitcoin treasury subsidiary with 2,100 BTC",
     "category": "accuracy",
@@ -5382,6 +5348,21 @@
     "reasons": [
      "The draft contains a reputationally damaging claim about Robinhood as a company: that the two engineers' insider trading scheme signals a control failure or negligence by the employer. However, the only Robinhood-specific sourcing in the draft comes from Robinhood's own statement denying responsibility. The brief's data points include the Robinhood statement defending the company's policies and cooperation. No independent source in the brief (Decrypt, The Block, or any third party) reports on Robinhood's internal control failures or negligence. The draft's framing\u2014'charged two former Robinhood engineers' with emphasis on the institutional connection\u2014risks implying Robinhood itself bore fault, when the only evidence is the defendants' individual actions and Robinhood's denial. The draft stops short of explicit accusation, but the lead's institutional framing combined with absence of independent scrutiny of Robinhood's role borders on unfair: a single corporate statement is insufficient to carry a damaging institutional implication. The solution is to lead on the defendants' charges and the legal theory, not on the Robinhood connection, or to clearly signal that Robinhood self-reported and denies fault.",
      "The draft relies on two sources (Decrypt and The Block), but The Block is not cited in any sentence of the final draft body. The sources list includes it, but it appears unused. This is not a liability per se, but it signals the draft may have been written from Decrypt alone, and the second source was listed for coverage attribution without integration. This is a minor quality issue, not a rejection-level accuracy problem, but worth noting."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c030",
+    "headline": "House Ways and Means Releases Digital Asset Tax Certainty Act for Committee Markup on Sept. 16",
+    "category": "accuracy",
+    "reasons": [
+     "The title and opening paragraph state the bill was 'released' and markup is happening 'on September 16,' but today is Wednesday, September 16, 2026. The markup is scheduled to occur today, not in the future. The draft reports a future scheduled event in past tense ('released for committee markup on September 16'), which is inaccurate. Scheduled events must be written as upcoming.",
+     "The bottom_line uses 'will determine' correctly (forward-looking) but the body's framing ('released...for committee markup on September 16') treats a scheduled event happening today as already completed."
     ]
    }
   ]
