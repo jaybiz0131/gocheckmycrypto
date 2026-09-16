@@ -168,8 +168,17 @@ SLOT_DEADLINES = (  # (edition slug, deadline minutes-of-UTC-day, window end)
     # evening fire to the previous day (SLOT_NAME outranks the clock), so the window
     # runs to 05:00 next day and no further: past 05:00 a recovery would date itself
     # onto the new day.
-    ("morning-brief", 12 * 60 + 10, 17 * 60),        # cron 10:40; recover 12:10-17:00
-    ("afternoon-brief", 18 * 60 + 40, 23 * 60),      # cron 17:08; recover 18:40-23:00
+    # PROGRAM 4, T-1 (2026-09-16). MORNING AND AFTERNOON ARE OUT OF THIS TABLE.
+    # The comment above is the rule and this is the case it warns about: a slot listed
+    # here with no cron is re-fired daily by the recovery logic. With those two slots
+    # disabled their editions are never written, so missed_slot() would report one on
+    # every tick, for the rest of time, and each report spends a full model run.
+    #
+    # It is worse than the retry crons were. Slot recovery is checked BEFORE the
+    # cooldown and before the cage, and it fires with breaking=False, so it does not
+    # count against the two-a-day breaking cap either. Measured tonight on the sports
+    # desk: a watcher tick at 22:21Z published the evening Edition an hour early by
+    # exactly this path.
     ("evening-brief", 23 * 60 + 45, 29 * 60),        # cron 23:08; recover 23:45-05:00(+1d)
 )
 
