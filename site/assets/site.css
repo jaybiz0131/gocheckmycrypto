@@ -1540,3 +1540,21 @@ body>*:not(.ground){position:relative;z-index:1}
 .card.ww>*:not(.wmk),.card.cm>*:not(.wmk){position:relative;z-index:1}
 .cm-quote{margin:0;font:italic 400 16px/1.55 var(--serif);color:var(--ink)}
 @media (max-width:720px){ .wmk{display:none} }   /* A-15 */
+
+@media (max-width:640px){
+  /* D-7b: the Chart Master's read is in the twelfth Board tile a screen above, so the
+     read CARD beside Whale Watch is the same words twice on a phone. The card goes;
+     the tile keeps it and the nav keeps /chartmaster. A-12's marks stay on desktop. */
+  .bd-row3 .card.cm{display:none}
+  /* Cold storage and Learn sit tighter; both link on to their own pages. */
+  .bd-cold .bd-opt .bd-read{display:none}
+  .bd-mod .bd-cards4>.bd-card .nx-h{-webkit-line-clamp:2}
+}
+
+@media (max-width:640px){
+  /* D-7b, margin. The lane's read-further card and the index pointer are both routes
+     to the same place the section's own "all" link already offers. */
+  .bd-rec-lane>.bd-rec-more{display:none}
+  .bd-rec-index{display:none}
+  .bd-mod>.bd-sec{margin-top:14px}
+}
