@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-19",
-  "approved": 5,
-  "rejected": [
-   {
-    "id": "c008",
-    "headline": "Maya Protocol Loses $11 Million to Accounting Exploit",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Assets drained include bitcoin' as a fact in the body paragraph. The brief's bear_case lists this as an inference ('indicating cross-chain wrapping risks'), not a confirmed data point. The CoinDesk source text is empty (source_chars: 0), so the specific assets drained cannot be verified from the fetched source. The draft presents this as established fact when it should be attributed to inference or marked as unconfirmed."
-    ]
-   },
-   {
-    "id": "c027",
-    "headline": "Ethereum upgrade changes gas cost model for basic transfers",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Ethereum's forthcoming upgrade will alter the gas cost model for basic ETH transfers' and 'Under the new model, sending ETH to a brand-new address will cost more in gas than sending to an existing address.' The brief's core_claim names the upgrade as 'Glamsterdam/Hegoat\u00e1' but the draft never names the upgrade, obscuring which protocol change is being discussed. More critically, the draft introduces the claim that 'This breaks the long-standing assumption that a simple transfer always costs 21,000 gas' as an established fact, but the brief only reports that new-address transfers will cost more\u2014not that this breaks a uniform 21,000-gas baseline or that the baseline itself changes. The draft has amplified a reported differential into a claim about baseline breakage without brief support.",
-     "The sentence 'Software built around the flat 21,000-gas fee will produce incorrect cost calculations under the new model' is a causal inference not stated in the brief. The brief reports the cost model changes; the draft asserts that software will break. This is a projection beyond the source material."
-    ]
-   },
-   {
-    "id": "c123",
-    "headline": "Bitcoin ETFs add $189M as August net inflows approach $1B",
-    "category": "accuracy",
-    "reasons": [
-     "Draft states 'August net inflows to Bitcoin ETFs have reached $951 million' as fact, but the brief's open_questions note 'Breakdown between inflows and outflows is not provided; net figure only'\u2014this signals the $951M figure itself may be unclear/unverified in source. The brief does not confirm whether $951M is a verified 'net' figure or an announced-but-unconfirmed one. The draft presents it without hedging language required by brief confidence labeling.",
-     "Draft narrative 'August trajectory suggests year-to-date inflows may exceed $1 billion' in the brief's angle is NOT supported by any data_point in the brief and does NOT appear in the source material per the open_questions; this is smuggled analysis, not reported fact. The draft must not narrate the angle as discovered fact."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
   "approved": 4,
   "rejected": [
    {
@@ -5250,6 +5218,11 @@
     ]
    }
   ]
+ },
+ {
+  "date": "2026-09-16",
+  "approved": 5,
+  "rejected": []
  },
  {
   "date": "2026-09-16",
