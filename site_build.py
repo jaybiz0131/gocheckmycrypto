@@ -186,14 +186,23 @@ def _et_from_utc_hhmm(hhmm):
 
 
 def fmt_when(item):
-    """Dateline with the publish time when we have one: 'July 12, 2026 · 3:41 AM ET'.
-    Crypto is a 24/7 market; an expert reader needs to know 2 hours old vs 20."""
-    base = esc(fmt_date(item.get("date")))
-    if item.get("published_utc"):
-        dt = _parse_utc(item)
-        if dt:
-            return f"{base} \u00b7 {_et_clock(dt)}"
-    return base
+    """Dateline with the publish time.
+
+    C-2 / H-5: ONE CONVERSION, THEN BOTH HALVES. This took the date from
+    item["date"] and the time from the UTC timestamp converted to Eastern, so the
+    two halves sat in different zones and every story published between 8 PM and
+    midnight Eastern showed the wrong day: 47 of them on this desk. The audit caught
+    it as datelines a day ahead, last night's stories reading "September 17" at 8 AM
+    on the 17th.
+
+    The sports desk had the same bug and the same fix; this desk did not get it,
+    which is the cost of fixing a shared function on one side only.
+    """
+    dt = _parse_utc(item) if item.get("published_utc") else None
+    if dt:
+        et = dt.astimezone(_ET)
+        return f"{MONTHS[et.month]} {et.day}, {et.year} \u00b7 {_et_clock(dt)}"
+    return esc(fmt_date(item.get("date")))
 
 
 def _rfc822(item):
@@ -5016,13 +5025,9 @@ def render_learn(dateline):
         _learn_card("Daily read", "The Chart Master's read of the boards",
                     "One plain-language pass over what the numbers are doing today, and "
                     "what would change the read.", "/chartmaster.html"),
-        _learn_card("Practice", "The Oracle Challenge",
-                    "Call the next move on a real chart and keep a record. Learning the "
-                    "tape by playing it, with your hit rate kept honest.",
-                    "/chartmaster.html#oracle"),
-        _learn_card("Test yourself", "The Wizard's Exam",
-                    "Questions on the indicators the boards use. Wrong answers explain "
-                    "themselves.", "/chartmaster.html#exam"),
+        # UX-8: the two cards that pointed at #oracle and #exam are gone with the
+        # blocks they linked to. A card whose anchor no longer exists is a link into
+        # the middle of a page with nothing there.
         _learn_card("Reference", "The Spellbook",
                     "The terms this desk's reporting uses, defined once, in the order a "
                     "beginner meets them.", "/chartmaster.html#rsi101"),
@@ -5890,6 +5895,21 @@ def mp_hero(pulse=None, flows=None):
         ex = by_tile.get(tile.get("key"))
         return f'/learn/{ex["slug"]}.html' if ex else "/learn.html"
 
+    # UX-7 (C-3): THE BAND ON /pulse CARRIES NO TILES. A-14 put four of them here and
+    # the nine-card grid 300px below repeated every one: Bitcoin, the whole market, ETF
+    # flows and whale flows appeared twice on the same page, and the band's own grid had
+    # an empty slot where the Chart Master tile used to sit. The band is the heading,
+    # the stamp and the Chart Master's line; the grid below carries all nine numbers
+    # once. Same ruling as R-2 made for the /scores band, for the same reason.
+    #
+    # ONE STALE BANNER PER PAGE. data_stamp renders the tripwire, and with the band
+    # carrying one and the page carrying another a stale board said so twice. The band
+    # is the one that shows: it is above the numbers it is warning about.
+    cm_line = ""
+    _cm = load_chartmaster() or {}
+    _read = (_cm.get("headline") or "").strip()
+    if _read:
+        cm_line = f'<p class="cb-cm">{esc(clamp_words(_read, 190))}</p>'
     return f"""<section class="cb-hero cb-hero-inner" aria-labelledby="bd-board">
   <div class="cb-bg" aria-hidden="true"></div>
   <div class="cb-scrim" aria-hidden="true"></div>
@@ -5898,7 +5918,7 @@ def mp_hero(pulse=None, flows=None):
       <h1 class="cb-claim" id="bd-board">The Board</h1>
     </div><a class="bd-more" href="/learn.html">How the Board is built</a></div>
     {data_stamp(pulse, what="The Board")}
-    {board_tile_grid(tiles[:4], learn_href, pulse, flows, cm_slot=False)}
+    {cm_line}
   </div>
   {_cb_ornament(pulse)}
 </section>
@@ -6338,8 +6358,11 @@ def render_pulse_hub(pulse, flows, cm, dateline):
     if movers.get("gainers"):
         g = movers["gainers"][0]
         l = (movers.get("losers") or [{}])[0]
+        # UX-7: the headline already names the biggest gainer, so the list starts at
+        # the second. "ZEC +20.5%" as the stat and "up ZEC +20.5% - NEAR ..." directly
+        # under it is the same fact twice inside one card.
         g_line = " &middot; ".join(f'{esc(x.get("symbol", ""))} {x.get("chg_24h_pct", 0):+.1f}%'
-                                   for x in movers.get("gainers", [])[:3])
+                                   for x in movers.get("gainers", [])[1:4])
         l_line = " &middot; ".join(f'{esc(x.get("symbol", ""))} {x.get("chg_24h_pct", 0):+.1f}%'
                                    for x in movers.get("losers", [])[:3])
         mv_mini = (f'<span class="w-range" style="color:var(--up)">up&nbsp; {g_line}</span>'
@@ -6376,7 +6399,6 @@ def render_pulse_hub(pulse, flows, cm, dateline):
      <span class="live-stamp"><span class="live-dot"></span>prices update in your browser
      <span data-live="stamp"></span></span></p>
   <div class="dash-grid widget-grid">{"".join(W)}</div>
-  {data_stamp(pulse, what="The market boards")}
   <p class="nfa">{esc(NFA)}</p>
 </section></main>'''
     return shell(f"The Board - {NAME}", desc, "The Board", body, dateline,
@@ -6634,15 +6656,39 @@ def _top100_rows(coins):
         spark_html = (f'<span class="row-spark" style="color:{"var(--up)" if up else "var(--down)"}">'
                       f'{spark_svg(spark, w=110, h=26)}</span>') if spark else ""
         rows.append(
-            f'<tr data-sym="{esc(c.get("symbol", ""))}">'
+            # UX-6: the cap rides on the row so the phone can show it on tap without
+            # a second request or a wider table.
+            f'<tr data-sym="{esc(c.get("symbol", ""))}" '
+            f'data-mcap="{esc(fmt_usd(c.get("mcap_usd", 0)))}">'
             f'<td class="mut" data-cell="rank" data-val="{c.get("rank") or 999}">#{c.get("rank", "?")}</td>'
             f'<td class="sym2">{esc(c.get("symbol", ""))}<span class="mut"> &middot; '
-            f'{esc((c.get("name") or "")[:18])}</span></td>'
+            f'{esc((c.get("name") or "")[:18])}</span>'
+            f'<span class="sym2-cap" hidden></span></td>'
             f'<td>{spark_html}</td>'
             f'<td class="pnum" data-cell="price" data-val="{c.get("price") or 0}">{esc(_price_fmt(c.get("price")))}</td>'
             f'<td data-cell="chg" data-val="{chg if chg is not None else 0}">{chg_html}</td>'
             f'<td class="mut" data-cell="mcap" data-val="{c.get("mcap_usd") or 0}">{esc(fmt_usd(c.get("mcap_usd", 0)))}</td></tr>')
     return "".join(rows)
+
+
+TOP100_TAP_JS = """
+<script>(function(){
+  /* UX-6: market cap on tap. The cap is already on the row as data-mcap, so this
+     shows what the page already holds rather than fetching anything. Desktop shows
+     the column and never needs this. */
+  var t = document.querySelector('.prices-table');
+  if (!t) return;
+  t.addEventListener('click', function(ev){
+    if (window.matchMedia('(min-width:721px)').matches) return;
+    var tr = ev.target.closest('tr[data-mcap]');
+    if (!tr) return;
+    var cap = tr.querySelector('.sym2-cap');
+    if (!cap) return;
+    if (cap.hidden) { cap.textContent = 'Market cap ' + tr.getAttribute('data-mcap'); }
+    cap.hidden = !cap.hidden;
+  });
+})();</script>
+"""
 
 
 def render_pulse_prices(pulse, dateline):
@@ -6702,7 +6748,7 @@ def render_pulse_prices(pulse, dateline):
       confirms. Freed places are filled from further down, so this is still a full
       hundred.</p></div>
   </div>{screened}
-  <p class="nfa">{esc(NFA)}</p>"""
+  <p class="nfa">{esc(NFA)}</p>""" + TOP100_TAP_JS
     return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True, data=pulse)
 
 
@@ -6925,12 +6971,87 @@ def cm_hero():
 
 
 
+CM_SECTIONS = [
+    ("Regime", r"^\s*(start with the regime|the regime\b|regime\b)"),
+    ("Momentum", r"^\s*momentum\b"),
+    ("Positioning", r"^\s*positioning\b"),
+    ("Flows", r"^\s*flows\b"),
+    ("Sentiment", r"^\s*sentiment\b"),
+    ("What to watch", r"^\s*what to watch\b"),
+]
+
+
+def _cm_sectioned(paras):
+    """UX-8: the read's own paragraphs, under the subheads they already imply.
+
+    The Chart Master writes six paragraphs that open with the words Regime, Momentum,
+    Positioning, Flows, Sentiment and What to watch. The page printed them as a wall of
+    seven. The subheads are READ OFF the paragraphs rather than assigned by position, so
+    a read that comes back in a different order, or with a section missing, is labelled
+    correctly or not at all instead of mislabelled.
+    """
+    out = []
+    for para in paras:
+        text = destyle(para)
+        label = ""
+        for name, rx in CM_SECTIONS:
+            if re.match(rx, text, re.I):
+                label = name
+                break
+        if label:
+            out.append((label, text))
+        else:
+            out.append(("", text))
+    return out
+
+
+def _cm_at_a_glance(sectioned):
+    """UX-8: five lines under the title, each the first sentence of a section.
+
+    THE DESK'S OWN WORDS, NOT A SUMMARY. A-18's rule is that a read is authored and
+    never generated, and that holds here: this extracts the sentence the Chart Master
+    already wrote to open each section. Nothing is composed, nothing is shortened into
+    a new claim. A section the read did not carry contributes no line.
+    """
+    want = ["Regime", "Momentum", "Positioning", "Flows", "Sentiment"]
+    by = {lab: txt for lab, txt in sectioned if lab}
+    rows = []
+    for name in want:
+        txt = by.get(name)
+        if not txt:
+            continue
+        first = re.split(r"(?<=[.!?])\s+", txt.strip())[0].strip()
+        if first:
+            rows.append(f'<li><span class="cm-g-k">{esc(name)}</span>'
+                        f'<span class="cm-g-v">{esc(first)}</span></li>')
+    if not rows:
+        return ""
+    return (f'<div class="cm-glance"><span class="bd-label">At a glance</span>'
+            f'<ul>{"".join(rows)}</ul></div>')
+
+
 def render_chartmaster(read, dateline):
+    # UX-8 (C-4): THE ORACLE CHALLENGE AND THE WIZARD'S EXAM ARE GONE. The first asked
+    # the reader to call Bitcoin higher or lower by tomorrow, on a page whose own first
+    # line is "describe the tape, never predict it" and under a footer that says the
+    # site never advises. That is not a contradiction a reader has to reconcile; it is
+    # the site breaking its own rule for entertainment. The second was the retired
+    # wizard under another name. chart-master.js went with them: all 180 lines existed
+    # to drive those two blocks.
+    #
+    # (The first cut of this note was an HTML comment and shipped to the page. A build
+    # note belongs in the source.)
     desc = ("The Chart Master reads the boards: a plain-language take on sentiment, "
-            "whale flows, and price posture. Plus the Oracle Challenge and the Wizard's "
-            "Exam. Never financial advice.")
+            "whale flows, and price posture. Never financial advice.")
     read = read or {}
-    paras = "".join(f"<p>{esc(destyle(p))}</p>" for p in read.get("paragraphs", []))
+    # UX-8: the read under the subheads it already implies, with five glance lines
+    # above it. The page printed seven undifferentiated paragraphs.
+    _sec = _cm_sectioned(read.get("paragraphs", []))
+    _glance = _cm_at_a_glance(_sec)
+    paras = "".join(
+        (f'<h3 class="cm-sub">{esc(lab)}</h3>' if lab else "") + f"<p>{esc(txt)}</p>"
+        for lab, txt in _sec)
+    paras = _glance + paras
     # A read older than the current dateline quotes numbers the live boards have moved past;
     # say so rather than let it read as today's.
     stale_note = ""
@@ -6980,27 +7101,6 @@ def render_chartmaster(read, dateline):
   {read_html}
   {archive_html}
 
-  <div class="sec-head" style="margin-top:30px"><h2>The Oracle Challenge</h2><span class="bar"></span></div>
-  <div class="pulse-card" id="oracle">
-    <p style="margin:0 0 10px">The Chart Master refuses to predict. Think you can do better?
-    Call Bitcoin <b>higher or lower</b> than right now by this time tomorrow. Your record
-    lives in your browser, and it IS the lesson.</p>
-    <div class="pc-chips" id="oracle-buttons">
-      <button class="cm-btn" data-guess="up">Higher &uarr;</button>
-      <button class="cm-btn" data-guess="down">Lower &darr;</button>
-    </div>
-    <p class="pc-note" id="oracle-status" aria-live="polite" role="status">Loading the tape...</p>
-    <p class="pc-note" id="oracle-record" aria-live="polite"></p>
-  </div>
-
-  <div class="sec-head" style="margin-top:30px"><h2>The Wizard's Exam</h2><span class="bar"></span></div>
-  <div class="pulse-card" id="exam">
-    <p style="margin:0 0 10px">Eight questions, straight from the desks. Pass, and you may
-    call yourself a reader of charts. Fail, and the Master suggests the
-    <a href="/pulse.html">101 sections</a>.</p>
-    <div id="exam-body"><button class="cm-btn" id="exam-start">Take the exam</button></div>
-  </div>
-
   <div class="sec-head" style="margin-top:30px"><h2>The Spellbook</h2><span class="bar"></span></div>
   <div class="learn-grid">
     <div class="learn"><span class="lab">Golden cross / death cross</span>
@@ -7026,7 +7126,7 @@ def render_chartmaster(read, dateline):
   <p class="nfa">{esc(NFA)} The Chart Master is a character of this desk, and nothing on
   this page is a recommendation of any kind.</p>
 </section></main>
-<script defer src="/assets/chart-master.js"></script>"""
+"""
     return shell(f"The Chart Master - {NAME}", desc, "Chart Master", body, dateline,
                  path="/chartmaster.html")
 

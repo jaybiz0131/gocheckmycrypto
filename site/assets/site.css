@@ -1646,3 +1646,43 @@ body>*:not(.ground){position:relative;z-index:1}
    alone deliberately - the nav is sticky and must stay sticky. */
 nav.mh-nav{z-index:300}
 header.masthead{position:relative;z-index:300}
+
+/* ===== UX-6 (C-1): the Top 100 on a phone ====================================
+   At 390 the table was 784px wide inside a 390px viewport: rank and coin showed,
+   price, 24-hour change and market cap sat off the right edge, and nothing told the
+   reader the table went further. A reader opens this page for the price.
+
+   On phone the row is coin, price and 24-hour change. The 7-day sparkline goes: it is
+   the widest column and the least of the three things the page is for. The market cap
+   is still on the row and opens on tap. */
+@media (max-width:720px){
+  .prices-table table{width:100%;table-layout:fixed}
+  .prices-table th:nth-child(3),
+  .prices-table td:nth-child(3){display:none}          /* the 7d sparkline */
+  .prices-table th:nth-child(6),
+  .prices-table td:nth-child(6){display:none}          /* market cap, on tap instead */
+  .prices-table th:nth-child(1),
+  .prices-table td:nth-child(1){width:34px;padding-right:0}
+  .prices-table td.sym2{white-space:normal;line-height:1.25}
+  .prices-table td.sym2 .mut{display:block;font-size:11px}
+  .prices-table tr{cursor:pointer}
+  .prices-table .sym2-cap{display:block;font-family:var(--mono);font-size:11px;
+    color:var(--muted);margin-top:2px}
+  .prices-table .sym2-cap[hidden]{display:none}
+  .prices-table td.pnum{font-variant-numeric:tabular-nums;white-space:nowrap}
+}
+
+/* UX-8: the Chart Master's read, with its glance and its subheads. */
+.cm-glance{border:1px solid var(--line);border-left:3px solid #C89A4A;border-radius:8px;
+  padding:14px 18px;margin:0 0 22px;background:var(--card)}
+.cm-glance .bd-label{display:block;margin-bottom:8px;color:#8A6420}
+.cm-glance ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.cm-glance li{display:grid;grid-template-columns:104px 1fr;gap:12px;align-items:baseline}
+.cm-g-k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted)}
+.cm-g-v{font-size:14.5px;line-height:1.45;color:var(--ink)}
+.cm-sub{font:600 15px/1.3 var(--mono);letter-spacing:.04em;text-transform:uppercase;
+  color:#8A6420;margin:26px 0 6px}
+@media (max-width:640px){
+  .cm-glance li{grid-template-columns:1fr;gap:1px}
+}
