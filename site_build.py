@@ -1677,7 +1677,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {body}
 {footer(brand)}{beacon}{livejs}
 {tab_bar(path)}
-{MOTION_JS}{ATMOS_MOTION_JS}{SW_REGISTER}{WATCHLIST_JS if 'data-watchlist' in body else ''}
+{MOTION_JS}{ATMOS_MOTION_JS}{SW_REGISTER}{WATCHLIST_JS if 'data-watchlist' in body else ''}{COINS_MINI_JS if 'class="cb-mini"' in body else ''}
 </body>
 </html>"""
     # C-D: an em-dash belt at render, for desk-generated copy. destyle already runs at
@@ -4940,6 +4940,7 @@ def render_home(items, flows, pulse, cm, dateline):
 
     body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
   <h1 class="sr-only">{esc(FAMILY)}: the Board, and crypto news checked against it</h1>
+  {coins_mini_board()}
   {board_mod}
   {brief_row}
   {ww_row}
@@ -7096,6 +7097,82 @@ def render_coin_page(c, pos, pulse, items, dateline):
                        path=f"/coins/{_coin_slug(c)}.html")
 
 
+# ---- C-L4: the pinned-coin mini-board --------------------------------------------
+# Pinned coins as a small board at the top of the homepage, with sparklines, fed by the
+# Top 100. The pins are the ones the ticker and the coin pages already write, so a coin
+# pinned anywhere shows up here.
+#
+# IT COSTS NOTHING UNTIL IT IS USED. The data for a hundred coins with their seven-day
+# series is 13KB gzipped, and most readers have pinned nothing. Putting that on every
+# homepage load to serve the few who have is the wrong trade on a desk with an LCP
+# budget, so it is a separate file that the script fetches only after it finds pins.
+# A reader with no pins pays for one localStorage read.
+
+def coins_mini_payload(pulse):
+    """The file the mini-board reads. Twelve points is all a 64px sparkline can show, so
+    the series is thinned to twelve rather than carrying the twenty-eight the Top 100
+    table draws with."""
+    out = []
+    for c in ((pulse or {}).get("movers") or {}).get("top100") or []:
+        sym = c.get("symbol")
+        if not sym:
+            continue
+        k = c.get("spark7d") or []
+        if len(k) > 12:
+            step = (len(k) - 1) / 11.0
+            k = [k[int(round(i * step))] for i in range(12)]
+        out.append({"s": sym, "n": c.get("name") or sym, "u": _coin_slug(c),
+                    "p": c.get("price"), "c": c.get("chg_24h_pct"),
+                    "k": [round(float(x), 6) for x in k]})
+    return out
+
+
+COINS_MINI_JS = """<script>(function(){
+  var KEY='gcmc_coins', host=document.querySelector('.cb-mini');
+  if(!host) return;
+  var picks=[];
+  try{ picks=JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return; }
+  if(!picks.length) return;                    /* no pins, no request, no board */
+  fetch('/data/coins-mini.json').then(function(r){ return r.ok?r.json():null; })
+   .then(function(all){
+    if(!all) return;
+    var by={}; all.forEach(function(c){ by[c.s]=c; });
+    var rows=picks.map(function(s){ return by[s]; }).filter(Boolean);
+    if(!rows.length) return;
+    host.innerHTML = '<div class="cb-mini-in">' + rows.map(function(c){
+      var up = c.c===null||c.c===undefined ? null : c.c>=0;
+      var k=c.k||[], path='';
+      if(k.length>1){
+        var lo=Math.min.apply(null,k), hi=Math.max.apply(null,k), rg=(hi-lo)||1;
+        path = k.map(function(v,i){
+          return (i?'L':'M')+(i*(64/(k.length-1))).toFixed(1)+' '+(20-((v-lo)/rg)*20).toFixed(1);
+        }).join(' ');
+      }
+      var cls = up===null ? 'cm-flat' : (up?'cm-up':'cm-dn');
+      var pct = (c.c===null||c.c===undefined) ? '' :
+        '<span class="cm-c '+cls+'">'+(c.c>0?'+':'')+c.c.toFixed(1)+'%</span>';
+      var px = (c.p===null||c.p===undefined) ? '' :
+        '<span class="cm-p">$'+Number(c.p).toLocaleString(undefined,
+          Number(c.p)>=1 ? {minimumFractionDigits:2, maximumFractionDigits:2}
+                         : {maximumFractionDigits:6})+'</span>';
+      return '<a class="cm-row" href="/coins/'+c.u+'.html"><span class="cm-s">'+c.s+'</span>'
+        + px + pct
+        + (path?'<svg class="cm-k '+cls+'" viewBox="0 0 64 20" width="64" height="20" '
+          + 'aria-hidden="true"><path d="'+path+'" fill="none" stroke="currentColor" '
+          + 'stroke-width="1.5"/></svg>':'')
+        + '</a>';
+    }).join('') + '<a class="cm-all" href="/pulse/prices.html">The Top 100</a></div>';
+    host.hidden = false;
+  }).catch(function(){});
+})();</script>"""
+
+
+def coins_mini_board():
+    """The empty shell. It renders hidden and stays hidden for a reader with no pins,
+    so the page is the same page it has always been until someone pins something."""
+    return ('<section class="cb-mini" aria-label="Your pinned coins" hidden></section>')
+
+
 def render_pulse_prices(pulse, dateline):
     desc = ("Live prices, 7-day trend, 24-hour change, and market cap for the top 100 "
             "cryptocurrencies by market cap. Sortable, updated in your browser.")
@@ -8088,6 +8165,13 @@ def build():
     _board_age_alarm(pulse)
     cm = load_chartmaster()
     w("index.html", render_home(items, flows, pulse, cm, dateline))
+
+    # C-L4: the file the mini-board fetches, and only after it has found pins.
+    _cm_payload = coins_mini_payload(pulse)
+    if _cm_payload:
+        w(os.path.join("data", "coins-mini.json"),
+          json.dumps(_cm_payload, separators=(",", ":")))
+        print(f"coins mini-board: {len(_cm_payload)} coin(s) available to pin")
     w("news.html", render_news_hub(items, dateline, pulse=pulse))
     # C4: a page per storyline, paginated, plus a page per month. Together these are
     # what makes every live story reachable within three clicks of the front page.

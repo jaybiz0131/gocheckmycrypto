@@ -1765,3 +1765,29 @@ header.masthead{position:relative;z-index:300}
 }
 .t1-a{color:inherit;text-decoration:none}
 .t1-a:hover .t1-name,.t1-a:hover{text-decoration:underline}
+
+/* ---- C-L4: the pinned-coin mini-board --------------------------------------
+   A reader's own coins, above the Board, with a seven-day line each. It is
+   hidden until the script finds pins, so a reader who has pinned nothing sees
+   the page that has always been there. */
+.cb-mini{margin:0 0 18px}
+.cb-mini-in{display:flex;flex-wrap:wrap;align-items:center;gap:0;
+  border:1px solid var(--line);border-radius:10px;background:var(--card);
+  overflow:hidden}
+.cm-row{display:flex;align-items:center;gap:10px;padding:10px 16px;flex:0 0 auto;
+  text-decoration:none;border-right:1px solid var(--line);white-space:nowrap}
+.cm-row:hover{background:var(--paper);text-decoration:none}
+.cm-s{font:700 11.5px/1 var(--mono);letter-spacing:.06em}
+.cm-p{font-variant-numeric:tabular-nums;font-size:14px}
+.cm-c{font:600 12px/1 var(--mono);font-variant-numeric:tabular-nums}
+.cm-up,.cm-k.cm-up{color:var(--up)}
+.cm-dn,.cm-k.cm-dn{color:var(--down)}
+.cm-flat,.cm-k.cm-flat{color:var(--muted)}
+.cm-k{display:block;flex:0 0 auto}
+.cm-all{margin-left:auto;padding:10px 16px;flex:0 0 auto;
+  font:600 12px/1 var(--sans);white-space:nowrap}
+@media (max-width:640px){
+  .cb-mini-in{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .cb-mini-in::-webkit-scrollbar{display:none}
+  .cm-all{display:none}
+}
