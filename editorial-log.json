@@ -4,56 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c001",
-    "headline": "SEC Proposes Regulation Crypto Assets Framework",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The SEC's official press release serves as the primary source for this development' and 'The SEC press release text was not fetched as part of this reporting, leaving the framework's operative provisions unverified at this time.' This is a narration of absence/meta-commentary about reporting failure rather than news. Per the compliance rule, the writer is forbidden from narrating absence. The entire body should be removed or rewritten to report only what is actually known from the headline/URL itself.",
-     "The sentence 'The proposal's scope, specific exemptions, safe harbor mechanisms, timeline for public comment, and coverage details remain unavailable' is explicit narration of what was NOT reported, which violates the accuracy rule against restating open_questions as article prose."
-    ]
-   },
-   {
-    "id": "c007",
-    "headline": "China Triples e-CNY Operator Network to 30 Banks in 2026",
-    "category": "accuracy",
-    "reasons": [
-     "The draft contains three separate sentences narrating absence: 'The identities of the 20 newly added operators, the criteria PBOC applied to vet them, and any target for further expansion remain unreported.' and 'Transaction volumes, user adoption metrics, and the specific dates of the two expansion rounds are also not available in current coverage.' Per the accuracy rule, the writer is forbidden from narrating absence and must not restate open_questions as article prose. These sentences must be removed entirely."
-    ]
-   },
-   {
-    "id": "c021",
-    "headline": "Wyoming Public Entity Replaces LayerZero Blockchain Infrastructure for State Stablecoin",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims Wyoming 'has publicly replaced LayerZero blockchain infrastructure' and that this represents 'the first reported case of a U.S. government entity explicitly rejecting a major crypto infrastructure provider on security grounds.' The brief's open_questions state that 'the claim that this is the first U.S. government entity to publicly replace LayerZero on security grounds cannot be verified without source text' and note that 'no source text was provided.' The draft presents an unverified claim as settled fact, violating the hard rule that facts must trace to brief data_points. The data_points array is empty.",
-     "The draft states 'CoinDesk's headline characterizes related departures from LayerZero as a broader exodus, citing a figure of $15 billion. The composition of that figure, the identities of other entities involved in departures, and the scale of the movements remain unconfirmed in available reporting.' This correctly flags the $15 billion figure as unconfirmed, but the opening paragraph has already asserted Wyoming's replacement as fact without confirmation. The brief notes 'no source text was provided; the brief is built from the headline, snippet, and metadata only,' meaning the writer had no access to underlying reporting to verify the core claim."
-    ]
-   },
-   {
-    "id": "c013",
-    "headline": "Bitcoin Rallies to $65,000 on U.S. Treasury Bond Buyback Announcement",
-    "category": "accuracy",
-    "reasons": [
-     "The draft asserts 'Bitcoin rallied to $65,000 following a U.S. Treasury announcement by Scott Bessent of at least a doubling in the size of its long-dated bond buybacks' as the opening claim. The brief's open_questions explicitly state: 'No source text was provided; the brief is built from the headline, snippet, and metadata only' and 'Critical details are absent: the specific timing of the Treasury announcement relative to Bitcoin's move to $65K, whether the price move preceded or followed the announcement.' The data_points confirm only that 'Bitcoin topped $65,000' and that Bessent announced a doubling, but do not establish the causal sequence or timing relationship that the draft's lead sentence implies.",
-     "The draft states 'CoinDesk's reporting links the announcement to Bitcoin's move above $65,000, though the explicit causal mechanism described by market participants or Treasury officials remains unconfirmed.' This correctly flags causal uncertainty in the later prose, but the opening has already presented causation as settled ('rallied to $65,000 following'), violating the rule that confidence labels and unconfirmed relationships must be preserved in the draft. The causal claim smuggles information beyond what the brief's data_points support: the brief note says 'the causal link between the Treasury announcement and Bitcoin's move to $65,000 is stated in the why_it_matters field but is not confirmed in the provided source material.'"
-    ]
-   },
-   {
-    "id": "c062",
-    "headline": "Bitpanda hit with \u20ac70,000 MiCA penalty in Austria",
-    "category": "accuracy",
-    "reasons": [
-     "Claim 'The penalty marks the first published MiCA enforcement action in Europe since the regulation came into force' is not in the brief. The brief's open_question asks 'Whether this is the first MiCA penalty globally or only in Austria,' indicating this status was unconfirmed. The draft presents an unverified claim as settled fact.",
-     "Claim 'Bitpanda, founded in 2014 and headquartered in Vienna, operates as a cryptocurrency exchange and custody provider serving retail and institutional clients across Europe. The company has raised over $300 million in venture funding and holds licenses under both Austrian and EU regulatory frameworks' is not in the brief data_points and represents smuggled background information beyond what the source texts provided."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c009",
     "headline": "China Adds 20 E-CNY Operators in 2026, Including 8 Banks in Single Week",
     "category": "accuracy",
@@ -5156,6 +5106,24 @@
     "reasons": [
      "The draft reports the ransom demand and threat as a past event that occurred ('A ransomware group has demanded $3 million'), but the brief provides only a single data point from CoinDesk with timestamp 2026-09-16T19:07:34Z. The brief's core_claim uses past tense ('demanded') and angle uses present tense in a general sense ('exposes... reveals'), which is consistent with reporting a breaking story. However, the critical issue is that the brief's bear_case is empty (no risk factors, no context about Revolut's response, no known outcomes) and the open_questions list six fundamental unknowns including 'Did Revolut pay the ransom or involve law enforcement?' This indicates the reporting is incomplete and speculative. The draft's bottom_line states 'Attackers demand $3M ransom' in present tense, which is appropriate for a breaking story, but the draft body lacks any detail about the status of the demand, whether Revolut has responded, or whether the threat is ongoing\u2014information that would be expected in a complete brief but is absent.",
      "More fundamentally, the brief is marked 'thin: true' with 'source_chars: 103', indicating extremely limited source material (a single CoinDesk article). The draft adds no reporting beyond this single source and provides no independent verification, context, or follow-up details. For a story about extortion and alleged data theft targeting a named company, a single-source story with no bear case and six open questions should not run until at least one follow-up reporting call to Revolut, law enforcement, or independent security researchers is completed."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-17",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c027",
+    "headline": "CFTC and SEC Double Down on Crypto After Clarity Act Defeat",
+    "category": "accuracy",
+    "reasons": [
+     "Draft reports Senate vote on September 16 as having occurred ('The Senate failed to advance the Clarity Act on September 16'), but today is Thursday, September 17. The vote is dated in the past tense as a completed event.",
+     "Per instruction: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT; scheduled events are written as upcoming.' The vote occurred yesterday (September 16), not today, so the tense is technically correct, but the framing treats it as settled history.",
+     "More critically: the draft contains a claim not in the brief. It states 'All 49 votes to proceed came from Republicans,' but the brief data_point only confirms '49 votes...from Republicans' without explicitly stating 'all.' The addition of 'All' shifts from reported fact to inference.",
+     "The draft also states Republicans 'incorporated 126 substantive changes requested by Democrats' as a factual claim, but the brief data_point says 'Republicans said they had incorporated 126 substantive changes'\u2014the draft dropped the 'said they had,' presenting a claim as fact rather than as a Republican assertion.",
+     "Draft states Atkins 'also named proposed transfer agent rules and a custody proposal' but the brief states he 'has asked staff to develop' the custody proposal\u2014the draft implies these are existing proposals rather than requested developments."
     ]
    }
   ]

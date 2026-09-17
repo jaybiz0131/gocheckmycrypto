@@ -1,0 +1,57 @@
+{
+  "id": "c005",
+  "slug": "hamas-military-wing-told-donors-to-avoid-sending-crypto-directly-from-binance-doj-filing-shows",
+  "kind": "brief",
+  "title": "Hamas military wing told donors to avoid sending crypto directly from Binance, DOJ filing shows",
+  "dek": "Hamas's military wing instructed donors to avoid Binance and use Trust Wallet, Bybit, OKX, Kast, and Redotpay instead to send funds to an external TRON wallet, according to U.S. Department of Justice documents cited in CoinDesk reporting on September 16.",
+  "date": "2026-09-17",
+  "published_utc": "2026-09-17T00:03:57Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "Terrorist organization actively directing donors away from compliant exchanges to lesser-regulated platforms, showing adaptive evasion of AML controls.",
+  "bottom_line": "",
+  "human_take": "",
+  "body": [
+    "Hamas's military wing instructed donors to avoid using Binance and instead route funds through Trust Wallet, Bybit, OKX, Kast, and Redotpay before moving them to an external TRON wallet, according to U.S. Department of Justice documents. CoinDesk reported the details on September 16, citing the DOJ filing as the source.",
+    "The guidance shows how designated terrorist organizations actively study and adapt to exchange-level compliance controls. By directing donors away from Binance, the organization signaled which platforms it viewed as more likely to detect or block the transfers."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/09/16/hamas-military-wing-told-donors-to-avoid-binance-use-bybit-okx-and-others-instead",
+      "url": "https://www.coindesk.com/policy/2026/09/16/hamas-military-wing-told-donors-to-avoid-binance-use-bybit-okx-and-others-instead"
+    }
+  ],
+  "update_of": "doj-announces-560k-in-hamas-crypto-seizures-as-fbi-took-over-fundraising-infrastructure",
+  "board_snapshot": {
+    "as_of": "2026-09-17T00:01:56Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76149.37,
+        "chg_24h_pct": 0.74
+      },
+      {
+        "symbol": "ETH",
+        "price": 2415.96,
+        "chg_24h_pct": 0.77
+      }
+    ],
+    "fng": {
+      "value": 50,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 9.4,
+      "open_interest_usd": 2156182122
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 171431204,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

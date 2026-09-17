@@ -1,0 +1,57 @@
+{
+  "id": "c001",
+  "slug": "revolut-hackers-demand-3-million-in-monero-threaten-to-sell-customer-data",
+  "kind": "brief",
+  "title": "Revolut hackers demand $3 million in Monero, threaten to sell customer data",
+  "dek": "A ransomware group breached Revolut and demanded $3 million in Monero within 24 hours, according to CoinDesk reporting on September 16. The attackers said they targeted customers with significant crypto holdings and threatened to sell customer data if the ransom was not paid.",
+  "date": "2026-09-17",
+  "published_utc": "2026-09-17T00:03:57Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "Attackers gave Revolut a 24-hour deadline to pay $3 million in Monero or face data sale.",
+  "bottom_line": "Watch for any statement from Revolut or confirmation of law enforcement involvement.",
+  "human_take": "",
+  "body": [
+    "A ransomware group breached Revolut and demanded $3 million in Monero within 24 hours, according to CoinDesk reporting on September 16. The attackers said they specifically targeted customers with significant crypto holdings and threatened to sell customer data if payment was not made.",
+    "Per CoinDesk, the group gave Revolut one day to pay the ransom demand in the privacy coin Monero before threatening to sell the accessed customer data."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/markets/2026/09/16/revolut-hackers-demand-usd3-million-in-monero-threaten-to-sell-customer-data",
+      "url": "https://www.coindesk.com/markets/2026/09/16/revolut-hackers-demand-usd3-million-in-monero-threaten-to-sell-customer-data"
+    }
+  ],
+  "update_of": "revolut-customer-data-leak-exposes-passports-crypto-transactions-10-000-btc-ransom-demanded",
+  "board_snapshot": {
+    "as_of": "2026-09-17T00:01:56Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76149.37,
+        "chg_24h_pct": 0.74
+      },
+      {
+        "symbol": "ETH",
+        "price": 2415.96,
+        "chg_24h_pct": 0.77
+      }
+    ],
+    "fng": {
+      "value": 50,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 9.4,
+      "open_interest_usd": 2156182122
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 171431204,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
