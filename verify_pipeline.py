@@ -1889,6 +1889,14 @@ def _contract_ladder_canary(cfg):
              "workflow_dispatch", "", "", False, False, "false"),
             ("a breaking run must still pass the guard",
              "workflow_dispatch", "evening-brief", "", True, True, "true"),
+            # X-2b: the old Worker names slots on its old schedule until the deploy
+            # lands. A dispatch naming a slot the desk no longer serves must stand
+            # down even with nothing served, or it spends a run writing an Edition
+            # for a retired slot.
+            ("a dispatch naming a slot the desk no longer serves must stand down",
+             "workflow_dispatch", "morning-brief", "", False, False, "false"),
+            ("the same for afternoon-brief",
+             "workflow_dispatch", "afternoon-brief", "", False, False, "false"),
         ]
         for _label, _ev, _slot, _cron, _brk, _served, _want in _cases:
             _check(_guard(_code, _ev, _slot, _cron, _brk, _served) == _want, fails,
