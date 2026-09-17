@@ -5237,9 +5237,8 @@ def render_privacy(dateline):
      governed by CoinGecko's own privacy policy. No identifier from this site is attached.</p>
 
   <h2>Fonts</h2>
-  <p>Pages load their typefaces from Google Fonts (fonts.googleapis.com and fonts.gstatic.com),
-     so your browser makes a request to Google when a page loads. Google processes font requests
-     under its own privacy policy.</p>
+  <p>Typefaces are served from this site. Your browser makes no request to Google, or to any
+     other font host, when a page loads.</p>
 
   <h2>Links out</h2>
   <p>Stories link their sources, and dashboards link the services behind their data. Once you
