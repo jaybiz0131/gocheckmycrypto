@@ -1,0 +1,122 @@
+{
+  "id": "wrap-pm-2026-09-16",
+  "slug": "evening-brief-2026-09-16",
+  "kind": "brief",
+  "title": "The Evening Brief: Fed raises rates; Senate kills Clarity Act; regulatory divergence widens",
+  "dek": "The Federal Reserve raised benchmark rates 25 basis points to 3.75%-4.0% on Wednesday in its first hike since July 2023, while the Senate's failure to advance the Clarity Act left the U.S. without federal crypto regulation. Institutional infrastructure and enforcement are fragmenting across jurisdictions as a result.",
+  "date": "2026-09-16",
+  "published_utc": "2026-09-16T23:41:46Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "The Senate's collapse of the Clarity Act combined with the Fed's rate hike and the SEC and CFTC's pledge to write crypto rules administratively signals a structural shift: the U.S. now has no statutory framework, agency chairs will move by rulemaking rather than legislation, and that path is vulnerable to reversal by future administrations.",
+  "bottom_line": "The Senate's collapse of the Clarity Act on September 15, combined with the Fed's rate hike on September 16, left the U.S. crypto market without federal statutory framework while facing higher borrowing costs. The SEC and CFTC pledged to write rules administratively, but administrative rulemaking is reversible by future administrations in ways statutory law is not. Watch the October 27-28 Fed meeting for signals of additional tightening, the October 5 deadline for possible second Clarity Act cloture vote by Senate Republicans, and the October 20 comment-close date for the SEC's Regulation Crypto Assets proposal to gauge whether agency action accelerates or stalls.",
+  "human_take": "",
+  "body": [
+    "The Senate failed to advance the Digital Asset Market Clarity Act on September 15, ending a year of bipartisan negotiation with a 49-50 cloture vote that fell short of the 60 required to proceed. The same day, the Federal Reserve raised its benchmark rate by 25 basis points to 3.75%-4.0%, marking the first increase since July 2023 and signaling additional tightening ahead. These two events, one stripping away legislative certainty for crypto markets, the other tightening monetary conditions across all risk assets, define the backdrop for Wednesday's market action and the regulatory path forward.",
+    "The Clarity Act's failure reflects a fracture within the Democratic negotiating coalition. Seven Democrats who had spent months shaping the bill, Gillibrand, Warner, Booker, Warnock, Gallego, Alsobrooks, and Cortez Masto, voted against proceeding, citing ethics provisions they said were too thin to prevent Trump and his appointees from profiting off crypto ventures while overseeing the industry. Per the reporting, Trump and his family had accumulated $1.4 billion from crypto ventures in 2025 alone, and Democrats signaled they would not support a framework that left those interests unregulated. Republicans released new ethics language on September 14 incorporating 126 changes Democrats had requested, but staff-level negotiations ended without agreement. The procedural failure ends the bill's prospects in 2026; revival would require either a second cloture vote before October 5 or a new Congress in 2027.",
+    "In response, SEC Chair Paul Atkins and CFTC Chair Mike Selig pledged on September 16 to advance crypto regulation using existing agency authority rather than waiting for legislation. Atkins directed staff to develop transfer agent rules, custody proposals for self-custody and state trust companies, and guidance on when crypto assets fall outside securities registration. Selig outlined plans to explore rules covering crypto exchanges and leveraged trading, and to engage with blockchain developers on legal pathways for protocols. The shift from legislative to administrative rulemaking accelerates the timeline for rules but introduces structural vulnerability: any rule adopted through notice-and-comment can be rescinded by a future chairman, whereas statutory language requires another act of Congress. The Supreme Court's July 1 overturning of Humphrey's Executor removed for-cause protections for SEC and CFTC commissioners, meaning presidential removals are now unrestricted. Polymarket priced the Clarity Act's passage at 6.6% on September 16 afternoon, down from 19.5% the morning of the vote.",
+    "The Fed's rate decision anchored on inflation that remained elevated despite a year of cuts. The Consumer Price Index held at 3.4% annually, but monthly core inflation picked up to 0.3% from 0.2%, and the Producer Price Index accelerated to 5.4% annually from 4.8%. Forward guidance signaled at least one more quarter-point increase before year-end; 16 of 18 FOMC participants indicated additional tightening. The next meeting is October 27-28, with markets pricing 54% probability of rates holding at 3.75%-4.0% and 46% tail risk of another hike. Bitcoin traded near $75,500 before the announcement and dipped toward $75,100 immediately after, before recovering above $76,000 as markets signaled the move had been priced in. The broader market showed stress: the 10-year Treasury yield climbed above 5% Tuesday, its highest level since 2007, while the S&P 500 and Nasdaq were down roughly 2% from early September levels.",
+    "Across the broader reporting, institutional infrastructure and enforcement are diverging by jurisdiction. Kamino, a Solana lending protocol, appointed Michael Weisz, co-founder of Yieldstreet, as CEO to lead U.S. market expansion from a New York office, and S&P Global led a $110 million extension of Kaiko's Series B to build data infrastructure for tokenized markets. Meanwhile, enforcement actions widened: the DOJ charged two Robinhood engineers with commodities fraud for trading perpetual futures on Hyperliquid before crypto listings, filed civil forfeiture against $61 million in cryptocurrency tied to Iran's black-market oil sales allegedly laundered through Binance via two Chinese companies, and Celsius Network's bankruptcy estate sued BitMEX for $495 million over March 2020 liquidations.",
+    "Security vulnerabilities and protocol shutdowns mounted in parallel. An MEV bot named Yoink intercepted an exploit targeting a Safe wallet on Ethereum, extracting $7.81 million in rsETH from a flaw in a user-enabled helper contract. The Symbiosis Bitcoin Bridge was exploited via two compounding software bugs that allowed an attacker to create 46.1 billion fake syBTC tokens from a 330-satoshi deposit, with preliminary losses estimated at $770,000. CoinEx, the Hong Kong-based exchange founded in 2017, announced an orderly wind-down with all operations ceasing December 22, 2026, citing prolonged market weakness, shrinking volume, and mounting compliance costs. Bitcoin Core 32 entered release candidate testing with faster block validation, updated fee estimation, and a security patch for a wallet authentication flaw, scheduled to ship in October. Zcash's governance polls closed September 14 with 99.9% of 2.4 million ZEC voting to adopt 25-second block intervals and 98.9% to preserve Bitcoin-style halvings, though formal ZIP consensus activation remains ahead.",
+    "Ethernet and Base abandoned efforts to agree on a shared account-abstraction wallet standard, with Ethereum moving ahead with EIP-8141 and Base backing EIP-8130. The incompatibility will require developers building cross-chain applications to maintain separate code paths for each network, complicating multi-chain user experience. The House Ways and Means Committee advanced the Digital Asset Tax Certainty Act, proposing to exclude taxes on small network fees and modify mining and staking tax rules, though the bill faces an uncertain path to floor passage or Senate consideration."
+  ],
+  "sources": [
+    {
+      "title": "DOJ Charges Two Robinhood Engineers in Hyperliquid Derivatives Trading Case",
+      "url": "/articles/doj-charges-two-robinhood-engineers-in-hyperliquid-derivatives-trading-case.html"
+    },
+    {
+      "title": "DOJ Files $61 Million Forfeiture Against Crypto Allegedly From Iranian Oil Sales Laundered via Binance",
+      "url": "/articles/doj-files-61-million-forfeiture-against-crypto-allegedly-from-iranian-oil-sales-laundered-via-binance.html"
+    },
+    {
+      "title": "Kamino Appoints Yieldstreet Co-founder as CEO for U.S. Expansion",
+      "url": "/articles/kamino-appoints-yieldstreet-co-founder-as-ceo-for-u-s-expansion.html"
+    },
+    {
+      "title": "MEV Bot Front-Runs $7.8 Million rsETH Exploit on Ethereum on September 15",
+      "url": "/articles/mev-bot-front-runs-7-8-million-rseth-exploit-on-ethereum-on-september-15.html"
+    },
+    {
+      "title": "Revolut Starts EURR Rollout With Bridge as Regulated Issuer (September 15, 2026)",
+      "url": "/articles/revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer-september-15-2026.html"
+    },
+    {
+      "title": "S&P Global Leads $110 Million Extension of Kaiko Series B Funding",
+      "url": "/articles/s-p-global-leads-kaiko-series-b-extension-to-110-million.html"
+    },
+    {
+      "title": "Senate Fails Clarity Act Cloture Vote on September 15; Ethics Divide Kills Crypto Bill",
+      "url": "/articles/senate-blocks-crypto-clarity-act-in-49-50-vote-industry-pushes-back.html"
+    },
+    {
+      "title": "Senate Blocks Digital Asset Market Clarity Act, 49-50, on September 15",
+      "url": "/articles/senate-blocks-digital-asset-market-clarity-act-49-50-on-september-15.html"
+    },
+    {
+      "title": "Symbiosis Bridge Exploited: Two Bugs Turned 25 Cents Into 46 Billion Fake Bitcoin Tokens",
+      "url": "/articles/symbiosis-bridge-exploited-two-bugs-turned-25-cents-into-46-billion-fake-bitcoin-tokens.html"
+    },
+    {
+      "title": "Bitcoin Core 32 RC1 Enters Final Testing Before October Release",
+      "url": "/articles/bitcoin-core-32-rc1-enters-final-testing-before-october-release.html"
+    },
+    {
+      "title": "Celsius bankruptcy estate sues BitMEX for $495 million over March 2020 liquidations",
+      "url": "/articles/celsius-bankruptcy-estate-sues-bitmex-for-495-million-over-march-2020-liquidations.html"
+    },
+    {
+      "title": "CoinEx to shut down after 9 years, citing market slump and compliance costs",
+      "url": "/articles/coinex-to-shut-down-after-9-years-citing-market-slump-and-compliance-costs.html"
+    },
+    {
+      "title": "Deutsche Bank Nears Approval for Institutional Crypto Custody Covering Bitcoin, Ether, USDC and EURC",
+      "url": "/articles/deutsche-bank-nears-approval-for-institutional-crypto-custody-covering-bitcoin-ether-usdc-and-eurc.html"
+    },
+    {
+      "title": "Ethereum and Base abandon common wallet standard after months of talks",
+      "url": "/articles/ethereum-and-base-abandon-common-wallet-standard-after-months-of-talks.html"
+    },
+    {
+      "title": "Ethereum and Base abandon shared wallet standard, creating multi-chain incompatibility",
+      "url": "/articles/ethereum-and-base-abandon-shared-wallet-standard-creating-multi-chain-incompatibility.html"
+    },
+    {
+      "title": "Federal Reserve raises benchmark rate to 3.75%-4.0% on September 16, signals further hikes ahead",
+      "url": "/articles/federal-reserve-raises-benchmark-rate-to-3-75-4-0-on-september-16-signals-further-hikes-ahead.html"
+    },
+    {
+      "title": "Federal Reserve raises rates 25 basis points on September 16, first hike since July 2023",
+      "url": "/articles/federal-reserve-raises-rates-25-basis-points-on-september-16-first-hike-since-july-2023.html"
+    },
+    {
+      "title": "House Ways and Means advances Digital Asset Tax Certainty Act on September 16",
+      "url": "/articles/house-ways-and-means-advances-digital-asset-tax-certainty-act-on-september-16.html"
+    },
+    {
+      "title": "Revolut Launches EURR, Regulated Euro Stablecoin, in Three EU Markets",
+      "url": "/articles/revolut-launches-eurr-regulated-euro-stablecoin-in-three-eu-markets.html"
+    },
+    {
+      "title": "Senate Fails Clarity Act Cloture Vote on September 16; 49 in Favor, 50 Against",
+      "url": "/articles/senate-fails-clarity-act-cloture-vote-on-september-16-49-in-favor-50-against.html"
+    },
+    {
+      "title": "Zcash Governance Vote: 99.9% Approve 25-Second Blocks, 98.9% Preserve Halvings",
+      "url": "/articles/zcash-governance-vote-99-9-approve-25-second-blocks-98-9-preserve-halvings.html"
+    },
+    {
+      "title": "Hamas military wing told donors to avoid sending crypto directly from Binance, DOJ filing shows",
+      "url": "/articles/hamas-military-wing-told-donors-to-avoid-sending-crypto-directly-from-binance-doj-filing-shows.html"
+    },
+    {
+      "title": "Revolut hackers demand $3 million in Monero, threaten to sell customer data",
+      "url": "/articles/revolut-hackers-demand-3-million-in-monero-threaten-to-sell-customer-data.html"
+    },
+    {
+      "title": "SEC and CFTC pledge crypto rules without Congress after Clarity Act fails",
+      "url": "/articles/sec-and-cftc-pledge-crypto-rules-without-congress-after-clarity-act-fails.html"
+    }
+  ]
+}

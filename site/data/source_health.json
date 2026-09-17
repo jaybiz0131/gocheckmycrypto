@@ -1,5 +1,5 @@
 {
- "checked_utc": "2026-09-17T00:10:32Z",
+ "checked_utc": "2026-09-17T00:43:16Z",
  "sources": [
   {
    "name": "SEC Press Releases",
@@ -138,11 +138,11 @@
    "kind": "rss",
    "url": "https://www.banking.senate.gov/rss/feeds/?type=press",
    "tier": "primary",
-   "state": "OK",
-   "detail": "HTTP 200",
-   "items": 15,
+   "state": "CHALLENGED",
+   "detail": "HTTP 403",
+   "items": 0,
    "newest_age_h": null,
-   "lane_state": "OK"
+   "lane_state": "CHALLENGED"
   },
   {
    "name": "Ethereum Foundation",
@@ -206,7 +206,7 @@
    "tier": "mixed",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 92,
+   "items": 93,
    "newest_age_h": null,
    "lane_state": "OK"
   },

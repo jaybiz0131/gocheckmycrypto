@@ -4,53 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c009",
-    "headline": "China Adds 20 E-CNY Operators in 2026, Including 8 Banks in Single Week",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The expansion occurred across two rounds of additions throughout 2026' but the brief's open_questions explicitly flag that 'The source text does not detail the timing or composition of the first round of 12 operators added earlier in 2026.' This is smuggled detail not present in the brief's data_points\u2014the brief only confirms 20 operators total and 8 in a single week, not the internal structure of 'two rounds'. The writer inferred a narrative structure (first round, second round) that the source material does not support.",
-     "The draft states 'tripled the size of the e-CNY operator roster from its prior baseline' but does not acknowledge that the actual prior number is unverified. The brief's data_point says 'tripled' but the open_questions note 'the total number before this expansion' is not provided. The draft should flag this uncertainty per the protocol's requirement that confidence labels survive in prose."
-    ]
-   },
-   {
-    "id": "c021",
-    "headline": "FASB proposes accounting framework to treat qualifying stablecoins as cash equivalents",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'The FASB proposal does not specify which stablecoins currently meet the proposed criteria' and 'the precise definitions and verification mechanisms are not disclosed in available reporting.' However, the brief has zero data_points\u2014no source material was provided to the writer. The writer has smuggled editorial assessment ('does not specify', 'are not disclosed') where the brief explicitly states the source has empty character count (source_chars: 0). The writer is narrating absence of information as though it came from checking the source, when the source text was never provided to research. This violates the hard rule that no fact exists outside the brief."
-    ]
-   },
-   {
-    "id": "c023",
-    "headline": "Wyoming replaces blockchain infrastructure in connection with state stablecoin move",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states: 'The reported security grounds cited for Wyoming's decision are not detailed in available sources.' This is a narrated absence\u2014the writer is explicitly stating what is NOT in the reporting. The brief's open_questions section lists this same gap ('What specific security vulnerability or incident prompted Wyoming's decision'), but the brief carries zero data_points on the security rationale. The writer cannot narrate the absence of information; only the brief's data_points and bear_case are permitted in prose. Stating 'are not detailed' or 'are not disclosed' treats gaps as facts, which smuggles editorializing into the draft."
-    ]
-   },
-   {
-    "id": "c134",
-    "headline": "Bitcoin ETFs add $189M as August net inflows approach $1B",
-    "category": "accuracy",
-    "reasons": [
-     "Paragraph 3 introduces new factual claims not in the brief: 'The desk's ETF flows board showed Bitcoin ETFs with a net inflow of $5.1 million on July 28, the most recent prior data available from that board, and noted a five-session net outflow of $402.6 million in the prior window.' These specific numbers ($5.1M on July 28, $402.6M in prior window) do not appear in any data_point in the brief and violate the hard rule that facts must trace back to research. This is smuggled information."
-    ]
-   },
-   {
-    "id": "c046",
-    "headline": "Chinese InsurTech Firm Zhibao Adds 2,380 Bitcoin in $154.7M Treasury Pivot",
-    "category": "balance",
-    "reasons": [
-     "The brief's bear_case array is empty, yet the draft's angle ('sovereign-adjacent adoption of crypto assets within China's regulated financial services sector') frames this as a significant institutional signal. The open_questions section explicitly flags critical unknowns: timing, investor composition, regulatory response, whether this is one-off or strategic, and the actual BTC valuation mechanism. The draft presents the transaction as a concrete capital allocation signal ('represents a direct corporate allocation of a major cryptocurrency asset by a regulated financial services firm') without adequate caveats. This overweights the significance of an unverified, thinly-sourced claim (Decrypt only, no corroboration listed) and reads as credulous in a market context where a single report of a Chinese crypto transaction warrants skepticism given regulatory opacity. The draft does not sufficiently surface the speculative nature of the interpretation."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c001",
     "headline": "SEC Proposes New Regulation Crypto Assets",
     "category": "accuracy",
@@ -5124,6 +5077,29 @@
      "More critically: the draft contains a claim not in the brief. It states 'All 49 votes to proceed came from Republicans,' but the brief data_point only confirms '49 votes...from Republicans' without explicitly stating 'all.' The addition of 'All' shifts from reported fact to inference.",
      "The draft also states Republicans 'incorporated 126 substantive changes requested by Democrats' as a factual claim, but the brief data_point says 'Republicans said they had incorporated 126 substantive changes'\u2014the draft dropped the 'said they had,' presenting a claim as fact rather than as a Republican assertion.",
      "Draft states Atkins 'also named proposed transfer agent rules and a custody proposal' but the brief states he 'has asked staff to develop' the custody proposal\u2014the draft implies these are existing proposals rather than requested developments."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-17",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c015",
+    "headline": "Bitcoin ETFs shed $450 million as Clarity Act fails in Senate vote on September 16",
+    "category": "accuracy",
+    "reasons": [
+     "The title and opening state the vote occurred on September 16, but the brief's core_claim and data_points identify the vote as occurring on 'Tuesday' (September 15, not September 16). The brief timestamp is 2026-09-16, but the claim text says 'failed on Tuesday' and 'The US Senate failed to pass a cloture motion on the CLARITY Act on Tuesday.' Since today is Thursday 2026-09-17, Tuesday would be September 15. The draft incorrectly dates the event to September 16.",
+     "The draft states 'The Senate voted 49-50 on the motion to proceed' but this phrasing is ambiguous about which side has 49 and which has 50. The brief data_point clearly states '49-50 on the cloture motion, falling well short.' Standard Senate vote notation is Yea-Nay, meaning 49 voted yes and 50 voted no, but the draft's phrasing without context could mislead readers about the direction of the vote."
+    ]
+   },
+   {
+    "id": "c122",
+    "headline": "House committee approves bill to lock government Bitcoin into 20-year reserve",
+    "category": "accuracy",
+    "reasons": [
+     "The brief contains only two data_points and is marked thin=true. The brief provides no information about the specific scope of what the bill covers, its fiscal impact, the reasoning for the 21 opposing votes, or any details beyond the vote count and the 20-year lock. The draft expands beyond these two facts by claiming the bill 'advances a nation-state approach to digital assets' and describing what the statute 'would make' and what it 'removes.' These interpretations and framings are not in the brief and constitute editorial analysis not supported by the research provided."
     ]
    }
   ]
