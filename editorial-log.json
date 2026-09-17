@@ -1,50 +1,6 @@
 [
  {
   "date": "2026-08-19",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c001",
-    "headline": "SEC Proposes New Regulation Crypto Assets",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The SEC has proposed a new regulatory framework titled \"Regulation Crypto Assets\"' but the brief's open_questions explicitly note: 'No source text was fetched; the SEC press release content is unavailable.' The draft treats an unverified press release URL as a confirmed fact. The core claim itself cannot be verified from the sources provided.",
-     "The draft asserts 'Congress has stalled on the CLARITY Act and related legislation' without this claim appearing in any data_point in the brief. This is smuggled information outside the research.",
-     "The brief marks this as 'thin: true' with 'data_points: []' (empty). The draft should reflect that all substantive details are unavailable, not assert regulatory content as fact."
-    ]
-   },
-   {
-    "id": "c126",
-    "headline": "Injective Affiliate Receives SEC Transfer Agent Registration",
-    "category": "accuracy",
-    "reasons": [
-     "The draft opens with a factual claim ('an Injective affiliate has received SEC transfer agent registration status') that does not appear in the brief's data_points. The brief explicitly states 'Unable to verify core claim from provided sources' and lists zero data_points. The writer has smuggled a fact not in the research.",
-     "The draft then undercuts itself by admitting the brief 'carries no source text' and cannot assess scope or significance. This self-contradiction\u2014stating a fact as settled, then confessing it is unverified\u2014is a liability exposure. The draft should either report the Cointelegraph claim with explicit confidence framing ('Cointelegraph reported that...') or reject the story entirely."
-    ]
-   },
-   {
-    "id": "c136",
-    "headline": "Bitcoin ETFs log $189M inflow; August total reaches $951M",
-    "category": "accuracy",
-    "reasons": [
-     "The draft introduces a new factual claim not in the brief: 'The desk's ETF flows board showed Bitcoin ETFs with a net inflow of $5.1 million on July 28, the most recent data available from that board prior to the Cointelegraph reporting window, and recorded a five-session net outflow of $402.6 million in that earlier period.' These figures ($5.1M, $402.6M, July 28 date) do not appear anywhere in the research brief. This is a smuggled fact pulled from an external source (an internal desk board), not from the Cointelegraph reporting the brief was built on.",
-     "The writer has no authorization to layer in proprietary internal data to establish context unless the brief explicitly included it as a data_point. The hard rule is 'no fact exists outside the brief.' The July 28 comparison and five-session outflow figures are new information the writer patched in."
-    ]
-   },
-   {
-    "id": "c153",
-    "headline": "Treasury doubles bond buyback plan; yields fall, assets rally",
-    "category": "accuracy",
-    "reasons": [
-     "The draft claims 'The announcement sent yields sharply lower and drove a broad rally across stocks, bonds, and gold' but the brief's open_questions explicitly flag: 'No specific yields quoted (10-year, 2-year, etc.) or magnitude of the decline' and 'No detail on gold or broader equity index moves\u2014only assertion that stocks rallied.' The draft presents as confirmed fact what the brief identifies as unverified detail.",
-     "The draft states 'Bitcoin moved near $67,000 amid the broader asset rally, per MarketWatch's reporting' but the brief's open_questions note: 'No confirmation whether Bitcoin's $67K move was a close, intraday peak, or projected price.' The draft asserts a specific price level without capturing the uncertainty flagged in the research.",
-     "The draft claims the move 'reflects crypto's correlation with risk-asset demand in an environment where Treasury policy shifts affect institutional allocation decisions' but this causal/mechanism claim does not appear in any data_point in the brief. This is analysis smuggled outside the research boundary."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
   "approved": 4,
   "rejected": [
    {
@@ -5100,6 +5056,30 @@
     "category": "accuracy",
     "reasons": [
      "The brief contains only two data_points and is marked thin=true. The brief provides no information about the specific scope of what the bill covers, its fiscal impact, the reasoning for the 21 opposing votes, or any details beyond the vote count and the 20-year lock. The draft expands beyond these two facts by claiming the bill 'advances a nation-state approach to digital assets' and describing what the statute 'would make' and what it 'removes.' These interpretations and framings are not in the brief and constitute editorial analysis not supported by the research provided."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-17",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c010",
+    "headline": "S&P Global Acquires OpenZeppelin in Tokenized Finance Risk Expansion (September 17, 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft cites Decrypt reporting that 'S&P Global is expanding into the technology risks underpinning stablecoins, tokenized funds, and other on-chain financial products' as a fact from the brief. The brief's data_point 3 attributes this claim to Decrypt with confidence 'reported,' and it appears in the draft. However, the draft then uses this same claim again parenthetically ('The acquisition builds on the company's recent market-data investment in Kaiko, a crypto data provider') without new sourcing. The second sentence in the Decrypt paragraph ('S&P Global is expanding into the technology risks...') is presented as new information but is actually a restatement of the same reported claim, creating an appearance of broader confirmation than the brief provides.",
+     "More critically: The draft opens with 'Ratings giant S&P Global agreed to acquire OpenZeppelin' without attribution. The brief data_point 2 sources this to Cointelegraph, but the draft's opening sentence attributes it to 'CoinDesk's reporting' in the second sentence ('Per CoinDesk's reporting, S&P Global is expanding beyond entity credit scores...'). The lead claim\u2014that the acquisition happened\u2014is not explicitly sourced in the opening, and the reader must infer from the second sentence which outlet broke the story. This is an attribution placement error: the acquisition fact itself must carry inline attribution in the sentence where it appears."
+    ]
+   },
+   {
+    "id": "c114",
+    "headline": "Reform UK Proposes 10% Capital Gains Tax on Crypto Investors, Days After \u00a372M in Donations",
+    "category": "compliance",
+    "reasons": [
+     "The draft opens with 'days after the party received \u00a336 million each from Tether shareholder Christopher Harborne and former BitMEX executive Ben Delo,' creating a causal implication (timing + adjacency + framing) that the donations influenced the policy without explicit attribution or caveat. The bottom_line acknowledges 'The timing between large crypto-donor contributions and the unveiling of a tax proposal... creates immediate questions about policy influence,' but the draft body presents the sequence as narrative fact rather than as speculation or investigation. This reads as the desk adopting the 'quid pro quo' framing rather than reporting what named parties have alleged or stated. The brief's own open_question asks 'What was Reform's tax position on crypto investors prior to receiving these donations\u2014has the party formally stated a position before the donations arrived?' The draft does not answer this; it assumes the temporal proximity itself is newsworthy without establishing whether the position is new.",
+     "The draft states 'Reform pulled its crypto manifesto from its website in July amid the Harborne scandal' without attribution. The brief data_point says 'Reform pulled its crypto manifesto from its website in July amidst the Harborne scandal,' also without clear attribution within the data_point itself. However, this claim sits in a politically charged narrative about donor influence and potential corruption. If the manifesto was pulled for other reasons (site redesign, policy review cycle, etc.), this sentence plants the inference that it was guilt-driven withdrawal. The phrase 'amidst the Harborne scandal' is loaded terminology adopted from the source without interrogation. The brief's own bear_case notes 'Reform pulled its crypto manifesto from its website in July amidst the Harborne scandal, suggesting prior positioning shifts under pressure'\u2014which is analysis, not fact. The draft runs it as fact in the desk's own voice."
     ]
    }
   ]

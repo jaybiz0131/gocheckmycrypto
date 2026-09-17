@@ -1,0 +1,69 @@
+{
+  "id": "c021",
+  "slug": "zcash-rises-23-following-paradigm-investment-bitcoin-gains-on-fed-rate-hike",
+  "kind": "brief",
+  "title": "Zcash Rises 23% Following Paradigm Investment; Bitcoin Gains on Fed Rate Hike",
+  "dek": "Zcash jumped approximately 23% on September 17 after Paradigm disclosed a stake in the privacy token, reaching $1,383.30 in intraday trading. Bitcoin rose 0.88% over 24 hours to $76,621 as the Federal Reserve raised its benchmark rate by a quarter point for the first time since July 2023, to a range of 3.75% to 4%.",
+  "date": "2026-09-17",
+  "published_utc": "2026-09-17T23:13:26Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "Zcash surged to a fresh record after institutional investment firm Paradigm disclosed its position in the privacy-focused token, while broader crypto markets responded to the Fed's first rate increase in over three years.",
+  "bottom_line": "Whether Paradigm's disclosed stake attracts follow-on institutional interest in privacy-focused assets, and whether Grayscale's pending spot ETF conversion decision is tied to the Zcash rally, will clarify whether the move is a durable sector repricing or a one-time catalyst around a single firm's position.",
+  "human_take": "",
+  "body": [
+    "Zcash soared to a record high on September 17 after Paradigm disclosed its investment in the privacy token, a catalytic move that lifted the digital asset far ahead of the broader market's muted reaction to the Federal Reserve's first rate increase since July 2023.",
+    "Zcash opened at $1,110.10 on Coinbase and reached $1,383.30 in the quarter hour beginning at 2 p.m. ET, closing the session at $1,320.12, a gain of 18.9%, according to The Defiant. The surge extended the token's high from September 9 by $85.53, from $1,297.77 to $1,383.30. Trading volume across exchanges reached $2.19 billion. At a market value of $22.39 billion, Zcash now ranks tenth among all cryptocurrencies, according to on-chain data, though it remains 58.6% below the $3,191.93 price that CoinGecko records for October 2016, the month of its launch. Cointelegraph reports the rise extended a broader rally in privacy-focused cryptocurrencies as Paradigm disclosed its ZEC investment.",
+    "Paradigm's Matt Huang discussed Zcash's role as a privacy complement to bitcoin, according to CoinDesk. No announcement from the Zcash protocol or its development team accompanied the move. The Electric Coin Company, which develops Zcash, has not posted to its blog since December.",
+    "Bitcoin rose 0.88% over 24 hours to $76,621, according to CoinDesk, as the Federal Reserve raised its benchmark rate by a quarter point to a range of 3.75% to 4%, the first such increase since July 2023. The vote was unanimous, 12-0. According to The Defiant, Bitcoin stood at $75,688.82 when the Fed statement landed and reached $76,499.99 in the five minutes to 2:10 p.m. ET. It set its session low of $74,911.53 at 2:35 p.m. and recovered to $76,345 in the 4 p.m. hour, last trading at $75,937.26.",
+    "The Fed's median projections now point to one more quarter-point increase before the end of 2026, with the median federal funds rate at 4.1% at the end of 2026, against 3.8% in June projections. Beyond the privacy token and bitcoin, market reaction was broad but uneven. The desk's boards showed Bitcoin down 3.39% over the week and up 18.27% over the month as of September 17. According to The Defiant, 87 of 123 largest non-stablecoin tokens rose on the day, 34 fell, and two were unchanged. Weighted by market value, the 500 largest tokens rose 0.75% over 24 hours and fell 2.7% over seven days. Monero, the other large privacy token, fell 1.2% to $493.50 on the same day, according to The Defiant.",
+    "Arbitrum closed the prior day 13.5% higher and added 7.7% on September 17, according to The Defiant, from an open of $0.15174 to $0.16344 on Coinbase, with a high of $0.17369 and $563.9 million in trading volume against a $1.10 billion market value. Standard Chartered set a $10 price target on Arbitrum on September 16. Grayscale filed to convert its Zcash trust into a spot ETF in November 2025, according to The Defiant.",
+    "No sourced information indicates why Zcash alone among privacy tokens rallied sharply on September 17, or the timing of Paradigm's disclosure relative to broader institutional positioning in the sector."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/markets/2026/09/17/zcash-jumps-23-as-bitcoin-and-major-tokens-rise-despite-fed-s-first-hike-since-2023",
+      "url": "https://www.coindesk.com/markets/2026/09/17/zcash-jumps-23-as-bitcoin-and-major-tokens-rise-despite-fed-s-first-hike-since-2023"
+    },
+    {
+      "title": "https://cointelegraph.com/markets/zcash-zec-price-paradigm-investment-privacy-coins",
+      "url": "https://cointelegraph.com/markets/zcash-zec-price-paradigm-investment-privacy-coins"
+    },
+    {
+      "title": "https://thedefiant.io/news/markets/bitcoin-round-trips-fed-rate-increase-zcash-sep-16-2026",
+      "url": "https://thedefiant.io/news/markets/bitcoin-round-trips-fed-rate-increase-zcash-sep-16-2026"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-17T23:11:20Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76414.57,
+        "chg_24h_pct": 0.35
+      },
+      {
+        "symbol": "ETH",
+        "price": 2446.32,
+        "chg_24h_pct": 1.26
+      }
+    ],
+    "fng": {
+      "value": 50,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 8.5,
+      "open_interest_usd": 2189471629
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 173360129,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}

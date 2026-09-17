@@ -1,0 +1,74 @@
+{
+  "id": "wrap-pm-2026-09-17",
+  "slug": "evening-brief-2026-09-17",
+  "kind": "brief",
+  "title": "The Evening Brief: Regulators move fast as Congress stalls; Fed hikes rates",
+  "dek": "The SEC and CFTC pledged to write crypto rules unilaterally after the Senate blocked the Clarity Act on Wednesday, moving policy from legislation to administrative action. Separately, the Federal Reserve raised its benchmark rate 25 basis points for the first time since July 2023, while Bitcoin Core enters final testing ahead of an October release.",
+  "date": "2026-09-17",
+  "published_utc": "2026-09-17T23:21:58Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "With Congress unable to pass crypto legislation, regulators are pivoting to existing authority to write market rules, a faster path that leaves any resulting framework vulnerable to reversal by future administrations. The structural shift marks a reset in how crypto policy will advance.",
+  "bottom_line": "Regulatory policy shifted from legislative to administrative Thursday when the SEC and CFTC committed to writing crypto rules unilaterally after Congress blocked the Clarity Act. The move accelerates rulemaking but accepts structural vulnerability: any rule can be rescinded by a future chairman through notice-and-comment, whereas statutory language requires another act of Congress. Watch whether the CFTC files its crypto market structure rules with the Federal Register before January 2027, and track the SEC's Innovation Exemption conditions and public comment period ending October 20 on the agency's Regulation Crypto Assets proposal. The Federal Reserve's first rate increase since July 2023 drew a muted market reaction, with Bitcoin and Ethereum ETF flows turning negative despite post-announcement recovery; the October 27-28 FOMC meeting will test whether markets view the hiking cycle as finished or as the start of additional tightening.",
+  "human_take": "",
+  "body": [
+    "The crypto regulatory landscape shifted decisively Thursday when the SEC and CFTC publicly committed to writing market rules without Congress, hours after the Senate failed to advance the Clarity Act. SEC Chair Paul Atkins and CFTC Chair Mike Selig posted separate statements on September 16 pledging to use existing statutory authority to deliver regulatory clarity, with Atkins saying \"with or without legislation, we will act decisively within the SEC's statutory authority.\" The pivot from legislative to administrative action was urgent: Selig had signaled in August that his agency preferred legislation because it would be \"harder for future administrations to reverse,\" but the 49-50 Senate vote, all 49 proceeding votes from Republicans, made that path impossible. On September 17, the day after the failed vote, the SEC announced a five-year Innovation Exemption allowing Tokenized Securities Venues to trade tokenized US stocks using automated market makers without registering as exchanges, a concrete step toward on-chain equity markets operating under temporary SEC authority.",
+    "The practical consequence is that rules written through notice-and-comment rulemaking can be rescinded by a future chairman through the same process, whereas repealing a statute requires another act of Congress. The regulatory framework now under construction will be durable only as long as it has administrative support. Selig outlined plans in August covering crypto exchanges, leveraged trading, and engagement with protocol developers, but the CFTC has not yet filed its crypto market structure rules with the Federal Register; watch whether those filings arrive before January 2027.",
+    "Meanwhile, the Federal Reserve raised its benchmark rate by 25 basis points to 3.75%-4.0% on September 16 in a unanimous 12-0 FOMC vote, the first increase since July 2023. The decision followed inflation data showing the Consumer Price Index at 3.4% annually with accelerating monthly gains and the Producer Price Index at 5.4% annually, up from 4.8% in July. Per the Fed's statement, the committee cited solid economic activity and resilient domestic spending as offsetting factors, but inflation elevation drove the move. Market pricing assigned approximately 54% probability to rates holding at 3.75%-4.0% following the October 27-28 meeting, leaving 46% of positioning exposed to another quarter-point hike before year-end. Bitcoin traded near $75,500 before the announcement, then dipped and recovered above $76,000 in the hours after, while Ethereum, Solana, and XRP each rose more than 1% post-announcement, suggesting the market had largely priced in the increase. The desk's boards now show Bitcoin at $76,414.57, up 0.35% on Thursday.",
+    "Technical development advanced on Bitcoin's layer-1 infrastructure. Bitcoin Core 32 entered release candidate testing on September 16, introducing faster block validation, updated fee estimation, and a security fix for a wallet authentication vulnerability that could allow authenticated users to run arbitrary commands on a node. The update is scheduled to ship in October. Fee estimation changes will alter how nodes price transactions during the transition, potentially affecting mempool behavior and routing.",
+    "On the enforcement side, tensions between platforms and law enforcement surfaced. BitMEX is completing its shutdown on September 23 and has not yet responded to the complaint. The court must determine whether Celsius can establish that BitMEX's liquidation system constituted fraud rather than the functioning of an accepted leveraged trading mechanism. A DOJ filing showed Hamas's military wing instructed donors to avoid Binance and instead route funds through Trust Wallet, Bybit, OKX, Kast, and Redotpay before moving them to an external TRON wallet, demonstrating adaptive evasion of exchange-level compliance controls.",
+    "Market movers included Zcash, which surged to a record high of $1,383.30 intraday on September 17 after Paradigm disclosed its investment, closing the session up 18.9% at $1,320.12 on $2.19 billion in volume. The rally extended Zcash's prior high by $85.53. Bitcoin and Ethereum ETF flows turned negative Thursday: the desk's boards show Bitcoin ETF outflow of $295.9 million on September 16 and Ethereum ETF outflow of $224.1 million the same day, the second consecutive day of outflows for both. Over the last five sessions, Bitcoin ETF flows show net outflow of $882.3 million and Ethereum show net outflow of $58.5 million. Whale Watch shows $173.4 million moving off exchanges in the past 24 hours, driven by $100.5 million in bitcoin and $72.9 million in ethereum moving to self-custody from Coinbase Institutional, offset partially by $200.2 million in stablecoin outflows and $134.9 million in bitcoin and $88.7 million in ethereum flowing onto Coinbase Institutional. Weekly flows show continued selling pressure: the week ending September 17 recorded $198 million moving onto exchanges, the third consecutive week of inflows, while the week ending September 3 showed the lone recent outflow of $261 million.",
+    "On corporate infrastructure, Deutsche Bank is awaiting final regulatory approval to launch institutional custody for Bitcoin, Ether, and stablecoins including USDC and EURC, with plans to expand into tokenized assets post-launch. The House Ways and Means Committee advanced the Digital Asset Tax Certainty Act on September 16, proposing to exclude taxes on small network fees and modify mining and staking tax rules, though committee advancement does not guarantee floor passage. Finally, reporting by Protos revealed that Solana validators including Everstake are accepting monthly payments ranging from 10 SOL ($1,000) to $4,000 to provide early access to pending transactions, enabling front-running and sandwich attacks on retail traders. Everstake claims it uses filtering mechanisms to prevent this activity."
+  ],
+  "sources": [
+    {
+      "title": "Bitcoin Core 32 RC1 Enters Final Testing Before October Release",
+      "url": "/articles/bitcoin-core-32-rc1-enters-final-testing-before-october-release.html"
+    },
+    {
+      "title": "Celsius bankruptcy estate sues BitMEX for $495 million over March 2020 liquidations",
+      "url": "/articles/celsius-bankruptcy-estate-sues-bitmex-for-495-million-over-march-2020-liquidations.html"
+    },
+    {
+      "title": "Deutsche Bank Nears Approval for Institutional Crypto Custody Covering Bitcoin, Ether, USDC and EURC",
+      "url": "/articles/deutsche-bank-nears-approval-for-institutional-crypto-custody-covering-bitcoin-ether-usdc-and-eurc.html"
+    },
+    {
+      "title": "Federal Reserve raises benchmark rate to 3.75%-4.0% on September 16, signals further hikes ahead",
+      "url": "/articles/federal-reserve-raises-benchmark-rate-to-3-75-4-0-on-september-16-signals-further-hikes-ahead.html"
+    },
+    {
+      "title": "Federal Reserve raises rates 25 basis points on September 16, first hike since July 2023",
+      "url": "/articles/federal-reserve-raises-rates-25-basis-points-on-september-16-first-hike-since-july-2023.html"
+    },
+    {
+      "title": "House Ways and Means advances Digital Asset Tax Certainty Act on September 16",
+      "url": "/articles/house-ways-and-means-advances-digital-asset-tax-certainty-act-on-september-16.html"
+    },
+    {
+      "title": "Hamas military wing told donors to avoid sending crypto directly from Binance, DOJ filing shows",
+      "url": "/articles/hamas-military-wing-told-donors-to-avoid-sending-crypto-directly-from-binance-doj-filing-shows.html"
+    },
+    {
+      "title": "Revolut hackers demand $3 million in Monero, threaten to sell customer data",
+      "url": "/articles/revolut-hackers-demand-3-million-in-monero-threaten-to-sell-customer-data.html"
+    },
+    {
+      "title": "SEC and CFTC pledge crypto rules without Congress after Clarity Act fails",
+      "url": "/articles/sec-and-cftc-pledge-crypto-rules-without-congress-after-clarity-act-fails.html"
+    },
+    {
+      "title": "SEC Issues Five-Year Exemption for On-Chain Stock Trading, One Day After Clarity Act Fails in Senate (September 17, 2026)",
+      "url": "/articles/sec-issues-five-year-exemption-for-on-chain-stock-trading-one-day-after-clarity-act-fails-in-senate-september-17-2026.html"
+    },
+    {
+      "title": "Solana Validators Selling Pending-Transaction Access for Up to $4,000 Monthly",
+      "url": "/articles/solana-validators-selling-pending-transaction-access-for-up-to-4-000-monthly.html"
+    },
+    {
+      "title": "Zcash Rises 23% Following Paradigm Investment; Bitcoin Gains on Fed Rate Hike",
+      "url": "/articles/zcash-rises-23-following-paradigm-investment-bitcoin-gains-on-fed-rate-hike.html"
+    }
+  ]
+}

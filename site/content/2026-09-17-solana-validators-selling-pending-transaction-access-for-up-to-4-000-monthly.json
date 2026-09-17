@@ -1,0 +1,56 @@
+{
+  "id": "c116",
+  "slug": "solana-validators-selling-pending-transaction-access-for-up-to-4-000-monthly",
+  "kind": "brief",
+  "title": "Solana Validators Selling Pending-Transaction Access for Up to $4,000 Monthly",
+  "dek": "Solana validators, including the major staking provider Everstake, are accepting monthly payments ranging from 10 SOL ($1,000) to $4,000 to leak early access to pending transactions before they are bundled into blocks. The practice enables sophisticated traders to front-run and sandwich-attack retail orders, according to Protos reporting on an investigation by Corvus Labs researcher Andrei Vacariu.",
+  "date": "2026-09-17",
+  "published_utc": "2026-09-17T23:13:26Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "Solana validators are selling pre-execution transaction data to quants at up to $4,000 per month, consolidating MEV extraction into a paid service tier.",
+  "bottom_line": "The consolidation of MEV into a paid-access tier raises questions about whether Solana's mempool-less design has created a systemic disadvantage for non-paying traders. If other validators join the scheme or rates increase, the cost-barrier to fair access will tighten further; if Solana Labs introduces a protocol-level solution, the economic model for validators selling this access collapses.",
+  "human_take": "",
+  "body": [
+    "Solana validators are accepting monthly payments ranging from 10 SOL ($1,000) up to $4,000 to provide early access to pending transactions, enabling sophisticated traders to front-run and sandwich-attack retail orders on decentralized exchanges, according to Protos reporting of an investigation by Corvus Labs researcher Andrei Vacariu.\nUnlike Ethereum and Bitcoin, Solana has no public mempool. Most transactions travel directly to the validator scheduled to build the next block without queueing in any public pool. That architectural choice was intended to prevent MEV extraction, but it has instead consolidated MEV opportunities into a tiered access system available only to wealthy traders.\nWith pre-execution visibility, customers running Everstake's software can mirror incoming traffic to Everstake servers before blocks are produced, allowing them to submit their own orders ahead of or immediately after retail trades. Andrei Vacariu stated: \"Every trader on Solana hits these slots, can't tell which leaders mirror their traffic, and can't opt out.\"\nEverstake claims it uses \"filtering mechanisms specifically to prevent this type of activity\" and does not encourage front-running or sandwiching. The company repackages access through Blockspace as \"stake-weighted quality of service,\" an institutional service tier available to validators holding over 15,000 SOL staked on the blockchain."
+  ],
+  "sources": [
+    {
+      "title": "https://protos.com/quants-are-paying-4000-a-month-to-front-run-solana-trades/",
+      "url": "https://protos.com/quants-are-paying-4000-a-month-to-front-run-solana-trades/"
+    }
+  ],
+  "update_of": "liquid-network-halts-after-4-000-bitcoin-withdrawn-from-federation-wallet",
+  "board_snapshot": {
+    "as_of": "2026-09-17T23:11:20Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76414.57,
+        "chg_24h_pct": 0.35
+      },
+      {
+        "symbol": "ETH",
+        "price": 2446.32,
+        "chg_24h_pct": 1.26
+      }
+    ],
+    "fng": {
+      "value": 50,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 8.5,
+      "open_interest_usd": 2189471629
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 173360129,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

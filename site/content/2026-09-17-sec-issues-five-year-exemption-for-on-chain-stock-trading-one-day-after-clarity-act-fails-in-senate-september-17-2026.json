@@ -1,0 +1,72 @@
+{
+  "id": "c000",
+  "slug": "sec-issues-five-year-exemption-for-on-chain-stock-trading-one-day-after-clarity-act-fails-in-senate-september-17-2026",
+  "kind": "brief",
+  "title": "SEC Issues Five-Year Exemption for On-Chain Stock Trading, One Day After Clarity Act Fails in Senate (September 17, 2026)",
+  "dek": "The SEC issued a temporary exemption allowing Tokenized Securities Venues to trade tokenized US stocks using automated market makers without registering as exchanges. The move comes one day after the Senate blocked the Clarity Act, signaling regulators will advance crypto market structure unilaterally.",
+  "date": "2026-09-17",
+  "published_utc": "2026-09-17T23:13:26Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The exemption permits TSVs to operate AMM-based liquidity pools for tokenized NMS stock for five years, with conditions and transparency rules the SEC has not yet detailed publicly.",
+  "bottom_line": "The SEC's Innovation Exemption is temporary and conditional; the order explicitly solicits public comment on modifications and next steps, meaning the framework may change before or after the five-year period expires on September 17, 2031. The specific conditions, trading limits, and transparency rules do not appear in the public SEC press release, so the full scope of what TSVs must do to operate remains unavailable from the agency's own announcement.",
+  "human_take": "",
+  "body": [
+    "The Securities and Exchange Commission announced a temporary exemption allowing Tokenized Securities Venues to trade tokenized National Market System stock using permissioned automated market makers and liquidity pools, without registering as exchanges under the Securities Exchange Act of 1934. The exemptions expire five years after publication.",
+    "The move came on September 17, 2026, one day after the Senate blocked the Clarity Act in a procedural vote, with lawmakers voting 49 to advance and 50 against. SEC Chairman Paul Atkins said in a statement: \"Congress was unsuccessful in advancing the Clarity Act despite the tireless efforts of many.\" Hours later, the SEC announced the Innovation Exemption, with Atkins stating: \"Today, the Securities and Exchange Commission is taking a significant step forward, within its statutory authority, to bring America's capital markets into the digital age by facilitating onchain trading of certain tokenized stocks through the Innovation Exemption.\"",
+    "Under the exemption, Tokenized Securities Venues will bring together buyers and sellers of tokenized NMS stock by providing one or more automated market maker liquidity pools for permissioned participants to interact and agree to trade terms, and by setting standards for persons to access trading on such pools. The SEC also granted a conditional exemption from the definition of \"dealer\" to liquidity providers in AMM Liquidity Pools who supply liquidity in tokenized NMS stock using proprietary capital and may engage in additional dealing activities, such as quoting pricing to customers or committing capital.",
+    "According to CoinDesk's reporting, the exemption subjects trading to unspecified trading limits and transparency rules. The SEC's press release, however, does not detail what those limits or rules are. The order also solicits public comment on possible modifications to the exemptive relief and potential next steps. Jamie Selway, Director of the SEC Division of Trading and Markets, said: \"Today's approval of exemptive relief for on-chain secondary trading on a TSV, known as the Innovation Exemption, marks an important milestone for the Commission's work to open our capital markets for tokenized securities.\"",
+    "The Clarity Act, which failed in the Senate, aimed to formally divide oversight between regulators and distinguish which digital assets are securities, commodities, or stablecoins. The SEC's exemption sidesteps that legislative framework by acting unilaterally under its existing statutory authority to grant exemptive relief."
+  ],
+  "sources": [
+    {
+      "title": "https://www.sec.gov/newsroom/press-releases/2026-90-sec-issues-innovation-exemption-facilitate-trading-tokenized-nms-stock-request-comment",
+      "url": "https://www.sec.gov/newsroom/press-releases/2026-90-sec-issues-innovation-exemption-facilitate-trading-tokenized-nms-stock-request-comment"
+    },
+    {
+      "title": "https://cointelegraph.com/news/sec-temporary-exemption-tokenized-us-stock-trading?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/sec-temporary-exemption-tokenized-us-stock-trading?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "update_of": "sec-charges-38-entities-with-fraudulent-adviser-filings-targeting-retail-investors",
+  "board_snapshot": {
+    "as_of": "2026-09-17T23:11:20Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 76414.57,
+        "chg_24h_pct": 0.35
+      },
+      {
+        "symbol": "ETH",
+        "price": 2446.32,
+        "chg_24h_pct": 1.26
+      }
+    ],
+    "fng": {
+      "value": 50,
+      "label": "Neutral"
+    },
+    "leverage": {
+      "funding_annual_pct": 8.5,
+      "open_interest_usd": 2189471629
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 173360129,
+      "direction": "off exchanges"
+    }
+  },
+  "boundary": {
+    "affected": "Tokenized Securities Venues trading tokenized National Market System stock using permissioned automated market makers and liquidity pools; liquidity providers in AMM Liquidity Pools supplying liquidity in the form of tokenized NMS stock",
+    "fixed": "Exemptions expire five years after publication",
+    "user_action": "Platforms seeking to operate as a TSV should contact the SEC Division of Trading and Markets; the order solicits public comment on possible modifications to the exemptive relief and potential next steps",
+    "advisory_url": "https://www.sec.gov/newsroom/press-releases/2026-90-sec-issues-innovation-exemption-facilitate-trading-tokenized-nms-stock-request-comment"
+  },
+  "also_reported_by": [
+    "Cointelegraph"
+  ],
+  "developing": false
+}
