@@ -2620,6 +2620,48 @@ def _cm_read(cm):
     return read
 
 
+# ---- C-L5: provenance on tap ------------------------------------------------------
+# What "checked" means to a skeptical reader is being able to see where a number came
+# from and when it was read, without leaving the tile it is on. Every tile carries that
+# behind one control.
+#
+# THE MAP IS EXPLICIT. A source is a name, and a name is not something to infer, so this
+# is written down rather than derived from a key. A tile whose source is not on the map
+# gets no control rather than a guess, which is the same rule the venue names follow.
+#
+# The read time is the section's own, not the page's: the Board is built from eight
+# sections that resolve at different moments, and a tile stamped with the page's clock
+# would be claiming a freshness it may not have. That is the same defect the
+# carried-forward ETF section was already stamped against.
+
+TILE_SOURCES = {
+    "bitcoin":  ("CoinGecko", "assets"),
+    "market":   ("CoinGecko", "market"),
+    "movers":   ("CoinGecko", "movers"),
+    "fng":      ("alternative.me", "fng"),
+    "stables":  ("DefiLlama", "stables"),
+    "leverage": ("OKX", "leverage"),
+    "network":  ("mempool.space", "network"),
+    "etf":      ("Farside Investors", "etf_flows"),
+    "whales":   ("Whale Alert", None),
+}
+
+
+def tile_provenance(tile, pulse):
+    """One tile's source and the moment that section was read."""
+    hit = TILE_SOURCES.get((tile or {}).get("key") or "")
+    if not hit:
+        return ""
+    src, section = hit
+    when = ""
+    if section:
+        t = _utc_dt(((pulse or {}).get("sections_utc") or {}).get(section) or "")
+        if t:
+            when = f" \u00b7 read {_et_clock(t)}"
+    return (f'<details class="tp"><summary aria-label="Where this number comes from">'
+            f'Source</summary><span class="tp-b">{esc(src)}{esc(when)}</span></details>')
+
+
 def board_tiles(pulse, flows, deltas):
     """The eight Board tiles as dicts, in Artboard 1 order. A tile whose value is
     missing is omitted entirely: rule 5, a module with no data is omitted, not faked.
@@ -3105,7 +3147,7 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
                   f'{t.get("delta") or ""}'
                   f'<p class="bd-read">{esc(BITCOIN_READ_LONG)}</p>'
                   f'{chart}'
-                  f'<div class="bd-tile-foot">'
+                  f'<div class="bd-tile-foot">{tile_provenance(t, pulse)}'
                 + (f'<span class="bd-stamp">{esc(cap)}</span>' if cap else "")
                 + f'</div>{_tile_link(t, learn_href)}</div>')
             continue
@@ -3116,7 +3158,7 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
             f'<div class="bd-value">{esc(t["value"])}</div>'
             f'{t.get("delta") or ""}'
             f'<p class="bd-read">{esc(read)}</p>'
-            f'<div class="bd-tile-foot">'
+            f'<div class="bd-tile-foot">{tile_provenance(t, pulse)}'
             + (f'<span class="bd-stamp">{esc(win)}</span>' if win else "")
             + f'</div>{_tile_link(t, learn_href)}</div>')
 
