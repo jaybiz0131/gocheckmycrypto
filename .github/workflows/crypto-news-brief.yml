@@ -160,7 +160,21 @@ jobs:
       # Adapted for this desk's drift reality: the cron names the slot (wrap.py's
       # CRON_SLOT, retries included) and a pre-05:00 evening fire belongs to the
       # PREVIOUS day, exactly as wrap.py dates it; the clock is only the fallback.
-      - name: Slot guard (a retry tick stands down when the slot is already served)
+      # PROGRAM 4, X-2 (2026-09-16): THE GUARD APPLIES TO EVERY RUN, NOT ONLY TO CRONS.
+      # It used to be gated on EVENT == "schedule", so a workflow_dispatch skipped it
+      # entirely and always spent. Measured on the sports desk tonight: at 7:38 PM ET a
+      # dispatch at the evening slot drafted a full model run on top of an Edition that
+      # already existed, an hour after the watcher had published it. Eight more of the
+      # day's nine paid runs were dispatches from the old Worker.
+      #
+      # One Edition a day has to be true regardless of WHO dispatches, so the rule is
+      # the slot, not the trigger: a run for a slot whose Edition already exists exits
+      # here, before any model call, and its ledger row is a zero. A dispatch that
+      # names no slot resolves one from the clock and is checked the same way.
+      #
+      # breaking=true still passes: a breaking run regenerates the slot on purpose, and
+      # it is the escape hatch for forcing a rebuild.
+      - name: Slot guard (any run for a served slot stands down)
         id: guard
         env:
           EVENT: ${{ github.event_name }}
@@ -172,7 +186,19 @@ jobs:
           import datetime, os, subprocess
           serve = "true"
           slug = ""
-          if os.environ.get("EVENT") == "schedule" and os.environ.get("BREAKING") != "1":
+          # X-2: A DISPATCH THAT NAMES NO SLOT STANDS DOWN, always. Resolving one from
+          # the clock would name a slot this desk no longer runs (morning before 14:00
+          # UTC, afternoon before 20:00), and then, finding no Edition for a slot that
+          # can never have one, it would spend a full run and write an Edition for a
+          # slot that was retired. A caller who wants a specific slot names it; a caller
+          # who wants to force a rebuild sets breaking=true.
+          if (os.environ.get("EVENT") in ("workflow_dispatch", "workflow_call")
+                  and not (os.environ.get("SLOT_NAME") or "").strip()
+                  and os.environ.get("BREAKING") != "1"):
+              serve = "false"
+              print("::notice::Slot guard: dispatched with no slot; standing down "
+                    "before any model call. Name a slot, or set breaking=true.")
+          elif os.environ.get("BREAKING") != "1":
               now = datetime.datetime.now(datetime.timezone.utc)
               cron_slug = {"40 10 * * *": "morning-brief", "55 10 * * *": "morning-brief",
                            "25 11 * * *": "morning-brief", "8 17 * * *": "afternoon-brief",
