@@ -142,6 +142,34 @@ def _utc_dt(iso):
     return None
 
 
+_SENT_END = re.compile(r"(?<=[.!?])\s+")
+
+
+def clamp_sentences(text, limit, tail="\u2026"):
+    """UX-11 (C-6): a dek ends at a sentence, never an ellipsis.
+
+    Takes as many whole sentences as fit. If not even the first one fits, the first
+    sentence runs long rather than being cut, because authored text is not truncated;
+    a first sentence more than half again the limit is the one case that still falls
+    back to a word cut, since a dek that swallows its card is its own defect."""
+    t = " ".join(str(text or "").split())
+    if len(t) <= limit:
+        return t
+    parts = [x for x in _SENT_END.split(t) if x]
+    out = ""
+    for p in parts:
+        nxt = (out + " " + p).strip() if out else p
+        if len(nxt) > limit:
+            break
+        out = nxt
+    if out:
+        return out
+    first = parts[0] if parts else t
+    if len(first) <= limit * 1.5 and re.search(r"[.!?][\"\u2019\u201d)]*$", first):
+        return first
+    return clamp_words(t, limit, tail)
+
+
 def clamp_words(text, limit, tail="\u2026"):
     """Cut at a word boundary, never mid-word (G-11). Stops at a sentence end when one
     falls inside the limit, so the text reads as written rather than as cut."""
@@ -1957,19 +1985,45 @@ def render_article(item, all_items=None):
 
 # ---- cards / index / archive -------------------------------------------------
 
+def _ends_sentence(t):
+    return bool(re.search(r"[.!?][\"\u2019\u201d)]*$", (t or "").strip()))
+
+
+def dek_for(item, limit):
+    """UX-11: the card's line, ending at a sentence. The desk writes four fields that
+    can serve as one, and a brief's dek is sometimes a single 400-character sentence
+    that no limit can end cleanly; rather than cut it, the card takes the first of the
+    four that does end at a sentence inside the limit."""
+    cands = [item.get("dek"), item.get("key_fact"), item.get("bottom_line")]
+    body = item.get("body") or []
+    if body:
+        b = body[0]
+        cands.append(b.get("h2") if isinstance(b, dict) else b)
+    for c in cands:
+        if not c:
+            continue
+        t = clamp_sentences(str(c), limit)
+        if _ends_sentence(t):
+            return t
+    for c in cands:
+        if c:
+            return clamp_sentences(str(c), limit)
+    return ""
+
+
 def card(item):
     badge = verdict_badge(item.get("verdict"), item)
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
     tag += "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item)[:2])
     href = f'/articles/{esc(item["slug"])}.html'
-    summ = item.get("dek") or (item.get("body", [""])[0] if item.get("body") else "")
+    summ = dek_for(item, 180)
     if isinstance(summ, dict):
         summ = summ.get("h2", "")
     nsrc = len(item.get("sources") or [])
     return f"""<article class="card reveal">
   <div class="row">{badge}{tag}</div>
   <h3><a href="{href}">{esc(item.get("title"))}</a></h3>
-  <p class="summary">{esc(clamp_words(summ, 180))}</p>
+  <p class="summary">{esc(summ)}</p>
   <div class="foot"><span class="dateline">{fmt_when(item)}</span>
     <span class="src">{nsrc} source{"s" if nsrc != 1 else ""}</span></div>
 </article>"""
@@ -2495,6 +2549,41 @@ def _dir_of(v):
 BITCOIN_READ = "Nothing stretched, nothing broken."
 
 
+# ---- UX-11 (C-6): one appearance per fact per page -------------------------------
+# The Chart Master writes one sentence a day and the homepage carried it three times:
+# the Board's twelfth tile, the Board's foot, and the Chart Master's own card. A fact
+# repeated on one screen does not read as emphasis, it reads as a page that does not
+# know what it has already said. The surface that owns the read claims it, and the
+# others fall back to what they carry when there is no read at all, which every one of
+# them already knows how to do.
+
+_PAGE_USED = set()
+
+
+def _page_reset():
+    """A new page starts with nothing claimed."""
+    _PAGE_USED.clear()
+
+
+def _claim(key):
+    if not key:
+        return True
+    if key in _PAGE_USED:
+        return False
+    _PAGE_USED.add(key)
+    return True
+
+
+def _cm_read(cm):
+    """The day's read, by the two keys chartmaster.json actually carries."""
+    cm = cm or {}
+    read = (cm.get("headline") or "").strip()
+    if not read:
+        ps = cm.get("paragraphs") or []
+        read = (ps[0] if ps else "").strip()
+    return read
+
+
 def board_tiles(pulse, flows, deltas):
     """The eight Board tiles as dicts, in Artboard 1 order. A tile whose value is
     missing is omitted entirely: rule 5, a module with no data is omitted, not faked.
@@ -2701,6 +2790,7 @@ def _cm_read_card():
         read = (ps[0] if ps else "").strip()
     if not read:
         return ""
+    _claim("cm-read")          # UX-11: this card is where the day's read lives
     when = fmt_short_date(str(cm.get("date") or "")[:10])
     return (f'<div class="bd-card card cm" style="gap:10px;padding:20px 22px 18px">'
             f'<span class="wmk wmk-cm" aria-hidden="true"></span>'
@@ -2721,7 +2811,7 @@ def _cm_slot():
     if not read:
         ps = cm.get("paragraphs") or []
         read = (ps[0] if ps else "").strip()
-    if read:
+    if read and _claim("cm-read"):
         when = fmt_short_date(str(cm.get("date") or "")[:10])
         return (f'<div class="bd-card bd-tile cb-cmtile">'
                 f'<div class="bd-tile-top"><span class="bd-label">The Chart Master\u2019s '
@@ -2851,6 +2941,71 @@ def _last_week_value(btc):
     return _price_fmt(sp[-1 - back])
 
 
+def pct_text(v, dp=1):
+    """UX-16 (C-8). A reading that rounds to nothing is written as nothing: 0.0%, with
+    no sign. "-0.0%" is an artefact of a float and a format string, and on a stablecoin
+    page it rendered in red, which told the reader a peg had broken when it had not."""
+    if v is None:
+        return ""
+    if round(float(v), dp) == 0:
+        return f"{0:.{dp}f}%"
+    return f"{float(v):+.{dp}f}%"
+
+
+def pct_class(v, dp=1):
+    """Neutral grey at zero, so the colour agrees with the number."""
+    if v is None or round(float(v), dp) == 0:
+        return "chip-flat"
+    return "chip-up" if float(v) > 0 else "chip-down"
+
+
+# ---- UX-16 (C-8): venue names --------------------------------------------------
+# The feeds hand over "coinbase institutional", "bitfinex", "bybit". Lower-case is how
+# an API writes a key, not how a name is spelled, and a reader who knows these venues
+# reads the lower-case as a mistake. The map is small and explicit because these are
+# names and a name is not something to infer; anything not on it gets its first letters
+# raised and nothing else, so an unknown venue is never renamed, only tidied.
+
+VENUE_NAMES = {
+    "binance": "Binance", "binance us": "Binance.US", "bitfinex": "Bitfinex",
+    "bitget": "Bitget", "bitmex": "BitMEX", "bitstamp": "Bitstamp",
+    "bithumb": "Bithumb", "bybit": "Bybit", "coinbase": "Coinbase",
+    "coinbase institutional": "Coinbase Institutional", "crypto.com": "Crypto.com",
+    "deribit": "Deribit", "gate.io": "Gate.io", "gemini": "Gemini", "htx": "HTX",
+    "huobi": "Huobi", "kraken": "Kraken", "kucoin": "KuCoin", "mexc": "MEXC",
+    "okx": "OKX", "upbit": "Upbit", "tether treasury": "Tether Treasury",
+    "unknown wallet": "Unknown wallet", "unknown": "Unknown",
+}
+
+_VENUE_SMALL = {"and", "of", "the"}
+
+
+def venue_name(s):
+    t = " ".join(str(s or "").split())
+    if not t:
+        return ""
+    hit = VENUE_NAMES.get(t.lower())
+    if hit:
+        return hit
+    out = []
+    for n, w in enumerate(t.split(" ")):
+        if any(c.isupper() for c in w) or (n and w.lower() in _VENUE_SMALL):
+            out.append(w)
+        else:
+            out.append(w[:1].upper() + w[1:])
+    return " ".join(out)
+
+
+def _tile_link(t, learn_href):
+    """UX-16 (C-7). "Explained" appeared nine times on one band, which is eight times
+    more than it said anything. The tile itself is the link now: an anchor stretched
+    over the card, carrying the name of what it explains for a reader who cannot see
+    the tile it covers. The band keeps one visible link, "How to read the Board"."""
+    label = (t.get("label") or t.get("key") or "this number").replace("&middot;", "-")
+    return (f'<a class="bd-tile-a" href="{esc(learn_href(t))}">'
+            f'<span class="sr-only">How to read {esc(label)}</span></a>')
+
+
 def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
     """The 4-up tile grid (C-6). `learn_href` resolves a tile's Explained link.
 
@@ -2915,9 +3070,8 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
                   f'<p class="bd-read">{esc(BITCOIN_READ_LONG)}</p>'
                   f'{chart}'
                   f'<div class="bd-tile-foot">'
-                  f'<a href="{esc(learn_href(t))}">Explained &rarr;</a>'
                 + (f'<span class="bd-stamp">{esc(cap)}</span>' if cap else "")
-                + '</div></div>')
+                + f'</div>{_tile_link(t, learn_href)}</div>')
             continue
 
         cards.append(
@@ -2927,9 +3081,8 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
             f'{t.get("delta") or ""}'
             f'<p class="bd-read">{esc(read)}</p>'
             f'<div class="bd-tile-foot">'
-            f'<a href="{esc(learn_href(t))}">Explained &rarr;</a>'
             + (f'<span class="bd-stamp">{esc(win)}</span>' if win else "")
-            + '</div></div>')
+            + f'</div>{_tile_link(t, learn_href)}</div>')
 
     # A-11: twelve slots. The lead takes four, the other tiles take theirs, and the
     # twelfth is the Chart Master's read. The grid never has a hole: with no read for
@@ -4236,7 +4389,13 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, pool=None):
     if not lane_items:
         return ""
     feat = lane_items[0]
-    rest = list(lane_items[1:4])
+    # UX-11 (C-6): one appearance per story per page. The lanes were deduped against
+    # each other by _record_inventory, but a short lane borrows from the Record's own
+    # pool to fill its read-further column and that borrow only checked its own lane,
+    # so a story could be one lane's feature and another lane's row. The page keeps the
+    # tally now: whatever a lane shows, it claims, and later lanes skip it.
+    _claim(feat.get("slug"))
+    rest = [i for i in lane_items[1:6] if _claim(i.get("slug"))][:3]
     newest = max((i.get("published_utc") or "") for i in lane_items)[:10]
     # was "1 pieces in the Record"; no noun, so no plural to get wrong (C-20)
     status = (f"{len(lane_items)} in the Record · newest {esc(fmt_short_date(newest))}"
@@ -4250,9 +4409,8 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, pool=None):
     receipts = (f'Receipts: {esc(", ".join(srcs[:4]))}' if srcs
                 else "Receipts: every source linked on the piece")
     # C-10: the v3 card leads with the Bottom Line, not the dek.
-    dek = (feat.get("bottom_line") or feat.get("key_fact") or feat.get("dek") or "").strip()
-    if len(dek) > 300:
-        dek = dek[:295].rsplit(" ", 1)[0] + "..."
+    dek = dek_for({"dek": feat.get("bottom_line"), "key_fact": feat.get("key_fact"),
+                   "bottom_line": feat.get("dek"), "body": feat.get("body")}, 300)
     left = (
         f'<div class="bd-card bd-rec-feat">'
         f'<div class="bd-cardtop"><span class="bd-eyebrow">{esc(name)}</span>'
@@ -4273,12 +4431,10 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, pool=None):
     # Record's own next items beats rendering half a row of nothing, which is what
     # ETFs and institutions did. Never the lane's own feature, never a repeat.
     if len(rest) < 3 and pool:
-        seen = {i.get("slug") for i in lane_items}
         for i in pool:
             if len(rest) >= 3:
                 break
-            if i.get("slug") and i["slug"] not in seen:
-                seen.add(i["slug"])
+            if i.get("slug") and _claim(i["slug"]):
                 rest.append(i)
         rows = "".join(
             f'<div class="bd-rec-row"><a class="bd-rec-t" href="/articles/{esc(i["slug"])}.html">'
@@ -4321,6 +4477,14 @@ def record_sections(items, home=True):
     every lane on /record.html."""
     by_lane, _picks = _record_inventory(items)
     hub_slugs = {sl for sl, _n, _s in coverage_hubs(items)}
+    # UX-11 (C-6): every lane's feature is reserved before any lane renders. A lane
+    # that borrows from the Record's pool to fill its read-further column was able to
+    # take a story that a later lane then featured, which put one piece on the page
+    # twice with the second appearance looking like the more important one.
+    for _sl, _n, _t, _oh in RECORD_LANES:
+        _li = by_lane.get(_sl) or []
+        if _li and (_oh or not home):
+            _claim(_li[0].get("slug"))
     lanes = "".join(
         _record_lane(slug, name, by_lane.get(slug) or [], hub_slugs, page=not home,
                      pool=_picks)
@@ -4364,6 +4528,7 @@ def record_full_index(items, shown=12):
 
 def render_record(items, dateline):
     """/record.html: every lane, same shape as the homepage sections."""
+    _page_reset()          # UX-11: a page starts with nothing claimed
     body = f"""<main class="wrap"><section class="page">
   <h1 class="sr-only">The Record: what stays true after the news moves on</h1>
   {record_sections(items, home=False)}
@@ -4639,6 +4804,12 @@ def render_home(items, flows, pulse, cm, dateline):
         # band is the light editorial page.
         global CM_DATA
         CM_DATA = (cm or {}) if isinstance(cm, dict) else {}
+        # UX-11: the Chart Master's card is built here, before the band, because it is
+        # the surface that owns the day's read; the band's tile and the Board's foot
+        # then fall back to what they carry when there is no read, which is what they
+        # already do on a day the Chart Master has not filed.
+        _page_reset()
+        cm_card = _cm_read_card()
         cm_quote = ""
         _cm = CM_DATA
         # chartmaster.json carries `headline` and `paragraphs`; there is no "read" key,
@@ -4647,8 +4818,8 @@ def render_home(items, flows, pulse, cm, dateline):
         if not _read:
             _ps = _cm.get("paragraphs") or []
             _read = (_ps[0] if _ps else "").strip()
-        if _read:
-            cm_quote = (f'<p class="cb-cm">{esc(clamp_words(_read, 190))}</p>')
+        if _read and _claim("cm-read"):
+            cm_quote = (f'<p class="cb-cm">{esc(clamp_sentences(_read, 190))}</p>')
         board_mod = f"""<section class="cb-hero" aria-labelledby="bd-board">
   <div class="cb-bg" aria-hidden="true"></div>
   <div class="cb-scrim" aria-hidden="true"></div>
@@ -4656,7 +4827,7 @@ def render_home(items, flows, pulse, cm, dateline):
     <div class="bd-sec"><div class="bd-sec-l">
       <span class="bd-eyebrow">The Board</span>
       <h2 class="cb-claim" id="bd-board">Every number that matters today, in plain language</h2>
-    </div><a class="bd-more" href="/pulse.html">How the Board is built</a></div>
+    </div><a class="bd-more" href="/learn.html">How to read the Board</a></div>
     <p class="cb-sell"><span class="cb-sell-full">Eight numbers, read in the order a desk
       reads a market, each with a plain-language explainer. Checked against public sources
       at every build.</span><span class="cb-sell-short">Eight numbers, each with a
@@ -4706,7 +4877,6 @@ def render_home(items, flows, pulse, cm, dateline):
             'exchanges is usually sell positioning; off exchanges is usually storage.</p></div>')
     # C-7: the since-yesterday rows live in the brief card now, so this row is just
     # Whale Watch, and collapses entirely when the feed gave nothing.
-    cm_card = _cm_read_card()
     ww_row = (f'<section class="bd-row3">{ww_card}{cm_card}</section>'
               if (ww_card or cm_card) else "")
 
@@ -5428,14 +5598,14 @@ def render_flows(flows, dateline):
                 age = f'<span class="mut"> &middot; {h}h ago</span>' if h else '<span class="mut"> &middot; latest</span>'
             rows += (f'<tr><td class="sym2">{esc(m.get("symbol",""))}{" &middot; stable" if m.get("stable") else ""}</td>'
                      f'<td class="num">{usd_html}</td>'
-                     f'<td style="white-space:normal">&rarr; {esc(m.get("to",""))}{age}'
-                     f'<br><span class="mut">from {esc(m.get("from",""))}</span></td></tr>')
+                     f'<td style="white-space:normal">&rarr; {esc(venue_name(m.get("to")))}{age}'
+                     f'<br><span class="mut">from {esc(venue_name(m.get("from")))}</span></td></tr>')
         return rows
 
     move_rows = _move_rows(flows.get("top_inflows", []))
     out_rows = _move_rows(flows.get("top_outflows", []))
     ex_rows = "".join(
-        f'<tr><td class="sym2" style="text-transform:none">{esc(e.get("exchange",""))}</td>'
+        f'<tr><td class="sym2" style="text-transform:none">{esc(venue_name(e.get("exchange")))}</td>'
         f'<td class="pnum" style="color:var(--down)">{_flow_cell(e.get("inflow_usd"))}</td>'
         f'<td class="pnum" style="color:var(--up)">{_flow_cell(e.get("outflow_usd"))}</td>'
         f'<td class="pnum">{"+" if e.get("net_usd",0) >= 0 else ""}{esc(fmt_usd(e.get("net_usd",0)))}</td></tr>'
@@ -5908,15 +6078,15 @@ def mp_hero(pulse=None, flows=None):
     cm_line = ""
     _cm = load_chartmaster() or {}
     _read = (_cm.get("headline") or "").strip()
-    if _read:
-        cm_line = f'<p class="cb-cm">{esc(clamp_words(_read, 190))}</p>'
+    if _read and _claim("cm-read"):
+        cm_line = f'<p class="cb-cm">{esc(clamp_sentences(_read, 190))}</p>'
     return f"""<section class="cb-hero cb-hero-inner" aria-labelledby="bd-board">
   <div class="cb-bg" aria-hidden="true"></div>
   <div class="cb-scrim" aria-hidden="true"></div>
   <div class="wrap cb-inner">
     <div class="bd-sec"><div class="bd-sec-l">
       <h1 class="cb-claim" id="bd-board">The Board</h1>
-    </div><a class="bd-more" href="/learn.html">How the Board is built</a></div>
+    </div><a class="bd-more" href="/learn.html">How to read the Board</a></div>
     {data_stamp(pulse, what="The Board")}
     {cm_line}
   </div>
@@ -6518,7 +6688,7 @@ def render_pulse_stables(pulse, dateline):
         inner = f"{_dash_crumb()}\n  <h1>Stablecoin dry powder</h1>\n  {_no_data()}"
         return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline, data=pulse)
     chg = stables.get("change_30d_pct", 0)
-    chg_chip = _chip(f"{chg:+.1f}% in 30 days", "chip-up" if chg >= 0 else "chip-down")
+    chg_chip = _chip(f"{pct_text(chg)} in 30 days", pct_class(chg))
     win = stables.get("window") or {}
     chart = line_chart_svg(
         stables.get("spark"), x_labels=[win.get("start", ""), win.get("end", "")],
@@ -6568,7 +6738,7 @@ def _mover_rows(movers):
     rows = []
     for m in movers:
         chg = m.get("chg_24h_pct", 0)
-        chip = _chip(f"{chg:+.1f}%", "chip-up" if chg >= 0 else "chip-down")
+        chip = _chip(pct_text(chg), pct_class(chg))
         price = m.get("price")
         if not price:
             price_s = "?"
@@ -6645,11 +6815,24 @@ def _price_fmt(price):
     return f"${price:.{3 - math.floor(math.log10(price))}f}"
 
 
+def _src_rank_title(src, pos):
+    """C-5: the source's rank, kept where it can be read but out of the way. Nothing is
+    claimed when the two agree, and nothing is invented when the source had none."""
+    if not src or src == pos:
+        return ""
+    return f' title="Ranked {src} by market cap before screening"'
+
+
 def _top100_rows(coins):
+    """UX-16 (C-5). The list is numbered 1 to 100 as it is shown. It used to carry the
+    source's rank, so screening a coin out left #8 then #10, #12, #14, and a list with
+    holes in it reads as an error rather than as a screen. The source's own rank is
+    still there, on the row, for the reader who hovers and for anyone reading the
+    markup; what the eye follows is a list that counts."""
     rows = []
-    for c in coins:
+    for pos, c in enumerate(coins, 1):
         chg = c.get("chg_24h_pct")
-        chg_html = (f'<span class="chip {"chip-up" if chg >= 0 else "chip-down"}">{chg:+.1f}%</span>'
+        chg_html = (f'<span class="chip {pct_class(chg)}">{pct_text(chg)}</span>'
                     if chg is not None else '<span class="chip">?</span>')
         spark = c.get("spark7d") or []
         up = len(spark) >= 2 and spark[-1] >= spark[0]
@@ -6660,9 +6843,10 @@ def _top100_rows(coins):
             # a second request or a wider table.
             f'<tr data-sym="{esc(c.get("symbol", ""))}" '
             f'data-mcap="{esc(fmt_usd(c.get("mcap_usd", 0)))}">'
-            f'<td class="mut" data-cell="rank" data-val="{c.get("rank") or 999}">#{c.get("rank", "?")}</td>'
+            f'<td class="mut" data-cell="rank" data-val="{pos}"'
+            f'{_src_rank_title(c.get("rank"), pos)}>#{pos}</td>'
             f'<td class="sym2">{esc(c.get("symbol", ""))}<span class="mut"> &middot; '
-            f'{esc((c.get("name") or "")[:18])}</span>'
+            f'<span class="t1-name">{esc(c.get("name") or "")}</span></span>'
             f'<span class="sym2-cap" hidden></span></td>'
             f'<td>{spark_html}</td>'
             f'<td class="pnum" data-cell="price" data-val="{c.get("price") or 0}">{esc(_price_fmt(c.get("price")))}</td>'
@@ -6772,7 +6956,7 @@ def render_pulse_leverage(pulse, dateline):
                  f'<td class="pnum">{a.get("funding_annual_pct", 0):+.1f}%/yr</td>'
                  f'<td class="pnum">{esc(fmt_usd(a.get("open_interest_usd", 0)))}</td>'
                  f'<td class="pnum">{ls_html}</td>'
-                 f'<td class="mut">{esc(a.get("venue",""))}</td></tr>')
+                 f'<td class="mut">{esc(venue_name(a.get("venue")))}</td></tr>')
     # liquidations: forced closes by side, per asset (recent window, single venue)
     liq_rows = ""
     for a in assets:
@@ -6936,7 +7120,7 @@ def render_pulse_network(pulse, dateline):
   <div class="pulse-card"><div class="pc-chips" style="margin-top:2px">
     <span class="chip" data-live="fee:fastest" data-prefix="next-block fee " data-suffix=" sat/vB">next-block fee {network.get("fastest_fee", "?")} sat/vB</span>
     <span class="chip" data-live="fee:hour" data-prefix="1-hour fee " data-suffix=" sat/vB">1-hour fee {network.get("hour_fee", "?")} sat/vB</span>
-    {_chip(f'difficulty est. {diff:+.1f}%', "chip-up" if diff >= 0 else "chip-down")}
+    {_chip(f'difficulty est. {pct_text(diff)}', pct_class(diff))}
     {_chip(f'{network.get("retarget_blocks", "?")} blocks to retarget')}</div>
   <p class="pc-note"><span class="live-dot"></span>Fees update live in your browser via
   mempool.space; difficulty refreshes with each build. <span data-live="stamp"></span></p></div>
