@@ -90,6 +90,20 @@
    "wf": "Breaking-news watcher",
    "wrap": "synthesis",
    "wrap_repairs": 2
+  },
+  {
+   "breaking": false,
+   "cron": "",
+   "ev": "workflow_dispatch",
+   "guard": "false",
+   "pinged": false,
+   "pushed": false,
+   "run": "35167551056",
+   "t": "2026-09-17T00:48:30Z",
+   "tokens": 0,
+   "usd": 0.0,
+   "wf": "Crypto Cronkite daily brief",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
