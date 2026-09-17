@@ -1,0 +1,81 @@
+{
+  "note": "The desk register: what this newsroom is configured to run, in one place. Two checks read it. The canary asserts the workflow files match it exactly, so a stale cron or a placeholder cannot survive a push. The morning tally compares the Actions log and the ledger to it and prints one health line. Cron times are UTC; the ET column is Eastern and shifts by an hour when DST ends on 1 November.",
+  "desk": "gocheckmycrypto",
+  "updated": "2026-09-17",
+  "paid_runs_per_day": 1,
+  "breaking_runs_per_day": 2,
+  "spend_cap_usd_per_run": 1.5,
+  "served_slots": ["evening-brief"],
+  "netlify_builds_per_day": {"min": 1, "max": 6},
+  "worker_dispatches": [
+    "watcher.yml on the half hour during US hours",
+    "crypto-news-brief.yml at the evening slot, as the cron's backstop"
+  ],
+  "workflows": {
+    "crypto-news-brief.yml": {
+      "purpose": "The one Edition run a day. Ingest, edit, verify, write, approve, publish.",
+      "crons": [{"utc": "8 23 * * *", "et": "7:08 PM", "slot": "evening-brief"}],
+      "triggers": ["schedule", "workflow_dispatch", "workflow_call"],
+      "runs_per_day": {"min": 1, "max": 8},
+      "paid_runs_per_day": {"min": 0, "max": 3},
+      "note": "One scheduled Edition plus at most two breaking runs fired by the caged watcher. Everything else stands down at the slot guard."
+    },
+    "watcher.yml": {
+      "purpose": "The caged breaking-news watcher. No model call unless the cage clears.",
+      "crons": [{"utc": "17 12-23 * * *", "et": "8:17 AM-7:17 PM hourly", "slot": null}],
+      "triggers": ["schedule", "workflow_dispatch"],
+      "runs_per_day": {"min": 12, "max": 44},
+      "paid_runs_per_day": {"min": 0, "max": 2},
+      "note": "Earning categories only, five sources, two runs a day, price triggers off. A tick that does not clear the cage makes no model call."
+    },
+    "site-refresh.yml": {
+      "purpose": "The Board's only mid-day update until the Worker serves it (L-1). Retires with R-1.",
+      "crons": [{"utc": "0 12 * * *", "et": "8:00 AM", "slot": null}],
+      "triggers": ["schedule", "workflow_dispatch"],
+      "runs_per_day": {"min": 1, "max": 1},
+      "paid_runs_per_day": {"min": 0, "max": 0}
+    },
+    "verify-crypto-pipeline.yml": {
+      "purpose": "The pipeline verification ladder.",
+      "crons": [{"utc": "23 6 * * 1", "et": "Mon 2:23 AM", "slot": null}],
+      "triggers": ["schedule", "workflow_dispatch", "push"],
+      "runs_per_day": {"min": 0, "max": 40},
+      "paid_runs_per_day": {"min": 0, "max": 0}
+    },
+    "coin-screen.yml": {
+      "purpose": "Weekly coin screen.",
+      "crons": [{"utc": "40 6 * * 1", "et": "Mon 2:40 AM", "slot": null}],
+      "triggers": ["schedule", "workflow_dispatch"],
+      "runs_per_day": {"min": 0, "max": 1},
+      "paid_runs_per_day": {"min": 0, "max": 0}
+    },
+    "crypto-aging.yml": {
+      "purpose": "Monthly aging review.",
+      "crons": [{"utc": "0 13 1 * *", "et": "1st, 9:00 AM", "slot": null}],
+      "triggers": ["schedule", "workflow_dispatch"],
+      "runs_per_day": {"min": 0, "max": 1},
+      "paid_runs_per_day": {"min": 0, "max": 0}
+    },
+    "janitor.yml": {
+      "purpose": "Closes stale auto-alarm issues.",
+      "crons": [{"utc": "50 7 * * *", "et": "3:50 AM", "slot": null}],
+      "triggers": ["schedule", "workflow_dispatch"],
+      "runs_per_day": {"min": 1, "max": 1},
+      "paid_runs_per_day": {"min": 0, "max": 0}
+    },
+    "publicist.yml": {
+      "purpose": "LinkedIn posting. Dispatch only.",
+      "crons": [],
+      "triggers": ["workflow_dispatch"],
+      "runs_per_day": {"min": 0, "max": 4},
+      "paid_runs_per_day": {"min": 0, "max": 0}
+    },
+    "depth-backfill.yml": {
+      "purpose": "Backfills depth data. Dispatch only.",
+      "crons": [],
+      "triggers": ["workflow_dispatch"],
+      "runs_per_day": {"min": 0, "max": 4},
+      "paid_runs_per_day": {"min": 0, "max": 0}
+    }
+  }
+}
