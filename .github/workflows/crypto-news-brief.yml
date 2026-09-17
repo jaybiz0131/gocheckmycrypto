@@ -765,16 +765,17 @@ jobs:
         run: |
           pinged=false
           if [ "$PUSHED" = "true" ]; then
-            echo "::notice::Stories were pushed; that deploy already refreshes the data desks. Skipping the hook ping."
+            echo "netlify: stories were pushed; that deploy refreshes the desks."
           elif [ -n "$HOOK" ]; then
             if curl -s -f -X POST -d '{}' "$HOOK" > /dev/null; then
-              echo "::notice::Triggered a Netlify rebuild (data desk refresh)."
+              echo "netlify: rebuild triggered (data desk refresh)."
               pinged=true
             else
               echo "::warning::Netlify build hook ping failed; the desks will refresh on the next deploy."
             fi
           else
-            echo "::notice::NETLIFY_BUILD_HOOK not set; the board refreshes only on pushes. Add the secret to enable the daily refresh."
+            # C-5: a log line, not an annotation. Push-only builds are T-3 by design.
+            echo "netlify: no build hook configured; the board rebuilds on pushes (T-3)."
           fi
           echo "pinged=$pinged" >> "$GITHUB_OUTPUT"
 
