@@ -45,6 +45,11 @@ ChartMasterPage on canvas row ten), `site-audit-2026-09-14/`. Worker in
   (L-1, Sprint I). Until then it is the only thing that moves the Board between
   midnight and the 23:08 Edition: one build, no model run. It retires with R-1.
 - Brief cron: `8 23 * * *` only. Morning, midday and their retries are disabled.
+- **The slot guard (X-2, X-2b)** applies to every run, not only crons: a served slot,
+  a dispatch with no slot, and a dispatch naming a slot this desk no longer serves all
+  stand down at zero before any model call. `breaking=true` is the only bypass. Ten
+  cases in the canary.
+- `ledger.json` carries `since` (2026-09-16T16:27Z); every tally prints it.
 
 The cage's behaviour, on the record. Fires: an SEC/BlackRock ETF headline
 (`etfs-funds`), Binance halting withdrawals (`exchanges`), a bridge drain
