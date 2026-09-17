@@ -265,7 +265,7 @@ def section_movers(top_n=5, universe=100, fetch=160):
     trading at all, or a supply the coin's own listing does not confirm."""
     d = get_json("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
                  f"&order=market_cap_desc&per_page={max(fetch, universe)}&page=1"
-                 "&price_change_percentage=24h&sparkline=true")
+                 "&price_change_percentage=24h,7d,30d&sparkline=true")
 
     # Read-only: the build applies the cached verdicts and never screens. Screening is a
     # separate scheduled job precisely so a rate-limited API cannot delay a publish. See
@@ -280,12 +280,30 @@ def section_movers(top_n=5, universe=100, fetch=160):
               f"{coin_screen.why_dropped(screen, c)[1]}")
 
     def pack(c, spark=False):
+        # C-L1: the coin pages need a coin's own numbers, and every one of these is
+        # already in this response or is one more field on the same query string. The
+        # request count does not change. A figure the source did not send is left out
+        # rather than defaulted: a coin with no max supply has no max supply, and a
+        # zero there would be a claim the desk cannot make.
         chg = c.get("price_change_percentage_24h")
         out = {"symbol": (c.get("symbol") or "").upper(), "name": c.get("name") or "",
                "price": c.get("current_price"),
                "chg_24h_pct": round(chg, 2) if chg is not None else None,
                "mcap_usd": c.get("market_cap"), "rank": c.get("market_cap_rank"),
                "gecko_id": c.get("id") or ""}
+        for src, key in (("price_change_percentage_7d_in_currency", "chg_7d_pct"),
+                         ("price_change_percentage_30d_in_currency", "chg_30d_pct")):
+            v = c.get(src)
+            if v is not None:
+                out[key] = round(v, 2)
+        for src, key in (("circulating_supply", "supply"),
+                         ("total_supply", "supply_total"),
+                         ("max_supply", "supply_max"),
+                         ("total_volume", "volume_24h"),
+                         ("ath", "ath"), ("ath_date", "ath_date")):
+            v = c.get(src)
+            if v is not None:
+                out[key] = v
         if spark:
             pts = ((c.get("sparkline_in_7d") or {}).get("price")) or []
             out["spark7d"] = downsample(pts, 28) if len(pts) >= 2 else []

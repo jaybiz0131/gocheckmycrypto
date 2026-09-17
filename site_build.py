@@ -948,6 +948,43 @@ def render_feed(items):
     return "\n".join(x for x in out if x)
 
 
+def fmt_num(n):
+    """A supply figure, short. 19,700,000 reads as 19.7M; the value is not changed,
+    only its spelling, which is the same rule the sports desk's figure chips follow."""
+    try:
+        v = float(n)
+    except (TypeError, ValueError):
+        return ""
+
+    def trim(x):
+        t = f"{x:.2f}".rstrip("0").rstrip(".")
+        return t
+
+    a = abs(v)
+    if a >= 1e12:
+        return f"{trim(v / 1e12)}T"
+    if a >= 1e9:
+        return f"{trim(v / 1e9)}B"
+    if a >= 1e6:
+        return f"{trim(v / 1e6)}M"
+    if a >= 1e3:
+        return f"{v:,.0f}"
+    return trim(v)
+
+
+def _coin_pin(sym):
+    """C-L1 and C-L4: pin this coin, on the store the ticker already uses (gcmc_coins),
+    so a coin pinned here is pinned there. Device-only: no account, no cookie, nothing
+    sent. The wrapper carries data-watchlist because that is the hook the existing
+    script binds to, and the script hides the control where storage is unavailable
+    rather than offering a button that cannot remember anything."""
+    if not sym:
+        return ""
+    return (f'<span class="cn-pinwrap" data-watchlist>'
+            f'<button type="button" class="wl-pick cn-pin" data-pick="{esc(sym)}" '
+            f'aria-pressed="false">Pin {esc(sym)}</button></span>')
+
+
 def fmt_usd(n):
     n = float(n or 0)
     sign = "-" if n < 0 else ""
@@ -6393,7 +6430,8 @@ def _week_ago_line(slug, data):
             f'{"up" if pct > 0 else "down"} {abs(pct):.1f}% since.</p>')
 
 
-def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None):
+def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None,
+                path=None):
     stamp = data_stamp(data) if data is not None else ""
     week = _week_ago_line(slug, data) if data is not None else ""
     # C-15: a sources line, not a methods note (G-9, same rule as C-13).
@@ -6402,7 +6440,7 @@ def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None):
     body = (f'<main class="wrap"><section class="page">\n{body_inner}\n'
             f'{week}{stamp}{srcs}\n</section></main>')
     return shell(f"{title} - The Board - {NAME}", desc, "The Board", body, dateline,
-                 path=f"/pulse/{slug}.html", live_js=live)
+                 path=path or f"/pulse/{slug}.html", live_js=live)
 
 
 def _no_data(cmd="python3 market_pulse.py"):
@@ -6843,8 +6881,9 @@ def _top100_rows(coins):
             f'data-mcap="{esc(fmt_usd(c.get("mcap_usd", 0)))}">'
             f'<td class="mut" data-cell="rank" data-val="{pos}"'
             f'{_src_rank_title(c.get("rank"), pos)}>#{pos}</td>'
-            f'<td class="sym2">{esc(c.get("symbol", ""))}<span class="mut"> &middot; '
-            f'<span class="t1-name">{esc(c.get("name") or "")}</span></span>'
+            f'<td class="sym2"><a class="t1-a" href="/coins/{esc(_coin_slug(c))}.html">'
+            f'{esc(c.get("symbol", ""))}<span class="mut"> &middot; '
+            f'<span class="t1-name">{esc(c.get("name") or "")}</span></span></a>'
             f'<span class="sym2-cap" hidden></span></td>'
             f'<td>{spark_html}</td>'
             f'<td class="pnum" data-cell="price" data-val="{c.get("price") or 0}">{esc(_price_fmt(c.get("price")))}</td>'
@@ -6871,6 +6910,190 @@ TOP100_TAP_JS = """
   });
 })();</script>
 """
+
+
+# ---- C-L1: coin pages ------------------------------------------------------------
+# The audit's first crypto lead item: the most searched page type in crypto is a coin
+# page, and the site had none. It is the twin of the sports desk's game page, built on
+# data the desk already holds: the Top 100 row for the numbers, the Board's own read
+# where the coin is one of its majors, and the desk's stories about the coin.
+#
+# WHAT IS NOT ON IT. A figure the source did not send is absent, not zero. A coin with
+# no maximum supply has no maximum supply; a coin the Board does not track has no Board
+# read and no placeholder where one would go. That is the same law the tiles follow and
+# the reason a coin page can be trusted at all.
+
+COIN_PAGE_MIN_RANK = 100          # the Top 100 is the universe; the page set is its size
+
+
+def _coin_slug(c):
+    """The URL is the symbol, lower-cased, which is what a reader types and what every
+    other crypto site uses. The gecko id is the join key inside the desk, never the URL:
+    ids change hands, and a URL never changes.
+
+    The symbol goes through slugify because a symbol is not always a URL. The Top 100
+    carried a coin whose symbol is four Chinese characters, and taking it literally
+    wrote a file named 币安人生.html. Where the symbol slugifies to nothing the name is
+    tried, and a coin that yields neither has no page, because a URL nobody can type
+    is not a page anyone can reach."""
+    return slugify(c.get("symbol") or "") or slugify(c.get("name") or "")
+
+
+def _coin_pct(v, dp=1):
+    if v is None:
+        return ""
+    return (f'<span class="chip {pct_class(v, dp)}">{pct_text(v, dp)}</span>')
+
+
+def _coin_supply_rows(c):
+    """Supply, only where the source sent it. The percentage of max is arithmetic on
+    two figures the source did send, and it is shown only when both are present."""
+    rows = []
+    sup, mx = c.get("supply"), c.get("supply_max")
+    if sup:
+        extra = ""
+        if mx:
+            extra = f' <span class="mut">of {fmt_num(mx)} max</span>'
+        rows.append(("Circulating supply", f"{fmt_num(sup)} {esc(c.get('symbol') or '')}{extra}"))
+    tot = c.get("supply_total")
+    if tot and tot != sup:
+        rows.append(("Total supply", f"{fmt_num(tot)} {esc(c.get('symbol') or '')}"))
+    if c.get("volume_24h"):
+        rows.append(("24-hour volume", esc(fmt_usd(c["volume_24h"]))))
+    if c.get("ath"):
+        when = ""
+        d = _utc_dt(str(c.get("ath_date") or ""))
+        if d:
+            when = f' <span class="mut">{esc(fmt_short_date(d.strftime("%Y-%m-%d")))}</span>'
+        rows.append(("All-time high", f'{esc(_price_fmt(c["ath"]))}{when}'))
+    return rows
+
+
+def _coin_board_read(sym, pulse):
+    """The Board's own read on this coin, where the Board tracks it. Seven majors are
+    tracked; the other ninety-three get no read and no empty card where one would be."""
+    for a in ((pulse or {}).get("assets") or []):
+        if (a.get("symbol") or "").upper() != sym.upper():
+            continue
+        bits = []
+        if a.get("rsi14") is not None:
+            bits.append(("RSI (14)", f'{a["rsi14"]:.0f}'))
+        if a.get("above_sma200") is not None:
+            bits.append(("200-day", "Above" if a["above_sma200"] else "Below"))
+        if a.get("golden_cross") is not None:
+            bits.append(("50/200", "Golden cross" if a["golden_cross"] else "Death cross"))
+        if a.get("macd_above_signal") is not None:
+            bits.append(("Momentum", "Rising" if a["macd_above_signal"] else "Fading"))
+        if a.get("pct_from_high_12m") is not None:
+            bits.append(("From 12-month high", pct_text(a["pct_from_high_12m"])))
+        return bits, a
+    return [], None
+
+
+def _coin_stories(c, items, n=6):
+    """The desk's stories about this coin.
+
+    A SYMBOL IS A SHALLOW KEY, and a short one is the worst kind. "ETH" inside a word,
+    "SOL" in "sold", "OP" in "open": a bare symbol match would put half the desk on
+    every page. The coin's NAME is the identity and is required in the headline or the
+    dek; the symbol qualifies only as a standalone word in the headline, which is how a
+    crypto desk actually writes about a ticker.
+    """
+    name, sym = (c.get("name") or "").strip(), (c.get("symbol") or "").strip()
+    if not name:
+        return []
+    rx = re.compile(r"(?<![A-Za-z0-9])" + re.escape(sym) + r"(?![A-Za-z0-9])") if sym else None
+    out = []
+    for i in (items or []):
+        if i.get("example") or i.get("superseded_by"):
+            continue
+        title = i.get("title") or ""
+        claim = " ".join([title, i.get("dek") or ""])
+        if name in claim or (rx and rx.search(title)):
+            out.append(i)
+    out.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
+    return [i for i in out if _claim(i.get("slug"))][:n]
+
+
+def render_coin_page(c, pos, pulse, items, dateline):
+    sym = c.get("symbol") or ""
+    name = c.get("name") or sym
+    spark = c.get("spark7d") or []
+    up = len(spark) >= 2 and spark[-1] >= spark[0]
+
+    stats = [("Price", f'<span data-countup>{esc(_price_fmt(c.get("price")))}</span>'),
+             ("24 hours", _coin_pct(c.get("chg_24h_pct"))),
+             ("7 days", _coin_pct(c.get("chg_7d_pct"))),
+             ("30 days", _coin_pct(c.get("chg_30d_pct"))),
+             ("Market cap", esc(fmt_usd(c.get("mcap_usd") or 0))),
+             ("Rank on the Board", f"#{pos}")]
+    stats = [(k, v) for k, v in stats if v not in ("", None)]
+    stat_html = "".join(
+        f'<div class="cn-stat"><span class="lab">{esc(k)}</span>'
+        f'<span class="cn-v">{v}</span></div>' for k, v in stats)
+
+    chart = ""
+    if spark:
+        # A trend line with no scale is a shape, not a reading. The high and the low
+        # are the minimum and maximum of the series the chart is drawn from, so the
+        # caption names two values the chart actually reaches.
+        lo, hi = min(spark), max(spark)
+        chart = (f'<div class="chartcard cn-chart" style="color:'
+                 f'{"var(--up)" if up else "var(--down)"}">'
+                 f'{spark_svg(spark, w=980, h=150)}</div>'
+                 f'<p class="pc-note">Seven days, as the Board reads it. '
+                 f'High {esc(_price_fmt(hi))}, low {esc(_price_fmt(lo))}.</p>')
+
+    board, asset = _coin_board_read(sym, pulse)
+    board_html = ""
+    if board:
+        board_html = (
+            '<div class="sec-head" style="margin-top:28px"><h2>On the Board</h2>'
+            '<span class="bar"></span></div><div class="cn-grid">'
+            + "".join(f'<div class="cn-stat"><span class="lab">{esc(k)}</span>'
+                      f'<span class="cn-v">{esc(str(v))}</span></div>' for k, v in board)
+            + '</div>'
+            '<p class="pc-note">These are readings, not advice, and not a forecast. '
+            '<a href="/learn.html">How to read the Board</a>.</p>')
+
+    supply = _coin_supply_rows(c)
+    supply_html = ""
+    if supply:
+        supply_html = (
+            '<div class="sec-head" style="margin-top:28px"><h2>Supply and trade</h2>'
+            '<span class="bar"></span></div><div class="cn-rows">'
+            + "".join(f'<div class="cn-row"><span class="lab">{esc(k)}</span>'
+                      f'<span class="cn-rv">{v}</span></div>' for k, v in supply)
+            + '</div>')
+
+    stories = _coin_stories(c, items)
+    news_html = ""
+    if stories:
+        news_html = ('<div class="sec-head" style="margin-top:28px">'
+                     '<h2>From the desk</h2><span class="bar"></span></div>'
+                     '<div class="cn-news">'
+                     + "".join(
+                         f'<a class="cn-n" href="/articles/{esc(i["slug"])}.html">'
+                         f'{esc(i.get("title") or "")}</a>' for i in stories)
+                     + '</div>')
+
+    inner = f"""{_dash_crumb()}
+  <div class="sec-head"><h2>{esc(name)}<span class="cn-sym">{esc(sym)}</span></h2>
+    <span class="bar"></span>{_coin_pin(sym)}</div>
+  <div class="cn-grid cn-top">{stat_html}</div>
+  {chart}
+  {board_html}
+  {supply_html}
+  {news_html}
+  <nav class="st-nav" aria-label="Related">
+    <a class="st-nav-a" href="/pulse/prices.html">The Top 100</a>
+    <a class="st-nav-a" href="/pulse.html">The Board</a>
+    <a class="st-nav-a" href="/learn.html">How to read the Board</a></nav>"""
+    return _dash_shell(f"coin-{_coin_slug(c)}", f"{name} ({sym})",
+                       f"{name} price, 24-hour, 7-day and 30-day change, market cap and "
+                       f"supply, with the Board's read and the desk's reporting.",
+                       inner, dateline, data=pulse,
+                       path=f"/coins/{_coin_slug(c)}.html")
 
 
 def render_pulse_prices(pulse, dateline):
@@ -7891,6 +8114,32 @@ def build():
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))
     w(os.path.join("pulse", "movers.html"), render_pulse_movers(pulse, dateline))
     w(os.path.join("pulse", "prices.html"), render_pulse_prices(pulse, dateline))
+
+    # C-L1: one page per coin on the Board's own universe. Each page claims its own
+    # stories, so _page_reset runs per page and one story can serve two coins.
+    _coins = ((pulse or {}).get("movers") or {}).get("top100") or []
+    _cn = 0
+    _seen_coin = set()
+    for _pos, _c in enumerate(_coins, 1):
+        _slug = _coin_slug(_c)
+        # A collision is not resolved by writing over the first page: the second coin
+        # is skipped and said so, because a URL is a promise and silently repointing
+        # one is the worst outcome available here.
+        if not _slug:
+            print(f"::warning::coin pages: {(_c.get('name') or '?')[:40]} has no "
+                  f"usable slug; no page")
+            continue
+        if _slug in _seen_coin:
+            print(f"::warning::coin pages: {(_c.get('name') or '?')[:40]} would reuse "
+                  f"/coins/{_slug}.html; skipped")
+            continue
+        _seen_coin.add(_slug)
+        _page_reset()
+        w(os.path.join("coins", f"{_slug}.html"),
+          render_coin_page(_c, _pos, pulse, items, dateline))
+        _cn += 1
+    if _cn:
+        print(f"coin pages: {_cn}")
     w(os.path.join("pulse", "stablecoins.html"), render_pulse_stables(pulse, dateline))
     w(os.path.join("pulse", "leverage.html"), render_pulse_leverage(pulse, dateline))
     w(os.path.join("pulse", "etf.html"), render_pulse_etf(pulse, dateline))
@@ -8085,7 +8334,16 @@ def build():
     learn_locs += [f"/news/{L['slug']}.html" for L in _c4_lanes
                    if len(L["items"]) >= NEWS_MIN_STORIES]
     _c4_months = [f"/news/archive/{m}.html" for m in _news_month_archive(_c4_live)]
-    prio = locs + learn_locs + hub_locs + [f"/articles/{i['slug']}.html" for i in _prio_arts]
+    # C-L1: a coin page is the most searched page type on a crypto site and the crawl
+    # path from a ticker to the desk's reporting. Only the pages that were actually
+    # written are listed, by the same slug rule that wrote them.
+    _coin_locs, _cseen = [], set()
+    for _c in ((pulse or {}).get("movers") or {}).get("top100") or []:
+        _sl = _coin_slug(_c)
+        if _sl and _sl not in _cseen:
+            _cseen.add(_sl)
+            _coin_locs.append(f"/coins/{_sl}.html")
+    prio = locs + learn_locs + hub_locs + _coin_locs + [f"/articles/{i['slug']}.html" for i in _prio_arts]
     older = [i for i in arts_sorted if i.get("slug") not in _ev]
     archive_arts = [i for i in older if _within_days(i, 60)]
     n_aged = len(older) - len(archive_arts)
