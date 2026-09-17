@@ -1948,7 +1948,7 @@ def render_article(item, all_items=None):
     {tool_html}
     {src_html}
     {rel_html}
-    <p class="nfa">{esc(NFA)}</p>
+
   </article>
 </main>"""
     title = f'{item.get("title")} - {NAME}'
@@ -2156,7 +2156,6 @@ def render_bottom_line_history(items, dateline):
      happened, why it mattered, and what the calendar says comes next. Synthesis of the
      desk's verified reporting, never a prediction and never advice. Every read is kept.</p>
   {"".join(rows) if rows else '<p class="lede">The first edition lands soon.</p>'}
-  <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"The Bottom Line - {NAME}", "The desk's daily reads: what happened, why it "
                  "mattered, and what comes next. Synthesis, never advice.",
@@ -5668,18 +5667,18 @@ def render_flows(flows, dateline):
           aria="Weekly net exchange flow, last 13 weeks", compact=True)}</div>
       <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets, newest
       first: green right = net withdrawals (accumulation), red left = net deposits.</p>''' if flows.get("history") else ""}
+      {f'''<div class="sec-head" style="margin-top:18px"><h2>By exchange</h2><span class="bar"></span></div>
+      <div class="movetable" tabindex="0" role="region" aria-label="Net flow by exchange (scrollable)"><table>
+        <thead><tr><th><span class="sr-only">Exchange</span></th><th>In</th><th>Out</th><th>Net</th></tr></thead>
+        <tbody>{ex_rows}</tbody></table></div>
+      <p class="pc-note" style="margin-top:6px">Window totals per named exchange; net + = more
+      left than arrived. Amounts in the move tables link to the transfer itself on Whale Alert.</p>''' if ex_rows else ""}
     </div>
     <div class="stack">
       <div class="sec-head"><h2>Biggest moves onto exchanges</h2><span class="bar"></span></div>
       <div class="movetable" tabindex="0" role="region" aria-label="Biggest moves onto exchanges (scrollable)"><table><tbody>{move_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
       <div class="sec-head"><h2>Biggest moves off exchanges</h2><span class="bar"></span></div>
       <div class="movetable" tabindex="0" role="region" aria-label="Biggest moves off exchanges (scrollable)"><table><tbody>{out_rows or '<tr><td class=mut>None in window.</td></tr>'}</tbody></table></div>
-      {f'''<div class="sec-head"><h2>By exchange</h2><span class="bar"></span></div>
-      <div class="movetable" tabindex="0" role="region" aria-label="Net flow by exchange (scrollable)"><table>
-        <thead><tr><th><span class="sr-only">Exchange</span></th><th>In</th><th>Out</th><th>Net</th></tr></thead>
-        <tbody>{ex_rows}</tbody></table></div>
-      <p class="pc-note" style="margin-top:6px">Window totals per named exchange; net + = more
-      left than arrived. Amounts in the move tables link to the transfer itself on Whale Alert.</p>''' if ex_rows else ""}
     </div>
   </div>
 
@@ -5708,7 +5707,6 @@ def render_flows(flows, dateline):
       own.</p></div>
   </div>
   {data_stamp(flows, what="This whale board")}
-  <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
     return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",
                  "Whale Watch", body, dateline, path="/flows.html")
@@ -6569,7 +6567,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
      <span class="live-stamp"><span class="live-dot"></span>prices update in your browser
      <span data-live="stamp"></span></span></p>
   <div class="dash-grid widget-grid">{"".join(W)}</div>
-  <p class="nfa">{esc(NFA)}</p>
+
 </section></main>'''
     return shell(f"The Board - {NAME}", desc, "The Board", body, dateline,
                  path="/pulse.html", live_js=True)
@@ -6625,7 +6623,7 @@ def render_pulse_sentiment(pulse, dateline):
       about prices, which is exactly why it is useful and exactly why it should never be a
       buy or sell signal on its own.</p></div>
   </div>
-  <p class="nfa">{esc(NFA)}</p>"""
+"""
     return _dash_shell("sentiment", "Crowd sentiment", desc, inner, dateline, data=pulse)
 
 
@@ -6676,7 +6674,7 @@ def render_pulse_posture(pulse, dateline):
       standard formulas so you can learn to read them yourself, and we will never turn them
       into a buy or sell call. That is the deal.</p></div>
   </div>
-  <p class="nfa">{esc(NFA)}</p>"""
+"""
     return _dash_shell("posture", "Price posture", desc, inner, dateline, live=True, data=pulse)
 
 
@@ -6730,7 +6728,7 @@ def render_pulse_stables(pulse, dateline):
       where big chunks of it are MOVING, onto or off exchanges. Size is the fuel level, flows
       are the throttle.</p></div>
   </div>
-  <p class="nfa">{esc(NFA)}</p>"""
+"""
     return _dash_shell("stablecoins", "Stablecoin dry powder", desc, inner, dateline, data=pulse)
 
 
@@ -6798,7 +6796,7 @@ def render_pulse_movers(pulse, dateline):
       already happened is how crowds get hurt. This board is a snapshot of where the action
       was, never a list of things to buy.</p></div>
   </div>
-  <p class="nfa">{esc(NFA)}</p>"""
+"""
     return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True, data=pulse)
 
 
@@ -6932,7 +6930,7 @@ def render_pulse_prices(pulse, dateline):
       confirms. Freed places are filled from further down, so this is still a full
       hundred.</p></div>
   </div>{screened}
-  <p class="nfa">{esc(NFA)}</p>""" + TOP100_TAP_JS
+""" + TOP100_TAP_JS
     return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True, data=pulse)
 
 
@@ -7040,7 +7038,7 @@ def render_pulse_leverage(pulse, dateline):
       flips fast. Treat this as context for how stretched the boat is, never as a trade
       signal on its own.</p></div>
   </div>
-  <p class="nfa">{esc(lev.get("note", ""))} {esc(NFA)}</p>"""
+  <p class="pc-note">{esc(lev.get("note", ""))}</p>"""
     return _dash_shell("leverage", "Leverage", desc, inner, dateline, data=pulse)
 
 
@@ -7101,7 +7099,7 @@ def render_pulse_etf(pulse, dateline):
       family's quirks (fees, conversions) can dominate a quiet day. Context for the news,
       never a trade signal.</p></div>
   </div>
-  <p class="nfa">{esc(etf.get("note", ""))} {esc(NFA)}</p>"""
+  <p class="pc-note">{esc(etf.get("note", ""))}</p>"""
     return _dash_shell("etf", "ETF flows", desc, inner, dateline, data=pulse)
 
 
@@ -7139,7 +7137,7 @@ def render_pulse_network(pulse, dateline):
       <p>Network vitals move slowly and that is their value: they are hard to fake and hard to
       spin. They tell you about the health of the system, not tomorrow's price.</p></div>
   </div>
-  <p class="nfa">{esc(NFA)}</p>"""
+"""
     return _dash_shell("network", "Bitcoin network", desc, inner, dateline, live=True, data=pulse)
 
 
@@ -7307,7 +7305,7 @@ def render_chartmaster(read, dateline):
       <p>What you become when you chase a pump with no story behind it. The
       <a href="/pulse/movers.html">movers board</a> exists so you check before you chase.</p></div>
   </div>
-  <p class="nfa">{esc(NFA)} The Chart Master is a character of this desk, and nothing on
+  <p class="pc-note">The Chart Master is a character of this desk, and nothing on
   this page is a recommendation of any kind.</p>
 </section></main>
 """
