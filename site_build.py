@@ -1363,7 +1363,11 @@ def _fingerprint_assets(html):
     # Cache-busting for fonts rides on the filename instead. They are subset artifacts
     # that change only when the subsetting changes, and a changed subset ships under a
     # new name.
-    return re.sub(r'((?:src|href)=")(/assets/(?!fonts/)[^"?#]+)(")',
+    # R-4: the hero posters join the fonts in the exemption, and for the same reason.
+    # The preload in the HTML was versioned and the background url() in site.css was
+    # not, so the phone requested hero-poster-phone.webp twice: once with the hash and
+    # once without. Two URLs for the same bytes is two downloads.
+    return re.sub(r'((?:src|href)=")(/assets/(?!fonts/)(?!hero/)[^"?#]+)(")',
                   lambda m: f'{m.group(1)}{m.group(2)}?v={ver(m.group(2))}{m.group(3)}', html)
 
 
@@ -1496,8 +1500,10 @@ def _em_dash_belt(html):
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           live_js=False, brand="site", og_type="website", schema_extra="", og_image=None,
           canonical_path=None):
-    fonts = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
-             '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+    # R-4: the preconnects to Google are gone with the fonts they were for. A
+    # preconnect to a host the page never contacts costs a DNS lookup and a TLS
+    # handshake for nothing, on the critical path, which is the opposite of the point.
+    fonts = (
              # V-7: THE FONTS ARE OURS NOW. Five woff2 files in site/assets/fonts,
              # 59.9 KB together, served from this origin. Google Fonts cost two DNS
              # lookups, two TLS handshakes and a stylesheet round trip BEFORE the first
@@ -7546,6 +7552,14 @@ def build():
         shutil.rmtree(PUBLISH)
     os.makedirs(os.path.join(PUBLISH, "articles"), exist_ok=True)
     _copytree(ASSETS, os.path.join(PUBLISH, "assets"))
+    # R-4: the PIL faces are for share_cards and og_render, which draw text into PNGs
+    # at build time. No page requests them, and at 728 KB they are the largest thing in
+    # assets. They stay in the repo, where the renderers read them; they do not ship.
+    for _stale in glob.glob(os.path.join(PUBLISH, "assets", "fonts", "*.ttf")):
+        try:
+            os.remove(_stale)
+        except OSError:
+            pass
 
     def w(rel, html):
         path = os.path.join(PUBLISH, rel)
