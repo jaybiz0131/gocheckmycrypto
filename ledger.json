@@ -118,6 +118,23 @@
    "usd": 0.0,
    "wf": "Crypto Cronkite daily brief",
    "wrap": "synthesis"
+  },
+  {
+   "breaking": false,
+   "cap_usd": 1.5,
+   "cron": "",
+   "ev": "workflow_dispatch",
+   "guard": "true",
+   "outcome": "ran",
+   "pinged": false,
+   "pushed": true,
+   "run": "35285655253",
+   "t": "2026-09-17T23:28:16Z",
+   "tokens": 335107,
+   "usd": 0.6822,
+   "wf": "Crypto Cronkite daily brief",
+   "wrap": "synthesis",
+   "wrap_repairs": 1
   }
  ],
  "since": "2026-09-16T16:27Z"
