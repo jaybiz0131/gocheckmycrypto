@@ -1,0 +1,31 @@
+{
+  "id": "c004",
+  "slug": "zcash-targets-november-5-upgrade-to-accelerate-private-payments",
+  "kind": "brief",
+  "title": "Zcash targets November 5 upgrade to accelerate private payments",
+  "dek": "The Zcash network is planning to activate the NU7 upgrade on November 5, 2026, reducing block times to 25 seconds. The upgrade will also set aside at least 60% of transaction fees beginning in 2031 to supplement mining rewards after the next halving, preserving the existing halving schedule through community consensus.",
+  "date": "2026-09-18",
+  "published_utc": "2026-09-18T23:13:07Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "NU7 mainnet activation on November 5, 2026 cuts block times to 25 seconds and defers recycled transaction fees to 2031 to sustain mining incentives post-halving.",
+  "bottom_line": "Zcash miners and users will see faster block finality on November 5 if the upgrade deploys as scheduled. The real test is whether the fee-recycling model sustains hash rate growth after 2031, when mining rewards drop and the ecosystem must rely on both transaction volume and the formal fee supplement.",
+  "human_take": "",
+  "body": [
+    "Zcash is set to activate the NU7 upgrade on November 5, 2026, reshaping the network's transaction speed and post-halving economics in a single push.\nThe NU7 roadmap consolidates three major changes: the 25-second block time, preservation of existing halving intervals, and integration of the fee mechanism. These elements emerged from developer consensus and a community vote on how to handle post-halving mining incentives without breaking the chain's original halving schedule.\nFor proof-of-work privacy chains, the halving creates a structural risk: block rewards decline by 50%, and if fees do not rise to fill the gap, miner revenue drops sharply. Zcash's solution directs a portion of future transaction fees into a supplemental pool for miners, reducing the risk of hash rate collapse after the next halving while keeping the reward curve intact.\nThe November 5 target gives the network two months to finalize code review, testnet validation, and exchange coordination before activation."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/09/18/zcash-targets-november-upgrade-to-make-private-payments-up-to-three-times-faster",
+      "url": "https://www.coindesk.com/tech/2026/09/18/zcash-targets-november-upgrade-to-make-private-payments-up-to-three-times-faster"
+    },
+    {
+      "title": "https://cointelegraph.com/news/zcash-nu7-november-mainnet-activation?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/zcash-nu7-november-mainnet-activation?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": false
+}

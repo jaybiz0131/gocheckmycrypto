@@ -1,41 +1,6 @@
 [
  {
   "date": "2026-08-19",
-  "approved": 4,
-  "rejected": [
-   {
-    "id": "c001",
-    "headline": "SEC Announces Regulation Crypto Assets Proposal",
-    "category": "accuracy",
-    "reasons": [
-     "The bottom_line states '$75M exemption thresholds' as fact, but the brief explicitly marks this unverifiable: 'Cannot verify the '$75M' exemption threshold mentioned in why_it_matters against source text.' This fact does not appear in any data_point and the brief lists it as an open_question.",
-     "The bottom_line asserts 'investment-contract safe harbor and token-offering exemptions' as concrete features of the proposal, but the brief's only data_point is marked 'announced-not-verified' and the brief's open_questions explicitly state 'Cannot confirm detailed scope of investment contracts... or which asset categories are covered.' The draft presents unverified details as settled.",
-     "The bottom_line invokes 'Congress stalls on CLARITY Act' but this claim appears nowhere in the brief's data_points or sources. This is smuggled information."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "Bitcoin reaches $69,700 as Treasury expands bond buyback program",
-    "category": "balance",
-    "reasons": [
-     "The draft's entire narrative frame\u2014'Bitcoin rallied to $69,700... The move coincided with the U.S. Treasury's announcement'\u2014creates a causal implication between two events on the same day. The brief's bear_case explicitly warns 'The source text does not explicitly establish a causal link between the Treasury announcement and Bitcoin's price movement; correlation does not imply causation.' The draft acknowledges this caveat later ('CoinDesk's reporting does not establish a direct causal link') but the opening framing and headline structure have already presented them as linked, undermining the brief's central caveat. A reader stopping after the first two sentences walks away with the correlation-as-causation impression the brief flagged as the risk.",
-     "The draft presents the Treasury announcement and its mechanism as settled fact ('an expansion of the program signals a shift... An expansion of the program signals a shift') without attribution or hedging, when the brief lists as open_question: 'What is the specific magnitude of the Treasury bond buyback expansion?' and 'What is the exact mechanism by which lower long-dated yields support Bitcoin, as reported in the source?' The mechanism language reads as the writer's interpretation, not the source's claim."
-    ]
-   },
-   {
-    "id": "c007",
-    "headline": "HSBC and Standard Chartered Execute First Live Settlement on Swift Blockchain Ledger",
-    "category": "accuracy",
-    "reasons": [
-     "Draft asserts 'This marks the first live transaction executed through the ledger since its deployment, though Swift has piloted similar functionality with other banks over preceding months' but no brief exists to verify this claim. The instruction is absolute: 'no fact exists outside the brief.' With no brief provided, every factual claim must be verified against the cited sources themselves, which this approval system cannot access. The draft cannot be approved without confirmation that these sources actually support each statement about deployment history, pilot programs, and transaction firsts.",
-     "Draft states 'HSBC and Standard Chartered completed the first live cross-border transaction using Swift's blockchain-based ledger on August 19, 2026' \u2014 the date and transaction sequence cannot be verified without access to the source URLs, and the absence of a brief means no research authority exists to validate this is the actual first transaction or that the date is correct.",
-     "Multiple specific technical claims about Swift's ledger architecture, settlement mechanics, and netting functionality are presented as fact ('Swift's ledger is a proprietary system built on blockchain technology, operated by the SWIFT cooperative for member banks' use in real-time settlement. The system runs 24/7') but without a brief and without the ability to verify sources, these cannot be approved. Any of these could be inaccurate or mischaracterized."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
   "approved": 3,
   "rejected": [
    {
@@ -5080,6 +5045,71 @@
     "reasons": [
      "The draft opens with 'days after the party received \u00a336 million each from Tether shareholder Christopher Harborne and former BitMEX executive Ben Delo,' creating a causal implication (timing + adjacency + framing) that the donations influenced the policy without explicit attribution or caveat. The bottom_line acknowledges 'The timing between large crypto-donor contributions and the unveiling of a tax proposal... creates immediate questions about policy influence,' but the draft body presents the sequence as narrative fact rather than as speculation or investigation. This reads as the desk adopting the 'quid pro quo' framing rather than reporting what named parties have alleged or stated. The brief's own open_question asks 'What was Reform's tax position on crypto investors prior to receiving these donations\u2014has the party formally stated a position before the donations arrived?' The draft does not answer this; it assumes the temporal proximity itself is newsworthy without establishing whether the position is new.",
      "The draft states 'Reform pulled its crypto manifesto from its website in July amid the Harborne scandal' without attribution. The brief data_point says 'Reform pulled its crypto manifesto from its website in July amidst the Harborne scandal,' also without clear attribution within the data_point itself. However, this claim sits in a politically charged narrative about donor influence and potential corruption. If the manifesto was pulled for other reasons (site redesign, policy review cycle, etc.), this sentence plants the inference that it was guilt-driven withdrawal. The phrase 'amidst the Harborne scandal' is loaded terminology adopted from the source without interrogation. The brief's own bear_case notes 'Reform pulled its crypto manifesto from its website in July amidst the Harborne scandal, suggesting prior positioning shifts under pressure'\u2014which is analysis, not fact. The draft runs it as fact in the desk's own voice."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-18",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c000",
+    "headline": "CFTC submits crypto rules to White House after Senate blocks CLARITY Act (September 18)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports that 'Only Selig is sitting on the five-seat Commission,' but the brief's corresponding data point (confidence: 'reported') states 'Selig is the only sitting member of the five-seat Commission, according to the CFTC's Chairman & Commissioners page.' The draft presents this as established fact when the brief attributes it to a specific source check. This is a marginal issue but the confidence label survives because the brief marks it reported, not confirmed independently.",
+     "The draft contains: 'Bitcoin traded at $80,686, up 5.1% over 24 hours as of the reporting date. Ether was at $2,581, up 4.5%.' These price data points do NOT appear in the brief's data_points list. This is smuggled information: facts must come from the research brief. A crypto price ticker is not a regulatory event and does not belong in a story about CFTC rulemaking; its presence also creates appearance of market enthusiasm tied to policy news, which is a compliance edge case (implied causation between regulation and price move). Reject on accuracy: the prices are not in the brief."
+    ]
+   },
+   {
+    "id": "c011",
+    "headline": "Solana cuts block time by 17% without raising transaction throughput",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line references 'The November 5 activation date' as though this detail appears in the draft or brief. It does not. The brief contains no activation date. The draft contains no activation date. This is a smuggled fact: the writer has imported 'November 5' from the Zcash story (c004) into the Solana story, conflating two separate upgrades on the same calendar date. This is a hard accuracy failure: the reader will assume Solana activates on November 5 based on the bottom_line, but no source in the brief supports this.",
+     "The brief lists 'When does this change activate on mainnet?' as an open question, flagging that the activation date is unknown. The draft's bottom_line treats it as known and imminent. This directly violates the rule that facts must trace to the brief."
+    ]
+   },
+   {
+    "id": "c099",
+    "headline": "Revolut Begins EURR Euro Stablecoin Rollout With Bridge as Regulated Issuer",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'As of August 25, 2026, \u20ac374 in EURR was in circulation' but the brief data_point says '\u20ac374 in EURR was in circulation' without the 'As of' framing tied to August 25. The brief's claim is \u20ac374 in circulation and \u20ac374 in reserve as of Aug. 25, which the draft correctly reports, but this is a minor attribution issue and not material.",
+     "More critically: the draft claims 'All of the reported EURR backing is held as cash deposits in credit institutions' which the brief does support (data_point: 'All of the reported EURR backing is held as cash deposits in credit institutions'), so that is accurate.",
+     "The draft states the rollout 'is limited to three test markets with initial access restricted to selected eligible users' and later 'EURR supply of \u20ac374 compares to \u20ac394.5 million in circulation for Circle's competing EURC as of August 24, 2026' \u2014 both are in the brief.",
+     "Actually, re-examining: all major factual claims (rollout to Denmark, Poland, Portugal; Bridge as issuer; MiCA compliance; 75M users; Ethereum and Polygon networks; \u20ac374 supply vs \u20ac394.5M EURC; Circle's issuer license from France) all trace to brief data_points marked 'reported'.",
+     "The draft correctly marks the rollout as 'limited to three test markets' and 'initial access restricted,' which mirrors the brief's bear_case point about limited rollout.",
+     "Bottom line appropriately forward-looking with invalidation conditions (stalls below \u20ac50M by December 2026).",
+     "No compliance issues; not-financial-advice present; human_take empty.",
+     "Upon full re-check: all facts trace cleanly. Story survives balance test with bear_case represented (limited pilot, minimal current supply). This passes."
+    ]
+   },
+   {
+    "id": "c107",
+    "headline": "Blockchain Dead Drop Attacks Jump 420% as State-Linked Groups Expand Use",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'a technique where attackers place malware payloads or pointers to command-and-control infrastructure in transaction data or smart contracts' and later 'A blockchain dead drop works when infected devices read encoded pointers or commands embedded in transactions or smart contracts' \u2014 this mirrors the brief's data_point definition accurately.",
+     "The draft reports: 'Malicious blockchain writes jumped to 11.1 per day in recent months, up from 2.06 per day before mid-2025, representing a 440% increase in less than a year.' The brief data_point #3 says 'Malicious blockchain writes rose from 2.06 per day before mid-2025 to 11.1 per day, a 440% increase in less than a year.' This is correctly reported.",
+     "However, the draft title says 'Jump 420%' but the body then says the overall malicious writes increased '440%' while 'blockchain dead drop attacks (a technique where...)' rose '420% year-over-year.' The brief distinguishes: data_point #1 is '420%' for dead drop attacks; data_point #3 is '440%' for malicious blockchain writes. The title uses 420% (dead drop attacks specifically), which is correct for the narrower claim.",
+     "The draft attributes Iran-linked activity to 'operators suspected to be linked to Iran's Ministry of Intelligence' with the caveat 'Chainalysis said the Iran attribution assessment rests on the malware family, decoding logic, timing and infrastructure rather than the blockchain activity alone.' This mirrors the brief data_point and bear_case item about weaker attribution chain.",
+     "Russian-language groups: draft states 'Chainalysis stated these actors were not necessarily state-sponsored and were classified as Russian-language based on linguistic analysis and external reporting.' This directly traces to brief data_point #11 and bear_case item.",
+     "All major claims (North Korea campaign on Tron/Aptos/BNB, Google UNC5342 documentation since Feb 2025, Iran attribution logic, Russian-language Polygon use, API provider responsiveness) trace to brief data_points.",
+     "The draft correctly notes the shift: 'Cybercriminals accounted for nearly all blockchain dead-drop activity through early 2024. By Q2 2026, state-linked groups generated roughly two-thirds of new activity each quarter and represented half of all activity tracked by Chainalysis' \u2014 this matches brief data_point #13.",
+     "Bottom line is appropriately forward-looking with watch conditions (coordinated defensive action vs. continued expansion).",
+     "All facts verify against the brief. No compliance red flags; not-financial-advice present; human_take empty.",
+     "This story passes the accuracy check."
+    ]
+   },
+   {
+    "id": "c001",
+    "headline": "Haruko cyberattack hits 15 crypto clients; some funds lost",
+    "category": "accuracy",
+    "reasons": [
+     "The phrase 'Some smaller hedge fund clients with weaker security controls experienced fund losses in the breach' presents an unconfirmed claim as settled fact. The brief marks this data point confidence as 'unconfirmed,' meaning the draft must signal uncertainty. The phrasing 'experienced fund losses' reads as established fact rather than reported allegation or possibility.",
+     "The draft states facts as accomplished (attacks 'affected,' losses 'experienced') when the brief itself carries these as reported/unconfirmed claims. Confidence labels must survive into prose: unconfirmed claims need qualification like 'reportedly,' 'according to CoinDesk,' or 'may have' to preserve the evidentiary standing of the source material."
     ]
    }
   ]
