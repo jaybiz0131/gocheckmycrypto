@@ -8475,7 +8475,24 @@ def build():
     n_aged = len(older) - len(archive_arts)
     # Month archive pages ride the archive tier with the stories they index; /news
     # and the storyline pages stay in priority.
-    archive = _c4_months + [f"/articles/{i['slug']}.html" for i in archive_arts]
+    # P-2: the Edition pages and the living tables are real pages a reader can land on
+    # and were in no tier at all. They ride the archive tier; the priority file is kept
+    # small on purpose so a new domain's crawl budget reads it whole.
+    # The Edition pages are written LAST (they must win the /news.html route), so at
+    # this point their directory is empty: the build wipes publish on every run. Asking
+    # the filesystem gave nothing. The Edition is asked what days it will write instead.
+    _extra = []
+    try:
+        import edition as _ed_sm
+        _extra += [f"/edition/{_d}.html" for _d in _ed_sm.edition_days(items)]
+    except Exception as _e:
+        print(f"::warning::sitemap: edition days unavailable ({type(_e).__name__})")
+    for _sub in ("tables",):
+        _dir = os.path.join(PUBLISH, _sub)
+        if os.path.isdir(_dir):
+            _extra += [f"/{_sub}/{_f}" for _f in sorted(os.listdir(_dir))
+                       if _f.endswith(".html")]
+    archive = _extra + _c4_months + [f"/articles/{i['slug']}.html" for i in archive_arts]
     w("sitemap-priority.xml", _urlset(prio))
     w("sitemap-archive.xml", _urlset(archive))
     w("sitemap.xml",
