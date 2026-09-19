@@ -1,0 +1,56 @@
+{
+  "id": "c064",
+  "slug": "cftc-files-crypto-market-rulemaking-with-white-house-at-prerule-stage",
+  "kind": "brief",
+  "title": "CFTC Files Crypto Market Rulemaking With White House at Prerule Stage",
+  "dek": "The CFTC sent a crypto market structure rulemaking to the White House on September 17, 2026, at the prerule stage, two days after the Senate rejected the CLARITY Act, marking the first CFTC action pending White House review under expanded executive authority.",
+  "date": "2026-09-19",
+  "published_utc": "2026-09-19T23:13:03Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "The CFTC's RIN 3038-AF80 rulemaking on crypto asset transactions and markets entered OIRA review with a 10 working day window, clearing by October 1 unless the White House requests reconsideration or extension.",
+  "bottom_line": "October 1 marks when OIRA's initial 10 working day review window closes, unless the White House requests reconsideration or extension. Whether that deadline brings CFTC publication of a proposed rule, a renewed extension, or no visible action will signal how much political friction the rulemaking faces and whether the agency proceeds unilaterally or coordinates with the SEC's parallel custody and Regulation Crypto Assets actions.",
+  "human_take": "",
+  "body": [
+    "The CFTC sent a crypto market structure rulemaking to the White House on September 17, 2026, at the prerule stage, two days after the Senate rejected the CLARITY Act. The Office of Information and Regulatory Affairs entry lists the action under RIN 3038-AF80, titled \"Regulation Crypto Asset Transactions and Regulation Crypto Asset Markets,\" received September 17. It is the only CFTC action pending White House review, according to reporting on the regulatory pipeline.\nThe filing signals the agency's intent to regulate crypto markets via existing authority after Congress failed to act. CFTC  In his first speech as chairman on January 29, 2026, Selig directed staff to begin drafting rules clarifying when leveraged, margined, or financed retail commodity transactions in crypto may be offered off-exchange under an \"actual delivery\" exception, to draft requirements for designated contract markets offering those transactions, and to explore the creation of a new category of DCM registration tailored specifically to retail leveraged, margined, or financed crypto asset trading. He also directed staff to develop rules on additional forms of eligible tokenized collateral. At the CFTC's Innovation Advisory Committee on August 20, Selig said: \"I've directed the CFTC staff to begin exploring rules to codify a CFTC market structure for crypto assets.\" He added that he had directed staff \"to engage with developers of onchain finance protocols to establish ways in which developers can offer their protocols in a legal and compliant manner.\" When the bill appeared stalled, Selig said: \"\"\nThe rulemaking enters the White House review process under expanded executive authority. Executive Order 14215, signed February 18, 2025, amended EO 12866 to require that \"all executive departments and agencies, including so-called independent agencies, shall submit for review all proposed and final significant regulatory actions\" to OIRA. It covers independent regulatory agencies as defined in 44 U.S.C. 3502(5) and the Federal Election Commission, and exempts the Federal Reserve's monetary policy functions.\nOIRA classifies the filing at the \"Prerule\" stage, a category under Executive Order 12866 for \"notices of inquiry, advance notices of proposed rulemaking, and other preliminary regulatory actions prior to a Notice of Proposed Rulemaking.\" OIRA is to finish reviewing a preliminary action within 10 working days of submission, against 90 calendar days for proposed and final rules. Ten working days from September 17 runs to October 1. The agency cannot publish until OIRA waives review, completes it, or the period expires without OIRA asking for reconsideration. The order allows one extension of up to 30 days with the written approval of the OMB director, and further extension at the request of the agency head. A prerule comes before a proposal; a proposed rule then requires a Commission vote, publication in the Federal Register and a comment period before the CFTC can adopt anything.\nThe entry records no legal deadline, marks the action as not economically significant, and flags it as a Dodd-Frank Act rulemaking. The OIRA entry carries no abstract and no text, leaving the full scope of the rulemaking opaque.\nThe CFTC's Market Participants Division issued a no-action position to providers of passive software on September 17, the same day the filing reached OIRA, via Staff Letter No. 26-25, stating the division will not recommend enforcement against providers of trading facilitation software for failing to register as introducing brokers or associated persons. However, a staff no-action position binds only the division that wrote it, not the entire agency.\nCFTC Chairman Selig is the only sitting member of the five-seat Commission, according to the CFTC's Chairman & Commissioners page. He was sworn in as the 16th chairman on December 22, 2025. The Supreme Court overturned Humphrey's Executor on July 1, removing the for-cause protection that had shielded CFTC and SEC commissioners from removal by the president. Both regulators said the day after the Senate vote that they would write crypto rules without the legislation. Selig said: \"The CFTC is locked in and ready to ship its rules for the new frontier of finance.\" Polymarket priced the CLARITY Act being signed into law in 2026 at 7.9% on Friday, on 21.5 million dollars of cumulative volume, down from 19.5% on Tuesday morning, before the vote.\nThe SEC's Regulation Crypto Assets proposal is in the Federal Register with comments open until October 20. The SEC's custody rewrite, RIN 3235-AN46, entered OIRA review at the proposed-rule stage on August 25, addressing how investment advisers and investment companies can custody crypto assets under Commission requirements. The current adviser rule covers client funds and securities and generally requires a qualified custodian to maintain them in separate client accounts or accounts held by an adviser as agent or trustee. The new agenda covers both investment adviser client assets and investment-company fund assets, and says the SEC intends to remove burdens from provisions it considers outdated. The separate 2023 proposal focused on registered investment advisers and would have expanded the custody rule to all client assets and proposed additional protections involving segregation and custodian insolvency. The Commission formally withdrew that proposal in June 2025 and said any future regulatory action in the area would require a new proposed rule. The current agenda targets October 2026 for a notice of proposed rulemaking and lists no legal deadline."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/regulation/cftc-files-crypto-market-rulemaking-with-white-house-at-prerule-stage",
+      "url": "https://thedefiant.io/news/regulation/cftc-files-crypto-market-rulemaking-with-white-house-at-prerule-stage"
+    }
+  ],
+  "update_of": "sec-crypto-custody-rewrite-enters-white-house-review-october-notice-planned",
+  "board_snapshot": {
+    "as_of": "2026-09-19T23:11:01Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 81222.17,
+        "chg_24h_pct": 0.43
+      },
+      {
+        "symbol": "ETH",
+        "price": 2630.74,
+        "chg_24h_pct": 0.73
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2486338450
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -81087527,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

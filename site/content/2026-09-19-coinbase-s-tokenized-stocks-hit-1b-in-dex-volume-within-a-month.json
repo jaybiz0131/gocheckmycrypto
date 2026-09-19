@@ -1,0 +1,60 @@
+{
+  "id": "c135",
+  "slug": "coinbase-s-tokenized-stocks-hit-1b-in-dex-volume-within-a-month",
+  "kind": "brief",
+  "title": "Coinbase's tokenized stocks hit $1B in DEX volume within a month",
+  "dek": "Tokenized equities launched by Coinbase on August 24, 2026, crossed $1 billion in cumulative decentralized exchange trading volume by September 19. The tokens represent 1:1 claims on shares of Nvidia, Apple, Alphabet, and Meta, and are available to non-US traders only.",
+  "date": "2026-09-19",
+  "published_utc": "2026-09-19T23:13:03Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "Coinbase's four tokenized stock tokens (NVDAc, AAPLc, GOOGLc, METAc) hit $1 billion in 30-day rolling DEX volume on Base by September 19, 2026, an 830.5% increase from August's $228 million.",
+  "bottom_line": "The next signal is velocity: whether the volume stabilizes, grows, or retreats as novelty fades. The second is regulatory risk: whether U.S. authorities move to block non-U.S. access or demand domestic restrictions. If volume holds above $500 million monthly and no enforcement action surfaces by year-end, the product will have proven durability beyond a launch spike.",
+  "human_take": "",
+  "body": [
+    "Tokenized equities launched by Coinbase on August 24, 2026, surpassed $1 billion in cumulative decentralized exchange trading volume by September 19, according to Crypto Briefing's reporting. The milestone marks the first month of live trading for the product and signals measurable adoption of traditional asset classes on blockchain infrastructure.",
+    "Coinbase's tokenized stock tokens represent 1:1 claims on shares in four U.S. firms: Nvidia (NVDAc), Apple (AAPLc), Alphabet (GOOGLc), and Meta (METAc). Each token adheres to the B20 standard and is backed by shares held in regulated custody, per Crypto Briefing's account. The product is currently available only to non-US-eligible users.",
+    "Trading volume accelerated sharply through September. The tokens accumulated roughly $228 million in volume by the end of August, then climbed to a single-day record of $100 million on September 12 alone, according to Crypto Briefing. The 30-day rolling volume crossed $1 billion by September 19, representing an 830.5% increase from August's cumulative total.",
+    "Aerodrome, the leading decentralized exchange on Coinbase's Base layer-2 network, captured between 76% and 96% of all tokenized stock trading volume during this period, per Crypto Briefing's reporting. The tokens traded with only minor premiums and discounts relative to their real-world counterparts, the outlet reported, suggesting efficient price discovery across venues.",
+    "This is a moment of institutional asset adoption on decentralized infrastructure. Non-US traders now have access to equity markets trading 24 hours a day, 7 days a week, outside traditional gatekeeping by geography and trading hours. Whether this volume sustains, whether liquidity diversifies beyond Aerodrome, and whether regulatory scrutiny follows remain open."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/coinbase-tokenized-stocks-billion-dex-volume/",
+      "url": "https://cryptobriefing.com/coinbase-tokenized-stocks-billion-dex-volume/"
+    }
+  ],
+  "update_of": "deribit-consolidates-90-of-assets-at-coinbase-ends-public-daily-proof-of-reserves",
+  "board_snapshot": {
+    "as_of": "2026-09-19T23:11:01Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 81222.17,
+        "chg_24h_pct": 0.43
+      },
+      {
+        "symbol": "ETH",
+        "price": 2630.74,
+        "chg_24h_pct": 0.73
+      }
+    ],
+    "fng": {
+      "value": 71,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2486338450
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": -81087527,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

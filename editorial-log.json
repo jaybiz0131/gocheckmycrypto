@@ -1,52 +1,6 @@
 [
  {
   "date": "2026-08-19",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c001",
-    "headline": "SEC Proposes Crypto Assets Framework With Safe Harbor and Token Offering Exemptions",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The SEC announced a proposed regulation called Regulation Crypto Assets' but the brief explicitly notes 'Unable to verify: source_texts are empty' with confidence label 'announced-not-verified'. The draft presents this as settled fact rather than unverified announcement.",
-     "The draft presents '$75 million' exemption threshold as fact with minimal hedging ('remain unconfirmed from the fetched source material') when the confidence label is 'unconfirmed'. The phrasing 'per the agency's announcement' implies verification that did not occur.",
-     "The draft violates the hard rule: 'no fact exists outside the brief.' The core_claim in the brief is 'Unable to verify: source_texts are empty,' meaning the writer has no fetched material to source from. The draft should not have been written\u2014it smuggles claims from a URL that returned no text."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Bitcoin Rallies Above $68,000 as US Treasury Doubles Bond Buybacks",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Bitcoin surged above $68,000' and 'rose about 6%' as parallel claims, but this creates ambiguity: if BTC rose 6%, the prior price would be ~$64,150, not a 'surge above $68k' from lower. The brief does not clarify the prior price (marked as open_question: 'Prior BTC price before 6% rally'), so the draft cannot present both without reconciling or acknowledging the gap.",
-     "The draft claims '$1.4 billion in shorts were liquidated' with confidence 'unconfirmed' in the brief, but the prose reads this as settled fact ('were liquidated') rather than reported-but-unconfirmed. The sentence should flag this uncertainty inline.",
-     "The draft states 'the US Treasury doubled the size of its bond buyback program' with confidence 'reported' in the brief, but does not attribute it inline to CoinDesk\u2014it appears as narrative fact. Per desk rules, major policy claims must be attributed.",
-     "The draft presents the causal link ('rally coincided with an announcement...') without stating that the causal mechanism is unconfirmed per the brief's open_question: 'Whether rally was driven by buyback announcement or other macro factors.' The bottom_line notes this but the body reads as causation."
-    ]
-   },
-   {
-    "id": "c022",
-    "headline": "Maya Protocol Exploit Drains $1.7 Million Via Six Chained Bugs",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'six sequential bugs enabled an attacker to drain approximately $1.7 million' and 'The attack proceeded by crediting a pool with nearly 50 million tokens without proper funding' as established facts, but the brief's open_questions explicitly note: 'Source text was not provided; all facts extracted from headline and snippet only.' The writer has no fetched article\u2014only headline/snippet\u2014yet writes as though the full exploit mechanics are confirmed.",
-     "The draft uses past-tense narrative ('The attack proceeded...') for details sourced only from a headline/snippet, which violates the hard rule. If the source_chars field is 0 (no article body fetched), the draft cannot write narrative prose about the exploit's mechanics without flagging severe sourcing limits.",
-     "The draft presents '$1.7 million drained' and '$11 million pool value decline' as separate, related facts. The brief confirms both as 'reported,' but does not clarify the relationship (is $1.7M a subset of $11M loss, or are they different aspects?). The draft should not present this without source clarity it lacks."
-    ]
-   },
-   {
-    "id": "c009",
-    "headline": "HSBC and Standard Chartered Complete First Live Transaction on Swift Blockchain Ledger",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for c009. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites The Defiant and CoinDesk as sources but provides no URLs or quotes; facts cannot be verified against the actual source material. The draft makes specific claims (transaction matched and netted obligations, settlement ran through conventional systems, banks did not disclose transaction size) that cannot be traced to the provided source links without access to their full content. This violates the rule that facts must be traceable to research.",
-     "The draft attributes claims to 'The Defiant and CoinDesk' generically in the opening paragraph without inline attribution to specific claims, making it impossible to verify which outlet reported which fact."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
   "approved": 2,
   "rejected": [
    {
@@ -5110,6 +5064,49 @@
     "reasons": [
      "The phrase 'Some smaller hedge fund clients with weaker security controls experienced fund losses in the breach' presents an unconfirmed claim as settled fact. The brief marks this data point confidence as 'unconfirmed,' meaning the draft must signal uncertainty. The phrasing 'experienced fund losses' reads as established fact rather than reported allegation or possibility.",
      "The draft states facts as accomplished (attacks 'affected,' losses 'experienced') when the brief itself carries these as reported/unconfirmed claims. Confidence labels must survive into prose: unconfirmed claims need qualification like 'reportedly,' 'according to CoinDesk,' or 'may have' to preserve the evidentiary standing of the source material."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-19",
+  "approved": 4,
+  "rejected": [
+   {
+    "id": "c061",
+    "headline": "SEC Clears Tokenized Stocks To Trade Onchain As CFTC Widens Software Relief",
+    "category": "accuracy",
+    "reasons": [
+     "the draft cites identifier 'No. 26-25', which appears nowhere in the brief or its sourced text"
+    ]
+   },
+   {
+    "id": "c059",
+    "headline": "Revolut Starts EURR Rollout With Bridge as Regulated Issuer",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'As of August 25, 2026, Bridge reported \u20ac374 in EURR circulation and \u20ac374 in reserve assets.' This number (\u20ac374, or 374 euros) is extremely small and reads as implausibly low for a major fintech's stablecoin launch. The brief's data_point states the same figure. However, the brief also includes a comparative claim: 'As of August 24, 2026, Circle reported \u20ac394.5 million of EURC in circulation.' The proximity of these numbers in the brief and draft (\u20ac374 vs. \u20ac394.5 million) suggests a possible unit error in the source or transcription. The draft does not flag this discrepancy or note the implausibility. If \u20ac374 is correct, it should be highlighted as extremely minimal; if it is an error (likely \u20ac374 million), the draft is reporting incorrect information. Either way, the draft presents the figure without qualification or context that would alert a reader to potential concern.",
+     "The bottom_line predicts: 'whether circulation approaches \u20ac50 million by December 2026, a threshold that would suggest the fintech-led model is gaining traction.' This prediction is not anchored in the brief's data_points or bear_case. The brief contains no data_point supporting a \u20ac50 million target or any projection of December 2026 circulation. This is a smuggled prediction unsourced to the brief."
+    ]
+   },
+   {
+    "id": "c010",
+    "headline": "Bitcoin's August Rally Ran Almost Entirely on Short Liquidations, Not New Buying",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states 'Bitcoin climbed 24.6% over five days in August 2026, its sharpest rally in two years.' Brief's data_point claims the rally was the 'most violent rally of its two-year drawdown,' but the phrasing 'in two years' is ambiguous between 'in the past two years' (accurate per brief) and 'sharpest in a two-year period' (a different claim). The word 'drawdown' in brief suggests the context is a bear market period, not general price history. The draft's phrasing 'sharpest rally in two years' without that context overstates the scope; it could read as sharpest in the entire two-year span, not sharpest within the current drawdown. This is a factual slippage between brief and draft.",
+     "More critically: brief's 'thin: true' flag indicates source material is sparse (291 chars by measurement standards). The draft makes interpretive claims about what 'masquerades as bullish' and 'raises questions about durability' that lean heavily on brief's angle language rather than reported facts. The open_questions in the brief (absolute dollars liquidated, trigger event, recovery of open interest post-rally) remain unanswered in the source, yet the draft asserts causal mechanism ('cascading liquidations') as established fact. This crosses from reporting the Glassnode-Bybit finding into narrative inference."
+    ]
+   },
+   {
+    "id": "c069",
+    "headline": "Bastion Wins Conditional OCC Approval for National Trust Bank Charter",
+    "category": "accuracy",
+    "reasons": [
+     "Brief contains only one data_point with minimal specificity: 'Bastion Platforms National Trust Company will offer stablecoin custody and wallets, payment infrastructure and white-label issuance from a single federally regulated entity.' The source is Cointelegraph with timestamp 2026-09-19 and 291 source chars\u2014a stub brief.",
+     "Draft asserts facts not in brief: 'The conditional approval signals that the OCC is willing to grant charter status to a custody and stablecoin entity, removing a structural barrier that previously required crypto platforms to operate under multiple regulatory regimes or partner with existing banks.' The idea that this 'removes a structural barrier' and represents a 'shift' is editorial inference from the angle, not a reported fact from Cointelegraph. The source cannot support this interpretive framing.",
+     "Draft states: 'A trust bank charter brings full federal regulation and deposit insurance eligibility, a material shift in institutional infrastructure.' This is background/definition knowledge applied to the story, not traced to the source. The brief explicitly flags open_questions about what the conditions are, timelines, limits\u2014indicating the source does not contain these details. The draft's assertions about regulatory status and deposit insurance eligibility go beyond what was reported.",
+     "The core factual claim (conditional approval itself) is in the brief, but the draft's architecture of explanation and significance rest on facts not sourced to Cointelegraph."
     ]
    }
   ]
