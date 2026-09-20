@@ -1805,3 +1805,7 @@ header.masthead{position:relative;z-index:300}
 .tp[open]>summary{color:var(--ink)}
 .tp-b{display:block;margin-top:4px;font:500 11px/1.4 var(--mono);
   letter-spacing:.02em;text-transform:none;color:var(--muted)}
+/* CR-2: the Board's sub-row carries the way into the Top 100 and the way to read
+   the Board. Two quiet links, not two buttons. */
+.bd-subrow{display:flex;align-items:baseline;gap:18px;flex:0 0 auto;margin-left:auto}
+@media (max-width:640px){.bd-subrow{gap:14px}}

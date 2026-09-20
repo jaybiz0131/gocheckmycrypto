@@ -1216,10 +1216,12 @@ def masthead(active, dateline, brand="site"):
     # carries the ticker, which is every page that carries motion.
     motion_toggle = ""
     return f"""<div class="top-rule"></div>
+<script>document.addEventListener("DOMContentLoaded",function(){{var e=document.querySelector("[data-live-date]");
+if(e){{e.textContent=new Date().toLocaleDateString("en-US",{{month:"long",day:"numeric",year:"numeric"}}).toUpperCase();}}}});</script>
 <header class="masthead"><div class="wrap">
   <div class="mh-top">
     {fam}
-    <span class="mh-meta"><span class="mh-dateline">{esc(dateline)} &middot; Independent &middot; No hype</span>{motion_toggle}</span>
+    <span class="mh-meta"><span class="mh-dateline"><span data-live-date>{esc(dateline)}</span> &middot; Independent &middot; No hype</span>{motion_toggle}</span>
   </div>
   {brand_row}
 </div></header>
@@ -1257,9 +1259,13 @@ def market_strip(pulse=None):
         chg = a.get("chg_24h_pct")
         chg_html = (f'<span class="chg {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span>'
                     if chg is not None else '<span class="chg"></span>')
-        return (f'<span class="tick" data-id="{cid}" data-sym="{esc(sym)}">'
+        # CR-2: every coin in the strip is a link to its coin page. The hundred coin
+        # pages existed and a reader with no pins could not reach one from the front
+        # page; the ticker is where they already look for a coin.
+        return (f'<a class="tick" href="/coins/{esc(sym.lower())}" '
+                f'data-id="{cid}" data-sym="{esc(sym)}">'
                 f'<span class="sym">{esc(sym)}</span>'
-                f'<span class="px">{esc(px)}</span>{chg_html}</span>')
+                f'<span class="px">{esc(px)}</span>{chg_html}</a>')
 
     ticks = (tick("bitcoin", "BTC") + tick("ethereum", "ETH") +
              tick("solana", "SOL") + tick("ripple", "XRP"))
@@ -3055,12 +3061,23 @@ def venue_name(s):
     return " ".join(out)
 
 
+# CR-2 over UX-16, for one tile. C-7 made the whole tile the link to its explainer,
+# which is right for "Dry powder" and wrong for the one tile that is a coin: a reader
+# tapping the Bitcoin price wants Bitcoin, not a glossary entry. The band's own "How to
+# read the Board" link is what C-7 left standing for the explainers, so nothing is lost.
+TILE_COIN = {"bitcoin": "btc"}
+
+
 def _tile_link(t, learn_href):
     """UX-16 (C-7). "Explained" appeared nine times on one band, which is eight times
     more than it said anything. The tile itself is the link now: an anchor stretched
     over the card, carrying the name of what it explains for a reader who cannot see
     the tile it covers. The band keeps one visible link, "How to read the Board"."""
     label = (t.get("label") or t.get("key") or "this number").replace("&middot;", "-")
+    coin = TILE_COIN.get((t.get("key") or "").lower())
+    if coin:
+        return (f'<a class="bd-tile-a" href="/coins/{esc(coin)}">'
+                f'<span class="sr-only">{esc(label)}: the coin page</span></a>')
     return (f'<a class="bd-tile-a" href="{esc(learn_href(t))}">'
             f'<span class="sr-only">How to read {esc(label)}</span></a>')
 
@@ -4886,7 +4903,8 @@ def render_home(items, flows, pulse, cm, dateline):
     <div class="bd-sec"><div class="bd-sec-l">
       <span class="bd-eyebrow">The Board</span>
       <h2 class="cb-claim" id="bd-board">Every number that matters today, in plain language</h2>
-    </div><a class="bd-more" href="/learn.html">How to read the Board</a></div>
+    </div><span class="bd-subrow"><a class="bd-more" href="/pulse/prices">The Top 100</a>
+      <a class="bd-more" href="/learn.html">How to read the Board</a></span></div>
     <p class="cb-sell"><span class="cb-sell-full">Eight numbers, read in the order a desk
       reads a market, each with a plain-language explainer. Checked against public sources
       at every build.</span><span class="cb-sell-short">Eight numbers, each with a
@@ -6145,7 +6163,8 @@ def mp_hero(pulse=None, flows=None):
   <div class="wrap cb-inner">
     <div class="bd-sec"><div class="bd-sec-l">
       <h1 class="cb-claim" id="bd-board">The Board</h1>
-    </div><a class="bd-more" href="/learn.html">How to read the Board</a></div>
+    </div><span class="bd-subrow"><a class="bd-more" href="/pulse/prices">The Top 100</a>
+      <a class="bd-more" href="/learn.html">How to read the Board</a></span></div>
     {data_stamp(pulse, what="The Board")}
     {cm_line}
   </div>
@@ -6905,7 +6924,7 @@ def _top100_rows(coins):
             f'data-mcap="{esc(fmt_usd(c.get("mcap_usd", 0)))}">'
             f'<td class="mut" data-cell="rank" data-val="{pos}"'
             f'{_src_rank_title(c.get("rank"), pos)}>#{pos}</td>'
-            f'<td class="sym2"><a class="t1-a" href="/coins/{esc(_coin_slug(c))}.html">'
+            f'<td class="sym2"><a class="t1-a" href="/coins/{esc(_coin_slug(c))}">'
             f'{esc(c.get("symbol", ""))}<span class="mut"> &middot; '
             f'<span class="t1-name">{esc(c.get("name") or "")}</span></span></a>'
             f'<span class="sym2-cap" hidden></span></td>'
@@ -7110,7 +7129,7 @@ def render_coin_page(c, pos, pulse, items, dateline):
   {supply_html}
   {news_html}
   <nav class="st-nav" aria-label="Related">
-    <a class="st-nav-a" href="/pulse/prices.html">The Top 100</a>
+    <a class="st-nav-a" href="/pulse/prices">The Top 100</a>
     <a class="st-nav-a" href="/pulse.html">The Board</a>
     <a class="st-nav-a" href="/learn.html">How to read the Board</a></nav>"""
     return _dash_shell(f"coin-{_coin_slug(c)}", f"{name} ({sym})",
@@ -7178,13 +7197,13 @@ COINS_MINI_JS = """<script>(function(){
         '<span class="cm-p">$'+Number(c.p).toLocaleString(undefined,
           Number(c.p)>=1 ? {minimumFractionDigits:2, maximumFractionDigits:2}
                          : {maximumFractionDigits:6})+'</span>';
-      return '<a class="cm-row" href="/coins/'+c.u+'.html"><span class="cm-s">'+c.s+'</span>'
+      return '<a class="cm-row" href="/coins/'+c.u+'"><span class="cm-s">'+c.s+'</span>'
         + px + pct
         + (path?'<svg class="cm-k '+cls+'" viewBox="0 0 64 20" width="64" height="20" '
           + 'aria-hidden="true"><path d="'+path+'" fill="none" stroke="currentColor" '
           + 'stroke-width="1.5"/></svg>':'')
         + '</a>';
-    }).join('') + '<a class="cm-all" href="/pulse/prices.html">The Top 100</a></div>';
+    }).join('') + '<a class="cm-all" href="/pulse/prices">The Top 100</a></div>';
     host.hidden = false;
   }).catch(function(){});
 })();</script>"""
