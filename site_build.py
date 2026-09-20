@@ -4243,6 +4243,19 @@ WATCHLIST_JS = """<script>(function(){
       b.setAttribute('aria-pressed', String(on));
     });
   }
+  /* CR-1: the filter. A hundred buttons need one; it hides, never reorders, so a
+     coin does not move under the finger reaching for it. */
+  var filt = row.querySelector('.wl-filter');
+  if (filt) {
+    filt.addEventListener('input', function(){
+      var q = (filt.value || '').trim().toLowerCase();
+      row.querySelectorAll('[data-pick]').forEach(function(b){
+        var sym = (b.getAttribute('data-pick') || '').toLowerCase();
+        var nm = b.getAttribute('data-name') || '';
+        b.hidden = !!q && sym.indexOf(q) < 0 && nm.indexOf(q) < 0;
+      });
+    });
+  }
   row.addEventListener('click', function(e){
     var b=e.target.closest('[data-pick]'); if(!b) return;
     var s=b.getAttribute('data-pick'), v=get(), i=v.indexOf(s);
@@ -4271,19 +4284,32 @@ def motion_button():
 
 
 def pin_control(pulse):
-    """C-3: "Pin your coins" at the right end of the ticker. A details/summary, so it
-    needs no JavaScript to open and keeps keyboard behaviour. The privacy sentence lives
-    in here at 13px rather than across the page at 17px, and it still says plainly what
-    the family's no-PII law requires: the choice is this browser's and goes nowhere."""
-    assets = [a for a in ((pulse or {}).get("assets") or [])
-              if a.get("symbol") and isinstance(a.get("price"), (int, float))]
-    if len(assets) < 3:
+    """C-3, and CR-1: "Pin your coins", from the Top 100 rather than the seven majors.
+
+    It offered BTC, ETH and SOL, which are the coins the Board tracks, and a reader who
+    holds anything else could not pin it. The universe is the Top 100 now, with a filter
+    above it, because a hundred buttons without one is not a picker.
+
+    Still a details/summary, so it needs no JavaScript to open and keeps its keyboard
+    behaviour, and the privacy sentence stays where it is: the choice is this browser's
+    and goes nowhere."""
+    coins = ((pulse or {}).get("movers") or {}).get("top100") or []
+    picks = [c for c in coins if c.get("symbol")][:100]
+    if len(picks) < 3:
+        # Before the Top 100 exists, the majors are better than nothing.
+        picks = [{"symbol": a.get("symbol"), "name": a.get("name") or a.get("symbol")}
+                 for a in ((pulse or {}).get("assets") or []) if a.get("symbol")]
+    if len(picks) < 3:
         return ""
-    picks = "".join(
-        f'<button type="button" class="wl-pick" data-pick="{esc(str(a["symbol"]))}" '
-        f'aria-pressed="false">{esc(str(a["symbol"]))}</button>' for a in assets)
+    btns = "".join(
+        f'<button type="button" class="wl-pick" data-pick="{esc(str(c["symbol"]))}" '
+        f'data-name="{esc((c.get("name") or "").lower())}" '
+        f'aria-pressed="false">{esc(str(c["symbol"]))}</button>' for c in picks)
     return (f'<details class="pinbox" data-watchlist><summary>Pin your coins</summary>'
-            f'<div class="pinbox-sheet"><div class="wl-picks">{picks}</div>'
+            f'<div class="pinbox-sheet">'
+            f'<input class="wl-filter" type="search" inputmode="search" '
+            f'placeholder="Filter {len(picks)} coins" aria-label="Filter coins">'
+            f'<div class="wl-picks">{btns}</div>'
             f'<p class="pin-note">Saved on this device only. No account, no cookie, '
             f'nothing logged.</p></div></details>')
 
@@ -6681,7 +6707,10 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                f'next-block fee: {busy}', net_mini, cls=" mspan",
                learn=_lx.get("network", ""))
 
+    # D-6: the watchlist belongs on the Board as well as the homepage. Same shell, same
+    # script, same store: it stays hidden until the reader has pins.
     body = mp_hero(pulse, flows) + f'''<main class="wrap"><section class="page">
+  {coins_mini_board()}
   <p class="lede" style="margin:14px 0 10px">Every desk at a glance, in the order a desk
      reads a market: price, flows, positioning, then the day and the chain. Tap any card
      for the full board, where every number is taught in plain language.
