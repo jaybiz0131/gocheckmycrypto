@@ -1,0 +1,28 @@
+{
+  "id": "c070",
+  "slug": "eu-staking-review-questions-whether-dedicated-regulation-is-needed",
+  "kind": "brief",
+  "title": "EU Staking Review Questions Whether Dedicated Regulation Is Needed",
+  "dek": "The European Commission's MiCA review consultation, open until September 30, is asking whether staking services should face distinct regulatory requirements separate from current custody rules. Liquid staking has grown to $44 billion, with Ethereum representing nearly 80% of that activity.",
+  "date": "2026-09-20",
+  "published_utc": "2026-09-20T23:12:58Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 5,
+  "author": "Crypto Cronkite",
+  "key_fact": "The European Commission is consulting on whether to establish dedicated regulatory requirements for staking services as a distinct financial activity, with consultation closing on September 30 at 23:59 CEST.",
+  "bottom_line": "September 30 is the deadline for public comment; the Commission does not face a statutory timeline for drafting amendments to MiCA based on responses. The real signal will come when the Commission publishes feedback summaries and decides whether dedicated staking rules warrant legislative change, or whether existing custody requirements suffice.",
+  "human_take": "",
+  "body": [
+    "The European Commission's ongoing MiCA review consultation is asking whether staking services should be regulated as a distinct financial activity in the EU, separate from existing custody and administration rules. The consultation, which closes September 30 at 23:59 CEST, specifically asks on page 36, item 66, whether Europe's current treatment of staking is adequate and what requirements should apply to companies providing staking services.\nStaking has grown too large for regulators to ignore. An EBA and ESMA joint crypto-asset report estimated liquid staking at $44 billion in October 2024, with nearly 80% of that activity on Ethereum.\nUnder MiCA, the framework already covers staking-as-a-service through custody rules. If a company takes a customer's crypto, controls the keys, and stakes those assets on the customer's behalf, the service falls under MiCA's custody and administration requirements. Those rules require written agreements explaining the service and fees, records of client positions, segregation of customer crypto from the firm's own holdings, and procedures to protect those assets.\nHowever, MiCA does not contain a standalone regulated service called staking. Someone who stakes their own assets directly with a blockchain does not need MiCA authorization. The Commission has drawn a distinction between proprietary staking (the provider's own assets) and staking-as-a-service (the customer's assets). ESMA guidance states that a crypto-asset service provider cannot take customer crypto and stake it for the provider's own benefit, even with customer consent; rewards must be divided, not made proprietary to the platform.\nThe EBA and ESMA have catalogued regulatory risks in staking, including assets becoming unavailable during protocol withdrawal periods, validators being penalized or slashed, customers not understanding reward calculations or platform deductions, liquid-staking tokens trading away from underlying asset value, and those tokens being used as collateral elsewhere, adding leverage. The European Commission's consultation document explicitly states it is not a final policy position; feedback could feed into legislation that amends MiCA.\nPotential regulatory outcomes could include more specific rules around slashing, withdrawal delays, fees, and liability allocation. New staking regulation could impose an additional authorization layer and compliance burden on platforms, while protocols face a harder structural problem: staking is both a financial service and a core mechanism through which proof-of-stake blockchains operate."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/staking-is-becoming-too-large-for-europe-to-leave-alone/",
+      "url": "https://cryptoslate.com/staking-is-becoming-too-large-for-europe-to-leave-alone/"
+    }
+  ],
+  "update_of": "cronos-restarts-chain-by-rolling-state-back-before-tectonic-exploit-on-august-30",
+  "also_reported_by": [],
+  "developing": true
+}

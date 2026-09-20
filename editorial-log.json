@@ -1,56 +1,6 @@
 [
  {
   "date": "2026-08-19",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c004",
-    "headline": "Bitcoin surges above $68,000, liquidating $1.4 billion shorts as Treasury bond buybacks expand",
-    "category": "balance",
-    "reasons": [
-     "The draft presents the Treasury buyback as a direct causal driver of the crypto move ('CoinDesk reports the Treasury's bond buyback expansion as a driver of improved risk appetite, linking traditional asset management directly to crypto leverage and spot price movement'), but the brief's bear_case is empty and open_questions explicitly flag that 'No independent verification of... the causal mechanism between Treasury policy and crypto liquidation is available.' The draft asserts causation without acknowledging it as unverified; the bottom_line attempts balance but the body text has already sold the linkage as fact. A single-source story with an unverified macro causal claim, presented without skepticism in the body, reads as a shill for risk-appetite narratives and would embarrass the desk if the connection was coincidental.",
-     "The draft states 'No independent verification of the $1.4 billion liquidation figure... is available in the fetched material' but then repeats CoinDesk's figures (Bitcoin rose 6%, $1.4B shorts liquidated, Treasury doubled buybacks) as settled facts without any hedge. The statement that verification is unavailable contradicts the framing of those numbers as reliable. Either they are verified (in which case the disclaimer is false) or they are not (in which case they should be hedged as 'CoinDesk reported' rather than stated as fact)."
-    ]
-   },
-   {
-    "id": "c004",
-    "headline": "Bitcoin surges above $68,000, liquidating $1.4 billion shorts as Treasury bond buybacks expand",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'US Treasury expanded the size of its long-dated bond buyback program' but the brief data_point says 'US Treasury doubled the size of its bond buybacks.' The draft softens 'doubled' to 'expanded,' which is a material change to a core fact. The brief's open_questions explicitly flag 'No detail on...magnitude of Treasury buyback'\u2014this is exactly the kind of magnitude claim the writer must not paraphrase downward.",
-     "The draft presents the causal link between Treasury buybacks and crypto price movement as settled fact ('The Treasury's buyback expansion is reported as a concrete driver') when the brief's open_questions explicitly state 'No independent verification...or the stated nexus between Treasury action and crypto price movement.' The brief marks all claims 'reported' confidence, not verified; the prose must signal that epistemic status, not smooth it into causation."
-    ]
-   },
-   {
-    "id": "c028",
-    "headline": "OCC races to finalize GENIUS Act stablecoin rules by November",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The GENIUS Act, signed into law by President Trump, takes effect in January 2027' but the brief's data_point only confirms 'GENIUS Act stablecoin law signed by President Trump' and 'GENIUS Act has January 2027 effective date'\u2014two separate claims. The draft presents these as a single causal sequence ('signed...takes effect'), but the brief does not establish when it was signed relative to the January 2027 date. This is a smuggled temporal narrative not in the brief.",
-     "The draft asserts 'A November deadline leaves minimal margin for revisions if industry comment or internal review surfaces conflicts' but the brief contains no data about comment period length, revision likelihood, or conflict risk. This is editorial speculation dressed as analysis, not a fact from research."
-    ]
-   },
-   {
-    "id": "c009",
-    "headline": "HSBC and Standard Chartered Execute First Live Settlement on Swift's Blockchain Ledger",
-    "category": "accuracy",
-    "reasons": [
-     "No brief exists for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites two URLs (The Defiant and CoinDesk) but the approver cannot access those sources to verify facts. The protocol requires facts to come from the brief when one exists, and when none exists, facts must be verifiable from cited sources, which cannot be done here. The story cannot be approved without a brief or source text available for verification."
-    ]
-   },
-   {
-    "id": "c030",
-    "headline": "Injective Receives SEC Registration as Transfer Agent for Tokenized Securities",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Injective has obtained SEC registration as a transfer agent' and 'By registering Injective as a transfer agent, the SEC has granted a blockchain protocol the same regulatory authority' as fact, but the brief confidence label is 'reported', not 'confirmed' or 'verified'. This is a material regulatory claim requiring explicit hedging in the prose (e.g., 'according to The Block', 'Injective announced', or 'reportedly'). The draft presents it as settled fact rather than reported claim.",
-     "The draft narrates open_questions as though they are answered or settled. Specifically, it states Injective 'now holds regulated standing to track who owns tokenized securities' without acknowledging that the specific regulatory conditions, permitted asset classes, and compliance exposures (all open_questions in the brief) remain unknown. The draft should signal uncertainty around scope and conditions."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
   "approved": 3,
   "rejected": [
    {
@@ -5107,6 +5057,42 @@
      "Draft asserts facts not in brief: 'The conditional approval signals that the OCC is willing to grant charter status to a custody and stablecoin entity, removing a structural barrier that previously required crypto platforms to operate under multiple regulatory regimes or partner with existing banks.' The idea that this 'removes a structural barrier' and represents a 'shift' is editorial inference from the angle, not a reported fact from Cointelegraph. The source cannot support this interpretive framing.",
      "Draft states: 'A trust bank charter brings full federal regulation and deposit insurance eligibility, a material shift in institutional infrastructure.' This is background/definition knowledge applied to the story, not traced to the source. The brief explicitly flags open_questions about what the conditions are, timelines, limits\u2014indicating the source does not contain these details. The draft's assertions about regulatory status and deposit insurance eligibility go beyond what was reported.",
      "The core factual claim (conditional approval itself) is in the brief, but the draft's architecture of explanation and significance rest on facts not sourced to Cointelegraph."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-20",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c055",
+    "headline": "SEC Clears Tokenized Stocks To Trade Onchain As CFTC Widens Software Relief",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the CFTC relief opened 'Hours later that morning' after the SEC exemption on Thursday, September 18. This is temporally incoherent: 'hours later' and 'that morning' contradict each other. The brief says both actions came 'the same day' but does not specify the time relationship. The draft's phrasing creates confusion about whether both actions occurred on the morning of Sept 18 or if one was afternoon.",
+     "The draft claims 'According to The Defiant's reporting, the SEC exemption addresses a regulatory gap: tokenized stocks have no direct pathway under current rules.' This interpretive framing about what problem the exemption 'addresses' goes beyond what the brief carries. The brief states the exemption was issued and what it does, not the regulatory gap rationale. This is writer analysis smuggled past the research boundary.",
+     "The draft states Uniswap's token 'rose 19.8% over 24 hours following the announcements' but the causality word 'following' and the claim that the response shows market participants 'view the exemptions as positive signals' is inference beyond the brief. The brief only reports the price move and The Defiant as source; it does not attribute the move to the announcements or interpret market sentiment.",
+     "the draft dates September 18, 2026 as a Thursday; September 18, 2026 is a Friday"
+    ]
+   },
+   {
+    "id": "c119",
+    "headline": "Paxos' USDG stablecoin generated $21.8B volume on Uniswap in September",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Uniswap's total monthly DEX activity surpassed $70 billion during the period' but the brief data_point says 'Uniswap's total monthly DEX activity has surpassed $70 billion' (present perfect, not past tense specific to September). The language in the draft ties this figure specifically to September 2026, implying it is a current fact about that month. The brief does not confirm this as September-specific; it reports the figure without temporal specificity tied to the September period.",
+     "The draft presents 'No expert skepticism or valuation concerns are reported in available coverage' as a negative observation, but this is not substantiated in the brief. The open_questions list identifies what is not known, but the brief does not explicitly state that 'no skepticism' appeared in coverage. This is the writer inferring absence from silence, which violates the rule against narrating absence."
+    ]
+   },
+   {
+    "id": "c087",
+    "headline": "Fetch.ai and NuNet Drained in $2M Exploit; NTX Crashes 70% to All-Time Low",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports the exploit as occurring on September 20, 2026, which is today's date. The rule states: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT.' However, the brief timestamp is '2026-09-20T06:13:32Z', indicating the exploit occurred earlier today. The draft's opening sentence 'drained roughly $2 million across the two protocols on September 20' treats this as a completed past event on the same day it is being reported. This is permissible\u2014the event happened earlier today and is being reported. The sentence is accurate.",
+     "The draft states 'The Fetch.ai and NuNet exploits push DeFi losses recorded by DefiLlama in September past $333 million.' The brief data_point says 'DefiLlama had logged roughly $331 million in losses across 17 incidents in September before the Fetch.ai drain, most of it from the $320 million Liquid Network incident' and separately 'Fetch.ai and NuNet exploits push September losses past $333 million.' The math checks: $331M + $2.01M \u2248 $333M. This is accurate.",
+     "However, a close reading reveals a discrepancy: the brief states 'The month's largest incident remains the $320 million Liquid Network loss' and data_points say this was before the Fetch.ai drain. The draft says 'The month's largest incident remains the $320 million Liquid Network loss' which is correct. But the draft then says 'Fetch.ai and NuNet's final incident reports and any compensation or recovery plan will be the next public checkpoint' in the bottom_line. The brief's open_questions do not include language about 'final incident reports' or 'compensation or recovery plan'\u2014they ask about the attacker's signature source and whether NuNet's deployer was compromised. The bottom_line is making a predictive statement about what should be watched that goes beyond the brief's scope."
     ]
    }
   ]
