@@ -1459,31 +1459,12 @@ ATMOS_MOTION_JS = """<script>(function(){
   try{
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    /* (2) COUNT-UP. The final text is already in the HTML, so a reader without
-       JavaScript sees the real number and the element reserves its own width - there is
-       no layout shift (A-17). The intermediate frames are formatted with the SAME
-       digits as the final value, so the number never reads as a rounded stand-in. */
-    document.querySelectorAll('[data-countup]').forEach(function(el){
-      var finalText = el.textContent;
-      var m = finalText.match(/-?[\d,]+(?:\.\d+)?/);
-      if (!m) return;
-      var target = parseFloat(m[0].replace(/,/g,''));
-      if (!isFinite(target) || target === 0) return;
-      var decimals = (m[0].split('.')[1] || '').length;
-      var prefix = finalText.slice(0, m.index), suffix = finalText.slice(m.index + m[0].length);
-      el.style.minWidth = el.getBoundingClientRect().width + 'px';
-      el.style.display = 'inline-block';
-      var t0 = null, DUR = 600;
-      function frame(t){
-        if (t0 === null) t0 = t;
-        var p = Math.min(1, (t - t0) / DUR);
-        var v = target * (1 - Math.pow(1 - p, 3));
-        el.textContent = prefix + v.toLocaleString('en-US',
-          {minimumFractionDigits: decimals, maximumFractionDigits: decimals}) + suffix;
-        if (p < 1) requestAnimationFrame(frame); else el.textContent = finalText;
-      }
-      requestAnimationFrame(frame);
-    });
+    /* (2) COUNT-UP: REMOVED (C-13). It animated from zero to the value over 600ms,
+       so for 600ms the page showed a price that was not the price: screenshots on two
+       consecutive days caught the Bitcoin tile at $11,953.88 and $13,908.07 on its way
+       to eighty thousand. A number that is not the number, even for a frame, is a
+       fabricated number on the front page, and no amount of polish buys that. The
+       figure is set at once; the tile's wash settles instead, which is move (1). */
 
     /* (3) DRAW-ON. The stroke is measured, dashed to its own length and the offset
        animated to zero. The element keeps its size throughout, so again no shift. */
@@ -3142,7 +3123,7 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
                 + (f'<span class="bd-stamp">this time last week {esc(lastwk)}</span>'
                    if lastwk else "")
                 + f'</div>'
-                  f'<div class="bd-value cb-lead-v" data-countup>'
+                  f'<div class="bd-value cb-lead-v">'
                   f'{esc(_price_fmt(btc.get("price")))}</div>'
                   f'{t.get("delta") or ""}'
                   f'<p class="bd-read">{esc(BITCOIN_READ_LONG)}</p>'
@@ -7064,7 +7045,7 @@ def render_coin_page(c, pos, pulse, items, dateline):
     spark = c.get("spark7d") or []
     up = len(spark) >= 2 and spark[-1] >= spark[0]
 
-    stats = [("Price", f'<span data-countup>{esc(_price_fmt(c.get("price")))}</span>'),
+    stats = [("Price", f'<span>{esc(_price_fmt(c.get("price")))}</span>'),
              ("24 hours", _coin_pct(c.get("chg_24h_pct"))),
              ("7 days", _coin_pct(c.get("chg_7d_pct"))),
              ("30 days", _coin_pct(c.get("chg_30d_pct"))),
