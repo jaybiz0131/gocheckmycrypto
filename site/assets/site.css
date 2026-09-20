@@ -1809,3 +1809,39 @@ header.masthead{position:relative;z-index:300}
    the Board. Two quiet links, not two buttons. */
 .bd-subrow{display:flex;align-items:baseline;gap:18px;flex:0 0 auto;margin-left:auto}
 @media (max-width:640px){.bd-subrow{gap:14px}}
+
+/* ---- D-5: the phone's first screen is the Board ----------------------------
+   At 375 the first screen was the family line, the date line, the logo, the nav
+   and the strip, and the reader scrolled to reach a number. The Board is the
+   product; its first tile belongs above the fold. The family line comes off the
+   phone (the footer carries it, which is the same ruling the copy pass made for
+   the Sports masthead) and the date sits with the meta row it already shares. */
+@media (max-width:640px){
+  .masthead .mh-family{display:none}
+  .masthead .mh-top{gap:4px}
+  .mh-brand{margin-top:2px}
+  .markets{padding-top:6px;padding-bottom:6px}
+}
+
+/* D-5: four coins on a 375 phone. One tick was all that fitted, because a tick
+   lays out symbol, price and change on one line and a real price is wide. The
+   value is not abbreviated, which would put a different number in the strip from
+   the one on the tile; the tick stacks instead, so four fit and every one of them
+   reads exactly what the Board reads. */
+@media (max-width:640px){
+  /* The "Markets · live · 5:57 PM ET" label held the first 196px of a 375 strip,
+     so one tick fitted. The label moves to its own line above the coins: the stamp
+     still says what it said, and the width goes to the prices. */
+  /* Wrapping the label to its own row fitted all eight coins and pushed the Board's
+     first number from 548 to 758, below the fold, which is the thing D-5 is actually
+     for. The label stays in the row and gets shorter instead: the strip's stamp was
+     saying what the tile's own "live · 5:59 PM ET" now says, so it comes off the
+     phone and the width goes to the prices. */
+  .markets .lab .mkt-asof{display:none}
+  .markets .lab{font-size:10px;padding-right:2px}
+  .markets .tick{display:inline-flex;flex-direction:column;align-items:flex-start;
+    gap:1px;padding:2px 10px;min-width:0}
+  .markets .tick .sym{font-size:10px;letter-spacing:.05em}
+  .markets .tick .px{font-size:12.5px;line-height:1.15}
+  .markets .tick .chg{font-size:10.5px;line-height:1.1}
+}
