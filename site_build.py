@@ -1297,13 +1297,24 @@ def market_strip(pulse=None):
   {ticks}
   <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">{esc(cap_px)}</span>{cap_chg_html}</span>
   {extras}
-  <span class="note">Market data, not news. Not financial advice.</span>
   {motion_button()}
   {pin_control(pulse)}
 </div>""" + """
 <script>
 (function(){
   var CG="https://api.coingecko.com/api/v3";
+  /* C-14: the strip's stamp reads like every other stamp on the site, in Eastern,
+     rather than the browser's "09:34". */
+  function etClock(){
+    try {
+      return new Date().toLocaleTimeString("en-US",
+        {timeZone:"America/New_York", hour:"numeric", minute:"2-digit"}) + " ET";
+    } catch(e){ return ""; }
+  }
+  function coinPx(n){
+    return "$" + Number(n).toLocaleString("en-US",
+      {minimumFractionDigits: n >= 1 ? 2 : 6, maximumFractionDigits: n >= 1 ? 2 : 6});
+  }
   function money(n){ if(n>=1e12)return "$"+(n/1e12).toFixed(2)+"T"; if(n>=1e9)return "$"+(n/1e9).toFixed(1)+"B";
     if(n>=1000)return "$"+Math.round(n).toLocaleString(); return "$"+n.toFixed(2); }
   function chg(el,p){ if(p==null){return;} var s=(p>=0?"+":"")+p.toFixed(1)+"%";
@@ -1313,8 +1324,12 @@ def market_strip(pulse=None):
       document.querySelectorAll(".markets .tick[data-id]").forEach(function(t){
         var k=t.getAttribute("data-id"), v=d[k]; if(!v)return;
         var px=t.querySelector(".px");
-        if(px.textContent!==money(v.usd)){
-          px.textContent=money(v.usd);
+        /* D-1: a coin's price is rendered the same everywhere. money() rounds above a
+           thousand, which is right for a market cap and wrong beside a tile showing
+           the cents: "$80,848" under "$80,848.00" is one price looking like two. */
+        var shown=coinPx(v.usd);
+        if(px.textContent!==shown){
+          px.textContent=shown;
           px.classList.remove("flash","flash-dn");void px.offsetWidth;
           px.classList.add((v.usd_24h_change||0)<0?"flash-dn":"flash");
           if(px.animate&&!matchMedia("(prefers-reduced-motion: reduce)").matches)
@@ -1322,11 +1337,35 @@ def market_strip(pulse=None):
         }
         chg(t.querySelector(".chg"), v.usd_24h_change);
       });
-      // honest-data promise: the label ships as build-time data and is UPGRADED to live
-      // only here, once real prices have actually arrived. A failed or blocked fetch
-      // therefore leaves the build stamp standing instead of dressing old numbers as live.
+      /* D-1 (L-1): THE BOARD FOLLOWS THE SAME SOURCE. The tile was the build's number
+         and the strip was live, so at 9:04 the page showed $77,985.78 on the tile and
+         $78,176 two inches below it, on one coin, with nothing reconciling them. The
+         tile now takes its price and its 24-hour change from this same answer, so the
+         tile, the strip and the coin pages agree to the tenth at every stamp, and the
+         delta has ONE basis per page: 24 hours.
+
+         Upgraded only once real prices have arrived, which is the same promise the
+         strip's label already made: a blocked or failed fetch leaves the build's
+         number and the build's stamp standing rather than dressing old data as live. */
+      var live=d.bitcoin;
+      if(live){
+        document.querySelectorAll('[data-live-px="bitcoin"]').forEach(function(el){
+          el.textContent = "$" + Number(live.usd).toLocaleString("en-US",
+            {minimumFractionDigits:2, maximumFractionDigits:2});
+        });
+        document.querySelectorAll('[data-live-chg="bitcoin"]').forEach(function(el){
+          var p=live.usd_24h_change;
+          if(p==null){el.textContent="";return;}
+          var cls = Math.abs(p)<0.05 ? "flat" : (p>0?"up":"down");
+          var txt = (Math.abs(p)<0.05?"0.0":(p>0?"+":"")+p.toFixed(1))+"% in 24 hours";
+          el.innerHTML = '<span class="bd-dl '+cls+'">'+txt+'</span>';
+        });
+        document.querySelectorAll('[data-live-stamp]').forEach(function(el){
+          el.textContent = "live \u00b7 " + etClock();
+        });
+      }
       var as=document.getElementById("mktAsOf");
-      if(as){var t=new Date();as.textContent="live, as of "+("0"+t.getHours()).slice(-2)+":"+("0"+t.getMinutes()).slice(-2);as.classList.remove("stale");}
+      if(as){ as.textContent = "live \u00b7 " + etClock(); as.classList.remove("stale"); }
     }).catch(function(){});
   fetch(CG+"/global").then(function(r){return r.json();}).then(function(d){
       var g=d.data||{}, m=document.getElementById("mcap"); if(!m)return;
@@ -3140,13 +3179,14 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
                 + (f'<span class="bd-stamp">this time last week {esc(lastwk)}</span>'
                    if lastwk else "")
                 + f'</div>'
-                  f'<div class="bd-value cb-lead-v">'
+                  f'<div class="bd-value cb-lead-v" data-live-px="bitcoin">'
                   f'{esc(_price_fmt(btc.get("price")))}</div>'
-                  f'{t.get("delta") or ""}'
+                  f'<div class="bd-delta" data-live-chg="bitcoin">'
+                  f'{t.get("delta") or ""}</div>'
                   f'<p class="bd-read">{esc(BITCOIN_READ_LONG)}</p>'
                   f'{chart}'
                   f'<div class="bd-tile-foot">{tile_provenance(t, pulse)}'
-                + (f'<span class="bd-stamp">{esc(cap)}</span>' if cap else "")
+                + f'<span class="bd-stamp" data-live-stamp>{esc(cap)}</span>'
                 + f'</div>{_tile_link(t, learn_href)}</div>')
             continue
 
