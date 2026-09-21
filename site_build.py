@@ -1216,7 +1216,8 @@ def render_wire(items, dateline, now=None):
     body, day = [], None
     for r in rows:
         et = r["t"].astimezone(_ET)
-        d = et.strftime("%A %-d %B")
+        # US order: "Sunday, September 20".
+        d = et.strftime("%A, %B %-d")
         if d != day:
             if day is not None:
                 body.append("</ol>")
@@ -2744,6 +2745,24 @@ def _fee_band(f):
     return "fees high"
 
 
+def us_date(txt):
+    """A date the desk RECEIVED, rendered the way the desk writes dates.
+
+    The ETF flow board upstream reports "18 Sep 2026". The desk does not control how a
+    source formats a date, only how it prints one, and house style is month first. A
+    string that does not parse is returned untouched rather than guessed at: a date the
+    desk cannot read is not a date it should rewrite.
+    """
+    import datetime as _d
+    t = (txt or "").strip()
+    for fmt in ("%d %b %Y", "%d %B %Y", "%Y-%m-%d"):
+        try:
+            return _d.datetime.strptime(t, fmt).strftime("%b %-d, %Y")
+        except ValueError:
+            continue
+    return t
+
+
 def _etf_streak(recent, latest):
     """How many consecutive sessions the flow has kept its sign, latest included.
     Returns (n, word) or (0, "") when the series is too short to make the claim."""
@@ -2928,7 +2947,7 @@ def board_tiles(pulse, flows, deltas):
         streak = f"{_ordinal(n)} {word}, " if n else ""
         drow = (f'<div class="bd-delta {cls}">{arrow}{esc(dirword)}'
                 f'<span class="bd-since">{esc(streak)}'
-                f'{esc(etf.get("latest_date") or "last trading day")}{esc(prior)}'
+                f'{esc(us_date(etf.get("latest_date")) or "last trading day")}{esc(prior)}'
                 f'</span></div>')
         out.append({
             "key": "etf", "label": "Spot ETF flows", "phone": True,
@@ -4577,7 +4596,9 @@ def _cc_stamp(iso):
     """The table's as-of time on the reader's clock (C-19). See _et_clock for why this
     is no longer UTC."""
     dt = _utc_dt(iso)
-    return f'{_et_clock(dt)}, {dt.astimezone(_ET).strftime("%-d %b %Y")}' if dt else ""
+    # US ORDER. The audience is American and reads month first: "Sep 21, 2026", not
+    # "21 Sep 2026". Seen live on the Board's own stamp on 21 September.
+    return f'{_et_clock(dt)}, {dt.astimezone(_ET).strftime("%b %-d, %Y")}' if dt else ""
 
 
 def render_living_table_page(spec, data, dateline):
@@ -6648,7 +6669,10 @@ def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
         gen = _dt.datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_dt.timezone.utc)
     except ValueError:
         return f'<p class="data-stamp">Data as of {esc(ts)}.</p>'
-    stamp = f'{_et_clock(gen)} on {gen.astimezone(_ET).strftime("%d %b %Y")}'.replace(" 0", " ")
+    # US ORDER, month first: "Sep 21, 2026", not "21 Sep 2026". The audience is
+    # American and this stamp is the most-read line on the Board.
+    stamp = (f'{_et_clock(gen)} on '
+             f'{gen.astimezone(_ET).strftime("%b %d, %Y").replace(" 0", " ")}')
     age_h = (_dt.datetime.now(_dt.timezone.utc) - gen).total_seconds() / 3600
     if age_h > promise_hours:
         hrs = int(age_h)
@@ -6797,12 +6821,15 @@ def render_pulse_hub(pulse, flows, cm, dateline):
     etf = (pulse.get("etf_flows") or {}).get("btc") or {}
     if etf.get("latest_net_usd_m") is not None:
         latest = etf["latest_net_usd_m"]
-        mini = flow_ledger([(d.get("date", "")[:6], (d.get("net_usd_m") or 0) * 1e6, None)
+        # "18 Sep" sliced off a "18 Sep 2026" string: the slice carries the source's
+        # order through even after the long form beside it was corrected.
+        mini = flow_ledger([(us_date(d.get("date", ""))[:6].rstrip(" ,"),
+                             (d.get("net_usd_m") or 0) * 1e6, None)
                             for d in etf.get("recent", [])[-4:]],
                            aria="BTC ETF flows, last 4 trading days", compact=True)
         widget("/pulse/etf.html", "Flows &middot; ETF flows",
                f'{"+" if latest >= 0 else ""}{esc(fmt_usd(latest * 1e6))}',
-               f'BTC spot ETFs, {esc(etf.get("latest_date", ""))}', mini,
+               f'BTC spot ETFs, {esc(us_date(etf.get("latest_date", "")))}', mini,
                stat_color="var(--up)" if latest >= 0 else "var(--down)",
                learn=_lx.get("etf_flows", ""))
 
@@ -7649,7 +7676,7 @@ def render_pulse_etf(pulse, dateline):
                     if cum is not None else "")
         boards += f"""<div class="sec-head" style="margin-top:26px"><h2>{esc(name)} spot ETFs</h2><span class="bar"></span></div>
   <div class="stats"><div class="stat">
-    <span class="lab">Latest day ({esc(b.get("latest_date", ""))})</span>
+    <span class="lab">Latest day ({esc(us_date(b.get("latest_date", "")))})</span>
     <span class="big {cls}">{esc(fmt_usd(latest * 1e6))}</span>
     <span class="sub">net {word} the funds</span>
   </div><div class="stat">

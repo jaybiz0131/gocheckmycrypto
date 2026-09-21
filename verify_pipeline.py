@@ -324,8 +324,64 @@ def _strip_canary():
     return fails
 
 
+# The desk's own furniture. Story bodies are excluded on purpose: a quotation is not
+# ours to restyle.
+CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.html",
+                "standards.html", "method.html", "whale-watch.html")
+
+
+def _us_date_canary():
+    """US date order on the desk's own chrome. Owner ruling, 21 September 2026.
+
+    The Board stamped itself "21 Sep 2026" and the Wire's day headers read "SUNDAY 20
+    SEPTEMBER". The audience is American and reads month first, so those are "Sep 21,
+    2026" and "Sunday, September 20". Both were seen live rather than in review, which
+    is why this is a check and not a note.
+
+    CHROME ONLY, and deliberately. A story's own body may quote a source who wrote a
+    date the other way round, and rewriting a quotation to match house style is a thing
+    this desk has already ruled against once (see destyle). What the desk controls is
+    its own furniture, and that is what this reads.
+    """
+    import os as _os
+    import re as _re
+    fails = []
+    pub = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "site", "publish")
+    if not _os.path.isdir(pub):
+        return fails
+    months = ("January|February|March|April|May|June|July|August|September|October|"
+              "November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec")
+    rx = _re.compile(r"\b(\d{1,2})\s+(" + months + r")\b")
+    tag = _re.compile(r"<[^>]+>")
+    for rel in CHROME_PAGES:
+        fp = _os.path.join(pub, rel)
+        if not _os.path.exists(fp):
+            continue
+        html = open(fp, encoding="utf-8", errors="ignore").read()
+        # Strip <script> and <style> wholesale: a cron line or a JS date format is not
+        # reader-facing copy and would report a date nobody sees.
+        html = _re.sub(r"(?is)<(script|style)\b.*?</\1>", " ", html)
+        # A LISTING PAGE IS NOT ALL FURNITURE. The archive and the front page carry
+        # story headlines and summaries, which are the writers' words and may quote a
+        # source's own date form. The docstring above says chrome only and this is what
+        # makes that true: story blocks and links into /articles/ come out before the
+        # scan, so the check reads the desk's furniture and not the desk's journalism.
+        html = _re.sub(r"(?is)<article\b.*?</article>", " ", html)
+        html = _re.sub(r'(?is)<a[^>]+href="/articles/[^"]*"[^>]*>.*?</a>', " ", html)
+        html = _re.sub(r'(?is)<a[^>]+href="/edition/[^"]*"[^>]*>.*?</a>', " ", html)
+        text = tag.sub(" ", html)
+        for m in rx.finditer(text):
+            around = text[max(0, m.start() - 40):m.end() + 20].strip()
+            fails.append(f"US date canary: {rel} renders \"{m.group(0)}\" in day-month "
+                         f"order; the audience reads month first. Near: "
+                         f"{' '.join(around.split())[:90]}")
+            break
+    return fails
+
+
 def layer1_canary():
     fails = []
+    fails.extend(_us_date_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
