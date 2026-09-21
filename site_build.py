@@ -7848,6 +7848,15 @@ def render_chartmaster(read, dateline):
         (f'<h3 class="cm-sub">{esc(lab)}</h3>' if lab else "") + f"<p>{esc(txt)}</p>"
         for lab, txt in _sec)
     paras = _glance + paras
+    # K-4: A CORRECTION IS PART OF THE READ, not a note in a file. This read went out
+    # saying Bitcoin funding stood at "0.96% per eight hours, annualized to 10.5%", and
+    # the feed's figure is 0.0096% per eight hours: a hundred times out, contradicting
+    # the annual number in its own sentence. The desk corrected the sentence in place
+    # and the page says so, above the prose, where a reader meets it before the text it
+    # is about.
+    if read.get("correction"):
+        paras = (f'<p class="pc-note cm-corr"><b>Correction.</b> '
+                 f'{esc(read["correction"])}</p>') + paras
     # A read older than the current dateline quotes numbers the live boards have moved past;
     # say so rather than let it read as today's.
     stale_note = ""

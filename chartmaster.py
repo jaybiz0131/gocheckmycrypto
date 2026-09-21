@@ -329,6 +329,82 @@ def etf_flow_problems(text, etf, who="chartmaster"):
     return problems
 
 
+def leverage_problems(text, leverage, who="chartmaster"):
+    """K-4: funding and open interest, the two numbers this desk got wrong in public.
+
+    THE READ OF 19 SEPTEMBER said "Bitcoin funding rates stand at 0.96% per eight hours,
+    annualized to 10.5%". funding_8h_pct is 0.0096, which is 0.0096% per eight hours and
+    annualizes to 10.5%: the annual figure was right and the eight-hour figure was a
+    hundred times too large, so one sentence carried a number and its own refutation
+    (0.96% x 1095 is 1051%, not 10.5%).
+
+    THE RULE. Funding is stated as the ANNUALIZED rate, because that is the figure a
+    reader can hold against anything else, and it names the venue. The raw eight-hour
+    number may appear only beside the annual one, and only when the two reconcile:
+    8h x 1,095 = annual, within rounding.
+
+    AND OPEN INTEREST NAMES ITS VENUE IN THE SAME SENTENCE. The same read said "open
+    interest remains substantial (Bitcoin 2.45 billion, Ethereum 1.53 billion)" with no
+    venue at all. Those are one exchange's books, and the source's own note says a
+    single-venue snapshot is not a market-wide total. Unattributed, it reads as the
+    market's, which is a bigger number than anyone measured.
+
+    Returns a list of problems, so the caller can raise or report.
+    """
+    out = []
+    assets = (leverage or {}).get("assets") or []
+    if not assets:
+        return out
+    venues = {str(a.get("venue") or "").strip() for a in assets if a.get("venue")}
+    low = text.lower()
+
+    import re as _re
+    # An eight-hour funding figure, stated as a percentage, with its window named.
+    for m in _re.finditer(r"(\d+(?:\.\d+)?)\s*%\s*(?:per|/|an?)\s*(?:eight|8)[\s-]*hour",
+                          low):
+        said = float(m.group(1))
+        ok = False
+        for a in assets:
+            eight = a.get("funding_8h_pct")
+            ann = a.get("funding_annual_pct")
+            if eight is None or ann is None:
+                continue
+            # The figure must BE the eight-hour rate, and the annual must be in the
+            # text and must reconcile with it.
+            if abs(said - float(eight)) < 0.0005 and str(round(float(ann), 1)) in low:
+                ok = True
+                break
+        if not ok:
+            out.append(f"{who}: an eight-hour funding rate of {said}% is stated without "
+                       f"an annual figure that reconciles with it (8h x 1,095 = annual). "
+                       f"State the annualized rate and name the venue.")
+
+    # Funding named at all must carry the venue.
+    if "funding" in low and venues and not any(v.lower() in low for v in venues):
+        out.append(f"{who}: funding is stated without naming the venue "
+                   f"({', '.join(sorted(venues))}); one exchange's funding is not the "
+                   f"market's.")
+
+    # Open interest must carry the venue in the same sentence.
+    for sent in _re.split(r"(?<=[.!?])\s+", text):
+        sl = sent.lower()
+        if "open interest" not in sl:
+            continue
+        if venues and not any(v.lower() in sl for v in venues):
+            out.append(f"{who}: an open-interest figure names no venue in its own "
+                       f"sentence ({sent.strip()[:90]!r}). A single-venue snapshot is "
+                       f"not a market-wide total and the source says so.")
+    return out
+
+
+def _leverage_belt(text, leverage):
+    """Raising wrapper, the same shape as the flow belts: a violation raises, the retry
+    ladder gets another attempt with the rule as input, and if the model never states it
+    honestly the previous read stands."""
+    for p in leverage_problems(text, leverage):
+        raise llmlib.LLMError(p)
+
+
 def _etf_flow_belt(text, etf):
     """Raising wrapper, so the Chart Master's retry ladder keeps its existing behaviour:
     a violation raises, the ladder gets another attempt, and if the model never phrases it
@@ -462,7 +538,7 @@ def _price_belt(text, assets):
 UNBELTED_METRICS = {"bitcoin dominance": "pulse.json carries no dominance history"}
 
 
-def validate(obj, etf=None, whale=None, assets=None):
+def validate(obj, etf=None, whale=None, assets=None, leverage=None):
     if not isinstance(obj, dict):
         raise llmlib.LLMError("chartmaster: output is not an object")
     headline = _dedash((obj.get("headline") or "").strip())
@@ -483,6 +559,8 @@ def validate(obj, etf=None, whale=None, assets=None):
         _whale_flow_belt(text.lower(), whale)
     if assets:
         _price_belt(text.lower(), assets)
+    if leverage:
+        _leverage_belt(text, leverage)
     return {"headline": headline, "paragraphs": paras}
 
 
@@ -496,7 +574,8 @@ def run():
     obj = client.call_json("chartmaster", system, user,
                            validate=lambda o: validate(o, data.get("etf_flows"),
                                                        data.get("whale_flows"),
-                                                       data.get("assets")))
+                                                       data.get("assets"),
+                                                       data.get("leverage")))
     out = {
         "date": data["data_date"],
         "headline": obj["headline"],

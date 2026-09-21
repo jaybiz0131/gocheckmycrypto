@@ -330,6 +330,51 @@ CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.htm
                 "standards.html", "method.html", "whale-watch.html")
 
 
+def _leverage_belt_canary():
+    """K-4: the two numbers this desk got wrong in public.
+
+    The read of 19 September said Bitcoin funding stood at "0.96% per eight hours,
+    annualized to 10.5%". The feed's figure is 0.0096% per eight hours, which annualizes
+    to exactly the 10.5% printed beside it, so the eight-hour number was a hundred times
+    too large and refuted the annual one in the same sentence: 0.96 x 1,095 is 1,051%.
+    The same read gave open interest with no venue, when the figures are one exchange's
+    books and the source's own note says a single-venue snapshot is not a market total.
+    """
+    import chartmaster as _cm
+    fails = []
+    lev = {"assets": [{"symbol": "BTC", "venue": "OKX", "funding_8h_pct": 0.0096,
+                       "funding_annual_pct": 10.5, "open_interest_usd": 2450000000}]}
+    bad = ("Bitcoin funding rates stand at 0.96% per eight hours, annualized to 10.5%. "
+           "Open interest remains substantial (Bitcoin 2.45 billion).")
+    _p = _cm.leverage_problems(bad, lev)
+    _check(any("eight-hour funding rate" in x for x in _p), fails,
+           "K-4 canary: an eight-hour funding rate a hundred times too large passed the "
+           "belt, which is the sentence that went out on 19 September")
+    _check(any("open-interest" in x for x in _p), fails,
+           "K-4 canary: an open-interest figure with no venue passed the belt")
+    good = ("Bitcoin funding on OKX is running at 10.5% annualized. Open interest on "
+            "OKX remains substantial (Bitcoin 2.45 billion).")
+    _check(_cm.leverage_problems(good, lev) == [], fails,
+           f"K-4 canary: the corrected wording is rejected, so the belt is not a rule "
+           f"but a wall: {_cm.leverage_problems(good, lev)}")
+    # AND THE PUBLISHED READ IS CLEAN. A belt that only guards the next read leaves the
+    # wrong number on the site.
+    import glob as _g
+    import json as _j
+    for _f in _g.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                   "site", "data", "chartmaster*.json")):
+        try:
+            _d = _j.load(open(_f, encoding="utf-8"))
+        except Exception:
+            continue
+        _t = (_d.get("headline") or "") + " " + " ".join(_d.get("paragraphs") or [])
+        # the correction quotes the original wording on purpose; it is not the prose
+        _check(not _cm.leverage_problems(_t, lev), fails,
+               f"K-4 canary: {os.path.basename(_f)} still carries a funding or "
+               f"open-interest figure that breaks the rule")
+    return fails
+
+
 def _us_date_canary():
     """US date order on the desk's own chrome. Owner ruling, 21 September 2026.
 
@@ -382,6 +427,7 @@ def _us_date_canary():
 def layer1_canary():
     fails = []
     fails.extend(_us_date_canary())
+    fails.extend(_leverage_belt_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
