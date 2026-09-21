@@ -330,6 +330,52 @@ CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.htm
                 "standards.html", "method.html", "whale-watch.html")
 
 
+def _news_lane_canary():
+    """K-2: what the front page's news lane is allowed to say is new.
+
+    Two stories from 12 July sat under "Checked stories" on 21 September. The age test
+    read "if newest and d and too old: skip", so an item whose date could not be parsed
+    failed the `d` clause and was kept: the one kind of item the desk knows least about
+    was the one kind the filter could not touch.
+
+    And a card carried "Verified" beside "Developing, single source", which reads as a
+    contradiction to a stranger: the desk checking and hedging one sentence in one
+    breath. Both facts still matter and both are still said, in one badge.
+    """
+    import site_build as _sb3
+    import re as _re3
+    fails = []
+
+    _undated = {"title": "An undated story", "slug": "undated", "verdict": "VERIFIED",
+                "published_utc": "", "date": "", "sources": []}
+    _fresh = {"title": "A story from today", "slug": "fresh", "verdict": "VERIFIED",
+              "published_utc": "2026-09-21T12:00:00Z", "sources": []}
+    _html = _sb3._bd_news_cards([_undated, _fresh])
+    _check("An undated story" not in _html, fails,
+           "K-2 canary: an item with no parseable date reached the news lane, which is "
+           "how two 12 July stories sat on the front page in September")
+
+    _check("one source so far" in _sb3.verdict_badge("VERIFIED", {"developing": True}),
+           fails, "K-2 canary: a single-source story does not say so in its badge")
+    _two = _sb3.verdict_badge("VERIFIED", {"developing": True})
+    _check(_two.count("<span") == 1, fails,
+           f"K-2 canary: a story carries two badges, which reads as the desk checking "
+           f"and hedging the same sentence: {_two[:80]}")
+    _check(_sb3.verdict_badge("VERIFIED", {"developing": False})
+           == '<span class="badge verified">Verified</span>', fails,
+           "K-2 canary: a corroborated story no longer reads simply Verified")
+
+    # And the built page carries no two-badge card.
+    _idx = os.path.join(_sb3.PUBLISH, "index.html")
+    if os.path.exists(_idx):
+        _h = open(_idx, encoding="utf-8", errors="ignore").read()
+        _pairs = _re3.findall(r'badge verified[^>]*>[^<]*</span>\s*<span class="badge '
+                              r'developing', _h)
+        _check(not _pairs, fails,
+               f"K-2 canary: {len(_pairs)} card(s) on the front page carry two badges")
+    return fails
+
+
 def _one_leverage_canary():
     """K-5: one Leverage number, on the home tile and on the Board.
 
@@ -475,6 +521,7 @@ def layer1_canary():
     fails.extend(_us_date_canary())
     fails.extend(_leverage_belt_canary())
     fails.extend(_one_leverage_canary())
+    fails.extend(_news_lane_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())

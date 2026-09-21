@@ -1925,16 +1925,25 @@ def verdict_badge(verdict, item=None):
     claims against the sources that existed; "Developing" means only one outlet has carried
     it yet. A story can honestly be both, and showing only the first is the part that
     oversells."""
-    out = ""
+    # K-2: ONE BADGE. A card carrying "Verified" and "Developing, single source" side
+    # by side reads as a contradiction to a stranger: the desk appears to be checking
+    # and hedging the same sentence in the same breath. Both facts still matter and
+    # both are still said, in one badge, so the qualifier belongs to the verdict
+    # instead of arguing with it.
+    single = bool(item is not None and item.get("developing"))
+    title = ("Only one outlet has carried this so far. The desk publishes it as "
+             "developing rather than corroborated.")
     if verdict == "VERIFIED":
-        out = '<span class="badge verified">Verified</span>'
-    elif verdict in ("NEEDS-HUMAN-REVIEW", "REVIEW"):
-        out = '<span class="badge review">Editor reviewed</span>'
-    if item is not None and item.get("developing"):
-        out += ('<span class="badge developing" title="Only one outlet has carried this so '
-                'far. The desk publishes it as developing rather than corroborated.">'
-                'Developing, single source</span>')
-    return out
+        if single:
+            return (f'<span class="badge verified single" title="{title}">'
+                    f'Verified &middot; one source so far</span>')
+        return '<span class="badge verified">Verified</span>'
+    if verdict in ("NEEDS-HUMAN-REVIEW", "REVIEW"):
+        if single:
+            return (f'<span class="badge review single" title="{title}">'
+                    f'Editor reviewed &middot; one source so far</span>')
+        return '<span class="badge review">Editor reviewed</span>'
+    return ""
 
 
 def sig_block():
@@ -3794,7 +3803,15 @@ def _bd_news_cards(items, n=4, max_age_hours=24):
     live, kept = [], []
     for i in pool:
         d = _utc_dt(i.get("published_utc") or "")
-        if newest and d and (newest - d) > _dt.timedelta(hours=max_age_hours):
+        # AN ITEM WITH NO PARSEABLE DATE IS NEVER ON THIS LANE. The age test read
+        # "if newest and d and too old: skip", so an item whose date could not be
+        # parsed failed the `d` clause and was KEPT: two stories from 12 July sat on
+        # the front page under "Checked stories" on 21 September, beside two from this
+        # week. The lane is a claim about what is new, and an item this desk cannot
+        # date is not a thing it can make that claim about.
+        if not d:
+            continue
+        if newest and (newest - d) > _dt.timedelta(hours=max_age_hours):
             continue
         # same_event takes titles and key facts, not items. The first cut passed the
         # dicts and a bare except swallowed the TypeError, so the dedupe silently never
@@ -3809,6 +3826,27 @@ def _bd_news_cards(items, n=4, max_age_hours=24):
             break
     if not live:
         return ""
+    # K-2: WHEN THE LANE RUNS THIN IT DOES NOT REACH BACK. Fewer than two stories inside
+    # 48 hours means the desk has had a quiet day, and a quiet day is a true thing to
+    # show; padding the lane with last week's stories is how two 12 July items came to
+    # sit under "Checked stories" in September. The Wire's newest lines go underneath
+    # instead: they are dated, they are today's, and they say what the desk did.
+    thin = ""
+    _48 = [i for i in live
+           if newest and (newest - _utc_dt(i.get("published_utc") or ""))
+           <= _dt.timedelta(hours=48)]
+    if len(_48) < 2:
+        try:
+            _wr = _wire_rows(items)[:3]
+        except Exception:
+            _wr = []
+        if _wr:
+            thin = ('<div class="bd-card nx-thin"><span class="bd-label">'
+                    'From the wire</span><ul class="nx-wire">' + "".join(
+                        f'<li><span class="bd-stamp">'
+                        f'{esc(r["t"].astimezone(_ET).strftime("%-I:%M %p"))} ET</span>'
+                        f'<a href="{r["href"]}">{esc(r["text"])}</a></li>'
+                        for r in _wr) + '</ul></div>')
     cards = []
     for i in live:
         srcs = []
@@ -3832,7 +3870,7 @@ def _bd_news_cards(items, n=4, max_age_hours=24):
             f'<span class="bd-stamp">{esc(fmt_when(i))}</span></span>'
             f'<span class="bd-h3 nx-h">{esc(i.get("title") or "")}</span>'
             f'{read_html}{src}</a>')
-    return f'<div class="bd-cards4">{"".join(cards)}</div>'
+    return f'<div class="bd-cards4">{"".join(cards)}{thin}</div>'
 
 
 # The Edition's slot. Directive v2 cut the composed Edition from three a day to
