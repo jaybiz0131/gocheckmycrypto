@@ -1,0 +1,62 @@
+{
+  "id": "c116",
+  "slug": "north-korean-operation-waterplum-infected-30-000-devices-via-fake-job-postings-stole-10-7m-in-crypto",
+  "kind": "brief",
+  "title": "North Korean operation WaterPlum infected 30,000+ devices via fake job postings, stole $10.7M in crypto",
+  "dek": "State-sponsored North Korean cyber group WaterPlum used fake job postings to infect at least 30,000 devices across 100+ countries from December 2025 through July 2026. The operation compromised over 7,000 crypto wallets and stole $10.7 million. A joint advisory from FBI, Japanese police, Australian cyber officials, and German intelligence was issued September 18.",
+  "date": "2026-09-21",
+  "published_utc": "2026-09-21T23:12:37Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 6,
+  "author": "Crypto Cronkite",
+  "key_fact": "WaterPlum infected 30,000+ devices across 100+ countries, compromised 7,000+ crypto wallets, and stole $10.7 million by combining fake recruitment postings (posing as AI, crypto, and NFT firms) with malware disguised as coding tests and video conferencing fixes.",
+  "bottom_line": "WaterPlum demonstrates how state-sponsored actors scale social engineering attacks through trusted channels: recruitment platforms and job postings carry inherent legitimacy. The operation's active phase ended in July 2026, but the advisory warns that US-based support infrastructure remains under investigation and the group's persistence since 2022 signals sustained capability rather than a temporary campaign.",
+  "human_take": "",
+  "body": [
+    "North Korean cyber group WaterPlum infected at least 30,000 devices across 100+ countries from December 2025 through July 2026, compromising over 7,000 crypto wallets and stealing $10.7 million, according to reporting by The Daily Hodl and a joint advisory issued September 18 by the FBI, Japanese police, Australian cyber officials, and German intelligence.\nWaterPlum, also known as Contagious Interview and Deceptive Development, has operated globally since 2022. The operation posts fake job openings on social media and recruiting platforms, frequently posing as AI, crypto, or NFT companies. Applicants directed to run coding tests or fix fabricated video-call errors unknowingly execute malware that monitors the machine and harvests passwords and wallet keys, per The Daily Hodl's account of the advisory.\nThe group targeted machines in the United States, Japan, and Europe. Beyond wallet theft, The Daily Hodl reports WaterPlum hides some activity on GitHub and Ethereum. The primary goal stated in the advisory is to plunder cryptocurrencies and gain access to financial accounts using a combination of social engineering and malicious software disguised as legitimate development tools.\nThe Daily Hodl reports the FBI is actively pursuing US helpers who run laptop farms and manage bank accounts for the operation, indicating infrastructure inside the United States that processes and moves stolen funds. The advisory attributes WaterPlum and North Korea's overseas IT workforce to the 313 General Bureau of the Munitions Industry Department. According to The Daily Hodl's reporting,\nThe scale of device infection (30,000+) and wallet compromise (7,000+) distinguishes this operation from smaller targeted campaigns. The attack surface spans any developer or technician using legitimate-looking job postings to screen candidates. The advisory characterizes the operation as a short-term threat to individuals and organizations in Germany and other EU states, though the geographic span of infections (100+ countries) and the continued active pursuit of US-based helpers suggest the operation retains operational capacity."
+  ],
+  "sources": [
+    {
+      "title": "https://cointelegraph.com/news/north-korean-fake-recruiters-infect-30k-devices-steal-107m-in-crypto",
+      "url": "https://cointelegraph.com/news/north-korean-fake-recruiters-infect-30k-devices-steal-107m-in-crypto"
+    },
+    {
+      "title": "https://dailyhodl.com/2026/09/21/north-korean-hackers-infect-30000-pcs-steal-10700000-in-crypto-through-fake-it-jobs-fbi/",
+      "url": "https://dailyhodl.com/2026/09/21/north-korean-hackers-infect-30000-pcs-steal-10700000-in-crypto-through-fake-it-jobs-fbi/"
+    }
+  ],
+  "update_of": "nasdaq-invests-100-million-in-kraken-parent-payward-at-21-billion-valuation-september-10",
+  "board_snapshot": {
+    "as_of": "2026-09-21T23:10:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 86572.02,
+        "chg_24h_pct": 6.66
+      },
+      {
+        "symbol": "ETH",
+        "price": 2784.73,
+        "chg_24h_pct": 5.29
+      }
+    ],
+    "fng": {
+      "value": 70,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2551817594
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 307641110,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Daily Hodl"
+  ],
+  "developing": false
+}

@@ -1,0 +1,71 @@
+{
+  "id": "c003",
+  "slug": "fairshake-pac-commits-30-million-against-sherrod-brown-s-ohio-senate-bid",
+  "kind": "brief",
+  "title": "Fairshake PAC commits $30 million against Sherrod Brown's Ohio Senate bid",
+  "dek": "The crypto industry's primary political spending vehicle, Fairshake PAC, announced a $30 million commitment to oppose Senator Sherrod Brown's 2026 reelection bid in Ohio, marking the largest crypto-backed electoral spend of the 2026 cycle. The spending follows the Senate's September 19 rejection of the CLARITY Act, which would have created federal crypto market rules.",
+  "date": "2026-09-21",
+  "published_utc": "2026-09-21T23:12:37Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "Fairshake's $30 million commitment against Brown is the largest crypto political spending of 2026, surpassing the PAC's previous largest outlay of $40 million against Brown in 2024.",
+  "bottom_line": "The Senate's September 19 rejection of the CLARITY Act left little time to revive the legislation before the November 3 midterms. Fairshake's $30 million commitment tests whether electoral spending can shift a regulatory-hostile incumbent or a chamber resistant to crypto-friendly policy; the PAC's prior $40 million against Brown in 2024 did not unseat him. Watch whether other industry spending follows and whether the primary messaging centers on crypto regulatory clarity or on non-crypto issues, as Fairshake's track record suggests.",
+  "human_take": "",
+  "body": [
+    "Fairshake PAC announced a $30 million spending commitment to oppose Sherrod Brown's reelection to the US Senate from Ohio, according to reporting from CoinDesk and The Defiant. The sum represents the largest crypto-backed electoral spending of the 2026 cycle, though it trails the PAC's $40 million outlay against Brown in 2024, when it backed Republican Bernie Moreno's unsuccessful bid to unseat him.",
+    "The timing places the spending two days after the Senate rejected the CLARITY Act on September 19, blocking a bipartisan bill that would have established federal rules for crypto markets and divided regulatory authority between the Securities and Exchange Commission and the Commodity Futures Trading Commission. The Senate vote fell short of the 60 votes needed, with a 49-50 tally on the motion to proceed. All Democrats present voted against advancing the measure, as did Republican Senators Susan Collins, Josh Hawley, and Jerry Moran. Republican Senator Thom Tillis changed his vote to no for procedural reasons, allowing the bill to be reintroduced later.",
+    "Brown's role as a longtime skeptic of the crypto industry and his leadership of the Senate Banking Committee have made him a primary target for the industry's political spending. Per Decrypt's reporting, Brown is challenging Republican Senator Jon Husted in a race that could influence Senate control. Husted was appointed to the Senate in January 2025 to replace JD Vance following Vance's assumption of the vice presidency.",
+    "Fairshake is primarily funded by Coinbase, Ripple, and Andreessen Horowitz, according to Decrypt. The PAC raised $116 million for the 2026 elections by January 2025 and reported $108 million on hand at the end of August, giving it a substantial war chest for the final stretch before the November 3 midterms. Per Decrypt's reporting, Fairshake says it supports candidates from both parties who favor crypto-friendly policies, though the PAC has concentrated its most visible spending against regulatory critics.",
+    "Fairshake's advertising strategy, reported by Decrypt, deliberately avoids crypto messaging in favor of broader issues likely to resonate with general voters. The PAC employed that approach during the 2024 election and again in this year's congressional primaries. Brown's campaign manager Patrick Eisenhauer responded to the spending announcement by stating, according to Decrypt, that \"the special interests are panicking\" and that Brown would \"fight the rigged system they're feasting on to stand up for working Ohioans.\"",
+    "Separately, Coinbase-backed advocacy group Stand With Crypto warned of electoral consequences after the CLARITY Act vote and said it would add senators' votes to its lawmaker scorecards as it mobilizes supporters ahead of the election, per Decrypt. The group's move signals the industry's intent to use the legislative defeat as a mobilizing issue for its supporters in the final weeks of the campaign."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/news-analysis/2026/09/21/crypto-s-fairshake-repeats-history-with-usd30-million-to-oppose-sherrod-brown-senate-bid",
+      "url": "https://www.coindesk.com/news-analysis/2026/09/21/crypto-s-fairshake-repeats-history-with-usd30-million-to-oppose-sherrod-brown-senate-bid"
+    },
+    {
+      "title": "https://thedefiant.io/news/regulation/fairshake-plans-30-million-ad-blitz-against-sherrod-brown-in-ohio",
+      "url": "https://thedefiant.io/news/regulation/fairshake-plans-30-million-ad-blitz-against-sherrod-brown-in-ohio"
+    },
+    {
+      "title": "https://decrypt.co/378891/clarity-act-crypto-super-pac-fairshake-sherrod-brown-30-million",
+      "url": "https://decrypt.co/378891/clarity-act-crypto-super-pac-fairshake-sherrod-brown-30-million"
+    }
+  ],
+  "update_of": "hyperliquid-in-advanced-talks-with-kraken-parent-on-us-perpetuals-entry-through-bitnomial",
+  "board_snapshot": {
+    "as_of": "2026-09-21T23:10:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 86572.02,
+        "chg_24h_pct": 6.66
+      },
+      {
+        "symbol": "ETH",
+        "price": 2784.73,
+        "chg_24h_pct": 5.29
+      }
+    ],
+    "fng": {
+      "value": 70,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2551817594
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 307641110,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Defiant"
+  ],
+  "developing": false
+}

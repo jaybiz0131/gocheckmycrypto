@@ -1,0 +1,69 @@
+{
+  "id": "c028",
+  "slug": "zetachain-votes-to-shut-down-layer-1-migrate-zeta-to-solana",
+  "kind": "brief",
+  "title": "ZetaChain votes to shut down Layer 1, migrate ZETA to Solana",
+  "dek": "ZetaChain governance passed Proposal 68 with 99.4% support to wind down its Layer 1 blockchain and migrate ZETA to Solana as a native SPL token at 1:1 ratio. The move requires a second vote after exchanges confirm participation. The team plans to shift focus to Anuma, a private AI application.",
+  "date": "2026-09-21",
+  "published_utc": "2026-09-21T23:12:37Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "A Layer 1 blockchain protocol is voting to cease independent operations entirely and move its token to another chain, a rare reorientation affecting token holders and protocol direction.",
+  "bottom_line": "The second governance vote and exchange confirmation timeline will determine whether this shutdown actually proceeds as planned. If exchanges decline or delay confirmation, the entire migration could stall.",
+  "human_take": "",
+  "body": [
+    "ZetaChain governance voted on September 20 to wind down its Layer 1 blockchain entirely and migrate ZETA tokens to Solana as native SPL tokens, according to reporting from The Block. Proposal 68 passed with 99.4% support and 58% participation, exceeding the 40% quorum required.",
+    "The migration will occur at a 1:1 ratio, per The Defiant's reporting. However, the plan is not yet final: exchanges must confirm their participation before a second governance vote sets the token snapshot, claims process, and shutdown schedule, according to The Defiant.",
+    "ZetaChain's team plans to pivot away from blockchain infrastructure entirely and focus instead on Anuma, a private AI application, The Defiant reports. This represents a material shift from the protocol's original positioning as a cross-chain Layer 1.",
+    "The bear case centers on two constraints: the migration depends on a second vote after exchange confirmation, meaning the plan could face friction or loss of support before final execution. Additionally, the sources do not detail what happens to existing ZetaChain infrastructure, validators, or users on the Layer 1 during the wind-down period."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/defi/2026-09-20-zetachain-votes-to-shut-down-layer-1-network-and-move-zeta-to-solana-415878",
+      "url": "https://www.theblock.co/news/defi/2026-09-20-zetachain-votes-to-shut-down-layer-1-network-and-move-zeta-to-solana-415878"
+    },
+    {
+      "title": "https://thedefiant.io/news/blockchains/zetachain-votes-to-wind-down-layer-1-and-move-zeta-to-solana",
+      "url": "https://thedefiant.io/news/blockchains/zetachain-votes-to-wind-down-layer-1-and-move-zeta-to-solana"
+    },
+    {
+      "title": "https://cointelegraph.com/news/zetachain-shutdown-zeta-solana-migration?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/zetachain-shutdown-zeta-solana-migration?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-21T23:10:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 86572.02,
+        "chg_24h_pct": 6.66
+      },
+      {
+        "symbol": "ETH",
+        "price": 2784.73,
+        "chg_24h_pct": 5.29
+      }
+    ],
+    "fng": {
+      "value": 70,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2551817594
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 307641110,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Defiant",
+    "Cointelegraph"
+  ],
+  "developing": false
+}

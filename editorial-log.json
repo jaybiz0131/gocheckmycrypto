@@ -1,49 +1,6 @@
 [
  {
   "date": "2026-08-19",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c024",
-    "headline": "Maya Protocol Halted After Exploit Drains $1.7M via Six Chained Vulnerabilities",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The pool value declined by $11 million total as a result of the exploit' but this is presented as a direct consequence when the brief data point only reports the pool value dropped by $11 million\u2014it does not confirm that the $1.7M drain directly caused the $11M pool decline or establish the mechanism. The draft's causal phrasing ('as a result of') goes beyond what the reporting supports.",
-     "The draft claims 'The attacker was credited with nearly 50 million tokens without proper funding backing that credit, according to CoinDesk's reporting' as a mechanism explanation, but the brief only lists this as a data point without establishing it as the verified mechanism. The draft smuggles explanatory confidence by stating it as fact when the brief marks it as 'reported' (not verified).",
-     "The draft's treatment of unconfirmed details is correct, but the framing of the $11M pool decline conflates reported figures with causal attribution not present in the sources."
-    ]
-   },
-   {
-    "id": "c011",
-    "headline": "HSBC and Standard Chartered execute first live transaction on Swift's blockchain ledger",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for this draft. Per the hard rule that 'no fact exists outside the brief,' every factual claim must trace to a data_point in a research brief or be rejected as smuggled. Without a brief, the entire draft\u2014including the HSBC/Standard Chartered transaction details, Swift's ledger functionality, settlement mechanics, and the claim this is 'the first confirmed live execution'\u2014cannot be verified against research. The draft cannot be approved without a brief to anchor it."
-    ]
-   },
-   {
-    "id": "c030",
-    "headline": "OCC races to finalize GENIUS Act stablecoin rules by November",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The law was signed by President Trump' in paragraph one, but this claim does not appear in the brief's data_points. The brief's single data_point only confirms the OCC is 'racing to finalize rules by November to implement a stablecoin law signed by President Trump'\u2014but the brief itself does not provide a separate, standalone data_point confirming Trump signed the law. The writer has smuggled a dependent claim (Trump's signature) without independent research support. Either verify this separately or remove the standalone reference.",
-     "The draft's second paragraph states the law 'was signed by President Trump' as established fact, but the only source provided (The Block) is cited for the OCC acceleration claim, not for confirmation of Trump's signature on the GENIUS Act. This conflates two separate factual claims."
-    ]
-   },
-   {
-    "id": "c032",
-    "headline": "Injective becomes SEC-registered transfer agent as it expands tokenization push",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Injective has obtained SEC registration as a transfer agent' as a settled fact, but the brief's only data_point is marked 'reported' (not 'confirmed' or 'verified'), meaning the claim comes from Injective's own announcement via The Block. The prose should signal this is what Injective says it obtained, not what has been independently verified to have occurred.",
-     "The draft presents 'Transfer agent registration is a formal SEC designation that subjects the entity to federal compliance, audit, and operational standards' as established fact, but this is not in the brief's data_points and reads as the writer's own knowledge insertion rather than sourced reporting.",
-     "The sentence 'The registration clears Injective to operate as the regulated backbone for tracking who owns tokenized assets' asserts an outcome (that it clears operations) that goes beyond what the brief supports: the brief only says Injective says the registration gives it a regulated way to keep track of ownership. Whether it 'clears' operation is a legal conclusion not in the source."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-19",
   "approved": 2,
   "rejected": [
    {
@@ -5093,6 +5050,32 @@
      "The draft reports the exploit as occurring on September 20, 2026, which is today's date. The rule states: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT.' However, the brief timestamp is '2026-09-20T06:13:32Z', indicating the exploit occurred earlier today. The draft's opening sentence 'drained roughly $2 million across the two protocols on September 20' treats this as a completed past event on the same day it is being reported. This is permissible\u2014the event happened earlier today and is being reported. The sentence is accurate.",
      "The draft states 'The Fetch.ai and NuNet exploits push DeFi losses recorded by DefiLlama in September past $333 million.' The brief data_point says 'DefiLlama had logged roughly $331 million in losses across 17 incidents in September before the Fetch.ai drain, most of it from the $320 million Liquid Network incident' and separately 'Fetch.ai and NuNet exploits push September losses past $333 million.' The math checks: $331M + $2.01M \u2248 $333M. This is accurate.",
      "However, a close reading reveals a discrepancy: the brief states 'The month's largest incident remains the $320 million Liquid Network loss' and data_points say this was before the Fetch.ai drain. The draft says 'The month's largest incident remains the $320 million Liquid Network loss' which is correct. But the draft then says 'Fetch.ai and NuNet's final incident reports and any compensation or recovery plan will be the next public checkpoint' in the bottom_line. The brief's open_questions do not include language about 'final incident reports' or 'compensation or recovery plan'\u2014they ask about the attacker's signature source and whether NuNet's deployer was compromised. The bottom_line is making a predictive statement about what should be watched that goes beyond the brief's scope."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-21",
+  "approved": 10,
+  "rejected": [
+   {
+    "id": "c013",
+    "headline": "Bitcoin surpasses $85,000 on September 21 as short squeeze liquidates $648M in bearish bets",
+    "category": "compliance",
+    "reasons": [
+     "The draft contains multiple statements that read as price predictions or implicit trade recommendations, which violate the desk's compliance line on financial advice. Phrases like 'The immediate test is whether Bitcoin holds above $84,000' (bottom_line), 'If it falls back below $82,000, the rally has failed its structure' (bottom_line), and 'If it sustains, the next pressure point comes from...' (bottom_line) frame price levels as tests of validity and suggest what traders should watch for profit/loss. While framed as technical analysis, these statements edge toward actionable trade guidance.",
+     "The body contains speculative framings about durability and future direction ('the question of durability unresolved,' 'whether this rally is durable or a dangerous chase into resistance') that, combined with the bottom_line's level-based predictions, create a narrative arc guiding readers toward specific price expectations. The instruction prohibits 'will 10x,' 'investors should,' and 'a good entry point'\u2014this draft avoids those exact phrasings but achieves similar directional intent through technical framing.",
+     "The draft attributes the Glassnode interpretation ('sellers have run out of coins to distribute, signaling capitulation') and then immediately offers the alternative ('the current low may signal capitulation by weak hands before a new wave of distribution begins'), which is balanced. However, the bottom_line's statement that 'If it falls back below $82,000, the rally has failed its structure' prescribes a test condition for readers evaluating whether to hold positions\u2014actionable guidance dressed as technical observation."
+    ]
+   },
+   {
+    "id": "c096",
+    "headline": "SEC exempts tokenized stocks on permissioned AMMs; CFTC widens software relief",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the SEC exemption was 'issued on Friday, September 18' but today is Monday, September 21, 2026. September 18, 2026 was a Thursday, not a Friday. This is a factual error in day-of-week attribution.",
+     "The draft then states 'Both actions came two days after the Senate rejected the CLARITY Act on September 19'\u2014if September 18 was the date of the SEC exemption, it came ONE day before the Senate vote on September 19, not two days after. The timeline is internally contradictory.",
+     "The brief data_point says 'The SEC issued a five-year conditional exemption on Thursday' and 'Both actions came two days after the Senate blocked the CLARITY Act.' If the Senate vote was September 19 (Friday), then two days after would be September 21. But the draft says the SEC action was September 18. The brief's language 'came two days after' is incompatible with a September 18 date when the Senate vote is September 19. The draft has smuggled a specific date (September 18) that contradicts the brief's 'two days after' language and creates an impossible timeline."
     ]
    }
   ]

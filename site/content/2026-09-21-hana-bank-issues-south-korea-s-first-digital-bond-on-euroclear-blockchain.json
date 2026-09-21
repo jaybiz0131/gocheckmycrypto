@@ -1,0 +1,58 @@
+{
+  "id": "c016",
+  "slug": "hana-bank-issues-south-korea-s-first-digital-bond-on-euroclear-blockchain",
+  "kind": "brief",
+  "title": "Hana Bank issues South Korea's first digital bond on Euroclear blockchain",
+  "dek": "Hana Bank, South Korea's second-largest bank, issued a $100 million foreign-currency digital bond on Euroclear's blockchain platform, reducing settlement from three to five business days to same-day. This marks the first time a South Korean lender directly used an international depository's blockchain infrastructure for debt issuance.",
+  "date": "2026-09-21",
+  "published_utc": "2026-09-21T23:12:37Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "A major sovereign financial institution compressed a multi-day settlement cycle into same-day execution by moving debt issuance onto blockchain infrastructure.",
+  "bottom_line": "A major Asia-Pacific financial institution has now demonstrated same-day settlement on blockchain for foreign-currency debt. Monitor whether Hana Bank repeats this issuance structure and whether other South Korean or regional banks follow suit within the next two quarters.",
+  "human_take": "",
+  "body": [
+    "Hana Bank, South Korea's second-largest bank, issued a $100 million foreign-currency digital bond on Euroclear's blockchain platform, according to CoinDesk on September 21. The issuance reduced settlement time from three to five business days to same-day execution, compressing a cycle that has been standard in wholesale debt markets for decades.",
+    "This marks the first time a South Korean lender directly used an international depository's blockchain infrastructure to issue debt, per CoinDesk. Hana Bank's choice of Euroclear's platform over traditional debt issuance and settlement rails signals institutional readiness to deploy distributed-ledger infrastructure for primary capital-market transactions, not merely for back-office processing.",
+    "Same-day settlement eliminates multi-day counterparty exposure and capital drag inherent in traditional clearance and custody chains. By moving issuance onto Euroclear's blockchain, Hana Bank compressed operational settlement into a single day while maintaining full regulatory custody and depository controls. The move demonstrates that institutional-grade blockchain infrastructure can now support sovereign and quasi-sovereign bond issuance at scale.",
+    "The issuance does not yet signal whether Hana Bank or other Korean financial institutions will make tokenized debt a standard issuance channel or treat this as a one-time pilot."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/09/21/hana-bank-issues-south-korea-s-first-digital-bond-using-euroclear-s-blockchain",
+      "url": "https://www.coindesk.com/business/2026/09/21/hana-bank-issues-south-korea-s-first-digital-bond-using-euroclear-s-blockchain"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-21T23:10:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 86572.02,
+        "chg_24h_pct": 6.66
+      },
+      {
+        "symbol": "ETH",
+        "price": 2784.73,
+        "chg_24h_pct": 5.29
+      }
+    ],
+    "fng": {
+      "value": 70,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 11.0,
+      "open_interest_usd": 2551817594
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 307641110,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
