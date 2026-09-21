@@ -59,7 +59,26 @@ def decide(paths, now=None):
     if paths is None:
         return False, "cannot diff against the last built commit; building"
     if not paths:
-        return True, "no files changed"
+        # THE ONE CASE THIS FILE GOT EXACTLY BACKWARDS, and it cost the Board.
+        #
+        # A build with no changed files is not a pointless build: it is a SCHEDULED or
+        # HOOK-TRIGGERED one, and on this desk those exist precisely to re-fetch data.
+        # The Netlify build command runs whale_flows.py and market_pulse.py BEFORE
+        # site_build.py, so the numbers on the Board come from the build, not from the
+        # commit. Skipping a build because the repo has not changed skips the fetch that
+        # was the entire point of firing it.
+        #
+        # Measured: the Board's snapshot sat at 2026-09-19T23:11:01Z until Monday
+        # afternoon, 39 hours, while the noon refresh cron fired every day as designed
+        # and was skipped every time. It is also why adding more build hooks in A-1 did
+        # nothing for this desk: every hook ping with no new commit was declined here.
+        # Running market_pulse by hand fetched 7 of 8 sections on the first try, so
+        # nothing was ever wrong with the sources.
+        #
+        # This is what the docstring above already asks for: a skipped build that should
+        # have run is the failure this file must not cause.
+        return False, "no files changed, so this is a scheduled or hook build; the " \
+                      "data desks refetch at build time and that is the point of it"
     unskippable = [p for p in paths
                    if not (p.startswith(SKIPPABLE_PREFIXES) or p in SKIPPABLE_FILES)]
     if unskippable:

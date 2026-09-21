@@ -1158,6 +1158,163 @@ def _destyle_item(obj):
                 _destyle_item(v)
 
 
+WIRE_HOURS = 48
+WIRE_MAX = 120
+
+
+def _wire_filter(rows):
+    """Same control as the Sports desk's, for the same reason and with the same rule: a
+    kind with nothing on the page today gets no button."""
+    kinds = [(k, pl) for k, pl in (("Story", "Stories"), ("Board", "Board"),
+                                   ("Edition", "Editions"))
+             if any(r["kind"] == k for r in rows)]
+    if len(kinds) < 2:
+        return ""
+    bs = "".join(
+        f'<button type="button" class="lens-b" data-wire="{k.lower()}" '
+        f'aria-pressed="false">{esc(pl)}</button>' for k, pl in kinds)
+    return ('<div class="lens wr-f" role="group" hidden '
+            'aria-label="Filter the wire by what happened">'
+            '<span class="lens-k">Show</span>'
+            '<button type="button" class="lens-b on" data-wire="all" '
+            'aria-pressed="true">All</button>' + bs + '</div>')
+
+
+WIRE_JS = """<script>(function(){
+  var g = document.querySelector('.wr-f');
+  if (!g) return;
+  g.hidden = false;
+  function apply(v){
+    document.querySelectorAll('.wr-r').forEach(function(r){
+      r.hidden = (v !== 'all' && r.getAttribute('data-kind') !== v);
+    });
+    document.querySelectorAll('.wr-l').forEach(function(l){
+      var any = l.querySelector('.wr-r:not([hidden])');
+      l.hidden = !any;
+      var h = l.previousElementSibling;
+      if (h && h.classList.contains('wr-d')) h.hidden = !any;
+    });
+    g.querySelectorAll('.lens-b').forEach(function(b){
+      var on = b.getAttribute('data-wire') === v;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  g.addEventListener('click', function(e){
+    var b = e.target.closest('.lens-b');
+    if (!b) return;
+    e.preventDefault();
+    apply(b.getAttribute('data-wire'));
+  });
+})();</script>"""
+
+
+def render_wire(items, dateline, now=None):
+    rows = _wire_rows(items, now)
+    if not rows:
+        return None
+    body, day = [], None
+    for r in rows:
+        et = r["t"].astimezone(_ET)
+        d = et.strftime("%A %-d %B")
+        if d != day:
+            if day is not None:
+                body.append("</ol>")
+            body.append(f'<h2 class="wr-d">{esc(d)}</h2><ol class="wr-l">')
+            day = d
+        body.append(
+            f'<li class="wr-r" data-kind="{esc(r["kind"].lower())}">'
+            f'<span class="wr-t">{esc(et.strftime("%-I:%M %p"))} ET</span>'
+            f'<span class="wr-k wr-k-{esc(r["kind"].lower())}">{esc(r["kind"])}</span>'
+            f'<a class="wr-x" href="{r["href"]}">{esc(r["text"])}</a></li>')
+    body.append("</ol>")
+    return shell(
+        f"The Wire - {NAME}",
+        "Everything this desk published and every Board reading it took, newest first, "
+        "with the time it happened.",
+        "News",
+        '<section class="page wrap wr-page">'
+        '<div class="wr-head"><h1>The Wire</h1>'
+        f'<span class="wr-c">{len(rows)} entries, last {WIRE_HOURS} hours</span></div>'
+        '<p class="bd-src">Nothing is written for this page and nothing is computed '
+        'for it. Every line is something that happened, stamped when it happened, '
+        'linking to the thing itself.</p>'
+        + _wire_filter(rows) + "".join(body) + '</section>' + WIRE_JS,
+        dateline, path="/wire.html")
+
+
+def _wire_rows(items, now=None):
+    """C-L2 / E-2: THE WIRE. Everything this desk did, newest first, stamped.
+
+    The Sports desk's Wire answers "what has happened since I last looked" and the
+    crypto reader asks it harder: this is a market that does not close, and the Edition
+    runs once a day. Between editions the desk's work was invisible.
+
+    A LOG, NOT A FEED. Every line is something that happened and links to the thing
+    itself. Nothing is written for this page, and nothing is computed for it: the Board
+    lines are the readings the desk already took and committed, quoted back with their
+    own timestamps.
+    """
+    import datetime as _dt
+    now = now or _build_now()
+    cut = now - _dt.timedelta(hours=WIRE_HOURS)
+    rows = []
+
+    for it in (items or []):
+        if it.get("example") or it.get("superseded_by"):
+            continue
+        t = _parse_utc(it)
+        if not t or t < cut:
+            continue
+        wrap = _is_wrap(it)
+        rows.append({"t": t, "kind": "Edition" if wrap else "Story",
+                     "text": it.get("title") or "",
+                     "href": f'/articles/{esc(it.get("slug") or "")}.html',
+                     "note": ""})
+
+    # The Board's own readings, from the snapshots already on disk. One line per
+    # snapshot naming what Bitcoin read at that stamp, because that is the number the
+    # whole desk is organised around and the one a returning reader checks first.
+    import glob as _glob
+    import json as _json
+    for fn in sorted(_glob.glob(os.path.join(SITE, "data", "snapshots",
+                                             "pulse-*.json")))[-6:]:
+        try:
+            d = _json.load(open(fn, encoding="utf-8"))
+        except Exception:
+            continue
+        # _parse_utc takes an ITEM, not a string, so the snapshot's stamp is handed
+        # over in the shape it expects rather than a second parser being written that
+        # could read a timestamp differently from the rest of the desk.
+        t = _parse_utc({"published_utc": d.get("generated_utc") or ""})
+        if not t or t < cut:
+            continue
+        btc = next((a for a in (d.get("assets") or [])
+                    if (a.get("symbol") or "").upper() == "BTC"), None)
+        if not btc or btc.get("price") is None:
+            continue
+        chg = btc.get("chg_24h_pct")
+        # NOT fmt_usd: it rounds to "$81K", which is right for a market cap and wrong
+        # for the one price this desk is organised around. C-14's rule is that a coin's
+        # price reads the same everywhere on the site, and the Board tile shows cents.
+        txt = f'Bitcoin ${btc["price"]:,.2f}'
+        if chg is not None:
+            txt += f', {"+" if chg >= 0 else ""}{chg:.1f}% in 24 hours'
+        rows.append({"t": t, "kind": "Board", "text": txt,
+                     "href": "/pulse.html", "note": ""})
+
+    seen, out = set(), []
+    for r in sorted(rows, key=lambda r: r["t"], reverse=True):
+        key = (r["kind"], r["text"])
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(r)
+        if len(out) >= WIRE_MAX:
+            break
+    return out
+
+
 def load_content():
     items = []
     if os.path.isdir(CONTENT):
@@ -8323,6 +8480,12 @@ def build():
     print(f"news hub: {len(_nh_lanes)} storyline(s), {len(_nh_urls)} hub page(s)")
     w("flows.html", render_flows(flows, dateline))
     w("pulse.html", render_pulse_hub(pulse, flows, cm, dateline))
+
+    # E-2 / C-L2: the Wire. A failure here costs one page and nothing after it.
+    _wire = render_wire(items, dateline)
+    if _wire:
+        w("wire.html", _wire)
+        print(f"wire: {len(_wire_rows(items))} entr(ies)")
     w("chartmaster.html", render_chartmaster(cm, dateline))
     w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))

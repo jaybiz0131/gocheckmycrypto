@@ -228,6 +228,55 @@ def _corpus_integrity_canary():
     return fails
 
 
+def _ignore_canary():
+    """netlify_ignore decides whether a deploy runs at all, and it had no test.
+
+    Its own docstring says "Pure, so the test below is the whole proof" and there was no
+    test below it, on either desk. What it got wrong was the case with no test to catch
+    it: an empty diff was read as "nothing to do" and skipped, when on this desk an empty
+    diff means a scheduled or hook build, and those exist to refetch the market data that
+    the build command fetches before the site is generated. The Board sat 39 hours stale
+    while its refresh cron fired on time every day and was declined here.
+    """
+    import netlify_ignore as _ni
+    import datetime as _dt
+    fails = []
+
+    _skip, _why = _ni.decide([])
+    _check(_skip is False, fails,
+           f"netlify ignore canary: a build with no changed files was SKIPPED. That is "
+           f"the scheduled refresh, and the data desks refetch at build time, so "
+           f"skipping it is what leaves the Board stale: {_why}")
+    _skip, _why = _ni.decide(None)
+    _check(_skip is False, fails,
+           "netlify ignore canary: a build that cannot be diffed was skipped; every "
+           "unclear case must resolve to building")
+    _skip, _why = _ni.decide(["site_build.py"])
+    _check(_skip is False, fails,
+           "netlify ignore canary: a change to the generator did not build")
+    # The two it is FOR: it must still skip them, or this fix has simply disabled it.
+    _out = _dt.datetime(2026, 9, 22, 8, 0, tzinfo=_dt.timezone.utc)   # Tue 08:00, no window
+    _check(_ni.in_posting_window(_out) is False, fails,
+           "netlify ignore canary: the quiet-hours fixture is inside a posting window, "
+           "so the two checks below prove nothing")
+    _skip, _why = _ni.decide(["site/data/inactives/inactives-2026-09-22.json"], _out)
+    _check(_skip is True, fails,
+           f"netlify ignore canary: an inactives snapshot outside every posting window "
+           f"now builds, so the fix above just switched the file off: {_why}")
+    _skip, _why = _ni.decide(["ledger.json"], _out)
+    _check(_skip is True, fails,
+           f"netlify ignore canary: an ops-ledger row now builds: {_why}")
+    # and inside a window it builds, which is the whole reason the windows exist.
+    _in = _dt.datetime(2026, 9, 20, 18, 0, tzinfo=_dt.timezone.utc)   # Sunday 18:00
+    _check(_ni.in_posting_window(_in) is True, fails,
+           "netlify ignore canary: the Sunday-slate fixture is not in a posting window")
+    _skip, _why = _ni.decide(["site/data/inactives/inactives-2026-09-20.json"], _in)
+    _check(_skip is False, fails,
+           "netlify ignore canary: an inactives snapshot inside a posting window did "
+           "not build, and inside the window the board is the product")
+    return fails
+
+
 def _strip_canary():
     """D-5: four coins at 375, and a strip that says when it is cut.
 
@@ -287,6 +336,7 @@ def layer1_canary():
     # self-referential update_of left behind by a retirement.
     fails.extend(_corpus_integrity_canary())
     fails.extend(_strip_canary())
+    fails.extend(_ignore_canary())
     cfg = common.load_config()
 
     # config + models
