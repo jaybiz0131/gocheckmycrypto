@@ -21,7 +21,16 @@ on:
     #
     # It retires in Sprint I with R-1, when the Worker serves the Board (L-1) and the
     # numbers stop needing a deploy to reach the page.
-    - cron: "0 12 * * *"   # 12:00 UTC, the Board's only mid-day update until L-1
+    # RETIRED 21 September 2026, on the deploy budget. This fired at 12:00 UTC, which
+    # is 8 AM Eastern, and the Worker already fires this desk's hook at noon Eastern:
+    # two scheduled deploys where the budget allows one. The Worker's is kept because
+    # it is stated in Eastern, which is the clock the Board is stamped in.
+    #
+    # Netlify paused every site on the team at about 2 PM on 21 September after 1,188
+    # production deploys in one period, and a duplicate daily refresh is the cheapest
+    # thing on that list to give up.
+    #
+    # - cron: "0 12 * * *"
   workflow_dispatch: {}
 
 permissions: {}
