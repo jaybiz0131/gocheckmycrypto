@@ -2983,11 +2983,12 @@ def board_tiles(pulse, flows, deltas):
             "read": "Coins moving onto exchanges, often to sell.",
             "learn": "whale-exchange-flows"})
 
-    oi = _oi_total(pulse)
-    if isinstance(oi, (int, float)) and oi:
+    _lv_val, _lv_sub, _lv_btc = leverage_figure(pulse)
+    if _lv_val:
         out.append({
             "key": "leverage", "label": "Leverage", "phone": True,
-            "value": fmt_usd(oi), "spark": "",
+            "value": _lv_val, "spark": "",
+            "sub": _lv_sub,
             "delta": _bd_delta_pct((d.get("leverage") or {}).get("pct"), "open interest"),
             "read": "Borrowed money betting on price. Bigger swings.",
             "learn": "open-interest-funding"})
@@ -3390,7 +3391,11 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
             f'<div class="bd-tile-top">{top}</div>'
             f'<div class="bd-value">{esc(t["value"])}</div>'
             f'{t.get("delta") or ""}'
-            f'<p class="bd-read">{esc(read)}</p>'
+            # K-5: a tile whose headline figure needs a unit or a venue carries it here,
+            # in the same words the Board uses, so the two pages cannot drift apart.
+            + (f'<span class="bd-stamp bd-sub">{t["sub"]}</span>'
+               if t.get("sub") else "")
+            + f'<p class="bd-read">{esc(read)}</p>'
             f'<div class="bd-tile-foot">{tile_provenance(t, pulse)}'
             + (f'<span class="bd-stamp">{esc(win)}</span>' if win else "")
             + f'</div>{_tile_link(t, learn_href)}</div>')
@@ -6503,6 +6508,47 @@ def _btc(pulse):
     return {}
 
 
+def leverage_figure(pulse):
+    """K-5: ONE Leverage number, on the home tile and on the Board, from one place.
+
+    The home tile printed the sum of five coins' open interest on OKX, $5.01B, under the
+    label "Leverage". The Board printed Bitcoin's eight-hour funding rate under the same
+    label and the same source, with $2.68B of open interest in its sub-line. A reader
+    clicking from one to the other watched the number halve with no explanation, and
+    neither page said which of the two things "Leverage" meant.
+
+    It means what it costs to hold the bet, so the number is BITCOIN'S FUNDING RATE,
+    ANNUALIZED, which is also the form K-4's belt requires of the prose. The eight-hour
+    figure and the open interest sit in the sub-line, with the venue named, because one
+    exchange's book is not the market's.
+
+    THE FIVE-COIN SUM IS NOT PRINTED ANYWHERE as a bare figure. It is a number with no
+    name: not the market's open interest, not any one asset's, and not comparable to
+    anything else on the page.
+
+    Returns (value, sub, btc) or (None, None, None).
+    """
+    assets = ((pulse or {}).get("leverage") or {}).get("assets") or []
+    btc = next((a for a in assets
+                if str(a.get("symbol") or "").upper() == "BTC"), None)
+    if not btc:
+        return (None, None, None)
+    ann = btc.get("funding_annual_pct")
+    eight = btc.get("funding_8h_pct")
+    oi = btc.get("open_interest_usd")
+    venue = (btc.get("venue") or "").strip()
+    if ann is None:
+        return (None, None, None)
+    value = f"{ann:+.1f}%"
+    bits = []
+    if eight is not None:
+        bits.append(f"{eight:+.4f}% per 8h")
+    if oi:
+        bits.append(f"{fmt_usd(oi)} open" + (f" on {venue}" if venue else ""))
+    sub = " &middot; ".join(bits)
+    return (value, sub, btc)
+
+
 def _oi_total(pulse):
     tot = 0
     for a in ((pulse or {}).get("leverage") or {}).get("assets") or []:
@@ -6850,18 +6896,23 @@ def render_pulse_hub(pulse, flows, cm, dateline):
     btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
     if btcl:
         ls = btcl.get("long_short_ratio")
-        sub = (f'BTC funding &middot; {esc(fmt_usd(btcl.get("open_interest_usd", 0)))} OI'
-               + (f' &middot; {ls:.2f} L/S' if ls is not None else ""))
+        # K-5: the funding and the open interest are in the shared sub-line above; this
+        # one carries what is only on the Board, so the tile does not say $2.58B twice.
+        sub = (f'{ls:.2f} L/S' if ls is not None else '')
         q = btcl.get("liquidations") or {}
         if q.get("count"):
             longs, shorts = q.get("longs_usd", 0), q.get("shorts_usd", 0)
             side = "longs" if longs >= shorts else "shorts"
-            sub += (f'<br>liqs {esc(fmt_usd(longs + shorts))} last '
-                    f'{q.get("window_hours", "?")}h &middot; mostly {side}')
-        widget("/pulse/leverage.html", "Positioning &middot; Leverage",
-               f'{btcl.get("funding_8h_pct", 0):+.4f}% <span class="w-unit">/8h</span>', sub,
-               spark_widget(btcl.get("oi_history_usd") or [], "30d open interest"),
-               learn=_lx.get("leverage", ""))
+            sub += ((('<br>' if sub else '') + f'liqs {esc(fmt_usd(longs + shorts))} last '
+                    f'{q.get("window_hours", "?")}h &middot; mostly {side}'))
+        # K-5: the same figure the home tile prints, from the same function.
+        _wv, _ws, _ = leverage_figure(pulse)
+        if _wv:
+            widget("/pulse/leverage.html", "Positioning &middot; Leverage",
+                   f'{_wv} <span class="w-unit">a year</span>',
+                   (_ws + ("<br>" + sub if sub else "")),
+                   spark_widget(btcl.get("oi_history_usd") or [], "30d open interest"),
+                   learn=_lx.get("leverage", ""))
     stables = pulse.get("stables") or {}
     if stables.get("total_usd"):
         chg = stables.get("change_30d_pct", 0)

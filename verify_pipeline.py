@@ -330,6 +330,52 @@ CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.htm
                 "standards.html", "method.html", "whale-watch.html")
 
 
+def _one_leverage_canary():
+    """K-5: one Leverage number, on the home tile and on the Board.
+
+    The home tile printed the sum of five coins' open interest on OKX, $5.01B, under
+    "Leverage". The Board printed Bitcoin's eight-hour funding rate under the same label
+    from the same file. A reader clicking from one to the other watched the number halve
+    and neither page said which of the two things the word meant.
+    """
+    import site_build as _sb2
+    import json as _j2
+    fails = []
+    _pf = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       "site", "data", "pulse.json")
+    if not os.path.exists(_pf):
+        return fails
+    _p = _j2.load(open(_pf, encoding="utf-8"))
+    _v, _sub, _btc = _sb2.leverage_figure(_p)
+    _check(_v is not None, fails,
+           "K-5 canary: the Leverage figure cannot be computed from pulse.json")
+    if _v is None:
+        return fails
+    _check(_v.endswith("%"), fails,
+           f"K-5 canary: the Leverage headline is not a rate: {_v!r}")
+    _check("per 8h" in (_sub or ""), fails,
+           "K-5 canary: the eight-hour figure is not beside the annual one, which is "
+           "what K-4's belt requires of every funding number this desk prints")
+    _check("on OKX" in (_sub or "") or not (_btc or {}).get("venue"), fails,
+           "K-5 canary: the open interest names no venue; one exchange's book is not "
+           "the market's")
+    # THE FIVE-COIN SUM IS A NUMBER WITH NO NAME and must not be printed as a figure.
+    _pub = _sb2.PUBLISH
+    _tot = sum((a.get("open_interest_usd") or 0)
+               for a in ((_p.get("leverage") or {}).get("assets") or []))
+    if _tot:
+        _bare = _sb2.fmt_usd(_tot)
+        for _pg in ("index.html", "pulse.html"):
+            _fp = os.path.join(_pub, _pg)
+            if os.path.exists(_fp):
+                _check(_bare not in open(_fp, encoding="utf-8", errors="ignore").read(),
+                       fails,
+                       f"K-5 canary: {_pg} prints {_bare}, the sum of five coins' open "
+                       f"interest on one exchange, which is not the market's, not any "
+                       f"one asset's, and comparable to nothing else on the page")
+    return fails
+
+
 def _leverage_belt_canary():
     """K-4: the two numbers this desk got wrong in public.
 
@@ -428,6 +474,7 @@ def layer1_canary():
     fails = []
     fails.extend(_us_date_canary())
     fails.extend(_leverage_belt_canary())
+    fails.extend(_one_leverage_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
