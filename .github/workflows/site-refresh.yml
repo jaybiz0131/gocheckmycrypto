@@ -28,7 +28,7 @@ permissions: {}
 
 jobs:
   refresh:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Ping the Netlify build hook
         env:

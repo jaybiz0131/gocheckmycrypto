@@ -20,7 +20,7 @@ on:
 jobs:
   canary:
     name: Layer 1 canary (offline hard gate)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -30,7 +30,7 @@ jobs:
 
   sources:
     name: Layer 2 source check (notify, non-blocking)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       issues: write
       contents: read
