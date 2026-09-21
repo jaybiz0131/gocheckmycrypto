@@ -1292,16 +1292,34 @@ def market_strip(pulse=None):
         extras += (f'<span class="tick"><span class="sym">BTC funding</span>'
                    f'<span class="px">{f8:+.4f}%/8h</span>'
                    f'<span class="chg"></span></span>')
-    return f"""<section class="markets" id="markets"><div class="wrap" tabindex="0" role="region" aria-label="Live crypto markets ticker (scrollable)">
+    # D-5: THE LABEL COMES OFF THE RUN ON A PHONE. At 375 it held 109px of a 375px
+    # strip, so two coins were visible at rest and everything from Solana rightward
+    # could only be reached by swiping a strip that gives no sign it scrolls. It is the
+    # same row on a desktop and its own line on a phone, which is a stylesheet decision,
+    # so it sits outside the scrolling run and the run holds nothing but market facts.
+    return f"""<section class="markets" id="markets"><div class="wrap mk-outer">
   <span class="lab">Markets &middot; <span class="mkt-asof" id="mktAsOf">{_ticker_built(pulse)}</span></span>
+  <div class="mk-run" tabindex="0" role="region" aria-label="Live crypto markets ticker (scrollable)">
   {ticks}
   <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">{esc(cap_px)}</span>{cap_chg_html}</span>
   {extras}
   {motion_button()}
   {pin_control(pulse)}
-</div>""" + """
+</div></div>""" + """
 <script>
 (function(){
+  /* D-5: the fade appears only while the run actually overflows, so a desktop strip
+     with room to spare is not faded for nothing and a phone strip that is cut says so.
+     Re-checked on resize and after the prices land, because a longer price is a wider
+     tick and the answer changes with the numbers. */
+  function markMore(){
+    var r=document.querySelector('.markets .mk-run');
+    if(!r) return;
+    if(r.scrollWidth > r.clientWidth + 1) r.setAttribute('data-more','');
+    else r.removeAttribute('data-more');
+  }
+  markMore();
+  window.addEventListener('resize', markMore);
   var CG="https://api.coingecko.com/api/v3";
   /* C-14: the strip's stamp reads like every other stamp on the site, in Eastern,
      rather than the browser's "09:34". */
@@ -1364,7 +1382,8 @@ def market_strip(pulse=None):
           el.textContent = "live \u00b7 " + etClock();
         });
       }
-      var as=document.getElementById("mktAsOf");
+      markMore();
+    var as=document.getElementById("mktAsOf");
       if(as){ as.textContent = "live \u00b7 " + etClock(); as.classList.remove("stale"); }
     }).catch(function(){});
   fetch(CG+"/global").then(function(r){return r.json();}).then(function(d){

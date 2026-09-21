@@ -228,6 +228,53 @@ def _corpus_integrity_canary():
     return fails
 
 
+def _strip_canary():
+    """D-5: four coins at 375, and a strip that says when it is cut.
+
+    At 375 the strip showed two ticks at rest: the label held 109px of a 375px run, and
+    everything from Solana rightward could only be reached by swiping a strip that gave
+    no sign it scrolled. What the build is responsible for is the SHAPE that made the
+    stylesheet's fix possible, and that is what this checks, because a phone width is a
+    stylesheet question and a canary cannot measure one.
+    """
+    import site_build as _sb
+    fails = []
+    # NAMED, NOT GUESSED. The first cut of this tried several likely names in a loop
+    # and returned quietly when none answered, so a typo in the name would have made
+    # every check below disappear while the canary stayed green. It calls the one
+    # function, and a strip that cannot be built is a failure rather than a silence.
+    try:
+        _s = _sb.market_strip(_sb.load_pulse())
+    except Exception as _e:
+        fails.append(f"D-5 canary: the markets strip could not be built: "
+                     f"{type(_e).__name__}: {_e}")
+        return fails
+    _check(bool(_s and len(_s) > 200), fails,
+           f"D-5 canary: the markets strip came back empty ({len(_s or '')} chars)")
+    if not _s:
+        return fails
+    _check('class="mk-run"' in _s, fails,
+           "D-5 canary: the markets strip has no scrolling run")
+    _lab = _s.find('class="lab"')
+    _run = _s.find('class="mk-run"')
+    _check(_lab >= 0 and _run >= 0 and _lab < _run, fails,
+           "D-5 canary: the Markets label is inside the scrolling run, where it holds "
+           "109px of a 375px phone strip and costs two of the four coins")
+    _check('role="region"' in _s and 'tabindex="0"' in _s, fails,
+           "D-5 canary: the scrolling strip cannot be reached or announced by keyboard")
+    # THE SETTER, NOT THE STRING. "data-more" appears in the remover too, so testing
+    # for the bare name passed with the setter deleted: the fade would simply never
+    # appear and the canary would not have noticed. Both halves are required, because
+    # a strip that can raise the mark and never lower it is faded for ever.
+    _check("setAttribute('data-more'" in _s, fails,
+           "D-5 canary: nothing raises the cut mark, so a phone reader sees four coins "
+           "and no sign that six more are off the edge")
+    _check("removeAttribute('data-more')" in _s, fails,
+           "D-5 canary: nothing clears the cut mark, so a strip with room to spare "
+           "stays faded")
+    return fails
+
+
 def layer1_canary():
     fails = []
     # FIRST, because it is the cheapest and it catches the class that took two
@@ -239,6 +286,7 @@ def layer1_canary():
     # slugs (two files silently sharing one URL) and circular or
     # self-referential update_of left behind by a retirement.
     fails.extend(_corpus_integrity_canary())
+    fails.extend(_strip_canary())
     cfg = common.load_config()
 
     # config + models
