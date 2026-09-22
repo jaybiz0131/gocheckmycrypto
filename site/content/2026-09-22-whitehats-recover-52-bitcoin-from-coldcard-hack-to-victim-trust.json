@@ -1,0 +1,58 @@
+{
+  "id": "c016",
+  "slug": "whitehats-recover-52-bitcoin-from-coldcard-hack-to-victim-trust",
+  "kind": "brief",
+  "title": "Whitehats Recover 52 Bitcoin From Coldcard Hack to Victim Trust",
+  "dek": "White-hat actors transferred 52 bitcoin from a Coldcard vulnerability to a recovery trust operated at cryptorecoverytrust.com to facilitate victim restitution. The recovered funds represent a portion of the total Coldcard exploit.",
+  "date": "2026-09-22",
+  "published_utc": "2026-09-22T23:12:39Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "White-hat actors recovered 52 BTC from a Coldcard exploit and moved the funds to a Wyoming trust designed to return the stolen cryptocurrency to victims.",
+  "bottom_line": "The key variable is what percentage of total Coldcard-stolen funds this 52 BTC recovery represents, and how efficiently the cryptorecoverytrust.com claims process can verify and return funds to victims. Monitor announcements about the recovery trust's timeline and any public disclosures about the total size of the breach.",
+  "human_take": "",
+  "body": [
+    "White-hat actors moved 52 bitcoin from a Coldcard exploit to a recovery trust operated at cryptorecoverytrust.com, according to CoinDesk. The transfer was executed via an on-chain OP_RETURN message directing claimants to the recovery trust domain.",
+    "Cointelegraph reports the white hats rescued 52.37 BTC exposed by a Coldcard flaw and transferred the funds to a Wyoming trust created specifically to return them to victims. Galaxy Digital identified and reported the white-hat recovery activity, per CoinDesk.",
+    "The recovery mechanism operates through a dedicated website where affected users can file claims and provide evidence of their losses. A Wyoming trust structure provides legal standing for the trust operator to manage restitution and distribute funds to verified victims.",
+    "The specifics of how victims can claim recovered funds, the timeline for distributions, and the total amount of bitcoin stolen in the original Coldcard exploit remain undisclosed in available reporting. The white-hat actors' identity and the exact nature of the Coldcard vulnerability have also not been detailed."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/markets/2026/09/22/whitehats-move-52-bitcoin-from-the-coldcard-hack-to-a-recovery-trust",
+      "url": "https://www.coindesk.com/markets/2026/09/22/whitehats-move-52-bitcoin-from-the-coldcard-hack-to-a-recovery-trust"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-22T23:10:32Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 86352.2,
+        "chg_24h_pct": -0.28
+      },
+      {
+        "symbol": "ETH",
+        "price": 2760.97,
+        "chg_24h_pct": -0.51
+      }
+    ],
+    "fng": {
+      "value": 78,
+      "label": "Extreme Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 2.0,
+      "open_interest_usd": 2640927920
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 307641110,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

@@ -1,0 +1,58 @@
+{
+  "id": "c004",
+  "slug": "canada-s-big-six-banks-launch-tokenized-deposit-network",
+  "kind": "brief",
+  "title": "Canada's Big Six Banks Launch Tokenized Deposit Network",
+  "dek": "Canada's six largest banks are launching a shared tokenized deposit platform to modernize interbank clearing infrastructure while keeping capital within the banking system. Initial testing will focus on moving digital commercial deposits across participating institutions before any integration with broader digital asset ecosystems.",
+  "date": "2026-09-22",
+  "published_utc": "2026-09-22T23:12:39Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 5,
+  "author": "Crypto Cronkite",
+  "key_fact": "Six major Canadian banks are building a tokenized deposit network designed to modernize clearing infrastructure while retaining capital within the banking system.",
+  "bottom_line": "The specifics of testing timelines, technical architecture, and potential Bank of Canada involvement remain undisclosed. Monitor announcements about the testing phase launch date and any statements regarding eventual interoperability with a potential Canadian central bank digital currency.",
+  "human_take": "",
+  "body": [
+    "Canada's six largest banks are launching a shared tokenized deposit platform to modernize how commercial payments clear between major financial institutions. According to CoinDesk's reporting, the initiative aims to build a multi-bank network that modernizes core clearing infrastructure while keeping capital within the banking system.",
+    "Initial testing will focus on moving digital commercial deposits across participating institutions, per CoinDesk. The design explicitly precedes any integration with broader digital asset ecosystems, signaling a deliberate phasing approach: pilot the interbank settlement layer first, then decide on connectivity to external blockchain networks.",
+    "The initiative represents a sovereignly backed approach to tokenization, distinct from public cryptocurrency networks. Rather than adopting existing digital asset infrastructure, the Big Six are constructing a closed, institution-controlled settlement layer tailored to Canadian commercial banking requirements. This mirrors similar efforts by other national banking systems exploring tokenized settlement without entering decentralized finance or mainstream crypto ecosystems."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/business/2026/09/22/canada-s-big-six-banks-unite-to-launch-interbank-tokenized-deposit-initiative",
+      "url": "https://www.coindesk.com/business/2026/09/22/canada-s-big-six-banks-unite-to-launch-interbank-tokenized-deposit-initiative"
+    }
+  ],
+  "update_of": "coinbase-and-moov-launch-stablecoin-bridge-for-community-banks-economics-undisclosed",
+  "board_snapshot": {
+    "as_of": "2026-09-22T23:10:32Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 86352.2,
+        "chg_24h_pct": -0.28
+      },
+      {
+        "symbol": "ETH",
+        "price": 2760.97,
+        "chg_24h_pct": -0.51
+      }
+    ],
+    "fng": {
+      "value": 78,
+      "label": "Extreme Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 2.0,
+      "open_interest_usd": 2640927920
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 307641110,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}

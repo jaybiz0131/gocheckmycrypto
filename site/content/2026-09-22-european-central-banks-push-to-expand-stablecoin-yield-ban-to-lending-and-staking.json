@@ -1,0 +1,58 @@
+{
+  "id": "c006",
+  "slug": "european-central-banks-push-to-expand-stablecoin-yield-ban-to-lending-and-staking",
+  "kind": "brief",
+  "title": "European Central Banks Push to Expand Stablecoin Yield Ban to Lending and Staking",
+  "dek": "European central bankers are seeking an amendment to MiCA that would extend stablecoin yield restrictions beyond direct yields to indirect yield structures embedded in crypto lending and staking. The move reflects growing central bank concern that yield-bearing stablecoins blur the line between payment tokens and bank deposits, potentially distorting financial competition.",
+  "date": "2026-09-22",
+  "published_utc": "2026-09-22T23:12:39Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 9,
+  "author": "Crypto Cronkite",
+  "key_fact": "Central bankers argue indirect yield structures in crypto lending and staking obscure the distinction between electronic payment tokens and commercial bank deposits, creating deposit-flight risk.",
+  "bottom_line": "Whether EU member states formally propose amendment language to MiCA in the coming months will signal the seriousness of the central bank coalition; the operational definition of 'indirect yield' structures and how regulators would enforce a distinction from permitted payment-token functions remains the critical open question.",
+  "human_take": "",
+  "body": [
+    "European central banks are moving to expand restrictions on stablecoin yields, pushing for an amendment to the EU's Markets in Crypto Regulation (MiCA) that would restrict not only direct yields on stablecoins but also indirect yield structures embedded in crypto lending and staking products.",
+    "According to CoinDesk's reporting, central bankers argue that indirect yield mechanisms, structures that offer returns without being explicitly labeled as yields, blur the distinction between electronic payment tokens and commercial bank deposits. The concern centers on financial system competition and the risk that yield-bearing stablecoins could trigger deposit flight from traditional banks.",
+    "The European push mirrors debates underway in the United States over stablecoin rewards, according to the reporting, highlighting a broader pattern of central bank opposition to yield-bearing digital assets. The regulatory focus on indirect structures suggests that policymakers view existing MiCA restrictions on direct stablecoin yields as incomplete, and that the current rules may allow issuers and platforms to circumvent yield bans through structural innovation.",
+    "An expansion of MiCA's stablecoin yield restrictions would reshape how crypto platforms structure customer returns and would place additional compliance pressure on issuers and fintech companies offering return-bearing products tied to stablecoins."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/09/22/european-central-banks-push-to-expand-stablecoin-yield-ban-to-crypto-lending-and-staking",
+      "url": "https://www.coindesk.com/policy/2026/09/22/european-central-banks-push-to-expand-stablecoin-yield-ban-to-crypto-lending-and-staking"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-09-22T23:10:32Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 86352.2,
+        "chg_24h_pct": -0.28
+      },
+      {
+        "symbol": "ETH",
+        "price": 2760.97,
+        "chg_24h_pct": -0.51
+      }
+    ],
+    "fng": {
+      "value": 78,
+      "label": "Extreme Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 2.0,
+      "open_interest_usd": 2640927920
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 307641110,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": true
+}
