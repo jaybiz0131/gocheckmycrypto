@@ -2985,6 +2985,8 @@ def board_tiles(pulse, flows, deltas):
             "spark": _bd_spark([r.get("net_usd") for r in ((flows or {}).get("history") or [])],
                                signed=True),
             "dir": "down" if onto else "up",
+            # K-6: the words ride beside the number every time, and the tile's headline
+            # value is signed like every other flow figure on the site.
             "delta": f'<div class="bd-delta {"down" if onto else "up"}">'
                      f'{_ARROW_DN if onto else _ARROW_UP}'
                      f'{"onto exchanges" if onto else "off exchanges"}'
@@ -3439,6 +3441,35 @@ def _flows_have_data(flows):
     return bool((vol.get("inflow_usd") or 0) or (vol.get("outflow_usd") or 0))
 
 
+def flow_words(net):
+    """K-6: ONE CONVENTION for an exchange flow, on every tile, chart, row and table.
+
+    The site used two at once. The tiles printed an unsigned amount with the direction
+    in words, "$307.6M net off exchanges", while the by-asset chart, the 13-week trend
+    and the exchange table printed signed numbers in which a minus means onto. So the
+    same movement appeared as a positive number on one surface and a negative one on
+    the next, and the morning build's stablecoin tile printed "-$255.4M net stablecoins
+    onto exchanges" with the direction hardcoded under a value that was already saying
+    it with its sign.
+
+    The convention, stated once and used everywhere: OFF EXCHANGES IS POSITIVE AND
+    GREEN, ONTO EXCHANGES IS NEGATIVE AND RED, and the words ride beside the number
+    every time. A reader should never have to know which surface they are on to know
+    which way the coins went.
+
+    Returns (amount, words, cls). A missing reading returns (None, None, None) so the
+    caller can say so rather than print a zero, which is the fake-zero rule.
+    """
+    if not isinstance(net, (int, float)):
+        return (None, None, None)
+    if net == 0:
+        return ("0", "no net movement", "flat")
+    onto = net < 0
+    return (("-" if onto else "+") + fmt_usd(abs(net)),
+            "onto exchanges" if onto else "off exchanges",
+            "down" if onto else "up")
+
+
 def _flow_big(v):
     """D-6: the big number on a flows panel. Same law as the cells: a true zero says so
     in words, a missing reading says the feed carried none, and "$0" is neither."""
@@ -3446,7 +3477,8 @@ def _flow_big(v):
         return '<span class="mut" style="font-size:.5em">no reading in 24h</span>'
     if v == 0:
         return '<span class="mut" style="font-size:.5em">no exchange-size moves in 24h</span>'
-    return esc(fmt_usd(v))
+    # K-6: signed, so the number says which way before the words do.
+    return esc(flow_words(v)[0] or fmt_usd(v))
 
 
 def _flow_cell(v):
@@ -3482,13 +3514,10 @@ def _ww_rows(flows):
     rows.sort(key=lambda r: -abs(r["net_usd"]))
     out = []
     for r in rows[:2]:
-        net = r["net_usd"]
-        onto = net < 0
+        amt, words, cls = flow_words(r["net_usd"])
         out.append(f'<div class="ww-row"><span class="ww-sym">{esc(r.get("symbol") or "")}'
-                   f'</span><span class="ww-net {"down" if onto else "up"}">'
-                   f'{esc(fmt_usd(abs(net)))}</span>'
-                   f'<span class="bd-src">{"onto exchanges" if onto else "off exchanges"}'
-                   f'</span></div>')
+                   f'</span><span class="ww-net {cls}">{esc(amt or "")}</span>'
+                   f'<span class="bd-src">{esc(words or "")}</span></div>')
     return f'<div class="ww-rows">{"".join(out)}</div>'
 
 
@@ -5929,6 +5958,10 @@ def render_flows(flows, dateline):
     if not flows or (not flows.get("by_asset") and not flows.get("top_inflows")):
         body = ww_hero() + """<main class="wrap"><section class="page">
   <h1>Where the whales are moving</h1>
+  <p class="pc-note ww-legend"><b>Off exchanges is positive and green; onto exchanges is
+  negative and red.</b> Coins leaving an exchange usually mean holding, coins arriving
+  usually mean selling. Every number on this page follows that, and the words are beside
+  the number every time so you never have to remember which is which.</p>
   <p class="lede">This board tracks where whales are moving large amounts of crypto: onto
      exchanges (which can precede selling) or off exchanges into self-custody (accumulation).</p>
   <div class="empty"><span class="k">A quiet stretch</span>
@@ -6016,6 +6049,10 @@ def render_flows(flows, dateline):
   <div class="ey" style="margin:14px 0 0">
     <span class="daily-badge">refreshed through the day</span></div>
   <h1 style="margin-top:6px">Where the whales are moving</h1>
+  <p class="pc-note ww-legend"><b>Off exchanges is positive and green; onto exchanges is
+  negative and red.</b> Coins leaving an exchange usually mean holding, coins arriving
+  usually mean selling. Every number on this page follows that, and the words sit beside
+  the number every time, so you never have to remember which is which.</p>
   <p class="lede" style="margin-bottom:10px">The aggregate, not the feed: whale money onto
      exchanges (can precede selling) vs off into self-custody (accumulation), last {winp}.</p>
   <p class="bd-src">{_flows_asof(flows)}</p>
@@ -6031,7 +6068,7 @@ def render_flows(flows, dateline):
     <div class="stat">
       <span class="lab">Stablecoin buying power</span>
       <span class="big">{_flow_big(s.get("net_buying_power_usd"))}</span>
-      <span class="sub">net stablecoins onto exchanges</span>
+      <span class="sub">net stablecoins {esc(flow_words(s.get("net_buying_power_usd"))[1] or "")}</span>
     </div>
     {big_html}
     <div class="stat">
@@ -6050,8 +6087,8 @@ def render_flows(flows, dateline):
           [(w.get("week_ending", ""), w.get("net_usd", 0),
             f'{w.get("moves", 0)} exchange-size moves') for w in flows.get("history", [])],
           aria="Weekly net exchange flow, last 13 weeks", compact=True)}</div>
-      <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets, newest
-      first: green right = net withdrawals (accumulation), red left = net deposits.</p>''' if flows.get("history") else ""}
+      <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets,
+      newest first.</p>''' if flows.get("history") else ""}
       {f'''<div class="sec-head" style="margin-top:18px"><h2>By exchange</h2><span class="bar"></span></div>
       <div class="movetable" tabindex="0" role="region" aria-label="Net flow by exchange (scrollable)"><table>
         <thead><tr><th><span class="sr-only">Exchange</span></th><th>In</th><th>Out</th><th>Net</th></tr></thead>

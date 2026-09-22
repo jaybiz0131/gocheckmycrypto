@@ -330,6 +330,60 @@ CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.htm
                 "standards.html", "method.html", "whale-watch.html")
 
 
+def _flow_sign_canary():
+    """K-6: one convention for an exchange flow, on every surface.
+
+    The site used two at once. Tiles printed an unsigned amount with the direction in
+    words, "$307.6M net off exchanges", while the by-asset chart, the 13-week trend and
+    the exchange table printed signed numbers in which a minus means onto. The same
+    movement was a positive number on one surface and a negative one on the next, and
+    the morning build's stablecoin tile printed "-$255.4M net stablecoins onto
+    exchanges" with the direction hardcoded under a value already saying it with a sign.
+
+    Off exchanges is positive and green; onto exchanges is negative and red; the words
+    ride beside the number every time.
+    """
+    import site_build as _sb4
+    import re as _re4
+    fails = []
+
+    _amt, _w, _c = _sb4.flow_words(307600000)
+    _check(_amt == "+$307.6M" and _w == "off exchanges" and _c == "up", fails,
+           f"K-6 canary: money leaving an exchange is not positive and green: "
+           f"{(_amt, _w, _c)}")
+    _amt, _w, _c = _sb4.flow_words(-229200000)
+    _check(_amt == "-$229.2M" and _w == "onto exchanges" and _c == "down", fails,
+           f"K-6 canary: money arriving at an exchange is not negative and red: "
+           f"{(_amt, _w, _c)}")
+    _check(_sb4.flow_words(None) == (None, None, None), fails,
+           "K-6 canary: a missing reading produces a number, which is the fake-zero rule")
+    _check(_sb4.flow_words(0)[1] == "no net movement", fails,
+           "K-6 canary: a true zero does not say so in words")
+
+    # The rows pair each signed amount with the words that match its sign.
+    _rows = _sb4._ww_rows({"by_asset": [{"symbol": "BTC", "net_usd": 307600000},
+                                        {"symbol": "ETH", "net_usd": -229200000}]})
+    _pairs = _re4.findall(r'class="ww-net [a-z]+">([^<]*)</span>'
+                          r'<span class="bd-src">([^<]*)', _rows)
+    _check(len(_pairs) == 2, fails,
+           f"K-6 canary: the by-asset rows did not render both assets: {_pairs}")
+    for _a, _wd in _pairs:
+        _bad = (_a.startswith("-") and _wd == "off exchanges") or \
+               (_a.startswith("+") and _wd == "onto exchanges")
+        _check(not _bad, fails,
+               f"K-6 canary: {_a} is labelled {_wd!r}, so the sign and the words say "
+               f"opposite things about the same movement")
+
+    # And the page says the convention once, at the top.
+    _fl = os.path.join(_sb4.PUBLISH, "flows.html")
+    if os.path.exists(_fl):
+        _h = open(_fl, encoding="utf-8", errors="ignore").read()
+        _check("Off exchanges is positive and green" in _h, fails,
+               "K-6 canary: the Whale Watch page does not state the sign convention, "
+               "so a reader has to infer it from the colours")
+    return fails
+
+
 def _news_lane_canary():
     """K-2: what the front page's news lane is allowed to say is new.
 
@@ -522,6 +576,7 @@ def layer1_canary():
     fails.extend(_leverage_belt_canary())
     fails.extend(_one_leverage_canary())
     fails.extend(_news_lane_canary())
+    fails.extend(_flow_sign_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
