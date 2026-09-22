@@ -98,6 +98,11 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
   position:sticky;top:0;z-index:50}
 .mh-nav .wrap{display:flex;align-items:center;gap:26px;padding-top:10px;padding-bottom:10px;overflow-x:auto;scrollbar-width:none}
 .mh-nav .wrap::-webkit-scrollbar{display:none}
+/* K-9: the fade says there is more nav to the right, and appears only when there is.
+   Without it the row just stopped after "Chart Master" and five links, News among
+   them, were invisible to a phone reader who did not think to swipe a nav. */
+.mh-nav .wrap[data-more]{-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);
+          mask-image:linear-gradient(90deg,#000 86%,transparent)}
 .mh-nav a{font-family:var(--sans);font-weight:600;font-size:13.5px;letter-spacing:.02em;
   color:var(--muted);white-space:nowrap;text-transform:uppercase}
 .mh-nav a:hover,.mh-nav a.active{color:var(--ink);text-decoration:none}

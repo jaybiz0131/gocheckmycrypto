@@ -1491,10 +1491,17 @@ def market_strip(pulse=None):
      Re-checked on resize and after the prices land, because a longer price is a wider
      tick and the answer changes with the numbers. */
   function markMore(){
-    var r=document.querySelector('.markets .mk-run');
-    if(!r) return;
-    if(r.scrollWidth > r.clientWidth + 1) r.setAttribute('data-more','');
-    else r.removeAttribute('data-more');
+    /* K-9: THE NAV IS THE SAME PROBLEM AS THE STRIP. At 375 it scrolls, but only three
+       of eight links are visible at rest and nothing said the other five existed: the
+       row simply stopped after "Chart Master". News, which K-1 had just made the answer
+       to "where is the news", was one of the five a phone reader could not see.
+       One function marks both, because they are one behaviour. */
+    ['.markets .mk-run', '.mh-nav .wrap'].forEach(function(sel){
+      var r = document.querySelector(sel);
+      if (!r) return;
+      if (r.scrollWidth > r.clientWidth + 1) r.setAttribute('data-more', '');
+      else r.removeAttribute('data-more');
+    });
   }
   markMore();
   window.addEventListener('resize', markMore);
@@ -5479,7 +5486,7 @@ def render_home(items, flows, pulse, cm, dateline):
   <div class="wrap cb-inner">
     <div class="bd-sec"><div class="bd-sec-l">
       <span class="bd-eyebrow">The Board</span>
-      <h2 class="cb-claim" id="bd-board">Every number that matters today, in plain language</h2>
+      <h2 class="cb-claim" id="bd-board">Eight numbers explained every day, and news checked against them</h2>
     </div><span class="bd-subrow"><a class="bd-more" href="/pulse/prices">The Top 100</a>
       <a class="bd-more" href="/learn.html">How to read the Board</a></span></div>
     <p class="cb-sell"><span class="cb-sell-full">Eight numbers, read in the order a desk

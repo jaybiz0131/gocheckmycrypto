@@ -330,6 +330,40 @@ CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.htm
                 "standards.html", "method.html", "whale-watch.html")
 
 
+def _first_screen_canary():
+    """K-9: what a phone reader can reach, and what the page says it is.
+
+    THE NAV SCROLLS AND SAID NOTHING. At 375 the row showed three of eight links and
+    simply stopped after "Chart Master": News, The Edition, The Record, Learn and About
+    were all reachable only by swiping a nav nobody swipes. News was among them, which
+    is the one K-1 had just made the answer to "where is the news".
+    """
+    import site_build as _sb8
+    fails = []
+    _css = os.path.join(_sb8.ASSETS, "site.css")
+    if os.path.exists(_css):
+        _c = open(_css, encoding="utf-8").read()
+        _check(".mh-nav .wrap[data-more]" in _c, fails,
+               "K-9 canary: the nav has no cut mark, so on a phone it stops after three "
+               "links with nothing saying five more exist")
+    _js = _sb8.market_strip(_sb8.load_pulse())
+    _check(".mh-nav .wrap" in _js, fails,
+           "K-9 canary: nothing marks the nav as cut; the strip and the nav are one "
+           "behaviour and one function should mark both")
+
+    _ix = os.path.join(_sb8.PUBLISH, "index.html")
+    if os.path.exists(_ix):
+        _h = open(_ix, encoding="utf-8", errors="ignore").read()
+        # ONE LINE SAYING WHAT THE SITE IS, and only one.
+        _n = _h.count("Eight numbers explained every day")
+        _check(_n == 1, fails,
+               f"K-9 canary: the line that says what this site is appears {_n} times; "
+               f"it is the one line of its kind on the page or it is noise")
+        _check("cb-claim" in _h, fails,
+               "K-9 canary: the Board's title carries no line under it")
+    return fails
+
+
 def _coin_chart_canary():
     """K-7: the coin chart, and the high that sat below the price.
 
@@ -771,6 +805,7 @@ def layer1_canary():
     fails.extend(_where_is_news_canary())
     fails.extend(_chartmaster_charts_canary())
     fails.extend(_coin_chart_canary())
+    fails.extend(_first_screen_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
