@@ -728,6 +728,19 @@ def _leverage_belt_canary():
            f"the belt, which is the sentence that went out on 19 September: {_p}")
     _check(any("open-interest" in x for x in _p), fails,
            "K-4 canary: an open-interest figure with no venue passed the belt")
+    # THE FIXTURE PAIR (owner, 22 September). The belt compares the two PRINTED numbers
+    # against each other and never against stored data that may be from another hour:
+    # the per-interval rate times three intervals a day times 365, within rounding of
+    # the annualized figure beside it.
+    for _e, _a, _want in (("0.01", "11.0", True),      # 0.01 x 1,095 = 10.95
+                          ("0.0021", "2.3", True),     # 0.0021 x 1,095 = 2.30
+                          ("0.01", "8", False)):       # 10.95 is not 8
+        _t = (f"Bitcoin funds at {_e}% per 8-hour interval on OKX, annualizing to "
+              f"{_a}%. Open interest on OKX is 2.45 billion.")
+        _p2 = _cm.leverage_problems(_t, lev)
+        _check(bool(_p2) != _want, fails,
+               f"K-4 canary: {_e}% per eight hours printed as {_a}% annualized should "
+               f"{'pass' if _want else 'fail'} and did not: {_p2}")
     good = ("Bitcoin funding on OKX is running at 10.5% annualized. Open interest on "
             "OKX remains substantial (Bitcoin 2.45 billion).")
     _check(_cm.leverage_problems(good, lev) == [], fails,
