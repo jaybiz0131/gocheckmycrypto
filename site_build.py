@@ -3252,6 +3252,182 @@ def _lead_chart(btc, w=640, h=190):
             f'{label}</svg>')
 
 
+def _cm_axis(lo, hi, x0, x1, y0, y1, fmt, ticks=4):
+    """K-3: a y-axis and its gridlines, in the page's own tokens.
+
+    The Board's lead chart is a shape without a scale, which is right for a tile beside
+    a number. A page whose whole subject is the chart needs to say what the numbers are.
+    """
+    out, span = [], (hi - lo) or 1.0
+    for i in range(ticks + 1):
+        v = lo + span * i / ticks
+        y = y1 - (v - lo) / span * (y1 - y0)
+        out.append(f'<line x1="{x0}" y1="{y:.1f}" x2="{x1}" y2="{y:.1f}" '
+                   f'stroke="var(--line)" stroke-width="1"></line>')
+        out.append(f'<text x="{x0 - 6}" y="{y + 3.5:.1f}" text-anchor="end" '
+                   f'font-family="var(--mono)" font-size="10" fill="var(--faint)">'
+                   f'{esc(fmt(v))}</text>')
+    return "".join(out)
+
+
+def _cm_dates(window, x0, x1, y, n=3):
+    """Date ticks from the window the series already carries."""
+    w = window or {}
+    a, b = w.get("start"), w.get("end")
+    if not (a and b):
+        return ""
+    out = [f'<text x="{x0}" y="{y}" font-family="var(--mono)" font-size="10" '
+           f'fill="var(--faint)">{esc(a)}</text>',
+           f'<text x="{x1}" y="{y}" text-anchor="end" font-family="var(--mono)" '
+           f'font-size="10" fill="var(--faint)">{esc(b)}</text>']
+    return "".join(out)
+
+
+def cm_price_chart(btc, w=660, h=240):
+    """K-3, chart one: the price over its window with the 50-day and 200-day averages.
+
+    The golden cross the read keeps describing in prose, drawn. When the 50-day is above
+    the 200-day the caption says so, because that is the whole reason both lines are on
+    the chart.
+    """
+    pts = [v for v in (btc.get("spark") or []) if isinstance(v, (int, float))]
+    s50 = [v for v in (btc.get("spark_sma50") or []) if isinstance(v, (int, float))]
+    s200 = [v for v in (btc.get("spark_sma200") or []) if isinstance(v, (int, float))]
+    if len(pts) < 6:
+        return ""
+    allv = pts + s50 + s200
+    lo, hi = min(allv), max(allv)
+    x0, x1, y0, y1 = 64, w - 12, 16, h - 34
+    step = (x1 - x0) / (len(pts) - 1)
+
+    def _y(v):
+        return y1 - (v - lo) / ((hi - lo) or 1.0) * (y1 - y0)
+
+    def _poly(vals, stroke, width, dash=""):
+        if len(vals) != len(pts):
+            return ""
+        d = " ".join(f"{x0 + i * step:.1f},{_y(v):.1f}" for i, v in enumerate(vals))
+        da = f' stroke-dasharray="{dash}"' if dash else ""
+        return (f'<polyline fill="none" stroke="{stroke}" stroke-width="{width}"{da} '
+                f'stroke-linejoin="round" points="{d}"></polyline>')
+
+    up = pts[-1] >= pts[0]
+    col = "var(--up)" if up else "var(--down)"
+    body = (_cm_axis(lo, hi, x0, x1, y0, y1, lambda v: _price_fmt(v))
+            + _poly(s200, "var(--faint)", 1.2, "5 4")
+            + _poly(s50, "var(--muted)", 1.2, "2 3")
+            + _poly(pts, col, 1.8)
+            + _cm_dates(btc.get("window"), x0, x1, h - 10))
+    cross = btc.get("golden_cross")
+    cap = ("The 50-day average is above the 200-day: what chartists call a golden cross."
+           if cross else
+           "The 50-day average is below the 200-day.")
+    return (f'<figure class="cm-fig"><svg class="cm-chart" viewBox="0 0 {w} {h}" '
+            f'role="img" aria-label="Bitcoin price with the 50-day and 200-day averages. '
+            f'Low {lo:,.0f}, high {hi:,.0f}, latest {pts[-1]:,.0f}.">{body}</svg>'
+            f'<figcaption class="cm-cap"><b>Bitcoin, with its 50-day and 200-day '
+            f'averages.</b> {esc(cap)} Solid line is the price; the dashes are the '
+            f'averages.</figcaption></figure>')
+
+
+def cm_rsi_chart(btc, w=660, h=150):
+    """K-3, chart two: the 14-day RSI against its 30 and 70 lines.
+
+    ONE READING, NOT A SERIES, AND THE CHART SAYS SO. The desk stores rsi14 as a single
+    number; there is no history behind it. Drawing a line through one point would be
+    inventing 63 more, so this is a scale with a marker on it, which is what the number
+    actually is: a position between two thresholds.
+    """
+    r = btc.get("rsi14")
+    if not isinstance(r, (int, float)):
+        return ""
+    x0, x1, y0, y1 = 64, w - 12, 20, h - 40
+    def _x(v):
+        return x0 + (max(0.0, min(100.0, v)) / 100.0) * (x1 - x0)
+    band = (f'<rect x="{_x(30):.1f}" y="{y0}" width="{_x(70) - _x(30):.1f}" '
+            f'height="{y1 - y0}" fill="var(--line)" fill-opacity="0.35"></rect>')
+    lines = "".join(
+        f'<line x1="{_x(v):.1f}" y1="{y0}" x2="{_x(v):.1f}" y2="{y1}" '
+        f'stroke="var(--faint)" stroke-width="1" stroke-dasharray="4 4"></line>'
+        f'<text x="{_x(v):.1f}" y="{y1 + 14}" text-anchor="middle" '
+        f'font-family="var(--mono)" font-size="10" fill="var(--faint)">{v}</text>'
+        for v in (30, 70))
+    ends = "".join(
+        f'<text x="{_x(v):.1f}" y="{y1 + 14}" text-anchor="{a}" '
+        f'font-family="var(--mono)" font-size="10" fill="var(--faint)">{v}</text>'
+        for v, a in ((0, "start"), (100, "end")))
+    col = "var(--down)" if r >= 70 else ("var(--up)" if r <= 30 else "var(--ink)")
+    mark = (f'<line x1="{_x(r):.1f}" y1="{y0 - 4}" x2="{_x(r):.1f}" y2="{y1 + 4}" '
+            f'stroke="{col}" stroke-width="2.5"></line>'
+            f'<text x="{_x(r):.1f}" y="{y0 - 8}" text-anchor="middle" '
+            f'font-family="var(--mono)" font-size="12" fill="{col}">{r:.1f}</text>')
+    where = ("above 70, which chartists read as overbought" if r >= 70
+             else "below 30, which chartists read as oversold" if r <= 30
+             else "between 30 and 70, the middle of its range")
+    return (f'<figure class="cm-fig"><svg class="cm-chart" viewBox="0 0 {w} {h}" '
+            f'role="img" aria-label="The 14-day RSI is {r:.1f}, on a scale of 0 to 100 '
+            f'with lines at 30 and 70.">{band}{lines}{ends}{mark}</svg>'
+            f'<figcaption class="cm-cap"><b>The 14-day RSI, one reading.</b> It sits '
+            f'{esc(where)}. The desk holds today\u2019s figure and no history behind it, '
+            f'so this is the scale and where today falls on it, not a line through '
+            f'time.</figcaption></figure>')
+
+
+def cm_leverage_chart(lev, w=660, h=200):
+    """K-3, chart three: funding and open interest, with the venue in the title.
+
+    Two series on one panel and two scales, so each axis belongs to one line and the
+    chart says which. The venue is named because one exchange's book is not the market's,
+    which is the same rule K-4's belt puts on the prose.
+    """
+    a = next((x for x in ((lev or {}).get("assets") or [])
+              if str(x.get("symbol") or "").upper() == "BTC"), None)
+    if not a:
+        return ""
+    fh = [v for v in (a.get("funding_history_pct") or []) if isinstance(v, (int, float))]
+    oh = [v for v in (a.get("oi_history_usd") or []) if isinstance(v, (int, float))]
+    if len(fh) < 4 and len(oh) < 4:
+        return ""
+    x0, x1, y0, y1 = 64, w - 64, 18, h - 34
+    out = []
+    if len(oh) >= 4:
+        lo, hi = min(oh), max(oh)
+        st = (x1 - x0) / (len(oh) - 1)
+        d = " ".join(f"{x0 + i * st:.1f},"
+                     f"{y1 - (v - lo) / ((hi - lo) or 1) * (y1 - y0):.1f}"
+                     for i, v in enumerate(oh))
+        out.append(f'<polygon fill="var(--muted)" fill-opacity="0.15" points="'
+                   f'{x0:.1f},{y1:.1f} {d} {x1:.1f},{y1:.1f}"></polygon>')
+        out.append(f'<polyline fill="none" stroke="var(--muted)" stroke-width="1.4" '
+                   f'points="{d}"></polyline>')
+        for v, anch, xx in ((hi, "end", x0 - 6), (lo, "end", x0 - 6)):
+            yy = y1 - (v - lo) / ((hi - lo) or 1) * (y1 - y0)
+            out.append(f'<text x="{xx}" y="{yy + 3.5:.1f}" text-anchor="{anch}" '
+                       f'font-family="var(--mono)" font-size="10" '
+                       f'fill="var(--faint)">{esc(fmt_usd(v))}</text>')
+    if len(fh) >= 4:
+        lo, hi = min(fh), max(fh)
+        st = (x1 - x0) / (len(fh) - 1)
+        d = " ".join(f"{x0 + i * st:.1f},"
+                     f"{y1 - (v - lo) / ((hi - lo) or 1) * (y1 - y0):.1f}"
+                     for i, v in enumerate(fh))
+        out.append(f'<polyline fill="none" stroke="var(--up)" stroke-width="1.6" '
+                   f'points="{d}"></polyline>')
+        for v in (hi, lo):
+            yy = y1 - (v - lo) / ((hi - lo) or 1) * (y1 - y0)
+            out.append(f'<text x="{x1 + 6}" y="{yy + 3.5:.1f}" '
+                       f'font-family="var(--mono)" font-size="10" '
+                       f'fill="var(--faint)">{v * 1095:.0f}%</text>')
+    venue = (a.get("venue") or "").strip() or "one venue"
+    return (f'<figure class="cm-fig"><svg class="cm-chart" viewBox="0 0 {w} {h}" '
+            f'role="img" aria-label="Open interest and funding for Bitcoin on '
+            f'{esc(venue)}.">{"".join(out)}</svg>'
+            f'<figcaption class="cm-cap"><b>{esc(venue)}, Bitcoin: open interest and '
+            f'funding.</b> The filled area is open interest, read on the left; the green '
+            f'line is the funding rate annualized, read on the right. One exchange\u2019s '
+            f'book, not the market\u2019s.</figcaption></figure>')
+
+
 def _last_week_value(btc):
     """A-10: "this time last week", from the same series, or "" when it does not reach
     back a week."""
@@ -8018,7 +8194,7 @@ def _cm_at_a_glance(sectioned):
             f'<ul>{"".join(rows)}</ul></div>')
 
 
-def render_chartmaster(read, dateline):
+def render_chartmaster(read, dateline, pulse=None):
     # UX-8 (C-4): THE ORACLE CHALLENGE AND THE WIZARD'S EXAM ARE GONE. The first asked
     # the reader to call Bitcoin higher or lower by tomorrow, on a page whose own first
     # line is "describe the tape, never predict it" and under a footer that says the
@@ -8040,6 +8216,20 @@ def render_chartmaster(read, dateline):
         (f'<h3 class="cm-sub">{esc(lab)}</h3>' if lab else "") + f"<p>{esc(txt)}</p>"
         for lab, txt in _sec)
     paras = _glance + paras
+    # K-3: THE CHARTS, above the prose. The page had zero images and zero SVGs on a
+    # subject that is entirely charts: the read described a golden cross in words on a
+    # page that would not draw one.
+    _btc = next((x for x in ((pulse or {}).get("assets") or [])
+                 if str(x.get("symbol") or "").upper() == "BTC"), None)
+    _charts = ""
+    if _btc:
+        _charts = (cm_price_chart(_btc) + cm_rsi_chart(_btc)
+                   + cm_leverage_chart((pulse or {}).get("leverage")))
+    if _charts:
+        _charts = ('<div class="bd-sec"><div class="bd-sec-l">'
+                   '<span class="bd-eyebrow">The tape</span>'
+                   '<h2 class="bd-h2">What the numbers look like</h2></div></div>'
+                   + f'<div class="cm-charts">{_charts}</div>')
     # K-4: A CORRECTION IS PART OF THE READ, not a note in a file. This read went out
     # saying Bitcoin funding stood at "0.96% per eight hours, annualized to 10.5%", and
     # the feed's figure is 0.0096% per eight hours: a hundred times out, contradicting
@@ -8051,6 +8241,20 @@ def render_chartmaster(read, dateline):
                  f'{esc(read["correction"])}</p>') + paras
     # A read older than the current dateline quotes numbers the live boards have moved past;
     # say so rather than let it read as today's.
+    # K-3: A READ MORE THAN 36 HOURS OLD SAYS SO, ABOVE ITSELF. The cadence is daily;
+    # anything past a day and a half means a run did not produce one, and a reader
+    # should meet that before the prose rather than infer it from a date further down.
+    last_note = ""
+    try:
+        import datetime as _dcm
+        _rd = _dcm.datetime.strptime(str(read.get("date") or "")[:10], "%Y-%m-%d")
+        _age_h = (_build_now().replace(tzinfo=None) - _rd).total_seconds() / 3600
+        if _age_h > 36:
+            last_note = (f'<p class="pc-note cm-last"><b>Last read '
+                         f'{esc(fmt_date(read["date"]))}.</b> The Chart Master reads the '
+                         f'tape once a day; this one is the most recent.</p>')
+    except Exception:
+        pass
     stale_note = ""
     if read.get("date") and fmt_date(read["date"]).upper() != (dateline or "").upper():
         stale_note = (f'<p class="pc-note"><b>From the Master\'s ledger, {esc(fmt_date(read["date"]))}.</b> '
@@ -8062,9 +8266,11 @@ def render_chartmaster(read, dateline):
         '<div class="ey"><span class="tag">the read</span>'
         f'<span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>'
         f'<h3 class="cm-headline">{esc(destyle(read.get("headline", "")))}</h3>')
-    read_html = (f"""<div class="sec-head" style="margin-top:8px"><h2>The Chart Master's read</h2><span class="bar"></span></div>
+    read_html = (f"""{_charts}
+  <div class="sec-head" style="margin-top:8px"><h2>The Chart Master's read</h2><span class="bar"></span></div>
   <article class="pulse-card cm-read">
     {head_html}
+    {last_note}
     {stale_note}
     <div class="prose">{paras}</div>
     <p class="pc-note">The Chart Master reads the day's <a href="/pulse.html">Market
@@ -8714,7 +8920,7 @@ def build():
     if _wire:
         w("wire.html", _wire)
         print(f"wire: {len(_wire_rows(items))} entr(ies)")
-    w("chartmaster.html", render_chartmaster(cm, dateline))
+    w("chartmaster.html", render_chartmaster(cm, dateline, pulse))
     w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))
     w(os.path.join("pulse", "movers.html"), render_pulse_movers(pulse, dateline))

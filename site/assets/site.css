@@ -1952,3 +1952,20 @@ header.masthead{position:relative;z-index:300}
   .nh-r{grid-template-columns:auto auto;grid-template-areas:"t k" "x x";gap:4px 10px}
   .nh-t{grid-area:t} .nh-k{grid-area:k} .nh-x{grid-area:x;font-size:14.5px}
 }
+
+
+/* K-3: the Chart Master's charts. The page's whole subject is the tape, so the charts
+   get a scale, a date range and a caption in the desk's own voice. They scale with the
+   column rather than stretching, because a price line squashed to fit is a different
+   shape from the one the numbers make. */
+.cm-charts{display:flex;flex-direction:column;gap:22px;margin:14px 0 26px}
+.cm-fig{margin:0}
+.cm-chart{width:100%;height:auto;display:block;background:var(--card);
+  border:1px solid var(--line);border-radius:10px}
+.cm-cap{margin:8px 2px 0;font-size:13px;line-height:1.45;color:var(--muted)}
+.cm-cap b{color:var(--ink);font-weight:600}
+.cm-last{margin-bottom:10px}
+@media (max-width:640px){
+  .cm-charts{gap:18px}
+  .cm-cap{font-size:12.5px}
+}

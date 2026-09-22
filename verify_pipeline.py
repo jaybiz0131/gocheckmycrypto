@@ -330,6 +330,61 @@ CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.htm
                 "standards.html", "method.html", "whale-watch.html")
 
 
+def _chartmaster_charts_canary():
+    """K-3: the Chart Master's page draws the tape it describes.
+
+    The page had ZERO images and ZERO SVGs on a subject that is entirely charts: the
+    read described a golden cross in prose on a page that would not draw one.
+    """
+    import site_build as _sb6
+    import json as _j6
+    fails = []
+    _pf = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       "site", "data", "pulse.json")
+    if not os.path.exists(_pf):
+        return fails
+    _p = _j6.load(open(_pf, encoding="utf-8"))
+    _btc = next((x for x in (_p.get("assets") or [])
+                 if str(x.get("symbol") or "").upper() == "BTC"), None)
+    _check(_btc is not None, fails, "K-3 canary: no Bitcoin row to chart")
+    if not _btc:
+        return fails
+    for _name, _svg in (("price", _sb6.cm_price_chart(_btc)),
+                        ("rsi", _sb6.cm_rsi_chart(_btc)),
+                        ("leverage", _sb6.cm_leverage_chart(_p.get("leverage")))):
+        _check("<svg" in _svg, fails,
+               f"K-3 canary: the {_name} chart draws nothing")
+        _check("<figcaption" in _svg, fails,
+               f"K-3 canary: the {_name} chart has no caption, so a reader is left to "
+               f"work out what they are looking at")
+        _check('role="img"' in _svg and "aria-label" in _svg, fails,
+               f"K-3 canary: the {_name} chart is invisible to a screen reader")
+    # The price chart carries a scale, which is the difference between this page and a
+    # tile: a tile's chart is a shape beside a number, this page's subject IS the chart.
+    _pc = _sb6.cm_price_chart(_btc)
+    _check(_pc.count("<text") >= 5, fails,
+           "K-3 canary: the price chart has no y-axis labels")
+    _check("golden cross" in _pc or "below the 200-day" in _pc, fails,
+           "K-3 canary: the price chart does not say what the two averages are doing, "
+           "which is the reason both lines are on it")
+    # The venue is named on the leverage chart, the same rule K-4 puts on the prose.
+    _lc = _sb6.cm_leverage_chart(_p.get("leverage"))
+    if _lc:
+        _check("OKX" in _lc, fails,
+               "K-3 canary: the leverage chart names no venue; one exchange's book is "
+               "not the market's")
+    # And the page itself carries them.
+    _cm = os.path.join(_sb6.PUBLISH, "chartmaster.html")
+    if os.path.exists(_cm):
+        _h = open(_cm, encoding="utf-8", errors="ignore").read()
+        _check(_h.count("cm-fig") >= 3, fails,
+               f"K-3 canary: the page carries {_h.count('cm-fig')} figures, not three")
+        _check(_h.find("cm-charts") < _h.find("cm-read"), fails,
+               "K-3 canary: the charts are below the read, so the page still opens on "
+               "prose about numbers the reader cannot see")
+    return fails
+
+
 def _where_is_news_canary():
     """K-1: a first-time visitor can tell which thing is the news.
 
@@ -636,6 +691,7 @@ def layer1_canary():
     fails.extend(_news_lane_canary())
     fails.extend(_flow_sign_canary())
     fails.extend(_where_is_news_canary())
+    fails.extend(_chartmaster_charts_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
