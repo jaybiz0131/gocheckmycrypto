@@ -718,9 +718,14 @@ def _leverage_belt_canary():
     bad = ("Bitcoin funding rates stand at 0.96% per eight hours, annualized to 10.5%. "
            "Open interest remains substantial (Bitcoin 2.45 billion).")
     _p = _cm.leverage_problems(bad, lev)
-    _check(any("eight-hour funding rate" in x for x in _p), fails,
-           "K-4 canary: an eight-hour funding rate a hundred times too large passed the "
-           "belt, which is the sentence that went out on 19 September")
+    # Asserted on the BEHAVIOUR, not the wording. The first version matched the phrase
+    # "eight-hour funding rate", so rewriting the belt's message to name the arithmetic
+    # it had just done made the canary fail over a sentence the belt was catching
+    # correctly. What must hold is that the sentence is rejected and the reason names
+    # the eight-hour figure.
+    _check(any("0.96" in x for x in _p), fails,
+           f"K-4 canary: an eight-hour funding rate a hundred times too large passed "
+           f"the belt, which is the sentence that went out on 19 September: {_p}")
     _check(any("open-interest" in x for x in _p), fails,
            "K-4 canary: an open-interest figure with no venue passed the belt")
     good = ("Bitcoin funding on OKX is running at 10.5% annualized. Open interest on "

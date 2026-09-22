@@ -360,24 +360,36 @@ def leverage_problems(text, leverage, who="chartmaster"):
 
     import re as _re
     # An eight-hour funding figure, stated as a percentage, with its window named.
+    # THE TWO PRINTED NUMBERS ARE CHECKED AGAINST EACH OTHER, not against the feed.
+    #
+    # The first cut compared the stated eight-hour figure to a stored funding_8h_pct and
+    # demanded the stored annual appear verbatim. That rejected a correct sentence: the
+    # read of 21 September said "0.01% per 8-hour interval, annualizing to 11%", which
+    # is 0.0096 and 10.5 rounded the way a person writes them, and 0.01 x 1,095 is 10.95.
+    # It also said nothing about an eight-hour figure for an asset the leverage board
+    # does not carry, which is the case the rule exists for.
+    #
+    # The rule Jack stated is about the sentence: the raw figure may appear only beside
+    # an annual one, and the two must reconcile within rounding.
     for m in _re.finditer(r"(\d+(?:\.\d+)?)\s*%\s*(?:per|/|an?)\s*(?:eight|8)[\s-]*hour",
                           low):
         said = float(m.group(1))
-        ok = False
-        for a in assets:
-            eight = a.get("funding_8h_pct")
-            ann = a.get("funding_annual_pct")
-            if eight is None or ann is None:
-                continue
-            # The figure must BE the eight-hour rate, and the annual must be in the
-            # text and must reconcile with it.
-            if abs(said - float(eight)) < 0.0005 and str(round(float(ann), 1)) in low:
-                ok = True
-                break
-        if not ok:
-            out.append(f"{who}: an eight-hour funding rate of {said}% is stated without "
-                       f"an annual figure that reconciles with it (8h x 1,095 = annual). "
-                       f"State the annualized rate and name the venue.")
+        tail = low[m.end():m.end() + 120]
+        ann = _re.search(r"annualiz\w*\s*(?:to\s*)?(?:about\s*)?(\d+(?:\.\d+)?)\s*%?",
+                         tail) or _re.search(r"(\d+(?:\.\d+)?)\s*%\s*a\s*year", tail)
+        if not ann:
+            out.append(f"{who}: an eight-hour funding rate of {said}% is stated with no "
+                       f"annual figure beside it. State the annualized rate, which is "
+                       f"the figure a reader can hold against anything else.")
+            continue
+        want = said * 1095.0
+        got = float(ann.group(1))
+        # Generous, because both numbers are written the way a person writes them: the
+        # eight-hour figure is rounded to two decimals before it is multiplied.
+        if abs(got - want) > max(1.5, want * 0.12):
+            out.append(f"{who}: {said}% per eight hours annualizes to about "
+                       f"{want:.1f}%, and the sentence says {got}%. One of the two is "
+                       f"wrong and a reader doing the arithmetic will find it.")
 
     # Funding named at all must carry the venue.
     if "funding" in low and venues and not any(v.lower() in low for v in venues):
