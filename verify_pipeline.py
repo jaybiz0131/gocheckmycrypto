@@ -330,6 +330,84 @@ CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.htm
                 "standards.html", "method.html", "whale-watch.html")
 
 
+def _coin_chart_canary():
+    """K-7: the coin chart, and the high that sat below the price.
+
+    The page printed a seven-day line with no axis, no dates and no range, and its high
+    came from a DIFFERENT snapshot than the price above it: on 21 September btc.html
+    showed $85,698.00 over a high of $85,288.13. A high below the current price is not
+    rounding, it is two sources on one screen.
+
+    The browser draws the chart now, from the same place it already reads the live
+    price, so the line, the high, the low and the price are one series. What a canary
+    can hold is the shape of that: the build's line stays as the fallback, it says it
+    is the fallback, and its own range includes the price it sits under.
+    """
+    import site_build as _sb7
+    import json as _j7
+    import re as _re7
+    fails = []
+    _pf = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       "site", "data", "pulse.json")
+    if not os.path.exists(_pf):
+        return fails
+    _p = _j7.load(open(_pf, encoding="utf-8"))
+    _coins = (_p.get("movers") or {}).get("top100") or []
+    if not _coins:
+        return fails
+
+    _js = _sb7.COIN_CHART_JS
+    _check("market_chart" in _js, fails,
+           "K-7 canary: the chart does not fetch its own history, so it is still the "
+           "build's shape with no scale")
+    _check("data-days" in _sb7.render_coin_page(_coins[0], 1, _p, [], "x"), fails,
+           "K-7 canary: the chart offers no ranges")
+    _check("cn-cross" in _js and "mousemove" in _js, fails,
+           "K-7 canary: the chart has no hover readout, so a reader cannot get a date "
+           "and a price off it")
+    _check("sma(" in _js, fails,
+           "K-7 canary: the averages are not computed from the series shown, so they "
+           "would be a second source on a chart built to end that")
+
+    # THE HIGH IS NEVER BELOW THE PRICE, on every coin the desk builds a page for. This
+    # is the defect itself, checked against the data rather than against one page.
+    # READ OFF THE RENDERED PAGE, not recomputed. The first cut of this check built the
+    # range itself as spark + [price] and then asked whether the max was below the
+    # price, which it cannot be: the price is in the list. A check that cannot fail is
+    # worse than no check, and this one would have passed with the fix deleted.
+    _bad = []
+    for _c in _coins[:40]:
+        _sp = [v for v in (_c.get("spark7d") or []) if isinstance(v, (int, float))]
+        _pr = _c.get("price")
+        if not _sp or not isinstance(_pr, (int, float)):
+            continue
+        _html = _sb7.render_coin_page(_c, 1, _p, [], "x")
+        # BOTH NUMBERS AS THE READER SEES THEM. Comparing the formatted high against the
+        # raw price flagged SUI, whose price is 1.044 and whose high is the same value
+        # rendered "$1.04": two spellings of one number, and not a contradiction on the
+        # page at all. The contradiction is only real if the two printed strings
+        # disagree, so both come off the rendered page.
+        _mh = _re7.search(r"High (\$[\d,]+(?:\.\d+)?)", _html)
+        _mp = _re7.search(r'class="cn-v"><span>(\$[\d,]+(?:\.\d+)?)', _html)
+        if not (_mh and _mp):
+            continue
+        _f = lambda t: float(t.replace("$", "").replace(",", ""))
+        if _f(_mh.group(1)) < _f(_mp.group(1)):
+            _bad.append(f"{_c.get('symbol')} high {_mh.group(1)} < price {_mp.group(1)}")
+    _check(not _bad, fails,
+           f"K-7 canary: {len(_bad)} coin page(s) print a high below the price beside "
+           f"it, which is the defect itself: {_bad[:3]}")
+    # And the page that renders it carries the fallback and says so.
+    _one = _sb7.render_coin_page(_coins[0], 1, _p, [], "x")
+    _check("data-fallback" in _one, fails,
+           "K-7 canary: there is no fallback line, so a blocked fetch leaves an empty "
+           "box where the chart was")
+    _check("from the last build" in _one, fails,
+           "K-7 canary: the fallback does not say it is the fallback, so a stale line "
+           "reads as a live one")
+    return fails
+
+
 def _chartmaster_charts_canary():
     """K-3: the Chart Master's page draws the tape it describes.
 
@@ -692,6 +770,7 @@ def layer1_canary():
     fails.extend(_flow_sign_canary())
     fails.extend(_where_is_news_canary())
     fails.extend(_chartmaster_charts_canary())
+    fails.extend(_coin_chart_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())

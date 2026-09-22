@@ -7698,8 +7698,160 @@ def _coin_stories(c, items, n=6):
     return [i for i in out if _claim(i.get("slug"))][:n]
 
 
+COIN_CHART_JS = """<script>(function(){
+  /* K-7: THE COIN CHART, DRAWN IN THE BROWSER.
+
+     The build's line is a shape with no scale, no dates and no range, and its high and
+     low came from a DIFFERENT snapshot than the price above it: on 21 September this
+     page showed a price of $85,698.00 over a high of $85,288.13. A high below the
+     current price is not a rounding problem, it is two sources on one screen.
+
+     The browser already reads CoinGecko for the live price. It reads the history from
+     the same place, so the chart, its high, its low and the price above them come from
+     ONE series. No build and no deploy are involved.
+
+     The build's line stays as the fallback and says so, because a blocked fetch should
+     leave a reader with the last thing the desk knew rather than an empty box. */
+  var wrap = document.querySelector('[data-coin-chart]');
+  if (!wrap || !wrap.getAttribute('data-coin-id')) return;
+  var id = wrap.getAttribute('data-coin-id');
+  var host = wrap.querySelector('.cn-chart');
+  var cap = wrap.querySelector('[data-coin-cap]');
+  var dir = wrap.getAttribute('data-dir') === 'down' ? 'var(--down)' : 'var(--up)';
+  var cache = {};                       /* one fetch per range, for this visit */
+
+  function money(v){
+    var d = v >= 1 ? 2 : 6;
+    return '$' + Number(v).toLocaleString('en-US',
+      {minimumFractionDigits: d, maximumFractionDigits: d});
+  }
+  function shortDate(ms){
+    return new Date(ms).toLocaleDateString('en-US',
+      {month: 'short', day: 'numeric'});
+  }
+  function sma(vals, n){
+    if (vals.length < n) return null;
+    var out = [], run = 0;
+    for (var i = 0; i < vals.length; i++){
+      run += vals[i];
+      if (i >= n) run -= vals[i - n];
+      out.push(i >= n - 1 ? run / n : null);
+    }
+    return out;
+  }
+
+  function draw(series, days){
+    var W = 980, H = 260, L = 76, R = 14, T = 14, B = 34;
+    var vals = series.map(function(p){ return p[1]; });
+    var m50 = sma(vals, 50), m200 = sma(vals, 200);
+    var pool = vals.slice();
+    [m50, m200].forEach(function(m){
+      if (m) m.forEach(function(v){ if (v !== null) pool.push(v); });
+    });
+    var lo = Math.min.apply(null, pool), hi = Math.max.apply(null, pool);
+    var span = (hi - lo) || 1;
+    var x = function(i){ return L + i * (W - L - R) / Math.max(1, vals.length - 1); };
+    var y = function(v){ return H - B - (v - lo) / span * (H - B - T); };
+
+    var parts = [];
+    for (var t = 0; t <= 4; t++){
+      var gv = lo + span * t / 4, gy = y(gv);
+      parts.push('<line x1="' + L + '" y1="' + gy.toFixed(1) + '" x2="' + (W - R) +
+                 '" y2="' + gy.toFixed(1) + '" stroke="var(--line)"></line>');
+      parts.push('<text x="' + (L - 8) + '" y="' + (gy + 3.5).toFixed(1) +
+                 '" text-anchor="end" font-family="var(--mono)" font-size="11" ' +
+                 'fill="var(--faint)">' + money(gv) + '</text>');
+    }
+    [0, Math.floor(vals.length / 2), vals.length - 1].forEach(function(i, k){
+      parts.push('<text x="' + x(i).toFixed(1) + '" y="' + (H - 10) +
+                 '" text-anchor="' + (k === 0 ? 'start' : k === 2 ? 'end' : 'middle') +
+                 '" font-family="var(--mono)" font-size="11" fill="var(--faint)">' +
+                 shortDate(series[i][0]) + '</text>');
+    });
+    function poly(arr, stroke, w, dash){
+      var pts = [];
+      for (var i = 0; i < arr.length; i++){
+        if (arr[i] === null || arr[i] === undefined) continue;
+        pts.push(x(i).toFixed(1) + ',' + y(arr[i]).toFixed(1));
+      }
+      if (pts.length < 2) return '';
+      return '<polyline fill="none" stroke="' + stroke + '" stroke-width="' + w +
+             '"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') +
+             ' stroke-linejoin="round" points="' + pts.join(' ') + '"></polyline>';
+    }
+    if (m200) parts.push(poly(m200, 'var(--faint)', 1.2, '5 4'));
+    if (m50) parts.push(poly(m50, 'var(--muted)', 1.2, '2 3'));
+    parts.push(poly(vals, dir, 1.8));
+
+    host.innerHTML = '<svg class="cn-svg" viewBox="0 0 ' + W + ' ' + H + '" ' +
+      'role="img" aria-label="' + days + ' days of price. Low ' + money(lo) +
+      ', high ' + money(hi) + ', latest ' + money(vals[vals.length - 1]) + '.">' +
+      parts.join('') + '<rect class="cn-hit" x="' + L + '" y="' + T + '" width="' +
+      (W - L - R) + '" height="' + (H - B - T) + '" fill="transparent"></rect>' +
+      '<line class="cn-cross" x1="0" y1="' + T + '" x2="0" y2="' + (H - B) +
+      '" stroke="var(--muted)" stroke-width="1" style="display:none"></line></svg>' +
+      '<div class="cn-read" hidden></div>';
+
+    /* THE HIGH AND LOW ARE THE SERIES ON SCREEN, which is the whole point: they cannot
+       disagree with the line above them because they are measured from it. */
+    var mas = [];
+    if (m50 && m50[m50.length - 1] !== null) mas.push('50-day ' + money(m50[m50.length - 1]));
+    if (m200 && m200[m200.length - 1] !== null) mas.push('200-day ' + money(m200[m200.length - 1]));
+    cap.innerHTML = (days === 365 ? 'One year' : days + ' days') +
+      ', from CoinGecko. High ' + money(hi) + ', low ' + money(lo) + '.' +
+      (mas.length ? ' ' + mas.join(', ') + '.' : '') +
+      ' <span class="cn-stamp">read ' + new Date().toLocaleTimeString('en-US',
+        {timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit'}) + ' ET</span>';
+
+    var svg = host.querySelector('svg');
+    var cross = svg.querySelector('.cn-cross');
+    var read = host.querySelector('.cn-read');
+    svg.addEventListener('mousemove', function(ev){
+      var b = svg.getBoundingClientRect();
+      var px = (ev.clientX - b.left) / b.width * W;
+      var i = Math.round((px - L) / ((W - L - R) / Math.max(1, vals.length - 1)));
+      if (i < 0 || i >= vals.length) return;
+      cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i));
+      cross.style.display = '';
+      read.hidden = false;
+      read.textContent = shortDate(series[i][0]) + ' \u00b7 ' + money(vals[i]);
+    });
+    svg.addEventListener('mouseleave', function(){
+      cross.style.display = 'none'; read.hidden = true;
+    });
+  }
+
+  function load(days){
+    if (cache[days]) { draw(cache[days], days); return; }
+    fetch('https://api.coingecko.com/api/v3/coins/' + encodeURIComponent(id) +
+          '/market_chart?vs_currency=usd&days=' + days)
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        var s = d && d.prices;
+        if (!s || s.length < 3) return;          /* the build's line stands */
+        cache[days] = s;
+        draw(s, days);
+      })
+      .catch(function(){ /* the build's line stands, with its own stamp */ });
+  }
+
+  wrap.querySelectorAll('.cn-rg').forEach(function(b){
+    b.addEventListener('click', function(){
+      wrap.querySelectorAll('.cn-rg').forEach(function(x){
+        x.classList.toggle('on', x === b);
+      });
+      load(parseInt(b.getAttribute('data-days'), 10));
+    });
+  });
+  load(7);
+})();</script>"""
+
+
 def render_coin_page(c, pos, pulse, items, dateline):
     sym = c.get("symbol") or ""
+    # K-7: CoinGecko's own id for this coin, which is what its market_chart route takes.
+    # The page already knows it; the chart needs it to fetch its own history.
+    cid = (c.get("gecko_id") or "").strip()
     name = c.get("name") or sym
     spark = c.get("spark7d") or []
     up = len(spark) >= 2 and spark[-1] >= spark[0]
@@ -7720,12 +7872,39 @@ def render_coin_page(c, pos, pulse, items, dateline):
         # A trend line with no scale is a shape, not a reading. The high and the low
         # are the minimum and maximum of the series the chart is drawn from, so the
         # caption names two values the chart actually reaches.
-        lo, hi = min(spark), max(spark)
-        chart = (f'<div class="chartcard cn-chart" style="color:'
-                 f'{"var(--up)" if up else "var(--down)"}">'
+        # THE FALLBACK'S HIGH MUST NOT SIT BELOW THE PRICE ABOVE IT. That was the
+        # original defect and it survives in the fallback if the range is taken from
+        # the spark alone: the spark is the Board's last seven-day read and the price
+        # beside it is live, so on a coin that has risen since the snapshot the "high"
+        # is lower than the current price. The current price is part of the period the
+        # caption describes, so it is part of the range.
+        _rng = list(spark)
+        if isinstance(c.get("price"), (int, float)):
+            _rng.append(c["price"])
+        lo, hi = min(_rng), max(_rng)
+        # K-7: THE BUILD'S LINE IS THE FALLBACK, NOT THE CHART. It is a shape with no
+        # scale, no dates and no range, and its high and low came from a DIFFERENT
+        # snapshot than the price above it: on 21 September the page showed a price of
+        # $85,698.00 over a high of $85,288.13, a high lower than the current price,
+        # which is a straightforward contradiction on one screen.
+        #
+        # The browser already reads CoinGecko for the live price. It reads the history
+        # from the same place, so the chart, its high, its low and the price above them
+        # all come from ONE series. No build and no deploy are involved.
+        chart = (f'<div class="cn-chartwrap" data-coin-chart data-coin-id="{esc(cid)}" '
+                 f'data-dir="{"up" if up else "down"}">'
+                 f'<div class="cn-ranges" role="group" aria-label="Chart range">'
+                 + "".join(f'<button type="button" class="cn-rg'
+                           f'{" on" if d == 7 else ""}" data-days="{d}">{lab}</button>'
+                           for d, lab in ((7, "7D"), (30, "30D"), (90, "90D"),
+                                          (365, "1Y")))
+                 + f'</div>'
+                 f'<div class="chartcard cn-chart" style="color:'
+                 f'{"var(--up)" if up else "var(--down)"}" data-fallback>'
                  f'{spark_svg(spark, w=980, h=150)}</div>'
-                 f'<p class="pc-note">Seven days, as the Board reads it. '
-                 f'High {esc(_price_fmt(hi))}, low {esc(_price_fmt(lo))}.</p>')
+                 f'<p class="pc-note" data-coin-cap>Seven days, as the Board reads it. '
+                 f'High {esc(_price_fmt(hi))}, low {esc(_price_fmt(lo))}. '
+                 f'<span class="cn-stamp">from the last build</span></p></div>')
 
     board, asset = _coin_board_read(sym, pulse)
     board_html = ""
@@ -7771,7 +7950,7 @@ def render_coin_page(c, pos, pulse, items, dateline):
   <nav class="st-nav" aria-label="Related">
     <a class="st-nav-a" href="/pulse/prices">The Top 100</a>
     <a class="st-nav-a" href="/pulse.html">The Board</a>
-    <a class="st-nav-a" href="/learn.html">How to read the Board</a></nav>"""
+    <a class="st-nav-a" href="/learn.html">How to read the Board</a></nav>""" + COIN_CHART_JS
     return _dash_shell(f"coin-{_coin_slug(c)}", f"{name} ({sym})",
                        f"{name} price, 24-hour, 7-day and 30-day change, market cap and "
                        f"supply, with the Board's read and the desk's reporting.",

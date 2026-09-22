@@ -1969,3 +1969,23 @@ header.masthead{position:relative;z-index:300}
   .cm-charts{gap:18px}
   .cm-cap{font-size:12.5px}
 }
+
+
+/* K-7: the coin chart's controls and readout. */
+.cn-ranges{display:flex;gap:6px;margin:0 0 10px}
+.cn-rg{appearance:none;background:none;border:1px solid var(--line);border-radius:999px;
+  padding:4px 12px;min-height:32px;color:var(--muted);font-family:var(--mono);
+  font-size:12px;font-weight:700;cursor:pointer}
+.cn-rg:hover{color:var(--ink);border-color:var(--rule)}
+.cn-rg.on{background:var(--card);border-color:var(--rule);color:var(--ink)}
+.cn-rg:focus-visible{outline:2px solid var(--rule);outline-offset:2px}
+.cn-chartwrap{position:relative}
+.cn-svg{width:100%;height:auto;display:block}
+.cn-read{position:absolute;top:44px;right:10px;font-family:var(--mono);font-size:12px;
+  background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 8px;
+  color:var(--ink);pointer-events:none}
+.cn-stamp{color:var(--faint)}
+@media (max-width:640px){
+  .cn-rg{min-height:40px;padding:4px 14px}
+  .cn-read{top:40px;right:6px;font-size:11.5px}
+}
