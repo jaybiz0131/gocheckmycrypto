@@ -83,11 +83,29 @@ ACCESSIBILITY_ARTICLE_COUNT = "141"
 # because it is already in the footer. The Record was reachable from nothing.
 # N-1 and N-2 amend C-4: Home leads, and the Chart Master is reachable from the nav
 # again - its archive is the dated list of reads C-14 asked for.
-NAV = [("Home", "/index.html"), ("The Board", "/pulse.html"),
+# K-1: WHERE THE NEWS IS.
+#
+# The nav offered "News desk", "The Record" and "The Edition", the home page carried a
+# Board brief, an Edition card, a "From the news desk" lane, a Record lane and a Record
+# index, and the Wire was in the nav at all. A first-time visitor could not tell which
+# of those was the news. One word does it: News.
+#
+# "The Board" leaves the nav because the HOME PAGE IS THE BOARD. Nothing moves and no
+# URL changes: /pulse.html is still the full Board, reached from the hero's "The Top 100
+# and how to read the Board" and from every tile's Explained link.
+#
+# The Record and The Edition keep their names, because they are named things a reader
+# comes back for, and the Record's nav entry now says what it is on hover.
+NAV = [("Home", "/index.html"),
        ("Whale Watch", "/flows.html"), ("Chart Master", "/chartmaster.html"),
-       ("Learn", "/learn.html"), ("News desk", "/news.html"),
-       ("The Record", "/record.html"), ("The Edition", "/bottom-line.html"),
+       ("News", "/news.html"),
+       ("The Edition", "/bottom-line.html"),
+       ("The Record", "/record.html"),
+       ("Learn", "/learn.html"),
        ("About", "/about.html")]
+
+# The one nav entry whose name does not say what it holds.
+NAV_TITLES = {"/record.html": "what stays true after the news moves on"}
 
 
 # ---- helpers -----------------------------------------------------------------
@@ -1244,7 +1262,7 @@ def render_wire(items, dateline, now=None):
         dateline, path="/wire.html")
 
 
-def _wire_rows(items, now=None):
+def _wire_rows(items, now=None, hours=None):
     """C-L2 / E-2: THE WIRE. Everything this desk did, newest first, stamped.
 
     The Sports desk's Wire answers "what has happened since I last looked" and the
@@ -1258,7 +1276,7 @@ def _wire_rows(items, now=None):
     """
     import datetime as _dt
     now = now or _build_now()
-    cut = now - _dt.timedelta(hours=WIRE_HOURS)
+    cut = now - _dt.timedelta(hours=hours or WIRE_HOURS)
     rows = []
 
     for it in (items or []):
@@ -1360,7 +1378,9 @@ def masthead(active, dateline, brand="site"):
     tagline. `brand` is kept in the signature so the callers that pass "cronkite" keep
     working; it no longer selects anything."""
     nav = "".join(
-        f'<a href="{esc(href)}"{" class=active" if label == active else ""}>{esc(label)}</a>'
+        f'<a href="{esc(href)}"{" class=active" if label == active else ""}'
+        + (f' title="{esc(NAV_TITLES[href])}"' if href in NAV_TITLES else "")
+        + f'>{esc(label)}</a>'
         for label, href in NAV)
     fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
     brand_row = f"""<a class="mh-brand" href="/index.html" style="margin-top:8px">
@@ -4208,12 +4228,14 @@ TAB_BAR = [
      "M3 15l4-6 3 4 3-7 4 9"),                                # a series
     ("Whales", "/flows.html",
      "M3 12c3-5 11-5 14 0M6 12v3M10 12v4M14 12v3"),           # flows
-    ("Learn", "/learn.html",
-     "M4 5h12v10H4zM7 8h6M7 11h6"),                           # a page
+    # K-1: News sits in the middle of the bar, where a thumb reaches first, and Learn
+    # moves to the end. A first-time visitor's question is where the news is.
     ("News", "/news.html",
      "M3 5h14v10H3zM6 8h5M6 11h8"),                           # a sheet
     ("Edition", "/bottom-line.html",
      "M5 3h10v14H5zM8 7h4M8 10h4M8 13h3"),                    # the edition
+    ("Learn", "/learn.html",
+     "M4 5h12v10H4zM7 8h6M7 11h6"),                           # a page
 ]
 
 
@@ -4941,13 +4963,15 @@ def render_record(items, dateline):
     """/record.html: every lane, same shape as the homepage sections."""
     _page_reset()          # UX-11: a page starts with nothing claimed
     body = f"""<main class="wrap"><section class="page">
-  <h1 class="sr-only">The Record: what stays true after the news moves on</h1>
+  <h1 class="lx-h1" style="margin-bottom:4px">The Record</h1>
+  <p class="lx-dek">What stays true after the news moves on.</p>
   {record_sections(items, home=False)}
   {record_full_index(items, shown=0)}
 </section></main>"""
     return shell(f"The Record - {NAME}",
                  "The desk's standing work, by lane: what each piece establishes and the "
-                 "receipts behind it.", "", body, dateline, path="/record.html")
+                 "receipts behind it.", "The Record", body, dateline,
+                 path="/record.html")
 
 
 # ---- C4: the news hub ---------------------------------------------------------
@@ -5064,6 +5088,46 @@ def _news_section(lane, past=False):
             f'<div class="nh-rows">{"".join(_news_row(i) for i in shown)}</div></section>')
 
 
+def _news_latest(items, n=40):
+    """K-1: THE NEWS FRONT LEADS WITH WHAT IS NEWEST, whatever kind it is.
+
+    The page was a storyline library, which is the right second half and a strange first
+    one: a reader arriving at "News" wants to know what has happened, and was shown a
+    taxonomy. The top half is now every kind the desk publishes, newest first, grouped
+    by day, each one stamped: a story, a Board reading, an Edition.
+
+    It reuses the Wire's own gatherer, so the two pages cannot disagree about what
+    happened or when, and the Wire stays the full log at the foot.
+    """
+    # FORTY DEEP, not forty-eight hours deep. The Wire is a log of the last two days
+    # and is right to be; a news front is the desk's recent work and a quiet week must
+    # not empty it. It takes the newest forty, whatever they are and however far back
+    # they reach, and every one carries its own date so nothing reads as today.
+    rows = _wire_rows(items, None, hours=24 * 30)[:n]
+    if not rows:
+        return ""
+    out, day = [], None
+    for r in rows:
+        et = r["t"].astimezone(_ET)
+        d = et.strftime("%A, %B %-d")
+        if d != day:
+            if day is not None:
+                out.append("</ol>")
+            out.append(f'<h3 class="nh-day">{esc(d)}</h3><ol class="nh-l">')
+            day = d
+        out.append(
+            f'<li class="nh-r"><span class="nh-t">{esc(et.strftime("%-I:%M %p"))} ET'
+            f'</span><span class="nh-k nh-k-{esc(r["kind"].lower())}">{esc(r["kind"])}'
+            f'</span><a class="nh-x" href="{r["href"]}">{esc(r["text"])}</a></li>')
+    out.append("</ol>")
+    return ('<div class="bd-sec"><div class="bd-sec-l">'
+            '<span class="bd-eyebrow">Newest first</span>'
+            '<h2 class="bd-h2">What has happened</h2></div></div>'
+            + "".join(out)
+            + '<p class="bd-src nh-wire">The full log, including every Board reading: '
+              '<a href="/wire.html">the Wire</a>.</p>')
+
+
 def render_news_hub(items, dateline, pulse=None):
     """/news.html (C4)."""
     lanes, rest, live = _news_lane_index(items)
@@ -5103,13 +5167,15 @@ def render_news_hub(items, dateline, pulse=None):
                      + "".join(_news_section(L, past=True) for L in past) + '</section>')
 
     body = f"""<main class="wrap"><section class="page">
-  <h1 class="lx-h1" style="margin-bottom:6px">The news desk</h1>
-  <p class="lx-dek">{len(live)} checked stories, grouped by the storyline they belong to.
-     Every source linked, every figure tied to a Board number.</p>
+  <h1 class="lx-h1" style="margin-bottom:6px">News</h1>
+  <p class="lx-dek">Everything this desk has published, newest first, then the same work
+     grouped by the storyline it belongs to. Every source linked, every figure tied to a
+     Board number.</p>
+  {_news_latest(items)}
   {rec}
   <div class="bd-sec" style="margin-top:26px"><div class="bd-sec-l">
     <span class="bd-eyebrow">Storylines</span>
-    <h2 class="bd-h2">What the desk is following</h2></div></div>
+    <h2 class="bd-h2">By storyline</h2></div></div>
   <nav class="nh-jump" aria-label="Jump to a storyline">{jump}</nav>
   {"".join(_news_section(L) for L in current)}
   {past_html}
@@ -5118,7 +5184,7 @@ def render_news_hub(items, dateline, pulse=None):
     return shell(f"Crypto news by storyline - {NAME}",
                  "Every checked story on the desk, grouped by storyline: regulation, "
                  "ETFs, exchanges and security, stablecoins, network, DeFi and markets.",
-                 "News desk", body, dateline, path="/news.html",
+                 "News", body, dateline, path="/news.html",
                  schema_extra=_news_jsonld("/news.html", "The news desk",
                                            "Checked crypto stories by storyline", live,
                                            [("Home", "/"), ("News desk", "/news.html")]))

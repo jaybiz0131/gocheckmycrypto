@@ -330,6 +330,64 @@ CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.htm
                 "standards.html", "method.html", "whale-watch.html")
 
 
+def _where_is_news_canary():
+    """K-1: a first-time visitor can tell which thing is the news.
+
+    The nav offered "News desk", "The Record" and "The Edition"; the home page carried a
+    Board brief, an Edition card, a "From the news desk" lane, a Record lane and a
+    Record index. Five surfaces, and the one word that would have answered the question
+    was not among them.
+    """
+    import site_build as _sb5
+    import re as _re5
+    fails = []
+    _labels = [l for l, _ in _sb5.NAV]
+    _check("News" in _labels, fails,
+           f"K-1 canary: the nav has no entry called simply News: {_labels}")
+    _check("News desk" not in _labels, fails,
+           "K-1 canary: the nav still says 'News desk', which is a place and not a thing "
+           "to read")
+    _check("The Board" not in _labels, fails,
+           "K-1 canary: The Board is in the nav, and the home page IS the Board")
+    _check(_sb5.NAV_TITLES.get("/record.html"), fails,
+           "K-1 canary: the Record's nav entry does not say what it holds")
+    _tabs = [l for l, _, _ in _sb5.TAB_BAR]
+    _check(_tabs == ["Board", "Whales", "News", "Edition", "Learn"], fails,
+           f"K-1 canary: the phone tab bar is {_tabs}")
+
+    _pub = _sb5.PUBLISH
+    _nh = os.path.join(_pub, "news.html")
+    if os.path.exists(_nh):
+        _h = open(_nh, encoding="utf-8", errors="ignore").read()
+        _check("What has happened" in _h, fails,
+               "K-1 canary: the news front does not lead with what happened; it opens "
+               "on a taxonomy")
+        _check("By storyline" in _h, fails,
+               "K-1 canary: the storyline library is gone from the news front")
+        _rows = len(_re5.findall(r'class="nh-r"', _h))
+        _check(_rows >= 2, fails,
+               f"K-1 canary: the news front's chronological half has {_rows} row(s)")
+        _check("/wire.html" in _h, fails,
+               "K-1 canary: the Wire is not linked from the news front, and it is not "
+               "in the nav either, so it is unreachable")
+        # The first item on the front IS the newest thing the desk published.
+        _first = _re5.search(r'class="nh-x" href="[^"]*">([^<]+)', _h)
+        _rows_src = _sb5._wire_rows(_sb5.load_content(), None, hours=24 * 30)
+        if _first and _rows_src:
+            _check(_first.group(1).strip()[:40] == _rows_src[0]["text"].strip()[:40],
+                   fails,
+                   f"K-1 canary: the news front does not open on the newest item: "
+                   f"{_first.group(1)[:40]!r} vs {_rows_src[0]['text'][:40]!r}")
+    # The Board did not move: it is still reachable from the home page.
+    _ix = os.path.join(_pub, "index.html")
+    if os.path.exists(_ix):
+        _ih = open(_ix, encoding="utf-8", errors="ignore").read()
+        _check(_ih.count("/pulse.html") >= 2, fails,
+               "K-1 canary: The Board left the nav and the home page does not link it, "
+               "so the full Board is now hard to reach")
+    return fails
+
+
 def _flow_sign_canary():
     """K-6: one convention for an exchange flow, on every surface.
 
@@ -577,6 +635,7 @@ def layer1_canary():
     fails.extend(_one_leverage_canary())
     fails.extend(_news_lane_canary())
     fails.extend(_flow_sign_canary())
+    fails.extend(_where_is_news_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
