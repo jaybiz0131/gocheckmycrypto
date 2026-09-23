@@ -1,48 +1,6 @@
 [
  {
   "date": "2026-08-20",
-  "approved": 2,
-  "rejected": [
-   {
-    "id": "c002",
-    "headline": "Bitcoin Breaks Above $71,000 as Short Liquidations Spike",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'The liquidation spike signals rapid forced covering of bearish positions as the price move triggered margin calls' but this explanatory claim is not present in the brief's data_points. The brief contains no mechanism or causal explanation for the liquidations\u2014only that they occurred.",
-     "The draft claims '$3 billion in short liquidations, marking the largest short liquidation since at least 2021' but the brief shows confidence as 'reported', not 'verified'. This framing reads as settled fact when the brief flags it as announced-not-verified language risk. The draft should have preserved that hedging."
-    ]
-   },
-   {
-    "id": "c046",
-    "headline": "Six-Bug Exploit Drains $1.4M Bitcoin From Maya Protocol, Forces Network Halt",
-    "category": "accuracy",
-    "reasons": [
-     "The final paragraph states 'The specific nature of the six vulnerabilities, how they were chained, and the precise attack vector remain unreported in available sources.' This is a narrative assertion about absence\u2014a fact that is not in the brief. The writer is forbidden from narrating absence; open_questions may list unknowns, but the draft may not construct prose around what was not reported. This violates the rule: no fact exists outside the brief.",
-     "The sentence 'Similarly, the total value locked in the protocol at the time of the exploit, the full roster of assets stolen beyond Bitcoin, and any recovery or insurance mechanism the protocol maintains have not been disclosed' does the same\u2014it narrates absence, not what sources say. This is a secondary violation of the same rule."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "HSBC and Standard Chartered Execute First Live Transaction on Swift's Blockchain Ledger",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief exists for this draft. Per protocol: 'the writer's hard rule was: no fact exists outside the brief.' Without a brief, every factual claim must be verified against the cited sources themselves, but the protocol mandates facts trace to a research brief. This draft cannot be evaluated under the approval framework without a brief document.",
-     "Alternatively, if the absence of a brief means the draft should be judged solely against its cited sources, the claim 'the first live transaction on Swift's blockchain-based ledger on August 19' cannot be verified here: the actual source text is not provided in the input, only URLs. The approval framework requires traceable data_points from a brief or explicit source text."
-    ]
-   },
-   {
-    "id": "c033",
-    "headline": "OCC Accelerates Stablecoin Charter Rulemaking to Meet November Deadline",
-    "category": "accuracy",
-    "reasons": [
-     "The brief contains zero data_points (data_points: []). The draft makes specific factual claims\u2014'The OCC is racing to finalize the national stablecoin charter framework by November,' 'less than three months from the sources' publication date to regulatory finalization,' 'January 2027 effective date'\u2014but none of these claims appear in the brief's data_points. Per protocol, facts must trace back to data_points in the brief. With an empty data_points array, the draft has smuggled all its facts outside the research.",
-     "The brief explicitly notes 'No source texts were provided' and lists open_questions rather than confirmed claims. The draft presents timeline claims and regulatory mechanics as reported fact when the brief itself confirms no verified data points exist."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-20",
   "approved": 3,
   "rejected": [
    {
@@ -5050,6 +5008,39 @@
     "reasons": [
      "Draft claims Bridge Building has obtained formal authorization as EMT issuer: 'The reporting does not specify whether Bridge Building has obtained formal authorization as an electronic money token issuer under the EU's Markets in Crypto Regulation.' This sentence itself does not make a claim about whether the license exists; it correctly flags it as unreported. However, the title 'Revolut Starts EURR Rollout With Bridge as Regulated Issuer' asserts Bridge is a 'Regulated Issuer' as fact, while the brief's open_questions explicitly list 'Has Bridge Building obtained formal MiCA authorization as an issuer of electronic money tokens?' as unresolved. The draft body then admits 'The reporting does not specify whether Bridge Building has obtained formal authorization,' contradicting the title's assertion. This is a factual claim presented without brief support.",
      "The title asserts a regulatory status (regulated issuer) that the draft itself identifies as unreported and unconfirmed. A reader would be misled by the title into believing Bridge holds the license when the body admits the reporting does not specify this."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-09-23",
+  "approved": 6,
+  "rejected": [
+   {
+    "id": "c009",
+    "headline": "MoonPay Agrees to Acquire SEC-Registered North Capital in $60 Million All-Stock Deal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states the deal is 'valued at more than $60 million' but the brief's first data_point cites 'The Defiant (citing CoinDesk sources)' as the source for this valuation. The draft attributes the deal only to CoinDesk and Cointelegraph in the opening paragraph and sources list. The Defiant is the actual reported source for the deal structure and valuation per the brief, but does not appear in the draft's sources or attribution. This is a sourcing gap: the desk's single primary source (CoinDesk) may not have independently confirmed the valuation; The Defiant may be the originating report.",
+     "The brief lists The Defiant as the source for the core deal structure ('all-stock' and '$60 million') with timestamp 2026-09-23T13:00:00Z, but the draft cites only CoinDesk (no timestamp provided in brief's CoinDesk data_point for this specific claim) and Cointelegraph. Traceability fails: the reader cannot verify that CoinDesk independently confirmed the $60 million figure or if the draft is relying on The Defiant's reporting without attribution."
+    ]
+   },
+   {
+    "id": "c159",
+    "headline": "Circle launches StableFX, 24/7 stablecoin FX settlement service on Arc blockchain",
+    "category": "accuracy",
+    "reasons": [
+     "Draft includes claim about Ondo Stocks in-kind minting via Alpaca that does not appear in the brief data_points for c159. The brief's seventh data_point sourced to a different article ('ondo-opens-in-kind-minting-for-tokenized-us-stocks') which is about a different product and service entirely. This claim was smuggled into the story; it belongs to a separate story about Ondo's minting flow, not StableFX.",
+     "The brief's c159 data_points are exclusively about Circle, Arc, StableFX, USDC, EURC, and related operational details. The Ondo/Alpaca claim violates the hard rule: no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c119",
+    "headline": "SEC grants exemption for tokenized stock trading; CFTC widens software relief same day",
+    "category": "accuracy",
+    "reasons": [
+     "Draft opens with 'The Securities and Exchange Commission issued a five-year conditional exemption allowing tokenized National Market System stocks to trade on permissioned automated market makers' as a past event. Today is 2026-09-23. The brief data_point states 'issued on Thursday' which refers to a date two days after the Senate blocked the CLARITY Act. The brief states 'Both actions came two days after the Senate blocked the CLARITY Act' but does not specify what calendar date the exemption was issued\u2014only that it was 'Thursday.' If 'Thursday' was 2026-09-23 (today, Wednesday), then the exemption has not yet been issued. If 'Thursday' refers to a future date (2026-09-25), the draft incorrectly reports it as already happened.",
+     "The approval instruction is explicit: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT.' The temporal relationship is ambiguous in the brief but the draft's past-tense framing of an event that may be scheduled creates liability."
     ]
    }
   ]

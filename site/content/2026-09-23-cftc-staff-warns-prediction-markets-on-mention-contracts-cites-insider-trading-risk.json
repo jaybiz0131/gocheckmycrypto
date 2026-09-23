@@ -1,0 +1,43 @@
+{
+  "id": "c002",
+  "slug": "cftc-staff-warns-prediction-markets-on-mention-contracts-cites-insider-trading-risk",
+  "kind": "brief",
+  "title": "CFTC staff warns prediction markets on mention contracts, cites insider-trading risk",
+  "dek": "The CFTC's Division of Market Oversight issued an advisory identifying prediction market contracts settling on whether a named individual says certain words, attends events, or interacts with others as presenting heightened manipulation risk. The advisory sets conditions for listing these contracts but does not ban them.",
+  "date": "2026-09-23",
+  "published_utc": "2026-09-23T23:12:30Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "The CFTC has flagged mention market contracts (bets on whether a named person will say a word, attend an event, or interact with someone) as readily susceptible to manipulation because traders or insiders can induce the outcome by influencing the person's conduct.",
+  "bottom_line": "The advisory is guidance, not a binding rule, and the presumption of manipulation can be rebutted, leaving room for exchanges to design mention market contracts that regulators may eventually approve. The real test will be whether any exchange actually submits a mention market contract for CFTC approval and whether staff's conditions for rebutting the presumption prove workable in practice. If the next enforcement action targets an exchange or trader in a mention market, that signals the CFTC intends to move beyond advisory to prosecution.",
+  "human_take": "",
+  "body": [
+    "The CFTC's Division of Market Oversight issued an advisory on September 22 identifying prediction market contracts settling on whether a named individual says certain words, attends events, or interacts with others as presenting heightened manipulation risk, according to the CFTC press release. Mention market contracts settle on whether a named individual will say or mention certain words, attend or appear at an event, or otherwise interact with another person, per the CFTC.",
+    "These contract types present a heightened risk of manipulation because their settlement turns on the discrete conduct of a person that may be neither independently generated nor externally verifiable, according to the CFTC. The category of mention markets reaches well beyond speech, taking in contracts on attendance, handshakes, photographs and social media engagement, per Decrypt.",
+    "The advisory cites the example of a contract on whether a podcast host uses a catchphrase; the host can simply say it, and a trader can induce the outcome by submitting a question or paying for an on-air mention, according to Decrypt. Those nearest the outcome often hold scripts, prepared remarks or guest lists, which staff treat as material nonpublic information, per Decrypt.",
+    "The advisory does not ban mention market contracts. Instead, it outlines the limited circumstances in which such contracts may be listed consistently with the Commodity Exchange Act and Commission regulations, according to the CFTC. The advisory reminds designated contract markets (DCMs) of their obligation under Core Principle 3 to list only contracts that are not readily susceptible to manipulation, per the CFTC. The presumption can be rebutted. Staff will weigh whether the individual faces legal or professional obligations that deter interference, whether they can be pressured by others, whether the conduct is independently verifiable and publicly scrutinized, and how robust the exchange's own surveillance is, per Decrypt.",
+    "Staff suggest restricted lists of participants with contract affiliations, third-party screening, pop-up warnings before trading, and position limits sized so that manipulation would cost more than it could earn, per Decrypt. The advisory carries no legal force, representing the views of division staff rather than the Commission, according to Decrypt. The advisory is signed by acting director Duncan Hennes, per Decrypt.",
+    "The advisory follows the CFTC's settlement last month with Gabriel Perez, a former White House teleprompter operator who was fined $172,000 over trades on presidential mention contracts using speeches he had seen in advance, according to Decrypt. In June the Commission proposed a framework for judging whether a contract involves terrorism, assassination, war, gaming or unlawful conduct, and would bar sports contracts settling on discrete player actions such as fouls or individual plays, per Decrypt. In April the Justice Department and the CFTC sued Illinois, Arizona and Connecticut to assert the agency's exclusive authority over sports event contracts, according to Decrypt."
+  ],
+  "sources": [
+    {
+      "title": "https://www.cftc.gov/PressRoom/PressReleases/9302-26",
+      "url": "https://www.cftc.gov/PressRoom/PressReleases/9302-26"
+    },
+    {
+      "title": "https://decrypt.co/379030/cftc-staff-advisory-says-prediction-market-mention-contracts-invite-manipulation",
+      "url": "https://decrypt.co/379030/cftc-staff-advisory-says-prediction-market-mention-contracts-invite-manipulation"
+    },
+    {
+      "title": "https://cointelegraph.com/news/cftc-issues-warning-over-risky-prediction-market-mention-contracts?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/cftc-issues-warning-over-risky-prediction-market-mention-contracts?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "also_reported_by": [
+    "Decrypt",
+    "Cointelegraph"
+  ],
+  "developing": false
+}

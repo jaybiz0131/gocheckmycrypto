@@ -1,0 +1,28 @@
+{
+  "id": "c018",
+  "slug": "solana-begins-testing-alpenglow-upgrade-targeting-150-millisecond-finality",
+  "kind": "brief",
+  "title": "Solana Begins Testing Alpenglow Upgrade Targeting 150-Millisecond Finality",
+  "dek": "Solana has started testing the Alpenglow upgrade on testnet, which aims to reduce transaction finality from the current 12.8 seconds to 150 milliseconds. The improvement would allow exchanges, bridges, and merchants to treat payments as irreversible almost immediately, removing a technical barrier to real-time financial applications.",
+  "date": "2026-09-23",
+  "published_utc": "2026-09-23T23:12:30Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "Solana is testing an upgrade that would cut finality time by 98 percent, from 12.8 seconds to 150 milliseconds, enabling near-instant settlement for payments and bridges.",
+  "bottom_line": "Mainnet deployment timing for Alpenglow and any validator coordination requirements will determine how quickly the protocol can claim finality parity with traditional payment systems.",
+  "human_take": "",
+  "body": [
+    "Solana has begun testing the Alpenglow upgrade on its testnet, which would reduce transaction finality from 12.8 seconds to 150 milliseconds, according to CoinDesk. The improvement would allow exchanges, bridges, and merchants to treat payments as irreversible almost immediately, removing latency as a friction point for real-time financial applications on the network."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/09/23/solana-starts-testing-upgrade-that-could-cut-finality-from-12-8-seconds-to-150-milliseconds",
+      "url": "https://www.coindesk.com/tech/2026/09/23/solana-starts-testing-upgrade-that-could-cut-finality-from-12-8-seconds-to-150-milliseconds"
+    }
+  ],
+  "update_of": "solana-raises-transaction-size-limit-to-4-096-bytes-via-transaction-v1-upgrade",
+  "also_reported_by": [],
+  "developing": true
+}

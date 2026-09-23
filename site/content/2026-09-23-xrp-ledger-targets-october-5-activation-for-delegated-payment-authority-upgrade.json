@@ -1,0 +1,30 @@
+{
+  "id": "c017",
+  "slug": "xrp-ledger-targets-october-5-activation-for-delegated-payment-authority-upgrade",
+  "kind": "brief",
+  "title": "XRP Ledger targets October 5 activation for delegated payment authority upgrade",
+  "dek": "The XRP Ledger is targeting an October 5 activation date for a network upgrade that enables businesses to grant another account limited powers, such as making payments or approving customers, without transferring full control. The upgrade is designed to address operational needs of regulated financial institutions.",
+  "date": "2026-09-23",
+  "published_utc": "2026-09-23T23:12:30Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "XRP Ledger upgrade targeting October 5 activation will enable delegated payment authority without full account control.",
+  "bottom_line": "The October 5 target date will be the moment to confirm whether the upgrade activates as scheduled. If activation succeeds, the next measure is which payment processors or banks begin issuing delegations into production.",
+  "human_take": "",
+  "body": [
+    "The XRP Ledger is targeting an October 5 activation for a network upgrade that enables businesses to grant another account limited powers such as making payments or approving customers without transferring full control, according to CoinDesk's reporting.",
+    "The upgrade addresses a specific operational requirement of regulated financial institutions: the ability to segregate payment execution from compliance approval. Under the current model, an account that can move funds typically holds full control. The delegated authority feature allows a business to authorize a counterparty to execute payments or approve customer actions within preset boundaries, while retaining the ability to cancel or modify those delegations.",
+    "This design pattern mirrors internal control structures common in banking, where payment officers and compliance officers operate under separate approval chains. On a blockchain ledger, the same segregation can be encoded into the account permissions themselves, reducing the need for off-chain coordination or multi-signature workflows that add operational friction.",
+    "The upgrade is described as a retry, indicating a prior attempt to activate the feature did not succeed."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/tech/2026/09/23/xrp-ledger-retries-upgrade-that-lets-banks-split-payment-and-compliance-duties",
+      "url": "https://www.coindesk.com/tech/2026/09/23/xrp-ledger-retries-upgrade-that-lets-banks-split-payment-and-compliance-duties"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": true
+}
