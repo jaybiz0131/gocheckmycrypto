@@ -228,6 +228,51 @@ def _corpus_integrity_canary():
     return fails
 
 
+def _stamp_canary():
+    """U-11's other half: every page names the deploy that built it.
+
+    24 September 2026. Neither desk could show that a documents-only push had NOT rebuilt
+    the site, because Netlify posts no status to GitHub and a skipped build reads exactly
+    like a paused site. The stamp settles it from the page itself, and live_read.py asserts
+    it before any number is taken off a live read (U-10).
+    """
+    import os as _o
+    import re as _r
+    import site_build as _sb
+    import live_read as _lr
+    fails = []
+
+    _c = _sb.BUILD_COMMIT
+    _check(bool(_c) and _c != "unknown", fails,
+           f"build stamp canary: the build cannot name its own commit ({_c!r}); every live "
+           f"read would then assert against 'unknown' and pass")
+    _sf = _o.path.join(_sb.PUBLISH, "stamp.txt")
+    if not _o.path.exists(_sf):
+        _check(False, fails, "build stamp canary: /stamp.txt was not written by the build")
+        return fails
+    _check(_c in open(_sf, encoding="utf-8").read(), fails,
+           "build stamp canary: /stamp.txt does not carry the commit the build used")
+    _pages = [f for f in ["index.html", "news.html", "about.html"]
+              if _o.path.exists(_o.path.join(_sb.PUBLISH, f))]
+    _check(len(_pages) >= 2, fails,
+           "build stamp canary: fewer than two built pages, so the checks below prove nothing")
+    for _pg in _pages:
+        _h = open(_o.path.join(_sb.PUBLISH, _pg), encoding="utf-8").read()
+        _m = _r.search(r'<meta name="build-commit" content="([^"]*)"', _h)
+        _check(_m is not None, fails,
+               f"build stamp canary: {_pg} carries no build-commit meta tag")
+        if _m:
+            _check(_m.group(1) == _c, fails,
+                   f"build stamp canary: {_pg}'s stamp {_m.group(1)[:12]} is not the commit "
+                   f"that built it, {_c[:12]}; the page and /stamp.txt drifted")
+    # The assertion itself must reject an empty stamp, or it compares nothing to nothing.
+    _check(_lr.META.search('<meta name="build-commit" content="0123456789abcdef">')
+           is not None, fails, "build stamp canary: live_read cannot find a stamp it is given")
+    _check(_lr.META.search('<meta name="build-commit" content="">') is None, fails,
+           "build stamp canary: live_read accepts an empty stamp as a commit")
+    return fails
+
+
 def _ignore_canary():
     """netlify_ignore decides whether a deploy runs at all, and it had no test.
 
@@ -856,6 +901,7 @@ def layer1_canary():
     fails.extend(_corpus_integrity_canary())
     fails.extend(_strip_canary())
     fails.extend(_ignore_canary())
+    fails.extend(_stamp_canary())
     cfg = common.load_config()
 
     # config + models

@@ -37,6 +37,32 @@ SITE = os.path.join(HERE, "site")
 CONTENT = os.path.join(SITE, "content")
 ASSETS = os.path.join(SITE, "assets")
 PUBLISH = os.path.join(SITE, "publish")
+
+# U-11's other half (24 September 2026). EVERY PAGE CARRIES THE COMMIT THAT BUILT IT, and so
+# does /stamp.txt. Without it a live read cannot name the deploy it is reading, and on
+# 24 September neither desk could show that a documents-only push had NOT rebuilt the site:
+# Netlify posts no status to GitHub, so a skipped build and a paused site read identically.
+#
+# Netlify supplies COMMIT_REF; locally git answers. If neither can, the stamp says "unknown"
+# rather than something plausible, because a live read asserts against this value and a
+# guessed stamp is worse than none. cwd is HERE: the first draft of this on the Sports desk
+# said ROOT, which does not exist, and the swallowed NameError turned the stamp into
+# "unknown" silently. The except stays but now prints why.
+def _build_commit():
+    ref = (os.environ.get("COMMIT_REF") or "").strip()
+    if not ref:
+        try:
+            import subprocess
+            ref = subprocess.run(["git", "rev-parse", "HEAD"], cwd=HERE,
+                                 capture_output=True, text=True, timeout=10).stdout.strip()
+        except Exception as exc:
+            print(f"build stamp: no COMMIT_REF and git could not answer ({exc}); "
+                  f"the stamp will read 'unknown'")
+            ref = ""
+    return (ref[:40] or "unknown")
+
+
+BUILD_COMMIT = _build_commit()
 PUBLISHED = os.path.join(HERE, "out", "published")
 
 # Brand: Crypto Cronkite is the focal brand (the news desk, the masthead, the audience). This site
@@ -1875,6 +1901,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<meta name="build-commit" content="{BUILD_COMMIT}">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 {robots}<link rel="alternate" type="application/rss+xml" title="{esc(NAME)} feed" href="/feed.xml">
@@ -9382,6 +9409,11 @@ def build():
     w("news-sitemap.xml", render_news_sitemap(items))
     w("robots.txt", f"User-agent: *\nAllow: /\n\n"
       f"Sitemap: {ORIGIN}/sitemap.xml\nSitemap: {ORIGIN}/news-sitemap.xml\n")
+
+    # U-11: /stamp.txt, so one request names the deploy without parsing a page. Same value
+    # as the meta tag on every page; the canary asserts they cannot drift apart.
+    w("stamp.txt", f"commit {BUILD_COMMIT}\n"
+                   f"built {_build_now().isoformat(timespec='seconds')}\n")
     # RETIRED URLS keep working. When the desk publishes the same development more than once
     # and the duplicates are merged, the surviving story takes the reporting and the retired
     # slugs 301 here. Never delete a published URL: someone linked it, and a 404 punishes the
