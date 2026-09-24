@@ -94,6 +94,28 @@ Same as the Sports handoff. Serve on 8802. The canary here is
 `python3 verify_pipeline.py canary; echo "exit=$?"` and its exit code must be read,
 not piped into `tail` and assumed.
 
+## Live as of 24 September 2026
+
+- **The deploy count method (U-11).** The day's deploy count is read from the Netlify commit
+  statuses on GitHub through `gh`, never from a Netlify token, until the Worker's deploy
+  counter is live, when that becomes the count of record:
+
+      gh api repos/jaybiz0131/gocheckmycrypto/commits/<sha>/statuses --jq '.[].context'
+
+- **The ignore rule (U-11).** `netlify_ignore.py` carries a path list: `docs/`, `shots/`,
+  `review-queue/`, any markdown outside `site/`, and the ignore file itself never build the
+  site. `site_build.py` and `chartmaster.py` are not on it and the canary asserts they still
+  build.
+- **This desk is not under the Sports freeze.** It may push outside the Edition quiet hour,
+  6:30 to 8:15 PM ET. The Sports window is Sundays 12:30 to 8:30 PM ET and no other day.
+- **The allowance** is 5 production deploys a day on this desk.
+- **K-8** waits on Jack's Worker deploy. The COUNTS namespace was created and bound on
+  24 September; the deploy carries all four routes.
+- **K-1 reads built output.** The canary compares the built `news.html` against the content
+  directory, so a pull that brings in a story without a rebuild shows up as a red canary that
+  is not a defect. Regenerate first, which is what U-10 asks (24 September: it came up red on
+  the 2026-09-23 XRP story and went green on a rebuild with no code change).
+
 ---
 
 # Standing rules, all desks
