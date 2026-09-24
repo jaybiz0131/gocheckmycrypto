@@ -254,6 +254,27 @@ def _ignore_canary():
     _skip, _why = _ni.decide(["site_build.py"])
     _check(_skip is False, fails,
            "netlify ignore canary: a change to the generator did not build")
+    # U-11 (24 September 2026): a commit that changes nothing in the published tree does not
+    # build the site. The Pet and Parents desks each found three handoff commits in their
+    # production deploy lists in one week, and the Sports desk spent two on 22 September.
+    for _d in ["docs/HANDOFF.md", "README.md", "netlify_ignore.py", "docs/notes/a.md",
+               "review-queue/2026-09-22.md"]:
+        _check(_ni.decide([_d])[0] is True, fails,
+               f"netlify ignore canary (U-11): {_d} built the site, and it cannot change a "
+               f"pixel of it")
+    _check(_ni.decide(["docs/HANDOFF.md", "README.md"])[0] is True, fails,
+           "netlify ignore canary (U-11): a commit of nothing but documents built")
+    # AND THE OTHER HALF, the half that costs a reader if it is wrong.
+    _check(_ni.decide(["docs/HANDOFF.md", "site_build.py"])[0] is False, fails,
+           "netlify ignore canary (U-11): the generator changed and the build was SKIPPED "
+           "because a handoff file rode along in the same commit")
+    _check(_ni.decide(["chartmaster.py"])[0] is False, fails,
+           "netlify ignore canary (U-11): a Chart Master change did not build")
+    _check(_ni.decide(["site/publish/index.html"])[0] is False, fails,
+           "netlify ignore canary (U-11): a published page changed and did not build")
+    _check(_ni.is_doc("site/data/x.md") is False, fails,
+           "netlify ignore canary (U-11): a markdown file INSIDE the published tree was "
+           "treated as a document; it can be served")
     # The two it is FOR: it must still skip them, or this fix has simply disabled it.
     _out = _dt.datetime(2026, 9, 22, 8, 0, tzinfo=_dt.timezone.utc)   # Tue 08:00, no window
     _check(_ni.in_posting_window(_out) is False, fails,

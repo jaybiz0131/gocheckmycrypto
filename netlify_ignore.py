@@ -32,6 +32,27 @@ WINDOWS = [
 SKIPPABLE_PREFIXES = ("site/data/inactives/",)
 SKIPPABLE_FILES = ("ledger.json",)
 
+# U-11 (24 September 2026). A COMMIT THAT CHANGES NOTHING IN THE PUBLISHED TREE DOES NOT
+# BUILD THE SITE. Checked against netlify.toml's build command on this desk, which runs
+# whale_flows.py, market_pulse.py and site_build.py: none of them reads a markdown file or
+# anything under docs/. A wrong entry here costs a missed build, so nothing goes in unchecked.
+DOC_PREFIXES = ("docs/", "shots/", "review-queue/")
+DOC_SUFFIXES = (".md",)
+# NOT the .md files by name: DOC_SUFFIXES already covers them, and naming them as well is
+# configuration that cannot fail. The Sports desk found that with a U-9 break on 24 September.
+DOC_FILES = ("netlify_ignore.py", ".gitignore")
+
+
+def is_doc(p):
+    """True when a path cannot change a single pixel of the published site.
+
+    site_build.py is deliberately NOT here: a change to the generator is the most
+    site-changing commit there is.
+    """
+    if p in DOC_FILES or p.startswith(DOC_PREFIXES):
+        return True
+    return p.endswith(DOC_SUFFIXES) and not p.startswith("site/")
+
 
 def in_posting_window(now=None):
     now = now or datetime.datetime.now(datetime.timezone.utc)
@@ -80,11 +101,15 @@ def decide(paths, now=None):
         return False, "no files changed, so this is a scheduled or hook build; the " \
                       "data desks refetch at build time and that is the point of it"
     unskippable = [p for p in paths
-                   if not (p.startswith(SKIPPABLE_PREFIXES) or p in SKIPPABLE_FILES)]
+                   if not (p.startswith(SKIPPABLE_PREFIXES) or p in SKIPPABLE_FILES
+                           or is_doc(p))]
     if unskippable:
         return False, f"{len(unskippable)} file(s) that change the site, e.g. {unskippable[0]}"
     if any(p.startswith(SKIPPABLE_PREFIXES) for p in paths) and in_posting_window(now):
         return False, "inactives changed inside a posting window; the board is the product"
+    if all(is_doc(p) for p in paths):
+        return True, (f"{len(paths)} file(s), all outside the published tree "
+                      f"(U-11), e.g. {paths[0]}")
     return True, f"{len(paths)} file(s), none of which change the site"
 
 
