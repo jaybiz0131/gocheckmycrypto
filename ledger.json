@@ -593,6 +593,21 @@
    "usd": 0.0,
    "wf": "Breaking-news watcher",
    "wrap": "synthesis"
+  },
+  {
+   "breaking": false,
+   "cron": "",
+   "ev": "workflow_dispatch",
+   "guard": "",
+   "outcome": "no report",
+   "pinged": false,
+   "pushed": false,
+   "run": "36075488332",
+   "t": "2026-09-25T00:00:53Z",
+   "tokens": 0,
+   "usd": 0.0,
+   "wf": "Breaking-news watcher",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
