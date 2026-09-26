@@ -250,8 +250,21 @@ def _stamp_canary():
     if not _o.path.exists(_sf):
         _check(False, fails, "build stamp canary: /stamp.txt was not written by the build")
         return fails
-    _check(_c in open(_sf, encoding="utf-8").read(), fails,
-           "build stamp canary: /stamp.txt does not carry the commit the build used")
+    # WHAT THIS CHECKS (fixed 26 September 2026). The first version compared the built pages
+    # against BUILD_COMMIT resolved NOW, the current HEAD, which turned the hard gate red on
+    # both desks the moment HEAD moved without a rebuild and conflated a stale local build with
+    # the defect this is for. The defect is DRIFT BETWEEN THE TWO WRITERS: the meta tag and
+    # /stamp.txt must name the same commit as each other. Whether that commit is the tip is a
+    # question about a deploy, and live_read.py asks it against the deployed page (U-10).
+    _stxt = open(_sf, encoding="utf-8").read()
+    _mb = _r.search(r"commit ([0-9a-fA-F]{7,40}|unknown)", _stxt)
+    _check(_mb is not None, fails, "build stamp canary: /stamp.txt carries no commit line")
+    _built = _mb.group(1) if _mb else ""
+    _check(_built != "unknown", fails,
+           "build stamp canary: /stamp.txt says the build could not name its commit")
+    if _built and _built != _c:
+        print(f"build stamp: the built tree is from {_built[:12]}, HEAD is {_c[:12]}; a stale "
+              f"local build, not a fault. A live read asserts the deploy (U-10).")
     _pages = [f for f in ["index.html", "news.html", "about.html"]
               if _o.path.exists(_o.path.join(_sb.PUBLISH, f))]
     _check(len(_pages) >= 2, fails,
@@ -262,9 +275,9 @@ def _stamp_canary():
         _check(_m is not None, fails,
                f"build stamp canary: {_pg} carries no build-commit meta tag")
         if _m:
-            _check(_m.group(1) == _c, fails,
-                   f"build stamp canary: {_pg}'s stamp {_m.group(1)[:12]} is not the commit "
-                   f"that built it, {_c[:12]}; the page and /stamp.txt drifted")
+            _check(_m.group(1) == _built, fails,
+                   f"build stamp canary: {_pg}'s stamp {_m.group(1)[:12]} and /stamp.txt's "
+                   f"{_built[:12]} name different commits; the two writers drifted")
     # The assertion itself must reject an empty stamp, or it compares nothing to nothing.
     _check(_lr.META.search('<meta name="build-commit" content="0123456789abcdef">')
            is not None, fails, "build stamp canary: live_read cannot find a stamp it is given")
