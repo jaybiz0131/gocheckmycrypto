@@ -96,11 +96,9 @@ not piped into `tail` and assumed.
 
 ## Live as of 24 September 2026
 
-- **The deploy count method (U-11).** The day's deploy count is read from the Netlify commit
-  statuses on GitHub through `gh`, never from a Netlify token, until the Worker's deploy
-  counter is live, when that becomes the count of record:
-
-      gh api repos/jaybiz0131/gocheckmycrypto/commits/<sha>/statuses --jq '.[].context'
+- **The deploy count method (U-11 as corrected).** Read `/counts/today` on the Worker, the
+  count of record. The `gh` commit-statuses method is withdrawn: Netlify posts no status,
+  check or deployment to this repository.
 
 - **The ignore rule (U-11).** `netlify_ignore.py` carries a path list: `docs/`, `shots/`,
   `review-queue/`, any markdown outside `site/`, and the ignore file itself never build the
@@ -260,6 +258,15 @@ under test; a fixture run against a stubbed model says so beside its result and 
 in for the live run the report asks for. This is U-9's other half: U-9 asks whether a test can
 fail, U-10 asks whether it is looking at the shipped thing.
 
+**Addition, 24 September 2026, 6:10 PM ET.** Found on the Sports and Crypto desk while breaking
+a test under U-9: on this machine Python's bytecode cache lives outside the project
+(`sys.pycache_prefix` under `~/Library/Caches`), so deleting `__pycache__` clears nothing and
+`python3 -B` only stops writing, not reading; a source file restored within the same second at
+the same length leaves a stale `.pyc` that Python runs in place of the tree. Every Python test
+run on every desk therefore sets a fresh `PYTHONPYCACHEPREFIX` for the run, or clears the prefix
+it uses, so the bytecode under test is the tree under test. **A suite that goes red after a
+restore is read as this before it is read as the code.**
+
 ## U-11. A commit that changes nothing in the published tree does not build the site.
 
 Issued September 24, 2026, after the Pet and Parents desks each found handoff and script
@@ -269,7 +276,14 @@ never a deploy. netlify.toml carries an ignore rule so a commit touching only HA
 docs/ or scripts outside the published tree does not build, proven once by pushing a handoff
 update after a merge and showing no build followed. Every page carries the build's stamp, the
 merge commit written by the build into one meta tag and /stamp.txt, and every live read
-asserts it before measuring. The day's deploy count is read from the Netlify commit statuses
-on GitHub through gh, never from a Netlify token, until the Worker's deploy counter is live,
-when that becomes the count of record; the method is printed once in the handoff and the
-count in every report.
+asserts it before measuring. 
+
+**The count clause, replaced 24 September 2026, 6:10 PM ET.** The count of record is the
+Worker's deploy counter, fed by the Netlify deploy notifications Jack set on all five sites and
+read at `/counts/today` on `gcm-slot-trigger.gocheckmybrands.workers.dev`. Until it answers for a
+site, a desk prints the count it can read and names its source, and a desk that can read none
+says it cannot read one rather than estimating. The clause naming Netlify commit statuses on
+GitHub is withdrawn: Netlify posts no status, check or deployment to the Sports and Crypto
+repositories, so that method reads nothing there. The rest of U-11 stands unchanged: the ignore
+rule, its one-time proof, and the build stamp in one meta tag and `/stamp.txt` asserted by every
+live read, which every desk that has not built it builds on its next branch.
