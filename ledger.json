@@ -1193,6 +1193,21 @@
    "usd": 0.0,
    "wf": "Breaking-news watcher",
    "wrap": "synthesis"
+  },
+  {
+   "breaking": false,
+   "cron": "",
+   "ev": "workflow_dispatch",
+   "guard": "",
+   "outcome": "no report",
+   "pinged": false,
+   "pushed": false,
+   "run": "36370071545",
+   "t": "2026-09-28T02:30:50Z",
+   "tokens": 0,
+   "usd": 0.0,
+   "wf": "Breaking-news watcher",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
