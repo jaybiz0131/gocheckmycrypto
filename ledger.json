@@ -1223,6 +1223,21 @@
    "usd": 0.0,
    "wf": "Crypto Cronkite daily brief",
    "wrap": "synthesis"
+  },
+  {
+   "breaking": false,
+   "cron": "",
+   "ev": "workflow_dispatch",
+   "guard": "",
+   "outcome": "no report",
+   "pinged": false,
+   "pushed": false,
+   "run": "36499217732",
+   "t": "2026-09-28T23:40:34Z",
+   "tokens": 0,
+   "usd": 0.0,
+   "wf": "Crypto Cronkite daily brief",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
