@@ -1253,6 +1253,21 @@
    "usd": 0.0,
    "wf": "Breaking-news watcher",
    "wrap": "synthesis"
+  },
+  {
+   "breaking": false,
+   "cron": "17 12-23 * * *",
+   "ev": "schedule",
+   "guard": "",
+   "outcome": "no report",
+   "pinged": false,
+   "pushed": false,
+   "run": "36502889274",
+   "t": "2026-09-29T00:24:19Z",
+   "tokens": 0,
+   "usd": 0.0,
+   "wf": "Breaking-news watcher",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
