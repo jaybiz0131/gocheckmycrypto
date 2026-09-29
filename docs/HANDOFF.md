@@ -288,6 +288,173 @@ repositories, so that method reads nothing there. The rest of U-11 stands unchan
 rule, its one-time proof, and the build stamp in one meta tag and `/stamp.txt` asserted by every
 live read, which every desk that has not built it builds on its next branch.
 
+### The failed-run audit, 15 to 29 September 2026 (read-only, nothing re-run)
+
+Logs were read, never re-run to see. **What was read, exactly:** the three runs
+Jack named (9852c41, ce39579, 41ef7d7), one more Crypto brief, one Verify crypto
+pipeline run, and one Sports Inactives poller run. Causes for the Sports daily
+brief, watcher and verify groups are **not** read and are named as unverified
+below rather than assumed to share a cause.
+
+**A note on reading these logs.** Three lines in the poller's log looked like
+fired errors and are not: "slot-trigger token is not accepted by GitHub",
+"push failed after 3 attempts" and "rebase conflicted outside the snapshot" all
+carry the `[36;1m` prefix, which is GitHub echoing the **command text** before
+running it. The fired annotations are the `##[error]` ones. Had the first been
+reported as real, this audit would have claimed the Worker's ACTIONS_API token
+was rejected, which it was not. Read the prefix, not the words.
+#### Cause A, Crypto: an empty `schedule:` key, so every push fails at startup
+
+`.github/workflows/site-refresh.yml` has `on: schedule:` with **every cron line
+commented out**, which parses to `schedule: None`. Actions requires at least one
+`- cron:` under `schedule`, so the workflow does not load: GitHub creates a run
+with **zero jobs**, names it by its path rather than its `name:`, and concludes
+`failure` on every push. `total_count: 0, jobs: []` on run 36632138989.
+
+- **14 failures**, first `e2f3dd1` 2026-09-21 20:23, last `9f9db56` 2026-09-29
+  21:16. The last three are this desk's own documents pushes today.
+- **The commit that caused it: `e2f3dd1`, 2026-09-21 16:20**, "Deploy budget:
+  one scheduled daily refresh on this desk, not two", which retired the noon
+  cron by commenting it out and left the key behind.
+- **Nothing fixed it.** It has failed on every push for eight days.
+- **The fix:** delete the empty `schedule:` key, keeping its comments, so only
+  `workflow_dispatch` remains. **Its U-9 test:** a check that every workflow
+  file loads, asserting `schedule` is absent or holds at least one `cron`, red
+  against this file today and green after. It belongs in U-13's branch, which
+  already has to parse every served script; a workflow that does not load is
+  the same class of defect.
+
+#### Cause B, Crypto: the canary asserts an artifact of a build that never runs
+
+Every failing Crypto workflow that runs the offline canary stops on one line:
+
+```
+::error::canary: build stamp canary: /stamp.txt was not written by the build
+::error::Offline canary FAILED (exit 1): the pipeline is mis-wired
+```
+
+`verify_pipeline.py._stamp_canary()` checks `site/publish/stamp.txt` exists.
+Only `site_build.py` writes it, at its line 9415. The canary job runs
+`checkout`, `setup-python`, `pip install Pillow`, **canary** and nothing else,
+so in CI that file cannot exist. **The canary is right to stop and the gate is
+working; the mis-wiring behind it is that the check was added before anything
+in that job produced what it checks.**
+
+- **66 failures** across the Breaking-news watcher, the Crypto Cronkite daily
+  brief and Verify crypto pipeline. First `31880d8` 2026-09-24 21:13, last
+  `46f4d3b` 2026-09-29 02:32.
+- **The commit that caused it: `31880d8`, 2026-09-24 17:13**, "U-11's other
+  half: every page names the deploy that built it".
+- **Nothing fixed it.** A later commit on 26 September fixed a *different*
+  aspect of the same function, comparing built pages against a HEAD that had
+  moved, and the file says so; the missing artifact was untouched.
+- **The fix:** the canary builds before it asserts. `_stamp_canary` renders into
+  a temporary publish directory and asserts what U-11 actually asks, that the
+  meta tag and `stamp.txt` name the same commit, rather than that a deploy has
+  already happened in a job that never deploys. **Its U-9 test:** the two
+  writers made to disagree, red; the stamp writer removed, red; restored,
+  green. It lands with the stamp item on `build-stamp`, because **this failure
+  IS the stamp item on this desk.**
+
+#### Earlier and healed, Crypto
+
+`Verify crypto pipeline` and the daily brief on `da5256f`, 2026-09-16, two runs,
+before the stamp canary existed. Not read, healed without a commit naming it,
+and listed for completeness rather than diagnosed.
+
+#### Cancellations are not in the mail
+
+`Breaking-news watcher` 1 and the daily brief 1 on 15 September, cancelled by
+concurrency when the next tick superseded them. GitHub files those as
+`cancelled`, not `failure`, and does not mail them, so they are not part of what
+reaches Jack's inbox.
+
+### The 26 twin pairs, read and classified (2026-09-29, nothing changed)
+
+`twin_audit.py` calls all 26 "likely twin" and 0 "likely different". Read
+headline beside headline, **22 are the same event published more than once and
+4 are not.** The tool has no sense of a recurring column or of a story that
+moves, so it cannot tell a duplicate from a sequel; that judgement is below and
+the tool is left as the advisory it says it is.
+
+**Two pairs share one URL**, which is the clearest case of all: `#2` and `#3`.
+Two records point at one address, so one has already overwritten the other on
+the page.
+
+**The same event, published more than once (22).** Four clusters carry most of
+them:
+
+- **Revolut EURR**, 10 pairs (`#3 #4 #5 #8 #15 #17 #21 #22 #26` and `#3`'s twin
+  URL): one launch, "EURR with Bridge as regulated issuer in three EU markets",
+  filed from 28 August to 16 September under nine different headlines and eight
+  different addresses.
+- **SEC crypto custody**, 5 pairs (`#2 #11 #18 #23 #25`): one rule reaching
+  White House review, filed 31 August, 7, 12 and 14 September.
+- **Circle's Arc mainnet**, 2 pairs (`#9 #19`): the same 16 September launch,
+  filed three times on 15 September.
+- Singles: `#6` India tokenized bonds a day apart, `#7` Schwab adding the same
+  three assets, `#10` Circle's OCC and New York charter on one day, `#16`
+  BlackRock's tokenized money market funds two days apart, `#24` the S&P and
+  Kaiko Series B a day apart.
+
+**Not the same event (4), and the tool is wrong about these:**
+
+- **`#1` The Week Ahead, 27 July against 14 September.** A recurring weekly
+  column. The overlap is 1.0 because the column is formulaic, which is exactly
+  what a template looks like to a token test. Two different weeks.
+- **`#12` the CLARITY Act bill revised, 11 September, against the procedural
+  vote being set, 14 September.** A bill moving is a sequence.
+- **`#14` the vote being set against the vote failing.** Same.
+- **`#20` the Banking minority staff's five loopholes, 5 August, against the
+  Senate blocking the Act, 15 September.** Six weeks apart and different
+  subjects.
+
+**AND ONE PAIR IS WORSE THAN A TWIN.** `#13` and `#14` date the SAME cloture
+vote to two different days: "Senate Fails Clarity Act Cloture Vote on September
+15" and "...on September 16", published 15 and 16 September at
+`/senate-blocks-crypto-clarity-act-in-49-50-v...` and
+`/senate-fails-clarity-act-cloture-vote-on-se...`. One of those dates is wrong,
+and a wrong date is not a duplicate to merge, it is a correction to make. It is
+flagged here and not touched.
+
+### The rule proposed for twins, link or retire (nothing applied)
+
+1. **The URL never changes.** A retired twin keeps its address and points at the
+   one that stays, as the desk's retired-URL mechanism already does in
+   `site_build.py`: the surviving story takes the reporting and the retired slug
+   301s to it. Never delete a published URL, because someone linked it.
+2. **One event, one surviving story.** Where the pair is the same development,
+   the EARLIEST address survives by default, because it is the one that has had
+   the longest to be linked, and the latest reporting is merged into it. Where
+   the later story is materially fuller, the later one survives and the earlier
+   retires; the report names which and why, per pair.
+3. **A sequence is linked, never retired.** A bill that moves, a launch that
+   was announced then happened, a weekly column: each keeps its own address and
+   gains a link to its neighbours. `#1 #12 #14 #20` take this path.
+4. **A wrong fact is corrected before anything is merged.** `#13` and `#14`
+   disagree on a date; that is settled first, because merging them would bury
+   the error rather than fix it.
+5. **The tool stays advisory and learns the exceptions.** `twin_audit.py`
+   should carry a template list, so a recurring column stops being offered as a
+   duplicate every run, and its warning line should say "22 likely twin, 4
+   likely a sequence" rather than counting every candidate as a twin.
+
+**Nothing in this section is applied.** It is the rule for Jack to accept or
+change, and the retirements are per pair with their own report.
+
+### The run-report rule (Jack, 2026-09-29, narrow; the 12 September execution rules stand)
+
+**A run fails only when a person must act.** A step that stops on purpose, like
+the canary, still fails, because a person must read it. **A step that finds
+nothing to publish, or meets a rate limit it will retry on the next tick, exits
+0, prints a warning annotation and one line in the run summary, and files
+nothing under failed.**
+
+Applied to this audit: **none of the failures found were of the second kind.**
+All three causes below require a person, so the rule is recorded and there was
+nothing to change under it. Saying so is the point; inventing a change to have
+one would be the shape of thing U-9 exists to stop.
+
 ### The two stashes, listed before anything is cut (2026-09-29, Jack's order)
 
 None applied. Each waits on a ruling from this list, and any that is applied
