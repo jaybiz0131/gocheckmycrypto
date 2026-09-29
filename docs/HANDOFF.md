@@ -288,6 +288,29 @@ repositories, so that method reads nothing there. The rest of U-11 stands unchan
 rule, its one-time proof, and the build stamp in one meta tag and `/stamp.txt` asserted by every
 live read, which every desk that has not built it builds on its next branch.
 
+### The two stashes, listed before anything is cut (2026-09-29, Jack's order)
+
+None applied. Each waits on a ruling from this list, and any that is applied
+goes on a clean tree with its result read before anything is committed, which
+is U-13's last sentence and the way Weather's markers got in.
+
+| # | branch it was stashed on | date | what it holds |
+|---|---|---|---|
+| `stash@{0}` | `main`, "gcmc-pre-push-18410" | 2026-09-22 14:53 | `site/data/living-tables.json` alone, 97 lines each way. Generated data, no source. |
+| `stash@{1}` | `main`, "local build artifacts before push" | 2026-09-21 10:53 | `site/data/living-tables.json` alone, 93 lines each way. Generated data, no source. |
+
+**Neither holds source.** Both are the same generated file at two moments, so
+neither carries anything that cannot be regenerated, and dropping both loses
+nothing. The Sports desk's `stash@{1}` is the one on this desk pair that does
+hold source, and it is listed in that handoff.
+
+**The origin rule lives in one place for the family:**
+`GoCheckMyParents/docs/monetization-subids.md`, 220 lines, tracked. The origin
+goes in the network's second slot where it has one, is joined into a single-slot
+sid only when it fits, and the page's own attribution is never shortened to make
+room. **It does not apply on this desk**, because nothing here builds an
+affiliate link; the pointer is here so the family has one text rather than four.
+
 ### The family.js name cleanup, applied and found to have nothing to act on (2026-09-29)
 
 Jack's paste of 3:50 PM and its 4:00 PM addendum: delete `gcmSubidWithOrigin`
