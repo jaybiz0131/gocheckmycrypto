@@ -441,12 +441,18 @@ def _stamp_canary():
         r = _sp.run(["git", "diff", "--name-only"], cwd=root, capture_output=True, text=True)
         return set(l for l in r.stdout.split("\n") if l)
 
+    def _untracked():
+        r = _sp.run(["git", "ls-files", "--others", "--exclude-standard"], cwd=root,
+                    capture_output=True, text=True)
+        return set(l for l in r.stdout.split("\n") if l)
+
     _c = _sb.BUILD_COMMIT
     _check(bool(_c) and _c != "unknown", fails,
            f"build stamp canary: the build cannot name its own commit ({_c!r}); every live "
            f"read would then assert against 'unknown' and pass")
 
     before = _dirty()
+    untracked_before = _untracked()
     real = _sb.PUBLISH
     tmp = _tf.mkdtemp(prefix="stamp-canary-")
     log = _io.StringIO()
@@ -503,6 +509,17 @@ def _stamp_canary():
         _sh.rmtree(tmp, ignore_errors=True)
         # Restore only what this build dirtied, from the index, byte for byte. Never with
         # git checkout: the 1 October rule, bought by a plant that reverted its own subject.
+        # THE OTHER HALF, found on 1 October when a rebase refused to run: the throwaway
+        # build also CREATES files, and two of them left behind in the Sports repo blocked
+        # a pull of the poller's own snapshot of the same data. Only files that did not
+        # exist before this build are removed, so nothing of the author's is touched.
+        for rel in sorted(_untracked() - untracked_before):
+            try:
+                _o.remove(_o.path.join(root, rel))
+                print(f"build stamp canary: removed {rel}, which the throwaway build created")
+            except OSError as e:
+                _check(False, fails, f"build stamp canary: the build created {rel} and it "
+                                     f"could not be removed ({e}); the working tree is dirty")
         for rel in sorted(_dirty() - before):
             blob = _sp.run(["git", "show", ":" + rel], cwd=root, capture_output=True)
             if blob.returncode == 0:
