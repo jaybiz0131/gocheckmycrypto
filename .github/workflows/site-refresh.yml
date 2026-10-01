@@ -13,7 +13,7 @@
 name: Site refresh (data desks)
 
 on:
-  schedule:
+  # (no cron lines: the schedule: key itself is gone, see below)
     # PROGRAM 4 (2026-09-16): the briefs this comment sat between are gone. T-1 left one
     # brief a day per desk, the evening Edition at 23:08 UTC, so from 00:00 to 23:08 this
     # noon refresh is the ONLY thing that moves the Board. It is one build a day and no
