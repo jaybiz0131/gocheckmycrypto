@@ -12,7 +12,8 @@ Last updated: 1 October 2026, end of the U-13 preflight session.
 Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to
 1 October live in `HANDOFF-2026-09-23-to-10-01.md` (U-1).
 
-The Sports handoff (`../gocheckmysports/docs/HANDOFF.md`) carries the shared laws,
+The Sports handoff (`../gocheckmysports/HANDOFF.md`, the file at that repo's root,
+not the one in its `docs/`) carries the shared laws,
 the shared traps and the command list. This file carries what is different here.
 
 ## 1. Where things live
