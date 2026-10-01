@@ -1,5 +1,5 @@
 {
- "checked_utc": "2026-09-23T23:21:25Z",
+ "checked_utc": "2026-10-01T23:24:32Z",
  "sources": [
   {
    "name": "SEC Press Releases",
@@ -41,7 +41,7 @@
    "tier": "major",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 20,
+   "items": 18,
    "newest_age_h": null,
    "lane_state": "OK"
   },
@@ -52,7 +52,7 @@
    "tier": "major",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 38,
+   "items": 59,
    "newest_age_h": null,
    "lane_state": "OK"
   },
@@ -151,7 +151,7 @@
    "tier": "primary",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 639,
+   "items": 641,
    "newest_age_h": null,
    "lane_state": "OK"
   },
@@ -206,7 +206,7 @@
    "tier": "mixed",
    "state": "OK",
    "detail": "HTTP 200",
-   "items": 98,
+   "items": 92,
    "newest_age_h": null,
    "lane_state": "OK"
   },

@@ -4,49 +4,6 @@
   "approved": 3,
   "rejected": [
    {
-    "id": "c009",
-    "headline": "Bitcoin Tops $71,000 as Shorts Liquidate",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'The desk's board showed 969 liquidations across long and short positions in the 23-hour window prior to market data publication, with shorts liquidated at $7.4 million and longs at $3.9 million over that span' introduces data (969 liquidations, $7.4M shorts, $3.9M longs, 23-hour window) that does not appear in the brief's data_points. This is smuggled information from an internal desk board, not from the research brief.",
-     "Sentence 'On the desk's Leverage board, BTC open interest on OKX stood at $1.98 billion as of the reporting window, with funding rates at 0.0047 percent per 8-hour period (5.2 percent annualized)' cites internal desk data not sourced in the brief. The brief contains no data_point for OKX open interest or funding rates.",
-     "These internal metrics are not attributed to any external source in the brief and violate the hard rule that no fact exists outside the brief."
-    ]
-   },
-   {
-    "id": "c019",
-    "headline": "Trump Backs CLARITY Act at White House Crypto Event",
-    "category": "accuracy",
-    "reasons": [
-     "Sentence 'President Trump met with technology sector CEOs at the White House on August 19, ahead of the first Innovation Advisory Committee meeting scheduled at the Commodity Futures Trading Commission, according to CoinDesk' contains a temporal claim ('ahead of') and a specific institutional detail (CFTC, Innovation Advisory Committee) that is not in the brief's single data_point, which only states that CEOs 'met with the president in advance of this week's first Innovation Advisory Committee at the CFTC.' The draft adds specificity about timing and institutional structure not present in the sourced brief.",
-     "The phrase 'The CFTC's Innovation Advisory Committee, which convened for its first formal meeting following Trump's stated support, was established to address emerging asset classes and trading mechanisms' describes institutional purpose and establishment that is not in the brief's data_points and reads as background information smuggled from general knowledge rather than the research brief."
-    ]
-   },
-   {
-    "id": "c054",
-    "headline": "Maya Protocol Halts Network After Exploit Drains Bitcoin",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'CACAO token experienced a price decline' but the brief's data_point says 'CACAO token plunged following the exploit'\u2014'plunged' is a substantively stronger claim than 'decline' and materially changes the magnitude of the reported impact. The writer weakened the source claim without explanation.",
-     "The draft acknowledges 'The brief does not specify the exact timing of the exploit' and other open questions, then restates those absences as if they are facts about what the source does not contain. This violates the rule against narrating absence: sentences like 'the source material does not detail whether Maya Protocol maintains insurance' are reader-facing claims that belong in open_questions, not in the draft body. The draft has conflated the brief's open_questions list with reportable facts."
-    ]
-   },
-   {
-    "id": "c110",
-    "headline": "UK tax authority issued 81,000 warning letters to crypto holders in 2025/2026",
-    "category": "accuracy",
-    "reasons": [
-     "The draft quotes Chauhan as saying 'tracking unpaid taxes of wealthy crypto users will become easier' but the brief's data_point quotes her as saying it will be like 'shooting fish in a barrel.' These are materially different claims: 'easier' is weak and neutral; 'shooting fish in a barrel' is vivid and idiomatically means easy to an extreme. The writer sanitized the quote and changed its force.",
-     "The draft states new offshore reporting powers arrive 'in 2027' but the brief's open_question asks 'When exactly do the new offshore reporting powers take effect?' with a note that the source says 'next year' from a 2026 article, implying 2027 but with no precise date given. The draft presents '2027' as confirmed fact when the brief flags it as uncertain/inferred. Confidence label violation."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-20",
-  "approved": 3,
-  "rejected": [
-   {
     "id": "c010",
     "headline": "Bitcoin tops $71,000 after breaking six-week range amid $3 billion in short liquidations",
     "category": "compliance",
@@ -5041,6 +4998,41 @@
     "reasons": [
      "Draft opens with 'The Securities and Exchange Commission issued a five-year conditional exemption allowing tokenized National Market System stocks to trade on permissioned automated market makers' as a past event. Today is 2026-09-23. The brief data_point states 'issued on Thursday' which refers to a date two days after the Senate blocked the CLARITY Act. The brief states 'Both actions came two days after the Senate blocked the CLARITY Act' but does not specify what calendar date the exemption was issued\u2014only that it was 'Thursday.' If 'Thursday' was 2026-09-23 (today, Wednesday), then the exemption has not yet been issued. If 'Thursday' refers to a future date (2026-09-25), the draft incorrectly reports it as already happened.",
      "The approval instruction is explicit: 'A draft that reports an event dated after today as having already happened is an accuracy REJECT.' The temporal relationship is ambiguous in the brief but the draft's past-tense framing of an event that may be scheduled creates liability."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-01",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c013",
+    "headline": "MetaMask exits 523,000 ETH from Lido validators after security incident diverting rewards",
+    "category": "accuracy",
+    "reasons": [
+     "Draft states the exit is 'the largest Ethereum staking exit event since May 2026,' but the brief contains no data point comparing this event to prior exits or confirming it holds this ranking. This claim is smuggled into the draft without research support.",
+     "Draft paragraph opening 'The source texts describing the incident do not disclose...' violates the rule against narrating absence. The writer is forbidden from restating open_questions as unquoted draft prose. This is an accuracy failure, not a balance failure, because it presents a gap in reporting as a fact about the reporting itself."
+    ]
+   },
+   {
+    "id": "c126",
+    "headline": "ESMA Proposes MiCA Rules for DeFi Gateways, Staking and Lending",
+    "category": "accuracy",
+    "reasons": [
+     "The bottom_line states 'The proposal targets February 28, 2027 or whenever it enters force, whichever the FCA confirms in its implementation guidance.' This is inaccurate and smuggles information not in the brief. The brief contains no data_point about February 28, 2027 as an ESMA implementation date, nor any mention of FCA involvement in ESMA guidance. The only February 28 date in the ecosystem belongs to story c120 (UK FCA authorization deadline), not ESMA's MiCA proposal. This appears to be a cross-contamination error from a different story and introduces a false, unsourced implementation timeline.",
+     "The brief explicitly states in open_questions that 'When is the public comment period or implementation timeline for these proposed rules?' remains unreported. The draft's bottom_line asserts a specific date (February 28, 2027) that is neither in the brief's data_points nor in the sources cited. This violates the hard rule: no fact exists outside the brief."
+    ]
+   },
+   {
+    "id": "c017",
+    "headline": "Hyperliquid and Circle Press European Commission on Perps and Stablecoin Reserves During MiCA Review",
+    "category": "accuracy",
+    "reasons": [
+     "Third paragraph attributes 'broader changes to MiCA's stablecoin framework are under discussion among EU central banks' to Cointelegraph, but the actual data_point from Cointelegraph is 'Crypto advocates are pressing Brussels to rethink MiCA's stablecoin reward rules as EU central banks seek broader changes'\u2014the draft paraphrases and shifts emphasis in a way that narrates the substance of EU central bank discussion without confirming what the central banks themselves have said or what scope of changes they propose.",
+     "First paragraph claims 'according to The Block, Hyperliquid is requesting' and 'Circle is targeting'\u2014but the brief marks both core claims with confidence label 'announced-not-verified,' meaning they rest on announcement or claim rather than independent verification. The draft presents these as reported fact without the hedge the confidence label requires. This is a liability line: single-source policy position on regulatory strategy should read as announced/claimed, not as established.",
+     "The Block source is noted in bear_case as paywalled (HTTP 403), meaning the desk cannot independently verify the content beyond snippet text. Publishing regulatory claims from an unverifiable paywall-locked source is a compliance risk that the draft does not flag.",
+     "Cointelegraph claim about 'EU central banks seek broader changes' is attributed but the degree of coordination or the scope of 'broader changes' is vague; the draft does not preserve that vagueness."
     ]
    }
   ]

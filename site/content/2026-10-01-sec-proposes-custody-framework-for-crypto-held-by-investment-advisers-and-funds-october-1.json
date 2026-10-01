@@ -1,0 +1,75 @@
+{
+  "id": "c000",
+  "slug": "sec-proposes-custody-framework-for-crypto-held-by-investment-advisers-and-funds-october-1",
+  "kind": "brief",
+  "title": "SEC proposes custody framework for crypto held by investment advisers and funds, October 1",
+  "dek": "The SEC announced new rules and amendments on October 1 that would establish tailored custody standards for registered investment advisers and regulated funds holding crypto assets. The proposal permits self-custody under certain conditions and allows state trust companies to serve as custodians, replacing years of regulatory ambiguity that has blocked institutional crypto adoption.",
+  "date": "2026-10-01",
+  "published_utc": "2026-10-01T23:14:32Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The SEC proposed a tailored custody framework permitting self-custody under certain circumstances and allowing state trust companies to serve as custodians for registered advisers and regulated funds.",
+  "bottom_line": "The 60-day comment period opens when the proposing release is published in the Federal Register, typically within days of announcement. The timeline to finalized rules will depend on the volume and substance of public comment, and final rules may differ materially from the proposed version.",
+  "human_take": "",
+  "body": [
+    "The Securities and Exchange Commission announced on October 1 a proposal to establish a tailored custody framework for crypto assets held by registered investment advisers and regulated funds, replacing years of regulatory uncertainty that has limited institutional adoption of digital assets.",
+    "The proposal amends rules under the Investment Advisers Act of 1940 and the Investment Company Act of 1940 to clarify how advisers and funds can custody crypto assets. Under the proposed framework, crypto assets may be held in self-custody under certain circumstances, and state trust companies would be permitted to serve as custodians for client and regulated fund holdings.",
+    "SEC Chairman Paul S. Atkins said in the agency's announcement that existing custody rules have not kept pace with the crypto market's growth and that the proposal replaces \"the grey of uncertainty created by custody rules crafted for a bygone era.\" The crypto asset market has expanded from a niche category in 2008 into a multi-trillion-dollar asset class, per the SEC's statement.",
+    "Advisers are required under current law to keep client assets with qualified custodians that meet strict safekeeping standards. But according to reporting on the proposal, it has long been unclear which crypto arrangements satisfy that standard, leaving many firms hesitant to offer digital-asset strategies at all. The new framework directly addresses that ambiguity by establishing explicit pathways for both self-custody and third-party custodian arrangements.",
+    "The proposal also updates requirements relating to financial statement audits for registered investment advisers and broker-dealer custodial services for regulated funds. A 60-day public comment period will follow the publication of the SEC's proposing release in the Federal Register. Commissioner Hester Peirce, chief of the SEC's inaugural Crypto Task Force, exited the agency around the time of the proposal's announcement.",
+    "The move extends a regulatory build-out the SEC has pursued since legislative efforts stalled, including an innovation exemption for tokenized stocks and a Regulation Crypto Assets framework."
+  ],
+  "sources": [
+    {
+      "title": "https://www.sec.gov/newsroom/press-releases/2026-100-sec-proposal-would-address-how-investment-advisers-funds-can-custody-crypto-assets-under-federal",
+      "url": "https://www.sec.gov/newsroom/press-releases/2026-100-sec-proposal-would-address-how-investment-advisers-funds-can-custody-crypto-assets-under-federal"
+    },
+    {
+      "title": "https://decrypt.co/379899/sec-proposes-rules-advisers-funds-hold-crypto",
+      "url": "https://decrypt.co/379899/sec-proposes-rules-advisers-funds-hold-crypto"
+    },
+    {
+      "title": "https://www.coindesk.com/policy/2026/10/01/u-s-sec-maps-out-crypto-custody-in-new-proposal-that-furthers-its-digital-assets-agenda",
+      "url": "https://www.coindesk.com/policy/2026/10/01/u-s-sec-maps-out-crypto-custody-in-new-proposal-that-furthers-its-digital-assets-agenda"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-10-01T23:12:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 84666.94,
+        "chg_24h_pct": 1.31
+      },
+      {
+        "symbol": "ETH",
+        "price": 2699.61,
+        "chg_24h_pct": 0.56
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -0.5,
+      "open_interest_usd": 2423782847
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 61025742,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Defiant",
+    "CoinDesk",
+    "Decrypt",
+    "The Block",
+    "Bitcoin Magazine",
+    "BeInCrypto"
+  ],
+  "developing": false
+}

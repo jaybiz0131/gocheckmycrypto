@@ -1,0 +1,39 @@
+{
+  "id": "wrap-pm-2026-10-01",
+  "slug": "evening-brief-2026-10-01",
+  "kind": "brief",
+  "title": "The Evening Brief: Three regulatory wins, one major debut: institutional crypto surfaces",
+  "dek": "Thursday brought a custody framework proposal from the SEC, a UK authorization window deadline, and the Nasdaq listing of Evernorth, a Ripple-backed XRP treasury company. Lloyds and Visa also settled $750,000 in stablecoin cross-border in under an hour, signaling institutional plumbing is building. Markets held ground as BTC ETF flows turned negative on the day after a five-session inflow window.",
+  "date": "2026-10-01",
+  "published_utc": "2026-10-01T23:24:02Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Institutional infrastructure is moving off the regulatory shelf and onto live rails. The SEC custody proposal and Evernorth's October 8 Nasdaq debut remove structural barriers that have blocked registered capital from entering crypto for years.",
+  "bottom_line": "Thursday's regulatory moves and institutional settlements removed three long-standing friction points: custody clarity at the SEC level, a timetable for UK platforms, and a proof of concept for stablecoin cross-border settlement at scale. Evernorth's October 8 Nasdaq debut will test whether retail and institutional demand for regulated XRP exposure matches the funding commitment. The SEC's 60-day comment window and the UK's February 28, 2027 authorization deadline are the near-term checkpoints; the critical watch will be execution on all three fronts, whether the custody framework finalizes as proposed, whether Evernorth's active-management strategy delivers outperformance over passive holdings, and whether Lloyds and Visa move the pilot beyond a seven-day proof of concept to production-scale volume.",
+  "human_take": "",
+  "body": [
+    "Three separate announcements on Thursday cleared regulatory pathways that have stalled institutional adoption for years. The SEC proposed a tailored custody framework on October 1 that permits self-custody under certain circumstances and allows state trust companies to serve as custodians for registered investment advisers and regulated funds, per the desk's reporting. That framework, replacing years of ambiguity, opens a 60-day comment period when published in the Federal Register. Simultaneously, Evernorth, a Ripple-backed treasury company holding approximately 473 million XRP, won shareholder approval on September 30 for its merger with Armada Acquisition Corp. II, clearing the path to trade on Nasdaq under ticker XRPN on October 8, making it the largest publicly traded pure-play XRP treasury company. The deal closed with more than 1 billion dollars in total funding and roughly 300 million dollars in gross cash proceeds.",
+    "On the international front, the UK Financial Conduct Authority opened its crypto authorization gateway on September 30 with a February 28, 2027 deadline. Existing platforms that file by that date can continue taking new business after the October 25, 2027 regime launch if their applications remain pending, preserving a statutory protection window that lasts two years after commencement. Firms that miss the deadline face mandatory restrictions on new contracts.",
+    "Institutional plumbing also advanced Thursday. Lloyds Banking Group and Visa executed a live cross-border settlement of $750,000 in USDC from Jersey to the United States in under an hour, including weekend processing, using Canton blockchain infrastructure on Lloyds' end and separate Visa blockchain rails. The seven-day pilot demonstrates a working model for institutional stablecoin settlement that bypasses traditional correspondent banking networks.",
+    "The tape reflects a modest pullback after a month of strength. Bitcoin traded at $84,666.94, up 1.31% on the day but down 2.23% on the week and up 22.19% over the month, per the desk's boards. Ethereum sat at $2,699.61, up 0.56% on the day, down 2.72% on the week, and up 19.89% over the month. The desk's Whale Watch board shows $61,025,742 in bitcoin moving off exchanges over the past 48 hours, with the largest outflow of $72,056,269 from Kraken. That accumulation signal contrasts with the week ending October 1, which saw $748 million in bitcoin move onto exchanges. The desk's Fear & Greed Index stands at 74 in Greed territory, up from a 30-day low of 50."
+  ],
+  "sources": [
+    {
+      "title": "Evernorth shareholders approve merger; Nasdaq listing set for October 8 under XRPN",
+      "url": "/articles/evernorth-shareholders-approve-merger-nasdaq-listing-set-for-october-8-under-xrpn.html"
+    },
+    {
+      "title": "Lloyds and Visa Settle $750,000 in USDC Over Blockchain, Sub-One-Hour Cross-Border Completion",
+      "url": "/articles/lloyds-and-visa-settle-750-000-in-usdc-over-blockchain-sub-one-hour-cross-border-completion.html"
+    },
+    {
+      "title": "SEC proposes custody framework for crypto held by investment advisers and funds, October 1",
+      "url": "/articles/sec-proposes-custody-framework-for-crypto-held-by-investment-advisers-and-funds-october-1.html"
+    },
+    {
+      "title": "UK FCA Opens Crypto Authorization Window Until Feb. 28, 2027",
+      "url": "/articles/uk-fca-opens-crypto-authorization-window-until-feb-28-2027.html"
+    }
+  ]
+}

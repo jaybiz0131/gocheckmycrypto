@@ -1,0 +1,64 @@
+{
+  "id": "c023",
+  "slug": "lloyds-and-visa-settle-750-000-in-usdc-over-blockchain-sub-one-hour-cross-border-completion",
+  "kind": "brief",
+  "title": "Lloyds and Visa Settle $750,000 in USDC Over Blockchain, Sub-One-Hour Cross-Border Completion",
+  "dek": "Lloyds Banking Group and Visa executed a seven-day pilot transferring $750,000 in USDC from Jersey to the US in under an hour, including weekend processing. The settlement used Canton blockchain infrastructure for Lloyds and separate Visa blockchain rails, marking an institutional use case for stablecoin cross-border settlement.",
+  "date": "2026-10-01",
+  "published_utc": "2026-10-01T23:14:32Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 12,
+  "author": "Crypto Cronkite",
+  "key_fact": "A major UK bank and global payments network settled $750,000 in USDC cross-border in under an hour over a weekend using blockchain infrastructure.",
+  "bottom_line": "The next indicator is whether Lloyds, Visa, or other tier-one financial institutions announce expansion of the pilot to larger transaction sizes or longer operational windows. Institutional adoption of stablecoin settlement depends on moving beyond one-week proofs of concept to sustained, scaled production runs.",
+  "human_take": "",
+  "body": [
+    "Lloyds Banking Group and Visa executed a live cross-border settlement of $750,000 in USDC from Jersey to the United States, completing the transfer in under an hour and including processing over the weekend. The seven-day pilot used Canton blockchain infrastructure on Lloyds' end and a separate blockchain infrastructure operated by Visa, according to The Defiant and The Block.",
+    "The settlement demonstrates a working model for institutional USDC movement across borders on blockchain rails, bypassing traditional correspondent banking networks that typically require multiple days and intermediaries. Weekend processing capability signals systems built to operate outside standard banking hours.",
+    "The two institutions deployed separate blockchain channels rather than a single shared ledger. This structure suggests a model where each party retains control of its own settlement layer while achieving interoperability through USDC as a settlement asset.",
+    "No details on transaction costs, regulatory approvals for the Jersey-to-US corridor, or plans to scale the pilot beyond the initial seven-day window are reported in available coverage."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/tradfi-and-fintech/lloyds-and-visa-settle-750-000-in-usdc-in-cross-border-pilot",
+      "url": "https://thedefiant.io/converge/tradfi-and-fintech/lloyds-and-visa-settle-750-000-in-usdc-in-cross-border-pilot"
+    },
+    {
+      "title": "https://www.theblock.co/news/business/2026-10-01-lloyds-visa-settle-750000-using-usdc-in-live-cross-border-pilot-417378",
+      "url": "https://www.theblock.co/news/business/2026-10-01-lloyds-visa-settle-750000-using-usdc-in-live-cross-border-pilot-417378"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-10-01T23:12:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 84666.94,
+        "chg_24h_pct": 1.31
+      },
+      {
+        "symbol": "ETH",
+        "price": 2699.61,
+        "chg_24h_pct": 0.56
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -0.5,
+      "open_interest_usd": 2423782847
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 61025742,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "The Block"
+  ],
+  "developing": false
+}

@@ -1,0 +1,71 @@
+{
+  "id": "c120",
+  "slug": "uk-fca-opens-crypto-authorization-window-until-feb-28-2027",
+  "kind": "brief",
+  "title": "UK FCA Opens Crypto Authorization Window Until Feb. 28, 2027",
+  "dek": "The UK Financial Conduct Authority opened authorization filing for its new crypto regime on September 30, 2026 with a February 28, 2027 deadline. Existing firms that apply by that date can continue taking new business if their applications remain pending when the full regime starts October 25, 2027. Late applicants must enter a restricted wind-down mode.",
+  "date": "2026-10-01",
+  "published_utc": "2026-10-01T23:14:32Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 7,
+  "author": "Crypto Cronkite",
+  "key_fact": "Existing crypto firms that file by February 28, 2027 preserve the right to take new business after the October 25, 2027 regime launch if their application is still under review. Firms that miss the deadline face restrictions on new contracts after October 25, 2027.",
+  "bottom_line": "February 28, 2027 is the deadline for existing crypto firms to preserve new-business rights after October 25, 2027. Any crypto platform operating in the UK without a full authorization decision by that date and without a prior February filing will face mandatory run-off: no new business with any UK customer, existing or prospective, from October 25, 2027 forward.",
+  "human_take": "",
+  "body": [
+    "The UK Financial Conduct Authority opened its authorization gateway for the new crypto regime on September 30, 2026, creating a narrow window for existing platforms to preserve business continuity through the regime's October 25, 2027 launch.",
+    "Crypto firms have until February 28, 2027 to submit applications if they want to keep taking new business after commencement, according to reporting from CryptoSlate. An application submitted by that deadline allows a firm to continue serving new customers and existing customers if the application remains pending when the full regime starts on October 25, 2027. The statutory protection lasts two years after commencement, expiring October 25, 2029.",
+    "Firms that apply after February 28, 2027 but before October 25, 2027 enter a restricted \"run-off\" phase: they can only complete contracts entered before the regime started, and they cannot take new business from either existing UK customers or new UK customers. Run-off also requires the firm to notify the FCA and affected customers and to disclose any material changes to asset protection, dispute resolution, or compensation arrangements.",
+    "The protection covers only the activities listed in the application. A firm applying for Bitcoin trading and custody, for instance, cannot rely on the saving provision to offer new lending or derivative products. Submitting an application does not guarantee authorization; an application rejected for missing minimum information does not qualify for protection. The FCA retains authority to direct any firm into restricted run-off if criminal enforcement, consumer protection, or regulatory objectives require it, overriding the standard saving provision.",
+    "Existing anti-money-laundering registration does not automatically convert into authorization under the new regime. Firms already authorized under the Financial Services and Markets Act for other services must formally vary their permissions to undertake the new crypto activities. The scope includes trading platforms, dealing and arranging transactions, and custody of Bitcoin and other digital assets. Overseas firms serving UK consumers also fall within scope, although specific intermediary and custody exceptions apply.",
+    "A firm with business in scope that does not apply before October 25, 2027 must complete its UK wind-down by that date. There is no grace period for latecomers who did not file."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/news/regulation/uk-fca-opens-crypto-authorization-window-ahead-of-2027-regime",
+      "url": "https://thedefiant.io/news/regulation/uk-fca-opens-crypto-authorization-window-ahead-of-2027-regime"
+    },
+    {
+      "title": "https://cryptoslate.com/uks-2027-crypto-rules-could-block-new-business-with-existing-customers",
+      "url": "https://cryptoslate.com/uks-2027-crypto-rules-could-block-new-business-with-existing-customers"
+    }
+  ],
+  "update_of": "uk-and-u-s-authorities-hold-joint-ccp-resolution-tabletop-exercise-on-september-3-2026",
+  "board_snapshot": {
+    "as_of": "2026-10-01T23:12:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 84666.94,
+        "chg_24h_pct": 1.31
+      },
+      {
+        "symbol": "ETH",
+        "price": 2699.61,
+        "chg_24h_pct": 0.56
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -0.5,
+      "open_interest_usd": 2423782847
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 61025742,
+      "direction": "off exchanges"
+    }
+  },
+  "boundary": {
+    "affected": "Existing firms undertaking crypto activities including trading platforms, dealing and arranging transactions, and custody; overseas firms serving UK consumers also within scope.",
+    "fixed": "Applications submitted by Feb. 28, 2027 (for early-applicant status with new-business preservation); or authorization obtained before Oct. 25, 2027 commencement.",
+    "user_action": "Firms must submit authorization applications by Feb. 28, 2027 to preserve the ability to continue taking new business if approval is still pending on Oct. 25, 2027. Late applicants must file before commencement to enter the transitional provision (run-off) rather than complete wind-down before Oct. 25, 2027.",
+    "advisory_url": "https://cryptoslate.com/uks-2027-crypto-rules-could-block-new-business-with-existing-customers"
+  },
+  "also_reported_by": [],
+  "developing": false
+}

@@ -1,0 +1,64 @@
+{
+  "id": "c019",
+  "slug": "evernorth-shareholders-approve-merger-nasdaq-listing-set-for-october-8-under-xrpn",
+  "kind": "brief",
+  "title": "Evernorth shareholders approve merger; Nasdaq listing set for October 8 under XRPN",
+  "dek": "Shareholders of Armada Acquisition Corp. II voted on September 30 to approve the merger with Evernorth, a Ripple-backed treasury company holding approximately 473 million XRP. The combined entity is set to close the merger on October 7 and begin trading on Nasdaq under ticker XRPN on October 8.",
+  "date": "2026-10-01",
+  "published_utc": "2026-10-01T23:14:32Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 4,
+  "author": "Crypto Cronkite",
+  "key_fact": "Evernorth, backed by Ripple, Pantera Capital, Kraken, SBI Group and others, is entering public markets on October 8 with 473 million XRP, making it the largest publicly traded pure-play XRP treasury company.",
+  "bottom_line": "October 8 marks the debut of the first major publicly traded pure-play XRP treasury company, offering regulated retail and institutional access to XRP through a Nasdaq-listed vehicle. The critical watch will be Evernorth's execution on its active-management strategy and whether the yield generated from DeFi and arbitrage activity materially outperforms passive holdings over the following quarters.",
+  "human_take": "",
+  "body": [
+    "Shareholders of Armada Acquisition Corp. II voted on September 30 to approve the merger with Evernorth, a Ripple-backed treasury company structured to hold and manage XRP on behalf of public shareholders. The deal closed the shareholder approval phase with 100 percent participation from committed funders.\nThe merger and related fundraising generated more than 1 billion dollars in total funding. The transaction itself delivered roughly 300 million dollars in gross cash proceeds, comprised of 225 million dollars from private placements, 30 million dollars in convertible note financing, and about 48 million dollars in trust proceeds before expenses. Evernorth expects to hold approximately 473 million XRP at closing, making it the largest publicly traded pure-play XRP treasury company by its own assessment.\nThe deal is expected to close on October 7, with Evernorth's Class A common stock scheduled to begin trading on Nasdaq on October 8 under the ticker XRPN. The SEC's review concluded in late August when Evernorth's registration statement took effect.\nEvernorth is backed by Ripple, Pantera Capital, Kraken, SBI Group, GSR, and Arrington Capital.\nThe company's stated strategy is to grow its XRP per share over time through yield strategies, ecosystem participation, and capital-markets activity. That approach positions Evernorth differently from passive spot ETFs, which are required to hold coins without active trading or strategy deployment. Instead, Evernorth intends to deploy its 473 million XRP across DeFi protocols and arbitrage opportunities on the XRP Ledger ecosystem to compound the asset base.\nThe structure carries risks inherent to single-asset treasury companies: the value of shares will track XRP's price movements. Additionally, the active management approach introduces operational and execution risk absent from passive custody vehicles. The company will also face constraints on liquidity when deploying such a large XRP position across DeFi protocols."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/379856/the-largest-pure-play-xrp-treasury-is-about-to-go-public",
+      "url": "https://decrypt.co/379856/the-largest-pure-play-xrp-treasury-is-about-to-go-public"
+    },
+    {
+      "title": "https://www.theblock.co/news/deals/2026-10-01-evernorth-xrpn-nasdaq-armada-shareholders-approve-417413",
+      "url": "https://www.theblock.co/news/deals/2026-10-01-evernorth-xrpn-nasdaq-armada-shareholders-approve-417413"
+    },
+    {
+      "title": "https://u.today/xrp-holders-mark-your-calendars-for-october-8-nasdaq-listing-is-coming-for-ripple-backed-treasury",
+      "url": "https://u.today/xrp-holders-mark-your-calendars-for-october-8-nasdaq-listing-is-coming-for-ripple-backed-treasury"
+    }
+  ],
+  "update_of": "xrp-ledger-targets-october-5-activation-for-delegated-payment-authority-upgrade",
+  "board_snapshot": {
+    "as_of": "2026-10-01T23:12:31Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 84666.94,
+        "chg_24h_pct": 1.31
+      },
+      {
+        "symbol": "ETH",
+        "price": 2699.61,
+        "chg_24h_pct": 0.56
+      }
+    ],
+    "fng": {
+      "value": 74,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -0.5,
+      "open_interest_usd": 2423782847
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": 61025742,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}
