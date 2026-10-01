@@ -8,7 +8,7 @@ before inventing (V-15).
 Public repo. No tokens, keys or secret values in this file, ever.
 
 Last updated: 1 October 2026, end of the merge-and-Cause-B session.
-`main` ended at c2b2d6b. `build-stamp` and `cause-b-stamp-proof` are MERGED and
+`main` ended at 021c116. `build-stamp` and `cause-b-stamp-proof` are MERGED and
 DELETED. One local branch remains and is not this session's: `family-map-home-sections`.
 Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to
 1 October live in `HANDOFF-2026-09-23-to-10-01.md` (U-1).
@@ -121,8 +121,9 @@ not piped into `tail` and assumed.
 
 ## Where this session ended (1 October 2026, evening)
 
-- `main` is **`c2b2d6b`**, pushed and verified by hash. It carries the U-13 canaries, Cause A's
-  workflow fix, Cause B's rebuilt stamp canary, the closes, and option two.
+- `main` is **`021c116`**, pushed and verified by hash, and live: the page's own `/stamp.txt`
+  read `021c11677f6d` at 23:13:01Z. It carries the U-13 canaries, Cause A's workflow fix,
+  Cause B's rebuilt stamp canary, the cleanup fix, the closes, and option two.
 - **Cause A is live on `main`.** `site-refresh.yml` no longer carries an `on: schedule:` key
   with every cron line commented out, so it stops creating a zero-job run that fails on every
   push. `_workflow_canary` keeps it from coming back.
@@ -134,8 +135,16 @@ not piped into `tail` and assumed.
   `cause-b-stamp-proof` were merged and deleted after proving 0 commits outstanding.
   `family-map-home-sections` is older work and was left alone.
 - Stashes: **none.**
-- Deploys today, from `/counts/today`, the count of record: **4 production builds** against an
-  allowance of 5. The last is `c2b2d6b`.
+- Deploys today, from `/counts/today`, the count of record: **5 production builds and 1
+  skipped**, against an allowance of 5. The desk finished AT its allowance, not over it.
+  Three of the five are this session's: `63557d0`, `c2b2d6b`, `021c116`. The skipped one is
+  `da63d83`, the documents-only push, which is the ignore proof.
+- **The ignore proof, measured three ways** on `da63d83` at 22:42:25Z: 322 seconds later
+  `/stamp.txt` still read `c2b2d6b` built 22:39:48Z; `/counts/today` showed
+  `gocheckmycrypto:production:canceled` = 1; and the Worker's `last` line named commit
+  `da63d83d459a` with raw `state: "error"`, `"Canceled build due to no content change"`,
+  `counted_as: "canceled"`. It did not hold on Sports and the day history says why: a
+  poller build in flight widens the range the ignore rule is given.
 - Open, with the last commit of each: the twins branch, link or retire, which is the FIRST
   order of the next session (`dc5d400`'s classification, no code yet); then S-2 on Sports; then
   the deep-URL register; then Cause C on Sports. A-17's font and poster work is shared with
