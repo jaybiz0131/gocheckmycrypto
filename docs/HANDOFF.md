@@ -7,8 +7,9 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 1 October 2026, end of the U-13 preflight session.
-`main` ended at a79159a. The open branch `build-stamp` ended at e2b77ec.
+Last updated: 1 October 2026, end of the merge-and-Cause-B session.
+`main` ended at c2b2d6b. `build-stamp` and `cause-b-stamp-proof` are MERGED and
+DELETED. One local branch remains and is not this session's: `family-map-home-sections`.
 Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to
 1 October live in `HANDOFF-2026-09-23-to-10-01.md` (U-1).
 
@@ -118,25 +119,28 @@ not piped into `tail` and assumed.
   the 2026-09-23 XRP story and went green on a rebuild with no code change).
 ---
 
-## Where this session ended (1 October 2026)
+## Where this session ended (1 October 2026, evening)
 
-- `main` is `a79159a`. The US-spelling pass landed there: six British forms corrected,
-  three left alone on purpose inside a quoted Revolut statement.
-- `build-stamp` is **`e2b77ec`**, pushed and verified by hash, **unmerged and open work**.
-  It carries U-12 and U-13 verbatim, the 29 September audit, the stash list, the family.js
-  name rule, the Clarity Act correction, the `git add -A` fix, and today's U-13 preflight
-  with Cause A's workflow-load test. An unmerged branch is Jack's; it was not deleted.
-- The Clarity Act cloture correction is **live on `main`** (`a79159a`'s ancestry): the vote
-  was 15 September, not 16. The slug was deliberately left alone. A correction is live or
-  it is not a correction.
-- Cause A is fixed on `build-stamp` only. Until that branch merges, the empty `schedule:`
-  key is still on `main` and `site-refresh.yml` still fails on every push there.
-- Stashes: **none**. Both data stashes were dropped today, named in
-  `docs/HANDOFF-2026-09-23-to-10-01.md`.
-- Open, with the last commit of each: Cause B's stamp and ignore proof (nothing yet, next
-  session's first item); the twins branch, link or retire (`dc5d400`'s classification, no
-  code); Cause C on Sports (latent, healed on its own); the deep-URL register (nothing
-  yet); merging `build-stamp` (`e2b77ec`, Jack's call).
+- `main` is **`c2b2d6b`**, pushed and verified by hash. It carries the U-13 canaries, Cause A's
+  workflow fix, Cause B's rebuilt stamp canary, the closes, and option two.
+- **Cause A is live on `main`.** `site-refresh.yml` no longer carries an `on: schedule:` key
+  with every cron line commented out, so it stops creating a zero-job run that fails on every
+  push. `_workflow_canary` keeps it from coming back.
+- **Cause B is fixed** at `c2b2d6b`. The stamp canary builds its own tree; see the history file
+  for the four plants and the three traps it had to be careful about.
+- The gate now takes about 145 seconds, up from about 60, because it builds the site once per
+  run. That is the price of a canary that does not assume an output it did not make.
+- Branches: **none open on this desk from this session.** `build-stamp` and
+  `cause-b-stamp-proof` were merged and deleted after proving 0 commits outstanding.
+  `family-map-home-sections` is older work and was left alone.
+- Stashes: **none.**
+- Deploys today, from `/counts/today`, the count of record: **4 production builds** against an
+  allowance of 5. The last is `c2b2d6b`.
+- Open, with the last commit of each: the twins branch, link or retire, which is the FIRST
+  order of the next session (`dc5d400`'s classification, no code yet); then S-2 on Sports; then
+  the deep-URL register; then Cause C on Sports. A-17's font and poster work is shared with
+  Sports and has nothing yet.
+
 ---
 
 # Standing rules, all desks: not here, by Jack's ruling
