@@ -143,8 +143,9 @@ not piped into `tail` and assumed.
   `/stamp.txt` still read `c2b2d6b` built 22:39:48Z; `/counts/today` showed
   `gocheckmycrypto:production:canceled` = 1; and the Worker's `last` line named commit
   `da63d83d459a` with raw `state: "error"`, `"Canceled build due to no content change"`,
-  `counted_as: "canceled"`. It did not hold on Sports and the day history says why: a
-  poller build in flight widens the range the ignore rule is given.
+  `counted_as: "canceled"`. The closing docs push `e47ec81` skipped the same way, so this desk
+  recorded TWO skips today. On Sports the first attempt built and the second skipped; a poller
+  build in flight widens the range the ignore rule is given, and the day history says so.
 - Open, with the last commit of each: the twins branch, link or retire, which is the FIRST
   order of the next session (`dc5d400`'s classification, no code yet); then S-2 on Sports; then
   the deep-URL register; then Cause C on Sports. A-17's font and poster work is shared with
