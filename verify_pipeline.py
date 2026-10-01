@@ -388,55 +388,135 @@ def _workflow_canary():
 
 
 def _stamp_canary():
-    """U-11's other half: every page names the deploy that built it.
+    """U-11's other half, and CAUSE B's fix: the canary BUILDS, then checks the two writers.
 
-    24 September 2026. Neither desk could show that a documents-only push had NOT rebuilt
-    the site, because Netlify posts no status to GitHub and a skipped build reads exactly
-    like a paused site. The stamp settles it from the page itself, and live_read.py asserts
-    it before any number is taken off a live read (U-10).
+    Every page names the deploy that built it, and so does /stamp.txt. Without that a live
+    read cannot name the deploy it is reading, and on 24 September neither desk could show
+    that a documents-only push had NOT rebuilt the site, because Netlify posts no status to
+    GitHub and a skipped build reads exactly like a paused one.
+
+    CAUSE B of the 29 September failed-run audit was this canary itself. It read the publish
+    directory in the working tree and failed closed when `stamp.txt` was absent. In a job that
+    builds, that is right. In the canary job, which builds nothing, it is a gate asserting the
+    output of a step that never ran: 66 failures, fixed at 31880d8 by exempting the job, which
+    left the assertion untested rather than correct.
+
+    So the canary builds its own tree now, into a temporary directory, and asserts there. That
+    makes it true in any job, and it buys a stronger claim than before: because the build runs
+    in this process, the commit in the output must equal BUILD_COMMIT, which the old version
+    could only print a note about, since it could not tell a stale local build from the defect.
+
+    WHAT THE DEFECT IS. Drift between the two writers. The meta tag and /stamp.txt must name
+    the same commit as each other, and now also the commit this build was made from. Whether
+    the DEPLOY carries that commit is a different question, asked against the deployed page by
+    live_read.py, which is U-10's rule and not this one's.
+
+    THREE THINGS THIS HAS TO BE CAREFUL ABOUT, each found by running it:
+
+    1. `build()` reads the module global PUBLISH and begins by removing that tree. Pointing it
+       at a temporary directory is therefore both how this works and the thing to get right:
+       the global is restored in a finally, and the real publish directory is left untouched.
+    2. `build()` prints its own `::error::` annotations, for instance when the Board is stale.
+       Unredirected, a throwaway build would annotate the runner's log with errors belonging to
+       no deploy. Its output is captured and only summarised, and shown only on a failure.
+    3. `build()` writes tracked files OUTSIDE the publish tree, `site/data/living-tables.json`
+       among them. Unrestored, every canary run would dirty the working tree. That is how the
+       two data stashes dropped on 1 October were born. Any tracked file this build dirties and
+       that was clean beforehand is restored from the index, byte for byte, in a finally. Files
+       already dirty when it started are the author's and are not touched.
     """
+    import io as _io
     import os as _o
     import re as _r
+    import shutil as _sh
+    import subprocess as _sp
+    import tempfile as _tf
+    import contextlib as _cl
     import site_build as _sb
     import live_read as _lr
     fails = []
+    root = _o.path.dirname(_o.path.abspath(__file__))
+
+    def _dirty():
+        r = _sp.run(["git", "diff", "--name-only"], cwd=root, capture_output=True, text=True)
+        return set(l for l in r.stdout.split("\n") if l)
 
     _c = _sb.BUILD_COMMIT
     _check(bool(_c) and _c != "unknown", fails,
            f"build stamp canary: the build cannot name its own commit ({_c!r}); every live "
            f"read would then assert against 'unknown' and pass")
-    _sf = _o.path.join(_sb.PUBLISH, "stamp.txt")
-    if not _o.path.exists(_sf):
-        _check(False, fails, "build stamp canary: /stamp.txt was not written by the build")
-        return fails
-    # WHAT THIS CHECKS (fixed 26 September 2026). The first version compared the built pages
-    # against BUILD_COMMIT resolved NOW, the current HEAD, which turned the hard gate red on
-    # both desks the moment HEAD moved without a rebuild and conflated a stale local build with
-    # the defect this is for. The defect is DRIFT BETWEEN THE TWO WRITERS: the meta tag and
-    # /stamp.txt must name the same commit as each other. Whether that commit is the tip is a
-    # question about a deploy, and live_read.py asks it against the deployed page (U-10).
-    _stxt = open(_sf, encoding="utf-8").read()
-    _mb = _r.search(r"commit ([0-9a-fA-F]{7,40}|unknown)", _stxt)
-    _check(_mb is not None, fails, "build stamp canary: /stamp.txt carries no commit line")
-    _built = _mb.group(1) if _mb else ""
-    _check(_built != "unknown", fails,
-           "build stamp canary: /stamp.txt says the build could not name its commit")
-    if _built and _built != _c:
-        print(f"build stamp: the built tree is from {_built[:12]}, HEAD is {_c[:12]}; a stale "
-              f"local build, not a fault. A live read asserts the deploy (U-10).")
-    _pages = [f for f in ["index.html", "news.html", "about.html"]
-              if _o.path.exists(_o.path.join(_sb.PUBLISH, f))]
-    _check(len(_pages) >= 2, fails,
-           "build stamp canary: fewer than two built pages, so the checks below prove nothing")
-    for _pg in _pages:
-        _h = open(_o.path.join(_sb.PUBLISH, _pg), encoding="utf-8").read()
-        _m = _r.search(r'<meta name="build-commit" content="([^"]*)"', _h)
-        _check(_m is not None, fails,
-               f"build stamp canary: {_pg} carries no build-commit meta tag")
-        if _m:
-            _check(_m.group(1) == _built, fails,
-                   f"build stamp canary: {_pg}'s stamp {_m.group(1)[:12]} and /stamp.txt's "
-                   f"{_built[:12]} name different commits; the two writers drifted")
+
+    before = _dirty()
+    real = _sb.PUBLISH
+    tmp = _tf.mkdtemp(prefix="stamp-canary-")
+    log = _io.StringIO()
+    built_ok = False
+    try:
+        _sb.PUBLISH = _o.path.join(tmp, "publish")
+        try:
+            with _cl.redirect_stdout(log), _cl.redirect_stderr(log):
+                _sb.build()
+            built_ok = True
+        except Exception as e:                       # fail closed, and say which build broke
+            _check(False, fails, f"build stamp canary: the build raised {type(e).__name__}: {e}")
+        out = _sb.PUBLISH
+
+        if built_ok:
+            print(f"build stamp canary: built a throwaway tree in {_o.path.basename(tmp)} "
+                  f"({len(_o.listdir(out))} entries); the build's own log is captured, not "
+                  f"this job's")
+            _sf = _o.path.join(out, "stamp.txt")
+            _check(_o.path.exists(_sf), fails,
+                   "build stamp canary: the build wrote no /stamp.txt")
+            if _o.path.exists(_sf):
+                _stxt = open(_sf, encoding="utf-8").read()
+                _mb = _r.search(r"commit ([0-9a-fA-F]{7,40}|unknown)", _stxt)
+                _check(_mb is not None, fails,
+                       "build stamp canary: /stamp.txt carries no commit line")
+                _built = _mb.group(1) if _mb else ""
+                _check(_built != "unknown", fails,
+                       "build stamp canary: /stamp.txt says the build could not name its commit")
+                # THE NEW ASSERTION. This build happened here, in this process, so there is no
+                # such thing as a stale tree to excuse a mismatch.
+                if _built and _built != "unknown":
+                    _check(_built == _c, fails,
+                           f"build stamp canary: this build wrote {_built[:12]} into /stamp.txt "
+                           f"while BUILD_COMMIT is {_c[:12]}; the build cannot name the commit "
+                           f"it was made from")
+                _pages = [f for f in ["index.html", "news.html", "about.html"]
+                          if _o.path.exists(_o.path.join(out, f))]
+                _check(len(_pages) >= 2, fails,
+                       "build stamp canary: fewer than two built pages, so the checks below "
+                       "prove nothing")
+                for _pg in _pages:
+                    _h = open(_o.path.join(out, _pg), encoding="utf-8").read()
+                    _m = _r.search(r'<meta name="build-commit" content="([^"]*)"', _h)
+                    _check(_m is not None, fails,
+                           f"build stamp canary: {_pg} carries no build-commit meta tag")
+                    if _m:
+                        _check(_m.group(1) == _built, fails,
+                               f"build stamp canary: {_pg}'s stamp {_m.group(1)[:12]} and "
+                               f"/stamp.txt's {_built[:12]} name different commits; the two "
+                               f"writers drifted")
+    finally:
+        _sb.PUBLISH = real
+        _sh.rmtree(tmp, ignore_errors=True)
+        # Restore only what this build dirtied, from the index, byte for byte. Never with
+        # git checkout: the 1 October rule, bought by a plant that reverted its own subject.
+        for rel in sorted(_dirty() - before):
+            blob = _sp.run(["git", "show", ":" + rel], cwd=root, capture_output=True)
+            if blob.returncode == 0:
+                with open(_o.path.join(root, rel), "wb") as fh:
+                    fh.write(blob.stdout)
+                print(f"build stamp canary: restored {rel}, which the throwaway build rewrote")
+            else:
+                _check(False, fails, f"build stamp canary: the build rewrote {rel} and it could "
+                                     f"not be restored from the index; the working tree is dirty")
+    if fails and not built_ok:
+        tail = log.getvalue().strip().split("\n")[-6:]
+        for l in tail:
+            print("    build log: " + l[:160])
+
     # The assertion itself must reject an empty stamp, or it compares nothing to nothing.
     _check(_lr.META.search('<meta name="build-commit" content="0123456789abcdef">')
            is not None, fails, "build stamp canary: live_read cannot find a stamp it is given")
