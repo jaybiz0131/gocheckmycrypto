@@ -1,38 +1,6 @@
 [
  {
   "date": "2026-08-20",
-  "approved": 3,
-  "rejected": [
-   {
-    "id": "c010",
-    "headline": "Bitcoin tops $71,000 after breaking six-week range amid $3 billion in short liquidations",
-    "category": "compliance",
-    "reasons": [
-     "Bottom line reads as a price prediction/trade signal: 'Watch whether Bitcoin holds above $71,000' paired with 'A sustained hold would suggest the breakout was not a wick' frames price levels as meaningful directional indicators in a way that invites traders to use the analysis as actionable market guidance. This violates the no-price-prediction rule."
-    ]
-   },
-   {
-    "id": "c035",
-    "headline": "Spot Bitcoin ETFs record $517 million in net inflows, largest in 3.5 months",
-    "category": "accuracy",
-    "reasons": [
-     "The draft includes a fact not in the brief: 'The desk's ETF flows board showed Bitcoin ETFs with a net inflow of $5.1 million on July 28, the most recent data available from that board.' This figure and the desk board reference do not appear in any data_point and constitute smuggled information from outside the brief.",
-     "The brief's data_point states analysts attributed inflows to 'a surprise crypto market rally' driven by the Treasury announcement; the draft states they attributed it to 'a rally driven by the Treasury announcement' without the qualifier 'surprise.' This softens the causal claim beyond what the brief supports."
-    ]
-   },
-   {
-    "id": "c064",
-    "headline": "Shanghai InsurTech firm reportedly closed Bitcoin-funded private placement",
-    "category": "accuracy",
-    "reasons": [
-     "The draft states 'Decrypt's article text was not available for review,' which is a meta-narrative about reporting process and source availability. This sentence narrates absence, violating the rule that the writer is forbidden from narrating absence or restating open_questions in the body prose. The open_questions note that 'The source text is empty' belongs in the editor's decision log, not the story.",
-     "The bottom_line reads like editorial doubt ('would be required before treating this as credible') rather than forward-looking stakes and watch items. It restates open_questions rather than defining what would validate or invalidate the claim going forward."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-20",
   "approved": 1,
   "rejected": [
    {
@@ -5033,6 +5001,45 @@
      "First paragraph claims 'according to The Block, Hyperliquid is requesting' and 'Circle is targeting'\u2014but the brief marks both core claims with confidence label 'announced-not-verified,' meaning they rest on announcement or claim rather than independent verification. The draft presents these as reported fact without the hedge the confidence label requires. This is a liability line: single-source policy position on regulatory strategy should read as announced/claimed, not as established.",
      "The Block source is noted in bear_case as paywalled (HTTP 403), meaning the desk cannot independently verify the content beyond snippet text. Publishing regulatory claims from an unverifiable paywall-locked source is a compliance risk that the draft does not flag.",
      "Cointelegraph claim about 'EU central banks seek broader changes' is attributed but the degree of coordination or the scope of 'broader changes' is vague; the draft does not preserve that vagueness."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-02",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c041",
+    "headline": "Absa Launches Bitcoin Custody for African Institutional Investors",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'According to Bitcoin Magazine's reporting, the bank will serve institutional clients, with bitcoin as the primary asset but other digital assets also included.' However, the brief's data_point states: 'As reported first by Bloomberg on Friday, the Johannesburg-based lender will serve institutional clients, mostly by custodying bitcoin.' The brief attributes this to Bloomberg as the original source, not Bitcoin Magazine. The draft omits this crucial primary-source attribution, creating a false impression of direct Bitcoin Magazine reporting when Bitcoin Magazine cited Bloomberg. This is a sourcing accuracy failure."
+    ]
+   },
+   {
+    "id": "c132",
+    "headline": "South Korea Proposes Tokenized Securities Framework for February 2027",
+    "category": "balance",
+    "reasons": [
+     "The brief is marked thin=true with only 3 data_points and minimal source material (2268 characters). The brief contains an empty bear_case array, indicating no risks or downsides were identified in research. The draft contains no risk paragraph, offsetting statement, or acknowledgment of uncertainty\u2014which is correct given the empty bear_case. However, the bottom_line sentence 'Whether South Korea's framework becomes a template for other regulators, or whether implementation delays push the rollout past that date, will signal how mature tokenized securities infrastructure remains across major markets' speculates about implementation risks and delay scenarios that are not grounded in the brief's data_points or bear_case. The writer is narrating hypothetical risks (implementation delays, template adoption) as forward-looking observation, but these are not supported by the research as identified concerns. This violates the protocol rule against narrating absence or unsourced open questions as though they are known risks: the brief does not carry these as reported concerns, so the bottom_line should not frame them as test cases."
+    ]
+   },
+   {
+    "id": "c146",
+    "headline": "Stablecoin Issuers Replace 40% of China's Lost Treasury Demand",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Tether and Circle have increased their Treasury securities and repurchase-agreement holdings by approximately $200 billion over the past five years.' The brief's data_point says 'Tether and Circle have increased their Treasury securities and repurchase-agreement holdings by about $200 billion over the past five years,' but the draft presents only Tether and Circle as the sole stablecoin issuers responsible for this $200B increase, when the brief's core_claim and data_points consistently refer to 'stablecoin issuers' (plural, broader category). The draft then later says 'Stablecoin issuers' Treasury holdings have risen more than tenfold,' creating an internal inconsistency: if only Tether and Circle account for $200B and they are the only ones named as growing their holdings, the tenfold rise claim becomes ambiguous regarding whether it applies to the full stablecoin industry or just these two. The first sentence smuggles a narrower claim than the brief supports."
+    ]
+   },
+   {
+    "id": "c019",
+    "headline": "Spot Bitcoin ETFs Log Inflows as September Totals $2.65 Billion",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'September 2026 saw $2.65 billion in net inflows into spot bitcoin ETFs' and attributes this to The Block, but the brief notes that 'The Block source page returned a 403 error (access denied), meaning the September figure cannot be independently verified from the original reporting outlet.' The brief explicitly flags this as an unverifiable secondary report. The draft presents this as a settled fact without flagging the verification problem that the brief documents.",
+     "The draft does not acknowledge the brief's bear_case finding that the $2.65B figure comes from a 403-error source and is not independently verifiable. This is a material limitation that the brief captures but the draft omits entirely."
     ]
    }
   ]

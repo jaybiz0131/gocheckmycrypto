@@ -1,0 +1,49 @@
+{
+  "id": "wrap-pm-2026-10-02",
+  "slug": "evening-brief-2026-10-02",
+  "kind": "brief",
+  "title": "The Evening Brief: Evernorth launches, custody rules proposed, A7 sanctioned",
+  "dek": "Friday brought three major institutional milestones: the SEC proposed a custody framework for advisers and funds, Evernorth's Nasdaq debut is set for October 8, and the Treasury designated Russia's A7 Network as a criminal organization. Separately, Lloyds and Visa completed a sub-one-hour stablecoin settlement, and the UK FCA opened its crypto authorization window.",
+  "date": "2026-10-02",
+  "published_utc": "2026-10-02T23:23:50Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "Crypto Cronkite",
+  "key_fact": "The institutional on-ramp is widening on three fronts, custody clarity, a public XRP vehicle, and cross-border stablecoin settlement, while sanctions pressure on shadow banking networks is tightening. Execution on strategy and compliance enforcement will determine whether these frameworks translate into scaled adoption.",
+  "bottom_line": "Three institutional pathways opened Friday: the SEC's custody proposal, Evernorth's Nasdaq debut October 8, and Lloyds-Visa's stablecoin settlement proof of concept. The UK FCA's February 28, 2027 deadline for crypto firm authorization filings is now live. The Treasury's A7 Network designation tightens sanctions enforcement but targets shadow banking already shifting to unhosted wallets. Watch for final SEC custody rules after comment closes, Evernorth's DeFi execution and yield delivery post-launch, and whether Lloyds or Visa announce expanded production runs on the blockchain settlement pilot.",
+  "human_take": "",
+  "body": [
+    "Friday's crypto calendar compressed multiple structural developments into a single session. The SEC issued a proposal on October 1 to establish tailored custody standards for registered investment advisers and regulated funds holding crypto assets. Per the desk's reporting, the proposal permits self-custody under certain circumstances and allows state trust companies to serve as custodians, replacing years of regulatory ambiguity that blocked institutional participation. The framework amends rules under the Investment Advisers Act of 1940 and the Investment Company Act of 1940. A 60-day public comment period will follow publication in the Federal Register, meaning the timeline to finalized rules depends on comment volume and substance; final rules may differ materially from the proposed version.",
+    "On the capital-markets side, Evernorth cleared a shareholder vote on September 30 and is set to list on Nasdaq on October 8 under ticker XRPN. As the desk reported Thursday, the Ripple-backed treasury company is entering public markets with approximately 473 million XRP, the largest publicly traded pure-play XRP treasury by its own assessment. The combined entity generated more than 1 billion dollars in total funding, comprised of roughly 300 million dollars in gross cash proceeds from private placements, convertible notes, and trust proceeds. Evernorth's stated strategy differs from passive spot ETFs: it plans to deploy its XRP holdings across DeFi protocols and arbitrage opportunities on the XRP Ledger ecosystem to compound the asset base, introducing both operational execution risk and liquidity constraints absent from custody-only vehicles.",
+    "In cross-border settlement, Lloyds Banking Group and Visa executed a live pilot Friday transferring $750,000 in USDC from Jersey to the US in under an hour, including weekend processing. The seven-day trial used Canton blockchain infrastructure on Lloyds' end and separate Visa blockchain rails, per desk reporting. The settlement demonstrates a working institutional model for stablecoin movement across borders on blockchain rails, bypassing traditional correspondent banking that typically requires multiple days and intermediaries. Weekend capability signals systems built outside standard banking hours.",
+    "On sanctions enforcement, the Treasury designated Russia's A7 Network as a transnational criminal organization on October 1 and proposed prohibiting transmittal of funds involving its Sub-Agents. The network moved $179.1 billion in A7A5, a ruble-backed token, between February 2025 and June 2026, while processing more than $17 billion in dollar transactions. Promsvyazbank, Russia's state-owned defense bank, holds the token deposits. The rule binds roughly 348,000 institutions globally, including crypto exchanges. A7A5 runs on Tron and Ethereum blockchains, however, meaning effectiveness depends on exchange compliance rather than technical barriers; the network has already shifted supply to unhosted wallets following the Grinex hack, suggesting adaptation to regulatory pressure.",
+    "Separately, the UK Financial Conduct Authority opened its authorization gateway for the new crypto regime on September 30, creating a narrow window for existing platforms. Firms have until February 28, 2027 to file if they want to preserve the right to take new business after the regime's October 25, 2027 launch. An application filed by that deadline allows continued service to new and existing customers if the application remains pending when commencement occurs; the statutory protection lasts two years, expiring October 25, 2029. Platforms that miss the deadline face mandatory run-off: no new business with any UK customer from October 25, 2027 forward.",
+    "On tape, price movement was mixed. Bitcoin closed down 0.4% on the day, though up 15.7% over the month; per the desk's Whale Watch board, $223,410 in bitcoin moved off exchanges over the last 24 hours, continuing a weekly pattern, the week ending October 2 saw $840 million move onto exchanges. Bitcoin ETF flows came in positive: $2.4 million on October 2, with $53.6 million net inflow over the last five sessions. XRP fell 0.9% on the day and 5.8% over the week, though it is up 16.8% on the month; funding rates on XRP shorts are deeply negative at -13.3% annualized on OKX, reflecting heavy long positioning. Fear and Greed sits at 72, in Greed territory."
+  ],
+  "sources": [
+    {
+      "title": "Evernorth shareholders approve merger; Nasdaq listing set for October 8 under XRPN",
+      "url": "/articles/evernorth-shareholders-approve-merger-nasdaq-listing-set-for-october-8-under-xrpn.html"
+    },
+    {
+      "title": "Lloyds and Visa Settle $750,000 in USDC Over Blockchain, Sub-One-Hour Cross-Border Completion",
+      "url": "/articles/lloyds-and-visa-settle-750-000-in-usdc-over-blockchain-sub-one-hour-cross-border-completion.html"
+    },
+    {
+      "title": "SEC proposes custody framework for crypto held by investment advisers and funds, October 1",
+      "url": "/articles/sec-proposes-custody-framework-for-crypto-held-by-investment-advisers-and-funds-october-1.html"
+    },
+    {
+      "title": "UK FCA Opens Crypto Authorization Window Until Feb. 28, 2027",
+      "url": "/articles/uk-fca-opens-crypto-authorization-window-until-feb-28-2027.html"
+    },
+    {
+      "title": "SEC Proposes Crypto Self-Custody Framework for Investment Advisers (October 1, 2026)",
+      "url": "/articles/sec-proposes-crypto-self-custody-framework-for-investment-advisers-october-1-2026.html"
+    },
+    {
+      "title": "Treasury Designates A7 Network as Criminal Organization, Proposes Sub-Agent Payment Ban",
+      "url": "/articles/treasury-designates-a7-network-as-criminal-organization-proposes-sub-agent-payment-ban.html"
+    }
+  ]
+}

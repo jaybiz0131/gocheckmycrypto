@@ -1,0 +1,66 @@
+{
+  "id": "c111",
+  "slug": "treasury-designates-a7-network-as-criminal-organization-proposes-sub-agent-payment-ban",
+  "kind": "brief",
+  "title": "Treasury Designates A7 Network as Criminal Organization, Proposes Sub-Agent Payment Ban",
+  "dek": "The Treasury designated Russia's A7 Network as a transnational criminal organization on October 1, 2026, and proposed prohibiting financial transmittals involving its Sub-Agents. The network moved $179.1 billion in ruble-backed tokens and processed $17 billion in fiat transactions, channeling funds to Iran's shadow fleet and weapons procurement while bypassing sanctions.",
+  "date": "2026-10-02",
+  "published_utc": "2026-10-02T23:14:37Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 10,
+  "author": "Crypto Cronkite",
+  "key_fact": "FinCEN designated A7 Network a transnational criminal organization and proposed a transmittal-of-funds ban affecting roughly 348,000 institutions globally, including crypto exchanges.",
+  "bottom_line": "The rule's effectiveness depends on exchanges and custodians enforcing the ban rather than technical barriers, since A7A5 runs on decentralized blockchains. Supply has already shifted to unhosted wallets since the Grinex hack, suggesting the network is adapting to regulatory pressure. The critical question is whether compliance from 348,000 bound institutions will prevent A7A5 from flowing through smaller or less-regulated intermediaries not yet identified.",
+  "human_take": "",
+  "body": [
+    "The U.S. Treasury designated Russia's A7 Network as a transnational criminal organization on October 1, 2026, and proposed prohibiting transmittal of funds involving its Sub-Agents, according to reporting by Decrypt. The action targets a shadow banking operation that moved $179.1 billion in A7A5, a ruble-backed token, between February 2025 and June 2026, while processing more than $17 billion in dollar transactions.",
+    "The A7 Network was launched in September 2024 by Moldovan oligarch Ilan Shor and Promsvyazbank, Russia's state-owned defense bank. By January 2025, according to Decrypt's reporting, the network claimed to handle more than 2,000 transactions a day. The A7A5 token runs on Tron and Ethereum blockchains, with deposits held at Promsvyazbank. More than 180 entities processed the token volume between February 2025 and June 2026.",
+    "The network's operational structure centered on hundreds of Sub-Agents holding accounts at roughly 435 financial institutions across at least 83 countries, per Decrypt. Sub-Agent staff ran those accounts from Moscow using custom VPNs that masked their location as Dubai, Hong Kong or Bishkek. One Sub-Agent dealt directly with entities tied to Iran's shadow fleet of tankers and received close to $140 million from firms involved in Iranian sanctions evasion. Another sent about $1.6 million to a company linked to weapons procurement, according to Decrypt's account.",
+    "FinCEN acted under section 9714 of the Combating Russian Money Laundering Act and selected the sixth special measure: a transmittal-of-funds prohibition. The proposed rule would bind roughly 348,000 institutions globally, including crypto exchanges. Treasury Secretary Scott Bessett said, \"If you facilitate illicit finance for America's adversaries, you will lose access to the U.S. financial system.\"",
+    "Historically, almost all A7A5 transactions moved through the sanctioned exchanges Garantex and Grinex, per Decrypt. Since a reported hack at Grinex in April, supply has consolidated into unhosted wallets. TRM Labs noted that FinCEN chose the sixth special measure because the fifth, which restricts correspondent accounts, would have left a hole: A7A5 transactions move outside correspondent banking entirely. The sixth measure reaches fiat and crypto alike.",
+    "The Treasury ties the network to Nobitex, the Iranian exchange it designated in June, and to the laundering of proceeds from North Korean exchange hacks, according to Decrypt. The EU sanctioned parts of the network previously, and the UK's National Crime Agency issued its own alert in August. The network's stated historical volume of 7.5 trillion rubles, roughly $91.5 billion according to Decrypt, would equal approximately one eighth of Russia's foreign trade last year.",
+    "The comment period on the proposed rule closes 30 days after publication in the Federal Register."
+  ],
+  "sources": [
+    {
+      "title": "https://thedefiant.io/converge/regulation/us-sanctions-a7-network-proposes-ban-on-sub-agent-payments",
+      "url": "https://thedefiant.io/converge/regulation/us-sanctions-a7-network-proposes-ban-on-sub-agent-payments"
+    },
+    {
+      "title": "https://decrypt.co/379921/us-designates-russias-a7-network-as-transnational-criminal-organization",
+      "url": "https://decrypt.co/379921/us-designates-russias-a7-network-as-transnational-criminal-organization"
+    }
+  ],
+  "update_of": "balancer-proposes-protocol-shutdown-treasury-return-to-token-holders",
+  "board_snapshot": {
+    "as_of": "2026-10-02T23:12:34Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 84485.79,
+        "chg_24h_pct": -0.42
+      },
+      {
+        "symbol": "ETH",
+        "price": 2666.07,
+        "chg_24h_pct": -1.45
+      }
+    ],
+    "fng": {
+      "value": 72,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -0.0,
+      "open_interest_usd": 2417815568
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 223410,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [],
+  "developing": false
+}

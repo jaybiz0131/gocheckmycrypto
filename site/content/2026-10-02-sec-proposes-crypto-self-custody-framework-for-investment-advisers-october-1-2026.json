@@ -1,0 +1,80 @@
+{
+  "id": "c012",
+  "slug": "sec-proposes-crypto-self-custody-framework-for-investment-advisers-october-1-2026",
+  "kind": "brief",
+  "title": "SEC Proposes Crypto Self-Custody Framework for Investment Advisers (October 1, 2026)",
+  "dek": "The SEC issued a proposal under the Investment Advisers Act and Investment Company Act that would permit registered investment advisers and funds to self-custody crypto assets under certain conditions, allow state trust companies to serve as custodians, and update audit and custodial service rules. A 60-day public comment period will follow publication in the Federal Register.",
+  "date": "2026-10-02",
+  "published_utc": "2026-10-02T23:14:37Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "The proposal replaces years of regulatory ambiguity around institutional crypto custody by establishing a compliance pathway for advisers and funds to hold digital assets themselves or through state-chartered trust companies.",
+  "bottom_line": "The practical framework emerges once the comment period closes and the SEC publishes final rules; the timeline for that decision determines when advisers can legally act on the new custodial lanes. Any material rollback or narrowing of self-custody or state trust company conditions during comment review would signal regulatory hesitation.",
+  "human_take": "",
+  "body": [
+    "The SEC has proposed a custody framework that would permit registered investment advisers and funds to self-custody crypto assets or use state trust companies as custodians, replacing years of regulatory ambiguity that kept institutional players sidelined. The proposal, issued under the Investment Advisers Act of 1940 and Investment Company Act of 1940, updates rules around financial-statement audits for advisers and broker-dealer custodial services for funds.",
+    "Advisers have long been required to keep client assets with \"qualified custodians\" that meet strict safekeeping standards, according to Decrypt. The uncertainty over which crypto arrangements satisfy that standard has created a compliance gap. The new proposal establishes conditions under which self-custody is permissible and sets conditions for state trust company custody arrangements.",
+    "SEC Chairman Paul Atkins framed the move as overdue. \"Since the advent of Bitcoin in 2008, the crypto asset market has grown from a niche curiosity into a multi-trillion-dollar asset class to which investors actively seek exposure,\" Atkins said, per Decrypt. He added that the agency's rules \"have not kept pace\" and the proposal would replace \"the grey of uncertainty created by custody rules crafted for a bygone era.\"",
+    "The proposal permits advisers and funds acting through their advisers to hold client crypto themselves, but only if no permitted custodian is available, according to Bitcoin Magazine. Records kept on a blockchain could count toward compliance, subject to conditions.",
+    "The SEC has pursued a sweeping regulatory build-out in parallel, per Decrypt, including an innovation exemption for tokenized stocks to trade on-chain, a proposed Regulation Crypto Assets as a crypto-fundraising framework, and staff clarity that token buybacks do not by themselves make a crypto asset a security. The custody proposal marks a swan song for SEC Crypto Task Force chief Commissioner Hester Peirce, who exits this week, per CoinDesk.",
+    "A 60-day public comment period will open once the proposal is published in the Federal Register. Chairman Atkins has stated he would work to make the U.S. the \"crypto capital of the world\" regardless of the Clarity Act not advancing through Congress, per Bitcoin Magazine."
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/379899/sec-proposes-rules-advisers-funds-hold-crypto",
+      "url": "https://decrypt.co/379899/sec-proposes-rules-advisers-funds-hold-crypto"
+    },
+    {
+      "title": "https://thedefiant.io/converge/regulation/sec-proposes-crypto-self-custody-route-for-investment-advisers",
+      "url": "https://thedefiant.io/converge/regulation/sec-proposes-crypto-self-custody-route-for-investment-advisers"
+    },
+    {
+      "title": "https://bitcoinmagazine.com/news/sec-proposes-crypto-custody-rules",
+      "url": "https://bitcoinmagazine.com/news/sec-proposes-crypto-custody-rules"
+    },
+    {
+      "title": "https://www.coindesk.com/policy/2026/10/01/u-s-sec-maps-out-crypto-custody-in-new-proposal-that-furthers-its-digital-assets-agenda",
+      "url": "https://www.coindesk.com/policy/2026/10/01/u-s-sec-maps-out-crypto-custody-in-new-proposal-that-furthers-its-digital-assets-agenda"
+    }
+  ],
+  "board_snapshot": {
+    "as_of": "2026-10-02T23:12:34Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 84485.79,
+        "chg_24h_pct": -0.42
+      },
+      {
+        "symbol": "ETH",
+        "price": 2666.07,
+        "chg_24h_pct": -1.45
+      }
+    ],
+    "fng": {
+      "value": 72,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": -0.0,
+      "open_interest_usd": 2417815568
+    },
+    "flows": {
+      "window_hours": 24,
+      "net_usd": 223410,
+      "direction": "off exchanges"
+    }
+  },
+  "also_reported_by": [
+    "CoinDesk",
+    "Decrypt",
+    "The Block",
+    "Bitcoin Magazine",
+    "Cointelegraph",
+    "U.Today",
+    "Crypto Briefing"
+  ],
+  "developing": false
+}
