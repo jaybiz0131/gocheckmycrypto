@@ -1,0 +1,35 @@
+{
+  "id": "c064",
+  "slug": "arbitrum-security-council-halts-new-stylus-contract-activations",
+  "kind": "brief",
+  "title": "Arbitrum Security Council Halts New Stylus Contract Activations",
+  "dek": "Arbitrum's Security Council paused new Stylus contract activations on October 2, 2026 after detecting increasingly sophisticated AI-assisted attacks using hand-crafted WebAssembly programs. Existing Stylus apps continue running, but developers cannot deploy new or updated Stylus-based applications until the Council reopens activations.",
+  "date": "2026-10-03",
+  "published_utc": "2026-10-03T23:14:34Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 8,
+  "author": "Crypto Cronkite",
+  "key_fact": "New Stylus contract activations are blocked to prevent denial-of-service attacks, but existing active contracts can continue running and renewing their lifetimes.",
+  "bottom_line": "The Security Council has not specified when Stylus activations will reopen. The defining consequence for developers is whether the pause extends beyond weeks, as longer periods may force abandonment of projects requiring fresh activation or version updates.",
+  "human_take": "",
+  "body": [
+    "Arbitrum's Security Council executed an emergency protocol safeguard on October 2, 2026 by temporarily blocking new Stylus contract activations on Arbitrum One and Nova, according to reporting from CryptoSlate. The move restricts programs and app updates that require fresh activation but leaves already-active Stylus applications running and ordinary Solidity contract deployment unaffected.",
+    "Arbitrum attributed the precaution to increasingly sophisticated AI-assisted attacks involving hand-crafted WebAssembly programs outside the standard Stylus compiler toolchain. Stylus contracts run WebAssembly programs that require activation to become executable; activation is distinct from deployment, which simply stores code onchain. The Council raised the activation gas requirement to a prohibitively expensive level, a configuration change requiring no upgrade to ArbOS, the network's operating software.",
+    "According to Arbitrum's statement, known Stylus bugs primarily threaten chain liveness, including denial-of-service risks. The company stated that no attack permitting theft of user funds has been discovered. The linked Ethereum, Arbitrum One and Nova transaction records show the action executed successfully on October 2 around 15:30 to 15:31 UTC.",
+    "The pause blocks new application versions from becoming executable and reactivations of expired or updated programs. Developers can continue extending an active program's lifetime through the permissionless keepalive renewal mechanism before expiration, but reactivating an expired program or one needing reactivation after a Stylus version change is not possible during the pause.",
+    "Arbitrum also installed a separate safeguard for BoLD's one-step proofs on Arbitrum One during the same action. If anyone presents two conflicting answers to the same step of an open challenge and the one-step proof accepts both, the guard puts One's settlement to Ethereum on hold. One would continue processing normally, but messages from One to Ethereum not yet confirmed, including withdrawals, would wait while the Council deploys a fix and resumes settlement. CryptoSlate noted that the October 2 report and developer notice give no reopening date, saying the Foundation will work with ArbitrumDAO on the timeline and manner of restoring activations."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptoslate.com/arbitrum-pauses-new-stylus-activations-over-ai-assisted-attack-risks/",
+      "url": "https://cryptoslate.com/arbitrum-pauses-new-stylus-activations-over-ai-assisted-attack-risks/"
+    },
+    {
+      "title": "https://thedefiant.io/news/security/arbitrum-pauses-new-stylus-activations-in-emergency-security-action",
+      "url": "https://thedefiant.io/news/security/arbitrum-pauses-new-stylus-activations-in-emergency-security-action"
+    }
+  ],
+  "also_reported_by": [],
+  "developing": false
+}

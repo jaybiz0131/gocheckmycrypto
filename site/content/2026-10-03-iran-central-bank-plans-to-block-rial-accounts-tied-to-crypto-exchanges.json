@@ -1,0 +1,31 @@
+{
+  "id": "c133",
+  "slug": "iran-central-bank-plans-to-block-rial-accounts-tied-to-crypto-exchanges",
+  "kind": "brief",
+  "title": "Iran Central Bank Plans to Block Rial Accounts Tied to Crypto Exchanges",
+  "dek": "Iran's central bank is moving to disconnect rial bank accounts and payment gateways from crypto exchanges, citing market manipulation concerns. The action follows temporary trading limits on Tether introduced in late September and comes as the central bank itself holds hundreds of millions in USDT while Tether has frozen over $475 million in CBI-linked holdings.",
+  "date": "2026-10-03",
+  "published_utc": "2026-10-03T23:14:34Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 11,
+  "author": "Crypto Cronkite",
+  "key_fact": "The Central Bank of Iran plans to block rial bank accounts and payment gateways belonging to crypto exchanges including Nobitex and Wallex, platforms critical to domestic access to dollar-pegged stablecoins in a sanctions-heavy economy.",
+  "bottom_line": "The central bank's account blocks are described as planned but the brief does not confirm an enforcement date, final scope of affected exchanges, or mechanism of implementation. If the October 3-4 temporary trading limits are not extended and the account blocks do not materialize, the premise of escalating financial isolation collapses. The central bank's simultaneous custody of $507 million in USDT while restricting retail access creates a credibility risk if Tether freezes more holdings.",
+  "human_take": "",
+  "body": [
+    "Iran's central bank is moving to sever rial bank accounts and payment gateways from domestic crypto exchanges, according to Crypto Briefing. The stated rationale is concern over market manipulation. The action escalates curbs the central bank introduced in late September, when it capped Tether purchases at 2,000 USDT per user per day and suspended trading every night from 21:00 to 09:00 Tehran time on platforms including Nobitex and Wallex, two of the country's largest exchanges. Ramzinex and Bitpin rolled out similar limits. Those temporary restrictions were set to expire around October 3 to 4.",
+    "The September rules applied only to Tether-rial trading pairs and did not ban holding USDT or withdrawing it. If the planned account blocks proceed, they would strike deeper, cutting off the banking rails that allow exchanges to convert rials into crypto. For Nobitex and Wallex, losing access to rial bank accounts would collapse the core business of onramp transactions into digital assets in an economy heavily squeezed by US sanctions.",
+    "The timing matters. Tether froze approximately $344 million linked to CBI-associated wallets in April 2026, then another $131 million in July 2026, per Crypto Briefing. Blockchain analytics firm Elliptic previously identified over $507 million connected to Iranian USDT acquisitions, suggesting the central bank itself had been an active buyer of the stablecoin. The central bank has accumulated USDT partly because it offers a digital proxy for the US dollar in an economy where dollar access is blocked. Yet Tether's ability to freeze those wallets exposes the central bank's dependence on the issuer's goodwill.",
+    "The US imposed sanctions on Iranian exchanges, including Nobitex, in June 2026. That action pushed the central bank to tighten its grip on stablecoin trading. The account blocks represent the next stage: preventing citizens from accessing dollar hedges altogether while the central bank itself holds over $500 million in an asset whose issuer can freeze it at will."
+  ],
+  "sources": [
+    {
+      "title": "https://cryptobriefing.com/central-bank-iran-block-rial-accounts-tether/",
+      "url": "https://cryptobriefing.com/central-bank-iran-block-rial-accounts-tether/"
+    }
+  ],
+  "update_of": "doj-files-forfeiture-case-for-61m-in-binance-accounts-tied-to-iran-oil-laundering",
+  "also_reported_by": [],
+  "developing": true
+}

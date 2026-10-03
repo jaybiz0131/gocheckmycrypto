@@ -1,27 +1,5 @@
 [
  {
-  "date": "2026-08-20",
-  "approved": 1,
-  "rejected": [
-   {
-    "id": "c019",
-    "headline": "Trump pushes Congress to move on Clarity Act during White House crypto event",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief exists for this story. The instruction states 'every draft fact must then trace to the draft's own cited sources or be rejected.' The draft cites only one CoinDesk URL but provides no URL content or verification. The claims about Trump meeting with tech CEOs, calling for Senate passage of the Clarity Act, and the timing of the CFTC Innovation Advisory Committee meeting cannot be verified against the cited source alone. Without access to the source material or a research brief, these facts are unverifiable and must be rejected."
-    ]
-   },
-   {
-    "id": "c001",
-    "headline": "CFTC Chair Signals Unilateral Rulemaking if Clarity Act Stalls",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief exists for this story. The draft cites only one CoinDesk URL but provides no URL content or verification. Critical factual claims\u2014that CFTC Chairman Mike Selig stated the agency would write market structure rules if the Clarity Act fails, that the CFTC's authority over derivatives is established but spot market oversight is contested, and that the announcement signals the CFTC views unilateral rulemaking as a credible path forward\u2014cannot be verified against the cited source alone. Without access to source material or a research brief, these facts are unverifiable and must be rejected."
-    ]
-   }
-  ]
- },
- {
   "date": "2026-08-21",
   "approved": 0,
   "rejected": [
@@ -5040,6 +5018,38 @@
     "reasons": [
      "The draft claims 'September 2026 saw $2.65 billion in net inflows into spot bitcoin ETFs' and attributes this to The Block, but the brief notes that 'The Block source page returned a 403 error (access denied), meaning the September figure cannot be independently verified from the original reporting outlet.' The brief explicitly flags this as an unverifiable secondary report. The draft presents this as a settled fact without flagging the verification problem that the brief documents.",
      "The draft does not acknowledge the brief's bear_case finding that the $2.65B figure comes from a 403-error source and is not independently verifiable. This is a material limitation that the brief captures but the draft omits entirely."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-03",
+  "approved": 7,
+  "rejected": [
+   {
+    "id": "c019",
+    "headline": "Absa Becomes First African Bank to Offer Bitcoin Custody (October 2026)",
+    "category": "accuracy",
+    "reasons": [
+     "The draft opens with 'As reported first by Bloomberg on Friday' but lists only one source URL (Bitcoin Magazine) in the sources array. The brief's data_point confirms Bloomberg reported first, but the draft's sourcing attribution to Bloomberg is not supported by the sources listed, which contain only Bitcoin Magazine. Either Bloomberg must be added to sources or the attribution removed.",
+     "The title is dated 'October 2026' without a specific date, but the brief timestamp and data_point reference Friday, September 27, 2026 as the Bloomberg report date. The draft should specify the announcement date or clarify timing more precisely given that Bloomberg's October 2 reporting is what appears to be the event date for this story."
+    ]
+   },
+   {
+    "id": "c066",
+    "headline": "IMF Approves $138 Million Disbursement to El Salvador With Bitcoin Restrictions",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The new IMF disbursement follows a $1.4 billion loan agreement signed in late December' but the brief data point says 'El Salvador and the IMF entered a $1.4 billion loan agreement at the end of December' without specifying which year. The phrasing 'signed in late December' without year attribution is ambiguous and could mislead readers into thinking this occurred recently when it likely refers to December 2025. The timing is material to understanding the sequence of IMF conditions and El Salvador's compliance history.",
+     "The draft presents the disbursement amount ambiguity unresolved in the body text ('ranging from $138 to $139 million' in the lede) but the brief documents two different source reports: one says $138M (The Defiant) and one says $139M (Bitcoin Magazine). The draft should either pick the precise figure with source attribution or flag the discrepancy explicitly, not present 'ranging from' as if it were an official range."
+    ]
+   },
+   {
+    "id": "c063",
+    "headline": "Federal Judge Rules Illinois Licensing Rules Likely Conflict With Federal Derivatives Law",
+    "category": "accuracy",
+    "reasons": [
+     "The brief is marked 'thin': true with only 3 data_points and 496 source_chars. The draft is also extremely thin (approximately 180 words of body). The core problem is that the draft contains zero detail about what Illinois licensing rules were at issue, what the conflict with federal derivatives law actually is, or why this matters substantively. The bottom_line itself acknowledges 'The judge's full reasoning on the licensing conflict and the specific Illinois rules found problematic are not detailed in available reporting.' This is a flag that the source is too thin to publish. A reader learns that a judge ruled something likely conflicts with something, but learns nothing about what that means, which rules, what platforms can now do, or what the practical stakes are. The draft is not a story; it is a placeholder waiting for reporting that does not yet exist."
     ]
    }
   ]

@@ -1,0 +1,55 @@
+{
+  "id": "c005",
+  "slug": "independent-community-bankers-of-america-sues-occ-over-crypto-trust-charters-october-2-2026",
+  "kind": "brief",
+  "title": "Independent Community Bankers of America Sues OCC Over Crypto Trust Charters (October 2, 2026)",
+  "dek": "The Independent Community Bankers of America filed suit October 2 in federal court in Washington seeking to vacate the OCC's national trust bank rule and Interpretive Letter 1176. The ICBA argues the agency exceeded its authority by widening limited-purpose trust charters for fintech and crypto firms. The OCC has approved or conditionally approved 21 trust banks, 13 tied to crypto, since December 2025.",
+  "date": "2026-10-03",
+  "published_utc": "2026-10-03T23:14:34Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "A major institutional banking group is contesting the OCC's legal authority to grant crypto trust charters, a regulatory power the regulator has used to approve or conditionally approve 21 trust banks since December 2025, 13 of them tied to crypto.",
+  "bottom_line": "The outcome will determine whether the national trust bank becomes a firmer federal route for crypto custody and stablecoin infrastructure, or whether those services migrate to state trusts or partnership arrangements. The OCC finalized its rule explicitly citing the Supreme Court's Loper Light decision, signaling confidence the regulator expected litigation and believed it had sufficient authority to proceed; how the court interprets the National Bank Act's scope is the decision to watch.",
+  "human_take": "",
+  "body": [
+    "The Independent Community Bankers of America sued the Office of the Comptroller of the Currency on October 2, 2026, in federal court in Washington, seeking to vacate the OCC's national trust bank rule and Interpretive Letter 1176. According to CryptoSlate's reporting, the complaint argues the agency exceeded its authority by widening limited-purpose trust charters to include fintech and crypto firms.",
+    "The ICBA contests the OCC's interpretation that the National Bank Act authorizes national trust banks to conduct nonfiduciary custody and related activities for digital assets. The suit targets Protego's conditional approval and seeks to prevent the agency from granting further charters under its disputed rule and guidance.",
+    "Since December 2025, the OCC has approved or conditionally approved 21 trust banks, per CryptoSlate's reporting, with 13 of them tied to crypto. The first five crypto-linked national trust applications won decisions in December 2025: BitGo, Fidelity Digital Assets, First National Digital Currency Bank, Paxos, and Ripple-linked applicants. Bridge, National Digital Trust, and Foris DAX (parent of Crypto.com) followed in February; Coinbase received approval in April; Laser Digital in May; and Agora, Catena, and Bastion arrived September 18.",
+    "The OCC finalized its national trust bank rule in February 2026, effective April 1. The rule replaced the phrase \"fiduciary activities\" with broader statutory language, \"the operations of a trust company and activities related thereto.\" The OCC cited 12 U.S.C. 24(Seventh) as authority for nonfiduciary custody and related activities. The ICBA's complaint reads the rule as stretching a limited-purpose trust charter to cover non-depository, non-fiduciary crypto businesses under a lighter framework than insured banks face.",
+    "Approved charters cover a range of services beyond custody. Coinbase's plan covers digital asset custody as a fiduciary plus transactional services tied to custodied assets. Agora plans dollar-backed stablecoin issuance, reserve maintenance, nonfiduciary custody, and payment and settlement services. Catena combines custody, investment management, and trust services with conversion, clearing, and execution. Bastion offers white-label stablecoin issuance, custodial wallets, conversion, and issuer services. Foris DAX couples custody with trade settlement and staking. Bridge's initial approval covers custody, stablecoin issuance and orchestration, and reserve management.",
+    "The OCC said in August that it had received 40 de novo charter applications over about 18 months, and Comptroller Jonathan Gould stated 23 of them involved digital assets. Pending applicants include zerohash, Dakota National Trust Bank, Payward (Kraken), Lorum National Trust Bank, EDX Trust, and PAYO Digital Bank. The ICBA seeks vacatur plus declaratory and injunctive relief.",
+    "Institutional projections on crypto custody market size are substantial. JPMorgan sees $500 billion by 2028 in crypto assets under custody, according to CryptoSlate. Coinbase's model centers on $1.2 trillion by the end of 2028. Standard Chartered expects $2 trillion by 2028. Citi's 2030 cases run from $1.9 trillion in its base scenario to $4 trillion in its most optimistic one. FDIC-insured banks held about $20.7 trillion in deposits in the second quarter. The San Francisco Fed estimates stablecoin issuers' Treasury demand could roughly double to about $400 billion by 2030."
+  ],
+  "sources": [
+    {
+      "title": "https://www.coindesk.com/policy/2026/10/02/bank-group-sues-u-s-regulator-over-granting-crypto-trust-charters",
+      "url": "https://www.coindesk.com/policy/2026/10/02/bank-group-sues-u-s-regulator-over-granting-crypto-trust-charters"
+    },
+    {
+      "title": "https://thedefiant.io/converge/tradfi-and-fintech/icba-sues-occ-over-crypto-trust-charters",
+      "url": "https://thedefiant.io/converge/tradfi-and-fintech/icba-sues-occ-over-crypto-trust-charters"
+    },
+    {
+      "title": "https://cointelegraph.com/news/community-banks-sue-occ-over-trust-bank-charters-of-crypto-firms",
+      "url": "https://cointelegraph.com/news/community-banks-sue-occ-over-trust-bank-charters-of-crypto-firms"
+    },
+    {
+      "title": "https://cryptoslate.com/bankers-sue-to-overturn-occ-trust-bank-rule-used-by-crypto-firms/",
+      "url": "https://cryptoslate.com/bankers-sue-to-overturn-occ-trust-bank-rule-used-by-crypto-firms/"
+    },
+    {
+      "title": "https://beincrypto.com/icba-sues-occ-crypto-trust-charters/",
+      "url": "https://beincrypto.com/icba-sues-occ-crypto-trust-charters/"
+    }
+  ],
+  "update_of": "revolut-starts-eurr-rollout-with-bridge-as-regulated-issuer-september-13-2026",
+  "also_reported_by": [
+    "The Defiant",
+    "Cointelegraph",
+    "CryptoSlate",
+    "BeInCrypto"
+  ],
+  "developing": false
+}
