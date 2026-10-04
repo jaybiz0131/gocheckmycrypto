@@ -1,0 +1,23 @@
+{
+ "edition_date": "2026-10-04",
+ "run_utc": "2026-10-04T23:14:34Z",
+ "published": 1,
+ "chosen": {
+  "cid": "c122",
+  "headline": "Japan sanctions Garantex, freezing assets of Russian exchange tied to $96B in crypto transactions",
+  "rank": 6,
+  "standing": "corroborated"
+ },
+ "held": [
+  {
+   "cid": "c005",
+   "headline": "Bitcoin ETFs Draw $134 Million as Jobs Report Shifts Fed Rate Outlook",
+   "rank": 5,
+   "standing": "single",
+   "why": "rests on one secondary outlet, so it is not the day's story",
+   "key_fact": "Spot Bitcoin ETFs drew $102.7 million on October 2 and $31.7 million on October 3 after jobs data cooled Fed rate expectations from 70% to 14% odds of an October hike.",
+   "verdict": "VERIFIED",
+   "draft": null
+  }
+ ]
+}

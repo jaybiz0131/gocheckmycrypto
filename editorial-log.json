@@ -1,20 +1,6 @@
 [
  {
   "date": "2026-08-21",
-  "approved": 0,
-  "rejected": [
-   {
-    "id": "c008",
-    "headline": "CFTC Chief Directs Staff to Draft Crypto Rules Independent of Congress",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for this story. Per protocol, every factual claim must trace to a data_point in a research brief. The draft cites only one source (CoinDesk), but the protocol requires facts to be verified against a brief's data_points with confidence labels. Without a brief, core claims cannot be audited: CFTC Chair Mike Selig's directive, the Innovation Advisory Committee meeting, the specific framing of independent rulemaking as conditional on Congressional failure, and characterizations of Selig's intent all lack the brief-anchored confidence architecture this desk requires. The story cannot be approved without the brief it was written from."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-21",
   "approved": 1,
   "rejected": [
    {
@@ -5050,6 +5036,30 @@
     "category": "accuracy",
     "reasons": [
      "The brief is marked 'thin': true with only 3 data_points and 496 source_chars. The draft is also extremely thin (approximately 180 words of body). The core problem is that the draft contains zero detail about what Illinois licensing rules were at issue, what the conflict with federal derivatives law actually is, or why this matters substantively. The bottom_line itself acknowledges 'The judge's full reasoning on the licensing conflict and the specific Illinois rules found problematic are not detailed in available reporting.' This is a flag that the source is too thin to publish. A reader learns that a judge ruled something likely conflicts with something, but learns nothing about what that means, which rules, what platforms can now do, or what the practical stakes are. The draft is not a story; it is a placeholder waiting for reporting that does not yet exist."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-04",
+  "approved": 3,
+  "rejected": [
+   {
+    "id": "c006",
+    "headline": "Near Intents Recovers $3.8 Million After 48-Hour Ultimatum to Identified Attacker",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The desk's ETF flows board showed $31.7 million in net BTC ETF inflows on October 2' but this sentence appears in draft c005, not c006. The c006 draft contains a factual claim about ETF flows that is not present in the c006 brief's data_points.",
+     "The draft claims 'per Decrypt reporting' and 'according to Decrypt' repeatedly, but every single data point in the draft is sourced exclusively to Decrypt (one URL). The attribution is correct but the draft should verify whether this single-source dependency on Decrypt for all claims (including the on-chain message from the attacker, ZachXBT's tracing, law enforcement reporting, etc.) meets the desk's standard for reputational claims."
+    ]
+   },
+   {
+    "id": "c052",
+    "headline": "Russia's Finance Ministry pays wages in digital rubles for first time",
+    "category": "accuracy",
+    "reasons": [
+     "The draft claims 'The wage payment marks an operational use of the digital ruble beyond pilot or testing phases' but the brief explicitly flags this as unconfirmed: the open_questions state 'No confirmation of whether this is a pilot or permanent operational change.' The draft asserts definitively what the brief only presents as ambiguous, and this assertion is not supported by the source material itself.",
+     "The draft states the payment 'signals a shift toward integrating Russia's CBDC into routine government operations' which projects forward into interpretation beyond what the single Cointelegraph sentence reports. This is inference, not fact-from-brief."
     ]
    }
   ]

@@ -28,6 +28,20 @@
    "/articles/trump-tariffs-brazil-s-pix-while-dollar-stablecoins-already-own-90-of-crypto-payments.html"
   ]
  },
+ "European Union :: (unnamed measure)": {
+  "dates": [
+   "March 20",
+   "October 2, 2026"
+  ],
+  "first_seen": "2026-10-04",
+  "instrument": "(unnamed measure)",
+  "jurisdiction": "European Union",
+  "last_seen": "2026-10-04",
+  "last_title": "Japan sanctions Garantex, freezing assets of Russian exchange tied to $96B in crypto transactions",
+  "stories": [
+   "/articles/japan-sanctions-garantex-freezing-assets-of-russian-exchange-tied-to-96b-in-crypto-transactions.html"
+  ]
+ },
  "European Union :: Basel": {
   "dates": [],
   "first_seen": "2026-08-16",
@@ -104,15 +118,17 @@
  },
  "Japan :: (unnamed measure)": {
   "dates": [
-   "March 20"
+   "March 20",
+   "October 2, 2026"
   ],
   "first_seen": "2026-08-13",
   "instrument": "(unnamed measure)",
   "jurisdiction": "Japan",
-  "last_seen": "2026-08-13",
-  "last_title": "MUFG to test real-time blockchain settlement for Japanese government bond trades",
+  "last_seen": "2026-10-04",
+  "last_title": "Japan sanctions Garantex, freezing assets of Russian exchange tied to $96B in crypto transactions",
   "stories": [
-   "/articles/mufg-to-test-real-time-blockchain-settlement-for-japanese-government-bond-trades.html"
+   "/articles/mufg-to-test-real-time-blockchain-settlement-for-japanese-government-bond-trades.html",
+   "/articles/japan-sanctions-garantex-freezing-assets-of-russian-exchange-tied-to-96b-in-crypto-transactions.html"
   ]
  },
  "Russia :: (unnamed measure)": {
@@ -197,19 +213,21 @@
    "July 22",
    "December 20",
    "September 19",
-   "September 19, 2026"
+   "September 19, 2026",
+   "March 20",
+   "October 2, 2026"
   ],
   "first_seen": "2026-07-16",
   "instrument": "(unnamed measure)",
   "jurisdiction": "United States",
-  "last_seen": "2026-09-19",
-  "last_title": "Coinbase's tokenized stocks hit $1B in DEX volume within a month",
+  "last_seen": "2026-10-04",
+  "last_title": "Japan sanctions Garantex, freezing assets of Russian exchange tied to $96B in crypto transactions",
   "stories": [
-   "/articles/alpaca-raises-135-million-to-expand-tokenized-equities-infrastructure.html",
    "/articles/trump-targets-brazil-s-pix-while-dollar-stablecoins-dominate-country-s-crypto-payments.html",
    "/articles/trump-tariffs-brazil-s-pix-while-dollar-stablecoins-already-own-90-of-crypto-payments.html",
    "/articles/fincen-ties-12-7b-to-crypto-investment-scams-run-from-southeast-asian-compounds.html",
-   "/articles/coinbase-s-tokenized-stocks-hit-1b-in-dex-volume-within-a-month.html"
+   "/articles/coinbase-s-tokenized-stocks-hit-1b-in-dex-volume-within-a-month.html",
+   "/articles/japan-sanctions-garantex-freezing-assets-of-russian-exchange-tied-to-96b-in-crypto-transactions.html"
   ]
  },
  "United States :: Bank Secrecy Act": {
