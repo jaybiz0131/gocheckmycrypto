@@ -40,6 +40,7 @@ import sys
 from datetime import datetime, timezone
 
 import common
+import venues
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out", "whale_flows.json")
@@ -84,10 +85,12 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
         is_stable = sym in STABLES
         if kind in ("inflow", "outflow"):
             move = {"symbol": sym, "amount": float(t.get("amount") or 0), "usd": usd,
-                    "to": (t.get("to", {}) or {}).get("owner") or (
-                        "unknown exchange" if kind == "inflow" else "unknown wallet"),
-                    "from": (t.get("from", {}) or {}).get("owner") or (
-                        "unknown wallet" if kind == "inflow" else "unknown exchange"),
+                    # venues.canonical: one name table, so the feed's "okex" is
+                    # written as OKX here and every surface downstream agrees
+                    "to": venues.canonical((t.get("to", {}) or {}).get("owner") or (
+                        "unknown exchange" if kind == "inflow" else "unknown wallet")),
+                    "from": venues.canonical((t.get("from", {}) or {}).get("owner") or (
+                        "unknown wallet" if kind == "inflow" else "unknown exchange")),
                     "blockchain": t.get("blockchain", ""), "hash": t.get("hash", ""),
                     "url": t.get("url", ""),  # explorer receipt (fallback source only)
                     "ts": float(t.get("timestamp") or 0), "stable": is_stable}

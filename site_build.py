@@ -1110,6 +1110,10 @@ def tracking_match(story, rx):
     return len(rx.findall(text)) >= 2
 
 def destyle(text):
+    return _fix_venue_names(_destyle_core(text))
+
+
+def _destyle_core(text):
     """House style: no em/en dashes in site copy (model drafts sometimes use them).
 
     ENTITIES COUNT. This handled the literal characters only, and the gap was not
@@ -3045,7 +3049,12 @@ def board_tiles(pulse, flows, deltas):
             "delta": f'<div class="bd-delta {"down" if onto else "up"}">'
                      f'{_ARROW_DN if onto else _ARROW_UP}'
                      f'{"onto exchanges" if onto else "off exchanges"}'
-                     f'<span class="bd-since">24h net</span></div>',
+                     # "all coins" (4 October 2026): the Whale section's per-coin
+                     # lines sum to this. The window is the file's own, never a
+                     # hardcoded 24h over a widened 48-hour reading.
+                     f'<span class="bd-since">'
+                     f'{_win_phrase((flows or {}).get("window_hours", 24))} net, all coins'
+                     f'</span></div>',
             "read": "Coins moving onto exchanges, often to sell.",
             "learn": "whale-exchange-flows"})
 
@@ -3508,16 +3517,9 @@ def pct_class(v, dp=1):
 # names and a name is not something to infer; anything not on it gets its first letters
 # raised and nothing else, so an unknown venue is never renamed, only tidied.
 
-VENUE_NAMES = {
-    "binance": "Binance", "binance us": "Binance.US", "bitfinex": "Bitfinex",
-    "bitget": "Bitget", "bitmex": "BitMEX", "bitstamp": "Bitstamp",
-    "bithumb": "Bithumb", "bybit": "Bybit", "coinbase": "Coinbase",
-    "coinbase institutional": "Coinbase Institutional", "crypto.com": "Crypto.com",
-    "deribit": "Deribit", "gate.io": "Gate.io", "gemini": "Gemini", "htx": "HTX",
-    "huobi": "Huobi", "kraken": "Kraken", "kucoin": "KuCoin", "mexc": "MEXC",
-    "okx": "OKX", "upbit": "Upbit", "tether treasury": "Tether Treasury",
-    "unknown wallet": "Unknown wallet", "unknown": "Unknown",
-}
+# The name table lives in venues.py so whale_flows and the page cannot spell an
+# exchange two ways (4 October 2026).
+from venues import VENUE_NAMES, fix_names as _fix_venue_names  # noqa: E402
 
 _VENUE_SMALL = {"and", "of", "the"}
 
@@ -6278,6 +6280,35 @@ def _win_phrase(hours):
     return f"{hours} hours"
 
 
+WHALE_FLOOR_USD = 50_000_000  # whale_flows' floor, so "$50M or more" stays true
+
+
+def whale_window(flows):
+    """ONE QUERY, TWO OUTPUTS (4 October 2026). /flows said "No exchange-size whale moves
+    hit the public feed in the last 24 hours" above a table of sixteen $50M transfers:
+    the sentence spoke about one window and the table listed another. Both now come from
+    here: one window (the file's own), one threshold, and the sentence states the count,
+    the window and the net of exactly the rows the tables list."""
+    win = _win_phrase((flows or {}).get("window_hours", 24))
+    ins = [m for m in (flows or {}).get("top_inflows") or [] if (m.get("usd") or 0) >= WHALE_FLOOR_USD]
+    outs = [m for m in (flows or {}).get("top_outflows") or [] if (m.get("usd") or 0) >= WHALE_FLOOR_USD]
+    n = len(ins) + len(outs)
+    net = ((flows or {}).get("volatile") or {}).get("net_usd")
+    if not n:
+        sentence = f"No transfers of $50M or more touched an exchange in the last {win}."
+    else:
+        sentence = (f"{n} transfer{'' if n == 1 else 's'} of $50M or more touched an "
+                    f"exchange in the last {win}")
+        amt, words, _c = flow_words(net)
+        sentence += (f"; volatile coins net {amt} {words}." if amt else ".")
+    wid = (flows or {}).get("window_widened_from")
+    if wid and n:
+        sentence = (f"None in the last {_win_phrase(wid)}, so this board reads a wider "
+                    f"window. " + sentence)
+    return {"inflows": ins, "outflows": outs, "moves": ins + outs, "count": n,
+            "window": win, "net": net, "sentence": sentence}
+
+
 def render_flows(flows, dateline):
     if not flows or (not flows.get("by_asset") and not flows.get("top_inflows")):
         body = ww_hero() + """<main class="wrap"><section class="page">
@@ -6305,10 +6336,7 @@ def render_flows(flows, dateline):
     if flows.get("example"):
         ribbon = ('<div class="callout"><b>Example board.</b> These are illustrative figures from '
                   'sample data, shown so you can see the format. Live flows arrive with the next site build.</div>')
-    if flows.get("window_widened_from"):
-        ribbon += (f'<div class="callout"><b>Quiet stretch.</b> No exchange-size whale moves hit '
-                   f'the public feed in the last {_win_phrase(flows["window_widened_from"])}, so '
-                   f'this board shows the last {_win_phrase(flows.get("window_hours"))} instead.</div>')
+    ww = whale_window(flows)
     # the "what it cannot tell you" explainer names the source that actually produced this
     # snapshot (whale_flows falls back to Blockscout when Whale Alert's feed is down)
     src_line = ('Only the very largest Ethereum ERC-20 transfers visible on the '
@@ -6319,8 +6347,11 @@ def render_flows(flows, dateline):
                 'rel="nofollow">Whale Alert</a> to post publicly (roughly $50M and up) '
                 'appear here')
     # deterministic 'now' anchor for move ages: the newest transfer in the window
-    all_moves = flows.get("top_inflows", []) + flows.get("top_outflows", [])
-    now_ts = max((m.get("ts") or 0 for m in all_moves), default=0)
+    # Ages are measured from the reading's own instant. They were measured from the
+    # newest move, so a transfer 28 hours old read "4h ago" under a sentence saying
+    # nothing had moved in 24 hours.
+    _g = _utc_dt(flows.get("generated_utc") or "")
+    now_ts = _g.timestamp() if _g else max((m.get("ts") or 0 for m in ww["moves"]), default=0)
 
     def _move_rows(moves):
         rows = ""
@@ -6343,8 +6374,8 @@ def render_flows(flows, dateline):
                      f'<br><span class="mut">from {esc(venue_name(m.get("from")))}</span></td></tr>')
         return rows
 
-    move_rows = _move_rows(flows.get("top_inflows", []))
-    out_rows = _move_rows(flows.get("top_outflows", []))
+    move_rows = _move_rows(ww["inflows"])
+    out_rows = _move_rows(ww["outflows"])
     ex_rows = "".join(
         f'<tr><td class="sym2" style="text-transform:none">{esc(venue_name(e.get("exchange")))}</td>'
         f'<td class="pnum" style="color:var(--down)">{_flow_cell(e.get("inflow_usd"))}</td>'
@@ -6360,14 +6391,13 @@ def render_flows(flows, dateline):
     if med and net is not None:
         pace = abs(net) / (med * win_h / 168)
         pace_html = f' &middot; about {pace:.1f}x a typical week&rsquo;s pace'
-    biggest = max(flows.get("top_inflows", []) + flows.get("top_outflows", []),
-                  key=lambda m: m.get("usd", 0), default=None)
+    biggest = max(ww["moves"], key=lambda m: m.get("usd", 0), default=None)
     big_html = ""
     if biggest:
         big_html = f"""<div class="stat">
       <span class="lab">Biggest single move</span>
       <span class="big">{esc(fmt_usd(biggest.get("usd", 0)))}</span>
-      <span class="sub">{esc(biggest.get("symbol", ""))} &rarr; {esc(biggest.get("to", ""))}</span>
+      <span class="sub">{esc(biggest.get("symbol", ""))} &rarr; {esc(venue_name(biggest.get("to", "")))}</span>
     </div>"""
     body = ww_hero() + f"""<main class="wrap"><section class="page">
   <div class="ey" style="margin:14px 0 0">
@@ -6381,6 +6411,7 @@ def render_flows(flows, dateline):
      exchanges (can precede selling) vs off into self-custody (accumulation), last {winp}.</p>
   <p class="bd-src">{_flows_asof(flows)}</p>
   {ribbon}
+  <p class="ww-sentence"><b>{esc(ww["sentence"])}</b></p>
 
   <div class="stats">
     <div class="stat">
@@ -6397,7 +6428,7 @@ def render_flows(flows, dateline):
     {big_html}
     <div class="stat">
       <span class="lab">Exchange-size moves</span>
-      <span class="big">{flows.get("txn_count", 0)}</span>
+      <span class="big">{ww["count"]}</span>
       <span class="sub">$50M+ transfers in {esc(winp)}</span>
     </div>
   </div>
