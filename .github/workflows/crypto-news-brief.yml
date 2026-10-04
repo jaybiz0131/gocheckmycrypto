@@ -580,9 +580,13 @@ jobs:
           # Netlify re-runs both refreshers at deploy, but its build IP is rate-limited, so
           # the committed snapshot is the fallback that actually reaches readers: it has to
           # be current.
+          # edition_hold.json (4 October 2026): what tonight's Edition chose and held.
+          # The held stories live to the next Edition through it, and the build reads it
+          # to know the slot has run before it may print "Nothing cleared the bar today."
           git add site/content site/data/chartmaster.json site/data/pulse.json \
                   site/data/flows.json editorial-log.json regwatch.json \
                   site/data/source_health.json
+          [ -f site/data/edition_hold.json ] && git add site/data/edition_hold.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"

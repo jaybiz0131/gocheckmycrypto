@@ -969,15 +969,12 @@ def _news_lane_canary():
            "K-2 canary: an item with no parseable date reached the news lane, which is "
            "how two 12 July stories sat on the front page in September")
 
-    _check("one source so far" in _sb3.verdict_badge("VERIFIED", {"developing": True}),
-           fails, "K-2 canary: a single-source story does not say so in its badge")
-    _two = _sb3.verdict_badge("VERIFIED", {"developing": True})
+    # K-2 still holds under the 4 October badge law: one badge per card. The three
+    # badges themselves are asserted in _three_badges_canary.
+    _two = _sb3.verdict_badge("VERIFIED", {"sources": [{"url": "https://cointelegraph.com/x"}]})
     _check(_two.count("<span") == 1, fails,
            f"K-2 canary: a story carries two badges, which reads as the desk checking "
            f"and hedging the same sentence: {_two[:80]}")
-    _check(_sb3.verdict_badge("VERIFIED", {"developing": False})
-           == '<span class="badge verified">Verified</span>', fails,
-           "K-2 canary: a corroborated story no longer reads simply Verified")
 
     # And the built page carries no two-badge card.
     _idx = os.path.join(_sb3.PUBLISH, "index.html")
@@ -1155,6 +1152,9 @@ def layer1_canary():
     fails.extend(_one_leverage_canary())
     fails.extend(_news_lane_canary())
     fails.extend(_flow_sign_canary())
+    fails.extend(_one_story_canary())
+    fails.extend(_dark_line_canary())
+    fails.extend(_three_badges_canary())
     fails.extend(_where_is_news_canary())
     fails.extend(_chartmaster_charts_canary())
     fails.extend(_coin_chart_canary())
@@ -2024,9 +2024,10 @@ def _ingest_dedupe_canary():
            "site_build: the article page no longer renders the also-reported line; the "
            "corroboration is carried all the way to the page and then not shown")
     # corroborated is not "developing": the badge discloses a story resting on ONE outlet
-    _check(sb.verdict_badge("VERIFIED", {"developing": False,
-                                          "also_reported_by": ["B"]}).count("Developing") == 0,
-           fails, "site_build: a corroborated story renders the Developing badge")
+    _check(sb.verdict_badge("VERIFIED", {"sources": [{"url": "https://coindesk.com/a"}],
+                                          "also_reported_by": ["The Block"]})
+           == '<span class="badge verified">Verified</span>',
+           fails, "site_build: a story corroborated by also_reported_by is not plain Verified")
     return fails
 
 def _front_page_canary():
@@ -3072,6 +3073,122 @@ def layer2_sources():
         return 3
     print("LAYER 2 SOURCES: PASS -> all configured feeds resolve 200 and look like feeds.")
     return 0
+
+
+def _one_story_canary():
+    """Jack, 4 October 2026: the evening Edition publishes ONE story, the top-ranked one
+    that may lead (two independent sources or one primary); the rest are held, and only
+    the ones that could have led are carried, to the next Edition and no further."""
+    import autopilot as _ap
+    import json as _js
+    import tempfile as _tf
+    fails = []
+    _c = [{"cid": "c4", "rank": 4, "headline": "four", "standing": "corroborated"},
+          {"cid": "c1", "rank": 1, "headline": "one", "standing": "single"},
+          {"cid": "c2", "rank": 2, "headline": "two", "standing": "primary"},
+          {"cid": "c9", "rank": 9, "headline": "nine", "standing": "corroborated"}]
+    _ch, _held = _ap.choose_one(_c)
+    _check(_ch and _ch["cid"] == "c2", fails,
+           f"one-story canary: the top-ranked story that may lead was not chosen: {_ch}")
+    _check(sorted(h["cid"] for h in _held) == ["c1", "c4", "c9"], fails,
+           f"one-story canary: every other approved story is not held: {_held}")
+    _why = {h["cid"]: h["why"] for h in _held}
+    _check(_why.get("c1") == _ap.SECONDARY and _why.get("c4") == _ap.ONE_A_DAY, fails,
+           f"one-story canary: a hold does not say why: {_why}")
+    _ch0, _h0 = _ap.choose_one([dict(_c[1])])
+    _check(_ch0 is None and len(_h0) == 1, fails,
+           "one-story canary: a story on one secondary outlet was made the day's story")
+
+    # The hold lives to the next Edition and no further.
+    _d = _tf.mkdtemp()
+    _p = os.path.join(_d, "hold.json")
+    _drafts = {h["cid"]: {"id": h["cid"], "article_draft": {"title": h["headline"]}}
+               for h in _held}
+    _ap.write_hold(_p, "2026-10-04", "2026-10-04T23:14:00Z", _ch, _held, _drafts)
+    _rec = _js.load(open(_p))
+    _check(_rec["published"] == 1 and _rec["chosen"]["cid"] == "c2", fails,
+           f"one-story canary: the hold file does not record the day's story: {_rec}")
+    _check(sorted(h["cid"] for h in _ap.carried_holds("2026-10-05", _p)) == ["c4", "c9"],
+           fails, "one-story canary: the next Edition does not see the stories held for it")
+    _check(_ap.carried_holds("2026-10-06", _p) == [], fails,
+           "one-story canary: a hold outlived the next Edition")
+    _check(_ap.carried_holds("2026-10-04", _p) == [], fails,
+           "one-story canary: the same day's Edition re-offered its own holds")
+    return fails
+
+
+def _dark_line_canary():
+    """The cadence said on the page, and the dark line only AFTER the slot has run."""
+    import site_build as _sb
+    import datetime as _dtm
+    fails = []
+    _now = lambda s: _dtm.datetime.fromisoformat(s.replace("Z", "+00:00"))
+    _old = [{"title": "Yesterday's story", "verdict": "VERIFIED",
+             "published_utc": "2026-10-03T23:14:00Z", "sources": []}]
+    _ran = {"edition_date": "2026-10-04", "published": 0}
+    # a morning build reads the hold the PREVIOUS evening wrote, after a zero day too
+    _morning = _sb.dark_line(_old, {"edition_date": "2026-10-03", "published": 0},
+                             _now("2026-10-04T13:00:00Z"))
+    _check(_morning == "", fails,
+           f"dark-line canary: a build before the slot says the day failed: {_morning[:80]}")
+    _before = _sb.dark_line(_old, {"edition_date": "2026-10-03"}, _now("2026-10-04T22:00:00Z"))
+    _check(_before == "", fails,
+           "dark-line canary: the dark line printed before today's Edition slot ran")
+    _after = _sb.dark_line(_old, _ran, _now("2026-10-04T23:40:00Z"))
+    _check("Nothing cleared the bar today." in _after and "October 4" in _after, fails,
+           f"dark-line canary: a zero day after the slot does not say so, with the date: "
+           f"{_after[:120]}")
+    _one = _old + [{"title": "Today's story", "verdict": "VERIFIED",
+                    "published_utc": "2026-10-04T23:14:00Z", "sources": []}]
+    _check(_sb.dark_line(_one, _ran, _now("2026-10-04T23:40:00Z")) == "", fails,
+           "dark-line canary: the dark line printed on a day a story published")
+    _check(_sb.CADENCE_LINE == ("One checked story a day, in the evening, Eastern time. "
+                                "More only when news breaks."), fails,
+           "dark-line canary: the cadence line is not Jack's sentence")
+    for _pg in ("news.html", "index.html"):
+        _f = os.path.join(_sb.PUBLISH, _pg)
+        if os.path.exists(_f):
+            _h = open(_f, encoding="utf-8", errors="ignore").read()
+            _check(_sb.CADENCE_LINE in _h, fails,
+                   f"dark-line canary: {_pg} does not state the cadence")
+    return fails
+
+
+def _three_badges_canary():
+    """Three badges, and only three (Jack, 4 October 2026). Fixtures: two sources, one
+    primary, one secondary, a breaking single."""
+    import site_build as _sb
+    import re as _re
+    fails = []
+    two = {"verdict": "VERIFIED", "sources": [{"url": "https://www.coindesk.com/a"},
+                                              {"url": "https://www.theblock.co/b"}]}
+    prim = {"verdict": "VERIFIED", "sources": [{"url": "https://www.sec.gov/newsroom/x"}]}
+    sec = {"verdict": "VERIFIED", "sources": [{"url": "https://cointelegraph.com/news/y"}]}
+    brk = {"verdict": "VERIFIED", "breaking": True,
+           "sources": [{"url": "https://cointelegraph.com/news/z"}]}
+    _txt = lambda i: _re.sub(r"<[^>]+>", "", _sb.verdict_badge(i["verdict"], i))
+    _check(_txt(two) == "Verified", fails, f"badges: two sources read {_txt(two)!r}")
+    _check(_txt(prim) == "Verified, primary source", fails,
+           f"badges: one primary source reads {_txt(prim)!r}")
+    _check(_txt(sec) == "Unconfirmed, one report", fails,
+           f"badges: one secondary outlet reads {_txt(sec)!r}")
+    _check(_txt(brk) == "Unconfirmed, one report" and "Verified" not in _txt(brk), fails,
+           f"badges: a breaking single reads {_txt(brk)!r}")
+    _seen = {_txt(i) for i in (two, prim, sec, brk)} | {
+        _txt({"verdict": "NEEDS-HUMAN-REVIEW", "sources": two["sources"]})}
+    _check(_seen <= {"Verified", "Verified, primary source", "Unconfirmed, one report", ""},
+           fails, f"badges: a fourth badge exists: {_seen}")
+    # the primary source is listed first
+    _mixed = [{"url": "https://cointelegraph.com/a"}, {"url": "https://www.sec.gov/b"}]
+    _check(_sb.standing.primary_first(_mixed)[0]["url"] == "https://www.sec.gov/b", fails,
+           "badges: a primary source is not first in the story's source list")
+    # Standards says what each badge means, and spells labeled the American way
+    _st = _sb.render_standards("")
+    for _b in ("Verified", "Verified, primary source", "Unconfirmed, one report"):
+        _check(f"<b>{_b}</b>" in _st, fails, f"badges: Standards does not define {_b!r}")
+    _check("labelled" not in _st and "single weak source is labeled" in _st, fails,
+           "badges: Standards still spells labelled, or lost the single-weak-source sentence")
+    return fails
 
 def main():
     cmd = sys.argv[1] if len(sys.argv) > 1 else "all"

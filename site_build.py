@@ -25,6 +25,8 @@ import hashlib
 import json
 import dedupe
 from zoneinfo import ZoneInfo
+
+import standing  # the three-badge rule, shared with autopilot (4 October 2026)
 import os
 import re
 import sys
@@ -1379,6 +1381,9 @@ def load_content():
             if "developing" not in c:
                 c["developing"] = ((not _is_wrap(c)) and len(c.get("sources") or []) < 2
                                    and not c.get("also_reported_by"))
+            # a story resting on a primary source lists it first, back catalogue included
+            if c.get("sources"):
+                c["sources"] = standing.primary_first(c["sources"])
             items.append(c)
     # newest first by date then id
     # newest date first; within a date, the editor's rank (1 = lead); unranked (intro,
@@ -1973,31 +1978,27 @@ def render_body(body):
 
 
 def verdict_badge(verdict, item=None):
-    """The verdict, plus a developing flag when the story rests on a single outlet.
+    """Three badges, and only three (Jack, 4 October 2026), decided by standing.py, the
+    same rule the Edition uses to pick the day's story:
 
-    The two say different things and both matter. "Verified" means the verifier checked the
-    claims against the sources that existed; "Developing" means only one outlet has carried
-    it yet. A story can honestly be both, and showing only the first is the part that
-    oversells."""
-    # K-2: ONE BADGE. A card carrying "Verified" and "Developing, single source" side
-    # by side reads as a contradiction to a stranger: the desk appears to be checking
-    # and hedging the same sentence in the same breath. Both facts still matter and
-    # both are still said, in one badge, so the qualifier belongs to the verdict
-    # instead of arguing with it.
-    single = bool(item is not None and item.get("developing"))
-    title = ("Only one outlet has carried this so far. The desk publishes it as "
-             "developing rather than corroborated.")
-    if verdict == "VERIFIED":
-        if single:
-            return (f'<span class="badge verified single" title="{title}">'
-                    f'Verified &middot; one source so far</span>')
-        return '<span class="badge verified">Verified</span>'
-    if verdict in ("NEEDS-HUMAN-REVIEW", "REVIEW"):
-        if single:
-            return (f'<span class="badge review single" title="{title}">'
-                    f'Editor reviewed &middot; one source so far</span>')
-        return '<span class="badge review">Editor reviewed</span>'
-    return ""
+      "Verified"                  VERIFIED, two or more independent sources
+      "Verified, primary source"  VERIFIED, one source and it is primary
+      "Unconfirmed, one report"   one secondary outlet, whatever the verdict
+
+    The badge it replaces, "Verified, one source so far", said Verified about a story
+    resting on one outlet while Standards said such a claim is labeled unconfirmed. A
+    story that is not VERIFIED and not single carries no badge: there is no fourth."""
+    if item is not None and _is_wrap(item):
+        return ""  # an Edition cites the day's stories; it is not a single-outlet claim
+    st = standing.item_standing(item or {})
+    if st == "single":
+        return ('<span class="badge review single" title="Only one outlet has reported '
+                'this so far.">Unconfirmed, one report</span>')
+    if verdict != "VERIFIED":
+        return ""
+    if st == "primary":
+        return '<span class="badge verified">Verified, primary source</span>'
+    return '<span class="badge verified">Verified</span>'
 
 
 def sig_block():
@@ -4036,6 +4037,43 @@ def _bd_outlet(src):
     return bare.rsplit(".", 1)[-1].replace("-", " ").title() if bare else ""
 
 
+# THE CADENCE, SAID ON THE PAGE (Jack, 4 October 2026), so a quiet day reads as a
+# choice and not as downtime. V-13's copy freeze is lifted for these lines only.
+CADENCE_LINE = ("One checked story a day, in the evening, Eastern time. "
+                "More only when news breaks.")
+EDITION_HOLD = os.path.join(SITE, "data", "edition_hold.json")
+
+
+def _edition_hold():
+    """What the last evening Edition decided, written by autopilot.edition_choice."""
+    try:
+        return json.load(open(EDITION_HOLD, encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def cadence_line():
+    return f'<p class="ed-cadence">{esc(CADENCE_LINE)}</p>'
+
+
+def dark_line(items, hold, now):
+    """"Nothing cleared the bar today." with the date, written ONLY once today's Edition
+    slot has run (the hold file carries today's Eastern date) and the day published
+    nothing. A morning build, or any build before the slot, prints nothing, so it never
+    says a day failed that has not happened yet."""
+    today = now.astimezone(_ET).date()
+    if (hold or {}).get("edition_date") != today.isoformat():
+        return ""
+    for i in items or []:
+        if i.get("example") or _is_wrap(i) or not i.get("verdict"):
+            continue
+        d = _utc_dt(i.get("published_utc") or "")
+        if d and d.astimezone(_ET).date() == today:
+            return ""
+    return (f'<p class="ed-dark">Nothing cleared the bar today. '
+            f'<span class="bd-stamp">{esc(today.strftime("%A, %B %-d, %Y"))}</span></p>')
+
+
 def _bd_news_cards(items, n=4, max_age_hours=24):
     """Module 7. The newest published stories, each with its sources line.
 
@@ -5378,6 +5416,8 @@ def render_news_hub(items, dateline, pulse=None):
 
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">News</h1>
+  {cadence_line()}
+  {dark_line(items, _edition_hold(), _build_now())}
   <p class="lx-dek">Everything this desk has published, newest first, then the same work
      grouped by the storyline it belongs to. Every source linked, every figure tied to a
      Board number.</p>
@@ -5569,13 +5609,15 @@ def render_home(items, flows, pulse, cm, dateline):
               if (ww_card or cm_card) else "")
 
     news = _bd_news_cards(items)
+    dark = dark_line(items, _edition_hold(), _build_now())
     news_mod = ""
-    if news:
+    if news or dark:
         news_mod = f"""<section class="bd-mod" aria-labelledby="bd-news">
   <div class="bd-sec"><div class="bd-sec-l">
     <span class="bd-eyebrow">From the news desk</span>
     <h2 class="bd-h2" id="bd-news">Checked stories, each tied to a Board number</h2>
   </div><a class="bd-more" href="/news.html">All stories</a></div>
+  {cadence_line()}{dark}
   {news}
 </section>"""
 
@@ -5944,11 +5986,17 @@ def render_standards(dateline):
   <h2>Sourcing</h2>
   <p>Stories link the sources they draw on. We give more weight to official and primary sources
      such as regulators and exchange or protocol notices than to commentary about them, and a
-     claim resting on a single weak source is labelled as unconfirmed or left out.</p>
+     claim resting on a single weak source is labeled as unconfirmed or left out.</p>
+  <p>Every story carries one of three labels. <b>Verified</b> means the story was checked
+     against two or more independent sources. <b>Verified, primary source</b> means it rests
+     on one source that is the record itself: the company's or the regulator's own notice, a
+     filing, a court record, or the blockchain, and that source is listed first.
+     <b>Unconfirmed, one report</b> means only one outlet has reported it so far. It never
+     carries the word Verified and is never the day's checked story.</p>
 
   <h2>Verification</h2>
   <p>Stories are checked against the sources they cite by a pass separate from the one that
-     assembled them. Work that does not hold up is labelled clearly for the reader or held
+     assembled them. Work that does not hold up is labeled clearly for the reader or held
      back. We would rather be slow than wrong.</p>
 
   <h2>Oversight</h2>
@@ -8908,7 +8956,8 @@ def ingest():
         slug = slugify(title)
         body = art.get("body", "")
         paras = [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip()] or [body]
-        srcs = [{"title": u, "url": u} for u in art.get("sources", [])]
+        # A story resting on a primary source shows that source first (4 October 2026).
+        srcs = standing.primary_first([{"title": u, "url": u} for u in art.get("sources", [])])
         title = destyle(title)
         # the writer model sometimes slips a process note about the review status into the
         # copy ("Note: flagged for human review."); the article is the finished story only,
@@ -8976,6 +9025,9 @@ def ingest():
         # resting on several. Sources stay honest (what the desk actually drew on) and the
         # corroboration renders as its own labelled line.
         item["developing"] = len(srcs) < 2 and not item["also_reported_by"]
+        # A breaking run's story says so, so its badge can never be read as the Edition's.
+        if os.environ.get("BREAKING") == "1":
+            item["breaking"] = True
         prior_path, prior, mode = same_event_on_disk(item)
         if prior_path and mode == "merge":
             merge_into_existing(prior_path, prior, item)

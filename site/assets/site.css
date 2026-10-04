@@ -1994,3 +1994,8 @@ header.masthead{position:relative;z-index:300}
   .cn-rg{min-height:40px;padding:4px 14px}
   .cn-read{top:40px;right:6px;font-size:11.5px}
 }
+
+/* The cadence line and the dark line (4 October 2026): one checked story a day. */
+.ed-cadence{font:400 12.5px/1.4 var(--mono);color:var(--muted);margin:4px 0 12px}
+.ed-dark{font:500 italic 18px/1.4 var(--serif);color:var(--ink);margin:6px 0 14px}
+.ed-dark .bd-stamp{font-style:normal;margin-left:6px}

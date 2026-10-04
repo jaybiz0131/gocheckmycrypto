@@ -38,7 +38,8 @@ from dedupe import (NOVELTY_MIN, classify_published, is_coverage, same_event,
                     _OUTLETS, _signature, _words)                              # noqa: F401
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "out")
+# AUTOPILOT_OUT points a --dry-run at a fixture directory; nothing else sets it.
+OUT = os.environ.get("AUTOPILOT_OUT") or os.path.join(HERE, "out")
 
 
 def body_word_count(article_draft):
@@ -120,10 +121,148 @@ def queue_origin_correction(origin_slug, conflict, update_headline):
               f"corrections loop")
 
 
+# ONE CHECKED STORY A DAY (Jack, 4 October 2026, under the 12 September law that he alone
+# changes how the newsroom publishes). The evening Edition publishes at most one story: the
+# top-ranked candidate that cleared every gate above AND rests on two independent sources
+# or one primary source (standing.py). A story on one secondary outlet is never the day's
+# story. The rest are held, not discarded: the ones that could have led are written to
+# EDITION_HOLD and offered to the NEXT Edition only, as its story if nothing fresh clears
+# and the held one is still current. The file is rewritten by every Edition, so a hold
+# lives to the next Edition and no further. Breaking runs are untouched by all of this.
+EDITION_HOLD = os.path.join(HERE, "site", "data", "edition_hold.json")
+SECONDARY = "rests on one secondary outlet, so it is not the day's story"
+ONE_A_DAY = "one story a day: held for the next Edition"
+
+
+def choose_one(cands):
+    """cands: [{"cid", "rank", "standing", ...}] for the stories that cleared every gate.
+    Returns (chosen candidate or None, held list), each held entry carrying its "why".
+    The lowest rank number that may lead wins; ties keep the order given."""
+    chosen, held = None, []
+    for c in sorted(cands, key=lambda c: c.get("rank") or 10 ** 6):
+        if c.get("standing") not in ("corroborated", "primary"):
+            held.append(dict(c, why=SECONDARY))
+        elif chosen is None:
+            chosen = c
+        else:
+            held.append(dict(c, why=ONE_A_DAY))
+    return chosen, held
+
+
+def et_date(utc_iso):
+    from zoneinfo import ZoneInfo
+    t = datetime.datetime.fromisoformat((utc_iso or "").replace("Z", "+00:00"))
+    return t.astimezone(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
+
+
+def carried_holds(today, path=None):
+    """The holds the PREVIOUS Edition wrote, if it was yesterday's. Anything older is
+    dropped: a hold lives to the next Edition and no further."""
+    try:
+        h = json.load(open(path or EDITION_HOLD, encoding="utf-8"))
+    except Exception:
+        return []
+    prev = (datetime.date.fromisoformat(today) - datetime.timedelta(days=1)).isoformat()
+    if h.get("edition_date") != prev:
+        return []
+    return [s for s in h.get("held") or [] if s.get("why") == ONE_A_DAY and s.get("draft")]
+
+
+def write_hold(path, today, run_utc, chosen, held, drafts):
+    rec = {"edition_date": today, "run_utc": run_utc,
+           "published": 1 if chosen else 0,
+           "chosen": ({"cid": chosen["cid"], "headline": chosen.get("headline", ""),
+                       "rank": chosen.get("rank"), "standing": chosen.get("standing")}
+                      if chosen else None),
+           "held": [{"cid": h["cid"], "headline": h.get("headline", ""), "rank": h.get("rank"),
+                     "standing": h.get("standing"), "why": h["why"],
+                     "key_fact": h.get("key_fact", ""), "verdict": "VERIFIED",
+                     # the full draft rides along only for a story that could lead, so
+                     # the next Edition can publish it without a model call
+                     "draft": drafts.get(h["cid"]) if h["why"] == ONE_A_DAY else None}
+                    for h in held]}
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(rec, f, indent=1)
+    return rec
+
+
 # already_published() lived here and was never called by anything. Its corpus scan and its
 # is_coverage() preview filter are now inside classify_published(), which is the gate that
 # actually runs. Keeping a second, unreachable copy is how the FOMC preview fix came to pass
 # its canary while never executing in production.
+def edition_choice(approval, drafts, clusters, dry=False):
+    """Apply one-story-a-day to an approval set whose gates have already run. Mutates the
+    approval decisions, writes EDITION_HOLD (not on a dry run), and returns how many
+    stories will publish: 1 or 0."""
+    import standing
+    try:
+        ranked = json.load(open(os.path.join(OUT, "editor.json"), encoding="utf-8"))["ranked"]
+        rank = {r["id"]: i + 1 for i, r in enumerate(ranked)}
+    except Exception:
+        rank = {}
+    try:
+        run_utc = json.load(open(os.path.join(OUT, "items.json"), encoding="utf-8"))["_meta"]["generated"]
+    except Exception:
+        run_utc = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    today = et_date(run_utc)
+    stories = approval.get("stories", {})
+    cands = []
+    for cid, st in stories.items():
+        if st.get("decision") != "approve":
+            continue
+        art = (drafts.get(cid) or {}).get("article_draft") or {}
+        cands.append({"cid": cid, "rank": rank.get(cid), "headline": art.get("title") or st.get("headline", ""),
+                      "key_fact": ((drafts.get(cid) or {}).get("script_skeleton") or {}).get("key_fact", ""),
+                      "standing": standing.standing(art.get("sources") or [], art.get("also_reported_by") or [])})
+    chosen, held = choose_one(cands)
+    for h in held:
+        stories[h["cid"]]["decision"] = "hold"
+        stories[h["cid"]]["held_why"] = h["why"]
+        print(f"autopilot: HELD #{h['rank']} '{h['headline'][:60]}' ({h['standing']}): {h['why']}")
+    if chosen is None:
+        chosen = carry_forward(approval, today, dry)
+    if chosen:
+        print(f"autopilot: THE DAY'S STORY #{chosen.get('rank')} '{chosen['headline'][:70]}' "
+              f"({chosen['standing']})")
+    else:
+        print(f"autopilot: nothing cleared the bar for {today}; the Brief still runs")
+    if not dry:
+        write_hold(EDITION_HOLD, today, run_utc, chosen, held, drafts)
+    return 1 if chosen else 0
+
+
+def carry_forward(approval, today, dry=False):
+    """Nothing fresh cleared. Yesterday's held story becomes today's when it is still
+    current: it may lead, and nothing published since has told it already."""
+    import standing
+    for h in sorted(carried_holds(today), key=lambda h: h.get("rank") or 10 ** 6):
+        art = h["draft"].get("article_draft") or {}
+        title = art.get("title") or h.get("headline", "")
+        kf = (h["draft"].get("script_skeleton") or {}).get("key_fact", "") or h.get("key_fact", "")
+        if standing.standing(art.get("sources") or [], art.get("also_reported_by") or []) \
+                not in ("corroborated", "primary"):
+            continue
+        rel, _t, _s = classify_published(title, kf)
+        if rel in ("rehash", "update") or dedupe_nothing_new(title, kf)[0]:
+            print(f"autopilot: yesterday's held '{title[:60]}' is no longer current ({rel})")
+            continue
+        new_id = "held-" + h["cid"]
+        if not dry:
+            d = common.read_out("drafts.json")
+            d.setdefault("drafts", []).append(dict(h["draft"], id=new_id))
+            common.write_out("drafts.json", d)
+            v = common.read_out("verifier.json")
+            v.setdefault("verdicts", []).append({"id": new_id, "verdict": "VERIFIED"})
+            common.write_out("verifier.json", v)
+        approval.setdefault("stories", {})[new_id] = {
+            "headline": title, "verifier_verdict": "VERIFIED", "decision": "approve",
+            "human_take": "", "carried_from": h["cid"]}
+        print(f"autopilot: nothing fresh cleared; yesterday's held story leads: '{title[:60]}'")
+        return {"cid": new_id, "rank": h.get("rank"), "headline": title,
+                "standing": h.get("standing")}
+    return None
+
+
 def main():
     import consistency  # lazy: consistency imports from this module, so avoid an import cycle
     tpl_path = os.path.join(OUT, "approval_template.json")
@@ -132,7 +271,11 @@ def main():
         print("autopilot: no run outputs found -> nothing to publish (fail-closed)")
         return 1
     report = json.load(open(report_path, encoding="utf-8"))
-    if report.get("mode") != "live" or report.get("status") not in ("ok", "OK", None) and not report.get("review_queue"):
+    # --dry-run: every gate and the one-story choice run and print; nothing is written to
+    # the hold file, nothing is published, nothing is ingested. Any mode is accepted, since
+    # a dry run is how the no-model path is exercised (U-4).
+    dry = "--dry-run" in sys.argv
+    if not dry and (report.get("mode") != "live" or report.get("status") not in ("ok", "OK", None) and not report.get("review_queue")):
         print(f"autopilot: run not live/ok -> nothing to publish (mode={report.get('mode')})")
         return 1
 
@@ -280,6 +423,11 @@ def main():
                     story["decision"] = "approve"
                     approved += 1
                     approved_this_run.append((headline, kf))
+    if not breaking:
+        approved = edition_choice(approval, drafts, clusters, dry)
+    if dry:
+        print(f"autopilot: DRY RUN, {approved} chosen; nothing written, nothing published")
+        return 0
     json.dump(approval, open(os.path.join(OUT, "approval.json"), "w", encoding="utf-8"), indent=1)
     json.dump(updates, open(os.path.join(OUT, "updates.json"), "w", encoding="utf-8"), indent=1)
     json.dump(held_after_approval,
