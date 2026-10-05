@@ -1935,6 +1935,21 @@
    "usd": 0.0,
    "wf": "Crypto Cronkite daily brief",
    "wrap": "synthesis"
+  },
+  {
+   "breaking": false,
+   "cron": "8 23 * * *",
+   "ev": "schedule",
+   "guard": "false",
+   "outcome": "stood down",
+   "pinged": false,
+   "pushed": false,
+   "run": "37253033111",
+   "t": "2026-10-05T01:53:18Z",
+   "tokens": 0,
+   "usd": 0.0,
+   "wf": "Crypto Cronkite daily brief",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
