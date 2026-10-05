@@ -1155,6 +1155,7 @@ def layer1_canary():
     fails.extend(_one_story_canary())
     fails.extend(_dark_line_canary())
     fails.extend(_three_badges_canary())
+    fails.extend(_whale_sentence_canary())
     fails.extend(_where_is_news_canary())
     fails.extend(_chartmaster_charts_canary())
     fails.extend(_coin_chart_canary())
@@ -3188,6 +3189,46 @@ def _three_badges_canary():
         _check(f"<b>{_b}</b>" in _st, fails, f"badges: Standards does not define {_b!r}")
     _check("labelled" not in _st and "single weak source is labeled" in _st, fails,
            "badges: Standards still spells labelled, or lost the single-weak-source sentence")
+    return fails
+
+
+def _whale_sentence_canary():
+    """/flows said no exchange-size whale moves hit the feed in 24 hours over a table of
+    sixteen $50M transfers, aged against the newest move rather than the clock. One
+    function, one window, one threshold, for the sentence and the table (4 October 2026)."""
+    import site_build as _sb
+    import re as _re
+    fails = []
+    _t = 1_790_000_000
+    _mv = lambda usd, sym, ts, to="okex": {"symbol": sym, "usd": usd, "ts": ts, "to": to,
+                                           "from": "unknown wallet", "hash": "h", "blockchain": "x"}
+    # txn_count deliberately disagrees with the rows, and one move sits under the floor:
+    # a fixture whose parts sum to its total cannot catch a count taken from the total
+    _f = {"window_hours": 48, "window_widened_from": 24, "txn_count": 16,
+          "generated_utc": "2026-09-21T12:00:00Z",
+          "volatile": {"net_usd": -91_242_248, "direction": "onto exchanges"},
+          "top_inflows": [_mv(80e6, "BTC", _t), _mv(60e6, "ETH", _t - 3600)],
+          "top_outflows": [_mv(70e6, "BTC", _t - 7200, "binance"), _mv(55e6, "SOL", _t),
+                           _mv(51e6, "ETH", _t), _mv(40e6, "XRP", _t)]}
+    _w = _sb.whale_window(_f)
+    _n = _re.search(r"(\d+) transfers? of \$50M", _w["sentence"])
+    _check(_n is not None and int(_n.group(1)) == len(_w["moves"]) == 5, fails,
+           f"whale canary: the sentence's count is not the table's rows: "
+           f"{_w['sentence']!r} over {len(_w['moves'])} rows")
+    _check(_sb._win_phrase(48) in _w["sentence"] and "$91.2M" in _w["sentence"]
+           and "onto exchanges" in _w["sentence"], fails,
+           f"whale canary: the sentence does not state the window and the net: "
+           f"{_w['sentence']!r}")
+    _html = _sb.render_flows(_f, "")
+    _rows = len(_re.findall(r'<td class="sym2">', _html))
+    _check(_rows == len(_w["moves"]), fails,
+           f"whale canary: /flows lists {_rows} transfer rows, its sentence says "
+           f"{len(_w['moves'])}")
+    _check(_w["sentence"] in _html, fails, "whale canary: /flows does not print the sentence")
+    _check("Okex" not in _html and "okex" not in _html.lower().replace("okx", ""), fails,
+           "whale canary: /flows printed Okex; the name table says OKX")
+    _check(_sb.venue_name("Okex") == "OKX" and _sb.destyle("OKEx and Okex") == "OKX and OKX",
+           fails, "whale canary: OKX is not one spelling everywhere")
     return fails
 
 def main():
