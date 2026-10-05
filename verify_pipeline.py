@@ -591,6 +591,17 @@ def _live_layer_canary():
            "live layer: the ticker's stamp no longer reads 'live \u00b7 <time>'")
     _check(bool(_r.search(r'function etClock\(\)\{.*?\+ " ET";', strip, _r.S)), fails,
            "live layer: the ticker's live clock carries no zone")
+    # "live" only after an OK answer that carried a price: a 429 is JSON too.
+    _pf = _r.search(r'/simple/price[^"]*"\)\s*\.then\(function\(r\)\{if\(!r\.ok\)throw', strip)
+    _check(bool(_pf) and "if(!landed)return;" in strip
+           and strip.find("if(!landed)return;") < strip.find('"live \u00b7 "'), fails,
+           "live layer: the ticker can say 'live' without a price having landed (a 429 or "
+           "an empty answer would label the build's numbers live)")
+    _m0 = _r.search(r'id="mktAsOf">(.*?)</span>\s*</span>', strip, _r.S)
+    _check(bool(_m0) and "live" not in _m0.group(1)
+           and bool(_r.search(r"\d{1,2}:\d{2} [AP]M ET on", _m0.group(1))), fails,
+           f"live layer: the ticker's server-side label is not the build's stamp with its "
+           f"zone and no 'live': {(_m0.group(1) if _m0 else '')[:80]!r}")
 
     # 3. Fear & Greed is off the ticker.
     _check("Fear &amp; Greed" not in strip and "alternative.me" not in strip

@@ -1566,10 +1566,15 @@ def market_strip(pulse=None):
     if(n>=1000)return "$"+Math.round(n).toLocaleString(); return "$"+n.toFixed(2); }
   function chg(el,p){ if(p==null){return;} var s=(p>=0?"+":"")+p.toFixed(1)+"%";
     el.textContent=s; el.className="chg "+(p>=0?"up":"down"); }
+  /* "live" is EARNED (5 October 2026): only an OK answer that actually carried a price
+     re-labels the strip. A 429 arrives as JSON too, and without this the strip said
+     "live" over the build's numbers. No price landed, no "live": the build stamp stands. */
   fetch(CG+"/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true")
-    .then(function(r){return r.json();}).then(function(d){
+    .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){
+      var landed=0;
       document.querySelectorAll(".markets .tick[data-id]").forEach(function(t){
-        var k=t.getAttribute("data-id"), v=d[k]; if(!v)return;
+        var k=t.getAttribute("data-id"), v=d[k]; if(!v||typeof v.usd!=="number")return;
+        landed++;
         var px=t.querySelector(".px");
         /* D-1: a coin's price is rendered the same everywhere. money() rounds above a
            thousand, which is right for a market cap and wrong beside a tile showing
@@ -1597,10 +1602,11 @@ def market_strip(pulse=None):
          strip's label already made: a blocked or failed fetch leaves the build's
          number and the build's stamp standing rather than dressing old data as live. */
       markMore();
+      if(!landed)return;
     var as=document.getElementById("mktAsOf");
       if(as){ as.textContent = "live \u00b7 " + etClock(); as.classList.remove("stale"); }
     }).catch(function(){});
-  fetch(CG+"/global").then(function(r){return r.json();}).then(function(d){
+  fetch(CG+"/global").then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){
       var g=d.data||{}, m=document.getElementById("mcap"); if(!m)return;
       if(g.total_market_cap&&g.total_market_cap.usd) m.querySelector(".px").textContent=money(g.total_market_cap.usd);
       chg(m.querySelector(".chg"), g.market_cap_change_percentage_24h_usd);
