@@ -7,11 +7,12 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 1 October 2026, end of the merge-and-Cause-B session.
-`main` ended at 021c116. `build-stamp` and `cause-b-stamp-proof` are MERGED and
-DELETED. One local branch remains and is not this session's: `family-map-home-sections`.
-Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to
-1 October live in `HANDOFF-2026-09-23-to-10-01.md` (U-1).
+Last updated: 4 October 2026, end of the one-story-a-day session.
+`main` ends at the close commit on top of `c2a2d46` (section 7). `one-story-a-day` and
+`whale-sentence` are MERGED and DELETED. One local branch remains and is not this
+session's: `family-map-home-sections`. Days before 23 September live in
+`HANDOFF-2026-08-17.md`; 23 September to 1 October in `HANDOFF-2026-09-23-to-10-01.md`;
+4 October in `HANDOFF-2026-10-04.md` (U-1).
 
 The Sports handoff (`../gocheckmysports/HANDOFF.md`, the file at that repo's root,
 not the one in its `docs/`) carries the shared laws,
@@ -26,7 +27,26 @@ ChartMasterPage on canvas row ten), `site-audit-2026-09-14/`. Worker in
 
 ## 2. What is different on this desk
 
-- **Crypto copy is frozen (V-13).** Jack has not reviewed this desk against the copy
+- **One checked story a day (Jack, 4 October 2026).** The evening Edition publishes at
+  most one story: the top-ranked one that clears every gate AND rests on two independent
+  sources or one primary source (`standing.py`, the one rule the Edition and the badge
+  both read). The rest are held; only holds that could have led carry their draft, in
+  `site/data/edition_hold.json`, offered to the NEXT day's Edition only, as its story if
+  nothing fresh clears and the held one is still current. Breaking runs are untouched
+  (two a day, five sources, four categories). `top_n` is 6. `python3 autopilot.py
+  --dry-run` with `AUTOPILOT_OUT=<fixture dir>` runs the decision and writes nothing.
+- **Three badges, and only three:** "Verified" (two or more independent sources),
+  "Verified, primary source" (one primary source, listed first), "Unconfirmed, one
+  report" (one secondary outlet, whatever the verdict). Standards defines each. The back
+  catalogue re-labeled with the rule.
+- **The cadence line** sits under the News title and over the home story slot. "Nothing
+  cleared the bar today." prints only once the hold file carries today's Eastern date and
+  nothing published today.
+- **Exchange names come from `venues.py`.** OKX is the only spelling; `destyle` rewrites
+  the old one in stored copy. Whale Watch's sentence and tables come from one function,
+  `whale_window()`, and every label names the window the data carries.
+- **Crypto copy is frozen (V-13)**, lifted on 4 October for the cadence, badge, Standards
+  and whale lines only. Jack has not reviewed this desk against the copy
   law. Do not change chrome copy here. The Sports law will apply in the same shape
   once he has. Structural duplication introduced by new work may still be removed.
 - **The watcher is caged, not disabled.** Sports turned its watcher off; this desk
@@ -69,7 +89,10 @@ a Solana client upgrade, a celebrity-driven Dogecoin surge.
 | V-10 N-1/N-2 nav: Home first, Chart Master in nav, 12th tile, read card | open |
 | V-11 punch 5, 6, 8: label columns, full-width Whale Watch, Edition wordmark | open |
 | V-12 A-14/A-15/D-7 inner pages and phone, under 5,500 phone homepage | part done |
-| V-13 Crypto copy | **hold** |
+| V-13 Crypto copy | **hold** (lifted 4 Oct for named lines only) |
+| **Data contract: the NEXT session's first order**, named, not started (section 6) | open |
+| top_n 6 ranking check, after seven Editions, 4 to 10 Oct (section 6) | open |
+| Stamp canary cleanup reverts edits made during its run (section 8) | open |
 | L-1 the Board on the Worker | open, Sprint I |
 | R-1 desk reconfiguration | open, Sprint J |
 
@@ -119,37 +142,54 @@ not piped into `tail` and assumed.
   the 2026-09-23 XRP story and went green on a rebuild with no code change).
 ---
 
-## Where this session ended (1 October 2026, evening)
+## 6. The next session's first order and the open check
 
-- `main` is **`021c116`**, pushed and verified by hash, and live: the page's own `/stamp.txt`
-  read `021c11677f6d` at 23:13:01Z. It carries the U-13 canaries, Cause A's workflow fix,
-  Cause B's rebuilt stamp canary, the cleanup fix, the closes, and option two.
-- **Cause A is live on `main`.** `site-refresh.yml` no longer carries an `on: schedule:` key
-  with every cron line commented out, so it stops creating a zero-job run that fails on every
-  push. `_workflow_canary` keeps it from coming back.
-- **Cause B is fixed** at `c2b2d6b`. The stamp canary builds its own tree; see the history file
-  for the four plants and the three traps it had to be careful about.
-- The gate now takes about 145 seconds, up from about 60, because it builds the site once per
-  run. That is the price of a canary that does not assume an output it did not make.
-- Branches: **none open on this desk from this session.** `build-stamp` and
-  `cause-b-stamp-proof` were merged and deleted after proving 0 commits outstanding.
-  `family-map-home-sections` is older work and was left alone.
-- Stashes: **none.**
-- Deploys today, from `/counts/today`, the count of record: **5 production builds and 1
-  skipped**, against an allowance of 5. The desk finished AT its allowance, not over it.
-  Three of the five are this session's: `63557d0`, `c2b2d6b`, `021c116`. The skipped one is
-  `da63d83`, the documents-only push, which is the ignore proof.
-- **The ignore proof, measured three ways** on `da63d83` at 22:42:25Z: 322 seconds later
-  `/stamp.txt` still read `c2b2d6b` built 22:39:48Z; `/counts/today` showed
-  `gocheckmycrypto:production:canceled` = 1; and the Worker's `last` line named commit
-  `da63d83d459a` with raw `state: "error"`, `"Canceled build due to no content change"`,
-  `counted_as: "canceled"`. The closing docs push `e47ec81` skipped the same way, so this desk
-  recorded TWO skips today. On Sports the first attempt built and the second skipped; a poller
-  build in flight widens the range the ignore rule is given, and the day history says so.
-- Open, with the last commit of each: the twins branch, link or retire, which is the FIRST
-  order of the next session (`dc5d400`'s classification, no code yet); then S-2 on Sports; then
-  the deep-URL register; then Cause C on Sports. A-17's font and poster work is shared with
-  Sports and has nothing yet.
+**The data contract (named 4 October, not started).** One snapshot object for price,
+dominance, ETF flows, whale net, funding, stablecoin float and Fear & Greed that every
+surface reads: ticker, Board, coin page, Top 100 and Brief. The client-side refresh either
+refreshes every surface from that one payload and re-stamps them together, or touches only
+the ticker, which then says so. Every stamp carries its zone. Chart Master's read carries its
+date in its headline and never sits above a live figure it contradicts. The twins check
+reads the story's number and the Board's from the same snapshot, which is how it stops being
+advisory. After it: S-2 on Sports, then the deep-URL register, then Cause C on Sports.
+
+**The top_n 6 ranking check.** top_n 6 assumes the editor ranks the same way when asked for
+six as it did for twelve. Settle it after seven Editions under the cadence (4 to 10 October)
+from `ledger.json` and the hold files: if any day's chosen story would have ranked below 6
+under the old count, or a day went dark with a story that could have led below the cut,
+raise top_n and say to what. First data point, 4 October: chosen at rank 6 of 6, the last
+slot.
+
+## 7. Where this session ended (4 October 2026, evening)
+
+- Items 1 to 3 merged at `f733356` (branch `1c5fced`), live by `/stamp.txt` at 16:03:21Z.
+- The first Edition under the cadence (run 37242770317, items 23:14:34Z) chose rank 6,
+  "Japan sanctions Garantex...", corroborated (`e130708`); held rank 5, the ETF flows story,
+  as resting on one secondary outlet, no draft carried, so the 5 October Edition has no held
+  story to fall back on. Ledger: 114,399 tokens, $0.1889 (twelve-story runs: $0.3287 to
+  $0.6822).
+- Item 4 merged at `c2a2d46` (branch `2da8fde`), local = origin, 0 outstanding, pushed
+  02:00:33Z after a first push was rejected by a mid-canary ledger row; live by `/stamp.txt`
+  at 02:02:40Z. /flows: count 2 = rows 2 = stat 2, ages 29h and 36h, OKX only; home tile
+  "2 days net, all coins".
+- Deploys 4 October (`/counts/today`, the count of record): 4 production builds before the
+  close, against 5: site-refresh, `f733356`, the Edition's `e130708`, `c2a2d46`.
+- Stashes: none.
+
+## 8. Traps
+
+- **Two writers.** Everything the build writes is stamped and agrees with itself; the
+  client-side refresh then moves some numbers after load and leaves the rest at build time,
+  so one page shows two moments under one stamp. The Board and the coin page also read price
+  from two endpoints under the one stamp. The data contract retires this.
+- **A hardcoded window over a widened reading.** The Board's whale tile said "24h net" while
+  `flows.json` had widened to 48 hours, and Whale Watch said nothing moved in 24 hours above
+  a 48-hour table aged from its newest move. The same finding as the two writers in a smaller
+  coat: a label written in one place about data chosen in another. Fixed 4 October.
+- **The stamp canary reverts what you edit while it runs.** Its cleanup diffs the working
+  tree before and after and restores or removes every difference, so a file written during
+  the run is treated as the build's and erased (4 October: the day history and the handoff).
+  Until it records the build's own writes, edit nothing in the repo while the canary runs.
 
 ---
 
