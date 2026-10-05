@@ -387,6 +387,74 @@ def _workflow_canary():
     return fails
 
 
+class _build_writes:
+    """Record every path this process opens for writing while the block runs.
+
+    The stamp canary's cleanup acts on this set and on nothing else. It wraps the four doors
+    a Python build writes through: `open` (which `json.dump(open(..., "w"))`, `shutil.copy`
+    and `living_tables` all use), `io.open` (pathlib's door), `os.open` with a write flag,
+    and the destination of `os.replace` / `os.rename`. Another process's writes never pass
+    through here, which is the point.
+    """
+
+    _W = getattr(os, "O_WRONLY", 1) | getattr(os, "O_RDWR", 2) | getattr(os, "O_CREAT", 0x200)
+
+    def __init__(self, into):
+        self.into = into
+
+    def _note(self, path):
+        if isinstance(path, int):
+            return
+        try:
+            p = os.fspath(path)
+            if isinstance(p, bytes):
+                p = p.decode()
+            self.into.add(os.path.realpath(p))
+        except (TypeError, ValueError):
+            pass
+
+    def __enter__(self):
+        import builtins, io
+        self._saved = (builtins.open, io.open, os.open, os.replace, os.rename)
+        b_open, i_open, o_open, o_replace, o_rename = self._saved
+        note, W = self._note, self._W
+
+        def _mode(args, kw):
+            return kw.get("mode", args[0] if args else "r")
+
+        def w_open(file, *a, **k):
+            if any(c in _mode(a, k) for c in "wax+"):
+                note(file)
+            return b_open(file, *a, **k)
+
+        def w_io_open(file, *a, **k):
+            if any(c in _mode(a, k) for c in "wax+"):
+                note(file)
+            return i_open(file, *a, **k)
+
+        def w_os_open(path, flags, *a, **k):
+            if flags & W:
+                note(path)
+            return o_open(path, flags, *a, **k)
+
+        def w_replace(src, dst, *a, **k):
+            note(dst)
+            return o_replace(src, dst, *a, **k)
+
+        def w_rename(src, dst, *a, **k):
+            note(dst)
+            return o_rename(src, dst, *a, **k)
+
+        builtins.open, io.open = w_open, w_io_open
+        os.open, os.replace, os.rename = w_os_open, w_replace, w_rename
+        return self
+
+    def __exit__(self, *exc):
+        import builtins, io
+        builtins.open, io.open, os.open, os.replace, os.rename = self._saved
+        return False
+
+
 def _stamp_canary():
     """U-11's other half, and CAUSE B's fix: the canary BUILDS, then checks the two writers.
 
@@ -453,14 +521,33 @@ def _stamp_canary():
 
     before = _dirty()
     untracked_before = _untracked()
+    # THE STRAY WRITER, the plant this canary keeps (5 October 2026). On 4 October the day
+    # history and the handoff, written by hand while this canary ran, were treated as the
+    # build's and erased. So every run starts a second PROCESS that, while the build runs,
+    # creates one file and rewrites one tracked file, the way an author's editor would. Both
+    # must still be there after cleanup; then they are put back from a saved copy.
+    _stray_new = _o.path.join(root, "fixtures", ".stamp-canary-stray.txt")
+    _stray_tracked = _o.path.join(root, "fixtures", "sample_feed.xml")
+    _stray_saved = open(_stray_tracked, "rb").read() if _o.path.exists(_stray_tracked) else None
+    _stray_ok = (_stray_saved is not None and not _o.path.exists(_stray_new)
+                 and "fixtures/sample_feed.xml" not in before)
+    _stray_mark = b"<!-- written during the stamp canary by another process -->\n"
+    _stray_proc = None
+    if _stray_ok:
+        _stray_proc = _sp.Popen([sys.executable, "-c",
+                                 "import sys\n"
+                                 "open(sys.argv[1],'wb').write(b'stray\\n')\n"
+                                 "open(sys.argv[2],'ab').write(sys.argv[3].encode())\n",
+                                 _stray_new, _stray_tracked, _stray_mark.decode()])
     real = _sb.PUBLISH
     tmp = _tf.mkdtemp(prefix="stamp-canary-")
     log = _io.StringIO()
     built_ok = False
+    wrote = set()
     try:
         _sb.PUBLISH = _o.path.join(tmp, "publish")
         try:
-            with _cl.redirect_stdout(log), _cl.redirect_stderr(log):
+            with _cl.redirect_stdout(log), _cl.redirect_stderr(log), _build_writes(wrote):
                 _sb.build()
             built_ok = True
         except Exception as e:                       # fail closed, and say which build broke
@@ -505,6 +592,8 @@ def _stamp_canary():
                                f"/stamp.txt's {_built[:12]} name different commits; the two "
                                f"writers drifted")
     finally:
+        if _stray_proc is not None:
+            _stray_proc.wait(timeout=30)            # its writes land before the cleanup looks
         _sb.PUBLISH = real
         _sh.rmtree(tmp, ignore_errors=True)
         # Restore only what this build dirtied, from the index, byte for byte. Never with
@@ -513,14 +602,24 @@ def _stamp_canary():
         # build also CREATES files, and two of them left behind in the Sports repo blocked
         # a pull of the poller's own snapshot of the same data. Only files that did not
         # exist before this build are removed, so nothing of the author's is touched.
-        for rel in sorted(_untracked() - untracked_before):
+        # AND ONLY WHAT THE BUILD WROTE (5 October). A difference in the tree is not proof
+        # the build made it: on 4 October the day history and the handoff, written by hand
+        # during the run, were erased as the build's. `wrote` is the set of paths this
+        # process opened for writing while the build ran; anything else is left as found.
+        def _ours(rel):
+            if _o.path.realpath(_o.path.join(root, rel)) in wrote:
+                return True
+            print(f"build stamp canary: left {rel} as found; it changed during the run but "
+                  f"the build did not write it")
+            return False
+        for rel in sorted(r for r in _untracked() - untracked_before if _ours(r)):
             try:
                 _o.remove(_o.path.join(root, rel))
                 print(f"build stamp canary: removed {rel}, which the throwaway build created")
             except OSError as e:
                 _check(False, fails, f"build stamp canary: the build created {rel} and it "
                                      f"could not be removed ({e}); the working tree is dirty")
-        for rel in sorted(_dirty() - before):
+        for rel in sorted(r for r in _dirty() - before if _ours(r)):
             blob = _sp.run(["git", "show", ":" + rel], cwd=root, capture_output=True)
             if blob.returncode == 0:
                 with open(_o.path.join(root, rel), "wb") as fh:
@@ -529,6 +628,26 @@ def _stamp_canary():
             else:
                 _check(False, fails, f"build stamp canary: the build rewrote {rel} and it could "
                                      f"not be restored from the index; the working tree is dirty")
+    if _stray_proc is not None:
+        _stray_proc.wait(timeout=30)
+        try:
+            _check(_o.path.exists(_stray_new), fails,
+                   "build stamp canary: a file another process wrote during the run "
+                   "(fixtures/.stamp-canary-stray.txt) was removed by the cleanup; the cleanup "
+                   "treats the author's writes as the build's")
+            _now = open(_stray_tracked, "rb").read()
+            _check(_now.endswith(_stray_mark), fails,
+                   "build stamp canary: a tracked file another process rewrote during the run "
+                   "(fixtures/sample_feed.xml) was restored by the cleanup; the cleanup "
+                   "treats the author's edits as the build's")
+        finally:
+            if _o.path.exists(_stray_new):
+                _o.remove(_stray_new)
+            with open(_stray_tracked, "wb") as fh:
+                fh.write(_stray_saved)
+    else:
+        _check(False, fails, "build stamp canary: the stray-writer plant could not run (its "
+                             "fixture is missing or dirty), so the cleanup rule is untested")
     if fails and not built_ok:
         tail = log.getvalue().strip().split("\n")[-6:]
         for l in tail:

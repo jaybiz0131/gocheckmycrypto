@@ -1,6 +1,9 @@
 
 __pycache__/
-.claude/
+.claude/*
+# Except the shared settings: no AI attribution on any commit or PR in a GoCheckMy repo
+# (Jack, 5 October 2026), made impossible here rather than remembered.
+!.claude/settings.json
 .DS_Store
 *.pyc
 # `python3 site_build.py`. The site SOURCE (assets, site/content/, site/data/) IS committed.
