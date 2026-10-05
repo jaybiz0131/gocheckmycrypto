@@ -4,22 +4,6 @@
   "approved": 1,
   "rejected": [
    {
-    "id": "c011",
-    "headline": "CFTC Chair Signals Unilateral Crypto Rules If Congress Stalls",
-    "category": "accuracy",
-    "reasons": [
-     "The brief field states 'no brief exists for this story'; the draft cites a single CoinDesk URL as its source. The approval protocol requires that facts trace to either a brief's data_points OR the draft's own cited sources. The CoinDesk article itself is not provided for verification. The draft makes multiple specific factual claims (that Selig told the Innovation Advisory Committee, that he 'put staff on notice', that this represents 'the first public signal' from Selig's leadership) that cannot be verified against the cited URL without access to the article itself. Under the rule 'no fact exists outside the brief,' and with no brief provided, these claims are unverifiable and must be rejected as potentially smuggled.",
-     "The draft presents multiple confidence-sensitive claims as settled fact without qualification. 'Selig told the agency's inaugural Innovation Advisory Committee' and 'Selig indicated the CFTC intends to proceed' are stated as definite, but without a brief to mark confidence levels, the liability exposure is uncontrolled.",
-     "The draft states 'The statement to the Innovation Advisory Committee was the first public signal of this posture from Selig's CFTC leadership.' This is a claim of exclusivity and novelty that requires either a comprehensive search of prior statements or explicit sourcing to a brief data_point; neither exists here."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-21",
-  "approved": 1,
-  "rejected": [
-   {
     "id": "c018",
     "headline": "CFTC Chief Signals Unilateral Crypto Rulemaking if Clarity Act Stalls",
     "category": "accuracy",
@@ -5060,6 +5044,37 @@
     "reasons": [
      "The draft claims 'The wage payment marks an operational use of the digital ruble beyond pilot or testing phases' but the brief explicitly flags this as unconfirmed: the open_questions state 'No confirmation of whether this is a pilot or permanent operational change.' The draft asserts definitively what the brief only presents as ambiguous, and this assertion is not supported by the source material itself.",
      "The draft states the payment 'signals a shift toward integrating Russia's CBDC into routine government operations' which projects forward into interpretation beyond what the single Cointelegraph sentence reports. This is inference, not fact-from-brief."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-05",
+  "approved": 2,
+  "rejected": [
+   {
+    "id": "c002",
+    "headline": "CFTC Seeks Public Comment on Crypto Trading and Exchange Regulations",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'The comment period runs 60 days from the notice's publication in the Federal Register' but the brief data_points specify 'within 60 days of the ANPRM's publication in the Federal Register.' The draft's phrasing is technically correct but shifts ambiguously between publication date and the ANPRM being published on October 5. The core issue: the draft does not clarify whether October 5 is when CFTC announced the ANPRM or when it was published in the Federal Register. The brief's confidence label is 'announced-not-verified'\u2014meaning the CFTC made an announcement, but the Federal Register publication date may not yet have occurred. The draft treats October 5 as the publication date without attribution or caveat, smuggling a temporal fact not confirmed in the brief."
+    ]
+   },
+   {
+    "id": "c023",
+    "headline": "Treasury Withdraws Crypto Mixing Rule and Unhosted Wallet Reporting Proposal",
+    "category": "accuracy",
+    "reasons": [
+     "The draft makes factual claims about a FinCEN withdrawal without a published date or verified confirmation in the brief. The brief data_points cite withdrawal of both rules and Trump Administration characterization, all marked 'reported' with timestamp 2026-10-05, but the draft opens with 'FinCEN withdrew' as a completed past action without attribution to announcement, publication, or filing. The brief does not confirm whether FinCEN published an official statement, Federal Register notice, or press release\u2014only that outlets reported it. The draft narrates the withdrawal as established fact without caveating it as announced-not-verified. Additionally, the draft contains a new characterization not in the brief: 'Both actions represented the Treasury's effort to expand surveillance of crypto transactions and reduce privacy in onchain activity.' This is the draft's own political framing of the rule's intent, not a paraphrase of any data_point. The brief does not characterize the rules' purpose; the brief's bear_case notes only that rules are withdrawn but may be reintroduced. The draft has smuggled editorial framing of motive."
+    ]
+   },
+   {
+    "id": "c130",
+    "headline": "China P2P Stablecoin Wallets Grew 43-Fold Despite Exchange Bans",
+    "category": "accuracy",
+    "reasons": [
+     "The draft states 'Unique wallets sending peer-to-peer stablecoin transactions in China grew 43-fold between Q1 2024 and Q2 2026, according to Cointelegraph's reporting' and attributes this to Cointelegraph. However, the brief's data_point on the 43-fold claim sources it only to Cointelegraph with confidence 'reported', not naming the underlying research vendor (Chainalysis, Glassnode, or other on-chain analyst). This single secondary source carries the core factual claim without disclosure of the original analyst. The open_questions explicitly flag 'How does Chainalysis measure P2P wallet activity' suggesting Chainalysis is the underlying source Cointelegraph reported from. Attributing a technical on-chain metric to a news outlet rather than the data vendor who produced it obscures the methodology question and overstates the certainty of measurement.",
+     "The draft does not signal any of the thin brief's open_questions (absolute wallet counts, transaction volume, which stablecoins, enforcement response, measurement methodology) that the bottom_line correctly flags as unreported. The body presents the 43-fold figure and the shift narrative as settled, when the brief marks these as single-source reported claims with significant unknowns. A reader would not know the absolute scale of the activity or which stablecoins drove it, yet the draft frames it as definitive trend reporting."
     ]
    }
   ]

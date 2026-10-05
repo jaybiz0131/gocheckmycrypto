@@ -1,23 +1,51 @@
 {
- "edition_date": "2026-10-04",
- "run_utc": "2026-10-04T23:14:34Z",
+ "edition_date": "2026-10-05",
+ "run_utc": "2026-10-05T23:13:57Z",
  "published": 1,
  "chosen": {
-  "cid": "c122",
-  "headline": "Japan sanctions Garantex, freezing assets of Russian exchange tied to $96B in crypto transactions",
-  "rank": 6,
+  "cid": "c018",
+  "headline": "OKX and NYSE Parent ICE File for 24/7 Tokenized U.S. Stock Trading",
+  "rank": 1,
   "standing": "corroborated"
  },
  "held": [
   {
-   "cid": "c005",
-   "headline": "Bitcoin ETFs Draw $134 Million as Jobs Report Shifts Fed Rate Outlook",
-   "rank": 5,
-   "standing": "single",
-   "why": "rests on one secondary outlet, so it is not the day's story",
-   "key_fact": "Spot Bitcoin ETFs drew $102.7 million on October 2 and $31.7 million on October 3 after jobs data cooled Fed rate expectations from 70% to 14% odds of an October hike.",
+   "cid": "c001",
+   "headline": "CFTC Clears Fast-Track for Perpetual Futures Conversions, October 5, 2026",
+   "rank": 4,
+   "standing": "corroborated",
+   "why": "one story a day: held for the next Edition",
+   "key_fact": "Exchanges can now convert perpetual-style index futures to true perpetuals with only five days' notice and mandatory customer exit windows, bypassing standard rulemaking.",
    "verdict": "VERIFIED",
-   "draft": null
+   "draft": {
+    "id": "c001",
+    "script_skeleton": {
+     "headline": "CFTC Fast-Tracks Perpetual Futures Conversions with Five-Day Notice Rule",
+     "summary": "The CFTC's Division of Market Oversight issued a no-action letter on October 5, 2026 allowing exchanges to convert existing perpetual-style broad-based security index futures into true perpetual futures. The conversion requires a five-calendar-day notice period and customer exit window, with the relief expiring October 20, 2026.",
+     "key_fact": "Exchanges can now convert perpetual-style index futures to true perpetuals with only five days' notice and mandatory customer exit windows, bypassing standard rulemaking.",
+     "angle_prompt": "Here is where you add the regulatory read: does this mark a meaningful shift toward crypto-style derivatives in traditional markets, or is it a narrow relief window that signals the CFTC's caution on broader perpetual futures rules?",
+     "human_take": "",
+     "sources": [
+      "https://www.cftc.gov/PressRoom/PressReleases/9308-26",
+      "https://thedefiant.io/converge/regulation/cftc-staff-clears-fast-track-for-stock-index-perpetual-conversions"
+     ]
+    },
+    "article_draft": {
+     "title": "CFTC Clears Fast-Track for Perpetual Futures Conversions, October 5, 2026",
+     "body": "The CFTC's Division of Market Oversight issued a no-action letter on October 5, 2026 allowing designated contract markets to convert existing perpetual-style broad-based security index futures into true perpetual futures without full regulatory rulemaking. The move eliminates a structural bottleneck for exchanges seeking to modernize derivatives offerings, though the relief carries a sunset date and mandatory customer protections.\n\nUnder the no-action letter, announced by the CFTC, exchanges may remove expiration dates from perpetual-style contracts, effectively converting them to contracts with no fixed termination. The conversion becomes effective once a market satisfies customer protection and procedural conditions specified in the letter.\n\nMarkets must provide advance notice and an opportunity to exit positions before the conversion takes effect. Per The Defiant's reporting, position holders receive five calendar days' notice and the ability to close their contracts if they do not accept the new perpetual structure. Markets must solicit feedback from participants with open positions and offer appropriate risk disclosures. No other material contract terms may be modified during the conversion.\n\nCompliance is filed through amendments under CFTC Regulations 40.5 or 40.6, and exchanges must certify their adherence to all conditions. The no-action positions expire on October 20, 2026, meaning markets have roughly two weeks from the letter's issuance to initiate conversions or seek extended relief.\n\nThe brief window reflects the CFTC's use of no-action relief as a temporary market experiment tool. Markets intending to convert perpetual-style contracts must act swiftly to complete filings and solicit customer feedback before the deadline.",
+     "bottom_line": "The October 20, 2026 expiration date will determine whether the CFTC extends this relief, issues permanent rules, or allows it to lapse. That date and any CFTC statement on perpetual futures rulemaking will signal the agency's stance on whether this conversion pathway becomes standard.",
+     "human_take": "",
+     "sources": [
+      "https://www.cftc.gov/PressRoom/PressReleases/9308-26",
+      "https://thedefiant.io/converge/regulation/cftc-staff-clears-fast-track-for-stock-index-perpetual-conversions"
+     ],
+     "status": "DRAFT",
+     "not_financial_advice": "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice.",
+     "boundary_required": false,
+     "boundary_ok": null,
+     "also_reported_by": []
+    }
+   }
   }
  ]
 }

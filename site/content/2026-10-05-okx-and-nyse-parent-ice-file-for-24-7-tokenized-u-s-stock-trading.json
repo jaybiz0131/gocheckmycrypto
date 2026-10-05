@@ -1,0 +1,55 @@
+{
+  "id": "c018",
+  "slug": "okx-and-nyse-parent-ice-file-for-24-7-tokenized-u-s-stock-trading",
+  "kind": "brief",
+  "title": "OKX and NYSE Parent ICE File for 24/7 Tokenized U.S. Stock Trading",
+  "dek": "OKXICE, a 50-50 joint venture of OKX and Intercontinental Exchange, notified the SEC on October 4 that it will launch a 24-hour tokenized securities venue under the SEC's Innovation Exemption, initially covering 63 U.S.-listed stocks including Nvidia, Tesla, Apple, and Microsoft. Trades will run through Uniswap v4 liquidity pools on XLayer blockchain, with participants requiring identity verification. The platform represents the first major Wall Street institution entering tokenized equity trading at scale.",
+  "date": "2026-10-05",
+  "published_utc": "2026-10-05T23:13:57Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 1,
+  "author": "Crypto Cronkite",
+  "key_fact": "A 50-50 joint venture of OKX and ICE (NYSE parent) filed with the SEC on October 4 to operate a 24/7 tokenized stock exchange covering 63 U.S.-listed companies under a temporary regulatory exemption.",
+  "bottom_line": "The 30-day issuer objection window closes in early November; the number of companies that file objections will signal whether institutional adoption of tokenized equity is proceeding as OKXICE's backers expect. Volume enforcement in the first three months of operation will be the real test of whether the caps limit OKXICE to a niche or whether demand for continuous pricing pushes the firm to apply for higher thresholds.",
+  "human_take": "",
+  "body": [
+    "OKXICE, a joint venture formed in June by OKX and Intercontinental Exchange (parent of the New York Stock Exchange), notified the SEC on October 4 of its intent to operate a continuous, 24-hour tokenized securities venue under the SEC's Innovation Exemption, which took effect September 17. The filing names 63 U.S.-listed stocks eligible for tokenization, including Nvidia, Tesla, Apple, Microsoft, JPMorgan, Goldman Sachs, SpaceX, Coinbase, Circle, Strategy, Robinhood, BitGo, and Securitize.",
+    "The platform will trade tokenized stocks in pairs against three stablecoins: USDC, USDG, or USDT. Trades execute through permissioned Uniswap v4 liquidity pools on XLayer, a layer-2 blockchain, with every transaction checked by a custom smart contract. Only wallets holding a non-transferable soulbound token, issued after OKX's U.S. entity completes identity verification, anti-money laundering checks, and sanctions screening, can trade or supply liquidity.",
+    "The tokens themselves are created and held by an unaffiliated third party known only as \"the Tokenizer,\" which maintains one-to-one backing through registered broker-dealer custody of the underlying shares. Token holders retain the same dividends and voting rights as conventional shareholders, according to the filing. ICE and OKX formed the 50-50 venture three months after ICE took a minority stake in OKX at a $25 billion valuation in March.",
+    "The exemption permits venues to list up to 75 Tier 1 securities (such as large-cap stocks) with a trading volume cap of 0.25% of the security's prior month average daily volume. Tier 2 securities face a 250-symbol limit and a higher 2.5% volume ceiling. A venue that breaches its threshold must halt trading in that token for three months. The exemption itself runs through September 17, 2031, though the SEC can modify or revoke it before then as regulators assess whether continuous onchain trading affects the liquidity and pricing of conventional markets.",
+    "The SEC's exemption allows third parties to tokenize a company's shares without involvement from the issuer. However, a venue must notify each company and give it 30 calendar days to object. If the company files an objection, its tokens cannot trade on that venue. Chipmaker Cerebras Systems has already lodged an objection notice, demonstrating that issuers may block tokenization of their securities. The SEC requires venues to publish notice at least 30 calendar days before beginning operations, meaning OKXICE cannot launch before mid-November at the earliest.",
+    "Authorized participants will be able to mint or redeem tokens using underlying shares during traditional trading hours, connecting the automated market maker pools to the conventional equity market. Once the cash market closes, the pools can continue repricing without an executable underlying stock market. The filing warns that tokenized prices, set solely by liquidity in the pools, may diverge from the underlying shares, particularly outside regular exchange hours. Thin liquidity pools could produce larger swings, and weekend or holiday market-moving shocks would leave arbitrageurs without an open cash market in which to immediately hedge or acquire the underlying shares to close price gaps.",
+    "OKX founder and CEO Star Xu described the filing as a market-structure experiment worth testing at scale, saying \"Wall Street is moving onchain.\" Andrew Cuomo, co-chair of OKXICE and former New York governor, called the filing \"a landmark step toward a truly global, 24/7 Wall Street.\" Chris Hayes, executive director of the Coalition for Tokenized Markets, said the exemption \"could put DeFi trading platforms and liquidity pools in much more direct competition with traditional exchanges.\""
+  ],
+  "sources": [
+    {
+      "title": "https://decrypt.co/380032/okx-and-nyse-owner-ice-plan-24-7-tokenized-stock-trading-under-sec-exemption",
+      "url": "https://decrypt.co/380032/okx-and-nyse-owner-ice-plan-24-7-tokenized-stock-trading-under-sec-exemption"
+    },
+    {
+      "title": "https://cryptoslate.com/nyse-owner-and-okx-plan-24-7-tokenized-stock-trading-using-uniswap/",
+      "url": "https://cryptoslate.com/nyse-owner-and-okx-plan-24-7-tokenized-stock-trading-using-uniswap/"
+    },
+    {
+      "title": "https://www.coindesk.com/markets/2026/10/05/okx-and-nyse-s-owner-file-for-round-the-clock-tokenized-trading-in-u-s-stocks",
+      "url": "https://www.coindesk.com/markets/2026/10/05/okx-and-nyse-s-owner-file-for-round-the-clock-tokenized-trading-in-u-s-stocks"
+    },
+    {
+      "title": "https://www.theblock.co/news/business/2026-10-05-okx-ice-joint-venture-tokenized-stock-trading-417613",
+      "url": "https://www.theblock.co/news/business/2026-10-05-okx-ice-joint-venture-tokenized-stock-trading-417613"
+    },
+    {
+      "title": "https://cointelegraph.com/news/okx-nyse-parent-file-to-launch-tokenized-us-stock-platform",
+      "url": "https://cointelegraph.com/news/okx-nyse-parent-file-to-launch-tokenized-us-stock-platform"
+    }
+  ],
+  "update_of": "sec-issues-five-year-exemption-for-on-chain-stock-trading-one-day-after-clarity-act-fails-in-senate-september-17-2026",
+  "also_reported_by": [
+    "The Block",
+    "Decrypt",
+    "Cointelegraph",
+    "CryptoSlate"
+  ],
+  "developing": false
+}
