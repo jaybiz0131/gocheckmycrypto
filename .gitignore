@@ -31,3 +31,7 @@ joblog.txt
 # .github/workflows/ would register as a SECOND scheduled job if it were ever committed.
 * [0-9].*
 * [0-9]
+
+# The data contract's one object, written by every build (snapshot.py). Published at
+# /data/snapshot.json; committing it would dirty the tree on every local build.
+site/data/snapshot.json

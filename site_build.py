@@ -1089,6 +1089,9 @@ def load_cm_archive(limit=60):
     return out
 
 
+SNAP = None    # the data contract's one object, set by build(); see snapshot.py
+
+
 def load_pulse():
     path = os.path.join(SITE, "data", "pulse.json")
     if os.path.exists(path):
@@ -1454,8 +1457,14 @@ def _ticker_built(pulse):
     except ValueError:
         return "as of build"
     age_h = (_dt.datetime.now(_dt.timezone.utc) - gen).total_seconds() / 3600
-    label = f"as of {_et_clock(gen)}"
+    # Zone AND date (5 October 2026): "as of 7:26 PM ET on Oct 3", never a bare clock.
+    label = f"as of {_snap_stamp_et(ts)}"
     return f'<span class="stale">{label}, stale</span>' if age_h > BOARD_FRESH_HOURS else label
+
+
+def _snap_stamp_et(ts):
+    import snapshot as _snapshot
+    return _snapshot.stamp_et(ts)
 
 
 def market_strip(pulse=None):
@@ -3920,8 +3929,10 @@ def board_summary_line(pulse, deltas, flows):
         bits.append(f"ETF flows in their {_ordinal(n)} {word}")
     vol = (flows or {}).get("volatile") or {}
     if _flows_have_data(flows) and isinstance(vol.get("net_usd"), (int, float)):
+        # The window is the snapshot's, never a hardcoded "24 hours" over a widened read.
         bits.append(f"{fmt_usd(abs(vol['net_usd']))} "
-                    f"{'onto' if vol['net_usd'] < 0 else 'off'} exchanges in 24 hours")
+                    f"{'onto' if vol['net_usd'] < 0 else 'off'} exchanges in "
+                    f"{_win_phrase((flows or {}).get('window_hours', 24))}")
     if not bits:
         return ""
     line = bits[0][0].upper() + bits[0][1:]
@@ -8854,6 +8865,9 @@ def _board_snapshot_for(published_utc):
                                encoding="utf-8"))
         if pulse.get("example") or flows.get("example"):
             return None
+        # The data contract: a story's panel quotes the snapshot's figures, not raw files.
+        import snapshot as _snapshot
+        pulse, flows = _snapshot.views(_snapshot.build(pulse, flows), pulse, flows)
         as_of = pulse.get("generated_utc") or ""
         # staleness guard: boards older than 6 hours are the previous session's market
         if published_utc and as_of:
@@ -9166,6 +9180,17 @@ def build():
 
     flows = load_flows()
     pulse = load_pulse()
+    # THE DATA CONTRACT (5 October 2026, Jack's word). One snapshot, written here into
+    # site/data and published at /data/snapshot.json, and every surface below reads it:
+    # the renderers are handed VIEWS whose contract figures are the snapshot's, never the
+    # raw files, so the Board and a coin page cannot print two endpoints under one stamp.
+    global SNAP
+    import snapshot as _snapshot
+    SNAP = _snapshot.build(pulse, flows)
+    _snapshot.write(SNAP)
+    w(os.path.join("data", "snapshot.json"), json.dumps(SNAP, indent=1))
+    pulse, flows = _snapshot.views(SNAP, pulse, flows)
+    print(f"snapshot: {len(SNAP['fields'])} field(s), stamp {SNAP['stamp_et'] or 'none'}")
     # THE BOARD IS ON THE FAIL-LOUD BELT (directive v2, 2026-09-12). data_stamp already
     # tells the READER when the board is old, and it does that honestly: an explicit
     # "Stale data" banner with the real age. What was missing was telling the DESK, so a

@@ -455,6 +455,102 @@ class _build_writes:
         return False
 
 
+def _data_contract_canary():
+    """THE DATA CONTRACT (5 October 2026). One snapshot; every surface prints its figures.
+
+    Run on a snapshot built from the real site/data files and then MOVED to numbers no
+    endpoint returns (Bitcoin at $12,345.67, whales $7.00B over 48 hours). Any surface that
+    reads anything but the object prints a different number and goes red here. Each of the
+    four checks was seen red under a plant named in the 5 October history.
+    """
+    import copy as _cp
+    import re as _r
+    import site_build as _sb
+    import snapshot as _snapshot
+    import chartmaster as _cm
+    import twin_audit as _ta
+    fails = []
+    raw_p, raw_f = _sb.load_pulse(), _sb.load_flows()
+    if not raw_p or not raw_f:
+        _check(False, fails, "data contract: site/data carries no pulse.json or flows.json, "
+                             "so nothing below can run")
+        return fails
+    snap = _cp.deepcopy(_snapshot.build(raw_p, raw_f))
+    btc = snap["fields"]["coins"]["value"]["BTC"]
+    btc["price"], btc["chg_24h_pct"] = 12345.67, 3.3
+    snap["fields"]["whale_net"]["value"].update(
+        {"net_usd": -7_000_000_000, "direction": "onto exchanges", "window_hours": 48})
+    pv, fv = _snapshot.views(snap, raw_p, raw_f)
+    want = _sb._price_fmt(12345.67)
+
+    # 1. One endpoint per field: the coin page prints the field the Board prints.
+    _old = _sb.SNAP
+    try:
+        _sb.SNAP = snap
+        tiles = {t["key"]: t for t in _sb.board_tiles(pv, fv, {})}
+        row = next(r for r in pv["movers"]["top100"] if r.get("symbol") == "BTC")
+        page = _sb.render_coin_page(row, 1, pv, [], "TEST")
+        strip = _sb.market_strip(pv)
+        top = "".join(_sb._top100_rows(pv["movers"]["top100"][:3])) \
+            if hasattr(_sb, "_top100_rows") else want
+    finally:
+        _sb.SNAP = _old
+    _check((tiles.get("bitcoin") or {}).get("value") == want, fails,
+           f"data contract: the Board's Bitcoin tile prints "
+           f"{(tiles.get('bitcoin') or {}).get('value')!r}, not the snapshot's {want}")
+    _pm = _r.search(r'<span class="lab">Price</span><span class="cn-v"><span>([^<]*)</span>',
+                    page)
+    _check(bool(_pm) and _pm.group(1) == want, fails,
+           f"data contract: the coin page for BTC prints "
+           f"{_pm.group(1) if _pm else 'no Price stat'}, not the snapshot's {want}; it is "
+           f"reading a second endpoint")
+    _check(want in strip, fails, f"data contract: the ticker's server fill does not print "
+                                 f"the snapshot's {want}")
+    _check(want in top, fails, f"data contract: the Top 100 row for BTC does not print the "
+                               f"snapshot's {want}")
+    for src in ("coins", "dominance", "total_cap", "whale_net", "fear_greed"):
+        _check(bool((snap["fields"].get(src) or {}).get("source")), fails,
+               f"data contract: the snapshot's {src} field names no source endpoint")
+
+    # 2. Every stamp carries its zone (and the date): "7:26 PM ET on Oct 3".
+    zone = _r.compile(r"\d{1,2}:\d{2} [AP]M ET on [A-Z][a-z]{2} \d{1,2}")
+    for name, txt in (("snapshot.stamp_et", snap.get("stamp_et") or ""),
+                      ("the ticker's stamp", _sb._ticker_built(pv)),
+                      ("the Board's stamp", _sb.data_stamp(pv, promise_hours=1e9))):
+        _check(bool(zone.search(txt)), fails,
+               f"data contract: {name} carries no zone and date: {txt[:80]!r}")
+
+    # 3. The Brief's lead line quotes the Board's numbers, window included.
+    line = _sb.board_summary_line(pv, {"bitcoin": {"pct": 3.3}}, fv)
+    _check(_sb.fmt_usd(7_000_000_000) in line and "2 days" in line, fails,
+           f"data contract: the Brief's lead line does not quote the Board's whale figure "
+           f"and window from the snapshot: {line[:120]!r}")
+    _check((tiles.get("whales") or {}).get("value") == _sb.fmt_usd(7_000_000_000), fails,
+           "data contract: the Board's whale tile does not print the snapshot's figure")
+    real = _snapshot.build(raw_p, raw_f)
+    try:
+        dg = _cm.digest()
+        dbtc = next((a for a in dg.get("assets") or [] if a.get("symbol") == "BTC"), {})
+        _check(dbtc.get("price") == _snapshot.coin(real, "BTC").get("price"), fails,
+               f"data contract: the Brief's digest gives Bitcoin {dbtc.get('price')} while "
+               f"the Board's snapshot gives {_snapshot.coin(real, 'BTC').get('price')}")
+    except ValueError as e:
+        _check(False, fails, f"data contract: the digest could not be read ({e})")
+
+    # 4. The twins check reads the object it is handed and nothing else.
+    _check(_ta.figure_twins([{"slug": "t", "date": "2026-10-05",
+                              "body": ["Bitcoin traded at $12,300 on the day."]}],
+                            snap, day="2026-10-05") == [], fails,
+           "data contract: the twins check flagged a story that matches the snapshot it was "
+           "handed; it is reading another source")
+    _check(len(_ta.figure_twins([{"slug": "t", "date": "2026-10-05",
+                                  "body": ["Bitcoin traded at $86,540 on the day."]}],
+                                snap, day="2026-10-05")) == 1, fails,
+           "data contract: the twins check passed a story 600% off the snapshot it was "
+           "handed; it is reading another source")
+    return fails
+
+
 def _stamp_canary():
     """U-11's other half, and CAUSE B's fix: the canary BUILDS, then checks the two writers.
 
@@ -1292,6 +1388,7 @@ def layer1_canary():
     fails.extend(_ignore_canary())
     fails.extend(_conflict_canary())   # U-13
     fails.extend(_workflow_canary())   # Cause A of the 29 September audit
+    fails.extend(_data_contract_canary())
     fails.extend(_stamp_canary())
     cfg = common.load_config()
 

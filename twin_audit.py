@@ -125,8 +125,45 @@ def candidates(items=None):
     return out
 
 
+def _story_text(d):
+    """Every sentence a story prints, as one string."""
+    out = []
+    for v in d.values():
+        if isinstance(v, str):
+            out.append(v)
+        elif isinstance(v, list):
+            out.extend(x for x in v if isinstance(x, str))
+    return "\n".join(out)
+
+
+def figure_twins(items=None, snap=None, day=None):
+    """THE NUMBER TWINS (data contract, 5 October 2026): a story's Bitcoin price against
+    the Board's, both read from the ONE snapshot object. `snap` is that object; when it is
+    not handed in it is the one the build wrote, via snapshot.load(). Only stories dated
+    `day` (default: the snapshot's own ET day) are read, since an older story's price was
+    true on its own day. Advisory in its action until the seven-Edition record is in."""
+    import snapshot
+    snap = snap if snap is not None else snapshot.load()
+    day = day or (snapshot._utc(snap.get("stamp_utc")) or None)
+    if hasattr(day, "astimezone"):
+        day = day.astimezone(snapshot._ET).strftime("%Y-%m-%d")
+    items = items if items is not None else _live()
+    out = []
+    for d in items:
+        if day and str(d.get("date") or "")[:10] != day:
+            continue
+        for stated, board, pct in snapshot.twins(_story_text(d), snap):
+            out.append({"slug": d.get("slug"), "stated": stated, "board": board, "pct": pct})
+    return out
+
+
 def main():
     quiet = "--quiet" in sys.argv
+    for f in figure_twins():
+        common.gh("warning",
+                  f"twin_audit: /{(f['slug'] or '')[:52]} states Bitcoin at "
+                  f"${f['stated']:,.2f} while the Board's snapshot prints ${f['board']:,.2f} "
+                  f"({f['pct']:+.1f}%). Advisory: nothing was changed.")
     rows = candidates()
     twins = [r for r in rows if r["verdict"] == "LIKELY TWIN"]
     diff = [r for r in rows if r["verdict"] != "LIKELY TWIN"]
