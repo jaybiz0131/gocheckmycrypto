@@ -1462,6 +1462,12 @@ def _ticker_built(pulse):
     return f'<span class="stale">{label}, stale</span>' if age_h > BOARD_FRESH_HOURS else label
 
 
+def _snap_asof(pulse):
+    """The build's stamp in one line, zone and date: "As of 7:12 PM ET on Oct 4"."""
+    st = _snap_stamp_et((pulse or {}).get("generated_utc") or "")
+    return f"As of {st}." if st else ""
+
+
 def _snap_stamp_et(ts):
     import snapshot as _snapshot
     return _snapshot.stamp_et(ts)
@@ -1497,22 +1503,16 @@ def market_strip(pulse=None):
     cap_chg = mkt.get("mcap_change_24h_pct")
     cap_chg_html = (f'<span class="chg {"up" if cap_chg >= 0 else "down"}">{cap_chg:+.1f}%</span>'
                     if cap_chg is not None else '<span class="chg"></span>')
+    # THE LIVE LAYER (5 October 2026). The ticker is the ONLY surface that moves after
+    # the page loads, so it carries only what it refreshes: coin prices and the total cap
+    # from CoinGecko, and BTC dominance from the same /global answer. Fear & Greed is
+    # gone (it changes once a day and showed 65 beside the Board's 67 on 4 October), and
+    # so is BTC funding, which the browser never refreshed and would sit build-old under
+    # the word "live". Both are on the Board, under the snapshot's stamp.
     extras = ""
     if mkt.get("btc_dominance_pct"):
-        extras += (f'<span class="tick"><span class="sym">BTC dom</span>'
+        extras += (f'<span class="tick" id="btcdom"><span class="sym">BTC dom</span>'
                    f'<span class="px">{mkt["btc_dominance_pct"]:.1f}%</span>'
-                   f'<span class="chg"></span></span>')
-    fng = (pulse or {}).get("fng") or {}
-    if fng.get("value") is not None:
-        extras += (f'<span class="tick"><span class="sym">Fear &amp; Greed</span>'
-                   f'<span class="px" data-fng>{fng["value"]} {esc((fng.get("label") or "").lower())}</span>'
-                   f'<span class="chg"></span></span>')
-    lev = ((pulse or {}).get("leverage") or {}).get("assets") or []
-    btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
-    if btcl and btcl.get("funding_8h_pct") is not None:
-        f8 = btcl["funding_8h_pct"]
-        extras += (f'<span class="tick"><span class="sym">BTC funding</span>'
-                   f'<span class="px">{f8:+.4f}%/8h</span>'
                    f'<span class="chg"></span></span>')
     # D-5: THE LABEL COMES OFF THE RUN ON A PHONE. At 375 it held 109px of a 375px
     # strip, so two coins were visible at rest and everything from Solana rightward
@@ -1584,7 +1584,9 @@ def market_strip(pulse=None):
         }
         chg(t.querySelector(".chg"), v.usd_24h_change);
       });
-      /* D-1 (L-1): THE BOARD FOLLOWS THE SAME SOURCE. The tile was the build's number
+      /* RETIRED 5 October 2026 by the data contract: the Board no longer follows the
+         ticker. It keeps the build's snapshot and its stamp; the ticker alone is live.
+         What D-1 said, kept for the record: THE BOARD FOLLOWS THE SAME SOURCE. The tile was the build's number
          and the strip was live, so at 9:04 the page showed $77,985.78 on the tile and
          $78,176 two inches below it, on one coin, with nothing reconciling them. The
          tile now takes its price and its 24-hour change from this same answer, so the
@@ -1594,23 +1596,6 @@ def market_strip(pulse=None):
          Upgraded only once real prices have arrived, which is the same promise the
          strip's label already made: a blocked or failed fetch leaves the build's
          number and the build's stamp standing rather than dressing old data as live. */
-      var live=d.bitcoin;
-      if(live){
-        document.querySelectorAll('[data-live-px="bitcoin"]').forEach(function(el){
-          el.textContent = "$" + Number(live.usd).toLocaleString("en-US",
-            {minimumFractionDigits:2, maximumFractionDigits:2});
-        });
-        document.querySelectorAll('[data-live-chg="bitcoin"]').forEach(function(el){
-          var p=live.usd_24h_change;
-          if(p==null){el.textContent="";return;}
-          var cls = Math.abs(p)<0.05 ? "flat" : (p>0?"up":"down");
-          var txt = (Math.abs(p)<0.05?"0.0":(p>0?"+":"")+p.toFixed(1))+"% in 24 hours";
-          el.innerHTML = '<span class="bd-dl '+cls+'">'+txt+'</span>';
-        });
-        document.querySelectorAll('[data-live-stamp]').forEach(function(el){
-          el.textContent = "live \u00b7 " + etClock();
-        });
-      }
       markMore();
     var as=document.getElementById("mktAsOf");
       if(as){ as.textContent = "live \u00b7 " + etClock(); as.classList.remove("stale"); }
@@ -1619,12 +1604,8 @@ def market_strip(pulse=None):
       var g=d.data||{}, m=document.getElementById("mcap"); if(!m)return;
       if(g.total_market_cap&&g.total_market_cap.usd) m.querySelector(".px").textContent=money(g.total_market_cap.usd);
       chg(m.querySelector(".chg"), g.market_cap_change_percentage_24h_usd);
-    }).catch(function(){});
-  // Fear & Greed refreshes once a day (alternative.me, keyless, CORS-open). Refresh it in
-  // the browser like the prices above so the ticker is never a build behind the index.
-  fetch("https://api.alternative.me/fng/?limit=1").then(function(r){return r.json();}).then(function(d){
-      var f=(d.data||[])[0], el=document.querySelector(".markets [data-fng]"); if(!f||!el)return;
-      el.textContent=f.value+" "+(f.value_classification||"").toLowerCase();
+      var dm=document.querySelector("#btcdom .px"), pc=(g.market_cap_percentage||{}).btc;
+      if(dm&&pc!=null) dm.textContent=pc.toFixed(1)+"%";
     }).catch(function(){});
 })();
 </script>
@@ -1903,7 +1884,11 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     if CF_ANALYTICS_TOKEN:
         beacon = ('\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
                   f'data-cf-beacon=\'{{"token": "{CF_ANALYTICS_TOKEN}"}}\'></script>')
-    livejs = ('\n<script defer src="/assets/pulse-live.js"></script>' if live_js else "")
+    # THE LIVE LAYER (5 October 2026): pulse-live.js is retired. It moved Board prices,
+    # the movers, the Top 100 and fees in the browser and stamped them "updated 14:08",
+    # with no zone, under a page stamp from the build. The ticker is the only live
+    # surface; `live_js` is accepted and ignored so no caller can bring it back.
+    livejs = ""
     # accessibility: id the page's first <main> landmark as the skip-link target, and emit
     # the skip-link ONLY when such a target exists (list pages built from bare <section>s
     # get no dangling link). tabindex=-1 lets the non-interactive <main> receive focus so
@@ -3628,14 +3613,14 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
                 + (f'<span class="bd-stamp">this time last week {esc(lastwk)}</span>'
                    if lastwk else "")
                 + f'</div>'
-                  f'<div class="bd-value cb-lead-v" data-live-px="bitcoin">'
+                  f'<div class="bd-value cb-lead-v">'
                   f'{esc(_price_fmt(btc.get("price")))}</div>'
-                  f'<div class="bd-delta" data-live-chg="bitcoin">'
+                  f'<div class="bd-delta">'
                   f'{t.get("delta") or ""}</div>'
                   f'<p class="bd-read">{esc(BITCOIN_READ_LONG)}</p>'
                   f'{chart}'
                   f'<div class="bd-tile-foot">{tile_provenance(t, pulse)}'
-                + f'<span class="bd-stamp" data-live-stamp>{esc(cap)}</span>'
+                + f'<span class="bd-stamp">{esc(cap)}</span>'
                 + f'</div>{_tile_link(t, learn_href)}</div>')
             continue
 
@@ -7408,9 +7393,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
   {coins_mini_board()}
   <p class="lede" style="margin:14px 0 10px">Every desk at a glance, in the order a desk
      reads a market: price, flows, positioning, then the day and the chain. Tap any card
-     for the full board, where every number is taught in plain language.
-     <span class="live-stamp"><span class="live-dot"></span>prices update in your browser
-     <span data-live="stamp"></span></span></p>
+     for the full board, where every number is taught in plain language.</p>
   <div class="dash-grid widget-grid">{"".join(W)}</div>
 
 </section></main>'''
@@ -7485,8 +7468,7 @@ def render_pulse_posture(pulse, dateline):
   <p class="lede">Where the majors stand, measured with fixed, standard formulas on daily
      closes: RSI-14, MACD 12/26/9, the 50- and 200-day averages, distance from the 12-month
      high, and 30-day realized volatility.</p>
-  <p class="live-stamp"><span class="live-dot"></span>prices update in your browser
-     <span data-live="stamp"></span></p>
+  <p class="live-stamp">{esc(_snap_asof(pulse))}</p>
   <div class="pulse-stack">{cards}</div>
   <p class="pc-note" style="margin-top:8px">Solid line is price over 90 days; the dashed
   lines are the 50- and 200-day averages the trend chips refer to. Every chip is defined
@@ -7613,8 +7595,7 @@ def render_pulse_movers(pulse, dateline):
   <p class="lede">The five biggest gainers and losers of the last 24 hours, drawn only from
      the top {movers.get("universe", 100)} coins by market cap, so micro-cap pump coins never
      make this board.</p>
-  <p class="live-stamp"><span class="live-dot"></span>tables update in your browser
-     <span data-live="stamp"></span></p>
+  <p class="live-stamp">{esc(_snap_asof(pulse))}</p>
   <div class="pulse-grid2">
     <div class="pulse-card"><span class="lab" style="color:var(--up)">Top 5 gainers (24h)<span class="live-dot"></span></span>
       <div class="movetable" tabindex="0" role="region" aria-label="Top gainers (scrollable)"><table><tbody data-live="movers:gainers">{_mover_rows(movers.get("gainers", []))}</tbody></table></div></div>
@@ -8184,8 +8165,7 @@ def render_pulse_prices(pulse, dateline):
   <h1>Top 100</h1>
   <p class="lede">Every coin in the top 100 by market cap: price, 7-day trend, 24-hour
      change. {esc(fmt_usd(total_mcap))} of market tracked. Click a column header to sort.</p>
-  <p class="live-stamp"><span class="live-dot"></span>prices update in your browser
-     <span data-live="stamp"></span></p>
+  <p class="live-stamp">{esc(_snap_asof(pulse))}</p>
   <div class="movetable prices-table"><table>
     <thead><tr>
       <th scope="col" data-sort="rank" aria-sort="ascending"><button type="button" class="th-sort">#</button></th>
@@ -8405,8 +8385,8 @@ def render_pulse_network(pulse, dateline):
     <span class="chip" data-live="fee:hour" data-prefix="1-hour fee " data-suffix=" sat/vB">1-hour fee {network.get("hour_fee", "?")} sat/vB</span>
     {_chip(f'difficulty est. {pct_text(diff)}', pct_class(diff))}
     {_chip(f'{network.get("retarget_blocks", "?")} blocks to retarget')}</div>
-  <p class="pc-note"><span class="live-dot"></span>Fees update live in your browser via
-  mempool.space; difficulty refreshes with each build. <span data-live="stamp"></span></p></div>
+  <p class="pc-note">Fees from mempool.space, difficulty with each build.
+  {esc(_snap_asof(pulse))}</p></div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Network 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
@@ -8547,21 +8527,23 @@ def render_chartmaster(read, dateline, pulse=None):
     # K-3: A READ MORE THAN 36 HOURS OLD SAYS SO, ABOVE ITSELF. The cadence is daily;
     # anything past a day and a half means a run did not produce one, and a reader
     # should meet that before the prose rather than infer it from a date further down.
-    last_note = ""
-    try:
-        import datetime as _dcm
-        _rd = _dcm.datetime.strptime(str(read.get("date") or "")[:10], "%Y-%m-%d")
-        _age_h = (_build_now().replace(tzinfo=None) - _rd).total_seconds() / 3600
-        if _age_h > 36:
-            last_note = (f'<p class="pc-note cm-last"><b>Last read '
-                         f'{esc(fmt_date(read["date"]))}.</b> The Chart Master reads the '
-                         f'tape once a day; this one is the most recent.</p>')
-    except Exception:
-        pass
-    stale_note = ""
-    if read.get("date") and fmt_date(read["date"]).upper() != (dateline or "").upper():
-        stale_note = (f'<p class="pc-note"><b>From the Master\'s ledger, {esc(fmt_date(read["date"]))}.</b> '
-                      f'The boards below are live; the figures in this read are from its date.</p>')
+    # THE LIVE LAYER (5 October 2026): the boards lead and the read follows, dated in its
+    # own headline, "The Chart Master's read, September 21". A read older than the
+    # Board's snapshot carries ONE line under that headline saying the boards are newer.
+    # It replaces the two notes this page carried, one of which said "the boards below"
+    # about boards that sit above it.
+    _rday = str(read.get("date") or "")[:10]
+    _bday = ""
+    _gen = _utc_dt((pulse or {}).get("generated_utc") or "")
+    if _gen:
+        _bday = _gen.astimezone(_ET).strftime("%Y-%m-%d")
+    _md = fmt_date(_rday)
+    _md = _md.rsplit(",", 1)[0] if _md else ""
+    read_title = f"The Chart Master's read, {_md}" if _md else "The Chart Master's read"
+    _bst = _snap_stamp_et((pulse or {}).get("generated_utc") or "")
+    newer_note = (f'<p class="pc-note cm-newer">The boards above are newer than this read; '
+                  f'they are as of {esc(_bst)}.</p>'
+                  if _rday and _bday and _rday < _bday else "")
     # The read is a clean text card: the wizard lives in the page-top panel (cm_hero)
     # and appears nowhere else on the page. The describe-not-predict disclaimer stays
     # in its usual spot below the prose, unobscured.
@@ -8569,12 +8551,11 @@ def render_chartmaster(read, dateline, pulse=None):
         '<div class="ey"><span class="tag">the read</span>'
         f'<span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>'
         f'<h3 class="cm-headline">{esc(destyle(read.get("headline", "")))}</h3>')
-    read_html = (f"""{_charts}
-  <div class="sec-head" style="margin-top:8px"><h2>The Chart Master's read</h2><span class="bar"></span></div>
+    read_html = (f"""
+  <div class="sec-head" style="margin-top:8px"><h2 class="cm-read-h">{esc(read_title)}</h2><span class="bar"></span></div>
+  {newer_note}
   <article class="pulse-card cm-read">
     {head_html}
-    {last_note}
-    {stale_note}
     <div class="prose">{paras}</div>
     <p class="pc-note">The Chart Master reads the day's <a href="/pulse.html">Market
     Pulse</a> and <a href="/flows.html">Whale Watch</a> boards. He describes the tape;
@@ -8604,6 +8585,7 @@ def render_chartmaster(read, dateline, pulse=None):
   <p class="lede">The desk's technician reads the boards so you learn to read them too:
      what the charts show, in plain language, with the receipts linked. He has one rule,
      carved over his door: <b>describe the tape, never predict it.</b></p>
+  {_charts}
   {read_html}
   {archive_html}
 
