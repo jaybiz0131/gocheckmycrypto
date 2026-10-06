@@ -1,43 +1,140 @@
 {
- "edition_date": "2026-10-05",
- "run_utc": "2026-10-05T23:13:57Z",
+ "edition_date": "2026-10-06",
+ "run_utc": "2026-10-06T23:12:09Z",
  "published": 1,
  "chosen": {
-  "cid": "c018",
-  "headline": "OKX and NYSE Parent ICE File for 24/7 Tokenized U.S. Stock Trading",
-  "rank": 1,
+  "cid": "c020",
+  "headline": "Conduit sues Tether over $2.76 million freeze, claims no legal basis for seizure",
+  "rank": 3,
   "standing": "corroborated"
  },
  "held": [
   {
-   "cid": "c001",
-   "headline": "CFTC Clears Fast-Track for Perpetual Futures Conversions, October 5, 2026",
+   "cid": "c013",
+   "headline": "U.S. scraps proposed $10,000 reporting rule for crypto sent to private wallets",
+   "rank": 1,
+   "standing": "single",
+   "why": "rests on one secondary outlet, so it is not the day's story",
+   "key_fact": "FinCEN withdrew two proposals related to self-custody and crypto mixers after years of regulatory limbo.",
+   "verdict": "VERIFIED",
+   "draft": null
+  },
+  {
+   "cid": "c021",
+   "headline": "Winklevoss group files for Zcash ETF at 0.25% fee, ticker WINK proposed",
    "rank": 4,
    "standing": "corroborated",
    "why": "one story a day: held for the next Edition",
-   "key_fact": "Exchanges can now convert perpetual-style index futures to true perpetuals with only five days' notice and mandatory customer exit windows, bypassing standard rulemaking.",
+   "key_fact": "Winklevoss Asset Services filed for a spot Zcash ETF with a 0.25% fee, underpricing Grayscale's competing ZCSH offering, and naming Gemini (co-founded by the Winklevoss twins) as the custodian.",
    "verdict": "VERIFIED",
    "draft": {
-    "id": "c001",
+    "id": "c021",
     "script_skeleton": {
-     "headline": "CFTC Fast-Tracks Perpetual Futures Conversions with Five-Day Notice Rule",
-     "summary": "The CFTC's Division of Market Oversight issued a no-action letter on October 5, 2026 allowing exchanges to convert existing perpetual-style broad-based security index futures into true perpetual futures. The conversion requires a five-calendar-day notice period and customer exit window, with the relief expiring October 20, 2026.",
-     "key_fact": "Exchanges can now convert perpetual-style index futures to true perpetuals with only five days' notice and mandatory customer exit windows, bypassing standard rulemaking.",
-     "angle_prompt": "Here is where you add the regulatory read: does this mark a meaningful shift toward crypto-style derivatives in traditional markets, or is it a narrow relief window that signals the CFTC's caution on broader perpetual futures rules?",
+     "headline": "Winklevoss group files for Zcash ETF at 0.25% fee, ticker WINK proposed",
+     "summary": "Winklevoss Asset Services filed a Form S-1 registration statement with the SEC to launch a spot Zcash ETF under ticker WINK on Nasdaq, with a 0.25% sponsor fee and Gemini as custodian. The move directly competes with Grayscale's existing Zcash ETF, which converted from a trust in August 2026. Zcash has surged over 2,000% in the past year after years as a regulatory pariah.",
+     "key_fact": "Winklevoss Asset Services filed for a spot Zcash ETF with a 0.25% fee, underpricing Grayscale's competing ZCSH offering, and naming Gemini (co-founded by the Winklevoss twins) as the custodian.",
+     "angle_prompt": "The Winklevoss brothers, who filed the first-ever spot Bitcoin ETF application in 2013, are now backing a privacy coin at a moment when Zcash has surged over 2,000% in a year. Your take here: is this a sign that regulatory consensus on privacy coins has shifted, or a calculated bet that Winklevoss influence can push past it?",
      "human_take": "",
      "sources": [
-      "https://www.cftc.gov/PressRoom/PressReleases/9308-26",
-      "https://thedefiant.io/converge/regulation/cftc-staff-clears-fast-track-for-stock-index-perpetual-conversions"
+      "https://www.theblock.co/news/markets/2026-10-06-winklevoss-files-spot-zcash-etf-wink-417826",
+      "https://thedefiant.io/converge/tradfi-and-fintech/winklevoss-files-for-zcash-etf-with-0-25-fee",
+      "https://beincrypto.com/grayscale-zcash-etf-winklevoss-cheaper-rival/",
+      "https://u.today/winklevoss-twins-file-for-zcash-etf-13-years-after-historic-bitcoin-etf-bid",
+      "https://cointelegraph.com/news/winklevoss-backed-zcash-etf-files-with-sec-for-nasdaq-listing?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
      ]
     },
     "article_draft": {
-     "title": "CFTC Clears Fast-Track for Perpetual Futures Conversions, October 5, 2026",
-     "body": "The CFTC's Division of Market Oversight issued a no-action letter on October 5, 2026 allowing designated contract markets to convert existing perpetual-style broad-based security index futures into true perpetual futures without full regulatory rulemaking. The move eliminates a structural bottleneck for exchanges seeking to modernize derivatives offerings, though the relief carries a sunset date and mandatory customer protections.\n\nUnder the no-action letter, announced by the CFTC, exchanges may remove expiration dates from perpetual-style contracts, effectively converting them to contracts with no fixed termination. The conversion becomes effective once a market satisfies customer protection and procedural conditions specified in the letter.\n\nMarkets must provide advance notice and an opportunity to exit positions before the conversion takes effect. Per The Defiant's reporting, position holders receive five calendar days' notice and the ability to close their contracts if they do not accept the new perpetual structure. Markets must solicit feedback from participants with open positions and offer appropriate risk disclosures. No other material contract terms may be modified during the conversion.\n\nCompliance is filed through amendments under CFTC Regulations 40.5 or 40.6, and exchanges must certify their adherence to all conditions. The no-action positions expire on October 20, 2026, meaning markets have roughly two weeks from the letter's issuance to initiate conversions or seek extended relief.\n\nThe brief window reflects the CFTC's use of no-action relief as a temporary market experiment tool. Markets intending to convert perpetual-style contracts must act swiftly to complete filings and solicit customer feedback before the deadline.",
-     "bottom_line": "The October 20, 2026 expiration date will determine whether the CFTC extends this relief, issues permanent rules, or allows it to lapse. That date and any CFTC statement on perpetual futures rulemaking will signal the agency's stance on whether this conversion pathway becomes standard.",
+     "title": "Winklevoss group files for Zcash ETF at 0.25% fee, ticker WINK proposed",
+     "body": "Winklevoss Asset Services filed a Form S-1 registration statement with the SEC on Tuesday, October 6, 2026, to launch a spot Zcash ETF under the ticker WINK on Nasdaq, with a 0.25% sponsor fee and Gemini Trust Company as custodian, according to reporting from U.Today.\nThe filing marks a return to ETF infrastructure for the Winklevoss twins, who submitted the first-ever spot Bitcoin ETF application to the SEC in 2013. The new fund undercuts Grayscale's existing Zcash ETF, which Grayscale converted from a trust in August 2026, by charging a lower fee.\nThe fund will hold Zcash (ZEC) directly and pursue passive exposure to the asset's price movements without leverage or derivatives, per U.Today's reporting. All ZEC owned by the trust will be stored by Gemini Trust Company, a New York State chartered limited liability trust company regulated by the New York State Department of Financial Services, in cold storage. Gemini is co-founded by Cameron and Tyler Winklevoss and is an affiliate of the fund sponsor.\nIf approved, shares will trade on Nasdaq under the proposed WINK ticker. The fund will not attempt to produce any returns other than those that follow from ZEC's price movements, allowing investors to gain exposure to the cryptocurrency through regular brokerage accounts, according to U.Today.\nWinklevoss Capital Fund has expressed an interest in purchasing up to $100 million worth of shares, though U.Today reports the prospective purchase is not a binding commitment. The filing tapped Cypherpunk Technologies, a Winklevoss-backed Zcash treasury company, as the fund's \"Zcash Ecosystem Partner\" to advise on protocol matters and coin holder voting, according to Decrypt.\nZcash is a privacy coin that lets users shield the sender, recipient, and amount of a transaction using cryptography called zk-SNARKs. Per Decrypt, the asset has surged over 2,000% in the last year and has climbed into the top ranks of digital assets after years as a regulatory pariah. Tyler Winklevoss publicly expressed excitement about Zcash last week, telling the industry that the momentum reminded him of 2019, per U.Today.\nCompetition in the Zcash ETF space is already present. Grayscale converted its Zcash Trust into a spot ETF in August and later moved to split its shares, while 21Shares listed Europe's first Zcash exchange-traded product. The SEC must still approve the Winklevoss filing before trading can begin.    Winklevoss Capital's $100 million share purchase is non-binding, signaling limited internal commitment.",
+     "bottom_line": "The SEC approval timeline for the Winklevoss Zcash ETF remains unconfirmed. Watch whether regulators signal concern over privacy coin exposure in institutional products, or whether the Glamsterdam upgrade and institutional adoption trends that followed BlackRock's tokenized fund initiative persuade the agency that regulated infrastructure for privacy assets can coexist with compliance frameworks.",
      "human_take": "",
      "sources": [
-      "https://www.cftc.gov/PressRoom/PressReleases/9308-26",
-      "https://thedefiant.io/converge/regulation/cftc-staff-clears-fast-track-for-stock-index-perpetual-conversions"
+      "https://www.theblock.co/news/markets/2026-10-06-winklevoss-files-spot-zcash-etf-wink-417826",
+      "https://thedefiant.io/converge/tradfi-and-fintech/winklevoss-files-for-zcash-etf-with-0-25-fee",
+      "https://beincrypto.com/grayscale-zcash-etf-winklevoss-cheaper-rival/",
+      "https://u.today/winklevoss-twins-file-for-zcash-etf-13-years-after-historic-bitcoin-etf-bid",
+      "https://cointelegraph.com/news/winklevoss-backed-zcash-etf-files-with-sec-for-nasdaq-listing?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+     ],
+     "status": "DRAFT",
+     "not_financial_advice": "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice.",
+     "boundary_required": false,
+     "boundary_ok": null,
+     "also_reported_by": [
+      "The Defiant",
+      "BeInCrypto",
+      "U.Today",
+      "Cointelegraph"
+     ]
+    }
+   }
+  },
+  {
+   "cid": "c014",
+   "headline": "Ethereum's Glamsterdam test gets last-minute fix before gas-capacity jump on Sepolia",
+   "rank": 5,
+   "standing": "corroborated",
+   "why": "one story a day: held for the next Edition",
+   "key_fact": "A main Ethereum validator client released a software update hours before Sepolia's Glamsterdam activation, which increased block gas capacity from 60 million toward a 200 million target.",
+   "verdict": "VERIFIED",
+   "draft": {
+    "id": "c014",
+    "script_skeleton": {
+     "headline": "Ethereum's Glamsterdam test gets last-minute fix before gas-capacity jump on Sepolia",
+     "summary": "Ethereum's primary validator client released a software update hours before Sepolia testnet activated the Glamsterdam upgrade, which raises block gas capacity from 60 million toward a 200 million gas target. The timing signals precision engineering but also raises questions about what the last-minute fix addressed.",
+     "key_fact": "A main Ethereum validator client released a software update hours before Sepolia's Glamsterdam activation, which increased block gas capacity from 60 million toward a 200 million target.",
+     "angle_prompt": "A last-minute fix hours before a major testnet capacity increase. Your take: does this signal confidence in the upgrade's safety, or caution? And what does Sepolia's success or failure here mean for mainnet rollout timing?",
+     "human_take": "",
+     "sources": [
+      "https://www.coindesk.com/tech/2026/10/06/ethereum-s-glamsterdam-test-gets-last-minute-fix-before-major-capacity-jump",
+      "https://thedefiant.io/news/blockchains/ethereum-s-glamsterdam-upgrade-activates-on-sepolia"
+     ]
+    },
+    "article_draft": {
+     "title": "Ethereum's Glamsterdam test gets last-minute fix before gas-capacity jump on Sepolia",
+     "body": "One of Ethereum's main validator clients released a software update hours before the Sepolia testnet activated the Glamsterdam upgrade on October 6, 2026, according to CoinDesk. The upgrade raises the amount of work each block can hold to 200 million gas, a significant increase from the current 60 million.\n\nEpochs finalized smoothly on the testnet following activation, with early blocks beginning a gradual climb toward the 200 million gas-limit target, per The Defiant. The upgrade compresses a major scalability milestone into a single coordinated client release, a pattern Ethereum has followed for previous network changes.\n\nThe timing of the last-minute client update underscores the precision required to execute protocol changes across a decentralized validator set. Ethereum's testnets serve as proving grounds before mainnet activation, allowing developers to observe how the network handles changes in real conditions without production risk.",
+     "bottom_line": "CoinDesk and The Defiant do not specify which client released the update or what specific issue it addressed. Readers should monitor Ethereum's core developer channels and the foundation's official upgrade posts for details on the fix and the timeline for Glamsterdam mainnet activation.",
+     "human_take": "",
+     "sources": [
+      "https://www.coindesk.com/tech/2026/10/06/ethereum-s-glamsterdam-test-gets-last-minute-fix-before-major-capacity-jump",
+      "https://thedefiant.io/news/blockchains/ethereum-s-glamsterdam-upgrade-activates-on-sepolia"
+     ],
+     "status": "DRAFT",
+     "not_financial_advice": "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice.",
+     "boundary_required": false,
+     "boundary_ok": null,
+     "also_reported_by": []
+    }
+   }
+  },
+  {
+   "cid": "c016",
+   "headline": "Solana Foundation launches open-source settlement program with JPMorgan's input",
+   "rank": 6,
+   "standing": "corroborated",
+   "why": "one story a day: held for the next Edition",
+   "key_fact": "Solana Foundation launched an open-source delivery-versus-payment program that settles institutional trades atomically in seconds instead of the multi-day clearinghouse chains of traditional finance, with JPMorgan's input on institutional needs.",
+   "verdict": "VERIFIED",
+   "draft": {
+    "id": "c016",
+    "script_skeleton": {
+     "headline": "Solana Foundation launches open-source settlement program with JPMorgan's input",
+     "summary": "Solana Foundation released Solana DvP, an open-source delivery-versus-payment escrow program under the MIT license that enables institutions to settle trades in seconds rather than days. JPMorgan provided input on institutional settlement practices. The tool supports SPL Token and Token-2022 extensions and has undergone external security audits.",
+     "key_fact": "Solana Foundation launched an open-source delivery-versus-payment program that settles institutional trades atomically in seconds instead of the multi-day clearinghouse chains of traditional finance, with JPMorgan's input on institutional needs.",
+     "angle_prompt": "Solana is building foundational infrastructure explicitly designed for regulated institutional finance. Your take: does this represent a credible threat to Ethereum's dominance in institutional tokenization, or is it incremental plumbing that doesn't shift the core competitive picture?",
+     "human_take": "",
+     "sources": [
+      "https://www.coindesk.com/markets/2026/10/06/solana-foundation-unveils-a-program-to-settle-institutional-trades-in-seconds-with-jpmorgan-s-inputs",
+      "https://decrypt.co/380126/solana-institutional-settlement-standard-jp-morgan"
+     ]
+    },
+    "article_draft": {
+     "title": "Solana Foundation launches open-source settlement program with JPMorgan's input",
+     "body": "Solana Foundation launched Solana DvP, an open-source escrow program released under the permissive MIT license that gives financial institutions a standardized API for delivery-versus-payment settlement on the Solana blockchain, according to Decrypt. JPMorgan provided input on institutional settlement practices that shaped the design.\nDelivery-versus-payment, or DvP, is a settlement mechanism that ensures both legs of a trade occur simultaneously, reducing counterparty risk. In conventional markets, DvP runs through a multi-day chain of clearinghouses, depositories, and custodians that can lock up capital for a day or two, per Decrypt. Solana DvP compresses settlement into a single atomic transaction, where both legs settle together or neither does.\nCatherine Gu, the Solana Foundation's head of product for digital assets, said the program offers institutions a single open standard \"with finality in seconds instead of days,\" according to Decrypt. Gu added that atomic settlement removes counterparty risk inherent in traditional finance.\nRhodel D'Souza, J.P. Morgan's head of markets digital assets, said a shared, open standard for atomic delivery-versus-payment is \"exactly the kind of foundational infrastructure institutional market participants require,\" per Decrypt.\nSolana DvP supports SPL Token and Token-2022, including extensions regulated issuers depend on such as permanent delegate, pausable tokens, and transfer hooks, per Decrypt.  The foundation said it plans to add privacy features so settlements can be kept confidential, per Decrypt.\nSolana has emerged as a leading venue for tokenized equities and institutional products. BlackRock launched a tokenized money market fund for stablecoin reserves that records ownership on Solana alongside Ethereum in August, and the fund was structured to qualify as a reserve asset under the GENIUS Act, per Decrypt. Kraken has used Solana to offer tokenized U.S. stocks to overseas customers through its xStocks product, per Decrypt.",
+     "bottom_line": "The identity of the external auditors and their audit findings remain unreported. Watch whether the Solana Foundation publishes audit reports and whether major custody providers, broker-dealers, or asset managers announce integration with Solana DvP in production over the next quarter.",
+     "human_take": "",
+     "sources": [
+      "https://www.coindesk.com/markets/2026/10/06/solana-foundation-unveils-a-program-to-settle-institutional-trades-in-seconds-with-jpmorgan-s-inputs",
+      "https://decrypt.co/380126/solana-institutional-settlement-standard-jp-morgan"
      ],
      "status": "DRAFT",
      "not_financial_advice": "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice.",
