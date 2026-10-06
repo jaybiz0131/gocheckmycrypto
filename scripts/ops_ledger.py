@@ -114,6 +114,15 @@ def append():
             row["wrap_repairs"] = len(_ws["repairs"])
     except Exception:
         pass
+    # The run's CoinGecko call count (6 October 2026), written by market_pulse.py, so a
+    # 429 and the calls behind it are a lookup and not a log dig.
+    try:
+        _cg = json.load(open(os.path.join(os.path.dirname(os.path.dirname(
+            os.path.abspath(__file__))), "out", "coingecko-calls.json"), encoding="utf-8"))
+        row["coingecko_calls"] = int(_cg.get("coingecko") or 0)
+        row["coingecko_429"] = int(_cg.get("coingecko_429") or 0)
+    except Exception:
+        pass
     write_file_ledger(row)
     number = month_issue_number(repo, token, now.strftime("%Y-%m"))
     call(f"{API}/repos/{repo}/issues/{number}/comments", token, {"body": json.dumps(row)})

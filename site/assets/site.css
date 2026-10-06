@@ -2004,3 +2004,7 @@ header.masthead{position:relative;z-index:300}
 .ed-cadence{font:400 12.5px/1.4 var(--mono);color:var(--muted);margin:4px 0 12px}
 .ed-dark{font:500 italic 18px/1.4 var(--serif);color:var(--ink);margin:6px 0 14px}
 .ed-dark .bd-stamp{font-style:normal;margin-left:6px}
+/* The stored series' stamp (6 October 2026): figures computed from daily closes say how
+   far the closes run, and say stale once that is 48 hours or more behind the run. */
+.series-thru{font-family:var(--mono);font-size:11px;color:var(--faint);margin:8px 0 0}
+.series-thru .stale,.bd-stamp .stale,.w-sub .stale{color:var(--rule);font-weight:700}

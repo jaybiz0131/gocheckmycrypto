@@ -2924,7 +2924,7 @@ def _cm_read(cm):
 # carried-forward ETF section was already stamped against.
 
 TILE_SOURCES = {
-    "bitcoin":  ("CoinGecko", "assets"),
+    "bitcoin":  ("CoinGecko", "movers"),
     "market":   ("CoinGecko", "market"),
     "movers":   ("CoinGecko", "movers"),
     "fng":      ("alternative.me", "fng"),
@@ -3612,6 +3612,7 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
             lastwk = _last_week_value(btc)
             _pts, _sma, _d0, _d1 = _lead_window(btc)
             cap = f"30 days · {_d0} to {_d1}" if _d0 and _d1 else (win or "")
+            _thru = _series_stamp(btc, pulse)
             cards.append(
                 f'<div class="bd-card bd-tile cb-lead{dirn}">'
                 f'<div class="bd-tile-top"><span class="bd-label">Bitcoin · price '
@@ -3626,7 +3627,8 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
                   f'<p class="bd-read">{esc(BITCOIN_READ_LONG)}</p>'
                   f'{chart}'
                   f'<div class="bd-tile-foot">{tile_provenance(t, pulse)}'
-                + f'<span class="bd-stamp">{esc(cap)}</span>'
+                + f'<span class="bd-stamp">{esc(cap)}'
+                + (f' · {_thru}' if _thru else "") + '</span>'
                 + f'</div>{_tile_link(t, learn_href)}</div>')
             continue
 
@@ -6747,8 +6749,9 @@ def _chip(text, cls="", learn=""):
     return f'<span class="chip {cls}">{esc(text)}</span>'
 
 
-def _posture_card(a):
+def _posture_card(a, pulse=None):
     win = a.get("window") or {}
+    thru = _series_stamp(a, pulse)
     sym = a.get("symbol", "")
     overlays = []
     if a.get("spark_sma50"):
@@ -6798,6 +6801,7 @@ def _posture_card(a):
   <div class="pc-chips">{rsi_chip}{mom}{trend}{cross}
     {_chip(f'{a.get("pct_from_high_12m", 0):+.0f}% vs 12-mo high', learn="#chips101")}
     {_chip(f'volatility {a.get("vol30_pct", 0):.0f}%/yr', learn="#chips101")}</div>
+  {f'<p class="series-thru">{thru}</p>' if thru else ""}
 </div>"""
 
 
@@ -6938,6 +6942,22 @@ def _btc(pulse):
         if a.get("symbol") == "BTC":
             return a
     return {}
+
+
+def _series_stamp(a, pulse, html=True):
+    """THE STORED SERIES' STAMP (Jack, 6 October 2026). A figure computed from the daily
+    closes (the 200-day, RSI, the 12-month drawdown, the line) carries the series' through
+    date, "closes through Oct 5", and the stale mark once that date is 48 hours or more
+    behind the run that wrote the file. It never sets the page's stamp."""
+    import history as _h
+    th = (a or {}).get("through")
+    if not th:
+        return ""
+    lab = _h.through_label(th)
+    run = _utc_dt((pulse or {}).get("written_utc") or "") or None
+    if not _h.is_stale(th, run):
+        return esc(lab) if html else lab
+    return f'<span class="stale">{esc(lab)}, stale</span>' if html else f"{lab}, stale"
 
 
 def leverage_figure(pulse):
@@ -7281,7 +7301,8 @@ def render_pulse_hub(pulse, flows, cm, dateline):
         widget("/pulse/posture.html", "Price &middot; BTC posture",
                f'<span data-live="price:BTC">{esc(_price_fmt(btc.get("price")))}</span>{chg_s}',
                f'RSI {btc.get("rsi14", 0):.0f} &middot; '
-               f'{"above" if btc.get("above_sma200") else "below"} 200-day',
+               f'{"above" if btc.get("above_sma200") else "below"} 200-day'
+               + (f' &middot; {_series_stamp(btc, pulse)}' if btc.get("through") else ""),
                spark_widget((btc.get("spark") or [])[-30:], "30d"),
                learn=_lx.get("bitcoin", ""))
     mkt = pulse.get("market") or {}
@@ -7468,7 +7489,7 @@ def render_pulse_posture(pulse, dateline):
     if not assets:
         inner = f"{_dash_crumb()}\n  <h1>Price posture</h1>\n  {_no_data()}"
         return _dash_shell("posture", "Price posture", desc, inner, dateline, live=True, data=pulse)
-    cards = "".join(_posture_card(a) for a in assets)
+    cards = "".join(_posture_card(a, pulse) for a in assets)
     inner = f"""{_dash_crumb()}
   <h1>Price posture</h1>
   <p class="lede">Where the majors stand, measured with fixed, standard formulas on daily
@@ -7780,6 +7801,9 @@ def _coin_board_read(sym, pulse):
             bits.append(("Momentum", "Rising" if a["macd_above_signal"] else "Fading"))
         if a.get("pct_from_high_12m") is not None:
             bits.append(("From 12-month high", pct_text(a["pct_from_high_12m"])))
+        if bits and a.get("through"):
+            bits.append(("Daily closes", _series_stamp(a, pulse, html=False)
+                         .replace("closes through", "through")))
         return bits, a
     return [], None
 

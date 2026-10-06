@@ -572,28 +572,73 @@ def validate(obj, etf=None, whale=None, assets=None, leverage=None):
         raise llmlib.LLMError(f"chartmaster: advice/prediction language in the read ({hit.group(0)!r}); "
                               "refusing to publish it")
     if etf:
-        _etf_flow_belt(text.lower(), etf)
+        _belt("etf", _etf_flow_belt, text.lower(), etf)
     if whale:
-        _whale_flow_belt(text.lower(), whale)
+        _belt("whale", _whale_flow_belt, text.lower(), whale)
     if assets:
-        _price_belt(text.lower(), assets)
+        _belt("price", _price_belt, text.lower(), assets)
     if leverage:
-        _leverage_belt(text, leverage)
+        _belt("leverage", _leverage_belt, text, leverage)
     return {"headline": headline, "paragraphs": paras}
+
+
+class BeltCrash(Exception):
+    """A belt died on its input (6 October 2026). NOT an LLMError, so the contract ladder
+    never retries it: a crash retried is the same crash at the same price. It ends the
+    night's attempts and is recorded as one refused read, "belt crashed"."""
+
+    def __init__(self, name, exc):
+        self.belt = name
+        super().__init__(f"belt crashed: {name}: {type(exc).__name__}: {exc}")
+
+
+def _belt(name, fn, *args):
+    try:
+        fn(*args)
+    except llmlib.LLMError:
+        raise                              # a refusal on content: the ladder retries it
+    except Exception as e:
+        raise BeltCrash(name, e) from e
+
+
+def _belt_inputs(data):
+    """What validate() is handed from the digest, one place, so the test reads the same
+    arguments the stage passes.
+
+    LEVERAGE IS THE PIPELINE'S SHAPE, an object with "assets" (pulse.json's, and the one
+    leverage_problems reads). The digest lists the assets for the model; this call handed
+    that bare list to the belt, which died on it every night from K-4 (6cab8b6, 21
+    September) to 5 October. The call was the wrong side, so the call is what changed."""
+    return {"etf": data.get("etf_flows"), "whale": data.get("whale_flows"),
+            "assets": data.get("assets"), "leverage": {"assets": data.get("leverage") or []}}
+
+
+STATUS = os.path.join(HERE, "out", "chartmaster-status.json")
+_CLIENT = [None]                           # the stage's own client, for its spend line
+
+
+def _status(published, reason="", date=None):
+    """The night's outcome, which the Edition's commit message reads, and the stage's own
+    model calls and cost, printed so a night's before and after can be compared."""
+    b = _CLIENT[0].budget if _CLIENT[0] is not None else None
+    calls, usd = (b.calls, round(b.usd, 4)) if b else (0, 0.0)
+    os.makedirs(os.path.dirname(STATUS), exist_ok=True)
+    json.dump({"published": bool(published), "date": date, "reason": reason,
+               "model_calls": calls, "usd": usd}, open(STATUS, "w", encoding="utf-8"))
+    print(f"chartmaster: model calls {calls}, ${usd:.4f} this stage, "
+          f"{'published' if published else 'refused'}")
 
 
 def run():
     cfg = common.load_config()
     data = digest()
     client = llmlib.Client(cfg)
+    _CLIENT[0] = client
     system = common.load_prompt("chartmaster.md")
     user = ("Read today's tape and write the Chart Master's read.\n\n"
             + json.dumps(data, indent=1))
     obj = client.call_json("chartmaster", system, user,
-                           validate=lambda o: validate(o, data.get("etf_flows"),
-                                                       data.get("whale_flows"),
-                                                       data.get("assets"),
-                                                       data.get("leverage")))
+                           validate=lambda o: validate(o, **_belt_inputs(data)))
     out = {
         "date": data["data_date"],
         "headline": obj["headline"],
@@ -607,16 +652,51 @@ def run():
         return 0
     os.makedirs(os.path.dirname(SITE_DATA), exist_ok=True)
     json.dump(out, open(SITE_DATA, "w", encoding="utf-8"), indent=2)
+    _status(True, date=out["date"])
     print(f"chartmaster: \"{obj['headline']}\" ({len(obj['paragraphs'])} paragraphs) "
           f"-> {os.path.relpath(SITE_DATA)}")
     return 0
 
 
+def commit_message(path=None, status=None):
+    """The Edition's commit message, from the Chart Master file's OWN date and the night's
+    state (Jack, 6 October 2026). The message used to say "Chart Master read <the run's
+    clock>" while the file said 2026-09-21, because every read since K-4 was refused and
+    the old one stood. Now: "Chart Master read <the file's date>" only when a read
+    published tonight; "Chart Master refused, <reason>" when it did not."""
+    try:
+        d = (json.load(open(path or SITE_DATA, encoding="utf-8")) or {}).get("date")
+    except (OSError, ValueError):
+        d = None
+    d = str(d or "").strip()
+    try:
+        st = json.load(open(status or STATUS, encoding="utf-8")) or {}
+    except (OSError, ValueError):
+        st = None
+    if st is None:
+        return "brief: VERIFIED stories; Chart Master did not run"
+    if st.get("published") and re.fullmatch(r"\d{4}-\d{2}-\d{2}", d) and st.get("date") == d:
+        return f"brief: VERIFIED stories + Chart Master read {d}"
+    why = " ".join(str(st.get("reason") or "no reason recorded").split())[:120]
+    return f"brief: VERIFIED stories; Chart Master refused, {why}"
+
+
 def main():
+    if "--commit-message" in sys.argv[1:]:
+        print(commit_message())
+        sys.exit(0)
     try:
         sys.exit(run())
+    except BeltCrash as e:
+        # A crash is not a refusal: logged with the belt's name and the exception, one
+        # refused read, no further attempts tonight. The previous read stands.
+        _status(False, reason=str(e)[:160])
+        common.gh("warning", f"chartmaster: read refused ({e}); no retry, a crash retried "
+                             f"is the same crash -> previous read stands.")
+        sys.exit(0)
     except Exception as e:
         # Fail-open: commentary must never break the brief. The previous read stands.
+        _status(False, reason=str(e)[:160])
         common.gh("warning", f"chartmaster: read not refreshed ({e}) -> previous read stands.")
         sys.exit(0)
 
