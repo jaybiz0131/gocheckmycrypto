@@ -2011,6 +2011,24 @@
    "usd": 0.0,
    "wf": "Crypto Cronkite daily brief",
    "wrap": "synthesis"
+  },
+  {
+   "breaking": false,
+   "cap_usd": 1.5,
+   "coingecko_429": 0,
+   "coingecko_calls": 2,
+   "cron": "",
+   "ev": "workflow_dispatch",
+   "guard": "true",
+   "outcome": "ran",
+   "pinged": false,
+   "pushed": true,
+   "run": "37545030660",
+   "t": "2026-10-06T23:21:59Z",
+   "tokens": 163794,
+   "usd": 0.2718,
+   "wf": "Crypto Cronkite daily brief",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
