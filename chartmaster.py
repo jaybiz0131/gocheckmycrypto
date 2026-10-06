@@ -92,6 +92,12 @@ def digest():
     This is the model's entire world, so completeness here IS the quality of the read."""
     pulse = _load("pulse.json")
     flows = _load("flows.json")
+    # THE DATA CONTRACT (5 October 2026): the Brief and the read quote the figures the
+    # Board prints, from the same snapshot, so the Edition's lead number and the Board's
+    # cannot come from two endpoints.
+    import snapshot as _snapshot
+    pulse, flows = _snapshot.views(_snapshot.build(pulse, flows), pulse, flows)
+    pulse, flows = pulse or {}, flows or {}
     if not pulse.get("assets"):
         raise ValueError("no pulse snapshot (site/data/pulse.json); run market_pulse.py first")
 
