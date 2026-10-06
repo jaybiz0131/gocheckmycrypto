@@ -978,6 +978,113 @@ def _week_movers_canary():
     return fails
 
 
+def _calendar_canary():
+    """ITEM 4, calendar.json (6 October 2026). Each parser from its fixture, each clock
+    from known dates, the schema (no entry without a source URL and a read stamp) and the
+    today line's empty case. The FRED fixture is written to the documented shape and is
+    named so: this desk holds no FRED key outside the workflow's secret."""
+    import datetime as _dt
+    import desk_calendar as _dc
+    fails = []
+    F = os.path.join(HERE, "fixtures", "calendar")
+
+    def j(n):
+        return json.load(open(os.path.join(F, n), encoding="utf-8"))
+    read = "2026-10-06T11:51:03Z"
+    # 1. FRED: future dates of the asked release only; no key, no entries and a placeholder.
+    fr = _dc.parse_fred(j("fred_release_dates_DOCUMENTED_SHAPE_not_captured.json"), 10,
+                        "CPI", "Consumer Price Index",
+                        "https://fred.stlouisfed.org/release?rid=10", read, "2026-10-06")
+    _check([e["date"] for e in fr] == ["2026-10-15", "2026-11-12"]
+           and all(e["kind"] == "macro" and e["source"]["url"] for e in fr), fails,
+           f"calendar: the FRED parser kept the wrong dates: {[e['date'] for e in fr]}")
+    got, ph = _dc.read_fred("2026-10-06", None, fetch=lambda u: 1 / 0)
+    _check(got == [] and "FRED" in ph, fails,
+           "calendar: with no FRED key the macro entries are not absent with a placeholder")
+    _check("include_release_dates_with_no_data=true" in _dc.fred_url(10, "K", "2026-10-06"),
+           fails, "calendar: the FRED read does not ask for future release dates")
+
+    # 2. Deribit: the next monthly and quarterly expiry, open interest summed by hand.
+    now = _dt.datetime(2026, 10, 6, 11, 51, 3, tzinfo=_dt.timezone.utc)
+    ins = j("deribit_instruments_BTC_captured_2026-10-06.json")
+    book = j("deribit_book_summary_BTC_captured_2026-10-06.json")
+    ex = _dc.parse_deribit("BTC", ins, book, read, now)
+    oct30 = {i["instrument_name"] for i in ins["result"] if "-30OCT26-" in i["instrument_name"]}
+    want_oi = round(sum(b["open_interest"] for b in book["result"]
+                        if b["instrument_name"] in oct30), 1)
+    _check(len(ex) == 2 and ex[0]["date"] == "2026-10-30" and ex[0]["time_et"] == "4:00 AM ET"
+           and ex[0]["open_interest"] == want_oi and "monthly" in ex[0]["title"], fails,
+           f"calendar: Deribit's next monthly is wrong: {ex[:1]} (want 2026-10-30, {want_oi})")
+    _check(len(ex) == 2 and ex[1]["date"] == "2026-12-25" and "quarterly" in ex[1]["title"],
+           fails, f"calendar: Deribit's next quarterly is wrong: {ex[1:]}")
+
+    # 3. mempool.space: the estimate's own instant, in ET, marked computed.
+    mp = _dc.parse_mempool(j("mempool_difficulty_adjustment_captured_2026-10-06.json"), read)
+    _check(len(mp) == 1 and mp[0]["date"] == "2026-10-16" and mp[0]["time_et"] == "3:38 PM ET"  # 19:38:54Z, EDT
+           and mp[0]["computed"] and "+4.12%" in mp[0]["title"]
+           and "1,545 blocks" in mp[0]["title"], fails,
+           f"calendar: the difficulty entry is wrong: {mp}")
+
+    # 4. The statutory clocks from known dates, and a designation read from its text.
+    _check([_dc.add_days("2026-04-29", n) for n in (45, 90, 180, 240)]
+           == ["2026-06-13", "2026-07-28", "2026-10-26", "2026-12-25"], fails,
+           "calendar: the 45/90/180/240-day clocks are wrong")
+    txt = open(os.path.join(F, "fedreg_text_2026-10667_captured_2026-10-06.txt")).read()
+    _check(_dc.deadline("designation-proceedings", "2026-05-29", txt)
+           == ("2026-07-26", False, None), fails,
+           "calendar: the designated date was not read from the notice's own text")
+    oip = open(os.path.join(F, "fedreg_text_2026-01997_captured_2026-10-06.txt")).read()
+    _check(_dc.deadline("proceedings", "2026-02-02", oip)
+           == ("2026-05-27", True, "computed from the notice of 2025-11-28: 180 days"), fails,
+           "calendar: proceedings are not 180 days from the original notice")
+    _check(_dc.deadline("filing", "2026-08-19", "")[:2] == ("2026-10-03", True), fails,
+           "calendar: a filing is not 45 days from its notice")
+    # the filter: the captured search, every kept title a crypto product
+    docs = j("fedreg_search_captured_2026-10-06.json")
+    kept = [d for d in docs if _dc.is_crypto_etp(d["title"])]
+    _check(len(docs) == 88 and len(kept) == 8, fails,
+           f"calendar: the Federal Register filter kept {len(kept)} of {len(docs)}, not 8 of 88")
+    _check(not any(_dc.is_crypto_etp(t) for t in (
+        "Self-Regulatory Organizations; Cboe Exchange, Inc.; Notice of Filing and Immediate "
+        "Effectiveness of a Proposed Rule Change To Amend Cboe Bitcoin U.S. ETF Index Options",
+        "Self-Regulatory Organizations; NYSE American LLC; Order Instituting Proceedings To "
+        "Determine Whether To Approve or Disapprove a Proposed Rule Change To List and Trade "
+        "Options on the Grayscale CoinDesk Crypto 5 ETF")), fails,
+        "calendar: the filter kept an options or immediate-effectiveness notice")
+    texts = {}
+    for d in kept:
+        p = os.path.join(F, f"fedreg_text_{d['document_number']}_captured_2026-10-06.txt")
+        if os.path.exists(p):
+            texts[d["document_number"]] = open(p).read()
+    fe = _dc.fedreg_entries(kept, texts, "2026-05-01", read)
+    _check(not any("SR-NYSEARCA-2025-77" in e["title"] for e in fe), fails,
+           "calendar: a filing the SEC approved still carries a deadline")
+
+    # 5. The schema: no entry without a source URL and a read stamp; ET order; empty day.
+    good = _dc.entry("2026-10-06", "A", "fomc", "Fed", "https://x", read, time_et="2:00 PM ET")
+    early = _dc.entry("2026-10-06", "B", "expiry", "D", "https://y", read, time_et="4:00 AM ET")
+    allday = _dc.entry("2026-10-06", "C", "holiday", "N", "https://z", "2026-10-06")
+    nourl = _dc.entry("2026-10-06", "D", "macro", "FRED", "", read)
+    nostamp = _dc.entry("2026-10-06", "E", "macro", "FRED", "https://f", "")
+    cal = _dc.assemble([good, early, allday, nourl, nostamp], [], now, [])
+    _check([e["title"] for e in cal["entries"]] == ["C", "B", "A"]
+           and cal["dropped_without_source"] == 2, fails,
+           f"calendar: an entry without a source URL or read stamp survived, or the day is "
+           f"not in ET order: {[e['title'] for e in cal['entries']]}")
+    _check(cal["today"]["line"] == "" and len(cal["today"]["entries"]) == 3, fails,
+           "calendar: the today line lost the day's entries")
+    empty = _dc.assemble([], [], now, [])
+    _check(empty["today"] == {"date": "2026-10-06", "entries": [], "line": "nothing scheduled"},
+           fails, f"calendar: an empty day does not read 'nothing scheduled': {empty['today']}")
+    # 6. The yearly files and the unlocks file carry their sources.
+    for e in _dc.fomc_entries("2026-10-06") + _dc.holiday_entries("2026-10-06") \
+            + _dc.unlock_entries("2026-10-06"):
+        _check(_dc.valid(e), fails, f"calendar: a yearly-file entry lacks a source: {e}")
+    _check(any(e["date"] == "2026-10-28" for e in _dc.fomc_entries("2026-10-06")), fails,
+           "calendar: the October FOMC meeting is missing")
+    return fails
+
+
 def _stamp_canary():
     """U-11's other half, and CAUSE B's fix: the canary BUILDS, then checks the two writers.
 
@@ -1820,6 +1927,7 @@ def layer1_canary():
     fails.extend(_stored_series_canary())
     fails.extend(_chartmaster_crash_canary())
     fails.extend(_week_movers_canary())
+    fails.extend(_calendar_canary())
     fails.extend(_stamp_canary())
     cfg = common.load_config()
 

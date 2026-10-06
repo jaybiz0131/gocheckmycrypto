@@ -1,0 +1,290 @@
+{
+ "generated_utc": "2026-10-06T11:57:01Z",
+ "stamp_et": "7:57 AM ET on Oct 6",
+ "window": {
+  "from": "2026-10-06",
+  "to": "2027-02-03"
+ },
+ "sources": [
+  {
+   "source": "FRED release dates",
+   "status": "ok",
+   "entries": 0
+  },
+  {
+   "source": "FOMC yearly file",
+   "status": "ok",
+   "entries": 20
+  },
+  {
+   "source": "NYSE holidays yearly file",
+   "status": "ok",
+   "entries": 15
+  },
+  {
+   "source": "Deribit",
+   "status": "ok",
+   "entries": 4
+  },
+  {
+   "source": "mempool.space",
+   "status": "ok",
+   "entries": 1
+  },
+  {
+   "source": "Federal Register",
+   "status": "ok",
+   "entries": 0
+  },
+  {
+   "source": "unlocks file",
+   "status": "ok",
+   "entries": 0
+  }
+ ],
+ "placeholders": [
+  "Macro release dates are waiting on FRED (api.stlouisfed.org fred/release/dates): no FRED key in this run."
+ ],
+ "dropped_without_source": 0,
+ "today": {
+  "date": "2026-10-06",
+  "entries": [],
+  "line": "nothing scheduled"
+ },
+ "entries": [
+  {
+   "date": "2026-10-16",
+   "time_et": "3:37 PM ET",
+   "title": "Bitcoin difficulty adjustment, estimated +4.10%, 1,544 blocks to go",
+   "kind": "difficulty",
+   "source": {
+    "name": "mempool.space",
+    "url": "https://mempool.space/api/v1/difficulty-adjustment"
+   },
+   "read_utc": "2026-10-06T11:57:04Z",
+   "computed": true,
+   "computed_from": "mempool.space's estimate (estimatedRetargetDate, difficultyChange, remainingBlocks)",
+   "next_retarget_height": 971712
+  },
+  {
+   "date": "2026-10-27",
+   "time_et": null,
+   "title": "FOMC meeting begins (October 27-28)",
+   "kind": "fomc",
+   "source": {
+    "name": "Federal Reserve Board, Meeting calendars and information",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2026-10-28",
+   "time_et": null,
+   "title": "FOMC meeting concludes",
+   "kind": "fomc",
+   "source": {
+    "name": "Federal Reserve Board, Meeting calendars and information",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2026-10-30",
+   "time_et": "4:00 AM ET",
+   "title": "Deribit Bitcoin monthly options expiry, open interest 125,052 BTC",
+   "kind": "expiry",
+   "source": {
+    "name": "Deribit public API",
+    "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option"
+   },
+   "read_utc": "2026-10-06T11:57:01Z",
+   "computed": false,
+   "computed_from": null,
+   "open_interest": 125052.1,
+   "unit": "BTC",
+   "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
+  },
+  {
+   "date": "2026-10-30",
+   "time_et": "4:00 AM ET",
+   "title": "Deribit Ether monthly options expiry, open interest 233,991 ETH",
+   "kind": "expiry",
+   "source": {
+    "name": "Deribit public API",
+    "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option"
+   },
+   "read_utc": "2026-10-06T11:57:02Z",
+   "computed": false,
+   "computed_from": null,
+   "open_interest": 233991.0,
+   "unit": "ETH",
+   "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
+  },
+  {
+   "date": "2026-11-26",
+   "time_et": null,
+   "title": "US stock markets closed: Thanksgiving Day",
+   "kind": "holiday",
+   "source": {
+    "name": "NYSE, Holidays and Trading Hours",
+    "url": "https://www.nyse.com/trade/hours-calendars"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2026-11-27",
+   "time_et": "1:00 PM ET",
+   "title": "US stock markets close early",
+   "kind": "holiday",
+   "source": {
+    "name": "NYSE, Holidays and Trading Hours",
+    "url": "https://www.nyse.com/trade/hours-calendars"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2026-12-08",
+   "time_et": null,
+   "title": "FOMC meeting begins (December 8-9)",
+   "kind": "fomc",
+   "source": {
+    "name": "Federal Reserve Board, Meeting calendars and information",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2026-12-09",
+   "time_et": null,
+   "title": "FOMC meeting concludes, with a Summary of Economic Projections",
+   "kind": "fomc",
+   "source": {
+    "name": "Federal Reserve Board, Meeting calendars and information",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2026-12-24",
+   "time_et": "1:00 PM ET",
+   "title": "US stock markets close early",
+   "kind": "holiday",
+   "source": {
+    "name": "NYSE, Holidays and Trading Hours",
+    "url": "https://www.nyse.com/trade/hours-calendars"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2026-12-25",
+   "time_et": null,
+   "title": "US stock markets closed: Christmas Day",
+   "kind": "holiday",
+   "source": {
+    "name": "NYSE, Holidays and Trading Hours",
+    "url": "https://www.nyse.com/trade/hours-calendars"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2026-12-25",
+   "time_et": "3:00 AM ET",
+   "title": "Deribit Bitcoin quarterly options expiry, open interest 121,466 BTC",
+   "kind": "expiry",
+   "source": {
+    "name": "Deribit public API",
+    "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option"
+   },
+   "read_utc": "2026-10-06T11:57:01Z",
+   "computed": false,
+   "computed_from": null,
+   "open_interest": 121465.8,
+   "unit": "BTC",
+   "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
+  },
+  {
+   "date": "2026-12-25",
+   "time_et": "3:00 AM ET",
+   "title": "Deribit Ether quarterly options expiry, open interest 537,589 ETH",
+   "kind": "expiry",
+   "source": {
+    "name": "Deribit public API",
+    "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option"
+   },
+   "read_utc": "2026-10-06T11:57:02Z",
+   "computed": false,
+   "computed_from": null,
+   "open_interest": 537589.0,
+   "unit": "ETH",
+   "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
+  },
+  {
+   "date": "2027-01-01",
+   "time_et": null,
+   "title": "US stock markets closed: New Year's Day",
+   "kind": "holiday",
+   "source": {
+    "name": "NYSE, Holidays and Trading Hours",
+    "url": "https://www.nyse.com/trade/hours-calendars"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2027-01-18",
+   "time_et": null,
+   "title": "US stock markets closed: Martin Luther King, Jr. Day",
+   "kind": "holiday",
+   "source": {
+    "name": "NYSE, Holidays and Trading Hours",
+    "url": "https://www.nyse.com/trade/hours-calendars"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2027-01-26",
+   "time_et": null,
+   "title": "FOMC meeting begins (January 26-27)",
+   "kind": "fomc",
+   "source": {
+    "name": "Federal Reserve Board, Meeting calendars and information",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2027-01-27",
+   "time_et": null,
+   "title": "FOMC meeting concludes",
+   "kind": "fomc",
+   "source": {
+    "name": "Federal Reserve Board, Meeting calendars and information",
+    "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  }
+ ]
+}

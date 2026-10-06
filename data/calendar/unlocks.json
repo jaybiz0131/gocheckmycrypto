@@ -1,0 +1,145 @@
+{
+ "note": "Token unlocks for the top 20 by market cap at the 2026-10-06 11:41Z read, excluding Bitcoin, Ether and the stablecoins (USDT, USDC, USDS). Hand-kept: no free source of record exists. Only a date, amount and share read on the project's own page makes an entry. Refreshed monthly by the desk at the first session of the month.",
+ "read_date": "2026-10-06",
+ "projects": [
+  {
+   "gecko_id": "binancecoin",
+   "symbol": "BNB",
+   "status": "none published",
+   "next_unlock": null,
+   "source_url": "https://www.bnbchain.org/en/blog/26th-bnb-burn",
+   "read_date": "2026-10-06",
+   "note": "Quarterly burns only; no unlock or vesting schedule."
+  },
+  {
+   "gecko_id": "ripple",
+   "symbol": "XRP",
+   "status": "rule, no day",
+   "next_unlock": null,
+   "source_url": "https://ripple.com/insights/explanation-ripples-xrp-escrow/",
+   "read_date": "2026-10-06",
+   "note": "Escrow releases a total of one billion XRP each month; the page names no day of the month, so no entry."
+  },
+  {
+   "gecko_id": "solana",
+   "symbol": "SOL",
+   "status": "none published",
+   "next_unlock": null,
+   "source_url": "https://solana.com/docs/economics/inflation/inflation-schedule",
+   "read_date": "2026-10-06",
+   "note": "Inflation schedule only; no unlock dates."
+  },
+  {
+   "gecko_id": "tron",
+   "symbol": "TRX",
+   "status": "none published",
+   "next_unlock": null,
+   "source_url": "https://developers.tron.network/docs/tron-economic-model",
+   "read_date": "2026-10-06",
+   "note": "Block rewards only."
+  },
+  {
+   "gecko_id": "figure-heloc",
+   "symbol": "FIGR_HELOC",
+   "status": "none published",
+   "next_unlock": null,
+   "source_url": "https://www.figure.com/heloc/",
+   "read_date": "2026-10-06",
+   "note": "Tokenized loan book; no token unlock content."
+  },
+  {
+   "gecko_id": "zcash",
+   "symbol": "ZEC",
+   "status": "none published",
+   "next_unlock": null,
+   "source_url": "https://zips.z.cash/zip-1015",
+   "read_date": "2026-10-06",
+   "note": "Mined; the lockbox has no release mechanism or date."
+  },
+  {
+   "gecko_id": "hyperliquid",
+   "symbol": "HYPE",
+   "status": "none found",
+   "next_unlock": null,
+   "source_url": "https://hyperliquid.medium.com/",
+   "read_date": "2026-10-06",
+   "note": "The official docs carry no tokenomics page; the official Medium (genesis post) could not be read (403)."
+  },
+  {
+   "gecko_id": "dogecoin",
+   "symbol": "DOGE",
+   "status": "none published",
+   "next_unlock": null,
+   "source_url": "https://dogecoin.com/",
+   "read_date": "2026-10-06",
+   "note": "Mined; no vesting."
+  },
+  {
+   "gecko_id": "chainlink",
+   "symbol": "LINK",
+   "status": "rule, no day",
+   "next_unlock": null,
+   "source_url": "https://chain.link/circulating-supply",
+   "read_date": "2026-10-06",
+   "note": "Release is 7% of total supply per year; no dates, so no entry."
+  },
+  {
+   "gecko_id": "monero",
+   "symbol": "XMR",
+   "status": "none published",
+   "next_unlock": null,
+   "source_url": "https://www.getmonero.org/resources/moneropedia/tail-emission.html",
+   "read_date": "2026-10-06",
+   "note": "Mined, tail emission."
+  },
+  {
+   "gecko_id": "cardano",
+   "symbol": "ADA",
+   "status": "none published",
+   "next_unlock": null,
+   "source_url": "https://cardano.org/what-is-ada/",
+   "read_date": "2026-10-06",
+   "note": "No unlock or vesting content."
+  },
+  {
+   "gecko_id": "whitebit",
+   "symbol": "WBT",
+   "status": "none found",
+   "next_unlock": null,
+   "source_url": "https://whitebit.com/wbt",
+   "read_date": "2026-10-06",
+   "note": "The coin page lists burns and supply, no unlock schedule; the white paper was not read."
+  },
+  {
+   "gecko_id": "leo-token",
+   "symbol": "LEO",
+   "status": "none published",
+   "next_unlock": null,
+   "source_url": "https://www.bitfinex.com/wp-2019-05.pdf",
+   "read_date": "2026-10-06",
+   "note": "White paper: lock-up none."
+  },
+  {
+   "gecko_id": "rain",
+   "symbol": "RAIN",
+   "status": "none found",
+   "next_unlock": null,
+   "source_url": "https://www.rain.one/get-rain",
+   "read_date": "2026-10-06",
+   "note": "Token page has no schedule; the white paper (whitepaper.rain.one) gives release ranges of 6 to 24 months with no dates."
+  },
+  {
+   "gecko_id": "stellar",
+   "symbol": "XLM",
+   "status": "none published",
+   "next_unlock": null,
+   "source_url": "https://stellar.org/foundation/mandate",
+   "read_date": "2026-10-06",
+   "note": "SDF account sales; no release dates or amounts."
+  }
+ ],
+ "jack": {
+  "note": "Jack's dated lines, added by hand. Each needs date, title and source_url; time_et, amount and share are optional.",
+  "lines": []
+ }
+}
