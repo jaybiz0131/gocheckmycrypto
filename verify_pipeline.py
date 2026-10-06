@@ -551,6 +551,79 @@ def _data_contract_canary():
     return fails
 
 
+def _live_layer_canary():
+    """THE LIVE LAYER (5 October 2026). The ticker is the only surface that moves after the
+    page loads; it says "live" and its zone; nothing else refreshes in the browser; Fear &
+    Greed is off the ticker; Chart Master's boards lead and its read follows, dated in its
+    own headline. Each check seen red under a plant named in the 5 October history."""
+    import re as _r
+    import site_build as _sb
+    import snapshot as _snapshot
+    fails = []
+    raw_p, raw_f = _sb.load_pulse(), _sb.load_flows()
+    if not raw_p or not raw_f:
+        _check(False, fails, "live layer: no pulse.json or flows.json to render from")
+        return fails
+    pv, fv = _snapshot.views(_snapshot.build(raw_p, raw_f), raw_p, raw_f)
+    home = _sb.render_home(_sb.load_content(), fv, pv, _sb.load_chartmaster() or {}, "TEST")
+    m = _r.search(r'<section class="markets".*?</section>', home, _r.S)
+    strip = m.group(0) if m else ""
+    _check(bool(strip), fails, "live layer: the home page carries no ticker to check")
+    board = home.replace(strip, "")
+    scripts = " ".join(_r.findall(r"<script[^>]*>(.*?)</script>", home, _r.S))
+
+    # 1. Nothing on the Board refreshes in the browser.
+    for hook in ("data-live-px", "data-live-chg", "data-live-stamp", 'data-live="'):
+        _check(hook not in board and hook not in scripts, fails,
+               f"live layer: {hook} is on the home page, so a Board figure moves in the "
+               f"browser under the build's stamp")
+    pages = {"/pulse/prices": _sb.render_pulse_prices(pv, "TEST"),
+             "/pulse": _sb.render_pulse_hub(pv, fv, _sb.load_chartmaster() or {}, "TEST")}
+    for path, html in list(pages.items()) + [("/", home)]:
+        _check("pulse-live.js" not in html, fails,
+               f"live layer: {path} loads pulse-live.js, which refreshes Board figures in "
+               f"the browser")
+        _check('data-live="stamp"' not in html, fails,
+               f"live layer: {path} carries a browser-filled 'updated' stamp")
+
+    # 2. The ticker's own stamp says live, with its zone.
+    _check('if(as){ as.textContent = "live \u00b7 " + etClock();' in strip, fails,
+           "live layer: the ticker's stamp no longer reads 'live \u00b7 <time>'")
+    _check(bool(_r.search(r'function etClock\(\)\{.*?\+ " ET";', strip, _r.S)), fails,
+           "live layer: the ticker's live clock carries no zone")
+    # "live" only after an OK answer that carried a price: a 429 is JSON too.
+    _pf = _r.search(r'/simple/price[^"]*"\)\s*\.then\(function\(r\)\{if\(!r\.ok\)throw', strip)
+    _check(bool(_pf) and "if(!landed)return;" in strip
+           and strip.find("if(!landed)return;") < strip.find('"live \u00b7 "'), fails,
+           "live layer: the ticker can say 'live' without a price having landed (a 429 or "
+           "an empty answer would label the build's numbers live)")
+    _m0 = _r.search(r'id="mktAsOf">(.*?)</span>\s*</span>', strip, _r.S)
+    _check(bool(_m0) and "live" not in _m0.group(1)
+           and bool(_r.search(r"\d{1,2}:\d{2} [AP]M ET on", _m0.group(1))), fails,
+           f"live layer: the ticker's server-side label is not the build's stamp with its "
+           f"zone and no 'live': {(_m0.group(1) if _m0 else '')[:80]!r}")
+
+    # 3. Fear & Greed is off the ticker.
+    _check("Fear &amp; Greed" not in strip and "alternative.me" not in strip
+           and "data-fng" not in strip, fails,
+           "live layer: Fear & Greed is back on the ticker; it belongs to the snapshot")
+
+    # 4. Chart Master: boards first, then the read, dated in its headline.
+    cm = {"date": "2026-09-21", "headline": "Test headline",
+          "paragraphs": ["Bitcoin holds its range."]}
+    page = _sb.render_chartmaster(cm, "TEST", pv)
+    ic, ir = page.find('class="cm-charts"'), page.find('class="cm-read-h"')
+    _check(ic != -1 and ir != -1 and ic < ir, fails,
+           "live layer: Chart Master's read sits above the live boards")
+    _check("The Chart Master&#x27;s read, September 21" in page
+           or "The Chart Master's read, September 21" in page, fails,
+           "live layer: Chart Master's read headline does not carry its date")
+    _check("cm-newer" in page, fails,
+           "live layer: a read older than the Board carries no line saying the boards are "
+           "newer")
+    return fails
+
+
 def _stamp_canary():
     """U-11's other half, and CAUSE B's fix: the canary BUILDS, then checks the two writers.
 
@@ -1389,6 +1462,7 @@ def layer1_canary():
     fails.extend(_conflict_canary())   # U-13
     fails.extend(_workflow_canary())   # Cause A of the 29 September audit
     fails.extend(_data_contract_canary())
+    fails.extend(_live_layer_canary())
     fails.extend(_stamp_canary())
     cfg = common.load_config()
 
