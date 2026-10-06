@@ -1872,7 +1872,12 @@ header.masthead{position:relative;z-index:300}
      for. The label stays in the row and gets shorter instead: the strip's stamp was
      saying what the tile's own "live · 5:59 PM ET" now says, so it comes off the
      phone and the width goes to the prices. */
-  .markets .lab .mkt-asof{display:none}
+  /* SHOWN, NEVER HIDDEN (Jack, 6 October 2026). The tile's own live stamp left with the
+     data contract, so the strip's mark is the only thing on a phone that says the
+     prices are live, and the phone is most readers. It takes the stamp slot in the mono
+     at the tape's smallest size, "live · 8:21 PM ET", on the label's existing line, so
+     nothing else moves. scripts/ticker_mark_375.mjs reads it at 375. */
+  .markets .lab .mkt-asof{display:inline;font-size:10px}
   .markets .lab{font-size:10px;padding-right:2px}
   .markets .tick{display:inline-flex;flex-direction:column;align-items:flex-start;
     gap:1px;padding:2px 10px;min-width:0}
