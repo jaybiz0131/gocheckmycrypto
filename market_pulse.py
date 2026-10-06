@@ -332,6 +332,33 @@ def section_stables():
                        "end_iso": _date_iso(year_pts[-1][0])}}
 
 
+def week_closes(points, last_updated, now=None):
+    """THE WEEK'S LINE (6 October 2026), from the sparkline the movers read already
+    carries (`sparkline=true` on /coins/markets): 168 hourly prices, no timestamps. Each
+    point is timed back one hour from the coin's `last_updated`, and the close of a UTC day
+    is the last price at or before its end (history.utc_day_closes). Completed days only,
+    the last seven; the week's low and high over every point. Nothing when the field is
+    short or the coin carries no `last_updated`."""
+    import history
+    pts = [p for p in (points or []) if isinstance(p, (int, float))]
+    try:
+        end = datetime.strptime(str(last_updated)[:19], "%Y-%m-%dT%H:%M:%S").replace(
+            tzinfo=timezone.utc)
+    except ValueError:
+        return {}
+    if len(pts) < 24:
+        return {}
+    n = len(pts)
+    stamped = [[(end.timestamp() - (n - 1 - i) * 3600) * 1000, v] for i, v in enumerate(pts)]
+    days = history.completed(history.utc_day_closes(stamped), now or end)
+    keep = sorted(days)[-7:]
+
+    def px(v):                             # cents from a dollar up, six figures below it
+        return round(v, 2) if v >= 1 else float(f"{v:.6g}")
+    return {"closes7d": {d: px(days[d]) for d in keep},
+            "low7d": px(min(pts)), "high7d": px(max(pts))}
+
+
 def section_movers(top_n=5, universe=100, fetch=160):
     """One call, two boards: the full top-100 price table (with 7-day sparklines) and the
     top gainers/losers derived from it, so micro-cap pump coins never make either board.
@@ -343,6 +370,9 @@ def section_movers(top_n=5, universe=100, fetch=160):
     d = get_json("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
                  f"&order=market_cap_desc&per_page={max(fetch, universe)}&page=1"
                  "&price_change_percentage=24h,7d,30d&sparkline=true")
+    _read_at = datetime.now(timezone.utc)
+    import stablecoins
+    stable_ids = stablecoins.ids()
 
     # Read-only: the build applies the cached verdicts and never screens. Screening is a
     # separate scheduled job precisely so a rate-limited API cannot delay a publish. See
@@ -384,6 +414,9 @@ def section_movers(top_n=5, universe=100, fetch=160):
         if spark:
             pts = ((c.get("sparkline_in_7d") or {}).get("price")) or []
             out["spark7d"] = downsample(pts, 28) if len(pts) >= 2 else []
+            out.update(week_closes(pts, c.get("last_updated"), now=_read_at))
+        if (c.get("id") or "") in stable_ids:
+            out["stablecoin"] = True
         return out
 
     movers = [c for c in d if c.get("price_change_percentage_24h") is not None]
