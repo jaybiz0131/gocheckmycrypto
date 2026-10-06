@@ -123,10 +123,30 @@ def append():
         row["coingecko_429"] = int(_cg.get("coingecko_429") or 0)
     except Exception:
         pass
+    # THE CHART MASTER'S OWN SPEND (6 October 2026), beside the run's total, so a stage
+    # that misbehaves can be priced from the record. From 22 September to 5 October it
+    # refused every read and the ledger could not say what that cost.
+    cm = chartmaster_spend(os.path.join(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "out", "chartmaster-status.json"))
+    if cm:
+        row.update(cm)
     write_file_ledger(row)
     number = month_issue_number(repo, token, now.strftime("%Y-%m"))
     call(f"{API}/repos/{repo}/issues/{number}/comments", token, {"body": json.dumps(row)})
     print(f"ops ledger: appended to issue #{number}: {json.dumps(row)}")
+
+
+def chartmaster_spend(path):
+    """{chartmaster_calls, chartmaster_tokens, chartmaster_usd, chartmaster_published}
+    from the stage's status file, or {} when the stage did not run."""
+    try:
+        st = json.load(open(path, encoding="utf-8"))
+    except Exception:
+        return {}
+    return {"chartmaster_calls": int(st.get("model_calls") or 0),
+            "chartmaster_tokens": int(st.get("tokens") or 0),
+            "chartmaster_usd": float(st.get("usd") or 0.0),
+            "chartmaster_published": bool(st.get("published"))}
 
 
 def write_file_ledger(row):

@@ -870,6 +870,19 @@ def _chartmaster_crash_canary():
     _check(m2 == "brief: VERIFIED stories + Chart Master read 2026-09-21", fails,
            f"chartmaster: a published night's message reads {m2!r}")
     _check("did not run" in m3, fails, f"chartmaster: no status reads {m3!r}")
+    # 4. The ledger row carries the stage's own calls, tokens and cost.
+    import importlib.util as _iu
+    _sp = _iu.spec_from_file_location("ops_ledger_t", os.path.join(HERE, "scripts", "ops_ledger.py"))
+    _ol = _iu.module_from_spec(_sp)
+    _sp.loader.exec_module(_ol)
+    s4 = os.path.join(tmp, "s4.json")
+    json.dump({"published": False, "model_calls": 3, "tokens": 41234, "usd": 0.0612}, open(s4, "w"))
+    _check(_ol.chartmaster_spend(s4) == {"chartmaster_calls": 3, "chartmaster_tokens": 41234,
+                                         "chartmaster_usd": 0.0612,
+                                         "chartmaster_published": False}, fails,
+           f"ledger: the Chart Master's spend is not on the row: {_ol.chartmaster_spend(s4)}")
+    _check("tokens" in st and _ol.chartmaster_spend(os.path.join(tmp, "none.json")) == {}, fails,
+           "ledger: the stage status carries no tokens, or a missing stage invents spend")
     for m in (m1, m2, m3):
         _check(set(_r.findall(r"\d{4}-\d{2}-\d{2}", m)) <= {"2026-09-21"}, fails,
                f"chartmaster: the commit message carries a date not in the file: {m!r}")
@@ -1051,6 +1064,13 @@ def _calendar_canary():
         "Determine Whether To Approve or Disapprove a Proposed Rule Change To List and Trade "
         "Options on the Grayscale CoinDesk Crypto 5 ETF")), fails,
         "calendar: the filter kept an options or immediate-effectiveness notice")
+    vs = next((d for d in docs if d["document_number"] == "2026-16854"), {})
+    _check(_dc.is_crypto_etp(vs.get("title")), fails,
+           "calendar: a mixed filing naming Bitcoin and Ether products was dropped")
+    _vt = open(os.path.join(F, "fedreg_text_2026-16854_captured_2026-10-06.txt")).read()
+    _ve = _dc.fedreg_entries([vs], {"2026-16854": _vt}, "2026-09-01", read)
+    _check(len(_ve) == 1 and _ve[0].get("notice_title") == vs.get("title"), fails,
+           "calendar: a mixed filing's entry does not keep the notice's own title")
     texts = {}
     for d in kept:
         p = os.path.join(F, f"fedreg_text_{d['document_number']}_captured_2026-10-06.txt")
