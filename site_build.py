@@ -9200,9 +9200,11 @@ def build():
     import snapshot as _snapshot
     SNAP = _snapshot.build(pulse, flows)
     _snapshot.write(SNAP)
-    w(os.path.join("data", "snapshot.json"), json.dumps(SNAP, indent=1))
+    # compact: a runtime request on the home page in Sprint 2, budget 60 KB (6 October 2026)
+    w(os.path.join("data", "snapshot.json"), json.dumps(SNAP, separators=(",", ":")))
     pulse, flows = _snapshot.views(SNAP, pulse, flows)
-    print(f"snapshot: {len(SNAP['fields'])} field(s), stamp {SNAP['stamp_et'] or 'none'}")
+    print(f"snapshot: {len(SNAP['fields'])} field(s), stamp {SNAP['stamp_et'] or 'none'}, "
+          f"{len(json.dumps(SNAP, separators=(',', ':')).encode())} bytes")
     # THE BOARD IS ON THE FAIL-LOUD BELT (directive v2, 2026-09-12). data_stamp already
     # tells the READER when the board is old, and it does that honestly: an explicit
     # "Stale data" banner with the real age. What was missing was telling the DESK, so a

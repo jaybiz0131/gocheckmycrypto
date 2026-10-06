@@ -876,6 +876,108 @@ def _chartmaster_crash_canary():
     return fails
 
 
+def _week_movers_canary():
+    """ITEM 3, the snapshot grows (6 October 2026): the week's seven closes and its low and
+    high per coin from the /coins/markets sparkline field, and the movers from the same
+    read, stablecoins never among them, the whole snapshot under 60 KB. Fixture: the
+    endpoint's answer with sparkline=true, captured 2026-10-06 11:41Z."""
+    import market_pulse as _mp
+    import snapshot as _snapshot
+    import stablecoins as _st
+    fails = []
+    fx = json.load(open(os.path.join(
+        HERE, "fixtures", "coingecko_markets_sparkline_captured_2026-10-06T1141Z.json")))
+    btc = next(c for c in fx if c["id"] == "bitcoin")
+    sp = btc["sparkline_in_7d"]["price"]
+
+    # 1. Seven closes on UTC day boundaries. last_updated 11:39:30Z, so the 168th point is
+    # today 11:39 and today holds twelve points (00:39 to 11:39): index 155 is 23:39 on
+    # October 5, that day's close, and index 11 is 23:39 on September 29.
+    w = _mp.week_closes(sp, btc["last_updated"])
+    days = sorted(w.get("closes7d") or {})
+    _check(days == ["2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03",
+                    "2026-10-04", "2026-10-05"], fails,
+           f"week: the seven closes are not the seven completed UTC days: {days}")
+    _check(w.get("closes7d", {}).get("2026-10-05") == round(sp[155], 2)
+           and w.get("closes7d", {}).get("2026-09-29") == round(sp[11], 2), fails,
+           "week: a close is not the last hourly price of its UTC day")
+    # a point stamped exactly midnight closes the day before it
+    w0 = _mp.week_closes(list(range(1, 49)), "2026-10-06T00:00:00Z")
+    _check(w0.get("closes7d", {}).get("2026-10-05") == 48
+           and "2026-10-06" not in w0.get("closes7d", {}), fails,
+           f"week: the midnight point does not close the day before it: {w0}")
+    # 2. The week's low and high over every point.
+    _check(w.get("low7d") == round(min(sp), 2) and w.get("high7d") == round(max(sp), 2),
+           fails, f"week: low/high are not the week's ({w.get('low7d')}, {w.get('high7d')})")
+
+    # 3. The movers from the captured read: three rises and the fall in the top 20, ranked.
+    sid = _st.ids()
+    coins = {}
+    for c in fx[:100]:
+        sym = c["symbol"].upper()
+        ch = c.get("price_change_percentage_24h")
+        if sym in coins or ch is None:
+            continue
+        coins[sym] = {"rank": c["market_cap_rank"], "name": c["name"],
+                      "chg_24h_pct": round(ch, 2)}
+        if c["id"] in sid:
+            coins[sym]["stablecoin"] = True
+    m = _snapshot.movers(coins)
+    _check([(r["symbol"], r["rank"]) for r in m.get("top20_rises") or []]
+           == [("ZEC", 10), ("ADA", 15), ("XMR", 14)], fails,
+           f"movers: the top-20 rises are wrong: {m.get('top20_rises')}")
+    _check((m.get("top20_fall") or {}).get("symbol") == "RAIN"
+           and (m.get("top20_fall") or {}).get("rank") == 19, fails,
+           f"movers: the top-20 fall is wrong: {m.get('top20_fall')}")
+    _check(len(m.get("standouts") or []) == 8 and all(
+        abs(r["chg_24h_pct"]) > 5 for r in m["standouts"]), fails,
+        f"movers: the top-100 standouts are wrong: {m.get('standouts')}")
+    _check(coins.get("USDT", {}).get("stablecoin") is True, fails,
+           "movers: USDT is not marked a stablecoin")
+
+    # 4. The 5% line, a stablecoin, and the empty case, on a small market.
+    def mk(rows):
+        return {s: dict(rank=r, name=s, chg_24h_pct=c, **({"stablecoin": True} if st else {}))
+                for s, r, c, st in rows}
+    m2 = _snapshot.movers(mk([("AAA", 1, 0.1, False), ("BBB", 2, 0.2, False),
+                              ("USDX", 3, 0.3, True), ("CCC", 4, -0.4, False),
+                              ("DDD", 30, 5.1, False), ("EEE", 31, -4.9, False),
+                              ("USDY", 32, 6.0, True)]))
+    _check([r["symbol"] for r in m2["standouts"]] == ["DDD"], fails,
+           f"movers: 5.1% must count and 4.9% must not: {m2['standouts']}")
+    _check("USDX" not in [r["symbol"] for r in m2["top20_rises"]]
+           and "USDY" not in [r["symbol"] for r in m2["standouts"]], fails,
+           "movers: a stablecoin was a mover")
+    m3 = _snapshot.movers(mk([("AAA", 1, 0.1, False), ("BBB", 50, -4.99, False)]))
+    _check(m3["standouts"] == [] and m3["standouts_line"] == "none today", fails,
+           f"movers: no standout does not read 'none today': {m3}")
+
+    # 5. The snapshot with the week and the movers, under 60 KB, every field sourced.
+    pulse = json.load(open(os.path.join(HERE, "fixtures", "recorded_pulse_d6ec0f4.json")))
+    rows = []
+    for c in fx[:100]:
+        r = {"symbol": c["symbol"].upper(), "name": c["name"], "price": c["current_price"],
+             "chg_24h_pct": c.get("price_change_percentage_24h"),
+             "rank": c["market_cap_rank"], "gecko_id": c["id"],
+             "mcap_usd": c.get("market_cap")}
+        r.update(_mp.week_closes(c["sparkline_in_7d"]["price"], c.get("last_updated")))
+        rows.append(r)
+    pulse["movers"] = {"top100": rows}
+    snap = _snapshot.build(pulse, json.load(open(os.path.join(
+        HERE, "fixtures", "recorded_flows_d6ec0f4.json"))))
+    size = len(json.dumps(snap, separators=(",", ":")).encode())
+    print(f"week/movers canary: snapshot {size} bytes against 60000")
+    _check(size < 60000, fails, f"snapshot: {size} bytes is over the 60 KB budget")
+    for k in ("week", "movers"):
+        f = (snap.get("fields") or {}).get(k) or {}
+        _check(bool(f.get("value")) and "CoinGecko /coins/markets" in (f.get("source") or "")
+               and f.get("read_utc"), fails,
+               f"snapshot: the {k} field is missing or names no endpoint: {str(f)[:80]}")
+    _check("sparkline=true" in ((snap.get("fields") or {}).get("week") or {}).get("source", ""),
+           fails, "snapshot: the week field does not name its parameter")
+    return fails
+
+
 def _stamp_canary():
     """U-11's other half, and CAUSE B's fix: the canary BUILDS, then checks the two writers.
 
@@ -1717,6 +1819,7 @@ def layer1_canary():
     fails.extend(_live_layer_canary())
     fails.extend(_stored_series_canary())
     fails.extend(_chartmaster_crash_canary())
+    fails.extend(_week_movers_canary())
     fails.extend(_stamp_canary())
     cfg = common.load_config()
 

@@ -47,11 +47,15 @@ SOURCES = {
     "stablecoin_float": "DefiLlama stablecoincharts/all",
     "fear_greed": "alternative.me /fng",
     "network_fee": "mempool.space /api/v1/fees/recommended",
+    "week": "CoinGecko /coins/markets sparkline=true (sparkline_in_7d, hourly, timed "
+            "back from last_updated)",
+    "movers": "computed from CoinGecko /coins/markets price_change_percentage_24h",
 }
+STANDOUT_PCT = 5.0          # a top-100 coin moving MORE than this either way is a standout
 # The daily closes the 200-day, RSI, drawdown and lines are computed from.
 SERIES_SOURCE = "CoinGecko /coins/{id}/market_chart, stored daily closes in data/history/"
 # The pulse.json section each field is read from, for its read time.
-_SECTION = {"coins": "movers", "dominance": "market", "total_cap": "market",
+_SECTION = {"coins": "movers", "week": "movers", "movers": "movers", "dominance": "market", "total_cap": "market",
             "etf_flows": "etf_flows", "funding": "leverage", "open_interest": "leverage",
             "stablecoin_float": "stables", "fear_greed": "fng", "network_fee": "network"}
 
@@ -104,7 +108,19 @@ def build(pulse, flows):
             coins[sym] = {"price": r["price"], "chg_24h_pct": r.get("chg_24h_pct"),
                           "id": r.get("gecko_id"), "name": r.get("name"),
                           "mcap_usd": r.get("mcap_usd"), "rank": r.get("rank")}
+            if r.get("stablecoin"):
+                coins[sym]["stablecoin"] = True
     put("coins", coins)
+    # THE WEEK (6 October 2026): seven daily closes and the week's low and high per coin,
+    # from the same /coins/markets read with its sparkline field; no second request.
+    week = {}
+    for r in rows:
+        sym = r.get("symbol")
+        if sym in coins and r.get("closes7d") and sym not in week:
+            week[sym] = {"closes": r["closes7d"], "low": r.get("low7d"),
+                         "high": r.get("high7d")}
+    put("week", week)
+    put("movers", movers(coins))
 
     mkt = pulse.get("market") or {}
     if isinstance(mkt.get("btc_dominance_pct"), (int, float)):
@@ -171,10 +187,47 @@ def build(pulse, flows):
     # the tiles computed from them print.
     hist = {a["symbol"]: {"through": a["through"], "source": a.get("history_source")}
             for a in (pulse.get("assets") or []) if a.get("symbol") and a.get("through")}
+    import stablecoins as _st
+    _sl = _st.load()
+    snap["stablecoins"] = {"source": _sl.get("source"), "read_utc": _sl.get("read_utc"),
+                           "symbols": sorted(k for k, v in coins.items() if v.get("stablecoin"))}
     if hist:
         snap["series"] = {"source": SERIES_SOURCE, "through": min(
             v["through"] for v in hist.values()), "value": hist}
     return snap
+
+
+def movers(coins):
+    """Moving today (6 October 2026). Among the top 20 by market cap, the three largest
+    24-hour rises and the largest fall, each with its rank; among the top 100, every coin
+    moving more than STANDOUT_PCT either way, or "none today". Stablecoins are never
+    movers: they are in the top 20 and the top 100, and excluded from both lists."""
+    ranked = sorted((dict(v, symbol=k) for k, v in (coins or {}).items()
+                     if isinstance(v.get("rank"), int)), key=lambda c: c["rank"])
+    if not ranked:
+        return {}
+
+    def row(c):
+        return {"symbol": c["symbol"], "name": c.get("name"), "rank": c["rank"],
+                "chg_24h_pct": c["chg_24h_pct"]}
+    live = [c for c in ranked if not c.get("stablecoin")
+            and isinstance(c.get("chg_24h_pct"), (int, float))]
+    # CoinGecko's rank, 1 to 20, so a coin the screen dropped leaves its number unused
+    # rather than pulling rank 21 into a "top 20" list.
+    top20 = [c for c in live if c["rank"] <= 20]
+    rises = sorted((c for c in top20 if c["chg_24h_pct"] > 0),
+                   key=lambda c: -c["chg_24h_pct"])[:3]
+    falls = sorted((c for c in top20 if c["chg_24h_pct"] < 0),
+                   key=lambda c: c["chg_24h_pct"])[:1]
+    stand = [row(c) for c in live if c["rank"] <= 100
+             and abs(c["chg_24h_pct"]) > STANDOUT_PCT]
+    return {"top20_rises": [row(c) for c in rises],
+            "top20_fall": row(falls[0]) if falls else None,
+            "standouts": stand,
+            "standouts_line": "" if stand else "none today",
+            "rule": f"top 20 by market cap: the three largest 24-hour rises and the largest "
+                    f"fall; top 100: every coin moving more than {STANDOUT_PCT:g}% either "
+                    f"way; stablecoins excluded"}
 
 
 def value(snap, field):
@@ -187,8 +240,10 @@ def coin(snap, sym):
 
 def write(snap, path=OUT):
     os.makedirs(os.path.dirname(path), exist_ok=True)
+    # Compact (6 October 2026): the home page requests this file at runtime in Sprint 2,
+    # and its budget is 60 KB; the seven closes per coin put the indented form at 56 KB.
     with open(path, "w", encoding="utf-8") as fh:
-        json.dump(snap, fh, indent=1)
+        json.dump(snap, fh, separators=(",", ":"))
 
 
 def load(path=OUT):
