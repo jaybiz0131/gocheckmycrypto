@@ -621,6 +621,22 @@ def _live_layer_canary():
     _check("cm-newer" in page, fails,
            "live layer: a read older than the Board carries no line saying the boards are "
            "newer")
+
+    # 5. The live mark is shown at every width (Jack, 6 October 2026: shown, never hidden).
+    # The phone is most readers; a rule that hides the mark there hides the one promise the
+    # contract made visible. scripts/ticker_mark_375.mjs reads it rendered; this reads the
+    # stylesheet, so the canary catches it without a browser.
+    css = open(os.path.join(HERE, "site", "assets", "site.css"), encoding="utf-8").read()
+    css = _r.sub(r"/\*.*?\*/", "", css, flags=_r.S)
+    for sel, body in _r.findall(r"([^{}]+)\{([^{}]*)\}", css):
+        if not _r.search(r"mkt-asof|mktAsOf|\.markets \.lab\b(?![-\w])", sel):
+            continue
+        if _r.search(r"mkt-asof \.stale", sel) and "mkt-asof," not in sel:
+            continue
+        _check(not _r.search(r"display\s*:\s*none|visibility\s*:\s*hidden|font-size\s*:\s*0"
+                             r"(?:px)?\s*(?:;|$)", body), fails,
+               f"live layer: site.css hides the ticker's live mark ({sel.strip()[:60]} "
+               f"{{{body.strip()[:40]}}})")
     return fails
 
 
