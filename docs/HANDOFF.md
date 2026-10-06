@@ -7,12 +7,15 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 4 October 2026, end of the one-story-a-day session.
-`main` ends at the close commit on top of `c2a2d46` (section 7). `one-story-a-day` and
-`whale-sentence` are MERGED and DELETED. One local branch remains and is not this
-session's: `family-map-home-sections`. Days before 23 September live in
+Last updated: 5 October 2026, end of the data-contract session.
+`main` ends at the close commit on top of `10f70f6` (section 7). `canary-own-writes`,
+`snapshot-contract` and `live-ticker-only` are MERGED and DELETED. One local branch remains
+and is not this session's: `family-map-home-sections`. Days before 23 September live in
 `HANDOFF-2026-08-17.md`; 23 September to 1 October in `HANDOFF-2026-09-23-to-10-01.md`;
-4 October in `HANDOFF-2026-10-04.md` (U-1).
+4 October in `HANDOFF-2026-10-04.md`; 5 October in `HANDOFF-2026-10-05.md` (U-1).
+
+**No AI attribution on any commit or PR** (family rule): `.claude/settings.json` sets
+`attribution.commit` and `.pr` to "" and `includeCoAuthoredBy` false (Claude Code 2.1.289).
 
 The Sports handoff (`../gocheckmysports/HANDOFF.md`, the file at that repo's root,
 not the one in its `docs/`) carries the shared laws,
@@ -90,13 +93,16 @@ a Solana client upgrade, a celebrity-driven Dogecoin surge.
 | V-11 punch 5, 6, 8: label columns, full-width Whale Watch, Edition wordmark | open |
 | V-12 A-14/A-15/D-7 inner pages and phone, under 5,500 phone homepage | part done |
 | V-13 Crypto copy | **hold** (lifted 4 Oct for named lines only) |
-| **Data contract: the NEXT session's first order**, named, not started (section 6) | open |
-| top_n 6 ranking check, after seven Editions, 4 to 10 Oct (section 6) | open |
-| Stamp canary cleanup reverts edits made during its run (section 8) | open |
+| top_n 6 ranking check, after seven Editions, 4 to 10 Oct (section 6) | open, 2 of 7 |
+| Twins check (`twin_audit.figure_twins`): warns only; whether it gates is Sprint 1's call | open, P5 S1 |
+| Coin page chart: stays on demand (Jack, 5 Oct). P5 Sprint 3 rebuilds it: default line from the snapshot's sparkline field once Sprint 1 adds it, longer ranges on demand, caption with range and read time and NO dollar figure (a second price from a second endpoint is the twin the contract retires) | open, P5 S3 |
+| Ticker label hidden at 375 (`site.css` `.markets .lab .mkt-asof{display:none}`), so a phone reader never sees "live" on the one live surface; the rule's reason (the tile said it) left with branch two | open |
+| `assets` (`/coins/{id}/market_chart`) carried since 2 Oct 23:12Z in every committed `pulse.json`; the Board sparkline, RSI line and Chart Master charts draw from it | open |
+| `chartmaster.json` dated 2026-09-21 while Edition commits say "Chart Master read" each day | open |
 | L-1 the Board on the Worker | open, Sprint I |
 | R-1 desk reconfiguration | open, Sprint J |
 
-Landed this session: A-14 (`/pulse` opens with the Board band at 646px against the
+Landed 4 October: A-14 (`/pulse` opens with the Board band at 646px against the
 homepage band's 1027, 63%), A-5's ornament (Bitcoin's 30-day closes as a filled area
 in #FF6A4D, omitted under 720px), the watermark fetch fix, and the mono-500 font
 weight removal.
@@ -142,54 +148,77 @@ not piped into `tail` and assumed.
   the 2026-09-23 XRP story and went green on a rebuild with no code change).
 ---
 
-## 6. The next session's first order and the open check
+## 6. The data contract (live 5 October 2026, `0ab4472` and `10f70f6`)
 
-**The data contract (named 4 October, not started).** One snapshot object for price,
-dominance, ETF flows, whale net, funding, stablecoin float and Fear & Greed that every
-surface reads: ticker, Board, coin page, Top 100 and Brief. The client-side refresh either
-refreshes every surface from that one payload and re-stamps them together, or touches only
-the ticker, which then says so. Every stamp carries its zone. Chart Master's read carries its
-date in its headline and never sits above a live figure it contradicts. The twins check
-reads the story's number and the Board's from the same snapshot, which is how it stops being
-advisory. After it: S-2 on Sports, then the deep-URL register, then Cause C on Sports.
+**One snapshot.** `snapshot.py` builds one object at build time from `pulse.json` and
+`flows.json`, written to `site/data/snapshot.json` (ignored) and published at
+`/data/snapshot.json`. One endpoint per field, named beside it with its read time: `coins`
+(price and 24h for all 100, CoinGecko `/coins/markets`), `dominance` and `total_cap`
+(`/global`), `etf_flows` (Farside), `whale_net` with window and "all coins" (Whale Alert),
+`funding` and `open_interest` (OKX), `stablecoin_float` (DefiLlama), `fear_greed`
+(alternative.me), `network_fee` (mempool.space). Its stamp is the oldest read, written with
+its zone, "8:29 PM ET on Oct 5". Changing a source is changing `SOURCES` in that file.
+
+**Every surface reads it.** Renderers are handed `snapshot.views()`, never the raw files: the
+ticker's server fill, the Board, coin pages, Top 100, the Brief's lead line, the article board
+panel and `chartmaster.digest()`, which the Edition writes from. A field the snapshot lacks is
+removed from the view, so it is omitted rather than printed from another endpoint.
+
+**The ticker is the only live surface.** In the browser it refreshes coin prices and 24h
+change, the total cap and BTC dominance (one `/global` call), and says "live · 8:34 PM ET"
+only after an OK answer that carried a price; otherwise it keeps the build's stamp. No Fear &
+Greed, no funding: those are the snapshot's, on the Board. Nothing else refreshes in the
+browser; `pulse-live.js` is retired. The one exception is the coin page chart's range buttons,
+a reader's action, on demand by Jack's ruling.
+
+**Chart Master**: boards first, then "The Chart Master's read, <date>", and one line under it
+when the read is older than the Board: "The boards above are newer than this read; they are as
+of <stamp>."
+
+**The twins check** (`twin_audit.figure_twins`) compares a story's Bitcoin price with the
+Board's, both from the snapshot it is handed; 3%, same-day stories; warning only.
+
+**Guarded by** `_data_contract_canary` (snapshot moved to numbers no endpoint returns; every
+surface must print them) and `_live_layer_canary`. Tomorrow's Edition is the first to read
+the snapshot; 5 October's read the raw file.
 
 **The top_n 6 ranking check.** top_n 6 assumes the editor ranks the same way when asked for
 six as it did for twelve. Settle it after seven Editions under the cadence (4 to 10 October)
 from `ledger.json` and the hold files: if any day's chosen story would have ranked below 6
 under the old count, or a day went dark with a story that could have led below the cut,
-raise top_n and say to what. First data point, 4 October: chosen at rank 6 of 6, the last
-slot.
+raise top_n and say to what. Data points: 4 October rank 6 of 6; 5 October rank 1 of 6.
 
-## 7. Where this session ended (4 October 2026, evening)
+**The next session** is Program 5 Sprint 1, with its own opener. Queued behind it from the
+5 October order, in this order unless the opener says otherwise: S-2 on Sports, then the
+deep-URL register, then Cause C on Sports.
 
-- Items 1 to 3 merged at `f733356` (branch `1c5fced`), live by `/stamp.txt` at 16:03:21Z.
-- The first Edition under the cadence (run 37242770317, items 23:14:34Z) chose rank 6,
-  "Japan sanctions Garantex...", corroborated (`e130708`); held rank 5, the ETF flows story,
-  as resting on one secondary outlet, no draft carried, so the 5 October Edition has no held
-  story to fall back on. Ledger: 114,399 tokens, $0.1889 (twelve-story runs: $0.3287 to
-  $0.6822).
-- Item 4 merged at `c2a2d46` (branch `2da8fde`), local = origin, 0 outstanding, pushed
-  02:00:33Z after a first push was rejected by a mid-canary ledger row; live by `/stamp.txt`
-  at 02:02:40Z. /flows: count 2 = rows 2 = stat 2, ages 29h and 36h, OKX only; home tile
-  "2 days net, all coins".
-- Deploys 4 October (`/counts/today`, the count of record): 4 production builds before the
-  close, against 5: site-refresh, `f733356`, the Edition's `e130708`, `c2a2d46`.
-- Stashes: none.
+## 7. Where this session ended (5 October 2026, evening)
+
+- Item 0 (`88751d9`) and branch one (`3378807`) merged at `0ab4472`, pushed 00:16:29Z (6 Oct),
+  local = origin, 0 outstanding; live by `/stamp.txt` at 00:20:48Z, built 00:18:35Z.
+- Branch two (`cced2fc`, `101c6ac`) merged at `10f70f6`, pushed 00:29:28Z, local = origin, 0
+  outstanding; live by `/stamp.txt` at 00:33:57Z, built 00:31:35Z.
+- Board, `/coins/btc` and the Top 100 BTC row all $85,829.00 under "8:29 PM ET on Oct 5";
+  ticker "live · 8:34 PM ET" at 1440 and 375.
+- The 5 October Edition (run 37386951225) chose rank 1 of 6, "OKX and NYSE Parent ICE File
+  for 24/7 Tokenized U.S. Stock Trading" (`d6ec0f4`); held rank 4, the CFTC perpetuals story,
+  corroborated, draft carried to 6 October. Ledger 149,861 tokens, $0.2512.
+- Deploys 5 October (`/counts/today`): 5 production builds against 5: site-refresh,
+  `24ab0c2`, `d6ec0f4`, `0ab4472`, `10f70f6`. The close commit is documents only.
+- Stashes: none. Two `zsh` loops from 4 October (PIDs 2862, 2386) wait on a `pgrep` that
+  matches itself; Jack kills them from his own Terminal.
 
 ## 8. Traps
 
-- **Two writers.** Everything the build writes is stamped and agrees with itself; the
-  client-side refresh then moves some numbers after load and leaves the rest at build time,
-  so one page shows two moments under one stamp. The Board and the coin page also read price
-  from two endpoints under the one stamp. The data contract retires this.
-- **A hardcoded window over a widened reading.** The Board's whale tile said "24h net" while
-  `flows.json` had widened to 48 hours, and Whale Watch said nothing moved in 24 hours above
-  a 48-hour table aged from its newest move. The same finding as the two writers in a smaller
-  coat: a label written in one place about data chosen in another. Fixed 4 October.
-- **The stamp canary reverts what you edit while it runs.** Its cleanup diffs the working
-  tree before and after and restores or removes every difference, so a file written during
-  the run is treated as the build's and erased (4 October: the day history and the handoff).
-  Until it records the build's own writes, edit nothing in the repo while the canary runs.
+- **The canary cleans only what the build wrote** (rule since 5 October, `88751d9`). Its
+  cleanup acts on the paths the build process opened for writing and leaves everything else
+  as found, printing "left X as found". The stray-writer plant runs on every canary: a second
+  process writes `fixtures/.stamp-canary-stray.txt` and appends to `fixtures/sample_feed.xml`
+  during the build, and both must survive. Editing while the canary runs is safe again; a
+  build that writes through a subprocess would not be recorded, so its file would be left.
+- **A ledger row lands mid-canary.** The watcher pushes `ledger.json` rows on the half hour;
+  twice now (4 and 5 October) one landed between the canary and the push. Re-merge on origin's
+  tip and push; the shipped tree differs by that row only. Fetch before pushing, every time.
 
 ---
 
