@@ -9202,6 +9202,11 @@ def build():
     _snapshot.write(SNAP)
     # compact: a runtime request on the home page in Sprint 2, budget 60 KB (6 October 2026)
     w(os.path.join("data", "snapshot.json"), json.dumps(SNAP, separators=(",", ":")))
+    # THE CALENDAR (6 October 2026): built in the Edition run, where the FRED key lives,
+    # and committed; the build publishes it as it stands and never re-reads its sources.
+    _cal = os.path.join(HERE, "site", "data", "calendar.json")
+    if os.path.exists(_cal):
+        w(os.path.join("data", "calendar.json"), open(_cal, encoding="utf-8").read())
     pulse, flows = _snapshot.views(SNAP, pulse, flows)
     print(f"snapshot: {len(SNAP['fields'])} field(s), stamp {SNAP['stamp_et'] or 'none'}, "
           f"{len(json.dumps(SNAP, separators=(',', ':')).encode())} bytes")

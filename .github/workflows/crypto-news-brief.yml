@@ -565,6 +565,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 consistency_gate.py
 
+      # THE CALENDAR (6 October 2026): calendar.json from its five sources, read live
+      # before the commit. FRED_API_KEY is a repository secret and reaches nothing but
+      # this step's environment; without it the macro entries are absent and the file
+      # says what it waits for. Fail-open: the calendar never blocks the Edition.
+      - name: Build the calendar (calendar.json)
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python3 desk_calendar.py -v || echo "::warning::calendar build failed; the last committed calendar stands"
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
@@ -586,7 +596,7 @@ jobs:
           # data/history/ (6 October 2026): the stored daily closes the run appended to.
           git add site/content site/data/chartmaster.json site/data/pulse.json \
                   site/data/flows.json editorial-log.json regwatch.json \
-                  site/data/source_health.json data/history
+                  site/data/source_health.json data/history site/data/calendar.json
           [ -f site/data/edition_hold.json ] && git add site/data/edition_hold.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
