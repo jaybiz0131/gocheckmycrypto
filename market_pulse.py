@@ -53,14 +53,47 @@ LEVERAGE_INSTRUMENTS = [("BTC", "BTC-USDT-SWAP"), ("ETH", "ETH-USDT-SWAP"),
                         ("DOGE", "DOGE-USDT-SWAP")]
 
 
+# Every CoinGecko call this process makes, retries included, and the 429s among them.
+# Printed at the end of the run and handed to the ledger row (out/coingecko-calls.json).
+CALLS = {"coingecko": 0, "coingecko_429": 0}
+# The keyless tier allows a handful of calls a minute. Our own calls are spaced by this
+# much, so the run never meets the limit by its own burst.
+COINGECKO_GAP_S = 12
+_last_cg = [0.0]
+_sleep = None                             # tests replace this to run without waiting
+
+
+def _wait(seconds):
+    import time
+    (_sleep or time.sleep)(seconds)
+
+
+def _retry_after(e):
+    """Seconds a 429 asks us to wait: Retry-After when it says, 60 when it does not."""
+    try:
+        v = (e.headers or {}).get("Retry-After")
+        return max(1, int(float(v))) if v not in (None, "") else 60
+    except (TypeError, ValueError, AttributeError):
+        return 60
+
+
 def get_json(url, timeout=30, attempts=3):
-    """Fetch JSON with polite backoff: keyless CoinGecko rate-limits bursts, so a 429 (or a
-    transient 5xx) waits and retries instead of dropping the section."""
+    """Fetch JSON. A 429 waits what Retry-After says, or 60 seconds when it says
+    nothing, and tries again, three tries in all; a transient 5xx backs off 20 then 40
+    seconds. CoinGecko calls are spaced COINGECKO_GAP_S apart and counted in CALLS."""
     import time
     import urllib.error
+    cg = "api.coingecko.com" in url
     delay = 20
     last = None
     for i in range(attempts):
+        if cg:
+            gap = COINGECKO_GAP_S - (time.monotonic() - _last_cg[0])
+            if _last_cg[0] and gap > 0:
+                _wait(gap)
+            _last_cg[0] = time.monotonic()
+            CALLS["coingecko"] += 1
+        wait = delay
         try:
             req = urllib.request.Request(url, headers={"User-Agent": UA,
                                                        "Accept": "application/json"})
@@ -69,12 +102,17 @@ def get_json(url, timeout=30, attempts=3):
         except urllib.error.HTTPError as e:
             if e.code not in (429, 500, 502, 503):
                 raise
+            if e.code == 429:
+                if cg:
+                    CALLS["coingecko_429"] += 1
+                wait = _retry_after(e)
             last = e
         except Exception as e:
             last = e
         if i < attempts - 1:
-            time.sleep(delay)
-            delay *= 2
+            _wait(wait)
+            if wait == delay:
+                delay *= 2
     raise last
 
 
@@ -184,57 +222,96 @@ def section_fng():
                        "end_iso": _date_iso(newest["timestamp"])}}
 
 
-def section_assets():
-    import time
-    out = []
-    for i, (cid, sym) in enumerate(ASSETS):
-        if i:
-            time.sleep(7)  # keyless CoinGecko dislikes bursts; a build can afford politeness
-        d = get_json(f"https://api.coingecko.com/api/v3/coins/{cid}/market_chart"
-                     f"?vs_currency=usd&days=365&interval=daily")
-        rows = [p for p in d.get("prices", []) if p and p[1]]
-        closes = [p[1] for p in rows]
+def asset_from_closes(cid, sym, dates, closes):
+    """One coin's Board entry from its daily closes, oldest first; the last value is the
+    day's price. `dates` are the UTC dates the closes belong to, same length. The
+    indicator math is the math the 365-day read used, on the same list of numbers."""
+    last = closes[-1]
+    hi = max(closes)
+    m = macd(closes)
+    s50, s200 = sma(closes, 50), sma(closes, 200)
+    win = closes[-90:]
+    # rolling SMA series sliced to the same 90-day window and downsampled in step with
+    # the price spark, so the dashboard can overlay them on one chart
+    sma50_win = rolling_sma(closes, 50)[-90:]
+    sma200_win = rolling_sma(closes, 200)[-90:]
+    d0, d1 = dates[-90] if len(dates) >= 90 else dates[0], dates[-1]
+
+    def lab(iso):
+        return datetime.strptime(iso, "%Y-%m-%d").strftime("%b %d")
+    return {
+        # keep cents on cheap coins: $1.10 must not flatten to $1 (4 decimals below $100)
+        "symbol": sym, "name": cid, "price": round(last, 2 if last >= 100 else 4),
+        "chg_24h_pct": round((last / closes[-2] - 1) * 100, 2),
+        "rsi14": round(rsi14(closes), 1),
+        "macd_above_signal": bool(m and m["hist"] >= 0),
+        "sma50": round(s50, 2), "sma200": round(s200, 2),
+        "above_sma200": last >= s200,
+        "golden_cross": s50 >= s200,
+        # Ship the percentage AND the price it is measured against. Without the
+        # second field a writer wanting "X% below its 12-month high of $Y" has only
+        # spark_high to reach for, which is the 90-DAY high used for chart scaling, and
+        # pairing the two produces a sentence where the percentage and the dollar
+        # figure describe different windows. The edition shipped exactly that on
+        # 2026-07-28 ("49% below its 12-month high of $82,018.37", when 49% is measured
+        # against roughly $124,700) and the trace check caught it. Same source, one
+        # field apart, so they cannot disagree.
+        "pct_from_high_12m": round((last / hi - 1) * 100, 1),
+        "high_12m_usd": round(hi, 2 if hi >= 100 else 4),
+        "vol30_pct": round(realized_vol_30d(closes), 1),
+        "spark": downsample(win, 64),
+        "spark_sma50": downsample(sma50_win, 64),
+        "spark_sma200": downsample(sma200_win, 64),
+        "spark_high": round(max(win), 2), "spark_low": round(min(win), 2),
+        "window": {"start": lab(d0), "end": lab(d1), "start_iso": d0, "end_iso": d1},
+    }
+
+
+def section_assets(day_prices=None, now=None, fetch=None, root=None, log=None):
+    """THE STORED SERIES (Jack, 6 October 2026). Each Board coin's history lives in
+    data/history/<coin>.json and grows by appending; see history.py. This section is
+    computed from that series plus the day's price from this run's /coins/markets read
+    (`day_prices`, {symbol: price}), so it is never carried forward: a coin whose series
+    could not be read is absent, and a coin whose append failed is computed from the
+    closes it holds, with its through date beside it.
+
+    Returns (assets, notes): notes is one line per coin that was not brought current,
+    naming the coin, the endpoint and the error."""
+    import history
+    now = now or datetime.now(timezone.utc)
+    fetch = fetch or get_json
+    log = log or (lambda m: common.gh("warning", m))
+    day_prices = day_prices or {}
+    out, notes = [], []
+    bootstrap_left = 1                       # one 365-day read per run, never a burst
+    today = now.date().isoformat()
+    for cid, sym in ASSETS:
+        series, status, reason = history.update(cid, sym, fetch, now=now, root=root,
+                                                allow_bootstrap=bootstrap_left > 0)
+        if status == "bootstrap" or (status == "failed" and history.needs_bootstrap(
+                history.load(cid, root), now)):
+            bootstrap_left -= 1
+        if reason:
+            line = f"market_pulse: assets {reason}"
+            notes.append(line)
+            log(line)
+        dates, closes = history.closes(series)
+        if not closes:
+            continue
+        px = day_prices.get(sym)
+        if isinstance(px, (int, float)) and px > 0:
+            dates, closes = dates + [today], closes + [px]
         if len(closes) < 210:
-            raise ValueError(f"{sym}: only {len(closes)} daily closes from CoinGecko")
-        last = closes[-1]
-        hi = max(closes)
-        m = macd(closes)
-        s50, s200 = sma(closes, 50), sma(closes, 200)
-        win = closes[-90:]
-        # rolling SMA series sliced to the same 90-day window and downsampled in step with
-        # the price spark, so the dashboard can overlay them on one chart
-        sma50_win = rolling_sma(closes, 50)[-90:]
-        sma200_win = rolling_sma(closes, 200)[-90:]
-        out.append({
-            # keep cents on cheap coins: $1.10 must not flatten to $1 (4 decimals below $100)
-            "symbol": sym, "name": cid, "price": round(last, 2 if last >= 100 else 4),
-            "chg_24h_pct": round((last / closes[-2] - 1) * 100, 2),
-            "rsi14": round(rsi14(closes), 1),
-            "macd_above_signal": bool(m and m["hist"] >= 0),
-            "sma50": round(s50, 2), "sma200": round(s200, 2),
-            "above_sma200": last >= s200,
-            "golden_cross": s50 >= s200,
-            # Ship the percentage AND the price it is measured against. Without the
-            # second field a writer wanting "X% below its 12-month high of $Y" has only
-            # spark_high to reach for, which is the 90-DAY high used for chart scaling, and
-            # pairing the two produces a sentence where the percentage and the dollar
-            # figure describe different windows. The edition shipped exactly that on
-            # 2026-07-28 ("49% below its 12-month high of $82,018.37", when 49% is measured
-            # against roughly $124,700) and the trace check caught it. Same source, one
-            # field apart, so they cannot disagree.
-            "pct_from_high_12m": round((last / hi - 1) * 100, 1),
-            "high_12m_usd": round(hi, 2 if hi >= 100 else 4),
-            "vol30_pct": round(realized_vol_30d(closes), 1),
-            "spark": downsample(win, 64),
-            "spark_sma50": downsample(sma50_win, 64),
-            "spark_sma200": downsample(sma200_win, 64),
-            "spark_high": round(max(win), 2), "spark_low": round(min(win), 2),
-            "window": {"start": _date_label(rows[-90][0] / 1000),
-                       "end": _date_label(rows[-1][0] / 1000),
-                       "start_iso": _date_iso(rows[-90][0] / 1000),
-                       "end_iso": _date_iso(rows[-1][0] / 1000)},
-        })
-    return out
+            line = (f"market_pulse: assets {sym}: only {len(closes)} daily closes in "
+                    f"data/history/{cid}.json; omitted")
+            notes.append(line)
+            log(line)
+            continue
+        a = asset_from_closes(cid, sym, dates, closes)
+        a["through"] = series.get("through") or dates[-1]
+        a["history_source"] = history.ENDPOINT.replace("{id}", cid)
+        out.append(a)
+    return out, notes
 
 
 def section_stables():
@@ -511,7 +588,9 @@ def section_network():
 # The sections that ARE "the market boards" for stamping purposes. etf_flows is a
 # separate board with its own cadence (daily prints, published late), so its age is
 # recorded per-section and must not decide whether live prices look stale.
-CORE_SECTIONS = ("fng", "assets", "movers", "stables", "leverage", "market", "network")
+# "assets" left this list on 6 October 2026: it is a stored series with its own through
+# date on the tiles that use it, not a reading, and it never sets the page's stamp.
+CORE_SECTIONS = ("fng", "movers", "stables", "leverage", "market", "network")
 
 
 DAILY_KEEP = 30        # D-1: thirty daily points per section, which is the tile window
@@ -546,7 +625,7 @@ def _section_value(pulse, section):
 
 # which pulse.json section each record depends on, so a carried-forward section never
 # becomes the day's record
-_RECORD_SOURCE = {"bitcoin": "assets", "market": "market", "stables": "stables",
+_RECORD_SOURCE = {"bitcoin": "movers", "market": "market", "stables": "stables",
                   "fng": "fng", "network": "network", "leverage": "leverage"}
 
 
@@ -605,6 +684,21 @@ def daily_record(pulse, carried):
     return wrote_c
 
 
+def _record_calls():
+    """The run's CoinGecko call count, printed and added to out/coingecko-calls.json,
+    which the ledger row reads. Added, because a run can refresh the boards twice."""
+    path = os.path.join(HERE, "out", "coingecko-calls.json")
+    try:
+        prev = json.load(open(path, encoding="utf-8"))
+    except Exception:
+        prev = {}
+    tot = {k: int(prev.get(k) or 0) + v for k, v in CALLS.items()}
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    json.dump(tot, open(path, "w", encoding="utf-8"))
+    print(f"market_pulse: CoinGecko calls this run {CALLS['coingecko']} "
+          f"({CALLS['coingecko_429']} answered 429)")
+
+
 def main():
     _now = datetime.now(timezone.utc)
     _now_s = _now.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -631,7 +725,9 @@ def main():
                  "DefiLlama, Bitcoin network data from mempool.space. Market data, not news, "
                  "not advice."),
     }
-    sections = [("fng", section_fng), ("assets", section_assets),
+    # "assets" is not in this list: it is computed below from the stored series and the
+    # movers read, and it is never carried forward (Jack, 6 October 2026).
+    sections = [("fng", section_fng),
                 ("movers", section_movers), ("stables", section_stables),
                 ("leverage", section_leverage), ("market", section_market),
                 ("etf_flows", section_etf_flows), ("network", section_network)]
@@ -664,6 +760,25 @@ def main():
                                      f"(dated {sections_utc[name] or 'unknown'})")
             else:
                 common.gh("warning", f"market_pulse: section '{name}' failed ({e}) -> omitted")
+    # THE STORED SERIES. The day's price is this run's /coins/markets read, the one the
+    # snapshot carries; a movers section carried from an earlier run is not today's price.
+    day_prices = {}
+    if "movers" not in carried:
+        for r in ((pulse.get("movers") or {}).get("top100") or []):
+            if r.get("symbol") and isinstance(r.get("price"), (int, float)):
+                day_prices.setdefault(r["symbol"], r["price"])
+    try:
+        assets, notes = section_assets(day_prices, now=_now)
+    except Exception as e:
+        assets, notes = [], [f"market_pulse: assets failed ({e}); section absent"]
+        common.gh("warning", notes[0])
+    if assets:
+        pulse["assets"] = assets
+        pulse["history_through"] = min(a["through"] for a in assets)
+        got += 1
+    if notes:
+        pulse["assets_notes"] = notes
+    _record_calls()
     if got == 0:
         common.gh("warning", "market_pulse: every source failed -> nothing written "
                              "(the previous snapshot stands).")
@@ -708,8 +823,8 @@ def main():
     os.makedirs(os.path.dirname(SITE_DATA), exist_ok=True)
     json.dump(pulse, open(SITE_DATA, "w", encoding="utf-8"), indent=2)
     common.write_out("market_pulse.json", pulse)
-    parts = [n for n, _ in sections if n in pulse]
-    print(f"market_pulse: {got}/{len(sections)} sections -> {os.path.relpath(SITE_DATA)} "
+    parts = [n for n, _ in sections if n in pulse] + (["assets"] if "assets" in pulse else [])
+    print(f"market_pulse: {got}/{len(sections) + 1} sections -> {os.path.relpath(SITE_DATA)} "
           f"({', '.join(parts)})")
     return 0
 

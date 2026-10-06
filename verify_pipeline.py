@@ -640,6 +640,242 @@ def _live_layer_canary():
     return fails
 
 
+def _stored_series_canary():
+    """THE STORED SERIES (Jack, 6 October 2026). The Board's history is data/history/,
+    appended per run and never refetched; a failed append fails honestly; a series never
+    sets the page stamp; and the indicators equal the old 365-day section's to the cent on
+    the same closes. Fixture: a captured /coins/bitcoin/market_chart?days=365 answer."""
+    import datetime as _dt
+    import hashlib
+    import importlib.util
+    import shutil
+    import tempfile
+    import urllib.error
+    import history as _h
+    import market_pulse as _mp
+    import site_build as _sb
+    import snapshot as _snapshot
+    fails = []
+    fx = os.path.join(HERE, "fixtures", "coingecko_market_chart_bitcoin_365d_2026-10-06.json")
+    raw = json.load(open(fx, encoding="utf-8"))
+    pts = raw["prices"]
+    last_t = _dt.datetime.fromtimestamp(pts[-1][0] / 1000, tz=_dt.timezone.utc)
+    now = last_t                                   # the moment the fixture was read
+    full = _h.completed(_h.utc_day_closes(pts), now)
+    tmp = tempfile.mkdtemp(prefix="series-canary-")
+    calls = []
+
+    def fetch_from(points):
+        def f(url):
+            calls.append(url)
+            return {"prices": points}
+        return f
+
+    def r429(url):
+        calls.append(url)
+        raise urllib.error.HTTPError(url, 429, "Too Many Requests", {}, None)
+    try:
+        # 1. A deleted series file triggers the bootstrap, and nothing else does.
+        s, st, _ = _h.update("bitcoin", "BTC", fetch_from(pts), now=now, root=tmp)
+        _check(st == "bootstrap" and len(calls) == 1 and "days=365" in calls[0], fails,
+               f"stored series: a missing file did not bootstrap from 365 days "
+               f"({st}, {calls})")
+        calls.clear()
+        _h.update("bitcoin", "BTC", fetch_from(pts), now=now, root=tmp)
+        _check(not calls, fails, f"stored series: a current file made a call ({calls})")
+        p = _h.path("bitcoin", tmp)
+        ser = json.load(open(p, encoding="utf-8"))
+        cut = sorted(ser["closes"])[-3:]
+        for d in cut:                              # three days behind: an append, not a bootstrap
+            del ser["closes"][d]
+        json.dump(ser, open(p, "w", encoding="utf-8"))
+        calls.clear()
+        s, st, _ = _h.update("bitcoin", "BTC", fetch_from(pts), now=now, root=tmp)
+        _check(st == "appended" and len(calls) == 1 and "days=365" not in calls[0]
+               and sorted(s["closes"])[-3:] == cut, fails,
+               f"stored series: a file three days behind did not append the three "
+               f"missing days from a short read ({st}, {calls})")
+        os.remove(_h.path("bitcoin", tmp))
+        calls.clear()
+        a, notes = _mp.section_assets({}, now=now, fetch=fetch_from(pts), root=tmp,
+                                      log=lambda m: None)
+        _check(len([c for c in calls if "days=365" in c]) == 1, fails,
+               f"stored series: more than one bootstrap in one run "
+               f"({len([c for c in calls if 'days=365' in c])})")
+        _check(sum("one per run" in n for n in notes) == len(_mp.ASSETS) - 1, fails,
+               f"stored series: the coins waiting on a bootstrap were not named ({notes})")
+
+        # 2. The same date offered twice is stored once.
+        s = _h.load("bitcoin", tmp)
+        d0 = sorted(s["closes"])[-1]
+        before = dict(s["closes"])
+        added = _h.append(s, {d0: 1.0})
+        _check(not added and s["closes"] == before, fails,
+               f"stored series: {d0} offered twice was stored twice or overwritten")
+
+        # 3. A 429 on the append leaves the series unchanged and says so by name.
+        ser = json.load(open(_h.path("bitcoin", tmp), encoding="utf-8"))
+        for d in sorted(ser["closes"])[-2:]:
+            del ser["closes"][d]
+        ser["through"] = max(ser["closes"])
+        json.dump(ser, open(_h.path("bitcoin", tmp), "w", encoding="utf-8"))
+        h0 = hashlib.sha256(open(_h.path("bitcoin", tmp), "rb").read()).hexdigest()
+        logged = []
+        assets, notes = _mp.section_assets({"BTC": pts[-1][1]}, now=now, fetch=r429,
+                                           root=tmp, log=logged.append)
+        h1 = hashlib.sha256(open(_h.path("bitcoin", tmp), "rb").read()).hexdigest()
+        _check(h0 == h1, fails, "stored series: a 429 on the append changed the file")
+        _check(any("BTC" in m and "/coins/bitcoin/market_chart" in m and "429" in m
+                   for m in logged), fails,
+               f"stored series: the 429 log line does not name the coin, the endpoint and "
+               f"the error: {logged[:2]}")
+        btc = next((x for x in assets if x["symbol"] == "BTC"), None)
+        thr = ser["through"]
+        pulse = {"assets": [btc] if btc else [], "written_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                 "generated_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ")}
+        grid = _sb.board_tile_grid(_sb.board_tiles(pulse, {}, {}), {}, pulse, {}, cm_slot=False)
+        want = _h.through_label(thr)
+        _check(bool(btc) and want and want in grid, fails,
+               f"stored series: after a failed append the Bitcoin tile does not print "
+               f"'{want}'")
+        # three days behind the run here: the stale mark is on the tile
+        _check(f"{want}, stale" in grid, fails,
+               "stored series: a series two or more days behind carries no stale mark")
+
+        # 4. Two days behind: the stale mark, and the page stamp untouched.
+        two = (now.date() - _dt.timedelta(days=2)).isoformat()
+        one = (now.date() - _dt.timedelta(days=1)).isoformat()
+        _check(_h.is_stale(two, now) and not _h.is_stale(one, now), fails,
+               "stored series: the stale rule is not 'through the day before yesterday'")
+        base = {"movers": {"top100": [{"symbol": "BTC", "price": 1.0, "rank": 1}]},
+                "sections_utc": {"movers": "2026-10-06T11:00:00Z"},
+                "generated_utc": "2026-10-06T11:00:00Z"}
+        s_a = _snapshot.build(dict(base, assets=[{"symbol": "BTC", "through": one}]), {})
+        s_b = _snapshot.build(dict(base, assets=[{"symbol": "BTC", "through": two}]), {})
+        _check(s_a["stamp_utc"] == s_b["stamp_utc"] == "2026-10-06T11:00:00Z"
+               and "series" in s_b and s_b["series"]["through"] == two, fails,
+               f"stored series: the series moved the page stamp or is missing from the "
+               f"snapshot ({s_a.get('stamp_utc')}, {s_b.get('stamp_utc')})")
+
+        # 5. The indicators, from the stored series, equal the old section's to the cent.
+        spec = importlib.util.spec_from_file_location(
+            "ref_assets", os.path.join(HERE, "fixtures", "reference_section_assets_2026-10-05.py"))
+        ref = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(ref)
+        old = ref.section_assets(lambda url: {"prices": pts}, [("bitcoin", "BTC")])[0]
+        dates = sorted(full)
+        new = _mp.asset_from_closes("bitcoin", "BTC", dates + [now.date().isoformat()],
+                                    [full[d] for d in dates] + [pts[-1][1]])
+        for k in ("price", "chg_24h_pct", "rsi14", "macd_above_signal", "sma50", "sma200",
+                  "above_sma200", "golden_cross", "pct_from_high_12m", "high_12m_usd",
+                  "vol30_pct", "spark", "spark_sma50", "spark_sma200", "spark_high",
+                  "spark_low"):
+            ov, nv = old.get(k), new.get(k)
+            same = (ov == nv if not isinstance(ov, list) else
+                    len(ov) == len(nv) and all(round(x, 2) == round(y, 2) for x, y in zip(ov, nv)))
+            _check(same, fails, f"stored series: {k} differs from the old section on the "
+                                f"same closes ({str(ov)[:40]} vs {str(nv)[:40]})")
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    return fails
+
+
+def _chartmaster_crash_canary():
+    """THE CHART MASTER CRASH (6 October 2026). K-4 (6cab8b6) handed leverage_problems the
+    digest's LIST where it reads an object with "assets", so every read that cleared the
+    other belts died with "'list' object has no attribute 'get'", 22 September to 5
+    October. A crash is not a refusal: one refused read, no second model call, the Edition
+    completes. The commit message names the file's date only when a read published."""
+    import re as _r
+    import tempfile
+    import chartmaster as _cm
+    import llm as _llm
+    fails = []
+    # 1. The recorded run's digest (5 October Edition, d6ec0f4's pulse and flows) through
+    # the arguments the stage passes: no belt may crash on them.
+    rec = {"pulse.json": json.load(open(os.path.join(HERE, "fixtures",
+                                                      "recorded_pulse_d6ec0f4.json"))),
+           "flows.json": json.load(open(os.path.join(HERE, "fixtures",
+                                                      "recorded_flows_d6ec0f4.json")))}
+    real_load = _cm._load
+    _cm._load = lambda n: rec.get(n, {})
+    try:
+        data = _cm.digest()
+    finally:
+        _cm._load = real_load
+    text = ("Bitcoin funding on OKX is running at 10.5% annualized, and open interest on "
+            "OKX holds near 2.45 billion.")
+    obj = {"headline": "A test read", "paragraphs": [text, "Second.", "Third."]}
+    try:
+        _cm.validate(obj, **_cm._belt_inputs(data))
+        crashed = ""
+    except _cm.BeltCrash as e:
+        crashed = str(e)
+    except _llm.LLMError:
+        crashed = ""                          # a refusal on content is not a crash
+    _check(not crashed, fails, f"chartmaster: a belt crashed on the recorded digest: {crashed}")
+
+    # 2. A belt that raises: one logged refusal, one model call, the stage exits 0.
+    calls = []
+    real = (_cm._price_belt, _llm.Client._live_raw, _cm.STATUS, _cm.SITE_DATA)
+    tmp = tempfile.mkdtemp(prefix="cm-canary-")
+    _cm.STATUS = os.path.join(tmp, "status.json")
+    _cm.SITE_DATA = os.path.join(tmp, "chartmaster.json")
+
+    def boom(*a):
+        raise TypeError("planted")
+
+    def fake_raw(self, stage, mc, system, user, retried_empty=False):
+        calls.append(mc.get("model"))
+        return json.dumps(obj)
+    _cm._price_belt = boom
+    _llm.Client._live_raw = fake_raw
+    code = None
+    prev_mode = os.environ.get("CRYPTO_LLM_MODE")
+    os.environ["CRYPTO_LLM_MODE"] = "live"
+    _cm._load = lambda n: rec.get(n, {})
+    try:
+        try:
+            _cm.main()
+        except SystemExit as e:
+            code = e.code
+        st = json.load(open(_cm.STATUS, encoding="utf-8"))
+    finally:
+        _cm._price_belt, _llm.Client._live_raw, _cm.STATUS, _cm.SITE_DATA = real
+        _cm._load = real_load
+        if prev_mode is None:
+            os.environ.pop("CRYPTO_LLM_MODE", None)
+        else:
+            os.environ["CRYPTO_LLM_MODE"] = prev_mode
+    _check(code == 0, fails, f"chartmaster: a crashed belt did not let the Edition go on "
+                             f"(exit {code})")
+    _check(len(calls) == 1, fails, f"chartmaster: a crashed belt was retried: {len(calls)} "
+                                   f"model calls ({calls})")
+    _check(not st.get("published") and str(st.get("reason", "")).startswith(
+        "belt crashed: price"), fails,
+        f"chartmaster: the crash was not recorded as one refused read, 'belt crashed': {st}")
+
+    # 3. The commit message reads the file's date and state, and no other date.
+    f = os.path.join(tmp, "cm.json")
+    json.dump({"date": "2026-09-21"}, open(f, "w"))
+    s1 = os.path.join(tmp, "s1.json")
+    json.dump({"published": False, "reason": "belt crashed: leverage: x"}, open(s1, "w"))
+    s2 = os.path.join(tmp, "s2.json")
+    json.dump({"published": True, "date": "2026-09-21"}, open(s2, "w"))
+    m1 = _cm.commit_message(f, s1)
+    m2 = _cm.commit_message(f, s2)
+    m3 = _cm.commit_message(f, os.path.join(tmp, "absent.json"))
+    _check(m1 == "brief: VERIFIED stories; Chart Master refused, belt crashed: leverage: x",
+           fails, f"chartmaster: a refused night's message reads {m1!r}")
+    _check(m2 == "brief: VERIFIED stories + Chart Master read 2026-09-21", fails,
+           f"chartmaster: a published night's message reads {m2!r}")
+    _check("did not run" in m3, fails, f"chartmaster: no status reads {m3!r}")
+    for m in (m1, m2, m3):
+        _check(set(_r.findall(r"\d{4}-\d{2}-\d{2}", m)) <= {"2026-09-21"}, fails,
+               f"chartmaster: the commit message carries a date not in the file: {m!r}")
+    return fails
+
+
 def _stamp_canary():
     """U-11's other half, and CAUSE B's fix: the canary BUILDS, then checks the two writers.
 
@@ -1479,6 +1715,8 @@ def layer1_canary():
     fails.extend(_workflow_canary())   # Cause A of the 29 September audit
     fails.extend(_data_contract_canary())
     fails.extend(_live_layer_canary())
+    fails.extend(_stored_series_canary())
+    fails.extend(_chartmaster_crash_canary())
     fails.extend(_stamp_canary())
     cfg = common.load_config()
 

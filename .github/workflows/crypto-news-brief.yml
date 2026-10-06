@@ -583,15 +583,18 @@ jobs:
           # edition_hold.json (4 October 2026): what tonight's Edition chose and held.
           # The held stories live to the next Edition through it, and the build reads it
           # to know the slot has run before it may print "Nothing cleared the bar today."
+          # data/history/ (6 October 2026): the stored daily closes the run appended to.
           git add site/content site/data/chartmaster.json site/data/pulse.json \
                   site/data/flows.json editorial-log.json regwatch.json \
-                  site/data/source_health.json
+                  site/data/source_health.json data/history
           [ -f site/data/edition_hold.json ] && git add site/data/edition_hold.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "brief: VERIFIED stories + Chart Master read $(date -u +%Y-%m-%dT%H:%MZ)"
+            # The message names the Chart Master read's OWN date, read from the file
+            # (6 October 2026); it said the run's clock while the file said 2026-09-21.
+            git commit -m "$(python3 chartmaster.py --commit-message)"
             # LAST-LINE DUPLICATE SWEEP (2026-08-25). The guards upstream judge the
             # corpus in this run's checkout; this judges the corpus as it exists NOW,
             # after fetching whatever landed while the run worked. A zero-novelty twin
@@ -627,7 +630,7 @@ jobs:
               if ! git pull --rebase --autostash origin main; then
                 if python3 merge_state.py; then
                   git add editorial-log.json regwatch.json site/data/chartmaster.json \
-                          site/data/pulse.json site/data/flows.json
+                          site/data/pulse.json site/data/flows.json data/history
                   GIT_EDITOR=true git rebase --continue \
                     || { echo "::error::rebase could not continue after auto-resolve"; \
                          git rebase --abort || true; exit 1; }

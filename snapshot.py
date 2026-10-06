@@ -48,6 +48,8 @@ SOURCES = {
     "fear_greed": "alternative.me /fng",
     "network_fee": "mempool.space /api/v1/fees/recommended",
 }
+# The daily closes the 200-day, RSI, drawdown and lines are computed from.
+SERIES_SOURCE = "CoinGecko /coins/{id}/market_chart, stored daily closes in data/history/"
 # The pulse.json section each field is read from, for its read time.
 _SECTION = {"coins": "movers", "dominance": "market", "total_cap": "market",
             "etf_flows": "etf_flows", "funding": "leverage", "open_interest": "leverage",
@@ -160,10 +162,19 @@ def build(pulse, flows):
 
     reads = [f["read_utc"] for f in fields.values() if _utc(f["read_utc"])]
     stamp = min(reads) if reads else ""
-    return {"contract": "one snapshot, every surface (5 October 2026)",
+    snap = {"contract": "one snapshot, every surface (5 October 2026)",
             "stamp_utc": stamp, "stamp_et": stamp_et(stamp),
             "board_coins": [c for c in BOARD_COINS if c in coins],
             "fields": fields}
+    # THE STORED SERIES (6 October 2026). Not a reading and not in `fields`, so it never
+    # sets the stamp above: each coin's daily closes carry their own through date, which
+    # the tiles computed from them print.
+    hist = {a["symbol"]: {"through": a["through"], "source": a.get("history_source")}
+            for a in (pulse.get("assets") or []) if a.get("symbol") and a.get("through")}
+    if hist:
+        snap["series"] = {"source": SERIES_SOURCE, "through": min(
+            v["through"] for v in hist.values()), "value": hist}
+    return snap
 
 
 def value(snap, field):

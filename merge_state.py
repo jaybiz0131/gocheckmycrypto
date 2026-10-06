@@ -69,6 +69,13 @@ def _is_edition(path):
     return bool(EDITION_RE.match(path))
 
 
+HISTORY_RE = re.compile(r"^data/history/[a-z0-9-]+\.json$")
+
+
+def _is_history(path):
+    return bool(HISTORY_RE.match(path))
+
+
 def merge_edition(upstream, mine):
     """The newer of two regenerations of one slot's edition wins, whole."""
     def stamp(d):
@@ -165,6 +172,22 @@ def merge_board(upstream, replayed):
         str(upstream.get("generated_utc", "")) else upstream
 
 
+def merge_history(upstream, replayed):
+    """data/history/<coin>.json: the stored daily closes (6 October 2026). Both runs
+    appended real closes, so the union of dates is the answer, and a date both sides hold
+    keeps UPSTREAM's value, because a stored close is never rewritten."""
+    if not replayed:
+        return upstream
+    if not upstream:
+        return replayed
+    closes = dict(replayed.get("closes") or {})
+    closes.update(upstream.get("closes") or {})
+    out = dict(upstream)
+    out["closes"] = {d: closes[d] for d in sorted(closes)}
+    out["through"] = max(closes) if closes else ""
+    return out
+
+
 MERGERS = {
     "editorial-log.json": merge_editorial_log,
     "regwatch.json": merge_regwatch,
@@ -180,7 +203,8 @@ def main():
         print("merge_state: nothing conflicted")
         return 0
 
-    unknown = [p for p in paths if p not in KNOWN and not _is_edition(p)]
+    unknown = [p for p in paths if p not in KNOWN and not _is_edition(p)
+               and not _is_history(p)]
     if unknown:
         print(f"::error::merge_state: refusing to auto-resolve a real conflict in "
               f"{', '.join(unknown)}. Only {', '.join(KNOWN)} have a deterministic "
@@ -194,7 +218,8 @@ def main():
         if upstream is None and mine is None:
             print(f"::error::merge_state: neither side of {p} parsed as JSON")
             return 1
-        merged = (merge_edition if _is_edition(p) else MERGERS[p])(upstream, mine)
+        merged = (merge_edition if _is_edition(p) else merge_history if _is_history(p)
+                  else MERGERS[p])(upstream, mine)
         with open(p, "w", encoding="utf-8") as f:
             json.dump(merged, f, indent=1, ensure_ascii=False, sort_keys=(p != "editorial-log.json"))
             f.write("\n")
