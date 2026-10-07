@@ -3566,100 +3566,8 @@ def _tile_link(t, learn_href):
             f'<span class="sr-only">How to read {esc(label)}</span></a>')
 
 
-def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
-    """The 4-up tile grid (C-6). `learn_href` resolves a tile's Explained link.
-
-    ONE SPARKLINE PER TILE, IN THE LABEL ROW. Bitcoin drew two - a spark in its label
-    row and the series block below it - while Whole market drew none, so tile heights
-    differed by 90px and the grid did not line up. The label-row spark is the one, and
-    it is drawn from the same series the block used, so tiles that had no spark of
-    their own get one instead of nothing.
-
-    NO META LINE. "64 readings · Jun 18 to Sep 14 · +22.3% over the period" described
-    the dataset rather than the number, and on a signed series the percent was
-    meaningless: whale flows printed "-1703.2% over the period" and ETF flows "-95.5%",
-    both percent changes of a series that crosses zero. The window survives as the
-    period caption beside Explained, which is a fact about the reading.
-    """
-    global _SER_PULSE, _SER_FLOWS
-    _SER_PULSE, _SER_FLOWS = pulse, flows
-    cards = []
-    for t in tiles:
-        # Punch item 3 / A-19: one sparkline and one caption, or neither. The caption
-        # names the period the SPARKLINE covers, so a caption without a line names
-        # nothing and a line without a caption leaves the reader to guess the window.
-        spark = t.get("spark") or t.get("badge") or ""
-        win = ""
-        vals, win_lab = _series_for(t.get("key"), pulse, flows)
-        if vals:
-            if not spark:
-                spark = _series_svg(
-                    vals, w=96, h=26,
-                    kind=(TILE_SERIES.get(t.get("key")) or ("", "", ""))[2])
-            if spark:
-                # Some series carry no window in the feed (whale history, funding
-                # history). They are daily points, so the caption is their own span -
-                # a sparkline without a caption leaves the reader guessing the window.
-                win = win_lab or _span_label(len(vals))
-        if not spark:
-            win = ""
-        top = f'<span class="bd-label">{esc(t["label"])}</span>{spark}'
-        hide = "" if t.get("phone") else " bd-hide-phone"
-        dirn = f' {t["dir"]}' if t.get("dir") in ("up", "down") else ""
-        read = t["read"]
-
-        # A-10: Bitcoin is the lead tile - two columns and two rows, the price at 72px,
-        # the 30-day chart with the 200-day average under it, and "this time last week"
-        # at the right of the label row.
-        if t.get("key") == "bitcoin":
-            btc = _btc(pulse)
-            chart = _lead_chart(btc)
-            lastwk = _last_week_value(btc)
-            _pts, _sma, _d0, _d1 = _lead_window(btc)
-            cap = f"30 days · {_d0} to {_d1}" if _d0 and _d1 else (win or "")
-            _thru = _series_stamp(btc, pulse)
-            cards.append(
-                f'<div class="bd-card bd-tile cb-lead{dirn}">'
-                f'<div class="bd-tile-top"><span class="bd-label">Bitcoin · price '
-                f'posture</span>'
-                + (f'<span class="bd-stamp">this time last week {esc(lastwk)}</span>'
-                   if lastwk else "")
-                + f'</div>'
-                  f'<div class="bd-value cb-lead-v">'
-                  f'{esc(_price_fmt(btc.get("price")))}</div>'
-                  f'<div class="bd-delta">'
-                  f'{t.get("delta") or ""}</div>'
-                  f'<p class="bd-read">{esc(BITCOIN_READ_LONG)}</p>'
-                  f'{chart}'
-                  f'<div class="bd-tile-foot">{tile_provenance(t, pulse)}'
-                + f'<span class="bd-stamp">{esc(cap)}'
-                + (f' · {_thru}' if _thru else "") + '</span>'
-                + f'</div>{_tile_link(t, learn_href)}</div>')
-            continue
-
-        cards.append(
-            f'<div class="bd-card bd-tile{hide}{dirn}">'
-            f'<div class="bd-tile-top">{top}</div>'
-            f'<div class="bd-value">{esc(t["value"])}</div>'
-            f'{t.get("delta") or ""}'
-            # K-5: a tile whose headline figure needs a unit or a venue carries it here,
-            # in the same words the Board uses, so the two pages cannot drift apart.
-            + (f'<span class="bd-stamp bd-sub">{t["sub"]}</span>'
-               if t.get("sub") else "")
-            + f'<p class="bd-read">{esc(read)}</p>'
-            f'<div class="bd-tile-foot">{tile_provenance(t, pulse)}'
-            + (f'<span class="bd-stamp">{esc(win)}</span>' if win else "")
-            + f'</div>{_tile_link(t, learn_href)}</div>')
-
-    # A-11: twelve slots. The lead takes four, the other tiles take theirs, and the
-    # twelfth is the Chart Master's read. The grid never has a hole: with no read for
-    # the day the slot is the newest explainer card instead.
-    if cm_slot:
-        # A-14: the reduced band on /pulse omits it. That page carries the Chart
-        # Master's read full width in its own section, and the band sits 300px above it.
-        cards.append(_cm_slot())
-    return f'<div class="bd-tiles">{"".join(cards)}</div>'
-
+# board_tile_grid, the old tile, retired 7 October 2026 (Program 5 Sprint 2): every tile on
+# the site is drawn by tile.render, and the home page's Board is home.board.
 
 def _flows_have_data(flows):
     """Does the whale feed have a reading, or a window it could not fill?
@@ -5596,173 +5504,41 @@ def render_news_month(month, rows, dateline):
 
 
 def render_home(items, flows, pulse, cm, dateline):
-    """The GoCheckMyCrypto front door, inverted (C1, Artboards 1 and 2).
+    """The home page: the five-minute read (Program 5, sections 2 and 3; Sprint 2).
 
-    THE INVERSION. The old front page led with the newsroom: a hero mosaic of
-    stories, then the four board cards as destinations. The Board now leads and the
-    stories follow it, because the Board is the thing this desk has that a reader
-    cannot get from a headline aggregator, and because every story on this desk is
-    written against a Board number anyway. The four dashboard cards are gone from
-    the homepage: nav carries them, and they were four clicks competing with the
-    numbers themselves.
+    Above the fold, the tape and the nine blocks of section 2 in order (home.above_fold);
+    below it, the Board as eight tiles on the one tile, the whale chart, the Brief and the
+    Record's lanes with one piece each (home.below_fold). Nothing else: the old Board hero,
+    the news cards, the Learn cards, the cold-storage card and the Record's full index are
+    off this page, each still where it lives on its own page.
 
-    WHAT IS HONEST HERE. Every tile, row and card below is built from data that
-    exists in this build. A tile with no value is dropped; a tile with no prior-day
-    value renders without its delta row; a delta measured against a carried-forward
-    section is not computed at all. The Whale Watch chart draws the assets the feed
-    returned rather than the four the mockup happens to show. Nothing on this page
-    is a placeholder and nothing is a fabricated number.
+    WHAT IS HONEST HERE, unchanged: every figure is the snapshot's, a block with no data
+    says what it is waiting for, and nothing is a placeholder number.
     """
     pulse = pulse or {}
-    # Punch item 1: snapshot_pulse was written and never called from anywhere, so the
-    # desk kept no dated board file and "since yesterday" had nothing to measure.
+    # Punch item 1: the dated board file "since yesterday" is measured against.
     snapshot_pulse(pulse)
     deltas = board_deltas(pulse)
-    tiles = board_tiles(pulse, flows, deltas)
-
-    # C2 has not shipped, so every Explained link lands on /learn. C2 rewires this
-    # one function and the tiles follow.
-    by_tile = {_TILE_KEY.get(e.get("board_tile") or ""): e for e in load_explainers()}
-
-    def learn_href(tile):
-        ex = by_tile.get(tile.get("key"))
-        return f'/learn/{ex["slug"]}.html' if ex else "/learn.html"
-
-    stamp = data_stamp(pulse, what="The Board")
-
-    board_mod = ""
-    if tiles:
-        # C-21: the Board is the hero. One dark surface on this site and this is it,
-        # over the trading-desk poster under the addendum's scrim. Everything below the
-        # band is the light editorial page.
-        global CM_DATA
-        CM_DATA = (cm or {}) if isinstance(cm, dict) else {}
-        # UX-11: the Chart Master's card is built here, before the band, because it is
-        # the surface that owns the day's read; the band's tile and the Board's foot
-        # then fall back to what they carry when there is no read, which is what they
-        # already do on a day the Chart Master has not filed.
-        _page_reset()
-        cm_card = _cm_read_card()
-        cm_quote = ""
-        _cm = CM_DATA
-        # chartmaster.json carries `headline` and `paragraphs`; there is no "read" key,
-        # which is why this card was empty after C-21 shipped.
-        _read = (_cm.get("headline") or "").strip()
-        if not _read:
-            _ps = _cm.get("paragraphs") or []
-            _read = (_ps[0] if _ps else "").strip()
-        if _read and _claim("cm-read"):
-            cm_quote = (f'<p class="cb-cm">{esc(clamp_sentences(_read, 190))}</p>')
-        board_mod = f"""<section class="cb-hero" aria-labelledby="bd-board">
-  <div class="cb-bg" aria-hidden="true"></div>
-  <div class="cb-scrim" aria-hidden="true"></div>
-  <div class="wrap cb-inner">
-    <div class="bd-sec"><div class="bd-sec-l">
-      <span class="bd-eyebrow">The Board</span>
-      <h2 class="cb-claim" id="bd-board">Eight numbers explained every day, and news checked against them</h2>
-    </div><span class="bd-subrow"><a class="bd-more" href="/pulse/prices">The Top 100</a>
-      <a class="bd-more" href="/learn.html">How to read the Board</a></span></div>
-    <p class="cb-sell"><span class="cb-sell-full">Eight numbers, read in the order a desk
-      reads a market, each with a plain-language explainer. Checked against public sources
-      at every build.</span><span class="cb-sell-short">Eight numbers, each with a
-      plain-language explainer.</span></p>
-    {stamp}
-    {board_tile_grid(tiles, learn_href, pulse, flows)}
-    <div class="cb-foot">{cm_quote}
-      <a class="bd-more" href="/pulse.html">Open the Board &rarr;</a></div>
-    <a class="bd-allboard bd-phone-only" href="/pulse.html">See all {len(tiles)} tiles on the Board</a>
-  </div>
-  {_cb_ornament(pulse)}
-</section>""" + CB_HERO_JS
-
-    # The day's edition, freshness-gated. current_bottom_line is the gate: it is what
-    # keeps a stale brief off the front page, and both surfaces below share this one
-    # resolved value rather than each re-deriving it.
-    edition_item = current_bottom_line(items)
-    brief = _bd_brief_card(edition_item, board_summary_line(pulse, deltas, flows),
-                           since=_bd_since_rows(tiles, deltas, pulse, flows))
-    edition = _bd_edition_card(items, tiles, edition_item, flows, span_full=not brief)
-    brief_row = f'<section class="bd-row3">{brief}{edition}</section>'
-
-    _fh, _fwhen, _fstate = flows_age(flows)
-    # D-11: a poll inside the window is what makes "none" a fact about today.
-    _fresh = _fstate == "fresh" and isinstance((flows or {}).get("txn_count"), int)
-    ww = "" if _fstate == "gone" else _bd_ww_chart(flows, allow_none=_fresh)
-    ww_card = ""
-    if ww:
-        ww_card = (
-            '<div class="bd-card bd-span2 card ww" style="gap:12px;padding:20px 24px 18px">'
-            '<span class="wmk wmk-ww" aria-hidden="true"></span>'
-            '<div class="bd-sec" style="border:none;padding:0"><div class="bd-sec-l">'
-            '<span class="bd-eyebrow"><img class="mk" src="/assets/marks/whale-mark.webp" '
-            'width="44" height="29" alt="" aria-hidden="true">Whale Watch</span>'
-            + (f'<span class="bd-h2" style="font-size:20px">Exchange flows, last 24 '
-               f'hours</span><span class="bd-stamp">As of {esc(_fwhen)}</span>'
-               if _fstate == "fresh" else
-               f'<span class="bd-h2" style="font-size:20px">Exchange flows, last reading '
-               f'{esc(_fwhen)}</span>')
-            + '</div><a class="bd-more" href="/flows.html">Open Whale Watch</a></div>'
-            '<div class="bd-legend">'
-            '<span><span class="bd-sq" style="background:var(--down)"></span>Onto exchanges</span>'
-            '<span><span class="bd-sq" style="background:var(--up)"></span>Off exchanges</span>'
-            '</div>'
-            f'{ww}{_ww_rows(flows)}'
-            '<p class="bd-src">Source: Whale Alert public feed, transfers of $50M and up. Onto '
-            'exchanges is usually sell positioning; off exchanges is usually storage.</p></div>')
-    # C-7: the since-yesterday rows live in the brief card now, so this row is just
-    # Whale Watch, and collapses entirely when the feed gave nothing.
-    ww_row = (f'<section class="bd-row3">{ww_card}{cm_card}</section>'
-              if (ww_card or cm_card) else "")
-
-    news = _bd_news_cards(items)
-    dark = dark_line(items, _edition_hold(), _build_now())
-    news_mod = ""
-    if news or dark:
-        news_mod = f"""<section class="bd-mod" aria-labelledby="bd-news">
-  <div class="bd-sec"><div class="bd-sec-l">
-    <span class="bd-eyebrow">From the news desk</span>
-    <h2 class="bd-h2" id="bd-news">Checked stories, each tied to a Board number</h2>
-  </div><a class="bd-more" href="/news.html">All stories</a></div>
-  {dark}
-  {news}
-</section>"""
-
-    learn = _bd_learn_cards(tiles)
-    learn_mod = ""
-    if learn:
-        learn_mod = f"""<section class="bd-mod" aria-labelledby="bd-learn">
-  <div class="bd-sec"><div class="bd-sec-l">
-    <span class="bd-eyebrow">Learn the Board</span>
-    <h2 class="bd-h2" id="bd-learn">Every tile has a plain-language explainer</h2>
-  </div><a class="bd-more" href="/learn.html">All explainers</a></div>
-  {learn}
-</section>"""
-
-    # THE FIVE-MINUTE READ (Program 5 Sprint 2, item 1): the tape and the nine blocks of
-    # section 2 above the fold, in order; the tape replaces the ticker on this page, and
-    # everything the program puts below the fold follows.
+    _page_reset()
     import home as _home
     import snapshot as _snapshot
+    snap = SNAP or _snapshot.load()
+    # The day's edition, freshness-gated: current_bottom_line is what keeps a stale brief
+    # off the front page.
+    edition_item = current_bottom_line(items)
     above = _home.above_fold(
-        SNAP or _snapshot.load(), pulse, flows, deltas, _home.load_json(WIRE_JSON),
+        snap, pulse, flows, deltas, _home.load_json(WIRE_JSON),
         _home.load_json(NARRATIVE_JSON),
         _home.load_json(os.path.join(SITE, "data", "calendar.json")), NEWS_CADENCE_LINE)
+    below = _home.below_fold(snap, pulse, flows, deltas, items, edition_item)
     body = f"""<main class="wrap h-page"><section class="page">
   <h1 class="sr-only">{esc(FAMILY)}: what is going on in crypto, in five minutes</h1>
   {above}
-  {board_mod}
-  {brief_row}
-  {ww_row}
-  {news_mod}
-  {record_sections(items, home=True)}
-  {learn_mod}
-  <section class="bd-mod">{_bd_cold_storage()}</section>
-  {record_full_index(items)}
+  {below}
 </section></main>"""
     return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "The Board",
                  body + _home.HOME_JS, dateline, body_class="h-home", path="/",
                  schema_extra=home_schema(), system_css=True, third_party=False)
-
 
 def flow_teaser():
     flows = load_flows()

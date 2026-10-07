@@ -180,3 +180,26 @@ body .h-mp{font-family:var(--mono);font-size:14px;font-weight:700}
 /* the home page sits on the paper itself: no atmospheric ground behind the read */
 body.h-home .ground{display:none}
 body.h-home{background:var(--paper)}
+
+/* BELOW THE FOLD: the Board, the whale chart, the Brief, the Record, full width. */
+body .h-below{margin-top:18px;border-top:2px solid var(--ink)}
+body .h-sub{font-family:var(--sans);font-size:13px;color:var(--muted);margin-bottom:10px!important}
+body .h-sub a,body .h-bh a,body .h-rec a{color:var(--link)}
+body .tl-row.tl-4 .tl-f{font-size:20px}
+@media (min-width:900px){body .tl-row.tl-4 .tl-f{font-size:24px}}
+body .h-thru{font-family:var(--mono);font-size:12px;color:var(--muted)}
+body .h-wbars{display:block;width:100%;height:150px}
+body .h-wbars line{stroke:var(--muted);stroke-width:1;vector-effect:non-scaling-stroke}
+body .h-wbars rect.up{fill:var(--up)}
+body .h-wbars rect.down{fill:var(--down)}
+body .h-wbars rect.flat{fill:var(--muted)}
+body .h-sign{font-family:var(--sans);font-size:12.5px;line-height:1.5;color:var(--muted);
+  margin-top:8px!important}
+body .h-bh{font-family:var(--serif);font-size:22px;line-height:1.25;margin:0 0 6px}
+body .h-bl{font-family:var(--serif);font-size:16px;line-height:1.5;color:var(--ink)}
+body .h-rec{list-style:none;margin:0 0 6px;padding:0;display:grid;gap:0 32px}
+@media (min-width:900px){body .h-rec{grid-template-columns:1fr 1fr}}
+body .h-rec li{display:flex;flex-direction:column;padding:8px 0;border-top:1px solid var(--line)}
+body .h-ln{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted)}
+body .h-rec a{font-family:var(--serif);font-size:17px;line-height:1.3}

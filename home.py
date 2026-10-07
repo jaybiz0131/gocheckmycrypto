@@ -186,9 +186,11 @@ def since(pulse, deltas):
         d = (deltas.get("bitcoin") or {}).get("pct")
         tail = (f', <span class="h-d {_dir(d)}">{_pctx(d)}</span> since yesterday'
                 if isinstance(d, (int, float)) else ", with no close kept for yesterday")
+        thru = sb._series_stamp(btc, pulse, html=False)
+        thru = f' <span class="h-thru">({_e(thru)})</span>' if thru else ""
         rows.append(f'<li>Bitcoin is <span class="h-d">{abs(gap):.1f}%</span> '
                     f'{"above" if gap >= 0 else "below"} its 200-day average of '
-                    f'<span class="h-d">{_e(sb._price_fmt(sma))}</span>{tail}.</li>')
+                    f'<span class="h-d">{_e(sb._price_fmt(sma))}</span>{thru}{tail}.</li>')
     mkt = (pulse or {}).get("market") or {}
     if isinstance(mkt.get("total_mcap_usd"), (int, float)):
         d = (deltas.get("market") or {}).get("pct")
@@ -294,106 +296,235 @@ def _field(snap, name):
     return f.get("value"), f.get("source") or "", (snap or {}).get("stamp_et") or ""
 
 
-def money(snap, pulse, flows, deltas):
+def _tile(fn, *a):
+    """A tile builder's output, or "" when its reading is absent."""
+    try:
+        return fn(*a) or ""
+    except KeyError:
+        return ""
+
+
+def t_etf(snap, pulse):
     import site_build as sb
     import tile
-    tiles = []
     etf, src, st = _field(snap, "etf_flows")
     b = (etf or {}).get("btc") or {}
     net = b.get("latest_net_usd_m")
-    if isinstance(net, (int, float)) and st:
-        fig = (f"{'+' if net > 0 else '-' if net < 0 else ''}{sb.fmt_usd(abs(net) * 1e6)}"
-               if net else "flat")
-        rec = [r for r in ((((pulse or {}).get("etf_flows") or {}).get("btc") or {})
-                           .get("recent") or []) if isinstance(r.get("net_usd_m"), (int, float))]
-        word = "inflow" if net > 0 else "outflow" if net < 0 else "flat"
-        if len(rec) >= 2:
-            pm = rec[-2]["net_usd_m"]
-            pw = "in" if pm > 0 else "out" if pm < 0 else "flat"
-            since_t = (f"Net {word}; the session before was "
-                       f"{sb.fmt_usd(abs(pm) * 1e6)} {pw}" if pm else
-                       f"Net {word}; the session before was flat")
-        else:
-            since_t = f"Net {word}; no session before it on record"
-        tiles.append(tile.render("etf-net", fig, direction=_dir(net),
-                                 window=f"one trading day, {sb.us_date(b.get('latest_date')) or b.get('latest_date')}",
-                                 since=since_t, source=src.split(" (")[0], stamp=st))
+    if not isinstance(net, (int, float)) or not st:
+        return ""
+    fig = (f"{'+' if net > 0 else '-' if net < 0 else ''}{sb.fmt_usd(abs(net) * 1e6)}"
+           if net else "flat")
+    rec = [r for r in ((((pulse or {}).get("etf_flows") or {}).get("btc") or {})
+                       .get("recent") or []) if isinstance(r.get("net_usd_m"), (int, float))]
+    word = "inflow" if net > 0 else "outflow" if net < 0 else "flat"
+    if len(rec) >= 2:
+        pm = rec[-2]["net_usd_m"]
+        pw = "in" if pm > 0 else "out" if pm < 0 else "flat"
+        since_t = (f"Net {word}; the session before was {sb.fmt_usd(abs(pm) * 1e6)} {pw}"
+                   if pm else f"Net {word}; the session before was flat")
+    else:
+        since_t = f"Net {word}; no session before it on record"
+    day = sb.us_date(b.get("latest_date")) or b.get("latest_date")
+    return tile.render("etf-net", fig, direction=_dir(net),
+                       window=f"one trading day, {day}", since=since_t,
+                       source=src.split(" (")[0], stamp=st)
+
+
+def t_float(snap, deltas):
+    import site_build as sb
+    import tile
     stv, src, st = _field(snap, "stablecoin_float")
-    if isinstance((stv or {}).get("total_usd"), (int, float)) and st:
-        d = (deltas.get("stables") or {}).get("pct")
-        since_t = (f"{'Up' if d > 0 else 'Down' if d < 0 else 'Level'} "
-                   f"{abs(d):.2f}% since yesterday" if isinstance(d, (int, float))
-                   else "No close kept for yesterday")
-        tiles.append(tile.render("stablecoin-float", sb.fmt_usd(stv["total_usd"]),
-                                 window="all stablecoins in circulation, now",
-                                 since=since_t, source=src.split(" ")[0], stamp=st))
+    if not isinstance((stv or {}).get("total_usd"), (int, float)) or not st:
+        return ""
+    d = (deltas.get("stables") or {}).get("pct")
+    since_t = (f"{'Up' if d > 0 else 'Down' if d < 0 else 'Level'} {abs(d):.2f}% since "
+               f"yesterday" if isinstance(d, (int, float)) else "No close kept for yesterday")
+    return tile.render("stablecoin-float", sb.fmt_usd(stv["total_usd"]),
+                       window="all stablecoins in circulation, now",
+                       since=since_t, source=src.split(" ")[0], stamp=st)
+
+
+def t_whale(snap, flows):
+    import site_build as sb
+    import tile
     wv, src, st = _field(snap, "whale_net")
-    if isinstance((wv or {}).get("net_usd"), (int, float)) and st \
-            and sb._flows_have_data(flows):
-        amt, words, cls = sb.flow_words(wv["net_usd"])
-        # flows.json keeps weekly history, not a daily record, so there is no yesterday
-        # to compare with, and the tile says so rather than pass a week off as a day.
-        since_t = f"Net {words}; no reading kept for yesterday"
-        tiles.append(tile.render("whale-net", amt, direction=cls,
-                                 window=f"{sb._win_phrase(wv.get('window_hours', 24))}, all coins",
-                                 since=since_t, source="Whale Alert", stamp=st))
-    if not tiles:
+    if not isinstance((wv or {}).get("net_usd"), (int, float)) or not st \
+            or not sb._flows_have_data(flows):
+        return ""
+    amt, words, cls = sb.flow_words(wv["net_usd"])
+    # flows.json keeps weekly history, not a daily record, so there is no yesterday to
+    # compare with, and the tile says so rather than pass a week off as a day.
+    return tile.render("whale-net", amt, direction=cls,
+                       window=f"{sb._win_phrase(wv.get('window_hours', 24))}, all coins",
+                       since=f"Net {words}; no reading kept for yesterday",
+                       source="Whale Alert", stamp=st)
+
+
+def _funding_hist(pulse):
+    for a in (((pulse or {}).get("leverage") or {}).get("assets") or []):
+        if a.get("symbol") == "BTC":
+            return [h for h in a.get("funding_history_pct") or []
+                    if isinstance(h, (int, float))]
+    return []
+
+
+def _funding_since(word, pulse):
+    hist = _funding_hist(pulse)
+    if len(hist) >= 4:
+        return (f"{word.capitalize()}; {hist[-4]:+.4f}% at the settlement 24 hours before "
+                f"the latest")
+    return f"{word.capitalize()}; no settlement a day back on record"
+
+
+def t_funding(snap, pulse):
+    import narrative
+    import tile
+    fund, src, st = _field(snap, "funding")
+    f = (fund or {}).get("BTC") or {}
+    v = f.get("funding_8h_pct")
+    if not isinstance(v, (int, float)) or not st:
+        return ""
+    return tile.render("funding", f"{v:+.4f}%", label="Funding, per 8 hours",
+                       window="Bitcoin perpetual, current 8-hour period",
+                       since=_funding_since(narrative.funding_band(v), pulse),
+                       source=f.get("venue") or "OKX", stamp=st)
+
+
+def t_leverage(snap, pulse):
+    """The Board's Leverage tile (K-5): Bitcoin's funding rate, annualized."""
+    import narrative
+    import tile
+    fund, src, st = _field(snap, "funding")
+    f = (fund or {}).get("BTC") or {}
+    ann, v = f.get("funding_annual_pct"), f.get("funding_8h_pct")
+    if not isinstance(ann, (int, float)) or not isinstance(v, (int, float)) or not st:
+        return ""
+    return tile.render("funding", f"{ann:+.1f}%", label="Leverage, funding annualized",
+                       window=f"Bitcoin perpetual, {v:+.4f}% per 8 hours times 1,095",
+                       since=_funding_since(narrative.funding_band(v), pulse),
+                       source=f.get("venue") or "OKX", stamp=st)
+
+
+def t_oi(snap, deltas):
+    import site_build as sb
+    import tile
+    oi, src, st = _field(snap, "open_interest")
+    o = (oi or {}).get("BTC") or {}
+    if not isinstance(o.get("usd"), (int, float)) or not st:
+        return ""
+    venue = o.get("venue") or "OKX"
+    d = (deltas.get("leverage") or {}).get("pct")
+    if isinstance(d, (int, float)):
+        return tile.render(
+            "open-interest", f"{d:+.2f}%", label="Open interest change",
+            window=f"since yesterday's close, the five coins tracked on {venue}",
+            since=f"Bitcoin: {sb.fmt_usd(o['usd'])} open on {venue} now",
+            source=venue, stamp=st)
+    return tile.render(
+        "open-interest", sb.fmt_usd(o["usd"]), label="Open interest",
+        window=f"Bitcoin perpetuals on {venue}, now",
+        since="No close kept for yesterday, so no change", source=venue, stamp=st)
+
+
+def t_fng(snap, deltas):
+    import site_build as sb
+    import tile
+    fg, src, st = _field(snap, "fear_greed")
+    if not isinstance((fg or {}).get("value"), (int, float)) or not st:
+        return ""
+    val = fg["value"]
+    fd = deltas.get("fng") or {}
+    word = sb._fng_band(val)
+    since_t = (f"{word}; {fd['prev']:g} yesterday" if isinstance(fd.get("prev"), (int, float))
+               else f"{word}; no figure kept for yesterday")
+    return tile.render("fear-greed", f"{val:g}", window="today, scale 0 to 100",
+                       since=since_t, source="alternative.me", stamp=st)
+
+
+def t_bitcoin(snap, pulse, deltas):
+    """The Board's Bitcoin tile: the snapshot's price, its 24 hours, and the 200-day from
+    the stored series with that series' through date (ruling 2b, 6 October)."""
+    import site_build as sb
+    import snapshot
+    import tile
+    c = snapshot.coin(snap, "BTC")
+    st = _stamp(((snap.get("fields") or {}).get("coins") or {}).get("read_utc"))
+    if not isinstance(c.get("price"), (int, float)) or not st:
+        return ""
+    btc = sb._btc(pulse) or {}
+    d = (deltas.get("bitcoin") or {}).get("pct")
+    since_t = (f"{'Up' if d > 0 else 'Down' if d < 0 else 'Level'} {abs(d):.2f}% since "
+               f"yesterday's close" if isinstance(d, (int, float))
+               else "No close kept for yesterday")
+    ch = c.get("chg_24h_pct")
+    win = "24 hours" + (f", {ch:+.2f}%" if isinstance(ch, (int, float)) else "")
+    sma = btc.get("sma200")
+    if isinstance(sma, (int, float)) and sma:
+        gap = (c["price"] / sma - 1) * 100
+        since_t += f"; {abs(gap):.1f}% {'above' if gap >= 0 else 'below'} its 200-day average"
+        thru = sb._series_stamp(btc, pulse, html=False)
+        if thru:
+            win += f"; 200-day from {thru}"
+    return tile.render("bitcoin", sb._price_fmt(c["price"]), direction=_dir(ch),
+                       window=win,
+                       since=since_t, source="CoinGecko", stamp=st)
+
+
+def t_cap(snap, deltas):
+    import site_build as sb
+    import tile
+    cap, src, st = _field(snap, "total_cap")
+    if not isinstance((cap or {}).get("usd"), (int, float)) or not st:
+        return ""
+    dom = (snapshot_value(snap, "dominance") or {}).get("btc_pct")
+    d = (deltas.get("market") or {}).get("pct")
+    since_t = (f"{'Up' if d > 0 else 'Down' if d < 0 else 'Level'} {abs(d):.2f}% since "
+               f"yesterday's close" if isinstance(d, (int, float))
+               else "No close kept for yesterday")
+    if isinstance(dom, (int, float)):
+        since_t += f"; Bitcoin is {dom:.1f}% of it"
+    ch = cap.get("chg_24h_pct")
+    return tile.render("total-cap", sb.fmt_usd(cap["usd"]), direction=_dir(ch),
+                       window="every coin, 24 hours" + (f", {ch:+.2f}%"
+                                                         if isinstance(ch, (int, float)) else ""),
+                       since=since_t, source="CoinGecko", stamp=st)
+
+
+def t_fee(snap, deltas):
+    import tile
+    nw, src, st = _field(snap, "network_fee")
+    fee = (nw or {}).get("fastest_fee")
+    if not isinstance(fee, (int, float)) or not st:
+        return ""
+    nd = deltas.get("network") or {}
+    pts = nd.get("points")
+    since_t = ("No figure kept for yesterday" if pts is None else
+               "Unchanged since yesterday" if pts == 0 else
+               f"{'Up' if pts > 0 else 'Down'} {abs(pts):g} sat/vB since yesterday")
+    return tile.render("network-fee", f"{fee:g} sat/vB", window="next block, fastest rate",
+                       since=since_t, source="mempool.space", stamp=st)
+
+
+def snapshot_value(snap, name):
+    import snapshot
+    return snapshot.value(snap, name)
+
+
+def money(snap, pulse, flows, deltas):
+    tiles = [t_etf(snap, pulse), t_float(snap, deltas), t_whale(snap, flows)]
+    if not any(tiles):
         return _block("money", '<p class="h-wait">Waiting for the snapshot\'s flows.</p>',
                       "The money")
+    import tile
     return _block("money", tile.grid(tiles), "The money")
 
 
 def mood(snap, pulse, deltas):
-    import narrative
-    import site_build as sb
-    import tile
-    tiles = []
-    fund, src, st = _field(snap, "funding")
-    f = (fund or {}).get("BTC") or {}
-    v = f.get("funding_8h_pct")
-    if isinstance(v, (int, float)) and st:
-        word = narrative.funding_band(v)
-        hist = []
-        for a in (((pulse or {}).get("leverage") or {}).get("assets") or []):
-            if a.get("symbol") == "BTC":
-                hist = [h for h in a.get("funding_history_pct") or []
-                        if isinstance(h, (int, float))]
-        if len(hist) >= 4:
-            since_t = (f"{word.capitalize()}; {hist[-4]:+.4f}% at the settlement 24 hours "
-                       f"before the latest")
-        else:
-            since_t = f"{word.capitalize()}; no settlement a day back on record"
-        tiles.append(tile.render("funding", f"{v:+.4f}%", label="Funding, per 8 hours",
-                                 window="Bitcoin perpetual, current 8-hour period",
-                                 since=since_t, source=f.get("venue") or "OKX", stamp=st))
-    oi, src, st = _field(snap, "open_interest")
-    o = (oi or {}).get("BTC") or {}
-    if isinstance(o.get("usd"), (int, float)) and st:
-        venue = o.get("venue") or "OKX"
-        d = (deltas.get("leverage") or {}).get("pct")
-        if isinstance(d, (int, float)):
-            tiles.append(tile.render(
-                "open-interest", f"{d:+.2f}%", label="Open interest change",
-                window=f"since yesterday's close, the five coins tracked on {venue}",
-                since=f"Bitcoin: {sb.fmt_usd(o['usd'])} open on {venue} now",
-                source=venue, stamp=st))
-        else:
-            tiles.append(tile.render(
-                "open-interest", sb.fmt_usd(o["usd"]), label="Open interest",
-                window=f"Bitcoin perpetuals on {venue}, now",
-                since="No close kept for yesterday, so no change", source=venue, stamp=st))
-    fg, src, st = _field(snap, "fear_greed")
-    if isinstance((fg or {}).get("value"), (int, float)) and st:
-        val = fg["value"]
-        fd = deltas.get("fng") or {}
-        word = sb._fng_band(val)
-        since_t = (f"{word}; {fd['prev']:g} yesterday" if isinstance(fd.get("prev"), (int, float))
-                   else f"{word}; no figure kept for yesterday")
-        tiles.append(tile.render("fear-greed", f"{val:g}", window="today, scale 0 to 100",
-                                 since=since_t, source="alternative.me", stamp=st))
-    if not tiles:
+    tiles = [t_funding(snap, pulse), t_oi(snap, deltas), t_fng(snap, deltas)]
+    if not any(tiles):
         return _block("mood", '<p class="h-wait">Waiting for the snapshot\'s mood readings.'
                               '</p>', "The mood")
+    import tile
     return _block("mood", tile.grid(tiles), "The mood")
 
 
@@ -449,6 +580,115 @@ def today(cal, now=None):
 def mine():
     return _block("mine", f'<div class="h-mine" data-mine>'
                           f'<p class="h-mine-empty">{_e(EMPTY_MINE)}</p></div>', "Mine")
+
+
+# ---- below the fold --------------------------------------------------------------------
+
+BELOW_FOLD = ("board", "whales", "brief", "record")
+
+
+def board(snap, pulse, flows, deltas):
+    """The Board as eight tiles, every one through tile.render."""
+    tiles = [t_bitcoin(snap, pulse, deltas), t_cap(snap, deltas), t_etf(snap, pulse),
+             t_whale(snap, flows), t_leverage(snap, pulse), t_float(snap, deltas),
+             t_fng(snap, deltas), t_fee(snap, deltas)]
+    import tile
+    head = (f'<p class="h-sub">As of {_e(snap.get("stamp_et") or "")}. '
+            f'<a href="/pulse.html">The Board in full</a></p>')
+    if not any(tiles):
+        return _block("board", head + '<p class="h-wait">Waiting for the snapshot.</p>',
+                      "The Board")
+    return _block("board", head + tile.grid(tiles, "tl-4"), "The Board")
+
+
+SIGN_LINE = ("Each bar is one week's net, transfers of $50 million and up, all coins. Off "
+             "exchanges is positive and drawn up in green; onto exchanges is negative and "
+             "drawn down in red.")
+
+
+def whale_bars(history, w=600, h=150, pad=4):
+    """[(x, y, width, height, cls)] for each published week: one bar per point, from the
+    zero line, to scale against the largest week either way. Nothing interpolated."""
+    pts = [r for r in history or [] if isinstance(r.get("net_usd"), (int, float))]
+    if not pts:
+        return []
+    top = max(abs(r["net_usd"]) for r in pts) or 1.0
+    mid = h / 2
+    slot = (w - 2 * pad) / len(pts)
+    bw = max(2.0, slot * 0.7)
+    out = []
+    for i, r in enumerate(pts):
+        v = r["net_usd"]
+        bh = (h / 2 - pad) * abs(v) / top
+        x = pad + i * slot + (slot - bw) / 2
+        y = mid - bh if v >= 0 else mid
+        out.append((round(x, 1), round(y, 1), round(bw, 1), round(max(bh, 0.5), 1),
+                    "up" if v > 0 else "down" if v < 0 else "flat", r))
+    return out
+
+
+def whales(flows):
+    import site_build as sb
+    hist = (flows or {}).get("history") or []
+    bars = whale_bars(hist)
+    if not bars:
+        return _block("whales", '<p class="h-wait">Waiting for Whale Alert\'s weekly '
+                                'history.</p>', "Whales, 13 weeks")
+    rects = "".join(
+        f'<rect class="{c}" x="{x}" y="{y}" width="{bw}" height="{bh}">'
+        f'<title>Week ending {_e(r.get("week_ending"))}: {_e(sb.flow_words(r["net_usd"])[0])} '
+        f'{_e(sb.flow_words(r["net_usd"])[1])}</title></rect>'
+        for x, y, bw, bh, c, r in bars)
+    first, last = bars[0][5].get("week_ending"), bars[-1][5].get("week_ending")
+    svg = (f'<svg class="h-wbars" viewBox="0 0 600 150" preserveAspectRatio="none" role="img" '
+           f'aria-label="Weekly whale net, {len(bars)} weeks, week ending {_e(first)} to '
+           f'{_e(last)}"><line x1="0" y1="75" x2="600" y2="75"/>{rects}</svg>')
+    n = len(bars)
+    return _block("whales", f'<p class="h-sub">{n} weeks, week ending {_e(first)} to '
+                            f'{_e(last)}. <a href="/flows.html">Whale Watch</a></p>{svg}'
+                            f'<p class="h-sign">{_e(SIGN_LINE)} Source: Whale Alert public '
+                            f'archive.</p>', f"Whales, {n} weeks")
+
+
+def brief(ed, now=None):
+    """The Brief, the day's edition as current_bottom_line resolved it, with its stamp."""
+    if not ed:
+        return _block("brief", f'<p class="h-wait">The Brief arrives with the Edition at '
+                               f'{_e(edition_time_et(now))}.</p>', "The Brief")
+    st = _stamp(ed.get("published_utc"))
+    lead = ed.get("bottom_line") or ed.get("dek") or ""
+    return _block("brief", f'<h3 class="h-bh"><a href="/articles/{_e(ed.get("slug"))}.html">'
+                           f'{_e(ed.get("title"))}</a></h3>'
+                           + (f'<p class="h-bl">{_e(lead)}</p>' if lead else "")
+                           + f'<p class="h-st">Published {_e(st)}</p>', "The Brief")
+
+
+def record(items):
+    """The Record's lanes, one piece each: the lane's first evergreen pick."""
+    import site_build as sb
+    by_lane, _ = sb._record_inventory(items)
+    lis = []
+    for slug, name, _tags, _home in sb.RECORD_LANES:
+        it = (by_lane.get(slug) or [None])[0]
+        if not it:
+            continue
+        lis.append(f'<li data-lane="{_e(slug)}"><span class="h-ln">{_e(name)}</span>'
+                   f'<a href="/articles/{_e(it.get("slug"))}.html">{_e(it.get("title"))}</a>'
+                   f'<span class="h-st">{_e(sb.fmt_date(it.get("date")) if it.get("date") else "")}'
+                   f'</span></li>')
+    if not lis:
+        return _block("record", '<p class="h-wait">The Record has no pieces yet.</p>',
+                      "The Record")
+    return _block("record", f'<ul class="h-rec">{"".join(lis)}</ul>'
+                            f'<p class="h-sub"><a href="/record.html">The full Record</a></p>',
+                  "The Record")
+
+
+def below_fold(snap, pulse, flows, deltas, items, ed, now=None):
+    return (f'<div class="h-below" data-fold="below">'
+            f'{board(snap, pulse, flows, deltas)}{whales(flows)}{brief(ed, now)}'
+            f'{record(items)}</div>')
+
 
 
 # ---- the page -----------------------------------------------------------------------------

@@ -739,7 +739,11 @@ def _stored_series_canary():
         thr = ser["through"]
         pulse = {"assets": [btc] if btc else [], "written_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
                  "generated_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ")}
-        grid = _sb.board_tile_grid(_sb.board_tiles(pulse, {}, {}), {}, pulse, {}, cm_slot=False)
+        import home as _hm
+        _snap1 = {"fields": {"coins": {"read_utc": pulse["generated_utc"],
+                                       "value": {"BTC": {"price": (btc or {}).get("price")
+                                                         or pts[-1][1]}}}}}
+        grid = _hm.t_bitcoin(_snap1, pulse, {})
         want = _h.through_label(thr)
         _check(bool(btc) and want and want in grid, fails,
                f"stored series: after a failed append the Bitcoin tile does not print "
@@ -1672,6 +1676,7 @@ def _stamp_canary():
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
                 fails.extend(_home_canary(_ih))
+                fails.extend(_below_canary(_ih))
                 fails.extend(_home_budget_canary(out, _ih))
             _sf = _o.path.join(out, "stamp.txt")
             _check(_o.path.exists(_sf), fails,
@@ -2119,6 +2124,14 @@ def _home_canary(index_html=None):
            "home canary: the tape prints a week percentage; the markets read's percentage "
            "fields are never printed")
 
+    # 2b. the since line's 200-day comes from the stored series, so it carries its through
+    # date (ruling 2b, 6 October)
+    import history as _hist
+    _thr = (_sb._btc(pulse) or {}).get("through")
+    _check(bool(_thr) and _hist.through_label(_thr) in blk(full, "since"), fails,
+           "home canary: the since line's 200-day average does not carry its closes-through "
+           "date")
+
     # 3. the band, from a narrative fixture, and absent
     b = blk(full, "narrative")
     _check(_hx(narr["line"]) in b and _hx(narr["small_line"]) in b, fails,
@@ -2277,6 +2290,81 @@ def _home_budget_canary(out, index_html):
     return fails
 
 
+def _below_canary(index_html=None):
+    """BELOW THE FOLD (Program 5 section 3; Sprint 2 item 2). Breaks: a Board tile drawn
+    by anything but the one renderer, or not eight of them; the whale chart's bars not
+    equal to the data's weeks; the Brief without its stamp; a Record lane with more or
+    fewer than one piece."""
+    import re as _re
+    import home as _h
+    import site_build as _sb
+    fails = []
+    snap, pulse, flows, wire, narr, cal = _home_fixtures()
+    deltas = _sb.board_deltas(pulse)
+    items = _sb.load_content()
+    ed = _sb.current_bottom_line(items)
+    html = _h.below_fold(snap, pulse, flows, deltas, items, ed)
+
+    def blk(name):
+        m = _re.search(r'<section class="h-b h-%s[^"]*" data-block="%s">(.*?)</section>'
+                       % (name, name), html, _re.S)
+        return m.group(1) if m else ""
+    order = _re.findall(r'data-block="([a-z]+)"', html)
+    _check(tuple(order) == _h.BELOW_FOLD, fails,
+           f"below canary: the blocks below the fold render as {order}")
+    # 1. eight tiles through the one renderer, and no other tile markup
+    b = blk("board")
+    tiles = _re.findall(r'<article class="tl" data-reading="([a-z-]+)">', b)
+    _check(len(tiles) == 8, fails, f"below canary: the Board has {len(tiles)} tiles, not eight")
+    _check("bd-tile" not in b and "bd-card" not in b, fails,
+           "below canary: a Board tile is drawn by the old renderer")
+    import tile as _t
+    _keys = _re.findall(r'<article class="tl" data-reading="([a-z-]+)">.*?</article>', b, _re.S)
+    _check(_keys == tiles and all(k in _t.READINGS for k in tiles), fails,
+           "below canary: a Board tile names a reading the one renderer does not know")
+    _check(not hasattr(_sb, "board_tile_grid"), fails,
+           "below canary: the old tile renderer, board_tile_grid, is back")
+    # 2. the chart's bars equal the data's weeks
+    w = blk("whales")
+    weeks = [r for r in (flows.get("history") or []) if isinstance(r.get("net_usd"), (int, float))]
+    bars = _re.findall(r'<rect class="(up|down|flat)"', w)
+    _check(len(bars) == len(weeks) and len(weeks) > 0, fails,
+           f"below canary: the whale chart draws {len(bars)} bars for {len(weeks)} weeks")
+    _check([("up" if r["net_usd"] > 0 else "down" if r["net_usd"] < 0 else "flat")
+            for r in weeks] == bars, fails,
+           "below canary: a whale bar's direction is not its week's sign")
+    _check(_sb.esc(_h.SIGN_LINE) in w, fails,
+           "below canary: the sign convention is not under the chart")
+    # 3. the Brief's stamp
+    br = blk("brief")
+    if ed:
+        import snapshot as _s
+        _check(f"Published {_s.stamp_et(ed.get('published_utc'))}" in br
+               and _re.search(r"\d{1,2}:\d{2} [AP]M ET on", br), fails,
+               "below canary: the Brief carries no stamp with its zone")
+    _check("arrives with the Edition at" in _h.brief(None), fails,
+           "below canary: with no Brief the block does not say when it arrives")
+    # 4. one piece per lane
+    r = blk("record")
+    lanes = _re.findall(r'<li data-lane="([a-z-]+)">(.*?)</li>', r, _re.S)
+    _check(bool(lanes), fails, "below canary: the Record shows no lane")
+    _check(len({l for l, _ in lanes}) == len(lanes), fails,
+           "below canary: a Record lane appears twice")
+    for _l, _body in lanes:
+        _check(_body.count("<a ") == 1, fails,
+               f"below canary: the {_l} lane carries {_body.count('<a ')} pieces, not one")
+    if index_html is not None:
+        _bf = _re.search(r'<div class="h-below" data-fold="below">(.*)</section></main>',
+                         index_html, _re.S)
+        got = _re.findall(r'data-block="([a-z]+)"', _bf.group(1)) if _bf else []
+        _check(tuple(got) == _h.BELOW_FOLD, fails,
+               f"below canary: the built page below the fold carries {got}")
+        _check(index_html.count('<article class="tl"') ==
+               len(_re.findall(r'<article class="tl" data-reading=', index_html)), fails,
+               "below canary: a tile on the built page did not come from the one renderer")
+    return fails
+
+
 def _first_screen_canary():
     """K-9: what a phone reader can reach, and what the page says it is.
 
@@ -2301,13 +2389,12 @@ def _first_screen_canary():
     _ix = os.path.join(_sb8.PUBLISH, "index.html")
     if os.path.exists(_ix):
         _h = open(_ix, encoding="utf-8", errors="ignore").read()
-        # ONE LINE SAYING WHAT THE SITE IS, and only one.
-        _n = _h.count("Eight numbers explained every day")
-        _check(_n == 1, fails,
+        # ONE LINE SAYING WHAT THE SITE IS, and only one: since Sprint 2 the home page's
+        # one h1, "what is going on in crypto, in five minutes".
+        _n = _h.count("what is going on in crypto, in five minutes")
+        _check(_n == 1 and _h.count("<h1") == 1, fails,
                f"K-9 canary: the line that says what this site is appears {_n} times; "
                f"it is the one line of its kind on the page or it is noise")
-        _check("cb-claim" in _h, fails,
-               "K-9 canary: the Board's title carries no line under it")
     return fails
 
 
@@ -2774,6 +2861,7 @@ def layer1_canary():
     fails.extend(_first_screen_canary())
     fails.extend(_tile_canary())
     fails.extend(_home_canary())
+    fails.extend(_below_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
