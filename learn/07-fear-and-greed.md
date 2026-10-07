@@ -23,7 +23,7 @@ The Crypto Fear and Greed index, published by Alternative.me, combines several m
 
 The result reads as a mood. Zero is extreme fear, 100 is extreme greed. The Board shows the score, the band it falls in, and how it moved since yesterday.
 
-Rough bands: under 25 is extreme fear, 25 to 49 is fear, 50 to 74 is greed, 75 and above is extreme greed.
+The bands: 0 to 24 is extreme fear, 25 to 44 is fear, 45 to 55 is neutral, 56 to 74 is greed, 75 to 100 is extreme greed.
 
 ## Why it matters
 

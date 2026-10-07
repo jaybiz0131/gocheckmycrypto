@@ -2002,6 +2002,15 @@ def _tile_canary(learn_html=None):
     _check(len(_fg) == len(_sb.FNG_WORD_BANDS), fails,
            f"tile canary: the Learn page prints {len(_fg)} Fear & Greed bands, the build "
            f"has {len(_sb.FNG_WORD_BANDS)}")
+    # and the explainer's own sentence (learn/07, Jack's ruling of 7 October) says the same
+    _ex = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "learn",
+                            "07-fear-and-greed.md"), encoding="utf-8").read()
+    _said = _re.findall(r"(\d+) to (\d+) is (extreme fear|fear|neutral|greed|extreme greed)",
+                        (_re.search(r"The bands: [^\n]*", _ex) or _re.match("", "")).group(0))
+    _want = [(str(lo), str(hi), w.lower()) for w, lo, hi in _t.fng_thresholds()]
+    _check(_said == _want, fails,
+           f"tile canary: the Fear & Greed explainer's bands {_said} are not the table's "
+           f"{_want}")
     for _word, _rng in _fg:
         _lohi = [int(x) for x in _re.findall(r"\d+", _rng)]
         for _v in _lohi:
