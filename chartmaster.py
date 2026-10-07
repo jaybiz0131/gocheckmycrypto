@@ -621,11 +621,12 @@ def _status(published, reason="", date=None):
     """The night's outcome, which the Edition's commit message reads, and the stage's own
     model calls and cost, printed so a night's before and after can be compared."""
     b = _CLIENT[0].budget if _CLIENT[0] is not None else None
-    calls, usd = (b.calls, round(b.usd, 4)) if b else (0, 0.0)
+    calls, usd, tok = (b.calls, round(b.usd, 4), b.tokens) if b else (0, 0.0, 0)
     os.makedirs(os.path.dirname(STATUS), exist_ok=True)
     json.dump({"published": bool(published), "date": date, "reason": reason,
-               "model_calls": calls, "usd": usd}, open(STATUS, "w", encoding="utf-8"))
-    print(f"chartmaster: model calls {calls}, ${usd:.4f} this stage, "
+               "model_calls": calls, "tokens": tok, "usd": usd},
+              open(STATUS, "w", encoding="utf-8"))
+    print(f"chartmaster: model calls {calls}, {tok} tokens, ${usd:.4f} this stage, "
           f"{'published' if published else 'refused'}")
 
 

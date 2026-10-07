@@ -263,6 +263,10 @@ never from a pipe), and the traps the two desks share.
 If that path does not resolve, say so in the report rather than working without the laws or
 reciting a rule from memory. The two repos sit side by side in `~/Berno Projects`.
 
+**7 October 2026.** A Claude Code cloud session, which clones this repository alone and cannot
+read that path, reads `docs/RULES.md`, the verified copy of U-1 to U-16, before building anything.
+**7 October 2026.** It checks that copy's hash against the opener's (`awk 'f{print} /^---$/ && !f {f=1}' docs/RULES.md | tail -n +2 | sha256sum`), and a different hash is said in the report and nothing is built until Jack restores the copy.
+
 ## U-14 to U-16, copied verbatim from the Weather handoff (`../gocheckmyweather/docs/HANDOFF.md`)
 
 U-14, U-15 of 2026-10-05, 12:03 PM ET; U-16 of 2026-10-05, 9:28 PM ET.

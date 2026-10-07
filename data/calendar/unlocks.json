@@ -1,5 +1,5 @@
 {
- "note": "Token unlocks for the top 20 by market cap at the 2026-10-06 11:41Z read, excluding Bitcoin, Ether and the stablecoins (USDT, USDC, USDS). Hand-kept: no free source of record exists. Only a date, amount and share read on the project's own page makes an entry. Refreshed monthly by the desk at the first session of the month.",
+ "note": "Token unlocks for the top 20 by market cap at the 2026-10-06 11:41Z read, excluding Bitcoin, Ether and the stablecoins (USDT, USDC, USDS). Hand-kept: no free source of record exists. Only a date, amount and share read on the project's own page makes an entry. Refreshed monthly by the desk at the first session of the month. A project with no dated unlock on its own page has a line here and no entry on the calendar. A rule with a stated day of the month makes an entry marked computed from the page's stated schedule.",
  "read_date": "2026-10-06",
  "projects": [
   {
@@ -9,7 +9,8 @@
    "next_unlock": null,
    "source_url": "https://www.bnbchain.org/en/blog/26th-bnb-burn",
    "read_date": "2026-10-06",
-   "note": "Quarterly burns only; no unlock or vesting schedule."
+   "note": "Quarterly burns only; no unlock or vesting schedule. Names no date; no entry.",
+   "read": "https://www.bnbchain.org/en/blog/26th-bnb-burn, read 2026-10-06"
   },
   {
    "gecko_id": "ripple",
@@ -18,7 +19,8 @@
    "next_unlock": null,
    "source_url": "https://ripple.com/insights/explanation-ripples-xrp-escrow/",
    "read_date": "2026-10-06",
-   "note": "Escrow releases a total of one billion XRP each month; the page names no day of the month, so no entry."
+   "note": "Escrow releases a total of one billion XRP each month; the page names no day of the month, so no entry. Names no day; no entry. An official page stating a day of the month makes the entry, computed from that page's stated schedule.",
+   "read": "https://ripple.com/insights/explanation-ripples-xrp-escrow/, read 2026-10-06"
   },
   {
    "gecko_id": "solana",
@@ -27,7 +29,8 @@
    "next_unlock": null,
    "source_url": "https://solana.com/docs/economics/inflation/inflation-schedule",
    "read_date": "2026-10-06",
-   "note": "Inflation schedule only; no unlock dates."
+   "note": "Inflation schedule only; no unlock dates. Names no date; no entry.",
+   "read": "https://solana.com/docs/economics/inflation/inflation-schedule, read 2026-10-06"
   },
   {
    "gecko_id": "tron",
@@ -36,7 +39,8 @@
    "next_unlock": null,
    "source_url": "https://developers.tron.network/docs/tron-economic-model",
    "read_date": "2026-10-06",
-   "note": "Block rewards only."
+   "note": "Block rewards only. Names no date; no entry.",
+   "read": "https://developers.tron.network/docs/tron-economic-model, read 2026-10-06"
   },
   {
    "gecko_id": "figure-heloc",
@@ -45,7 +49,8 @@
    "next_unlock": null,
    "source_url": "https://www.figure.com/heloc/",
    "read_date": "2026-10-06",
-   "note": "Tokenized loan book; no token unlock content."
+   "note": "Tokenized loan book; no token unlock content. Names no date; no entry.",
+   "read": "https://www.figure.com/heloc/, read 2026-10-06"
   },
   {
    "gecko_id": "zcash",
@@ -54,16 +59,18 @@
    "next_unlock": null,
    "source_url": "https://zips.z.cash/zip-1015",
    "read_date": "2026-10-06",
-   "note": "Mined; the lockbox has no release mechanism or date."
+   "note": "Mined; the lockbox has no release mechanism or date. Names no date; no entry.",
+   "read": "https://zips.z.cash/zip-1015, read 2026-10-06"
   },
   {
    "gecko_id": "hyperliquid",
    "symbol": "HYPE",
-   "status": "none found",
+   "status": "page not readable from the desk, October 6",
    "next_unlock": null,
    "source_url": "https://hyperliquid.medium.com/",
    "read_date": "2026-10-06",
-   "note": "The official docs carry no tokenomics page; the official Medium (genesis post) could not be read (403)."
+   "note": "The official docs carry no tokenomics page; the official Medium (genesis post) could not be read (403). With Jack to read by hand.",
+   "read": "https://hyperliquid.medium.com/, read 2026-10-06"
   },
   {
    "gecko_id": "dogecoin",
@@ -72,7 +79,8 @@
    "next_unlock": null,
    "source_url": "https://dogecoin.com/",
    "read_date": "2026-10-06",
-   "note": "Mined; no vesting."
+   "note": "Mined; no vesting. Names no date; no entry.",
+   "read": "https://dogecoin.com/, read 2026-10-06"
   },
   {
    "gecko_id": "chainlink",
@@ -81,7 +89,8 @@
    "next_unlock": null,
    "source_url": "https://chain.link/circulating-supply",
    "read_date": "2026-10-06",
-   "note": "Release is 7% of total supply per year; no dates, so no entry."
+   "note": "Release is 7% of total supply per year; no dates, so no entry. Names no day; no entry. An official page stating a day of the month makes the entry, computed from that page's stated schedule.",
+   "read": "https://chain.link/circulating-supply, read 2026-10-06"
   },
   {
    "gecko_id": "monero",
@@ -90,7 +99,8 @@
    "next_unlock": null,
    "source_url": "https://www.getmonero.org/resources/moneropedia/tail-emission.html",
    "read_date": "2026-10-06",
-   "note": "Mined, tail emission."
+   "note": "Mined, tail emission. Names no date; no entry.",
+   "read": "https://www.getmonero.org/resources/moneropedia/tail-emission.html, read 2026-10-06"
   },
   {
    "gecko_id": "cardano",
@@ -99,16 +109,18 @@
    "next_unlock": null,
    "source_url": "https://cardano.org/what-is-ada/",
    "read_date": "2026-10-06",
-   "note": "No unlock or vesting content."
+   "note": "No unlock or vesting content. Names no date; no entry.",
+   "read": "https://cardano.org/what-is-ada/, read 2026-10-06"
   },
   {
    "gecko_id": "whitebit",
    "symbol": "WBT",
-   "status": "none found",
+   "status": "page not readable from the desk, October 6",
    "next_unlock": null,
    "source_url": "https://whitebit.com/wbt",
    "read_date": "2026-10-06",
-   "note": "The coin page lists burns and supply, no unlock schedule; the white paper was not read."
+   "note": "The coin page lists burns and supply, no unlock schedule; the white paper was not read. With Jack to read by hand.",
+   "read": "https://whitebit.com/wbt, read 2026-10-06"
   },
   {
    "gecko_id": "leo-token",
@@ -117,16 +129,18 @@
    "next_unlock": null,
    "source_url": "https://www.bitfinex.com/wp-2019-05.pdf",
    "read_date": "2026-10-06",
-   "note": "White paper: lock-up none."
+   "note": "White paper: lock-up none. Names no date; no entry.",
+   "read": "https://www.bitfinex.com/wp-2019-05.pdf, read 2026-10-06"
   },
   {
    "gecko_id": "rain",
    "symbol": "RAIN",
-   "status": "none found",
+   "status": "page not readable from the desk, October 6",
    "next_unlock": null,
    "source_url": "https://www.rain.one/get-rain",
    "read_date": "2026-10-06",
-   "note": "Token page has no schedule; the white paper (whitepaper.rain.one) gives release ranges of 6 to 24 months with no dates."
+   "note": "Token page has no schedule; the white paper (whitepaper.rain.one) gives release ranges of 6 to 24 months with no dates. With Jack to read by hand.",
+   "read": "https://www.rain.one/get-rain, read 2026-10-06"
   },
   {
    "gecko_id": "stellar",
@@ -135,7 +149,8 @@
    "next_unlock": null,
    "source_url": "https://stellar.org/foundation/mandate",
    "read_date": "2026-10-06",
-   "note": "SDF account sales; no release dates or amounts."
+   "note": "SDF account sales; no release dates or amounts. Names no date; no entry.",
+   "read": "https://stellar.org/foundation/mandate, read 2026-10-06"
   }
  ],
  "jack": {

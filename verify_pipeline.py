@@ -834,9 +834,20 @@ def _chartmaster_crash_canary():
     prev_mode = os.environ.get("CRYPTO_LLM_MODE")
     os.environ["CRYPTO_LLM_MODE"] = "live"
     _cm._load = lambda n: rec.get(n, {})
+    # THE PLANT NAMES ITSELF (7 October 2026). The stage's crash warning is right on a real
+    # night and wrong in this log: on 6 October the Edition's canary step carried it as
+    # "::warning::chartmaster: read refused" (23:11:45Z), the stage's own words on a green
+    # run, and the scheduled canary outside stop-commands made it an annotation. The
+    # stage's output is captured here and printed as the canary's plant, never as a
+    # workflow command.
+    import contextlib as _cl
+    import io as _io
+    cap = _io.StringIO()
+    printed = []
     try:
         try:
-            _cm.main()
+            with _cl.redirect_stdout(cap):
+                _cm.main()
         except SystemExit as e:
             code = e.code
         st = json.load(open(_cm.STATUS, encoding="utf-8"))
@@ -847,6 +858,17 @@ def _chartmaster_crash_canary():
             os.environ.pop("CRYPTO_LLM_MODE", None)
         else:
             os.environ["CRYPTO_LLM_MODE"] = prev_mode
+    for ln in cap.getvalue().splitlines():
+        if ln.strip():
+            printed.append("chartmaster crash canary, its own planted crash, expected: "
+                           + _r.sub(r"^::\w+::", "", ln))
+    for ln in printed:
+        print(ln)
+    _check("::warning::chartmaster: read refused" in cap.getvalue(), fails,
+           "chartmaster: a real belt crash no longer warns from the stage")
+    _check(printed and not any("::" in ln.split("expected: ", 1)[0] or
+                               _r.search(r"::\w+::", ln) for ln in printed), fails,
+           f"chartmaster: the canary's planted crash prints as a workflow command: {printed}")
     _check(code == 0, fails, f"chartmaster: a crashed belt did not let the Edition go on "
                              f"(exit {code})")
     _check(len(calls) == 1, fails, f"chartmaster: a crashed belt was retried: {len(calls)} "
@@ -870,6 +892,19 @@ def _chartmaster_crash_canary():
     _check(m2 == "brief: VERIFIED stories + Chart Master read 2026-09-21", fails,
            f"chartmaster: a published night's message reads {m2!r}")
     _check("did not run" in m3, fails, f"chartmaster: no status reads {m3!r}")
+    # 4. The ledger row carries the stage's own calls, tokens and cost.
+    import importlib.util as _iu
+    _sp = _iu.spec_from_file_location("ops_ledger_t", os.path.join(HERE, "scripts", "ops_ledger.py"))
+    _ol = _iu.module_from_spec(_sp)
+    _sp.loader.exec_module(_ol)
+    s4 = os.path.join(tmp, "s4.json")
+    json.dump({"published": False, "model_calls": 3, "tokens": 41234, "usd": 0.0612}, open(s4, "w"))
+    _check(_ol.chartmaster_spend(s4) == {"chartmaster_calls": 3, "chartmaster_tokens": 41234,
+                                         "chartmaster_usd": 0.0612,
+                                         "chartmaster_published": False}, fails,
+           f"ledger: the Chart Master's spend is not on the row: {_ol.chartmaster_spend(s4)}")
+    _check("tokens" in st and _ol.chartmaster_spend(os.path.join(tmp, "none.json")) == {}, fails,
+           "ledger: the stage status carries no tokens, or a missing stage invents spend")
     for m in (m1, m2, m3):
         _check(set(_r.findall(r"\d{4}-\d{2}-\d{2}", m)) <= {"2026-09-21"}, fails,
                f"chartmaster: the commit message carries a date not in the file: {m!r}")
@@ -906,6 +941,25 @@ def _week_movers_canary():
     _check(w0.get("closes7d", {}).get("2026-10-05") == 48
            and "2026-10-06" not in w0.get("closes7d", {}), fails,
            f"week: the midnight point does not close the day before it: {w0}")
+    # 1b. THE 23:00 UTC HOUR (7 October 2026). A read at 23:12Z, the Edition's own hour:
+    # 168 hourly points start at 00:12 six days back, so the sparkline holds six completed
+    # days, not seven. The day it lacks comes from the stored series (same UTC-close rule),
+    # and a day the sparkline has is never replaced by the series.
+    pts = [float(i + 1) for i in range(168)]
+    stored = {f"2026-09-{d:02d}": 9000.0 + d for d in range(20, 31)}
+    stored.update({f"2026-10-0{d}": 9100.0 + d for d in range(1, 7)})
+    w23 = _mp.week_closes(pts, "2026-10-06T23:12:00Z", stored=stored)
+    d23 = sorted(w23.get("closes7d") or {})
+    _check(d23 == ["2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03",
+                   "2026-10-04", "2026-10-05"], fails,
+           f"week: a read at 23:12 UTC does not give the seven completed days: {d23}")
+    _check(w23.get("closes7d", {}).get("2026-09-29") == 9029.0
+           and w23.get("closes7d", {}).get("2026-10-05") == 144.0
+           and w23.get("closes7d", {}).get("2026-09-30") == 24.0, fails,
+           f"week: the 23:12 read's days are not the sparkline's, gap from the series: {w23}")
+    _check(len(_mp.stored_closes("bitcoin")) >= 7 and _mp.stored_closes("no-such-coin") == {},
+           fails, "week: the stored series is not read for the gap, or a coin without one "
+                  "invents closes")
     # 2. The week's low and high over every point.
     _check(w.get("low7d") == round(min(sp), 2) and w.get("high7d") == round(max(sp), 2),
            fails, f"week: low/high are not the week's ({w.get('low7d')}, {w.get('high7d')})")
@@ -1051,6 +1105,13 @@ def _calendar_canary():
         "Determine Whether To Approve or Disapprove a Proposed Rule Change To List and Trade "
         "Options on the Grayscale CoinDesk Crypto 5 ETF")), fails,
         "calendar: the filter kept an options or immediate-effectiveness notice")
+    vs = next((d for d in docs if d["document_number"] == "2026-16854"), {})
+    _check(_dc.is_crypto_etp(vs.get("title")), fails,
+           "calendar: a mixed filing naming Bitcoin and Ether products was dropped")
+    _vt = open(os.path.join(F, "fedreg_text_2026-16854_captured_2026-10-06.txt")).read()
+    _ve = _dc.fedreg_entries([vs], {"2026-16854": _vt}, "2026-09-01", read)
+    _check(len(_ve) == 1 and _ve[0].get("notice_title") == vs.get("title"), fails,
+           "calendar: a mixed filing's entry does not keep the notice's own title")
     texts = {}
     for d in kept:
         p = os.path.join(F, f"fedreg_text_{d['document_number']}_captured_2026-10-06.txt")

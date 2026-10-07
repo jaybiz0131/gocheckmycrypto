@@ -266,7 +266,13 @@ def fedreg_url(since, page=1):
 def is_crypto_etp(title):
     """A notice on an exchange-traded product holding a crypto asset, at a stage that
     sets or ends a Commission deadline. Not: filings effective on filing (no deadline),
-    options on a product (not a product holding the asset)."""
+    options on a product (not a product holding the asset).
+
+    MIXED FILINGS STAY IN (Jack, 6 October 2026): a notice is kept when its title names a
+    crypto asset and an exchange-traded product, whatever else the title names. The
+    question is whether a crypto product is in the filing, not whether only crypto
+    products are; its clock is their clock, and the entry keeps the notice's own title so
+    a reader sees what else is in it."""
     t = title or ""
     return bool(_ASSET.search(t) and _PRODUCT.search(t) and _STAGE.search(t)
                 and not re.search(r"immediate effectiveness", t, re.I)
@@ -357,7 +363,7 @@ def fedreg_entries(docs, texts, today, read_utc):
         out.append(entry(date, title, "etf-deadline", "Federal Register",
                          last["html_url"], read_utc, computed=computed,
                          computed_from=cfrom, document_number=last["document_number"],
-                         sr_file=key))
+                         sr_file=key, notice_title=last["title"]))
     return out
 
 
@@ -388,7 +394,9 @@ def unlock_entries(today, root=CAL_DIR):
                              (f", {u['amount']}" if u.get("amount") else "") +
                              (f" ({u['share']} of supply)" if u.get("share") else ""),
                              "unlock", f"{p['symbol']} project page", p["source_url"],
-                             p.get("read_date"), time_et=u.get("time_et")))
+                             p.get("read_date"), time_et=u.get("time_et"),
+                             computed=bool(u.get("computed_from")),
+                             computed_from=u.get("computed_from")))
     for ln in ((d.get("jack") or {}).get("lines") or []):
         if ln.get("date") and ln["date"] >= today and ln.get("source_url") and ln.get("title"):
             out.append(entry(ln["date"], ln["title"], "unlock", "added by the desk",
