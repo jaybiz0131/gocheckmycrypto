@@ -2189,6 +2189,12 @@ def _home_canary(index_html=None):
     _check("Nothing scheduled" in cb0, fails,
            "home canary: a day with no events does not say nothing scheduled")
 
+    # 7b. one stamp for the Board (Jack, 7 October): every tile carries the snapshot's
+    _st = _re.findall(r'<p class="tl-src">[^<]*? &middot; ([^<]*?) &middot; <a', full)
+    _check(bool(_st) and set(_st) == {snap["stamp_et"]}, fails,
+           f"home canary: the tiles carry {sorted(set(_st))}, not the Board's one stamp "
+           f"{snap['stamp_et']!r}")
+
     # 8. the mine block's empty state
     _check(_h.EMPTY_MINE in blk(full, "mine") and "data-mine" in full, fails,
            "home canary: the mine block has no empty state")

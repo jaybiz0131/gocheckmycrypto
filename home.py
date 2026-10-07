@@ -284,8 +284,14 @@ def wire_top(wire, cadence, now=None):
 # ---- the money and the mood ---------------------------------------------------------------
 
 def _field(snap, name):
+    """(value, source, stamp). ONE STAMP FOR THE BOARD (Jack, 7 October 2026): every tile
+    carries the snapshot's stamp, the oldest reading among its fields, which is the stamp
+    the tape's line under it gives the Board; a field's own read time never stands in for
+    it, so the Board never shows Oct 5 in one place and Oct 6 in another."""
     f = ((snap or {}).get("fields") or {}).get(name) or {}
-    return f.get("value"), f.get("source") or "", _stamp(f.get("read_utc"))
+    if not f:
+        return None, "", ""
+    return f.get("value"), f.get("source") or "", (snap or {}).get("stamp_et") or ""
 
 
 def money(snap, pulse, flows, deltas):
