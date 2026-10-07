@@ -783,6 +783,20 @@ def build_item(edition, obj, stories, date, published_utc):
     }
 
 
+def write_narrative(model_line, readings, wire_top, now_utc, gate=None, path=None):
+    """The Edition's narrative line, stored with the readings it was written from
+    (narrative.py). The model's line when it holds, the clause table's when it does not."""
+    import narrative
+    import twins_gate
+    gate = gate or twins_gate.Gate(twins_gate.current_snapshot())
+    line, by = narrative.edition_line(model_line, readings, wire_top, gate)
+    gate.save()
+    rec = narrative.record(line, by, readings, wire_top, now_utc)
+    narrative.write(rec, path)
+    print(f"wrap: narrative line ({by}): {line}")
+    return rec
+
+
 def twins_gate_brief(obj, status=None, gate=None):
     """THE TWINS GATE ON THE BRIEF (Jack, 6 October 2026, and the October 6 Edition's two
     extensions). Our text yields to the snapshot at the run's stamp, never the other way:
@@ -1002,6 +1016,23 @@ def main():
             + (("earlier_editions_today (UPDATE and EXTEND, never repeat; lead with what "
                 "changed since):\n" + json.dumps(earlier, indent=1) + "\n") if earlier else ""))
 
+    # THE NARRATIVE LINE'S INPUTS (Sprint 1b item 2): the Board's readings at the run's
+    # stamp and the wire's top three, for the one sentence the same call writes.
+    narr_r, narr_wire = {}, []
+    try:
+        import narrative as _narr
+        import twins_gate as _tgn
+        import wire as _wiren
+        narr_r = _narr.readings(_tgn.current_snapshot())
+        narr_wire = ((_wiren.load() or {}).get("items") or [])[:3]
+        user += ("\nnarrative_inputs (for narrative_line ONLY; never a fact source for the "
+                 "body):\n" + json.dumps({"readings": narr_r,
+                                          "wire_top3": [w.get("line") for w in narr_wire]},
+                                         indent=1) + "\n")
+    except Exception as e:
+        common.gh("warning", f"wrap: narrative inputs unavailable ({e}); the clause table "
+                             f"writes the line")
+
     def wrap_shape(o):
         # Shape AND belts ride the contract ladder (2026-07-15): a belt failure (length,
         # dash, advice, Bottom-Line lane) retries with the error explained and then gets
@@ -1152,6 +1183,13 @@ def main():
         # the gate drops sentences; a crash in it must not cost the slot its Brief
         common.gh("warning", f"wrap: twins gate crashed ({type(e).__name__}: {e}); the "
                              f"Brief publishes as the trace check and belts passed it")
+    if not dry:
+        try:
+            write_narrative(obj.get("narrative_line"), narr_r, narr_wire,
+                            now.strftime("%Y-%m-%dT%H:%M:%SZ"))
+        except Exception as e:
+            common.gh("warning", f"wrap: the narrative line was not written ({e}); the "
+                                 f"previous one stands")
     item = build_item(edition, obj, stories, date, now.strftime("%Y-%m-%dT%H:%M:%SZ"))
     if obj.get("digest"):
         item["digest"] = True

@@ -115,7 +115,14 @@ Respond with ONLY a JSON object, no prose, no code fence:
   "dek": "<1-2 sentence summary of the day's picture>",
   "key_takeaway": "<the single most important thing a reader should retain today>",
   "body": "<the edition per SHAPE, paragraphs separated by blank lines>",
-  "bottom_line": "<THE BOTTOM LINE: 3-5 sentences per its lane above: today's theme, why it mattered, the attributed observation, the coming checkpoints>"
+  "bottom_line": "<THE BOTTOM LINE: 3-5 sentences per its lane above: today's theme, why it mattered, the attributed observation, the coming checkpoints>",
+  "narrative_line": "<ONE sentence, two clauses: which way the tape is drifting and on what; what kind of day the news is>"
 }
+
+THE NARRATIVE LINE ("narrative_line") is one sentence of two clauses, written only from the
+narrative_inputs block (the Board's readings and the wire's top three): first which way
+Bitcoin is drifting and on what reading, then what kind of day the news is. It describes;
+it never predicts (no will, could, may, likely, expect, target, outlook). No figure the
+readings do not carry, no em dashes, under 200 characters.
 
 Output valid JSON and nothing else.

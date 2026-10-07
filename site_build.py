@@ -4069,6 +4069,22 @@ def cadence_line(text=None):
 
 
 WIRE_JSON = os.path.join(SITE, "data", "wire.json")
+NARRATIVE_JSON = os.path.join(SITE, "data", "narrative.json")
+
+
+def publish_narrative(w, path=None):
+    """THE NARRATIVE LINE (Sprint 1b item 2): published at /data/narrative.json with its
+    own stamp and the readings it was written from. Nothing renders it until Sprint 2 draws
+    the band; this proves it exists. Returns the line, or "" when there is none."""
+    try:
+        rec = json.load(open(path or NARRATIVE_JSON, encoding="utf-8"))
+    except Exception:
+        return ""
+    if not str(rec.get("line") or "").strip():
+        return ""
+    w(os.path.join("data", "narrative.json"), json.dumps(rec, indent=1))
+    print(f"narrative: {rec['line']} ({rec.get('by')}, {rec.get('written_et')})")
+    return rec["line"]
 
 
 def _wire_et(utc):
@@ -9291,6 +9307,7 @@ def build():
     _wire = os.path.join(HERE, "site", "data", "wire.json")
     if os.path.exists(_wire):
         w(os.path.join("data", "wire.json"), open(_wire, encoding="utf-8").read())
+    publish_narrative(w)
     pulse, flows = _snapshot.views(SNAP, pulse, flows)
     print(f"snapshot: {len(SNAP['fields'])} field(s), stamp {SNAP['stamp_et'] or 'none'}, "
           f"{len(json.dumps(SNAP, separators=(',', ':')).encode())} bytes")
