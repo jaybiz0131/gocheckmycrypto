@@ -95,7 +95,15 @@ def run(mode="live", fixture=None, path=None):
         verifier.run(client=client);   record("3-verifier", True)
         if path == "wire":
             attempted = "4-wire"
-            run_wire(client, report, record)
+            try:
+                run_wire(client, report, record)
+            except Exception as e:
+                # THE WIRE IS NOT THE EDITION: a wire that cannot be written leaves the
+                # previous wire.json standing and the Brief still runs after this step.
+                record("4-wire", False, f"{type(e).__name__}: {e}")
+                common.gh("warning", f"run: the wire was not written ({type(e).__name__}: "
+                                     f"{e}); the previous wire.json stands")
+                traceback.print_exc()
             report["status"] = "wire-written"
             report["budget"] = client.budget.summary()
             common.write_out("run_report.json", report)

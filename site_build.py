@@ -4087,6 +4087,14 @@ def wire_block(wire=None):
             wire = json.load(open(WIRE_JSON, encoding="utf-8"))
         except Exception:
             return ""
+    try:
+        return _wire_block(wire)
+    except Exception as e:
+        print(f"::warning::news: the wire did not render ({type(e).__name__}: {e})")
+        return ""
+
+
+def _wire_block(wire):
     items = (wire or {}).get("items") or []
     if not items:
         return ""

@@ -1146,7 +1146,12 @@ def main():
                              f"out/wrap-rejected.json for the rejected synthesis.")
         obj = dg
 
-    obj = twins_gate_brief(obj, status)
+    try:
+        obj = twins_gate_brief(obj, status)
+    except Exception as e:
+        # the gate drops sentences; a crash in it must not cost the slot its Brief
+        common.gh("warning", f"wrap: twins gate crashed ({type(e).__name__}: {e}); the "
+                             f"Brief publishes as the trace check and belts passed it")
     item = build_item(edition, obj, stories, date, now.strftime("%Y-%m-%dT%H:%M:%SZ"))
     if obj.get("digest"):
         item["digest"] = True
