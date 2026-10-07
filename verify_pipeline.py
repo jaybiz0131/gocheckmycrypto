@@ -1032,6 +1032,298 @@ def _week_movers_canary():
     return fails
 
 
+def _wire_canary():
+    """PROGRAM 5 SPRINT 1b, THE NEWSROOM'S HALF (Jack, 5 October 2026; program section 9).
+    The wire, the checked note, the writer stage turned off on the Edition path, the
+    deterministic refresh, the twins gate on our text (dollar, week and month, direction),
+    the News page and the Edition's cost line. Every check runs on fixtures with no model
+    and no network; each was seen red under a plant (named in the 7 October report)."""
+    import tempfile
+    import twins_gate as _tg
+    import wire as _w
+    import snapshot as _snap
+    import consistency_gate as _cg
+    import site_build as _sb
+    fails = []
+    tmp = tempfile.mkdtemp(prefix="wire-canary-")
+    snap = {"stamp_utc": "2026-10-07T23:10:00Z", "fields": {
+        "coins": {"value": {"BTC": {"price": 100000.0, "chg_24h_pct": -0.58}}},
+        "whale_net": {"value": {"net_usd": -152000000, "direction": "onto exchanges"}},
+        "etf_flows": {"value": {"btc": {"latest_net_usd_m": 212.4, "latest_date": "2026-10-06"}}},
+        "funding": {"value": {"BTC": {"funding_8h_pct": 0.0081}}}},
+        "series": {"value": {"BTC": {"through": "2026-10-06", "chg_7d_pct": 2.75,
+                                     "chg_30d_pct": 7.45}}}}
+    log = os.path.join(tmp, "tg.json")
+
+    def gate():
+        return _tg.Gate(snap, log_path=log, quiet=True)
+    sec = "https://www.sec.gov/newsroom/press-releases/2026-81"
+    items = {"_meta": {"generated": "2026-10-07T23:09:00Z"}, "clusters": [
+        {"id": "c1", "headline": "SEC approves in-kind creations for spot bitcoin ETFs",
+         "source": "SEC", "url": sec, "timestamp": "2026-10-07T20:05:00Z",
+         "corroboration": [{"name": "CoinDesk", "url": "https://www.coindesk.com/a",
+                            "headline": "SEC Clears In-Kind Creations for Bitcoin ETFs - CoinDesk"},
+                           {"name": "CoinDesk", "url": "https://www.coindesk.com/a-update",
+                            "headline": "SEC Clears In-Kind Creations for Bitcoin ETFs"},
+                           {"name": "The Block", "url": "https://www.theblock.co/b",
+                            "headline": "SEC greenlights in-kind ETF creations"}]},
+        {"id": "c2", "headline": "Exchange X pauses withdrawals after wallet incident",
+         "source": "Cointelegraph", "url": "https://cointelegraph.com/news/x",
+         "timestamp": "2026-10-07T18:00:00Z", "corroboration": []},
+        {"id": "c3", "headline": "Lawmakers advance stablecoin bill",
+         "source": "Decrypt", "url": "https://decrypt.co/s", "timestamp": "2026-10-07T17:00:00Z",
+         "corroboration": [{"name": "CoinDesk", "url": "https://www.coindesk.com/s",
+                            "headline": "Lawmakers Advance Stablecoin Bill"}]}]}
+
+    def ranked(lines):
+        out = []
+        for c, ln in zip(items["clusters"], lines):
+            urls = [c["url"]] + [x["url"] for x in c["corroboration"]]
+            out.append({"id": c["id"], "headline": c["headline"], "why_it_matters": "x",
+                        "wire_line": ln, "source_urls": urls,
+                        "source_outlets": [c["source"]] + [x["name"] for x in c["corroboration"]]})
+        return {"ranked": out}
+    good = ["The SEC approved in-kind creations and redemptions for spot bitcoin ETFs.",
+            "Exchange X paused withdrawals after what it called a wallet incident.",
+            "A stablecoin bill cleared a House committee vote."]
+    note = {"says": "The SEC's order states that in-kind creations are approved for the listed funds.",
+            "unconfirmed": "Which issuers will use the change first could not be confirmed."}
+    verd = {"verdicts": [{"id": "c1", "verdict": "VERIFIED", "note": note},
+                         {"id": "c2", "verdict": "VERIFIED", "note": note},
+                         {"id": "c3", "verdict": "NEEDS-HUMAN-REVIEW"}]}
+    quiet = lambda *_a, **_k: None
+    w = _w.build(ranked(good), items, verd, snap, "2026-10-07T23:09:00Z", gate=gate(), log=quiet)
+
+    # 1. wire.json's shape and every field.
+    for k in ("what_a_wire_line_is", "ranked_utc", "ranked_et", "refreshed_utc", "items",
+              "checked", "dropped", "snapshot_stamp_utc"):
+        _check(k in w, fails, f"wire: wire.json carries no '{k}'")
+    need = ("rank", "id", "line", "board_reading", "source_count", "primary", "standing",
+            "links", "reported_utc", "verdict", "mark")
+    _check(len(w.get("items") or []) == 3 and all(all(k in i for k in need)
+                                                  for i in w.get("items") or []), fails,
+           f"wire: an item lacks a field: {[sorted(i) for i in w.get('items') or []]}")
+    _check(w.get("ranked_et") == "7:09 PM ET on Oct 7", fails,
+           f"wire: the stamp is not in ET with its zone: {w.get('ranked_et')!r}")
+    # 2. A wire line identical to a source title fails, a corroborating member's title and
+    # an outlet suffix included.
+    _check(_w.is_verbatim("SEC clears in-kind creations for bitcoin ETFs",
+                          _w.cluster_titles(items["clusters"][0])), fails,
+           "wire: a line equal to a corroborating outlet's headline passed as the desk's own")
+    wv = _w.build(ranked(["SEC approves in-kind creations for spot bitcoin ETFs"] + good[1:]),
+                  items, verd, snap, "2026-10-07T23:09:00Z", gate=gate(), log=quiet)
+    _check([i["id"] for i in wv["items"]] == ["c2", "c3"] and wv["dropped"]
+           and "verbatim" in wv["dropped"][0]["why"], fails,
+           f"wire: a verbatim headline reached the wire: {[i['line'] for i in wv['items']]}")
+    # 3. The source count and the primary flag from the fixture clusters.
+    by = {i["id"]: i for i in w["items"]}
+    _check(by["c1"]["source_count"] == 3 and by["c1"]["primary"] is True
+           and by["c1"]["links"][0]["url"] == sec, fails,
+           f"wire: c1 should be 3 sources, primary, the SEC first: {by['c1']['source_count']}, "
+           f"{by['c1']['primary']}, {by['c1']['links'][:1]}")
+    _check(by["c2"]["source_count"] == 1 and by["c2"]["primary"] is False, fails,
+           f"wire: c2 should be 1 source, not primary: {by['c2']['source_count']}, "
+           f"{by['c2']['primary']}")
+    _check(by["c1"]["board_reading"] == "Spot ETF net"
+           and by["c3"]["board_reading"] == "Stablecoin float", fails,
+           f"wire: the Board reading is not the tag rule's: {by['c1']['board_reading']!r}, "
+           f"{by['c3']['board_reading']!r}")
+    # 4. The checked note: present when the verifier clears the top item, on that item
+    # only, with its badge; absent when it does not; never on a single-outlet story.
+    ck = w.get("checked") or {}
+    _check(ck.get("id") == "c1" and ck.get("badge") == "Verified" and ck.get("says")
+           and ck.get("unconfirmed") and by["c1"]["mark"] == "checked"
+           and by["c2"]["mark"] == by["c3"]["mark"] == "wire", fails,
+           f"wire: the checked note is not on the top cleared item with its badge: {ck}")
+    v2 = {"verdicts": [{"id": "c1", "verdict": "NEEDS-HUMAN-REVIEW", "note": note},
+                       {"id": "c2", "verdict": "VERIFIED", "note": note},
+                       {"id": "c3", "verdict": "REJECT"}]}
+    w2 = _w.build(ranked(good), items, v2, snap, "2026-10-07T23:09:00Z", gate=gate(), log=quiet)
+    _check(w2.get("checked") is None and all(i["mark"] == "wire" for i in w2["items"]), fails,
+           f"wire: a note was written when nothing could lead and clear: {w2.get('checked')}")
+    v3 = {"verdicts": [{"id": "c1", "verdict": "VERIFIED", "note": {"says": "x"}}]}
+    _check(_w.build(ranked(good), items, v3, snap, "t", gate=gate(), log=quiet)["checked"] is None,
+           fails, "wire: a note with one sentence missing was printed")
+
+    # 5. The writer stage is absent from the Edition run; a breaking run keeps it.
+    import common as _common
+    import run as _run
+    import writer as _writer
+    import researcher as _res
+    import approver as _appr
+    saved = (_common.OUT_DIR, _w.WIRE_PATH, _tg.LOG_PATH, _writer.run, _res.run, _appr.run,
+             os.environ.get("BREAKING"), os.environ.get("CRYPTO_RUN_PATH"),
+             os.environ.get("CRYPTO_LLM_MODE"))
+    called = []
+
+    def stop(name):
+        def f(*a, **k):
+            called.append(name)
+            raise RuntimeError(f"{name} was called on the wire path")
+        return f
+    try:
+        _common.OUT_DIR = os.path.join(tmp, "out")
+        os.makedirs(_common.OUT_DIR, exist_ok=True)
+        _w.WIRE_PATH = os.path.join(tmp, "wire.json")
+        _tg.LOG_PATH = log
+        _writer.run, _res.run, _appr.run = stop("writer"), stop("researcher"), stop("approver")
+        os.environ.pop("BREAKING", None)
+        os.environ.pop("CRYPTO_RUN_PATH", None)
+        import contextlib as _cl
+        import io as _io
+        with _cl.redirect_stdout(_io.StringIO()):
+            rc = _run.run(mode="replay", fixture=os.path.join(HERE, "fixtures", "sample_feed.xml"))
+        rep = json.load(open(os.path.join(_common.OUT_DIR, "run_report.json")))
+        os.environ["BREAKING"] = "1"
+        brk = _run.run_path()
+    finally:
+        (_common.OUT_DIR, _w.WIRE_PATH, _tg.LOG_PATH, _writer.run, _res.run, _appr.run) = saved[:6]
+        for k, v in zip(("BREAKING", "CRYPTO_RUN_PATH", "CRYPTO_LLM_MODE"), saved[6:]):
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+    stages = [s["stage"] for s in rep.get("stages") or []]
+    _check(rc == 0 and not called and "4-writer" not in stages and "4-wire" in stages
+           and "4-writer" in (rep.get("stages_absent") or []) and rep.get("path") == "wire",
+           fails, f"wire path: the writer stage is not absent from the Edition run "
+                  f"(rc {rc}, called {called}, stages {stages}, absent {rep.get('stages_absent')})")
+    _check("writer" not in ((rep.get("budget") or {}).get("by_stage") or {})
+           and "verifier" in ((rep.get("budget") or {}).get("by_stage") or {}), fails,
+           f"wire path: the spend by stage is wrong: {(rep.get('budget') or {}).get('by_stage')}")
+    _check(brk == "story", fails, f"wire path: a breaking run left the story path ({brk})")
+    _check(os.path.exists(os.path.join(tmp, "wire.json")), fails,
+           "wire path: the Edition run wrote no wire.json")
+
+    # 6. The deterministic refresh: re-counts, re-orders, and makes no model call.
+    import llm as _llm
+    import urllib.request as _ur
+    real = (_llm.Client.__init__, _llm.Client.call_json, _ur.urlopen)
+
+    def no_model(*a, **k):
+        raise AssertionError("the refresh reached the model client or the network")
+    later = [{"id": "n1", "headline": "Lawmakers advance stablecoin bill in committee vote",
+              "source": "Reuters", "url": "https://www.reuters.com/s",
+              "corroboration": [{"name": "Bloomberg", "url": "https://www.bloomberg.com/s",
+                                 "headline": "Stablecoin bill advances"},
+                                {"name": "AP", "url": "https://apnews.com/s",
+                                 "headline": "House panel advances stablecoin bill"}]}]
+    try:
+        _llm.Client.__init__ = _llm.Client.call_json = no_model
+        _ur.urlopen = no_model
+        rf = _w.refresh(w, later, "2026-10-08T16:02:00Z")
+        err = ""
+    except AssertionError as e:
+        rf, err = {}, str(e)
+    finally:
+        _llm.Client.__init__, _llm.Client.call_json, _ur.urlopen = real
+    rid = [i["id"] for i in rf.get("items") or []]
+    _check(not err, fails, f"wire refresh: {err}")
+    _check(rid[:1] == ["c3"] and (rf.get("items") or [{}])[0].get("source_count") == 5
+           and rf.get("refreshes") == 1 and rf.get("refreshed_et") == "12:02 PM ET on Oct 8",
+           fails, f"wire refresh: the re-count or the order is wrong: {rid}, "
+                  f"{[(i['id'], i['source_count']) for i in rf.get('items') or []]}")
+    _check([i["line"] for i in rf.get("items") or []] and
+           {i["id"]: i["line"] for i in rf["items"]} == {i["id"]: i["line"] for i in w["items"]}
+           and rf.get("checked") == w.get("checked"), fails,
+           "wire refresh: a line or the note was rewritten between runs")
+
+    # 7. The twins gate: a Bitcoin figure 1.2% off is dropped with both numbers logged,
+    # 0.8% off is kept; the Board's own figure and the snapshot are untouched.
+    g = gate()
+    t = g.text("Bitcoin traded near $101,200 at the close. Funding stayed calm.", "wire line #1")
+    k = g.text("Bitcoin traded near $100,800 at the close.", "wire line #2")
+    _check(t == "Funding stayed calm." and k == "Bitcoin traded near $100,800 at the close."
+           and len(g.drops) == 1 and "$101,200.00" in g.drops[0]["why"]
+           and "$100,000.00" in g.drops[0]["why"], fails,
+           f"twins gate: 1.2% off not dropped or 0.8% off not kept, or the log lacks both "
+           f"numbers: {t!r} / {k!r} / {g.drops}")
+    _check(_snap.coin(snap, "BTC")["price"] == 100000.0, fails,
+           "twins gate: the snapshot's figure was changed")
+    _check(g.text("Bitcoin's 12-month high of $124,739 is far above.", "x") != "", fails,
+           "twins gate: a dated high was read as today's price")
+    # 8. Week and month: the series' figure is kept, the markets read's is dropped.
+    g = gate()
+    kept = g.text("Bitcoin is up 2.8% on the week and up 7.5% on the month.", "the Brief's body",
+                  dollars=False)
+    gone = g.text("Bitcoin is up 2.5% on the week.", "the Brief's body", dollars=False)
+    gone2 = g.text("Bitcoin is up 7.0% over the past month.", "the Brief's body", dollars=False)
+    _check(kept and not gone and not gone2 and len(g.drops) == 2
+           and "+2.75%" in g.drops[0]["why"] and "+2.50%" in g.drops[0]["why"], fails,
+           f"twins gate: series kept / markets dropped failed: {kept!r} {gone!r} {gone2!r} {g.drops}")
+    s7 = _snap.series_windows(json.load(open(os.path.join(HERE, "data", "history",
+                                                          "bitcoin.json")))["closes"])
+    import chartmaster as _cmw
+    _check(_cmw._window_changes({"spark": list(range(1, 65))}) == {}
+           and _cmw._window_changes({"series_chg_7d_pct": 2.75}) == {"chg_7d_pct": 2.75},
+           fails, "twins gate: the digest's week still comes from the 64-point spark")
+    _check(s7.get("series_windows_through") >= "2026-10-05" and isinstance(
+        s7.get("series_chg_7d_pct"), float), fails,
+        f"twins gate: the stored series gives no week: {s7}")
+    # 9. Direction: the word yields to the snapshot's sign; the board is never withheld.
+    flows_before = json.dumps(snap["fields"]["whale_net"])
+    g = gate()
+    body = g.text("ETF inflows continued for a third day. Whale flows turned positive over "
+                  "the day. Funding was positive.", "the Brief's body", dollars=False)
+    _check(body == "ETF inflows continued for a third day. Funding was positive."
+           and len(g.drops) == 1 and "whale net" in g.drops[0]["why"]
+           and "-152,000,000" in g.drops[0]["why"], fails,
+           f"twins gate: the mismatched whale word was not dropped with its log line: "
+           f"{body!r} {g.drops}")
+    _check(json.dumps(snap["fields"]["whale_net"]) == flows_before
+           and _cg._victim_rank("whale-board", "", {"whale-board": "site/data/flows.json"},
+                                {"site/data/flows.json"}) is None, fails,
+           "twins gate: the board was changed, or the consistency gate may still withhold it")
+    g.save()
+    _check(len(json.load(open(log)).get("drops") or []) == 1, fails,
+           "twins gate: the run's drops were not written to the log file")
+
+    # 10. The News page: every element of the wire, and Jack's cadence line.
+    wb = _sb.wire_block(w)
+    for frag, what in (('class="wl-list"', "the numbered list"), (good[0], "the line"),
+                       ("Reads with Spot ETF net", "the Board reading"),
+                       ("3 sources", "the source count"), ("Primary source", "the primary mark"),
+                       (f'href="{sec}"', "the link"), ('class="badge verified">Verified<', "the badge"),
+                       ('class="wl-mark">Wire<', "the wire mark"),
+                       ("4:05 PM ET on Oct 7", "the stamp"), (note["says"], "the note"),
+                       (_w.WHAT_A_WIRE_LINE_IS, "the line under the list")):
+        _check(frag in wb, fails, f"news page: the wire block lacks {what}")
+    _check(wb.count('class="bd-stamp"') >= 4, fails, "news page: an item carries no stamp")
+    _check(_sb.NEWS_CADENCE_LINE == ("The day's stories ranked and sourced by the desk, one "
+                                     "checked, the Brief every evening."), fails,
+           "news page: the cadence line is not Jack's words")
+    real_wj = _sb.WIRE_JSON
+    try:
+        _sb.WIRE_JSON = os.path.join(tmp, "wire-page.json")
+        json.dump(w, open(_sb.WIRE_JSON, "w"))
+        hub = _sb.render_news_hub([], "TODAY")
+    finally:
+        _sb.WIRE_JSON = real_wj
+    _check(_sb.esc(_sb.NEWS_CADENCE_LINE) in hub and 'class="wl-list"' in hub, fails,
+           "news page: /news does not carry the wire and the cadence line")
+    _check(_sb.wire_block({"items": []}) == "", fails, "news page: an empty wire rendered a list")
+
+    # 11. The Edition's cost line, before and after.
+    import importlib.util as _iu
+    _sp = _iu.spec_from_file_location("ops_ledger_w", os.path.join(HERE, "scripts", "ops_ledger.py"))
+    _ol = _iu.module_from_spec(_sp)
+    _sp.loader.exec_module(_ol)
+    runs = [{"t": "2026-10-04T23:25:15Z", "usd": 0.1889, "tokens": 114399, "outcome": "ran", "run": "a"},
+            {"t": "2026-10-05T12:00:00Z", "usd": 0.0, "tokens": 0, "outcome": "stood down", "run": "b"},
+            {"t": "2026-10-05T23:25:18Z", "usd": 0.2512, "tokens": 149861, "outcome": "ran", "run": "c"},
+            {"t": "2026-10-06T15:00:00Z", "usd": 0.31, "tokens": 9, "outcome": "ran", "breaking": True, "run": "d"},
+            {"t": "2026-10-06T23:21:59Z", "usd": 0.2718, "tokens": 163794, "outcome": "ran", "run": "e"}]
+    row = {"t": "2026-10-07T23:20:00Z", "usd": 0.0911, "tokens": 51000, "run": "f",
+           **_ol.stage_fields(rep)}
+    line = _ol.cost_line(runs, row)
+    _check(line.startswith("edition cost: 2026-10-07 $0.0911 (51000 tokens, path wire")
+           and "before: 2026-10-04 $0.1889 (114399 tokens), 2026-10-05 $0.2512 (149861 tokens), "
+               "2026-10-06 $0.2718 (163794 tokens)" in line
+           and "absent 3.5-researcher, 4-writer" in line and "verifier $" in line, fails,
+           f"ledger: the Edition's cost line is wrong: {line}")
+    return fails
+
+
 def _calendar_canary():
     """ITEM 4, calendar.json (6 October 2026). Each parser from its fixture, each clock
     from known dates, the schema (no entry without a source URL and a read stamp) and the
@@ -1989,6 +2281,7 @@ def layer1_canary():
     fails.extend(_chartmaster_crash_canary())
     fails.extend(_week_movers_canary())
     fails.extend(_calendar_canary())
+    fails.extend(_wire_canary())
     fails.extend(_stamp_canary())
     cfg = common.load_config()
 
@@ -3962,11 +4255,13 @@ def _dark_line_canary():
     _check(_sb.CADENCE_LINE == ("One checked story a day, in the evening, Eastern time. "
                                 "More only when news breaks."), fails,
            "dark-line canary: the cadence line is not Jack's sentence")
-    for _pg in ("news.html", "index.html"):
+    # /news states the wire path in Jack's words (7 October 2026); the home page keeps the
+    # October 4 sentence until Sprint 2 builds it.
+    for _pg, _line in (("news.html", _sb.NEWS_CADENCE_LINE), ("index.html", _sb.CADENCE_LINE)):
         _f = os.path.join(_sb.PUBLISH, _pg)
         if os.path.exists(_f):
             _h = open(_f, encoding="utf-8", errors="ignore").read()
-            _check(_sb.CADENCE_LINE in _h, fails,
+            _check(_sb.esc(_line) in _h, fails,
                    f"dark-line canary: {_pg} does not state the cadence")
     return fails
 

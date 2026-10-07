@@ -763,7 +763,8 @@ def build_item(edition, obj, stories, date, published_utc):
         "id": f"{ed['id_prefix']}-{date}",
         "slug": f"{ed['slug']}-{date}",
         "kind": "brief",
-        "title": destyle(f"{ed['name']}: {obj.get('hook_title','').strip()}"),
+        "title": destyle(f"{ed['name']}: {obj.get('hook_title','').strip()}"
+                         if str(obj.get("hook_title") or "").strip() else ed["name"]),
         "dek": destyle(obj.get("dek", "")),
         "date": date, "published_utc": published_utc,
         "category": "daily edition",
@@ -780,6 +781,44 @@ def build_item(edition, obj, stories, date, published_utc):
                     or [{"title": "The desk's own market boards (quiet-day edition)",
                          "url": "/"}]),
     }
+
+
+def twins_gate_brief(obj, status=None, gate=None):
+    """THE TWINS GATE ON THE BRIEF (Jack, 6 October 2026, and the October 6 Edition's two
+    extensions). Our text yields to the snapshot at the run's stamp, never the other way:
+      - the lead line (the hook, the dek and the key takeaway): a Bitcoin dollar figure
+        more than 1% off the snapshot's price is dropped with its sentence;
+      - every field: a week or month figure for a Board coin that is not the snapshot
+        series' own, and a direction word about a Board reading that the snapshot's sign
+        contradicts, are dropped with their sentence.
+    Every drop is logged with both numbers (out/twins-gate.json). The Board is read for
+    the comparison only and is never changed."""
+    import twins_gate
+    gate = gate or twins_gate.Gate(twins_gate.current_snapshot())
+    out = dict(obj)
+    for k in ("hook_title", "dek", "key_takeaway"):
+        if isinstance(out.get(k), str) and out[k].strip():
+            out[k] = gate.text(out[k], f"the Brief's lead line ({k})")
+    if isinstance(out.get("bottom_line"), str):
+        out["bottom_line"] = gate.text(out["bottom_line"], "the Brief's bottom line",
+                                       dollars=False)
+    if isinstance(out.get("body"), str):
+        paras = [p for p in out["body"].split("\n") if p.strip()]
+        out["body"] = "\n".join(gate.paragraphs(paras, "the Brief's body", dollars=False))
+    elif isinstance(out.get("body"), list):
+        out["body"] = gate.paragraphs(out["body"], "the Brief's body", dollars=False)
+    # A dek the gate emptied takes the body's first sentence, which already passed; an
+    # emptied hook leaves the title as the edition's name alone (build_item).
+    if not str(out.get("dek") or "").strip():
+        body = out.get("body")
+        first = body.split("\n")[0] if isinstance(body, str) else (body or [""])[0]
+        out["dek"] = (twins_gate.sentences(first) or [""])[0]
+    gate.save()
+    if status is not None and gate.drops:
+        status.setdefault("repairs", []).append(f"twins gate: dropped {len(gate.drops)} "
+                                                f"sentence(s)")
+        status["twins_gate"] = gate.drops
+    return out
 
 
 def main():
@@ -1107,6 +1146,12 @@ def main():
                              f"out/wrap-rejected.json for the rejected synthesis.")
         obj = dg
 
+    try:
+        obj = twins_gate_brief(obj, status)
+    except Exception as e:
+        # the gate drops sentences; a crash in it must not cost the slot its Brief
+        common.gh("warning", f"wrap: twins gate crashed ({type(e).__name__}: {e}); the "
+                             f"Brief publishes as the trace check and belts passed it")
     item = build_item(edition, obj, stories, date, now.strftime("%Y-%m-%dT%H:%M:%SZ"))
     if obj.get("digest"):
         item["digest"] = True

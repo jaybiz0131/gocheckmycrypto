@@ -4058,8 +4058,86 @@ def _edition_hold():
         return {}
 
 
-def cadence_line():
-    return f'<p class="ed-cadence">{esc(CADENCE_LINE)}</p>'
+# THE NEWS PAGE'S CADENCE LINE (Jack's words, 5 October 2026, program section 9). The home
+# page keeps CADENCE_LINE until Sprint 2 builds it; /news states the wire path.
+NEWS_CADENCE_LINE = ("The day's stories ranked and sourced by the desk, one checked, "
+                     "the Brief every evening.")
+
+
+def cadence_line(text=None):
+    return f'<p class="ed-cadence">{esc(text or CADENCE_LINE)}</p>'
+
+
+WIRE_JSON = os.path.join(SITE, "data", "wire.json")
+
+
+def _wire_et(utc):
+    d = _utc_dt(utc or "")
+    return d.astimezone(_ET).strftime("%-I:%M %p ET on %b %-d") if d else ""
+
+
+def wire_block(wire=None):
+    """THE WIRE ON /news (Jack, 5 October 2026; program sections 3 and 7). The day's ranked
+    clusters as a numbered list: the desk's one line, the Board reading it touches, the
+    source count, the primary-source mark, the link, the badge on the checked item and the
+    wire mark on the rest, the source and the stamp on every item, and one line under the
+    list saying what a wire line is and is not. No icons, no gradients. "" with no wire."""
+    if wire is None:
+        try:
+            wire = json.load(open(WIRE_JSON, encoding="utf-8"))
+        except Exception:
+            return ""
+    try:
+        return _wire_block(wire)
+    except Exception as e:
+        print(f"::warning::news: the wire did not render ({type(e).__name__}: {e})")
+        return ""
+
+
+def _wire_block(wire):
+    items = (wire or {}).get("items") or []
+    if not items:
+        return ""
+    note = (wire or {}).get("checked") or {}
+    rows = []
+    for w in items:
+        links = w.get("links") or []
+        lead = links[0] if links else {}
+        checked = note and note.get("id") == w.get("id")
+        mark = (f'<span class="badge verified">{esc(note.get("badge"))}</span>' if checked
+                else '<span class="wl-mark">Wire</span>')
+        reading = (f'<span class="wl-reads">Reads with {esc(w["board_reading"])}</span>'
+                   if w.get("board_reading") else "")
+        n = int(w.get("source_count") or 0)
+        bits = []
+        if lead.get("url"):
+            bits.append(f'<a href="{esc(lead["url"])}" rel="noopener">'
+                        f'{esc(lead.get("outlet") or "Source")}</a>')
+        bits.append(f'{n} source{"" if n == 1 else "s"}')
+        if w.get("primary"):
+            bits.append('<span class="wl-primary">Primary source</span>')
+        stamp = _wire_et(w.get("reported_utc")) or (wire or {}).get("ranked_et") or ""
+        if stamp:
+            bits.append(f'<span class="bd-stamp">{esc(stamp)}</span>')
+        note_html = ""
+        if checked:
+            note_html = (f'<p class="wl-note">{esc(note.get("says"))} '
+                         f'{esc(note.get("unconfirmed"))}</p>')
+        rows.append(f'<li class="wl-i"><div class="wl-top">{mark}{reading}</div>'
+                    f'<p class="wl-line">{esc(w.get("line"))}</p>{note_html}'
+                    f'<p class="wl-meta">{" &middot; ".join(bits)}</p></li>')
+    ranked, refreshed = (wire or {}).get("ranked_et"), (wire or {}).get("refreshed_et")
+    st = f"Ranked {ranked}" if ranked else ""
+    if refreshed and refreshed != ranked:
+        st += f"; sources re-counted {refreshed}"
+    what = (wire or {}).get("what_a_wire_line_is") or ""
+    return (f'<section class="bd-mod wl" aria-label="The day\'s stories, ranked">'
+            f'<div class="bd-sec"><div class="bd-sec-l">'
+            f'<span class="bd-eyebrow">Ranked by the desk</span>'
+            f'<h2 class="bd-h2">The day\'s stories</h2></div>'
+            f'<span class="bd-stamp">{esc(st)}</span></div>'
+            f'<ol class="wl-list">{"".join(rows)}</ol>'
+            f'<p class="wl-what">{esc(what)}</p></section>')
 
 
 def dark_line(items, hold, now):
@@ -5422,8 +5500,9 @@ def render_news_hub(items, dateline, pulse=None):
 
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">News</h1>
-  {cadence_line()}
+  {cadence_line(NEWS_CADENCE_LINE)}
   {dark_line(items, _edition_hold(), _build_now())}
+  {wire_block()}
   <p class="lx-dek">Everything this desk has published, newest first, then the same work
      grouped by the storyline it belongs to. Every source linked, every figure tied to a
      Board number.</p>
@@ -9207,6 +9286,11 @@ def build():
     _cal = os.path.join(HERE, "site", "data", "calendar.json")
     if os.path.exists(_cal):
         w(os.path.join("data", "calendar.json"), open(_cal, encoding="utf-8").read())
+    # THE WIRE (7 October 2026): written by the Edition run, re-counted by the build's
+    # `wire.py --refresh` step before this, published as it stands.
+    _wire = os.path.join(HERE, "site", "data", "wire.json")
+    if os.path.exists(_wire):
+        w(os.path.join("data", "wire.json"), open(_wire, encoding="utf-8").read())
     pulse, flows = _snapshot.views(SNAP, pulse, flows)
     print(f"snapshot: {len(SNAP['fields'])} field(s), stamp {SNAP['stamp_et'] or 'none'}, "
           f"{len(json.dumps(SNAP, separators=(',', ':')).encode())} bytes")

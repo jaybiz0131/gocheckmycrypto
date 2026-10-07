@@ -409,14 +409,24 @@ def _revert(path):
 def _victim_rank(surface, scope, paths, changed):
     if paths.get(surface) not in (changed or ()):
         return None                      # not this run's to withhold
+    # A BOARD IS NEVER REVERTED TO PROTECT A SENTENCE (Jack, through the 7 October opener).
+    # On 6 October the Brief called whale flows positive while the board read negative,
+    # and this gate withheld the board, leaving flows.json at 5 October: backwards. Our
+    # text yields to the snapshot, sentence by sentence, upstream (twins_gate.py); the
+    # whale board is a reading, not authorship, and is never this gate's to withhold.
+    if surface in BOARD_SURFACES:
+        return None
     unscoped = 0 if str(scope or "").strip().lower() in ("", "unscoped") else 1
-    if surface in ("chart-master", "whale-board"):
+    if surface == "chart-master":
         kind = 0
     elif "-brief-" in surface or surface.endswith("-brief"):
         kind = 2                         # a daily edition: withhold last
     else:
         kind = 1                         # a story
     return (unscoped, kind)
+
+
+BOARD_SURFACES = ("whale-board",)
 
 
 def _quarantine(blocking, changed, paths):

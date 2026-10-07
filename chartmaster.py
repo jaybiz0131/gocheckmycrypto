@@ -79,11 +79,16 @@ def _window_changes(a):
     So this is half of the whale/ETF fix rather than a separate feature: the belts catch a
     bad window claim, and these numbers remove the reason to make one. They also give the
     price belt something to check against."""
+    # THE STORED SERIES, NOT THE SPARK (7 October 2026). The spark is 64 points over 90
+    # days, so "seven points back" was about ten days and "thirty" about forty-two: the
+    # 6 October Brief printed "up 1.3% on the week, up 8.3% on the month" from it while
+    # the stored daily closes said 2.75% and 7.45%. The figures are now the series'
+    # own, by date (snapshot.series_windows), and a window the series cannot give is
+    # absent rather than estimated.
     out = {}
-    s = [v for v in (a.get("spark") or []) if isinstance(v, (int, float))]
-    for key, back in (("chg_7d_pct", 7), ("chg_30d_pct", 30)):
-        if len(s) > back and s[-1 - back]:
-            out[key] = round((s[-1] - s[-1 - back]) / s[-1 - back] * 100, 2)
+    for key in ("chg_7d_pct", "chg_30d_pct"):
+        if isinstance(a.get("series_" + key), (int, float)):
+            out[key] = a["series_" + key]
     return out
 
 

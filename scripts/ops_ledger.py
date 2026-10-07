@@ -89,6 +89,10 @@ def append():
         row["usd"] = round(float(_b.get("usd") or 0.0), 4)
         row["cap_usd"] = _b.get("max_usd")
         row["outcome"] = "ran"
+        # THE WIRE PATH (7 October 2026): which path the run took, the stages it did not
+        # call, and each stage's own spend, so "the writer stage is absent" and "the
+        # checked note costs the verifier" are read from the record.
+        row.update(stage_fields(_rr))
     except Exception:
         # C-2: A ZERO IS NOT A ZERO. A run that stood down at the guard and a run that
         # CRASHED before the model both arrive here with no run_report, and the first
@@ -130,10 +134,62 @@ def append():
         os.path.abspath(__file__))), "out", "chartmaster-status.json"))
     if cm:
         row.update(cm)
+    try:
+        print(cost_line(_ledger_runs(), row))
+    except Exception as exc:
+        print(f"ops ledger: edition cost line unavailable ({type(exc).__name__}: {exc})")
     write_file_ledger(row)
     number = month_issue_number(repo, token, now.strftime("%Y-%m"))
     call(f"{API}/repos/{repo}/issues/{number}/comments", token, {"body": json.dumps(row)})
     print(f"ops ledger: appended to issue #{number}: {json.dumps(row)}")
+
+
+def stage_fields(report):
+    """{path, stages_absent, stage_usd, stage_tokens} from run.py's run report."""
+    out = {}
+    if report.get("path"):
+        out["path"] = report["path"]
+    out["stages_absent"] = list(report.get("stages_absent") or [])
+    by = ((report.get("budget") or {}).get("by_stage")) or {}
+    if by:
+        out["stage_usd"] = {k: round(float(v.get("usd") or 0.0), 4) for k, v in by.items()}
+        out["stage_tokens"] = {k: int(v.get("tokens") or 0) for k, v in by.items()}
+    return out
+
+
+def _ledger_runs():
+    try:
+        return json.load(open(os.path.join(REPO, "ledger.json"), encoding="utf-8"))["runs"]
+    except Exception:
+        return []
+
+
+def _et_day(t):
+    try:
+        from zoneinfo import ZoneInfo
+        d = datetime.datetime.fromisoformat(str(t).replace("Z", "+00:00"))
+        return d.astimezone(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
+    except Exception:
+        return str(t)[:10]
+
+
+def cost_line(runs, row, n=3):
+    """THE EDITION'S COST, BEFORE AND AFTER (7 October 2026): this run's spend beside the
+    last `n` Editions in the ledger (scheduled, not breaking, spent something), each with
+    its Eastern date, so the change the wire path makes is read off one line."""
+    before = [r for r in runs or [] if not r.get("breaking") and r.get("outcome") == "ran"
+              and float(r.get("usd") or 0) > 0 and r.get("run") != row.get("run")
+              and str(r.get("t", "")) < str(row.get("t", "~"))][-n:]
+    then = ", ".join(f"{_et_day(r['t'])} ${float(r['usd']):.4f} ({r.get('tokens', 0)} tokens)"
+                     for r in before) or "none in the ledger"
+    sv = (row.get("stage_usd") or {})
+    stages = (", by stage " + ", ".join(f"{k} ${v:.4f}" for k, v in sorted(sv.items()))
+              if sv else "")
+    absent = (f", absent {', '.join(row.get('stages_absent'))}"
+              if row.get("stages_absent") else "")
+    return (f"edition cost: {_et_day(row.get('t'))} ${float(row.get('usd') or 0):.4f} "
+            f"({row.get('tokens', 0)} tokens, path {row.get('path') or 'story'}{stages}"
+            f"{absent}); before: {then}")
 
 
 def chartmaster_spend(path):

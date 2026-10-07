@@ -267,6 +267,16 @@ def main():
     import consistency  # lazy: consistency imports from this module, so avoid an import cycle
     tpl_path = os.path.join(OUT, "approval_template.json")
     report_path = os.path.join(OUT, "run_report.json")
+    # THE WIRE PATH WRITES NO STORY (Jack, 5 October 2026). The run ranked, verified and
+    # wrote wire.json; there is no draft to approve and no hold to carry, so nothing here
+    # runs and edition_hold.json is left as it stands.
+    try:
+        if json.load(open(report_path, encoding="utf-8")).get("path") == "wire":
+            print("autopilot: the wire path writes no story (the daily written story "
+                  "ended, 5 October); nothing to approve")
+            return 0
+    except Exception:
+        pass
     if not (os.path.exists(tpl_path) and os.path.exists(report_path)):
         print("autopilot: no run outputs found -> nothing to publish (fail-closed)")
         return 1

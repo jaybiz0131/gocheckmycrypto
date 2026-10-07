@@ -82,6 +82,7 @@ Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
       "id": "<cluster id from the input>",
       "headline": "<the cluster headline, unchanged>",
       "why_it_matters": "<1-2 lines: the genuine significance>",
+      "wire_line": "<one line in the desk's own words: the cluster's key fact>",
       "category": "<regulatory|hack|protocol|macro|partnership|onchain|other>",
       "source_urls": ["<url>", "..."],
       "confidence": "<high|medium|low>"
@@ -105,6 +106,11 @@ Rank at most {TOP_N} stories. KEEP THE OUTPUT COMPACT, in this exact discipline:
   capped at the 15 clearest cases, each with ONE short concrete reason. Everything else you
   simply leave out; an ordinary low-significance story needs no entry anywhere.
 - "why_it_matters" is 1-2 tight lines; no essays.
+- "wire_line" is the desk's own one-line version of the story for the wire: the cluster's
+  key fact, who did what, with the one number that matters if there is one, under 140
+  characters, in plain past or present tense. It is NEVER an outlet's headline, not even
+  lightly edited: write it from the fact, in your own words. No prediction, no opinion, no
+  em dashes, no price targets. A line that repeats a source title is not printed.
 - Your final answer must be ONLY the JSON object: no preamble, no commentary, no code fence.
 
 MANDATORY CALENDAR DECISIONS (when the input contains that section): the desk's forward

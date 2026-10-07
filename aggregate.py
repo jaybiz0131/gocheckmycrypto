@@ -426,7 +426,10 @@ def dedupe(items, cfg):
         members = sorted(cl["members"], key=lambda m: (tier_rank.get(m["source_tier"], 9),
                                                        m.get("_ts") or datetime.min.replace(tzinfo=timezone.utc)))
         head = members[0]
-        corro = [{"name": m["source"], "tier": m["source_tier"], "url": m["url"]} for m in members[1:]]
+        # each member's own headline rides along (7 October 2026): a wire line is proven
+        # against EVERY source title in its cluster, not only the head's
+        corro = [{"name": m["source"], "tier": m["source_tier"], "url": m["url"],
+                  "headline": m["headline"]} for m in members[1:]]
         c = {
             "id": f"c{i:03d}",
             "headline": head["headline"],

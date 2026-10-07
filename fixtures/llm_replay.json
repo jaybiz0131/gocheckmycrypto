@@ -11,7 +11,8 @@
      "https://example.test/sec-acme-1",
      "https://example.test/outlet-b-acme"
     ],
-    "confidence": "high"
+    "confidence": "high",
+    "wire_line": "The SEC charged Acme Labs over an unregistered securities offering."
    },
    {
     "id": "c001",
@@ -21,7 +22,8 @@
     "source_urls": [
      "https://example.test/zephyr-hack"
     ],
-    "confidence": "medium"
+    "confidence": "medium",
+    "wire_line": "Zephyr lost $40 million to a flash loan attack, its developers said."
    },
    {
     "id": "c004",
@@ -31,7 +33,8 @@
     "source_urls": [
      "https://example.test/eth-upgrade"
     ],
-    "confidence": "medium"
+    "confidence": "medium",
+    "wire_line": "Ethereum developers named a date for the network's next upgrade."
    }
   ],
   "rejected": [
@@ -64,7 +67,11 @@
      "Two independent outlets carry the same SEC action; claim is consistent and specific."
     ],
     "source_supported": true,
-    "shill_missed_by_editor": false
+    "shill_missed_by_editor": false,
+    "note": {
+     "says": "The SEC's complaint states that Acme Labs sold tokens in an unregistered securities offering.",
+     "unconfirmed": "The amount raised in the offering could not be confirmed from the pages read."
+    }
    },
    {
     "id": "c001",
