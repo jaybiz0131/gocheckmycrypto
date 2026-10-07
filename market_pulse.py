@@ -33,7 +33,7 @@ import json
 import math
 import os
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import coin_screen
 import common
@@ -332,13 +332,28 @@ def section_stables():
                        "end_iso": _date_iso(year_pts[-1][0])}}
 
 
-def week_closes(points, last_updated, now=None):
+def stored_closes(gecko_id):
+    """{date: close} from the stored series in data/history/ for a coin that has one, else
+    {}. The week's line reads it only for a completed day the sparkline does not reach."""
+    import history
+    s = history.load(gecko_id) if gecko_id else None
+    return dict((s or {}).get("closes") or {})
+
+
+def week_closes(points, last_updated, now=None, stored=None):
     """THE WEEK'S LINE (6 October 2026), from the sparkline the movers read already
     carries (`sparkline=true` on /coins/markets): 168 hourly prices, no timestamps. Each
     point is timed back one hour from the coin's `last_updated`, and the close of a UTC day
     is the last price at or before its end (history.utc_day_closes). Completed days only,
     the last seven; the week's low and high over every point. Nothing when the field is
-    short or the coin carries no `last_updated`."""
+    short or the coin carries no `last_updated`.
+
+    THE 23:00 UTC HOUR (7 October 2026): 168 points read in a day's last hour start just
+    after midnight six days back, so the sparkline reaches six completed days, not seven,
+    and that hour is the Edition's. The seven days are always the seven ending yesterday
+    (UTC); a day the sparkline lacks is taken from `stored`, the coin's stored series of
+    daily closes under the same UTC-close rule, and a day the sparkline has is never
+    replaced. A coin with no stored series keeps the days its sparkline reaches."""
     import history
     pts = [p for p in (points or []) if isinstance(p, (int, float))]
     try:
@@ -351,6 +366,13 @@ def week_closes(points, last_updated, now=None):
     n = len(pts)
     stamped = [[(end.timestamp() - (n - 1 - i) * 3600) * 1000, v] for i, v in enumerate(pts)]
     days = history.completed(history.utc_day_closes(stamped), now or end)
+    last = (max(days) if days else None)
+    if last and stored:
+        y = datetime.strptime(last, "%Y-%m-%d")
+        for k in range(1, 7):
+            d = (y - timedelta(days=k)).strftime("%Y-%m-%d")
+            if d not in days and isinstance(stored.get(d), (int, float)) and stored[d]:
+                days[d] = stored[d]
     keep = sorted(days)[-7:]
 
     def px(v):                             # cents from a dollar up, six figures below it
@@ -414,7 +436,8 @@ def section_movers(top_n=5, universe=100, fetch=160):
         if spark:
             pts = ((c.get("sparkline_in_7d") or {}).get("price")) or []
             out["spark7d"] = downsample(pts, 28) if len(pts) >= 2 else []
-            out.update(week_closes(pts, c.get("last_updated"), now=_read_at))
+            out.update(week_closes(pts, c.get("last_updated"), now=_read_at,
+                                   stored=stored_closes(c.get("id"))))
         if (c.get("id") or "") in stable_ids:
             out["stablecoin"] = True
         return out
