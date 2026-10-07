@@ -448,7 +448,7 @@ def t_bitcoin(snap, pulse, deltas):
     import snapshot
     import tile
     c = snapshot.coin(snap, "BTC")
-    st = _stamp(((snap.get("fields") or {}).get("coins") or {}).get("read_utc"))
+    st = (snap or {}).get("stamp_et") or ""         # one stamp for the Board (7 October)
     if not isinstance(c.get("price"), (int, float)) or not st:
         return ""
     btc = sb._btc(pulse) or {}

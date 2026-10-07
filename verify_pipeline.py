@@ -740,7 +740,8 @@ def _stored_series_canary():
         pulse = {"assets": [btc] if btc else [], "written_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
                  "generated_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ")}
         import home as _hm
-        _snap1 = {"fields": {"coins": {"read_utc": pulse["generated_utc"],
+        _snap1 = {"stamp_et": _snapshot.stamp_et(pulse["generated_utc"]),
+                  "fields": {"coins": {"read_utc": pulse["generated_utc"],
                                        "value": {"BTC": {"price": (btc or {}).get("price")
                                                          or pts[-1][1]}}}}}
         grid = _hm.t_bitcoin(_snap1, pulse, {})
@@ -2324,6 +2325,13 @@ def _below_canary(index_html=None):
            "below canary: a Board tile names a reading the one renderer does not know")
     _check(not hasattr(_sb, "board_tile_grid"), fails,
            "below canary: the old tile renderer, board_tile_grid, is back")
+    # 1b. one stamp for the Board (Jack, 7 October): the header and every tile say the same
+    _st = _re.findall(r'<p class="tl-src">[^<]*? &middot; ([^<]*?) &middot; <a', b)
+    _check(bool(_st) and set(_st) == {snap["stamp_et"]} and
+           f"As of {snap['stamp_et']}." in b, fails,
+           f"below canary: the Board's header and tiles carry {sorted(set(_st))}, not one "
+           f"stamp {snap['stamp_et']!r}")
+
     # 2. the chart's bars equal the data's weeks
     w = blk("whales")
     weeks = [r for r in (flows.get("history") or []) if isinstance(r.get("net_usd"), (int, float))]
