@@ -1324,6 +1324,122 @@ def _wire_canary():
     return fails
 
 
+def _narrative_canary():
+    """SPRINT 1b ITEM 2, the narrative line and its clause table. One sentence, two clauses,
+    describing and never predicting; stored with the readings it was written from; between
+    runs rewritten from the fixed table only on a threshold crossing (a sign change on spot
+    ETF net, Fear & Greed crossing a band, funding leaving calm), and otherwise left alone.
+    Fixtures only; each check seen red under a plant (named in the 7 October report)."""
+    import copy as _copy
+    import tempfile
+    import narrative as _n
+    import twins_gate as _tg
+    import llm as _llm
+    import site_build as _sb
+    fails = []
+    tmp = tempfile.mkdtemp(prefix="narr-canary-")
+    snap = {"stamp_utc": "2026-10-07T23:10:00Z", "fields": {
+        "coins": {"value": {"BTC": {"price": 100000.0, "chg_24h_pct": -1.21}}},
+        "etf_flows": {"value": {"btc": {"latest_net_usd_m": 212.4, "latest_date": "2026-10-06"}}},
+        "fear_greed": {"value": {"value": 54, "label": "Neutral"}},
+        "funding": {"value": {"BTC": {"funding_8h_pct": 0.0081}}}}}
+    wire = [{"id": "c1", "line": "The SEC approved in-kind creations for spot bitcoin ETFs.",
+             "titles": ["SEC approves in-kind creations for spot bitcoin ETFs"]},
+            {"id": "c2", "line": "A Senate panel advanced the market structure bill.",
+             "titles": ["Senate panel advances crypto market structure bill"]},
+            {"id": "c3", "line": "The CFTC opened a comment period on prediction markets.",
+             "titles": ["CFTC opens comment period on event contracts"]}]
+    gate = _tg.Gate(snap, log_path=os.path.join(tmp, "tg.json"), quiet=True)
+    r = _n.readings(snap)
+    # 1. The sentence from a fixture Board and wire: the table's, exactly; the model's when it
+    # holds; the table's when the model's predicts.
+    want = ("Bitcoin is drifting lower on spot ETF inflows; the news is mostly regulation.")
+    _check(_n.table_line(r, wire) == want, fails,
+           f"narrative: the table's sentence from the fixture is {_n.table_line(r, wire)!r}")
+    ok_line = "Bitcoin slipped despite spot ETF inflows, on a day of regulators' filings."
+    _check(_n.edition_line(ok_line, r, wire, gate) == (ok_line, "edition"), fails,
+           "narrative: a model line that holds was not kept as the Edition's")
+    _check(_n.edition_line("Bitcoin will likely rebound as ETF inflows build.", r, wire, gate)
+           == (want, "table"), fails, "narrative: a predicting line was kept")
+    _check(_n.edition_line("Bitcoin fell. Regulators were busy.", r, wire, gate)[1] == "table",
+           fails, "narrative: a two-sentence line was kept")
+    _check(_n.news_clause(wire[1:]) == "the news is mostly regulation"
+           and _n.news_clause([wire[0], {"line": "Hackers drained a bridge of $8 million."}])
+           == "the news is mixed, led by funds and ETFs"
+           and _n.news_clause([]) == "the wire is quiet", fails,
+           "narrative: the news clause does not follow the wire's top three")
+    rec = _n.record(want, "table", r, wire, "2026-10-07T23:10:00Z")
+    # 2. The readings named, on the record and in its small line.
+    for frag in ("Bitcoin -1.21% on the day", "spot ETF net +212.4M USD (2026-10-06)",
+                 "Fear & Greed 54 (neutral)", "funding +0.0081% per 8h (calm)"):
+        _check(frag in rec["small_line"], fails,
+               f"narrative: the small line does not name {frag!r}: {rec['small_line']!r}")
+    _check(rec["readings"].get("etf_net_usd_m") == 212.4 and rec.get("written_et")
+           == "7:10 PM ET on Oct 7", fails, "narrative: the record lacks its readings or stamp")
+    # 3. No crossing leaves the line alone, even when readings move inside their bands.
+    calm = _copy.deepcopy(snap)
+    calm["fields"]["etf_flows"]["value"]["btc"]["latest_net_usd_m"] = 40.0
+    calm["fields"]["fear_greed"]["value"]["value"] = 50
+    calm["fields"]["coins"]["value"]["BTC"]["chg_24h_pct"] = 2.4
+    same, crossed = _n.refresh(rec, calm, wire, "2026-10-08T16:02:00Z")
+    _check(same is rec and crossed == [], fails,
+           f"narrative: the line was rewritten with no threshold crossed: {crossed}")
+    # 4. Each crossing rewrites from the table and only the table: no model client exists.
+    real = (_llm.Client.__init__, _llm.Client.call_json)
+
+    def no_model(*a, **k):
+        raise AssertionError("the narrative refresh reached the model client")
+    cases = []
+    s1 = _copy.deepcopy(snap)
+    s1["fields"]["etf_flows"]["value"]["btc"]["latest_net_usd_m"] = -88.0
+    cases.append(("etf sign", s1, "Bitcoin is drifting lower on spot ETF outflows; "
+                                  "the news is mostly regulation.", "changed sign"))
+    s2 = _copy.deepcopy(snap)
+    s2["fields"]["fear_greed"]["value"]["value"] = 41
+    cases.append(("fear & greed band", s2, "Bitcoin is drifting lower with sentiment in fear; "
+                                           "the news is mostly regulation.", "into fear"))
+    s3 = _copy.deepcopy(snap)
+    s3["fields"]["funding"]["value"]["BTC"]["funding_8h_pct"] = 0.0152
+    cases.append(("funding leaves calm", s3, "Bitcoin is drifting lower with funding warming; "
+                                             "the news is mostly regulation.", "left calm"))
+    try:
+        _llm.Client.__init__ = _llm.Client.call_json = no_model
+        for name, sn, line, why in cases:
+            try:
+                new, cr = _n.refresh(rec, sn, wire, "2026-10-08T16:02:00Z")
+            except AssertionError as e:
+                new, cr = {}, []
+                _check(False, fails, f"narrative: {name}: {e}")
+            _check(new.get("line") == line and new.get("by") == "table"
+                   and any(why in c for c in new.get("crossed") or []), fails,
+                   f"narrative: {name} did not rewrite from the table: {new.get('line')!r} "
+                   f"{new.get('crossed')}")
+    finally:
+        _llm.Client.__init__, _llm.Client.call_json = real
+    # 4b. The Edition's writer (wrap.write_narrative) stores the model's line with "by".
+    import wrap as _wrap
+    p0 = os.path.join(tmp, "edition-narrative.json")
+    import contextlib as _cl
+    import io as _io
+    with _cl.redirect_stdout(_io.StringIO()):
+        er = _wrap.write_narrative(ok_line, r, wire, "2026-10-07T23:14:00Z", gate=gate, path=p0)
+    _check(_n.load(p0) == er and er.get("by") == "edition" and er.get("line") == ok_line
+           and er.get("readings") == r and len(er.get("wire_top3") or []) == 3, fails,
+           f"narrative: the Edition's record is not stored as written: {er}")
+    # 5. The build publishes it and says so; with no line it publishes nothing.
+    p = os.path.join(tmp, "narrative.json")
+    _n.write(rec, p)
+    wrote = {}
+    _check(_sb.publish_narrative(lambda k, v: wrote.update({k: v}), p) == want
+           and json.loads(wrote.get(os.path.join("data", "narrative.json"), "{}")).get("line")
+           == want, fails, "narrative: the build does not publish /data/narrative.json")
+    _n.write({"line": ""}, p)
+    wrote.clear()
+    _check(_sb.publish_narrative(lambda k, v: wrote.update({k: v}), p) == "" and not wrote,
+           fails, "narrative: an empty line was published")
+    return fails
+
+
 def _calendar_canary():
     """ITEM 4, calendar.json (6 October 2026). Each parser from its fixture, each clock
     from known dates, the schema (no entry without a source URL and a read stamp) and the
@@ -2282,6 +2398,7 @@ def layer1_canary():
     fails.extend(_week_movers_canary())
     fails.extend(_calendar_canary())
     fails.extend(_wire_canary())
+    fails.extend(_narrative_canary())
     fails.extend(_stamp_canary())
     cfg = common.load_config()
 

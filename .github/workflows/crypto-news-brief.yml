@@ -604,6 +604,8 @@ jobs:
           [ -f site/data/edition_hold.json ] && git add site/data/edition_hold.json
           # wire.json (7 October 2026): the day's ranked clusters and the checked note.
           [ -f site/data/wire.json ] && git add site/data/wire.json
+          # narrative.json (Sprint 1b item 2): the narrative line and its readings.
+          [ -f site/data/narrative.json ] && git add site/data/narrative.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"
