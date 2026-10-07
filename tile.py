@@ -25,7 +25,6 @@ both from those tables, so the words on a tile, the narrative line and the Learn
 cannot disagree.
 """
 
-import html
 import re
 
 LEARN_PAGE = "/learn.html"
@@ -86,7 +85,9 @@ def anchor(key):
 
 
 def _e(s):
-    return html.escape(str(s), quote=True)
+    """The site's own escape (site_build.esc): &, <, > and the double quote."""
+    return ("" if s is None else str(s)).replace("&", "&amp;").replace("<", "&lt;") \
+        .replace(">", "&gt;").replace('"', "&quot;")
 
 
 def render(key, figure, *, window, since, source, stamp, label=None, direction=None):

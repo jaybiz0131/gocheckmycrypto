@@ -26,32 +26,157 @@
 
 /* THE TILE (Tile.dc.html). Flat: a white card, one hairline, no shadow, no icon, no
    gradient, and it never animates. */
-.tl-row{display:grid;grid-template-columns:1fr;gap:10px;margin:0}
-@media (min-width:600px){.tl-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.tl-row.tl-4{grid-template-columns:repeat(2,minmax(0,1fr))}
-@media (min-width:900px){.tl-row.tl-4{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.tl{background:var(--card);border:1px solid var(--line);border-radius:4px;
+body .tl-row{display:grid;grid-template-columns:1fr;gap:10px;margin:0}
+@media (min-width:600px){body .tl-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
+body .tl-row.tl-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:900px){body .tl-row.tl-4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+body .tl{background:var(--card);border:1px solid var(--line);border-radius:4px;
   padding:12px 14px 11px;display:flex;flex-direction:column;gap:3px;min-width:0}
-.tl p,.tl h3{margin:0}
-.tl-l{font-family:var(--sans);font-size:13px;font-weight:600;line-height:1.3;color:var(--ink)}
-.tl-f{font-family:var(--mono);font-size:26px;font-weight:700;line-height:1.15;
+body .tl p,body .tl h3{margin:0}
+body .tl-l{font-family:var(--sans);font-size:13px;font-weight:600;line-height:1.3;color:var(--ink)}
+body .tl-f{font-family:var(--mono);font-size:26px;font-weight:700;line-height:1.15;
   color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em;
   overflow-wrap:anywhere}
-.tl-f.up{color:var(--up)}
-.tl-f.down{color:var(--down)}
-.tl-w{font-family:var(--mono);font-size:11px;line-height:1.4;color:var(--muted)}
-.tl-s{font-family:var(--serif);font-size:15px;line-height:1.35;color:var(--ink)}
-.tl-src{font-family:var(--mono);font-size:10.5px;line-height:1.5;color:var(--muted);
+body .tl-f.up{color:var(--up)}
+body .tl-f.down{color:var(--down)}
+body .tl-w{font-family:var(--mono);font-size:11px;line-height:1.4;color:var(--muted)}
+body .tl-s{font-family:var(--serif);font-size:15px;line-height:1.35;color:var(--ink)}
+body .tl-src{font-family:var(--mono);font-size:10.5px;line-height:1.5;color:var(--muted);
   margin-top:auto;padding-top:5px}
-.tl-src a{color:var(--link);display:inline-block;min-height:24px;line-height:24px}
+body .tl-src a{color:var(--link);display:inline-block;min-height:24px;line-height:24px}
 
 /* THE LEARN PAGE'S ANCHORS. */
-.lr-all{margin-top:28px}
-.lr{border-top:1px solid var(--line);padding:14px 0 6px;scroll-margin-top:72px}
-.lr h3{font-family:var(--serif);font-size:20px;margin:0 0 4px;color:var(--ink)}
-.lr p{margin:0 0 6px;font-size:15px;line-height:1.5;color:var(--ink)}
-.lr:target{background:var(--card);outline:2px solid var(--rule);outline-offset:6px}
-.lr-k{color:var(--muted)!important;font-size:13px!important}
-.lr-b{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px}
-.lr-b li{font-size:14px}
-.lr-t{font-family:var(--mono);font-size:13px;color:var(--muted)}
+body .lr-all{margin-top:28px}
+body .lr{border-top:1px solid var(--line);padding:14px 0 6px;scroll-margin-top:72px}
+body .lr h3{font-family:var(--serif);font-size:20px;margin:0 0 4px;color:var(--ink)}
+body .lr p{margin:0 0 6px;font-size:15px;line-height:1.5;color:var(--ink)}
+body .lr:target{background:var(--card);outline:2px solid var(--rule);outline-offset:6px}
+body .lr-k{color:var(--muted)!important;font-size:13px!important}
+body .lr-b{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px}
+body .lr-b li{font-size:14px}
+body .lr-t{font-family:var(--mono);font-size:13px;color:var(--muted)}
+
+/* THE HOME PAGE (Program 5 sections 2 and 3). Phone first at 390: one column in the order
+   of section 2. At 1100 and up, the same DOM in two columns: the tape to the wire on the
+   left, the money to mine on the right. */
+body .h-page .page{padding-top:8px}
+body .h-cols{display:block}
+@media (min-width:1100px){
+  body .h-cols{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:0 40px;
+    align-items:start}
+  body .h-r .tl-row{grid-template-columns:1fr;gap:8px}
+}
+body .h-b{border-top:1px solid var(--line);padding:14px 0 16px}
+body .h-b p{margin:0}
+body .h-h{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--rule);margin:0 0 10px}
+body .h-wait,body .h-cal-none,body .h-mine-empty{font-family:var(--serif);font-size:16px;color:var(--muted)}
+body .h-st{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:8px!important}
+body .up{color:var(--up)} body .down{color:var(--down)}
+
+/* the tape */
+body .h-tape{border-top:2px solid var(--ink);padding-top:12px}
+body .h-tape-in{display:flex;flex-direction:column;gap:10px}
+@media (min-width:700px){body .h-tape-in{flex-direction:row;align-items:flex-start;gap:28px}
+  body .h-main{flex:1 1 auto;min-width:0}body .h-alts{flex:0 0 200px}}
+body .h-name{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink)}
+body .h-w{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:400;margin-left:4px}
+body .h-big{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 14px;margin:2px 0 6px!important}
+body .h-px{font-family:var(--mono);font-weight:700;font-size:40px;line-height:1.05;
+  letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+@media (min-width:1100px){body .h-px{font-size:54px}}
+body .h-chg{font-family:var(--mono);font-size:18px;font-weight:700}
+body .h-spark{display:block;width:100%;height:56px;overflow:visible}
+body .h-spark polyline{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:miter;
+  vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:0;
+  animation:h-draw 1.1s ease-out 1 both}
+@keyframes h-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+body .h-rng{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;
+  color:var(--muted);margin-top:4px!important}
+body .h-rng b{color:var(--ink);font-weight:700}
+body .h-alts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px}
+@media (min-width:700px){body .h-alts{grid-template-columns:1fr;gap:6px}}
+body .h-alts li{display:flex;flex-direction:column;min-width:0;border-left:1px solid var(--line);
+  padding-left:8px}
+@media (min-width:700px){body .h-alts li{flex-direction:row;align-items:baseline;gap:8px;
+  border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:6px}}
+body .h-as{font-family:var(--sans);font-size:12px;color:var(--muted);min-width:64px}
+body .h-ap{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+body .h-ac{font-family:var(--mono);font-size:12px}
+body .h-cap{display:none!important}
+@media (min-width:900px){body .h-cap{display:flex!important}}
+body .h-live{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:10px!important}
+body .h-live.on{color:var(--ink)}
+body .h-board{font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:2px!important}
+body .h-fade{animation:h-fade .45s ease-out 1}
+@keyframes h-fade{from{opacity:.2}to{opacity:1}}
+
+/* the narrative band */
+body .h-band{background:var(--band);color:var(--band-ink);border-top:0;padding:18px 18px 16px;
+  margin:4px 0 6px}
+body .h-nline{font-family:var(--serif);font-size:22px;line-height:1.3;font-weight:500}
+body .h-nsmall{font-family:var(--mono);font-size:11px;line-height:1.5;color:var(--band-muted);
+  margin-top:10px!important}
+body .h-band .h-nsmall:first-child{margin-top:0!important;font-size:12px}
+
+/* since yesterday */
+body .h-since{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+body .h-since li{font-family:var(--serif);font-size:17px;line-height:1.4;color:var(--ink)}
+body .h-d{font-family:var(--mono);font-size:15px;font-weight:700;white-space:nowrap}
+
+/* the why */
+body .h-why-h{font-family:var(--serif);font-size:21px;line-height:1.25;margin:8px 0 6px;
+  color:var(--ink)}
+body .h-why-p{font-size:15px;line-height:1.5;color:var(--ink)}
+body .h-why-p a,body .h-wmeta a,body .h-cs a,body .h-movers a,body .h-mine-l a{color:var(--link)}
+body .h-reads{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:6px!important}
+
+/* moving the market */
+body .h-cad{font-family:var(--sans);font-size:13px;color:var(--muted);margin-bottom:8px!important}
+body .h-wire{list-style:none;margin:0;padding:0;counter-reset:w}
+body .h-wi{counter-increment:w;position:relative;padding:9px 0 9px 30px;
+  border-top:1px solid var(--line);display:flex;flex-direction:column;gap:3px;
+  align-items:flex-start}
+body .h-wi:first-child{border-top:0}
+body .h-wi::before{content:counter(w);position:absolute;left:0;top:9px;font-family:var(--mono);
+  font-size:15px;font-weight:700;color:var(--rule)}
+body .h-wl{font-family:var(--serif);font-size:16px;line-height:1.35;color:var(--ink)}
+body .h-wmeta{font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--muted)}
+body .h-wm{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--line);color:var(--muted);padding:0 5px;border-radius:2px}
+body .h-prim{color:var(--verified);font-weight:700}
+body .h-what{font-family:var(--sans);font-size:12.5px;line-height:1.5;color:var(--muted);
+  margin-top:10px!important}
+
+/* moving today */
+body .h-movers{list-style:none;margin:0;padding:0}
+body .h-movers li{display:grid;grid-template-columns:42px 56px 1fr auto;align-items:baseline;
+  gap:8px;padding:6px 0;border-top:1px solid var(--line)}
+body .h-movers li:first-child{border-top:0}
+body .h-mr{font-family:var(--mono);font-size:12px;color:var(--muted)}
+body .h-movers a{font-family:var(--sans);font-weight:700;font-size:14px;min-height:24px}
+body .h-mn{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body .h-mc{font-family:var(--mono);font-size:13px;font-weight:700}
+body .h-stand{font-family:var(--serif);font-size:15px;line-height:1.5;margin-top:8px!important}
+
+/* today and mine */
+body .h-cal,body .h-mine-l{list-style:none;margin:0;padding:0}
+body .h-cal li{display:flex;flex-direction:column;padding:6px 0;border-top:1px solid var(--line)}
+body .h-cal li:first-child{border-top:0}
+body .h-ct{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink)}
+body .h-ce{font-family:var(--serif);font-size:16px}
+body .h-cs{font-family:var(--mono);font-size:11px;color:var(--muted)}
+body .h-mine-l li{display:flex;gap:12px;align-items:baseline;padding:6px 0;
+  border-top:1px solid var(--line)}
+body .h-mine-l a{font-weight:700;min-width:56px}
+body .h-mp{font-family:var(--mono);font-size:14px;font-weight:700}
+
+@media (prefers-reduced-motion:reduce){
+  body .h-spark polyline,body .h-fade{animation:none!important}
+}
+
+/* the home page sits on the paper itself: no atmospheric ground behind the read */
+body.h-home .ground{display:none}
+body.h-home{background:var(--paper)}

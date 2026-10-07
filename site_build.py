@@ -1834,7 +1834,7 @@ def _em_dash_belt(html):
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           live_js=False, brand="site", og_type="website", schema_extra="", og_image=None,
-          canonical_path=None, system_css=False):
+          canonical_path=None, system_css=False, third_party=True):
     # R-4: the preconnects to Google are gone with the fonts they were for. A
     # preconnect to a host the page never contacts costs a DNS lookup and a TLS
     # handshake for nothing, on the critical path, which is the opposite of the point.
@@ -1879,15 +1879,15 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     # file. A media-gated preload is the tool that actually works here, and it pairs
     # with the matching media query on the background in site.css, so exactly one of
     # the two is ever requested.
-    lcp = (('<link rel="preload" as="image" media="(max-width:720px)" '
-            'href="/assets/hero/hero-poster-phone.webp" fetchpriority="high">\n'
-            '<link rel="preload" as="image" media="(min-width:721px)" '
-            'href="/assets/hero/hero-poster.webp" fetchpriority="high">\n')
-           if path == "/" else "")
+    # PROGRAM 5 SPRINT 2: the home page's LCP is the tape's Bitcoin figure, text in the
+    # self-hosted mono, so the poster is no longer preloaded at high priority there.
+    lcp = ""
     robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
     robots = lcp + robots
     beacon = ""
-    if CF_ANALYTICS_TOKEN:
+    # No third-party script of any kind on the home page (Program 5, section 7): the
+    # analytics beacon is a script from another host, so the home page goes without it.
+    if CF_ANALYTICS_TOKEN and third_party:
         beacon = ('\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
                   f'data-cf-beacon=\'{{"token": "{CF_ANALYTICS_TOKEN}"}}\'></script>')
     # THE LIVE LAYER (5 October 2026): pulse-live.js is retired. It moved Board prices,
@@ -5723,7 +5723,7 @@ def render_home(items, flows, pulse, cm, dateline):
     <span class="bd-eyebrow">From the news desk</span>
     <h2 class="bd-h2" id="bd-news">Checked stories, each tied to a Board number</h2>
   </div><a class="bd-more" href="/news.html">All stories</a></div>
-  {cadence_line()}{dark}
+  {dark}
   {news}
 </section>"""
 
@@ -5738,9 +5738,17 @@ def render_home(items, flows, pulse, cm, dateline):
   {learn}
 </section>"""
 
-    body = market_strip(pulse) + f"""<main class="wrap"><section class="page">
-  <h1 class="sr-only">{esc(FAMILY)}: the Board, and crypto news checked against it</h1>
-  {coins_mini_board()}
+    # THE FIVE-MINUTE READ (Program 5 Sprint 2, item 1): the tape and the nine blocks of
+    # section 2 above the fold, in order; the tape replaces the ticker on this page, and
+    # everything the program puts below the fold follows.
+    import home as _home
+    above = _home.above_fold(
+        SNAP or {}, pulse, flows, deltas, _home.load_json(WIRE_JSON),
+        _home.load_json(NARRATIVE_JSON),
+        _home.load_json(os.path.join(SITE, "data", "calendar.json")), NEWS_CADENCE_LINE)
+    body = f"""<main class="wrap h-page"><section class="page">
+  <h1 class="sr-only">{esc(FAMILY)}: what is going on in crypto, in five minutes</h1>
+  {above}
   {board_mod}
   {brief_row}
   {ww_row}
@@ -5750,8 +5758,9 @@ def render_home(items, flows, pulse, cm, dateline):
   <section class="bd-mod">{_bd_cold_storage()}</section>
   {record_full_index(items)}
 </section></main>"""
-    return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "The Board", body, dateline,
-                 path="/", schema_extra=home_schema())
+    return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "The Board",
+                 body + _home.HOME_JS, dateline, body_class="h-home", path="/",
+                 schema_extra=home_schema(), system_css=True, third_party=False)
 
 
 def flow_teaser():
