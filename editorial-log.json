@@ -5,20 +5,6 @@
   "rejected": [
    {
     "id": "c018",
-    "headline": "CFTC Chief Signals Unilateral Crypto Rulemaking if Clarity Act Stalls",
-    "category": "accuracy",
-    "reasons": [
-     "No research brief was provided for this story. The draft cites a single CoinDesk source, but the approval protocol requires that every fact in the draft trace to either a data_point in a research brief OR to the draft's cited sources. The draft makes multiple specific claims about CFTC Chairman Mike Selig's remarks, his directives to staff, and the Clarity Act's legislative status. Without a brief, these claims cannot be verified against research; the source URL provided is the only verification baseline. The draft presents Selig's statements as direct quotes and paraphrases but the CoinDesk article itself is not provided for inspection. Under the hard rule 'no fact exists outside the brief,' and with no brief provided, this draft cannot be approved without access to the source material to trace each claim."
-    ]
-   }
-  ]
- },
- {
-  "date": "2026-08-21",
-  "approved": 1,
-  "rejected": [
-   {
-    "id": "c018",
     "headline": "CFTC Chair signals unilateral crypto regulation if Congress stalls on Clarity Act",
     "category": "accuracy",
     "reasons": [
@@ -5075,6 +5061,26 @@
     "reasons": [
      "The draft states 'Unique wallets sending peer-to-peer stablecoin transactions in China grew 43-fold between Q1 2024 and Q2 2026, according to Cointelegraph's reporting' and attributes this to Cointelegraph. However, the brief's data_point on the 43-fold claim sources it only to Cointelegraph with confidence 'reported', not naming the underlying research vendor (Chainalysis, Glassnode, or other on-chain analyst). This single secondary source carries the core factual claim without disclosure of the original analyst. The open_questions explicitly flag 'How does Chainalysis measure P2P wallet activity' suggesting Chainalysis is the underlying source Cointelegraph reported from. Attributing a technical on-chain metric to a news outlet rather than the data vendor who produced it obscures the methodology question and overstates the certainty of measurement.",
      "The draft does not signal any of the thin brief's open_questions (absolute wallet counts, transaction volume, which stablecoins, enforcement response, measurement methodology) that the bottom_line correctly flags as unreported. The body presents the 43-fold figure and the shift narrative as settled, when the brief marks these as single-source reported claims with significant unknowns. A reader would not know the absolute scale of the activity or which stablecoins drove it, yet the draft frames it as definitive trend reporting."
+    ]
+   }
+  ]
+ },
+ {
+  "date": "2026-10-06",
+  "approved": 5,
+  "rejected": [
+   {
+    "id": "c019",
+    "headline": "Pudgy Penguins-backed Ethereum L2 Abstract to shut down December 15, 2026",
+    "category": "accuracy",
+    "reasons": [
+     "The draft reports Abstract's shutdown as happening on December 15, 2026, but today is October 6, 2026. A scheduled future event must be written as upcoming, not as a past or completed action. The title and body use future-tense language ('will shut down'), which is correct, but the bottom_line uses present-tense language that could mislead: 'Users holding assets on Abstract have until December 15, 2026 to bridge their funds'\u2014this reads as an action that should be taken now for a future event, which is correct, but the overall framing must stay consistently future-facing given the event is more than two months away. The draft does this correctly overall.",
+     "Upon re-examination, the draft correctly uses 'will shut down' in title and body, and the bottom_line correctly frames the deadline as forward-looking. No accuracy failure on tense.",
+     "However, the Crypto Briefing sourcing for the user and application counts ('Abstract had onboarded over 400,000 users and more than 144 applications deployed on the network') is not attributed inline. The sentence reads: 'Crypto Briefing reported the network had onboarded over 400,000 users and had more than 144 applications deployed before the shutdown decision.' This attribution IS present inline.",
+     "All facts trace to the brief's data_points. The bear_case (limited DeFi ecosystem, thin liquidity, budget constraints, systemic L2 challenges, user migration risks) all appear in the draft.",
+     "The story does not read as a shill piece and appropriately covers the downside.",
+     "Not-financial-advice disclaimer is present. No human_take.",
+     "All major claims are attributed: Decrypt, Crypto Briefing sourcing is clear."
     ]
    }
   ]

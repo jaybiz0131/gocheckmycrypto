@@ -1,0 +1,78 @@
+{
+  "id": "c020",
+  "slug": "conduit-sues-tether-over-2-76-million-freeze-claims-no-legal-basis-for-seizure",
+  "kind": "brief",
+  "title": "Conduit sues Tether over $2.76 million freeze, claims no legal basis for seizure",
+  "dek": "Conduit filed a lawsuit alleging Tether froze $2.76 million of its USDT in September 2025 without legal justification and has refused to return it for over a year. Brazilian Federal Police confirmed they did not identify Conduit's wallet for freezing and do not know what criteria Tether used.",
+  "date": "2026-10-06",
+  "published_utc": "2026-10-06T23:12:09Z",
+  "category": "news",
+  "verdict": "VERIFIED",
+  "rank": 3,
+  "author": "Crypto Cronkite",
+  "key_fact": "Conduit claims Tether froze its $2.76 million treasury wallet in September 2025 based on undisclosed criteria, with no legal basis, causing the fintech company to lay off staff and close offices.",
+  "bottom_line": "The lawsuit raises questions about the legal and procedural standards Tether applies when freezing stablecoin wallets, particularly in cases where the account holder is not the direct subject of a law enforcement investigation. The court's treatment of Conduit's fiduciary duty claim will likely influence how stablecoin issuers manage similar freeze requests going forward.",
+  "human_take": "",
+  "body": [
+    "Conduit filed a lawsuit in U.S. District Court for the Southern District of New York on October 6, 2026, alleging that Tether froze $2.76 million of its USDT in September 2025 and has refused to return it for over a year without legal justification, according to Protos. The fintech company claims Tether acted unilaterally to freeze and seize control of its funds based on undisclosed criteria, and continues to profit from the frozen reserves.",
+    "Protos reported that Tether repeatedly referred Conduit to a contact in the Brazilian Federal Police with no context for the referral and did not substantively respond to Conduit's requests to unfreeze the funds. However, Brazilian Federal Police confirmed to Protos that they did not identify Conduit's wallet for freezing and do not know what evaluation criteria, if any, led Tether to freeze the funds.",
+    "According to Protos, the police had asked Tether to freeze wallets linked to Onix Intermedia\u00e7\u00f5es Ltda, which had used Conduit's platform. Onix shares common ownership with Bull Intermedia\u00e7\u00e3o de Neg\u00f3cios Ltda, which was under investigation. However, Conduit says Onix or its funds have not interacted with the frozen treasury wallet, and the wallet did not even exist when Onix was using Conduit's platform. Decrypt reported the treasury wallet was created in May 2025, nearly a month after Onix's last transaction on the platform.",
+    "Decrypt reported that the Federal Police never flagged Conduit's wallet and point to Tether's own T3 Financial Crime Unit as having made the freeze decision independently. The frozen wallet processed more than $1.1 billion in volume across roughly four months before being locked, per Decrypt.",
+    "Conduit contends that Tether continues to earn interest on the U.S. Treasury securities backing the frozen tokens, according to Decrypt. The freeze has hindered Conduit's ability to pre-fund and settle client transactions, resulting in the company firing employees and closing offices, per Protos.",
+    "Conduit is claiming conversion, unjust enrichment, breach of fiduciary duty, computer fraud, and a declaratory judgment in its favor, according to Protos. As relief, Protos reported that Conduit is seeking the funds unfrozen, compensatory damages no less than $2.76 million, punitive damages, and restitution and disgorgement of all interest, income, and profit made by Tether.",
+    "Tether has frozen hundreds of millions in tokens flagged for illicit activity and recently joined Circle in freezing funds tied to the Bitget hack, per Decrypt. Decrypt also reported that Tether was separately sued this year over a $42.4 million freeze."
+  ],
+  "sources": [
+    {
+      "title": "https://www.theblock.co/news/regulation/2026-10-06-conduit-sues-tether-usdt-freeze-417831",
+      "url": "https://www.theblock.co/news/regulation/2026-10-06-conduit-sues-tether-usdt-freeze-417831"
+    },
+    {
+      "title": "https://protos.com/conduit-sues-tether-over-2-8m-usdt-freeze/",
+      "url": "https://protos.com/conduit-sues-tether-over-2-8m-usdt-freeze/"
+    },
+    {
+      "title": "https://thedefiant.io/news/regulation/conduit-sues-tether-over-2-76-million-in-frozen-usdt",
+      "url": "https://thedefiant.io/news/regulation/conduit-sues-tether-over-2-76-million-in-frozen-usdt"
+    },
+    {
+      "title": "https://cointelegraph.com/news/conduit-lawsuit-tether-usdt-freeze?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "url": "https://cointelegraph.com/news/conduit-lawsuit-tether-usdt-freeze?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+  ],
+  "update_of": "senate-fails-clarity-act-cloture-vote-on-september-16-49-in-favor-50-against",
+  "board_snapshot": {
+    "as_of": "2026-10-06T23:11:46Z",
+    "assets": [
+      {
+        "symbol": "BTC",
+        "price": 85495,
+        "chg_24h_pct": -0.58
+      },
+      {
+        "symbol": "ETH",
+        "price": 2697.39,
+        "chg_24h_pct": -0.73
+      }
+    ],
+    "fng": {
+      "value": 73,
+      "label": "Greed"
+    },
+    "leverage": {
+      "funding_annual_pct": 7.6,
+      "open_interest_usd": 2558388122
+    },
+    "flows": {
+      "window_hours": 48,
+      "net_usd": -67361059,
+      "direction": "onto exchanges"
+    }
+  },
+  "also_reported_by": [
+    "Protos",
+    "The Defiant",
+    "Cointelegraph"
+  ],
+  "developing": false
+}
