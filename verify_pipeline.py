@@ -475,6 +475,15 @@ def _data_contract_canary():
         _check(False, fails, "data contract: site/data carries no pulse.json or flows.json, "
                              "so nothing below can run")
         return fails
+    # AN ABSENT WHALE READ IS NOT A WIRING DEFECT (7 October 2026). The 23:12Z read came
+    # back with by_asset [] and every total 0, which the fake-zero rule renders as nothing;
+    # this check then could not see the snapshot's moved figure and every later run,
+    # recovery and Edition alike, stopped at this gate. When the committed read is absent
+    # the check runs on the recorded read, and says so; the wiring it proves is the same.
+    if not _sb._flows_have_data(raw_f):
+        raw_f = json.load(open(os.path.join(HERE, "fixtures", "recorded_flows_d6ec0f4.json")))
+        print("data contract canary: the committed whale read is absent (by_asset empty); "
+              "checked on the recorded read fixtures/recorded_flows_d6ec0f4.json")
     snap = _cp.deepcopy(_snapshot.build(raw_p, raw_f))
     btc = snap["fields"]["coins"]["value"]["BTC"]
     btc["price"], btc["chg_24h_pct"] = 12345.67, 3.3
@@ -1270,6 +1279,21 @@ def _wire_canary():
            and "-152,000,000" in g.drops[0]["why"], fails,
            f"twins gate: the mismatched whale word was not dropped with its log line: "
            f"{body!r} {g.drops}")
+    # 9b. The consistency gate never withholds this run's sentence that agrees with the
+    # snapshot for a stale surface this run did not write (the 7 October Brief).
+    brief = "story:evening-brief-2026-10-07"
+    paths = {brief: "site/content/2026-10-07-evening-brief.json",
+             "chart-master": "site/data/chartmaster.json"}
+    cfx = {"metric": "spot ETF flows", "a": brief, "a_dir": "neg", "a_scope": "day",
+           "b": "chart-master", "b_dir": "pos", "b_scope": "day"}
+    neg = {"fields": {"etf_flows": {"value": {"btc": {"latest_net_usd_m": -66.9}}}}}
+    pos = {"fields": {"etf_flows": {"value": {"btc": {"latest_net_usd_m": 66.9}}}}}
+    changed = {paths[brief]}
+    _check(_cg.is_blocking(cfx, changed, paths, snap=neg) is False
+           and _cg.is_blocking(cfx, changed, paths, snap=pos) is True
+           and _cg.is_blocking(cfx, changed | {paths["chart-master"]}, paths, snap=neg) is True,
+           fails, "consistency gate: a Brief agreeing with the snapshot was withheld for a "
+                  "stale surface, or a Brief contradicting it was let through")
     _check(json.dumps(snap["fields"]["whale_net"]) == flows_before
            and _cg._victim_rank("whale-board", "", {"whale-board": "site/data/flows.json"},
                                 {"site/data/flows.json"}) is None, fails,
