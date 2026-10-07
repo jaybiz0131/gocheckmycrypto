@@ -566,11 +566,17 @@ def _live_layer_canary():
         return fails
     pv, fv = _snapshot.views(_snapshot.build(raw_p, raw_f), raw_p, raw_f)
     home = _sb.render_home(_sb.load_content(), fv, pv, _sb.load_chartmaster() or {}, "TEST")
-    m = _r.search(r'<section class="markets".*?</section>', home, _r.S)
-    strip = m.group(0) if m else ""
-    _check(bool(strip), fails, "live layer: the home page carries no ticker to check")
-    board = home.replace(strip, "")
-    scripts = " ".join(_r.findall(r"<script[^>]*>(.*?)</script>", home, _r.S))
+    # PROGRAM 5 SPRINT 2: on the home page the live surface is the tape, and its script
+    # is the page's one live read. The tape and that script are the "strip" below; every
+    # rule the ticker carried is asserted on them, and everything else is the Board.
+    m = _r.search(r'<section class="h-b h-tape" data-block="tape">.*?</section>', home, _r.S)
+    import home as _hm
+    tape_js = _hm.HOME_JS
+    strip = (m.group(0) if m else "") + tape_js
+    _check(bool(m) and tape_js in home, fails,
+           "live layer: the home page carries no tape, or no tape script, to check")
+    board = home.replace(m.group(0) if m else "\x00", "").replace(tape_js, "")
+    scripts = " ".join(_r.findall(r"<script[^>]*>(.*?)</script>", board, _r.S))
 
     # 1. Nothing on the Board refreshes in the browser.
     for hook in ("data-live-px", "data-live-chg", "data-live-stamp", 'data-live="'):
@@ -586,18 +592,18 @@ def _live_layer_canary():
         _check('data-live="stamp"' not in html, fails,
                f"live layer: {path} carries a browser-filled 'updated' stamp")
 
-    # 2. The ticker's own stamp says live, with its zone.
-    _check('if(as){ as.textContent = "live \u00b7 " + etClock();' in strip, fails,
+    # 2. The tape's own stamp says live, with its zone.
+    _check("st.textContent='live \\u00b7 '+etClock();" in strip, fails,
            "live layer: the ticker's stamp no longer reads 'live \u00b7 <time>'")
-    _check(bool(_r.search(r'function etClock\(\)\{.*?\+ " ET";', strip, _r.S)), fails,
+    _check(bool(_r.search(r"function etClock\(\)\{.*?\+' ET';", strip, _r.S)), fails,
            "live layer: the ticker's live clock carries no zone")
     # "live" only after an OK answer that carried a price: a 429 is JSON too.
-    _pf = _r.search(r'/simple/price[^"]*"\)\s*\.then\(function\(r\)\{if\(!r\.ok\)throw', strip)
+    _pf = _r.search(r"/simple/price[^']*'\)\s*\.then\(function\(r\)\{if\(!r\.ok\)throw", strip)
     _check(bool(_pf) and "if(!landed)return;" in strip
-           and strip.find("if(!landed)return;") < strip.find('"live \u00b7 "'), fails,
+           and strip.find("if(!landed)return;") < strip.find("'live \\u00b7 '"), fails,
            "live layer: the ticker can say 'live' without a price having landed (a 429 or "
            "an empty answer would label the build's numbers live)")
-    _m0 = _r.search(r'id="mktAsOf">(.*?)</span>\s*</span>', strip, _r.S)
+    _m0 = _r.search(r'id="tapeLive"[^>]*>(.*?)</p>', strip, _r.S)
     _check(bool(_m0) and "live" not in _m0.group(1)
            and bool(_r.search(r"\d{1,2}:\d{2} [AP]M ET on", _m0.group(1))), fails,
            f"live layer: the ticker's server-side label is not the build's stamp with its "

@@ -5742,8 +5742,9 @@ def render_home(items, flows, pulse, cm, dateline):
     # section 2 above the fold, in order; the tape replaces the ticker on this page, and
     # everything the program puts below the fold follows.
     import home as _home
+    import snapshot as _snapshot
     above = _home.above_fold(
-        SNAP or {}, pulse, flows, deltas, _home.load_json(WIRE_JSON),
+        SNAP or _snapshot.load(), pulse, flows, deltas, _home.load_json(WIRE_JSON),
         _home.load_json(NARRATIVE_JSON),
         _home.load_json(os.path.join(SITE, "data", "calendar.json")), NEWS_CADENCE_LINE)
     body = f"""<main class="wrap h-page"><section class="page">

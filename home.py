@@ -113,7 +113,7 @@ def tape(snap):
         return _block("tape", '<p class="h-wait">The tape is waiting for the snapshot\'s '
                               'Bitcoin price (CoinGecko /coins/markets).</p>')
     chg = btc.get("chg_24h_pct")
-    chg_html = (f'<span class="h-chg {_dir(chg)}" data-live-chg="bitcoin">{_pctx(chg)}</span>'
+    chg_html = (f'<span class="h-chg {_dir(chg)}" data-tape-chg="bitcoin">{_pctx(chg)}</span>'
                 if isinstance(chg, (int, float)) else "")
     week = (snapshot.value(snap, "week") or {}).get("BTC") or {}
     pts = spark_points(week.get("closes"))
@@ -134,8 +134,8 @@ def tape(snap):
             continue
         ch = c.get("chg_24h_pct")
         alts.append(f'<li><span class="h-as">{_e(name)}</span>'
-                    f'<span class="h-ap" data-live="{gid}">{_e(sb._price_fmt(c["price"]))}</span>'
-                    + (f'<span class="h-ac {_dir(ch)}" data-live-chg="{gid}">{_pctx(ch)}</span>'
+                    f'<span class="h-ap" data-tape="{gid}">{_e(sb._price_fmt(c["price"]))}</span>'
+                    + (f'<span class="h-ac {_dir(ch)}" data-tape-chg="{gid}">{_pctx(ch)}</span>'
                        if isinstance(ch, (int, float)) else "") + '</li>')
     cap = snapshot.value(snap, "total_cap") or {}
     if isinstance(cap.get("usd"), (int, float)):
@@ -148,7 +148,7 @@ def tape(snap):
     asof = _stamp(read) or snap.get("stamp_et") or ""
     inner = (f'<div class="h-tape-in"><div class="h-main">'
              f'<p class="h-name">Bitcoin <span class="h-w">24h</span></p>'
-             f'<p class="h-big"><span class="h-px" data-live="bitcoin">'
+             f'<p class="h-big"><span class="h-px" data-tape="bitcoin">'
              f'{_e(sb._price_fmt(btc["price"]))}</span>{chg_html}</p>'
              f'{spark}{rng}</div>'
              f'<ul class="h-alts">{"".join(alts)}</ul></div>'
@@ -475,22 +475,23 @@ def load_json(path):
 # pins and, only when there are some, the snapshot.
 HOME_JS = """<script>(function(){
   var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function et(){try{return new Date().toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'})+' ET';}catch(e){return '';}}
+  function etClock(){try{return new Date().toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'})+' ET';}catch(e){return '';}}
   function px(n){return '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:n>=1?2:6,maximumFractionDigits:n>=1?2:6});}
   function pc(p){return (p>=0?'+':'')+p.toFixed(2)+'%';}
   fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true')
    .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){
     var landed=0;
-    document.querySelectorAll('[data-live]').forEach(function(el){
-      var v=d[el.getAttribute('data-live')]; if(!v||typeof v.usd!=='number')return;
+    document.querySelectorAll('[data-tape]').forEach(function(el){
+      var v=d[el.getAttribute('data-tape')]; if(!v||typeof v.usd!=='number')return;
       landed++; var s=px(v.usd);
       if(el.textContent!==s){el.textContent=s; if(!RM){el.classList.remove('h-fade');void el.offsetWidth;el.classList.add('h-fade');}}
     });
-    document.querySelectorAll('[data-live-chg]').forEach(function(el){
-      var v=d[el.getAttribute('data-live-chg')]; if(!v||typeof v.usd_24h_change!=='number')return;
+    if(!landed)return;
+    document.querySelectorAll('[data-tape-chg]').forEach(function(el){
+      var v=d[el.getAttribute('data-tape-chg')]; if(!v||typeof v.usd_24h_change!=='number')return;
       el.textContent=pc(v.usd_24h_change); el.className=el.className.replace(/ ?(up|down)/g,'')+(v.usd_24h_change>0?' up':v.usd_24h_change<0?' down':'');
     });
-    var st=document.getElementById('tapeLive'); if(landed&&st){st.textContent='live \\u00b7 '+et();st.classList.add('on');}
+    var st=document.getElementById('tapeLive'); if(st){st.textContent='live \\u00b7 '+etClock();st.classList.add('on');}
   }).catch(function(){});
   var host=document.querySelector('[data-mine]'); if(!host)return;
   var picks=[]; try{picks=JSON.parse(localStorage.getItem('gcmc_coins')||'[]');}catch(e){return;}
