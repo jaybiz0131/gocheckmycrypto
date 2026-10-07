@@ -301,6 +301,10 @@ jobs:
           CRYPTOPANIC_TOKEN: ${{ secrets.CRYPTOPANIC_TOKEN }}
           WHALE_ALERT_API_KEY: ${{ secrets.WHALE_ALERT_API_KEY }}
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          # THE WIRE PATH (7 October 2026): the scheduled Edition ranks, verifies and writes
+          # wire.json with one checked note, and calls no writer; a breaking run (the cage)
+          # keeps the story path. run.py reads this to choose.
+          BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
         run: python3 run.py --mode live
 
       # FULL AUTO RELEASE (Jack's standing instruction, 2026-07-11): the adversarial verifier
@@ -598,6 +602,8 @@ jobs:
                   site/data/flows.json editorial-log.json regwatch.json \
                   site/data/source_health.json data/history site/data/calendar.json
           [ -f site/data/edition_hold.json ] && git add site/data/edition_hold.json
+          # wire.json (7 October 2026): the day's ranked clusters and the checked note.
+          [ -f site/data/wire.json ] && git add site/data/wire.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"

@@ -310,6 +310,11 @@ def section_assets(day_prices=None, now=None, fetch=None, root=None, log=None):
         a = asset_from_closes(cid, sym, dates, closes)
         a["through"] = series.get("through") or dates[-1]
         a["history_source"] = history.ENDPOINT.replace("{id}", cid)
+        # THE WEEK AND THE MONTH (7 October 2026): from the stored daily closes by date,
+        # the through date against seven and thirty days before it. The only source for a
+        # week or month figure in the desk's own text (snapshot.series_windows).
+        import snapshot as _snapshot
+        a.update(_snapshot.series_windows(series.get("closes") or {}))
         out.append(a)
     return out, notes
 

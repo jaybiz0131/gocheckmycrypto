@@ -79,8 +79,11 @@ class Budget:
         self.tokens = 0
         self.usd = 0.0
         self.calls = 0
+        # PER STAGE (7 October 2026): the ledger prices each stage, so the checked note's
+        # cost (the verifier's) and an absent stage (the writer's) are a lookup.
+        self.by_stage = {}
 
-    def record(self, model, usage):
+    def record(self, model, usage, stage=None):
         it = usage.get("input_tokens", 0) or 0
         ot = usage.get("output_tokens", 0) or 0
         it += (usage.get("cache_creation_input_tokens", 0) or 0)
@@ -89,6 +92,11 @@ class Budget:
         self.tokens += it + ot
         self.usd += (it * pin + ot * pout) / 1_000_000
         self.calls += 1
+        if stage:
+            st = self.by_stage.setdefault(stage, {"calls": 0, "tokens": 0, "usd": 0.0})
+            st["calls"] += 1
+            st["tokens"] += it + ot
+            st["usd"] = round(st["usd"] + (it * pin + ot * pout) / 1_000_000, 6)
         if self.tokens > self.max_tokens:
             raise BudgetError(f"token cap exceeded: {self.tokens} > {self.max_tokens} "
                               f"after {self.calls} call(s) -> failing closed")
@@ -115,7 +123,9 @@ class Budget:
 
     def summary(self):
         return {"calls": self.calls, "tokens": self.tokens, "usd": round(self.usd, 4),
-                "max_tokens": self.max_tokens, "max_usd": self.max_usd}
+                "max_tokens": self.max_tokens, "max_usd": self.max_usd,
+                "by_stage": {k: dict(v, usd=round(v["usd"], 4))
+                             for k, v in self.by_stage.items()}}
 
 
 class Client:
@@ -240,7 +250,7 @@ class Client:
         if resp_json.get("stop_reason") == "refusal":
             raise LLMError(f"{stage}: model refused the request (whole fallback chain, if any) "
                            f"-> failing closed")
-        self.budget.record(model, resp_json.get("usage", {}) or {})
+        self.budget.record(model, resp_json.get("usage", {}) or {}, stage=stage)
         parts = [b.get("text", "") for b in resp_json.get("content", []) if b.get("type") == "text"]
         text = "".join(parts).strip()
         if not text:
@@ -317,7 +327,7 @@ class Client:
             raise LLMError(f"replay mode: no recorded response for stage '{stage}'")
         # Charge a nominal replay cost so the budget path is exercised in tests too.
         self.budget.record(self.cfg["models"][stage]["model"],
-                           {"input_tokens": 1000, "output_tokens": 500})
+                           {"input_tokens": 1000, "output_tokens": 500}, stage=stage)
         val = self._replay[stage]
         return val if isinstance(val, str) else json.dumps(val)
 

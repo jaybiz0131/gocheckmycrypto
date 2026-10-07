@@ -73,11 +73,23 @@ Respond with ONLY a JSON object, no prose, no code fence, in exactly this shape:
       "verdict": "<VERIFIED|NEEDS-HUMAN-REVIEW|REJECT>",
       "reasons": ["<concrete reason tied to the source or a fact>"],
       "source_supported": <true|false>,
-      "shill_missed_by_editor": <true|false>
+      "shill_missed_by_editor": <true|false>,
+      "note": {"says": "<VERIFIED only: one sentence>", "unconfirmed": "<VERIFIED only: one sentence>"}
     }
   ],
   "notes": "<optional one-line note on overall divergence from the editor>"
 }
+
+THE CHECKED NOTE (VERIFIED verdicts only; omit "note" for any other verdict). Two
+sentences a reader sees beside the badge, from the source_checks you actually READ and
+nothing else:
+- "says": what the primary source says, or when no primary source was read, what the
+  strongest source you read says, naming that source ("The SEC's order states ...",
+  "CoinDesk reports ..."). One sentence.
+- "unconfirmed": what you could not confirm from what you read, specifically (a figure, a
+  motive, a second party's account, a date). If every material claim was confirmed, say
+  which part rests on a single source. One sentence. Never "nothing".
+No em dashes, no prediction, no opinion, no figure the sources you read do not carry.
 
 Include one verdict per story the editor ranked. Output valid JSON and nothing else.
 

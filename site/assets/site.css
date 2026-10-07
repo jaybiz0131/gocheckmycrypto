@@ -1949,7 +1949,9 @@ header.masthead{position:relative;z-index:300}
 .nh-l{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
 .nh-r{display:grid;grid-template-columns:76px 74px 1fr;align-items:baseline;gap:10px;
   padding:9px 0;border-bottom:1px solid var(--line)}
-.nh-t{font-family:var(--mono);font-size:12px;color:var(--faint);white-space:nowrap;
+/* Scoped to the Latest rows (7 October 2026): unscoped, this also styled the storyline
+   titles (a.nh-t) as unwrapped 12px mono, and /news ran 403px wide at 375. */
+.nh-r .nh-t{font-family:var(--mono);font-size:12px;color:var(--faint);white-space:nowrap;
   font-variant-numeric:tabular-nums}
 .nh-k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.07em;
   text-transform:uppercase;color:var(--faint);white-space:nowrap}
@@ -1960,7 +1962,7 @@ header.masthead{position:relative;z-index:300}
 .nh-wire{margin-top:14px}
 @media (max-width:640px){
   .nh-r{grid-template-columns:auto auto;grid-template-areas:"t k" "x x";gap:4px 10px}
-  .nh-t{grid-area:t} .nh-k{grid-area:k} .nh-x{grid-area:x;font-size:14.5px}
+  .nh-r .nh-t{grid-area:t} .nh-k{grid-area:k} .nh-x{grid-area:x;font-size:14.5px}
 }
 
 
@@ -2004,6 +2006,21 @@ header.masthead{position:relative;z-index:300}
 .ed-cadence{font:400 12.5px/1.4 var(--mono);color:var(--muted);margin:4px 0 12px}
 .ed-dark{font:500 italic 18px/1.4 var(--serif);color:var(--ink);margin:6px 0 14px}
 .ed-dark .bd-stamp{font-style:normal;margin-left:6px}
+/* The wire on /news (7 October 2026): numbered, the desk's one line, the reading it touches,
+   the sources counted and linked, the stamp. No icons, no gradients. */
+.wl-list{list-style:decimal;margin:10px 0 0;padding:0 0 0 26px}
+.wl-i{padding:12px 0;border-bottom:1px solid var(--line)}
+.wl-i::marker{font:600 13px var(--mono);color:var(--faint)}
+.wl-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 4px}
+.wl-mark{font:700 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--line);padding:3px 8px;border-radius:3px}
+.wl-reads{font:400 11.5px/1.3 var(--mono);color:var(--muted)}
+.wl-line{font:500 17px/1.4 var(--serif);color:var(--ink);margin:0}
+.wl-note{font:400 15px/1.5 var(--sans);color:var(--ink);margin:6px 0 0}
+.wl-meta{font:400 12px/1.5 var(--mono);color:var(--muted);margin:6px 0 0}
+.wl-meta a{color:var(--link)}
+.wl-primary{color:var(--ink);font-weight:600}
+.wl-what{font:400 12.5px/1.5 var(--mono);color:var(--muted);margin:12px 0 0}
 /* The stored series' stamp (6 October 2026): figures computed from daily closes say how
    far the closes run, and say stale once that is 48 hours or more behind the run. */
 .series-thru{font-family:var(--mono);font-size:11px;color:var(--faint);margin:8px 0 0}

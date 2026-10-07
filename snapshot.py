@@ -185,8 +185,14 @@ def build(pulse, flows):
     # THE STORED SERIES (6 October 2026). Not a reading and not in `fields`, so it never
     # sets the stamp above: each coin's daily closes carry their own through date, which
     # the tiles computed from them print.
-    hist = {a["symbol"]: {"through": a["through"], "source": a.get("history_source")}
-            for a in (pulse.get("assets") or []) if a.get("symbol") and a.get("through")}
+    hist = {}
+    for a in (pulse.get("assets") or []):
+        if a.get("symbol") and a.get("through"):
+            hist[a["symbol"]] = {"through": a["through"], "source": a.get("history_source")}
+            # the week and month the desk's text may print, from the stored closes
+            for k in ("chg_7d_pct", "chg_30d_pct", "windows_through"):
+                if a.get("series_" + k) is not None:
+                    hist[a["symbol"]][k] = a["series_" + k]
     import stablecoins as _st
     _sl = _st.load()
     snap["stablecoins"] = {"source": _sl.get("source"), "read_utc": _sl.get("read_utc"),
@@ -195,6 +201,33 @@ def build(pulse, flows):
         snap["series"] = {"source": SERIES_SOURCE, "through": min(
             v["through"] for v in hist.values()), "value": hist}
     return snap
+
+
+def series_windows(closes):
+    """THE SERIES' WEEK AND MONTH (7 October 2026). From a coin's stored daily closes,
+    {date: close}: the change from the close seven days, and thirty days, before the
+    through date to the through date's close. Returns {"series_chg_7d_pct",
+    "series_chg_30d_pct", "series_windows_through"}, a window omitted when its start
+    date is not in the series. Never from the downsampled spark (64 points over 90 days,
+    so "seven points back" was about ten days) and never from /coins/markets' own
+    percentage fields, which end at the read rather than at a close: on 6 October the
+    Brief printed 1.3% and 8.3% from the spark while the series said 2.75% and 7.45%."""
+    c = {d: v for d, v in (closes or {}).items() if isinstance(v, (int, float)) and v}
+    if not c:
+        return {}
+    t = max(c)
+    out = {"series_windows_through": t}
+    for key, back in (("series_chg_7d_pct", 7), ("series_chg_30d_pct", 30)):
+        d0 = (_dt.date.fromisoformat(t) - _dt.timedelta(days=back)).isoformat()
+        if d0 in c:
+            out[key] = round((c[t] / c[d0] - 1) * 100, 2)
+    return out
+
+
+def series_window(snap, sym, which):
+    """The snapshot's own week ("7d") or month ("30d") change for a Board coin, or None."""
+    v = ((((snap or {}).get("series") or {}).get("value") or {}).get(sym) or {})
+    return v.get(f"chg_{which}_pct")
 
 
 def movers(coins):

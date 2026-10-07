@@ -7,7 +7,10 @@
   # Refresh the two data desks first (both keyless: Whale Watch from Whale Alert's public
   # archive, Market Pulse from alternative.me/CoinGecko/DefiLlama/mempool.space; any fetch
   # error falls back to the committed snapshot instead of failing the deploy), then build.
-  command = "pip install --quiet Pillow || true; python3 whale_flows.py || true; python3 market_pulse.py || true; python3 site_build.py"
+  # THE WIRE (7 October 2026): the deterministic desk editor re-counts the wire's sources from
+  # the keyless feeds and re-orders it, no model call, capped at 120 seconds; any failure
+  # leaves the Edition's wire.json as written.
+  command = "pip install --quiet Pillow || true; python3 whale_flows.py || true; python3 market_pulse.py || true; timeout 120 python3 wire.py --refresh || true; python3 site_build.py"
   # PROGRAM 4, T-3 (2026-09-16): build only when the site changes. Exit 0 skips, exit 1
   # builds, and every unclear case in that script resolves to building. It skips the two
   # commits that change no pixel: an inactives snapshot written outside a posting window,
