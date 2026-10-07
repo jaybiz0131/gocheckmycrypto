@@ -1,0 +1,243 @@
+{
+ "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
+ "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
+ "ranked_utc": "2026-10-07T23:13:57Z",
+ "ranked_et": "7:13 PM ET on Oct 7",
+ "refreshed_utc": "2026-10-07T23:13:57Z",
+ "refreshed_et": "7:13 PM ET on Oct 7",
+ "refreshes": 0,
+ "snapshot_stamp_utc": "2026-10-07T23:12:15Z",
+ "items": [
+  {
+   "rank": 1,
+   "id": "c005",
+   "line": "Kazakhstan's National Bank will study a tenge-backed stablecoin and tokenized real-world assets with Tether.",
+   "titles": [
+    "Tether tapped by Kazakhstan\u2019s central bank to explore stablecoin and tokenization",
+    "Tether Signs Deal With Kazakhstan's Central Bank to Explore a Stablecoin and Tokenized Assets"
+   ],
+   "board_reading": "Stablecoin float",
+   "source_count": 2,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/business/2026/10/07/tether-tapped-by-kazakhstan-s-central-bank-to-explore-stablecoin-and-tokenization",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/380347/tether-kazakhstan-central-bank-stablecoin-tokenized-assets",
+     "outlet": "Decrypt",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-07T14:27:37Z",
+   "verdict": "VERIFIED",
+   "mark": "checked"
+  },
+  {
+   "rank": 2,
+   "id": "c015",
+   "line": "Robinhood purchased $25 million in bitcoin for its balance sheet, citing commitment to the crypto sector.",
+   "titles": [
+    "Robinhood adds $25 million worth of bitcoin to balance sheet as it deepens crypto push",
+    "Robinhood adds $25 million of bitcoin to its balance sheet",
+    "Robinhood Adds Bitcoin to Its Balance Sheet: A Strategic Signal from a $100B Fintech",
+    "Robinhood adds $25 million of Bitcoin to its own balance sheet",
+    "Robinhood Buys $25 Million in Bitcoin. Why Now?"
+   ],
+   "board_reading": "Bitcoin price",
+   "source_count": 5,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/business/2026-10-07-robinhood-adds-25-million-bitcoin-balance-sheet-417890",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://www.coindesk.com/markets/2026/10/07/robinhood-adds-bitcoin-worth-usd25-million-to-its-balance-sheet-report",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://bitcoinmagazine.com/bitcoin-for-corporations/robinhood-adds-bitcoin-to-its-balance-sheet-a-strategic-signal-from-a-100b-fintech",
+     "outlet": "Bitcoin Magazine",
+     "primary": false
+    },
+    {
+     "url": "https://cryptoslate.com/robinhood-adds-25-million-of-bitcoin-to-its-own-balance-sheet/",
+     "outlet": "CryptoSlate",
+     "primary": false
+    },
+    {
+     "url": "https://beincrypto.com/robinhood-buys-bitcoin-balance-sheet/",
+     "outlet": "BeInCrypto",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-07T07:08:36Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 3,
+   "id": "c032",
+   "line": "Conduit sued Tether in New York federal court over $2.76M in frozen USDT held without explanation for over a year.",
+   "titles": [
+    "Conduit sues Tether over $2.76 million freeze, says it has \u2018no legal entitlement\u2019 to funds",
+    "Conduit sues Tether over $2.8M USDT freeze",
+    "Conduit Sues Tether Over $2.76 Million in Frozen USDT",
+    "Conduit sues Tether over allegedly freezing $2.8M without explanation",
+    "Tether Is Facing Lawsuit Over Alleged $2,760,000 USDT Freeze Without Justification"
+   ],
+   "board_reading": "Stablecoin float",
+   "source_count": 6,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/regulation/2026-10-06-conduit-sues-tether-usdt-freeze-417831",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://protos.com/conduit-sues-tether-over-2-8m-usdt-freeze/",
+     "outlet": "Protos",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/news/regulation/conduit-sues-tether-over-2-76-million-in-frozen-usdt",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/conduit-lawsuit-tether-usdt-freeze?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://dailyhodl.com/2026/10/07/tether-is-facing-lawsuit-over-alleged-2760000-usdt-freeze-without-justification/",
+     "outlet": "The Daily Hodl",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-06T17:54:00Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 4,
+   "id": "c058",
+   "line": "Russia's Bank of Russia approved Sberbank to custody bitcoin and facilitate digital currency asset transfers.",
+   "titles": [
+    "Russia\u2019s Sberbank Given Green Light to Custody Bitcoin"
+   ],
+   "board_reading": "Whale net, exchange flows",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://bitcoinmagazine.com/news/russia-sberbank-can-now-custody-bitcoin",
+     "outlet": "Bitcoin Magazine",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-07T16:14:51Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 5,
+   "id": "c052",
+   "line": "Winklevoss twins filed with the SEC for a Zcash ETF under ticker WINK to trade on Nasdaq.",
+   "titles": [
+    "Another Zcash ETF Is Coming: Winklevoss Twins File for 'WINK'",
+    "Winklevoss Files for Zcash ETF With 0.25% Fee",
+    "Winklevoss Twins File for Zcash ETF 13 Years After Historic Bitcoin ETF Bid",
+    "Winklevoss-backed Zcash ETF files with SEC for Nasdaq listing"
+   ],
+   "board_reading": "Spot ETF net",
+   "source_count": 4,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://decrypt.co/380210/another-zcash-etf-coming-winklevoss-twins-wink",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/winklevoss-files-for-zcash-etf-with-0-25-fee",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/winklevoss-backed-zcash-etf-files-with-sec-for-nasdaq-listing",
+     "outlet": "cointelegraph.com",
+     "primary": false
+    },
+    {
+     "url": "https://u.today/winklevoss-twins-file-for-zcash-etf-13-years-after-historic-bitcoin-etf-bid",
+     "outlet": "U.Today",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/winklevoss-backed-zcash-etf-files-with-sec-for-nasdaq-listing?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-06T18:42:34Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 6,
+   "id": "c018",
+   "line": "Abstract, the Pudgy Penguins-backed Ethereum L2, will shut down December 15 after losing tens of millions in two years.",
+   "titles": [
+    "Pudgy Penguins' Ethereum Layer-2 Abstract Is Shutting Down",
+    "Abstract to Shut Down Ethereum Layer 2 on Dec. 15",
+    "Pudgy Penguins\u2019 Abstract becomes second Ethereum layer 2 to shut in a week"
+   ],
+   "board_reading": "Whale net, exchange flows",
+   "source_count": 3,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://decrypt.co/380225/pudgy-penguin-ethereum-layer-2-abstract-shutting-down",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/news/blockchains/abstract-to-shut-down-ethereum-layer-2-on-dec-15",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://www.coindesk.com/tech/2026/10/07/pudgy-penguins-abstract-becomes-second-ethereum-layer-2-to-shut-in-a-week",
+     "outlet": "CoinDesk",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-06T20:28:53Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  }
+ ],
+ "checked": {
+  "id": "c005",
+  "rank": 1,
+  "says": "Decrypt reports Tether signed a memorandum of understanding with Kazakhstan's National Bank and Alatau City Authority to explore a tenge-pegged stablecoin and tokenized assets, with pilots planned.",
+  "unconfirmed": "Timeline for pilot launch and which party would issue the stablecoin token are stated as unspecified in the MOU itself.",
+  "badge": "Verified",
+  "standing": "corroborated",
+  "source": "https://www.coindesk.com/business/2026/10/07/tether-tapped-by-kazakhstan-s-central-bank-to-explore-stablecoin-and-tokenization"
+ },
+ "dropped": []
+}

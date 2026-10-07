@@ -1,0 +1,32 @@
+{
+ "line": "Bitcoin fell 2.77 percent on the tape as funding remained calm, while the news brought a federal lawsuit over Tether's power to freeze stablecoin wallets without disclosed legal standards.",
+ "by": "edition",
+ "written_utc": "2026-10-07T23:15:43Z",
+ "written_et": "7:15 PM ET on Oct 7",
+ "readings": {
+  "stamp_utc": "2026-10-07T23:12:15Z",
+  "btc_24h_pct": -2.77,
+  "etf_net_usd_m": -66.9,
+  "etf_date": "07 Oct 2026",
+  "fear_greed": 71,
+  "fear_greed_band": "Greed",
+  "funding_8h_pct": 0.0059,
+  "funding_band": "calm"
+ },
+ "small_line": "Written from Bitcoin -2.77% on the day, spot ETF net -66.9M USD (07 Oct 2026), Fear & Greed 71 (greed), funding +0.0059% per 8h (calm)",
+ "wire_top3": [
+  {
+   "id": "c005",
+   "line": "Kazakhstan's National Bank will study a tenge-backed stablecoin and tokenized real-world assets with Tether."
+  },
+  {
+   "id": "c015",
+   "line": "Robinhood purchased $25 million in bitcoin for its balance sheet, citing commitment to the crypto sector."
+  },
+  {
+   "id": "c032",
+   "line": "Conduit sued Tether in New York federal court over $2.76M in frozen USDT held without explanation for over a year."
+  }
+ ],
+ "crossed": []
+}
