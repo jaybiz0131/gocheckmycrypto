@@ -1834,7 +1834,7 @@ def _em_dash_belt(html):
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           live_js=False, brand="site", og_type="website", schema_extra="", og_image=None,
-          canonical_path=None):
+          canonical_path=None, system_css=False):
     # R-4: the preconnects to Google are gone with the fonts they were for. A
     # preconnect to a host the page never contacts costs a DNS lookup and a TLS
     # handshake for nothing, on the critical path, which is the opposite of the point.
@@ -1904,6 +1904,9 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     if re.search(r'<main(\s|>)', body):
         body = re.sub(r'<main(\s|>)', r'<main id="main" tabindex="-1"\1', body, count=1)
         skip = '<a class="skip-link" href="#main">Skip to main content</a>\n'
+    # THE VISUAL SYSTEM (Program 5, section 7): the tokens and the one tile, on the pages
+    # that carry tiles or the Learn anchors.
+    _system_css = ('\n<link rel="stylesheet" href="/assets/system.css">' if system_css else "")
     page = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1935,7 +1938,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="{THEME_COLOR}">
 {fonts}
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css">{_system_css}
 </head>
 <body class="{esc(body_class)}">
 <div class="ground" aria-hidden="true"></div>
@@ -2788,19 +2791,21 @@ def _bd_delta_pct(pct, since="since yesterday"):
             f'<span class="bd-since">{esc(since)}</span></div>')
 
 
+# THE FEAR & GREED BANDS, one table (Sprint 2 item 0): the tile's word, the narrative line's
+# band and the Learn page's printed table all read this, so they cannot disagree. Each row is
+# (highest value in the band, inclusive, word).
+FNG_WORD_BANDS = ((24, "Extreme fear"), (44, "Fear"), (55, "Neutral"), (74, "Greed"),
+             (100, "Extreme greed"))
+
+
 def _fng_band(v):
-    """The Fear and Greed band word. Same thresholds the index itself publishes."""
+    """The Fear and Greed band word, from FNG_WORD_BANDS."""
     if v is None:
         return ""
-    if v <= 24:
-        return "Extreme fear"
-    if v <= 44:
-        return "Fear"
-    if v <= 55:
-        return "Neutral"
-    if v <= 74:
-        return "Greed"
-    return "Extreme greed"
+    for top, word in FNG_WORD_BANDS:
+        if v <= top:
+            return word
+    return FNG_WORD_BANDS[-1][1]
 
 
 def _fee_band(f):
@@ -5996,6 +6001,23 @@ def _learn_card(label, title, blurb, href, read=""):
             + (f'<span class="bd-stamp">{esc(read)}</span>' if read else "") + '</a>')
 
 
+# THE ANCHORS (Sprint 2 item 0): every reading a tile can show has one on /learn, and a
+# tile's "what this means" opens it. The reading's long explainer, where there is one.
+_READING_EXPLAINER = {"bitcoin": "bitcoin", "total-cap": "market", "etf-net": "etf_flows",
+                      "whale-net": "whale_flows", "stablecoin-float": "stablecoins",
+                      "funding": "leverage", "open-interest": "leverage",
+                      "fear-greed": "sentiment", "network-fee": "network"}
+
+
+def _learn_readings(by_tile):
+    import tile as _tile
+
+    def href(key):
+        e = by_tile.get(_READING_EXPLAINER.get(key))
+        return f'/learn/{e["slug"]}.html' if e else ""
+    return _tile.learn_readings(href)
+
+
 def render_learn(dateline):
     """/learn (C3): the explainer hub, mirroring the Board.
 
@@ -6057,6 +6079,7 @@ def render_learn(dateline):
      measures, why it moves, and what it does not tell you. No jargon left undefined.</p>
   {sec("The eight tiles", "One explainer for every number on the Board", board_cards,
        '<a class="bd-more" href="/pulse.html">Open the Board</a>')}
+  {_learn_readings(by_tile)}
   {sec("The Chart Master", "Learn the charts by reading and playing them", cm_cards,
        '<a class="bd-more" href="/chartmaster.html">Enter the tower</a>')}
   {sec("Owning it safely", "Custody, counterfeits, and tax", guide_cards)}
@@ -6064,7 +6087,7 @@ def render_learn(dateline):
     return shell(f"Learn the Board: every crypto number explained - {NAME}",
                  "Plain-language explainers for every number on the Board: ETF flows, "
                  "whale flows, leverage, dry powder, sentiment, network fees and more.",
-                 "Learn", body, dateline, path="/learn.html")
+                 "Learn", body, dateline, path="/learn.html", system_css=True)
 
 
 def render_cold_storage(dateline):
@@ -9481,7 +9504,7 @@ def build():
     # instead of the page title and a browser default.
     # C-E: the shell worker. Same rule as Sports: the Board is the product, and a
     # stale price from a cache is worse than no price.
-    _sw_assets = ["/assets/site.css", "/assets/icon-192.png", "/assets/icon-512.png",
+    _sw_assets = ["/assets/site.css", "/assets/system.css", "/assets/icon-192.png", "/assets/icon-512.png",
                   "/assets/favicon.svg", "/apple-touch-icon.png"]
     _ff = os.path.join(PUBLISH, "assets", "fonts")
     for _f in (sorted(os.listdir(_ff)) if os.path.isdir(_ff) else []):

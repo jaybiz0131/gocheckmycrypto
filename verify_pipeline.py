@@ -1657,6 +1657,11 @@ def _stamp_canary():
             print(f"build stamp canary: built a throwaway tree in {_o.path.basename(tmp)} "
                   f"({len(_o.listdir(out))} entries); the build's own log is captured, not "
                   f"this job's")
+            # Sprint 2: the tile and the Learn anchors read on the tree this build wrote.
+            _lp = _o.path.join(out, "learn.html")
+            _check(_o.path.exists(_lp), fails, "tile canary: the build wrote no learn.html")
+            if _o.path.exists(_lp):
+                fails.extend(_tile_canary(open(_lp, encoding="utf-8").read()))
             _sf = _o.path.join(out, "stamp.txt")
             _check(_o.path.exists(_sf), fails,
                    "build stamp canary: the build wrote no /stamp.txt")
@@ -1881,6 +1886,129 @@ def _strip_canary():
 # ours to restyle.
 CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.html",
                 "standards.html", "method.html", "whale-watch.html")
+
+
+def _tile_canary(learn_html=None):
+    """THE ONE TILE AND THE LEARN ANCHORS (Program 5 section 7; Sprint 2 item 0).
+
+    Five breaks, each one a way a tile could look right and say the wrong thing: a tile
+    with no window; a figure colored where direction means nothing (a green funding rate
+    reads as "good"); an icon or a gradient in a tile; a "what this means" that opens no
+    anchor; and thresholds printed on the Learn page that differ from the ones the
+    narrative line and the mood tiles use. `learn_html` is a built learn.html when the
+    caller has one (the stamp canary's own tree); otherwise the shipped renderer is run.
+    """
+    import re as _re
+    import tile as _t
+    import narrative as _n
+    import site_build as _sb
+    fails = []
+    ok = dict(window="current 8-hour period", since="up from +0.0041% yesterday",
+              source="OKX", stamp="7:10 PM ET on Oct 7")
+
+    def _r(key, fig, **kw):
+        """A tile that should render; a refusal is a named failure, never a crash."""
+        try:
+            return _t.render(key, fig, **dict(ok, **kw))
+        except _t.TileError as e:
+            _check(False, fails, f"tile canary: a well-formed {key} tile was refused: {e}")
+            return ""
+
+    # 1. A tile without a window fails.
+    try:
+        _t.render("funding", "+0.0060%", **dict(ok, window=""))
+        _check(False, fails, "tile canary: a tile with no window rendered")
+    except _t.TileError:
+        pass
+    # and the other rules' arguments are required the same way
+    for _k in ("since", "source"):
+        try:
+            _t.render("funding", "+0.0060%", **dict(ok, **{_k: ""}))
+            _check(False, fails, f"tile canary: a tile with no {_k} rendered")
+        except _t.TileError:
+            pass
+    try:
+        _t.render("funding", "+0.0060%", **dict(ok, stamp="7:10 PM on Oct 7"))
+        _check(False, fails, "tile canary: a tile whose stamp has no zone rendered")
+    except _t.TileError:
+        pass
+
+    # 2. A figure colored where direction means nothing fails; a price still colors.
+    _f = _r("funding", "+0.0060%", direction="up")
+    _check(not _re.search(r'class="tl-f (up|down)"', _f), fails,
+           "tile canary: the funding figure is colored, and funding has no good direction")
+    for _key in [k for k, r in _t.READINGS.items() if not r.directional]:
+        _h = _r(_key, "1", direction="down")
+        _check('class="tl-f"' in _h, fails,
+               f"tile canary: {_key} is colored, and its direction means nothing")
+    _b = _r("bitcoin", "$85,456.00", direction="up")
+    _check('class="tl-f up"' in _b, fails,
+           "tile canary: the Bitcoin figure is not colored on an up day; direction means "
+           "something there")
+
+    # 3. An icon or a gradient in a tile fails: in its markup and in its stylesheet.
+    _forbid = _re.compile(r"<(svg|img|picture|i)\b|gradient|\bicon\b", _re.I)
+    for _key in _t.READINGS:
+        _h = _r(_key, "1")
+        _check(not _forbid.search(_h), fails,
+               f"tile canary: the {_key} tile carries an icon or a gradient")
+    _css = open(os.path.join(_sb.ASSETS, "system.css"), encoding="utf-8").read()
+    for _sel, _body in _re.findall(r"([^{}]*\.tl[^{}]*)\{([^}]*)\}", _css):
+        _check(not _re.search(r"gradient|url\(|box-shadow|animation|transition", _body),
+               fails, f"tile canary: a tile rule carries a gradient, image, shadow or "
+                      f"motion: {_sel.strip()[:60]}")
+
+    # 4. A "what this means" that points at no anchor fails.
+    try:
+        _t.render("not-a-reading", "1", **ok)
+        _check(False, fails, "tile canary: a tile for a reading with no anchor rendered")
+    except _t.TileError:
+        pass
+    learn = learn_html if learn_html is not None else _sb.render_learn("canary")
+    for _key in _t.READINGS:
+        _h = _r(_key, "1")
+        _m = _re.search(r'href="/learn\.html#([^"]+)">what this means<', _h)
+        _check(bool(_m) and bool(_re.search(r'(?<![\w-])id="%s"' % _re.escape(_m.group(1)),
+                                            learn)), fails,
+               f"tile canary: the {_key} tile's what this means opens no anchor on the "
+               f"Learn page")
+
+    # 5. The thresholds printed on the Learn page are the ones narrative.py uses.
+    def _band_rows(anchor):
+        _sec = _re.search(r'<section class="lr" id="%s">(.*?)</section>' % anchor, learn,
+                          _re.S)
+        return _re.findall(r'data-band="([^"]+)"><b>[^<]*</b> <span class="lr-t">([^<]+)<',
+                           _sec.group(1)) if _sec else []
+    _fund = _band_rows("funding")
+    _check(len(_fund) == len(_n.FUNDING_BANDS), fails,
+           f"tile canary: the Learn page prints {len(_fund)} funding bands, narrative.py "
+           f"has {len(_n.FUNDING_BANDS)}")
+    for _word, _rng in _fund:
+        _nums = [float(x) for x in _re.findall(r"\d+\.\d+", _rng)]
+        if "under" in _rng and len(_nums) == 1:
+            _probe = [0.0, _nums[0] - 1e-6]
+        elif "or more" in _rng:
+            _probe = [_nums[0], _nums[0] * 10]
+        else:
+            _probe = [_nums[0], _nums[1] - 1e-6] if len(_nums) == 2 else []
+        _check(bool(_probe), fails, f"tile canary: the funding band {_word!r} prints no "
+                                    f"range the canary can read: {_rng!r}")
+        for _v in _probe:
+            for _sv in (_v, -_v):
+                _check(_n.funding_band(_sv) == _word, fails,
+                       f"tile canary: the Learn page prints {_word} for {_sv:+.4f}% per 8h; "
+                       f"narrative.py says {_n.funding_band(_sv)!r}")
+    _fg = _band_rows("fear-greed")
+    _check(len(_fg) == len(_sb.FNG_WORD_BANDS), fails,
+           f"tile canary: the Learn page prints {len(_fg)} Fear & Greed bands, the build "
+           f"has {len(_sb.FNG_WORD_BANDS)}")
+    for _word, _rng in _fg:
+        _lohi = [int(x) for x in _re.findall(r"\d+", _rng)]
+        for _v in _lohi:
+            _check(_n.fng_band(_v) == _word, fails,
+                   f"tile canary: the Learn page prints {_word} for Fear & Greed {_v}; "
+                   f"narrative.py says {_n.fng_band(_v)!r}")
+    return fails
 
 
 def _first_screen_canary():
@@ -2378,6 +2506,7 @@ def layer1_canary():
     fails.extend(_chartmaster_charts_canary())
     fails.extend(_coin_chart_canary())
     fails.extend(_first_screen_canary())
+    fails.extend(_tile_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
