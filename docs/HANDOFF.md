@@ -7,21 +7,20 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 6 October 2026, end of Program 5 Sprint 1a (section 7). `main` ends at the
-close commit on top of `747724e`. Days before 23 September live in `HANDOFF-2026-08-17.md`;
-23 September to 1 October in `HANDOFF-2026-09-23-to-10-01.md`; 4, 5 and 6 October in
-`HANDOFF-2026-10-04.md`, `-10-05.md` and `-10-06.md` (U-1).
+Last updated: 7 October 2026, end of Program 5 Sprint 1b (section 7). `main` ends at the
+close commit on top of `49f5060`. Days before 23 September live in `HANDOFF-2026-08-17.md`;
+23 September to 1 October in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 7 October in
+`HANDOFF-2026-10-04.md`, `-10-05.md`, `-10-06.md` and `-10-07.md` (U-1).
 
-**ITEM 0 OF THE NEXT SESSION, before anything new:** merge `calendar-ledger-followups`
-(`d51d056`, already on origin; Jack pushed it 6 October; branch pushes build nothing here).
-Read it, run the canary on the merged tree, push on exit 0, read it live, then start Sprint
-1b. It is its own merge and rides with nothing else (section 3, first row).
+**ITEM 0 OF THE NEXT SESSION, before anything new, and URGENT:** every brief run stops at the
+canary until it lands (section 7). Merge `claude/vibrant-ptolemy-cs9ala` (`7a026e0`, on
+origin; branch pushes build nothing here) as 8 October's first merge: read it, rebuild (K-1
+reads built output), canary on the merged tree, push on exit 0, read it live. Then Sprint 2,
+from its own opener.
 
-**The next session runs in a Claude Code cloud session** cloned from GitHub. The held branch
-is on origin; this Mac's local state (stashes, untracked files such as
-`site/data/snapshots/pulse-*.json`, the local branch `family-map-home-sections`) is not.
-`../gcm-tools` and `../gocheckmysports` are not there either: the program is
-`docs/PROGRAM-5-2026-10-05.md`; the U-rules gap this leaves is in section 3.
+**Sessions run in Claude Code cloud sessions** cloned from GitHub. The Mac's local state is
+not there, nor `../gcm-tools` or `../gocheckmysports`: the program is
+`docs/PROGRAM-5-2026-10-05.md`, the laws `docs/RULES.md` (hash in every opener).
 
 **No AI attribution on any commit or PR** (family rule): `.claude/settings.json` sets
 `attribution.commit` and `.pr` to "" and `includeCoAuthoredBy` false (Claude Code 2.1.289).
@@ -40,21 +39,27 @@ ChartMasterPage on canvas row ten), `site-audit-2026-09-14/`. Worker in
 
 ## 2. What is different on this desk
 
-- **One checked story a day (Jack, 4 October 2026).** The evening Edition publishes at
-  most one story: the top-ranked one that clears every gate AND rests on two independent
-  sources or one primary source (`standing.py`, the one rule the Edition and the badge
-  both read). The rest are held; only holds that could have led carry their draft, in
-  `site/data/edition_hold.json`, offered to the NEXT day's Edition only, as its story if
-  nothing fresh clears and the held one is still current. Breaking runs are untouched
-  (two a day, five sources, four categories). `top_n` is 6. `python3 autopilot.py
-  --dry-run` with `AUTOPILOT_OUT=<fixture dir>` runs the decision and writes nothing.
+- **The wire path (Jack, 5 October; live 7 October).** The daily written story ended. The
+  Edition ranks and verifies, then writes `site/data/wire.json` (`wire.py`): the desk's one
+  line per cluster (`wire_line`, from the editor's own call; never a source title verbatim),
+  outlets counted, primary flag, links, the Board reading from the tag rules; the checked
+  note (two sentences from the verifier's own call) on the top item that is VERIFIED and
+  can lead (`standing.py`). Researcher, writer and approver are not called (code kept);
+  autopilot stands down. The build's `wire.py --refresh` re-counts and re-orders, no
+  model. Breaking runs keep the story path. `top_n` is 6.
+- **The twins gate (`twins_gate.py`)**: our text yields to the snapshot. A Bitcoin dollar
+  figure over 1% off, a week or month figure not the stored series' (`snapshot.series_windows`),
+  a direction word against the snapshot's sign: the sentence drops, logged with both numbers
+  (`out/twins-gate.json`). On wire lines, the note, the narrative line and the Brief.
+- **The narrative line (`narrative.py`)**: written in the Brief's call, the clause table
+  when it fails; `site/data/narrative.json`; rewritten between runs only on a crossing.
+  Funding bands (Jack, 7 October): calm under 0.010% per 8h, warm under 0.030%, hot above.
 - **Three badges, and only three:** "Verified" (two or more independent sources),
   "Verified, primary source" (one primary source, listed first), "Unconfirmed, one
   report" (one secondary outlet, whatever the verdict). Standards defines each. The back
   catalogue re-labeled with the rule.
-- **The cadence line** sits under the News title and over the home story slot. "Nothing
-  cleared the bar today." prints only once the hold file carries today's Eastern date and
-  nothing published today.
+- **The cadence line**: /news prints Jack's words (`NEWS_CADENCE_LINE`); the home page keeps
+  the 4 October sentence until Sprint 2.
 - **Exchange names come from `venues.py`.** OKX is the only spelling; `destyle` rewrites
   the old one in stored copy. Whale Watch's sentence and tables come from one function,
   `whale_window()`, and every label names the window the data carries.
@@ -97,14 +102,19 @@ a Solana client upgrade, a celebrity-driven Dogecoin surge.
 
 | Item | Status |
 |---|---|
-| **`calendar-ledger-followups` `d51d056` (on origin): mixed filings stay in, the unlocks file's lines, the ledger row's Chart Master calls/tokens/cost** | **next session's item 0, its own merge** |
+| **`claude/vibrant-ptolemy-cs9ala` `7a026e0` (on origin): the gate does not withhold this run's surface that agrees with the snapshot for one it did not write; the data contract runs on the recorded whale read when the committed one is absent; funding direction per coin** | **item 0, 8 October's first merge; every brief run stops at the canary until it lands** |
+| No Brief for 7 October: withheld by the consistency gate (correct, against a stale Chart Master read); the slot's recovery stopped at the canary | lost; the fix prevents the class |
 | Unlocks: HYPE, WBT, RAIN read "page not readable from the desk, October 6" | Jack, by hand in a browser |
-| Twins gate (ruling 2d below): a Bitcoin dollar figure in our own text within 1% of the snapshot or dropped and logged; never the Board | P5 Sprint 1b |
-| The newsroom's half (program section 9): wire, checked note, narrative line and clause table, cadence line, Edition cost before and after | P5 Sprint 1b |
-| The Brief's week and month come from the stored series (`_window_changes`), the coin pages' 7d/30d from `/coins/markets`: 6 Oct Brief "up 1.3% on the week, up 8.3% on the month", markets read +2.47% and +7.01%. Two sources for one window | for 1b's twins gate |
-| The week field gives 6 closes when the read lands in a UTC 23:00 hour (168 points start after 00:00 six days back); 7 otherwise. No second request fixes it; Sprint 2 draws what is there | note for Sprint 2 |
-| `_chartmaster_crash_canary` prints its planted crash as a `::warning::` annotation on a green run (6 Oct run, 23:11:45Z); belongs inside `::stop-commands::` | small, next branch |
-| U-1 to U-13 live only in `../gocheckmysports/HANDOFF.md`, which a cloud session cannot read; U-14 to U-16 are copied below | Jack's call (close report) |
+| `narrative.py` FUNDING_BANDS comment reads PROPOSED; Jack ruled option 1 on 7 October (the numbers it holds) | reword on the next code branch |
+| Learn page prints the funding bands and the mood words' thresholds | P5 Sprint 2 |
+| The build's refresh re-orders the wire by source count, so the checked item can sit below #1 (7 Oct: #1 to #4) | Jack's call: keep, or pin the checked item first |
+| The checked note's first sentence can name a different outlet from the item's first link (7 Oct: Decrypt named, CoinDesk linked) | next branch: name the linked source |
+| Board reading from the tag rules is coarse: "shut down" and "custody" map to exchanges, so an L2 shutdown and a bank custody approval read "Whale net" | Sprint 2, with the band |
+| Home page cadence line is still the 4 October sentence | P5 Sprint 2 |
+| Coin pages print `/coins/markets` 7d/30d; the twins gate covers the newsroom's text only | P5 Sprint 3 |
+| The week field: coins outside the seven stored series read six closes in the 23:00 UTC hour | note for Sprint 2/3 |
+| The build's call to `publish_narrative` has no failing test (the unit test calls the function) | next branch |
+| Count 7 of 5 on 7 October; two builds not nameable from `/counts/today` | Jack: read Netlify's deploy list |
 | V-8 A-12 emblems: 44x29 mark and masked watermark | open, Sprint I |
 | V-9 N-3 module pages (WhaleWatchPage, ChartMasterPage, canvas row ten) | open |
 | V-10 N-1/N-2 nav: Home first, Chart Master in nav, 12th tile, read card | open |
@@ -205,33 +215,33 @@ surface and says "live · 8:21 PM ET" only after an OK answer with a landed pric
   every Edition from 22 September and every read was refused; three crashed (1, 3, 4 October)
   on K-4 `6cab8b6`. Crash fixed by Jack's 7:30 AM ET ruling with four conditions, all met.
   Cadence unchanged.
-- **d.** The twins check becomes a gate on the newsroom's own text, never on the Board: any
-  Bitcoin dollar figure in the narrative line, the checked note, a wire line or the Brief's
-  lead line must agree with the snapshot's price within 1% at the run's stamp, or it is dropped
-  from our text and the drop logged with both numbers; a linked source keeps its own figure.
-  Sprint 1b.
+- **d.** The twins check becomes a gate on the newsroom's own text, never on the Board.
+  Landed in Sprint 1b with both October 6 extensions (series-only week and month; direction
+  words yield to the snapshot's sign), section 7.
 
 **The top_n 6 ranking check** (raise top_n if a chosen story would have ranked below 6, or a
 day went dark with one below the cut): 4 Oct rank 6 of 6; 5 Oct rank 1 of 6; 6 Oct rank 3
-of 6 (rank 1 held as single-source). Settle after 10 October.
+of 6 (rank 1 held as single-source); 7 Oct (wire path) the checked note on rank 1 of 6.
+Settle after 10 October.
 
-## 7. Where this session ended (6 October 2026, evening)
+## 7. Sprint 1b, the newsroom's half (7 October 2026; day file `HANDOFF-2026-10-07.md`)
 
-- Merges, each canary exit 0, each push local = origin, 0 outstanding: `4d8a23d` 11:13:40Z,
-  `35e3922` 11:40:59Z, `9eb41fa` 11:49:10Z, `fddf690` 12:02:39Z. All read on production by
-  stamp at 375 and 1440.
-- The Edition (run 37545030660, commit `4ce5537`, built 23:19:54Z): rank 3 of 6 published,
-  "Conduit sues Tether over $2.76 million freeze"; ledger 163,794 tokens, $0.2718 (5 Oct:
-  149,861, $0.2512). Chart Master: 3 model calls, $0.0634, refused on content (the ETF flow
-  window belt), no crash; figures from the run log, since the ledger's per-stage fields land
-  with item 0. CoinGecko calls: 2 (series current, no append). Calendar: 31 entries, FRED
-  verified, 14 macro entries (CPI Oct 14 first). The consistency gate withheld the whale board
-  (the Brief said positive, the board negative), so the committed `flows.json` stayed at
-  5 October; production rebuilt it: "7:19 PM ET on Oct 6", BTC $85,456.00.
-- **Count of record: 6 of 5 on October 6**: four Sprint 1a merges before 8:10 AM ET, the
-  noon refresh, the Edition; the plan had counted three scheduled-plus-merge slots wrong,
-  corrected in the standing line (section "Live as of 24 September"). The close is documents
-  only.
+Jack's ruling of 5 October executed 7 October: the desk vets, we publish, we do not rewrite,
+we show the source. Merges, each canary exit 0, each push local = origin, 0 outstanding, each
+read on production by stamp at 375 and 1440: item 0 `65b7a26` 13:28:20Z; item 1 `8e78f40`
+13:53:33Z; item 2 `94c392b` 13:58:33Z.
+- **The first wire-path Edition** (run 37700684047, `d5342f1`): wire 6 items, checked note on
+  rank 1 (Verified), narrative line by the Edition, writer stage absent. Cost $0.0868, 71,074
+  tokens (editor $0.0649, verifier $0.0218) against 4 Oct $0.1889, 5 Oct $0.2512, 6 Oct
+  $0.2718. Chart Master separately $0.0687, refused. Live `/news` carries the wire;
+  `/data/wire.json`, `/data/narrative.json` 200.
+- **What it left:** the Brief was withheld by the consistency gate (it said ETF flows
+  negative, the snapshot agreed at -66.9M, a stale Chart Master read said positive); one
+  twins-gate drop was a false positive (Ether's funding read against Bitcoin's); the whale
+  read was absent and, committed, turned the canary red on main, so every brief run since
+  stops there at $0. All three are fixed on `claude/vibrant-ptolemy-cs9ala` `7a026e0`, item 0.
+- **Count of record: 7 of 5 on October 7** (built 7, canceled 1, read 23:46:56Z). Five are
+  the plan's; the other two cannot be named from `/counts/today`. The close is documents only.
 
 ## 8. Traps
 
