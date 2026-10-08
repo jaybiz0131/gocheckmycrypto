@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin fell 2.77 percent on the tape as funding remained calm, while the news brought a federal lawsuit over Tether's power to freeze stablecoin wallets without disclosed legal standards.",
- "by": "edition",
- "written_utc": "2026-10-07T23:15:43Z",
- "written_et": "7:15 PM ET on Oct 7",
+ "line": "Bitcoin is drifting lower on spot ETF outflows; the news is mostly stablecoins.",
+ "by": "table",
+ "written_utc": "2026-10-08T23:15:55Z",
+ "written_et": "7:15 PM ET on Oct 8",
  "readings": {
-  "stamp_utc": "2026-10-07T23:12:15Z",
-  "btc_24h_pct": -2.77,
-  "etf_net_usd_m": -66.9,
-  "etf_date": "07 Oct 2026",
-  "fear_greed": 71,
+  "stamp_utc": "2026-10-08T23:12:53Z",
+  "btc_24h_pct": -1.57,
+  "etf_net_usd_m": -25.9,
+  "etf_date": "08 Oct 2026",
+  "fear_greed": 64,
   "fear_greed_band": "Greed",
-  "funding_8h_pct": 0.0059,
+  "funding_8h_pct": 0.0033,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -2.77% on the day, spot ETF net -66.9M USD (07 Oct 2026), Fear & Greed 71 (greed), funding +0.0059% per 8h (calm)",
+ "small_line": "Written from Bitcoin -1.57% on the day, spot ETF net -25.9M USD (Oct 8, 2026), Fear & Greed 64 (greed), funding +0.0033% per 8h (calm)",
  "wire_top3": [
   {
    "id": "c005",
-   "line": "Kazakhstan's National Bank will study a tenge-backed stablecoin and tokenized real-world assets with Tether."
+   "line": "ESMA ordered EU crypto platforms to block new access to non-MiCA-compliant stablecoins within 3 months; national authorities oversee existing customer holdings."
   },
   {
-   "id": "c015",
-   "line": "Robinhood purchased $25 million in bitcoin for its balance sheet, citing commitment to the crypto sector."
+   "id": "c018",
+   "line": "Greece will impose 10% capital gains tax on crypto, exempting gains up to 500 euros annually; bill headed to parliament in November."
   },
   {
-   "id": "c032",
-   "line": "Conduit sued Tether in New York federal court over $2.76M in frozen USDT held without explanation for over a year."
+   "id": "c019",
+   "line": "Samsung Wallet adds USDC transfers on Solana for 82 million U.S. Galaxy users, enabling cross-border payouts to 60+ countries with fiat on/off-ramps."
   }
  ],
  "crossed": []
