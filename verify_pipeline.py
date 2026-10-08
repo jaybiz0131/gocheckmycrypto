@@ -1572,6 +1572,20 @@ def _whale_absent_canary():
     _check("waiting for" in raw and "$0" not in raw, fails,
            f"whale: /pulse prints a zero from an absent read, or does not say what it is "
            f"waiting for: {raw[:110]!r}")
+    # /flows: the volatile stat, from the file and from the view, never "$0".
+    absent_f = dict(absent, top_inflows=[{"symbol": "USDT", "usd": 149959500.0, "amount": 1,
+                                          "to": "Bitfinex", "from": "x", "ts": 0, "stable": True}],
+                    stablecoins={"net_buying_power_usd": -92_800_000})
+    for name, fl in (("file", absent_f),
+                     ("view", _snap.views(_snap.build(pulse, absent_f), pulse, absent_f)[1])):
+        try:
+            h = _sb.render_flows(fl, "TEST")
+            i = h.find("Volatile assets, net")
+            stat = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", h[i:i + 500])) if i >= 0 else ""
+            _check("waiting for" in stat and "$0" not in stat, fails,
+                   f"whale: /flows from the {name} prints a zero: {stat[:120]!r}")
+        except Exception as e:
+            _check(False, fails, f"whale: /flows crashed on the {name} of an absent read: {e}")
     pv, fv = _snap.views(sn, pulse, absent)
     try:
         viewed = _sb.render_pulse_hub(pv, fv, {}, "TEST")

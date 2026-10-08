@@ -6435,9 +6435,12 @@ def render_flows(flows, dateline):
 
     v = flows.get("volatile", {})
     s = flows.get("stablecoins", {})
-    net = v.get("net_usd", 0)
+    # an absent volatile reading arrives as None from the snapshot's view (8 October 2026)
+    net = v.get("net_usd")
+    if not isinstance(net, (int, float)) or not _flows_have_data(flows):
+        net = None
     dir_word = v.get("direction", "")
-    dir_cls = "up" if net >= 0 else "down"
+    dir_cls = "up" if (net or 0) >= 0 else "down"
     ribbon = ""
     if flows.get("example"):
         ribbon = ('<div class="callout"><b>Example board.</b> These are illustrative figures from '
@@ -6505,6 +6508,15 @@ def render_flows(flows, dateline):
       <span class="big">{esc(fmt_usd(biggest.get("usd", 0)))}</span>
       <span class="sub">{esc(biggest.get("symbol", ""))} &rarr; {esc(venue_name(biggest.get("to", "")))}</span>
     </div>"""
+    # NO "$0" FROM AN ABSENT READING (8 October 2026): the stat says what it is waiting for.
+    if net is None:
+        vol_stat = ('<span class="big"><span class="mut" style="font-size:.5em">no reading'
+                    f'</span></span><span class="sub">{esc(WHALE_WAITING)}</span>')
+    else:
+        vol_stat = (f'<span class="big {dir_cls}">{esc(fmt_usd(abs(net)))}</span>'
+                    f'<span class="sub">net {esc(dir_word)} &middot; gross '
+                    f'{esc(fmt_usd(v.get("inflow_usd", 0)))} on / '
+                    f'{esc(fmt_usd(v.get("outflow_usd", 0)))} off{pace_html}</span>')
     body = ww_hero() + f"""<main class="wrap"><section class="page">
   <div class="ey" style="margin:14px 0 0">
     <span class="daily-badge">refreshed through the day</span></div>
@@ -6522,9 +6534,7 @@ def render_flows(flows, dateline):
   <div class="stats">
     <div class="stat">
       <span class="lab">Volatile assets, net ({esc(winp)})</span>
-      <span class="big {dir_cls}">{esc(fmt_usd(abs(net)))}</span>
-      <span class="sub">net {esc(dir_word)} &middot; gross {esc(fmt_usd(v.get("inflow_usd", 0)))} on /
-        {esc(fmt_usd(v.get("outflow_usd", 0)))} off{pace_html}</span>
+      {vol_stat}
     </div>
     <div class="stat">
       <span class="lab">Stablecoin buying power</span>
