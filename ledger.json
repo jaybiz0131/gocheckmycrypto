@@ -2285,6 +2285,21 @@
    "wf": "Crypto Cronkite daily brief",
    "wrap": "synthesis",
    "wrap_repairs": 2
+  },
+  {
+   "breaking": false,
+   "cron": "",
+   "ev": "workflow_dispatch",
+   "guard": "false",
+   "outcome": "stood down",
+   "pinged": false,
+   "pushed": false,
+   "run": "37860727869",
+   "t": "2026-10-08T23:42:59Z",
+   "tokens": 0,
+   "usd": 0.0,
+   "wf": "Crypto Cronkite daily brief",
+   "wrap": "synthesis"
   }
  ],
  "since": "2026-09-16T16:27Z"
