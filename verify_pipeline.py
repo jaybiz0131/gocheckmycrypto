@@ -575,11 +575,17 @@ def _live_layer_canary():
         return fails
     pv, fv = _snapshot.views(_snapshot.build(raw_p, raw_f), raw_p, raw_f)
     home = _sb.render_home(_sb.load_content(), fv, pv, _sb.load_chartmaster() or {}, "TEST")
-    m = _r.search(r'<section class="markets".*?</section>', home, _r.S)
-    strip = m.group(0) if m else ""
-    _check(bool(strip), fails, "live layer: the home page carries no ticker to check")
-    board = home.replace(strip, "")
-    scripts = " ".join(_r.findall(r"<script[^>]*>(.*?)</script>", home, _r.S))
+    # PROGRAM 5 SPRINT 2: on the home page the live surface is the tape, and its script
+    # is the page's one live read. The tape and that script are the "strip" below; every
+    # rule the ticker carried is asserted on them, and everything else is the Board.
+    m = _r.search(r'<section class="h-b h-tape" data-block="tape">.*?</section>', home, _r.S)
+    import home as _hm
+    tape_js = _hm.HOME_JS
+    strip = (m.group(0) if m else "") + tape_js
+    _check(bool(m) and tape_js in home, fails,
+           "live layer: the home page carries no tape, or no tape script, to check")
+    board = home.replace(m.group(0) if m else "\x00", "").replace(tape_js, "")
+    scripts = " ".join(_r.findall(r"<script[^>]*>(.*?)</script>", board, _r.S))
 
     # 1. Nothing on the Board refreshes in the browser.
     for hook in ("data-live-px", "data-live-chg", "data-live-stamp", 'data-live="'):
@@ -595,18 +601,18 @@ def _live_layer_canary():
         _check('data-live="stamp"' not in html, fails,
                f"live layer: {path} carries a browser-filled 'updated' stamp")
 
-    # 2. The ticker's own stamp says live, with its zone.
-    _check('if(as){ as.textContent = "live \u00b7 " + etClock();' in strip, fails,
+    # 2. The tape's own stamp says live, with its zone.
+    _check("st.textContent='live \\u00b7 '+etClock();" in strip, fails,
            "live layer: the ticker's stamp no longer reads 'live \u00b7 <time>'")
-    _check(bool(_r.search(r'function etClock\(\)\{.*?\+ " ET";', strip, _r.S)), fails,
+    _check(bool(_r.search(r"function etClock\(\)\{.*?\+' ET';", strip, _r.S)), fails,
            "live layer: the ticker's live clock carries no zone")
     # "live" only after an OK answer that carried a price: a 429 is JSON too.
-    _pf = _r.search(r'/simple/price[^"]*"\)\s*\.then\(function\(r\)\{if\(!r\.ok\)throw', strip)
+    _pf = _r.search(r"/simple/price[^']*'\)\s*\.then\(function\(r\)\{if\(!r\.ok\)throw", strip)
     _check(bool(_pf) and "if(!landed)return;" in strip
-           and strip.find("if(!landed)return;") < strip.find('"live \u00b7 "'), fails,
+           and strip.find("if(!landed)return;") < strip.find("'live \\u00b7 '"), fails,
            "live layer: the ticker can say 'live' without a price having landed (a 429 or "
            "an empty answer would label the build's numbers live)")
-    _m0 = _r.search(r'id="mktAsOf">(.*?)</span>\s*</span>', strip, _r.S)
+    _m0 = _r.search(r'id="tapeLive"[^>]*>(.*?)</p>', strip, _r.S)
     _check(bool(_m0) and "live" not in _m0.group(1)
            and bool(_r.search(r"\d{1,2}:\d{2} [AP]M ET on", _m0.group(1))), fails,
            f"live layer: the ticker's server-side label is not the build's stamp with its "
@@ -742,7 +748,12 @@ def _stored_series_canary():
         thr = ser["through"]
         pulse = {"assets": [btc] if btc else [], "written_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
                  "generated_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ")}
-        grid = _sb.board_tile_grid(_sb.board_tiles(pulse, {}, {}), {}, pulse, {}, cm_slot=False)
+        import home as _hm
+        _snap1 = {"stamp_et": _snapshot.stamp_et(pulse["generated_utc"]),
+                  "fields": {"coins": {"read_utc": pulse["generated_utc"],
+                                       "value": {"BTC": {"price": (btc or {}).get("price")
+                                                         or pts[-1][1]}}}}}
+        grid = _hm.t_bitcoin(_snap1, pulse, {})
         want = _h.through_label(thr)
         _check(bool(btc) and want and want in grid, fails,
                f"stored series: after a failed append the Bitcoin tile does not print "
@@ -1813,6 +1824,17 @@ def _stamp_canary():
             print(f"build stamp canary: built a throwaway tree in {_o.path.basename(tmp)} "
                   f"({len(_o.listdir(out))} entries); the build's own log is captured, not "
                   f"this job's")
+            # Sprint 2: the tile and the Learn anchors read on the tree this build wrote.
+            _lp = _o.path.join(out, "learn.html")
+            _check(_o.path.exists(_lp), fails, "tile canary: the build wrote no learn.html")
+            if _o.path.exists(_lp):
+                fails.extend(_tile_canary(open(_lp, encoding="utf-8").read()))
+            _ip = _o.path.join(out, "index.html")
+            if _o.path.exists(_ip):
+                _ih = open(_ip, encoding="utf-8").read()
+                fails.extend(_home_canary(_ih))
+                fails.extend(_below_canary(_ih))
+                fails.extend(_home_budget_canary(out, _ih))
             _sf = _o.path.join(out, "stamp.txt")
             _check(_o.path.exists(_sf), fails,
                    "build stamp canary: the build wrote no /stamp.txt")
@@ -2039,6 +2061,474 @@ CHROME_PAGES = ("index.html", "pulse.html", "wire.html", "news.html", "about.htm
                 "standards.html", "method.html", "whale-watch.html")
 
 
+def _tile_canary(learn_html=None):
+    """THE ONE TILE AND THE LEARN ANCHORS (Program 5 section 7; Sprint 2 item 0).
+
+    Five breaks, each one a way a tile could look right and say the wrong thing: a tile
+    with no window; a figure colored where direction means nothing (a green funding rate
+    reads as "good"); an icon or a gradient in a tile; a "what this means" that opens no
+    anchor; and thresholds printed on the Learn page that differ from the ones the
+    narrative line and the mood tiles use. `learn_html` is a built learn.html when the
+    caller has one (the stamp canary's own tree); otherwise the shipped renderer is run.
+    """
+    import re as _re
+    import tile as _t
+    import narrative as _n
+    import site_build as _sb
+    fails = []
+    ok = dict(window="current 8-hour period", since="up from +0.0041% yesterday",
+              source="OKX", stamp="7:10 PM ET on Oct 7")
+
+    def _r(key, fig, **kw):
+        """A tile that should render; a refusal is a named failure, never a crash."""
+        try:
+            return _t.render(key, fig, **dict(ok, **kw))
+        except _t.TileError as e:
+            _check(False, fails, f"tile canary: a well-formed {key} tile was refused: {e}")
+            return ""
+
+    # 1. A tile without a window fails.
+    try:
+        _t.render("funding", "+0.0060%", **dict(ok, window=""))
+        _check(False, fails, "tile canary: a tile with no window rendered")
+    except _t.TileError:
+        pass
+    # and the other rules' arguments are required the same way
+    for _k in ("since", "source"):
+        try:
+            _t.render("funding", "+0.0060%", **dict(ok, **{_k: ""}))
+            _check(False, fails, f"tile canary: a tile with no {_k} rendered")
+        except _t.TileError:
+            pass
+    try:
+        _t.render("funding", "+0.0060%", **dict(ok, stamp="7:10 PM on Oct 7"))
+        _check(False, fails, "tile canary: a tile whose stamp has no zone rendered")
+    except _t.TileError:
+        pass
+
+    # 2. A figure colored where direction means nothing fails; a price still colors.
+    _f = _r("funding", "+0.0060%", direction="up")
+    _check(not _re.search(r'class="tl-f (up|down)"', _f), fails,
+           "tile canary: the funding figure is colored, and funding has no good direction")
+    for _key in [k for k, r in _t.READINGS.items() if not r.directional]:
+        _h = _r(_key, "1", direction="down")
+        _check('class="tl-f"' in _h, fails,
+               f"tile canary: {_key} is colored, and its direction means nothing")
+    _b = _r("bitcoin", "$85,456.00", direction="up")
+    _check('class="tl-f up"' in _b, fails,
+           "tile canary: the Bitcoin figure is not colored on an up day; direction means "
+           "something there")
+
+    # 3. An icon or a gradient in a tile fails: in its markup and in its stylesheet.
+    _forbid = _re.compile(r"<(svg|img|picture|i)\b|gradient|\bicon\b", _re.I)
+    for _key in _t.READINGS:
+        _h = _r(_key, "1")
+        _check(not _forbid.search(_h), fails,
+               f"tile canary: the {_key} tile carries an icon or a gradient")
+    _css = open(os.path.join(_sb.ASSETS, "system.css"), encoding="utf-8").read()
+    for _sel, _body in _re.findall(r"([^{}]*\.tl[^{}]*)\{([^}]*)\}", _css):
+        _check(not _re.search(r"gradient|url\(|box-shadow|animation|transition", _body),
+               fails, f"tile canary: a tile rule carries a gradient, image, shadow or "
+                      f"motion: {_sel.strip()[:60]}")
+
+    # 4. A "what this means" that points at no anchor fails.
+    try:
+        _t.render("not-a-reading", "1", **ok)
+        _check(False, fails, "tile canary: a tile for a reading with no anchor rendered")
+    except _t.TileError:
+        pass
+    learn = learn_html if learn_html is not None else _sb.render_learn("canary")
+    for _key in _t.READINGS:
+        _h = _r(_key, "1")
+        _m = _re.search(r'href="/learn\.html#([^"]+)">what this means<', _h)
+        _check(bool(_m) and bool(_re.search(r'(?<![\w-])id="%s"' % _re.escape(_m.group(1)),
+                                            learn)), fails,
+               f"tile canary: the {_key} tile's what this means opens no anchor on the "
+               f"Learn page")
+
+    # 5. The thresholds printed on the Learn page are the ones narrative.py uses.
+    def _band_rows(anchor):
+        _sec = _re.search(r'<section class="lr" id="%s">(.*?)</section>' % anchor, learn,
+                          _re.S)
+        return _re.findall(r'data-band="([^"]+)"><b>[^<]*</b> <span class="lr-t">([^<]+)<',
+                           _sec.group(1)) if _sec else []
+    _fund = _band_rows("funding")
+    _check(len(_fund) == len(_n.FUNDING_BANDS), fails,
+           f"tile canary: the Learn page prints {len(_fund)} funding bands, narrative.py "
+           f"has {len(_n.FUNDING_BANDS)}")
+    for _word, _rng in _fund:
+        _nums = [float(x) for x in _re.findall(r"\d+\.\d+", _rng)]
+        if "under" in _rng and len(_nums) == 1:
+            _probe = [0.0, _nums[0] - 1e-6]
+        elif "or more" in _rng:
+            _probe = [_nums[0], _nums[0] * 10]
+        else:
+            _probe = [_nums[0], _nums[1] - 1e-6] if len(_nums) == 2 else []
+        _check(bool(_probe), fails, f"tile canary: the funding band {_word!r} prints no "
+                                    f"range the canary can read: {_rng!r}")
+        for _v in _probe:
+            for _sv in (_v, -_v):
+                _check(_n.funding_band(_sv) == _word, fails,
+                       f"tile canary: the Learn page prints {_word} for {_sv:+.4f}% per 8h; "
+                       f"narrative.py says {_n.funding_band(_sv)!r}")
+    _fg = _band_rows("fear-greed")
+    _check(len(_fg) == len(_sb.FNG_WORD_BANDS), fails,
+           f"tile canary: the Learn page prints {len(_fg)} Fear & Greed bands, the build "
+           f"has {len(_sb.FNG_WORD_BANDS)}")
+    # and the explainer's own sentence (learn/07, Jack's ruling of 7 October) says the same
+    _ex = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "learn",
+                            "07-fear-and-greed.md"), encoding="utf-8").read()
+    _said = _re.findall(r"(\d+) to (\d+) is (extreme fear|fear|neutral|greed|extreme greed)",
+                        (_re.search(r"The bands: [^\n]*", _ex) or _re.match("", "")).group(0))
+    _want = [(str(lo), str(hi), w.lower()) for w, lo, hi in _t.fng_thresholds()]
+    _check(_said == _want, fails,
+           f"tile canary: the Fear & Greed explainer's bands {_said} are not the table's "
+           f"{_want}")
+    for _word, _rng in _fg:
+        _lohi = [int(x) for x in _re.findall(r"\d+", _rng)]
+        for _v in _lohi:
+            _check(_n.fng_band(_v) == _word, fails,
+                   f"tile canary: the Learn page prints {_word} for Fear & Greed {_v}; "
+                   f"narrative.py says {_n.fng_band(_v)!r}")
+    return fails
+
+
+def _home_fixtures():
+    import json as _j
+    import snapshot as _s
+    d = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures", "home")
+
+    def L(n):
+        return _j.load(open(os.path.join(d, n), encoding="utf-8"))
+    snap = L("snapshot_from_2026-10-06_files.json")
+    pulse, flows = _s.views(snap, L("pulse_2026-10-06T2311Z.json"), L("flows_2026-10-06.json"))
+    return snap, pulse, flows, L("wire.json"), L("narrative.json"), L("calendar.json")
+
+
+def _home_canary(index_html=None):
+    """THE FIVE-MINUTE READ (Program 5 sections 2 and 3; Sprint 2 item 1), from fixtures,
+    and on the canary's own built index.html when the caller has one. Breaks: the blocks
+    out of order; a tape field not from the snapshot; the band inventing a line with no
+    narrative.json; the why without its checked note; more or fewer than five clusters, or
+    the line under them missing; the movers, the standouts and "none today"; the calendar
+    and "nothing scheduled"; the mine block's empty state; a block above the fold that
+    section 2 does not name."""
+    import copy as _cp
+    import datetime as _d
+    import re as _re
+    import home as _h
+    import site_build as _sb
+    import snapshot as _s
+    import html as _html
+    fails = []
+
+    def _hx(x):
+        return _sb.esc(x)
+    snap, pulse, flows, wire, narr, cal = _home_fixtures()
+    deltas = _sb.board_deltas(pulse)
+    now = _d.datetime(2026, 10, 7, 16, 0, tzinfo=_d.timezone.utc)
+    cad = _sb.NEWS_CADENCE_LINE
+
+    def page(**kw):
+        a = dict(snap=snap, pulse=pulse, flows=flows, deltas=deltas, wire=wire, narr=narr,
+                 cal=cal, cadence=cad, now=now)
+        a.update(kw)
+        return _h.above_fold(**a)
+
+    def blk(html, name):
+        m = _re.search(r'<section class="h-b h-%s[^"]*" data-block="%s">(.*?)</section>'
+                       % (name, name), html, _re.S)
+        return m.group(1) if m else ""
+
+    full = page()
+    # 1. the order of the blocks as rendered, and nothing above the fold section 2 omits
+    order = _re.findall(r'data-block="([a-z]+)"', full)
+    _check(tuple(order) == _h.ABOVE_FOLD, fails,
+           f"home canary: the blocks render as {order}, not section 2's order "
+           f"{list(_h.ABOVE_FOLD)}")
+    _check(full.count("<section") == len(_h.ABOVE_FOLD), fails,
+           f"home canary: {full.count('<section')} sections above the fold; section 2 names "
+           f"{len(_h.ABOVE_FOLD)}")
+
+    # 2. every tape field from the snapshot fixture
+    t = blk(full, "tape")
+    btc = _s.coin(snap, "BTC")
+    wk = (_s.value(snap, "week") or {}).get("BTC") or {}
+    for label, want in (("Bitcoin price", _sb._price_fmt(btc["price"])),
+                        ("Bitcoin 24h", f"{btc['chg_24h_pct']:+.2f}%"),
+                        ("7-day low", _sb._price_fmt(wk["low"])),
+                        ("7-day high", _sb._price_fmt(wk["high"])),
+                        ("the Board's stamp", f"is the Board, as of {snap['stamp_et']}")):
+        _check(_hx(want) in t, fails, f"home canary: the tape does not print {label} "
+                                          f"from the snapshot ({want})")
+    for sym in ("ETH", "SOL", "XRP"):
+        c = _s.coin(snap, sym)
+        _check(_sb._price_fmt(c["price"]) in t and f"{c['chg_24h_pct']:+.2f}%" in t, fails,
+               f"home canary: the tape does not print {sym}'s price and 24h from the snapshot")
+    _pts = _re.search(r'<polyline pathLength="1" points="([^"]+)"', t)
+    _check(bool(_pts) and len(_pts.group(1).split()) == len(wk["closes"]), fails,
+           f"home canary: the seven-day line has "
+           f"{len(_pts.group(1).split()) if _pts else 0} points for "
+           f"{len(wk['closes'])} closes in the snapshot")
+    if _pts:
+        ys = [float(p.split(",")[1]) for p in _pts.group(1).split()]
+        cl = [wk["closes"][k] for k in sorted(wk["closes"])]
+        _check(ys.index(min(ys)) == cl.index(max(cl)) and ys.index(max(ys)) == cl.index(min(cl)),
+               fails, "home canary: the seven-day line is not drawn to scale from the closes")
+    _check('id="tapeLive"' in t and "as of " in t, fails,
+           "home canary: the tape carries no stamp for its live read")
+    _check(not _re.search(r"7d|7-day [+\-]|week[^<]*%", t), fails,
+           "home canary: the tape prints a week percentage; the markets read's percentage "
+           "fields are never printed")
+
+    # 2b. the since line's 200-day comes from the stored series, so it carries its through
+    # date (ruling 2b, 6 October)
+    import history as _hist
+    _thr = (_sb._btc(pulse) or {}).get("through")
+    _check(bool(_thr) and _hist.through_label(_thr) in blk(full, "since"), fails,
+           "home canary: the since line's 200-day average does not carry its closes-through "
+           "date")
+
+    # 3. the band, from a narrative fixture, and absent
+    b = blk(full, "narrative")
+    _check(_hx(narr["line"]) in b and _hx(narr["small_line"]) in b, fails,
+           "home canary: the band does not carry the narrative line and its small line")
+    b0 = blk(page(narr=None), "narrative")
+    _check("h-nline" not in b0 and f"The Board as of {snap['stamp_et']}" in b0, fails,
+           f"home canary: with no narrative.json the band is not the Board's stamp alone: "
+           f"{b0[:120]}")
+
+    # 4. the why, with a checked note and without one
+    w = blk(full, "why")
+    note = wire["checked"]
+    for part in (note["badge"], note["says"], note["unconfirmed"], "Reads with Spot ETF net",
+                 "Fixture line two"):
+        _check(_hx(part) in w, fails, f"home canary: the why does not carry {part!r}")
+    _nw = _cp.deepcopy(wire)
+    _nw["checked"] = None
+    w0 = blk(page(wire=_nw), "why")
+    _check("No wire item cleared the checks today" in w0 and "badge" not in w0, fails,
+           "home canary: with no checked note the why still shows a badge or says nothing")
+    w1 = blk(page(wire=None), "why")
+    _check("arrives with the Edition at" in w1, fails,
+           "home canary: with no wire.json the why does not say when the note arrives")
+
+    # 5. the five clusters and the line under them
+    m = blk(full, "wire")
+    lis = _re.findall(r'<li class="h-wi">(.*?)</li>', m, _re.S)
+    _check(len(lis) == 5, fails, f"home canary: {len(lis)} clusters on the home page, not five")
+    _check(sum("badge verified" in x for x in lis) == 1 and
+           sum('class="h-wm">Wire<' in x for x in lis) == 4, fails,
+           "home canary: the checked cluster does not carry its badge and the rest the wire "
+           "mark")
+    _check(all(_re.search(r"\d+ sources?", x) and "href=" in x for x in lis), fails,
+           "home canary: a cluster without its source count or its link")
+    _check(sum("Primary source" in x for x in lis) == 1, fails,
+           "home canary: the primary-source mark is not on the one primary cluster")
+    _check(_hx(wire["what_a_wire_line_is"]) in m, fails,
+           "home canary: the line saying what a wire line is and is not is missing")
+    _check(_hx(cad) in m, fails, "home canary: the home page's cadence line is not "
+                                     "Jack's words from /news")
+    m0 = blk(page(wire=None), "wire")
+    _check(f"arrives with the Edition at {_h.edition_time_et(now)}" in m0, fails,
+           "home canary: with no wire.json the block does not say the wire arrives with the "
+           "Edition, and the time")
+
+    # 6. the movers, the standouts line, and "none today"
+    mv = _s.value(snap, "movers")
+    mb = blk(full, "movers")
+    rows = _re.findall(r'<span class="h-mr">#(\d+)</span>', mb)
+    want = [str(c["rank"]) for c in mv["top20_rises"]] + ([str(mv["top20_fall"]["rank"])]
+                                                          if mv.get("top20_fall") else [])
+    _check(rows == want, fails, f"home canary: the movers show ranks {rows}, the snapshot "
+                                f"{want}")
+    _check(all(_hx(c["symbol"]) in mb for c in mv["standouts"]), fails,
+           "home canary: a top-100 standout is missing from the standouts line")
+    _sn = _cp.deepcopy(snap)
+    _sn["fields"]["movers"]["value"].update(standouts=[], standouts_line="none today")
+    _check("beyond 5% either way: none today" in blk(page(snap=_sn), "movers"), fails,
+           "home canary: with no standouts the line does not say none today")
+
+    # 7. the calendar line, and nothing scheduled
+    cb = blk(full, "today")
+    _check("8:30 AM ET" in cb and "FRED release dates" in cb and "time not published" in cb
+           and "another day" not in cb, fails,
+           "home canary: today's calendar line does not list today's events with time and "
+           "source, and only today's")
+    cb0 = blk(page(now=now + _d.timedelta(days=1)), "today")
+    _check("Nothing scheduled" in cb0, fails,
+           "home canary: a day with no events does not say nothing scheduled")
+
+    # 7b. one stamp for the Board (Jack, 7 October): every tile carries the snapshot's
+    _st = _re.findall(r'<p class="tl-src">[^<]*? &middot; ([^<]*?) &middot; <a', full)
+    _check(bool(_st) and set(_st) == {snap["stamp_et"]}, fails,
+           f"home canary: the tiles carry {sorted(set(_st))}, not the Board's one stamp "
+           f"{snap['stamp_et']!r}")
+
+    # 8. the mine block's empty state
+    _check(_h.EMPTY_MINE in blk(full, "mine") and "data-mine" in full, fails,
+           "home canary: the mine block has no empty state")
+
+    # 9. the built page: the same order, nothing else above the fold, the cadence line
+    if index_html is not None:
+        _ab = _re.search(r'<div class="h-cols" data-fold="above">(.*?)</div></div>',
+                         index_html, _re.S)
+        _check(bool(_ab), fails, "home canary: the built index.html has no above-the-fold "
+                                 "container")
+        if _ab:
+            got = _re.findall(r'<section[^>]*data-block="([a-z]+)"', _ab.group(1))
+            _check(tuple(got) == _h.ABOVE_FOLD and
+                   _ab.group(1).count("<section") == len(_h.ABOVE_FOLD), fails,
+                   f"home canary: the built page's fold carries {got}")
+        _check(_hx(cad) in index_html, fails,
+               "home canary: the built home page does not carry Jack's cadence line")
+    return fails
+
+
+HOME_BUDGET_BYTES = 300 * 1024      # Program 5 section 7: the home page under 300 KB
+HOME_HOSTS = ("api.coingecko.com",)  # the tape's live read; everything else is this site
+
+
+def _home_budget_canary(out, index_html):
+    """THE HOME PAGE'S BUDGET, as a ceiling (Sprint 2 item 3). Counted on the built tree, at
+    the bytes as built (uncompressed, so stricter than the wire): index.html, every
+    stylesheet, script, image and preload it names on this site, every font its stylesheets
+    declare, and /data/snapshot.json, the one runtime read the page makes of its own. Over
+    300 KB is a red, named with the figure. And the request list: every src, every
+    stylesheet, preload and icon href, and every URL a script on the page fetches must be
+    this site or the tape's live read; a third host is a red, named."""
+    import re as _re
+    fails = []
+    files = {"index.html"}
+    for m in _re.finditer(r'<(?:script|img|source|iframe)\b[^>]*\ssrc="([^"]+)"', index_html):
+        files.add(m.group(1))
+    for m in _re.finditer(r'<link\b[^>]*>', index_html):
+        tag = m.group(0)
+        if _re.search(r'rel="(stylesheet|preload|icon|apple-touch-icon|manifest|modulepreload)"',
+                      tag):
+            h = _re.search(r'href="([^"]+)"', tag)
+            if h:
+                files.add(h.group(1))
+    urls = set(files)
+    # a JSON-LD block is data about the page (its "https://schema.org" is a vocabulary,
+    # never fetched), so only executable scripts are read for URLs
+    for sc in _re.findall(r"<script\b(?![^>]*application/ld\+json)[^>]*>(.*?)</script>",
+                          index_html, _re.S):
+        for u in _re.findall(r"""fetch\(\s*['"]([^'"]+)['"]""", sc):
+            urls.add(u)
+        for u in _re.findall(r"""['"](https?://[^'"\s]+)""", sc):
+            urls.add(u)
+    third = sorted({_re.match(r"https?://([^/]+)", u).group(1) for u in urls
+                    if _re.match(r"https?://", u)} - set(HOME_HOSTS) - {"gocheckmycrypto.com"})
+    _check(not third, fails, f"home budget canary: the home page requests a third host: "
+                             f"{', '.join(third)}")
+    local = {u.split("?")[0].split("#")[0] for u in urls if not _re.match(r"https?://|data:", u)}
+    local.add("/data/snapshot.json")
+    css = [u for u in local if u.endswith(".css")]
+    for c in css:
+        fp = os.path.join(out, c.lstrip("/"))
+        if os.path.exists(fp):
+            for f in _re.findall(r"url\(['\"]?(/assets/fonts/[^'\")]+)", open(fp, encoding="utf-8").read()):
+                local.add(f)
+    total, missing = 0, []
+    for u in sorted(local):
+        fp = os.path.join(out, u.lstrip("/"))
+        if os.path.isfile(fp):
+            total += os.path.getsize(fp)
+        else:
+            missing.append(u)
+    _check(not missing, fails, f"home budget canary: the home page names files the build did "
+                               f"not write: {', '.join(missing[:5])}")
+    print(f"home budget canary: {total} bytes against {HOME_BUDGET_BYTES} "
+          f"({len(local)} files, as built, uncompressed)")
+    _check(total < HOME_BUDGET_BYTES, fails,
+           f"home budget canary: the home page is {total} bytes as built, over the "
+           f"{HOME_BUDGET_BYTES}-byte ceiling (300 KB)")
+    return fails
+
+
+def _below_canary(index_html=None):
+    """BELOW THE FOLD (Program 5 section 3; Sprint 2 item 2). Breaks: a Board tile drawn
+    by anything but the one renderer, or not eight of them; the whale chart's bars not
+    equal to the data's weeks; the Brief without its stamp; a Record lane with more or
+    fewer than one piece."""
+    import re as _re
+    import home as _h
+    import site_build as _sb
+    fails = []
+    snap, pulse, flows, wire, narr, cal = _home_fixtures()
+    deltas = _sb.board_deltas(pulse)
+    items = _sb.load_content()
+    ed = _sb.current_bottom_line(items)
+    html = _h.below_fold(snap, pulse, flows, deltas, items, ed)
+
+    def blk(name):
+        m = _re.search(r'<section class="h-b h-%s[^"]*" data-block="%s">(.*?)</section>'
+                       % (name, name), html, _re.S)
+        return m.group(1) if m else ""
+    order = _re.findall(r'data-block="([a-z]+)"', html)
+    _check(tuple(order) == _h.BELOW_FOLD, fails,
+           f"below canary: the blocks below the fold render as {order}")
+    # 1. eight tiles through the one renderer, and no other tile markup
+    b = blk("board")
+    tiles = _re.findall(r'<article class="tl" data-reading="([a-z-]+)">', b)
+    _check(len(tiles) == 8, fails, f"below canary: the Board has {len(tiles)} tiles, not eight")
+    _check("bd-tile" not in b and "bd-card" not in b, fails,
+           "below canary: a Board tile is drawn by the old renderer")
+    import tile as _t
+    _keys = _re.findall(r'<article class="tl" data-reading="([a-z-]+)">.*?</article>', b, _re.S)
+    _check(_keys == tiles and all(k in _t.READINGS for k in tiles), fails,
+           "below canary: a Board tile names a reading the one renderer does not know")
+    _check(not hasattr(_sb, "board_tile_grid"), fails,
+           "below canary: the old tile renderer, board_tile_grid, is back")
+    # 1b. one stamp for the Board (Jack, 7 October): the header and every tile say the same
+    _st = _re.findall(r'<p class="tl-src">[^<]*? &middot; ([^<]*?) &middot; <a', b)
+    _check(bool(_st) and set(_st) == {snap["stamp_et"]} and
+           f"As of {snap['stamp_et']}." in b, fails,
+           f"below canary: the Board's header and tiles carry {sorted(set(_st))}, not one "
+           f"stamp {snap['stamp_et']!r}")
+
+    # 2. the chart's bars equal the data's weeks
+    w = blk("whales")
+    weeks = [r for r in (flows.get("history") or []) if isinstance(r.get("net_usd"), (int, float))]
+    bars = _re.findall(r'<rect class="(up|down|flat)"', w)
+    _check(len(bars) == len(weeks) and len(weeks) > 0, fails,
+           f"below canary: the whale chart draws {len(bars)} bars for {len(weeks)} weeks")
+    _check([("up" if r["net_usd"] > 0 else "down" if r["net_usd"] < 0 else "flat")
+            for r in weeks] == bars, fails,
+           "below canary: a whale bar's direction is not its week's sign")
+    _check(_sb.esc(_h.SIGN_LINE) in w, fails,
+           "below canary: the sign convention is not under the chart")
+    # 3. the Brief's stamp
+    br = blk("brief")
+    if ed:
+        import snapshot as _s
+        _check(f"Published {_s.stamp_et(ed.get('published_utc'))}" in br
+               and _re.search(r"\d{1,2}:\d{2} [AP]M ET on", br), fails,
+               "below canary: the Brief carries no stamp with its zone")
+    _check("arrives with the Edition at" in _h.brief(None), fails,
+           "below canary: with no Brief the block does not say when it arrives")
+    # 4. one piece per lane
+    r = blk("record")
+    lanes = _re.findall(r'<li data-lane="([a-z-]+)">(.*?)</li>', r, _re.S)
+    _check(bool(lanes), fails, "below canary: the Record shows no lane")
+    _check(len({l for l, _ in lanes}) == len(lanes), fails,
+           "below canary: a Record lane appears twice")
+    for _l, _body in lanes:
+        _check(_body.count("<a ") == 1, fails,
+               f"below canary: the {_l} lane carries {_body.count('<a ')} pieces, not one")
+    if index_html is not None:
+        _bf = _re.search(r'<div class="h-below" data-fold="below">(.*)</section></main>',
+                         index_html, _re.S)
+        got = _re.findall(r'data-block="([a-z]+)"', _bf.group(1)) if _bf else []
+        _check(tuple(got) == _h.BELOW_FOLD, fails,
+               f"below canary: the built page below the fold carries {got}")
+        _check(index_html.count('<article class="tl"') ==
+               len(_re.findall(r'<article class="tl" data-reading=', index_html)), fails,
+               "below canary: a tile on the built page did not come from the one renderer")
+    return fails
+
+
 def _first_screen_canary():
     """K-9: what a phone reader can reach, and what the page says it is.
 
@@ -2063,13 +2553,12 @@ def _first_screen_canary():
     _ix = os.path.join(_sb8.PUBLISH, "index.html")
     if os.path.exists(_ix):
         _h = open(_ix, encoding="utf-8", errors="ignore").read()
-        # ONE LINE SAYING WHAT THE SITE IS, and only one.
-        _n = _h.count("Eight numbers explained every day")
-        _check(_n == 1, fails,
+        # ONE LINE SAYING WHAT THE SITE IS, and only one: since Sprint 2 the home page's
+        # one h1, "what is going on in crypto, in five minutes".
+        _n = _h.count("what is going on in crypto, in five minutes")
+        _check(_n == 1 and _h.count("<h1") == 1, fails,
                f"K-9 canary: the line that says what this site is appears {_n} times; "
                f"it is the one line of its kind on the page or it is noise")
-        _check("cb-claim" in _h, fails,
-               "K-9 canary: the Board's title carries no line under it")
     return fails
 
 
@@ -2534,6 +3023,9 @@ def layer1_canary():
     fails.extend(_chartmaster_charts_canary())
     fails.extend(_coin_chart_canary())
     fails.extend(_first_screen_canary())
+    fails.extend(_tile_canary())
+    fails.extend(_home_canary())
+    fails.extend(_below_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.
     fails.extend(_undefined_name_canary())
@@ -4529,9 +5021,9 @@ def _dark_line_canary():
     _check(_sb.CADENCE_LINE == ("One checked story a day, in the evening, Eastern time. "
                                 "More only when news breaks."), fails,
            "dark-line canary: the cadence line is not Jack's sentence")
-    # /news states the wire path in Jack's words (7 October 2026); the home page keeps the
-    # October 4 sentence until Sprint 2 builds it.
-    for _pg, _line in (("news.html", _sb.NEWS_CADENCE_LINE), ("index.html", _sb.CADENCE_LINE)):
+    # /news states the wire path in Jack's words (7 October 2026), and the home page carries
+    # the same words from Sprint 2.
+    for _pg, _line in (("news.html", _sb.NEWS_CADENCE_LINE), ("index.html", _sb.NEWS_CADENCE_LINE)):
         _f = os.path.join(_sb.PUBLISH, _pg)
         if os.path.exists(_f):
             _h = open(_f, encoding="utf-8", errors="ignore").read()

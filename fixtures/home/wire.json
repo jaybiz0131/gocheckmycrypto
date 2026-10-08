@@ -1,0 +1,16 @@
+{
+ "what": "fixture for the home canary (Sprint 2 item 1): six items, the checked note on rank 2",
+ "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
+ "ranked_utc": "2026-10-07T23:16:00Z", "ranked_et": "7:16 PM ET on Oct 7",
+ "refreshed_utc": "2026-10-07T23:16:00Z", "refreshed_et": "7:16 PM ET on Oct 7", "refreshes": 0,
+ "items": [
+  {"rank": 1, "id": "c1", "line": "Fixture line one: a court hears a stablecoin freeze case", "board_reading": "Stablecoin float", "source_count": 3, "primary": false, "standing": "corroborated", "links": [{"url": "https://www.coindesk.com/a", "outlet": "CoinDesk", "primary": false}], "reported_utc": "2026-10-07T14:00:00Z", "verdict": "REVIEW", "mark": "wire"},
+  {"rank": 2, "id": "c2", "line": "Fixture line two: the SEC posts an ETF order on its site", "board_reading": "Spot ETF net", "source_count": 2, "primary": true, "standing": "primary", "links": [{"url": "https://www.sec.gov/b", "outlet": "SEC", "primary": true}, {"url": "https://www.theblock.co/b", "outlet": "The Block", "primary": false}], "reported_utc": "2026-10-07T15:00:00Z", "verdict": "VERIFIED", "mark": "checked"},
+  {"rank": 3, "id": "c3", "line": "Fixture line three: an exchange pauses withdrawals for an upgrade", "board_reading": "Whale net, exchange flows", "source_count": 2, "primary": false, "standing": "corroborated", "links": [{"url": "https://cointelegraph.com/c", "outlet": "Cointelegraph", "primary": false}], "reported_utc": "2026-10-07T16:00:00Z", "verdict": "", "mark": "wire"},
+  {"rank": 4, "id": "c4", "line": "Fixture line four: a bridge reports a drained contract", "board_reading": "", "source_count": 1, "primary": false, "standing": "single", "links": [{"url": "https://decrypt.co/d", "outlet": "Decrypt", "primary": false}], "reported_utc": "2026-10-07T17:00:00Z", "verdict": "", "mark": "wire"},
+  {"rank": 5, "id": "c5", "line": "Fixture line five: a miner sells part of its treasury", "board_reading": "Bitcoin price", "source_count": 2, "primary": false, "standing": "corroborated", "links": [{"url": "https://www.theblock.co/e", "outlet": "The Block", "primary": false}], "reported_utc": "2026-10-07T18:00:00Z", "verdict": "", "mark": "wire"},
+  {"rank": 6, "id": "c6", "line": "Fixture line six: the sixth item, never on the home page", "board_reading": "", "source_count": 1, "primary": false, "standing": "single", "links": [{"url": "https://decrypt.co/f", "outlet": "Decrypt", "primary": false}], "reported_utc": "2026-10-07T19:00:00Z", "verdict": "", "mark": "wire"}
+ ],
+ "checked": {"id": "c2", "rank": 2, "says": "The SEC's order, posted on sec.gov, approves the listing.", "unconfirmed": "The first trading date was not confirmed by the exchange.", "badge": "Verified, primary source", "standing": "primary", "source": "https://www.sec.gov/b"},
+ "dropped": []
+}

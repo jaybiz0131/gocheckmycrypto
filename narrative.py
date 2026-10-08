@@ -30,8 +30,9 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 PATH = os.path.join(HERE, "site", "data", "narrative.json")
 
-# FUNDING BANDS, per 8 hours, absolute value. Jack's ruling of 7 October 2026 (option 1):
-# calm under 0.010%, warm under 0.030%, hot above. The Learn page prints them (Sprint 2).
+# FUNDING BANDS, per 8 hours, absolute value. Jack's ruling of 7 October 2026: calm under
+# 0.010 percent, warm under 0.030, hot above. One table: the funding tile's word, this line's
+# clause and the Learn page's printed thresholds (tile.funding_thresholds) all read it.
 FUNDING_BANDS = ((0.010, "calm"), (0.030, "warm"), (float("inf"), "hot"))
 # The tape's own dead band for "holding": under this 24-hour move either way.
 FLAT_PCT = 0.5
