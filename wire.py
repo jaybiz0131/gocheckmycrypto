@@ -305,6 +305,21 @@ def refresh(wire, clusters, now_utc):
         items.append(w)
     items.sort(key=lambda w: (-w["source_count"], w.get("rank") or 10 ** 6))
     out["items"] = items
+    # the note's link is re-resolved from its own sentence on every refresh, so a note
+    # stored before the rule (7 October: "Decrypt reports", CoinDesk linked) links what it
+    # names; one naming an outlet the item does not link is withdrawn (8 October 2026)
+    if wire.get("checked"):
+        ck = dict(wire["checked"])
+        item = next((w for w in items if w["id"] == ck.get("id")), None)
+        link, _why = note_link(ck.get("says"), (item or {}).get("links") or [])
+        if link is None:
+            out["checked"] = None
+            for w in items:
+                if w["id"] == ck.get("id"):
+                    w["mark"] = "wire"
+        else:
+            ck["source"], ck["outlet"] = link.get("url", ""), link.get("outlet", "")
+            out["checked"] = ck
     out["refreshed_utc"] = now_utc
     out["refreshed_et"] = _et(now_utc)
     out["refreshes"] = int(wire.get("refreshes") or 0) + 1

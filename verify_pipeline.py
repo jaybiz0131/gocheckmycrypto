@@ -1269,6 +1269,19 @@ def _wire_canary():
            and rf.get("checked") == w.get("checked"), fails,
            "wire refresh: a line or the note was rewritten between runs")
 
+    # 6b. The refresh re-resolves a stored note's link from its sentence (the 7 October
+    # note named Decrypt and linked CoinDesk); a note naming an unlinked outlet is withdrawn.
+    stored = json.loads(json.dumps(w))
+    stored["checked"] = dict(stored["checked"], says="The Block reports the approval.",
+                             source="https://www.coindesk.com/a")
+    rb = _w.refresh(stored, [], "2026-10-08T12:50:00Z")
+    _check((rb.get("checked") or {}).get("source") == "https://www.theblock.co/b", fails,
+           f"wire refresh: a stored note keeps a link it does not name: {rb.get('checked')}")
+    stored["checked"]["says"] = "Cointelegraph reports the approval."
+    rc2 = _w.refresh(stored, [], "2026-10-08T12:50:00Z")
+    _check(rc2.get("checked") is None and all(i["mark"] == "wire" for i in rc2["items"]), fails,
+           "wire refresh: a stored note naming an unlinked outlet was kept")
+
     # 7. The twins gate: a Bitcoin figure 1.2% off is dropped with both numbers logged,
     # 0.8% off is kept; the Board's own figure and the snapshot are untouched.
     g = gate()
