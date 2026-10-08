@@ -3656,6 +3656,9 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
     return f'<div class="bd-tiles">{"".join(cards)}</div>'
 
 
+WHALE_WAITING = "waiting for a $50M or larger move in a volatile coin onto or off an exchange"
+
+
 def _flows_have_data(flows):
     """Does the whale feed have a reading, or a window it could not fill?
 
@@ -7428,7 +7431,13 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                learn=_lx.get("etf_flows", ""))
 
     # Row 2 - where the money is moving, and how leveraged the bets are
-    if flows and flows.get("volatile"):
+    if flows and flows.get("volatile") and not _flows_have_data(flows):
+        # NO "$0" FROM AN ABSENT READING (8 October 2026): the card says what it is
+        # waiting for instead of printing a zero nothing measured.
+        widget("/flows.html", "Flows &middot; Whale Watch",
+               '<span class="mut" style="font-size:.5em">no reading</span>',
+               WHALE_WAITING, "", learn=_lx.get("whale_flows", ""))
+    elif flows and flows.get("volatile"):
         wnet = flows["volatile"].get("net_usd", 0)
         wmini = flow_ledger(
             [(f'wk {w.get("week_ending", "")}', w.get("net_usd", 0), None)

@@ -1475,6 +1475,92 @@ def _narrative_canary():
     return fails
 
 
+def _whale_absent_canary():
+    """NO FAKE ZERO FROM AN EMPTY VOLATILE READ (8 October 2026). The 7 October 23:12Z read
+    held three exchange transfers, all stablecoins: the volatile board was written empty,
+    committed over the last good file, and /pulse printed "$0 net off exchanges". Now the
+    read widens when the volatile board is empty, keeps the last good file when a week has
+    no volatile move, the snapshot carries no whale field from an absent read, and the
+    /pulse card says what it is waiting for. Fixtures only; no network."""
+    import tempfile
+    import time as _time
+    import common as _common
+    import whale_flows as _wf
+    import snapshot as _snap
+    import site_build as _sb
+    fails = []
+    tmp = tempfile.mkdtemp(prefix="whale-canary-")
+    now = _time.time()
+
+    def tx(sym, usd, hours_ago, onto=True):
+        ex, wal = {"owner": "binance", "owner_type": "exchange"}, {"owner": "", "owner_type": "unknown"}
+        return {"blockchain": "x", "symbol": sym, "hash": f"{sym}{hours_ago}", "amount": 1,
+                "amount_usd": usd, "timestamp": now - hours_ago * 3600,
+                "from": wal if onto else ex, "to": ex if onto else wal}
+    stables_only = [tx("usdt", 150_000_000, 2), tx("usdc", 80_000_000, 5, onto=False),
+                    tx("usdt", 60_000_000, 9)]
+    saved = (_wf.load_from_archive, _wf.SITE_DATA, _common.OUT_DIR)
+    prev = {"example": False, "generated_utc": "2026-10-06T23:12:00Z", "window_hours": 24,
+            "txn_count": 2, "by_asset": [{"symbol": "BTC", "net_usd": 111576750,
+                                          "inflow_usd": 0, "outflow_usd": 111576750}],
+            "volatile": {"net_usd": 111576750, "direction": "off exchanges",
+                         "inflow_usd": 0, "outflow_usd": 111576750}}
+    import contextlib as _cl
+    import io as _io
+    try:
+        _wf.SITE_DATA = os.path.join(tmp, "flows.json")
+        _common.OUT_DIR = os.path.join(tmp, "out")
+        # 1. stablecoins in 24h, a BTC move at 40h: the board widens to 48h and reads BTC.
+        _wf.load_from_archive = lambda *a, **k: stables_only + [tx("btc", 91_000_000, 40)]
+        with _cl.redirect_stdout(_io.StringIO()):
+            _wf.run()
+        w1 = json.load(open(_wf.SITE_DATA))
+        # 2. stablecoins only for a week: the last good file stays, byte for byte.
+        json.dump(prev, open(_wf.SITE_DATA, "w"))
+        before = open(_wf.SITE_DATA).read()
+        _wf.load_from_archive = lambda *a, **k: stables_only
+        with _cl.redirect_stdout(_io.StringIO()):
+            _wf.run()
+        after = open(_wf.SITE_DATA).read()
+    finally:
+        _wf.load_from_archive, _wf.SITE_DATA, _common.OUT_DIR = saved
+    _check(w1.get("window_hours") == 48 and w1.get("window_widened_from") == 24
+           and [r["symbol"] for r in w1.get("by_asset") or []] == ["BTC"], fails,
+           f"whale: a stablecoin-only 24h read did not widen to the volatile move: "
+           f"window {w1.get('window_hours')}, by_asset {w1.get('by_asset')}")
+    _check(after == before, fails,
+           "whale: a week with no volatile move overwrote the last good file")
+    # 3. The snapshot carries no whale field from an absent read.
+    absent = {"example": False, "generated_utc": "2026-10-07T23:12:15Z", "window_hours": 24,
+              "txn_count": 3, "by_asset": [],
+              "volatile": {"net_usd": 0, "direction": "off exchanges",
+                           "inflow_usd": 0, "outflow_usd": 0}}
+    pulse = json.load(open(os.path.join(HERE, "fixtures", "recorded_pulse_d6ec0f4.json")))
+    sn = _snap.build(pulse, absent)
+    _check("whale_net" not in sn.get("fields", {}), fails,
+           f"whale: the snapshot carries a whale figure from an absent read: "
+           f"{sn.get('fields', {}).get('whale_net')}")
+    _check("whale_net" in _snap.build(pulse, prev).get("fields", {}), fails,
+           "whale: the snapshot dropped a real whale reading")
+    # 4. /pulse says what it is waiting for, never "$0".
+    def card(fl):
+        h = _sb.render_pulse_hub(pulse, fl, {}, "TEST")
+        i = h.find("Flows &middot; Whale Watch")
+        return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", h[i:i + 700])) if i >= 0 else ""
+    raw = card(absent)
+    _check("waiting for" in raw and "$0" not in raw, fails,
+           f"whale: /pulse prints a zero from an absent read, or does not say what it is "
+           f"waiting for: {raw[:110]!r}")
+    pv, fv = _snap.views(sn, pulse, absent)
+    try:
+        viewed = _sb.render_pulse_hub(pv, fv, {}, "TEST")
+        _check("waiting for a $50M" in viewed, fails,
+               "whale: /pulse from the snapshot's view does not say what it is waiting for")
+    except Exception as e:
+        _check(False, fails, f"whale: /pulse crashed on the view of an absent read: {e}")
+    return fails
+
+
 def _calendar_canary():
     """ITEM 4, calendar.json (6 October 2026). Each parser from its fixture, each clock
     from known dates, the schema (no entry without a source URL and a read stamp) and the
@@ -2434,6 +2520,7 @@ def layer1_canary():
     fails.extend(_calendar_canary())
     fails.extend(_wire_canary())
     fails.extend(_narrative_canary())
+    fails.extend(_whale_absent_canary())
     fails.extend(_stamp_canary())
     cfg = common.load_config()
 

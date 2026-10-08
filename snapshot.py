@@ -139,7 +139,10 @@ def build(pulse, flows):
     put("etf_flows", etf)
 
     vol = flows.get("volatile") or {}
-    if isinstance(vol.get("net_usd"), (int, float)):
+    # an absent volatile reading (no row, no inflow, no outflow) is never a zero
+    # (8 October 2026: /data/snapshot.json carried net 0 "off exchanges" from one)
+    if isinstance(vol.get("net_usd"), (int, float)) and (
+            flows.get("by_asset") or vol.get("inflow_usd") or vol.get("outflow_usd")):
         put("whale_net", {"net_usd": vol["net_usd"], "direction": vol.get("direction"),
                           "inflow_usd": vol.get("inflow_usd"),
                           "outflow_usd": vol.get("outflow_usd"),
