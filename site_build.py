@@ -4123,6 +4123,10 @@ def _wire_block(wire):
         links = w.get("links") or []
         lead = links[0] if links else {}
         checked = note and note.get("id") == w.get("id")
+        if checked and note.get("source"):
+            # the checked item links what its note names (8 October 2026)
+            lead = next((l for l in links if l.get("url") == note["source"]),
+                        {"url": note["source"], "outlet": note.get("outlet")})
         mark = (f'<span class="badge verified">{esc(note.get("badge"))}</span>' if checked
                 else '<span class="wl-mark">Wire</span>')
         reading = (f'<span class="wl-reads">Reads with {esc(w["board_reading"])}</span>'

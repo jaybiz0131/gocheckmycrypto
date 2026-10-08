@@ -201,10 +201,51 @@ def checked_note(wire, verdicts, gate, log=print):
             log(f"wire: #{w['rank']} {w['id']} the twins gate dropped a note sentence; "
                 f"no checked note")
             return None
+        link, why = note_link(says, w["links"])
+        if link is None:
+            log(f"wire: #{w['rank']} {w['id']} the note {why}; no checked note")
+            return None
         return {"id": w["id"], "rank": w["rank"], "says": says, "unconfirmed": unconf,
                 "badge": BADGES[w["standing"]], "standing": w["standing"],
-                "source": (w["links"] or [{}])[0].get("url", "")}
+                "source": link.get("url", ""), "outlet": link.get("outlet", "")}
     return None
+
+
+def _stem(name):
+    """'CoinDesk' -> 'coindesk', 'www.theblock.co' -> 'theblock'."""
+    n = (name or "").lower().strip()
+    if "." in n and " " not in n:
+        parts = [p for p in n.split(".") if p and p != "www"]
+        n = parts[0] if parts else n
+    return re.sub(r"[^a-z0-9]+", "", n)
+
+
+def news_outlets():
+    """The secondary outlets the desk reads (config sources not tiered primary)."""
+    try:
+        import common
+        src = common.load_config().get("sources") or []
+        src = src.get("rss", src) if isinstance(src, dict) else src
+        return [s["name"] for s in src if isinstance(s, dict) and s.get("name")
+                and s.get("tier") != "primary"]
+    except Exception:
+        return []
+
+
+def note_link(says, links):
+    """THE NOTE NAMES THE OUTLET IT LINKS (8 October 2026). The 7 October note said
+    "Decrypt reports" and linked CoinDesk. Returns (link, why): the item's link whose
+    outlet the sentence names; the first link when it names none of the item's outlets
+    and no other outlet; (None, why) when it names an outlet the item does not link."""
+    flat = re.sub(r"[^a-z0-9]+", "", (says or "").lower())
+    for l in links or []:
+        if _stem(l.get("outlet")) and _stem(l.get("outlet")) in flat:
+            return l, ""
+    linked = {_stem(l.get("outlet")) for l in links or []}
+    for name in news_outlets():
+        if _stem(name) and _stem(name) in flat and _stem(name) not in linked:
+            return None, f"names {name}, which the item does not link"
+    return ((links or [None])[0]), ""
 
 
 def write(obj, path=None):

@@ -1154,6 +1154,27 @@ def _wire_canary():
     _check(_w.build(ranked(good), items, v3, snap, "t", gate=gate(), log=quiet)["checked"] is None,
            fails, "wire: a note with one sentence missing was printed")
 
+    # 4c. The note names the outlet it links (8 October 2026: "Decrypt reports", CoinDesk
+    # linked). Named and linked: that link. Named but not linked: no note.
+    nb = dict(note, says="The Block reports that in-kind creations were approved for the funds.")
+    wb = _w.build(ranked(good), items, {"verdicts": [{"id": "c1", "verdict": "VERIFIED",
+                                                      "note": nb}]},
+                  snap, "2026-10-07T23:09:00Z", gate=gate(), log=quiet)
+    ckb = wb.get("checked") or {}
+    li = _sb.wire_block(wb).split('<li class="wl-i">')[1]
+    _check(ckb.get("source") == "https://www.theblock.co/b" and ckb.get("outlet") == "The Block"
+           and 'href="https://www.theblock.co/b"' in li.split('class="wl-meta"')[1]
+           and ">The Block</a>" in li, fails,
+           f"wire: the note names The Block but links {ckb.get('source')!r}")
+    nc = dict(note, says="Cointelegraph reports that in-kind creations were approved.")
+    wc = _w.build(ranked(good), items, {"verdicts": [{"id": "c1", "verdict": "VERIFIED",
+                                                      "note": nc}]},
+                  snap, "2026-10-07T23:09:00Z", gate=gate(), log=quiet)
+    _check(wc.get("checked") is None, fails,
+           "wire: a note naming an outlet the item does not link was printed")
+    _check((w.get("checked") or {}).get("source") == sec, fails,
+           "wire: a note naming the SEC does not link the SEC's own page")
+
     # 5. The writer stage is absent from the Edition run; a breaking run keeps it.
     import common as _common
     import run as _run
