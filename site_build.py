@@ -3656,6 +3656,9 @@ def board_tile_grid(tiles, learn_href, pulse=None, flows=None, cm_slot=True):
     return f'<div class="bd-tiles">{"".join(cards)}</div>'
 
 
+WHALE_WAITING = "waiting for a $50M or larger move in a volatile coin onto or off an exchange"
+
+
 def _flows_have_data(flows):
     """Does the whale feed have a reading, or a window it could not fill?
 
@@ -4120,6 +4123,10 @@ def _wire_block(wire):
         links = w.get("links") or []
         lead = links[0] if links else {}
         checked = note and note.get("id") == w.get("id")
+        if checked and note.get("source"):
+            # the checked item links what its note names (8 October 2026)
+            lead = next((l for l in links if l.get("url") == note["source"]),
+                        {"url": note["source"], "outlet": note.get("outlet")})
         mark = (f'<span class="badge verified">{esc(note.get("badge"))}</span>' if checked
                 else '<span class="wl-mark">Wire</span>')
         reading = (f'<span class="wl-reads">Reads with {esc(w["board_reading"])}</span>'
@@ -6428,9 +6435,12 @@ def render_flows(flows, dateline):
 
     v = flows.get("volatile", {})
     s = flows.get("stablecoins", {})
-    net = v.get("net_usd", 0)
+    # an absent volatile reading arrives as None from the snapshot's view (8 October 2026)
+    net = v.get("net_usd")
+    if not isinstance(net, (int, float)) or not _flows_have_data(flows):
+        net = None
     dir_word = v.get("direction", "")
-    dir_cls = "up" if net >= 0 else "down"
+    dir_cls = "up" if (net or 0) >= 0 else "down"
     ribbon = ""
     if flows.get("example"):
         ribbon = ('<div class="callout"><b>Example board.</b> These are illustrative figures from '
@@ -6498,6 +6508,15 @@ def render_flows(flows, dateline):
       <span class="big">{esc(fmt_usd(biggest.get("usd", 0)))}</span>
       <span class="sub">{esc(biggest.get("symbol", ""))} &rarr; {esc(venue_name(biggest.get("to", "")))}</span>
     </div>"""
+    # NO "$0" FROM AN ABSENT READING (8 October 2026): the stat says what it is waiting for.
+    if net is None:
+        vol_stat = ('<span class="big"><span class="mut" style="font-size:.5em">no reading'
+                    f'</span></span><span class="sub">{esc(WHALE_WAITING)}</span>')
+    else:
+        vol_stat = (f'<span class="big {dir_cls}">{esc(fmt_usd(abs(net)))}</span>'
+                    f'<span class="sub">net {esc(dir_word)} &middot; gross '
+                    f'{esc(fmt_usd(v.get("inflow_usd", 0)))} on / '
+                    f'{esc(fmt_usd(v.get("outflow_usd", 0)))} off{pace_html}</span>')
     body = ww_hero() + f"""<main class="wrap"><section class="page">
   <div class="ey" style="margin:14px 0 0">
     <span class="daily-badge">refreshed through the day</span></div>
@@ -6515,9 +6534,7 @@ def render_flows(flows, dateline):
   <div class="stats">
     <div class="stat">
       <span class="lab">Volatile assets, net ({esc(winp)})</span>
-      <span class="big {dir_cls}">{esc(fmt_usd(abs(net)))}</span>
-      <span class="sub">net {esc(dir_word)} &middot; gross {esc(fmt_usd(v.get("inflow_usd", 0)))} on /
-        {esc(fmt_usd(v.get("outflow_usd", 0)))} off{pace_html}</span>
+      {vol_stat}
     </div>
     <div class="stat">
       <span class="lab">Stablecoin buying power</span>
@@ -7428,7 +7445,13 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                learn=_lx.get("etf_flows", ""))
 
     # Row 2 - where the money is moving, and how leveraged the bets are
-    if flows and flows.get("volatile"):
+    if flows and flows.get("volatile") and not _flows_have_data(flows):
+        # NO "$0" FROM AN ABSENT READING (8 October 2026): the card says what it is
+        # waiting for instead of printing a zero nothing measured.
+        widget("/flows.html", "Flows &middot; Whale Watch",
+               '<span class="mut" style="font-size:.5em">no reading</span>',
+               WHALE_WAITING, "", learn=_lx.get("whale_flows", ""))
+    elif flows and flows.get("volatile"):
         wnet = flows["volatile"].get("net_usd", 0)
         wmini = flow_ledger(
             [(f'wk {w.get("week_ending", "")}', w.get("net_usd", 0), None)

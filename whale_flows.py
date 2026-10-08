@@ -377,6 +377,14 @@ def weekly_history(txns, weeks=HISTORY_WEEKS, now=None):
     return out
 
 
+def volatile_reading(result):
+    """True when the volatile board measured something: a per-asset row, or a nonzero
+    inflow or outflow. Stablecoin transfers alone are not a volatile reading."""
+    v = (result or {}).get("volatile") or {}
+    return bool((result or {}).get("by_asset") or (v.get("inflow_usd") or 0)
+                or (v.get("outflow_usd") or 0))
+
+
 def run(fixture=None, window=None, example=False):
     cfg = common.load_config()
     window_hours = window or cfg.get("whale_flows", {}).get("window_hours", 24)
@@ -418,7 +426,13 @@ def run(fixture=None, window=None, example=False):
                 return 0
 
     result = analyze(txns, window_hours, top_assets, top_moves, example=example, date=date)
-    if not fixture and not result["txn_count"]:
+    # AN EMPTY VOLATILE READ IS NOT A READING (8 October 2026). The 7 October 23:12Z read
+    # held three exchange transfers, all stablecoins, so txn_count was 3 and this widening
+    # never ran: the board was written with no volatile row and a net of $0, committed,
+    # and /pulse printed "$0 net off exchanges". The widening now runs whenever the
+    # volatile board is empty, and when a week holds no volatile move the last good file
+    # stays, with its own stamp.
+    if not fixture and not volatile_reading(result):
         import time as _time
         for wider in WIDEN_HOURS:
             if wider <= window_hours:
@@ -426,13 +440,14 @@ def run(fixture=None, window=None, example=False):
             cutoff = _time.time() - wider * 3600
             txns = [t for t in txns_hist if float(t.get("timestamp") or 0) >= cutoff]
             result = analyze(txns, wider, top_assets, top_moves, example=example, date=date)
-            if result["txn_count"]:
+            if volatile_reading(result):
                 result["window_widened_from"] = window_hours
                 break
         else:
-            # Even a week of lookback is empty: keep the committed snapshot rather than
-            # overwrite it with a blank board (same fail-open as an archive fetch error).
-            common.gh("warning", f"whale_flows: no exchange-relevant transfers in the last "
+            # Even a week of lookback holds no volatile move: keep the committed snapshot
+            # rather than overwrite it with a blank board (same fail-open as an archive
+            # fetch error).
+            common.gh("warning", f"whale_flows: no volatile exchange transfer in the last "
                                  f"{WIDEN_HOURS[-1]}h -> keeping the previous snapshot.")
             return 0
     if history:

@@ -489,7 +489,30 @@ def _run_wrote(s, changed, paths):
     return authored and paths.get(s) in changed
 
 
-def is_blocking(c, changed, paths):
+def _snapshot_dir(metric, snap=None):
+    """'pos' or 'neg': the snapshot's own sign for a metric at the day window, or None.
+    `snap` defaults to the snapshot of this run's own reads."""
+    try:
+        import snapshot as _s
+        if snap is None:
+            import twins_gate
+            snap = twins_gate.current_snapshot()
+        if metric == "spot ETF flows":
+            v = ((_s.value(snap, "etf_flows") or {}).get("btc") or {}).get("latest_net_usd_m")
+        elif metric == "bitcoin price":
+            v = _s.coin(snap, "BTC").get("chg_24h_pct")
+        elif metric == "whale exchange flows":
+            v = (_s.value(snap, "whale_net") or {}).get("net_usd")   # positive: off exchanges
+        else:
+            return None
+    except Exception:
+        return None
+    if not isinstance(v, (int, float)) or not v:
+        return None
+    return "pos" if v > 0 else "neg"
+
+
+def is_blocking(c, changed, paths, snap=None):
     """Does this conflict belong to THIS run, such that publishing would ship it?
 
     Two exemptions, both from the desk's own rules:
@@ -507,6 +530,19 @@ def is_blocking(c, changed, paths):
     b_run = _run_wrote(c["b"], changed, paths)
     if not (a_run or b_run):
         return False
+    # THE SNAPSHOT DECIDES (7 October 2026, ruling 2d applied to this gate). This run's
+    # surface that AGREES with the snapshot's sign is never withheld for a collision with
+    # a surface this run did not write: on 7 October the Brief said spot ETF flows were
+    # negative on the day, the snapshot read -66.9M USD, and the Chart Master's refused
+    # night left a stale read saying positive; the gate withheld the correct Brief and the
+    # slot went unserved. It warns and flags instead; the stale side regenerates.
+    snap_dir = _snapshot_dir(c.get("metric"), snap)
+    if snap_dir:
+        for run_side, other_run, side in ((a_run, b_run, "a"), (b_run, a_run, "b")):
+            scope = str(c.get(f"{side}_scope") or "").strip().lower()
+            if run_side and not other_run and c.get(f"{side}_dir") == snap_dir \
+                    and scope in UNSCOPED + ("day",):
+                return False
     a_uns = str(c.get("a_scope") or "").strip().lower() in UNSCOPED
     b_uns = str(c.get("b_scope") or "").strip().lower() in UNSCOPED
     if a_run and not b_run and not a_uns and b_uns:
