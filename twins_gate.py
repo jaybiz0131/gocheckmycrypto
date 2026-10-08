@@ -221,6 +221,17 @@ class Gate:
                 label = f"Bitcoin {v:+.2f}% series {'month' if which == '30d' else 'week'}"
             elif name == "spot ETF net" and _WEEK_WORDS.search(low):
                 continue                 # the snapshot carries the day's net, not the week's
+            elif name == "funding":
+                # FUNDING IS PER COIN (7 October 2026): the first cut read every funding
+                # sentence against Bitcoin's and dropped a true one about Ether. The coin
+                # named nearest before the context word owns it; Bitcoin when none is.
+                import snapshot as _s
+                sym = self._coin_before(low, c[0]) or "BTC"
+                f = (_s.value(self.snap, "funding") or {}).get(sym) or {}
+                v = f.get("funding_8h_pct")
+                if not isinstance(v, (int, float)):
+                    continue
+                label = f"{sym} funding {v:+.4f}% per 8h"
             else:
                 if name not in self.read:
                     continue

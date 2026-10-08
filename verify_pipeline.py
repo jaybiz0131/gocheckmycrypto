@@ -1279,6 +1279,17 @@ def _wire_canary():
            and "-152,000,000" in g.drops[0]["why"], fails,
            f"twins gate: the mismatched whale word was not dropped with its log line: "
            f"{body!r} {g.drops}")
+    # 9a. Funding is per coin: Ether's negative funding is not checked against Bitcoin's
+    # (the 7 October Brief's dropped sentence); a wrong word about Bitcoin's still drops.
+    sn2 = json.loads(json.dumps(snap))
+    sn2["fields"]["funding"]["value"]["ETH"] = {"funding_8h_pct": -0.0031}
+    g2 = _tg.Gate(sn2, log_path=log + ".2", quiet=True)
+    eth = "Ethereum funding turned negative at -0.0031 percent."
+    _check(g2.text(eth, "x", dollars=False) == eth
+           and g2.text("Bitcoin funding turned negative.", "x", dollars=False) == ""
+           and g2.text("Solana funding turned negative.", "x", dollars=False)
+           == "Solana funding turned negative.", fails,
+           f"twins gate: funding is not read per coin: {g2.drops}")
     # 9b. The consistency gate never withholds this run's sentence that agrees with the
     # snapshot for a stale surface this run did not write (the 7 October Brief).
     brief = "story:evening-brief-2026-10-07"
