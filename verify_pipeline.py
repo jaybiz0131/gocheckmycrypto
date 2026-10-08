@@ -1437,10 +1437,20 @@ def _narrative_canary():
            "narrative: the news clause does not follow the wire's top three")
     rec = _n.record(want, "table", r, wire, "2026-10-07T23:10:00Z")
     # 2. The readings named, on the record and in its small line.
-    for frag in ("Bitcoin -1.21% on the day", "spot ETF net +212.4M USD (2026-10-06)",
+    for frag in ("Bitcoin -1.21% on the day", "spot ETF net +212.4M USD (Oct 6, 2026)",
                  "Fear & Greed 54 (neutral)", "funding +0.0081% per 8h (calm)"):
         _check(frag in rec["small_line"], fails,
                f"narrative: the small line does not name {frag!r}: {rec['small_line']!r}")
+    # month first (8 October 2026): the source's "07 Oct 2026", on the record and on the
+    # home band from a record stored before the fix
+    r7 = dict(r, etf_date="07 Oct 2026")
+    old7 = {"line": want, "small_line": "Written from spot ETF net -66.9M USD (07 Oct 2026)",
+            "readings": r7, "written_et": "7:15 PM ET on Oct 7"}
+    import home as _home
+    band = _home.narrative_band(old7, {"stamp_et": "7:16 PM ET on Oct 7"})
+    _check("(Oct 7, 2026)" in _n.named(r7) and "07 Oct" not in _n.named(r7)
+           and "Oct 7, 2026" in band and "07 Oct" not in band, fails,
+           f"narrative: the ETF date prints day first: {_n.named(r7)!r}")
     _check(rec["readings"].get("etf_net_usd_m") == 212.4 and rec.get("written_et")
            == "7:10 PM ET on Oct 7", fails, "narrative: the record lacks its readings or stamp")
     # 3. No crossing leaves the line alone, even when readings move inside their bands.

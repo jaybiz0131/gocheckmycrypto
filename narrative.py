@@ -85,7 +85,11 @@ def named(r):
     if "btc_24h_pct" in r:
         bits.append(f"Bitcoin {r['btc_24h_pct']:+.2f}% on the day")
     if "etf_net_usd_m" in r:
-        bits.append(f"spot ETF net {r['etf_net_usd_m']:+,.1f}M USD ({r.get('etf_date')})")
+        # month first, the desk's way (8 October 2026: the source's "07 Oct 2026" printed
+        # on the home page's band as received)
+        from site_build import us_date
+        bits.append(f"spot ETF net {r['etf_net_usd_m']:+,.1f}M USD "
+                    f"({us_date(str(r.get('etf_date') or ''))})")
     if "fear_greed" in r:
         bits.append(f"Fear & Greed {r['fear_greed']:g} ({r.get('fear_greed_band', '').lower()})")
     if "funding_8h_pct" in r:

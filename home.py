@@ -166,7 +166,16 @@ def narrative_band(narr, snap):
     if not line:
         return _block("narrative", f'<p class="h-nsmall">The Board as of {_e(stamp)}.</p>',
                       cls="h-band")
-    small = str(narr.get("small_line") or "").strip()
+    # the small line from the stored readings, by today's formatter, so a record written
+    # before a format fix renders by the fix (8 October 2026)
+    small = ""
+    if narr.get("readings"):
+        try:
+            import narrative as _n
+            small = _n.named(narr["readings"])
+        except Exception:
+            small = ""
+    small = small or str(narr.get("small_line") or "").strip()
     when = narr.get("written_et") or ""
     tail = f" ({when})" if when and small else ""
     return _block("narrative", f'<p class="h-nline">{_e(line)}</p>'
