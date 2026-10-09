@@ -1,159 +1,197 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-10-08T23:14:33Z",
- "ranked_et": "7:14 PM ET on Oct 8",
- "refreshed_utc": "2026-10-08T23:14:33Z",
- "refreshed_et": "7:14 PM ET on Oct 8",
+ "ranked_utc": "2026-10-09T23:13:29Z",
+ "ranked_et": "7:13 PM ET on Oct 9",
+ "refreshed_utc": "2026-10-09T23:13:29Z",
+ "refreshed_et": "7:13 PM ET on Oct 9",
  "refreshes": 0,
- "snapshot_stamp_utc": "2026-10-08T23:12:53Z",
+ "snapshot_stamp_utc": "2026-10-09T23:11:49Z",
  "items": [
   {
-   "rank": 2,
+   "rank": 1,
    "id": "c005",
-   "line": "ESMA ordered EU crypto platforms to block new access to non-MiCA-compliant stablecoins within 3 months; national authorities oversee existing customer holdings.",
+   "line": "New York AG secured up to $35 million and permanent industry ban from former Celsius CEO Alex Mashinsky in settlement of civil fraud case.",
    "titles": [
-    "EU securities regulator gives crypto platforms 3 months to remove unauthorized stablecoins"
+    "New York AG secures up to $35 million from former Celsius CEO Alex Mashinsky",
+    "New York AG secures up to $35 million and lifetime crypto ban from Celsius\u2019 Alex Mashinsky",
+    "New York AG Secures Up to $35M and Industry Ban From Ex-Celsius CEO Alex Mashinsky"
    ],
-   "board_reading": "Stablecoin float",
-   "source_count": 2,
+   "board_reading": "",
+   "source_count": 3,
    "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/policy/2026/10/08/eu-securities-regulator-gives-crypto-platforms-3-months-to-remove-unauthorized-stablecoins",
+     "url": "https://www.theblock.co/news/regulation/2026-10-09-ny-attorney-general-alex-mashinsky-celsius-35-million-ban-418154",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://www.coindesk.com/policy/2026/10/09/new-york-ag-secures-up-to-usd35-million-and-lifetime-crypto-ban-from-celsius-alex-mashinsky",
      "outlet": "CoinDesk",
      "primary": false
     },
     {
-     "url": "https://cointelegraph.com/news/esma-unauthorised-stablecoins-three-month-deadline",
-     "outlet": "cointelegraph.com",
+     "url": "https://decrypt.co/380592/new-york-ag-secures-up-to-35m-and-industry-ban-from-ex-celsius-ceo-alex-mashinsky",
+     "outlet": "Decrypt",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-08T15:23:26Z",
+   "reported_utc": "2026-10-09T14:16:15Z",
    "verdict": "VERIFIED",
    "mark": "checked"
   },
   {
-   "rank": 3,
-   "id": "c018",
-   "line": "Greece will impose 10% capital gains tax on crypto, exempting gains up to 500 euros annually; bill headed to parliament in November.",
+   "rank": 2,
+   "id": "c006",
+   "line": "Ledger investigating $86 million in suspected crypto thefts from users who purchased devices from Southeast Asian reseller CryptoBilis.",
    "titles": [
-    "Greece prepares to levy 10% capital gains tax on cryptocurrency",
-    "Greece plans 10% capital gains tax on cryptocurrencies"
+    "Ledger investigates potential wallet tampering after reports of $86 million in crypto stolen",
+    "Ledger Investigates Crypto Theft Reports"
    ],
    "board_reading": "",
-   "source_count": 2,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/policy/2026/10/08/greece-prepares-to-levy-10-capital-gains-tax-on-cryptocurrency",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/greece-capital-gains-tax-cryptocurrencies",
-     "outlet": "cointelegraph.com",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/greece-capital-gains-tax-cryptocurrencies?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-08T09:17:18Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 5,
-   "id": "c019",
-   "line": "Samsung Wallet adds USDC transfers on Solana for 82 million U.S. Galaxy users, enabling cross-border payouts to 60+ countries with fiat on/off-ramps.",
-   "titles": [
-    "Samsung integrates USDC to overhaul cross-border remittances for 82 million Galaxy users"
-   ],
-   "board_reading": "Stablecoin float",
    "source_count": 4,
    "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/tech/2026/10/08/solana-partners-with-samsung-to-integrate-usdc-in-82-million-phones",
+     "url": "https://www.coindesk.com/business/2026/10/09/ledger-investigates-potential-wallet-tampering-after-reports-of-usd86-million-in-crypto-stolen",
      "outlet": "CoinDesk",
      "primary": false
     },
     {
-     "url": "https://decrypt.co/380377/samsung-wallet-taps-solana-for-usdc-transfers-on-82m-us-galaxy-devices",
+     "url": "https://www.theblock.co/news/business/2026-10-09-ledger-cryptobilis-fund-losses-418163",
+     "outlet": "theblock.co",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/380582/ledger-probes-87m-theft-crypto-wallet-reseller",
      "outlet": "decrypt.co",
      "primary": false
     },
     {
-     "url": "https://cointelegraph.com/news/samsung-wallet-usdc-transfers-us-galaxy-users-october",
-     "outlet": "cointelegraph.com",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/news/tradfi-and-fintech/samsung-wallet-to-add-usdc-on-sui-in-late-october",
-     "outlet": "thedefiant.io",
+     "url": "https://u.today/ledger-investigates-crypto-theft-reports",
+     "outlet": "U.Today",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-08T08:39:23Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
+   "reported_utc": "2026-10-09T14:47:27Z",
+   "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
-   "rank": 6,
-   "id": "c000",
-   "line": "Senator Blumenthal probing ties between Tether and Cantor Fitzgerald as Democrats gain Senate momentum; aims to scrutinize stablecoin banking arrangements.",
+   "rank": 3,
+   "id": "c011",
+   "line": "Thailand's SEC approved rules allowing crypto ETFs for Bitcoin and Ether to trade on Stock Exchange of Thailand starting October 16.",
    "titles": [
-    "Top Democrat among Senate investigators probes ties between Cantor Fitzgerald, Tether",
-    "Senator Blumenthal probes ties between Tether and Cantor Fitzgerald"
+    "Thailand opens door to locally listed bitcoin and ether ETFs"
    ],
-   "board_reading": "Stablecoin float",
-   "source_count": 2,
+   "board_reading": "Spot ETF net",
+   "source_count": 3,
    "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/policy/2026/10/08/top-democrat-among-senate-investigators-probes-ties-between-cantor-fitzgerald-tether",
+     "url": "https://www.coindesk.com/policy/2026/10/09/thailand-opens-door-to-locally-listed-bitcoin-and-ether-etfs",
      "outlet": "CoinDesk",
      "primary": false
     },
     {
-     "url": "https://cryptobriefing.com/blumenthal-probes-tether-cantor-fitzgerald/",
-     "outlet": "Crypto Briefing",
+     "url": "https://www.theblock.co/news/regulation/2026-10-09-thailand-sec-issues-bitcoin-and-ether-etf-rules-set-to-take-effect-oct-16-418132",
+     "outlet": "theblock.co",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/thailand-finalizes-rules-paving-way-for-bitcoin-ether-etfs",
+     "outlet": "cointelegraph.com",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-08T21:22:58Z",
+   "reported_utc": "2026-10-09T10:16:55Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 4,
+   "id": "c012",
+   "line": "UK government sanctioned five crypto and payment platforms tied to Russian sanctions evasion, including handlers of Kremlin-backed A7 network transactions.",
+   "titles": [
+    "UK slaps sanctions on three crypto exchanges over alleged Russia links"
+   ],
+   "board_reading": "Whale net, exchange flows",
+   "source_count": 3,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/policy/2026/10/09/uk-slaps-sanctions-on-three-crypto-exchanges-over-alleged-russia-links",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/380568/uk-targets-cryptomus-and-tokenspot-in-new-russia-sanctions-package",
+     "outlet": "decrypt.co",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/uk-sanctions-crypto-exchanges-russian-illicit-funds",
+     "outlet": "cointelegraph.com",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-09T10:14:59Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 5,
+   "id": "c002",
+   "line": "CFTC issued interim final rule excluding casino-style wagers from swap definition while proposing event contracts qualify as regulated swaps.",
+   "titles": [
+    "CFTC Issues Interim Final Rule Excluding Certain Activity from the Definition of Swap"
+   ],
+   "board_reading": "",
+   "source_count": 2,
+   "primary": true,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.cftc.gov/PressRoom/PressReleases/9309-26",
+     "outlet": "CFTC Press Releases",
+     "primary": true
+    },
+    {
+     "url": "https://www.cftc.gov/PressRoom/PressReleases/9310-26",
+     "outlet": "cftc.gov",
+     "primary": true
+    },
+    {
+     "url": "https://www.coindesk.com/policy/2026/10/09/u-s-cftc-moves-to-fold-event-contracts-into-swaps-regulations-as-legal-fight-rages",
+     "outlet": "coindesk.com",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-09T19:30:51Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   }
  ],
  "checked": {
   "id": "c005",
-  "rank": 2,
-  "says": "CoinDesk reports ESMA guidance sets January 8, 2027, as the deadline for EU crypto platforms to remove unauthorized stablecoins including USDT.",
-  "unconfirmed": "The scope of specific tokens affected beyond USDT and the mechanism for enforcing compliance rests on CoinDesk's interpretation of the ESMA guidance; the actual ESMA order text was not directly accessed.",
+  "rank": 1,
+  "says": "CoinDesk reports the deal requires Mashinsky to forfeit $10M in ill-gotten gains or pay New York $25M, plus a $10M penalty if released early, and Decrypt confirms Letitia James has permanently barred him from the securities, commodities and crypto industries.",
+  "unconfirmed": "The exact timing of when these payments will be collected relative to his 12-year federal sentence (currently under appeal) is not detailed in the excerpts read.",
   "badge": "Verified",
   "standing": "corroborated",
-  "source": "https://www.coindesk.com/policy/2026/10/08/eu-securities-regulator-gives-crypto-platforms-3-months-to-remove-unauthorized-stablecoins",
+  "source": "https://www.coindesk.com/policy/2026/10/09/new-york-ag-secures-up-to-usd35-million-and-lifetime-crypto-ban-from-celsius-alex-mashinsky",
   "outlet": "CoinDesk"
  },
  "dropped": [
   {
-   "rank": 1,
-   "id": "c004",
+   "rank": 6,
+   "id": "c013",
    "why": "the wire line runs 162 characters, over 160"
-  },
-  {
-   "rank": 4,
-   "id": "c010",
-   "why": "the wire line runs 166 characters, over 160"
   }
  ]
 }

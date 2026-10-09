@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin is drifting lower on spot ETF outflows; the news is mostly stablecoins.",
+ "line": "Bitcoin is drifting higher on spot ETF outflows; the news is mostly security.",
  "by": "table",
- "written_utc": "2026-10-08T23:15:55Z",
- "written_et": "7:15 PM ET on Oct 8",
+ "written_utc": "2026-10-09T23:15:27Z",
+ "written_et": "7:15 PM ET on Oct 9",
  "readings": {
-  "stamp_utc": "2026-10-08T23:12:53Z",
-  "btc_24h_pct": -1.57,
-  "etf_net_usd_m": -25.9,
+  "stamp_utc": "2026-10-09T23:11:49Z",
+  "btc_24h_pct": 0.93,
+  "etf_net_usd_m": -244.1,
   "etf_date": "08 Oct 2026",
-  "fear_greed": 64,
+  "fear_greed": 59,
   "fear_greed_band": "Greed",
-  "funding_8h_pct": 0.0033,
+  "funding_8h_pct": 0.0024,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -1.57% on the day, spot ETF net -25.9M USD (Oct 8, 2026), Fear & Greed 64 (greed), funding +0.0033% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.93% on the day, spot ETF net -244.1M USD (Oct 8, 2026), Fear & Greed 59 (greed), funding +0.0024% per 8h (calm)",
  "wire_top3": [
   {
    "id": "c005",
-   "line": "ESMA ordered EU crypto platforms to block new access to non-MiCA-compliant stablecoins within 3 months; national authorities oversee existing customer holdings."
+   "line": "New York AG secured up to $35 million and permanent industry ban from former Celsius CEO Alex Mashinsky in settlement of civil fraud case."
   },
   {
-   "id": "c018",
-   "line": "Greece will impose 10% capital gains tax on crypto, exempting gains up to 500 euros annually; bill headed to parliament in November."
+   "id": "c006",
+   "line": "Ledger investigating $86 million in suspected crypto thefts from users who purchased devices from Southeast Asian reseller CryptoBilis."
   },
   {
-   "id": "c019",
-   "line": "Samsung Wallet adds USDC transfers on Solana for 82 million U.S. Galaxy users, enabling cross-border payouts to 60+ countries with fiat on/off-ramps."
+   "id": "c011",
+   "line": "Thailand's SEC approved rules allowing crypto ETFs for Bitcoin and Ether to trade on Stock Exchange of Thailand starting October 16."
   }
  ],
  "crossed": []
