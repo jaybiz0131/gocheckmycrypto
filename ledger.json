@@ -2413,6 +2413,44 @@
    "usd": 0.0,
    "wf": "Crypto Cronkite daily brief",
    "wrap": "synthesis"
+  },
+  {
+   "breaking": false,
+   "cap_usd": 1.5,
+   "chartmaster_calls": 3,
+   "chartmaster_published": false,
+   "chartmaster_tokens": 21438,
+   "chartmaster_usd": 0.0691,
+   "coingecko_429": 1,
+   "coingecko_calls": 10,
+   "cron": "",
+   "ev": "workflow_dispatch",
+   "guard": "true",
+   "outcome": "ran",
+   "path": "wire",
+   "pinged": false,
+   "pushed": true,
+   "run": "38094093202",
+   "stage_tokens": {
+    "editor": 39654,
+    "verifier": 10984
+   },
+   "stage_usd": {
+    "editor": 0.0484,
+    "verifier": 0.0194
+   },
+   "stages_absent": [
+    "3.5-researcher",
+    "4-writer",
+    "4.5-approver",
+    "5-digest"
+   ],
+   "t": "2026-10-10T23:21:21Z",
+   "tokens": 50638,
+   "usd": 0.0677,
+   "wf": "Crypto Cronkite daily brief",
+   "wrap": "synthesis",
+   "wrap_repairs": 2
   }
  ],
  "since": "2026-09-16T16:27Z"
