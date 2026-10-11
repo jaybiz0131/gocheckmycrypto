@@ -399,43 +399,62 @@ class _build_writes:
 
     _W = getattr(os, "O_WRONLY", 1) | getattr(os, "O_RDWR", 2) | getattr(os, "O_CREAT", 0x200)
 
-    def __init__(self, into):
+    def __init__(self, into, reads=None):
         self.into = into
+        # Sprint 6.2: the paths opened for READING, when asked for, so the ignore canary can
+        # tell a file the build needs from one it never touches. _io.open_code is the door
+        # every import goes through (importlib calls it on the C module, not on io).
+        self.reads = reads
 
-    def _note(self, path):
+    def _note(self, path, into=None):
         if isinstance(path, int):
             return
+        into = self.into if into is None else into
         try:
             p = os.fspath(path)
             if isinstance(p, bytes):
                 p = p.decode()
-            self.into.add(os.path.realpath(p))
+            into.add(os.path.realpath(p))
         except (TypeError, ValueError):
             pass
 
     def __enter__(self):
-        import builtins, io
-        self._saved = (builtins.open, io.open, os.open, os.replace, os.rename)
-        b_open, i_open, o_open, o_replace, o_rename = self._saved
-        note, W = self._note, self._W
+        import builtins, io, _io
+        self._saved = (builtins.open, io.open, os.open, os.replace, os.rename, _io.open_code)
+        b_open, i_open, o_open, o_replace, o_rename, i_code = self._saved
+        note, W, reads = self._note, self._W, self.reads
 
         def _mode(args, kw):
             return kw.get("mode", args[0] if args else "r")
 
+        def _read(path):
+            if reads is not None:
+                note(path, reads)
+
         def w_open(file, *a, **k):
             if any(c in _mode(a, k) for c in "wax+"):
                 note(file)
+            else:
+                _read(file)
             return b_open(file, *a, **k)
 
         def w_io_open(file, *a, **k):
             if any(c in _mode(a, k) for c in "wax+"):
                 note(file)
+            else:
+                _read(file)
             return i_open(file, *a, **k)
 
         def w_os_open(path, flags, *a, **k):
             if flags & W:
                 note(path)
+            else:
+                _read(path)
             return o_open(path, flags, *a, **k)
+
+        def w_open_code(path):
+            _read(path)
+            return i_code(path)
 
         def w_replace(src, dst, *a, **k):
             note(dst)
@@ -447,11 +466,14 @@ class _build_writes:
 
         builtins.open, io.open = w_open, w_io_open
         os.open, os.replace, os.rename = w_os_open, w_replace, w_rename
+        if reads is not None:
+            _io.open_code = w_open_code
         return self
 
     def __exit__(self, *exc):
-        import builtins, io
-        builtins.open, io.open, os.open, os.replace, os.rename = self._saved
+        import builtins, io, _io
+        (builtins.open, io.open, os.open, os.replace, os.rename,
+         _io.open_code) = self._saved
         return False
 
 
@@ -1961,12 +1983,14 @@ def _stamp_canary():
     log = _io.StringIO()
     built_ok = False
     wrote = set()
+    read = set()
     try:
         _sb.PUBLISH = _o.path.join(tmp, "publish")
         try:
-            with _cl.redirect_stdout(log), _cl.redirect_stderr(log), _build_writes(wrote):
+            with _cl.redirect_stdout(log), _cl.redirect_stderr(log), _build_writes(wrote, read):
                 _sb.build()
             built_ok = True
+            fails.extend(_ignore_reads_canary(read, root))
         except Exception as e:                       # fail closed, and say which build broke
             _check(False, fails, f"build stamp canary: the build raised {type(e).__name__}: {e}")
         out = _sb.PUBLISH
@@ -2119,7 +2143,7 @@ def _ignore_canary():
     # build the site. The Pet and Parents desks each found three handoff commits in their
     # production deploy lists in one week, and the Sports desk spent two on 22 September.
     for _d in ["docs/HANDOFF.md", "README.md", "netlify_ignore.py", "docs/notes/a.md",
-               "review-queue/2026-09-22.md"]:
+               "review-queue/2026-09-22.md", "verify_pipeline.py", "scripts/home_budget.mjs"]:
         _check(_ni.decide([_d])[0] is True, fails,
                f"netlify ignore canary (U-11): {_d} built the site, and it cannot change a "
                f"pixel of it")
@@ -2156,6 +2180,85 @@ def _ignore_canary():
     _check(_skip is False, fails,
            "netlify ignore canary: an inactives snapshot inside a posting window did "
            "not build, and inside the window the board is the product")
+    # THE 11 OCTOBER REPLAY (Sprint 6.2). d2b8154 changed scripts/band_contrast.mjs under
+    # [skip netlify], so the next push, the documents-only 0c47b73, was diffed against the
+    # last BUILT commit aa64f08 and built production. These are that diff's paths.
+    _replay = ["docs/HANDOFF-2026-10-11.md", "docs/HANDOFF.md",
+               "docs/PROGRAM-6-2026-10-11.md", "scripts/band_contrast.mjs"]
+    _skip, _why = _ni.decide(_replay)
+    _check(_skip is True, fails,
+           f"netlify ignore canary (U-11): the 11 October replay (aa64f08..0c47b73, documents "
+           f"and a harness script) builds the site again: {_why}")
+    for _r in _ni.BUILD_READS + ("learn/03-etf-flows.md",):
+        _check(_ni.decide([_r])[0] is False, fails,
+               f"netlify ignore canary (U-11): {_r} is read by the build and was skipped")
+    return fails
+
+
+def _ignore_reads_canary(read, root):
+    """U-11 checked against what a real build opens (Program 6, Sprint 6.2).
+
+    `read` is every path site_build.build() opened for reading in the stamp canary's throwaway
+    build, imports included. The trees outside the published site that hold harnesses and
+    documents (TOOL_TREES, and markdown outside site/) are walked file by file: a file the
+    build never reads must be on netlify_ignore's list, or a commit of it alone spends a
+    production build, which is how 0c47b73 built on 11 October. A file the build does read
+    must NOT be on the list, or a change to it ships without a build. The other build-command
+    steps (whale_flows, market_pulse, wire, narrative) do not run here, so each is read as
+    text and must not name scripts/ at all.
+    """
+    import os as _o
+    import re as _r
+    import subprocess as _sp
+    import sys as _s
+    import netlify_ignore as _ni
+    fails = []
+    TOOL_TREES = ("scripts/", "docs/", "shots/", "review-queue/")
+    r = _sp.run(["git", "ls-files"], cwd=root, capture_output=True, text=True)
+    tracked = [l for l in r.stdout.split("\n") if l]
+    cands = [p for p in tracked if p.startswith(TOOL_TREES)
+             or (p.endswith(".md") and not p.startswith("site/"))]
+    rr = _o.path.realpath(root)
+    got = set()
+    for a in read:
+        if a.startswith(rr + _o.sep):
+            rel = _o.path.relpath(a, rr).replace(_o.sep, "/")
+            # an import read through its cached bytecode is a read of its source
+            m = _r.match(r"(.*)/__pycache__/([^/.]+)\.[^/]+\.pyc$", rel)
+            got.add(f"{m.group(1)}/{m.group(2)}.py" if m else rel)
+    # A module imported before the recorder started (the canary's own imports) is still read
+    # by the build: it is counted from sys.modules.
+    for mod in list(_s.modules.values()):
+        f = getattr(mod, "__file__", None) or ""
+        if f and _o.path.realpath(f).startswith(rr + _o.sep):
+            got.add(_o.path.relpath(_o.path.realpath(f), rr).replace(_o.sep, "/"))
+    _check(sum(1 for g in got if g.startswith("site/")) >= 10, fails,
+           f"ignore reads canary: the build's read recorder saw {len(got)} repository paths, "
+           f"too few to be a build, so the check below proves nothing")
+    for p in sorted(cands):
+        if p in got and _ni.is_doc(p):
+            fails.append(f"ignore reads canary (U-11): the build reads {p} and netlify_ignore "
+                         f"skips a commit of it, so a change to it ships without a build")
+        elif p not in got and not _ni.is_doc(p):
+            fails.append(f"ignore reads canary (U-11): the build never reads {p} and "
+                         f"netlify_ignore builds for it, so a commit of it alone spends a "
+                         f"production build")
+    try:
+        toml = open(_o.path.join(root, "netlify.toml"), encoding="utf-8").read()
+        cmd = _r.search(r'^\s*command\s*=\s*"(.*)"\s*$', toml, _r.M).group(1)
+    except Exception as e:
+        fails.append(f"ignore reads canary: cannot read the build command ({e})")
+        return fails
+    steps = _r.findall(r"python3\s+([\w./-]+\.py)", cmd)
+    _check("site_build.py" in steps, fails,
+           "ignore reads canary: the build command no longer runs site_build.py")
+    for st in steps:
+        if st == "site_build.py":
+            continue
+        txt = open(_o.path.join(root, st), encoding="utf-8").read()
+        _check(not _r.search(r"""["']scripts["'/]""", txt), fails,
+               f"ignore reads canary (U-11): build step {st} names scripts/, which this canary "
+               f"cannot see it read; name the file in netlify_ignore.BUILD_READS")
     return fails
 
 

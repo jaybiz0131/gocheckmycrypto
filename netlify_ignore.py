@@ -36,11 +36,28 @@ SKIPPABLE_FILES = ("ledger.json",)
 # BUILD THE SITE. Checked against netlify.toml's build command on this desk, which runs
 # whale_flows.py, market_pulse.py and site_build.py: none of them reads a markdown file or
 # anything under docs/. A wrong entry here costs a missed build, so nothing goes in unchecked.
-DOC_PREFIXES = ("docs/", "shots/", "review-queue/")
+#
+# scripts/ (Program 6, Sprint 6.2, 12 October 2026). U-11's prose always said scripts outside
+# the published tree do not build, and the list never carried them: on 11 October the
+# documents-only push 0c47b73 built production because the [skip netlify] commit before it,
+# d2b8154, had changed scripts/band_contrast.mjs and the diff from the last BUILT commit still
+# held it. Everything under scripts/ is a harness or a workflow tool EXCEPT the files named in
+# BUILD_READS, which the build reads and which therefore always build. The canary's
+# _ignore_reads_canary records what a real build opens and fails if the two lists disagree.
+DOC_PREFIXES = ("docs/", "shots/", "review-queue/", "scripts/")
 DOC_SUFFIXES = (".md",)
 # NOT the .md files by name: DOC_SUFFIXES already covers them, and naming them as well is
 # configuration that cannot fail. The Sports desk found that with a U-9 break on 24 September.
-DOC_FILES = ("netlify_ignore.py", ".gitignore")
+# verify_pipeline.py is the canary (12 October 2026): the workflows run it, the build
+# command never does, and no build step imports it.
+DOC_FILES = ("netlify_ignore.py", ".gitignore", "verify_pipeline.py")
+# Read by the build, so never skipped. site_build.py imports og_render to draw the share
+# cards and the touch icon into site/publish/.
+BUILD_READS = ("scripts/og_render.py",)
+# Markdown the build reads (found by the reads canary, 12 October 2026): the eight Learn
+# explainers under learn/ are rendered into /learn/<slug>.html, and DOC_SUFFIXES had been
+# skipping a commit of them alone, so an edit to one shipped without a build.
+BUILD_READ_PREFIXES = ("learn/",)
 
 
 def is_doc(p):
@@ -49,6 +66,8 @@ def is_doc(p):
     site_build.py is deliberately NOT here: a change to the generator is the most
     site-changing commit there is.
     """
+    if p in BUILD_READS or p.startswith(BUILD_READ_PREFIXES):
+        return False
     if p in DOC_FILES or p.startswith(DOC_PREFIXES):
         return True
     return p.endswith(DOC_SUFFIXES) and not p.startswith("site/")
