@@ -130,7 +130,8 @@ try {
     for (const width of [375, 1440]) {
       const ctx = await browser.newContext({ viewport: { width, height: 900 }, colorScheme: scheme });
       const page = await ctx.newPage();
-      await page.route(/^https?:\/\/(?!127\.0\.0\.1|localhost)/, r => r.abort());
+      const own = new URL(base).host;
+      await page.route(/^https?:/, r => (new URL(r.request().url()).host === own ? r.continue() : r.abort()));
       await page.goto(base + "/", { waitUntil: "load", timeout: 30000 });
       const r = await page.evaluate(inPage, { band: true, sweep: false, ratio: RATIO });
       if (r.error) { console.log(`FAIL ${scheme} ${width}: ${r.error}`); bad++; }
