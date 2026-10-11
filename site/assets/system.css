@@ -216,62 +216,62 @@ body .h-rec a{font-family:var(--serif);font-size:17px;line-height:1.3}
    components; this layer is what makes them one publication. Dark mode comes from the tokens
    above and nothing else. */
 body{background:var(--paper);color:var(--ink);font-family:var(--sans)}
-body .wmk,body .sec-head .bar::after,body .badge-anim::after{display:none!important}
-body .card:hover,body .dash-card:hover,body .bd-card:hover{transform:none;box-shadow:none;border-color:var(--line)}
-body .card,body .dash-card,body .bd-card,body .pulse-card,body .stat,body .callout,body .learn{box-shadow:none}
+body:not(.h-home) .wmk,body:not(.h-home) .sec-head .bar::after,body:not(.h-home) .badge-anim::after{display:none!important}
+body:not(.h-home) .card:hover,body:not(.h-home) .dash-card:hover,body:not(.h-home) .bd-card:hover{transform:none;box-shadow:none;border-color:var(--line)}
+body:not(.h-home) .card,body:not(.h-home) .dash-card,body:not(.h-home) .bd-card,body:not(.h-home) .pulse-card,body:not(.h-home) .stat,body:not(.h-home) .callout,body:not(.h-home) .learn{box-shadow:none}
 /* page heads: a kicker, one serif headline, a plain intro line */
-body .page{padding:28px 0 20px}
-body .page h1,body .sec-head h1,body .lx-h1{font-family:var(--serif);font-weight:600;
+body:not(.h-home) .page{padding:28px 0 20px}
+body:not(.h-home) .page h1,body:not(.h-home) .sec-head h1,body:not(.h-home) .lx-h1{font-family:var(--serif);font-weight:600;
   font-size:clamp(28px,4.4vw,40px);line-height:1.12;letter-spacing:-.01em;margin:.15em 0 .3em;color:var(--ink)}
-body .page h2,body .sec-head h2,body .bd-h2{font-family:var(--serif);font-weight:600;font-size:23px;
+body:not(.h-home) .page h2,body:not(.h-home) .sec-head h2,body:not(.h-home) .bd-h2{font-family:var(--serif);font-weight:600;font-size:23px;
   line-height:1.2;letter-spacing:-.005em;color:var(--ink)}
-body .page h3:not(.tl-l){font-family:var(--serif);font-weight:600;color:var(--ink)}
-body .page .lede,body .lede,body .lx-dek,body .dek{font-family:var(--sans);font-style:normal;
+body:not(.h-home) .page h3:not(.tl-l){font-family:var(--serif);font-weight:600;color:var(--ink)}
+body:not(.h-home) .page .lede,body:not(.h-home) .lede,body:not(.h-home) .lx-dek,body:not(.h-home) .dek{font-family:var(--sans);font-style:normal;
   font-size:17px;line-height:1.55;color:var(--muted);margin:0 0 22px;max-width:46rem}
-body .kicker,body .bd-eyebrow,body .ey .tag{font-family:var(--sans);font-size:11px;font-weight:600;
+body:not(.h-home) .kicker,body:not(.h-home) .bd-eyebrow,body:not(.h-home) .ey .tag{font-family:var(--sans);font-size:11px;font-weight:600;
   letter-spacing:.1em;text-transform:uppercase;color:var(--rule)}
-body .lab,body .pulse-card .lab,body .dash-card .lab,body .stat .lab{font-family:var(--sans);
+body:not(.h-home) .lab,body:not(.h-home) .pulse-card .lab,body:not(.h-home) .dash-card .lab,body:not(.h-home) .stat .lab{font-family:var(--sans);
   font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 /* figures and stamps in the mono, ink unless direction means something */
-body .stat .big,body .dash-stat,body .w-stat{font-family:var(--mono);font-weight:700;color:var(--ink);
+body:not(.h-home) .stat .big,body:not(.h-home) .dash-stat,body:not(.h-home) .w-stat{font-family:var(--mono);font-weight:700;color:var(--ink);
   font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-body .stat .big{font-size:28px}
-body .stat .big.up{color:var(--up)} body .stat .big.down{color:var(--down)}
-body .dateline,body .bd-stamp,body .bd-src,body .src,body .byline,body .tile-src{font-family:var(--mono);
+body:not(.h-home) .stat .big{font-size:28px}
+body:not(.h-home) .stat .big.up{color:var(--up)} body:not(.h-home) .stat .big.down{color:var(--down)}
+body:not(.h-home) .dateline,body:not(.h-home) .bd-stamp,body:not(.h-home) .bd-src,body:not(.h-home) .src,body:not(.h-home) .byline,body:not(.h-home) .tile-src{font-family:var(--mono);
   font-size:12px;color:var(--muted);text-transform:none;letter-spacing:0}
 /* long-form text: Inter, ink, a readable measure */
-body .prose,body .prose p,body .prose li{font-family:var(--sans);font-size:17px;line-height:1.65;color:var(--ink)}
-body .prose{max-width:42rem}
-body .article h1{font-family:var(--serif);font-weight:600}
-body .attest{font-family:var(--sans);font-size:14px;color:var(--muted);margin:22px 0 0;
+body:not(.h-home) .prose,body:not(.h-home) .prose p,body:not(.h-home) .prose li{font-family:var(--sans);font-size:17px;line-height:1.65;color:var(--ink)}
+body:not(.h-home) .prose{max-width:42rem}
+body:not(.h-home) .article h1{font-family:var(--serif);font-weight:600}
+body:not(.h-home) .attest{font-family:var(--sans);font-size:14px;color:var(--muted);margin:22px 0 0;
   padding-top:14px;border-top:1px solid var(--line)}
 /* the Board page's own parts */
-body .cm-card{background:var(--card);border:1px solid var(--line);border-radius:8px;
+body:not(.h-home) .cm-card{background:var(--card);border:1px solid var(--line);border-radius:8px;
   padding:14px 16px;margin:0 0 14px}
-body .cm-card-h{font-family:var(--serif);font-weight:600;font-size:19px;margin:0 0 6px;color:var(--ink)}
-body .cm-card-p{margin:0;font-size:16px;line-height:1.55;color:var(--ink)}
-body .cm-card-f{margin:8px 0 0;font-size:14px}
-body .bd-wait{font-size:15px;color:var(--muted);margin:12px 0}
-body .bd-movers{margin-top:26px}
-body .bd-mv2{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:34rem}
-body table.mv{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:14px}
-body table.mv caption{text-align:left;font-family:var(--sans);font-size:11px;font-weight:600;
+body:not(.h-home) .cm-card-h{font-family:var(--serif);font-weight:600;font-size:19px;margin:0 0 6px;color:var(--ink)}
+body:not(.h-home) .cm-card-p{margin:0;font-size:16px;line-height:1.55;color:var(--ink)}
+body:not(.h-home) .cm-card-f{margin:8px 0 0;font-size:14px}
+body:not(.h-home) .bd-wait{font-size:15px;color:var(--muted);margin:12px 0}
+body:not(.h-home) .bd-movers{margin-top:26px}
+body:not(.h-home) .bd-mv2{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:34rem}
+body:not(.h-home) table.mv{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:14px}
+body:not(.h-home) table.mv caption{text-align:left;font-family:var(--sans);font-size:11px;font-weight:600;
   letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-bottom:4px}
-body table.mv td{padding:5px 0;border-top:1px solid var(--line)}
-body table.mv td.num{text-align:right;font-weight:700}
-body table.mv td.up{color:var(--up)} body table.mv td.down{color:var(--down)}
-body .bd-links{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px}
-body .bd-links a{font-size:16px;display:inline-block;min-height:32px;line-height:32px}
-body .tl-row{margin-top:14px}
+body:not(.h-home) table.mv td{padding:5px 0;border-top:1px solid var(--line)}
+body:not(.h-home) table.mv td.num{text-align:right;font-weight:700}
+body:not(.h-home) table.mv td.up{color:var(--up)} body:not(.h-home) table.mv td.down{color:var(--down)}
+body:not(.h-home) .bd-links{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px}
+body:not(.h-home) .bd-links a{font-size:16px;display:inline-block;min-height:32px;line-height:32px}
+body:not(.h-home) .tl-row{margin-top:14px}
 /* the type rule, on the classes the audit (scripts/type_audit.mjs) found breaking it: a stamp
    is short and in the mono; a sentence is Inter. */
-body .data-stamp,body .data-stamp.stale,body .lx-live-src,body .bd-src,body .sub,body .ed-cadence,
-body .wl-what,body .pc-note,body .nfa{font-family:var(--sans);font-size:14px;line-height:1.5;
+body:not(.h-home) .data-stamp,body:not(.h-home) .data-stamp.stale,body:not(.h-home) .lx-live-src,body:not(.h-home) .bd-src,body:not(.h-home) .sub,body:not(.h-home) .ed-cadence,
+body:not(.h-home) .wl-what,body:not(.h-home) .pc-note,body:not(.h-home) .nfa{font-family:var(--sans);font-size:14px;line-height:1.5;
   color:var(--muted);letter-spacing:0;text-transform:none}
-body .data-stamp.stale{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--rule);
+body:not(.h-home) .data-stamp.stale{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--rule);
   border-radius:4px;padding:10px 14px;margin:0 0 14px;color:var(--ink)}
-body .data-stamp.stale b,body .data-stamp.stale strong{font-family:var(--sans);font-weight:700;color:var(--rule)}
-body .article .dek{font-family:var(--sans);font-style:normal;font-size:18px;line-height:1.5;color:var(--muted)}
-body .tl-row.tl-4{grid-template-columns:minmax(0,1fr)}
-@media (min-width:600px){body .tl-row.tl-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (min-width:900px){body .tl-row.tl-4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+body:not(.h-home) .data-stamp.stale b,body:not(.h-home) .data-stamp.stale strong{font-family:var(--sans);font-weight:700;color:var(--rule)}
+body:not(.h-home) .article .dek{font-family:var(--sans);font-style:normal;font-size:18px;line-height:1.5;color:var(--muted)}
+body:not(.h-home) .tl-row.tl-4{grid-template-columns:minmax(0,1fr)}
+@media (min-width:600px){body:not(.h-home) .tl-row.tl-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:900px){body:not(.h-home) .tl-row.tl-4{grid-template-columns:repeat(4,minmax(0,1fr))}}

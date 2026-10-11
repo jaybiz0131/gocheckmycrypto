@@ -60,6 +60,7 @@ try {
       bytes = 0;
       const resp = await page.goto(base + p, { waitUntil: "load", timeout: 30000 }).catch(() => null);
       if (!resp) { console.log(`no response ${p}`); continue; }
+      await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 40)); } window.scrollTo(0, 0); }).catch(() => {});
       await page.addStyleTag({ content: ".tabbar{position:static!important}body{padding-bottom:0!important}" }).catch(() => {});
       await page.waitForTimeout(700);
       if (WEIGHTS && +w === 375 && theme === "light") weights[p] = { status: resp.status(), bytes };
