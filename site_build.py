@@ -2177,7 +2177,7 @@ def render_article(item, all_items=None):
                f'<p>{esc(item["key_fact"])}</p></div>')
     bottom = ""
     if (item.get("bottom_line") or "").strip():
-        bottom = (f'<div class="bottomline"><span class="lab">The Bottom Line</span>'
+        bottom = (f'<div class="bottomline"><span class="lab">The Brief</span>'
                   f'<p>{esc(item["bottom_line"])}</p></div>')
     take = ""
     if (item.get("human_take") or "").strip():
@@ -2449,7 +2449,7 @@ def bottom_line_card(items):
         return ""
     name = esc((ed.get("title") or "").split(":")[0].strip() or "The Daily Edition")
     return (f'<a class="hero-bl news-bl" href="/articles/{esc(ed["slug"])}.html">'
-            f'<span class="hero-kick"><span class="kicker">The Bottom Line</span></span>'
+            f'<span class="hero-kick"><span class="kicker">The Brief</span></span>'
             f'<span class="hero-bl-src">{name} &middot; {_blink_when(ed)}</span>'
             f'<span class="hero-bl-read">{esc(ed["bottom_line"])}</span>'
             f'<span class="hero-bl-more">Read the full edition &rarr;</span></a>')

@@ -2587,9 +2587,9 @@ def _home_canary(index_html=None):
     _sy = blk(full, "since")
     _lis = _re.findall(r"<li>(.*?)</li>", _sy, _re.S)
     _check(bool(_lis) and "200-day average" in _lis[0], fails,
-           "home canary: since yesterday does not lead with Bitcoin against its 200-day")
+           "home canary: Where Bitcoin stands does not lead with Bitcoin against its 200-day")
     _check(not _re.search(r"since yesterday|Fear &amp; Greed|[+\-]\d+\.\d+%", _sy), fails,
-           "home canary: since yesterday prints a day change or a reading the mood carries")
+           "home canary: Where Bitcoin stands prints a day change or a reading the mood carries")
     # 2d. NOTHING TWICE: every reading a tile shows appears once on the page, above or below
     # the fold, and each figure prints once.
     _pg = full + _h.below_fold(snap, pulse, flows, deltas, _sb.load_content(), None)

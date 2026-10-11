@@ -253,8 +253,8 @@ def since(pulse, deltas):
                     f'market.</li>')
     if not rows:
         return _block("since", '<p class="h-wait">Waiting for the Board\'s readings.</p>',
-                      "Since yesterday")
-    return _block("since", f'<ul class="h-since">{"".join(rows)}</ul>', "Since yesterday")
+                      "Where Bitcoin stands")
+    return _block("since", f'<ul class="h-since">{"".join(rows)}</ul>', "Where Bitcoin stands")
 
 
 # ---- the why and the wire -----------------------------------------------------------------
