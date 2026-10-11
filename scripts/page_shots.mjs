@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// page_shots.mjs <built-site-dir> <outdir> <label> [--paths /pulse,/flows,...] [--weights] [--combos 375:light,...]
+// page_shots.mjs <built-site-dir> <outdir> <label> [--paths /pulse,/flows,...] [--weights] [--combos 375:light,...] [--settle ms]
 //
 // Program 6 Sprint 6.1 proof: screenshots (full page) of the named pages from a LOCAL build, at 375 and
 // 1440, light and dark, written as <outdir>/<label>/<slug>-<width>-<theme>.png, and, with --weights,
@@ -25,6 +25,8 @@ const WEIGHTS = argv.includes("--weights");
 const PATHS = (opt("--paths", "/")).split(",").filter(Boolean);
 const COMBOS = opt("--combos", "375:light,375:dark,1440:light,1440:dark").split(",").map(s => s.split(":"));
 const SHOTS = !argv.includes("--no-shots");
+// --settle: ms to wait before the capture, so a page's one-time load animation has finished
+const SETTLE = parseInt(opt("--settle", "700"), 10);
 
 const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".json": "application/json",
   ".svg": "image/svg+xml", ".png": "image/png", ".webp": "image/webp", ".jpg": "image/jpeg", ".mp4": "video/mp4",
@@ -62,7 +64,7 @@ try {
       if (!resp) { console.log(`no response ${p}`); continue; }
       await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 40)); } window.scrollTo(0, 0); }).catch(() => {});
       await page.addStyleTag({ content: ".tabbar{position:static!important}body{padding-bottom:0!important}" }).catch(() => {});
-      await page.waitForTimeout(700);
+      await page.waitForTimeout(SETTLE);
       if (WEIGHTS && +w === 375 && theme === "light") weights[p] = { status: resp.status(), bytes };
       if (SHOTS) await page.screenshot({ path: path.join(out, `${slug(p)}-${w}-${theme}.png`), fullPage: true });
     }

@@ -59,14 +59,19 @@ READINGS = {r.key: r for r in (
             "Transfers of $50 million and up between wallets and exchanges, netted: off "
             "exchanges is positive, onto exchanges is negative."),
     Reading("stablecoin-float", "Stablecoin float", False,
-            "The dollar value of every stablecoin in circulation: money parked inside "
-            "crypto."),
+            "The dollar value of every stablecoin in circulation, read now: money "
+            "parked inside crypto."),
     Reading("funding", "Funding", False,
             "What traders holding leveraged long positions pay short holders every 8 "
-            "hours on Bitcoin perpetual futures."),
+            "hours on Bitcoin perpetual futures. The tile gives the current 8-hour "
+            "period's rate and, under it, the rate at the settlement 24 hours before the "
+            "latest. The Leverage tile on the Board is the same rate times 1,095, the "
+            "number of 8-hour periods in a year."),
     Reading("open-interest", "Open interest", False,
             "The value of leveraged Bitcoin futures positions open right now on one "
-            "venue."),
+            "venue. When a close is kept for yesterday, the tile's figure is the change "
+            "since that close across the five coins the desk tracks on that venue, and "
+            "the line under it is Bitcoin's open interest now."),
     Reading("fear-greed", "Fear & Greed", False,
             "A daily index from 0 to 100 built from price, volatility, volume and social "
             "data."),

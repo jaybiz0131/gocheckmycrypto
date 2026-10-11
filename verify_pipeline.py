@@ -1483,8 +1483,9 @@ def _narrative_canary():
             "readings": r7, "written_et": "7:15 PM ET on Oct 7"}
     import home as _home
     band = _home.narrative_band(old7, {"stamp_et": "7:16 PM ET on Oct 7"})
+    # the band itself prints no date since Sprint 6.2: it names its readings, no figures
     _check("(Oct 7, 2026)" in _n.named(r7) and "07 Oct" not in _n.named(r7)
-           and "Oct 7, 2026" in band and "07 Oct" not in band, fails,
+           and "spot ETF net" in band and "07 Oct" not in band, fails,
            f"narrative: the ETF date prints day first: {_n.named(r7)!r}")
     _check(rec["readings"].get("etf_net_usd_m") == 212.4 and rec.get("written_et")
            == "7:10 PM ET on Oct 7", fails, "narrative: the record lacks its readings or stamp")
@@ -2508,10 +2509,11 @@ def _home_canary(index_html=None):
     t = blk(full, "tape")
     btc = _s.coin(snap, "BTC")
     wk = (_s.value(snap, "week") or {}).get("BTC") or {}
+    _cv = [wk["closes"][k] for k in sorted(wk["closes"])]
     for label, want in (("Bitcoin price", _sb._price_fmt(btc["price"])),
                         ("Bitcoin 24h", f"{btc['chg_24h_pct']:+.2f}%"),
-                        ("7-day low", _sb._price_fmt(wk["low"])),
-                        ("7-day high", _sb._price_fmt(wk["high"])),
+                        ("the week's low close", _sb._price_fmt(min(_cv))),
+                        ("the week's high close", _sb._price_fmt(max(_cv))),
                         ("the Board's stamp", f"is the Board, as of {snap['stamp_et']}")):
         _check(_hx(want) in t, fails, f"home canary: the tape does not print {label} "
                                           f"from the snapshot ({want})")
@@ -2529,6 +2531,44 @@ def _home_canary(index_html=None):
         cl = [wk["closes"][k] for k in sorted(wk["closes"])]
         _check(ys.index(min(ys)) == cl.index(max(cl)) and ys.index(max(ys)) == cl.index(min(cl)),
                fails, "home canary: the seven-day line is not drawn to scale from the closes")
+    # 2a. THE TAPE'S CHART (Sprint 6.2): full width of the tape, a soft fill, the low and
+    # high close marked on the line with their figures, a dot on the last point, drawn once.
+    _ch = _re.search(r'<div class="h-chart"[^>]*>(.*?)</div>', t, _re.S)
+    _check(bool(_ch), fails, "home canary: the tape has no chart box")
+    _check(bool(_re.search(r'<div class="h-main">.*?</div><div class="h-chart"', t, _re.S)),
+           fails, "home canary: the tape's chart sits inside the price column, not across "
+                  "the full width of the tape")
+    if _ch:
+        _c = _ch.group(1)
+        _check('<path class="h-area" d="M' in _c, fails,
+               "home canary: the tape's chart has no fill under the line")
+        for _cls, _fig in (("h-k-hi", max(_cv)), ("h-k-lo", min(_cv))):
+            _mk = _re.search(r'<span class="h-k %s[^"]*" style="left:([\d.]+)%%;top:([\d.]+)%%">'
+                             r'<i></i><span class="h-kf[^"]*">[^<]*<b>([^<]+)</b>' % _cls, _c)
+            _check(bool(_mk) and _mk.group(3) == _hx(_sb._price_fmt(_fig)), fails,
+                   f"home canary: the {_cls} mark is not on the line with its figure "
+                   f"{_sb._price_fmt(_fig)}")
+            if _mk and _pts:
+                _i = _cv.index(_fig)
+                _px, _py = [float(v) for v in _pts.group(1).split()[_i].split(",")]
+                _check(abs(float(_mk.group(1)) - 100 * _px / _h.CHART_W) < 0.1 and
+                       abs(float(_mk.group(2)) - 100 * _py / _h.CHART_H) < 0.1, fails,
+                       f"home canary: the {_cls} mark is not where the line has that close")
+        _check(_c.count("h-k-last") == 1, fails,
+               "home canary: the last point of the tape's chart carries no dot")
+    _check("h-rng" not in t and "7-day low" not in t, fails,
+           "home canary: the 7-day low and high still sit in a separate row")
+    _css = open(os.path.join(_sb.ASSETS, "system.css"), encoding="utf-8").read()
+    _anim = [a for a in _re.findall(r"body \.h-(?:spark polyline|area|k)\{[^}]*\}", _css)
+             if "animation:none" not in a]
+    _check(len(_anim) == 3 and all("infinite" not in a and " 1 both" in a for a in _anim),
+           fails, "home canary: the tape's chart does not draw exactly once on load")
+    _rm = _re.search(r"prefers-reduced-motion:reduce\)\{\s*([^{}]*)\{animation:none", _css)
+    _sel = {x.strip() for x in _rm.group(1).split(",")} if _rm else set()
+    _check({"body .h-spark polyline", "body .h-area", "body .h-k"} <= _sel, fails,
+           f"home canary: reduced motion does not show the tape's chart whole (it stills "
+           f"{sorted(_sel)})")
+
     _check('id="tapeLive"' in t and "as of " in t, fails,
            "home canary: the tape carries no stamp for its live read")
     _check(not _re.search(r"7d|7-day [+\-]|week[^<]*%", t), fails,
@@ -2543,10 +2583,47 @@ def _home_canary(index_html=None):
            "home canary: the since line's 200-day average does not carry its closes-through "
            "date")
 
+    # 2c. SINCE YESTERDAY LEADS WITH THE 200-DAY and prints no day change (Sprint 6.2)
+    _sy = blk(full, "since")
+    _lis = _re.findall(r"<li>(.*?)</li>", _sy, _re.S)
+    _check(bool(_lis) and "200-day average" in _lis[0], fails,
+           "home canary: since yesterday does not lead with Bitcoin against its 200-day")
+    _check(not _re.search(r"since yesterday|Fear &amp; Greed|[+\-]\d+\.\d+%", _sy), fails,
+           "home canary: since yesterday prints a day change or a reading the mood carries")
+    # 2d. NOTHING TWICE: every reading a tile shows appears once on the page, above or below
+    # the fold, and each figure prints once.
+    _pg = full + _h.below_fold(snap, pulse, flows, deltas, _sb.load_content(), None)
+    _keys = _re.findall(r'<article class="tl" data-reading="([a-z-]+)"', _pg)
+    _check(len(_keys) == len(set(_keys)), fails,
+           f"home canary: a tile reading appears twice on the home page: "
+           f"{sorted(k for k in set(_keys) if _keys.count(k) > 1)}")
+    _vis = _re.sub(r"<[^>]+>", " ", _re.sub(r'<svg.*?</svg>', "", _pg, flags=_re.S))
+    _fv = (_s.value(snap, "funding") or {}).get("BTC") or {}
+    _st_ = _s.value(snap, "stablecoin_float") or {}
+    _fg_ = (_s.value(snap, "fear_greed") or {}).get("value")
+    for _what, _fig in (("Bitcoin's price", _sb._price_fmt(btc["price"])),
+                        ("Bitcoin's day change", f"{btc['chg_24h_pct']:+.2f}%"),
+                        ("funding", f"{_fv.get('funding_8h_pct', 0):+.4f}%"),
+                        ("the stablecoin float", _sb.fmt_usd(_st_.get("total_usd") or 0)),
+                        ("Fear & Greed", f'<p class="tl-f">{_fg_:g}</p>')):
+        _n_ = (_pg.count(_fig) if _fig.startswith("<") else _vis.count(_hx(_fig)))
+        _check(_n_ == 1, fails, f"home canary: {_what} ({_fig}) prints {_n_} times on the "
+                                f"home page, not once")
+    _check("Fear &amp; Greed reads" not in _pg, fails,
+           "home canary: Fear & Greed is printed outside the mood")
+
     # 3. the band, from a narrative fixture, and absent
     b = blk(full, "narrative")
-    _check(_hx(narr["line"]) in b and _hx(narr["small_line"]) in b, fails,
+    import narrative as _nv
+    _check(_hx(narr["line"]) in b and _hx(_nv.band_names(narr["readings"])) in b, fails,
            "home canary: the band does not carry the narrative line and its small line")
+    # ONE BITCOIN DAY CHANGE, NOTHING TWICE (Sprint 6.2): the small line names its readings
+    # and prints none of their figures; each figure prints once, on the tape or a tile.
+    _small = _re.search(r'<p class="h-nsmall">(.*?)</p>', b, _re.S)
+    _check(bool(_small) and not _re.search(r"\d+(\.\d+)?%|\d+(\.\d+)?M USD|\(greed|\(calm",
+                                           _re.sub(r"\([^)]*ET[^)]*\)", "", _small.group(1))),
+           fails, f"home canary: the band's small line prints a reading's figure: "
+                  f"{_small.group(1) if _small else ''}")
     b0 = blk(page(narr=None), "narrative")
     _check("h-nline" not in b0 and f"The Board as of {snap['stamp_et']}" in b0, fails,
            f"home canary: with no narrative.json the band is not the Board's stamp alone: "
@@ -2703,7 +2780,7 @@ def _home_budget_canary(out, index_html):
 
 def _below_canary(index_html=None):
     """BELOW THE FOLD (Program 5 section 3; Sprint 2 item 2). Breaks: a Board tile drawn
-    by anything but the one renderer, or not eight of them; the whale chart's bars not
+    by anything but the one renderer, or one already above the fold; the whale chart's bars not
     equal to the data's weeks; the Brief without its stamp; a Record lane with more or
     fewer than one piece."""
     import re as _re
@@ -2723,10 +2800,18 @@ def _below_canary(index_html=None):
     order = _re.findall(r'data-block="([a-z]+)"', html)
     _check(tuple(order) == _h.BELOW_FOLD, fails,
            f"below canary: the blocks below the fold render as {order}")
-    # 1. eight tiles through the one renderer, and no other tile markup
+    # 1. the Board's tiles through the one renderer, only the readings not already above
+    # the fold (Sprint 6.2: nothing twice), and no other tile markup
     b = blk("board")
     tiles = _re.findall(r'<article class="tl" data-reading="([a-z-]+)">', b)
-    _check(len(tiles) == 8, fails, f"below canary: the Board has {len(tiles)} tiles, not eight")
+    _check(bool(tiles) and not set(tiles) & set(_h.ABOVE_READINGS), fails,
+           f"below canary: the Board below the fold shows {tiles}; above the fold already "
+           f"prints {sorted(set(tiles) & set(_h.ABOVE_READINGS))}")
+    _above = _re.findall(r'data-reading="([a-z-]+)"', _h.above_fold(
+        snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE))
+    _check(set(_above) <= set(_h.ABOVE_READINGS), fails,
+           f"below canary: above the fold shows {sorted(set(_above) - set(_h.ABOVE_READINGS))}"
+           f", which ABOVE_READINGS does not name, so the Board would print it twice")
     _check("bd-tile" not in b and "bd-card" not in b, fails,
            "below canary: a Board tile is drawn by the old renderer")
     import tile as _t

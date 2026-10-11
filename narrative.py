@@ -97,6 +97,20 @@ def named(r):
     return "Written from " + ", ".join(bits) if bits else ""
 
 
+def band_names(r):
+    """The home band's small line (Program 6, Sprint 6.2): the readings the sentence was
+    written from, by NAME. Their figures print once each on the home page, in the tape and
+    the tiles, so the band names them and does not print them a second time; Bitcoin's day
+    change in particular prints only on the tape."""
+    names = [n for k, n in (("btc_24h_pct", "Bitcoin's day"), ("etf_net_usd_m", "spot ETF net"),
+                            ("fear_greed", "Fear & Greed"), ("funding_8h_pct", "funding"))
+             if k in (r or {})]
+    if not names:
+        return ""
+    return "Written from " + (names[0] if len(names) == 1 else
+                              ", ".join(names[:-1]) + " and " + names[-1])
+
+
 # ---- the clause table --------------------------------------------------------------------
 
 def _tape_clause(r, driver=None):

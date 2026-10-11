@@ -105,6 +105,55 @@ def spark_points(closes, w=300, h=56, pad=3):
             for i, v in enumerate(vals)]
 
 
+# THE TAPE'S CHART (Program 6, Sprint 6.2): the week to scale in a box the full width of the
+# tape, CHART_H px tall, the line's band inset by CHART_PAD so the low and high figures sit
+# beside their marks inside the box. The SVG stretches to the box (non-scaling stroke); the
+# marks and their figures are placed over it in percent of the box, so a dot stays round
+# at every width and height.
+CHART_W, CHART_H, CHART_PAD = 1000, 72, 16
+
+
+def tape_chart(week, fmt):
+    """The tape's week: line, soft fill, the low and high marked on the line with their
+    figures, a dot on the last point. "" when fewer than two closes were published."""
+    closes = (week or {}).get("closes")
+    if isinstance(closes, dict):
+        closes = [closes[k] for k in sorted(closes)]
+    vals = [float(c) for c in closes or [] if isinstance(c, (int, float))]
+    pts = spark_points(vals, CHART_W, CHART_H - 2 * CHART_PAD, 0)
+    if not pts:
+        return ""
+    pts = [(x, round(y + CHART_PAD, 1)) for x, y in pts]
+    poly = " ".join(f"{x},{y}" for x, y in pts)
+    area = (f"M{pts[0][0]},{CHART_H} " + " ".join(f"L{x},{y}" for x, y in pts)
+            + f" L{pts[-1][0]},{CHART_H} Z")
+    lo_i, hi_i = vals.index(min(vals)), vals.index(max(vals))
+    last = len(vals) - 1
+
+    def mark(i, cls, label):
+        x, y = pts[i]
+        left = round(100 * x / CHART_W, 2)
+        side = " h-k-r" if left > 70 else " h-k-l" if left < 30 else ""
+        cls += " h-k-last" if i == last else ""
+        fig = (f'<span class="h-kf{side}">{_e(label)} <b>{_e(fmt(vals[i]))}</b></span>'
+               if label else "")
+        top = round(100 * y / CHART_H, 2)
+        return (f'<span class="h-k {cls}" style="left:{left}%;top:{top}%">'
+                f'<i></i>{fig}</span>')
+    # The line is the daily closes, so its marks are the week's lowest and highest CLOSE.
+    # The snapshot's week low and high are hourly extremes and lie off this line; printed
+    # beside it they would mark a point the line does not reach.
+    marks = mark(hi_i, "h-k-hi", "high close") + mark(lo_i, "h-k-lo", "low close")
+    if last not in (lo_i, hi_i):
+        marks += mark(last, "", "")
+    return (f'<div class="h-chart" style="height:{CHART_H}px">'
+            f'<svg class="h-spark" viewBox="0 0 {CHART_W} {CHART_H}" '
+            f'preserveAspectRatio="none" role="img" aria-label="Bitcoin, {len(pts)} daily '
+            f'closes, low {_e(fmt(min(vals)))}, high {_e(fmt(max(vals)))}">'
+            f'<path class="h-area" d="{area}"/>'
+            f'<polyline pathLength="1" points="{poly}"/></svg>{marks}</div>')
+
+
 def tape(snap):
     import site_build as sb
     import snapshot
@@ -116,17 +165,7 @@ def tape(snap):
     chg_html = (f'<span class="h-chg {_dir(chg)}" data-tape-chg="bitcoin">{_pctx(chg)}</span>'
                 if isinstance(chg, (int, float)) else "")
     week = (snapshot.value(snap, "week") or {}).get("BTC") or {}
-    pts = spark_points(week.get("closes"))
-    spark = ""
-    if pts:
-        poly = " ".join(f"{x},{y}" for x, y in pts)
-        spark = (f'<svg class="h-spark" viewBox="0 0 300 56" preserveAspectRatio="none" '
-                 f'role="img" aria-label="Bitcoin, {len(pts)} daily closes">'
-                 f'<polyline pathLength="1" points="{poly}"/></svg>')
-    rng = ""
-    if isinstance(week.get("low"), (int, float)) and isinstance(week.get("high"), (int, float)):
-        rng = (f'<p class="h-rng"><span>7-day low <b>{_e(sb._price_fmt(week["low"]))}</b></span>'
-               f'<span>high <b>{_e(sb._price_fmt(week["high"]))}</b></span></p>')
+    chart = tape_chart(week, sb._price_fmt)
     alts = []
     for sym, name, gid in TAPE_ALTS:
         c = snapshot.coin(snap, sym)
@@ -150,7 +189,7 @@ def tape(snap):
              f'<p class="h-name">Bitcoin <span class="h-w">24h</span></p>'
              f'<p class="h-big"><span class="h-px" data-tape="bitcoin">'
              f'{_e(sb._price_fmt(btc["price"]))}</span>{chg_html}</p>'
-             f'{spark}{rng}</div>'
+             f'</div>{chart}'
              f'<ul class="h-alts">{"".join(alts)}</ul></div>'
              f'<p class="h-live" id="tapeLive" data-built="{_e(asof)}">as of {_e(asof)}</p>'
              f'<p class="h-board">Everything below the tape is the Board, as of '
@@ -166,16 +205,17 @@ def narrative_band(narr, snap):
     if not line:
         return _block("narrative", f'<p class="h-nsmall">The Board as of {_e(stamp)}.</p>',
                       cls="h-band")
-    # the small line from the stored readings, by today's formatter, so a record written
-    # before a format fix renders by the fix (8 October 2026)
+    # the small line names the readings the sentence was written from and prints none of
+    # their figures (Sprint 6.2): each prints once on the page, Bitcoin's day change on the
+    # tape only. A record with no readings stored keeps no small line rather than print the
+    # stored one, which carries the figures.
     small = ""
     if narr.get("readings"):
         try:
             import narrative as _n
-            small = _n.named(narr["readings"])
+            small = _n.band_names(narr["readings"])
         except Exception:
             small = ""
-    small = small or str(narr.get("small_line") or "").strip()
     when = narr.get("written_et") or ""
     tail = f" ({when})" if when and small else ""
     return _block("narrative", f'<p class="h-nline">{_e(line)}</p>'
@@ -186,42 +226,25 @@ def narrative_band(narr, snap):
 # ---- since yesterday ----------------------------------------------------------------------
 
 def since(pulse, deltas):
+    """Since yesterday (Sprint 6.2): Bitcoin against its 200-day average first, then
+    Bitcoin's share of the whole market. No day change here: Bitcoin's prints on the tape
+    only, the whole market's on the tape, and Fear & Greed's in the mood."""
     import site_build as sb
     rows = []
     btc = sb._btc(pulse) or {}
     px, sma = btc.get("price"), btc.get("sma200")
     if isinstance(px, (int, float)) and isinstance(sma, (int, float)) and sma:
         gap = (px / sma - 1) * 100
-        d = (deltas.get("bitcoin") or {}).get("pct")
-        tail = (f', <span class="h-d {_dir(d)}">{_pctx(d)}</span> since yesterday'
-                if isinstance(d, (int, float)) else ", with no close kept for yesterday")
         thru = sb._series_stamp(btc, pulse, html=False)
         thru = f' <span class="h-thru">({_e(thru)})</span>' if thru else ""
         rows.append(f'<li>Bitcoin is <span class="h-d">{abs(gap):.1f}%</span> '
                     f'{"above" if gap >= 0 else "below"} its 200-day average of '
-                    f'<span class="h-d">{_e(sb._price_fmt(sma))}</span>{thru}{tail}.</li>')
+                    f'<span class="h-d">{_e(sb._price_fmt(sma))}</span>{thru}.</li>')
     mkt = (pulse or {}).get("market") or {}
-    if isinstance(mkt.get("total_mcap_usd"), (int, float)):
-        d = (deltas.get("market") or {}).get("pct")
-        dom = mkt.get("btc_dominance_pct")
-        mid = (f', <span class="h-d {_dir(d)}">{_pctx(d)}</span> since yesterday'
-               if isinstance(d, (int, float)) else ", with no close kept for yesterday")
-        tail = (f', with Bitcoin at <span class="h-d">{dom:.1f}%</span> of it'
-                if isinstance(dom, (int, float)) else "")
-        rows.append(f'<li>The whole market is <span class="h-d">'
-                    f'{_e(sb.fmt_usd(mkt["total_mcap_usd"]))}</span>{mid}{tail}.</li>')
-    fg = (pulse or {}).get("fng") or {}
-    if isinstance(fg.get("value"), (int, float)):
-        fd = deltas.get("fng") or {}
-        word = sb._fng_band(fg["value"])
-        if isinstance(fd.get("prev"), (int, float)):
-            pts = fd.get("points") or 0
-            tail = (f', <span class="h-d">{pts:+g}</span> from <span class="h-d">'
-                    f'{fd["prev"]:g}</span> yesterday')
-        else:
-            tail = ", with no figure kept for yesterday"
-        rows.append(f'<li>Fear &amp; Greed reads <span class="h-d">{fg["value"]:g}</span>, '
-                    f'{_e(word.lower())}{tail}.</li>')
+    dom = mkt.get("btc_dominance_pct")
+    if isinstance(dom, (int, float)):
+        rows.append(f'<li>Bitcoin is <span class="h-d">{dom:.1f}%</span> of the whole '
+                    f'market.</li>')
     if not rows:
         return _block("since", '<p class="h-wait">Waiting for the Board\'s readings.</p>',
                       "Since yesterday")
@@ -349,7 +372,7 @@ def t_float(snap, deltas):
     since_t = (f"{'Up' if d > 0 else 'Down' if d < 0 else 'Level'} {abs(d):.2f}% since "
                f"yesterday" if isinstance(d, (int, float)) else "No close kept for yesterday")
     return tile.render("stablecoin-float", sb.fmt_usd(stv["total_usd"]),
-                       window="all stablecoins in circulation, now",
+                       window="all stablecoins, now",
                        since=since_t, source=src.split(" ")[0], stamp=st)
 
 
@@ -380,8 +403,7 @@ def _funding_hist(pulse):
 def _funding_since(word, pulse):
     hist = _funding_hist(pulse)
     if len(hist) >= 4:
-        return (f"{word.capitalize()}; {hist[-4]:+.4f}% at the settlement 24 hours before "
-                f"the latest")
+        return f"{word.capitalize()}; {hist[-4]:+.4f}% a day earlier"
     return f"{word.capitalize()}; no settlement a day back on record"
 
 
@@ -426,8 +448,8 @@ def t_oi(snap, deltas):
     if isinstance(d, (int, float)):
         return tile.render(
             "open-interest", f"{d:+.2f}%", label="Open interest change",
-            window=f"since yesterday's close, the five coins tracked on {venue}",
-            since=f"Bitcoin: {sb.fmt_usd(o['usd'])} open on {venue} now",
+            window=f"since yesterday's close, five coins on {venue}",
+            since=f"Bitcoin {sb.fmt_usd(o['usd'])} open now",
             source=venue, stamp=st)
     return tile.render(
         "open-interest", sb.fmt_usd(o["usd"]), label="Open interest",
@@ -446,7 +468,7 @@ def t_fng(snap, deltas):
     word = sb._fng_band(val)
     since_t = (f"{word}; {fd['prev']:g} yesterday" if isinstance(fd.get("prev"), (int, float))
                else f"{word}; no figure kept for yesterday")
-    return tile.render("fear-greed", f"{val:g}", window="today, scale 0 to 100",
+    return tile.render("fear-greed", f"{val:g}", window="today",
                        since=since_t, source="alternative.me", stamp=st)
 
 
@@ -552,12 +574,16 @@ def movers(snap):
                 f'<a href="/coins/{_e(str(c.get("symbol")).lower())}">{_e(c.get("symbol"))}</a>'
                 f'<span class="h-mn">{_e(c.get("name") or "")}</span>'
                 f'<span class="h-mc {_dir(ch)}">{_pctx(ch)}</span></li>')
-    rises = mv.get("top20_rises") or []
+    # nothing twice: a coin the tape prints is not listed again here (Sprint 6.2)
+    taped = {"BTC"} | {sym for sym, _n, _g in TAPE_ALTS}
+    rises = [c for c in mv.get("top20_rises") or [] if c.get("symbol") not in taped]
     fall = mv.get("top20_fall")
+    if fall and fall.get("symbol") in taped:
+        fall = None
     lis = "".join(row(c) for c in rises)
     if fall:
         lis += row(fall)
-    stand = mv.get("standouts") or []
+    stand = [c for c in mv.get("standouts") or [] if c.get("symbol") not in taped]
     if stand:
         sl = ", ".join(f'{_e(c["symbol"])} <span class="h-mc {_dir(c["chg_24h_pct"])}">'
                        f'{_pctx(c["chg_24h_pct"])}</span>' for c in stand)
@@ -596,18 +622,32 @@ def mine():
 BELOW_FOLD = ("board", "whales", "brief", "record")
 
 
+# NOTHING TWICE (Program 6, Sprint 6.2): every reading the fold above already prints, by its
+# tile key. Bitcoin's price and the whole market are on the tape, the 200-day in since
+# yesterday, the ETF, the float and the whales in the money, funding (and so its annualized
+# Leverage tile), open interest and Fear & Greed in the mood. The Board below the fold
+# draws only what is left, and links the full Board for the rest.
+ABOVE_READINGS = ("bitcoin", "total-cap", "etf-net", "whale-net", "stablecoin-float",
+                  "funding", "open-interest", "fear-greed")
+
+
 def board(snap, pulse, flows, deltas):
-    """The Board as eight tiles, every one through tile.render."""
+    """The Board below the fold: the Board's tiles, every one through tile.render, less
+    every reading already printed above the fold."""
+    import re
     tiles = [t_bitcoin(snap, pulse, deltas), t_cap(snap, deltas), t_etf(snap, pulse),
              t_whale(snap, flows), t_leverage(snap, pulse), t_float(snap, deltas),
              t_fng(snap, deltas), t_fee(snap, deltas)]
+    tiles = [t for t in tiles if t and re.search(r'data-reading="([a-z-]+)"', t).group(1)
+             not in ABOVE_READINGS]
     import tile
     head = (f'<p class="h-sub">As of {_e(snap.get("stamp_et") or "")}. '
             f'<a href="/pulse.html">The Board in full</a></p>')
     if not any(tiles):
         return _block("board", head + '<p class="h-wait">Waiting for the snapshot.</p>',
                       "The Board")
-    return _block("board", head + tile.grid(tiles, "tl-4"), "The Board")
+    return _block("board", head + tile.grid(tiles, "tl-4" if len(tiles) >= 4 else ""),
+                  "The Board")
 
 
 SIGN_LINE = ("Each bar is one week's net, transfers of $50 million and up, all coins. Off "
