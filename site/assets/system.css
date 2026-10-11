@@ -116,9 +116,14 @@ body .h-fade{animation:h-fade .45s ease-out 1}
 /* the narrative band */
 body .h-band{background:var(--band);color:var(--band-ink);border-top:0;padding:18px 18px 16px;
   margin:4px 0 6px}
-body .h-nline{font-family:var(--serif);font-size:22px;line-height:1.3;font-weight:500}
+/* the sentence takes its colour directly: `.page p,.page li{color:var(--ink)}` (site.css)
+   beats the colour a paragraph would inherit from .h-band, which drew it in ink on the
+   band's ink in light mode (11 October 2026) */
+body .h-band .h-nline{font-family:var(--serif);font-size:22px;line-height:1.3;font-weight:500;
+  color:var(--band-ink)}
 body .h-nsmall{font-family:var(--mono);font-size:11px;line-height:1.5;color:var(--band-muted);
   margin-top:10px!important}
+body .h-band .h-nsmall{color:var(--band-muted)}
 body .h-band .h-nsmall:first-child{margin-top:0!important;font-size:12px}
 
 /* since yesterday */
