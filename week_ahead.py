@@ -6,8 +6,8 @@ earnings). This adds it as a CALENDAR-DRIVEN story type: report what is schedule
 observers are watching, never what will happen.
 
 THE NO-FORECAST LAW IS ENFORCED BY CONSTRUCTION: no model writes here. The story renders
-deterministically from data/week_calendar.json, a curated static file of publicly announced
-dates, each entry carrying its source. "The Fed meets Wednesday" is reporting; "expect
+deterministically from site/data/calendar.json (desk_calendar.py's five sources of record), each
+entry carrying its source. "The Fed meets Wednesday" is reporting; "expect
 volatility" is a forecast and cannot occur because no sentence exists that the calendar
 file does not supply. Same event-calendar pattern as the Sports desk.
 
@@ -28,10 +28,23 @@ import sys
 from datetime import datetime, timedelta, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CALENDAR = os.path.join(HERE, "data", "week_calendar.json")
+CALENDAR = os.path.join(HERE, "site", "data", "calendar.json")
 CONTENT = os.path.join(HERE, "site", "content")
 
 WEEKDAY = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+
+def _sources(events):
+    """One source per event, from calendar.json's {name, url} shape (a bare URL string, the
+    retired curated file's shape, still reads)."""
+    out = []
+    for e in events:
+        src = e.get("source")
+        if isinstance(src, dict) and src.get("url"):
+            out.append({"url": src["url"], "name": src.get("name") or "calendar"})
+        elif isinstance(src, str) and src:
+            out.append({"url": src, "name": e.get("source_name", "calendar")})
+    return out
 
 
 def build_item(monday, events, now_iso):
@@ -55,7 +68,7 @@ def build_item(monday, events, now_iso):
         "published_utc": now_iso,
         "category": "week ahead",
         "rank": -1,
-        "author": "Crypto Cronkite",
+        "author": "GoCheckMyCrypto",
         "title": "The Week Ahead: " + "; ".join(titles),
         "dek": (f"What is on the calendar for the week of "
                 f"{monday.strftime('%B %d').replace(' 0', ' ')}: scheduled events only, "
@@ -64,8 +77,7 @@ def build_item(monday, events, now_iso):
         "body": body,
         "bottom_line": "",
         "human_take": "",
-        "sources": [{"url": e.get("source", ""), "name": e.get("source_name", "calendar")}
-                    for e in events if e.get("source")],
+        "sources": _sources(events),
     }
 
 
@@ -86,7 +98,7 @@ def run(force=False):
               f"(fail-closed for content).")
         return 0
     week_end = monday + timedelta(days=6)
-    events = [e for e in cal.get("events", [])
+    events = [e for e in (cal.get("entries") or cal.get("events") or [])
               if monday.strftime("%Y-%m-%d") <= e.get("date", "") <=
               week_end.strftime("%Y-%m-%d")]
     if not events:

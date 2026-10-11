@@ -40,7 +40,7 @@ import llm as llmlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONTENT = os.path.join(HERE, "site", "content")
-NFA = "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice."
+NFA = "GoCheckMyCrypto reports events. It never advises trades. Nothing here is financial advice."
 
 EDITIONS = {
     "morning": {"name": "The Morning Brief", "slug": "morning-brief", "rank": -1,
@@ -769,7 +769,7 @@ def build_item(edition, obj, stories, date, published_utc):
         "date": date, "published_utc": published_utc,
         "category": "daily edition",
         "rank": ed["rank"],
-        "author": "Crypto Cronkite",
+        "author": "GoCheckMyCrypto",
         "key_fact": destyle(obj.get("key_takeaway", "")),
         "bottom_line": destyle(obj.get("bottom_line", "")),
         "human_take": "",

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-site_build.py: build the public Crypto Cronkite site from committed content.
+site_build.py: build the public GoCheckMyCrypto site from committed content.
 
 Reproducible + lossless (the GoCheckMyPet lesson D2: everything the page needs is emitted
 here from the templates, so rebuilding never strips the footer, disclaimer, or schema). Reads
@@ -67,12 +67,10 @@ def _build_commit():
 BUILD_COMMIT = _build_commit()
 PUBLISHED = os.path.join(HERE, "out", "published")
 
-# Brand: Crypto Cronkite is the focal brand (the news desk, the masthead, the audience). This site
-# stands on its own; the only thing it shares with the GoCheckMy family is the name/domain
-# (gocheckmycrypto.com) plus the "A GoCheckMy site" footer tie. No family visual reskin, by design
-# (see DEVIATIONS D-CRYPTO-2). Whale Watch is the on-chain tools sub-brand.
-NAME = "Crypto Cronkite"
-SLOGAN = "And that's the way it is."          # Walter Cronkite's sign-off; the brand tagline
+# Brand: one name, GoCheckMyCrypto (Program 6, Sprint 6.1, 11 October 2026). The desk persona and
+# its old name are retired from every page, tag, card and byline. Stories stored with the old
+# author render under the one name. Whale Watch is the on-chain tools sub-brand.
+NAME = "GoCheckMyCrypto"            # the one name (Program 6, 6.1: the desk persona is retired)
 DESK_LINE = "The honest voice in a shill-filled space."   # secondary descriptor
 FAMILY = "GoCheckMyCrypto"                     # family/domain tie: gocheckmycrypto.com
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
@@ -81,11 +79,11 @@ SHORT_NAME = "GoCheckMyCrypto"                # home-screen label (manifest)
 THEME_COLOR = "#B42318"                       # browser chrome + manifest
 OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, generated at build time
 CF_ANALYTICS_TOKEN = "ee5216c8411a41d78c7c4f679406ef4b"  # Cloudflare Web Analytics site token; empty renders no beacon
-DESC = ("Crypto Cronkite is an independent crypto news desk built with one intention: get the "
-        "stories right and keep the data honest. Plus the Whale Watch and Board data "
-        "desks. We report events, we never advise trades.")
+DESC = ("GoCheckMyCrypto is an independent crypto site built with one intention: get the "
+        "stories right and keep the data honest. News, the Board and Whale Watch. "
+        "We report events, we never advise trades.")
 FAMILY_DESC = ("Independent crypto news with the shill stripped out, plus live whale flows and market dashboards the desk measures itself. Never financial advice.")
-NFA = ("Not financial advice. Crypto Cronkite reports events and explains what they may mean. "
+NFA = ("Not financial advice. GoCheckMyCrypto reports events and explains what they may mean. "
        "It never tells you to buy or sell anything. Do your own research.")
 YEAR = "2026"
 MONTHS = ["", "January", "February", "March", "April", "May", "June", "July", "August",
@@ -1405,16 +1403,8 @@ def load_content():
 def masthead(active, dateline, brand="site"):
     """ONE MASTHEAD, EVERY PAGE (C-1).
 
-    This used to render two: GoCheckMyCrypto on the hubs and a Crypto Cronkite chrome
-    (coin logo, "And that's the way it is") on all 467 article pages, the archive,
-    bottom-line, the seven coverage hubs and every edition. A reader moving from the
-    Board to a story crossed what looked like a different publication.
-
-    Crypto Cronkite is not retired, it is relocated: it remains the desk byline on
-    stories and briefs ("Crypto Cronkite, the GoCheckMyCrypto desk") and the name on
-    the About page. What leaves is the page chrome - the coin logo and the second
-    tagline. `brand` is kept in the signature so the callers that pass "cronkite" keep
-    working; it no longer selects anything."""
+    One masthead and one name on every page. `brand` is kept in the signature so the callers
+    that pass "cronkite" keep working; it no longer selects anything."""
     nav = "".join(
         f'<a href="{esc(href)}"{" class=active" if label == active else ""}'
         + (f' title="{esc(NAV_TITLES[href])}"' if href in NAV_TITLES else "")
@@ -1643,9 +1633,8 @@ def trust_block():
 
 
 def footer(brand="site"):
-    """Brand-aware, matching the masthead doctrine: one identity per page. Site pages close
-    as GoCheckMyCrypto (Cronkite named as the news desk); Cronkite's own pages close as the
-    desk."""
+    """One identity on every page: the site closes as GoCheckMyCrypto. `brand` is kept in the
+    signature for the callers that still pass it; it no longer selects anything."""
     links = "".join(f'<a href="{esc(h)}">{esc(l)}</a>' for l, h in
                     # About, Archive and Learn (the Explainers page) live in the masthead
                     # nav; repeating them here gave every page two links to each and
@@ -1667,17 +1656,10 @@ def footer(brand="site"):
                      ("Privacy", "/privacy.html"), ("Terms", "/terms.html"),
                      ("Contact", "mailto:desk@gocheckmycrypto.com"),
                      ("RSS", "/feed.xml")])
-    if brand == "cronkite":
-        who = f"{esc(NAME)}"
-        note = ("Crypto Cronkite is GoCheckMyCrypto's independent news desk, built with one "
-                "intention: get the stories right and keep the data honest. Whale Watch and "
-                "the Board show market data, not news. Sources are linked on every story.")
-    else:
-        who = f"{esc(FAMILY)}"
-        note = ("GoCheckMyCrypto is an independent crypto site, built with one intention: get "
-                "the stories right and keep the data honest. Crypto Cronkite is its news desk; "
-                "Whale Watch and the Board show market data, not news. Sources are linked "
-                "on every story.")
+    who = f"{esc(FAMILY)}"
+    note = ("GoCheckMyCrypto is an independent crypto site, built with one intention: get "
+            "the stories right and keep the data honest. Whale Watch and the Board show "
+            "market data, not news. Sources are linked on every story.")
     return f"""<footer class="site"><div class="wrap">
   <div class="frow">
     <div class="fbrand">{who}</div>
@@ -1834,7 +1816,7 @@ def _em_dash_belt(html):
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           live_js=False, brand="site", og_type="website", schema_extra="", og_image=None,
-          canonical_path=None, system_css=False, third_party=True):
+          canonical_path=None, system_css=True, third_party=True):
     # R-4: the preconnects to Google are gone with the fonts they were for. A
     # preconnect to a host the page never contacts costs a DNS lookup and a TLS
     # handshake for nothing, on the critical path, which is the opposite of the point.
@@ -1865,7 +1847,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     _cp = canonical_path or path
     url = ORIGIN + (_cp[:-5] if _cp.endswith(".html") else _cp)
     # one identity per page: site-brand pages carry the umbrella in the title tail and
-    # social tags; Cronkite's own pages keep the desk name
+    # social tags
     site_name = NAME if brand == "cronkite" else FAMILY
     if brand != "cronkite" and title.endswith(f"- {NAME}"):
         title = title[: -len(NAME)] + FAMILY
@@ -1941,7 +1923,6 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <link rel="stylesheet" href="/assets/site.css">{_system_css}
 </head>
 <body class="{esc(body_class)}">
-<div class="ground" aria-hidden="true"></div>
 {skip}{masthead(active, dateline, brand)}
 {body}
 {footer(brand)}{beacon}{livejs}
@@ -2021,33 +2002,8 @@ def sig_block():
     Stamp reads SOURCES VERIFIED / ON THE RECORD (owner's pick, 2026-07-30). Both halves
     describe what was done to the story and neither describes how the desk is built, which
     is the whole point: nothing here should help anyone reproduce the process."""
-    return """<div class="sigrow">
-  <div class="sig">
-    <span class="sig-script">Crypto Cronkite</span>
-    <span class="sig-cap">The Crypto Cronkite Desk</span>
-    <span class="sig-attest">Ranked, source-checked, and verified by the desk's
-      <a href="/method.html">independent review pass</a>.</span>
-  </div>
-  <div class="stamp" role="img" aria-label="Sources verified, on the record stamp">
-    <svg viewBox="0 0 120 120" aria-hidden="true">
-      <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
-      <!-- Stamp J (owner's pick, 2026-07-30): a solid accent disc fills the ring and the
-           GoCheckMy check is knocked out of it, so the mark IS the seal rather than a small
-           device sitting inside one. The knockout uses --card so it inverts with the theme;
-           a hardcoded white would vanish into the dark-mode disc. This replaces the dashed
-           inner ring, which the disc now occupies. -->
-      <circle cx="60" cy="60" r="45" fill="currentColor"/>
-      <defs><path id="stamparc" d="M60,60 m-51,0 a51,51 0 1,1 102,0 a51,51 0 1,1 -102,0"/></defs>
-      <text font-size="9.4" letter-spacing="2.2" fill="currentColor"
-        font-family="IBM Plex Mono,monospace" font-weight="600">
-        <textPath href="#stamparc" startOffset="2%">SOURCES VERIFIED</textPath>
-        <textPath href="#stamparc" startOffset="55%">ON THE RECORD</textPath>
-      </text>
-      <path d="M27 62 L49 85 L93 32" fill="none" stroke="var(--card)" stroke-width="11"
-        stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>
-</div>"""
+    return """<p class="attest">Ranked, source-checked, and verified by the desk's
+  <a href="/method.html">independent review pass</a>.</p>"""
 
 
 def share_row(url, title):
@@ -2085,7 +2041,7 @@ def render_article(item, all_items=None):
     ribbon = ""
     if item.get("example"):
         ribbon = ('<div class="callout"><b>Example, not a real story.</b> This page shows the '
-                  'format Crypto Cronkite publishes in. The content is illustrative only.</div>')
+                  'format GoCheckMyCrypto publishes in. The content is illustrative only.</div>')
     if item.get("update_of"):
         prev = next((i for i in (all_items or []) if i.get("slug") == item["update_of"]), None)
         # ONLY CLAIM A LINEAGE THE PAGES ACTUALLY SHARE (owner SEO audit 2026-08-25). This
@@ -2238,9 +2194,9 @@ def render_article(item, all_items=None):
             tool_html = (f'<aside class="tool-module"><p class="tm-k">Practical next step</p>'
                          f'<p><a href="{esc(_m["url"])}" rel="noopener">{esc(_m["text"])}</a>'
                          f'. Free, no account.</p></aside>')
-    author = esc(item.get("author", "Crypto Cronkite"))
-    if author in ("Crypto Cronkite", "Crypto Cronkite Desk"):
-        author = "the Crypto Cronkite Desk"
+    author = esc(item.get("author") or NAME)
+    if "Cronkite" in author:       # stored stories carry the retired desk name: render the one name
+        author = esc(NAME)
     body = f"""<main class="wrap narrow">
   <article class="article">
     <div class="ey">{badge}{tag}{topic_chips}<span class="dateline">{fmt_when(item)}</span></div>
@@ -2253,7 +2209,6 @@ def render_article(item, all_items=None):
     {key}
     {take}
     {bottom}
-    <p class="signoff">{esc(SLOGAN)}</p>
     {sig_block()}
     {share_row(ORIGIN + f"/articles/{item['slug']}", item.get("title") or "")}
     {tool_html}
@@ -2341,19 +2296,14 @@ def card(item):
 
 
 def desk_strip():
-    # Home-only anchor-desk strip: the Crypto Cronkite portrait coin (the YouTube channel
+    # Retired (Program 6, 6.1): the anchor-desk strip. Formerly the portrait coin (the YouTube channel
     # face) beside the desk line. The masthead checkmark badge stays the site mark; this is
     # the anchor's face at the top of the front page. No link yet (channel tie post-launch).
     # C-1 / G-10 (revised): the anchor's portrait coin was a 5.7MB autoplaying loop in
     # page chrome. The coin logo and the second tagline leave the chrome; the desk line
     # itself is the desk's voice and stays. Imagery on this site is the hero backdrop
     # and section marks, nothing else.
-    return f"""<section class="desk" aria-label="The news desk"><div class="wrap">
-  <div class="desk-copy">
-    <span class="kicker">From the desk</span>
-    <p>{esc(DESK_LINE)}</p>
-  </div>
-</div></section>"""
+    return ""
 
 
 _NOW_CACHE = None
@@ -3132,83 +3082,10 @@ _SER_PULSE = None    # set by board_tile_grid so tiles can draw their series
 _SER_FLOWS = None
 
 
-CB_HERO_JS = """
-<script>(function(){
-  /* Hero addendum item 3, same contract as the Sports band: desktop only, after the
-     load event, webm only, never on a phone, never under reduced motion. */
-  try{
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!window.matchMedia || !window.matchMedia('(min-width:1024px)').matches) return;
-    var bg = document.querySelector('.cb-hero .cb-bg');
-    if (!bg) return;
-    window.addEventListener('load', function(){
-      var v = document.createElement('video');
-      v.className = 'cb-loop'; v.muted = true; v.autoplay = true; v.loop = true;
-      v.playsInline = true; v.setAttribute('aria-hidden','true'); v.tabIndex = -1;
-      v.src = '/assets/hero/hero-loop.webm';
-      v.addEventListener('playing', function(){ bg.classList.add('has-loop'); });
-      bg.appendChild(v);
-    });
-  }catch(e){}
-})();</script>"""
-
-
 # A-18/A-10: the lead tile's read, authored, and now true of the tile as rendered - it
 # draws the thirty days and the 200-day line (D-4 withheld this until the tile existed).
 BITCOIN_READ_LONG = ("Nothing stretched, nothing broken. Thirty days below, "
                      "with the 200-day line for scale.")
-
-
-def _cm_read_card():
-    """Decision 3: the Chart Master's read, the second of its three places - the
-    twelfth Board tile, this card, and the dated archive under Learn. A-12 gives it the
-    gold rule, the pulse mark beside the eyebrow and the same masked watermark."""
-    cm = CM_DATA or {}
-    read = (cm.get("headline") or "").strip()
-    if not read:
-        ps = cm.get("paragraphs") or []
-        read = (ps[0] if ps else "").strip()
-    if not read:
-        return ""
-    _claim("cm-read")          # UX-11: this card is where the day's read lives
-    when = fmt_short_date(str(cm.get("date") or "")[:10])
-    return (f'<div class="bd-card card cm" style="gap:10px;padding:20px 22px 18px">'
-            f'<span class="wmk wmk-cm" aria-hidden="true"></span>'
-            f'<div class="bd-sec" style="border:none;padding:0"><div class="bd-sec-l">'
-            f'<span class="bd-eyebrow"><img class="mk" src="/assets/marks/pulse-mark.webp" '
-            f'width="44" height="29" alt="" aria-hidden="true">The Chart Master</span>'
-            f'<span class="bd-stamp">{esc(when)}</span></div>'
-            f'<a class="bd-more" href="/chartmaster.html">Every read</a></div>'
-            f'<p class="cm-quote">{esc(read)}</p></div>')
-
-
-def _cm_slot():
-    """A-11: the twelfth slot. The Chart Master's read as a dark tile with a gold top
-    rule; when the day has no read, the newest explainer card takes the slot instead, so
-    the grid never has a hole."""
-    cm = CM_DATA or {}
-    read = (cm.get("headline") or "").strip()
-    if not read:
-        ps = cm.get("paragraphs") or []
-        read = (ps[0] if ps else "").strip()
-    if read and _claim("cm-read"):
-        when = fmt_short_date(str(cm.get("date") or "")[:10])
-        return (f'<div class="bd-card bd-tile cb-cmtile">'
-                f'<div class="bd-tile-top"><span class="bd-label">The Chart Master\u2019s '
-                f'read</span><span class="bd-stamp">{esc(when)}</span></div>'
-                f'<p class="cb-cmread">{esc(read)}</p>'
-                f'<div class="bd-tile-foot">'
-                f'<a href="/chartmaster.html">Every read &rarr;</a>'
-                f'<span class="bd-stamp">one read a day</span></div></div>')
-    ex = next(iter(load_explainers() or []), None)
-    if not ex:
-        return ""
-    return (f'<div class="bd-card bd-tile cb-cmtile">'
-            f'<div class="bd-tile-top"><span class="bd-label">Learn the Board</span>'
-            f'</div><p class="cb-cmread">{esc(ex.get("title") or "")}</p>'
-            f'<div class="bd-tile-foot">'
-            f'<a href="/learn/{esc(ex.get("slug") or "")}.html">Read it &rarr;</a>'
-            f'<span class="bd-stamp">explainer</span></div></div>')
 
 
 def _lead_window(btc, days=30):
@@ -3234,30 +3111,6 @@ def _lead_window(btc, days=30):
     start = b - _dt.timedelta(days=round(per * (n - 1)))
     return (sp[-n:], sm[-n:] if len(sm) >= n else [],
             fmt_short_date(start.isoformat()), fmt_short_date(b.isoformat()))
-
-
-def _cb_ornament(pulse):
-    """A-5: the band's ornament. Bitcoin's 30-day close series as a filled area in
-    #FF6A4D, the same series the lead tile charts, drawn from site/data and never
-    hand-made. No series, no ornament; there is never a fake one."""
-    btc = ((pulse or {}).get("assets") or [None])[0]
-    if not btc:
-        return ""
-    pts, _sma, _d0, _d1 = _lead_window(btc)
-    if len(pts) < 6:
-        return ""
-    W, H = 1200, 220
-    lo, hi = min(pts), max(pts)
-    span = (hi - lo) or 1.0
-    step = W / (len(pts) - 1)
-
-    def _y(v):
-        return H - ((v - lo) / span) * (H - 18) - 6
-
-    line = " ".join(f"{i * step:.0f},{_y(v):.0f}" for i, v in enumerate(pts))
-    return (f'<svg class="cb-orn" viewBox="0 0 {W} {H}" preserveAspectRatio="none" '
-            f'aria-hidden="true"><polygon fill="#FF6A4D" points="0,{H} {line} {W},{H}">'
-            f'</polygon></svg>')
 
 
 def _lead_chart(btc, w=640, h=190):
@@ -3904,8 +3757,7 @@ def _bd_brief_card(ed, summary="", since=""):
             f'<span class="bd-stamp">{esc(fmt_when(ed))}</span>'
             f'<span class="bd-badge ok">Verified</span></div>'
             f'<div class="bd-brief-hl">{esc(hl)}</div>{body}{since}'
-            f'<div class="bd-brief-foot"><span class="bd-by">Crypto Cronkite, '
-            f'The GoCheckMyCrypto desk.</span>'
+            f'<div class="bd-brief-foot"><span class="bd-by">GoCheckMyCrypto.</span>'
             f'<a class="bd-more" href="/articles/{esc(ed["slug"])}.html">Read the full brief</a>'
             f'</div></div>')
 
@@ -5634,7 +5486,7 @@ def render_archive(items, dateline):
     {hub_html}
     {inner}
   </section></main>"""
-    return shell(f"Archive - {NAME}", "Every published Crypto Cronkite story.", "Archive", body, dateline,
+    return shell(f"Archive - {NAME}", "Every published GoCheckMyCrypto story.", "Archive", body, dateline,
                  path="/archive.html", brand="cronkite")
 
 
@@ -5685,44 +5537,40 @@ def render_method(items, dateline):
 
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
-    return shell(f"How we work - {NAME}", "How Crypto Cronkite ranks, verifies, and approves every story.",
+    return shell(f"How we work - {NAME}", "How GoCheckMyCrypto ranks, verifies, and approves every story.",
                  "How we work", body, dateline, path="/method.html")
 
 
 def render_about(dateline):
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">About</span>
-  <h1>Why Crypto Cronkite exists</h1>
-  <p class="lede">Crypto media is drowning in shilling. The scarce thing is an honest voice. That
-     is the entire product.</p>
+  <h1>About GoCheckMyCrypto</h1>
+  <p class="lede">Independent crypto news and market data. Every story is checked against its
+     sources before it runs, and every source is linked.</p>
 
-  <p>Most crypto "news" is paid promotion wearing a press badge: price predictions with nothing
-     behind them, "partnerships" that are really self-issued press releases, and listicles of coins
-     to buy that are affiliate bait. It is exhausting, and it is how people get hurt.</p>
+  <p>Much crypto "news" is paid promotion: price predictions with nothing behind them,
+     "partnerships" that are self-issued press releases, and lists of coins to buy that are
+     affiliate bait. We report the real news, strip the shill, and never tell you what to do
+     with your money.</p>
 
-  <p>Crypto Cronkite is built on one idea: report the real news, strip the shill, and never tell you
-     what to do with your money. The name is a promise. Walter Cronkite was trusted because he was
-     straight with people. That is the register we hold ourselves to, right down to the sign-off:
-     and that's the way it is.</p>
-
-  <p>Alongside the news, <b>Whale Watch</b> follows the money on-chain, the large exchange flows most
-     coverage ignores. It is market data, clearly labelled, never dressed up as news.</p>
+  <p>Alongside the news, <b>Whale Watch</b> follows the large exchange flows most coverage
+     ignores, and <b>the Board</b> shows the market's readings with their sources and stamps.
+     This is market data, clearly labelled, never dressed up as news.</p>
 
   <h2>How a story gets published</h2>
-  <p>A story runs only when an independent verification pass confirms it against its sources, and
-     every source is linked so you can check the work yourself. A human editor-in-chief oversees the
-     desk, can hold or remove anything, and owns every take: no opinion ever goes out in a human
-     voice unless a human wrote it. If that standard ever slips, we drop the cadence before we drop
-     the standard.</p>
+  <p>A story runs only when an independent verification pass confirms it against its sources,
+     and every source is linked so you can check the work yourself. A human editor-in-chief
+     oversees the desk, can hold or remove anything, and owns every take: no opinion goes out
+     in a human voice unless a human wrote it.</p>
 
   <h2>Our bias</h2>
-  <p>We are biased toward the reader and against the shill. We weight official and primary sources
-     most, we link every source, and we would rather publish nothing on a given day than publish
-     something we cannot stand behind.</p>
+  <p>We are biased toward the reader and against the shill. We weight official and primary
+     sources most, we link every source, and we would rather publish nothing on a given day
+     than publish something we cannot stand behind.</p>
 
   <h2>What we are not</h2>
-  <p>We are not your financial advisor, and this is not investment advice. We report what happened
-     and, carefully, what it may mean. What you do with that is yours.</p>
+  <p>We are not your financial advisor, and this is not investment advice. We report what
+     happened and, carefully, what it may mean. What you do with that is yours.</p>
 
   <h2>Contact the desk</h2>
   <p>Tips, corrections, and questions: <a href="mailto:desk@gocheckmycrypto.com">desk@gocheckmycrypto.com</a>.</p>
@@ -5736,7 +5584,7 @@ def render_about(dateline):
     corrections policy</a>.</div>
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
-    return shell(f"About - {NAME}", "Why Crypto Cronkite exists: an honest crypto news desk plus on-chain analytics.",
+    return shell(f"About - {NAME}", "About GoCheckMyCrypto: independent crypto news plus market data, every source linked.",
                  "About", body, dateline, path="/about.html")
 
 
@@ -5845,7 +5693,7 @@ def render_learn(dateline):
         # UX-8: the two cards that pointed at #oracle and #exam are gone with the
         # blocks they linked to. A card whose anchor no longer exists is a link into
         # the middle of a page with nothing there.
-        _learn_card("Reference", "The Spellbook",
+        _learn_card("Reference", "Terms, in plain words",
                     "The terms this desk's reporting uses, defined once, in the order a "
                     "beginner meets them.", "/chartmaster.html#rsi101"),
     ])
@@ -5873,8 +5721,8 @@ def render_learn(dateline):
   {sec("The eight tiles", "One explainer for every number on the Board", board_cards,
        '<a class="bd-more" href="/pulse.html">Open the Board</a>')}
   {_learn_readings(by_tile)}
-  {sec("The Chart Master", "Learn the charts by reading and playing them", cm_cards,
-       '<a class="bd-more" href="/chartmaster.html">Enter the tower</a>')}
+  {sec("The Chart Master", "Learn the charts by reading them", cm_cards,
+       '<a class="bd-more" href="/chartmaster.html">Open the Chart Master</a>')}
   {sec("Owning it safely", "Custody, counterfeits, and tax", guide_cards)}
 </section></main>"""
     return shell(f"Learn the Board: every crypto number explained - {NAME}",
@@ -5931,7 +5779,7 @@ def render_standards(dateline):
 
   <p class="nfa">{esc(NFA)}</p>
 </section></main>"""
-    return shell(f"Standards - {NAME}", "Crypto Cronkite standards, verification, and corrections policy.",
+    return shell(f"Standards - {NAME}", "GoCheckMyCrypto standards, verification, and corrections policy.",
                  "Standards", body, dateline, path="/standards.html")
 
 
@@ -6227,13 +6075,11 @@ def whale_window(flows):
 def render_flows(flows, dateline):
     if not flows or (not flows.get("by_asset") and not flows.get("top_inflows")):
         body = ww_hero() + """<main class="wrap"><section class="page">
+  <span class="kicker">Whale Watch</span>
   <h1>Where the whales are moving</h1>
-  <p class="pc-note ww-legend"><b>Off exchanges is positive and green; onto exchanges is
-  negative and red.</b> Coins leaving an exchange usually mean holding, coins arriving
-  usually mean selling. Every number on this page follows that, and the words are beside
-  the number every time so you never have to remember which is which.</p>
-  <p class="lede">This board tracks where whales are moving large amounts of crypto: onto
-     exchanges (which can precede selling) or off exchanges into self-custody (accumulation).</p>
+  <p class="lede">Large transfers onto exchanges (can precede selling) against off into
+     self-custody (accumulation). Off exchanges is positive and green; onto exchanges is
+     negative and red.</p>
   <div class="empty"><span class="k">A quiet stretch</span>
     <p style="margin:.6em 0 0">Whale Alert's public feed only carries the very largest
     transfers (roughly $50M and up), and none touched an exchange recently. The board
@@ -6327,15 +6173,11 @@ def render_flows(flows, dateline):
                     f'{esc(fmt_usd(v.get("inflow_usd", 0)))} on / '
                     f'{esc(fmt_usd(v.get("outflow_usd", 0)))} off{pace_html}</span>')
     body = ww_hero() + f"""<main class="wrap"><section class="page">
-  <div class="ey" style="margin:14px 0 0">
-    <span class="daily-badge">refreshed through the day</span></div>
-  <h1 style="margin-top:6px">Where the whales are moving</h1>
-  <p class="pc-note ww-legend"><b>Off exchanges is positive and green; onto exchanges is
-  negative and red.</b> Coins leaving an exchange usually mean holding, coins arriving
-  usually mean selling. Every number on this page follows that, and the words sit beside
-  the number every time, so you never have to remember which is which.</p>
-  <p class="lede" style="margin-bottom:10px">The aggregate, not the feed: whale money onto
-     exchanges (can precede selling) vs off into self-custody (accumulation), last {winp}.</p>
+  <span class="kicker">Whale Watch</span>
+  <h1>Where the whales are moving</h1>
+  <p class="lede">Large transfers onto exchanges (can precede selling) against off into
+     self-custody (accumulation), last {winp}. Off exchanges is positive and green; onto
+     exchanges is negative and red.</p>
   <p class="bd-src">{_flows_asof(flows)}</p>
   {ribbon}
   <p class="ww-sentence"><b>{esc(ww["sentence"])}</b></p>
@@ -6743,62 +6585,6 @@ def _dash_crumb():
     return '<span class="kicker"><a href="/pulse.html">The Board</a> &middot; dashboard</span>'
 
 
-def mp_hero(pulse=None, flows=None):
-    """A-14 / C-21: /pulse carries the same product as the homepage band, so it opens
-    with the same band at reduced height and continues on the ground.
-
-    C-2 retired what used to be here: a full-width poster strip with a 3MB loop behind
-    it (pulse-loop on /pulse, whale-loop on /flows, the wizard on /chartmaster). That
-    ruling stands, and it is why /flows and /chartmaster still open on the ground with
-    no band at all: they are data pages, and A-14 gives the band only to the two inner
-    pages that carry the homepage's own product.
-
-    Four tiles, not eight, and no sell line or Chart Master footer: the reduced band is
-    the page's opener, not a second homepage."""
-    if not pulse:
-        return ""
-    deltas = board_deltas(pulse)
-    tiles = board_tiles(pulse, flows, deltas)
-    if not tiles:
-        return ""
-    by_tile = {_TILE_KEY.get(e.get("board_tile") or ""): e for e in load_explainers()}
-
-    def learn_href(tile):
-        ex = by_tile.get(tile.get("key"))
-        return f'/learn/{ex["slug"]}.html' if ex else "/learn.html"
-
-    # UX-7 (C-3): THE BAND ON /pulse CARRIES NO TILES. A-14 put four of them here and
-    # the nine-card grid 300px below repeated every one: Bitcoin, the whole market, ETF
-    # flows and whale flows appeared twice on the same page, and the band's own grid had
-    # an empty slot where the Chart Master tile used to sit. The band is the heading,
-    # the stamp and the Chart Master's line; the grid below carries all nine numbers
-    # once. Same ruling as R-2 made for the /scores band, for the same reason.
-    #
-    # ONE STALE BANNER PER PAGE. data_stamp renders the tripwire, and with the band
-    # carrying one and the page carrying another a stale board said so twice. The band
-    # is the one that shows: it is above the numbers it is warning about.
-    cm_line = ""
-    _cm = load_chartmaster() or {}
-    _read = (_cm.get("headline") or "").strip()
-    if _read and _claim("cm-read"):
-        cm_line = f'<p class="cb-cm">{esc(clamp_sentences(_read, 190))}</p>'
-    return f"""<section class="cb-hero cb-hero-inner" aria-labelledby="bd-board">
-  <div class="cb-bg" aria-hidden="true"></div>
-  <div class="cb-scrim" aria-hidden="true"></div>
-  <div class="wrap cb-inner">
-    <div class="bd-sec"><div class="bd-sec-l">
-      <h1 class="cb-claim" id="bd-board">The Board</h1>
-    </div><span class="bd-subrow"><a class="bd-more" href="/pulse/prices">The Top 100</a>
-      <a class="bd-more" href="/learn.html">How to read the Board</a></span></div>
-    {data_stamp(pulse, what="The Board")}
-    {cm_line}
-  </div>
-  {_cb_ornament(pulse)}
-</section>
-<div class="cb-fade" aria-hidden="true"></div>"""
-
-
-
 # DATA-AGE TRIPWIRE (audit 2026-07-28). A board is only as fresh as the deploy that built
 # it, and the desk publishes market data as "live". If a refresh is missed, old numbers keep
 # rendering under a live label: the exact dishonesty this desk exists to avoid. So every
@@ -7101,8 +6887,7 @@ def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
                 f'day. Read these numbers as history, not as the current market.</p>')
     # C-5: was "Data as of 22:17 UTC on 14 Sep 2026. Refreshed at every site build." -
     # a clock the reader does not keep and a note about how the page was made (G-9).
-    return (f'<p class="data-stamp">As of {stamp}. Deltas are since yesterday\u2019s '
-            f'close. Eight numbers, one explainer each.</p>')
+    return f'<p class="data-stamp">As of {stamp}.</p>'
 
 
 _TILE_FOR_SLUG = {"prices": "bitcoin", "posture": "bitcoin", "sentiment": "fng",
@@ -7177,182 +6962,101 @@ def _no_data(cmd="python3 market_pulse.py"):
             f'site build. Generate it locally with <code>{esc(cmd)}</code>.</p></div>')
 
 
+def cm_board_card(cm, pulse, flows, deltas=None, now=None):
+    """PROGRAM 6, 6.1 (11 October 2026): the Chart Master's read on the Board, under its own
+    date, as "The Chart Master's read, <date>". It gives way to the Board's own line when the
+    read is more than one day old: the read was three days old on top of today's Board after
+    two refusals to publish. A read dated today or yesterday shows; anything older does not,
+    and the Board's own deterministic line (board_summary_line) takes its place, or nothing
+    does when the day has nothing to report."""
+    import datetime as _dt
+    cm = cm or {}
+    read = (cm.get("headline") or "").strip()
+    if not read:
+        ps = cm.get("paragraphs") or []
+        read = (ps[0] if ps else "").strip()
+    day = str(cm.get("date") or "")[:10]
+    today = (now or _build_now()).astimezone(_ET).date()
+    try:
+        age = (today - _dt.date.fromisoformat(day)).days
+    except ValueError:
+        age = None
+    if read and age is not None and age <= 1:
+        return (f'<section class="cm-card" aria-label="The Chart Master\'s read">'
+                f'<h2 class="cm-card-h">The Chart Master\'s read, {esc(fmt_date(day))}</h2>'
+                f'<p class="cm-card-p">{esc(clamp_sentences(destyle(read), 260))}</p>'
+                f'<p class="cm-card-f"><a href="/chartmaster.html">Every read</a></p></section>')
+    own = board_summary_line(pulse, deltas if deltas is not None else board_deltas(pulse), flows)
+    if own:
+        return (f'<section class="cm-card" aria-label="The Board today">'
+                f'<h2 class="cm-card-h">The Board today</h2>'
+                f'<p class="cm-card-p">{esc(own)}</p></section>')
+    return ""
+
+
+# the deep boards, each one link: the tile law gives a tile one link ("what this means"), so
+# the way into a board is a plain list under the tiles, not a link wrapped round a tile
+BOARD_LINKS_LIST = [("Price posture", "/pulse/posture.html"), ("The Top 100", "/pulse/prices.html"),
+                    ("ETF flows", "/pulse/etf.html"), ("Whale Watch", "/flows.html"),
+                    ("Leverage", "/pulse/leverage.html"),
+                    ("Stablecoins", "/pulse/stablecoins.html"),
+                    ("Top movers", "/pulse/movers.html"), ("Sentiment", "/pulse/sentiment.html"),
+                    ("Bitcoin network", "/pulse/network.html")]
+
+
 def render_pulse_hub(pulse, flows, cm, dateline):
-    """THE BOARD: the master dashboard. The Chart Master's read full-width on top, then
-    NINE even cards in rows of three, importance descending by the house reading doctrine
-    (price, flows, positioning, then the day and the chain as the supporting row). The
-    doctrine group rides in each card's label; the 101 teaching lives on the deep boards."""
-    desc = ("The Board: every market desk at a glance - price posture, ETF and whale flows, "
-            "leverage, sentiment, and the Bitcoin network, ordered the way a desk reads a "
-            "market. Market data, not advice.")
+    """THE BOARD (Program 6, 6.1): the same eight tiles the home page carries, drawn by the
+    one tile (tile.render) from the data contract's snapshot, then the day's movers as a plain
+    table and a list of the deep boards. No photo band, no wash, and no tile with more than
+    its label, figure, window, since-yesterday line and source with stamp."""
+    import home as _home
+    import tile as _tile
+    import snapshot as _snapshot
+    desc = ("The Board: price, ETF and whale flows, leverage, sentiment and the Bitcoin "
+            "network, each reading with its source and stamp. Market data, not advice.")
     pulse = pulse or {}
-    W = []
-    _lx = {e.get("board_tile"): f'/learn/{e["slug"]}.html' for e in load_explainers()}
-
-    # C2: each tile that has an explainer carries its "Explained" link here as well as
-    # on the homepage. A link cannot nest inside a link, so a tile with an explainer
-    # becomes a div holding two anchors: the card destination, stretched over the whole
-    # card by a pseudo-element, and the Explained link sitting above it. Tiles without
-    # an explainer keep the plain anchor they had.
-    def widget(href, lab, stat, sub="", mini="", stat_color="", cls="", learn=""):
-        color = f' style="color:{stat_color}"' if stat_color else ""
-        inner = (f'<span class="lab">{lab}</span>'
-                 f'<span class="dash-stat"{color}>{stat}</span>'
-                 + (f'<span class="w-sub">{sub}</span>' if sub else "")
-                 + (f'<div class="pc-spark">{mini}</div>' if mini else ""))
-        if learn:
-            W.append(f'''<div class="dash-card widget has-learn{cls}">
-      <a class="w-main" href="{href}">{inner}</a>
-      <a class="w-learn" href="{learn}">Explained</a></div>''')
-        else:
-            W.append(f'''<a class="dash-card widget{cls}" href="{href}">{inner}</a>''')
-
-    # The read: the desk's synthesis of everything below, full width (not a card)
-    if (cm or {}).get("headline"):
-        W.append(f'''<a class="dash-card widget wide" href="/chartmaster.html">
-      <span class="lab">The Chart Master&rsquo;s read &middot; {esc(fmt_date(cm.get("date")))}</span>
-      <span class="w-read">&ldquo;{esc(cm["headline"])}&rdquo;</span></a>''')
-
-    # Row 1 - what the market is doing
-    assets = pulse.get("assets") or []
-    if assets:
-        btc = assets[0]
-        chg = btc.get("chg_24h_pct")
-        chg_s = f' <span class="w-delta {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span>' if chg is not None else ""
-        widget("/pulse/posture.html", "Price &middot; BTC posture",
-               f'<span data-live="price:BTC">{esc(_price_fmt(btc.get("price")))}</span>{chg_s}',
-               f'RSI {btc.get("rsi14", 0):.0f} &middot; '
-               f'{"above" if btc.get("above_sma200") else "below"} 200-day'
-               + (f' &middot; {_series_stamp(btc, pulse)}' if btc.get("through") else ""),
-               spark_widget((btc.get("spark") or [])[-30:], "30d"),
-               learn=_lx.get("bitcoin", ""))
-    mkt = pulse.get("market") or {}
-    if mkt.get("total_mcap_usd"):
-        mchg = mkt.get("mcap_change_24h_pct")
-        mchg_s = (f' <span class="w-delta {"up" if mchg >= 0 else "down"}">{mchg:+.1f}%</span>'
-                  if mchg is not None else "")
-        dom = mkt.get("btc_dominance_pct", 0)
-        dom_bar = (f'<span class="dom-bar"><span style="width:{dom:.1f}%"></span></span>'
-                   f'<span class="w-range">BTC is {dom:.1f}% of the whole crypto market</span>')
-        widget("/pulse/prices.html", "Price &middot; Whole market",
-               f'{esc(fmt_tick(mkt["total_mcap_usd"]))}{mchg_s}',
-               'total crypto market cap &middot; 24h change', dom_bar,
-               learn=_lx.get("market", ""))
-    etf = (pulse.get("etf_flows") or {}).get("btc") or {}
-    if etf.get("latest_net_usd_m") is not None:
-        latest = etf["latest_net_usd_m"]
-        # "18 Sep" sliced off a "18 Sep 2026" string: the slice carries the source's
-        # order through even after the long form beside it was corrected.
-        mini = flow_ledger([(us_date(d.get("date", ""))[:6].rstrip(" ,"),
-                             (d.get("net_usd_m") or 0) * 1e6, None)
-                            for d in etf.get("recent", [])[-4:]],
-                           aria="BTC ETF flows, last 4 trading days", compact=True)
-        widget("/pulse/etf.html", "Flows &middot; ETF flows",
-               f'{"+" if latest >= 0 else ""}{esc(fmt_usd(latest * 1e6))}',
-               f'BTC spot ETFs, {esc(us_date(etf.get("latest_date", "")))}', mini,
-               stat_color="var(--up)" if latest >= 0 else "var(--down)",
-               learn=_lx.get("etf_flows", ""))
-
-    # Row 2 - where the money is moving, and how leveraged the bets are
+    snap = SNAP or _snapshot.build(pulse, flows)
+    deltas = board_deltas(pulse)
+    tiles = [_home.t_bitcoin(snap, pulse, deltas), _home.t_cap(snap, deltas),
+             _home.t_etf(snap, pulse), _home.t_whale(snap, flows),
+             _home.t_leverage(snap, pulse), _home.t_float(snap, deltas),
+             _home.t_fng(snap, deltas), _home.t_fee(snap, deltas)]
+    whale_wait = ""
     if flows and flows.get("volatile") and not _flows_have_data(flows):
-        # NO "$0" FROM AN ABSENT READING (8 October 2026): the card says what it is
-        # waiting for instead of printing a zero nothing measured.
-        widget("/flows.html", "Flows &middot; Whale Watch",
-               '<span class="mut" style="font-size:.5em">no reading</span>',
-               WHALE_WAITING, "", learn=_lx.get("whale_flows", ""))
-    elif flows and flows.get("volatile"):
-        wnet = flows["volatile"].get("net_usd", 0)
-        wmini = flow_ledger(
-            [(f'wk {w.get("week_ending", "")}', w.get("net_usd", 0), None)
-             for w in (flows.get("history") or [])[-4:]],
-            aria="Weekly whale net flow, last 4 weeks", compact=True)
-        widget("/flows.html", "Flows &middot; Whale Watch",
-               f'{esc(fmt_usd(abs(wnet)))}',
-               f'net {"off" if wnet >= 0 else "onto"} exchanges, '
-               f'{esc(_win_phrase(flows.get("window_hours", 24)))}', wmini,
-               stat_color="var(--up)" if wnet >= 0 else "var(--down)",
-               learn=_lx.get("whale_flows", ""))
-    lev = (pulse.get("leverage") or {}).get("assets") or []
-    btcl = next((a for a in lev if a.get("symbol") == "BTC"), None)
-    if btcl:
-        ls = btcl.get("long_short_ratio")
-        # K-5: the funding and the open interest are in the shared sub-line above; this
-        # one carries what is only on the Board, so the tile does not say $2.58B twice.
-        sub = (f'{ls:.2f} L/S' if ls is not None else '')
-        q = btcl.get("liquidations") or {}
-        if q.get("count"):
-            longs, shorts = q.get("longs_usd", 0), q.get("shorts_usd", 0)
-            side = "longs" if longs >= shorts else "shorts"
-            sub += ((('<br>' if sub else '') + f'liqs {esc(fmt_usd(longs + shorts))} last '
-                    f'{q.get("window_hours", "?")}h &middot; mostly {side}'))
-        # K-5: the same figure the home tile prints, from the same function.
-        _wv, _ws, _ = leverage_figure(pulse)
-        if _wv:
-            widget("/pulse/leverage.html", "Positioning &middot; Leverage",
-                   f'{_wv} <span class="w-unit">a year</span>',
-                   (_ws + ("<br>" + sub if sub else "")),
-                   spark_widget(btcl.get("oi_history_usd") or [], "30d open interest"),
-                   learn=_lx.get("leverage", ""))
-    stables = pulse.get("stables") or {}
-    if stables.get("total_usd"):
-        chg = stables.get("change_30d_pct", 0)
-        widget("/pulse/stablecoins.html", "Flows &middot; Stablecoin dry powder",
-               esc(fmt_usd(stables["total_usd"])),
-               f'<span class="w-delta {"up" if chg >= 0 else "down"}">{chg:+.1f}%</span> in 30 days',
-               spark_widget((stables.get("spark") or [])[-60:], "60d"),
-               learn=_lx.get("stablecoins", ""))
-
-    # Row 3 - the supporting desks: the day's action, the mood, the chain
+        # NO "$0" FROM AN ABSENT READING (8 October 2026): the page says what it is waiting
+        # for instead of printing a zero nothing measured.
+        whale_wait = f'<p class="bd-wait">Whale net: {esc(WHALE_WAITING)}.</p>'
+    grid = _tile.grid(tiles, "tl-4") if any(tiles) else '<p class="bd-wait">Waiting for the snapshot.</p>'
     movers = pulse.get("movers") or {}
+
+    def mrows(rows):
+        return "".join(f'<tr><td>{esc(x.get("symbol", ""))}</td><td class="num {"up" if (x.get("chg_24h_pct") or 0) >= 0 else "down"}">'
+                       f'{x.get("chg_24h_pct", 0):+.1f}%</td></tr>' for x in rows[:5])
+    movers_html = ""
     if movers.get("gainers"):
-        g = movers["gainers"][0]
-        l = (movers.get("losers") or [{}])[0]
-        # UX-7: the headline already names the biggest gainer, so the list starts at
-        # the second. "ZEC +20.5%" as the stat and "up ZEC +20.5% - NEAR ..." directly
-        # under it is the same fact twice inside one card.
-        g_line = " &middot; ".join(f'{esc(x.get("symbol", ""))} {x.get("chg_24h_pct", 0):+.1f}%'
-                                   for x in movers.get("gainers", [])[1:4])
-        l_line = " &middot; ".join(f'{esc(x.get("symbol", ""))} {x.get("chg_24h_pct", 0):+.1f}%'
-                                   for x in movers.get("losers", [])[:3])
-        mv_mini = (f'<span class="w-range" style="color:var(--up)">up&nbsp; {g_line}</span>'
-                   f'<span class="w-range" style="color:var(--down)">down&nbsp; {l_line}</span>')
-        widget("/pulse/movers.html", "The day &middot; Top movers",
-               f'{esc(g.get("symbol", ""))} <span class="w-delta up">{g.get("chg_24h_pct", 0):+.1f}%</span>',
-               "the day&rsquo;s biggest big-cap moves, both directions", mv_mini)
-    fng = pulse.get("fng") or {}
-    if fng.get("value") is not None:
-        v = fng["value"]
-        widget("/pulse/sentiment.html", "The day &middot; Crowd sentiment",
-               f'{v} &middot; {esc((fng.get("label") or "").lower())}',
-               "the foil: what the crowd feels, not what the money does",
-               spark_widget((fng.get("history") or [])[-30:], "30d", dollars=False),
-               stat_color=_fng_band_color(v),
-               learn=_lx.get("sentiment", ""))
-    network = pulse.get("network") or {}
-    if network.get("fastest_fee") is not None:
-        fee = network.get("fastest_fee", 0) or 0
-        busy = "a quiet chain" if fee <= 5 else ("normal traffic" if fee <= 30 else "a crowded chain")
-        net_mini = (f'<span class="w-range">1-hour fee {network.get("hour_fee", "?")} sat/vB &middot; '
-                    f'difficulty {network.get("difficulty_change_pct", 0):+.1f}% &middot; '
-                    f'retarget in {network.get("retarget_blocks", "?")} blocks</span>'
-                    f'<span class="w-range">sat/vB = satoshis per virtual byte, the bid for block space</span>')
-        widget("/pulse/network.html", "Chain &middot; Bitcoin network",
-               f'{network.get("fastest_fee", "?")} <span class="w-unit">sat/vB</span>',
-               f'next-block fee: {busy}', net_mini, cls=" mspan",
-               learn=_lx.get("network", ""))
-
-    # D-6: the watchlist belongs on the Board as well as the homepage. Same shell, same
-    # script, same store: it stays hidden until the reader has pins.
-    body = mp_hero(pulse, flows) + f'''<main class="wrap"><section class="page">
+        movers_html = (f'<section class="bd-movers"><h2>Top movers, 24 hours</h2>'
+                       f'<div class="bd-mv2"><table class="mv"><caption>Gainers</caption>{mrows(movers["gainers"])}</table>'
+                       f'<table class="mv"><caption>Losers</caption>{mrows(movers.get("losers") or [])}</table></div>'
+                       f'<p class="bd-src">CoinGecko, large-cap coins &middot; '
+                       f'{esc((snap or {}).get("stamp_et") or "")}</p></section>')
+    links = "".join(f'<li><a href="{esc(h)}">{esc(l)}</a></li>' for l, h in BOARD_LINKS_LIST)
+    body = f'''<main class="wrap"><section class="page">
+  <span class="kicker">The Board</span>
+  <h1>The Board</h1>
+  {data_stamp(pulse, what="The Board")}
+  {cm_board_card(cm, pulse, flows, deltas)}
   {coins_mini_board()}
-  <p class="lede" style="margin:14px 0 10px">Every desk at a glance, in the order a desk
-     reads a market: price, flows, positioning, then the day and the chain. Tap any card
-     for the full board, where every number is taught in plain language.</p>
-  <div class="dash-grid widget-grid">{"".join(W)}</div>
-
+  {grid}
+  {whale_wait}
+  {movers_html}
+  <h2 class="bd-h2">The boards</h2>
+  <ul class="bd-links">{links}</ul>
+  <p class="pc-note">These are readings, not advice, and not a forecast.
+     <a href="/learn.html">How to read the Board</a>.</p>
 </section></main>'''
     return shell(f"The Board - {NAME}", desc, "The Board", body, dateline,
                  path="/pulse.html", live_js=True)
+
 
 def render_pulse_sentiment(pulse, dateline):
     desc = ("The crypto Fear & Greed Index explained: what feeds the gauge, what extremes "
@@ -7378,8 +7082,7 @@ def render_pulse_sentiment(pulse, dateline):
   <div class="pulse-grid2">
     <div class="pulse-card center">{fng_gauge_svg(v)}
       <div class="gauge-label" style="color:{_fng_band_color(v)}">{esc(fng.get("label",""))}</div>
-      <p class="pc-note">Fear &amp; Greed Index, via alternative.me
-      <span class="daily-badge">daily data</span></p></div>
+      <p class="pc-note">Fear &amp; Greed Index, via alternative.me</p></div>
     <div class="pulse-card"><span class="lab">How to read it</span>
       <p class="pc-note" style="font-size:14.5px">Reading the trend matters more than any
       single day: a mood that has been dark for weeks tells you more than one nervous
@@ -7482,8 +7185,7 @@ def render_pulse_stables(pulse, dateline):
     <div class="pulse-card"><span class="lab">Total USD-pegged float</span>
       <span class="pc-big">{esc(fmt_usd(stables.get("total_usd", 0)))}</span>
       <div class="pc-chips">{chg_chip}</div>
-      <p class="pc-note">All dollars parked in stablecoins across chains, per DefiLlama.
-      <span class="daily-badge">daily data</span></p></div>
+      <p class="pc-note">All dollars parked in stablecoins across chains, per DefiLlama.</p></div>
     <div class="pulse-card"><span class="lab">How to read it</span>
       <p class="pc-note" style="font-size:14.5px">The direction of the line is the story:
       a growing float means money is staying in the arena, staged to buy; a shrinking float
@@ -8445,7 +8147,7 @@ def render_chartmaster(read, dateline, pulse=None):
     #
     # (The first cut of this note was an HTML comment and shipped to the page. A build
     # note belongs in the source.)
-    desc = ("The Chart Master reads the boards: a plain-language take on sentiment, "
+    desc = ("The Chart Master's read of the boards: a plain-language account of sentiment, "
             "whale flows, and price posture. Never financial advice.")
     read = read or {}
     # UX-8: the read under the subheads it already implies, with five glance lines
@@ -8514,9 +8216,8 @@ def render_chartmaster(read, dateline, pulse=None):
   <article class="pulse-card cm-read">
     {head_html}
     <div class="prose">{paras}</div>
-    <p class="pc-note">The Chart Master reads the day's <a href="/pulse.html">Market
-    Pulse</a> and <a href="/flows.html">Whale Watch</a> boards. He describes the tape;
-    he does not predict it.</p>
+    <p class="pc-note">Read from the day's <a href="/pulse.html">Board</a> and
+    <a href="/flows.html">Whale Watch</a>. Describe, never predict.</p>
   </article>""" if read.get("paragraphs") else "")
 
     # C-14: the page becomes a dated archive of reads. Today's is the first entry; the
@@ -8539,14 +8240,13 @@ def render_chartmaster(read, dateline, pulse=None):
 
     body = cm_hero() + f"""<main class="wrap"><section class="page">
   <h1 style="margin-top:6px">The Chart Master</h1>
-  <p class="lede">The desk's technician reads the boards so you learn to read them too:
-     what the charts show, in plain language, with the receipts linked. He has one rule,
-     carved over his door: <b>describe the tape, never predict it.</b></p>
+  <p class="lede">What the charts show, in plain language, with the receipts linked.
+     Describe, never predict.</p>
   {_charts}
   {read_html}
   {archive_html}
 
-  <div class="sec-head" style="margin-top:30px"><h2>The Spellbook</h2><span class="bar"></span></div>
+  <div class="sec-head" style="margin-top:30px"><h2>Terms, in plain words</h2><span class="bar"></span></div>
   <div class="learn-grid">
     <div class="learn"><span class="lab">Golden cross / death cross</span>
       <p>The 50-day average crossing above the 200-day is a <b>golden cross</b> (trend
@@ -8568,8 +8268,7 @@ def render_chartmaster(read, dateline, pulse=None):
       <p>What you become when you chase a pump with no story behind it. The
       <a href="/pulse/movers.html">movers board</a> exists so you check before you chase.</p></div>
   </div>
-  <p class="pc-note">The Chart Master is a character of this desk, and nothing on
-  this page is a recommendation of any kind.</p>
+  <p class="pc-note">Nothing on this page is a recommendation of any kind.</p>
 </section></main>
 """
     return shell(f"The Chart Master - {NAME}", desc, "Chart Master", body, dateline,
@@ -8972,7 +8671,7 @@ def ingest():
             "date": date, "published_utc": published_utc,
             "category": "news", "verdict": rec.get("verdict"),
             "rank": rank_map.get(rec.get("id")),
-            "author": "Crypto Cronkite",
+            "author": NAME,
             "key_fact": scrub((payload.get("script", {}) or {}).get("key_fact", "")),
             "bottom_line": scrub(art.get("bottom_line", "")),
             "human_take": destyle(art.get("human_take", "")), "body": paras, "sources": srcs,
@@ -9327,7 +9026,7 @@ def build():
     print(f"service worker: {len(_sw_assets)} shell asset(s), no data cached")
 
     with open(os.path.join(PUBLISH, "site.webmanifest"), "w", encoding="utf-8") as _mf:
-        # FAMILY, not NAME. NAME is the byline persona on this desk (Crypto Cronkite), and
+        # FAMILY, not NAME. NAME was the byline persona on this desk, and
         # a home-screen label is a brand surface: the wordmark is the hero there too.
         json.dump({"name": FAMILY, "short_name": SHORT_NAME, "start_url": "/",
                    "display": "standalone", "background_color": "#FBFAF6",
