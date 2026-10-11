@@ -5,7 +5,8 @@ item 5, 2026-07-28). The Zcash Ironwood upgrade activated on a published, weeks-
 schedule while the desk's protocol-upgrade beat looked the other way, because nothing
 checked the calendar against what had actually been covered.
 
-One file, data/week_calendar.json, read every run. For each event now due (activated or
+One file, site/data/calendar.json (desk_calendar.py's, retired data/week_calendar.json
+on 11 October 2026), read every run. For each event now due (activated or
 reported today or in the last few days), this asks a dumb, deterministic question: does the
 desk's own published corpus contain a story matching this event's terms? If not, the event
 is an UNCOVERED KNOWN EVENT and gets flagged.
@@ -28,33 +29,49 @@ import sys
 import common
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CALENDAR = os.path.join(HERE, "data", "week_calendar.json")
+CALENDAR = os.path.join(HERE, "site", "data", "calendar.json")
 FEDREG = os.path.join(HERE, "data", "fedreg_calendar.json")
 CONTENT = os.path.join(HERE, "site", "content")
 
 DAYS_BACK = 3    # an event stays "due" for a few days; the desk gets more than one slot
 DAYS_AHEAD = 0   # only events that have actually happened count as uncovered
-STALE_DAYS = 10  # a curated calendar whose newest entry is older than this is dead weight
+STALE_DAYS = 3   # a calendar whose own generated stamp is older than this was not rebuilt
+
+
+def _events_of(doc):
+    """Events from either file: calendar.json's `entries` or fedreg's `events`."""
+    doc = doc or {}
+    return doc.get("entries") or doc.get("events") or []
+
+
+# calendar.json's kinds that carry a coverage duty, and the term that proves coverage. A
+# difficulty retarget, an options expiry or a market holiday is a calendar line, not a story
+# the desk owes; a macro release or an FOMC decision is. Derived here, not stored on the
+# entry, so desk_calendar.py's schema (date, title, kind, source, read stamp) is unchanged.
+def _match_for(e):
+    if e.get("match"):
+        return e["match"]
+    kind, title = e.get("kind"), str(e.get("title", ""))
+    if kind == "fomc":
+        return [["fomc"], ["federal reserve", "rate decision"]] if "concludes" in title.lower() else []
+    if kind == "macro":
+        head = title.split(":")[0].strip().lower()
+        return [[head]] if head else []
+    return []
 
 
 def staleness_days(today=None):
-    """Days since the newest CURATED calendar entry, or None when the file is
-    unreadable or empty. Deterministic. Only the curated file counts: fedreg's
-    calendar regenerates itself every run, so it can never rot the same way.
-    WHY (2026-08-31): the curated calendar's newest entry sat at 2026-07-30 while
-    Jackson Hole, a scheduled and weeks-known event, came and went unflagged; a
-    no-surprises mechanism that nobody refreshes is a mechanism that flags nothing,
-    and nothing said so."""
+    """Days since calendar.json was last generated (its own generated_utc), or None when
+    the file is unreadable or carries no stamp. Deterministic. WHY (2026-08-31, reworked
+    2026-10-11): the old curated calendar's newest entry sat at 2026-07-30 while Jackson Hole
+    came and went unflagged. calendar.json is rebuilt every brief run from its five sources,
+    so the clock that matters is when it was last built, not the date of its newest entry."""
     today = today or datetime.date.today()
     try:
-        events = (json.load(open(CALENDAR, encoding="utf-8")) or {}).get("events") or []
+        gen = str((json.load(open(CALENDAR, encoding="utf-8")) or {}).get("generated_utc", ""))
+        return (today - datetime.date.fromisoformat(gen[:10])).days
     except Exception:
         return None
-    dates = sorted(e.get("date", "") for e in events
-                   if re.match(r"^20\d\d-\d\d-\d\d$", str(e.get("date", ""))))
-    if not dates:
-        return None
-    return (today - datetime.date.fromisoformat(dates[-1])).days
 
 
 def _corpus(within_days=14):
@@ -84,15 +101,15 @@ def _corpus(within_days=14):
 def gaps(days_back=DAYS_BACK, days_ahead=DAYS_AHEAD, today=None):
     """Events that are due and carry no matching story in the desk's recent corpus."""
     today = today or datetime.date.today()
-    # TWO calendars: the curated one, and the one fedreg.py generates from the Federal
+    # TWO calendars: calendar.json, and the one fedreg.py generates from the Federal
     # Register. Both are checked here because an uncovered federal rule is the same kind of
-    # miss as an uncovered scheduled event. Note that week_ahead.py reads ONLY the curated
-    # file: this check is editor-facing, the Week Ahead is reader-facing, and machine-
-    # selected entries do not belong in published copy without review. See fedreg.py.
+    # miss as an uncovered scheduled event. Note that week_ahead.py reads ONLY calendar.json:
+    # this check is editor-facing, the Week Ahead is reader-facing, and machine-selected
+    # entries do not belong in published copy without review. See fedreg.py.
     events = []
     for path, label in ((CALENDAR, "calendar"), (FEDREG, "federal register calendar")):
         try:
-            events += (json.load(open(path, encoding="utf-8")) or {}).get("events") or []
+            events += _events_of(json.load(open(path, encoding="utf-8")))
         except FileNotFoundError:
             pass  # fedreg has simply not run yet; the curated calendar still checks
         except Exception as e:
@@ -107,7 +124,7 @@ def gaps(days_back=DAYS_BACK, days_ahead=DAYS_AHEAD, today=None):
     for e in cal.get("events", []):
         if not (lo <= e.get("date", "") <= hi):
             continue
-        groups = [[t.lower() for t in grp if t] for grp in (e.get("match") or []) if grp]
+        groups = [[t.lower() for t in grp if t] for grp in _match_for(e) if grp]
         if not groups:
             continue
         # Covered when ONE story dated on or after the event carries EVERY term of ANY
@@ -134,11 +151,9 @@ def main():
     stale = staleness_days()
     if stale is not None and stale > STALE_DAYS:
         common.gh("warning",
-                  f"calendar_check: the curated calendar is STALE: its newest entry is "
-                  f"{stale} days old. A calendar nobody refreshes can flag nothing "
-                  f"(Jackson Hole passed unflagged while the newest entry sat at "
-                  f"2026-07-30). Refresh data/week_calendar.json with the next weeks' "
-                  f"scheduled events.")
+                  f"calendar_check: site/data/calendar.json was last generated {stale} "
+                  f"days ago. A calendar nobody rebuilds can flag nothing; desk_calendar.py "
+                  f"writes it on every brief run.")
 
     missed = gaps(opt("--days-back", DAYS_BACK), opt("--days-ahead", DAYS_AHEAD))
     common.write_out("calendar_gaps.json",

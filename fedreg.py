@@ -14,7 +14,7 @@ WHY THIS EXISTS
   SEC and CFTC feeds cannot close.
 
 WHAT IT PRODUCES
-  data/fedreg_calendar.json, in the SAME event schema as the curated data/week_calendar.json:
+  data/fedreg_calendar.json, in the SAME event schema as desk_calendar's site/data/calendar.json (entries are `match` AND-groups here):
   the publication date of a crypto-relevant rule, and, separately, the date its comment
   period closes, which is the forward-looking event worth knowing about.
 
@@ -39,7 +39,7 @@ SCOPE, and why it is narrow
   not the desk's beat.
 
 KEYLESS, ADVISORY, FAIL-OPEN. No key, no quota. A fetch failure warns and writes nothing,
-so calendar_check simply falls back to the curated calendar; it never blocks a publish.
+so calendar_check simply falls back to calendar.json; it never blocks a publish.
 
 The output is NOT committed (see .gitignore). It is regenerated immediately before
 calendar_check reads it, in the same job, so a committed copy would churn on every run for
@@ -154,7 +154,7 @@ def _agency_terms(doc):
 
 
 def _match_groups(doc):
-    """AND-groups in week_calendar.json's format: agency + topic word.
+    """AND-groups in the match format: agency + topic word.
 
     Deliberately not the rule's title. Titles are formal and long ("Permitted Payment
     Stablecoin Issuer Customer Identification Programs"); the desk writes "FinCEN's
@@ -169,7 +169,7 @@ def _match_groups(doc):
 
 
 def events(docs=None, today=None, days_back=DAYS_BACK, lookahead=LOOKAHEAD_DAYS):
-    """Calendar events from federal rulemaking, in week_calendar.json's schema.
+    """Calendar events from federal rulemaking, in the event schema with match groups.
 
     Two kinds per rule, and the second is the point: the rule's publication (something
     happened) and its comment deadline (something is going to happen, on a known date)."""

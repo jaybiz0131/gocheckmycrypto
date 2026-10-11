@@ -384,7 +384,7 @@ jobs:
 
       # KNOWN-EVENT COVERAGE CHECK (audit item 5, 2026-07-28): the desk knew the Zcash
       # Ironwood activation date nine days early, published it in passing, and still had no
-      # story on the day. This reads data/week_calendar.json every run and flags any due
+      # story on the day. This reads site/data/calendar.json every run and flags any due
       # event with no coverage dated on or after it. Advisory: warns for the editor, never
       # blocks a publish (|| true keeps a coverage judgment out of the failure path).
       # Federal rulemaking onto the calendar BEFORE the news carries it. regwatch.py can
@@ -549,9 +549,9 @@ jobs:
           PYEOF
 
       # THE WEEK AHEAD (audit item 2, 2026-07-27): Monday's calendar-driven forward story,
-      # rendered deterministically from data/week_calendar.json. No model, no forecasts by
+      # rendered deterministically from site/data/calendar.json. No model, no forecasts by
       # construction; non-Mondays and already-published weeks exit clean.
-      - name: Week Ahead story (Mondays, from the curated calendar)
+      - name: Week Ahead story (Mondays, from calendar.json)
         if: steps.key.outputs.have_key == 'true'
         run: python3 week_ahead.py
 

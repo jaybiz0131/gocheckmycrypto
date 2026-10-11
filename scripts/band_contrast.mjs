@@ -44,7 +44,7 @@ if (!/^https?:/.test(target)) {
     let p = decodeURIComponent(new URL(req.url, "http://x").pathname);
     let f = path.join(root, p);
     if (!f.startsWith(root)) { res.writeHead(403); return res.end(); }
-    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, "index.html");
+    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = fs.existsSync(path.join(f, "index.html")) ? path.join(f, "index.html") : f + ".html";
     if (!fs.existsSync(f) && fs.existsSync(f + ".html")) f += ".html";
     if (!fs.existsSync(f)) { res.writeHead(404); return res.end(); }
     res.writeHead(200, { "content-type": MIME[path.extname(f)] || "application/octet-stream" });

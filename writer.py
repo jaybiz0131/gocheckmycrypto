@@ -3,7 +3,7 @@
 writer.py: Stage 4, the writer AI (drafts).
 
 Drafts the stories that SURVIVED verification (VERIFIED, plus NEEDS-HUMAN-REVIEW which the
-human may promote) into a script skeleton and an article draft, in the Crypto Cronkite voice:
+human may promote) into a script skeleton and an article draft, in the GoCheckMyCrypto voice:
 factual, sourced, neutral on price, with a not-financial-advice disclaimer and an explicit,
 empty human-take slot. REJECT stories are never drafted. Everything is tagged DRAFT. Fail-closed.
 
@@ -31,7 +31,7 @@ DRAFTABLE = {"VERIFIED", "NEEDS-HUMAN-REVIEW"}
 # only a total fetch failure, which is the Maya Protocol case this gate is for.
 MIN_SOURCE_CHARS = 50
 
-NFA = "Crypto Cronkite reports events. It never advises trades. Nothing here is financial advice."
+NFA = "GoCheckMyCrypto reports events. It never advises trades. Nothing here is financial advice."
 
 
 def select(editor, verifier):

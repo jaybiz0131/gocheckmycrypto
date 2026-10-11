@@ -1530,6 +1530,134 @@ def _narrative_canary():
     return fails
 
 
+def _calendar_retired_canary():
+    """PROGRAM 6, SPRINT 6.1 RIDE-ALONG 1 (11 October 2026). data/week_calendar.json, a curated
+    file whose newest entry was 24 days old, ran beside site/data/calendar.json and its
+    staleness check warned on every brief run. calendar.json is the calendar now: the file is
+    gone, calendar_check and week_ahead read calendar.json, and the staleness clock reads the
+    file's own generated stamp, so a fresh calendar cannot be called stale."""
+    import datetime as _dt
+    import tempfile
+    import calendar_check as _cc
+    import week_ahead as _wa
+    fails = []
+    _check(not os.path.exists(os.path.join(HERE, "data", "week_calendar.json")), fails,
+           "calendar retired: data/week_calendar.json still exists")
+    want = os.path.join("site", "data", "calendar.json")
+    _check(_cc.CALENDAR.endswith(want), fails,
+           f"calendar retired: calendar_check reads {_cc.CALENDAR}, not calendar.json")
+    _check(_wa.CALENDAR.endswith(want), fails,
+           f"calendar retired: week_ahead reads {_wa.CALENDAR}, not calendar.json")
+    today = _dt.date(2026, 10, 14)
+    tmp = tempfile.mkdtemp(prefix="cal-retired-")
+    cal = os.path.join(tmp, "calendar.json")
+    content = os.path.join(tmp, "content")
+    os.makedirs(content)
+
+    def write_cal(generated):
+        json.dump({"generated_utc": generated, "entries": [
+            {"date": "2026-10-14", "time_et": None, "title": "CPI: Consumer Price Index",
+             "kind": "macro", "source": {"name": "FRED release dates",
+                                         "url": "https://fred.stlouisfed.org/release?rid=10"},
+             "read_utc": generated, "computed": False, "computed_from": None},
+            {"date": "2026-10-14", "time_et": None, "title": "US stock markets closed",
+             "kind": "holiday", "source": {"name": "NYSE", "url": "https://www.nyse.com/"},
+             "read_utc": generated, "computed": False, "computed_from": None}]},
+            open(cal, "w", encoding="utf-8"))
+    saved = (_cc.CALENDAR, _cc.FEDREG, _cc.CONTENT)
+    try:
+        _cc.CALENDAR, _cc.FEDREG, _cc.CONTENT = cal, os.path.join(tmp, "none.json"), content
+        write_cal("2026-10-14T12:00:00Z")
+        gaps = _cc.gaps(today=today)
+        _check([g.get("title") for g in gaps] == ["CPI: Consumer Price Index"], fails,
+               f"calendar retired: an uncovered CPI day must flag exactly the CPI entry, got "
+               f"{[g.get('title') for g in gaps]}")
+        _check(_cc.staleness_days(today=today) == 0, fails,
+               f"calendar retired: a calendar generated today reads "
+               f"{_cc.staleness_days(today=today)} days stale")
+        write_cal("2026-09-24T12:00:00Z")
+        _check(_cc.staleness_days(today=today) == 20, fails,
+               f"calendar retired: staleness must read generated_utc (20 days), got "
+               f"{_cc.staleness_days(today=today)}")
+    finally:
+        _cc.CALENDAR, _cc.FEDREG, _cc.CONTENT = saved
+    # week_ahead builds from calendar.json's entry shape (source is {name, url})
+    ev = [{"date": "2026-10-14", "title": "CPI: Consumer Price Index", "kind": "macro",
+           "source": {"name": "FRED release dates", "url": "https://fred.stlouisfed.org/release?rid=10"}}]
+    item = _wa.build_item(_dt.datetime(2026, 10, 12), ev, "2026-10-12T00:00:00Z")
+    _check(item["sources"] == [{"url": "https://fred.stlouisfed.org/release?rid=10",
+                                "name": "FRED release dates"}], fails,
+           f"calendar retired: week_ahead sources from calendar.json entries, got {item['sources']}")
+    return fails
+
+
+def _cm_dated_canary():
+    """PROGRAM 6, SPRINT 6.1 RIDE-ALONG 2 (11 October 2026). The Board's headline was the Chart
+    Master's read of October 8 on October 11: it had refused to publish two days running and
+    a three-day-old read sat on top of today's Board. The card carries its own date, as "The
+    Chart Master's read, <date>", and gives way to the Board's own line when the read is more
+    than one day old. A fixture dated two days back is the stale case."""
+    import datetime as _dt
+    import re as _re
+    import site_build as _sb
+    fails = []
+    pulse, flows = _sb.load_pulse() or {}, _sb.load_flows()
+    if not pulse:
+        return fails
+    saved = _sb._NOW_CACHE
+    try:
+        _sb._NOW_CACHE = _dt.datetime(2026, 10, 11, 15, 0, tzinfo=_dt.timezone.utc)
+        own = _sb.board_summary_line(pulse, _sb.board_deltas(pulse), flows)
+
+        def board(read_date, marker):
+            return _sb.render_pulse_hub(pulse, flows, {"date": read_date, "headline": marker,
+                                                       "paragraphs": [marker]}, "TEST")
+        stale = board("2026-10-09", "STALEMARKER majors hold above their averages")
+        _check("STALEMARKER" not in stale, fails,
+               "chartmaster dated: a read two days old is still printed on the Board")
+        _check(not own or own in _re.sub(r"<[^>]+>", "", stale).replace("&amp;", "&"), fails,
+               f"chartmaster dated: the stale read did not give way to the Board's own line {own!r}")
+        fresh = board("2026-10-11", "FRESHMARKER majors hold above their averages")
+        _check("FRESHMARKER" in fresh, fails,
+               "chartmaster dated: today's read is missing from the Board")
+        _check("The Chart Master's read, October 11, 2026" in fresh, fails,
+               "chartmaster dated: the card is not titled with its own date")
+        yday = board("2026-10-10", "YDAYMARKER majors hold above their averages")
+        _check("YDAYMARKER" in yday and "The Chart Master's read, October 10, 2026" in yday, fails,
+               "chartmaster dated: a one-day-old read must still show, under its own date")
+    finally:
+        _sb._NOW_CACHE = saved
+    return fails
+
+
+def _one_look_canary():
+    """PROGRAM 6, SPRINT 6.1 (11 October 2026): one publication. The shell every page is built
+    in carries the one name, the one stylesheet pair and no wash; the About page and the
+    Edition carry no persona; a story stored under the retired desk name prints under the one
+    name. scripts/one_look_sweep.py is the same check over a whole built tree."""
+    import site_build as _sb
+    import edition as _ed
+    fails = []
+    page = _sb.shell("T - " + _sb.NAME, "d", "", "<main><p>x</p></main>", "TEST", path="/t.html")
+    _check("Cronkite" not in page, fails, "one look: the shell prints the retired desk name")
+    _check('class="ground"' not in page, fails, "one look: the shell draws the wash behind the page")
+    _check("/assets/system.css" in page and "/assets/site.css" in page, fails,
+           "one look: the shell does not load both stylesheets on every page")
+    about = _sb.render_about("TEST")
+    _check("Cronkite" not in about and "technician" not in about, fails,
+           "one look: the About page carries the persona")
+    story = {"slug": "s", "title": "A story", "dek": "d", "date": "2026-10-10", "author": "Crypto Cronkite",
+             "body": ["One."], "published_utc": "2026-10-10T12:00:00Z", "kind": "brief",
+             "category": "news", "verdict": "VERIFIED", "sources": []}
+    art = _sb.render_article(story, [story])
+    _check("Cronkite" not in art and "By GoCheckMyCrypto" in art, fails,
+           "one look: a story stored under the old author name does not print the one name")
+    front = _ed.render_front(_ed.DESK, [story], "2026-10-10", ["2026-10-10"])
+    _check("Cronkite" not in front and "ed-modes" not in front, fails,
+           "one look: the Edition page prints the old name or its Print/Night/E-ink toggles")
+    return fails
+
+
 def _whale_absent_canary():
     """NO FAKE ZERO FROM AN EMPTY VOLATILE READ (8 October 2026). The 7 October 23:12Z read
     held three exchange transfers, all stablecoins: the volatile board was written empty,
@@ -1600,7 +1728,7 @@ def _whale_absent_canary():
     # 4. /pulse says what it is waiting for, never "$0".
     def card(fl):
         h = _sb.render_pulse_hub(pulse, fl, {}, "TEST")
-        i = h.find("Flows &middot; Whale Watch")
+        i = h.find("Whale net")
         return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", h[i:i + 700])) if i >= 0 else ""
     raw = card(absent)
     _check("waiting for" in raw and "$0" not in raw, fails,
@@ -3068,6 +3196,9 @@ def layer1_canary():
     fails.extend(_chartmaster_crash_canary())
     fails.extend(_week_movers_canary())
     fails.extend(_calendar_canary())
+    fails.extend(_calendar_retired_canary())
+    fails.extend(_cm_dated_canary())
+    fails.extend(_one_look_canary())
     fails.extend(_wire_canary())
     fails.extend(_narrative_canary())
     fails.extend(_whale_absent_canary())
