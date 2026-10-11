@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin is drifting higher on spot ETF inflows; the news is mostly security.",
- "by": "table",
- "written_utc": "2026-10-10T23:17:16Z",
- "written_et": "7:17 PM ET on Oct 10",
+ "line": "Bitcoin drifted up 0.79 percent on the day but down 2.15 percent on the week as whales moved a record $1.5 billion onto exchanges; the news is quiet and positioning-driven.",
+ "by": "edition",
+ "written_utc": "2026-10-11T23:16:21Z",
+ "written_et": "7:16 PM ET on Oct 11",
  "readings": {
-  "stamp_utc": "2026-10-10T23:12:36Z",
-  "btc_24h_pct": 0.53,
+  "stamp_utc": "2026-10-11T23:12:46Z",
+  "btc_24h_pct": 0.79,
   "etf_net_usd_m": 21.1,
   "etf_date": "09 Oct 2026",
-  "fear_greed": 64,
+  "fear_greed": 61,
   "fear_greed_band": "Greed",
-  "funding_8h_pct": -0.0031,
+  "funding_8h_pct": -0.0,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +0.53% on the day, spot ETF net +21.1M USD (Oct 9, 2026), Fear & Greed 64 (greed), funding -0.0031% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.79% on the day, spot ETF net +21.1M USD (Oct 9, 2026), Fear & Greed 61 (greed), funding -0.0000% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c007",
-   "line": "XRP Ledger patches decade-old bug allowing attackers to create spendable XRP from nothing; no evidence of exploitation found."
+   "id": "c005",
+   "line": "XRP Ledger patched a decade-old bug in v3.4.1 that could have minted unlimited XRP; no exploitation detected."
   },
   {
-   "id": "c000",
-   "line": "CFTC proposes formal rule classifying event contracts as swaps, extending derivatives oversight to prediction markets while excluding casino-style gambling."
+   "id": "c051",
+   "line": "Ledger confirms hardware implants in devices sold via CryptoBilis reseller; $86M+ in losses; direct sales channels unaffected."
   },
   {
-   "id": "c086",
-   "line": "NY Attorney General settles Celsius founder Alex Mashinsky fraud case: permanent industry ban and up to $35 million in payments."
+   "id": "c003",
+   "line": "IMF reports real demand for tokenized stocks, used for smaller trades and after-hours execution, but market lacks liquidity and settlement finality."
   }
  ],
  "crossed": []

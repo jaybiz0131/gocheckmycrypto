@@ -1,68 +1,103 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-10-10T23:15:18Z",
- "ranked_et": "7:15 PM ET on Oct 10",
- "refreshed_utc": "2026-10-10T23:15:18Z",
- "refreshed_et": "7:15 PM ET on Oct 10",
+ "ranked_utc": "2026-10-11T23:14:26Z",
+ "ranked_et": "7:14 PM ET on Oct 11",
+ "refreshed_utc": "2026-10-11T23:14:26Z",
+ "refreshed_et": "7:14 PM ET on Oct 11",
  "refreshes": 0,
- "snapshot_stamp_utc": "2026-10-10T23:12:36Z",
+ "snapshot_stamp_utc": "2026-10-11T23:12:46Z",
  "items": [
   {
    "rank": 1,
-   "id": "c007",
-   "line": "XRP Ledger patches decade-old bug allowing attackers to create spendable XRP from nothing; no evidence of exploitation found.",
+   "id": "c005",
+   "line": "XRP Ledger patched a decade-old bug in v3.4.1 that could have minted unlimited XRP; no exploitation detected.",
    "titles": [
-    "XRP Ledger patched decade-old bug that could create billions of dollars in XRP from nothing"
+    "XRP Ledger Discloses Decade-Old Bug That Could Mint Trillions",
+    "XRP Ledger patches decade-old bug that could have minted trillions of XRP"
    ],
    "board_reading": "",
-   "source_count": 1,
+   "source_count": 2,
    "primary": false,
-   "standing": "single",
+   "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/tech/2026/10/10/xrp-ledger-patched-decade-old-bug-that-could-create-billions-of-dollars-in-xrp-from-nothing",
-     "outlet": "CoinDesk",
+     "url": "https://thedefiant.io/news/security/xrp-ledger-discloses-decade-old-bug-that-could-mint-trillions",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://www.theblock.co/news/ecosystems/2026-10-11-xrp-ledger-patches-decade-old-bug-that-could-have-minted-trillions-of-xrp-418230",
+     "outlet": "The Block",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-10T04:20:07Z",
+   "reported_utc": "2026-10-11T14:08:37Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
    "rank": 2,
-   "id": "c000",
-   "line": "CFTC proposes formal rule classifying event contracts as swaps, extending derivatives oversight to prediction markets while excluding casino-style gambling.",
+   "id": "c051",
+   "line": "Ledger confirms hardware implants in devices sold via CryptoBilis reseller; $86M+ in losses; direct sales channels unaffected.",
    "titles": [
-    "CFTC Seeks Public Comment on Notice of Proposed Rulemaking Concerning the Inclusion of Certain Event Contracts in the Definition of Swap"
+    "Ledger Says All Confirmed Draining Cases Involve CryptoBilis-Sold Devices",
+    "Ledger confirms draining cases linked to CryptoBilis-sold devices"
    ],
    "board_reading": "",
    "source_count": 2,
-   "primary": true,
+   "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.cftc.gov/PressRoom/PressReleases/9310-26",
-     "outlet": "CFTC Press Releases",
-     "primary": true
+     "url": "https://thedefiant.io/news/hacks/ledger-says-all-confirmed-draining-cases-involve-cryptobilis-sold-devices",
+     "outlet": "The Defiant",
+     "primary": false
     },
     {
-     "url": "https://decrypt.co/380635/cftc-draws-line-prediction-markets-and-gambling-new-rules",
-     "outlet": "decrypt.co",
+     "url": "https://cryptobriefing.com/ledger-cryptobilis-hardware-implant-draining/",
+     "outlet": "Crypto Briefing",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-09T20:00:26Z",
+   "reported_utc": "2026-10-11T17:18:19Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
    "rank": 3,
-   "id": "c086",
-   "line": "NY Attorney General settles Celsius founder Alex Mashinsky fraud case: permanent industry ban and up to $35 million in payments.",
+   "id": "c003",
+   "line": "IMF reports real demand for tokenized stocks, used for smaller trades and after-hours execution, but market lacks liquidity and settlement finality.",
    "titles": [
-    "New York permanently bars Celsius founder Mashinsky in $35M fraud settlement"
+    "IMF finds demand for tokenized stocks, says the market is still volatile, illiquid",
+    "Tokenized Stocks Show Real Demand But Remain Volatile and Illiquid, IMF Finds"
+   ],
+   "board_reading": "",
+   "source_count": 2,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/business/2026/10/11/imf-finds-demand-for-tokenized-stocks-says-the-market-is-still-volatile-illiquid",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/380653/tokenized-stocks-show-real-demand-but-remain-volatile-and-illiquid-imf-finds",
+     "outlet": "Decrypt",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-11T13:00:00Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 4,
+   "id": "c000",
+   "line": "SCOTUS petition momentum builds on prediction markets as amicus briefs and CFTC interim rule set stage for federal vs. state jurisdiction battle.",
+   "titles": [
+    "Everyone wants SCOTUS to take up prediction markets: State of Crypto"
    ],
    "board_reading": "",
    "source_count": 1,
@@ -70,98 +105,62 @@
    "standing": "single",
    "links": [
     {
-     "url": "https://cointelegraph.com/news/celsius-founder-alex-mashinsky-permanently-banned-from-crypto-industry-in-ny-settlement",
-     "outlet": "cointelegraph.com",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/celsius-founder-alex-mashinsky-permanently-banned-from-crypto-industry-in-ny-settlement?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
+     "url": "https://www.coindesk.com/policy/2026/10/11/everyone-wants-scotus-to-take-up-prediction-markets-state-of-crypto",
+     "outlet": "CoinDesk",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-09T20:14:02Z",
+   "reported_utc": "2026-10-11T18:30:00Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
-   "rank": 4,
-   "id": "c069",
-   "line": "Ledger hardware wallet reseller compromise tied to hardware implant; $86M+ in thefts confirmed across Bitcoin, Ethereum, and other chains.",
-   "titles": [
-    "Ledger Says Affected User\u2019s Device Contained Hardware Implant"
-   ],
-   "board_reading": "Ether price",
-   "source_count": 2,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://thedefiant.io/news/hacks/ledger-says-affected-user-s-device-contained-hardware-implant",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://cryptobriefing.com/ledger-investigates-cryptobilis-wallet-tampering-thefts/",
-     "outlet": "cryptobriefing.com",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-10T17:15:58Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
    "rank": 5,
-   "id": "c023",
-   "line": "US Treasury Secretary Scott Bessent announces plans to seize $1 billion in crypto linked to Iran this week.",
+   "id": "c123",
+   "line": "Solana commands 65% of tokenized equities trading volume, establishing market-structure lead in on-chain RWA settlement.",
    "titles": [
-    "\u2018We Know Where It Is\u2019: Treasury Secretary Threatens To Freeze $1B of Iran\u2019s Crypto"
+    "Solana captures 65% of tokenized equities volume, leads blockchain market",
+    "Solana captures 65% of tokenized equities trading volume"
    ],
-   "board_reading": "",
-   "source_count": 2,
+   "board_reading": "Bitcoin price",
+   "source_count": 1,
    "primary": false,
-   "standing": "corroborated",
+   "standing": "single",
    "links": [
     {
-     "url": "https://bitcoinmagazine.com/news/treasury-to-seize-one-billion-of-iran-crypto",
-     "outlet": "Bitcoin Magazine",
+     "url": "https://cryptobriefing.com/solana-captures-65-of-tokenized-equities-volume-leads-blockchain-market/",
+     "outlet": "Crypto Briefing",
      "primary": false
     },
     {
-     "url": "https://cointelegraph.com/news/scott-bessent-us-seize-crypto-iran-sanctions",
-     "outlet": "cointelegraph.com",
+     "url": "https://cryptobriefing.com/solana-captures-65-tokenized-equities-volume/",
+     "outlet": "Crypto Briefing",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-09T20:10:14Z",
+   "reported_utc": "2026-10-11T19:31:36Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
    "rank": 6,
-   "id": "c017",
-   "line": "French legislative committee adopts stablecoin swap tax and crypto exit tax on wealthy holders, though 2027 budget revenue section later rejected.",
+   "id": "c136",
+   "line": "Bank of England commits to serve as banker to stablecoin issuers, endorsing on-chain payments infrastructure.",
    "titles": [
-    "French Committee Backs Stablecoin Swap Tax and Crypto Exit Tax, Then Rejects the Budget"
+    "Bank of England says it will be \u2018the banker to the stablecoin\u2019"
    ],
    "board_reading": "Stablecoin float",
-   "source_count": 2,
+   "source_count": 1,
    "primary": false,
-   "standing": "corroborated",
+   "standing": "single",
    "links": [
     {
-     "url": "https://decrypt.co/380630/france-stablecoin-swap-crypto-exit-tax",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://cryptobriefing.com/france-crypto-exit-tax-800k-stablecoin/",
-     "outlet": "cryptobriefing.com",
+     "url": "https://cryptobriefing.com/bank-of-england-banker-to-stablecoin/",
+     "outlet": "Crypto Briefing",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-10T13:01:03Z",
+   "reported_utc": "2026-10-11T12:34:31Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   }
