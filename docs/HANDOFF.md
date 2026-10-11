@@ -7,7 +7,7 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 11 October 2026, Program 6 Sprint 6.1 (section 7c). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 11 October 2026, 5:10 PM EDT, Program 6 Sprint 6.2 (section 7d). Before it, Sprint 6.1 (section 7c). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
@@ -323,6 +323,40 @@ Reproduced locally with `CACHED_COMMIT_REF=aa64f08 COMMIT_REF=0c47b73 python3 ne
 (exit 1, "1 file(s) that change the site, e.g. scripts/band_contrast.mjs"). Options: add `scripts/`
 to `DOC_PREFIXES` (no script is read by the build command), or never put `[skip netlify]` on a commit
 that touches a path the ignore script would build for.
+
+## 7d. Program 6, Sprint 6.2: the ignore rule, and the home page edited (11 October 2026)
+
+Run on 11 October from the strategy desk's opener written for 12 October. RULES hash
+`4179b2ac...b3568d`, the opener's; `origin/main` at start `f03f147`.
+- **Item 0, the ignore rule, merge `dc4d8f5`** (branch `ignore-scripts`, `0f36bed`), pushed
+  4:09:12 PM EDT. `scripts/` is on `DOC_PREFIXES` except `scripts/og_render.py`, which
+  `site_build` imports (`BUILD_READS`). The new reads check found the opposite hole too:
+  `learn/*.md` are rendered by the build but `DOC_SUFFIXES` skipped them, so they now always
+  build (`BUILD_READ_PREFIXES`). `verify_pipeline.py` is on `DOC_FILES` (no build step reads
+  it). Replay `CACHED_COMMIT_REF=aa64f08 COMMIT_REF=0c47b73`: old script exit 1, new exit 0.
+  Canary `_ignore_reads_canary` records every path the stamp canary's build opens for reading
+  and fails on a tool or document file the build never reads that would build, or one it reads
+  that would be skipped. The push did not build: Netlify "Canceled build due to no content
+  change" for `dc4d8f5`, production stayed `325386b`.
+- **Item 1, the home page, merge `3c0665e`** (branch `home-edit`, `e2f3b4c`), Jack's yes on
+  the contact sheets, pushed 4:53:57 PM EDT, production `3c0665e` built 20:56:49Z. The tape is
+  the one place Bitcoin's day change prints. The band's small line names its readings with no
+  figures (`narrative.band_names`); since yesterday is the 200-day line and Bitcoin's share of
+  the market. Each reading prints once: the Board below the fold drops everything in
+  `home.ABOVE_READINGS` (it shows Network fees only), the movers skip the tape's coins, and
+  the tape shows Total cap at every width. The tape chart draws the week's daily closes across
+  the tape (72 px phone, 96 px desktop), with a 12 percent fill, the low and high CLOSE marked
+  with their figures, and a dot on the last point. It draws once and shows whole under reduced
+  motion. The snapshot's hourly week low and high are no longer printed, because they are not
+  on the line. Tile text was cut, and the explanations moved to `tile.READINGS` on Learn.
+- **Counts of record, 11 October:** after item 0, 4 ready and 2 canceled (read 4:15:57 PM,
+  push + 6 min 45 s). After item 1, 5 ready and 2 canceled (read 4:59:14 PM, push + 5 min
+  17 s). Both canceled entries are ignore-script skips. Today's five builds are spent, so the
+  evening Edition's push is the sixth. Jack's call.
+- **Open:** "Since yesterday" no longer carries a since-yesterday change; its name is Sprint
+  6.3's. Canaries leave `site/data/chartmaster/2026-10-08.json` and
+  `site/data/snapshots/pulse-2026-10-11.json` untracked after every run (true before this
+  sprint). This file is over U-1's 300 lines.
 
 ## 8. Traps
 
