@@ -7,7 +7,7 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 11 October 2026, the close of 8 October (section 7), written late: the 8 October
+Last updated: 11 October 2026, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
@@ -107,7 +107,7 @@ a Solana client upgrade, a celebrity-driven Dogecoin surge.
 | No Brief for 7 October | lost; the gate fix of 8 October prevents the class |
 | Unlocks: HYPE, WBT, RAIN read "page not readable from the desk, October 6" | Jack, by hand in a browser |
 | Learn page prints the funding bands: `tile.funding_thresholds()` reads `narrative.FUNDING_BANDS`; not confirmed on the live leverage page on 11 Oct | Sprint 3: read it live |
-| The build's refresh re-orders the wire by source count, so the checked item can sit below #1 (7 Oct: #1 to #4) | Jack's call: keep, or pin the checked item first |
+| The wire stays in re-count order; the checked item is never pinned | closed: Jack, 7 October (section 7b) |
 | Board reading from the tag rules is coarse: "shut down" and "custody" map to exchanges, so an L2 shutdown and a bank custody approval read "Whale net" | Sprint 2, with the band |
 | Home page cadence line: read with Sprint 2's home page live | Sprint 3: confirm |
 | Coin pages print `/coins/markets` 7d/30d; the twins gate covers the newsroom's text only | P5 Sprint 3 |
@@ -246,6 +246,32 @@ funding thresholds are option 1 (calm under 0.010% per 8h, warm under 0.030%, ho
 
 **Editions on the new path, each with a Brief:** 8 Oct $0.0915, 9 Oct $0.0852, 10 Oct $0.0677
 (7 Oct $0.0868). The narrative line came from the table all three days.
+
+## 7b. Sprint 2's close (the stack, the weight, the Editions of 8 to 10 October; day file `HANDOFF-2026-10-11.md`)
+
+Written 11 October 2026, 9:20 AM EDT, documents only. The 8 October close named Sprint 2's merge
+wrongly; git shows it as below.
+
+- **The merges, from `git log --graph`.** `bc6d35d` 12:41:28Z merges `1e0e456` (home-below-fold,
+  stacked on home-above-fold and tile-learn-anchors). `1a65e9d` 12:53:11Z merges `d618a44`, the
+  last commit of `cr-gate-fixes` (its other work, `fea18c0` 12:35:58Z, merged first). Between
+  them `6bf1849` (the band's small line, month first) sits on main.
+- **The stack proof.** `git merge-base 4c575a1 1804653` = `4c575a1`; `git merge-base 1804653
+  1e0e456` = `1804653`. Nine commits `94c392b..1e0e456`, from `506071e` to `1e0e456`.
+- **Production weight, measured 9:16 to 9:17 AM EDT on `aa64f08`** with `scripts/home_budget.mjs`
+  (three throttled phone loads each): 375 light 111,599 bytes, LCP median 1,116 ms; 375 dark
+  109,983 bytes, 1,080 ms; 1440 light 110,068 bytes, 1,072 ms; 1440 dark 111,305 bytes, 1,060 ms.
+  Hosts: the site and api.coingecko.com only; overflow 0. Budget 300 KB and 2,500 ms.
+- **Editions, from the ledger** (all three published a Brief): 8 Oct run 37857914790 $0.0915; 9 Oct
+  run 38003059379 $0.0852; 10 Oct run 38094093202 $0.0677. Chart Master: published 8 Oct
+  (`b281882`, "Chart Master read 2026-10-08"); refused 9 Oct (`cbf7e80`): "chartmaster:
+  advice/prediction language in the read ('bleed'); refusing to publish it"; refused 10 Oct
+  (`8533a17`): "chartmaster: an open-interest figure names no venue in its own sentence ('Open
+  interest is sizable (BTC near $2.49B, ETH" (the commit subject is cut there; the full reason is
+  not kept).
+- **Jack's rulings, as the strategy desk's order of 11 October states them.** 7 October: the wire
+  stays in re-count order; the checked item is never pinned (this closes the open "keep or pin"
+  item in section 3). 8 October: none for Crypto.
 
 ## 8. Traps
 
