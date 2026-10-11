@@ -7,7 +7,7 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 11 October 2026, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 11 October 2026, Program 6 Sprint 6.1 (section 7c). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
@@ -272,6 +272,57 @@ wrongly; git shows it as below.
 - **Jack's rulings, as the strategy desk's order of 11 October states them.** 7 October: the wire
   stays in re-count order; the checked item is never pinned (this closes the open "keep or pin"
   item in section 3). 8 October: none for Crypto.
+
+## 7c. Program 6, Sprint 6.1: one site, one look (11 October 2026; day file `HANDOFF-2026-10-11.md`)
+
+Program 6 is `docs/PROGRAM-6-2026-10-11.md` (the pasted text; the attached file never reached the
+session). **Jack's rulings, Sunday 11 October 2026, 10:49 AM ET, in the strategy desk's words:**
+Jack agreed to all four decisions in Program 6, section 3:
+1. The Chart Master's character voice is retired. The read stays as a plain card titled "The Chart
+   Master's read, <date>".
+2. The names are Program 5's: Markets (the Board), Flows (Whale Watch), Charts (Chart Master), News,
+   Brief (the Edition), Record, Learn. URLs never change.
+3. The order is 6.1, then 6.2, then 6.3, then 6.4.
+4. Each sprint merges as one branch and one build, approved on screenshots first.
+
+**6.1 shipped.** Jack approved the contact sheets on 11 October (the time was not stated to the
+session). One merge, `325386b` (branch `one-look`, `7daaf4f` and `f63e00e`), pushed 2:39:44 PM EDT
+(18:39:44Z), canary exit 0 on the rebuilt merged tree, production stamp `325386b` built
+18:41:37Z, ready 18:43:47Z.
+- **One name:** GoCheckMyCrypto everywhere a reader or a crawler sees a name. The sweep over the
+  published tree (`scripts/one_look_sweep.py`): "Cronkite" 10,504 hits to 0, persona phrases 9 to 0,
+  wash and decoration 820 to 0. One URL keeps the old name, `/articles/why-crypto-cronkite.html`.
+  Stored stories still carry `author: Crypto Cronkite`; the renderer prints the one name.
+- **One look:** `system.css` loads on every page, `site.css` takes the Program 5 tokens, no wash, no
+  photo band, no section marks, no persona art, the Edition page drawn from the site's tokens. The home
+  page is unchanged (311 elements, 14 computed properties, 0 differences).
+- **The Board** is the home page's eight tiles (`tile.render`), a movers table and a list of the deep
+  boards, under a dated Chart Master card that gives way to the Board's own line after one day.
+  Deep-board cards and the coin page's cards keep their old components until 6.4.
+- **Ride-alongs:** `data/week_calendar.json` retired (`calendar_check` and `week_ahead` read
+  `site/data/calendar.json`; staleness reads its own `generated_utc`). The ETF read: Farside blocks
+  this container (403) and 10 October 2026 was a Saturday, so the site's Friday 9 October read
+  (+$21.1M) is the latest trading day; nothing changed.
+- **Production reads (home_budget, 11 October 2:45 PM EDT onward, stamp asserted on each):** 15 pages
+  (home, Board, Flows, Charts, News, Brief, Record, Learn, About, three coins, two stories, the 10
+  October Edition) at 375 and 1440, light and dark: all stamped `325386b`, overflow 0, 104,327 to
+  148,424 bytes each, home 108,333 to 110,019. Home LCP at 375 light 2,212 ms (one throttled run).
+  The inner pages load Cloudflare's analytics beacon (a third host), so `home_budget.mjs` exits 1 on
+  them by its own rule; the home page loads none. The band contrast test passes on production.
+- **Counts of record:** crypto production 4 ready and 1 canceled for 11 October, read 2:45:00 PM EDT
+  (5 min 16 s after the push). The merge was the fourth ready. If the canceled deploy counts against
+  the allowance, today's five are spent and the evening Edition is the sixth; Jack's call.
+
+**For 6.2: why the documents-only push `0c47b73` built.** `netlify_ignore.py` skips only paths under
+`docs/`, `shots/`, `review-queue/`, markdown outside `site/`, the ledger and inactives snapshots.
+`scripts/` is not on the list, though U-11's prose says scripts outside the published tree do not
+build. The commit before it, `d2b8154`, changed `scripts/band_contrast.mjs` and carried
+`[skip netlify]`, so Netlify never built it, and the ignore script diffs against the last BUILT
+commit (`aa64f08`): that diff still held `scripts/band_contrast.mjs`, which forced a build.
+Reproduced locally with `CACHED_COMMIT_REF=aa64f08 COMMIT_REF=0c47b73 python3 netlify_ignore.py`
+(exit 1, "1 file(s) that change the site, e.g. scripts/band_contrast.mjs"). Options: add `scripts/`
+to `DOC_PREFIXES` (no script is read by the build command), or never put `[skip netlify]` on a commit
+that touches a path the ignore script would build for.
 
 ## 8. Traps
 
