@@ -3348,6 +3348,35 @@ def _us_date_canary():
 
 
 def layer1_canary():
+    """Run the canary with the build's dated writers pointed at a scratch copy.
+
+    Sprint 6.3, item 3 (12 October 2026). The live-layer canary renders the home page, and
+    that render keeps a dated Chart Master copy and a dated Board snapshot in the real data
+    directories (site_build.CM_ARCHIVE, site_build.SNAPSHOT_DIR), so every canary run left
+    two untracked files behind. Reads still see the real history, because the scratch
+    directories start as copies of the real ones; only the writes land elsewhere. The
+    globals are restored in a finally. scripts/canary_clean_test.py is the proof."""
+    import shutil as _sh
+    import tempfile as _tf
+    import site_build as _sb
+    scratch = _tf.mkdtemp(prefix="canary-data-")
+    saved = (_sb.CM_ARCHIVE, _sb.SNAPSHOT_DIR)
+    try:
+        for name, real in (("chartmaster", _sb.CM_ARCHIVE), ("snapshots", _sb.SNAPSHOT_DIR)):
+            dst = os.path.join(scratch, name)
+            if os.path.isdir(real):
+                _sh.copytree(real, dst)
+            else:
+                os.makedirs(dst)
+        _sb.CM_ARCHIVE = os.path.join(scratch, "chartmaster")
+        _sb.SNAPSHOT_DIR = os.path.join(scratch, "snapshots")
+        return _layer1_canary_body()
+    finally:
+        _sb.CM_ARCHIVE, _sb.SNAPSHOT_DIR = saved
+        _sh.rmtree(scratch, ignore_errors=True)
+
+
+def _layer1_canary_body():
     fails = []
     fails.extend(_us_date_canary())
     fails.extend(_leverage_belt_canary())
