@@ -162,11 +162,11 @@ def how_we_make_money_body():
   <h2>Where commercial links may appear, and where they may not</h2>
   <p>The site has three kinds of pages and the rules are different for each.</p>
   <ul class="rule-list">
-    <li><b>News coverage never carries affiliate links.</b> The front page, Latest, every
+    <li><b>News coverage never carries affiliate links.</b> The front page, News, every
         story, the daily Editions and the RSS feed are clean. Nothing we earn from can
         influence what gets reported or how.</li>
-    <li><b>Data boards never carry commercial calls to action.</b> Whale Watch, Market
-        Pulse and The Chart Master may link to an explainer when it genuinely helps, but
+    <li><b>Data boards never carry commercial calls to action.</b> Whale Watch, The
+        Board and Chart Master may link to an explainer when it genuinely helps, but
         they carry no buy buttons and no commission language.</li>
     <li><b>Commercial links appear only in disclosed evergreen explainers.</b> Those pages
         say plainly, above the first link, that we earn a commission.</li>

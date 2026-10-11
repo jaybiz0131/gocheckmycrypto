@@ -122,13 +122,66 @@ ACCESSIBILITY_ARTICLE_COUNT = "141"
 #
 # The Record and The Edition keep their names, because they are named things a reader
 # comes back for, and the Record's nav entry now says what it is on hover.
-NAV = [("Home", "/index.html"),
-       ("Whale Watch", "/flows.html"), ("Chart Master", "/chartmaster.html"),
-       ("News", "/news.html"),
-       ("The Edition", "/bottom-line.html"),
-       ("The Record", "/record.html"),
-       ("Learn", "/learn.html"),
-       ("About", "/about.html")]
+# SPRINT 6.3 (12 October 2026): ONE NAME PER THING. Program 5, section 6 sets two names for
+# each destination: the task name a reader scans for, and the brand name it keeps. The task
+# name leads everywhere; the brand name sits small under it in the desktop nav and is the
+# page's eyebrow. Nav, tab bar, footer, H1, eyebrow, title tag and breadcrumb all read this
+# one table, so they cannot disagree. URLs never change.
+NAMES = {
+    "markets": ("Markets", "The Board", "/pulse.html"),
+    "flows":   ("Flows",   "Whale Watch", "/flows.html"),
+    "charts":  ("Charts",  "Chart Master", "/chartmaster.html"),
+    "news":    ("News",    "Checked", "/news.html"),
+    "brief":   ("Brief",   "The Edition", "/bottom-line.html"),
+    "record":  ("Record",  "Worth keeping", "/record.html"),
+    "learn":   ("Learn",   "The Board explained", "/learn.html"),
+}
+
+
+def task_name(key):
+    return NAMES[key][0]
+
+
+def brand_name(key):
+    return NAMES[key][1]
+
+
+def name_title(key):
+    """The title tag's lead: task name, then brand name ("Markets: The Board")."""
+    return f"{NAMES[key][0]}: {NAMES[key][1]}"
+
+
+# The desktop row. Home and About are not named things and carry no brand line.
+NAV = [("home", "Home", "", "/index.html"),
+       ("markets",) + NAMES["markets"],
+       ("flows",) + NAMES["flows"],
+       ("charts",) + NAMES["charts"],
+       ("news",) + NAMES["news"],
+       ("brief",) + NAMES["brief"],
+       ("record",) + NAMES["record"],
+       ("learn",) + NAMES["learn"],
+       ("about", "About", "", "/about.html")]
+
+# Which destination a page belongs to, by URL, so the nav and the tab bar mark the same
+# one on every page of a group (the labels the callers pass were never consistent).
+_NAV_GROUPS = [
+    ("markets", ("/pulse.html", "/pulse/", "/coins/", "/tables/")),
+    ("flows", ("/flows.html", "/onchain-flows.html")),
+    ("charts", ("/chartmaster.html", "/chartmaster/")),
+    ("news", ("/news.html", "/news/", "/articles/", "/wire.html", "/coverage/")),
+    ("brief", ("/bottom-line.html", "/edition/")),
+    ("record", ("/record.html",)),
+    ("learn", ("/learn.html", "/learn/")),
+    ("about", ("/about.html",)),
+]
+
+
+def nav_group(path):
+    for key, prefixes in _NAV_GROUPS:
+        if any(path == p or (p.endswith("/") and path.startswith(p)) for p in prefixes):
+            return key
+    return None
+
 
 # The one nav entry whose name does not say what it holds.
 NAV_TITLES = {"/record.html": "what stays true after the news moves on"}
@@ -1406,10 +1459,13 @@ def masthead(active, dateline, brand="site"):
     One masthead and one name on every page. `brand` is kept in the signature so the callers
     that pass "cronkite" keep working; it no longer selects anything."""
     nav = "".join(
-        f'<a href="{esc(href)}"{" class=active" if label == active else ""}'
+        f'<a href="{esc(href)}"'
+        + (' class="active" aria-current="page"' if key == active else "")
         + (f' title="{esc(NAV_TITLES[href])}"' if href in NAV_TITLES else "")
-        + f'>{esc(label)}</a>'
-        for label, href in NAV)
+        + f'><span class="nv-task">{esc(task)}</span>'
+        + (f' <span class="nv-brand">{esc(brand_label)}</span>' if brand_label else "")
+        + '</a>'
+        for key, task, brand_label, href in NAV)
     fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
     brand_row = f"""<a class="mh-brand" href="/index.html" style="margin-top:8px">
     <img class="mh-mark" src="/assets/logo.svg" alt="">
@@ -1647,7 +1703,9 @@ def footer(brand="site"):
                     # site-wide links than the 2026-08-25 trim wanted, and the trade is
                     # deliberate: a page the reader cannot click from the front door is
                     # closer to not existing than the link graph is to inverted.
-                    [("The Record", "/record.html"),
+                    [(task_name("record"), NAMES["record"][2]),
+                     (task_name("learn"), NAMES["learn"][2]),
+                     ("About", "/about.html"),
                      ("Archive", "/archive.html"),
                      ("How we work", "/method.html"),
                      ("Standards & corrections", "/standards.html"),
@@ -1893,7 +1951,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="build-commit" content="{BUILD_COMMIT}">
 <title>{esc(title)}</title>
@@ -1923,7 +1981,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <link rel="stylesheet" href="/assets/site.css">{_system_css}
 </head>
 <body class="{esc(body_class)}">
-{skip}{masthead(active, dateline, brand)}
+{skip}{masthead(nav_group(path), dateline, brand)}
 {body}
 {footer(brand)}{beacon}{livejs}
 {tab_bar(path)}
@@ -2240,7 +2298,7 @@ def render_article(item, all_items=None):
                        "logo": {"@type": "ImageObject", "url": ORIGIN + "/publisher-logo-512.png",
                                 "width": 512, "height": 512}}},
         {"@type": "BreadcrumbList", "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Latest", "item": ORIGIN + "/news.html"},
+            {"@type": "ListItem", "position": 1, "name": "News", "item": ORIGIN + "/news.html"},
             {"@type": "ListItem", "position": 2, "name": item.get("title"), "item": url}]}
     ]}, ensure_ascii=False)
     return shell(title, desc if isinstance(desc, str) else DESC, "Latest", body, dateline.upper(),
@@ -2411,16 +2469,16 @@ def render_bottom_line_history(items, dateline):
       <p style="margin:6px 0 0"><a href="/articles/{esc(ed['slug'])}.html">The full edition &rarr;</a></p>
     </div>""")
     body = f"""<main class="wrap narrow"><section class="page">
-  <span class="kicker">The Bottom Line</span>
-  <h1>The daily reads</h1>
-  <p class="lede">Once a day the desk closes its edition with The Bottom Line: what
+  <span class="kicker">{esc(brand_name("brief"))}</span>
+  <h1>{esc(task_name("brief"))}</h1>
+  <p class="lede">Once a day the desk closes its edition with a short read: what
      happened, why it mattered, and what the calendar says comes next. Synthesis of the
      desk's verified reporting, never a prediction and never advice. Every read is kept.</p>
   {"".join(rows) if rows else '<p class="lede">The first edition lands soon.</p>'}
 </section></main>"""
-    return shell(f"The Bottom Line - {NAME}", "The desk's daily reads: what happened, why it "
+    return shell(f"{name_title('brief')} - {NAME}", "The desk's daily brief: what happened, why it "
                  "mattered, and what comes next. Synthesis, never advice.",
-                 "The Bottom Line", body, dateline, path="/bottom-line.html", brand="cronkite")
+                 "Brief", body, dateline, path="/bottom-line.html", brand="cronkite")
 
 
 
@@ -4317,7 +4375,7 @@ def render_explainer(meta, pulse, flows, items, dateline, tiles_by_key, by_tilek
     brief_link = (f'<a class="bd-more" href="/articles/{esc(ed["slug"])}.html">'
                   f'Read today\'s Board brief</a>' if ed else "")
     body = f"""<main class="wrap narrow lx"><article class="page">
-  <div class="lx-meta"><span class="bd-eyebrow">Learn the Board</span>
+  <div class="lx-meta"><span class="bd-eyebrow">{esc(brand_name("learn"))}</span>
     <span class="bd-stamp">{esc(meta.get("byline") or "")}</span>
     <span class="bd-stamp">{esc((tile or {}).get("label") or meta.get("board_tile") or "")} tile</span>
     <span class="bd-stamp">{esc(meta.get("read_time") or "")}</span></div>
@@ -4344,37 +4402,32 @@ def render_explainer(meta, pulse, flows, items, dateline, tiles_by_key, by_tilek
 # person's own state, because there is no per-person state on this site to carry.
 
 TAB_BAR = [
-    ("Board", "/pulse.html",
-     "M3 15l4-6 3 4 3-7 4 9"),                                # a series
-    ("Whales", "/flows.html",
-     "M3 12c3-5 11-5 14 0M6 12v3M10 12v4M14 12v3"),           # flows
-    # K-1: News sits in the middle of the bar, where a thumb reaches first, and Learn
-    # moves to the end. A first-time visitor's question is where the news is.
-    ("News", "/news.html",
-     "M3 5h14v10H3zM6 8h5M6 11h8"),                           # a sheet
-    ("Edition", "/bottom-line.html",
-     "M5 3h10v14H5zM8 7h4M8 10h4M8 13h3"),                    # the edition
-    ("Learn", "/learn.html",
-     "M4 5h12v10H4zM7 8h6M7 11h6"),                           # a page
+    # SPRINT 6.3: five tabs, in the nav's order, each named by its task name from NAMES.
+    # Record and Learn are not here: they sit in the footer (search does not exist yet).
+    ("markets", "M3 15l4-6 3 4 3-7 4 9"),                     # a series
+    ("flows", "M3 12c3-5 11-5 14 0M6 12v3M10 12v4M14 12v3"),  # flows
+    ("charts", "M3 17h14M5 13l3-4 3 2 5-6"),                  # a chart
+    ("news", "M3 5h14v10H3zM6 8h5M6 11h8"),                   # a sheet
+    ("brief", "M5 3h10v14H5zM8 7h4M8 10h4M8 13h3"),           # the edition
 ]
 
 
 def tab_bar(active_path=""):
-    """The phone tab bar. Hidden above the phone breakpoint in CSS rather than built
-    twice. A tab whose page is not being built this run is dropped, so the bar never
-    offers a destination that does not exist."""
+    """The phone tab bar (below 700 px; it replaces the top row there). Hidden above the
+    breakpoint in CSS rather than built twice. The current tab is marked by a bar above it,
+    a heavier label and aria-current, never by colour alone."""
+    here = nav_group(active_path)
     out = []
-    for label, href, d in TAB_BAR:
-        pass
-        on = " on" if href == active_path else ""
+    for key, d in TAB_BAR:
+        task, _brand, href = NAMES[key]
+        on = " on" if key == here else ""
+        cur = ' aria-current="page"' if key == here else ""
         out.append(
-            f'<a class="tb-item{on}" href="{esc(href)}">'
+            f'<a class="tb-item{on}" href="{esc(href)}"{cur}>'
             f'<svg viewBox="0 0 20 20" aria-hidden="true" width="20" height="20">'
             f'<path d="{d}" fill="none" stroke="currentColor" stroke-width="1.6" '
             f'stroke-linecap="round" stroke-linejoin="round"></path></svg>'
-            f'<span>{esc(label)}</span></a>')
-    if len(out) < 2:
-        return ""
+            f'<span>{esc(task)}</span></a>')
     return (f'<nav class="tabbar" aria-label="Sections">{"".join(out)}</nav>')
 
 
@@ -4823,7 +4876,7 @@ def render_living_table_page(spec, data, dateline):
     n = len(t.get("rows") or t.get("weeks") or t.get("days") or [])
     url = f'/tables/{spec["slug"]}.html'
     body = f"""<main class="wrap"><section class="page">
-  <p class="bd-stamp"><a href="/record.html">The Record</a> / {esc(spec["title"])}</p>
+  <p class="bd-stamp"><a href="/record.html">Record</a> / {esc(spec["title"])}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(spec["h1"])}</h1>
   <p class="lx-dek">{esc(spec["dek"])}</p>
   <div class="bd-cardtop"><span class="bd-badge dat">Living table</span>
@@ -5045,11 +5098,13 @@ def record_sections(items, home=True):
         if (on_home or not home))
     if not lanes.strip():
         return ""
-    head = (f'<div class="bd-sec"><div class="bd-sec-l">'
-            f'<span class="bd-eyebrow">The Record</span>'
-            f'<h2 class="bd-h2">What stays true after the news moves on</h2></div>'
-            + (f'<a class="bd-more" href="/record.html">The full Record</a>' if home else "")
-            + '</div>')
+    # The Record's double heading, fixed (Sprint 6.3): on /record.html the page's own
+    # eyebrow, H1 and dek say this once, so the section head is the home page's alone.
+    head = ((f'<div class="bd-sec"><div class="bd-sec-l">'
+             f'<span class="bd-eyebrow">{esc(brand_name("record"))}</span>'
+             f'<h2 class="bd-h2">What stays true after the news moves on</h2></div>'
+             f'<a class="bd-more" href="/record.html">{esc(task_name("record"))}, in full</a>'
+             '</div>') if home else "")
     # C-18: on a phone the Record is 2,940px. The first lane stays; the rest go inside
     # a details the phone closes. It ships OPEN, so a reader without JavaScript sees
     # every lane as before - the script only closes it where the height is the problem.
@@ -5074,8 +5129,8 @@ def record_full_index(items, shown=12):
     links = "".join(f'<a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
                     for i in rest)
     return (f'<section class="bd-mod bd-rec-index">'
-            f'<div class="bd-cardtop"><span class="bd-label">The Record, full index</span>'
-            f'<a class="bd-more" href="/record.html">Open the Record</a></div>'
+            f'<div class="bd-cardtop"><span class="bd-label">Record, full index</span>'
+            f'<a class="bd-more" href="/record.html">Open Record</a></div>'
             f'<div class="bd-rec-cols">{links}</div></section>')
 
 
@@ -5083,14 +5138,15 @@ def render_record(items, dateline):
     """/record.html: every lane, same shape as the homepage sections."""
     _page_reset()          # UX-11: a page starts with nothing claimed
     body = f"""<main class="wrap"><section class="page">
-  <h1 class="lx-h1" style="margin-bottom:4px">The Record</h1>
+  <span class="bd-eyebrow">{esc(brand_name("record"))}</span>
+  <h1 class="lx-h1" style="margin-bottom:4px">{esc(task_name("record"))}</h1>
   <p class="lx-dek">What stays true after the news moves on.</p>
   {record_sections(items, home=False)}
   {record_full_index(items, shown=0)}
 </section></main>"""
-    return shell(f"The Record - {NAME}",
+    return shell(f"{name_title('record')} - {NAME}",
                  "The desk's standing work, by lane: what each piece establishes and the "
-                 "receipts behind it.", "The Record", body, dateline,
+                 "receipts behind it.", "Record", body, dateline,
                  path="/record.html")
 
 
@@ -5264,7 +5320,7 @@ def render_news_hub(items, dateline, pulse=None):
     # C-12: /news opened with the entire Record block - five lane sections - before a
     # single piece of news. On the news desk the Record is a pointer, not the page.
     rec = ('<p class="lx-dek" style="margin-top:10px">'
-           '<a href="/record.html">The Record: what stays true after the news moves on '
+           '<a href="/record.html">Record: what stays true after the news moves on '
            '&rarr;</a></p>')
     months = _news_month_archive(live)
     marc = "".join(
@@ -5287,7 +5343,8 @@ def render_news_hub(items, dateline, pulse=None):
                      + "".join(_news_section(L, past=True) for L in past) + '</section>')
 
     body = f"""<main class="wrap"><section class="page">
-  <h1 class="lx-h1" style="margin-bottom:6px">News</h1>
+  <span class="bd-eyebrow">{esc(brand_name("news"))}</span>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(task_name("news"))}</h1>
   {cadence_line(NEWS_CADENCE_LINE)}
   {dark_line(items, _edition_hold(), _build_now())}
   {wire_block()}
@@ -5304,13 +5361,13 @@ def render_news_hub(items, dateline, pulse=None):
   {past_html}
   {arch}
 </section></main>"""
-    return shell(f"Crypto news by storyline - {NAME}",
+    return shell(f"{name_title('news')} - {NAME}",
                  "Every checked story on the desk, grouped by storyline: regulation, "
                  "ETFs, exchanges and security, stablecoins, network, DeFi and markets.",
                  "News", body, dateline, path="/news.html",
-                 schema_extra=_news_jsonld("/news.html", "The news desk",
+                 schema_extra=_news_jsonld("/news.html", "News",
                                            "Checked crypto stories by storyline", live,
-                                           [("Home", "/"), ("News desk", "/news.html")]))
+                                           [("Home", "/"), ("News", "/news.html")]))
 
 
 def render_news_lane(lane, page, pages, dateline):
@@ -5327,7 +5384,7 @@ def render_news_lane(lane, page, pages, dateline):
     url = base if page == 1 else f"/news/{lane['slug']}/page/{page}.html"
     title = f"{lane['name']} - crypto news by storyline"
     body = f"""<main class="wrap"><section class="page">
-  <p class="bd-stamp"><a href="/news.html">News desk</a> / {esc(lane["name"])}</p>
+  <p class="bd-stamp"><a href="/news.html">News</a> / {esc(lane["name"])}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(lane["name"])}</h1>
   <p class="lx-dek">{len(lane["items"])} checked stories in this storyline.
      {f"Page {page} of {pages}." if pages > 1 else ""}</p>
@@ -5336,10 +5393,10 @@ def render_news_lane(lane, page, pages, dateline):
 </section></main>"""
     return shell(f"{title} - {NAME}",
                  f"Every checked story the desk has published on {lane['name'].lower()}.",
-                 "News desk", body, dateline, path=url,
+                 "News", body, dateline, path=url,
                  schema_extra=_news_jsonld(url, lane["name"],
                                            f"Crypto stories on {lane['name'].lower()}", rows,
-                                           [("Home", "/"), ("News desk", "/news.html"),
+                                           [("Home", "/"), ("News", "/news.html"),
                                             (lane["name"], base)]),
                  noindex=False)
 
@@ -5349,16 +5406,16 @@ def render_news_month(month, rows, dateline):
     url = f"/news/archive/{month}.html"
     label = _news_month_label(month)
     body = f"""<main class="wrap"><section class="page">
-  <p class="bd-stamp"><a href="/news.html">News desk</a> / Archive / {esc(label)}</p>
+  <p class="bd-stamp"><a href="/news.html">News</a> / Archive / {esc(label)}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(label)}</h1>
   <p class="lx-dek">{len(rows)} checked stories published this month.</p>
   <div class="nh-rows">{"".join(_news_row(i) for i in rows)}</div>
 </section></main>"""
     return shell(f"Crypto news, {label} - {NAME}",
                  f"Every checked story the desk published in {label}.",
-                 "News desk", body, dateline, path=url,
+                 "News", body, dateline, path=url,
                  schema_extra=_news_jsonld(url, label, f"Crypto stories from {label}", rows,
-                                           [("Home", "/"), ("News desk", "/news.html"),
+                                           [("Home", "/"), ("News", "/news.html"),
                                             (label, url)]))
 
 
@@ -5687,7 +5744,7 @@ def render_learn(dateline):
     # The Chart Master's surfaces are interactive, not articles: a read time would be
     # a fiction. Each card says what the thing is instead.
     cm_cards = "".join([
-        _learn_card("Daily read", "The Chart Master's read of the boards",
+        _learn_card("Daily read", "Chart Master's read of the boards",
                     "One plain-language pass over what the numbers are doing today, and "
                     "what would change the read.", "/chartmaster.html"),
         # UX-8: the two cards that pointed at #oracle and #exam are gone with the
@@ -5715,17 +5772,18 @@ def render_learn(dateline):
                 f'<div class="bd-cards4">{cards}</div></section>')
 
     body = f"""<main class="wrap"><section class="page">
-  <h1 class="lx-h1" style="margin-bottom:6px">Learn the Board</h1>
+  <span class="bd-eyebrow">{esc(brand_name("learn"))}</span>
+  <h1 class="lx-h1" style="margin-bottom:6px">{esc(task_name("learn"))}</h1>
   <p class="lx-dek">Every number this desk publishes has a page explaining what it
      measures, why it moves, and what it does not tell you. No jargon left undefined.</p>
   {sec("The eight tiles", "One explainer for every number on the Board", board_cards,
-       '<a class="bd-more" href="/pulse.html">Open the Board</a>')}
+       '<a class="bd-more" href="/pulse.html">Open Markets</a>')}
   {_learn_readings(by_tile)}
-  {sec("The Chart Master", "Learn the charts by reading them", cm_cards,
-       '<a class="bd-more" href="/chartmaster.html">Open the Chart Master</a>')}
+  {sec(brand_name("charts"), "Learn the charts by reading them", cm_cards,
+       '<a class="bd-more" href="/chartmaster.html">Open Charts</a>')}
   {sec("Owning it safely", "Custody, counterfeits, and tax", guide_cards)}
 </section></main>"""
-    return shell(f"Learn the Board: every crypto number explained - {NAME}",
+    return shell(f"{name_title('learn')} - {NAME}",
                  "Plain-language explainers for every number on the Board: ETF flows, "
                  "whale flows, leverage, dry powder, sentiment, network fees and more.",
                  "Learn", body, dateline, path="/learn.html", system_css=True)
@@ -6074,10 +6132,10 @@ def whale_window(flows):
 
 def render_flows(flows, dateline):
     if not flows or (not flows.get("by_asset") and not flows.get("top_inflows")):
-        body = ww_hero() + """<main class="wrap"><section class="page">
-  <span class="kicker">Whale Watch</span>
-  <h1>Where the whales are moving</h1>
-  <p class="lede">Large transfers onto exchanges (can precede selling) against off into
+        body = ww_hero() + f"""<main class="wrap"><section class="page">
+  <span class="kicker">{esc(brand_name("flows"))}</span>
+  <h1>{esc(task_name("flows"))}</h1>
+  <p class="lede">Where the whales are moving. Large transfers onto exchanges (can precede selling) against off into
      self-custody (accumulation). Off exchanges is positive and green; onto exchanges is
      negative and red.</p>
   <div class="empty"><span class="k">A quiet stretch</span>
@@ -6085,8 +6143,8 @@ def render_flows(flows, dateline):
     transfers (roughly $50M and up), and none touched an exchange recently. The board
     refreshes with every site build; check back soon.</p></div>
 </section></main>"""
-        return shell(f"Whale Watch - {NAME}", "Follow the money: whale exchange flows.",
-                     "Whale Watch", body, dateline, path="/flows.html")
+        return shell(f"{name_title('flows')} - {NAME}", "Follow the money: whale exchange flows.",
+                     "Flows", body, dateline, path="/flows.html")
 
     v = flows.get("volatile", {})
     s = flows.get("stablecoins", {})
@@ -6173,9 +6231,9 @@ def render_flows(flows, dateline):
                     f'{esc(fmt_usd(v.get("inflow_usd", 0)))} on / '
                     f'{esc(fmt_usd(v.get("outflow_usd", 0)))} off{pace_html}</span>')
     body = ww_hero() + f"""<main class="wrap"><section class="page">
-  <span class="kicker">Whale Watch</span>
-  <h1>Where the whales are moving</h1>
-  <p class="lede">Large transfers onto exchanges (can precede selling) against off into
+  <span class="kicker">{esc(brand_name("flows"))}</span>
+  <h1>{esc(task_name("flows"))}</h1>
+  <p class="lede">Where the whales are moving. Large transfers onto exchanges (can precede selling) against off into
      self-custody (accumulation), last {winp}. Off exchanges is positive and green; onto
      exchanges is negative and red.</p>
   <p class="bd-src">{_flows_asof(flows)}</p>
@@ -6252,8 +6310,8 @@ def render_flows(flows, dateline):
   </div>
   {data_stamp(flows, what="This whale board")}
 </section></main>"""
-    return shell(f"Whale Watch - {NAME}", "Follow the money: net whale exchange flows by asset.",
-                 "Whale Watch", body, dateline, path="/flows.html")
+    return shell(f"{name_title('flows')} - {NAME}", "Follow the money: net whale exchange flows by asset.",
+                 "Flows", body, dateline, path="/flows.html")
 
 
 # ---- market pulse -------------------------------------------------------------
@@ -6582,7 +6640,8 @@ PULSE_DESKS = [
 
 
 def _dash_crumb():
-    return '<span class="kicker"><a href="/pulse.html">The Board</a> &middot; dashboard</span>'
+    return (f'<span class="kicker"><a href="/pulse.html">{esc(task_name("markets"))}</a> '
+            f'&middot; {esc(brand_name("markets"))} dashboard</span>')
 
 
 # DATA-AGE TRIPWIRE (audit 2026-07-28). A board is only as fresh as the deploy that built
@@ -6952,7 +7011,7 @@ def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None,
             'mempool.space.</p>')
     body = (f'<main class="wrap"><section class="page">\n{body_inner}\n'
             f'{week}{stamp}{srcs}\n</section></main>')
-    return shell(f"{title} - The Board - {NAME}", desc, "The Board", body, dateline,
+    return shell(f"{title} - {task_name('markets')} - {NAME}", desc, "Markets", body, dateline,
                  path=path or f"/pulse/{slug}.html", live_js=live)
 
 
@@ -6964,7 +7023,7 @@ def _no_data(cmd="python3 market_pulse.py"):
 
 def cm_board_card(cm, pulse, flows, deltas=None, now=None):
     """PROGRAM 6, 6.1 (11 October 2026): the Chart Master's read on the Board, under its own
-    date, as "The Chart Master's read, <date>". It gives way to the Board's own line when the
+    date, as "Chart Master's read, <date>". It gives way to the Board's own line when the
     read is more than one day old: the read was three days old on top of today's Board after
     two refusals to publish. A read dated today or yesterday shows; anything older does not,
     and the Board's own deterministic line (board_summary_line) takes its place, or nothing
@@ -6982,8 +7041,8 @@ def cm_board_card(cm, pulse, flows, deltas=None, now=None):
     except ValueError:
         age = None
     if read and age is not None and age <= 1:
-        return (f'<section class="cm-card" aria-label="The Chart Master\'s read">'
-                f'<h2 class="cm-card-h">The Chart Master\'s read, {esc(fmt_date(day))}</h2>'
+        return (f'<section class="cm-card" aria-label="Chart Master\'s read">'
+                f'<h2 class="cm-card-h">Chart Master\'s read, {esc(fmt_date(day))}</h2>'
                 f'<p class="cm-card-p">{esc(clamp_sentences(destyle(read), 260))}</p>'
                 f'<p class="cm-card-f"><a href="/chartmaster.html">Every read</a></p></section>')
     own = board_summary_line(pulse, deltas if deltas is not None else board_deltas(pulse), flows)
@@ -7041,8 +7100,8 @@ def render_pulse_hub(pulse, flows, cm, dateline):
                        f'{esc((snap or {}).get("stamp_et") or "")}</p></section>')
     links = "".join(f'<li><a href="{esc(h)}">{esc(l)}</a></li>' for l, h in BOARD_LINKS_LIST)
     body = f'''<main class="wrap"><section class="page">
-  <span class="kicker">The Board</span>
-  <h1>The Board</h1>
+  <span class="kicker">{esc(brand_name("markets"))}</span>
+  <h1>{esc(task_name("markets"))}</h1>
   {data_stamp(pulse, what="The Board")}
   {cm_board_card(cm, pulse, flows, deltas)}
   {coins_mini_board()}
@@ -7054,7 +7113,7 @@ def render_pulse_hub(pulse, flows, cm, dateline):
   <p class="pc-note">These are readings, not advice, and not a forecast.
      <a href="/learn.html">How to read the Board</a>.</p>
 </section></main>'''
-    return shell(f"The Board - {NAME}", desc, "The Board", body, dateline,
+    return shell(f"{name_title('markets')} - {NAME}", desc, "Markets", body, dateline,
                  path="/pulse.html", live_js=True)
 
 
@@ -7713,8 +7772,8 @@ def render_coin_page(c, pos, pulse, items, dateline):
   {news_html}
   <nav class="st-nav" aria-label="Related">
     <a class="st-nav-a" href="/pulse/prices">The Top 100</a>
-    <a class="st-nav-a" href="/pulse.html">The Board</a>
-    <a class="st-nav-a" href="/learn.html">How to read the Board</a></nav>""" + COIN_CHART_JS
+    <a class="st-nav-a" href="/pulse.html">Markets</a>
+    <a class="st-nav-a" href="/learn.html">Learn</a></nav>""" + COIN_CHART_JS
     return _dash_shell(f"coin-{_coin_slug(c)}", f"{name} ({sym})",
                        f"{name} price, 24-hour, 7-day and 30-day change, market cap and "
                        f"supply, with the Board's read and the desk's reporting.",
@@ -8147,7 +8206,7 @@ def render_chartmaster(read, dateline, pulse=None):
     #
     # (The first cut of this note was an HTML comment and shipped to the page. A build
     # note belongs in the source.)
-    desc = ("The Chart Master's read of the boards: a plain-language account of sentiment, "
+    desc = ("Chart Master's read of the boards: a plain-language account of sentiment, "
             "whale flows, and price posture. Never financial advice.")
     read = read or {}
     # UX-8: the read under the subheads it already implies, with five glance lines
@@ -8187,7 +8246,7 @@ def render_chartmaster(read, dateline, pulse=None):
     # anything past a day and a half means a run did not produce one, and a reader
     # should meet that before the prose rather than infer it from a date further down.
     # THE LIVE LAYER (5 October 2026): the boards lead and the read follows, dated in its
-    # own headline, "The Chart Master's read, September 21". A read older than the
+    # own headline, "Chart Master's read, September 21". A read older than the
     # Board's snapshot carries ONE line under that headline saying the boards are newer.
     # It replaces the two notes this page carried, one of which said "the boards below"
     # about boards that sit above it.
@@ -8198,7 +8257,7 @@ def render_chartmaster(read, dateline, pulse=None):
         _bday = _gen.astimezone(_ET).strftime("%Y-%m-%d")
     _md = fmt_date(_rday)
     _md = _md.rsplit(",", 1)[0] if _md else ""
-    read_title = f"The Chart Master's read, {_md}" if _md else "The Chart Master's read"
+    read_title = f"Chart Master's read, {_md}" if _md else "Chart Master's read"
     _bst = _snap_stamp_et((pulse or {}).get("generated_utc") or "")
     newer_note = (f'<p class="pc-note cm-newer">The boards above are newer than this read; '
                   f'they are as of {esc(_bst)}.</p>'
@@ -8239,7 +8298,8 @@ def render_chartmaster(read, dateline, pulse=None):
             f'<div class="cm-archive">{rows}</div>')
 
     body = cm_hero() + f"""<main class="wrap"><section class="page">
-  <h1 style="margin-top:6px">The Chart Master</h1>
+  <span class="kicker">{esc(brand_name("charts"))}</span>
+  <h1 style="margin-top:6px">{esc(task_name("charts"))}</h1>
   <p class="lede">What the charts show, in plain language, with the receipts linked.
      Describe, never predict.</p>
   {_charts}
@@ -8271,7 +8331,7 @@ def render_chartmaster(read, dateline, pulse=None):
   <p class="pc-note">Nothing on this page is a recommendation of any kind.</p>
 </section></main>
 """
-    return shell(f"The Chart Master - {NAME}", desc, "Chart Master", body, dateline,
+    return shell(f"{name_title('charts')} - {NAME}", desc, "Charts", body, dateline,
                  path="/chartmaster.html")
 
 
