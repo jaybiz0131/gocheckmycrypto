@@ -28,6 +28,11 @@
    "max_tokens": 20000,
    "note": "Full-length stories (350-650 words) in batches of 3 per call; the cap covers 3 complete drafts with headroom so JSON never truncates."
   },
+  "morning": {
+   "model": "claude-haiku-4-5",
+   "max_tokens": 1200,
+   "note": "The morning read (morning.py, 12 October 2026): headline, two or three sentences and the narrative line, from the Board's readings and the wire's top five. One Haiku call."
+  },
   "approver": {
    "model": "claude-haiku-4-5",
    "max_tokens": 8000,

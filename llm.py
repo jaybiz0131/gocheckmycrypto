@@ -139,7 +139,7 @@ class Client:
 
     # ---- public --------------------------------------------------------------
 
-    def call_json(self, stage, system, user, validate=None):
+    def call_json(self, stage, system, user, validate=None, max_rungs=3):
         """Run one stage and return its parsed (and optionally validated) JSON object.
 
         THE CONTRACT LADDER (2026-07-15; the small-model recovery layer): cheap models
@@ -171,7 +171,7 @@ class Client:
         if self.mode == "replay":
             return parse_and_validate(self._replay_raw(stage))
 
-        rungs = [model_cfg, model_cfg, {**model_cfg, "model": RESCUE_MODEL}]
+        rungs = [model_cfg, model_cfg, {**model_cfg, "model": RESCUE_MODEL}][:max(1, max_rungs)]
         u = user
         last = None
         for i, mc in enumerate(rungs):

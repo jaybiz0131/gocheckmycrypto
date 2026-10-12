@@ -7,7 +7,7 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 12 October 2026, Program 7 Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 12 October 2026, Program 7 Sprint 7.2 built, not merged (section 10). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
@@ -220,6 +220,21 @@ not piped into `tail` and assumed.
 **Traps found:** the U-11 reads canary counts every module in `sys.modules` as a build read, so a canary that imports from `scripts/` must take the module out again. The home canary's fold regex is anchored on `<div class="h-below"`.
 
 **Open:** the coin page chart product is 6.4's (only its line, dots and colors changed here). Sprint 7.2 gets its own session.
+
+## 10. Program 7, Sprint 7.2: the morning edition, the Chart Master that publishes, the beacon (12 October 2026)
+
+**Jack's rulings, Monday 12 October 2026, 3:29 PM ET:** (1) the Cloudflare Web Analytics beacon stays, on every page, the home page included; it is cookie-free, the page-weight rule names it, the privacy page says so in one plain line. (2) Crypto gets a morning edition; the site must never read as last night's in the morning.
+
+**State: built on `claude/laughing-rubin-j8g33g`, canary green, NOT merged.** Report: `docs/REPORT-PROGRAM-7-SPRINT-7.2-2026-10-12.md`. Count of record on 12 October: 4 ready, 2 canceled, the Edition is the fifth, so the merge waits for 13 October after midnight ET and must sit outside 6:30 to 8:15 PM ET. Jack approves on `shots/program7-7.2/`.
+
+**Open for the next session:**
+1. **The Worker (`gcm-newsroom`), not readable from this repo.** Dispatch `morning-read.yml` (workflow_dispatch, ref main) at 8:15 AM in America/New_York computed with Intl, so it holds across 1 November; retire the Worker's noon refresh hook so the automatic builds stay at two. Check the Worker's real refresh time: `site-refresh.yml` says noon Eastern, the brief said 8:00 AM EDT.
+2. After the merge: read production by stamp, the count five minutes after the push, then the next morning's 8:15 AM run on production, its tokens and dollars (none measured yet).
+3. Jack's yes.
+
+**What exists:** `morning.py` (`--guard`, `--message`, `--alarm`), `prompts/morning.md`, `morning-read.yml` (crons `17 12 * * *` EDT and `17 13 * * *` EST as backstops), `home.next_brief` read off the Eastern clock, `home.usable_morning`, `home.last_brief_note`; Chart Master `publish_path` (told retry, `SUBSTITUTIONS`, data-only card, `data/chartmaster-ledger.json`); `_beacon_canary`; `ops_ledger.is_empty_row`. Tests: `scripts/morning_test.py`, `scripts/chartmaster_publish_test.py`, both in the canary.
+
+**Traps:** the Oct 10 refusal was a venue belt, not an advice word. Refused reads are not stored, so fixtures are reconstructions. The substitution table can yield awkward grammar. A canary run takes several minutes and imports site files: do not edit them while it runs (inspect.getsource goes stale and reports false reds).
 
 ---
 

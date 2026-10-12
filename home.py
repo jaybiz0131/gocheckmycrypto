@@ -32,6 +32,9 @@ TAPE_ALTS = (("ETH", "Ether", "ethereum"), ("SOL", "Solana", "solana"),
              ("XRP", "XRP", "ripple"))
 # The Edition's cron, 23:08 UTC (crypto-news-brief.yml), said in Eastern time on the day.
 EDITION_UTC = (23, 8)
+# The morning read's slot, 8:15 AM Eastern. The Worker computes it in America/New_York, so it
+# holds across the November 1 change to EST (the Edition's cron does not: 23:08 UTC).
+MORNING_ET = (8, 15)
 EMPTY_MINE = "Pins come from any coin page."
 NO_CAL = "nothing scheduled"
 
@@ -283,13 +286,14 @@ _SLOT_NAMES = (("morning", "MORNING"), ("midday", "MIDDAY"), ("evening", "EVENIN
 
 
 def brief_name(ed):
-    """'THE BRIEF · SUNDAY EVENING': the edition it actually is, by its day and its slot."""
+    """'THE BRIEF · SUNDAY EVENING': the edition it actually is, by its day and its slot.
+    A morning read (morning.json) carries its own date and is always the MORNING slot."""
     if not ed:
         return "THE BRIEF"
     slug = str(ed.get("slug") or ed.get("id") or "")
-    slot = next((w for k, w in _SLOT_NAMES if k in slug), "")
+    slot = "MORNING" if ed.get("morning") else next((w for k, w in _SLOT_NAMES if k in slug), "")
     try:
-        day = _dt.date.fromisoformat(str(ed.get("date"))[:10]).strftime("%A").upper()
+        day = _dt.date.fromisoformat(str(ed.get("date") or ed.get("date_et"))[:10]).strftime("%A").upper()
     except ValueError:
         day = ""
     tail = " ".join(x for x in (day, slot) if x)
@@ -297,16 +301,48 @@ def brief_name(ed):
 
 
 def next_brief(ed, now=None):
-    """'Next Brief tonight at 7:08 PM ET', or tomorrow's when tonight's is the one shown.
-    The slot is the Edition's cron (EDITION_UTC), the only slot this desk runs."""
-    now = now or _now()
-    today = now.astimezone(_ET).date()
-    shown = None
-    if ed:
-        pu = _utc(ed.get("published_utc"))
-        shown = pu.astimezone(_ET).date() if pu else None
-    when = "tomorrow" if shown == today else "tonight"
-    return f"Next Brief {when} at {edition_time_et(now)}"
+    """The real next slot, read off the clock in Eastern: 'Next Brief this morning at 8:15 AM
+    ET', 'tonight at 7:08 PM ET' or 'tomorrow at 8:15 AM ET'. Two slots a day: the morning
+    read (MORNING_ET, the Worker's) and the Edition (EDITION_UTC, the cron's)."""
+    now = (now or _now()).astimezone(_ET)
+    morning = now.replace(hour=MORNING_ET[0], minute=MORNING_ET[1], second=0, microsecond=0)
+    # the Edition's cron is fixed in UTC, so its Eastern wall time moves with DST
+    evening = _dt.datetime(now.year, now.month, now.day, EDITION_UTC[0], EDITION_UTC[1],
+                           tzinfo=_dt.timezone.utc).astimezone(_ET)
+    mt = morning.strftime("%-I:%M %p ET")
+    if now < morning:
+        return f"Next Brief this morning at {mt}"
+    if now < evening:
+        return f"Next Brief tonight at {evening.strftime('%-I:%M %p ET')}"
+    return f"Next Brief tomorrow at {mt}"
+
+
+def usable_morning(morning, ed, now=None):
+    """The morning read, when it is today's (Eastern) and no later Edition has superseded
+    it; else None, and the card falls back to the last Edition with its honest label."""
+    if not morning or not morning.get("headline") or not morning.get("sentences"):
+        return None
+    now = (now or _now()).astimezone(_ET)
+    if str(morning.get("date_et") or "") != now.date().isoformat():
+        return None
+    mu, eu = _utc(morning.get("published_utc")), _utc((ed or {}).get("published_utc"))
+    if mu is None or (eu is not None and eu >= mu):
+        return None
+    return dict(morning, morning=True, date=morning.get("date_et"))
+
+
+def last_brief_note(ed, now=None):
+    """'Last night's Brief, 7:16 PM ET': said whenever the Brief on the card is not today's."""
+    pu = _utc((ed or {}).get("published_utc"))
+    if pu is None:
+        return ""
+    now = (now or _now()).astimezone(_ET)
+    t = pu.astimezone(_ET)
+    if t.date() >= now.date():
+        return ""
+    word = "Last night's Brief" if t.hour >= 17 and t.date() == now.date() - _dt.timedelta(days=1) \
+        else "An earlier Brief"
+    return f"{word}, {t.strftime('%-I:%M %p ET')}"
 
 
 def _brief_title(ed):
@@ -318,20 +354,35 @@ def _brief_title(ed):
     return t
 
 
-def narrative_band(narr, snap, ed=None, now=None):
-    """THE BRIEF CARD (Program 7, Sprint 7.1) in the band's place: the edition by name and
-    day, its headline, the narrative sentence the Edition wrote (never quoting a change),
-    and when the next Brief is due."""
+def narrative_band(narr, snap, ed=None, now=None, morning=None):
+    """THE BRIEF CARD (Program 7, Sprint 7.1; the morning edition, Sprint 7.2): the edition by
+    name and day, its headline, the narrative sentence (never quoting a change), and when the
+    next Brief is due. In the morning the card holds the morning read when it ran; when it did
+    not, it holds last night's Brief and says so with its time."""
+    now = now or _now()
+    m = usable_morning(morning, ed, now)
+    if m:
+        eye = f'<p class="h-eye">{_e(brief_name(m))}</p>'
+        head = f'<h2 class="h-bt">{_e(m.get("headline"))}</h2>'
+        body = f'<p class="h-nline">{_e(" ".join(m.get("sentences") or []))}</p>'
+        line = (m.get("line") or "").strip()
+        body += f'<p class="h-nline h-nsum">{_e(line)}</p>' if line else ""
+        stamp = f'Written {_e(m.get("published_et") or "")}.'
+        return _block("narrative", eye + head + body
+                      + f'<p class="h-nsmall">{stamp}</p>'
+                      + f'<p class="h-next">{_e(next_brief(m, now))}</p>', cls="h-band")
     eye = f'<p class="h-eye">{_e(brief_name(ed))}</p>'
     head = (f'<h2 class="h-bt"><a href="/articles/{_e(ed.get("slug"))}.html">'
             f'{_e(_brief_title(ed))}</a></h2>' if ed else "")
+    last = last_brief_note(ed, now)
+    last_html = f'<p class="h-nsmall h-nlast">{_e(last)}</p>' if last else ""
     nxt = f'<p class="h-next">{_e(next_brief(ed, now))}</p>'
     line, _r, replaced = band_line(narr, snap)
     if replaced:
         narr = dict(narr, readings=_r, written_et=snap.get("stamp_et") or "")
     stamp = snap.get("stamp_et") or ""
     if not line:
-        return _block("narrative", eye + head
+        return _block("narrative", eye + head + last_html
                       + f'<p class="h-nsmall">The Board as of {_e(stamp)}.</p>' + nxt,
                       cls="h-band")
     # the small line names the readings the sentence was written from and prints none of
@@ -347,7 +398,7 @@ def narrative_band(narr, snap, ed=None, now=None):
             small = ""
     when = narr.get("written_et") or ""
     tail = f" ({when})" if when and small else ""
-    return _block("narrative", eye + head + f'<p class="h-nline">{_e(line)}</p>'
+    return _block("narrative", eye + head + last_html + f'<p class="h-nline">{_e(line)}</p>'
                   + (f'<p class="h-nsmall">{_e(small)}{_e(tail)}.</p>' if small else "")
                   + nxt, cls="h-band")
 
@@ -975,11 +1026,12 @@ def below_fold(snap, pulse, flows, deltas, items, ed, now=None):
 
 # ---- the page -----------------------------------------------------------------------------
 
-def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, ed=None):
+def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, ed=None,
+               morning=None):
     """The ten blocks of section 2, in order, as one string. `ed` is the day's edition
     (site_build.current_bottom_line), which the Brief card names."""
     blocks = {
-        "tape": tape(snap), "narrative": narrative_band(narr, snap, ed, now),
+        "tape": tape(snap), "narrative": narrative_band(narr, snap, ed, now, morning),
         "since": since(pulse, deltas), "why": why(wire, now),
         "wire": wire_top(wire, cadence, now), "money": money(snap, pulse, flows, deltas),
         "mood": mood(snap, pulse, deltas), "movers": movers(snap),

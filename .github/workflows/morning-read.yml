@@ -1,0 +1,126 @@
+# The morning read (Program 7, Sprint 7.2; Jack's ruling of 12 October 2026, 3:29 PM ET:
+# "The site must never read as last night's in the morning").
+#
+# THE TRIGGER IS THE WORKER, NOT THIS FILE'S CRON. GitHub's scheduler ran this account's
+# crons 1.5 to 4 hours late in August, so the Worker (gcm-newsroom) dispatches this workflow
+# at 8:15 AM in America/New_York, computing the Eastern time itself, which is how the slot
+# holds across the November 1 change from EDT to EST. The two cron lines below are a BACKSTOP
+# only, one per offset; the guard (morning.py --guard) stands a backstop down unless it lands
+# between 8:00 and 11:00 AM Eastern and today's read is not already written:
+#     8:17 AM EDT (March to November)  = 12:17 UTC   cron "17 12 * * *"
+#     8:17 AM EST (November to March)  = 13:17 UTC   cron "17 13 * * *"
+#
+# ONE BUILD. The morning run re-ranks the wire (wire.py --refresh, the deterministic desk
+# editor, no model), writes the read (morning.py, one model call), and ends in ONE push,
+# which is the day's morning build; the hook is pinged only if nothing was pushed. This
+# replaces the Worker's noon refresh (the day's automatic builds stay at two: morning and
+# evening), so the Worker's noon hook is retired when the Worker dispatches this.
+#
+# A FALLBACK IS CLEAN. No key, an API error or a read the copy law emptied: the build still
+# goes out with fresh numbers, the Brief card says "Last night's Brief" with its time, and
+# the run is GREEN with no error email. The alarm step fails the run only when this is the
+# second morning in a row to fall back.
+name: Morning read (8:15 AM Eastern)
+
+on:
+  schedule:
+    - cron: "17 12 * * *"   # backstop, 8:17 AM EDT
+    - cron: "17 13 * * *"   # backstop, 8:17 AM EST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  morning:
+    # the one publish lock, shared with the Edition and the watcher's breaking runs
+    concurrency:
+      group: crypto-publish
+      cancel-in-progress: false
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: main }
+      - uses: actions/setup-python@v7
+        with: { python-version: "3.12" }
+
+      - name: Guard (a backstop stands down outside 8 to 11 AM ET or once the read is written)
+        id: guard
+        env:
+          EV: ${{ github.event_name }}
+        run: python3 morning.py --guard
+
+      - name: Offline canary (hard gate)
+        if: steps.guard.outputs.serve == 'true'
+        run: |
+          token="canary-$RANDOM$RANDOM$RANDOM"
+          echo "::stop-commands::$token"
+          rc=0
+          python3 verify_pipeline.py canary || rc=$?
+          echo "::$token::"
+          if [ "$rc" != "0" ]; then
+            echo "::error::Offline canary FAILED (exit $rc): nothing runs until it passes."
+          fi
+          exit $rc
+
+      - name: Refresh the boards and re-rank the wire (deterministic, no model)
+        if: steps.guard.outputs.serve == 'true'
+        run: |
+          python3 whale_flows.py || true
+          python3 market_pulse.py || true
+          timeout 120 python3 wire.py --refresh || true
+          python3 narrative.py --refresh || true
+
+      - name: Write the morning read (one model call; falls back cleanly)
+        if: steps.guard.outputs.serve == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 morning.py
+
+      - name: Commit and push (this push is the morning build)
+        id: publish
+        if: steps.guard.outputs.serve == 'true'
+        run: |
+          git config user.name "Jack Berno"
+          git config user.email "297991518+jaybiz0131@users.noreply.github.com"
+          git add site/data/pulse.json site/data/flows.json data/history
+          for f in site/data/morning.json site/data/wire.json site/data/narrative.json \
+                   data/morning-ledger.json; do
+            [ -f "$f" ] && git add "$f"
+          done
+          if git diff --cached --quiet; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "morning: $(python3 morning.py --message)"
+            ok=false
+            for i in 1 2 3; do
+              if git push; then ok=true; break; fi
+              echo "::warning::push rejected (attempt $i): main moved; rebasing and retrying"
+              if ! git pull --rebase --autostash origin main; then
+                if python3 merge_state.py; then
+                  git add site/data/pulse.json site/data/flows.json data/history
+                  GIT_EDITOR=true git rebase --continue || { git rebase --abort || true; exit 1; }
+                else
+                  git rebase --abort || true
+                  exit 1
+                fi
+              fi
+            done
+            [ "$ok" = true ] || { echo "::error::push failed after 3 attempts"; exit 1; }
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build hook (only when nothing was pushed, so the morning is one build)
+        if: always() && steps.guard.outputs.serve == 'true' && steps.publish.outputs.pushed != 'true'
+        env:
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -n "$HOOK" ]; then
+            curl -s -f -X POST -d '{}' "$HOOK" > /dev/null \
+              && echo "netlify: rebuild triggered (morning, nothing pushed)." \
+              || echo "::warning::Netlify build hook ping failed; the next push or the Edition rebuilds."
+          fi
+
+      - name: Alarm (only the second morning in a row to fall back)
+        if: always() && steps.guard.outputs.serve == 'true'
+        run: python3 morning.py --alarm

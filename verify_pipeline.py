@@ -2005,6 +2005,7 @@ def _stamp_canary():
             _check(_o.path.exists(_lp), fails, "tile canary: the build wrote no learn.html")
             if _o.path.exists(_lp):
                 fails.extend(_tile_canary(open(_lp, encoding="utf-8").read()))
+            fails.extend(_beacon_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2777,7 +2778,10 @@ def _color_truth_canary(built_pages=None):
 
 
 HOME_BUDGET_BYTES = 300 * 1024      # Program 5 section 7: the home page under 300 KB
-HOME_HOSTS = ("api.coingecko.com",)  # the tape's live read; everything else is this site
+HOME_HOSTS = ("api.coingecko.com",   # the tape's live read; everything else is this site
+              "static.cloudflareinsights.com")  # the analytics beacon, named by the ruling of 12 October 2026
+BEACON_BYTES = 31679                 # static.cloudflareinsights.com/beacon.min.js, as served, measured 12 October 2026
+BEACON_CEILING = 40 * 1024           # the beacon's own named allowance; a beacon that grows past it is a red
 
 
 def _home_budget_canary(out, index_html):
@@ -2815,6 +2819,7 @@ def _home_budget_canary(out, index_html):
                              f"{', '.join(third)}")
     local = {u.split("?")[0].split("#")[0] for u in urls if not _re.match(r"https?://|data:", u)}
     local.add("/data/snapshot.json")
+    local = {u for u in local if "cloudflareinsights" not in u}
     css = [u for u in local if u.endswith(".css")]
     for c in css:
         fp = os.path.join(out, c.lstrip("/"))
@@ -2830,11 +2835,72 @@ def _home_budget_canary(out, index_html):
             missing.append(u)
     _check(not missing, fails, f"home budget canary: the home page names files the build did "
                                f"not write: {', '.join(missing[:5])}")
+    # The 300 KB ceiling is ON THE SITE'S OWN HOST (Program 5 section 7). The beacon is named by
+    # Jack's ruling of 12 October 2026 and weighed on its own line against its own allowance,
+    # so neither number hides the other.
     print(f"home budget canary: {total} bytes against {HOME_BUDGET_BYTES} "
-          f"({len(local)} files, as built, uncompressed)")
+          f"({len(local)} files on its own host, as built, uncompressed); the beacon is "
+          f"{BEACON_BYTES} more bytes from static.cloudflareinsights.com against its "
+          f"{BEACON_CEILING}-byte allowance")
+    _check(BEACON_BYTES <= BEACON_CEILING, fails,
+           f"home budget canary: the beacon ({BEACON_BYTES} bytes) is over its named allowance")
     _check(total < HOME_BUDGET_BYTES, fails,
            f"home budget canary: the home page is {total} bytes as built, over the "
            f"{HOME_BUDGET_BYTES}-byte ceiling (300 KB)")
+    return fails
+
+
+def _sprint72_canary():
+    """PROGRAM 7, SPRINT 7.2 (12 October 2026). The fixture morning, the Chart Master's three
+    refusals (9, 10, 11 October) and the ledger's empty row, each run as its own process so
+    the canary's sys.modules stays what the U-11 read counter expects."""
+    import subprocess as _sp
+    fails = []
+    for name, why in (("morning_test.py", "the fixture morning (8:30 AM, Tuesday 13 October)"),
+                      ("chartmaster_publish_test.py", "the Chart Master's three refusals publish")):
+        r = _sp.run([sys.executable, os.path.join(HERE, "scripts", name)], cwd=HERE,
+                    capture_output=True, text=True, timeout=300)
+        bad = [ln.strip() for ln in r.stdout.splitlines() if "FAIL" in ln or "REFUSED" in ln]
+        _check(r.returncode == 0, fails, f"sprint 7.2: {why}: {'; '.join(bad[:4]) or r.stderr[-200:]}")
+    sys.path.insert(0, os.path.join(HERE, "scripts"))
+    try:
+        import ops_ledger as _ol
+        _check(_ol.is_empty_row({"tokens": 0, "usd": 0.0, "pushed": False, "pinged": False}), fails,
+               "ledger: a run with no model and no change is not an empty row")
+        _check(not _ol.is_empty_row({"tokens": 0, "usd": 0.0, "breaking": True}), fails,
+               "ledger: a breaking run was skipped, and the watcher's cage counts it")
+        _check(not _ol.is_empty_row({"tokens": 9, "usd": 0.01}), fails,
+               "ledger: a run that spent was skipped")
+    finally:
+        sys.modules.pop("ops_ledger", None)
+        sys.path.pop(0)
+    print("sprint 7.2 canary: fixture morning, three Chart Master nights, ledger rows checked")
+    return fails
+
+
+def _beacon_canary(out):
+    """EVERY PAGE CARRIES EXACTLY ONE ANALYTICS BEACON (Jack, 12 October 2026). Counted on
+    the built tree, every .html but the verification and redirect stubs: none is a red, two
+    is a red, and each is named."""
+    import re as _re
+    fails = []
+    pages, bad = 0, []
+    for root, _d, names in os.walk(out):
+        for n in names:
+            if not n.endswith(".html"):
+                continue
+            fp = os.path.join(root, n)
+            h = open(fp, encoding="utf-8", errors="replace").read()
+            if "<body" not in h:         # a bare redirect or verification stub is not a page
+                continue
+            pages += 1
+            c = len(_re.findall(r"<script\b[^>]*data-cf-beacon=", h))
+            if c != 1:
+                bad.append(f"{os.path.relpath(fp, out)}={c}")
+    _check(pages > 0, fails, "beacon canary: no built pages to count")
+    _check(not bad, fails, f"beacon canary: {len(bad)} of {pages} pages do not carry exactly one "
+                           f"beacon: {', '.join(bad[:8])}")
+    print(f"beacon canary: {pages - len(bad)} of {pages} built pages carry exactly one beacon")
     return fails
 
 
@@ -3511,6 +3577,7 @@ def _layer1_canary_body():
     fails.extend(_live_layer_canary())
     fails.extend(_stored_series_canary())
     fails.extend(_chartmaster_crash_canary())
+    fails.extend(_sprint72_canary())
     fails.extend(_week_movers_canary())
     fails.extend(_calendar_canary())
     fails.extend(_calendar_retired_canary())

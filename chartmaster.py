@@ -288,6 +288,45 @@ BANNED = re.compile(
     r"(crushed|punished|destroyed|burn(ed|t)))\b", re.I)
 
 
+RULE = "describe, never predict; no advice words"
+
+
+def banned_hits(text):
+    """Every flagged word or phrase in the text, in order, lowercased."""
+    return list(dict.fromkeys(m.group(0).lower() for m in BANNED.finditer(text or "")))
+
+
+# 12 October 2026 (Jack): a flag no longer ends in a refusal. After one told retry, the
+# plain market verb below replaces the flagged word, the read is validated AGAIN in full,
+# and anything still flagged becomes the data-only card. Only the combat-and-injury class
+# has a plain verb; advice and prediction phrases ("you should", "will rise") have none,
+# and a table that rewrote them would change what the sentence claims, so they go straight
+# to the data card.
+SUBSTITUTIONS = (
+    (r"\bbleeding\b", "falling"), (r"\bbleeds\b", "falls"), (r"\bbleed\b", "fall"),
+    (r"\bbloodbath\b", "steep decline"), (r"\bcarnage\b", "heavy losses"),
+    (r"\bmassacred\b", "fell sharply"), (r"\bmassacre[s]?\b", "steep decline"),
+    (r"\bslaughtered\b", "fell sharply"), (r"\bslaughter\b", "steep decline"),
+    (r"\bobliterat(e|ed|es|ion)\b", "sharply cut"), (r"\bannihilat(e|ed|es|ion)\b", "sharply cut"),
+    (r"\bwrecked\b", "hit"), (r"\brekt\b", "liquidated"), (r"\bpain trade\b", "crowded position"),
+)
+
+
+def reword(text):
+    """The table applied, case kept on the first letter. Returns (text, [(from, to)])."""
+    done = []
+
+    def _case(src, dst):
+        return dst[:1].upper() + dst[1:] if src[:1].isupper() else dst
+
+    for pat, to in SUBSTITUTIONS:
+        def _sub(m, to=to):
+            done.append((m.group(0).lower(), to))
+            return _case(m.group(0), to)
+        text = re.sub(pat, _sub, text, flags=re.I)
+    return text, done
+
+
 def _dedash(s):
     # House style: no em/en dashes. Same substitutions as destyle() in site_build.py,
     # applied here too so the committed read is clean even before the renderer runs.
@@ -574,8 +613,10 @@ def validate(obj, etf=None, whale=None, assets=None, leverage=None):
     text = headline + " " + " ".join(paras)
     hit = BANNED.search(text)
     if hit:
+        words = banned_hits(text)
         raise llmlib.LLMError(f"chartmaster: advice/prediction language in the read ({hit.group(0)!r}); "
-                              "refusing to publish it")
+                              f"refusing to publish it. The rule: {RULE}. Flagged: {words}. "
+                              "Say the same thing in plain market verbs, in numbers, with none of them.")
     if etf:
         _belt("etf", _etf_flow_belt, text.lower(), etf)
     if whale:
@@ -635,6 +676,58 @@ def _status(published, reason="", date=None):
           f"{'published' if published else 'refused'}")
 
 
+LEDGER = os.path.join(HERE, "data", "chartmaster-ledger.json")
+
+
+def ledger_row(date, path, tripped, detail=""):
+    """Every night's path, with the words that tripped it, kept beside the read so a
+    refusal can never again be a commit-message-only fact. Fail-soft."""
+    try:
+        rows = json.load(open(LEDGER, encoding="utf-8"))
+    except (OSError, ValueError):
+        rows = []
+    rows.append({"date": date, "path": path, "tripped": tripped, "detail": detail[:200],
+                 "t": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")})
+    try:
+        os.makedirs(os.path.dirname(LEDGER), exist_ok=True)
+        json.dump(rows[-400:], open(LEDGER, "w", encoding="utf-8"), indent=1)
+    except OSError as e:
+        print(f"chartmaster: ledger not written ({e})")
+
+
+def data_card(data=None):
+    """The last path: levels, the 50-day and 200-day lines and RSI for each major, no prose.
+    Built from the same snapshot views the digest reads, so a number is the Board's."""
+    pulse = _load("pulse.json")
+    flows = _load("flows.json")
+    import snapshot as _snapshot
+    pulse, _f = _snapshot.views(_snapshot.build(pulse, flows), pulse, flows)
+    rows = [{k: a.get(k) for k in ("symbol", "price", "sma50", "sma200", "rsi14")}
+            for a in (pulse or {}).get("assets") or []]
+    if not rows:
+        raise ValueError("no pulse snapshot for the data card")
+    return rows
+
+
+def publish_path(cand, err, data):
+    """After one told retry has failed: (obj, path, tripped, detail). Substitution first,
+    revalidated in full; then the data-only card. Never returns a sentence the check flags."""
+    text = ""
+    if isinstance(cand, dict):
+        text = (str(cand.get("headline") or "") + " "
+                + " ".join(str(p) for p in cand.get("paragraphs") or []))
+    tripped = banned_hits(text) or [str(err)[:120]]
+    if isinstance(cand, dict) and banned_hits(text):
+        fixed = {"headline": reword(str(cand.get("headline") or ""))[0],
+                 "paragraphs": [reword(str(p))[0] for p in cand.get("paragraphs") or []]}
+        try:
+            obj = validate(fixed, **_belt_inputs(data))
+            return obj, "reworded", tripped, "; ".join(dict.fromkeys(f"{a}->{b}" for a, b in reword(text)[1]))
+        except llmlib.LLMError as e2:
+            return None, "data-only", tripped, f"still flagged after the table: {str(e2)[:120]}"
+    return None, "data-only", tripped, f"not an advice word; the table cannot help: {str(err)[:120]}"
+
+
 def run():
     cfg = common.load_config()
     data = digest()
@@ -643,23 +736,40 @@ def run():
     system = common.load_prompt("chartmaster.md")
     user = ("Read today's tape and write the Chart Master's read.\n\n"
             + json.dumps(data, indent=1))
-    obj = client.call_json("chartmaster", system, user,
-                           validate=lambda o: validate(o, **_belt_inputs(data)))
+    cand = [None]
+
+    def _v(o):
+        cand[0] = o
+        return validate(o, **_belt_inputs(data))
+
+    path, tripped, detail = "read", [], ""
+    try:
+        # ONE retry, told which words and which rule (max_rungs=2), then the table.
+        obj = client.call_json("chartmaster", system, user, validate=_v, max_rungs=2)
+    except llmlib.LLMError as e:
+        obj, path, tripped, detail = publish_path(cand[0], e, data)
     out = {
         "date": data["data_date"],
-        "headline": obj["headline"],
-        "paragraphs": obj["paragraphs"],
         "generated_by": "chartmaster.py (auto, from the live boards)",
         "mode": client.mode,
+        "path": path,
     }
+    if obj is None:
+        out.update({"headline": "Chart Master data card: levels, 50-day and 200-day lines, RSI",
+                    "paragraphs": [], "data_only": True, "levels": data_card(data)})
+    else:
+        out.update({"headline": obj["headline"], "paragraphs": obj["paragraphs"]})
     common.write_out("chartmaster.json", out)
     if client.mode == "replay":
         print("chartmaster [REPLAY]: wiring test only -> out/chartmaster.json (site data untouched)")
         return 0
     os.makedirs(os.path.dirname(SITE_DATA), exist_ok=True)
     json.dump(out, open(SITE_DATA, "w", encoding="utf-8"), indent=2)
-    _status(True, date=out["date"])
-    print(f"chartmaster: \"{obj['headline']}\" ({len(obj['paragraphs'])} paragraphs) "
+    ledger_row(out["date"], path, tripped, detail)
+    _status(True, reason=path if path != "read" else "", date=out["date"])
+    if path != "read":
+        print(f"chartmaster: published by the {path} path; tripped {tripped}; {detail}")
+    print(f"chartmaster: \"{out['headline']}\" ({len(out['paragraphs'])} paragraphs) "
           f"-> {os.path.relpath(SITE_DATA)}")
     return 0
 

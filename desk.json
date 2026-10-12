@@ -14,7 +14,8 @@
   },
   "worker_dispatches": [
     "watcher.yml on the half hour during US hours",
-    "crypto-news-brief.yml at the evening slot, as the cron's backstop"
+    "crypto-news-brief.yml at the evening slot, as the cron's backstop",
+  "morning-read.yml at 8:15 AM America/New_York, computed by the Worker"
   ],
   "workflows": {
     "crypto-news-brief.yml": {
@@ -64,7 +65,35 @@
       },
       "note": "Earning categories only, five sources, two runs a day, price triggers off. A tick that does not clear the cage makes no model call."
     },
-    "site-refresh.yml": {
+    "morning-read.yml": {
+   "purpose": "The morning read (Program 7, Sprint 7.2). The Worker dispatches it at 8:15 AM America/New_York; the two crons are backstops, one per offset, and stand down outside 8 to 11 AM Eastern or once today's read is written. Re-ranks the wire, writes the read, ends in the day's one morning build.",
+   "crons": [
+    {
+     "utc": "17 12 * * *",
+     "et": "8:17 AM EDT",
+     "slot": null
+    },
+    {
+     "utc": "17 13 * * *",
+     "et": "8:17 AM EST",
+     "slot": null
+    }
+   ],
+   "triggers": [
+    "schedule",
+    "workflow_dispatch"
+   ],
+   "runs_per_day": {
+    "min": 1,
+    "max": 3
+   },
+   "paid_runs_per_day": {
+    "min": 0,
+    "max": 1
+   },
+   "note": "One model call, a few thousand tokens. A fallback is a clean green run; the alarm fires on the second morning in a row."
+  },
+  "site-refresh.yml": {
       "purpose": "Retired on the deploy budget, 21 September 2026. This fired at 12:00 UTC, 8 AM Eastern, while the Worker already fires this desk's build hook at noon Eastern: two scheduled deploys where the budget allows one. Kept for workflow_dispatch so a refresh can be asked for by hand.",
       "crons": [],
       "triggers": [

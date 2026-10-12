@@ -1941,9 +1941,12 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
     robots = '<meta name="robots" content="noindex">\n' if noindex else f'<link rel="canonical" href="{esc(url)}">\n'
     robots = lcp + robots
     beacon = ""
-    # No third-party script of any kind on the home page (Program 5, section 7): the
-    # analytics beacon is a script from another host, so the home page goes without it.
-    if CF_ANALYTICS_TOKEN and third_party:
+    # EVERY PAGE, THE HOME PAGE INCLUDED (Jack, 12 October 2026, 3:29 PM ET). Program 5
+    # kept the home page free of this one script; the ruling reverses that. It is
+    # cookie-free, the page-weight rule names it (verify_pipeline.BEACON_BYTES), and the
+    # canary fails any built page that does not carry exactly one. `third_party` is kept
+    # as a parameter so old callers still bind, and it no longer switches anything off.
+    if CF_ANALYTICS_TOKEN:
         beacon = ('\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
                   f'data-cf-beacon=\'{{"token": "{CF_ANALYTICS_TOKEN}"}}\'></script>')
     # THE LIVE LAYER (5 October 2026): pulse-live.js is retired. It moved Board prices,
@@ -2934,6 +2937,8 @@ def _claim(key):
 def _cm_read(cm):
     """The day's read, by the two keys chartmaster.json actually carries."""
     cm = cm or {}
+    if cm.get("data_only"):
+        return ""
     read = (cm.get("headline") or "").strip()
     if not read:
         ps = cm.get("paragraphs") or []
@@ -3918,6 +3923,7 @@ def cadence_line(text=None):
 
 WIRE_JSON = os.path.join(SITE, "data", "wire.json")
 NARRATIVE_JSON = os.path.join(SITE, "data", "narrative.json")
+MORNING_JSON = os.path.join(SITE, "data", "morning.json")
 
 
 def publish_narrative(w, path=None):
@@ -5468,7 +5474,8 @@ def render_home(items, flows, pulse, cm, dateline):
         snap, pulse, flows, deltas, _home.load_json(WIRE_JSON),
         _home.load_json(NARRATIVE_JSON),
         _home.load_json(os.path.join(SITE, "data", "calendar.json")), NEWS_CADENCE_LINE,
-        now=_build_now(), ed=edition_item)
+        now=_build_now(), ed=edition_item,
+        morning=_home.load_json(MORNING_JSON))
     below = _home.below_fold(snap, pulse, flows, deltas, items, edition_item)
     body = f"""<main class="wrap h-page"><section class="page">
   <h1 class="sr-only">{esc(FAMILY)}: what is going on in crypto, in five minutes</h1>
@@ -5980,9 +5987,9 @@ def render_privacy(dateline):
      list. The signup form is the only place this site asks you for anything.</p>
 
   <h2>Analytics</h2>
-  <p>We measure traffic with Cloudflare Web Analytics. It is a cookieless beacon: it counts page
-     views and referrers in aggregate and does not build profiles or track you across other
-     sites. Cloudflare processes those requests under its own privacy policy.</p>
+  <p>Every page, the home page included, loads one Cloudflare Web Analytics beacon. It sets no cookies:
+     it counts page views and referrers in aggregate and does not build profiles or track you across
+     other sites. Cloudflare processes those requests under its own privacy policy.</p>
 
   <h2>Hosting and server logs</h2>
   <p>The site is served by Netlify. Like any web host, Netlify's infrastructure sees standard
@@ -7057,8 +7064,8 @@ def cm_board_card(cm, pulse, flows, deltas=None, now=None):
     does when the day has nothing to report."""
     import datetime as _dt
     cm = cm or {}
-    read = (cm.get("headline") or "").strip()
-    if not read:
+    read = "" if cm.get("data_only") else (cm.get("headline") or "").strip()
+    if not read and not cm.get("data_only"):
         ps = cm.get("paragraphs") or []
         read = (ps[0] if ps else "").strip()
     day = str(cm.get("date") or "")[:10]
@@ -8328,6 +8335,26 @@ def render_chartmaster(read, dateline, pulse=None):
     <p class="pc-note">Read from the day's <a href="/pulse.html">Board</a> and
     <a href="/flows.html">Whale Watch</a>. Describe, never predict.</p>
   </article>""" if read.get("paragraphs") else "")
+    if read.get("data_only") and read.get("levels"):
+        # 12 October 2026: the last path when a read cannot be published. Levels, the 50-day
+        # and 200-day lines and RSI, no prose, and it says why there is no prose.
+        def _n(v):
+            return "" if v is None else (f"{v:,.2f}" if abs(v) >= 1 else f"{v:,.4f}")
+        _rows = "".join(
+            f'<tr><th scope="row">{esc(str(lv.get("symbol")))}</th><td>${_n(lv.get("price"))}</td>'
+            f'<td>${_n(lv.get("sma50"))}</td><td>${_n(lv.get("sma200"))}</td>'
+            f'<td>{esc(str(lv.get("rsi14") if lv.get("rsi14") is not None else ""))}</td></tr>'
+            for lv in read["levels"])
+        read_html = (f"""
+  <div class="sec-head" style="margin-top:8px"><h2 class="cm-read-h">{esc(read_title)}</h2><span class="bar"></span></div>
+  <article class="pulse-card cm-read cm-datacard">
+    <div class="ey"><span class="tag">the data card</span><span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
+    <p class="pc-note">Today's written read did not clear the desk's checks, so this card carries the numbers only.</p>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Asset</th><th scope="col">Price</th>
+    <th scope="col">50-day</th><th scope="col">200-day</th><th scope="col">RSI-14</th></tr></thead>
+    <tbody>{_rows}</tbody></table></div>
+    <p class="pc-note">Read from the day's <a href="/pulse.html">Board</a>. Describe, never predict.</p>
+  </article>""")
 
     # C-14: the page becomes a dated archive of reads. Today's is the first entry; the
     # rest come from the dated files load_chartmaster keeps from this build onward. A

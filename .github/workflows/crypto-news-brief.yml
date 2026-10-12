@@ -602,6 +602,9 @@ jobs:
                   site/data/flows.json editorial-log.json regwatch.json \
                   site/data/source_health.json data/history site/data/calendar.json
           [ -f site/data/edition_hold.json ] && git add site/data/edition_hold.json
+          # The Chart Master's path ledger (12 October 2026): every night's path and the
+          # words that tripped it, so a reworded or data-only night is on the record.
+          [ -f data/chartmaster-ledger.json ] && git add data/chartmaster-ledger.json
           # wire.json (7 October 2026): the day's ranked clusters and the checked note.
           [ -f site/data/wire.json ] && git add site/data/wire.json
           # narrative.json (Sprint 1b item 2): the narrative line and its readings.
