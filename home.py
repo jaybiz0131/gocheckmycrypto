@@ -137,9 +137,13 @@ def change_html(v, cls, attrs=""):
             f'{ARROW.get(d, "")}{" " if d else ""}{abs(v):.2f}%</span>')
 
 
-def tape_chart(week, fmt=None, direction=""):
+def tape_chart(week, fmt=None):
     """The week: line, fill, gridlines, the low and high close glowing on the line with their
-    figures, today's point on a halo, day labels under it. "" under two closes."""
+    figures, today's point on a halo, day labels under it. "" under two closes.
+
+    ITS OWN WINDOW, ITS OWN COLOR (Jack, 12 October 2026, 3:00 PM): the line, the fill, the
+    glow and the halo take the week's direction, first close to last point, never the
+    24-hour change in the badge above it. A down week draws red beside a green day."""
     import datetime as _d
     closes = (week or {}).get("closes")
     days = []
@@ -158,7 +162,7 @@ def tape_chart(week, fmt=None, direction=""):
             + f" L{pts[-1][0]},{base} Z")
     lo_i, hi_i = vals.index(min(vals)), vals.index(max(vals))
     last = len(vals) - 1
-    d = direction if direction in ("up", "down") else "flat"
+    d = "up" if vals[-1] > vals[0] else "down" if vals[-1] < vals[0] else "flat"
     top, bot = CHART_PAD_Y, CHART_H - CHART_PAD_Y
     grid = "".join(f'<line class="h-grid" x1="0" x2="{CHART_W}" y1="{y:.1f}" y2="{y:.1f}"/>'
                    for y in (top, (top + bot) / 2, bot))
@@ -227,12 +231,12 @@ def tape(snap):
                               'Bitcoin price (CoinGecko /coins/markets).</p>')
     chg = btc.get("chg_24h_pct")
     d = _dir(chg) if isinstance(chg, (int, float)) else ""
-    # COLOR TRUTH: the price, the badge, the line and the card's glow all take one sign,
-    # the 24-hour change printed in the badge beside the price.
+    # COLOR TRUTH: the price, the badge and the card's glow take one sign, the 24-hour change
+    # printed in the badge beside the price. The week's chart takes its own (tape_chart).
     chg_html = (change_html(chg, "h-badge", ' data-tape-chg="bitcoin"')
                 if isinstance(chg, (int, float)) else "")
     week = (snapshot.value(snap, "week") or {}).get("BTC") or {}
-    chart = tape_chart(week, sb._price_fmt, d)
+    chart = tape_chart(week, sb._price_fmt)
     alts = []
     for sym, name, gid in TAPE_ALTS:
         c = snapshot.coin(snap, sym)
@@ -1013,7 +1017,8 @@ HOME_JS = """<script>(function(){
     });
     if(!landed)return;
     // COLOR TRUTH: one sign per coin. The change, its arrow, its color, the price beside it,
-    // its tile and (for Bitcoin) the card and the line all take the same new 24-hour change.
+    // its tile and (for Bitcoin) the card take the new 24-hour change; the week's chart is a
+    // different window and is never recolored from it.
     function dir(c){return c>0?'up':c<0?'down':'flat';}
     function recl(el,dd){if(el)el.className=el.className.replace(/ (up|down|flat)\\b/g,'')+' '+dd;}
     document.querySelectorAll('[data-tape-chg]').forEach(function(el){
@@ -1023,11 +1028,7 @@ HOME_JS = """<script>(function(){
       el.setAttribute('aria-label',(dd==='flat'?'unchanged':dd)+' '+Math.abs(c).toFixed(2)+' percent');
       recl(el,dd);
       if(id==='bitcoin'){recl(document.querySelector('.h-px[data-tape="bitcoin"]'),dd);
-        recl(document.querySelector('[data-btc-card]'),dd);
-        document.querySelectorAll('[data-btc-card] .h-line,[data-btc-card] .h-dot-now,[data-btc-card] .h-spark').forEach(function(x){
-          x.setAttribute('class',x.getAttribute('class').replace(/ (up|down|flat)\\b/g,'')+' '+dd);});
-        var col=dd==='up'?'var(--up-line)':dd==='down'?'var(--down-line)':'var(--ink)';
-        document.querySelectorAll('[data-btc-card] stop').forEach(function(x){x.style.stopColor=col;});}
+        recl(document.querySelector('[data-btc-card]'),dd);}  // the week's chart keeps its own window's color
       else recl(document.querySelector('[data-tile="'+id+'"]'),dd);
     });
     var st=document.getElementById('tapeLive'); if(st){st.textContent='live \\u00b7 '+etClock();st.classList.add('on');}

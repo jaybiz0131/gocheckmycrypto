@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 color_truth_test.py: the fixture where Bitcoin's 24-hour change and its since-close change
-disagree in sign, and so does the whole market's (Program 7 Sprint 7.1, section 4).
+disagree in sign, and so does the whole market's (Program 7 Sprint 7.1, section 4), and where
+the 24-hour change is up while the week's chart runs down (Jack, 12 October, 3:00 PM).
 
 Renders the Markets tiles (home.t_bitcoin, home.t_cap, the same functions the Board page
 calls), the home tape and the home band from a fixture snapshot, and runs
@@ -30,6 +31,11 @@ def fixture():
     snap = copy.deepcopy(snap)
     coins = snap["fields"]["coins"]["value"]
     coins["BTC"]["chg_24h_pct"] = 0.05           # green on the day
+    # and the week down: the 24-hour and 7-day signs disagree (Jack, 3:00 PM)
+    snap["fields"]["week"]["value"]["BTC"]["closes"] = {
+        "2026-10-04": 86489.73, "2026-10-05": 85945.29, "2026-10-06": 85597.01,
+        "2026-10-07": 83129.92, "2026-10-08": 81629.96, "2026-10-09": 82481.93,
+        "2026-10-10": 82978.30}
     snap["fields"]["total_cap"]["value"]["chg_24h_pct"] = -0.31   # red on the day
     deltas = {"bitcoin": {"pct": -0.67},          # but down since yesterday's close
               "market": {"pct": 0.40}}            # and the market up since it

@@ -3392,7 +3392,7 @@ def cm_leverage_chart(lev, w=660, h=200):
         d = " ".join(f"{x0 + i * st:.1f},"
                      f"{y1 - (v - lo) / ((hi - lo) or 1) * (y1 - y0):.1f}"
                      for i, v in enumerate(fh))
-        _fd = "up" if fh[-1] >= 0 else "down"
+        _fd = _glow.direction(fh)      # its own window: first reading to last (Jack, 12 Oct)
         out.append(_glow.line(d, _fd))
         out.append(_glow.marks(_glow.parse(d), fh, _fd, scale=1.2))
         for v in (hi, lo):
@@ -4649,8 +4649,10 @@ def _series_svg(vals, w=300, h=64, kind=""):
         return h - 4 - ((v - lo) / span) * (h - 12)
 
     d = " ".join(f"{i*step:.1f},{_y(v):.1f}" for i, v in enumerate(pts))
-    up = (pts[-1] >= 0) if signed else (pts[-1] >= pts[0])
-    col = "var(--up-line)" if up else "var(--down-line)"
+    # each chart is colored by its own window, first reading to last (Jack, 12 October)
+    _sd = _glow.direction(pts)
+    up = _sd == "up"
+    col = {"up": "var(--up-line)", "down": "var(--down-line)"}.get(_sd, "var(--ink)")
     zero = ""
     if signed and lo < 0 < hi:
         zero = (f'<line x1="0" y1="{_y(0):.1f}" x2="{w}" y2="{_y(0):.1f}" '
@@ -4663,8 +4665,8 @@ def _series_svg(vals, w=300, h=64, kind=""):
             f'readings, low {lo:.4g}, high {hi:.4g}, latest {pts[-1]:.4g}'
             f'{", crossing zero" if zero else ""}.">'
             f'{area}{zero}'
-            f'{_glow.line(d, "up" if up else "down", width=2.5)}'
-            f'{_glow.marks(_glow.parse(d), pts, "up" if up else "down", scale=0.8)}</svg>')
+            f'{_glow.line(d, _sd, width=2.5)}'
+            f'{_glow.marks(_glow.parse(d), pts, _sd, scale=0.8)}</svg>')
 
 
 def _period_net(vals, kind):

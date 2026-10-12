@@ -11,7 +11,10 @@ color_truth.py: a figure's color and arrow agree with the number printed beside 
   * a change that carries its own color (a span classed up or down) whose sign or arrow
     says the other way;
   * the home band's sentence quoting a Bitcoin day change (Program 6.2: the tape is the one
-    place it prints, so the band can never disagree with it).
+    place it prints, so the band can never disagree with it);
+  * a chart line colored one way while it runs the other over its own window (Jack, 12
+    October 2026, 3:00 PM: each chart is colored by its own window, so the week's line is
+    red on a down week even when the 24-hour badge beside it is green).
 
 `python3 scripts/color_truth_test.py` renders a fixture where the 24-hour change and the
 since-close change disagree in sign and runs this over it.
@@ -29,6 +32,9 @@ _CHG = re.compile(r'(?:(?<![\w$.])([+\-−])\s?\d[\d,]*(?:\.\d+)?\s*%'
                   r'|\b(up|down)\s+(?:by\s+)?\d[\d,]*(?:\.\d+)?\s*(?:%|percent)'
                   r'|([▲▼])\s*[+\-−]?\d[\d,]*(?:\.\d+)?\s*%)', re.I)
 _BAND = re.compile(r'<p class="h-nline">(.*?)</p>', re.S)
+# a chart line: its color class and its points, in either attribute order
+_LINE = re.compile(r'<polyline\s+(?=[^>]*\bclass="[^"]*\b(?:h-line|gl-l)\b[^"]*\b(up|down|flat)\b)'
+                   r'(?=[^>]*\bpoints="([^"]+)")[^>]*>')
 
 
 def _text(s):
@@ -67,6 +73,18 @@ def contradictions(html):
         for sign, said in _signs(_text(rest)):
             if sign != fig:
                 found.append(f"tile {name!r}: figure colored {fig} beside {said!r}")
+    # EACH CHART IS COLORED BY ITS OWN WINDOW (Jack, 12 October 2026, 3:00 PM): the line's
+    # color is its first point against its last, never a change from another window (the
+    # Bitcoin card's 24-hour badge). SVG y grows downward, so a lower last y is a rise.
+    for m in _LINE.finditer(html):
+        cls, pts = m.group(1), m.group(2).split()
+        try:
+            y0, y1 = float(pts[0].split(",")[1]), float(pts[-1].split(",")[1])
+        except (IndexError, ValueError):
+            continue
+        own = "up" if y1 < y0 else "down" if y1 > y0 else "flat"
+        if cls != own:
+            found.append(f"a chart line colored {cls} runs {own} over its own window")
     for b in _BAND.finditer(html):
         for _sign, said in _signs(_text(b.group(1))):
             found.append(f"the home band's sentence quotes a change ({said!r})")

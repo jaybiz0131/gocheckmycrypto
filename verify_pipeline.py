@@ -2739,10 +2739,20 @@ def _color_truth_canary(built_pages=None):
     writer refusing a line that quotes a day change; and every built page handed in.
     Breaks: home.t_bitcoin passing direction from one window and printing the other;
     narrative.edition_line keeping "Bitcoin drifted up 0.79 percent on the day"."""
+    # The checker and its fixture live in scripts/, which the build never reads. They are
+    # loaded for this check and taken out of sys.modules again, because the U-11 reads
+    # canary counts every module in sys.modules as a build read.
     import sys as _sys
-    _sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts"))
-    import color_truth as _ct
-    import color_truth_test as _ctt
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import color_truth as _ct
+        import color_truth_test as _ctt
+    finally:
+        for _m in ("color_truth", "color_truth_test"):
+            _sys.modules.pop(_m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
     import home as _h
     import narrative as _n
     fails = []
