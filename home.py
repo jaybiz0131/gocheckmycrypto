@@ -82,6 +82,12 @@ def _dir(v):
     return "up" if v > 0 else "down"
 
 
+def _tn(key):
+    """A destination's task name, from the one table in site_build (Sprint 6.3)."""
+    import site_build as sb
+    return sb.task_name(key)
+
+
 def _block(name, inner, label=None, cls=""):
     lab = f'<h2 class="h-h">{_e(label)}</h2>' if label else ""
     extra = f" {cls}" if cls else ""
@@ -247,8 +253,8 @@ def since(pulse, deltas):
                     f'market.</li>')
     if not rows:
         return _block("since", '<p class="h-wait">Waiting for the Board\'s readings.</p>',
-                      "Since yesterday")
-    return _block("since", f'<ul class="h-since">{"".join(rows)}</ul>', "Since yesterday")
+                      "Where Bitcoin stands")
+    return _block("since", f'<ul class="h-since">{"".join(rows)}</ul>', "Where Bitcoin stands")
 
 
 # ---- the why and the wire -----------------------------------------------------------------
@@ -642,12 +648,12 @@ def board(snap, pulse, flows, deltas):
              not in ABOVE_READINGS]
     import tile
     head = (f'<p class="h-sub">As of {_e(snap.get("stamp_et") or "")}. '
-            f'<a href="/pulse.html">The Board in full</a></p>')
+            f'<a href="/pulse.html">{_e(_tn("markets"))}, in full</a></p>')
     if not any(tiles):
         return _block("board", head + '<p class="h-wait">Waiting for the snapshot.</p>',
-                      "The Board")
+                      _tn("markets"))
     return _block("board", head + tile.grid(tiles, "tl-4" if len(tiles) >= 4 else ""),
-                  "The Board")
+                  _tn("markets"))
 
 
 SIGN_LINE = ("Each bar is one week's net, transfers of $50 million and up, all coins. Off "
@@ -694,7 +700,7 @@ def whales(flows):
            f'{_e(last)}"><line x1="0" y1="75" x2="600" y2="75"/>{rects}</svg>')
     n = len(bars)
     return _block("whales", f'<p class="h-sub">{n} weeks, week ending {_e(first)} to '
-                            f'{_e(last)}. <a href="/flows.html">Whale Watch</a></p>{svg}'
+                            f'{_e(last)}. <a href="/flows.html">{_e(_tn("flows"))}</a></p>{svg}'
                             f'<p class="h-sign">{_e(SIGN_LINE)} Source: Whale Alert public '
                             f'archive.</p>', f"Whales, {n} weeks")
 
@@ -703,13 +709,13 @@ def brief(ed, now=None):
     """The Brief, the day's edition as current_bottom_line resolved it, with its stamp."""
     if not ed:
         return _block("brief", f'<p class="h-wait">The Brief arrives with the Edition at '
-                               f'{_e(edition_time_et(now))}.</p>', "The Brief")
+                               f'{_e(edition_time_et(now))}.</p>', _tn("brief"))
     st = _stamp(ed.get("published_utc"))
     lead = ed.get("bottom_line") or ed.get("dek") or ""
     return _block("brief", f'<h3 class="h-bh"><a href="/articles/{_e(ed.get("slug"))}.html">'
                            f'{_e(ed.get("title"))}</a></h3>'
                            + (f'<p class="h-bl">{_e(lead)}</p>' if lead else "")
-                           + f'<p class="h-st">Published {_e(st)}</p>', "The Brief")
+                           + f'<p class="h-st">Published {_e(st)}</p>', _tn("brief"))
 
 
 def record(items):
@@ -726,11 +732,11 @@ def record(items):
                    f'<span class="h-st">{_e(sb.fmt_date(it.get("date")) if it.get("date") else "")}'
                    f'</span></li>')
     if not lis:
-        return _block("record", '<p class="h-wait">The Record has no pieces yet.</p>',
-                      "The Record")
+        return _block("record", '<p class="h-wait">Record has no pieces yet.</p>',
+                      _tn("record"))
     return _block("record", f'<ul class="h-rec">{"".join(lis)}</ul>'
-                            f'<p class="h-sub"><a href="/record.html">The full Record</a></p>',
-                  "The Record")
+                            f'<p class="h-sub"><a href="/record.html">{_e(_tn("record"))}, in full</a></p>',
+                  _tn("record"))
 
 
 def below_fold(snap, pulse, flows, deltas, items, ed, now=None):

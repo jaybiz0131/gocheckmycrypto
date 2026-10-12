@@ -653,7 +653,7 @@ def _live_layer_canary():
     _check(ic != -1 and ir != -1 and ic < ir, fails,
            "live layer: Chart Master's read sits above the live boards")
     _check("The Chart Master&#x27;s read, September 21" in page
-           or "The Chart Master's read, September 21" in page, fails,
+           or "Chart Master's read, September 21" in page, fails,
            "live layer: Chart Master's read headline does not carry its date")
     _check("cm-newer" in page, fails,
            "live layer: a read older than the Board carries no line saying the boards are "
@@ -1643,10 +1643,10 @@ def _cm_dated_canary():
         fresh = board("2026-10-11", "FRESHMARKER majors hold above their averages")
         _check("FRESHMARKER" in fresh, fails,
                "chartmaster dated: today's read is missing from the Board")
-        _check("The Chart Master's read, October 11, 2026" in fresh, fails,
+        _check("Chart Master's read, October 11, 2026" in fresh, fails,
                "chartmaster dated: the card is not titled with its own date")
         yday = board("2026-10-10", "YDAYMARKER majors hold above their averages")
-        _check("YDAYMARKER" in yday and "The Chart Master's read, October 10, 2026" in yday, fails,
+        _check("YDAYMARKER" in yday and "Chart Master's read, October 10, 2026" in yday, fails,
                "chartmaster dated: a one-day-old read must still show, under its own date")
     finally:
         _sb._NOW_CACHE = saved
@@ -2587,9 +2587,9 @@ def _home_canary(index_html=None):
     _sy = blk(full, "since")
     _lis = _re.findall(r"<li>(.*?)</li>", _sy, _re.S)
     _check(bool(_lis) and "200-day average" in _lis[0], fails,
-           "home canary: since yesterday does not lead with Bitcoin against its 200-day")
+           "home canary: Where Bitcoin stands does not lead with Bitcoin against its 200-day")
     _check(not _re.search(r"since yesterday|Fear &amp; Greed|[+\-]\d+\.\d+%", _sy), fails,
-           "home canary: since yesterday prints a day change or a reading the mood carries")
+           "home canary: Where Bitcoin stands prints a day change or a reading the mood carries")
     # 2d. NOTHING TWICE: every reading a tile shows appears once on the page, above or below
     # the fold, and each figure prints once.
     _pg = full + _h.below_fold(snap, pulse, flows, deltas, _sb.load_content(), None)
@@ -3045,19 +3045,47 @@ def _where_is_news_canary():
     import site_build as _sb5
     import re as _re5
     fails = []
-    _labels = [l for l, _ in _sb5.NAV]
+    _labels = [t for _k, t, _b, _h in _sb5.NAV]
     _check("News" in _labels, fails,
            f"K-1 canary: the nav has no entry called simply News: {_labels}")
     _check("News desk" not in _labels, fails,
            "K-1 canary: the nav still says 'News desk', which is a place and not a thing "
            "to read")
-    _check("The Board" not in _labels, fails,
-           "K-1 canary: The Board is in the nav, and the home page IS the Board")
+    # Sprint 6.3 supersedes the K-1 ruling that The Board left the nav: Program 5 names it
+    # Markets, and the task name is what the row carries.
+    _check("Markets" in _labels and "The Board" not in _labels, fails,
+           f"6.3 canary: the nav does not carry the task name Markets: {_labels}")
     _check(_sb5.NAV_TITLES.get("/record.html"), fails,
            "K-1 canary: the Record's nav entry does not say what it holds")
-    _tabs = [l for l, _, _ in _sb5.TAB_BAR]
-    _check(_tabs == ["Board", "Whales", "News", "Edition", "Learn"], fails,
-           f"K-1 canary: the phone tab bar is {_tabs}")
+    _tabs = [l for l, _ in _sb5.TAB_BAR]
+    _check(_tabs == ["markets", "flows", "charts", "news", "brief"], fails,
+           f"6.3 canary: the phone tab bar is {_tabs}, not Markets, Flows, Charts, News, Brief")
+
+    # 6.3: ONE NAME PER THING. On a built tree, each destination's page must carry its task
+    # name as the H1 and its brand name as an eyebrow, and its title tag must open with
+    # "Task: Brand", all read from the one table (site_build.NAMES). Skipped when no tree
+    # is built, as the checks below are.
+    for _k, (_task, _brand, _href) in _sb5.NAMES.items():
+        _pf = os.path.join(_sb5.PUBLISH, _href.lstrip("/"))
+        if not os.path.exists(_pf):
+            continue
+        _ph = open(_pf, encoding="utf-8", errors="ignore").read()
+        _h1 = [_re5.sub(r"<[^>]+>", "", x).strip() for x in _re5.findall(r"<h1[^>]*>(.*?)</h1>", _ph, _re5.S)]
+        _check(_h1[:1] == [_task], fails,
+               f"6.3 canary: {_href} H1 is {_h1[:1]}, the task name is {_task!r}")
+        _check(f"<title>{_task}: {_brand} - " in _ph, fails,
+               f"6.3 canary: {_href} title tag does not open with '{_task}: {_brand}'")
+        _check(_re5.search(r'class="(?:kicker|bd-eyebrow)"[^>]*>\s*' + _re5.escape(_brand) + r"\s*<", _ph), fails,
+               f"6.3 canary: {_href} carries no eyebrow reading its brand name {_brand!r}")
+        _check(f'<span class="nv-task">{_task}</span>' in _ph and f'<span class="nv-brand">{_brand}</span>' in _ph,
+               fails, f"6.3 canary: {_href} nav does not carry {_task} / {_brand}")
+        _check(f"<footer" in _ph and f">{_task}</a>" in _ph.split("<footer", 1)[1] if _k in ("record", "learn") else True,
+               fails, f"6.3 canary: the footer does not link {_task}")
+    _bp = os.path.join(_sb5.PUBLISH, "bottom-line.html")
+    if os.path.exists(_bp):
+        _bh = open(_bp, encoding="utf-8", errors="ignore").read().split("<main", 1)[0]
+        _check("The Bottom Line" not in _bh and "daily reads" not in _bh, fails,
+               "6.3 canary: the Brief page chrome still calls itself The Bottom Line or the daily reads")
 
     _pub = _sb5.PUBLISH
     _nh = os.path.join(_pub, "news.html")
