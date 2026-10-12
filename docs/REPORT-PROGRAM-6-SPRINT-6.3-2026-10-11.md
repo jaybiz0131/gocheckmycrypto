@@ -101,11 +101,27 @@ one pointer line left for each. Section 7e added for this sprint.
 Brief, top and end of page, both modes. They exist on this machine and on `nav-names-close`; nothing
 has been pushed.
 
-## Merge hash, production reads, counts
-- Merge hash: **none** (awaiting Jack's yes). Production reads: **none**. Build count: **no build used
-  by this sprint**; today's earlier count stands at 5 of 5 per the 6.2 close, and Jack's ruling 2 applies
-  to the evening Edition's push. This session could not read Netlify.
-- When Jack says yes: `git merge --no-ff nav-names` into main (one build), read production by stamp at 375
-  and 1440 in both modes, read the count five minutes after the push, then land `nav-names-close`.
+## Jack's rulings after the contact sheets (11 October) and the merge (12 October)
+- Rulings applied: "Since yesterday" is now **"Where Bitcoin stands"**; the edition card is now **"The Brief"**
+  (news hub and article pages; story prose that opens "The Bottom Line:" is story text and was left);
+  Home and About stay as built. Re-shoots: `shots/program6-6.3/reshoot/`.
+- Both branches were pushed Sunday 7:47 PM ET (`nav-names` `7d73e21`, `nav-names-close` `e167e23`), no force,
+  no trailer, canary PASS on each. The push fell inside the 6:30 to 8:15 window; Jack named it explicitly.
 
-Shell date at close: see the last line.
+## Merge hash, production reads, counts
+- **Merge `0ae8b0f`** (real merge commit, `nav-names` into `origin/main` `357170a`), pushed **Mon 12 Oct 8:30:55 AM ET**
+  (12:30:55Z). Canary PASS first (the first run was red only because my local built tree predated Sunday's Evening
+  Brief, the K-1 trap in the handoff; rebuilt locally, then PASS). Nothing had built that day before it: production
+  stamp was `7d8971b` (11 Oct 23:17Z) and every commit since was `[skip netlify]`.
+- **Production by stamp:** `/stamp.txt` read `commit 0ae8b0ff...` `built 2026-10-12T12:34:55+00:00` (push + 4 min 0 s).
+  Every page carries `build-commit` `0ae8b0f`.
+- **Production reads, 375 and 1440, light and dark** (8 pages: /, /pulse, /flows, /chartmaster, /news, /bottom-line,
+  /record, /learn; 32 reads, `shots/program6-6.3/production/prod-read.json` and viewport shots): H1 is the task name
+  on every page (Markets, Flows, Charts, News, Brief, Record, Learn); `aria-current` names task and brand
+  ("Markets The Board" and so on); at 375 the top row is hidden and the bar is shown with five tabs of 56 px; at
+  1440 the row is shown and the bar hidden; `scrollWidth` equals `clientWidth` on all 32 reads (no sideways scroll).
+- **Count:** I have no Netlify access from this container, so the dashboard count was **not read**. What the stamp
+  shows: today's first build is `0ae8b0f`, and the close below was checked against the ignore script before pushing.
+  Jack to read the dashboard: expected 1 ready for 12 October, plus 1 canceled for the close.
+- **Close:** `nav-names-close` merged after, items 3 and 4, report, sheets (documents and scripts only). Pushed with
+  the results below; see the handoff's section 7e for the hash.

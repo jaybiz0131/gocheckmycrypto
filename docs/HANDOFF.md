@@ -7,7 +7,7 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 11 October 2026, 7:05 PM EDT, Program 6 Sprint 6.3 (section 7e, awaiting Jack's yes). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 12 October 2026, Program 6 Sprint 6.3 merged (section 7e). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
@@ -238,9 +238,11 @@ contact sheets (`shots/program6-6.3/`).
   `SNAPSHOT_DIR` on a scratch copy (the live-layer canary's home render wrote the two files);
   `scripts/canary_clean_test.py` was red on main (two files left), green after.
 - **Item 4, branch `nav-names-close`, done:** sections 6, 7, 7b and 7c moved whole to the day files.
-- **Next:** Jack's yes, then merge `nav-names` as a real merge commit (one build), read production
-  by stamp, then land `nav-names-close` (documents and scripts only; the ignore rule keeps it from
-  building). Its `verify_pipeline.py` edit overlaps `nav-names`' canary edits in other regions.
+- **Jack's yes and rulings (11 October, 7:2x PM):** "Since yesterday" is "Where Bitcoin stands"; the edition
+  card is "The Brief"; Home and About as built.
+- **Merged 12 October, 8:30:55 AM EDT: `0ae8b0f`**, production stamp read `0ae8b0f` built 12:34:55Z; 32 reads at
+  375 and 1440 in both modes clean (report). Netlify count not readable from the container: Jack reads it.
+- **Close merged after (documents and scripts only, ignore rule).** Sprint 6.4 gets its own session.
 
 ## 8. Traps
 
