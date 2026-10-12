@@ -166,7 +166,7 @@ not piped into `tail` and assumed.
   October 2026): five builds a day are the Worker's noon refresh, the Edition, and THREE
   merges; a fourth merge waits for the next Eastern date; a day's plan names its three
   before the first push.** 6 October ran 6 of 5 for missing this (section 7).
-  **Amended 12 October 2026 (Jack, 5:30 PM): the noon refresh is retired.** The morning
+  **Amended 12 October 2026 (Jack, 5:30 PM): the noon refresh is retired as a schedule and kept only as the Worker's fallback** (it fires at noon ET only if no morning-read run is confirmed green or running that day, so a normal day has no noon build). The morning
   read's build (about 8:15 AM Eastern, dispatched by the Worker) replaces it, so the
   automatic builds are TWO a day, the morning read and the 7:08 PM Edition, and the
   merges' share is three. The allowance stays 5. `docs/RULES.md` does not name the noon

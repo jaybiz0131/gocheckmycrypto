@@ -112,3 +112,6 @@ Published texts, drop-not-reword (branch):
 RESULT: all three published
 ```
 Red on main: all four fixtures refuse or fail (the synthetic all-flagged case has no data-only path on main).
+
+## Addendum 2, the Worker's noon fallback (12 October, evening)
+Safe to deploy before the workflow is on main: at noon ET the Worker asks GitHub whether a `morning-read.yml` run exists today (Eastern) and is green or still running; if not (404, refused dispatch, failed run, GitHub or token unreachable) it POSTs the old `CRYPTO_BUILD_HOOK`. A green morning fires nothing. `gcm-newsroom` `morning-dispatch` at `f78497f`: `morning.test.mjs` 31 passed (14 earlier plus the fallback in both offsets, the 404 case, a failed run, an unreachable GitHub, no token, and two end-to-end days); the fallback cases fail on the previous commit. Known edge: a morning run that pushes and then fails its second-day alarm reads as failed, so noon adds one build that day.
