@@ -7,7 +7,7 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 11 October 2026, 5:10 PM EDT, Program 6 Sprint 6.2 (section 7d). Before it, Sprint 6.1 (section 7c). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 11 October 2026, 7:05 PM EDT, Program 6 Sprint 6.3 (section 7e, awaiting Jack's yes). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
@@ -174,155 +174,13 @@ not piped into `tail` and assumed.
   the 2026-09-23 XRP story and went green on a rebuild with no code change).
 ---
 
-## 6. The data contract and Program 5 Sprint 1a (live 6 October 2026)
+## 6. The data contract and Program 5 Sprint 1a (6 October): moved whole to `docs/HANDOFF-2026-10-06.md` (U-1).
 
-**One snapshot** (`snapshot.py`, 5 October, `0ab4472`, `10f70f6`): one object per build at
-`/data/snapshot.json`, one endpoint per field named beside it, stamp = the oldest READING with
-its zone. Renderers get `snapshot.views()`, never the raw files. The ticker is the only live
-surface and says "live · 8:21 PM ET" only after an OK answer with a landed price. Details in
-`HANDOFF-2026-10-05.md`.
+## 7. Sprint 1b (7 October) and the 8 October merges: moved whole to `docs/HANDOFF-2026-10-08.md` (U-1).
 
-**Sprint 1a, the data assets** (6 October, all four live; day file `HANDOFF-2026-10-06.md`):
-- Item 0 `4d8a23d`: the live mark shows at 375 (10px mono, the label's existing line).
-  `scripts/ticker_mark_375.mjs <url> [--width N] [--expect-live]` reads it in headless Chrome.
-- Items 1 and 2 `35e3922`: **the stored series** (`history.py`): `data/history/<coin>.json`,
-  daily closes by UTC date for the seven Board coins, committed by the Edition. A run appends
-  the completed days it lacks and never refetches; a missing file or one more than seven days
-  behind bootstraps from 365 days, one coin per run. 429s wait Retry-After or 60s, three
-  tries; CoinGecko calls spaced 12s and counted (`out/coingecko-calls.json`). A failed append
-  leaves the file; tiles print "closes through <date>", stale at 48h behind the run. The
-  series is not a reading: it sits in the snapshot as `series`, outside the stamp. Through
-  date tonight: **2026-10-05** for all seven. **The Chart Master**: `_belt_inputs` hands the
-  leverage belt the pipeline's shape; a belt crash is one refused read, never retried; the
-  commit message reads the file's date and the night's state.
-- Item 3 `9eb41fa`: the snapshot's `week` (seven daily closes, low, high, from
-  `/coins/markets` sparkline=true) and `movers` (CoinGecko ranks 1 to 20: three rises and the
-  fall; top 100: more than 5% either way, or "none today"; stablecoins from
-  `data/stablecoins.json`, DefiLlama, refreshed monthly). Written compact; 33,056 bytes in
-  tonight's run against 60 KB.
-- Item 4 `fddf690`: `desk_calendar.py` writes `site/data/calendar.json` (FRED with
-  `FRED_API_KEY` in the Edition's calendar step only; FOMC and NYSE yearly files in
-  `data/calendar/`; Deribit; mempool.space; Federal Register; `unlocks.json`). The Edition
-  commits it; the build publishes it at `/data/calendar.json`.
+## 7b. Sprint 2's close (8 to 10 October): moved whole to `docs/HANDOFF-2026-10-11.md` (U-1).
 
-**The four rulings, as they ended** (Jack, 6 October):
-- **a.** The live mark: shown at every width, never hidden. Done, item 0.
-- **b.** Replaced at 6:54 AM ET: the record wins; assets is a stored series the site owns,
-  appended per run, never carried forward silently, its through date on the tiles that use it
-  and never in the page stamp. Done, items 1 and 2.
-- **c.** The commit message and the file agree, and the file is the truth. The stage had run
-  every Edition from 22 September and every read was refused; three crashed (1, 3, 4 October)
-  on K-4 `6cab8b6`. Crash fixed by Jack's 7:30 AM ET ruling with four conditions, all met.
-  Cadence unchanged.
-- **d.** The twins check becomes a gate on the newsroom's own text, never on the Board.
-  Landed in Sprint 1b with both October 6 extensions (series-only week and month; direction
-  words yield to the snapshot's sign), section 7.
-
-**The top_n 6 ranking check** (raise top_n if a chosen story would have ranked below 6, or a
-day went dark with one below the cut): 4 Oct rank 6 of 6; 5 Oct rank 1 of 6; 6 Oct rank 3
-of 6 (rank 1 held as single-source); 7 Oct (wire path) the checked note on rank 1 of 6.
-Settle after 10 October.
-
-## 7. Sprint 1b (7 October) and the 8 October merges (day files `-10-07.md`, `-10-08.md`)
-
-Sprint 1b executed Jack's ruling of 5 October (the wire, the checked note, the twins gate, the
-narrative line); merges `65b7a26`, `8e78f40`, `94c392b`. The first wire-path Edition cost
-$0.0868 against $0.2718 the day before; its Brief was withheld by the consistency gate.
-
-**Jack's rulings, 7 October 2026, 9:15 PM ET:** (1) the gate fix merges as 8 October's first
-merge, in the morning; the 7 October Brief stays missing and nothing re-runs its slot; (2) the
-funding thresholds are option 1 (calm under 0.010% per 8h, warm under 0.030%, hot above).
-
-**8 October**, two merges, each canary exit 0 on its own rebuilt tree, local = origin:
-- `fea18c0` 12:41:00Z (`cr-gate-fixes`): the gate yields to the snapshot; no fake zero from
-  an empty volatile whale read (production showed "$0 net off exchanges"; now widened or the
-  last good file stays; /pulse and /flows say what they wait for); funding per coin; the
-  checked note names and links one outlet (the refresh re-resolves a stored note).
-- `1a65e9d` 12:58:20Z (Sprint 2's stack `4c575a1` < `1804653` < `1e0e456`, one merge, plus the
-  band's ETF date month first): home at 375, 111,985 bytes, LCP 1,212 ms; at 1440, 112,019
-  bytes, LCP 1,180 ms; one stamp "8:58 AM ET on Oct 8"; since-yesterday lines nonzero and equal
-  to the Board's tiles.
-- Count read 13:04:43Z: 2 built. The day's final count was not read (the wake-up arrived late).
-
-**Editions on the new path, each with a Brief:** 8 Oct $0.0915, 9 Oct $0.0852, 10 Oct $0.0677
-(7 Oct $0.0868). The narrative line came from the table all three days.
-
-## 7b. Sprint 2's close (the stack, the weight, the Editions of 8 to 10 October; day file `HANDOFF-2026-10-11.md`)
-
-Written 11 October 2026, 9:20 AM EDT, documents only. The 8 October close named Sprint 2's merge
-wrongly; git shows it as below.
-
-- **The merges, from `git log --graph`.** `bc6d35d` 12:41:28Z merges `1e0e456` (home-below-fold,
-  stacked on home-above-fold and tile-learn-anchors). `1a65e9d` 12:53:11Z merges `d618a44`, the
-  last commit of `cr-gate-fixes` (its other work, `fea18c0` 12:35:58Z, merged first). Between
-  them `6bf1849` (the band's small line, month first) sits on main.
-- **The stack proof.** `git merge-base 4c575a1 1804653` = `4c575a1`; `git merge-base 1804653
-  1e0e456` = `1804653`. Nine commits `94c392b..1e0e456`, from `506071e` to `1e0e456`.
-- **Production weight, measured 9:16 to 9:17 AM EDT on `aa64f08`** with `scripts/home_budget.mjs`
-  (three throttled phone loads each): 375 light 111,599 bytes, LCP median 1,116 ms; 375 dark
-  109,983 bytes, 1,080 ms; 1440 light 110,068 bytes, 1,072 ms; 1440 dark 111,305 bytes, 1,060 ms.
-  Hosts: the site and api.coingecko.com only; overflow 0. Budget 300 KB and 2,500 ms.
-- **Editions, from the ledger** (all three published a Brief): 8 Oct run 37857914790 $0.0915; 9 Oct
-  run 38003059379 $0.0852; 10 Oct run 38094093202 $0.0677. Chart Master: published 8 Oct
-  (`b281882`, "Chart Master read 2026-10-08"); refused 9 Oct (`cbf7e80`): "chartmaster:
-  advice/prediction language in the read ('bleed'); refusing to publish it"; refused 10 Oct
-  (`8533a17`): "chartmaster: an open-interest figure names no venue in its own sentence ('Open
-  interest is sizable (BTC near $2.49B, ETH" (the commit subject is cut there; the full reason is
-  not kept).
-- **Jack's rulings, as the strategy desk's order of 11 October states them.** 7 October: the wire
-  stays in re-count order; the checked item is never pinned (this closes the open "keep or pin"
-  item in section 3). 8 October: none for Crypto.
-
-## 7c. Program 6, Sprint 6.1: one site, one look (11 October 2026; day file `HANDOFF-2026-10-11.md`)
-
-Program 6 is `docs/PROGRAM-6-2026-10-11.md` (the pasted text; the attached file never reached the
-session). **Jack's rulings, Sunday 11 October 2026, 10:49 AM ET, in the strategy desk's words:**
-Jack agreed to all four decisions in Program 6, section 3:
-1. The Chart Master's character voice is retired. The read stays as a plain card titled "The Chart
-   Master's read, <date>".
-2. The names are Program 5's: Markets (the Board), Flows (Whale Watch), Charts (Chart Master), News,
-   Brief (the Edition), Record, Learn. URLs never change.
-3. The order is 6.1, then 6.2, then 6.3, then 6.4.
-4. Each sprint merges as one branch and one build, approved on screenshots first.
-
-**6.1 shipped.** Jack approved the contact sheets on 11 October (the time was not stated to the
-session). One merge, `325386b` (branch `one-look`, `7daaf4f` and `f63e00e`), pushed 2:39:44 PM EDT
-(18:39:44Z), canary exit 0 on the rebuilt merged tree, production stamp `325386b` built
-18:41:37Z, ready 18:43:47Z.
-- **One name:** GoCheckMyCrypto everywhere a reader or a crawler sees a name. The sweep over the
-  published tree (`scripts/one_look_sweep.py`): "Cronkite" 10,504 hits to 0, persona phrases 9 to 0,
-  wash and decoration 820 to 0. One URL keeps the old name, `/articles/why-crypto-cronkite.html`.
-  Stored stories still carry `author: Crypto Cronkite`; the renderer prints the one name.
-- **One look:** `system.css` loads on every page, `site.css` takes the Program 5 tokens, no wash, no
-  photo band, no section marks, no persona art, the Edition page drawn from the site's tokens. The home
-  page is unchanged (311 elements, 14 computed properties, 0 differences).
-- **The Board** is the home page's eight tiles (`tile.render`), a movers table and a list of the deep
-  boards, under a dated Chart Master card that gives way to the Board's own line after one day.
-  Deep-board cards and the coin page's cards keep their old components until 6.4.
-- **Ride-alongs:** `data/week_calendar.json` retired (`calendar_check` and `week_ahead` read
-  `site/data/calendar.json`; staleness reads its own `generated_utc`). The ETF read: Farside blocks
-  this container (403) and 10 October 2026 was a Saturday, so the site's Friday 9 October read
-  (+$21.1M) is the latest trading day; nothing changed.
-- **Production reads (home_budget, 11 October 2:45 PM EDT onward, stamp asserted on each):** 15 pages
-  (home, Board, Flows, Charts, News, Brief, Record, Learn, About, three coins, two stories, the 10
-  October Edition) at 375 and 1440, light and dark: all stamped `325386b`, overflow 0, 104,327 to
-  148,424 bytes each, home 108,333 to 110,019. Home LCP at 375 light 2,212 ms (one throttled run).
-  The inner pages load Cloudflare's analytics beacon (a third host), so `home_budget.mjs` exits 1 on
-  them by its own rule; the home page loads none. The band contrast test passes on production.
-- **Counts of record:** crypto production 4 ready and 1 canceled for 11 October, read 2:45:00 PM EDT
-  (5 min 16 s after the push). The merge was the fourth ready. If the canceled deploy counts against
-  the allowance, today's five are spent and the evening Edition is the sixth; Jack's call.
-
-**For 6.2: why the documents-only push `0c47b73` built.** `netlify_ignore.py` skips only paths under
-`docs/`, `shots/`, `review-queue/`, markdown outside `site/`, the ledger and inactives snapshots.
-`scripts/` is not on the list, though U-11's prose says scripts outside the published tree do not
-build. The commit before it, `d2b8154`, changed `scripts/band_contrast.mjs` and carried
-`[skip netlify]`, so Netlify never built it, and the ignore script diffs against the last BUILT
-commit (`aa64f08`): that diff still held `scripts/band_contrast.mjs`, which forced a build.
-Reproduced locally with `CACHED_COMMIT_REF=aa64f08 COMMIT_REF=0c47b73 python3 netlify_ignore.py`
-(exit 1, "1 file(s) that change the site, e.g. scripts/band_contrast.mjs"). Options: add `scripts/`
-to `DOC_PREFIXES` (no script is read by the build command), or never put `[skip netlify]` on a commit
-that touches a path the ignore script would build for.
+## 7c. Program 6, Sprint 6.1 (11 October): moved whole to `docs/HANDOFF-2026-10-11.md` (U-1).
 
 ## 7d. Program 6, Sprint 6.2: the ignore rule, and the home page edited (11 October 2026)
 
@@ -357,6 +215,32 @@ Run on 11 October from the strategy desk's opener written for 12 October. RULES 
   6.3's. Canaries leave `site/data/chartmaster/2026-10-08.json` and
   `site/data/snapshots/pulse-2026-10-11.json` untracked after every run (true before this
   sprint). This file is over U-1's 300 lines.
+
+## 7e. Program 6, Sprint 6.3: navigation and names (11 October 2026, 7:05 PM EDT; written Monday's session)
+
+**Jack's rulings, Sunday 11 October 2026:** (1) Sprint 6.2 is accepted: the ignore rule `dc4d8f5`
+and the home edit `3c0665e`, closed at `9fe3f7e`. (2) On a day when the five builds are used up,
+the evening Edition still runs. The Edition outranks the allowance, and the report notes the
+overage.
+
+RULES hash `4179b2ac...b3568d`, matched. `origin/main` at start `9fe3f7e`. Nothing was pushed:
+the session ran inside the 6:30 to 8:15 PM ET window, and the merge waits for Jack's yes on the
+contact sheets (`shots/program6-6.3/`).
+- **Items 0 to 2, branch `nav-names`, local commit `f358afc`, NOT merged.** `site_build.NAMES` is
+  the one table (task name, brand name, URL); nav, tab bar, footer, H1, eyebrow, title tag all
+  read it. Markets (The Board), Flows (Whale Watch), Charts (Chart Master), News (Checked), Brief
+  (The Edition), Record (Worth keeping), Learn (The Board explained). Below 700 px the top row is
+  hidden and a five-tab bar shows (56 px targets, `env(safe-area-inset-bottom)`, `viewport-fit=cover`,
+  a bar across the top of the current tab plus `aria-current`). Record and Learn are in the footer,
+  search does not exist yet. Home and About stay in the desktop row. The active mark comes from
+  the URL (`nav_group`), not from the label each caller passed. Item 2 is not applied: see the report.
+- **Item 3, branch `nav-names-close`, done.** `layer1_canary` runs with `CM_ARCHIVE` and
+  `SNAPSHOT_DIR` on a scratch copy (the live-layer canary's home render wrote the two files);
+  `scripts/canary_clean_test.py` was red on main (two files left), green after.
+- **Item 4, branch `nav-names-close`, done:** sections 6, 7, 7b and 7c moved whole to the day files.
+- **Next:** Jack's yes, then merge `nav-names` as a real merge commit (one build), read production
+  by stamp, then land `nav-names-close` (documents and scripts only; the ignore rule keeps it from
+  building). Its `verify_pipeline.py` edit overlaps `nav-names`' canary edits in other regions.
 
 ## 8. Traps
 
