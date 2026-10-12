@@ -2011,6 +2011,11 @@ def _stamp_canary():
                 fails.extend(_home_canary(_ih))
                 fails.extend(_below_canary(_ih))
                 fails.extend(_home_budget_canary(out, _ih))
+                _ctp = {"index.html": _ih}
+                if _o.path.exists(_o.path.join(out, "pulse.html")):
+                    _ctp["pulse.html"] = open(_o.path.join(out, "pulse.html"),
+                                              encoding="utf-8").read()
+                fails.extend(_color_truth_canary(_ctp))
             _sf = _o.path.join(out, "stamp.txt")
             _check(_o.path.exists(_sf), fails,
                    "build stamp canary: the build wrote no /stamp.txt")
@@ -2510,18 +2515,20 @@ def _home_canary(index_html=None):
     btc = _s.coin(snap, "BTC")
     wk = (_s.value(snap, "week") or {}).get("BTC") or {}
     _cv = [wk["closes"][k] for k in sorted(wk["closes"])]
+    def _arw(v):     # Program 7: a change prints with its own arrow, unsigned
+        return (("\u25b2 " if v > 0 else "\u25bc " if v < 0 else "") + f"{abs(v):.2f}%")
     for label, want in (("Bitcoin price", _sb._price_fmt(btc["price"])),
-                        ("Bitcoin 24h", f"{btc['chg_24h_pct']:+.2f}%"),
-                        ("the week's low close", _sb._price_fmt(min(_cv))),
-                        ("the week's high close", _sb._price_fmt(max(_cv))),
+                        ("Bitcoin 24h", _arw(btc['chg_24h_pct'])),
+                        ("the week's low close", _h._whole(min(_cv))),
+                        ("the week's high close", _h._whole(max(_cv))),
                         ("the Board's stamp", f"is the Board, as of {snap['stamp_et']}")):
         _check(_hx(want) in t, fails, f"home canary: the tape does not print {label} "
                                           f"from the snapshot ({want})")
     for sym in ("ETH", "SOL", "XRP"):
         c = _s.coin(snap, sym)
-        _check(_sb._price_fmt(c["price"]) in t and f"{c['chg_24h_pct']:+.2f}%" in t, fails,
+        _check(_sb._price_fmt(c["price"]) in t and _arw(c['chg_24h_pct']) in t, fails,
                f"home canary: the tape does not print {sym}'s price and 24h from the snapshot")
-    _pts = _re.search(r'<polyline pathLength="1" points="([^"]+)"', t)
+    _pts = _re.search(r'<polyline class="h-line[^"]*" pathLength="1" points="([^"]+)"', t)
     _check(bool(_pts) and len(_pts.group(1).split()) == len(wk["closes"]), fails,
            f"home canary: the seven-day line has "
            f"{len(_pts.group(1).split()) if _pts else 0} points for "
@@ -2535,37 +2542,41 @@ def _home_canary(index_html=None):
     # high close marked on the line with their figures, a dot on the last point, drawn once.
     _ch = _re.search(r'<div class="h-chart"[^>]*>(.*?)</div>', t, _re.S)
     _check(bool(_ch), fails, "home canary: the tape has no chart box")
-    _check(bool(_re.search(r'<div class="h-main">.*?</div><div class="h-chart"', t, _re.S)),
-           fails, "home canary: the tape's chart sits inside the price column, not across "
-                  "the full width of the tape")
+    # Program 7: the chart sits in the Bitcoin card, the full width of the card
+    _check(bool(_re.search(r'<div class="h-btc [a-z]+" data-btc-card>.*?<div class="h-chart"',
+                           t, _re.S)),
+           fails, "home canary: the week's chart is not inside the Bitcoin card")
     if _ch:
         _c = _ch.group(1)
         _check('<path class="h-area" d="M' in _c, fails,
                "home canary: the tape's chart has no fill under the line")
         for _cls, _fig in (("h-k-hi", max(_cv)), ("h-k-lo", min(_cv))):
             _mk = _re.search(r'<span class="h-k %s[^"]*" style="left:([\d.]+)%%;top:([\d.]+)%%">'
-                             r'<i></i><span class="h-kf[^"]*">[^<]*<b>([^<]+)</b>' % _cls, _c)
-            _check(bool(_mk) and _mk.group(3) == _hx(_sb._price_fmt(_fig)), fails,
+                             r'[A-Z]+ <b>([^<]+)</b>' % _cls, _c)
+            _check(bool(_mk) and _mk.group(3) == _hx(_h._whole(_fig)), fails,
                    f"home canary: the {_cls} mark is not on the line with its figure "
-                   f"{_sb._price_fmt(_fig)}")
+                   f"{_h._whole(_fig)}")
             if _mk and _pts:
                 _i = _cv.index(_fig)
                 _px, _py = [float(v) for v in _pts.group(1).split()[_i].split(",")]
                 _check(abs(float(_mk.group(1)) - 100 * _px / _h.CHART_W) < 0.1 and
                        abs(float(_mk.group(2)) - 100 * _py / _h.CHART_H) < 0.1, fails,
                        f"home canary: the {_cls} mark is not where the line has that close")
-        _check(_c.count("h-k-last") == 1, fails,
-               "home canary: the last point of the tape's chart carries no dot")
+        _check(_c.count('class="h-dot-now') == 1 and _c.count('class="h-halo"') == 1, fails,
+               "home canary: the last point of the tape's chart carries no dot on a halo")
+        _check(_c.count('class="h-dot h-dot-hi"') == 1 and _c.count('class="h-dot h-dot-lo"') == 1
+               and 'filter="url(#h-glow)"' in _c and 'stdDeviation="4"' in _c, fails,
+               "home canary: the chart's high and low dots or its glow are missing")
     _check("h-rng" not in t and "7-day low" not in t, fails,
            "home canary: the 7-day low and high still sit in a separate row")
     _css = open(os.path.join(_sb.ASSETS, "system.css"), encoding="utf-8").read()
-    _anim = [a for a in _re.findall(r"body \.h-(?:spark polyline|area|k)\{[^}]*\}", _css)
+    _anim = [a for a in _re.findall(r"body \.h-(?:line|area|k|marks)\{[^}]*\}", _css)
              if "animation:none" not in a]
-    _check(len(_anim) == 3 and all("infinite" not in a and " 1 both" in a for a in _anim),
+    _check(len(_anim) == 4 and all("infinite" not in a and " 1 both" in a for a in _anim),
            fails, "home canary: the tape's chart does not draw exactly once on load")
     _rm = _re.search(r"prefers-reduced-motion:reduce\)\{\s*([^{}]*)\{animation:none", _css)
     _sel = {x.strip() for x in _rm.group(1).split(",")} if _rm else set()
-    _check({"body .h-spark polyline", "body .h-area", "body .h-k"} <= _sel, fails,
+    _check({"body .h-line", "body .h-area", "body .h-k", "body .h-marks"} <= _sel, fails,
            f"home canary: reduced motion does not show the tape's chart whole (it stills "
            f"{sorted(_sel)})")
 
@@ -2602,10 +2613,10 @@ def _home_canary(index_html=None):
     _st_ = _s.value(snap, "stablecoin_float") or {}
     _fg_ = (_s.value(snap, "fear_greed") or {}).get("value")
     for _what, _fig in (("Bitcoin's price", _sb._price_fmt(btc["price"])),
-                        ("Bitcoin's day change", f"{btc['chg_24h_pct']:+.2f}%"),
+                        ("Bitcoin's day change", _arw(btc['chg_24h_pct'])),
                         ("funding", f"{_fv.get('funding_8h_pct', 0):+.4f}%"),
                         ("the stablecoin float", _sb.fmt_usd(_st_.get("total_usd") or 0)),
-                        ("Fear & Greed", f'<p class="tl-f">{_fg_:g}</p>')):
+                        ("Fear & Greed", f'<p class="h-g-n">{_fg_:g}</p>')):
         _n_ = (_pg.count(_fig) if _fig.startswith("<") else _vis.count(_hx(_fig)))
         _check(_n_ == 1, fails, f"home canary: {_what} ({_fig}) prints {_n_} times on the "
                                 f"home page, not once")
@@ -2691,7 +2702,11 @@ def _home_canary(index_html=None):
            "home canary: a day with no events does not say nothing scheduled")
 
     # 7b. one stamp for the Board (Jack, 7 October): every tile carries the snapshot's
-    _st = _re.findall(r'<p class="tl-src">[^<]*? &middot; ([^<]*?) &middot; <a', full)
+    # Program 7: the money cards carry one line, so the Board's one stamp is the tape's line
+    # and the mood's source line
+    _st = (_re.findall(r'<p class="tl-src">[^<]*? &middot; ([^<]*?) &middot; <a', full)
+           + _re.findall(r'<p class="h-mood-src">[^<]*? &middot; ([^<]*?)</p>', full)
+           + _re.findall(r'is the Board, as of ([^<]*?)\.</p>', full))
     _check(bool(_st) and set(_st) == {snap["stamp_et"]}, fails,
            f"home canary: the tiles carry {sorted(set(_st))}, not the Board's one stamp "
            f"{snap['stamp_et']!r}")
@@ -2702,8 +2717,8 @@ def _home_canary(index_html=None):
 
     # 9. the built page: the same order, nothing else above the fold, the cadence line
     if index_html is not None:
-        _ab = _re.search(r'<div class="h-cols" data-fold="above">(.*?)</div></div>',
-                         index_html, _re.S)
+        _ab = _re.search(r'<div class="h-cols" data-fold="above">(.*?)</div></div>\s*'
+                         r'<div class="h-below"', index_html, _re.S)
         _check(bool(_ab), fails, "home canary: the built index.html has no above-the-fold "
                                  "container")
         if _ab:
@@ -2713,6 +2728,41 @@ def _home_canary(index_html=None):
                    f"home canary: the built page's fold carries {got}")
         _check(_hx(cad) in index_html, fails,
                "home canary: the built home page does not carry Jack's cadence line")
+    return fails
+
+
+def _color_truth_canary(built_pages=None):
+    """COLOR TRUTH (Jack's ruling 4, 12 October 2026; Program 7 Sprint 7.1). A figure's
+    color and arrow agree with the number printed beside it, and the home band's sentence
+    quotes no change. Three reads: the fixture where the 24-hour and since-close changes
+    disagree in sign (scripts/color_truth_test.py, red on 0ae8b0f's code); the Edition's
+    writer refusing a line that quotes a day change; and every built page handed in.
+    Breaks: home.t_bitcoin passing direction from one window and printing the other;
+    narrative.edition_line keeping "Bitcoin drifted up 0.79 percent on the day"."""
+    import sys as _sys
+    _sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts"))
+    import color_truth as _ct
+    import color_truth_test as _ctt
+    import home as _h
+    import narrative as _n
+    fails = []
+    snap, deltas, narr, pulse = _ctt.fixture()
+    html = (_h.t_bitcoin(snap, pulse, deltas) + _h.t_cap(snap, deltas) + _h.tape(snap)
+            + _h.narrative_band(narr, snap))
+    for f in _ct.contradictions(html):
+        fails.append(f"color truth canary (fixture): {f}")
+
+    class _Gate:
+        def text(self, t, _what=""):
+            return t
+    line, by = _n.edition_line("Bitcoin drifted up 0.79 percent on the day; the news is quiet.",
+                               narr["readings"], [], _Gate())
+    _check(by == "table" and not _n.quotes_change(line), fails,
+           f"color truth canary: the Edition's writer kept a line that quotes a day change "
+           f"({line!r}, by {by})")
+    for name, page in (built_pages or {}).items():
+        for f in _ct.contradictions(page):
+            fails.append(f"color truth canary ({name}): {f}")
     return fails
 
 
@@ -2838,15 +2888,26 @@ def _below_canary(index_html=None):
            "below canary: a whale bar's direction is not its week's sign")
     _check(_sb.esc(_h.SIGN_LINE) in w, fails,
            "below canary: the sign convention is not under the chart")
-    # 3. the Brief's stamp
-    br = blk("brief")
+    # 3. THE BRIEF CARD (Program 7, Sprint 7.1): the Brief moved above the fold into the
+    # band's place. It names the edition it is, by day and slot, links it, and says when the
+    # next one is due; with no current edition it still says when.
+    _bc = _re.search(r'data-block="narrative">(.*?)</section>', _h.above_fold(
+        snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=ed), _re.S)
+    _bc = _bc.group(1) if _bc else ""
     if ed:
-        import snapshot as _s
-        _check(f"Published {_s.stamp_et(ed.get('published_utc'))}" in br
-               and _re.search(r"\d{1,2}:\d{2} [AP]M ET on", br), fails,
-               "below canary: the Brief carries no stamp with its zone")
-    _check("arrives with the Edition at" in _h.brief(None), fails,
-           "below canary: with no Brief the block does not say when it arrives")
+        _check(_sb.esc(_h.brief_name(ed)) in _bc and f'/articles/{ed.get("slug")}.html' in _bc
+               and _re.search(r"Next Brief (tonight|tomorrow) at \d{1,2}:\d{2} [AP]M ET", _bc),
+               fails, "below canary: the Brief card does not name its edition, link it and say "
+                      "when the next Brief is due")
+    _check(_h.brief_name({"slug": "evening-brief-2026-10-11", "date": "2026-10-11"})
+           == "THE BRIEF \u00b7 SUNDAY EVENING", fails,
+           "below canary: the Brief card's eyebrow does not name the edition by day and slot")
+    _b0 = _re.search(r'data-block="narrative">(.*?)</section>', _h.above_fold(
+        snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=None), _re.S)
+    _check(bool(_b0) and "Next Brief tonight at" in _b0.group(1), fails,
+           "below canary: with no Brief the card does not say when the next one is due")
+    _check("brief" not in order, fails,
+           "below canary: the Brief prints twice, above the fold and below it")
     # 4. one piece per lane
     r = blk("record")
     lanes = _re.findall(r'<li data-lane="([a-z-]+)">(.*?)</li>', r, _re.S)
@@ -3421,6 +3482,7 @@ def _layer1_canary_body():
     fails.extend(_first_screen_canary())
     fails.extend(_tile_canary())
     fails.extend(_home_canary())
+    fails.extend(_color_truth_canary())
     fails.extend(_below_canary())
     # FIRST, because it is the cheapest and it catches the class that took two
     # desks down while every other canary here stayed green.

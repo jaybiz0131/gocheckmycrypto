@@ -41,6 +41,20 @@ _PREDICT = re.compile(r"\b(will|would|could|may|might|likely|expect\w*|forecast\
                       r"target\w*|poised|set to|on track|outlook|ahead of a)\b", re.I)
 
 
+# THE BAND QUOTES NO CHANGE (Program 6.2's ruling, enforced 12 October 2026, Program 7
+# Sprint 7.1). Bitcoin's day change prints on the tape and nowhere else, so the sentence can
+# never disagree with it: on 12 October the band said "Bitcoin drifted up 0.79 percent on the
+# day" while the tape read -0.12%. Any percentage in the line is refused, by the writer here,
+# by the home band at render (home.narrative_band) and by the canary.
+_QUOTES_CHANGE = re.compile(r"\d[\d,]*(?:\.\d+)?\s*(?:%|percent\b|per cent\b|"
+                            r"percentage points?\b|basis points?\b|bps\b)", re.I)
+
+
+def quotes_change(line):
+    """True when the sentence carries a percentage (a day change, a week change, any)."""
+    return bool(_QUOTES_CHANGE.search(str(line or "")))
+
+
 def funding_band(v):
     if not isinstance(v, (int, float)):
         return ""
@@ -183,6 +197,7 @@ def edition_line(model_line, r, wire_items, gate):
         from site_build import destyle
         ln = destyle(ln)
         ok = (len(twins_gate.sentences(ln)) == 1 and not _PREDICT.search(ln)
+              and not quotes_change(ln)
               and len(ln) <= 220 and gate.text(ln, "the narrative line").strip() == ln.strip())
         if ok:
             return ln, "edition"
