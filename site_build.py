@@ -76,7 +76,7 @@ FAMILY = "GoCheckMyCrypto"                     # family/domain tie: gocheckmycry
 FAMILY_HUB = "https://gocheckmy.com/"          # the GoCheckMy family hub (canonical footer link)
 ORIGIN = "https://gocheckmycrypto.com"         # canonical origin for canonical/og:url/sitemap
 SHORT_NAME = "GoCheckMyCrypto"                # home-screen label (manifest)
-THEME_COLOR = "#B42318"                       # browser chrome + manifest
+THEME_COLOR = "#0F1B2D"                       # browser chrome + manifest
 OG_IMAGE = ORIGIN + "/og-image.png"            # 1200x630 social card, generated at build time
 CF_ANALYTICS_TOKEN = "ee5216c8411a41d78c7c4f679406ef4b"  # Cloudflare Web Analytics site token; empty renders no beacon
 DESC = ("GoCheckMyCrypto is an independent crypto site built with one intention: get the "
@@ -1453,6 +1453,17 @@ def load_content():
 
 # ---- shared chrome -----------------------------------------------------------
 
+try:
+    from zoneinfo import ZoneInfo as _ZI
+    _ET_ZONE = _ZI("America/New_York")
+except Exception:                                  # pragma: no cover
+    import datetime as _dtz
+    _ET_ZONE = _dtz.timezone(_dtz.timedelta(hours=-4))
+
+
+import glow as _glow                                # noqa: E402  (the one line style)
+
+
 def masthead(active, dateline, brand="site"):
     """ONE MASTHEAD, EVERY PAGE (C-1).
 
@@ -1467,8 +1478,7 @@ def masthead(active, dateline, brand="site"):
         + '</a>'
         for key, task, brand_label, href in NAV)
     fam = f'<a class="mh-family" href="{FAMILY_HUB}">A GoCheckMy site</a>'
-    brand_row = f"""<a class="mh-brand" href="/index.html" style="margin-top:8px">
-    <img class="mh-mark" src="/assets/logo.svg" alt="">
+    brand_row = f"""<a class="mh-brand" href="/index.html">
     <span class="mh-word">GoCheckMy<em class="mh-accent">Crypto</em></span>
     <span class="mh-slogan">Crypto, checked.</span>
   </a>"""
@@ -1477,13 +1487,19 @@ def masthead(active, dateline, brand="site"):
     # masthead is identity. WCAG 2.2.2 is unaffected: it is still on every page that
     # carries the ticker, which is every page that carries motion.
     motion_toggle = ""
-    return f"""<div class="top-rule"></div>
-<script>document.addEventListener("DOMContentLoaded",function(){{var e=document.querySelector("[data-live-date]");
-if(e){{e.textContent=new Date().toLocaleDateString("en-US",{{month:"long",day:"numeric",year:"numeric"}}).toUpperCase();}}}});</script>
-<header class="masthead"><div class="wrap">
+    # THE MASTHEAD BAND (Program 7, Sprint 7.1). The date is the BUILD CLOCK'S, in Eastern
+    # time ("MON · OCT 12, 2026"), never the Edition's: on 12 October the masthead said
+    # October 11 (the newest story's date) while the numbers under it were October 12's.
+    # The stamp beside it is the build's time and says so ("UPDATED"); it turns to a lit
+    # "LIVE" only when the home page's live read has answered with a price (home.HOME_JS),
+    # so a page that is not live never wears the word.
+    et = _build_now().astimezone(_ET_ZONE)
+    day = f"{et.strftime('%a').upper()} \u00b7 {et.strftime('%b').upper()} {et.day}, {et.year}"
+    clock = et.strftime("%-I:%M %p ET")
+    return f"""<header class="masthead mh-band"><div class="wrap">
   <div class="mh-top">
+    <span class="mh-meta"><span class="mh-dateline" data-build-date="{et.date().isoformat()}">{esc(day)}</span><span class="mh-live" data-mh-live><i aria-hidden="true"></i><span class="mh-lw">UPDATED</span> <span class="mh-lt">{esc(clock)}</span></span>{motion_toggle}</span>
     {fam}
-    <span class="mh-meta"><span class="mh-dateline"><span data-live-date>{esc(dateline)}</span> &middot; Independent &middot; No hype</span>{motion_toggle}</span>
   </div>
   {brand_row}
 </div></header>
@@ -1891,7 +1907,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
              '<link rel="preload" as="font" type="font/woff2" crossorigin '
              'href="/assets/fonts/newsreader-roman.woff2">'
              '<link rel="preload" as="font" type="font/woff2" crossorigin '
-             'href="/assets/fonts/inter.woff2">')
+             'href="/assets/fonts/plexsans.woff2">')
     # ONE URL PER PAGE (2026-08-17, ported from news/sports). Netlify's Pretty URLs serve
     # every page at both /articles/foo and /articles/foo.html and rewrite internal links to
     # the extensionless form. A .html canonical meant Google crawled the linked URL, read a
@@ -1981,7 +1997,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <link rel="stylesheet" href="/assets/site.css">{_system_css}
 </head>
 <body class="{esc(body_class)}">
-{skip}{masthead(nav_group(path), dateline, brand)}
+{skip}{_glow.DEFS}{masthead(nav_group(path), dateline, brand)}
 {body}
 {footer(brand)}{beacon}{livejs}
 {tab_bar(path)}
@@ -2781,9 +2797,12 @@ def _bd_spark(values, w=64, h=22, signed=False):
     if signed and lo < 0 < hi:
         zero = (f'<line x1="0" y1="{_y(0):.1f}" x2="{w}" y2="{_y(0):.1f}" '
                 f'stroke="var(--line)" stroke-width="1"></line>')
-    return (f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" aria-hidden="true">'
-            f'{zero}<polyline fill="none" stroke="var(--muted)" stroke-width="2" '
-            f'stroke-linecap="round" stroke-linejoin="round" points="{pts}"></polyline></svg>')
+    # Program 7: the one line style (glow.py), at sparkline size
+    _d = _glow.direction(vals)
+    return (f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" aria-hidden="true" '
+            f'style="overflow:visible">'
+            f'{zero}{_glow.line(pts, _d, width=2)}'
+            f'{_glow.marks(_glow.parse(pts), vals, _d, scale=0.6)}</svg>')
 
 
 def _bd_pct(p):
@@ -3192,7 +3211,7 @@ def _lead_chart(btc, w=640, h=190):
 
     line = " ".join(f"{pad + i * step:.1f},{_y(v):.1f}" for i, v in enumerate(pts))
     up = pts[-1] >= pts[0]
-    col = "var(--up)" if up else "var(--down)"
+    col = "var(--up-line)" if up else "var(--down-line)"
     area = (f'<polygon fill="{col}" fill-opacity="0.18" points="'
             f'{pad:.1f},{h-22:.1f} {line} {pad + (len(pts)-1)*step:.1f},{h-22:.1f}"></polygon>')
     dash, label = "", ""
@@ -3207,8 +3226,8 @@ def _lead_chart(btc, w=640, h=190):
             f'role="img" aria-label="Thirty days of the Bitcoin price, low '
             f'{lo:,.0f}, high {hi:,.0f}, latest {pts[-1]:,.0f}, with the 200-day average.">'
             f'{area}{dash}'
-            f'<polyline fill="none" stroke="{col}" stroke-width="1.6" '
-            f'stroke-linecap="round" stroke-linejoin="round" points="{line}"></polyline>'
+            f'{_glow.line(line, "up" if up else "down", stretched=True)}'
+            f'{_glow.marks(_glow.parse(line), pts, "up" if up else "down", stretched=True)}'
             f'{label}</svg>')
 
 
@@ -3272,11 +3291,13 @@ def cm_price_chart(btc, w=660, h=240):
                 f'stroke-linejoin="round" points="{d}"></polyline>')
 
     up = pts[-1] >= pts[0]
-    col = "var(--up)" if up else "var(--down)"
+    _d = "up" if up else "down"
+    _main = " ".join(f"{x0 + i * step:.1f},{_y(v):.1f}" for i, v in enumerate(pts))
     body = (_cm_axis(lo, hi, x0, x1, y0, y1, lambda v: _price_fmt(v))
             + _poly(s200, "var(--faint)", 1.2, "5 4")
             + _poly(s50, "var(--muted)", 1.2, "2 3")
-            + _poly(pts, col, 1.8)
+            + _glow.line(_main, _d)
+            + _glow.marks(_glow.parse(_main), pts, _d, scale=1.2)
             + _cm_dates(btc.get("window"), x0, x1, h - 10))
     cross = btc.get("golden_cross")
     cap = ("The 50-day average is above the 200-day: what chartists call a golden cross."
@@ -3371,8 +3392,9 @@ def cm_leverage_chart(lev, w=660, h=200):
         d = " ".join(f"{x0 + i * st:.1f},"
                      f"{y1 - (v - lo) / ((hi - lo) or 1) * (y1 - y0):.1f}"
                      for i, v in enumerate(fh))
-        out.append(f'<polyline fill="none" stroke="var(--up)" stroke-width="1.6" '
-                   f'points="{d}"></polyline>')
+        _fd = _glow.direction(fh)      # its own window: first reading to last (Jack, 12 Oct)
+        out.append(_glow.line(d, _fd))
+        out.append(_glow.marks(_glow.parse(d), fh, _fd, scale=1.2))
         for v in (hi, lo):
             yy = y1 - (v - lo) / ((hi - lo) or 1) * (y1 - y0)
             out.append(f'<text x="{x1 + 6}" y="{yy + 3.5:.1f}" '
@@ -4627,8 +4649,10 @@ def _series_svg(vals, w=300, h=64, kind=""):
         return h - 4 - ((v - lo) / span) * (h - 12)
 
     d = " ".join(f"{i*step:.1f},{_y(v):.1f}" for i, v in enumerate(pts))
-    up = (pts[-1] >= 0) if signed else (pts[-1] >= pts[0])
-    col = "var(--up)" if up else "var(--down)"
+    # each chart is colored by its own window, first reading to last (Jack, 12 October)
+    _sd = _glow.direction(pts)
+    up = _sd == "up"
+    col = {"up": "var(--up-line)", "down": "var(--down-line)"}.get(_sd, "var(--ink)")
     zero = ""
     if signed and lo < 0 < hi:
         zero = (f'<line x1="0" y1="{_y(0):.1f}" x2="{w}" y2="{_y(0):.1f}" '
@@ -4641,10 +4665,8 @@ def _series_svg(vals, w=300, h=64, kind=""):
             f'readings, low {lo:.4g}, high {hi:.4g}, latest {pts[-1]:.4g}'
             f'{", crossing zero" if zero else ""}.">'
             f'{area}{zero}'
-            f'<polyline fill="none" stroke="{col}" stroke-width="2" '
-            f'stroke-linecap="round" stroke-linejoin="round" points="{d}"></polyline>'
-            f'<circle cx="{(len(pts)-1)*step:.1f}" '
-            f'cy="{_y(pts[-1]):.1f}" r="3" fill="{col}"></circle></svg>')
+            f'{_glow.line(d, _sd, width=2.5)}'
+            f'{_glow.marks(_glow.parse(d), pts, _sd, scale=0.8)}</svg>')
 
 
 def _period_net(vals, kind):
@@ -5445,7 +5467,8 @@ def render_home(items, flows, pulse, cm, dateline):
     above = _home.above_fold(
         snap, pulse, flows, deltas, _home.load_json(WIRE_JSON),
         _home.load_json(NARRATIVE_JSON),
-        _home.load_json(os.path.join(SITE, "data", "calendar.json")), NEWS_CADENCE_LINE)
+        _home.load_json(os.path.join(SITE, "data", "calendar.json")), NEWS_CADENCE_LINE,
+        now=_build_now(), ed=edition_item)
     below = _home.below_fold(snap, pulse, flows, deltas, items, edition_item)
     body = f"""<main class="wrap h-page"><section class="page">
   <h1 class="sr-only">{esc(FAMILY)}: what is going on in crypto, in five minutes</h1>
@@ -6328,12 +6351,11 @@ def spark_svg(values, w=230, h=44, cls="spark"):
         x = 3 + i * (w - 6) / (len(vals) - 1)
         y = 3 + (h - 6) * (1 - (v - lo) / rng)
         pts.append(f"{x:.1f},{y:.1f}")
-    last = pts[-1].split(",")
+    _d = _glow.direction(vals)
     return (f'<svg class="{cls}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg" '
-            f'preserveAspectRatio="none" role="img" aria-hidden="true">'
-            f'<polyline points="{" ".join(pts)}" fill="none" stroke="currentColor" '
-            f'stroke-width="1.8" stroke-linejoin="round"/>'
-            f'<circle cx="{last[0]}" cy="{last[1]}" r="2.6" fill="currentColor"/></svg>')
+            f'preserveAspectRatio="none" role="img" aria-hidden="true" style="overflow:visible">'
+            f'{_glow.line(" ".join(pts), _d, stretched=True, width=2)}'
+            f'{_glow.marks(_glow.parse(" ".join(pts)), vals, _d, stretched=True)}</svg>')
 
 
 FNG_BANDS = [(0, 25, "#C0392B", "Extreme fear"), (25, 45, "#D9822B", "Fear"),
@@ -6342,8 +6364,8 @@ FNG_BANDS = [(0, 25, "#C0392B", "Extreme fear"), (25, 45, "#D9822B", "Fear"),
 
 # chart data colors: the main series is always direction-coded on the market scale
 # (green ended higher than it started, red ended lower); overlays are neutral references.
-C_UP = "var(--up)"
-C_DOWN = "var(--down)"
+C_UP = "var(--up-line)"      # Program 7: chart lines take the line shades of the tokens
+C_DOWN = "var(--down-line)"
 C_SMA50 = "#8F6BD6"   # violet, the 50-day average overlay
 C_SMA200 = "#8A93A0"  # slate, the 200-day average overlay
 
@@ -6489,10 +6511,15 @@ def line_chart_svg(series, *, w=680, h=260, dollars=True, x_labels=None, overlay
         parts.append(f'<polyline points="{opts}" fill="none" stroke="{ov["color"]}" '
                      f'stroke-width="1.6" stroke-dasharray="5 4"/>')
     # main line + end dot + value pill
-    parts.append(f'<polyline points="{pts}" fill="none" stroke="{color}" stroke-width="2.2" '
-                 f'stroke-linejoin="round" stroke-linecap="round"/>')
+    # Program 7: the one line style (glow.py). A market-scale line takes its direction's
+    # color; a line given its own color keeps it, with the same glow and marks.
+    _d = "up" if color == C_UP else "down" if color == C_DOWN else "flat"
+    _ln = _glow.line(pts, _d)
+    if _d == "flat":
+        _ln = _ln.replace("/>", f' style="stroke:{color}"/>', 1)
+    parts.append(_ln)
+    parts.append(_glow.marks(_glow.parse(pts), vals, _d, scale=1.4))
     ex, ey = X(n - 1, n), Y(vals[-1])
-    parts.append(f'<circle cx="{ex:.1f}" cy="{ey:.1f}" r="3.4" fill="{color}"/>')
     if value_label:
         tw = 8.2 * len(value_label) + 14
         py = max(mt + 2, min(ey - 11, mt + ph - 24))
@@ -7604,7 +7631,30 @@ COIN_CHART_JS = """<script>(function(){
     }
     if (m200) parts.push(poly(m200, 'var(--faint)', 1.2, '5 4'));
     if (m50) parts.push(poly(m50, 'var(--muted)', 1.2, '2 3'));
-    parts.push(poly(vals, dir, 1.8));
+    /* Program 7: the one line style (glow.py, defs on every page): 3 px in the direction
+       of the series on screen, a glow, the high and low as glowing white dots ringed in
+       green and red, the last point a 6 px dot on a halo. */
+    var gd = vals[vals.length - 1] > vals[0] ? 'up' : vals[vals.length - 1] < vals[0] ? 'down' : 'flat';
+    var gp = [], gv = [];
+    for (var gi = 0; gi < vals.length; gi++){
+      if (vals[gi] === null || vals[gi] === undefined) continue;
+      gp.push([x(gi), y(vals[gi])]); gv.push(vals[gi]);
+    }
+    if (gp.length >= 2){
+      parts.push('<polyline class="gl-l ' + gd + '" filter="url(#gl)" points="' +
+                 gp.map(function(p){ return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') +
+                 '"></polyline>');
+      var gh = gv.indexOf(Math.max.apply(null, gv)), gl = gv.indexOf(Math.min.apply(null, gv));
+      var gn = gp[gp.length - 1], gm = '<g class="gl-marks" filter="url(#gl)">' +
+        '<circle cx="' + gn[0].toFixed(1) + '" cy="' + gn[1].toFixed(1) + '" r="16" fill="url(#gl-halo-' + gd + ')"></circle>';
+      [[gh, 'gl-hi'], [gl, 'gl-lo']].forEach(function(m){
+        if (m[0] === gp.length - 1) return;
+        gm += '<circle class="' + m[1] + '" cx="' + gp[m[0]][0].toFixed(1) + '" cy="' +
+              gp[m[0]][1].toFixed(1) + '" r="4.5"></circle>';
+      });
+      gm += '<circle class="gl-now ' + gd + '" cx="' + gn[0].toFixed(1) + '" cy="' + gn[1].toFixed(1) + '" r="3"></circle></g>';
+      parts.push(gm);
+    }
 
     host.innerHTML = '<svg class="cn-svg" viewBox="0 0 ' + W + ' ' + H + '" ' +
       'role="img" aria-label="' + days + ' days of price. Low ' + money(lo) +
@@ -7842,8 +7892,8 @@ COINS_MINI_JS = """<script>(function(){
       return '<a class="cm-row" href="/coins/'+c.u+'"><span class="cm-s">'+c.s+'</span>'
         + px + pct
         + (path?'<svg class="cm-k '+cls+'" viewBox="0 0 64 20" width="64" height="20" '
-          + 'aria-hidden="true"><path d="'+path+'" fill="none" stroke="currentColor" '
-          + 'stroke-width="1.5"/></svg>':'')
+          + 'aria-hidden="true" style="overflow:visible"><path d="'+path+'" fill="none" stroke="currentColor" '
+          + 'stroke-width="1.5" filter="url(#gl)"/></svg>':'')
         + '</a>';
     }).join('') + '<a class="cm-all" href="/pulse/prices">The Top 100</a></div>';
     host.hidden = false;

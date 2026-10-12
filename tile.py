@@ -95,10 +95,28 @@ def _e(s):
         .replace(">", "&gt;").replace('"', "&quot;")
 
 
-def render(key, figure, *, window, since, source, stamp, label=None, direction=None):
+ARROW = {"up": "\u25b2", "down": "\u25bc"}
+_SINCE_CHG = re.compile(r"\b(Up|Down) (\d[\d,]*(?:\.\d+)?%)")
+
+
+def _sign(v):
+    if not isinstance(v, (int, float)) or v == 0:
+        return ""
+    return "up" if v > 0 else "down"
+
+
+def render(key, figure, *, window, since, source, stamp, label=None, direction=None,
+           change=None, since_change=None):
     """One tile. `key` names its reading (READINGS); `direction` is "up", "down" or None
     and colors the figure only when the reading is directional. Every argument a rule
-    needs is required and checked; a missing one raises TileError naming the tile."""
+    needs is required and checked; a missing one raises TileError naming the tile.
+
+    COLOR TRUTH (Jack, 12 October 2026): a figure's color and arrow come from the change
+    printed WITH it, in the same window. `change` is that change: it prints beside the
+    figure with its arrow, and the figure's color is its sign, so a caller cannot color
+    a figure one way beside a number that says the other (a `direction` that disagrees
+    raises). `since_change` is the since-yesterday line's own change, a different window:
+    it gets its own small arrow and color on that line and never colors the figure."""
     r = READINGS.get(key)
     name = label or (r.name if r else key)
     if r is None:
@@ -113,20 +131,55 @@ def render(key, figure, *, window, since, source, stamp, label=None, direction=N
         raise TileError(f"tile {name!r}: no source")
     if not _ZONE.search(str(stamp or "")):
         raise TileError(f"tile {name!r}: no stamp with its zone ({stamp!r})")
+    badge = ""
+    if change is not None:
+        own = _sign(change)
+        if direction in ("up", "down") and direction != own:
+            raise TileError(f"tile {name!r}: colored {direction} beside its own change "
+                            f"{change:+.2f}%")
+        direction = own
+        badge = (f' <span class="tl-c chg {own or "flat"}">'
+                 f'{ARROW.get(own, "")}{" " if own else ""}{abs(change):.2f}%</span>')
     cls = ""
     if r.directional and direction in ("up", "down"):
         cls = f" {direction}"
+    since_h = _e(since)
+    sd = _sign(since_change)
+    if sd:
+        since_h = _SINCE_CHG.sub(
+            lambda m: (f'<span class="chg {sd}">{ARROW[sd]} {m.group(1)} {m.group(2)}</span>'
+                       if (m.group(1) == "Up") == (sd == "up") else m.group(0)),
+            since_h, count=1)
     out = (f'<article class="tl" data-reading="{_e(key)}">'
            f'<h3 class="tl-l">{_e(name)}</h3>'
-           f'<p class="tl-f{cls}">{_e(figure)}</p>'
+           f'<p class="tl-f{cls}">{_e(figure)}{badge}</p>'
            f'<p class="tl-w">{_e(window)}</p>'
-           f'<p class="tl-s">{_e(since)}</p>'
+           f'<p class="tl-s">{since_h}</p>'
            f'<p class="tl-src">{_e(source)} &middot; {_e(stamp)} &middot; '
            f'<a href="{_e(anchor(key))}">what this means</a></p>'
            f'</article>')
     if _FORBIDDEN.search(out):
         raise TileError(f"tile {name!r}: an icon or a gradient")
     return out
+
+
+def card(key, figure, line, *, label=None, direction=None):
+    """THE SMALL CARD (Program 7, Sprint 7.1, the home page's money): the label, which
+    opens the Learn anchor, the figure in the mono, colored only when the reading is
+    directional (the same rule as a tile), and one line of window or source."""
+    r = READINGS.get(key)
+    name = label or (r.name if r else key)
+    if r is None:
+        raise TileError(f"card {name!r}: no Learn anchor for reading {key!r}")
+    if figure is None or not str(figure).strip():
+        raise TileError(f"card {name!r}: no figure")
+    if not str(line or "").strip():
+        raise TileError(f"card {name!r}: no line of window or source")
+    cls = f" {direction}" if r.directional and direction in ("up", "down") else ""
+    return (f'<article class="tl tl-card" data-reading="{_e(key)}">'
+            f'<h3 class="tl-l"><a href="{_e(anchor(key))}">{_e(name)}</a></h3>'
+            f'<p class="tl-f{cls}">{_e(figure)}</p>'
+            f'<p class="tl-w">{_e(line)}</p></article>')
 
 
 def grid(tiles, cls=""):

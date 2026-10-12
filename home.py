@@ -111,53 +111,115 @@ def spark_points(closes, w=300, h=56, pad=3):
             for i, v in enumerate(vals)]
 
 
-# THE TAPE'S CHART (Program 6, Sprint 6.2): the week to scale in a box the full width of the
-# tape, CHART_H px tall, the line's band inset by CHART_PAD so the low and high figures sit
-# beside their marks inside the box. The SVG stretches to the box (non-scaling stroke); the
-# marks and their figures are placed over it in percent of the box, so a dot stays round
-# at every width and height.
-CHART_W, CHART_H, CHART_PAD = 1000, 72, 16
+# THE BITCOIN CARD'S CHART (Program 7, Sprint 7.1; the week to scale since Sprint 6.2). The
+# SVG keeps its own aspect (the box is CHART_W:CHART_H by CSS aspect-ratio), so a dot stays
+# round and a glow stays even at every width; the viewBox is a phone's width, so the glow's
+# blur (stdDeviation 4) is about 4 px where Jack judges it, at 375. Inside it: three light
+# gridlines, an area fill fading from 28 percent to 0, the line 3 px in the card's direction
+# color with a gaussian glow merged twice under it, the high and low CLOSE as white dots
+# ringed in green and red, and today's point (the last close) as a 6 px dot on a soft halo.
+# The labels sit over the SVG in percent of the box, in the mono, so they stay readable.
+CHART_W, CHART_H, CHART_PAD_X, CHART_PAD_Y = 360, 132, 14, 30
+ARROW = {"up": "\u25b2", "down": "\u25bc"}
 
 
-def tape_chart(week, fmt):
-    """The tape's week: line, soft fill, the low and high marked on the line with their
-    figures, a dot on the last point. "" when fewer than two closes were published."""
+def _whole(v):
+    """$85,945 for the chart's labels: whole dollars from $1,000 up."""
+    import site_build as sb
+    return f"${v:,.0f}" if v >= 1000 else sb._price_fmt(v)
+
+
+def change_html(v, cls, attrs=""):
+    """A change with its own arrow and color, the same sign everywhere (color truth)."""
+    d = _dir(v)
+    word = {"up": "up", "down": "down"}.get(d, "unchanged")
+    return (f'<span class="{cls} {d or "flat"}"{attrs} aria-label="{word} {abs(v):.2f} percent">'
+            f'{ARROW.get(d, "")}{" " if d else ""}{abs(v):.2f}%</span>')
+
+
+def tape_chart(week, fmt=None):
+    """The week: line, fill, gridlines, the low and high close glowing on the line with their
+    figures, today's point on a halo, day labels under it. "" under two closes.
+
+    ITS OWN WINDOW, ITS OWN COLOR (Jack, 12 October 2026, 3:00 PM): the line, the fill, the
+    glow and the halo take the week's direction, first close to last point, never the
+    24-hour change in the badge above it. A down week draws red beside a green day."""
+    import datetime as _d
     closes = (week or {}).get("closes")
+    days = []
     if isinstance(closes, dict):
-        closes = [closes[k] for k in sorted(closes)]
+        keys = sorted(k for k in closes if isinstance(closes[k], (int, float)))
+        days = keys
+        closes = [closes[k] for k in keys]
     vals = [float(c) for c in closes or [] if isinstance(c, (int, float))]
-    pts = spark_points(vals, CHART_W, CHART_H - 2 * CHART_PAD, 0)
+    pts = spark_points(vals, CHART_W - 2 * CHART_PAD_X, CHART_H - 2 * CHART_PAD_Y, 0)
     if not pts:
         return ""
-    pts = [(x, round(y + CHART_PAD, 1)) for x, y in pts]
+    pts = [(round(x + CHART_PAD_X, 1), round(y + CHART_PAD_Y, 1)) for x, y in pts]
     poly = " ".join(f"{x},{y}" for x, y in pts)
-    area = (f"M{pts[0][0]},{CHART_H} " + " ".join(f"L{x},{y}" for x, y in pts)
-            + f" L{pts[-1][0]},{CHART_H} Z")
+    base = CHART_H - CHART_PAD_Y + 6
+    area = (f"M{pts[0][0]},{base} " + " ".join(f"L{x},{y}" for x, y in pts)
+            + f" L{pts[-1][0]},{base} Z")
     lo_i, hi_i = vals.index(min(vals)), vals.index(max(vals))
     last = len(vals) - 1
+    d = "up" if vals[-1] > vals[0] else "down" if vals[-1] < vals[0] else "flat"
+    top, bot = CHART_PAD_Y, CHART_H - CHART_PAD_Y
+    grid = "".join(f'<line class="h-grid" x1="0" x2="{CHART_W}" y1="{y:.1f}" y2="{y:.1f}"/>'
+                   for y in (top, (top + bot) / 2, bot))
+    lx, ly = pts[last]
+    marks_svg = (f'<circle class="h-halo" cx="{lx}" cy="{ly}" r="16" fill="url(#h-halo-g)"/>'
+                 f'<circle class="h-dot h-dot-hi" cx="{pts[hi_i][0]}" cy="{pts[hi_i][1]}" r="4.5"/>'
+                 f'<circle class="h-dot h-dot-lo" cx="{pts[lo_i][0]}" cy="{pts[lo_i][1]}" r="4.5"/>'
+                 f'<circle class="h-dot-now {d}" cx="{lx}" cy="{ly}" r="3"/>')
 
-    def mark(i, cls, label):
+    def label(i, cls, word):
         x, y = pts[i]
         left = round(100 * x / CHART_W, 2)
         side = " h-k-r" if left > 70 else " h-k-l" if left < 30 else ""
-        cls += " h-k-last" if i == last else ""
-        fig = (f'<span class="h-kf{side}">{_e(label)} <b>{_e(fmt(vals[i]))}</b></span>'
-               if label else "")
-        top = round(100 * y / CHART_H, 2)
-        return (f'<span class="h-k {cls}" style="left:{left}%;top:{top}%">'
-                f'<i></i>{fig}</span>')
-    # The line is the daily closes, so its marks are the week's lowest and highest CLOSE.
-    # The snapshot's week low and high are hourly extremes and lie off this line; printed
-    # beside it they would mark a point the line does not reach.
-    marks = mark(hi_i, "h-k-hi", "high close") + mark(lo_i, "h-k-lo", "low close")
-    if last not in (lo_i, hi_i):
-        marks += mark(last, "", "")
-    return (f'<div class="h-chart" style="height:{CHART_H}px">'
-            f'<svg class="h-spark" viewBox="0 0 {CHART_W} {CHART_H}" '
-            f'preserveAspectRatio="none" role="img" aria-label="Bitcoin, {len(pts)} daily '
-            f'closes, low {_e(fmt(min(vals)))}, high {_e(fmt(max(vals)))}">'
-            f'<path class="h-area" d="{area}"/>'
-            f'<polyline pathLength="1" points="{poly}"/></svg>{marks}</div>')
+        t = round(100 * y / CHART_H, 2)
+        return (f'<span class="h-k {cls}{side}" style="left:{left}%;top:{t}%">'
+                f'{word} <b>{_e(_whole(vals[i]))}</b></span>')
+    labels = label(hi_i, "h-k-hi", "HIGH") + label(lo_i, "h-k-lo", "LOW")
+    dl = ""
+    if days and len(days) == len(pts):
+        spans = []
+        for (x, _y), k in zip(pts, days):
+            try:
+                wd = _d.date.fromisoformat(k).strftime("%a")
+            except ValueError:
+                wd = ""
+            spans.append(f'<span style="left:{round(100 * x / CHART_W, 2)}%">{_e(wd)}</span>')
+        dl = f'<div class="h-days" aria-hidden="true">{"".join(spans)}</div>'
+    stop = {"up": "var(--up-line)", "down": "var(--down-line)"}.get(d, "var(--ink)")
+    return (f'<div class="h-chart-w"><div class="h-chart">'
+            f'<svg class="h-spark {d}" viewBox="0 0 {CHART_W} {CHART_H}" role="img" '
+            f'aria-label="Bitcoin, {len(pts)} daily closes, low {_e(_whole(min(vals)))}, '
+            f'high {_e(_whole(max(vals)))}">'
+            f'<defs><linearGradient id="h-area-g" x1="0" y1="0" x2="0" y2="1">'
+            f'<stop offset="0" style="stop-color:{stop};stop-opacity:.28"/>'
+            f'<stop offset="1" style="stop-color:{stop};stop-opacity:0"/></linearGradient>'
+            f'<radialGradient id="h-halo-g"><stop offset="0" style="stop-color:{stop};'
+            f'stop-opacity:.55"/><stop offset="1" style="stop-color:{stop};stop-opacity:0"/>'
+            f'</radialGradient>'
+            f'<filter id="h-glow" filterUnits="userSpaceOnUse" x="-20" y="-20" '
+            f'width="{CHART_W + 40}" height="{CHART_H + 40}">'
+            f'<feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/>'
+            f'<feMerge><feMergeNode in="b"/><feMergeNode in="b"/>'
+            f'<feMergeNode in="SourceGraphic"/></feMerge></filter></defs>'
+            f'{grid}<path class="h-area" d="{area}" fill="url(#h-area-g)"/>'
+            f'<polyline class="h-line {d}" pathLength="1" points="{poly}" '
+            f'filter="url(#h-glow)"/>'
+            f'<g class="h-marks" filter="url(#h-glow)">{marks_svg}</g></svg>'
+            f'{labels}</div>{dl}</div>')
+
+
+def _coin_tile(name, price_html, chg, gid=None):
+    d = _dir(chg) if isinstance(chg, (int, float)) else ""
+    attrs = f' data-tape-chg="{gid}"' if gid else ""
+    ch = change_html(chg, "h-ac", attrs) if isinstance(chg, (int, float)) else ""
+    tile_attr = f' data-tile="{gid}"' if gid else ""
+    return (f'<li class="h-coin {d or "flat"}"{tile_attr}>'
+            f'<span class="h-as">{_e(name)}</span>{price_html}{ch}</li>')
 
 
 def tape(snap):
@@ -168,7 +230,10 @@ def tape(snap):
         return _block("tape", '<p class="h-wait">The tape is waiting for the snapshot\'s '
                               'Bitcoin price (CoinGecko /coins/markets).</p>')
     chg = btc.get("chg_24h_pct")
-    chg_html = (f'<span class="h-chg {_dir(chg)}" data-tape-chg="bitcoin">{_pctx(chg)}</span>'
+    d = _dir(chg) if isinstance(chg, (int, float)) else ""
+    # COLOR TRUTH: the price, the badge and the card's glow take one sign, the 24-hour change
+    # printed in the badge beside the price. The week's chart takes its own (tape_chart).
+    chg_html = (change_html(chg, "h-badge", ' data-tape-chg="bitcoin"')
                 if isinstance(chg, (int, float)) else "")
     week = (snapshot.value(snap, "week") or {}).get("BTC") or {}
     chart = tape_chart(week, sb._price_fmt)
@@ -177,39 +242,97 @@ def tape(snap):
         c = snapshot.coin(snap, sym)
         if not isinstance(c.get("price"), (int, float)):
             continue
-        ch = c.get("chg_24h_pct")
-        alts.append(f'<li><span class="h-as">{_e(name)}</span>'
-                    f'<span class="h-ap" data-tape="{gid}">{_e(sb._price_fmt(c["price"]))}</span>'
-                    + (f'<span class="h-ac {_dir(ch)}" data-tape-chg="{gid}">{_pctx(ch)}</span>'
-                       if isinstance(ch, (int, float)) else "") + '</li>')
+        alts.append(_coin_tile(name, f'<span class="h-ap" data-tape="{gid}">'
+                                     f'{_e(sb._price_fmt(c["price"]))}</span>',
+                               c.get("chg_24h_pct"), gid))
     cap = snapshot.value(snap, "total_cap") or {}
     if isinstance(cap.get("usd"), (int, float)):
-        cc = cap.get("chg_24h_pct")
-        alts.append(f'<li class="h-cap"><span class="h-as">Total cap</span>'
-                    f'<span class="h-ap">{_e(sb.fmt_usd(cap["usd"]))}</span>'
-                    + (f'<span class="h-ac {_dir(cc)}">{_pctx(cc)}</span>'
-                       if isinstance(cc, (int, float)) else "") + '</li>')
+        alts.append(_coin_tile("All crypto", f'<span class="h-ap">{_e(sb.fmt_usd(cap["usd"]))}'
+                                             f'</span>', cap.get("chg_24h_pct")))
     read = ((snap.get("fields") or {}).get("coins") or {}).get("read_utc")
     asof = _stamp(read) or snap.get("stamp_et") or ""
-    inner = (f'<div class="h-tape-in"><div class="h-main">'
+    inner = (f'<div class="h-btc {d or "flat"}" data-btc-card>'
              f'<p class="h-name">Bitcoin <span class="h-w">24h</span></p>'
-             f'<p class="h-big"><span class="h-px" data-tape="bitcoin">'
+             f'<p class="h-big"><span class="h-px {d or "flat"}" data-tape="bitcoin">'
              f'{_e(sb._price_fmt(btc["price"]))}</span>{chg_html}</p>'
-             f'</div>{chart}'
-             f'<ul class="h-alts">{"".join(alts)}</ul></div>'
+             f'{chart}</div>'
+             f'<ul class="h-coins">{"".join(alts)}</ul>'
              f'<p class="h-live" id="tapeLive" data-built="{_e(asof)}">as of {_e(asof)}</p>'
-             f'<p class="h-board">Everything below the tape is the Board, as of '
+             f'<p class="h-board">Everything below is the Board, as of '
              f'{_e(snap.get("stamp_et") or asof)}.</p>')
     return _block("tape", inner)
 
 
 # ---- the narrative band -------------------------------------------------------------------
 
-def narrative_band(narr, snap):
-    line = str((narr or {}).get("line") or "").strip()
+def band_line(narr, snap=None):
+    """(line, readings, replaced). The band's sentence never quotes a change (Program 6.2,
+    enforced in Sprint 7.1): a stored line that carries a percentage is replaced at render
+    by the clause table's line, written from the snapshot the tape prints, so its words
+    ("drifting higher") cannot disagree with the tape either."""
+    import narrative as _n
+    narr = narr or {}
+    line = str(narr.get("line") or "").strip()
+    if line and _n.quotes_change(line):
+        r = _n.readings(snap) if snap else (narr.get("readings") or {})
+        return _n.table_line(r, narr.get("wire_top3") or []), r, True
+    return line, narr.get("readings"), False
+
+
+_SLOT_NAMES = (("morning", "MORNING"), ("midday", "MIDDAY"), ("evening", "EVENING"))
+
+
+def brief_name(ed):
+    """'THE BRIEF · SUNDAY EVENING': the edition it actually is, by its day and its slot."""
+    if not ed:
+        return "THE BRIEF"
+    slug = str(ed.get("slug") or ed.get("id") or "")
+    slot = next((w for k, w in _SLOT_NAMES if k in slug), "")
+    try:
+        day = _dt.date.fromisoformat(str(ed.get("date"))[:10]).strftime("%A").upper()
+    except ValueError:
+        day = ""
+    tail = " ".join(x for x in (day, slot) if x)
+    return "THE BRIEF" + (f" \u00b7 {tail}" if tail else "")
+
+
+def next_brief(ed, now=None):
+    """'Next Brief tonight at 7:08 PM ET', or tomorrow's when tonight's is the one shown.
+    The slot is the Edition's cron (EDITION_UTC), the only slot this desk runs."""
+    now = now or _now()
+    today = now.astimezone(_ET).date()
+    shown = None
+    if ed:
+        pu = _utc(ed.get("published_utc"))
+        shown = pu.astimezone(_ET).date() if pu else None
+    when = "tomorrow" if shown == today else "tonight"
+    return f"Next Brief {when} at {edition_time_et(now)}"
+
+
+def _brief_title(ed):
+    t = str((ed or {}).get("title") or "")
+    for pre in ("The Evening Brief:", "The Morning Brief:", "The Midday Update:",
+                "The Midday Brief:"):
+        if t.startswith(pre):
+            return t[len(pre):].strip()
+    return t
+
+
+def narrative_band(narr, snap, ed=None, now=None):
+    """THE BRIEF CARD (Program 7, Sprint 7.1) in the band's place: the edition by name and
+    day, its headline, the narrative sentence the Edition wrote (never quoting a change),
+    and when the next Brief is due."""
+    eye = f'<p class="h-eye">{_e(brief_name(ed))}</p>'
+    head = (f'<h2 class="h-bt"><a href="/articles/{_e(ed.get("slug"))}.html">'
+            f'{_e(_brief_title(ed))}</a></h2>' if ed else "")
+    nxt = f'<p class="h-next">{_e(next_brief(ed, now))}</p>'
+    line, _r, replaced = band_line(narr, snap)
+    if replaced:
+        narr = dict(narr, readings=_r, written_et=snap.get("stamp_et") or "")
     stamp = snap.get("stamp_et") or ""
     if not line:
-        return _block("narrative", f'<p class="h-nsmall">The Board as of {_e(stamp)}.</p>',
+        return _block("narrative", eye + head
+                      + f'<p class="h-nsmall">The Board as of {_e(stamp)}.</p>' + nxt,
                       cls="h-band")
     # the small line names the readings the sentence was written from and prints none of
     # their figures (Sprint 6.2): each prints once on the page, Bitcoin's day change on the
@@ -224,12 +347,28 @@ def narrative_band(narr, snap):
             small = ""
     when = narr.get("written_et") or ""
     tail = f" ({when})" if when and small else ""
-    return _block("narrative", f'<p class="h-nline">{_e(line)}</p>'
-                               + (f'<p class="h-nsmall">{_e(small)}{_e(tail)}.</p>'
-                                  if small else ""), cls="h-band")
+    return _block("narrative", eye + head + f'<p class="h-nline">{_e(line)}</p>'
+                  + (f'<p class="h-nsmall">{_e(small)}{_e(tail)}.</p>' if small else "")
+                  + nxt, cls="h-band")
 
 
 # ---- since yesterday ----------------------------------------------------------------------
+
+def gap_bar(gap):
+    """The distance from the 200-day average as a 12 px bar: green with a green glow above
+    it, red with a red glow below. The scale runs from the average to 25 percent, or to the
+    next 5 past the gap when it is wider, and both ends are printed."""
+    import math
+    d = "up" if gap >= 0 else "down"
+    scale = max(25, int(math.ceil(abs(gap) / 5.0)) * 5)
+    w = round(100 * min(abs(gap), scale) / scale, 1)
+    word = "above" if gap >= 0 else "below"
+    return (f'<span class="h-gap {d}" role="img" aria-label="{abs(gap):.1f} percent {word} '
+            f'the 200-day average, on a scale to {scale} percent">'
+            f'<span class="h-gap-t"><i style="width:{w}%"></i></span>'
+            f'<span class="h-gap-e"><span>200-day</span><span>{scale}% {word}</span></span>'
+            f'</span>')
+
 
 def since(pulse, deltas):
     """Since yesterday (Sprint 6.2): Bitcoin against its 200-day average first, then
@@ -245,7 +384,8 @@ def since(pulse, deltas):
         thru = f' <span class="h-thru">({_e(thru)})</span>' if thru else ""
         rows.append(f'<li>Bitcoin is <span class="h-d">{abs(gap):.1f}%</span> '
                     f'{"above" if gap >= 0 else "below"} its 200-day average of '
-                    f'<span class="h-d">{_e(sb._price_fmt(sma))}</span>{thru}.</li>')
+                    f'<span class="h-d">{_e(sb._price_fmt(sma))}</span>{thru}.'
+                    f'{gap_bar(gap)}</li>')
     mkt = (pulse or {}).get("market") or {}
     dom = mkt.get("btc_dominance_pct")
     if isinstance(dom, (int, float)):
@@ -494,7 +634,7 @@ def t_bitcoin(snap, pulse, deltas):
                f"yesterday's close" if isinstance(d, (int, float))
                else "No close kept for yesterday")
     ch = c.get("chg_24h_pct")
-    win = "24 hours" + (f", {ch:+.2f}%" if isinstance(ch, (int, float)) else "")
+    win = "24 hours"
     sma = btc.get("sma200")
     if isinstance(sma, (int, float)) and sma:
         gap = (c["price"] / sma - 1) * 100
@@ -502,8 +642,9 @@ def t_bitcoin(snap, pulse, deltas):
         thru = sb._series_stamp(btc, pulse, html=False)
         if thru:
             win += f"; 200-day from {thru}"
-    return tile.render("bitcoin", sb._price_fmt(c["price"]), direction=_dir(ch),
-                       window=win,
+    return tile.render("bitcoin", sb._price_fmt(c["price"]),
+                       change=ch if isinstance(ch, (int, float)) else None,
+                       since_change=d, window=win,
                        since=since_t, source="CoinGecko", stamp=st)
 
 
@@ -521,9 +662,9 @@ def t_cap(snap, deltas):
     if isinstance(dom, (int, float)):
         since_t += f"; Bitcoin is {dom:.1f}% of it"
     ch = cap.get("chg_24h_pct")
-    return tile.render("total-cap", sb.fmt_usd(cap["usd"]), direction=_dir(ch),
-                       window="every coin, 24 hours" + (f", {ch:+.2f}%"
-                                                         if isinstance(ch, (int, float)) else ""),
+    return tile.render("total-cap", sb.fmt_usd(cap["usd"]),
+                       change=ch if isinstance(ch, (int, float)) else None,
+                       since_change=d, window="every coin, 24 hours",
                        since=since_t, source="CoinGecko", stamp=st)
 
 
@@ -547,22 +688,106 @@ def snapshot_value(snap, name):
     return snapshot.value(snap, name)
 
 
+def c_etf(snap):
+    import site_build as sb
+    import tile
+    etf, src, st = _field(snap, "etf_flows")
+    b = (etf or {}).get("btc") or {}
+    net = b.get("latest_net_usd_m")
+    if not isinstance(net, (int, float)):
+        return ""
+    fig = (f"{'+' if net > 0 else '-' if net < 0 else ''}{sb.fmt_usd(abs(net) * 1e6)}"
+           if net else "flat")
+    day = sb.us_date(b.get("latest_date")) or b.get("latest_date") or ""
+    return tile.card("etf-net", fig, f"one trading day, {day} \u00b7 {src.split(' (')[0]}",
+                     direction=_dir(net))
+
+
+def c_whale(snap, flows):
+    import site_build as sb
+    import tile
+    wv, src, st = _field(snap, "whale_net")
+    if not isinstance((wv or {}).get("net_usd"), (int, float)) or not sb._flows_have_data(flows):
+        return ""
+    amt, words, cls = sb.flow_words(wv["net_usd"])
+    return tile.card("whale-net", amt, f"{words}, {sb._win_phrase(wv.get('window_hours', 24))}"
+                                       f" \u00b7 Whale Alert", label="Whales", direction=cls)
+
+
+def c_float(snap):
+    import site_build as sb
+    import tile
+    stv, src, st = _field(snap, "stablecoin_float")
+    if not isinstance((stv or {}).get("total_usd"), (int, float)):
+        return ""
+    return tile.card("stablecoin-float", sb.fmt_usd(stv["total_usd"]),
+                     f"all stablecoins, now \u00b7 {src.split(' ')[0]}", label="Stablecoins")
+
+
+def c_funding(snap):
+    import narrative
+    import tile
+    fund, src, st = _field(snap, "funding")
+    f = (fund or {}).get("BTC") or {}
+    v = f.get("funding_8h_pct")
+    if not isinstance(v, (int, float)):
+        return ""
+    fig = "0.0000%" if abs(v) < 0.00005 else f"{v:+.4f}%"     # never a "-0.0000%"
+    return tile.card("funding", fig,
+                     f"{narrative.funding_band(v)}, per 8 hours \u00b7 {f.get('venue') or 'OKX'}")
+
+
 def money(snap, pulse, flows, deltas):
-    tiles = [t_etf(snap, pulse), t_float(snap, deltas), t_whale(snap, flows)]
-    if not any(tiles):
+    """THE MONEY (Program 7, Sprint 7.1): two by two, Spot ETF net, Whales, Stablecoins and
+    Funding, each its label, its figure and one line of window or source. The Board's one
+    stamp is the tape's line above."""
+    cards = [c_etf(snap), c_whale(snap, flows), c_float(snap), c_funding(snap)]
+    if not any(cards):
         return _block("money", '<p class="h-wait">Waiting for the snapshot\'s flows.</p>',
                       "The money")
     import tile
-    return _block("money", tile.grid(tiles), "The money")
+    return _block("money", tile.grid(cards, "tl-cards"), "The money")
+
+
+def gauge(v):
+    """A semicircle from 0 to 100, the amber arc glowing up to the value, a white marker at
+    its end. Static: it draws whole and never moves."""
+    import math
+    v = max(0.0, min(100.0, float(v)))
+    r, cx, cy = 80, 100, 96
+    a = math.pi * (1 - v / 100.0)
+    mx, my = cx + r * math.cos(a), cy - r * math.sin(a)
+    arc = f"M{cx - r},{cy} A{r},{r} 0 0 1 {cx + r},{cy}"
+    return (f'<svg class="h-gauge" viewBox="0 0 200 110" aria-hidden="true">'
+            f'<defs><filter id="h-gglow" filterUnits="userSpaceOnUse" x="-20" y="-20" '
+            f'width="240" height="150"><feGaussianBlur in="SourceGraphic" stdDeviation="4" '
+            f'result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/>'
+            f'<feMergeNode in="SourceGraphic"/></feMerge></filter></defs>'
+            f'<path class="h-g-track" d="{arc}"/>'
+            f'<path class="h-g-arc" d="{arc}" pathLength="100" '
+            f'stroke-dasharray="{v:g} 100" filter="url(#h-gglow)"/>'
+            f'<circle class="h-g-mark" cx="{mx:.1f}" cy="{my:.1f}" r="7"/></svg>')
 
 
 def mood(snap, pulse, deltas):
-    tiles = [t_funding(snap, pulse), t_oi(snap, deltas), t_fng(snap, deltas)]
-    if not any(tiles):
-        return _block("mood", '<p class="h-wait">Waiting for the snapshot\'s mood readings.'
-                              '</p>', "The mood")
-    import tile
-    return _block("mood", tile.grid(tiles), "The mood")
+    """THE MOOD (Program 7, Sprint 7.1): Fear & Greed as a gauge, the number in its center,
+    the word beside it with its source and stamp, and yesterday's figure when one was kept."""
+    import site_build as sb
+    fg, src, st = _field(snap, "fear_greed")
+    if not isinstance((fg or {}).get("value"), (int, float)) or not st:
+        return _block("mood", '<p class="h-wait">Waiting for the snapshot\'s Fear &amp; Greed '
+                              'reading.</p>', "The mood")
+    val = fg["value"]
+    word = sb._fng_band(val)
+    fd = (deltas or {}).get("fng") or {}
+    prev = (f'<p class="h-mood-s">{fd["prev"]:g} yesterday</p>'
+            if isinstance(fd.get("prev"), (int, float)) else "")
+    inner = (f'<div class="h-moodc" data-reading="fear-greed">'
+             f'<div class="h-g">{gauge(val)}<p class="h-g-n">{val:g}</p></div>'
+             f'<div class="h-mood-r"><p class="h-mood-l"><a href="/learn.html#fear-greed">'
+             f'Fear &amp; Greed</a></p><p class="h-mood-w">{_e(word)}</p>{prev}'
+             f'<p class="h-mood-src">alternative.me &middot; {_e(st)}</p></div></div>')
+    return _block("mood", inner, "The mood")
 
 
 # ---- moving today, today, mine ------------------------------------------------------------
@@ -625,7 +850,7 @@ def mine():
 
 # ---- below the fold --------------------------------------------------------------------
 
-BELOW_FOLD = ("board", "whales", "brief", "record")
+BELOW_FOLD = ("board", "whales", "record")
 
 
 # NOTHING TWICE (Program 6, Sprint 6.2): every reading the fold above already prints, by its
@@ -633,8 +858,10 @@ BELOW_FOLD = ("board", "whales", "brief", "record")
 # yesterday, the ETF, the float and the whales in the money, funding (and so its annualized
 # Leverage tile), open interest and Fear & Greed in the mood. The Board below the fold
 # draws only what is left, and links the full Board for the rest.
+# Program 7, Sprint 7.1: the mood is the Fear & Greed gauge alone and funding sits in the
+# money, so open interest, no longer above, draws in the Board below.
 ABOVE_READINGS = ("bitcoin", "total-cap", "etf-net", "whale-net", "stablecoin-float",
-                  "funding", "open-interest", "fear-greed")
+                  "funding", "fear-greed")
 
 
 def board(snap, pulse, flows, deltas):
@@ -643,7 +870,7 @@ def board(snap, pulse, flows, deltas):
     import re
     tiles = [t_bitcoin(snap, pulse, deltas), t_cap(snap, deltas), t_etf(snap, pulse),
              t_whale(snap, flows), t_leverage(snap, pulse), t_float(snap, deltas),
-             t_fng(snap, deltas), t_fee(snap, deltas)]
+             t_oi(snap, deltas), t_fng(snap, deltas), t_fee(snap, deltas)]
     tiles = [t for t in tiles if t and re.search(r'data-reading="([a-z-]+)"', t).group(1)
              not in ABOVE_READINGS]
     import tile
@@ -741,17 +968,18 @@ def record(items):
 
 def below_fold(snap, pulse, flows, deltas, items, ed, now=None):
     return (f'<div class="h-below" data-fold="below">'
-            f'{board(snap, pulse, flows, deltas)}{whales(flows)}{brief(ed, now)}'
+            f'{board(snap, pulse, flows, deltas)}{whales(flows)}'
             f'{record(items)}</div>')
 
 
 
 # ---- the page -----------------------------------------------------------------------------
 
-def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None):
-    """The ten blocks of section 2, in order, as one string."""
+def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, ed=None):
+    """The ten blocks of section 2, in order, as one string. `ed` is the day's edition
+    (site_build.current_bottom_line), which the Brief card names."""
     blocks = {
-        "tape": tape(snap), "narrative": narrative_band(narr, snap),
+        "tape": tape(snap), "narrative": narrative_band(narr, snap, ed, now),
         "since": since(pulse, deltas), "why": why(wire, now),
         "wire": wire_top(wire, cadence, now), "money": money(snap, pulse, flows, deltas),
         "mood": mood(snap, pulse, deltas), "movers": movers(snap),
@@ -788,11 +1016,24 @@ HOME_JS = """<script>(function(){
       if(el.textContent!==s){el.textContent=s; if(!RM){el.classList.remove('h-fade');void el.offsetWidth;el.classList.add('h-fade');}}
     });
     if(!landed)return;
+    // COLOR TRUTH: one sign per coin. The change, its arrow, its color, the price beside it,
+    // its tile and (for Bitcoin) the card take the new 24-hour change; the week's chart is a
+    // different window and is never recolored from it.
+    function dir(c){return c>0?'up':c<0?'down':'flat';}
+    function recl(el,dd){if(el)el.className=el.className.replace(/ (up|down|flat)\\b/g,'')+' '+dd;}
     document.querySelectorAll('[data-tape-chg]').forEach(function(el){
-      var v=d[el.getAttribute('data-tape-chg')]; if(!v||typeof v.usd_24h_change!=='number')return;
-      el.textContent=pc(v.usd_24h_change); el.className=el.className.replace(/ ?(up|down)/g,'')+(v.usd_24h_change>0?' up':v.usd_24h_change<0?' down':'');
+      var id=el.getAttribute('data-tape-chg'), v=d[id]; if(!v||typeof v.usd_24h_change!=='number')return;
+      var c=v.usd_24h_change, dd=dir(c), a=dd==='up'?'\\u25b2 ':dd==='down'?'\\u25bc ':'';
+      el.textContent=a+Math.abs(c).toFixed(2)+'%';
+      el.setAttribute('aria-label',(dd==='flat'?'unchanged':dd)+' '+Math.abs(c).toFixed(2)+' percent');
+      recl(el,dd);
+      if(id==='bitcoin'){recl(document.querySelector('.h-px[data-tape="bitcoin"]'),dd);
+        recl(document.querySelector('[data-btc-card]'),dd);}  // the week's chart keeps its own window's color
+      else recl(document.querySelector('[data-tile="'+id+'"]'),dd);
     });
     var st=document.getElementById('tapeLive'); if(st){st.textContent='live \\u00b7 '+etClock();st.classList.add('on');}
+    var mh=document.querySelector('[data-mh-live]'); if(mh){mh.classList.add('on');
+      var w=mh.querySelector('.mh-lw'),t=mh.querySelector('.mh-lt'); if(w)w.textContent='LIVE'; if(t)t.textContent=etClock();}
   }).catch(function(){});
   var host=document.querySelector('[data-mine]'); if(!host)return;
   var picks=[]; try{picks=JSON.parse(localStorage.getItem('gcmc_coins')||'[]');}catch(e){return;}

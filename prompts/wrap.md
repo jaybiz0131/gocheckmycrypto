@@ -123,6 +123,8 @@ THE NARRATIVE LINE ("narrative_line") is one sentence of two clauses, written on
 narrative_inputs block (the Board's readings and the wire's top three): first which way
 Bitcoin is drifting and on what reading, then what kind of day the news is. It describes;
 it never predicts (no will, could, may, likely, expect, target, outlook). No figure the
-readings do not carry, no em dashes, under 200 characters.
+readings do not carry, no em dashes, under 200 characters. NO PERCENTAGES AT ALL: never
+quote Bitcoin's day change or any other change ("drifted up 0.79 percent" is refused).
+The tape prints Bitcoin's day change; the line says which way in words ("drifting higher").
 
 Output valid JSON and nothing else.

@@ -66,7 +66,11 @@ try {
       await page.addStyleTag({ content: ".tabbar{position:static!important}body{padding-bottom:0!important}" }).catch(() => {});
       await page.waitForTimeout(SETTLE);
       if (WEIGHTS && +w === 375 && theme === "light") weights[p] = { status: resp.status(), bytes };
-      if (SHOTS) await page.screenshot({ path: path.join(out, `${slug(p)}-${w}-${theme}.png`), fullPage: true });
+      // --max-height: the top of the page only (Program 7 contact sheets; /bottom-line is ~98,000 px)
+      const MAXH = parseInt(opt("--max-height", "0"), 10);
+      const docH = MAXH ? await page.evaluate(() => document.documentElement.scrollHeight) : 0;
+      if (SHOTS) await page.screenshot({ path: path.join(out, `${slug(p)}-${w}-${theme}.png`), fullPage: true,
+        ...(MAXH ? { clip: { x: 0, y: 0, width: parseInt(w, 10), height: Math.min(docH, MAXH) } } : {}) });
     }
     await ctx.close();
   }
