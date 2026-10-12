@@ -7,7 +7,7 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 12 October 2026, Program 6 Sprint 6.3 merged (section 7e). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 12 October 2026, Program 7 Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
@@ -182,67 +182,9 @@ not piped into `tail` and assumed.
 
 ## 7c. Program 6, Sprint 6.1 (11 October): moved whole to `docs/HANDOFF-2026-10-11.md` (U-1).
 
-## 7d. Program 6, Sprint 6.2: the ignore rule, and the home page edited (11 October 2026)
+## 7d. Program 6, Sprint 6.2 (11 October): moved whole to `docs/HANDOFF-2026-10-11.md` (U-1).
 
-Run on 11 October from the strategy desk's opener written for 12 October. RULES hash
-`4179b2ac...b3568d`, the opener's; `origin/main` at start `f03f147`.
-- **Item 0, the ignore rule, merge `dc4d8f5`** (branch `ignore-scripts`, `0f36bed`), pushed
-  4:09:12 PM EDT. `scripts/` is on `DOC_PREFIXES` except `scripts/og_render.py`, which
-  `site_build` imports (`BUILD_READS`). The new reads check found the opposite hole too:
-  `learn/*.md` are rendered by the build but `DOC_SUFFIXES` skipped them, so they now always
-  build (`BUILD_READ_PREFIXES`). `verify_pipeline.py` is on `DOC_FILES` (no build step reads
-  it). Replay `CACHED_COMMIT_REF=aa64f08 COMMIT_REF=0c47b73`: old script exit 1, new exit 0.
-  Canary `_ignore_reads_canary` records every path the stamp canary's build opens for reading
-  and fails on a tool or document file the build never reads that would build, or one it reads
-  that would be skipped. The push did not build: Netlify "Canceled build due to no content
-  change" for `dc4d8f5`, production stayed `325386b`.
-- **Item 1, the home page, merge `3c0665e`** (branch `home-edit`, `e2f3b4c`), Jack's yes on
-  the contact sheets, pushed 4:53:57 PM EDT, production `3c0665e` built 20:56:49Z. The tape is
-  the one place Bitcoin's day change prints. The band's small line names its readings with no
-  figures (`narrative.band_names`); since yesterday is the 200-day line and Bitcoin's share of
-  the market. Each reading prints once: the Board below the fold drops everything in
-  `home.ABOVE_READINGS` (it shows Network fees only), the movers skip the tape's coins, and
-  the tape shows Total cap at every width. The tape chart draws the week's daily closes across
-  the tape (72 px phone, 96 px desktop), with a 12 percent fill, the low and high CLOSE marked
-  with their figures, and a dot on the last point. It draws once and shows whole under reduced
-  motion. The snapshot's hourly week low and high are no longer printed, because they are not
-  on the line. Tile text was cut, and the explanations moved to `tile.READINGS` on Learn.
-- **Counts of record, 11 October:** after item 0, 4 ready and 2 canceled (read 4:15:57 PM,
-  push + 6 min 45 s). After item 1, 5 ready and 2 canceled (read 4:59:14 PM, push + 5 min
-  17 s). Both canceled entries are ignore-script skips. Today's five builds are spent, so the
-  evening Edition's push is the sixth. Jack's call.
-- **Open:** "Since yesterday" no longer carries a since-yesterday change; its name is Sprint
-  6.3's. Canaries leave `site/data/chartmaster/2026-10-08.json` and
-  `site/data/snapshots/pulse-2026-10-11.json` untracked after every run (true before this
-  sprint). This file is over U-1's 300 lines.
-
-## 7e. Program 6, Sprint 6.3: navigation and names (11 October 2026, 7:05 PM EDT; written Monday's session)
-
-**Jack's rulings, Sunday 11 October 2026:** (1) Sprint 6.2 is accepted: the ignore rule `dc4d8f5`
-and the home edit `3c0665e`, closed at `9fe3f7e`. (2) On a day when the five builds are used up,
-the evening Edition still runs. The Edition outranks the allowance, and the report notes the
-overage.
-
-RULES hash `4179b2ac...b3568d`, matched. `origin/main` at start `9fe3f7e`. Nothing was pushed:
-the session ran inside the 6:30 to 8:15 PM ET window, and the merge waits for Jack's yes on the
-contact sheets (`shots/program6-6.3/`).
-- **Items 0 to 2, branch `nav-names`, local commit `f358afc`, NOT merged.** `site_build.NAMES` is
-  the one table (task name, brand name, URL); nav, tab bar, footer, H1, eyebrow, title tag all
-  read it. Markets (The Board), Flows (Whale Watch), Charts (Chart Master), News (Checked), Brief
-  (The Edition), Record (Worth keeping), Learn (The Board explained). Below 700 px the top row is
-  hidden and a five-tab bar shows (56 px targets, `env(safe-area-inset-bottom)`, `viewport-fit=cover`,
-  a bar across the top of the current tab plus `aria-current`). Record and Learn are in the footer,
-  search does not exist yet. Home and About stay in the desktop row. The active mark comes from
-  the URL (`nav_group`), not from the label each caller passed. Item 2 is not applied: see the report.
-- **Item 3, branch `nav-names-close`, done.** `layer1_canary` runs with `CM_ARCHIVE` and
-  `SNAPSHOT_DIR` on a scratch copy (the live-layer canary's home render wrote the two files);
-  `scripts/canary_clean_test.py` was red on main (two files left), green after.
-- **Item 4, branch `nav-names-close`, done:** sections 6, 7, 7b and 7c moved whole to the day files.
-- **Jack's yes and rulings (11 October, 7:2x PM):** "Since yesterday" is "Where Bitcoin stands"; the edition
-  card is "The Brief"; Home and About as built.
-- **Merged 12 October, 8:30:55 AM EDT: `0ae8b0f`**, production stamp read `0ae8b0f` built 12:34:55Z; 32 reads at
-  375 and 1440 in both modes clean (report). Netlify count not readable from the container: Jack reads it.
-- **Close merged after (documents and scripts only, ignore rule).** Sprint 6.4 gets its own session.
+## 7e. Program 6, Sprint 6.3 (11 and 12 October): moved whole to `docs/HANDOFF-2026-10-11.md` (U-1).
 
 ## 8. Traps
 
@@ -255,6 +197,29 @@ contact sheets (`shots/program6-6.3/`).
 - **A ledger row lands mid-canary.** The watcher pushes `ledger.json` rows on the half hour;
   twice now (4 and 5 October) one landed between the canary and the push. Re-merge on origin's
   tip and push; the shipped tree differs by that row only. Fetch before pushing, every time.
+
+
+## 9. Program 7, Sprint 7.1: the new look, everywhere (12 October 2026)
+
+**Jack's rulings, Monday 12 October 2026** (recorded in his words):
+1. Sprint 6.3 is accepted: merged at 0ae8b0f, closed at f7cd67a.
+2. Program 6's flat look read worse than the old site: "the layout improved, but the older one looked better visually." The layout stays. The look is replaced by the approved design, "A, the front page in color, with glow" (strategy desk canvas, October 12).
+3. Sprint 6.4 (coin pages and the Top 100) waits until this sprint merges, so nothing new is built on the flat look.
+4. A figure's color and arrow must always agree with the number printed beside it. The site never shows Bitcoin in green beside a line that says it is down.
+
+**Jack's yes, 3:00 PM ET, with one fix, and its rulings:** each chart is colored by its own window (the week's line by the 7-day change, first close to last point, never the 24-hour badge); every line chart on the site the same. Accepted as built: the Brief card in the band's place (the Brief block below the fold is gone, nothing twice), the mood as the Fear & Greed gauge alone (funding in the money, open interest on the Board below), the masthead stamp that reads UPDATED and lights LIVE only after the live read answers, and 7:08 PM ET as the next-Brief time (the cron).
+
+**Merged `4194c5b`** (real merge of `glow-look` `01a68f6` into `320a1e6`), pushed 3:17:20 PM EDT; production stamp `4194c5b` built 19:20:13Z; 32 production reads clean; count of record 4 ready, 1 canceled at 3:22:53 PM (the 7:08 PM Edition is the day's fifth). Report: `docs/REPORT-PROGRAM-7-SPRINT-7.1-2026-10-12.md`.
+
+**The tokens** (`site/assets/system.css`, light / dark): ground #FFFFFF / #0B1422; card #FFFFFF / #13203A; ink #0F1B2D / #E8EEF7; muted #4A5568 / #A9B6CC; faint #6B7280 / #8E9BB3; line #E6EAF0 / #24314D; up text #0B6E3B / #4ADE80, up tint #EAF7EF / #123227, up line #12A05A / #4ADE80; down text #A51F15 / #FF6B5E, down tint #FDECEA / #3A1820, down line #E0301F / #FF6B5E; eyebrow red #C8261B / #FF7A6E; brand coral #FF6B5E; live green #7CFFB0; amber #F5A800, mood card #FFF6E5 / #2A2312, mood word #8A5A00 / #F5C75A; masthead band #0F1B2D / #060D19; Brief card #0F1B2D / #162A4D. Old names (`--paper`, `--rule`) are aliases. Type: Newsreader 700 (headlines, masthead; `newsreader-roman.woff2` now 400 to 700, plus a 2 KB `newsreader-italic-700.woff2` for "Crypto"), IBM Plex Mono 700 (every figure, stamp, eyebrow), IBM Plex Sans 400 to 600 (`plexsans.woff2`, replaces Inter, which is deleted).
+
+**The glow rules:** glow only on data (chart lines and dots, the live dot, change badges, the gauge arc, the 200-day bar, the Brief card's edge), never on text, labels or navigation; never lowers contrast (every pair 4.5:1, 3:1 at 24 px and up or 19 px bold: the light up badge, white on #12A05A, is 3.39:1 at 19 px bold); static, no pulsing. One line style for every chart, `glow.py`: 3 px in the chart's own window's direction, gaussian blur stdDeviation 4 merged twice under the line, high and low as white dots ringed green and red, the last point a 6 px dot on a radius-16 halo. The shared filter's region is absolute user units (a percentage in user space resolves against the 0 by 0 defs SVG and erases the line).
+
+**Color truth:** `tile.render(change=, since_change=)`; the figure's color is its same-window change, the since line has its own arrow and color. The narrative line never quotes a percentage (writer, prompt, render belt `home.band_line`, `_color_truth_canary`). `scripts/color_truth_test.py` is the fixture.
+
+**Traps found:** the U-11 reads canary counts every module in `sys.modules` as a build read, so a canary that imports from `scripts/` must take the module out again. The home canary's fold regex is anchored on `<div class="h-below"`.
+
+**Open:** the coin page chart product is 6.4's (only its line, dots and colors changed here). Sprint 7.2 gets its own session.
 
 ---
 
