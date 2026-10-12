@@ -94,7 +94,7 @@
    "note": "One model call, a few thousand tokens. A fallback is a clean green run; the alarm fires on the second morning in a row."
   },
   "site-refresh.yml": {
-      "purpose": "Retired on the deploy budget, 21 September 2026. This fired at 12:00 UTC, 8 AM Eastern, while the Worker already fires this desk's build hook at noon Eastern: two scheduled deploys where the budget allows one. Kept for workflow_dispatch so a refresh can be asked for by hand.",
+      "purpose": "Retired on the deploy budget, 21 September 2026. This fired at 12:00 UTC, 8 AM Eastern, while the Worker also fired this desk's build hook at noon Eastern. Both are retired: the morning read's build (morning-read.yml, 8:15 AM Eastern) replaced them on 12 October 2026. Kept for workflow_dispatch so a refresh can be asked for by hand.",
       "crons": [],
       "triggers": [
         "schedule",

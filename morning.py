@@ -185,8 +185,12 @@ def guard(event, now=None, path=None):
         rows = json.load(open(path or LEDGER, encoding="utf-8"))
     except (OSError, ValueError):
         rows = []
-    if any(r.get("date") == now.date().isoformat() and r.get("outcome") == "read" for r in rows):
+    today = [r for r in rows if r.get("date") == now.date().isoformat()]
+    if any(r.get("outcome") == "read" for r in today):
         return False, "today's morning read is already written"
+    if event == "schedule" and today:
+        # a backstop never retries a morning that already fell back: that would be a second build
+        return False, "this morning already ran and fell back; a backstop does not buy a second build"
     if event == "schedule" and not 8 <= now.hour < 11:
         return False, f"a backstop cron at {now:%-I:%M %p} ET is outside 8 to 11 AM"
     return True, ""

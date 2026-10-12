@@ -166,6 +166,11 @@ not piped into `tail` and assumed.
   October 2026): five builds a day are the Worker's noon refresh, the Edition, and THREE
   merges; a fourth merge waits for the next Eastern date; a day's plan names its three
   before the first push.** 6 October ran 6 of 5 for missing this (section 7).
+  **Amended 12 October 2026 (Jack, 5:30 PM): the noon refresh is retired.** The morning
+  read's build (about 8:15 AM Eastern, dispatched by the Worker) replaces it, so the
+  automatic builds are TWO a day, the morning read and the 7:08 PM Edition, and the
+  merges' share is three. The allowance stays 5. `docs/RULES.md` does not name the noon
+  refresh and is hash-protected, so it is unchanged.
 - **K-8** waits on Jack's Worker deploy. The COUNTS namespace was created and bound on
   24 September; the deploy carries all four routes.
 - **K-1 reads built output.** The canary compares the built `news.html` against the content
@@ -225,16 +230,16 @@ not piped into `tail` and assumed.
 
 **Jack's rulings, Monday 12 October 2026, 3:29 PM ET:** (1) the Cloudflare Web Analytics beacon stays, on every page, the home page included; it is cookie-free, the page-weight rule names it, the privacy page says so in one plain line. (2) Crypto gets a morning edition; the site must never read as last night's in the morning.
 
-**State: built on `claude/laughing-rubin-j8g33g`, canary green, NOT merged.** Report: `docs/REPORT-PROGRAM-7-SPRINT-7.2-2026-10-12.md`. Count of record on 12 October: 4 ready, 2 canceled, the Edition is the fifth, so the merge waits for 13 October after midnight ET and must sit outside 6:30 to 8:15 PM ET. Jack approves on `shots/program7-7.2/`.
+**Jack approved 5:30 PM ET 12 October with four changes** (all made): the Chart Master substitution table is REMOVED (a flagged sentence is dropped, a flagged headline becomes a data headline built from the levels, fewer than two sentences left publishes the data-only card; nothing is ever reworded); the ledger date reads the night's own date; the noon refresh is retired; the Worker change is written on `gcm-newsroom`. Merge Tuesday 13 October, 6:00 to 8:00 AM ET, canary green first. (Earlier state text follows.) **State: built on `claude/laughing-rubin-j8g33g`, canary green, NOT merged.** Report: `docs/REPORT-PROGRAM-7-SPRINT-7.2-2026-10-12.md`. Count of record on 12 October: 4 ready, 2 canceled, the Edition is the fifth, so the merge waits for 13 October after midnight ET and must sit outside 6:30 to 8:15 PM ET. Jack approves on `shots/program7-7.2/`.
 
 **Open for the next session:**
-1. **The Worker (`gcm-newsroom`), not readable from this repo.** Dispatch `morning-read.yml` (workflow_dispatch, ref main) at 8:15 AM in America/New_York computed with Intl, so it holds across 1 November; retire the Worker's noon refresh hook so the automatic builds stay at two. Check the Worker's real refresh time: `site-refresh.yml` says noon Eastern, the brief said 8:00 AM EDT.
+1. **The Worker change is written and tested** on `gcm-newsroom` branch `morning-dispatch` (`slot-trigger/src/worker.js`, `test/morning.test.mjs`); NOT deployed. The line that was here before: **(superseded)** Dispatch `morning-read.yml` (workflow_dispatch, ref main) at 8:15 AM in America/New_York computed with Intl, so it holds across 1 November; retire the Worker's noon refresh hook so the automatic builds stay at two. Check the Worker's real refresh time: `site-refresh.yml` says noon Eastern, the brief said 8:00 AM EDT.
 2. After the merge: read production by stamp, the count five minutes after the push, then the next morning's 8:15 AM run on production, its tokens and dollars (none measured yet).
 3. Jack's yes.
 
-**What exists:** `morning.py` (`--guard`, `--message`, `--alarm`), `prompts/morning.md`, `morning-read.yml` (crons `17 12 * * *` EDT and `17 13 * * *` EST as backstops), `home.next_brief` read off the Eastern clock, `home.usable_morning`, `home.last_brief_note`; Chart Master `publish_path` (told retry, `SUBSTITUTIONS`, data-only card, `data/chartmaster-ledger.json`); `_beacon_canary`; `ops_ledger.is_empty_row`. Tests: `scripts/morning_test.py`, `scripts/chartmaster_publish_test.py`, both in the canary.
+**What exists:** `morning.py` (`--guard`, `--message`, `--alarm`), `prompts/morning.md`, `morning-read.yml` (crons `17 12 * * *` EDT and `17 13 * * *` EST as backstops), `home.next_brief` read off the Eastern clock, `home.usable_morning`, `home.last_brief_note`; Chart Master `publish_path` (told retry, drop flagged sentences, `data_headline`, data-only card, `data/chartmaster-ledger.json`); `_beacon_canary`; `ops_ledger.is_empty_row`. Tests: `scripts/morning_test.py`, `scripts/chartmaster_publish_test.py`, both in the canary.
 
-**Traps:** the Oct 10 refusal was a venue belt, not an advice word. Refused reads are not stored, so fixtures are reconstructions. The substitution table can yield awkward grammar. A canary run takes several minutes and imports site files: do not edit them while it runs (inspect.getsource goes stale and reports false reds).
+**Traps:** the Oct 10 refusal was a venue belt, not an advice word. Refused reads are not stored, so fixtures are reconstructions. A canary run takes several minutes and imports site files: do not edit them while it runs (inspect.getsource goes stale and reports false reds).
 
 ---
 

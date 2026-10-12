@@ -78,3 +78,37 @@ Every page now loads exactly one Cloudflare beacon, home included. Canary `_beac
 
 TZ=America/New_York date at close: see the last line.
 TZ end: Mon Oct 12 16:02:30 EDT 2026
+
+## Addendum, after Jack's approval (5:30 PM ET, 12 October)
+1. **Substitution table removed.** On a flag: one told retry, then each flagged sentence is DROPPED, a flagged headline is replaced by a data headline built from the levels ("Majors hold above their 200-day lines"), fewer than two sentences left publishes the data-only card. Never a reworded sentence. Per-sentence flags include the belts (so the Oct 10 open-interest sentence is cut, not the read).
+2. **Ledger dates fixed:** the fixtures now carry their own night (2026-10-09, 10, 11); the earlier 2026-10-02 was the recorded digest's date leaking into the test.
+3. **Noon refresh retired:** `CRYPTO_DAILY_ET` is empty in the Worker; HANDOFF's allowance line amended (automatic builds are two). `docs/RULES.md` does not name the noon refresh and is hash-protected, so it is unchanged.
+4. **Worker change:** `jaybiz0131/gcm-newsroom`, branch `morning-dispatch`, `slot-trigger/`. Dispatches `morning-read.yml` at 8:15 AM America/New_York (12:15Z in EDT, 13:15Z in EST), one dispatch a day across 288 ticks on each side of 1 November; `node slot-trigger/test/morning.test.mjs` 14 passed (red on the old worker); counts tests still 95 passed. Not deployed.
+
+Published texts, drop-not-reword (branch):
+```
+
+== 2026-10-09: PUBLISHED  path=cut  model calls=2  reason='cut'
+   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-12T21:24:04Z"}
+   headline: Majors hold above their 200-day lines
+   - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
+   - Momentum is resting while the trend holds, which is a finding rather than a signal.
+
+== 2026-10-10: PUBLISHED  path=cut  model calls=2  reason='cut'
+   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-12T21:24:04Z"}
+   headline: Majors hold above their 200-day lines
+   - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
+   - Momentum is resting while the trend holds, which is a finding rather than a signal.
+
+== 2026-10-11: PUBLISHED  path=cut  model calls=2  reason='cut'
+   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-12T21:24:04Z"}
+   headline: Majors hold above their 200-day lines
+   - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
+   - Momentum is resting while the trend holds, which is a finding rather than a signal.
+   - Watch for the trend lines to cross, which would tell a reader the positioning picture changed.
+
+== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-12T21:24:04Z"}
+
+RESULT: all three published
+```
+Red on main: all four fixtures refuse or fail (the synthetic all-flagged case has no data-only path on main).

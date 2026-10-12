@@ -1,27 +1,23 @@
 
-== 2026-10-09: PUBLISHED  path=reworded  model calls=2  reason='reworded'
-   ledger: {"date": "2026-10-02", "path": "reworded", "tripped": ["bleed", "bleed"], "detail": "bleed->fall; bleed->fall", "t": "2026-10-12T19:41:22Z"}
-   headline: Longs fall fees
+== 2026-10-09: PUBLISHED  path=cut  model calls=2  reason='cut'
+   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-12T21:24:04Z"}
+   headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
-   - Shorts fall when a trend line turns, a condition worth watching.
 
-== 2026-10-10: PUBLISHED  path=data-only  model calls=2  reason='data-only'
-   ledger: {"date": "2026-10-02", "path": "data-only", "tripped": ["chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while the majors rest The "], "detail": "not an advice word; the table cannot help: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while the majors rest The ", "t": "2026-10-12T19:41:22Z"}
-   headline: Chart Master data card: levels, 50-day and 200-day lines, RSI
-   level: {'symbol': 'BTC', 'price': 86002, 'sma50': 78120.41, 'sma200': 71362.98, 'rsi14': 62.9}
-   level: {'symbol': 'ETH', 'price': 2717.64, 'sma50': 2467.75, 'sma200': 2113.41, 'rsi14': 58.6}
-   level: {'symbol': 'SOL', 'price': 120.97, 'sma50': 102.87, 'sma200': 85.68, 'rsi14': 62.0}
-   level: {'symbol': 'XRP', 'price': 1.51, 'sma50': 1.38, 'sma200': 1.28, 'rsi14': 54.6}
-   level: {'symbol': 'BNB', 'price': 788.44, 'sma50': 717.55, 'sma200': 636.79, 'rsi14': 56.5}
-   level: {'symbol': 'DOGE', 'price': 0.095739, 'sma50': 0.09, 'sma200': 0.09, 'rsi14': 52.9}
-   level: {'symbol': 'ADA', 'price': 0.271905, 'sma50': 0.22, 'sma200': 0.21, 'rsi14': 56.6}
+== 2026-10-10: PUBLISHED  path=cut  model calls=2  reason='cut'
+   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-12T21:24:04Z"}
+   headline: Majors hold above their 200-day lines
+   - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
+   - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
-== 2026-10-11: PUBLISHED  path=reworded  model calls=2  reason='reworded'
-   ledger: {"date": "2026-10-02", "path": "reworded", "tripped": ["bleeding"], "detail": "bleeding->falling", "t": "2026-10-12T19:41:22Z"}
-   headline: Shorts are falling as the majors hold their lines
+== 2026-10-11: PUBLISHED  path=cut  model calls=2  reason='cut'
+   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-12T21:24:04Z"}
+   headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
    - Watch for the trend lines to cross, which would tell a reader the positioning picture changed.
+
+== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-12T21:24:04Z"}
 
 RESULT: all three published

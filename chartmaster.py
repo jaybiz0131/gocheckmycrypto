@@ -296,35 +296,12 @@ def banned_hits(text):
     return list(dict.fromkeys(m.group(0).lower() for m in BANNED.finditer(text or "")))
 
 
-# 12 October 2026 (Jack): a flag no longer ends in a refusal. After one told retry, the
-# plain market verb below replaces the flagged word, the read is validated AGAIN in full,
-# and anything still flagged becomes the data-only card. Only the combat-and-injury class
-# has a plain verb; advice and prediction phrases ("you should", "will rise") have none,
-# and a table that rewrote them would change what the sentence claims, so they go straight
-# to the data card.
-SUBSTITUTIONS = (
-    (r"\bbleeding\b", "falling"), (r"\bbleeds\b", "falls"), (r"\bbleed\b", "fall"),
-    (r"\bbloodbath\b", "steep decline"), (r"\bcarnage\b", "heavy losses"),
-    (r"\bmassacred\b", "fell sharply"), (r"\bmassacre[s]?\b", "steep decline"),
-    (r"\bslaughtered\b", "fell sharply"), (r"\bslaughter\b", "steep decline"),
-    (r"\bobliterat(e|ed|es|ion)\b", "sharply cut"), (r"\bannihilat(e|ed|es|ion)\b", "sharply cut"),
-    (r"\bwrecked\b", "hit"), (r"\brekt\b", "liquidated"), (r"\bpain trade\b", "crowded position"),
-)
-
-
-def reword(text):
-    """The table applied, case kept on the first letter. Returns (text, [(from, to)])."""
-    done = []
-
-    def _case(src, dst):
-        return dst[:1].upper() + dst[1:] if src[:1].isupper() else dst
-
-    for pat, to in SUBSTITUTIONS:
-        def _sub(m, to=to):
-            done.append((m.group(0).lower(), to))
-            return _case(m.group(0), to)
-        text = re.sub(pat, _sub, text, flags=re.I)
-    return text, done
+# 12 October 2026 (Jack, 5:30 PM): a flag no longer ends in a refusal, and no sentence is ever
+# reworded. After one told retry, each FLAGGED SENTENCE is dropped (the part is not the whole),
+# a flagged headline becomes a plain data headline built from the levels, and a read left with
+# fewer than two sentences becomes the data-only card. What publishes is only text the model
+# wrote that passed every belt, or numbers.
+MIN_SENTENCES = 2
 
 
 def _dedash(s):
@@ -600,7 +577,7 @@ def _price_belt(text, assets):
 UNBELTED_METRICS = {"bitcoin dominance": "pulse.json carries no dominance history"}
 
 
-def validate(obj, etf=None, whale=None, assets=None, leverage=None):
+def validate(obj, etf=None, whale=None, assets=None, leverage=None, min_paras=3):
     if not isinstance(obj, dict):
         raise llmlib.LLMError("chartmaster: output is not an object")
     headline = _dedash((obj.get("headline") or "").strip())
@@ -608,8 +585,8 @@ def validate(obj, etf=None, whale=None, assets=None, leverage=None):
              if isinstance(p, str) and p.strip()]
     if not headline or len(headline) > 160:
         raise llmlib.LLMError("chartmaster: missing/oversized headline")
-    if not 3 <= len(paras) <= 7:
-        raise llmlib.LLMError(f"chartmaster: expected 3-7 paragraphs, got {len(paras)}")
+    if not min_paras <= len(paras) <= 7:
+        raise llmlib.LLMError(f"chartmaster: expected {min_paras}-7 paragraphs, got {len(paras)}")
     text = headline + " " + " ".join(paras)
     hit = BANNED.search(text)
     if hit:
@@ -709,23 +686,87 @@ def data_card(data=None):
     return rows
 
 
+def data_headline(levels):
+    """A plain headline from the levels alone: 'Majors hold above their 200-day lines', or
+    'N of M majors hold above their 200-day lines'. Numbers, no adjectives."""
+    rows = [r for r in levels if isinstance(r.get("price"), (int, float))
+            and isinstance(r.get("sma200"), (int, float))]
+    if not rows:
+        return "Chart Master: levels, 50-day and 200-day lines, RSI"
+    above = sum(1 for r in rows if r["price"] > r["sma200"])
+    if above == len(rows):
+        return "Majors hold above their 200-day lines"
+    if above == 0:
+        return "Majors sit below their 200-day lines"
+    return f"{above} of {len(rows)} majors hold above their 200-day lines"
+
+
+def _flag(text, data):
+    """Why one sentence would be refused on its own: advice words, or a belt, else ''."""
+    hits = banned_hits(text)
+    if hits:
+        return "advice: " + ", ".join(hits)
+    try:
+        for name, fn, arg in (("etf", _etf_flow_belt, data.get("etf_flows")),
+                              ("whale", _whale_flow_belt, data.get("whale_flows")),
+                              ("price", _price_belt, data.get("assets")),
+                              ("leverage", _leverage_belt, {"assets": data.get("leverage") or []})):
+            if arg:
+                fn(text.lower() if name != "leverage" else text, arg)
+    except llmlib.LLMError as e:
+        return f"belt: {str(e)[:100]}"
+    return ""
+
+
 def publish_path(cand, err, data):
-    """After one told retry has failed: (obj, path, tripped, detail). Substitution first,
-    revalidated in full; then the data-only card. Never returns a sentence the check flags."""
-    text = ""
-    if isinstance(cand, dict):
-        text = (str(cand.get("headline") or "") + " "
-                + " ".join(str(p) for p in cand.get("paragraphs") or []))
-    tripped = banned_hits(text) or [str(err)[:120]]
-    if isinstance(cand, dict) and banned_hits(text):
-        fixed = {"headline": reword(str(cand.get("headline") or ""))[0],
-                 "paragraphs": [reword(str(p))[0] for p in cand.get("paragraphs") or []]}
-        try:
-            obj = validate(fixed, **_belt_inputs(data))
-            return obj, "reworded", tripped, "; ".join(dict.fromkeys(f"{a}->{b}" for a, b in reword(text)[1]))
-        except llmlib.LLMError as e2:
-            return None, "data-only", tripped, f"still flagged after the table: {str(e2)[:120]}"
-    return None, "data-only", tripped, f"not an advice word; the table cannot help: {str(err)[:120]}"
+    """After one told retry has failed: (obj, path, tripped, detail).
+
+    Drop each flagged sentence, replace a flagged headline with the data headline, and
+    revalidate what is left in full; fewer than two sentences left means obj is None and the
+    data-only card publishes. Nothing is ever reworded."""
+    if not isinstance(cand, dict):
+        return None, "data-only", [str(err)[:120]], "no read to cut from"
+    try:
+        levels = data_card(data)
+    except ValueError:
+        levels = []
+    tripped, dropped = [], []
+    head = str(cand.get("headline") or "").strip()
+    why = _flag(_dedash(head), data) if head else "no headline"
+    new_head = head
+    if why:
+        tripped.append(f"headline: {why}")
+        new_head = data_headline(levels)
+    paras = []
+    for p in cand.get("paragraphs") or []:
+        keep = []
+        for sent in twins_sentences(_dedash(str(p))):
+            f = _flag(sent, data)
+            if f:
+                tripped.append(f)
+                dropped.append(sent[:80])
+            else:
+                keep.append(sent)
+        if keep:
+            paras.append(" ".join(keep))
+    n = sum(len(twins_sentences(p)) for p in paras)
+    tripped = list(dict.fromkeys(tripped)) or [str(err)[:120]]
+    if n < MIN_SENTENCES:
+        return None, "data-only", tripped, f"{n} sentence(s) left after cutting {len(dropped)}"
+    try:
+        obj = validate({"headline": new_head, "paragraphs": paras}, min_paras=1,
+                       **_belt_inputs(data))
+    except llmlib.LLMError as e2:
+        return None, "data-only", tripped, f"the rest still fails whole: {str(e2)[:120]}"
+    detail = f"dropped {len(dropped)} sentence(s)" + (": " + " | ".join(dropped) if dropped else "")
+    if new_head != head:
+        detail += "; data headline used"
+    return obj, "cut", tripped, detail
+
+
+def twins_sentences(text):
+    import twins_gate
+    return twins_gate.sentences(text)
 
 
 def run():

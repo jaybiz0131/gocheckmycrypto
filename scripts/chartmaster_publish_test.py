@@ -19,12 +19,13 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 
 
-def run_night(day):
+def run_night(day, date=None):
     import chartmaster as cm
     import llm
     fx = json.load(open(os.path.join(HERE, "fixtures", "chartmaster", f"{day}.json")))
     rec = {n: json.load(open(os.path.join(HERE, "fixtures", f"recorded_{n}_d6ec0f4.json")))
            for n in ("pulse", "flows")}
+    rec["pulse"]["generated"] = date or day          # the night's own date, not the recorded digest's
     tmp = tempfile.mkdtemp(prefix="cm-fx-")
     saved = (cm._load, llm.Client._live_raw, cm.STATUS, cm.SITE_DATA, os.environ.get("CRYPTO_LLM_MODE"),
              getattr(cm, "LEDGER", None))
@@ -87,6 +88,12 @@ def main():
             if s.get("data_only"):
                 for lv in s["levels"]:
                     print("   level:", lv)
+    r = run_night("synthetic-all-flagged", date="2026-10-12")
+    s = r["site"] or {}
+    good = r["published"] and s.get("data_only") and s.get("path") == "data-only" and not s.get("paragraphs")
+    ok &= bool(good)
+    print(f"\n== synthetic, every sentence flagged: {'data-only card published' if good else 'WRONG'}"
+          f"  ledger={json.dumps(r['ledger'])}")
     print("\nRESULT:", "all three published" if ok else "at least one refused")
     return 0 if ok or "--report" in sys.argv else 1
 

@@ -141,6 +141,9 @@ def main():
         if day.day == 14:
             check(not m.second_fallback(m.LEDGER), fails, "one fallback raises no alarm")
     check(m.second_fallback(m.LEDGER), fails, "two mornings in a row raise the one alarm")
+    d15 = dt.datetime(2026, 10, 15, 12, 17, tzinfo=dt.timezone.utc)
+    check(not m.guard("schedule", d15, m.LEDGER)[0], fails, "a backstop cron stands down after a fallback")
+    check(m.guard("workflow_dispatch", d15, m.LEDGER)[0], fails, "a dispatch may still retry a fallback")
     return finish(fails)
 
 
