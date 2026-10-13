@@ -489,6 +489,8 @@ body:not(.h-home) .cn-v{font-size:20px}
 .cc-readout[hidden]{display:none}
 .cc-readout b{font-size:15px}
 .cc-readout span{color:var(--muted)}
+body .cc-start{margin:8px 0 0;font:12px/1.55 var(--mono);color:var(--muted)}
+.cc-start[hidden]{display:none}
 body .cc-cap{margin-top:8px;font-family:var(--mono);font-size:12px;line-height:1.55;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){.cc *{animation:none!important;transition:none!important}}
 

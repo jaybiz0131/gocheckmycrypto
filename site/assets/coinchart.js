@@ -8,7 +8,10 @@
      1Y  days=365  daily points      (~366)   one request serves 1M and 1Y
 
    The 50-day and 200-day lines are averages of DAILY closes, so they come from the 366-day
-   series and are drawn on 1M and 1Y only, where they mean something. They are drawn as one
+   series and are drawn on 1M and 1Y only, where they mean something. CoinGecko's free tier gives
+   365 days and no more, and that is enough: each line begins on the first day it has a full
+   window of real history (day 50, day 200), one point a day, never bridged and never drawn from
+   invented history, and a muted line under the 1Y chart says where each one starts. They are drawn as one
    smooth curve through the daily averages and named in the right gutter beside the price
    axis, never on the line. Volume bars are drawn on 1M and 1Y only, where each bar is a
    day's volume; on 1D and 7D the source gives a trailing 24-hour figure at every point, so
@@ -32,6 +35,7 @@
   var box = wrap.querySelector('.cc-box');
   var readout = wrap.querySelector('.cc-readout');
   var cap = wrap.querySelector('[data-coin-cap]');
+  var maNote = wrap.querySelector('[data-coin-ma-start]');
   var chgEl = wrap.querySelector('.cc-chg');
   var tabs = Array.prototype.slice.call(wrap.querySelectorAll('[role=tab]'));
   var tablist = wrap.querySelector('[role=tablist]');
@@ -42,8 +46,8 @@
   var RANGES = {
     '1d': { fetch: 1, label: '24 hours', spacing: '5-minute' },
     '7d': { fetch: 7, label: '7 days', spacing: 'hourly' },
-    '1m': { fetch: 565, label: '1 month', spacing: 'daily', span: 30 * DAY },
-    '1y': { fetch: 565, label: '1 year', spacing: 'daily', span: 365 * DAY }
+    '1m': { fetch: 365, label: '1 month', spacing: 'daily', span: 30 * DAY },
+    '1y': { fetch: 365, label: '1 year', spacing: 'daily', span: 365 * DAY }
   };
   var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var cur = wrap.getAttribute('data-range') || '7d';     /* this visit only; nothing is stored */
@@ -112,10 +116,7 @@
         return r.json();
       });
     }
-    var pr = once(0)['catch'](function (e) {
-      if (days > 365) { return load(365); }
-      throw e;
-    }).then(function (d) {
+    var pr = once(0).then(function (d) {
       if (d && d.p) return d;
       var p = d && d.prices, v = (d && d.total_volumes) || [];
       if (!p || p.length < 3) throw new Error('short');
@@ -327,6 +328,22 @@
     chgEl.textContent = pct(s.chg) + ' over ' + RANGES[s.r].label;
     chgEl.setAttribute('data-dir', s.dir);
   }
+  /* where each average really starts, under the 1Y chart only, and only when it starts after the window's first day */
+  function setNote(s) {
+    if (!maNote) return;
+    var bits = [];
+    if (s.r === '1y') {
+      [['50', s.ma50], ['200', s.ma200]].forEach(function (pair) {
+        var m = pair[1], k = 0;
+        if (!m) return;
+        while (k < m.length && m[k] === null) k++;
+        if (k > 0 && k < m.length) bits.push(pair[0] + '-day average from ' +
+          fmtDate(s.t[k], { month: 'short', day: 'numeric' }, true) + ' (needs ' + pair[0] + ' days of history)');
+      });
+    }
+    maNote.textContent = bits.join(' \u00b7 ');
+    maNote.hidden = !bits.length;
+  }
   function setCap(s, raw) {
     if (!cap) return;
     var r = RANGES[s.r], vmax = 0, i;
@@ -405,7 +422,7 @@
       if (mine !== seq) return;
       var s = build(r, raw);
       if (s.n < 3) throw new Error('short');
-      shown = s; hide(); draw(s); setChg(s); setCap(s, raw);
+      shown = s; hide(); draw(s); setChg(s); setCap(s, raw); setNote(s);
       wrap.setAttribute('data-range', r);
       wrap.removeAttribute('data-failed');
     })['catch'](function () {

@@ -2893,8 +2893,12 @@ def _coin_pages_canary(out):
         fails = ["coin pages canary: " + f for f in _cpt.unit()]
         fails += ["coin pages canary: " + f for f in _cpt.static(out)]
         fails += ["coin pages canary: " + f for f in _cpt.browser(out)]
+        import masthead_test as _mt
+        fails += ["masthead canary: " + f for f in _mt.unit()]
+        fails += ["masthead canary: " + f for f in _mt.static(out)]
     finally:
         _sys.modules.pop("coin_pages_test", None)
+        _sys.modules.pop("masthead_test", None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
     return fails
