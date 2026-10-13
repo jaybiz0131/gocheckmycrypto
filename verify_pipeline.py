@@ -2904,6 +2904,14 @@ def _beacon_canary(out):
     return fails
 
 
+# The Brief card reads the clock for its next slot (Sprint 7.2), so the canary pins the clock:
+# 4:00 PM Eastern on a day in October, where the next Brief is tonight's Edition. Without this the
+# canary passed in the afternoon and failed before 8:15 AM Eastern, which is how it went red at
+# the merge on 13 October.
+import datetime as _bdt
+_BELOW_NOW = _bdt.datetime(2026, 10, 13, 20, 0, tzinfo=_bdt.timezone.utc)
+
+
 def _below_canary(index_html=None):
     """BELOW THE FOLD (Program 5 section 3; Sprint 2 item 2). Breaks: a Board tile drawn
     by anything but the one renderer, or one already above the fold; the whale chart's bars not
@@ -2968,18 +2976,20 @@ def _below_canary(index_html=None):
     # band's place. It names the edition it is, by day and slot, links it, and says when the
     # next one is due; with no current edition it still says when.
     _bc = _re.search(r'data-block="narrative">(.*?)</section>', _h.above_fold(
-        snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=ed), _re.S)
+        snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=ed,
+        now=_BELOW_NOW), _re.S)
     _bc = _bc.group(1) if _bc else ""
     if ed:
         _check(_sb.esc(_h.brief_name(ed)) in _bc and f'/articles/{ed.get("slug")}.html' in _bc
-               and _re.search(r"Next Brief (tonight|tomorrow) at \d{1,2}:\d{2} [AP]M ET", _bc),
+               and _re.search(r"Next Brief (this morning|tonight|tomorrow) at \d{1,2}:\d{2} [AP]M ET", _bc),
                fails, "below canary: the Brief card does not name its edition, link it and say "
                       "when the next Brief is due")
     _check(_h.brief_name({"slug": "evening-brief-2026-10-11", "date": "2026-10-11"})
            == "THE BRIEF \u00b7 SUNDAY EVENING", fails,
            "below canary: the Brief card's eyebrow does not name the edition by day and slot")
     _b0 = _re.search(r'data-block="narrative">(.*?)</section>', _h.above_fold(
-        snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=None), _re.S)
+        snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=None,
+        now=_BELOW_NOW), _re.S)
     _check(bool(_b0) and "Next Brief tonight at" in _b0.group(1), fails,
            "below canary: with no Brief the card does not say when the next one is due")
     _check("brief" not in order, fails,
