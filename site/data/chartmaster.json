@@ -1,14 +1,60 @@
 {
-  "date": "2026-10-08",
-  "headline": "Majors hold above 200-day lines while momentum fades; whales accumulate onto exchanges as ETF outflows persist and funding turns negative across the board.",
-  "paragraphs": [
-    "The regime is intact but barely. All seven majors sit above their 200-day simple moving averages, and all seven own golden crosses, meaning their 50-day lines are above their 200-day lines. That structural scaffold has not broken. But the momentum underpinning it is hollowing out. Bitcoin's RSI-14 stands at 47.3, neutral-to-weak; Ethereum at 37.5 is approaching oversold; Solana, XRP, BNB, and Cardano all sit between 39 and 47, nowhere near the 60+ that signals conviction. More telling, MACD is below its signal line on every single asset. That divergence between a trend still above the 200-day and momentum that has stopped accelerating is the structural tension in the tape right now. Bitcoin is down 1.6% on the day but up 5.3% on the month. Ethereum is down 3.6% on the day but up 3.4% on the month. Solana is down 4.9% on the day but up 12% on the month. The rally is not broken; it is resting on weaker legs.",
-    "Leverage positioning tells you why caution is warranted in the machinery. Bitcoin funding on OKX sits at a modest 0.0033% per eight hours, annualizing to 3.6%, which is rational but not cheap. However, Ethereum has flipped negative at minus 5.9% annualized; Solana, XRP, and Doge have all gone negative as well, ranging from minus 5.5% to minus 8.8%. When funding turns negative, shorts are being paid to hold, which typically signals a crowded-long setup is unleveraging or contracting. The long-to-short ratios tell a second story: Bitcoin at 1.69 longs per short is balanced, but Ethereum at 2.39, Solana at 2.36, XRP at 3.09, and Doge at 4.54 are all skewed to longs by a significant margin. Those long-skewed, negative-funding combinations are characteristic of a market where the easy money has been made and the machine is waiting for a catalyst to shake out the top layers. Over the last four to six hours across these pairs, liquidations have been almost entirely on the short side: Bitcoin had zero long liquidations and $1.16M in shorts; Ethereum zero long liq's and $849K shorts; Solana $7.3K longs and $355K shorts. The shorts are being cleaned out, not the longs.",
-    "Flows are the true tension. Bitcoin spot ETF flows have posted net outflows of $25.9M on the day and $291.9M over the last five sessions, with only two of those five days in the same direction. Ethereum is worse: minus $4.8M on the day and minus $455.8M over five sessions, with eight consecutive days of outflows. This is not a brief retail recoil; this is institutional redemptions persisting. Yet whale flows tell a very different story. Over the last 24 hours, a net $119.5M in Bitcoin has moved onto exchanges, not off them. The three largest single moves all went to Coinbase Institutional: $170.8M, $137M, and $100M moving in. Meanwhile, the largest withdrawals from exchanges (which reduce selling pressure) came from Kraken ($80.8M) and smaller amounts from Coinbase Institutional. Over the last four weeks, the weekly pattern shows consistent accumulation: $324M moved onto exchanges in the week ending September 17, $1,091M in the week ending September 24, $704M in the week ending October 1, and $572M in the week ending October 8. That is four consecutive weeks of whales moving coins into exchange custody. The disconnect between spot ETF outflows and whale exchange inflows is stark: traditional finance is selling, while large holders are positioning to trade or liquidate selectively.",
-    "Stablecoin float sits at $312.25B, up just 1.11% over 30 days, which is tepid. That is dry powder but not a surge in buying power. The Fear and Greed index stands at 64, labeled Greed, and has ranged between 50 and 78 over the last 30 days, so sentiment is elevated but not at extremes. The whole market cap is down 4.86% on the day to $2.77T, and Bitcoin dominance has held at 59.1%, meaning the damage has been broad-based. Bitcoin's distance from its 12-month high is 34.4%, Ethereum's is 47.2%, and the smaller caps are much deeper: Cardano is down 73.2% from its high, Doge down 68.3%, XRP down 53.9%. The long-dated drawdowns are severe, yet the near-term rally structure persists.",
-    "The day's movers offered color: Strk gained 15.42%, Pyth 11.96%, and Tia 8.55%, while Near lost 15.92%, Zec fell 11.07%, and Zro dropped 9.92%. That is volatility scattered across the microcap surface, not a regime signal. Network difficulty on Bitcoin is rising 4% into the next retarget, which is 1,169 blocks away, suggesting the computational arms race continues despite price weakness.",
-    "What to watch: whether ETF outflows reverse or deepen over the next five sessions, whether negative funding on Ethereum and Solana persists or reprices back to positive (either would signal a shift in leverage appetite), and whether the weekly whale flow pattern breaks. A sustained flip to ETF inflows while whales maintain their onto-exchange trajectory would suggest institutional and retail are re-synchronizing. A breakdown of the 200-day lines on the laggards (Doge is already below; others are close given the 30-odd percent range in this tape) would mark a regime change. Until one of those conditions moves, the tape reads as a rally on pause, with uneven participation and real money rotating in ways that do not yet agree with the price levels."
-  ],
+  "date": "2026-10-13",
   "generated_by": "chartmaster.py (auto, from the live boards)",
-  "mode": "live"
+  "mode": "live",
+  "path": "data-only",
+  "headline": "Chart Master data card: levels, 50-day and 200-day lines, RSI",
+  "paragraphs": [],
+  "data_only": true,
+  "levels": [
+    {
+      "symbol": "BTC",
+      "price": 83199,
+      "sma50": 81105.72,
+      "sma200": 72121.87,
+      "rsi14": 52.2
+    },
+    {
+      "symbol": "ETH",
+      "price": 2498.16,
+      "sma50": 2555.98,
+      "sma200": 2137.77,
+      "rsi14": 43.2
+    },
+    {
+      "symbol": "SOL",
+      "price": 106.59,
+      "sma50": 109.24,
+      "sma200": 87.03,
+      "rsi14": 40.6
+    },
+    {
+      "symbol": "XRP",
+      "price": 1.37,
+      "sma50": 1.43,
+      "sma200": 1.28,
+      "rsi14": 42.3
+    },
+    {
+      "symbol": "BNB",
+      "price": 741.18,
+      "sma50": 743.13,
+      "sma200": 643.56,
+      "rsi14": 45.7
+    },
+    {
+      "symbol": "DOGE",
+      "price": 0.084309,
+      "sma50": 0.09,
+      "sma200": 0.09,
+      "rsi14": 41.9
+    },
+    {
+      "symbol": "ADA",
+      "price": 0.235633,
+      "sma50": 0.23,
+      "sma200": 0.21,
+      "rsi14": 47.6
+    }
+  ]
 }
