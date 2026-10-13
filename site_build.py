@@ -4196,6 +4196,22 @@ def _ledger_url():
     return getattr(_ex, "LEDGER_STORE", "/cold-storage.html")
 
 
+COLD_EYEBROW = "Keep it off the exchange"
+COLD_TITLE = "Cold storage, chosen on criteria, not hype"
+COLD_INTRO = ("If you hold more than you would be fine losing, the coins should not live on "
+              "an exchange. We judge hardware wallets on the things that matter: open-source "
+              "firmware, breach history, recovery, and price. We link only to the maker, and "
+              "we say so.")
+COLD_OPT_LABEL = "Meets the criteria"
+COLD_OPT_NAME = "Ledger"
+COLD_OPT_TEXT = ("Read the breach history page before you decide. Buy from the maker, never "
+                 "a marketplace listing.")
+COLD_OPT_CTA = "Buy direct from Ledger"
+COLD_DISCLOSURE = ("Disclosure: we earn a commission if you buy through these links. Your "
+                   "price does not change. Buy only from the manufacturer, never a "
+                   "marketplace listing.")
+
+
 def _bd_cold_storage():
     """Module 9. C5 ships this properly; C1 renders it with the Ledger option only,
     per the 2026-09-13 ruling that removed the Trezor box. The disclosure line is
@@ -4203,24 +4219,34 @@ def _bd_cold_storage():
     return (
         '<div class="bd-card" style="padding:22px 24px 20px;gap:12px">'
         '<div class="bd-sec-l">'
-        '<span class="bd-eyebrow">Keep it off the exchange</span>'
-        '<span class="bd-h2" style="font-size:20px">Cold storage, chosen on criteria, '
-        'not hype</span></div>'
+        f'<span class="bd-eyebrow">{COLD_EYEBROW}</span>'
+        f'<span class="bd-h2" style="font-size:20px">{COLD_TITLE}</span></div>'
         '<div class="bd-cold">'
-        '<p class="bd-read" style="font-size:15px">If you hold more than you would be fine '
-        'losing, the coins should not live on an exchange. We judge hardware wallets on the '
-        'things that matter: open-source firmware, breach history, recovery, and price. We '
-        'link only to the maker, and we say so.</p>'
-        '<div class="bd-opt"><span class="bd-label">Meets the criteria</span>'
-        '<div class="bd-h3">Ledger</div>'
-        '<p class="bd-read">Read the breach history page before you decide. Buy from the '
-        'maker, never a marketplace listing.</p>'
+        f'<p class="bd-read" style="font-size:15px">{COLD_INTRO}</p>'
+        f'<div class="bd-opt"><span class="bd-label">{COLD_OPT_LABEL}</span>'
+        f'<div class="bd-h3">{COLD_OPT_NAME}</div>'
+        f'<p class="bd-read">{COLD_OPT_TEXT}</p>'
         f'<a class="bd-pill" href="{esc(_ledger_url())}" rel="sponsored nofollow noopener" '
-        'target="_blank">Buy direct from Ledger</a></div>'
+        f'target="_blank">{COLD_OPT_CTA}</a></div>'
         '</div>'
-        '<p class="bd-disc">Disclosure: we earn a commission if you buy through these links. '
-        'Your price does not change. Buy only from the manufacturer, never a marketplace '
-        'listing.</p></div>')
+        f'<p class="bd-disc">{COLD_DISCLOSURE}</p></div>')
+
+
+def _coin_cold_storage():
+    """The coin page's cold-storage card (Program 7, Sprint 6.4): the same copy as the
+    Board's, in the new look. The words come from the COLD_* constants above, so the two
+    cards cannot drift apart."""
+    return (
+        '<section class="cn-cold" aria-label="Cold storage">'
+        f'<span class="cn-eyebrow">{COLD_EYEBROW}</span>'
+        f'<h2 class="cn-h">{COLD_TITLE}</h2>'
+        f'<p class="cn-cold-p">{COLD_INTRO}</p>'
+        f'<div class="cn-cold-opt"><span class="lab">{COLD_OPT_LABEL}</span>'
+        f'<h3 class="cn-cold-n">{COLD_OPT_NAME}</h3>'
+        f'<p class="cn-cold-p">{COLD_OPT_TEXT}</p>'
+        f'<a class="cn-cold-cta" href="{esc(_ledger_url())}" rel="sponsored nofollow noopener" '
+        f'target="_blank">{COLD_OPT_CTA}</a></div>'
+        f'<p class="cn-cold-d">{COLD_DISCLOSURE}</p></section>')
 
 
 # ---- C2: the explainer pages --------------------------------------------------
@@ -7401,50 +7427,86 @@ def _top100_rows(coins):
     source's rank, so screening a coin out left #8 then #10, #12, #14, and a list with
     holes in it reads as an error rather than as a screen. The source's own rank is
     still there, on the row, for the reader who hovers and for anyone reading the
-    markup; what the eye follows is a list that counts."""
+    markup; what the eye follows is a list that counts.
+
+    PROGRAM 7, SPRINT 6.4 (13 October 2026). The whole row is the link: the coin's name
+    carries the anchor and its ::after covers the row (a real link, so it keeps its
+    keyboard focus, its context menu and its crawl path). The columns at 375 are rank,
+    coin, price, 24 hours and the seven-day line; market cap and volume are in the markup
+    for 768 and up and hidden below it by the stylesheet. The line is coinpage.row_spark:
+    a plain polyline colored by its own seven days, no glow at this size. The old
+    tap-for-market-cap script went with the cap column's return."""
+    import coinpage as _cp
     rows = []
     for pos, c in enumerate(coins, 1):
         chg = c.get("chg_24h_pct")
         chg_html = (f'<span class="chip {pct_class(chg)}">{pct_text(chg)}</span>'
                     if chg is not None else '<span class="chip">?</span>')
-        spark = c.get("spark7d") or []
-        up = len(spark) >= 2 and spark[-1] >= spark[0]
-        spark_html = (f'<span class="row-spark" style="color:{"var(--up)" if up else "var(--down)"}">'
-                      f'{spark_svg(spark, w=110, h=26)}</span>') if spark else ""
+        sym, nm = c.get("symbol", ""), c.get("name") or ""
         rows.append(
-            # UX-6: the cap rides on the row so the phone can show it on tap without
-            # a second request or a wider table.
-            f'<tr data-sym="{esc(c.get("symbol", ""))}" '
-            f'data-mcap="{esc(fmt_usd(c.get("mcap_usd", 0)))}">'
+            f'<tr data-sym="{esc(sym)}" data-q="{esc((sym + " " + nm).lower())}">'
             f'<td class="mut" data-cell="rank" data-val="{pos}"'
             f'{_src_rank_title(c.get("rank"), pos)}>#{pos}</td>'
             f'<td class="sym2"><a class="t1-a" href="/coins/{esc(_coin_slug(c))}">'
-            f'{esc(c.get("symbol", ""))}<span class="mut"> &middot; '
-            f'<span class="t1-name">{esc(c.get("name") or "")}</span></span></a>'
-            f'<span class="sym2-cap" hidden></span></td>'
-            f'<td>{spark_html}</td>'
+            f'{esc(sym)}<span class="mut"> &middot; '
+            f'<span class="t1-name">{esc(nm)}</span></span></a></td>'
             f'<td class="pnum" data-cell="price" data-val="{c.get("price") or 0}">{esc(_price_fmt(c.get("price")))}</td>'
             f'<td data-cell="chg" data-val="{chg if chg is not None else 0}">{chg_html}</td>'
-            f'<td class="mut" data-cell="mcap" data-val="{c.get("mcap_usd") or 0}">{esc(fmt_usd(c.get("mcap_usd", 0)))}</td></tr>')
+            f'<td class="c-spark">{_cp.row_spark(c.get("spark7d"))}</td>'
+            f'<td class="mut c-wide" data-cell="mcap" data-val="{c.get("mcap_usd") or 0}">{esc(fmt_usd(c.get("mcap_usd", 0)))}</td>'
+            f'<td class="mut c-wide" data-cell="vol" data-val="{c.get("volume_24h") or 0}">'
+            f'{esc(fmt_usd(c["volume_24h"])) if c.get("volume_24h") else "?"}</td></tr>')
     return "".join(rows)
 
 
-TOP100_TAP_JS = """
+TOP100_JS = """
 <script>(function(){
-  /* UX-6: market cap on tap. The cap is already on the row as data-mcap, so this
-     shows what the page already holds rather than fetching anything. Desktop shows
-     the column and never needs this. */
+  /* Program 7, Sprint 6.4. Search and sort for the Top 100, over the rows already on the
+     page: no network call, no storage. Search matches the name or the ticker, as you type;
+     an empty result says so and offers a clear button. Sort turns the header buttons the
+     page has always carried into working ones. */
   var t = document.querySelector('.prices-table');
-  if (!t) return;
-  t.addEventListener('click', function(ev){
-    if (window.matchMedia('(min-width:721px)').matches) return;
-    var tr = ev.target.closest('tr[data-mcap]');
-    if (!tr) return;
-    var cap = tr.querySelector('.sym2-cap');
-    if (!cap) return;
-    if (cap.hidden) { cap.textContent = 'Market cap ' + tr.getAttribute('data-mcap'); }
-    cap.hidden = !cap.hidden;
+  var q = document.querySelector('[data-coin-search]');
+  if (!t || !q) return;
+  var body = t.querySelector('tbody');
+  var rows = Array.prototype.slice.call(body.querySelectorAll('tr'));
+  var empty = document.querySelector('[data-coin-empty]');
+  var count = document.querySelector('[data-coin-count]');
+  var clear = document.querySelectorAll('[data-coin-clear]');
+  function run(){
+    var v = q.value.trim().toLowerCase(), n = 0;
+    rows.forEach(function(r){
+      var hit = !v || (r.getAttribute('data-q') || '').indexOf(v) > -1;
+      r.hidden = !hit; if (hit) n++;
+    });
+    if (empty) empty.hidden = n > 0;
+    t.hidden = n === 0;
+    if (count) count.textContent = v ? (n ? n + ' of ' + rows.length + ' coins' : '') : '';
+    clear.forEach(function(b){ if (b.closest('[data-coin-empty]') === null) b.hidden = !v; });
+  }
+  q.addEventListener('input', run);
+  q.addEventListener('keydown', function(e){ if (e.key === 'Escape'){ q.value = ''; run(); } });
+  clear.forEach(function(b){ b.addEventListener('click', function(){ q.value = ''; run(); q.focus(); }); });
+  var heads = t.querySelectorAll('th[data-sort]'), cur = 'rank', asc = true;
+  heads.forEach(function(h){
+    h.querySelector('.th-sort').addEventListener('click', function(){
+      var k = h.getAttribute('data-sort');
+      asc = (k === cur) ? !asc : (k === 'rank');
+      cur = k;
+      rows.sort(function(a, b){
+        var x = parseFloat(a.querySelector('[data-cell=' + k + ']').getAttribute('data-val')),
+            y = parseFloat(b.querySelector('[data-cell=' + k + ']').getAttribute('data-val'));
+        return asc ? x - y : y - x;
+      });
+      rows.forEach(function(r){ body.appendChild(r); });
+      heads.forEach(function(o){
+        var on = o === h;
+        o.setAttribute('aria-sort', on ? (asc ? 'ascending' : 'descending') : 'none');
+        o.classList.toggle('sorted-asc', on && asc); o.classList.toggle('sorted-desc', on && !asc);
+      });
+    });
   });
+  run();
 })();</script>
 """
 
@@ -7461,6 +7523,7 @@ TOP100_TAP_JS = """
 # the reason a coin page can be trusted at all.
 
 COIN_PAGE_MIN_RANK = 100          # the Top 100 is the universe; the page set is its size
+_ZONE_IN = re.compile(r"\b(ET|UTC)\b")
 
 
 def _coin_slug(c):
@@ -7555,285 +7618,144 @@ def _coin_stories(c, items, n=6):
     return [i for i in out if _claim(i.get("slug"))][:n]
 
 
-COIN_CHART_JS = """<script>(function(){
-  /* K-7: THE COIN CHART, DRAWN IN THE BROWSER.
-
-     The build's line is a shape with no scale, no dates and no range, and its high and
-     low came from a DIFFERENT snapshot than the price above it: on 21 September this
-     page showed a price of $85,698.00 over a high of $85,288.13. A high below the
-     current price is not a rounding problem, it is two sources on one screen.
-
-     The browser already reads CoinGecko for the live price. It reads the history from
-     the same place, so the chart, its high, its low and the price above them come from
-     ONE series. No build and no deploy are involved.
-
-     The build's line stays as the fallback and says so, because a blocked fetch should
-     leave a reader with the last thing the desk knew rather than an empty box. */
-  var wrap = document.querySelector('[data-coin-chart]');
-  if (!wrap || !wrap.getAttribute('data-coin-id')) return;
-  var id = wrap.getAttribute('data-coin-id');
-  var host = wrap.querySelector('.cn-chart');
-  var cap = wrap.querySelector('[data-coin-cap]');
-  var dir = wrap.getAttribute('data-dir') === 'down' ? 'var(--down)' : 'var(--up)';
-  var cache = {};                       /* one fetch per range, for this visit */
-
-  function money(v){
-    var d = v >= 1 ? 2 : 6;
-    return '$' + Number(v).toLocaleString('en-US',
-      {minimumFractionDigits: d, maximumFractionDigits: d});
-  }
-  function shortDate(ms){
-    return new Date(ms).toLocaleDateString('en-US',
-      {month: 'short', day: 'numeric'});
-  }
-  function sma(vals, n){
-    if (vals.length < n) return null;
-    var out = [], run = 0;
-    for (var i = 0; i < vals.length; i++){
-      run += vals[i];
-      if (i >= n) run -= vals[i - n];
-      out.push(i >= n - 1 ? run / n : null);
-    }
-    return out;
-  }
-
-  function draw(series, days){
-    var W = 980, H = 260, L = 76, R = 14, T = 14, B = 34;
-    var vals = series.map(function(p){ return p[1]; });
-    var m50 = sma(vals, 50), m200 = sma(vals, 200);
-    var pool = vals.slice();
-    [m50, m200].forEach(function(m){
-      if (m) m.forEach(function(v){ if (v !== null) pool.push(v); });
-    });
-    var lo = Math.min.apply(null, pool), hi = Math.max.apply(null, pool);
-    var span = (hi - lo) || 1;
-    var x = function(i){ return L + i * (W - L - R) / Math.max(1, vals.length - 1); };
-    var y = function(v){ return H - B - (v - lo) / span * (H - B - T); };
-
-    var parts = [];
-    for (var t = 0; t <= 4; t++){
-      var gv = lo + span * t / 4, gy = y(gv);
-      parts.push('<line x1="' + L + '" y1="' + gy.toFixed(1) + '" x2="' + (W - R) +
-                 '" y2="' + gy.toFixed(1) + '" stroke="var(--line)"></line>');
-      parts.push('<text x="' + (L - 8) + '" y="' + (gy + 3.5).toFixed(1) +
-                 '" text-anchor="end" font-family="var(--mono)" font-size="11" ' +
-                 'fill="var(--faint)">' + money(gv) + '</text>');
-    }
-    [0, Math.floor(vals.length / 2), vals.length - 1].forEach(function(i, k){
-      parts.push('<text x="' + x(i).toFixed(1) + '" y="' + (H - 10) +
-                 '" text-anchor="' + (k === 0 ? 'start' : k === 2 ? 'end' : 'middle') +
-                 '" font-family="var(--mono)" font-size="11" fill="var(--faint)">' +
-                 shortDate(series[i][0]) + '</text>');
-    });
-    function poly(arr, stroke, w, dash){
-      var pts = [];
-      for (var i = 0; i < arr.length; i++){
-        if (arr[i] === null || arr[i] === undefined) continue;
-        pts.push(x(i).toFixed(1) + ',' + y(arr[i]).toFixed(1));
-      }
-      if (pts.length < 2) return '';
-      return '<polyline fill="none" stroke="' + stroke + '" stroke-width="' + w +
-             '"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') +
-             ' stroke-linejoin="round" points="' + pts.join(' ') + '"></polyline>';
-    }
-    if (m200) parts.push(poly(m200, 'var(--faint)', 1.2, '5 4'));
-    if (m50) parts.push(poly(m50, 'var(--muted)', 1.2, '2 3'));
-    /* Program 7: the one line style (glow.py, defs on every page): 3 px in the direction
-       of the series on screen, a glow, the high and low as glowing white dots ringed in
-       green and red, the last point a 6 px dot on a halo. */
-    var gd = vals[vals.length - 1] > vals[0] ? 'up' : vals[vals.length - 1] < vals[0] ? 'down' : 'flat';
-    var gp = [], gv = [];
-    for (var gi = 0; gi < vals.length; gi++){
-      if (vals[gi] === null || vals[gi] === undefined) continue;
-      gp.push([x(gi), y(vals[gi])]); gv.push(vals[gi]);
-    }
-    if (gp.length >= 2){
-      parts.push('<polyline class="gl-l ' + gd + '" filter="url(#gl)" points="' +
-                 gp.map(function(p){ return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') +
-                 '"></polyline>');
-      var gh = gv.indexOf(Math.max.apply(null, gv)), gl = gv.indexOf(Math.min.apply(null, gv));
-      var gn = gp[gp.length - 1], gm = '<g class="gl-marks" filter="url(#gl)">' +
-        '<circle cx="' + gn[0].toFixed(1) + '" cy="' + gn[1].toFixed(1) + '" r="16" fill="url(#gl-halo-' + gd + ')"></circle>';
-      [[gh, 'gl-hi'], [gl, 'gl-lo']].forEach(function(m){
-        if (m[0] === gp.length - 1) return;
-        gm += '<circle class="' + m[1] + '" cx="' + gp[m[0]][0].toFixed(1) + '" cy="' +
-              gp[m[0]][1].toFixed(1) + '" r="4.5"></circle>';
-      });
-      gm += '<circle class="gl-now ' + gd + '" cx="' + gn[0].toFixed(1) + '" cy="' + gn[1].toFixed(1) + '" r="3"></circle></g>';
-      parts.push(gm);
-    }
-
-    host.innerHTML = '<svg class="cn-svg" viewBox="0 0 ' + W + ' ' + H + '" ' +
-      'role="img" aria-label="' + days + ' days of price. Low ' + money(lo) +
-      ', high ' + money(hi) + ', latest ' + money(vals[vals.length - 1]) + '.">' +
-      parts.join('') + '<rect class="cn-hit" x="' + L + '" y="' + T + '" width="' +
-      (W - L - R) + '" height="' + (H - B - T) + '" fill="transparent"></rect>' +
-      '<line class="cn-cross" x1="0" y1="' + T + '" x2="0" y2="' + (H - B) +
-      '" stroke="var(--muted)" stroke-width="1" style="display:none"></line></svg>' +
-      '<div class="cn-read" hidden></div>';
-
-    /* THE HIGH AND LOW ARE THE SERIES ON SCREEN, which is the whole point: they cannot
-       disagree with the line above them because they are measured from it. */
-    var mas = [];
-    if (m50 && m50[m50.length - 1] !== null) mas.push('50-day ' + money(m50[m50.length - 1]));
-    if (m200 && m200[m200.length - 1] !== null) mas.push('200-day ' + money(m200[m200.length - 1]));
-    cap.innerHTML = (days === 365 ? 'One year' : days + ' days') +
-      ', from CoinGecko. High ' + money(hi) + ', low ' + money(lo) + '.' +
-      (mas.length ? ' ' + mas.join(', ') + '.' : '') +
-      ' <span class="cn-stamp">read ' + new Date().toLocaleTimeString('en-US',
-        {timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit'}) + ' ET</span>';
-
-    var svg = host.querySelector('svg');
-    var cross = svg.querySelector('.cn-cross');
-    var read = host.querySelector('.cn-read');
-    svg.addEventListener('mousemove', function(ev){
-      var b = svg.getBoundingClientRect();
-      var px = (ev.clientX - b.left) / b.width * W;
-      var i = Math.round((px - L) / ((W - L - R) / Math.max(1, vals.length - 1)));
-      if (i < 0 || i >= vals.length) return;
-      cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i));
-      cross.style.display = '';
-      read.hidden = false;
-      read.textContent = shortDate(series[i][0]) + ' \u00b7 ' + money(vals[i]);
-    });
-    svg.addEventListener('mouseleave', function(){
-      cross.style.display = 'none'; read.hidden = true;
-    });
-  }
-
-  function load(days){
-    if (cache[days]) { draw(cache[days], days); return; }
-    fetch('https://api.coingecko.com/api/v3/coins/' + encodeURIComponent(id) +
-          '/market_chart?vs_currency=usd&days=' + days)
-      .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(d){
-        var s = d && d.prices;
-        if (!s || s.length < 3) return;          /* the build's line stands */
-        cache[days] = s;
-        draw(s, days);
-      })
-      .catch(function(){ /* the build's line stands, with its own stamp */ });
-  }
-
-  wrap.querySelectorAll('.cn-rg').forEach(function(b){
-    b.addEventListener('click', function(){
-      wrap.querySelectorAll('.cn-rg').forEach(function(x){
-        x.classList.toggle('on', x === b);
-      });
-      load(parseInt(b.getAttribute('data-days'), 10));
-    });
-  });
-  load(7);
-})();</script>"""
+COIN_CHART_SRC = '<script src="/assets/coinchart.js" defer></script>'
+COIN_CHART_FILE = os.path.join(HERE, "site", "assets", "coinchart.js")
+# Program 7, Sprint 6.4 (13 October 2026). The chart's code is ONE file, /assets/coinchart.js,
+# fetched once per visitor and cached by its content hash, not a script copied into a hundred
+# pages. The page carries the tabs, the build's seven-day line as the fallback, and the
+# caption; the file draws the rest (windows, volume, averages, crosshair). K-7's reason stands:
+# the browser reads the history from the same place it reads the price, so the line, its high,
+# its low and the price are one series.
 
 
-def render_coin_page(c, pos, pulse, items, dateline):
-    sym = c.get("symbol") or ""
-    # K-7: CoinGecko's own id for this coin, which is what its market_chart route takes.
-    # The page already knows it; the chart needs it to fetch its own history.
-    cid = (c.get("gecko_id") or "").strip()
-    name = c.get("name") or sym
-    spark = c.get("spark7d") or []
-    up = len(spark) >= 2 and spark[-1] >= spark[0]
+def _coin_wire():
+    try:
+        return json.load(open(WIRE_JSON, encoding="utf-8"))
+    except Exception:
+        return None
 
-    stats = [("Price", f'<span>{esc(_price_fmt(c.get("price")))}</span>'),
-             ("24 hours", _coin_pct(c.get("chg_24h_pct"))),
-             ("7 days", _coin_pct(c.get("chg_7d_pct"))),
-             ("30 days", _coin_pct(c.get("chg_30d_pct"))),
-             ("Market cap", esc(fmt_usd(c.get("mcap_usd") or 0))),
-             ("Rank on the Board", f"#{pos}")]
-    stats = [(k, v) for k, v in stats if v not in ("", None)]
-    stat_html = "".join(
-        f'<div class="cn-stat"><span class="lab">{esc(k)}</span>'
-        f'<span class="cn-v">{v}</span></div>' for k, v in stats)
 
-    chart = ""
+def _coin_cm():
+    try:
+        return json.load(open(os.path.join(SITE, "data", "chartmaster.json"), encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def render_coin_chart(c, name, cid, spark):
+    """The chart block: tabs for the script to wake, the build's line as the fallback, the
+    readout the script fills, and the caption. The fallback is colored by ITS OWN seven days
+    and prints that change, so before the script answers the color and the number already
+    agree."""
+    import coinpage as _cp
+    up = _cp.window_dir(spark)
+    chg = _cp.window_pct(spark)
+    tabs = "".join(
+        f'<button type="button" role="tab" class="cc-tab" data-range="{k}" '
+        f'aria-selected="{"true" if k == "7d" else "false"}">{lab}</button>'
+        for k, lab, _ in _cp.WINDOWS)
+    fallback = ""
+    note = "Seven days, as the Board reads it."
     if spark:
-        # A trend line with no scale is a shape, not a reading. The high and the low
-        # are the minimum and maximum of the series the chart is drawn from, so the
-        # caption names two values the chart actually reaches.
-        # THE FALLBACK'S HIGH MUST NOT SIT BELOW THE PRICE ABOVE IT. That was the
-        # original defect and it survives in the fallback if the range is taken from
-        # the spark alone: the spark is the Board's last seven-day read and the price
-        # beside it is live, so on a coin that has risen since the snapshot the "high"
-        # is lower than the current price. The current price is part of the period the
-        # caption describes, so it is part of the range.
+        # THE FALLBACK'S HIGH MUST NOT SIT BELOW THE PRICE ABOVE IT (K-7): the current
+        # price is part of the period the caption describes, so it is part of the range.
         _rng = list(spark)
         if isinstance(c.get("price"), (int, float)):
             _rng.append(c["price"])
         lo, hi = min(_rng), max(_rng)
-        # K-7: THE BUILD'S LINE IS THE FALLBACK, NOT THE CHART. It is a shape with no
-        # scale, no dates and no range, and its high and low came from a DIFFERENT
-        # snapshot than the price above it: on 21 September the page showed a price of
-        # $85,698.00 over a high of $85,288.13, a high lower than the current price,
-        # which is a straightforward contradiction on one screen.
-        #
-        # The browser already reads CoinGecko for the live price. It reads the history
-        # from the same place, so the chart, its high, its low and the price above them
-        # all come from ONE series. No build and no deploy are involved.
-        chart = (f'<div class="cn-chartwrap" data-coin-chart data-coin-id="{esc(cid)}" '
-                 f'data-dir="{"up" if up else "down"}">'
-                 f'<div class="cn-ranges" role="group" aria-label="Chart range">'
-                 + "".join(f'<button type="button" class="cn-rg'
-                           f'{" on" if d == 7 else ""}" data-days="{d}">{lab}</button>'
-                           for d, lab in ((7, "7D"), (30, "30D"), (90, "90D"),
-                                          (365, "1Y")))
-                 + f'</div>'
-                 f'<div class="chartcard cn-chart" style="color:'
-                 f'{"var(--up)" if up else "var(--down)"}" data-fallback>'
-                 f'{spark_svg(spark, w=980, h=150)}</div>'
-                 f'<p class="pc-note" data-coin-cap>Seven days, as the Board reads it. '
-                 f'High {esc(_price_fmt(hi))}, low {esc(_price_fmt(lo))}. '
-                 f'<span class="cn-stamp">from the last build</span></p></div>')
+        fallback = spark_svg(spark, w=980, h=150)
+        note += (f' High {esc(_price_fmt(hi))}, low {esc(_price_fmt(lo))}. '
+                 f'<span class="cn-stamp">from the last build</span>')
+    chg_html = (f'<p class="cc-chg" data-dir="{up}">{esc(_cp.signed_pct(chg))} over 7 days</p>'
+                if chg is not None else '<p class="cc-chg" data-dir="flat"></p>')
+    return (f'<section class="cc" data-coin-chart data-coin-id="{esc(cid)}" data-range="7d" '
+            f'aria-label="{esc(name)} price chart">'
+            f'<div class="cc-head"><div class="cc-tabs" role="tablist" aria-label="Chart window" hidden>'
+            f'{tabs}</div>{chg_html}</div>'
+            f'<div class="cc-box" tabindex="0" role="group" aria-label="{esc(name)} price chart. '
+            f'Use the left and right arrow keys to step through points.">'
+            f'<div class="cc-stage" data-fallback style="color:var(--{"up" if up != "down" else "down"}-line)">'
+            f'{fallback}</div><div class="cc-readout" hidden aria-live="polite"></div></div>'
+            f'<p class="pc-note cc-cap" data-coin-cap>{note}</p></section>')
 
-    board, asset = _coin_board_read(sym, pulse)
-    board_html = ""
-    if board:
-        board_html = (
-            '<div class="sec-head" style="margin-top:28px"><h2>On the Board</h2>'
-            '<span class="bar"></span></div><div class="cn-grid">'
-            + "".join(f'<div class="cn-stat"><span class="lab">{esc(k)}</span>'
-                      f'<span class="cn-v">{esc(str(v))}</span></div>' for k, v in board)
-            + '</div>'
-            '<p class="pc-note">These are readings, not advice, and not a forecast. '
-            '<a href="/learn.html">How to read the Board</a>.</p>')
+
+def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=None):
+    """PROGRAM 7, SPRINT 6.4 (13 October 2026). Under the chart, in this order: the
+    readings grid (tile law), the Chart Master's card for the coin (dated), the coin's
+    stories (the wire items that name it, newest first, with their sources), the
+    cold-storage card, and the unlock line where the vesting file has one. Supply and
+    trade, which the page has always carried, follows as reference. A figure the source did
+    not send is absent, not zero."""
+    import coinpage as _cp
+    sym = c.get("symbol") or ""
+    cid = (c.get("gecko_id") or "").strip()
+    name = c.get("name") or sym
+    spark = c.get("spark7d") or []
+    wire = wire if wire is not None else _coin_wire()
+    cm = cm if cm is not None else _coin_cm()
+    today = today or _build_now().astimezone(_ET).date()
+    stamp = _snap_stamp_et((pulse or {}).get("generated_utc") or "") or "ET"
+    if not _ZONE_IN.search(stamp):
+        stamp += " ET"
+
+    chart = render_coin_chart(c, name, cid, spark) if (spark or cid) else ""
+
+    _board, asset = _coin_board_read(sym, pulse)
+    tiles = _cp.reading_tiles(c, pos, asset, stamp)
+    tiles_html = (f'<h2 class="cn-h cn-h-first">Readings</h2>{tiles}'
+                  f'<p class="pc-note">These are readings, not advice, and not a forecast. '
+                  f'<a href="/learn.html">How to read the Board</a>.</p>') if tiles else ""
+
+    _gen = _utc_dt((pulse or {}).get("generated_utc") or "")
+    cm_html = _cp.chartmaster_card(
+        c, cm, asset, today, esc, fmt_date, destyle=destyle, price_fmt=_price_fmt,
+        board_day=_gen.astimezone(_ET).strftime("%Y-%m-%d") if _gen else "")
+
+    hits = _cp.wire_stories(c, wire)
+    wire_html = _cp.stories_html(hits, esc, _wire_et)
+    stories = _coin_stories(c, items)
+    news_html = ""
+    if stories:
+        news_html = ('<h3 class="cn-h3">Checked by the desk</h3><div class="cn-news">'
+                     + "".join(f'<a class="cn-n" href="/articles/{esc(i["slug"])}.html">'
+                               f'{esc(i.get("title") or "")}</a>' for i in stories) + '</div>')
+    stories_html = ""
+    if wire_html or news_html:
+        stories_html = (f'<section class="cn-stories" aria-label="Stories about {esc(name)}">'
+                        f'<h2 class="cn-h">Stories about {esc(name)}</h2>{wire_html}{news_html}'
+                        + ('<p class="pc-note">Wire lines are the desk\'s one-line summaries of '
+                           'what outlets reported, with the sources counted and linked; they '
+                           'are not stories the desk wrote or checked.</p>' if wire_html else '')
+                        + '</section>')
+
+    unlock_html = _cp.unlock_line(c, today, esc, fmt_short_date)
 
     supply = _coin_supply_rows(c)
     supply_html = ""
     if supply:
         supply_html = (
-            '<div class="sec-head" style="margin-top:28px"><h2>Supply and trade</h2>'
-            '<span class="bar"></span></div><div class="cn-rows">'
+            '<h2 class="cn-h">Supply and trade</h2><div class="cn-rows">'
             + "".join(f'<div class="cn-row"><span class="lab">{esc(k)}</span>'
                       f'<span class="cn-rv">{v}</span></div>' for k, v in supply)
             + '</div>')
 
-    stories = _coin_stories(c, items)
-    news_html = ""
-    if stories:
-        news_html = ('<div class="sec-head" style="margin-top:28px">'
-                     '<h2>From the desk</h2><span class="bar"></span></div>'
-                     '<div class="cn-news">'
-                     + "".join(
-                         f'<a class="cn-n" href="/articles/{esc(i["slug"])}.html">'
-                         f'{esc(i.get("title") or "")}</a>' for i in stories)
-                     + '</div>')
-
     inner = f"""{_dash_crumb()}
   <div class="sec-head"><h2>{esc(name)}<span class="cn-sym">{esc(sym)}</span></h2>
     <span class="bar"></span>{_coin_pin(sym)}</div>
-  <div class="cn-grid cn-top">{stat_html}</div>
   {chart}
-  {board_html}
+  {tiles_html}
+  {cm_html}
+  {stories_html}
+  {_coin_cold_storage()}
+  {unlock_html}
   {supply_html}
-  {news_html}
   <nav class="st-nav" aria-label="Related">
     <a class="st-nav-a" href="/pulse/prices">The Top 100</a>
     <a class="st-nav-a" href="/pulse.html">Markets</a>
-    <a class="st-nav-a" href="/learn.html">Learn</a></nav>""" + COIN_CHART_JS
+    <a class="st-nav-a" href="/learn.html">Learn</a></nav>""" + (COIN_CHART_SRC if chart else "")
     return _dash_shell(f"coin-{_coin_slug(c)}", f"{name} ({sym})",
-                       f"{name} price, 24-hour, 7-day and 30-day change, market cap and "
-                       f"supply, with the Board's read and the desk's reporting.",
+                       f"{name} price chart with 1-day, 7-day, 1-month and 1-year windows, "
+                       f"readings, the Chart Master's read and the desk's reporting.",
                        inner, dateline, data=pulse,
                        path=f"/coins/{_coin_slug(c)}.html")
 
@@ -7938,16 +7860,30 @@ def render_pulse_prices(pulse, dateline):
         screened = ""
     inner = f"""{_dash_crumb()}
   <h1>Top 100</h1>
-  <p class="lede">Every coin in the top 100 by market cap: price, 7-day trend, 24-hour
-     change. {esc(fmt_usd(total_mcap))} of market tracked. Click a column header to sort.</p>
+  <p class="lede">Every coin in the top 100 by market cap: price, 24-hour change and the
+     seven-day line. {esc(fmt_usd(total_mcap))} of market tracked. Type to find a coin;
+     click a column header to sort.</p>
   <p class="live-stamp">{esc(_snap_asof(pulse))}</p>
+  <div class="coin-search" role="search">
+    <label class="sr-only" for="coin-q">Search the Top 100 by name or ticker</label>
+    <input id="coin-q" type="search" data-coin-search placeholder="Search name or ticker"
+      autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+    <button type="button" class="coin-clear" data-coin-clear hidden>Clear</button>
+  </div>
+  <p class="coin-count" data-coin-count aria-live="polite"></p>
+  <div class="coin-empty" data-coin-empty hidden>
+    <p>No coin matches</p>
+    <button type="button" class="coin-clear" data-coin-clear>Clear the search</button>
+  </div>
   <div class="movetable prices-table"><table>
     <thead><tr>
       <th scope="col" data-sort="rank" aria-sort="ascending"><button type="button" class="th-sort">#</button></th>
-      <th scope="col">Coin</th><th scope="col">7d</th>
+      <th scope="col">Coin</th>
       <th scope="col" data-sort="price" aria-sort="none"><button type="button" class="th-sort">Price</button></th>
       <th scope="col" data-sort="chg" aria-sort="none"><button type="button" class="th-sort">24h</button></th>
-      <th scope="col" data-sort="mcap" aria-sort="none"><button type="button" class="th-sort">Market cap</button></th>
+      <th scope="col">7d</th>
+      <th scope="col" class="c-wide" data-sort="mcap" aria-sort="none"><button type="button" class="th-sort">Market cap</button></th>
+      <th scope="col" class="c-wide" data-sort="vol" aria-sort="none"><button type="button" class="th-sort">Volume</button></th>
     </tr></thead>
     <tbody data-live="top100">{_top100_rows(coins)}</tbody>
   </table></div>
@@ -7970,7 +7906,7 @@ def render_pulse_prices(pulse, dateline):
       confirms. Freed places are filled from further down, so this is still a full
       hundred.</p></div>
   </div>{screened}
-""" + TOP100_TAP_JS
+""" + TOP100_JS
     return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True, data=pulse)
 
 
@@ -8873,6 +8809,24 @@ def ingest():
 
 # ---- build -------------------------------------------------------------------
 
+def squeeze_js(src):
+    """Strip block comments and indentation from a script, nothing else. coinchart.js is
+    written to be read, with its reasons in comments; the page weight rule counts bytes, and
+    the comments are a third of them. This changes no token: newlines stay, so semicolon
+    insertion behaves as written, and the file has no comment markers inside strings or
+    regexes (scripts/coin_pages_test.py parses the result)."""
+    src = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
+    return "\n".join(l for l in (x.strip() for x in src.split("\n")) if l) + "\n"
+
+
+def _squeeze_asset(path):
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            body = squeeze_js(f.read())
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(body)
+
+
 def _copytree(src, dst):
     os.makedirs(dst, exist_ok=True)
     for root, _dirs, files in os.walk(src):
@@ -8939,6 +8893,7 @@ def build():
         shutil.rmtree(PUBLISH)
     os.makedirs(os.path.join(PUBLISH, "articles"), exist_ok=True)
     _copytree(ASSETS, os.path.join(PUBLISH, "assets"))
+    _squeeze_asset(os.path.join(PUBLISH, "assets", "coinchart.js"))
     # R-4: the PIL faces are for share_cards and og_render, which draw text into PNGs
     # at build time. No page requests them, and at 728 KB they are the largest thing in
     # assets. They stay in the repo, where the renderers read them; they do not ship.
