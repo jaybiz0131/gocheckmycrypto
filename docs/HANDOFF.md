@@ -7,7 +7,7 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 13 October 2026, Program 6 Sprint 6.4 built, not merged (section 11). Before it, Program 7 Sprint 7.2 merged (section 10). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 13 October 2026, Program 6 Sprint 6.4 MERGED `60ac24e`, 1:43 PM EDT (section 11). Before it, Program 7 Sprint 7.2 merged (section 10). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
@@ -249,7 +249,9 @@ not piped into `tail` and assumed.
 
 **Jack approved again at 1:20 PM ET with a fifth fix (1M and 1Y fetch 565 days so both averages are daily curves across the whole window, never bridged; falls back to 365 if the public API refuses; unverified live, read the first 1Y after the merge) and permission to merge unattended; weights now +9.0%. Report has the merge facts.**
 
-**State: BUILT, NOT MERGED.** Branch `claude/sweet-wright-s8j2we` (the brief named it `coin-pages`; the cloud session was bound to this branch name). Waits for Jack's yes on `shots/program7-6.4/`; one real merge commit after it, outside 6:30 to 8:15 PM ET. Report: `docs/REPORT-PROGRAM-6-SPRINT-6.4-2026-10-13.md`.
+**State: MERGED 13 October 2026, 1:43:37 PM EDT, merge `60ac24e` (main). Canary green on the merged tree; production stamp `60ac24e` read at 375 and 1440 on /coins/btc, /coins/eth and /pulse/prices, no overflow; count of record 3 ready, 1 canceled at 1:50 PM ET, the 7:08 PM Edition is the day's 4th. TWO OPEN ITEMS (report, last section): (1) CoinGecko's public API answers days=565 with 429/401, so 1Y falls back to 365 days and the 200-day line starts about 199 days in (decision for Jack: accept, key, another source, or drop the wasted 565 request); (2) a micro-cap priced $0.0000003682 leaves a 7.2 px gap on the Top 100 at 375 (needs a 10 px tier for prices of 13 characters or more).** The line below this one is the pre-merge state and is kept for the record.
+
+**(Before the merge) BUILT, NOT MERGED.** Branch `claude/sweet-wright-s8j2we` (the brief named it `coin-pages`; the cloud session was bound to this branch name). Waits for Jack's yes on `shots/program7-6.4/`; one real merge commit after it, outside 6:30 to 8:15 PM ET. Report: `docs/REPORT-PROGRAM-6-SPRINT-6.4-2026-10-13.md`.
 
 **What exists:** `site/assets/coinchart.js` (the chart, one shared file, comments squeezed at publish by `site_build.squeeze_js`), `coinpage.py` (row sparkline, readings tiles, Chart Master card, wire stories, unlock line), seven new `tile.READINGS` (`coin-price`, `coin-24h`, `coin-7d`, `coin-cap`, `coin-volume`, `coin-200d`, `rsi-14`), `COLD_*` constants (one copy, two looks), search and sort on the Top 100 (`TOP100_JS`), CSS in `system.css` (`.cc-*`, `.cn-*`, `.coin-*`). Tests: `scripts/coin_pages_test.py` (unit, static, browser) and `scripts/coin_pages_browser.mjs`, in the canary as `_coin_pages_canary`; `scripts/chart_closeups.mjs`; `fixtures/coingecko/` (recorded market_chart for bitcoin, ethereum, aptos).
 

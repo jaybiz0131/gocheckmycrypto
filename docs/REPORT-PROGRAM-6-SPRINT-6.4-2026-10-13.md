@@ -1,6 +1,6 @@
 # Report: Program 6, Sprint 6.4, the coin pages and the Top 100 (13 October 2026)
 
-**Status: built and proven on the local tree, NOT merged. Jack approved at 12:45 PM ET on 13 October with four fixes (made, section below); his yes on the re-shot closeups is the gate for the merge.** Everything below that needs a yes or a production read says so.
+**Status: MERGED 13 October 2026, 1:43:37 PM EDT, merge `60ac24e`. Two open items from the live reads, both below under "Merge, production reads, count": the live API refuses the 565-day request, and one Top 100 row has a 7.2 px gap.** Everything below that needs a yes or a production read says so.
 
 ## Start
 - RULES body sha256 `4179b2ac06d0dc7fb9de9987dc077884df6f4e1b5ebabe1b6ff1bb2de8b3568d`: **matched** (`tail -n +11 docs/RULES.md | sha256sum`).
@@ -54,7 +54,7 @@ Known visual limits: the Chart Master card in the repo is the Oct 8 read, so it 
 **Not given yet.** Merge, production reads by stamp and the count five minutes after the push are all pending: merge only after his yes and outside 6:30 to 8:15 PM ET; then read production by stamp, the count of record, and run the canary on the merged tree.
 
 ## Merge hash, production reads, counts
-None: not merged.
+(Superseded by the section "Merge, production reads, count" at the end of this report.)
 
 ## Jack's four fixes, 13 October 2026 (approved 12:45 PM ET, four changes before the merge)
 1. **Volume bars only on 1M and 1Y.** `coinchart.js` draws them only where each bar is a day's volume (`DAILY`). 1D and 7D have no bars and no volume strip, the crosshair readout shows no volume there, and the caption says nothing of volume there (on 1M and 1Y it says "each day's volume"). Without the strip the low label would have landed on the date row, so those windows keep a 16 px gap above the dates.
@@ -75,6 +75,15 @@ Approved with one more fix, and permission to merge without waiting if the new t
 - **Fixtures.** `fixtures/coingecko/*-565.json` are the recorded 365 days with 200 synthetic days prepended (the sandbox could not record a 565-day answer); see its README. The shots' 200-day line therefore rests on 200 invented days at its left end; the last 365 days of every price are recorded.
 - **Weight.** The long request does not count (the page ships no chart data), but the code did, so `squeeze_js` now also drops the spaces around operators and punctuation (strings and regexes left exactly as written; `node --check` clean; the whole browser suite runs the squeezed file). `coinchart.js` 16.5 KB to 14.0 KB. At 375: `/coins/btc` 236,150 (+9.0%), `/coins/eth` 236,283 (+9.0%), `/coins/apt` 233,992 (+8.8%), against baselines 216,638, 216,727 and 215,014. The margin is about 2 KB, replacing the 89 to 495 bytes of the previous round.
 - **Shots.** `shots/program7-6.4/btc-chart-1y-375-{light,dark}.png` and `contact-btc-chart-closeups.jpg` re-shot (1D unchanged).
+
+## Merge, production reads, count (13 October 2026)
+**Authority.** Jack, 1:20 PM ET: merge without waiting if the new test is green and the page stays under 10%. Both held (26 of 26 browser checks; +9.0%).
+**Merge.** One real merge commit `60ac24e` (parents `135138e`, the 7.2 close, and `6b78340`, the sprint tip), no attribution trailer, pushed 1:43:37 PM EDT. Canary on the merged tree: `LAYER 1 CANARY: PASS`, exit 0. One slip, caught before anything reached main: the first merge was made before the sprint tip was pushed, so it held `b2de41a` and lacked the fifth fix; it was discarded unpushed, the tip was pushed, the merge redone, and the canary run again on the second one. `/counts/today` before the push (1:37 PM): crypto 2 ready, 1 canceled. Merged at 1:43 PM, outside 6:30 to 8:15 PM ET.
+**Production by stamp.** `/stamp.txt` read `commit 60ac24e`, built 17:47:29Z (1:47 PM ET). `live_read.mjs --expect 60ac24e` at 375 and at 1440 on `/coins/btc`, `/coins/eth` and `/pulse/prices`: commit matched, no sideways overflow, on all six. The Top 100 reads "As of 1:43 PM ET on Oct 13" (refreshed by this build).
+**Count of record, 1:50:49 PM ET (seven minutes after the push):** crypto **3 ready, 1 canceled** for 13 October; the last ready build is `60ac24e` at 17:49:43Z, so the merge was counted once. The 7:08 PM Edition is the day's 4th of 5.
+**Open 1: the live API refuses the 565-day request, so the fifth fix does not deliver on production.** A probe from production's own page (at 375, 1Y tab): `market_chart?days=565` answered 429 and then 401, the same refusal the public tier gives for history beyond 365 days. The chart's fallback then asked for 365 (both tries 429 from this sandbox, which is rate-limited, so the probe never saw a drawn 1Y). By the fallback's design, on production the 1Y shows both averages as daily curves starting where their data starts: the 50-day about 49 days in, the 200-day about 199 days in, no bridging. What Jack asked, a value for every day shown, needs history this free endpoint will not give. Each 1M or 1Y visit also spends one extra request on the refused 565 before the 365. Decisions for Jack: (a) accept the late start; (b) a keyed CoinGecko plan; (c) another keyless source (not evaluated); (d) drop the 565 attempt and keep the late start without the wasted request. Not changed: the brief closes with documents only.
+**Open 2: one Top 100 row misses the 12 px gap.** On production at 375 the least gap between a price and its 24h pill is **7.2 px**, on a micro-cap priced `$0.0000003682` (13 characters, wider than any price in the local data, so the local test passed at 12 px or more). It is a visible gap, not touching, and the next widest rows are 13.8 px. Fix, one line each: a third size tier in `site.css` for prices of 13 characters or more (10 px), set where `pn-long` is set in `_top100_rows`, and the same live probe as the test.
+**Not read.** The 7:08 PM Edition's build and the next morning run are still to come; the count after the Edition is not read. `gcm-newsroom` was not touched this round.
 
 Shell date at close: see the last line.
 Shell date at close: Tue Oct 13 2026, 12:30 PM ET
