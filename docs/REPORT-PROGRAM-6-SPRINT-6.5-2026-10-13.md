@@ -1,6 +1,6 @@
 # Program 6, Sprint 6.5: honest averages, the Top 100 polish, the lighter stylesheet
 
-Branch `sprint-6-5`, tip `cb5469b` (pushed, unmerged). Built Tuesday 13 October 2026, 3:18 to 3:40 PM ET, on Jack's 3:18 PM ET ruling to start today.
+Branch `sprint-6-5`, tip `e0872b4`. **MERGED Tuesday 13 October 2026, merge `23c33e5` (real merge commit, pushed 3:57:40 PM ET).** Built Tuesday 13 October 2026, 3:18 to 3:40 PM ET, on Jack's 3:18 PM ET ruling to start today.
 
 ## Start
 - **RULES hash:** `4179b2ac06d0dc7fb9de9987dc077884df6f4e1b5ebabe1b6ff1bb2de8b3568d`, matches.
@@ -10,7 +10,7 @@ Branch `sprint-6-5`, tip `cb5469b` (pushed, unmerged). Built Tuesday 13 October 
 To be read after the Oct 14 8:15 AM ET run. At 2:42 PM ET on Oct 13 production still read "THE BRIEF · SUNDAY EVENING" (build `60ac24e`). Jack's note: the Worker `gcm-slot-trigger` was deployed at 11:52 AM ET Oct 13 (version `d3d4f43d`). Tokens, dollars and fallback status come from the ledger after that run; nothing is claimed here.
 
 ## Builds
-Count of record last read at 1:50 PM ET Oct 13: 3 ready, 1 canceled, the 7:08 PM Edition the 4th. This sprint's merge would be the 5th. Nothing was pushed to `main` and no build was triggered (branch deploys are off). The count after the merge, and five minutes after the push: PENDING.
+Count of record last read at 1:50 PM ET Oct 13: 3 ready, 1 canceled, the 7:08 PM Edition the 4th. This sprint's merge is the day's **4th ready build** by the documents (3 ready + this merge, 1 canceled), so the 7:08 PM Edition is the fifth and the morning's run, if it builds, is on Oct 14's count. **The count was NOT read after the push**: the Worker's `/counts/today` has no URL in the repository's documents and the site's own `/counts/today` answers 404, so this session cannot read it (the same blocker 6.4 reported). Read it from the Worker and correct this line. Production built `23c33e5` between 3:57:44 and 4:03:55 PM ET (about 6 minutes after the push, from the stamp). Nothing else was pushed to `main` today by this sprint except this close (documents only, ignored by the build).
 
 ## Averages (item 0)
 - One 365-day request serves 1M and 1Y; the 565 request and its fallback are gone.
@@ -49,4 +49,15 @@ Crypto already printed the build clock's ET day (Sprint 7.1, `masthead()`), and 
 `shots/program6-6.5/`: `contact-btc-averages.jpg`, `contact-top100-first.jpg`, `contact-top100-rows.jpg`. Before beside after, 375, light and dark. Data: BTC from the 3:18 PM ET recording; the Top 100 rows are production's own recorded rows (stamp `60ac24e`), BTT's $0.0000003682 is the real row. "Before" is 6.4's code and CSS on the same real data.
 
 ## Jack's yes, merge, production reads, counts
-PENDING. Sent for approval at 3:36 PM ET. Merge rule: yes by 6:00 PM ET and a push before 6:30 PM ET, else the morning of Oct 14 after 8:30 AM ET and after the morning edition is read.
+- **Jack's yes:** 3:55 PM ET Oct 13 (before the 6:00 PM cutoff), merge of tip `e0872b4`.
+- **Merge:** `23c33e5` on `main`, from `ae37bc2`. `git branch --contains` confirmed `cb5469b` and `e0872b4` were on `origin/sprint-6-5`, and `merge-base --is-ancestor` confirmed both are in `23c33e5`. Tip pushed before the merge (pushed earlier at 3:40 PM). Canary on the merged tree: `LAYER 1 CANARY: PASS` (3:57 PM). Pushed 3:57:40 PM ET, 2 h 32 min before the 6:30 PM bar.
+- **Production by stamp** (`/` stamp `23c33e5` from 4:03:55 PM ET; the previous read was `60ac24e` until 4:03:34), read 4:04 PM ET at 375 and 1440: `/`, `/coins/btc`, `/coins/eth`, `/pulse/prices` all stamp `23c33e5`, no sideways overflow at either width, masthead "TUE · OCT 13, 2026". Published `site.css` (74,982 B) and `system.css` (32,455 B) carry no `/*`.
+- **BTC 1Y caption, live, both widths:** "50-day average from Dec 2 (needs 50 days of history) · 200-day average from May 1 (needs 200 days of history)", 12 px, two average lines drawn, and the page made exactly one history request, `days=365`.
+- **The BTT row on the live Top 100: NOT READABLE.** BTT left the Top 100 at the 3:57 PM ET refresh (the live page, "As of 3:57 PM ET", has 100 rows and no BTT). The 13-character case was proved before the merge on production's own recorded BTT row (contact sheet) and on the labeled fixture. Live at 375, all 100 rows: longest prices are SHIB and PEPE (12 characters, 11 px), the smallest gap between price and 24h pill is **13.8 px**; at 1440 the smallest gap is 43.8 px and the prices are 13.5 px. Names at 375: Hyperliquid whole; only "(BinanceLife)" and "Superintelligence" ellipsize, and the rows carry `aria-label`/`title`. The 10 px tier is in the served CSS (`pn-xlong`) but no live row is 13 characters long right now.
+- **Count five minutes after the push:** not readable from here (see Builds).
+
+## Still open
+- The morning edition's live proof (7.2 item 5): to be read after the Oct 14 8:15 AM ET run.
+- The count of record for Oct 13 after this merge: read from the Worker.
+
+Closed Tuesday 13 October 2026, 4:08 PM ET.
