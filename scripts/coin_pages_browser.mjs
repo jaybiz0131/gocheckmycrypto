@@ -148,14 +148,33 @@ try {
       for (const r of ["1d", "7d", "1m", "1y"]) {
         await pick(page, r);
         out[r] = await page.evaluate(() => [...document.querySelectorAll("[data-coin-chart] .cc-ma")]
-          .map(e => ({ ma: e.getAttribute("data-ma"), dash: getComputedStyle(e).strokeDasharray })));
+          .map(e => ({ ma: e.getAttribute("data-ma"), tag: e.tagName.toLowerCase(), curves: ((e.getAttribute("d") || "").match(/C/g) || []).length,
+            dash: getComputedStyle(e).strokeDasharray })));
         out[r + "_labels"] = await page.evaluate(() => [...document.querySelectorAll("[data-coin-chart] .cc-ma-label")].map(e => e.textContent.trim()));
+        // the labels sit in the right gutter: right of the plot, right of the price labels, inside the svg, never on a line
+        out[r + "_gutter"] = await page.evaluate(() => {
+          const svg = document.querySelector("[data-coin-chart] svg.cc-svg").getBoundingClientRect();
+          const labs = [...document.querySelectorAll("[data-coin-chart] .cc-ma-label")].map(e => e.getBoundingClientRect());
+          const px = [...document.querySelectorAll("[data-coin-chart] text.cc-ax[data-axis=price]")].map(e => e.getBoundingClientRect());
+          const grid = [...document.querySelectorAll("[data-coin-chart] .cc-grid")].map(e => e.getBoundingClientRect());
+          const plotRight = Math.max(...grid.map(g => g.right));
+          const lines = [...document.querySelectorAll("[data-coin-chart] .cc-ma, [data-coin-chart] .cc-line")].map(e => e.getBoundingClientRect());
+          const hit = (a, b) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+          return { n: labs.length, inside: labs.every(l => l.left >= svg.left && l.right <= svg.right - 1),
+            beyondPlot: labs.every(l => l.left >= plotRight), clearOfPrices: labs.every(l => px.every(q => !hit(l, q))),
+            clearOfLines: labs.every(l => lines.every(b => !(l.left < b.right && b.left < l.right))),
+            apart: labs.every((l, i) => labs.every((m, j) => i === j || !hit(l, m))) };
+        });
       }
     } catch (e) { out.error = String(e).slice(0, 120); }
     const ok = !out.error && out["1d"].length === 0 && out["7d"].length === 0 && out["1m"].length === 2 && out["1y"].length === 2
       && out["1m"].every(m => m.dash && m.dash !== "none")
-      && out["1y_labels"].some(t => /^50-day \$[\d,.]+$/.test(t)) && out["1y_labels"].some(t => /^200-day \$[\d,.]+$/.test(t));
+      && out["1y_labels"].includes("50D") && out["1y_labels"].includes("200D") && out["1m_labels"].includes("50D") && out["1m_labels"].includes("200D");
     check("chart-averages: dashed 50-day and 200-day lines, labeled, on 1M and 1Y only", ok, JSON.stringify(out).slice(0, 400));
+    const smoothOk = !out.error && ["1m", "1y"].every(r => out[r].every(m => m.tag === "path" && m.curves >= 10));
+    check("chart-averages: each average is one smooth curve through the daily values, never a zig-zag polyline", smoothOk, JSON.stringify([out["1m"], out["1y"]]).slice(0, 300));
+    const gutOk = !out.error && ["1m", "1y"].every(r => { const g = out[r + "_gutter"]; return g.n === 2 && g.inside && g.beyondPlot && g.clearOfPrices && g.clearOfLines && g.apart; });
+    check("chart-averages: labels sit in the right gutter beside the price axis, inside the chart, never on a line or a price label", gutOk, JSON.stringify([out["1m_gutter"], out["1y_gutter"]]));
     await ctx.close();
   }
 
@@ -194,6 +213,17 @@ try {
     check("chart-anatomy: price labels on the right in mono at 12 px or more", !a.error && a.price >= 3 && a.pxSize >= 12 && /mono/i.test(a.pxFont || "") && a.pxRight, `n=${a.price} size=${a.pxSize} font=${a.pxFont} right=${a.pxRight}`);
     check("chart-anatomy: three to five date labels, no label overlaps another at 375", !a.error && a.dates >= 3 && a.dates <= 5 && a.overlap === 0, `dates=${a.dates} overlap=${a.overlap}`);
     check("chart-anatomy: volume bars carry up and down by that period's close", !a.error && a.vol > 100 && a.volUp > 0 && a.volDown > 0, `vol=${a.vol} up=${a.volUp} down=${a.volDown}`);
+    const vols = {};
+    try {
+      for (const r of ["1d", "7d", "1m", "1y"]) {
+        await pick(page, r);
+        vols[r] = await page.evaluate(() => ({ bars: document.querySelectorAll("[data-coin-chart] .cc-vol rect").length,
+          cap: (document.querySelector("[data-coin-cap]") || {}).textContent || "" }));
+      }
+    } catch (e) { vols.error = String(e).slice(0, 120); }
+    check("chart-volume: bars on 1M and 1Y only (daily volumes); none on 1D and 7D, and the caption says nothing of them there",
+      !vols.error && vols["1d"].bars === 0 && vols["7d"].bars === 0 && vols["1m"].bars >= 20 && vols["1y"].bars > 100
+      && !/volume/i.test(vols["1d"].cap) && !/volume/i.test(vols["7d"].cap) && /each day/i.test(vols["1y"].cap), JSON.stringify(vols).slice(0, 400));
     check("chart-anatomy: Program 7 line (3 px, glow, area, high/low dots with labels, last-point halo)", !a.error && parseFloat(a.lineW) === 3 && a.hi >= 1 && a.lo >= 1 && a.now === 1 && a.hilabels >= 2 && a.area === 1, JSON.stringify(a).slice(0, 300));
     await ctx.close();
   }
@@ -229,8 +259,17 @@ try {
       await page.keyboard.press("ArrowLeft"); const k2 = await page.locator("[data-coin-chart] .cc-readout").textContent();
       r.kbd = k1 !== k2;
     } catch (e) { r.error = String(e).slice(0, 120); }
-    const good = !r.error && r.reads.every(x => !x.hidden && x.inside && /\$[\d,]+/.test(x.text) && /\d/.test(x.text) && /vol/i.test(x.text));
-    check("chart-readout: a touch shows price, date and volume, and never leaves the chart box", good, JSON.stringify(r).slice(0, 400));
+    try {
+      await pick(page, "1y");
+      const sb = await page.locator("[data-coin-chart] svg.cc-svg").boundingBox();
+      await page.evaluate(({ x, y }) => {
+        const s = document.querySelector("[data-coin-chart] svg.cc-svg");
+        s.dispatchEvent(new PointerEvent("pointerdown", { clientX: x, clientY: y, pointerType: "touch", pointerId: 8, bubbles: true, isPrimary: true }));
+      }, { x: sb.x + sb.width * 0.5, y: sb.y + sb.height * 0.4 });
+      r.daily = (await page.locator("[data-coin-chart] .cc-readout").textContent()).trim();
+    } catch (e) { r.error = String(e).slice(0, 120); }
+    const good = !r.error && r.reads.every(x => !x.hidden && x.inside && /\$[\d,]+/.test(x.text) && /\d/.test(x.text) && !/vol/i.test(x.text)) && /vol/i.test(r.daily || "");
+    check("chart-readout: a touch shows price and date (and volume on the daily windows), and never leaves the chart box", good, JSON.stringify(r).slice(0, 400));
     check("chart-readout: keyboard users step through points", !r.error && r.kbd === true, JSON.stringify(r).slice(0, 200));
     await ctx.close();
   }
@@ -330,6 +369,20 @@ try {
     const norm = h => h.map(x => x.replace(/[↑↓]/g, "").trim().toLowerCase());
     check("top100-columns: at 375 rank, coin, price, 24h and the seven-day line only, and no sideways scroll",
       !k.error && JSON.stringify(norm(k.heads)) === JSON.stringify(["#", "coin", "price", "24h", "7d"]) && k.overflow <= 0, JSON.stringify(k));
+    let g = {};
+    try {
+      g = await page.evaluate(() => {
+        const rows = [...document.querySelectorAll(".prices-table tbody tr")];
+        const gaps = rows.map(r => {
+          const pc = r.querySelector("td.pnum"), ch = r.querySelector("td:nth-child(4) .chip");
+          const range = document.createRange(); range.selectNodeContents(pc);
+          const t = range.getBoundingClientRect(), c = ch.getBoundingClientRect();
+          return { gap: c.left - t.right, textRight: t.right, cellRight: pc.getBoundingClientRect().right };
+        });
+        return { n: gaps.length, min: Math.min(...gaps.map(x => x.gap)), worst: gaps.sort((a, b) => a.gap - b.gap)[0] };
+      });
+    } catch (e) { g.error = String(e).slice(0, 120); }
+    check("top100-gap: at 375 the price and the 24h pill are at least 12 px apart on every row", !g.error && g.n === 100 && g.min >= 12, JSON.stringify(g));
     await page.setViewportSize({ width: 768, height: 900 });
     const wide = await page.evaluate(() => [...document.querySelectorAll(".prices-table thead th")].filter(e => getComputedStyle(e).display !== "none").map(e => e.textContent.trim().toLowerCase()));
     check("top100-columns: market cap and volume appear at 768", wide.some(t => t.includes("market cap")) && wide.some(t => t.includes("volume")), wide.join("|"));

@@ -7450,7 +7450,8 @@ def _top100_rows(coins):
             f'<td class="sym2"><a class="t1-a" href="/coins/{esc(_coin_slug(c))}">'
             f'{esc(sym)}<span class="mut"> &middot; '
             f'<span class="t1-name">{esc(nm)}</span></span></a></td>'
-            f'<td class="pnum" data-cell="price" data-val="{c.get("price") or 0}">{esc(_price_fmt(c.get("price")))}</td>'
+            f'<td class="pnum{" pn-long" if len(_price_fmt(c.get("price")) or "") >= 11 else ""}" '
+            f'data-cell="price" data-val="{c.get("price") or 0}">{esc(_price_fmt(c.get("price")))}</td>'
             f'<td data-cell="chg" data-val="{chg if chg is not None else 0}">{chg_html}</td>'
             f'<td class="c-spark">{_cp.row_spark(c.get("spark7d"))}</td>'
             f'<td class="mut c-wide" data-cell="mcap" data-val="{c.get("mcap_usd") or 0}">{esc(fmt_usd(c.get("mcap_usd", 0)))}</td>'
@@ -8813,10 +8814,19 @@ def squeeze_js(src):
     """Strip block comments and indentation from a script, nothing else. coinchart.js is
     written to be read, with its reasons in comments; the page weight rule counts bytes, and
     the comments are a third of them. This changes no token: newlines stay, so semicolon
-    insertion behaves as written, and the file has no comment markers inside strings or
+    insertion behaves as written (newlines are dropped only where none can occur: after
+    "{", ",", "(" and ";", and before "}"), and the file has no comment markers inside strings or
     regexes (scripts/coin_pages_test.py parses the result)."""
     src = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
-    return "\n".join(l for l in (x.strip() for x in src.split("\n")) if l) + "\n"
+    out = ""
+    for l in (x.strip() for x in src.split("\n")):
+        if not l:
+            continue
+        # A newline after "{", ",", "(" or ";" and one before a closing "}" can never be where
+        # semicolon insertion happens, so those are dropped too (no token changes).
+        glue = out == "" or out.endswith(("{", ",", "(", ";")) or l.startswith("}")
+        out += l if glue else "\n" + l
+    return out + "\n"
 
 
 def _squeeze_asset(path):

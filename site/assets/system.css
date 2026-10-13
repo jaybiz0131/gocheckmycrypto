@@ -468,7 +468,8 @@ body:not(.h-home) .cn-v{font-size:20px}
 .cc-ma{fill:none;stroke-width:1.25;stroke-dasharray:5 4}
 .cc-ma.m50{stroke:var(--muted)}
 .cc-ma.m200{stroke:var(--faint)}
-.cc-ma-label{font:700 12px var(--mono);fill:var(--muted);paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round}
+.cc-ma-label{font:700 12px var(--mono);fill:var(--muted)}
+.cc-ma-label.m200{fill:var(--faint)}
 .cc-st.up{stop-color:var(--up-line)}
 .cc-st.down{stop-color:var(--down-line)}
 .cc-st.flat{stop-color:var(--ink)}

@@ -8,9 +8,11 @@
      1Y  days=365  daily points      (~366)   one request serves 1M and 1Y
 
    The 50-day and 200-day lines are averages of DAILY closes, so they come from the 366-day
-   series and are drawn on 1M and 1Y only, where they mean something. Volume is the source's
-   trailing-24-hour volume at each point, as muted bars under the price on their own scale,
-   up or down by that point's price against the one before.
+   series and are drawn on 1M and 1Y only, where they mean something. They are drawn as one
+   smooth curve through the daily averages and named in the right gutter beside the price
+   axis, never on the line. Volume bars are drawn on 1M and 1Y only, where each bar is a
+   day's volume; on 1D and 7D the source gives a trailing 24-hour figure at every point, so
+   every bar would be the same height and the window shows none.
 
    The line is Program 7's one style (glow.py): 3 px, a glow, an area fill, the high and low
    as white dots with mono labels, a halo on the last point. It is colored by the chosen
@@ -36,6 +38,7 @@
   if (!id || !stage || !box || !readout || !tabs.length) return;
 
   var DAY = 86400000;
+  var DAILY = { '1m': true, '1y': true };                 /* the windows whose volume is a day's volume */
   var RANGES = {
     '1d': { fetch: 1, label: '24 hours', spacing: '5-minute' },
     '7d': { fetch: 7, label: '7 days', spacing: 'hourly' },
@@ -57,7 +60,6 @@
   }
   function compact(v) {
     var a = Math.abs(v);
-    if (a >= 1e12) return '$' + (v / 1e12).toFixed(2) + 'T';
     if (a >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
     if (a >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
     if (a >= 1e3) return '$' + (v / 1e3).toFixed(0) + 'K';
@@ -80,6 +82,20 @@
     if (r === '1d') return fmtDate(ms, { hour: 'numeric', minute: '2-digit' }) + ' ET';
     if (r === '7d') return fmtDate(ms, { month: 'short', day: 'numeric', hour: 'numeric' }) + ' ET';
     return fmtDate(ms, { month: 'short', day: 'numeric', year: 'numeric' }, true);
+  }
+  function last(a) { for (var i = a.length - 1; i >= 0; i--) if (a[i] !== null) return a[i]; return null; }
+  /* a smooth path through points, monotone in y (Fritsch-Carlson), so it never overshoots a turn */
+  function smooth(q) {
+    var n = q.length, h = [], m = [], t = [], i, f = function (v) { return v.toFixed(1); }, d = 'M' + f(q[0][0]) + ',' + f(q[0][1]);
+    for (i = 0; i < n - 1; i++) { h.push(q[i + 1][0] - q[i][0] || 1e-6); m.push((q[i + 1][1] - q[i][1]) / h[i]); }
+    t[0] = m[0]; t[n - 1] = m[n - 2];
+    for (i = 1; i < n - 1; i++) t[i] = m[i - 1] * m[i] <= 0 ? 0 : (m[i - 1] + m[i]) / 2;
+    for (i = 0; i < n - 1; i++) {
+      var a = t[i] / m[i], b = t[i + 1] / m[i], s = a * a + b * b, k = s > 9 ? 3 / Math.sqrt(s) : 1, w = h[i] / 3;
+      d += 'C' + f(q[i][0] + w) + ',' + f(q[i][1] + k * a * m[i] * w) + ' ' + f(q[i + 1][0] - w) + ',' +
+        f(q[i + 1][1] - k * b * m[i] * w) + ' ' + f(q[i + 1][0]) + ',' + f(q[i + 1][1]);
+    }
+    return d;
   }
   function dir(a, b) { return b > a ? 'up' : b < a ? 'down' : 'flat'; }
 
@@ -162,7 +178,8 @@
 
   function draw(s) {
     var W = Math.max(280, Math.floor(stage.clientWidth));
-    var R = 64, L = 6, T = 20, HP = W < 480 ? 210 : 280, GAP = 8, HV = 44, AX = 26;
+    var hasMA = !!(s.ma50 || s.ma200), hasVol = DAILY[s.r];
+    var R = hasMA ? 100 : 64, L = 6, T = 20, HP = W < 480 ? 210 : 280, GAP = hasVol ? 8 : 16, HV = hasVol ? 44 : 0, AX = 26;
     var H = T + HP + GAP + HV + AX, PW = W - L - R;
     var lo = Math.min.apply(null, s.y), hi = Math.max.apply(null, s.y);
     [s.ma50, s.ma200].forEach(function (m) {
@@ -174,7 +191,7 @@
     var t0 = s.t[0], t1 = s.t[s.n - 1], tspan = (t1 - t0) || 1;
     var X = function (t) { return L + (t - t0) / tspan * PW; };
     var Y = function (v) { return T + HP - (v - pl) / (ph - pl) * HP; };
-    var d = s.dir === 'flat' ? 'flat' : s.dir;
+    var d = s.dir;
     var svg = el('svg', { 'class': 'cc-svg', width: W, height: H, viewBox: '0 0 ' + W + ' ' + H,
       role: 'img', 'aria-label': RANGES[s.r].label + ' of price. Low ' + money(Math.min.apply(null, s.y)) +
         ', high ' + money(Math.max.apply(null, s.y)) + ', latest ' + money(s.y[s.n - 1]) + ', ' + pct(s.chg) + '.' });
@@ -207,7 +224,7 @@
     var vg = el('g', { 'class': 'cc-vol' });
     var vmax = 0;
     for (i = 0; i < s.n; i++) if (s.v[i] !== null && s.v[i] > vmax) vmax = s.v[i];
-    if (vmax > 0) {
+    if (hasVol && vmax > 0) {
       var bw = Math.max(1, Math.min(8, PW / s.n * 0.72)), vy = T + HP + GAP;
       for (i = 0; i < s.n; i++) {
         if (s.v[i] === null) continue;
@@ -219,24 +236,28 @@
     }
     svg.appendChild(vg);
 
-    /* the 50-day and 200-day lines, 1M and 1Y only: thin, dashed, named at their right end */
+    /* the 50-day and 200-day lines, 1M and 1Y only: thin, dashed, one smooth curve through the daily
+       averages, and named in the right gutter beside the price axis, never on the line */
     var labels = [];
     [['50', s.ma50], ['200', s.ma200]].forEach(function (pair) {
       var m = pair[1]; if (!m) return;
-      var mp = [], last = null;
+      var mp = [], lastV = null;
       for (var k = 0; k < m.length; k++) {
         if (m[k] === null) continue;
-        mp.push(X(s.t[k]).toFixed(1) + ',' + Y(m[k]).toFixed(1)); last = m[k];
+        mp.push([X(s.t[k]), Y(m[k])]); lastV = m[k];
       }
       if (mp.length < 2) return;
-      svg.appendChild(el('polyline', { 'class': 'cc-ma m' + pair[0], 'data-ma': pair[0], points: mp.join(' ') }));
-      labels.push({ n: pair[0], y: Y(last), v: last });
+      svg.appendChild(el('path', { 'class': 'cc-ma m' + pair[0], 'data-ma': pair[0], fill: 'none', d: smooth(mp) }));
+      labels.push({ n: pair[0], y: mp[mp.length - 1][1], v: lastV });
     });
     labels.sort(function (a, b) { return a.y - b.y; });
     labels.forEach(function (lb, k) {
-      var ly = k === 0 ? lb.y - 6 : Math.max(lb.y + 14, labels[0].y + 14);
-      svg.appendChild(el('text', { 'class': 'cc-ma-label', x: L + PW - 4, y: ly.toFixed(1),
-        'text-anchor': 'end' }, lb.n + '-day ' + money(lb.v, lb.v >= 100 ? 0 : 2)));
+      var ly = lb.y + 4;
+      if (k > 0) ly = Math.max(ly, labels[k - 1].ly + 15);
+      ly = Math.min(Math.max(ly, T + 8), T + HP - 2);
+      lb.ly = ly;
+      svg.appendChild(el('text', { 'class': 'cc-ma-label m' + lb.n, x: L + PW + 66,
+        y: ly.toFixed(1) }, lb.n + 'D'));
     });
 
     /* the line itself (glow.py's style) and its marks */
@@ -264,7 +285,7 @@
     });
 
     /* dates along the bottom: three or four labels, from the data's own times */
-    var nl = W < 460 ? 4 : 5, ay = T + HP + GAP + HV + 18;
+    var nl = PW < 240 ? 3 : W < 460 ? 4 : 5, ay = T + HP + GAP + HV + 18;
     for (i = 0; i < nl; i++) {
       var f = i / (nl - 1), tt = t0 + tspan * f;
       svg.appendChild(el('text', { 'class': 'cc-ax', 'data-axis': 'date', x: (L + PW * f).toFixed(1), y: ay,
@@ -304,8 +325,13 @@
     var r = RANGES[s.r], vmax = 0, i;
     for (i = 0; i < s.n; i++) if (s.v[i] !== null && s.v[i] > vmax) vmax = s.v[i];
     var t = 'CoinGecko, ' + r.spacing + ' points (' + s.n + '). Times are Eastern. ';
-    if (vmax) t += 'Volume bars are the trailing 24-hour volume at each point, scale 0 to ' + compact(vmax) + '. ';
-    if (s.ma50 || s.ma200) t += 'Averages are of daily closes. ';
+    if (DAILY[s.r] && vmax) t += 'Volume bars are each day\u2019s volume, scale 0 to ' + compact(vmax) + '. ';
+    if (s.ma50 || s.ma200) {
+      t += 'Dashed lines are averages of daily closes';
+      if (s.ma50) t += ', 50-day ' + money(s.ma50[s.n - 1], 0);
+      if (s.ma200) t += ', 200-day ' + money(s.ma200[s.n - 1], 0);
+      t += '. ';
+    }
     t += 'Read ' + fmtDate(Date.now(), { hour: 'numeric', minute: '2-digit' }) + ' ET.';
     cap.textContent = t;
   }
@@ -319,7 +345,7 @@
     cr.setAttribute('x1', p[0]); cr.setAttribute('x2', p[0]); cr.style.display = '';
     dot.setAttribute('cx', p[0]); dot.setAttribute('cy', p[1]); dot.style.display = '';
     var t = '<b>' + money(s.y[i]) + '</b><span>' + readDate(s.t[i], s.r) + '</span>' +
-      (s.v[i] !== null ? '<span>Vol ' + compact(s.v[i]) + '</span>' : '');
+      (DAILY[s.r] && s.v[i] !== null ? '<span>Vol ' + compact(s.v[i]) + '</span>' : '');
     readout.innerHTML = t; readout.hidden = false;
     /* beside the finger, never under it, and always inside the box */
     var rw = readout.offsetWidth, bw = box.clientWidth;
@@ -352,7 +378,6 @@
     if (!G.s) return;
     var k = ev.key, big = ev.shiftKey ? 10 : 1, n = idx < 0 ? G.s.n - 1 : idx;
     if (k === 'ArrowLeft') n -= big; else if (k === 'ArrowRight') n += big;
-    else if (k === 'PageDown') n -= 10; else if (k === 'PageUp') n += 10;
     else if (k === 'Home') n = 0; else if (k === 'End') n = G.s.n - 1;
     else if (k === 'Escape') { hide(); return; } else return;
     ev.preventDefault(); at(n);

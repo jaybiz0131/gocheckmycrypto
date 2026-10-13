@@ -1633,12 +1633,13 @@ header.masthead{position:relative;z-index:300}
   .prices-table table{width:100%;table-layout:fixed}
   .prices-table th,.prices-table td{padding-left:5px;padding-right:5px}
   .prices-table th:nth-child(1),.prices-table td:nth-child(1){width:32px;padding-left:0;padding-right:0}
-  .prices-table th:nth-child(3),.prices-table td:nth-child(3){width:74px}
-  .prices-table th:nth-child(4),.prices-table td:nth-child(4){width:64px}
+  .prices-table th:nth-child(3),.prices-table td:nth-child(3){width:90px;text-align:right;padding-left:0;padding-right:12px}
+  .prices-table th:nth-child(4),.prices-table td:nth-child(4){width:66px;padding-left:3px;padding-right:3px}
   .prices-table th:nth-child(5),.prices-table td:nth-child(5){width:62px;padding-right:0}
   .prices-table td.sym2{white-space:normal;line-height:1.25;overflow-wrap:anywhere}
   .prices-table td.sym2 .mut{display:block;font-size:11px}
-  .prices-table td.pnum{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:13px}
+  .prices-table td.pnum{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:12px}
+  .prices-table td.pnum.pn-long{font-size:11px}
 }
 
 /* UX-8: the Chart Master's read, with its glance and its subheads. */
