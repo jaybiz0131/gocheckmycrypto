@@ -1454,7 +1454,8 @@ def _narrative_canary():
     r = _n.readings(snap)
     # 1. The sentence from a fixture Board and wire: the table's, exactly; the model's when it
     # holds; the table's when the model's predicts.
-    want = ("Bitcoin is drifting lower on spot ETF inflows; the news is mostly regulation.")
+    # 13 October 2026: lower on INFLOWS is a disagreement, so the table says "while" and claims no cause
+    want = ("Bitcoin is drifting lower while spot ETFs saw inflows; the news is mostly regulation.")
     _check(_n.table_line(r, wire) == want, fails,
            f"narrative: the table's sentence from the fixture is {_n.table_line(r, wire)!r}")
     ok_line = "Bitcoin slipped despite spot ETF inflows, on a day of regulators' filings."
@@ -2002,6 +2003,25 @@ def _stamp_canary():
             # Sprint 2: the tile and the Learn anchors read on the tree this build wrote.
             _lp = _o.path.join(out, "learn.html")
             _check(_o.path.exists(_lp), fails, "tile canary: the build wrote no learn.html")
+            # THE BUILD'S CALL TO publish_narrative (13 October 2026). The unit test in
+            # _narrative_canary calls the function; nothing failed if build() stopped calling
+            # it. This reads the tree the real build() just wrote: the stored line must be
+            # published at /data/narrative.json, word for word.
+            try:
+                _stored = json.load(open(_o.path.join(root, "site", "data", "narrative.json"),
+                                         encoding="utf-8"))
+            except Exception:
+                _stored = {}
+            if str(_stored.get("line") or "").strip():
+                _pn = _o.path.join(out, "data", "narrative.json")
+                try:
+                    _got = json.load(open(_pn, encoding="utf-8")).get("line")
+                except Exception:
+                    _got = None
+                _check(_got == _stored["line"], fails,
+                       "narrative canary: build() did not publish /data/narrative.json "
+                       f"(published {_got!r}, stored {_stored['line']!r}); the build's call to "
+                       "publish_narrative is gone")
             if _o.path.exists(_lp):
                 fails.extend(_tile_canary(open(_lp, encoding="utf-8").read()))
             fails.extend(_beacon_canary(out))
@@ -2850,6 +2870,24 @@ def _home_budget_canary(out, index_html):
     return fails
 
 
+def _sprint73_canary():
+    """PROGRAM 7, SPRINT 7.3 (13 October 2026): the twins gate stops cutting true sentences, the
+    clause table pairs a direction with a driver only when its sign supports it, and a
+    sentence the gate cannot parse is dropped loudly. scripts/twins_gate_test.py holds the
+    seven recorded wrong drops of 9 and 10 October, five true negatives and the unparsed
+    cases; it runs as its own process so the canary's sys.modules stays what the U-11 read
+    counter expects."""
+    import subprocess as _sp
+    fails = []
+    r = _sp.run([sys.executable, os.path.join(HERE, "scripts", "twins_gate_test.py")], cwd=HERE,
+                capture_output=True, text=True, timeout=300)
+    bad = [ln.strip() for ln in r.stdout.splitlines() if ln.startswith("FAIL")]
+    _check(r.returncode == 0, fails, f"sprint 7.3: the twins gate test: {'; '.join(bad[:4]) or r.stderr[-300:]}")
+    print("sprint 7.3 canary: seven recorded wrong drops kept, true negatives dropped, "
+          "unparsed sentences counted")
+    return fails
+
+
 def _sprint72_canary():
     """PROGRAM 7, SPRINT 7.2 (12 October 2026). The fixture morning, the Chart Master's three
     refusals (9, 10, 11 October) and the ledger's empty row, each run as its own process so
@@ -3621,6 +3659,7 @@ def _layer1_canary_body():
     fails.extend(_stored_series_canary())
     fails.extend(_chartmaster_crash_canary())
     fails.extend(_sprint72_canary())
+    fails.extend(_sprint73_canary())
     fails.extend(_week_movers_canary())
     fails.extend(_calendar_canary())
     fails.extend(_calendar_retired_canary())

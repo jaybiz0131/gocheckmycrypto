@@ -488,6 +488,12 @@ RETIRED_ARTICLES = {
 # list is ordered by how much the tag narrows the story down rather than by accident of
 # authorship. "bitcoin" sits near the bottom on purpose: nearly every story on this desk
 # mentions bitcoin, so it is the least informative thing the desk can say about one.
+#
+# "exchanges" is the tag that reads the Board's Whale net (wire.TAG_READING), so it must mean an
+# exchange: "custody" and "shuts down" / "winds down" were in it by themselves and a bank's
+# custody approval and an L2's shutdown read "Whale net, exchange flows" (13 October 2026;
+# 34 of 561 stories lost the tag, all custody rules, protocol shutdowns and chain exits). An
+# exchange that shuts down still tags, because it is an exchange by name.
 TAG_RULES = [
     ("security", r"\b(exploit\w*|hack\w*|stolen|theft|vulnerabilit\w*|drained|breach\w*|"
                  r"ponzi|fraud|scam\w*|phishing|attacker\w*|rug ?pull)\b"),
@@ -503,7 +509,7 @@ TAG_RULES = [
                    r"legislat\w*|cbdc|inquiry|executive order|sanction\w*|"
                    r"comment period|federal register)\b"),
     ("exchanges", r"\b(exchange\w*|binance|coinbase|kraken|okx|bitmex|bybit|bitfinex|"
-                  r"gemini|custodian\w*|custody|delist\w*|shuts? down|wind(?:s|ing)? down)\b"),
+                  r"gemini|custodian\w*|delist\w*)\b"),
     ("ethereum", r"\b(ethereum|eth|validator\w*|staking|vitalik)\b"),
     ("defi", r"\b(defi|tvl|oracle\w*|lending|dex|liquidity pool\w*|amm|"
              r"aave|uniswap|curve finance|compound|makerdao|tokeniz\w*)\b"),

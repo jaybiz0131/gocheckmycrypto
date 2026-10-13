@@ -110,6 +110,10 @@ def main():
         check(True, fails, "a read left with fewer than two sentences is refused")
     tmp = tempfile.mkdtemp(prefix="morning-")
     m.OUT, m.LEDGER = os.path.join(tmp, "morning.json"), os.path.join(tmp, "ledger.json")
+    # morning.run also writes the band's narrative.json; without this the canary overwrote the
+    # real site/data/narrative.json with the fixture line on every run (found 13 October 2026)
+    import narrative as _narr
+    _narr.PATH = os.path.join(tmp, "narrative.json")
 
     class Budget:
         tokens, usd = 2400, 0.0031
