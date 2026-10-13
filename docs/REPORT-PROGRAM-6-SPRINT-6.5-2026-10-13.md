@@ -60,4 +60,4 @@ Crypto already printed the build clock's ET day (Sprint 7.1, `masthead()`), and 
 - The morning edition's live proof (7.2 item 5): to be read after the Oct 14 8:15 AM ET run.
 - The count of record for Oct 13 after this merge: read from the Worker.
 
-Closed Tuesday 13 October 2026, 4:08 PM ET.
+Closed Tuesday 13 October 2026, 4:05 PM ET (shell clock).
