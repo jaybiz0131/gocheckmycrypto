@@ -53,12 +53,12 @@ Two more are in the file (TN6, a week claim against -2.30%; TN7, a four-word quo
 
 ## The replay
 
-`python3 scripts/twins_replay.py` runs every recorded Edition through main's gate and the branch's, each against the snapshot rebuilt from that Edition's own committed `pulse.json` and `flows.json` (`fixtures/twins/`; stamps match the log's, e.g. 2026-10-09T23:11:49Z). Recorded Editions: **8, 9, 10 and 11 October** (7 October's Brief was withheld by the consistency gate, 12 October's run failed at the canary). Recorded morning reads: **none** (the morning run has not fired in production; the 7.2 fixture morning is a labeled fixture, not a record). Surfaces: title, dek, key fact, bottom line, every body paragraph, the narrative line, every wire line and the checked note.
+`python3 scripts/twins_replay.py` runs every recorded Edition through main's gate and the branch's, each against the snapshot rebuilt from that Edition's own committed `pulse.json` and `flows.json` (`fixtures/twins/`; stamps match the log's, e.g. 2026-10-09T23:11:49Z). Recorded Editions: **8, 9, 10, 11 and 13 October** (13 October added after tonight's run) (7 October's Brief was withheld by the consistency gate, 12 October's run failed at the canary). Recorded morning reads: **none** (the morning run has not fired in production; the 7.2 fixture morning is a labeled fixture, not a record). Surfaces: title, dek, key fact, bottom line, every body paragraph, the narrative line, every wire line and the checked note.
 
 | Set | Sentences | Old verdict | New verdict | Which is right |
 |---|---|---|---|---|
-| The seven recorded drops (F1 to F7) | 7 | DROP x7 | KEEP x7 | **new** x7, checked above |
-| Published sentences, 8 to 11 Oct | 112 | KEEP | KEEP | same verdict on all 112 |
+| The recorded drops (F1 to F8; F8 added the evening of 13 Oct, below) | 8 | DROP x8 | KEEP x8 | **new** x8, checked above and below |
+| Published sentences, 8, 9, 10, 11 and 13 Oct | 138 | KEEP | KEEP | same verdict on all 138 |
 | Published sentences the two gates disagree on | 0 | | | |
 
 **The replay caught a defect in my own first cut**: the 9 October dek, "...bitcoin up on the day while weekly ETF outflows and exchange inflows continue", was KEEP on main (by luck: a week word skipped it) and DROP on my first branch (it bound "exchange inflows" to the ETF net, -244.1M). It is true (the whale board read -119M onto exchanges). The whale reading now names "exchange inflows/outflows"; the sentence is test R1, and the replay shows no difference on any published sentence. Old gate 8 Oct to 11 Oct: none wrongly kept that the new gate would drop; no published sentence changed verdict.
@@ -93,11 +93,11 @@ Two more are in the file (TN6, a week claim against -2.30%; TN7, a four-word quo
 | V-8 A-12 emblems (44x29 mark, masked watermark) | **superseded by Sprint 7.1** | the approved design ("A, front page in color, with glow") has a wordmark and neither; no `watermark` or `emblem` in the live home HTML or `system.css`. A new emblem would be a new design brief for Jack |
 | V-9 N-3 module pages (Whale Watch, Chart Master, canvas row ten) | **done** | Programs 6.1 and 7.1: `/flows` and `/chartmaster` answer 200, no gradient, no overflow at 375. "Canvas row ten" lives on the Mac only and cannot be read from the cloud |
 | V-10 N-1/N-2 nav (Home first, Chart Master in nav, 12th tile, read card) | **done / superseded** | nav reads Home, Markets, Flows, Charts (Chart Master), News, Brief, Record, Learn, About. The 12th tile and read card are superseded by 6.2 (home edited, 7 tiles) and 7.1 (the Brief card in the band's place) |
-| V-11 punch 5, 6, 8 (label columns, full-width Whale Watch, Edition wordmark) | **5 superseded (6.1 tile law), 8 done, 6 open** | the Edition page carries the GoCheckMyCrypto wordmark. At 1440 `/flows`' tables are 471 to 543 px inside a 1080 px column, so if "full width" meant the tables spanning the column it is not done: ask Jack what punch 6 meant, or drop it |
+| V-11 punch 5, 6, 8 (label columns, full-width Whale Watch, Edition wordmark) | **5 superseded (6.1 tile law), 8 done, 6 open** | the Edition page carries the GoCheckMyCrypto wordmark. At 1440 `/flows`' tables are 471 to 543 px inside a 1080 px column, so if "full width" meant the tables spanning the column it is not done: ask Jack what punch 6 meant, or drop it | **Logged as an open item for the next sprint (Jack, 13 Oct); not fixed in 7.3.**
 | V-12 A-14/A-15/D-7 inner pages and phone, under 5,500 phone homepage | **done** | home 4,998 px tall at 375; all nine pages measured (`/`, `/pulse`, `/flows`, `/chartmaster`, `/bottom-line`, `/news`, `/record`, `/learn`, `/about`): no horizontal overflow, no gradient |
 | V-13 Crypto copy | **superseded by Program 6.1** | no `technician`, `carved over his door` or `Cronkite` on the six live pages read |
 | `top_n` 6 ranking check (3 of 7) | **open, ready to do** | seven Editions (4 to 10 Oct) exist; plan: read each one's `wire.json` rank of its VERIFIED item from git, one table, close or change `top_n` |
-| Coin page chart (Jack, 5 Oct: on demand, default line, caption with no dollar figure) | **mostly done by 6.4 and 6.5; one part open** | chart, ranges 1D/7D/1M/1Y and honest averages are live. **But `/coins/btc`'s caption prints "High $85,526.87, low $81,763.06" while the home tape prints HIGH $85,597 LOW $81,630 for the same week**: two dollar figures from two reads, the twin the 5 Oct ruling retired. Plan: caption names range and read time only, or both read from one series |
+| Coin page chart (Jack, 5 Oct: on demand, default line, caption with no dollar figure) | **done on this branch** (was: mostly done by 6.4 and 6.5, one part open) | chart, ranges and honest averages were live. The twin (the caption's $85,526.87 / $81,763.06 against the tape's $85,597 / $81,630) is fixed by the follow-up below: one 7D pair, one 24h pair, each worded with its window |
 | L-1 the Board on the Worker | **open** | plan: serve the snapshot from the Worker; `site-refresh.yml` has had no cron since 7.2, so builds are the only mover; needs Jack (touches the build count) |
 | R-1 desk reconfiguration | **open** | Sprint J; no plan written; ask Jack for the brief |
 
@@ -119,7 +119,7 @@ The handoff's table now holds the open rows only, plus this sprint's, the mornin
 
 ## To do after Jack's yes (Wednesday 14 October, after 8:30 AM ET)
 
-1. Jack's yes on `shots/program7-7.3/` and the replay table above: **pending, none received**.
+1. Jack's yes on `shots/program7-7.3/` (now eight sheets) and the replay table above: **pending, none received**.
 2. Fetch, merge `sprint-7-3` into `origin/main` with one real merge commit; push; `git branch --contains` on the sprint tip to confirm the merge holds every sprint commit; canary green on the merged tree.
 3. Read production by stamp; read `/counts/today` five minutes after the push; read the 8:15 AM ET morning run (the open 7.2 proof).
 4. Live proof: the 14 Oct 7:08 PM ET Edition's ops-ledger row shows `twins_drops`, `twins_unparsed` and `twins_log` with their reasons. Hand to the next session if this one is closed.
@@ -127,3 +127,50 @@ The handoff's table now holds the open rows only, plus this sprint's, the mornin
 Close: documents only. The merge hash, the production read and the count are not in this report because none has happened.
 
 Sprint tip pushed to `origin/sprint-7-3` (`git ls-remote`: `f46c2fa`; the session's `claude/hopeful-mccarthy-yrskeh` holds the same commit). Shell date at the end of this session (ET): **Tuesday October 13, 2026, 4:44 PM EDT**.
+
+## Follow-up, the evening of 13 October (Jack's three asks)
+
+### 1. Runs 399 to 402: what they were, why each failed, and whether it can hit tonight
+
+Read from the job logs (all four jobs, the `Offline canary` step; every later step skipped):
+
+| Run | Event | Started (UTC) | ET | Head | Result |
+|---|---|---|---|---|---|
+| 399 | `workflow_dispatch` | 12 Oct 23:10:13 | 7:10 PM Mon | `0c42212` (the 7.1 close) | failed at the canary, 1.1 s |
+| 400 | `workflow_dispatch` | 12 Oct 23:40:21 | 7:40 PM Mon | `89df8cc` | same |
+| 401 | `workflow_dispatch` | 13 Oct 00:40:17 | 8:40 PM Mon | `608e0cf` | same |
+| 402 | `schedule` (the `8 23 * * *` cron) | 13 Oct 03:29:28 | 11:29 PM Mon | `a1e9e9e` | same, the cron firing 4 h 21 min late |
+
+They were the Monday evening Edition's slot dispatch, its two retries, and the late cron. **Why, identical in all four:** `FileNotFoundError: .../site/data/snapshot.json` at `verify_pipeline.py` `_color_truth_canary` -> `scripts/color_truth_test.py` `fixture()`. The Sprint 7.1 colour-truth test opened `site/data/snapshot.json`, which is gitignored (a build output), so it exists on every machine that has built the site and on no fresh CI checkout. The canary crashed before it ran a single check, exited 1, and the workflow stood the whole run down ("Nothing runs live until it passes"). Each run wrote an ops-ledger row of `outcome: no report`, 0 tokens. Nobody saw it locally because every local session has built the site. **Monday 12 October's Edition and the Tuesday morning never published.**
+
+**Fixed on main already, before tonight:** Sprint 7.2's `95b14a1` (merged 6:14 AM, 13 Oct, after run 402) makes `fixture()` build the snapshot from the committed Board files when the file is absent. Proof, three ways, none of which needed a push:
+- a fresh clone of `origin/main` (no `snapshot.json`), canary: `LAYER 1 CANARY: PASS`, exit 0, no `::error::`; the same for a fresh clone of `sprint-7-3`;
+- **tonight's 7:08 PM Edition, run 403** (`workflow_dispatch` 23:10:14Z on `07f5a83`): the canary step **passed** on the CI runner (23:10:27 to 23:12:44), the run is **green**, and it **published**: commit `8aea846`, `/articles/evening-brief-2026-10-13.html` answers 200, 69,772 tokens, $0.0851;
+- the count of record after it: crypto production **5 ready, 4 canceled** for 13 October. The day's five builds are spent; nothing may build before midnight ET.
+
+**So the cause did not hit tonight's Edition**, and the way to keep it from hitting anything else today is the one already in force: **no push to main today**, and the only pushes this session makes are to `sprint-7-3` and the session branch, after 8:15 PM ET, which build nothing. One residual: a fresh-checkout failure has the shape "a test reads a file that only a build writes"; the fresh-clone canary is now the check, and it passed on both branches. I did not scan every script for other reads of gitignored files; `site/data/snapshot.json` is the only one in `.gitignore`'s data section.
+
+### 2. Bitcoin's high and low: one figure, one source
+
+**A correction to the premise, which Jack settled with two answers** (add a 24h field; 7D = the daily closes): the home tape prints **no 24h high or low**. Its HIGH $85,597 and LOW $81,630 sit under the Tuesday-to-Monday line and are the highest and lowest of the seven stored daily closes (`week.closes`), beside a price headed "24h", so a reader took them for 24h figures. The coin page's caption printed a **second 7-day pair** ($85,526.87 / $81,763.06, the hourly sparkline plus the price), and the chart's own labels printed a **third** (the live series' extremes; locally on the same data: tape 86,490 / 81,630, caption 86,417.75 / 81,471.58, chart 85,744 / 80,652). The snapshot had no 24h high or low at all.
+
+What changed:
+- `market_pulse.pack` carries `high_24h` and `low_24h` from the same `/coins/markets` row as the price (no new request); `snapshot.build` puts them on each coin; `snapshot.week_pair` and `snapshot.day_pair` are the two pairs every surface reads.
+- The tape's chart labels now read **7D HIGH** and **7D LOW** (the closes pair, unchanged in value), and under the price a line **"24h high $X · low $Y"** from the snapshot (absent, not guessed, when the snapshot lacks it).
+- `/coins/btc` (every coin): the section carries `data-hi7 / lo7 / hi24 / lo24` from the snapshot; the caption reads "7D high $X, 7D low $Y" (the tape's pair); `coinchart.js` prints **"24h high / 24h low"** on 1D and **"7D high / 7D low"** on 7D from those attributes, never from its own live series, and prints none when the snapshot has none; **1M and 1Y** print their own series' extremes worded "1M high" and "1Y high", so they never read as the 24h figure. The chart's accessible name uses the same words.
+- **The test**, `scripts/btc_hilo_test.py`: reads the built home page and the built `/coins/btc` and fails when the 24h pair or the 7D pair differ, when one page has a pair and the other does not, or when a high or low is printed without its window. Three modes: a full throwaway build (minutes), `--fast` (the tape and the coin chart block rendered from one snapshot; in the canary as part of `_sprint73_canary`) and `--tree DIR` (the canary's own built tree). Its 24h pair is **real**: Bitcoin's row from CoinGecko `/coins/markets` at 2026-10-13T23:04:42Z, high 84,074, low 81,018 (`fixtures/coingecko/markets_bitcoin_2026-10-13T2304Z.json`), because the committed `pulse.json` predates the field; production carries it after the merge's first build.
+- **Seen red first on main** (clean worktree, full build, then `--fast`): `home: 7D hi/lo 86490/81630 unlabeled; /coins/btc 86417.75/81471.58 unlabeled; FAIL ... printed without its window (both pages); FAIL 7D high/low differ; FAIL 24h high/low missing`. On the branch: `home 24h (81018, 84074) 7D 86490/81630; /coins/btc 24h (81018, 84074) 7D 86489.73/81629.96; ok`. The browser reads the same: on main the chart drew `$84,069 / $81,222` (1D) and `$85,744 / $80,652` (7D); on the branch it draws `24h high $84,074 / 24h low $81,018` and `7D high $86,490 / 7D low $81,630`, equal to the tape's (`scripts/btc_1d_shots.mjs` prints both).
+- The home canary's mark check now expects the "7D " prefix.
+- **One thing to know:** the 1D chart's dots sit at its own series' extremes (the recorded fixture's 84,069 and 81,222), while the labels print the snapshot's pair (84,074 and 81,018), because that is the rule; a live series can reach a figure the build's read has not, by a few dollars, until the next build.
+
+Screenshots: `shots/program7-7.3/sheet-btc-1d-375-light.png`, `-dark.png` (the 1D close-up, before and after), and `sheet-btc-7d-375-light.png`, `-dark.png`. "Before" is a **local build of main** with the same real data and the same recorded CoinGecko series (the live production chart draws from the visitor's own CoinGecko read, which a screenshot cannot hold still).
+
+### 3. Whale Watch at 1440
+
+Logged as an open item for the next sprint (HANDOFF section 3): `/flows` at 1440 prints its tables at 471 to 543 px inside a 1080 px column. Not fixed here.
+
+### 4. The eighth wrong drop, found live tonight
+
+Run 403's own log, 7:17 PM ET: `twins gate: dropped from the Brief's body paragraph 4: 'outflow' about spot ETF net ... BTC spot ETF net +6.7M USD (13 Oct 2026): "Ethereum ETFs show the same pattern: a $16.7 million net inflow on Oct 13 against a five-session net outflow of $358.2 million."` The sentence is true (ETH ETF net +16.7M; five sessions -358.2M). It is the five-session cause again, and a new one: an Ether ETF sentence **read against Bitcoin's ETF net**. Fixed: a clause that names Ether is read against the snapshot's ETH net (both coins named is not one sign, so it stands unverified). Fixtures F8 (verbatim, with `fixtures/twins/snapshot_2026-10-13.json` rebuilt from tonight's own commit; its stamp 23:12:45Z matches the log), E1 and TN8, red on main, green here. The tonight's Edition is also in the replay now (138 published sentences across five Editions, no verdict differs).
+
+Shell date at the end of this follow-up: see the last line of this file.
