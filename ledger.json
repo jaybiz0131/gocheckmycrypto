@@ -2705,6 +2705,20 @@
    "tokens": 0,
    "usd": 0.0,
    "wf": "Breaking-news watcher"
+  },
+  {
+   "breaking": false,
+   "cron": "17 12-23 * * *",
+   "ev": "schedule",
+   "guard": "",
+   "outcome": "no report",
+   "pinged": false,
+   "pushed": false,
+   "run": "38339902922",
+   "t": "2026-10-13T03:04:22Z",
+   "tokens": 0,
+   "usd": 0.0,
+   "wf": "Breaking-news watcher"
   }
  ],
  "since": "2026-09-16T16:27Z"
