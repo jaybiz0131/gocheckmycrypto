@@ -21,7 +21,7 @@ try {
     const pg = await ctx.newPage(); pg.setDefaultTimeout(8000);
     await pg.route(/^https?:/, r => { const u = new URL(r.request().url()); if (u.host === new URL(base).host) return r.continue();
       const m = u.host === "api.coingecko.com" && u.pathname.match(/\/coins\/([^/]+)\/market_chart/);
-      if (!m) return r.abort(); const d = +u.searchParams.get("days"), k = d <= 1 ? 1 : d <= 7 ? 7 : 365;
+      if (!m) return r.abort(); const d = +u.searchParams.get("days"), k = d <= 1 ? 1 : d <= 7 ? 7 : d <= 365 ? 365 : 565;
       const f = fs.existsSync(path.join(CG, `${m[1]}-${k}.json`)) ? `${m[1]}-${k}.json` : `bitcoin-${k}.json`;
       return r.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: fs.readFileSync(path.join(CG, f)) }); });
     await pg.goto(`${base}/coins/${coin}`, { waitUntil: "load" });

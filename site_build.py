@@ -8811,22 +8811,55 @@ def ingest():
 # ---- build -------------------------------------------------------------------
 
 def squeeze_js(src):
-    """Strip block comments and indentation from a script, nothing else. coinchart.js is
-    written to be read, with its reasons in comments; the page weight rule counts bytes, and
-    the comments are a third of them. This changes no token: newlines stay, so semicolon
-    insertion behaves as written (newlines are dropped only where none can occur: after
-    "{", ",", "(" and ";", and before "}"), and the file has no comment markers inside strings or
-    regexes (scripts/coin_pages_test.py parses the result)."""
+    """Strip block comments and indentation from a script, and the spaces around operators,
+    nothing else. coinchart.js is written to be read, with its reasons in comments; the page
+    weight rule counts bytes, and the comments are a third of them. No token changes: newlines
+    stay except where none can matter (after "{", ",", "(" and ";", and before "}"); spaces go
+    only around the punctuation that never needs one, and around "+", "-", "*" and "/" unless a
+    neighbouring "+" or "-" would fuse into "++" or "--"; strings and regex literals are left
+    exactly as written. The file has no comment markers inside strings or regexes
+    (scripts/coin_pages_test.py parses the result)."""
     src = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
     out = ""
     for l in (x.strip() for x in src.split("\n")):
         if not l:
             continue
-        # A newline after "{", ",", "(" or ";" and one before a closing "}" can never be where
-        # semicolon insertion happens, so those are dropped too (no token changes).
         glue = out == "" or out.endswith(("{", ",", "(", ";")) or l.startswith("}")
         out += l if glue else "\n" + l
-    return out + "\n"
+    # split into code and literals (strings, regexes), squeeze only the code
+    parts, i, n, last = [], 0, len(out), ""
+    code = ""
+    while i < n:
+        c = out[i]
+        lit_end = None
+        if c in "'\"":
+            j = i + 1
+            while j < n and out[j] != c:
+                j += 2 if out[j] == "\\" else 1
+            lit_end = j + 1
+        elif c == "/" and last in ("", "(", ",", "=", ":", "[", "!", "&", "|", "?", "{", "}", ";"):
+            j = i + 1
+            while j < n and out[j] != "/":
+                j += 2 if out[j] == "\\" else 1
+            j += 1
+            while j < n and out[j].isalpha():
+                j += 1
+            lit_end = j
+        if lit_end is not None:
+            parts.append((code, out[i:lit_end]))
+            code, i, last = "", lit_end, "x"
+            continue
+        code += c
+        if not c.isspace():
+            last = c
+        i += 1
+    parts.append((code, ""))
+    sq = []
+    for code, lit in parts:
+        code = re.sub(r"[ \t]*([{}()\[\],;:=?&|<>*])[ \t]*", r"\1", code)
+        code = re.sub(r"(?<![+\-])[ \t]*([+\-/])[ \t]*(?![+\-])", r"\1", code)
+        sq.append(code + lit)
+    return "".join(sq)
 
 
 def _squeeze_asset(path):

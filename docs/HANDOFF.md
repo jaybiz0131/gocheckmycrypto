@@ -245,7 +245,9 @@ not piped into `tail` and assumed.
 
 **Jack's rulings, Tuesday 13 October 2026:** (1) Sprint 6.4 runs now, on Program 7's look: its tokens, type, glow rules and color truth (each chart colored by its own window; a figure's color matches the change printed beside it). (2) October 7 still stands: the wire stays in re-count order, and the checked item is never pinned to the top.
 
-**Jack approved 12:45 PM ET with four fixes (all made, in the report): volume bars on 1M and 1Y only; the 50 and 200-day lines smooth, labeled in the right gutter; the Top 100 stamp read in production (it refreshes at every build, nothing to change); a clear gap between price and 24h pill at 375. Pages are within the weight limit by 89 to 495 bytes (BTC +9.94%, ETH +9.96%); stripping CSS comments at publish (40 KB) is the real fix and was not done unasked. Re-shot, waiting for his yes.**
+**Jack approved 12:45 PM ET with four fixes (all made, in the report): volume bars on 1M and 1Y only; the 50 and 200-day lines smooth, labeled in the right gutter; the Top 100 stamp read in production (it refreshes at every build, nothing to change); a clear gap between price and 24h pill at 375. Pages are at +9.0% after the fifth fix squeezed the script's operator spaces; stripping CSS comments at publish (40 KB) would give far more room and was not done unasked. Re-shot, waiting for his yes.**
+
+**Jack approved again at 1:20 PM ET with a fifth fix (1M and 1Y fetch 565 days so both averages are daily curves across the whole window, never bridged; falls back to 365 if the public API refuses; unverified live, read the first 1Y after the merge) and permission to merge unattended; weights now +9.0%. Report has the merge facts.**
 
 **State: BUILT, NOT MERGED.** Branch `claude/sweet-wright-s8j2we` (the brief named it `coin-pages`; the cloud session was bound to this branch name). Waits for Jack's yes on `shots/program7-6.4/`; one real merge commit after it, outside 6:30 to 8:15 PM ET. Report: `docs/REPORT-PROGRAM-6-SPRINT-6.4-2026-10-13.md`.
 

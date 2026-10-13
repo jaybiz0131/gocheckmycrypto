@@ -42,8 +42,8 @@
   var RANGES = {
     '1d': { fetch: 1, label: '24 hours', spacing: '5-minute' },
     '7d': { fetch: 7, label: '7 days', spacing: 'hourly' },
-    '1m': { fetch: 365, label: '1 month', spacing: 'daily', span: 30 * DAY },
-    '1y': { fetch: 365, label: '1 year', spacing: 'daily' }
+    '1m': { fetch: 565, label: '1 month', spacing: 'daily', span: 30 * DAY },
+    '1y': { fetch: 565, label: '1 year', spacing: 'daily', span: 365 * DAY }
   };
   var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var cur = wrap.getAttribute('data-range') || '7d';     /* this visit only; nothing is stored */
@@ -83,7 +83,6 @@
     if (r === '7d') return fmtDate(ms, { month: 'short', day: 'numeric', hour: 'numeric' }) + ' ET';
     return fmtDate(ms, { month: 'short', day: 'numeric', year: 'numeric' }, true);
   }
-  function last(a) { for (var i = a.length - 1; i >= 0; i--) if (a[i] !== null) return a[i]; return null; }
   /* a smooth path through points, monotone in y (Fritsch-Carlson), so it never overshoots a turn */
   function smooth(q) {
     var n = q.length, h = [], m = [], t = [], i, f = function (v) { return v.toFixed(1); }, d = 'M' + f(q[0][0]) + ',' + f(q[0][1]);
@@ -113,7 +112,11 @@
         return r.json();
       });
     }
-    var pr = once(0).then(function (d) {
+    var pr = once(0)['catch'](function (e) {
+      if (days > 365) { return load(365); }
+      throw e;
+    }).then(function (d) {
+      if (d && d.p) return d;
       var p = d && d.prices, v = (d && d.total_volumes) || [];
       if (!p || p.length < 3) throw new Error('short');
       return { p: p, v: v.length === p.length ? v : null };
@@ -241,13 +244,17 @@
     var labels = [];
     [['50', s.ma50], ['200', s.ma200]].forEach(function (pair) {
       var m = pair[1]; if (!m) return;
-      var mp = [], lastV = null;
+      var segs = [[]], lastV = null, prevT = null;
       for (var k = 0; k < m.length; k++) {
         if (m[k] === null) continue;
-        mp.push([X(s.t[k]), Y(m[k])]); lastV = m[k];
+        /* a line starts where its data starts and is never carried across a gap of more than two days */
+        if (prevT !== null && s.t[k] - prevT > 2 * DAY) segs.push([]);
+        segs[segs.length - 1].push([X(s.t[k]), Y(m[k])]); lastV = m[k]; prevT = s.t[k];
       }
-      if (mp.length < 2) return;
-      svg.appendChild(el('path', { 'class': 'cc-ma m' + pair[0], 'data-ma': pair[0], fill: 'none', d: smooth(mp) }));
+      var mp = segs[segs.length - 1];
+      segs = segs.filter(function (q) { return q.length > 1; });
+      if (!segs.length) return;
+      svg.appendChild(el('path', { 'class': 'cc-ma m' + pair[0], 'data-ma': pair[0], fill: 'none', d: segs.map(smooth).join(' ') }));
       labels.push({ n: pair[0], y: mp[mp.length - 1][1], v: lastV });
     });
     labels.sort(function (a, b) { return a.y - b.y; });

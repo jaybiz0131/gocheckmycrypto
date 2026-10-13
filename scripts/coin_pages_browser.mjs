@@ -61,7 +61,7 @@ function shaped(n, step, f) {                       // [[ms, price]], oldest fir
 function synthetic(days) {
   if (days === 1) return shaped(289, 300000, t => 0.90 + 0.04 * t);
   if (days === 7) return shaped(169, 3600000, t => 0.95 - 0.08 * t);
-  return shaped(366, DAY, t => (t < 0.915 ? 0.30 + 0.90 * (t / 0.915) : 1.20 - 0.40 * ((t - 0.915) / 0.085)));
+  return shaped(days > 365 ? 566 : 366, DAY, t => (t < 0.915 ? 0.30 + 0.90 * (t / 0.915) : 1.20 - 0.40 * ((t - 0.915) / 0.085)));
 }
 function recorded(id, days) {
   const f = (id) => path.join(FIX, `${id}-${days}.json`);
@@ -77,8 +77,11 @@ async function route(page, mode) {
       cgRequests.push(u.pathname + u.search);
       const m = u.pathname.match(/\/coins\/([^/]+)\/market_chart/);
       const days = parseInt(u.searchParams.get("days") || "7", 10);
+      if (m && mode === "refuse565" && days > 365) {      // the public API's cap on history: a refusal
+        return r.fulfill({ status: 401, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: "{}" });
+      }
       if (m) {
-        const body = (mode === "shaped" && m[1] === "aptos") ? synthetic(days) : recorded(m[1], days <= 1 ? 1 : days <= 7 ? 7 : 365);
+        const body = (mode === "shaped" && m[1] === "aptos") ? synthetic(days) : recorded(m[1], days <= 1 ? 1 : days <= 7 ? 7 : days <= 365 ? 365 : 565);
         return r.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify(body) });
       }
     }
@@ -176,6 +179,49 @@ try {
     const gutOk = !out.error && ["1m", "1y"].every(r => { const g = out[r + "_gutter"]; return g.n === 2 && g.inside && g.beyondPlot && g.clearOfPrices && g.clearOfLines && g.apart; });
     check("chart-averages: labels sit in the right gutter beside the price axis, inside the chart, never on a line or a price label", gutOk, JSON.stringify([out["1m_gutter"], out["1y_gutter"]]));
     await ctx.close();
+  }
+
+  // 2b. the averages are daily curves on 1Y: a point per day, from the first day shown, never a long straight run
+  if (want("chart-averages-daily")) {
+    for (const mode of ["recorded", "refuse565"]) {
+      const [ctx, page] = await mk();
+      await route(page, mode);
+      await page.goto(base + "/coins/btc", { waitUntil: "load" });
+      let o = {};
+      try {
+        await pick(page, "1y");
+        o = await page.evaluate(() => {
+          const line = document.querySelector("[data-coin-chart] .cc-line").getAttribute("points").trim().split(/\s+/).map(p => +p.split(",")[0]);
+          const dayPx = (line[line.length - 1] - line[0]) / (line.length - 1);          // the price line is one point a day
+          const out = { dayPx, priceStart: line[0], priceN: line.length, ma: {} };
+          for (const e of document.querySelectorAll("[data-coin-chart] .cc-ma")) {
+            // every subpath: M x,y then C c1 c2 end; the points are the M and each C's end
+            const pts = [], subs = e.getAttribute("d").split("M").filter(Boolean);
+            let maxSpan = 0;
+            for (const sp of subs) {
+              const xs = [];
+              const first = sp.split("C")[0].split(",")[0]; xs.push(+first);
+              for (const c of sp.split("C").slice(1)) xs.push(+c.trim().split(" ")[2].split(",")[0]);
+              for (let i = 1; i < xs.length; i++) maxSpan = Math.max(maxSpan, xs[i] - xs[i - 1]);
+              pts.push(...xs);
+            }
+            out.ma[e.getAttribute("data-ma")] = { n: pts.length, subpaths: subs.length, start: pts[0], maxDays: maxSpan / dayPx };
+          }
+          return out;
+        });
+      } catch (e) { o.error = String(e).slice(0, 120); }
+      const ma = o.ma || {};
+      const base_ok = !o.error && ma["50"] && ma["200"] && ma["50"].maxDays <= 2.05 && ma["200"].maxDays <= 2.05
+        && ma["50"].subpaths === 1 && ma["200"].subpaths === 1;
+      if (mode === "recorded") {
+        check("chart-averages-daily: on 1Y each average is at least 300 points, one a day, none spanning more than 2 days, from the first day shown",
+          base_ok && ma["50"].n >= 300 && ma["200"].n >= 300 && ma["50"].start <= o.priceStart + 2 * o.dayPx && ma["200"].start <= o.priceStart + 2 * o.dayPx, JSON.stringify(o));
+      } else {
+        check("chart-averages-daily: if the source refuses the long history the chart still draws, each line starts where its data starts and never bridges a gap",
+          base_ok && ma["50"].n >= 100 && ma["200"].n >= 100 && ma["200"].start > o.priceStart + 100 * o.dayPx, JSON.stringify(o));
+      }
+      await ctx.close();
+    }
   }
 
   // 3. the tabs, the axes, volume, the readout
