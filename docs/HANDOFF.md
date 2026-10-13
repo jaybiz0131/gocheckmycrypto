@@ -7,16 +7,13 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 13 October 2026, Program 6 Sprint 6.4 MERGED `60ac24e`, 1:43 PM EDT (section 11). Before it, Program 7 Sprint 7.2 merged (section 10). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 13 October 2026, Program 7 Sprint 7.3 BUILT on `sprint-7-3`, not merged (section 13). Before it, Sprints 6.5, 6.4, 7.2 and 7.1 merged (sections 9 to 12, moved). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
 (U-1).
 
-**ITEM 0 OF THE NEXT SESSION (Sprint 3, its own opener), before anything new:** the twins
-gate's direction and window checks cut true sentences (section 3, first row). Seven drops on
-9 and 10 October, all wrong, the 10 October dek among them. Fix on a named branch, each cause
-red first, before any Sprint 3 work merges.
+**ITEM 0 IS DONE, NOT YET MERGED (section 13):** the twins gate fix, the clause table's sign rule, the ledger's drops, the Whale tags and the funding-band read are on `sprint-7-3`, canary green; the merge waits for Wednesday 14 October after 8:30 AM ET and Jack's yes.
 
 **Sessions run in Claude Code cloud sessions** cloned from GitHub. The Mac's local state is
 not there, nor `../gcm-tools` or `../gocheckmysports`: the program is
@@ -63,10 +60,7 @@ ChartMasterPage on canvas row ten), `site-audit-2026-09-14/`. Worker in
 - **Exchange names come from `venues.py`.** OKX is the only spelling; `destyle` rewrites
   the old one in stored copy. Whale Watch's sentence and tables come from one function,
   `whale_window()`, and every label names the window the data carries.
-- **Crypto copy is frozen (V-13)**, lifted on 4 October for the cadence, badge, Standards
-  and whale lines only. Jack has not reviewed this desk against the copy
-  law. Do not change chrome copy here. The Sports law will apply in the same shape
-  once he has. Structural duplication introduced by new work may still be removed.
+- **Crypto copy (V-13) was frozen until Program 6.1** replaced the persona copy with plain copy under the copy law, at Jack's direction; no persona text remains on any live page (read 13 October). Chrome copy still changes only by a Jack ruling.
 - **The watcher is caged, not disabled.** Sports turned its watcher off; this desk
   sells crypto breaking news, so it is kept under four constraints in `watcher.py`:
   1. Earning categories only, imported from `site_build.TAG_RULES` so the watcher and
@@ -100,30 +94,22 @@ a Solana client upgrade, a celebrity-driven Dogecoin surge.
 
 ## 3. Open items
 
+Swept 13 October 2026 (Sprint 7.3, item 3): every row read against the live site; the done and superseded rows are in `docs/REPORT-PROGRAM-7-SPRINT-7.3-2026-10-13.md`, this table holds only what is live.
+
 | Item | Status |
 |---|---|
-| **The twins gate cuts true sentences**: 9 and 10 Oct, seven drops, all wrong. Causes: "five-session" (hyphen) is not a window to `_WEEK_WORDS`; a direction word is pinned on the nearest context (a coin name beats "funding" or "ETF"); one window per sentence ("positive daily print ... weekly outflows" read as weekly); a quoted word ("a word like "rising"") read as a claim; "falling" missing from the sign words ("falling 2.3% on the week" read as +2.3%) | **item 0, Sprint 3's first branch** |
-| The clause table pairs direction and driver without regard to sign ("drifting higher on spot ETF outflows", 9 Oct) | Sprint 3, with the gate |
-| No Brief for 7 October | lost; the gate fix of 8 October prevents the class |
-| Unlocks: HYPE, WBT, RAIN read "page not readable from the desk, October 6" | Jack, by hand in a browser |
-| Learn page prints the funding bands: `tile.funding_thresholds()` reads `narrative.FUNDING_BANDS`; not confirmed on the live leverage page on 11 Oct | Sprint 3: read it live |
-| The wire stays in re-count order; the checked item is never pinned | closed: Jack, 7 October (section 7b) |
-| Board reading from the tag rules is coarse: "shut down" and "custody" map to exchanges, so an L2 shutdown and a bank custody approval read "Whale net" | Sprint 2, with the band |
-| Home page cadence line: read with Sprint 2's home page live | Sprint 3: confirm |
-| Coin pages print `/coins/markets` 7d/30d; the twins gate covers the newsroom's text only | P5 Sprint 3 |
-| The week field: coins outside the seven stored series read six closes in the 23:00 UTC hour | note for Sprint 2/3 |
-| The build's call to `publish_narrative` has no failing test (the unit test calls the function) | next branch |
-| Count 7 of 5 on 7 October; two builds not nameable from `/counts/today` | Jack: read Netlify's deploy list |
-| V-8 A-12 emblems: 44x29 mark and masked watermark | open, Sprint I |
-| V-9 N-3 module pages (WhaleWatchPage, ChartMasterPage, canvas row ten) | open |
-| V-10 N-1/N-2 nav: Home first, Chart Master in nav, 12th tile, read card | open |
-| V-11 punch 5, 6, 8: label columns, full-width Whale Watch, Edition wordmark | open |
-| V-12 A-14/A-15/D-7 inner pages and phone, under 5,500 phone homepage | part done |
-| V-13 Crypto copy | **hold** (lifted 4 Oct for named lines only) |
-| top_n 6 ranking check, after seven Editions, 4 to 10 Oct (section 6) | open, 3 of 7 |
-| Coin page chart: stays on demand (Jack, 5 Oct). P5 Sprint 3 rebuilds it: default line from the snapshot's sparkline field once Sprint 1 adds it, longer ranges on demand, caption with range and read time and NO dollar figure (a second price from a second endpoint is the twin the contract retires) | open, P5 S3 |
-| L-1 the Board on the Worker | open, Sprint I |
-| R-1 desk reconfiguration | open, Sprint J |
+| Sprint 7.3 (twins gate, clause table, ledger, tags): built, canary green, not merged | merge Wed 14 Oct after 8:30 AM ET and Jack's yes (section 13) |
+| The twins gate's live proof: the 14 Oct 7:08 PM ET Edition's ops-ledger row carries `twins_drops`, `twins_unparsed` and `twins_log` | open, after the merge |
+| Morning edition's live proof: read the 14 Oct 8:15 AM ET run (the Worker was deployed 13 Oct 11:52 AM, `d3d4f43d`); its tokens and dollars were never measured. The home cadence line says "the Brief every evening": reread it then | open, 14 Oct |
+| The Brief for Monday 12 October never published (runs 399 to 402 failed at the canary step within a second; the clock-pin fix `35278fe` landed after them); the live home still showed Sunday's Brief on Tuesday afternoon | tonight's 7:08 PM Edition is the proof |
+| Unlocks HYPE, WBT, RAIN: all three vesting pages answer 403 to the session (13 Oct); their coin pages print no unlock line | Jack, by hand in a browser |
+| `top_n` 6 ranking check, 7 Editions (4 to 10 Oct) now exist | plan: read each Edition's `wire.json` rank of its VERIFIED item from git, write one table, close or change `top_n` |
+| Coin pages' 7d tile prints `/coins/markets`' rolling 7 days (labeled so); the Board's week is the stored series' close to close; the two can differ | plan: show both values for the seven stored coins in one table, then Jack decides whether to unify |
+| The week field: a coin outside the seven stored series reads six closes in the 23:00 UTC hour | unverified since 7 Oct; plan: one fixture on a coin outside the seven |
+| 6.5: the 13-character price tier is proved on a recorded row, not read live (BTT left the Top 100) | read live when a price of 13 characters or more appears |
+| L-1 the Board on the Worker (`site-refresh.yml` has no cron since 7.2, so builds are the only mover) | open; plan: serve the snapshot from the Worker; needs Jack, it touches the build count |
+| R-1 desk reconfiguration | open (Sprint J); no plan written, ask Jack for the brief |
+| V-13 Crypto copy hold | superseded by Program 6.1 (plain copy under the copy law; no persona text on any live page, read 13 Oct); section 2's bullet updated |
 
 Landed 4 October: A-14 (`/pulse` opens with the Board band at 646px against the
 homepage band's 1027, 63%), A-5's ornament (Bitcoin's 30-day closes as a filled area
@@ -204,68 +190,22 @@ not piped into `tail` and assumed.
   tip and push; the shipped tree differs by that row only. Fetch before pushing, every time.
 
 
-## 9. Program 7, Sprint 7.1: the new look, everywhere (12 October 2026)
+## 9 to 12. Program 7 Sprints 7.1 and 7.2, Program 6 Sprints 6.4 and 6.5 (12 and 13 October): moved whole to `docs/HANDOFF-2026-10-13.md` (U-1).
 
-**Jack's rulings, Monday 12 October 2026** (recorded in his words):
-1. Sprint 6.3 is accepted: merged at 0ae8b0f, closed at f7cd67a.
-2. Program 6's flat look read worse than the old site: "the layout improved, but the older one looked better visually." The layout stays. The look is replaced by the approved design, "A, the front page in color, with glow" (strategy desk canvas, October 12).
-3. Sprint 6.4 (coin pages and the Top 100) waits until this sprint merges, so nothing new is built on the flat look.
-4. A figure's color and arrow must always agree with the number printed beside it. The site never shows Bitcoin in green beside a line that says it is down.
+Standing facts from them: the look is `site/assets/system.css` (tokens in that file), the glow rules and color truth hold on every chart and figure, the narrative line never quotes a percentage, the Cloudflare beacon stays on every page, the morning edition exists (`morning.py`, `morning-read.yml`) and its live proof is Wednesday 14 October after the 8:15 AM ET run, the 50 and 200-day lines start where their history starts, and a canary run takes minutes and imports site files, so no site file is edited while it runs (inspect.getsource goes stale and reports false reds; it did again on 13 October).
 
-**Jack's yes, 3:00 PM ET, with one fix, and its rulings:** each chart is colored by its own window (the week's line by the 7-day change, first close to last point, never the 24-hour badge); every line chart on the site the same. Accepted as built: the Brief card in the band's place (the Brief block below the fold is gone, nothing twice), the mood as the Fear & Greed gauge alone (funding in the money, open interest on the Board below), the masthead stamp that reads UPDATED and lights LIVE only after the live read answers, and 7:08 PM ET as the next-Brief time (the cron).
+## 13. Program 7, Sprint 7.3: the writing tells the truth (13 October 2026)
 
-**Merged `4194c5b`** (real merge of `glow-look` `01a68f6` into `320a1e6`), pushed 3:17:20 PM EDT; production stamp `4194c5b` built 19:20:13Z; 32 production reads clean; count of record 4 ready, 1 canceled at 3:22:53 PM (the 7:08 PM Edition is the day's fifth). Report: `docs/REPORT-PROGRAM-7-SPRINT-7.1-2026-10-12.md`.
+**Jack's rulings, Tuesday 13 October 2026:** (1) The site's promise is fact-based and no hype, so a true sentence must never be cut and a false pairing must never print. The gate's job is to catch wrong claims, not to thin out right ones. (2) A sentence the gate cannot parse is not dropped silently. It is logged in the ledger with the reason, and the drop is counted in the night's report.
 
-**The tokens** (`site/assets/system.css`, light / dark): ground #FFFFFF / #0B1422; card #FFFFFF / #13203A; ink #0F1B2D / #E8EEF7; muted #4A5568 / #A9B6CC; faint #6B7280 / #8E9BB3; line #E6EAF0 / #24314D; up text #0B6E3B / #4ADE80, up tint #EAF7EF / #123227, up line #12A05A / #4ADE80; down text #A51F15 / #FF6B5E, down tint #FDECEA / #3A1820, down line #E0301F / #FF6B5E; eyebrow red #C8261B / #FF7A6E; brand coral #FF6B5E; live green #7CFFB0; amber #F5A800, mood card #FFF6E5 / #2A2312, mood word #8A5A00 / #F5C75A; masthead band #0F1B2D / #060D19; Brief card #0F1B2D / #162A4D. Old names (`--paper`, `--rule`) are aliases. Type: Newsreader 700 (headlines, masthead; `newsreader-roman.woff2` now 400 to 700, plus a 2 KB `newsreader-italic-700.woff2` for "Crypto"), IBM Plex Mono 700 (every figure, stamp, eyebrow), IBM Plex Sans 400 to 600 (`plexsans.woff2`, replaces Inter, which is deleted).
+**State: BUILT on `sprint-7-3` (origin), NOT MERGED.** Canary green on the tree (`LAYER 1 CANARY: PASS`, exit 0). Merge Wednesday 14 October after 8:30 AM ET, after Jack's yes, one real merge commit; the day's builds on 13 October stand at 4 ready, 4 canceled (Worker `/counts/today`, 4:30 PM ET), so today's 7:08 PM Edition is the fifth and nothing may build before midnight. Jack approves on `shots/program7-7.3/` (sheet-*-375-light/dark.png). Report: `docs/REPORT-PROGRAM-7-SPRINT-7.3-2026-10-13.md`.
 
-**The glow rules:** glow only on data (chart lines and dots, the live dot, change badges, the gauge arc, the 200-day bar, the Brief card's edge), never on text, labels or navigation; never lowers contrast (every pair 4.5:1, 3:1 at 24 px and up or 19 px bold: the light up badge, white on #12A05A, is 3.39:1 at 19 px bold); static, no pulsing. One line style for every chart, `glow.py`: 3 px in the chart's own window's direction, gaussian blur stdDeviation 4 merged twice under the line, high and low as white dots ringed green and red, the last point a 6 px dot on a radius-16 halo. The shared filter's region is absolute user units (a percentage in user space resolves against the 0 by 0 defs SVG and erases the line).
+**What changed:** `twins_gate.py` reads a sentence by clause. A window is any phrase `WINDOW_RE` names (hyphenated and numbered forms included); each direction word gets its own window, bound to the nearest one in its clause; a direction word binds to the subject it modifies (an adjective takes what follows, a predicate takes a Board reading before it, a coin name is the weakest subject, and a clause with none takes the nearest subject before it); funding is read for every coin the clause names; a short quoted word is not a claim; `falling` and kin are sign words. A claim in a window the snapshot does not carry is unverifiable and stands. Unparsed sentences (odd quotation marks, a check that raises) are dropped with kind `unparsed`, a `::warning::`, and counted: `gate.report()`, `out/twins-gate.json` `counts`, and the ops-ledger row's `twins_drops`, `twins_unparsed`, `twins_log`. `narrative._tape_clause` says "on" only when the ETF net's sign supports the direction, else "while spot ETFs saw inflows/outflows". The `exchanges` tag no longer matches `custody` or `shuts down`/`winds down` (34 of 561 stories lost it). The canary now fails if `build()` stops calling `publish_narrative`. `scripts/morning_test.py` no longer overwrites `site/data/narrative.json`.
 
-**Color truth:** `tile.render(change=, since_change=)`; the figure's color is its same-window change, the since line has its own arrow and color. The narrative line never quotes a percentage (writer, prompt, render belt `home.band_line`, `_color_truth_canary`). `scripts/color_truth_test.py` is the fixture.
+**Tests:** `scripts/twins_gate_test.py` (40 cases: the seven recorded drops, seven true negatives, the replay's find, the five causes alone, unparsed, the clause table's six sign cases, the ledger fields, the Whale tags, the three unlock pages), in the canary as `_sprint73_canary`; `scripts/twins_replay.py` prints the replay table; `scripts/gate_shots.mjs` made the screenshots.
 
-**Traps found:** the U-11 reads canary counts every module in `sys.modules` as a build read, so a canary that imports from `scripts/` must take the module out again. The home canary's fold regex is anchored on `<div class="h-below"`.
+**Traps:** the old gate's "week" test fired on any week word anywhere in the sentence, even "multi-week"; a direction word's nearest coin name is not its subject; a first cut of this fix bound "exchange inflows" to the ETF net and would have cut the 9 October dek, which the replay caught; the reconstruction of F7 (the narrative line) is the only fixture text not verbatim, and a narrative line with a percentage is refused by `narrative.quotes_change` anyway since 6.2. The full text of every gate drop is in `wrap-status.json` inside the run's `crypto-review-queue` artifact (90 days).
 
-**Open:** the coin page chart product is 6.4's (only its line, dots and colors changed here). Sprint 7.2 gets its own session.
-
-## 10. Program 7, Sprint 7.2: the morning edition, the Chart Master that publishes, the beacon (12 October 2026)
-
-**Jack's rulings, Monday 12 October 2026, 3:29 PM ET:** (1) the Cloudflare Web Analytics beacon stays, on every page, the home page included; it is cookie-free, the page-weight rule names it, the privacy page says so in one plain line. (2) Crypto gets a morning edition; the site must never read as last night's in the morning.
-
-**Jack approved 5:30 PM ET 12 October with four changes** (all made): the Chart Master substitution table is REMOVED (a flagged sentence is dropped, a flagged headline becomes a data headline built from the levels, fewer than two sentences left publishes the data-only card; nothing is ever reworded); the ledger date reads the night's own date; the noon refresh is retired; the Worker change is written on `gcm-newsroom`. Merge Tuesday 13 October, 6:00 to 8:00 AM ET, canary green first. (Earlier state text follows.) **MERGED Tuesday 13 October 2026, 6:14:27 AM ET: merge `c823b31`, main `35278fe` (the canary's clock-pin fix on top). Production stamp `35278fe` built 10:17:21Z; the count of record for 13 October read 1 ready at 6:19:47 AM (merge build); production reads clean (one beacon on home, /privacy, /chartmaster, /pulse; home 110.9 KB at 375 on the wire, LCP 1,096 ms). NOT YET LIVE: the morning run. At 8:34 AM ET no `morning-read.yml` run had happened: the Worker (`gcm-newsroom` `morning-dispatch`) was not deployed, and the 8:17 AM EDT cron backstop had not fired. Not dispatched by hand without Jack.** (Earlier state: built on `claude/laughing-rubin-j8g33g`, canary green.) Report: `docs/REPORT-PROGRAM-7-SPRINT-7.2-2026-10-12.md`. Count of record on 12 October: 4 ready, 2 canceled, the Edition is the fifth, so the merge waits for 13 October after midnight ET and must sit outside 6:30 to 8:15 PM ET. Jack approves on `shots/program7-7.2/`.
-
-**Open for the next session:**
-1. **The Worker change is written and tested** on `gcm-newsroom` branch `morning-dispatch` (`slot-trigger/src/worker.js`, `test/morning.test.mjs`); NOT deployed. The line that was here before: **(superseded)** Dispatch `morning-read.yml` (workflow_dispatch, ref main) at 8:15 AM in America/New_York computed with Intl, so it holds across 1 November; retire the Worker's noon refresh hook so the automatic builds stay at two. Check the Worker's real refresh time: `site-refresh.yml` says noon Eastern, the brief said 8:00 AM EDT.
-2. After the merge: read production by stamp, the count five minutes after the push, then the next morning's 8:15 AM run on production, its tokens and dollars (none measured yet).
-3. Jack's yes.
-
-**What exists:** `morning.py` (`--guard`, `--message`, `--alarm`), `prompts/morning.md`, `morning-read.yml` (crons `17 12 * * *` EDT and `17 13 * * *` EST as backstops), `home.next_brief` read off the Eastern clock, `home.usable_morning`, `home.last_brief_note`; Chart Master `publish_path` (told retry, drop flagged sentences, `data_headline`, data-only card, `data/chartmaster-ledger.json`); `_beacon_canary`; `ops_ledger.is_empty_row`. Tests: `scripts/morning_test.py`, `scripts/chartmaster_publish_test.py`, both in the canary.
-
-**Traps:** the Oct 10 refusal was a venue belt, not an advice word. Refused reads are not stored, so fixtures are reconstructions. A canary run takes several minutes and imports site files: do not edit them while it runs (inspect.getsource goes stale and reports false reds).
-
-## 11. Program 6, Sprint 6.4: the coin pages and the Top 100, in the new look (13 October 2026)
-
-**Jack's rulings, Tuesday 13 October 2026:** (1) Sprint 6.4 runs now, on Program 7's look: its tokens, type, glow rules and color truth (each chart colored by its own window; a figure's color matches the change printed beside it). (2) October 7 still stands: the wire stays in re-count order, and the checked item is never pinned to the top.
-
-**Jack approved 12:45 PM ET with four fixes (all made, in the report): volume bars on 1M and 1Y only; the 50 and 200-day lines smooth, labeled in the right gutter; the Top 100 stamp read in production (it refreshes at every build, nothing to change); a clear gap between price and 24h pill at 375. Pages are at +9.0% after the fifth fix squeezed the script's operator spaces; stripping CSS comments at publish (40 KB) would give far more room and was not done unasked. Re-shot, waiting for his yes.**
-
-**Jack approved again at 1:20 PM ET with a fifth fix (1M and 1Y fetch 565 days so both averages are daily curves across the whole window, never bridged; falls back to 365 if the public API refuses; unverified live, read the first 1Y after the merge) and permission to merge unattended; weights now +9.0%. Report has the merge facts.**
-
-**State: MERGED 13 October 2026, 1:43:37 PM EDT, merge `60ac24e` (main). Canary green on the merged tree; production stamp `60ac24e` read at 375 and 1440 on /coins/btc, /coins/eth and /pulse/prices, no overflow; count of record 3 ready, 1 canceled at 1:50 PM ET, the 7:08 PM Edition is the day's 4th. TWO OPEN ITEMS (report, last section): (1) CoinGecko's public API answers days=565 with 429/401, so 1Y falls back to 365 days and the 200-day line starts about 199 days in (decision for Jack: accept, key, another source, or drop the wasted 565 request); (2) a micro-cap priced $0.0000003682 leaves a 7.2 px gap on the Top 100 at 375 (needs a 10 px tier for prices of 13 characters or more).** The line below this one is the pre-merge state and is kept for the record.
-
-**(Before the merge) BUILT, NOT MERGED.** Branch `claude/sweet-wright-s8j2we` (the brief named it `coin-pages`; the cloud session was bound to this branch name). Waits for Jack's yes on `shots/program7-6.4/`; one real merge commit after it, outside 6:30 to 8:15 PM ET. Report: `docs/REPORT-PROGRAM-6-SPRINT-6.4-2026-10-13.md`.
-
-**What exists:** `site/assets/coinchart.js` (the chart, one shared file, comments squeezed at publish by `site_build.squeeze_js`), `coinpage.py` (row sparkline, readings tiles, Chart Master card, wire stories, unlock line), seven new `tile.READINGS` (`coin-price`, `coin-24h`, `coin-7d`, `coin-cap`, `coin-volume`, `coin-200d`, `rsi-14`), `COLD_*` constants (one copy, two looks), search and sort on the Top 100 (`TOP100_JS`), CSS in `system.css` (`.cc-*`, `.cn-*`, `.coin-*`). Tests: `scripts/coin_pages_test.py` (unit, static, browser) and `scripts/coin_pages_browser.mjs`, in the canary as `_coin_pages_canary`; `scripts/chart_closeups.mjs`; `fixtures/coingecko/` (recorded market_chart for bitcoin, ethereum, aptos).
-
-**Traps:** CoinGecko's `total_volumes` is a trailing 24-hour figure at every point, so on 1D and 7D every bar is the same height: no bars there, bars on 1M and 1Y (daily volumes). The 50 and 200-day lines are averages of daily closes, so 1M and 1Y both read the 365-day series. The sort buttons on the Top 100 had no script since the live JS was removed; they work now. Playwright cannot click a cell whose row link overlays it: the row test taps by coordinates. The K-7 and data-contract canaries read the old coin-page markup and were rewritten to the new one, same invariants.
-
-## 12. Program 6, Sprint 6.5: honest averages, the Top 100 polish, the lighter stylesheet (13 October 2026)
-
-**Jack's rulings, Tuesday 13 October 2026:** (1) The 50-day and 200-day lines start where their history starts. CoinGecko's free tier gives 365 days and that is enough: no paid plan, no second source for now. A line that begins partway into the 1Y window is honest; a line drawn from invented history is not. (2) Nothing Jack approves on rests on invented data. Test fixtures may be synthetic only when labeled as such, and screenshots for approval are drawn from real recorded data. (3) 3:18 PM ET: Sprint 6.5 starts today; the morning-edition live proof (7.2 item 5) moves to Wednesday 14 October, to be read after the 8:15 AM ET run (the `gcm-slot-trigger` Worker was deployed by Jack at 11:52 AM ET on 13 October, version `d3d4f43d`, after the 8:34 AM note in section 10). (4) Merge only if Jack says yes by 6:00 PM ET and the push lands before 6:30 PM ET; otherwise the branch stays pushed and unmerged and merges after 8:30 AM ET on 14 October, after the morning edition is read.
-
-**What changed (branch `sprint-6-5`):** `coinchart.js` makes one 365-day request for 1M and 1Y (no 565, no fallback path) and prints one muted Plex Mono line under the 1Y chart naming each average's real start ("50-day average from Dec 2 (needs 50 days of history) · 200-day average from May 1 (needs 200 days of history)"); it shows on 1Y only and only when a line starts after the window's first day. `fixtures/coingecko/*-365.json` are real recordings from 13 October 2026, 3:18 to 3:21 PM ET; the `-565` files are deleted. Top 100 at 375: a price of 13 characters or more sets 10 px (11 to 12 characters 11 px, the rest 12 px); each coin name word is its own box (`.t1-w`) so a name wraps only at a space and a word too wide for the column ends in an ellipsis, the full name in the row link's `title` and `aria-label`; the "·" before the name is hidden below 768 where the name sits on its own line. `site_build.strip_css_comments` strips comments from `site.css` and `system.css` at publish only. The masthead already printed the build clock's ET day (7.1); `scripts/masthead_test.py` is the missing test (three clocks a day after the newest story: 12:35 PM, 10:30 PM, 12:05 AM ET).
-
-**State: MERGED 13 October 2026, merge `23c33e5` (pushed 3:57:40 PM ET, live 4:03:55 PM ET), canary green on the merged tree, production read at 375 and 1440 (BTC 1Y caption live, one `days=365` request, no `/*` in the served CSS). OPEN: (1) the morning-edition live proof, to be read after the Oct 14 8:15 AM ET run; (2) the count of record was not readable from the cloud session (no Worker URL in the repository, the site answers 404 on `/counts/today`), so the day's count is 4 ready, 1 canceled by the documents only; (3) BTT left the Top 100 before the live read, so the 13-character tier is proved on the recorded row, not read live. Report: `docs/REPORT-PROGRAM-6-SPRINT-6.5-2026-10-13.md`.**
-
-**Traps:** a coin name's accessible label is now "Name (SYM)" on the whole row link. The Top 100's price class is set at build and nothing rewrites the cell in the browser (there is no pulse-live.js), so the class cannot go stale. Stripping comments from the stylesheets is in `build()` right after the assets are copied and before the content-hash versioning.
 
 ---
 
