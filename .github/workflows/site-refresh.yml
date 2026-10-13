@@ -30,6 +30,8 @@ on:
     # production deploys in one period, and a duplicate daily refresh is the cheapest
     # thing on that list to give up.
     #
+    # 12 October 2026 (Jack): the Worker's noon hook is retired too. The morning read
+    # (morning-read.yml, dispatched at 8:15 AM Eastern) is the day's morning build.
     # - cron: "0 12 * * *"
   workflow_dispatch: {}
 

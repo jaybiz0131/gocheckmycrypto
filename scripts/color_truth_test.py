@@ -27,7 +27,15 @@ import home  # noqa: E402
 
 
 def fixture():
-    snap = json.load(open(os.path.join(HERE, "site", "data", "snapshot.json"), encoding="utf-8"))
+    sp = os.path.join(HERE, "site", "data", "snapshot.json")
+    if not os.path.exists(sp):
+        # snapshot.json is gitignored (a build output); a fresh checkout has none, so the
+        # fixture builds it from the committed Board files, as the build does
+        import snapshot as _snap
+        _j = lambda n: json.load(open(os.path.join(HERE, "site", "data", n), encoding="utf-8"))
+        snap = _snap.build(_j("pulse.json"), _j("flows.json"))
+    else:
+        snap = json.load(open(sp, encoding="utf-8"))
     snap = copy.deepcopy(snap)
     coins = snap["fields"]["coins"]["value"]
     coins["BTC"]["chg_24h_pct"] = 0.05           # green on the day

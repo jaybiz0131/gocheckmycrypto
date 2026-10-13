@@ -288,6 +288,22 @@ BANNED = re.compile(
     r"(crushed|punished|destroyed|burn(ed|t)))\b", re.I)
 
 
+RULE = "describe, never predict; no advice words"
+
+
+def banned_hits(text):
+    """Every flagged word or phrase in the text, in order, lowercased."""
+    return list(dict.fromkeys(m.group(0).lower() for m in BANNED.finditer(text or "")))
+
+
+# 12 October 2026 (Jack, 5:30 PM): a flag no longer ends in a refusal, and no sentence is ever
+# reworded. After one told retry, each FLAGGED SENTENCE is dropped (the part is not the whole),
+# a flagged headline becomes a plain data headline built from the levels, and a read left with
+# fewer than two sentences becomes the data-only card. What publishes is only text the model
+# wrote that passed every belt, or numbers.
+MIN_SENTENCES = 2
+
+
 def _dedash(s):
     # House style: no em/en dashes. Same substitutions as destyle() in site_build.py,
     # applied here too so the committed read is clean even before the renderer runs.
@@ -561,7 +577,7 @@ def _price_belt(text, assets):
 UNBELTED_METRICS = {"bitcoin dominance": "pulse.json carries no dominance history"}
 
 
-def validate(obj, etf=None, whale=None, assets=None, leverage=None):
+def validate(obj, etf=None, whale=None, assets=None, leverage=None, min_paras=3):
     if not isinstance(obj, dict):
         raise llmlib.LLMError("chartmaster: output is not an object")
     headline = _dedash((obj.get("headline") or "").strip())
@@ -569,13 +585,15 @@ def validate(obj, etf=None, whale=None, assets=None, leverage=None):
              if isinstance(p, str) and p.strip()]
     if not headline or len(headline) > 160:
         raise llmlib.LLMError("chartmaster: missing/oversized headline")
-    if not 3 <= len(paras) <= 7:
-        raise llmlib.LLMError(f"chartmaster: expected 3-7 paragraphs, got {len(paras)}")
+    if not min_paras <= len(paras) <= 7:
+        raise llmlib.LLMError(f"chartmaster: expected {min_paras}-7 paragraphs, got {len(paras)}")
     text = headline + " " + " ".join(paras)
     hit = BANNED.search(text)
     if hit:
+        words = banned_hits(text)
         raise llmlib.LLMError(f"chartmaster: advice/prediction language in the read ({hit.group(0)!r}); "
-                              "refusing to publish it")
+                              f"refusing to publish it. The rule: {RULE}. Flagged: {words}. "
+                              "Say the same thing in plain market verbs, in numbers, with none of them.")
     if etf:
         _belt("etf", _etf_flow_belt, text.lower(), etf)
     if whale:
@@ -635,6 +653,122 @@ def _status(published, reason="", date=None):
           f"{'published' if published else 'refused'}")
 
 
+LEDGER = os.path.join(HERE, "data", "chartmaster-ledger.json")
+
+
+def ledger_row(date, path, tripped, detail=""):
+    """Every night's path, with the words that tripped it, kept beside the read so a
+    refusal can never again be a commit-message-only fact. Fail-soft."""
+    try:
+        rows = json.load(open(LEDGER, encoding="utf-8"))
+    except (OSError, ValueError):
+        rows = []
+    rows.append({"date": date, "path": path, "tripped": tripped, "detail": detail[:200],
+                 "t": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")})
+    try:
+        os.makedirs(os.path.dirname(LEDGER), exist_ok=True)
+        json.dump(rows[-400:], open(LEDGER, "w", encoding="utf-8"), indent=1)
+    except OSError as e:
+        print(f"chartmaster: ledger not written ({e})")
+
+
+def data_card(data=None):
+    """The last path: levels, the 50-day and 200-day lines and RSI for each major, no prose.
+    Built from the same snapshot views the digest reads, so a number is the Board's."""
+    pulse = _load("pulse.json")
+    flows = _load("flows.json")
+    import snapshot as _snapshot
+    pulse, _f = _snapshot.views(_snapshot.build(pulse, flows), pulse, flows)
+    rows = [{k: a.get(k) for k in ("symbol", "price", "sma50", "sma200", "rsi14")}
+            for a in (pulse or {}).get("assets") or []]
+    if not rows:
+        raise ValueError("no pulse snapshot for the data card")
+    return rows
+
+
+def data_headline(levels):
+    """A plain headline from the levels alone: 'Majors hold above their 200-day lines', or
+    'N of M majors hold above their 200-day lines'. Numbers, no adjectives."""
+    rows = [r for r in levels if isinstance(r.get("price"), (int, float))
+            and isinstance(r.get("sma200"), (int, float))]
+    if not rows:
+        return "Chart Master: levels, 50-day and 200-day lines, RSI"
+    above = sum(1 for r in rows if r["price"] > r["sma200"])
+    if above == len(rows):
+        return "Majors hold above their 200-day lines"
+    if above == 0:
+        return "Majors sit below their 200-day lines"
+    return f"{above} of {len(rows)} majors hold above their 200-day lines"
+
+
+def _flag(text, data):
+    """Why one sentence would be refused on its own: advice words, or a belt, else ''."""
+    hits = banned_hits(text)
+    if hits:
+        return "advice: " + ", ".join(hits)
+    try:
+        for name, fn, arg in (("etf", _etf_flow_belt, data.get("etf_flows")),
+                              ("whale", _whale_flow_belt, data.get("whale_flows")),
+                              ("price", _price_belt, data.get("assets")),
+                              ("leverage", _leverage_belt, {"assets": data.get("leverage") or []})):
+            if arg:
+                fn(text.lower() if name != "leverage" else text, arg)
+    except llmlib.LLMError as e:
+        return f"belt: {str(e)[:100]}"
+    return ""
+
+
+def publish_path(cand, err, data):
+    """After one told retry has failed: (obj, path, tripped, detail).
+
+    Drop each flagged sentence, replace a flagged headline with the data headline, and
+    revalidate what is left in full; fewer than two sentences left means obj is None and the
+    data-only card publishes. Nothing is ever reworded."""
+    if not isinstance(cand, dict):
+        return None, "data-only", [str(err)[:120]], "no read to cut from"
+    try:
+        levels = data_card(data)
+    except ValueError:
+        levels = []
+    tripped, dropped = [], []
+    head = str(cand.get("headline") or "").strip()
+    why = _flag(_dedash(head), data) if head else "no headline"
+    new_head = head
+    if why:
+        tripped.append(f"headline: {why}")
+        new_head = data_headline(levels)
+    paras = []
+    for p in cand.get("paragraphs") or []:
+        keep = []
+        for sent in twins_sentences(_dedash(str(p))):
+            f = _flag(sent, data)
+            if f:
+                tripped.append(f)
+                dropped.append(sent[:80])
+            else:
+                keep.append(sent)
+        if keep:
+            paras.append(" ".join(keep))
+    n = sum(len(twins_sentences(p)) for p in paras)
+    tripped = list(dict.fromkeys(tripped)) or [str(err)[:120]]
+    if n < MIN_SENTENCES:
+        return None, "data-only", tripped, f"{n} sentence(s) left after cutting {len(dropped)}"
+    try:
+        obj = validate({"headline": new_head, "paragraphs": paras}, min_paras=1,
+                       **_belt_inputs(data))
+    except llmlib.LLMError as e2:
+        return None, "data-only", tripped, f"the rest still fails whole: {str(e2)[:120]}"
+    detail = f"dropped {len(dropped)} sentence(s)" + (": " + " | ".join(dropped) if dropped else "")
+    if new_head != head:
+        detail += "; data headline used"
+    return obj, "cut", tripped, detail
+
+
+def twins_sentences(text):
+    import twins_gate
+    return twins_gate.sentences(text)
+
+
 def run():
     cfg = common.load_config()
     data = digest()
@@ -643,23 +777,40 @@ def run():
     system = common.load_prompt("chartmaster.md")
     user = ("Read today's tape and write the Chart Master's read.\n\n"
             + json.dumps(data, indent=1))
-    obj = client.call_json("chartmaster", system, user,
-                           validate=lambda o: validate(o, **_belt_inputs(data)))
+    cand = [None]
+
+    def _v(o):
+        cand[0] = o
+        return validate(o, **_belt_inputs(data))
+
+    path, tripped, detail = "read", [], ""
+    try:
+        # ONE retry, told which words and which rule (max_rungs=2), then the table.
+        obj = client.call_json("chartmaster", system, user, validate=_v, max_rungs=2)
+    except llmlib.LLMError as e:
+        obj, path, tripped, detail = publish_path(cand[0], e, data)
     out = {
         "date": data["data_date"],
-        "headline": obj["headline"],
-        "paragraphs": obj["paragraphs"],
         "generated_by": "chartmaster.py (auto, from the live boards)",
         "mode": client.mode,
+        "path": path,
     }
+    if obj is None:
+        out.update({"headline": "Chart Master data card: levels, 50-day and 200-day lines, RSI",
+                    "paragraphs": [], "data_only": True, "levels": data_card(data)})
+    else:
+        out.update({"headline": obj["headline"], "paragraphs": obj["paragraphs"]})
     common.write_out("chartmaster.json", out)
     if client.mode == "replay":
         print("chartmaster [REPLAY]: wiring test only -> out/chartmaster.json (site data untouched)")
         return 0
     os.makedirs(os.path.dirname(SITE_DATA), exist_ok=True)
     json.dump(out, open(SITE_DATA, "w", encoding="utf-8"), indent=2)
-    _status(True, date=out["date"])
-    print(f"chartmaster: \"{obj['headline']}\" ({len(obj['paragraphs'])} paragraphs) "
+    ledger_row(out["date"], path, tripped, detail)
+    _status(True, reason=path if path != "read" else "", date=out["date"])
+    if path != "read":
+        print(f"chartmaster: published by the {path} path; tripped {tripped}; {detail}")
+    print(f"chartmaster: \"{out['headline']}\" ({len(out['paragraphs'])} paragraphs) "
           f"-> {os.path.relpath(SITE_DATA)}")
     return 0
 

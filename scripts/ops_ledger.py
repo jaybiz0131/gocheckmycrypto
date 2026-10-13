@@ -205,6 +205,17 @@ def chartmaster_spend(path):
             "chartmaster_published": bool(st.get("published"))}
 
 
+def is_empty_row(row):
+    """A run that used no model and changed nothing: 0 tokens, $0, no content push, no
+    build ping. A BREAKING run is never empty, whatever it spent: watcher.py counts the day's
+    breaking runs from this file, and a breaking run that published nothing still uses the
+    allowance."""
+    return (not row.get("breaking")
+            and not row.get("pushed") and not row.get("pinged")
+            and not row.get("tokens") and not (row.get("usd") or 0)
+            and not row.get("chartmaster_calls"))
+
+
 def write_file_ledger(row):
     """T-4: the committed ledger.json. The issue comments are a remote view and need a
     token and a network call to read; the file is in the repo, so a week's spend is a
@@ -214,6 +225,13 @@ def write_file_ledger(row):
     Committed with [skip netlify] and covered by the ignore rule (T-3): a ledger row is
     not a site change and must not buy a build."""
     path = os.path.join(REPO, "ledger.json")
+    if is_empty_row(row):
+        # 12 October 2026: the overnight "0 tokens $0.0000" commits recorded nothing and
+        # filled the log. The issue comment still carries the row; the file and its commit
+        # wait for a run that did something.
+        print(f"ops ledger: run {row.get('run', '')} used no model and changed nothing; "
+              f"ledger.json not committed")
+        return
     try:
         doc = json.load(open(path, encoding="utf-8"))
         if not isinstance(doc, dict) or not isinstance(doc.get("runs"), list):

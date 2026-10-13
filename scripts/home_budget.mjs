@@ -89,7 +89,8 @@ try {
   const lcps = runs.map((r) => r.lcp).sort((a, b) => a - b);
   const r0 = runs[0];
   const med = lcps[Math.floor(lcps.length / 2)];
-  const third = r0.hosts.filter((h) => h !== OWN && h !== LIVE_HOST);
+  const BEACON_HOSTS = ["static.cloudflareinsights.com", "cloudflareinsights.com"]; // named by the 12 October 2026 ruling
+  const third = r0.hosts.filter((h) => h !== OWN && h !== LIVE_HOST && !BEACON_HOSTS.includes(h));
   const stampOk = !EXPECT || (r0.meta && r0.meta.startsWith(EXPECT.slice(0, 7)));
   console.log(JSON.stringify({
     url, width: WIDTH, theme: THEME, build_commit: r0.meta, throttled: THROTTLE,
