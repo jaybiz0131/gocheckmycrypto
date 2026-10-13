@@ -126,4 +126,4 @@ The handoff's table now holds the open rows only, plus this sprint's, the mornin
 
 Close: documents only. The merge hash, the production read and the count are not in this report because none has happened.
 
-Shell date at the end of this session: see the last line.
+Sprint tip pushed to `origin/sprint-7-3` (`git ls-remote`: `f46c2fa`; the session's `claude/hopeful-mccarthy-yrskeh` holds the same commit). Shell date at the end of this session (ET): **Tuesday October 13, 2026, 4:44 PM EDT**.
