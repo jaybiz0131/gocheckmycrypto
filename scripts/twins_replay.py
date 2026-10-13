@@ -11,7 +11,7 @@ of 9 and 10 October; then the counts of the sentences both gates keep. The "righ
 filled by hand in docs/REPORT (a person checked each differing sentence against the data); this
 script only prints verdicts.
 
-Recorded Editions: 8, 9, 10 and 11 October (7 October's Brief was withheld, 12 October's run
+Recorded Editions: 8, 9, 10, 11 and 13 October (7 October's Brief was withheld, 12 October's run
 failed at the canary). Recorded morning reads: none (the morning run has not fired in
 production; docs/HANDOFF.md section 10).
 """
@@ -26,7 +26,7 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 
 COMMITS = {"2026-10-08": "b281882", "2026-10-09": "cbf7e80", "2026-10-10": "8533a17",
-           "2026-10-11": "7d8971b"}
+           "2026-10-11": "7d8971b", "2026-10-13": "8aea846"}
 
 
 def load_old(ref):
@@ -108,7 +108,7 @@ def main():
             else:
                 same_drop.append((day, surface, s, vo))
     print(f"REPLAY, old gate = {ref}:twins_gate.py, new gate = this tree")
-    print("\n## the seven recorded drops of 9 and 10 October")
+    print("\n## the eight recorded drops (seven of 9 and 10 October, one of 13 October)")
     for cid, day, surface, s in recorded():
         snap = json.load(open(os.path.join(HERE, "fixtures", "twins", f"snapshot_{day}.json")))
         vo, do = verdict(old, snap, s, surface)

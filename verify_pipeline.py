@@ -2003,6 +2003,12 @@ def _stamp_canary():
             # Sprint 2: the tile and the Learn anchors read on the tree this build wrote.
             _lp = _o.path.join(out, "learn.html")
             _check(_o.path.exists(_lp), fails, "tile canary: the build wrote no learn.html")
+            _bp = _sp.run([sys.executable, _o.path.join(root, "scripts", "btc_hilo_test.py"),
+                                "--tree", out], cwd=root, capture_output=True, text=True,
+                               timeout=120) if _o.path.exists(_o.path.join(out, "coins", "btc.html")) else None
+            if _bp is not None:
+                _check(_bp.returncode == 0, fails, "btc hi/lo canary: " + "; ".join(
+                    ln.strip() for ln in _bp.stdout.splitlines() if ln.startswith("FAIL"))[:400])
             # THE BUILD'S CALL TO publish_narrative (13 October 2026). The unit test in
             # _narrative_canary calls the function; nothing failed if build() stopped calling
             # it. This reads the tree the real build() just wrote: the stored line must be
@@ -2573,7 +2579,7 @@ def _home_canary(index_html=None):
                "home canary: the tape's chart has no fill under the line")
         for _cls, _fig in (("h-k-hi", max(_cv)), ("h-k-lo", min(_cv))):
             _mk = _re.search(r'<span class="h-k %s[^"]*" style="left:([\d.]+)%%;top:([\d.]+)%%">'
-                             r'[A-Z]+ <b>([^<]+)</b>' % _cls, _c)
+                             r'7D [A-Z]+ <b>([^<]+)</b>' % _cls, _c)
             _check(bool(_mk) and _mk.group(3) == _hx(_h._whole(_fig)), fails,
                    f"home canary: the {_cls} mark is not on the line with its figure "
                    f"{_h._whole(_fig)}")
@@ -2883,8 +2889,14 @@ def _sprint73_canary():
                 capture_output=True, text=True, timeout=300)
     bad = [ln.strip() for ln in r.stdout.splitlines() if ln.startswith("FAIL")]
     _check(r.returncode == 0, fails, f"sprint 7.3: the twins gate test: {'; '.join(bad[:4]) or r.stderr[-300:]}")
+    # ONE FIGURE, ONE SOURCE: Bitcoin's 24h and 7D high and low agree on the home tape and the
+    # coin page, each worded with its window (scripts/btc_hilo_test.py --fast)
+    r = _sp.run([sys.executable, os.path.join(HERE, "scripts", "btc_hilo_test.py"), "--fast"],
+                cwd=HERE, capture_output=True, text=True, timeout=300)
+    bad = [ln.strip() for ln in r.stdout.splitlines() if ln.startswith("FAIL")]
+    _check(r.returncode == 0, fails, f"sprint 7.3: Bitcoin's high and low: {'; '.join(bad[:4]) or r.stderr[-300:]}")
     print("sprint 7.3 canary: seven recorded wrong drops kept, true negatives dropped, "
-          "unparsed sentences counted")
+          "unparsed sentences counted, Bitcoin's high and low one figure")
     return fails
 
 

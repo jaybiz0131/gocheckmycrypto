@@ -41,6 +41,21 @@
   var tablist = wrap.querySelector('[role=tablist]');
   if (!id || !stage || !box || !readout || !tabs.length) return;
 
+  /* ONE FIGURE, ONE SOURCE (13 October 2026). On 1D and 7D the high and low printed here are the
+     snapshot's own pair, read off the page the build wrote (the tape prints the same two); the
+     chart never prints a high or low computed from its own live series on those windows, and
+     prints none when the snapshot has none. 1M and 1Y have no snapshot figure, so they print
+     their own series' extremes, each worded with its window ("1M high") so it never reads as
+     the 24-hour figure. */
+  function snapNum(a) { var v = parseFloat(wrap.getAttribute(a)); return isFinite(v) ? v : null; }
+  var SNAPF = { '1d': { lo: snapNum('data-lo24'), hi: snapNum('data-hi24'), w: '24h' },
+                '7d': { lo: snapNum('data-lo7'), hi: snapNum('data-hi7'), w: '7D' } };
+  function figs(s) {
+    var f = SNAPF[s.r];
+    if (f) return (f.lo !== null && f.hi !== null) ? f : null;
+    return { lo: Math.min.apply(null, s.y), hi: Math.max.apply(null, s.y), w: s.r === '1m' ? '1M' : '1Y' };
+  }
+
   var DAY = 86400000;
   var DAILY = { '1m': true, '1y': true };                 /* the windows whose volume is a day's volume */
   var RANGES = {
@@ -197,8 +212,9 @@
     var Y = function (v) { return T + HP - (v - pl) / (ph - pl) * HP; };
     var d = s.dir;
     var svg = el('svg', { 'class': 'cc-svg', width: W, height: H, viewBox: '0 0 ' + W + ' ' + H,
-      role: 'img', 'aria-label': RANGES[s.r].label + ' of price. Low ' + money(Math.min.apply(null, s.y)) +
-        ', high ' + money(Math.max.apply(null, s.y)) + ', latest ' + money(s.y[s.n - 1]) + ', ' + pct(s.chg) + '.' });
+      role: 'img', 'aria-label': RANGES[s.r].label + ' of price.' + (figs(s) ? ' ' + figs(s).w + ' low ' +
+        money(figs(s).lo) + ', ' + figs(s).w + ' high ' + money(figs(s).hi) + ',' : '') +
+        ' latest ' + money(s.y[s.n - 1]) + ', ' + pct(s.chg) + '.' });
 
     /* gridlines and the price axis, on the right */
     var step = niceStep((ph - pl) / 4), dec = decFor(step);
@@ -286,7 +302,9 @@
     svg.appendChild(marks);
     [[gH, hiV, -10], [gL, loV, 20]].forEach(function (m, k) {
       if (m[0] === s.n - 1 || (k === 1 && gH === gL)) return;
-      var txt = money(m[1], dec), tw = txt.length * 7.4, cx = pts[m[0]][0];
+      var fg = figs(s);
+      if (!fg) return;                     /* no snapshot figure for this window: print none */
+      var txt = fg.w + (k === 0 ? ' high ' : ' low ') + money(k === 0 ? fg.hi : fg.lo, dec), tw = txt.length * 7.4, cx = pts[m[0]][0];
       cx = Math.min(Math.max(cx, L + tw / 2), L + PW - tw / 2);
       svg.appendChild(el('text', { 'class': 'cc-hl', x: cx.toFixed(1), y: (pts[m[0]][1] + m[2]).toFixed(1),
         'text-anchor': 'middle' }, txt));

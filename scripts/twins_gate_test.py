@@ -77,6 +77,11 @@ KEEP = [
      "Bitcoin ETF flows showed an inflow of $21.1 million on October 9, but the five-session "
      "net stands at an outflow of $678.9 million.",
      "'five-session' is a window. [verbatim from wrap-status.json]"),
+    ("F8", "2026-10-13", "body paragraph 4",
+     "Ethereum ETFs show the same pattern: a $16.7 million net inflow on Oct 13 against a "
+     "five-session net outflow of $358.2 million.",
+     "FOUND LIVE at 7:17 PM ET 13 Oct by the old gate, the eighth wrong drop: read against "
+     "Bitcoin's ETF net (+6.7M) with a five-session window. [verbatim from run 38482566029's log]"),
     ("F7", "2026-10-10", "narrative line",
      "Bitcoin gained 0.53% on the day while falling 2.3% on the week as whale deposits to "
      "exchanges hit weekly highs; Saturday's tape held steady and the news is mixed.",
@@ -100,6 +105,8 @@ DROP = [
      "SYNTHETIC: 'funding' binds, and every coin named is checked (Solana is positive)"),
     ("TN5", PLUS_WEEK, "Bitcoin is falling 2.3% on the week.",
      "SYNTHETIC: falling 2.3% means -2.3; the series says +2.30, so the sentence is wrong"),
+    ("TN8", "2026-10-10", "Ether ETF flows turned positive on the day.",
+     "SYNTHETIC: an Ether ETF sentence is read against the ETH net (-56.1M on 9 Oct), not Bitcoin's"),
     ("TN6", "2026-10-10", "Bitcoin was rising on the week.",
      "SYNTHETIC: 'rising' on the week against the series' -2.30"),
     ("TN7", "2026-10-09", "The index said \"ETF flows turned positive\" on the day.",
@@ -127,6 +134,14 @@ def main():
         check(cid, out == s and not g.drops,
               f"{surface}: {'kept' if out == s else 'DROPPED: ' + (g.drops[0]['why'] if g.drops else '')}"
               f" | {note}")
+
+    print("== an Ether ETF sentence is read against the ETH net")
+    g = gate("2026-10-10")
+    s = ("Ether ETFs saw an outflow of $56.1 million on October 9 while Bitcoin ETFs saw an "
+         "inflow of $21.1 million.")
+    out = g.text(s, "t")
+    check("E1", out == s, f"{'kept' if out == s else 'DROPPED: ' + g.drops[0]['why']} | both true on "
+                          f"9 Oct (ETH -56.1M, BTC +21.1M); main reads the Ether outflow against Bitcoin's net")
 
     print("== found by the replay: a true sentence the first cut of the fix would have cut")
     g = gate("2026-10-09")

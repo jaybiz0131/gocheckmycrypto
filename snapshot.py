@@ -108,6 +108,11 @@ def build(pulse, flows):
             coins[sym] = {"price": r["price"], "chg_24h_pct": r.get("chg_24h_pct"),
                           "id": r.get("gecko_id"), "name": r.get("name"),
                           "mcap_usd": r.get("mcap_usd"), "rank": r.get("rank")}
+            # THE 24-HOUR HIGH AND LOW (13 October 2026): the same /coins/markets row as the
+            # price, so every surface that prints them prints this pair and no other
+            for k in ("high_24h", "low_24h"):
+                if isinstance(r.get(k), (int, float)):
+                    coins[sym][k] = r[k]
             if r.get("stablecoin"):
                 coins[sym]["stablecoin"] = True
     put("coins", coins)
@@ -225,6 +230,24 @@ def series_windows(closes):
         if d0 in c:
             out[key] = round((c[t] / c[d0] - 1) * 100, 2)
     return out
+
+
+def week_pair(snap, sym):
+    """(low, high) of the coin's seven stored daily closes, or None: THE 7D PAIR. The tape's
+    HIGH and LOW and the coin page's "7D high" and "7D low" are this pair and nothing else
+    (13 October 2026: the coin page had printed a second pair from the hourly sparkline)."""
+    wk = (value(snap, "week") or {}).get(sym) or {}
+    cl = wk.get("closes")
+    vals = list(cl.values()) if isinstance(cl, dict) else list(cl or [])
+    vals = [float(v) for v in vals if isinstance(v, (int, float))]
+    return (min(vals), max(vals)) if len(vals) >= 2 else None
+
+
+def day_pair(snap, sym):
+    """(low, high) of the coin's 24 hours from the snapshot's own field, or None."""
+    c = coin(snap, sym)
+    lo, hi = c.get("low_24h"), c.get("high_24h")
+    return (lo, hi) if isinstance(lo, (int, float)) and isinstance(hi, (int, float)) else None
 
 
 def series_window(snap, sym, which):

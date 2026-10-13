@@ -182,7 +182,7 @@ def tape_chart(week, fmt=None):
         t = round(100 * y / CHART_H, 2)
         return (f'<span class="h-k {cls}{side}" style="left:{left}%;top:{t}%">'
                 f'{word} <b>{_e(_whole(vals[i]))}</b></span>')
-    labels = label(hi_i, "h-k-hi", "HIGH") + label(lo_i, "h-k-lo", "LOW")
+    labels = label(hi_i, "h-k-hi", "7D HIGH") + label(lo_i, "h-k-lo", "7D LOW")
     dl = ""
     if days and len(days) == len(pts):
         spans = []
@@ -240,6 +240,13 @@ def tape(snap):
                 if isinstance(chg, (int, float)) else "")
     week = (snapshot.value(snap, "week") or {}).get("BTC") or {}
     chart = tape_chart(week, sb._price_fmt)
+    # THE 24-HOUR HIGH AND LOW, named for their window (13 October 2026). The chart's HIGH and LOW
+    # are the week's daily closes and say "7D"; the 24-hour pair is the snapshot's own field, the
+    # one the coin page's 1D chart prints, and absent (not guessed) when the snapshot lacks it.
+    hl24 = ""
+    if isinstance(btc.get("high_24h"), (int, float)) and isinstance(btc.get("low_24h"), (int, float)):
+        hl24 = (f'<p class="h-hl24" data-hl24>24h high <b>{_e(_whole(btc["high_24h"]))}</b>'
+                f' \u00b7 low <b>{_e(_whole(btc["low_24h"]))}</b></p>')
     alts = []
     for sym, name, gid in TAPE_ALTS:
         c = snapshot.coin(snap, sym)
@@ -258,7 +265,7 @@ def tape(snap):
              f'<p class="h-name">Bitcoin <span class="h-w">24h</span></p>'
              f'<p class="h-big"><span class="h-px {d or "flat"}" data-tape="bitcoin">'
              f'{_e(sb._price_fmt(btc["price"]))}</span>{chg_html}</p>'
-             f'{chart}</div>'
+             f'{hl24}{chart}</div>'
              f'<ul class="h-coins">{"".join(alts)}</ul>'
              f'<p class="h-live" id="tapeLive" data-built="{_e(asof)}">as of {_e(asof)}</p>'
              f'<p class="h-board">Everything below is the Board, as of '

@@ -320,6 +320,11 @@ def readings(snap):
         out["spot ETF net"] = (e["latest_net_usd_m"],
                                f"BTC spot ETF net {e['latest_net_usd_m']:+,.1f}M USD "
                                f"({e.get('latest_date')})")
+    e2 = (_s.value(snap, "etf_flows") or {}).get("eth") or {}
+    if isinstance(e2.get("latest_net_usd_m"), (int, float)):
+        out["spot ETF net (ETH)"] = (e2["latest_net_usd_m"],
+                                     f"ETH spot ETF net {e2['latest_net_usd_m']:+,.1f}M USD "
+                                     f"({e2.get('latest_date')})")
     f = (_s.value(snap, "funding") or {}).get("BTC") or {}
     if isinstance(f.get("funding_8h_pct"), (int, float)):
         out["funding"] = (f["funding_8h_pct"], f"BTC funding {f['funding_8h_pct']:+.4f}% per 8h")
@@ -461,6 +466,19 @@ class Gate:
                                 f"snapshot reads {label}")
                 continue
             else:
+                # AN ETF SENTENCE IS ABOUT ONE ASSET'S FUNDS (13 October 2026): the clause that
+                # names the ETFs says whose. "Ethereum ETFs show ... a $16.7 million net inflow"
+                # is read against the ETH net, never Bitcoin's; both named is not one sign,
+                # so it stands unverified.
+                if name == "spot ETF net":
+                    ca, cb = clauses[_clause_of(clauses, c[0])]
+                    seg = mask[ca:cb]
+                    eth = re.search(r"\b(?:ether(?:eum)?|eth)\b", seg)
+                    btc = re.search(r"\b(?:bitcoin|btc)\b", seg)
+                    if eth and btc:
+                        continue
+                    if eth:
+                        name = "spot ETF net (ETH)"
                 if name not in self.read:
                     continue
                 v, label = self.read[name]
