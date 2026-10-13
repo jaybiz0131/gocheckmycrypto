@@ -108,6 +108,18 @@ def static(site):
             fails.append(f"static: {f} tabs or inline chart code wrong")
         if 'class="cn-cold"' not in h or 'data-reading="coin-price"' not in h:
             fails.append(f"static: {f} lacks the cold-storage card or the price tile")
+    # Sprint 6.5: comments are stripped from the stylesheets at publish only. The published copy has no
+    # comment marker; the source keeps its comments (they carry the reasons).
+    for css in ("site.css", "system.css"):
+        pub = os.path.join(site, "assets", css)
+        src = os.path.join(HERE, "site", "assets", css)
+        if not os.path.exists(pub):
+            fails.append(f"static: published assets/{css} is missing")
+            continue
+        if "/*" in open(pub, encoding="utf-8").read():
+            fails.append(f"static: published assets/{css} still carries a comment (/*)")
+        if "/*" not in open(src, encoding="utf-8").read():
+            fails.append(f"static: the source site/assets/{css} lost its comments; stripping is at publish only")
     p = open(os.path.join(site, "pulse", "prices.html"), encoding="utf-8").read()
     if "data-coin-search" not in p or p.count('href="/coins/') < 100 or "No coin matches" not in p:
         fails.append("static: the Top 100 lacks search, 100 links or the empty message")

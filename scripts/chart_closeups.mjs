@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // chart_closeups.mjs <built-site-dir> <outdir> [--coin btc] [--cg fixtures/coingecko]
-// Sprint 6.4 proof: close-ups of one coin's chart at 375, on 1D and 1Y, light and dark, with the crosshair
-// shown once (the touch lands at 62 percent of the plot). CoinGecko is answered from recorded fixtures.
+// Sprint 6.5 proof: close-ups of one coin's chart at 375, on 1M and 1Y, light and dark, no crosshair, so each
+// average's start and the caption under the 1Y chart are in view. CoinGecko is answered from recorded fixtures.
 import { createRequire } from "module"; import http from "http"; import fs from "fs"; import path from "path";
 const require = createRequire(import.meta.url);
 let pw; try { pw = require("playwright"); } catch { pw = require(process.env.PLAYWRIGHT_MODULE || "/opt/node-tools/node_modules/playwright"); }
@@ -21,19 +21,14 @@ try {
     const pg = await ctx.newPage(); pg.setDefaultTimeout(8000);
     await pg.route(/^https?:/, r => { const u = new URL(r.request().url()); if (u.host === new URL(base).host) return r.continue();
       const m = u.host === "api.coingecko.com" && u.pathname.match(/\/coins\/([^/]+)\/market_chart/);
-      if (!m) return r.abort(); const d = +u.searchParams.get("days"), k = d <= 1 ? 1 : d <= 7 ? 7 : d <= 365 ? 365 : 565;
+      if (!m) return r.abort(); const d = +u.searchParams.get("days"), k = d <= 1 ? 1 : d <= 7 ? 7 : 365;
       const f = fs.existsSync(path.join(CG, `${m[1]}-${k}.json`)) ? `${m[1]}-${k}.json` : `bitcoin-${k}.json`;
       return r.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: fs.readFileSync(path.join(CG, f)) }); });
     await pg.goto(`${base}/coins/${coin}`, { waitUntil: "load" });
-    for (const rg of ["1d", "1y"]) {
+    for (const rg of ["1m", "1y"]) {
       await pg.locator(`[data-coin-chart] [role=tab][data-range="${rg}"]`).click();
       await pg.waitForFunction(r => document.querySelector("[data-coin-chart]").getAttribute("data-range") === r, rg);
       await pg.waitForTimeout(1200);
-      const box = await pg.locator("[data-coin-chart] .cc-stage svg.cc-svg").boundingBox();
-      await pg.evaluate(({ x, y }) => { const s = document.querySelector("[data-coin-chart] svg.cc-svg");
-        const o = { clientX: x, clientY: y, pointerType: "touch", pointerId: 3, bubbles: true, isPrimary: true };
-        s.dispatchEvent(new PointerEvent("pointerdown", o)); }, { x: box.x + box.width * 0.62, y: box.y + 80 });
-      await pg.waitForTimeout(150);
       await pg.locator("[data-coin-chart]").screenshot({ path: path.join(out, `${coin}-chart-${rg}-375-${theme}.png`) });
     }
     await ctx.close();

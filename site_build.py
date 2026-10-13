@@ -7422,6 +7422,22 @@ def _src_rank_title(src, pos):
     return f' title="Ranked {src} by market cap before screening"'
 
 
+def _name_words(name):
+    """Sprint 6.5. A coin name wraps only at a space, and a word the column cannot hold ends
+    in an ellipsis on its own line (its box clips and says so); it is never broken inside.
+    Each word is its own box so the browser has no other place to break. The full name is on
+    the row's link as its title and its accessible label."""
+    return " ".join(f'<span class="t1-w">{esc(w)}</span>' for w in (name or "").split())
+
+
+def _price_class(price_str):
+    """Sprint 6.5. The price steps down with its length, one step each: 11 or 12 characters
+    (pn-long), 13 or more (pn-xlong), so a micro-cap such as $0.0000003682 keeps 12 px or more
+    between the price and the 24h pill at 375."""
+    n = len(price_str or "")
+    return " pn-xlong" if n >= 13 else " pn-long" if n >= 11 else ""
+
+
 def _top100_rows(coins):
     """UX-16 (C-5). The list is numbered 1 to 100 as it is shown. It used to carry the
     source's rank, so screening a coin out left #8 then #10, #12, #14, and a list with
@@ -7447,10 +7463,11 @@ def _top100_rows(coins):
             f'<tr data-sym="{esc(sym)}" data-q="{esc((sym + " " + nm).lower())}">'
             f'<td class="mut" data-cell="rank" data-val="{pos}"'
             f'{_src_rank_title(c.get("rank"), pos)}>#{pos}</td>'
-            f'<td class="sym2"><a class="t1-a" href="/coins/{esc(_coin_slug(c))}">'
-            f'{esc(sym)}<span class="mut"> &middot; '
-            f'<span class="t1-name">{esc(nm)}</span></span></a></td>'
-            f'<td class="pnum{" pn-long" if len(_price_fmt(c.get("price")) or "") >= 11 else ""}" '
+            f'<td class="sym2"><a class="t1-a" href="/coins/{esc(_coin_slug(c))}" '
+            f'title="{esc(nm)}" aria-label="{esc(nm)} ({esc(sym)})">'
+            f'{esc(sym)}<span class="mut"><span class="t1-dot"> &middot; </span>'
+            f'<span class="t1-name">{_name_words(nm)}</span></span></a></td>'
+            f'<td class="pnum{_price_class(_price_fmt(c.get("price")))}" '
             f'data-cell="price" data-val="{c.get("price") or 0}">{esc(_price_fmt(c.get("price")))}</td>'
             f'<td data-cell="chg" data-val="{chg if chg is not None else 0}">{chg_html}</td>'
             f'<td class="c-spark">{_cp.row_spark(c.get("spark7d"))}</td>'
@@ -7677,6 +7694,7 @@ def render_coin_chart(c, name, cid, spark):
             f'Use the left and right arrow keys to step through points.">'
             f'<div class="cc-stage" data-fallback style="color:var(--{"up" if up != "down" else "down"}-line)">'
             f'{fallback}</div><div class="cc-readout" hidden aria-live="polite"></div></div>'
+            f'<p class="cc-start" data-coin-ma-start hidden></p>'
             f'<p class="pc-note cc-cap" data-coin-cap>{note}</p></section>')
 
 
@@ -8870,6 +8888,42 @@ def _squeeze_asset(path):
             f.write(body)
 
 
+def strip_css_comments(src):
+    """Sprint 6.5. Remove /* ... */ comments from a stylesheet at publish, nothing else: the
+    source keeps every comment (they carry the reasons), the published copy is the bytes a
+    reader needs. A comment marker inside a string or a url() is not a comment and stays.
+    Lines left empty by a removed comment go with it; no rule, selector or value changes."""
+    out, i, n = [], 0, len(src)
+    while i < n:
+        c = src[i]
+        if c in "\"'":
+            j = i + 1
+            while j < n and src[j] != c:
+                j += 2 if src[j] == "\\" else 1
+            out.append(src[i:j + 1])
+            i = j + 1
+        elif src.startswith("/*", i):
+            j = src.find("*/", i + 2)
+            i = n if j < 0 else j + 2
+        elif src.startswith("url(", i):
+            j = src.find(")", i)
+            j = n - 1 if j < 0 else j
+            out.append(src[i:j + 1])
+            i = j + 1
+        else:
+            out.append(c)
+            i += 1
+    return "\n".join(l.rstrip() for l in "".join(out).split("\n") if l.strip()) + "\n"
+
+
+def _strip_css_asset(path):
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            body = strip_css_comments(f.read())
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(body)
+
+
 def _copytree(src, dst):
     os.makedirs(dst, exist_ok=True)
     for root, _dirs, files in os.walk(src):
@@ -8937,6 +8991,8 @@ def build():
     os.makedirs(os.path.join(PUBLISH, "articles"), exist_ok=True)
     _copytree(ASSETS, os.path.join(PUBLISH, "assets"))
     _squeeze_asset(os.path.join(PUBLISH, "assets", "coinchart.js"))
+    for _css in ("site.css", "system.css"):
+        _strip_css_asset(os.path.join(PUBLISH, "assets", _css))
     # R-4: the PIL faces are for share_cards and og_render, which draw text into PNGs
     # at build time. No page requests them, and at 728 KB they are the largest thing in
     # assets. They stay in the repo, where the renderers read them; they do not ship.

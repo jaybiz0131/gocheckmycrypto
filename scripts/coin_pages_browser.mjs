@@ -77,11 +77,11 @@ async function route(page, mode) {
       cgRequests.push(u.pathname + u.search);
       const m = u.pathname.match(/\/coins\/([^/]+)\/market_chart/);
       const days = parseInt(u.searchParams.get("days") || "7", 10);
-      if (m && mode === "refuse565" && days > 365) {      // the public API's cap on history: a refusal
+      if (m && days > 365) {      // the public API's cap on history: a refusal (and the page must not ask)
         return r.fulfill({ status: 401, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: "{}" });
       }
       if (m) {
-        const body = (mode === "shaped" && m[1] === "aptos") ? synthetic(days) : recorded(m[1], days <= 1 ? 1 : days <= 7 ? 7 : days <= 365 ? 365 : 565);
+        const body = (mode === "shaped" && m[1] === "aptos") ? synthetic(days) : recorded(m[1], days <= 1 ? 1 : days <= 7 ? 7 : 365);
         return r.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify(body) });
       }
     }
@@ -181,21 +181,30 @@ try {
     await ctx.close();
   }
 
-  // 2b. the averages are daily curves on 1Y: a point per day, from the first day shown, never a long straight run
+  // 2b. the averages are honest: real 365-day data, one history request, a point a day from the first
+  //     day each has a full window, never bridged, and the caption under 1Y says where each starts.
   if (want("chart-averages-daily")) {
-    for (const mode of ["recorded", "refuse565"]) {
+    for (const coin of ["btc", "eth"]) {
+      const id = coin === "btc" ? "bitcoin" : "ethereum";
+      const fx = recorded(id, 365).prices;                       // the real recording the page is given
+      const N = fx.length;
+      const dayStart = i => new Date(fx[i][0]).toLocaleString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
       const [ctx, page] = await mk();
-      await route(page, mode);
-      await page.goto(base + "/coins/btc", { waitUntil: "load" });
+      cgRequests = [];
+      await route(page, "recorded");
+      await page.goto(base + "/coins/" + coin, { waitUntil: "load" });
       let o = {};
       try {
-        await pick(page, "1y");
+        await pick(page, "1m"); await pick(page, "1y");
         o = await page.evaluate(() => {
           const line = document.querySelector("[data-coin-chart] .cc-line").getAttribute("points").trim().split(/\s+/).map(p => +p.split(",")[0]);
           const dayPx = (line[line.length - 1] - line[0]) / (line.length - 1);          // the price line is one point a day
-          const out = { dayPx, priceStart: line[0], priceN: line.length, ma: {} };
+          const nt = document.querySelector("[data-coin-ma-start]");
+          const out = { dayPx, priceStart: line[0], priceN: line.length, ma: {},
+            note: nt ? nt.textContent.trim() : null, noteShown: !!nt && !nt.hidden,
+            noteStyle: nt ? { size: getComputedStyle(nt).fontSize, family: getComputedStyle(nt).fontFamily, color: getComputedStyle(nt).color,
+              capColor: getComputedStyle(document.querySelector("[data-coin-cap]")).color, ink: getComputedStyle(document.body).color } : null };
           for (const e of document.querySelectorAll("[data-coin-chart] .cc-ma")) {
-            // every subpath: M x,y then C c1 c2 end; the points are the M and each C's end
             const pts = [], subs = e.getAttribute("d").split("M").filter(Boolean);
             let maxSpan = 0;
             for (const sp of subs) {
@@ -209,19 +218,111 @@ try {
           }
           return out;
         });
+        const noteOn = () => page.evaluate(() => { const n = document.querySelector("[data-coin-ma-start]"); return !!n && !n.hidden && n.textContent.trim() !== ""; });
+        await pick(page, "1m"); o.noteOn1m = await noteOn();
+        await pick(page, "7d"); o.noteOn7d = await noteOn();
       } catch (e) { o.error = String(e).slice(0, 120); }
       const ma = o.ma || {};
-      const base_ok = !o.error && ma["50"] && ma["200"] && ma["50"].maxDays <= 2.05 && ma["200"].maxDays <= 2.05
-        && ma["50"].subpaths === 1 && ma["200"].subpaths === 1;
-      if (mode === "recorded") {
-        check("chart-averages-daily: on 1Y each average is at least 300 points, one a day, none spanning more than 2 days, from the first day shown",
-          base_ok && ma["50"].n >= 300 && ma["200"].n >= 300 && ma["50"].start <= o.priceStart + 2 * o.dayPx && ma["200"].start <= o.priceStart + 2 * o.dayPx, JSON.stringify(o));
-      } else {
-        check("chart-averages-daily: if the source refuses the long history the chart still draws, each line starts where its data starts and never bridges a gap",
-          base_ok && ma["50"].n >= 100 && ma["200"].n >= 100 && ma["200"].start > o.priceStart + 100 * o.dayPx, JSON.stringify(o));
-      }
+      const hist = cgRequests.filter(u => /market_chart/.test(u)).map(u => +new URL("http://x" + u).searchParams.get("days"));
+      check(`chart-averages-daily (${coin}): one history request serves 1M and 1Y, for 365 days, and none asks for more`,
+        !o.error && hist.filter(d => d === 365).length === 1 && hist.every(d => d <= 365), JSON.stringify(hist));
+      const exact = !o.error && ma["50"] && ma["200"] && o.priceN === N
+        && ma["50"].n === N - 50 + 1 && ma["200"].n === N - 200 + 1;
+      check(`chart-averages-daily (${coin}): each average has exactly (days of data - period + 1) points: ${N - 49} and ${N - 199} of ${N}`,
+        exact, JSON.stringify({ N, priceN: o.priceN, n50: ma["50"] && ma["50"].n, n200: ma["200"] && ma["200"].n, err: o.error }));
+      const startOk = !o.error && ma["50"] && ma["200"]
+        && Math.abs(ma["50"].start - (o.priceStart + 49 * o.dayPx)) < 1 && Math.abs(ma["200"].start - (o.priceStart + 199 * o.dayPx)) < 1;
+      check(`chart-averages-daily (${coin}): each average's first point is on the first day it has a full window (day 50, day 200)`,
+        startOk, JSON.stringify({ s50: ma["50"] && ma["50"].start, s200: ma["200"] && ma["200"].start, priceStart: o.priceStart, dayPx: o.dayPx }));
+      check(`chart-averages-daily (${coin}): one unbroken run each, no segment spans more than 2 days`,
+        !o.error && ma["50"] && ma["200"] && ma["50"].subpaths === 1 && ma["200"].subpaths === 1
+        && ma["50"].maxDays <= 2.05 && ma["200"].maxDays <= 2.05, JSON.stringify(ma));
+      const want50 = `50-day average from ${dayStart(49)} (needs 50 days of history)`;
+      const want200 = `200-day average from ${dayStart(199)} (needs 200 days of history)`;
+      check(`chart-averages-daily (${coin}): under the 1Y chart one muted mono line gives each real start; shown on 1Y only`,
+        !o.error && o.noteShown && (o.note || "").includes(want50) && (o.note || "").includes(want200) && !o.noteOn1m && !o.noteOn7d,
+        JSON.stringify({ note: o.note, want50, want200, on1m: o.noteOn1m, on7d: o.noteOn7d }));
+      const ns = o.noteStyle || {};
+      check(`chart-averages-daily (${coin}): the start line is muted, 12 px, in the mono face (Plex Mono), the colour of the caption beneath it`,
+        !o.error && ns.size === "12px" && /mono/i.test(ns.family || "") && ns.color === ns.capColor && ns.color !== ns.ink, JSON.stringify(ns));
       await ctx.close();
     }
+  }
+
+  // 2c. the Top 100's rows at 375: the price never crowds the 24h pill, and a name never breaks inside a word.
+  //     The 100 real rows of the build are tested as built; two SYNTHETIC rows (scripts/top100_fixture_rows.py,
+  //     labeled there) add the 13-character price and the over-wide single word that the day's data lacks.
+  if (want("top100-rows")) {
+    const { execFileSync } = await import("child_process");
+    let fx = {};
+    try { fx = JSON.parse(execFileSync("python3", [path.join(HERE, "top100_fixture_rows.py")], { encoding: "utf8" })); } catch (e) { fx = { error: String(e).slice(0, 120) }; }
+    const [ctx, page] = await mk();
+    await route(page, "recorded");
+    await page.goto(base + "/pulse/prices", { waitUntil: "load" });
+    let t = {};
+    try {
+      await page.evaluate(h => document.querySelector(".prices-table tbody").insertAdjacentHTML("beforeend", h.price + h.name), fx);
+      t = await page.evaluate(() => {
+        const rows = [...document.querySelectorAll(".prices-table tbody tr")];
+        const out = { n: rows.length, gaps: [], collide: [], broken: [], clipped: [], trunc: [], sizes: {} };
+        const textRect = el => { const r = document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect(); };
+        for (const row of rows) {
+          const sym = row.getAttribute("data-sym");
+          const pn = row.querySelector("td.pnum"), chip = row.querySelector("td[data-cell=chg] .chip"), coin = row.querySelector("td.sym2");
+          const pr = textRect(pn), cr = chip.getBoundingClientRect(), cc = coin.getBoundingClientRect();
+          const str = pn.textContent.trim();
+          out.gaps.push({ sym, len: str.length, gap: +(cr.left - pr.right).toFixed(1) });
+          if (pr.left < cc.right - 0.5) out.collide.push({ sym, left: +pr.left.toFixed(1), coinRight: +cc.right.toFixed(1) });
+          (out.sizes[str.length >= 13 ? "13+" : str.length >= 11 ? "11-12" : "short"] ||= new Set()).add(getComputedStyle(pn).fontSize);
+          // every word of the name: all its letters on one line, or an ellipsis box that says so
+          const nm = row.querySelector(".t1-name"), a = row.querySelector("a.t1-a");
+          const full = (nm.textContent || "").trim().replace(/\s+/g, " ");
+          const walker = document.createTreeWalker(nm, NodeFilter.SHOW_TEXT);
+          let node;
+          while ((node = walker.nextNode())) {
+            const txt = node.textContent;
+            const re = /\S+/g; let m;
+            while ((m = re.exec(txt))) {
+              const tops = new Set(); let right = 0;
+              for (let i = m.index; i < m.index + m[0].length; i++) {
+                const r = document.createRange(); r.setStart(node, i); r.setEnd(node, i + 1);
+                const b = r.getClientRects()[0]; if (!b) continue;
+                tops.add(Math.round(b.top)); right = Math.max(right, b.right);
+              }
+              const host = node.parentElement, cs = getComputedStyle(host);
+              const ellip = cs.textOverflow === "ellipsis" && cs.whiteSpace === "nowrap" && cs.overflow === "hidden";
+              const cut = host.scrollWidth > host.clientWidth + 0.5;
+              if (tops.size > 1) out.broken.push({ sym, word: m[0] });
+              else if (cut) {
+                // a word too wide for the column: ellipsis on one line, full name in the label and the title
+                const label = (a.getAttribute("aria-label") || "") + "|" + (a.getAttribute("title") || "");
+                if (!ellip) out.clipped.push({ sym, word: m[0] });
+                else out.trunc.push({ sym, word: m[0], named: label.includes(full) && (a.getAttribute("title") || "").includes(full) });
+              } else if (right > cc.right - 1 && !ellip) out.clipped.push({ sym, word: m[0], right: +right.toFixed(1), cell: +cc.right.toFixed(1) });
+            }
+          }
+        }
+        out.sizes = Object.fromEntries(Object.entries(out.sizes).map(([k, v]) => [k, [...v]]));
+        return out;
+      });
+    } catch (e) { t.error = String(e).slice(0, 160); }
+    const fxRow = (t.gaps || []).find(g => g.sym === "FIXP");
+    check("top100-rows: 100 real rows plus the two fixture rows are on the page", !t.error && t.n === 102 && !fx.error, JSON.stringify({ n: t.n, err: t.error || fx.error }));
+    check("top100-rows: the $0.0000003682 fixture is a 13-character price and leaves at least 12 px to the 24h pill",
+      !t.error && fxRow && fxRow.len >= 13 && fxRow.gap >= 12, JSON.stringify(fxRow || t.error));
+    const tight = (t.gaps || []).filter(g => g.gap < 12);
+    check("top100-rows: at 375 every one of the 100 real rows and both fixtures keeps at least 12 px between price and 24h pill",
+      !t.error && !tight.length, JSON.stringify(tight.slice(0, 6)));
+    check("top100-rows: no price runs into the coin column", !t.error && !(t.collide || []).length, JSON.stringify((t.collide || []).slice(0, 4)));
+    const sz = t.sizes || {}, px = v => parseFloat((v || [])[0]);
+    check("top100-rows: a price of 13 characters or more sets one step smaller than 11 to 12 characters, which sets one step smaller than the rest",
+      !t.error && (sz["13+"] || []).length === 1 && (sz["11-12"] || []).length === 1 && (sz["short"] || []).length === 1
+      && px(sz["13+"]) < px(sz["11-12"]) && px(sz["11-12"]) < px(sz["short"]), JSON.stringify(sz));
+    check("top100-rows: no coin name breaks inside a word at 375 (Hyperliquid is the known case), none is cut without an ellipsis",
+      !t.error && !(t.broken || []).length && !(t.clipped || []).length, JSON.stringify({ broken: (t.broken || []).slice(0, 6), clipped: (t.clipped || []).slice(0, 6) }));
+    check("top100-rows: a single word too wide for the column ends in an ellipsis on one line, the full name in the row's label and title",
+      !t.error && (t.trunc || []).some(x => x.sym === "FIXN") && (t.trunc || []).every(x => x.named), JSON.stringify(t.trunc || t.error));
+    await ctx.close();
   }
 
   // 3. the tabs, the axes, volume, the readout
