@@ -1,0 +1,310 @@
+#!/usr/bin/env python3
+"""
+coinpage.py: the coin page's parts and the Top 100's row line (Program 7, Sprint 6.4,
+13 October 2026).
+
+Pure functions that take the build's own data and return markup, so each can be tested on
+its own and the 9,000-line site_build.py only has to place them. Nothing here fetches.
+
+  window_pct / window_dir  a series' own change, first point to last, and its direction. A
+                           chart or a sparkline is colored by THIS and by nothing else
+                           (Jack, 12 October 2026: each chart is colored by its own window,
+                           never by the 24-hour badge).
+  row_spark                the Top 100's seven-day line: a plain polyline, colored by its own
+                           seven days, with no glow (glow is for charts that can carry it).
+  reading_tiles            the readings grid, every tile drawn by tile.render.
+  chartmaster_card         the Chart Master's read on this coin, dated, or the coin's levels.
+  stories                  the wire items that name the coin, newest first, each with its
+                           sources.
+  unlock_line              the next token unlock, only where the hand-kept file has one.
+
+A figure the source did not send is absent, not zero: a coin the Board does not track has no
+200-day tile and no RSI tile, and no placeholder where they would be.
+"""
+
+import datetime as _dt
+import json
+import os
+import re
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+UNLOCKS = os.path.join(HERE, "data", "calendar", "unlocks.json")
+
+WINDOWS = (("1d", "1D", "24 hours"), ("7d", "7D", "7 days"), ("1m", "1M", "1 month"),
+           ("1y", "1Y", "1 year"))
+
+
+def _nums(values):
+    return [float(v) for v in (values or []) if isinstance(v, (int, float))]
+
+
+def window_pct(values):
+    """Percent change from the series' first point to its last; None when it cannot be read."""
+    v = _nums(values)
+    if len(v) < 2 or not v[0]:
+        return None
+    return (v[-1] - v[0]) / abs(v[0]) * 100.0
+
+
+def window_dir(values):
+    """'up', 'down' or 'flat' from the series' own first and last points."""
+    v = _nums(values)
+    if len(v) < 2 or v[-1] == v[0]:
+        return "flat"
+    return "up" if v[-1] > v[0] else "down"
+
+
+def signed_pct(v, dp=2):
+    """+2.31% / -0.40% / 0.00%. A change that rounds to nothing carries no sign."""
+    if v is None:
+        return ""
+    if round(float(v), dp) == 0:
+        return f"{0:.{dp}f}%"
+    return f"{float(v):+.{dp}f}%"
+
+
+def row_spark(values, w=64, h=22):
+    """The Top 100's seven-day line. A polyline in a w by h box, no filter and no dots (the
+    glow rules: glow only where there is room for it), colored by the series' own first and
+    last point through the data-dir attribute the stylesheet reads. SVG y runs down, so a
+    rising series ends higher on the page, at a smaller y."""
+    v = _nums(values)
+    if len(v) < 2:
+        return ""
+    lo, hi = min(v), max(v)
+    rng = (hi - lo) or 1.0
+    pts = " ".join(f"{1 + i * (w - 2) / (len(v) - 1):.1f},{1.5 + (h - 3) * (1 - (x - lo) / rng):.1f}"
+                   for i, x in enumerate(v))
+    d = window_dir(v)
+    return (f'<span class="row-spark" data-dir="{d}">'
+            f'<svg viewBox="0 0 {w} {h}" preserveAspectRatio="none" aria-hidden="true" '
+            f'focusable="false"><polyline class="rs-l {d}" points="{pts}" '
+            f'vector-effect="non-scaling-stroke"/></svg></span>')
+
+
+# ---- the readings grid --------------------------------------------------------------------
+
+def _since(label, pct):
+    """'7 days: Up 2.15%' with the sign worded, which tile.render colors by since_change."""
+    if pct is None:
+        return None
+    if round(pct, 2) == 0:
+        return f"{label}: unchanged"
+    return f"{label}: {'Up' if pct > 0 else 'Down'} {abs(pct):.2f}%"
+
+
+def reading_tiles(c, pos, asset, stamp, source="CoinGecko"):
+    """The readings grid for one coin: price, 24 hours, 7 days, market cap, volume, and,
+    where the Board tracks the coin, the distance from its 200-day line and RSI-14. Each is
+    one tile under the tile law (label, figure, window, since line, source and stamp), and
+    each is colored only by its own change. Returns the markup of the grid, or ''."""
+    import site_build as sb
+    import tile
+
+    price = c.get("price")
+    c24, c7, c30 = c.get("chg_24h_pct"), c.get("chg_7d_pct"), c.get("chg_30d_pct")
+    mcap, vol = c.get("mcap_usd"), c.get("volume_24h")
+    out = []
+
+    def add(*a, **k):
+        k.setdefault("source", source)
+        out.append(tile.render(*a, stamp=stamp, **k))
+
+    if price:
+        add("coin-price", sb._price_fmt(price), window="Spot, US dollars",
+            since=_since("24 hours", c24) or "24 hours: not reported", since_change=c24)
+    if c24 is not None:
+        add("coin-24h", signed_pct(c24), window="Rolling 24 hours", direction=_dir(c24),
+            since=_since("7 days", c7) or "7 days: not reported", since_change=c7)
+    if c7 is not None:
+        add("coin-7d", signed_pct(c7), window="Rolling 7 days", direction=_dir(c7),
+            since=_since("30 days", c30) or "30 days: not reported", since_change=c30)
+    if mcap:
+        add("coin-cap", sb.fmt_usd(mcap), window="Price times circulating supply",
+            since=f"Rank {pos} of the Top 100")
+    if vol:
+        share = f"{vol / mcap * 100:.1f}% of market cap" if mcap else "Traded in the last 24 hours"
+        add("coin-volume", sb.fmt_usd(vol), window="Last 24 hours", since=share)
+    if asset:
+        sma200 = asset.get("sma200")
+        if isinstance(sma200, (int, float)) and sma200 and price:
+            dist = (price - sma200) / sma200 * 100
+            add("coin-200d", signed_pct(dist, 1), window="Price against its 200-day average",
+                direction=_dir(dist), since=f"200-day line {sb._price_fmt(sma200)}",
+                source=f"{source}, daily closes")
+        rsi = asset.get("rsi14")
+        if isinstance(rsi, (int, float)):
+            zone = "Oversold, under 30" if rsi < 30 else "Overbought, over 70" if rsi > 70 \
+                else "Between 30 and 70"
+            add("rsi-14", f"{rsi:.0f}", window="14 daily closes", since=zone,
+                source=f"{source}, daily closes")
+    return tile.grid(out, "tl-4 cn-tiles") if out else ""
+
+
+def _dir(v):
+    return "up" if v and v > 0 else "down" if v and v < 0 else None
+
+
+# ---- the Chart Master's read on this coin ---------------------------------------------------
+
+def _names(c):
+    """The two words a read can name a coin by: its name and its ticker as a standalone word.
+    The ticker alone is a shallow key (SOL in 'sold', OP in 'open'), so it counts only as a
+    whole upper-case word and only beside the name rule below."""
+    name, sym = (c.get("name") or "").strip(), (c.get("symbol") or "").strip()
+    return name, sym
+
+
+def coin_sentences(c, cm):
+    """The sentences of the night's read that name this coin, in the order the read gave
+    them. The name must appear as a whole word, or the ticker as a whole upper-case word."""
+    name, sym = _names(c)
+    if not name or not cm or cm.get("data_only"):
+        return []
+    rxs = [re.compile(r"(?<![A-Za-z0-9])" + re.escape(name) + r"(?![A-Za-z0-9])", re.I)]
+    if sym:
+        rxs.append(re.compile(r"(?<![A-Za-z0-9])" + re.escape(sym) + r"(?![A-Za-z0-9])"))
+    try:
+        import twins_gate
+        split = twins_gate.sentences
+    except Exception:
+        split = lambda t: re.split(r"(?<=[.!?])\s+", t)
+    out = []
+    for p in (cm.get("paragraphs") or []):
+        for s in split(str(p)):
+            if any(rx.search(s) for rx in rxs):
+                out.append(s.strip())
+    return out
+
+
+def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
+                     price_fmt=str, board_day=""):
+    """The Chart Master card for one coin, always under a date.
+
+    1. The coin's own read when the night's read names it: its sentences, in the order the
+       read gave them, and no others, under the read's date.
+    2. The levels card otherwise: price, 50-day, 200-day and RSI. When the night published
+       the data-only card (7.2's last path) the row is the Chart Master's own for that coin
+       and wears the read's date; when the night published prose that does not name the coin,
+       the levels are the Board's and wear the Board's date, because that is where they came
+       from.
+    3. Nothing for a coin with neither, because nothing is invented.
+
+    A read older than one day says how old it is above its text and is never presented as
+    today's."""
+    cm = cm or {}
+    rday = str(cm.get("date") or "")[:10]
+    name = c.get("name") or c.get("symbol") or ""
+    sents = coin_sentences(c, cm)
+    row, day = None, rday
+    if not sents:
+        sym = (c.get("symbol") or "").upper()
+        if cm.get("data_only"):
+            row = next((r for r in (cm.get("levels") or [])
+                        if str(r.get("symbol") or "").upper() == sym), None)
+        elif asset:
+            row, day = asset, str(board_day or "")[:10]
+    elif not rday:
+        return ""
+    if not sents and not row:
+        return ""
+    try:
+        age = (today - _dt.date.fromisoformat(day)).days
+    except ValueError:
+        return ""
+    stale = (f'<p class="cn-cm-old">This is {age} days old; the readings above are newer.</p>'
+             if age > 1 else "")
+    if sents:
+        body = " ".join(esc(destyle(s)) for s in sents[:3])
+        return (f'<section class="cn-cm" aria-label="Chart Master\'s read on {esc(name)}">'
+                f'<h2 class="cn-h">Chart Master\'s read on {esc(name)}, {esc(fmt_date(day))}</h2>'
+                f'{stale}<p class="cn-cm-p">{body}</p>'
+                f'<p class="cn-cm-f"><a href="/chartmaster.html">The whole read</a></p></section>')
+    rows = []
+    for k, lab in (("price", "Price"), ("sma50", "50-day average"), ("sma200", "200-day average")):
+        if isinstance(row.get(k), (int, float)):
+            rows.append((lab, price_fmt(row[k])))
+    if isinstance(row.get("rsi14"), (int, float)):
+        rows.append(("RSI (14)", f'{row["rsi14"]:.0f}'))
+    if not rows:
+        return ""
+    cells = "".join(f'<div class="cn-lv"><span class="lab">{esc(k)}</span>'
+                    f'<span class="cn-lvv">{esc(v)}</span></div>' for k, v in rows)
+    return (f'<section class="cn-cm" aria-label="Chart Master\'s levels for {esc(name)}">'
+            f'<h2 class="cn-h">Chart Master\'s levels for {esc(name)}, {esc(fmt_date(day))}</h2>'
+            f'{stale}<p class="cn-cm-p">The latest read does not name {esc(name)}. '
+            f'These are its levels.</p><div class="cn-lvs">{cells}</div>'
+            f'<p class="cn-cm-f"><a href="/chartmaster.html">The whole read</a></p></section>')
+
+
+# ---- the coin's stories ---------------------------------------------------------------------
+
+def wire_stories(c, wire):
+    """The wire items that name this coin, newest first. The coin's NAME is the identity
+    (whole word, any case); its ticker counts only as a whole upper-case word, the same
+    floor the page's published-story match uses. Items the wire dropped are not here."""
+    name, sym = _names(c)
+    if not name:
+        return []
+    rx_n = re.compile(r"(?<![A-Za-z0-9])" + re.escape(name) + r"(?![A-Za-z0-9])", re.I)
+    rx_s = re.compile(r"(?<![A-Za-z0-9])" + re.escape(sym) + r"(?![A-Za-z0-9])") if sym else None
+    hits = []
+    for w in ((wire or {}).get("items") or []):
+        text = " ".join([w.get("line") or ""] + list(w.get("titles") or []))
+        if rx_n.search(text) or (rx_s and rx_s.search(text)):
+            hits.append(w)
+    hits.sort(key=lambda w: w.get("reported_utc") or "", reverse=True)
+    return hits
+
+
+def stories_html(hits, esc, stamp_et):
+    """Each wire item: the desk's one line, then its sources as links with the count and the
+    time it was reported. 'Primary source' is printed when the wire marked it."""
+    rows = []
+    for w in hits:
+        links = w.get("links") or []
+        srcs = ", ".join(
+            f'<a href="{esc(l["url"])}" rel="noopener">{esc(l.get("outlet") or "Source")}</a>'
+            for l in links if l.get("url"))
+        n = int(w.get("source_count") or len(links) or 0)
+        bits = [f'{n} source{"" if n == 1 else "s"}' + (f': {srcs}' if srcs else "")]
+        if w.get("primary"):
+            bits.append('<span class="wl-primary">Primary source</span>')
+        st = stamp_et(w.get("reported_utc"))
+        if st:
+            bits.append(f'<span class="bd-stamp">{esc(st)}</span>')
+        rows.append(f'<li class="cn-wi"><p class="cn-wl">{esc(w.get("line") or "")}</p>'
+                    f'<p class="cn-wm">{" &middot; ".join(bits)}</p></li>')
+    return f'<ul class="cn-wire">{"".join(rows)}</ul>' if rows else ""
+
+
+# ---- the unlock line ------------------------------------------------------------------------
+
+def unlock_line(c, today, esc, fmt_short_date, path=UNLOCKS):
+    """The coin's next token unlock, from the hand-kept file, only where the file has one with
+    a date on or after today and a source. Its source and the date the desk read it are on the
+    line. '' for every coin without that: nothing is printed for a coin without data."""
+    try:
+        d = json.load(open(path, encoding="utf-8"))
+    except (OSError, ValueError):
+        return ""
+    gid = (c.get("gecko_id") or "").strip()
+    sym = (c.get("symbol") or "").strip().upper()
+    for p in d.get("projects") or []:
+        if not ((gid and p.get("gecko_id") == gid) or (not gid and p.get("symbol") == sym)):
+            continue
+        u = p.get("next_unlock") or {}
+        if not (u.get("date") and u["date"] >= today.isoformat() and p.get("source_url")):
+            return ""
+        bits = [f'Next unlock: {esc(fmt_short_date(u["date"]))}']
+        if u.get("amount"):
+            bits.append(esc(str(u["amount"])))
+        if u.get("share"):
+            bits.append(f'{esc(str(u["share"]))} of supply')
+        if u.get("computed_from"):
+            bits.append("computed from the project's stated schedule")
+        read = p.get("read_date") or d.get("read_date") or ""
+        return (f'<p class="cn-unlock">{", ".join(bits)}. Source: '
+                f'<a href="{esc(p["source_url"])}" rel="noopener">the project\'s own page</a>'
+                f'{", read " + esc(fmt_short_date(read)) if read else ""}.</p>')
+    return ""

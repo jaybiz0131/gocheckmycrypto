@@ -529,8 +529,7 @@ def _data_contract_canary():
     _check((tiles.get("bitcoin") or {}).get("value") == want, fails,
            f"data contract: the Board's Bitcoin tile prints "
            f"{(tiles.get('bitcoin') or {}).get('value')!r}, not the snapshot's {want}")
-    _pm = _r.search(r'<span class="lab">Price</span><span class="cn-v"><span>([^<]*)</span>',
-                    page)
+    _pm = _r.search(r'<h3 class="tl-l">Price</h3><p class="tl-f">([^<]*)</p>', page)
     _check(bool(_pm) and _pm.group(1) == want, fails,
            f"data contract: the coin page for BTC prints "
            f"{_pm.group(1) if _pm else 'no Price stat'}, not the snapshot's {want}; it is "
@@ -2006,6 +2005,7 @@ def _stamp_canary():
             if _o.path.exists(_lp):
                 fails.extend(_tile_canary(open(_lp, encoding="utf-8").read()))
             fails.extend(_beacon_canary(out))
+            fails.extend(_coin_pages_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2878,6 +2878,28 @@ def _sprint72_canary():
     return fails
 
 
+def _coin_pages_canary(out):
+    """PROGRAM 7, SPRINT 6.4 (13 October 2026): the coin pages and the Top 100, read on the
+    tree this build wrote. scripts/coin_pages_test.py holds the checks (unit, static and,
+    where node and playwright exist, the browser ones: each chart colored by its own window,
+    the 50-day and 200-day lines on 1M and 1Y only, the search and its empty case, the
+    sparkline color, no sideways scroll at 375 on every coin page and the Top 100). The
+    helper is loaded for this check and taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import coin_pages_test as _cpt
+        fails = ["coin pages canary: " + f for f in _cpt.unit()]
+        fails += ["coin pages canary: " + f for f in _cpt.static(out)]
+        fails += ["coin pages canary: " + f for f in _cpt.browser(out)]
+    finally:
+        _sys.modules.pop("coin_pages_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
 def _beacon_canary(out):
     """EVERY PAGE CARRIES EXACTLY ONE ANALYTICS BEACON (Jack, 12 October 2026). Counted on
     the built tree, every .html but the verification and redirect stubs: none is a red, two
@@ -3074,18 +3096,25 @@ def _coin_chart_canary():
     if not _coins:
         return fails
 
-    _js = _sb7.COIN_CHART_JS
+    # PROGRAM 7, SPRINT 6.4 (13 October 2026): the chart's code is one shared asset, not a
+    # script in every page. The same four facts are held against it: it fetches its own
+    # history, offers ranges, answers a pointer, and computes its averages from the series
+    # it shows.
+    _js = open(_sb7.COIN_CHART_FILE, encoding="utf-8").read()
+    _one0 = _sb7.render_coin_page(_coins[0], 1, _p, [], "x")
     _check("market_chart" in _js, fails,
            "K-7 canary: the chart does not fetch its own history, so it is still the "
            "build's shape with no scale")
-    _check("data-days" in _sb7.render_coin_page(_coins[0], 1, _p, [], "x"), fails,
+    _check("data-range" in _one0 and 'role="tab"' in _one0, fails,
            "K-7 canary: the chart offers no ranges")
-    _check("cn-cross" in _js and "mousemove" in _js, fails,
-           "K-7 canary: the chart has no hover readout, so a reader cannot get a date "
+    _check("pointermove" in _js and "cc-cross" in _js, fails,
+           "K-7 canary: the chart has no crosshair readout, so a reader cannot get a date "
            "and a price off it")
     _check("sma(" in _js, fails,
            "K-7 canary: the averages are not computed from the series shown, so they "
            "would be a second source on a chart built to end that")
+    _check(_one0.count("/assets/coinchart.js") == 1 and "market_chart" not in _one0, fails,
+           "K-7 canary: the chart's code is in the page again instead of the one shared file")
 
     # THE HIGH IS NEVER BELOW THE PRICE, on every coin the desk builds a page for. This
     # is the defect itself, checked against the data rather than against one page.
@@ -3106,7 +3135,7 @@ def _coin_chart_canary():
         # page at all. The contradiction is only real if the two printed strings
         # disagree, so both come off the rendered page.
         _mh = _re7.search(r"High (\$[\d,]+(?:\.\d+)?)", _html)
-        _mp = _re7.search(r'class="cn-v"><span>(\$[\d,]+(?:\.\d+)?)', _html)
+        _mp = _re7.search(r'<h3 class="tl-l">Price</h3><p class="tl-f">(\$[\d,]+(?:\.\d+)?)', _html)
         if not (_mh and _mp):
             continue
         _f = lambda t: float(t.replace("$", "").replace(",", ""))

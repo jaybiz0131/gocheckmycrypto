@@ -25,6 +25,9 @@ const WEIGHTS = argv.includes("--weights");
 const PATHS = (opt("--paths", "/")).split(",").filter(Boolean);
 const COMBOS = opt("--combos", "375:light,375:dark,1440:light,1440:dark").split(",").map(s => s.split(":"));
 const SHOTS = !argv.includes("--no-shots");
+// --cg <dir>: answer api.coingecko.com market_chart from recorded fixtures (<id>-<days>.json, else bitcoin's),
+// so a coin page's chart draws in a local proof. Sprint 6.4. Without it every other host is still aborted.
+const CG = opt("--cg", "");
 // --settle: ms to wait before the capture, so a page's one-time load animation has finished
 const SETTLE = parseInt(opt("--settle", "700"), 10);
 
@@ -57,7 +60,17 @@ try {
     const page = await ctx.newPage();
     let bytes = 0;
     page.on("response", async r => { try { const b = await r.body(); bytes += b.length; } catch {} });
-    await page.route(/^https?:/, r => (new URL(r.request().url()).host === new URL(base).host ? r.continue() : r.abort()));
+    await page.route(/^https?:/, r => {
+      const u = new URL(r.request().url());
+      if (u.host === new URL(base).host) return r.continue();
+      const m = CG && u.host === "api.coingecko.com" && u.pathname.match(/\/coins\/([^/]+)\/market_chart/);
+      if (m) {
+        const d = parseInt(u.searchParams.get("days") || "7", 10), k = d <= 1 ? 1 : d <= 7 ? 7 : 365;
+        const f = fs.existsSync(path.join(CG, `${m[1]}-${k}.json`)) ? `${m[1]}-${k}.json` : `bitcoin-${k}.json`;
+        return r.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: fs.readFileSync(path.join(CG, f)) });
+      }
+      return r.abort();
+    });
     for (const p of PATHS) {
       bytes = 0;
       const resp = await page.goto(base + p, { waitUntil: "load", timeout: 30000 }).catch(() => null);

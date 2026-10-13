@@ -7,7 +7,7 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 12 October 2026, Program 7 Sprint 7.2 built, not merged (section 10). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 13 October 2026, Program 6 Sprint 6.4 built, not merged (section 11). Before it, Program 7 Sprint 7.2 merged (section 10). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
@@ -240,6 +240,20 @@ not piped into `tail` and assumed.
 **What exists:** `morning.py` (`--guard`, `--message`, `--alarm`), `prompts/morning.md`, `morning-read.yml` (crons `17 12 * * *` EDT and `17 13 * * *` EST as backstops), `home.next_brief` read off the Eastern clock, `home.usable_morning`, `home.last_brief_note`; Chart Master `publish_path` (told retry, drop flagged sentences, `data_headline`, data-only card, `data/chartmaster-ledger.json`); `_beacon_canary`; `ops_ledger.is_empty_row`. Tests: `scripts/morning_test.py`, `scripts/chartmaster_publish_test.py`, both in the canary.
 
 **Traps:** the Oct 10 refusal was a venue belt, not an advice word. Refused reads are not stored, so fixtures are reconstructions. A canary run takes several minutes and imports site files: do not edit them while it runs (inspect.getsource goes stale and reports false reds).
+
+## 11. Program 6, Sprint 6.4: the coin pages and the Top 100, in the new look (13 October 2026)
+
+**Jack's rulings, Tuesday 13 October 2026:** (1) Sprint 6.4 runs now, on Program 7's look: its tokens, type, glow rules and color truth (each chart colored by its own window; a figure's color matches the change printed beside it). (2) October 7 still stands: the wire stays in re-count order, and the checked item is never pinned to the top.
+
+**Jack approved 12:45 PM ET with four fixes (all made, in the report): volume bars on 1M and 1Y only; the 50 and 200-day lines smooth, labeled in the right gutter; the Top 100 stamp read in production (it refreshes at every build, nothing to change); a clear gap between price and 24h pill at 375. Pages are at +9.0% after the fifth fix squeezed the script's operator spaces; stripping CSS comments at publish (40 KB) would give far more room and was not done unasked. Re-shot, waiting for his yes.**
+
+**Jack approved again at 1:20 PM ET with a fifth fix (1M and 1Y fetch 565 days so both averages are daily curves across the whole window, never bridged; falls back to 365 if the public API refuses; unverified live, read the first 1Y after the merge) and permission to merge unattended; weights now +9.0%. Report has the merge facts.**
+
+**State: BUILT, NOT MERGED.** Branch `claude/sweet-wright-s8j2we` (the brief named it `coin-pages`; the cloud session was bound to this branch name). Waits for Jack's yes on `shots/program7-6.4/`; one real merge commit after it, outside 6:30 to 8:15 PM ET. Report: `docs/REPORT-PROGRAM-6-SPRINT-6.4-2026-10-13.md`.
+
+**What exists:** `site/assets/coinchart.js` (the chart, one shared file, comments squeezed at publish by `site_build.squeeze_js`), `coinpage.py` (row sparkline, readings tiles, Chart Master card, wire stories, unlock line), seven new `tile.READINGS` (`coin-price`, `coin-24h`, `coin-7d`, `coin-cap`, `coin-volume`, `coin-200d`, `rsi-14`), `COLD_*` constants (one copy, two looks), search and sort on the Top 100 (`TOP100_JS`), CSS in `system.css` (`.cc-*`, `.cn-*`, `.coin-*`). Tests: `scripts/coin_pages_test.py` (unit, static, browser) and `scripts/coin_pages_browser.mjs`, in the canary as `_coin_pages_canary`; `scripts/chart_closeups.mjs`; `fixtures/coingecko/` (recorded market_chart for bitcoin, ethereum, aptos).
+
+**Traps:** CoinGecko's `total_volumes` is a trailing 24-hour figure at every point, so on 1D and 7D every bar is the same height: no bars there, bars on 1M and 1Y (daily volumes). The 50 and 200-day lines are averages of daily closes, so 1M and 1Y both read the 365-day series. The sort buttons on the Top 100 had no script since the live JS was removed; they work now. Playwright cannot click a cell whose row link overlays it: the row test taps by coordinates. The K-7 and data-contract canaries read the old coin-page markup and were rewritten to the new one, same invariants.
 
 ---
 

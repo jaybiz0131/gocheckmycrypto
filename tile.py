@@ -75,6 +75,28 @@ READINGS = {r.key: r for r in (
     Reading("fear-greed", "Fear & Greed", False,
             "A daily index from 0 to 100 built from price, volatility, volume and social "
             "data."),
+    # Program 7 Sprint 6.4 (13 October 2026): the coin page's readings grid. Price, cap,
+    # volume and RSI have no good direction; a change and the distance from the 200-day
+    # line do, and each is colored by its own sign only.
+    Reading("coin-price", "Price", False,
+            "The coin's last price in US dollars, from the Top 100 read the Board was "
+            "built on."),
+    Reading("coin-24h", "24 hours", True,
+            "How far the coin's price moved over the last 24 hours, in percent."),
+    Reading("coin-7d", "7 days", True,
+            "How far the coin's price moved over the last seven days, in percent."),
+    Reading("coin-cap", "Market cap", False,
+            "Price times circulating supply: the market's total bet on the coin, and the "
+            "basis of its rank."),
+    Reading("coin-volume", "24-hour volume", False,
+            "Dollars of the coin traded across the exchanges CoinGecko reads, over the last "
+            "24 hours."),
+    Reading("coin-200d", "Against 200-day", True,
+            "How far the price sits above or below its 200-day average, in percent. Only "
+            "the coins the Board tracks have one."),
+    Reading("rsi-14", "RSI (14)", False,
+            "A 0 to 100 reading of recent daily closes. Under 30 is called oversold and "
+            "over 70 overbought; between is neither."),
     Reading("network-fee", "Network fees", False,
             "What it costs to get a Bitcoin transaction into the next block, in satoshis "
             "per virtual byte."),
