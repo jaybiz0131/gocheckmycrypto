@@ -7,13 +7,13 @@ before inventing (V-15).
 
 Public repo. No tokens, keys or secret values in this file, ever.
 
-Last updated: 13 October 2026, Program 7 Sprint 7.3 BUILT on `sprint-7-3`, not merged (section 13). Before it, Sprints 6.5, 6.4, 7.2 and 7.1 merged (sections 9 to 12, moved). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
+Last updated: 14 October 2026, Program 7 Sprint 7.3 MERGED `5bb4df7`, 8:44 AM ET (section 13). Before it, Sprints 6.5, 6.4, 7.2 and 7.1 merged (sections 9 to 12, moved). Before it, Sprint 7.1 merged (section 9). Before it, Program 6 Sprint 6.3 merged (section 7e, moved). Before it, Sprint 6.2 (section 7d), Sprint 6.1 (section 7c, moved). Earlier that day, 9:20 AM EDT: Sprint 2's close (section 7b) and the band-ink merge `aa64f08`. Before that, the close of 8 October (section 7), written late: the 8 October
 evening wake-up reached the session on 11 October. `main` ends at the close commit on top of
 `a5bea57`. Days before 23 September live in `HANDOFF-2026-08-17.md`; 23 September to 1 October
 in `HANDOFF-2026-09-23-to-10-01.md`; 4 to 8 October in `HANDOFF-2026-10-04.md` to `-10-08.md`
 (U-1).
 
-**ITEM 0 IS DONE, NOT YET MERGED (section 13):** the twins gate fix, the clause table's sign rule, the ledger's drops, the Whale tags and the funding-band read are on `sprint-7-3`, canary green; the merge waits for Wednesday 14 October after 8:30 AM ET and Jack's yes.
+**ITEM 0 IS DONE AND MERGED (section 13):** the twins gate fix, the clause table's sign rule, the ledger's drops, the Whale tags and the funding-band read are merged 14 October at `5bb4df7`; its live proof is the 14 October 7:08 PM Edition's ledger row.
 
 **Sessions run in Claude Code cloud sessions** cloned from GitHub. The Mac's local state is
 not there, nor `../gcm-tools` or `../gocheckmysports`: the program is
@@ -98,9 +98,8 @@ Swept 13 October 2026 (Sprint 7.3, item 3): every row read against the live site
 
 | Item | Status |
 |---|---|
-| Sprint 7.3 (twins gate, clause table, ledger, tags, Bitcoin's one high/low): built, canary green, not merged | merge Wed 14 Oct after 8:30 AM ET and Jack's yes (section 13) |
-| The twins gate's live proof: the 14 Oct 7:08 PM ET Edition's ops-ledger row carries `twins_drops`, `twins_unparsed` and `twins_log` | open, after the merge |
-| Morning edition's live proof: read the 14 Oct 8:15 AM ET run (the Worker was deployed 13 Oct 11:52 AM, `d3d4f43d`); its tokens and dollars were never measured. The home cadence line says "the Brief every evening": reread it then | open, 14 Oct |
+| The twins gate's live proof, FOR THE NEXT SESSION: the 14 Oct 7:08 PM ET Edition's ops-ledger row carries `twins_drops`, `twins_unparsed` and `twins_log` | open, after the merge |
+| The home cadence line still reads "the Brief every evening" now that the morning edition is live (read 14 Oct 8:47 AM ET) | Jack to rule the wording (chrome copy changes only by his ruling) |
 | Unlocks HYPE, WBT, RAIN: all three vesting pages answer 403 to the session (13 Oct); their coin pages print no unlock line | Jack, by hand in a browser |
 | `top_n` 6 ranking check, 7 Editions (4 to 10 Oct) now exist | plan: read each Edition's `wire.json` rank of its VERIFIED item from git, write one table, close or change `top_n` |
 | Coin pages' 7d tile prints `/coins/markets`' rolling 7 days (labeled so); the Board's week is the stored series' close to close; the two can differ | plan: show both values for the seven stored coins in one table, then Jack decides whether to unify |
@@ -198,7 +197,7 @@ Standing facts from them: the look is `site/assets/system.css` (tokens in that f
 
 **Jack's rulings, Tuesday 13 October 2026:** (1) The site's promise is fact-based and no hype, so a true sentence must never be cut and a false pairing must never print. The gate's job is to catch wrong claims, not to thin out right ones. (2) A sentence the gate cannot parse is not dropped silently. It is logged in the ledger with the reason, and the drop is counted in the night's report.
 
-**State: BUILT on `sprint-7-3` (origin), NOT MERGED.** Canary green on the tree (`LAYER 1 CANARY: PASS`, exit 0). Merge Wednesday 14 October after 8:30 AM ET, after Jack's yes, one real merge commit; the day's builds on 13 October stand at 4 ready, 4 canceled (Worker `/counts/today`, 4:30 PM ET), so today's 7:08 PM Edition is the fifth and nothing may build before midnight. Jack approves on `shots/program7-7.3/` (sheet-*-375-light/dark.png). Report: `docs/REPORT-PROGRAM-7-SPRINT-7.3-2026-10-13.md`.
+**State: MERGED Wednesday 14 October 2026, 8:44:07 AM ET: merge `5bb4df7` (parents `a90286f` and `f99b624`, one real merge commit, no conflicts), pushed to `main`. Canary green on the merged tree (exit 0). Production stamp `5bb4df7`, built 12:44:41Z, read at 8:47 AM ET at 375 and 1440: the tape's "24h high $84,025 · low $82,919" and "7D HIGH $83,457 / LOW $81,630" equal the `/coins/btc` data attributes, caption and the labels the chart draws on 1D and 7D; no overflow. The morning edition (run 3, 8:16 AM ET dispatch) published a read: 1,090 tokens, $0.0019, no fallback. OPEN FOR THE NEXT SESSION: the 14 Oct 7:08 PM ET Edition's ledger row (`twins_drops`, `twins_unparsed`, `twins_log`).** Jack approved 13 Oct 9:25 PM ET on `shots/program7-7.3/` and the replay table. Report: `docs/REPORT-PROGRAM-7-SPRINT-7.3-2026-10-13.md`.
 
 **What changed:** `twins_gate.py` reads a sentence by clause. A window is any phrase `WINDOW_RE` names (hyphenated and numbered forms included); each direction word gets its own window, bound to the nearest one in its clause; a direction word binds to the subject it modifies (an adjective takes what follows, a predicate takes a Board reading before it, a coin name is the weakest subject, and a clause with none takes the nearest subject before it); funding is read for every coin the clause names; a short quoted word is not a claim; `falling` and kin are sign words. A claim in a window the snapshot does not carry is unverifiable and stands. Unparsed sentences (odd quotation marks, a check that raises) are dropped with kind `unparsed`, a `::warning::`, and counted: `gate.report()`, `out/twins-gate.json` `counts`, and the ops-ledger row's `twins_drops`, `twins_unparsed`, `twins_log`. `narrative._tape_clause` says "on" only when the ETF net's sign supports the direction, else "while spot ETFs saw inflows/outflows". The `exchanges` tag no longer matches `custody` or `shuts down`/`winds down` (34 of 561 stories lost it). The canary now fails if `build()` stops calling `publish_narrative`. `scripts/morning_test.py` no longer overwrites `site/data/narrative.json`.
 

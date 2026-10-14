@@ -176,3 +176,51 @@ Run 403's own log, 7:17 PM ET: `twins gate: dropped from the Brief's body paragr
 Shell date at the end of this follow-up: see the last line of this file.
 
 Push of the follow-up: `origin/sprint-7-3` and `claude/hopeful-mccarthy-yrskeh` at `a96a516` (pushed after 8:15 PM ET; `main` untouched at `e44ac3b`). Shell date at the end of this session (ET): **Tuesday October 13, 2026, 8:18 PM EDT**.
+
+
+## Merge and production reads (Wednesday 14 October 2026)
+
+**Jack's yes: Tuesday 13 October, 9:25 PM ET**, on `shots/program7-7.3/` and the replay table. He asked for the 8:15 AM morning edition to be read on production first, then the merge.
+
+### 1. The 8:15 AM ET morning edition, read on production at 8:40 AM ET
+
+- Production stamp then `a90286f` (built 12:19:33Z, 8:19 AM ET); the morning commit `a90286f` "morning: read 2026-10-14, boards and wire refreshed" was pushed 8:18:57 AM ET by `morning-read.yml` **run 3**, a `workflow_dispatch` at 12:16:04Z (8:16 AM ET, the Worker's dispatch; the Worker deployed 13 Oct 11:52 AM), success, 12:16:04 to 12:19:02Z. (Runs 1 and 2 on 13 October at 3:20 and 3:52 PM ET were the cron backstops, 12 to 15 seconds each, and stood down.)
+- **Eyebrow:** "THE BRIEF · WEDNESDAY MORNING". Headline "Seoul blocks unregistered exchanges; Ledger confirms wallet chip breach". "Written 8:18 AM ET on Oct 14." "Next Brief tonight at 7:08 PM ET." The masthead read "UPDATED 8:19 AM ET".
+- **Ranking stamp:** the wire under it reads "Ranked 7:14 PM ET on Oct 13", last night's Edition's ranking (the morning refreshes boards and re-counts the wire; it does not re-rank).
+- **Tokens and dollars:** **1,090 tokens, $0.0019**, one model call (`site/data/morning.json`, `data/morning-ledger.json`: `outcome: read`, no reason). Against the Edition's $0.0851 the morning costs about a fiftieth.
+- **Fallback: none.** `line_by: edition` (the model's line held the copy law and the twins gate; it was not the table's line). Three sentences: the Seoul exchange block, the Ledger hardware breach, and the Board (ETF inflows $175.7M on 13 Oct, Fear & Greed 62 in Greed, funding calm).
+- **Build:** the morning commit built **ready at 12:21:44Z**, the day's first production build.
+- The home cadence line still reads "the Brief every evening": logged for Jack in the handoff table (chrome copy changes only by his ruling).
+
+### 2. The merge
+
+- Before: count of record (Worker `/counts/today`, 14 Oct) crypto production **1 ready, 0 canceled**; no push in the 6:30 to 8:15 PM window; ET clock 8:40 AM.
+- `origin/main` at `a90286f` (the morning commit) on top of `e44ac3b`; `origin/sprint-7-3` at `f99b624`. `git merge --no-ff f99b624` on `a90286f`: **one real merge commit, `5bb4df7`, parents `a90286f` and `f99b624`, no conflicts** (the sprint touched no data file).
+- **Canary on the merged tree: `LAYER 1 CANARY: PASS`, exit 0**, read from the file, no `::error::`, tracked tree clean after.
+- Pushed **8:44:07 AM ET** (`a90286f..5bb4df7`). `git branch --contains f99b624` lists `main` (and `sprint-7-3` and the session branch): the merge holds every sprint commit.
+
+### 3. Production by stamp
+
+`/stamp.txt`: **`commit 5bb4df750bb28be0a01f6d59d94d5581ebdd1ebf`, built 2026-10-14T12:44:41+00:00** (live by 8:47 AM ET, about three minutes after the push). Read at 375 and 1440, light, with Playwright against the live site; every page also carries `<meta name="build-commit">` `5bb4df7`:
+
+| Read | Value on production |
+|---|---|
+| Home tape, 24h line | "24h high $84,025 · low $82,919" |
+| Home tape chart labels | "7D HIGH $83,457", "7D LOW $81,630" |
+| `/coins/btc` data | `data-hi24` 84025.00, `data-lo24` 82919.00, `data-hi7` 83457.39, `data-lo7` 81629.96 |
+| `/coins/btc` caption | "CoinGecko, hourly points (169)..." (the 7D tab's) |
+| Chart drew on **1D** | "24h high $84,025", "24h low $82,919" (accessible name: 24h low $82,919.00, 24h high $84,025.00) |
+| Chart drew on **7D** | "7D high $83,457", "7D low $81,630" (accessible name: 7D low $81,629.96, 7D high $83,457.39) |
+| Horizontal overflow | none on the home page or `/coins/btc`, at 375 or 1440 |
+
+**All equal**: the tape's 24h pair equals the 1D chart's labels, and the tape's 7D pair equals the 7D chart's labels, at both widths, on the live 24h field the first post-merge market read carried (`high_24h` and `low_24h` are in the production snapshot). The chart's 1D and 7D loads did not fail (`data-failed` empty).
+
+### 4. The count five minutes after the push
+
+Read 8:49:12 AM ET (push 8:44:07, five minutes five seconds later): crypto production **2 ready, 0 canceled** for 14 October (the morning commit's `a90286f` and this merge's `5bb4df7`, last production `5bb4df7` ready at 12:46:53Z). **Three builds remain** today; tonight's 7:08 PM Edition is the third, this documents-only close should not build (it carries `[skip netlify]`).
+
+### 5. Left for the next session
+
+The 14 October 7:08 PM ET Edition's ops-ledger row must carry `twins_drops`, `twins_unparsed` and `twins_log` with their reasons (the first row the new gate writes). Not read here, as Jack directed. Also open, in the handoff table: Whale Watch at 1440, the cadence line, the top_n check, the coin-page 7D tile source, the week field, the 13-character tier, L-1 and R-1.
+
+Shell date at the end of this session (ET): **Wednesday October 14, 2026, 8:49 AM EDT**.
