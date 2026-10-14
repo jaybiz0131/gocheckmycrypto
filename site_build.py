@@ -488,6 +488,12 @@ RETIRED_ARTICLES = {
 # list is ordered by how much the tag narrows the story down rather than by accident of
 # authorship. "bitcoin" sits near the bottom on purpose: nearly every story on this desk
 # mentions bitcoin, so it is the least informative thing the desk can say about one.
+#
+# "exchanges" is the tag that reads the Board's Whale net (wire.TAG_READING), so it must mean an
+# exchange: "custody" and "shuts down" / "winds down" were in it by themselves and a bank's
+# custody approval and an L2's shutdown read "Whale net, exchange flows" (13 October 2026;
+# 34 of 561 stories lost the tag, all custody rules, protocol shutdowns and chain exits). An
+# exchange that shuts down still tags, because it is an exchange by name.
 TAG_RULES = [
     ("security", r"\b(exploit\w*|hack\w*|stolen|theft|vulnerabilit\w*|drained|breach\w*|"
                  r"ponzi|fraud|scam\w*|phishing|attacker\w*|rug ?pull)\b"),
@@ -503,7 +509,7 @@ TAG_RULES = [
                    r"legislat\w*|cbdc|inquiry|executive order|sanction\w*|"
                    r"comment period|federal register)\b"),
     ("exchanges", r"\b(exchange\w*|binance|coinbase|kraken|okx|bitmex|bybit|bitfinex|"
-                  r"gemini|custodian\w*|custody|delist\w*|shuts? down|wind(?:s|ing)? down)\b"),
+                  r"gemini|custodian\w*|delist\w*)\b"),
     ("ethereum", r"\b(ethereum|eth|validator\w*|staking|vitalik)\b"),
     ("defi", r"\b(defi|tvl|oracle\w*|lending|dex|liquidity pool\w*|amm|"
              r"aave|uniswap|curve finance|compound|makerdao|tokeniz\w*)\b"),
@@ -7674,19 +7680,27 @@ def render_coin_chart(c, name, cid, spark):
         for k, lab, _ in _cp.WINDOWS)
     fallback = ""
     note = "Seven days, as the Board reads it."
+    # ONE FIGURE, ONE SOURCE (Jack, 5 October; 13 October 2026). The 7D high and low are the
+    # snapshot's pair (the seven stored daily closes), the same pair the home tape prints; the
+    # 24-hour pair is the snapshot's own 24h field. The chart script prints these two and no
+    # series of its own on 1D and 7D; a window with no snapshot figure prints none.
+    import snapshot as _sn
+    _sym = c.get("symbol") or ""
+    _w7 = _sn.week_pair(SNAP, _sym) if SNAP else None
+    _d24 = _sn.day_pair(SNAP, _sym) if SNAP else None
+    _figs = ""
+    if _w7:
+        _figs += f' data-lo7="{_w7[0]:.2f}" data-hi7="{_w7[1]:.2f}"'
+    if _d24:
+        _figs += f' data-lo24="{_d24[0]:.2f}" data-hi24="{_d24[1]:.2f}"'
     if spark:
-        # THE FALLBACK'S HIGH MUST NOT SIT BELOW THE PRICE ABOVE IT (K-7): the current
-        # price is part of the period the caption describes, so it is part of the range.
-        _rng = list(spark)
-        if isinstance(c.get("price"), (int, float)):
-            _rng.append(c["price"])
-        lo, hi = min(_rng), max(_rng)
         fallback = spark_svg(spark, w=980, h=150)
-        note += (f' High {esc(_price_fmt(hi))}, low {esc(_price_fmt(lo))}. '
-                 f'<span class="cn-stamp">from the last build</span>')
+        if _w7:
+            note += (f' 7D high {esc(_price_fmt(_w7[1]))}, 7D low {esc(_price_fmt(_w7[0]))}. ')
+        note += '<span class="cn-stamp">from the last build</span>'
     chg_html = (f'<p class="cc-chg" data-dir="{up}">{esc(_cp.signed_pct(chg))} over 7 days</p>'
                 if chg is not None else '<p class="cc-chg" data-dir="flat"></p>')
-    return (f'<section class="cc" data-coin-chart data-coin-id="{esc(cid)}" data-range="7d" '
+    return (f'<section class="cc" data-coin-chart data-coin-id="{esc(cid)}" data-range="7d"{_figs} '
             f'aria-label="{esc(name)} price chart">'
             f'<div class="cc-head"><div class="cc-tabs" role="tablist" aria-label="Chart window" hidden>'
             f'{tabs}</div>{chg_html}</div>'

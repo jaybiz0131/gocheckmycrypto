@@ -129,20 +129,29 @@ def band_names(r):
 
 def _tape_clause(r, driver=None):
     p = r.get("btc_24h_pct")
+    way = 0
     if not isinstance(p, (int, float)):
         head = "The tape has no Bitcoin reading"
     elif p >= FLAT_PCT:
-        head = "Bitcoin is drifting higher"
+        head, way = "Bitcoin is drifting higher", 1
     elif p <= -FLAT_PCT:
-        head = "Bitcoin is drifting lower"
+        head, way = "Bitcoin is drifting lower", -1
     else:
         head = "Bitcoin is holding flat"
     order = [driver] if driver else []
     order += [k for k in ("etf", "funding", "fear_greed") if k != driver]
     for k in order:
         if k == "etf" and isinstance(r.get("etf_net_usd_m"), (int, float)) and r["etf_net_usd_m"]:
-            return head + (" on spot ETF inflows" if r["etf_net_usd_m"] > 0
-                           else " on spot ETF outflows")
+            # DIRECTION AND DRIVER MUST AGREE (13 October 2026). "on" says the driver carried
+            # the move, so it is used only when the ETF net's sign supports the direction:
+            # inflows with higher, outflows with lower. When they disagree, or the tape is
+            # flat, the clause says what both did and claims no cause ("while"). On 9
+            # October the table printed "drifting higher on spot ETF outflows".
+            flow = 1 if r["etf_net_usd_m"] > 0 else -1
+            noun = "inflows" if flow > 0 else "outflows"
+            if way and way == flow:
+                return head + f" on spot ETF {noun}"
+            return head + f" while spot ETFs saw {noun}"
         if k == "funding" and r.get("funding_band"):
             if r["funding_8h_pct"] < 0 and r["funding_band"] != "calm":
                 return head + " with funding below zero"

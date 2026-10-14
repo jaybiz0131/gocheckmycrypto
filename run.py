@@ -66,7 +66,7 @@ def run_wire(client, report, record):
                            f"{len(obj['dropped'])} dropped")
     print(f"[run] wire: {len(obj['items'])} item(s), checked note "
           f"{'on #' + str(obj['checked']['rank']) if obj.get('checked') else 'absent'}, "
-          f"{len(gate.drops)} twins-gate drop(s)")
+          f"{gate.report()}")
     return obj
 
 

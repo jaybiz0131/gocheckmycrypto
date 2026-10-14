@@ -434,7 +434,8 @@ def section_movers(top_n=5, universe=100, fetch=160):
                          ("total_supply", "supply_total"),
                          ("max_supply", "supply_max"),
                          ("total_volume", "volume_24h"),
-                         ("ath", "ath"), ("ath_date", "ath_date")):
+                         ("ath", "ath"), ("ath_date", "ath_date"),
+                         ("high_24h", "high_24h"), ("low_24h", "low_24h")):
             v = c.get(src)
             if v is not None:
                 out[key] = v

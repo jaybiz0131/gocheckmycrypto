@@ -118,6 +118,10 @@ def append():
             row["wrap_repairs"] = len(_ws["repairs"])
     except Exception:
         pass
+    # THE TWINS GATE'S NIGHT (13 October 2026, Jack's ruling 2): every sentence the gate dropped,
+    # with its reason, and how many it could not parse, so the drop is counted where the
+    # desk looks for it and never only in a step log.
+    row.update(twins_fields(os.path.join(REPO, "out", "twins-gate.json")))
     # The run's CoinGecko call count (6 October 2026), written by market_pulse.py, so a
     # 429 and the calls behind it are a lookup and not a log dig.
     try:
@@ -142,6 +146,25 @@ def append():
     number = month_issue_number(repo, token, now.strftime("%Y-%m"))
     call(f"{API}/repos/{repo}/issues/{number}/comments", token, {"body": json.dumps(row)})
     print(f"ops ledger: appended to issue #{number}: {json.dumps(row)}")
+
+
+def twins_fields(path):
+    """{twins_drops, twins_unparsed, twins_log} from the run's out/twins-gate.json; {} when the
+    gate did not run. twins_drops counts WRONG claims dropped, twins_unparsed the sentences the
+    gate could not read (dropped loudly); twins_log names up to six, each with its surface, its
+    kind, its reason and the first words of the sentence."""
+    try:
+        log = json.load(open(path, encoding="utf-8"))
+    except Exception:
+        return {}
+    drops = log.get("drops") or []
+    unparsed = sum(1 for d in drops if d.get("kind") == "unparsed")
+    out = {"twins_drops": len(drops) - unparsed, "twins_unparsed": unparsed}
+    if drops:
+        out["twins_log"] = [{"s": str(d.get("surface") or "")[:40], "k": d.get("kind") or "wrong",
+                             "why": str(d.get("why") or "")[:110],
+                             "t": str(d.get("dropped") or "")[:70]} for d in drops[:6]]
+    return out
 
 
 def stage_fields(report):

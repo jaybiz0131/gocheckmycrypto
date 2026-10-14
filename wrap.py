@@ -829,8 +829,7 @@ def twins_gate_brief(obj, status=None, gate=None):
         out["dek"] = (twins_gate.sentences(first) or [""])[0]
     gate.save()
     if status is not None and gate.drops:
-        status.setdefault("repairs", []).append(f"twins gate: dropped {len(gate.drops)} "
-                                                f"sentence(s)")
+        status.setdefault("repairs", []).append(gate.report())
         status["twins_gate"] = gate.drops
     return out
 
