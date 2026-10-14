@@ -3,9 +3,9 @@
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
  "ranked_utc": "2026-10-13T23:14:25Z",
  "ranked_et": "7:14 PM ET on Oct 13",
- "refreshed_utc": "2026-10-13T23:14:25Z",
- "refreshed_et": "7:14 PM ET on Oct 13",
- "refreshes": 0,
+ "refreshed_utc": "2026-10-14T12:18:54Z",
+ "refreshed_et": "8:18 AM ET on Oct 14",
+ "refreshes": 1,
  "snapshot_stamp_utc": "2026-10-13T23:12:45Z",
  "items": [
   {
@@ -17,7 +17,7 @@
     "South Korea moves to block 27 crypto websites, including KuCoin, MEXC"
    ],
    "board_reading": "Whale net, exchange flows",
-   "source_count": 2,
+   "source_count": 4,
    "primary": false,
    "standing": "corroborated",
    "links": [
@@ -30,11 +30,53 @@
      "url": "https://cointelegraph.com/news/south-korea-moves-to-block-27-crypto-websites-including-kucoin-mexc?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
      "outlet": "Cointelegraph",
      "primary": false
+    },
+    {
+     "url": "https://cryptoslate.com/south-korea-locks-out-crypto-users-as-27-exchange-sites-go-dark/",
+     "outlet": "CryptoSlate",
+     "primary": false
+    },
+    {
+     "url": "https://beincrypto.com/south-korea-crypto-tax-guidelines-november-2026/",
+     "outlet": "BeInCrypto",
+     "primary": false
     }
    ],
    "reported_utc": "2026-10-13T11:58:04Z",
    "verdict": "VERIFIED",
    "mark": "checked"
+  },
+  {
+   "rank": 4,
+   "id": "c010",
+   "line": "Ledger confirmed LTE-enabled spy chips implanted in CryptoBilis-sold wallets transmitted user recovery phrases; MediaMarkt halted sales across Europe.",
+   "titles": [
+    "Ledger says 'spy' chip inside CryptoBilis Ledger devices transmitted wallet keys over mobile network"
+   ],
+   "board_reading": "",
+   "source_count": 3,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/tech/2026/10/13/ledger-says-spy-chip-inside-cryptobilis-ledger-devices-transmitted-wallet-keys-over-mobile-network",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://www.theblock.co/news/business/2026-10-13-ledger-confirms-hardware-implant-cryptobilis-reseller-units-mediamarkt-suspends-sales-europe-418442",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/ledger-cellular-implants-wallets-sold-cryptobilis?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-13T09:27:47Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
   },
   {
    "rank": 2,
@@ -44,13 +86,18 @@
     "Russia\u2019s largest bank Sberbank secures approval to trade crypto"
    ],
    "board_reading": "Stablecoin float",
-   "source_count": 1,
+   "source_count": 2,
    "primary": false,
    "standing": "single",
    "links": [
     {
      "url": "https://www.coindesk.com/business/2026/10/13/russia-s-largest-bank-sberbank-secures-approval-to-trade-crypto",
      "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/sberbank-russia-crypto-trading-approval?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
      "primary": false
     }
    ],
@@ -66,7 +113,7 @@
     "BNY, Citadel Securities test tokenized U.S. Treasuries to speed up Wall Street financing"
    ],
    "board_reading": "",
-   "source_count": 1,
+   "source_count": 2,
    "primary": false,
    "standing": "single",
    "links": [
@@ -74,32 +121,20 @@
      "url": "https://www.coindesk.com/business/2026/10/13/bny-citadel-securities-test-tokenized-u-s-treasuries-to-speed-up-wall-street-financing",
      "outlet": "CoinDesk",
      "primary": false
+    },
+    {
+     "url": "https://www.coindesk.com/business/2026/10/13/federated-hermes-joins-wall-street-s-tokenization-push-with-plans-for-first-onchain-fund-shares",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/bny-and-citadel-securities-use-tokenized-treasury-in-overnight-repo",
+     "outlet": "The Defiant",
+     "primary": false
     }
    ],
    "reported_utc": "2026-10-13T21:52:00Z",
    "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 4,
-   "id": "c010",
-   "line": "Ledger confirmed LTE-enabled spy chips implanted in CryptoBilis-sold wallets transmitted user recovery phrases; MediaMarkt halted sales across Europe.",
-   "titles": [
-    "Ledger says 'spy' chip inside CryptoBilis Ledger devices transmitted wallet keys over mobile network"
-   ],
-   "board_reading": "",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/tech/2026/10/13/ledger-says-spy-chip-inside-cryptobilis-ledger-devices-transmitted-wallet-keys-over-mobile-network",
-     "outlet": "CoinDesk",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-13T09:27:47Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   },
   {
@@ -110,13 +145,18 @@
     "Once-largest Ethereum NFT marketplace Blur is shutting down after volumes collapse 99%"
    ],
    "board_reading": "Whale net, exchange flows",
-   "source_count": 1,
+   "source_count": 2,
    "primary": false,
    "standing": "single",
    "links": [
     {
      "url": "https://www.coindesk.com/tech/2026/10/13/once-largest-ethereum-nft-marketplace-blur-is-shutting-down-after-volumes-collapse-99",
      "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/380802/nft-marketplace-blur-to-shut-down-website-stop-new-blend-loans-next-month",
+     "outlet": "Decrypt",
      "primary": false
     }
    ],

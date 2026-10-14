@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin is drifting higher on spot ETF inflows; the news is mixed, led by regulation.",
- "by": "table",
- "written_utc": "2026-10-13T23:15:58Z",
- "written_et": "7:15 PM ET on Oct 13",
+ "line": "Regulatory pressure in Seoul meets hardware security failure in wallets as Wall Street tests tokenized Treasuries and Russia readies Sberbank crypto trading.",
+ "by": "edition",
+ "written_utc": "2026-10-14T12:18:55Z",
+ "written_et": "8:18 AM ET on Oct 14",
  "readings": {
-  "stamp_utc": "2026-10-13T23:12:45Z",
-  "btc_24h_pct": 1.59,
-  "etf_net_usd_m": 6.7,
+  "stamp_utc": "2026-10-14T12:17:15Z",
+  "btc_24h_pct": 0.75,
+  "etf_net_usd_m": 175.7,
   "etf_date": "13 Oct 2026",
-  "fear_greed": 57,
+  "fear_greed": 62,
   "fear_greed_band": "Greed",
-  "funding_8h_pct": -0.0041,
+  "funding_8h_pct": 0.0091,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +1.59% on the day, spot ETF net +6.7M USD (Oct 13, 2026), Fear & Greed 57 (greed), funding -0.0041% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.75% on the day, spot ETF net +175.7M USD (Oct 13, 2026), Fear & Greed 62 (greed), funding +0.0091% per 8h (calm)",
  "wire_top3": [
   {
    "id": "c003",
    "line": "South Korea's regulators blocked 27 crypto exchange websites, including Bitmart and Kucoin, tightening restrictions on unregistered platforms."
   },
   {
-   "id": "c007",
-   "line": "Russia's Sberbank won regulatory approval to offer crypto trading to all clients starting Dec. 1, beginning with BTC, ETH, and USDT."
+   "id": "c010",
+   "line": "Ledger confirmed LTE-enabled spy chips implanted in CryptoBilis-sold wallets transmitted user recovery phrases; MediaMarkt halted sales across Europe."
   },
   {
-   "id": "c000",
-   "line": "BNY Mellon and Citadel Securities tested tokenized U.S. Treasuries on blockchain to accelerate Wall Street financing and collateral settlement."
+   "id": "c007",
+   "line": "Russia's Sberbank won regulatory approval to offer crypto trading to all clients starting Dec. 1, beginning with BTC, ETH, and USDT."
   }
  ],
  "crossed": []
