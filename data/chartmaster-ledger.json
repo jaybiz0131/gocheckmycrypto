@@ -10,5 +10,17 @@
   ],
   "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
   "t": "2026-10-13T23:15:58Z"
+ },
+ {
+  "date": "2026-10-14",
+  "path": "cut",
+  "tripped": [
+   "headline: belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: unscoped bitcoin price direction while the windows disagree (day -2.03%, week -2.83%, m",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest remains subs",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar"
+  ],
+  "detail": "dropped 5 sentence(s): On the day, Bitcoin fell 2.0 percent and Ethereum 3.3 percent, but over the mont | Open interest remains substantial, with Bitcoin at 2.56 billion USD, Ethereum at | Funding rat",
+  "t": "2026-10-14T23:14:44Z"
  }
 ]

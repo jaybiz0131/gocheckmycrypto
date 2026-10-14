@@ -1,60 +1,14 @@
 {
-  "date": "2026-10-13",
+  "date": "2026-10-14",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "data-only",
-  "headline": "Chart Master data card: levels, 50-day and 200-day lines, RSI",
-  "paragraphs": [],
-  "data_only": true,
-  "levels": [
-    {
-      "symbol": "BTC",
-      "price": 83199,
-      "sma50": 81105.72,
-      "sma200": 72121.87,
-      "rsi14": 52.2
-    },
-    {
-      "symbol": "ETH",
-      "price": 2498.16,
-      "sma50": 2555.98,
-      "sma200": 2137.77,
-      "rsi14": 43.2
-    },
-    {
-      "symbol": "SOL",
-      "price": 106.59,
-      "sma50": 109.24,
-      "sma200": 87.03,
-      "rsi14": 40.6
-    },
-    {
-      "symbol": "XRP",
-      "price": 1.37,
-      "sma50": 1.43,
-      "sma200": 1.28,
-      "rsi14": 42.3
-    },
-    {
-      "symbol": "BNB",
-      "price": 741.18,
-      "sma50": 743.13,
-      "sma200": 643.56,
-      "rsi14": 45.7
-    },
-    {
-      "symbol": "DOGE",
-      "price": 0.084309,
-      "sma50": 0.09,
-      "sma200": 0.09,
-      "rsi14": 41.9
-    },
-    {
-      "symbol": "ADA",
-      "price": 0.235633,
-      "sma50": 0.23,
-      "sma200": 0.21,
-      "rsi14": 47.6
-    }
+  "path": "cut",
+  "headline": "6 of 7 majors hold above their 200-day lines",
+  "paragraphs": [
+    "The market regime remains above the 200-day simple moving average across all seven majors, and every asset carries a golden cross. That structural support is the floor. But the momentum picture is deteriorating in concert with price. Bitcoin's RSI-14 sits at 46.4, Ethereum at 37.5, and most altcoins between 37 and 45: neutral to weak, with MACD below signal across the board. The gap between trend (still intact) and momentum (stalling) is a mismatch worth watching. Over the week, both are down (Bitcoin down 2.8 percent, Ethereum down 7.4 percent). The directional confusion between timeframes is real: a reader cannot say \"Bitcoin is rising\" or \"Ethereum is falling\" without naming the window. That cross-temporal spread is the market's honest signal that conviction has fractured.",
+    "Positioning in the perp complex paints a crowded long thesis. Bitcoin's long-to-short ratio on OKX stands at 1.76, but Ethereum sits at 2.54 and Doge at 4.27. Traders paying that much to hold long positions in Ethereum and Doge are expressing conviction, but they are also carrying real cost. In the last two hours of data, Bitcoin liquidated 100 positions with 1.26 million USD of long damage and only 4,200 USD of shorts. Ethereum saw 1.28 million USD of longs liquidated against 237,000 USD of shorts, a broader flush but still long-heavy. The asymmetry suggests that long positions, while numerous, are being tested.",
+    "ETF flows reveal a tension between today and the recent window. Bitcoin took a 2.2 million USD inflow on 14 Oct, but over the last five sessions the cumulative print is a 110.5 million USD outflow. Ethereum saw an 18.8 million USD outflow on 14 Oct and 208.0 million USD outflow over five sessions. Traditional finance is not bidding; it is selling into this regime. Whale flows over the last 48 hours show 76.1 million USD in net value moving off exchanges, all of it in Ethereum via Coinbase Institutional. At the same time, stablecoin inflows onto exchanges have been material: 138.3 million USD of USDC to Binance and 113.2 million USD and 110.0 million USD of USDT to Bitfinex in recent windows. The pattern is clear: large holders are taking ETH to cold storage while fresh dry powder continues to stage on exchange wallets. Weekly whale flows confirm the recent reversal. The weeks ending Sep 23, Sep 30, and Oct 07 saw 1.25 billion USD, 678 million USD, and 274 million USD move onto exchanges respectively (a declining inflow). The week ending Oct 14 reversed hard: 954 million USD moved onto exchanges. Stablecoin float stands at 306.1 billion USD, up only 0.86 percent on the month, so absolute dry powder is flat.",
+    "Sentiment remains in greed territory at 62 on the Fear & Greed Index, within a 30-day range of 50 to 78. That is not extreme; it is moderate. The crowd is not panicked and not euphoric. Yet every major asset is underwater against its 12-month high: Bitcoin trades 34.7 percent below its peak, Ethereum 48.5 percent below, and Cardano 73.7 percent below. The most volatile assets, Cardano at 85.7 percent 30-day realized volatility and XRP at 67.3 percent, have also sold off the hardest over the week. Bitcoin is down 2.8 percent on the week, but Cardano is down 11.8 percent and Solana is down 11.5 percent. The tape shows a market that is holding its trendlines but shedding risk assets into a greed-biased sentiment backdrop. That divergence between crowd feeling and asset behavior is the read.",
+    "Watch for three conditions. First, any reclaim of the 200-day line by the laggards, particularly Ethereum and Solana, would mean the structure is truly broken. Third, a reversal in the ETF flow from outflow to inflow would tell you that traditional finance is re-entering; until then, the spot bid is muted. The network itself shows Bitcoin difficulty rising 6.2 percent at retarget block 234, a standard signal of hash commitment. Fees are low (1 to 3 satoshis per byte), suggesting no chain congestion. The machine is running; the tape is just quieter."
   ]
 }
