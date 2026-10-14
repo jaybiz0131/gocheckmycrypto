@@ -579,6 +579,14 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python3 desk_calendar.py -v || echo "::warning::calendar build failed; the last committed calendar stands"
 
+      # THE DAILY ANSWER (Program 8, Sprint 8.1; Jack, 14 October 2026). The evening record of
+      # /today/ and the day's dated page, which freezes with it. No model call. Written only when
+      # tonight's Edition is on disk (a breaking run never freezes a day); fail-open.
+      - name: Write the daily answer (no model call)
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
+        run: |
+          python3 today.py --write evening || echo "::warning::today the daily answer was not written; the morning one stands"
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
@@ -609,6 +617,8 @@ jobs:
           [ -f site/data/wire.json ] && git add site/data/wire.json
           # narrative.json (Sprint 1b item 2): the narrative line and its readings.
           [ -f site/data/narrative.json ] && git add site/data/narrative.json
+          # the daily answer's records (Program 8, Sprint 8.1)
+          [ -d site/data/today ] && git add site/data/today
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"

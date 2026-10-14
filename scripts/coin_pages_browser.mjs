@@ -308,16 +308,17 @@ try {
     } catch (e) { t.error = String(e).slice(0, 160); }
     const fxRow = (t.gaps || []).find(g => g.sym === "FIXP");
     check("top100-rows: 100 real rows plus the two fixture rows are on the page", !t.error && t.n === 102 && !fx.error, JSON.stringify({ n: t.n, err: t.error || fx.error }));
-    check("top100-rows: the $0.0000003682 fixture is a 13-character price and leaves at least 12 px to the 24h pill",
-      !t.error && fxRow && fxRow.len >= 13 && fxRow.gap >= 12, JSON.stringify(fxRow || t.error));
+    check("top100-rows: the $0.0000003682 fixture prints compressed ($0.0\u20863682, 9 characters) and leaves at least 12 px to the 24h pill",
+      !t.error && fxRow && fxRow.len <= 10 && fxRow.gap >= 12, JSON.stringify(fxRow || t.error));
     const tight = (t.gaps || []).filter(g => g.gap < 12);
     check("top100-rows: at 375 every one of the 100 real rows and both fixtures keeps at least 12 px between price and 24h pill",
       !t.error && !tight.length, JSON.stringify(tight.slice(0, 6)));
     check("top100-rows: no price runs into the coin column", !t.error && !(t.collide || []).length, JSON.stringify((t.collide || []).slice(0, 4)));
     const sz = t.sizes || {}, px = v => parseFloat((v || [])[0]);
-    check("top100-rows: a price of 13 characters or more sets one step smaller than 11 to 12 characters, which sets one step smaller than the rest",
-      !t.error && (sz["13+"] || []).length === 1 && (sz["11-12"] || []).length === 1 && (sz["short"] || []).length === 1
-      && px(sz["13+"]) < px(sz["11-12"]) && px(sz["11-12"]) < px(sz["short"]), JSON.stringify(sz));
+    check("top100-rows: no price is set below 11 px (the 10 px tier is gone, Sprint 8.1); 11 to 12 characters sit one step under the rest",
+      !t.error && !(sz["13+"] || []).length && (sz["short"] || []).length === 1
+      && Object.values(sz).every(v => v.every(f => parseFloat(f) >= 11))
+      && (!(sz["11-12"] || []).length || px(sz["11-12"]) < px(sz["short"])), JSON.stringify(sz));
     check("top100-rows: no coin name breaks inside a word at 375 (Hyperliquid is the known case), none is cut without an ellipsis",
       !t.error && !(t.broken || []).length && !(t.clipped || []).length, JSON.stringify({ broken: (t.broken || []).slice(0, 6), clipped: (t.clipped || []).slice(0, 6) }));
     check("top100-rows: a single word too wide for the column ends in an ellipsis on one line, the full name in the row's label and title",

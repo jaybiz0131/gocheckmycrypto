@@ -1390,9 +1390,8 @@ def _wire_canary():
                        (_w.WHAT_A_WIRE_LINE_IS, "the line under the list")):
         _check(frag in wb, fails, f"news page: the wire block lacks {what}")
     _check(wb.count('class="bd-stamp"') >= 4, fails, "news page: an item carries no stamp")
-    _check(_sb.NEWS_CADENCE_LINE == ("The day's stories ranked and sourced by the desk, one "
-                                     "checked, the Brief every evening."), fails,
-           "news page: the cadence line is not Jack's words")
+    _check(_sb.NEWS_CADENCE_LINE == "The Brief, every morning and evening.", fails,
+           "news page: the cadence line is not Jack's words of 14 October 2026")
     real_wj = _sb.WIRE_JSON
     try:
         _sb.WIRE_JSON = os.path.join(tmp, "wire-page.json")
@@ -2900,6 +2899,22 @@ def _sprint73_canary():
     return fails
 
 
+def _sprint81_canary():
+    """PROGRAM 8, SPRINT 8.1 (14 October 2026): the daily answer (/today/), the morning's
+    re-rank stamp, compressed zeros on small prices and the cadence line. Each test runs as
+    its own process so the canary's sys.modules stays what the U-11 read counter expects."""
+    import subprocess as _sp
+    fails = []
+    for name, why in (("sprint81_test.py", "the morning stamp, small prices, the cadence line"),
+                      ("today_test.py", "the daily answer")):
+        r = _sp.run([sys.executable, os.path.join(HERE, "scripts", name)], cwd=HERE,
+                    capture_output=True, text=True, timeout=300)
+        bad = [ln.strip() for ln in r.stdout.splitlines() if "FAIL" in ln]
+        _check(r.returncode == 0, fails, f"sprint 8.1: {why}: {'; '.join(bad[:4]) or r.stderr[-300:]}")
+    print("sprint 8.1 canary: the daily answer, the morning stamp, small prices, the cadence line")
+    return fails
+
+
 def _sprint72_canary():
     """PROGRAM 7, SPRINT 7.2 (12 October 2026). The fixture morning, the Chart Master's three
     refusals (9, 10, 11 October) and the ledger's empty row, each run as its own process so
@@ -3672,6 +3687,7 @@ def _layer1_canary_body():
     fails.extend(_chartmaster_crash_canary())
     fails.extend(_sprint72_canary())
     fails.extend(_sprint73_canary())
+    fails.extend(_sprint81_canary())
     fails.extend(_week_movers_canary())
     fails.extend(_calendar_canary())
     fails.extend(_calendar_retired_canary())

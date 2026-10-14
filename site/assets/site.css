@@ -1641,7 +1641,6 @@ header.masthead{position:relative;z-index:300}
   .prices-table td.sym2 .t1-dot{display:none}
   .prices-table td.pnum{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:12px}
   .prices-table td.pnum.pn-long{font-size:11px}
-  .prices-table td.pnum.pn-xlong{font-size:10px}
 }
 
 /* UX-8: the Chart Master's read, with its glance and its subheads. */

@@ -99,12 +99,12 @@ Swept 13 October 2026 (Sprint 7.3, item 3): every row read against the live site
 | Item | Status |
 |---|---|
 | The twins gate's live proof, FOR THE NEXT SESSION: the 14 Oct 7:08 PM ET Edition's ops-ledger row carries `twins_drops`, `twins_unparsed` and `twins_log` | open, after the merge |
-| The home cadence line still reads "the Brief every evening" now that the morning edition is live (read 14 Oct 8:47 AM ET) | Jack to rule the wording (chrome copy changes only by his ruling) |
+| The home cadence line | done in 8.1 on Jack's ruling of 14 Oct: "The Brief, every morning and evening." |
 | Unlocks HYPE, WBT, RAIN: all three vesting pages answer 403 to the session (13 Oct); their coin pages print no unlock line | Jack, by hand in a browser |
 | `top_n` 6 ranking check, 7 Editions (4 to 10 Oct) now exist | plan: read each Edition's `wire.json` rank of its VERIFIED item from git, write one table, close or change `top_n` |
 | Coin pages' 7d tile prints `/coins/markets`' rolling 7 days (labeled so); the Board's week is the stored series' close to close; the two can differ | plan: show both values for the seven stored coins in one table, then Jack decides whether to unify |
 | The week field: a coin outside the seven stored series reads six closes in the 23:00 UTC hour | unverified since 7 Oct; plan: one fixture on a coin outside the seven |
-| 6.5: the 13-character price tier is proved on a recorded row, not read live (BTT left the Top 100) | read live when a price of 13 characters or more appears |
+| 6.5: the 13-character price tier | retired in 8.1: prices under $0.0001 print compressed at normal size; read live when one appears in the Top 100 |
 | L-1 the Board on the Worker (`site-refresh.yml` has no cron since 7.2, so builds are the only mover) | open; plan: serve the snapshot from the Worker; needs Jack, it touches the build count |
 | R-1 desk reconfiguration | open (Sprint J); no plan written, ask Jack for the brief |
 | Whale Watch (`/flows`) at 1440: its tables are 471 to 543 px inside a 1080 px column (read 13 Oct, production `23c33e5`); "full width" (V-11 punch 6) is not met if that is what it meant | next sprint; logged, not fixed in 7.3 (Jack, 13 Oct) |
@@ -207,6 +207,18 @@ Standing facts from them: the look is `site/assets/system.css` (tokens in that f
 
 **Traps:** the old gate's "week" test fired on any week word anywhere in the sentence, even "multi-week"; a direction word's nearest coin name is not its subject; a first cut of this fix bound "exchange inflows" to the ETF net and would have cut the 9 October dek, which the replay caught; the reconstruction of F7 (the narrative line) is the only fixture text not verbatim, and a narrative line with a percentage is refused by `narrative.quotes_change` anyway since 6.2. The full text of every gate drop is in `wrap-status.json` inside the run's `crypto-review-queue` artifact (90 days).
 
+
+
+## 14. Program 8, Sprint 8.1: the daily answer (14 October 2026)
+
+**Jack's rulings, Wednesday 14 October 2026:** (1) Program 8 is approved: `docs/PROGRAM-8-2026-10-14.md` (committed verbatim, its own documents-only commit). (2) The home cadence line reads exactly "The Brief, every morning and evening." (`NEWS_CADENCE_LINE`; the test in `verify_pipeline.py` that pinned the old line now pins this one). (3) The daily answer makes no new model call, and never says "because" unless a cited source says so.
+
+**State: branch `sprint-8-1`, awaiting Jack's yes on local screenshots (branch deploys are off).** Report: `docs/REPORT-PROGRAM-8-SPRINT-8.1-2026-10-14.md`.
+
+**What changed:** `today.py` is the daily answer. The morning run (`morning-read.yml`) and the evening Edition run (`crypto-news-brief.yml`) each call `python3 today.py --write morning|evening` (no model) and commit `site/data/today/YYYY-MM-DD.json`; the build only renders those records. `/today/` is the newest record; `/today/YYYY-MM-DD` is one page a day and freezes when the evening record exists (`today.write` refuses a second write; only a correction under the corrections policy, `python3 today.py --correct DATE "note"`, is allowed and prints on the page). Every sentence goes through the twins gate; `today.day_claim_wrong` adds the one check the gate does not do (Bitcoin's or Ether's 24-hour move, which the gate leaves to the tape). Causal phrases in the desk's own voice are dropped as `law` drops. The evening write needs tonight's Edition on disk and published between 6 PM and 5 AM ET, so a breaking run never freezes a day. The sitemap carries `/today/` (priority tier) with the newest record's real `lastmod` and each dated page (archive tier) with its own: `site_build.sitemap_urlset`.
+Item 1: the home's "Moving the market" prints "Re-ranked <the morning's time>; first ranked <the Edition's>" once `wire.py --refresh` has run. Item 2: a price under $0.0001 prints with compressed zeros (`$0.0₆3682`, `_price_fmt`), the cell's `aria-label` reads the full number (`_price_label`), and the 10 px price tier is gone. Item 3: see the report (Whale Watch's tables do not overflow their columns at 1440 or 375; `scripts/sprint81_browser.mjs` holds the test).
+
+**Traps:** the twins gate does not read a 24-hour change ("Bitcoin is up 3%" passes it whatever the day did), which is why the page checks that itself; `today.render` is a pure function of a record and the days before it, so a dated page's HTML cannot move when a later day lands.
 
 ---
 

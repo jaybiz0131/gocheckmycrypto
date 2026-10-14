@@ -1,0 +1,228 @@
+{
+ "date_et": "2026-10-14",
+ "slot": "morning",
+ "frozen": false,
+ "first_utc": "2026-10-14T12:18:55Z",
+ "written_utc": "2026-10-14T12:18:55Z",
+ "stamp_label": "Morning read, 8:18 AM ET",
+ "snapshot_stamp_et": "8:17 AM ET on Oct 14",
+ "direction": "up",
+ "btc": {
+  "price": 83727,
+  "chg": 0.75
+ },
+ "eth": {
+  "price": 2513.72,
+  "chg": 0.81
+ },
+ "cap": {
+  "usd": 2807279863937,
+  "chg": -2.98
+ },
+ "gainers": [
+  {
+   "symbol": "VVV",
+   "name": "Venice Token",
+   "rank": 72,
+   "chg": 6.65
+  },
+  {
+   "symbol": "ZEC",
+   "name": "Zcash",
+   "rank": 10,
+   "chg": 6.07
+  },
+  {
+   "symbol": "XMR",
+   "name": "Monero",
+   "rank": 13,
+   "chg": 5.18
+  }
+ ],
+ "decliners": [
+  {
+   "symbol": "CC",
+   "name": "Canton",
+   "rank": 23,
+   "chg": -4.27
+  },
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "rank": 53,
+   "chg": -3.6
+  },
+  {
+   "symbol": "ETHFI",
+   "name": "Ether.fi",
+   "rank": 100,
+   "chg": -2.23
+  }
+ ],
+ "answer": [
+  {
+   "text": "As of 8:17 AM ET on Oct 14, Bitcoin is up 0.75% over the past 24 hours, at $83,727. Ether is up 0.81%, and the whole crypto market cap is down 2.98%, at $2.81T, over the same 24 hours. Among the top 100 coins, the largest 24-hour gains are Venice Token (+6.65%), Zcash (+6.07%), Monero (+5.18%); the largest 24-hour declines are Canton (-4.27%), MemeCore (-3.60%), Ether.fi (-2.23%).",
+   "lifted": false,
+   "gated": true
+  }
+ ],
+ "context": [
+  {
+   "text": "The wire's top line: South Korea's regulators blocked 27 crypto exchange websites, including Bitmart and Kucoin, tightening restrictions on unregistered platforms.",
+   "from": "Morning read",
+   "url": "",
+   "gated": true
+  },
+  {
+   "text": "Also circulating with urgency: Ledger confirmed LTE-enabled spy chips implanted in CryptoBilis-sold wallets transmitted user recovery phrases; MediaMarkt halted sales across Europe.",
+   "from": "Morning read",
+   "url": "",
+   "gated": true
+  }
+ ],
+ "read": {
+  "label": "Morning read",
+  "headline": "Seoul blocks unregistered exchanges; Ledger confirms wallet chip breach",
+  "url": ""
+ },
+ "board": [
+  {
+   "key": "etf",
+   "label": "Spot ETF net",
+   "figure": "+$175.7M",
+   "dir": "up",
+   "text": "Bitcoin spot ETF net for the 13 Oct 2026 session was +$175.7M.",
+   "window": "one trading day, 13 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "8:17 AM ET on Oct 14"
+  },
+  {
+   "key": "liq",
+   "label": "Liquidations",
+   "figure": "$580K long, $154K short",
+   "dir": "",
+   "text": "Bitcoin perpetuals on OKX closed $580K of long and $154K of short positions in the last 3 hours.",
+   "window": "the last 3 hours, one venue",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Oct 14"
+  },
+  {
+   "key": "funding",
+   "label": "Funding",
+   "figure": "+0.0091%",
+   "dir": "",
+   "text": "Bitcoin perpetual funding is +0.0091% per 8 hours.",
+   "window": "the current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Oct 14"
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "figure": "62",
+   "dir": "",
+   "text": "The Fear & Greed index reads 62, Greed.",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:17 AM ET on Oct 14"
+  }
+ ],
+ "wire": [
+  {
+   "line": "South Korea's regulators blocked 27 crypto exchange websites, including Bitmart and Kucoin, tightening restrictions on unregistered platforms.",
+   "sources": 4,
+   "primary": false,
+   "time": "7:58 AM ET",
+   "outlets": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/10/13/south-korea-blocks-27-crypto-exchanges-including-bitmart-and-kucoin"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/south-korea-moves-to-block-27-crypto-websites-including-kucoin-mexc?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    },
+    {
+     "outlet": "CryptoSlate",
+     "url": "https://cryptoslate.com/south-korea-locks-out-crypto-users-as-27-exchange-sites-go-dark/"
+    }
+   ]
+  },
+  {
+   "line": "Ledger confirmed LTE-enabled spy chips implanted in CryptoBilis-sold wallets transmitted user recovery phrases; MediaMarkt halted sales across Europe.",
+   "sources": 3,
+   "primary": false,
+   "time": "5:27 AM ET",
+   "outlets": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/tech/2026/10/13/ledger-says-spy-chip-inside-cryptobilis-ledger-devices-transmitted-wallet-keys-over-mobile-network"
+    },
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/business/2026-10-13-ledger-confirms-hardware-implant-cryptobilis-reseller-units-mediamarkt-suspends-sales-europe-418442"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/ledger-cellular-implants-wallets-sold-cryptobilis?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "Russia's Sberbank won regulatory approval to offer crypto trading to all clients starting Dec. 1, beginning with BTC, ETH, and USDT.",
+   "sources": 2,
+   "primary": false,
+   "time": "7:02 AM ET",
+   "outlets": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/10/13/russia-s-largest-bank-sberbank-secures-approval-to-trade-crypto"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/sberbank-russia-crypto-trading-approval?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "BNY Mellon and Citadel Securities tested tokenized U.S. Treasuries on blockchain to accelerate Wall Street financing and collateral settlement.",
+   "sources": 2,
+   "primary": false,
+   "time": "5:52 PM ET",
+   "outlets": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/10/13/bny-citadel-securities-test-tokenized-u-s-treasuries-to-speed-up-wall-street-financing"
+    },
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/10/13/federated-hermes-joins-wall-street-s-tokenization-push-with-plans-for-first-onchain-fund-shares"
+    },
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/bny-and-citadel-securities-use-tokenized-treasury-in-overnight-repo"
+    }
+   ]
+  },
+  {
+   "line": "Blur, once the largest Ethereum NFT marketplace, will shut down Nov. 12 after volumes collapsed from $1.43B peak to under $7M monthly.",
+   "sources": 2,
+   "primary": false,
+   "time": "12:43 AM ET",
+   "outlets": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/tech/2026/10/13/once-largest-ethereum-nft-marketplace-blur-is-shutting-down-after-volumes-collapse-99"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/380802/nft-marketplace-blur-to-shut-down-website-stop-new-blend-loans-next-month"
+    }
+   ]
+  }
+ ],
+ "wire_stamp": "8:18 AM ET",
+ "next": "Next update tonight at 7:08 PM ET",
+ "drops": [],
+ "corrections": []
+}

@@ -77,6 +77,14 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 morning.py
 
+      # THE DAILY ANSWER (Program 8, Sprint 8.1; Jack, 14 October 2026). /today/ and today's dated
+      # page from the snapshot, the wire and the read just written. No model call. Fail-open: a
+      # miss leaves the last answer standing and the build still goes out.
+      - name: Write the daily answer (no model call)
+        if: steps.guard.outputs.serve == 'true'
+        run: |
+          python3 today.py --write morning || echo "::warning::today the daily answer was not written; /today/ keeps the last one"
+
       - name: Commit and push (this push is the morning build)
         id: publish
         if: steps.guard.outputs.serve == 'true'
@@ -88,6 +96,7 @@ jobs:
                    data/morning-ledger.json; do
             [ -f "$f" ] && git add "$f"
           done
+          [ -d site/data/today ] && git add site/data/today
           if git diff --cached --quiet; then
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
