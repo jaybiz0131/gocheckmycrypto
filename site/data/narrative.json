@@ -1,31 +1,31 @@
 {
- "line": "Regulatory pressure in Seoul meets hardware security failure in wallets as Wall Street tests tokenized Treasuries and Russia readies Sberbank crypto trading.",
+ "line": "Bitcoin drifted lower on macro headwinds while the fear-greed index remains in Greed, and the news is ETF outflows accelerating on Ethereum even as institutions move the asset into custody.",
  "by": "edition",
- "written_utc": "2026-10-14T12:18:55Z",
- "written_et": "8:18 AM ET on Oct 14",
+ "written_utc": "2026-10-14T23:45:16Z",
+ "written_et": "7:45 PM ET on Oct 14",
  "readings": {
-  "stamp_utc": "2026-10-14T12:17:15Z",
-  "btc_24h_pct": 0.75,
-  "etf_net_usd_m": 175.7,
-  "etf_date": "13 Oct 2026",
+  "stamp_utc": "2026-10-14T23:43:23Z",
+  "btc_24h_pct": -2.08,
+  "etf_net_usd_m": 2.2,
+  "etf_date": "14 Oct 2026",
   "fear_greed": 62,
   "fear_greed_band": "Greed",
-  "funding_8h_pct": 0.0091,
+  "funding_8h_pct": 0.0033,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +0.75% on the day, spot ETF net +175.7M USD (Oct 13, 2026), Fear & Greed 62 (greed), funding +0.0091% per 8h (calm)",
+ "small_line": "Written from Bitcoin -2.08% on the day, spot ETF net +2.2M USD (Oct 14, 2026), Fear & Greed 62 (greed), funding +0.0033% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c003",
-   "line": "South Korea's regulators blocked 27 crypto exchange websites, including Bitmart and Kucoin, tightening restrictions on unregistered platforms."
+   "id": "c009",
+   "line": "U.S. inflation accelerated to 3.7% in September, sending Bitcoin below $82,000 as bond yields spiked and rate-hike odds doubled."
   },
   {
-   "id": "c010",
-   "line": "Ledger confirmed LTE-enabled spy chips implanted in CryptoBilis-sold wallets transmitted user recovery phrases; MediaMarkt halted sales across Europe."
+   "id": "c008",
+   "line": "Kraken parent Payward agreed to acquire Lithuania's Saldo Bank, securing EU banking license for deposits, lending, and regulated financial services."
   },
   {
-   "id": "c007",
-   "line": "Russia's Sberbank won regulatory approval to offer crypto trading to all clients starting Dec. 1, beginning with BTC, ETH, and USDT."
+   "id": "c011",
+   "line": "Dutch central bank authorized Qivalis as e-money institution under MiCA, enabling euro token settlement infrastructure backed by major European banks."
   }
  ],
  "crossed": []

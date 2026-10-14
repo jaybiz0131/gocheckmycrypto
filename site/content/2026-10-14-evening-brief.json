@@ -1,0 +1,28 @@
+{
+  "id": "wrap-pm-2026-10-14",
+  "slug": "evening-brief-2026-10-14",
+  "kind": "brief",
+  "title": "The Evening Brief: Macro pressure feeds quiet evening as ETH leads outflows",
+  "dek": "Markets declined across the board Wednesday on macroeconomic headwinds, with Bitcoin and altcoins all lower on the day. The desk's boards show a sharp divergence: while Bitcoin ETFs posted a small inflow, Ethereum ETF outflows accelerated, and whale activity shifted dramatically from weeks of stablecoin buying to institutional Ethereum moving off exchanges.",
+  "date": "2026-10-14",
+  "published_utc": "2026-10-14T23:45:16Z",
+  "category": "daily edition",
+  "rank": -3,
+  "author": "GoCheckMyCrypto",
+  "key_fact": "The week ending October 14 saw $873 million in stablecoins move onto exchanges, the largest weekly inflow in recent weeks, yet institutional desks are moving Ethereum into self-custody, a posture reversal that suggests conviction is splitting between retail (staying liquid) and large holders (preparing for volatility).",
+  "bottom_line": "Wednesday's selloff was driven by U.S. inflation data and rising rate-hike odds, sending Bitcoin and Ethereum lower across the day and week even as monthly gains persist. ETF flows diverged sharply: Bitcoin posted a small inflow while Ethereum saw accelerated selling. Most striking, per the desk's Whale Watch board, institutional desks moved $76 million in Ethereum off exchanges over two days, while the week ending October 14 brought $873 million in stablecoins onto venues, the largest weekly inflow in recent weeks. The pattern suggests a posture split: retail staying liquid against macro uncertainty, large holders moving Ethereum into self-custody. Coming days will test whether the monthly uptrend holds or macro pressure breaks the support.",
+  "human_take": "",
+  "body": [
+    "Wednesday closed in the red across major assets. Solana slid 2.38 percent on the day but sits up 7.47 percent since the month opened, a pattern repeated across the board: current weakness masks meaningful monthly gains, a tension the window_signs table makes explicit for every major asset.",
+    "The tape shows this is a macro day. That backdrop explains why all assets moved together downward and why the fear-greed index sits at 62 in the Greed band rather than panic: sentiment has not turned; headwinds are external.",
+    "The desk's leverage board at OKX tells a different story below the surface. Bitcoin's long-short ratio stands at 1.76, and over the last three hours the venue liquidated $1.26 million in longs against just $4,217 in shorts, a 299-to-1 imbalance. Ethereum's ratio is 2.57, with $1.16 million in long liquidations against $238,000 in shorts over three hours.",
+    "ETF flows show a split. On October 14, Bitcoin ETFs posted a $2.2 million inflow, but the last five sessions saw a cumulative $110.5 million outflow, the daily and five-session windows disagree, per the desk's flow_signs board. Ethereum ETFs reversed: a $19.7 million outflow on the day followed four days of selling, for a cumulative $208.9 million outflow over the same window. The single-direction pattern on Ethereum reflects consistent liquidation pressure.",
+    "The whale picture is more dramatic. Over the last 48 hours, per the desk's Whale Watch board, $76.1 million in ethereum moved off exchanges, with the two largest moves coming from Coinbase Institutional: $75.6 million and $56.6 million. Yet the weekly net for the week ending October 14 shows $873 million in stablecoins (USDC to Binance, USDT to Bitfinex) moved onto exchanges, the largest weekly inflow of stablecoins in recent sessions. The prior three weeks saw $490 million, $544 million, and $1.25 billion move onto exchanges. This is the inverse of the Ethereum outflow: retail or uncertain holders are parking dry powder, while institutions with conviction are moving Ethereum into custody."
+  ],
+  "sources": [
+    {
+      "title": "The desk's own market boards (quiet-day edition)",
+      "url": "/"
+    }
+  ]
+}

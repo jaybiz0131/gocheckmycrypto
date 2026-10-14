@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-10-14T23:16:53Z",
- "stamp_et": "7:16 PM ET on Oct 14",
+ "generated_utc": "2026-10-14T23:45:58Z",
+ "stamp_et": "7:45 PM ET on Oct 14",
  "window": {
   "from": "2026-10-14",
   "to": "2027-02-11"
@@ -56,7 +56,7 @@
      "name": "FRED release dates",
      "url": "https://fred.stlouisfed.org/releases/calendar?rid=10"
     },
-    "read_utc": "2026-10-14T23:16:53Z",
+    "read_utc": "2026-10-14T23:45:58Z",
     "computed": false,
     "computed_from": null,
     "release_id": 10,
@@ -75,7 +75,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=10"
    },
-   "read_utc": "2026-10-14T23:16:53Z",
+   "read_utc": "2026-10-14T23:45:58Z",
    "computed": false,
    "computed_from": null,
    "release_id": 10,
@@ -90,7 +90,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=9"
    },
-   "read_utc": "2026-10-14T23:16:55Z",
+   "read_utc": "2026-10-14T23:45:59Z",
    "computed": false,
    "computed_from": null,
    "release_id": 9,
@@ -98,14 +98,14 @@
   },
   {
    "date": "2026-10-16",
-   "time_et": "7:52 AM ET",
-   "title": "Bitcoin difficulty adjustment, estimated +6.19%, 233 blocks to go",
+   "time_et": "8:03 AM ET",
+   "title": "Bitcoin difficulty adjustment, estimated +6.12%, 231 blocks to go",
    "kind": "difficulty",
    "source": {
     "name": "mempool.space",
     "url": "https://mempool.space/api/v1/difficulty-adjustment"
    },
-   "read_utc": "2026-10-14T23:16:57Z",
+   "read_utc": "2026-10-14T23:46:01Z",
    "computed": true,
    "computed_from": "mempool.space's estimate (estimatedRetargetDate, difficultyChange, remainingBlocks)",
    "next_retarget_height": 971712
@@ -145,7 +145,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=54"
    },
-   "read_utc": "2026-10-14T23:16:54Z",
+   "read_utc": "2026-10-14T23:45:58Z",
    "computed": false,
    "computed_from": null,
    "release_id": 54,
@@ -160,7 +160,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=53"
    },
-   "read_utc": "2026-10-14T23:16:55Z",
+   "read_utc": "2026-10-14T23:45:59Z",
    "computed": false,
    "computed_from": null,
    "release_id": 53,
@@ -175,26 +175,26 @@
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option"
    },
-   "read_utc": "2026-10-14T23:16:56Z",
+   "read_utc": "2026-10-14T23:46:00Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 146327.1,
+   "open_interest": 146327.0,
    "unit": "BTC",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
   {
    "date": "2026-10-30",
    "time_et": "4:00 AM ET",
-   "title": "Deribit Ether monthly options expiry, open interest 246,026 ETH",
+   "title": "Deribit Ether monthly options expiry, open interest 246,024 ETH",
    "kind": "expiry",
    "source": {
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option"
    },
-   "read_utc": "2026-10-14T23:16:56Z",
+   "read_utc": "2026-10-14T23:46:00Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 246026.0,
+   "open_interest": 246024.0,
    "unit": "ETH",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
@@ -207,7 +207,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=50"
    },
-   "read_utc": "2026-10-14T23:16:55Z",
+   "read_utc": "2026-10-14T23:45:59Z",
    "computed": false,
    "computed_from": null,
    "release_id": 50,
@@ -222,7 +222,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=10"
    },
-   "read_utc": "2026-10-14T23:16:53Z",
+   "read_utc": "2026-10-14T23:45:58Z",
    "computed": false,
    "computed_from": null,
    "release_id": 10,
@@ -237,7 +237,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=9"
    },
-   "read_utc": "2026-10-14T23:16:55Z",
+   "read_utc": "2026-10-14T23:45:59Z",
    "computed": false,
    "computed_from": null,
    "release_id": 9,
@@ -252,7 +252,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=54"
    },
-   "read_utc": "2026-10-14T23:16:54Z",
+   "read_utc": "2026-10-14T23:45:58Z",
    "computed": false,
    "computed_from": null,
    "release_id": 54,
@@ -267,7 +267,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=53"
    },
-   "read_utc": "2026-10-14T23:16:55Z",
+   "read_utc": "2026-10-14T23:45:59Z",
    "computed": false,
    "computed_from": null,
    "release_id": 53,
@@ -308,7 +308,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=50"
    },
-   "read_utc": "2026-10-14T23:16:55Z",
+   "read_utc": "2026-10-14T23:45:59Z",
    "computed": false,
    "computed_from": null,
    "release_id": 50,
@@ -349,7 +349,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=10"
    },
-   "read_utc": "2026-10-14T23:16:53Z",
+   "read_utc": "2026-10-14T23:45:58Z",
    "computed": false,
    "computed_from": null,
    "release_id": 10,
@@ -364,7 +364,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=9"
    },
-   "read_utc": "2026-10-14T23:16:55Z",
+   "read_utc": "2026-10-14T23:45:59Z",
    "computed": false,
    "computed_from": null,
    "release_id": 9,
@@ -379,7 +379,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=54"
    },
-   "read_utc": "2026-10-14T23:16:54Z",
+   "read_utc": "2026-10-14T23:45:58Z",
    "computed": false,
    "computed_from": null,
    "release_id": 54,
@@ -394,7 +394,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=53"
    },
-   "read_utc": "2026-10-14T23:16:55Z",
+   "read_utc": "2026-10-14T23:45:59Z",
    "computed": false,
    "computed_from": null,
    "release_id": 53,
@@ -435,26 +435,26 @@
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option"
    },
-   "read_utc": "2026-10-14T23:16:56Z",
+   "read_utc": "2026-10-14T23:46:00Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 129882.7,
+   "open_interest": 129883.4,
    "unit": "BTC",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
   {
    "date": "2026-12-25",
    "time_et": "3:00 AM ET",
-   "title": "Deribit Ether quarterly options expiry, open interest 593,640 ETH",
+   "title": "Deribit Ether quarterly options expiry, open interest 593,651 ETH",
    "kind": "expiry",
    "source": {
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option"
    },
-   "read_utc": "2026-10-14T23:16:56Z",
+   "read_utc": "2026-10-14T23:46:00Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 593640.0,
+   "open_interest": 593651.0,
    "unit": "ETH",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
