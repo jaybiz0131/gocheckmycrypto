@@ -1,0 +1,21 @@
+  FAIL section A crashed: ModuleNotFoundError: No module named 'today'
+  FAIL section B crashed: ModuleNotFoundError: No module named 'today'
+  FAIL section C crashed: ModuleNotFoundError: No module named 'today'
+  FAIL section D crashed: ModuleNotFoundError: No module named 'today'
+  FAIL section E crashed: ModuleNotFoundError: No module named 'today'
+E2. fix 1: one honest stamp line; fix 2: the next update off the clock; fix 3: the archive
+  FAIL section E2 crashed: ModuleNotFoundError: No module named 'today'
+F. the home page: cadence line and the /today/ link
+  FAIL the cadence line is Jack's, exactly
+  FAIL the Brief card links /today/
+  FAIL the old cadence line is gone from the build
+G. Item 1: the morning wire is stamped with the morning's own time
+  FAIL Moving the market carries the 8:18 AM stamp, not Monday night's
+  ok   an unrefreshed wire keeps its Edition stamp
+H. Item 2: small prices print compressed, the label reads the full number
+  FAIL 3.682e-07 prints '$0.0₆3682', label '0.0000003682 dollars'
+  FAIL 9e-05 prints '$0.0₄9000', label '0.00009000 dollars'
+  FAIL 5.08e-06 prints '$0.0₅5080', label '0.000005080 dollars'
+  FAIL section H crashed: AttributeError: module 'site_build' has no attribute '_price_label'
+
+SPRINT 8.1: FAIL (14 failing)
