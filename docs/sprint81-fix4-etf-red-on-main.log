@@ -1,0 +1,14 @@
+A. tonight's digest: three drafts fail the ETF belt, the Edition still publishes
+   raised: edition failed deterministic belts: edition: unscoped ETF flow direction while the daily and five-session numbers disagree; name the window
+  FAIL the Edition is published instead of failing the wrap
+B. any other belt failure still fails the wrap
+  ok   an advice-lint failure beside the ETF one raises
+C. a correct ETF sentence is never touched
+  ok   a sentence that names both windows stands, no drop, no repair
+D. too little left after the drop fails closed
+  ok   an Edition that is all ETF sentences does not publish
+E. the model is handed both numbers with their windows
+  FAIL the note carries '+$2.2M' on the day, '-$110.5M' over the week, the date and the sign warning
+  FAIL etf_window_note exists
+
+ETF FLOOR: FAIL (3)

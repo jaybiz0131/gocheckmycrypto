@@ -99,21 +99,27 @@ Swept 13 October 2026 (Sprint 7.3, item 3): every row read against the live site
 | Item | Status |
 |---|---|
 | The twins gate's live proof, FOR THE NEXT SESSION: the 14 Oct 7:08 PM ET Edition's ops-ledger row carries `twins_drops`, `twins_unparsed` and `twins_log` | open, after the merge |
-| The home cadence line still reads "the Brief every evening" now that the morning edition is live (read 14 Oct 8:47 AM ET) | Jack to rule the wording (chrome copy changes only by his ruling) |
+| The home cadence line still reads "the Brief every evening" now that the morning edition is live | **Done in 8.1 on the branch, pending Jack's yes to merge:** the line is "The Brief, every morning and evening." (Jack, 14 Oct) |
 | Unlocks HYPE, WBT, RAIN: all three vesting pages answer 403 to the session (13 Oct); their coin pages print no unlock line | Jack, by hand in a browser |
 | `top_n` 6 ranking check, 7 Editions (4 to 10 Oct) now exist | plan: read each Edition's `wire.json` rank of its VERIFIED item from git, write one table, close or change `top_n` |
 | Coin pages' 7d tile prints `/coins/markets`' rolling 7 days (labeled so); the Board's week is the stored series' close to close; the two can differ | plan: show both values for the seven stored coins in one table, then Jack decides whether to unify |
 | The week field: a coin outside the seven stored series reads six closes in the 23:00 UTC hour | unverified since 7 Oct; plan: one fixture on a coin outside the seven |
-| 6.5: the 13-character price tier is proved on a recorded row, not read live (BTT left the Top 100) | read live when a price of 13 characters or more appears |
+| 6.5: the 13-character price tier | **Closed in 8.1 on the branch:** a price under $0.0001 prints compressed ($0.0₆3682) at normal size, the 10 px tier is removed |
 | L-1 the Board on the Worker (`site-refresh.yml` has no cron since 7.2, so builds are the only mover) | open; plan: serve the snapshot from the Worker; needs Jack, it touches the build count |
 | R-1 desk reconfiguration | open (Sprint J); no plan written, ask Jack for the brief |
-| Whale Watch (`/flows`) at 1440: its tables are 471 to 543 px inside a 1080 px column (read 13 Oct, production `23c33e5`); "full width" (V-11 punch 6) is not met if that is what it meant | next sprint; logged, not fixed in 7.3 (Jack, 13 Oct) |
+| Whale Watch (`/flows`) at 1440, V-11 punch 6 ("full width") | **Closed (Jack, 14 Oct): punch 6 is superseded by Program 6.** 8.1 measured it: nothing is wider than its column at 1440 (tables 543 and 471 px in a 1036 px page; the By exchange table scrolls in its own box at 375). `scripts/column_fit.mjs` stays as the guard |
 | V-13 Crypto copy hold | superseded by Program 6.1 (plain copy under the copy law; no persona text on any live page, read 13 Oct); section 2's bullet updated |
 
 Landed 4 October: A-14 (`/pulse` opens with the Board band at 646px against the
 homepage band's 1027, 63%), A-5's ornament (Bitcoin's 30-day closes as a filled area
 in #FF6A4D, omitted under 720px), the watermark fetch fix, and the mono-500 font
 weight removal.
+
+## 3b. Program 8, Sprint 8.1: the daily answer (14 October 2026)
+
+Jack's rulings, Wednesday 14 October 2026, 10:42 AM ET: (1) Program 8 is approved (`docs/PROGRAM-8-2026-10-14.md`). (2) The home cadence line reads exactly "The Brief, every morning and evening." (`NEWS_CADENCE_LINE`, and the test in `verify_pipeline.py` that pins it). (3) The daily answer makes no new model call and never says "because" unless a cited source does.
+
+What 8.1 built (branch, pending Jack's yes): `today.py` composes a record per slot (`site/data/today/YYYY-MM-DD-<slot>.json`, written by `python3 today.py --write` in the morning and Edition workflows); `site_build._write_today` renders /today/ (newest record) and /today/YYYY-MM-DD (the evening record once it exists, else the morning one; a stored record is frozen and a dated page links only earlier days, so a later day cannot change it). Cases: `scripts/sprint81_test.py`, run by the canary. The morning wire block now prints "Re-ranked <time>" from `refreshed_et` (it printed `ranked_et`, the Edition's time). Corrections: a record's `corrections` list renders under the answer.
 
 ## 4. Notes carried forward
 

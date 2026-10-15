@@ -1390,8 +1390,7 @@ def _wire_canary():
                        (_w.WHAT_A_WIRE_LINE_IS, "the line under the list")):
         _check(frag in wb, fails, f"news page: the wire block lacks {what}")
     _check(wb.count('class="bd-stamp"') >= 4, fails, "news page: an item carries no stamp")
-    _check(_sb.NEWS_CADENCE_LINE == ("The day's stories ranked and sourced by the desk, one "
-                                     "checked, the Brief every evening."), fails,
+    _check(_sb.NEWS_CADENCE_LINE == "The Brief, every morning and evening.", fails,
            "news page: the cadence line is not Jack's words")
     real_wj = _sb.WIRE_JSON
     try:
@@ -2032,6 +2031,7 @@ def _stamp_canary():
                 fails.extend(_tile_canary(open(_lp, encoding="utf-8").read()))
             fails.extend(_beacon_canary(out))
             fails.extend(_coin_pages_canary(out))
+            fails.extend(_sprint81_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2949,6 +2949,32 @@ def _coin_pages_canary(out):
     finally:
         _sys.modules.pop("coin_pages_test", None)
         _sys.modules.pop("masthead_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint81_canary(out):
+    """PROGRAM 8, SPRINT 8.1 (14 October 2026): the daily answer, the morning wire stamp, the
+    compressed small prices, the cadence line and the column fit, read on the tree this build
+    wrote. scripts/sprint81_test.py holds the cases. The helper is taken out of sys.modules
+    again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint81_test as _s81
+        fails = ["sprint 8.1: " + f for f in _s81.unit()]
+        fails += ["sprint 8.1: " + f for f in _s81.static(out)]
+        fails += ["sprint 8.1: " + f for f in _s81.browser(out)]
+        import subprocess as _sp
+        _r = _sp.run([sys.executable, os.path.join(_sd, "etf_floor_test.py")], cwd=os.path.dirname(_sd),
+                     capture_output=True, text=True, timeout=300)
+        _bad = [ln.strip() for ln in _r.stdout.splitlines() if "FAIL" in ln]
+        if _r.returncode != 0:
+            fails.append("sprint 8.1: the Edition's ETF floor: " + ("; ".join(_bad[:4]) or _r.stderr[-200:]))
+    finally:
+        _sys.modules.pop("sprint81_test", None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
     return fails

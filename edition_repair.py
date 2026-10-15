@@ -239,6 +239,29 @@ def belt_repair(obj, belts, probe, min_words=MIN_BODY_WORDS):
     return new, sum(len(v) for v in edits.values())
 
 
+def drop_etf_sentences(obj, belts, context, min_words=MIN_BODY_WORDS):
+    """THE ETF FLOOR (Sprint 8.1, Jack, 14 October 2026). The last resort when the ETF window
+    belt is the ONLY thing still failing after the told retry, the Sonnet rescue and the
+    sentence cut: every sentence that names the ETFs is dropped, and the rest of the Edition
+    publishes. `context` is the ETF mention pattern (the belt's own). Returns (new_obj,
+    [dropped sentences]) or (None, why); the full belts are re-run on what is left."""
+    import re as _re
+    rx = _re.compile(context, _re.I)
+    dropped = []
+    for field, paras in _fields(obj):
+        if field == "key_takeaway":
+            continue
+        for para in paras:
+            dropped += [s for s in sentences(para) if rx.search(s)]
+    if not dropped:
+        return None, "no sentence names the ETFs"
+    new, cut = belt_repair(obj, belts, lambda _f, sent: ["etf"] if rx.search(sent) else [],
+                           min_words=min_words)
+    if new is None:
+        return None, cut
+    return new, dropped
+
+
 def digest_edition(stories, belts, lint_bottom_line, max_words=900,
                    window_hours=36, label="digest"):
     """A plain digest of the desk's own published, verified stories: the floor under the

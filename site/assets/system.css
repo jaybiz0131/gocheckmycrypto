@@ -549,3 +549,7 @@ body .cn-tiles .tl-f{font-size:20px}
 .rs-l.up{stroke:var(--up-line)}
 .rs-l.down{stroke:var(--down-line)}
 .rs-l.flat{stroke:var(--muted)}
+
+/* Program 8, Sprint 8.1: the line under the Brief card that opens the daily answer */
+body .h-band .h-today{margin:8px 0 0!important}
+body .h-band .h-today a{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--band-ink);text-decoration:underline;text-underline-offset:3px}

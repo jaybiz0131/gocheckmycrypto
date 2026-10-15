@@ -561,6 +561,23 @@ class Gate:
         json.dump(prev, open(self.log_path, "w", encoding="utf-8"), indent=1)
 
 
+def log_drop(surface, sentence, why, stamp="", kind="wrong", path=None):
+    """Append one drop made OUTSIDE a Gate (the Edition's ETF floor, Sprint 8.1) to the run's log
+    file, in the same shape a Gate writes, so the ops ledger counts and names it."""
+    path = path if path is not None else LOG_PATH
+    rec = {"surface": surface, "dropped": sentence, "why": why, "kind": kind, "stamp_utc": stamp}
+    try:
+        prev = json.load(open(path, encoding="utf-8"))
+    except Exception:
+        prev = {"drops": []}
+    prev.setdefault("drops", []).append(rec)
+    prev["counts"] = counts(prev["drops"])
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    json.dump(prev, open(path, "w", encoding="utf-8"), indent=1)
+    print(f"twins gate: dropped from {surface}: {why}: \"{sentence[:140]}\"")
+    return rec
+
+
 def counts(drops):
     """{"wrong": n, "unparsed": n} over a log's drops (a drop with no kind is a wrong claim)."""
     u = sum(1 for d in drops if d.get("kind") == "unparsed")

@@ -3919,8 +3919,8 @@ def _edition_hold():
 
 # THE NEWS PAGE'S CADENCE LINE (Jack's words, 5 October 2026, program section 9). The home
 # page keeps CADENCE_LINE until Sprint 2 builds it; /news states the wire path.
-NEWS_CADENCE_LINE = ("The day's stories ranked and sourced by the desk, one checked, "
-                     "the Brief every evening.")
+# Jack, 14 October 2026 (Program 8): the Brief runs morning and evening, so the line says so.
+NEWS_CADENCE_LINE = "The Brief, every morning and evening."
 
 
 def cadence_line(text=None):
@@ -6681,7 +6681,7 @@ def _posture_card(a, pulse=None):
                          ("90-day high", "spark_high"), ("90-day low", "spark_low")))
     return f"""<div class="pulse-card">
   <div class="pc-head"><span class="pc-sym">{esc(sym)}<span class="live-dot"></span></span>
-    <span class="pc-quote"><span class="pc-price" data-live="price:{esc(sym)}">{esc(_price_fmt(a.get("price")))}</span>{chg_html}</span></div>
+    <span class="pc-quote"><span class="pc-price" data-live="price:{esc(sym)}"{_price_aria(a.get("price"))}>{esc(_price_fmt(a.get("price")))}</span>{chg_html}</span></div>
   {chart}
   {legend}
   <dl class="pc-stats">{stats}</dl>
@@ -7407,17 +7407,47 @@ def render_pulse_movers(pulse, dateline):
     return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True, data=pulse)
 
 
+COMPRESS_BELOW = 0.0001
+_SUBS = "\u2080\u2081\u2082\u2083\u2084\u2085\u2086\u2087\u2088\u2089"
+
+
+def _compressed(price):
+    """True when the price prints compressed. Judged on the rounded figure, so 0.000099996
+    (which rounds to 0.0001000) prints in full."""
+    return bool(price) and float(f"{price:.3e}") < COMPRESS_BELOW
+
+
+def _price_parts(price):
+    """(zeros, digits) for a price under COMPRESS_BELOW: the zeros after the decimal point and
+    the four significant digits that follow them (Sprint 8.1: $0.0000003682 is 6 and "3682")."""
+    mant, _, exp = f"{price:.3e}".partition("e")
+    return -int(exp) - 1, mant.replace(".", "")
+
+
 def _price_fmt(price):
     # CoinMarketCap's convention (owner ruling 2026-08-31): dollars and cents from $1 up
     # (SOL is $103.50, not $104), four significant digits below $1, always fixed notation.
-    # Mirrored by fmtPrice in pulse-live.js, which rewrites these cells in the browser:
-    # change both together.
+    # SPRINT 8.1 (14 October 2026): under $0.0001 the run of zeros is compressed at normal
+    # size, $0.0000003682 as $0.0\u20863682 (the subscript is the count of zeros after the
+    # decimal point); _price_label says the full number for a screen reader.
     if not price:
         return "?"
     if price >= 1:
         return f"${price:,.2f}"
     import math
-    return f"${price:.{3 - math.floor(math.log10(price))}f}"
+    if _compressed(price):
+        z, d = _price_parts(price)
+        return f"$0.0{_SUBS[z] if z < 10 else ''.join(_SUBS[int(c)] for c in str(z))}{d}"
+    return f"${price:.{3 - math.floor(math.log10(float(f'{price:.3e}')))}f}"
+
+
+def _price_label(price):
+    """The accessible label of a compressed price ("0.0000003682 dollars"); "" when the price
+    prints in full and needs none."""
+    if not _compressed(price):
+        return ""
+    z, d = _price_parts(price)
+    return f"0.{'0' * z}{d} dollars"
 
 
 def _src_rank_title(src, pos):
@@ -7436,12 +7466,16 @@ def _name_words(name):
     return " ".join(f'<span class="t1-w">{esc(w)}</span>' for w in (name or "").split())
 
 
+def _price_aria(price):
+    lab = _price_label(price)
+    return f' aria-label="{esc(lab)}"' if lab else ""
+
+
 def _price_class(price_str):
-    """Sprint 6.5. The price steps down with its length, one step each: 11 or 12 characters
-    (pn-long), 13 or more (pn-xlong), so a micro-cap such as $0.0000003682 keeps 12 px or more
-    between the price and the 24h pill at 375."""
-    n = len(price_str or "")
-    return " pn-xlong" if n >= 13 else " pn-long" if n >= 11 else ""
+    """Sprint 6.5. The price steps down once, at 11 or more characters (pn-long, 11 px). Sprint
+    8.1 removed the 10 px tier: a micro-cap prints compressed ($0.0\u20863682), so no price
+    needs it."""
+    return " pn-long" if len(price_str or "") >= 11 else ""
 
 
 def _top100_rows(coins):
@@ -7474,7 +7508,8 @@ def _top100_rows(coins):
             f'{esc(sym)}<span class="mut"><span class="t1-dot"> &middot; </span>'
             f'<span class="t1-name">{_name_words(nm)}</span></span></a></td>'
             f'<td class="pnum{_price_class(_price_fmt(c.get("price")))}" '
-            f'data-cell="price" data-val="{c.get("price") or 0}">{esc(_price_fmt(c.get("price")))}</td>'
+            f'data-cell="price" data-val="{c.get("price") or 0}"{_price_aria(c.get("price"))}>'
+            f'{esc(_price_fmt(c.get("price")))}</td>'
             f'<td data-cell="chg" data-val="{chg if chg is not None else 0}">{chg_html}</td>'
             f'<td class="c-spark">{_cp.row_spark(c.get("spark7d"))}</td>'
             f'<td class="mut c-wide" data-cell="mcap" data-val="{c.get("mcap_usd") or 0}">{esc(fmt_usd(c.get("mcap_usd", 0)))}</td>'
@@ -8969,6 +9004,28 @@ def _render_og_card(item):
         return False
 
 
+def _write_today(w, items, pulse, dateline):
+    """The daily answer's pages (today.py): [(sitemap path, lastmod)]. It fails open: a page
+    that cannot be built is a warning and no page, never a failed build, and the pages already
+    stored stand."""
+    try:
+        import home as _home
+        import today as _today
+        import twins_gate as _tg
+        gate = _tg.Gate(SNAP)
+        built = _today.build_pages(SNAP, pulse, _home.load_json(WIRE_JSON),
+                                   current_bottom_line(items), _home.load_json(MORNING_JSON),
+                                   _build_now(), gate, dateline=dateline)
+        gate.save()
+        for rel, html, _path, _mod in built:
+            w(rel, html)
+        print(f"today: {len(built)} page(s) built ({gate.report()})")
+        return [(path, mod) for _rel, _h, path, mod in built]
+    except Exception as e:
+        print(f"::warning::today: the daily answer was not built ({type(e).__name__}: {e})")
+        return []
+
+
 def build():
     items = load_content()
     # dateline reflects the newest content (or a neutral standing line), never a wall clock
@@ -9063,6 +9120,8 @@ def build():
     _board_age_alarm(pulse)
     cm = load_chartmaster()
     w("index.html", render_home(items, flows, pulse, cm, dateline))
+    # PROGRAM 8, SPRINT 8.1 (14 October 2026): the daily answer, /today/ and a dated page a day.
+    _today_map = _write_today(w, items, pulse, dateline)
 
     # C-L4: the file the mini-board fetches, and only after it has found pins.
     _cm_payload = coins_mini_payload(pulse)
@@ -9298,7 +9357,12 @@ def build():
         return ORIGIN + (p[:-5] if p.endswith(".html") else p)
 
     def _urlset(paths):
-        body = "\n".join(f"  <url><loc>{esc(_clean(p))}</loc></url>" for p in paths)
+        # an entry is a path, or (path, lastmod) when the page has a real change time
+        def _u(p):
+            p, mod = p if isinstance(p, tuple) else (p, "")
+            lm = f"<lastmod>{esc(_w3c_dt(mod))}</lastmod>" if mod else ""
+            return f"  <url><loc>{esc(_clean(p))}</loc>{lm}</url>"
+        body = "\n".join(_u(p) for p in paths)
         return ('<?xml version="1.0" encoding="UTF-8"?>\n'
                 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                 + body + "\n</urlset>\n")
@@ -9331,7 +9395,12 @@ def build():
         if _sl and _sl not in _cseen:
             _cseen.add(_sl)
             _coin_locs.append(f"/coins/{_sl}.html")
-    prio = locs + learn_locs + hub_locs + _coin_locs + [f"/articles/{i['slug']}.html" for i in _prio_arts]
+    # THE DAILY ANSWER (Sprint 8.1): /today/ rides the priority tier with its real lastmod, each
+    # dated page the archive tier with its own.
+    _today_live = [(p, m) for p, m in _today_map if p == "/today/"]
+    _today_dated = [(p, m) for p, m in _today_map if p != "/today/"]
+    prio = (locs + _today_live + learn_locs + hub_locs + _coin_locs
+            + [f"/articles/{i['slug']}.html" for i in _prio_arts])
     older = [i for i in arts_sorted if i.get("slug") not in _ev]
     archive_arts = [i for i in older if _within_days(i, 60)]
     n_aged = len(older) - len(archive_arts)
@@ -9354,7 +9423,7 @@ def build():
         if os.path.isdir(_dir):
             _extra += [f"/{_sub}/{_f}" for _f in sorted(os.listdir(_dir))
                        if _f.endswith(".html")]
-    archive = _extra + _c4_months + [f"/articles/{i['slug']}.html" for i in archive_arts]
+    archive = _extra + _today_dated + _c4_months + [f"/articles/{i['slug']}.html" for i in archive_arts]
     w("sitemap-priority.xml", _urlset(prio))
     w("sitemap-archive.xml", _urlset(archive))
     w("sitemap.xml",
