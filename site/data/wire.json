@@ -1,200 +1,169 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-10-14T23:43:43Z",
- "ranked_et": "7:43 PM ET on Oct 14",
- "refreshed_utc": "2026-10-15T12:18:33Z",
- "refreshed_et": "8:18 AM ET on Oct 15",
- "refreshes": 1,
- "snapshot_stamp_utc": "2026-10-14T23:43:23Z",
+ "ranked_utc": "2026-10-15T23:12:50Z",
+ "ranked_et": "7:12 PM ET on Oct 15",
+ "refreshed_utc": "2026-10-15T23:12:50Z",
+ "refreshed_et": "7:12 PM ET on Oct 15",
+ "refreshes": 0,
+ "snapshot_stamp_utc": "2026-10-15T23:12:28Z",
  "items": [
   {
-   "rank": 5,
-   "id": "c016",
-   "line": "Standard Chartered launched Bitcoin and Ether trading for affluent UAE clients through closed-loop service with up to 2% spread.",
+   "rank": 1,
+   "id": "c002",
+   "line": "Brooklyn DA and FBI seized 112 servers, shut 241 websites in crypto fraud network that targeted Russian speakers with fake investment schemes.",
    "titles": [
-    "Standard Chartered Launches Bitcoin and Ether Trading for Affluent UAE Clients",
-    "Standard Chartered unlocks direct bitcoin and ether trading for affluent UAE clients",
-    "Standard Chartered Debuts Bitcoin Trading For Wealthy UAE Clients",
-    "Standard Chartered Opens Bitcoin and Ethereum Trading to Wealthy UAE Clients",
-    "Standard Chartered expands Bitcoin and Ether trading to professional investors in UAE"
+    "How Brooklyn prosecutors and the FBI took down a massive crypto fraud network targeting Russian speakers",
+    "FBI helps smash crypto scam targeting Russian speakers in Brooklyn"
    ],
-   "board_reading": "Ether price",
-   "source_count": 6,
+   "board_reading": "",
+   "source_count": 2,
    "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://thedefiant.io/converge/tradfi-and-fintech/standard-chartered-launches-bitcoin-and-ether-trading-for-affluent-uae-clients",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://www.coindesk.com/business/2026/10/14/standard-chartered-unlocks-direct-bitcoin-and-ether-trading-for-affluent-uae-clients",
+     "url": "https://www.coindesk.com/business/2026/10/15/how-brooklyn-prosecutors-and-the-fbi-took-down-a-massive-crypto-fraud-network-targeting-russian-speakers",
      "outlet": "CoinDesk",
      "primary": false
     },
     {
-     "url": "https://bitcoinmagazine.com/news/standard-chartered-debuts-bitcoin-trading-2",
-     "outlet": "Bitcoin Magazine",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/380967/standard-chartered-bitcoin-ethereum-trading",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/standard-chartered-bitcoin-ether-trading-professional-investors-uae?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://www.theblock.co/news/web3/2026-10-14-standard-chartered-stablecoin-market-report-418578",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/standard-chartered-stablecoin-forecast-2030-market-growth?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
+     "url": "https://protos.com/fbi-helps-smash-crypto-scam-targeting-russian-speakers-in-brooklyn/",
+     "outlet": "Protos",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-14T06:12:46Z",
+   "reported_utc": "2026-10-15T12:35:24Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
    "rank": 2,
-   "id": "c008",
-   "line": "Kraken parent Payward agreed to acquire Lithuania's Saldo Bank, securing EU banking license for deposits, lending, and regulated financial services.",
+   "id": "c024",
+   "line": "European Banking Authority designated Circle's USDC as first 'significant' e-money token under MiCA, placing it under direct EU oversight.",
    "titles": [
-    "Kraken parent Payward to become first crypto firm to buy a EU bank as it expands into deposits, lending",
-    "Kraken Parent Payward Agrees to Buy Lithuania\u2019s Saldo Bank",
-    "Kraken parent to buy Lithuanian Saldo Bank amid TradFi expansion"
+    "EBA designates Circle\u2019s USDC as the EU\u2019s first \u2018significant\u2019 e-money token"
    ],
-   "board_reading": "Whale net, exchange flows",
-   "source_count": 5,
+   "board_reading": "Stablecoin float",
+   "source_count": 1,
    "primary": false,
-   "standing": "corroborated",
+   "standing": "single",
    "links": [
     {
-     "url": "https://www.coindesk.com/business/2026/10/14/kraken-parent-payward-to-become-first-crypto-firm-to-buy-a-eu-bank-as-it-expands-into-deposits-lending",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/converge/tradfi-and-fintech/kraken-parent-payward-agrees-to-buy-lithuania-s-saldo-bank",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/krakens-parent-buy-lithuanian-saldo-bank-tradfi-expansion?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/380912/kraken-owner-payward-to-buy-lithuanias-saldo-bank-in-eu-push",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://bitcoinmagazine.com/news/kraken-parent-company-to-buy-saldo-bank",
-     "outlet": "Bitcoin Magazine",
+     "url": "https://www.theblock.co/news/regulation/2026-10-15-eba-designates-circles-usdc-as-the-eus-first-significant-e-money-token-418637",
+     "outlet": "The Block",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-14T13:07:45Z",
+   "reported_utc": "2026-10-15T11:10:07Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 3,
+   "id": "c031",
+   "line": "Russia's central bank confirmed ban on peer-to-peer crypto trading effective July 1, 2027; all trades must route through state-approved intermediaries.",
+   "titles": [
+    "Russia Will Soon Ban Peer-to-Peer Bitcoin Trading, Central Bank Confirms"
+   ],
+   "board_reading": "Bitcoin price",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://decrypt.co/381079/russia-ban-peer-to-peer-bitcoin-trading",
+     "outlet": "Decrypt",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-15T20:31:04Z",
    "verdict": "VERIFIED",
-   "mark": "checked"
+   "mark": "wire"
   },
   {
    "rank": 4,
-   "id": "c011",
-   "line": "Dutch central bank authorized Qivalis as e-money institution under MiCA, enabling euro token settlement infrastructure backed by major European banks.",
+   "id": "c008",
+   "line": "Australia's ASIC proposed tougher capital, custody and trading rules for crypto platforms ahead of licensing regime launching in 2027.",
    "titles": [
-    "Dutch central bank grants Qivalis e-money license for MiCA-compliant euro token",
-    "Qivalis Secures Dutch E-Money License for Planned Euro Stablecoin",
-    "Qivalis wins Dutch e-money license for euro stablecoin"
+    "Australia\u2019s financial watchdog seeks stiffer rules for crypto exchanges ahead of licensing deadline"
    ],
-   "board_reading": "Stablecoin float",
+   "board_reading": "Whale net, exchange flows",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/policy/2026/10/15/australia-s-financial-watchdog-seeks-stiffer-rules-for-crypto-exchanges-ahead-of-licensing-deadline",
+     "outlet": "CoinDesk",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-15T09:53:37Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 5,
+   "id": "c026",
+   "line": "Patrick Witt, Trump's crypto adviser, resigned from White House role as Clarity Act stalls, leaving administration's crypto agenda uncertain.",
+   "titles": [
+    "Patrick Witt exits White House crypto role as Clarity Act stalls",
+    "White House crypto council chief Patrick Witt steps down",
+    "Trump\u2019s crypto bill loses its White House negotiator as Patrick Witt exits"
+   ],
+   "board_reading": "",
    "source_count": 4,
    "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/policy/2026/10/14/dutch-regulator-approves-qivalis-as-electronic-money-institution-under-mica-rules",
-     "outlet": "CoinDesk",
+     "url": "https://www.theblock.co/news/regulation/2026-10-14-white-house-crypto-adviser-patrick-witt-departs-418611",
+     "outlet": "The Block",
      "primary": false
     },
     {
-     "url": "https://thedefiant.io/converge/regulation/qivalis-secures-dutch-e-money-license-for-planned-euro-stablecoin",
-     "outlet": "The Defiant",
+     "url": "https://www.coindesk.com/news-analysis/2026/10/15/at-the-white-house-crypto-policy-vacancy-looms-large",
+     "outlet": "coindesk.com",
      "primary": false
     },
     {
-     "url": "https://cointelegraph.com/news/qivalis-authorization-dutch-central-bank-euro-stablecoin?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "url": "https://cointelegraph.com/news/white-house-crypto-council-director-steps-down?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
      "outlet": "Cointelegraph",
      "primary": false
     },
     {
-     "url": "https://cryptoslate.com/qivalis-wins-dutch-emi-license-but-mica-rules-block-launch/",
+     "url": "https://cryptoslate.com/trumps-crypto-policy-power-shifts-toward-sec-and-cftc-as-white-house-team-empties/",
      "outlet": "CryptoSlate",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-14T11:12:36Z",
+   "reported_utc": "2026-10-14T20:30:15Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
-   "rank": 1,
-   "id": "c009",
-   "line": "U.S. inflation accelerated to 3.7% in September, sending Bitcoin below $82,000 as bond yields spiked and rate-hike odds doubled.",
+   "rank": 6,
+   "id": "c011",
+   "line": "Nearly $1 billion in crypto positions liquidated as hot US inflation data (PPI +1.3%) revived rate-hike bets and sparked broad selloff.",
    "titles": [
-    "U.S. September CPI comes in hot, sending bitcoin sharply lower"
+    "Nearly $1 billion in crypto bets liquidated as bitcoin, ether and XRP slide"
    ],
    "board_reading": "Fear & Greed",
-   "source_count": 2,
-   "primary": true,
+   "source_count": 1,
+   "primary": false,
    "standing": "single",
    "links": [
     {
-     "url": "http://www.banking.senate.gov/newsroom/minority/senator-warren-statement-on-september-2026-cpi-and-updated-trumpflation-tracker-data",
-     "outlet": "Senate Banking Committee",
-     "primary": true
-    },
-    {
-     "url": "https://www.coindesk.com/markets/2026/10/14/u-s-september-cpi-comes-in-hot-sending-bitcoin-sharply-lower",
+     "url": "https://www.coindesk.com/markets/2026/10/15/nearly-usd1-billion-in-crypto-bets-liquidated-as-bitcoin-ether-and-xrp-slide",
      "outlet": "CoinDesk",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-14T12:33:56Z",
+   "reported_utc": "2026-10-15T04:25:15Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   }
  ],
- "checked": {
-  "id": "c008",
-  "rank": 2,
-  "says": "CoinDesk reports that Payward's acquisition makes it the first crypto parent company to acquire a European bank, pending regulatory approval, with Saldo holding \u20ac196.9M in assets.",
-  "unconfirmed": "The specific claim that this is the 'first crypto firm' (rather than 'first crypto parent company') to acquire an EU bank with a full license was not independently verified against a regulatory or Payward primary source.",
-  "badge": "Verified",
-  "standing": "corroborated",
-  "source": "https://www.coindesk.com/business/2026/10/14/kraken-parent-payward-to-become-first-crypto-firm-to-buy-a-eu-bank-as-it-expands-into-deposits-lending",
-  "outlet": "CoinDesk"
- },
- "dropped": [
-  {
-   "rank": 3,
-   "id": "c028",
-   "why": "the wire line runs 177 characters, over 160"
-  },
-  {
-   "rank": 6,
-   "id": "c046",
-   "why": "the wire line runs 167 characters, over 160"
-  }
- ]
+ "checked": null,
+ "dropped": []
 }

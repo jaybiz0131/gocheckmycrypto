@@ -1,35 +1,32 @@
 {
- "line": "Bitcoin is drifting lower on spot ETF outflows; the news is mixed.",
- "by": "table",
- "written_utc": "2026-10-15T12:18:33Z",
- "written_et": "8:18 AM ET on Oct 15",
+ "line": "Bitcoin is drifting higher on the day as fear-greed holds neutral, yet weekly losses and ETF outflows flag weakening conviction beneath the surface.",
+ "by": "edition",
+ "written_utc": "2026-10-15T23:14:19Z",
+ "written_et": "7:14 PM ET on Oct 15",
  "readings": {
-  "stamp_utc": "2026-10-15T12:16:51Z",
-  "btc_24h_pct": -3.37,
-  "etf_net_usd_m": -261.4,
-  "etf_date": "14 Oct 2026",
+  "stamp_utc": "2026-10-15T23:12:28Z",
+  "btc_24h_pct": 0.81,
+  "etf_net_usd_m": -7.6,
+  "etf_date": "15 Oct 2026",
   "fear_greed": 53,
   "fear_greed_band": "Neutral",
-  "funding_8h_pct": 0.0047,
+  "funding_8h_pct": 0.0056,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -3.37% on the day, spot ETF net -261.4M USD (Oct 14, 2026), Fear & Greed 53 (neutral), funding +0.0047% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.81% on the day, spot ETF net -7.6M USD (Oct 15, 2026), Fear & Greed 53 (neutral), funding +0.0056% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c016",
-   "line": "Standard Chartered launched Bitcoin and Ether trading for affluent UAE clients through closed-loop service with up to 2% spread."
+   "id": "c002",
+   "line": "Brooklyn DA and FBI seized 112 servers, shut 241 websites in crypto fraud network that targeted Russian speakers with fake investment schemes."
   },
   {
-   "id": "c008",
-   "line": "Kraken parent Payward agreed to acquire Lithuania's Saldo Bank, securing EU banking license for deposits, lending, and regulated financial services."
+   "id": "c024",
+   "line": "European Banking Authority designated Circle's USDC as first 'significant' e-money token under MiCA, placing it under direct EU oversight."
   },
   {
-   "id": "c011",
-   "line": "Dutch central bank authorized Qivalis as e-money institution under MiCA, enabling euro token settlement infrastructure backed by major European banks."
+   "id": "c031",
+   "line": "Russia's central bank confirmed ban on peer-to-peer crypto trading effective July 1, 2027; all trades must route through state-approved intermediaries."
   }
  ],
- "crossed": [
-  "spot ETF net changed sign, +2.2M to -261.4M USD",
-  "Fear & Greed crossed from greed into neutral (62 to 53)"
- ]
+ "crossed": []
 }
