@@ -225,14 +225,30 @@ def next_update(slot, now):
     return f"Next update: {SLOT_LABEL[kind]}, {when}"
 
 
-def stamp_line(slot, src_utc, snap_utc, snap_stamp_et, now):
+def stamp_line(slot, src_utc, snap_utc, snap_stamp_et, now, fallback=False):
     """ONE HONEST LINE (Jack, 14 October 2026). When the text and the numbers come from the same
     run, the slot and its time ("Morning read, 8:18 AM ET"). When they do not, both times and
     the reason: "Numbers as of 7:12 PM ET, tonight's Edition did not publish; text from the 8:18
-    AM read"."""
-    import home
+    AM read". FALLBACK (15 October): no read ran for the slot, so the line never names a morning
+    read it does not have: "Numbers as of 8:17 AM ET \u00b7 this morning's read did not publish;
+    text from last night's 7:14 PM Edition"."""
     pub, snap_t = _et(src_utc), _et(snap_utc)
     label = SLOT_LABEL[slot]
+    if fallback:
+        n = now.astimezone(ET)
+        import home
+        if n >= _evening_et(now):
+            why = "tonight's Edition did not publish"
+        elif n >= n.replace(hour=home.MORNING_ET[0], minute=home.MORNING_ET[1], second=0, microsecond=0):
+            why = "this morning's read did not publish"
+        else:
+            why = "this morning's read has not published yet"
+        nums = f"Numbers as of {_clock(snap_t)} \u00b7 " if snap_t else ""
+        if pub is None:
+            return f"{nums}{why}"
+        when = ("last night's" if (n.date() - pub.date()).days == 1 and pub.hour >= 17
+                else f"the {pub.strftime('%b')} {pub.day}")
+        return f"{nums}{why}; text from {when} {pub.strftime('%-I:%M %p')} Edition"
     if pub is None:
         return label
     here = f"{label}, {_clock(pub)}"
@@ -272,8 +288,14 @@ def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None):
     reading to take a direction from (the page then says nothing rather than guess)."""
     import snapshot as _s
     slot, src = slot_of(now, ed, morning)
+    fallback = False
     if not slot:
-        return None
+        # NO READ FOR THIS SLOT (the morning fell back, or the Edition did not publish): the page is
+        # still the day's answer, built from the numbers alone, and says so. The last Edition on
+        # the desk is the only text it may name, and it never claims a read that did not run.
+        if not (ed and _et(ed.get("published_utc"))):
+            return None
+        slot, src, fallback = "morning", ed, True
     btc = dict(_s.coin(snap, "BTC") or {})
     btc_chg = btc.get("chg_24h_pct")
     dirn = direction(btc_chg)
@@ -290,8 +312,9 @@ def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None):
     gain, lose = movers(pulse)
     d = now.astimezone(ET).date()
     title, h1 = heading(dirn, d)
-    lifted = liftable(" ".join(src.get("sentences") or []) if slot == "morning"
-                      else (src.get("bottom_line") or src.get("dek") or ""), dirn, gate)
+    lifted = None if fallback else liftable(
+        " ".join(src.get("sentences") or []) if slot == "morning"
+        else (src.get("bottom_line") or src.get("dek") or ""), dirn, gate)
     if lifted:
         answer, by = lifted, slot
     else:
@@ -300,13 +323,16 @@ def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None):
         by = "template"
     pub = _et(src.get("published_utc"))
     stamp = stamp_line(slot, src.get("published_utc"), (snap or {}).get("stamp_utc"),
-                       (snap or {}).get("stamp_et"), now)
-    return {"date_et": d.isoformat(), "slot": slot, "direction": dirn, "title": title, "h1": h1,
-            "stamp_label": stamp, "published_utc": src.get("published_utc"),
-            "first_utc": first_utc or src.get("published_utc"),
+                       (snap or {}).get("stamp_et"), now, fallback=fallback)
+    # a fallback page was written NOW, whatever the last Edition's own time: its dates are its own
+    stamp_utc = (now.astimezone(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ") if fallback
+                 else src.get("published_utc"))
+    return {"date_et": d.isoformat(), "slot": slot, "published_utc": stamp_utc,
+            "first_utc": first_utc or stamp_utc, "direction": dirn, "title": title, "h1": h1,
+            "stamp_label": stamp,
             "composed_utc": now.astimezone(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "board_stamp_et": (snap or {}).get("stamp_et") or "",
-            "answer": answer, "answer_by": by,
+            "answer": answer, "answer_by": by, "fallback": fallback,
             "btc": btc, "eth": eth, "cap": cap, "gainers": gain, "losers": lose,
             "reported": wire_items(wire, d, gate), "board": board_rows(snap, pulse),
             "next": next_update(slot, now), "corrections": []}

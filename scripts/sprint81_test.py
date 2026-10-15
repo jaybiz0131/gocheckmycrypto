@@ -261,6 +261,31 @@ def unit():
     except Exception as e:
         check(False, fails, "section E2 crashed: " + type(e).__name__ + ": " + str(e)[:140])
 
+    print("E3. a fallback morning: an honest stamp, never a morning read that did not run")
+    try:
+        import today
+        last_ed = {"slug": "2026-10-14-evening-brief", "date": "2026-10-14", "published_utc": "2026-10-14T23:14:00Z",
+                   "bottom_line": "x"}
+        stale = dict(MORNING, date_et="2026-10-14")             # yesterday's read is on disk; today's fell back
+        snap15 = _snap(-1.2, 82000.0, "2026-10-15T12:17:00Z")
+        for hour, minute, why in ((12, 30, "this morning's read did not publish"),
+                                  (11, 0, "this morning's read has not published yet")):
+            rec, _g, _p = _compose(snap15, now=_utc(2026, 10, 15, hour, minute), ed=last_ed, morning=stale)
+            want = f"Numbers as of 8:17 AM ET \u00b7 {why}; text from last night's 7:14 PM Edition"
+            check(rec and rec["stamp_label"] == want and "Morning read" not in rec["stamp_label"], fails,
+                  f"{hour - 4}:{minute:02d} AM: {rec and rec['stamp_label']!r}")
+        rec, _g, _p = _compose(snap15, now=_utc(2026, 10, 15, 12, 30), ed=last_ed, morning=stale)
+        check(rec["fallback"] and rec["answer_by"] == "template" and rec["date_et"] == "2026-10-15"
+              and rec["published_utc"] == "2026-10-15T12:30:00Z" and rec["next"] == "Next update: Evening Edition, tonight at 7:08 PM ET", fails,
+              "the fallback page is the template answer, dated today, modified now, next slot tonight")
+        html, _p2, mod = today.render(rec, [], dated=False)
+        check("Morning read, " not in html and "Why is crypto down today? Thursday, October 15, 2026" in html and mod == "2026-10-15T12:30:00Z", fails,
+              "the rendered page never says 'Morning read,' and carries the day's own title and lastmod")
+        check(_compose(snap15, now=_utc(2026, 10, 15, 12, 30), ed=None, morning=stale)[0] is None, fails,
+              "no Edition on the desk at all: no page")
+    except Exception as e:
+        check(False, fails, "section E3 crashed: " + type(e).__name__ + ": " + str(e)[:140])
+
     try:
         import home
         import site_build as sb
