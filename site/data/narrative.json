@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin is drifting higher on the day as fear-greed holds neutral, yet weekly losses and ETF outflows flag weakening conviction beneath the surface.",
+ "line": "Bitcoin drifted higher on the day per the Board's neutral 53 reading even as the week's ETF flows stayed negative, making for a data-only day with no fresh news to color it.",
  "by": "edition",
- "written_utc": "2026-10-15T23:14:19Z",
- "written_et": "7:14 PM ET on Oct 15",
+ "written_utc": "2026-10-15T23:45:15Z",
+ "written_et": "7:45 PM ET on Oct 15",
  "readings": {
-  "stamp_utc": "2026-10-15T23:12:28Z",
-  "btc_24h_pct": 0.81,
+  "stamp_utc": "2026-10-15T23:43:27Z",
+  "btc_24h_pct": 0.8,
   "etf_net_usd_m": -7.6,
   "etf_date": "15 Oct 2026",
   "fear_greed": 53,
   "fear_greed_band": "Neutral",
-  "funding_8h_pct": 0.0056,
+  "funding_8h_pct": 0.0045,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +0.81% on the day, spot ETF net -7.6M USD (Oct 15, 2026), Fear & Greed 53 (neutral), funding +0.0056% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.80% on the day, spot ETF net -7.6M USD (Oct 15, 2026), Fear & Greed 53 (neutral), funding +0.0045% per 8h (calm)",
  "wire_top3": [
   {
    "id": "c002",
-   "line": "Brooklyn DA and FBI seized 112 servers, shut 241 websites in crypto fraud network that targeted Russian speakers with fake investment schemes."
+   "line": "Brooklyn DA and FBI dismantled Russian-language crypto scam network, seizing 112 servers and shutting 241 domains after victims lost tens of millions."
   },
   {
    "id": "c024",
-   "line": "European Banking Authority designated Circle's USDC as first 'significant' e-money token under MiCA, placing it under direct EU oversight."
+   "line": "EU banking authority classified Circle's USDC as 'significant' e-money token under MiCA, activating Nov. 12 supervisory rules."
   },
   {
-   "id": "c031",
-   "line": "Russia's central bank confirmed ban on peer-to-peer crypto trading effective July 1, 2027; all trades must route through state-approved intermediaries."
+   "id": "c008",
+   "line": "Australia's ASIC proposed stricter rules for crypto exchange licensing, including capital and custody requirements due ahead of 2027 rollout."
   }
  ],
  "crossed": []
