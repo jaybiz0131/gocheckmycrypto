@@ -1,157 +1,17 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-10-14T23:13:13Z",
- "ranked_et": "7:13 PM ET on Oct 14",
- "refreshed_utc": "2026-10-14T23:13:13Z",
- "refreshed_et": "7:13 PM ET on Oct 14",
- "refreshes": 0,
- "snapshot_stamp_utc": "2026-10-14T23:12:52Z",
+ "ranked_utc": "2026-10-14T23:43:43Z",
+ "ranked_et": "7:43 PM ET on Oct 14",
+ "refreshed_utc": "2026-10-15T12:18:33Z",
+ "refreshed_et": "8:18 AM ET on Oct 15",
+ "refreshes": 1,
+ "snapshot_stamp_utc": "2026-10-14T23:43:23Z",
  "items": [
-  {
-   "rank": 1,
-   "id": "c009",
-   "line": "U.S. CPI accelerated to 3.7% in September, exceeding forecasts and sparking a crypto sell-off as rate-hike odds climbed.",
-   "titles": [
-    "U.S. September CPI comes in hot, sending bitcoin sharply lower"
-   ],
-   "board_reading": "Fear & Greed",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/markets/2026/10/14/u-s-september-cpi-comes-in-hot-sending-bitcoin-sharply-lower",
-     "outlet": "CoinDesk",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-14T12:33:56Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 2,
-   "id": "c028",
-   "line": "Turkish police detained HEX and PulseChain founder Richard Heart on an Interpol Red Notice, seizing $4 million in cash and crypto equipment.",
-   "titles": [
-    "Hex Founder Richard Heart Detained in Istanbul on Interpol Red Notice: Report",
-    "Richard Heart Detained in Istanbul on Interpol Notice, Turkish Media Report",
-    "Hex and PulseChain founder Richard Heart detained in Istanbul: reports",
-    "HEX founder Richard Heart arrested with \u2018electronic devices\u2019 in Istanbul via Interpol warrant"
-   ],
-   "board_reading": "",
-   "source_count": 4,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://decrypt.co/380948/hex-founder-richard-heart-detained-in-istanbul-on-interpol-red-notice-report",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/news/regulation/richard-heart-detained-in-istanbul-on-interpol-notice-turkish-media-report",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://www.theblock.co/news/regulation/2026-10-14-hex-pulsechain-founder-richard-heart-detained-istanbul-turkish-media-reports-418574",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://cryptoslate.com/hex-founder-richard-heart-reportedly-detained-with-electronic-devices-in-istanbul-via-interpol-warrant/",
-     "outlet": "CryptoSlate",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-14T14:03:20Z",
-   "verdict": "VERIFIED",
-   "mark": "checked"
-  },
-  {
-   "rank": 3,
-   "id": "c008",
-   "line": "Payward, Kraken's parent, agreed to acquire Lithuania's Saldo Bank, becoming the first crypto firm to secure an EU banking license.",
-   "titles": [
-    "Kraken parent Payward to become first crypto firm to buy a EU bank as it expands into deposits, lending",
-    "Kraken Parent Payward Agrees to Buy Lithuania\u2019s Saldo Bank",
-    "Kraken parent to buy Lithuanian Saldo Bank amid TradFi expansion"
-   ],
-   "board_reading": "Whale net, exchange flows",
-   "source_count": 3,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/business/2026/10/14/kraken-parent-payward-to-become-first-crypto-firm-to-buy-a-eu-bank-as-it-expands-into-deposits-lending",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/converge/tradfi-and-fintech/kraken-parent-payward-agrees-to-buy-lithuania-s-saldo-bank",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/krakens-parent-buy-lithuanian-saldo-bank-tradfi-expansion",
-     "outlet": "cointelegraph.com",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/krakens-parent-buy-lithuanian-saldo-bank-tradfi-expansion?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-14T13:07:45Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 4,
-   "id": "c011",
-   "line": "Dutch central bank granted Qivalis an e-money license under MiCA rules, enabling onchain euro settlement backed by three major European banks.",
-   "titles": [
-    "Dutch central bank grants Qivalis e-money license for MiCA-compliant euro token",
-    "Qivalis Secures Dutch E-Money License for Planned Euro Stablecoin",
-    "Qivalis wins Dutch e-money license for euro stablecoin"
-   ],
-   "board_reading": "Stablecoin float",
-   "source_count": 3,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/policy/2026/10/14/dutch-regulator-approves-qivalis-as-electronic-money-institution-under-mica-rules",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/converge/regulation/qivalis-secures-dutch-e-money-license-for-planned-euro-stablecoin",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/qivalis-authorization-dutch-central-bank-euro-stablecoin",
-     "outlet": "cointelegraph.com",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/qivalis-authorization-dutch-central-bank-euro-stablecoin?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-14T11:12:36Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
   {
    "rank": 5,
    "id": "c016",
-   "line": "Standard Chartered launched Bitcoin and Ether trading for high-net-worth clients in the UAE, charging up to 2% spreads.",
+   "line": "Standard Chartered launched Bitcoin and Ether trading for affluent UAE clients through closed-loop service with up to 2% spread.",
    "titles": [
     "Standard Chartered Launches Bitcoin and Ether Trading for Affluent UAE Clients",
     "Standard Chartered unlocks direct bitcoin and ether trading for affluent UAE clients",
@@ -160,7 +20,7 @@
     "Standard Chartered expands Bitcoin and Ether trading to professional investors in UAE"
    ],
    "board_reading": "Ether price",
-   "source_count": 5,
+   "source_count": 6,
    "primary": false,
    "standing": "corroborated",
    "links": [
@@ -188,6 +48,16 @@
      "url": "https://cointelegraph.com/news/standard-chartered-bitcoin-ether-trading-professional-investors-uae?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
      "outlet": "Cointelegraph",
      "primary": false
+    },
+    {
+     "url": "https://www.theblock.co/news/web3/2026-10-14-standard-chartered-stablecoin-market-report-418578",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/standard-chartered-stablecoin-forecast-2030-market-growth?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
     }
    ],
    "reported_utc": "2026-10-14T06:12:46Z",
@@ -195,37 +65,136 @@
    "mark": "wire"
   },
   {
-   "rank": 6,
-   "id": "c019",
-   "line": "Solana announced October 21 activation of Alpenglow upgrade, targeting 150-millisecond finality and replacing its TowerBFT voting system.",
+   "rank": 2,
+   "id": "c008",
+   "line": "Kraken parent Payward agreed to acquire Lithuania's Saldo Bank, securing EU banking license for deposits, lending, and regulated financial services.",
    "titles": [
-    "Solana sets Oct. 21 for Alpenglow upgrade targeting 150-millisecond finality"
+    "Kraken parent Payward to become first crypto firm to buy a EU bank as it expands into deposits, lending",
+    "Kraken Parent Payward Agrees to Buy Lithuania\u2019s Saldo Bank",
+    "Kraken parent to buy Lithuanian Saldo Bank amid TradFi expansion"
    ],
-   "board_reading": "",
-   "source_count": 1,
+   "board_reading": "Whale net, exchange flows",
+   "source_count": 5,
    "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/business/2026/10/14/kraken-parent-payward-to-become-first-crypto-firm-to-buy-a-eu-bank-as-it-expands-into-deposits-lending",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/kraken-parent-payward-agrees-to-buy-lithuania-s-saldo-bank",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/krakens-parent-buy-lithuanian-saldo-bank-tradfi-expansion?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/380912/kraken-owner-payward-to-buy-lithuanias-saldo-bank-in-eu-push",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://bitcoinmagazine.com/news/kraken-parent-company-to-buy-saldo-bank",
+     "outlet": "Bitcoin Magazine",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-14T13:07:45Z",
+   "verdict": "VERIFIED",
+   "mark": "checked"
+  },
+  {
+   "rank": 4,
+   "id": "c011",
+   "line": "Dutch central bank authorized Qivalis as e-money institution under MiCA, enabling euro token settlement infrastructure backed by major European banks.",
+   "titles": [
+    "Dutch central bank grants Qivalis e-money license for MiCA-compliant euro token",
+    "Qivalis Secures Dutch E-Money License for Planned Euro Stablecoin",
+    "Qivalis wins Dutch e-money license for euro stablecoin"
+   ],
+   "board_reading": "Stablecoin float",
+   "source_count": 4,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/policy/2026/10/14/dutch-regulator-approves-qivalis-as-electronic-money-institution-under-mica-rules",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/converge/regulation/qivalis-secures-dutch-e-money-license-for-planned-euro-stablecoin",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/qivalis-authorization-dutch-central-bank-euro-stablecoin?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://cryptoslate.com/qivalis-wins-dutch-emi-license-but-mica-rules-block-launch/",
+     "outlet": "CryptoSlate",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-14T11:12:36Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 1,
+   "id": "c009",
+   "line": "U.S. inflation accelerated to 3.7% in September, sending Bitcoin below $82,000 as bond yields spiked and rate-hike odds doubled.",
+   "titles": [
+    "U.S. September CPI comes in hot, sending bitcoin sharply lower"
+   ],
+   "board_reading": "Fear & Greed",
+   "source_count": 2,
+   "primary": true,
    "standing": "single",
    "links": [
     {
-     "url": "https://www.coindesk.com/tech/2026/10/14/solana-sets-oct-21-for-alpenglow-upgrade-targeting-150-millisecond-finality",
+     "url": "http://www.banking.senate.gov/newsroom/minority/senator-warren-statement-on-september-2026-cpi-and-updated-trumpflation-tracker-data",
+     "outlet": "Senate Banking Committee",
+     "primary": true
+    },
+    {
+     "url": "https://www.coindesk.com/markets/2026/10/14/u-s-september-cpi-comes-in-hot-sending-bitcoin-sharply-lower",
      "outlet": "CoinDesk",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-14T04:11:16Z",
-   "verdict": "VERIFIED",
+   "reported_utc": "2026-10-14T12:33:56Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   }
  ],
  "checked": {
-  "id": "c028",
+  "id": "c008",
   "rank": 2,
-  "says": "Decrypt reports Turkish authorities detained Richard Heart in Istanbul on an Interpol Red Notice issued by Finland, with seizures including cash, electronics, and weapons.",
-  "unconfirmed": "The specific $4M cash figure cited in why_it_matters was not confirmed in the excerpts read; Decrypt and CryptoSlate report 'large amount of cash in different currencies' and 'cash' but no dollar amount is stated in the fetched text.",
+  "says": "CoinDesk reports that Payward's acquisition makes it the first crypto parent company to acquire a European bank, pending regulatory approval, with Saldo holding \u20ac196.9M in assets.",
+  "unconfirmed": "The specific claim that this is the 'first crypto firm' (rather than 'first crypto parent company') to acquire an EU bank with a full license was not independently verified against a regulatory or Payward primary source.",
   "badge": "Verified",
   "standing": "corroborated",
-  "source": "https://decrypt.co/380948/hex-founder-richard-heart-detained-in-istanbul-on-interpol-red-notice-report",
-  "outlet": "Decrypt"
+  "source": "https://www.coindesk.com/business/2026/10/14/kraken-parent-payward-to-become-first-crypto-firm-to-buy-a-eu-bank-as-it-expands-into-deposits-lending",
+  "outlet": "CoinDesk"
  },
- "dropped": []
+ "dropped": [
+  {
+   "rank": 3,
+   "id": "c028",
+   "why": "the wire line runs 177 characters, over 160"
+  },
+  {
+   "rank": 6,
+   "id": "c046",
+   "why": "the wire line runs 167 characters, over 160"
+  }
+ ]
 }

@@ -1,32 +1,35 @@
 {
- "line": "Regulatory pressure in Seoul meets hardware security failure in wallets as Wall Street tests tokenized Treasuries and Russia readies Sberbank crypto trading.",
- "by": "edition",
- "written_utc": "2026-10-14T12:18:55Z",
- "written_et": "8:18 AM ET on Oct 14",
+ "line": "Bitcoin is drifting lower on spot ETF outflows; the news is mixed.",
+ "by": "table",
+ "written_utc": "2026-10-15T12:18:33Z",
+ "written_et": "8:18 AM ET on Oct 15",
  "readings": {
-  "stamp_utc": "2026-10-14T12:17:15Z",
-  "btc_24h_pct": 0.75,
-  "etf_net_usd_m": 175.7,
-  "etf_date": "13 Oct 2026",
-  "fear_greed": 62,
-  "fear_greed_band": "Greed",
-  "funding_8h_pct": 0.0091,
+  "stamp_utc": "2026-10-15T12:16:51Z",
+  "btc_24h_pct": -3.37,
+  "etf_net_usd_m": -261.4,
+  "etf_date": "14 Oct 2026",
+  "fear_greed": 53,
+  "fear_greed_band": "Neutral",
+  "funding_8h_pct": 0.0047,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +0.75% on the day, spot ETF net +175.7M USD (Oct 13, 2026), Fear & Greed 62 (greed), funding +0.0091% per 8h (calm)",
+ "small_line": "Written from Bitcoin -3.37% on the day, spot ETF net -261.4M USD (Oct 14, 2026), Fear & Greed 53 (neutral), funding +0.0047% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c003",
-   "line": "South Korea's regulators blocked 27 crypto exchange websites, including Bitmart and Kucoin, tightening restrictions on unregistered platforms."
+   "id": "c016",
+   "line": "Standard Chartered launched Bitcoin and Ether trading for affluent UAE clients through closed-loop service with up to 2% spread."
   },
   {
-   "id": "c010",
-   "line": "Ledger confirmed LTE-enabled spy chips implanted in CryptoBilis-sold wallets transmitted user recovery phrases; MediaMarkt halted sales across Europe."
+   "id": "c008",
+   "line": "Kraken parent Payward agreed to acquire Lithuania's Saldo Bank, securing EU banking license for deposits, lending, and regulated financial services."
   },
   {
-   "id": "c007",
-   "line": "Russia's Sberbank won regulatory approval to offer crypto trading to all clients starting Dec. 1, beginning with BTC, ETH, and USDT."
+   "id": "c011",
+   "line": "Dutch central bank authorized Qivalis as e-money institution under MiCA, enabling euro token settlement infrastructure backed by major European banks."
   }
  ],
- "crossed": []
+ "crossed": [
+  "spot ETF net changed sign, +2.2M to -261.4M USD",
+  "Fear & Greed crossed from greed into neutral (62 to 53)"
+ ]
 }
