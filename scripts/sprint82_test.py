@@ -82,6 +82,12 @@ def edition_cases(fails):
     guarded(fails, "a figure that is not the series' is still dropped and logged, never repaired",
             lambda: wrong_size == "" and len(g3.drops) == 1 and not g3.repairs)
 
+    g5 = twins_gate.Gate(dict(snap(), fields=dict(snap()["fields"], coins={"value": {"BTC": {"price": 80896}}})),
+                         log_path="", quiet=True)
+    line = "U.S. inflation accelerated to 3.7% in September, sending Bitcoin below $82,000 as bond yields spiked."
+    guarded(fails, "a level crossed ('Bitcoin below $82,000') is not a price claim: kept at $80,896",
+            lambda: g5.text(line, "t") == line and g5.text("Bitcoin traded at $82,000 today.", "t") == "")
+
     print("A2. the Edition is handed every number already labeled")
     import phrases
     boards = load("boards_2026-10-14.json")

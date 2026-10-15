@@ -54,11 +54,12 @@ _BTC_USD = re.compile(
     r"\b(?:bitcoin|btc)\b([^.$]{0,60}?)\$\s?(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d{4,6}(?:\.\d+)?)"
     r"(\s?[kK]\b)?", re.I)
 # A dollar figure named as something other than the price now: a high, a low, an average,
-# a level the past held. Those are true of their own window and the gate does not read them.
+# a level the past held, a line crossed ("below $82,000", 15 Oct: it cost Bitcoin's coin page its
+# only wire item). Those are true of their own window and the gate does not read them.
 _NOT_PRICE = re.compile(r"\b(high|low|peak|record|average|sma|moving|200-day|50-day|"
                         r"all-time|ath|since|from|target|level of|in 20\d\d|last year|"
                         r"a year ago|cap|capitali[sz]ation|inflows?|outflows?|worth of|"
-                        r"million|billion)\b", re.I)
+                        r"million|billion|below|above|under|beneath|over|past)\b", re.I)
 
 # ---- 2. week and month figures ------------------------------------------------------------
 _COINS = [("BTC", r"bitcoin|btc"), ("ETH", r"ether(?:eum)?|eth"), ("SOL", r"solana|sol"),
