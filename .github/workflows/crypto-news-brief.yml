@@ -579,6 +579,13 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python3 desk_calendar.py -v || echo "::warning::calendar build failed; the last committed calendar stands"
 
+      # THE DAILY ANSWER (Program 8, Sprint 8.1): the evening record of /today/, composed from the
+      # snapshot, the Top 100, the wire and the Edition this run just wrote. No model call. A
+      # stored record is frozen, so the dated page never changes after this build. Never a gate.
+      - name: Daily answer record (/today/, evening)
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
+        run: python3 today.py --write || true
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
@@ -609,6 +616,8 @@ jobs:
           [ -f site/data/wire.json ] && git add site/data/wire.json
           # narrative.json (Sprint 1b item 2): the narrative line and its readings.
           [ -f site/data/narrative.json ] && git add site/data/narrative.json
+          # the daily answer's records (Sprint 8.1): a stored record is what freezes a dated page
+          [ -d site/data/today ] && git add site/data/today
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"

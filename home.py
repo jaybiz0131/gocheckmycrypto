@@ -361,6 +361,10 @@ def _brief_title(ed):
     return t
 
 
+# PROGRAM 8, SPRINT 8.1: one line under the Brief card sends a reader to the daily answer.
+TODAY_LINK = '<p class="h-today"><a href="/today/">Why crypto moved today &rarr;</a></p>'
+
+
 def narrative_band(narr, snap, ed=None, now=None, morning=None):
     """THE BRIEF CARD (Program 7, Sprint 7.1; the morning edition, Sprint 7.2): the edition by
     name and day, its headline, the narrative sentence (never quoting a change), and when the
@@ -377,7 +381,7 @@ def narrative_band(narr, snap, ed=None, now=None, morning=None):
         stamp = f'Written {_e(m.get("published_et") or "")}.'
         return _block("narrative", eye + head + body
                       + f'<p class="h-nsmall">{stamp}</p>'
-                      + f'<p class="h-next">{_e(next_brief(m, now))}</p>', cls="h-band")
+                      + f'<p class="h-next">{_e(next_brief(m, now))}</p>' + TODAY_LINK, cls="h-band")
     eye = f'<p class="h-eye">{_e(brief_name(ed))}</p>'
     head = (f'<h2 class="h-bt"><a href="/articles/{_e(ed.get("slug"))}.html">'
             f'{_e(_brief_title(ed))}</a></h2>' if ed else "")
@@ -390,7 +394,7 @@ def narrative_band(narr, snap, ed=None, now=None, morning=None):
     stamp = snap.get("stamp_et") or ""
     if not line:
         return _block("narrative", eye + head + last_html
-                      + f'<p class="h-nsmall">The Board as of {_e(stamp)}.</p>' + nxt,
+                      + f'<p class="h-nsmall">The Board as of {_e(stamp)}.</p>' + nxt + TODAY_LINK,
                       cls="h-band")
     # the small line names the readings the sentence was written from and prints none of
     # their figures (Sprint 6.2): each prints once on the page, Bitcoin's day change on the
@@ -407,7 +411,7 @@ def narrative_band(narr, snap, ed=None, now=None, morning=None):
     tail = f" ({when})" if when and small else ""
     return _block("narrative", eye + head + last_html + f'<p class="h-nline">{_e(line)}</p>'
                   + (f'<p class="h-nsmall">{_e(small)}{_e(tail)}.</p>' if small else "")
-                  + nxt, cls="h-band")
+                  + nxt + TODAY_LINK, cls="h-band")
 
 
 # ---- since yesterday ----------------------------------------------------------------------
@@ -513,8 +517,12 @@ def wire_top(wire, cadence, now=None):
     what = (wire or {}).get("what_a_wire_line_is") or _w.WHAT_A_WIRE_LINE_IS
     body = (f'<ol class="h-wire">{"".join(rows)}</ol>' if rows else
             '<p class="h-wait">The wire has no items today.</p>')
-    ranked = (wire or {}).get("ranked_et")
-    st = f'<p class="h-st">Ranked {_e(ranked)}</p>' if ranked else ""
+    # SPRINT 8.1: the block carries ITS OWN time. The morning run re-ranks the wire with the
+    # deterministic desk editor and wire.refresh stamps refreshed_et; the block used to print
+    # ranked_et only, the Edition's time, so the 8:18 AM build read "Ranked 7:14 PM ET on Oct 13".
+    ranked, refreshed = (wire or {}).get("ranked_et"), (wire or {}).get("refreshed_et")
+    st = (f'<p class="h-st">Re-ranked {_e(refreshed)}</p>' if refreshed and refreshed != ranked
+          else f'<p class="h-st">Ranked {_e(ranked)}</p>' if ranked else "")
     return _block("wire", head + body + f'<p class="h-what">{_e(what)}</p>' + st,
                   "Moving the market")
 
