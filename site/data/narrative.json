@@ -1,23 +1,23 @@
 {
- "line": "Bitcoin drifted lower on macro headwinds while the fear-greed index remains in Greed, and the news is ETF outflows accelerating on Ethereum even as institutions move the asset into custody.",
- "by": "edition",
- "written_utc": "2026-10-14T23:45:16Z",
- "written_et": "7:45 PM ET on Oct 14",
+ "line": "Bitcoin is drifting lower on spot ETF outflows; the news is mixed.",
+ "by": "table",
+ "written_utc": "2026-10-15T12:18:33Z",
+ "written_et": "8:18 AM ET on Oct 15",
  "readings": {
-  "stamp_utc": "2026-10-14T23:43:23Z",
-  "btc_24h_pct": -2.08,
-  "etf_net_usd_m": 2.2,
+  "stamp_utc": "2026-10-15T12:16:51Z",
+  "btc_24h_pct": -3.37,
+  "etf_net_usd_m": -261.4,
   "etf_date": "14 Oct 2026",
-  "fear_greed": 62,
-  "fear_greed_band": "Greed",
-  "funding_8h_pct": 0.0033,
+  "fear_greed": 53,
+  "fear_greed_band": "Neutral",
+  "funding_8h_pct": 0.0047,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -2.08% on the day, spot ETF net +2.2M USD (Oct 14, 2026), Fear & Greed 62 (greed), funding +0.0033% per 8h (calm)",
+ "small_line": "Written from Bitcoin -3.37% on the day, spot ETF net -261.4M USD (Oct 14, 2026), Fear & Greed 53 (neutral), funding +0.0047% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c009",
-   "line": "U.S. inflation accelerated to 3.7% in September, sending Bitcoin below $82,000 as bond yields spiked and rate-hike odds doubled."
+   "id": "c016",
+   "line": "Standard Chartered launched Bitcoin and Ether trading for affluent UAE clients through closed-loop service with up to 2% spread."
   },
   {
    "id": "c008",
@@ -28,5 +28,8 @@
    "line": "Dutch central bank authorized Qivalis as e-money institution under MiCA, enabling euro token settlement infrastructure backed by major European banks."
   }
  ],
- "crossed": []
+ "crossed": [
+  "spot ETF net changed sign, +2.2M to -261.4M USD",
+  "Fear & Greed crossed from greed into neutral (62 to 53)"
+ ]
 }
