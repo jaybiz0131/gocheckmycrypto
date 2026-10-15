@@ -39,6 +39,7 @@ except Exception:                                   # pragma: no cover
 FLAT_PCT = 0.5                    # Program 8, section 2: Bitcoin within plus or minus 0.5 percent
 MAX_REPORTED = 5
 ARCHIVE_N = 7
+SAME_RUN_MIN = 30             # a read and a snapshot within 30 minutes are one run
 SLOT_LABEL = {"morning": "Morning read", "evening": "Evening Edition"}
 
 # The page's own voice never explains a move. A wire item may carry a cause, because its source does.
@@ -216,10 +217,40 @@ def board_rows(snap, pulse):
 
 
 def next_update(slot, now):
+    """'Next update: Morning read, tomorrow at 8:15 AM ET'. Read off the clock by the same function
+    the home card uses (home.next_slot), so after the evening slot has run OR failed it names
+    tomorrow's morning read, and the two surfaces cannot disagree."""
     import home
-    if slot == "morning":
-        return f"Next update: Evening Edition, {home.edition_time_et(now)}"
-    return f"Next update: Morning read, tomorrow at {_clock(now.replace(hour=home.MORNING_ET[0], minute=home.MORNING_ET[1]))}"
+    kind, when = home.next_slot(now)
+    return f"Next update: {SLOT_LABEL[kind]}, {when}"
+
+
+def stamp_line(slot, src_utc, snap_utc, snap_stamp_et, now):
+    """ONE HONEST LINE (Jack, 14 October 2026). When the text and the numbers come from the same
+    run, the slot and its time ("Morning read, 8:18 AM ET"). When they do not, both times and
+    the reason: "Numbers as of 7:12 PM ET, tonight's Edition did not publish; text from the 8:18
+    AM read"."""
+    import home
+    pub, snap_t = _et(src_utc), _et(snap_utc)
+    label = SLOT_LABEL[slot]
+    if pub is None:
+        return label
+    here = f"{label}, {_clock(pub)}"
+    if snap_t is None or abs((snap_t - pub).total_seconds()) <= SAME_RUN_MIN * 60:
+        return here
+    kind = "read" if slot == "morning" else "Edition"
+    reason = ""
+    if slot == "morning" and now.astimezone(ET) >= _evening_et(now):
+        reason = "tonight's Edition did not publish; "
+    return (f"Numbers as of {_clock(snap_t)} \u00b7 {reason}text from the "
+            f"{pub.strftime('%-I:%M %p')} {kind}")
+
+
+def _evening_et(now):
+    import home
+    n = now.astimezone(ET)
+    return _dt.datetime(n.year, n.month, n.day, home.EDITION_UTC[0], home.EDITION_UTC[1],
+                        tzinfo=_dt.timezone.utc).astimezone(ET)
 
 
 def slot_of(now, ed, morning):
@@ -268,7 +299,8 @@ def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None):
                               for x in template_sentences(d, dirn, btc, eth, cap, gain, lose)) if s]
         by = "template"
     pub = _et(src.get("published_utc"))
-    stamp = f"{SLOT_LABEL[slot]}, {_clock(pub)}" if pub else SLOT_LABEL[slot]
+    stamp = stamp_line(slot, src.get("published_utc"), (snap or {}).get("stamp_utc"),
+                       (snap or {}).get("stamp_et"), now)
     return {"date_et": d.isoformat(), "slot": slot, "direction": dirn, "title": title, "h1": h1,
             "stamp_label": stamp, "published_utc": src.get("published_utc"),
             "first_utc": first_utc or src.get("published_utc"),
@@ -417,7 +449,7 @@ def body_html(rec, archive_dates, here=None):
     return f"""<main class="wrap"><section class="page td-page">
   <span class="kicker">Today</span>
   <h1>{_e(rec['h1'])}</h1>
-  <p class="td-stamp">{_e(rec['stamp_label'])} &middot; numbers as of {_e(rec['board_stamp_et'])}</p>
+  <p class="td-stamp">{_e(rec['stamp_label'])}</p>
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
   {corr}
   <section class="td-sec"><h2>What moved</h2>{moved}</section>
@@ -456,7 +488,9 @@ def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline
     if not living:
         return out
     days = sorted(dated, reverse=True)
-    html, path, mod = render(living, days[:ARCHIVE_N], dated=False, dateline=dateline)
+    # today's own dated page is not an "earlier day": the living page lists only the days before it
+    html, path, mod = render(living, [d for d in days if d < living["date_et"]][:ARCHIVE_N],
+                             dated=False, dateline=dateline)
     out.append(("today/index.html", html, path, mod))
     for day in days:
         # a dated page links only the days BEFORE it, so nothing a later day adds can change it

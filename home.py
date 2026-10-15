@@ -307,10 +307,10 @@ def brief_name(ed):
     return "THE BRIEF" + (f" \u00b7 {tail}" if tail else "")
 
 
-def next_brief(ed, now=None):
-    """The real next slot, read off the clock in Eastern: 'Next Brief this morning at 8:15 AM
-    ET', 'tonight at 7:08 PM ET' or 'tomorrow at 8:15 AM ET'. Two slots a day: the morning
-    read (MORNING_ET, the Worker's) and the Edition (EDITION_UTC, the cron's)."""
+def next_slot(now=None):
+    """('morning'|'evening', 'this morning at 8:15 AM ET' | 'tonight at 7:08 PM ET' | 'tomorrow
+    at 8:15 AM ET'): the next slot off the clock in Eastern. ONE function for the Brief card and
+    the daily answer, so the two can never name different next slots (Sprint 8.1)."""
     now = (now or _now()).astimezone(_ET)
     morning = now.replace(hour=MORNING_ET[0], minute=MORNING_ET[1], second=0, microsecond=0)
     # the Edition's cron is fixed in UTC, so its Eastern wall time moves with DST
@@ -318,10 +318,17 @@ def next_brief(ed, now=None):
                            tzinfo=_dt.timezone.utc).astimezone(_ET)
     mt = morning.strftime("%-I:%M %p ET")
     if now < morning:
-        return f"Next Brief this morning at {mt}"
+        return "morning", f"this morning at {mt}"
     if now < evening:
-        return f"Next Brief tonight at {evening.strftime('%-I:%M %p ET')}"
-    return f"Next Brief tomorrow at {mt}"
+        return "evening", f"tonight at {evening.strftime('%-I:%M %p ET')}"
+    return "morning", f"tomorrow at {mt}"
+
+
+def next_brief(ed, now=None):
+    """The real next slot, read off the clock in Eastern: 'Next Brief this morning at 8:15 AM
+    ET', 'tonight at 7:08 PM ET' or 'tomorrow at 8:15 AM ET'. Two slots a day: the morning
+    read (MORNING_ET, the Worker's) and the Edition (EDITION_UTC, the cron's)."""
+    return f"Next Brief {next_slot(now)[1]}"
 
 
 def usable_morning(morning, ed, now=None):

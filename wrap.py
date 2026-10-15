@@ -209,6 +209,83 @@ def _scope_etf_flows(text, boards):
     return text
 
 
+# THE ETF FLOOR (Sprint 8.1, Jack, 14 October 2026). On 14 October the 7:08 PM Edition died on
+# the ETF window belts three times (a draft, then two Sonnet rescues), with zero stories to
+# build a digest from, so the slot published nothing. The belts were right; one sentence about
+# the ETFs cost the whole Brief. Two changes: the model is handed both ETF numbers with their
+# named windows, and when the ETF window belt is the ONLY belt still failing after the last
+# repair, the sentences naming the ETFs are dropped (logged like a twins drop) and the rest
+# publishes. Any other belt failure still fails the wrap as before.
+ETF_CONTEXT = r"\betfs?\b"
+
+
+def is_etf_problem(p):
+    return "ETF flow claim says" in p or "unscoped ETF flow direction" in p
+
+
+def etf_window_note(boards):
+    """The two Bitcoin ETF numbers, each with its named window and the words that bucket
+    correctly in the belt's lexicon ("on the day", "over the week"). "" when there is no read."""
+    btc = ((boards or {}).get("etf_flows") or {}).get("btc") or {}
+    day, wk = btc.get("latest_net_usd_m"), btc.get("last5_sessions_net_usd_m")
+    if not isinstance(day, (int, float)) or not isinstance(wk, (int, float)):
+        return ""
+
+    def fig(v):
+        return f"{'+' if v >= 0 else '-'}${abs(v):,.1f}M"
+    when = btc.get("latest_date") or "latest session"
+    return ("spot_etf_windows (Bitcoin spot ETF net flows; state a direction ONLY with its window "
+            "named, and never merge the two):\n"
+            f"  - on the day, latest session {when}: {fig(day)} "
+            f"({'inflow' if day >= 0 else 'outflow'}); write it with the words \"on the day\"\n"
+            f"  - over the week, five sessions through {when}: {fig(wk)} net "
+            f"({'inflow' if wk >= 0 else 'outflow'}); write it with the words \"over the week\"\n"
+            + ("  - the two disagree in sign; give each its own window or say nothing about "
+               "ETF direction\n" if (day >= 0) != (wk >= 0) else "") + "\n")
+
+
+def finish_shape(o, probs, hold):
+    """The end of the shape contract: the draft passes, or the belts' problems raise. When ETF
+    window problems are ALL that is left, the draft is kept in `hold` for the ETF floor."""
+    hold.clear()
+    if probs:
+        if all(is_etf_problem(p) for p in probs):
+            import copy as _copy
+            hold["o"] = _copy.deepcopy(o)
+        raise llmlib.LLMError("edition failed deterministic belts: " + "; ".join(probs))
+    return o
+
+
+def call_with_etf_floor(client, stage, system, user, validate, hold, belts_fn, status, stamp=""):
+    """client.call_json, with the ETF floor under it: when every rung fails and the LAST rung's
+    only remaining belt failure was the ETF window belt (`hold` carries that draft), the
+    sentences naming the ETFs are dropped, logged, and the draft goes through `validate` again.
+    Anything else re-raises."""
+    hold.clear()
+    try:
+        return client.call_json(stage, system, user, validate=validate)
+    except llmlib.LLMError:
+        o = hold.get("o")
+        if o is None:
+            raise
+        new, dropped = edition_repair.drop_etf_sentences(o, belts_fn, ETF_CONTEXT)
+        if new is None:
+            raise
+        new = validate(new)            # the whole contract again on what is left
+        try:
+            import twins_gate
+            for sent in dropped:
+                twins_gate.log_drop("the Edition (ETF window belt)", sent,
+                                    "the ETF window belt still failed on the last repair; "
+                                    "the sentence is dropped and the rest publishes", stamp)
+        except Exception as e:
+            common.gh("warning", f"wrap: ETF drops not logged ({e})")
+        status["repairs"].append(f"etf floor: dropped {len(dropped)} ETF sentence(s)")
+        common.gh("notice", f"wrap: the ETF window belt still failed on the last repair; "
+                            f"dropped {len(dropped)} ETF sentence(s) and publishing the rest")
+        return new
+
+
 def belts(article_body, dek, bottom_line, boards=None):
     """Deterministic checks; returns a list of problems (empty = pass)."""
     problems = []
@@ -1008,6 +1085,7 @@ def main():
             f"todays_stories:\n{json.dumps(stories, indent=1)}\n\n"
             + (f"desk_boards:\n{json.dumps(boards, indent=1)}\n\n" if boards else
                "desk_boards: (unavailable this run)\n\n")
+            + etf_window_note(boards)
             + (("regulatory_watch (live storylines the desk has covered, with dates its own "
                 "reporting stated; name any whose checkpoint is near in WHAT TO WATCH, and "
                 "only these dates, never invented ones):\n"
@@ -1032,7 +1110,10 @@ def main():
         common.gh("warning", f"wrap: narrative inputs unavailable ({e}); the clause table "
                              f"writes the line")
 
+    etf_hold = {}
+
     def wrap_shape(o):
+        etf_hold.clear()      # only the LAST rung's failure can reach the ETF floor
         # Shape AND belts ride the contract ladder (2026-07-15): a belt failure (length,
         # dash, advice, Bottom-Line lane) retries with the error explained and then gets
         # the Sonnet rescue rung, instead of a same-model retry repeating the mistake
@@ -1101,9 +1182,7 @@ def main():
                 status["repairs"].append(f"belt: cut {cut} sentence(s)")
                 o.update(repaired)
                 probs = []
-        if probs:
-            raise llmlib.LLMError("edition failed deterministic belts: " + "; ".join(probs))
-        return o
+        return finish_shape(o, probs, etf_hold)
 
     # THE FLOOR UNDER THE GUARANTEED EDITION (family audit 2026-09-02). Between Aug 25
     # and Sep 2 the three desks filed 40+ "Edition stage failed" issues, and the run
@@ -1124,7 +1203,8 @@ def main():
 
     obj, failure = None, ""
     try:
-        cand = client.call_json("wrap", system, user, validate=wrap_shape)
+        cand = call_with_etf_floor(client, "wrap", system, user, wrap_shape, etf_hold,
+                                   _belts_fn, status, stamp=now.strftime("%Y-%m-%dT%H:%M:%SZ"))
         for attempt in (1, 2):
             ok, reasons, claims = _trace(cand)
             if ok:
@@ -1150,11 +1230,12 @@ def main():
                 break
             # the corrective rewrite runs on the rescue model (stage wraprescue, Sonnet):
             # three same-day editions died on legit catches with Haiku retrying Haiku
-            cand = client.call_json("wraprescue", system, user
-                                    + "\n\nYour previous attempt failed the fact-trace "
-                                      "check; fix exactly these and return the full "
-                                      "JSON again:\n- " + "\n- ".join(reasons),
-                                    validate=wrap_shape)
+            cand = call_with_etf_floor(client, "wraprescue", system, user
+                                       + "\n\nYour previous attempt failed the fact-trace "
+                                         "check; fix exactly these and return the full "
+                                         "JSON again:\n- " + "\n- ".join(reasons),
+                                       wrap_shape, etf_hold, _belts_fn, status,
+                                       stamp=now.strftime("%Y-%m-%dT%H:%M:%SZ"))
     except llmlib.LLMError as e:
         failure = f"model stage failed: {e}"
         status["reasons"] = [str(e)]

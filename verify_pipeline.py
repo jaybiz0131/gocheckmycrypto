@@ -2967,6 +2967,12 @@ def _sprint81_canary(out):
         fails = ["sprint 8.1: " + f for f in _s81.unit()]
         fails += ["sprint 8.1: " + f for f in _s81.static(out)]
         fails += ["sprint 8.1: " + f for f in _s81.browser(out)]
+        import subprocess as _sp
+        _r = _sp.run([sys.executable, os.path.join(_sd, "etf_floor_test.py")], cwd=os.path.dirname(_sd),
+                     capture_output=True, text=True, timeout=300)
+        _bad = [ln.strip() for ln in _r.stdout.splitlines() if "FAIL" in ln]
+        if _r.returncode != 0:
+            fails.append("sprint 8.1: the Edition's ETF floor: " + ("; ".join(_bad[:4]) or _r.stderr[-200:]))
     finally:
         _sys.modules.pop("sprint81_test", None)
         if _sd in _sys.path:

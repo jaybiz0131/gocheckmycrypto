@@ -1,0 +1,28 @@
+{
+ "what": "14 October 2026, 7:08 PM ET Edition (run 38652474134). boards.etf_flows is the real digest read that night (day +2.2M on 14 Oct 2026; five sessions -110.5M, the repo's committed pulse). The three drafts are RECONSTRUCTED from the three belt messages in the run's log (the model output itself was not kept): a week-window claim against a negative week number, a day-window claim against a positive day number, and an unscoped direction while the windows disagree. Zero stories in the window.",
+ "boards": {
+  "etf_flows": {
+   "btc": {
+    "latest_date": "14 Oct 2026",
+    "latest_net_usd_m": 2.2,
+    "last5_sessions_net_usd_m": -110.5,
+    "same_direction_days": 1,
+    "cumulative_usd_m": 57290.0
+   }
+  }
+ },
+ "clean_paras": [
+  "The desk's own boards carry this evening's picture because no verified stories were published today.",
+  "The Board shows Fear & Greed at 62 in the greed band, and funding on Bitcoin perpetuals reads calm at the venue it tracks.",
+  "According to the Whale Watch board, large transfers netted off exchanges over the last 48 hours, which the board reads as a custody move and not as a signal.",
+  "The wire carried reports of a Turkish detention of a token founder, regulators in Seoul blocking exchange websites, and a Dutch e-money license for a stablecoin issuer, each linked to its sources on the wire.",
+  "The Chart Master's evening read describes Bitcoin trading below its recent range, with the levels printed on the Chart Master page and the window written beside each.",
+  "Open interest on the five coins the desk tracks is reported by OKX and printed on the Board with its stamp, and the stablecoin float stands at its reported total.",
+  "This edition states only what the boards and the wire print, each with its source and its stamp, and it makes no forecast."
+ ],
+ "etf_wrong": [
+  "The Board's Bitcoin spot ETF flows were a net inflow over the week, with the latest session also positive.",
+  "Spot ETF flows turned negative on the day, according to the Board's Farside read.",
+  "Bitcoin spot ETF outflows persisted, and the desk's Board prints the figure with its stamp."
+ ]
+}
