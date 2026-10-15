@@ -283,6 +283,13 @@ def coin_cases(fails):
     guarded(fails, "item 2: the no-causation line is there", lambda: "does not say" in w)
     guarded(fails, "item 2: the desk's own sentences never say 'because'",
             lambda: "because" not in re.sub(r'<a [^>]*>.*?</a>', "", w.lower()))
+    after = _wire_with(wire, "c905", "Bitcoin miners reported record hash rate after the Board read.", ["Bitcoin hash rate record"])
+    after["items"][0]["reported_utc"] = "2026-10-15T12:30:00Z"       # 13 minutes AFTER the 12:16:51Z read
+    guarded(fails, "item 2 (fix): an item reported after the Board read is outside the 24-hour window the number sits under",
+            lambda: "record hash rate" not in render("BTC", wire=after).split("cn-why")[1].split("</section>")[0])
+    guarded(fails, "item 2 (fix): the window is the 24 hours ending at that read, both ends",
+            lambda: __import__("coinpage").why_items(by["BTC"][1], 1, after, pulse["generated_utc"]) and
+            all(w["id"] != "c905" for w in __import__("coinpage").why_items(by["BTC"][1], 1, after, pulse["generated_utc"])))
     eth = render("ETH")
     guarded(fails, "item 2: 'Ether' in a wire line names Ethereum (top 20) when the item is within 24 hours",
             lambda: True)                                          # the Standard Chartered item is 30 hours old: no block

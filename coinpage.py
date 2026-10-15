@@ -308,8 +308,8 @@ def vet(items, gate, name, surface):
 
 
 def why_items(c, pos, wire, stamp_utc, hours=WHY_HOURS):
-    """The wire items that name the coin and were reported within `hours` before the Board read
-    the page carries, for the top 20 only; [] for every other coin."""
+    """The wire items that name the coin and were reported in the `hours` ending at the Board read
+    the page carries (never after it: the number sits under that read), for the top 20 only; [] for every other coin."""
     if not pos or pos > TOP_N:
         return []
     try:
@@ -322,7 +322,7 @@ def why_items(c, pos, wire, stamp_utc, hours=WHY_HOURS):
             t = _dt.datetime.fromisoformat(str(w.get("reported_utc") or "").replace("Z", "+00:00"))
         except ValueError:
             continue
-        if end - _dt.timedelta(hours=hours) <= t:
+        if end - _dt.timedelta(hours=hours) <= t <= end:       # the 24 hours ending at the read
             out.append(w)
     return out
 
