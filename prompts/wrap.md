@@ -50,6 +50,11 @@ THE CONTRACT (non-negotiable):
   is the one case where a correctly rounded, correctly attributed figure still reads as
   a different claim than the data supports, and the trace check will reject the edition
   for it (2026-08-17: it did, twice, and the desk published no evening edition).
+- NUMBERS COME LABELED. The labeled_numbers block gives every price change and ETF flow as a
+  finished phrase with its own direction word, unit and window ("Bitcoin down 2.83% over
+  seven days"). Copy a phrase whole. Never put two figures behind one direction word ("fell
+  3.36 percent on the day and 7.44 percent over the week" gives the second figure no sign):
+  each figure gets its own "up" or "down". Never work out a direction or a window yourself.
 - TIME-STAMP YOUR PRICES: desk_boards are the CURRENT tape; prices inside stories are
   HISTORICAL (the level when that story was reported). Never present a story's price as
   the current level. If they differ, the current number comes from the boards and the

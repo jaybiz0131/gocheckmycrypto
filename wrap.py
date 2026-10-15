@@ -37,6 +37,7 @@ import sys
 import common
 import edition_repair
 import llm as llmlib
+import phrases
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONTENT = os.path.join(HERE, "site", "content")
@@ -1083,8 +1084,9 @@ def main():
             f"describing the edition's own day must be {day_name}; input stories may "
             f"describe earlier days by their own datelines)\n\n"
             f"todays_stories:\n{json.dumps(stories, indent=1)}\n\n"
-            + (f"desk_boards:\n{json.dumps(boards, indent=1)}\n\n" if boards else
+            + (f"desk_boards:\n{json.dumps(phrases.model_boards(boards), indent=1)}\n\n" if boards else
                "desk_boards: (unavailable this run)\n\n")
+            + phrases.numbers_block(boards)
             + etf_window_note(boards)
             + (("regulatory_watch (live storylines the desk has covered, with dates its own "
                 "reporting stated; name any whose checkpoint is near in WHAT TO WATCH, and "

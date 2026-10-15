@@ -24,6 +24,7 @@ import sys
 
 import common
 import llm as llmlib
+import phrases
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "site", "data", "morning.json")
@@ -50,39 +51,74 @@ def inputs(snapshot=None, wire=None):
     import wire as wiremod
     snap = snapshot if snapshot is not None else twins_gate.current_snapshot()
     w = wire if wire is not None else (wiremod.load() or {})
-    items = [i for i in (w.get("items") or []) if i.get("line")][:5]
-    return (narrative.readings(snap),
-            [{"id": i.get("id"), "line": i.get("line"), "sources": i.get("source_count")}
-             for i in items], items)
+    items, top = [], []
+    for i in (w.get("items") or []):
+        if not i.get("line"):
+            continue
+        # the copy law quotes no change: a wire line holding "up to 2% spread" is handed over
+        # with that clause cut, or left out (15 Oct: every sentence built on it was cut)
+        line = phrases.percent_free(i["line"])
+        if not line:
+            continue
+        items.append(i)
+        top.append({"id": i.get("id"), "line": line, "sources": i.get("source_count")})
+        if len(items) == 5:
+            break
+    return narrative.readings(snap), top, items
 
 
-def clean(obj, gate):
+def clean(obj, gate, final=False, top=None, info=None):
     """(headline, sentences, narrative_line) after the copy law, or raises LLMError.
 
-    The part is not the whole: a sentence the law refuses is cut, the others stand; only a
-    read left with fewer than two sentences, or no headline, is refused."""
+    The part is not the whole: a sentence the law refuses is cut, the others stand; only a read
+    left with fewer than two sentences is refused. The same for the headline (15 Oct: "missing or
+    oversized headline" fell the whole morning back and never said which). A headline that is
+    missing or too long says so, in words the repair rung can act on; on the last rung it is fixed
+    here instead of failing the read: too long is trimmed at a word boundary, missing is the
+    wire's top line (phrases.derive_headline). `info["headline_by"]` records which."""
     import narrative
     import wrap
     from site_build import destyle
+    info = info if info is not None else {}
     if not isinstance(obj, dict):
         raise llmlib.LLMError("morning: output is not an object")
     head = destyle(str(obj.get("headline") or "").strip())
     sents = [destyle(str(s).strip()) for s in obj.get("sentences") or [] if str(s).strip()]
     line = destyle(" ".join(str(obj.get("narrative_line") or "").split()))
-    if not head or len(head) > HEADLINE_MAX:
-        raise llmlib.LLMError("morning: missing or oversized headline")
+    info["headline_by"] = "model"
+    why = phrases.headline_problem(head, HEADLINE_MAX)
+    if why:
+        if not final:
+            raise llmlib.LLMError(f"morning: the headline {why}")
+        if head:
+            head, info["headline_by"] = phrases.trim_headline(head, HEADLINE_MAX), "trimmed"
+        else:
+            head = destyle(phrases.derive_headline([t.get("line") for t in top or []], HEADLINE_MAX))
+            info["headline_by"] = "wire top line" if top else "fixed line"
+        print(f"morning: the headline {why.split(';')[0]}; fixed deterministically ({info['headline_by']}): {head!r}")
 
     def bad(t):
-        # a change quoted (7.1's color-truth rule), a prediction, advice, desk-opinion voice
-        return (narrative.quotes_change(t) or bool(narrative._PREDICT.search(t))
-                or bool(wrap.bottom_line_lint(t)) or bool(wrap.unattributed_lint(t))
-                or bool(re.search(r"[–—]", t)))
-    if bad(head):
-        raise llmlib.LLMError(f"morning: the headline breaks the copy law: {head!r}")
+        # a change quoted (7.1's color-truth rule), a prediction, advice, desk-opinion voice;
+        # the rule is named so the run log says what cut a sentence
+        if narrative.quotes_change(t):
+            return "quotes a change"
+        if narrative._PREDICT.search(t):
+            return "predicts"
+        if wrap.bottom_line_lint(t):
+            return "bottom-line lane"
+        if wrap.unattributed_lint(t):
+            return "unattributed voice"
+        if re.search(r"[\u2013\u2014]", t):
+            return "carries a dash"
+        return ""
+    r = bad(head)
+    if r:
+        raise llmlib.LLMError(f"morning: the headline breaks the copy law ({r}): {head!r}")
     kept = []
     for s in sents:
-        if bad(s):
-            print(f"morning: cut a sentence under the copy law: {s[:100]!r}")
+        r = bad(s)
+        if r:
+            print(f"morning: cut a sentence under the copy law ({r}): {s[:100]!r}")
             continue
         if gate is not None and gate.text(s, "the morning read", dollars=True).strip() != s:
             print(f"morning: the twins gate cut: {s[:100]!r}")
@@ -136,15 +172,30 @@ def run(now=None, client=None, snapshot=None, wire=None):
         readings, top, items = inputs(snapshot, wire)
         system = common.load_prompt("morning.md")
         user = "Write this morning's read.\n\n" + json.dumps(
-            {"board_readings": readings, "wire_top": top}, indent=1)
+            {"board_phrases": phrases.morning_phrases(readings), "wire_top": top}, indent=1)
         import twins_gate
         gate = twins_gate.Gate(snapshot if snapshot is not None else twins_gate.current_snapshot())
-        box = {}
+        box, info, calls = {}, {}, {"n": 0}
+        rungs = 2
 
         def shape(o):
-            box["r"] = clean(o, gate)
+            calls["n"] += 1
+            box["obj"] = o
+            # the last rung fixes a bad headline itself; the first one tells the model exactly
+            # what was wrong and gets the one repair
+            box["r"] = clean(o, gate, final=calls["n"] >= rungs, top=top, info=info)
             return o
-        obj = client.call_json("morning", system, user, validate=shape, max_rungs=2)
+        try:
+            client.call_json("morning", system, user, validate=shape, max_rungs=rungs)
+        except llmlib.BudgetError:
+            raise
+        except llmlib.LLMError as e:
+            # a headline-only failure on a rung count the ladder did not reach (a parse miss
+            # on the first rung): the headline is fixed here, the sentences still must stand
+            if "morning: the headline" in str(e) and "copy law" not in str(e) and box.get("obj"):
+                box["r"] = clean(box["obj"], gate, final=True, top=top, info=info)
+            else:
+                raise
         head, sents, line = box["r"]
         b = client.budget
         tokens, usd = b.tokens, b.usd
@@ -152,7 +203,7 @@ def run(now=None, client=None, snapshot=None, wire=None):
         ln, by = narrative.edition_line(line, readings, items[:3], gate)
         gate.save()
         rec = {"date_et": date_et, "slot": "morning", "published_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
-               "published_et": et_stamp(now), "headline": head, "sentences": sents, "line": ln,
+               "published_et": et_stamp(now), "headline": head, "headline_by": info.get("headline_by", "model"), "sentences": sents, "line": ln,
                "line_by": by, "tokens": tokens, "usd": round(usd, 4),
                "generated_by": "morning.py (one model call; copy law and twins gate)"}
         os.makedirs(os.path.dirname(OUT), exist_ok=True)

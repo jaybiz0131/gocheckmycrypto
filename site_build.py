@@ -7069,7 +7069,7 @@ def _week_ago_line(slug, data):
 
 
 def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None,
-                path=None):
+                path=None, full_title=None, schema_extra=""):
     stamp = data_stamp(data) if data is not None else ""
     week = _week_ago_line(slug, data) if data is not None else ""
     # C-15: a sources line, not a methods note (G-9, same rule as C-13).
@@ -7077,8 +7077,9 @@ def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None,
             'mempool.space.</p>')
     body = (f'<main class="wrap"><section class="page">\n{body_inner}\n'
             f'{week}{stamp}{srcs}\n</section></main>')
-    return shell(f"{title} - {task_name('markets')} - {NAME}", desc, "Markets", body, dateline,
-                 path=path or f"/pulse/{slug}.html", live_js=live)
+    return shell(full_title or f"{title} - {task_name('markets')} - {NAME}", desc, "Markets", body,
+                 dateline, path=path or f"/pulse/{slug}.html", live_js=live,
+                 schema_extra=schema_extra)
 
 
 def _no_data(cmd="python3 market_pulse.py"):
@@ -7747,7 +7748,7 @@ def render_coin_chart(c, name, cid, spark):
             f'<p class="pc-note cc-cap" data-coin-cap>{note}</p></section>')
 
 
-def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=None):
+def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=None, gate=None):
     """PROGRAM 7, SPRINT 6.4 (13 October 2026). Under the chart, in this order: the
     readings grid (tile law), the Chart Master's card for the coin (dated), the coin's
     stories (the wire items that name it, newest first, with their sources), the
@@ -7779,7 +7780,16 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
         c, cm, asset, today, esc, fmt_date, destyle=destyle, price_fmt=_price_fmt,
         board_day=_gen.astimezone(_ET).strftime("%Y-%m-%d") if _gen else "")
 
-    hits = _cp.wire_stories(c, wire)
+    # PROGRAM 8, SPRINT 8.2: the top 20 answer "why did <coin> move today" with the wire items
+    # that name it, each with its sources and time, and nothing when none does. The items shown
+    # there are not listed a second time under "Stories about".
+    if gate is None:
+        gate = _coin_gate()
+    why_html, why_hits = _cp.why_block(
+        c, pos, wire, (pulse or {}).get("generated_utc") or "", esc, _wire_et,
+        move=_coin_move(c, name, stamp), gate=gate)
+    hits = _cp.vet([w for w in _cp.wire_stories(c, wire) if w.get("id") not in {x.get("id") for x in why_hits}],
+                   gate, name, "stories")
     wire_html = _cp.stories_html(hits, esc, _wire_et)
     stories = _coin_stories(c, items)
     news_html = ""
@@ -7812,6 +7822,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     <span class="bar"></span>{_coin_pin(sym)}</div>
   {chart}
   {tiles_html}
+  {why_html}
   {cm_html}
   {stories_html}
   {_coin_cold_storage()}
@@ -7822,10 +7833,61 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     <a class="st-nav-a" href="/pulse.html">Markets</a>
     <a class="st-nav-a" href="/learn.html">Learn</a></nav>""" + (COIN_CHART_SRC if chart else "")
     return _dash_shell(f"coin-{_coin_slug(c)}", f"{name} ({sym})",
-                       f"{name} price chart with 1-day, 7-day, 1-month and 1-year windows, "
-                       f"readings, the Chart Master's read and the desk's reporting.",
+                       coin_description(c, stamp),
                        inner, dateline, data=pulse,
-                       path=f"/coins/{_coin_slug(c)}.html")
+                       path=f"/coins/{_coin_slug(c)}.html",
+                       full_title=coin_title(c),
+                       schema_extra=coin_breadcrumb(c))
+
+
+def coin_title(c):
+    """What people type (Program 8, 8.2): '<Coin> price today and why it moved'."""
+    return f"{c.get('name') or c.get('symbol') or ''} price today and why it moved - {NAME}"
+
+
+def _coin_move(c, name, stamp):
+    """The Board's own 24-hour line for a coin, worded with its sign and window, or ''."""
+    import phrases as _ph
+    ch = _ph.change(c.get("chg_24h_pct"), "24h")
+    return f"{name} is {ch}, per the Board as of {stamp}." if ch else ""
+
+
+def coin_description(c, stamp):
+    """Under 155 characters, from the day's own numbers: the price, the signed 24-hour change in
+    words, the Board's stamp. The second sentence is dropped before the first is cut."""
+    import phrases as _ph
+    name, sym = c.get("name") or c.get("symbol") or "", c.get("symbol") or ""
+    ch = _ph.change(c.get("chg_24h_pct"), "24h")
+    if not isinstance(c.get("price"), (int, float)):
+        return f"{name} ({sym}): the chart, the readings and the wire items that name it, with sources."[:154]
+    first = f"{name} ({sym}) is {_price_fmt(c['price'])}" + (f", {ch}" if ch else "") + f", as of {stamp}."
+    full = first + " What the wire reported, with sources."
+    out = full if len(full) < 155 else first
+    return out if len(out) < 155 else out[:151].rstrip(" ,.") + "..."
+
+
+def coin_breadcrumb(c):
+    """BreadcrumbList for a coin page: Home, Markets, the coin (Program 8, 8.2)."""
+    name = c.get("name") or c.get("symbol") or ""
+    crumbs = [("Home", ORIGIN + "/"), ("Markets", ORIGIN + "/pulse"),
+              (name, ORIGIN + f"/coins/{_coin_slug(c)}")]
+    blk = {"@context": "https://schema.org", "@type": "BreadcrumbList",
+           "itemListElement": [{"@type": "ListItem", "position": i, "name": n, "item": u}
+                               for i, (n, u) in enumerate(crumbs, 1)]}
+    return f'\n<script type="application/ld+json">{json.dumps(blk, ensure_ascii=False)}</script>'
+
+
+_COIN_GATE = None
+
+
+def _coin_gate():
+    """One twins gate for the build's coin pages, on the snapshot of this build's own reads. Its
+    drops print; its log is the Edition's file and is not appended to by a page build."""
+    global _COIN_GATE
+    if _COIN_GATE is None:
+        import twins_gate as _tg
+        _COIN_GATE = _tg.Gate(_tg.current_snapshot(), log_path="", quiet=True)
+    return _COIN_GATE
 
 
 # ---- C-L4: the pinned-coin mini-board --------------------------------------------
@@ -9389,18 +9451,32 @@ def build():
     # C-L1: a coin page is the most searched page type on a crypto site and the crawl
     # path from a ticker to the desk's reporting. Only the pages that were actually
     # written are listed, by the same slug rule that wrote them.
+    # PROGRAM 8, SPRINT 8.2, item 4: every lastmod is the page's real change time (lastmod.py),
+    # never the build's. A coin page changes when its Board read or a wire item on it does.
+    import coinpage as _cpm
+    import lastmod as _lm
+    _board_utc = (pulse or {}).get("generated_utc") or ""
+    _wire_sm = _coin_wire()
     _coin_locs, _cseen = [], set()
     for _c in ((pulse or {}).get("movers") or {}).get("top100") or []:
         _sl = _coin_slug(_c)
         if _sl and _sl not in _cseen:
             _cseen.add(_sl)
-            _coin_locs.append(f"/coins/{_sl}.html")
+            _coin_locs.append((f"/coins/{_sl}.html",
+                               _lm.coin(_board_utc, _cpm.wire_stories(_c, _wire_sm))))
     # THE DAILY ANSWER (Sprint 8.1): /today/ rides the priority tier with its real lastmod, each
     # dated page the archive tier with its own.
     _today_live = [(p, m) for p, m in _today_map if p == "/today/"]
     _today_dated = [(p, m) for p, m in _today_map if p != "/today/"]
-    prio = (locs + _today_live + learn_locs + hub_locs + _coin_locs
-            + [f"/articles/{i['slug']}.html" for i in _prio_arts])
+    _newest_art = max([_lm.article(i) for i in arts_sorted] or [""])
+    _board_pages = {"/pulse.html", "/pulse/sentiment.html", "/pulse/posture.html", "/pulse/movers.html",
+                    "/pulse/prices.html", "/pulse/stablecoins.html", "/pulse/leverage.html",
+                    "/pulse/etf.html", "/pulse/network.html"}
+    _loc_mods = {p: (_board_utc if p in _board_pages else
+                     max(_board_utc, _newest_art) if p == "/" else _newest_art if p == "/news.html" else "")
+                 for p in locs}
+    prio = ([(p, _loc_mods[p]) for p in locs] + _today_live + learn_locs + hub_locs + _coin_locs
+            + [(f"/articles/{i['slug']}.html", _lm.article(i)) for i in _prio_arts])
     older = [i for i in arts_sorted if i.get("slug") not in _ev]
     archive_arts = [i for i in older if _within_days(i, 60)]
     n_aged = len(older) - len(archive_arts)
@@ -9423,7 +9499,8 @@ def build():
         if os.path.isdir(_dir):
             _extra += [f"/{_sub}/{_f}" for _f in sorted(os.listdir(_dir))
                        if _f.endswith(".html")]
-    archive = _extra + _today_dated + _c4_months + [f"/articles/{i['slug']}.html" for i in archive_arts]
+    archive = (_extra + _today_dated + _c4_months
+               + [(f"/articles/{i['slug']}.html", _lm.article(i)) for i in archive_arts])
     w("sitemap-priority.xml", _urlset(prio))
     w("sitemap-archive.xml", _urlset(archive))
     w("sitemap.xml",
@@ -9435,6 +9512,13 @@ def build():
       '</sitemapindex>\n')
     print(f"sitemap: priority {len(prio)} ({len(hub_locs)} hubs), archive {len(archive)}, "
           f"aged out {n_aged}, superseded excluded {n_superseded}")
+    # IndexNow (Sprint 8.2, item 5): the key file is served from the root; on a production build
+    # the URLs that changed against the live sitemaps are kept for the post-deploy send
+    try:
+        import indexnow as _ix
+        _ix.prepare(PUBLISH)
+    except Exception as _e:
+        print(f"::warning::indexnow: not prepared ({type(_e).__name__}: {str(_e)[:80]})")
 
     # NEWS SITEMAP (Google News format): only articles from the last 48 hours, relative to
     # the newest published item so the build stays reproducible (no wall clock). Regenerated
