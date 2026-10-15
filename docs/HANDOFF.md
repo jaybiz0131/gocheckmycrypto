@@ -107,7 +107,7 @@ Swept 13 October 2026 (Sprint 7.3, item 3): every row read against the live site
 | 6.5: the 13-character price tier | **Closed in 8.1 on the branch:** a price under $0.0001 prints compressed ($0.0₆3682) at normal size, the 10 px tier is removed |
 | L-1 the Board on the Worker (`site-refresh.yml` has no cron since 7.2, so builds are the only mover) | open; plan: serve the snapshot from the Worker; needs Jack, it touches the build count |
 | R-1 desk reconfiguration | open (Sprint J); no plan written, ask Jack for the brief |
-| Whale Watch (`/flows`) at 1440: its tables are 471 to 543 px inside a 1080 px column (read 13 Oct, production `23c33e5`); "full width" (V-11 punch 6) is not met if that is what it meant | 8.1 read it again (14 Oct): at 1440 nothing is wider than its column (the two tables fill their grid cells of 543 and 471 px inside the 1036 px page); it is under-filling, not overflowing, and at 375 the By exchange table scrolls inside its box. Needs Jack: what did punch 6 mean? `scripts/column_fit.mjs` now guards against real overflow |
+| Whale Watch (`/flows`) at 1440, V-11 punch 6 ("full width") | **Closed (Jack, 14 Oct): punch 6 is superseded by Program 6.** 8.1 measured it: nothing is wider than its column at 1440 (tables 543 and 471 px in a 1036 px page; the By exchange table scrolls in its own box at 375). `scripts/column_fit.mjs` stays as the guard |
 | V-13 Crypto copy hold | superseded by Program 6.1 (plain copy under the copy law; no persona text on any live page, read 13 Oct); section 2's bullet updated |
 
 Landed 4 October: A-14 (`/pulse` opens with the Board band at 646px against the

@@ -45,9 +45,15 @@ Canary on the branch: `LAYER 1 CANARY: PASS` (run twice: the first run failed K-
 ## Screenshots for Jack
 `shots/program8-8.1/`, 375 and 1440, light and dark: `today_-*` (/today/ as it builds from this morning's read), `today_2026_10_14-*` (the dated page), `home-*` (the new cadence line and the link), `pulse_prices-*` (the BTT row, $0.0₆3617 on today's data), `flows-*` (Whale Watch). The /today/ shots read "Morning read, 8:18 AM ET" beside "numbers as of 7:12 PM ET on Oct 14": the record was composed at 7:50 PM from this morning's read and the evening's numbers, because no stored record existed. A stored morning record, from tomorrow, will carry the morning's own numbers.
 
+## Jack's answers (14 Oct, after 8 PM)
+1. Whale Watch: punch 6 is closed as superseded by Program 6; the measurement stands; `column_fit.mjs` stays as the guard.
+2. Single-source cause wording stays as built, attributed to its source under the desk's no-causation line.
+3. Workflow files: push attempted; see the push line below.
+
+## Why tonight's Edition failed (run 38652474134, read from its log)
+Not the 7.3 twins gate and not the wire stage (that stage logged 0 dropped). The model's Edition draft failed the **deterministic ETF-window belts** three times: the first draft and two Sonnet rescue attempts each stated an ETF flow direction that the digest's own window number contradicted (a positive week against a negative week number; a negative day against a positive day number; then an unscoped ETF direction while the daily and five-session numbers disagree). With zero stories in the window there was no published story to build the digest floor from, so nothing was published (`wrap: failed`, exit 1, three wrap repairs). Re-running is cheap and safe in itself (about $0.09, it publishes only what passes, the slot is unserved so the guard lets it run, and main still has the old code), but the belt will probably trip again on the same disagreeing ETF numbers (the latest day is inflow, the prior five sessions net outflow) so I would expect a coin flip, and any push is another production build. Not re-run; awaiting Jack's yes.
+
 ## Open, for Jack
 1. Yes or no to merge (outside 6:30 to 8:15 PM ET), then: push the tip, merge, `git branch --contains` check, one build, read /today/ live and the count five minutes later.
-2. Punch 6's meaning (Item 3).
-3. A wire item on the page can carry a cause its source states ("sparking a crypto sell-off", CoinDesk, one source). It is shown with its source and under a heading and a line saying the desk does not say one caused the other. Say if you want single-source cause wording dropped.
-4. The failed 7:17 PM wrap and the 7.3 live proof.
+2. The 7.3 live proof is still open (no Edition tonight).
 5. The live proof of the next morning's /today/ at about 8:20 AM ET is not read yet (hand to 8.2 if not read first).
