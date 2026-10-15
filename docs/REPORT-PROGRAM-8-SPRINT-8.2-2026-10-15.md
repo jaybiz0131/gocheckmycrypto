@@ -43,3 +43,4 @@ All under the 5 KB limit.
 - Jack's yes: not given. Merge not done. A merge must be outside 6:30 to 8:15 PM ET, one real merge commit, push the tip first, `git branch --contains`, production read by stamp, the count five minutes after.
 - Live proof after the merge: the next morning read and Edition publish with no sign or window drop, or the drop is logged and right.
 - Canary: see the line at the end of this report.
+- Canary on the final branch tree (e94b296 plus shots 95efbe9): LAYER 1 CANARY: PASS. Shell date: Thu Oct 15 09:46:00 EDT 2026
