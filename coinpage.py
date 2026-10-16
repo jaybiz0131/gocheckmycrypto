@@ -239,22 +239,114 @@ def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
 
 # ---- the coin's stories ---------------------------------------------------------------------
 
+# Names a wire line may use for a coin besides the one the Top 100 prints. "Ether" is what the
+# desk's own wire lines call Ethereum, and the whole word is as specific as the name itself.
+ALIASES = {"ETH": ("Ether",)}
+
+
+def _matchers(c):
+    name, sym = _names(c)
+    if not name:
+        return []
+    rxs = [re.compile(r"(?<![A-Za-z0-9])" + re.escape(name) + r"(?![A-Za-z0-9])", re.I)]
+    for a in ALIASES.get((sym or "").upper(), ()):
+        rxs.append(re.compile(r"(?<![A-Za-z0-9])" + re.escape(a) + r"(?![A-Za-z0-9])", re.I))
+    if sym:
+        rxs.append(re.compile(r"(?<![A-Za-z0-9])" + re.escape(sym) + r"(?![A-Za-z0-9])"))
+    return rxs
+
+
+def names_coin(c, w):
+    text = " ".join([w.get("line") or ""] + list(w.get("titles") or []))
+    return any(rx.search(text) for rx in _matchers(c))
+
+
 def wire_stories(c, wire):
     """The wire items that name this coin, newest first. The coin's NAME is the identity
     (whole word, any case); its ticker counts only as a whole upper-case word, the same
     floor the page's published-story match uses. Items the wire dropped are not here."""
-    name, sym = _names(c)
-    if not name:
-        return []
-    rx_n = re.compile(r"(?<![A-Za-z0-9])" + re.escape(name) + r"(?![A-Za-z0-9])", re.I)
-    rx_s = re.compile(r"(?<![A-Za-z0-9])" + re.escape(sym) + r"(?![A-Za-z0-9])") if sym else None
-    hits = []
-    for w in ((wire or {}).get("items") or []):
-        text = " ".join([w.get("line") or ""] + list(w.get("titles") or []))
-        if rx_n.search(text) or (rx_s and rx_s.search(text)):
-            hits.append(w)
+    hits = [w for w in ((wire or {}).get("items") or []) if names_coin(c, w)]
     hits.sort(key=lambda w: w.get("reported_utc") or "", reverse=True)
     return hits
+
+
+# ---- Why <coin> moved today (Program 8, Sprint 8.2) -----------------------------------------
+
+TOP_N = 20              # the coins that get the block
+WHY_HOURS = 24          # "today": reported within a day of the Board read the page carries
+
+
+def cause_free(w):
+    """False when the desk's one line carries a cause word (because, due to, driven by...) that
+    none of its cited sources carries in a title. The desk never says "because" unless a
+    cited source does (today.CAUSAL is the one list)."""
+    import today as _today
+    line = w.get("line") or ""
+    titles = " ".join(w.get("titles") or [])
+    for m in _today.CAUSAL.finditer(line):
+        if not re.search(re.escape(m.group(0)), titles, re.I):
+            return False
+    return True
+
+
+def vet(items, gate, name, surface):
+    """The wire items that may print on a coin page: the desk's line carries no cause word its
+    sources lack, and the line passes the twins gate (a sentence that fails is dropped, the rest
+    of the line stands, an item left with nothing is out). Used for the Why block and the
+    stories list alike: one rule for every line the page prints in the desk's voice."""
+    out = []
+    for w in items:
+        if not cause_free(w):
+            continue
+        if gate is not None:
+            kept = gate.text(w.get("line") or "", f"the {name} page, {surface}", dollars=True).strip()
+            if not kept:
+                continue
+            w = dict(w, line=kept)
+        out.append(w)
+    return out
+
+
+def why_items(c, pos, wire, stamp_utc, hours=WHY_HOURS):
+    """The wire items that name the coin and were reported in the `hours` ending at the Board read
+    the page carries (never after it: the number sits under that read), for the top 20 only; [] for every other coin."""
+    if not pos or pos > TOP_N:
+        return []
+    try:
+        end = _dt.datetime.fromisoformat(str(stamp_utc).replace("Z", "+00:00"))
+    except ValueError:
+        return []
+    out = []
+    for w in wire_stories(c, wire):
+        try:
+            t = _dt.datetime.fromisoformat(str(w.get("reported_utc") or "").replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if end - _dt.timedelta(hours=hours) <= t <= end:       # the 24 hours ending at the read
+            out.append(w)
+    return out
+
+
+def why_block(c, pos, wire, stamp_utc, esc, stamp_et, move="", gate=None):
+    """(html, items): the "Why <coin> moved today" block and the items it shows. Nothing ('', [])
+    when no item names the coin. Every sentence the block prints from the desk's own hand goes
+    through the twins gate: the move line from the Board and each wire line. The block's own voice
+    never says "because"; it says what moved and what was reported, and that the desk does not say
+    one moved the other."""
+    name = (c.get("name") or c.get("symbol") or "").strip()
+    items = vet(why_items(c, pos, wire, stamp_utc), gate, name, "why it moved today")
+    if not items:
+        return "", []
+    if move and gate is not None:
+        move = gate.text(move, f"the {name} page, why it moved today", dollars=True).strip()
+    mv = f'<p class="cn-why-m">{esc(move)}</p>' if move else ""
+    html = (f'<section class="cn-why" aria-label="Why {esc(name)} moved today">'
+            f'<h2 class="cn-h">Why {esc(name)} moved today</h2>{mv}'
+            f'{stories_html(items, esc, stamp_et)}'
+            f'<p class="pc-note">These reports name {esc(name)}. The desk does not say any of them '
+            f'moved its price. Wire lines are the desk\'s one-line summaries of what outlets '
+            f'reported, with the sources counted and linked.</p></section>')
+    return html, items
 
 
 def stories_html(hits, esc, stamp_et):

@@ -2032,6 +2032,7 @@ def _stamp_canary():
             fails.extend(_beacon_canary(out))
             fails.extend(_coin_pages_canary(out))
             fails.extend(_sprint81_canary(out))
+            fails.extend(_sprint82_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2975,6 +2976,26 @@ def _sprint81_canary(out):
             fails.append("sprint 8.1: the Edition's ETF floor: " + ("; ".join(_bad[:4]) or _r.stderr[-200:]))
     finally:
         _sys.modules.pop("sprint81_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint82_canary(out):
+    """PROGRAM 8, SPRINT 8.2 (15 October 2026): the numbers handed over labeled (the Edition's week
+    signs, the morning headline and its percent-free inputs) and the coin doors (titles,
+    descriptions, the Why block, breadcrumbs, lastmod, IndexNow), read on the tree this build
+    wrote. scripts/sprint82_test.py holds the cases. The helper is taken out of sys.modules
+    again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint82_test as _s82
+        fails = ["sprint 8.2: " + f for f in _s82.unit()]
+        fails += ["sprint 8.2: " + f for f in _s82.static(out)]
+    finally:
+        _sys.modules.pop("sprint82_test", None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
     return fails

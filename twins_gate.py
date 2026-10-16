@@ -54,11 +54,12 @@ _BTC_USD = re.compile(
     r"\b(?:bitcoin|btc)\b([^.$]{0,60}?)\$\s?(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d{4,6}(?:\.\d+)?)"
     r"(\s?[kK]\b)?", re.I)
 # A dollar figure named as something other than the price now: a high, a low, an average,
-# a level the past held. Those are true of their own window and the gate does not read them.
+# a level the past held, a line crossed ("below $82,000", 15 Oct: it cost Bitcoin's coin page its
+# only wire item). Those are true of their own window and the gate does not read them.
 _NOT_PRICE = re.compile(r"\b(high|low|peak|record|average|sma|moving|200-day|50-day|"
                         r"all-time|ath|since|from|target|level of|in 20\d\d|last year|"
                         r"a year ago|cap|capitali[sz]ation|inflows?|outflows?|worth of|"
-                        r"million|billion)\b", re.I)
+                        r"million|billion|below|above|under|beneath|over|past)\b", re.I)
 
 # ---- 2. week and month figures ------------------------------------------------------------
 _COINS = [("BTC", r"bitcoin|btc"), ("ETH", r"ether(?:eum)?|eth"), ("SOL", r"solana|sol"),
@@ -352,6 +353,7 @@ class Gate:
         self.btc = _s.coin(self.snap, "BTC").get("price")
         self.read = readings(self.snap)
         self.drops = []
+        self.repairs = []
         self.log_path = log_path if log_path is not None else LOG_PATH
         self.quiet = quiet
 
@@ -495,6 +497,41 @@ class Gate:
                 return sym
         return None
 
+    def _fix_window_signs(self, s):
+        """(text, notes): a week or month figure that IS the snapshot series' figure in size but
+        stands without any sign word of its own gets the series' word.
+
+        14 October, 7:46 PM: "Ethereum fell 3.36 percent on the day and 7.44 percent over the
+        week" put one direction word in front of two figures; the gate read the second as +7.44
+        against the series' -7.44 and dropped the sentence, which was true. The figure is the
+        snapshot's own to the digit, so only its word is missing, and the word is a fact the
+        snapshot already holds. A word that is there and wrong ("falling 2.3%" against +2.30,
+        TN5) is a wrong claim, and a figure whose size is not the series' is one too: the check
+        below drops both, logged. Nothing here turns a wrong claim into a right one."""
+        import snapshot as _s
+        notes, edits = [], []
+        for m in _PCT_WINDOW.finditer(s):
+            verb, sign, val, win = m.group(1), m.group(2), m.group(3), m.group(4)
+            sym = self._coin_before(s, m.start())
+            if not sym:
+                continue
+            which = "30d" if re.search(r"month|30|thirty", win, re.I) else "7d"
+            series = _s.series_window(self.snap, sym, which)
+            if not isinstance(series, (int, float)) or not series:
+                continue
+            places = len(val.split(".")[1]) if "." in val else 0
+            if abs(abs(series) - _num(val)) > 0.5 * 10 ** (-places) + 1e-9:
+                continue
+            if verb or sign:
+                continue          # a sign word that is there and wrong is a wrong claim: dropped, logged
+            word = "down" if series < 0 else "up"
+            edits.append((m.start(3), m.start(3), word + " "))
+            notes.append(f"{sym} {val}% on the {'week' if which == '7d' else 'month'}: "
+                         f"no sign word, so '{word}' (the snapshot series' {series:+.2f}%)")
+        for a, b, w in sorted(edits, reverse=True):
+            s = s[:a] + w + s[b:]
+        return s, notes
+
     # -- apply ---------------------------------------------------------------------------
     def text(self, text, surface, dollars=True, pct=True, direction=True):
         """`text` with every failing sentence dropped. Returns the kept text ('' when
@@ -503,6 +540,13 @@ class Gate:
         kept = []
         for s in sentences(text):
             kind = "wrong"
+            if pct:
+                try:
+                    s, notes = self._fix_window_signs(s)
+                except Exception:
+                    notes = []
+                for n in notes:
+                    self._repair(surface, s, n)
             try:
                 why = ((dollars and self._dollar(s)) or (pct and self._window(s))
                        or (direction and self._direction(s)))
@@ -534,6 +578,13 @@ class Gate:
         return (f"twins gate: {n} sentence(s) dropped, {n - self.unparsed} wrong claim(s) and "
                 f"{self.unparsed} unparsed")
 
+    def _repair(self, surface, sentence, note):
+        """A sign word set to the snapshot's own: counted, printed, kept in the run's log."""
+        self.repairs.append({"surface": surface, "kept": sentence, "repair": note,
+                             "stamp_utc": self.stamp})
+        if not self.quiet:
+            print(f"twins gate: set a sign word in {surface}: {note}")
+
     def _log(self, surface, sentence, why, kind="wrong"):
         rec = {"surface": surface, "dropped": sentence, "why": why, "kind": kind,
                "stamp_utc": self.stamp}
@@ -555,6 +606,8 @@ class Gate:
         except Exception:
             prev = {"drops": []}
         prev.setdefault("drops", []).extend(self.drops)
+        if self.repairs:
+            prev.setdefault("repairs", []).extend(self.repairs)
         prev["stamp_utc"] = self.stamp
         prev["counts"] = counts(prev["drops"])
         os.makedirs(os.path.dirname(self.log_path), exist_ok=True)

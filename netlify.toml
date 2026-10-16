@@ -23,6 +23,11 @@
 [build.environment]
   PYTHON_VERSION = "3.12"
 
+# PROGRAM 8, SPRINT 8.2: after a production deploy is live, tell IndexNow which URLs changed.
+# The build (site_build.py -> indexnow.prepare) wrote the list; onSuccess sends it. No account.
+[[plugins]]
+  package = "./plugins/indexnow"
+
 [[headers]]
   for = "/*"
   [headers.values]

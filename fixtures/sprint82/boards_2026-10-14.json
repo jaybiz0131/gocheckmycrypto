@@ -1,0 +1,47 @@
+{
+ "data_date": "2026-10-14",
+ "assets": [
+  {
+   "symbol": "BTC",
+   "price": 81470,
+   "chg_24h_pct": -2.08,
+   "chg_7d_pct": -2.83,
+   "chg_30d_pct": 4.1
+  },
+  {
+   "symbol": "ETH",
+   "price": 2480,
+   "chg_24h_pct": -3.36,
+   "chg_7d_pct": -7.44,
+   "chg_30d_pct": -1.2
+  }
+ ],
+ "etf_flows": {
+  "btc": {
+   "latest_date": "14 Oct 2026",
+   "latest_net_usd_m": 2.2,
+   "last5_sessions_net_usd_m": -110.5,
+   "same_direction_days": 1,
+   "cumulative_usd_m": 57290.0
+  }
+ },
+ "movers": {
+  "gainers": [
+   {
+    "symbol": "HYPE",
+    "chg_24h_pct": 1.9
+   }
+  ],
+  "losers": [
+   {
+    "symbol": "SOL",
+    "chg_24h_pct": -4.2
+   }
+  ]
+ },
+ "window_signs": {
+  "rule": "x",
+  "assets": []
+ },
+ "flow_signs": []
+}

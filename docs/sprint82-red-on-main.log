@@ -1,0 +1,54 @@
+A. the 14 October week-sign sentences (7:46 PM re-run)
+  FAIL Bitcoin's sentence is kept, not dropped
+  FAIL Bitcoin's week figure now carries its own sign word: 'down 2.83 percent over the week'
+  FAIL Ether's sentence is kept with 'down 7.44 percent over the week'
+  FAIL each sign word set is recorded as a repair, none as a drop [AttributeError: 'Gate' object has no attribute 'repairs']
+  FAIL an opposite sign word that is there stays a wrong claim: dropped and logged, never rewritten [AttributeError: 'Gate' object has no attribute 'repairs']
+  FAIL a figure that is not the series' is still dropped and logged, never repaired [AttributeError: 'Gate' object has no attribute 'repairs']
+A2. the Edition is handed every number already labeled
+  FAIL group A (the Edition) could not run [ModuleNotFoundError: No module named 'phrases']
+B. this morning's headline (15 October 8:18 AM: 'missing or oversized headline')
+  ok   the fixture headline is over the limit
+  FAIL an oversized headline says it is too long, with its length and the limit
+  FAIL a missing headline says it is missing
+::warning::morning: fell back (morning: missing or oversized headline); the build goes out with fresh numbers and the card says Last night's Brief
+  FAIL oversized on both rungs: the read publishes, headline trimmed at a word boundary
+  FAIL the ledger row is a read, not a fallback
+  FAIL the repair rung was told what was wrong (the first error names the length)
+::warning::morning: fell back (morning: missing or oversized headline); the build goes out with fresh numbers and the card says Last night's Brief
+  FAIL missing on both rungs: the read publishes with the wire's top line as its headline
+morning: read written; 2065 tokens, $0.0037
+  FAIL oversized then repaired by the model: the model's headline stands
+::warning::morning: fell back (morning: 1 sentence(s) survived the copy law; 2 needed); the build goes out with fresh numbers and the card says Last night's Brief
+  ok   a fallback stays honest: one surviving sentence still falls back, and the reason says so
+B2. the morning is handed percent-free phrases
+morning: read written; 2065 tokens, $0.0037
+  FAIL no '%', no 'percent' and no raw funding figure in what the model is handed
+  FAIL the ETF flow is a phrase with its sign and window: net outflows of $261.4M on the day, October 14
+  FAIL the Standard Chartered line arrives without its 'up to 2% spread' clause
+  FAIL the Board's bands arrive by name
+C. the coin doors
+  FAIL item 1: Bitcoin's title reads what people type: 'Bitcoin price today and why it moved'
+  ok   item 1: the description is under 155 characters (126)
+  FAIL item 1: the description carries the day's own price and its signed 24-hour change
+  ok   item 1: no em dash or en dash in either
+  FAIL item 1: every coin, not only Bitcoin ('XRP price today and why it moved')
+  FAIL item 2: Bitcoin (top 20, a wire item within 24 hours names it) has a 'Why Bitcoin moved today' block
+  FAIL item 2: the item carries its sources (count and links) and its time
+  ok   item 2: the older Standard Chartered item (30 hours) is not 'today'
+  FAIL item 2: the no-causation line is there
+  ok   item 2: the desk's own sentences never say 'because'
+  ok   item 2: 'Ether' in a wire line names Ethereum (top 20) when the item is within 24 hours
+  ok   item 2: a top-20 coin no item names (Cardano) has no block and no empty heading
+  ok   item 2: a coin outside the top 20 gets no 'Why' block even when an item names it
+  FAIL item 2: a cause word in the desk's line that no cited source carries keeps the item out
+  ok   item 2: a cause word a cited source carries stands, as the source's
+  FAIL item 2: every sentence goes through the twins gate (a wrong Bitcoin price is dropped)
+  FAIL item 3: BreadcrumbList parses, three items: Home, Markets, Bitcoin, with absolute URLs
+  FAIL item 3: every coin page carries it (ADA, SUI, XRP)
+D. the sitemap's real change times
+  FAIL group D (lastmod) could not run [ModuleNotFoundError: No module named 'lastmod']
+E. IndexNow
+  FAIL group E (IndexNow) could not run [ModuleNotFoundError: No module named 'indexnow']
+
+SPRINT 8.2: FAIL (30)
