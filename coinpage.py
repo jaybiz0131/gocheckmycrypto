@@ -198,7 +198,8 @@ _DEPENDENT = re.compile(
     r"additionally|also|conversely|separately|likewise|then|thus|therefore|hence|so|and|or|while|whereas|"
     r"although|though|because|even so|that said|in contrast|by contrast|on the other hand|as a result|"
     r"in turn|for now|at the same time|both|these|those|this|that|such|it|its|they|their|the latter|"
-    r"the former|the former|of these|of those)\b", re.I)
+    r"the former|of these|of those|more|less|worse|better|another|the other|in addition|in particular|"
+    r"specifically|notably|importantly|crucially|in fact|indeed|next|later)\b", re.I)
 
 
 def whole_sentence(s):

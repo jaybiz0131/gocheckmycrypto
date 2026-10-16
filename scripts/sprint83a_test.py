@@ -91,6 +91,10 @@ def cm_cases(fails):
     guarded(fails, "the whole sentences stand, in the read's order",
             lambda: s == ["Bitcoin is down 2.1 percent on the day.", "Bitcoin's RSI reads 44, between oversold and overbought."])
     cm2 = {"date": "2026-10-15", "data_only": False, "paragraphs": ["However, Bitcoin holds above its 200-day average."]}
+    guarded(fails, "a comparative opener ('More worrying is...', 15 October's read) is not lifted either",
+            lambda: not coinpage.whole_sentence("More worrying is the concentration in Bitcoin.")
+            and coinpage.whole_sentence("Moreover is not the word; Bitcoin is steady.") is False
+            and coinpage.whole_sentence("Morning reads show Bitcoin steady."))
     guarded(fails, "a read whose only Bitcoin sentence is a dependent one lifts nothing (the levels card follows)",
             lambda: coinpage.coin_sentences(c, cm2) == [])
     guarded(fails, "a fragment that starts lower-case, or has no end, is not a whole sentence",
