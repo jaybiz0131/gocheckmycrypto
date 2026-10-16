@@ -65,5 +65,11 @@ Premise corrected: **both runs committed**, but only the second committed an Edi
   2. When the consistency gate withholds the Edition the run is green and says nothing at the top; add one visible line on the run summary ("Edition withheld, slot still open") so the 30-minute recovery is expected and counted.
   3. `today.py --write` ran in that 7:15 PM run, found no Edition for the day, and stored `site/data/today/2026-10-15-morning.json` from the evening's numbers. A stored record is frozen, so the dated page for Oct 15 carries a morning record that no morning read wrote (the morning read fell back). The slot it writes must come from the read it used, not from the clock.
 
-## Still to read (tomorrow)
-The 8:15 AM Oct 16 morning ledger row: published with no sign or window drop, or not. Appended below when read.
+## The first live proof: the 8:15 AM morning read, Friday 16 October
+- Ledger row 2026-10-16: `outcome: read`, 1,074 tokens, $0.0019, one model call (run 38899316193, dispatched 8:15:57 AM ET on `094c84a`, so it ran the merged code). Commit `9c8af54` at 8:18:36 AM; production stamp `commit 9c8af54, built 2026-10-16T12:19:17+00:00`.
+- **No sign or window drop, no copy-law cut, no headline repair.** The run log has no "cut a sentence", no "twins gate cut" and no "headline ... fixed" line, and the read's `headline_by` is `model`. The model copied the labeled phrases whole: "spot Bitcoin ETFs took in $5.1M on October 15" (the ETF day phrase), "Bitcoin ... higher over the past 24 hours", "funding on Bitcoin perpetual futures remaining calm"; no percent anywhere. Yesterday's failure (the 2% spread line, "0.0047 percent") did not recur because neither reaches the model any more.
+- The headline: "Bitcoin higher as spot ETFs draw inflows; regulators tighten crypto rules" (under 100 characters).
+- **Not yet proved live:** the Edition's week-sign path (the morning quotes no change by design) and the headline repair (the model's headline was fine). The first live proof of both is the next Edition (7:08 PM ET tonight); if the twins gate sets a sign word there, it is in `out/twins-gate.json` `repairs` and the run log line "twins gate: set a sign word in ...".
+- Netlify: still no access from this session, so the IndexNow plugin's first send in the deploy log and the build count remain unread (Jack: the deploy log of the `97fe676` build).
+
+Closed. Shell date: Fri Oct 16 2026, 8:39 AM ET.
