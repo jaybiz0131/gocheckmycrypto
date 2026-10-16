@@ -11,7 +11,7 @@
   FAIL 'But' and 'Meanwhile' openers are not lifted either
   FAIL the whole sentences stand, in the read's order
   FAIL a read whose only Bitcoin sentence is a dependent one lifts nothing (the levels card follows)
-  FAIL a fragment that starts lower-case is not a whole sentence
+  FAIL a fragment that starts lower-case, or has no end, is not a whole sentence [AttributeError: module 'coinpage' has no attribute 'whole_sentence']
 3. a wire item's sources are listed once per outlet
   FAIL Decrypt is listed once
   ok   the count is the outlets listed ('2 sources: Decrypt, Bitcoin Magazine')
