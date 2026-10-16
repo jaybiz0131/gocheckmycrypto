@@ -40,6 +40,8 @@ through to the next rung exactly as before.
 """
 import re
 
+import common
+
 MIN_BODY_WORDS = 120
 MAX_BODY_WORDS = 1050
 
@@ -294,7 +296,7 @@ def digest_edition(stories, belts, lint_bottom_line, max_words=900,
     n = len(paras)
     hook = (f"{n} verified stor{'y' if n == 1 else 'ies'} from the desk, in brief")
     dek = (f"A {label} edition: the desk's verified and published stories from the last "
-           f"{window_hours} hours, each in a sentence or two, newest first.")
+           f"{common.hours_phrase(window_hours)}, each in a sentence or two, newest first.")
     key = str(lead.get("key_fact") or lead.get("title") or "").strip()
     bottom = ""
     for s in ordered:
@@ -304,7 +306,7 @@ def digest_edition(stories, belts, lint_bottom_line, max_words=900,
             break
     if not bottom:
         bottom = (f"The desk published {n} verified stor{'y' if n == 1 else 'ies'} in "
-                  f"the last {window_hours} hours; the lead was {lead.get('title', '')}. "
+                  f"the last {common.hours_phrase(window_hours)}; the lead was {lead.get('title', '')}. "
                   f"Each story above carries its own sources and its own Bottom Line.")
     if word_count(body) < MIN_BODY_WORDS:
         # a quiet window: extend honestly with the stories' own first paragraphs

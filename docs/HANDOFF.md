@@ -250,6 +250,14 @@ Jack adopted the deep audit's plan (`docs/audit-2026-10/AUDIT.md`, commit `18a15
 7. The Worker live-price route in 9.7.
 8. Order: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, with 8.4 on its Monday schedule.
 
+## 17. Program 9, Sprint 9.1: numbers that agree (16 October 2026)
+**BUILT on `claude/crypto-program-9-sprint-91-ri5kt6`, NOT MERGED; waits for Jack's yes on `shots/program9-9.1/`.** Report: `docs/REPORT-PROGRAM-9-SPRINT-9.1-2026-10-16.md`. Red-on-main log: `docs/sprint91-red-on-main.log` (53 FAIL on `18a156e`, PASS on the branch); the cases are `scripts/sprint91_test.py`, wired into the canary.
+- Whole-market change checked against the Top 100's own figure, Bitcoin and Ether, else withheld as "unchecked" (`snapshot.check_market_change`); stablecoin sign (`stable_flow_words`); one 7-day figure per coin page; movers rules (`snapshot.mover_rows`); no false "live"; the stale state (`data-asof`, `/assets/asof.js`); `/today/`'s direction is the ET day's (`market_pulse.et_open`, `chg_et_day_pct`); "What was reported"; the wire source check (`wire.source_check`); 8.3 items 1 to 5; `llm.thinking_param` and 5.5 prices.
+- **The brief's premise that 15 October was a down day did not hold** (Kraken: +1.48% midnight ET to midnight ET). No direction correction was made; the page's unsupported wire line and contradicting whole-market figure were corrected with visible correction lines, and the same figure was removed from the 16 October morning record.
+- The brief was cut off at item 9; scope past it was taken from AUDIT.md row 9.1.
+- Found: origin/main's canary was red on `top100-sparkline` (ALGO); fixed in `row_spark`.
+- Open for Jack: the merge (outside 6:30 to 8:15 PM ET, one real merge commit, push the tip first, `git branch --contains`, count five minutes after); after it, the first run writes `open_et` and the ET-day direction goes live (until then the rolling-24-hour fallback, said in `direction_basis`).
+
 # Standing rules, all desks: not here, by Jack's ruling
 
 **Option two, 1 October 2026.** U-1 to U-13 and the dated rules beside them live in ONE file,

@@ -1,0 +1,176 @@
+{
+ "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
+ "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
+ "ranked_utc": "2026-10-15T23:43:47Z",
+ "ranked_et": "7:43 PM ET on Oct 15",
+ "refreshed_utc": "2026-10-16T12:18:33Z",
+ "refreshed_et": "8:18 AM ET on Oct 16",
+ "refreshes": 1,
+ "snapshot_stamp_utc": "2026-10-15T23:43:27Z",
+ "items": [
+  {
+   "rank": 1,
+   "id": "c002",
+   "line": "Brooklyn DA and FBI dismantled Russian-language crypto scam network, seizing 112 servers and shutting 241 domains after victims lost tens of millions.",
+   "titles": [
+    "How Brooklyn prosecutors and the FBI took down a massive crypto fraud network targeting Russian speakers",
+    "FBI helps smash crypto scam targeting Russian speakers in Brooklyn"
+   ],
+   "board_reading": "",
+   "source_count": 3,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/business/2026/10/15/how-brooklyn-prosecutors-and-the-fbi-took-down-a-massive-crypto-fraud-network-targeting-russian-speakers",
+     "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://protos.com/fbi-helps-smash-crypto-scam-targeting-russian-speakers-in-brooklyn/",
+     "outlet": "Protos",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/381000/brooklyn-prosecutors-take-down-112-servers-behind-crypto-scam-targeting-russian-speakers",
+     "outlet": "Decrypt",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-15T12:35:24Z",
+   "verdict": "VERIFIED",
+   "mark": "checked"
+  },
+  {
+   "rank": 2,
+   "id": "c024",
+   "line": "EU banking authority classified Circle's USDC as 'significant' e-money token under MiCA, activating Nov. 12 supervisory rules.",
+   "titles": [
+    "EBA designates Circle\u2019s USDC as the EU\u2019s first \u2018significant\u2019 e-money token"
+   ],
+   "board_reading": "Stablecoin float",
+   "source_count": 2,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/regulation/2026-10-15-eba-designates-circles-usdc-as-the-eus-first-significant-e-money-token-418637",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://cryptobriefing.com/circle-minted-another-750-million-usdc-on-solana-in-the-last-24-hours-2/",
+     "outlet": "Crypto Briefing",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-15T11:10:07Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 6,
+   "id": "c046",
+   "line": "Solana confirmed Oct. 21 Alpenglow upgrade, replacing TowerBFT voting to cut finality from 12.8 seconds to 150 milliseconds.",
+   "titles": [
+    "Solana Sets a Date for Its Next Major Upgrade"
+   ],
+   "board_reading": "",
+   "source_count": 2,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://decrypt.co/380974/solana-alpenglow-upgrade-date",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://beincrypto.com/solana-shanghai-event-halted-officers/",
+     "outlet": "BeInCrypto",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-14T19:16:04Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 3,
+   "id": "c008",
+   "line": "Australia's ASIC proposed stricter rules for crypto exchange licensing, including capital and custody requirements due ahead of 2027 rollout.",
+   "titles": [
+    "Australia\u2019s financial watchdog seeks stiffer rules for crypto exchanges ahead of licensing deadline"
+   ],
+   "board_reading": "Whale net, exchange flows",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/policy/2026/10/15/australia-s-financial-watchdog-seeks-stiffer-rules-for-crypto-exchanges-ahead-of-licensing-deadline",
+     "outlet": "CoinDesk",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-15T09:53:37Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 4,
+   "id": "c031",
+   "line": "Russia's Central Bank confirmed ban on direct P2P crypto trades effective July 1, 2027, requiring residents to use authorized intermediaries.",
+   "titles": [
+    "Russia Will Soon Ban Peer-to-Peer Bitcoin Trading, Central Bank Confirms"
+   ],
+   "board_reading": "Bitcoin price",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://decrypt.co/381079/russia-ban-peer-to-peer-bitcoin-trading",
+     "outlet": "Decrypt",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-15T20:31:04Z",
+   "verdict": "VERIFIED",
+   "mark": "wire"
+  },
+  {
+   "rank": 5,
+   "id": "c011",
+   "line": "Hot US producer-price data triggered nearly $940 million in crypto liquidations as Fed rate-hike bets spiked to 50%.",
+   "titles": [
+    "Nearly $1 billion in crypto bets liquidated as bitcoin, ether and XRP slide"
+   ],
+   "board_reading": "Bitcoin price",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.coindesk.com/markets/2026/10/15/nearly-usd1-billion-in-crypto-bets-liquidated-as-bitcoin-ether-and-xrp-slide",
+     "outlet": "CoinDesk",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-15T04:25:15Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  }
+ ],
+ "checked": {
+  "id": "c002",
+  "rank": 1,
+  "says": "CoinDesk reports the scheme stole tens of millions through Russian-language Facebook ads and fake advisers, with a recovery scam targeting victims again; authorities seized 241 domains and 112 servers.",
+  "unconfirmed": "The exact dollar total of losses is described as 'tens of millions' but not quantified precisely; Protos reports $300,000 seized by Gonzalez's office but the full victim loss amount is not stated.",
+  "badge": "Verified",
+  "standing": "corroborated",
+  "source": "https://www.coindesk.com/business/2026/10/15/how-brooklyn-prosecutors-and-the-fbi-took-down-a-massive-crypto-fraud-network-targeting-russian-speakers",
+  "outlet": "CoinDesk"
+ },
+ "dropped": []
+}

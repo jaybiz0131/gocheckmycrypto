@@ -623,14 +623,15 @@ def _live_layer_canary():
                f"live layer: {path} carries a browser-filled 'updated' stamp")
 
     # 2. The tape's own stamp says live, with its zone.
-    _check("st.textContent='live \\u00b7 '+etClock();" in strip, fails,
-           "live layer: the ticker's stamp no longer reads 'live \u00b7 <time>'")
+    # SPRINT 9.1: the tape claims only what moved: "price live", with the build's stamp for the rest
+    _check("st.textContent='price live \\u00b7 '+etClock()" in strip, fails,
+           "live layer: the ticker's stamp no longer reads 'price live \u00b7 <time>'")
     _check(bool(_r.search(r"function etClock\(\)\{.*?\+' ET';", strip, _r.S)), fails,
            "live layer: the ticker's live clock carries no zone")
     # "live" only after an OK answer that carried a price: a 429 is JSON too.
     _pf = _r.search(r"/simple/price[^']*'\)\s*\.then\(function\(r\)\{if\(!r\.ok\)throw", strip)
     _check(bool(_pf) and "if(!landed)return;" in strip
-           and strip.find("if(!landed)return;") < strip.find("'live \\u00b7 '"), fails,
+           and strip.find("if(!landed)return;") < strip.find("'price live \\u00b7 '"), fails,
            "live layer: the ticker can say 'live' without a price having landed (a 429 or "
            "an empty answer would label the build's numbers live)")
     _m0 = _r.search(r'id="tapeLive"[^>]*>(.*?)</p>', strip, _r.S)
@@ -2033,6 +2034,7 @@ def _stamp_canary():
             fails.extend(_coin_pages_canary(out))
             fails.extend(_sprint81_canary(out))
             fails.extend(_sprint82_canary(out))
+            fails.extend(_sprint91_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2580,7 +2582,7 @@ def _home_canary(index_html=None):
                "home canary: the tape's chart has no fill under the line")
         for _cls, _fig in (("h-k-hi", max(_cv)), ("h-k-lo", min(_cv))):
             _mk = _re.search(r'<span class="h-k %s[^"]*" style="left:([\d.]+)%%;top:([\d.]+)%%">'
-                             r'7D [A-Z]+ <b>([^<]+)</b>' % _cls, _c)
+                             r'7D [A-Z ]+ <b>([^<]+)</b>' % _cls, _c)
             _check(bool(_mk) and _mk.group(3) == _hx(_h._whole(_fig)), fails,
                    f"home canary: the {_cls} mark is not on the line with its figure "
                    f"{_h._whole(_fig)}")
@@ -3001,6 +3003,24 @@ def _sprint82_canary(out):
     return fails
 
 
+def _sprint91_canary(out):
+    """PROGRAM 9, SPRINT 9.1 (16 October 2026): numbers that agree. scripts/sprint91_test.py holds
+    the cases (the whole-market cross-check, the stablecoin sign, one seven-day figure, the movers
+    rules, no false 'live', the stale state, the ET day, the wire's source check, 8.3's items).
+    The helper is taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint91_test as _s91
+        fails = ["sprint 9.1: " + f for f in _s91.unit()]
+    finally:
+        _sys.modules.pop("sprint91_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
 def _beacon_canary(out):
     """EVERY PAGE CARRIES EXACTLY ONE ANALYTICS BEACON (Jack, 12 October 2026). Counted on
     the built tree, every .html but the verification and redirect stubs: none is a red, two
@@ -3060,7 +3080,7 @@ def _below_canary(index_html=None):
     # 1. the Board's tiles through the one renderer, only the readings not already above
     # the fold (Sprint 6.2: nothing twice), and no other tile markup
     b = blk("board")
-    tiles = _re.findall(r'<article class="tl" data-reading="([a-z-]+)">', b)
+    tiles = _re.findall(r'<article class="tl" data-reading="([a-z-]+)"[^>]*>', b)
     _check(bool(tiles) and not set(tiles) & set(_h.ABOVE_READINGS), fails,
            f"below canary: the Board below the fold shows {tiles}; above the fold already "
            f"prints {sorted(set(tiles) & set(_h.ABOVE_READINGS))}")
@@ -3072,7 +3092,7 @@ def _below_canary(index_html=None):
     _check("bd-tile" not in b and "bd-card" not in b, fails,
            "below canary: a Board tile is drawn by the old renderer")
     import tile as _t
-    _keys = _re.findall(r'<article class="tl" data-reading="([a-z-]+)">.*?</article>', b, _re.S)
+    _keys = _re.findall(r'<article class="tl" data-reading="([a-z-]+)"[^>]*>.*?</article>', b, _re.S)
     _check(_keys == tiles and all(k in _t.READINGS for k in tiles), fails,
            "below canary: a Board tile names a reading the one renderer does not know")
     _check(not hasattr(_sb, "board_tile_grid"), fails,

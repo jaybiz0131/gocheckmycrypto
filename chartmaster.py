@@ -217,6 +217,11 @@ def digest():
                               "in words and is authoritative.",
             "net_plain": _net_plain(vol.get("net_usd"), vol.get("direction")),
             "stablecoin_buying_power_usd": (flows.get("stablecoins") or {}).get("net_buying_power_usd"),
+            # Stablecoins run the other way from volatile assets (Sprint 9.1): positive is
+            # dollars arriving ONTO exchanges, negative is dollars leaving them.
+            "stablecoin_convention": "stablecoin_buying_power_usd = inflow_usd - outflow_usd. "
+                                     "POSITIVE means net stablecoins moving ONTO exchanges; "
+                                     "NEGATIVE means net stablecoins moving OFF exchanges.",
             # Same treatment per asset row: the trace check also tried to reconcile
             # these against the aggregate and reported a "magnitude mismatch".
             "by_asset": [dict(a, net_plain=_net_plain(

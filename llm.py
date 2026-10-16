@@ -29,6 +29,7 @@ Set the mode with the CRYPTO_LLM_MODE env var or the `mode` argument.
 """
 
 import json
+import re
 import os
 import time
 import urllib.request
@@ -50,8 +51,24 @@ PRICING = {
     "claude-sonnet-5":  (3.0, 15.0),
     "claude-haiku-4-5": (1.0, 5.0),
     "claude-fable-5":   (10.0, 50.0),
+    # The 5.5 family (Sprint 9.1, AUDIT.md 3.1): without these a 5.5 call is billed at
+    # DEFAULT_PRICE, which overstates Haiku 5.5 about 50 times and trips the run cap early.
+    "claude-opus-5-5":   (4.0, 20.0),
+    "claude-sonnet-5-5": (2.0, 10.0),
+    "claude-haiku-5-5":  (0.10, 0.50),
 }
 DEFAULT_PRICE = (5.0, 25.0)
+
+
+def thinking_param(model):
+    """The `thinking` request field for a model, or None to send none. Only the 5.0 line
+    (claude-sonnet-5, or a dated snapshot of it) takes {type: "disabled"}. claude-sonnet-5-5 also
+    starts with "claude-sonnet-5" and answers {type: "disabled"} with a 400, so it is matched
+    exactly, not by prefix (Sprint 9.1, AUDIT.md 3.1)."""
+    m = str(model or "")
+    if m == "claude-sonnet-5" or re.fullmatch(r"claude-sonnet-5-20\d{6}", m):
+        return {"type": "disabled"}
+    return None
 
 
 class LLMError(RuntimeError):
@@ -228,8 +245,9 @@ class Client:
         # need the whole budget for the payload, so thinking is explicitly disabled on
         # Sonnet calls (this covers the rescue rung and wraprescue, the only Sonnet
         # callers).
-        if model.startswith("claude-sonnet-5"):
-            body["thinking"] = {"type": "disabled"}
+        thinking = thinking_param(model)
+        if thinking:
+            body["thinking"] = thinking
         data = json.dumps(body).encode("utf-8")
         req = urllib.request.Request(API_URL, data=data, method="POST", headers=headers)
         resp_json = self._post_with_retry(stage, req)

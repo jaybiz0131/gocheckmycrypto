@@ -80,13 +80,116 @@ def stamp_et(ts):
     if not dt:
         return ""
     et = dt.astimezone(_ET)
-    return f"{et.strftime('%-I:%M %p')} ET on {et.strftime('%b')} {et.day}"
+    text = f"{et.strftime('%-I:%M %p')} ET on {et.strftime('%b')} {et.day}"
+    _STAMP_TS[text] = str(ts).strip()
+    return text
+
+
+# THE STALE STATE (Sprint 9.1, AUDIT.md 3.4 item 2). A stamp prints as text; the text that went
+# to a surface is remembered with the instant it came from, so any surface that prints a
+# stamp (a tile, the tape, a stamp line) can also carry the instant, and the browser can
+# measure the reading's age at the moment it is read.
+_STAMP_TS = {}
+STALE_HOURS = 3        # a reading older than this, when read, prints its age and dims
+
+
+def ts_for_stamp(text):
+    """The instant a stamp text was made from, or ''."""
+    return _STAMP_TS.get(str(text or "").strip(), "")
+
+
+def asof_attr(ts, hours=None):
+    """' data-asof="..."' for a UTC instant, or '' when it is not one."""
+    if not _utc(ts):
+        return ""
+    h = f' data-asof-hours="{hours}"' if hours else ""
+    return f' data-asof="{str(ts).strip()}"{h}'
+
+
+def age_phrase(ts, now=None):
+    """'9 hours ago', '2 days ago', or '' when the reading is within STALE_HOURS (or the
+    instant is unreadable). `now` is an aware datetime; default the wall clock."""
+    dt = _utc(ts)
+    if not dt:
+        return ""
+    now = now or _dt.datetime.now(_dt.timezone.utc)
+    h = (now - dt).total_seconds() / 3600.0
+    if h <= STALE_HOURS:
+        return ""
+    return f"{int(h)} hours ago" if h < 48 else f"{int(h // 24)} days ago"
 
 
 def _read(pulse, field):
     sec = _SECTION.get(field)
     return (((pulse or {}).get("sections_utc") or {}).get(sec)
             or (pulse or {}).get("generated_utc") or "")
+
+
+# THE WHOLE-MARKET CHANGE IS CHECKED BEFORE IT PRINTS (Sprint 9.1, AUDIT.md 1.3 item 1).
+# CoinGecko /global's 24-hour market-cap change was printed as it came. On 16 October it read
+# -0.62% while Bitcoin was +1.48% (59% of the market) and Ether +4.13%; on 15 October -2.13%
+# against Bitcoin +0.80% and Ether +0.96%. The desk can compute the same quantity from the
+# Top 100 it already holds (each coin's cap and its own 24-hour change), so the reported
+# figure is read against that, and against Bitcoin and Ether, and is withheld when they
+# disagree. Withheld means the number is None and the state says "unchecked": never a
+# fake zero, never a figure printed as fact that the desk's own numbers contradict.
+MARKET_TOLERANCE_PTS = 1.0     # how far the reported figure may sit from the Top 100's
+MARKET_SIGN_FLOOR = 0.5        # below this a move is too small to have a side
+MARKET_MIN_COINS = 50          # fewer Top 100 rows than this and the desk's own figure is not computed
+
+
+def top100_change(coins):
+    """The Top 100's own 24-hour change, from each coin's cap and its change: the cap a day
+    ago is cap / (1 + change), and the group's change is today's total over that total.
+    None when too few rows carry both figures to call it the Top 100."""
+    now = before = 0.0
+    n = 0
+    for c in (coins or {}).values():
+        cap, chg = c.get("mcap_usd"), c.get("chg_24h_pct")
+        if (isinstance(cap, (int, float)) and cap > 0 and isinstance(chg, (int, float))
+                and chg > -100):
+            now += cap
+            before += cap / (1 + chg / 100.0)
+            n += 1
+    if n < MARKET_MIN_COINS or before <= 0:
+        return None
+    return round((now / before - 1) * 100.0, 2)
+
+
+def check_market_change(reported, coins):
+    """(state, reason, top100_pct). state is "checked" when the reported figure agrees with
+    the Top 100's own and does not contradict Bitcoin and Ether, "unchecked" otherwise."""
+    if not isinstance(reported, (int, float)) or isinstance(reported, bool):
+        return "unchecked", "the source sent no 24-hour market change", top100_change(coins)
+    own = top100_change(coins)
+    btc = ((coins or {}).get("BTC") or {}).get("chg_24h_pct")
+    eth = ((coins or {}).get("ETH") or {}).get("chg_24h_pct")
+    side = lambda v: 0 if abs(v) < MARKET_SIGN_FLOOR else (1 if v > 0 else -1)
+    if (isinstance(btc, (int, float)) and isinstance(eth, (int, float))
+            and side(btc) and side(btc) == side(eth) and side(reported) == -side(btc)):
+        return ("unchecked", f"{reported:+.2f}% contradicts Bitcoin ({btc:+.2f}%) and Ether "
+                             f"({eth:+.2f}%), which moved the other way", own)
+    if own is not None and abs(reported - own) > MARKET_TOLERANCE_PTS:
+        return ("unchecked", f"{reported:+.2f}% is {abs(reported - own):.1f} points from the "
+                             f"Top 100's own {own:+.2f}%", own)
+    if own is None and not (isinstance(btc, (int, float)) and isinstance(eth, (int, float))):
+        return "unchecked", "no Top 100, Bitcoin or Ether figures to check it against", own
+    return "checked", "", own
+
+
+def total_cap_value(usd, reported, coins):
+    """The snapshot's total_cap value: the cap, the change only if it passed the check, the
+    state, and what was checked, so a surface can say why a number is missing."""
+    state, why, own = check_market_change(reported, coins)
+    v = {"usd": usd, "chg_24h_pct": round(float(reported), 2) if state == "checked" else None,
+         "chg_state": state}
+    if own is not None:
+        v["top100_chg_24h_pct"] = own
+    if state != "checked":
+        v["chg_withheld"] = why
+        if isinstance(reported, (int, float)) and not isinstance(reported, bool):
+            v["chg_reported_pct"] = round(float(reported), 2)
+    return v
 
 
 def build(pulse, flows):
@@ -115,6 +218,12 @@ def build(pulse, flows):
                     coins[sym][k] = r[k]
             if r.get("stablecoin"):
                 coins[sym]["stablecoin"] = True
+            # THE ET DAY'S MOVE (Sprint 9.1): the price at the last midnight Eastern and the
+            # change since it, from the same read as the price
+            if isinstance(r.get("open_et"), (int, float)) and r["open_et"] > 0 and r.get("open_et_day"):
+                coins[sym]["open_et"] = r["open_et"]
+                coins[sym]["open_et_day"] = r["open_et_day"]
+                coins[sym]["chg_et_day_pct"] = round((r["price"] / r["open_et"] - 1) * 100.0, 2)
     put("coins", coins)
     # THE WEEK (6 October 2026): seven daily closes and the week's low and high per coin,
     # from the same /coins/markets read with its sparkline field; no second request.
@@ -131,8 +240,8 @@ def build(pulse, flows):
     if isinstance(mkt.get("btc_dominance_pct"), (int, float)):
         put("dominance", {"btc_pct": mkt["btc_dominance_pct"]})
     if isinstance(mkt.get("total_mcap_usd"), (int, float)):
-        put("total_cap", {"usd": mkt["total_mcap_usd"],
-                          "chg_24h_pct": mkt.get("mcap_change_24h_pct")})
+        put("total_cap", total_cap_value(mkt["total_mcap_usd"], mkt.get("mcap_change_24h_pct"),
+                                         coins))
 
     etf = {}
     for k in ("btc", "eth"):
@@ -235,7 +344,9 @@ def series_windows(closes):
 def week_pair(snap, sym):
     """(low, high) of the coin's seven stored daily closes, or None: THE 7D PAIR. The tape's
     HIGH and LOW and the coin page's "7D high" and "7D low" are this pair and nothing else
-    (13 October 2026: the coin page had printed a second pair from the hourly sparkline)."""
+    (13 October 2026: the coin page had printed a second pair from the hourly sparkline).
+    They are CLOSES and are worded so (Sprint 9.1): a day's close can sit above today's low, and
+    a "7D low" that is not the lowest price read as false beside the 24-hour range."""
     wk = (value(snap, "week") or {}).get(sym) or {}
     cl = wk.get("closes")
     vals = list(cl.values()) if isinstance(cl, dict) else list(cl or [])
@@ -254,6 +365,37 @@ def series_window(snap, sym, which):
     """The snapshot's own week ("7d") or month ("30d") change for a Board coin, or None."""
     v = ((((snap or {}).get("series") or {}).get("value") or {}).get(sym) or {})
     return v.get(f"chg_{which}_pct")
+
+
+# THE MOVERS LIST RULES (Sprint 9.1, AUDIT.md 1.2). A list headed "top 5 losers" listed #107
+# Starknet (outside the top 100) and PayPal USD at 0.0% (a stablecoin) on a morning when only
+# three top-100 coins had fallen more than 1%. So: no stablecoin, rank 100 or better, a move of
+# at least MOVER_FLOOR_PCT in the list's own direction, and no padding to fill five.
+MOVER_FLOOR_PCT = 1.0
+MOVER_RANK_MAX = 100
+_PEGGED_NAME = re.compile(r"usd|dollar|stable|tether|\bdai\b|eur", re.I)
+
+
+def is_stablecoin(row):
+    """True for a coin flagged a stablecoin, or one priced within 3% of a dollar whose name
+    says it is dollars (a stablecoin the flag file has not caught yet is still not a mover)."""
+    if row.get("stablecoin"):
+        return True
+    px = row.get("price")
+    return (isinstance(px, (int, float)) and 0.97 <= px <= 1.03
+            and bool(_PEGGED_NAME.search(f"{row.get('name') or ''} {row.get('symbol') or ''}")))
+
+
+def mover_rows(rows, side, n=5, floor=MOVER_FLOOR_PCT):
+    """The list for one side ("gainers" or "losers") from top-100 rows, at most n, fewer when
+    fewer qualify, empty when none does."""
+    sign = 1 if side == "gainers" else -1
+    ok = [r for r in (rows or [])
+          if isinstance(r.get("chg_24h_pct"), (int, float))
+          and isinstance(r.get("rank"), int) and r["rank"] <= MOVER_RANK_MAX
+          and not is_stablecoin(r) and sign * r["chg_24h_pct"] >= floor]
+    ok.sort(key=lambda r: -sign * r["chg_24h_pct"])
+    return ok[:n]
 
 
 def movers(coins):
@@ -339,11 +481,16 @@ def views(snap, pulse, flows):
                 c = coins.get(r.get("symbol"))
                 if c:
                     r["price"], r["chg_24h_pct"] = c["price"], c.get("chg_24h_pct")
+        # the lists every renderer reads obey the movers rules, whatever the stored ones held
+        if mv.get("top100"):
+            mv["gainers"] = [dict(r) for r in mover_rows(mv["top100"], "gainers")]
+            mv["losers"] = [dict(r) for r in mover_rows(mv["top100"], "losers")]
         mkt = p.setdefault("market", {})
         dom, cap = value(snap, "dominance"), value(snap, "total_cap")
         mkt["btc_dominance_pct"] = (dom or {}).get("btc_pct")
         mkt["total_mcap_usd"] = (cap or {}).get("usd")
         mkt["mcap_change_24h_pct"] = (cap or {}).get("chg_24h_pct")
+        mkt["mcap_change_state"] = (cap or {}).get("chg_state")
         etf = value(snap, "etf_flows") or {}
         for k, e in (p.get("etf_flows") or {}).items():
             if isinstance(e, dict):

@@ -1,0 +1,72 @@
+origin/main 18a156e, scripts/sprint91_test.py and fixtures/sprint91 copied in; shell date: Fri Oct 16 18:20:31 EDT 2026
+1. the whole-market change is cross-checked before it prints
+  FAIL 16 October: market -0.62% beside Bitcoin +1.48% and Ether +4.13% is withheld (None), not printed
+  FAIL 16 October: the state says unchecked, with the reason
+  ok   16 October: the cap itself still prints
+  FAIL a figure that agrees with Bitcoin, Ether and the Top 100 prints (checked)
+  FAIL a figure 3 points from the Top 100's own is withheld even on the right side of zero
+  FAIL a missing change is None and unchecked, never a fake 0.00%
+  FAIL market_pulse: a /global answer with no change field gives None, not 0
+  FAIL the ticker's total cap says 'unchecked' and prints no -0.6%
+  FAIL the ticker script reads live Bitcoin and Ether before it prints /global's change
+2. Whale Watch: the $233.2M case
+  FAIL negative buying power reads 'off exchanges' [AttributeError: module 'site_build' has no attribute 'stable_flow_words']
+  FAIL positive buying power reads 'onto exchanges' [AttributeError: module 'site_build' has no attribute 'stable_flow_words']
+  FAIL the page says 'net stablecoins off exchanges' for transfers that left
+  FAIL the page never says 'net stablecoins onto exchanges' for them
+  ok   the signed amount stays -$233.2M
+  FAIL the Chart Master is handed the stablecoin convention in words
+3. one seven-day figure per page
+  FAIL the chart header carries the readings tile's rolling 7-day figure (+0.08%), not its own series
+  FAIL the chart carries the figure for the script, so it does not change between loads
+  FAIL the Chart Master sentence with 'down 2.0% over the week' is not lifted onto the page
+  FAIL the Chart Master's other sentence stands, whole, without its 'However,'
+  ok   the readings tile names its window in words (Rolling 7 days)
+  FAIL the script prints the same figure on 7D and names every window 'the last ...'
+  FAIL 8.3 item 2: a connective comes off a lifted first sentence [AttributeError: module 'coinpage' has no attribute 'lead_alone']
+4. the movers list rules
+  FAIL group 4 (movers) could not run [AttributeError: module 'snapshot' has no attribute 'mover_rows']
+5. no 'live' claim on the Top 100
+  FAIL the description no longer says 'Live prices' or 'updated in your browser'
+  FAIL the page carries its time and the instant for the stale state
+  ok   no 'live' claim in the page body
+6. the stale state
+  FAIL age_phrase: nothing within 3 hours [AttributeError: module 'snapshot' has no attribute 'age_phrase']
+  FAIL age_phrase: '9 hours ago' for the 12:16 read at 9:18 PM UTC [AttributeError: module 'snapshot' has no attribute 'age_phrase']
+  FAIL age_phrase: days past 48 hours [AttributeError: module 'snapshot' has no attribute 'age_phrase']
+  FAIL a tile carries the instant its stamp came from
+  FAIL the ticker's stamp prints its age: 'as of 8:16 AM ET on Oct 16, 9 hours ago'
+  FAIL every page loads the stale-state script
+  FAIL group 6 (stale state) could not run [FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/main-wt/site/assets/asof.js']
+7. /today/'s direction follows the ET day
+  FAIL et_open: the price at the last midnight Eastern, for the ET day it belongs to [AttributeError: module 'market_pulse' has no attribute 'et_open']
+  FAIL rolling 24h -2.60% but +1.52% since midnight ET: the day is UP (title, direction, basis)
+  FAIL the answer states the ET day's move and the 24-hour move, each with its window
+  FAIL the page shows both Bitcoin windows
+  FAIL an open that belongs to another ET day is not used: rolling 24 hours, said in direction_basis [KeyError: 'direction_basis']
+  ok   the whole-market line is not in the answer while its change is withheld
+  FAIL the twins gate reads 'since midnight ET' against the ET day's figure (+1.52), not the 24-hour one (-2.60)
+  FAIL and still drops the wrong direction for that window
+  FAIL 15 October's dated page: the unsupported producer-price line is off it and a visible correction names why
+  FAIL the correction line renders on the page
+8. labels, the lede, the hour, llm.py
+  FAIL the home label reads 'What was reported', not 'Moving the market'
+  FAIL the /bottom-line lede no longer says 'once a day'
+  FAIL hours_phrase: '1 hour', '2 hours', '3 days' [AttributeError: module 'common' has no attribute 'hours_phrase']
+  FAIL the liquidation window prints 'last 1 hour', not 'last 1 hours'
+  FAIL llm: Sonnet 5.5 is sent no {type: disabled} thinking (it answers 400) [AttributeError: module 'llm' has no attribute 'thinking_param']
+  FAIL llm: Sonnet 5 still has thinking disabled [AttributeError: module 'llm' has no attribute 'thinking_param']
+  FAIL llm: PRICING has the three 5.5 models at their own rates [KeyError: 'claude-haiku-5-5']
+9. a source check on every wire line
+  FAIL group 9 (wire source check) could not run [AttributeError: module 'wire' has no attribute 'source_check']
+10. Program 8.3's items 1 to 5
+  FAIL item 1: the 7D low is never above the current price or the 24h low (it read $81,630 beside $80,896)
+  FAIL item 1: the tape's closes say they are closes ('7D LOW CLOSE')
+  FAIL item 3: an outlet is listed once and counted once ('2 sources: Decrypt, Bitcoin Magazine')
+  FAIL item 4: USDT moving off an exchange is not bound to the 30-day stablecoin float (kept)
+  ok   item 4: a real wrong claim about the float is still dropped
+  FAIL item 4: the run log and the drop keep the whole dropped sentence (the ledger cut it at 70, the run log at 140)
+  FAIL item 4: the ops ledger keeps the whole sentence
+  FAIL group 10 (8.3 items) could not run [AttributeError: module 'consistency_gate' has no attribute 'announce_edition_withheld']
+
+SPRINT 9.1: FAIL (53)

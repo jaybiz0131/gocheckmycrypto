@@ -120,6 +120,7 @@ WINDOW_RE = re.compile(
     r"(?P<multi>\bmulti[- ](?:day|week|month|session)s?\b)"
     r"|\b(?P<n>" + _NUM + r")[- ](?P<unit>sessions?|days?|weeks?|months?|hours?|hrs?)\b"
     r"|(?P<long>\bytd\b|\byear[- ]to[- ]date\b|\bcumulative\b|\b(?:this|last) year\b)"
+    r"|(?P<etday>\bsince (?:the )?(?:midnight|et midnight|eastern midnight)(?:,? (?:et|eastern)(?: time)?)?\b)"
     r"|(?P<week>\bweek(?:ly|s)?\b|\bweek['’]s\b)"
     r"|(?P<month>\bmonth(?:ly|s)?\b)"
     r"|(?P<day>\bdaily\b|\bday['’]s\b|\bday\b|\btoday\b|\bintraday\b|\bovernight\b"
@@ -152,6 +153,8 @@ def windows(text):
     for m in WINDOW_RE.finditer(text):
         if m.group("n"):
             out.append((m.start(), m.end(), _win_class(_winnum(m.group("n")), m.group("unit"))))
+        elif m.group("etday"):
+            out.append((m.start(), m.end(), "etday"))      # Sprint 9.1: since midnight ET
         elif m.group("day"):
             out.append((m.start(), m.end(), "day"))
         elif m.group("week"):
@@ -166,7 +169,7 @@ def windows(text):
 # What window each Board reading is in. A claim in another window cannot be checked against it.
 _NATIVE = {"whale net": {"day"}, "spot ETF net": {"day"}, "funding": {"day"},
            "stablecoin float": {"day", "month"}, "total market cap": {"day"},
-           "Bitcoin price": {"day", "week", "month"}}
+           "Bitcoin price": {"day", "week", "month", "etday"}}
 
 # ---- clauses, quotes, binding ----------------------------------------------------------------
 _BREAK = re.compile(r"[;:\u2014\u2013]|,\s|\s-\s|\b(?:while|whereas|although|though|but|as|yet|with|"
@@ -179,6 +182,11 @@ _COPULA = re.compile(r"\b(?:is|are|was|were|be|been|being|stay(?:s|ed)?|remain(?
                      r"look(?:s|ed)?|became|becomes?|got|went|held|holds?|flipp?ed|printed|"
                      r"prints|came|comes|show(?:s|ed)?|print)\s+(?:\w+\s+)?$")
 _COIN_READING = "Bitcoin price"
+# a transfer to or from an exchange or a named venue: the sentence describes a movement
+_MOVEMENT = re.compile(
+    r"\b(?:off|onto|from|to|into|out of|leaving|left|moving|moved|transfers?|withdr\w+|deposit\w*)\b"
+    r".{0,60}\b(?:exchanges?|bitfinex|binance|coinbase|kraken|okx|bybit|bitstamp|gemini|"
+    r"huobi|htx|kucoin|ceffu|treasury|wallets?)\b|\bwhale\b", re.I)
 
 
 class Unparsed(Exception):
@@ -436,12 +444,26 @@ class Gate:
             if c is None:
                 continue                      # no reading it modifies: not this check's
             name, words = c[2], c[3]
+            # SPRINT 9.1 (8.3 item 4): a direction word in a sentence about a stablecoin MOVING to or
+            # from an exchange ("USDT moving off Bitfinex ... an outflow") describes that movement,
+            # a whale-flow reading, not the 30-day stablecoin float. Only the words "stablecoin
+            # float" or "stablecoin supply" bind a direction word to the float.
+            if name == "stablecoin float" and not re.search(r"float|supply", mask[c[0]:c[1]]):
+                if _MOVEMENT.search(mask):
+                    continue
             win = window_for(mask, dm.start(), dm.end(), dirs, clauses, wins)
             if name == _COIN_READING and win in ("week", "month"):
                 v = _s.series_window(self.snap, "BTC", "30d" if win == "month" else "7d")
                 if not isinstance(v, (int, float)):
                     continue
                 label = f"Bitcoin {v:+.2f}% series {'month' if win == 'month' else 'week'}"
+            elif name == _COIN_READING and win == "etday":
+                # SPRINT 9.1: "since midnight ET" is the ET day's move (snapshot chg_et_day_pct),
+                # a different window from the rolling 24 hours and read against its own figure
+                v = (_s.coin(self.snap, "BTC") or {}).get("chg_et_day_pct")
+                if not isinstance(v, (int, float)):
+                    continue
+                label = f"Bitcoin {v:+.2f}% since midnight ET"
             elif win not in _NATIVE.get(name, {"day"}):
                 continue          # a window the snapshot does not carry: unverifiable, not wrong
             elif name == "funding":
@@ -592,7 +614,7 @@ class Gate:
         if not self.quiet:
             tag = " [UNPARSED, dropped loudly]" if kind == "unparsed" else ""
             print(f"twins gate: dropped from {surface}{tag}: {why}; at the snapshot's stamp "
-                  f"{self.stamp}: \"{sentence[:140]}\"")
+                  f"{self.stamp}: \"{sentence}\"")
             if kind == "unparsed":
                 print(f"::warning::twins gate: could not parse a sentence in {surface} "
                       f"({why[:120]}); dropped and counted")
@@ -627,7 +649,7 @@ def log_drop(surface, sentence, why, stamp="", kind="wrong", path=None):
     prev["counts"] = counts(prev["drops"])
     os.makedirs(os.path.dirname(path), exist_ok=True)
     json.dump(prev, open(path, "w", encoding="utf-8"), indent=1)
-    print(f"twins gate: dropped from {surface}: {why}: \"{sentence[:140]}\"")
+    print(f"twins gate: dropped from {surface}: {why}: \"{sentence}\"")
     return rec
 
 

@@ -76,6 +76,11 @@ def row_spark(values, w=64, h=22):
     pts = " ".join(f"{1 + i * (w - 2) / (len(v) - 1):.1f},{1.5 + (h - 3) * (1 - (x - lo) / rng):.1f}"
                    for i, x in enumerate(v))
     d = window_dir(v)
+    # A line is tagged by what is DRAWN (Sprint 9.1): ALGO's first and last points differ by
+    # 0.01%, which rounds to the same pixel row, so it was drawn flat and tagged up, and origin/main's
+    # canary read red on it. A rise too small to move the line a tenth of a pixel is flat.
+    if abs(v[-1] - v[0]) / rng * (h - 3) < 0.1:
+        d = "flat"
     return (f'<span class="row-spark" data-dir="{d}">'
             f'<svg viewBox="0 0 {w} {h}" preserveAspectRatio="none" aria-hidden="true" '
             f'focusable="false"><polyline class="rs-l {d}" points="{pts}" '
@@ -174,7 +179,40 @@ def coin_sentences(c, cm):
         for s in split(str(p)):
             if any(rx.search(s) for rx in rxs):
                 out.append(s.strip())
+    # SPRINT 9.1 (8.3 item 2): a lifted sentence stands alone. One that opens on a
+    # connective ("However, Doge ...") answers a sentence this card does not carry, so
+    # as the card's FIRST sentence the connective comes off and the clause stands.
+    if out:
+        out[0] = lead_alone(out[0])
     return out
+
+
+_LEAD = re.compile(r"^(?:however|but|yet|still|meanwhile|separately|additionally|moreover|"
+                   r"furthermore|instead|conversely|nevertheless|nonetheless|likewise|similarly|"
+                   r"also|even so|that said|by contrast|in contrast|on the other hand|"
+                   r"in addition|at the same time)\s*,?\s+", re.I)
+
+
+def lead_alone(sentence):
+    """A sentence without a leading connective, first letter capitalised; unchanged when it
+    has none."""
+    m = _LEAD.match(sentence or "")
+    if not m or not sentence[m.end():].strip():
+        return sentence
+    rest = sentence[m.end():]
+    return rest[:1].upper() + rest[1:]
+
+
+_WEEK_FIGURE = re.compile(
+    r"(?:\d+(?:\.\d+)?\s*(?:%|percent)[^.]{0,40}\b(?:week|seven days|7 days|7-day|seven-day)\b|"
+    r"\b(?:week|seven days|7 days|7-day|seven-day)\b[^.]{0,40}\d+(?:\.\d+)?\s*(?:%|percent))", re.I)
+
+
+def has_week_figure(sentence):
+    """True when a sentence states a percentage over a week or seven days. A coin page
+    carries ONE seven-day figure, the readings tile's; a sentence that states another is not
+    lifted onto it (Sprint 9.1, AUDIT.md 1.3 item 3)."""
+    return bool(_WEEK_FIGURE.search(sentence or ""))
 
 
 def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
@@ -195,7 +233,7 @@ def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
     cm = cm or {}
     rday = str(cm.get("date") or "")[:10]
     name = c.get("name") or c.get("symbol") or ""
-    sents = coin_sentences(c, cm)
+    sents = [x for x in coin_sentences(c, cm) if not has_week_figure(x)]
     row, day = None, rday
     if not sents:
         sym = (c.get("symbol") or "").upper()
@@ -354,11 +392,19 @@ def stories_html(hits, esc, stamp_et):
     time it was reported. 'Primary source' is printed when the wire marked it."""
     rows = []
     for w in hits:
-        links = w.get("links") or []
+        # AN OUTLET IS LISTED, AND COUNTED, ONCE (Sprint 9.1, 8.3 item 3): "2 sources: Decrypt,
+        # Decrypt, Bitcoin Magazine" named one outlet twice beside a count of two. Two links to the
+        # same outlet are one source; the first link stands for it.
+        seen, links = set(), []
+        for l in (w.get("links") or []):
+            key = re.sub(r"[^a-z0-9]+", "", str(l.get("outlet") or l.get("url") or "").lower())
+            if key and key not in seen:
+                seen.add(key)
+                links.append(l)
         srcs = ", ".join(
             f'<a href="{esc(l["url"])}" rel="noopener">{esc(l.get("outlet") or "Source")}</a>'
             for l in links if l.get("url"))
-        n = int(w.get("source_count") or len(links) or 0)
+        n = len(links) if links else int(w.get("source_count") or 0)
         bits = [f'{n} source{"" if n == 1 else "s"}' + (f': {srcs}' if srcs else "")]
         if w.get("primary"):
             bits.append('<span class="wl-primary">Primary source</span>')

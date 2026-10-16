@@ -306,7 +306,7 @@ def unit():
         print("G. Item 1: the morning wire is stamped with the morning's own time")
         w = home.wire_top(_wire(), "", _utc(2026, 10, 14, 12, 30))
         check("Re-ranked 8:18 AM ET on Oct 14" in w and "7:14 PM ET on Oct 13" not in w, fails,
-              "Moving the market carries the 8:18 AM stamp, not Monday night's")
+              "What was reported carries the 8:18 AM stamp, not Monday night's")
         ev = home.wire_top(dict(_wire(), refreshed_et="7:14 PM ET on Oct 13"), "", _utc(2026, 10, 14, 23, 30))
         check("Ranked 7:14 PM ET on Oct 13" in ev and "Re-ranked" not in ev, fails,
               "an unrefreshed wire keeps its Edition stamp")

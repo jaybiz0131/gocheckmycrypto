@@ -351,6 +351,34 @@ def surface_paths():
     return out
 
 
+_EDITION_FILE = re.compile(r"(?:^|/)(\d{4}-\d{2}-\d{2})-(morning|evening)-brief\.json$")
+
+
+def announce_edition_withheld(withheld, paths, summary_path=None):
+    """ONE VISIBLE LINE when the Edition is the surface withheld (Sprint 9.1, 8.3 item 5). On 15
+    October the first evening run withheld the Edition, published the rest and went green with
+    nothing at the top; the 30-minute recovery run that followed looked like a duplicate. The line
+    names the slot, says it is still open and that the recovery is expected, on the run's log and
+    its summary. A warning, not an error: the gate did what it is for. Returns the lines."""
+    out = []
+    for victim in withheld or []:
+        m = _EDITION_FILE.search(str((paths or {}).get(victim) or ""))
+        if m:
+            out.append(f"Edition withheld, slot still open: the {m.group(2)} Edition for {m.group(1)} "
+                       f"collided with another surface and was not published; the rest of the run "
+                       f"was. The slot's recovery run is expected.")
+    summary_path = summary_path or os.environ.get("GITHUB_STEP_SUMMARY")
+    for ln in out:
+        print(f"::warning::consistency gate: {ln}")
+        if summary_path:
+            try:
+                with open(summary_path, "a", encoding="utf-8") as fh:
+                    fh.write(f"**{ln}**\n\n")
+            except OSError:
+                pass
+    return out
+
+
 def _flag_issue(lines):
     """Open ONE issue for live-vs-live contradictions (dedup by title). A pre-existing
     conflict must ping a human loudly, precisely because the gate no longer kills runs
@@ -590,6 +618,8 @@ def main():
                   f"whole run.")
         lines = [describe(c) for c in blocking]
         blocking, withheld = _quarantine(blocking, changed, paths)
+        if withheld:
+            announce_edition_withheld(withheld, paths)
         if withheld and not blocking:
             _flag_issue([f"WITHHELD {', '.join(withheld)} at publish: " + ln
                          for ln in lines])

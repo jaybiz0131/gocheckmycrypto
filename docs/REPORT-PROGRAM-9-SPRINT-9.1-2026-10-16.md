@@ -1,0 +1,40 @@
+# Program 9, Sprint 9.1: numbers that agree (report)
+
+Status: **built on branch `claude/crypto-program-9-sprint-91-ri5kt6`, not merged, not pushed to main.** Waits for Jack's yes on the local screenshots (`shots/program9-9.1/`). No new model call anywhere in this sprint.
+
+## Start
+- `docs/RULES.md` body hash (from line 11): `4179b2ac06d0dc7fb9de9987dc077884df6f4e1b5ebabe1b6ff1bb2de8b3568d`. It matches.
+- origin/main at the start: `18a156e` (the audit commit). Shell date, ET, at the start: Fri Oct 16 2026, 6:05 PM.
+- Read: AUDIT.md (section 1 evidence, section 3.6 row 9.1), NAMES.md section 1, HANDOFF.md sections 14 and 15, the 8.2 report.
+- **The sprint brief was cut off mid-item 9** (`The /bottom-line lede no longer says "once a day"; "`). I took the rest of the scope from AUDIT.md's row 9.1 as written: `/bottom-line`'s lede, "last 1 hours", the `llm.py` thinking and pricing defects, Program 8.3's items 1 to 5, and the source check on every wire line. If the brief carried anything beyond that row, it is not built.
+
+## Rulings recorded first
+HANDOFF.md section 16, in the sprint's first commit (`a18af51`).
+
+## Two things the brief said that the data did not support
+1. **"The Oct 15 page froze as 'up' on a down day."** By the rule this sprint builds (the ET calendar day), 15 October was UP. Kraken hourly candles read 16 October: 80,822.6 at 04:00 UTC (midnight ET) to 82,015.9 at the next midnight, +1.48%; at the 7:45 PM slot about +1.6%. The stored daily closes agree (81,604 to 82,156, +0.68%). The day looked down only on the rolling 24 hours at 9:03 AM (-2.60%). So **no direction correction was made**; a "correction" saying the page was wrong in direction would itself have been wrong. What was actually wrong on that page, and is corrected with a visible correction line: the producer-price wire line (a cause and two figures its linked CoinDesk report does not carry; I read the report itself: it gives nearly $483 million and the Fed's next rate decision) and the whole-market figure (down 2.13% beside Bitcoin +0.80% and Ether +0.96%). If Jack wants a direction line anyway, say so.
+2. The 16 October morning record (stored before this rule) says "up" from the rolling +1.48%; on the ET day it would read flat (+0.24% at 8:18 AM). It stays frozen as it was written, with its whole-market figure removed and a correction line.
+
+## The items, each with a test seen red on main first (`scripts/sprint91_test.py`; `docs/sprint91-red-on-main.log`: 53 FAIL on `18a156e`, PASS on the branch)
+1. **Whole-market change.** `snapshot.check_market_change`: the desk computes the Top 100's own 24-hour change from each coin's cap and change, and a reported figure is printed only if it is within 1 point of it and does not contradict Bitcoin and Ether moving together the other way. Else `chg_24h_pct` is None, `chg_state` is "unchecked", and the reason is kept. The ticker and home tile say "unchecked"; `/today/` omits the line; `market_pulse` no longer writes `or 0`; the ticker script applies the same Bitcoin and Ether test to `/global` before printing its change. Fixture: the 16 October pulse (market -0.62, Bitcoin +1.48, Ether +4.13).
+2. **Whale Watch stablecoin sign.** `stable_flow_words`: buying power runs the other way (positive is onto exchanges). The $233.2M case now reads "net stablecoins off exchanges"; the home teaser and the Chart Master's input carry the convention.
+3. **One seven-day figure per page.** The coin chart's 7D header is the readings tile's rolling figure (it was its own series, different on each load), worded "over the last 7 days"; every window names itself; a Chart Master sentence stating its own week figure is not lifted onto the page. The 7D high and low stay the one closes pair on the home tape and the coin page and are now worded as closes ("7D high close"; "7D HIGH CLOSE" on the tape), so a week's low above today's low no longer reads as false.
+4. **Movers list.** `snapshot.mover_rows`: no stablecoin (flag, or a dollar-priced dollar-named coin the flag file missed), rank 100 or better, a move of more than 1% the way the list says, never padded; "Only N ... so the list stops there" and "No top-100 coin fell more than 1%". The 24h chip is the first column after the coin at 375; name and cap wait for 768 px. The unsourced "someone's exit" and "the desk will have covered why" lines are gone. `today.movers` applies the same rules.
+5. **Top 100.** No "Live prices" or "updated in your browser"; it carries its stamp.
+6. **Stale state.** Every stamp that comes from an instant carries `data-asof` (tiles via a stamp registry in `snapshot.py`, the tape, the ticker, stamp lines, Whale Watch, the Top 100 and movers stamps). `/assets/asof.js` measures age at the moment of reading: past 3 hours it prints "N hours ago" and dims the figure; a transfer's "Nh ago" is recomputed from its epoch and a move past 24 hours dims and says so. The masthead is never swapped to LIVE; the tape says "price live" and keeps the build's stamp for the range and chart; the ticker strip says "live" only when prices and `/global` have both answered.
+7. **ET day.** `market_pulse.et_open` stores each coin's price at the last midnight ET (from the hourly sparkline); the snapshot carries `chg_et_day_pct`; `today.compose` takes the direction from it, states both Bitcoin windows each with its name, and falls back to the rolling 24 hours (recorded in `direction_basis`) when the open belongs to another ET day. The twins gate reads "since midnight ET" against the ET figure. Until the first run after the merge writes `open_et`, pages use the fallback.
+8. **"What was reported"** replaces "Moving the market" (home, two places). 9. **/bottom-line** lede: "Every morning and every evening".
+- "last 1 hours": `common.hours_phrase` ("1 hour"); `llm.py`: `thinking_param` (Sonnet 5.5 gets no `{type: disabled}`) and 5.5 prices.
+- **Wire source check** (`wire.source_check`, in `wire.build`): a clause whose figure, or named cause, its cluster's sources do not carry is cut and logged (`source_cuts`); a line whose first clause fails is dropped. Dates and years are not figures. Under 300 characters of source text the check does not speak. The live `wire.json` had the 15 October line; I removed it by hand (the 7 PM Edition rebuilds the file).
+- **8.3**: item 1 as above (labels, since the 7D pair is closes); item 2 (`lead_alone`); item 3 (an outlet listed and counted once); item 4 (a direction word in a sentence about USDT moving off an exchange is not bound to the 30-day float; the drop log and the ops ledger keep the whole sentence); item 5 (`announce_edition_withheld`: one warning line and a step-summary line "Edition withheld, slot still open"; `today.py` files a numbers-only page under the clock's slot, flagged fallback, and the slot's own read replaces it).
+- **Found on main, fixed because the canary gates**: origin/main's canary was RED on `top100-sparkline: row 60 drawn flat, tagged up` (ALGO's first and last points differ by 0.01%). `row_spark` now tags what it draws.
+- Canary tests changed to the new law, and why: the tape's "price live" string and order, the tape mark regex (two-word labels, `data-asof` on tiles), and the coin chart's 7D expectation (the header is now the tile's figure).
+
+## Not done
+- No Netlify access: no build count read. No production read (nothing merged).
+- Dated pages for days before 15 October carry no whole-market line to correct that I checked beyond the three stored records.
+
+## Canary and screenshots
+- Canary on the final branch tree: LAYER 1 CANARY: PASS (exit 0). origin/main's own canary read FAIL (1 problem, ALGO's sparkline) at `18a156e`.
+- Local screenshots, 375 and 1440, light and dark: `shots/program9-9.1/` (home, /pulse, /pulse/movers, /pulse/prices, /flows, /coins/btc, /today/, /today/2026-10-15, /bottom-line). Home at 375 no longer overflows (an "unchecked" label that was too wide had pushed the page to 393 px; shortened).
+- Nothing pushed during 6:30 to 8:15 PM ET. Open: Jack's yes; the merge.

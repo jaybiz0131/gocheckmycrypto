@@ -182,7 +182,7 @@ def tape_chart(week, fmt=None):
         t = round(100 * y / CHART_H, 2)
         return (f'<span class="h-k {cls}{side}" style="left:{left}%;top:{t}%">'
                 f'{word} <b>{_e(_whole(vals[i]))}</b></span>')
-    labels = label(hi_i, "h-k-hi", "7D HIGH") + label(lo_i, "h-k-lo", "7D LOW")
+    labels = label(hi_i, "h-k-hi", "7D HIGH CLOSE") + label(lo_i, "h-k-lo", "7D LOW CLOSE")
     dl = ""
     if days and len(days) == len(pts):
         spans = []
@@ -216,10 +216,19 @@ def tape_chart(week, fmt=None):
             f'{labels}</div>{dl}</div>')
 
 
-def _coin_tile(name, price_html, chg, gid=None):
+def _asof_attr(ts):
+    import snapshot
+    return snapshot.asof_attr(ts)
+
+
+def _coin_tile(name, price_html, chg, gid=None, unchecked=False):
     d = _dir(chg) if isinstance(chg, (int, float)) else ""
     attrs = f' data-tape-chg="{gid}"' if gid else ""
     ch = change_html(chg, "h-ac", attrs) if isinstance(chg, (int, float)) else ""
+    if unchecked and not ch:
+        # SPRINT 9.1: a change the desk withheld says so, in words, rather than showing nothing
+        ch = ('<span class="h-ac unchecked" title="The reported 24-hour change disagreed with '
+              'Bitcoin, Ether and the Top 100, so the desk does not print it">unchecked</span>')
     tile_attr = f' data-tile="{gid}"' if gid else ""
     return (f'<li class="h-coin {d or "flat"}"{tile_attr}>'
             f'<span class="h-as">{_e(name)}</span>{price_html}{ch}</li>')
@@ -258,7 +267,8 @@ def tape(snap):
     cap = snapshot.value(snap, "total_cap") or {}
     if isinstance(cap.get("usd"), (int, float)):
         alts.append(_coin_tile("All crypto", f'<span class="h-ap">{_e(sb.fmt_usd(cap["usd"]))}'
-                                             f'</span>', cap.get("chg_24h_pct")))
+                                             f'</span>', cap.get("chg_24h_pct"),
+                               unchecked=cap.get("chg_state") == "unchecked"))
     read = ((snap.get("fields") or {}).get("coins") or {}).get("read_utc")
     asof = _stamp(read) or snap.get("stamp_et") or ""
     inner = (f'<div class="h-btc {d or "flat"}" data-btc-card>'
@@ -267,7 +277,7 @@ def tape(snap):
              f'{_e(sb._price_fmt(btc["price"]))}</span>{chg_html}</p>'
              f'{hl24}{chart}</div>'
              f'<ul class="h-coins">{"".join(alts)}</ul>'
-             f'<p class="h-live" id="tapeLive" data-built="{_e(asof)}">as of {_e(asof)}</p>'
+             f'<p class="h-live" id="tapeLive" data-built="{_e(asof)}"{_asof_attr(read)}>as of {_e(asof)}</p>'
              f'<p class="h-board">Everything below is the Board, as of '
              f'{_e(snap.get("stamp_et") or asof)}.</p>')
     return _block("tape", inner)
@@ -499,7 +509,7 @@ def wire_top(wire, cadence, now=None):
     if wire is None:
         return _block("wire", head + f'<p class="h-wait">The day\'s wire arrives with the '
                                      f'Edition at {_e(edition_time_et(now))}.</p>',
-                      "Moving the market")
+                      "What was reported")
     items = _wire_items(wire)[:5]
     note = (wire or {}).get("checked") or {}
     rows = []
@@ -531,7 +541,7 @@ def wire_top(wire, cadence, now=None):
     st = (f'<p class="h-st">Re-ranked {_e(refreshed)}</p>' if refreshed and refreshed != ranked
           else f'<p class="h-st">Ranked {_e(ranked)}</p>' if ranked else "")
     return _block("wire", head + body + f'<p class="h-what">{_e(what)}</p>' + st,
-                  "Moving the market")
+                  "What was reported")
 
 
 # ---- the money and the mood ---------------------------------------------------------------
@@ -735,6 +745,9 @@ def t_cap(snap, deltas):
     if isinstance(dom, (int, float)):
         since_t += f"; Bitcoin is {dom:.1f}% of it"
     ch = cap.get("chg_24h_pct")
+    if cap.get("chg_state") == "unchecked":
+        since_t += ("; the 24-hour change is not printed: the source's figure disagreed with "
+                    "Bitcoin, Ether and the Top 100")
     return tile.render("total-cap", sb.fmt_usd(cap["usd"]),
                        change=ch if isinstance(ch, (int, float)) else None,
                        since_change=d, window="every coin, 24 hours",
@@ -1105,9 +1118,12 @@ HOME_JS = """<script>(function(){
         recl(document.querySelector('[data-btc-card]'),dd);}  // the week's chart keeps its own window's color
       else recl(document.querySelector('[data-tile="'+id+'"]'),dd);
     });
-    var st=document.getElementById('tapeLive'); if(st){st.textContent='live \\u00b7 '+etClock();st.classList.add('on');}
-    var mh=document.querySelector('[data-mh-live]'); if(mh){mh.classList.add('on');
-      var w=mh.querySelector('.mh-lw'),t=mh.querySelector('.mh-lt'); if(w)w.textContent='LIVE'; if(t)t.textContent=etClock();}
+    // SPRINT 9.1: "live" covers only what moved. The price and its change are live; the 24-hour
+    // high and low and the week's chart are the build's, so the line says so and keeps the build's
+    // stamp for them (asof.js then adds its age). The masthead never claims LIVE: it is the page's
+    // build stamp, and the Brief under it was written at the build, not now.
+    var st=document.getElementById('tapeLive'); if(st){var b=st.getAttribute('data-built')||'';
+      st.textContent='price live \\u00b7 '+etClock()+(b?' \\u00b7 range and chart as of '+b:'');st.classList.add('on');}
   }).catch(function(){});
   var host=document.querySelector('[data-mine]'); if(!host)return;
   var picks=[]; try{picks=JSON.parse(localStorage.getItem('gcmc_coins')||'[]');}catch(e){return;}

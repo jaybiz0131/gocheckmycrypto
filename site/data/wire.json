@@ -138,28 +138,6 @@
    "reported_utc": "2026-10-15T20:31:04Z",
    "verdict": "VERIFIED",
    "mark": "wire"
-  },
-  {
-   "rank": 5,
-   "id": "c011",
-   "line": "Hot US producer-price data triggered nearly $940 million in crypto liquidations as Fed rate-hike bets spiked to 50%.",
-   "titles": [
-    "Nearly $1 billion in crypto bets liquidated as bitcoin, ether and XRP slide"
-   ],
-   "board_reading": "Bitcoin price",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.coindesk.com/markets/2026/10/15/nearly-usd1-billion-in-crypto-bets-liquidated-as-bitcoin-ether-and-xrp-slide",
-     "outlet": "CoinDesk",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-15T04:25:15Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
   }
  ],
  "checked": {
@@ -172,5 +150,11 @@
   "source": "https://www.coindesk.com/business/2026/10/15/how-brooklyn-prosecutors-and-the-fbi-took-down-a-massive-crypto-fraud-network-targeting-russian-speakers",
   "outlet": "CoinDesk"
  },
- "dropped": []
+ "dropped": [
+  {
+   "rank": 5,
+   "id": "c011",
+   "why": "the source check: the linked CoinDesk report gives nearly $483 million and the Fed's next rate decision, and carries neither the $940 million, the 50%, nor the producer-price cause (removed by hand, 16 October 2026, until the Edition reruns the check)"
+  }
+ ]
 }
