@@ -3,9 +3,9 @@
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
  "ranked_utc": "2026-10-15T23:43:47Z",
  "ranked_et": "7:43 PM ET on Oct 15",
- "refreshed_utc": "2026-10-15T23:43:47Z",
- "refreshed_et": "7:43 PM ET on Oct 15",
- "refreshes": 0,
+ "refreshed_utc": "2026-10-16T12:18:33Z",
+ "refreshed_et": "8:18 AM ET on Oct 16",
+ "refreshes": 1,
  "snapshot_stamp_utc": "2026-10-15T23:43:27Z",
  "items": [
   {
@@ -17,7 +17,7 @@
     "FBI helps smash crypto scam targeting Russian speakers in Brooklyn"
    ],
    "board_reading": "",
-   "source_count": 2,
+   "source_count": 3,
    "primary": false,
    "standing": "corroborated",
    "links": [
@@ -29,6 +29,11 @@
     {
      "url": "https://protos.com/fbi-helps-smash-crypto-scam-targeting-russian-speakers-in-brooklyn/",
      "outlet": "Protos",
+     "primary": false
+    },
+    {
+     "url": "https://decrypt.co/381000/brooklyn-prosecutors-take-down-112-servers-behind-crypto-scam-targeting-russian-speakers",
+     "outlet": "Decrypt",
      "primary": false
     }
    ],
@@ -44,7 +49,7 @@
     "EBA designates Circle\u2019s USDC as the EU\u2019s first \u2018significant\u2019 e-money token"
    ],
    "board_reading": "Stablecoin float",
-   "source_count": 1,
+   "source_count": 2,
    "primary": false,
    "standing": "single",
    "links": [
@@ -52,10 +57,42 @@
      "url": "https://www.theblock.co/news/regulation/2026-10-15-eba-designates-circles-usdc-as-the-eus-first-significant-e-money-token-418637",
      "outlet": "The Block",
      "primary": false
+    },
+    {
+     "url": "https://cryptobriefing.com/circle-minted-another-750-million-usdc-on-solana-in-the-last-24-hours-2/",
+     "outlet": "Crypto Briefing",
+     "primary": false
     }
    ],
    "reported_utc": "2026-10-15T11:10:07Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 6,
+   "id": "c046",
+   "line": "Solana confirmed Oct. 21 Alpenglow upgrade, replacing TowerBFT voting to cut finality from 12.8 seconds to 150 milliseconds.",
+   "titles": [
+    "Solana Sets a Date for Its Next Major Upgrade"
+   ],
+   "board_reading": "",
+   "source_count": 2,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://decrypt.co/380974/solana-alpenglow-upgrade-date",
+     "outlet": "Decrypt",
+     "primary": false
+    },
+    {
+     "url": "https://beincrypto.com/solana-shanghai-event-halted-officers/",
+     "outlet": "BeInCrypto",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-14T19:16:04Z",
+   "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
@@ -122,28 +159,6 @@
    ],
    "reported_utc": "2026-10-15T04:25:15Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 6,
-   "id": "c046",
-   "line": "Solana confirmed Oct. 21 Alpenglow upgrade, replacing TowerBFT voting to cut finality from 12.8 seconds to 150 milliseconds.",
-   "titles": [
-    "Solana Sets a Date for Its Next Major Upgrade"
-   ],
-   "board_reading": "",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://decrypt.co/380974/solana-alpenglow-upgrade-date",
-     "outlet": "Decrypt",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-14T19:16:04Z",
-   "verdict": "VERIFIED",
    "mark": "wire"
   }
  ],

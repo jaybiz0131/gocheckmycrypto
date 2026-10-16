@@ -1,0 +1,115 @@
+{
+ "date_et": "2026-10-16",
+ "slot": "morning",
+ "published_utc": "2026-10-16T12:18:33Z",
+ "first_utc": "2026-10-16T12:18:33Z",
+ "direction": "up",
+ "title": "Why is crypto up today? Friday, October 16, 2026",
+ "h1": "Why is crypto up today? Friday, October 16, 2026",
+ "stamp_label": "Morning read, 8:18 AM ET",
+ "composed_utc": "2026-10-16T12:18:36Z",
+ "board_stamp_et": "8:16 AM ET on Oct 16",
+ "answer": [
+  "On Friday, October 16, Bitcoin was up 1.48% over the last 24 hours, to $82,216.",
+  "The whole market's value was down 0.62% over the same 24 hours, to $2.78T.",
+  "Ether was up 4.13% over the same 24 hours.",
+  "Among the Top 100, TIA gained 30.60% and CC lost 3.81% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 82216,
+  "chg": 1.48
+ },
+ "eth": {
+  "price": 2465.02,
+  "chg": 4.13
+ },
+ "cap": {
+  "usd": 2783826930884,
+  "chg": -0.62
+ },
+ "gainers": [
+  {
+   "symbol": "TIA",
+   "name": "Celestia",
+   "chg": 30.6,
+   "slug": "tia"
+  },
+  {
+   "symbol": "INJ",
+   "name": "Injective",
+   "chg": 25.29,
+   "slug": "inj"
+  },
+  {
+   "symbol": "ZRO",
+   "name": "LayerZero",
+   "chg": 20.59,
+   "slug": "zro"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "CC",
+   "name": "Canton",
+   "chg": -3.81,
+   "slug": "cc"
+  },
+  {
+   "symbol": "STRK",
+   "name": "Starknet",
+   "chg": -2.14,
+   "slug": "strk"
+  },
+  {
+   "symbol": "XDC",
+   "name": "XDC Network",
+   "chg": -1.66,
+   "slug": "xdc"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin spot ETF net",
+   "value": 5.1,
+   "window": "one trading day, 15 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "8:16 AM ET on Oct 16",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 1393442,
+   "shorts": 103705,
+   "window": "last 1 hours",
+   "source": "OKX",
+   "stamp": "8:16 AM ET on Oct 16",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0047,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:16 AM ET on Oct 16",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 63,
+   "word": "Greed",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:16 AM ET on Oct 16",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Edition, tonight at 7:08 PM ET",
+ "corrections": []
+}

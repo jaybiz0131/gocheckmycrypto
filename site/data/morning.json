@@ -1,17 +1,17 @@
 {
- "date_et": "2026-10-14",
+ "date_et": "2026-10-16",
  "slot": "morning",
- "published_utc": "2026-10-14T12:18:55Z",
- "published_et": "8:18 AM ET on Oct 14",
- "headline": "Seoul blocks unregistered exchanges; Ledger confirms wallet chip breach",
+ "published_utc": "2026-10-16T12:18:33Z",
+ "published_et": "8:18 AM ET on Oct 16",
+ "headline": "Bitcoin higher as spot ETFs draw inflows; regulators tighten crypto rules",
+ "headline_by": "model",
  "sentences": [
-  "The wire's top line: South Korea's regulators blocked 27 crypto exchange websites, including Bitmart and Kucoin, tightening restrictions on unregistered platforms.",
-  "Also circulating with urgency: Ledger confirmed LTE-enabled spy chips implanted in CryptoBilis-sold wallets transmitted user recovery phrases; MediaMarkt halted sales across Europe.",
-  "The Board shows ETF inflows at $175.7M for Oct. 13, fear-greed at 62 in Greed territory, and funding rates in calm."
+  "Bitcoin traded higher over the past 24 hours as spot Bitcoin ETFs took in $5.1M on October 15, with the Fear & Greed index at 63 and funding on Bitcoin perpetual futures remaining calm.",
+  "The wire reports the Brooklyn DA and FBI dismantled a Russian-language crypto scam network, seizing 112 servers and shutting 241 domains after victims lost tens of millions, while EU banking authorities classified Circle's USDC as a significant e-money token under MiCA, activating supervisory rules on November 12."
  ],
- "line": "Regulatory pressure in Seoul meets hardware security failure in wallets as Wall Street tests tokenized Treasuries and Russia readies Sberbank crypto trading.",
+ "line": "Spot inflows support Bitcoin as enforcement actions and regulatory classification reshape the crypto landscape across jurisdictions.",
  "line_by": "edition",
- "tokens": 1090,
+ "tokens": 1074,
  "usd": 0.0019,
  "generated_by": "morning.py (one model call; copy law and twins gate)"
 }
