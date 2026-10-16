@@ -72,4 +72,4 @@ Premise corrected: **both runs committed**, but only the second committed an Edi
 - **Not yet proved live:** the Edition's week-sign path (the morning quotes no change by design) and the headline repair (the model's headline was fine). The first live proof of both is the next Edition (7:08 PM ET tonight); if the twins gate sets a sign word there, it is in `out/twins-gate.json` `repairs` and the run log line "twins gate: set a sign word in ...".
 - Netlify: still no access from this session, so the IndexNow plugin's first send in the deploy log and the build count remain unread (Jack: the deploy log of the `97fe676` build).
 
-Closed. Shell date: Fri Oct 16 2026, 8:39 AM ET.
+Closed. Shell date: Fri Oct 16 2026, 8:37 AM ET.
