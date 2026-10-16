@@ -229,6 +229,16 @@ Standing facts from them: the look is `site/assets/system.css` (tokens in that f
 5. Consistency-gate withhold of the Edition: one visible line on the run, and `today.py` must not store a morning record from an evening run (see the report, the two Editions of 15 October).
 6. Then the share loop as Program 8 states.
 
+## 15. The deep audit, 16 October 2026 (documents only)
+`docs/audit-2026-10/AUDIT.md` (scores, the competition, the plan, Program 9's proposed sequence), `NAMES.md` (renames for Jack to pick), `shots/` (production `9c8af54`, 375 and 1440, light and dark). Overall 4.4 of 10. Nothing built; Program 9 waits on Jack's eight decisions (AUDIT.md section 4). Found live and open, beyond the 8.3 list:
+- The whole-market 24h change (`market_pulse.py:564`, CoinGecko `/global`) contradicts Bitcoin and Ether on 15 and 16 October.
+- Whale Watch prints net stablecoins "onto exchanges" for transfers that left them.
+- The 15 October PPI wire line carries a cause and figures its linked CoinDesk source does not.
+- `/today/` dated pages can freeze the wrong direction.
+- `llm.py:231` would 400 every `claude-sonnet-5-5` call, and `PRICING` lacks the 5.5 models.
+
+If Jack approves, 8.3's items 1 to 5 fold into Sprint 9.1.
+
 # Standing rules, all desks: not here, by Jack's ruling
 
 **Option two, 1 October 2026.** U-1 to U-13 and the dated rules beside them live in ONE file,
