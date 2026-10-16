@@ -239,6 +239,17 @@ Standing facts from them: the look is `site/assets/system.css` (tokens in that f
 
 If Jack approves, 8.3's items 1 to 5 fold into Sprint 9.1.
 
+## 16. Program 9: Jack's rulings (16 October 2026)
+Jack adopted the deep audit's plan (`docs/audit-2026-10/AUDIT.md`, commit `18a156e`) on 16 October 2026 and ruled on its decisions. Sprint 9.1 replaces Sprint 8.3: 8.3's fix list folds into 9.1 and its share loop moves to 9.6. No new model calls in 9.1.
+1. The desk may print "Likely" when its own timing test and mechanics agree. "because" stays for Confirmed.
+2. New model spend of about $0.60 to $1.30 a day for the why, capped at $1.50 a day.
+3. Names as `docs/audit-2026-10/NAMES.md` recommends: "Why it moved", "Unclear" with "No reported event lines up with this move", "Big movers", and the recommended column of its section 4 in full.
+4. No AI disclosure on the site. The editor is "Crypto Cronkite"; no personal name or details anywhere. The site never claims a human wrote or hand-checked what it did not. "How we check" describes the process truthfully: automated source and timing checks, reviewed by the editor. Keep the corrections log. (This overrules AUDIT.md decision 4's AI-disclosure half.)
+5. Graded verdict pages become the desk's articles.
+6. Market-move breaking trigger on, crypto only, inside the two-a-day limit.
+7. The Worker live-price route in 9.7.
+8. Order: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, with 8.4 on its Monday schedule.
+
 # Standing rules, all desks: not here, by Jack's ruling
 
 **Option two, 1 October 2026.** U-1 to U-13 and the dated rules beside them live in ONE file,
