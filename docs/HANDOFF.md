@@ -225,7 +225,9 @@ Standing facts from them: the look is `site/assets/system.css` (tokens in that f
 1. The coin chart's series stops at Oct 13 while the price reads Oct 15, so "7D low $81,630" is false beside $80,896. The chart must run to the current reading and its high and low labels must match it.
 2. Chart Master's read on the coin page opens mid-sentence with "However,". Lift whole sentences only.
 3. Seen on production: the Why block's "2 sources: Decrypt, Decrypt, Bitcoin Magazine" lists an outlet twice and counts two (stories_html).
-4. Then the share loop as Program 8 states.
+4. Twins gate: a direction word in a clause about an exchange or whale movement must not bind to the stablecoin float reading (the 7:49 PM drop, tail logged at 140 characters, the ledger at 70: log the whole sentence).
+5. Consistency-gate withhold of the Edition: one visible line on the run, and `today.py` must not store a morning record from an evening run (see the report, the two Editions of 15 October).
+6. Then the share loop as Program 8 states.
 
 # Standing rules, all desks: not here, by Jack's ruling
 
