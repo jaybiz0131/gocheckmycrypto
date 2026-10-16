@@ -1,6 +1,6 @@
 # Program 8, Sprint 8.2: the coin doors, plus the numbers handed over labeled (report)
 
-Status: **BUILT, NOT MERGED. Waiting for Jack's yes.** Branch `sprint-8-2` on origin. Nothing was merged or pushed to main.
+Status: **MERGED 15 October 2026, pushed 8:24:36 PM ET, merge `97fe676`** (Jack's yes, merge after 8:15 PM ET). Parents `00a405e` (the evening Edition's ledger row) and the branch tip.
 
 ## Start
 - `docs/RULES.md` body hash (from line 11): `4179b2ac06d0dc7fb9de9987dc077884df6f4e1b5ebabe1b6ff1bb2de8b3568d`. It matches.
@@ -44,3 +44,15 @@ All under the 5 KB limit.
 - Live proof after the merge: the next morning read and Edition publish with no sign or window drop, or the drop is logged and right.
 - Canary: see the line at the end of this report.
 - Canary on the final branch tree (e94b296 plus shots 95efbe9): LAYER 1 CANARY: PASS. Shell date: Thu Oct 15 09:46:00 EDT 2026
+
+## Fix before the merge (Jack's ask)
+The Why block took items from the 24 hours before the Board read but no upper bound; it now takes only items inside the 24 hours ENDING at that read. Red first: `docs/sprint82-fix-red.log` ("the window is the 24 hours ending at that read, both ends"), green after.
+
+## Merge and production reads
+- Canary on the merged tree: LAYER 1 CANARY: PASS. Merge commit `97fe676` pushed to main first (fast-forward from `00a405e`), `git branch -r --contains` shows `origin/main`.
+- Production at 8:31 PM ET: `/stamp.txt` reads `commit 97fe676c..., built 2026-10-16T00:27:31+00:00`. Bitcoin's page: title "Bitcoin price today and why it moved - GoCheckMyCrypto"; description "Bitcoin (BTC) is $82,205.00, up 0.59% over 24 hours, as of 8:24 PM ET on Oct 15. What the wire reported, with sources."; the "Why Bitcoin moved today" block with two wire items, each with sources and time; BreadcrumbList present. Sitemap: 142 lastmod entries in the priority file; `/coins/btc` lastmod `2026-10-16T00:24:50Z` (the Board read, not the build). IndexNow key file `/a44f710d9349e5f84a1c0bbae18b03c5.txt` returns 200 with the key.
+- **Not read: the plugin's first IndexNow send in the Netlify deploy log, and the build count.** This session has no Netlify access and GitHub carries neither. The stamp shows one build for `97fe676`. Jack: the line `indexnow: sent N URL(s) ... response 2xx` should be in the deploy log of that build; the first send may be empty (it only sends URLs whose lastmod moved against the live sitemaps).
+- Seen: the Why block lists "Decrypt, Decrypt, Bitcoin Magazine" under "2 sources" (an existing stories_html behavior). On the 8.3 list.
+
+## Still to read (tomorrow)
+The 8:15 AM Oct 16 morning ledger row: published with no sign or window drop, or not. Appended below when read.

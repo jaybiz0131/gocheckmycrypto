@@ -216,6 +216,17 @@ Standing facts from them: the look is `site/assets/system.css` (tokens in that f
 
 ---
 
+## 14. Program 8, Sprint 8.2: the coin doors, the numbers handed over labeled (15 October 2026)
+**MERGED 15 October 2026, pushed 8:24:36 PM ET, merge `97fe676`** (Jack's yes; canary PASS on the merged tree). Report: `docs/REPORT-PROGRAM-8-SPRINT-8.2-2026-10-15.md`. Production stamp `commit 97fe676, built 2026-10-16T00:27:31+00:00`.
+- Numbers reach a model only as finished phrases (`phrases.py`); the twins gate sets a missing sign word on a figure that is the series' own (never on a wrong one); the morning headline says why it failed and is repaired on the last rung; "below/above/under/over/past $N" is a level, not a price claim.
+- Coin pages: "<Coin> price today and why it moved" title, description from the day's numbers, BreadcrumbList, "Why <coin> moved today" (top 20, items inside the 24 hours ending at the Board read, cause and gate rules), real-change-time sitemap lastmod (`lastmod.py`), IndexNow (`indexnow.py`, `plugins/indexnow`, key `a44f710d9349e5f84a1c0bbae18b03c5`).
+
+**8.3 list, top first (Jack, 15 October):**
+1. The coin chart's series stops at Oct 13 while the price reads Oct 15, so "7D low $81,630" is false beside $80,896. The chart must run to the current reading and its high and low labels must match it.
+2. Chart Master's read on the coin page opens mid-sentence with "However,". Lift whole sentences only.
+3. Seen on production: the Why block's "2 sources: Decrypt, Decrypt, Bitcoin Magazine" lists an outlet twice and counts two (stories_html).
+4. Then the share loop as Program 8 states.
+
 # Standing rules, all desks: not here, by Jack's ruling
 
 **Option two, 1 October 2026.** U-1 to U-13 and the dated rules beside them live in ONE file,
