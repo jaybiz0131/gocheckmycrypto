@@ -166,6 +166,19 @@ def withhold_cases(fails):
     guarded(fails, "a real evening record at 7:49 PM is stored", lambda: today.storable({"slot": "evening", "fallback": False}, evening)[0])
 
 
+def spark_cases(fails):
+    print("6. a row line that draws flat is tagged flat (found by the canary on 16 October, row 60, ALGO)")
+    import coinpage
+    algo = [0.118754] + [0.109112, 0.132875, 0.12, 0.125] * 6 + [0.118769]        # +0.013%, range 0.109 to 0.133
+    h = coinpage.row_spark(algo)
+    pts = [tuple(map(float, p.split(","))) for p in re.search(r'points="([^"]+)"', h).group(1).split()]
+    drawn_flat = pts[0][1] == pts[-1][1]
+    guarded(fails, "the case draws flat at one decimal (the premise)", lambda: drawn_flat)
+    guarded(fails, "so its tag is flat, not up", lambda: 'data-dir="flat"' in h and 'class="rs-l flat"' in h)
+    up = coinpage.row_spark([1, 2, 3, 4, 5])
+    guarded(fails, "a line that visibly rises is still up", lambda: 'data-dir="up"' in up)
+
+
 def unit():
     fails = []
     group(fails, "1 (chart)", chart_cases)
@@ -173,6 +186,7 @@ def unit():
     group(fails, "3 (sources)", sources_cases)
     group(fails, "4 (twins gate)", gate_cases)
     group(fails, "5 (withheld Edition)", withhold_cases)
+    group(fails, "6 (row line)", spark_cases)
     return fails
 
 

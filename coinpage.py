@@ -73,9 +73,11 @@ def row_spark(values, w=64, h=22):
         return ""
     lo, hi = min(v), max(v)
     rng = (hi - lo) or 1.0
-    pts = " ".join(f"{1 + i * (w - 2) / (len(v) - 1):.1f},{1.5 + (h - 3) * (1 - (x - lo) / rng):.1f}"
-                   for i, x in enumerate(v))
-    d = window_dir(v)
+    ys = [f"{1.5 + (h - 3) * (1 - (x - lo) / rng):.1f}" for x in v]
+    pts = " ".join(f"{1 + i * (w - 2) / (len(v) - 1):.1f},{y}" for i, y in enumerate(ys))
+    # a change too small for the line to show (first and last point drawn at the same height) is
+    # flat: the tag says what the eye sees (the canary found ALGO's +0.013% tagged up, drawn flat)
+    d = "flat" if ys[0] == ys[-1] else window_dir(v)
     return (f'<span class="row-spark" data-dir="{d}">'
             f'<svg viewBox="0 0 {w} {h}" preserveAspectRatio="none" aria-hidden="true" '
             f'focusable="false"><polyline class="rs-l {d}" points="{pts}" '
