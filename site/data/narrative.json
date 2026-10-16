@@ -1,31 +1,31 @@
 {
- "line": "Spot inflows support Bitcoin as enforcement actions and regulatory classification reshape the crypto landscape across jurisdictions.",
+ "line": "Bitcoin drifted lower on the day's weakness and retreat in exchange inflows after three weeks of sustained accumulation, as the day's news stayed quiet on fundamentals.",
  "by": "edition",
- "written_utc": "2026-10-16T12:18:33Z",
- "written_et": "8:18 AM ET on Oct 16",
+ "written_utc": "2026-10-16T23:15:20Z",
+ "written_et": "7:15 PM ET on Oct 16",
  "readings": {
-  "stamp_utc": "2026-10-16T12:16:53Z",
-  "btc_24h_pct": 1.48,
+  "stamp_utc": "2026-10-16T23:13:28Z",
+  "btc_24h_pct": -0.61,
   "etf_net_usd_m": 5.1,
   "etf_date": "15 Oct 2026",
   "fear_greed": 63,
   "fear_greed_band": "Greed",
-  "funding_8h_pct": 0.0047,
-  "funding_band": "calm"
+  "funding_8h_pct": 0.01,
+  "funding_band": "warm"
  },
- "small_line": "Written from Bitcoin +1.48% on the day, spot ETF net +5.1M USD (Oct 15, 2026), Fear & Greed 63 (greed), funding +0.0047% per 8h (calm)",
+ "small_line": "Written from Bitcoin -0.61% on the day, spot ETF net +5.1M USD (Oct 15, 2026), Fear & Greed 63 (greed), funding +0.0100% per 8h (warm)",
  "wire_top3": [
   {
-   "id": "c002",
-   "line": "Brooklyn DA and FBI dismantled Russian-language crypto scam network, seizing 112 servers and shutting 241 domains after victims lost tens of millions."
+   "id": "c047",
+   "line": "Deutsche Bank to launch Bitcoin and Ethereum custody for institutional clients within weeks, targeting Asia expansion in 2027."
   },
   {
-   "id": "c024",
-   "line": "EU banking authority classified Circle's USDC as 'significant' e-money token under MiCA, activating Nov. 12 supervisory rules."
+   "id": "c008",
+   "line": "Federal judge denied joint Gemini-CFTC motion to void $5M settlement, holding that policy changes do not reopen voluntary settlements."
   },
   {
-   "id": "c046",
-   "line": "Solana confirmed Oct. 21 Alpenglow upgrade, replacing TowerBFT voting to cut finality from 12.8 seconds to 150 milliseconds."
+   "id": "c039",
+   "line": "Bank of Russia confirmed ban on peer-to-peer Bitcoin trading, effective July 1, 2027; all trades must route through approved brokers or exchanges."
   }
  ],
  "crossed": []

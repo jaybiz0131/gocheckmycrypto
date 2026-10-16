@@ -54,5 +54,16 @@
   ],
   "detail": "dropped 3 sentence(s): Bitcoin perp funding at 0.0045% per 8 hours annualizes to 5.0%, elevated for a m | On the positive side, any return of inflow to Bitcoin or Ethereum ETFs over the  | The funding",
   "t": "2026-10-15T23:45:15Z"
+ },
+ {
+  "date": "2026-10-16",
+  "path": "cut",
+  "tripped": [
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is substanti",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: ETF flow claim says neg at the day window but the digest's day number points the other "
+  ],
+  "detail": "dropped 5 sentence(s): Open interest is substantial at $2.49 billion for Bitcoin and $1.40 billion for  | The contradiction between sentiment and tape is the read: the retail gauge is ca | A flip in B",
+  "t": "2026-10-16T23:15:20Z"
  }
 ]

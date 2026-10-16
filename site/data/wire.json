@@ -1,130 +1,95 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-10-15T23:43:47Z",
- "ranked_et": "7:43 PM ET on Oct 15",
- "refreshed_utc": "2026-10-16T12:18:33Z",
- "refreshed_et": "8:18 AM ET on Oct 16",
- "refreshes": 1,
- "snapshot_stamp_utc": "2026-10-15T23:43:27Z",
+ "ranked_utc": "2026-10-16T23:13:49Z",
+ "ranked_et": "7:13 PM ET on Oct 16",
+ "refreshed_utc": "2026-10-16T23:13:49Z",
+ "refreshed_et": "7:13 PM ET on Oct 16",
+ "refreshes": 0,
+ "snapshot_stamp_utc": "2026-10-16T23:13:28Z",
  "items": [
   {
    "rank": 1,
-   "id": "c002",
-   "line": "Brooklyn DA and FBI dismantled Russian-language crypto scam network, seizing 112 servers and shutting 241 domains after victims lost tens of millions.",
+   "id": "c047",
+   "line": "Deutsche Bank to launch Bitcoin and Ethereum custody for institutional clients within weeks, targeting Asia expansion in 2027.",
    "titles": [
-    "How Brooklyn prosecutors and the FBI took down a massive crypto fraud network targeting Russian speakers",
-    "FBI helps smash crypto scam targeting Russian speakers in Brooklyn"
+    "Deutsche Bank Plans Crypto Custody Launch Within Weeks",
+    "Deutsche Bank To Debut Bitcoin Custody Within Weeks: Report",
+    "Deutsche Bank prepares German crypto custody launch, eyes Asia: Report",
+    "Deutsche Bank to Launch Bitcoin and Ethereum Custody Within Weeks"
    ],
-   "board_reading": "",
-   "source_count": 3,
+   "board_reading": "Ether price",
+   "source_count": 4,
    "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/business/2026/10/15/how-brooklyn-prosecutors-and-the-fbi-took-down-a-massive-crypto-fraud-network-targeting-russian-speakers",
-     "outlet": "CoinDesk",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/deutsche-bank-plans-crypto-custody-launch-within-weeks",
+     "outlet": "The Defiant",
      "primary": false
     },
     {
-     "url": "https://protos.com/fbi-helps-smash-crypto-scam-targeting-russian-speakers-in-brooklyn/",
-     "outlet": "Protos",
+     "url": "https://bitcoinmagazine.com/news/deutsche-bank-will-debut-bitcoin-custody",
+     "outlet": "Bitcoin Magazine",
      "primary": false
     },
     {
-     "url": "https://decrypt.co/381000/brooklyn-prosecutors-take-down-112-servers-behind-crypto-scam-targeting-russian-speakers",
-     "outlet": "Decrypt",
+     "url": "https://cointelegraph.com/news/deutsche-bank-crypto-custody-expansion-asia-2027?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://u.today/deutsche-bank-to-launch-bitcoin-and-ethereum-custody-within-weeks",
+     "outlet": "U.Today",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-15T12:35:24Z",
+   "reported_utc": "2026-10-16T15:05:02Z",
    "verdict": "VERIFIED",
    "mark": "checked"
   },
   {
    "rank": 2,
-   "id": "c024",
-   "line": "EU banking authority classified Circle's USDC as 'significant' e-money token under MiCA, activating Nov. 12 supervisory rules.",
-   "titles": [
-    "EBA designates Circle\u2019s USDC as the EU\u2019s first \u2018significant\u2019 e-money token"
-   ],
-   "board_reading": "Stablecoin float",
-   "source_count": 2,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/regulation/2026-10-15-eba-designates-circles-usdc-as-the-eus-first-significant-e-money-token-418637",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://cryptobriefing.com/circle-minted-another-750-million-usdc-on-solana-in-the-last-24-hours-2/",
-     "outlet": "Crypto Briefing",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-15T11:10:07Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 6,
-   "id": "c046",
-   "line": "Solana confirmed Oct. 21 Alpenglow upgrade, replacing TowerBFT voting to cut finality from 12.8 seconds to 150 milliseconds.",
-   "titles": [
-    "Solana Sets a Date for Its Next Major Upgrade"
-   ],
-   "board_reading": "",
-   "source_count": 2,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://decrypt.co/380974/solana-alpenglow-upgrade-date",
-     "outlet": "Decrypt",
-     "primary": false
-    },
-    {
-     "url": "https://beincrypto.com/solana-shanghai-event-halted-officers/",
-     "outlet": "BeInCrypto",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-14T19:16:04Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 3,
    "id": "c008",
-   "line": "Australia's ASIC proposed stricter rules for crypto exchange licensing, including capital and custody requirements due ahead of 2027 rollout.",
+   "line": "Federal judge denied joint Gemini-CFTC motion to void $5M settlement, holding that policy changes do not reopen voluntary settlements.",
    "titles": [
-    "Australia\u2019s financial watchdog seeks stiffer rules for crypto exchanges ahead of licensing deadline"
+    "Judge Rejects Gemini-CFTC Bid to Lift Settlement Restrictions",
+    "U.S. judge rejects Gemini\u2019s appeal to void $5 million settlement despite CFTC backing",
+    "Judge rejects CFTC, Gemini bid to undo $5M settlement"
    ],
    "board_reading": "Whale net, exchange flows",
-   "source_count": 1,
+   "source_count": 3,
    "primary": false,
-   "standing": "single",
+   "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/policy/2026/10/15/australia-s-financial-watchdog-seeks-stiffer-rules-for-crypto-exchanges-ahead-of-licensing-deadline",
+     "url": "https://thedefiant.io/news/regulation/judge-rejects-gemini-cftc-bid-to-lift-settlement-restrictions",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://www.coindesk.com/policy/2026/10/16/u-s-judge-rejects-gemini-s-appeal-to-void-usd5-million-settlement-despite-cftc-backing",
      "outlet": "CoinDesk",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/judge-rejects-cftc-gemini-5m-settlement-reversal?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-15T09:53:37Z",
+   "reported_utc": "2026-10-16T00:39:04Z",
    "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
    "rank": 4,
-   "id": "c031",
-   "line": "Russia's Central Bank confirmed ban on direct P2P crypto trades effective July 1, 2027, requiring residents to use authorized intermediaries.",
+   "id": "c039",
+   "line": "Bank of Russia confirmed ban on peer-to-peer Bitcoin trading, effective July 1, 2027; all trades must route through approved brokers or exchanges.",
    "titles": [
     "Russia Will Soon Ban Peer-to-Peer Bitcoin Trading, Central Bank Confirms"
    ],
-   "board_reading": "Bitcoin price",
+   "board_reading": "Whale net, exchange flows",
    "source_count": 1,
    "primary": false,
    "standing": "single",
@@ -141,36 +106,64 @@
   },
   {
    "rank": 5,
-   "id": "c011",
-   "line": "Hot US producer-price data triggered nearly $940 million in crypto liquidations as Fed rate-hike bets spiked to 50%.",
+   "id": "c106",
+   "line": "Mizuho, MUFG and SMBC completed July yen stablecoin pilot covering issuance, transfer and redemption; real transactions targeted for fiscal 2026.",
    "titles": [
-    "Nearly $1 billion in crypto bets liquidated as bitcoin, ether and XRP slide"
+    "Mizuho, MUFG and SMBC Complete Joint Yen Stablecoin Pilot"
    ],
-   "board_reading": "Bitcoin price",
+   "board_reading": "Stablecoin float",
    "source_count": 1,
    "primary": false,
    "standing": "single",
    "links": [
     {
-     "url": "https://www.coindesk.com/markets/2026/10/15/nearly-usd1-billion-in-crypto-bets-liquidated-as-bitcoin-ether-and-xrp-slide",
-     "outlet": "CoinDesk",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/mizuho-mufg-and-smbc-complete-joint-yen-stablecoin-pilot",
+     "outlet": "The Defiant",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-15T04:25:15Z",
+   "reported_utc": "2026-10-16T15:04:54Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 6,
+   "id": "c140",
+   "line": "Australia released draft bill to adopt OECD's Common Crypto Asset Reporting Framework; first international tax data exchanges due 2028.",
+   "titles": [
+    "Australia releases draft bill to adopt OECD crypto tax reporting framework"
+   ],
+   "board_reading": "Whale net, exchange flows",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://cointelegraph.com/news/australia-releases-draft-bill-to-adopt-oecd-crypto-tax-reporting-framework?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-15T23:34:19Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   }
  ],
  "checked": {
-  "id": "c002",
+  "id": "c047",
   "rank": 1,
-  "says": "CoinDesk reports the scheme stole tens of millions through Russian-language Facebook ads and fake advisers, with a recovery scam targeting victims again; authorities seized 241 domains and 112 servers.",
-  "unconfirmed": "The exact dollar total of losses is described as 'tens of millions' but not quantified precisely; Protos reports $300,000 seized by Gonzalez's office but the full victim loss amount is not stated.",
+  "says": "Bitcoin Magazine reports Deutsche Bank is 'just weeks away' from launching crypto custody for European institutional clients and plans to expand to Asia, with the German lender's corporate banking chief quoted by Reuters.",
+  "unconfirmed": "The specific custody assets (Bitcoin, Ethereum, USDC, EURC) are confirmed only in U.Today; the 'within weeks' timeline appears in multiple sources but rests primarily on the Reuters quote relayed by Bitcoin Magazine and U.Today.",
   "badge": "Verified",
   "standing": "corroborated",
-  "source": "https://www.coindesk.com/business/2026/10/15/how-brooklyn-prosecutors-and-the-fbi-took-down-a-massive-crypto-fraud-network-targeting-russian-speakers",
-  "outlet": "CoinDesk"
+  "source": "https://bitcoinmagazine.com/news/deutsche-bank-will-debut-bitcoin-custody",
+  "outlet": "Bitcoin Magazine"
  },
- "dropped": []
+ "dropped": [
+  {
+   "rank": 3,
+   "id": "c023",
+   "why": "the wire line runs 165 characters, over 160"
+  }
+ ]
 }
