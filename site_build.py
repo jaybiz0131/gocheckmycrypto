@@ -7730,7 +7730,7 @@ def render_coin_chart(c, name, cid, spark):
     if _d24:
         _figs += f' data-lo24="{_d24[0]:.2f}" data-hi24="{_d24[1]:.2f}"'
     if spark:
-        fallback = spark_svg(spark, w=980, h=150)
+        fallback = spark_svg(_cp.run_to_reading(spark, c.get("price")), w=980, h=150)
         if _w7:
             note += (f' 7D high {esc(_price_fmt(_w7[1]))}, 7D low {esc(_price_fmt(_w7[0]))}. ')
         note += '<span class="cn-stamp">from the last build</span>'

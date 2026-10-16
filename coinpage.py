@@ -141,6 +141,16 @@ def reading_tiles(c, pos, asset, stamp, source="CoinGecko"):
     return tile.grid(out, "tl-4 cn-tiles") if out else ""
 
 
+def run_to_reading(series, price):
+    """The series with the current reading as its last point, unless it already ends there. The
+    chart's build-time line must not stop before the number printed beside it."""
+    vals = list(series or [])
+    if isinstance(price, (int, float)) and not isinstance(price, bool) and price > 0 and vals \
+            and abs(float(vals[-1]) - float(price)) > 1e-9:
+        vals.append(price)
+    return vals
+
+
 def _dir(v):
     return "up" if v and v > 0 else "down" if v and v < 0 else None
 
@@ -172,9 +182,32 @@ def coin_sentences(c, cm):
     out = []
     for p in (cm.get("paragraphs") or []):
         for s in split(str(p)):
-            if any(rx.search(s) for rx in rxs):
-                out.append(s.strip())
+            s = s.strip()
+            if whole_sentence(s) and any(rx.search(s) for rx in rxs):
+                out.append(s)
     return out
+
+
+# A sentence that opens on a word pointing back at the one before it is not whole once it is lifted
+# out alone: "However, Bitcoin holds above its 200-day average." read as the first line of the card
+# on 16 October. Only sentences that stand on their own are lifted.
+_DEPENDENT = re.compile(
+    r"^(?:however|but|yet|still|meanwhile|instead|otherwise|nevertheless|nonetheless|moreover|furthermore|"
+    r"additionally|also|conversely|separately|likewise|then|thus|therefore|hence|so|and|or|while|whereas|"
+    r"although|though|because|even so|that said|in contrast|by contrast|on the other hand|as a result|"
+    r"in turn|for now|at the same time|both|these|those|this|that|such|it|its|they|their|the latter|"
+    r"the former|the former|of these|of those)\b", re.I)
+
+
+def whole_sentence(s):
+    """True when `s` can be read on its own: it begins with a capital or a digit, ends with terminal
+    punctuation, and does not open on a word that points back at an earlier sentence."""
+    s = (s or "").strip()
+    if not s or not re.match(r"[A-Z0-9$\"'(\u2018\u201c]", s):
+        return False
+    if not re.search(r"[.!?][\"')\u2019\u201d]*$", s):
+        return False
+    return not _DEPENDENT.match(s)
 
 
 def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
@@ -354,11 +387,18 @@ def stories_html(hits, esc, stamp_et):
     time it was reported. 'Primary source' is printed when the wire marked it."""
     rows = []
     for w in hits:
-        links = w.get("links") or []
+        links = []
+        seen = set()
+        for l in (w.get("links") or []):
+            key = (l.get("outlet") or l.get("url") or "").strip().lower()
+            if l.get("url") and key not in seen:       # one link per outlet: two stories from one outlet are one source
+                seen.add(key)
+                links.append(l)
         srcs = ", ".join(
             f'<a href="{esc(l["url"])}" rel="noopener">{esc(l.get("outlet") or "Source")}</a>'
-            for l in links if l.get("url"))
+            for l in links)
         n = int(w.get("source_count") or len(links) or 0)
+        n = max(n, len(links))                          # never fewer sources than outlets listed
         bits = [f'{n} source{"" if n == 1 else "s"}' + (f': {srcs}' if srcs else "")]
         if w.get("primary"):
             bits.append('<span class="wl-primary">Primary source</span>')

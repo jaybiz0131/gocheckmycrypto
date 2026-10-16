@@ -100,7 +100,8 @@ _READINGS = [
       "outflows": -1, "rising": 1, "falling": -1}),
     ("funding", r"\bfunding\b",
      {"positive": 1, "negative": -1, "rising": 1, "falling": -1}),
-    ("stablecoin float", r"\bstablecoin (?:float|supply)\b|\bstablecoin\b",
+    ("stablecoin float", r"\bstablecoin (?:float|supply)\b|\bstablecoin\b(?!\s+(?:movements?|flows?|transfers?|withdrawals?|"
+     r"deposits?|buying power|inflows?|outflows?))",
      {"positive": 1, "negative": -1, "inflow": 1, "inflows": 1, "outflow": -1,
       "outflows": -1, "rising": 1, "falling": -1}),
     ("total market cap", r"\b(?:total )?market cap(?:itali[sz]ation)?\b",

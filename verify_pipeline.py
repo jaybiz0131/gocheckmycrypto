@@ -2033,6 +2033,7 @@ def _stamp_canary():
             fails.extend(_coin_pages_canary(out))
             fails.extend(_sprint81_canary(out))
             fails.extend(_sprint82_canary(out))
+            fails.extend(_sprint83a_canary())
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2999,6 +3000,24 @@ def _sprint82_canary(out):
         if _sd in _sys.path:
             _sys.path.remove(_sd)
     return fails
+
+
+def _sprint83a_canary():
+    """PROGRAM 8, SPRINT 8.3 PART A (16 October 2026): the chart's 7D pair runs to the reading, Chart
+    Master's lifted sentences are whole, a wire item's sources are one per outlet, the twins gate
+    does not bind a flow word about an exchange to the stablecoin float, a withheld Edition says so
+    and an evening run freezes no morning record. scripts/sprint83a_test.py holds the cases; the
+    helper is taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint83a_test as _s83
+        return ["sprint 8.3a: " + f for f in _s83.unit()]
+    finally:
+        _sys.modules.pop("sprint83a_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
 
 
 def _beacon_canary(out):

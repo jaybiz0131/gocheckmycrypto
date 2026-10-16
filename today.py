@@ -526,6 +526,16 @@ def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline
     return out
 
 
+def storable(rec, now):
+    """(store, why). A fallback record, the day's numbers with no read behind them, is the MORNING's
+    honest page; an evening run that finds no Edition must not freeze one (15 October, 7:15 PM: the
+    Edition was withheld, and `today.py` stored 2026-10-15-morning.json from the evening's numbers).
+    The slot stays open and the live build composes the page."""
+    if rec.get("fallback") and now.astimezone(ET).hour >= 17:
+        return False, "the evening slot has no Edition yet; no record is frozen for it (the slot is still open)"
+    return True, ""
+
+
 def main():
     """python3 today.py --write: compose this slot's record from the files in hand and store it.
     Exits 0 whatever happens (the workflows call it as an extra step, never a gate)."""
@@ -548,6 +558,10 @@ def main():
         gate.save()
         if not rec:
             print("today: no slot read today or no Bitcoin reading; no record written")
+            return 0
+        ok, why = storable(rec, now)
+        if not ok:
+            print(f"today: {why}")
             return 0
         have = os.path.join(DIR, f"{rec['date_et']}-{rec['slot']}.json")
         if os.path.exists(have):

@@ -429,6 +429,17 @@ def _victim_rank(surface, scope, paths, changed):
 BOARD_SURFACES = ("whale-board",)
 
 
+def edition_withheld_line(victim):
+    """The one visible line for a withheld Edition (15 October: the 7:10 PM run was green, published
+    the boards and no Edition, and said nothing at the top of the run; a second run 30 minutes later
+    served the slot). '' for any other surface."""
+    if not str(victim or "").startswith("story:evening-brief"):
+        return ""
+    return (f"::warning::Edition withheld ({victim}): the slot is still open, and the next dispatch "
+            f"for it will run (the slot guard stands down only for a published Edition). "
+            f"Expected: the evening Edition regenerates in the next run.")
+
+
 def _quarantine(blocking, changed, paths):
     """Withhold the single surface most responsible for a blocking conflict.
 
@@ -475,8 +486,23 @@ def _quarantine(blocking, changed, paths):
         print(f"::warning::consistency gate: WITHHELD {victim} ({path}) so the rest of "
               f"this run can publish. The surface returns to its committed state and "
               f"regenerates on the next slot; nothing was rewritten.")
+        line = edition_withheld_line(victim)
+        if line:
+            print(line)
+            _summary(line.replace("::warning::", "Warning: "))
         blocking = _blocking_now(changed, paths)
     return blocking, withheld
+
+
+def _summary(text):
+    """Append to the run's summary page when the runner gives one; never fails the gate."""
+    path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if path:
+        try:
+            with open(path, "a", encoding="utf-8") as fh:
+                fh.write(text + "\n\n")
+        except OSError:
+            pass
 
 
 UNSCOPED = ("", "unscoped")

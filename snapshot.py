@@ -233,14 +233,22 @@ def series_windows(closes):
 
 
 def week_pair(snap, sym):
-    """(low, high) of the coin's seven stored daily closes, or None: THE 7D PAIR. The tape's
-    HIGH and LOW and the coin page's "7D high" and "7D low" are this pair and nothing else
-    (13 October 2026: the coin page had printed a second pair from the hourly sparkline)."""
+    """(low, high) of the coin's seven stored daily closes AND its current reading, or None: THE 7D
+    PAIR. The tape's HIGH and LOW and the coin page's "7D high" and "7D low" are this pair and
+    nothing else (13 October 2026: the coin page had printed a second pair from the hourly
+    sparkline). The stored closes are COMPLETED days, so they end yesterday; a price that has broken
+    the week's range since reads outside a pair made of closes alone (16 October: "7D low $81,630"
+    beside $80,896). The chart runs to the current reading, so the pair includes it."""
     wk = (value(snap, "week") or {}).get(sym) or {}
     cl = wk.get("closes")
     vals = list(cl.values()) if isinstance(cl, dict) else list(cl or [])
     vals = [float(v) for v in vals if isinstance(v, (int, float))]
-    return (min(vals), max(vals)) if len(vals) >= 2 else None
+    if len(vals) < 2:
+        return None
+    px = coin(snap, sym).get("price")
+    if isinstance(px, (int, float)) and not isinstance(px, bool) and px > 0:
+        vals.append(float(px))
+    return (min(vals), max(vals))
 
 
 def day_pair(snap, sym):

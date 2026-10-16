@@ -1,0 +1,27 @@
+1. the chart runs to the current reading
+  FAIL price $80,896 under every close: the 7D low is the reading, not $81,630
+  FAIL price over every close: the 7D high is the reading
+  ok   price inside the range: the pair is the closes' own, unchanged
+  ok   no price reading: the closes' own pair
+  FAIL the chart's data-lo7 and data-hi7 hold the price
+  FAIL the caption's '7D low' is not above the price it sits beside
+  FAIL group 1 (chart) could not run [AttributeError: module 'coinpage' has no attribute 'run_to_reading']
+2. Chart Master's read lifts whole sentences
+  FAIL a sentence opening on 'However,' is not lifted
+  FAIL 'But' and 'Meanwhile' openers are not lifted either
+  FAIL the whole sentences stand, in the read's order
+  FAIL a read whose only Bitcoin sentence is a dependent one lifts nothing (the levels card follows)
+  FAIL a fragment that starts lower-case is not a whole sentence
+3. a wire item's sources are listed once per outlet
+  FAIL Decrypt is listed once
+  ok   the count is the outlets listed ('2 sources: Decrypt, Bitcoin Magazine')
+  ok   an item whose links name fewer outlets than the wire counted keeps the wire's count, never inflated
+4. the twins gate and the 15 October 7:49 PM drop
+  FAIL USDT leaving an exchange is not a claim about the stablecoin float: the sentence stands
+  ok   a real claim about the float against its sign is still dropped
+  ok   a dropped sentence is logged whole, not cut at 140 characters
+  FAIL the ops ledger keeps up to 400 characters of a dropped sentence (it kept 70)
+5. a withheld Edition says so; an evening run stores no morning record
+  FAIL group 5 (withheld Edition) could not run [AttributeError: module 'consistency_gate' has no attribute 'edition_withheld_line']
+
+SPRINT 8.3 PART A: FAIL (14)

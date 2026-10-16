@@ -163,7 +163,7 @@ def twins_fields(path):
     if drops:
         out["twins_log"] = [{"s": str(d.get("surface") or "")[:40], "k": d.get("kind") or "wrong",
                              "why": str(d.get("why") or "")[:110],
-                             "t": str(d.get("dropped") or "")[:70]} for d in drops[:6]]
+                             "t": str(d.get("dropped") or "")[:400]} for d in drops[:6]]
     return out
 
 
