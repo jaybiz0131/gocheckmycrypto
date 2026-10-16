@@ -20,3 +20,5 @@ Status: **BUILT, NOT MERGED. Waiting for Jack's yes.** Branch `sprint-8-3a` on o
 
 ## Merge
 Not done. After Jack's yes: outside 6:30 to 8:15 PM ET, one real merge commit, tip pushed first, `git branch --contains`, one build, production read by stamp, the count five minutes after. No Netlify access in this session, as before.
+
+- Canary on the final branch tree (b7a7cbf plus the report): LAYER 1 CANARY: PASS. Shell date: Fri Oct 16 17:25:47 EDT 2026.
