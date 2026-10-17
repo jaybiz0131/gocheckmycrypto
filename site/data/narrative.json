@@ -1,19 +1,19 @@
 {
- "line": "Bitcoin drifted lower on the day's weakness and retreat in exchange inflows after three weeks of sustained accumulation, as the day's news stayed quiet on fundamentals.",
- "by": "edition",
- "written_utc": "2026-10-16T23:15:20Z",
- "written_et": "7:15 PM ET on Oct 16",
+ "line": "Bitcoin is drifting lower on spot ETF outflows; the news is mixed.",
+ "by": "table",
+ "written_utc": "2026-10-17T12:18:47Z",
+ "written_et": "8:18 AM ET on Oct 17",
  "readings": {
-  "stamp_utc": "2026-10-16T23:13:28Z",
-  "btc_24h_pct": -0.61,
-  "etf_net_usd_m": 5.1,
-  "etf_date": "15 Oct 2026",
-  "fear_greed": 63,
-  "fear_greed_band": "Greed",
+  "stamp_utc": "2026-10-17T12:17:07Z",
+  "btc_24h_pct": -0.84,
+  "etf_net_usd_m": -82.4,
+  "etf_date": "16 Oct 2026",
+  "fear_greed": 55,
+  "fear_greed_band": "Neutral",
   "funding_8h_pct": 0.01,
   "funding_band": "warm"
  },
- "small_line": "Written from Bitcoin -0.61% on the day, spot ETF net +5.1M USD (Oct 15, 2026), Fear & Greed 63 (greed), funding +0.0100% per 8h (warm)",
+ "small_line": "Written from Bitcoin -0.84% on the day, spot ETF net -82.4M USD (Oct 16, 2026), Fear & Greed 55 (neutral), funding +0.0100% per 8h (warm)",
  "wire_top3": [
   {
    "id": "c047",
@@ -24,9 +24,12 @@
    "line": "Federal judge denied joint Gemini-CFTC motion to void $5M settlement, holding that policy changes do not reopen voluntary settlements."
   },
   {
-   "id": "c039",
-   "line": "Bank of Russia confirmed ban on peer-to-peer Bitcoin trading, effective July 1, 2027; all trades must route through approved brokers or exchanges."
+   "id": "c106",
+   "line": "Mizuho, MUFG and SMBC completed July yen stablecoin pilot covering issuance, transfer and redemption; real transactions targeted for fiscal 2026."
   }
  ],
- "crossed": []
+ "crossed": [
+  "spot ETF net changed sign, +5.1M to -82.4M USD",
+  "Fear & Greed crossed from greed into neutral (63 to 55)"
+ ]
 }

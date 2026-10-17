@@ -1,0 +1,114 @@
+{
+ "date_et": "2026-10-17",
+ "slot": "morning",
+ "published_utc": "2026-10-17T12:18:52Z",
+ "first_utc": "2026-10-17T12:18:52Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Saturday, October 17, 2026",
+ "h1": "Crypto today: flat. Saturday, October 17, 2026",
+ "stamp_label": "Numbers as of 8:17 AM ET \u00b7 this morning's read did not publish; text from last night's 7:15 PM Edition",
+ "composed_utc": "2026-10-17T12:18:52Z",
+ "board_stamp_et": "8:17 AM ET on Oct 17",
+ "answer": [
+  "On Saturday, October 17, Bitcoin was flat since midnight ET, at $81,460, a change of -0.01%.",
+  "Over the last 24 hours it was down 0.84%.",
+  "Ether was down 1.37% over the same 24 hours.",
+  "Among the Top 100, PUMP gained 2.38% and ZRO lost 12.07% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": true,
+ "btc": {
+  "price": 81460,
+  "chg": -0.84,
+  "chg_day": -0.01
+ },
+ "eth": {
+  "price": 2429.34,
+  "chg": -1.37
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "PUMP",
+   "name": "Pump.fun",
+   "chg": 2.38,
+   "slug": "pump"
+  },
+  {
+   "symbol": "LIT",
+   "name": "Lighter",
+   "chg": 1.64,
+   "slug": "lit"
+  },
+  {
+   "symbol": "MNT",
+   "name": "Mantle",
+   "chg": 0.55,
+   "slug": "mnt"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "ZRO",
+   "name": "LayerZero",
+   "chg": -12.07,
+   "slug": "zro"
+  },
+  {
+   "symbol": "STX",
+   "name": "Stacks",
+   "chg": -8.99,
+   "slug": "stx"
+  },
+  {
+   "symbol": "STABLE",
+   "name": "\u200b\u200bStable",
+   "chg": -8.39,
+   "slug": "stable"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin spot ETF net",
+   "value": -82.4,
+   "window": "one trading day, 16 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "8:17 AM ET on Oct 17",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 219156,
+   "shorts": 249039,
+   "window": "last 18 hours",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Oct 17",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.01,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Oct 17",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 55,
+   "word": "Greed",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:17 AM ET on Oct 17",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Edition, tonight at 7:08 PM ET",
+ "corrections": []
+}
