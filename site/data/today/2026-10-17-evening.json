@@ -1,0 +1,155 @@
+{
+ "date_et": "2026-10-17",
+ "slot": "evening",
+ "published_utc": "2026-10-17T23:15:04Z",
+ "first_utc": "2026-10-17T23:15:04Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Saturday, October 17, 2026",
+ "h1": "Crypto today: flat. Saturday, October 17, 2026",
+ "stamp_label": "Evening Edition, 7:15 PM ET",
+ "composed_utc": "2026-10-17T23:15:47Z",
+ "board_stamp_et": "7:13 PM ET on Oct 17",
+ "answer": [
+  "On Saturday, October 17, Bitcoin was flat since midnight ET, at $81,280, a change of -0.23%.",
+  "Over the last 24 hours it was down 0.47%.",
+  "Ether was down 1.20% over the same 24 hours.",
+  "Among the Top 100, XMR gained 1.47% and ZRO lost 9.51% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 81280,
+  "chg": -0.47,
+  "chg_day": -0.23
+ },
+ "eth": {
+  "price": 2392.15,
+  "chg": -1.2
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "XMR",
+   "name": "Monero",
+   "chg": 1.47,
+   "slug": "xmr"
+  },
+  {
+   "symbol": "HBAR",
+   "name": "Hedera",
+   "chg": 1.2,
+   "slug": "hbar"
+  },
+  {
+   "symbol": "LEO",
+   "name": "LEO Token",
+   "chg": 0.84,
+   "slug": "leo"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "ZRO",
+   "name": "LayerZero",
+   "chg": -9.51,
+   "slug": "zro"
+  },
+  {
+   "symbol": "FIL",
+   "name": "Filecoin",
+   "chg": -6.7,
+   "slug": "fil"
+  },
+  {
+   "symbol": "STX",
+   "name": "Stacks",
+   "chg": -6.09,
+   "slug": "stx"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Turkish police arrested Hex founder Richard Heart and seized $7.15 million in cash and six cold wallets across 15 addresses.",
+   "time": "2:14 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "theblock.co",
+     "url": "https://www.theblock.co/news/regulation/2026-10-17-turkey-confirms-hex-founders-arrest-says-police-seized-7-15-million-and-six-cold-wallets-418852"
+    },
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/regulation/2026-10-17-turkey-confirms-hex-founder-richard-hearts-arrest-says-police-seized-7-15-million-and-six-cold-wallets-418852"
+    }
+   ]
+  },
+  {
+   "line": "DTCC plans 25-security tokenization rollout on Canton and Besu, with tokens backed 1:1 by DTC-held securities and Stellar, Circle's Arc anticipated in 2027.",
+   "time": "3:32 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/dtcc-outlines-25-security-tokenization-rollout-on-canton-and-besu"
+    }
+   ]
+  },
+  {
+   "line": "French National Assembly passed a 2027 budget amendment by one vote to end tax deferral for crypto-to-stablecoin swaps, effective January 1.",
+   "time": "3:42 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/news/regulation/french-assembly-backs-tax-on-crypto-to-stablecoin-swaps-by-one-vote"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin spot ETF net",
+   "value": -82.4,
+   "window": "one trading day, 16 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "7:13 PM ET on Oct 17",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 1413504,
+   "shorts": 45978,
+   "window": "last 2 hours",
+   "source": "OKX",
+   "stamp": "7:13 PM ET on Oct 17",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0053,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "7:13 PM ET on Oct 17",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 55,
+   "word": "Greed",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "7:13 PM ET on Oct 17",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning read, tomorrow at 8:15 AM ET",
+ "corrections": []
+}

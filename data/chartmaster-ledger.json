@@ -65,5 +65,15 @@
   ],
   "detail": "dropped 5 sentence(s): Open interest is substantial at $2.49 billion for Bitcoin and $1.40 billion for  | The contradiction between sentiment and tape is the read: the retail gauge is ca | A flip in B",
   "t": "2026-10-16T23:15:20Z"
+ },
+ {
+  "date": "2026-10-17",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is elevated:"
+  ],
+  "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
+  "t": "2026-10-17T23:15:04Z"
  }
 ]

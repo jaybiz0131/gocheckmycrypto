@@ -1,184 +1,102 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-10-16T23:13:49Z",
- "ranked_et": "7:13 PM ET on Oct 16",
- "refreshed_utc": "2026-10-17T12:18:47Z",
- "refreshed_et": "8:18 AM ET on Oct 17",
- "refreshes": 1,
- "snapshot_stamp_utc": "2026-10-16T23:13:28Z",
+ "ranked_utc": "2026-10-17T23:13:43Z",
+ "ranked_et": "7:13 PM ET on Oct 17",
+ "refreshed_utc": "2026-10-17T23:13:43Z",
+ "refreshed_et": "7:13 PM ET on Oct 17",
+ "refreshes": 0,
+ "snapshot_stamp_utc": "2026-10-17T23:13:24Z",
  "items": [
   {
    "rank": 1,
-   "id": "c047",
-   "line": "Deutsche Bank to launch Bitcoin and Ethereum custody for institutional clients within weeks, targeting Asia expansion in 2027.",
+   "id": "c007",
+   "line": "Turkish police arrested Hex founder Richard Heart and seized $7.15 million in cash and six cold wallets across 15 addresses.",
    "titles": [
-    "Deutsche Bank Plans Crypto Custody Launch Within Weeks",
-    "Deutsche Bank To Debut Bitcoin Custody Within Weeks: Report",
-    "Deutsche Bank prepares German crypto custody launch, eyes Asia: Report",
-    "Deutsche Bank to Launch Bitcoin and Ethereum Custody Within Weeks"
+    "Turkey confirms Hex founder Richard Heart\u2019s arrest, says police seized $7.15 million and six cold wallets"
    ],
-   "board_reading": "Ether price",
-   "source_count": 4,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://thedefiant.io/converge/tradfi-and-fintech/deutsche-bank-plans-crypto-custody-launch-within-weeks",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://bitcoinmagazine.com/news/deutsche-bank-will-debut-bitcoin-custody",
-     "outlet": "Bitcoin Magazine",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/deutsche-bank-crypto-custody-expansion-asia-2027?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://u.today/deutsche-bank-to-launch-bitcoin-and-ethereum-custody-within-weeks",
-     "outlet": "U.Today",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-16T15:05:02Z",
-   "verdict": "VERIFIED",
-   "mark": "checked"
-  },
-  {
-   "rank": 2,
-   "id": "c008",
-   "line": "Federal judge denied joint Gemini-CFTC motion to void $5M settlement, holding that policy changes do not reopen voluntary settlements.",
-   "titles": [
-    "Judge Rejects Gemini-CFTC Bid to Lift Settlement Restrictions",
-    "U.S. judge rejects Gemini\u2019s appeal to void $5 million settlement despite CFTC backing",
-    "Judge rejects CFTC, Gemini bid to undo $5M settlement"
-   ],
-   "board_reading": "Whale net, exchange flows",
-   "source_count": 4,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://thedefiant.io/news/regulation/judge-rejects-gemini-cftc-bid-to-lift-settlement-restrictions",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://www.coindesk.com/policy/2026/10/16/u-s-judge-rejects-gemini-s-appeal-to-void-usd5-million-settlement-despite-cftc-backing",
-     "outlet": "CoinDesk",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/judge-rejects-cftc-gemini-5m-settlement-reversal?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://decrypt.co/381149/cftc-wants-drop-gemini-5m-settlement-judge-said-no",
-     "outlet": "Decrypt",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-16T00:39:04Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 5,
-   "id": "c106",
-   "line": "Mizuho, MUFG and SMBC completed July yen stablecoin pilot covering issuance, transfer and redemption; real transactions targeted for fiscal 2026.",
-   "titles": [
-    "Mizuho, MUFG and SMBC Complete Joint Yen Stablecoin Pilot"
-   ],
-   "board_reading": "Stablecoin float",
-   "source_count": 3,
+   "board_reading": "",
+   "source_count": 1,
    "primary": false,
    "standing": "single",
    "links": [
     {
-     "url": "https://thedefiant.io/converge/tradfi-and-fintech/mizuho-mufg-and-smbc-complete-joint-yen-stablecoin-pilot",
-     "outlet": "The Defiant",
+     "url": "https://www.theblock.co/news/regulation/2026-10-17-turkey-confirms-hex-founders-arrest-says-police-seized-7-15-million-and-six-cold-wallets-418852",
+     "outlet": "theblock.co",
      "primary": false
     },
     {
-     "url": "https://beincrypto.com/japan-megabanks-yen-stablecoin-cross-border-pilot/",
-     "outlet": "BeInCrypto",
-     "primary": false
-    },
-    {
-     "url": "https://u.today/japan-megabanks-test-first-joint-yen-stablecoin-where-does-xrp-fit",
-     "outlet": "U.Today",
+     "url": "https://www.theblock.co/news/regulation/2026-10-17-turkey-confirms-hex-founder-richard-hearts-arrest-says-police-seized-7-15-million-and-six-cold-wallets-418852",
+     "outlet": "The Block",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-16T15:04:54Z",
+   "reported_utc": "2026-10-17T18:14:43Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 2,
+   "id": "c071",
+   "line": "DTCC plans 25-security tokenization rollout on Canton and Besu, with tokens backed 1:1 by DTC-held securities and Stellar, Circle's Arc anticipated in 2027.",
+   "titles": [
+    "DTCC Outlines 25-Security Tokenization Rollout on Canton and Besu"
+   ],
+   "board_reading": "",
+   "source_count": 1,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/dtcc-outlines-25-security-tokenization-rollout-on-canton-and-besu",
+     "outlet": "The Defiant",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-17T07:32:11Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   },
   {
    "rank": 4,
-   "id": "c039",
-   "line": "Bank of Russia confirmed ban on peer-to-peer Bitcoin trading, effective July 1, 2027; all trades must route through approved brokers or exchanges.",
+   "id": "c066",
+   "line": "French National Assembly passed a 2027 budget amendment by one vote to end tax deferral for crypto-to-stablecoin swaps, effective January 1.",
    "titles": [
-    "Russia Will Soon Ban Peer-to-Peer Bitcoin Trading, Central Bank Confirms"
+    "French Assembly Backs Tax on Crypto-to-Stablecoin Swaps by One Vote"
    ],
-   "board_reading": "Whale net, exchange flows",
+   "board_reading": "Stablecoin float",
    "source_count": 1,
    "primary": false,
    "standing": "single",
    "links": [
     {
-     "url": "https://decrypt.co/381079/russia-ban-peer-to-peer-bitcoin-trading",
-     "outlet": "Decrypt",
+     "url": "https://thedefiant.io/news/regulation/french-assembly-backs-tax-on-crypto-to-stablecoin-swaps-by-one-vote",
+     "outlet": "The Defiant",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-15T20:31:04Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 6,
-   "id": "c140",
-   "line": "Australia released draft bill to adopt OECD's Common Crypto Asset Reporting Framework; first international tax data exchanges due 2028.",
-   "titles": [
-    "Australia releases draft bill to adopt OECD crypto tax reporting framework"
-   ],
-   "board_reading": "Whale net, exchange flows",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://cointelegraph.com/news/australia-releases-draft-bill-to-adopt-oecd-crypto-tax-reporting-framework?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-15T23:34:19Z",
+   "reported_utc": "2026-10-17T19:42:21Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   }
  ],
- "checked": {
-  "id": "c047",
-  "rank": 1,
-  "says": "Bitcoin Magazine reports Deutsche Bank is 'just weeks away' from launching crypto custody for European institutional clients and plans to expand to Asia, with the German lender's corporate banking chief quoted by Reuters.",
-  "unconfirmed": "The specific custody assets (Bitcoin, Ethereum, USDC, EURC) are confirmed only in U.Today; the 'within weeks' timeline appears in multiple sources but rests primarily on the Reuters quote relayed by Bitcoin Magazine and U.Today.",
-  "badge": "Verified",
-  "standing": "corroborated",
-  "source": "https://bitcoinmagazine.com/news/deutsche-bank-will-debut-bitcoin-custody",
-  "outlet": "Bitcoin Magazine"
- },
+ "checked": null,
  "dropped": [
   {
    "rank": 3,
-   "id": "c023",
-   "why": "the wire line runs 165 characters, over 160"
+   "id": "c011",
+   "why": "the wire line runs 172 characters, over 160"
+  },
+  {
+   "rank": 5,
+   "id": "c005",
+   "why": "the wire line runs 182 characters, over 160"
+  },
+  {
+   "rank": 6,
+   "id": "c069",
+   "why": "the wire line runs 163 characters, over 160"
   }
- ]
+ ],
+ "source_cuts": []
 }

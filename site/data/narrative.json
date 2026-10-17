@@ -1,35 +1,32 @@
 {
- "line": "Bitcoin is drifting lower on spot ETF outflows; the news is mixed.",
+ "line": "Bitcoin is holding flat while spot ETFs saw outflows; the news is mixed.",
  "by": "table",
- "written_utc": "2026-10-17T12:18:47Z",
- "written_et": "8:18 AM ET on Oct 17",
+ "written_utc": "2026-10-17T23:15:04Z",
+ "written_et": "7:15 PM ET on Oct 17",
  "readings": {
-  "stamp_utc": "2026-10-17T12:17:07Z",
-  "btc_24h_pct": -0.84,
+  "stamp_utc": "2026-10-17T23:13:24Z",
+  "btc_24h_pct": -0.47,
   "etf_net_usd_m": -82.4,
   "etf_date": "16 Oct 2026",
   "fear_greed": 55,
   "fear_greed_band": "Neutral",
-  "funding_8h_pct": 0.01,
-  "funding_band": "warm"
+  "funding_8h_pct": 0.0053,
+  "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -0.84% on the day, spot ETF net -82.4M USD (Oct 16, 2026), Fear & Greed 55 (neutral), funding +0.0100% per 8h (warm)",
+ "small_line": "Written from Bitcoin -0.47% on the day, spot ETF net -82.4M USD (Oct 16, 2026), Fear & Greed 55 (neutral), funding +0.0053% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c047",
-   "line": "Deutsche Bank to launch Bitcoin and Ethereum custody for institutional clients within weeks, targeting Asia expansion in 2027."
+   "id": "c007",
+   "line": "Turkish police arrested Hex founder Richard Heart and seized $7.15 million in cash and six cold wallets across 15 addresses."
   },
   {
-   "id": "c008",
-   "line": "Federal judge denied joint Gemini-CFTC motion to void $5M settlement, holding that policy changes do not reopen voluntary settlements."
+   "id": "c071",
+   "line": "DTCC plans 25-security tokenization rollout on Canton and Besu, with tokens backed 1:1 by DTC-held securities and Stellar, Circle's Arc anticipated in 2027."
   },
   {
-   "id": "c106",
-   "line": "Mizuho, MUFG and SMBC completed July yen stablecoin pilot covering issuance, transfer and redemption; real transactions targeted for fiscal 2026."
+   "id": "c066",
+   "line": "French National Assembly passed a 2027 budget amendment by one vote to end tax deferral for crypto-to-stablecoin swaps, effective January 1."
   }
  ],
- "crossed": [
-  "spot ETF net changed sign, +5.1M to -82.4M USD",
-  "Fear & Greed crossed from greed into neutral (63 to 55)"
- ]
+ "crossed": []
 }
