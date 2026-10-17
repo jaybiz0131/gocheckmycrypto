@@ -315,6 +315,9 @@ def today_cases(fails):
             and not any("whole market" in a.lower() for a in d16["answer"])
             and "contradicted Bitcoin (up 1.48%)" in d16["corrections"][-1]["text"]
             and "contradicted Bitcoin (up 0.80%)" in d15["corrections"][-1]["text"])
+    d16e = json.load(open(os.path.join(HERE, "site", "data", "today", "2026-10-16-evening.json"), encoding="utf-8"))
+    guarded(fails, "the 16 October evening record (stored before the cross-check) carries no whole-market figure and says why",
+            lambda: d16e["cap"] is None and "contradicted Bitcoin (down 0.61%)" in d16e["corrections"][-1]["text"])
     html = today.body_html(d15, [], "dated")
     guarded(fails, "the correction line renders on the page", lambda: "Correction, October 16, 2026." in html)
 

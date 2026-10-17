@@ -23,10 +23,7 @@
   "price": 2420.96,
   "chg": -0.85
  },
- "cap": {
-  "usd": 2762571198089,
-  "chg": -3.6
- },
+ "cap": null,
  "gainers": [
   {
    "symbol": "TIA",
@@ -146,5 +143,10 @@
   }
  ],
  "next": "Next update: Morning read, tomorrow at 8:15 AM ET",
- "corrections": []
+ "corrections": [
+  {
+   "date": "October 16, 2026",
+   "text": "The whole-market 24-hour change this page showed (down 3.60%) contradicted Bitcoin (down 0.61%) and Ether (down 0.85%), which together are most of the market. The desk could not reconcile it with the Top 100 and has removed it."
+  }
+ ]
 }
