@@ -134,9 +134,13 @@ def week_cases(fails):
     cm = {"date": "2026-10-16", "paragraphs": [
         "However, Bitcoin is down 2.0% over the week while Ether holds. Bitcoin sits above its 200-day average."]}
     import snapshot
+    _old_snap = sb.SNAP
     sb.SNAP = snapshot.build(p, flows16())
-    html = sb.render_coin_page(btc, pos, p, [], "FRIDAY, OCTOBER 16, 2026", wire=None, cm=cm,
-                               today=dt.date(2026, 10, 16))
+    try:
+        html = sb.render_coin_page(btc, pos, p, [], "FRIDAY, OCTOBER 16, 2026", wire=None, cm=cm,
+                                   today=dt.date(2026, 10, 16))
+    finally:
+        sb.SNAP = _old_snap          # a test never leaves its fixture in the module the canary builds from
     head = re.search(r'<p class="cc-chg"[^>]*>(.*?)</p>', html)
     guarded(fails, "the chart header carries the readings tile's rolling 7-day figure (+0.08%), not its own series",
             lambda: head and head.group(1).startswith("+0.08%") and "over the last 7 days" in head.group(1))
@@ -395,9 +399,13 @@ def carry_cases(fails):
     guarded(fails, "item 1: the 7D pair stays the closes' pair (one pair on the home tape and the coin page)",
             lambda: (lo, hi) == (81630.0, 83115.0))
     p2 = pulse16()
+    _sbm = __import__("site_build")
+    _prev = _sbm.SNAP
+    _sbm.SNAP = snapshot.build(p2, flows16())
     coin_html = __import__("site_build").render_coin_page(
         next(c for c in p2["movers"]["top100"] if c["symbol"] == "BTC"), 1, p2, [], "FRIDAY", wire=None, cm={},
         today=dt.date(2026, 10, 16))
+    _sbm.SNAP = _prev
     guarded(fails, "item 1: the coin page words the pair as closes, so a 7D low above today's low is not a false 'low'",
             lambda: "7D high close" in coin_html and "7D low close" in coin_html)
     guarded(fails, "item 1: the chart script words them the same way",

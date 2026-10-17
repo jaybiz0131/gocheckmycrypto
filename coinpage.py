@@ -78,9 +78,12 @@ def row_spark(values, w=64, h=22):
     d = window_dir(v)
     # A line is tagged by what is DRAWN (Sprint 9.1): ALGO's first and last points differ by
     # 0.01%, which rounds to the same pixel row, so it was drawn flat and tagged up, and origin/main's
-    # canary read red on it. A rise too small to move the line a tenth of a pixel is flat.
-    if abs(v[-1] - v[0]) / rng * (h - 3) < 0.1:
+    # canary read red on it. The tag is read from the same one-decimal y values the line is drawn with: equal ends are flat.
+    ys = [float(pt.split(",")[1]) for pt in pts.split()]
+    if ys[0] == ys[-1]:
         d = "flat"
+    elif d == "flat":
+        d = "up" if ys[-1] < ys[0] else "down"      # SVG y runs down: a smaller last y is a rise
     return (f'<span class="row-spark" data-dir="{d}">'
             f'<svg viewBox="0 0 {w} {h}" preserveAspectRatio="none" aria-hidden="true" '
             f'focusable="false"><polyline class="rs-l {d}" points="{pts}" '
