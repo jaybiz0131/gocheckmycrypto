@@ -3013,9 +3013,12 @@ def _sprint91_canary(out):
     _sys.path.insert(0, _sd)
     try:
         import sprint91_test as _s91
+        import slot_guard_test as _sg
         fails = ["sprint 9.1: " + f for f in _s91.unit()]
+        fails += ["one Edition per evening: " + f for f in _sg.unit()]
     finally:
         _sys.modules.pop("sprint91_test", None)
+        _sys.modules.pop("slot_guard_test", None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
     return fails

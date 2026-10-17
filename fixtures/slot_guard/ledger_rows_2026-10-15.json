@@ -1,0 +1,138 @@
+[
+ {
+  "breaking": false,
+  "cap_usd": 1.5,
+  "chartmaster_calls": 2,
+  "chartmaster_published": true,
+  "chartmaster_tokens": 13345,
+  "chartmaster_usd": 0.0254,
+  "coingecko_429": 0,
+  "coingecko_calls": 2,
+  "cron": "",
+  "ev": "workflow_dispatch",
+  "guard": "true",
+  "outcome": "ran",
+  "path": "wire",
+  "pinged": false,
+  "pushed": true,
+  "run": "38822001905",
+  "stage_tokens": {
+   "editor": 58885,
+   "verifier": 10337
+  },
+  "stage_usd": {
+   "editor": 0.0672,
+   "verifier": 0.0174
+  },
+  "stages_absent": [
+   "3.5-researcher",
+   "4-writer",
+   "4.5-approver",
+   "5-digest"
+  ],
+  "t": "2026-10-15T23:15:25Z",
+  "tokens": 69222,
+  "twins_drops": 0,
+  "twins_unparsed": 0,
+  "usd": 0.0846,
+  "wf": "Crypto Cronkite daily brief",
+  "wrap": "synthesis",
+  "wrap_repairs": 1
+ },
+ {
+  "breaking": false,
+  "cap_usd": 1.5,
+  "chartmaster_calls": 2,
+  "chartmaster_published": true,
+  "chartmaster_tokens": 13282,
+  "chartmaster_usd": 0.0252,
+  "coingecko_429": 0,
+  "coingecko_calls": 2,
+  "cron": "",
+  "ev": "workflow_dispatch",
+  "guard": "true",
+  "outcome": "ran",
+  "path": "wire",
+  "pinged": false,
+  "pushed": true,
+  "run": "38825025985",
+  "stage_tokens": {
+   "editor": 58580,
+   "verifier": 8983
+  },
+  "stage_usd": {
+   "editor": 0.0673,
+   "verifier": 0.0159
+  },
+  "stages_absent": [
+   "3.5-researcher",
+   "4-writer",
+   "4.5-approver",
+   "5-digest"
+  ],
+  "t": "2026-10-15T23:49:48Z",
+  "tokens": 67563,
+  "twins_drops": 1,
+  "twins_log": [
+   {
+    "k": "wrong",
+    "s": "the Brief's body paragraph 4",
+    "t": "Separately, the board shows $150,019,159 in USDT moving off Bitfinex i",
+    "why": "'outflow' about stablecoin float in our text while the snapshot reads stablecoin float +0.60% over 30 days"
+   }
+  ],
+  "twins_unparsed": 0,
+  "usd": 0.0832,
+  "wf": "Crypto Cronkite daily brief",
+  "wrap": "synthesis",
+  "wrap_repairs": 1
+ },
+ {
+  "breaking": false,
+  "cap_usd": 1.5,
+  "chartmaster_calls": 2,
+  "chartmaster_published": true,
+  "chartmaster_tokens": 13192,
+  "chartmaster_usd": 0.0243,
+  "coingecko_429": 0,
+  "coingecko_calls": 2,
+  "cron": "",
+  "ev": "workflow_dispatch",
+  "guard": "true",
+  "outcome": "ran",
+  "path": "wire",
+  "pinged": false,
+  "pushed": true,
+  "run": "38980019706",
+  "stage_tokens": {
+   "editor": 56215,
+   "verifier": 11992
+  },
+  "stage_usd": {
+   "editor": 0.0641,
+   "verifier": 0.0217
+  },
+  "stages_absent": [
+   "3.5-researcher",
+   "4-writer",
+   "4.5-approver",
+   "5-digest"
+  ],
+  "t": "2026-10-16T23:21:44Z",
+  "tokens": 68207,
+  "twins_drops": 1,
+  "twins_log": [
+   {
+    "k": "wrong",
+    "s": "the Brief's bottom line",
+    "t": "Per the desk's Whale Watch board, Dogecoin led Friday's onto-exchange ",
+    "why": "'outflow' about whale net in our text while the snapshot reads whale net -4,220,715 USD"
+   }
+  ],
+  "twins_unparsed": 0,
+  "usd": 0.0858,
+  "wf": "Crypto Cronkite daily brief",
+  "wrap": "synthesis",
+  "wrap_repairs": 2
+ }
+]

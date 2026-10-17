@@ -77,6 +77,17 @@ def append():
         "pinged": os.environ.get("PINGED") == "true",
         "run": os.environ.get("RUN_ID", ""),
     }
+    # ONE EDITION PER EVENING (16 October 2026): the slot this run was for and whether its
+    # Edition file is in the tree this run is about to leave behind, so slot_guard.decide can
+    # read from the ledger whether an earlier run "ended with nothing published".
+    slug = os.environ.get("SLOT_SLUG", "")
+    if slug:
+        day = now.date()
+        if slug == "evening-brief" and now.hour < 5:
+            day = day - datetime.timedelta(days=1)
+        row["slot"], row["slot_day"] = slug, day.isoformat()
+        row["edition_published"] = os.path.exists(
+            os.path.join(REPO, "site", "content", f"{day.isoformat()}-{slug}.json"))
     # PROGRAM 4, T-4 (2026-09-16): THE SPEND. The Budget object already computes tokens
     # and dollars for every call in the run and run.py already writes them to
     # out/run_report.json; the number was computed on every run and thrown away when

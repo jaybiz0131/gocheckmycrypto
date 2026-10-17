@@ -181,6 +181,9 @@ jobs:
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
           SLOT_CRON: ${{ github.event.schedule }}
           SLOT_NAME: ${{ inputs.slot }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
         run: |
           python3 - <<'PYEOF'
           import datetime, os, subprocess, sys
@@ -249,6 +252,51 @@ jobs:
                         f"{day.isoformat()} (per {where}); standing down before any "
                         f"model call (retry ticks are free when the primary served "
                         f"the slot).")
+          # ONE EDITION PER EVENING (Jack, 16 October 2026). The check above asks whether the
+          # Edition is on origin/main; on 15 October the first run was withheld at the consistency
+          # gate, wrote no Edition, and a second dispatch 30 minutes later spent a full run. Once a
+          # run has STARTED for this slot (a ledger row on origin/main that spent or pushed, or
+          # another run of this workflow in progress) no other run proceeds, unless every earlier
+          # one ended with nothing published and the ledger says so. slot_guard.py holds the rule.
+          # Fail-open: an unreadable ledger or API leaves the decision above standing.
+          if serve == "true" and slug and os.environ.get("BREAKING") != "1":
+              try:
+                  import json as _json, urllib.request as _ur
+                  sys.path.insert(0, os.getcwd())      # a stdin script has no __file__
+                  import slot_guard
+                  _rows = None
+                  try:
+                      _rows = _json.loads(subprocess.run(
+                          ["git", "show", "FETCH_HEAD:ledger.json"], capture_output=True,
+                          timeout=30, check=True).stdout).get("runs")
+                  except Exception as _e:
+                      print(f"::warning::Slot guard could not read origin/main's ledger.json ({_e})")
+                  _inp = None
+                  try:
+                      _req = _ur.Request(
+                          "https://api.github.com/repos/" + os.environ["GITHUB_REPOSITORY"]
+                          + "/actions/workflows/crypto-news-brief.yml/runs?status=in_progress&per_page=20",
+                          headers={"Authorization": "Bearer " + os.environ.get("GITHUB_TOKEN", ""),
+                                   "Accept": "application/vnd.github+json"})
+                      _inp = [{"run_id": str(x["id"]), "created_utc": x.get("created_at")}
+                              for x in _json.load(_ur.urlopen(_req, timeout=20)).get("workflow_runs", [])]
+                  except Exception as _e:
+                      print(f"::warning::Slot guard could not list in-progress runs ({_e})")
+                  _day = (datetime.datetime.now(datetime.timezone.utc).date()
+                          - (datetime.timedelta(days=1) if (slug == "evening-brief"
+                             and datetime.datetime.now(datetime.timezone.utc).hour < 5)
+                             else datetime.timedelta(0)))
+                  _ok, _why = slot_guard.decide(slug, _day.isoformat(), _rows,
+                                                my_run=os.environ.get("GITHUB_RUN_ID", ""),
+                                                in_progress=_inp)
+                  if not _ok:
+                      serve = "false"
+                      print(f"::notice::Slot guard: {_why}; standing down before any model call.")
+                  elif _why:
+                      print(f"::notice::Slot guard: {_why}.")
+              except Exception as _e:
+                  print(f"::warning::Slot guard's one-Edition rule could not run ({_e}); the "
+                        f"check above stands.")
           # X-2b (2026-09-16): ONLY A SLOT THIS DESK STILL SERVES MAY PASS.
           # A dispatch naming morning-brief passed the guard as built: it looked for an
           # Edition for a slot that can never have one, found none, and spent a full
@@ -831,6 +879,7 @@ jobs:
           BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
           CRON: ${{ github.event.schedule }}
           SERVE: ${{ steps.guard.outputs.serve }}
+          SLOT_SLUG: ${{ steps.guard.outputs.slot_slug }}
           PUSHED: ${{ steps.publish.outputs.pushed }}
           PINGED: ${{ steps.ping.outputs.pinged }}
           RUN_ID: ${{ github.run_id }}

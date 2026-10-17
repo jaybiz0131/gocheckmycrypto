@@ -1,0 +1,27 @@
+origin/main 53c1615, scripts/slot_guard_test.py and fixtures/slot_guard copied in; Fri Oct 16 20:52:30 EDT 2026
+1. 15 October: the second run
+  FAIL the 7:40 PM dispatch stands down once the 7:10 PM run has a ledger row for the slot (it pushed, the Edition was withheld) [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL the reason names the earlier run [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL the late scheduled tick at 01:11 UTC on 16 October (the evening slot of the 15th) stands down too [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL the first run itself, with nothing before it, proceeds [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL a run is not stopped by its own row [ModuleNotFoundError: No module named 'slot_guard']
+2. the exception: the first ended with nothing published, and the ledger says so
+  FAIL pushed false and edition_published false: the retry proceeds [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL pushed false but the ledger does not say the Edition is absent (a legacy row): the retry proceeds only on pushed false [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL edition_published true: stands down [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL two earlier runs, one of which published: stands down [ModuleNotFoundError: No module named 'slot_guard']
+3. what does not count
+  FAIL a row that stood down at the guard is not a started run [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL another workflow's row (the watcher) is not a started brief [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL a row for another slot day does not block this one [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL a breaking run is never stopped here [ModuleNotFoundError: No module named 'slot_guard']
+4. a run that has started but written no row yet
+  FAIL another run of the workflow in progress stands this one down [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL an in-progress list that is only this run does not [ModuleNotFoundError: No module named 'slot_guard']
+  FAIL no ledger and no API answer (None): fail open, the checkout's own rule stands [ModuleNotFoundError: No module named 'slot_guard']
+5. the ledger writes what the guard reads
+  FAIL ops_ledger records slot, slot_day and edition_published
+  FAIL the guard step calls slot_guard on origin/main's ledger
+  FAIL the ledger step is handed the slot
+
+ONE EDITION PER EVENING: FAIL (19)
