@@ -172,7 +172,12 @@ def render(key, figure, *, window, since, source, stamp, label=None, direction=N
             lambda m: (f'<span class="chg {sd}">{ARROW[sd]} {m.group(1)} {m.group(2)}</span>'
                        if (m.group(1) == "Up") == (sd == "up") else m.group(0)),
             since_h, count=1)
-    out = (f'<article class="tl" data-reading="{_e(key)}">'
+    try:
+        import snapshot as _sn
+        _asof = _sn.asof_attr(_sn.ts_for_stamp(stamp))
+    except Exception:                                   # pragma: no cover
+        _asof = ""
+    out = (f'<article class="tl" data-reading="{_e(key)}"{_asof}>'
            f'<h3 class="tl-l">{_e(name)}</h3>'
            f'<p class="tl-f{cls}">{_e(figure)}{badge}</p>'
            f'<p class="tl-w">{_e(window)}</p>'

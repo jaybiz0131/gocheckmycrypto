@@ -141,6 +141,14 @@ hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
 .markets .mkt-asof{text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400}
 /* data-age tripwire (audit 2026-07-28): a stale board says so, in both themes */
 .markets .mkt-asof .stale{color:var(--rule);font-weight:700}
+/* Sprint 9.1: a figure the desk withheld (the whole-market change that disagreed with Bitcoin,
+   Ether and the Top 100) says "unchecked" in the muted tone, never a number, never blank. */
+.chg.unchecked,.h-ac.unchecked{color:var(--muted);font-style:italic;font-weight:500}
+/* Sprint 9.1 (the stale state): a reading older than its window prints its age and dims,
+   everywhere it appears. [data-asof] is set by the stamp script; .is-stale is the dim. */
+.is-stale .tl-f,.is-stale .big,.is-stale .h-big,.is-stale .h-px{opacity:.62}
+tr.is-stale td{opacity:.62}
+.asof-age{color:var(--down);font-weight:700}
 /* PLACED AFTER THE BASE .markets RULES ON PURPOSE. This block sat above them and
    every declaration in it was overridden: .markets .tick in a media query and
    .markets .tick outside one have the same specificity, so the later one wins and
@@ -1626,6 +1634,13 @@ header.masthead{position:relative;z-index:300}
    the columns are rank, coin, price, 24 hours and the line, and nothing scrolls sideways.
    The columns, in order: 1 rank, 2 coin, 3 price, 4 24h, 5 seven-day line, 6 cap, 7 volume. */
 .prices-table .c-wide{display:none}
+/* Sprint 9.1: the movers list at 375 is rank, coin, 24h and price; the name and the cap wait for 768 */
+.mv-tbl .c-wide{display:none}
+@media (min-width:768px){
+  .mv-tbl td.c-wide{display:table-cell}
+  .mv-tbl span.c-wide{display:inline}
+}
+.mv-tbl td{padding:10px 8px}
 @media (min-width:768px){
   .prices-table .c-wide{display:table-cell}
 }

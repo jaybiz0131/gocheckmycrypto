@@ -1468,6 +1468,8 @@ except Exception:                                  # pragma: no cover
 
 
 import glow as _glow                                # noqa: E402  (the one line style)
+import datetime as _dtmod                           # noqa: E402
+_dt_utc = _dtmod.timezone.utc
 
 
 def masthead(active, dateline, brand="site"):
@@ -1504,7 +1506,7 @@ def masthead(active, dateline, brand="site"):
     clock = et.strftime("%-I:%M %p ET")
     return f"""<header class="masthead mh-band"><div class="wrap">
   <div class="mh-top">
-    <span class="mh-meta"><span class="mh-dateline" data-build-date="{et.date().isoformat()}">{esc(day)}</span><span class="mh-live" data-mh-live><i aria-hidden="true"></i><span class="mh-lw">UPDATED</span> <span class="mh-lt">{esc(clock)}</span></span>{motion_toggle}</span>
+    <span class="mh-meta"><span class="mh-dateline" data-build-date="{et.date().isoformat()}">{esc(day)}</span><span class="mh-live" data-mh-live data-asof="{et.astimezone(_dt_utc).strftime('%Y-%m-%dT%H:%M:%SZ')}"><i aria-hidden="true"></i><span class="mh-lw">UPDATED</span> <span class="mh-lt">{esc(clock)}</span></span>{motion_toggle}</span>
     {fam}
   </div>
   {brand_row}
@@ -1524,10 +1526,19 @@ def _ticker_built(pulse):
         gen = _dt.datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_dt.timezone.utc)
     except ValueError:
         return "as of build"
-    age_h = (_dt.datetime.now(_dt.timezone.utc) - gen).total_seconds() / 3600
     # Zone AND date (5 October 2026): "as of 7:26 PM ET on Oct 3", never a bare clock.
+    # SPRINT 9.1: the age is printed in hours once the reading is past three, at the build
+    # AND again in the browser at the moment of reading (asof.js, from data-asof).
+    import snapshot as _snapshot
     label = f"as of {_snap_stamp_et(ts)}"
-    return f'<span class="stale">{label}, stale</span>' if age_h > BOARD_FRESH_HOURS else label
+    age = _snapshot.age_phrase(ts, _build_now())
+    return f'<span class="stale">{label}<span class="asof-age">, {age}</span></span>' if age else label
+
+
+def _asof_of(pulse):
+    """The data-asof attribute for a surface that stands on the pulse's stamp."""
+    import snapshot as _snapshot
+    return _snapshot.asof_attr(((pulse or {}).get("generated_utc") or "").strip())
 
 
 def _snap_asof(pulse):
@@ -1570,7 +1581,11 @@ def market_strip(pulse=None):
     cap_px = fmt_tick(cap) if cap else "--"
     cap_chg = mkt.get("mcap_change_24h_pct")
     cap_chg_html = (f'<span class="chg {"up" if cap_chg >= 0 else "down"}">{cap_chg:+.1f}%</span>'
-                    if cap_chg is not None else '<span class="chg"></span>')
+                    if cap_chg is not None else
+                    ('<span class="chg unchecked" title="The reported 24-hour change disagreed '
+                     'with Bitcoin, Ether and the Top 100, so the desk does not print it">'
+                     'unchecked</span>' if mkt.get("mcap_change_state") == "unchecked"
+                     else '<span class="chg"></span>'))
     # THE LIVE LAYER (5 October 2026). The ticker is the ONLY surface that moves after
     # the page loads, so it carries only what it refreshes: coin prices and the total cap
     # from CoinGecko, and BTC dominance from the same /global answer. Fear & Greed is
@@ -1588,7 +1603,7 @@ def market_strip(pulse=None):
     # same row on a desktop and its own line on a phone, which is a stylesheet decision,
     # so it sits outside the scrolling run and the run holds nothing but market facts.
     return f"""<section class="markets" id="markets"><div class="wrap mk-outer">
-  <span class="lab">Markets &middot; <span class="mkt-asof" id="mktAsOf">{_ticker_built(pulse)}</span></span>
+  <span class="lab">Markets &middot; <span class="mkt-asof" id="mktAsOf"{_asof_of(pulse)}>{_ticker_built(pulse)}</span></span>
   <div class="mk-run" tabindex="0" role="region" aria-label="Live crypto markets ticker (scrollable)">
   {ticks}
   <span class="tick" id="mcap"><span class="sym">Total cap</span><span class="px">{esc(cap_px)}</span>{cap_chg_html}</span>
@@ -1637,8 +1652,15 @@ def market_strip(pulse=None):
   /* "live" is EARNED (5 October 2026): only an OK answer that actually carried a price
      re-labels the strip. A 429 arrives as JSON too, and without this the strip said
      "live" over the build's numbers. No price landed, no "live": the build stamp stands. */
-  fetch(CG+"/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true")
-    .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){
+  var liveP=false, liveG=false;
+  function labelStrip(){
+    var as=document.getElementById("mktAsOf"); if(!as)return;
+    if(liveP&&liveG){ as.textContent = "live \u00b7 " + etClock(); as.classList.remove("stale","is-stale"); as.removeAttribute("data-asof"); }
+    else if(liveP){ as.setAttribute("data-live-part","prices"); }
+  }
+  var pricesP=fetch(CG+"/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true")
+    .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();});
+  pricesP.then(function(d){
       var landed=0;
       document.querySelectorAll(".markets .tick[data-id]").forEach(function(t){
         var k=t.getAttribute("data-id"), v=d[k]; if(!v||typeof v.usd!=="number")return;
@@ -1671,15 +1693,26 @@ def market_strip(pulse=None):
          number and the build's stamp standing rather than dressing old data as live. */
       markMore();
       if(!landed)return;
-    var as=document.getElementById("mktAsOf");
-      if(as){ as.textContent = "live \u00b7 " + etClock(); as.classList.remove("stale"); }
+      /* SPRINT 9.1: "live" is claimed for the whole strip or not at all. The strip holds the
+         coins' prices (this answer) and the total cap and dominance (/global). Until /global
+         has answered too, the label says which part is live and the stamp keeps the rest. */
+      liveP=true; labelStrip();
     }).catch(function(){});
-  fetch(CG+"/global").then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){
-      var g=d.data||{}, m=document.getElementById("mcap"); if(!m)return;
+  /* SPRINT 9.1: the whole-market change is checked here as the build checks it. /global's figure
+     is printed only when live Bitcoin and Ether do not both contradict it; otherwise the build's
+     checked figure (or its "unchecked") stands. The level and dominance still update. */
+  function okChg(g,p){ var a=p&&p.bitcoin&&p.bitcoin.usd_24h_change, b=p&&p.ethereum&&p.ethereum.usd_24h_change;
+    if(typeof g!=="number"||typeof a!=="number"||typeof b!=="number")return false;
+    var sd=function(v){return Math.abs(v)<0.5?0:(v>0?1:-1);};
+    return !(sd(a)&&sd(a)===sd(b)&&sd(g)===-sd(a)); }
+  Promise.all([fetch(CG+"/global").then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}),
+               pricesP.catch(function(){return null;})]).then(function(both){
+      var d=both[0], g=d.data||{}, m=document.getElementById("mcap"); if(!m)return;
       if(g.total_market_cap&&g.total_market_cap.usd) m.querySelector(".px").textContent=money(g.total_market_cap.usd);
-      chg(m.querySelector(".chg"), g.market_cap_change_percentage_24h_usd);
+      if(okChg(g.market_cap_change_percentage_24h_usd, both[1])) chg(m.querySelector(".chg"), g.market_cap_change_percentage_24h_usd);
       var dm=document.querySelector("#btcdom .px"), pc=(g.market_cap_percentage||{}).btc;
       if(dm&&pc!=null) dm.textContent=pc.toFixed(1)+"%";
+      if(g.total_market_cap&&g.total_market_cap.usd&&okChg(g.market_cap_change_percentage_24h_usd, both[1])){ liveG=true; labelStrip(); }
     }).catch(function(){});
 })();
 </script>
@@ -2009,6 +2042,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 {skip}{_glow.DEFS}{masthead(nav_group(path), dateline, brand)}
 {body}
 {footer(brand)}{beacon}{livejs}
+<script defer src="/assets/asof.js"></script>
 {tab_bar(path)}
 {MOTION_JS}{ATMOS_MOTION_JS}{SW_REGISTER}{WATCHLIST_JS if 'data-watchlist' in body else ''}{COINS_MINI_JS if 'class="cb-mini"' in body else ''}
 </body>
@@ -2496,12 +2530,12 @@ def render_bottom_line_history(items, dateline):
     body = f"""<main class="wrap narrow"><section class="page">
   <span class="kicker">{esc(brand_name("brief"))}</span>
   <h1>{esc(task_name("brief"))}</h1>
-  <p class="lede">Once a day the desk closes its edition with a short read: what
-     happened, why it mattered, and what the calendar says comes next. Synthesis of the
+  <p class="lede">Every morning and every evening the desk closes its edition with a short
+     read: what happened, why it mattered, and what the calendar says comes next. Synthesis of the
      desk's verified reporting, never a prediction and never advice. Every read is kept.</p>
   {"".join(rows) if rows else '<p class="lede">The first edition lands soon.</p>'}
 </section></main>"""
-    return shell(f"{name_title('brief')} - {NAME}", "The desk's daily brief: what happened, why it "
+    return shell(f"{name_title('brief')} - {NAME}", "The desk's morning and evening brief: what happened, why it "
                  "mattered, and what comes next. Synthesis, never advice.",
                  "Brief", body, dateline, path="/bottom-line.html", brand="cronkite")
 
@@ -3565,15 +3599,36 @@ def flow_words(net):
             "down" if onto else "up")
 
 
-def _flow_big(v):
+def stable_flow_words(net):
+    """STABLECOINS RUN THE OTHER WAY (Sprint 9.1, AUDIT.md 1.3 item 2). whale_flows scores a
+    stablecoin as buying power: inflow minus outflow, so POSITIVE means dollars arriving ONTO
+    exchanges and NEGATIVE means dollars leaving them. flow_words reads volatile assets, where
+    positive is off exchanges, and fed this number it printed "-$233.2M net stablecoins onto
+    exchanges" for two transfers that both left (Bitfinex to Tether Treasury, Binance to Ceffu).
+    The sign stays the buying power's; only the words follow it.
+    Returns (amount, words, cls) like flow_words."""
+    if not isinstance(net, (int, float)):
+        return (None, None, None)
+    if net == 0:
+        return ("0", "no net movement", "flat")
+    onto = net > 0
+    return (("+" if onto else "-") + fmt_usd(abs(net)),
+            "onto exchanges" if onto else "off exchanges",
+            "up" if onto else "down")
+
+
+def _flow_big(v, words=None):
     """D-6: the big number on a flows panel. Same law as the cells: a true zero says so
-    in words, a missing reading says the feed carried none, and "$0" is neither."""
+    in words, a missing reading says the feed carried none, and "$0" is neither.
+    `words` is the sign convention (flow_words for volatile assets, stable_flow_words for
+    stablecoins)."""
+    words = words or flow_words
     if not isinstance(v, (int, float)):
         return '<span class="mut" style="font-size:.5em">no reading in 24h</span>'
     if v == 0:
         return '<span class="mut" style="font-size:.5em">no exchange-size moves in 24h</span>'
     # K-6: signed, so the number says which way before the words do.
-    return esc(flow_words(v)[0] or fmt_usd(v))
+    return esc(words(v)[0] or fmt_usd(v))
 
 
 def _flow_cell(v):
@@ -5527,8 +5582,9 @@ def flow_teaser():
         s = flows.get("stablecoins", {})
         pre = "Example: " if flows.get("example") else ""
         summ = (f"{pre}Volatile whales net {fmt_usd(abs(v.get('net_usd',0)))} {v.get('direction','')} over "
-                f"{_win_phrase(flows.get('window_hours', 24))}; {fmt_usd(s.get('net_buying_power_usd',0))} "
-                f"stablecoin buying power arriving.")
+                f"{_win_phrase(flows.get('window_hours', 24))}; net stablecoins "
+                f"{fmt_usd(abs(s.get('net_buying_power_usd') or 0))} "
+                f"{stable_flow_words(s.get('net_buying_power_usd'))[1] or 'with no reading'}.")
     return (f'<section class="sec"><div class="wrap">'
             f'<a class="flow-teaser" href="/flows.html">'
             f'<div><div class="t">Whale Watch &middot; follow the money</div>'
@@ -6160,7 +6216,7 @@ def _win_phrase(hours):
     hours = int(hours or 24)
     if hours >= 48 and hours % 24 == 0:
         return f"{hours // 24} days"
-    return f"{hours} hours"
+    return f"{hours} hour" if hours == 1 else f"{hours} hours"
 
 
 WHALE_FLOOR_USD = 50_000_000  # whale_flows' floor, so "$50M or more" stays true
@@ -6251,7 +6307,11 @@ def render_flows(flows, dateline):
             age = ""
             if m.get("ts") and now_ts:
                 h = max(0, round((now_ts - m["ts"]) / 3600))
-                age = f'<span class="mut"> &middot; {h}h ago</span>' if h else '<span class="mut"> &middot; latest</span>'
+                # STALE STATE (Sprint 9.1): the age is true at the reading's instant; asof.js
+                # recomputes it from data-ago (the move's epoch seconds) when the page is READ, and
+                # dims a move that has outrun the 24-hour window the page claims
+                age = (f'<span class="mut" data-ago="{int(m["ts"])}"> &middot; {h}h ago</span>' if h else
+                       f'<span class="mut" data-ago="{int(m["ts"])}"> &middot; latest</span>')
             rows += (f'<tr><td class="sym2">{esc(m.get("symbol",""))}{" &middot; stable" if m.get("stable") else ""}</td>'
                      f'<td class="num">{usd_html}</td>'
                      f'<td style="white-space:normal">&rarr; {esc(venue_name(m.get("to")))}{age}'
@@ -6298,7 +6358,7 @@ def render_flows(flows, dateline):
   <p class="lede">Where the whales are moving. Large transfers onto exchanges (can precede selling) against off into
      self-custody (accumulation), last {winp}. Off exchanges is positive and green; onto
      exchanges is negative and red.</p>
-  <p class="bd-src">{_flows_asof(flows)}</p>
+  <p class="bd-src"{_asof_attr_ts(flows.get("generated_utc") or "")}>{_flows_asof(flows)}</p>
   {ribbon}
   <p class="ww-sentence"><b>{esc(ww["sentence"])}</b></p>
 
@@ -6309,8 +6369,8 @@ def render_flows(flows, dateline):
     </div>
     <div class="stat">
       <span class="lab">Stablecoin buying power</span>
-      <span class="big">{_flow_big(s.get("net_buying_power_usd"))}</span>
-      <span class="sub">net stablecoins {esc(flow_words(s.get("net_buying_power_usd"))[1] or "")}</span>
+      <span class="big">{_flow_big(s.get("net_buying_power_usd"), stable_flow_words)}</span>
+      <span class="sub">net stablecoins {esc(stable_flow_words(s.get("net_buying_power_usd"))[1] or "")}</span>
     </div>
     {big_html}
     <div class="stat">
@@ -6984,6 +7044,11 @@ def _board_age_alarm(pulse):
         print(f"board: fresh, {age:.1f}h old")
 
 
+def _asof_attr_ts(ts):
+    import snapshot as _snapshot
+    return _snapshot.asof_attr(ts)
+
+
 def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
     """Visible provenance line for a data board: when the snapshot was generated and, when
     it has outrun the refresh promise, an explicit stale label."""
@@ -7007,12 +7072,12 @@ def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
     if age_h > promise_hours:
         hrs = int(age_h)
         older = f"{hrs} hours" if hrs < 48 else f"{hrs // 24} days"
-        return (f'<p class="data-stamp stale"><b>Stale data.</b> {esc(what)} last refreshed '
+        return (f'<p class="data-stamp stale"{_asof_attr_ts(ts)}><b>Stale data.</b> {esc(what)} last refreshed '
                 f'at {stamp}, about {older} ago, and the desk refreshes it several times a '
                 f'day. Read these numbers as history, not as the current market.</p>')
     # C-5: was "Data as of 22:17 UTC on 14 Sep 2026. Refreshed at every site build." -
     # a clock the reader does not keep and a note about how the page was made (G-9).
-    return f'<p class="data-stamp">As of {stamp}.</p>'
+    return f'<p class="data-stamp"{_asof_attr_ts(ts)}>As of {stamp}.</p>'
 
 
 _TILE_FOR_SLUG = {"prices": "bitcoin", "posture": "bitcoin", "sentiment": "fng",
@@ -7342,6 +7407,9 @@ def render_pulse_stables(pulse, dateline):
 
 
 def _mover_rows(movers):
+    """Rows of the movers list. THE 24-HOUR FIGURE IS THE FIRST COLUMN AFTER THE COIN
+    (Sprint 9.1, AUDIT.md 1.2): at 375 the table hid it off the right edge and clipped the
+    price to "$0.". Rank, coin, 24h, price; the market cap shows from 640 px up only."""
     rows = []
     for m in movers:
         chg = m.get("chg_24h_pct", 0)
@@ -7357,32 +7425,46 @@ def _mover_rows(movers):
             price_s = "$" + f"{price:.6f}".rstrip("0").rstrip(".")
         rows.append(
             f'<tr><td class="mut">#{m.get("rank", "?")}</td>'
-            f'<td class="sym2">{esc(m.get("symbol", ""))}<span class="mut"> &middot; '
+            f'<td class="sym2">{esc(m.get("symbol", ""))}<span class="mut c-wide"> &middot; '
             f'{esc((m.get("name") or "")[:14])}</span></td>'
-            f'<td class="pnum">{esc(price_s)}</td>'
             f'<td>{chip}</td>'
-            f'<td class="mut">{esc(fmt_usd(m.get("mcap_usd", 0)))} cap</td></tr>')
+            f'<td class="pnum">{esc(price_s)}</td>'
+            f'<td class="mut c-wide">{esc(fmt_usd(m.get("mcap_usd", 0)))} cap</td></tr>')
     return "".join(rows)
 
 
+def _movers_card(side, rows):
+    """One side of the movers page. Fewer than five rows prints fewer; none says so."""
+    word, cls = ("gained", "up") if side == "gainers" else ("fell", "down")
+    head = "Biggest gainers" if side == "gainers" else "Biggest losers"
+    if not rows:
+        body = (f'<p class="pc-note">No top-100 coin {word} more than 1% in the last 24 hours.</p>')
+    else:
+        body = (f'<div class="movetable" tabindex="0" role="region" aria-label="{head} (scrollable)">'
+                f'<table class="mv-tbl"><tbody>{_mover_rows(rows)}</tbody></table></div>')
+        if len(rows) < 5:
+            body += (f'<p class="pc-note">Only {len(rows)} top-100 coin{"" if len(rows) == 1 else "s"} '
+                     f'{word} more than 1%, so the list stops there.</p>')
+    return (f'<div class="pulse-card"><span class="lab" style="color:var(--{cls})">'
+            f'{head}, 24 hours</span>{body}</div>')
+
+
 def render_pulse_movers(pulse, dateline):
-    desc = ("Top 5 gainers and losers over 24 hours, drawn only from the top 100 coins by "
-            "market cap, with plain-language guidance on how to read big moves.")
+    desc = ("Up to five gainers and losers over 24 hours, drawn only from coins ranked 100 or "
+            "better by market cap, with plain-language guidance on how to read big moves.")
     movers = (pulse or {}).get("movers") or {}
     if not movers:
         inner = f"{_dash_crumb()}\n  <h1>Top movers</h1>\n  {_no_data()}"
         return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True, data=pulse)
     inner = f"""{_dash_crumb()}
   <h1>Top movers</h1>
-  <p class="lede">The five biggest gainers and losers of the last 24 hours, drawn only from
-     the top {movers.get("universe", 100)} coins by market cap, so micro-cap pump coins never
-     make this board.</p>
-  <p class="live-stamp">{esc(_snap_asof(pulse))}</p>
+  <p class="lede">Up to five gainers and five losers of the last 24 hours, drawn only from
+     coins ranked 100 or better by market cap. Stablecoins never appear, a coin must have moved
+     more than 1% the way its list says, and a list is never padded to reach five.</p>
+  <p class="live-stamp"{_asof_of(pulse)}>{esc(_snap_asof(pulse))}</p>
   <div class="pulse-grid2">
-    <div class="pulse-card"><span class="lab" style="color:var(--up)">Top 5 gainers (24h)<span class="live-dot"></span></span>
-      <div class="movetable" tabindex="0" role="region" aria-label="Top gainers (scrollable)"><table><tbody data-live="movers:gainers">{_mover_rows(movers.get("gainers", []))}</tbody></table></div></div>
-    <div class="pulse-card"><span class="lab" style="color:var(--down)">Top 5 losers (24h)<span class="live-dot"></span></span>
-      <div class="movetable" tabindex="0" role="region" aria-label="Top losers (scrollable)"><table><tbody data-live="movers:losers">{_mover_rows(movers.get("losers", []))}</tbody></table></div></div>
+    {_movers_card("gainers", movers.get("gainers") or [])}
+    {_movers_card("losers", movers.get("losers") or [])}
   </div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Movers 101</h2><span class="bar"></span></div>
@@ -7396,9 +7478,9 @@ def render_pulse_movers(pulse, dateline):
       pump 300% on a few thousand dollars of volume, exactly the shill we exist to strip out.
       Limiting to the top 100 keeps every mover here a coin with real money behind it.</p></div>
     <div class="learn"><span class="lab">Check the news before you believe it</span>
-      <p>A big move WITH a verified story behind it is information. A big move with no story
-      is usually noise, or worse, someone's exit. Cross-check the <a href="/index.html">front
-      page</a>: if a mover matters, the desk will have covered why.</p></div>
+      <p>A big move WITH a verified story behind it is information. Cross-check the
+      <a href="/index.html">front page</a> and the coin's own page for what outlets reported;
+      this list says what moved, not why.</p></div>
     <div class="learn"><span class="lab">What this page is not</span>
       <p>Yesterday's winner is not a prediction about tomorrow, and chasing a move that
       already happened is how crowds get hurt. This board is a snapshot of where the action
@@ -7710,6 +7792,15 @@ def render_coin_chart(c, name, cid, spark):
     import coinpage as _cp
     up = _cp.window_dir(spark)
     chg = _cp.window_pct(spark)
+    # ONE SEVEN-DAY FIGURE PER PAGE (Sprint 9.1, AUDIT.md 1.3 item 3). The readings tile
+    # prints /coins/markets' rolling 7 days; the chart used to print its own series' first
+    # to last (-1.05% beside the tile's +0.08%, and a different figure on each load). On the
+    # 7-day window the chart's header IS the tile's figure; the other windows print their own
+    # series and say which window it is.
+    _c7 = c.get("chg_7d_pct")
+    if isinstance(_c7, (int, float)):
+        chg = float(_c7)
+        up = "flat" if round(chg, 2) == 0 else ("up" if chg > 0 else "down")
     tabs = "".join(
         f'<button type="button" role="tab" class="cc-tab" data-range="{k}" '
         f'aria-selected="{"true" if k == "7d" else "false"}">{lab}</button>'
@@ -7732,10 +7823,12 @@ def render_coin_chart(c, name, cid, spark):
     if spark:
         fallback = spark_svg(spark, w=980, h=150)
         if _w7:
-            note += (f' 7D high {esc(_price_fmt(_w7[1]))}, 7D low {esc(_price_fmt(_w7[0]))}. ')
+            note += (f' 7D high close {esc(_price_fmt(_w7[1]))}, 7D low close {esc(_price_fmt(_w7[0]))}. ')
         note += '<span class="cn-stamp">from the last build</span>'
-    chg_html = (f'<p class="cc-chg" data-dir="{up}">{esc(_cp.signed_pct(chg))} over 7 days</p>'
+    chg_html = (f'<p class="cc-chg" data-dir="{up}">{esc(_cp.signed_pct(chg))} over the last 7 days</p>'
                 if chg is not None else '<p class="cc-chg" data-dir="flat"></p>')
+    if isinstance(_c7, (int, float)):
+        _figs += f' data-chg7="{float(_c7):.2f}"'
     return (f'<section class="cc" data-coin-chart data-coin-id="{esc(cid)}" data-range="7d"{_figs} '
             f'aria-label="{esc(name)} price chart">'
             f'<div class="cc-head"><div class="cc-tabs" role="tablist" aria-label="Chart window" hidden>'
@@ -7967,8 +8060,11 @@ def coins_mini_board():
 
 
 def render_pulse_prices(pulse, dateline):
-    desc = ("Live prices, 7-day trend, 24-hour change, and market cap for the top 100 "
-            "cryptocurrencies by market cap. Sortable, updated in your browser.")
+    # SPRINT 9.1 (AUDIT.md 1.3 item 5): the page makes no fetch. Its prices are the Board's last
+    # read, stamped on the page, so the description does not say "live" or "updated in your
+    # browser" for numbers that are neither.
+    desc = ("Price, 24-hour change, 7-day line and market cap for the top 100 "
+            "cryptocurrencies by market cap, as of the Board's last read. Sortable.")
     movers = (pulse or {}).get("movers") or {}
     coins = movers.get("top100") or []
     if not coins:
@@ -7993,7 +8089,7 @@ def render_pulse_prices(pulse, dateline):
   <p class="lede">Every coin in the top 100 by market cap: price, 24-hour change and the
      seven-day line. {esc(fmt_usd(total_mcap))} of market tracked. Type to find a coin;
      click a column header to sort.</p>
-  <p class="live-stamp">{esc(_snap_asof(pulse))}</p>
+  <p class="live-stamp"{_asof_of(pulse)}>{esc(_snap_asof(pulse))}</p>
   <div class="coin-search" role="search">
     <label class="sr-only" for="coin-q">Search the Top 100 by name or ticker</label>
     <input id="coin-q" type="search" data-coin-search placeholder="Search name or ticker"

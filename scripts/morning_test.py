@@ -84,7 +84,7 @@ def main():
                       ("2026-11-03T17:00:00", "tonight at 6:08 PM ET")):      # after the EST change
         got = h.next_brief(None, dt.datetime.fromisoformat(iso).replace(tzinfo=dt.timezone.utc))
         check(got.endswith(want), fails, f"{iso}Z reads {got!r}")
-    print("D. Moving the market is stamped with its ranking time")
+    print("D. What was reported is stamped with its ranking time")
     w = h.wire_top(wire, "", NOW)
     check("Ranked" in w and (wire.get("ranked_et") or "?") in w, fails,
           f"the wire block prints 'Ranked {wire.get('ranked_et')}'")

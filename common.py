@@ -449,3 +449,15 @@ def whale_archive_transactions(window_hours, archive_url=WHALE_ARCHIVE_URL,
             if done or total > max_decompressed_bytes:
                 break
     return txns
+
+
+def hours_phrase(n):
+    """'1 hour', '2 hours', '3 days': a window in words, singular when it is one (Sprint 9.1: the
+    liquidation window printed "last 1 hours")."""
+    try:
+        n = int(n)
+    except (TypeError, ValueError):
+        return "an unknown window"
+    if n >= 48 and n % 24 == 0:
+        return f"{n // 24} days"
+    return f"{n} hour" if n == 1 else f"{n} hours"

@@ -25,10 +25,7 @@
   "price": 2438.51,
   "chg": 0.96
  },
- "cap": {
-  "usd": 2777248493208,
-  "chg": -2.13
- },
+ "cap": null,
  "gainers": [
   {
    "symbol": "STRK",
@@ -121,18 +118,6 @@
      "url": "https://decrypt.co/381079/russia-ban-peer-to-peer-bitcoin-trading"
     }
    ]
-  },
-  {
-   "line": "Hot US producer-price data triggered nearly $940 million in crypto liquidations as Fed rate-hike bets spiked to 50%.",
-   "time": "12:25 AM ET",
-   "source_count": 1,
-   "primary": false,
-   "links": [
-    {
-     "outlet": "CoinDesk",
-     "url": "https://www.coindesk.com/markets/2026/10/15/nearly-usd1-billion-in-crypto-bets-liquidated-as-bitcoin-ether-and-xrp-slide"
-    }
-   ]
   }
  ],
  "board": [
@@ -176,5 +161,14 @@
   }
  ],
  "next": "Next update: Morning read, tomorrow at 8:15 AM ET",
- "corrections": []
+ "corrections": [
+  {
+   "date": "October 16, 2026",
+   "text": "A wire line on this page, \"Hot US producer-price data triggered nearly $940 million in crypto liquidations as Fed rate-hike bets spiked to 50%\", named a cause and two figures that its linked CoinDesk report does not carry. That report gives nearly $483 million in Bitcoin and Ether futures liquidations over 24 hours and says uncertainty about the Federal Reserve's next interest-rate decision weighed on the market. The line has been removed."
+  },
+  {
+   "date": "October 16, 2026",
+   "text": "The whole-market 24-hour change this page showed (down 2.13%) contradicted Bitcoin (up 0.80%) and Ether (up 0.96%), which moved the other way. The desk could not reconcile it with the Top 100 and has removed it."
+  }
+ ]
 }

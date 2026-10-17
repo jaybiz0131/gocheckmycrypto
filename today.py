@@ -27,6 +27,8 @@ import os
 import re
 import sys
 
+import common
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 DIR = os.path.join(HERE, "site", "data", "today")
 
@@ -102,8 +104,10 @@ def _word(v):
 def movers(pulse):
     """The Top 100's three biggest gainers and losers by 24 hours: only a coin that moved the
     way its list says (a gainer is above zero, a loser below it)."""
+    import snapshot as _snapshot
     rows = [c for c in (((pulse or {}).get("movers") or {}).get("top100") or [])
-            if isinstance(c.get("chg_24h_pct"), (int, float))]
+            if isinstance(c.get("chg_24h_pct"), (int, float)) and isinstance(c.get("rank"), int)
+            and c["rank"] <= _snapshot.MOVER_RANK_MAX and not _snapshot.is_stablecoin(c)]
     gain = sorted((c for c in rows if c["chg_24h_pct"] > 0), key=lambda c: -c["chg_24h_pct"])[:3]
     lose = sorted((c for c in rows if c["chg_24h_pct"] < 0), key=lambda c: c["chg_24h_pct"])[:3]
     import site_build as sb
@@ -119,7 +123,19 @@ def template_sentences(d, dirn, btc, eth, cap, gain, lose):
     import site_build as sb
     when = f"{d.strftime('%A, %B')} {d.day}"
     c = btc["chg"]
-    if dirn == "flat":
+    cd = btc.get("chg_day")
+    if cd is not None:
+        # THE DAY IS THE ET DAY (Sprint 9.1): the headline direction is the move since midnight
+        # Eastern, and the rolling 24 hours follows in its own sentence with its own window
+        if dirn == "flat":
+            s = [f"On {when}, Bitcoin was flat since midnight ET, at {home._whole(btc['price'])}, "
+                 f"a change of {cd:+.2f}%."]
+        else:
+            s = [f"On {when}, Bitcoin was {_word(cd)} {_pct(cd)} since midnight ET, to "
+                 f"{home._whole(btc['price'])}."]
+        if isinstance(c, (int, float)):
+            s.append(f"Over the last 24 hours it was {_word(c)} {_pct(c)}.")
+    elif dirn == "flat":
         s = [f"On {when}, Bitcoin was flat over the last 24 hours, at {home._whole(btc['price'])}, "
              f"a change of {c:+.2f}%."]
     else:
@@ -201,7 +217,7 @@ def board_rows(snap, pulse):
     if isinstance(liq, dict) and isinstance(liq.get("longs_usd"), (int, float)):
         rows.append({"key": "liq", "label": "Bitcoin liquidations", "longs": liq["longs_usd"],
                      "shorts": liq.get("shorts_usd") or 0,
-                     "window": f"last {liq.get('window_hours', 2)} hours", "source": "OKX",
+                     "window": "last " + common.hours_phrase(liq.get('window_hours', 2)), "source": "OKX",
                      "stamp": st, "directional": False})
     f = ((_s.value(snap, "funding") or {}).get("BTC") or {})
     if isinstance(f.get("funding_8h_pct"), (int, float)):
@@ -295,13 +311,27 @@ def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None):
         # the desk is the only text it may name, and it never claims a read that did not run.
         if not (ed and _et(ed.get("published_utc"))):
             return None
-        slot, src, fallback = "morning", ed, True
+        # THE SLOT IS THE READ'S, AND A PAGE WITH NO READ TAKES THE CLOCK'S (Sprint 9.1, 8.3 item 5).
+        # The 7:15 PM run of 15 October found no Edition, composed a numbers-only page and filed it
+        # as the MORNING record: a morning that no morning read wrote, frozen. A fallback page is
+        # filed under the slot the clock is in, flagged fallback, and a real read replaces it.
+        slot = "evening" if now.astimezone(ET) >= _evening_et(now) else "morning"
+        src, fallback = ed, True
     btc = dict(_s.coin(snap, "BTC") or {})
     btc_chg = btc.get("chg_24h_pct")
-    dirn = direction(btc_chg)
+    d = now.astimezone(ET).date()
+    # THE DIRECTION IS THE ET DAY'S (Sprint 9.1, AUDIT.md 1.1): the move since midnight Eastern,
+    # not Bitcoin's rolling 24 hours at the hour the page happened to be written. A snapshot
+    # whose midnight open belongs to another ET day (a carried-forward read) does not count; the
+    # page then falls back to the rolling 24 hours and says so in `direction_basis`.
+    chg_day = btc.get("chg_et_day_pct") if (
+        isinstance(btc.get("chg_et_day_pct"), (int, float))
+        and btc.get("open_et_day") == d.isoformat()) else None
+    basis = "et_day" if chg_day is not None else "rolling_24h"
+    dirn = direction(chg_day if chg_day is not None else btc_chg)
     if dirn is None or not isinstance(btc.get("price"), (int, float)):
         return None
-    btc = {"price": btc["price"], "chg": btc_chg}
+    btc = {"price": btc["price"], "chg": btc_chg, "chg_day": chg_day}
     e = _s.coin(snap, "ETH") or {}
     eth = ({"price": e.get("price"), "chg": e.get("chg_24h_pct")}
            if isinstance(e.get("chg_24h_pct"), (int, float)) else None)
@@ -310,9 +340,10 @@ def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None):
            if isinstance(c.get("usd"), (int, float)) and isinstance(c.get("chg_24h_pct"), (int, float))
            else None)
     gain, lose = movers(pulse)
-    d = now.astimezone(ET).date()
     title, h1 = heading(dirn, d)
-    lifted = None if fallback else liftable(
+    # a read written about the rolling 24 hours is lifted only when that window points the way the
+    # ET day does; when they disagree the template states both, each with its own window
+    lifted = None if (fallback or direction(btc_chg) != dirn) else liftable(
         " ".join(src.get("sentences") or []) if slot == "morning"
         else (src.get("bottom_line") or src.get("dek") or ""), dirn, gate)
     if lifted:
@@ -328,7 +359,8 @@ def compose(snap, pulse, wire, ed, morning, now, gate, first_utc=None):
     stamp_utc = (now.astimezone(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ") if fallback
                  else src.get("published_utc"))
     return {"date_et": d.isoformat(), "slot": slot, "published_utc": stamp_utc,
-            "first_utc": first_utc or stamp_utc, "direction": dirn, "title": title, "h1": h1,
+            "first_utc": first_utc or stamp_utc, "direction": dirn, "direction_basis": basis,
+            "title": title, "h1": h1,
             "stamp_label": stamp,
             "composed_utc": now.astimezone(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "board_stamp_et": (snap or {}).get("stamp_et") or "",
@@ -391,10 +423,10 @@ def _chg(v):
     return home.change_html(v, "chg")
 
 
-def _core(label, price_html, chg):
+def _core(label, price_html, chg, window="24 hours"):
     return (f'<li class="td-row"><span class="td-n">{_e(label)}</span>'
             f'<span class="td-p">{price_html}</span>{_chg(chg)}'
-            f'<span class="td-w">24 hours</span></li>')
+            f'<span class="td-w">{_e(window)}</span></li>')
 
 
 def _board_html(r):
@@ -441,7 +473,12 @@ def body_html(rec, archive_dates, here=None):
     import site_build as sb
     import home
     btc, eth, cap = rec["btc"], rec.get("eth"), rec.get("cap")
-    core = [_core("Bitcoin", _e(home._whole(btc["price"])), btc["chg"])]
+    if btc.get("chg_day") is not None:
+        core = [_core("Bitcoin", _e(home._whole(btc["price"])), btc["chg_day"], "since midnight ET")]
+        if isinstance(btc.get("chg"), (int, float)):
+            core.append(_core("Bitcoin", "", btc["chg"], "last 24 hours"))
+    else:
+        core = [_core("Bitcoin", _e(home._whole(btc["price"])), btc["chg"])]
     if eth:
         core.append(_core("Ether", _e(home._whole(eth["price"])) if eth.get("price") else "", eth["chg"]))
     if cap:
@@ -551,8 +588,15 @@ def main():
             return 0
         have = os.path.join(DIR, f"{rec['date_et']}-{rec['slot']}.json")
         if os.path.exists(have):
-            print(f"today: {os.path.basename(have)} already stored; a stored record is frozen")
-            return 0
+            try:
+                was_fallback = bool(json.load(open(have, encoding="utf-8")).get("fallback"))
+            except (OSError, ValueError):
+                was_fallback = False
+            # a numbers-only page is a stand-in: the slot's own read replaces it, once
+            if not (was_fallback and not rec.get("fallback")):
+                print(f"today: {os.path.basename(have)} already stored; a stored record is frozen")
+                return 0
+            print(f"today: {os.path.basename(have)} was a numbers-only stand-in; the slot's own read replaces it")
         print(f"today: wrote {write_record(rec)} ({rec['direction']}, {rec['answer_by']})")
     except Exception as e:                           # never a gate on a slot
         print(f"::warning::today: no record written ({type(e).__name__}: {e})")

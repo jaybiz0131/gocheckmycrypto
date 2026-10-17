@@ -386,6 +386,34 @@ def week_closes(points, last_updated, now=None, stored=None):
             "low7d": px(min(pts)), "high7d": px(max(pts))}
 
 
+def et_open(points, last_updated):
+    """THE ET DAY'S OPEN (Sprint 9.1, AUDIT.md 1.1). The price at the most recent midnight
+    Eastern, from the same hourly sparkline week_closes reads (each point timed back one hour
+    from `last_updated`): the last point at or before 00:00 ET. {"open_et": price,
+    "open_et_day": "YYYY-MM-DD"} for that ET day, or {} when the sparkline does not reach it.
+    /today/'s direction is the move since this price, not Bitcoin's rolling 24 hours."""
+    from zoneinfo import ZoneInfo
+    et = ZoneInfo("America/New_York")
+    pts = [p for p in (points or []) if isinstance(p, (int, float))]
+    try:
+        end = datetime.strptime(str(last_updated)[:19], "%Y-%m-%dT%H:%M:%S").replace(
+            tzinfo=timezone.utc)
+    except ValueError:
+        return {}
+    n = len(pts)
+    if n < 24:
+        return {}
+    local = end.astimezone(et)
+    midnight = local.replace(hour=0, minute=0, second=0, microsecond=0)
+    t0 = end.timestamp() - (n - 1) * 3600           # the first point's time
+    i = int((midnight.timestamp() - t0) // 3600)    # the last point at or before midnight
+    if i < 0 or i >= n:
+        return {}
+    v = pts[i]
+    return {"open_et": round(v, 2) if v >= 1 else float(f"{v:.6g}"),
+            "open_et_day": midnight.date().isoformat()}
+
+
 def section_movers(top_n=5, universe=100, fetch=160):
     """One call, two boards: the full top-100 price table (with 7-day sparklines) and the
     top gainers/losers derived from it, so micro-cap pump coins never make either board.
@@ -444,6 +472,7 @@ def section_movers(top_n=5, universe=100, fetch=160):
             out["spark7d"] = downsample(pts, 28) if len(pts) >= 2 else []
             out.update(week_closes(pts, c.get("last_updated"), now=_read_at,
                                    stored=stored_closes(c.get("id"))))
+            out.update(et_open(pts, c.get("last_updated")))
         if (c.get("id") or "") in stable_ids:
             out["stablecoin"] = True
         return out
@@ -561,7 +590,10 @@ def section_market():
     g = get_json("https://api.coingecko.com/api/v3/global")["data"]
     return {
         "total_mcap_usd": round((g.get("total_market_cap") or {}).get("usd", 0)),
-        "mcap_change_24h_pct": round(g.get("market_cap_change_percentage_24h_usd") or 0, 2),
+        # a missing field is missing, not 0.00% (Sprint 9.1: the fake-zero class)
+        "mcap_change_24h_pct": (round(g["market_cap_change_percentage_24h_usd"], 2)
+                                if isinstance(g.get("market_cap_change_percentage_24h_usd"),
+                                              (int, float)) else None),
         "btc_dominance_pct": round((g.get("market_cap_percentage") or {}).get("btc", 0), 1),
     }
 

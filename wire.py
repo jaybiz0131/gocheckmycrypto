@@ -82,6 +82,131 @@ def cluster_titles(cluster):
     return out
 
 
+# ---- the source check on every wire line (Sprint 9.1, AUDIT.md 1.3 item 8) ----------------------
+#
+# The twins gate reads a wire line against the SNAPSHOT; nothing read it against the sources it
+# cites. On 15 October the line "Hot US producer-price data triggered nearly $940 million in
+# crypto liquidations as Fed rate-hike bets spiked to 50%" stood on one CoinDesk report that
+# gives $483 million and "uncertainty about the Federal Reserve's next interest-rate decision",
+# and carries neither the cause, nor $940 million, nor 50%. CLAUDE.md P6 names the cheapest
+# check (a figure the source does not carry is smuggled); this is P6 applied to the wire, plus
+# the cause: a clause whose figure, or whose named cause, its linked sources do not carry is cut.
+# The part is not the whole: a later clause is cut and the line stands; a line whose first
+# clause fails has no subject left and the item is out. Logged, never silent, no model call.
+
+CAUSE_WORDS = re.compile(
+    r"\b(?:triggered|triggers?|triggering|sparked|sparks?|sparking|prompted|spurred|fuell?ed|"
+    r"caused|causes?|drove|driven|because|due to|owing to|thanks to|as a result of|"
+    r"in response to|on the back of|led to|forced)\b", re.I)
+_CLAUSE_SPLIT = re.compile(r"(?:,\s+|;\s+|\s+(?:as|while|after|amid|with|despite|following)\s+)", re.I)
+_MAG = {"trillion": 1e12, "billion": 1e9, "bn": 1e9, "b": 1e9, "million": 1e6, "m": 1e6,
+        "thousand": 1e3, "k": 1e3}
+_NUM_RE = re.compile(r"(\$)?\s?(\d[\d,]*(?:\.\d+)?)\s*(%|percent|trillion|billion|million|thousand|bn|m|k|b)?(?![a-z])",
+                     re.I)
+_MONTHS = r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?"
+_STOP = set("that this with from have been were will would their there which about after before "
+            "over under into than then them they such other more most also only some what when "
+            "while where whose being data".split())
+MIN_SOURCE_CHARS = 300        # under this the sources were not read; the check cannot speak
+
+
+def _numbers(text, with_kind=True):
+    """[(value, kind)] for each number in `text`: kind is 'pct', 'usd' (a $ or a magnitude
+    word), or 'n' (a bare number). A month's day number and a bare year carry no claim."""
+    out = []
+    for m in _NUM_RE.finditer(text or ""):
+        dollar, raw, unit = m.group(1), m.group(2), (m.group(3) or "").lower()
+        try:
+            v = float(raw.replace(",", ""))
+        except ValueError:
+            continue
+        before = (text[max(0, m.start() - 8):m.start()]).lower()
+        if re.search(_MONTHS + r"\s*$", before) and not dollar and not unit:
+            continue                                   # "Oct. 21": a date, not a figure
+        if unit in ("%", "percent"):
+            out.append((v, "pct"))
+        elif dollar or unit in _MAG:
+            out.append((v * _MAG.get(unit, 1.0), "usd"))
+        elif "," not in raw and "." not in raw and 1900 <= v <= 2100:
+            continue                                   # a year
+        else:
+            out.append((v, "n"))
+    return out
+
+
+def _significant(num):
+    v, kind = num
+    return kind in ("pct", "usd") or v >= 100
+
+
+def _fig(num):
+    v, kind = num
+    if kind == "pct":
+        return f"{v:g}%"
+    if kind == "usd":
+        for mag, word in ((1e12, "trillion"), (1e9, "billion"), (1e6, "million"), (1e3, "thousand")):
+            if v >= mag:
+                return f"${v / mag:g} {word}"
+        return f"${v:g}"
+    return f"{v:g}"
+
+
+def _carried(num, source_nums):
+    v, kind = num
+    for sv, sk in source_nums:
+        if sk != kind:
+            continue
+        if abs(sv - v) <= max(1e-9, abs(v) * 0.005):
+            return True
+    return False
+
+
+def _words(text):
+    return {w[:6] for w in re.findall(r"[a-z]{4,}", (text or "").lower()) if w not in _STOP}
+
+
+def source_check(line, texts, min_chars=MIN_SOURCE_CHARS):
+    """(kept_line, cuts). `cuts` is [{"clause", "why"}] for every clause the sources do not
+    support; kept_line is "" when the first clause (the subject) is cut or nothing stands.
+    With under `min_chars` of source text the sources were not read: (line, []) and the caller
+    logs that it could not check."""
+    blob = " ".join(t for t in texts or [] if t)
+    if len(blob) < min_chars:
+        return line, []
+    src_nums, src_words = _numbers(blob), _words(blob)
+    body = line.strip().rstrip(".")
+    parts, last = [], 0
+    for m in _CLAUSE_SPLIT.finditer(body):
+        parts.append((body[last:m.start()], body[m.start():m.end()]))
+        last = m.end()
+    parts.append((body[last:], ""))
+    cuts, kept = [], []
+    for i, (clause, sep) in enumerate(parts):
+        why = ""
+        for num in _numbers(clause):
+            if _significant(num) and not _carried(num, src_nums):
+                why = f"its sources do not carry the figure {_fig(num)}"
+                break
+        if not why:
+            cm = CAUSE_WORDS.search(clause)
+            if cm:
+                cause_words = _words(clause[:cm.start()])
+                missing = sorted(w for w in cause_words if len(w) >= 6 and w not in src_words)
+                if missing:
+                    why = f"its sources do not carry the cause it names ({missing[0]})"
+        if why:
+            cuts.append({"clause": clause.strip(), "why": why})
+            if i == 0:
+                return "", cuts
+            continue
+        kept.append((clause, parts[i - 1][1] if i else ""))
+    out = "".join((sep if j else "") + cl for j, (cl, sep) in enumerate(kept)).strip()
+    # separators join with the clause that follows them; the first clause carries none
+    if not out or len(out.split()) < 5:
+        return "", cuts
+    return (out + ".") if cuts else line, cuts
+
+
 def board_reading(text):
     """The Board reading a story touches, from the first tag rule it matches that has one."""
     try:
@@ -128,7 +253,7 @@ def build(editor_obj, items_obj, verifier_obj, snap, run_utc, gate=None, log=pri
     gate = gate or twins_gate.Gate(snap)
     clusters = {c.get("id"): c for c in (items_obj or {}).get("clusters") or []}
     verdicts = {v.get("id"): v for v in (verifier_obj or {}).get("verdicts") or []}
-    wire, dropped = [], []
+    wire, dropped, source_cuts = [], [], []
     for rank, r in enumerate((editor_obj or {}).get("ranked") or [], 1):
         c = clusters.get(r.get("id")) or {}
         titles = cluster_titles(c) + [r.get("headline") or ""]
@@ -143,6 +268,21 @@ def build(editor_obj, items_obj, verifier_obj, snap, run_utc, gate=None, log=pri
         else:
             from site_build import destyle
             line = destyle(line)
+            # SPRINT 9.1: the line against the sources it cites. A clause whose figure or named
+            # cause none of them carries is cut and logged; a line with no subject left is out.
+            texts = ([c.get("headline"), c.get("snippet"), c.get("feed_text")]
+                     + [x.get("headline") for x in c.get("corroboration") or []]
+                     + [x.get("snippet") for x in c.get("corroboration") or []])
+            checked, cuts = source_check(line, texts)
+            for cut in cuts:
+                log(f"wire: #{rank} {r.get('id')} source check cut a clause: {cut['why']}: "
+                    f"\"{cut['clause'][:120]}\"")
+                source_cuts.append({"rank": rank, "id": r.get("id"), **cut})
+            if not checked:
+                why = "the source check left no clause its sources support"
+            else:
+                line = checked
+        if not why:
             kept = gate.text(line, f"wire line #{rank}")
             if kept.strip() != line.strip():
                 why = "the twins gate dropped the line"
@@ -177,7 +317,7 @@ def build(editor_obj, items_obj, verifier_obj, snap, run_utc, gate=None, log=pri
             "refreshed_utc": run_utc, "refreshed_et": _et(run_utc),
             "refreshes": 0,
             "snapshot_stamp_utc": (snap or {}).get("stamp_utc", ""),
-            "items": wire, "checked": note, "dropped": dropped}
+            "items": wire, "checked": note, "dropped": dropped, "source_cuts": source_cuts}
 
 
 def checked_note(wire, verdicts, gate, log=print):

@@ -49,7 +49,7 @@
      the 24-hour figure. */
   function snapNum(a) { var v = parseFloat(wrap.getAttribute(a)); return isFinite(v) ? v : null; }
   var SNAPF = { '1d': { lo: snapNum('data-lo24'), hi: snapNum('data-hi24'), w: '24h' },
-                '7d': { lo: snapNum('data-lo7'), hi: snapNum('data-hi7'), w: '7D' } };
+                '7d': { lo: snapNum('data-lo7'), hi: snapNum('data-hi7'), w: '7D closing' } };
   function figs(s) {
     var f = SNAPF[s.r];
     if (f) return (f.lo !== null && f.hi !== null) ? f : null;
@@ -172,6 +172,12 @@
     }
     s.dir = dir(s.y[0], s.y[s.n - 1]);
     s.chg = (s.y[s.n - 1] - s.y[0]) / Math.abs(s.y[0]) * 100;
+    /* ONE SEVEN-DAY FIGURE PER PAGE (Sprint 9.1): on 7D the printed change is the readings tile's
+       rolling 7-day figure, which the build wrote on this element, so it does not change between
+       loads; the line takes that figure's sign (color truth: a figure and its color are one).
+       Every other window prints its own series and names its window. */
+    var c7 = parseFloat(wrap.getAttribute('data-chg7'));
+    if (r === '7d' && isFinite(c7)) { s.chg = c7; s.dir = c7 > 0 ? 'up' : c7 < 0 ? 'down' : 'flat'; }
     return s;
   }
 
@@ -343,7 +349,7 @@
 
   function setChg(s) {
     if (!chgEl) return;
-    chgEl.textContent = pct(s.chg) + ' over ' + RANGES[s.r].label;
+    chgEl.textContent = pct(s.chg) + ' over ' + ({ '1d': 'the last 24 hours', '7d': 'the last 7 days', '1m': 'the last month', '1y': 'the last year' }[s.r]);
     chgEl.setAttribute('data-dir', s.dir);
   }
   /* where each average really starts, under the 1Y chart only, and only when it starts after the window's first day */

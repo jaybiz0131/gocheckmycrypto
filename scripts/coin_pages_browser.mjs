@@ -130,13 +130,17 @@ try {
         });
       }
     } catch (e) { seen.error = String(e).slice(0, 120); }
-    const exp = { "1d": "up", "7d": "down", "1m": "down", "1y": "up" };
+    // SPRINT 9.1: on 7D the printed change is the readings tile's rolling figure (data-chg7), so the
+    // 7D window's expected direction is that figure's sign, whatever the recorded series draws
+    const c7 = await page.evaluate(() => parseFloat(document.querySelector("[data-coin-chart]").getAttribute("data-chg7")));
+    const exp = { "1d": "up", "7d": isFinite(c7) ? (c7 > 0 ? "up" : "down") : "down", "1m": "down", "1y": "up" };
     const bad = Object.entries(exp).filter(([r, d]) => !seen[r] || seen[r].dir !== d || seen[r].chgDir !== d
       || !(seen[r].cls || "").includes(d)
       || (d === "down" ? !/^[-−]/.test(seen[r].chg || "") : !/^\+/.test(seen[r].chg || "")));
     check("chart-own-window: line and printed change take the window's own direction, recolored per tab",
       !bad.length, JSON.stringify(seen).slice(0, 400));
-    const strokes = new Set(["1d", "7d"].map(r => seen[r]?.stroke));
+    const pair = exp["7d"] !== exp["1d"] ? ["1d", "7d"] : ["1d", "1m"];
+    const strokes = new Set(pair.map(r => seen[r]?.stroke));
     check("chart-own-window: the stroke color really differs between an up and a down window", strokes.size === 2, [...strokes].join(" | "));
     await ctx.close();
   }

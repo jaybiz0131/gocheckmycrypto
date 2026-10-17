@@ -11,7 +11,6 @@
  "board_stamp_et": "8:16 AM ET on Oct 16",
  "answer": [
   "On Friday, October 16, Bitcoin was up 1.48% over the last 24 hours, to $82,216.",
-  "The whole market's value was down 0.62% over the same 24 hours, to $2.78T.",
   "Ether was up 4.13% over the same 24 hours.",
   "Among the Top 100, TIA gained 30.60% and CC lost 3.81% over 24 hours."
  ],
@@ -25,10 +24,7 @@
   "price": 2465.02,
   "chg": 4.13
  },
- "cap": {
-  "usd": 2783826930884,
-  "chg": -0.62
- },
+ "cap": null,
  "gainers": [
   {
    "symbol": "TIA",
@@ -111,5 +107,10 @@
   }
  ],
  "next": "Next update: Evening Edition, tonight at 7:08 PM ET",
- "corrections": []
+ "corrections": [
+  {
+   "date": "October 16, 2026",
+   "text": "The whole-market 24-hour change this page showed (down 0.62%) contradicted Bitcoin (up 1.48%) and Ether (up 4.13%), which moved the other way. The desk could not reconcile it with the Top 100 and has removed it."
+  }
+ ]
 }
