@@ -15,3 +15,5 @@ J-4. Prices or Markets first (open since October 11): 9.5's tab bar is Why it mo
 J-5. The gcm-newsroom Worker's live-price route for 9.7: the builder writes it and the report prints the deploy line; you deploy it and give the session the URL. Until then the site keeps today's price path.
 
 ## Answered
+
+The beacon (J-1 of the paste 1 list, carried in the board as one of "the four earlier open rulings"): October 12, 3:29 PM: the beacon stays on every page.
