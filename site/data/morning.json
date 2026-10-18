@@ -1,17 +1,18 @@
 {
- "date_et": "2026-10-16",
+ "date_et": "2026-10-18",
  "slot": "morning",
- "published_utc": "2026-10-16T12:18:33Z",
- "published_et": "8:18 AM ET on Oct 16",
- "headline": "Bitcoin higher as spot ETFs draw inflows; regulators tighten crypto rules",
+ "published_utc": "2026-10-18T12:18:06Z",
+ "published_et": "8:18 AM ET on Oct 18",
+ "headline": "Bitcoin higher as tokenization plans emerge; Turkish arrest rocks Hex",
  "headline_by": "model",
  "sentences": [
-  "Bitcoin traded higher over the past 24 hours as spot Bitcoin ETFs took in $5.1M on October 15, with the Fear & Greed index at 63 and funding on Bitcoin perpetual futures remaining calm.",
-  "The wire reports the Brooklyn DA and FBI dismantled a Russian-language crypto scam network, seizing 112 servers and shutting 241 domains after victims lost tens of millions, while EU banking authorities classified Circle's USDC as a significant e-money token under MiCA, activating supervisory rules on November 12."
+  "The wire carries word of the DTCC planning a 25-security tokenization rollout on Canton and Besu, with tokens backed 1:1 by DTC-held securities and Stellar, Circle's Arc anticipated in 2027.",
+  "The Board shows Bitcoin higher over the past 24 hours, spot Bitcoin ETFs saw net outflows of $82.4M on October 16, the Fear & Greed index reads 53 neutral, and funding on Bitcoin perpetual futures is calm.",
+  "Turkish police arrested Hex founder Richard Heart and seized $7.15 million in cash and six cold wallets across 15 addresses, while France's National Assembly passed a budget amendment to end tax deferral for crypto-to-stablecoin swaps effective January 1."
  ],
- "line": "Spot inflows support Bitcoin as enforcement actions and regulatory classification reshape the crypto landscape across jurisdictions.",
+ "line": "Institutional tokenization moves forward as regulatory pressure tightens in Europe and law enforcement makes a high-profile arrest in Turkey.",
  "line_by": "edition",
- "tokens": 1074,
- "usd": 0.0019,
+ "tokens": 1016,
+ "usd": 0.002,
  "generated_by": "morning.py (one model call; copy law and twins gate)"
 }

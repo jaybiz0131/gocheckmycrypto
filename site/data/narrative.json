@@ -1,27 +1,27 @@
 {
- "line": "Bitcoin is holding flat while spot ETFs saw outflows; the news is mixed.",
- "by": "table",
- "written_utc": "2026-10-17T23:15:04Z",
- "written_et": "7:15 PM ET on Oct 17",
+ "line": "Institutional tokenization moves forward as regulatory pressure tightens in Europe and law enforcement makes a high-profile arrest in Turkey.",
+ "by": "edition",
+ "written_utc": "2026-10-18T12:18:06Z",
+ "written_et": "8:18 AM ET on Oct 18",
  "readings": {
-  "stamp_utc": "2026-10-17T23:13:24Z",
-  "btc_24h_pct": -0.47,
+  "stamp_utc": "2026-10-18T12:16:27Z",
+  "btc_24h_pct": 0.63,
   "etf_net_usd_m": -82.4,
   "etf_date": "16 Oct 2026",
-  "fear_greed": 55,
+  "fear_greed": 53,
   "fear_greed_band": "Neutral",
-  "funding_8h_pct": 0.0053,
+  "funding_8h_pct": 0.0046,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -0.47% on the day, spot ETF net -82.4M USD (Oct 16, 2026), Fear & Greed 55 (neutral), funding +0.0053% per 8h (calm)",
+ "small_line": "Written from Bitcoin +0.63% on the day, spot ETF net -82.4M USD (Oct 16, 2026), Fear & Greed 53 (neutral), funding +0.0046% per 8h (calm)",
  "wire_top3": [
-  {
-   "id": "c007",
-   "line": "Turkish police arrested Hex founder Richard Heart and seized $7.15 million in cash and six cold wallets across 15 addresses."
-  },
   {
    "id": "c071",
    "line": "DTCC plans 25-security tokenization rollout on Canton and Besu, with tokens backed 1:1 by DTC-held securities and Stellar, Circle's Arc anticipated in 2027."
+  },
+  {
+   "id": "c007",
+   "line": "Turkish police arrested Hex founder Richard Heart and seized $7.15 million in cash and six cold wallets across 15 addresses."
   },
   {
    "id": "c066",

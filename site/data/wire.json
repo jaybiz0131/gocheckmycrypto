@@ -3,11 +3,38 @@
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
  "ranked_utc": "2026-10-17T23:13:43Z",
  "ranked_et": "7:13 PM ET on Oct 17",
- "refreshed_utc": "2026-10-17T23:13:43Z",
- "refreshed_et": "7:13 PM ET on Oct 17",
- "refreshes": 0,
+ "refreshed_utc": "2026-10-18T12:18:06Z",
+ "refreshed_et": "8:18 AM ET on Oct 18",
+ "refreshes": 1,
  "snapshot_stamp_utc": "2026-10-17T23:13:24Z",
  "items": [
+  {
+   "rank": 2,
+   "id": "c071",
+   "line": "DTCC plans 25-security tokenization rollout on Canton and Besu, with tokens backed 1:1 by DTC-held securities and Stellar, Circle's Arc anticipated in 2027.",
+   "titles": [
+    "DTCC Outlines 25-Security Tokenization Rollout on Canton and Besu"
+   ],
+   "board_reading": "",
+   "source_count": 2,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/dtcc-outlines-25-security-tokenization-rollout-on-canton-and-besu",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://u.today/stellar-xlm-slated-for-2027-as-dtcc-unlocks-30-trillion-tokenization-market",
+     "outlet": "U.Today",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-17T07:32:11Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
   {
    "rank": 1,
    "id": "c007",
@@ -32,28 +59,6 @@
     }
    ],
    "reported_utc": "2026-10-17T18:14:43Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 2,
-   "id": "c071",
-   "line": "DTCC plans 25-security tokenization rollout on Canton and Besu, with tokens backed 1:1 by DTC-held securities and Stellar, Circle's Arc anticipated in 2027.",
-   "titles": [
-    "DTCC Outlines 25-Security Tokenization Rollout on Canton and Besu"
-   ],
-   "board_reading": "",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://thedefiant.io/converge/tradfi-and-fintech/dtcc-outlines-25-security-tokenization-rollout-on-canton-and-besu",
-     "outlet": "The Defiant",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-17T07:32:11Z",
    "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   },
