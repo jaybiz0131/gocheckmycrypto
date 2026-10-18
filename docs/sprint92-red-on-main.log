@@ -1,0 +1,13 @@
+main 2d54bdf, scripts/sprint92_test.py and fixtures/why copied in; shell date: Sun Oct 18 12:54:32 EDT 2026
+  FAIL group 1 (series) could not run [ModuleNotFoundError: No module named 'why_evidence']
+2. the candidates: event time, first-report time, primary flag, commentary marked secondary
+  FAIL group 2 (candidates) could not run [ModuleNotFoundError: No module named 'why_evidence']
+  FAIL group 3 (timing test) could not run [ModuleNotFoundError: No module named 'why_evidence']
+  FAIL group 4 (mechanics) could not run [ModuleNotFoundError: No module named 'why_evidence']
+  FAIL group 5 (chart) could not run [ModuleNotFoundError: No module named 'why_evidence']
+  FAIL group 6 (pages) could not run [ModuleNotFoundError: No module named 'why_evidence']
+7. no model call; wired into the run path like the daily answer
+  FAIL group 7 (wiring) could not run [FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/wt-main/why_evidence.py']
+
+SPRINT 9.2: FAIL (7)
+exit 1

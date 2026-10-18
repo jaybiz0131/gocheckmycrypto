@@ -7841,7 +7841,26 @@ def render_coin_chart(c, name, cid, spark):
             f'<p class="pc-note cc-cap" data-coin-cap>{note}</p></section>')
 
 
-def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=None, gate=None):
+def _coin_evidence(sym, pulse, evidence=None):
+    """PROGRAM 9, SPRINT 9.2: (section html, wire source URLs it prints) for Bitcoin and Ether,
+    from the newest stored evidence record (why_evidence.py) when its window ends within 3 hours
+    of the Board reading this page carries. ('', set()) otherwise: the page as it was."""
+    if sym not in ("BTC", "ETH"):
+        return "", set()
+    try:
+        import why_evidence as _we
+        rec = evidence if evidence is not None else _we.latest()
+        if not _we.from_snapshot_coin(rec, sym, (pulse or {}).get("generated_utc") or ""):
+            return "", set()
+        html = _we.section_html(rec, sym, live=True)
+        return (html, _we.wire_urls_shown(rec)) if html else ("", set())
+    except Exception as e:                       # fail open
+        print(f"::warning::coin page: the evidence for {sym} was not drawn ({type(e).__name__}: {e})")
+        return "", set()
+
+
+def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=None, gate=None,
+                     evidence=None):
     """PROGRAM 7, SPRINT 6.4 (13 October 2026). Under the chart, in this order: the
     readings grid (tile law), the Chart Master's card for the coin (dated), the coin's
     stories (the wire items that name it, newest first, with their sources), the
@@ -7872,6 +7891,13 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     cm_html = _cp.chartmaster_card(
         c, cm, asset, today, esc, fmt_date, destyle=destyle, price_fmt=_price_fmt,
         board_day=_gen.astimezone(_ET).strftime("%Y-%m-%d") if _gen else "")
+
+    # PROGRAM 9, SPRINT 9.2: "What lined up with the move" for Bitcoin and Ether. A wire item it
+    # lists is not listed again in the blocks below it (one fact, printed once).
+    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence)
+    if ev_urls and wire:
+        wire = dict(wire, items=[w for w in (wire.get("items") or [])
+                                 if not ({l.get("url") for l in (w.get("links") or [])} & ev_urls)])
 
     # PROGRAM 8, SPRINT 8.2: the top 20 answer "why did <coin> move today" with the wire items
     # that name it, each with its sources and time, and nothing when none does. The items shown
@@ -7915,6 +7941,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     <span class="bar"></span>{_coin_pin(sym)}</div>
   {chart}
   {tiles_html}
+  {ev_html}
   {why_html}
   {cm_html}
   {stories_html}

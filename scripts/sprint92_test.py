@@ -1,0 +1,408 @@
+#!/usr/bin/env python3
+"""Program 9, Sprint 9.2: the evidence. Each case is named after what it guards.
+
+  python3 scripts/sprint92_test.py          # unit cases; exit 1 on any failure
+  (verify_pipeline.py's canary also calls unit() on the tree)
+
+Fixtures (fixtures/why/, see README.txt there): every answer the evidence's sources gave for the
+24 hours ending at the Board's reading at the 14 and 15 October Editions (2026-10-14T23:43:23Z and
+2026-10-15T23:43:27Z), recorded 18 October by `why_evidence.py --record`; the wire as it stood at
+those Editions (site/data/wire.json at 7d9008b and 94dd6af); the 15 October Edition's pulse and
+flows (94dd6af). Cases marked SYNTHETIC build a small series by hand to reach a rule the two real
+days do not; they are labeled as such (Jack, 13 October 2026). Every case catches its own
+exceptions, so on a tree without why_evidence.py the run prints FAIL lines instead of crashing.
+"""
+import copy
+import json
+import os
+import re
+import sys
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, HERE)
+FX = os.path.join(HERE, "fixtures", "why")
+D14, D15 = "2026-10-14T2343Z", "2026-10-15T2343Z"
+GRADE = re.compile(r"\b(Confirmed|Likely|Disputed|Unclear)\b")
+BECAUSE = re.compile(r"\bbecause\b", re.I)
+
+
+def load(name):
+    return json.load(open(os.path.join(FX, name), encoding="utf-8"))
+
+
+def guarded(fails, msg, fn):
+    try:
+        ok = bool(fn())
+    except Exception as e:                                   # noqa: BLE001
+        ok, msg = False, f"{msg} [{type(e).__name__}: {str(e)[:90]}]"
+    print(("  ok   " if ok else "  FAIL ") + msg)
+    if not ok:
+        fails.append(msg)
+
+
+def group(fails, name, fn):
+    try:
+        fn(fails)
+    except Exception as e:                                   # noqa: BLE001
+        msg = f"group {name} could not run [{type(e).__name__}: {str(e)[:100]}]"
+        print("  FAIL " + msg)
+        fails.append(msg)
+
+
+_CACHE = {}
+
+
+def rec(day):
+    """The evidence record built from the recorded answers, as the run would have built it."""
+    if day not in _CACHE:
+        import why_evidence as we
+        fx = load(f"sources_{day}.json")
+        r = we.build(fx["end_utc"], load(f"wire_{day}.json"), now_utc=fx["recorded_utc"],
+                     fetch=we.Replay(fx["responses"]))
+        r.update(date_et=day[:10], slot="evening")
+        _CACHE[day] = r
+    return copy.deepcopy(_CACHE[day])
+
+
+def cand(r, pat):
+    return next(c for c in r["candidates"] if re.search(pat, c["line"]))
+
+
+def test_of(r, sym, c):
+    return next(t for t in r["coins"][sym]["tests"] if t["id"] == c["id"])["result"]
+
+
+def visible(html):
+    """The words a reader sees: scripts, styles and tags out."""
+    import html as _h
+    html = re.sub(r"<(script|style)\b.*?</\1>", " ", html, flags=re.S | re.I)
+    return _h.unescape(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html)))
+
+
+# ---- 1. the intraday series --------------------------------------------------------------------------
+
+def series_cases(fails):
+    import why_evidence as we
+    print("1. the intraday series: 5-minute prices from a named venue, a second venue beside it")
+    r14 = rec(D14)
+    b = r14["coins"]["BTC"]
+    guarded(fails, "14 Oct: Bitcoin's series is Coinbase's 5-minute candles, 287 closes inside the 24-hour window",
+            lambda: b["series"]["source"] == "Coinbase 5-minute candles" and len(b["series"]["points"]) == 287
+            and b["series"]["points"][0][0] >= 1792021403 - 86400 and b["series"]["points"][-1][0] <= 1792021403)
+    guarded(fails, "14 Oct: OKX is the second read and agrees within 0.1 point (gap 0.03)",
+            lambda: b["second"]["source"] == "OKX 5-minute candles" and b["second"]["gap_pts"] == 0.03)
+    guarded(fails, "a candle's close is stamped at its bar's end: Coinbase's 23:35Z bar closes at 23:40Z, $81,453.58",
+            lambda: [1792021200, 81453.58] in b["series"]["points"])
+    un = {u["name"]: u["why"] for u in r14["unread"]}
+    guarded(fails, "CoinGecko days=1 is not asked for a window that ended days ago, and is named with the reason",
+            lambda: "24 hours before now" in un.get("Bitcoin prices: CoinGecko 5-minute prices", ""))
+    guarded(fails, "Kraken's 5-minute candles cannot reach back to 14 Oct, and are named with the reason",
+            lambda: "720 five-minute candles" in un.get("Bitcoin prices: Kraken 5-minute candles", ""))
+    fx = load(f"sources_{D14}.json")
+    resp = dict(fx["responses"])
+    cb = next(u for u in resp if "coinbase.com/products/BTC-USD" in u)
+    resp[cb] = {"__error__": "HTTP 429"}
+    r = we.build(fx["end_utc"], None, now_utc=fx["recorded_utc"], fetch=we.Replay(resp), coins=("BTC",))
+    guarded(fails, "a venue that answers 429 is left out and named; the next venue (OKX) carries the series",
+            lambda: r["coins"]["BTC"]["series"]["source"] == "OKX 5-minute candles"
+            and any(u["name"].endswith("Coinbase 5-minute candles") and u["why"] == "HTTP 429" for u in r["unread"]))
+    resp2 = {u: v for u, v in resp.items() if "okx.com/api/v5/market" not in u}
+    r = we.build(fx["end_utc"], None, now_utc=fx["recorded_utc"], fetch=we.Replay(resp2), coins=("BTC",))
+    guarded(fails, "no venue answers: no Bitcoin entry at all (never an invented series), every venue named",
+            lambda: "BTC" not in r["coins"] and sum(1 for u in r["unread"] if u["name"].startswith("Bitcoin prices")) == 4)
+
+
+# ---- 2. the candidates, with event and first-report times ------------------------------------------
+
+def candidate_cases(fails):
+    print("2. the candidates: event time, first-report time, primary flag, commentary marked secondary")
+    r14, r15 = rec(D14), rec(D15)
+    cpi = cand(r14, r"^Consumer Price Index")
+    guarded(fails, "14 Oct: CPI from the BLS schedule, event 8:30 AM ET (12:30Z), scheduled, primary",
+            lambda: cpi["event_utc"] == "2026-10-14T12:30:00Z" and cpi["scheduled"] and cpi["primary"]
+            and cpi["event_basis"] == "BLS release schedule")
+    guarded(fails, "14 Oct: the wire's inflation line (12:33:56Z) is CPI's first report, folded in, not listed twice",
+            lambda: cpi["report_utc"] == "2026-10-14T12:33:56Z" and "inflation accelerated to 3.7%" in cpi["report_line"]
+            and not any(c["kind"] == "wire" and "inflation accelerated" in c["line"] for c in r14["candidates"]))
+    guarded(fails, "14 Oct: a wire item keeps its own first-report time and outlets counted (Standard Chartered, 06:12:46Z, 5)",
+            lambda: (lambda c: c["report_utc"] == "2026-10-14T06:12:46Z" and c["source_count"] == 5
+                     and c["event_utc"] is None)(cand(r14, "Standard Chartered")))
+    ppi = cand(r15, r"^Producer Price Index")
+    guarded(fails, "15 Oct: PPI from the BLS schedule, event 8:30 AM ET (12:30Z)",
+            lambda: ppi["event_utc"] == "2026-10-15T12:30:00Z")
+    guarded(fails, "15 Oct: the producer-price wire line stamped 04:25Z, BEFORE the 8:30 AM release, is not taken as its first report",
+            lambda: ppi.get("report_utc") is None and any(c["kind"] == "wire" and c["report_utc"] == "2026-10-15T04:25:15Z"
+                                                          for c in r15["candidates"]))
+    fr = cand(r14, r"Federal Register")
+    guarded(fails, "a source that gives only a day (the Federal Register) carries no invented time; its test cannot run",
+            lambda: fr["event_utc"] is None and test_of(r14, "BTC", fr) is None and fr["event_day"] == "2026-10-13")
+    import why_evidence as we
+    w = {"items": [{"id": "x1", "line": "Bitcoin slid as analysts said rising yields weighed on risk assets.",
+                    "reported_utc": "2026-10-14T15:00:00Z", "source_count": 1, "links": [{"url": "https://e.x/a", "outlet": "E"}]},
+                   {"id": "x2", "line": "SEC approved the first spot Solana ETF.",
+                    "reported_utc": "2026-10-14T15:05:00Z", "source_count": 2, "links": [{"url": "https://e.x/b", "outlet": "E"}]}]}
+    cs = we._wire_candidates(w, 1792021403 - 86400, 1792021403)
+    guarded(fails, "SYNTHETIC wire lines: a cause given only as commentary ('analysts said') is kept and marked secondary",
+            lambda: cs[0]["secondary"] and "commentary" in cs[0]["secondary_why"])
+    guarded(fails, "SYNTHETIC wire lines: a reported event is not marked secondary", lambda: not cs[1]["secondary"])
+
+
+# ---- 3. the timing test on the recorded days -----------------------------------------------------------
+
+def timing_cases(fails):
+    import why_evidence as we
+    print("3. the timing test on the recorded fixtures")
+    r14, r15 = rec(D14), rec(D15)
+    run = r14["coins"]["BTC"]["run"]
+    guarded(fails, "14 Oct: the largest same-direction run is DOWN 3.144%, from $84,011.46 at 4:10 AM ET to $81,369.99 at 6:45 PM ET",
+            lambda: run["dir"] == "down" and run["pct"] == -3.144 and run["start_p"] == 84011.46
+            and we.clock(run["start_t"]) == "4:10 AM ET" and we.clock(run["end_t"]) == "6:45 PM ET"
+            and run["end_p"] == 81369.99)
+    t = test_of(r14, "BTC", cand(r14, r"^Consumer Price Index"))
+    guarded(fails, "14 Oct CPI: it came 260 minutes after the onset, so not before it",
+            lambda: t["lead_min"] == -260.0 and t["before_onset"] is False)
+    guarded(fails, "14 Oct CPI: the next 60 minutes carried 71.2% of the window's fall (Bitcoin -1.45% in that hour)",
+            lambda: t["share_pct"] == 71.2 and t["after_pct"] == -1.45)
+    guarded(fails, "14 Oct CPI: the price had not moved first (8.5% of the run done before 8:30 AM)",
+            lambda: t["done_pct"] == 8.5 and t["moved_first"] is False)
+    t = test_of(r14, "BTC", cand(r14, "Payward"))
+    guarded(fails, "14 Oct Payward/Saldo (13:07:45Z): the price moved first, 50.7% of the run done before the first report",
+            lambda: t["moved_first"] is True and t["done_pct"] == 50.7)
+    t = test_of(r14, "BTC", cand(r14, "Standard Chartered"))
+    guarded(fails, "14 Oct Standard Chartered: 117 minutes before the onset is outside the 60-minute lead",
+            lambda: t["lead_min"] == 117.2 and t["before_onset"] is False)
+    run = r15["coins"]["BTC"]["run"]
+    guarded(fails, "15 Oct: the largest run is UP 3.384%, from $79,790.86 at 9:55 AM ET to $82,491.34 at 6:25 PM ET",
+            lambda: run["dir"] == "up" and run["pct"] == 3.384 and we.clock(run["start_t"]) == "9:55 AM ET"
+            and run["start_p"] == 79790.86 and run["end_p"] == 82491.34)
+    t = test_of(r15, "BTC", cand(r15, r"^Producer Price Index"))
+    guarded(fails, "15 Oct PPI: released 85 minutes before the onset, outside the lead and not at the onset",
+            lambda: t["lead_min"] == 85.0 and t["before_onset"] is False)
+    guarded(fails, "15 Oct PPI: the hour after it ran against the window's rise (Bitcoin -1.04%, share -160.4%)",
+            lambda: t["share_pct"] == -160.4 and t["after_pct"] == -1.04)
+    t = test_of(r15, "BTC", cand(r15, "Russia's Central Bank"))
+    guarded(fails, "15 Oct Russia P2P line (20:31:04Z): the price moved first, 92.7% of the run done",
+            lambda: t["moved_first"] and t["done_pct"] == 92.7)
+    e = r15["coins"]["ETH"]["run"]
+    guarded(fails, "15 Oct Ether: its own run, UP 5.939% from 9:55 AM ET", lambda: e["dir"] == "up" and e["pct"] == 5.939
+            and we.clock(e["start_t"]) == "9:55 AM ET")
+    # SYNTHETIC: a hand-made series, to reach the two "before the onset" branches the real days do not
+    base = 1_800_000_000
+    pts = [(base + i * 300, 100.0) for i in range(24)] + [(base + (24 + i) * 300, 100.0 - (i + 1) * 0.5) for i in range(12)]
+    run = we.onset(pts)
+    guarded(fails, "SYNTHETIC: a flat line then a fall: the onset is the last point before the fall",
+            lambda: run["start_t"] == base + 23 * 300 and run["dir"] == "down")
+    guarded(fails, "SYNTHETIC: an event 30 minutes before the onset comes before it, within the lead",
+            lambda: we.timing(pts, run, run["start_t"] - 1800)["before_onset"] is True)
+    guarded(fails, "SYNTHETIC: an event 61 minutes before does not",
+            lambda: we.timing(pts, run, run["start_t"] - 61 * 60)["before_onset"] is False)
+    guarded(fails, "SYNTHETIC: a scheduled release 5 minutes AFTER the detected onset is at its release time",
+            lambda: we.timing(pts, run, run["start_t"] + 300, scheduled=True)["before_onset"] is True
+            and we.timing(pts, run, run["start_t"] + 300, scheduled=False)["before_onset"] is False)
+    guarded(fails, "SYNTHETIC: the hour after the onset carries the whole fall (share 100%)",
+            lambda: we.timing(pts, run, run["start_t"])["share_pct"] == 100.0)
+
+
+# ---- 4. the mechanics of the onset hour ----------------------------------------------------------------
+
+def mechanics_cases(fails):
+    import why_evidence as we
+    print("4. the mechanics pattern for the onset hour")
+    r14, r15 = rec(D14), rec(D15)
+    m = r15["coins"]["BTC"]["mechanics"]
+    row = {x["key"]: x for x in m["rows"]}
+    guarded(fails, "15 Oct, 9:55 to 10:55 AM ET: Bitcoin +2.50%, S&P 500 futures +0.58%, Nasdaq 100 futures +0.94% (Yahoo)",
+            lambda: row["BTC"]["value"] == 2.5 and row["ES=F"]["value"] == 0.58 and row["NQ=F"]["value"] == 0.94)
+    guarded(fails, "15 Oct: the pattern is 'risk-on across assets', with its rule",
+            lambda: [p["label"] for p in m["patterns"]] == ["risk-on across assets"])
+    guarded(fails, "15 Oct: the 10-year yield moves in basis points (+1.7 bp), the VIX in percent (-5.12%)",
+            lambda: row["^TNX"]["unit"] == "bp" and row["^TNX"]["value"] == 1.7 and row["^VIX"]["value"] == -5.12)
+    guarded(fails, "15 Oct: OKX's hourly open interest is read for the hour from 9:00 AM ET (+0.67%)",
+            lambda: row["oi"]["value"] == 0.67 and "9:00 AM ET" in row["oi"]["label"])
+    guarded(fails, "OKX liquidations cannot reach back to the onset hour: not read, with the reason, never a zero",
+            lambda: row["liq"].get("unread") and "latest 100 orders" in row["liq"]["why"] and "longs_usd" not in row["liq"])
+    m14 = r14["coins"]["BTC"]["mechanics"]
+    r = {x["key"]: x for x in m14["rows"]}
+    guarded(fails, "14 Oct, 4:10 AM ET: the 10-year yield did not trade in the hour: None, not 0",
+            lambda: r["^TNX"]["value"] is None)
+    guarded(fails, "14 Oct: Bitcoin -0.74% with stock futures mixed (+0.03%, -0.11%): no pattern is claimed",
+            lambda: m14["patterns"] == [])
+    e = r15["coins"]["ETH"]["mechanics"]
+    guarded(fails, "15 Oct Ether: 30-day beta 1.074 from the stored closes; excess +0.19 point is not coin-specific",
+            lambda: e["beta"] == 1.074 and e["excess_pts"] == 0.19 and "coin-specific" not in [p["label"] for p in e["patterns"]])
+    # SYNTHETIC: hand-made hour readings to reach the rules the real days do not
+    base = 1_800_000_000
+    run = {"dir": "down", "start_t": base, "end_t": base + 7200, "start_p": 100.0, "end_p": 95.0, "pct": -5.0}
+    flat = [[base - 300, 50.0], [base, 50.0], [base + 1800, 50.0], [base + 3600, 50.0]]
+    btc = [[base - 300, 100.0], [base, 100.0], [base + 3600, 98.0]]
+    oi = {"period": "5m", "points": [[base, 1000.0], [base + 3600, 940.0]]}
+    liq = {"orders": [[base - 600, "long", 1], [base + 600, "long", 8_000_000], [base + 900, "short", 1_000_000]]}
+    m = we.mechanics("BTC", run, btc, {}, {"ES=F": {"points": flat}, "NQ=F": {"points": flat}}, oi, liq, None, None)
+    labels = [p["label"] for p in m["patterns"]]
+    guarded(fails, "SYNTHETIC: Bitcoin -2% with stock futures flat is 'crypto only'", lambda: "crypto only" in labels)
+    guarded(fails, "SYNTHETIC: open interest -6% with 89% of liquidations long is a 'leverage flush'",
+            lambda: "leverage flush" in labels)
+    eth = [[base - 300, 10.0], [base, 10.0], [base + 3600, 9.5]]
+    m = we.mechanics("ETH", run, eth, {"BTC": {"points": btc}}, {}, None, None, None, 1.0)
+    guarded(fails, "SYNTHETIC: Ether -5% against Bitcoin -2% at beta 1.0 is 'coin-specific' (excess -3 points)",
+            lambda: "coin-specific" in [p["label"] for p in m["patterns"]] and m["excess_pts"] == -3.0)
+
+
+# ---- 5. the chart from a fixture ---------------------------------------------------------------------------
+
+def chart_cases(fails):
+    import why_evidence as we
+    print("5. the timing chart from a fixture")
+    r15, r14 = rec(D15), rec(D14)
+    html = we.section_html(r15, "BTC")
+    svg = re.search(r'<svg class="ev-chart".*?</svg>', html, re.S)
+    guarded(fails, "15 Oct: the section draws one timing chart", lambda: svg is not None)
+    s = svg.group(0) if svg else ""
+    line = re.search(r'class="ev-line"[^>]*stroke="([^"]+)"[^>]*points="([^"]+)"', s)
+    guarded(fails, "the price line has a point per 5-minute close (287)", lambda: len(line.group(2).split()) == 287)
+    guarded(fails, "15 Oct (an up window) draws in the up line color; 14 Oct (down) in the down color",
+            lambda: line.group(1) == "var(--up-line)" and 'stroke="var(--down-line)"' in we.section_html(r14, "BTC"))
+    run = r15["coins"]["BTC"]["run"]
+    pts = r15["coins"]["BTC"]["series"]["points"]
+    x_on = we._x(run["start_t"], pts[0][0], pts[-1][0], we.CHART_X0, we.CHART_X1)
+    guarded(fails, "the onset mark sits at the onset's time on the axis (9:55 AM ET)",
+            lambda: f'class="ev-onset" cx="{x_on:.1f}"' in s)
+    rect = re.search(r'class="ev-run" x="([\d.]+)" y="\d+" width="([\d.]+)"', s)
+    x_end = we._x(run["end_t"], pts[0][0], pts[-1][0], we.CHART_X0, we.CHART_X1)
+    guarded(fails, "the shaded run spans onset to the run's end",
+            lambda: abs(float(rect.group(1)) - x_on) < 0.11 and abs(float(rect.group(1)) + float(rect.group(2)) - x_end) < 0.2)
+    pins = re.findall(r'<g class="ev-pin">.*?>(\d+)</text></g>', s)
+    items = re.findall(r'<li class="ev-c"><span class="ev-n" aria-hidden="true">(\d+)</span>', html)
+    guarded(fails, "every pinned number is a numbered item in the list below the chart (6 pins, 6 timed items)",
+            lambda: pins and set(pins) <= set(items) and len(pins) == 6)
+    guarded(fails, "the chart says what it is in words (role=img, its window, its range)",
+            lambda: 'role="img"' in s and "the 24 hours to 7:43 PM ET Thursday, October 15" in s)
+    guarded(fails, "the PPI release is pinned at 8:30 AM ET on the line",
+            lambda: "8:30 AM ET (scheduled)" in visible(html))
+
+
+# ---- 6. the pages ----------------------------------------------------------------------------------------
+
+def _coin_html(sym, ev):
+    import site_build as sb
+    import snapshot
+    p = load(f"pulse_{D15}.json")
+    coins = p["movers"]["top100"]
+    pos, c = next((i + 1, x) for i, x in enumerate(coins) if x["symbol"] == sym)
+    old = sb.SNAP
+    sb.SNAP = snapshot.build(p, load(f"flows_{D15}.json"))
+    try:
+        return sb.render_coin_page(c, pos, p, [], "THURSDAY, OCTOBER 15, 2026", wire=load(f"wire_{D15}.json"),
+                                   cm={}, evidence=ev)
+    finally:
+        sb.SNAP = old
+
+
+def page_cases(fails):
+    import today
+    import why_evidence as we
+    print("6. /today/ and the Bitcoin and Ether pages: the section, the chart, no grade, fail open")
+    r15 = rec(D15)
+    d15 = json.load(open(os.path.join(HERE, "site", "data", "today", "2026-10-15-evening.json"), encoding="utf-8"))
+    pages = {}
+    try:
+        pages["/today/ (living)"] = today.body_html(d15, [], "living", evidence=r15)
+        pages["/today/2026-10-15"] = today.body_html(d15, [], "dated", evidence=r15)
+    except Exception as e:                                   # noqa: BLE001
+        guarded(fails, f"today.body_html takes the evidence record [{type(e).__name__}: {e}]", lambda: False)
+    try:
+        pages["/coins/btc"] = _coin_html("BTC", r15)
+        pages["/coins/eth"] = _coin_html("ETH", r15)
+    except Exception as e:                                   # noqa: BLE001
+        guarded(fails, f"render_coin_page takes the evidence record [{type(e).__name__}: {e}]", lambda: False)
+    for name, html in pages.items():
+        guarded(fails, f"{name}: 'What lined up with the move' with its timing chart",
+                lambda: "<h2>What lined up with the move</h2>" in html and 'class="ev-chart"' in html)
+        guarded(fails, f"{name}: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page",
+                lambda: not GRADE.search(visible(html)) and not BECAUSE.search(visible(html)))
+        guarded(fails, f"{name}: no em dash or en dash", lambda: not re.search("[\u2013\u2014]", html))
+        guarded(fails, f"{name}: the section never prints 'market_chart' (the coin page guard against inline chart code)",
+                lambda: "market_chart" not in re.search(r'<section class="td-sec ev".*?</section>', html, re.S).group(0))
+    guarded(fails, "/today/ shows Bitcoin's evidence; the Ether page shows Ether's",
+            lambda: 'data-ev="BTC"' in pages["/today/ (living)"] and 'data-ev="ETH"' in pages["/coins/eth"]
+            and 'data-ev="BTC"' not in pages["/coins/eth"])
+    guarded(fails, "the living page's window stamp carries data-asof (the stale state); the dated page's does not",
+            lambda: 'class="ev-win" data-asof="2026-10-15T23:43:27Z"' in pages["/today/ (living)"]
+            and 'class="ev-win" data-asof' not in pages["/today/2026-10-15"])
+    btc = visible(pages.get("/coins/btc", ""))
+    guarded(fails, "a wire item is printed once: the Russia P2P line is in the section, not again under the page's own lists",
+            lambda: btc.count("Russia's Central Bank confirmed ban") == 1)
+    guarded(fails, "each unread source is named on the page with its reason",
+            lambda: "Not read, so not shown:" in btc and "Kalshi Fed markets" in btc)
+    planted = copy.deepcopy(r15)
+    planted["candidates"][0]["line"] = "Likely the trigger, because traders said so."
+    h = we.section_html(planted, "BTC")
+    guarded(fails, "a candidate line carrying a grade word or 'because' is not printed; its outlet stands in",
+            lambda: "Likely the trigger" not in h and not BECAUSE.search(visible(h)))
+    # FAIL OPEN: no record, a broken record, an old record
+    plain = today.body_html(d15, [], "dated")
+    guarded(fails, "/today/ with no evidence renders as before, with no section",
+            lambda: "What lined up with the move" not in plain and "<h2>What moved</h2>" in plain)
+    guarded(fails, "a broken record draws no section and raises nothing",
+            lambda: we.section_html({"coins": {"BTC": {"series": {"points": "x"}}}}, "BTC") == "")
+    guarded(fails, "a record whose window ended 20 hours before the Board's reading is not shown on a coin page",
+            lambda: we.from_snapshot_coin(r15, "BTC", "2026-10-16T19:43:27Z") is None
+            and we.from_snapshot_coin(r15, "BTC", "2026-10-15T23:50:00Z") is not None)
+    try:
+        nohtml = _coin_html("BTC", None)
+        guarded(fails, "the Bitcoin page with no evidence on disk renders without the section",
+                lambda: "What lined up with the move" not in nohtml and "Bitcoin" in nohtml)
+    except Exception as e:                                   # noqa: BLE001
+        guarded(fails, f"the Bitcoin page with no evidence renders [{type(e).__name__}: {e}]", lambda: False)
+
+
+# ---- 7. no model, and the run path -------------------------------------------------------------------------
+
+def wiring_cases(fails):
+    import datetime as dt
+    import tempfile
+    import today
+    print("7. no model call; wired into the run path like the daily answer")
+    src = open(os.path.join(HERE, "why_evidence.py"), encoding="utf-8").read()
+    guarded(fails, "why_evidence.py never imports or calls the model layer (llm.py)",
+            lambda: not re.search(r"^\s*(import llm|from llm)|llm\.", src, re.M))
+    guarded(fails, "why_evidence.py carries no em dash", lambda: not re.search("[\u2013\u2014]", src))
+    for wf in ("morning-read.yml", "crypto-news-brief.yml"):
+        y = open(os.path.join(HERE, ".github", "workflows", wf), encoding="utf-8").read()
+        guarded(fails, f"{wf}: runs why_evidence.py --write after the daily answer's record, never as a gate",
+                lambda: re.search(r"today\.py --write \|\| true.*?why_evidence\.py --write \|\| true", y, re.S))
+        guarded(fails, f"{wf}: commits the evidence records with the push",
+                lambda: "git add site/data/why" in y)
+    r15 = rec(D15)
+    d15 = json.load(open(os.path.join(HERE, "site", "data", "today", "2026-10-15-evening.json"), encoding="utf-8"))
+    with tempfile.TemporaryDirectory() as td:
+        json.dump(r15, open(os.path.join(td, "2026-10-15-evening.json"), "w"))
+        now = dt.datetime(2026, 10, 15, 23, 50, tzinfo=dt.timezone.utc)
+        built = today.build_pages(None, None, None, None, None, now, None, stored=[d15], why_dir=td)
+        guarded(fails, "today.build_pages reads the stored record for the page's day and slot",
+                lambda: any("What lined up with the move" in h for _r, h, _p, _m in built))
+        built = today.build_pages(None, None, None, None, None, now, None, stored=[d15], why_dir=os.path.join(td, "none"))
+        guarded(fails, "and with no stored record builds the same pages without the section",
+                lambda: built and not any("What lined up with the move" in h for _r, h, _p, _m in built))
+
+
+def unit():
+    fails = []
+    group(fails, "1 (series)", series_cases)
+    group(fails, "2 (candidates)", candidate_cases)
+    group(fails, "3 (timing test)", timing_cases)
+    group(fails, "4 (mechanics)", mechanics_cases)
+    group(fails, "5 (chart)", chart_cases)
+    group(fails, "6 (pages)", page_cases)
+    group(fails, "7 (wiring)", wiring_cases)
+    return fails
+
+
+def main():
+    fails = unit()
+    print("\nSPRINT 9.2:", "PASS" if not fails else f"FAIL ({len(fails)})")
+    return 1 if fails else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

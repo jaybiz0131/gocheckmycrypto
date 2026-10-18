@@ -1961,3 +1961,24 @@ header.masthead{position:relative;z-index:300}
 .td-next{font-family:var(--mono);font-size:12.5px;font-weight:600;margin:22px 0 0}
 .td-arch ul{margin:0;padding-left:1.2em}
 .td-corr{border:1px solid var(--line);border-left:3px solid var(--rule);padding:8px 12px;font-size:14px}
+
+/* Program 9, Sprint 9.2: "What lined up with the move" (why_evidence.py) on /today/ and the Bitcoin
+   and Ether pages. Same tokens: a change takes its color from its own sign, the chart's line from
+   its own window. */
+.ev-win{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:0 0 6px}
+.ev-run-l{font-size:15px;line-height:1.5;margin:0 0 6px}
+.ev-run-l .chg,.ev-mech .chg{font-family:var(--mono);font-weight:700;white-space:nowrap}
+.ev-run-l .chg.up,.ev-mech .chg.up{color:var(--up)}
+.ev-run-l .chg.down,.ev-mech .chg.down{color:var(--down)}
+.ev-fig{margin:10px 0 14px}
+.ev-chart{display:block;width:100%;max-width:600px;height:auto}
+.ev-cands{list-style:none;margin:0;padding:0}
+.ev-c{position:relative;padding:10px 0 10px 34px;border-bottom:1px solid var(--line)}
+.ev-n{position:absolute;left:0;top:10px;width:22px;height:22px;border:1px solid var(--ink);border-radius:50%;font:700 11px/20px var(--mono);text-align:center}
+.ev-l{display:block;font-weight:600;overflow-wrap:anywhere}
+.ev-rep,.ev-m,.ev-t,.ev-sec{display:block;font-size:13px;line-height:1.5;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}
+.ev-t{color:var(--ink)}
+.ev-sec{font-style:italic}
+.ev-f{font-family:var(--mono);font-size:13px}
+.ev-pat{font-size:14px;margin:10px 0 0}
+.ev-src{font-size:12px;line-height:1.5;color:var(--faint);margin:10px 0 0;overflow-wrap:anywhere}

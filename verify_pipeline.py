@@ -2035,6 +2035,7 @@ def _stamp_canary():
             fails.extend(_sprint81_canary(out))
             fails.extend(_sprint82_canary(out))
             fails.extend(_sprint91_canary(out))
+            fails.extend(_sprint92_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -3021,6 +3022,36 @@ def _sprint91_canary(out):
         _sys.modules.pop("slot_guard_test", None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint92_canary(out):
+    """PROGRAM 9, SPRINT 9.2 (18 October 2026): the evidence. scripts/sprint92_test.py holds the
+    cases (the series, the candidates, the timing test and the mechanics on the recorded 14 and 15
+    October fixtures, the chart, the pages, the run path). On the tree this build wrote, any "What
+    lined up with the move" section carries no grade label and no "because". The helper is taken
+    out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint92_test as _s92
+        fails = ["sprint 9.2: " + f for f in _s92.unit()]
+    finally:
+        _sys.modules.pop("sprint92_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    pages = sorted(glob.glob(os.path.join(out, "today", "*.html"))) + [
+        os.path.join(out, "coins", n) for n in ("btc.html", "eth.html")]
+    for pth in pages:
+        try:
+            h = open(pth, encoding="utf-8").read()
+        except OSError:
+            continue
+        for sec in re.findall(r'<section class="td-sec ev".*?</section>', h, re.S):
+            words = re.sub(r"<[^>]+>", " ", sec)
+            if re.search(r"\b(Confirmed|Likely|Disputed|Unclear)\b", words) or re.search(r"\bbecause\b", words, re.I):
+                fails.append(f"sprint 9.2: {os.path.relpath(pth, out)}: the evidence section carries a grade word")
     return fails
 
 

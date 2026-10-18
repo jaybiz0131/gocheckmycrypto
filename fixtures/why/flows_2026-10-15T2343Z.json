@@ -1,0 +1,136 @@
+{
+  "example": false,
+  "generated": "2026-10-15",
+  "generated_utc": "2026-10-15T23:43:27Z",
+  "window_hours": 24,
+  "txn_count": 2,
+  "volatile": {
+    "inflow_usd": 0,
+    "outflow_usd": 51371224,
+    "net_usd": 51371224,
+    "direction": "off exchanges"
+  },
+  "stablecoins": {
+    "inflow_usd": 0,
+    "outflow_usd": 150019159,
+    "net_buying_power_usd": -150019159
+  },
+  "by_asset": [
+    {
+      "symbol": "BTC",
+      "inflow_usd": 0,
+      "outflow_usd": 51371224,
+      "net_usd": 51371224
+    }
+  ],
+  "by_exchange": [
+    {
+      "exchange": "Bitfinex",
+      "inflow_usd": 0,
+      "outflow_usd": 150019159,
+      "net_usd": 150019159
+    },
+    {
+      "exchange": "Coinbase Institutional",
+      "inflow_usd": 0,
+      "outflow_usd": 51371224,
+      "net_usd": 51371224
+    }
+  ],
+  "top_inflows": [],
+  "top_outflows": [
+    {
+      "symbol": "USDT",
+      "amount": 150200000.0,
+      "usd": 150019159.0,
+      "to": "Tether Treasury",
+      "from": "Bitfinex",
+      "blockchain": "ethereum",
+      "hash": "0x3b494c0d11374c67aa7559c4375a17f092e613fcd016505101fe10831401b26a",
+      "url": "",
+      "ts": 1792035323.0,
+      "stable": true
+    },
+    {
+      "symbol": "BTC",
+      "amount": 634.0,
+      "usd": 51371224.0,
+      "to": "Unknown wallet",
+      "from": "Coinbase Institutional",
+      "blockchain": "bitcoin",
+      "hash": "f50cae25f67334514c6e42ea6b25528ecc04527788febda536ea294d4ad83c16",
+      "url": "",
+      "ts": 1792061235.0,
+      "stable": false
+    }
+  ],
+  "note": "Data: Whale Alert public alert archive; exchanges identified by name, and only the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile assets, coins moving onto exchanges can precede selling and coins moving off suggests accumulation or self-custody. Stablecoins are the opposite: onto an exchange is buying power arriving, so they are scored separately. Market data, not news, not advice.",
+  "history": [
+    {
+      "week_ending": "Jul 23",
+      "net_usd": -126058877,
+      "moves": 40
+    },
+    {
+      "week_ending": "Jul 30",
+      "net_usd": 1289009308,
+      "moves": 55
+    },
+    {
+      "week_ending": "Aug 06",
+      "net_usd": 746822120,
+      "moves": 80
+    },
+    {
+      "week_ending": "Aug 13",
+      "net_usd": -812932618,
+      "moves": 50
+    },
+    {
+      "week_ending": "Aug 20",
+      "net_usd": -222976033,
+      "moves": 46
+    },
+    {
+      "week_ending": "Aug 27",
+      "net_usd": -1327727939,
+      "moves": 82
+    },
+    {
+      "week_ending": "Sep 03",
+      "net_usd": 261378793,
+      "moves": 95
+    },
+    {
+      "week_ending": "Sep 10",
+      "net_usd": -703803035,
+      "moves": 35
+    },
+    {
+      "week_ending": "Sep 17",
+      "net_usd": -234056053,
+      "moves": 55
+    },
+    {
+      "week_ending": "Sep 24",
+      "net_usd": -1090970372,
+      "moves": 96
+    },
+    {
+      "week_ending": "Oct 01",
+      "net_usd": -704388367,
+      "moves": 85
+    },
+    {
+      "week_ending": "Oct 08",
+      "net_usd": -907905217,
+      "moves": 106
+    },
+    {
+      "week_ending": "Oct 15",
+      "net_usd": -497440345,
+      "moves": 33
+    }
+  ],
+  "weekly_median_abs_usd": 704388367
+}
