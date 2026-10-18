@@ -497,6 +497,97 @@ def correction_cases(fails):
             and any("$940 million" in (x.get("line") or "") for x in full.get("source_cuts") or []))
 
 
+# ---- 10. every window labeled with its own times; the run step bounded --------------------------------
+
+def window_cases(fails):
+    print("10. each row's window is the one its label states (Kalshi's hourly closes)")
+    for day, a, b in ((D15, "9:00 AM ET close", "10:00 AM ET close"), (D14, "4:00 AM ET close", "5:00 AM ET close")):
+        ks = [x for x in rec(day)["coins"]["BTC"]["mechanics"]["rows"] if x["key"].startswith("kalshi")]
+        guarded(fails, f"{day[:10]}: the Kalshi row names the candle closes it reads ('{a} to {b}')",
+                lambda: ks and all(f"{a} to {b}" in k["label"] for k in ks))
+        guarded(fails, f"{day[:10]}: and carries those closes as stamps (from_utc, to_utc an hour apart)",
+                lambda: ks and all(k["to_utc"] and k["from_utc"]
+                                   and (int(_ts(k["to_utc"])) - int(_ts(k["from_utc"]))) == 3600 for k in ks))
+    import why_evidence as we
+    html = we.section_html(rec(D15), "BTC")
+    guarded(fails, "the page prints the Kalshi row with its closes", lambda: "9:00 AM ET close to 10:00 AM ET close" in visible(html))
+
+
+def _ts(s):
+    import datetime as dt
+    return dt.datetime.fromisoformat(s.replace("Z", "+00:00")).timestamp()
+
+
+class _Clock:
+    def __init__(self):
+        self.t = 0.0
+
+    def __call__(self):
+        return self.t
+
+
+def budget_cases(fails):
+    import why_evidence as we
+    print("11. the run step: a deadline inside build(), Kalshi capped, no blind sleeps, the core always kept")
+    fx = load(f"sources_{D15}.json")
+    replay = we.Replay(fx["responses"])
+    clock = _Clock()
+
+    def slow(url, kind="json"):
+        body = replay(url, kind)
+        if "chart/ES=F" in url:
+            clock.t += 250          # a source that answers after the whole budget is gone
+        return body
+    try:
+        r = we.build(fx["end_utc"], load(f"wire_{D15}.json"), now_utc=fx["recorded_utc"], fetch=slow,
+                     pulse=load(f"pulse_{D15}.json"), clock=clock)
+    except Exception as e:                                   # noqa: BLE001
+        guarded(fails, f"build() takes a clock and a deadline [{type(e).__name__}: {e}]", lambda: False)
+        return
+    late = {u["name"]: u["why"] for u in r["unread"] if "not read in time" in u["why"]}
+    guarded(fails, "a source past the deadline: the sources after it are named 'not read in time' (Gate, Kalshi, OKX taker flow)",
+            lambda: any(n.startswith("Gate liquidations") for n in late) and any(n.startswith("Kalshi") for n in late)
+            and any(n.startswith("OKX taker flow") for n in late))
+    guarded(fails, "and the core is whole: both series, the runs and the timing test, as without the delay",
+            lambda: r["coins"]["BTC"]["run"] == rec(D15)["coins"]["BTC"]["run"]
+            and r["coins"]["ETH"]["run"] == rec(D15)["coins"]["ETH"]["run"]
+            and [t["result"] for t in r["coins"]["BTC"]["tests"]] == [t["result"] for t in rec(D15)["coins"]["BTC"]["tests"]])
+    guarded(fails, "and the late sources print in the section's not-read list",
+            lambda: "not read in time" in visible(we.section_html(r, "BTC")))
+
+    def broken(url, kind="json"):
+        if any(h in url for h in ("coinbase.com", "okx.com/api/v5/market", "binance.vision")):
+            return replay(url, kind)
+        raise we.Unread("HTTP 503")
+    r2 = we.build(fx["end_utc"], load(f"wire_{D15}.json"), now_utc=fx["recorded_utc"], fetch=broken)
+    guarded(fails, "every optional source failing: the record still carries both series and the timing test",
+            lambda: r2["coins"]["BTC"]["run"] and r2["coins"]["ETH"]["run"]
+            and all("result" in t for t in r2["coins"]["BTC"]["tests"]) and len(r2["unread"]) > 20)
+    calls = []
+
+    def count(url, kind="json"):
+        if "kalshi.com" in url:
+            calls.append(url)
+        return replay(url, kind)
+    we.build(fx["end_utc"], load(f"wire_{D15}.json"), now_utc=fx["recorded_utc"], fetch=count)
+    # a fixed bound, not the module's own constant: the October meeting has 11 strikes, and the record
+    # reads at most 2 calls plus 4 strikes for both coins together
+    guarded(fails, f"Kalshi's calls are bounded for the whole record, both coins: {len(calls)} <= 6, none repeated",
+            lambda: 0 < len(calls) <= 6 and len(set(calls)) == len(calls))
+    guarded(fails, "no blind 60-second wait: a 429's Retry-After is capped at 3 seconds, and a missing one waits 2",
+            lambda: we.retry_wait("60") == 3 and we.retry_wait(None) == 2 and we.retry_wait("1") == 1)
+    src = open(os.path.join(HERE, "why_evidence.py"), encoding="utf-8").read()
+    guarded(fails, "the evidence step no longer reads through market_pulse.get_json (its 60-second waits)",
+            lambda: "market_pulse.get_json" not in src)
+    b = we.Budget(200, clock=_Clock())
+    we.STOP["set"] = True
+    try:
+        guarded(fails, "a SIGTERM (the stop flag) spends the budget at once, and says so",
+                lambda: b.spent() and "stopped" in b.why())
+    finally:
+        we.STOP["set"] = False
+
+
 def unit():
     fails = []
     group(fails, "1 (series)", series_cases)
@@ -508,6 +599,8 @@ def unit():
     group(fails, "7 (wiring)", wiring_cases)
     group(fails, "8 (sources)", source_cases)
     group(fails, "9 (corrections)", correction_cases)
+    group(fails, "10 (windows)", window_cases)
+    group(fails, "11 (run step)", budget_cases)
     return fails
 
 

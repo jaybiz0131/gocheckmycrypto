@@ -1,6 +1,8 @@
 review/sprint-9-2: "What lined up with the move" (Program 9, Sprint 9.2), the section only, as element
 screenshots of four pages at 390 and 1440 px, light and dark: /today/2026-10-14, /today/2026-10-15,
-/coins/btc and /coins/eth. Taken Sunday October 18 2026, about 2:15 PM EDT.
+/coins/btc and /coins/eth. First taken Sunday October 18 2026, about 2:15 PM EDT; all sixteen re-taken
+about 2:47 PM EDT after review fix 2, when the Kalshi row began naming its own hourly closes
+("9:00 AM ET close to 10:00 AM ET close" on October 15, "4:00 AM ET close to 5:00 AM ET close" on October 14).
 
 THESE ARE LOCAL BUILDS, NOT THE PREVIEW OR PRODUCTION (U-10). No preview URL exists for this branch, so
 nothing here was read from a deployed page; the merge's production read is still owed after the merge.

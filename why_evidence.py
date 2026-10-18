@@ -160,36 +160,25 @@ class Unread(Exception):
     reason the source is left out."""
 
 
-def live_fetch(url, kind="json"):
-    """The desk's own fetch layer: market_pulse.get_json for JSON (its 429 handling and the
-    CoinGecko spacing; one try on CoinGecko so a throttled read falls to the next venue at
-    once), common.fetch_page_meta for pages and feeds (per-host spacing, retry with
-    Retry-After). Raises Unread with the reason."""
-    import common
-    import market_pulse
-    if kind == "json":
-        try:
-            return market_pulse.get_json(url, timeout=25,
-                                         attempts=1 if "coingecko.com" in url else 2)
-        except Exception as e:                                   # noqa: BLE001
-            raise Unread(_why(e)) from None
-    if kind == "article":
-        # a wire item's linked report, as the text the desk's own extractor takes from it. Read
-        # whole: CoinDesk's pages run about 1.7MB with the article past the fetch layer's 600KB
-        # cap, which leaves only the subheading. Same spacing and user agent as the fetch layer.
-        return common.extract_article_text(_read_whole(url), cap=6000) or ""
-    m = common.fetch_page_meta(url, timeout=25, retries=1)
-    if m.get("status") != 200 or not m.get("body"):
-        raise Unread(m.get("error") or f"HTTP {m.get('status')}")
-    return m["body"]
-
-
+FETCH_TIMEOUT = 12              # seconds per request: a slow source is a skipped source, never a stalled run
+RETRY_AFTER_MAX = 3             # a 429's Retry-After is honored up to 3 seconds; past that the source is skipped
 ARTICLE_CAP = 3_000_000
 
 
-def _read_whole(url, tries=2):
-    """A page read to ARTICLE_CAP bytes, with common's per-host spacing and user agent; one retry
-    on a 429, a 5xx or a timeout. Raises Unread with the reason."""
+def retry_wait(retry_after):
+    """Seconds to wait before the one retry of a 429 or a 5xx: the server's Retry-After, capped at
+    RETRY_AFTER_MAX, or 2 when it names none. Never the 60-second wait market_pulse uses, which
+    could carry the evidence step past its workflow timeout."""
+    try:
+        v = float(retry_after)
+    except (TypeError, ValueError):
+        return 2
+    return max(0, min(RETRY_AFTER_MAX, int(v)))
+
+
+def _http(url, cap=None, accept="application/json", tries=2):
+    """One read with the desk's per-host spacing and user agent (common), a short timeout, and one
+    retry on a 429, a 5xx or a timeout after retry_wait(). Raises Unread with the reason."""
     import time
     import urllib.error
     import urllib.request
@@ -197,22 +186,80 @@ def _read_whole(url, tries=2):
     last = None
     for i in range(tries):
         common._polite_wait(url)
+        wait = 2
         try:
             req = urllib.request.Request(url, headers={
-                "User-Agent": common.ua_for(url),
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                "Accept-Language": "en-US,en;q=0.9"})
-            with urllib.request.urlopen(req, timeout=25) as r:
-                return r.read(ARTICLE_CAP).decode("utf-8", "replace")
+                "User-Agent": common.ua_for(url), "Accept": accept, "Accept-Language": "en-US,en;q=0.9"})
+            with urllib.request.urlopen(req, timeout=FETCH_TIMEOUT) as r:
+                return r.read(cap) if cap else r.read()
         except urllib.error.HTTPError as e:
             last = f"HTTP {e.code}"
             if e.code not in common.RETRY_STATUSES:
                 break
+            wait = retry_wait((e.headers or {}).get("Retry-After"))
         except Exception as e:                                   # noqa: BLE001
             last = f"{type(e).__name__}: {str(e)[:80]}"
         if i < tries - 1:
-            time.sleep(3)
+            time.sleep(wait)
     raise Unread(last or "no answer")
+
+
+def live_fetch(url, kind="json"):
+    """The evidence step's reads: JSON, pages and feeds, and linked reports as article text, all
+    through _http (short timeout, one capped retry). CoinGecko gets one try, so a throttled read
+    falls to the next venue at once."""
+    import common
+    if kind == "json":
+        body = _http(url, tries=1 if "coingecko.com" in url else 2)
+        try:
+            return json.loads(body.decode("utf-8", "replace"))
+        except ValueError:
+            raise Unread("the answer was not JSON") from None
+    if kind == "article":
+        # a wire item's linked report, as the text the desk's own extractor takes from it. Read
+        # whole: CoinDesk's pages run about 1.7MB with the article past the fetch layer's 600KB
+        # cap, which leaves only the subheading.
+        html = _http(url, cap=ARTICLE_CAP, accept="text/html,application/xhtml+xml,*/*;q=0.8")
+        return common.extract_article_text(html.decode("utf-8", "replace"), cap=6000) or ""
+    body = _http(url, cap=ARTICLE_CAP, accept="text/html,application/xml,*/*;q=0.8").decode("utf-8", "replace")
+    if not body:
+        raise Unread("an empty answer")
+    return body
+
+
+# ---- the run's budget ---------------------------------------------------------------------------
+
+DEADLINE_S = 200                # the whole build; the workflow step's own timeout is 300
+STOP = {"set": False}           # set by SIGTERM (the step's timeout): spend the budget, write what is in hand
+
+
+class Budget:
+    """The time the evidence step may spend. Past it (or once SIGTERM has arrived) every optional
+    source is skipped and named; the price series and the timing test are the core and never wait
+    on it."""
+
+    def __init__(self, seconds=DEADLINE_S, clock=None):
+        import time
+        self.clock = clock or time.monotonic
+        self.seconds, self.t0 = seconds, self.clock()
+
+    def spent(self):
+        return STOP["set"] or self.clock() - self.t0 > self.seconds
+
+    def why(self):
+        if STOP["set"]:
+            return "not read in time: the step was stopped (SIGTERM) and wrote what it had"
+        return f"not read in time: the evidence step's {self.seconds}-second budget was spent"
+
+
+def budgeted(fetch, budget):
+    """A fetch for the optional sources: past the budget it raises Unread with the reason, so each
+    source's own handler names it in 'Not read' instead of reading."""
+    def f(url, kind="json"):
+        if budget.spent():
+            raise Unread(budget.why())
+        return fetch(url, kind)
+    return f
 
 
 def _why(e):
@@ -911,58 +958,82 @@ def _lower1(t):
     return t[:1].lower() + t[1:]
 
 
-def _kalshi(t0, end, fetch, ledger, cache):
-    """Kalshi's Fed markets (series KXFED) for the next meeting after the window: each strike's yes
-    price (bid-ask mid of its hourly candles) at the onset and an hour later, for the strikes priced
-    between 5% and 95% at the onset. Rows, or [] with the reason in the ledger."""
-    def get(url):
-        if url not in cache:
-            cache[url] = fetch(url, "json")
-        return cache[url]
+KALSHI_MAX_STRIKES = 4          # strikes read per record: the four nearest the money when read
+
+
+def _kalshi(onsets, end, fetch, ledger):
+    """Kalshi's Fed markets (series KXFED) for the next meeting after the window, read ONCE per
+    record for every coin's onset: 2 calls, then one hourly-candle call for each of the
+    KALSHI_MAX_STRIKES strikes nearest the money (by their last price when read), covering all the
+    onsets. For each onset, each strike priced between 5% and 95% gives its yes price (the bid-ask
+    mid of its hourly candles) at the last close at or before the onset and the last close at or
+    before an hour later; the row names both closes. {onset: [rows]}; {} with the reason in the
+    ledger."""
     name = "Kalshi Fed markets (KXFED)"
+    if not onsets:
+        return {}
     try:
-        evs = (get(f"{KALSHI}/events?series_ticker=KXFED&limit=200") or {}).get("events") or []
+        evs = (fetch(f"{KALSHI}/events?series_ticker=KXFED&limit=200", "json") or {}).get("events") or []
         nxt = min((e for e in evs if (_parse_utc(e.get("strike_date")) or _dt.datetime.min.replace(
             tzinfo=_dt.timezone.utc)).timestamp() > end), key=lambda e: e["strike_date"], default=None)
         if not nxt:
             ledger.miss(name, "no meeting after this window in its answer")
-            return []
-        mk = (get(f"{KALSHI}/markets?event_ticker={nxt['event_ticker']}&limit=100") or {}).get("markets") or []
+            return {}
+        mk = (fetch(f"{KALSHI}/markets?event_ticker={nxt['event_ticker']}&limit=100", "json") or {}).get("markets") or []
     except Exception as e:                                       # noqa: BLE001
         ledger.miss(name, str(e), f"{KALSHI}/events?series_ticker=KXFED")
-        return []
+        return {}
 
-    def mid(cands, t):
+    def last_price(m):
+        try:
+            return float(m.get("last_price_dollars"))
+        except (TypeError, ValueError):
+            try:
+                return float(m.get("last_price")) / 100.0
+            except (TypeError, ValueError):
+                return 0.0
+    near = sorted(mk, key=lambda m: abs(last_price(m) - 0.5))[:KALSHI_MAX_STRIKES]
+
+    def close_at(cands, t):
         c = [x for x in cands if int(x.get("end_period_ts") or 0) <= t]
         if not c:
-            return None
+            return None, None
         last = max(c, key=lambda x: int(x["end_period_ts"]))
         try:
-            return round((float(last["yes_bid"]["close_dollars"]) + float(last["yes_ask"]["close_dollars"])) * 50, 1)
+            mid = round((float(last["yes_bid"]["close_dollars"]) + float(last["yes_ask"]["close_dollars"])) * 50, 1)
         except (KeyError, TypeError, ValueError):
-            return None
-    rows, missed = [], 0
+            return None, None
+        return int(last["end_period_ts"]), mid
+    lo, hi = min(onsets) - 7200, max(onsets) + 7200
     meet = _parse_utc(nxt["strike_date"])
     when = f"{meet.astimezone(ET):%B} {meet.astimezone(ET).day}" if meet else nxt["event_ticker"]
-    for m in sorted(mk, key=lambda m: float(m.get("floor_strike") or 0)):
-        url = (f"{KALSHI}/series/KXFED/markets/{m['ticker']}/candlesticks?start_ts={t0 - 7200}"
-               f"&end_ts={t0 + 7200}&period_interval=60")
+    out, missed = {t0: [] for t0 in onsets}, []
+    for m in sorted(near, key=lambda m: float(m.get("floor_strike") or 0)):
+        url = (f"{KALSHI}/series/KXFED/markets/{m['ticker']}/candlesticks?start_ts={lo}"
+               f"&end_ts={hi}&period_interval=60")
         try:
-            cs = (get(url) or {}).get("candlesticks") or []
-        except Exception:                                        # noqa: BLE001
-            missed += 1
+            cs = (fetch(url, "json") or {}).get("candlesticks") or []
+        except Exception as e:                                   # noqa: BLE001
+            missed.append(str(e) or type(e).__name__)
             continue
-        a, b = mid(cs, t0), mid(cs, t0 + 3600)
-        if a is None or b is None or not (5 <= a <= 95):
-            continue
-        rows.append({"key": f"kalshi-{m['ticker']}", "unit": "chance",
-                     "label": f"Kalshi: Fed rate {_lower1(m.get('yes_sub_title') or m['ticker'])} after the {when} "
-                              f"meeting (yes price, bid-ask mid, hourly)",
-                     "from_pct": float(a), "to_pct": float(b)})
+        for t0 in onsets:
+            (ta, a), (tb, b) = close_at(cs, t0), close_at(cs, t0 + 3600)
+            if a is None or b is None or not (5 <= a <= 95):
+                continue
+            out[t0].append({"key": f"kalshi-{m['ticker']}", "unit": "chance",
+                            "label": f"Kalshi: Fed rate {_lower1(m.get('yes_sub_title') or m['ticker'])} after the "
+                                     f"{when} meeting, yes price (bid-ask mid of hourly candles), "
+                                     f"{clock(ta)} close to {clock(tb)} close",
+                            "from_utc": _iso(ta), "to_utc": _iso(tb),
+                            "from_pct": float(a), "to_pct": float(b)})
+    if missed and len(missed) == len(near):
+        ledger.miss(name, "its candles did not answer: " + missed[0], f"{KALSHI}/series/KXFED")
+        return out
     ledger.ok(name, f"{KALSHI}/events?series_ticker=KXFED",
-              ("" if rows else "no strike of the next meeting was priced between 5% and 95% at the onset")
-              + (f"; {missed} strike(s) did not answer" if missed else ""))
-    return rows
+              (f"the {len(near)} strikes nearest the money read"
+               + ("" if any(out.values()) else "; none was priced between 5% and 95% at the onset")
+               + (f"; {len(missed)} strike(s) did not answer ({missed[0]})" if missed else "")))
+    return out
 
 
 def _okx_funding(sym, fetch, ledger):
@@ -1163,10 +1234,17 @@ def mechanics(sym, run, series, others, cross, oi, liq, funding, beta, extra=Non
 # ---- the record -----------------------------------------------------------------------------------
 
 def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=("BTC", "ETH"),
-          fomc_path=FOMC, history_root=HISTORY):
+          fomc_path=FOMC, history_root=HISTORY, deadline_s=DEADLINE_S, clock=None):
     """The evidence record for the 24 hours ending at `end_utc` (the Board's reading). Never
-    raises for a source: a source that cannot be read is left out and named in `unread`."""
+    raises for a source: a source that cannot be read is left out and named in `unread`.
+
+    THE CORE AND THE REST (CLAUDE.md: the part is not the whole). The price series and the timing
+    test are the core, read first with the plain fetch. Every other source reads through a budgeted
+    fetch: past `deadline_s` (or after SIGTERM) it is skipped and named "not read in time", so the
+    build returns, and the record is written, well inside the workflow step's timeout."""
     fetch = fetch or live_fetch
+    budget = Budget(deadline_s, clock=clock)
+    core_fetch, fetch = fetch, budgeted(fetch, budget)
     end_dt = _parse_utc(end_utc)
     if end_dt is None:
         raise ValueError(f"no window end: {end_utc!r}")
@@ -1176,7 +1254,7 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
     led = Ledger()
     series = {}
     for sym in coins:
-        s, rest = read_series(sym, start, end, now, fetch, led)
+        s, rest = read_series(sym, start, end, now, core_fetch, led)
         if s:
             series[sym] = (s, rest)
     cuts = []
@@ -1214,7 +1292,8 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
                                 "source": "Farside Investors (the Board)"}
                                if isinstance(etf.get("latest_net_usd_m"), (int, float)) else None)}}
     others = {k: v[0] for k, v in series.items()}
-    kalshi_cache = {}
+    runs = {sym: onset([(t, p) for t, p in series[sym][0]["points"]]) for sym in coins if sym in series}
+    kalshi = _kalshi(sorted({r["start_t"] for r in runs.values() if r}), end, fetch, led)
     for sym in coins:
         if sym not in series:
             continue
@@ -1239,7 +1318,7 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
         if run:
             extra = {"taker": _okx_taker(sym, run["start_t"], fetch, led),
                      "gate": _gate_liq(sym, run["start_t"], fetch, led),
-                     "kalshi": _kalshi(run["start_t"], end, fetch, led, kalshi_cache)}
+                     "kalshi": kalshi.get(run["start_t"]) or []}
         out["coins"][sym] = {"series": s, "second": sec, "seconds": seconds, "run": run, "tests": tests,
                              "mechanics": mechanics(sym, run, pts, others, cross, oi, liq, fund, beta, extra)}
     out["read"], out["unread"] = led.read, led.unread
@@ -1674,7 +1753,14 @@ def main():
             return 0
         snap = _s.build(pulse, flows)
         gate = twins_gate.Gate(snap, log_path="", quiet=True)
+        # The step's `timeout 300` sends SIGTERM: the build then skips what it has not read, names it,
+        # and returns, so the record below is still written with the core in it.
+        import signal
+        signal.signal(signal.SIGTERM, lambda *_a: STOP.update(set=True))
+        import time
+        t_start = time.monotonic()
         rec = build(end, home.load_json(sb.WIRE_JSON), fetch=live_fetch, pulse=pulse, gate=gate)
+        print(f"why_evidence: built in {time.monotonic() - t_start:.0f}s (budget {DEADLINE_S}s)")
         rec.update(date_et=date, slot=slot, today_composed_utc=composed)
         os.makedirs(DIR, exist_ok=True)
         p = record_path(date, slot)
