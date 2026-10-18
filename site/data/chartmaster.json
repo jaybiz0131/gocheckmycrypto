@@ -1,60 +1,15 @@
 {
-  "date": "2026-10-17",
+  "date": "2026-10-18",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "data-only",
-  "headline": "Chart Master data card: levels, 50-day and 200-day lines, RSI",
-  "paragraphs": [],
-  "data_only": true,
-  "levels": [
-    {
-      "symbol": "BTC",
-      "price": 81280,
-      "sma50": 81322.93,
-      "sma200": 72418.59,
-      "rsi14": 45.7
-    },
-    {
-      "symbol": "ETH",
-      "price": 2392.15,
-      "sma50": 2551.35,
-      "sma200": 2145.62,
-      "rsi14": 36.5
-    },
-    {
-      "symbol": "SOL",
-      "price": 103.05,
-      "sma50": 109.34,
-      "sma200": 87.47,
-      "rsi14": 36.9
-    },
-    {
-      "symbol": "XRP",
-      "price": 1.29,
-      "sma50": 1.42,
-      "sma200": 1.28,
-      "rsi14": 34.3
-    },
-    {
-      "symbol": "BNB",
-      "price": 716.4,
-      "sma50": 744.95,
-      "sma200": 645.84,
-      "rsi14": 38.5
-    },
-    {
-      "symbol": "DOGE",
-      "price": 0.079078,
-      "sma50": 0.09,
-      "sma200": 0.09,
-      "rsi14": 35.0
-    },
-    {
-      "symbol": "ADA",
-      "price": 0.219082,
-      "sma50": 0.23,
-      "sma200": 0.21,
-      "rsi14": 40.3
-    }
+  "path": "cut",
+  "headline": "All majors above the 200-day line with golden crosses in place, but momentum is underwater across the board while whales pull coins into cold storage.",
+  "paragraphs": [
+    "The regime is unified on structure. Bitcoin, Ethereum, Solana, XRP, BNB, and ADA all sit above their 200-day moving averages, and all seven majors tested show golden cross signals (50-day above 200-day). That is a bullish framework on paper. But the tape underneath tells a different story. Every major asset is trading with RSI-14 below 50, and every one shows MACD below signal line. Bitcoin at 47.2 RSI with a -34.5 percent gap from its 12-month high of $124,740 is the headline case: the trend structure is long-term intact, but momentum has flat-lined. Ethereum at 36.3 RSI and 49.1 percent below its yearly peak sits in mild oversold territory. Solana at 38.0 RSI, XRP at 35.9, and ADA at 40.3 are all in the same camp. This is not a crash regime; this is a market where price has stopped accelerating and sits resting on its longer-term support. The divergence between trend (up) and momentum (down and inactive) is the core tension to read.",
+    "That divergence plays out across different time windows. Bitcoin is up 0.5 percent on the day but down 1.8 percent over the week and up 6.6 percent over the month, a pattern that says short-term weakness within a longer rally. Ethereum is down across all three windows (down 0.1 percent daily, 4.2 percent weekly, 1.9 percent monthly), showing no intra-week bounce. Solana bounced 0.6 percent on the day but fell 6.0 percent over the week; XRP is up 0.5 percent today but down 7.8 percent over seven days; BNB and ADA show similar splits. When day and week disagree this sharply across the board, it signals that any overnight bid is being sold into, not built on. The volatility profile reinforces it: Bitcoin at 32 percent realized volatility over 30 days is moderate, but Ethereum at 36.1, Solana at 47.0, XRP at 50.2, and ADA at 74.2 percent show elevated chop. High volatility paired with flat momentum is the noise signature of indecision.",
+    "Bitcoin longs outnumber shorts 1.91 to 1 on OKX with $2.47 billion in open interest and an 8-hour funding rate of 0.7 percent (annualized 7.6 percent). Solana and XRP show even more extreme long skews (2.52 and 3.79 ratios respectively). The liquidation window is small (one to four hours across these instruments), but in the last hour Bitcoin saw only $1,055 in long liquidations against $1.2 million in short liquidations; Ethereum printed $1,174 in longs and $1.02 million in shorts. The shorts are getting flushed, not the longs, which suggests the positioning is not yet at breaking point but also not being tested hard.",
+    "Flow signals show a sharp directional reversal this week. Whale net movement over the last 24 hours stands at $221.9 million moving off exchanges, with Bitcoin accounting for $198.6 million of that total and two large Kraken withdrawals of $104.7 million and $94.0 million each. That is real, and it matters. But zoom to the weekly window and the picture inverts: the week ending October 18 shows $154 million moving off exchanges, a complete reversal from the three prior weeks, which saw $428 million, $804 million, and $1.5 billion moving onto exchanges. Stablecoin float sits at $304.6 billion, essentially flat over 30 days (up 0.55 percent). The ETF signal is unambiguous: Bitcoin ETFs have bled $82.4 million on October 16 alone and $228.4 million over the last five sessions with only one day of same-direction move, while Ethereum has logged $69.7 million and $320.1 million outflows over the same windows with three same-direction days. Traditional finance is pulling back. The tape shows whales moving coins to custody and spot traders exiting through ETF redemptions at the same time momentum momentum fades and longs sit crowded on leverage.",
+    "Fear and Greed sits at 53 (Neutral), having ranged from 53 to 78 over the last 30 days. That is not panic; it is not euphoria either. The crowd's emotional register matches what the tape shows: equilibrium without conviction. Intraday bounces (Bitcoin up 0.5 percent, Solana up 0.6 percent, XRP up 0.5 percent today) have not carried through to weekly or monthly gains for most assets, which means each bounce has been sold. The movers board (XMR up 4.9 percent, PEPE up 3.1 percent, NEAR up 2.1 percent among gainers; STABLE down 6.3 percent, PUMP down 5.6 percent) shows dispersed moves with no narrative coherence, a hallmark of sideways regime.",
+    "Watch for two key inflection points in the tape. First, a return by Bitcoin or Ethereum to above-50 RSI with MACD turning above signal line would signal momentum shifting from rest to re-acceleration, and that would retest the validity of the 200-day trend structure. Second, the ETF flow direction has turned outbound for two sessions now (October 16 into October 18); if that persists into next week while whale off-exchange moves continue, the dry powder (stablecoins) would be the only bid left on dips. Bitcoin network difficulty is down 0.7 percent with 1,657 blocks until retarget, fees are minimal at 1 sat/byte, suggesting no congestion-driven urgency. The regime is structurally long but mechanically asleep. Any read depends on whether the technicals wake up or the flows accelerate their exit."
   ]
 }

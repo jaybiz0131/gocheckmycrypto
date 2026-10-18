@@ -1,9 +1,9 @@
 {
- "generated_utc": "2026-10-17T23:15:44Z",
- "stamp_et": "7:15 PM ET on Oct 17",
+ "generated_utc": "2026-10-18T23:14:36Z",
+ "stamp_et": "7:14 PM ET on Oct 18",
  "window": {
-  "from": "2026-10-17",
-  "to": "2027-02-14"
+  "from": "2026-10-18",
+  "to": "2027-02-15"
  },
  "sources": [
   {
@@ -45,7 +45,7 @@
  "placeholders": [],
  "dropped_without_source": 0,
  "today": {
-  "date": "2026-10-17",
+  "date": "2026-10-18",
   "entries": [],
   "line": "nothing scheduled"
  },
@@ -85,7 +85,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=54"
    },
-   "read_utc": "2026-10-17T23:15:44Z",
+   "read_utc": "2026-10-18T23:14:36Z",
    "computed": false,
    "computed_from": null,
    "release_id": 54,
@@ -100,7 +100,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=53"
    },
-   "read_utc": "2026-10-17T23:15:45Z",
+   "read_utc": "2026-10-18T23:14:37Z",
    "computed": false,
    "computed_from": null,
    "release_id": 53,
@@ -109,45 +109,45 @@
   {
    "date": "2026-10-30",
    "time_et": "4:00 AM ET",
-   "title": "Deribit Bitcoin monthly options expiry, open interest 149,598 BTC",
+   "title": "Deribit Bitcoin monthly options expiry, open interest 150,238 BTC",
    "kind": "expiry",
    "source": {
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option"
    },
-   "read_utc": "2026-10-17T23:15:45Z",
+   "read_utc": "2026-10-18T23:14:38Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 149598.3,
+   "open_interest": 150237.6,
    "unit": "BTC",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
   {
    "date": "2026-10-30",
    "time_et": "4:00 AM ET",
-   "title": "Deribit Ether monthly options expiry, open interest 296,745 ETH",
+   "title": "Deribit Ether monthly options expiry, open interest 295,246 ETH",
    "kind": "expiry",
    "source": {
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option"
    },
-   "read_utc": "2026-10-17T23:15:46Z",
+   "read_utc": "2026-10-18T23:14:39Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 296745.0,
+   "open_interest": 295246.0,
    "unit": "ETH",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
   {
    "date": "2026-10-30",
-   "time_et": "9:53 AM ET",
-   "title": "Bitcoin difficulty adjustment, estimated +0.10%, 1,814 blocks to go",
+   "time_et": "10:00 AM ET",
+   "title": "Bitcoin difficulty adjustment, estimated -0.73%, 1,657 blocks to go",
    "kind": "difficulty",
    "source": {
     "name": "mempool.space",
     "url": "https://mempool.space/api/v1/difficulty-adjustment"
    },
-   "read_utc": "2026-10-17T23:15:46Z",
+   "read_utc": "2026-10-18T23:14:39Z",
    "computed": true,
    "computed_from": "mempool.space's estimate (estimatedRetargetDate, difficultyChange, remainingBlocks)",
    "next_retarget_height": 973728
@@ -161,7 +161,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=50"
    },
-   "read_utc": "2026-10-17T23:15:44Z",
+   "read_utc": "2026-10-18T23:14:37Z",
    "computed": false,
    "computed_from": null,
    "release_id": 50,
@@ -176,7 +176,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=10"
    },
-   "read_utc": "2026-10-17T23:15:44Z",
+   "read_utc": "2026-10-18T23:14:36Z",
    "computed": false,
    "computed_from": null,
    "release_id": 10,
@@ -191,7 +191,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=9"
    },
-   "read_utc": "2026-10-17T23:15:45Z",
+   "read_utc": "2026-10-18T23:14:38Z",
    "computed": false,
    "computed_from": null,
    "release_id": 9,
@@ -206,7 +206,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=54"
    },
-   "read_utc": "2026-10-17T23:15:44Z",
+   "read_utc": "2026-10-18T23:14:36Z",
    "computed": false,
    "computed_from": null,
    "release_id": 54,
@@ -221,7 +221,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=53"
    },
-   "read_utc": "2026-10-17T23:15:45Z",
+   "read_utc": "2026-10-18T23:14:37Z",
    "computed": false,
    "computed_from": null,
    "release_id": 53,
@@ -262,7 +262,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=50"
    },
-   "read_utc": "2026-10-17T23:15:44Z",
+   "read_utc": "2026-10-18T23:14:37Z",
    "computed": false,
    "computed_from": null,
    "release_id": 50,
@@ -303,7 +303,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=10"
    },
-   "read_utc": "2026-10-17T23:15:44Z",
+   "read_utc": "2026-10-18T23:14:36Z",
    "computed": false,
    "computed_from": null,
    "release_id": 10,
@@ -318,7 +318,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=9"
    },
-   "read_utc": "2026-10-17T23:15:45Z",
+   "read_utc": "2026-10-18T23:14:38Z",
    "computed": false,
    "computed_from": null,
    "release_id": 9,
@@ -333,7 +333,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=54"
    },
-   "read_utc": "2026-10-17T23:15:44Z",
+   "read_utc": "2026-10-18T23:14:36Z",
    "computed": false,
    "computed_from": null,
    "release_id": 54,
@@ -348,7 +348,7 @@
     "name": "FRED release dates",
     "url": "https://fred.stlouisfed.org/releases/calendar?rid=53"
    },
-   "read_utc": "2026-10-17T23:15:45Z",
+   "read_utc": "2026-10-18T23:14:37Z",
    "computed": false,
    "computed_from": null,
    "release_id": 53,
@@ -383,32 +383,32 @@
   {
    "date": "2026-12-25",
    "time_et": "3:00 AM ET",
-   "title": "Deribit Bitcoin quarterly options expiry, open interest 130,938 BTC",
+   "title": "Deribit Bitcoin quarterly options expiry, open interest 131,044 BTC",
    "kind": "expiry",
    "source": {
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option"
    },
-   "read_utc": "2026-10-17T23:15:45Z",
+   "read_utc": "2026-10-18T23:14:38Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 130938.4,
+   "open_interest": 131043.7,
    "unit": "BTC",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
   {
    "date": "2026-12-25",
    "time_et": "3:00 AM ET",
-   "title": "Deribit Ether quarterly options expiry, open interest 610,133 ETH",
+   "title": "Deribit Ether quarterly options expiry, open interest 609,965 ETH",
    "kind": "expiry",
    "source": {
     "name": "Deribit public API",
     "url": "https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option"
    },
-   "read_utc": "2026-10-17T23:15:46Z",
+   "read_utc": "2026-10-18T23:14:39Z",
    "computed": false,
    "computed_from": null,
-   "open_interest": 610133.0,
+   "open_interest": 609965.0,
    "unit": "ETH",
    "fields_read": "get_instruments: instrument_name, expiration_timestamp; get_book_summary_by_currency: instrument_name, open_interest"
   },
@@ -459,6 +459,19 @@
    "source": {
     "name": "Federal Reserve Board, Meeting calendars and information",
     "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+   },
+   "read_utc": "2026-10-06",
+   "computed": false,
+   "computed_from": null
+  },
+  {
+   "date": "2027-02-15",
+   "time_et": null,
+   "title": "US stock markets closed: Washington's Birthday",
+   "kind": "holiday",
+   "source": {
+    "name": "NYSE, Holidays and Trading Hours",
+    "url": "https://www.nyse.com/trade/hours-calendars"
    },
    "read_utc": "2026-10-06",
    "computed": false,

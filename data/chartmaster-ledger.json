@@ -75,5 +75,15 @@
   ],
   "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
   "t": "2026-10-17T23:15:04Z"
+ },
+ {
+  "date": "2026-10-18",
+  "path": "cut",
+  "tripped": [
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Ethereum runs a 2.71 long-"
+  ],
+  "detail": "dropped 3 sentence(s): Leverage positioning shows longs crowded and funding rates elevated. | Ethereum runs a 2.71 long-short ratio on $1.41 billion open interest at 0.8 perc | When longs are this cro",
+  "t": "2026-10-18T23:13:31Z"
  }
 ]
