@@ -20,15 +20,27 @@ sources_2026-10-14T2343Z.json and sources_2026-10-15T2343Z.json
     DefiLlama's hack list and its total stablecoin series. The entries kept are the source's own,
     unchanged.
 
+  - Added the same day, about 1:55 to 2:01 PM EDT (fix round 1, each answer stamped in added_utc;
+    the fixture's own clock, recorded_utc, is unchanged): Binance's data-api.binance.vision 5-minute
+    klines; Yahoo's ZT=F, IBIT and FBTC bars; OKX taker volume (taker-volume-contract, hourly, unit 2,
+    USDT); Gate's liquidations and contract multipliers for the onset hour; Kalshi's KXFED events,
+    markets and hourly candlesticks; ForexFactory's current-week calendar; and the wire items' linked
+    reports, keyed "article:<url>", as the text common.extract_article_text takes from the whole page
+    (read whole: CoinDesk's pages run about 1.7MB, past the fetch layer's 600KB cap). The Block
+    answered 403; that answer is kept as recorded.
+
 wire_2026-10-14T2343Z.json, wire_2026-10-15T2343Z.json
   site/data/wire.json as committed by the 14 and 15 October Editions (git show 7d9008b and 94dd6af).
   The 15 October file still carries the producer-price line Sprint 9.1 found unsupported by its own
-  source; it is kept as the wire stood, and the tests use it only for its time (it was stamped
-  04:25Z, before the 8:30 AM ET release, so it cannot be that release's first report).
+  source; it is kept as the wire stood. With the linked report read, 9.1's source check cuts it
+  ($940 million is in none of its sources); with the reports withheld, the tests use it for its time
+  (stamped 04:25Z, before the 8:30 AM ET release, so not that release's first report) and to prove
+  the page's correction keeps it out of the section.
 
-pulse_2026-10-15T2343Z.json, flows_2026-10-15T2343Z.json
-  site/data/pulse.json and flows.json as committed by the 15 October Edition (git show 94dd6af), for
-  the Bitcoin and Ether page cases.
+pulse_2026-10-14T2343Z.json, pulse_2026-10-15T2343Z.json, flows_2026-10-15T2343Z.json
+  site/data/pulse.json (and flows.json) as committed by the 14 and 15 October Editions (git show
+  7d9008b and 94dd6af): the Board's Farside ETF reading for the record, and the Bitcoin and Ether
+  page cases.
 
 Cases in scripts/sprint92_test.py marked SYNTHETIC build a small series by hand to reach a rule
 these two days do not reach; they are labeled as such (Jack, 13 October 2026) and use no figure from

@@ -58,10 +58,19 @@ def rec(day):
         import why_evidence as we
         fx = load(f"sources_{day}.json")
         r = we.build(fx["end_utc"], load(f"wire_{day}.json"), now_utc=fx["recorded_utc"],
-                     fetch=we.Replay(fx["responses"]))
+                     fetch=we.Replay(fx["responses"]), pulse=load(f"pulse_{day}.json"))
         r.update(date_et=day[:10], slot="evening")
         _CACHE[day] = r
     return copy.deepcopy(_CACHE[day])
+
+
+def rec_bare(day):
+    """The record with the linked reports withheld: 9.1's source check cannot speak, so every wire
+    line stays as the wire held it (for the cases about times, not about the check)."""
+    import why_evidence as we
+    fx = load(f"sources_{day}.json")
+    bare = {u: v for u, v in fx["responses"].items() if not u.startswith("article:")}
+    return we.build(fx["end_utc"], load(f"wire_{day}.json"), now_utc=fx["recorded_utc"], fetch=we.Replay(bare))
 
 
 def cand(r, pat):
@@ -106,10 +115,10 @@ def series_cases(fails):
     guarded(fails, "a venue that answers 429 is left out and named; the next venue (OKX) carries the series",
             lambda: r["coins"]["BTC"]["series"]["source"] == "OKX 5-minute candles"
             and any(u["name"].endswith("Coinbase 5-minute candles") and u["why"] == "HTTP 429" for u in r["unread"]))
-    resp2 = {u: v for u, v in resp.items() if "okx.com/api/v5/market" not in u}
+    resp2 = {u: v for u, v in resp.items() if "okx.com/api/v5/market" not in u and "binance.vision" not in u}
     r = we.build(fx["end_utc"], None, now_utc=fx["recorded_utc"], fetch=we.Replay(resp2), coins=("BTC",))
     guarded(fails, "no venue answers: no Bitcoin entry at all (never an invented series), every venue named",
-            lambda: "BTC" not in r["coins"] and sum(1 for u in r["unread"] if u["name"].startswith("Bitcoin prices")) == 4)
+            lambda: "BTC" not in r["coins"] and sum(1 for u in r["unread"] if u["name"].startswith("Bitcoin prices")) == 5)
 
 
 # ---- 2. the candidates, with event and first-report times ------------------------------------------
@@ -130,9 +139,11 @@ def candidate_cases(fails):
     ppi = cand(r15, r"^Producer Price Index")
     guarded(fails, "15 Oct: PPI from the BLS schedule, event 8:30 AM ET (12:30Z)",
             lambda: ppi["event_utc"] == "2026-10-15T12:30:00Z")
+    r15b = rec_bare(D15)
+    ppi = cand(r15b, r"^Producer Price Index")
     guarded(fails, "15 Oct: the producer-price wire line stamped 04:25Z, BEFORE the 8:30 AM release, is not taken as its first report",
             lambda: ppi.get("report_utc") is None and any(c["kind"] == "wire" and c["report_utc"] == "2026-10-15T04:25:15Z"
-                                                          for c in r15["candidates"]))
+                                                          for c in r15b["candidates"]))
     fr = cand(r14, r"Federal Register")
     guarded(fails, "a source that gives only a day (the Federal Register) carries no invented time; its test cannot run",
             lambda: fr["event_utc"] is None and test_of(r14, "BTC", fr) is None and fr["event_day"] == "2026-10-13")
@@ -273,8 +284,9 @@ def chart_cases(fails):
             lambda: abs(float(rect.group(1)) - x_on) < 0.11 and abs(float(rect.group(1)) + float(rect.group(2)) - x_end) < 0.2)
     pins = re.findall(r'<g class="ev-pin">.*?>(\d+)</text></g>', s)
     items = re.findall(r'<li class="ev-c"><span class="ev-n" aria-hidden="true">(\d+)</span>', html)
-    guarded(fails, "every pinned number is a numbered item in the list below the chart (6 pins, 6 timed items)",
-            lambda: pins and set(pins) <= set(items) and len(pins) == 6)
+    timed = sum(1 for t in r15["coins"]["BTC"]["tests"] if t["t_utc"])
+    guarded(fails, f"every pinned number is a numbered item in the list below the chart ({timed} pins, one per timed item)",
+            lambda: pins and set(pins) <= set(items) and len(pins) == timed == 5)
     guarded(fails, "the chart says what it is in words (role=img, its window, its range)",
             lambda: 'role="img"' in s and "the 24 hours to 7:43 PM ET Thursday, October 15" in s)
     guarded(fails, "the PPI release is pinned at 8:30 AM ET on the line",
@@ -333,7 +345,7 @@ def page_cases(fails):
     guarded(fails, "a wire item is printed once: the Russia P2P line is in the section, not again under the page's own lists",
             lambda: btc.count("Russia's Central Bank confirmed ban") == 1)
     guarded(fails, "each unread source is named on the page with its reason",
-            lambda: "Not read, so not shown:" in btc and "Kalshi Fed markets" in btc)
+            lambda: "Not read, so not shown:" in btc and "Hyperliquid liquidations" in btc)
     planted = copy.deepcopy(r15)
     planted["candidates"][0]["line"] = "Likely the trigger, because traders said so."
     h = we.section_html(planted, "BTC")
@@ -348,12 +360,17 @@ def page_cases(fails):
     guarded(fails, "a record whose window ended 20 hours before the Board's reading is not shown on a coin page",
             lambda: we.from_snapshot_coin(r15, "BTC", "2026-10-16T19:43:27Z") is None
             and we.from_snapshot_coin(r15, "BTC", "2026-10-15T23:50:00Z") is not None)
+    import tempfile
+    old_dir = we.DIR
     try:
+        we.DIR = tempfile.mkdtemp(prefix="why-empty-")       # no evidence on disk, whatever the tree holds
         nohtml = _coin_html("BTC", None)
         guarded(fails, "the Bitcoin page with no evidence on disk renders without the section",
                 lambda: "What lined up with the move" not in nohtml and "Bitcoin" in nohtml)
     except Exception as e:                                   # noqa: BLE001
         guarded(fails, f"the Bitcoin page with no evidence renders [{type(e).__name__}: {e}]", lambda: False)
+    finally:
+        we.DIR = old_dir
 
 
 # ---- 7. no model, and the run path -------------------------------------------------------------------------
@@ -386,6 +403,100 @@ def wiring_cases(fails):
                 lambda: built and not any("What lined up with the move" in h for _r, h, _p, _m in built))
 
 
+# ---- 8. every source the audit names is read, or named with a true reason ------------------------------
+
+# The audit's section 3.1 list (layers 1 to 3) and the reviewer's additions, kept here by hand so the
+# module cannot satisfy the test by shortening its own list.
+CATALOG = ["CoinGecko", "Coinbase", "OKX 5-minute candles", "Binance", "Kraken", "BLS release schedule",
+           "BEA release dates", "FOMC calendar", "Federal Reserve press releases", "SEC press releases",
+           "EDGAR", "CFTC press releases", "Federal Register", "Exchange listing notices", "DefiLlama hacks",
+           "DefiLlama stablecoin supply", "Nasdaq economic calendar", "ForexFactory calendar",
+           "OKX liquidations", "Gate liquidations", "Hyperliquid liquidations", "OKX open interest",
+           "OKX taker flow", "OKX funding", "Farside", "S&P 500 futures", "Nasdaq 100 futures", "Dollar index",
+           "10-year Treasury yield", "2-year Treasury note futures", "Gold futures", "Oil futures", "VIX",
+           "IBIT", "FBTC", "Kalshi"]
+
+
+def _answer(day, frag):
+    fx = load(f"sources_{day}.json")
+    return next(v for u, v in fx["responses"].items() if frag in u)
+
+
+def source_cases(fails):
+    import why_evidence as we
+    print("8. every source the audit names is read, or left out and named with a true reason")
+    for day in (D14, D15):
+        r = rec(day)
+        names = [x["name"] for x in r["read"]] + [x["name"] for x in r["unread"]]
+        missing = [c for c in CATALOG if not any(c in n for n in names)]
+        guarded(fails, f"{day[:10]}: every catalogued source is in the read or the not-read list (missing: {missing})",
+                lambda: not missing)
+        guarded(fails, f"{day[:10]}: every not-read source carries a reason",
+                lambda: all(x.get("why") for x in r["unread"]))
+    r14, r15 = rec(D14), rec(D15)
+    rd15 = {x["name"] for x in r15["read"]}
+    un = {x["name"]: x["why"] for x in r15["unread"]}
+    guarded(fails, "Binance's data-api.binance.vision mirror is read as a series venue, its gap kept beside the others",
+            lambda: any("Binance" in n for n in rd15)
+            and any("Binance" in o["source"] for o in r15["coins"]["BTC"].get("seconds") or []))
+    row = {x["key"]: x for x in r15["coins"]["BTC"]["mechanics"]["rows"]}
+    tk = _answer(D15, "taker-volume-contract?instId=BTC-USDT-SWAP")["data"][0]
+    guarded(fails, "15 Oct: OKX taker flow is read hourly for the onset hour, buys and sells as OKX sent them (USDT)",
+            lambda: row["taker"]["buy_usd"] == round(float(tk[2])) and row["taker"]["sell_usd"] == round(float(tk[1])))
+    gate = _answer(D15, "gateio.ws/api/v4/futures/usdt/liq_orders?contract=BTC_USDT")
+    q = float(_answer(D15, "gateio.ws/api/v4/futures/usdt/contracts/BTC_USDT")["quanto_multiplier"])
+    longs = round(sum(abs(float(o["size"])) * q * float(o["fill_price"]) for o in gate if float(o["size"]) > 0))
+    guarded(fails, "15 Oct: Gate's liquidations are read for the onset hour (longs summed from its own answer)",
+            lambda: row["liq-gate"]["longs_usd"] == longs and isinstance(row["liq-gate"]["shorts_usd"], int))
+    guarded(fails, "Hyperliquid's liquidations are named, with the reason they cannot be read",
+            lambda: "liquidation history" in un.get("Hyperliquid liquidations", ""))
+    ks = [x for x in r15["coins"]["BTC"]["mechanics"]["rows"] if x["key"].startswith("kalshi")]
+    guarded(fails, "15 Oct: Kalshi's Fed markets for the next meeting are read for the onset hour (yes price, both ends)",
+            lambda: ks and all(isinstance(k["from_pct"], float) and isinstance(k["to_pct"], float) for k in ks))
+    guarded(fails, "15 Oct: IBIT and FBTC volume in the onset hour (9:55 AM ET, market open) are read, in shares",
+            lambda: row["IBIT"]["value"] > 0 and row["FBTC"]["value"] > 0 and row["IBIT"]["unit"] == "shares")
+    r = {x["key"]: x for x in r14["coins"]["BTC"]["mechanics"]["rows"]}
+    guarded(fails, "14 Oct: at 4:10 AM ET IBIT did not trade: None, never 0", lambda: r["IBIT"]["value"] is None)
+    guarded(fails, "the 2-year Treasury note future is read", lambda: "ZT=F" in row)
+    guarded(fails, "Nasdaq's calendar is named with the true reason (its dates come back a day late)",
+            lambda: "a day late" in un.get("Nasdaq economic calendar", ""))
+    guarded(fails, "ForexFactory's calendar, which keeps only the current week, is named for a past window",
+            lambda: "current week" in un.get("ForexFactory calendar", ""))
+    html = we.section_html(r15, "BTC")
+    guarded(fails, "the page says what was read but is not shown in the hour (Farside's daily ETF flow, DefiLlama's daily supply)",
+            lambda: "Farside" in visible(html) and "Read, not shown in this hour:" in visible(html))
+    nr = re.search(r"Not read, so not shown: (.*?)</p>", html, re.S)
+    guarded(fails, "the not-read paragraph lists every not-read source of the record, and nothing read",
+            lambda: nr and all(x["name"] in visible(nr.group(1)) for x in r15["unread"]))
+
+
+# ---- 9. corrections reach the section; the wire's source check runs on candidates -----------------------
+
+def correction_cases(fails):
+    import today
+    import why_evidence as we
+    print("9. a correction on the page applies to the section; unsupported wire clauses are cut")
+    d15 = json.load(open(os.path.join(HERE, "site", "data", "today", "2026-10-15-evening.json"), encoding="utf-8"))
+    fx = load(f"sources_{D15}.json")
+    bare = {u: v for u, v in fx["responses"].items() if not u.startswith("article:")}
+    r = we.build(fx["end_utc"], load(f"wire_{D15}.json"), now_utc=fx["recorded_utc"], fetch=we.Replay(bare))
+    guarded(fails, "with the articles unread the source check cannot speak, and the producer-price line stays in the record",
+            lambda: any("$940 million" in c["line"] for c in r["candidates"]))
+    page = visible(today.body_html(d15, [], "dated", evidence=r))
+    guarded(fails, "15 Oct: the page's correction drops the corrected line from the section; it prints once, inside the correction",
+            lambda: page.count("Hot US producer-price data triggered nearly $940 million") == 1
+            and "The line has been removed." in page)
+    sec = we.section_html(r, "BTC", corrections=d15["corrections"])
+    guarded(fails, "section_html with the corrections never prints the corrected line",
+            lambda: "$940 million" not in visible(sec))
+    guarded(fails, "without them (a page with no correction) the line is still printed, so the test bites",
+            lambda: "$940 million" in visible(we.section_html(r, "BTC")))
+    full = rec(D15)
+    guarded(fails, "with the articles read, 9.1's source check cuts the unsupported producer-price line before it is printed",
+            lambda: not any("$940 million" in c["line"] for c in full["candidates"])
+            and any("$940 million" in (x.get("line") or "") for x in full.get("source_cuts") or []))
+
+
 def unit():
     fails = []
     group(fails, "1 (series)", series_cases)
@@ -395,6 +506,8 @@ def unit():
     group(fails, "5 (chart)", chart_cases)
     group(fails, "6 (pages)", page_cases)
     group(fails, "7 (wiring)", wiring_cases)
+    group(fails, "8 (sources)", source_cases)
+    group(fails, "9 (corrections)", correction_cases)
     return fails
 
 

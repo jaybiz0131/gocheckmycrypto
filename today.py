@@ -498,7 +498,8 @@ def body_html(rec, archive_dates, here=None, evidence=None):
     if evidence:
         try:
             import why_evidence
-            ev_html = why_evidence.section_html(evidence, "BTC", live=(here != "dated"))
+            ev_html = why_evidence.section_html(evidence, "BTC", live=(here != "dated"),
+                                                corrections=rec.get("corrections"))
             shown = why_evidence.wire_urls_shown(evidence) if ev_html else set()
         except Exception as e:                      # fail open: the page as it was
             print(f"::warning::today: the evidence was not drawn ({type(e).__name__}: {e})")

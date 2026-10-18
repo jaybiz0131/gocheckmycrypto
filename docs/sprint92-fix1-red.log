@@ -1,0 +1,105 @@
+fix round 1, red run on the branch at 0ed9b60 with the new cases (groups 8 and 9) added to scripts/sprint92_test.py, before the fix; shell date: Sun Oct 18 13:52 EDT 2026 (the run's own log follows)
+1. the intraday series: 5-minute prices from a named venue, a second venue beside it
+  ok   14 Oct: Bitcoin's series is Coinbase's 5-minute candles, 287 closes inside the 24-hour window
+  ok   14 Oct: OKX is the second read and agrees within 0.1 point (gap 0.03)
+  ok   a candle's close is stamped at its bar's end: Coinbase's 23:35Z bar closes at 23:40Z, $81,453.58
+  ok   CoinGecko days=1 is not asked for a window that ended days ago, and is named with the reason
+  ok   Kraken's 5-minute candles cannot reach back to 14 Oct, and are named with the reason
+  ok   a venue that answers 429 is left out and named; the next venue (OKX) carries the series
+  FAIL no venue answers: no Bitcoin entry at all (never an invented series), every venue named
+2. the candidates: event time, first-report time, primary flag, commentary marked secondary
+  ok   14 Oct: CPI from the BLS schedule, event 8:30 AM ET (12:30Z), scheduled, primary
+  ok   14 Oct: the wire's inflation line (12:33:56Z) is CPI's first report, folded in, not listed twice
+  ok   14 Oct: a wire item keeps its own first-report time and outlets counted (Standard Chartered, 06:12:46Z, 5)
+  ok   15 Oct: PPI from the BLS schedule, event 8:30 AM ET (12:30Z)
+  ok   15 Oct: the producer-price wire line stamped 04:25Z, BEFORE the 8:30 AM release, is not taken as its first report
+  ok   a source that gives only a day (the Federal Register) carries no invented time; its test cannot run
+  ok   SYNTHETIC wire lines: a cause given only as commentary ('analysts said') is kept and marked secondary
+  ok   SYNTHETIC wire lines: a reported event is not marked secondary
+3. the timing test on the recorded fixtures
+  ok   14 Oct: the largest same-direction run is DOWN 3.144%, from $84,011.46 at 4:10 AM ET to $81,369.99 at 6:45 PM ET
+  ok   14 Oct CPI: it came 260 minutes after the onset, so not before it
+  ok   14 Oct CPI: the next 60 minutes carried 71.2% of the window's fall (Bitcoin -1.45% in that hour)
+  ok   14 Oct CPI: the price had not moved first (8.5% of the run done before 8:30 AM)
+  ok   14 Oct Payward/Saldo (13:07:45Z): the price moved first, 50.7% of the run done before the first report
+  ok   14 Oct Standard Chartered: 117 minutes before the onset is outside the 60-minute lead
+  ok   15 Oct: the largest run is UP 3.384%, from $79,790.86 at 9:55 AM ET to $82,491.34 at 6:25 PM ET
+  ok   15 Oct PPI: released 85 minutes before the onset, outside the lead and not at the onset
+  ok   15 Oct PPI: the hour after it ran against the window's rise (Bitcoin -1.04%, share -160.4%)
+  ok   15 Oct Russia P2P line (20:31:04Z): the price moved first, 92.7% of the run done
+  ok   15 Oct Ether: its own run, UP 5.939% from 9:55 AM ET
+  ok   SYNTHETIC: a flat line then a fall: the onset is the last point before the fall
+  ok   SYNTHETIC: an event 30 minutes before the onset comes before it, within the lead
+  ok   SYNTHETIC: an event 61 minutes before does not
+  ok   SYNTHETIC: a scheduled release 5 minutes AFTER the detected onset is at its release time
+  ok   SYNTHETIC: the hour after the onset carries the whole fall (share 100%)
+4. the mechanics pattern for the onset hour
+  ok   15 Oct, 9:55 to 10:55 AM ET: Bitcoin +2.50%, S&P 500 futures +0.58%, Nasdaq 100 futures +0.94% (Yahoo)
+  ok   15 Oct: the pattern is 'risk-on across assets', with its rule
+  ok   15 Oct: the 10-year yield moves in basis points (+1.7 bp), the VIX in percent (-5.12%)
+  ok   15 Oct: OKX's hourly open interest is read for the hour from 9:00 AM ET (+0.67%)
+  ok   OKX liquidations cannot reach back to the onset hour: not read, with the reason, never a zero
+  ok   14 Oct, 4:10 AM ET: the 10-year yield did not trade in the hour: None, not 0
+  ok   14 Oct: Bitcoin -0.74% with stock futures mixed (+0.03%, -0.11%): no pattern is claimed
+  ok   15 Oct Ether: 30-day beta 1.074 from the stored closes; excess +0.19 point is not coin-specific
+  ok   SYNTHETIC: Bitcoin -2% with stock futures flat is 'crypto only'
+  ok   SYNTHETIC: open interest -6% with 89% of liquidations long is a 'leverage flush'
+  ok   SYNTHETIC: Ether -5% against Bitcoin -2% at beta 1.0 is 'coin-specific' (excess -3 points)
+5. the timing chart from a fixture
+  ok   15 Oct: the section draws one timing chart
+  ok   the price line has a point per 5-minute close (287)
+  ok   15 Oct (an up window) draws in the up line color; 14 Oct (down) in the down color
+  ok   the onset mark sits at the onset's time on the axis (9:55 AM ET)
+  ok   the shaded run spans onset to the run's end
+  ok   every pinned number is a numbered item in the list below the chart (6 pins, 6 timed items)
+  ok   the chart says what it is in words (role=img, its window, its range)
+  ok   the PPI release is pinned at 8:30 AM ET on the line
+6. /today/ and the Bitcoin and Ether pages: the section, the chart, no grade, fail open
+  ok   /today/ (living): 'What lined up with the move' with its timing chart
+  ok   /today/ (living): no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page
+  ok   /today/ (living): no em dash or en dash
+  ok   /today/ (living): the section never prints 'market_chart' (the coin page guard against inline chart code)
+  ok   /today/2026-10-15: 'What lined up with the move' with its timing chart
+  ok   /today/2026-10-15: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page
+  ok   /today/2026-10-15: no em dash or en dash
+  ok   /today/2026-10-15: the section never prints 'market_chart' (the coin page guard against inline chart code)
+  ok   /coins/btc: 'What lined up with the move' with its timing chart
+  ok   /coins/btc: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page
+  ok   /coins/btc: no em dash or en dash
+  ok   /coins/btc: the section never prints 'market_chart' (the coin page guard against inline chart code)
+  ok   /coins/eth: 'What lined up with the move' with its timing chart
+  ok   /coins/eth: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page
+  ok   /coins/eth: no em dash or en dash
+  ok   /coins/eth: the section never prints 'market_chart' (the coin page guard against inline chart code)
+  ok   /today/ shows Bitcoin's evidence; the Ether page shows Ether's
+  ok   the living page's window stamp carries data-asof (the stale state); the dated page's does not
+  ok   a wire item is printed once: the Russia P2P line is in the section, not again under the page's own lists
+  ok   each unread source is named on the page with its reason
+  ok   a candidate line carrying a grade word or 'because' is not printed; its outlet stands in
+  ok   /today/ with no evidence renders as before, with no section
+::warning::why_evidence: the section for BTC was not drawn (TypeError: 'str' object cannot be interpreted as an integer)
+  ok   a broken record draws no section and raises nothing
+  ok   a record whose window ended 20 hours before the Board's reading is not shown on a coin page
+  ok   the Bitcoin page with no evidence on disk renders without the section
+7. no model call; wired into the run path like the daily answer
+  ok   why_evidence.py never imports or calls the model layer (llm.py)
+  ok   why_evidence.py carries no em dash
+  ok   morning-read.yml: runs why_evidence.py --write after the daily answer's record, never as a gate
+  ok   morning-read.yml: commits the evidence records with the push
+  ok   crypto-news-brief.yml: runs why_evidence.py --write after the daily answer's record, never as a gate
+  ok   crypto-news-brief.yml: commits the evidence records with the push
+  ok   today.build_pages reads the stored record for the page's day and slot
+  ok   and with no stored record builds the same pages without the section
+8. every source the audit names is read, or left out and named with a true reason
+  FAIL 2026-10-14: every catalogued source is in the read or the not-read list (missing: ['Binance', 'Nasdaq economic calendar', 'ForexFactory calendar', 'Gate liquidations', 'Hyperliquid liquidations', 'Farside', '2-year Treasury note futures', 'IBIT', 'FBTC'])
+  ok   2026-10-14: every not-read source carries a reason
+  FAIL 2026-10-15: every catalogued source is in the read or the not-read list (missing: ['Binance', 'Nasdaq economic calendar', 'ForexFactory calendar', 'Gate liquidations', 'Hyperliquid liquidations', 'Farside', '2-year Treasury note futures', 'IBIT', 'FBTC'])
+  ok   2026-10-15: every not-read source carries a reason
+  FAIL Binance's data-api.binance.vision mirror is read as a series venue, its gap kept beside the others
+  FAIL group 8 (sources) could not run [StopIteration: ]
+9. a correction on the page applies to the section; unsupported wire clauses are cut
+  ok   with the articles unread the source check cannot speak, and the producer-price line stays in the record
+  FAIL 15 Oct: the page's correction drops the corrected line from the section; it prints once, inside the correction
+  FAIL group 9 (corrections) could not run [TypeError: section_html() got an unexpected keyword argument 'corrections']
+
+SPRINT 9.2: FAIL (7)

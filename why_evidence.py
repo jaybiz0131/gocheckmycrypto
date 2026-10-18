@@ -36,7 +36,7 @@ record and renders the section on /today/ and the Bitcoin and Ether pages; a mis
 record renders the pages exactly as before (fail open).
 
     python3 why_evidence.py --write                  # the run's step; exits 0 whatever happens
-    python3 why_evidence.py --record END_UTC OUT     # record a real window's answers as a fixture
+    python3 why_evidence.py --record END_UTC OUT [WIRE]   # record a real window's answers as a fixture
 """
 import datetime as _dt
 import html as _html
@@ -67,17 +67,21 @@ SECTION_TITLE = "What lined up with the move"
 
 COINS = {
     "BTC": {"name": "Bitcoin", "gecko": "bitcoin", "coinbase": "BTC-USD", "okx": "BTC-USDT",
-            "kraken": "XBTUSD", "swap": "BTC-USDT-SWAP", "ccy": "BTC", "history": "bitcoin"},
+            "kraken": "XBTUSD", "binance": "BTCUSDT", "gate": "BTC_USDT", "swap": "BTC-USDT-SWAP", "ccy": "BTC", "history": "bitcoin"},
     "ETH": {"name": "Ether", "gecko": "ethereum", "coinbase": "ETH-USD", "okx": "ETH-USDT",
-            "kraken": "ETHUSD", "swap": "ETH-USDT-SWAP", "ccy": "ETH", "history": "ethereum"},
+            "kraken": "ETHUSD", "binance": "ETHUSDT", "gate": "ETH_USDT", "swap": "ETH-USDT-SWAP", "ccy": "ETH", "history": "ethereum"},
 }
 
 # Yahoo symbol, the label the page prints, and how a change is stated (percent, or basis points
 # for a yield)
 CROSS = [("ES=F", "S&P 500 futures", "pct"), ("NQ=F", "Nasdaq 100 futures", "pct"),
          ("DX-Y.NYB", "Dollar index", "pct"), ("^TNX", "10-year Treasury yield", "bp"),
+         ("ZT=F", "2-year Treasury note futures", "pct"),
          ("GC=F", "Gold futures", "pct"), ("CL=F", "Oil futures (WTI)", "pct"),
-         ("^VIX", "VIX", "pct")]
+         ("^VIX", "VIX", "pct"),
+         # the only intraday read of the spot ETFs: shares traded in the hour (AUDIT.md 3.1 layer 3)
+         ("IBIT", "IBIT volume (iShares Bitcoin Trust)", "shares"),
+         ("FBTC", "FBTC volume (Fidelity Wise Origin Bitcoin Fund)", "shares")]
 
 # The grade labels belong to Sprint 9.3 and "because" to a Confirmed verdict: nothing this file
 # prints may carry either. The labels are the capitalized words; "confirmed a ban" in a wire line
@@ -169,10 +173,46 @@ def live_fetch(url, kind="json"):
                                          attempts=1 if "coingecko.com" in url else 2)
         except Exception as e:                                   # noqa: BLE001
             raise Unread(_why(e)) from None
+    if kind == "article":
+        # a wire item's linked report, as the text the desk's own extractor takes from it. Read
+        # whole: CoinDesk's pages run about 1.7MB with the article past the fetch layer's 600KB
+        # cap, which leaves only the subheading. Same spacing and user agent as the fetch layer.
+        return common.extract_article_text(_read_whole(url), cap=6000) or ""
     m = common.fetch_page_meta(url, timeout=25, retries=1)
     if m.get("status") != 200 or not m.get("body"):
         raise Unread(m.get("error") or f"HTTP {m.get('status')}")
     return m["body"]
+
+
+ARTICLE_CAP = 3_000_000
+
+
+def _read_whole(url, tries=2):
+    """A page read to ARTICLE_CAP bytes, with common's per-host spacing and user agent; one retry
+    on a 429, a 5xx or a timeout. Raises Unread with the reason."""
+    import time
+    import urllib.error
+    import urllib.request
+    import common
+    last = None
+    for i in range(tries):
+        common._polite_wait(url)
+        try:
+            req = urllib.request.Request(url, headers={
+                "User-Agent": common.ua_for(url),
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.9"})
+            with urllib.request.urlopen(req, timeout=25) as r:
+                return r.read(ARTICLE_CAP).decode("utf-8", "replace")
+        except urllib.error.HTTPError as e:
+            last = f"HTTP {e.code}"
+            if e.code not in common.RETRY_STATUSES:
+                break
+        except Exception as e:                                   # noqa: BLE001
+            last = f"{type(e).__name__}: {str(e)[:80]}"
+        if i < tries - 1:
+            time.sleep(3)
+    raise Unread(last or "no answer")
 
 
 def _why(e):
@@ -182,6 +222,12 @@ def _why(e):
     return f"{type(e).__name__}: {str(e)[:80]}"
 
 
+def _key(url, kind):
+    """A fixture's key for an answer: the URL, or 'article:' and the URL for a linked report read
+    as article text."""
+    return ("article:" + url) if kind == "article" else url
+
+
 class Recorder:
     """Wraps a fetch and keeps every answer by URL, errors included, for a fixture."""
 
@@ -189,12 +235,13 @@ class Recorder:
         self.fetch, self.responses = fetch, {}
 
     def __call__(self, url, kind="json"):
+        key = _key(url, kind)
         try:
             body = self.fetch(url, kind)
         except Exception as e:                                   # noqa: BLE001
-            self.responses[url] = {"__error__": str(e) or type(e).__name__}
+            self.responses[key] = {"__error__": str(e) or type(e).__name__}
             raise
-        self.responses[url] = body
+        self.responses[key] = body
         return body
 
 
@@ -205,9 +252,10 @@ class Replay:
         self.responses = responses
 
     def __call__(self, url, kind="json"):
-        if url not in self.responses:
+        key = _key(url, kind)
+        if key not in self.responses:
             raise Unread("not in the recorded fixture")
-        body = self.responses[url]
+        body = self.responses[key]
         if isinstance(body, dict) and "__error__" in body:
             raise Unread(body["__error__"])
         return body
@@ -244,6 +292,11 @@ def _pts_okx(body, bar):
             if isinstance(r, list) and len(r) >= 5]
 
 
+def _pts_binance(body, bar):
+    # [open time ms, open, high, low, close, volume, close time ms, ...]
+    return [(int(r[0]) // 1000 + bar, float(r[4])) for r in body or [] if isinstance(r, list) and len(r) >= 5]
+
+
 def _pts_kraken(body, bar):
     res = (body or {}).get("result") or {}
     rows = next((v for k, v in res.items() if k != "last" and isinstance(v, list)), [])
@@ -269,6 +322,9 @@ def price_sources(sym, start, end, now):
     out.append(("OKX 5-minute candles",
                 f"https://www.okx.com/api/v5/market/history-candles?instId={c['okx']}&bar=5m"
                 f"&after={end * 1000}&limit=300", _pts_okx, 300, None))
+    out.append(("Binance 5-minute klines (data-api.binance.vision)",
+                f"https://data-api.binance.vision/api/v3/klines?symbol={c['binance']}&interval=5m"
+                f"&startTime={(start - 300) * 1000}&endTime={end * 1000}&limit=300", _pts_binance, 300, None))
     if now - start <= 59 * 3600:
         out.append(("Kraken 5-minute candles",
                     f"https://api.kraken.com/0/public/OHLC?pair={c['kraken']}&interval=5&since={start - 300}",
@@ -289,7 +345,8 @@ def _clip(pts, start, end):
 
 
 def read_series(sym, start, end, now, fetch, ledger):
-    """(series, second): each {source, url, bar_min, points [[t, price], ...]} or None."""
+    """(series, others): the first venue that answers is the series, every other venue that answers
+    is kept beside it to show whether the venues agree. Each {source, url, bar_min, points}."""
     got = []
     want = (end - start) / 300.0
     for name, url, parse, bar, skip in price_sources(sym, start, end, now):
@@ -297,8 +354,6 @@ def read_series(sym, start, end, now, fetch, ledger):
         if skip:
             ledger.miss(label, skip)
             continue
-        if len(got) == 2:
-            break
         try:
             pts = _clip(parse(fetch(url, "json"), bar), start, end)
         except Exception as e:                                   # noqa: BLE001
@@ -310,7 +365,7 @@ def read_series(sym, start, end, now, fetch, ledger):
         ledger.ok(label, url)
         got.append({"source": name, "url": url, "bar_min": 5,
                     "points": [[t, round(p, 6)] for t, p in pts]})
-    return (got[0] if got else None), (got[1] if len(got) > 1 else None)
+    return (got[0] if got else None), got[1:]
 
 
 # ---- the timing test -------------------------------------------------------------------------
@@ -412,6 +467,7 @@ def _wire_candidates(wire, start, end):
                  for l in (w.get("links") or []) if l.get("url")]
         sec = bool(COMMENTARY.search(line))
         out.append({"id": "wire-" + str(w.get("id") or len(out)), "kind": "wire", "line": line,
+                    "titles": [t for t in w.get("titles") or [] if t],
                     "event_utc": None, "event_basis": None, "scheduled": False,
                     "report_utc": _iso(ts), "source_count": int(w.get("source_count") or len(links)),
                     "primary": bool(w.get("primary")), "links": links[:4],
@@ -596,7 +652,81 @@ def _fedreg(start, end, fetch, ledger):
     return out
 
 
-def candidates(start, end, wire, fetch, ledger, fomc_path=FOMC):
+FOREXFACTORY = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
+
+
+def _forexfactory(start, end, fetch, ledger, held):
+    """US releases of medium and high impact from ForexFactory's calendar, which publishes the
+    current week only. A release BLS or BEA already gives at the same time is not listed twice."""
+    try:
+        rows = fetch(FOREXFACTORY, "json") or []
+    except Exception as e:                                       # noqa: BLE001
+        ledger.miss("ForexFactory calendar", str(e), FOREXFACTORY)
+        return []
+    stamps = [t for t in (_parse_utc(r.get("date")) for r in rows if isinstance(r, dict)) if t]
+    if not stamps:
+        ledger.miss("ForexFactory calendar", "its answer held no dated event", FOREXFACTORY)
+        return []
+    first = int(min(stamps).timestamp())
+    if first > start:
+        ledger.miss("ForexFactory calendar", f"it keeps only the current week, from {stamp(first)}, "
+                    "which does not reach back to this window", FOREXFACTORY)
+        return []
+    ledger.ok("ForexFactory calendar", FOREXFACTORY)
+    out = []
+    for r in rows:
+        t = _parse_utc(r.get("date"))
+        if t is None or r.get("country") != "USD" or r.get("impact") not in ("High", "Medium"):
+            continue
+        ts = int(t.timestamp())
+        if not (start - LEAD_MIN * 60 <= ts <= end):
+            continue
+        title = " ".join(str(r.get("title") or "").split())
+        fam = next((w for _pat, w in RELEASE_WORDS if re.search(w, title, re.I)), None)
+        if fam and any(abs(int(_parse_utc(h["event_utc"]).timestamp()) - ts) <= 300
+                       and re.search(fam, h["line"], re.I) for h in held if h.get("event_utc")):
+            continue
+        cid = f"ff-{ts}-{re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')}"
+        if any(c["id"] == cid for c in out):
+            continue
+        out.append({"id": cid, "kind": "release", "line": f"{title} (US, ForexFactory calendar)",
+                    "release_name": title, "event_utc": _iso(ts), "event_basis": "ForexFactory calendar",
+                    "scheduled": True, "report_utc": None, "source_count": 0, "primary": False,
+                    "links": [{"outlet": "ForexFactory", "url": "https://www.forexfactory.com/calendar"}],
+                    "secondary": False, "secondary_why": ""})
+    return out
+
+
+def _source_check(wires, fetch, ledger, links_per_item=2):
+    """9.1's per-line source check (wire.source_check) on each wire candidate, against its titles
+    and the text of its linked reports read now. A clause its sources do not carry is cut; a line
+    with no subject left is dropped. (kept, cuts)."""
+    import wire as _wire
+    kept, cuts, read, missed = [], [], 0, []
+    for w in wires:
+        texts = list(w.get("titles") or [])
+        for l in (w.get("links") or [])[:links_per_item]:
+            try:
+                texts.append(fetch(l["url"], "article"))
+                read += 1
+            except Exception as e:                               # noqa: BLE001
+                missed.append(f"{l.get('outlet') or 'a report'} ({str(e) or type(e).__name__})")
+        line, cut = _wire.source_check(w["line"], texts)
+        for x in cut:
+            cuts.append({"wire_id": w.get("wire_id"), "line": w["line"], **x})
+        if not line:
+            continue
+        kept.append(dict(w, line=line) if line != w["line"] else w)
+    if wires:
+        ledger.ok("Wire sources (the linked reports, for 9.1's source check)", "",
+                  f"{read} report(s) read")
+    if missed:
+        ledger.miss("Wire sources, some linked reports", "not read: " + "; ".join(missed[:6])
+                    + (" and more" if len(missed) > 6 else ""))
+    return kept, cuts
+
+
+def candidates(start, end, wire, fetch, ledger, fomc_path=FOMC, cuts=None):
     """Every candidate in the window and the 60 minutes before it, primary releases first. A wire
     item that names a release and was stamped after it is that release's first report: it is
     folded into the release (printed once) and gives it its first-report time."""
@@ -609,9 +739,18 @@ def candidates(start, end, wire, fetch, ledger, fomc_path=FOMC):
             + _rss("CFTC press releases", "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",
                    start, end, fetch, ledger, CRYPTO_WORDS, "CFTC")
             + _hacks(start, end, fetch, ledger) + _fedreg(start, end, fetch, ledger))
+    prim += _forexfactory(start, end, fetch, ledger, prim)
+    ledger.miss("Nasdaq economic calendar",
+                "left out: read 18 October, its dates come back a day late (its answer for October 15 "
+                "lists CPI, which BLS schedules for October 14, and its October 16 answer lists PPI, "
+                "scheduled for October 15) and its time column is headed GMT while reading as Eastern, "
+                "so no event can be stamped from it without guessing")
     wires = _wire_candidates(wire, start, end)
     ledger.ok("The wire (site/data/wire.json)", "/data/wire.json" if wire else "",
               f"{len(wires)} item(s) in the window")
+    wires, cut = _source_check(wires, fetch, ledger)
+    if cuts is not None:
+        cuts.extend(cut)
     folded = set()
     for c in prim:
         words = next((w for pat, w in RELEASE_WORDS if pat.search(c.get("release_name") or c["line"])), None)
@@ -658,17 +797,27 @@ def _yahoo_pts(body):
     return [(int(t) + 300, float(c)) for t, c in zip(ts, closes) if c is not None]
 
 
+def _yahoo_vol(body):
+    r = (((body or {}).get("chart") or {}).get("result") or [None])[0] or {}
+    q = ((r.get("indicators") or {}).get("quote") or [{}])[0]
+    return [(int(t) + 300, int(v)) for t, v in zip(r.get("timestamp") or [], q.get("volume") or []) if v is not None]
+
+
 def cross_assets(start, end, fetch, ledger):
     out = {}
     for sym, label, unit in CROSS:
         url = _yahoo_url(sym, start, end)
         try:
-            pts = _clip(_yahoo_pts(fetch(url, "json")), start, end)
+            body = fetch(url, "json")
+            pts = _clip(_yahoo_pts(body), start, end)
+            vol = [[t, v] for t, v in _yahoo_vol(body) if start <= t <= end]
         except Exception as e:                                   # noqa: BLE001
             ledger.miss(f"Yahoo 5-minute bars, {label}", str(e), url)
             continue
         ledger.ok(f"Yahoo 5-minute bars, {label}", url)
         out[sym] = {"label": label, "unit": unit, "points": [[t, round(p, 4)] for t, p in pts]}
+        if unit == "shares":
+            out[sym]["volume"] = vol
     return out
 
 
@@ -706,6 +855,114 @@ def _okx_liq(sym, fetch, ledger, ct_val):
     ledger.ok(f"OKX liquidations, {c['name']}", url)
     return {"orders": [[int(d.get("ts") or 0) // 1000, d.get("posSide"),
                         round(float(d.get("sz") or 0) * cv * float(d.get("bkPx") or 0))] for d in det]}
+
+
+def _okx_taker(sym, t0, fetch, ledger):
+    """OKX taker buy and sell volume on the coin's USDT perpetual for the hour holding the onset,
+    in USDT (rubik taker-volume-contract, unit 2; OKX's order is [ts, sellVol, buyVol])."""
+    c = COINS[sym]
+    h0 = t0 - t0 % 3600
+    url = (f"https://www.okx.com/api/v5/rubik/stat/taker-volume-contract?instId={c['swap']}&period=1H"
+           f"&unit=2&begin={(h0 - 3600) * 1000}&end={(h0 + 3600) * 1000}")
+    try:
+        rows = (fetch(url, "json") or {}).get("data") or []
+    except Exception as e:                                       # noqa: BLE001
+        ledger.miss(f"OKX taker flow, {c['name']}", str(e), url)
+        return None
+    row = next((r for r in rows if int(r[0]) // 1000 == h0), None)
+    if not row:
+        ledger.miss(f"OKX taker flow, {c['name']}", f"no reading for the hour from {stamp(h0)}", url)
+        return None
+    ledger.ok(f"OKX taker flow, {c['name']} (hourly)", url)
+    return {"key": "taker", "label": f"Taker flow, OKX {c['swap']} (the hour from {clock(h0)}, in USDT)",
+            "hour_utc": _iso(h0), "sell_usd": round(float(row[1])), "buy_usd": round(float(row[2]))}
+
+
+def _gate_liq(sym, t0, fetch, ledger):
+    """Gate's USDT-perpetual liquidations in the onset hour (its API serves any one-hour range).
+    A positive size is a long position closed; the notional is size times the contract's quanto
+    multiplier times the fill price."""
+    c = COINS[sym]
+    name = f"Gate liquidations, {c['name']}"
+    curl = f"https://api.gateio.ws/api/v4/futures/usdt/contracts/{c['gate']}"
+    url = (f"https://api.gateio.ws/api/v4/futures/usdt/liq_orders?contract={c['gate']}"
+           f"&from={t0}&to={t0 + 3600}&limit=1000")
+    try:
+        q = float((fetch(curl, "json") or {}).get("quanto_multiplier") or 0)
+        rows = fetch(url, "json") or []
+    except Exception as e:                                       # noqa: BLE001
+        ledger.miss(name, str(e), url)
+        return None
+    if not q or not isinstance(rows, list):
+        ledger.miss(name, "no contract multiplier or no list in its answer", url)
+        return None
+    ledger.ok(name, url, "1,000 orders, the most one answer holds" if len(rows) >= 1000 else "")
+    usd = lambda o: abs(float(o["size"])) * q * float(o["fill_price"])
+    return {"key": "liq-gate", "label": "Liquidations, Gate",
+            "longs_usd": round(sum(usd(o) for o in rows if float(o["size"]) > 0)),
+            "shorts_usd": round(sum(usd(o) for o in rows if float(o["size"]) < 0)),
+            "orders": len(rows), "capped": len(rows) >= 1000}
+
+
+KALSHI = "https://api.elections.kalshi.com/trade-api/v2"
+
+
+def _lower1(t):
+    return t[:1].lower() + t[1:]
+
+
+def _kalshi(t0, end, fetch, ledger, cache):
+    """Kalshi's Fed markets (series KXFED) for the next meeting after the window: each strike's yes
+    price (bid-ask mid of its hourly candles) at the onset and an hour later, for the strikes priced
+    between 5% and 95% at the onset. Rows, or [] with the reason in the ledger."""
+    def get(url):
+        if url not in cache:
+            cache[url] = fetch(url, "json")
+        return cache[url]
+    name = "Kalshi Fed markets (KXFED)"
+    try:
+        evs = (get(f"{KALSHI}/events?series_ticker=KXFED&limit=200") or {}).get("events") or []
+        nxt = min((e for e in evs if (_parse_utc(e.get("strike_date")) or _dt.datetime.min.replace(
+            tzinfo=_dt.timezone.utc)).timestamp() > end), key=lambda e: e["strike_date"], default=None)
+        if not nxt:
+            ledger.miss(name, "no meeting after this window in its answer")
+            return []
+        mk = (get(f"{KALSHI}/markets?event_ticker={nxt['event_ticker']}&limit=100") or {}).get("markets") or []
+    except Exception as e:                                       # noqa: BLE001
+        ledger.miss(name, str(e), f"{KALSHI}/events?series_ticker=KXFED")
+        return []
+
+    def mid(cands, t):
+        c = [x for x in cands if int(x.get("end_period_ts") or 0) <= t]
+        if not c:
+            return None
+        last = max(c, key=lambda x: int(x["end_period_ts"]))
+        try:
+            return round((float(last["yes_bid"]["close_dollars"]) + float(last["yes_ask"]["close_dollars"])) * 50, 1)
+        except (KeyError, TypeError, ValueError):
+            return None
+    rows, missed = [], 0
+    meet = _parse_utc(nxt["strike_date"])
+    when = f"{meet.astimezone(ET):%B} {meet.astimezone(ET).day}" if meet else nxt["event_ticker"]
+    for m in sorted(mk, key=lambda m: float(m.get("floor_strike") or 0)):
+        url = (f"{KALSHI}/series/KXFED/markets/{m['ticker']}/candlesticks?start_ts={t0 - 7200}"
+               f"&end_ts={t0 + 7200}&period_interval=60")
+        try:
+            cs = (get(url) or {}).get("candlesticks") or []
+        except Exception:                                        # noqa: BLE001
+            missed += 1
+            continue
+        a, b = mid(cs, t0), mid(cs, t0 + 3600)
+        if a is None or b is None or not (5 <= a <= 95):
+            continue
+        rows.append({"key": f"kalshi-{m['ticker']}", "unit": "chance",
+                     "label": f"Kalshi: Fed rate {_lower1(m.get('yes_sub_title') or m['ticker'])} after the {when} "
+                              f"meeting (yes price, bid-ask mid, hourly)",
+                     "from_pct": float(a), "to_pct": float(b)})
+    ledger.ok(name, f"{KALSHI}/events?series_ticker=KXFED",
+              ("" if rows else "no strike of the next meeting was priced between 5% and 95% at the onset")
+              + (f"; {missed} strike(s) did not answer" if missed else ""))
+    return rows
 
 
 def _okx_funding(sym, fetch, ledger):
@@ -800,7 +1057,7 @@ LIQ_ONE_SIDE = 0.7
 EXCESS_MIN = 1.0               # coin-specific: 1 point or more beyond its Bitcoin beta, and over half its move
 
 
-def mechanics(sym, run, series, others, cross, oi, liq, funding, beta):
+def mechanics(sym, run, series, others, cross, oi, liq, funding, beta, extra=None):
     """What each market did in the onset hour, and the pattern by the rules above."""
     if not run:
         return None
@@ -822,7 +1079,12 @@ def mechanics(sym, run, series, others, cross, oi, liq, funding, beta):
     if sym == "BTC" and others.get("ETH"):
         add("ETH", "Ether", others["ETH"]["points"])
     for ysym, label, unit in CROSS:
-        if ysym in cross:
+        if ysym not in cross:
+            continue
+        if unit == "shares":
+            bars = [v for t, v in cross[ysym].get("volume") or [] if t0 < t <= t1]
+            rows.append({"key": ysym, "label": label, "value": sum(bars) if bars else None, "unit": "shares"})
+        else:
             add(ysym, label, cross[ysym]["points"], unit)
     oi_v = None
     if oi:
@@ -849,6 +1111,13 @@ def mechanics(sym, run, series, others, cross, oi, liq, funding, beta):
             liq_row = {"key": "liq", "label": "Liquidations, OKX", "unread": True,
                        "why": f"OKX keeps its latest 100 orders, back to {stamp(oldest)}"}
             rows.append(liq_row)
+    extra = extra or {}
+    if extra.get("taker"):
+        rows.append(extra["taker"])
+    gate = extra.get("gate")
+    if gate:
+        rows.append(gate)
+    rows.extend(extra.get("kalshi") or [])
     fund = None
     if funding:
         due = [f for f in funding if f[0] >= t0]
@@ -871,12 +1140,15 @@ def mechanics(sym, run, series, others, cross, oi, liq, funding, beta):
             pats.append({"label": "crypto only",
                          "rule": f"crypto moved {CRYPTO_HOUR_MIN}% or more while stock futures stayed "
                                  f"within {STOCKS_QUIET_MAX}% or did not trade"})
-    if oi_v is not None and liq_row and not liq_row.get("unread"):
-        tot = (liq_row["longs_usd"] or 0) + (liq_row["shorts_usd"] or 0)
-        side = max(liq_row["longs_usd"] or 0, liq_row["shorts_usd"] or 0)
+    venues = [r for r in (liq_row, gate) if r and not r.get("unread")]
+    if oi_v is not None and venues:
+        longs = sum(r["longs_usd"] or 0 for r in venues)
+        shorts = sum(r["shorts_usd"] or 0 for r in venues)
+        tot, side = longs + shorts, max(longs, shorts)
         if oi_v <= OI_FLUSH_PCT and tot and side / tot >= LIQ_ONE_SIDE:
             pats.append({"label": "leverage flush",
-                         "rule": "open interest down 5% or more with 70% or more of liquidations on one side"})
+                         "rule": "open interest down 5% or more with 70% or more of liquidations on one side, "
+                                 "at the venues read (" + ", ".join(r["label"].split(", ")[1] for r in venues) + ")"})
     excess = None
     if sym != "BTC" and own is not None and btc is not None and beta is not None:
         excess = round(own - beta * btc, 2)
@@ -904,10 +1176,11 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
     led = Ledger()
     series = {}
     for sym in coins:
-        s, second = read_series(sym, start, end, now, fetch, led)
+        s, rest = read_series(sym, start, end, now, fetch, led)
         if s:
-            series[sym] = (s, second)
-    cands = candidates(start, end, wire, fetch, led, fomc_path)
+            series[sym] = (s, rest)
+    cuts = []
+    cands = candidates(start, end, wire, fetch, led, fomc_path, cuts)
     if gate is not None:
         kept = []
         for c in cands:
@@ -922,33 +1195,36 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
     cross = cross_assets(start, end, fetch, led)
     ct = _ct_val(fetch, led, coins)
     stables = _stables(start, end, fetch, led)
-    led.miss("OKX taker flow", "not read: the 5-minute series reaches back about three hours")
-    led.miss("Kalshi Fed markets", "not read: not on the Board")
+    led.miss("Hyperliquid liquidations", "not read: its public info API publishes no market-wide "
+             "liquidation history; a liquidation shows only in the liquidated account's own fills")
     led.miss("Exchange listing notices", "not read: no single feed")
     led.miss("EDGAR 8-K filings", "not read: the search gives the day, not the time")
     etf = (((pulse or {}).get("etf_flows") or {}).get("btc") or {})
+    if isinstance(etf.get("latest_net_usd_m"), (int, float)):
+        led.ok("Farside spot ETF flows (the Board's daily read)", "https://farside.co.uk/btc/")
+    else:
+        led.miss("Farside spot ETF flows", "the Board's reading was not handed to this build")
     out = {"what": "The evidence under 'What lined up with the move': the intraday series, the "
                    "candidate events with their event and first-report times, the timing test and "
                    "the onset hour's mechanics. Measured by code; no model call; no grade.",
            "window": {"start_utc": _iso(start), "end_utc": _iso(end), "hours": WINDOW_H},
-           "made_utc": _iso(now), "candidates": cands, "coins": {},
+           "made_utc": _iso(now), "candidates": cands, "source_cuts": cuts, "coins": {},
            "day": {"stablecoins": stables,
                    "etf_btc": ({"date": etf.get("latest_date"), "net_usd_m": etf.get("latest_net_usd_m"),
                                 "source": "Farside Investors (the Board)"}
                                if isinstance(etf.get("latest_net_usd_m"), (int, float)) else None)}}
     others = {k: v[0] for k, v in series.items()}
+    kalshi_cache = {}
     for sym in coins:
         if sym not in series:
             continue
-        s, second = series[sym]
+        s, rest = series[sym]
         pts = [(t, p) for t, p in s["points"]]
         run = onset(pts)
-        sec = None
-        if second:
-            a, b = second["points"][0][1], second["points"][-1][1]
-            mv = _pct(pts[0][1], pts[-1][1])
-            sec = {"source": second["source"], "url": second["url"],
-                   "gap_pts": round(abs(_pct(a, b) - mv), 2)}
+        mv = _pct(pts[0][1], pts[-1][1])
+        seconds = [{"source": o["source"], "url": o["url"],
+                    "gap_pts": round(abs(_pct(o["points"][0][1], o["points"][-1][1]) - mv), 2)} for o in rest]
+        sec = seconds[0] if seconds else None
         tests = []
         for c in cands:
             t, basis = test_time(c)
@@ -959,8 +1235,13 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
         liq = _okx_liq(sym, fetch, led, ct)
         fund = _okx_funding(sym, fetch, led)
         beta = _beta(sym, _et(start).date().isoformat(), root=history_root) if sym != "BTC" else None
-        out["coins"][sym] = {"series": s, "second": sec, "run": run, "tests": tests,
-                             "mechanics": mechanics(sym, run, pts, others, cross, oi, liq, fund, beta)}
+        extra = {}
+        if run:
+            extra = {"taker": _okx_taker(sym, run["start_t"], fetch, led),
+                     "gate": _gate_liq(sym, run["start_t"], fetch, led),
+                     "kalshi": _kalshi(run["start_t"], end, fetch, led, kalshi_cache)}
+        out["coins"][sym] = {"series": s, "second": sec, "seconds": seconds, "run": run, "tests": tests,
+                             "mechanics": mechanics(sym, run, pts, others, cross, oi, liq, fund, beta, extra)}
     out["read"], out["unread"] = led.read, led.unread
     return out
 
@@ -1165,19 +1446,40 @@ def chart_svg(coin, cands_numbered, name, window):
             + "".join(parts) + "</svg>")
 
 
-def section_html(rec, sym, live=True, skip_wire_ids=()):
+def _norm(t):
+    return re.sub(r"[^a-z0-9$%]+", " ", str(t or "").lower()).strip()
+
+
+def corrected_lines(corrections):
+    """The lines a page's corrections quote, normalized: a correction that quotes a line says that
+    line is wrong, so the section never prints it beside the correction."""
+    out = []
+    for c in corrections or []:
+        for q in re.findall(r'["\u201c]([^"\u201d]{20,})["\u201d]', str((c or {}).get("text") or "")):
+            out.append(_norm(q))
+    return out
+
+
+def _is_corrected(line, quoted):
+    n = _norm(line)
+    return bool(n) and any(n.startswith(q) or q.startswith(n) for q in quoted)
+
+
+def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None):
     """The section for one coin, or '' (fail open) when the record has no series for it. `live`
     marks the window's stamp for the stale state (asof.js); a dated page passes False. Wire items
     the page already prints elsewhere are not passed here twice: the page drops them from its
-    own list instead, so `skip_wire_ids` is for a caller that cannot."""
+    own list instead, so `skip_wire_ids` is for a caller that cannot. `corrections` are the
+    page's own: a wire line one of them quotes is not printed (the record stays frozen; the
+    correction applies when the page is drawn)."""
     try:
-        return _section(rec, sym, live, set(skip_wire_ids))
+        return _section(rec, sym, live, set(skip_wire_ids), corrected_lines(corrections))
     except Exception as e:                                       # noqa: BLE001
         print(f"::warning::why_evidence: the section for {sym} was not drawn ({type(e).__name__}: {e})")
         return ""
 
 
-def _section(rec, sym, live, skip):
+def _section(rec, sym, live, skip, quoted=()):
     coin = ((rec or {}).get("coins") or {}).get(sym)
     if not coin or not (coin.get("series") or {}).get("points"):
         return ""
@@ -1189,6 +1491,7 @@ def _section(rec, sym, live, skip):
     run = coin.get("run")
     by_id = {t["id"]: t for t in coin.get("tests") or []}
     cands = [c for c in rec.get("candidates") or [] if c.get("wire_id") not in skip or c["kind"] != "wire"]
+    cands = [c for c in cands if not (c["kind"] == "wire" and _is_corrected(c["line"], quoted))]
     order = sorted(cands, key=lambda c: (by_id.get(c["id"], {}).get("t_utc") or "9999", c["id"]))
     numbered = []
     for i, c in enumerate(order, 1):
@@ -1197,12 +1500,12 @@ def _section(rec, sym, live, skip):
 
     asof = f' data-asof="{_e(_iso(w1))}"' if live else ""
     win = f'the 24 hours to {clock(w1)}, {long_day(w1)}'
-    second = coin.get("second")
+    seconds = coin.get("seconds") or ([coin["second"]] if coin.get("second") else [])
     src = f'{_e(coin["series"]["source"])}'
-    if second:
-        src += (f'; second read, {_e(second["source"])}, '
-                + ("agrees within 0.1 point" if second["gap_pts"] <= 0.1
-                   else f'differs by {second["gap_pts"]:.2f} points over the window'))
+    for o in seconds:
+        src += (f'; beside it, {_e(o["source"])} '
+                + ("agrees within 0.1 point" if o["gap_pts"] <= 0.1
+                   else f'differs by {o["gap_pts"]:.2f} points over the window'))
     head = (f'<p class="ev-win"{asof}>{_e(name)}, {_e(win)}. Prices: {src}.</p>')
     runp = ""
     if run:
@@ -1243,7 +1546,8 @@ def _section(rec, sym, live, skip):
         tw = timing_words(tst.get("result"), c, name, (run or {}).get("dir") or "down")
         sec = (f'<span class="ev-sec">Secondary: {_e(c["secondary_why"])}.</span>' if c.get("secondary") else "")
         rep = ""
-        if c.get("report_line") and not GRADE_WORDS.search(c["report_line"]):
+        if (c.get("report_line") and not GRADE_WORDS.search(c["report_line"])
+                and not _is_corrected(c["report_line"], quoted)):
             rep = f'<span class="ev-rep">First report: {_e(c["report_line"])}</span>'
         items.append(f'<li class="ev-c"><span class="ev-n" aria-hidden="true">{n}</span>'
                      f'<span class="ev-l">{_e(line)}</span>{rep}'
@@ -1255,7 +1559,15 @@ def _section(rec, sym, live, skip):
     mech = coin.get("mechanics") or {}
     mrows = []
     for r in mech.get("rows") or []:
-        if r.get("key") == "liq":
+        if str(r.get("key")).startswith("kalshi"):
+            fig = f'<span class="ev-f">{r["from_pct"]:.1f}% to {r["to_pct"]:.1f}%</span>'
+        elif r.get("key") == "taker":
+            fig = (f'<span class="ev-f">{_e(_usd(r["buy_usd"]))} bought, '
+                   f'{_e(_usd(r["sell_usd"]))} sold</span>')
+        elif r.get("unit") == "shares":
+            fig = (f'<span class="ev-f">{r["value"] / 1e6:.2f}M shares</span>' if r.get("value")
+                   else '<span class="ev-f">no trading in the hour</span>')
+        elif str(r.get("key")).startswith("liq"):
             if r.get("unread"):
                 fig = f'<span class="ev-f">not read for this hour: {_e(r["why"])}</span>'
             else:
@@ -1284,6 +1596,11 @@ def _section(rec, sym, live, skip):
             seen.add(u["name"])
             names.append(f'{u["name"]} ({u["why"]})')
     srcs_html = (f'<p class="ev-src">Not read, so not shown: {_e("; ".join(names))}.</p>' if names else "")
+    day = rec.get("day") or {}
+    daily = [x for x, ok in (("Farside spot ETF flows (daily; on the Board)", day.get("etf_btc")),
+                             ("DefiLlama stablecoin supply (daily)", day.get("stablecoins"))) if ok]
+    if daily:
+        srcs_html = f'<p class="ev-src">Read, not shown in this hour: {_e("; ".join(daily))}.</p>' + srcs_html
     return (f'<section class="td-sec ev" aria-label="{SECTION_TITLE}" data-ev="{_e(sym)}">'
             f'<h2>{SECTION_TITLE}</h2>{head}{runp}'
             f'<figure class="ev-fig">{chart}<figcaption class="ev-m">Numbers on the chart match the list below. '
@@ -1331,8 +1648,8 @@ def _slot_now(now):
 
 def main():
     args = sys.argv[1:]
-    if args[:1] == ["--record"] and len(args) == 3:
-        return _record(args[1], args[2])
+    if args[:1] == ["--record"] and len(args) in (3, 4):
+        return _record(args[1], args[2], args[3] if len(args) == 4 else None)
     if "--write" not in args:
         print(__doc__.split("\n\n")[-1])
         return 2
@@ -1390,21 +1707,43 @@ def _trim(url, body, start, end):
     return body
 
 
-def _record(end_utc, out_path):
+def _record(end_utc, out_path, wire_path=None):
     """Read a real window's sources now and save every answer, so the tests run on what the
-    sources said. The wire is not fetched: the fixture names the wire file it is tested with."""
-    rec = Recorder()
+    sources said. The wire is not fetched: the fixture names the wire file it is tested with, and
+    that file, when given, is what the linked reports are read for. When OUT already exists, its
+    answers are kept as they were and only the answers it lacks are read now; each of those is
+    stamped in `added_utc`, and the build keeps the fixture's first `recorded_utc` as its clock."""
+    old = {}
+    if os.path.exists(out_path):
+        old = json.load(open(out_path, encoding="utf-8"))
     now = _dt.datetime.now(_dt.timezone.utc)
+    now_s = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    have = old.get("responses") or {}
+    added = dict(old.get("added_utc") or {})
+
+    def fetch(url, kind="json"):
+        k = _key(url, kind)
+        if k in have:
+            return Replay(have)(url, kind)
+        added[k] = now_s
+        return live_fetch(url, kind)
+    rec = Recorder(fetch)
     end = int(_parse_utc(end_utc).timestamp())
-    build(end_utc, None, now_utc=now.strftime("%Y-%m-%dT%H:%M:%SZ"), fetch=rec)
+    wire = json.load(open(wire_path, encoding="utf-8")) if wire_path else None
+    build(end_utc, wire, now_utc=old.get("recorded_utc") or now_s, fetch=rec)
     resp = {u: _trim(u, b, end - WINDOW_H * 3600, end) for u, b in rec.responses.items()}
+    for k, v in have.items():
+        resp.setdefault(k, v)
     json.dump({"what": "Every answer the evidence's sources gave for this window, read at "
-                       "recorded_utc by why_evidence.py --record; long histories trimmed to 7 days "
-                       "either side of the window (the entries kept are unchanged).",
-               "end_utc": end_utc, "recorded_utc": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
-               "recorded_et": now.astimezone(ET).strftime("%a %b %-d %Y, %-I:%M %p %Z"),
+                       "recorded_utc by why_evidence.py --record (answers added later carry their own "
+                       "stamp in added_utc); long histories trimmed to 7 days either side of the window "
+                       "(the entries kept are unchanged); a key 'article:<url>' is a linked report as "
+                       "the text the desk's extractor took from it.",
+               "end_utc": end_utc, "recorded_utc": old.get("recorded_utc") or now_s,
+               "recorded_et": old.get("recorded_et") or now.astimezone(ET).strftime("%a %b %-d %Y, %-I:%M %p %Z"),
+               "added_utc": {k: v for k, v in added.items() if k in resp},
                "responses": resp}, open(out_path, "w", encoding="utf-8"), separators=(",", ":"))
-    print(f"recorded {len(resp)} answer(s) to {out_path}")
+    print(f"recorded {len(resp)} answer(s) to {out_path} ({sum(1 for k in added if k in resp)} added now)")
     return 0
 
 
