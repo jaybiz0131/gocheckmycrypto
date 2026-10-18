@@ -10,7 +10,7 @@ October 5, 2026. Program 5, the five-minute read: the home page's order and the 
 
 October 11, 2026. Program 6: the Chart Master's voice is retired; one branch and one build per sprint; canceled Netlify deploys do not count against the five-a-day allowance; the ignore rule gains scripts/ and no desk uses [skip netlify]; Bitcoin's change prints once, on the tape, labeled 24h; the market's change is close to close; the same fact never prints twice.
 
-October 12, 2026. The Cloudflare Web Analytics beacon, cookie-free, is the one allowed third host on inner pages; the home keeps none.
+October 12, 2026, 3:29 PM ET. **Jack's rulings, Monday 12 October 2026, 3:29 PM ET:** (1) the Cloudflare Web Analytics beacon stays, on every page, the home page included; it is cookie-free, the page-weight rule names it, the privacy page says so in one plain line. (2) Crypto gets a morning edition; the site must never read as last night's in the morning. (Corrected October 18, 2026, by Jack's ruling of that day: this line replaces the strategist's October 12 line, which read "the one allowed third host on inner pages; the home keeps none" and was wrong. The words are the 3:29 PM ruling's own, from docs/HANDOFF-2026-10-13.md, line 29; its copy in the section below is removed so the file states it once.)
 
 October 14, 2026, 10:42 AM ET. Program 8 is approved. The home cadence line reads exactly "The Brief, every morning and evening." The daily answer makes no new model call and never says "because" unless a cited source does (amended October 16).
 
@@ -45,8 +45,6 @@ October 11, 2026, 7:2x PM. **Jack's yes and rulings (11 October, 7:2x PM):** "Si
 October 12, 2026. **Jack's rulings, Monday 12 October 2026** (recorded in his words): 1. Sprint 6.3 is accepted: merged at 0ae8b0f, closed at f7cd67a. 2. Program 6's flat look read worse than the old site: "the layout improved, but the older one looked better visually." The layout stays. The look is replaced by the approved design, "A, the front page in color, with glow" (strategy desk canvas, October 12). 3. Sprint 6.4 (coin pages and the Top 100) waits until this sprint merges, so nothing new is built on the flat look. 4. A figure's color and arrow must always agree with the number printed beside it. The site never shows Bitcoin in green beside a line that says it is down. (docs/HANDOFF-2026-10-13.md, lines 7 to 11)
 
 October 12, 2026, 3:00 PM ET. **Jack's yes, 3:00 PM ET, with one fix, and its rulings:** each chart is colored by its own window (the week's line by the 7-day change, first close to last point, never the 24-hour badge); every line chart on the site the same. (docs/HANDOFF-2026-10-13.md, line 13)
-
-October 12, 2026, 3:29 PM ET. **Jack's rulings, Monday 12 October 2026, 3:29 PM ET:** (1) the Cloudflare Web Analytics beacon stays, on every page, the home page included; it is cookie-free, the page-weight rule names it, the privacy page says so in one plain line. (2) Crypto gets a morning edition; the site must never read as last night's in the morning. (docs/HANDOFF-2026-10-13.md, line 29)
 
 October 12, 2026, 5:30 PM ET. **Jack approved 5:30 PM ET 12 October with four changes** (all made): the Chart Master substitution table is REMOVED (a flagged sentence is dropped, a flagged headline becomes a data headline built from the levels, fewer than two sentences left publishes the data-only card; nothing is ever reworded); the ledger date reads the night's own date; the noon refresh is retired; the Worker change is written on `gcm-newsroom`. (docs/HANDOFF-2026-10-13.md, line 31)
 
