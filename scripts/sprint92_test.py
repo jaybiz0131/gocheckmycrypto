@@ -330,8 +330,11 @@ def page_cases(fails):
     for name, html in pages.items():
         guarded(fails, f"{name}: 'What lined up with the move' with its timing chart",
                 lambda: "<h2>What lined up with the move</h2>" in html and 'class="ev-chart"' in html)
-        guarded(fails, f"{name}: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page",
-                lambda: not GRADE.search(visible(html)) and not BECAUSE.search(visible(html)))
+        # Sprint 9.3 puts the grade on these pages in one place, the verdict card (aside.vd); outside
+        # it the page carries no grade word and no "because", as 9.2 built it.
+        guarded(fails, f"{name}: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page outside the verdict card",
+                lambda: not GRADE.search(visible(re.sub(r'<aside class="vd.*?</aside>', "", html, flags=re.S)))
+                and not BECAUSE.search(visible(re.sub(r'<aside class="vd.*?</aside>', "", html, flags=re.S))))
         guarded(fails, f"{name}: no em dash or en dash", lambda: not re.search("[\u2013\u2014]", html))
         guarded(fails, f"{name}: the section never prints 'market_chart' (the coin page guard against inline chart code)",
                 lambda: "market_chart" not in re.search(r'<section class="td-sec ev".*?</section>', html, re.S).group(0))

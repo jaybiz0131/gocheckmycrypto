@@ -1,0 +1,53 @@
+PLANT 1 each grade: Confirmed asks for three outlets: exit 1, 2 red; restored: exit 0
+      FAIL SYNTHETIC Confirmed: two outlets state it, the timing passes, the readings agree
+      FAIL Confirmed: the graded line says 'because'
+PLANT 2 timing: the share threshold raised to 75%: exit 1, 10 red; restored: exit 0
+      FAIL 14 October, Bitcoin (real): Likely, on the CPI release: its timing passes and the readings of the hour after it agree (risk-off across assets); no source-checked report states it
+      FAIL a record written before 9.3 (no readings of the hour after) grades on the onset hour only: 14 October then reads Unclear, an event in time with no report or reading behind it
+      FAIL 14 October CPI passes timing although it came after the 4:10 AM onset: 8.5% of the run done before it, 71.2% of the move in the hour after (9.2's figures, unchanged)
+      FAIL fail open when the draft call fails (HTTP 500 on every attempt): the graded line from phrases, no model sentence
+      FAIL fail open when the check withdraws a claim (stands false): the graded line from phrases, no model sentence
+      FAIL fail open when the check leaves a sentence unjudged: the graded line from phrases, no model sentence
+      FAIL fail open when the check answers out of contract: the graded line from phrases, no model sentence
+      FAIL fail open when the draft adds a figure the phrases do not carry: the graded line from phrases, no model sentence
+      FAIL fail open when the draft rewords a phrase: the graded line from phrases, no model sentence
+      FAIL the verdict page carries the card, the evidence, and the grade
+PLANT 3 because: a Likely line says because: exit 1, 8 red; restored: exit 0
+      FAIL Likely: no 'because' in its line or in any phrase the model is handed
+      FAIL Likely: the line says 'lines up with'
+      FAIL a draft saying 'because' on a Likely day fails the belt and the graded line prints instead
+      FAIL a draft that copies whole phrases and a check that lets every claim stand: the model's two sentences print
+      FAIL the draft went to claude-haiku-5-5 and the check to claude-sonnet-5-5
+      FAIL Ether moved with Bitcoin: no model call for it
+      FAIL one ledger row for the run, with its calls, tokens, dollars by stage and the cap
+      FAIL a second run the same day adds its own row and the day's total sums both
+PLANT 4 because: the belt lets because through on a Likely day: exit 0, 0 red; restored: exit 0
+    (green under the plant: the case never reached the belt. The belt case and the quoting rule were
+    added, and plant 4 rerun below.)
+PLANT 5 sitemap: the news sitemap drops the verdict entries: exit 1, 1 red; restored: exit 0
+      FAIL the verdict URL is in the news sitemap
+PLANT 6 ledger: the run writes no ledger row: exit 1, 2 red; restored: exit 0
+      FAIL one ledger row for the run, with its calls, tokens, dollars by stage and the cap
+      FAIL a second run the same day adds its own row and the day's total sums both
+PLANT 7 fail open: a withdrawn claim does not stop the model sentence: exit 1, 1 red; restored: exit 0
+      FAIL fail open when the check withdraws a claim (stands false): the graded line from phrases, no model sentence
+PLANT 8 fail open: the twins gate is not asked: exit 1, 1 red; restored: exit 0
+      FAIL a model sentence the twins gate drops fails open, never prints
+PLANT 9 no grade: the flat card prints a badge: exit 1, 1 red; restored: exit 0
+      FAIL a flat day's card: 'Flat: nothing to explain' and no grade word, no 'because'
+PLANT 10 card: the home drops the card: exit 1, 1 red; restored: exit 0
+      FAIL home: the verdict card, one shape (aside.vd with data-vd)
+PLANT 11 card: the verdict's own corrections are not drawn: exit 1, 1 red; restored: exit 0
+      FAIL the card renders the verdict's own correction and the page's corrections
+PLANT 12 wiring: the morning workflow loses the verdict step: exit 1, 1 red; restored: exit 0
+      FAIL morning-read.yml: runs verdict.py --write after why_evidence.py, with a timeout, never as a gate
+PLANT 13 cap: the spend check always allows the call: exit 1, 1 red; restored: exit 0
+      FAIL with the day's spend at the cap, no call is made and the verdict fails open to the phrases
+
+PLANT 4 because (replanted): the belt lets because through on a Likely day: exit 1, 1 red; restored: exit 0
+      FAIL the belt itself refuses 'because' on a Likely draft, even one built from whole phrases
+PLANT 14 because: a wire line that says because is quoted: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a wire line that says 'because' is never quoted on a Likely verdict
+
+PLANT 15 deadline: _Late made an Exception again (llm.py's retry loop swallows it): exit 1, 1 red; restored: exit 0
+    FAIL the deadline mid-call fails open, makes no second attempt, and the ledger row is written

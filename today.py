@@ -467,10 +467,12 @@ def schema(rec, url):
                                "width": 512, "height": 512}}}]}, ensure_ascii=False)
 
 
-def body_html(rec, archive_dates, here=None, evidence=None):
-    """The page, top to bottom: the answer, what moved, what lined up with the move (Sprint 9.2,
-    when the day's slot has an evidence record), what was reported beside it, the Board, the
-    stamp, the archive. A wire item the evidence lists is not listed again under "reported"."""
+def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
+    """The page, top to bottom: the answer, why it moved (Sprint 9.3, the verdict card, when the
+    day's slot has a verdict record), what moved, what lined up with the move (Sprint 9.2, when the
+    day's slot has an evidence record), what was reported beside it, the Board, the stamp, the
+    archive. A wire item the evidence lists is not listed again under "reported". The page's own
+    corrections print once, at the top; the card carries the verdict's own."""
     import site_build as sb
     import home
     btc, eth, cap = rec["btc"], rec.get("eth"), rec.get("cap")
@@ -504,6 +506,14 @@ def body_html(rec, archive_dates, here=None, evidence=None):
         except Exception as e:                      # fail open: the page as it was
             print(f"::warning::today: the evidence was not drawn ({type(e).__name__}: {e})")
             ev_html, shown = "", set()
+    vd_html = ""
+    if verdict:
+        try:
+            import verdict as _verdict
+            vd_html = _verdict.card_html(verdict, "BTC", where="today", live=(here != "dated"))
+        except Exception as e:                      # fail open: the page as it was
+            print(f"::warning::today: the verdict was not drawn ({type(e).__name__}: {e})")
+            vd_html = ""
     reported_all = rec.get("reported") or []
     reported_left = [w for w in reported_all if not ({l.get("url") for l in w.get("links") or []} & shown)]
     rep = ""
@@ -531,6 +541,7 @@ def body_html(rec, archive_dates, here=None, evidence=None):
   <p class="td-stamp">{_e(rec['stamp_label'])}</p>
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
   {corr}
+  {vd_html}
   <section class="td-sec"><h2>What moved</h2>{moved}</section>
   {ev_html}
   {reported_sec}
@@ -541,13 +552,13 @@ def body_html(rec, archive_dates, here=None, evidence=None):
 </section></main>"""
 
 
-def render(rec, archive_dates, dated, dateline="", evidence=None):
+def render(rec, archive_dates, dated, dateline="", evidence=None, verdict=None):
     """(html, path, lastmod) for one page; `dated` False renders the living /today/."""
     import site_build as sb
     path = f"/today/{rec['date_et']}.html" if dated else "/today/"
     url = sb.ORIGIN + (f"/today/{rec['date_et']}" if dated else "/today/")
     desc = " ".join(rec["answer"])[:200]
-    html = sb.shell(f"{rec['title']} - {sb.NAME}", desc, "Today", body_html(rec, archive_dates, "dated" if dated else "living", evidence), dateline,
+    html = sb.shell(f"{rec['title']} - {sb.NAME}", desc, "Today", body_html(rec, archive_dates, "dated" if dated else "living", evidence, verdict), dateline,
                     path=path, og_type="article",
                     schema_extra=f'\n<script type="application/ld+json">{schema(rec, url)}</script>')
     return html, path, rec.get("published_utc")
@@ -563,7 +574,17 @@ def _evidence(rec, why_dir=None):
         return None
 
 
-def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline="", why_dir=None):
+def _verdict(rec, verdict_dir=None):
+    """The stored verdict record (verdict.py) for the record's day and slot, or None. Never raises."""
+    try:
+        import verdict
+        return verdict.load(rec["date_et"], rec["slot"], verdict_dir)
+    except Exception:                               # noqa: BLE001
+        return None
+
+
+def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline="", why_dir=None,
+                verdict_dir=None):
     """[(relative file, html, sitemap path, lastmod)] for the living page and every dated one."""
     stored = load_records() if stored is None else stored
     first = None
@@ -579,13 +600,14 @@ def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline
     days = sorted(dated, reverse=True)
     # today's own dated page is not an "earlier day": the living page lists only the days before it
     html, path, mod = render(living, [d for d in days if d < living["date_et"]][:ARCHIVE_N],
-                             dated=False, dateline=dateline, evidence=_evidence(living, why_dir))
+                             dated=False, dateline=dateline, evidence=_evidence(living, why_dir),
+                             verdict=_verdict(living, verdict_dir))
     out.append(("today/index.html", html, path, mod))
     for day in days:
         # a dated page links only the days BEFORE it, so nothing a later day adds can change it
         rest = [x for x in days if x < day][:ARCHIVE_N]
         html, path, mod = render(dated[day], rest, dated=True, dateline=dateline,
-                                 evidence=_evidence(dated[day], why_dir))
+                                 evidence=_evidence(dated[day], why_dir), verdict=_verdict(dated[day], verdict_dir))
         out.append((f"today/{day}.html", html, path, mod))
     return out
 

@@ -1319,8 +1319,24 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
             extra = {"taker": _okx_taker(sym, run["start_t"], fetch, led),
                      "gate": _gate_liq(sym, run["start_t"], fetch, led),
                      "kalshi": kalshi.get(run["start_t"]) or []}
+        # SPRINT 9.3: the readings of the hour after each candidate, for the verdict's grade (verdict.py):
+        # the onset hour cannot speak to an event that came after the onset. No new read: the series and
+        # the cross-asset bars already in hand, by the same rules; open interest, liquidations and
+        # funding stay the onset hour's only. Not printed by the section.
+        evh = {}
+        if run:
+            for c, tst in zip(cands, tests):
+                tu = _parse_utc(tst["t_utc"])
+                if tu is None or not (start <= int(tu.timestamp()) <= end):
+                    continue
+                m = mechanics(sym, dict(run, start_t=int(tu.timestamp())), pts, others, cross,
+                              None, None, None, beta)
+                if m:
+                    evh[c["id"]] = {"hour_start_utc": m["hour_start_utc"], "hour_end_utc": m["hour_end_utc"],
+                                    "rows": m["rows"], "patterns": m["patterns"]}
         out["coins"][sym] = {"series": s, "second": sec, "seconds": seconds, "run": run, "tests": tests,
-                             "mechanics": mechanics(sym, run, pts, others, cross, oi, liq, fund, beta, extra)}
+                             "mechanics": mechanics(sym, run, pts, others, cross, oi, liq, fund, beta, extra),
+                             "event_hours": evh}
     out["read"], out["unread"] = led.read, led.unread
     return out
 

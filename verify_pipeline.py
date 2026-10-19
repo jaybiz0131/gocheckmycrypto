@@ -1986,11 +1986,15 @@ def _stamp_canary():
     wrote = set()
     read = set()
     _why_saved = None
+    _vd_saved = None
     try:
         _sb.PUBLISH = _o.path.join(tmp, "publish")
         # SPRINT 9.2: the build reads an evidence record built from the recorded 15 October fixture,
         # so the page guard in _sprint92_canary meets a real section on /today/2026-10-15
         _why_saved = _why_fixture_dir(tmp)
+        # SPRINT 9.3: and the verdict graded from that record (no model), so _sprint93_canary meets the
+        # card on /today/2026-10-15 and the page at /why/2026-10-15-bitcoin
+        _vd_saved = _verdict_fixture_dir(tmp)
         try:
             with _cl.redirect_stdout(log), _cl.redirect_stderr(log), _build_writes(wrote, read):
                 _sb.build()
@@ -2040,6 +2044,7 @@ def _stamp_canary():
             fails.extend(_sprint82_canary(out))
             fails.extend(_sprint91_canary(out))
             fails.extend(_sprint92_canary(out))
+            fails.extend(_sprint93_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2089,6 +2094,7 @@ def _stamp_canary():
             _stray_proc.wait(timeout=30)            # its writes land before the cleanup looks
         _sb.PUBLISH = real
         _why_restore(_why_saved)
+        _verdict_restore(_vd_saved)
         _sh.rmtree(tmp, ignore_errors=True)
         # Restore only what this build dirtied, from the index, byte for byte. Never with
         # git checkout: the 1 October rule, bought by a plant that reverted its own subject.
@@ -3098,6 +3104,78 @@ def _sprint92_canary(out):
     if not met:
         fails.append("sprint 9.2: the build met no 'What lined up with the move' section (the fixture record "
                      "for /today/2026-10-15 did not reach it), so the page guard read nothing")
+    return fails
+
+
+def _verdict_fixture_dir(tmp):
+    """Point verdict.py at a scratch directory holding the 15 October evening verdict, graded from the
+    recorded fixture's evidence record with no model (the graded line). Returns the old directory."""
+    try:
+        import verdict as _vd
+        old = _vd.DIR
+        _sd = os.path.join(HERE, "scripts")
+        sys.path.insert(0, _sd)
+        try:
+            import sprint92_test as _s92
+            rec = _s92.rec(_s92.D15)
+        finally:
+            sys.modules.pop("sprint92_test", None)
+            if _sd in sys.path:
+                sys.path.remove(_sd)
+        d = os.path.join(tmp, "verdict")
+        os.makedirs(d, exist_ok=True)
+        v = _vd.record_from(rec, "2026-10-15", "evening")
+        json.dump(v, open(os.path.join(d, "2026-10-15-evening.json"), "w", encoding="utf-8"))
+        _vd.DIR = d
+        return old
+    except Exception as e:                           # the guard below then says it met no card
+        print(f"sprint 9.3 canary: no fixture verdict for the build ({type(e).__name__}: {e})")
+        return None
+
+
+def _verdict_restore(old):
+    if old is not None:
+        import verdict as _vd
+        _vd.DIR = old
+
+
+def _sprint93_canary(out):
+    """PROGRAM 9, SPRINT 9.3 (19 October 2026): the verdict. scripts/sprint93_test.py holds the cases
+    (each grade from a fixture, the timing test's second path, "because" only on Confirmed, the model
+    path mocked and its fail-open path, the spend ledger row, no grade word where none was computed,
+    the card on four pages, the URL and the sitemap, the workflows). On the tree this build wrote: the
+    card on /today/2026-10-15, its page at /why/2026-10-15-bitcoin, and that URL in the news sitemap
+    and the archive sitemap. The helper is taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint93_test as _s93
+        fails = ["sprint 9.3: " + f for f in _s93.unit()]
+    finally:
+        _sys.modules.pop("sprint93_test", None)
+        _sys.modules.pop("sprint92_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+
+    def _read(rel):
+        try:
+            return open(os.path.join(out, rel), encoding="utf-8").read()
+        except OSError:
+            return ""
+    t15 = _read(os.path.join("today", "2026-10-15.html"))
+    if not re.search(r'<aside class="vd[^"]*" data-vd="BTC"', t15):
+        fails.append("sprint 9.3: /today/2026-10-15 carries no verdict card (the fixture verdict did not reach it)")
+    elif not re.search(r"Checked: <b>Unclear</b>", t15):
+        fails.append("sprint 9.3: /today/2026-10-15's card does not carry its computed grade, Unclear")
+    page = _read(os.path.join("why", "2026-10-15-bitcoin.html"))
+    if not page or 'class="vd' not in page or "What lined up with the move" not in page:
+        fails.append("sprint 9.3: /why/2026-10-15-bitcoin was not built with its card and its evidence")
+    for sm in ("news-sitemap.xml", "sitemap-archive.xml"):
+        if "/why/2026-10-15-bitcoin<" not in _read(sm):
+            fails.append(f"sprint 9.3: {sm} does not list /why/2026-10-15-bitcoin")
+    if os.path.exists(os.path.join(out, "why", "2026-10-15-ether.html")):
+        fails.append("sprint 9.3: an ungraded Ether day (moved with Bitcoin) was given a verdict URL")
     return fails
 
 
