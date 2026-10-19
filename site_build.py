@@ -7847,7 +7847,7 @@ def render_coin_chart(c, name, cid, spark):
             f'<p class="pc-note cc-cap" data-coin-cap>{note}</p></section>')
 
 
-def _coin_evidence(sym, pulse, evidence=None, graded=None):
+def _coin_evidence(sym, pulse, evidence=None, graded=None, marks=()):
     """PROGRAM 9, SPRINT 9.2: (section html, wire source URLs it prints) for Bitcoin and Ether,
     from the newest stored evidence record (why_evidence.py) when its window ends within 3 hours
     of the Board reading this page carries. ('', set()) otherwise: the page as it was."""
@@ -7858,7 +7858,7 @@ def _coin_evidence(sym, pulse, evidence=None, graded=None):
         rec = evidence if evidence is not None else _we.latest()
         if not _we.from_snapshot_coin(rec, sym, (pulse or {}).get("generated_utc") or ""):
             return "", set()
-        html = _we.section_html(rec, sym, live=True, graded=graded)
+        html = _we.section_html(rec, sym, live=True, graded=graded, marks=marks)
         return (html, _we.wire_urls_shown(rec)) if html else ("", set())
     except Exception as e:                       # fail open
         print(f"::warning::coin page: the evidence for {sym} was not drawn ({type(e).__name__}: {e})")
@@ -7937,7 +7937,12 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     # grade, the evidence's note says so instead of denying a cause.
     _vrec = _current_verdict(pulse, verdict) if sym in ("BTC", "ETH") else None
     _graded = (((_vrec or {}).get("coins") or {}).get(sym) or {}).get("grade")
-    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, graded=_graded)
+    try:
+        import verdict as _vd
+        _marks = _vd.marks(_vrec, sym) if _vrec else []
+    except Exception:                            # fail open
+        _marks = []
+    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, graded=_graded, marks=_marks)
     vd_html = _coin_verdict(sym, pulse, verdict, with_section=bool(ev_html), evidence=evidence)
     if _graded and not vd_html:
         # the card was left off (its window is not the evidence's): no grade on the page, so the section

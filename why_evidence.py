@@ -63,6 +63,13 @@ AFTER_MIN = 60                 # the share of the move in the 60 minutes after a
 SCHEDULED_TOL_MIN = 10         # "at the scheduled release time": the onset within two bars of it
 MOVED_FIRST_PCT = 50           # half of the run done before the news: the price moved first
 MIN_COVER = 0.8                # a series with under 80% of its window's bars is not a series
+# THE TIMING TEST'S THRESHOLDS, the one source of truth (the strategist's ruling of October 19, 2026, item 3;
+# AUDIT.md section 3.1, layer 2, "The timing test"): 25 percent of the move done before the event
+# disqualifies it; 40 percent of the move inside the hour after it is the bar for "lines up". The verdict
+# (verdict.py) reads these and holds no copy. Revisited by the strategist after two weeks of 9.8's verdict
+# record, not before and not by the desk. MOVED_FIRST_PCT above stays 9.2's printed wording only.
+TIMING_TEST = {"version": "2026-10-19", "source": "AUDIT.md section 3.1; strategist's ruling of October 19, 2026",
+               "lead_min": LEAD_MIN, "done_max_pct": 25.0, "share_min_pct": 40.0}
 SECTION_TITLE = "What lined up with the move"
 
 COINS = {
@@ -1562,7 +1569,7 @@ def _is_corrected(line, quoted):
     return bool(n) and any(n.startswith(q) or q.startswith(n) for q in quoted)
 
 
-def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None, graded=None):
+def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None, graded=None, marks=()):
     """The section for one coin, or '' (fail open) when the record has no series for it. `live`
     marks the window's stamp for the stale state (asof.js); a dated page passes False. Wire items
     the page already prints elsewhere are not passed here twice: the page drops them from its
@@ -1570,13 +1577,13 @@ def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None, graded
     page's own: a wire line one of them quotes is not printed (the record stays frozen; the
     correction applies when the page is drawn)."""
     try:
-        return _section(rec, sym, live, set(skip_wire_ids), corrected_lines(corrections), graded)
+        return _section(rec, sym, live, set(skip_wire_ids), corrected_lines(corrections), graded, set(marks or ()))
     except Exception as e:                                       # noqa: BLE001
         print(f"::warning::why_evidence: the section for {sym} was not drawn ({type(e).__name__}: {e})")
         return ""
 
 
-def _section(rec, sym, live, skip, quoted=(), graded=None):
+def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
     coin = ((rec or {}).get("coins") or {}).get(sym)
     if not coin or not (coin.get("series") or {}).get("points"):
         return ""
@@ -1646,8 +1653,13 @@ def _section(rec, sym, live, skip, quoted=(), graded=None):
         if (c.get("report_line") and not GRADE_WORDS.search(c["report_line"])
                 and not _is_corrected(c["report_line"], quoted)):
             rep = f'<span class="ev-rep">First report: {_e(c["report_line"])}</span>'
-        items.append(f'<li class="ev-c"><span class="ev-n" aria-hidden="true">{n}</span>'
-                     f'<span class="ev-l">{_e(line)}</span>{rep}'
+        # Sprint 9.3, the pointer (Jack, J-7): every item carries its id; an item the verdict card names is
+        # marked, so the card's name points at exactly one listed item
+        mk = c["id"] in marks
+        items.append(f'<li class="ev-c{" ev-graded" if mk else ""}" data-ev-id="{_e(c["id"])}">'
+                     f'<span class="ev-n" aria-hidden="true">{n}</span>'
+                     + ('<span class="ev-mark">Named in the verdict above</span>' if mk else "")
+                     + f'<span class="ev-l">{_e(line)}</span>{rep}'
                      f'<span class="ev-m">{" &middot; ".join(meta)}</span>'
                      f'<span class="ev-t">{_e(" ".join(tw))}</span>{sec}</li>')
     cand_html = (f'<ol class="ev-cands">{"".join(items)}</ol>' if items else

@@ -153,6 +153,12 @@ class Client:
         self.budget = budget or Budget(b.get("max_tokens_per_run", 200000),
                                        b.get("max_usd_per_run", 3.0))
         self._replay = None
+        # SPRINT 9.3 (the strategist's ruling of October 19, item 4): an optional attempt guard, called as
+        # guard(phase, stage, usage) before every HTTP attempt ("before", retries and the empty-response
+        # retry included; it may raise BudgetError to refuse the attempt), after an HTTP error answer
+        # ("unbilled"), after a transport failure ("lost": the request may have been billed), and after an
+        # answer ("done", with its usage). None, the default, changes nothing for any other stage.
+        self.attempt_guard = None
 
     # ---- public --------------------------------------------------------------
 
@@ -251,6 +257,8 @@ class Client:
         data = json.dumps(body).encode("utf-8")
         req = urllib.request.Request(API_URL, data=data, method="POST", headers=headers)
         resp_json = self._post_with_retry(stage, req)
+        if self.attempt_guard:
+            self.attempt_guard("done", stage, resp_json.get("usage", {}) or {})
         # TRUNCATION IS NOT A PARSE FAILURE (owner report 2026-08-19). A response cut off
         # at the output ceiling leaves an unterminated JSON object, every parser in
         # extract_json fails, and the stage reported "model output was not parseable JSON
@@ -308,6 +316,8 @@ class Client:
         last = None
         for i in range(attempts):
             retry_after = None
+            if getattr(self, "attempt_guard", None):
+                self.attempt_guard("before", stage, None)     # may raise BudgetError: no attempt is made
             try:
                 # claude-fable-5 thinks before answering (always on) and hard calls can run
                 # minutes; a short timeout would fail perfectly healthy requests.
@@ -316,6 +326,8 @@ class Client:
             except urllib.error.HTTPError as e:
                 code = e.code
                 detail = e.read().decode("utf-8", "replace")[:300]
+                if getattr(self, "attempt_guard", None):
+                    self.attempt_guard("unbilled", stage, None)
                 # 4xx (except 408/429) are our fault: do not retry, fail closed immediately.
                 if code not in (408, 429) and 400 <= code < 500:
                     raise LLMError(f"{stage}: HTTP {code} from Anthropic API -> failing closed: {detail}")
@@ -325,6 +337,8 @@ class Client:
                 except (TypeError, ValueError):
                     retry_after = None
             except Exception as e:
+                if getattr(self, "attempt_guard", None):
+                    self.attempt_guard("lost", stage, None)
                 last = LLMError(f"{stage}: request failed: {e}")
             if i < attempts - 1:
                 wait = min(60.0, retry_after or delay)

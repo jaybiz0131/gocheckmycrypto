@@ -184,3 +184,82 @@ PLANT S14 a record with no section forms prints its stored sentences on a sectio
       FAIL SYNTHETIC Confirmed, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
       FAIL SYNTHETIC Likely on the onset hour, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
       FAIL 15 Oct Disputed (reports withheld), a record with no section forms, /today/: no fact in both ($940 million; 12:25 AM; 50%)
+
+Round 4 plants, Mon Oct 19 2026, 3:20 PM EDT
+PLANT T1 Likely without the readings agreeing: exit 1, 2 red; restored: exit 0
+      FAIL SYNTHETIC: an event passes the timing test but the readings do not agree: not Likely, not Unclear, no card (kind no_verdict)
+      FAIL no_verdict: no card, no URL
+PLANT T2 two outlets make Confirmed again: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: two outlets and no primary source no longer make Confirmed: Likely
+PLANT T3 a named cause failing with nothing passing reads Disputed: exit 1, 1 red; restored: exit 0
+      FAIL 15 October with the reports withheld (real wire): the named producer-price cause fails and no other event passes, so Unclear (no longer Disputed)
+PLANT T4 the flat test reads the record's own 24 hours, not the page's window: exit 1, 9 red; restored: exit 0
+      FAIL 19 October Bitcoin (real): flat on the ET day (up 0.05% since midnight ET), no card
+      FAIL SYNTHETIC: the page's window rose while the measured run fell: no card, never a fall's evidence under a rise
+      FAIL 19 October: the verdict's flat test agrees with /today/'s own direction (flat, et_day)
+      FAIL 19 October (flat ET day): no Bitcoin card on home
+      FAIL 19 October (flat ET day): no Bitcoin card on today
+    ... and 4 more
+PLANT T5 the direction words name a separate 24-hour window: exit 1, 3 red; restored: exit 0
+      FAIL Likely: every direction word names the page's window ('over the last 24 hours') and no other window
+      FAIL Confirmed: every direction word names the page's window ('over the last 24 hours') and no other window
+      FAIL et_day Likely: every direction word names the page's window ('since midnight ET') and no other window
+PLANT T6 events outside the ET day are graded: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: on the ET day, an event from before 11 PM ET the night before is outside the window, so nothing passes: Unclear
+PLANT T7 a window moving the other way from the run still grades: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: the page's window rose while the measured run fell: no card, never a fall's evidence under a rise
+PLANT T8 the verdict keeps its own copy of the share threshold: exit 1, 1 red; restored: exit 0
+      FAIL the verdict reads the constant: raised to 75%, 14 October CPI fails
+PLANT T9 the list marks every item: exit 1, 72 red; restored: exit 0
+      FAIL 14 Oct Likely (real), graded line, /today/ living: the event is named and points at exactly one listed item (6 item(s) marked for 1 name(s))
+      FAIL 14 Oct Likely (real), graded line, /today/ dated: the event is named and points at exactly one listed item (6 item(s) marked for 1 name(s))
+      FAIL 14 Oct Likely (real), graded line, /coins/btc: the event is named and points at exactly one listed item (6 item(s) marked for 1 name(s))
+      FAIL 14 Oct Likely (real), graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (6 item(s) marked for 1 name(s))
+      FAIL 14 Oct Likely (real), model text, /today/ living: the event is named and points at exactly one listed item (6 item(s) marked for 1 name(s))
+    ... and 67 more
+PLANT T10 a name that finds two listed items is not told apart: exit 1, 12 red; restored: exit 0
+      FAIL SYNTHETIC name collision, graded line, /today/ living: the event is named and points at exactly one listed item ('the Consumer Price Index release''s words match 2 listed item(s))
+      FAIL SYNTHETIC name collision, graded line, /today/ dated: the event is named and points at exactly one listed item ('the Consumer Price Index release''s words match 2 listed item(s))
+      FAIL SYNTHETIC name collision, graded line, /coins/btc: the event is named and points at exactly one listed item ('the Consumer Price Index release''s words match 2 listed item(s))
+      FAIL SYNTHETIC name collision, graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item ('the Consumer Price Index release''s words match 2 listed item(s))
+      FAIL SYNTHETIC name collision, model text, /today/ living: the event is named and points at exactly one listed item ('the Consumer Price Index release''s words match 2 listed item(s))
+    ... and 7 more
+PLANT T11 the card's pointer carries the wrong id: exit 1, 72 red; restored: exit 0
+      FAIL 14 Oct Likely (real), graded line, /today/ living: the event is named and points at exactly one listed item ('the Consumer Price Index release' points at 0 listed item(s))
+      FAIL 14 Oct Likely (real), graded line, /today/ dated: the event is named and points at exactly one listed item ('the Consumer Price Index release' points at 0 listed item(s))
+      FAIL 14 Oct Likely (real), graded line, /coins/btc: the event is named and points at exactly one listed item ('the Consumer Price Index release' points at 0 listed item(s))
+      FAIL 14 Oct Likely (real), graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item ('the Consumer Price Index release' points at 0 listed item(s))
+      FAIL 14 Oct Likely (real), model text, /today/ living: the event is named and points at exactly one listed item ('the Consumer Price Index release' points at 0 listed item(s))
+    ... and 67 more
+PLANT T12 a Disputed card on a section page does not state the named cause: exit 1, 13 red; restored: exit 0
+      FAIL Disputed: the card states the named cause and the event that passes, both sides, in its line
+      FAIL SYNTHETIC Disputed, a named cause fails, graded line, /today/ living: the event is named and points at exactly one listed item (2 item(s) marked for 1 name(s))
+      FAIL SYNTHETIC Disputed, a named cause fails, graded line, /today/ dated: the event is named and points at exactly one listed item (2 item(s) marked for 1 name(s))
+      FAIL SYNTHETIC Disputed, a named cause fails, graded line, /coins/btc: the event is named and points at exactly one listed item (2 item(s) marked for 1 name(s))
+      FAIL SYNTHETIC Disputed, a named cause fails, graded line, /why/2026-10-15-bitcoin: the event is named and points at exactly one listed item (2 item(s) marked for 1 name(s))
+    ... and 8 more
+PLANT T13 a reservation is not written before the call: exit 0, 0 red; restored: exit 0
+    (green under the plant: the end-of-run save wrote the reservation anyway, so no case read the ledger
+    while a call was in flight. A case that reads the ledger on disk from inside the call was added; T13 rerun below.)
+PLANT T14 a transport failure clears its reservation: exit 1, 1 red; restored: exit 0
+      FAIL a transport failure keeps its reservation, and the automatic retry that would pass the cap is refused: one attempt made
+PLANT T15 llm.py checks no attempt: exit 1, 6 red; restored: exit 0
+      FAIL each call reserved and settled to its actual cost; one run row with the day's total and the cap
+      FAIL a call cut off by the deadline stays reserved at its estimate and counts in the day's spend
+      FAIL a transport failure keeps its reservation, and the automatic retry that would pass the cap is refused: one attempt made
+      FAIL llm.py's empty-response retry is checked against the cap before it is made
+      FAIL at the cap: no call, the verdict withheld, no grade and no URL
+    ... and 1 more
+PLANT T16 at the cap the graded line prints: exit 1, 4 red; restored: exit 0
+      FAIL a transport failure keeps its reservation, and the automatic retry that would pass the cap is refused: one attempt made
+      FAIL llm.py's empty-response retry is checked against the cap before it is made
+      FAIL at the cap: no call, the verdict withheld, no grade and no URL
+      FAIL at the cap the card says the desk's check did not run today, and nothing about AI or a cap
+PLANT T17 the section forms skip the twins gate: exit 1, 1 red; restored: exit 0
+      FAIL the twins gate checks the model's sentences, the graded line and the section forms: a gate that drops every sentence leaves nothing of them to print
+PLANT T18 an untraced sentence falls back to unchecked section forms: exit 1, 1 red; restored: exit 0
+      FAIL a stored sentence that cannot be traced to whole phrases prints nothing on a section page (the old fallback to unchecked section forms is gone)
+PLANT T19 Ether moving with Bitcoin draws a card: exit 1, 1 red; restored: exit 0
+      FAIL 19 October: Ether moved with Bitcoin is one plain line on the Ether page, not a card
+PLANT T13 a reservation is not written before the call (replanted with the on-disk case): exit 1, 1 red; restored: exit 0
+      FAIL the reservation is written to the ledger on disk before the call is made

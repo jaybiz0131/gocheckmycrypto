@@ -70,3 +70,23 @@ hour after an event keeps its figures (the section does not print that hour), he
 below", and drops any row or pattern the onset hour prints the same. Each /why/ page carries one card, the day's
 lead verdict. The home keeps the full card. 98 coin pages and /today/2026-10-16 to 18 are identical to main's
 build but for the stylesheet's version hash (docs/sprint93-review2-built.log).
+
+RECAPTURED IN FIX ROUND 4, Monday October 19 2026, about 3:34 PM EDT, by the builder, under the strategist's rulings of
+October 19 (docs/RULINGS.md on main). 24 files replaced under the same names, the same way as before, from
+records regraded by this branch's verdict.record_from on each day's window (verdict.day_moves): the real 19
+October morning record with its own pulse, and the 14 and 15 October fixture records with their fixture
+pulses. The four why-2026-10-19-bitcoin files are removed: under the rulings that page does not exist.
+
+What the shots now show:
+  - 19 October (/, /today/, /coins/btc): no card. Bitcoin was up 0.05% since midnight ET, flat on the ET day
+    /today/ uses, and a move under the threshold gets no card. /today/'s own headline says "flat".
+  - /coins/eth: no card; one plain line, "Ether moved with Bitcoin since midnight ET." (within 2 points).
+  - /today/2026-10-15 and /why/2026-10-15-bitcoin: Unclear, "No reported event lines up with this move."
+    That day's pulse carries no open_et, so the window is the rolling 24 hours, named "Over the last 24 hours".
+  - /why/2026-10-14-bitcoin: Likely. The card names the event, "the Consumer Price Index release", in bold;
+    the list marks that one item "Named in the verdict above". Times, figures and wording stay in the list.
+  - Grade definitions as ruled. The chip and the marker use neutral tokens only.
+Slices run from the card (or, with no card, the first of the plain line, the evidence section, the Brief
+card, the answer or the heading) to the end of the evidence section. No horizontal overflow at 390 or 1440.
+Disputed and Confirmed have no real day yet, so they are not shown (screenshots come from real records only,
+Jack, October 13); their cases are in scripts/sprint93_test.py.

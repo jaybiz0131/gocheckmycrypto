@@ -4,44 +4,44 @@ verdict.py: the verdict under "Why it moved" (Program 9, Sprint 9.3; AUDIT.md se
 
 THE GRADE IS COMPUTED HERE, NEVER CHOSEN BY A MODEL. It reads one evidence record (why_evidence.py,
 9.2) and grades each coin by the rules below. A model only writes the two sentences that say it, from
-finished phrases this file builds (8.2's phrases.py rule: every figure, sign and window already in
-words; the model copies phrases whole), and a stronger model checks them, stating `stands` per claim
-(the wrap.check rule). Any failure prints the graded line built from the same phrases, with no model
-sentence: an unchecked sentence never prints.
+finished phrases this file builds (8.2's phrases.py rule: the model copies phrases whole), and a stronger
+model checks them, stating `stands` per claim (the wrap.check rule). A failure prints the graded line built
+from the same phrases; an unchecked sentence never prints.
 
-THE GRADES (AUDIT.md 3.1; Jack's ruling 1 of October 16):
-  Confirmed  a primary source, or two independent outlets, state the cause; the timing test passes;
-             the market readings agree. The only grade whose line says "because".
-  Likely     the timing test passes and the readings agree, with no source stating the cause; or a
-             source states it and the timing passes while the readings are silent. Says "lines up with".
-  Disputed   a reported cause fails the timing test, or the readings contradict it. Shows both sides.
-  Unclear    nothing passes the timing test: "No reported event lines up with this move", and the
-             onset hour's readings still print. When an event passes the timing test with no report
-             naming it and no reading behind it, the grade is Unclear too, and its line says so (it
-             cannot say no event lines up, because one does in time).
-  No grade   Bitcoin flat (within 0.5%, Program 8's rule): "Flat: nothing to explain". Ether within 2
-             points of Bitcoin: one line, "Ether moved with Bitcoin".
+THE RULES (the strategist's rulings of October 19, 2026, docs/RULINGS.md):
+  The window  the one /today/ uses: the ET day, midnight ET to the reading, from the Board's open_et
+              (basis et_day); the rolling 24 hours only when open_et is absent (basis rolling_24h). The
+              card's direction words name that window ("since midnight ET", "over the last 24 hours").
+  No card     a move under the threshold: Bitcoin flat (within 0.5%) on that window; Ether within 2
+              points of Bitcoin (one plain line, "Ether moved with Bitcoin", on the Ether page). Also no
+              card when no grade below fits: an event passes the timing test but the market readings do
+              not agree and no named cause conflicts; or the window moved the other way from the run the
+              timing test measured.
+  Unclear     no candidate event passes the timing test. The card says exactly "No reported event lines
+              up with this move."
+  Disputed    outlets name different causes, or a named cause fails the timing test while another event
+              passes it. The card names both.
+  Likely      an event passes the timing test and the market readings agree, with no primary source.
+  Confirmed   a primary source states the cause, the timing test passes and the readings agree. The only
+              grade whose line says "because".
+  On the ET day, only events from an hour before midnight ET onward are graded.
 
-THE TIMING TEST (the onset question carried from 9.2). 9.2's onset is the start of the largest run
-measured from the window's own peak, so on 14 October it is 4:10 AM ET and CPI at 8:30 AM reads
-"after the run began", although 8.5% of the run was done before it and the hour after it carried
-71.2% of the fall. A candidate passes when EITHER
-  (a) 9.2's own test: it came within 60 minutes before the onset, or the onset fell at its
-      scheduled release time, and the price had not moved first; OR
-  (b) the price had not moved first, measured strictly: no more than TIMING["done_max_pct"] of the
-      run was done before it, AND at least TIMING["share_min_pct"] of the window's move came in the
-      60 minutes after it.
-9.2's onset and its printed figures are unchanged; this file only reads them.
+THE TIMING TEST reads its thresholds from why_evidence.TIMING_TEST (one versioned constant): 25% of the run
+done before the event disqualifies it; it passes when it came within the hour before the run began, or when
+40% of the move came in the hour after it. 9.2's onset and printed figures are unchanged.
 
-THE READINGS (the mechanics) are those of the hour the run began, so they can speak only to a
-candidate within 60 minutes of the onset; for any other candidate they are silent. A macro event
-(a US release, the Fed, a rate or inflation report) agrees with "risk-off/on across assets" and is
-contradicted by "crypto only"; a crypto event agrees with "crypto only" or "coin-specific" and is
-contradicted by a move across assets. "Leverage flush" is a mechanism, not a cause, and is silent.
+THE READINGS: the hour after the event when the record stores it, else the hour the run began (which
+speaks only to an event within 60 minutes of it). A macro event agrees with "risk-off/on across assets"; a
+crypto event with "crypto only" or "coin-specific". A shut stock market is no reading.
 
-THE SPEND (ruling 2): every model call is priced by llm.py at the 5.5 rates and the run writes one row
-to data/verdict-ledger.json with the day's total, printed against the $1.50 cap. A call that could
-take the day past the cap is not made; the verdict fails open.
+THE EVENT IS NAMED, NEVER QUOTED: by its subject ("the CFTC proposal"), built in code from its line. On a
+page that also prints the evidence list, the name carries a pointer to the one listed item it means, and
+that item is marked; the time, figures and wording stay in the list only.
+
+THE SPEND (rulings 2 of October 16 and 4 of October 19): every model attempt, retries included, is reserved
+in data/verdict-ledger.json at its worst-case cost before it is made and settled to its actual cost after,
+so a call cut off by the deadline still counts. An attempt that would take the day past $1.50 is not made,
+and the verdict is withheld: the card says the desk's check did not run today, never a guess.
 
     python3 verdict.py --write        # the run's step, after why_evidence.py; exits 0 whatever happens
 """
@@ -56,14 +56,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DIR = os.path.join(HERE, "site", "data", "verdict")
 LEDGER = os.path.join(HERE, "data", "verdict-ledger.json")
 
-# ---- the rules, in one place ------------------------------------------------------------------------------
+# ---- the rules, in one place (the timing thresholds are why_evidence.TIMING_TEST's, never copied here) -----
 
-# The timing test's second path (see the docstring). lead_min is 9.2's own and is read from it.
-TIMING = {"lead_min": 60, "done_max_pct": 25.0, "share_min_pct": 40.0}
 FLAT_PCT = 0.5                 # Program 8: Bitcoin within plus or minus 0.5% is flat
 WITH_BTC_PTS = 2.0             # Ether within 2 points of Bitcoin's move "moved with Bitcoin"
 MECH_REACH_S = 3600            # the onset hour's readings speak to a candidate within 60 minutes of it
-CAP_USD = 1.50                 # ruling 2: new model spend for the why, capped at $1.50 a day
+CAP_USD = 1.50                 # ruling 2 of October 16: new model spend for the why, capped at $1.50 a day
 DEADLINE_S = 100               # the run step's own budget; the workflow's timeout is 150
 MODEL_DRAFT = "claude-haiku-5-5"
 MODEL_CHECK = "claude-sonnet-5-5"
@@ -71,20 +69,21 @@ CFG = {"models": {"verdict_draft": {"model": MODEL_DRAFT, "max_tokens": 3000},
                   "verdict_check": {"model": MODEL_CHECK, "max_tokens": 6000}},
        "budget": {"max_tokens_per_run": 120000, "max_usd_per_run": CAP_USD}}
 GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
-RANK = {"Confirmed": 0, "Disputed": 1, "Likely": 2, "Unclear": 3}
 DEFINITIONS = {
-    "Confirmed": "A primary source or two outlets state the cause, the timing test passes, and the market "
-                 "readings agree.",
-    "Likely": "The timing test passes and the market readings agree, with no primary source or second "
-              "outlet stating the cause.",
-    "Disputed": "A reported cause fails the timing test, or the market readings contradict it.",
-    "Unclear": "No reported event passes the timing test with the market readings agreeing.",
+    "Confirmed": "A primary source states the cause, the timing test passes, and the market readings agree.",
+    "Likely": "One reported event passes the timing test and the market readings agree, with no primary "
+              "source stating the cause.",
+    "Disputed": "Outlets name different causes, or a named cause fails the timing test while another event "
+                "passes it.",
+    "Unclear": "No reported event passes the timing test.",
 }
 NAMES = {"BTC": ("Bitcoin", "bitcoin"), "ETH": ("Ether", "ether")}
 NO_EVENT = "No reported event lines up with this move."
+CAP_LINE = "The desk's check of this move did not run today."
+WINDOW_WORDS = {"et_day": "since midnight ET", "rolling_24h": "over the last 24 hours"}
 GRADE_WORDS = re.compile(r"\b(confirmed|likely|disputed|unclear)\b", re.I)
 BECAUSE = re.compile(r"\bbecause\b", re.I)
-DASH = re.compile("[\u2013\u2014]")
+DASH = re.compile("[\\u2013\\u2014]")
 
 # "A source states the cause": the line names the coin (or crypto), a price move, and a link between
 # the event and the move. Grep-class, and in code: no model decides it.
@@ -92,7 +91,7 @@ SUBJECT = {"BTC": r"\b(bitcoin|btc|crypto\w*|digital assets?)\b",
            "ETH": r"\b(ether|eth|ethereum|crypto\w*|digital assets?)\b"}
 MOVE = re.compile(r"\b(fell|falls?|falling|dropp\w*|drops?|slid|slides?|sliding|slump\w*|tumbl\w*|plung\w*|"
                   r"sank|sinks?|rose|rises?|rising|rall(?:y|ied|ies|ying)|jump\w*|surg\w*|climb\w*|soar\w*|"
-                  r"liquidat\w*|sell-?offs?|selloffs?)\b|\b(?:below|above|under|past) \$", re.I)
+                  r"liquidat\w*|sell-?offs?|selloffs?|lower|higher)\b|\b(?:below|above|under|past) \$", re.I)
 LINK = re.compile(r"\b(because|due to|driven by|caused by|owing to|after|amid|following|on the back of|as|"
                   r"send\w*|sent|trigger\w*|spark\w*|push\w*|drag\w*|lift\w*|knock\w*|weigh\w*|hit|fuel\w*|"
                   r"prompt\w*|led to)\b", re.I)
@@ -100,6 +99,22 @@ MACRO = re.compile(r"\b(inflation|cpi|consumer price|producer[- ]price|ppi|payro
                    r"gdp|fed|federal reserve|fomc|rate[- ](?:hike|cut)s?|interest rates?|treasury yields?|"
                    r"bond yields?|tariffs?)\b", re.I)
 
+# THE SUBJECT OF AN EVENT, by code: a macro report by its kind, else the line's leading name and the noun of
+# its first action. No figure, no time, no quotation.
+MACRO_SUBJ = [(r"producer[- ]price", "the producer-price data"),
+              (r"consumer price|\bcpi\b|\binflation\b", "the inflation data"),
+              (r"\bpayrolls?\b|jobs report", "the jobs report"),
+              (r"\bfomc\b|rate decision|federal reserve", "the Fed decision"),
+              (r"\btariffs?\b", "the tariff news")]
+ACTIONS = [("agreed to acquire", "acquisition"), ("to acquire", "acquisition"), ("acquired", "acquisition"),
+           ("proposed", "proposal"), ("halted", "halt"), ("launched", "launch"), ("authorized", "authorization"),
+           ("classified", "classification"), ("confirmed", "confirmation"), ("dismantled", "takedown"),
+           ("approved", "approval"), ("filed", "filing"), ("sued", "lawsuit"), ("charged", "charges"),
+           ("announced", "announcement"), ("delisted", "delisting"), ("listed", "listing"), ("hacked", "hack"),
+           ("exploited", "exploit"), ("drained", "drain"), ("froze", "freeze"), ("seized", "seizure"),
+           ("banned", "ban"), ("partnered", "partnership"), ("integrated", "integration"),
+           ("upgraded", "upgrade"), ("released", "release"), ("settled", "settlement"), ("fined", "fine")]
+GENERIC_KEYS = {"bitcoin", "ether", "btc", "eth", "crypto", "et"}
 
 def _we():
     import why_evidence
@@ -121,18 +136,44 @@ def _e(s):
 # ---- the timing test, the statement, the readings -----------------------------------------------------------
 
 def timing_pass(r):
-    """'lead' (9.2's own test), 'share' (the second path), or None. `r` is a 9.2 timing result."""
+    """'lead' (it came within the hour before the run began), 'share' (40% or more of the move in the hour
+    after it), or None. 25% or more of the run done before it disqualifies it. The thresholds are
+    why_evidence.TIMING_TEST's. `r` is a 9.2 timing result."""
+    tt = _we().TIMING_TEST
     if not r or not r.get("in_window", True):
         return None
-    if r.get("moved_first"):
+    done, share = r.get("done_pct"), r.get("share_pct")
+    if r.get("moved_first") or (isinstance(done, (int, float)) and done > tt["done_max_pct"]):
         return None
     if r.get("before_onset"):
         return "lead"
-    share, done = r.get("share_pct"), r.get("done_pct")
-    if (isinstance(share, (int, float)) and isinstance(done, (int, float))
-            and done <= TIMING["done_max_pct"] and share >= TIMING["share_min_pct"]):
+    if isinstance(share, (int, float)) and isinstance(done, (int, float)) and share >= tt["share_min_pct"]:
         return "share"
     return None
+
+
+def day_moves(pulse, date_et):
+    """The window /today/ uses, from the Board: {basis, date, BTC, ETH}. The ET day (price over open_et,
+    rounded as the snapshot rounds it) when the Board carries Bitcoin's open_et for `date_et`; else the
+    rolling 24 hours (basis rolling_24h). Ether is read on the same basis or not at all. None with no
+    Bitcoin reading."""
+    rows = {c.get("symbol"): c for c in (((pulse or {}).get("movers") or {}).get("top100") or [])}
+
+    def et(sym):
+        r = rows.get(sym) or {}
+        if (isinstance(r.get("open_et"), (int, float)) and r["open_et"] > 0 and r.get("open_et_day") == date_et
+                and isinstance(r.get("price"), (int, float))):
+            return round((r["price"] / r["open_et"] - 1.0) * 100.0, 2)
+        return None
+
+    def h24(sym):
+        v = (rows.get(sym) or {}).get("chg_24h_pct")
+        return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
+    if et("BTC") is not None:
+        return {"basis": "et_day", "date": date_et, "BTC": et("BTC"), "ETH": et("ETH")}
+    if h24("BTC") is None:
+        return None
+    return {"basis": "rolling_24h", "date": date_et, "BTC": h24("BTC"), "ETH": h24("ETH")}
 
 
 def stated(c, sym):
@@ -197,7 +238,7 @@ def mech_fit(c, coin, t):
     return fit, [l for l in labels if l], hour
 
 
-# ---- the phrases -------------------------------------------------------------------------------------------
+# ---- the phrases ----------------------------------------------------------------------------------------------
 
 def _move(coin):
     pts = ((coin or {}).get("series") or {}).get("points") or []
@@ -210,60 +251,6 @@ def _words(direction):
     return ("fall", "fell") if direction == "down" else ("rise", "rose")
 
 
-def _ref(c, t, w1):
-    """The candidate as a noun phrase with its time, from its own line. A line that says "because" or
-    carries a grade word is never quoted, whatever its kind (9.2's rule for its section): the verdict's
-    own grade decides those words."""
-    we = _we()
-    line = " ".join(str(c.get("line") or "").split()).rstrip(".")
-    when = we.day_clock(t, w1) if t is not None else "an unknown time"
-    k = c.get("kind")
-    outlet = next((l.get("outlet") for l in c.get("links") or [] if l.get("outlet")), "the wire")
-    if BECAUSE.search(line) or GRADE_WORDS.search(line):
-        return f"an event reported by {outlet} at {when}" if k != "wire" else f"a report from {outlet} at {when}"
-    if k == "release":
-        return f"the {line}, released at {when}"
-    if k == "press":
-        return f'"{line}", published at {when}'
-    if k == "hack":
-        return f"the {line}, at {when}"
-    return f'the report "{line}" ({outlet}, {when})'
-
-
-def _ref_sec(c):
-    """THE REFERENCE ON A PAGE THAT PRINTS THE SECTION (review 2): the event by name, with no time and no
-    quoted line, because the evidence list below prints both. A release keeps its name; anything else
-    is pointed to in the list."""
-    line = " ".join(str(c.get("line") or "").split()).rstrip(".")
-    outlet = next((l.get("outlet") for l in c.get("links") or [] if l.get("outlet")), "the wire")
-    k = c.get("kind")
-    if k == "release" and not (BECAUSE.search(line) or GRADE_WORDS.search(line)) and not re.search(r"\d:\d\d|%|\$", line):
-        return f"the {line}"
-    if k == "release":
-        return f"the release listed below ({outlet})"
-    if k == "press":
-        return f"the {outlet} release listed below"
-    if k == "hack":
-        return f"the exploit listed below ({outlet})"
-    return f"the {outlet} report listed below"
-
-
-def _reported_sec(c, n, ref_s):
-    if c.get("kind") == "release":
-        return f"{_outlets(n or 1)} reported {ref_s} as a cause."
-    return f"{_outlets(n or 1)} reported a cause, in {ref_s}."
-
-
-def _reported_phrase(c, n, ref):
-    """The reported side of a Disputed verdict, in the report's own words. It never says which way
-    the report said the price went: the report's direction is its own, not the window's."""
-    if c.get("kind") in ("wire", "press"):
-        if ref.startswith("the report "):
-            return f"{_outlets(n or 1)} reported a cause: {ref[len('the report '):]}."
-        return f"{_outlets(n or 1)} reported a cause: {ref}."
-    return f"{_outlets(n or 1)} reported {ref} as a cause."
-
-
 def _cap(s):
     return s[:1].upper() + s[1:] if s else s
 
@@ -272,25 +259,107 @@ def _outlets(n):
     return {1: "One outlet", 2: "Two outlets", 3: "Three outlets"}.get(n, f"{n} outlets")
 
 
-def _timing_phrase(path, r, c, fall):
+def _shown_outlet(c):
+    """The outlet the evidence list prints beside the item (its first report's when it has one)."""
+    return next((l.get("outlet") for l in (c.get("report_links") or c.get("links") or []) if l.get("outlet")),
+                "the wire")
+
+
+def _entity(line):
+    out = []
+    for tok in line.split():
+        w = tok.strip(",.;:()")
+        if w and (w[0].isupper() or w == "&"):
+            out.append(w)
+            if len(out) == 3:
+                break
+        else:
+            break
+    return " ".join(out)
+
+
+def subject(c):
+    """(name, key) for a candidate: its subject in words and the words that find it in the list. Built
+    from its own line by code; no time, no figure, no quotation."""
+    line = " ".join(str(c.get("line") or "").split()).rstrip(".")
+    k = c.get("kind")
+    if k == "release":
+        name = re.split(r"[,(]", line)[0].strip()
+        if name and not re.search(r"\d", name) and not (BECAUSE.search(name) or GRADE_WORDS.search(name)):
+            return f"the {name} release", [name]
+    if k == "hack":
+        name = line.split(" exploit")[0].strip()
+        if name and not re.search(r"\d", name):
+            return f"the {name} exploit", [name]
+    for rx, subj in MACRO_SUBJ:
+        m = re.search(rx, line, re.I)
+        if m and k != "release":
+            return subj, [m.group(0)]
+    ent = _entity(line)
+    if not ent or re.search(r"\d", ent) or BECAUSE.search(ent) or GRADE_WORDS.search(ent):
+        outlet = _shown_outlet(c)
+        return f"the {outlet} report", [outlet]
+    rest = " " + re.sub(r"[,;:]", " ", line[len(ent):].lower()) + " "
+    hits = sorted((rest.find(" " + a + " "), noun) for a, noun in ACTIONS if (" " + a + " ") in rest)
+    noun = hits[0][1] if hits else None
+    key = [ent.split("'s ")[-1] if "'s " in ent else ent]
+    if "'s" in ent:
+        return f"the {noun or 'report'} by {ent}", key
+    return f"the {ent} {noun or 'report'}", key
+
+
+def _listed_text(c):
+    return " ".join([str(c.get("line") or ""), str(c.get("report_line") or "")]
+                    + [l.get("outlet") or "" for l in (c.get("report_links") or c.get("links") or [])])
+
+
+def named(c, cands):
+    """{id, text, key}: the subject, made to find one listed item. When its words also find another
+    listed candidate, the outlet the list prints beside it is added; when that still finds two, the key is
+    left empty and the item's marker alone identifies it."""
+    text, key = subject(c)
+
+    def finds(cc, toks):
+        t = _listed_text(cc).lower()
+        return all(tk.lower() in t for tk in toks)
+    others = [o for o in cands if o.get("id") != c.get("id")]
+    generic = any(tk.lower() in GENERIC_KEYS for tk in key)
+    if generic or any(finds(o, key) for o in others):
+        outlet = _shown_outlet(c)
+        text, key = f"{text}, as {outlet} reported it", key + [outlet]
+        if generic or any(finds(o, key) for o in others):
+            key = []
+    return {"id": c.get("id"), "text": text, "key": key}
+
+
+def _ref_full(c, t, w1, nm):
+    """The event with its time, for a page with no evidence list beside the card (the home)."""
+    if t is None:
+        return nm["text"]
+    when = _we().day_clock(t, w1)
+    return f"{nm['text']} ({when})" if c.get("kind") == "release" else f"{nm['text']} (reported {when})"
+
+
+def _timing_phrase(path, r, c):
     if path == "lead":
         if c.get("scheduled") and abs(r.get("lead_min") or 0) <= _we().SCHEDULED_TOL_MIN:
             return "The run began at its scheduled release time."
         return "It came within the hour before the run began."
     share = r.get("share_pct") or 0
     most = "Most" if share >= 50 else "A large share"
-    return f"{most} of the {fall} came in the 60 minutes after it, and the price had not moved first."
+    return f"{most} of the move the timing test measures came in the 60 minutes after it, and the price had not moved first."
 
 
-def _against_phrase(r, name, fall):
-    if r.get("moved_first"):
-        return "The price moved first: most of the run was done before it."
-    share = r.get("share_pct")
+def _against_phrase(r, name):
+    tt = _we().TIMING_TEST
+    done, share = r.get("done_pct"), r.get("share_pct")
+    if r.get("moved_first") or (isinstance(done, (int, float)) and done > tt["done_max_pct"]):
+        return "A quarter or more of the run was done before it."
     if isinstance(share, (int, float)) and share < 0:
-        return f"In the 60 minutes after it, {name} moved against the {fall}."
-    if isinstance(share, (int, float)) and share < TIMING["share_min_pct"]:
-        return f"Little of the {fall} came in the 60 minutes after it."
-    return "It came well before the run began."
+        return f"In the 60 minutes after it, {name} moved against the run."
+    if isinstance(share, (int, float)) and share < tt["share_min_pct"]:
+        return "Less of the move than the timing test needs came in the 60 minutes after it."
+    return "It came too long before the run began."
 
 
 def _mech_sec(coin, labels, hour, shut=False):
@@ -321,141 +390,147 @@ def _mech_phrase(coin, labels=None, hour="onset"):
 
 # ---- the grade ------------------------------------------------------------------------------------------------
 
-def grade(rec, sym):
-    """The computed verdict for one coin of an evidence record: {sym, name, kind, grade, cand, dir,
-    reasons, phrases, line, required}. `kind` is graded, flat, with_btc or none. Never raises for a
-    record that lacks a coin; it returns kind none."""
+def grade(rec, sym, day=None):
+    """The computed verdict for one coin: {sym, name, kind, grade, basis, window_words, cand, refs, dir,
+    reasons, phrases, phrases_sec, line, required, readings}. kind is graded, flat, with_btc, no_verdict or
+    none; only graded draws a card. `day` is day_moves(); without it the record's own series stands in, as
+    the rolling 24 hours. Never raises for a record that lacks a coin."""
     we = _we()
-    name, word = NAMES.get(sym, (sym, sym.lower()))
-    out = {"sym": sym, "name": name, "kind": "none", "grade": None, "cand": None, "dir": None,
-           "reasons": [], "phrases": [], "line": [], "required": []}
+    name, _w = NAMES.get(sym, (sym, sym.lower()))
+    out = {"sym": sym, "name": name, "kind": "none", "grade": None, "cand": None, "refs": [], "dir": None,
+           "reasons": [], "phrases": [], "phrases_sec": [], "line": [], "required": [], "readings": None}
     coins = (rec or {}).get("coins") or {}
     coin = coins.get(sym)
-    mv = _move(coin)
-    if mv is None:
+    series_mv = _move(coin)
+    if series_mv is None:
         return out
-    out["move_pct"] = round(mv, 3)
+    if not day or not isinstance(day.get("BTC"), (int, float)):
+        day = {"basis": "rolling_24h", "BTC": _move(coins.get("BTC")), "ETH": _move(coins.get("ETH"))}
+    basis = day.get("basis") if day.get("basis") in WINDOW_WORDS else "rolling_24h"
+    mv = day.get(sym)
+    out.update(basis=basis, window_words=WINDOW_WORDS[basis])
     if sym == "ETH":
-        b = _move(coins.get("BTC"))
-        if b is not None and abs(mv - b) < WITH_BTC_PTS:
-            out.update(kind="with_btc", line=["Ether moved with Bitcoin."],
-                       reasons=[f"its move was within {WITH_BTC_PTS:g} points of Bitcoin's over the window"])
+        b = day.get("BTC")
+        if not isinstance(mv, (int, float)):
+            out.update(kind="no_verdict", reasons=["Ether has no reading on the page's window"])
             return out
+        if isinstance(b, (int, float)) and abs(mv - b) < WITH_BTC_PTS:
+            out.update(kind="with_btc", line=["Ether moved with Bitcoin."],
+                       reasons=[f"within {WITH_BTC_PTS:g} points of Bitcoin {WINDOW_WORDS[basis]}"])
+            return out
+    if not isinstance(mv, (int, float)):
+        return out
+    out["move_pct"] = mv
     if abs(mv) <= FLAT_PCT:
-        out.update(kind="flat", line=["Flat: nothing to explain."],
-                   reasons=[f"the move was within {FLAT_PCT:g}% over the window"])
+        out.update(kind="flat", reasons=[f"within {FLAT_PCT:g}% {WINDOW_WORDS[basis]}: under the threshold, no card"])
         return out
     run = coin.get("run")
     if not run:
         return out
+    ddir = "down" if mv < 0 else "up"
+    if ddir != run["dir"]:
+        out.update(kind="no_verdict", reasons=[f"the page's window moved {ddir} while the run the timing test "
+                                               f"measured went {run['dir']}"])
+        return out
     wend = _parse((rec.get("window") or {}).get("end_utc"))
     w1 = int(wend.timestamp()) if wend else coin["series"]["points"][-1][0]
+    since = None
+    if basis == "et_day":
+        e = we._et(w1)
+        since = int(_dt.datetime(e.year, e.month, e.day, tzinfo=we.ET).timestamp()) - we.TIMING_TEST["lead_min"] * 60
     fall, fell = _words(run["dir"])
-    # THE WINDOW IS NAMED WHEREVER A DIRECTION WORD IS (review 1): the card's move is the evidence
-    # window's, the 24 hours to the Board reading, which can differ from a page's own headline window
-    win = f"over the 24 hours to {we.clock(w1)}"
-    fall24 = f"24-hour {fall}"
-    out.update(kind="graded", dir=run["dir"])
+    ww = WINDOW_WORDS[basis]
+    out.update(dir=run["dir"])
     tests = {t["id"]: t for t in coin.get("tests") or []}
-    graded = []
-    for c in rec.get("candidates") or []:
-        if c.get("secondary"):
-            continue
+    cands = [c for c in rec.get("candidates") or [] if not c.get("secondary")]
+    xs = []
+    for i, c in enumerate(cands):
         tst = tests.get(c["id"]) or {}
         r = tst.get("result")
         tu = _parse(tst.get("t_utc"))
         t = int(tu.timestamp()) if tu else None
-        path = timing_pass(r)
+        if since is not None and (t is None or t < since):
+            continue                        # outside the page's window: not this window's verdict
         st, n, prim = stated(c, sym)
         fit, labels, hour = mech_fit(c, coin, t)
-        measured = bool(r and r.get("in_window") and r.get("share_pct") is not None)
-        g = None
-        # Likely and Confirmed only where the timing test AND the readings agree (ruling 1). A report
-        # stating it with the readings silent is not Likely: it reads Unclear, and its line says a
-        # report named it.
-        if st and path and fit == "agree" and (prim or n >= 2):
-            g = "Confirmed"
-        elif st and measured and (not path or fit == "contradict"):
-            g = "Disputed"
-        elif path and fit == "agree":
-            g = "Likely"
-        elif path:
-            g = "timing"
-        if g:
-            graded.append({"g": g, "c": c, "r": r, "t": t, "path": path, "stated": st, "outlets": n,
-                           "primary": prim, "fit": fit, "labels": labels, "hour": hour})
-    real = [x for x in graded if x["g"] in RANK]
-    if real:
-        best = min(real, key=lambda x: (RANK[x["g"]], -(x["r"].get("share_pct") or 0), x["t"] or 0))
-    else:
-        best = next(iter(sorted([x for x in graded if x["g"] == "timing"],
-                                key=lambda x: (not x["stated"], -(x["r"].get("share_pct") or 0), x["t"] or 0))), None)
+        xs.append({"i": i, "c": c, "r": r or {}, "t": t, "path": timing_pass(r), "stated": st, "outlets": n,
+                   "primary": prim, "fit": fit, "labels": labels, "hour": hour,
+                   "measured": bool(r and r.get("in_window") and r.get("share_pct") is not None)})
+    order = lambda x: (-(x["r"].get("share_pct") or 0), x["t"] or 0, x["i"])
+    passing = sorted([x for x in xs if x["path"]], key=order)
     mech = _mech_phrase(coin)
-    if best is None or best["g"] == "timing":
-        out["grade"] = "Unclear"
-        out["readings"] = _readings(coin, None, None, sym)
-        if best is None:
-            out["phrases"] = [NO_EVENT, mech]
-            out["phrases_sec"] = [NO_EVENT, ""]
-            out["reasons"] = ["no candidate passes the timing test"]
-        else:
-            ref, ref_s = _ref(best["c"], best["t"], w1), _ref_sec(best["c"])
-            if best["stated"]:
-                tail = (f", and {_outlets(best['outlets'] or 1).lower()} reported it as the cause, but the "
-                        f"market readings do not show it.")
-                out["reasons"] = ["a candidate passes the timing test and a report states it, but the readings "
-                                  "do not agree"]
-            else:
-                tail = ", but no report names it as the cause and the market readings do not show it."
-                out["reasons"] = ["a candidate passes the timing test, with no report stating it and no reading "
-                                  "behind it"]
-            out["phrases"] = [f"{_cap(ref)} came in time with the {fall24}{tail}", mech]
-            out["phrases_sec"] = [f"{_cap(ref_s)} came in time with the {fall24}{tail}", ""]
-            out["cand"] = _cand(best)
+    if not passing:
+        out.update(kind="graded", grade="Unclear", readings=_readings(coin, None, None, sym),
+                   phrases=[NO_EVENT, mech], phrases_sec=[NO_EVENT, ""], required=[0],
+                   reasons=["no candidate passes the timing test"])
         out["line"] = list(out["phrases"])
-        out["required"] = [0]
         return out
-    c, r, t, ref = best["c"], best["r"], best["t"], _ref(best["c"], best["t"], w1)
-    ref_s = _ref_sec(c)
-    out["grade"], out["cand"] = best["g"], _cand(best)
-    out["readings"] = _readings(coin, c, t, sym)
-    shut_b = (out["readings"] or {}).get("shut", False)
-    support, support_s = [], []
-    if best["stated"]:
-        st_p = ("A primary source states it as the cause." if best["primary"]
-                else f"{_outlets(best['outlets'] or 1)} reported it as the cause.")
-        support.append(st_p)
-        support_s.append(st_p)
-    if best["fit"] == "agree":
-        support.append(_mech_phrase(coin, best["labels"], best["hour"]))
-        support_s.append(_mech_sec(coin, best["labels"], best["hour"], shut_b))
-    tp = _timing_phrase(best["path"], r, c, fall24)
-    if best["g"] == "Confirmed":
-        out["phrases"] = [f"{name} {fell} {win} because of {ref}.", tp] + support
-        out["phrases_sec"] = [f"{name} {fell} over the 24 hours because of {ref_s}.", tp] + support_s
-        out["reasons"] = ["a source states it", "the timing test passes", "the readings agree"]
-    elif best["g"] == "Likely":
-        out["phrases"] = [f"{name}'s {fall} {win} lines up with {ref}.", tp] + support
-        out["phrases_sec"] = [f"{name}'s {fall24} lines up with {ref_s}.", tp] + support_s
-        out["reasons"] = ["the timing test passes", "the readings agree"]
+    named_xs = [x for x in xs if x["stated"]]
+    named_fail = sorted([x for x in named_xs if not x["path"] and x["measured"]], key=lambda x: (x["t"] or 0, x["i"]))
+    nm = {x["c"]["id"]: named(x["c"], cands) for x in xs}
+    full = lambda x: _ref_full(x["c"], x["t"], w1, nm[x["c"]["id"]])
+    sec = lambda x: nm[x["c"]["id"]]["text"]
+    if named_fail and any(p is not named_fail[0] for p in passing):
+        a = named_fail[0]
+        b = next(p for p in sorted(passing, key=lambda p: (p["fit"] != "agree",) + order(p)) if p is not a)
+        p0 = lambda ref: f"{_outlets(a['outlets'] or 1)} named {ref} as the cause, but it fails the timing test."
+        p1 = lambda ref: f"{_cap(ref)} passes the timing test."
+        out.update(grade="Disputed", cand=_cand(b), readings=_readings(coin, b["c"], b["t"], sym),
+                   phrases=[p0(full(a)), p1(full(b)), _against_phrase(a["r"], name)],
+                   phrases_sec=[p0(sec(a)), p1(sec(b)), _against_phrase(a["r"], name)],
+                   refs=[nm[a["c"]["id"]], nm[b["c"]["id"]]],
+                   reasons=["a named cause fails the timing test while another event passes it"])
+    elif len(named_xs) >= 2:
+        a, b = sorted(named_xs, key=lambda x: (not x["path"],) + order(x))[:2]
+        both = a["path"] and b["path"]
+        p0 = lambda ra, rb: f"Outlets named different causes: {ra} and {rb}."
+        p1s = (lambda ra, rb: "Both pass the timing test.") if both else (
+            lambda ra, rb: f"{_cap(ra)} passes the timing test; {rb} does not.")
+        out.update(grade="Disputed", cand=_cand(a), readings=_readings(coin, a["c"], a["t"], sym),
+                   phrases=[p0(full(a), full(b)), p1s(full(a), full(b))],
+                   phrases_sec=[p0(sec(a), sec(b)), p1s(sec(a), sec(b))],
+                   refs=[nm[a["c"]["id"]], nm[b["c"]["id"]]], reasons=["outlets name different causes"])
     else:
-        if not best["path"]:
-            side = side_s = _against_phrase(r, name, fall24)
+        agree = [p for p in passing if p["fit"] == "agree"]
+        prim = [p for p in agree if p["primary"]]
+        if prim:
+            x, g = prim[0], "Confirmed"
+        elif agree:
+            x, g = agree[0], "Likely"
         else:
-            side = _mech_phrase(coin, best["labels"], best["hour"])[:-1] + ", which does not fit it."
-            side_s = (side if best["hour"] == "after" and _mech_sec(coin, best["labels"], "after", shut_b) != (
-                "In the hour after it, the market readings read as they did in the hour the run began.")
-                      else "The market readings of the hour the run began, in the evidence below, do not fit it.")
-        out["phrases"] = [_reported_phrase(c, best["outlets"], ref), side]
-        out["phrases_sec"] = [_reported_sec(c, best["outlets"], ref_s), side_s]
-        if mech not in side:
-            out["phrases"].append(mech)
-            out["phrases_sec"].append("")
-        out["reasons"] = ["a report states it", "the timing test fails" if not best["path"]
-                          else "the readings contradict it"]
+            out.update(kind="no_verdict", reasons=["an event passes the timing test, but the market readings do "
+                                                   "not agree and no named cause conflicts: no grade fits"])
+            return out
+        shut_b = False
+        out["readings"] = _readings(coin, x["c"], x["t"], sym)
+        shut_b = (out["readings"] or {}).get("shut", False)
+        support, support_s = [], []
+        if x["stated"]:
+            sp = ("A primary source states it as the cause." if x["primary"]
+                  else f"{_outlets(x['outlets'] or 1)} reported it as the cause.")
+            support.append(sp)
+            support_s.append(sp)
+        support.append(_mech_phrase(coin, x["labels"], x["hour"]))
+        support_s.append(_mech_sec(coin, x["labels"], x["hour"], shut_b))
+        tp = _timing_phrase(x["path"], x["r"], x["c"])
+        if g == "Confirmed":
+            lead = lambda ref: f"{name} {fell} {ww} because of {ref}."
+            out["reasons"] = ["a primary source states it", "the timing test passes", "the readings agree"]
+        else:
+            lead = lambda ref: f"{name}'s {fall} {ww} lines up with {ref}."
+            out["reasons"] = ["the timing test passes", "the readings agree", "no primary source"]
+        out.update(grade=g, cand=_cand(x), refs=[nm[x["c"]["id"]]],
+                   phrases=[lead(full(x)), tp] + support, phrases_sec=[lead(sec(x)), tp] + support_s)
+    out["kind"] = "graded"
     out["line"] = out["phrases"][:2]
-    out["required"] = [0, 1] if best["g"] == "Disputed" else [0]
+    out["required"] = [0, 1] if out["grade"] == "Disputed" else [0]
     return out
+
+
+def marks(vrec, sym):
+    """The listed items a graded card names, for the evidence list to mark: [candidate id]."""
+    v = ((vrec or {}).get("coins") or {}).get(sym) or {}
+    return [r.get("id") for r in v.get("refs") or [] if r.get("id")] if v.get("kind") == "graded" else []
 
 
 def _readings(coin, c, t, sym):
@@ -578,9 +653,10 @@ def _pieces(s, bodies):
 
 
 def text_sec(v):
-    """The card's sentences on a page that prints the section: each sentence rebuilt from the section
-    forms of the phrases it was built from; a phrase whose section form is '' drops out. None when the
-    record carries no section forms (the card then prints its sentences as stored)."""
+    """The card's sentences on a page that prints the section: each sentence rebuilt from the section forms
+    of the whole phrases it was built from; a phrase whose section form is '' (the section's to print, or
+    dropped by the twins gate) drops out. A sentence that cannot be traced to whole phrases prints nothing.
+    None when the record carries no section forms."""
     sec, ph = v.get("phrases_sec"), v.get("phrases") or []
     if sec is None or len(sec) != len(ph):
         return None
@@ -589,9 +665,7 @@ def text_sec(v):
     for snt in v.get("text") or v.get("line") or []:
         pcs = _pieces(snt, bodies)
         if pcs is None:
-            pcs = [("", i, bodies[i]) for i in range(len(ph)) if bodies[i] == snt.rstrip(".")]
-            if not pcs:
-                return [x for x in (sec[i] for i in range(min(2, len(sec)))) if x]
+            continue                        # never an untraced or unchecked sentence
         parts = [(j, sec[k].rstrip("."), raw) for j, k, raw in pcs if sec[k]]
         if not parts:
             continue
@@ -600,8 +674,7 @@ def text_sec(v):
             if n == 0:
                 txt = body[:1].upper() + body[1:]
             else:
-                low = raw[:1].islower()
-                txt += j + (body[:1].lower() + body[1:] if low else body)
+                txt += j + (body[:1].lower() + body[1:] if raw[:1].islower() else body)
         out.append(txt + ".")
     return out
 
@@ -651,34 +724,105 @@ def _validator_check(n):
     return ok
 
 
+def estimate(stage, system, user):
+    """A call's worst case at the 5.5 rates: its prompt (about three characters a token) and every output
+    token it may take."""
+    import llm
+    mc = CFG["models"][stage]
+    pin, pout = llm.PRICING.get(mc["model"], llm.DEFAULT_PRICE)
+    return round(((len(system) + len(user)) / 3.0 * pin + mc["max_tokens"] * pout) / 1_000_000, 6)
+
+
+def _row_usd(r):
+    """What a ledger call row counts against the day: its actual cost once settled, its reservation while
+    reserved or lost (a call cut off or failed in transit may have been billed), nothing when unbilled."""
+    st = r.get("status")
+    if st == "settled":
+        return float(r.get("usd") or 0)
+    if st in ("reserved", "lost"):
+        return float(r.get("est_usd") or 0)
+    return 0.0
+
+
+def _ledger_rows(path):
+    try:
+        rows = json.load(open(path, encoding="utf-8"))
+        return rows if isinstance(rows, list) else []
+    except (OSError, ValueError):
+        return []
+
+
+def day_spend(date_et, path=None):
+    return round(sum(_row_usd(r) for r in _ledger_rows(path or LEDGER)
+                     if r.get("kind") == "call" and r.get("date") == date_et), 6)
+
+
 class Spend:
-    """The run's spend through llm.Budget, and the day's before it, against the cap. A call is made
-    only when its worst case (its prompt, and every output token it may take, at the 5.5 rates) still
-    fits under the cap."""
+    """THE DAY'S SPEND, reserved before every attempt and settled after (ruling 4 of October 19). llm.py
+    calls guard() before each HTTP attempt (retries and the empty-response retry included) and after it.
+    "before" reserves the call's worst case in the ledger, on disk at once, or refuses with BudgetError
+    when that would take the day past the cap; "done" settles it to the actual usage; "unbilled" (an HTTP
+    error answer) clears it; "lost" (a transport failure) keeps it. A call the deadline cuts off is never
+    settled, so its reservation stands and counts."""
 
-    def __init__(self, day_before, cap):
-        import llm
-        self.day_before, self.cap = day_before, cap
-        self.budget = llm.Budget(CFG["budget"]["max_tokens_per_run"], cap)
+    def __init__(self, path, date_et, slot, cap, now=None):
+        self.path, self.date, self.slot, self.cap = path, date_et, slot, cap
+        self.now = now or _dt.datetime.now(_dt.timezone.utc)
+        self.rows = _ledger_rows(path)
+        self.mine, self.est, self.open, self.refused = [], {}, None, False
 
-    def allows(self, stage, system, user):
+    def total(self):
+        return round(sum(_row_usd(r) for r in self.rows if r.get("kind") == "call" and r.get("date") == self.date), 6)
+
+    def save(self):
+        os.makedirs(os.path.dirname(self.path) or ".", exist_ok=True)
+        json.dump(self.rows[-800:], open(self.path, "w", encoding="utf-8"), indent=1)
+
+    def prepare(self, stage, system, user):
+        self.est[stage] = estimate(stage, system, user)
+
+    def guard(self, phase, stage, usage=None):
         import llm
-        mc = CFG["models"][stage]
-        pin, pout = llm.PRICING.get(mc["model"], llm.DEFAULT_PRICE)
-        worst = ((len(system) + len(user)) / 3.0 * pin + mc["max_tokens"] * pout) / 1_000_000
-        return self.day_before + self.budget.usd + worst <= self.cap
+        if phase == "before":
+            est = self.est.get(stage) or estimate(stage, "", "")
+            if self.total() + est > self.cap + 1e-12:
+                self.refused = True
+                raise llm.BudgetError(f"{stage}: the day's spend would pass the ${self.cap:.2f} cap; no attempt made")
+            row = {"kind": "call", "date": self.date, "slot": self.slot,
+                   "t": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "stage": stage,
+                   "model": CFG["models"][stage]["model"], "est_usd": est, "usd": None, "tokens": None,
+                   "status": "reserved"}
+            self.rows.append(row)
+            self.mine.append(row)
+            self.open = row
+            self.save()
+            return
+        if self.open is None:
+            return
+        if phase == "unbilled":
+            self.open.update(status="unbilled", usd=0.0)
+        elif phase == "lost":
+            self.open.update(status="lost")
+        elif phase == "done":
+            u = usage or {}
+            it = sum(int(u.get(k) or 0) for k in ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens"))
+            ot = int(u.get("output_tokens") or 0)
+            pin, pout = llm.PRICING.get(self.open["model"], llm.DEFAULT_PRICE)
+            self.open.update(status="settled", usd=round((it * pin + ot * pout) / 1_000_000, 6), tokens=it + ot)
+        self.open = None
+        self.save()
 
 
 def _model(v, client, spend, gate):
-    """(sentences, None) when the model's two sentences pass every check; (None, why) otherwise."""
+    """(sentences, None) when the model's two sentences pass every check; (None, why) otherwise. Every
+    attempt goes through spend.guard; a refusal there leaves spend.refused set."""
     import llm
     if client is None:
         return None, "no model client"
     if STOP["set"]:
         return None, f"the step's {DEADLINE_S}s budget is spent"
     du = draft_user(v)
-    if not spend.allows("verdict_draft", DRAFT_SYSTEM, du):
-        return None, f"the day's spend would pass the ${spend.cap:.2f} cap"
+    spend.prepare("verdict_draft", DRAFT_SYSTEM, du)
     try:
         sents = client.call_json("verdict_draft", DRAFT_SYSTEM, du, validate=_validate_draft, max_rungs=1)
     except llm.LLMError as e:
@@ -689,8 +833,7 @@ def _model(v, client, spend, gate):
     cu = check_user(v, sents)
     if STOP["set"]:
         return None, f"the step's {DEADLINE_S}s budget is spent"
-    if not spend.allows("verdict_check", CHECK_SYSTEM, cu):
-        return None, f"the check would take the day's spend past the ${spend.cap:.2f} cap"
+    spend.prepare("verdict_check", CHECK_SYSTEM, cu)
     try:
         claims = client.call_json("verdict_check", CHECK_SYSTEM, cu, validate=_validator_check(len(sents)),
                                   max_rungs=1)
@@ -717,86 +860,85 @@ def url(date_et, sym):
     return f"/why/{slug(date_et, sym)}"
 
 
-def record_from(rec, date_et, slot, now=None, gate=None):
-    """The verdict record for an evidence record, every coin on its graded line (no model)."""
+def record_from(rec, date_et, slot, now=None, gate=None, day=None):
+    """The verdict record for an evidence record, every graded coin on its graded line (no model). The
+    twins gate reads the graded line and every section form; a sentence it drops does not print."""
     now = now or _dt.datetime.now(_dt.timezone.utc)
     out = {"what": "The verdict under 'Why it moved': the grade computed by code from the evidence record "
-                   "(why_evidence.py), the graded line built from phrases, and the model's two checked "
-                   "sentences when they passed every check.",
+                   "(why_evidence.py) on the page's window, the graded line built from phrases, and the model's "
+                   "two checked sentences when they passed every check.",
            "date_et": date_et, "slot": slot, "window": (rec or {}).get("window"),
            "evidence_made_utc": (rec or {}).get("made_utc"),
            "made_utc": now.astimezone(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-           "timing_rule": dict(TIMING), "coins": {}}
+           "timing_rule": dict(_we().TIMING_TEST), "day": day, "coins": {}}
     for sym in ("BTC", "ETH"):
-        v = grade(rec, sym)
+        v = grade(rec, sym, day)
         if v["kind"] == "none":
             continue
         if gate is not None:
-            v["line"] = [s for s in v["line"] if gate.text(s, "the verdict (phrases)", dollars=True).strip()]
+            keep = lambda s: bool(s) and gate.text(s, "the verdict (phrases)", dollars=True).strip() == s.strip()
+            v["line"] = [s for s in v["line"] if keep(s)]
+            v["phrases_sec"] = [s if keep(s) else "" for s in v.get("phrases_sec") or []]
         v.update(text=list(v["line"]), by="phrases", fail_reason=None, corrections=[],
                  url=url(date_et, sym) if v["grade"] else None)
         out["coins"][sym] = v
     return out
 
 
-def _ledger_rows(path):
-    try:
-        rows = json.load(open(path, encoding="utf-8"))
-        return rows if isinstance(rows, list) else []
-    except (OSError, ValueError):
-        return []
-
-
-def day_spend(date_et, path=None):
-    return round(sum(float(r.get("usd") or 0) for r in _ledger_rows(path or LEDGER) if r.get("date") == date_et), 6)
-
-
 def write_run(rec, date_et, slot, gate=None, ledger_path=None, directory=None, save=True, cap=None,
-              client=None, now=None):
-    """Grade, write each graded coin's two sentences through the model and its check (failing open to
-    the graded line), append the run's spend row to the ledger and print the day against the cap.
-    Returns (verdict record, ledger row). The record is saved only when `save`."""
+              client=None, now=None, day=None):
+    """Grade on the page's window, write each graded coin's two sentences through the model and its
+    check, every attempt reserved against the day's cap and settled after. A model failure prints the
+    graded line; a refusal at the cap withholds the verdict (CAP_LINE, no grade). Appends the run's row,
+    prints the day against the cap, returns (verdict record, run row)."""
     import llm
     cap = CAP_USD if cap is None else cap
     ledger_path = ledger_path or LEDGER
     now = now or _dt.datetime.now(_dt.timezone.utc)
-    out = record_from(rec, date_et, slot, now=now, gate=gate)
-    before = day_spend(date_et, ledger_path)
-    spend = Spend(before, cap)
+    out = record_from(rec, date_et, slot, now=now, gate=gate, day=day)
+    spend = Spend(ledger_path, date_et, slot, cap, now)
+    budget = llm.Budget(CFG["budget"]["max_tokens_per_run"], 1e9)     # the cap is the ledger's to keep
     if client is None and os.environ.get("ANTHROPIC_API_KEY", "").strip():
-        client = llm.Client(CFG, mode="live", budget=spend.budget)
-    elif client is not None:
-        client.budget = spend.budget
+        client = llm.Client(CFG, mode="live", budget=budget)
+    if client is not None:
+        client.budget = budget
+        client.attempt_guard = spend.guard
     for sym, v in out["coins"].items():
         if not v["grade"]:
             continue
+        spend.refused = False
         try:
             sents, why = _model(v, client, spend, gate)
-        except _Late as e:                           # out of time: this coin, and any after it, fail open
+        except _Late as e:                           # out of time: the graded line; the cut call stays reserved
             sents, why = None, str(e)
         except Exception as e:                       # never a gate on a slot: the graded line prints
             sents, why = None, f"the model path raised {type(e).__name__}: {str(e)[:100]}"
-        if sents:
+        if spend.refused:
+            # AT THE CAP THE VERDICT IS WITHHELD, never a guess (ruling 4): no grade, no line, no URL
+            v.update(kind="withheld", grade_withheld=v["grade"], grade=None, text=[], by="withheld",
+                     url=None, fail_reason=why)
+        elif sents:
             v.update(text=sents, by="model", fail_reason=None)
         else:
             v.update(text=list(v["line"]), by="phrases",
                      fail_reason=why if client is not None else "no API key; no model call")
-    s = spend.budget.summary()
-    usd = round(spend.budget.usd, 6)
-    row = {"date": date_et, "slot": slot, "t": now.astimezone(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-           "calls": s["calls"], "tokens": s["tokens"], "usd": usd, "by_stage": s["by_stage"],
+    mine = spend.mine
+    row = {"kind": "run", "date": date_et, "slot": slot, "t": now.astimezone(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+           "calls": len(mine), "tokens": sum(int(r.get("tokens") or 0) for r in mine),
+           "usd": round(sum(_row_usd(r) for r in mine), 6),
+           "by_stage": {s: round(sum(_row_usd(r) for r in mine if r["stage"] == s), 6) for s in CFG["models"]
+                        if any(r["stage"] == s for r in mine)},
            "models": {k: m["model"] for k, m in CFG["models"].items()},
-           "day_usd": round(before + usd, 6), "cap_usd": cap,
+           "day_usd": spend.total(), "cap_usd": cap,
            "coins": {k: (f"{v['grade']} ({v['by']})" if v["grade"] else v["kind"]) for k, v in out["coins"].items()}}
     out["spend"] = row
-    rows = _ledger_rows(ledger_path) + [row]
-    os.makedirs(os.path.dirname(ledger_path) or ".", exist_ok=True)
-    json.dump(rows[-400:], open(ledger_path, "w", encoding="utf-8"), indent=1)
-    print(f"verdict: spend this run ${usd:.4f} ({s['calls']} call(s), {s['tokens']:,} tokens); "
+    spend.rows.append(row)
+    spend.save()
+    print(f"verdict: spend this run ${row['usd']:.4f} ({row['calls']} call(s), {row['tokens']:,} tokens); "
           f"today ${row['day_usd']:.4f} of the ${cap:.2f} cap")
     for sym, v in out["coins"].items():
-        print(f"verdict: {sym} {v['grade'] or v['kind']}" + (f" ({v['by']}" + (f": {v['fail_reason']}" if v.get(
-            "fail_reason") else "") + ")" if v["grade"] else ""))
+        print(f"verdict: {sym} {v['grade'] or v['kind']}"
+              + (f" ({v['by']}: {v['fail_reason']})" if v.get("fail_reason") else f" ({v['by']})" if v["grade"] else ""))
     if save:
         p = record_path(date_et, slot, directory)
         os.makedirs(os.path.dirname(p), exist_ok=True)
@@ -846,11 +988,13 @@ def current(vrec, board_utc, max_gap_h=18):
     return vrec
 
 
-# ---- the card: one shape on the home, /today/, the coin pages and the verdict page --------------------------------
+# ---- the card: one shape on the home, /today/, the Bitcoin page and the verdict page ------------------------------
 
 def card_html(vrec, sym, where="today", live=False, corrections=None, link=True, with_section=False):
-    """The card for one coin, or '' (fail open). `where` is home, today, coin or page; the shape is
-    the same everywhere. `corrections` are the page's own; the verdict's own always render."""
+    """The card for one coin, or '' (fail open). `where` is home, today, coin or page. Only a graded verdict
+    draws a card, and a withheld one (the cap) draws the desk's line in its place; Ether moving with Bitcoin
+    is one plain line on the Ether page. `with_section`: the page also prints the evidence list, so the card
+    names the event with a pointer to its item and leaves times, figures and wording to the list."""
     try:
         return _card(vrec, sym, where, live, corrections, link, with_section)
     except Exception as e:                                       # noqa: BLE001
@@ -861,7 +1005,12 @@ def card_html(vrec, sym, where="today", live=False, corrections=None, link=True,
 def _card(vrec, sym, where, live, corrections, link, with_section=False):
     we = _we()
     v = ((vrec or {}).get("coins") or {}).get(sym)
-    if not v or v.get("kind") not in ("graded", "flat", "with_btc"):
+    if not v:
+        return ""
+    if v.get("kind") == "with_btc":
+        ww = v.get("window_words") or WINDOW_WORDS["rolling_24h"]
+        return f'<p class="vd-plain">Ether moved with Bitcoin {_e(ww)}.</p>' if where == "coin" else ""
+    if v.get("kind") not in ("graded", "withheld"):
         return ""
     name = v.get("name") or sym
     wend = _parse(((vrec or {}).get("window") or {}).get("end_utc"))
@@ -869,14 +1018,12 @@ def _card(vrec, sym, where, live, corrections, link, with_section=False):
         return ""
     w1 = int(wend.timestamp())
     asof = f' data-asof="{_e(_iso(w1))}"' if live else ""
-    # ONE FACT, PRINTED ONCE (review 2): on a page that prints the section, the section states the
-    # window's end, the event times, the quoted lines and the onset hour's reading; the card points at it
-    win = (f'<p class="vd-win"{asof}>The 24 hours in the evidence below</p>' if with_section else
-           f'<p class="vd-win"{asof}>The 24 hours to {_e(we.clock(w1))}, {_e(we.long_day(w1))}</p>')
-    if v["kind"] == "flat":
-        body, cls = '<p class="vd-line vd-flat">Flat: nothing to explain.</p>', "flat"
-    elif v["kind"] == "with_btc":
-        body, cls = '<p class="vd-line vd-with">Ether moved with Bitcoin.</p>', "with"
+    ww = v.get("window_words") or WINDOW_WORDS["rolling_24h"]
+    # the window the card's words use is the page's (ruling 1); its end time is the section's to print
+    win = (f'<p class="vd-win"{asof}>{_e(_cap(ww))}</p>' if with_section else
+           f'<p class="vd-win"{asof}>{_e(_cap(ww))}, to {_e(we.clock(w1))}, {_e(we.long_day(w1))}</p>')
+    if v["kind"] == "withheld":
+        body, cls = f'<p class="vd-line">{_e(CAP_LINE)}</p>', "withheld"
     else:
         g = v["grade"]
         if g not in GRADES:
@@ -884,13 +1031,22 @@ def _card(vrec, sym, where, live, corrections, link, with_section=False):
         cls = g.lower()
         sents = (text_sec(v) if with_section else None)
         if with_section and sents is None:
-            # a record graded before the section forms existed: its stored sentences may repeat what the
-            # section prints, so the card keeps its grade and leaves the words to the section
-            sents = []
+            sents = []                      # a record with no section forms: the grade only, beside the list
         text = " ".join(sents if sents is not None else (v.get("text") or v.get("line") or []))
+        line_html = _e(text)
+        if with_section:
+            # THE POINTER (Jack, J-7): each named event carries the id of the one listed item it means, and the
+            # words that find it there; the list marks that item
+            for ref in v.get("refs") or []:
+                for form in (ref.get("text") or "", _cap(ref.get("text") or "")):
+                    if form and _e(form) in line_html:
+                        tag = (f'<b class="vd-ref" data-vd-ref="{_e(ref.get("id"))}" '
+                               f'data-vd-key="{_e("|".join(ref.get("key") or []))}">{_e(form)}</b>')
+                        line_html = line_html.replace(_e(form), tag, 1)
+                        break
         body = (f'<p class="vd-grade"><span class="vd-badge vd-{cls}">Checked: <b>{_e(g)}</b></span> '
                 f'<span class="vd-def">{_e(DEFINITIONS[g])}</span></p>'
-                + (f'<p class="vd-line">{_e(text)}</p>' if text else "")
+                + (f'<p class="vd-line">{line_html}</p>' if text else "")
                 + _readings_html(v.get("readings"), text, rows=(where != "home"), with_section=with_section))
     corr, seen = "", set()
     for c in list(v.get("corrections") or []) + list(corrections or []):
@@ -960,10 +1116,8 @@ SLOT_LABEL = {"morning": "Morning read", "evening": "Evening Edition"}
 
 
 def build_pages(vdir=None, wdir=None, tdir=None, dateline=""):
-    """[{rel, html, path, lastmod, published_utc, title}] for every graded verdict: one URL per day
-    and coin, kept once it exists. The page shows the day's newest graded slot first and any earlier
-    one under it, each with its card, and the evidence of the slot it leads with."""
-    we = _we()
+    """[{rel, html, path, lastmod, published_utc, title}] for every graded verdict: one URL per day and
+    coin, kept once it exists. The page carries the day's newest graded verdict and its evidence."""
     by_day = {}
     for n in _names(vdir):
         r = load(n[:10], n[11:-5], vdir)
@@ -983,14 +1137,6 @@ def build_pages(vdir=None, wdir=None, tdir=None, dateline=""):
     return out
 
 
-def _today_corrections(day, slot, tdir):
-    try:
-        p = os.path.join(tdir or os.path.join(HERE, "site", "data", "today"), f"{day}-{slot}.json")
-        return json.load(open(p, encoding="utf-8")).get("corrections") or []
-    except (OSError, ValueError):
-        return []
-
-
 def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline):
     import site_build as sb
     we = _we()
@@ -998,18 +1144,14 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline):
     d = _dt.date.fromisoformat(day)
     when = f"{d.strftime('%A, %B')} {d.day}, {d.year}"
     title = f"Why {name} moved: {when}"
-    # THE DAY'S LEAD VERDICT ONLY (review 2): an earlier slot's card would print its own event times and
-    # readings beside the lead slot's evidence; the URL carries the day's newest graded verdict
+    corr = _today_corrections(day, lead.get("slot"), tdir)
     ev = we.load(day, lead.get("slot"), wdir)
-    ev_html = (we.section_html(ev, sym, live=False, corrections=_today_corrections(day, lead.get("slot"), tdir),
-                               graded=lead["coins"][sym].get("grade")) if ev else "")
-    card = card_html(lead, sym, where="page", live=False, corrections=_today_corrections(day, lead.get("slot"), tdir),
-                     link=False, with_section=bool(ev_html))
-    blocks = [card] if card else []
+    ev_html = (we.section_html(ev, sym, live=False, corrections=corr, graded=lead["coins"][sym].get("grade"),
+                               marks=marks(lead, sym)) if ev else "")
+    card = card_html(lead, sym, where="page", live=False, corrections=corr, link=False, with_section=bool(ev_html))
     v = lead["coins"][sym]
     pub = lead.get("made_utc") or ""
     stamp = SLOT_LABEL.get(lead.get("slot"), "")
-    # the dated /today/ page exists only when a daily-answer record for the day does (review 1, d)
     tdd = tdir or os.path.join(HERE, "site", "data", "today")
     today_link = ""
     if any(os.path.exists(os.path.join(tdd, f"{day}-{sl}.json")) for sl in ("morning", "evening")):
@@ -1019,7 +1161,7 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline):
   <span class="kicker">Why it moved</span>
   <h1>{_e(title)}</h1>
   <p class="td-stamp">{_e(stamp)}</p>
-  {"".join(blocks)}
+  {card}
   {ev_html}
   {today_link}
 </section></main>"""
@@ -1039,6 +1181,14 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline):
                     schema_extra=f'\n<script type="application/ld+json">{schema}</script>')
     return {"rel": f"why/{slug(day, sym)}.html", "html": html, "path": url(day, sym), "lastmod": pub,
             "published_utc": min(r.get("made_utc") or pub for r in recs), "title": title}
+
+
+def _today_corrections(day, slot, tdir):
+    try:
+        p = os.path.join(tdir or os.path.join(HERE, "site", "data", "today"), f"{day}-{slot}.json")
+        return json.load(open(p, encoding="utf-8")).get("corrections") or []
+    except (OSError, ValueError):
+        return []
 
 
 def _et_iso(utc):
@@ -1083,22 +1233,23 @@ def main():
             print(f"verdict: {date}-{slot}.json already stored; a stored verdict is frozen")
             return 0
         pulse, flows = sb.load_pulse(), sb.load_flows()
+        day = day_moves(pulse, date)
+        print(f"verdict: the page's window is {(day or {}).get('basis') or 'the series'}")
         gate = twins_gate.Gate(_s.build(pulse, flows), log_path="", quiet=True)
         try:
-            write_run(ev, date, slot, gate=gate, now=now)
+            write_run(ev, date, slot, gate=gate, now=now, day=day)
         except _Late as e:
-            # out of time mid-call: the graded lines, no model sentence, and the ledger says so
+            # out of time outside a call: the graded lines, no model sentence; any reservation stands
             print(f"::warning::verdict: {e}; writing the graded lines with no model sentence")
             signal.alarm(0)
-            out = record_from(ev, date, slot, now=now, gate=gate)
+            out = record_from(ev, date, slot, now=now, gate=gate, day=day)
             for v in out["coins"].values():
                 if v["grade"]:
                     v["fail_reason"] = str(e)
             p = record_path(date, slot)
             os.makedirs(os.path.dirname(p), exist_ok=True)
             json.dump(out, open(p, "w", encoding="utf-8"), indent=1)
-            print(f"verdict: wrote {p} (graded lines only; any spend before the cut is in the API's own "
-                  f"usage, not this run's ledger row)")
+            print(f"verdict: wrote {p} (graded lines only)")
         signal.alarm(0)
     except Exception as e:                                       # never a gate on a slot
         print(f"::warning::verdict: no verdict written ({type(e).__name__}: {e})")

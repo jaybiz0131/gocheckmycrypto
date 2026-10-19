@@ -283,7 +283,8 @@ def chart_cases(fails):
     guarded(fails, "the shaded run spans onset to the run's end",
             lambda: abs(float(rect.group(1)) - x_on) < 0.11 and abs(float(rect.group(1)) + float(rect.group(2)) - x_end) < 0.2)
     pins = re.findall(r'<g class="ev-pin">.*?>(\d+)</text></g>', s)
-    items = re.findall(r'<li class="ev-c"><span class="ev-n" aria-hidden="true">(\d+)</span>', html)
+    # Sprint 9.3 gives each item its id (data-ev-id) and may mark one (ev-graded); the numbering is 9.2's
+    items = re.findall(r'<li class="ev-c[^"]*"[^>]*><span class="ev-n" aria-hidden="true">(\d+)</span>', html)
     timed = sum(1 for t in r15["coins"]["BTC"]["tests"] if t["t_utc"])
     guarded(fails, f"every pinned number is a numbered item in the list below the chart ({timed} pins, one per timed item)",
             lambda: pins and set(pins) <= set(items) and len(pins) == timed == 5)

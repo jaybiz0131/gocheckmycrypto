@@ -2041,3 +2041,12 @@ body aside.vd ul.vd-rows .chg.down{color:var(--down)}
 body aside.vd p.vd-rp{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--ink);margin:0}
 /* the verdict page: an earlier slot's head sits close above its own card */
 body .vd-page .td-h3+aside.vd{margin-top:6px}
+/* Fix round 4 (Jack, J-7): the event the card names, and the one listed item it points at. Neutral tokens:
+   the marker is ink on the tag ground, never the up or down colors. */
+body aside.vd b.vd-ref{font-weight:600}
+.ev-c.ev-graded{background:var(--tag-bg);border-radius:6px;padding-left:40px;padding-right:8px;margin:2px 0}
+.ev-c.ev-graded .ev-n{left:6px}
+.ev-mark{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink);border:1px solid var(--ink);border-radius:3px;padding:1px 6px;margin:0 0 4px}
+body aside.vd.vd-withheld p.vd-line{color:var(--muted)}
+p.vd-plain{font-family:var(--serif);font-size:17px;line-height:1.5;color:var(--ink);margin:16px 0 8px}

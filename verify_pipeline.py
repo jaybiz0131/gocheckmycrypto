@@ -3124,7 +3124,10 @@ def _verdict_fixture_dir(tmp):
                 sys.path.remove(_sd)
         d = os.path.join(tmp, "verdict")
         os.makedirs(d, exist_ok=True)
-        v = _vd.record_from(rec, "2026-10-15", "evening")
+        v = _vd.record_from(rec, "2026-10-15", "evening",
+                            day=_vd.day_moves(json.load(open(os.path.join(HERE, "fixtures", "why",
+                                                                          "pulse_2026-10-15T2343Z.json"),
+                                                             encoding="utf-8")), "2026-10-15"))
         json.dump(v, open(os.path.join(d, "2026-10-15-evening.json"), "w", encoding="utf-8"))
         _vd.DIR = d
         return old
