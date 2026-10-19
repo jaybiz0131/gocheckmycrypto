@@ -211,14 +211,28 @@ def _labels(pats, rows):
     return labels, False
 
 
-def mech_fit(c, coin, t):
+# SPRINT 9.4, review 1: AN EVENT'S OWN DIRECTION. A listing is new demand and lines up only with a rise; a
+# delisting, an unlock (new supply) or a hack on the coin itself lines up only with a fall. The other way it
+# contradicts, whatever the readings show. A hack is directional only for a Big mover, whose candidates name
+# the coin; a DeFi exploit beside Bitcoin or Ether is not Bitcoin's or Ether's own, and their grading is 9.3's.
+DIRECTION = {"listing": "up", "delisting": "down", "unlock": "down", "hack": "down"}
+
+
+def mech_fit(c, coin, t, sym=None):
     """(fit, labels, hour): what the market readings say of this candidate. fit is 'agree',
     'contradict' or 'silent'; hour is 'after' (the readings of the hour after the candidate, stored by
     the evidence record since 9.3) or 'onset' (the hour the run began, which speaks only to a
-    candidate within 60 minutes of it). A record written before 9.3 has only the onset hour."""
+    candidate within 60 minutes of it). A record written before 9.3 has only the onset hour. An event
+    with a direction of its own (DIRECTION) contradicts a run the other way, and agrees only with a run
+    its way that the readings call coin-specific or crypto only."""
     run = (coin or {}).get("run")
     if t is None or not run:
         return "silent", [], None
+    want = DIRECTION.get(c.get("kind"))
+    if want and c.get("kind") == "hack" and sym in ("BTC", "ETH", None):
+        want = None
+    if want and run.get("dir") != want:
+        return "contradict", [], None
     after = ((coin.get("event_hours") or {}).get(c.get("id")) or {})
     if after.get("patterns") is not None and after.get("rows"):
         pats, rows, hour = after.get("patterns") or [], after["rows"], "after"
@@ -229,7 +243,9 @@ def mech_fit(c, coin, t):
         return "silent", [], None
     labels, _shut = _labels(pats, rows)
     across = any(l.endswith("across assets") for l in labels)
-    if is_macro(c):
+    if want:
+        fit = "agree" if ("crypto only" in labels or "coin-specific" in labels) else "silent"
+    elif is_macro(c):
         fit = "agree" if across else "contradict" if "crypto only" in labels else "silent"
     elif "crypto only" in labels or "coin-specific" in labels:
         fit = "agree"
@@ -343,7 +359,15 @@ def _ref_full(c, t, w1, nm):
     if t is None:
         return nm["text"]
     when = _we().day_clock(t, w1)
-    return f"{nm['text']} ({when})" if c.get("kind") == "release" else f"{nm['text']} (reported {when})"
+    k = c.get("kind")
+    if k == "release":
+        return f"{nm['text']} ({when})"
+    # Sprint 9.4, review 1: "reported" only where an outlet reported it
+    if k == "unlock":
+        return f"{nm['text']} (scheduled for {when}, as CoinMarketCap lists it)"
+    if k in ("listing", "delisting"):
+        return f"{nm['text']} (announced {when})"
+    return f"{nm['text']} (reported {when})"
 
 
 def _timing_phrase(path, r, c):
@@ -458,7 +482,7 @@ def grade(rec, sym, day=None):
         if since is not None and (t is None or t < since):
             continue                        # outside the page's window: not this window's verdict
         st, n, prim = stated(c, sym)
-        fit, labels, hour = mech_fit(c, coin, t)
+        fit, labels, hour = mech_fit(c, coin, t, sym)
         xs.append({"i": i, "c": c, "r": r or {}, "t": t, "path": timing_pass(r), "stated": st, "outlets": n,
                    "primary": prim, "fit": fit, "labels": labels, "hour": hour,
                    "measured": bool(r and r.get("in_window") and r.get("share_pct") is not None)})

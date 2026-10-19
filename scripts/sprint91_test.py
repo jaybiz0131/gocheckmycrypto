@@ -187,13 +187,11 @@ def mover_cases(fails):
             lambda: all(r["rank"] <= 100 and not snapshot.is_stablecoin(r) for r in mv["gainers"] + mv["losers"]))
     guarded(fails, "16 October (only 3 top-100 coins fell more than 1%): at most 3 losers, not 5",
             lambda: len(mv["losers"]) <= 3)
-    html = sb.render_pulse_movers(pv, "FRIDAY")
-    guarded(fails, "the page says it stops short when it does ('Only N top-100 coins fell more than 1%')",
-            lambda: ("Only " in html and "more than 1%" in html) or len(mv["losers"]) == 5)
-    pv["movers"]["losers"] = []
-    html2 = sb.render_pulse_movers(pv, "FRIDAY")
-    guarded(fails, "no loser at all: 'No top-100 coin fell more than 1% in the last 24 hours.'",
-            lambda: "No top-100 coin fell more than 1% in the last 24 hours." in html2)
+    # Sprint 9.4, review 1 (AUDIT.md 3.2, "One list, 'Big movers', replaces the padded top 5 and bottom 5"): the
+    # movers page no longer prints these two lists; the rule above still governs every other list that uses them
+    html = sb.render_pulse_movers(pv, "FRIDAY", movers_rec={})
+    guarded(fails, "the movers page prints no top 5 or bottom 5 (Big movers is its one list, Sprint 9.4)",
+            lambda: "Biggest gainers" not in html and "Biggest losers" not in html and 'class="bm"' in html)
     row = sb._mover_rows([{"symbol": "ZZZ", "name": "Zed", "rank": 80, "price": 3.0, "chg_24h_pct": -2.0, "mcap_usd": 1e9}])
     guarded(fails, "the 24h figure is the first column after the coin, before the price",
             lambda: row.index("-2.0") < row.index("$3.00"))

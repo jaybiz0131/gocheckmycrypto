@@ -1284,7 +1284,8 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
     stables = _stables(start, end, fetch, led)
     led.miss("Hyperliquid liquidations", "not read: its public info API publishes no market-wide "
              "liquidation history; a liquidation shows only in the liquidated account's own fills")
-    led.miss("Exchange listing notices", "not read: no single feed")
+    led.miss("Exchange listing notices", "not read for Bitcoin and Ether: a listing notice names a coin being "
+             "added or removed, and the desk reads them for the Big movers (movers.py)")
     led.miss("EDGAR 8-K filings", "not read: the search gives the day, not the time")
     etf = (((pulse or {}).get("etf_flows") or {}).get("btc") or {})
     if isinstance(etf.get("latest_net_usd_m"), (int, float)):

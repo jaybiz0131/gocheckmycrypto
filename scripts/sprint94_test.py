@@ -129,30 +129,33 @@ def gate_cases(fails):
     with tempfile.TemporaryDirectory() as td:
         g = gate16(td)
         passed = [x["sym"] for x in g["passed"]]
-        guarded(fails, f"16 October: TIA, INJ, ZRO and ETHFI pass, ranked by their volatility multiple ({passed})",
-                lambda: passed == ["TIA", "INJ", "ZRO", "ETHFI"])
+        guarded(fails, f"16 October: TIA, INJ, ZRO, ETHFI and PENDLE pass, ranked by their volatility multiple "
+                       f"({passed})", lambda: passed == ["TIA", "INJ", "ZRO", "ETHFI", "PENDLE"])
         tia = next(x for x in g["passed"] if x["sym"] == "TIA")
         guarded(fails, "TIA's three legs: +30.60%, 3.67x its 30-day daily volatility of 8.33%, +28.15 points beyond "
                        "its Bitcoin beta of 1.653 with Bitcoin +1.48%",
                 lambda: (tia["move_pct"], tia["multiple"], tia["vol_pct"], tia["excess_pts"], tia["beta"],
                          tia["btc_pct"]) == (30.6, 3.67, 8.33, 28.15, 1.653, 1.48))
         failed = {x["sym"]: x for x in g["failed"]}
-        guarded(fails, "ARB, WLD, NEAR, ZEC and FIL fail on the volatility leg alone (they moved 10% or more and "
-                       "6 points beyond their beta, under 2.5 times their usual day)",
-                lambda: set(failed) == {"ARB", "WLD", "NEAR", "ZEC", "FIL"} and all(
+        guarded(fails, "ARB, APT, WLD, NEAR, ZEC, FIL and SEI fail on the volatility leg alone (they moved 10% or more "
+                       "and 6 points beyond their beta, under 2.5 times their usual day)",
+                lambda: set(failed) == {"ARB", "APT", "WLD", "NEAR", "ZEC", "FIL", "SEI"} and all(
                     x["legs"] == {"move": True, "multiple": False, "excess": True} for x in failed.values()))
-        guarded(fails, "APT (+14.03%) has no stored closes: left out and said, never estimated",
-                lambda: [(x["sym"], x["move_pct"]) for x in g["left_out"]] == [("APT", 14.03)]
-                and "no stored daily closes" in g["left_out"][0]["why"])
+        os.rename(os.path.join(td, "history", "aptos.json"), os.path.join(td, "aptos.hold"))
+        gl = movers.gate(load(BOARD16), BEFORE16, os.path.join(td, "history"), 0,
+                         now=dt.datetime(2026, 10, 16, 12, 30, tzinfo=UTC))
+        os.rename(os.path.join(td, "aptos.hold"), os.path.join(td, "history", "aptos.json"))
+        guarded(fails, "SYNTHETIC (APT's stored closes removed): APT +14.03% is left out and said, never estimated",
+                lambda: [(x["sym"], x["move_pct"]) for x in gl["left_out"]] == [("APT", 14.03)]
+                and "no stored daily closes" in gl["left_out"][0]["why"] and not g["left_out"])
         guarded(fails, "the beta the gate uses is the one the section prints (why_evidence._beta on the same days)",
                 lambda: __import__("why_evidence")._beta("TIA", BEFORE16, root=os.path.join(td, "history"))
                 == tia["beta"] if __import__("why_evidence").register_coin("TIA", "celestia", "Celestia") else False)
         rows = load(BOARD16)["movers"]["top100"]
-        outside = [r["symbol"] for r in rows if isinstance(r.get("rank"), int) and r["rank"] > 100]
         stables = [r["symbol"] for r in rows if snapshot.is_stablecoin(r)]
         every = {x["sym"] for k in ("passed", "over_cap", "failed", "left_out") for x in g[k]}
-        guarded(fails, f"no stablecoin ({len(stables)} on the Board) and no rank over 100 ({len(outside)} on the "
-                       f"Board) is ever measured", lambda: stables and outside and not (every & (set(stables) | set(outside))))
+        guarded(fails, f"no stablecoin ({len(stables)} on the Board) is ever measured",
+                lambda: stables and not (every & set(stables)))
         guarded(fails, "Bitcoin and Ether are never measured here: their own cards grade them",
                 lambda: not (every & {"BTC", "ETH"}))
         guarded(fails, "the line is the audit's, held once: 10%, 2.5x, 6 points, 30 days, 8 a slot, 10 a day",
@@ -160,20 +163,21 @@ def gate_cases(fails):
                          movers.GATE["history_days"], movers.GATE["per_slot"], movers.GATE["per_day"])
                 == (10.0, 2.5, 6.0, 30, 8, 10))
         g8 = gate16(td, used=8)
-        guarded(fails, "the day's cap: with 8 reads made earlier today, 2 pass and 2 wait over the cap",
+        guarded(fails, "the day's cap: with 8 reads made earlier today, 2 pass and 3 wait over the cap",
                 lambda: [x["sym"] for x in g8["passed"]] == ["TIA", "INJ"]
-                and [x["sym"] for x in g8["over_cap"]] == ["ZRO", "ETHFI"])
+                and [x["sym"] for x in g8["over_cap"]] == ["ZRO", "ETHFI", "PENDLE"])
         g10 = gate16(td, used=10)
-        guarded(fails, "the day's cap: at 10 reads, none passes and all four are named over the cap",
-                lambda: not g10["passed"] and len(g10["over_cap"]) == 4)
-        # SYNTHETIC: twelve coins past every leg, made by copying the real TIA row under twelve names
+        guarded(fails, "the day's cap: at 10 reads, none passes and all five are named over the cap",
+                lambda: not g10["passed"] and len(g10["over_cap"]) == 5)
+        # SYNTHETIC: twelve coins past every leg, made by copying the real TIA row under twelve names, placed after
+        # Bitcoin, so twelve real rows fall past the 100th place (PENDLE among them)
         b = copy.deepcopy(load(BOARD16))
         tia_row = next(r for r in b["movers"]["top100"] if r["symbol"] == "TIA")
         hdir = os.path.join(td, "history")
         src = json.load(open(os.path.join(hdir, "celestia.json")))
         for i in range(12):
-            b["movers"]["top100"].append(dict(tia_row, symbol=f"SYN{i}", name=f"Synthetic {i}", gecko_id=f"syn-{i}",
-                                              rank=100))
+            b["movers"]["top100"].insert(1, dict(tia_row, symbol=f"SYN{i}", name=f"Synthetic {i}", gecko_id=f"syn-{i}",
+                                                 rank=2))
             json.dump(dict(src, coin=f"syn-{i}"), open(os.path.join(hdir, f"syn-{i}.json"), "w"))
         gs = movers.gate(b, BEFORE16, hdir, 0, now=dt.datetime(2026, 10, 16, 12, 30, tzinfo=UTC))
         guarded(fails, "SYNTHETIC (sixteen coins past the line): at most 8 a slot, the rest over the cap",
@@ -181,10 +185,10 @@ def gate_cases(fails):
         log = "\n".join(g["log"])
         guarded(fails, "for two weeks every coin that fails the gate prints in the run log with its figures",
                 lambda: all(re.search(rf"gate fail {s} \+\d+\.\d\d%: \d\.\d\dx its 30-day daily volatility", log)
-                            for s in ("ARB", "WLD", "NEAR", "ZEC", "FIL")))
+                            for s in ("ARB", "APT", "WLD", "NEAR", "ZEC", "FIL", "SEI")))
         late = gate16(td, now=dt.datetime(2026, 11, 3, 12, 30, tzinfo=UTC))
         guarded(fails, "after November 2 the failing coins are counted, not listed",
-                lambda: not any("gate fail" in l for l in late["log"]) and any("5 coin(s) passed one leg" in l
+                lambda: not any("gate fail" in l for l in late["log"]) and any("7 coin(s) passed one leg" in l
                                                                               for l in late["log"]))
         # SYNTHETIC: a gap in TIA's stored closes
         s2 = json.load(open(os.path.join(hdir, "celestia.json")))
@@ -198,10 +202,10 @@ def gate_cases(fails):
         f = load(BOARD19)
         g19 = movers.gate(f["board"], "2026-10-18", hist_root(td, f["responses"]), 0,
                           now=dt.datetime(2026, 10, 19, 20, 35, tzinfo=UTC))
-        guarded(fails, "19 October 4:30 PM ET (real): PUMP +11.46% and VVV +13.74% fail the volatility leg, and no "
-                       "coin passes: the record says so",
+        guarded(fails, "19 October 4:30 PM ET (real): PUMP +11.46%, VVV +13.74% and CRV +10.13% fail the volatility "
+                       "leg, and no coin passes: the record says so",
                 lambda: not g19["passed"] and sorted(x["sym"] for x in g19["failed"] if x["legs"]["move"])
-                == ["PUMP", "VVV"] and any("no top-100 coin passed the gate" in l for l in g19["log"]))
+                == ["CRV", "PUMP", "VVV"] and any("no top-100 coin passed the gate" in l for l in g19["log"]))
 
 
 # ---- 2. the alt feeds and the evidence -----------------------------------------------------------------------
@@ -218,19 +222,19 @@ def evidence_cases(fails):
     rows = movers._announcements("kraken", "<item><title>PNT is available for trading!</title><link>https://x</link>"
                                            "<pubDate>Fri, 16 Oct 2026 10:30:11 +0000</pubDate></item>")
     guarded(fails, "Kraken's blog item 'is available for trading' is a listing notice with its time",
-            lambda: rows == [(1792146611, "PNT is available for trading!", "https://x")])
+            lambda: rows == [(1792146611, "PNT is available for trading!", "https://x", None)])
     with tempfile.TemporaryDirectory() as td:
         r, log = record16(td)
         coins = r["coins"]
-        guarded(fails, "16 October: the four movers each carry an evidence record", lambda: sorted(coins) ==
-                ["ETHFI", "INJ", "TIA", "ZRO"] and all(coins[s].get("evidence") for s in coins))
+        guarded(fails, "16 October: the five movers each carry an evidence record", lambda: sorted(coins) ==
+                ["ETHFI", "INJ", "PENDLE", "TIA", "ZRO"] and all(coins[s].get("evidence") for s in coins))
         unread = " ".join(u["name"] + ": " + u["why"] for u in coins["TIA"]["evidence"]["unread"])
         read = " ".join(x["name"] for x in coins["TIA"]["evidence"]["read"])
-        guarded(fails, "the listing feeds read are named as read: Binance, OKX, KuCoin, Bitget, Kraken",
+        guarded(fails, "the listing feeds read are named as read: Binance, OKX, KuCoin, Bitget, Kraken, Coinbase",
                 lambda: all(n in read for n in ("Binance new listings", "OKX new listings", "KuCoin new listings",
-                                                "Bitget listings", "Kraken blog")))
-        guarded(fails, "the feeds not read are named with their reason: Coinbase, Upbit, Bybit, governance votes",
-                lambda: all(n in unread for n in ("Coinbase listing notices", "Upbit listing notices: not read: its "
+                                                "Bitget listings", "Kraken blog", "Coinbase status notices")))
+        guarded(fails, "the feeds not read are named with their reason: Upbit, Bybit, governance votes",
+                lambda: all(n in unread for n in ("Upbit listing notices: not read: its "
                                                   "announcements API answered 403", "Bybit listing notices",
                                                   "Protocol upgrades and governance votes")))
         guarded(fails, "token unlocks read from CoinMarketCap for TIA (its slug carries the ticker)",
@@ -364,8 +368,9 @@ def spend_cases(fails):
                                        now=dt.datetime(2026, 10, 16, 12, 40, tzinfo=UTC), directory=mdir,
                                        history_root=hroot, ledger_path=led, do_bootstrap=False, cg_spacing=0))
         reads = [len(r["gate"]["passed"]) for r in recs]
-        guarded(fails, f"three runs on one day make 4, 4 and 2 coin reads: ten, the day's cap ({reads})",
-                lambda: reads == [4, 4, 2] and movers.used_today(DAY16, mdir) == 10)
+        guarded(fails, f"three runs on one day make 5, 5 and 0 coin reads: ten, the day's cap ({reads})",
+                lambda: reads == [5, 5, 0] and movers.used_today(DAY16, mdir) == 10
+                and len(recs[2]["gate"]["over_cap"]) == 5)
         rows = verdict._ledger_rows(led)
         calls = [r for r in rows if r.get("kind") == "call"]
         guarded(fails, f"every model attempt was reserved before it was made and settled after ({len(calls)} calls)",
@@ -422,11 +427,12 @@ def spend_cases(fails):
                 and calls[1]["status"] == "settled" and calls[0]["stage"] == calls[1]["stage"] == "verdict_draft")
 
 
-def synthetic_named(td):
+def synthetic_named(td, which="listing"):
     """SYNTHETIC (the real 16 October days grade every mover Unclear, so no card names an event): the real TIA
-    record with its real CoinMarketCap unlock moved to 30 minutes before the run began, and two listing notices
-    added (two from Binance, so the outlet alone cannot tell them apart, and one from OKX), each timed by hand.
-    Every other part of the record is the recorded day's."""
+    record with three listing notices added (two from Binance, so the outlet alone cannot tell them apart, and one
+    from OKX), each timed by hand; with which='listing' the first Binance notice comes 30 minutes before the run
+    began, with which='unlock' the record's real CoinMarketCap unlock is moved there instead. Every other part of
+    the record is the recorded day's."""
     import why_evidence as we
     r, _ = record16(td)
     for k in [k for k in r["coins"] if k != "TIA"]:
@@ -438,7 +444,8 @@ def synthetic_named(td):
     pts = [(t, p) for t, p in coin["series"]["points"]]
     t0 = run["start_t"] - 1800
     unl = next(c for c in ev["candidates"] if c["kind"] == "unlock")
-    unl["event_utc"] = we._iso(t0)
+    if which == "unlock":
+        unl["event_utc"] = we._iso(t0)
 
     def notice(i, venue, outlet, title, t):
         return {"id": f"listing-{venue}-{t}-synthetic-{i}", "kind": "listing", "line": title,
@@ -446,7 +453,8 @@ def synthetic_named(td):
                 "report_utc": None, "source_count": 1, "primary": True,
                 "links": [{"outlet": outlet, "url": f"https://example.invalid/{venue}/{i}"}],
                 "secondary": False, "secondary_why": ""}
-    ev["candidates"] += [notice(1, "binance", "Binance", "Binance Will List Celestia (TIA) perpetual", t0 - 7200),
+    ev["candidates"] += [notice(1, "binance", "Binance", "Binance Will List Celestia (TIA) perpetual",
+                                t0 if which == "listing" else t0 - 7200),
                          notice(2, "binance", "Binance", "Binance Adds TIA to Margin", t0 - 5400),
                          notice(3, "okx", "OKX", "OKX will launch TIA/USD for spot trading", t0 - 3 * 3600)]
     coin["tests"] = []
@@ -479,7 +487,7 @@ def no_card_cases(fails):
     print("5. no card below the gate: a coin that did not pass gets no card, no grade and no URL")
     with tempfile.TemporaryDirectory() as td:
         r = graded16(td)
-        for sym in ("ARB", "WLD", "NEAR", "APT"):
+        for sym in ("ARB", "WLD", "NEAR", "APT", "SEI"):
             h = _coin_page(sym, r)
             guarded(fails, f"16 October {sym} (failed or left out): its page carries no card, no section, no grade word",
                     lambda: 'class="vd' not in h and 'class="td-sec ev"' not in h and not GRADE.search(s93().visible(h)))
@@ -489,7 +497,7 @@ def no_card_cases(fails):
         paths = {b["path"] for b in movers.build_pages(mdir)}
         guarded(fails, f"only the graded movers have /why/ pages ({sorted(paths)})",
                 lambda: paths == {f"/why/{DAY16}-{c}" for c in ("celestia", "injective-protocol", "layerzero",
-                                                               "ether-fi")})
+                                                               "ether-fi", "pendle")})
         f = load(BOARD19)
         with tempfile.TemporaryDirectory() as td2:
             g19 = movers.gate(f["board"], "2026-10-18", hist_root(td2, f["responses"]), 0,
@@ -510,7 +518,7 @@ def page_cases(fails):
     print("6. the coin page and the /why/ page of a mover: no fact twice, every name points at one listed item")
     with tempfile.TemporaryDirectory() as td:
         r = graded16(td)
-        for sym in ("TIA", "INJ", "ZRO", "ETHFI"):
+        for sym in ("TIA", "INJ", "ZRO", "ETHFI", "PENDLE"):
             for variant, rr in (("graded line", None), ("model text", True)):
                 rec = copy.deepcopy(r)
                 if not variant.startswith("model"):
@@ -532,7 +540,7 @@ def page_cases(fails):
             movers.verdicts(sn, DAY16, "morning", ledger_path=os.path.join(td, "ln.json"),
                             now=dt.datetime(2026, 10, 16, 12, 40, tzinfo=UTC))
         vn = sn["coins"]["TIA"]["verdict"]["coins"]["TIA"]
-        guarded(fails, f"SYNTHETIC TIA, the unlock 30 minutes before the run: graded in code ({vn.get('grade')}) "
+        guarded(fails, f"SYNTHETIC TIA, a Binance listing 30 minutes before the run: graded in code ({vn.get('grade')}) "
                        f"and named by subject ({[x.get('text') for x in vn.get('refs') or []]})",
                 lambda: vn.get("grade") in ("Likely", "Disputed") and vn.get("refs"))
         sdir = os.path.join(td, "named")
@@ -595,15 +603,15 @@ def page_cases(fails):
         h = sb.render_pulse_movers(dict(load(BOARD16)), "DATELINE", movers_rec=r)
         bm = (re.search(r'<section class="bm".*?</section>', h, re.S) or re.match("", "")).group(0)
         order = re.findall(r'<span class="bm-sym">(\w+)</span>', bm)
-        guarded(fails, f"Big movers lists the four in order of the volatility multiple ({order})",
-                lambda: order == ["TIA", "INJ", "ZRO", "ETHFI"])
+        guarded(fails, f"Big movers lists the five in order of the volatility multiple ({order})",
+                lambda: order == ["TIA", "INJ", "ZRO", "ETHFI", "PENDLE"])
         guarded(fails, "each row carries its 24h move, its excess over Bitcoin, its usual-day multiple, its volume "
                        "against its 7-day average (or 'not read') and its grade linked to its /why/ page",
                 lambda: "+30.60%" in bm and "+28.1 pts" in bm and "3.7x" in bm and f'href="/why/{DAY16}-celestia"' in bm)
         guarded(fails, "the 24h column is the first after the name", lambda: re.search(
             r'<th scope="col">Coin</th><th scope="col">24h</th>', bm))
-        guarded(fails, "APT is named as left out for history, with its move, and is not graded",
-                lambda: "under 30 days of its daily closes" in bm and "+14.03%" in bm)
+        guarded(fails, "APT and SEI, which failed the gate, are not in Big movers",
+                lambda: "APT" not in order and "SEI" not in order and "+14.03%" not in bm)
         rest = h.replace(bm, "")
         guarded(fails, "a coin in Big movers is not listed again in the gainers below (one fact, printed once)",
                 lambda: not re.search(r"\+30\.6|\+25\.29|\+20\.59", rest))
@@ -677,11 +685,193 @@ def wiring_cases(fails):
         guarded(fails, f"{f} carries no em or en dash", lambda: not re.search("[\u2013\u2014]", src))
 
 
+# ---- 9. review 1 (Monday October 19, 2026): the reviewer's seven failures and the page's two standing laws ----------
+
+def _bm(h):
+    return (re.search(r'<section class="bm".*?</section>', h, re.S) or re.match("", "")).group(0)
+
+
+def review1_cases(fails):
+    import movers
+    import site_build as sb
+    import verdict
+    import why_evidence as we
+    t = s93()
+    print("9. review 1: one list, the Brief's citations, the crash-day line, the cap said, true reasons, direction")
+    with tempfile.TemporaryDirectory() as td:
+        r = graded16(td)
+        board = load(BOARD16)
+        h = sb.render_pulse_movers(dict(board), "DATELINE", movers_rec=r)
+        guarded(fails, "ONE LIST: /pulse/movers prints Big movers and no 'Biggest gainers' or 'Biggest losers' list",
+                lambda: 'class="bm"' in h and "Biggest gainers" not in h and "Biggest losers" not in h)
+        h0 = sb.render_pulse_movers(dict(board), "DATELINE", movers_rec={})
+        guarded(fails, "ONE LIST: with no current movers record the page says so, and still prints no old list",
+                lambda: "Biggest gainers" not in h0 and "no current Big movers reading" in t.visible(h0))
+        guarded(fails, "Movers 101 never says 'because' (only a Confirmed verdict may)",
+                lambda: not re.search(r"\bbecause\b", t.visible(h), re.I))
+        # one rank, from one named source, with its stamp: the Board's Top 100 position the coin page prints
+        bm = _bm(h)
+        cp = _coin_page("TIA", r)
+        guarded(fails, "ONE RANK: Big movers prints TIA at #80, its place in the Board's Top 100, as /coins/tia does, "
+                       "with the source and the Board's stamp named",
+                lambda: re.search(r'<td class="bm-rk">#80</td>', bm) and "Rank 80 of the Top 100" in cp
+                and "#99" not in t.visible(h) and "place in the desk's Top 100" in t.visible(bm))
+        b101 = copy.deepcopy(board)
+        tia_row = next(x for x in b101["movers"]["top100"] if x["symbol"] == "TIA")
+        b101["movers"]["top100"].append(dict(tia_row, symbol="SYN101", name="Synthetic 101", gecko_id="celestia",
+                                             rank=60))
+        g101 = movers.gate(b101, BEFORE16, os.path.join(td, "history"), 0,
+                           now=dt.datetime(2026, 10, 16, 12, 30, tzinfo=UTC))
+        every = {x["sym"] for k in ("passed", "over_cap", "failed", "left_out") for x in g101[k]}
+        guarded(fails, "SYNTHETIC (a 101st row with TIA's figures and a source rank of 60): outside the Board's 100 "
+                       "positions, never measured", lambda: "SYN101" not in every)
+
+        # 4. the cap said
+        r8, _ = record16(td, used=8)
+        h8 = _bm(sb.render_pulse_movers(dict(board), "DATELINE", movers_rec=r8))
+        v8 = t.visible(h8)
+        guarded(fails, "PAST THE CAP: after 8 reads today, ZRO +20.59%, ETHFI +15.53% and PENDLE +11.20% are still "
+                       "listed, ungraded",
+                lambda: re.findall(r'<span class="bm-sym">(\w+)</span>', h8) == ["TIA", "INJ", "ZRO", "ETHFI", "PENDLE"]
+                and "+20.59%" in v8 and "+15.53%" in v8 and "+11.20%" in v8 and v8.count("Past the cap") == 3)
+        guarded(fails, "PAST THE CAP: a line names both caps (8 a reading, 10 a day) and the coins held back",
+                lambda: re.search(r"8 a reading and 10 a day", v8) and re.search(r"held back[^.]*LayerZero, Ether\.fi, Pendle\.", v8))
+        guarded(fails, "PAST THE CAP: listed() carries the coins past the cap",
+                lambda: {"ZRO", "ETHFI", "PENDLE"} <= movers.listed(r8, board["generated_utc"]))
+
+        # 7. the left-out reason is the coin's own
+        hdir = os.path.join(td, "history")
+        s2 = json.load(open(os.path.join(hdir, "celestia.json")))
+        keep = copy.deepcopy(s2)
+        del s2["closes"]["2026-10-01"]
+        json.dump(s2, open(os.path.join(hdir, "celestia.json"), "w"))
+        os.rename(os.path.join(hdir, "aptos.json"), os.path.join(td, "aptos.hold"))
+        gg = movers.gate(board, BEFORE16, hdir, 0, now=dt.datetime(2026, 10, 16, 12, 30, tzinfo=UTC))
+        os.rename(os.path.join(td, "aptos.hold"), os.path.join(hdir, "aptos.json"))
+        json.dump(keep, open(os.path.join(hdir, "celestia.json"), "w"))
+        rg = {"window": r["window"], "gate": gg, "coins": {}, "date_et": DAY16, "slot": "morning"}
+        vg = t.visible(_bm(sb.render_pulse_movers(dict(board), "DATELINE", movers_rec=rg)))
+        guarded(fails, "LEFT OUT: SYNTHETIC (a gap in TIA's closes, APT's closes removed) the list prints TIA's own reason (a gap) and APT's "
+                       "own (no stored closes), not one fixed sentence",
+                lambda: "have a gap" in vg and "no stored daily closes" in vg and "under 30 days of its daily closes" not in vg)
+
+        # 3. the crash day
+        guarded(fails, "CRASH DAY: 16 October (real, Bitcoin +1.48%, ten coins past 10%) is no crash day: no line",
+                lambda: "moved with the market" not in t.visible(bm))
+        bc = copy.deepcopy(board)
+        next(x for x in bc["movers"]["top100"] if x["symbol"] == "BTC")["chg_24h_pct"] = 9.0
+        gc = movers.gate(bc, BEFORE16, hdir, 0, now=dt.datetime(2026, 10, 16, 12, 30, tzinfo=UTC))
+        rc = {"window": r["window"], "gate": gc, "coins": {}, "date_et": DAY16, "slot": "morning"}
+        vc = sb.render_pulse_movers(dict(bc), "DATELINE", movers_rec=rc)
+        bmc = _bm(vc)
+        guarded(fails, "CRASH DAY: SYNTHETIC (Bitcoin set to +9.0% on the real Board) the section says once that most "
+                       "coins moved with the market, with the count, and points at Bitcoin's verdict",
+                lambda: t.visible(bmc).count("moved with the market") == 1 and re.search(
+                    r'href="/(coins/btc\.html|why/2026-10-16-bitcoin)"', bmc) and gc["crash"]["day"])
+        guarded(fails, "CRASH DAY: the definition is held once, by the audit's numbers (Bitcoin or the market 5% in 24 "
+                       "hours, or 25 or more top-100 coins past 10%)",
+                lambda: movers.CRASH == {"btc_or_market_pct": 5.0, "coins_past_move": 25})
+
+        # 2. the Brief cites the movers it mentions (SYNTHETIC: the real 16 October Edition with one sentence added)
+        mdir = os.path.join(td, "movers")
+        os.makedirs(mdir, exist_ok=True)
+        json.dump(r, open(os.path.join(mdir, f"{DAY16}-morning.json"), "w"))
+        ed = json.load(open(os.path.join(HERE, "site", "content", "2026-10-16-evening-brief.json")))
+        ed = copy.deepcopy(ed)
+        ed["body"] = list(ed.get("body") or []) + [
+            "Celestia rose and Celestia led; Pendle and Arbitrum also moved, and Injective held its gain."]
+        old_dir = movers.DIR
+        movers.DIR = mdir
+        try:
+            art = sb.render_article(ed, [ed])
+            import edition as _ed
+            front = _ed.render_front(_ed.DESK, [ed], DAY16, [DAY16])
+        finally:
+            movers.DIR = old_dir
+        prose = (re.search(r'<div class="prose">.*?</div>', art, re.S) or re.match("", "")).group(0)
+        guarded(fails, "THE BRIEF CITES: on the Edition's page, Celestia links to its verdict, once",
+                lambda: prose.count(f'<a class="bm-cite" href="/why/{DAY16}-celestia">Celestia</a>') == 1)
+        guarded(fails, "THE BRIEF CITES: Injective and Pendle link to their verdicts; Arbitrum (not on the list) is not "
+                       "linked", lambda: f'href="/why/{DAY16}-injective-protocol">Injective</a>' in prose
+                and f'href="/why/{DAY16}-pendle">Pendle</a>' in prose and ">Arbitrum</a>" not in prose)
+        r8b = copy.deepcopy(r8)
+        json.dump(r8b, open(os.path.join(mdir, f"{DAY16}-morning.json"), "w"))
+        movers.DIR = mdir
+        try:
+            art8 = sb.render_article(ed, [ed])
+        finally:
+            movers.DIR = old_dir
+        guarded(fails, "THE BRIEF CITES: a coin on the list past the cap (no graded verdict) links to its coin page",
+                lambda: 'class="bm-cite" href="/coins/pendle.html">Pendle</a>' in art8)
+        guarded(fails, "THE BRIEF CITES: the Edition's front page cites the same way",
+                lambda: f'href="/why/{DAY16}-celestia">Celestia</a>' in front)
+        nxt = copy.deepcopy(ed)
+        nxt.update(date="2026-10-17", slug="evening-brief-2026-10-17")
+        movers.DIR = mdir
+        try:
+            art17 = sb.render_article(nxt, [nxt])
+        finally:
+            movers.DIR = old_dir
+        guarded(fails, "THE BRIEF CITES: a Brief of another day (no Big movers record) links no coin",
+                lambda: 'class="bm-cite"' not in art17)
+
+    # 5. every 'not read' reason is true: Coinbase's status feed is read
+    with tempfile.TemporaryDirectory() as td:
+        rr, _ = record16(td)
+        ev = rr["coins"]["TIA"]["evidence"]
+        read = " ".join(x["name"] for x in ev["read"])
+        unread = " ".join(u["name"] + ": " + u["why"] for u in ev["unread"])
+        guarded(fails, "COINBASE: its status feed (status.exchange.coinbase.com/history.rss) is read as a listing feed",
+                lambda: "Coinbase status notices" in read and "Coinbase publishes no listing" not in unread)
+        guarded(fails, "TRUE REASONS: governance is named as not wired, with Snapshot's hub said to answer",
+                lambda: "Snapshot" in unread and "no single feed covers them" not in unread)
+    rows = movers._announcements("coinbase", '<item><title>DATA-USD Markets Open</title><link>https://s/x</link>'
+                                             '<pubDate>Fri, 09 Oct 2026 11:08:46 -0700</pubDate></item>'
+                                             '<item><title>Celestia - Delayed Sends and Receives</title>'
+                                             '<pubDate>Fri, 16 Oct 2026 23:49:00 -0700</pubDate></item>'
+                                             '<item><title>Upcoming Trading Suspension: NEON-USD AND SYND-USD</title>'
+                                             '<pubDate>Fri, 16 Oct 2026 10:00:00 -0700</pubDate></item>')
+    guarded(fails, "COINBASE: 'Markets Open' is a listing, 'Trading Suspension' a delisting, a delayed send neither",
+            lambda: [(x[1], x[3]) for x in rows] == [("DATA-USD Markets Open", "listing"),
+                                                    ("Upcoming Trading Suspension: NEON-USD AND SYND-USD", "delisting")])
+    src = open(os.path.join(HERE, "why_evidence.py"), encoding="utf-8").read()
+    guarded(fails, "TRUE REASONS: Bitcoin's and Ether's records no longer say listing notices have no single feed",
+            lambda: '"Exchange listing notices", "not read: no single feed"' not in src)
+
+    # 6. direction by event type, every type crossed with each direction
+    print("9b. the readings agree by direction: a listing with a rise; a delisting, an unlock or a hack with a fall")
+    expect = {"listing": "up", "delisting": "down", "unlock": "down", "hack": "down"}
+    for kind, good in expect.items():
+        for d in ("up", "down"):
+            coin = {"run": {"dir": d, "start_t": 1000}, "mechanics": {"patterns": [{"label": "coin-specific"}],
+                                                                   "rows": [{"key": "ES=F", "value": 0.0}]},
+                    "event_hours": {}}
+            c = {"id": "x", "kind": kind, "line": "Example line", "links": []}
+            fit = verdict.mech_fit(c, coin, 1000, sym="TIA")[0]
+            want = "agree" if d == good else "contradict"
+            guarded(fails, f"{kind} on a move {d}: the readings {want}", lambda: fit == want)
+    with tempfile.TemporaryDirectory() as td:
+        sn = synthetic_named(td, "unlock")
+        e = sn["coins"]["TIA"]
+        movers.register("TIA", "Celestia", "celestia")
+        v = verdict.grade(e["evidence"], "TIA", movers.day_of(e, sn["gate"]["btc_24h_pct"]))
+        guarded(fails, f"SYNTHETIC TIA +30.6% with an unlock in time and no other cause: no Likely; the rulings give no "
+                       f"grade, so no card ({v.get('kind')}, {v.get('grade')})",
+                lambda: v.get("grade") is None and v.get("kind") == "no_verdict")
+        lst = next(c for c in e["evidence"]["candidates"] if c["id"].endswith("synthetic-1"))
+        unl = next(c for c in e["evidence"]["candidates"] if c["kind"] == "unlock")
+        guarded(fails, "WORDS: an unlock is 'scheduled', as CoinMarketCap lists it; a listing is 'announced'; neither "
+                       "is 'reported'",
+                lambda: "scheduled" in verdict._ref_full(unl, 1792100000, 1792153013, verdict.named(unl, [unl]))
+                and "reported" not in verdict._ref_full(unl, 1792100000, 1792153013, verdict.named(unl, [unl]))
+                and "announced" in verdict._ref_full(lst, 1792100000, 1792153013, verdict.named(lst, [lst])))
+
+
 def unit():
     fails = []
     for name, fn in (("gate", gate_cases), ("evidence", evidence_cases), ("trigger", trigger_cases),
                      ("spend", spend_cases), ("no card", no_card_cases), ("pages", page_cases),
-                     ("budget", budget_cases), ("wiring", wiring_cases)):
+                     ("budget", budget_cases), ("wiring", wiring_cases), ("review 1", review1_cases)):
         group(fails, name, fn)
     return fails
 

@@ -2156,6 +2156,21 @@ def share_row(url, title):
 </script>"""
 
 
+def _brief_cites(item, html_text):
+    """PROGRAM 9, SPRINT 9.4 (AUDIT.md 3.2, "Linked"): the Brief cites the Big movers it mentions. On an Edition's page,
+    each coin on that day's Big movers list links at its first mention to its verdict, or to its coin page where it
+    has none (movers.cite, in code, no model call). Every other page's text is as it was."""
+    try:
+        import edition as _ed
+        if not _ed._is_edition(item):
+            return html_text
+        import movers as _mv
+        return _mv.cite(html_text, str(item.get("date") or "")[:10])
+    except Exception as e:                       # fail open: the text as it was
+        print(f"::warning::movers: the Brief's citations were not drawn ({type(e).__name__}: {e})")
+        return html_text
+
+
 def render_article(item, all_items=None):
     dateline = fmt_date(item.get("date"))
     badge = verdict_badge(item.get("verdict"), item)
@@ -2328,7 +2343,7 @@ def render_article(item, all_items=None):
     <div class="byline">By {author}</div>
     {ribbon}
     {bnd}
-    <div class="prose">{render_body(item.get("body"))}</div>
+    <div class="prose">{_brief_cites(item, render_body(item.get("body")))}</div>
     {key}
     {take}
     {bottom}
@@ -7439,74 +7454,40 @@ def _mover_rows(movers):
     return "".join(rows)
 
 
-def _movers_card(side, rows, held=0):
-    """One side of the movers page. Fewer than five rows prints fewer; none says so. `held` (Sprint 9.4) is
-    how many of this side's coins the Big movers list above prints instead, so the count stays true."""
-    word, cls = ("gained", "up") if side == "gainers" else ("fell", "down")
-    head = "Biggest gainers" if side == "gainers" else "Biggest losers"
-    other = " other" if held else ""
-    above = (f" ({held} more {'is' if held == 1 else 'are'} in Big movers above)") if held else ""
-    if not rows:
-        body = (f'<p class="pc-note">No{other} top-100 coin {word} more than 1% in the last 24 hours{above}.</p>')
-    else:
-        body = (f'<div class="movetable" tabindex="0" role="region" aria-label="{head} (scrollable)">'
-                f'<table class="mv-tbl"><tbody>{_mover_rows(rows)}</tbody></table></div>')
-        if len(rows) + held < 5:
-            body += (f'<p class="pc-note">Only {len(rows)}{other} top-100 coin{"" if len(rows) == 1 else "s"} '
-                     f'{word} more than 1%{above}, so the list stops there.</p>')
-        elif held:
-            body += f'<p class="pc-note">{held} more {"is" if held == 1 else "are"} in Big movers above.</p>'
-    return (f'<div class="pulse-card"><span class="lab" style="color:var(--{cls})">'
-            f'{head}, 24 hours</span>{body}</div>')
-
-
 def render_pulse_movers(pulse, dateline, movers_rec=None):
-    desc = ("Up to five gainers and losers over 24 hours, drawn only from coins ranked 100 or "
-            "better by market cap, with plain-language guidance on how to read big moves.")
+    desc = ("Big movers: every top-100 coin past the desk's line over 24 hours, with its move beyond Bitcoin's and "
+            "the desk's check of why it moved, plus plain-language guidance on how to read big moves.")
     movers = (pulse or {}).get("movers") or {}
     if not movers:
         inner = f"{_dash_crumb()}\n  <h1>Top movers</h1>\n  {_no_data()}"
         return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True, data=pulse)
-    # PROGRAM 9, SPRINT 9.4: the Big movers list first (AUDIT.md 3.2), from the newest movers record while it
-    # is current; a coin it prints is not printed again in the lists below (one fact, printed once)
-    big, shown = "", set()
+    # PROGRAM 9, SPRINT 9.4: ONE LIST (AUDIT.md 3.2, "Surfacing"): Big movers replaces the top 5 and bottom 5. It
+    # comes from the newest movers record while it is current, and says so when there is none. No page links to
+    # the old lists' anchors; the URL is unchanged.
+    big = ""
     try:
         import movers as _mv
-        _rec = _movers_rec(movers_rec)
-        _bu = (pulse or {}).get("generated_utc") or ""
-        big = _mv.list_html(_rec, _bu)
-        shown = _mv.listed(_rec, _bu) if big else set()
-    except Exception as e:                       # fail open: the page as it was
+        big = _mv.list_html(_movers_rec(movers_rec), (pulse or {}).get("generated_utc") or "")
+    except Exception as e:                       # fail open: the section says nothing rather than something wrong
         print(f"::warning::movers page: the Big movers list was not drawn ({type(e).__name__}: {e})")
-    _side = lambda k: [r for r in (movers.get(k) or []) if r.get("symbol") not in shown]
-    _held = lambda k: len([r for r in (movers.get(k) or []) if r.get("symbol") in shown])
     inner = f"""{_dash_crumb()}
   <h1>Top movers</h1>
   {big}
-  <p class="lede">Up to five gainers and five losers of the last 24 hours, drawn only from
-     coins ranked 100 or better by market cap. Stablecoins never appear, a coin must have moved
-     more than 1% the way its list says, and a list is never padded to reach five.{
-     " A coin in Big movers above is not listed again here." if shown else ""}</p>
-  <p class="live-stamp"{_asof_of(pulse)}>{esc(_snap_asof(pulse))}</p>
-  <div class="pulse-grid2">
-    {_movers_card("gainers", _side("gainers"), _held("gainers"))}
-    {_movers_card("losers", _side("losers"), _held("losers"))}
-  </div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Movers 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
     <div class="learn"><span class="lab">Why coins move this much</span>
       <p>Double-digit daily moves usually have a cause: a listing, a protocol launch, an
       unlock, a hack, or a big holder buying or selling into thin liquidity. Smaller coins
-      move more because less money is needed to push them.</p></div>
+      move more: less money is needed to push them.</p></div>
     <div class="learn"><span class="lab">Why top-100 only</span>
       <p>Outside the biggest names, "top gainer" lists get taken over by micro-cap coins that
       pump 300% on a few thousand dollars of volume, exactly the shill we exist to strip out.
       Limiting to the top 100 keeps every mover here a coin with real money behind it.</p></div>
     <div class="learn"><span class="lab">Check the news before you believe it</span>
-      <p>A big move WITH a verified story behind it is information. Cross-check the
-      <a href="/index.html">front page</a> and the coin's own page for what outlets reported;
-      this list says what moved, not why.</p></div>
+      <p>A big move WITH a verified story behind it is
+      information. Each coin in Big movers links to its own page, where the desk's check of the
+      move sits with its evidence and its grade, or says that no reported event lines up.</p></div>
     <div class="learn"><span class="lab">What this page is not</span>
       <p>Yesterday's winner is not a prediction about tomorrow, and chasing a move that
       already happened is how crowds get hurt. This board is a snapshot of where the action

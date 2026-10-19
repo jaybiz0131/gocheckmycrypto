@@ -63,6 +63,11 @@ GATE = {"version": "2026-10-19", "source": "AUDIT.md section 3.1, the row 'Any t
         "per_slot": 8, "per_day": 10}
 LOG_UNTIL = "2026-11-02"        # two weeks from the gate's first live run, Monday October 19, 2026
 OWN_CARD = ("BTC", "ETH")       # graded by verdict.py every slot
+# A CRASH DAY, by the audit's own numbers (AUDIT.md 3.1, the row "Breaking": Bitcoin or the whole market 5% or more
+# inside 24 hours; 3.2, "How many": crash days ran to 25 to 50 top-100 coins past 10%). On such a day, when most of
+# the coins past 10% that the gate measured fail its beta leg (they moved within 6 points of what Bitcoin's move
+# gives them), the Big movers section says once that they moved with the market, and points at Bitcoin's verdict.
+CRASH = {"btc_or_market_pct": 5.0, "coins_past_move": 25}
 BOOTSTRAPS_PER_RUN = 4          # history.py bootstraps a coin from a 365-day read; at most this many a run
 AGREE_PTS = 3.0                 # a venue's window move within 3 points of the Board's 24-hour figure
 HISTORY_BUDGET_S = 45           # the history reads for candidates that lack a stored series
@@ -134,10 +139,15 @@ def stats(cid, before_day, root=None, days=None):
 
 
 def eligible(rows):
-    """9.1's movers rules: rank 100 or better, never a stablecoin, a 24-hour figure the Board carries."""
+    """The movers rules (9.1's, on the Board's own list): a row of the desk's Top 100, its place 100 or better in
+    the Board's list as the Top 100 page and the coin page number it (review 1: one rank, from one source), never a
+    stablecoin, a 24-hour figure the Board carries. Each row comes back with its place as `pos`."""
     import snapshot
-    return [r for r in rows or [] if _num(r.get("chg_24h_pct")) and isinstance(r.get("rank"), int)
-            and r["rank"] <= snapshot.MOVER_RANK_MAX and not snapshot.is_stablecoin(r)]
+    out = []
+    for pos, r in enumerate(rows or [], 1):
+        if pos <= snapshot.MOVER_RANK_MAX and _num(r.get("chg_24h_pct")) and not snapshot.is_stablecoin(r):
+            out.append(dict(r, pos=pos))
+    return out
 
 
 def evaluate(row, btc24, st):
@@ -151,7 +161,7 @@ def evaluate(row, btc24, st):
             "multiple": mult >= GATE["vol_multiple_min"],
             "excess": excess * sign >= GATE["excess_min_pts"]}
     return {"sym": row["symbol"], "name": row.get("name") or row["symbol"], "gecko_id": row.get("gecko_id") or "",
-            "rank": row["rank"], "move_pct": round(mv, 2), "vol_pct": round(st["vol_pct"], 2),
+            "rank": row.get("rank"), "pos": row["pos"], "move_pct": round(mv, 2), "vol_pct": round(st["vol_pct"], 2),
             "multiple": round(mult, 2), "beta": st["beta"], "btc_pct": round(btc24, 2),
             "predicted_pct": round(pred, 2), "excess_pts": round(excess, 2), "legs": legs,
             "pass": all(legs.values()), "history": {"from": st["from"], "through": st["through"]}}
@@ -194,15 +204,17 @@ def gate(board, before_day, root=None, used_today=0, now=None):
         if st is None:
             if abs(r["chg_24h_pct"]) >= GATE["move_min_pct"]:
                 out["left_out"].append({"sym": r["symbol"], "name": r.get("name") or r["symbol"],
-                                        "gecko_id": r.get("gecko_id") or "", "rank": r["rank"],
+                                        "gecko_id": r.get("gecko_id") or "", "rank": r.get("rank"), "pos": r["pos"],
                                         "move_pct": r["chg_24h_pct"], "why": why})
             continue
         measured.append(evaluate(r, btc, st))
-    passing = sorted([x for x in measured if x["pass"]], key=lambda x: (-x["multiple"], x["rank"]))
+    passing = sorted([x for x in measured if x["pass"]], key=lambda x: (-x["multiple"], x["pos"]))
+    out["crash"] = crash(rows, btc, measured, out["left_out"])
     room = max(0, min(GATE["per_slot"], GATE["per_day"] - int(used_today or 0)))
     out["passed"], out["over_cap"] = passing[:room], passing[room:]
+    out["used_today"] = int(used_today or 0)
     out["failed"] = sorted([x for x in measured if not x["pass"] and any(x["legs"].values())],
-                           key=lambda x: (-abs(x["move_pct"]), x["rank"]))
+                           key=lambda x: (-abs(x["move_pct"]), x["pos"]))
     for x in out["passed"]:
         log.append(f"movers: gate PASS {x['sym']} {x['move_pct']:+.2f}%, {x['multiple']:.2f}x its 30-day daily "
                    f"volatility of {x['vol_pct']:.2f}%, {x['excess_pts']:+.2f} points beyond its Bitcoin beta "
@@ -211,6 +223,10 @@ def gate(board, before_day, root=None, used_today=0, now=None):
         log.append(f"movers: gate PASS, over the cap ({GATE['per_slot']} a slot, {GATE['per_day']} a day, "
                    f"{int(used_today or 0)} read earlier today): {x['sym']} {x['move_pct']:+.2f}%, "
                    f"{x['multiple']:.2f}x")
+    c = out["crash"]
+    if c["day"]:
+        log.append(f"movers: a crash day by the audit's numbers ({', '.join(c['why'])}): {c['with_market']} of the "
+                   f"{c['measured_past_move']} measured coins past {GATE['move_min_pct']:g}% moved with the market")
     for x in out["own_card"]:
         log.append(f"movers: {x['sym']} {x['move_pct']:+.2f}% is graded by its own card, not here")
     for x in out["left_out"]:
@@ -225,6 +241,25 @@ def gate(board, before_day, root=None, used_today=0, now=None):
         log.append(f"movers: no top-100 coin passed the gate ({len(measured)} measured, "
                    f"{len(out['left_out'])} left out for history)")
     return out
+
+
+def crash(rows, btc24, measured, left_out):
+    """{day, why, btc_pct, market_pct, past_move, measured_past_move, with_market}: whether the Board's reading is a
+    crash day by CRASH, and how many of the measured coins past 10% moved with the market (failed the beta leg)."""
+    import snapshot
+    market = snapshot.top100_change({f"{r.get('symbol')}|{i}": r for i, r in enumerate(rows or [])})
+    past = [x for x in measured if x["legs"]["move"]]
+    n_past = len(past) + len(left_out or [])
+    why = []
+    if _num(btc24) and abs(btc24) >= CRASH["btc_or_market_pct"]:
+        why.append(f"Bitcoin {btc24:+.2f}%")
+    if _num(market) and abs(market) >= CRASH["btc_or_market_pct"]:
+        why.append(f"the Top 100 {market:+.2f}%")
+    if n_past >= CRASH["coins_past_move"]:
+        why.append(f"{n_past} top-100 coins past {GATE['move_min_pct']:g}%")
+    return {"day": bool(why), "why": why, "btc_pct": btc24 if _num(btc24) else None, "market_pct": market,
+            "past_move": n_past, "measured_past_move": len(past),
+            "with_market": sum(1 for x in past if not x["legs"]["excess"])}
 
 
 def bootstrap(board, before_day, fetch, now=None, root=None, limit=BOOTSTRAPS_PER_RUN, log=None,
@@ -280,46 +315,52 @@ LISTING_FEEDS = [
     ("KuCoin delistings", "https://api.kucoin.com/api/v3/announcements?annType=delistings&pageSize=50", "kucoin", "delisting"),
     ("Bitget listings", "https://api.bitget.com/api/v2/public/annoucements?language=en_US&annType=coin_listings", "bitget", "listing"),
     ("Kraken blog (listings)", "https://blog.kraken.com/feed", "kraken", "listing"),
+    # review 1: Coinbase Exchange's status history carries its "Markets Open" and "Trading Suspension" notices, timed
+    ("Coinbase status notices", "https://status.exchange.coinbase.com/history.rss", "coinbase", None),
 ]
 # Read October 19, 2026 from the desk's reading host; each answered as below, so each is named, not read.
 LISTING_UNREAD = [
-    ("Coinbase listing notices", "not read: Coinbase publishes no listing announcement feed; its products API "
-                                 "lists products with no listing time"),
     ("Upbit listing notices", "not read: its announcements API answered 403 to the desk on October 19, 2026"),
     ("Bybit listing notices", "not read: its announcements API answered 403 (blocked by country) to the desk on "
                               "October 19, 2026"),
-    ("Protocol upgrades and governance votes", "not read: no single feed covers them; a wire item that names "
-                                               "the coin is read"),
+    ("Protocol upgrades and governance votes", "not read: not wired in this step; Snapshot's public hub "
+                                               "(hub.snapshot.org) answered the desk on October 19, 2026 with "
+                                               "off-chain votes and is not read yet, and the desk has found no free "
+                                               "feed for on-chain votes; a wire item that names the coin is read"),
 ]
-OUTLET = {"binance": "Binance", "okx": "OKX", "kucoin": "KuCoin", "bitget": "Bitget", "kraken": "Kraken"}
+OUTLET = {"binance": "Binance", "okx": "OKX", "kucoin": "KuCoin", "bitget": "Bitget", "kraken": "Kraken",
+          "coinbase": "Coinbase"}
+COINBASE_LISTING = re.compile(r"\bmarkets? (?:are )?open\b|\bnow (?:live|available)\b|\blaunch", re.I)
+COINBASE_DELISTING = re.compile(r"\btrading suspension\b|\bdelist|\bsuspend(?:s|ed|ing)? trading\b", re.I)
 
 
 def _announcements(kind, body):
-    """[(epoch, title, url)] from one venue's answer."""
+    """[(epoch, title, url, what)] from one venue's answer; `what` is 'listing' or 'delisting' where the item
+    itself says which (Coinbase's status feed), else None and the feed's own kind stands."""
     out = []
     if kind == "binance":
         for cat in (((body or {}).get("data") or {}).get("catalogs") or []):
             for a in cat.get("articles") or []:
                 t = _ms(a.get("releaseDate"))
                 if t and a.get("title"):
-                    out.append((t, a["title"], f"https://www.binance.com/en/support/announcement/detail/{a.get('code')}"))
+                    out.append((t, a["title"], f"https://www.binance.com/en/support/announcement/detail/{a.get('code')}", None))
     elif kind == "okx":
         for blk in (body or {}).get("data") or []:
             for a in blk.get("details") or []:
                 t = _ms(a.get("pTime"))
                 if t and a.get("title"):
-                    out.append((t, a["title"], a.get("url") or ""))
+                    out.append((t, a["title"], a.get("url") or "", None))
     elif kind == "kucoin":
         for a in (((body or {}).get("data") or {}).get("items") or []):
             t = _ms(a.get("cTime"))
             if t and a.get("annTitle"):
-                out.append((t, a["annTitle"], a.get("annUrl") or ""))
+                out.append((t, a["annTitle"], a.get("annUrl") or "", None))
     elif kind == "bitget":
         for a in (body or {}).get("data") or []:
             t = _ms(a.get("cTime"))
             if t and a.get("annTitle"):
-                out.append((t, a["annTitle"], a.get("annUrl") or ""))
-    elif kind == "kraken":
+                out.append((t, a["annTitle"], a.get("annUrl") or "", None))
+    elif kind in ("kraken", "coinbase"):
         import email.utils
         for item in re.findall(r"<item>(.*?)</item>", body or "", re.S):
             title = re.search(r"<title>(.*?)</title>", item, re.S)
@@ -328,13 +369,19 @@ def _announcements(kind, body):
             if not (title and pub):
                 continue
             ttl = _html.unescape(re.sub(r"<!\[CDATA\[|\]\]>", "", title.group(1))).strip()
-            if not re.search(r"available for trading|\blist(s|ing|ed)?\b", ttl, re.I):
+            what = None
+            if kind == "coinbase":
+                what = ("delisting" if COINBASE_DELISTING.search(ttl) else
+                        "listing" if COINBASE_LISTING.search(ttl) else None)
+                if not what:
+                    continue                     # a delayed send or an outage is not a listing notice
+            elif not re.search(r"available for trading|\blist(s|ing|ed)?\b", ttl, re.I):
                 continue
             try:
                 t = int(email.utils.parsedate_to_datetime(pub.group(1).strip()).timestamp())
             except (TypeError, ValueError):
                 continue
-            out.append((t, ttl, (link.group(1).strip() if link else "")))
+            out.append((t, ttl, (link.group(1).strip() if link else ""), what))
     return out
 
 
@@ -343,15 +390,16 @@ def read_listings(start, end, fetch, ledger):
     out = []
     for label, url, kind, what in LISTING_FEEDS:
         try:
-            body = fetch(url, "text" if kind == "kraken" else "json")
+            body = fetch(url, "text" if kind in ("kraken", "coinbase") else "json")
             rows = _announcements(kind, body)
         except Exception as e:                                   # noqa: BLE001
             ledger.miss(label, str(e) or type(e).__name__, url)
             continue
         ledger.ok(label, url, f"{len(rows)} notice(s) in its answer")
-        for t, title, link in rows:
+        for t, title, link, own in rows:
             if start - 3600 <= t <= end:
-                out.append({"t": t, "title": _clean(title), "url": link, "venue": kind, "what": what, "feed": label})
+                out.append({"t": t, "title": _clean(title), "url": link, "venue": kind, "what": own or what,
+                            "feed": label})
     for name, why in LISTING_UNREAD:
         ledger.miss(name, why)
     return out
@@ -406,7 +454,7 @@ def unlock_candidates(sym, name, gecko_id, start, end, fetch, ledger):
         return []
     data = body.get("data")
     if not isinstance(data, dict):
-        ledger.miss(label, "CoinMarketCap tracks no unlock schedule for it", url)
+        ledger.miss(label, "CoinMarketCap's answer carries no unlock events for it", url)
         return []
     ledger.ok(label, url)
     out = []
@@ -558,7 +606,7 @@ def build(board, wire, before_day, used_today=0, fetch=None, now_utc=None, histo
         cl = we.Ledger()
         cl.read, cl.unread = list(shared_read), list(shared_unread)
         s, rest = read_series_checked(sym, start, end, now, core_s, cl, x["move_pct"])
-        entry = {"gate": x, "gecko_id": cid, "name": name, "rank": x["rank"], "slug": cid}
+        entry = {"gate": x, "gecko_id": cid, "name": name, "rank": x["rank"], "pos": x["pos"], "slug": cid}
         if not s:
             entry["evidence"] = None
             entry["unread"] = cl.unread
@@ -774,74 +822,198 @@ def coin_href(sym, name):
     return f"/coins/{slug}.html" if slug else ""
 
 
-def list_html(rec, board_utc, live=True):
-    """THE BIG MOVERS LIST (AUDIT.md 3.2): every coin past the line, in order of its volatility multiple, with
-    its 24-hour move, its excess over Bitcoin, its volume against its 7-day average and its grade; never
-    padded. '' when no record is current (the page keeps its old lists)."""
+def _btc_verdict_href(date_et):
+    """Bitcoin's verdict for the day: its /why/ page when a graded one is stored, else its coin page, where the
+    card is."""
     try:
-        if not current(rec, board_utc):
-            return ""
+        vd = _vd()
+        for n in vd._names():
+            if n.startswith(f"{date_et}-"):
+                r = vd.load(n[:10], n[11:-5])
+                if (((r or {}).get("coins") or {}).get("BTC") or {}).get("grade"):
+                    return vd.url(date_et, "BTC")
+    except Exception:                                             # noqa: BLE001
+        pass
+    return "/coins/btc.html"
+
+
+def _reasons(left):
+    """Each left-out coin under its own stored reason, the coins sharing a reason grouped: [(why, [rows])]."""
+    out = {}
+    for x in left:
+        out.setdefault(x.get("why") or "no reason stored", []).append(x)
+    return list(out.items())
+
+
+def list_html(rec, board_utc, live=True):
+    """THE BIG MOVERS LIST (AUDIT.md 3.2), the one movers list on /pulse/movers: every coin past the line, in order
+    of its volatility multiple, with its place in the desk's Top 100, its 24-hour move, its excess over Bitcoin, its
+    usual-day multiple, its volume against its 7-day average and its grade; the coins past the per-reading or the
+    per-day cap listed ungraded, the cap named; each coin left out under its own reason; on a crash day, one line
+    that most coins moved with the market, pointing at Bitcoin's verdict. Never padded. With no current record, the
+    section says so."""
+    try:
         we = _we()
+        rule = (f'<p class="pc-note">The line: a 24-hour move of {GATE["move_min_pct"]:g}% or more, at least '
+                f'{GATE["vol_multiple_min"]:g} times the coin\'s usual daily move over 30 days, and at least '
+                f'{GATE["excess_min_pts"]:g} points beyond what Bitcoin\'s move gives it. Top 100 only, never a '
+                f'stablecoin; at most {GATE["per_slot"]} checked a reading and {GATE["per_day"]} a day. '
+                f'"Beyond Bitcoin" is the move minus what its 30-day beta to Bitcoin gives; "Its usual day" is the '
+                f'move over its 30-day daily volatility. Bitcoin and Ether have their own checks on their pages.</p>')
+        head = '<section class="bm" aria-label="Big movers"><div class="sec-head"><h2>Big movers</h2><span class="bar"></span></div>'
+        if not current(rec, board_utc):
+            return (head + '<p class="pc-note">The desk has no current Big movers reading for this Board. It reads '
+                           'the line at the morning read and the evening Edition; the list returns with the next.</p>'
+                    + rule + '</section>')
         g = rec.get("gate") or {}
         w1 = we._parse_utc((rec.get("window") or {}).get("end_utc"))
         asof = f' data-asof="{_e(we._iso(int(w1.timestamp())))}"' if (live and w1) else ""
         when = f"the 24 hours to {we.clock(int(w1.timestamp()))}, {we.long_day(int(w1.timestamp()))}" if w1 else ""
+        stamp = f"{we.clock(int(w1.timestamp()))}, {we.long_day(int(w1.timestamp()))}" if w1 else ""
+        held = g.get("over_cap") or []
         rows = []
-        for x in g.get("passed") or []:
+        for x in (g.get("passed") or []) + held:
             e = (rec.get("coins") or {}).get(x["sym"]) or {}
             v = (((e.get("verdict") or {}).get("coins") or {}).get(x["sym"]) or {})
             grade = v.get("grade")
-            if grade and v.get("url"):
+            if x in held:
+                gr = '<span class="bm-g">Past the cap</span>'
+            elif grade and v.get("url"):
                 gr = f'<a class="bm-g vd-badge vd-{_e(grade.lower())}" href="{_e(v["url"])}">Checked: <b>{_e(grade)}</b></a>'
             elif v.get("kind") == "withheld":
                 gr = '<span class="bm-g">Not checked today</span>'
             else:
                 gr = '<span class="bm-g">No grade</span>'
             vol = e.get("volume_vs_7d")
-            volt = f"{vol['ratio']:.1f}x its 7-day average" if vol else "not read"
+            volt = f"{vol['ratio']:.1f}x its 7-day average" if vol else ("not read" if x not in held else "")
             cls = "up" if x["move_pct"] >= 0 else "down"
             exc, mult = f"{x['excess_pts']:+.1f} pts", f"{x['multiple']:.1f}x"
             rows.append(
-                f'<tr><th scope="row"><a href="{_e(coin_href(x["sym"], x["name"]))}">{_e(x["name"])}</a>'
+                f'<tr><td class="bm-rk">#{_e(x.get("pos"))}</td>'
+                f'<th scope="row"><a href="{_e(coin_href(x["sym"], x["name"]))}">{_e(x["name"])}</a>'
                 f'<span class="bm-sym">{_e(x["sym"])}</span></th>'
                 f'<td class="bm-mv {cls}">{_e(_pct(x["move_pct"]))}</td>'
                 f'<td>{_e(exc)}</td><td>{_e(mult)}</td><td>{_e(volt)}</td><td>{gr}</td></tr>')
+        crash_html = ""
+        c = g.get("crash") or {}
+        if c.get("day") and c.get("measured_past_move") and c.get("with_market", 0) * 2 > c["measured_past_move"]:
+            crash_html = (f'<p class="bm-crash">A market-wide move ({_e(", ".join(c["why"]))}): most coins moved with '
+                          f'the market. {c["with_market"]} of the {c["measured_past_move"]} measured coins past '
+                          f'{GATE["move_min_pct"]:g}% moved within {GATE["excess_min_pts"]:g} points of what Bitcoin\'s '
+                          f'move gives them, so they are not checked one by one. '
+                          f'<a href="{_e(_btc_verdict_href(rec.get("date_et") or ""))}">Bitcoin\'s verdict</a> covers '
+                          f'the market\'s move.</p>')
         if rows:
             body = ('<div class="movetable" tabindex="0" role="region" aria-label="Big movers (scrollable)">'
-                    '<table class="mv-tbl bm-tbl"><thead><tr><th scope="col">Coin</th><th scope="col">24h</th>'
-                    '<th scope="col">Beyond Bitcoin</th><th scope="col">Its usual day</th>'
+                    '<table class="mv-tbl bm-tbl"><thead><tr><th scope="col">Rank</th><th scope="col">Coin</th>'
+                    '<th scope="col">24h</th><th scope="col">Beyond Bitcoin</th><th scope="col">Its usual day</th>'
                     '<th scope="col">Volume</th><th scope="col">Grade</th></tr></thead><tbody>'
                     + "".join(rows) + "</tbody></table></div>")
         else:
             body = ('<p class="pc-note">No top-100 coin moved past the line in this reading, so the list is '
                     'empty rather than padded.</p>')
-        left = g.get("left_out") or []
-        left_html = ""
-        if left:
-            left_html = ('<p class="pc-note">Moved 10% or more, but the desk holds under 30 days of its daily '
-                         'closes, so it is not measured: '
-                         + ", ".join(f'<a href="{_e(coin_href(x["sym"], x["name"]))}">{_e(x["name"])}</a> '
-                                     f'{_e(_pct(x["move_pct"]))}' for x in left) + '.</p>')
-        rule = (f'<p class="pc-note">The line: a 24-hour move of {GATE["move_min_pct"]:g}% or more, at least '
-                f'{GATE["vol_multiple_min"]:g} times the coin\'s usual daily move over 30 days, and at least '
-                f'{GATE["excess_min_pts"]:g} points beyond what Bitcoin\'s move gives it. Top 100 only, never a '
-                f'stablecoin, at most {GATE["per_slot"]} a reading. "Beyond Bitcoin" is the move minus what its '
-                f'30-day beta to Bitcoin gives; "Its usual day" is the move over its 30-day daily volatility. '
-                f'Bitcoin and Ether have their own checks on their pages.</p>')
-        return (f'<section class="bm" aria-label="Big movers"><div class="sec-head"><h2>Big movers</h2>'
-                f'<span class="bar"></span></div><p class="live-stamp"{asof}>{_e(when)}</p>'
-                f'{body}{left_html}{rule}</section>')
+        cap_html = ""
+        if held:
+            cap_html = (f'<p class="pc-note">The desk checks at most {GATE["per_slot"]} a reading and '
+                        f'{GATE["per_day"]} a day ({int(g.get("used_today") or 0)} checked earlier today). Past that '
+                        f'cap, these are listed and held back, not checked: '
+                        + ", ".join(_e(x["name"]) for x in held) + '.</p>')
+        left_html = "".join(
+            f'<p class="pc-note">Moved {GATE["move_min_pct"]:g}% or more and not measured (the line needs 30 days of '
+            f'stored daily closes); {_e(why)}: '
+            + ", ".join(f'<a href="{_e(coin_href(x["sym"], x["name"]))}">{_e(x["name"])}</a> {_e(_pct(x["move_pct"]))}'
+                        for x in xs) + '.</p>' for why, xs in _reasons(g.get("left_out") or []))
+        rank = (f'<p class="pc-note">Rank: its place in the desk\'s Top 100 (CoinGecko market cap, screened, as the '
+                f'Top 100 page and the coin pages number it), as of {_e(stamp)}.</p>') if rows else ""
+        return (f'{head}<p class="live-stamp"{asof}>{_e(when)}</p>{crash_html}'
+                f'{body}{cap_html}{left_html}{rank}{rule}</section>')
     except Exception as ex:                                       # noqa: BLE001 fail open
         print(f"::warning::movers: the Big movers list was not drawn ({type(ex).__name__}: {ex})")
         return ""
 
 
 def listed(rec, board_utc):
-    """The symbols the Big movers list prints (passed and left out), so a page prints each move once."""
+    """The symbols the Big movers list prints (passed, past the cap and left out), so a page prints each move once."""
     if not current(rec, board_utc):
         return set()
     g = (rec or {}).get("gate") or {}
-    return {x["sym"] for x in (g.get("passed") or []) + (g.get("left_out") or [])}
+    return {x["sym"] for x in (g.get("passed") or []) + (g.get("over_cap") or []) + (g.get("left_out") or [])}
+
+
+# ---- the Brief cites the movers it mentions (AUDIT.md 3.2, "Linked") -----------------------------------------------
+
+_CITE_MEMO = {}
+
+
+def day_list(date_et, directory=None):
+    """{sym: (name, href)} for every coin on the day's Big movers lists (passed, past the cap, left out): its graded
+    verdict's /why/ page when it has one that day, else its coin page."""
+    d = directory or DIR
+    stats_ = []
+    for n in names(directory):
+        try:
+            st = os.stat(os.path.join(d, n))
+            stats_.append((n, st.st_mtime_ns, st.st_size))
+        except OSError:
+            continue
+    key = (d, tuple(stats_), date_et)
+    if key in _CITE_MEMO:
+        return _CITE_MEMO[key]
+    out = {}
+    for r in records(directory):
+        if r.get("date_et") != date_et:
+            continue
+        g = r.get("gate") or {}
+        for x in (g.get("passed") or []) + (g.get("over_cap") or []) + (g.get("left_out") or []):
+            v = (((((r.get("coins") or {}).get(x["sym"]) or {}).get("verdict") or {}).get("coins") or {})
+                 .get(x["sym"]) or {})
+            href = v.get("url") if v.get("grade") and v.get("url") else None
+            have = out.get(x["sym"])
+            if have and have[1].startswith("/why/"):
+                continue
+            out[x["sym"]] = (x.get("name") or x["sym"], href or coin_href(x["sym"], x.get("name") or x["sym"]))
+    _CITE_MEMO.clear()
+    _CITE_MEMO[key] = out
+    return out
+
+
+def cite(html_text, date_et, directory=None):
+    """The Brief's text with each coin on the day's Big movers list linked at its first mention: to its verdict, or
+    to its coin page where it has no graded verdict. Deterministic, no model call. Text inside a tag or an existing
+    link is never touched; a coin is matched by its name, or its ticker when it has three letters or more."""
+    try:
+        lst = day_list(date_et, directory) if date_et else {}
+        if not lst or not html_text:
+            return html_text
+        out = html_text
+        for sym, (name, href) in lst.items():
+            pats = []
+            if len(name or "") >= 4:
+                pats.append(r"(?<![A-Za-z0-9])" + re.escape(_e(name)) + r"(?![A-Za-z0-9])")
+            if len(sym) >= 3:
+                pats.append(r"(?<![A-Za-z0-9$])" + re.escape(sym) + r"(?![A-Za-z0-9])")
+            if not pats:
+                continue
+            rx = re.compile("|".join(pats))
+            parts = re.split(r"(<[^>]+>)", out)
+            depth = 0
+            for i, part in enumerate(parts):
+                if part.startswith("<"):
+                    if re.match(r"<a[\s>]", part, re.I):
+                        depth += 1
+                    elif re.match(r"</a\s*>", part, re.I):
+                        depth = max(0, depth - 1)
+                    continue
+                m = None if depth else rx.search(part)
+                if m:
+                    parts[i] = (part[:m.start()] + f'<a class="bm-cite" href="{_e(href)}">{m.group(0)}</a>'
+                                + part[m.end():])
+                    break
+            out = "".join(parts)
+        return out
+    except Exception as ex:                                       # noqa: BLE001 fail open: the text as it was
+        print(f"::warning::movers: the Brief's citations were not drawn ({type(ex).__name__}: {ex})")
+        return html_text
 
 
 # ---- the /why/ pages ----------------------------------------------------------------------------------------

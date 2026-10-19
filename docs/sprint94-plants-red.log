@@ -84,3 +84,48 @@ PLANT 14c evidence (rerun after the second wire filter was removed from coin_can
       FAIL ETHFI: every candidate names the coin (a market-wide event is Bitcoin's card's)
 PLANT 15 canary: the fixture movers record kept from the canary's build (verify_pipeline.py): canary exit 1; restored: canary exit 0
       ::error::canary: sprint 9.4: /why/2026-10-16-celestia was not built with its card and its evidence
+
+REVIEW 1 PLANTS, started Mon Oct 19 2026, 6:10 PM EDT, each broken, run, restored, run again; fresh PYTHONPYCACHEPREFIX per run.
+PLANT R1-1 review 1, one list: an old 'Biggest gainers' card printed under Big movers (site_build.py): exit 1, 2 red; restored: exit 0
+      FAIL ONE LIST: /pulse/movers prints Big movers and no 'Biggest gainers' or 'Biggest losers' list
+      FAIL ONE LIST: with no current movers record the page says so, and still prints no old list
+PLANT R1-2 review 1, the Brief cites: cite() returns the text untouched (movers.py): exit 1, 4 red; restored: exit 0
+      FAIL THE BRIEF CITES: on the Edition's page, Celestia links to its verdict, once
+      FAIL THE BRIEF CITES: Injective and Pendle link to their verdicts; Arbitrum (not on the list) is not linked
+      FAIL THE BRIEF CITES: a coin on the list past the cap (no graded verdict) links to its coin page
+      FAIL THE BRIEF CITES: the Edition's front page cites the same way
+PLANT R1-3 review 1, crash day: Bitcoin's threshold raised to 10% (movers.py): exit 1, 2 red; restored: exit 0
+      FAIL CRASH DAY: SYNTHETIC (Bitcoin set to +9.0% on the real Board) the section says once that most coins moved with the market, with the count, and points at Bitcoin's verdict
+      FAIL CRASH DAY: the definition is held once, by the audit's numbers (Bitcoin or the market 5% in 24 hours, or 25 or more top-100 coins past 10%)
+PLANT R1-4 review 1, the cap: coins past the cap left off the list (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL PAST THE CAP: after 8 reads today, ZRO +20.59%, ETHFI +15.53% and PENDLE +11.20% are still listed, ungraded
+PLANT R1-5 review 1, the cap: listed() without the coins past the cap (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL PAST THE CAP: listed() carries the coins past the cap
+PLANT R1-6 review 1, Coinbase: its status feed not read (movers.py): exit 1, 2 red; restored: exit 0
+      FAIL the listing feeds read are named as read: Binance, OKX, KuCoin, Bitget, Kraken, Coinbase
+      FAIL COINBASE: its status feed (status.exchange.coinbase.com/history.rss) is read as a listing feed
+PLANT R1-7 review 1, Coinbase: a delayed send taken as a listing (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL COINBASE: 'Markets Open' is a listing, 'Trading Suspension' a delisting, a delayed send neither
+PLANT R1-8 review 1, direction: an event the other way no longer contradicts (verdict.py): exit 1, 5 red; restored: exit 0
+      FAIL listing on a move down: the readings contradict
+      FAIL delisting on a move up: the readings contradict
+      FAIL unlock on a move up: the readings contradict
+      FAIL hack on a move up: the readings contradict
+      FAIL SYNTHETIC TIA +30.6% with an unlock in time and no other cause: no Likely; the rulings give no grade, so no card (graded, Likely)
+PLANT R1-9 review 1, direction: a hack on a mover given no direction (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL hack on a move up: the readings contradict
+PLANT R1-10 review 1, words: an unlock 'reported' (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL WORDS: an unlock is 'scheduled', as CoinMarketCap lists it; a listing is 'announced'; neither is 'reported'
+PLANT R1-11 review 1, left out: one fixed reason for every coin (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL LEFT OUT: SYNTHETIC (a gap in TIA's closes, APT's closes removed) the list prints TIA's own reason (a gap) and APT's own (no stored closes), not one fixed sentence
+PLANT R1-12 review 1, Movers 101: 'because' restored (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL Movers 101 never says 'because' (only a Confirmed verdict may)
+PLANT R1-13 review 1, one rank: the source's rank printed (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL ONE RANK: Big movers prints TIA at #80, its place in the Board's Top 100, as /coins/tia does, with the source and the Board's stamp named
+PLANT R1-14 review 1, one rank: rows past the 100th place eligible (movers.py): exit 1, 2 red; restored: exit 0
+      FAIL SYNTHETIC (sixteen coins past the line): at most 8 a slot, the rest over the cap
+      FAIL SYNTHETIC (a 101st row with TIA's figures and a source rank of 60): outside the Board's 100 positions, never measured
+PLANT R1-15 review 1, the Brief cites: the memo keyed on file names only (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL THE BRIEF CITES: a coin on the list past the cap (no graded verdict) links to its coin page
+PLANT R1-16 review 1, the Bitcoin record's listing reason back to 'no single feed' (why_evidence.py): exit 1, 1 red; restored: exit 0
+      FAIL TRUE REASONS: Bitcoin's and Ether's records no longer say listing notices have no single feed
