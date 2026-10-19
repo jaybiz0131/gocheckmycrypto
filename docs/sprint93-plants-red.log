@@ -51,3 +51,53 @@ PLANT 14 because: a wire line that says because is quoted: exit 1, 1 red; restor
 
 PLANT 15 deadline: _Late made an Exception again (llm.py's retry loop swallows it): exit 1, 1 red; restored: exit 0
     FAIL the deadline mid-call fails open, makes no second attempt, and the ledger row is written
+
+Review 1 plants, Mon Oct 19 2026, 10:43 AM EDT
+PLANT R1 Likely again when a report states it and the readings are silent: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a report states it and the timing passes, but the readings are silent: Unclear, never Likely, and the line says a report named it
+PLANT R2 the Likely definition says 'silent' again: exit 1, 1 red; restored: exit 0
+      FAIL the printed definitions: Likely needs the readings to agree, and no definition says 'silent'
+PLANT R3 the card drops the readings behind the grade: exit 1, 2 red; restored: exit 0
+      FAIL the Likely card names the readings its grade rests on, with their own hour: the hour after the release, 8:30 to 9:30 AM ET, risk-off across assets
+      FAIL the card off the home lists those readings' figures (S&P 500 futures, 10-year yield)
+PLANT R4 the card repeats its own coin's hour figure: exit 1, 1 red; restored: exit 0
+      FAIL the card never prints its own coin's hour figure (the evidence list prints it)
+PLANT R5 the evidence note denies a cause whatever the grade: exit 1, 5 red; restored: exit 0
+      FAIL /today/ with a Confirmed card: no sentence denies causation
+      FAIL /coins/btc with a Confirmed card: no sentence denies causation
+      FAIL /today/ with a Likely card: no sentence denies causation
+      FAIL /coins/btc with a Likely card: no sentence denies causation
+      FAIL /why/2026-10-14-bitcoin (Likely): no sentence denies causation
+PLANT R6 /today/'s reported note denies a cause whatever the grade: exit 0, 0 red; restored: exit 0
+    (green under the plant: on the fixture page every reported item is in the evidence list, so the note
+    never printed. A case with a graded page and no evidence section was added; R6 rerun below.)
+PLANT R7 the coin page's wire note denies a cause whatever the grade: exit 1, 2 red; restored: exit 0
+      FAIL /coins/btc with a Confirmed card: no sentence denies causation
+      FAIL /coins/btc with a Likely card: no sentence denies causation
+PLANT R8 /why/ links /today/<day> whether or not it exists: exit 1, 1 red; restored: exit 0
+      FAIL (d) /why/ links /today/<day> only when that dated page exists
+PLANT R9 the Likely chip takes the verified green again: exit 1, 2 red; restored: exit 0
+      FAIL light: no grade chip token resolves to an up or down color (--verified-fg)
+      FAIL dark: no grade chip token resolves to an up or down color (--verified-fg)
+PLANT R10 the phrases drop the window: exit 1, 11 red; restored: exit 0
+      FAIL a record written before 9.3 (no readings of the hour after) grades on the onset hour only: 14 October then reads Unclear, an event in time with no report or reading behind it
+      FAIL Disputed: both sides, the reported cause and the timing against it
+      FAIL the belt itself refuses 'because' on a Likely draft, even one built from whole phrases
+      FAIL a draft that copies whole phrases and a check that lets every claim stand: the model's two sentences print
+      FAIL the draft went to claude-haiku-5-5 and the check to claude-sonnet-5-5
+      FAIL Ether moved with Bitcoin: no model call for it
+      FAIL one ledger row for the run, with its calls, tokens, dollars by stage and the cap
+      FAIL a second run the same day adds its own row and the day's total sums both
+      FAIL (a) Likely: every phrase with a direction word (fall, rise, fell, rose) names the 24-hour window
+      FAIL (a) Disputed: every phrase with a direction word (fall, rise, fell, rose) names the 24-hour window
+      FAIL (a) Confirmed: every phrase with a direction word (fall, rise, fell, rose) names the 24-hour window
+PLANT R11 a new record labels crypto only with no futures bar: exit 1, 1 red; restored: exit 0
+      FAIL (b) SYNTHETIC: a new record labels no 'crypto only' when the futures have no bar in the hour
+PLANT R12 the section prints a stored crypto only from a shut market: exit 1, 1 red; restored: exit 0
+      FAIL (b) 19 October: the section does not label 'crypto only' in an hour stock futures did not trade
+PLANT R13 _ref quotes a release line that carries a grade word: exit 1, 3 red; restored: exit 0
+      FAIL (c) a release line carrying 'because' or a grade word is not quoted
+      FAIL (c) a hack line carrying 'because' or a grade word is not quoted
+      FAIL (c) a press line carrying 'because' or a grade word is not quoted
+PLANT R6 /today/'s reported note denies a cause whatever the grade (replanted with the case that reaches the note): exit 1, 1 red; restored: exit 0
+      FAIL /today/ with a Likely card and no evidence section: the reported note prints and denies nothing

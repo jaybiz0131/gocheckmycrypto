@@ -496,12 +496,14 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
     moved = (f'<ul class="td-list">{"".join(core)}</ul>'
              + (f'<h3 class="td-h3">Biggest gains in the Top 100</h3><ul class="td-list">{lst(gain)}</ul>' if gain else "")
              + (f'<h3 class="td-h3">Biggest losses in the Top 100</h3><ul class="td-list">{lst(lose)}</ul>' if lose else ""))
+    # a graded verdict on this page: the evidence and the reported note say so, never deny a cause
+    graded = (((verdict or {}).get("coins") or {}).get("BTC") or {}).get("grade")
     ev_html, shown = "", set()
     if evidence:
         try:
             import why_evidence
             ev_html = why_evidence.section_html(evidence, "BTC", live=(here != "dated"),
-                                                corrections=rec.get("corrections"))
+                                                corrections=rec.get("corrections"), graded=graded)
             shown = why_evidence.wire_urls_shown(evidence) if ev_html else set()
         except Exception as e:                      # fail open: the page as it was
             print(f"::warning::today: the evidence was not drawn ({type(e).__name__}: {e})")
@@ -527,7 +529,9 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
     reported = (f'<ol class="td-reps">{rep}</ol>' if rep else
                 '<p class="td-w">No wire item reported today has cleared the desk yet.</p>')
     reported_sec = (f'<section class="td-sec"><h2>What was reported beside it</h2>{reported}\n'
-                    f'    <p class="td-w">These are separate reports. The desk does not say one caused the other.</p></section>'
+                    f'    <p class="td-w">These are separate reports. '
+                    + ("The verdict above says which, if any, lines up with the move." if graded else
+                       "The desk does not say one caused the other.") + '</p></section>'
                     if (rep or len(reported_left) == len(reported_all)) else "")
     board = "".join(_board_html(r) for r in rec.get("board") or [])
     arch = "".join(f'<li><a href="/today/{d}">{_e(long_date(_dt.date.fromisoformat(d)))}</a></li>'

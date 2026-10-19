@@ -7847,7 +7847,7 @@ def render_coin_chart(c, name, cid, spark):
             f'<p class="pc-note cc-cap" data-coin-cap>{note}</p></section>')
 
 
-def _coin_evidence(sym, pulse, evidence=None):
+def _coin_evidence(sym, pulse, evidence=None, graded=None):
     """PROGRAM 9, SPRINT 9.2: (section html, wire source URLs it prints) for Bitcoin and Ether,
     from the newest stored evidence record (why_evidence.py) when its window ends within 3 hours
     of the Board reading this page carries. ('', set()) otherwise: the page as it was."""
@@ -7858,7 +7858,7 @@ def _coin_evidence(sym, pulse, evidence=None):
         rec = evidence if evidence is not None else _we.latest()
         if not _we.from_snapshot_coin(rec, sym, (pulse or {}).get("generated_utc") or ""):
             return "", set()
-        html = _we.section_html(rec, sym, live=True)
+        html = _we.section_html(rec, sym, live=True, graded=graded)
         return (html, _we.wire_urls_shown(rec)) if html else ("", set())
     except Exception as e:                       # fail open
         print(f"::warning::coin page: the evidence for {sym} was not drawn ({type(e).__name__}: {e})")
@@ -7926,9 +7926,13 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
 
     # PROGRAM 9, SPRINT 9.2: "What lined up with the move" for Bitcoin and Ether. A wire item it
     # lists is not listed again in the blocks below it (one fact, printed once).
-    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence)
-    # PROGRAM 9, SPRINT 9.3: the verdict card above the evidence, for Bitcoin and Ether.
+    # PROGRAM 9, SPRINT 9.3: the verdict card above the evidence, for Bitcoin and Ether; when it carries a
+    # grade, the evidence's note says so instead of denying a cause.
     vd_html = _coin_verdict(sym, pulse, verdict)
+    _graded = None
+    if vd_html and sym in ("BTC", "ETH"):
+        _graded = (((_current_verdict(pulse, verdict) or {}).get("coins") or {}).get(sym) or {}).get("grade")
+    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, graded=_graded)
     if ev_urls and wire:
         wire = dict(wire, items=[w for w in (wire.get("items") or [])
                                  if not ({l.get("url") for l in (w.get("links") or [])} & ev_urls)])
@@ -7940,7 +7944,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
         gate = _coin_gate()
     why_html, why_hits = _cp.why_block(
         c, pos, wire, (pulse or {}).get("generated_utc") or "", esc, _wire_et,
-        move=_coin_move(c, name, stamp), gate=gate)
+        move=_coin_move(c, name, stamp), gate=gate, graded=_graded)
     hits = _cp.vet([w for w in _cp.wire_stories(c, wire) if w.get("id") not in {x.get("id") for x in why_hits}],
                    gate, name, "stories")
     wire_html = _cp.stories_html(hits, esc, _wire_et)

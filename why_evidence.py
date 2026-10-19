@@ -1207,10 +1207,12 @@ def mechanics(sym, run, series, others, cross, oi, liq, funding, beta, extra=Non
             pats.append({"label": "risk-off across assets" if d < 0 else "risk-on across assets",
                          "rule": f"crypto moved {CRYPTO_HOUR_MIN}% or more and stock futures "
                                  f"{STOCKS_WITH_MIN}% or more the same way in the onset hour"})
-        elif stocks_read and all(abs(s) <= STOCKS_QUIET_MAX for s in stocks):
+        elif stocks and all(abs(s) <= STOCKS_QUIET_MAX for s in stocks):
+            # Sprint 9.3, review 1: a stock market that did not trade is not a reading, so "crypto only"
+            # needs at least one futures bar in the hour (it was "within 0.1% or did not trade")
             pats.append({"label": "crypto only",
-                         "rule": f"crypto moved {CRYPTO_HOUR_MIN}% or more while stock futures stayed "
-                                 f"within {STOCKS_QUIET_MAX}% or did not trade"})
+                         "rule": f"crypto moved {CRYPTO_HOUR_MIN}% or more while stock futures traded and "
+                                 f"stayed within {STOCKS_QUIET_MAX}%"})
     venues = [r for r in (liq_row, gate) if r and not r.get("unread")]
     if oi_v is not None and venues:
         longs = sum(r["longs_usd"] or 0 for r in venues)
@@ -1560,7 +1562,7 @@ def _is_corrected(line, quoted):
     return bool(n) and any(n.startswith(q) or q.startswith(n) for q in quoted)
 
 
-def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None):
+def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None, graded=None):
     """The section for one coin, or '' (fail open) when the record has no series for it. `live`
     marks the window's stamp for the stale state (asof.js); a dated page passes False. Wire items
     the page already prints elsewhere are not passed here twice: the page drops them from its
@@ -1568,13 +1570,13 @@ def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None):
     page's own: a wire line one of them quotes is not printed (the record stays frozen; the
     correction applies when the page is drawn)."""
     try:
-        return _section(rec, sym, live, set(skip_wire_ids), corrected_lines(corrections))
+        return _section(rec, sym, live, set(skip_wire_ids), corrected_lines(corrections), graded)
     except Exception as e:                                       # noqa: BLE001
         print(f"::warning::why_evidence: the section for {sym} was not drawn ({type(e).__name__}: {e})")
         return ""
 
 
-def _section(rec, sym, live, skip, quoted=()):
+def _section(rec, sym, live, skip, quoted=(), graded=None):
     coin = ((rec or {}).get("coins") or {}).get(sym)
     if not coin or not (coin.get("series") or {}).get("points"):
         return ""
@@ -1675,10 +1677,18 @@ def _section(rec, sym, live, skip, quoted=()):
     if mrows and run:
         h0, h1 = run["start_t"], run["start_t"] + 3600
         pat = mech.get("patterns") or []
+        # a record written before 9.3 may label "crypto only" in an hour the futures did not trade; that is
+        # not a reading, so the page says what happened instead (the verdict card reads it the same way)
+        traded = any(r.get("key") in ("ES=F", "NQ=F") and r.get("value") is not None for r in mech.get("rows") or [])
+        shut = any(p.get("label") == "crypto only" for p in pat) and not traded
+        pat = [p for p in pat if not (shut and p.get("label") == "crypto only")]
         pat_html = ("".join(f'<p class="ev-pat">Pattern: <b>{_e(p["label"])}</b> ({_e(p["rule"])}).</p>'
                             for p in pat) if pat else
                     '<p class="ev-pat">Pattern: none of the four the desk names (risk-off or risk-on across '
                     'assets, crypto only, leverage flush, coin-specific) holds in this hour.</p>')
+        if shut:
+            pat_html += ('<p class="ev-pat">Stock futures did not trade in this hour, so the readings cannot tell '
+                         'a crypto move from a wider one.</p>')
         beta = (f'<p class="ev-m">{_e(name)}\'s 30-day beta to Bitcoin, from the stored daily closes: '
                 f'{mech["beta"]}.</p>' if mech.get("beta") is not None else "")
         mech_html = (f'<h3 class="td-h3">The hour the run began, {_e(day_clock(h0, w1))} to {_e(clock(h1))}</h3>'
@@ -1701,9 +1711,12 @@ def _section(rec, sym, live, skip, quoted=()):
             f'<figure class="ev-fig">{chart}<figcaption class="ev-m">Numbers on the chart match the list below. '
             f'Times are Eastern.</figcaption></figure>'
             f'{cand_html}{mech_html}'
-            f'<p class="pc-note">These events and readings sit beside the move in time. The desk measured '
-            f'when each came and what the price did around it; it does not say any of them moved the price.</p>'
-            f'{srcs_html}</section>')
+            + (f'<p class="pc-note">These events and readings sit beside the move in time. The verdict on this '
+               f'page grades them by fixed rules, the timing test and the market readings of the hour it names, '
+               f'and says which, if any, lines up with the move.</p>' if graded else
+               f'<p class="pc-note">These events and readings sit beside the move in time. The desk measured '
+               f'when each came and what the price did around it; it does not say any of them moved the price.</p>')
+            + f'{srcs_html}</section>')
 
 
 def wire_ids_shown(rec):

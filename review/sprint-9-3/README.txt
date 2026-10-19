@@ -31,3 +31,27 @@ Disputed hollow, Unclear none) and its chip's edge (Confirmed filled, Likely sol
 dashed, Unclear dotted).
 
 Every page measured scrollWidth equal to the viewport at 390 and 1440 (no horizontal scroll).
+
+RECAPTURED AFTER REVIEW 1, Monday October 19 2026, about 11:01 AM EDT, by the builder, all 28 files replaced
+under the same names, the same way: a throwaway copy of the branch tree, SITE_BUILD_NOW=2026-10-19T12:30:00Z,
+the same three records graded by verdict.record_from with no model call, headless Chromium (the global
+playwright, closed in a finally, U-7) on a local server, every other host aborted, the page clock fixed at
+2026-10-19T12:30:00Z, the fixed tab bar hidden. Each slice now runs from just above the card to the end of
+"What lined up with the move" when the page has that section (else to the block under the card), so the
+changed notes at the section's end show; 390 slices run 4,509 to 5,611 px tall. Every page measured no
+horizontal overflow at 390 and 1440.
+
+What changed on every page with a card, and why (the reviewer's four failures and four items):
+  - The grade chip is neutral: Confirmed and Likely take --ink (Confirmed on --tag-bg), never --verified-fg
+    or --verified-bg, which system.css sets to the up green. Disputed keeps the review tokens, Unclear the tag
+    tokens. Word, dot and edge are the designer's, unchanged.
+  - The card shows the readings its grade rests on, under a hairline, named with their own hour: "the hour
+    after it" with its figures (the hour after the release; the coin's own figure is left out because the
+    evidence list prints it), or "the hour the run began" with no figures (the section below prints them).
+  - The direction word names its window: "Bitcoin's fall over the 24 hours to 7:43 PM ET", "the 24-hour fall".
+  - The definitions: Likely needs the readings to agree; no definition says "silent".
+  - A page with a graded card no longer denies a cause: the evidence note, /today/'s reported note and the
+    coin page's wire note point at the verdict instead. Pages with no grade keep 9.2's words.
+  - 19 October: stock futures did not trade in the hour the run began, so the section no longer labels it
+    "crypto only"; it says the futures did not trade, as the card does.
+  - /why/2026-10-14-bitcoin no longer links /today/2026-10-14, which does not exist.

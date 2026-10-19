@@ -199,7 +199,7 @@ def grade_cases(fails):
                    "14 October then reads Unclear, an event in time with no report or reading behind it",
             lambda: (lambda r: [c.pop("event_hours", None) for c in r["coins"].values()]
                      and verdict.grade(r, "BTC")["grade"] == "Unclear"
-                     and "came in time with the fall" in verdict.grade(r, "BTC")["line"][0])(rec(D14())))
+                     and "came in time with the 24-hour fall" in verdict.grade(r, "BTC")["line"][0])(rec(D14())))
     g15 = verdict.grade(rec(D15()), "BTC")
     guarded(fails, "15 October, Bitcoin (real): Unclear, no reported event passes the timing test",
             lambda: g15["grade"] == "Unclear" and g15["line"][0] == "No reported event lines up with this move.")
@@ -271,7 +271,7 @@ def because_cases(fails):
     d = " ".join(by["Disputed"]["line"])
     guarded(fails, "Disputed: both sides, the reported cause and the timing against it",
             lambda: len(by["Disputed"]["line"]) == 2 and "reported a cause" in by["Disputed"]["line"][0]
-            and "moved against the rise" in by["Disputed"]["line"][1])
+            and "moved against the 24-hour rise" in by["Disputed"]["line"][1])
     for g, v in by.items():
         guarded(fails, f"{g}: nothing predicts and nothing advises",
                 lambda: not re.search(r"\b(will|expect\w*|forecast\w*|should|buy|sell)\b", " ".join(v["line"]), re.I))
@@ -553,11 +553,161 @@ def wiring_cases(fails):
             lambda: not re.search("[\u2013\u2014]", src) and not re.search(r"print\([^)]*API_KEY", src))
 
 
+# ---- 9. review 1: the four failures and the four items beside them -------------------------------------------
+
+DENY = re.compile(r"does not say (any|one)|not say (any|one) of them|did not (cause|move)|"
+                  r"no (event|report) (caused|moved)", re.I)
+
+
+def _no_event_hours(r):
+    for c in r["coins"].values():
+        c.pop("event_hours", None)
+    return r
+
+
+def _likely_silent():
+    """SYNTHETIC, from the real 14 October record: the CPI release's first report given back the wire's
+    own line (it states the cause, one outlet), and the record stripped of the readings of the hour
+    after, as a record written before 9.3: the timing passes, a report states it, the readings are
+    silent."""
+    r = _no_event_hours(rec(D14()))
+    c = next(x for x in r["candidates"] if x["line"].startswith("Consumer Price Index"))
+    wire = s92().load(f"wire_{D14()}.json")
+    c["report_line"] = next(w["line"] for w in wire["items"] if w["line"].startswith("U.S. inflation"))
+    return r
+
+
+def _css_tokens():
+    """{theme: {token: value}} as the browser resolves them: site.css first, system.css after it."""
+    out = {"light": {}, "dark": {}}
+    for f in ("site.css", "system.css"):
+        css = open(os.path.join(HERE, "site", "assets", f), encoding="utf-8").read()
+        css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+        for m in re.finditer(r"([^{}]*)\{([^{}]*)\}", css):
+            sel = m.group(1)
+            pre = css[:m.start()]
+            dark = pre.rfind("prefers-color-scheme:dark") > pre.rfind("}\n}") and "prefers-color-scheme:dark" in pre[-400:] \
+                or 'data-theme="dark"' in sel
+            if ":root" not in sel or 'data-theme="light"]' in sel and "not" not in sel:
+                continue
+            theme = "dark" if (dark or 'data-theme="dark"' in sel or ":not([data-theme=\"light\"])" in sel) else "light"
+            for k, v in re.findall(r"(--[\w-]+)\s*:\s*([^;]+)", m.group(2)):
+                out[theme][k] = v.strip()
+    for k, v in out["light"].items():
+        out["dark"].setdefault(k, v)
+    return out
+
+
+def review1_cases(fails):
+    import today
+    import verdict
+    print("9. review 1: Likely needs the readings; the readings shown; no page denies its own grade; neutral chips")
+    # 1. Likely only where the timing test and the readings agree (ruling 1)
+    v = verdict.grade(_likely_silent(), "BTC")
+    guarded(fails, "SYNTHETIC: a report states it and the timing passes, but the readings are silent: Unclear, "
+                   "never Likely, and the line says a report named it",
+            lambda: v["grade"] == "Unclear" and "reported it as the cause" in v["line"][0]
+            and "the market readings do not show it" in v["line"][0])
+    guarded(fails, "the printed definitions: Likely needs the readings to agree, and no definition says 'silent'",
+            lambda: "agree" in verdict.DEFINITIONS["Likely"]
+            and not any("silent" in d for d in verdict.DEFINITIONS.values()))
+    for day in (D14(), D15()):
+        for sym in ("BTC", "ETH"):
+            g = verdict.grade(rec(day), sym)
+            guarded(fails, f"{day[:10]} {sym}: a Likely or Confirmed grade always has readings that agree",
+                    lambda: g["grade"] not in ("Likely", "Confirmed") or g["cand"]["readings"] == "agree")
+    # 2. the readings behind the grade are on the page, labeled with their own hour
+    v14 = verdict.record_from(rec(D14()), "2026-10-14", "evening")
+    card = verdict.card_html(v14, "BTC", where="page")
+    guarded(fails, "the Likely card names the readings its grade rests on, with their own hour: the hour after the "
+                   "release, 8:30 to 9:30 AM ET, risk-off across assets",
+            lambda: "the hour after it, 8:30 AM ET to 9:30 AM ET" in visible(card)
+            and "risk-off across assets" in visible(card))
+    guarded(fails, "the card off the home lists those readings' figures (S&P 500 futures, 10-year yield)",
+            lambda: "S&P 500 futures" in visible(card) and "10-year Treasury yield" in visible(card))
+    guarded(fails, "the card never prints its own coin's hour figure (the evidence list prints it)",
+            lambda: "Bitcoin" not in re.sub(r"<[^>]+>", " ", (re.search(r'<ul class="vd-rows">.*?</ul>', card, re.S)
+                                                             or re.match("", "")).group(0)))
+    r19 = json.load(open(os.path.join(HERE, "site", "data", "why", "2026-10-19-morning.json"), encoding="utf-8"))
+    c19 = verdict.card_html(verdict.record_from(r19, "2026-10-19", "morning"), "BTC", where="today")
+    guarded(fails, "a grade read on the onset hour names that hour and lists no rows (the evidence section prints "
+                   "them under 'The hour the run began'; one fact, printed once)",
+            lambda: "the hour the run began, 4:20 PM ET to 5:20 PM ET" in visible(c19) and "vd-rows" not in c19)
+    # 3. no page with a graded verdict denies causation; an ungraded page keeps its disclaimer
+    d15 = today_rec("2026-10-15-evening")
+    for name, vv in (("Confirmed", verdict.record_from(synthetic_confirmed(), "2026-10-15", "evening")),
+                     ("Likely", v14)):
+        page = today.body_html(d15, [], "dated", evidence=rec(D15()), verdict=vv)
+        guarded(fails, f"/today/ with a {name} card: no sentence denies causation",
+                lambda: "Checked:" in visible(page) and not DENY.search(visible(page)))
+        coin = _coin_html("BTC", rec(D15()), dict(vv, window=rec(D15())["window"]))
+        guarded(fails, f"/coins/btc with a {name} card: no sentence denies causation",
+                lambda: "Checked:" in visible(coin) and not DENY.search(visible(coin)))
+    nev = today.body_html(d15, [], "dated", verdict=v14)
+    guarded(fails, "/today/ with a Likely card and no evidence section: the reported note prints and denies nothing",
+            lambda: "These are separate reports." in visible(nev) and not DENY.search(visible(nev)))
+    plain = today.body_html(d15, [], "dated", evidence=rec(D15()))
+    guarded(fails, "/today/ with no verdict keeps the evidence's disclaimer as 9.2 wrote it",
+            lambda: "it does not say any of them moved the price" in visible(plain))
+    with tempfile.TemporaryDirectory() as td:
+        vd, wd = os.path.join(td, "verdict"), os.path.join(td, "why")
+        os.makedirs(vd)
+        os.makedirs(wd)
+        json.dump(v14, open(os.path.join(vd, "2026-10-14-evening.json"), "w"))
+        json.dump(rec(D14()), open(os.path.join(wd, "2026-10-14-evening.json"), "w"))
+        built = verdict.build_pages(vd, wd, tdir=os.path.join(td, "none"))
+        p14 = built[0]["html"] if built else ""
+        guarded(fails, "/why/2026-10-14-bitcoin (Likely): no sentence denies causation",
+                lambda: p14 and not DENY.search(visible(p14)))
+        guarded(fails, "(d) /why/ links /today/<day> only when that dated page exists",
+                lambda: p14 and 'href="/today/2026-10-14"' not in p14)
+        json.dump({"date_et": "2026-10-14", "slot": "evening", "corrections": []},
+                  open(os.path.join(td, "2026-10-14-evening.json"), "w"))
+        built = verdict.build_pages(vd, wd, tdir=td)
+        guarded(fails, "(d) and links it when the day's record exists",
+                lambda: built and 'href="/today/2026-10-14"' in built[0]["html"])
+    # 4. the grade chips are neutral: no chip color equals the up or down tokens, in either theme
+    tok = _css_tokens()
+    css = re.sub(r"/\*.*?\*/", "", open(os.path.join(HERE, "site", "assets", "site.css"), encoding="utf-8").read(),
+                 flags=re.S)
+    chip = [m.group(2) for m in re.finditer(r"([^{}]*vd-badge[^{}]*)\{([^{}]*)\}", css)]
+    used = set(re.findall(r"var\((--[\w-]+)\)", " ".join(chip)))
+    for theme in ("light", "dark"):
+        t = tok[theme]
+        bad = {t.get(k, "").lower() for k in ("--up", "--down", "--up-line", "--down-line", "--up-tint", "--down-tint")}
+        hits = sorted(k for k in used if t.get(k, "?").lower() in bad)
+        guarded(fails, f"{theme}: no grade chip token resolves to an up or down color ({', '.join(hits) or 'none'})",
+                lambda: used and not hits and not re.search(r"#[0-9a-fA-F]{3,6}", " ".join(chip)))
+    # (a) the card names its window wherever its direction word appears
+    for nm, r in (("Likely", rec(D14())), ("Disputed", s92().rec_bare(D15())), ("Confirmed", synthetic_confirmed())):
+        g = verdict.grade(r, "BTC")
+        guarded(fails, f"(a) {nm}: every phrase with a direction word (fall, rise, fell, rose) names the 24-hour window",
+                lambda: all(re.search(r"24 hours|24-hour", p) for p in g["phrases"]
+                            if re.search(r"\b(fall|rise|fell|rose)\b", p)))
+    # (b) the section and the card agree when stock futures did not trade (19 October, real record)
+    import why_evidence as we
+    r19 = json.load(open(os.path.join(HERE, "site", "data", "why", "2026-10-19-morning.json"), encoding="utf-8"))
+    sec = we.section_html(r19, "BTC", live=False)
+    guarded(fails, "(b) 19 October: the section does not label 'crypto only' in an hour stock futures did not trade",
+            lambda: "Pattern: crypto only" not in visible(sec) and "did not trade" in visible(sec))
+    shut = we.mechanics("BTC", {"dir": "down", "start_t": 1000000, "start_p": 1, "end_t": 1003600, "end_p": 1},
+                        [(1000000, 100.0), (1003600, 98.0)], {}, {"ES=F": {"points": []}, "NQ=F": {"points": []}},
+                        None, None, None, None)
+    guarded(fails, "(b) SYNTHETIC: a new record labels no 'crypto only' when the futures have no bar in the hour",
+            lambda: not any(p["label"] == "crypto only" for p in shut["patterns"]))
+    # (c) a release or hack line with 'because' or a grade word is never quoted
+    for kind in ("release", "hack", "press", "wire"):
+        c = {"kind": kind, "line": "Likely rally because rates fell", "links": [{"outlet": "BLS"}]}
+        guarded(fails, f"(c) a {kind} line carrying 'because' or a grade word is not quoted",
+                lambda: not re.search(r"because|Likely", verdict._ref(c, 1792000000, 1792000000)))
+
+
 def unit():
     fails = []
     for name, fn in (("grades", grade_cases), ("timing", timing_cases), ("because", because_cases),
                      ("model", model_cases), ("spend", spend_cases), ("no grade", no_grade_cases),
-                     ("pages", page_cases), ("wiring", wiring_cases)):
+                     ("pages", page_cases), ("wiring", wiring_cases),
+                     ("review 1", review1_cases)):
         group(fails, name, fn)
     return fails
 

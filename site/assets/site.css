@@ -1990,8 +1990,9 @@ header.masthead{position:relative;z-index:300}
    and `.page h2` sizes cannot reach inside it, and the card measures the same on every page.
    The grade is the site's chip (mono caps, the dot) and is told apart without color three ways:
    its word, its dot (full, half, hollow, none) and its edge (filled, solid, dashed, dotted).
-   Grade chips take the badge tokens, never the up and down colors, so a grade never reads as a
-   direction. */
+   Grade chips take neutral tokens (ink, the tag tokens, the review tokens), never the up and down
+   colors nor the verified tokens, which system.css sets to the up green: a grade never reads as a
+   direction (Jack, October 12: never green beside a line that says Bitcoin is down). */
 body aside.vd{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;
   padding:16px 18px 14px;margin:20px 0 8px;max-width:760px;min-width:0;overflow-wrap:anywhere}
 body.h-home aside.vd{margin:12px 0 14px;box-shadow:var(--glow-shadow)}
@@ -2007,9 +2008,9 @@ body aside.vd .vd-badge{display:inline-flex;align-items:center;gap:7px;font-fami
 body aside.vd .vd-badge b{font-weight:700}
 body aside.vd .vd-badge::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;
   box-sizing:border-box;border:1.5px solid currentColor;background:transparent}
-body aside.vd .vd-badge.vd-confirmed{background:var(--verified-bg);color:var(--verified-fg);border-color:var(--verified-fg)}
+body aside.vd .vd-badge.vd-confirmed{background:var(--tag-bg);color:var(--ink);border-color:var(--ink)}
 body aside.vd .vd-badge.vd-confirmed::before{background:currentColor}
-body aside.vd .vd-badge.vd-likely{color:var(--verified-fg);border-color:var(--verified-fg)}
+body aside.vd .vd-badge.vd-likely{color:var(--ink);border-color:var(--ink)}
 body aside.vd .vd-badge.vd-likely::before{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
 body aside.vd .vd-badge.vd-disputed{background:var(--review-bg);color:var(--review-fg);border-color:var(--review-fg);
   border-style:dashed}
@@ -2026,5 +2027,17 @@ body aside.vd p.vd-more{border-top:1px solid var(--line);margin:12px 0 0;padding
   font-size:12px;line-height:1.4;font-weight:600}
 body aside.vd p.vd-more a{color:var(--link);display:inline-block;min-height:24px;line-height:24px}
 @media (min-width:700px){body aside.vd{padding:18px 22px 16px}body aside.vd h2.vd-h{font-size:22px}}
+/* the readings behind the grade (review 1): the hour named, its figures, its pattern */
+body aside.vd .vd-read{border-top:1px solid var(--line);margin:12px 0 0;padding-top:10px}
+body aside.vd p.vd-rh{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--muted);margin:0 0 6px}
+body aside.vd ul.vd-rows{list-style:none;margin:0 0 6px;padding:0;display:grid;grid-template-columns:1fr;gap:2px 18px}
+@media (min-width:700px){body aside.vd ul.vd-rows{grid-template-columns:1fr 1fr}}
+body aside.vd ul.vd-rows li{display:flex;justify-content:space-between;gap:10px;font-size:13px;line-height:1.5;
+  padding:3px 0;border-bottom:1px solid var(--line)}
+body aside.vd .vd-rn{color:var(--ink);min-width:0}
+body aside.vd ul.vd-rows .chg{font-family:var(--mono);font-weight:700;white-space:nowrap}
+body aside.vd ul.vd-rows .chg.up{color:var(--up)}
+body aside.vd ul.vd-rows .chg.down{color:var(--down)}
+body aside.vd p.vd-rp{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--ink);margin:0}
 /* the verdict page: an earlier slot's head sits close above its own card */
 body .vd-page .td-h3+aside.vd{margin-top:6px}

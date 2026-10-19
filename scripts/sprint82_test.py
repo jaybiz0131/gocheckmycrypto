@@ -232,6 +232,10 @@ def render(sym, wire=None, pulse=None, by=None, gate=None):
     gate = gate or twins_gate.Gate(coin_snap(), log_path="", quiet=True)
     import inspect
     kw = {"gate": gate} if "gate" in inspect.signature(sb.render_coin_page).parameters else {}
+    # Sprint 9.3: these cases are the page with no verdict, whatever verdict records are on disk (a graded
+    # verdict changes the no-causation note, which sprint93_test guards)
+    if "verdict" in inspect.signature(sb.render_coin_page).parameters:
+        kw["verdict"] = {}
     return sb.render_coin_page(c, pos, pulse, [], "THURSDAY, OCTOBER 15, 2026", wire=wire, cm={},
                                today=dt.date(2026, 10, 15), **kw)
 

@@ -75,10 +75,10 @@ RANK = {"Confirmed": 0, "Disputed": 1, "Likely": 2, "Unclear": 3}
 DEFINITIONS = {
     "Confirmed": "A primary source or two outlets state the cause, the timing test passes, and the market "
                  "readings agree.",
-    "Likely": "The timing test passes and the market readings agree, or a report states the cause and the "
-              "timing passes while the readings are silent.",
+    "Likely": "The timing test passes and the market readings agree, with no primary source or second "
+              "outlet stating the cause.",
     "Disputed": "A reported cause fails the timing test, or the market readings contradict it.",
-    "Unclear": "No reported event passes the timing test with a report or the market readings behind it.",
+    "Unclear": "No reported event passes the timing test with the market readings agreeing.",
 }
 NAMES = {"BTC": ("Bitcoin", "bitcoin"), "ETH": ("Ether", "ether")}
 NO_EVENT = "No reported event lines up with this move."
@@ -211,22 +211,22 @@ def _words(direction):
 
 
 def _ref(c, t, w1):
-    """The candidate as a noun phrase with its time, from its own line."""
+    """The candidate as a noun phrase with its time, from its own line. A line that says "because" or
+    carries a grade word is never quoted, whatever its kind (9.2's rule for its section): the verdict's
+    own grade decides those words."""
     we = _we()
     line = " ".join(str(c.get("line") or "").split()).rstrip(".")
     when = we.day_clock(t, w1) if t is not None else "an unknown time"
     k = c.get("kind")
+    outlet = next((l.get("outlet") for l in c.get("links") or [] if l.get("outlet")), "the wire")
+    if BECAUSE.search(line) or GRADE_WORDS.search(line):
+        return f"an event reported by {outlet} at {when}" if k != "wire" else f"a report from {outlet} at {when}"
     if k == "release":
         return f"the {line}, released at {when}"
-    if k == "press" and not (BECAUSE.search(line) or GRADE_WORDS.search(line)):
+    if k == "press":
         return f'"{line}", published at {when}'
     if k == "hack":
         return f"the {line}, at {when}"
-    outlet = next((l.get("outlet") for l in c.get("links") or [] if l.get("outlet")), "the wire")
-    if BECAUSE.search(line) or GRADE_WORDS.search(line):
-        # a line that says "because" or carries a grade word is never quoted in the verdict (9.2's rule
-        # for its section): the verdict's own grade decides those words, never a quoted line
-        return f"a report from {outlet} at {when}"
     return f'the report "{line}" ({outlet}, {when})'
 
 
@@ -314,6 +314,10 @@ def grade(rec, sym):
     wend = _parse((rec.get("window") or {}).get("end_utc"))
     w1 = int(wend.timestamp()) if wend else coin["series"]["points"][-1][0]
     fall, fell = _words(run["dir"])
+    # THE WINDOW IS NAMED WHEREVER A DIRECTION WORD IS (review 1): the card's move is the evidence
+    # window's, the 24 hours to the Board reading, which can differ from a page's own headline window
+    win = f"over the 24 hours to {we.clock(w1)}"
+    fall24 = f"24-hour {fall}"
     out.update(kind="graded", dir=run["dir"])
     tests = {t["id"]: t for t in coin.get("tests") or []}
     graded = []
@@ -329,13 +333,14 @@ def grade(rec, sym):
         fit, labels, hour = mech_fit(c, coin, t)
         measured = bool(r and r.get("in_window") and r.get("share_pct") is not None)
         g = None
+        # Likely and Confirmed only where the timing test AND the readings agree (ruling 1). A report
+        # stating it with the readings silent is not Likely: it reads Unclear, and its line says a
+        # report named it.
         if st and path and fit == "agree" and (prim or n >= 2):
             g = "Confirmed"
         elif st and measured and (not path or fit == "contradict"):
             g = "Disputed"
         elif path and fit == "agree":
-            g = "Likely"
-        elif st and path and fit == "silent":
             g = "Likely"
         elif path:
             g = "timing"
@@ -347,25 +352,34 @@ def grade(rec, sym):
         best = min(real, key=lambda x: (RANK[x["g"]], -(x["r"].get("share_pct") or 0), x["t"] or 0))
     else:
         best = next(iter(sorted([x for x in graded if x["g"] == "timing"],
-                                key=lambda x: (-(x["r"].get("share_pct") or 0), x["t"] or 0))), None)
+                                key=lambda x: (not x["stated"], -(x["r"].get("share_pct") or 0), x["t"] or 0))), None)
     mech = _mech_phrase(coin)
     if best is None or best["g"] == "timing":
         out["grade"] = "Unclear"
+        out["readings"] = _readings(coin, None, None, sym)
         if best is None:
             out["phrases"] = [NO_EVENT, mech]
             out["reasons"] = ["no candidate passes the timing test"]
         else:
             ref = _ref(best["c"], best["t"], w1)
-            out["phrases"] = [f"{_cap(ref)} came in time with the {fall}, but no report names it as the cause "
-                              f"and the market readings do not show it.", mech]
-            out["reasons"] = ["a candidate passes the timing test, with no report stating it and no reading "
-                              "behind it"]
+            if best["stated"]:
+                out["phrases"] = [f"{_cap(ref)} came in time with the {fall24}, and "
+                                  f"{_outlets(best['outlets'] or 1).lower()} reported it as the cause, but the "
+                                  f"market readings do not show it.", mech]
+                out["reasons"] = ["a candidate passes the timing test and a report states it, but the readings "
+                                  "do not agree"]
+            else:
+                out["phrases"] = [f"{_cap(ref)} came in time with the {fall24}, but no report names it as the "
+                                  f"cause and the market readings do not show it.", mech]
+                out["reasons"] = ["a candidate passes the timing test, with no report stating it and no reading "
+                                  "behind it"]
             out["cand"] = _cand(best)
         out["line"] = list(out["phrases"])
         out["required"] = [0]
         return out
     c, r, t, ref = best["c"], best["r"], best["t"], _ref(best["c"], best["t"], w1)
     out["grade"], out["cand"] = best["g"], _cand(best)
+    out["readings"] = _readings(coin, c, t, sym)
     support = []
     if best["stated"]:
         support.append("A primary source states it as the cause." if best["primary"]
@@ -373,14 +387,15 @@ def grade(rec, sym):
     if best["fit"] == "agree":
         support.append(_mech_phrase(coin, best["labels"], best["hour"]))
     if best["g"] == "Confirmed":
-        out["phrases"] = [f"{name} {fell} because of {ref}.", _timing_phrase(best["path"], r, c, fall)] + support
+        out["phrases"] = [f"{name} {fell} {win} because of {ref}.",
+                          _timing_phrase(best["path"], r, c, fall24)] + support
         out["reasons"] = ["a source states it", "the timing test passes", "the readings agree"]
     elif best["g"] == "Likely":
-        out["phrases"] = [f"{name}'s {fall} lines up with {ref}.", _timing_phrase(best["path"], r, c, fall)] + support
-        out["reasons"] = ["the timing test passes"] + (["the readings agree"] if best["fit"] == "agree"
-                                                       else ["a report states it; the readings are silent"])
+        out["phrases"] = [f"{name}'s {fall} {win} lines up with {ref}.",
+                          _timing_phrase(best["path"], r, c, fall24)] + support
+        out["reasons"] = ["the timing test passes", "the readings agree"]
     else:
-        side = (_against_phrase(r, name, fall) if not best["path"] else
+        side = (_against_phrase(r, name, fall24) if not best["path"] else
                 _mech_phrase(coin, best["labels"], best["hour"])[:-1] + ", which does not fit it.")
         out["phrases"] = [_reported_phrase(c, best["outlets"], ref), side]
         if mech not in side:
@@ -390,6 +405,24 @@ def grade(rec, sym):
     out["line"] = out["phrases"][:2]
     out["required"] = [0, 1] if best["g"] == "Disputed" else [0]
     return out
+
+
+def _readings(coin, c, t, sym):
+    """The readings the grade rests on, for the card: the hour after the candidate when the record
+    stores it, else the hour the run began. {hour, start_utc, end_utc, rows, patterns, shut}. The
+    coin's own row is left out: the evidence list prints its hour figure."""
+    after = ((coin.get("event_hours") or {}).get((c or {}).get("id")) or {}) if c else {}
+    if after.get("rows"):
+        m, hour = after, "after"
+    else:
+        m, hour = coin.get("mechanics") or {}, "onset"
+    if not m.get("hour_start_utc"):
+        return None
+    labels, shut = _labels(m.get("patterns"), m.get("rows"))
+    rows = [r for r in m.get("rows") or [] if r.get("key") != sym
+            and r.get("unit") in ("pct", "bp") and not str(r.get("key")).startswith(("liq", "kalshi", "oi"))]
+    return {"hour": hour, "start_utc": m.get("hour_start_utc"), "end_utc": m.get("hour_end_utc"),
+            "rows": rows, "patterns": labels, "shut": shut}
 
 
 def _cand(x):
@@ -741,7 +774,8 @@ def _card(vrec, sym, where, live, corrections, link):
         text = " ".join(v.get("text") or v.get("line") or [])
         body = (f'<p class="vd-grade"><span class="vd-badge vd-{cls}">Checked: <b>{_e(g)}</b></span> '
                 f'<span class="vd-def">{_e(DEFINITIONS[g])}</span></p>'
-                + (f'<p class="vd-line">{_e(text)}</p>' if text else ""))
+                + (f'<p class="vd-line">{_e(text)}</p>' if text else "")
+                + _readings_html(v.get("readings"), text, rows=(where != "home")))
     corr, seen = "", set()
     for c in list(v.get("corrections") or []) + list(corrections or []):
         t = str((c or {}).get("text") or "").strip()
@@ -753,6 +787,37 @@ def _card(vrec, sym, where, live, corrections, link):
         more = f'<p class="vd-more"><a href="{_e(v["url"])}">The verdict and its evidence</a></p>'
     return (f'<aside class="vd vd-{cls}" data-vd="{_e(sym)}" aria-label="Why {_e(name)} moved">'
             f'<h2 class="vd-h">Why {_e(name)} moved</h2>{win}{body}{corr}{more}</aside>')
+
+
+def _readings_html(rd, text, rows=True):
+    """THE READINGS BEHIND THE GRADE (review 1; AUDIT.md 3.1: the page shows the reader the test). The
+    hour the grade read, named with its own times, its figures (off the home), and its pattern unless
+    the card's sentences already say it. The coin's own hour figure is not repeated here."""
+    if not rd or not rd.get("start_utc"):
+        return ""
+    we = _we()
+    a, b = _parse(rd["start_utc"]), _parse(rd.get("end_utc"))
+    if a is None or b is None:
+        return ""
+    label = "the hour after it" if rd.get("hour") == "after" else "the hour the run began"
+    out = (f'<p class="vd-rh">The readings behind this grade: {_e(label)}, '
+           f'{_e(we.clock(int(a.timestamp())))} to {_e(we.clock(int(b.timestamp())))}.</p>')
+    if rows and rd.get("hour") == "after" and rd.get("rows"):
+        out += '<ul class="vd-rows">' + "".join(
+            f'<li><span class="vd-rn">{_e(r["label"])}</span>{we._chg(r.get("value"), r.get("unit") or "pct")}</li>'
+            for r in rd["rows"]) + "</ul>"
+    pats = rd.get("patterns") or []
+    if pats:
+        said = " and ".join(pats)
+        if said not in (text or ""):
+            out += f'<p class="vd-rp">Pattern: {_e(said)}.</p>'
+    elif rd.get("shut"):
+        if "did not trade" not in (text or ""):
+            out += ('<p class="vd-rp">Stock futures did not trade in this hour, so the readings cannot tell a '
+                    'crypto move from a wider one.</p>')
+    elif "none of the four" not in (text or ""):
+        out += '<p class="vd-rp">Pattern: none of the four the desk names.</p>'
+    return f'<div class="vd-read">{out}</div>'
 
 
 # ---- the verdict pages: /why/<date>-<coin> ---------------------------------------------------------------------
@@ -809,17 +874,24 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline):
         head = ("" if r is lead else f'<h2 class="td-h3">Earlier, the {_e(label.lower())}</h2>')
         blocks.append(head + card)
     ev = we.load(day, lead.get("slot"), wdir)
-    ev_html = we.section_html(ev, sym, live=False, corrections=_today_corrections(day, lead.get("slot"), tdir)) if ev else ""
+    ev_html = (we.section_html(ev, sym, live=False, corrections=_today_corrections(day, lead.get("slot"), tdir),
+                               graded=lead["coins"][sym].get("grade")) if ev else "")
     v = lead["coins"][sym]
     pub = lead.get("made_utc") or ""
     stamp = SLOT_LABEL.get(lead.get("slot"), "")
+    # the dated /today/ page exists only when a daily-answer record for the day does (review 1, d)
+    tdd = tdir or os.path.join(HERE, "site", "data", "today")
+    today_link = ""
+    if any(os.path.exists(os.path.join(tdd, f"{day}-{sl}.json")) for sl in ("morning", "evening")):
+        today_link = (f'<p class="td-w">The day\'s answer, with what moved and what was reported, is at '
+                      f'<a href="/today/{_e(day)}">/today/{_e(day)}</a>.</p>')
     body = f"""<main class="wrap"><section class="page td-page vd-page">
   <span class="kicker">Why it moved</span>
   <h1>{_e(title)}</h1>
   <p class="td-stamp">{_e(stamp)}</p>
   {"".join(blocks)}
   {ev_html}
-  <p class="td-w">The day's answer, with what moved and what was reported, is at <a href="/today/{_e(day)}">/today/{_e(day)}</a>.</p>
+  {today_link}
 </section></main>"""
     path = f"/why/{slug(day, sym)}.html"
     canon = sb.ORIGIN + url(day, sym)

@@ -368,7 +368,7 @@ def why_items(c, pos, wire, stamp_utc, hours=WHY_HOURS):
     return out
 
 
-def why_block(c, pos, wire, stamp_utc, esc, stamp_et, move="", gate=None):
+def why_block(c, pos, wire, stamp_utc, esc, stamp_et, move="", gate=None, graded=None):
     """(html, items): the "Why <coin> moved today" block and the items it shows. Nothing ('', [])
     when no item names the coin. Every sentence the block prints from the desk's own hand goes
     through the twins gate: the move line from the Board and each wire line. The block's own voice
@@ -384,8 +384,12 @@ def why_block(c, pos, wire, stamp_utc, esc, stamp_et, move="", gate=None):
     html = (f'<section class="cn-why" aria-label="Why {esc(name)} moved today">'
             f'<h2 class="cn-h">Why {esc(name)} moved today</h2>{mv}'
             f'{stories_html(items, esc, stamp_et)}'
-            f'<p class="pc-note">These reports name {esc(name)}. The desk does not say any of them '
-            f'moved its price. Wire lines are the desk\'s one-line summaries of what outlets '
+            f'<p class="pc-note">These reports name {esc(name)}. '
+            # Sprint 9.3, review 1: with a graded verdict on the page, the note points at it instead of
+            # denying a cause the verdict may state
+            + ("The verdict above grades what lines up with the move. " if graded else
+               "The desk does not say any of them moved its price. ")
+            + 'Wire lines are the desk\'s one-line summaries of what outlets '
             f'reported, with the sources counted and linked.</p></section>')
     return html, items
 
