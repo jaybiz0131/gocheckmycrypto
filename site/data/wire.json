@@ -3,60 +3,11 @@
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
  "ranked_utc": "2026-10-18T23:12:03Z",
  "ranked_et": "7:12 PM ET on Oct 18",
- "refreshed_utc": "2026-10-18T23:12:03Z",
- "refreshed_et": "7:12 PM ET on Oct 18",
- "refreshes": 0,
+ "refreshed_utc": "2026-10-19T12:17:57Z",
+ "refreshed_et": "8:17 AM ET on Oct 19",
+ "refreshes": 1,
  "snapshot_stamp_utc": "2026-10-18T23:11:43Z",
  "items": [
-  {
-   "rank": 1,
-   "id": "c012",
-   "line": "Turkish police arrested Hex founder Richard Heart and seized $7.15M cash, six cold wallets, and weapons across 15 addresses.",
-   "titles": [
-    "Turkey confirms Hex founder Richard Heart\u2019s arrest, says police seized $7.15 million and six cold wallets"
-   ],
-   "board_reading": "",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/regulation/2026-10-17-turkey-confirms-hex-founder-richard-hearts-arrest-says-police-seized-7-15-million-and-six-cold-wallets-418852",
-     "outlet": "The Block",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-17T18:14:43Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
-  {
-   "rank": 3,
-   "id": "c010",
-   "line": "Cysic halted its bridge after attacker minted 10M CYS tokens and moved $727K across Mayan, deBridge, and SWFT to Ethereum.",
-   "titles": [
-    "Cysic suspends bridge after attacker mints tokens and moves $727,000 to Ethereum"
-   ],
-   "board_reading": "Ether price",
-   "source_count": 2,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://www.theblock.co/news/defi/2026-10-18-cysic-suspends-bridge-after-attacker-mints-tokens-and-moves-727000-to-ethereum-418863",
-     "outlet": "The Block",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/news/hacks/cysic-halts-bridge-after-unauthorized-mint-of-10-million-cys",
-     "outlet": "thedefiant.io",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-18T16:07:43Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
-   "mark": "wire"
-  },
   {
    "rank": 4,
    "id": "c056",
@@ -66,7 +17,7 @@
     "Qubic halts mainnet after wallet drain empties 1,404 accounts"
    ],
    "board_reading": "",
-   "source_count": 2,
+   "source_count": 4,
    "primary": false,
    "standing": "corroborated",
    "links": [
@@ -79,11 +30,90 @@
      "url": "https://cryptobriefing.com/qubic-halts-mainnet-wallet-drain/",
      "outlet": "Crypto Briefing",
      "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/news/hacks/cysic-halts-bridge-after-unauthorized-mint-of-10-million-cys",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/cysic-crypto-bridge-halted-after-unauthorized-mint-of-10m-cys?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/qubic-freezes-chain-after-attacker-drains-14k-wallets-with-weak-seeds?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    },
+    {
+     "url": "https://beincrypto.com/qubic-price-wallet-drain-network-halt/",
+     "outlet": "BeInCrypto",
+     "primary": false
     }
    ],
    "reported_utc": "2026-10-18T15:09:55Z",
    "verdict": "VERIFIED",
    "mark": "checked"
+  },
+  {
+   "rank": 3,
+   "id": "c010",
+   "line": "Cysic halted its bridge after attacker minted 10M CYS tokens and moved $727K across Mayan, deBridge, and SWFT to Ethereum.",
+   "titles": [
+    "Cysic suspends bridge after attacker mints tokens and moves $727,000 to Ethereum"
+   ],
+   "board_reading": "Ether price",
+   "source_count": 3,
+   "primary": false,
+   "standing": "corroborated",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/defi/2026-10-18-cysic-suspends-bridge-after-attacker-mints-tokens-and-moves-727000-to-ethereum-418863",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://thedefiant.io/news/hacks/cysic-halts-bridge-after-unauthorized-mint-of-10-million-cys",
+     "outlet": "thedefiant.io",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/news/cysic-crypto-bridge-halted-after-unauthorized-mint-of-10m-cys?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-18T16:07:43Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
+  },
+  {
+   "rank": 1,
+   "id": "c012",
+   "line": "Turkish police arrested Hex founder Richard Heart and seized $7.15M cash, six cold wallets, and weapons across 15 addresses.",
+   "titles": [
+    "Turkey confirms Hex founder Richard Heart\u2019s arrest, says police seized $7.15 million and six cold wallets"
+   ],
+   "board_reading": "",
+   "source_count": 2,
+   "primary": false,
+   "standing": "single",
+   "links": [
+    {
+     "url": "https://www.theblock.co/news/regulation/2026-10-17-turkey-confirms-hex-founder-richard-hearts-arrest-says-police-seized-7-15-million-and-six-cold-wallets-418852",
+     "outlet": "The Block",
+     "primary": false
+    },
+    {
+     "url": "https://cointelegraph.com/magazine/richard-heart-caught-with-pants-down-qday-gets-even-closer-hodlers-digest?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
+     "primary": false
+    }
+   ],
+   "reported_utc": "2026-10-17T18:14:43Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
+   "mark": "wire"
   },
   {
    "rank": 5,

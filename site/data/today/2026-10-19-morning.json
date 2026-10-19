@@ -1,0 +1,114 @@
+{
+ "date_et": "2026-10-19",
+ "slot": "morning",
+ "published_utc": "2026-10-19T12:17:57Z",
+ "first_utc": "2026-10-19T12:17:57Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Monday, October 19, 2026",
+ "h1": "Crypto today: flat. Monday, October 19, 2026",
+ "stamp_label": "Morning read, 8:17 AM ET",
+ "composed_utc": "2026-10-19T12:18:00Z",
+ "board_stamp_et": "8:16 AM ET on Oct 19",
+ "answer": [
+  "On Monday, October 19, Bitcoin was flat since midnight ET, at $82,428, a change of +0.05%.",
+  "Over the last 24 hours it was up 0.53%.",
+  "Ether was up 0.23% over the same 24 hours.",
+  "Among the Top 100, ARB gained 7.99% and M lost 7.16% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 82428,
+  "chg": 0.53,
+  "chg_day": 0.05
+ },
+ "eth": {
+  "price": 2421.84,
+  "chg": 0.23
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "ARB",
+   "name": "Arbitrum",
+   "chg": 7.99,
+   "slug": "arb"
+  },
+  {
+   "symbol": "VVV",
+   "name": "Venice Token",
+   "chg": 6.0,
+   "slug": "vvv"
+  },
+  {
+   "symbol": "PEPE",
+   "name": "Pepe",
+   "chg": 5.84,
+   "slug": "pepe"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "chg": -7.16,
+   "slug": "m"
+  },
+  {
+   "symbol": "HBAR",
+   "name": "Hedera",
+   "chg": -6.32,
+   "slug": "hbar"
+  },
+  {
+   "symbol": "AERO",
+   "name": "Aerodrome Finance",
+   "chg": -6.27,
+   "slug": "aero"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin spot ETF net",
+   "value": -82.4,
+   "window": "one trading day, 16 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "8:16 AM ET on Oct 19",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 552564,
+   "shorts": 1561,
+   "window": "last 2 hours",
+   "source": "OKX",
+   "stamp": "8:16 AM ET on Oct 19",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.01,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:16 AM ET on Oct 19",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 59,
+   "word": "Greed",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:16 AM ET on Oct 19",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Edition, tonight at 7:08 PM ET",
+ "corrections": []
+}
