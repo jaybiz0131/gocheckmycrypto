@@ -467,9 +467,10 @@ def schema(rec, url):
                                "width": 512, "height": 512}}}]}, ensure_ascii=False)
 
 
-def body_html(rec, archive_dates, here=None):
-    """The page, top to bottom: the answer, what moved, what was reported beside it, the Board,
-    the stamp, the archive."""
+def body_html(rec, archive_dates, here=None, evidence=None):
+    """The page, top to bottom: the answer, what moved, what lined up with the move (Sprint 9.2,
+    when the day's slot has an evidence record), what was reported beside it, the Board, the
+    stamp, the archive. A wire item the evidence lists is not listed again under "reported"."""
     import site_build as sb
     import home
     btc, eth, cap = rec["btc"], rec.get("eth"), rec.get("cap")
@@ -493,8 +494,20 @@ def body_html(rec, archive_dates, here=None):
     moved = (f'<ul class="td-list">{"".join(core)}</ul>'
              + (f'<h3 class="td-h3">Biggest gains in the Top 100</h3><ul class="td-list">{lst(gain)}</ul>' if gain else "")
              + (f'<h3 class="td-h3">Biggest losses in the Top 100</h3><ul class="td-list">{lst(lose)}</ul>' if lose else ""))
+    ev_html, shown = "", set()
+    if evidence:
+        try:
+            import why_evidence
+            ev_html = why_evidence.section_html(evidence, "BTC", live=(here != "dated"),
+                                                corrections=rec.get("corrections"))
+            shown = why_evidence.wire_urls_shown(evidence) if ev_html else set()
+        except Exception as e:                      # fail open: the page as it was
+            print(f"::warning::today: the evidence was not drawn ({type(e).__name__}: {e})")
+            ev_html, shown = "", set()
+    reported_all = rec.get("reported") or []
+    reported_left = [w for w in reported_all if not ({l.get("url") for l in w.get("links") or []} & shown)]
     rep = ""
-    for w in rec.get("reported") or []:
+    for w in reported_left:
         names = ", ".join(f'<a href="{_e(l["url"])}" rel="noopener">{_e(l["outlet"])}</a>' for l in w["links"])
         n = w["source_count"]
         rep += (f'<li class="td-rep"><span class="td-line">{_e(w["line"])}</span>'
@@ -503,6 +516,9 @@ def body_html(rec, archive_dates, here=None):
                 f'{(" &middot; " + names) if names else ""}</span></li>')
     reported = (f'<ol class="td-reps">{rep}</ol>' if rep else
                 '<p class="td-w">No wire item reported today has cleared the desk yet.</p>')
+    reported_sec = (f'<section class="td-sec"><h2>What was reported beside it</h2>{reported}\n'
+                    f'    <p class="td-w">These are separate reports. The desk does not say one caused the other.</p></section>'
+                    if (rep or len(reported_left) == len(reported_all)) else "")
     board = "".join(_board_html(r) for r in rec.get("board") or [])
     arch = "".join(f'<li><a href="/today/{d}">{_e(long_date(_dt.date.fromisoformat(d)))}</a></li>'
                    for d in archive_dates)
@@ -516,8 +532,8 @@ def body_html(rec, archive_dates, here=None):
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
   {corr}
   <section class="td-sec"><h2>What moved</h2>{moved}</section>
-  <section class="td-sec"><h2>What was reported beside it</h2>{reported}
-    <p class="td-w">These are separate reports. The desk does not say one caused the other.</p></section>
+  {ev_html}
+  {reported_sec}
   <section class="td-sec"><h2>The Board</h2><ul class="td-list">{board}</ul></section>
   <p class="td-next">{_e(rec['next'])}</p>
   {'<p class="td-w">This is the record of its day. The latest answer is at <a href="/today/">/today/</a>.</p>' if here == "dated" else ''}
@@ -525,19 +541,29 @@ def body_html(rec, archive_dates, here=None):
 </section></main>"""
 
 
-def render(rec, archive_dates, dated, dateline=""):
+def render(rec, archive_dates, dated, dateline="", evidence=None):
     """(html, path, lastmod) for one page; `dated` False renders the living /today/."""
     import site_build as sb
     path = f"/today/{rec['date_et']}.html" if dated else "/today/"
     url = sb.ORIGIN + (f"/today/{rec['date_et']}" if dated else "/today/")
     desc = " ".join(rec["answer"])[:200]
-    html = sb.shell(f"{rec['title']} - {sb.NAME}", desc, "Today", body_html(rec, archive_dates, "dated" if dated else "living"), dateline,
+    html = sb.shell(f"{rec['title']} - {sb.NAME}", desc, "Today", body_html(rec, archive_dates, "dated" if dated else "living", evidence), dateline,
                     path=path, og_type="article",
                     schema_extra=f'\n<script type="application/ld+json">{schema(rec, url)}</script>')
     return html, path, rec.get("published_utc")
 
 
-def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline=""):
+def _evidence(rec, why_dir=None):
+    """The stored evidence record (why_evidence.py) for the record's day and slot, or None. Never
+    raises: a page with no evidence is the page as it was before Sprint 9.2."""
+    try:
+        import why_evidence
+        return why_evidence.load(rec["date_et"], rec["slot"], why_dir)
+    except Exception:                               # noqa: BLE001
+        return None
+
+
+def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline="", why_dir=None):
     """[(relative file, html, sitemap path, lastmod)] for the living page and every dated one."""
     stored = load_records() if stored is None else stored
     first = None
@@ -553,12 +579,13 @@ def build_pages(snap, pulse, wire, ed, morning, now, gate, stored=None, dateline
     days = sorted(dated, reverse=True)
     # today's own dated page is not an "earlier day": the living page lists only the days before it
     html, path, mod = render(living, [d for d in days if d < living["date_et"]][:ARCHIVE_N],
-                             dated=False, dateline=dateline)
+                             dated=False, dateline=dateline, evidence=_evidence(living, why_dir))
     out.append(("today/index.html", html, path, mod))
     for day in days:
         # a dated page links only the days BEFORE it, so nothing a later day adds can change it
         rest = [x for x in days if x < day][:ARCHIVE_N]
-        html, path, mod = render(dated[day], rest, dated=True, dateline=dateline)
+        html, path, mod = render(dated[day], rest, dated=True, dateline=dateline,
+                                 evidence=_evidence(dated[day], why_dir))
         out.append((f"today/{day}.html", html, path, mod))
     return out
 

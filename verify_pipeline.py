@@ -1985,8 +1985,12 @@ def _stamp_canary():
     built_ok = False
     wrote = set()
     read = set()
+    _why_saved = None
     try:
         _sb.PUBLISH = _o.path.join(tmp, "publish")
+        # SPRINT 9.2: the build reads an evidence record built from the recorded 15 October fixture,
+        # so the page guard in _sprint92_canary meets a real section on /today/2026-10-15
+        _why_saved = _why_fixture_dir(tmp)
         try:
             with _cl.redirect_stdout(log), _cl.redirect_stderr(log), _build_writes(wrote, read):
                 _sb.build()
@@ -2035,6 +2039,7 @@ def _stamp_canary():
             fails.extend(_sprint81_canary(out))
             fails.extend(_sprint82_canary(out))
             fails.extend(_sprint91_canary(out))
+            fails.extend(_sprint92_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2083,6 +2088,7 @@ def _stamp_canary():
         if _stray_proc is not None:
             _stray_proc.wait(timeout=30)            # its writes land before the cleanup looks
         _sb.PUBLISH = real
+        _why_restore(_why_saved)
         _sh.rmtree(tmp, ignore_errors=True)
         # Restore only what this build dirtied, from the index, byte for byte. Never with
         # git checkout: the 1 October rule, bought by a plant that reverted its own subject.
@@ -3021,6 +3027,77 @@ def _sprint91_canary(out):
         _sys.modules.pop("slot_guard_test", None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
+    return fails
+
+
+_WHY_FIXTURE = {"set": False}
+
+
+def _why_fixture_dir(tmp):
+    """Point why_evidence at a scratch directory holding the 15 October evening record, built from
+    the recorded fixture (no network). Returns the old directory for _why_restore."""
+    try:
+        import why_evidence as _we
+        old = _we.DIR
+        _sd = os.path.join(HERE, "scripts")
+        sys.path.insert(0, _sd)
+        try:
+            import sprint92_test as _s92
+            rec = _s92.rec(_s92.D15)
+        finally:
+            sys.modules.pop("sprint92_test", None)
+            if _sd in sys.path:
+                sys.path.remove(_sd)
+        d = os.path.join(tmp, "why")
+        os.makedirs(d, exist_ok=True)
+        json.dump(rec, open(os.path.join(d, "2026-10-15-evening.json"), "w", encoding="utf-8"))
+        _we.DIR = d
+        _WHY_FIXTURE["set"] = True
+        return old
+    except Exception as e:                           # the guard below then says it met no section
+        print(f"sprint 9.2 canary: no fixture evidence for the build ({type(e).__name__}: {e})")
+        _WHY_FIXTURE["set"] = False
+        return None
+
+
+def _why_restore(old):
+    if old is not None:
+        import why_evidence as _we
+        _we.DIR = old
+
+
+def _sprint92_canary(out):
+    """PROGRAM 9, SPRINT 9.2 (18 October 2026): the evidence. scripts/sprint92_test.py holds the
+    cases (the series, the candidates, the timing test and the mechanics on the recorded 14 and 15
+    October fixtures, the chart, the pages, the run path). On the tree this build wrote, any "What
+    lined up with the move" section carries no grade label and no "because". The helper is taken
+    out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint92_test as _s92
+        fails = ["sprint 9.2: " + f for f in _s92.unit()]
+    finally:
+        _sys.modules.pop("sprint92_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    pages = sorted(glob.glob(os.path.join(out, "today", "*.html"))) + [
+        os.path.join(out, "coins", n) for n in ("btc.html", "eth.html")]
+    met = 0
+    for pth in pages:
+        try:
+            h = open(pth, encoding="utf-8").read()
+        except OSError:
+            continue
+        for sec in re.findall(r'<section class="td-sec ev".*?</section>', h, re.S):
+            met += 1
+            words = re.sub(r"<[^>]+>", " ", sec)
+            if re.search(r"\b(Confirmed|Likely|Disputed|Unclear)\b", words) or re.search(r"\bbecause\b", words, re.I):
+                fails.append(f"sprint 9.2: {os.path.relpath(pth, out)}: the evidence section carries a grade word")
+    if not met:
+        fails.append("sprint 9.2: the build met no 'What lined up with the move' section (the fixture record "
+                     "for /today/2026-10-15 did not reach it), so the page guard read nothing")
     return fails
 
 

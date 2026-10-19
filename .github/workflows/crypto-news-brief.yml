@@ -634,6 +634,12 @@ jobs:
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         run: python3 today.py --write || true
 
+      # THE EVIDENCE (Program 9, Sprint 9.2): "What lined up with the move" for this slot, read
+      # from the sources after the daily answer's record. No model call. Never a gate.
+      - name: Evidence record (What lined up with the move, evening)
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
+        run: timeout 300 python3 why_evidence.py --write || true
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
@@ -666,6 +672,8 @@ jobs:
           [ -f site/data/narrative.json ] && git add site/data/narrative.json
           # the daily answer's records (Sprint 8.1): a stored record is what freezes a dated page
           [ -d site/data/today ] && git add site/data/today
+          # the evidence records (Sprint 9.2): a stored record is what freezes the section
+          [ -d site/data/why ] && git add site/data/why
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"
