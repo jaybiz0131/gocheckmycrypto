@@ -10,6 +10,8 @@ Standing laws the reviewer fails any sprint on, whatever the row says: a figure 
 
 ## The sprints in order
 
+Hold, October 19, 12:10 PM ET (project manager): 9.4 to 9.8 build on 9.3's verdict, so their dependency is 9.3 merged. No shift starts any of them while 9.3 is at jack; Jack's answer to J-7 in docs/JACK.md releases them.
+
 9.2, the evidence, branch sprint-9-2 (built on claude/sleepy-sagan-xcfcw9), merged 66ba069 October 18, builder: opus, merge: reviewer. why_evidence.py: the intraday series, the candidate events with event and report times, the timing test, the mechanics pattern; fixtures recorded from real days (October 14 to 15 first); /today/ and the Bitcoin and Ether pages show "What lined up with the move" and the timing chart, with no grade yet; no model call. Definition of done: the audit's row 9.2 and section 3.1 as it describes the evidence and the timing test. Tests red first: the timing test on the recorded fixtures; the chart from a fixture; no grade word on any page.
 
 9.3, the verdict, branch sprint-9-3 (built on claude/sleepy-sagan-xcfcw9), jack (third reviewer FAIL October 19 at 6e949bb; see J-7 in docs/JACK.md), builder: opus, designer, merge: reviewer. The grade rules in code (Confirmed, Likely, Disputed, Unclear with "No reported event lines up with this move"); the two-sentence verdict by Haiku 5.5 checked by Sonnet 5.5; the card on the home, /today/, Bitcoin and Ether; a URL per graded verdict (/why/2026-10-14-bitcoin) in the news sitemap; corrections rendering on the verdict; the daily spend printed against the cap. Definition of done: the audit's row 9.3 and section 3.1's grading rules. Tests red first: each grade from a fixture; "because" only on Confirmed; the verdict URL in the sitemap; the spend ledger row.
