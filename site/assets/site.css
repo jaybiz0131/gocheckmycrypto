@@ -2050,3 +2050,6 @@ body aside.vd b.vd-ref{font-weight:600}
   text-transform:uppercase;color:var(--ink);border:1px solid var(--ink);border-radius:3px;padding:1px 6px;margin:0 0 4px}
 body aside.vd.vd-withheld p.vd-line{color:var(--muted)}
 p.vd-plain{font-family:var(--serif);font-size:17px;line-height:1.5;color:var(--ink);margin:16px 0 8px}
+/* Sprint 9.4: Big movers, the ticker beside the coin's name, and the grade chip in its cell */
+.bm-tbl .bm-sym{margin-left:.4em;font-size:.8em;color:var(--muted,inherit);font-weight:400}
+.bm-tbl .bm-g{white-space:nowrap}

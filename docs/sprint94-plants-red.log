@@ -1,0 +1,86 @@
+Sprint 9.4, U-9: each guarded thing broken on purpose, the tests run, the break restored, the tests run again. Fresh PYTHONPYCACHEPREFIX per run. Started Mon Oct 19 2026, 4:48 PM EDT.
+PLANT 1 gate: the volatility leg lowered to 2.0x (movers.py): exit 1, 16 red; restored: exit 0
+      FAIL 16 October: TIA, INJ, ZRO and ETHFI pass, ranked by their volatility multiple (['TIA', 'INJ', 'ZRO', 'ETHFI', 'WLD', 'ARB'])
+      FAIL ARB, WLD, NEAR, ZEC and FIL fail on the volatility leg alone (they moved 10% or more and 6 points beyond their beta, under 2.5 times their usual day)
+      FAIL the line is the audit's, held once: 10%, 2.5x, 6 points, 30 days, 8 a slot, 10 a day
+      FAIL the day's cap: with 8 reads made earlier today, 2 pass and 2 wait over the cap
+      FAIL the day's cap: at 10 reads, none passes and all four are named over the cap
+      FAIL SYNTHETIC (sixteen coins past the line): at most 8 a slot, the rest over the cap
+      FAIL for two weeks every coin that fails the gate prints in the run log with its figures
+      FAIL after November 2 the failing coins are counted, not listed
+      FAIL 19 October 4:30 PM ET (real): PUMP +11.46% and VVV +13.74% fail the volatility leg, and no coin passes: the record says so
+      FAIL 16 October: the four movers each carry an evidence record
+      FAIL group evidence could not run [TypeError: 'NoneType' object is not subscriptable]
+      FAIL three runs on one day make 4, 4 and 2 coin reads: ten, the day's cap ([6, 4, 0])
+      ... and 4 more
+PLANT 2 gate: the day's cap raised to 11 (movers.py): exit 1, 5 red; restored: exit 0
+      FAIL the line is the audit's, held once: 10%, 2.5x, 6 points, 30 days, 8 a slot, 10 a day
+      FAIL the day's cap: with 8 reads made earlier today, 2 pass and 2 wait over the cap
+      FAIL the day's cap: at 10 reads, none passes and all four are named over the cap
+      FAIL three runs on one day make 4, 4 and 2 coin reads: ten, the day's cap ([4, 4, 3])
+      FAIL every model attempt was reserved before it was made and settled after (22 calls)
+PLANT 3 gate: a coin without history estimated (left-out coins measured on Bitcoin's closes) (movers.py): exit 1, 14 red; restored: exit 0
+      FAIL 16 October: TIA, INJ, ZRO and ETHFI pass, ranked by their volatility multiple (['APT', 'TIA', 'INJ', 'ZRO', 'ETHFI'])
+      FAIL ARB, WLD, NEAR, ZEC and FIL fail on the volatility leg alone (they moved 10% or more and 6 points beyond their beta, under 2.5 times their usual day)
+      FAIL APT (+14.03%) has no stored closes: left out and said, never estimated
+      FAIL the day's cap: with 8 reads made earlier today, 2 pass and 2 wait over the cap
+      FAIL the day's cap: at 10 reads, none passes and all four are named over the cap
+      FAIL SYNTHETIC (sixteen coins past the line): at most 8 a slot, the rest over the cap
+      FAIL after November 2 the failing coins are counted, not listed
+      FAIL 16 October: the four movers each carry an evidence record
+      FAIL group evidence could not run [TypeError: 'NoneType' object is not subscriptable]
+      FAIL three runs on one day make 4, 4 and 2 coin reads: ten, the day's cap ([5, 5, 0])
+      FAIL every model attempt was reserved before it was made and settled after (16 calls)
+      FAIL group spend could not run [KeyError: 'verdict']
+      ... and 2 more
+PLANT 4 trigger: the hour's threshold raised to 3.5% (watcher.py): exit 1, 6 red; restored: exit 0
+      FAIL on by default on this desk, at 3% inside 60 minutes and 5% inside 24 hours
+      FAIL SYNTHETIC Bitcoin +3.00% in the hour: fires
+      FAIL SYNTHETIC Bitcoin -3.20% in the hour: fires
+      FAIL SYNTHETIC the whole market -3.1% in the hour, Bitcoin -2.0%: fires on the market
+      FAIL the cage: with no breaking run today, a 3.4% hour fires a breaking run, run 1 of 2
+      FAIL the cage: with one breaking run today, it fires as run 2 of 2
+PLANT 5 trigger: the cage skipped (the market trigger checked before the two-a-day cap) (watcher.py): exit 1, 1 red; restored: exit 0
+      FAIL the cage: at two breaking runs today it stays quiet and makes no read at all
+PLANT 6 trigger: between slots dropped (watcher.py): exit 1, 2 red; restored: exit 0
+      FAIL SYNTHETIC between slots only: a 4% hour at 7:30 PM ET, the Edition stays quiet (the slot reports it)
+      FAIL SYNTHETIC between slots only: a 4% hour at 8:00 AM ET, the morning read stays quiet (the slot reports it)
+PLANT 7 spend: the attempt guard not attached to the client (no reservation) (verdict.py): exit 1, 4 red; restored: exit 0
+      FAIL every model attempt was reserved before it was made and settled after (0 calls)
+      FAIL SYNTHETIC (the day at $1.45): no mover's check is made past the cap; each verdict is withheld, no grade, no URL ({'TIA': ('graded', 'Unclear', '/why/2026-10-16-celestia'), 'INJ': ('graded', 'Unclear', '/why/2026-10-16-injective-protocol'), 'ZRO': ('graded', 'Unclear', '/why/2026-10-16-layerzero'), 'ETHFI': ('graded', 'Unclear', '/why/2026-10-16-ether-fi')})
+      FAIL the withheld card says the desk's check did not run, never a guess
+      FAIL an automatic retry is reserved before it is made: the failed attempt is a row of its own (unbilled), then the retry's
+PLANT 8 no card: the coin page draws the record's first mover on any coin (site_build.py): exit 1, 4 red; restored: exit 0
+      FAIL 16 October ARB (failed or left out): its page carries no card, no section, no grade word
+      FAIL 16 October WLD (failed or left out): its page carries no card, no section, no grade word
+      FAIL 16 October NEAR (failed or left out): its page carries no card, no section, no grade word
+      FAIL 16 October APT (failed or left out): its page carries no card, no section, no grade word
+PLANT 9 pages: the coin page's card in its full form beside the section (movers.py): exit 1, 9 red; restored: exit 0
+      FAIL TIA, graded line, coin page: no fact in both (10:55 AM; 8:16 AM; 9:55 AM; coin-specific; risk-on across assets)
+      FAIL TIA, model text, coin page: no fact in both (10:55 AM; 8:16 AM; 9:55 AM; coin-specific; risk-on across assets)
+      FAIL INJ, graded line, coin page: no fact in both (10:55 AM; 8:16 AM; 9:55 AM; risk-on across assets)
+      FAIL INJ, model text, coin page: no fact in both (10:55 AM; 8:16 AM; 9:55 AM; risk-on across assets)
+      FAIL ZRO, graded line, coin page: no fact in both (10:55 AM; 8:16 AM; 9:55 AM; coin-specific; risk-on across assets)
+      FAIL ZRO, model text, coin page: no fact in both (10:55 AM; 8:16 AM; 9:55 AM; coin-specific; risk-on across assets)
+      FAIL ETHFI, graded line, coin page: no fact in both (10:55 AM; 8:16 AM; 9:55 AM; risk-on across assets)
+      FAIL ETHFI, model text, coin page: no fact in both (10:55 AM; 8:16 AM; 9:55 AM; risk-on across assets)
+      FAIL SYNTHETIC /coins/tia: no fact in both (10:55 AM; 8:16 AM; 9:25 AM; 9:55 AM; coin-specific; risk-on across assets), and each named event points at exactly one listed item (1 item(s) marked for 0 name(s))
+PLANT 10 sitemap: the movers' pages left out of the list the sitemaps read (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the build writes the movers' /why/ pages beside Bitcoin's and hands them to the sitemaps
+PLANT 11 list: Big movers padded with the coins that failed (movers.py): exit 1, 2 red; restored: exit 0
+      FAIL Big movers lists the four in order of the volatility multiple (['TIA', 'INJ', 'ZRO', 'ETHFI', 'ARB', 'WLD', 'NEAR', 'ZEC', 'FIL'])
+      FAIL 19 October (real): no coin passed, so the list says so rather than padding
+PLANT 12 budget: the evidence reads ignore the deadline (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL past the evidence budget every source not yet read is skipped and named 'not read in time', and the record is still written
+PLANT 13 evidence: a venue's series kept whatever its move (movers.py): exit 1, 2 red; restored: exit 0
+      FAIL TIA's series is a venue's, and its move agrees with the Board's within 3 points
+      FAIL SYNTHETIC (a venue moving +57.6% against the Board's +30.6%): its series is not taken, and the reason is named
+PLANT 14 evidence: every wire item taken as the coin's candidate (movers.py): exit 0, 0 red; restored: exit 0
+PLANT 14b evidence (rerun of plant 14 at the filter build() applies): every wire item taken as the coin's candidate (movers.py): exit 0, 0 red; restored: exit 0
+PLANT 14c evidence (rerun after the second wire filter was removed from coin_candidates, so build() holds the only one): every wire item taken as the coin's candidate (movers.py): exit 1, 4 red; restored: exit 0
+      FAIL TIA: every candidate names the coin (a market-wide event is Bitcoin's card's)
+      FAIL INJ: every candidate names the coin (a market-wide event is Bitcoin's card's)
+      FAIL ZRO: every candidate names the coin (a market-wide event is Bitcoin's card's)
+      FAIL ETHFI: every candidate names the coin (a market-wide event is Bitcoin's card's)
+PLANT 15 canary: the fixture movers record kept from the canary's build (verify_pipeline.py): canary exit 1; restored: canary exit 0
+      ::error::canary: sprint 9.4: /why/2026-10-16-celestia was not built with its card and its evidence

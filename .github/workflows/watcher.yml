@@ -58,6 +58,11 @@ jobs:
           WATCH_MIN_SOURCES: ${{ vars.WATCH_MIN_SOURCES }}
           WATCH_FRESH_MIN: ${{ vars.WATCH_FRESH_MIN }}
           WATCH_COOLDOWN_MIN: ${{ vars.WATCH_COOLDOWN_MIN }}
+          # Sprint 9.4, Jack's ruling 6 of October 16: the market-move trigger, crypto only, on by default here;
+          # 3% inside 60 minutes or 5% inside 24 hours, Bitcoin or the whole market, inside the two-a-day cap
+          WATCH_MARKET_TRIGGER: ${{ vars.WATCH_MARKET_TRIGGER }}
+          WATCH_MARKET_1H_PCT: ${{ vars.WATCH_MARKET_1H_PCT }}
+          WATCH_MARKET_24H_PCT: ${{ vars.WATCH_MARKET_24H_PCT }}
         run: python3 watcher.py
 
   # market triggers run with the additive breaking gate; SLOT RECOVERY runs as a normal

@@ -7439,38 +7439,58 @@ def _mover_rows(movers):
     return "".join(rows)
 
 
-def _movers_card(side, rows):
-    """One side of the movers page. Fewer than five rows prints fewer; none says so."""
+def _movers_card(side, rows, held=0):
+    """One side of the movers page. Fewer than five rows prints fewer; none says so. `held` (Sprint 9.4) is
+    how many of this side's coins the Big movers list above prints instead, so the count stays true."""
     word, cls = ("gained", "up") if side == "gainers" else ("fell", "down")
     head = "Biggest gainers" if side == "gainers" else "Biggest losers"
+    other = " other" if held else ""
+    above = (f" ({held} more {'is' if held == 1 else 'are'} in Big movers above)") if held else ""
     if not rows:
-        body = (f'<p class="pc-note">No top-100 coin {word} more than 1% in the last 24 hours.</p>')
+        body = (f'<p class="pc-note">No{other} top-100 coin {word} more than 1% in the last 24 hours{above}.</p>')
     else:
         body = (f'<div class="movetable" tabindex="0" role="region" aria-label="{head} (scrollable)">'
                 f'<table class="mv-tbl"><tbody>{_mover_rows(rows)}</tbody></table></div>')
-        if len(rows) < 5:
-            body += (f'<p class="pc-note">Only {len(rows)} top-100 coin{"" if len(rows) == 1 else "s"} '
-                     f'{word} more than 1%, so the list stops there.</p>')
+        if len(rows) + held < 5:
+            body += (f'<p class="pc-note">Only {len(rows)}{other} top-100 coin{"" if len(rows) == 1 else "s"} '
+                     f'{word} more than 1%{above}, so the list stops there.</p>')
+        elif held:
+            body += f'<p class="pc-note">{held} more {"is" if held == 1 else "are"} in Big movers above.</p>'
     return (f'<div class="pulse-card"><span class="lab" style="color:var(--{cls})">'
             f'{head}, 24 hours</span>{body}</div>')
 
 
-def render_pulse_movers(pulse, dateline):
+def render_pulse_movers(pulse, dateline, movers_rec=None):
     desc = ("Up to five gainers and losers over 24 hours, drawn only from coins ranked 100 or "
             "better by market cap, with plain-language guidance on how to read big moves.")
     movers = (pulse or {}).get("movers") or {}
     if not movers:
         inner = f"{_dash_crumb()}\n  <h1>Top movers</h1>\n  {_no_data()}"
         return _dash_shell("movers", "Top movers", desc, inner, dateline, live=True, data=pulse)
+    # PROGRAM 9, SPRINT 9.4: the Big movers list first (AUDIT.md 3.2), from the newest movers record while it
+    # is current; a coin it prints is not printed again in the lists below (one fact, printed once)
+    big, shown = "", set()
+    try:
+        import movers as _mv
+        _rec = _movers_rec(movers_rec)
+        _bu = (pulse or {}).get("generated_utc") or ""
+        big = _mv.list_html(_rec, _bu)
+        shown = _mv.listed(_rec, _bu) if big else set()
+    except Exception as e:                       # fail open: the page as it was
+        print(f"::warning::movers page: the Big movers list was not drawn ({type(e).__name__}: {e})")
+    _side = lambda k: [r for r in (movers.get(k) or []) if r.get("symbol") not in shown]
+    _held = lambda k: len([r for r in (movers.get(k) or []) if r.get("symbol") in shown])
     inner = f"""{_dash_crumb()}
   <h1>Top movers</h1>
+  {big}
   <p class="lede">Up to five gainers and five losers of the last 24 hours, drawn only from
      coins ranked 100 or better by market cap. Stablecoins never appear, a coin must have moved
-     more than 1% the way its list says, and a list is never padded to reach five.</p>
+     more than 1% the way its list says, and a list is never padded to reach five.{
+     " A coin in Big movers above is not listed again here." if shown else ""}</p>
   <p class="live-stamp"{_asof_of(pulse)}>{esc(_snap_asof(pulse))}</p>
   <div class="pulse-grid2">
-    {_movers_card("gainers", movers.get("gainers") or [])}
-    {_movers_card("losers", movers.get("losers") or [])}
+    {_movers_card("gainers", _side("gainers"), _held("gainers"))}
+    {_movers_card("losers", _side("losers"), _held("losers"))}
   </div>
 
   <div class="sec-head" style="margin-top:30px"><h2>Movers 101</h2><span class="bar"></span></div>
@@ -7898,8 +7918,28 @@ def _coin_verdict(sym, pulse, verdict=None, with_section=False, evidence=None):
         return ""
 
 
+_MOVERS_MEMO = {}
+
+
+def _movers_rec(movers=None):
+    """PROGRAM 9, SPRINT 9.4: the newest stored Big movers record (movers.py), read once per set of files;
+    None when there is none or it cannot be read (the pages as they were)."""
+    if movers is not None:
+        return movers
+    try:
+        import movers as _mv
+        names = tuple(_mv.names())
+        if names not in _MOVERS_MEMO:
+            _MOVERS_MEMO.clear()
+            _MOVERS_MEMO[names] = _mv.latest()
+        return _MOVERS_MEMO[names]
+    except Exception as e:                       # fail open
+        print(f"::warning::movers: no record read ({type(e).__name__}: {e})")
+        return None
+
+
 def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=None, gate=None,
-                     evidence=None, verdict=None):
+                     evidence=None, verdict=None, movers=None):
     """PROGRAM 7, SPRINT 6.4 (13 October 2026). Under the chart, in this order: the
     readings grid (tile law), the Chart Master's card for the coin (dated), the coin's
     stories (the wire items that name it, newest first, with their sources), the
@@ -7944,7 +7984,24 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
         _marks = []
     ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, graded=_graded, marks=_marks)
     vd_html = _coin_verdict(sym, pulse, verdict, with_section=bool(ev_html), evidence=evidence)
-    if _graded and not vd_html:
+    # PROGRAM 9, SPRINT 9.4: a Big mover's verdict card at the top of its page, above the readings (AUDIT.md
+    # 3.2), and its evidence where Bitcoin's sits; the card names its event with a pointer to the one listed
+    # item, and the wire items the section lists are not listed again below it
+    mv_card, _mover = "", False
+    if sym not in ("BTC", "ETH"):
+        try:
+            import movers as _mv
+            _mrec = _movers_rec(movers)
+            mv_card, ev_html = _mv.coin_parts(_mrec, sym, (pulse or {}).get("generated_utc") or "")
+            if mv_card or ev_html:
+                _mover = True
+                _graded = (((((_mrec or {}).get("coins") or {}).get(sym) or {}).get("verdict") or {})
+                           .get("coins", {}).get(sym, {}).get("grade")) if mv_card else None
+                ev_urls = _mv.wire_urls(_mrec, sym) if ev_html else set()
+        except Exception as e:                   # fail open: the page as it was
+            print(f"::warning::coin page: the Big mover parts for {sym} were not drawn ({type(e).__name__}: {e})")
+            mv_card, ev_html = "", ""
+    if _graded and not vd_html and not _mover:
         # the card was left off (its window is not the evidence's): no grade on the page, so the section
         # and the wire note speak as 9.2 wrote them
         _graded = None
@@ -7961,7 +8018,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
         gate = _coin_gate()
     why_html, why_hits = _cp.why_block(
         c, pos, wire, (pulse or {}).get("generated_utc") or "", esc, _wire_et,
-        move=_coin_move(c, name, stamp), gate=gate, graded=_graded)
+        move=_coin_move(c, name, stamp), gate=gate, graded=_graded, mover=_mover)
     hits = _cp.vet([w for w in _cp.wire_stories(c, wire) if w.get("id") not in {x.get("id") for x in why_hits}],
                    gate, name, "stories")
     wire_html = _cp.stories_html(hits, esc, _wire_et)
@@ -7983,6 +8040,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     unlock_html = _cp.unlock_line(c, today, esc, fmt_short_date)
     # the card's slot is emitted only with a card in it: a page with no card is the page 9.2 built
     vd_slot = f"  {vd_html}\n" if vd_html else ""
+    mv_slot = f"  {mv_card}\n" if mv_card else ""
 
     supply = _coin_supply_rows(c)
     supply_html = ""
@@ -7997,7 +8055,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
   <div class="sec-head"><h2>{esc(name)}<span class="cn-sym">{esc(sym)}</span></h2>
     <span class="bar"></span>{_coin_pin(sym)}</div>
   {chart}
-  {tiles_html}
+{mv_slot}  {tiles_html}
 {vd_slot}  {ev_html}
   {why_html}
   {cm_html}
@@ -9274,6 +9332,14 @@ def _write_verdicts(w, dateline):
     try:
         import verdict as _vd
         built = _vd.build_pages(dateline=dateline)
+        # PROGRAM 9, SPRINT 9.4: the Big movers' graded verdicts, /why/<date>-<coin id>, the same kind of page
+        # in the same sitemaps. A movers page that cannot be built costs only itself.
+        try:
+            import movers as _mv
+            taken = {b["path"] for b in built}
+            built += [b for b in _mv.build_pages(dateline=dateline) if b["path"] not in taken]
+        except Exception as e:
+            print(f"::warning::movers: the movers' verdict pages were not built ({type(e).__name__}: {e})")
         for b in built:
             w(b["rel"], b["html"])
         print(f"verdict: {len(built)} page(s) built")

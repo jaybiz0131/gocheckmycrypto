@@ -291,6 +291,12 @@ def subject(c):
         name = line.split(" exploit")[0].strip()
         if name and not re.search(r"\d", name):
             return f"the {name} exploit", [name]
+    # SPRINT 9.4: a Big mover's own candidates, named by what they are and whose notice it is
+    if k in ("listing", "delisting"):
+        outlet = _shown_outlet(c)
+        return f"the {outlet} {k} notice", [outlet]
+    if k == "unlock":
+        return "the token unlock", ["token unlock"]
     for rx, subj in MACRO_SUBJ:
         m = re.search(rx, line, re.I)
         if m and k != "release":
@@ -860,9 +866,10 @@ def url(date_et, sym):
     return f"/why/{slug(date_et, sym)}"
 
 
-def record_from(rec, date_et, slot, now=None, gate=None, day=None):
+def record_from(rec, date_et, slot, now=None, gate=None, day=None, syms=("BTC", "ETH")):
     """The verdict record for an evidence record, every graded coin on its graded line (no model). The
-    twins gate reads the graded line and every section form; a sentence it drops does not print."""
+    twins gate reads the graded line and every section form; a sentence it drops does not print. `syms` is
+    the coins graded: Bitcoin and Ether for a slot's record, one Big mover for movers.py (Sprint 9.4)."""
     now = now or _dt.datetime.now(_dt.timezone.utc)
     out = {"what": "The verdict under 'Why it moved': the grade computed by code from the evidence record "
                    "(why_evidence.py) on the page's window, the graded line built from phrases, and the model's "
@@ -871,7 +878,7 @@ def record_from(rec, date_et, slot, now=None, gate=None, day=None):
            "evidence_made_utc": (rec or {}).get("made_utc"),
            "made_utc": now.astimezone(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
            "timing_rule": dict(_we().TIMING_TEST), "day": day, "coins": {}}
-    for sym in ("BTC", "ETH"):
+    for sym in syms:
         v = grade(rec, sym, day)
         if v["kind"] == "none":
             continue
@@ -886,7 +893,7 @@ def record_from(rec, date_et, slot, now=None, gate=None, day=None):
 
 
 def write_run(rec, date_et, slot, gate=None, ledger_path=None, directory=None, save=True, cap=None,
-              client=None, now=None, day=None):
+              client=None, now=None, day=None, syms=("BTC", "ETH")):
     """Grade on the page's window, write each graded coin's two sentences through the model and its
     check, every attempt reserved against the day's cap and settled after. A model failure prints the
     graded line; a refusal at the cap withholds the verdict (CAP_LINE, no grade). Appends the run's row,
@@ -895,7 +902,7 @@ def write_run(rec, date_et, slot, gate=None, ledger_path=None, directory=None, s
     cap = CAP_USD if cap is None else cap
     ledger_path = ledger_path or LEDGER
     now = now or _dt.datetime.now(_dt.timezone.utc)
-    out = record_from(rec, date_et, slot, now=now, gate=gate, day=day)
+    out = record_from(rec, date_et, slot, now=now, gate=gate, day=day, syms=syms)
     spend = Spend(ledger_path, date_et, slot, cap, now)
     budget = llm.Budget(CFG["budget"]["max_tokens_per_run"], 1e9)     # the cap is the ledger's to keep
     if client is None and os.environ.get("ANTHROPIC_API_KEY", "").strip():
