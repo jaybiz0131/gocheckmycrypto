@@ -512,10 +512,13 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
     if verdict:
         try:
             import verdict as _verdict
-            vd_html = _verdict.card_html(verdict, "BTC", where="today", live=(here != "dated"))
+            vd_html = _verdict.card_html(verdict, "BTC", where="today", live=(here != "dated"),
+                                         with_section=bool(ev_html))
         except Exception as e:                      # fail open: the page as it was
             print(f"::warning::today: the verdict was not drawn ({type(e).__name__}: {e})")
             vd_html = ""
+    # the slot is emitted only with a card in it, so a page with no verdict is the page 9.2 built
+    vd_slot = f"  {vd_html}\n" if vd_html else ""
     reported_all = rec.get("reported") or []
     reported_left = [w for w in reported_all if not ({l.get("url") for l in w.get("links") or []} & shown)]
     rep = ""
@@ -545,8 +548,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
   <p class="td-stamp">{_e(rec['stamp_label'])}</p>
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
   {corr}
-  {vd_html}
-  <section class="td-sec"><h2>What moved</h2>{moved}</section>
+{vd_slot}  <section class="td-sec"><h2>What moved</h2>{moved}</section>
   {ev_html}
   {reported_sec}
   <section class="td-sec"><h2>The Board</h2><ul class="td-list">{board}</ul></section>

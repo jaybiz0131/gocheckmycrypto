@@ -7878,14 +7878,21 @@ def _current_verdict(pulse, verdict=None):
         return None
 
 
-def _coin_verdict(sym, pulse, verdict=None):
-    """The verdict card for Bitcoin and Ether, or '' (the page as it was)."""
+def _coin_verdict(sym, pulse, verdict=None, with_section=False, evidence=None):
+    """The verdict card for Bitcoin and Ether, or '' (the page as it was). Beside the evidence section
+    the card takes its section-page form; a card for another window than the section's is left off,
+    so the two never describe different 24 hours on one page."""
     if sym not in ("BTC", "ETH"):
         return ""
     try:
         import verdict as _vd
         rec = _current_verdict(pulse, verdict)
-        return _vd.card_html(rec, sym, where="coin", live=True) if rec else ""
+        if rec and with_section:
+            import why_evidence as _we
+            ev = evidence if evidence is not None else _we.latest()
+            if ((ev or {}).get("window") or {}).get("end_utc") != (rec.get("window") or {}).get("end_utc"):
+                return ""
+        return _vd.card_html(rec, sym, where="coin", live=True, with_section=with_section) if rec else ""
     except Exception as e:                       # fail open
         print(f"::warning::coin page: the verdict for {sym} was not drawn ({type(e).__name__}: {e})")
         return ""
@@ -7928,11 +7935,16 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     # lists is not listed again in the blocks below it (one fact, printed once).
     # PROGRAM 9, SPRINT 9.3: the verdict card above the evidence, for Bitcoin and Ether; when it carries a
     # grade, the evidence's note says so instead of denying a cause.
-    vd_html = _coin_verdict(sym, pulse, verdict)
-    _graded = None
-    if vd_html and sym in ("BTC", "ETH"):
-        _graded = (((_current_verdict(pulse, verdict) or {}).get("coins") or {}).get(sym) or {}).get("grade")
+    _vrec = _current_verdict(pulse, verdict) if sym in ("BTC", "ETH") else None
+    _graded = (((_vrec or {}).get("coins") or {}).get(sym) or {}).get("grade")
     ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, graded=_graded)
+    vd_html = _coin_verdict(sym, pulse, verdict, with_section=bool(ev_html), evidence=evidence)
+    if _graded and not vd_html:
+        # the card was left off (its window is not the evidence's): no grade on the page, so the section
+        # and the wire note speak as 9.2 wrote them
+        _graded = None
+        if ev_html:
+            ev_html, ev_urls = _coin_evidence(sym, pulse, evidence)
     if ev_urls and wire:
         wire = dict(wire, items=[w for w in (wire.get("items") or [])
                                  if not ({l.get("url") for l in (w.get("links") or [])} & ev_urls)])
@@ -7964,6 +7976,8 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
                         + '</section>')
 
     unlock_html = _cp.unlock_line(c, today, esc, fmt_short_date)
+    # the card's slot is emitted only with a card in it: a page with no card is the page 9.2 built
+    vd_slot = f"  {vd_html}\n" if vd_html else ""
 
     supply = _coin_supply_rows(c)
     supply_html = ""
@@ -7979,8 +7993,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     <span class="bar"></span>{_coin_pin(sym)}</div>
   {chart}
   {tiles_html}
-  {vd_html}
-  {ev_html}
+{vd_slot}  {ev_html}
   {why_html}
   {cm_html}
   {stories_html}

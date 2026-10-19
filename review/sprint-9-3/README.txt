@@ -55,3 +55,18 @@ What changed on every page with a card, and why (the reviewer's four failures an
   - 19 October: stock futures did not trade in the hour the run began, so the section no longer labels it
     "crypto only"; it says the futures did not trade, as the card does.
   - /why/2026-10-14-bitcoin no longer links /today/2026-10-14, which does not exist.
+
+RECAPTURED AFTER REVIEW 2, Monday October 19 2026, about 11:44 AM EDT, by the builder: 24 files replaced under the
+same names, the same way as after review 1 (records regraded by this branch's verdict.record_from). The home's four
+are unchanged: its card has no section beside it and its text did not change.
+
+What changed, and why (review 2: one fact printed once): on every page that prints "What lined up with the move"
+beside the card (/today/, /today/2026-10-15, /coins/btc, /coins/eth, both /why/ pages), the card no longer states
+what the section states. Its window line reads "The 24 hours in the evidence below" (no end time); the event is
+named without its time ("the Consumer Price Index, September 2026 (Bureau of Labor Statistics)"), and a wire or
+press item is pointed to ("the Crypto Briefing report listed below") instead of quoted; the onset hour's reading
+is left to the section ("The readings behind this grade: the hour the run began, in the evidence below"); the
+hour after an event keeps its figures (the section does not print that hour), heads "from its time in the list
+below", and drops any row or pattern the onset hour prints the same. Each /why/ page carries one card, the day's
+lead verdict. The home keeps the full card. 98 coin pages and /today/2026-10-16 to 18 are identical to main's
+build but for the stylesheet's version hash (docs/sprint93-review2-built.log).

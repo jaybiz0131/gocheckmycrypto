@@ -1,0 +1,213 @@
+1. each grade from a fixture, by the rules in code
+  ok   14 October, Bitcoin (real): Likely, on the CPI release: its timing passes and the readings of the hour after it agree (risk-off across assets); no source-checked report states it
+  ok   a record written before 9.3 (no readings of the hour after) grades on the onset hour only: 14 October then reads Unclear, an event in time with no report or reading behind it
+  ok   15 October, Bitcoin (real): Unclear, no reported event passes the timing test
+  ok   Unclear still shows the mechanics: its line names the onset hour's pattern
+  ok   15 October with the linked reports withheld (real wire as it stood): Disputed, the reported producer-price cause fails the timing test
+  ok   SYNTHETIC Confirmed: two outlets state it, the timing passes, the readings agree
+  ok   2026-10-14, Ether (real): within 2 points of Bitcoin, so one line, 'moved with Bitcoin', no grade
+  ok   2026-10-15, Ether (real): within 2 points of Bitcoin, so one line, 'moved with Bitcoin', no grade
+  ok   SYNTHETIC flat day: 'Flat: nothing to explain', no grade
+2. the timing test's second path (the onset question carried from 9.2), thresholds in one place
+  ok   the thresholds live in one named place, verdict.TIMING
+  ok   14 October CPI passes timing although it came after the 4:10 AM onset: 8.5% of the run done before it, 71.2% of the move in the hour after (9.2's figures, unchanged)
+  ok   15 October PPI fails timing: the hour after it ran against the rise
+  ok   the price moved first: a candidate after half the run fails whatever the share
+  ok   a candidate under the share threshold fails
+  ok   9.2's onset is unchanged (14 October Bitcoin onset 4:10 AM ET)
+3. 'because' only on Confirmed; 'lines up with' on Likely; both sides on Disputed
+  ok   Confirmed: the graded line says 'because'
+  ok   Likely: no 'because' in its line or in any phrase the model is handed
+  ok   Disputed: no 'because' in its line or in any phrase the model is handed
+  ok   Unclear: no 'because' in its line or in any phrase the model is handed
+  ok   Likely: the line says 'lines up with'
+  ok   Disputed: both sides, the reported cause and the timing against it
+  ok   Confirmed: nothing predicts and nothing advises
+  ok   Likely: nothing predicts and nothing advises
+  ok   Disputed: nothing predicts and nothing advises
+  ok   Unclear: nothing predicts and nothing advises
+  ok   SYNTHETIC: a wire line that says 'because' is never quoted on a Likely verdict
+  ok   the belt itself refuses 'because' on a Likely draft, even one built from whole phrases
+  ok   a draft saying 'because' on a Likely day fails the belt and the graded line prints instead
+4. Haiku 5.5 drafts, Sonnet 5.5 checks with 'stands' per claim; any failure fails open to the phrases
+  ok   a draft that copies whole phrases and a check that lets every claim stand: the model's two sentences print
+  ok   the draft went to claude-haiku-5-5 and the check to claude-sonnet-5-5
+  ok   no thinking field sent to a 5.5 model (Sonnet 5.5 answers {type: disabled} with a 400)
+  ok   llm.PRICING carries the 5.5 rates (Haiku $0.10/$0.50, Sonnet $2/$10 per million)
+  ok   Ether moved with Bitcoin: no model call for it
+  ok   fail open when the draft call fails (HTTP 500 on every attempt): the graded line from phrases, no model sentence
+  ok   fail open when the check withdraws a claim (stands false): the graded line from phrases, no model sentence
+  ok   fail open when the check leaves a sentence unjudged: the graded line from phrases, no model sentence
+  ok   fail open when the check answers out of contract: the graded line from phrases, no model sentence
+  ok   fail open when the draft adds a figure the phrases do not carry: the graded line from phrases, no model sentence
+  ok   fail open when the draft rewords a phrase: the graded line from phrases, no model sentence
+  ok   fail open with no API key: the graded line, and the ledger row says no call was made
+  ok   the deadline mid-call fails open, makes no second attempt, and the ledger row is written
+  ok   a model sentence the twins gate drops fails open, never prints
+5. the spend: a ledger row per run, the day's spend printed against the $1.50 cap (ruling 2)
+  ok   one ledger row for the run, with its calls, tokens, dollars by stage and the cap
+  ok   the run prints the day's spend against the $1.50 cap
+  ok   a second run the same day adds its own row and the day's total sums both
+  ok   with the day's spend at the cap, no call is made and the verdict fails open to the phrases
+  ok   the cap is $1.50 a day, in one named place
+6. no grade word where no grade was computed
+  ok   a flat day's card: 'Flat: nothing to explain' and no grade word, no 'because'
+  ok   Ether moving with Bitcoin: one line and no grade word
+  ok   an ungraded coin has no verdict URL
+  ok   a graded card carries its grade as 'Checked: Unclear'
+  ok   a record with no coin draws no card and raises nothing
+  ok   /today/: the evidence section beside the card still carries no grade word
+  ok   /today/: no grade word anywhere outside the verdict card
+7. one card on the home, /today/, Bitcoin and Ether; a URL per graded verdict; corrections on it
+  ok   /today/: the verdict card, one shape (aside.vd with data-vd)
+  ok   /today/: no em dash or en dash
+  ok   /coins/btc: the verdict card, one shape (aside.vd with data-vd)
+  ok   /coins/btc: no em dash or en dash
+  ok   /coins/eth: the verdict card, one shape (aside.vd with data-vd)
+  ok   /coins/eth: no em dash or en dash
+  ok   home: the verdict card, one shape (aside.vd with data-vd)
+  ok   home: no em dash or en dash
+  ok   the Ether page carries Ether's card, Bitcoin's pages Bitcoin's
+  ok   the home keeps its ten blocks in section 2's order (the card is an aside, not a block)
+  ok   the URL of a graded verdict is /why/<date>-<coin>, e.g. /why/2026-10-14-bitcoin
+  ok   the card links its verdict URL
+  ok   a page per graded verdict: why/2026-10-14-bitcoin.html and why/2026-10-15-bitcoin.html, none for Ether
+  ok   the verdict page carries the card, the evidence, and the grade
+  ok   the verdict URL is in the news sitemap
+  ok   a correction on the verdict renders on its page
+  ok   the card renders the verdict's own correction and the page's corrections
+8. wired into both workflows after why_evidence.py, inside a time budget, never a gate
+  ok   morning-read.yml: runs verdict.py --write after why_evidence.py, with a timeout, never as a gate
+  ok   morning-read.yml: the verdict step reads the key from the repository secret, never a literal
+  ok   morning-read.yml: commits the verdict records and the spend ledger with the push
+  ok   crypto-news-brief.yml: runs verdict.py --write after why_evidence.py, with a timeout, never as a gate
+  ok   crypto-news-brief.yml: the verdict step reads the key from the repository secret, never a literal
+  ok   crypto-news-brief.yml: commits the verdict records and the spend ledger with the push
+  ok   verdict.py carries no em dash and prints no key
+9. review 1: Likely needs the readings; the readings shown; no page denies its own grade; neutral chips
+  ok   SYNTHETIC: a report states it and the timing passes, but the readings are silent: Unclear, never Likely, and the line says a report named it
+  ok   the printed definitions: Likely needs the readings to agree, and no definition says 'silent'
+  ok   2026-10-14 BTC: a Likely or Confirmed grade always has readings that agree
+  ok   2026-10-14 ETH: a Likely or Confirmed grade always has readings that agree
+  ok   2026-10-15 BTC: a Likely or Confirmed grade always has readings that agree
+  ok   2026-10-15 ETH: a Likely or Confirmed grade always has readings that agree
+  ok   the Likely card names the readings its grade rests on, with their own hour: the hour after the release, 8:30 to 9:30 AM ET, risk-off across assets
+  ok   the card off the home lists those readings' figures (S&P 500 futures, 10-year yield)
+  ok   the card never prints its own coin's hour figure (the evidence list prints it)
+  ok   a grade read on the onset hour names that hour and lists no rows (the evidence section prints them under 'The hour the run began'; one fact, printed once)
+  ok   /today/ with a Confirmed card: no sentence denies causation
+  ok   /coins/btc with a Confirmed card: no sentence denies causation
+  ok   /today/ with a Likely card: no sentence denies causation
+  ok   /coins/btc with a Likely card: no sentence denies causation
+  ok   /today/ with a Likely card and no evidence section: the reported note prints and denies nothing
+  ok   /today/ with no verdict keeps the evidence's disclaimer as 9.2 wrote it
+  ok   /why/2026-10-14-bitcoin (Likely): no sentence denies causation
+  ok   (d) /why/ links /today/<day> only when that dated page exists
+  ok   (d) and links it when the day's record exists
+  ok   light: no grade chip token resolves to an up or down color (none)
+  ok   dark: no grade chip token resolves to an up or down color (none)
+  ok   (a) Likely: every phrase with a direction word (fall, rise, fell, rose) names the 24-hour window
+  ok   (a) Disputed: every phrase with a direction word (fall, rise, fell, rose) names the 24-hour window
+  ok   (a) Confirmed: every phrase with a direction word (fall, rise, fell, rose) names the 24-hour window
+  ok   (b) 19 October: the section does not label 'crypto only' in an hour stock futures did not trade
+  ok   (b) SYNTHETIC: a new record labels no 'crypto only' when the futures have no bar in the hour
+  ok   (c) a release line carrying 'because' or a grade word is not quoted
+  ok   (c) a hack line carrying 'because' or a grade word is not quoted
+  ok   (c) a press line carrying 'because' or a grade word is not quoted
+  ok   (c) a wire line carrying 'because' or a grade word is not quoted
+10. review 2: on a page with the section, no fact (time, figure, pattern) prints in both
+  FAIL 14 Oct Likely, graded line, /today/ living: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, graded line, /today/ dated: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, graded line, /coins/btc: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, graded line, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL 14 Oct Likely, graded line, /why/2026-10-14-bitcoin: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, model text, /today/ living: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, model text, /today/ dated: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, model text, /coins/btc: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, model text, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL 14 Oct Likely, model text, /why/2026-10-14-bitcoin: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, model text joined, /today/ living: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, model text joined, /today/ dated: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, model text joined, /coins/btc: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 14 Oct Likely, model text joined, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL 14 Oct Likely, model text joined, /why/2026-10-14-bitcoin: no fact in both the card and the section (7:43 PM; 8:30 AM)
+  FAIL 15 Oct Unclear, graded line, /today/ living: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, graded line, /today/ dated: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, graded line, /coins/btc: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, graded line, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL 15 Oct Unclear, graded line, /why/2026-10-15-bitcoin: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, model text, /today/ living: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, model text, /today/ dated: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, model text, /coins/btc: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, model text, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL 15 Oct Unclear, model text, /why/2026-10-15-bitcoin: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, model text joined, /today/ living: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, model text joined, /today/ dated: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, model text joined, /coins/btc: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 15 Oct Unclear, model text joined, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL 15 Oct Unclear, model text joined, /why/2026-10-15-bitcoin: no fact in both the card and the section (10:55 AM; 7:43 PM; 9:55 AM; risk-on across assets)
+  FAIL 19 Oct real, graded line, /today/ living: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, graded line, /today/ dated: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, graded line, /coins/btc: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, graded line, /coins/eth: no fact in both the card and the section (8:16 AM)
+  FAIL 19 Oct real, graded line, /why/2026-10-19-bitcoin: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, model text, /today/ living: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, model text, /today/ dated: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, model text, /coins/btc: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, model text, /coins/eth: no fact in both the card and the section (8:16 AM)
+  FAIL 19 Oct real, model text, /why/2026-10-19-bitcoin: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, model text joined, /today/ living: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, model text joined, /today/ dated: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, model text joined, /coins/btc: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL 19 Oct real, model text joined, /coins/eth: no fact in both the card and the section (8:16 AM)
+  FAIL 19 Oct real, model text joined, /why/2026-10-19-bitcoin: no fact in both the card and the section (3:49 PM; 4:20 PM; 5:20 PM; 8:16 AM; did not trade)
+  FAIL SYNTHETIC Confirmed, graded line, /today/ living: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, graded line, /today/ dated: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, graded line, /coins/btc: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, graded line, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL SYNTHETIC Confirmed, graded line, /why/2026-10-14-bitcoin: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, model text, /today/ living: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, model text, /today/ dated: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, model text, /coins/btc: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, model text, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL SYNTHETIC Confirmed, model text, /why/2026-10-14-bitcoin: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, model text joined, /today/ living: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, model text joined, /today/ dated: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, model text joined, /coins/btc: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL SYNTHETIC Confirmed, model text joined, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL SYNTHETIC Confirmed, model text joined, /why/2026-10-14-bitcoin: no fact in both the card and the section (7:43 PM; 8:30 AM; risk-off across assets)
+  FAIL 15 Oct Disputed (reports withheld), graded line, /today/ living: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), graded line, /today/ dated: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), graded line, /coins/btc: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), graded line, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), graded line, /why/2026-10-15-bitcoin: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), model text, /today/ living: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), model text, /today/ dated: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), model text, /coins/btc: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), model text, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), model text, /why/2026-10-15-bitcoin: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), model text joined, /today/ living: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM; risk-on across assets)
+  FAIL 15 Oct Disputed (reports withheld), model text joined, /today/ dated: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM; risk-on across assets)
+  FAIL 15 Oct Disputed (reports withheld), model text joined, /coins/btc: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM; risk-on across assets)
+  FAIL 15 Oct Disputed (reports withheld), model text joined, /coins/eth: no fact in both the card and the section (7:43 PM)
+  FAIL 15 Oct Disputed (reports withheld), model text joined, /why/2026-10-15-bitcoin: no fact in both the card and the section ($940 million; 12:25 AM; 50%; 7:43 PM; risk-on across assets)
+  ok   15 Oct Unclear: the home card, with no section beside it, still states the onset hour's reading
+  ok   19 Oct real: the home card, with no section beside it, still states the onset hour's reading
+  ok   (c) /today/ with no verdict carries no empty card slot (byte-identical to 9.2's layout)
+  FAIL (c) a coin page with no card carries no empty card slot
+
+SPRINT 9.3: FAIL (76 failure(s))
+  ok   (c) a release line carrying 'because' or a grade word is not quoted
+  ok   (c) a hack line carrying 'because' or a grade word is not quoted
+  ok   (c) a press line carrying 'because' or a grade word is not quoted
+  ok   (c) a wire line carrying 'because' or a grade word is not quoted
+  FAIL (c) /today/ with no verdict carries no empty card slot (byte-identical to 9.2's layout)
+  FAIL (c) a coin page with no card carries no empty card slot
+  FAIL (c) a coin page with no card carries no empty card slot (9.2's layout: the readings note, the empty evidence and wire slots, then the Chart Master card)
+  FAIL 14 Oct Likely, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
+  FAIL 15 Oct Unclear, a record with no section forms, /today/: no fact in both (risk-on across assets)
+  FAIL 19 Oct real, a record with no section forms, /today/: no fact in both (3:49 PM; did not trade)
+  FAIL SYNTHETIC Confirmed, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
+  FAIL SYNTHETIC Likely on the onset hour, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
+  FAIL 15 Oct Disputed (reports withheld), a record with no section forms, /today/: no fact in both ($940 million; 12:25 AM; 50%)
+SPRINT 9.3: FAIL (6 failure(s))

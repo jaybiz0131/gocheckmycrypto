@@ -702,12 +702,181 @@ def review1_cases(fails):
                 lambda: not re.search(r"because|Likely", verdict._ref(c, 1792000000, 1792000000)))
 
 
+# ---- 10. review 2: a fact the section prints is never printed again by the card ---------------------------------
+
+FACT_RES = [r"\b\d{1,2}:\d{2} [AP]M\b",                       # a time stamp
+            r"[▲▼]?\s?\d[\d,]*\.?\d*\s?(?:%|bp)",    # a percentage or basis points
+            r"\$[\d,]+(?:\.\d+)?(?:[KMB]| million| billion)?",  # a dollar figure
+            r"risk-(?:on|off) across assets|crypto only|leverage flush|coin-specific|did not trade|"
+            r"none of the four"]                               # a pattern
+
+
+def _facts(text):
+    out = set()
+    for rx in FACT_RES:
+        out.update(" ".join(m.split()) for m in re.findall(rx, text))
+    return out
+
+
+def _parts(html):
+    """(card sentences' facts, card rows, section text, section rows) from one page."""
+    card = (re.search(r'<aside class="vd.*?</aside>', html, re.S) or re.match("", "")).group(0)
+    sec = (re.search(r'<section class="td-sec ev".*?</section>', html, re.S) or re.match("", "")).group(0)
+    crow = {visible(x) for x in re.findall(r"<li>.*?</li>", card, re.S)}
+    srow = {visible(x) for x in re.findall(r'<li class="td-row">.*?</li>', sec, re.S)}
+    ctext = visible(re.sub(r'<ul class="vd-rows">.*?</ul>', " ", card, flags=re.S))
+    return card, sec, ctext, crow, srow
+
+
+def _with_text(vrec, sym, joined):
+    """The record with the model's two sentences in place of the graded line: whole phrases, the
+    second joined to a third with '; ' when there is one (the shape a model draft takes)."""
+    v = copy.deepcopy(vrec)
+    c = v["coins"].get(sym) or {}
+    ph = c.get("phrases") or []
+    if c.get("grade") and len(ph) >= 2:
+        two = [ph[0], ph[1]]
+        if joined and len(ph) >= 3:
+            two[1] = ph[1][:-1] + "; " + ph[2][:1].lower() + ph[2][1:]
+        c.update(text=two, by="model")
+    return v
+
+
+def synthetic_likely_onset():
+    """SYNTHETIC, from the real 14 October record without the readings of the hour after (a record
+    written before 9.3): the onset moved to 15 minutes after CPI and the onset hour's pattern set to
+    risk-off across assets, so the grade is Likely on the onset hour's readings."""
+    r = rec(D14())
+    for c in r["coins"].values():
+        c.pop("event_hours", None)
+    c = next(x for x in r["candidates"] if x["line"].startswith("Consumer Price Index"))
+    coin = r["coins"]["BTC"]
+    t = int(dt.datetime(2026, 10, 14, 12, 30, tzinfo=dt.timezone.utc).timestamp())
+    coin["run"]["start_t"] = t + 15 * 60
+    coin["mechanics"]["patterns"] = [{"label": "risk-off across assets", "rule": "synthetic"}]
+    for tst in coin["tests"]:
+        if tst["id"] == c["id"]:
+            tst["result"].update(lead_min=15.0, before_onset=True, done_pct=0.0, moved_first=False)
+    return r
+
+
+def _records():
+    import verdict
+    r19 = json.load(open(os.path.join(HERE, "site", "data", "why", "2026-10-19-morning.json"), encoding="utf-8"))
+    return [("14 Oct Likely", rec(D14()), "2026-10-14", "evening"),
+            ("15 Oct Unclear", rec(D15()), "2026-10-15", "evening"),
+            ("19 Oct real", r19, "2026-10-19", "morning"),
+            ("SYNTHETIC Confirmed", synthetic_confirmed(), "2026-10-14", "evening"),
+            ("SYNTHETIC Likely on the onset hour", synthetic_likely_onset(), "2026-10-14", "evening"),
+            ("15 Oct Disputed (reports withheld)", s92().rec_bare(D15()), "2026-10-15", "evening")]
+
+
+def _coin_page_for(sym, ev, v):
+    import site_build as sb
+    import snapshot
+    p = copy.deepcopy(s92().load(f"pulse_{D15()}.json"))
+    p["generated_utc"] = ev["window"]["end_utc"]           # the Board reading the record was written for
+    pos, c = next((i + 1, x) for i, x in enumerate(p["movers"]["top100"]) if x["symbol"] == sym)
+    old = sb.SNAP
+    sb.SNAP = snapshot.build(p, s92().load(f"flows_{D15()}.json"))
+    try:
+        return sb.render_coin_page(c, pos, p, [], "DATELINE", wire={"items": []}, cm={}, evidence=ev, verdict=v)
+    finally:
+        sb.SNAP = old
+
+
+def review2_cases(fails):
+    import today
+    import verdict
+    print("10. review 2: on a page with the section, no fact (time, figure, pattern) prints in both")
+    d15 = today_rec("2026-10-15-evening")
+    for name, ev, day, slot in _records():
+        base = verdict.record_from(ev, day, slot)
+        for variant, vrec in (("graded line", base), ("model text", _with_text(base, "BTC", False)),
+                              ("model text joined", _with_text(base, "BTC", True))):
+            pages = {}
+            trec = dict(d15, date_et=day, slot=slot, corrections=[])
+            pages["/today/ living"] = today.body_html(trec, [], "living", evidence=ev, verdict=vrec)
+            pages["/today/ dated"] = today.body_html(trec, [], "dated", evidence=ev, verdict=vrec)
+            pages["/coins/btc"] = _coin_page_for("BTC", ev, vrec)
+            pages["/coins/eth"] = _coin_page_for("ETH", ev, vrec)
+            with tempfile.TemporaryDirectory() as td:
+                vd, wd = os.path.join(td, "verdict"), os.path.join(td, "why")
+                os.makedirs(vd)
+                os.makedirs(wd)
+                json.dump(vrec, open(os.path.join(vd, f"{day}-{slot}.json"), "w"))
+                json.dump(ev, open(os.path.join(wd, f"{day}-{slot}.json"), "w"))
+                for b in verdict.build_pages(vd, wd, tdir=os.path.join(td, "none")):
+                    pages["/" + b["rel"][:-5]] = b["html"]
+            for pname, html in pages.items():
+                card, sec, ctext, crow, srow = _parts(html)
+                if not card or not sec:
+                    continue
+                both = sorted((_facts(ctext) & _facts(visible(sec))) | (crow & srow))
+                guarded(fails, f"{name}, {variant}, {pname}: no fact in both the card and the section "
+                               f"({'; '.join(both) or 'none'})", lambda: not both)
+    # a row of the hour after that the section's onset hour prints with the same figure is not printed again
+    v14 = verdict.record_from(rec(D14()), "2026-10-14", "evening")
+    sp = next(r for r in v14["coins"]["BTC"]["readings"]["rows"] if r["key"] == "ES=F")
+    v14["coins"]["BTC"]["readings"]["onset_rows"].append([sp["key"], sp["value"]])
+    guarded(fails, "SYNTHETIC: a row the onset hour prints with the same figure is left to the section; off a "
+                   "section page it prints",
+            lambda: "S&P 500 futures" not in visible(verdict.card_html(v14, "BTC", where="today", with_section=True))
+            and "S&P 500 futures" in visible(verdict.card_html(v14, "BTC", where="today")))
+    # a coin page never pairs a card and a section for different windows
+    v15 = verdict.record_from(rec(D15()), "2026-10-15", "evening")
+    other = copy.deepcopy(v15)
+    other["window"] = dict(other["window"], end_utc="2026-10-15T20:43:27Z")
+    h = _coin_page_for("BTC", rec(D15()), other)
+    guarded(fails, "a coin page whose verdict is for another window than its evidence shows no card, and 9.2's notes",
+            lambda: 'class="vd' not in h and "What lined up with the move" in h
+            and "it does not say any of them moved the price" in visible(h))
+    # a /why/ page carries one card: the day's lead verdict
+    with tempfile.TemporaryDirectory() as td:
+        vd, wd = os.path.join(td, "verdict"), os.path.join(td, "why")
+        os.makedirs(vd)
+        os.makedirs(wd)
+        json.dump(v15, open(os.path.join(vd, "2026-10-15-evening.json"), "w"))
+        json.dump(dict(copy.deepcopy(v15), slot="morning"), open(os.path.join(vd, "2026-10-15-morning.json"), "w"))
+        json.dump(rec(D15()), open(os.path.join(wd, "2026-10-15-evening.json"), "w"))
+        built = verdict.build_pages(vd, wd, tdir=os.path.join(td, "none"))
+        guarded(fails, "a /why/ page with a morning and an evening verdict carries one card, the evening's",
+                lambda: built and built[0]["html"].count('<aside class="vd') == 1)
+    # a record graded before the section forms existed: on a section page it prints no fact twice
+    for name, ev, day, slot in _records():
+        old = verdict.record_from(ev, day, slot)
+        for c in old["coins"].values():
+            c.pop("phrases_sec", None)
+            (c.get("readings") or {}).pop("onset_rows", None)
+        h = today.body_html(dict(d15, date_et=day, slot=slot, corrections=[]), [], "dated", evidence=ev, verdict=old)
+        card, sec, ctext, crow, srow = _parts(h)
+        both = sorted((_facts(ctext) & _facts(visible(sec))) | (crow & srow))
+        guarded(fails, f"{name}, a record with no section forms, /today/: no fact in both ({'; '.join(both) or 'none'})",
+                lambda: card and not both)
+    # the home has no section: its card keeps the onset hour's reading in words
+    guarded(fails, "SYNTHETIC: the onset-hour record grades Likely on the onset hour's readings",
+            lambda: verdict.grade(synthetic_likely_onset(), "BTC")["cand"]["readings_hour"] == "onset"
+            and verdict.grade(synthetic_likely_onset(), "BTC")["grade"] == "Likely")
+    for name, ev, day, slot in _records()[1:3]:
+        h = verdict.card_html(verdict.record_from(ev, day, slot), "BTC", where="home", live=True)
+        guarded(fails, f"{name}: the home card, with no section beside it, still states the onset hour's reading",
+                lambda: re.search(r"risk-on across assets|did not trade", visible(h)))
+    # (c) no verdict, no slot: the page is the page as it was
+    plain = today.body_html(d15, [], "dated", evidence=rec(D15()))
+    guarded(fails, "(c) /today/ with no verdict carries no empty card slot (byte-identical to 9.2's layout)",
+            lambda: "</p>\n  <section class=\"td-sec\"><h2>What moved</h2>" in plain)
+    xrp = _coin_page_for("XRP", rec(D15()), verdict.record_from(rec(D15()), "2026-10-15", "evening"))
+    guarded(fails, "(c) a coin page with no card carries no empty card slot (9.2's layout: the readings note, the "
+                   "empty evidence and wire slots, then the Chart Master card)",
+            lambda: "</p>\n  \n  \n  <section class=\"cn-cm\"" in xrp)
+
+
 def unit():
     fails = []
     for name, fn in (("grades", grade_cases), ("timing", timing_cases), ("because", because_cases),
                      ("model", model_cases), ("spend", spend_cases), ("no grade", no_grade_cases),
                      ("pages", page_cases), ("wiring", wiring_cases),
-                     ("review 1", review1_cases)):
+                     ("review 1", review1_cases), ("review 2", review2_cases)):
         group(fails, name, fn)
     return fails
 

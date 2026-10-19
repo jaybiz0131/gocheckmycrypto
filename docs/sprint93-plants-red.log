@@ -101,3 +101,86 @@ PLANT R13 _ref quotes a release line that carries a grade word: exit 1, 3 red; r
       FAIL (c) a press line carrying 'because' or a grade word is not quoted
 PLANT R6 /today/'s reported note denies a cause whatever the grade (replanted with the case that reaches the note): exit 1, 1 red; restored: exit 0
       FAIL /today/ with a Likely card and no evidence section: the reported note prints and denies nothing
+
+Review 2 plants, Mon Oct 19 2026, 11:32 AM EDT
+PLANT S1 the onset hour's readings phrase kept on a section page (Unclear): exit 1, 12 red; restored: exit 0
+      FAIL 15 Oct Unclear, graded line, /today/ living: no fact in both the card and the section (risk-on across assets)
+      FAIL 15 Oct Unclear, graded line, /today/ dated: no fact in both the card and the section (risk-on across assets)
+      FAIL 15 Oct Unclear, graded line, /coins/btc: no fact in both the card and the section (risk-on across assets)
+      FAIL 15 Oct Unclear, graded line, /why/2026-10-15-bitcoin: no fact in both the card and the section (risk-on across assets)
+      FAIL 15 Oct Unclear, model text, /today/ living: no fact in both the card and the section (risk-on across assets)
+      FAIL 15 Oct Unclear, model text, /today/ dated: no fact in both the card and the section (risk-on across assets)
+    ... and 6 more
+PLANT S2 the onset hour's readings phrase kept on a section page (the agree support): exit 0, 0 red; restored: exit 0
+    (green under the plant: no record graded Likely or Confirmed on the onset hour. The SYNTHETIC
+    onset-hour Likely record was added to the general test; S2 rerun below.)
+PLANT S3 the window's end time on a section page: exit 1, 75 red; restored: exit 0
+      FAIL 14 Oct Likely, graded line, /today/ living: no fact in both the card and the section (7:43 PM)
+      FAIL 14 Oct Likely, graded line, /today/ dated: no fact in both the card and the section (7:43 PM)
+      FAIL 14 Oct Likely, graded line, /coins/btc: no fact in both the card and the section (7:43 PM)
+      FAIL 14 Oct Likely, graded line, /coins/eth: no fact in both the card and the section (7:43 PM)
+      FAIL 14 Oct Likely, graded line, /why/2026-10-14-bitcoin: no fact in both the card and the section (7:43 PM)
+      FAIL 14 Oct Likely, model text, /today/ living: no fact in both the card and the section (7:43 PM)
+    ... and 69 more
+PLANT S4 the release time kept in the section-page reference: exit 1, 24 red; restored: exit 0
+      FAIL 14 Oct Likely, graded line, /today/ living: no fact in both the card and the section (8:30 AM)
+      FAIL 14 Oct Likely, graded line, /today/ dated: no fact in both the card and the section (8:30 AM)
+      FAIL 14 Oct Likely, graded line, /coins/btc: no fact in both the card and the section (8:30 AM)
+      FAIL 14 Oct Likely, graded line, /why/2026-10-14-bitcoin: no fact in both the card and the section (8:30 AM)
+      FAIL 14 Oct Likely, model text, /today/ living: no fact in both the card and the section (8:30 AM)
+      FAIL 14 Oct Likely, model text, /today/ dated: no fact in both the card and the section (8:30 AM)
+    ... and 18 more
+PLANT S5 the onset hour's clock in the readings heading on a section page: exit 1, 24 red; restored: exit 0
+      FAIL 15 Oct Unclear, graded line, /today/ living: no fact in both the card and the section (9:55 AM)
+      FAIL 15 Oct Unclear, graded line, /today/ dated: no fact in both the card and the section (9:55 AM)
+      FAIL 15 Oct Unclear, graded line, /coins/btc: no fact in both the card and the section (9:55 AM)
+      FAIL 15 Oct Unclear, graded line, /why/2026-10-15-bitcoin: no fact in both the card and the section (9:55 AM)
+      FAIL 15 Oct Unclear, model text, /today/ living: no fact in both the card and the section (9:55 AM)
+      FAIL 15 Oct Unclear, model text, /today/ dated: no fact in both the card and the section (9:55 AM)
+    ... and 18 more
+PLANT S6 a row the onset hour prints is printed again: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a row the onset hour prints with the same figure is left to the section; off a section page it prints
+PLANT S7 the same pattern as the onset hour printed again: exit 1, 12 red; restored: exit 0
+      FAIL SYNTHETIC Confirmed, graded line, /today/ living: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Confirmed, graded line, /today/ dated: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Confirmed, graded line, /coins/btc: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Confirmed, graded line, /why/2026-10-14-bitcoin: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Confirmed, model text, /today/ living: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Confirmed, model text, /today/ dated: no fact in both the card and the section (risk-off across assets)
+    ... and 6 more
+PLANT S8 model sentences printed as stored on a section page: exit 1, 60 red; restored: exit 0
+      FAIL 14 Oct Likely, graded line, /today/ living: no fact in both the card and the section (7:43 PM; 8:30 AM)
+      FAIL 14 Oct Likely, graded line, /today/ dated: no fact in both the card and the section (7:43 PM; 8:30 AM)
+      FAIL 14 Oct Likely, graded line, /coins/btc: no fact in both the card and the section (7:43 PM; 8:30 AM)
+      FAIL 14 Oct Likely, graded line, /why/2026-10-14-bitcoin: no fact in both the card and the section (7:43 PM; 8:30 AM)
+      FAIL 14 Oct Likely, model text, /today/ living: no fact in both the card and the section (7:43 PM; 8:30 AM)
+      FAIL 14 Oct Likely, model text, /today/ dated: no fact in both the card and the section (7:43 PM; 8:30 AM)
+    ... and 54 more
+PLANT S9 /today/ emits the empty card slot: exit 1, 1 red; restored: exit 0
+      FAIL (c) /today/ with no verdict carries no empty card slot (byte-identical to 9.2's layout)
+PLANT S10 a coin page emits the empty card slot: exit 1, 1 red; restored: exit 0
+      FAIL (c) a coin page with no card carries no empty card slot (9.2's layout: the readings note, the empty evidence and wire slots, then the Chart Master card)
+PLANT S11 a coin card for another window than the section's: exit 1, 1 red; restored: exit 0
+      FAIL a coin page whose verdict is for another window than its evidence shows no card, and 9.2's notes
+PLANT S12 /why/ shows every slot's card again: exit 1, 1 red; restored: exit 0
+      FAIL a /why/ page with a morning and an evening verdict carries one card, the evening's
+PLANT S13 a quoted wire line on a section page: exit 1, 12 red; restored: exit 0
+      FAIL 15 Oct Disputed (reports withheld), graded line, /today/ living: no fact in both the card and the section ($940 million; 50%)
+      FAIL 15 Oct Disputed (reports withheld), graded line, /today/ dated: no fact in both the card and the section ($940 million; 50%)
+      FAIL 15 Oct Disputed (reports withheld), graded line, /coins/btc: no fact in both the card and the section ($940 million; 50%)
+      FAIL 15 Oct Disputed (reports withheld), graded line, /why/2026-10-15-bitcoin: no fact in both the card and the section ($940 million; 50%)
+      FAIL 15 Oct Disputed (reports withheld), model text, /today/ living: no fact in both the card and the section ($940 million; 50%)
+      FAIL 15 Oct Disputed (reports withheld), model text, /today/ dated: no fact in both the card and the section ($940 million; 50%)
+    ... and 6 more
+PLANT S2 the onset hour's readings phrase kept on a section page (the agree support) (replanted with the onset-hour Likely record): exit 1, 4 red; restored: exit 0
+      FAIL SYNTHETIC Likely on the onset hour, model text joined, /today/ living: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Likely on the onset hour, model text joined, /today/ dated: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Likely on the onset hour, model text joined, /coins/btc: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Likely on the onset hour, model text joined, /why/2026-10-14-bitcoin: no fact in both the card and the section (risk-off across assets)
+PLANT S14 a record with no section forms prints its stored sentences on a section page: exit 1, 6 red; restored: exit 0
+      FAIL 14 Oct Likely, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
+      FAIL 15 Oct Unclear, a record with no section forms, /today/: no fact in both (risk-on across assets)
+      FAIL 19 Oct real, a record with no section forms, /today/: no fact in both (3:49 PM; did not trade)
+      FAIL SYNTHETIC Confirmed, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
+      FAIL SYNTHETIC Likely on the onset hour, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
+      FAIL 15 Oct Disputed (reports withheld), a record with no section forms, /today/: no fact in both ($940 million; 12:25 AM; 50%)

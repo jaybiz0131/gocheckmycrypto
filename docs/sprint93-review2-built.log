@@ -1,0 +1,19 @@
+Sprint 9.3, review 2: the local build checks, Mon Oct 19 2026, 11:43 AM EDT.
+Branch build: a throwaway copy of this tree, SITE_BUILD_NOW=2026-10-19T12:30:00Z, verdicts graded by verdict.record_from from the real 19 October morning record and the 14 and 15 October fixtures. Main build: git archive 4a9c6ae (main's code; main's later commits are data and documents), the same site/data and data/, the same clock.
+
+coin pages other than btc and eth: 98 of 98 identical to the build of main's code (4a9c6ae) with the same data and clock, the stylesheet's version hash normalized
+today/2026-10-16.html: identical
+today/2026-10-17.html: identical
+today/2026-10-18.html: identical
+Not normalized, every page differs only in that hash: site.css changed on this branch (the card's styles).
+
+The duplicate check of scripts/sprint93_test.py (_parts, _facts) on the branch build:
+  coins/btc.html: no fact in both
+  coins/eth.html: no fact in both
+  today/2026-10-15.html: no fact in both
+  today/2026-10-19.html: no fact in both
+  today/index.html: no fact in both
+  why/2026-10-14-bitcoin.html: no fact in both
+  why/2026-10-15-bitcoin.html: no fact in both
+  why/2026-10-19-bitcoin.html: no fact in both
+BUILT TREE: 8 pages with both the card and the section, 0 with a fact in both
