@@ -1,0 +1,155 @@
+{
+ "date_et": "2026-10-19",
+ "slot": "evening",
+ "published_utc": "2026-10-19T23:14:33Z",
+ "first_utc": "2026-10-19T23:14:33Z",
+ "direction": "down",
+ "direction_basis": "et_day",
+ "title": "Why is crypto down today? Monday, October 19, 2026",
+ "h1": "Why is crypto down today? Monday, October 19, 2026",
+ "stamp_label": "Evening Edition, 7:14 PM ET",
+ "composed_utc": "2026-10-19T23:15:26Z",
+ "board_stamp_et": "7:12 PM ET on Oct 19",
+ "answer": [
+  "On Monday, October 19, Bitcoin was down 0.52% since midnight ET, to $81,960.",
+  "Over the last 24 hours it was up 0.35%.",
+  "Ether was up 0.60% over the same 24 hours.",
+  "Among the Top 100, WLD gained 9.58% and WLFI lost 4.35% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 81960,
+  "chg": 0.35,
+  "chg_day": -0.52
+ },
+ "eth": {
+  "price": 2403.93,
+  "chg": 0.6
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "WLD",
+   "name": "Worldcoin",
+   "chg": 9.58,
+   "slug": "wld"
+  },
+  {
+   "symbol": "PUMP",
+   "name": "Pump.fun",
+   "chg": 9.21,
+   "slug": "pump"
+  },
+  {
+   "symbol": "VVV",
+   "name": "Venice Token",
+   "chg": 8.31,
+   "slug": "vvv"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "WLFI",
+   "name": "World Liberty Financial",
+   "chg": -4.35,
+   "slug": "wlfi"
+  },
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "chg": -4.01,
+   "slug": "m"
+  },
+  {
+   "symbol": "HBAR",
+   "name": "Hedera",
+   "chg": -3.04,
+   "slug": "hbar"
+  }
+ ],
+ "reported": [
+  {
+   "line": "JPMorgan extended its JPM Coin dollar deposit token to Ethereum for institutional clients, enabling faster settlement on a public blockchain.",
+   "time": "3:53 AM ET",
+   "source_count": 5,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/jpmorgan-extends-jpm-coin-to-ethereum-for-institutional-clients"
+    },
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/business/2026-10-19-jpmorgan-jpm-coin-deposit-token-ethereum-418874"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/jpmorgan-jpm-coin-ethereum-institutional-clients?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    },
+    {
+     "outlet": "The Daily Hodl",
+     "url": "https://dailyhodl.com/2026/10/19/jpmorgans-blockchain-unit-makes-bank-deposit-token-jpm-coin-available-on-ethereum-mainnet/"
+    }
+   ]
+  },
+  {
+   "line": "BlackRock filed for a Bitcoin Managed Protection ETF offering downside protection and upside exposure, marking the firm's third bitcoin fund.",
+   "time": "6:00 PM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/regulation/2026-10-19-blackrock-files-bitcoin-managed-protect-etf-downside-protection-ibit-421087"
+    },
+    {
+     "outlet": "Crypto Briefing",
+     "url": "https://cryptobriefing.com/blackrock-files-bitcoin-managed-protection-etf/"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin spot ETF net",
+   "value": -54.9,
+   "window": "one trading day, 19 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "7:12 PM ET on Oct 19",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 4376707,
+   "shorts": 453575,
+   "window": "last 8 hours",
+   "source": "OKX",
+   "stamp": "7:12 PM ET on Oct 19",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0084,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "7:12 PM ET on Oct 19",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 59,
+   "word": "Greed",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "7:12 PM ET on Oct 19",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning read, tomorrow at 8:15 AM ET",
+ "corrections": []
+}

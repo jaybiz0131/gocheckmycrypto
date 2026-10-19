@@ -1,181 +1,134 @@
 {
  "what": "the day's ranked clusters, in the desk's own one line, sources counted and linked (Jack, 5 October 2026)",
  "what_a_wire_line_is": "Each line is the desk's own one-line summary of a story it ranked, with its sources counted and linked. It is not a story the desk wrote or checked; only the item with a badge was checked.",
- "ranked_utc": "2026-10-18T23:12:03Z",
- "ranked_et": "7:12 PM ET on Oct 18",
- "refreshed_utc": "2026-10-19T12:17:57Z",
- "refreshed_et": "8:17 AM ET on Oct 19",
- "refreshes": 1,
- "snapshot_stamp_utc": "2026-10-18T23:11:43Z",
+ "ranked_utc": "2026-10-19T23:13:05Z",
+ "ranked_et": "7:13 PM ET on Oct 19",
+ "refreshed_utc": "2026-10-19T23:13:05Z",
+ "refreshed_et": "7:13 PM ET on Oct 19",
+ "refreshes": 0,
+ "snapshot_stamp_utc": "2026-10-19T23:12:46Z",
  "items": [
   {
-   "rank": 4,
-   "id": "c056",
-   "line": "Qubic halted its mainnet after a $1.3M wallet drain emptied 1,404 accounts; 87% of stolen QU remains frozen on-network while MEXC froze the receiving account.",
+   "rank": 1,
+   "id": "c029",
+   "line": "JPMorgan extended its JPM Coin dollar deposit token to Ethereum for institutional clients, enabling faster settlement on a public blockchain.",
    "titles": [
-    "Qubic Halts Network After $1.3 Million Wallet Drain",
-    "Qubic halts mainnet after wallet drain empties 1,404 accounts"
-   ],
-   "board_reading": "",
-   "source_count": 4,
-   "primary": false,
-   "standing": "corroborated",
-   "links": [
-    {
-     "url": "https://thedefiant.io/news/hacks/qubic-halts-network-after-1-3-million-wallet-drain",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://cryptobriefing.com/qubic-halts-mainnet-wallet-drain/",
-     "outlet": "Crypto Briefing",
-     "primary": false
-    },
-    {
-     "url": "https://thedefiant.io/news/hacks/cysic-halts-bridge-after-unauthorized-mint-of-10-million-cys",
-     "outlet": "The Defiant",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/cysic-crypto-bridge-halted-after-unauthorized-mint-of-10m-cys?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://cointelegraph.com/news/qubic-freezes-chain-after-attacker-drains-14k-wallets-with-weak-seeds?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
-     "primary": false
-    },
-    {
-     "url": "https://beincrypto.com/qubic-price-wallet-drain-network-halt/",
-     "outlet": "BeInCrypto",
-     "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-18T15:09:55Z",
-   "verdict": "VERIFIED",
-   "mark": "checked"
-  },
-  {
-   "rank": 3,
-   "id": "c010",
-   "line": "Cysic halted its bridge after attacker minted 10M CYS tokens and moved $727K across Mayan, deBridge, and SWFT to Ethereum.",
-   "titles": [
-    "Cysic suspends bridge after attacker mints tokens and moves $727,000 to Ethereum"
+    "JPMorgan Extends JPM Coin to Ethereum for Institutional Clients",
+    "JPMorgan expands \u2018JPM Coin\u2019 deposit token to Ethereum for institutional clients",
+    "JPMorgan takes JPM Coin to Ethereum for institutional clients: Report",
+    "JPMorgan\u2019s Blockchain Unit Makes Bank Deposit Token JPM Coin Available on Ethereum Mainnet"
    ],
    "board_reading": "Ether price",
-   "source_count": 3,
+   "source_count": 5,
    "primary": false,
    "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.theblock.co/news/defi/2026-10-18-cysic-suspends-bridge-after-attacker-mints-tokens-and-moves-727000-to-ethereum-418863",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/jpmorgan-extends-jpm-coin-to-ethereum-for-institutional-clients",
+     "outlet": "The Defiant",
+     "primary": false
+    },
+    {
+     "url": "https://www.theblock.co/news/business/2026-10-19-jpmorgan-jpm-coin-deposit-token-ethereum-418874",
      "outlet": "The Block",
      "primary": false
     },
     {
-     "url": "https://thedefiant.io/news/hacks/cysic-halts-bridge-after-unauthorized-mint-of-10-million-cys",
-     "outlet": "thedefiant.io",
+     "url": "https://cointelegraph.com/news/jpmorgan-jpm-coin-ethereum-institutional-clients?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "outlet": "Cointelegraph",
      "primary": false
     },
     {
-     "url": "https://cointelegraph.com/news/cysic-crypto-bridge-halted-after-unauthorized-mint-of-10m-cys?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
-     "outlet": "Cointelegraph",
+     "url": "https://dailyhodl.com/2026/10/19/jpmorgans-blockchain-unit-makes-bank-deposit-token-jpm-coin-available-on-ethereum-mainnet/",
+     "outlet": "The Daily Hodl",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-18T16:07:43Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
+   "reported_utc": "2026-10-19T07:53:33Z",
+   "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
-   "rank": 1,
-   "id": "c012",
-   "line": "Turkish police arrested Hex founder Richard Heart and seized $7.15M cash, six cold wallets, and weapons across 15 addresses.",
+   "rank": 3,
+   "id": "c017",
+   "line": "Nine companies including Broadcom and Verizon objected to trading on the SEC-approved OKX-ICE tokenized stock venue, and Nasdaq opted out entirely.",
    "titles": [
-    "Turkey confirms Hex founder Richard Heart\u2019s arrest, says police seized $7.15 million and six cold wallets"
+    "SEC tokenized stock framework faces issuer pushback as Broadcom, Verizon object to OKX-ICE listing",
+    "Public companies object to OKX-ICE\u2019s tokenized stock plan"
    ],
-   "board_reading": "",
+   "board_reading": "Whale net, exchange flows",
    "source_count": 2,
    "primary": false,
-   "standing": "single",
+   "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.theblock.co/news/regulation/2026-10-17-turkey-confirms-hex-founder-richard-hearts-arrest-says-police-seized-7-15-million-and-six-cold-wallets-418852",
-     "outlet": "The Block",
+     "url": "https://www.coindesk.com/business/2026/10/18/sec-tokenized-stock-framework-faces-issuer-pushback-as-broadcom-verizon-object-to-okx-ice-listing",
+     "outlet": "CoinDesk",
      "primary": false
     },
     {
-     "url": "https://cointelegraph.com/magazine/richard-heart-caught-with-pants-down-qday-gets-even-closer-hodlers-digest?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+     "url": "https://cointelegraph.com/news/public-companies-object-okx-ice-tokenized-stock?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
      "outlet": "Cointelegraph",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-17T18:14:43Z",
-   "verdict": "NEEDS-HUMAN-REVIEW",
+   "reported_utc": "2026-10-18T23:28:06Z",
+   "verdict": "VERIFIED",
    "mark": "wire"
   },
   {
    "rank": 5,
-   "id": "c003",
-   "line": "Stablecoin payments hit $482B in 2026, up 45%, as Visa, Mastercard, and Stripe add crypto rails while overall stablecoin supply remains flat.",
+   "id": "c019",
+   "line": "BlackRock filed for a Bitcoin Managed Protection ETF offering downside protection and upside exposure, marking the firm's third bitcoin fund.",
    "titles": [
-    "Stablecoin supply stalls, but payments jump 45% as Visa, Mastercard and Stripe connect crypto to cash"
+    "BlackRock files for bitcoin ETF offering downside protection and upside exposure to IBIT",
+    "BlackRock files for iShares Bitcoin Managed Protection ETF"
    ],
-   "board_reading": "Stablecoin float",
-   "source_count": 1,
+   "board_reading": "Spot ETF net",
+   "source_count": 2,
    "primary": false,
-   "standing": "single",
+   "standing": "corroborated",
    "links": [
     {
-     "url": "https://www.coindesk.com/business/2026/10/18/stablecoin-supply-stalls-but-payments-jump-45-as-visa-mastercard-and-stripe-connect-crypto-to-cash",
-     "outlet": "CoinDesk",
+     "url": "https://www.theblock.co/news/regulation/2026-10-19-blackrock-files-bitcoin-managed-protect-etf-downside-protection-ibit-421087",
+     "outlet": "The Block",
      "primary": false
-    }
-   ],
-   "reported_utc": "2026-10-18T14:00:00Z",
-   "verdict": "VERIFIED",
-   "mark": "wire"
-  },
-  {
-   "rank": 6,
-   "id": "c120",
-   "line": "CFTC proposed a federal oversight framework for US crypto exchanges, potentially establishing unified licensing standards and consumer protections.",
-   "titles": [
-    "CFTC proposes federal oversight framework for US crypto exchanges"
-   ],
-   "board_reading": "Whale net, exchange flows",
-   "source_count": 1,
-   "primary": false,
-   "standing": "single",
-   "links": [
+    },
     {
-     "url": "https://cryptobriefing.com/cftc-proposes-federal-oversight-framework-for-us-crypto-exchanges/",
+     "url": "https://cryptobriefing.com/blackrock-files-bitcoin-managed-protection-etf/",
      "outlet": "Crypto Briefing",
      "primary": false
     }
    ],
-   "reported_utc": "2026-10-18T19:49:27Z",
-   "verdict": "VERIFIED",
+   "reported_utc": "2026-10-19T22:00:53Z",
+   "verdict": "NEEDS-HUMAN-REVIEW",
    "mark": "wire"
   }
  ],
- "checked": {
-  "id": "c056",
-  "rank": 4,
-  "says": "Crypto Briefing reports Qubic paused its mainnet after 1,404 user wallets were drained of approximately 2.94 trillion QU tokens worth $1.3 million, with 87.1% of drained QU immobilized on-chain.",
-  "unconfirmed": "The root cause attribution to weak wallet seeds tied to legacy Apple devices is stated in Crypto Briefing but not cross-verified in the Defiant excerpt.",
-  "badge": "Verified",
-  "standing": "corroborated",
-  "source": "https://cryptobriefing.com/qubic-halts-mainnet-wallet-drain/",
-  "outlet": "Crypto Briefing"
- },
+ "checked": null,
  "dropped": [
   {
    "rank": 2,
    "id": "c002",
-   "why": "the wire line runs 177 characters, over 160"
+   "why": "the source check left no clause its sources support"
+  },
+  {
+   "rank": 4,
+   "id": "c025",
+   "why": "the wire line runs 163 characters, over 160"
+  },
+  {
+   "rank": 6,
+   "id": "c016",
+   "why": "the wire line runs 163 characters, over 160"
   }
  ],
- "source_cuts": []
+ "source_cuts": [
+  {
+   "rank": 2,
+   "id": "c002",
+   "clause": "CFTC rejected CME's legal argument that its new perpetual futures policy causes harm",
+   "why": "its sources do not carry the cause it names (argume)"
+  }
+ ]
 }
