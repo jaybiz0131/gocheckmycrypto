@@ -1,0 +1,38 @@
+1. each grade, by the rules in code (the strategist's rulings of October 19)
+  FAIL group grades could not run [AttributeError: module 'verdict' has no attribute 'day_moves']
+2. the flat test and the direction words read the window /today/ uses, named
+  FAIL group window could not run [AttributeError: module 'verdict' has no attribute 'day_moves']
+3. the timing test's thresholds, one versioned constant in why_evidence.py
+  ok   why_evidence.TIMING_TEST holds 25% and 40%, versioned, citing the audit
+  FAIL verdict.py keeps no copy of the thresholds
+  ok   14 October CPI passes (8.5% of the run before it, 71.2% in the hour after)
+  ok   15 October PPI fails (the hour after it ran against the rise)
+  ok   26% of the run done before the event disqualifies it
+  ok   39% of the move in the hour after is under the bar
+  FAIL the verdict reads the constant: raised to 75%, 14 October CPI fails
+4. 'because' only on Confirmed; 'lines up with' on Likely; both sides on Disputed; nothing predicts
+  FAIL group because could not run [AttributeError: module 'verdict' has no attribute 'day_moves']
+5. Haiku 5.5 drafts, Sonnet 5.5 checks with 'stands' per claim; a failure fails open to the phrases
+  FAIL group model could not run [AttributeError: module 'verdict' has no attribute 'day_moves']
+6. the spend: each attempt reserved against the day's cap first and settled after (ruling 4)
+  FAIL group spend could not run [AttributeError: module 'verdict' has no attribute 'day_moves']
+7. no card where no verdict was computed; no grade word outside a card
+  FAIL group no card could not run [AttributeError: module 'verdict' has no attribute 'day_moves']
+8. one card on the home, /today/, Bitcoin; a URL per graded verdict; corrections; notes; chips; slots
+  FAIL group pages could not run [AttributeError: module 'verdict' has no attribute 'day_moves']
+9. on a page with the section: no fact in both, and every name points at exactly one listed item
+  FAIL group matrix could not run [AttributeError: module 'verdict' has no attribute 'day_moves']
+10. wired into both workflows after why_evidence.py, inside a time budget, never a gate
+  ok   morning-read.yml: runs verdict.py --write after why_evidence.py, with a timeout, never as a gate
+  ok   morning-read.yml: the key comes from the repository secret
+  ok   morning-read.yml: commits the verdict records and the spend ledger
+  ok   crypto-news-brief.yml: runs verdict.py --write after why_evidence.py, with a timeout, never as a gate
+  ok   crypto-news-brief.yml: the key comes from the repository secret
+  ok   crypto-news-brief.yml: commits the verdict records and the spend ledger
+  ok   verdict.py carries no em dash and prints no key
+  ok   llm.py checks the attempt guard before every HTTP attempt, inside the retry loop
+
+SPRINT 9.3: FAIL (10 failure(s))
+  (9.2's suite on the round 4 tree, before its pin regex allowed the item id) FAIL every pinned number is a numbered item in the list below the chart (5 pins, one per timed item)
+  FAIL 19 October: Ether moved with Bitcoin is one plain line on the Ether page, naming the page's window, not a card
+SPRINT 9.3: FAIL (1 failure(s))

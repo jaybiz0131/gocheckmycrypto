@@ -1,0 +1,265 @@
+PLANT 1 each grade: Confirmed asks for three outlets: exit 1, 2 red; restored: exit 0
+      FAIL SYNTHETIC Confirmed: two outlets state it, the timing passes, the readings agree
+      FAIL Confirmed: the graded line says 'because'
+PLANT 2 timing: the share threshold raised to 75%: exit 1, 10 red; restored: exit 0
+      FAIL 14 October, Bitcoin (real): Likely, on the CPI release: its timing passes and the readings of the hour after it agree (risk-off across assets); no source-checked report states it
+      FAIL a record written before 9.3 (no readings of the hour after) grades on the onset hour only: 14 October then reads Unclear, an event in time with no report or reading behind it
+      FAIL 14 October CPI passes timing although it came after the 4:10 AM onset: 8.5% of the run done before it, 71.2% of the move in the hour after (9.2's figures, unchanged)
+      FAIL fail open when the draft call fails (HTTP 500 on every attempt): the graded line from phrases, no model sentence
+      FAIL fail open when the check withdraws a claim (stands false): the graded line from phrases, no model sentence
+      FAIL fail open when the check leaves a sentence unjudged: the graded line from phrases, no model sentence
+      FAIL fail open when the check answers out of contract: the graded line from phrases, no model sentence
+      FAIL fail open when the draft adds a figure the phrases do not carry: the graded line from phrases, no model sentence
+      FAIL fail open when the draft rewords a phrase: the graded line from phrases, no model sentence
+      FAIL the verdict page carries the card, the evidence, and the grade
+PLANT 3 because: a Likely line says because: exit 1, 8 red; restored: exit 0
+      FAIL Likely: no 'because' in its line or in any phrase the model is handed
+      FAIL Likely: the line says 'lines up with'
+      FAIL a draft saying 'because' on a Likely day fails the belt and the graded line prints instead
+      FAIL a draft that copies whole phrases and a check that lets every claim stand: the model's two sentences print
+      FAIL the draft went to claude-haiku-5-5 and the check to claude-sonnet-5-5
+      FAIL Ether moved with Bitcoin: no model call for it
+      FAIL one ledger row for the run, with its calls, tokens, dollars by stage and the cap
+      FAIL a second run the same day adds its own row and the day's total sums both
+PLANT 4 because: the belt lets because through on a Likely day: exit 0, 0 red; restored: exit 0
+    (green under the plant: the case never reached the belt. The belt case and the quoting rule were
+    added, and plant 4 rerun below.)
+PLANT 5 sitemap: the news sitemap drops the verdict entries: exit 1, 1 red; restored: exit 0
+      FAIL the verdict URL is in the news sitemap
+PLANT 6 ledger: the run writes no ledger row: exit 1, 2 red; restored: exit 0
+      FAIL one ledger row for the run, with its calls, tokens, dollars by stage and the cap
+      FAIL a second run the same day adds its own row and the day's total sums both
+PLANT 7 fail open: a withdrawn claim does not stop the model sentence: exit 1, 1 red; restored: exit 0
+      FAIL fail open when the check withdraws a claim (stands false): the graded line from phrases, no model sentence
+PLANT 8 fail open: the twins gate is not asked: exit 1, 1 red; restored: exit 0
+      FAIL a model sentence the twins gate drops fails open, never prints
+PLANT 9 no grade: the flat card prints a badge: exit 1, 1 red; restored: exit 0
+      FAIL a flat day's card: 'Flat: nothing to explain' and no grade word, no 'because'
+PLANT 10 card: the home drops the card: exit 1, 1 red; restored: exit 0
+      FAIL home: the verdict card, one shape (aside.vd with data-vd)
+PLANT 11 card: the verdict's own corrections are not drawn: exit 1, 1 red; restored: exit 0
+      FAIL the card renders the verdict's own correction and the page's corrections
+PLANT 12 wiring: the morning workflow loses the verdict step: exit 1, 1 red; restored: exit 0
+      FAIL morning-read.yml: runs verdict.py --write after why_evidence.py, with a timeout, never as a gate
+PLANT 13 cap: the spend check always allows the call: exit 1, 1 red; restored: exit 0
+      FAIL with the day's spend at the cap, no call is made and the verdict fails open to the phrases
+
+PLANT 4 because (replanted): the belt lets because through on a Likely day: exit 1, 1 red; restored: exit 0
+      FAIL the belt itself refuses 'because' on a Likely draft, even one built from whole phrases
+PLANT 14 because: a wire line that says because is quoted: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a wire line that says 'because' is never quoted on a Likely verdict
+
+PLANT 15 deadline: _Late made an Exception again (llm.py's retry loop swallows it): exit 1, 1 red; restored: exit 0
+    FAIL the deadline mid-call fails open, makes no second attempt, and the ledger row is written
+
+Review 1 plants, Mon Oct 19 2026, 10:43 AM EDT
+PLANT R1 Likely again when a report states it and the readings are silent: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a report states it and the timing passes, but the readings are silent: Unclear, never Likely, and the line says a report named it
+PLANT R2 the Likely definition says 'silent' again: exit 1, 1 red; restored: exit 0
+      FAIL the printed definitions: Likely needs the readings to agree, and no definition says 'silent'
+PLANT R3 the card drops the readings behind the grade: exit 1, 2 red; restored: exit 0
+      FAIL the Likely card names the readings its grade rests on, with their own hour: the hour after the release, 8:30 to 9:30 AM ET, risk-off across assets
+      FAIL the card off the home lists those readings' figures (S&P 500 futures, 10-year yield)
+PLANT R4 the card repeats its own coin's hour figure: exit 1, 1 red; restored: exit 0
+      FAIL the card never prints its own coin's hour figure (the evidence list prints it)
+PLANT R5 the evidence note denies a cause whatever the grade: exit 1, 5 red; restored: exit 0
+      FAIL /today/ with a Confirmed card: no sentence denies causation
+      FAIL /coins/btc with a Confirmed card: no sentence denies causation
+      FAIL /today/ with a Likely card: no sentence denies causation
+      FAIL /coins/btc with a Likely card: no sentence denies causation
+      FAIL /why/2026-10-14-bitcoin (Likely): no sentence denies causation
+PLANT R6 /today/'s reported note denies a cause whatever the grade: exit 0, 0 red; restored: exit 0
+    (green under the plant: on the fixture page every reported item is in the evidence list, so the note
+    never printed. A case with a graded page and no evidence section was added; R6 rerun below.)
+PLANT R7 the coin page's wire note denies a cause whatever the grade: exit 1, 2 red; restored: exit 0
+      FAIL /coins/btc with a Confirmed card: no sentence denies causation
+      FAIL /coins/btc with a Likely card: no sentence denies causation
+PLANT R8 /why/ links /today/<day> whether or not it exists: exit 1, 1 red; restored: exit 0
+      FAIL (d) /why/ links /today/<day> only when that dated page exists
+PLANT R9 the Likely chip takes the verified green again: exit 1, 2 red; restored: exit 0
+      FAIL light: no grade chip token resolves to an up or down color (--verified-fg)
+      FAIL dark: no grade chip token resolves to an up or down color (--verified-fg)
+PLANT R10 the phrases drop the window: exit 1, 11 red; restored: exit 0
+      FAIL a record written before 9.3 (no readings of the hour after) grades on the onset hour only: 14 October then reads Unclear, an event in time with no report or reading behind it
+      FAIL Disputed: both sides, the reported cause and the timing against it
+      FAIL the belt itself refuses 'because' on a Likely draft, even one built from whole phrases
+      FAIL a draft that copies whole phrases and a check that lets every claim stand: the model's two sentences print
+      FAIL the draft went to claude-haiku-5-5 and the check to claude-sonnet-5-5
+      FAIL Ether moved with Bitcoin: no model call for it
+      FAIL one ledger row for the run, with its calls, tokens, dollars by stage and the cap
+      FAIL a second run the same day adds its own row and the day's total sums both
+      FAIL (a) Likely: every phrase with a direction word (fall, rise, fell, rose) names the 24-hour window
+      FAIL (a) Disputed: every phrase with a direction word (fall, rise, fell, rose) names the 24-hour window
+      FAIL (a) Confirmed: every phrase with a direction word (fall, rise, fell, rose) names the 24-hour window
+PLANT R11 a new record labels crypto only with no futures bar: exit 1, 1 red; restored: exit 0
+      FAIL (b) SYNTHETIC: a new record labels no 'crypto only' when the futures have no bar in the hour
+PLANT R12 the section prints a stored crypto only from a shut market: exit 1, 1 red; restored: exit 0
+      FAIL (b) 19 October: the section does not label 'crypto only' in an hour stock futures did not trade
+PLANT R13 _ref quotes a release line that carries a grade word: exit 1, 3 red; restored: exit 0
+      FAIL (c) a release line carrying 'because' or a grade word is not quoted
+      FAIL (c) a hack line carrying 'because' or a grade word is not quoted
+      FAIL (c) a press line carrying 'because' or a grade word is not quoted
+PLANT R6 /today/'s reported note denies a cause whatever the grade (replanted with the case that reaches the note): exit 1, 1 red; restored: exit 0
+      FAIL /today/ with a Likely card and no evidence section: the reported note prints and denies nothing
+
+Review 2 plants, Mon Oct 19 2026, 11:32 AM EDT
+PLANT S1 the onset hour's readings phrase kept on a section page (Unclear): exit 1, 12 red; restored: exit 0
+      FAIL 15 Oct Unclear, graded line, /today/ living: no fact in both the card and the section (risk-on across assets)
+      FAIL 15 Oct Unclear, graded line, /today/ dated: no fact in both the card and the section (risk-on across assets)
+      FAIL 15 Oct Unclear, graded line, /coins/btc: no fact in both the card and the section (risk-on across assets)
+      FAIL 15 Oct Unclear, graded line, /why/2026-10-15-bitcoin: no fact in both the card and the section (risk-on across assets)
+      FAIL 15 Oct Unclear, model text, /today/ living: no fact in both the card and the section (risk-on across assets)
+      FAIL 15 Oct Unclear, model text, /today/ dated: no fact in both the card and the section (risk-on across assets)
+    ... and 6 more
+PLANT S2 the onset hour's readings phrase kept on a section page (the agree support): exit 0, 0 red; restored: exit 0
+    (green under the plant: no record graded Likely or Confirmed on the onset hour. The SYNTHETIC
+    onset-hour Likely record was added to the general test; S2 rerun below.)
+PLANT S3 the window's end time on a section page: exit 1, 75 red; restored: exit 0
+      FAIL 14 Oct Likely, graded line, /today/ living: no fact in both the card and the section (7:43 PM)
+      FAIL 14 Oct Likely, graded line, /today/ dated: no fact in both the card and the section (7:43 PM)
+      FAIL 14 Oct Likely, graded line, /coins/btc: no fact in both the card and the section (7:43 PM)
+      FAIL 14 Oct Likely, graded line, /coins/eth: no fact in both the card and the section (7:43 PM)
+      FAIL 14 Oct Likely, graded line, /why/2026-10-14-bitcoin: no fact in both the card and the section (7:43 PM)
+      FAIL 14 Oct Likely, model text, /today/ living: no fact in both the card and the section (7:43 PM)
+    ... and 69 more
+PLANT S4 the release time kept in the section-page reference: exit 1, 24 red; restored: exit 0
+      FAIL 14 Oct Likely, graded line, /today/ living: no fact in both the card and the section (8:30 AM)
+      FAIL 14 Oct Likely, graded line, /today/ dated: no fact in both the card and the section (8:30 AM)
+      FAIL 14 Oct Likely, graded line, /coins/btc: no fact in both the card and the section (8:30 AM)
+      FAIL 14 Oct Likely, graded line, /why/2026-10-14-bitcoin: no fact in both the card and the section (8:30 AM)
+      FAIL 14 Oct Likely, model text, /today/ living: no fact in both the card and the section (8:30 AM)
+      FAIL 14 Oct Likely, model text, /today/ dated: no fact in both the card and the section (8:30 AM)
+    ... and 18 more
+PLANT S5 the onset hour's clock in the readings heading on a section page: exit 1, 24 red; restored: exit 0
+      FAIL 15 Oct Unclear, graded line, /today/ living: no fact in both the card and the section (9:55 AM)
+      FAIL 15 Oct Unclear, graded line, /today/ dated: no fact in both the card and the section (9:55 AM)
+      FAIL 15 Oct Unclear, graded line, /coins/btc: no fact in both the card and the section (9:55 AM)
+      FAIL 15 Oct Unclear, graded line, /why/2026-10-15-bitcoin: no fact in both the card and the section (9:55 AM)
+      FAIL 15 Oct Unclear, model text, /today/ living: no fact in both the card and the section (9:55 AM)
+      FAIL 15 Oct Unclear, model text, /today/ dated: no fact in both the card and the section (9:55 AM)
+    ... and 18 more
+PLANT S6 a row the onset hour prints is printed again: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a row the onset hour prints with the same figure is left to the section; off a section page it prints
+PLANT S7 the same pattern as the onset hour printed again: exit 1, 12 red; restored: exit 0
+      FAIL SYNTHETIC Confirmed, graded line, /today/ living: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Confirmed, graded line, /today/ dated: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Confirmed, graded line, /coins/btc: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Confirmed, graded line, /why/2026-10-14-bitcoin: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Confirmed, model text, /today/ living: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Confirmed, model text, /today/ dated: no fact in both the card and the section (risk-off across assets)
+    ... and 6 more
+PLANT S8 model sentences printed as stored on a section page: exit 1, 60 red; restored: exit 0
+      FAIL 14 Oct Likely, graded line, /today/ living: no fact in both the card and the section (7:43 PM; 8:30 AM)
+      FAIL 14 Oct Likely, graded line, /today/ dated: no fact in both the card and the section (7:43 PM; 8:30 AM)
+      FAIL 14 Oct Likely, graded line, /coins/btc: no fact in both the card and the section (7:43 PM; 8:30 AM)
+      FAIL 14 Oct Likely, graded line, /why/2026-10-14-bitcoin: no fact in both the card and the section (7:43 PM; 8:30 AM)
+      FAIL 14 Oct Likely, model text, /today/ living: no fact in both the card and the section (7:43 PM; 8:30 AM)
+      FAIL 14 Oct Likely, model text, /today/ dated: no fact in both the card and the section (7:43 PM; 8:30 AM)
+    ... and 54 more
+PLANT S9 /today/ emits the empty card slot: exit 1, 1 red; restored: exit 0
+      FAIL (c) /today/ with no verdict carries no empty card slot (byte-identical to 9.2's layout)
+PLANT S10 a coin page emits the empty card slot: exit 1, 1 red; restored: exit 0
+      FAIL (c) a coin page with no card carries no empty card slot (9.2's layout: the readings note, the empty evidence and wire slots, then the Chart Master card)
+PLANT S11 a coin card for another window than the section's: exit 1, 1 red; restored: exit 0
+      FAIL a coin page whose verdict is for another window than its evidence shows no card, and 9.2's notes
+PLANT S12 /why/ shows every slot's card again: exit 1, 1 red; restored: exit 0
+      FAIL a /why/ page with a morning and an evening verdict carries one card, the evening's
+PLANT S13 a quoted wire line on a section page: exit 1, 12 red; restored: exit 0
+      FAIL 15 Oct Disputed (reports withheld), graded line, /today/ living: no fact in both the card and the section ($940 million; 50%)
+      FAIL 15 Oct Disputed (reports withheld), graded line, /today/ dated: no fact in both the card and the section ($940 million; 50%)
+      FAIL 15 Oct Disputed (reports withheld), graded line, /coins/btc: no fact in both the card and the section ($940 million; 50%)
+      FAIL 15 Oct Disputed (reports withheld), graded line, /why/2026-10-15-bitcoin: no fact in both the card and the section ($940 million; 50%)
+      FAIL 15 Oct Disputed (reports withheld), model text, /today/ living: no fact in both the card and the section ($940 million; 50%)
+      FAIL 15 Oct Disputed (reports withheld), model text, /today/ dated: no fact in both the card and the section ($940 million; 50%)
+    ... and 6 more
+PLANT S2 the onset hour's readings phrase kept on a section page (the agree support) (replanted with the onset-hour Likely record): exit 1, 4 red; restored: exit 0
+      FAIL SYNTHETIC Likely on the onset hour, model text joined, /today/ living: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Likely on the onset hour, model text joined, /today/ dated: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Likely on the onset hour, model text joined, /coins/btc: no fact in both the card and the section (risk-off across assets)
+      FAIL SYNTHETIC Likely on the onset hour, model text joined, /why/2026-10-14-bitcoin: no fact in both the card and the section (risk-off across assets)
+PLANT S14 a record with no section forms prints its stored sentences on a section page: exit 1, 6 red; restored: exit 0
+      FAIL 14 Oct Likely, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
+      FAIL 15 Oct Unclear, a record with no section forms, /today/: no fact in both (risk-on across assets)
+      FAIL 19 Oct real, a record with no section forms, /today/: no fact in both (3:49 PM; did not trade)
+      FAIL SYNTHETIC Confirmed, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
+      FAIL SYNTHETIC Likely on the onset hour, a record with no section forms, /today/: no fact in both (7:43 PM; 8:30 AM)
+      FAIL 15 Oct Disputed (reports withheld), a record with no section forms, /today/: no fact in both ($940 million; 12:25 AM; 50%)
+
+Round 4 plants, Mon Oct 19 2026, 3:20 PM EDT
+PLANT T1 Likely without the readings agreeing: exit 1, 2 red; restored: exit 0
+      FAIL SYNTHETIC: an event passes the timing test but the readings do not agree: not Likely, not Unclear, no card (kind no_verdict)
+      FAIL no_verdict: no card, no URL
+PLANT T2 two outlets make Confirmed again: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: two outlets and no primary source no longer make Confirmed: Likely
+PLANT T3 a named cause failing with nothing passing reads Disputed: exit 1, 1 red; restored: exit 0
+      FAIL 15 October with the reports withheld (real wire): the named producer-price cause fails and no other event passes, so Unclear (no longer Disputed)
+PLANT T4 the flat test reads the record's own 24 hours, not the page's window: exit 1, 9 red; restored: exit 0
+      FAIL 19 October Bitcoin (real): flat on the ET day (up 0.05% since midnight ET), no card
+      FAIL SYNTHETIC: the page's window rose while the measured run fell: no card, never a fall's evidence under a rise
+      FAIL 19 October: the verdict's flat test agrees with /today/'s own direction (flat, et_day)
+      FAIL 19 October (flat ET day): no Bitcoin card on home
+      FAIL 19 October (flat ET day): no Bitcoin card on today
+    ... and 4 more
+PLANT T5 the direction words name a separate 24-hour window: exit 1, 3 red; restored: exit 0
+      FAIL Likely: every direction word names the page's window ('over the last 24 hours') and no other window
+      FAIL Confirmed: every direction word names the page's window ('over the last 24 hours') and no other window
+      FAIL et_day Likely: every direction word names the page's window ('since midnight ET') and no other window
+PLANT T6 events outside the ET day are graded: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: on the ET day, an event from before 11 PM ET the night before is outside the window, so nothing passes: Unclear
+PLANT T7 a window moving the other way from the run still grades: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: the page's window rose while the measured run fell: no card, never a fall's evidence under a rise
+PLANT T8 the verdict keeps its own copy of the share threshold: exit 1, 1 red; restored: exit 0
+      FAIL the verdict reads the constant: raised to 75%, 14 October CPI fails
+PLANT T9 the list marks every item: exit 1, 72 red; restored: exit 0
+      FAIL 14 Oct Likely (real), graded line, /today/ living: the event is named and points at exactly one listed item (6 item(s) marked for 1 name(s))
+      FAIL 14 Oct Likely (real), graded line, /today/ dated: the event is named and points at exactly one listed item (6 item(s) marked for 1 name(s))
+      FAIL 14 Oct Likely (real), graded line, /coins/btc: the event is named and points at exactly one listed item (6 item(s) marked for 1 name(s))
+      FAIL 14 Oct Likely (real), graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (6 item(s) marked for 1 name(s))
+      FAIL 14 Oct Likely (real), model text, /today/ living: the event is named and points at exactly one listed item (6 item(s) marked for 1 name(s))
+    ... and 67 more
+PLANT T10 a name that finds two listed items is not told apart: exit 1, 12 red; restored: exit 0
+      FAIL SYNTHETIC name collision, graded line, /today/ living: the event is named and points at exactly one listed item ('the Consumer Price Index release''s words match 2 listed item(s))
+      FAIL SYNTHETIC name collision, graded line, /today/ dated: the event is named and points at exactly one listed item ('the Consumer Price Index release''s words match 2 listed item(s))
+      FAIL SYNTHETIC name collision, graded line, /coins/btc: the event is named and points at exactly one listed item ('the Consumer Price Index release''s words match 2 listed item(s))
+      FAIL SYNTHETIC name collision, graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item ('the Consumer Price Index release''s words match 2 listed item(s))
+      FAIL SYNTHETIC name collision, model text, /today/ living: the event is named and points at exactly one listed item ('the Consumer Price Index release''s words match 2 listed item(s))
+    ... and 7 more
+PLANT T11 the card's pointer carries the wrong id: exit 1, 72 red; restored: exit 0
+      FAIL 14 Oct Likely (real), graded line, /today/ living: the event is named and points at exactly one listed item ('the Consumer Price Index release' points at 0 listed item(s))
+      FAIL 14 Oct Likely (real), graded line, /today/ dated: the event is named and points at exactly one listed item ('the Consumer Price Index release' points at 0 listed item(s))
+      FAIL 14 Oct Likely (real), graded line, /coins/btc: the event is named and points at exactly one listed item ('the Consumer Price Index release' points at 0 listed item(s))
+      FAIL 14 Oct Likely (real), graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item ('the Consumer Price Index release' points at 0 listed item(s))
+      FAIL 14 Oct Likely (real), model text, /today/ living: the event is named and points at exactly one listed item ('the Consumer Price Index release' points at 0 listed item(s))
+    ... and 67 more
+PLANT T12 a Disputed card on a section page does not state the named cause: exit 1, 13 red; restored: exit 0
+      FAIL Disputed: the card states the named cause and the event that passes, both sides, in its line
+      FAIL SYNTHETIC Disputed, a named cause fails, graded line, /today/ living: the event is named and points at exactly one listed item (2 item(s) marked for 1 name(s))
+      FAIL SYNTHETIC Disputed, a named cause fails, graded line, /today/ dated: the event is named and points at exactly one listed item (2 item(s) marked for 1 name(s))
+      FAIL SYNTHETIC Disputed, a named cause fails, graded line, /coins/btc: the event is named and points at exactly one listed item (2 item(s) marked for 1 name(s))
+      FAIL SYNTHETIC Disputed, a named cause fails, graded line, /why/2026-10-15-bitcoin: the event is named and points at exactly one listed item (2 item(s) marked for 1 name(s))
+    ... and 8 more
+PLANT T13 a reservation is not written before the call: exit 0, 0 red; restored: exit 0
+    (green under the plant: the end-of-run save wrote the reservation anyway, so no case read the ledger
+    while a call was in flight. A case that reads the ledger on disk from inside the call was added; T13 rerun below.)
+PLANT T14 a transport failure clears its reservation: exit 1, 1 red; restored: exit 0
+      FAIL a transport failure keeps its reservation, and the automatic retry that would pass the cap is refused: one attempt made
+PLANT T15 llm.py checks no attempt: exit 1, 6 red; restored: exit 0
+      FAIL each call reserved and settled to its actual cost; one run row with the day's total and the cap
+      FAIL a call cut off by the deadline stays reserved at its estimate and counts in the day's spend
+      FAIL a transport failure keeps its reservation, and the automatic retry that would pass the cap is refused: one attempt made
+      FAIL llm.py's empty-response retry is checked against the cap before it is made
+      FAIL at the cap: no call, the verdict withheld, no grade and no URL
+    ... and 1 more
+PLANT T16 at the cap the graded line prints: exit 1, 4 red; restored: exit 0
+      FAIL a transport failure keeps its reservation, and the automatic retry that would pass the cap is refused: one attempt made
+      FAIL llm.py's empty-response retry is checked against the cap before it is made
+      FAIL at the cap: no call, the verdict withheld, no grade and no URL
+      FAIL at the cap the card says the desk's check did not run today, and nothing about AI or a cap
+PLANT T17 the section forms skip the twins gate: exit 1, 1 red; restored: exit 0
+      FAIL the twins gate checks the model's sentences, the graded line and the section forms: a gate that drops every sentence leaves nothing of them to print
+PLANT T18 an untraced sentence falls back to unchecked section forms: exit 1, 1 red; restored: exit 0
+      FAIL a stored sentence that cannot be traced to whole phrases prints nothing on a section page (the old fallback to unchecked section forms is gone)
+PLANT T19 Ether moving with Bitcoin draws a card: exit 1, 1 red; restored: exit 0
+      FAIL 19 October: Ether moved with Bitcoin is one plain line on the Ether page, not a card
+PLANT T13 a reservation is not written before the call (replanted with the on-disk case): exit 1, 1 red; restored: exit 0
+      FAIL the reservation is written to the ledger on disk before the call is made

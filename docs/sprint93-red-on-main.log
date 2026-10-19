@@ -1,0 +1,17 @@
+  FAIL group grades could not run [ModuleNotFoundError: No module named 'verdict']
+  FAIL group timing could not run [ModuleNotFoundError: No module named 'verdict']
+  FAIL group because could not run [ModuleNotFoundError: No module named 'verdict']
+  FAIL group model could not run [ModuleNotFoundError: No module named 'verdict']
+  FAIL group spend could not run [ModuleNotFoundError: No module named 'verdict']
+  FAIL group no grade could not run [ModuleNotFoundError: No module named 'verdict']
+  FAIL group pages could not run [ModuleNotFoundError: No module named 'verdict']
+8. wired into both workflows after why_evidence.py, inside a time budget, never a gate
+  FAIL morning-read.yml: runs verdict.py --write after why_evidence.py, with a timeout, never as a gate
+  FAIL morning-read.yml: the verdict step reads the key from the repository secret, never a literal
+  FAIL morning-read.yml: commits the verdict records and the spend ledger with the push
+  FAIL crypto-news-brief.yml: runs verdict.py --write after why_evidence.py, with a timeout, never as a gate
+  FAIL crypto-news-brief.yml: the verdict step reads the key from the repository secret, never a literal
+  FAIL crypto-news-brief.yml: commits the verdict records and the spend ledger with the push
+  FAIL group wiring could not run [FileNotFoundError: [Errno 2] No such file or directory: '/home/user/gocheckmycrypto/verdict.py']
+
+SPRINT 9.3: FAIL (14 failure(s))

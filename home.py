@@ -1062,9 +1062,11 @@ def below_fold(snap, pulse, flows, deltas, items, ed, now=None):
 # ---- the page -----------------------------------------------------------------------------
 
 def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, ed=None,
-               morning=None):
+               morning=None, verdict=None):
     """The ten blocks of section 2, in order, as one string. `ed` is the day's edition
-    (site_build.current_bottom_line), which the Brief card names."""
+    (site_build.current_bottom_line), which the Brief card names. `verdict` (Sprint 9.3) is the
+    current verdict record: Bitcoin's card prints under the Brief card as an aside, not a block, so
+    section 2's ten blocks and their order stand (9.5 moves the card first)."""
     blocks = {
         "tape": tape(snap), "narrative": narrative_band(narr, snap, ed, now, morning),
         "since": since(pulse, deltas), "why": why(wire, now),
@@ -1072,7 +1074,14 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
         "mood": mood(snap, pulse, deltas), "movers": movers(snap),
         "today": today(cal, now), "mine": mine(),
     }
-    left = "".join(blocks[k] for k in LEFT)
+    card = ""
+    if verdict:
+        try:
+            import verdict as _verdict
+            card = _verdict.card_html(verdict, "BTC", where="home", live=True)
+        except Exception:                            # fail open: the home as it was
+            card = ""
+    left = "".join(blocks[k] + (card if k == "narrative" else "") for k in LEFT)
     right = "".join(blocks[k] for k in ABOVE_FOLD if k not in LEFT)
     return (f'<div class="h-cols" data-fold="above"><div class="h-l">{left}</div>'
             f'<div class="h-r">{right}</div></div>')

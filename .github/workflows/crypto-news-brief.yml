@@ -640,6 +640,16 @@ jobs:
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         run: timeout 300 python3 why_evidence.py --write || true
 
+      # THE VERDICT (Program 9, Sprint 9.3): the grade computed in code from this slot's evidence
+      # record; the two sentences by Haiku 5.5, checked by Sonnet 5.5 claim by claim, failing open to
+      # the graded line built from phrases. Inside its own time budget, never a gate; the spend is a
+      # row in data/verdict-ledger.json, printed against the $1.50 a day cap (ruling 2).
+      - name: Verdict record (Why it moved, evening)
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: timeout 150 python3 verdict.py --write || true
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
@@ -674,6 +684,9 @@ jobs:
           [ -d site/data/today ] && git add site/data/today
           # the evidence records (Sprint 9.2): a stored record is what freezes the section
           [ -d site/data/why ] && git add site/data/why
+          # the verdict records and the verdict's spend ledger (Sprint 9.3)
+          [ -d site/data/verdict ] && git add site/data/verdict
+          [ -f data/verdict-ledger.json ] && git add data/verdict-ledger.json
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"

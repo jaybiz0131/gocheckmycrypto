@@ -283,7 +283,8 @@ def chart_cases(fails):
     guarded(fails, "the shaded run spans onset to the run's end",
             lambda: abs(float(rect.group(1)) - x_on) < 0.11 and abs(float(rect.group(1)) + float(rect.group(2)) - x_end) < 0.2)
     pins = re.findall(r'<g class="ev-pin">.*?>(\d+)</text></g>', s)
-    items = re.findall(r'<li class="ev-c"><span class="ev-n" aria-hidden="true">(\d+)</span>', html)
+    # Sprint 9.3 gives each item its id (data-ev-id) and may mark one (ev-graded); the numbering is 9.2's
+    items = re.findall(r'<li class="ev-c[^"]*"[^>]*><span class="ev-n" aria-hidden="true">(\d+)</span>', html)
     timed = sum(1 for t in r15["coins"]["BTC"]["tests"] if t["t_utc"])
     guarded(fails, f"every pinned number is a numbered item in the list below the chart ({timed} pins, one per timed item)",
             lambda: pins and set(pins) <= set(items) and len(pins) == timed == 5)
@@ -330,8 +331,11 @@ def page_cases(fails):
     for name, html in pages.items():
         guarded(fails, f"{name}: 'What lined up with the move' with its timing chart",
                 lambda: "<h2>What lined up with the move</h2>" in html and 'class="ev-chart"' in html)
-        guarded(fails, f"{name}: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page",
-                lambda: not GRADE.search(visible(html)) and not BECAUSE.search(visible(html)))
+        # Sprint 9.3 puts the grade on these pages in one place, the verdict card (aside.vd); outside
+        # it the page carries no grade word and no "because", as 9.2 built it.
+        guarded(fails, f"{name}: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page outside the verdict card",
+                lambda: not GRADE.search(visible(re.sub(r'<aside class="vd.*?</aside>', "", html, flags=re.S)))
+                and not BECAUSE.search(visible(re.sub(r'<aside class="vd.*?</aside>', "", html, flags=re.S))))
         guarded(fails, f"{name}: no em dash or en dash", lambda: not re.search("[\u2013\u2014]", html))
         guarded(fails, f"{name}: the section never prints 'market_chart' (the coin page guard against inline chart code)",
                 lambda: "market_chart" not in re.search(r'<section class="td-sec ev".*?</section>', html, re.S).group(0))

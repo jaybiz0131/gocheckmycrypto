@@ -1,0 +1,19 @@
+Sprint 9.3, fix round 4: the local build checks, Mon Oct 19 2026, 3:29 PM EDT.
+Branch build: a throwaway copy of this tree, SITE_BUILD_NOW=2026-10-19T12:30:00Z; verdicts graded by verdict.record_from on each day's window (verdict.day_moves): the real 19 October morning record with its pulse (et_day), the 14 and 15 October fixture records with their fixture pulses (rolling_24h, no open_et those days). Grades: 14 Oct Bitcoin Likely, Ether moved with Bitcoin; 15 Oct Bitcoin Unclear, Ether moved with Bitcoin; 19 Oct Bitcoin flat (no card), Ether moved with Bitcoin. Main build: git archive 4a9c6ae (main's code), the same data and clock.
+
+coin pages other than btc and eth: 98 of 98 identical to the build of main's code (4a9c6ae), same data and clock, stylesheet hash normalized
+today/2026-10-16.html: identical
+today/2026-10-17.html: identical
+today/2026-10-18.html: identical
+  coins/btc.html: no card
+  coins/eth.html: no card (plain line: Ether moved with Bitcoin since midnight ET.)
+  index.html: no card
+  today/2026-10-15.html: card and section; facts in both: none; pointer: ok
+  today/2026-10-16.html: no card
+  today/2026-10-17.html: no card
+  today/2026-10-18.html: no card
+  today/2026-10-19.html: no card
+  today/index.html: no card
+  why/2026-10-14-bitcoin.html: card and section; facts in both: none; pointer: ok
+  why/2026-10-15-bitcoin.html: card and section; facts in both: none; pointer: ok
+BUILT TREE: 3 page(s) with both the card and the section, 0 with a problem

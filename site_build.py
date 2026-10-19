@@ -988,10 +988,12 @@ def _w3c_dt(raw):
     return dt.isoformat().replace("+00:00", "Z")  # e.g. 2026-07-19T15:32:39Z
 
 
-def render_news_sitemap(items, window_hours=48):
+def render_news_sitemap(items, window_hours=48, extra=None):
     """Google News sitemap: articles published within window_hours of the NEWEST item
     (relative, so the build is reproducible and never reads a wall clock). Every published
-    story and daily edition qualifies as news. Regenerated on every deploy."""
+    story and daily edition qualifies as news. Regenerated on every deploy. `extra` (Sprint 9.3)
+    is the graded verdicts' pages, [{loc, published_utc, title}], each a URL of its own under the
+    same window."""
     import datetime as _dt
 
     def _ts(it):
@@ -1002,6 +1004,10 @@ def render_news_sitemap(items, window_hours=48):
             return None
 
     live = [it for it in items if not it.get("example") and _ts(it)]
+    for x in extra or []:
+        if x.get("loc") and x.get("published_utc"):
+            live.append({"slug": None, "loc": x["loc"], "published_utc": x["published_utc"],
+                         "title": x.get("title") or ""})
     if not live:
         return ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset '
                 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
@@ -1014,7 +1020,7 @@ def render_news_sitemap(items, window_hours=48):
             continue
         pub = _w3c_dt(it.get("published_utc") or it.get("date"))
         rows.append(
-            f"  <url><loc>{ORIGIN}/articles/{esc(it['slug'])}</loc>\n"
+            f"  <url><loc>{ORIGIN}{esc(it['loc']) if it.get('loc') else '/articles/' + esc(it['slug'])}</loc>\n"
             f"    <news:news><news:publication><news:name>{esc(NAME)}</news:name>"
             f"<news:language>en</news:language></news:publication>\n"
             f"    <news:publication_date>{esc(pub)}</news:publication_date>\n"
@@ -5562,7 +5568,7 @@ def render_home(items, flows, pulse, cm, dateline):
         _home.load_json(NARRATIVE_JSON),
         _home.load_json(os.path.join(SITE, "data", "calendar.json")), NEWS_CADENCE_LINE,
         now=_build_now(), ed=edition_item,
-        morning=_home.load_json(MORNING_JSON))
+        morning=_home.load_json(MORNING_JSON), verdict=_current_verdict(pulse))
     below = _home.below_fold(snap, pulse, flows, deltas, items, edition_item)
     body = f"""<main class="wrap h-page"><section class="page">
   <h1 class="sr-only">{esc(FAMILY)}: what is going on in crypto, in five minutes</h1>
@@ -7841,7 +7847,7 @@ def render_coin_chart(c, name, cid, spark):
             f'<p class="pc-note cc-cap" data-coin-cap>{note}</p></section>')
 
 
-def _coin_evidence(sym, pulse, evidence=None):
+def _coin_evidence(sym, pulse, evidence=None, graded=None, marks=()):
     """PROGRAM 9, SPRINT 9.2: (section html, wire source URLs it prints) for Bitcoin and Ether,
     from the newest stored evidence record (why_evidence.py) when its window ends within 3 hours
     of the Board reading this page carries. ('', set()) otherwise: the page as it was."""
@@ -7852,15 +7858,48 @@ def _coin_evidence(sym, pulse, evidence=None):
         rec = evidence if evidence is not None else _we.latest()
         if not _we.from_snapshot_coin(rec, sym, (pulse or {}).get("generated_utc") or ""):
             return "", set()
-        html = _we.section_html(rec, sym, live=True)
+        html = _we.section_html(rec, sym, live=True, graded=graded, marks=marks)
         return (html, _we.wire_urls_shown(rec)) if html else ("", set())
     except Exception as e:                       # fail open
         print(f"::warning::coin page: the evidence for {sym} was not drawn ({type(e).__name__}: {e})")
         return "", set()
 
 
+def _current_verdict(pulse, verdict=None):
+    """PROGRAM 9, SPRINT 9.3: the verdict record a live page shows (verdict.py): the one handed in,
+    else the newest stored, when its window ended within 18 hours of the Board reading the page
+    carries. None otherwise, so an old verdict is never shown as the current one."""
+    try:
+        import verdict as _vd
+        rec = verdict if verdict is not None else _vd.latest()
+        return _vd.current(rec, (pulse or {}).get("generated_utc") or "")
+    except Exception as e:                       # fail open
+        print(f"::warning::verdict: none read ({type(e).__name__}: {e})")
+        return None
+
+
+def _coin_verdict(sym, pulse, verdict=None, with_section=False, evidence=None):
+    """The verdict card for Bitcoin and Ether, or '' (the page as it was). Beside the evidence section
+    the card takes its section-page form; a card for another window than the section's is left off,
+    so the two never describe different 24 hours on one page."""
+    if sym not in ("BTC", "ETH"):
+        return ""
+    try:
+        import verdict as _vd
+        rec = _current_verdict(pulse, verdict)
+        if rec and with_section:
+            import why_evidence as _we
+            ev = evidence if evidence is not None else _we.latest()
+            if ((ev or {}).get("window") or {}).get("end_utc") != (rec.get("window") or {}).get("end_utc"):
+                return ""
+        return _vd.card_html(rec, sym, where="coin", live=True, with_section=with_section) if rec else ""
+    except Exception as e:                       # fail open
+        print(f"::warning::coin page: the verdict for {sym} was not drawn ({type(e).__name__}: {e})")
+        return ""
+
+
 def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=None, gate=None,
-                     evidence=None):
+                     evidence=None, verdict=None):
     """PROGRAM 7, SPRINT 6.4 (13 October 2026). Under the chart, in this order: the
     readings grid (tile law), the Chart Master's card for the coin (dated), the coin's
     stories (the wire items that name it, newest first, with their sources), the
@@ -7894,7 +7933,23 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
 
     # PROGRAM 9, SPRINT 9.2: "What lined up with the move" for Bitcoin and Ether. A wire item it
     # lists is not listed again in the blocks below it (one fact, printed once).
-    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence)
+    # PROGRAM 9, SPRINT 9.3: the verdict card above the evidence, for Bitcoin and Ether; when it carries a
+    # grade, the evidence's note says so instead of denying a cause.
+    _vrec = _current_verdict(pulse, verdict) if sym in ("BTC", "ETH") else None
+    _graded = (((_vrec or {}).get("coins") or {}).get(sym) or {}).get("grade")
+    try:
+        import verdict as _vd
+        _marks = _vd.marks(_vrec, sym) if _vrec else []
+    except Exception:                            # fail open
+        _marks = []
+    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, graded=_graded, marks=_marks)
+    vd_html = _coin_verdict(sym, pulse, verdict, with_section=bool(ev_html), evidence=evidence)
+    if _graded and not vd_html:
+        # the card was left off (its window is not the evidence's): no grade on the page, so the section
+        # and the wire note speak as 9.2 wrote them
+        _graded = None
+        if ev_html:
+            ev_html, ev_urls = _coin_evidence(sym, pulse, evidence)
     if ev_urls and wire:
         wire = dict(wire, items=[w for w in (wire.get("items") or [])
                                  if not ({l.get("url") for l in (w.get("links") or [])} & ev_urls)])
@@ -7906,7 +7961,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
         gate = _coin_gate()
     why_html, why_hits = _cp.why_block(
         c, pos, wire, (pulse or {}).get("generated_utc") or "", esc, _wire_et,
-        move=_coin_move(c, name, stamp), gate=gate)
+        move=_coin_move(c, name, stamp), gate=gate, graded=_graded)
     hits = _cp.vet([w for w in _cp.wire_stories(c, wire) if w.get("id") not in {x.get("id") for x in why_hits}],
                    gate, name, "stories")
     wire_html = _cp.stories_html(hits, esc, _wire_et)
@@ -7926,6 +7981,8 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
                         + '</section>')
 
     unlock_html = _cp.unlock_line(c, today, esc, fmt_short_date)
+    # the card's slot is emitted only with a card in it: a page with no card is the page 9.2 built
+    vd_slot = f"  {vd_html}\n" if vd_html else ""
 
     supply = _coin_supply_rows(c)
     supply_html = ""
@@ -7941,7 +7998,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     <span class="bar"></span>{_coin_pin(sym)}</div>
   {chart}
   {tiles_html}
-  {ev_html}
+{vd_slot}  {ev_html}
   {why_html}
   {cm_html}
   {stories_html}
@@ -9211,6 +9268,21 @@ def _write_today(w, items, pulse, dateline):
         return []
 
 
+def _write_verdicts(w, dateline):
+    """The graded verdicts' pages (verdict.py): [{path, lastmod, published_utc, title}]. Fails open:
+    a page that cannot be built is a warning and no page, never a failed build."""
+    try:
+        import verdict as _vd
+        built = _vd.build_pages(dateline=dateline)
+        for b in built:
+            w(b["rel"], b["html"])
+        print(f"verdict: {len(built)} page(s) built")
+        return built
+    except Exception as e:
+        print(f"::warning::verdict: the verdict pages were not built ({type(e).__name__}: {e})")
+        return []
+
+
 def build():
     items = load_content()
     # dateline reflects the newest content (or a neutral standing line), never a wall clock
@@ -9307,6 +9379,8 @@ def build():
     w("index.html", render_home(items, flows, pulse, cm, dateline))
     # PROGRAM 8, SPRINT 8.1 (14 October 2026): the daily answer, /today/ and a dated page a day.
     _today_map = _write_today(w, items, pulse, dateline)
+    # PROGRAM 9, SPRINT 9.3: a page per graded verdict, /why/<date>-<coin>.
+    _verdicts = _write_verdicts(w, dateline)
 
     # C-L4: the file the mini-board fetches, and only after it has found pins.
     _cm_payload = coins_mini_payload(pulse)
@@ -9622,7 +9696,7 @@ def build():
         if os.path.isdir(_dir):
             _extra += [f"/{_sub}/{_f}" for _f in sorted(os.listdir(_dir))
                        if _f.endswith(".html")]
-    archive = (_extra + _today_dated + _c4_months
+    archive = (_extra + _today_dated + [(b["path"], b["lastmod"]) for b in _verdicts] + _c4_months
                + [(f"/articles/{i['slug']}.html", _lm.article(i)) for i in archive_arts])
     w("sitemap-priority.xml", _urlset(prio))
     w("sitemap-archive.xml", _urlset(archive))
@@ -9646,7 +9720,8 @@ def build():
     # NEWS SITEMAP (Google News format): only articles from the last 48 hours, relative to
     # the newest published item so the build stays reproducible (no wall clock). Regenerated
     # every deploy. Google ignores entries older than ~2 days, which is the point.
-    w("news-sitemap.xml", render_news_sitemap(items))
+    w("news-sitemap.xml", render_news_sitemap(items, extra=[{"loc": b["path"], "published_utc": b["published_utc"],
+                                                             "title": b["title"]} for b in _verdicts]))
     w("robots.txt", f"User-agent: *\nAllow: /\n\n"
       f"Sitemap: {ORIGIN}/sitemap.xml\nSitemap: {ORIGIN}/news-sitemap.xml\n")
 

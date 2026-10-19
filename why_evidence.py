@@ -63,6 +63,13 @@ AFTER_MIN = 60                 # the share of the move in the 60 minutes after a
 SCHEDULED_TOL_MIN = 10         # "at the scheduled release time": the onset within two bars of it
 MOVED_FIRST_PCT = 50           # half of the run done before the news: the price moved first
 MIN_COVER = 0.8                # a series with under 80% of its window's bars is not a series
+# THE TIMING TEST'S THRESHOLDS, the one source of truth (the strategist's ruling of October 19, 2026, item 3;
+# AUDIT.md section 3.1, layer 2, "The timing test"): 25 percent of the move done before the event
+# disqualifies it; 40 percent of the move inside the hour after it is the bar for "lines up". The verdict
+# (verdict.py) reads these and holds no copy. Revisited by the strategist after two weeks of 9.8's verdict
+# record, not before and not by the desk. MOVED_FIRST_PCT above stays 9.2's printed wording only.
+TIMING_TEST = {"version": "2026-10-19", "source": "AUDIT.md section 3.1; strategist's ruling of October 19, 2026",
+               "lead_min": LEAD_MIN, "done_max_pct": 25.0, "share_min_pct": 40.0}
 SECTION_TITLE = "What lined up with the move"
 
 COINS = {
@@ -1207,10 +1214,12 @@ def mechanics(sym, run, series, others, cross, oi, liq, funding, beta, extra=Non
             pats.append({"label": "risk-off across assets" if d < 0 else "risk-on across assets",
                          "rule": f"crypto moved {CRYPTO_HOUR_MIN}% or more and stock futures "
                                  f"{STOCKS_WITH_MIN}% or more the same way in the onset hour"})
-        elif stocks_read and all(abs(s) <= STOCKS_QUIET_MAX for s in stocks):
+        elif stocks and all(abs(s) <= STOCKS_QUIET_MAX for s in stocks):
+            # Sprint 9.3, review 1: a stock market that did not trade is not a reading, so "crypto only"
+            # needs at least one futures bar in the hour (it was "within 0.1% or did not trade")
             pats.append({"label": "crypto only",
-                         "rule": f"crypto moved {CRYPTO_HOUR_MIN}% or more while stock futures stayed "
-                                 f"within {STOCKS_QUIET_MAX}% or did not trade"})
+                         "rule": f"crypto moved {CRYPTO_HOUR_MIN}% or more while stock futures traded and "
+                                 f"stayed within {STOCKS_QUIET_MAX}%"})
     venues = [r for r in (liq_row, gate) if r and not r.get("unread")]
     if oi_v is not None and venues:
         longs = sum(r["longs_usd"] or 0 for r in venues)
@@ -1319,8 +1328,24 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
             extra = {"taker": _okx_taker(sym, run["start_t"], fetch, led),
                      "gate": _gate_liq(sym, run["start_t"], fetch, led),
                      "kalshi": kalshi.get(run["start_t"]) or []}
+        # SPRINT 9.3: the readings of the hour after each candidate, for the verdict's grade (verdict.py):
+        # the onset hour cannot speak to an event that came after the onset. No new read: the series and
+        # the cross-asset bars already in hand, by the same rules; open interest, liquidations and
+        # funding stay the onset hour's only. Not printed by the section.
+        evh = {}
+        if run:
+            for c, tst in zip(cands, tests):
+                tu = _parse_utc(tst["t_utc"])
+                if tu is None or not (start <= int(tu.timestamp()) <= end):
+                    continue
+                m = mechanics(sym, dict(run, start_t=int(tu.timestamp())), pts, others, cross,
+                              None, None, None, beta)
+                if m:
+                    evh[c["id"]] = {"hour_start_utc": m["hour_start_utc"], "hour_end_utc": m["hour_end_utc"],
+                                    "rows": m["rows"], "patterns": m["patterns"]}
         out["coins"][sym] = {"series": s, "second": sec, "seconds": seconds, "run": run, "tests": tests,
-                             "mechanics": mechanics(sym, run, pts, others, cross, oi, liq, fund, beta, extra)}
+                             "mechanics": mechanics(sym, run, pts, others, cross, oi, liq, fund, beta, extra),
+                             "event_hours": evh}
     out["read"], out["unread"] = led.read, led.unread
     return out
 
@@ -1544,7 +1569,7 @@ def _is_corrected(line, quoted):
     return bool(n) and any(n.startswith(q) or q.startswith(n) for q in quoted)
 
 
-def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None):
+def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None, graded=None, marks=()):
     """The section for one coin, or '' (fail open) when the record has no series for it. `live`
     marks the window's stamp for the stale state (asof.js); a dated page passes False. Wire items
     the page already prints elsewhere are not passed here twice: the page drops them from its
@@ -1552,13 +1577,13 @@ def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None):
     page's own: a wire line one of them quotes is not printed (the record stays frozen; the
     correction applies when the page is drawn)."""
     try:
-        return _section(rec, sym, live, set(skip_wire_ids), corrected_lines(corrections))
+        return _section(rec, sym, live, set(skip_wire_ids), corrected_lines(corrections), graded, set(marks or ()))
     except Exception as e:                                       # noqa: BLE001
         print(f"::warning::why_evidence: the section for {sym} was not drawn ({type(e).__name__}: {e})")
         return ""
 
 
-def _section(rec, sym, live, skip, quoted=()):
+def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
     coin = ((rec or {}).get("coins") or {}).get(sym)
     if not coin or not (coin.get("series") or {}).get("points"):
         return ""
@@ -1628,8 +1653,13 @@ def _section(rec, sym, live, skip, quoted=()):
         if (c.get("report_line") and not GRADE_WORDS.search(c["report_line"])
                 and not _is_corrected(c["report_line"], quoted)):
             rep = f'<span class="ev-rep">First report: {_e(c["report_line"])}</span>'
-        items.append(f'<li class="ev-c"><span class="ev-n" aria-hidden="true">{n}</span>'
-                     f'<span class="ev-l">{_e(line)}</span>{rep}'
+        # Sprint 9.3, the pointer (Jack, J-7): every item carries its id; an item the verdict card names is
+        # marked, so the card's name points at exactly one listed item
+        mk = c["id"] in marks
+        items.append(f'<li class="ev-c{" ev-graded" if mk else ""}" data-ev-id="{_e(c["id"])}">'
+                     f'<span class="ev-n" aria-hidden="true">{n}</span>'
+                     + ('<span class="ev-mark">Named in the verdict above</span>' if mk else "")
+                     + f'<span class="ev-l">{_e(line)}</span>{rep}'
                      f'<span class="ev-m">{" &middot; ".join(meta)}</span>'
                      f'<span class="ev-t">{_e(" ".join(tw))}</span>{sec}</li>')
     cand_html = (f'<ol class="ev-cands">{"".join(items)}</ol>' if items else
@@ -1659,10 +1689,18 @@ def _section(rec, sym, live, skip, quoted=()):
     if mrows and run:
         h0, h1 = run["start_t"], run["start_t"] + 3600
         pat = mech.get("patterns") or []
+        # a record written before 9.3 may label "crypto only" in an hour the futures did not trade; that is
+        # not a reading, so the page says what happened instead (the verdict card reads it the same way)
+        traded = any(r.get("key") in ("ES=F", "NQ=F") and r.get("value") is not None for r in mech.get("rows") or [])
+        shut = any(p.get("label") == "crypto only" for p in pat) and not traded
+        pat = [p for p in pat if not (shut and p.get("label") == "crypto only")]
         pat_html = ("".join(f'<p class="ev-pat">Pattern: <b>{_e(p["label"])}</b> ({_e(p["rule"])}).</p>'
                             for p in pat) if pat else
                     '<p class="ev-pat">Pattern: none of the four the desk names (risk-off or risk-on across '
                     'assets, crypto only, leverage flush, coin-specific) holds in this hour.</p>')
+        if shut:
+            pat_html += ('<p class="ev-pat">Stock futures did not trade in this hour, so the readings cannot tell '
+                         'a crypto move from a wider one.</p>')
         beta = (f'<p class="ev-m">{_e(name)}\'s 30-day beta to Bitcoin, from the stored daily closes: '
                 f'{mech["beta"]}.</p>' if mech.get("beta") is not None else "")
         mech_html = (f'<h3 class="td-h3">The hour the run began, {_e(day_clock(h0, w1))} to {_e(clock(h1))}</h3>'
@@ -1685,9 +1723,12 @@ def _section(rec, sym, live, skip, quoted=()):
             f'<figure class="ev-fig">{chart}<figcaption class="ev-m">Numbers on the chart match the list below. '
             f'Times are Eastern.</figcaption></figure>'
             f'{cand_html}{mech_html}'
-            f'<p class="pc-note">These events and readings sit beside the move in time. The desk measured '
-            f'when each came and what the price did around it; it does not say any of them moved the price.</p>'
-            f'{srcs_html}</section>')
+            + (f'<p class="pc-note">These events and readings sit beside the move in time. The verdict on this '
+               f'page grades them by fixed rules, the timing test and the market readings of the hour it names, '
+               f'and says which, if any, lines up with the move.</p>' if graded else
+               f'<p class="pc-note">These events and readings sit beside the move in time. The desk measured '
+               f'when each came and what the price did around it; it does not say any of them moved the price.</p>')
+            + f'{srcs_html}</section>')
 
 
 def wire_ids_shown(rec):
