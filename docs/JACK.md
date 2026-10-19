@@ -14,6 +14,13 @@ J-4. Prices or Markets first (open since October 11): 9.5's tab bar is Why it mo
 
 J-5. The gcm-newsroom Worker's live-price route for 9.7: the builder writes it and the report prints the deploy line; you deploy it and give the session the URL. Until then the site keeps today's price path.
 
+J-7. Sprint 9.3, the verdict, failed review three times (October 19; branch claude/sleepy-sagan-xcfcw9, head 6e949bb; reviews at 3e5c4b9 plus the designer's eda9c97, 92e5b8c and 6e949bb). By docs/POD.md it comes to you and the run does not move on: 9.4 to 9.8 all build on the verdict. Every earlier failure is fixed and verified (Likely only where the readings agree, the readings behind each grade shown, no denial of cause beside a grade, neutral chips, no fact printed twice). The reviewer's last verdict, quoted:
+
+"FAIL claude/sleepy-sagan-xcfcw9 6e949bb4b566d6e23ad22a65925e436b9bdd2a4b. The section-page card replaces the event with an outlet pointer that does not identify it. On any page that prints the section, a wire, press or hack candidate is replaced by 'the <outlet> report listed below' (verdict.py:248, with :243, :245, :247, and _reported_sec at :251-254). Real 19 October record: on /today/, /coins/btc and /why/2026-10-19-bitcoin the card says 'The Crypto Briefing report listed below came in time with the 24-hour rise...'. Two listed items carry Crypto Briefing (item 2, Qubic, and item 4, CFTC). The reader cannot tell which event the verdict graded. Disputed in section form reads 'One outlet reported a cause, in the CoinDesk report listed below.' and does not state the reported cause, so it does not show both sides. Required: AUDIT 3.1 layer 4 and What the reader sees: the card must identify its event. Release candidates are not affected."
+
+Options: (1) allow one more fix round on the same branch: the card names the graded event by its subject (for example "the CFTC proposal") and marks the matching item in the list, with a test that the pointer is unique; then a fourth review. (2) Drop the shortened section-page form and accept the event's line printed in both the card and the list, as a ruled exception to "the same fact printed twice". (3) Hold 9.3 for the strategist.
+Recommendation: (1). The defect is narrow, the fix is a few lines, and every other part of 9.3 has passed review.
+
 ## Answered
 
 The beacon (J-1 of the paste 1 list, carried in the board as one of "the four earlier open rulings"): October 12, 3:29 PM: the beacon stays on every page.
