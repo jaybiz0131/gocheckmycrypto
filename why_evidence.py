@@ -1284,7 +1284,8 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
     stables = _stables(start, end, fetch, led)
     led.miss("Hyperliquid liquidations", "not read: its public info API publishes no market-wide "
              "liquidation history; a liquidation shows only in the liquidated account's own fills")
-    led.miss("Exchange listing notices", "not read: no single feed")
+    led.miss("Exchange listing notices", "not read for Bitcoin and Ether: a listing notice names a coin being "
+             "added or removed, and the desk reads them for the Big movers")
     led.miss("EDGAR 8-K filings", "not read: the search gives the day, not the time")
     etf = (((pulse or {}).get("etf_flows") or {}).get("btc") or {})
     if isinstance(etf.get("latest_net_usd_m"), (int, float)):
@@ -1307,47 +1308,68 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
         if sym not in series:
             continue
         s, rest = series[sym]
-        pts = [(t, p) for t, p in s["points"]]
-        run = onset(pts)
-        mv = _pct(pts[0][1], pts[-1][1])
-        seconds = [{"source": o["source"], "url": o["url"],
-                    "gap_pts": round(abs(_pct(o["points"][0][1], o["points"][-1][1]) - mv), 2)} for o in rest]
-        sec = seconds[0] if seconds else None
-        tests = []
-        for c in cands:
-            t, basis = test_time(c)
-            r = timing(pts, run, t, c.get("scheduled")) if t is not None else None
-            tests.append({"id": c["id"], "t_utc": _iso(t) if t is not None else None, "basis": basis,
-                          "result": r})
-        oi = _okx_oi(sym, start, end, now, fetch, led)
-        liq = _okx_liq(sym, fetch, led, ct)
-        fund = _okx_funding(sym, fetch, led)
-        beta = _beta(sym, _et(start).date().isoformat(), root=history_root) if sym != "BTC" else None
-        extra = {}
-        if run:
-            extra = {"taker": _okx_taker(sym, run["start_t"], fetch, led),
-                     "gate": _gate_liq(sym, run["start_t"], fetch, led),
-                     "kalshi": kalshi.get(run["start_t"]) or []}
-        # SPRINT 9.3: the readings of the hour after each candidate, for the verdict's grade (verdict.py):
-        # the onset hour cannot speak to an event that came after the onset. No new read: the series and
-        # the cross-asset bars already in hand, by the same rules; open interest, liquidations and
-        # funding stay the onset hour's only. Not printed by the section.
-        evh = {}
-        if run:
-            for c, tst in zip(cands, tests):
-                tu = _parse_utc(tst["t_utc"])
-                if tu is None or not (start <= int(tu.timestamp()) <= end):
-                    continue
-                m = mechanics(sym, dict(run, start_t=int(tu.timestamp())), pts, others, cross,
-                              None, None, None, beta)
-                if m:
-                    evh[c["id"]] = {"hour_start_utc": m["hour_start_utc"], "hour_end_utc": m["hour_end_utc"],
-                                    "rows": m["rows"], "patterns": m["patterns"]}
-        out["coins"][sym] = {"series": s, "second": sec, "seconds": seconds, "run": run, "tests": tests,
-                             "mechanics": mechanics(sym, run, pts, others, cross, oi, liq, fund, beta, extra),
-                             "event_hours": evh}
+        out["coins"][sym] = coin_entry(sym, s, rest, cands, start, end, now, others, cross, fetch, led, ct,
+                                       kalshi, history_root)
     out["read"], out["unread"] = led.read, led.unread
     return out
+
+
+def coin_entry(sym, s, rest, cands, start, end, now, others, cross, fetch, led, ct, kalshi, history_root=HISTORY):
+    """One coin's part of a record: its series, the run, each candidate's timing test, the onset hour's
+    mechanics and the hour after each candidate. build() calls it per coin; Sprint 9.4's movers step
+    (movers.py) calls it for a Big mover with that coin's own candidates, so both read by the same rules."""
+    pts = [(t, p) for t, p in s["points"]]
+    run = onset(pts)
+    mv = _pct(pts[0][1], pts[-1][1])
+    seconds = [{"source": o["source"], "url": o["url"],
+                "gap_pts": round(abs(_pct(o["points"][0][1], o["points"][-1][1]) - mv), 2)} for o in rest]
+    sec = seconds[0] if seconds else None
+    tests = []
+    for c in cands:
+        t, basis = test_time(c)
+        r = timing(pts, run, t, c.get("scheduled")) if t is not None else None
+        tests.append({"id": c["id"], "t_utc": _iso(t) if t is not None else None, "basis": basis,
+                      "result": r})
+    oi = _okx_oi(sym, start, end, now, fetch, led)
+    liq = _okx_liq(sym, fetch, led, ct)
+    fund = _okx_funding(sym, fetch, led)
+    beta = _beta(sym, _et(start).date().isoformat(), root=history_root) if sym != "BTC" else None
+    extra = {}
+    if run:
+        extra = {"taker": _okx_taker(sym, run["start_t"], fetch, led),
+                 "gate": _gate_liq(sym, run["start_t"], fetch, led),
+                 "kalshi": (kalshi or {}).get(run["start_t"]) or []}
+    # SPRINT 9.3: the readings of the hour after each candidate, for the verdict's grade (verdict.py):
+    # the onset hour cannot speak to an event that came after the onset. No new read: the series and
+    # the cross-asset bars already in hand, by the same rules; open interest, liquidations and
+    # funding stay the onset hour's only. Not printed by the section.
+    evh = {}
+    if run:
+        for c, tst in zip(cands, tests):
+            tu = _parse_utc(tst["t_utc"])
+            if tu is None or not (start <= int(tu.timestamp()) <= end):
+                continue
+            m = mechanics(sym, dict(run, start_t=int(tu.timestamp())), pts, others, cross,
+                          None, None, None, beta)
+            if m:
+                evh[c["id"]] = {"hour_start_utc": m["hour_start_utc"], "hour_end_utc": m["hour_end_utc"],
+                                "rows": m["rows"], "patterns": m["patterns"]}
+    return {"series": s, "second": sec, "seconds": seconds, "run": run, "tests": tests,
+            "mechanics": mechanics(sym, run, pts, others, cross, oi, liq, fund, beta, extra),
+            "event_hours": evh}
+
+
+def register_coin(sym, gecko_id, name):
+    """SPRINT 9.4: a Big mover's entry in COINS, so the series, the mechanics and the section read it by the
+    same rules as Bitcoin and Ether. The venue tickers follow each venue's own pattern; a venue whose
+    ticker names a different coin is caught by movers.py, which keeps a venue's series only when its move
+    agrees with the Board's. Bitcoin and Ether keep their own entries."""
+    if sym in ("BTC", "ETH"):
+        return COINS[sym]
+    COINS[sym] = {"name": name, "gecko": gecko_id, "coinbase": f"{sym}-USD", "okx": f"{sym}-USDT",
+                  "kraken": f"{sym}USD", "binance": f"{sym}USDT", "gate": f"{sym}_USDT",
+                  "swap": f"{sym}-USDT-SWAP", "ccy": sym, "history": gecko_id, "mover": True}
+    return COINS[sym]
 
 
 # ---- records on disk -------------------------------------------------------------------------------

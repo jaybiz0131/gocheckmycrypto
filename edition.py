@@ -225,6 +225,15 @@ def _latest_edition_path(all_days):
     """The newest dated edition; nav points here now that /news is the news hub."""
     return f"/edition/{all_days[0]}.html" if all_days else "/news.html"
 
+def _cites(ed, html_text):
+    """Sprint 9.4 (AUDIT.md 3.2, "Linked"): the Brief cites the Big movers it mentions (movers.cite, no model call)."""
+    try:
+        import movers
+        return movers.cite(html_text, str((ed or {}).get("date") or "")[:10])
+    except Exception:                                             # noqa: BLE001 fail open
+        return html_text
+
+
 def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     ed, stories = select(items, day)
     lead = stories[0] if stories else None
@@ -267,7 +276,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     <span class="ed-kicker">{esc(_brief_name(ed))}</span>
     <span class="ed-stamp">{esc(_utc_stamp(ed))}</span>
   </div>
-  <div class="ed-brief-cols">{"".join(f"<p>{p}</p>" for p in (ed.get("body") or []))}</div>
+  <div class="ed-brief-cols">{_cites(ed, "".join(f"<p>{p}</p>" for p in (ed.get("body") or [])))}</div>
   <div class="ed-brief-cites">In this brief: {cites}</div>
 </section>"""
 

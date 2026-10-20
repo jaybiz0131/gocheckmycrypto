@@ -218,20 +218,20 @@ def desk_published_recently():
     return False
 
 
-def hourly_move():
-    """Largest 1h AND 24h moves among the majors, from ONE CoinGecko keyless day chart
-    per asset. The 24h read is the same chart's first point vs its last (zero extra
+def hourly_move(assets=None, fetch=None, pause=3):
+    """Largest 1h AND 24h moves among `assets` (the majors by default), from ONE CoinGecko keyless day
+    chart per asset. The 24h read is the same chart's first point vs its last (zero extra
     requests, same fail-quiet posture): it exists because a grinding multi-hour
-    drawdown never trips the 1-hour threshold (2026-08-31)."""
+    drawdown never trips the 1-hour threshold (2026-08-31). `fetch(url)` returns the parsed answer
+    (Sprint 9.4: the tests hand in recorded answers)."""
+    fetch = fetch or _get_json
     worst = (0.0, "")
     worst24 = (0.0, "")
-    for cid, sym in MAJORS.items():
+    for cid, sym in (assets or MAJORS).items():
         try:
             url = (f"https://api.coingecko.com/api/v3/coins/{cid}/market_chart"
                    f"?vs_currency=usd&days=1")
-            with urllib.request.urlopen(urllib.request.Request(url, headers=UA),
-                                        timeout=25) as r:
-                prices = json.load(r).get("prices", [])
+            prices = (fetch(url) or {}).get("prices", [])
             if len(prices) < 3:
                 continue
             now_ts, now_px = prices[-1]
@@ -248,9 +248,117 @@ def hourly_move():
                     worst = (pct, sym)
         except Exception:
             continue  # a flaky feed must never fake a trigger either way
-        import time
-        time.sleep(3)  # keyless CoinGecko rate courtesy
+        if pause:
+            import time
+            time.sleep(pause)  # keyless CoinGecko rate courtesy
     return worst, worst24
+
+
+def _get_json(url):
+    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=25) as r:
+        return json.load(r)
+
+
+# PROGRAM 9, SPRINT 9.4: THE MARKET-MOVE TRIGGER, CRYPTO ONLY (Jack's ruling 6 of October 16, 2026: "the
+# market-move breaking trigger on, crypto only, inside the two-a-day limit"; AUDIT.md section 3.1, the row
+# "Breaking"; CLAUDE.md P4). On a crypto desk a large move is the reader's question. It fires when Bitcoin or
+# the whole market moves 3% or more inside 60 minutes, or 5% or more inside 24 hours, between slots.
+#   Bitcoin       hourly_move above, on Bitcoin alone (its day chart: the last hour, and the 24 hours).
+#   The market    the Top 100's own change (snapshot.top100_change, the desk's whole-market figure since
+#                 Sprint 9.1), from one /coins/markets read carrying the 1h and 24h changes.
+#   Between slots never inside SLOT_QUIET_MIN minutes either side of a slot (the slot reports the move
+#                 itself), and the 24-hour leg only when the Board the site last published did not already
+#                 carry a 5% move the same way (that move is the slot's, not news since).
+# INSIDE THE CAGE: it is checked after the PAUSE file, the cooldown and the two-a-day cap, so a capped day
+# costs no read at all, and a fire is a breaking run that counts against the two like any other. The old
+# price triggers (any major, 5% an hour, 4% a day) stay off: they are not this rule.
+MARKET_TRIGGER = (os.environ.get("WATCH_MARKET_TRIGGER") or "1") == "1"
+MARKET_1H_PCT = float(os.environ.get("WATCH_MARKET_1H_PCT") or "3.0")
+MARKET_24H_PCT = float(os.environ.get("WATCH_MARKET_24H_PCT") or "5.0")
+SLOTS_ET = (("the morning read", 8, 17), ("the Edition", 19, 8))   # the Worker's 8:17 AM read, the 7:08 PM cron
+SLOT_QUIET_MIN = 60
+MARKETS_URL = ("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc"
+               "&per_page=100&page=1&price_change_percentage=1h,24h")
+
+
+def near_slot(now=None):
+    """The slot `now` falls within SLOT_QUIET_MIN minutes of, or None."""
+    from zoneinfo import ZoneInfo
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    et = now.astimezone(ZoneInfo("America/New_York"))
+    for name, h, m in SLOTS_ET:
+        at = et.replace(hour=h, minute=m, second=0, microsecond=0)
+        for day in (-1, 0, 1):
+            if abs((et - (at + datetime.timedelta(days=day))).total_seconds()) <= SLOT_QUIET_MIN * 60:
+                return name
+    return None
+
+
+def _top100(rows, key):
+    """The Top 100's change over `key` from CoinGecko market rows, by snapshot.top100_change's rule."""
+    import snapshot
+    coins = {}
+    for c in rows or []:
+        if isinstance(c, dict) and c.get("symbol"):
+            coins[str(c["symbol"]).upper() + "|" + str(c.get("id"))] = {
+                "mcap_usd": c.get("market_cap"), "chg_24h_pct": c.get(key)}
+    return snapshot.top100_change(coins)
+
+
+def market_readings(fetch=None, pause=0):
+    """{'BTC': (1h, 24h), 'market': (1h, 24h)}: Bitcoin from hourly_move, the market from one markets read.
+    A reading that cannot be made is None, and None never fires."""
+    fetch = fetch or _get_json
+    out = {"BTC": (None, None), "market": (None, None)}
+    (p1, s1), (p24, s24) = hourly_move({"bitcoin": "BTC"}, fetch=fetch, pause=pause)
+    if s1 or s24:
+        out["BTC"] = (p1 if s1 else None, p24 if s24 else None)
+    try:
+        rows = fetch(MARKETS_URL)
+        out["market"] = (_top100(rows, "price_change_percentage_1h_in_currency"),
+                         _top100(rows, "price_change_percentage_24h_in_currency"))
+    except Exception:
+        pass
+    return out
+
+
+def _carried(pulse):
+    """{'BTC': 24h, 'market': 24h} the site's last published Board carried, when it is under 24 hours old."""
+    import snapshot
+    try:
+        gen = datetime.datetime.fromisoformat(str(pulse.get("generated_utc")).replace("Z", "+00:00"))
+    except Exception:
+        return {}
+    if (datetime.datetime.now(datetime.timezone.utc) - gen).total_seconds() > 24 * 3600:
+        return {}
+    rows = ((pulse.get("movers") or {}).get("top100")) or []
+    btc = next((r.get("chg_24h_pct") for r in rows if r.get("symbol") == "BTC"), None)
+    return {"BTC": btc, "market": snapshot.top100_change({str(r.get("symbol")) + "|" + str(r.get("gecko_id")): r
+                                                          for r in rows})}
+
+
+def market_trigger(readings, carried=None, now=None):
+    """The reason to fire, or None. Pure: the readings, what the site last carried, the clock."""
+    slot = near_slot(now)
+    if slot:
+        return None
+    carried = carried or {}
+    names = {"BTC": "Bitcoin", "market": "The whole market (the Top 100)"}
+    for key in ("BTC", "market"):
+        p1, _p24 = readings.get(key) or (None, None)
+        if isinstance(p1, (int, float)) and abs(p1) >= MARKET_1H_PCT:
+            return (f"MARKET MOVE: {names[key]} moved {p1:+.1f}% in the last hour "
+                    f"(threshold {MARKET_1H_PCT:g}% inside 60 minutes)")
+    for key in ("BTC", "market"):
+        _p1, p24 = readings.get(key) or (None, None)
+        if not (isinstance(p24, (int, float)) and abs(p24) >= MARKET_24H_PCT):
+            continue
+        had = carried.get(key)
+        if isinstance(had, (int, float)) and abs(had) >= MARKET_24H_PCT and (had > 0) == (p24 > 0):
+            continue                     # the slot already carried a 5% move this way: not news since
+        return (f"MARKET MOVE: {names[key]} moved {p24:+.1f}% over the last 24 hours "
+                f"(threshold {MARKET_24H_PCT:g}% inside 24 hours, not carried by the last published Board)")
+    return None
 
 
 def hot_cluster():
@@ -322,6 +430,20 @@ def main():
             emit(True, f"{sym24} moved {pct24:+.1f}% over the last 24 hours "
                        f"(threshold {MOVE_24H_PCT}%)")
             return 0
+    # SPRINT 9.4: the market-move trigger, crypto only, inside the cage (after the cap above)
+    if MARKET_TRIGGER:
+        try:
+            pulse = json.load(open(os.path.join(HERE, "site", "data", "pulse.json"), encoding="utf-8"))
+        except Exception:
+            pulse = {}
+        slot = near_slot()
+        if slot:
+            print(f"watcher: market-move trigger quiet within {SLOT_QUIET_MIN} minutes of {slot}")
+        else:
+            why = market_trigger(market_readings(), _carried(pulse))
+            if why:
+                emit(True, why + f" (run {already + 1} of {BREAKING_MAX_PER_DAY} today)")
+                return 0
     hot = hot_cluster()
     if hot:
         emit(True, hot + f" (threshold {MIN_SOURCES} sources / {FRESH_MIN}m, "
@@ -329,7 +451,8 @@ def main():
         return 0
     emit(False, f"no {MIN_SOURCES}-source fresh cluster in an earning category "
                 f"({already} of {BREAKING_MAX_PER_DAY} breaking run(s) used today; "
-                f"price triggers {'on' if PRICE_TRIGGERS else 'off'})")
+                f"price triggers {'on' if PRICE_TRIGGERS else 'off'}; market-move trigger "
+                f"{'on' if MARKET_TRIGGER else 'off'})")
     return 0
 
 

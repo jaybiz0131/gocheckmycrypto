@@ -1987,6 +1987,7 @@ def _stamp_canary():
     read = set()
     _why_saved = None
     _vd_saved = None
+    _mv_saved = None
     try:
         _sb.PUBLISH = _o.path.join(tmp, "publish")
         # SPRINT 9.2: the build reads an evidence record built from the recorded 15 October fixture,
@@ -1995,6 +1996,9 @@ def _stamp_canary():
         # SPRINT 9.3: and the verdict graded from that record (no model), so _sprint93_canary meets the
         # card on /today/2026-10-15 and the page at /why/2026-10-15-bitcoin
         _vd_saved = _verdict_fixture_dir(tmp)
+        # SPRINT 9.4: and the Big movers record of the real 16 October morning Board, graded with no model, so
+        # _sprint94_canary meets its /why/ pages and their sitemap entries on the tree the build wrote
+        _mv_saved = _movers_fixture_dir(tmp)
         try:
             with _cl.redirect_stdout(log), _cl.redirect_stderr(log), _build_writes(wrote, read):
                 _sb.build()
@@ -2045,6 +2049,7 @@ def _stamp_canary():
             fails.extend(_sprint91_canary(out))
             fails.extend(_sprint92_canary(out))
             fails.extend(_sprint93_canary(out))
+            fails.extend(_sprint94_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2095,6 +2100,7 @@ def _stamp_canary():
         _sb.PUBLISH = real
         _why_restore(_why_saved)
         _verdict_restore(_vd_saved)
+        _movers_restore(_mv_saved)
         _sh.rmtree(tmp, ignore_errors=True)
         # Restore only what this build dirtied, from the index, byte for byte. Never with
         # git checkout: the 1 October rule, bought by a plant that reverted its own subject.
@@ -3179,6 +3185,84 @@ def _sprint93_canary(out):
             fails.append(f"sprint 9.3: {sm} does not list /why/2026-10-15-bitcoin")
     if os.path.exists(os.path.join(out, "why", "2026-10-15-ether.html")):
         fails.append("sprint 9.3: an ungraded Ether day (moved with Bitcoin) was given a verdict URL")
+    return fails
+
+
+def _movers_fixture_dir(tmp):
+    """Point movers.py at a scratch directory holding the Big movers record of the 16 October morning Board,
+    built from the recorded answers (fixtures/movers/) and graded with no model (the graded lines). Returns
+    the old directory."""
+    try:
+        import movers as _mv
+        import verdict as _vd
+        old = _mv.DIR
+        _sd = os.path.join(HERE, "scripts")
+        sys.path.insert(0, _sd)
+        try:
+            import sprint94_test as _s94
+            rec, _log = _s94.record16(tmp)
+        finally:
+            for m in ("sprint94_test", "sprint93_test", "sprint92_test"):
+                sys.modules.pop(m, None)
+            if _sd in sys.path:
+                sys.path.remove(_sd)
+        btc = rec["gate"]["btc_24h_pct"]
+        for sym, e in rec["coins"].items():
+            if e.get("evidence"):
+                _mv.register(sym, e["name"], e["gecko_id"])
+                e["verdict"] = _vd.record_from(e["evidence"], rec["date_et"], rec["slot"], day=_mv.day_of(e, btc),
+                                               syms=(sym,))
+        d = os.path.join(tmp, "movers")
+        os.makedirs(d, exist_ok=True)
+        json.dump(rec, open(os.path.join(d, f"{rec['date_et']}-{rec['slot']}.json"), "w", encoding="utf-8"))
+        _mv.DIR = d
+        return old
+    except Exception as e:                           # the guard below then says it met no page
+        print(f"sprint 9.4 canary: no fixture movers record for the build ({type(e).__name__}: {e})")
+        return None
+
+
+def _movers_restore(old):
+    if old is not None:
+        import movers as _mv
+        _mv.DIR = old
+
+
+def _sprint94_canary(out):
+    """PROGRAM 9, SPRINT 9.4 (19 October 2026): Big movers, checked. scripts/sprint94_test.py holds the cases
+    (the gate from the real 16 and 19 October Boards and the stored closes, the alt feeds, the trigger's
+    thresholds and the two-a-day cage, the spend at ten coin reads against the cap with the API mocked, no
+    card below the gate, the pages with no fact twice and one pointer per name, the time budget, the
+    workflows). On the tree this build wrote: the movers' /why/ pages, and every /why/ page in the archive
+    sitemap. The helper is taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint94_test as _s94
+        fails = ["sprint 9.4: " + f for f in _s94.unit()]
+    finally:
+        for m in ("sprint94_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+
+    def _read(rel):
+        try:
+            return open(os.path.join(out, rel), encoding="utf-8").read()
+        except OSError:
+            return ""
+    page = _read(os.path.join("why", "2026-10-16-celestia.html"))
+    if not page or 'class="vd' not in page or "What lined up with the move" not in page:
+        fails.append("sprint 9.4: /why/2026-10-16-celestia was not built with its card and its evidence")
+    arch = _read("sitemap-archive.xml")
+    try:
+        built = sorted(n[:-5] for n in os.listdir(os.path.join(out, "why")) if n.endswith(".html"))
+    except OSError:
+        built = []
+    missing = [n for n in built if f"/why/{n}<" not in arch]
+    if not built or missing:
+        fails.append(f"sprint 9.4: /why/ pages missing from sitemap-archive.xml: {missing or 'no /why/ pages built'}")
     return fails
 
 

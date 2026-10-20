@@ -348,10 +348,11 @@ def vet(items, gate, name, surface):
     return out
 
 
-def why_items(c, pos, wire, stamp_utc, hours=WHY_HOURS):
+def why_items(c, pos, wire, stamp_utc, hours=WHY_HOURS, mover=False):
     """The wire items that name the coin and were reported in the `hours` ending at the Board read
-    the page carries (never after it: the number sits under that read), for the top 20 only; [] for every other coin."""
-    if not pos or pos > TOP_N:
+    the page carries (never after it: the number sits under that read), for the top 20 only; [] for every other coin.
+    Sprint 9.4 (AUDIT.md 3.2): a coin that crossed the Big movers line gets the block wherever it ranks."""
+    if not pos or (pos > TOP_N and not mover):
         return []
     try:
         end = _dt.datetime.fromisoformat(str(stamp_utc).replace("Z", "+00:00"))
@@ -368,14 +369,14 @@ def why_items(c, pos, wire, stamp_utc, hours=WHY_HOURS):
     return out
 
 
-def why_block(c, pos, wire, stamp_utc, esc, stamp_et, move="", gate=None, graded=None):
+def why_block(c, pos, wire, stamp_utc, esc, stamp_et, move="", gate=None, graded=None, mover=False):
     """(html, items): the "Why <coin> moved today" block and the items it shows. Nothing ('', [])
     when no item names the coin. Every sentence the block prints from the desk's own hand goes
     through the twins gate: the move line from the Board and each wire line. The block's own voice
     never says "because"; it says what moved and what was reported, and that the desk does not say
     one moved the other."""
     name = (c.get("name") or c.get("symbol") or "").strip()
-    items = vet(why_items(c, pos, wire, stamp_utc), gate, name, "why it moved today")
+    items = vet(why_items(c, pos, wire, stamp_utc, mover=mover), gate, name, "why it moved today")
     if not items:
         return "", []
     if move and gate is not None:

@@ -382,6 +382,16 @@ def _brief_title(ed):
 TODAY_LINK = '<p class="h-today"><a href="/today/">Why crypto moved today &rarr;</a></p>'
 
 
+def _cites(html_text, date_et):
+    """Sprint 9.4 (AUDIT.md 3.2, "Linked"): the morning Brief cites the Big movers it mentions (movers.cite, no
+    model call); fails open to the text as it was."""
+    try:
+        import movers
+        return movers.cite(html_text, str(date_et or "")[:10])
+    except Exception:                                             # noqa: BLE001
+        return html_text
+
+
 def narrative_band(narr, snap, ed=None, now=None, morning=None):
     """THE BRIEF CARD (Program 7, Sprint 7.1; the morning edition, Sprint 7.2): the edition by
     name and day, its headline, the narrative sentence (never quoting a change), and when the
@@ -392,7 +402,7 @@ def narrative_band(narr, snap, ed=None, now=None, morning=None):
     if m:
         eye = f'<p class="h-eye">{_e(brief_name(m))}</p>'
         head = f'<h2 class="h-bt">{_e(m.get("headline"))}</h2>'
-        body = f'<p class="h-nline">{_e(" ".join(m.get("sentences") or []))}</p>'
+        body = f'<p class="h-nline">{_cites(_e(" ".join(m.get("sentences") or [])), m.get("date_et"))}</p>'
         line = (m.get("line") or "").strip()
         body += f'<p class="h-nline h-nsum">{_e(line)}</p>' if line else ""
         stamp = f'Written {_e(m.get("published_et") or "")}.'

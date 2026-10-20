@@ -650,6 +650,16 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: timeout 150 python3 verdict.py --write || true
 
+      # BIG MOVERS, CHECKED (Program 9, Sprint 9.4): the gate on the Top 100 (AUDIT.md 3.1 and 3.2), the evidence
+      # for each coin past it with its own candidates (listings, unlocks, hacks, the wire), and its verdict under
+      # the same $1.50 a day cap. Inside its own time budget, never a gate; a breaking run writes its own record.
+      - name: Big movers record (the gate, the evidence, the verdicts, evening)
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BREAKING: ${{ inputs.breaking == true && '1' || '0' }}
+        run: timeout 360 python3 movers.py --write || true
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
@@ -687,6 +697,8 @@ jobs:
           # the verdict records and the verdict's spend ledger (Sprint 9.3)
           [ -d site/data/verdict ] && git add site/data/verdict
           [ -f data/verdict-ledger.json ] && git add data/verdict-ledger.json
+          # the Big movers records (Sprint 9.4)
+          [ -d site/data/movers ] && git add site/data/movers
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"

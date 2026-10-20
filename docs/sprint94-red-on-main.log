@@ -1,0 +1,32 @@
+Sprint 9.4 tests, red on main's code: HEAD cffe163, the sprint's code changes stashed and movers.py absent; scripts/sprint94_test.py and fixtures/movers/ present. Shell date: Mon Oct 19 2026, 4:46 PM EDT.
+  FAIL group gate could not run [ModuleNotFoundError: No module named 'movers']
+  FAIL group evidence could not run [ModuleNotFoundError: No module named 'movers']
+3. the market-move trigger, crypto only, at section 3.1's thresholds, inside the two-a-day cage
+  FAIL on by default on this desk, at 3% inside 60 minutes and 5% inside 24 hours [AttributeError: module 'watcher' has no attribute 'MARKET_TRIGGER']
+  FAIL SYNTHETIC Bitcoin +2.99% in the hour: quiet [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL SYNTHETIC Bitcoin +3.00% in the hour: fires [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL SYNTHETIC Bitcoin -3.20% in the hour: fires [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL SYNTHETIC the whole market -3.1% in the hour, Bitcoin -2.0%: fires on the market [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL SYNTHETIC Bitcoin -4.99% over 24 hours: quiet [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL SYNTHETIC Bitcoin -5.00% over 24 hours, not carried by the last Board: fires [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL SYNTHETIC Bitcoin -6% over 24 hours that the last published Board already carried (-5.5%): quiet [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL SYNTHETIC the market +5.4% over 24 hours after a Board that carried -5.2%: fires (a new move) [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL SYNTHETIC an unreadable reading never fires [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL SYNTHETIC between slots only: a 4% hour at 7:30 PM ET, the Edition stays quiet (the slot reports it) [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL SYNTHETIC between slots only: a 4% hour at 8:00 AM ET, the morning read stays quiet (the slot reports it) [AttributeError: module 'watcher' has no attribute 'market_trigger']
+  FAIL group trigger could not run [AttributeError: module 'watcher' has no attribute 'market_readings']
+  FAIL group spend could not run [ModuleNotFoundError: No module named 'movers']
+  FAIL group no card could not run [ModuleNotFoundError: No module named 'movers']
+  FAIL group pages could not run [ModuleNotFoundError: No module named 'movers']
+  FAIL group budget could not run [ModuleNotFoundError: No module named 'movers']
+8. wired into both workflows after verdict.py, with a timeout, never a gate; the trigger's settings
+  FAIL morning-read.yml: runs movers.py --write after verdict.py, with a timeout, never as a gate
+  FAIL morning-read.yml: commits the movers records
+  FAIL crypto-news-brief.yml: runs movers.py --write after verdict.py, with a timeout, never as a gate
+  FAIL crypto-news-brief.yml: commits the movers records
+  FAIL the Edition's step tells a breaking run so, which writes its own record
+  FAIL watcher.yml passes the market trigger's three settings
+  FAIL group wiring could not run [FileNotFoundError: [Errno 2] No such file or directory: '/home/user/gocheckmycrypto/movers.py']
+
+SPRINT 9.4: FAIL (26 failure(s))
+exit 1
