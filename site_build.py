@@ -2618,9 +2618,9 @@ def _brief_month_page(month, months, dateline, newest):
     for m, es in months.items():
         href = "/bottom-line.html" if m == newest else "/bottom-line/" + m + ".html"
         cur = ' aria-current="page"' if m == month else ""
-        link = f'<a href="{href}"{cur}>{esc(_month_label(m))}</a>'
-        items_nav.append(f'<li>{"<b>" + link + "</b>" if m == month else link} '
-                         f'<span class="mut">{len(es)}</span></li>')
+        # the month and its count are one target, styled as the chart's range tabs (designer, Sprint 9.5)
+        items_nav.append(f'<li><a href="{href}"{cur}>{esc(_month_label(m))} '
+                         f'<span class="bl-n">{len(es)}<span class="sr-only"> Briefs</span></span></a></li>')
     nav = "".join(items_nav)
     path = "/bottom-line.html" if month == newest else f"/bottom-line/{month}.html"
     body = f"""<main class="wrap narrow"><section class="page">

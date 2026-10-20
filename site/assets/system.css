@@ -594,13 +594,25 @@ body .h-days{height:18px}
 @media (max-width:520px){.cc-head{min-height:98px}}
 
 /* the corrections log and the Brief's months */
-.co-l{list-style:none;margin:18px 0;padding:0}
-.co-r{margin:0 0 20px;padding:0 0 16px;border-bottom:1px solid var(--line)}
-.co-w{margin:0 0 6px;font:600 13px/1.5 var(--mono);color:var(--muted)}
-.co-t{margin:0;font:16px/1.6 var(--serif);color:var(--ink)}
+/* each entry is the callout a corrected story carries (.callout.corrected): the card, the rule edge, the
+   date in the mono, the story's title in the serif, the correction itself in the serif. Prefixed .page so the
+   prose page's own p and ol sizes cannot reach in. */
+.page .co-l{list-style:none;margin:18px 0;padding:0}
+.page .co-r{margin:0 0 16px;padding:14px 18px 16px;background:var(--card);border:1px solid var(--line);
+  border-left:4px solid var(--rule);border-radius:0 8px 8px 0}
+.page .co-w{margin:0 0 8px;font:600 12px/1.5 var(--mono);color:var(--muted)}
+.page .co-w a{display:block;margin:4px 0 2px;font:600 19px/1.3 var(--serif);color:var(--ink);text-underline-offset:3px}
+.page .co-t{margin:0;font:17px/1.6 var(--serif);color:var(--ink)}
+/* the Brief's months: the coin chart's range tabs (.cc-tab), one per month, the month shown filled */
 .bl-months{margin:14px 0 6px}
-.bl-months ul{display:flex;flex-wrap:wrap;gap:6px 18px;list-style:none;margin:0;padding:0}
-.bl-months a{display:inline-flex;align-items:center;min-height:44px}
+.page .bl-months ul{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.page .bl-months li{margin:0}
+.bl-months a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border:1px solid var(--line);
+  border-radius:4px;background:var(--card);color:var(--ink);font:700 13px/1 var(--mono);text-decoration:none}
+.bl-months a[aria-current]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.bl-months a:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.bl-n{font-weight:600;color:var(--muted)}
+.bl-months a[aria-current] .bl-n{color:var(--paper)}
 .bl-mh{margin:18px 0 6px}
 
 /* move 4, charts drawn in two geometries (site_build.both_geometries): the narrow one below 600 px, labels of 12.5
@@ -618,8 +630,28 @@ body .h-days{height:18px}
    at 375 (Bitcoin's, with its 7D high and low close), so the script replacing the note with its own line moves
    nothing under it. */
 @media (max-width:767px){body .cc-cap{min-height:63px}}
-.co-t,.co-w{overflow-wrap:anywhere}
+.page .co-t,.page .co-w{overflow-wrap:anywhere}
 .chartcard svg.flows-n .ax{letter-spacing:0}
 /* move 4, contrast: a zone label on a chart is the muted ink at full strength (7:1 and better in both themes); the
    zone's own color stays on its tint behind the label, where it was never carrying the word */
 .band-lab{opacity:1}
+
+/* Sprint 9.5, the designer's pass. No new token, face or component: each rule below gives an existing
+   piece its existing look where a broader rule was overriding it, or the room it needs. */
+/* the home: the Brief card keeps a gap above "Where Bitcoin stands" now that the Bitcoin card opens that block */
+body .h-band{margin-bottom:18px}
+/* a table that fits 375: its head is the living table's head (.lt th), left over the column it names, and the
+   coin's name (a row header) sits left with the line under it like every other cell */
+.fit-tbl th{padding:10px 14px;text-align:left}
+.fit-tbl thead th{font:700 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  padding-bottom:8px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.fit-tbl tbody th{font-weight:600;border-bottom:1px solid var(--line);white-space:nowrap}
+.fit-tbl tbody tr:last-child th{border-bottom:0}
+.fit-tbl .mv-tbl th{padding-left:8px;padding-right:8px}
+@media (max-width:520px){.fit-tbl th,.fit-tbl .mv-tbl th{padding-left:6px;padding-right:6px}}
+/* the coin page's foot: the Ledger card's own sizes (the prose rule was reaching in), then the related links
+   as targets */
+body .cn-cold .cn-cold-p{font:400 15px/1.6 var(--sans)}
+body .cn-cold .cn-cold-d{font:13px/1.5 var(--sans);color:var(--muted)}
+.st-nav{display:flex;flex-wrap:wrap;gap:0 22px;margin:22px 0 6px}
+.st-nav-a{display:inline-flex;align-items:center;min-height:44px;font:600 14px/1 var(--sans);color:var(--link)}

@@ -1942,7 +1942,7 @@ header.masthead{position:relative;z-index:300}
 /* Program 8, Sprint 8.1: the daily answer, /today/ and /today/YYYY-MM-DD. Same tokens as the
    Board: a change takes its color from its own sign (color truth), nothing else is colored. */
 .td-page{max-width:760px}
-.td-stamp{font-family:var(--mono);font-size:12px;color:var(--muted);margin:0 0 18px}
+body .td-stamp{font-family:var(--mono);font-size:12px;color:var(--muted);margin:0 0 18px}
 .td-answer{border-left:3px solid var(--rule);padding:2px 0 2px 16px;margin:0 0 8px}
 .td-answer p{font-family:var(--serif);font-size:20px;line-height:1.5;margin:0}
 .td-sec h2{font-size:22px}
@@ -1958,14 +1958,14 @@ header.masthead{position:relative;z-index:300}
 .td-reps{margin:0;padding-left:1.2em}
 .td-rep{padding:8px 0;border-bottom:1px solid var(--line)}
 .td-line{display:block;margin-bottom:2px}
-.td-next{font-family:var(--mono);font-size:12.5px;font-weight:600;margin:22px 0 0}
+body .td-next{font-family:var(--mono);font-size:12.5px;font-weight:600;margin:22px 0 0}
 .td-arch ul{margin:0;padding-left:1.2em}
 .td-corr{border:1px solid var(--line);border-left:3px solid var(--rule);padding:8px 12px;font-size:14px}
 
 /* Program 9, Sprint 9.2: "What lined up with the move" (why_evidence.py) on /today/ and the Bitcoin
    and Ether pages. Same tokens: a change takes its color from its own sign, the chart's line from
    its own window. */
-.ev-win{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:0 0 6px}
+body .ev-win{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:0 0 6px}
 .ev-run-l{font-size:15px;line-height:1.5;margin:0 0 6px}
 .ev-run-l .chg,.ev-mech .chg{font-family:var(--mono);font-weight:700;white-space:nowrap}
 .ev-run-l .chg.up,.ev-mech .chg.up{color:var(--up)}
