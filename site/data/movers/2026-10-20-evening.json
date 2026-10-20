@@ -1,0 +1,122 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-10-19T23:12:48Z",
+  "end_utc": "2026-10-20T23:12:48Z",
+  "hours": 24
+ },
+ "made_utc": "2026-10-20T23:15:59Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-10-20T23:12:48Z",
+  "before_day": "2026-10-19",
+  "btc_24h_pct": 1.15,
+  "passed": [],
+  "over_cap": [],
+  "failed": [
+   {
+    "sym": "WLD",
+    "name": "Worldcoin",
+    "gecko_id": "worldcoin-wld",
+    "rank": 47,
+    "pos": 40,
+    "move_pct": 11.42,
+    "vol_pct": 6.68,
+    "multiple": 1.71,
+    "beta": 1.59,
+    "btc_pct": 1.15,
+    "predicted_pct": 1.83,
+    "excess_pts": 9.59,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-09-18",
+     "through": "2026-10-18"
+    }
+   },
+   {
+    "sym": "AERO",
+    "name": "Aerodrome Finance",
+    "gecko_id": "aerodrome-finance",
+    "rank": 83,
+    "pos": 68,
+    "move_pct": 10.99,
+    "vol_pct": 6.38,
+    "multiple": 1.72,
+    "beta": 0.869,
+    "btc_pct": 1.15,
+    "predicted_pct": 1.0,
+    "excess_pts": 9.99,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-09-18",
+     "through": "2026-10-18"
+    }
+   },
+   {
+    "sym": "LIT",
+    "name": "Lighter",
+    "gecko_id": "lighter",
+    "rank": 85,
+    "pos": 70,
+    "move_pct": 10.12,
+    "vol_pct": 5.01,
+    "multiple": 2.02,
+    "beta": 0.465,
+    "btc_pct": 1.15,
+    "predicted_pct": 0.53,
+    "excess_pts": 9.59,
+    "legs": {
+     "move": true,
+     "multiple": false,
+     "excess": true
+    },
+    "pass": false,
+    "history": {
+     "from": "2026-09-18",
+     "through": "2026-10-18"
+    }
+   }
+  ],
+  "left_out": [],
+  "own_card": [],
+  "log": [
+   "movers: gate fail WLD +11.42%: 1.71x its 30-day daily volatility of 6.68% (needs 2.5x)",
+   "movers: gate fail AERO +10.99%: 1.72x its 30-day daily volatility of 6.38% (needs 2.5x)",
+   "movers: gate fail LIT +10.12%: 2.02x its 30-day daily volatility of 5.01% (needs 2.5x)",
+   "movers: no top-100 coin passed the gate (8 measured, 0 left out for history)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": 1.15,
+   "market_pct": 1.25,
+   "past_move": 3,
+   "measured_past_move": 3,
+   "with_market": 0
+  },
+  "used_today": 0
+ },
+ "coins": {},
+ "shared": {},
+ "date_et": "2026-10-20",
+ "slot": "evening"
+}

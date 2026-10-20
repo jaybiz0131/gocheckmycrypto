@@ -1,31 +1,31 @@
 {
- "line": "Major financial firms push infrastructure deeper into crypto rails as spot Bitcoin demand persists and market sentiment holds steady.",
+ "line": "Bitcoin drifting higher on modest leverage and neutral technicals, with regulatory tightening in Switzerland, France, and Kazakhstan the day's dominant thread.",
  "by": "edition",
- "written_utc": "2026-10-20T12:18:12Z",
- "written_et": "8:18 AM ET on Oct 20",
+ "written_utc": "2026-10-20T23:14:41Z",
+ "written_et": "7:14 PM ET on Oct 20",
  "readings": {
-  "stamp_utc": "2026-10-20T12:16:33Z",
-  "btc_24h_pct": -1.46,
-  "etf_net_usd_m": 526.7,
-  "etf_date": "19 Oct 2026",
+  "stamp_utc": "2026-10-20T23:12:48Z",
+  "btc_24h_pct": 1.15,
+  "etf_net_usd_m": -10.3,
+  "etf_date": "20 Oct 2026",
   "fear_greed": 55,
   "fear_greed_band": "Neutral",
-  "funding_8h_pct": 0.0012,
+  "funding_8h_pct": 0.0065,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin -1.46% on the day, spot ETF net +526.7M USD (Oct 19, 2026), Fear & Greed 55 (neutral), funding +0.0012% per 8h (calm)",
+ "small_line": "Written from Bitcoin +1.15% on the day, spot ETF net -10.3M USD (Oct 20, 2026), Fear & Greed 55 (neutral), funding +0.0065% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c029",
-   "line": "JPMorgan extended its JPM Coin dollar deposit token to Ethereum for institutional clients, enabling faster settlement on a public blockchain."
+   "id": "c028",
+   "line": "Swiss regulator FINMA approved the country's first retail bitcoin ETF holding bitcoin directly, with custody safeguards and volatility warnings required."
   },
   {
-   "id": "c019",
-   "line": "BlackRock filed for a Bitcoin Managed Protection ETF offering downside protection and upside exposure, marking the firm's third bitcoin fund."
+   "id": "c010",
+   "line": "France's National Assembly voted 38-37 to impose 31% capital-gains tax on stablecoin conversions starting January 2027, removing tax deferral."
   },
   {
-   "id": "c017",
-   "line": "Nine companies including Broadcom and Verizon objected to trading on the SEC-approved OKX-ICE tokenized stock venue, and Nasdaq opted out entirely."
+   "id": "c008",
+   "line": "Kazakhstan court banned Coinbase, BingX, OKX, Bybit, Huobi, and Gate.io from unlicensed crypto services in the Astana International Financial Centre."
   }
  ],
  "crossed": []

@@ -1,15 +1,60 @@
 {
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "generated_by": "chartmaster.py (auto, from the live boards)",
   "mode": "live",
-  "path": "cut",
-  "headline": "All majors hold trend structure above 200-day lines while momentum stalls; whales pull coins off exchanges as spot ETF outflows persist.",
-  "paragraphs": [
-    "The regime is intact but not accelerating. Bitcoin, Ethereum, Solana, XRP, BNB, and ADA all trade above their 200-day moving averages with golden crosses in place, a uniform picture of structural uptrend. Bitcoin dominance sits at 59.6 percent, anchoring the frame. But momentum has flatlined across the board: every major asset shows MACD below signal line, and RSI readings cluster in the 36 to 48 range, nowhere near overbought. BTC's RSI at 48.4 is closest to neutral; ETH at 37.6, SOL at 41.1, and XRP at 36.3 are all in the lower half of the dial. This is a market with trend but no conviction, resting rather than pushing. The only structural break is DOGE, which remains below its 200-day line despite the golden cross signal, a warning flag in an otherwise aligned backdrop.",
-    "The window disagreement across almost every major asset tells the real story. On the day, BTC is up 0.3 percent, ETH up 0.6, SOL up 1.2, XRP up 0.6, BNB up 1.7, DOGE up 0.8. Over the week, all of them are down: BTC down 2.0 percent, ETH down 5.0, SOL down 6.5, XRP down 7.3, BNB down 4.1, DOGE down 8.5. This is a bounce off weakness, not a reversal. The monthly picture is mixed: BTC up 1.4 percent, but ETH, SOL, XRP, BNB, and DOGE are all down 5 to 9 percent. These assets remain deep in drawdown from their 12-month highs: BTC is 34.3 percent down, ETH 48.8, SOL 54.9, XRP 56.5, BNB 44.1, ADA 75.1. Volatility is elevated; 30-day realized moves range from 32 percent in BTC to 74.2 percent in ADA. The tape shows a market that has corrected hard and is now testing the bid intraday while longer-term pressure persists.",
-    "Derivatives positioning reveals heavy long exposure at elevated cost. This positioning is expensive and crowded on the long side. The liquidation data is asymmetric: over the last 8 hours, BTC saw 4.4 million in long liquidations against 0.5 million in shorts; over 2 hours ETH saw no long liquidations but 0.4 million in shorts; SOL saw 0.1 million longs and 0.5 million shorts. The XRP and DOGE samples span 13 hours each, making direct comparison harder, but both show modest short liquidations. The message is clear: long leverage is on the books and vulnerable if the intraday bounce reverses.",
-    "Flow data shows a turning point in whale behavior against persistent institutional selling. Over the last 48 hours, 221.9 million dollars in net value moved off exchanges, with Bitcoin accounting for 198.6 million of that. The largest single moves were 104.7 million and 94.0 million Bitcoin outflows from Kraken over this window. This reversal matters because the weekly picture had been the opposite: week ending September 28, 1.16 billion moved onto exchanges; week ending October 5, 365 million on; week ending October 12, 1.44 billion on. Only in the week ending October 19 did that flip, with 154 million moving off. Whales are moving coins to cold storage, a posture typically taken ahead of volatility or in preparation for a hold. Meanwhile, spot ETF flows remain negative: on the day of October 19, Bitcoin ETF showed an outflow of 54.9 million, Ethereum 1.9 million. Over the last five trading sessions, Bitcoin ETF saw net outflows of 217.9 million with same-direction days numbering only 2, meaning there was at least one inflow day in that window. Ethereum is worse, with 236.6 million in five-session outflows and 4 same-direction days, indicating more persistent institutional withdrawal. Stablecoin float stands at 304.6 billion, up 0.35 percent in the last 30 days, a modest increase in dry powder.",
-    "Sentiment reads Greed at 59, within a 30-day range of 53 to 78, placing it in the middle of recent extremes. This is not capitulation, nor is it euphoria, but the mood offers no cover for the positioning data. The minor movers show typical dispersion: WLD, PUMP, and VVV are up 9.5 to 9.2 percent, while WLFI, M, and HBAR are down 3 to 4 percent. The Bitcoin network continues its retarget cycle with 1,504 blocks remaining and difficulty up 3.5 percent, a sign of steady hashrate. Fees are flat at 1 sat/byte for both fastest and hourly transactions, suggesting no mempool stress.",
-    "Watch for a reversal in the whale flow direction over the next 48 hours, which would break the emerging pattern of coins moving to cold storage. Monitor whether ETF outflows reverse into inflows, particularly for Ethereum, which has shown four consecutive days of redemptions. The DOGE break below the 200-day line in an otherwise uptrend-aligned market is also worth tracking: a failure to reclaim that moving average would suggest one major asset has slipped to a lower structural regime."
+  "path": "data-only",
+  "headline": "Chart Master data card: levels, 50-day and 200-day lines, RSI",
+  "paragraphs": [],
+  "data_only": true,
+  "levels": [
+    {
+      "symbol": "BTC",
+      "price": 82893,
+      "sma50": 81572.53,
+      "sma200": 72644.82,
+      "rsi14": 52.4
+    },
+    {
+      "symbol": "ETH",
+      "price": 2447.08,
+      "sma50": 2549.93,
+      "sma200": 2151.0,
+      "rsi14": 43.0
+    },
+    {
+      "symbol": "SOL",
+      "price": 106.42,
+      "sma50": 109.45,
+      "sma200": 87.84,
+      "rsi14": 44.4
+    },
+    {
+      "symbol": "XRP",
+      "price": 1.33,
+      "sma50": 1.41,
+      "sma200": 1.28,
+      "rsi14": 41.7
+    },
+    {
+      "symbol": "BNB",
+      "price": 740.64,
+      "sma50": 747.5,
+      "sma200": 647.9,
+      "rsi14": 48.9
+    },
+    {
+      "symbol": "DOGE",
+      "price": 0.081784,
+      "sma50": 0.09,
+      "sma200": 0.09,
+      "rsi14": 41.7
+    },
+    {
+      "symbol": "ADA",
+      "price": 0.223404,
+      "sma50": 0.23,
+      "sma200": 0.21,
+      "rsi14": 43.8
+    }
   ]
 }
