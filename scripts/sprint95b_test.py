@@ -207,6 +207,9 @@ def fixture_html():
 
 
 def _mask_v(h):
+    """The two stamps that change with every commit and say nothing about the markup: the CSS content hash on the asset links,
+    and the build-commit meta (git HEAD, 2453529 when the baselines were made), which differs at any commit after that one."""
+    h = re.sub(r'<meta name="build-commit" content="[^"]*">', '<meta name="build-commit" content="X">', h)
     return re.sub(r"\?v=[0-9a-f]{10}", "?v=X", h)
 
 

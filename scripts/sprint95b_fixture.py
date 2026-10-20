@@ -23,6 +23,10 @@ def pages(root, names=("card", "nocard")):
     fl = t.s92().load(f"flows_{t.D15()}.json")
     old = sb.SNAP
     sb.SNAP = snapshot.build(p, fl)
+    # the masthead's build moment is the baselines' own (SITE_BUILD_NOW=2026-10-20T07:20:00Z, README.txt), whatever clock the
+    # calling process holds: the canary draws these after its own build has cached the wall clock
+    old_now = sb._NOW_CACHE
+    sb._NOW_CACHE = dt.datetime(2026, 10, 20, 7, 20, tzinfo=UTC)
     out = {}
     try:
         now = dt.datetime(2026, 10, 15, 23, 50, tzinfo=UTC)
@@ -41,4 +45,5 @@ def pages(root, names=("card", "nocard")):
                     f.write(html)
     finally:
         sb.SNAP = old
+        sb._NOW_CACHE = old_now
     return out
