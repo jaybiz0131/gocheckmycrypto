@@ -64,8 +64,11 @@ async function route(page, opts = {}) {
   await page.route(/^https?:/, async r => {
     const u = new URL(r.request().url());
     if (u.host === new URL(base).host) {
-      if (opts.base95 && u.pathname === "/assets/site.css") return r.fulfill({ status: 200, contentType: "text/css", body: fs.readFileSync(path.join(FX95B, "site.95.css")) });
-      if (opts.base95 && u.pathname === "/assets/system.css") return r.fulfill({ status: 200, contentType: "text/css", body: fs.readFileSync(path.join(FX95B, "system.95.css")) });
+      // THE 375 BASELINE IS SPRINT 9.5'S CSS PLUS EXACTLY THE TWO RULES J-11 (strategist, October 20, 3:35 PM ET) CARRIES UNDER 1280, named here:
+      // rule 1 (the live stamp's three-line reserve below 521 px) in system.css, rule 2 (the nav's wrap from 700 to 1019 px) in site.css.
+      // Nothing else is excluded: a third rule under 1280 makes the new page differ from this one.
+      if (opts.base95 && u.pathname === "/assets/site.css") return r.fulfill({ status: 200, contentType: "text/css", body: fs.readFileSync(path.join(FX95B, "site.95.css"), "utf8") + "\n" + fs.readFileSync(path.join(FX95B, "j11-nav.css"), "utf8") });
+      if (opts.base95 && u.pathname === "/assets/system.css") return r.fulfill({ status: 200, contentType: "text/css", body: fs.readFileSync(path.join(FX95B, "system.95.css"), "utf8") + "\n" + fs.readFileSync(path.join(FX95B, "j11-stamp.css"), "utf8") });
       return r.continue();
     }
     if (u.host === "api.coingecko.com") {
@@ -152,7 +155,7 @@ try {
   // 1. THE WRAPPER, as drawn: 1080 under 1280, 1400 from 1280 to any width; the home and the inner pages the same
   const WRAP_PAGES = ["/index.html", "/today/", "/pulse.html", "/pulse/movers.html", "/flows.html", "/coins/btc", "/news.html", "/learn.html", "/about.html", "/method.html", "/bottom-line.html", "/record.html", "/chartmaster.html"]
     .filter(exists);
-  for (const w of [1440, 1920, 1280, 1279, 1100, 375]) {   // 768 is left out: Sprint 9.5's nav already scrolls the page sideways from 768 to about 1000 (named in the build note)
+  for (const w of [1440, 1920, 1280, 1279, 1100, 768, 375]) {
     const bad = [];
     for (const url of WRAP_PAGES) {
       const [ctx, page] = await open(w, 800, url);
@@ -319,12 +322,7 @@ try {
     for (const [hours, label] of [[1, "fresh"], [9, "stale"]]) {
       for (const live of [false, true]) {
         const c = await runCls(w, hours, live, false);
-        if (live && w < 700) {
-          // KNOWN, Sprint 9.5's and under 1280, so not this sprint's to change: when the live price lands, the stamp's words grow to three lines at a
-          // phone width and the blocks under it move (0.018 at 375 on 9.5's head). Printed, not judged; named in the build note.
-          info(`CLS on the home at ${w}, read ${label}, with the live price landing (stub): the 9.5 stamp reflow`, JSON.stringify({ cls: c.cls, shifts: c.shifts.slice(0, 2) }));
-          continue;
-        }
+        // J-11 rule 1: the live price landing is judged at every width, phones included (0.018 at 375 on 9.5's head, before the stamp kept its three lines)
         check(`CLS on the home at ${w}, read ${label}, ${live ? "with the live price landing (stub)" : "no live answer"}: zero`, c.cls < 0.0005 && (!live || /price live/.test(c.live)), JSON.stringify({ cls: c.cls, live: c.live.slice(0, 40), shifts: c.shifts.slice(0, 3) }));
       }
     }
@@ -334,10 +332,10 @@ try {
       let bad = 0, worst = 0, first = null;
       const N = process.env.S95B_N !== undefined ? +process.env.S95B_N : (w < 700 ? 30 : 10);
       for (let k = 0; k < N; k++) {
-        const c = await runCls(w, hours, w >= 1280 && k % 2 === 1, true);
+        const c = await runCls(w, hours, k % 2 === 1, true);
         if (c.cls >= 0.0005) { bad++; worst = Math.max(worst, c.cls); first = first || c.shifts.slice(0, 3); }
       }
-      check(`CLS on the home at ${w}, 6x CPU throttling, read ${label}: zero in all ${N} reads (at 1440 every other read has the live price landing)`, bad === 0, JSON.stringify({ reads_over_zero: bad, of: N, worst, first }));
+      check(`CLS on the home at ${w}, 6x CPU throttling, read ${label}: zero in all ${N} reads (every other read has the live price landing)`, bad === 0, JSON.stringify({ reads_over_zero: bad, of: N, worst, first }));
     }
   }
 
@@ -449,6 +447,31 @@ try {
     check(`every page type at ${w}: no chart label is drawn under 12 px`, bad.svgSmall.length === 0, bad.svgSmall.slice(0, 6).join(" | "));
     check(`every page type at ${w}: no chart is drawn at more than 1.8 times its own size (a chart that grew with the page reads as a poster)`, bad.svgBig.length === 0, bad.svgBig.slice(0, 6).join(" | "));
   }
+  }
+
+  // 8. THE NAV, J-11 rule 2: the page never scrolls sideways from 768 to 1100 (9.5's eleven-item nav did from 768 to about 1005), the nav keeps its eleven
+  // items and NAMES.md's names, the tab bar at 375 is the five it was
+  if (run("8")) {
+    const NAV = ["Home", "Why it moved", "Markets", "Big movers", "Whale Watch", "Charts", "News", "The Brief", "Storylines", "Learn", "About"];
+    const PAGES = ["/index.html", "/about.html", "/method.html", "/pulse.html", "/flows.html", "/learn.html", "/news.html", "/today/", "/coins/btc"].filter(exists);
+    for (const w of [768, 800, 900, 1000, 1100]) {
+      const bad = [];
+      for (const url of PAGES) {
+        const [ctx, page] = await open(w, 800, url);
+        const r = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
+          items: [...document.querySelectorAll("nav.mh-nav a")].map(a => (a.querySelector(".nv-task") || a).textContent.trim()),
+          navRight: Math.max(...[...document.querySelectorAll("nav.mh-nav a")].map(a => a.getBoundingClientRect().right)) }));
+        if (r.sw !== r.cw) bad.push(`${url}: scrollWidth ${r.sw} vs viewport ${r.cw}`);
+        if (JSON.stringify(r.items) !== JSON.stringify(NAV)) bad.push(`${url}: nav items ${JSON.stringify(r.items)}`);
+        if (r.navRight > r.cw + 0.5) bad.push(`${url}: a nav item ends at ${Math.round(r.navRight)}, past ${r.cw}`);
+        await ctx.close();
+      }
+      check(`the nav at ${w}: scrollWidth equals the viewport on the home and ${PAGES.length - 1} inner pages, eleven items in NAMES.md's names, none past the edge`, bad.length === 0, bad.slice(0, 4).join(" | "));
+    }
+    const [ctx, page] = await open(375, 800, "/index.html");
+    const t = await page.evaluate(() => ({ nav: getComputedStyle(document.querySelector("nav.mh-nav")).display, tabs: [...document.querySelectorAll("nav.tabbar .tb-item span")].map(e => e.textContent.trim()) }));
+    check("the tab bar at 375 is the five it was and the desktop nav is not drawn", t.nav === "none" && JSON.stringify(t.tabs) === JSON.stringify(["Why it moved", "Markets", "Big movers", "Whale Watch", "Brief"]), JSON.stringify(t));
+    await ctx.close();
   }
 
   // 7. CLS ON EVERY PAGE TYPE AT 1440 (the page read nine hours after its stamp, so the stale-state script adds its words): not worse than the same page

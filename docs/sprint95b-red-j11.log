@@ -1,0 +1,106 @@
+Sprint 9.5b, J-11 (strategist, October 20, 3:35 PM ET): the new tests run RED on b3e2294's CSS (the designer's 98c2b4d has the same rules under 1280), before the two rules exist. A 9.5b tree, sections 1, 3, 4 and 8 of the browser half, S95B_N=4. Tue Oct 20 2026.
+1. the page wrapper: 1080 below 1280, about 1400 from 1280 up (read from the CSS)
+  ok   at 1440 the wrapper's max-width is 1400 (about 1400, from the board line)
+  ok   at 1280 it is that same width, at 1920 it stops there (no wider)
+  ok   at 1279, 1100, 768 and 375 it is 1080, as in 9.5 (nothing changes under 1280)
+  ok   the wrapper keeps its 22 px gutters at every width (padding is not touched)
+2. nothing changes under 1280: the 9.5b block and the two J-11 blocks cut out of each stylesheet leave Sprint 9.5's file, byte for byte
+  ok   site.css: the Sprint 9.5b block is there, marked at both ends
+  ok   site.css: with the block cut out the file is Sprint 9.5's, byte for byte
+  ok   site.css: every rule in the block is under @media (min-width:1280px), except the one that hides the Ether line below 1280 ()
+  ok   site.css: no new font, color or url in the block (no hex, rgb, hsl, @font-face, url): tokens only ([])
+  ok   site.css: every font-family in the block is one of the three tokens ([])
+  ok   system.css: the Sprint 9.5b block is there, marked at both ends
+  ok   system.css: with the block cut out the file is Sprint 9.5's, byte for byte
+  ok   system.css: every rule in the block is under @media (min-width:1280px), except the one that hides the Ether line below 1280 ()
+  ok   system.css: no new font, color or url in the block (no hex, rgb, hsl, @font-face, url): tokens only ([])
+  ok   system.css: every font-family in the block is one of the three tokens ([])
+  ok   the home's two columns still start at 1100 (9.5's rule is untouched; 9.5b changes them from 1280 only)
+3. the markup: the Ether line is the one thing added to the home, and it is the Board's own data
+  ok   home (card): exactly one element is marked data-wide (the Ether line)
+  ok   home (card): with it cut out the page is Sprint 9.5's, byte for byte (the 375 markup)
+  ok   home (nocard): exactly one element is marked data-wide (the Ether line)
+  ok   home (nocard): with it cut out the page is Sprint 9.5's, byte for byte (the 375 markup)
+  ok   the Ether line is a paragraph with data-eth-line, inside the tape block, after the Bitcoin line and its stamp
+  ok   its price is the Board's Ether price, written the way the tape writes Bitcoin's (sb._price_fmt)
+  ok   its change is the Board's 24-hour change, with the arrow and the sign the number has, labeled 24h
+  ok   it is sourced: it names CoinGecko, the source the Board names for the coins (fields.coins.source)
+  ok   it is stamped: the one stamp under the Bitcoin line (the coins' read time) is under it too, in the same block (one stamp for the Board, Jack, 7 October)
+  ok   from 1280 the Ether tile in Where Bitcoin stands is hidden and the Ether line is shown: Ether's price prints once at every width (the same fact never prints twice, October 11)
+  ok   below 1280 the Ether line is display:none in the base rule: not drawn, not read, not in the text
+  ok   SYNTHETIC: a Board with no Ether price draws no Ether line (nothing invented)
+  ok   SYNTHETIC: a Board with an Ether price and no change draws the price and no change (no fake zero)
+  ok   SYNTHETIC: a Board with no Bitcoin price draws the tape's waiting line and no Ether line (the tape's own fallback)
+  ok   the tape's script is Sprint 9.5's (HOME_JS hashes the same): no new script, none edited
+4. the glance board: the home's front is a grid from 1280, and inner pages' reading measures are held
+  ok   from 1280 the home's columns are a grid and the left column is itself a grid (verdict card, tape, Brief side by side)
+  ok   the verdict card is placed first, in the left column's first track (aside.vd)
+  ok   the tape block (Bitcoin and Ether lines) and the Brief card are placed beside the card
+  ok   site.css's block widens .wrap and nothing else about its box (max-width only)
+5. J-11 (strategist, October 20, 3:35 PM ET): 9.5b carries exactly two rules under 1280, held to their text
+  FAIL system.css: the J-11 rule 1 block is there once and is the named text, character for character (a third rule inside it, or a changed one, is red)
+  FAIL site.css: the J-11 rule 2 block is there once and is the named text, character for character (a third rule inside it, or a changed one, is red)
+  FAIL rule 1 by width: the live stamp (#tapeLive's p.h-live) has min-height 54.45px (three lines of its 18.15px) at 375 and 520, and none at 521
+  FAIL rule 2 by width: the nav wraps at 700, 768, 900 and 1019, and not at 699 or 1020 (the tab bar below 700 is untouched)
+5. the built tree ../w95b/red2
+  ok   the built home links site.css and system.css, versioned
+  ok   the built site.css is the source's: .wrap is 1080 at 1279 and about 1400 at 1440 (read from the built file)
+  ok   the built home has exactly one Ether line (the Board has an Ether price)
+  ok   the built home's script elements are 9.5's: the same count, and the beacon exactly once
+  ok   every built page links site.css, so every page takes the wrapper (825 pages; without: [])
+  ok   no built page carries a 1080 wrapper of its own without its own 1400 from 1280 (the Edition's sheet does; [])
+PASS the page wrapper at 1440: min(viewport, 1400) on the home and 12 inner pages, no sideways scroll
+PASS the page wrapper at 1920: min(viewport, 1400) on the home and 12 inner pages, no sideways scroll
+PASS the page wrapper at 1280: min(viewport, 1400) on the home and 12 inner pages, no sideways scroll
+PASS the page wrapper at 1279: min(viewport, 1080) on the home and 12 inner pages, no sideways scroll
+PASS the page wrapper at 1100: min(viewport, 1080) on the home and 12 inner pages, no sideways scroll
+FAIL the page wrapper at 768: min(viewport, 1080) on the home and 12 inner pages, no sideways scroll: /index.html: scrolls sideways | /today/: scrolls sideways | /pulse.html: scrolls sideways | /pulse/movers.html: scrolls sideways | /flows.html: scrolls sideways | /coins/btc: scrolls sideways | /news.html: scrolls sideways | /learn.html: scrolls sideways | /about.html: scrolls sideways | /method.html: scrolls sideways | /bottom-line.html: scrolls sideways | /record.html: scrolls sideways | /chartmaster.html: scrolls sideways
+PASS the page wrapper at 375: min(viewport, 1080) on the home and 12 inner pages, no sideways scroll
+FAIL the home at 375 (light, card): every element's box is the one Sprint 9.5 drew (336 elements, the Ether line aside): 336 vs 336; first difference at 57: MAIN|main|wrap h-page|block|0|97.19|375|3554.61 / MAIN|main|wrap h-page|block|0|97.19|375|3518.31
+FAIL the home at 375 (light, card): the screenshot is pixel for pixel Sprint 9.5's: 400675 bytes vs 398647
+FAIL the home at 375 (light, nocard): every element's box is the one Sprint 9.5 drew (324 elements, the Ether line aside): 324 vs 324; first difference at 57: MAIN|main|wrap h-page|block|0|97.19|375|3133.59 / MAIN|main|wrap h-page|block|0|97.19|375|3097.3
+FAIL the home at 375 (light, nocard): the screenshot is pixel for pixel Sprint 9.5's: 360764 bytes vs 363267
+FAIL the home at 390 (light, card): every element's box is the one Sprint 9.5 drew (336 elements, the Ether line aside): 336 vs 336; first difference at 57: MAIN|main|wrap h-page|block|0|97.19|390|3519.67 / MAIN|main|wrap h-page|block|0|97.19|390|3483.38
+FAIL the home at 390 (light, card): the screenshot is pixel for pixel Sprint 9.5's: 397521 bytes vs 397944
+FAIL the home at 390 (light, nocard): every element's box is the one Sprint 9.5 drew (324 elements, the Ether line aside): 324 vs 324; first difference at 57: MAIN|main|wrap h-page|block|0|97.19|390|3117.5 / MAIN|main|wrap h-page|block|0|97.19|390|3081.2
+FAIL the home at 390 (light, nocard): the screenshot is pixel for pixel Sprint 9.5's: 360983 bytes vs 359708
+FAIL the home at 375 (dark, card): every element's box is the one Sprint 9.5 drew (336 elements, the Ether line aside): 336 vs 336; first difference at 57: MAIN|main|wrap h-page|block|0|97.19|375|3554.61 / MAIN|main|wrap h-page|block|0|97.19|375|3518.31
+FAIL the home at 375 (dark, card): the screenshot is pixel for pixel Sprint 9.5's: 410734 bytes vs 409238
+FAIL the home at 375 (dark, nocard): every element's box is the one Sprint 9.5 drew (324 elements, the Ether line aside): 324 vs 324; first difference at 57: MAIN|main|wrap h-page|block|0|97.19|375|3133.59 / MAIN|main|wrap h-page|block|0|97.19|375|3097.3
+FAIL the home at 375 (dark, nocard): the screenshot is pixel for pixel Sprint 9.5's: 368383 bytes vs 371082
+FAIL the home at 390 (dark, card): every element's box is the one Sprint 9.5 drew (336 elements, the Ether line aside): 336 vs 336; first difference at 57: MAIN|main|wrap h-page|block|0|97.19|390|3519.67 / MAIN|main|wrap h-page|block|0|97.19|390|3483.38
+FAIL the home at 390 (dark, card): the screenshot is pixel for pixel Sprint 9.5's: 407999 bytes vs 408063
+FAIL the home at 390 (dark, nocard): every element's box is the one Sprint 9.5 drew (324 elements, the Ether line aside): 324 vs 324; first difference at 57: MAIN|main|wrap h-page|block|0|97.19|390|3117.5 / MAIN|main|wrap h-page|block|0|97.19|390|3081.2
+FAIL the home at 390 (dark, nocard): the screenshot is pixel for pixel Sprint 9.5's: 368752 bytes vs 367668
+PASS at 1279 the Ether line is not drawn, the left column is not a grid and the Ether tile is drawn (Ether prints once)
+PASS at 1280 the Ether line is drawn, the left column is a grid and the Ether tile is hidden (Ether prints once)
+PASS CLS on the home at 375, read fresh, no live answer: zero
+FAIL CLS on the home at 375, read fresh, with the live price landing (stub): zero: {"cls":0.0179138671875,"live":"price live · 4:20 AM ET · range and char","shifts":[{"v":0.0179,"t":117,"r":[["375x428@0,168","SECTION.h-b h-narrative h-band"],["375x231@0,569","SECTION.h-b h-since"]]}]}
+PASS CLS on the home at 375, read stale, no live answer: zero
+FAIL CLS on the home at 375, read stale, with the live price landing (stub): zero: {"cls":0.0179138671875,"live":"price live · 12:20 PM ET · range and cha","shifts":[{"v":0.0179,"t":160,"r":[["375x428@0,168","SECTION.h-b h-narrative h-band"],["375x231@0,569","SECTION.h-b h-since"]]}]}
+PASS CLS on the home at 390, read fresh, no live answer: zero
+FAIL CLS on the home at 390, read fresh, with the live price landing (stub): zero: {"cls":0.0179138671875,"live":"price live · 4:20 AM ET · range and char","shifts":[{"v":0.0179,"t":116,"r":[["390x411@0,168","SECTION.h-b h-narrative h-band"],["390x248@0,552","SECTION.h-b h-since"]]}]}
+PASS CLS on the home at 390, read stale, no live answer: zero
+FAIL CLS on the home at 390, read stale, with the live price landing (stub): zero: {"cls":0.0179138671875,"live":"price live · 12:20 PM ET · range and cha","shifts":[{"v":0.0179,"t":118,"r":[["390x411@0,168","SECTION.h-b h-narrative h-band"],["390x248@0,552","SECTION.h-b h-since"]]}]}
+PASS CLS on the home at 1440, read fresh, no live answer: zero
+PASS CLS on the home at 1440, read fresh, with the live price landing (stub): zero
+PASS CLS on the home at 1440, read stale, no live answer: zero
+PASS CLS on the home at 1440, read stale, with the live price landing (stub): zero
+FAIL CLS on the home at 375, 6x CPU throttling, read stale: zero in all 4 reads (every other read has the live price landing): {"reads_over_zero":2,"of":4,"worst":0.0179138671875,"first":[{"v":0.0179,"t":957,"r":[["375x428@0,168","SECTION.h-b h-narrative h-band"],["375x231@0,569","SECTION.h-b h-since"]]}]}
+FAIL CLS on the home at 375, 6x CPU throttling, read fresh: zero in all 4 reads (every other read has the live price landing): {"reads_over_zero":2,"of":4,"worst":0.0179138671875,"first":[{"v":0.0179,"t":661,"r":[["375x428@0,168","SECTION.h-b h-narrative h-band"],["375x231@0,569","SECTION.h-b h-since"]]}]}
+FAIL CLS on the home at 390, 6x CPU throttling, read stale: zero in all 4 reads (every other read has the live price landing): {"reads_over_zero":2,"of":4,"worst":0.0179138671875,"first":[{"v":0.0179,"t":718,"r":[["390x411@0,168","SECTION.h-b h-narrative h-band"],["390x248@0,552","SECTION.h-b h-since"]]}]}
+FAIL CLS on the home at 390, 6x CPU throttling, read fresh: zero in all 4 reads (every other read has the live price landing): {"reads_over_zero":2,"of":4,"worst":0.0179138671875,"first":[{"v":0.0179,"t":795,"r":[["390x411@0,168","SECTION.h-b h-narrative h-band"],["390x248@0,552","SECTION.h-b h-since"]]}]}
+PASS CLS on the home at 1440, 6x CPU throttling, read stale: zero in all 4 reads (every other read has the live price landing)
+PASS CLS on the home at 1440, 6x CPU throttling, read fresh: zero in all 4 reads (every other read has the live price landing)
+FAIL the nav at 768: scrollWidth equals the viewport on the home and 8 inner pages, eleven items in NAMES.md's names, none past the edge: /index.html: scrollWidth 908 vs viewport 768 | /index.html: a nav item ends at 908, past 768 | /about.html: scrollWidth 908 vs viewport 768 | /about.html: a nav item ends at 908, past 768
+FAIL the nav at 800: scrollWidth equals the viewport on the home and 8 inner pages, eleven items in NAMES.md's names, none past the edge: /index.html: scrollWidth 908 vs viewport 800 | /index.html: a nav item ends at 908, past 800 | /about.html: scrollWidth 908 vs viewport 800 | /about.html: a nav item ends at 908, past 800
+FAIL the nav at 900: scrollWidth equals the viewport on the home and 8 inner pages, eleven items in NAMES.md's names, none past the edge: /index.html: scrollWidth 1008 vs viewport 900 | /index.html: a nav item ends at 1008, past 900 | /about.html: scrollWidth 1008 vs viewport 900 | /about.html: a nav item ends at 1008, past 900
+FAIL the nav at 1000: scrollWidth equals the viewport on the home and 8 inner pages, eleven items in NAMES.md's names, none past the edge: /index.html: scrollWidth 1008 vs viewport 1000 | /index.html: a nav item ends at 1008, past 1000 | /about.html: scrollWidth 1008 vs viewport 1000 | /about.html: a nav item ends at 1008, past 1000
+PASS the nav at 1100: scrollWidth equals the viewport on the home and 8 inner pages, eleven items in NAMES.md's names, none past the edge
+PASS the tab bar at 375 is the five it was and the desktop nav is not drawn
+
+sprint95b_browser: 20 passed, 29 failed
+
+
+SPRINT 9.5b: FAIL (33 failure(s))
+exit 1

@@ -11,7 +11,14 @@ Brief in a grid, so the first screen at 1440 answers without scrolling); inner p
 changes under 1280; the token set only, no new font, script or color; the beacon stays. CLS zero on the home at both
 widths. The 375 render is the same as Sprint 9.5's.
 
-HOW "NOTHING CHANGES UNDER 1280" IS HELD, three ways, none of them a screenshot of one page:
+THE TWO RULES UNDER 1280 (J-11, the strategist's ruling of October 20, 2026, 3:35 PM ET, option 1): the one thing the board line forbade, a change
+under 1280, was the thing its own definition of done (CLS zero at 375) and a 9.5 defect (the nav scrolling the page sideways from 768 to 1000) needed.
+9.5b carries exactly two rules there: (1) the live stamp (#tapeLive) keeps three lines below 521 px, so the live price landing moves nothing; (2) the nav
+wraps from 700 to 1019 px instead of scrolling the page sideways. Each sits in its own marked block whose text is held character for character
+(fixtures/sprint95b/j11-stamp.css and j11-nav.css), and the 375 render test excludes exactly those two rules, by name: its 9.5 side is 9.5's CSS plus
+those two files, nothing else. A third rule under 1280, anywhere, is red.
+
+HOW "NOTHING ELSE CHANGES UNDER 1280" IS HELD, three ways, none of them a screenshot of one page:
   1. THE CSS: the 9.5b rules live in one marked block at the end of site.css and one at the end of system.css. Cut out,
      each file is byte for byte Sprint 9.5's (fixtures/sprint95b/site.95.css, system.95.css). Inside the block every rule
      is under @media (min-width:1280px), except the one that hides the Ether line below 1280.
@@ -141,17 +148,33 @@ def px(v):
     return float(m.group(1)) if m else None
 
 
-def block_of(css):
-    """(css with the 9.5b block cut out, the block's text or None)."""
-    a = css.find(MARK_BEGIN)
-    b = css.find(MARK_END)
+J11_RULES = (("system.css", "J-11 rule 1", "j11-stamp.css"), ("site.css", "J-11 rule 2", "j11-nav.css"))
+
+
+def _cut(css, begin, end):
+    """(css with one marked block cut out with the blank line before it and the newline after it, the block's text or None)."""
+    a = css.find(begin)
+    b = css.find(end)
     if a < 0 or b < 0 or b < a:
         return css, None
-    # the block is appended after one blank line and ends its file: cut those two newlines with it
     lo = a - 1 if a and css[a - 1] == "\n" else a
-    hi = b + len(MARK_END)
+    hi = b + len(end)
     hi = hi + 1 if css[hi:hi + 1] == "\n" else hi
-    return css[:lo] + css[hi:], css[a:b + len(MARK_END)]
+    return css[:lo] + css[hi:], css[a:b + len(end)]
+
+
+def block_of(css):
+    """(css with every 9.5b block cut out, the main 9.5b block's text or None). The two J-11 blocks (the strategist's ruling of
+    October 20, 3:35 PM ET: the live stamp's three-line reserve and the nav's wrap, the only two rules 9.5b carries under 1280) are
+    cut as well, and held to their exact text by j11_cases."""
+    css, main = _cut(css, MARK_BEGIN, MARK_END)
+    for n in (1, 2):
+        css, _t = _cut(css, f"/* ===== Sprint 9.5b, J-11 rule {n}", f"/* ===== end J-11 rule {n} ===== */")
+    return css, main
+
+
+def j11_block(css, n):
+    return _cut(css, f"/* ===== Sprint 9.5b, J-11 rule {n}", f"/* ===== end J-11 rule {n} ===== */")[1]
 
 
 # ---- 1. the wrapper, read from the CSS ------------------------------------------------------------------------------------
@@ -175,7 +198,7 @@ BASE_ALLOWED = ("[data-wide]", ".h-eline")
 
 
 def under_1280_cases(fails):
-    print("2. nothing changes under 1280: the 9.5b block cut out of each stylesheet leaves Sprint 9.5's file, byte for byte")
+    print("2. nothing changes under 1280: the 9.5b block and the two J-11 blocks cut out of each stylesheet leave Sprint 9.5's file, byte for byte")
     for name, path, base in (("site.css", SITE_CSS, "site.95.css"), ("system.css", SYSTEM_CSS, "system.95.css")):
         css = read(path)
         rest, blk = block_of(css)
@@ -309,11 +332,30 @@ def board_css_cases(fails):
             lambda: sblk and any(sel.strip() == ".wrap" and re.fullmatch(r"max-width:\s*1400px;?", body.strip()) for conds, sel, body in flatten(sblk)))
 
 
+# ---- J-11: the two rules 9.5b carries under 1280 -----------------------------------------------------------------------------
+
+def j11_cases(fails):
+    print("5. J-11 (strategist, October 20, 3:35 PM ET): 9.5b carries exactly two rules under 1280, held to their text")
+    for n, (fname, label, fx) in enumerate(J11_RULES, 1):
+        css = read(SYSTEM_CSS if fname == "system.css" else SITE_CSS)
+        want = read(os.path.join(FX, fx)).strip()
+        guarded(fails, f"{fname}: the {label} block is there once and is the named text, character for character (a third rule inside it, or a changed one, is red)",
+                lambda css=css, want=want, n=n: css.count(f"/* ===== Sprint 9.5b, J-11 rule {n}") == 1 and (j11_block(css, n) or "").strip() == want)
+    sy, si = read(SYSTEM_CSS), read(SITE_CSS)
+    guarded(fails, "rule 1 by width: the live stamp (#tapeLive's p.h-live) has min-height 54.45px (three lines of its 18.15px) at 375 and 520, and none at 521",
+            lambda: effective(sy, "body .h-tape .h-live", "min-height", 375) == "54.45px" and effective(sy, "body .h-tape .h-live", "min-height", 520) == "54.45px"
+            and effective(sy, "body .h-tape .h-live", "min-height", 521) is None)
+    guarded(fails, "rule 2 by width: the nav wraps at 700, 768, 900 and 1019, and not at 699 or 1020 (the tab bar below 700 is untouched)",
+            lambda: all(effective(si, ".mh-nav .wrap", "flex-wrap", w) == "wrap" for w in (700, 768, 900, 1019))
+            and all(effective(si, ".mh-nav .wrap", "flex-wrap", w) is None for w in (375, 699, 1020, 1280)))
+
+
 # ---- the rest of the file -----------------------------------------------------------------------------------------------------
 
 def unit():
     fails = []
-    for name, fn in (("wrapper", wrapper_cases), ("under 1280", under_1280_cases), ("markup", markup_cases), ("board css", board_css_cases)):
+    for name, fn in (("wrapper", wrapper_cases), ("under 1280", under_1280_cases), ("markup", markup_cases), ("board css", board_css_cases),
+                     ("J-11", j11_cases)):
         group(fails, name, fn)
     return fails
 

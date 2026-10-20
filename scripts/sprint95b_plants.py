@@ -51,6 +51,18 @@ PLANTS = [
     ("browser: the wide charts are not capped (labels swell to 27 px)", "tree", "assets/site.css", "  .rc-w>svg{max-width:1040px!important;margin-left:auto;margin-right:auto}\n", "", "6"),
     ("browser: the Whale Watch chart keeps 13 unit labels (11 px at 1280)", "tree", "assets/site.css", "  .board-grid .chartcard svg .ax,.board-grid .chartcard svg .sym,.board-grid .chartcard svg .val{font-size:15px}\n", "", "6"),
     ("browser: the coin chart's caption is capped like prose (its rewrite moves the page at 1440)", "tree", "assets/site.css", "  body .cc-cap{max-width:none}\n", "", "7"),
+    ("J-11: a third rule under 1280 inside the J-11 rule 1 block (the Brief card's margin, unit cases)", "repo", SYS,
+     "@media (max-width:520.98px){body .h-tape .h-live{min-height:54.45px}}\n", "@media (max-width:520.98px){body .h-tape .h-live{min-height:54.45px}}\nbody .h-band{margin-bottom:19px}\n", ""),
+    ("J-11: the nav block carries a second rule (a 12 px nav link) (unit cases)", "repo", SITE,
+     "  .mh-nav a.active{margin-bottom:0}\n", "  .mh-nav a.active{margin-bottom:0}\n  .mh-nav a{font-size:12px}\n", ""),
+    ("J-11: a third rule under 1280 in the built CSS, beside the two (the 375 render test)", "tree", "assets/system.css",
+     "@media (max-width:520.98px){body .h-tape .h-live{min-height:54.45px}}\n", "@media (max-width:520.98px){body .h-tape .h-live{min-height:54.45px}}\n@media (max-width:520.98px){body .h-band{margin-bottom:19px}}\n", "3"),
+    ("J-11: the stamp's three-line reserve is gone (the live price landing moves the page at 375)", "tree", "assets/system.css",
+     "@media (max-width:520.98px){body .h-tape .h-live{min-height:54.45px}}\n", "", "4"),
+    ("J-11: the nav rule is gone (the page scrolls sideways from 768)", "tree", "assets/site.css",
+     "  .mh-nav .wrap{flex-wrap:wrap;gap:8px 16px}\n", "", "8"),
+    ("J-11: the nav wraps only to 899 px (sideways again at 900 and 1000)", "tree", "assets/site.css",
+     "@media (min-width:700px) and (max-width:1019.98px){", "@media (min-width:700px) and (max-width:899.98px){", "8"),
 ]
 
 lines = ["Sprint 9.5b, U-9: a copy of the repository or of a built tree, one break planted in it, the test run (unit, or the browser half's sections). "

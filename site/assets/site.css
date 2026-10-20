@@ -2085,3 +2085,10 @@ p.vd-plain{font-family:var(--serif);font-size:17px;line-height:1.5;color:var(--i
   body aside.vd p.vd-more{max-width:none}
 }
 /* ===== end Sprint 9.5b ===== */
+
+/* ===== Sprint 9.5b, J-11 rule 2: the nav wraps instead of scrolling the page sideways from 700 to 1019 px (strategist's ruling, October 20, 2026, 3:35 PM ET) ===== */
+@media (min-width:700px) and (max-width:1019.98px){
+  .mh-nav .wrap{flex-wrap:wrap;gap:8px 16px}
+  .mh-nav a.active{margin-bottom:0}
+}
+/* ===== end J-11 rule 2 ===== */

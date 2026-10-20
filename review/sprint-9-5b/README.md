@@ -1,6 +1,6 @@
 # Sprint 9.5b, the desktop board: the designer's screenshots
 
-Made October 20, 2026 on local branch local-sprint-9-5b (the builder's b3e2294 plus the designer's pass), in a worktree. Nothing pushed.
+Made October 20, 2026 on local branch local-sprint-9-5b (the builder's b3e2294 plus the designer's pass, and the builder's J-11 pass, which re-captured the 375 and added 768 and 900), in a worktree. Nothing pushed.
 
 ## U-10 caveat
 
@@ -25,3 +25,15 @@ SITE_BUILD_NOW=2026-10-20T07:20:00Z for every build, the same moment as the buil
 
 `<page>-<width>-<theme>.png` is the full page. For the home, `-first-screen` is the viewport alone: 1280x800, 1440x800 and 1920x1000,
 the screen a reader sees before scrolling; `-full` is the whole page at 1440. 375 is the phone, unchanged from Sprint 9.5.
+
+## J-11 (the strategist's ruling of October 20, 3:35 PM ET): the two rules under 1280
+
+9.5b carries exactly two rules below 1280, and these shots show them:
+- Rule 1, the live stamp keeps three lines below 521 px: the home at 375 is two lines (36 px) taller, because the stamp under the Bitcoin line now
+  holds three lines before the live price lands, so landing it moves nothing. Re-captured: home-card-375-{light,dark}.png and
+  home-nocard-375-{light,dark}.png. No other 375 shot changes (no other page carries the stamp, and the nav is not drawn at 375).
+- Rule 2, the nav wraps from 700 to 1019 px instead of scrolling the page sideways: the eleven items and their names are unchanged and wrap onto
+  a second row. New: home-card-768-{light,dark}.png, home-card-900-{light,dark}.png (the home, the card fixture) and method-768-{light,dark}.png,
+  method-900-{light,dark}.png (an inner page).
+Same fixtures and builds as above (the builder's tree at the J-11 head, SITE_BUILD_NOW=2026-10-20T07:20:00Z, every other host aborted, the page
+clock the sandbox's own: the home fixtures read "4 days ago").

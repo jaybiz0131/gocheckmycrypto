@@ -698,3 +698,7 @@ body .h-eline{display:none}
   body .h-coin[data-tile="ethereum"]{display:none}
 }
 /* ===== end Sprint 9.5b ===== */
+
+/* ===== Sprint 9.5b, J-11 rule 1: the live stamp keeps three lines below 521 px (strategist's ruling, October 20, 2026, 3:35 PM ET) ===== */
+@media (max-width:520.98px){body .h-tape .h-live{min-height:54.45px}}
+/* ===== end J-11 rule 1 ===== */
