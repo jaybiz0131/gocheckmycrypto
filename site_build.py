@@ -2098,9 +2098,11 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 </head>
 <body class="{esc(body_class)}">
 {skip}{_glow.DEFS}{masthead(nav_group(path), dateline, brand)}
-{body}
-{footer(brand)}{beacon}{livejs}
 <script>{ASOF_JS}</script>
+{body}
+<script>gcmAsof()</script>
+{footer(brand)}{beacon}{livejs}
+<script>gcmAsof()</script>
 {tab_bar(path)}
 {MOTION_JS}{ATMOS_MOTION_JS}{SW_REGISTER}{WATCHLIST_JS if 'data-watchlist' in body else ''}{COINS_MINI_JS if 'class="cb-mini"' in body else ''}
 </body>
@@ -3967,7 +3969,7 @@ def _bd_since_rows(tiles, deltas, pulse, flows):
         rows.append((f"ETF streak {'extended' if n > 2 else 'started'}",
                      f"{n} days {'in' if inflow else 'out'}", "up" if inflow else "down", 50))
     for key, name in (("bitcoin", "Bitcoin"), ("market", "Whole market"),
-                      ("leverage", "Leverage"), ("stables", "Dry powder")):
+                      ("leverage", "Leverage"), ("stables", "Stablecoin supply")):
         pct = (d.get(key) or {}).get("pct")
         if isinstance(pct, (int, float)) and abs(pct) >= 0.1:
             rows.append((f"{name} {'rose' if pct > 0 else 'fell'}", _bd_pct(pct),
@@ -5172,7 +5174,7 @@ def render_living_table_page(spec, data, dateline):
     n = len(t.get("rows") or t.get("weeks") or t.get("days") or [])
     url = f'/tables/{spec["slug"]}.html'
     body = f"""<main class="wrap"><section class="page">
-  <p class="bd-stamp"><a href="/record.html">Record</a> / {esc(spec["title"])}</p>
+  <p class="bd-stamp"><a href="/record.html">{esc(task_name("record"))}</a> / {esc(spec["title"])}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(spec["h1"])}</h1>
   <p class="lx-dek">{esc(spec["dek"])}</p>
   <div class="bd-cardtop"><span class="bd-badge dat">Tracker</span>
@@ -5300,8 +5302,8 @@ def _record_lane(slug, name, lane_items, hub_slugs, page=False, pool=None):
     rest = [i for i in lane_items[1:6] if _claim(i.get("slug"))][:3]
     newest = max((i.get("published_utc") or "") for i in lane_items)[:10]
     # was "1 pieces in the Record"; no noun, so no plural to get wrong (C-20)
-    status = (f"{len(lane_items)} in the Record · newest {esc(fmt_short_date(newest))}"
-              if newest else f"{len(lane_items)} in the Record")
+    status = (f"{len(lane_items)} in Storylines · newest {esc(fmt_short_date(newest))}"
+              if newest else f"{len(lane_items)} in Storylines")
     srcs = []
     for i in lane_items[:6]:
         for s in (i.get("sources") or []):
@@ -5425,8 +5427,8 @@ def record_full_index(items, shown=12):
     links = "".join(f'<a href="/articles/{esc(i["slug"])}.html">{esc(i.get("title") or "")}</a>'
                     for i in rest)
     return (f'<section class="bd-mod bd-rec-index">'
-            f'<div class="bd-cardtop"><span class="bd-label">Record, full index</span>'
-            f'<a class="bd-more" href="/record.html">Open Record</a></div>'
+            f'<div class="bd-cardtop"><span class="bd-label">Storylines, full index</span>'
+            f'<a class="bd-more" href="/record.html">Open Storylines</a></div>'
             f'<div class="bd-rec-cols">{links}</div></section>')
 
 
@@ -5615,7 +5617,7 @@ def render_news_hub(items, dateline, pulse=None):
     # C-12: /news opened with the entire Record block - five lane sections - before a
     # single piece of news. On the news desk the Record is a pointer, not the page.
     rec = ('<p class="lx-dek" style="margin-top:10px">'
-           '<a href="/record.html">Record: what stays true after the news moves on '
+           '<a href="/record.html">Storylines: what stays true after the news moves on '
            '&rarr;</a></p>')
     months = _news_month_archive(live)
     marc = "".join(
@@ -5855,13 +5857,6 @@ def render_method(items, dateline):
     timing checks, reviewed by the editor. It does not claim a person wrote or hand-checked anything, and
     it does not say how the text is drafted (Jack, 16 October 2026, ruling 4)."""
     import verdict as _vd
-    example = next((i for i in items if i.get("example")), None)
-    ex_html = ""
-    if example:
-        ex_html = (f'<h2>What a finished story looks like</h2>'
-                   f'<p>Here is the format, using an illustrative example (not a real story):</p>'
-                   f'<div style="margin:18px 0">{card(example)}</div>'
-                   f'<p><a href="/articles/{esc(example["slug"])}.html">Open the example story &rarr;</a></p>')
     grades = "".join(f"<li><b>{esc(g)}.</b> {esc(_vd.DEFINITIONS[g])}</li>"
                      for g in ("Confirmed", "Likely", "Disputed", "Unclear"))
     body = f"""<main class="wrap narrow"><section class="page">
@@ -5904,8 +5899,6 @@ def render_method(items, dateline):
   <ul>{grades}</ul>
   <p>A move that is too small to count as a move gets no grade at all, and a move the desk could not
      check that day says so.</p>
-
-  {ex_html}
 
   <h2>What we do not do</h2>
   <ul>
@@ -6711,7 +6704,7 @@ def render_flows(flows, dateline):
       If you want the mechanics of how that custody actually works, we explain it in
       <a href="/cold-storage.html">cold storage, explained</a>.</p></div>
     <div class="learn"><span class="lab">Stablecoins flip the logic</span>
-      <p>Stablecoins like USDT and USDC are crypto's dry powder. When they flood <b>onto</b>
+      <p>Stablecoins like USDT and USDC are what traders call crypto's dry powder. When they flood <b>onto</b>
       exchanges, buyers may be staging money for purchases; when they leave, that money
       is stepping out of the arena. That is why we score them separately from volatile assets.</p></div>
     <div class="learn"><span class="lab">What it cannot tell you</span>
@@ -7678,7 +7671,7 @@ def render_pulse_stables(pulse, dateline):
   <div class="sec-head" style="margin-top:26px"><h2>One-year supply</h2><span class="bar"></span></div>
   <div class="chartcard">{chart}</div>
 
-  <div class="sec-head" style="margin-top:30px"><h2>Dry powder 101</h2><span class="bar"></span></div>
+  <div class="sec-head" style="margin-top:30px"><h2>Stablecoin supply 101</h2><span class="bar"></span></div>
   <div class="learn-grid">
     <div class="learn"><span class="lab">Why it matters</span>
       <p>Before anyone can buy crypto at scale, dollars have to enter the system, and they
@@ -8866,7 +8859,7 @@ def render_chartmaster(read, dateline, pulse=None):
                    + cm_leverage_chart((pulse or {}).get("leverage")))
     if _charts:
         _charts = ('<div class="bd-sec"><div class="bd-sec-l">'
-                   '<span class="bd-eyebrow">The tape</span>'
+                   f'<span class="bd-eyebrow">{esc(task_name("charts"))}</span>'
                    '<h2 class="bd-h2">What the numbers look like</h2></div></div>'
                    + f'<div class="cm-charts">{_charts}</div>')
     # K-4: A CORRECTION IS PART OF THE READ, not a note in a file. This read went out
@@ -8903,7 +8896,7 @@ def render_chartmaster(read, dateline, pulse=None):
     # and appears nowhere else on the page. The describe-not-predict disclaimer stays
     # in its usual spot below the prose, unobscured.
     head_html = (
-        '<div class="ey"><span class="tag">the read</span>'
+        '<div class="ey">'
         f'<span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>'
         f'<h3 class="cm-headline">{esc(destyle(read.get("headline", "")))}</h3>')
     read_html = (f"""

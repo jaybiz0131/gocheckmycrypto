@@ -63,12 +63,15 @@ AFTER_MIN = 60                 # the share of the move in the 60 minutes after a
 SCHEDULED_TOL_MIN = 10         # "at the scheduled release time": the onset within two bars of it
 MOVED_FIRST_PCT = 50           # half of the run done before the news: the price moved first
 MIN_COVER = 0.8                # a series with under 80% of its window's bars is not a series
-# THE TIMING TEST'S THRESHOLDS, the one source of truth (the strategist's ruling of October 19, 2026, item 3;
-# AUDIT.md section 3.1, layer 2, "The timing test"): 25 percent of the move done before the event
-# disqualifies it; 40 percent of the move inside the hour after it is the bar for "lines up". The verdict
-# (verdict.py) reads these and holds no copy. Revisited by the strategist after two weeks of 9.8's verdict
-# record, not before and not by the desk. MOVED_FIRST_PCT above stays 9.2's printed wording only.
-TIMING_TEST = {"version": "2026-10-19", "source": "AUDIT.md section 3.1; strategist's ruling of October 19, 2026",
+# THE TIMING TEST'S THRESHOLDS, the one source of truth (the strategist's rulings of October 19 and October 20,
+# 2026; AUDIT.md section 3.1, layer 2, "The timing test"): 25 percent or more of the move done before the
+# event's first report disqualifies it (twenty-five exactly disqualifies: the October 20 ruling on J-8); 40
+# percent of the move inside the hour after it is the bar for "lines up". The test measures from the first-report
+# time (test_time below). The verdict (verdict.py) reads these and holds no copy. Revisited by the strategist after
+# two weeks of 9.8's verdict record, not before and not by the desk. MOVED_FIRST_PCT above stays 9.2's printed
+# wording only. The key is still called done_max_pct; the value is the first percentage that disqualifies.
+TIMING_TEST = {"version": "2026-10-20",
+               "source": "AUDIT.md section 3.1; strategist's rulings of October 19, 2026 and October 20, 2026 (J-8)",
                "lead_min": LEAD_MIN, "done_max_pct": 25.0, "share_min_pct": 40.0}
 SECTION_TITLE = "What lined up with the move"
 
@@ -824,12 +827,15 @@ def candidates(start, end, wire, fetch, ledger, fomc_path=FOMC, cuts=None):
 
 
 def test_time(c):
-    """(epoch, basis) the timing test uses: the event time when the source gives one, else the
-    first-report time; (None, why) when neither exists."""
+    """(epoch, basis) the timing test uses: the first-report time, which is the moment the market could have
+    reacted (the strategist's ruling of October 20, 2026, J-8). A scheduled release is measured from its release
+    time, where the event and its report coincide. An event reported after it happened (a hack, a filing found
+    later) is measured from its report: the move before it is not the event's. An event with only an event
+    time keeps it (a source's own stamp is its first report); (None, why) when neither time exists."""
     ev = _parse_utc(c.get("event_utc"))
-    if ev is not None:
-        return int(ev.timestamp()), "event"
     rp = _parse_utc(c.get("report_utc"))
+    if ev is not None and (c.get("scheduled") or rp is None):
+        return int(ev.timestamp()), "event"
     if rp is not None:
         return int(rp.timestamp()), "first report"
     return None, c.get("event_basis") or "no time"

@@ -20,7 +20,7 @@ live_embed: board.stablecoins (total stablecoin supply, change since yesterday, 
 
 A stablecoin is a token designed to be worth one dollar, backed by dollars or dollar assets held by its issuer. The two largest, Tether and USD Coin, account for most of the supply. Markets adds up the supply of the major stablecoins to get one number: how many dollars are currently sitting inside crypto in a form that can buy coins instantly, with no bank transfer in the way.
 
-Markets calls it dry powder for that reason. It is buying capacity that already cleared the slowest step.
+Traders call it dry powder for that reason. It is buying capacity that already cleared the slowest step.
 
 ## Why it moves the market
 
@@ -50,7 +50,7 @@ Spot ETF flows: the other big source of new dollars, arriving through a differen
 
 Whole market: the denominator for the ratio on this tile.
 
-Whale flows: when dry powder is high and coins are leaving exchanges, supply is tight on both sides.
+Whale flows: when stablecoin supply is high and coins are leaving exchanges, supply is tight on both sides.
 
 [Back to Markets]
 

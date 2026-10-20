@@ -1484,7 +1484,7 @@ def _narrative_canary():
     band = _home.narrative_band(old7, {"stamp_et": "7:16 PM ET on Oct 7"})
     # the band itself prints no date since Sprint 6.2: it names its readings, no figures
     _check("(Oct 7, 2026)" in _n.named(r7) and "07 Oct" not in _n.named(r7)
-           and "spot ETF net" in band and "07 Oct" not in band, fails,
+           and "ETF flows" in band and "07 Oct" not in band, fails,
            f"narrative: the ETF date prints day first: {_n.named(r7)!r}")
     _check(rec["readings"].get("etf_net_usd_m") == 212.4 and rec.get("written_et")
            == "7:10 PM ET on Oct 7", fails, "narrative: the record lacks its readings or stamp")

@@ -655,3 +655,18 @@ body .cn-cold .cn-cold-p{font:400 15px/1.6 var(--sans)}
 body .cn-cold .cn-cold-d{font:13px/1.5 var(--sans);color:var(--muted)}
 .st-nav{display:flex;flex-wrap:wrap;gap:0 22px;margin:22px 0 6px}
 .st-nav-a{display:inline-flex;align-items:center;min-height:44px;font:600 14px/1 var(--sans);color:var(--link)}
+
+/* CLS zero under CPU throttling (Sprint 9.5, review 1): below 521 px the masthead's date and its UPDATED stamp are two
+   rows always, so the age the stale-state script adds to the stamp grows a row that was already there and cannot wrap
+   the stamp onto a new line and push the page down. */
+@media (max-width:520px){
+  .mh-band .mh-meta{flex-direction:column;align-items:flex-start;gap:2px}
+  .mh-band .mh-live{white-space:nowrap}
+}
+
+/* CLS zero under CPU throttling: a tab label is one line in the fallback face and in the real one, so the icon above
+   it does not move when the face lands. */
+@media (max-width:699.98px){.tb-item span{white-space:nowrap}}
+@media (max-width:699.98px){.tabbar{height:calc(57px + env(safe-area-inset-bottom));overflow:hidden;grid-template-columns:repeat(5,minmax(0,1fr))}.tb-item{min-height:0;height:56px;justify-content:flex-start;padding-top:9px}}
+/* the five columns are fixed before the fifth tab is parsed: a slow phone may paint the bar half built, and the tabs
+   already there must not move when the rest arrive */

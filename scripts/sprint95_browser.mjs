@@ -184,6 +184,35 @@ try {
     await ctx.close();
   }
 
+  // 3b. CLS UNDER CPU THROTTLING (6x), ten reads of each page at each width, fresh and stale: the stale-state script must
+  // have run before the first frame on a slow phone too, not only on a fast machine
+  for (const [w, url] of [[375, "/coins/btc"], [390, "/coins/btc"], [375, "/coins/eth"], [390, "/coins/eth"]]) {
+    if (!exists(url)) { check(`CLS throttled on ${url} at ${w}`, false, "page not built"); continue; }
+    const base0 = mastAsof(url);
+    for (const [hours, label] of [[9, "stale"], [1, "fresh"]]) {
+      let bad = 0, worst = 0, first = null;
+      const N = 10;
+      for (let k = 0; k < N; k++) {
+        const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, deviceScaleFactor: 1 });
+        const page = await ctx.newPage();
+        page.setDefaultTimeout(15000);
+        const cdp = await ctx.newCDPSession(page);
+        await cdp.send("Emulation.setCPUThrottlingRate", { rate: 6 });
+        await page.addInitScript(CLS_INIT);
+        if (base0) await page.addInitScript(clockShim, [base0, hours * 3600e3]);
+        await route(page);
+        await page.goto(base_url(url), { waitUntil: "load" });
+        try { await page.waitForSelector("[data-coin-chart] svg.cc-svg", { timeout: 12000 }); } catch { /* counted below */ }
+        await page.waitForTimeout(1200);
+        const c = await page.evaluate(() => ({ cls: window.__cls, shifts: window.__shifts }));
+        if (c.cls >= 0.0005) { bad++; worst = Math.max(worst, c.cls); first = first || c.shifts.slice(0, 3); }
+        await ctx.close();
+      }
+      check(`CLS on ${url} at ${w}, 6x CPU throttling, read ${label}: zero in all ${N} reads`, bad === 0,
+        JSON.stringify({ reads_over_zero: bad, of: N, worst, first }));
+    }
+  }
+
   // 4. CHARTS THAT READ ON A PHONE: no svg label under 12 px as drawn, at 375 and 390
   const CHART_PAGES = ["/index.html", "/today/", "/why/2026-10-15-bitcoin", "/coins/btc", "/coins/eth", "/chartmaster.html",
     "/flows.html", "/pulse.html", "/pulse/movers.html", "/pulse/sentiment.html", "/pulse/posture.html", "/pulse/prices.html",

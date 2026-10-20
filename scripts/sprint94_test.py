@@ -855,9 +855,14 @@ def review1_cases(fails):
         e = sn["coins"]["TIA"]
         movers.register("TIA", "Celestia", "celestia")
         v = verdict.grade(e["evidence"], "TIA", movers.day_of(e, sn["gate"]["btc_24h_pct"]))
-        guarded(fails, f"SYNTHETIC TIA +30.6% with an unlock in time and no other cause: no Likely; the rulings give no "
-                       f"grade, so no card ({v.get('kind')}, {v.get('grade')})",
-                lambda: v.get("grade") is None and v.get("kind") == "no_verdict")
+        # CHANGED BY the strategist's October 20 ruling, J-9 item 3: an unlock (new supply, a fall) in time on a rise
+        # was "no card"; it is now Unclear, "A reported event lines up in time, but the move ran the other way."
+        guarded(fails, f"SYNTHETIC TIA +30.6% with an unlock in time and no other cause: no Likely; Unclear with the line "
+                       f"'A reported event lines up in time, but the move ran the other way.' naming the token unlock "
+                       f"(October 20, J-9 item 3) ({v.get('kind')}, {v.get('grade')})",
+                lambda: v.get("grade") == "Unclear" and v.get("kind") == "graded"
+                and v["line"][0] == "A reported event lines up in time, but the move ran the other way."
+                and v["refs"] and v["refs"][0]["text"] == "the token unlock" and v["refs"][0]["text"] in v["line"][1])
         lst = next(c for c in e["evidence"]["candidates"] if c["id"].endswith("synthetic-1"))
         unl = next(c for c in e["evidence"]["candidates"] if c["kind"] == "unlock")
         guarded(fails, "WORDS: an unlock is 'scheduled', as CoinMarketCap lists it; a listing is 'announced'; neither "

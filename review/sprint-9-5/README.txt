@@ -52,3 +52,21 @@ token, face, color, script or component, and no data, name, copy, grade or URL):
     count of Briefs inside the target (with " Briefs" for a screen reader).
 
 Every page measured no horizontal overflow at 390 and 1440 (scrollWidth equal to the viewport).
+
+REVIEW 1 AND THE RULINGS OF OCTOBER 20 (Tuesday October 20 2026, re-captured after the fixes): every page below
+whose words changed was captured again from a fresh local build of the branch (still no preview URL; still U-10:
+nothing here was read from a deployed page), SITE_BUILD_NOW=2026-10-20T07:20:00Z, the same clocks and procedure as
+above. What changed in words:
+  - Storylines is the name wherever the Record was (breadcrumbs, lane counts, the index card, the home lane, News).
+  - The Brief card's small line reads "Written from Bitcoin's day, ETF flows, Fear & Greed and Funding rate".
+  - "Stablecoin supply 101" heads the explainer on the stablecoin page; "dry powder" appears only as what traders
+    call it. The Learn page keeps its URL.
+  - Charts: the chart section's eyebrow is "Charts"; the read's tag is "The chart read, <date>".
+  - How we check no longer shows the example story or links it. The example story and the editorial describe the
+    process as How we check does, with no AI and no person writing or approving anything. The editorial carries a
+    dated correction, and /corrections.html lists it.
+  - verdict-fixture (new, SYNTHETIC except its first card): the cards of the strategist's rulings of October 20
+    (J-8, J-9 item 3), drawn from hand-timed variants of the real 14 October record, labeled on the page. The
+    first card is the real 14 October record: one Likely naming both 8:30 AM releases.
+The Chart Master's stored read of October 19 is the one named exception (J-10): it keeps the names it was written
+under on /chartmaster.html, /pulse.html and the coin pages until it rolls off.

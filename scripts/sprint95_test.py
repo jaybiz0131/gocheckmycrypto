@@ -555,11 +555,240 @@ def stored_cases(fails):
             and edition._edition_slot({"title": "x"}) == "The Brief")
 
 
+AI_PAGE_WORDS = re.compile(r"\bA\.?I\b|artificial intelligence|language model|\bLLM\b|\bGPT|\bClaude\b|\bAnthropic\b|OpenAI|machine[- ]learn|"
+                           r"drafted with software|written by software|software drafts|\bchatbot", re.I)
+HUMAN_APPROVAL = re.compile(r"a human read|human read the queue|approve what publishes|without a person answering|a person answering|"
+                            r"a person does|human editor|\bthe human\b|\ba human\b|\ba person (?:approves|reads|checks|writes)", re.I)
+
+
+def _item(slug):
+    import site_build as sb
+    return next(i for i in sb.load_content() if i.get("slug") == slug)
+
+
+def review1_cases(fails):
+    import site_build as sb
+    import narrative
+    print("12. review 1: Record, spot ETF net, dry powder, the chart page's names, and no AI or human-approval claim on the trust path")
+    items = sb.load_content()
+    rec = visible(sb.render_record(items, "T"))
+    guarded(fails, "Storylines: the lanes say 'N in Storylines', the index card 'Storylines, full index' and 'Open Storylines' (not the Record)",
+            lambda: re.search(r"\d+ in Storylines", rec) and not re.search(r"in the Record|Record, full index|Open Record", rec))
+    home_rec = visible(sb.record_sections(items, home=True))
+    guarded(fails, "the home's Storylines lane links 'Storylines, in full' and says nothing is 'the Record'",
+            lambda: "Storylines, in full" in home_rec and "the Record" not in home_rec)
+    nw = visible(sb.render_news_hub(items, "T", pulse=sb.load_pulse()))
+    guarded(fails, "News: the Storylines link reads 'Storylines: what stays true after the news moves on' (not 'Record:')",
+            lambda: "Storylines: what stays true" in nw and "Record: what stays" not in nw)
+    guarded(fails, "the table pages' breadcrumb is 'Storylines /' (not 'Record /')",
+            lambda: '{esc(task_name("record"))}</a> /' in inspect_src("render_living_table_page") and 'href="/record.html">Record</a>' not in inspect_src("render_living_table_page"))
+    names = narrative.band_names({"btc_24h_pct": 1, "etf_net_usd_m": 5, "fear_greed": 50, "funding_8h_pct": 0.01})
+    guarded(fails, "the Brief card's small line names the readings as Markets does: ETF flows, Fear & Greed, Funding rate",
+            lambda: names == "Written from Bitcoin's day, ETF flows, Fear & Greed and Funding rate" and "spot ETF net" not in names)
+    st = visible(rendered(lambda p, fl: sb.render_pulse_stables(p, "T")))
+    fl = visible(rendered(lambda p, f: sb.render_flows(f, "T")))
+    guarded(fails, "the stablecoin page's explainer is 'Stablecoin supply 101' (not 'Dry powder 101'); 'dry powder' appears only as what traders call it",
+            lambda: "Dry powder 101" not in st and "Stablecoin supply 101" in st
+            and all("call" in x.lower() or "traders" in x.lower() for x in re.findall(r"[^.]*dry powder[^.]*\.", st + " " + fl, re.I)))
+    lp = open(os.path.join(HERE, "learn", "06-stablecoin-dry-powder.md"), encoding="utf-8").read()
+    guarded(fails, "the Learn stablecoin page (URL kept) does not say Markets calls it dry powder, and never uses it as a tile name",
+            lambda: "Markets calls it dry powder" not in lp and "when dry powder is high" not in lp
+            and not re.search(r"dry powder tile|The dry powder", lp))
+    cmv = visible(rendered(lambda p, f: sb.render_chartmaster({"date": "2026-10-15", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", p)))
+    guarded(fails, "Charts: the chart section's eyebrow is 'Charts' and the read's tag is 'The chart read, Oct 15' (not 'The tape', not 'the read')",
+            lambda: not re.search(r"\bThe tape\b", cmv) and not re.search(r"(?<![Tt]he chart )\bthe read\b", cmv.replace("The chart read", "")))
+    cmh = rendered(lambda p, f: sb.render_chartmaster({"date": "2026-10-15", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", p))
+    guarded(fails, "Charts: no eyebrow 'The tape' and no tag 'the read' in the markup",
+            lambda: 'bd-eyebrow">The tape<' not in cmh and 'class="tag">the read<' not in cmh)
+    # ruling 4 on the trust path
+    method = sb.render_method(items, "T")
+    guarded(fails, "How we check does not render or link the example story",
+            lambda: "Open the example story" not in method and "example-sec-enforcement" not in method and "What a finished story looks like" not in method)
+    for slug in ("example-sec-enforcement", "why-crypto-cronkite"):
+        art = visible(sb.render_article(_item(slug), items))
+        guarded(fails, f"/articles/{slug}.html: no AI mention, no model named, no software drafting, no claim a person writes or approves",
+                lambda art=art: not AI_PAGE_WORDS.search(art) and not HUMAN_APPROVAL.search(art))
+    ex = sb.render_article(_item("example-sec-enforcement"), items)
+    guarded(fails, "the example page keeps its URL, is noindex, and is not in the sitemaps",
+            lambda: 'name="robots" content="noindex"' in ex and _item("example-sec-enforcement").get("example") is True)
+    cr = sb.render_article(_item("why-crypto-cronkite"), items)
+    guarded(fails, "the editorial describes the process as How we check does: automated checks, reviewed by the editor Crypto Cronkite",
+            lambda: "Crypto Cronkite" in visible(cr) and "automated" in visible(cr))
+    guarded(fails, "the editorial carries a visible correction in the site's format, dated, saying the process description was corrected to match How we check",
+            lambda: 'class="callout corrected"' in cr and re.search(r"<b>Correction\.</b> 2026-10-\d\d: .*How we check", cr))
+    log = sb.corrections_log(items)
+    guarded(fails, "/corrections.html lists that correction, dated, with a link to the editorial",
+            lambda: any(r["href"] == "/articles/why-crypto-cronkite.html" and re.match(r"^2026-10-\d\d$", r["when"]) for r in log)
+            and "why-crypto-cronkite" in sb.render_corrections(items, "T"))
+
+
+# ---- 13. the strategist's rulings of October 20 (J-8, J-9 item 3) and Jack's J-10 --------------------------------------
+
+READINGS_LINE = "A reported event lines up in time, but the market readings do not match it."
+OTHER_WAY_LINE = "A reported event lines up in time, but the move ran the other way."
+NEXT_READ = "Verdict at the next read"
+LIKELY_DEF = "The reported events that pass the timing test, with the market readings agreeing."
+PROMPT_OLD_NAMES = re.compile(r"chart master|\bwhale net\b|spot etf net|etf net flows|stablecoin float|dry powder|"
+                              r"buying power|\bthe board\b|\bthe edition\b|morning read|network fees", re.I)
+
+
+def synth_events(specs, sym="BTC"):
+    """SYNTHETIC, from the real 14 October record: its candidates and tests replaced by `specs`, each
+    (id, kind, line, minutes before the run began, readings) with readings agree, silent or contradict. Every
+    event is timed by hand so it passes the timing test by the lead path (it came within the hour before the
+    run began, nothing of the run done); the readings of the hour after it are written to say what the spec
+    asks. Returns the evidence record."""
+    import why_evidence as we
+    r = copy.deepcopy(s93().rec(s93().D14()))
+    coin = r["coins"][sym]
+    run = coin["run"]
+    pts = [(t, p) for t, p in coin["series"]["points"]]
+    r["candidates"], coin["tests"], coin["event_hours"] = [], [], {}
+    for cid, kind, line, mins, fit in specs:
+        t = run["start_t"] - mins * 60
+        r["candidates"].append({"id": cid, "kind": kind, "line": line, "event_utc": we._iso(t),
+                                "event_basis": "the outlet's announcement time", "scheduled": False,
+                                "report_utc": None, "source_count": 1, "primary": False, "secondary": False,
+                                "links": [{"outlet": "Binance" if kind in ("listing", "delisting") else "Example Wire",
+                                           "url": f"https://example.invalid/{cid}"}]})
+        coin["tests"].append({"id": cid, "t_utc": we._iso(t), "basis": "event",
+                              "result": we.timing(pts, run, t, False)})
+        pats = {"agree": [{"label": "coin-specific"}], "contradict": [{"label": "risk-on across assets"}],
+                "silent": []}[fit]
+        coin["event_hours"][cid] = {"patterns": pats, "hour_start_utc": we._iso(t), "hour_end_utc": we._iso(t + 3600),
+                                    "rows": [{"key": "ES=F", "label": "S&P 500 futures", "value": 0.1, "unit": "pct"}]}
+    return r
+
+
+def rulings_cases(fails):
+    import verdict
+    import why_evidence as we
+    t93 = s93()
+    d14 = t93.day14()
+    # --- J-10, option 1: the prompt carries NAMES.md's names -------------------------------------------------
+    prompt = open(os.path.join(HERE, "prompts", "chartmaster.md"), encoding="utf-8").read()
+    m = PROMPT_OLD_NAMES.search(prompt)
+    guarded(fails, "J-10 (option 1): prompts/chartmaster.md carries no old name"
+                   + (f" (found {m.group(0)!r})" if m else ""), lambda: not m)
+    guarded(fails, "J-10: the prompt's flow names are NAMES.md's (ETF flows, Whale flows, Stablecoin supply)",
+            lambda: "ETF flows" in prompt and "whale flows" in prompt.lower() and "stablecoin supply" in prompt.lower())
+    # --- B4: the boundary --------------------------------------------------------------------------------------
+    base = {"in_window": True, "before_onset": True, "share_pct": 80.0, "moved_first": False}
+    guarded(fails, "J-8 boundary: 25 percent done exactly disqualifies the event (25 or more)",
+            lambda: verdict.timing_pass(dict(base, done_pct=25.0)) is None)
+    guarded(fails, "J-8 boundary: 24.9 percent done still passes",
+            lambda: verdict.timing_pass(dict(base, done_pct=24.9)) == "lead")
+    guarded(fails, "J-8 boundary: the printed reason for 25 percent done says a quarter or more",
+            lambda: "quarter or more" in verdict._against_phrase(dict(base, done_pct=25.0), "Bitcoin"))
+    guarded(fails, "J-8: TIMING_TEST is versioned 2026-10-20 and cites the October 20 ruling and the audit",
+            lambda: we.TIMING_TEST["version"] == "2026-10-20" and "October 20" in we.TIMING_TEST["source"]
+            and "3.1" in we.TIMING_TEST["source"] and we.TIMING_TEST["done_max_pct"] == 25.0)
+    # --- B5: the clock -----------------------------------------------------------------------------------------
+    ts = lambda s: int(dt.datetime.fromisoformat(s.replace("Z", "+00:00")).timestamp())
+    both = {"event_utc": "2026-10-14T10:00:00Z", "report_utc": "2026-10-14T10:40:00Z", "scheduled": False}
+    guarded(fails, "J-8 clock: an event reported after it happened is measured from its first report (10:40, not 10:00)",
+            lambda: we.test_time(both) == (ts("2026-10-14T10:40:00Z"), "first report"))
+    guarded(fails, "J-8 clock: a scheduled release is measured from its release time (the report coincides)",
+            lambda: we.test_time(dict(both, scheduled=True, event_utc="2026-10-14T12:30:00Z",
+                                      report_utc="2026-10-14T12:33:56Z"))[0] == ts("2026-10-14T12:30:00Z"))
+    guarded(fails, "J-8 clock: an event with only an event time keeps it; a report with only a report time keeps it",
+            lambda: we.test_time({"event_utc": "2026-10-14T10:00:00Z", "report_utc": None})[0] == ts("2026-10-14T10:00:00Z")
+            and we.test_time({"event_utc": None, "report_utc": "2026-10-14T10:40:00Z"})[0] == ts("2026-10-14T10:40:00Z"))
+    # --- B6: Likely's definition and more than one passing event ----------------------------------------------
+    guarded(fails, "J-8: Likely's printed definition is exactly the strategist's words",
+            lambda: verdict.DEFINITIONS["Likely"] == LIKELY_DEF)
+    g = verdict.grade(t93.rec(t93.D14()), "BTC", d14)
+    guarded(fails, "J-8: 14 October (real), two 8:30 AM releases pass: one Likely naming both (CPI and Real Earnings)",
+            lambda: g["grade"] == "Likely" and {r["id"] for r in g["refs"]} == {
+                "bls-20261014-consumer-price-index", "bls-20261014-real-earnings"}
+            and all(any(r["text"] in ph for ph in g["phrases"][:1]) for r in g["refs"]))
+    vrec = verdict.record_from(t93.rec(t93.D14()), "2026-10-14", "evening", day=d14)
+    card = verdict.card_html(vrec, "BTC", "today", with_section=True)
+    guarded(fails, "J-8: 14 October on a page with the list: the card carries one pointer per named event, each to a different item",
+            lambda: len(re.findall(r'data-vd-ref="', card)) == 2
+            and len(set(re.findall(r'data-vd-ref="([^"]+)"', card))) == 2
+            and sorted(verdict.marks(vrec, "BTC")) == ["bls-20261014-consumer-price-index", "bls-20261014-real-earnings"])
+    r = synth_events([("syn-a", "wire", "Alpha Labs announced a partnership with Beta Corp", 30, "agree"),
+                      ("syn-b", "wire", "Gamma Inc launched a custody service for institutions", 20, "agree")])
+    g = verdict.grade(r, "BTC", d14)
+    guarded(fails, "SYNTHETIC: two events pass the same way, both with the readings agreeing: one Likely naming each",
+            lambda: g["grade"] == "Likely" and len(g["refs"]) == 2 and len(g["phrases"][0]) > 0
+            and all(x["text"] in g["phrases"][0] for x in g["refs"]))
+    r = synth_events([("syn-a", "listing", "Binance Will List Alpha (ALP)", 30, "agree"),
+                      ("syn-b", "delisting", "Example Exchange will delist Beta (BET)", 20, "agree")])
+    g = verdict.grade(r, "BTC", d14)
+    guarded(fails, "SYNTHETIC: two events pass and point opposite ways (a listing up, a delisting down, against a fall): Disputed, both stated",
+            lambda: g["grade"] == "Disputed" and len(g["refs"]) == 2 and all(any(x["text"] in ph for ph in g["phrases"][:1]) for x in g["refs"]))
+    # --- B1: J-8(a) the readings do not match -----------------------------------------------------------------
+    for fit in ("silent", "contradict"):
+        r = synth_events([("syn-a", "wire", "Alpha Labs announced a partnership with Beta Corp", 30, fit)])
+        g = verdict.grade(r, "BTC", d14)
+        vrec = verdict.record_from(r, "2026-10-14", "evening", day=d14)
+        card = verdict.card_html(vrec, "BTC", "home")
+        guarded(fails, f"J-8(a) SYNTHETIC: an event passes the timing test, the readings are {fit}, no other named cause: "
+                       "Unclear with its own line, the event named, a card drawn",
+                lambda g=g, card=card: g["kind"] == "graded" and g["grade"] == "Unclear" and g["line"][0] == READINGS_LINE
+                and g["refs"] and g["refs"][0]["text"] in g["line"][1] and READINGS_LINE in card
+                and "<b>Unclear</b>" in card)
+    r = synth_events([("syn-a", "wire", "Alpha Labs announced a partnership with Beta Corp", 30, "silent")])
+    vrec = verdict.record_from(r, "2026-10-14", "evening", day=d14)
+    v = vrec["coins"]["BTC"]
+    card = verdict.card_html(vrec, "BTC", "today", with_section=True)
+    guarded(fails, "J-8(a): on a page with the list the card names the event with one pointer to one marked item and "
+                   "prints no clock time; the model's two sentences are built from whole phrases (the belt passes them)",
+            lambda: len(re.findall(r'data-vd-ref="', card)) == 1 and verdict.marks(vrec, "BTC") == ["syn-a"]
+            and READINGS_LINE in visible(card) and not re.search(r"\d:\d\d (AM|PM)", visible(card))
+            and verdict.belts(v, v["line"]) == "")
+    # --- B2: J-9(3) the move ran the other way ----------------------------------------------------------------
+    r = synth_events([("syn-a", "listing", "Binance Will List Alpha (ALP)", 30, "agree")])
+    g = verdict.grade(r, "BTC", d14)
+    guarded(fails, "J-9(3) SYNTHETIC: a lone listing (up) lines up in time with a fall, for Bitcoin: Unclear, 'the move ran the other way', the event named",
+            lambda: g["grade"] == "Unclear" and g["line"][0] == OTHER_WAY_LINE and g["refs"]
+            and g["refs"][0]["text"] in g["line"][1])
+    r = synth_events([("syn-a", "delisting", "Example Exchange will delist Beta (BET)", 30, "agree")])
+    g2 = verdict.grade(r, "BTC", d14)
+    guarded(fails, "J-9(3) SYNTHETIC: a lone delisting (down) with a fall is not against its direction: it is not the other-way case",
+            lambda: g2["line"][0] != OTHER_WAY_LINE)
+    r = synth_events([("syn-a", "listing", "Binance Will List Alpha (ALP)", 30, "agree")])
+    r["coins"]["ETH"] = copy.deepcopy(r["coins"]["BTC"])
+    g3 = verdict.grade(r, "ETH", {"basis": "rolling_24h", "BTC": d14["BTC"], "ETH": d14["BTC"] - 4.0})
+    guarded(fails, "J-9(3) SYNTHETIC: the same rule for Ether",
+            lambda: g3["grade"] == "Unclear" and g3["line"][0] == OTHER_WAY_LINE)
+    # --- B7: a listing never Confirms ------------------------------------------------------------------------------
+    r = synth_events([("syn-a", "listing", "Binance Will List Alpha (ALP)", 30, "agree")])
+    r["coins"]["BTC"]["run"]["dir"] = "up"                 # a rise: the listing is with its direction
+    r["candidates"][0]["primary"] = True
+    g = verdict.grade(r, "BTC", {"basis": "rolling_24h", "BTC": 1.5, "ETH": 1.0})
+    guarded(fails, "J-9(3): a listing, a primary notice, with a rise and the readings agreeing, is Likely, never Confirmed",
+            lambda: g["grade"] in ("Likely", None) and g["grade"] != "Confirmed")
+    # --- B3: J-8(b) the page's window ran the other way ------------------------------------------------------------
+    rec14 = t93.rec(t93.D14())
+    day_up = {"basis": "rolling_24h", "BTC": 1.4, "ETH": 1.0}
+    g = verdict.grade(rec14, "BTC", day_up)
+    guarded(fails, "J-8(b): the page's window rose while the measured run fell: no grade, kind next_read",
+            lambda: g["kind"] == "next_read" and g["grade"] is None)
+    vrec = verdict.record_from(rec14, "2026-10-14", "evening", day=day_up)
+    for where in ("home", "today", "coin", "page"):
+        card = verdict.card_html(vrec, "BTC", where)
+        guarded(fails, f"J-8(b): on the {where} placement the card's place prints \"{NEXT_READ}\", with no badge and no grade word",
+                lambda card=card: NEXT_READ in visible(card) and "vd-badge" not in card
+                and not re.search(r"\b(Confirmed|Likely|Disputed|Unclear)\b", visible(card)))
+    guarded(fails, "J-8(b): no marks, no verdict URL, and the model is never asked for it",
+            lambda: verdict.marks(vrec, "BTC") == [] and vrec["coins"]["BTC"]["url"] is None)
+
+
+def inspect_src(name):
+    import inspect
+    import site_build as sb
+    return inspect.getsource(getattr(sb, name))
+
+
 def unit():
     fails = []
     for name, fn in (("names", name_cases), ("page names", page_name_cases), ("front", front_cases),
                      ("trust", trust_cases), ("corrections", corrections_cases), ("brief", brief_cases),
-                     ("coin", coin_cases), ("charts", chart_cases), ("tables", css_cases), ("stored", stored_cases)):
+                     ("coin", coin_cases), ("charts", chart_cases), ("tables", css_cases), ("stored", stored_cases),
+                     ("review 1", review1_cases), ("rulings of October 20", rulings_cases)):
         group(fails, name, fn)
     return fails
 
@@ -572,12 +801,15 @@ OLD_NAMES = [
     (r"Moving the market", "Moving the market"), (r"Living table|Running story|Receipts:", "Living table / Running story / Receipts"),
     (r"\bWhale net\b|\bSpot ETF net\b|Stablecoin float|Stablecoin dry powder|Stablecoin buying power|Network fees",
      "Whale net / Spot ETF net / Stablecoin float / dry powder / buying power / Network fees"),
+    (r"\bin the Record\b|Record, full index|Open Record|Record: what stays|\bRecord /", "Record (Storylines is the name)"),
+    (r"[Ss]pot ETF net(?! creations)", "spot ETF net"),
+    (r"Dry powder|(?<!call )crypto's dry powder|calls it dry powder|when dry powder is high|dry powder tile", "dry powder as a name"),
     (r"Leverage, funding", "Leverage, funding annualized"), (r"\bThe mood\b", "The mood"), (r"How we work|Standards & corrections",
      "How we work / Standards & corrections"), (r"The checked story", "The checked story"), (r"Reads with", "Reads with"),
 ]
 # Pages whose words are the desk's own stored prose (stories, the Chart Master's stored reads, the Briefs) keep
 # whatever name they were written under; the scan covers every page the renames reach.
-SCAN_SKIP = ("articles/", "og/", "edition/", "coverage/", "chartmaster/", "learn/", "news/", "today/20", "why/")
+SCAN_SKIP = ("articles/", "og/", "edition/", "coverage/", "chartmaster/", "news/", "today/20", "why/")
 
 
 def scan_names(root):
@@ -587,10 +819,20 @@ def scan_names(root):
             if not f.endswith(".html"):
                 continue
             rel = os.path.relpath(os.path.join(dp, f), root)
-            if rel.startswith(SCAN_SKIP) or rel in ("chartmaster.html", "archive.html", "wire.html", "record.html",
-                                                    "cold-storage.html", "counterfeit-devices.html", "crypto-tax.html", "corrections.html"):
+            if rel.startswith(SCAN_SKIP) or rel in ("archive.html", "wire.html", "cold-storage.html", "counterfeit-devices.html",
+                                                    "crypto-tax.html", "corrections.html"):
                 continue
-            t = visible(open(os.path.join(dp, f), encoding="utf-8", errors="replace").read())
+            raw = open(os.path.join(dp, f), encoding="utf-8", errors="replace").read()
+            # THE ONE NAMED EXCEPTION (Jack, J-10, option 1, October 20, 2026; docs/RULINGS.md): a stored read keeps the
+            # names it was written under (the October 19 read, and any read written before the prompt changed) until
+            # it rolls off. Nothing already published is reworded. The scan therefore leaves out exactly the stored
+            # read's text, wherever a page prints it: the read article on /chartmaster.html and the one-paragraph card
+            # on /pulse.html and the coin pages. Every other word on those pages is scanned. Reads written from the
+            # next run on use the new prompt (tested in group 13).
+            if rel == "chartmaster.html":
+                raw = re.sub(r'<article class="pulse-card cm-read">.*?</article>', "", raw, flags=re.S)
+            raw = re.sub(r'<p class="cm-card-p">.*?</p>', "", raw, flags=re.S)
+            t = visible(raw)
             for rx, label in OLD_NAMES:
                 m = re.search(rx, t)
                 if m:
@@ -659,6 +901,21 @@ def tree(root):
         v = visible(rd(f))
         guarded(fails, f"/{f} as built: no AI disclosure, no personal name",
                 lambda v=v: v and not AI_WORDS.search(v) and not PERSON.search(v))
+    trust_set = [f for f in ("about.html", "method.html", "standards.html", "corrections.html", "privacy.html", "terms.html", "accessibility.html",
+                             "how-we-make-money.html", "learn.html", "flows.html", "onchain-flows.html", "pulse.html", "chartmaster.html",
+                             "articles/why-crypto-cronkite.html", "articles/example-sec-enforcement.html")
+                 if os.path.exists(pub(f))]
+    trust_set += [os.path.join("learn", f) for f in sorted(os.listdir(pub("learn")))] if os.path.isdir(pub("learn")) else []
+    trust_set += [os.path.join("pulse", f) for f in sorted(os.listdir(pub("pulse")))] if os.path.isdir(pub("pulse")) else []
+    for f in trust_set:
+        raw = rd(f)
+        if f == "chartmaster.html":
+            raw = re.sub(r'<article class="pulse-card cm-read">.*?</article>', "", raw, flags=re.S)
+        guarded(fails, f"/{f} as built: no 'AI', no model named, no software drafting in its words",
+                lambda raw=raw: not AI_PAGE_WORDS.search(visible(raw)))
+    guarded(fails, "the example page is in neither sitemap and /method.html does not link it",
+            lambda: "example-sec-enforcement" not in rd("sitemap-priority.xml") + rd("sitemap-archive.xml") + rd("news-sitemap.xml")
+            and "example-sec-enforcement" not in rd("method.html"))
     guarded(fails, "/method.html as built names Crypto Cronkite; /about.html does too", lambda: "Crypto Cronkite" in visible(rd("method.html"))
             and "Crypto Cronkite" in visible(rd("about.html")))
     # the coin page: the ledger card position, the chart's box

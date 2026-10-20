@@ -132,3 +132,148 @@ PLANT 8 contrast: the sentiment chart's zone labels take the zone's own color at
       FAIL chart labels in dark mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 5 under 4.5:1, e.g. {"t":"extreme fear","cr":2.37}
       FAIL chart labels in light mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 5 under 4.5:1, e.g. {"t":"extreme fear","cr":3.15}
 Every plant above was red with its break in and green with the break undone: the unit plants were run twice (broken, restored), the browser plants against a copy, the real tree being the one the suite log shows green.
+
+=== REVIEW 1 AND THE OCTOBER 20 RULINGS: plants 1 to 53 re-run on this round's tree, Tue Oct 20 2026, 06:56 AM EDT ===
+Plant 39 was inert in this run (its break named a variable the page no longer uses); the plant was corrected and run by hand on a fresh copy: scripts/sprint95_test.py unit, 1 red ("How we check does not render or link the example story"), restored copy green. The 11 plants named 'rulings of Oct 20' are plants 43 to 53 of this list.
+Sprint 9.5, U-9: each guarded thing broken on purpose in a throwaway copy of the tree, scripts/sprint95_test.py run, the same copy run again with the break undone. Fresh copy per plant. Tue Oct 20 2026, 10:41 AM UTC
+PLANT 1 names: the Markets page takes its brand name back (NAMES['markets'] second name 'The Board') (site_build.py): exit 1, 4 red; restored: exit 0
+      FAIL the one table holds the nine names, and each has one name (no second, brand name)
+      FAIL no nav entry carries a second (brand) name
+      FAIL Markets: no 'The Board', no 'Markets: The Board', no 'Board' kicker in its title, crumbs or links
+      FAIL News: nothing on it is called Checked as a brand, the Board, or Wire as a badge; the kind labels read Markets and Brief
+PLANT 2 names: Whale Watch is 'Flows' again in the one table (site_build.py): exit 1, 5 red; restored: exit 0
+      FAIL the one table holds the nine names, and each has one name (no second, brand name)
+      FAIL the desktop nav: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About
+      FAIL the phone tab bar is exactly five: Why it moved, Markets, Big movers, Whale Watch, Brief, to /today/, /pulse.html, /pulse/movers.html, /flows.html, /bottom-line.html, and the current page's tab is marked
+      FAIL the title tag's lead is the one name
+      FAIL Whale Watch: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+PLANT 3 names: the Record is 'Worth keeping' again (site_build.py): exit 1, 6 red; restored: exit 0
+      FAIL the one table holds the nine names, and each has one name (no second, brand name)
+      FAIL the desktop nav: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About
+      FAIL the title tag's lead is the one name
+      FAIL the footer: News, Charts, Storylines, Learn, About, Archive, How we check, Corrections (no 'How we work', no 'Standards & corrections')
+      FAIL Storylines: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+      FAIL the home's Storylines lane links 'Storylines, in full' and says nothing is 'the Record'
+PLANT 4 nav: the why leaves the desktop nav (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the desktop nav: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About
+PLANT 5 tab bar: the old five (Markets, Flows, Charts, News, Brief) (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the phone tab bar is exactly five: Why it moved, Markets, Big movers, Whale Watch, Brief, to /today/, /pulse.html, /pulse/movers.html, /flows.html, /bottom-line.html, and the current page's tab is marked
+PLANT 6 tab bar: a sixth tab (Charts) is added (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the phone tab bar is exactly five: Why it moved, Markets, Big movers, Whale Watch, Brief, to /today/, /pulse.html, /pulse/movers.html, /flows.html, /bottom-line.html, and the current page's tab is marked
+PLANT 7 front: the verdict card moves back under the Brief card (the 9.3 place) (home.py): exit 1, 1 red; restored: exit 0
+      FAIL with a graded card: it is the first element of the home's first column, before the tape
+PLANT 8 front: Bitcoin's whole card (chart, range, tiles) goes back into the tape (home.py): exit 1, 1 red; restored: exit 0
+      FAIL Bitcoin is one line: the tape block holds the price, the 24-hour change and the stamp, and no chart, no tile
+PLANT 9 front: a withheld notice leads the home (home.py): exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC (the day's cap reached): the notice follows the tape's line; it is not the answer and does not lead
+PLANT 10 home: 'Related data:' is 'Reads with' again (home.py): exit 1, 1 red; restored: exit 0
+      FAIL the home: the wire's mark is 'Reported' (not 'Wire') and a reading is 'Related data: ETF flows' (not 'Reads with Spot ETF net'), from a stored wire written under the old name
+PLANT 11 home: the wire mark is 'Wire' again (home.py): exit 1, 1 red; restored: exit 0
+      FAIL the home: the wire's mark is 'Reported' (not 'Wire') and a reading is 'Related data: ETF flows' (not 'Reads with Spot ETF net'), from a stored wire written under the old name
+PLANT 12 home: the mood block is 'The mood' again (home.py): exit 1, 1 red; restored: exit 0
+      FAIL the home: the mood block is 'Sentiment' (not 'The mood')
+PLANT 13 tiles: 'Whale net' is back on the tile (tile.py): exit 1, 2 red; restored: exit 0
+      FAIL the Markets tiles: ETF flows, Whale flows, Stablecoin supply, Bitcoin fees (section 4's rows)
+      FAIL Learn: no 'The Board explained'; the tiles are named as the Markets tiles are
+PLANT 14 tiles: 'Spot ETF net' is back on the tile (tile.py): exit 1, 3 red; restored: exit 0
+      FAIL the Markets tiles: ETF flows, Whale flows, Stablecoin supply, Bitcoin fees (section 4's rows)
+      FAIL the home: the wire's mark is 'Reported' (not 'Wire') and a reading is 'Related data: ETF flows' (not 'Reads with Spot ETF net'), from a stored wire written under the old name
+      FAIL Learn: no 'The Board explained'; the tiles are named as the Markets tiles are
+PLANT 15 wire: the tag rule names 'Stablecoin float' again (wire.py): exit 1, 1 red; restored: exit 0
+      FAIL the wire's reading names follow, and a stored wire file with the old names is read through the table
+PLANT 16 daily answer: the evening slot is 'Evening Edition' again (today.py): exit 1, 1 red; restored: exit 0
+      FAIL the daily answer's slots are 'Morning Brief' and 'Evening Brief'; no 'Edition', no 'Morning read'
+PLANT 17 pages: the Chart Master's card title is back (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the Markets page's chart card is 'The chart read, Oct 15' (not "Chart Master's read")
+PLANT 18 pages: Whale Watch's stablecoin line is 'Stablecoin buying power' again (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL Whale Watch: the stablecoin flow is 'Stablecoins onto exchanges' (not 'Stablecoin buying power')
+PLANT 19 pages: the footer says 'How we work' again (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the footer: News, Charts, Storylines, Learn, About, Archive, How we check, Corrections (no 'How we work', no 'Standards & corrections')
+PLANT 20 trust: How we check says the text is written by an AI model (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL /method.html: no AI disclosure and no claim that a person wrote or hand-checked anything
+PLANT 21 trust: How we check names a person (site_build.py): exit 1, 2 red; restored: exit 0
+      FAIL How we check names the editor 'Crypto Cronkite' and says the checks are automated and reviewed by the editor
+      FAIL /method.html: no personal name, and the editor is never named other than Crypto Cronkite
+PLANT 22 trust: About says a human editor-in-chief oversees the desk (site_build.py): exit 1, 3 red; restored: exit 0
+      FAIL /about.html: no AI disclosure and no claim that a person wrote or hand-checked anything
+      FAIL /about.html: no personal name, and the editor is never named other than Crypto Cronkite
+      FAIL About names the editor and points to How we check; it does not say who wrote anything
+PLANT 23 corrections: the page invents a date for a correction that has none (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL a correction's date is the date its own text carries; a correction with none says 'Correction date not recorded' (the log never supplies a date)
+PLANT 24 brief: /bottom-line.html lists every month on one page again (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL /bottom-line.html holds the newest month only and links every month
+PLANT 25 ledger: the card is drawn on a coin that moved past the line (site_build.py): exit 1, 3 red; restored: exit 0
+      FAIL SYNTHETIC (a coin up 31% in 24 hours, the audit's example): no Ledger card on its page
+      FAIL SYNTHETIC (a coin down 12.5%): no Ledger card either
+      FAIL the real 16 October Big mover ETHFI: no Ledger card on its page
+PLANT 26 ledger: the card is back above the stories (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the card is after 'Supply and trade' where the page has it
+PLANT 27 charts: the timing chart's labels go back to 11.5 units in a 420 box (why_evidence.py): exit 1, 2 red; restored: exit 0
+      FAIL the timing chart's box is 340 units wide with 12.5-unit labels: 12.6 px in a 343 px column (375), 13.1 px at 390
+      FAIL every label in the drawn chart is 11.5 units or more, and draws at 12 px or more in a 343 px column
+PLANT 28 charts: the home chart's labels go back to 10.5 px (site/assets/system.css): exit 1, 1 red; restored: exit 0
+      FAIL the home chart's own labels (7D high close, the day names) are 12 px
+PLANT 29 tables: the shared rule loses its toggle (site/assets/system.css): exit 1, 1 red; restored: exit 0
+      FAIL system.css holds the shared rule: xs-x columns hide below 521 px and the toggle brings them back, no script
+PLANT 30 tables: the Big movers list drops its xs-x columns (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL Big movers: rank, coin, 24h and grade stay; Beyond Bitcoin, Its usual day and Volume are xs-x, with the toggle before the table
+PLANT 31 chart box: the coin chart's head loses its reserved room (site/assets/system.css): exit 1, 1 red; restored: exit 0
+      FAIL the chart's box is reserved: the stage keeps its minimum height (308 px, 378 from 480 px) and the head keeps the room its tabs take, so waking the tabs moves nothing
+PLANT 32 review 1: the lanes say 'in the Record' again (site_build.py): exit 1, 2 red; restored: exit 0
+      FAIL Storylines: the lanes say 'N in Storylines', the index card 'Storylines, full index' and 'Open Storylines' (not the Record)
+      FAIL the home's Storylines lane links 'Storylines, in full' and says nothing is 'the Record'
+PLANT 33 review 1: the news page links 'Record: what stays true' (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL News: the Storylines link reads 'Storylines: what stays true after the news moves on' (not 'Record:')
+PLANT 34 review 1: the table pages' breadcrumb is 'Record /' again (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the table pages' breadcrumb is 'Storylines /' (not 'Record /')
+PLANT 35 review 1: the Brief card's line says 'spot ETF net' again (narrative.py): exit 1, 1 red; restored: exit 0
+      FAIL the Brief card's small line names the readings as Markets does: ETF flows, Fear & Greed, Funding rate
+PLANT 36 review 1: the stablecoin page's explainer is 'Dry powder 101' again (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the stablecoin page's explainer is 'Stablecoin supply 101' (not 'Dry powder 101'); 'dry powder' appears only as what traders call it
+PLANT 37 review 1: the Learn page says Markets calls it dry powder again (learn/06-stablecoin-dry-powder.md): exit 1, 1 red; restored: exit 0
+      FAIL the Learn stablecoin page (URL kept) does not say Markets calls it dry powder, and never uses it as a tile name
+PLANT 38 review 1: the chart page's eyebrow is 'The tape' again (site_build.py): exit 1, 2 red; restored: exit 0
+      FAIL Charts: the chart section's eyebrow is 'Charts' and the read's tag is 'The chart read, Oct 15' (not 'The tape', not 'the read')
+      FAIL Charts: no eyebrow 'The tape' and no tag 'the read' in the markup
+PLANT 39 review 1: How we check shows the example story again (site_build.py): exit 0, 0 red; restored: exit 0
+PLANT 40 review 1: the example page says an AI never writes the take (site/content/example-format.json): exit 1, 1 red; restored: exit 0
+      FAIL /articles/example-sec-enforcement.html: no AI mention, no model named, no software drafting, no claim a person writes or approves
+PLANT 41 review 1: the editorial loses its correction (site/content/0000-why-crypto-cronkite.json): exit 1, 2 red; restored: exit 0
+      FAIL the editorial carries a visible correction in the site's format, dated, saying the process description was corrected to match How we check
+      FAIL /corrections.html lists that correction, dated, with a link to the editorial
+PLANT 42 review 1: the editorial says a person approves what publishes again (site/content/0000-why-crypto-cronkite.json): exit 1, 1 red; restored: exit 0
+      FAIL /articles/why-crypto-cronkite.html: no AI mention, no model named, no software drafting, no claim a person writes or approves
+PLANT 43 rulings of Oct 20: the prompt names Whale net again (prompts/chartmaster.md): exit 1, 1 red; restored: exit 0
+      FAIL J-10 (option 1): prompts/chartmaster.md carries no old name (found 'Whale net')
+PLANT 44 rulings of Oct 20: 25 percent done no longer disqualifies (strictly more than 25) (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL J-8 boundary: 25 percent done exactly disqualifies the event (25 or more)
+PLANT 45 rulings of Oct 20: the clock measures from the event time again (why_evidence.py): exit 1, 1 red; restored: exit 0
+      FAIL J-8 clock: an event reported after it happened is measured from its first report (10:40, not 10:00)
+PLANT 46 rulings of Oct 20: TIMING_TEST keeps the October 19 version (why_evidence.py): exit 1, 1 red; restored: exit 0
+      FAIL J-8: TIMING_TEST is versioned 2026-10-20 and cites the October 20 ruling and the audit
+PLANT 47 rulings of Oct 20: Likely's definition is the old one-event sentence (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL J-8: Likely's printed definition is exactly the strategist's words
+PLANT 48 rulings of Oct 20: Likely names only the first event that passes (verdict.py): exit 1, 3 red; restored: exit 0
+      FAIL J-8: 14 October (real), two 8:30 AM releases pass: one Likely naming both (CPI and Real Earnings)
+      FAIL J-8: 14 October on a page with the list: the card carries one pointer per named event, each to a different item
+      FAIL SYNTHETIC: two events pass the same way, both with the readings agreeing: one Likely naming each
+PLANT 49 rulings of Oct 20: events pointing opposite ways no longer make Disputed (verdict.py): exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: two events pass and point opposite ways (a listing up, a delisting down, against a fall): Disputed, both stated
+PLANT 50 rulings of Oct 20: the readings-mismatch case prints no line of its own (verdict.py): exit 1, 5 red; restored: exit 0
+      FAIL J-8(a) SYNTHETIC: an event passes the timing test, the readings are silent, no other named cause: Unclear with its own line, the event named, a card drawn
+      FAIL J-8(a) SYNTHETIC: an event passes the timing test, the readings are contradict, no other named cause: Unclear with its own line, the event named, a card drawn
+      FAIL J-8(a): on a page with the list the card names the event with one pointer to one marked item and prints no clock time; the model's two sentences are built from whole phrases (the belt passes them)
+      FAIL J-9(3) SYNTHETIC: a lone listing (up) lines up in time with a fall, for Bitcoin: Unclear, 'the move ran the other way', the event named
+      FAIL J-9(3) SYNTHETIC: the same rule for Ether
+PLANT 51 rulings of Oct 20: the other-way case prints the readings line (verdict.py): exit 1, 2 red; restored: exit 0
+      FAIL J-9(3) SYNTHETIC: a lone listing (up) lines up in time with a fall, for Bitcoin: Unclear, 'the move ran the other way', the event named
+      FAIL J-9(3) SYNTHETIC: the same rule for Ether
+PLANT 52 rulings of Oct 20: a window that ran the other way prints nothing (verdict.py): exit 1, 4 red; restored: exit 0
+      FAIL J-8(b): on the home placement the card's place prints "Verdict at the next read", with no badge and no grade word
+      FAIL J-8(b): on the today placement the card's place prints "Verdict at the next read", with no badge and no grade word
+      FAIL J-8(b): on the coin placement the card's place prints "Verdict at the next read", with no badge and no grade word
+      FAIL J-8(b): on the page placement the card's place prints "Verdict at the next read", with no badge and no grade word
+PLANT 53 rulings of Oct 20: a primary flag on a listing confirms (verdict.py): exit 1, 3 red; restored: exit 0
+      FAIL J-8: 14 October (real), two 8:30 AM releases pass: one Likely naming both (CPI and Real Earnings)
+      FAIL J-8: 14 October on a page with the list: the card carries one pointer per named event, each to a different item
+      FAIL J-9(3): a listing, a primary notice, with a rise and the readings agreeing, is Likely, never Confirmed

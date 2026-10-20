@@ -884,6 +884,8 @@ def list_html(rec, board_utc, live=True):
                 gr = f'<a class="bm-g vd-badge vd-{_e(grade.lower())}" href="{_e(v["url"])}">Checked: <b>{_e(grade)}</b></a>'
             elif v.get("kind") == "withheld":
                 gr = '<span class="bm-g">Not checked today</span>'
+            elif v.get("kind") == "next_read":
+                gr = '<span class="bm-g">Verdict at the next read</span>'
             else:
                 gr = '<span class="bm-g">No grade</span>'
             vol = e.get("volume_vs_7d")

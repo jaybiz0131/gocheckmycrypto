@@ -45,6 +45,32 @@ PLANTS = [
  ("tables: the shared rule loses its toggle", "site/assets/system.css", ".fit-cb:checked+.fit-more+.fit-tbl .xs-x{display:table-cell}", ".fit-cb:checked+.fit-more+.fit-tbl .xs-x{display:none}"),
  ("tables: the Big movers list drops its xs-x columns", "movers.py", '<td class="xs-x">{_e(exc)}</td>', '<td>{_e(exc)}</td>'),
  ("chart box: the coin chart's head loses its reserved room", "site/assets/system.css", ".cc-head{min-height:44px}", ".cc-head{min-height:0}"),
+ ("review 1: the lanes say 'in the Record' again", "site_build.py", 'f"{len(lane_items)} in Storylines · newest', 'f"{len(lane_items)} in the Record · newest'),
+ ("review 1: the news page links 'Record: what stays true'", "site_build.py", "'<a href=\"/record.html\">Storylines: what stays true", "'<a href=\"/record.html\">Record: what stays true"),
+ ("review 1: the table pages' breadcrumb is 'Record /' again", "site_build.py", '<a href="/record.html">{esc(task_name("record"))}</a> / {esc(spec["title"])}', '<a href="/record.html">Record</a> / {esc(spec["title"])}'),
+ ("review 1: the Brief card's line says 'spot ETF net' again", "narrative.py", '("etf_net_usd_m", "ETF flows")', '("etf_net_usd_m", "spot ETF net")'),
+ ("review 1: the stablecoin page's explainer is 'Dry powder 101' again", "site_build.py", "<h2>Stablecoin supply 101</h2>", "<h2>Dry powder 101</h2>"),
+ ("review 1: the Learn page says Markets calls it dry powder again", "learn/06-stablecoin-dry-powder.md", "Traders call it dry powder for that reason.", "Markets calls it dry powder for that reason."),
+ ("review 1: the chart page's eyebrow is 'The tape' again", "site_build.py", """f'<span class="bd-eyebrow">{esc(task_name("charts"))}</span>'""", """'<span class="bd-eyebrow">The tape</span>'"""),
+ ("review 1: How we check shows the example story again", "site_build.py", "    grades = \"\".join(", "    grades = '<p><a href=\"/articles/example-sec-enforcement.html\">Open the example story</a></p>' + \"\".join("),
+ ("review 1: the example page says an AI never writes the take", "site/content/example-format.json", "In a real story, the desk's own take sits here, in a sentence or two.", "The AI never writes this line; a person does."),
+ ("review 1: the editorial loses its correction", "site/content/0000-why-crypto-cronkite.json", '"corrected": "2026-10-20:', '"corrected_off": "2026-10-20:'),
+ ("review 1: the editorial says a person approves what publishes again", "site/content/0000-why-crypto-cronkite.json", "reviews what they produce, and can hold or remove anything.", "reviews what they produce, and a human approves what publishes."),
+ ("rulings of Oct 20: the prompt names Whale net again", "prompts/chartmaster.md", "Whale flows direction", "Whale net direction"),
+ ("rulings of Oct 20: 25 percent done no longer disqualifies (strictly more than 25)", "verdict.py", '''isinstance(done, (int, float)) and done >= tt["done_max_pct"]):
+        return None
+    if r.get("before_onset"):''', '''isinstance(done, (int, float)) and done > tt["done_max_pct"]):
+        return None
+    if r.get("before_onset"):'''),
+ ("rulings of Oct 20: the clock measures from the event time again", "why_evidence.py", 'if ev is not None and (c.get("scheduled") or rp is None):', 'if ev is not None:'),
+ ("rulings of Oct 20: TIMING_TEST keeps the October 19 version", "why_evidence.py", 'TIMING_TEST = {"version": "2026-10-20"', 'TIMING_TEST = {"version": "2026-10-19"'),
+ ("rulings of Oct 20: Likely's definition is the old one-event sentence", "verdict.py", '"Likely": "The reported events that pass the timing test, with the market readings agreeing.",', '"Likely": "One reported event passes the timing test and the market readings agree, with no primary source stating the cause.",'),
+ ("rulings of Oct 20: Likely names only the first event that passes", "verdict.py", 'g, grp = ("Confirmed", [prim[0]]) if prim else ("Likely", agree)', 'g, grp = ("Confirmed", [prim[0]]) if prim else ("Likely", agree[:1])'),
+ ("rulings of Oct 20: events pointing opposite ways no longer make Disputed", "verdict.py", "if agree and against:", "if False and against:"),
+ ("rulings of Oct 20: the readings-mismatch case prints no line of its own", "verdict.py", "top = OTHER_WAY if other_way else READINGS_MISMATCH", "top = NO_EVENT"),
+ ("rulings of Oct 20: the other-way case prints the readings line", "verdict.py", "top = OTHER_WAY if other_way else READINGS_MISMATCH", "top = READINGS_MISMATCH"),
+ ("rulings of Oct 20: a window that ran the other way prints nothing", "verdict.py", "return f'<p class=\"vd-plain vd-next\">", "return '' and f'<p class=\"vd-plain vd-next\">"),
+ ("rulings of Oct 20: a primary flag on a listing confirms", "verdict.py", 'prim = [p for p in agree if p["primary"]]', 'prim = [p for p in agree if p["c"].get("primary")]'),
 ]
 def run(cwd, extra=()):
     t = time.time()
