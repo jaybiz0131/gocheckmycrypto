@@ -689,11 +689,35 @@ def tree(root, expect_pages=False):
     return fails
 
 
+def rulings_cases(fails):
+    print("11. the strategist's rulings of October 20 (J-8, J-9 item 3): the Unclear cards with their own lines, no card at the next read")
+    import verdict
+    import sprint95_test as t95
+    t = s93()
+    d14 = t.day14()
+    for what, fit, line in (("J-8(a) readings do not match", "contradict", verdict.READINGS_MISMATCH),
+                            ("J-8(a) readings silent", "silent", verdict.READINGS_MISMATCH)):
+        r = t95.synth_events([("syn-a", "wire", "Alpha Labs announced a partnership with Beta Corp", 30, fit)])
+        v = verdict.record_from(r, "2026-10-14", "evening", day=d14)
+        sp = sc().verdict_spec(v, "BTC", r, slug="2026-10-14-bitcoin", day="2026-10-14")
+        guarded(fails, f"SYNTHETIC {what}: an Unclear card that prints its own line, names the event, claims no cause",
+                lambda sp=sp, line=line: sp and sp["grade"] == "Unclear" and line in sp["words"] and sp["events"]
+                and not BECAUSE.search(words_of(sp)))
+    r = t95.synth_events([("syn-a", "listing", "Binance Will List Alpha (ALP)", 30, "agree")])
+    v = verdict.record_from(r, "2026-10-14", "evening", day=d14)
+    sp = sc().verdict_spec(v, "BTC", r, slug="2026-10-14-bitcoin", day="2026-10-14")
+    guarded(fails, "SYNTHETIC J-9(3): a lone listing that ran against its own direction is an Unclear card with 'A reported event lines "
+                   "up in time, but the move ran the other way.', naming the event",
+            lambda: sp and sp["grade"] == "Unclear" and verdict.OTHER_WAY in sp["words"] and sp["events"])
+    guarded(fails, "the Unclear card for both rulings carries Unclear's printed definition and no other grade word",
+            lambda: sp and verdict.DEFINITIONS["Unclear"] in sp["words"] and set(GRADE.findall(words_of(sp))) == {"Unclear"})
+
+
 def unit():
     fails = []
     for name, fn in (("cards", card_cases), ("tags", tag_cases), ("queue", queue_cases), ("no card", nocard_cases),
                      ("day", day_cases), ("words", words_cases), ("color", color_cases), ("image", image_cases),
-                     ("wiring", wiring_cases)):
+                     ("wiring", wiring_cases), ("rulings of October 20", rulings_cases)):
         group(fails, name, fn)
     return fails
 
