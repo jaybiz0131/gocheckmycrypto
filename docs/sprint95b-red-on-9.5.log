@@ -1,0 +1,126 @@
+Sprint 9.5b, the new tests run RED on Sprint 9.5's head (2453529): the 9.5 tree (git archive) plus scripts/sprint95b_* and fixtures/sprint95b, run against a 9.5 build (SITE_BUILD_NOW=2026-10-20T07:20:00Z), Tue Oct 20 2026, about 11:55 AM EDT. S95B_N=2 for the throttled CLS reads; sections 1, 2, 3, 4 and 6 of the browser half.
+1. the page wrapper: 1080 below 1280, about 1400 from 1280 up (read from the CSS)
+  FAIL at 1440 the wrapper's max-width is 1400 (about 1400, from the board line)
+  FAIL at 1280 it is that same width, at 1920 it stops there (no wider)
+  ok   at 1279, 1100, 768 and 375 it is 1080, as in 9.5 (nothing changes under 1280)
+  ok   the wrapper keeps its 22 px gutters at every width (padding is not touched)
+2. nothing changes under 1280: the 9.5b block cut out of each stylesheet leaves Sprint 9.5's file, byte for byte
+  FAIL site.css: the Sprint 9.5b block is there, marked at both ends
+  ok   site.css: with the block cut out the file is Sprint 9.5's, byte for byte
+  FAIL system.css: the Sprint 9.5b block is there, marked at both ends
+  ok   system.css: with the block cut out the file is Sprint 9.5's, byte for byte
+  ok   the home's two columns still start at 1100 (9.5's rule is untouched; 9.5b changes them from 1280 only)
+3. the markup: the Ether line is the one thing added to the home, and it is the Board's own data
+  FAIL home (card): exactly one element is marked data-wide (the Ether line)
+  FAIL home (card): with it cut out the page is Sprint 9.5's, byte for byte (the 375 markup)
+  FAIL home (nocard): exactly one element is marked data-wide (the Ether line)
+  FAIL home (nocard): with it cut out the page is Sprint 9.5's, byte for byte (the 375 markup)
+  FAIL the Ether line is a paragraph with data-eth-line, inside the tape block, after the Bitcoin line and its stamp
+  FAIL its price is the Board's Ether price, written the way the tape writes Bitcoin's (sb._price_fmt)
+  FAIL its change is the Board's 24-hour change, with the arrow and the sign the number has, labeled 24h
+  FAIL it is sourced: it names CoinGecko, the source the Board names for the coins (fields.coins.source)
+  FAIL it is stamped: the one stamp under the Bitcoin line (the coins' read time) is under it too, in the same block (one stamp for the Board, Jack, 7 October)
+  FAIL from 1280 the Ether tile in Where Bitcoin stands is hidden and the Ether line is shown: Ether's price prints once at every width (the same fact never prints twice, October 11)
+  FAIL below 1280 the Ether line is display:none in the base rule: not drawn, not read, not in the text
+  ok   SYNTHETIC: a Board with no Ether price draws no Ether line (nothing invented)
+  FAIL SYNTHETIC: a Board with an Ether price and no change draws the price and no change (no fake zero)
+  ok   SYNTHETIC: a Board with no Bitcoin price draws the tape's waiting line and no Ether line (the tape's own fallback)
+  ok   the tape's script is Sprint 9.5's (HOME_JS hashes the same): no new script, none edited
+4. the glance board: the home's front is a grid from 1280, and inner pages' reading measures are held
+  FAIL from 1280 the home's columns are a grid and the left column is itself a grid (verdict card, tape, Brief side by side)
+  FAIL the verdict card is placed first, in the left column's first track (aside.vd)
+  FAIL the tape block (Bitcoin and Ether lines) and the Brief card are placed beside the card
+  FAIL site.css's block widens .wrap and nothing else about its box (max-width only)
+5. the built tree ../red-tree
+  ok   the built home links site.css and system.css, versioned
+  FAIL the built site.css is the source's: .wrap is 1080 at 1279 and about 1400 at 1440 (read from the built file)
+  FAIL the built home has exactly one Ether line (the Board has an Ether price)
+  ok   the built home's script elements are 9.5's: the same count, and the beacon exactly once
+  ok   every built page links site.css, so every page takes the wrapper (825 pages; without: [])
+  FAIL no built page carries a 1080 wrapper of its own without its own 1400 from 1280 (the Edition's sheet does; ['edition/2026-09-15.html', 'edition/2026-09-13.html', 'edition/2026-07-14.html'])
+FAIL the page wrapper at 1440: min(viewport, 1400) on the home and 12 inner pages, no sideways scroll: /index.html: 1080 (want 1400) | /today/: 1080 (want 1400) | /pulse.html: 1080 (want 1400) | /pulse/movers.html: 1080 (want 1400) | /flows.html: 1080 (want 1400) | /coins/btc: 1080 (want 1400) | /news.html: 1080 (want 1400) | /learn.html: 1080 (want 1400) | /about.html: 1080 (want 1400) | /method.html: 1080 (want 1400) | /bottom-line.html: 1080 (want 1400) | /record.html: 1080 (want 1400) | /chartmaster.html: 1080 (want 1400)
+FAIL the page wrapper at 1920: min(viewport, 1400) on the home and 12 inner pages, no sideways scroll: /index.html: 1080 (want 1400) | /today/: 1080 (want 1400) | /pulse.html: 1080 (want 1400) | /pulse/movers.html: 1080 (want 1400) | /flows.html: 1080 (want 1400) | /coins/btc: 1080 (want 1400) | /news.html: 1080 (want 1400) | /learn.html: 1080 (want 1400) | /about.html: 1080 (want 1400) | /method.html: 1080 (want 1400) | /bottom-line.html: 1080 (want 1400) | /record.html: 1080 (want 1400) | /chartmaster.html: 1080 (want 1400)
+FAIL the page wrapper at 1280: min(viewport, 1400) on the home and 12 inner pages, no sideways scroll: /index.html: 1080 (want 1280) | /today/: 1080 (want 1280) | /pulse.html: 1080 (want 1280) | /pulse/movers.html: 1080 (want 1280) | /flows.html: 1080 (want 1280) | /coins/btc: 1080 (want 1280) | /news.html: 1080 (want 1280) | /learn.html: 1080 (want 1280) | /about.html: 1080 (want 1280) | /method.html: 1080 (want 1280) | /bottom-line.html: 1080 (want 1280) | /record.html: 1080 (want 1280) | /chartmaster.html: 1080 (want 1280)
+PASS the page wrapper at 1279: min(viewport, 1080) on the home and 12 inner pages, no sideways scroll
+PASS the page wrapper at 1100: min(viewport, 1080) on the home and 12 inner pages, no sideways scroll
+PASS the page wrapper at 375: min(viewport, 1080) on the home and 12 inner pages, no sideways scroll
+FAIL the first screen at 1440x800 (light, card): bitcoin, ether, brief, movers, whale, card each show their first line without scrolling: not on the screen: ether=null
+INFO first lines' bottoms at 1440x800 (light, card): card:188 bitcoin:533 ether:null brief:616 movers:682 whale:216 money:177 mood:466 since:768 why:1370 wire:1650 today:911 mine:998
+PASS the first screen at 1440 (light, card): the page does not scroll sideways
+FAIL the first screen at 1440x800 (light, nocard): bitcoin, ether, brief, movers, whale each show their first line without scrolling: not on the screen: ether=null
+INFO first lines' bottoms at 1440x800 (light, nocard): card:none bitcoin:182 ether:null brief:265 movers:682 whale:216 money:177 mood:466 since:417 why:1019 wire:1299 today:911 mine:998
+PASS the first screen at 1440 (light, nocard): the page does not scroll sideways
+FAIL the first screen at 1440x800 (light, built home): bitcoin, ether, brief, movers, whale each show their first line without scrolling: not on the screen: ether=null
+INFO first lines' bottoms at 1440x800 (light, built home): card:none bitcoin:182 ether:null brief:265 movers:682 whale:216 money:177 mood:466 since:563 why:1165 wire:1237 today:889 mine:976
+PASS the first screen at 1440 (light, built home): the page does not scroll sideways
+FAIL the first screen at 1440x800 (dark, card): bitcoin, ether, brief, movers, whale, card each show their first line without scrolling: not on the screen: ether=null
+INFO first lines' bottoms at 1440x800 (dark, card): card:188 bitcoin:533 ether:null brief:616 movers:682 whale:216 money:177 mood:466 since:768 why:1370 wire:1650 today:911 mine:998
+PASS the first screen at 1440 (dark, card): the page does not scroll sideways
+FAIL the first screen at 1440x800 (dark, nocard): bitcoin, ether, brief, movers, whale each show their first line without scrolling: not on the screen: ether=null
+INFO first lines' bottoms at 1440x800 (dark, nocard): card:none bitcoin:182 ether:null brief:265 movers:682 whale:216 money:177 mood:466 since:417 why:1019 wire:1299 today:911 mine:998
+PASS the first screen at 1440 (dark, nocard): the page does not scroll sideways
+FAIL the first screen at 1440x800 (dark, built home): bitcoin, ether, brief, movers, whale each show their first line without scrolling: not on the screen: ether=null
+INFO first lines' bottoms at 1440x800 (dark, built home): card:none bitcoin:182 ether:null brief:265 movers:682 whale:216 money:177 mood:466 since:563 why:1165 wire:1237 today:889 mine:976
+PASS the first screen at 1440 (dark, built home): the page does not scroll sideways
+PASS the glance board at 1440 (card): no two sections overlap
+PASS the glance board at 1440 (card): the right column (money, mood, movers) sits to the right of the left column, side by side
+PASS the glance board at 1440: the verdict card is the first object (nothing above it, and it starts at the board's left edge)
+PASS the glance board at 1440 (nocard): no two sections overlap
+PASS the glance board at 1440 (nocard): the right column (money, mood, movers) sits to the right of the left column, side by side
+PASS the glance board at 1440 with no graded card: the tape is the first object and the Brief card is not above it
+PASS the home at 375 (light, card): every element's box is the one Sprint 9.5 drew (336 elements, the Ether line aside)
+PASS the home at 375 (light, card): the screenshot is pixel for pixel Sprint 9.5's
+PASS the home at 375 (light, nocard): every element's box is the one Sprint 9.5 drew (324 elements, the Ether line aside)
+PASS the home at 375 (light, nocard): the screenshot is pixel for pixel Sprint 9.5's
+PASS the home at 390 (light, card): every element's box is the one Sprint 9.5 drew (336 elements, the Ether line aside)
+PASS the home at 390 (light, card): the screenshot is pixel for pixel Sprint 9.5's
+PASS the home at 390 (light, nocard): every element's box is the one Sprint 9.5 drew (324 elements, the Ether line aside)
+PASS the home at 390 (light, nocard): the screenshot is pixel for pixel Sprint 9.5's
+PASS the home at 375 (dark, card): every element's box is the one Sprint 9.5 drew (336 elements, the Ether line aside)
+PASS the home at 375 (dark, card): the screenshot is pixel for pixel Sprint 9.5's
+PASS the home at 375 (dark, nocard): every element's box is the one Sprint 9.5 drew (324 elements, the Ether line aside)
+PASS the home at 375 (dark, nocard): the screenshot is pixel for pixel Sprint 9.5's
+PASS the home at 390 (dark, card): every element's box is the one Sprint 9.5 drew (336 elements, the Ether line aside)
+PASS the home at 390 (dark, card): the screenshot is pixel for pixel Sprint 9.5's
+PASS the home at 390 (dark, nocard): every element's box is the one Sprint 9.5 drew (324 elements, the Ether line aside)
+PASS the home at 390 (dark, nocard): the screenshot is pixel for pixel Sprint 9.5's
+FAIL at 1279 the Ether line is not drawn, the left column is not a grid and the Ether tile is drawn (Ether prints once): {"eth":"absent","cols":"block","tile":"flex"}
+FAIL at 1280 the Ether line is drawn, the left column is a grid and the Ether tile is hidden (Ether prints once): {"eth":"absent","cols":"block","tile":"flex"}
+PASS CLS on the home at 375, read fresh, no live answer: zero
+INFO CLS on the home at 375, read fresh, with the live price landing (stub): the 9.5 stamp reflow: {"cls":0.0179138671875,"shifts":[{"v":0.0179,"t":146,"r":[["375x428@0,168","SECTION.h-b h-narrative h-band"],["375x231@0,569","SECTION.h-b h-since"]]}]}
+PASS CLS on the home at 375, read stale, no live answer: zero
+INFO CLS on the home at 375, read stale, with the live price landing (stub): the 9.5 stamp reflow: {"cls":0.0179138671875,"shifts":[{"v":0.0179,"t":147,"r":[["375x428@0,168","SECTION.h-b h-narrative h-band"],["375x231@0,569","SECTION.h-b h-since"]]}]}
+PASS CLS on the home at 390, read fresh, no live answer: zero
+INFO CLS on the home at 390, read fresh, with the live price landing (stub): the 9.5 stamp reflow: {"cls":0.0179138671875,"shifts":[{"v":0.0179,"t":121,"r":[["390x411@0,168","SECTION.h-b h-narrative h-band"],["390x248@0,552","SECTION.h-b h-since"]]}]}
+PASS CLS on the home at 390, read stale, no live answer: zero
+INFO CLS on the home at 390, read stale, with the live price landing (stub): the 9.5 stamp reflow: {"cls":0.0179138671875,"shifts":[{"v":0.0179,"t":121,"r":[["390x411@0,168","SECTION.h-b h-narrative h-band"],["390x248@0,552","SECTION.h-b h-since"]]}]}
+PASS CLS on the home at 1440, read fresh, no live answer: zero
+PASS CLS on the home at 1440, read fresh, with the live price landing (stub): zero
+PASS CLS on the home at 1440, read stale, no live answer: zero
+PASS CLS on the home at 1440, read stale, with the live price landing (stub): zero
+PASS CLS on the home at 375, 6x CPU throttling, read stale: zero in all 2 reads (at 1440 every other read has the live price landing)
+PASS CLS on the home at 375, 6x CPU throttling, read fresh: zero in all 2 reads (at 1440 every other read has the live price landing)
+PASS CLS on the home at 390, 6x CPU throttling, read stale: zero in all 2 reads (at 1440 every other read has the live price landing)
+PASS CLS on the home at 390, 6x CPU throttling, read fresh: zero in all 2 reads (at 1440 every other read has the live price landing)
+PASS CLS on the home at 1440, 6x CPU throttling, read stale: zero in all 2 reads (at 1440 every other read has the live price landing)
+PASS CLS on the home at 1440, 6x CPU throttling, read fresh: zero in all 2 reads (at 1440 every other read has the live price landing)
+INFO the longest measure per page at 1280: 187 /index.html | 184 /chartmaster.html | 176 /wire.html | 172 /coins/btc | 172 /coins/eth | 172 /coins/aave.html | 168 /pulse/movers.html | 168 /movers-fixture.html
+PASS every page type at 1280 (51 pages): no sideways scroll
+PASS every page type at 1280: no paragraph runs past 100 characters a line unless it is no wider than at 1279 (a readable measure; widening stretches nothing)
+PASS every page type at 1280: a table of four columns or more uses the room (90% of its container, or it scrolls on its own)
+PASS every page type at 1280: no image or canvas is drawn larger than its own pixels (nothing blurs)
+FAIL every page type at 1280: no chart label is drawn under 12 px: /flows.html: 6 under 12 px, e.g. {"t":"← onto exchanges (se","px":9.2}
+PASS every page type at 1280: no chart is drawn at more than 1.8 times its own size (a chart that grew with the page reads as a poster)
+INFO the longest measure per page at 1440: 187 /index.html | 184 /chartmaster.html | 176 /wire.html | 172 /coins/btc | 172 /coins/eth | 172 /coins/aave.html | 168 /pulse/movers.html | 168 /movers-fixture.html
+PASS every page type at 1440 (51 pages): no sideways scroll
+PASS every page type at 1440: no paragraph runs past 100 characters a line unless it is no wider than at 1279 (a readable measure; widening stretches nothing)
+PASS every page type at 1440: a table of four columns or more uses the room (90% of its container, or it scrolls on its own)
+PASS every page type at 1440: no image or canvas is drawn larger than its own pixels (nothing blurs)
+FAIL every page type at 1440: no chart label is drawn under 12 px: /flows.html: 6 under 12 px, e.g. {"t":"← onto exchanges (se","px":9.2}
+PASS every page type at 1440: no chart is drawn at more than 1.8 times its own size (a chart that grew with the page reads as a poster)
+
+sprint95b_browser: 55 passed, 13 failed
+
+
+SPRINT 9.5b: FAIL (36 failure(s))
+exit 1

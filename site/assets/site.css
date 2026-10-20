@@ -2062,3 +2062,20 @@ p.vd-plain{font-family:var(--serif);font-size:17px;line-height:1.5;color:var(--i
 /* Sprint 9.4: Big movers, the ticker beside the coin's name, and the grade chip in its cell */
 .bm-tbl .bm-sym{margin-left:.4em;font-size:.8em;color:var(--muted,inherit);font-weight:400}
 .bm-tbl .bm-g{white-space:nowrap}
+
+/* ===== Program 9, Sprint 9.5b (20 October 2026): the page wrapper widens from 1080 to 1400 from 1280 pixels up =====
+   Every page type takes the wider wrapper, so four things that the narrower one was holding are held here, from 1280
+   only: (1) a line of prose stays at a readable measure, about 85 characters, whatever the page is wide (a class's own
+   max-width, which is more specific, still wins); (2) the coin chart's caption, which a script rewrites after load,
+   keeps its full width so the rewrite does not change its line count and move what is under it; (3) a wide chart is drawn no larger than it is today
+   (1040 px, a scale of 1.5 on its 680 unit box) and centered in its card, so its labels do not swell into a poster;
+   (4) the Whale Watch net-flow chart, which has half the board and so a scale under 1 at 1280, gets 15 unit labels so
+   every one draws at 12 px or more. */
+@media (min-width:1280px){
+  .wrap{max-width:1400px}
+  body :is(p,li,dd,blockquote,figcaption){max-width:62ch}
+  body .cc-cap{max-width:none}
+  .rc-w>svg{max-width:1040px!important;margin-left:auto;margin-right:auto}
+  .board-grid .chartcard svg .ax,.board-grid .chartcard svg .sym,.board-grid .chartcard svg .val{font-size:15px}
+}
+/* ===== end Sprint 9.5b ===== */

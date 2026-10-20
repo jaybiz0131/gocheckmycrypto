@@ -1,0 +1,2064 @@
+/* ============================================================================
+   GoCheckMyCrypto - site design system.
+   Trusted-newsroom editorial identity: newsprint paper, a masthead rule, a serif
+   for headlines, restrained accent, and the pipeline's verdict vocabulary shown as
+   badges so readers see the honesty machinery. Light + dark. No em dashes anywhere.
+   ONE source of truth for site styling; every page links this file.
+   ============================================================================ */
+
+/* ===== V-7: the fonts are ours ==============================================
+   Five woff2 files in /assets/fonts, 59.9 KB together, same origin. Google Fonts
+   cost two DNS lookups, two TLS handshakes and a stylesheet round trip before the
+   first font byte moved, all of it on the LCP path.
+
+   Each face is subset to the glyphs this site renders and each variable axis is
+   pinned to the weights the design asks for: the serif at 400-600 roman and 500
+   italic, Inter at 400-700, Plex Mono as two static weights. Whole, these five files
+   are 339 KB; that is what a variable face with an optical-size axis costs.
+
+   font-display:swap on all of them: text is readable immediately in the fallback and
+   the metric overrides below mean it does not move when the real face lands. */
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:400 700;
+  font-display:swap;src:url('/assets/fonts/newsreader-roman.woff2') format('woff2')}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:500;
+  font-display:swap;src:url('/assets/fonts/newsreader-italic.woff2') format('woff2')}
+/* Program 7 (12 October 2026): IBM Plex Sans 400 to 600 replaces Inter for labels and body,
+   Newsreader runs to 700 for headlines and the masthead, and one small italic 700 face
+   (the masthead's "Crypto", 2 KB) sits beside the 500 italic the body uses. */
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:700;
+  font-display:swap;src:url('/assets/fonts/newsreader-italic-700.woff2') format('woff2')}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;
+  font-display:swap;src:url('/assets/fonts/plexsans.woff2') format('woff2')}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;
+  font-display:swap;src:url('/assets/fonts/plexmono-400.woff2') format('woff2')}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;
+  font-display:swap;src:url('/assets/fonts/plexmono-700.woff2') format('woff2')}
+
+/* THE MASTHEAD DOES NOT MOVE WHEN THE SERIF LANDS. Measured from the two fonts' own
+   tables rather than guessed: Georgia matches Newsreader to 0.3 percent on the
+   wordmark, so width was never the problem. The shift is vertical, because Georgia
+   carries a 0.0967 em line gap that Newsreader does not, and the wordmark's line box
+   grew by roughly that when the swap happened. These overrides make the fallback
+   occupy exactly the space the real face will.
+
+   Local builds measured CLS 0.1118 against 0.0006 live, on the masthead, and the
+   difference was only ever timing: the shift is real wherever the font is slow. */
+@font-face{font-family:'Newsreader Fallback';src:local('Georgia'),local('Times New Roman');
+  size-adjust:99.73%;ascent-override:73.70%;descent-override:26.57%;line-gap-override:0%}
+
+:root{
+  --paper:#FBFAF6;      --card:#FFFFFF;       --ink:#15171C;
+  --muted:#555A63;      --faint:#6B707A;      --line:#E3E0D6;
+  --rule:#B42318;       /* masthead red rule + kicker */
+  --link:#123A5E;       --link-hover:#0B2740;
+  --verified-fg:#12603B; --verified-bg:#DCEFE2;
+  --review-fg:#7A5200;   --review-bg:#F7EACB;
+  --tag-bg:#EEEBE2;      --tag-fg:#484C54;
+  --up:#12803B;          --down:#B42318;      /* market semantics: green up, red down */
+  --shadow:none;
+  --serif:'Newsreader','Newsreader Fallback',Georgia,'Times New Roman',serif;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#121317; --card:#1A1C21; --ink:#ECEAE3; --muted:#A4A8B0; --faint:#868B95;
+    --line:#2B2E35; --rule:#EF6B5B; --link:#93BCE3; --link-hover:#B7D2ED;
+    --verified-fg:#6FD49A; --verified-bg:#12331F; --review-fg:#E3B65E; --review-bg:#3A2E10;
+    --tag-bg:#24262E; --tag-fg:#B7BCC5;
+    --up:#46C97C; --down:#EF6B5B;
+    --shadow:none;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.narrow{max-width:720px}
+a{color:var(--link);text-decoration:none}
+a:hover{color:var(--link-hover);text-decoration:underline}
+img{max-width:100%;height:auto}
+hr.rule{border:none;border-top:2px solid var(--rule);margin:0}
+/* ---- masthead -------------------------------------------------------------- */
+.top-rule{height:4px;background:var(--rule)}
+.masthead{background:var(--card);border-bottom:1px solid var(--line)}
+.masthead .wrap{padding-top:16px;padding-bottom:12px}
+.mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.mh-dateline{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.mh-meta{display:inline-flex;align-items:center;gap:2px;flex-wrap:wrap}
+.mh-family{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.mh-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.mh-brand:hover{text-decoration:none}
+.mh-mark{width:38px;height:38px;flex:none}
+.mh-word{font-family:var(--serif);font-weight:600;color:var(--ink);line-height:1;
+  font-size:clamp(28px,5.2vw,46px);letter-spacing:-.01em}
+.mh-accent{color:var(--rule);font-style:italic;font-weight:inherit}
+.mh-slogan{font-family:var(--serif);font-style:italic;color:var(--muted);
+  font-size:clamp(13px,1.6vw,16px);text-align:right;max-width:230px}
+.mh-nav{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--card);
+  position:sticky;top:0;z-index:50}
+.mh-nav .wrap{display:flex;align-items:center;gap:26px;padding-top:10px;padding-bottom:10px;overflow-x:auto;scrollbar-width:none}
+.mh-nav .wrap::-webkit-scrollbar{display:none}
+/* K-9: the fade says there is more nav to the right, and appears only when there is.
+   Without it the row just stopped after "Chart Master" and five links, News among
+   them, were invisible to a phone reader who did not think to swipe a nav. */
+.mh-nav .wrap[data-more]{-webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);
+          mask-image:linear-gradient(90deg,#000 86%,transparent)}
+.mh-nav a{font-family:var(--sans);font-weight:600;font-size:13.5px;letter-spacing:.02em;
+  color:var(--muted);white-space:nowrap;text-transform:uppercase;display:flex;
+  flex-direction:column;align-items:flex-start;gap:1px}
+/* Sprint 6.3: the task name leads; the brand name sits small under it (desktop only) */
+.mh-nav .nv-brand{font-weight:500;font-size:10.5px;letter-spacing:.03em;text-transform:none;
+  line-height:1.2;color:var(--muted)}
+@media (max-width:899.98px){.mh-nav .wrap{gap:16px}.mh-nav .nv-brand{display:none}}
+.mh-nav a:hover,.mh-nav a.active{color:var(--ink);text-decoration:none}
+.mh-nav a.active{border-bottom:2px solid var(--rule);padding-bottom:8px;margin-bottom:-11px}
+/* ---- markets strip (live, client-side, separate from the verified news) ---- */
+.markets{background:var(--card);border-bottom:1px solid var(--line);overflow:hidden}
+.markets .mk-outer{display:flex;align-items:center;gap:20px;padding-top:9px;padding-bottom:9px}
+/* D-5: the run is the only thing that scrolls, and the label is not in it. */
+.markets .mk-run{display:flex;align-items:center;gap:20px;overflow-x:auto;
+  scrollbar-width:none;flex:1 1 auto;min-width:0}
+.markets .mk-run::-webkit-scrollbar{display:none}
+/* A strip that is cut with no sign it is cut reads as a strip with four items on it.
+   The fade says there is more, and it appears only while there IS more: the mask is
+   switched on by the script when the run actually overflows. */
+.markets .mk-run[data-more]{-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);
+          mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.markets .lab{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);flex:none}
+.markets .tick{display:inline-flex;align-items:baseline;gap:6px;font-family:var(--mono);font-size:12.5px;white-space:nowrap;flex:none}
+.markets .tick .sym{font-weight:700;color:var(--ink)}
+.markets .tick .px{color:var(--muted)}
+.markets .tick .chg.up{color:var(--up)}
+.markets .tick .chg.down{color:var(--down)}
+.markets .note{font-family:var(--mono);font-size:11px;color:var(--faint)}
+/* A-17: this one span was the only mono 500 on the page, and a weight is a whole
+   font file. At 400 it matches the site's other stamps and costs no extra request. */
+.markets .mkt-asof{text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400}
+/* data-age tripwire (audit 2026-07-28): a stale board says so, in both themes */
+.markets .mkt-asof .stale{color:var(--rule);font-weight:700}
+/* Sprint 9.1: a figure the desk withheld (the whole-market change that disagreed with Bitcoin,
+   Ether and the Top 100) says "unchecked" in the muted tone, never a number, never blank. */
+.chg.unchecked,.h-ac.unchecked{color:var(--muted);font-style:italic;font-weight:500}
+/* Sprint 9.1 (the stale state): a reading older than its window prints its age and dims,
+   everywhere it appears. [data-asof] is set by the stamp script; .is-stale is the dim. */
+.is-stale .tl-f,.is-stale .big,.is-stale .h-big,.is-stale .h-px{opacity:.62}
+tr.is-stale td{opacity:.62}
+.asof-age{color:var(--down);font-weight:700}
+/* PLACED AFTER THE BASE .markets RULES ON PURPOSE. This block sat above them and
+   every declaration in it was overridden: .markets .tick in a media query and
+   .markets .tick outside one have the same specificity, so the later one wins and
+   the phone sizes silently did nothing. The fourth cascade trap on this chassis in
+   a weekend, and the first that was source order rather than specificity. */
+@media (max-width:640px){
+  /* The label takes its own line so the whole width goes to the numbers: at 375 it was
+     holding 109px of a 375px strip and two coins were visible at rest. */
+  .markets .mk-outer{flex-direction:column;align-items:stretch;gap:4px;
+    padding-top:7px;padding-bottom:7px}
+  /* Four coins at 375 is the target, and the run is 331px after the wrap's padding.
+     The four ticks measure about 300px at 12px with a 5px inner gap, which leaves 31
+     for three gaps between them. Measured, not estimated: at 12.5px and a 14px gap
+     only three fitted. */
+  /* The run bleeds to the right edge of the screen. The wrap's padding is there to
+     keep text off the edge, and a scrolling strip is the one thing that should run to
+     it: it gains the 22px that decided the fourth coin, and a tick cut by the screen
+     edge rather than stopping short of it is what tells a reader there is more. */
+  .markets .mk-run{gap:10px;margin-right:-22px;padding-right:22px}
+  .markets .tick{font-size:12px;gap:5px}
+  .markets .lab{font-size:9.5px}
+}
+.data-stamp{font-family:var(--mono);font-size:11.5px;line-height:1.5;color:var(--faint);
+  margin:18px 0 0;padding-top:10px;border-top:1px solid var(--line)}
+.data-stamp.stale{color:var(--ink);background:var(--card);border:1px solid var(--rule);
+  border-left:4px solid var(--rule);border-radius:0 6px 6px 0;padding:12px 14px;margin-top:22px}
+.data-stamp.stale b{color:var(--rule)}
+/* ---- explainer commercial layer (cold storage page) ------------------------ */
+.affil-note{font-size:14.5px;line-height:1.6;color:var(--muted);background:var(--card);
+  border:1px solid var(--line);border-left:3px solid var(--rule);border-radius:0 6px 6px 0;
+  padding:13px 16px;margin:20px 0}
+.cta-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:22px 0 8px}
+.cta-buy{display:flex;flex-direction:column;gap:4px;background:var(--card);
+  border:1px solid var(--line);border-top:3px solid var(--rule);border-radius:6px;
+  padding:16px 18px;text-decoration:none;transition:transform .15s ease,box-shadow .2s ease}
+.cta-buy:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decoration:none;
+  border-color:var(--rule)}
+.cta-brand{font-family:var(--serif);font-weight:600;font-size:20px;color:var(--ink)}
+.cta-line{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.cta-go{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--rule);margin-top:6px}
+.src-list{font-size:14.5px;line-height:1.7;color:var(--muted);padding-left:20px}
+/* ---- Learn tier index (lx-, deliberately NOT .learn-, which the boards own) -- */
+.lx-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:24px 0}
+.lx-card{display:flex;flex-direction:column;gap:7px;background:var(--card);
+  border:1px solid var(--line);border-top:3px solid var(--rule);border-radius:6px;
+  padding:16px 18px;text-decoration:none}
+a.lx-card{transition:transform .15s ease,box-shadow .2s ease}
+a.lx-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);text-decoration:none;
+  border-color:var(--rule)}
+/* queued entries read as "not yet" through border and label, NOT opacity: dimming the
+   whole card multiplied the muted text down to 3.3:1 and failed AA (axe, 2026-07-28) */
+.lx-card.is-queued{border-top-color:var(--line);border-style:dashed;background:transparent}
+.lx-title{font-family:var(--serif);font-weight:600;font-size:19px;color:var(--ink);line-height:1.25}
+.lx-blurb{font-size:14.5px;line-height:1.55;color:var(--muted)}
+.lx-go{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--rule);margin-top:auto;padding-top:6px}
+.lx-soon{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);margin-top:auto;padding-top:6px}
+/* ---- how we make money: partner disclosure + rule list --------------------- */
+.pt-list{display:flex;flex-direction:column;gap:16px;margin:22px 0}
+.pt-row{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--rule);
+  border-radius:0 6px 6px 0;padding:15px 18px}
+.pt-name{font-family:var(--serif);font-size:20px;font-weight:600;margin:0 0 8px;
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.pt-kind{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);font-weight:500}
+.pt-terms{margin:0 0 8px;font-size:16px;line-height:1.6}
+.pt-where{margin:0;font-size:14.5px;color:var(--muted)}
+.rule-list{padding-left:20px;line-height:1.65}
+.rule-list li{margin-bottom:12px}
+.tax-list{padding-left:20px;line-height:1.65}
+.tax-list li{margin-bottom:10px}
+@media (prefers-reduced-motion: reduce){a.lx-card{transition:none}
+a.lx-card:hover{transform:none}
+}
+/* ---- kicker / dateline / badges ------------------------------------------- */
+.kicker{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--rule)}
+.dateline{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--faint);text-transform:uppercase}
+.tag{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;background:var(--tag-bg);color:var(--tag-fg);padding:3px 9px;border-radius:3px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:3px}
+.badge.verified{background:var(--verified-bg);color:var(--verified-fg)}
+.badge.review{background:var(--review-bg);color:var(--review-fg)}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.9}
+
+
+
+/* ---- hero / lead ----------------------------------------------------------- */
+.lead{padding:34px 0 10px;border-bottom:1px solid var(--line)}
+.lead h1{font-family:var(--serif);font-weight:600;line-height:1.08;letter-spacing:-.015em;
+  font-size:clamp(30px,5.4vw,52px);margin:.35em 0 .2em}
+.lead .dek{font-family:var(--serif);font-size:clamp(18px,2.2vw,22px);line-height:1.45;color:var(--muted);margin:0 0 14px;max-width:44ch}
+.lead .meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px}
+/* ---- section headers ------------------------------------------------------- */
+.sec{padding:30px 0}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.sec-head h1,.sec-head h2{font-family:var(--serif);font-weight:600;font-size:22px;margin:0;letter-spacing:-.01em;white-space:nowrap}
+.sec-head .bar{flex:1;height:1px;background:var(--line)}
+/* ---- story grid + cards ---------------------------------------------------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:15px 16px 14px;
+  display:flex;flex-direction:column;gap:7px;transition:transform .15s ease,box-shadow .2s ease}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.card .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card h3{font-family:var(--serif);font-weight:600;font-size:20px;line-height:1.2;margin:2px 0}
+.card h3 a{color:var(--ink)}
+.card h3 a:hover{color:var(--link);text-decoration:none}
+.card .summary{font-size:14.5px;color:var(--muted);line-height:1.55;margin:0}
+.card .foot{margin-top:auto;padding-top:8px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card .foot .src{font-family:var(--mono);font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+/* ---- trust strip ("how we work") ------------------------------------------ */
+.trust{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust .wrap{padding:34px 22px}
+.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px;margin-top:20px}
+.trust-line{font-family:var(--serif);font-size:clamp(17px,2.2vw,21px);line-height:1.55;
+  color:var(--muted);max-width:62ch;margin:14px 0 4px}
+.step{display:flex;flex-direction:column;gap:7px}
+.step .n{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--rule)}
+.step h4{font-family:var(--serif);font-size:18px;font-weight:600;margin:0}
+.step p{font-size:14px;color:var(--muted);margin:0;line-height:1.55}
+.news .wrap{padding:40px 22px;text-align:center}
+.news h2{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3vw,30px);margin:0 0 8px;color:#FBFAF6}
+.news p{color:rgba(255,255,255,.72);max-width:52ch;margin:0 auto 20px;font-size:15px}
+.news form{display:flex;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.news input[type=email]{flex:1;min-width:220px;padding:13px 15px;border-radius:6px;border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.07);color:#FBFAF6;font-family:var(--sans);font-size:15px}
+.news input[type=email]::placeholder{color:rgba(255,255,255,.5)}
+.news button{padding:13px 22px;border-radius:6px;border:none;background:#B42318;color:#fff;
+  font-family:var(--sans);font-weight:600;font-size:15px;cursor:pointer;transition:filter .15s}
+.news button:hover{filter:brightness(1.08)}
+.news .fine{font-size:11.5px;color:rgba(255,255,255,.72);margin-top:14px}
+/* the newsletter sits on a constant-dark panel, so its links need a light color: the
+   default ink-blue link failed contrast badly here (WCAG 1.4.3). Not a brand token. */
+.news a{color:#9cc0e4;text-decoration:underline;text-underline-offset:2px}
+.news a:hover{color:#c3dbf2}
+.hp{position:absolute;left:-9999px}
+/* ---- article --------------------------------------------------------------- */
+.article{padding:34px 0 10px}
+.article .ey{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.article h1{font-family:var(--serif);font-weight:600;line-height:1.1;letter-spacing:-.015em;
+  font-size:clamp(28px,4.6vw,44px);margin:0 0 12px}
+.article .dek{font-family:var(--serif);font-size:20px;line-height:1.45;color:var(--muted);margin:0 0 18px}
+.article .byline{font-family:var(--mono);font-size:11.5px;color:var(--faint);letter-spacing:.05em;
+  text-transform:uppercase;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:26px}
+.prose{font-family:var(--serif);font-size:19px;line-height:1.72}
+.prose p{margin:0 0 1.15em}
+.prose h2{font-family:var(--serif);font-size:26px;font-weight:600;margin:1.5em 0 .5em}
+/* The who-is-affected panel on advisory stories. Sits ABOVE the prose, so it is weighted to
+   read as the answer rather than as an aside: a full border, not the left rule the other
+   panels use. Values are quoted from the vendor advisory and never restated in the copy. */
+.boundary{border:2px solid var(--rule);border-radius:8px;padding:16px 18px;margin:0 0 26px}
+.boundary h2{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--rule);font-weight:700;margin:0}
+.boundary>.mut{font-size:13px;margin:4px 0 12px}
+.boundary dl{margin:0}
+.boundary .brow{display:grid;grid-template-columns:minmax(90px,26%) 1fr;gap:10px 16px;padding:8px 0;border-top:1px solid var(--line)}
+.boundary .brow:first-child{border-top:0;padding-top:0}
+.boundary dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);padding-top:2px}
+.boundary dd{margin:0;font-size:16px;line-height:1.5;color:var(--ink);overflow-wrap:anywhere}
+@media (max-width:520px){.boundary .brow{grid-template-columns:1fr;gap:2px}
+}
+.also-reported{font-size:13.5px;color:var(--mut);margin-top:10px;line-height:1.55}
+/* Single-outlet stories say so. See verdict_badge(). */
+.badge.developing{background:#FDF3E3;color:#8A5A00;border:1px solid #E9D2A3}
+.keyfact{background:var(--card);border-left:3px solid var(--rule);padding:14px 18px;border-radius:0 6px 6px 0;margin:22px 0}
+.keyfact .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--rule);font-weight:700}
+.keyfact p{font-family:var(--serif);font-size:18px;margin:5px 0 0;color:var(--ink);line-height:1.5}
+.bottomline{background:var(--card);border-left:3px solid var(--rule);padding:14px 18px;border-radius:0 6px 6px 0;margin:22px 0}
+.bottomline .lab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--rule);display:block;margin-bottom:6px}
+.bottomline p{margin:0;font-size:16px;line-height:1.55}
+.take{background:var(--verified-bg);border-radius:8px;padding:18px 20px;margin:26px 0}
+.take .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--verified-fg);font-weight:700}
+.take p{font-family:var(--serif);font-size:18px;margin:6px 0 0;line-height:1.55}
+.tag.topic{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.tool-module{margin:26px 0;padding:15px 18px;border:1px solid var(--line);border-left:3px solid var(--accent,#b0873c);border-radius:8px;background:var(--card)}
+.tool-module .tm-k{margin:0 0 5px;font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;font-weight:700;opacity:.72}
+.tool-module p{margin:0;font-size:.94rem;line-height:1.6}
+.tool-module a{font-weight:700}
+.related{margin:28px 0;padding:18px 20px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.related h2{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.related ul{margin:0;padding-left:20px}
+.related li{font-size:14px;margin:0 0 6px}
+.sources{margin:28px 0;padding:18px 20px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.sources h2{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.sources ol{margin:0;padding-left:20px}
+.sources li{font-size:14px;margin:0 0 6px;word-break:break-word}
+.nfa{font-size:12.5px;color:var(--faint);line-height:1.55;border-top:1px solid var(--line);padding-top:16px;margin-top:26px}
+
+
+
+
+
+
+
+
+.sharerow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:22px 0 0;
+  padding-top:16px;border-top:1px solid var(--line)}
+.share-lab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint);margin-right:4px}
+.share-btn{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.04em;
+  color:var(--ink);background:none;border:1px solid var(--line);border-radius:6px;
+  padding:7px 14px;text-decoration:none;cursor:pointer;transition:border-color .15s,color .15s}
+.share-btn:hover{border-color:var(--rule);color:var(--rule)}
+/* ---- generic prose page (about/method/disclaimer) -------------------------- */
+.page{padding:34px 0 20px}
+.page h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4.4vw,42px);line-height:1.1;margin:.2em 0 .3em;letter-spacing:-.01em}
+.page .lede{font-family:var(--serif);font-size:21px;line-height:1.5;color:var(--muted);margin:0 0 24px}
+.page h2{font-family:var(--serif);font-weight:600;font-size:25px;margin:1.4em 0 .4em}
+.page h3{font-family:var(--serif);font-weight:600;font-size:19px;margin:1.2em 0 .3em}
+.page p,.page li{font-size:17px;line-height:1.65;color:var(--ink)}
+.page ul,.page ol{padding-left:22px}
+.callout{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin:22px 0}
+.callout.corrected{border-left:4px solid var(--rule)}
+
+
+
+/* ---- whale watch / flows --------------------------------------------------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:8px 0 6px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.stat .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.stat .big{font-family:var(--serif);font-size:34px;font-weight:600;line-height:1;color:var(--ink)}
+.stat .big.up{color:var(--up)}
+.stat .big.down{color:var(--down)}
+.stat .sub{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.chartcard{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 16px}
+/* ---- market pulse ------------------------------------------------------------ */
+.pulse-grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin:8px 0 6px}
+.pulse-grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin:8px 0 6px}
+.pulse-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.pulse-card.center{text-align:center}
+.pulse-card .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);display:block;margin-bottom:6px;font-weight:700}
+.pc-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.pc-sym{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.06em}
+.pc-price{font-family:var(--serif);font-weight:600;font-size:22px}
+.pc-quote{display:flex;align-items:baseline;gap:9px}
+.pc-chg{font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;white-space:nowrap}
+.pc-chg.up{color:var(--up)}
+.pc-chg.down{color:var(--down)}
+.pc-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:5px 18px;margin:8px 0 4px;
+  padding:9px 12px;border:1px solid var(--line);border-radius:6px}
+.pc-stats div{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.pc-stats dt{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--faint)}
+.pc-stats dd{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:0}
+.pc-big{font-family:var(--serif);font-weight:600;font-size:34px;line-height:1.1;display:block;margin:2px 0 8px}
+.pc-spark{color:var(--link);margin:4px 0 8px}
+.pc-spark svg{width:100%;height:44px;display:block}
+.pc-spark.tall svg{height:84px}
+.pc-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 2px}
+a.chip,a.chip:hover{text-decoration:none}
+a.chip:hover{border-color:var(--ink);color:var(--ink)}
+.chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;padding:4px 9px;border-radius:999px;
+  border:1px solid var(--line);color:var(--muted);background:transparent;white-space:nowrap}
+.chip-up{color:var(--up);border-color:var(--up)}
+.chip-down{color:var(--down);border-color:var(--down)}
+.chip-cool{color:var(--link);border-color:var(--link)}
+.pc-note{font-size:13.5px;line-height:1.5;color:var(--muted);margin:6px 0 0}
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:14px;margin:14px 0 6px}
+.dash-card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);
+  border-radius:8px;padding:13px 15px;text-decoration:none;color:inherit;
+  transition:border-color .15s ease}
+.dash-card:hover{border-color:var(--rule);text-decoration:none}
+.dash-card .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);display:block;margin-bottom:6px;font-weight:700}
+.dash-stat{font-family:var(--serif);font-weight:600;font-size:23px;line-height:1.15;display:block;margin:0 0 5px}
+.dash-open{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--rule);margin-top:auto;padding-top:10px}
+
+.mh-fam-mark{width:15px;height:15px;vertical-align:-3px;margin-right:6px}
+.mh-mark.coin{border-radius:50%}
+.home-h1{font-family:var(--serif);font-weight:600;font-size:clamp(34px,6vw,58px);
+  line-height:1.05;letter-spacing:-.015em;margin:.3em 0 .25em}
+a.mh-family{text-decoration:none}
+a.mh-family:hover{text-decoration:underline}
+.home-lede{font-size:17.5px;max-width:68ch;margin:12px 0 4px}
+/* ---- front page hero: the desk set, one video band behind the whole mosaic --
+   The scrim rule: the news always beats the background. The band's scrim is the base
+   layer; every card floats on its own near-opaque panel (the shade delineation), so
+   the set reads BETWEEN the cards, never through the type. If a headline is ever hard
+   to read, the panels darken; never the reverse. Constant-dark in both site themes. */
+
+
+
+
+
+/* No current Bottom Line (see current_bottom_line: it retires rather than going stale).
+   The lead takes the full width instead of sitting beside an empty 1fr column. */
+
+.hero-kick{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+
+
+
+
+.hero-bl{display:flex;flex-direction:column;gap:7px;text-decoration:none;color:inherit;
+  border-radius:10px;padding:16px 18px;background:rgba(8,13,20,.82);
+  border:1px solid rgba(255,255,255,.09);border-top:3px solid var(--rule);
+  -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+.hero-bl:hover{border-color:var(--rule)}
+.hero-bl-src{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase;color:#8a93a0}
+.hero-bl-read{font-family:var(--serif);font-size:14.5px;line-height:1.5;color:#e5e2da;
+  display:-webkit-box;-webkit-line-clamp:9;-webkit-box-orient:vertical;overflow:hidden}
+.hero-bl-more{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase;color:#ff6a55;margin-top:auto}
+
+
+
+
+
+
+
+
+/* ---- the editions strip ------------------------------------------------------ */
+.edition-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.edition-card{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit;
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  border-top:3px solid var(--rule);padding:14px 16px}
+.edition-card:hover{border-color:var(--rule)}
+.ed-kick{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--rule)}
+.ed-title{font-family:var(--serif);font-size:17.5px;line-height:1.25}
+.edition-card:hover .ed-title{text-decoration:underline}
+.ed-fact{font-size:13px;line-height:1.5;color:var(--muted);display:-webkit-box;
+  -webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.edition-card .dateline{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:auto}
+@media (max-width:820px){.edition-strip{grid-template-columns:1fr}
+}
+.hl-meta{display:flex;align-items:center;gap:10px}
+.hl-meta .dateline{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.tracking{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:16px 0 4px;
+  padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.tracking .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--rule);font-weight:700}
+.tracking .chip{text-decoration:none}
+.tracking .chip:hover{border-color:var(--rule);color:var(--rule)}
+.tracking .mut{font-size:12px;color:var(--faint);margin-left:auto}
+.home-grid{grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}
+.home-card .dash-stat{line-height:1.3;font-size:22px}
+@media (max-width:960px){.home-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:520px){.home-grid{grid-template-columns:1fr}
+}
+.gauge{width:min(260px,100%);height:auto;color:var(--ink)}
+.gauge-num{font:600 40px var(--serif);fill:var(--ink)}
+.gauge-label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;margin-top:4px}
+.axis{font:13px var(--mono);fill:var(--faint)}
+.chartcard svg{width:100%;height:auto;display:block}
+
+
+
+.cm-read .cm-headline{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3vw,30px);
+  margin:8px 0 10px;line-height:1.15}
+.cm-read .prose p{font-size:15.5px;line-height:1.65;margin:0 0 12px}
+.cm-btn{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;
+  color:var(--ink);background:transparent;border:1px solid var(--link);border-radius:999px;
+  padding:9px 18px;cursor:pointer;transition:border-color .15s ease,background .15s ease}
+.cm-btn:hover{border-color:var(--rule);background:rgba(63,200,242,.08)}
+.cm-btn:disabled{opacity:.45;cursor:default}
+
+
+
+
+.miss{display:block;border:1px solid var(--line);border-left:3px solid var(--rule);
+  border-radius:6px;padding:10px 14px;margin:0 0 10px}
+.miss span{display:block;font-size:13.5px;line-height:1.5}
+.miss .miss-q{font-weight:700;color:var(--ink);margin-bottom:3px}
+.miss .miss-you{color:var(--rule)}
+.miss .miss-ans{color:var(--verified-fg)}
+.miss .miss-why{color:var(--muted);font-size:12.5px;margin-top:2px}
+
+.chart{width:100%;height:auto;display:block}
+.ctick{font:14px var(--mono);fill:var(--faint);letter-spacing:.02em}
+.cpill{font:700 14px var(--mono);letter-spacing:.02em}
+.band-lab{font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.chart-legend{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0 2px}
+.lgd{font-family:var(--mono);font-size:10.5px;color:var(--muted);display:inline-flex;
+  align-items:center;gap:6px}
+.lgd-swatch{display:inline-block;width:16px;height:3px;border-radius:2px}
+.mini-range{font-family:var(--mono);font-size:10px;color:var(--faint);display:block;
+  margin:-2px 0 4px;letter-spacing:.03em}
+.pulse-stack{display:grid;gap:18px;margin:8px 0 6px}
+.learn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin:8px 0 6px}
+.learn{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.learn .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  font-weight:700;color:var(--faint);display:block;margin-bottom:8px}
+.learn .lab.sell{color:var(--rule)}
+.learn .lab.buy{color:var(--verified-fg)}
+.learn p{margin:0;font-size:14.5px;line-height:1.55;color:var(--muted)}
+.learn p b{color:var(--ink)}
+.chartcard svg .ax{font-family:var(--mono);font-size:13px;fill:var(--faint);letter-spacing:.04em}
+.chartcard svg .zero{stroke:var(--line);stroke-width:1}
+.chartcard svg .sym{font-family:var(--mono);font-size:15px;font-weight:700;fill:var(--ink)}
+.chartcard svg .val{font-family:var(--mono);font-size:14px;fill:var(--muted)}
+.movetable{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow-x:auto}
+.movetable:focus-visible{outline:2px solid var(--rule);outline-offset:2px}
+.movetable table{width:100%;border-collapse:collapse;font-size:13.5px}
+.movetable td{padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.movetable tr:last-child td{border-bottom:none}
+.movetable .sym2{font-family:var(--mono);font-weight:700;color:var(--ink)}
+.movetable .num{font-family:var(--mono);color:var(--rule);font-weight:600}
+.movetable .mut{color:var(--faint)}
+.movetable .pnum{font-family:var(--mono);color:var(--ink);font-weight:600}
+/* ---- live layer ------------------------------------------------------------- */
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#f4a52a;
+  margin-left:7px;vertical-align:2px;animation:livepulse 2s ease-in-out infinite}
+@keyframes livepulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(244,165,42,.5)}
+50%{opacity:.55;box-shadow:0 0 0 4px rgba(244,165,42,0)}
+}
+.daily-badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
+  border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin-left:8px;
+  vertical-align:2px;white-space:nowrap}
+.live-stamp{font-family:var(--mono);font-size:11px;color:var(--faint);margin:2px 0 10px}
+/* what the Top 100 screen removed; muted, but never hidden */
+.screen-note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:16px 0 0;padding-left:12px;border-left:2px solid var(--line)}
+.live-stamp .live-dot{margin:0 7px 0 0}
+/* A-16: five moves and no more. The ticker's price flash is not one of them;
+   it stays as a cue but inside the 200ms ceiling. */
+.flash{animation:valflash 200ms ease-out}
+.flash-dn{animation:valflashdn 200ms ease-out}
+@keyframes valflash{0%{color:#f4a52a}
+100%{}
+}
+@keyframes valflashdn{0%{color:var(--down)}
+100%{}
+}
+.prices-table th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--faint);text-align:left;padding:10px 14px;
+  border-bottom:1px solid var(--line);white-space:nowrap}
+.prices-table th[data-sort]{user-select:none}
+/* the sortable header label is a real button for keyboard access; strip the button chrome
+   so it reads as the header text, and let the cell's :hover/color rules carry through */
+.prices-table th .th-sort{font:inherit;letter-spacing:inherit;text-transform:inherit;
+  color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer}
+.prices-table th[data-sort]:hover .th-sort{color:var(--ink)}
+.prices-table th.sorted-asc::after{content:" \2191"}
+.prices-table th.sorted-desc::after{content:" \2193"}
+.row-spark svg{width:110px;height:26px;display:block}
+.flow-teaser{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.flow-teaser .t{font-family:var(--serif);font-size:18px;font-weight:600}
+.flow-teaser .d{font-size:14px;color:var(--muted);margin-top:2px}
+/* ---- footer ---------------------------------------------------------------- */
+footer.site{border-top:2px solid var(--rule);background:var(--card);margin-top:40px}
+footer.site .wrap{padding:28px 22px 42px}
+footer.site .frow{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+footer.site .fbrand{font-family:var(--serif);font-weight:600;font-size:20px;color:var(--ink)}
+footer.site .flinks{display:flex;gap:18px;flex-wrap:wrap}
+footer.site .flinks a{font-size:13.5px;color:var(--muted)}
+footer.site .fnote{font-size:12px;color:var(--faint);line-height:1.6;margin-top:18px;max-width:80ch}
+footer.site .fnote b{color:var(--muted)}
+/* ---- empty state ----------------------------------------------------------- */
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:8px;padding:26px;text-align:center;color:var(--muted)}
+.empty .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--rule);font-weight:700}
+@media (max-width:640px){
+  .mh-slogan{display:none}
+.lead{padding-top:24px}
+.card h3{font-size:18px}
+
+}
+.board-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;align-items:start;margin-top:14px}
+@media (max-width:920px){.board-grid{grid-template-columns:1fr}
+}
+.board-grid .sec-head{margin-top:0}
+.board-grid .stack .sec-head{margin-top:18px}
+.board-grid .stack .sec-head:first-child{margin-top:0}
+/* ---- flow ledger: signed flows as rows (phone-native; text never scales down) ---- */
+.ledger{display:flex;flex-direction:column;gap:2px}
+.lrow{display:grid;grid-template-columns:56px 1fr 92px;align-items:center;gap:10px;
+  min-height:26px;padding:1px 0}
+.ledger.compact .lrow{min-height:21px}
+.ldate{font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
+.ltrack{position:relative;height:12px;background:transparent}
+.ltrack::before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--line)}
+.lbar{position:absolute;top:0;bottom:0;border-radius:3px;min-width:2px}
+.lbar.pos{background:var(--up)}
+.lbar.neg{background:var(--down)}
+.lval{font-family:var(--mono);font-size:12.5px;font-weight:600;text-align:right;white-space:nowrap}
+.lval.up{color:var(--up)}
+.lval.down{color:var(--down)}
+/* ---- The Board: master-dash widgets ---- */
+.widget-grid{grid-template-columns:repeat(3,1fr)}
+@media (max-width:700px){.widget-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+.widget.mspan{grid-column:1/-1}
+}
+/* very narrow screens (down to 320px): one widget per row so the fixed-column ledgers
+   inside them have room and the page never scrolls sideways (WCAG 1.4.10) */
+@media (max-width:430px){.widget-grid{grid-template-columns:1fr}
+}
+/* Reflow (WCAG 1.4.10): let the dashboard grid tracks and their children shrink below
+   intrinsic content width (grid/flex items default to min-width:auto), and let long
+   section headings wrap on narrow screens instead of forcing sideways scroll. Wide data
+   tables still scroll inside their own .movetable container, per the 1.4.10 exception. */
+.board-grid,.board-grid>*,.stack,.stack>*{min-width:0}
+@media (max-width:600px){.sec-head{flex-wrap:wrap}
+.sec-head h1,.sec-head h2{white-space:normal}
+}
+.widget{padding:12px 14px;min-width:0}
+/* let dashboard cards shrink below their content's intrinsic width so the page reflows
+   cleanly at 320px / 200% zoom without horizontal scroll (WCAG 1.4.10) */
+.dash-card{min-width:0}
+.widget .pc-spark svg,.widget .row-spark svg{max-width:100%}
+.widget .dash-stat{font-size:21px;margin-bottom:3px}
+.widget .w-sub{font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.45;display:block}
+.widget .pc-spark svg{height:34px}
+.widget .pc-spark{margin:6px 0 0}
+.w-range{font-family:var(--mono);font-size:10px;color:var(--faint);display:block;margin-top:3px;letter-spacing:.03em}
+.dom-bar{display:block;height:10px;border-radius:5px;background:var(--line);margin-top:10px;overflow:hidden}
+.dom-bar span{display:block;height:100%;background:var(--muted);border-radius:5px}
+.w-delta{font-family:var(--mono);font-size:13px;font-weight:600}
+.w-delta.up{color:var(--up)}
+.w-delta.down{color:var(--down)}
+.w-unit{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.w-read{font-family:var(--serif);font-style:italic;font-size:15.5px;line-height:1.3;display:block}
+@media (max-width:700px){.widget .dash-stat{font-size:18px}
+.lrow{grid-template-columns:48px 1fr 84px}
+}
+/* ---- The Board: read strip + group kickers ---- */
+.widget.wide{grid-column:1/-1;padding:14px 18px}
+.widget.wide .w-read{font-size:18px}
+.sig-attest{display:block;font-size:12.5px;color:var(--muted);margin-top:6px;max-width:44ch;line-height:1.5}
+/* ---- The Bottom Line: the desk's signature element (owner directive 2026-07-15) ----- */
+.bl-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.bl-label{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--rule)}
+.bl-read{font-family:var(--serif);font-size:clamp(16px,1.9vw,19px);line-height:1.55;margin:0;
+  color:var(--ink)}
+.bl-hist{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--rule);
+  border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0}
+/* Latest: lead story first, the Bottom Line card beside it (front-page arrangement).
+   The hero-bl card is styled for the dark hero band; on this themed page it follows
+   the paper/card palette instead. */
+.news-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:22px;align-items:start}
+.news-bl{margin-top:6px;background:var(--card);border:1px solid var(--line);
+  border-top:3px solid var(--rule);box-shadow:var(--shadow);
+  -webkit-backdrop-filter:none;backdrop-filter:none}
+.news-bl .hero-bl-src{color:var(--faint)}
+.news-bl .hero-bl-read{color:var(--ink)}
+.news-bl .hero-bl-more{color:var(--rule)}
+@media (max-width:820px){.news-grid{grid-template-columns:1fr;gap:14px}
+}
+/* ---- motion layer: micro-details (transform/opacity only, zero layout shift) ---- */
+
+
+
+
+.tick-colon{}
+.ed-kick .live-dot{margin-left:8px;vertical-align:1px}
+.sec-head .bar{position:relative;overflow:hidden}
+/* A-16b: tdrift (26s, infinite) rendered on .sec-head .bar::after across 18
+   Crypto and 21 Sports pages - a sixth move, on every page, from the retired
+   theme. The bar stays; the drift does not. bfloat, bshine, cblink and breathe
+   were dead keyframes nothing referenced. */
+
+.mjs .reveal{opacity:0;transform:translateY(12px)}
+.mjs .reveal.in{opacity:1;transform:translateY(0);
+  transition:opacity .2s ease-out,transform .2s ease-out}
+.card:hover{border-color:#b8722c;box-shadow:0 6px 22px rgba(184,114,44,.16)}
+.hero-bl::after{content:"";position:absolute;inset:-1px;
+  border:2px solid var(--rule);border-radius:inherit;opacity:.15;pointer-events:none;
+  }
+.hero-bl{position:relative}
+/* Tier 3: near-invisible scan-line texture, hero band only */
+
+/* one switch kills the whole motion layer */
+@media (prefers-reduced-motion:reduce){
+  .tick-colon,.hero-bl::after,
+  .live-dot,.flash,.flash-dn{animation:none!important}
+.motion-video{display:none}
+.mjs .reveal{opacity:1;transform:none;transition:none}
+
+}
+
+
+.ww-panel-fg{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:14px 18px}
+.ww-panel-fg .ww-title{font-family:var(--serif);font-size:26px;font-weight:700;color:#f4f1ea;
+  line-height:1.1;margin-top:2px}
+@media (max-width:600px){.ww-panel{height:126px}
+.ww-panel-fg .ww-title{font-size:21px}
+}
+/* In-text links stay underlined at rest so color is never the only cue (WCAG 1.4.1 Use of
+   Color). This replaces an earlier hover-only sliding underline, which left links in prose
+   distinguishable by color alone until hovered. */
+.prose a,.pc-note a,.fnote a,.flinks a,.bl-links a,.lede a,.trust-line a,
+.callout a,.sig-attest a,main p a,main li a{text-decoration:underline;text-underline-offset:2px}
+
+/* ============================================================================
+   ACCESSIBILITY LAYER (WCAG 2.1 AA / Section 508)
+   Added by the accessibility remediation pass.
+   ============================================================================ */
+
+/* Skip-to-main-content link (off-screen until focused). Constant brand-red ground with
+   white text so it clears AA in both themes (var(--rule) in dark is only ~3.3:1). */
+a.skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:#B42318;color:#fff;
+  padding:10px 16px;border-radius:0 0 8px 0;font-weight:700;text-decoration:none}
+a.skip-link:focus{left:0}
+/* Screen-reader-only utility (visually hidden, still announced) */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Visible focus indicator on every keyboard-focused control (WCAG 2.4.7 / 2.4.11).
+   Uses :focus-visible so it shows for keyboard/AT users without ringing on mouse click. */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,[tabindex]:focus-visible,summary:focus-visible{
+  outline:3px solid var(--link);outline-offset:2px;border-radius:3px}
+/* On the constant-dark hero band and section panels, use a light ring for contrast */
+
+.ww-panel a:focus-visible,.markets .mk-run:focus-visible{
+  outline:3px solid #cfe0f5;outline-offset:2px}
+/* Motion pause/play control (WCAG 2.2.2). Subtle, sits in the masthead top corner so
+   it is present on every page that carries motion (hero video, section videos, and the
+   looping decorative animations). Pausing freezes all of them; the browser's
+   reduced-motion setting is still honored independently. */
+.motion-toggle{display:inline-flex;align-items:center;gap:6px;margin-left:14px;
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);background:transparent;
+  border:1px solid var(--line);border-radius:999px;padding:4px 10px;cursor:pointer;
+  min-height:28px;line-height:1}
+.motion-toggle:hover{color:var(--ink);border-color:var(--muted)}
+.motion-toggle .mt-ico{width:9px;height:10px;display:inline-block;position:relative}
+/* pause glyph (two bars) while motion is playing */
+.motion-toggle .mt-ico::before,.motion-toggle .mt-ico::after{content:"";position:absolute;
+  top:0;width:3px;height:10px;background:currentColor}
+.motion-toggle .mt-ico::before{left:0}
+.motion-toggle .mt-ico::after{right:0}
+/* play glyph (triangle) once motion is paused */
+.motion-toggle[aria-pressed="true"] .mt-ico::before{left:1px;top:0;width:0;height:0;
+  background:transparent;border-top:5px solid transparent;border-bottom:5px solid transparent;
+  border-left:8px solid currentColor}
+.motion-toggle[aria-pressed="true"] .mt-ico::after{display:none}
+/* no motion to control when the OS asks for reduced motion: hide the toggle */
+@media (prefers-reduced-motion:reduce){.motion-toggle{display:none}
+}
+/* Manual pause: same animation-kill list as the reduced-motion switch, driven by a class
+   the toggle sets on <html>. Videos are paused via script; these freeze CSS animation. */
+html.motion-off .tick-colon,html.motion-off .hero-bl::after,html.motion-off .live-dot,
+html.motion-off .flash,html.motion-off .flash-dn{animation:none!important}
+
+/* Glossary on /learn (2026-08-25): definition list styled to the card language.
+   dt anchors are stable link targets, so articles can deep-link a term. */
+.gloss{margin:14px 0 6px;display:grid;gap:0;border:1px solid var(--line);
+  border-radius:12px;background:var(--card);overflow:hidden}
+.gloss dt{font:600 15px/1.3 var(--sans);color:var(--ink);padding:12px 16px 2px;
+  scroll-margin-top:80px}
+.gloss dt:not(:first-child){border-top:1px solid var(--line)}
+.gloss dd{margin:0;padding:0 16px 12px;font:400 14.5px/1.55 var(--sans);
+  color:var(--muted)}
+.gloss dd a{color:var(--link)}
+/* Board panel on market stories (2026-08-25): the desk's own measurements at publish
+   time, stamped at ingest and never updated. Mono numbers, board-style rows. */
+.board-panel{margin:26px 0 8px;padding:16px 18px;background:var(--card);
+  border:1px solid var(--line);border-radius:12px}
+.board-panel h2{font:600 15px/1.3 var(--sans);margin:0 0 4px}
+.board-panel .mut{font:400 13px/1.5 var(--sans);color:var(--faint);margin:0 0 10px}
+.bp-grid{display:grid;gap:0}
+.bp-row{display:flex;align-items:baseline;gap:12px;padding:7px 0;
+  border-top:1px solid var(--line)}
+.bp-k{font:500 13px/1.2 var(--sans);color:var(--muted);min-width:110px}
+.bp-v{font:600 14px/1.2 var(--mono);color:var(--ink)}
+.bp-d{font:500 12px/1.2 var(--sans);color:var(--faint)}
+.bp-d.up{color:var(--up)}
+.bp-d.down{color:var(--down)}
+/* ---- evergreen picks: the front door's direct links to the desk's best work ------ */
+/* Two columns of plain headline links. Deliberately not cards: 25 cards would dominate
+   the homepage, and the job here is to spend internal link equity on articles, not to
+   compete with the lead mosaic for attention. */
+.evergreen{margin:34px 0 8px}
+.eg-list{list-style:none;padding:0;margin:0;column-count:2;column-gap:34px}
+.eg-list li{break-inside:avoid;margin:0 0 9px;padding-left:13px;position:relative;
+  font-size:14.5px;line-height:1.45}
+.eg-list li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:1px;
+  background:var(--rule)}
+.eg-list a{color:var(--ink);text-decoration:none;border-bottom:1px solid transparent}
+.eg-list a:hover{border-bottom-color:var(--rule);text-decoration:none}
+@media (max-width:720px){.eg-list{column-count:1}
+}
+/* ============================================================================
+   THE BOARD: homepage modules (C1, build orders 2026-09-13).
+   Namespaced `bd-` on purpose. The mockup names its components .card, .badge,
+   .up, .down, .src, .foot, .tick and .lab, and this stylesheet already defines
+   every one of those for the article chassis: 11 rules on .card alone. Reusing
+   the bare names would have the two systems overwriting each other's padding
+   and colour depending on source order, which is the specificity trap this
+   file has been bitten by before. The prefix buys total isolation for the cost
+   of nine characters, and every existing page renders untouched.
+   Colours come from the chassis variables, so dark mode is inherited, not
+   re-specified.
+   ============================================================================ */
+.bd-sec{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  border-bottom:1px solid var(--line);padding-bottom:8px;margin:0}
+.bd-sec-l{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.bd-eyebrow{font:700 11.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--rule);white-space:nowrap}
+.bd-h2{font:600 22px/1.2 var(--serif);letter-spacing:-.01em;margin:0;color:var(--ink)}
+.bd-h3{font:600 20px/1.2 var(--serif);margin:0;color:var(--ink)}
+.bd-more{font-size:13.5px;font-weight:600;white-space:nowrap}
+.bd-mod{padding:22px 0 10px;display:flex;flex-direction:column;gap:14px}
+.bd-card{background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:15px 16px 14px;display:flex;flex-direction:column;gap:7px;
+  box-shadow:var(--shadow);box-sizing:border-box}
+.bd-label{font:700 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted)}
+.bd-value{font:600 34px/1.05 var(--serif);letter-spacing:-.015em;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.bd-read{font-size:14px;line-height:1.45;color:var(--muted);margin:0}
+.bd-src{font-size:12.5px;color:var(--faint);margin:0}
+.bd-delta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;
+  font:700 12.5px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+.bd-delta.up{color:var(--up)}
+.bd-delta.down{color:var(--down)}
+.bd-delta.flat{color:var(--muted)}
+.bd-delta.band{color:var(--review-fg)}
+.bd-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor}
+.bd-since{font:400 11px/1.3 var(--mono);color:var(--faint)}
+.bd-badge{display:inline-flex;align-items:center;gap:6px;font:700 10.5px/1.3 var(--mono);
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:3px}
+.bd-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;
+  opacity:.9}
+.bd-badge.ok{background:var(--verified-bg);color:var(--verified-fg)}
+.bd-badge.dat{background:var(--tag-bg);color:var(--tag-fg)}
+.bd-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.bd-tile-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+/* A verdict badge can run to "DEVELOPING" and the stamp beside it to "18:05 UTC".
+   At 390 that pair is 173px in a 358px card and fits; with a longer verdict it does
+   not, and an unwrapped flex row pushed the whole document to 493px wide. Wrap. */
+.bd-cardtop{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bd-tile a{font-size:13.5px;font-weight:600;margin-top:auto;padding-top:2px}
+.bd-row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;
+  padding:22px 0 10px;align-items:stretch}
+.bd-span2{grid-column:span 2}
+.bd-brief{gap:10px;padding:22px 24px 20px}
+.bd-brief-hl{font:600 34px/1.1 var(--serif);letter-spacing:-.015em;color:var(--ink)}
+.bd-brief p{margin:0;font-size:17px;line-height:1.6;color:var(--ink)}
+.bd-brief-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-top:4px;flex-wrap:wrap}
+.bd-by{font-size:13.5px;color:var(--muted)}
+.bd-stamp{font:400 11.5px/1.3 var(--mono);color:var(--faint)}
+.bd-ed{gap:10px;padding:22px 22px 20px;justify-content:space-between}
+.bd-ed-list{display:flex;flex-direction:column;gap:8px;padding-top:4px}
+.bd-kv{display:flex;justify-content:space-between;gap:10px;align-items:baseline;
+  border-bottom:1px solid var(--line);padding-bottom:6px}
+.bd-kv:last-child{border-bottom:0;padding-bottom:0}
+.bd-kv span:first-child{font-size:14px}
+.bd-kv .v{font:400 11.5px/1.3 var(--mono);color:var(--faint);
+  font-variant-numeric:tabular-nums;text-align:right}
+.bd-kv .v.up{color:var(--up);font-weight:700;font-size:12.5px}
+.bd-kv .v.down{color:var(--down);font-weight:700;font-size:12.5px}
+.bd-kv .v.flat{color:var(--muted);font-weight:700;font-size:12.5px}
+.bd-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;
+  padding:0 22px;border-radius:6px;background:var(--rule);color:#FFFFFF;font-weight:600;
+  font-size:15px;text-decoration:none}
+.bd-btn:hover{color:#FFFFFF;text-decoration:underline}
+.bd-cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bd-legend{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.bd-legend span{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted)}
+.bd-sq{width:10px;height:10px;border-radius:2px;display:inline-block}
+.bd-scroll{overflow-x:auto}
+.bd-chart{max-width:100%;height:auto;display:block}
+.bd-pill{display:inline-flex;align-items:center;justify-content:center;min-height:44px;
+  border:1px solid var(--link);border-radius:999px;padding:0 18px;font-size:14px;
+  font-weight:600;color:var(--link);box-sizing:border-box;text-align:center}
+.bd-cold{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;
+  align-items:stretch}
+.bd-opt{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);
+  border-radius:8px;padding:14px 16px;background:var(--paper)}
+.bd-opt a{margin-top:auto}
+.bd-disc{font:400 12px/1.5 var(--mono);color:var(--faint);margin:0}
+.bd-phone-only{display:none}
+/* Artboard 2: the phone board. Two-column tiles, six visible, the rest on /pulse. */
+@media (max-width:900px){
+  .bd-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.bd-value{font-size:26px}
+.bd-read{font-size:13px}
+.bd-row3{grid-template-columns:1fr;gap:12px}
+.bd-span2{grid-column:span 1}
+.bd-cold{grid-template-columns:1fr}
+.bd-brief-hl{font-size:24px}
+.bd-sec{flex-direction:column;align-items:flex-start;gap:6px}
+.bd-sec-l{flex-direction:column;gap:4px}
+.bd-h2{font-size:20px}
+.bd-mod,.bd-row3{padding:16px 0 8px}
+.bd-tile.bd-hide-phone{display:none}
+.bd-phone-only{display:flex}
+.bd-allboard{display:flex;align-items:center;justify-content:center;min-height:44px;
+    width:100%;border:1px solid var(--line);border-radius:8px;background:var(--card);
+    font-size:14px;font-weight:600;box-sizing:border-box}
+.bd-disc{font-size:11px}
+}
+@media (max-width:560px){
+  .bd-cards4,.bd-cards3{grid-template-columns:1fr}
+}
+.bd-cards4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.bd-cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:900px){
+  .bd-cards4{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.bd-cards3{grid-template-columns:1fr}
+}
+/* ---- The Record (C8) ------------------------------------------------------------
+   Lane sections: featured piece left at 1.4fr, read-further right at 1fr. The old
+   "Stories worth keeping" block was 25 bare links; these say what each piece is. */
+.bd-rec-lane{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;align-items:stretch;
+  margin-top:16px}
+.bd-rec-feat{padding:22px 24px 20px;gap:10px}
+.bd-rec-hl{font:600 30px/1.1 var(--serif);letter-spacing:-.015em;color:var(--ink);
+  text-decoration:none}
+.bd-rec-hl:hover{color:var(--ink);text-decoration:underline}
+.bd-rec-more{padding:20px 22px 18px;gap:10px}
+.bd-rec-rows{display:flex;flex-direction:column;gap:10px}
+.bd-rec-row{display:flex;flex-direction:column;gap:3px;border-bottom:1px solid var(--line);
+  padding-bottom:9px}
+.bd-rec-row:last-child{border-bottom:0;padding-bottom:0}
+.bd-rec-t{font:600 17px/1.25 var(--serif);color:var(--ink);text-decoration:none}
+.bd-rec-t:hover{text-decoration:underline;color:var(--ink)}
+.bd-rec-index{gap:10px}
+.bd-rec-cols{column-count:3;column-gap:28px}
+.bd-rec-cols a{display:block;break-inside:avoid;font-size:13.5px;line-height:1.45;
+  margin:0 0 6px;color:var(--ink);text-decoration:none}
+.bd-rec-cols a:hover{text-decoration:underline}
+@media (max-width:900px){
+  /* Phone: lane sections stack, featured card then read-further; index one column. */
+  .bd-rec-lane{grid-template-columns:1fr;gap:12px;margin-top:12px}
+.bd-rec-hl{font-size:24px}
+.bd-rec-feat{padding:18px 18px 16px}
+.bd-rec-cols{column-count:1}
+}
+@media (max-width:900px){
+  /* Rule 7: 44px tap targets on phone. These are standalone controls, not links
+     inside a sentence, so the WCAG inline exception does not cover them: "Explained"
+     on each tile, the section "All ..." links, Record titles, and the index rows.
+     min-height plus centring grows the hit area without moving the text. */
+  .bd-tile > a, .bd-more, .bd-rec-t, .bd-rec-cols a, .bd-kv a{
+    min-height:44px;display:flex;align-items:center}
+.bd-rec-cols a{padding:2px 0}
+}
+/* ---- Explainer pages (C2, Artboard 3) -------------------------------------------- */
+.lx .page{padding-top:36px;display:flex;flex-direction:column;gap:18px}
+.lx-meta{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.lx-h1{font:600 44px/1.1 var(--serif);letter-spacing:-.015em;margin:0;color:var(--ink)}
+.lx-dek{font:500 italic 22px/1.4 var(--serif);color:var(--muted);margin:0}
+.lx-h2{font:600 26px/1.25 var(--serif);margin:14px 0 0;color:var(--ink)}
+.lx p{font-size:17px;line-height:1.6;margin:0;color:var(--ink)}
+.lx-nfa{font-size:13.5px !important;color:var(--faint) !important;font-style:italic;
+  margin-top:8px !important}
+/* The live card carries the desk rule colour so the one live thing on an evergreen
+   page is visibly the live thing. */
+.lx-live{border-color:var(--rule);gap:8px;padding:18px 20px 16px}
+.lx-live-lab{font:700 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--rule)}
+.lx-live-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.lx-live-v{font:600 44px/1.05 var(--serif);letter-spacing:-.015em;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.lx-live-v.up{color:var(--up)}
+.lx-live-v.down{color:var(--down)}
+.lx-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px}
+.lx-related{padding-top:40px}
+@media (max-width:900px){
+  .lx-h1{font-size:32px}
+.lx-dek{font-size:18px}
+.lx-h2{font-size:22px}
+.lx-live-v{font-size:34px}
+.lx .page{padding-top:22px;gap:14px}
+}
+/* ---- /pulse tiles that carry an explainer (C2) ----------------------------------
+   A link cannot nest inside a link. A tile with an explainer is therefore a div
+   holding two anchors: the card destination, stretched over the card by a
+   pseudo-element so the whole tile stays clickable exactly as before, and the
+   Explained link raised above it. Tiles with no explainer keep the plain anchor. */
+.dash-card.has-learn{position:relative}
+.w-main{display:flex;flex-direction:column;color:inherit;text-decoration:none;min-width:0}
+.w-main::after{content:"";position:absolute;inset:0;border-radius:8px}
+.w-main:hover{text-decoration:none}
+.w-learn{position:relative;z-index:1;align-self:flex-start;margin-top:8px;
+  font-size:13px;font-weight:600}
+.dash-card.has-learn:focus-within{border-color:var(--rule)}
+@media (max-width:900px){
+  .w-learn{min-height:44px;display:flex;align-items:center}
+}
+/* ---- News hub (C4) --------------------------------------------------------------- */
+.nh-rows{display:flex;flex-direction:column;gap:0}
+.nh-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:11px 0;border-bottom:1px solid var(--line)}
+.nh-row:last-child{border-bottom:0}
+.nh-t{font:600 17px/1.35 var(--serif);color:var(--ink);text-decoration:none;flex:1 1 auto}
+.nh-t:hover{text-decoration:underline;color:var(--ink)}
+.nh-m{display:flex;align-items:center;gap:10px;flex:0 0 auto;flex-wrap:wrap;
+  justify-content:flex-end}
+.nh-months{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.nh-mo{display:flex;flex-direction:column;gap:2px;min-height:44px;justify-content:center;
+  border:1px solid var(--line);border-radius:8px;padding:10px 14px;background:var(--card);
+  text-decoration:none;color:inherit}
+.nh-mo:hover{border-color:var(--rule);text-decoration:none}
+.nh-mo-m{font:600 16px/1.2 var(--serif);color:var(--ink)}
+@media (max-width:900px){
+  .nh-row{flex-direction:column;gap:5px;padding:12px 0}
+.nh-m{justify-content:flex-start}
+.nh-t{font-size:16px;min-height:44px;display:flex;align-items:center}
+}
+/* ---- News hub jump chips (C4 follow-up) ------------------------------------------
+   The hub runs past 10,000 px at 390. Without these the only way to reach a lower
+   storyline on a phone is to scroll the whole page. Scrolls sideways, 44px tall. */
+.nh-jump{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.nh-chip{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;
+  border-radius:999px;background:var(--tag-bg);color:var(--tag-fg);font-size:13px;
+  font-weight:600;text-decoration:none;white-space:nowrap}
+.nh-chip:hover{background:var(--line);color:var(--ink);text-decoration:none}
+.nh-chip-n{font:700 11px/1 var(--mono);opacity:.7}
+@media (max-width:900px){
+  .nh-jump{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+    padding-bottom:2px;margin:12px 0 2px}
+.nh-jump::-webkit-scrollbar{display:none}
+}
+/* A jumped-to section must not land under the sticky nav. */
+.bd-mod[id]{scroll-margin-top:64px}
+/* ---- C-D: first-paint motion on the Board ----------------------------------------
+   Delta rows fade in on first paint. Strictly behind both gates: the OS setting and
+   the desk's own MOTION toggle. The VALUES do not animate their digits, and that is
+   deliberate: a count-up renders a sequence of numbers that were never true, on a
+   surface whose whole claim is that every number is real. The fade carries the same
+   arrival without inventing readings. */
+@media (prefers-reduced-motion:no-preference){
+  /* A-16: the delta row's reveal is not one of the five moves either. */
+  .bd-tile .bd-delta{animation:bd-fade 180ms ease-out both}
+.bd-tile:nth-child(2) .bd-delta{animation-delay:.05s}
+.bd-tile:nth-child(3) .bd-delta{animation-delay:.10s}
+.bd-tile:nth-child(4) .bd-delta{animation-delay:.15s}
+.bd-tile:nth-child(5) .bd-delta{animation-delay:.20s}
+.bd-tile:nth-child(6) .bd-delta{animation-delay:.25s}
+.bd-tile:nth-child(7) .bd-delta{animation-delay:.30s}
+.bd-tile:nth-child(8) .bd-delta{animation-delay:.35s}
+}
+@keyframes bd-fade{from{opacity:0;transform:translateY(3px)}
+to{opacity:1;transform:none}
+}
+/* The toggle wins over the media query. */
+html.motion-off .bd-tile .bd-delta{animation:none}
+/* ---- C-A: the tile series --------------------------------------------------------- */
+.tile-ser{display:flex;flex-direction:column;gap:3px;margin:2px 0 0}
+.tile-series{width:100%;height:auto;display:block}
+/* ---- C-B: your coins, device only ------------------------------------------------ */
+.wl{display:flex;flex-direction:column;gap:8px;margin:0 0 4px;padding:12px 14px;
+  border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.wl-row{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;min-height:26px}
+.wl-coin{display:inline-flex;align-items:baseline;gap:7px}
+.wl-sym{font:700 12px/1.3 var(--mono);color:var(--ink)}
+.wl-px{font:400 13px/1.3 var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.wl-chg{font:700 11.5px/1.3 var(--mono)}
+.wl-chg.up{color:var(--up)}
+.wl-chg.down{color:var(--down)}
+.wl-hint{font-size:13px;color:var(--faint);display:none}
+.wl.wl-empty .wl-hint{display:inline}
+.wl-picks{display:flex;gap:6px;flex-wrap:wrap}
+.wl-pick{min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:999px;
+  background:none;font:600 12px/1 var(--mono);color:var(--muted);cursor:pointer}
+.wl-pick[aria-pressed="true"]{background:var(--rule);color:#fff;border-color:var(--rule)}
+@media (max-width:900px){
+  .wl-picks{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.wl-picks::-webkit-scrollbar{display:none}
+.wl-pick{min-height:44px}
+}
+/* ---- C-E / Sprint 6.3: the phone tab bar ----------------------------------------
+   Below 700px the top row gives way to a bottom bar of five: Markets, Flows, Charts,
+   News, Brief. Record and Learn live in the footer. Every target is 56px tall (the floor
+   is 44), nothing depends on hover, the bar sits above the home indicator, and the page
+   keeps room for it so the footer is never hidden. The current tab is marked by a bar
+   across its top, a heavier label and aria-current, not by colour alone. */
+.tabbar{display:none}
+@media (max-width:699.98px){
+  .mh-nav{display:none}
+  .tabbar{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);
+    position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--card);
+    border-top:1px solid var(--line);
+    padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  .tb-item{position:relative;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:3px;min-height:56px;padding:6px 2px;text-decoration:none;
+    color:var(--muted);font:600 11px/1.2 var(--sans);-webkit-tap-highlight-color:transparent}
+  .tb-item.on{color:var(--ink);font-weight:800}
+  .tb-item.on::before{content:"";position:absolute;left:14%;right:14%;top:-1px;height:3px;
+    background:var(--rule);border-radius:0 0 3px 3px}
+  .tb-item.on svg{stroke-width:2.2}
+  .tb-item:focus-visible{outline:2px solid var(--rule);outline-offset:-4px}
+  .tb-item svg{display:block}
+  body{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
+  /* the footer's links are targets too */
+  footer.site .flinks a{display:inline-flex;align-items:center;min-height:44px}
+}
+/* ---- C-C: living tables --------------------------------------------------------- */
+.lt-wrap{overflow-x:auto}
+.lt{width:100%;border-collapse:collapse;font-size:15px}
+.lt th{text-align:left;font:700 11px/1.3 var(--mono);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);padding:0 14px 8px 0;
+  border-bottom:1px solid var(--line);white-space:nowrap}
+.lt td{padding:10px 14px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.lt tr:last-child td{border-bottom:0}
+.lt-prop{font-weight:600;white-space:nowrap}
+.lt-when{white-space:nowrap;font-variant-numeric:tabular-nums}
+.lt .up{color:var(--up)}
+.lt .down{color:var(--down)}
+@media (max-width:900px){
+  .lt{font-size:14px}
+.lt th,.lt td{padding-right:10px}
+}
+/* C-6: every tile the same height by construction, so the grid lines up whatever each
+   tile happens to carry. The read is clamped to two lines and the foot is pushed to
+   the bottom with a hairline above it, so "Explained" sits on one line across the row. */
+.bd-tiles{grid-auto-rows:214px}
+/* C-6: 214px by construction, every row */
+.bd-tile{display:flex;flex-direction:column;gap:6px;height:100%}
+/* A tile carrying a delta row has one line less for its read. Rather than let the
+   second line vanish silently (Crowd sentiment lost "index, 0 to 100."), the delta
+   sits tighter so both lines fit inside the 214px. */
+.bd-tile .bd-delta{margin:0;line-height:1.3}
+/* A-18 and the standing law: authored text is never truncated. The sprint-C clamp cut
+   reads that were too long; the reads are written to 48 characters now, so the BOX
+   yields instead of the sentence. Tiles keep 214px as a floor, not a ceiling. */
+/* Exact pixels, not em multiples. A fractional box height showed the TOP SLIVER of a
+   third line on Crowd sentiment - letters cut through the middle, which reads as a
+   rendering fault rather than as truncation. Two whole lines or nothing. */
+.bd-tile p.bd-read{margin:0;line-height:19px}
+.bd-tile-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.bd-tile-foot{margin-top:auto;padding-top:9px;border-top:1px solid var(--line);
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.bd-tile-foot .bd-stamp{white-space:nowrap}
+/* C-7: the since-yesterday rows, inside the brief card. They sit above the byline and
+   take the space the card used to leave empty beside the Edition. */
+.bd-since-list{display:flex;flex-direction:column;gap:9px;margin-top:4px;
+  padding-top:12px;border-top:1px solid var(--line)}
+.bd-since-rows{display:flex;flex-direction:column;gap:9px}
+
+/* C-3: pinning lives at the right end of the ticker. The popover is a details/summary
+   so it opens without JavaScript, and the privacy note sits inside it at 13px instead
+   of running across the page at 17px. */
+.pinbox{position:relative;margin-left:auto;flex:0 0 auto}
+.pinbox>summary{list-style:none;cursor:pointer;white-space:nowrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--muted);padding:3px 8px;border:1px solid var(--line);border-radius:999px}
+.pinbox>summary::-webkit-details-marker{display:none}
+.pinbox-sheet{position:absolute;right:0;top:calc(100% + 8px);z-index:40;width:250px;
+  padding:12px;background:var(--card);border:1px solid var(--line);border-radius:8px;
+  box-shadow:0 10px 28px rgba(0,0,0,.14)}
+.pinbox .wl-picks{display:flex;flex-wrap:wrap;gap:6px}
+.pin-note{margin:10px 0 0;font-size:13px;line-height:1.45;color:var(--muted)}
+/* a pinned coin is marked in the ticker itself; nothing is duplicated */
+.markets .tick.pinned{position:relative}
+.markets .tick.pinned .sym::before{content:"\2022";margin-right:4px;color:var(--rule)}
+
+/* ---- C-21: the Board band is the hero ------------------------------------------
+   One dark surface on this site, over the trading-desk poster under the addendum's
+   vertical scrim (30% top, 72% mid, 97% bottom). Everything below it is the light
+   editorial page. Family dark tokens, not the retired neon theme. */
+/* Full bleed: the band sits inside the page wrapper but must run the full width of
+   the viewport, directly under the ticker (revised G-2). The inner .wrap puts the
+   content back on the page grid. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Tiles inside the band take the family's dark tokens, not the neon theme. */
+
+
+
+
+
+
+
+
+
+
+
+@media (min-width:1024px) and (prefers-reduced-motion:no-preference){
+  
+  @keyframes cb-zoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+}
+
+
+
+/* C-9: news desk cards. Headline three lines, summary three, sources pinned to the
+   bottom at 12.5px - it was rendering larger than the summary above it. Equal heights
+   come from the clamps, not from stretching a short card beside a long one (G-5). */
+.bd-cards4>.bd-card{display:flex;flex-direction:column;gap:9px}
+/* D-6 and punch item 18: a HEADLINE never clamps, on any viewport - a headline cut to
+   "Revolut breach exposes…" is the desk withholding the fact it just promised. Summaries
+   clamp; headlines wrap. */
+.nx-h{display:block}
+.nx-read{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+  overflow:hidden;font-size:15px;line-height:1.5}
+.bd-src.nx-src{margin-top:auto;font-size:12.5px;line-height:1.4;color:var(--muted)}
+
+/* C-11: the cold-storage disclosure is a footnote, not body copy: 12.5px sans, muted. */
+/* C-11: this rendered at 17px Inter - a .bd-card p rule (0,2,0) outranked the
+   .bd-disc rule (0,1,0) further up. Scoped to match, so it is a footnote again. */
+.bd-card p.bd-disc,p.bd-disc{font-family:var(--sans);font-size:12.5px;line-height:1.5;
+  font-weight:400;color:var(--muted);margin:0}
+
+/* C-16: the motion control at the right end of the ticker. */
+.motion-btn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;padding:0;background:none;cursor:pointer;
+  border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.motion-btn:hover{color:var(--ink)}
+.markets .pinbox{margin-left:10px}
+.markets .motion-btn{margin-left:auto}
+
+/* ---- C-18: the phone homepage --------------------------------------------------
+   11,111px against a 5,500 target (G-12). Measured first: the Record was 2,940, the
+   link index 1,497, Whale Watch 1,142. Nothing below removes a fact the reader cannot
+   reach - every tile's read is on its own page, and the Record's lanes are one tap. */
+.rec-more>summary{cursor:pointer;margin-top:14px;padding:10px 0;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);border-top:1px solid var(--line);list-style:none}
+.rec-more>summary::-webkit-details-marker{display:none}
+@media (min-width:641px){ .rec-more>summary{display:none} }
+@media (max-width:640px){
+  /* Compact tiles: label, value, delta, a small spark, Explained. The paragraph opens
+     on the tile page, which is where the room for it is. */
+  
+  
+  
+  
+
+  /* Whale Watch: two rows, not the full table. */
+  .bd-row3 .bd-whale-row:nth-of-type(n+3){display:none}
+
+  /* The news desk is a list on a phone. */
+  .bd-cards4{display:flex;flex-direction:column;gap:0}
+  .bd-cards4>.bd-card{flex-direction:column;gap:6px;padding:12px 0;border-radius:0;
+    border-left:0;border-right:0;border-top:0;border-bottom:1px solid var(--line);
+    background:none}
+  .bd-cards4>.bd-card .nx-read{display:none}
+  .nx-h{font-size:16px;line-height:1.3}
+
+  /* The Edition card is one row. */
+  .bd-ed .bd-ed-list{display:none}
+  .bd-ed .bd-read{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+    overflow:hidden}
+
+  /* The link index keeps its own pointer rather than 60 links. */
+  .bd-rec-index .bd-rec-cols{display:none}
+  .bd-rec-index::after{content:"Open the Record for the full index";display:block;
+    font-family:var(--mono);font-size:11.5px;color:var(--muted);padding-top:6px}
+}
+
+@media (max-width:640px){
+  /* C-18 / G-4. Each module header measured 183px on a phone - four of them is 732px,
+     more than the news desk they introduce. G-4 asks for 34px of space above on phone;
+     the header row wraps to one column and the H2 comes down to the phone scale. */
+  .bd-mod>.bd-sec{flex-direction:column;align-items:flex-start;gap:4px;
+    margin-top:20px;padding-bottom:7px}
+  .bd-mod>.bd-sec .bd-h2{font-size:20px;line-height:1.24}
+  .bd-mod>.bd-sec .bd-more{font-size:12px}
+
+  /* One Record lane, and its read-further column shows three rows, not the full list. */
+  .bd-rec-lane .bd-rec-rows>.bd-rec-row:nth-of-type(n+4){display:none}
+  .bd-rec-lane .lane-v3 .bd-read{display:-webkit-box;-webkit-line-clamp:3;
+    -webkit-box-orient:vertical;overflow:hidden}
+
+  /* Learn is a list of links on a phone, not a card stack. */
+  .bd-mod .bd-cards4>.bd-card .bd-read{display:none}
+
+  /* Cold storage keeps the criteria and the box; the long read clamps. */
+  .bd-cold .bd-read{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;
+    overflow:hidden}
+}
+
+@media (max-width:640px){
+  /* C-18 reads "one Record lane CARD", not one lane section: the read-further column
+     beside it is depth the "Show all lanes" control already offers. */
+  .bd-rec-lane>.bd-rec-more{display:none}
+
+  /* "The brief with its three facts": the headline and the since-yesterday rows are
+     the facts; the body paragraph is the brief itself, one tap away. */
+  .bd-brief>p:not(.bd-src){display:none}
+  /* D-6: the brief's headline wraps on phone; it does not clamp. */
+  .bd-brief .bd-brief-hl{display:block}
+}
+
+/* C-14: the Chart Master's read as a quote card on the Board, and /chartmaster as a
+   dated ledger of earlier reads in the light system. */
+
+.cm-archive{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.cm-entry{padding:14px 16px;gap:7px}
+.cm-entry-h{margin:0;font:400 16px/1.45 var(--serif);color:var(--ink)}
+
+/* C-15: the tile pages carry the week-ago comparison and a sources line. */
+.tile-week{margin:14px 0 0;font-size:15px;line-height:1.5;color:var(--ink)}
+.tile-src{margin:6px 0 0;font-size:12.5px;color:var(--muted)}
+
+@media (max-width:640px){
+  /* C-18, second pass. Whale Watch turned out to be the diverging chart rather than a
+     row list, so "two rows" does not apply to it - the chart IS the reading and stays.
+     The length comes off places where the next item is one tap away instead. */
+
+  /* The news desk and Learn show three, with "All stories" / "All explainers" above. */
+  .bd-mod .bd-cards4>.bd-card:nth-of-type(n+4){display:none}
+
+  /* The Chart Master's read is a quote on the Board; on a phone it is 90px of the band
+     before the tiles, and the full read is on /chartmaster. */
+  
+
+  /* The legend duplicates what the coloured bars and signs already say. */
+  .bd-row3 .bd-legend{display:none}
+}
+
+@media (max-width:640px){
+  /* The band's bottom padding is desktop breathing room; the light page starts right
+     under it on a phone. */
+  
+}
+
+/* ============================================================================
+   PROGRAM 3, A-1: the ground. Same layer as Sports, Crypto's own glows:
+   the family red, Whale Watch ocean, Chart Master gold. Lifted from CryptoAtmosV5.
+   ========================================================================== */
+
+
+
+
+
+
+
+/* A-2: the trading-desk photo shows. Poster to 88%, scrim to 22/66/94. */
+
+
+
+/* A-3: glass tiles inside the band, with the solid fallback. */
+
+
+
+/* A-4: the ember. The one warm accent on the dark band, anchored at its top left
+   under the cards. It is what makes the band read as the Board's own light rather
+   than a generic dark hero. Sports gets none; its warmth comes from the photo. */
+
+
+/* A-9: direction washes. In addition to the delta line, never instead of it - the line
+   is the reading and the wash is the glance. A tile with no delta carries neither. */
+
+
+
+
+
+
+/* ---- A-10: the lead tile ------------------------------------------------------
+   Two columns and two rows of the four-column grid. The price is the figure on the
+   Board, the chart sits under the read, and the foot pins as it does on every tile. */
+
+
+.cb-lead .cb-lead-v{font:600 72px/1 var(--serif);letter-spacing:-.02em}
+.cb-lead .bd-read{font-size:14.5px;line-height:1.5}
+.cb-leadchart{display:block;width:100%;height:190px;margin-top:auto}
+.cb-lead .bd-tile-foot{margin-top:12px}
+
+/* A-11: the twelfth slot, the Chart Master's read. */
+.cb-cmtile{border-top:2px solid #C89A4A}
+.cb-cmtile .bd-label{color:#F0C674}
+.cb-cmread{margin:0;font:italic 400 15px/1.5 var(--serif);color:rgba(235,233,227,.90);
+  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+
+@media (max-width:640px){
+  /* A-15: the lead becomes a full-width single tile, 48px price, 120px chart. */
+  
+  
+  .cb-lead .cb-lead-v{font-size:48px}
+  .cb-leadchart{height:120px}
+}
+
+@media (max-width:640px){
+  /* D-7 / punch item 21: the band header ran nearly a full screen before the first
+     tile - the H1, the link, the sell line and a mono as-of line that repeats what the
+     sell line already says. The mono duplicate goes on phone and the sell line shows
+     its first sentence; the full line is on the Board page the link goes to. */
+  
+  /* C-18 drops the mono as-of line on phone because the sell line already says it.
+     The STALE form is not that line: it is the tripwire that tells a reader these
+     numbers are history, and hiding it shipped stale data to phones with no warning.
+     The routine stamp stays hidden; the warning does not. */
+  
+  
+  
+  
+
+  /* A-15: the lead tile is one tile among the others on a phone, not a feature. */
+  .cb-leadchart{height:120px}          /* A-15 */
+  .cb-lead .cb-lead-v{font-size:48px}  /* A-15 */
+  .cb-lead .bd-read{display:none}      /* the read opens on the tile page (C-18) */
+}
+/* punch 21: two authored sell lines, not one truncated. The short one is written for
+   the phone, where the long one ran a third of a screen. */
+.cb-sell-short{display:none}
+@media (max-width:640px){
+  .cb-sell-full{display:none}
+  .cb-sell-short{display:inline}
+  /* the tiles sit tighter on a phone; the reads are on the tile pages */
+  
+  
+  .cb-cmread{-webkit-line-clamp:3}
+}
+
+@media (max-width:640px){
+  /* D-7, second pass. The blocks C-18 names keep their shape; the length comes off the
+     two it does not, where the next item is one tap away. */
+
+  /* Cold storage: the criteria and the Ledger box stay (C-11); the long read is on the
+     explainer page the card links to. */
+  .bd-cold .bd-read{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+    overflow:hidden}
+  .bd-cold .bd-opt .bd-read{-webkit-line-clamp:2}
+
+  /* Learn shows three explainers as a list of titles; every one is a link to itself. */
+  .bd-mod .bd-cards4>.bd-card{padding:10px 0}
+  .bd-mod .bd-cards4>.bd-card .bd-stamp{display:none}
+
+  /* The brief keeps its three facts; its byline row is on the brief itself. */
+  .bd-brief .bd-brief-foot .bd-by{display:none}
+}
+
+@media (max-width:640px){
+  /* D-7, final pass. The Record lane's read-further rows and the news list each show
+     one item fewer; both sections carry their own "all" link to the rest. */
+  .bd-rec-lane .bd-rec-rows>.bd-rec-row:nth-of-type(n+3){display:none}
+  .bd-mod .bd-cards4>.bd-card:nth-of-type(n+4){display:none}
+  /* The Record's full index keeps its pointer only. */
+  .bd-rec-index{margin-top:6px}
+}
+
+@media (max-width:640px){
+  /* D-7, last pass. The lane's read-further list shows two; "All <lane>" carries the
+     rest. The earlier selector matched nothing because it was scoped to .bd-rec-lane,
+     and on a phone the lane's card and its rows are siblings, not nested. */
+  .bd-rec-rows>.bd-rec-row:nth-of-type(n+3){display:none}
+  /* Tiles and modules sit a little tighter; nothing is removed. */
+  
+  .bd-mod>.bd-sec{margin-top:16px}
+  
+}
+/* C-18 asked for Whale Watch as two rows on a phone. Measured: the chart already
+   collapses to zero height there, so the rows ADD 80px rather than replacing anything.
+   They stay off; the phone keeps the heading, the as-of line and the source line, and
+   the Whale flows TILE above already carries the net and its direction. */
+.ww-rows{display:none}
+.ww-row{display:flex;align-items:baseline;gap:12px;padding:8px 0;
+  border-top:1px solid var(--line)}
+.ww-sym{font-family:var(--mono);font-size:12px;font-weight:700;min-width:44px}
+.ww-net{font:600 19px/1.2 var(--serif)}
+.ww-net.up{color:var(--up)} .ww-net.down{color:var(--down)}
+@media (max-width:640px){
+  .bd-row3 .bd-scroll,.bd-row3 .bd-legend{display:none}
+  /* the source sentence is two lines of explanation the tile above already gives */
+  .bd-row3 .bd-src{font-size:11.5px;line-height:1.4}
+}
+
+/* ---- A-16: motion, five moves and no more ------------------------------------
+   (1) the live dot, only while a game is live. (2) count-up and (3) draw-on are in
+   ATMOS_MOTION_JS. (4) the band's slow zoom ships with the hero. (5) card lift on
+   hover, on pointer devices only. Nothing else on the page animates over 200ms. */
+@media (prefers-reduced-motion: no-preference){
+  .live .dot,.sb-mq-top .live .dot{animation:atmos-pulse 1.6s ease-out infinite}
+  @keyframes atmos-pulse{
+    0%{box-shadow:0 0 0 0 rgba(61,220,132,.45)}
+    70%{box-shadow:0 0 0 9px rgba(61,220,132,0)}
+    100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion: no-preference){
+  .bd-card,.game,.sp-deskcard{transition:transform 160ms ease, box-shadow 160ms ease}
+  .bd-card:hover,.game:hover,.sp-deskcard:hover{transform:translateY(-2px);
+    box-shadow:0 10px 26px rgba(0,0,0,.10)}
+}
+@media (prefers-reduced-motion: reduce){
+  /* all five stop, and so does the loop */
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .sb-loop{display:none!important}
+}
+
+/* ---- A-12: module colours and marks -------------------------------------------
+   Whale Watch and the Chart Master keep their own character inside the one light
+   theme: a 3px top rule, the eyebrow in the module colour, the 44x29 mark beside it,
+   and the emblem again as a masked watermark pushed past the card's top right corner
+   so no rectangle edge is ever visible. Emblems appear nowhere else. */
+.card.ww,.card.cm{position:relative;overflow:hidden;isolation:isolate}
+.card.ww{border-top:3px solid #2E7DD1}
+.card.cm{border-top:3px solid #C89A4A}
+.card.ww .bd-eyebrow{color:#2E7DD1}
+.card.cm .bd-eyebrow{color:#8A6420}
+.card.ww .bd-eyebrow,.card.cm .bd-eyebrow{display:inline-flex;align-items:center;gap:8px}
+.mk{width:44px;height:29px;object-fit:cover;border-radius:3px;flex:0 0 auto}
+/* A-17: the watermark was an <img>. display:none on an <img> hides it but does not
+   stop the browser fetching it, so every phone load pulled whale-wm.jpg and
+   pulse-wm.jpg, 27 KB, to show neither. As a background on an empty span the phone
+   rule below actually prevents the request. */
+
+
+.cm-quote{margin:0;font:italic 400 16px/1.55 var(--serif);color:var(--ink)}
+/* Each mark keeps its own natural aspect at 360 wide, the height the <img> took. */
+
+
+   /* A-15 */
+
+@media (max-width:640px){
+  /* D-7b: the Chart Master's read is in the twelfth Board tile a screen above, so the
+     read CARD beside Whale Watch is the same words twice on a phone. The card goes;
+     the tile keeps it and the nav keeps /chartmaster. A-12's marks stay on desktop. */
+  .bd-row3 .card.cm{display:none}
+  /* Cold storage and Learn sit tighter; both link on to their own pages. */
+  .bd-cold .bd-opt .bd-read{display:none}
+  .bd-mod .bd-cards4>.bd-card .nx-h{-webkit-line-clamp:2}
+}
+
+@media (max-width:640px){
+  /* D-7b, margin. The lane's read-further card and the index pointer are both routes
+     to the same place the section's own "all" link already offers. */
+  .bd-rec-lane>.bd-rec-more{display:none}
+  .bd-rec-index{display:none}
+  .bd-mod>.bd-sec{margin-top:14px}
+}
+
+/* A-5: the band ornament, Bitcoin's 30-day closes as a filled area, in the bottom
+   band under the cards at 15 percent. A-15 omits it under 720px. */
+
+
+
+/* A-14: /pulse opens with the Board band at reduced height. */
+
+
+/* The stale tripwire is a light panel; in the band it rendered dark red on dark and
+   could not be read. It is the one line on the page a reader must not miss. */
+
+
+
+/* V-7: the phone never fetches the full poster. This pairs with the media-gated
+   preload in the head, so exactly one of the two files is ever requested. */
+
+
+/* H-13: THE MORE MENU OPENED BEHIND THE BAND. The sheet sat at z-index 40 inside the
+   masthead, but the masthead's own z-index was 1 and the band that follows it paints
+   its scrim, poster and loop over everything the masthead contains. A hit test at the
+   first link's centre returned DIV.sb-promise at 1440 and the band's background at
+   390: the reader clicked More and the click went to the band.
+
+   z-index inside an element cannot escape that element's own stacking context, which
+   is the whole bug. The masthead and its nav get a context that sits above every band
+   layer, and the sheet's 40 then means something. */
+
+/* THE CLIP WAS THE REAL CAUSE, and z-index could never have fixed it. .mh-nav .wrap
+   is the horizontally scrolling strip (overflow-x:auto so a long nav can be swiped),
+   and an overflow ancestor CLIPS an absolutely positioned descendant no matter what
+   its z-index is. The sheet was 354px tall inside a 44px strip: everything below the
+   first few pixels was cut away, so the point the reader clicks has no sheet at it and
+   the hit lands on the band behind.
+
+   Above the phone breakpoint the nav is required to fit without scrolling (S-1, G-3),
+   so it does not need the scroll container and the sheet is simply not clipped. Below
+   it, the sheet is already position:fixed, which escapes the clip on its own. */
+@media (min-width:641px){
+  .mh-nav .wrap{overflow:visible}
+}
+
+/* H-13: THE MORE MENU OPENED UNDER THE BAND.
+   A hit test at the first link's centre returned DIV.sb-promise at 1440 and the band's
+   background at 390: the reader clicked More and the click went to the band.
+
+   z-index inside an element cannot lift it above something that outranks that
+   element's own stacking context. The nav and the band both resolved to z-index 1 and
+   the band comes later in the DOM, so the band won and the sheet's own z-index 40 was
+   capped by its ancestor. Raising the NAV is the fix; raising the sheet never could be.
+
+   nav.mh-nav, not .mh-nav: an element-plus-class selector outranks the bare class
+   wherever it sits in the file, so this cannot be undone by ordering. position is left
+   alone deliberately - the nav is sticky and must stay sticky. */
+nav.mh-nav{z-index:300}
+header.masthead{position:relative;z-index:300}
+
+/* ===== The Top 100 on a phone (UX-6, reworked in Program 7 Sprint 6.4) ========
+   At 390 the table was once 784px wide inside a 390px viewport. UX-6 cut it to coin, price
+   and 24 hours and put the market cap on tap. Sprint 6.4 (13 October 2026) puts the
+   seven-day line back, small, and the cap and volume return at 768 and up, so below 768
+   the columns are rank, coin, price, 24 hours and the line, and nothing scrolls sideways.
+   The columns, in order: 1 rank, 2 coin, 3 price, 4 24h, 5 seven-day line, 6 cap, 7 volume. */
+.prices-table .c-wide{display:none}
+/* Sprint 9.1: the movers list at 375 is rank, coin, 24h and price; the name and the cap wait for 768 */
+.mv-tbl .c-wide{display:none}
+@media (min-width:768px){
+  .mv-tbl td.c-wide{display:table-cell}
+  .mv-tbl span.c-wide{display:inline}
+}
+.mv-tbl td{padding:10px 8px}
+@media (min-width:768px){
+  .prices-table .c-wide{display:table-cell}
+}
+@media (max-width:767px){
+  .prices-table table{width:100%;table-layout:fixed}
+  .prices-table th,.prices-table td{padding-left:5px;padding-right:5px}
+  .prices-table th:nth-child(1),.prices-table td:nth-child(1){width:32px;padding-left:0;padding-right:0}
+  .prices-table th:nth-child(3),.prices-table td:nth-child(3){width:90px;text-align:right;padding-left:0;padding-right:12px}
+  .prices-table th:nth-child(4),.prices-table td:nth-child(4){width:66px;padding-left:3px;padding-right:3px}
+  .prices-table th:nth-child(5),.prices-table td:nth-child(5){width:62px;padding-right:0}
+  .prices-table td.sym2{white-space:normal;line-height:1.25;overflow-wrap:normal;padding-left:6px;padding-right:0}
+  .prices-table td.sym2 .mut{display:block;font-size:11px}
+  .prices-table td.sym2 .t1-dot{display:none}
+  .prices-table td.pnum{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:12px}
+  .prices-table td.pnum.pn-long{font-size:11px}
+}
+
+/* UX-8: the Chart Master's read, with its glance and its subheads. */
+.cm-glance{border:1px solid var(--line);border-left:3px solid #C89A4A;border-radius:8px;
+  padding:14px 18px;margin:0 0 22px;background:var(--card)}
+.cm-glance .bd-label{display:block;margin-bottom:8px;color:#8A6420}
+.cm-glance ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.cm-glance li{display:grid;grid-template-columns:104px 1fr;gap:12px;align-items:baseline}
+.cm-g-k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted)}
+.cm-g-v{font-size:14.5px;line-height:1.45;color:var(--ink)}
+.cm-sub{font:600 15px/1.3 var(--mono);letter-spacing:.04em;text-transform:uppercase;
+  color:#8A6420;margin:26px 0 6px}
+@media (max-width:640px){
+  .cm-glance li{grid-template-columns:1fr;gap:1px}
+}
+
+/* UX-16 (C-7): the tile is the link. A stretched anchor covers the card, so the
+   whole tile is the target and "Explained" does not repeat nine times down a band.
+   Anything on the tile that is itself interactive sits above it. */
+.bd-tile{position:relative}
+.bd-tile-a{position:absolute;inset:0;z-index:1;border-radius:inherit;
+  -webkit-tap-highlight-color:transparent}
+.bd-tile-a:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
+.bd-tile:hover{border-color:var(--line-2)}
+.bd-tile a:not(.bd-tile-a),.bd-tile .row-spark,.bd-tile canvas,.bd-tile svg,
+.bd-tile .tp{position:relative;z-index:2}
+/* UX-16 (C-8), revised in Sprint 6.5: a coin name wraps only at a space and is never broken inside a
+   word. A single word the column cannot hold ends in an ellipsis on one line; the row's link carries
+   the full name as its title and its accessible label. Each word is its own inline box (.t1-w). */
+.t1-name{overflow-wrap:normal;word-break:normal}
+.t1-w{display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
+
+/* UX-16 (C-8): a reading that rounds to nothing is neither up nor down. Neutral
+   grey, so the colour agrees with the number instead of arguing with it. */
+.chip.chip-flat{color:var(--muted);border-color:var(--line)}
+
+/* ---- UX-17 (C-9): on the phone, the numbers come first ---------------------
+   The Board's first number sat 723px down the phone homepage, behind a title, a
+   sub-line, a how-link and a sell line: five blocks of words in front of the one
+   thing the reader opened the page for. On the phone the preamble collapses to
+   the name and the stamp. The title stays in the accessibility tree, because it
+   is what names the section; the sell line is on the desktop, where there is
+   room for it. The staleness banner does not move: a warning about the numbers
+   belongs above the numbers it is about. */
+
+
+/* ---- C-L1: coin pages -----------------------------------------------------
+   The numbers lead, because that is what the page is for, then the Board's read,
+   then supply, then the desk's reporting. A figure the source did not send is
+   absent, so the grid is built to look right with four cells or with six. */
+.cn-sym{margin-left:10px;font:600 12px/1 var(--mono);letter-spacing:.08em;
+  color:var(--muted);vertical-align:middle}
+.cn-rows{margin-top:12px;border:1px solid var(--line);border-radius:10px;
+  background:var(--card);overflow:hidden}
+.cn-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:11px 16px;border-bottom:1px solid var(--line)}
+.cn-row:last-child{border-bottom:0}
+.cn-row .lab{font:600 10.5px/1 var(--mono);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted)}
+.cn-rv{font-variant-numeric:tabular-nums;text-align:right}
+.cn-news{margin-top:12px}
+.cn-n{display:block;padding:10px 0 10px 14px;position:relative;
+  border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);
+  font:500 15px/1.35 var(--sans)}
+.cn-n:last-child{border-bottom:0}
+.cn-n::before{content:"";position:absolute;left:0;top:1.05em;width:6px;height:1px;
+  background:var(--line)}
+.cn-n:hover{text-decoration:underline}
+/* THE PIN'S BOX IS RESERVED (20 October 2026: a 0.0006 shift on .cn-pinwrap in one throttled read in forty). Its
+   width and height are fixed whether or not a web font has arrived, and on a phone the head is a two-column grid with the
+   pin pinned to the top of the second column, so the title's width or wrap can never move it. */
+.cn-pinwrap{margin-left:auto;flex:0 0 auto;display:block}
+.cn-pin{white-space:nowrap;box-sizing:border-box;height:36px;min-width:96px;text-align:center}
+@media (max-width:900px){.cn-pin{height:44px}}
+@media (max-width:600px){
+  .cn-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;column-gap:14px}
+  .cn-head .bar{display:none}
+  .cn-head .cn-pinwrap{margin-left:0;align-self:start}
+}
+.t1-a{color:inherit;text-decoration:none}
+.t1-a:hover .t1-name,.t1-a:hover{text-decoration:underline}
+
+/* ---- C-L4: the pinned-coin mini-board --------------------------------------
+   A reader's own coins, above the Board, with a seven-day line each. It is
+   hidden until the script finds pins, so a reader who has pinned nothing sees
+   the page that has always been there. */
+.cb-mini{margin:0 0 18px}
+.cb-mini-in{display:flex;flex-wrap:wrap;align-items:center;gap:0;
+  border:1px solid var(--line);border-radius:10px;background:var(--card);
+  overflow:hidden}
+.cm-row{display:flex;align-items:center;gap:10px;padding:10px 16px;flex:0 0 auto;
+  text-decoration:none;border-right:1px solid var(--line);white-space:nowrap}
+.cm-row:hover{background:var(--paper);text-decoration:none}
+.cm-s{font:700 11.5px/1 var(--mono);letter-spacing:.06em}
+.cm-p{font-variant-numeric:tabular-nums;font-size:14px}
+.cm-c{font:600 12px/1 var(--mono);font-variant-numeric:tabular-nums}
+.cm-up,.cm-k.cm-up{color:var(--up)}
+.cm-dn,.cm-k.cm-dn{color:var(--down)}
+.cm-flat,.cm-k.cm-flat{color:var(--muted)}
+.cm-k{display:block;flex:0 0 auto}
+.cm-all{margin-left:auto;padding:10px 16px;flex:0 0 auto;
+  font:600 12px/1 var(--sans);white-space:nowrap}
+@media (max-width:640px){
+  .cb-mini-in{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .cb-mini-in::-webkit-scrollbar{display:none}
+  .cm-all{display:none}
+}
+
+/* ---- C-L5: provenance on tap ----------------------------------------------
+   One control per tile, sitting above the tile's own stretched link so a tap on
+   it opens the source rather than following the link. Closed it is a word; open
+   it is a name and a time. */
+.tp{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.tp>summary{cursor:pointer;color:var(--muted);list-style:none;padding:2px 0;
+  display:inline-block}
+.tp>summary::-webkit-details-marker{display:none}
+.tp>summary:hover{color:var(--ink)}
+.tp>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tp[open]>summary{color:var(--ink)}
+.tp-b{display:block;margin-top:4px;font:500 11px/1.4 var(--mono);
+  letter-spacing:.02em;text-transform:none;color:var(--muted)}
+/* CR-2: the Board's sub-row carries the way into the Top 100 and the way to read
+   the Board. Two quiet links, not two buttons. */
+.bd-subrow{display:flex;align-items:baseline;gap:18px;flex:0 0 auto;margin-left:auto}
+@media (max-width:640px){.bd-subrow{gap:14px}}
+
+/* ---- D-5: the phone's first screen is the Board ----------------------------
+   At 375 the first screen was the family line, the date line, the logo, the nav
+   and the strip, and the reader scrolled to reach a number. The Board is the
+   product; its first tile belongs above the fold. The family line comes off the
+   phone (the footer carries it, which is the same ruling the copy pass made for
+   the Sports masthead) and the date sits with the meta row it already shares. */
+@media (max-width:640px){
+  .masthead .mh-family{display:none}
+  .masthead .mh-top{gap:4px}
+  .mh-brand{margin-top:2px}
+  .markets{padding-top:6px;padding-bottom:6px}
+}
+
+/* D-5: four coins on a 375 phone. One tick was all that fitted, because a tick
+   lays out symbol, price and change on one line and a real price is wide. The
+   value is not abbreviated, which would put a different number in the strip from
+   the one on the tile; the tick stacks instead, so four fit and every one of them
+   reads exactly what the Board reads. */
+@media (max-width:640px){
+  /* The "Markets · live · 5:57 PM ET" label held the first 196px of a 375 strip,
+     so one tick fitted. The label moves to its own line above the coins: the stamp
+     still says what it said, and the width goes to the prices. */
+  /* Wrapping the label to its own row fitted all eight coins and pushed the Board's
+     first number from 548 to 758, below the fold, which is the thing D-5 is actually
+     for. The label stays in the row and gets shorter instead: the strip's stamp was
+     saying what the tile's own "live · 5:59 PM ET" now says, so it comes off the
+     phone and the width goes to the prices. */
+  /* SHOWN, NEVER HIDDEN (Jack, 6 October 2026). The tile's own live stamp left with the
+     data contract, so the strip's mark is the only thing on a phone that says the
+     prices are live, and the phone is most readers. It takes the stamp slot in the mono
+     at the tape's smallest size, "live · 8:21 PM ET", on the label's existing line, so
+     nothing else moves. scripts/ticker_mark_375.mjs reads it at 375. */
+  .markets .lab .mkt-asof{display:inline;font-size:10px}
+  .markets .lab{font-size:10px;padding-right:2px}
+  .markets .tick{display:inline-flex;flex-direction:column;align-items:flex-start;
+    gap:1px;padding:2px 10px;min-width:0}
+  .markets .tick .sym{font-size:10px;letter-spacing:.05em}
+  .markets .tick .px{font-size:12.5px;line-height:1.15}
+  .markets .tick .chg{font-size:10.5px;line-height:1.1}
+}
+/* CR-1: the picker is a hundred coins now, so it gets a filter and a height. */
+.pinbox-sheet .wl-filter{width:100%;box-sizing:border-box;margin:0 0 8px;padding:7px 10px;
+  border:1px solid var(--line);border-radius:7px;background:var(--paper);
+  font:500 13px/1.2 var(--sans);color:var(--ink)}
+.pinbox-sheet .wl-picks{max-height:210px;overflow-y:auto;display:flex;flex-wrap:wrap;gap:6px}
+
+
+/* E-2: THE WIRE. A log: one line per thing that happened, stamped and linked. The
+   type does the sorting, so the eye can run down the times without reading the rest. */
+.wr-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;margin-bottom:8px}
+.wr-head h1{margin:0}
+.wr-c{font-family:var(--mono);font-size:12px;color:var(--faint);
+  font-variant-numeric:tabular-nums}
+.wr-d{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint);margin:26px 0 8px;
+  padding-bottom:6px;border-bottom:1px solid var(--line)}
+.wr-l{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.wr-r{display:grid;grid-template-columns:72px 78px 1fr auto;align-items:baseline;
+  gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.wr-t{font-family:var(--mono);font-size:12px;color:var(--faint);white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.wr-k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.wr-k-final{color:var(--ink)}
+.wr-k-edition{color:var(--up)}
+.wr-x{color:var(--ink);text-decoration:none;font-size:15px;line-height:1.35;min-width:0}
+.wr-x:hover{text-decoration:underline}
+.wr-n{font-family:var(--mono);font-size:10.5px;color:var(--faint);white-space:nowrap}
+@media (max-width:640px){
+  /* The stamp and the kind ride together above the line on a phone: three columns of
+     fixed width leave a headline about 90px to live in. */
+  .wr-r{grid-template-columns:auto auto 1fr;grid-template-areas:"t k n" "x x x";
+    gap:4px 10px;padding:10px 0}
+  .wr-t{grid-area:t}
+  .wr-k{grid-area:k}
+  .wr-n{grid-area:n;justify-self:end}
+  .wr-x{grid-area:x;font-size:14.5px}
+}
+
+
+/* The filter buttons, shared with the Sports desk's lens so a reader who knows one
+   knows the other. On this desk's own tokens. */
+.lens{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 18px}
+.lens-k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--faint);margin-right:2px}
+.lens-b{appearance:none;background:none;border:1px solid var(--line);border-radius:999px;
+  padding:4px 12px;min-height:30px;color:var(--muted);font-family:var(--sans);
+  font-size:12.5px;font-weight:600;cursor:pointer}
+.lens-b:hover{color:var(--ink);border-color:var(--rule)}
+.lens-b.on{background:var(--card);border-color:var(--rule);color:var(--ink)}
+.lens-b:focus-visible{outline:2px solid var(--up);outline-offset:2px}
+@media (max-width:640px){
+  .lens-b{padding:0 14px;min-height:44px;font-size:13px}
+}
+
+
+/* K-1: the news front's chronological half. Same shape as the Wire, on the page tokens,
+   because a reader who has met one has met the other. */
+.nh-day{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint);margin:22px 0 8px;padding-bottom:6px;
+  border-bottom:1px solid var(--line)}
+.nh-l{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.nh-r{display:grid;grid-template-columns:76px 74px 1fr;align-items:baseline;gap:10px;
+  padding:9px 0;border-bottom:1px solid var(--line)}
+/* Scoped to the Latest rows (7 October 2026): unscoped, this also styled the storyline
+   titles (a.nh-t) as unwrapped 12px mono, and /news ran 403px wide at 375. */
+.nh-r .nh-t{font-family:var(--mono);font-size:12px;color:var(--faint);white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.nh-k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.nh-k-edition{color:var(--up)}
+.nh-k-board{color:var(--muted)}
+.nh-x{color:var(--ink);text-decoration:none;font-size:15px;line-height:1.35;min-width:0}
+.nh-x:hover{text-decoration:underline}
+.nh-wire{margin-top:14px}
+@media (max-width:640px){
+  .nh-r{grid-template-columns:auto auto;grid-template-areas:"t k" "x x";gap:4px 10px}
+  .nh-r .nh-t{grid-area:t} .nh-k{grid-area:k} .nh-x{grid-area:x;font-size:14.5px}
+}
+
+
+/* K-3: the Chart Master's charts. The page's whole subject is the tape, so the charts
+   get a scale, a date range and a caption in the desk's own voice. They scale with the
+   column rather than stretching, because a price line squashed to fit is a different
+   shape from the one the numbers make. */
+.cm-charts{display:flex;flex-direction:column;gap:22px;margin:14px 0 26px}
+.cm-fig{margin:0}
+.cm-chart{width:100%;height:auto;display:block;background:var(--card);
+  border:1px solid var(--line);border-radius:10px}
+.cm-cap{margin:8px 2px 0;font-size:13px;line-height:1.45;color:var(--muted)}
+.cm-cap b{color:var(--ink);font-weight:600}
+.cm-last{margin-bottom:10px}
+@media (max-width:640px){
+  .cm-charts{gap:18px}
+  .cm-cap{font-size:12.5px}
+}
+
+
+/* K-7's controls and readout were rewritten in Sprint 6.4 (system.css, .cc-*); .cn-stamp stays. */
+.cn-stamp{color:var(--faint)}
+
+/* The cadence line and the dark line (4 October 2026): one checked story a day. */
+.ed-cadence{font:400 12.5px/1.4 var(--mono);color:var(--muted);margin:4px 0 12px}
+.ed-dark{font:500 italic 18px/1.4 var(--serif);color:var(--ink);margin:6px 0 14px}
+.ed-dark .bd-stamp{font-style:normal;margin-left:6px}
+/* The wire on /news (7 October 2026): numbered, the desk's one line, the reading it touches,
+   the sources counted and linked, the stamp. No icons, no gradients. */
+.wl-list{list-style:decimal;margin:10px 0 0;padding:0 0 0 26px}
+.wl-i{padding:12px 0;border-bottom:1px solid var(--line)}
+.wl-i::marker{font:600 13px var(--mono);color:var(--faint)}
+.wl-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 4px}
+.wl-mark{font:700 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--line);padding:3px 8px;border-radius:3px}
+.wl-reads{font:400 11.5px/1.3 var(--mono);color:var(--muted)}
+.wl-line{font:500 17px/1.4 var(--serif);color:var(--ink);margin:0}
+.wl-note{font:400 15px/1.5 var(--sans);color:var(--ink);margin:6px 0 0}
+.wl-meta{font:400 12px/1.5 var(--mono);color:var(--muted);margin:6px 0 0}
+.wl-meta a{color:var(--link)}
+.wl-primary{color:var(--ink);font-weight:600}
+.wl-what{font:400 12.5px/1.5 var(--mono);color:var(--muted);margin:12px 0 0}
+/* The stored series' stamp (6 October 2026): figures computed from daily closes say how
+   far the closes run, and say stale once that is 48 hours or more behind the run. */
+.series-thru{font-family:var(--mono);font-size:11px;color:var(--faint);margin:8px 0 0}
+.series-thru .stale,.bd-stamp .stale,.w-sub .stale{color:var(--rule);font-weight:700}
+
+/* Program 8, Sprint 8.1: the daily answer, /today/ and /today/YYYY-MM-DD. Same tokens as the
+   Board: a change takes its color from its own sign (color truth), nothing else is colored. */
+.td-page{max-width:760px}
+body .td-stamp{font-family:var(--mono);font-size:12px;color:var(--muted);margin:0 0 18px}
+.td-answer{border-left:3px solid var(--rule);padding:2px 0 2px 16px;margin:0 0 8px}
+.td-answer p{font-family:var(--serif);font-size:20px;line-height:1.5;margin:0}
+.td-sec h2{font-size:22px}
+.td-h3{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 4px}
+.td-list{list-style:none;margin:0;padding:0}
+.td-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.td-n{font-weight:600;min-width:9em}
+.td-p,.td-f{font-family:var(--mono);font-weight:600}
+.td-w{font-size:12.5px;color:var(--muted)}
+.td-row .chg{font-family:var(--mono);font-size:14px;font-weight:700;white-space:nowrap}
+.td-row .chg.up,.td-f.up{color:var(--up)}
+.td-row .chg.down,.td-f.down{color:var(--down)}
+.td-reps{margin:0;padding-left:1.2em}
+.td-rep{padding:8px 0;border-bottom:1px solid var(--line)}
+.td-line{display:block;margin-bottom:2px}
+body .td-next{font-family:var(--mono);font-size:12.5px;font-weight:600;margin:22px 0 0}
+.td-arch ul{margin:0;padding-left:1.2em}
+.td-corr{border:1px solid var(--line);border-left:3px solid var(--rule);padding:8px 12px;font-size:14px}
+
+/* Program 9, Sprint 9.2: "What lined up with the move" (why_evidence.py) on /today/ and the Bitcoin
+   and Ether pages. Same tokens: a change takes its color from its own sign, the chart's line from
+   its own window. */
+body .ev-win{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:0 0 6px}
+.ev-run-l{font-size:15px;line-height:1.5;margin:0 0 6px}
+.ev-run-l .chg,.ev-mech .chg{font-family:var(--mono);font-weight:700;white-space:nowrap}
+.ev-run-l .chg.up,.ev-mech .chg.up{color:var(--up)}
+.ev-run-l .chg.down,.ev-mech .chg.down{color:var(--down)}
+.ev-fig{margin:10px 0 14px}
+.ev-chart{display:block;width:100%;max-width:480px;height:auto}
+.ev-cands{list-style:none;margin:0;padding:0}
+.ev-c{position:relative;padding:10px 0 10px 34px;border-bottom:1px solid var(--line)}
+.ev-n{position:absolute;left:0;top:10px;width:22px;height:22px;border:1px solid var(--ink);border-radius:50%;font:700 11px/20px var(--mono);text-align:center}
+.ev-l{display:block;font-weight:600;overflow-wrap:anywhere}
+.ev-rep,.ev-m,.ev-t,.ev-sec{display:block;font-size:13px;line-height:1.5;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}
+.ev-t{color:var(--ink)}
+.ev-sec{font-style:italic}
+.ev-f{font-family:var(--mono);font-size:13px}
+.ev-pat{font-size:14px;margin:10px 0 0}
+.ev-src{font-size:12px;line-height:1.5;color:var(--faint);margin:10px 0 0;overflow-wrap:anywhere}
+
+/* Program 9, Sprint 9.3: the verdict card (verdict.py), one shape on the home, /today/, the Bitcoin
+   and Ether pages and /why/<date>-<coin>. The card is the Bitcoin card's shape (radius 14, one
+   hairline, the glow shadow on the home only, flat off it as every card is), with no colored edge:
+   a red edge would read as a fall. Every rule is prefixed `body aside.vd` so the page's own `.page p`
+   and `.page h2` sizes cannot reach inside it, and the card measures the same on every page.
+   The grade is the site's chip (mono caps, the dot) and is told apart without color three ways:
+   its word, its dot (full, half, hollow, none) and its edge (filled, solid, dashed, dotted).
+   Grade chips take neutral tokens (ink, the tag tokens, the review tokens), never the up and down
+   colors nor the verified tokens, which system.css sets to the up green: a grade never reads as a
+   direction (Jack, October 12: never green beside a line that says Bitcoin is down). */
+body aside.vd{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:16px 18px 14px;margin:20px 0 8px;max-width:760px;min-width:0;overflow-wrap:anywhere}
+body.h-home aside.vd{margin:12px 0 14px;box-shadow:var(--glow-shadow)}
+body aside.vd h2.vd-h{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.25;
+  letter-spacing:-.005em;color:var(--ink);margin:0 0 3px;padding:0;border:0;text-transform:none}
+body aside.vd p{margin:0}
+body aside.vd p.vd-win{font-family:var(--mono);font-size:12px;line-height:1.5;color:var(--muted);
+  font-variant-numeric:tabular-nums;margin:0 0 12px}
+body aside.vd p.vd-grade{display:block;margin:0 0 10px}
+body aside.vd .vd-badge{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;
+  font-weight:600;letter-spacing:.08em;line-height:1.2;text-transform:uppercase;white-space:nowrap;
+  padding:4px 10px 4px 9px;border-radius:3px;border:1.5px solid transparent;background:transparent}
+body aside.vd .vd-badge b{font-weight:700}
+body aside.vd .vd-badge::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;
+  box-sizing:border-box;border:1.5px solid currentColor;background:transparent}
+body aside.vd .vd-badge.vd-confirmed{background:var(--tag-bg);color:var(--ink);border-color:var(--ink)}
+body aside.vd .vd-badge.vd-confirmed::before{background:currentColor}
+body aside.vd .vd-badge.vd-likely{color:var(--ink);border-color:var(--ink)}
+body aside.vd .vd-badge.vd-likely::before{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+body aside.vd .vd-badge.vd-disputed{background:var(--review-bg);color:var(--review-fg);border-color:var(--review-fg);
+  border-style:dashed}
+body aside.vd .vd-badge.vd-unclear{background:var(--tag-bg);color:var(--tag-fg);border-color:var(--tag-fg);
+  border-style:dotted}
+body aside.vd .vd-badge.vd-unclear::before{display:none}
+body aside.vd .vd-def{display:block;font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--muted);
+  margin:7px 0 0}
+body aside.vd p.vd-line{font-family:var(--serif);font-size:17px;line-height:1.5;color:var(--ink);margin:0}
+body aside.vd.vd-flat p.vd-line,body aside.vd.vd-with p.vd-line{font-size:18px;color:var(--ink)}
+body aside.vd p.vd-corr{border-top:1px solid var(--line);margin:12px 0 0;padding-top:10px;font-family:var(--sans);
+  font-size:13.5px;line-height:1.5;color:var(--ink)}
+body aside.vd p.vd-more{border-top:1px solid var(--line);margin:12px 0 0;padding-top:10px;font-family:var(--mono);
+  font-size:12px;line-height:1.4;font-weight:600}
+body aside.vd p.vd-more a{color:var(--link);display:inline-block;min-height:24px;line-height:24px}
+@media (min-width:700px){body aside.vd{padding:18px 22px 16px}body aside.vd h2.vd-h{font-size:22px}}
+/* the readings behind the grade (review 1): the hour named, its figures, its pattern */
+body aside.vd .vd-read{border-top:1px solid var(--line);margin:12px 0 0;padding-top:10px}
+body aside.vd p.vd-rh{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--muted);margin:0 0 6px}
+body aside.vd ul.vd-rows{list-style:none;margin:0 0 6px;padding:0;display:grid;grid-template-columns:1fr;gap:2px 18px}
+@media (min-width:700px){body aside.vd ul.vd-rows{grid-template-columns:1fr 1fr}}
+body aside.vd ul.vd-rows li{display:flex;justify-content:space-between;gap:10px;font-size:13px;line-height:1.5;
+  padding:3px 0;border-bottom:1px solid var(--line)}
+body aside.vd .vd-rn{color:var(--ink);min-width:0}
+body aside.vd ul.vd-rows .chg{font-family:var(--mono);font-weight:700;white-space:nowrap}
+body aside.vd ul.vd-rows .chg.up{color:var(--up)}
+body aside.vd ul.vd-rows .chg.down{color:var(--down)}
+body aside.vd p.vd-rp{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--ink);margin:0}
+/* the verdict page: an earlier slot's head sits close above its own card */
+body .vd-page .td-h3+aside.vd{margin-top:6px}
+/* Fix round 4 (Jack, J-7): the event the card names, and the one listed item it points at. Neutral tokens:
+   the marker is ink on the tag ground, never the up or down colors. */
+body aside.vd b.vd-ref{font-weight:600}
+.ev-c.ev-graded{background:var(--tag-bg);border-radius:6px;padding-left:40px;padding-right:8px;margin:2px 0}
+.ev-c.ev-graded .ev-n{left:6px}
+.ev-mark{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink);border:1px solid var(--ink);border-radius:3px;padding:1px 6px;margin:0 0 4px}
+body aside.vd.vd-withheld p.vd-line{color:var(--muted)}
+p.vd-plain{font-family:var(--serif);font-size:17px;line-height:1.5;color:var(--ink);margin:16px 0 8px}
+/* Sprint 9.4: Big movers, the ticker beside the coin's name, and the grade chip in its cell */
+.bm-tbl .bm-sym{margin-left:.4em;font-size:.8em;color:var(--muted,inherit);font-weight:400}
+.bm-tbl .bm-g{white-space:nowrap}

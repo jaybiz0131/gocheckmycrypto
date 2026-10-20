@@ -128,6 +128,7 @@ def _clip(text, n):
 # so it is a page of the same publication, and dark mode is the site's own.
 CSS = """
 .ed-sheet{max-width:1080px;margin:0 auto;padding:34px 22px 56px;font-family:var(--sans)}
+@media(min-width:1280px){.ed-sheet{max-width:1400px}}  /* Sprint 9.5b: the same width as the page wrapper */
 .ed-head{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:22px}
 .ed-head h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4.4vw,42px);
   line-height:1.1;letter-spacing:-.01em;margin:.2em 0 .3em;color:var(--ink)}
