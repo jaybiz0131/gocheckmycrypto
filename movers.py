@@ -111,7 +111,7 @@ def stats(cid, before_day, root=None, days=None):
     days = days or GATE["history_days"]
     a, b = history.load(cid, root), history.load("bitcoin", root)
     if not a:
-        return None, f"no stored daily closes (data/history/{cid}.json)"
+        return None, "the desk holds no stored daily closes for it"
     if not b:
         return None, "Bitcoin's stored daily closes are missing"
     ca, cb = a["closes"], b["closes"]
@@ -259,7 +259,9 @@ def crash(rows, btc24, measured, left_out):
         why.append(f"{n_past} top-100 coins past {GATE['move_min_pct']:g}%")
     return {"day": bool(why), "why": why, "btc_pct": btc24 if _num(btc24) else None, "market_pct": market,
             "past_move": n_past, "measured_past_move": len(past),
-            "with_market": sum(1 for x in past if not x["legs"]["excess"])}
+            # review 2: "within 6 points of what Bitcoin's move gives them" is the absolute excess, either way; a coin
+            # that moved far less than its beta gives fails the signed leg too, but is not within 6 points
+            "with_market": sum(1 for x in past if abs(x["excess_pts"]) < GATE["excess_min_pts"])}
 
 
 def bootstrap(board, before_day, fetch, now=None, root=None, limit=BOOTSTRAPS_PER_RUN, log=None,
@@ -977,24 +979,47 @@ def day_list(date_et, directory=None):
     return out
 
 
+# THE WORDS A COIN CANNOT BE CITED BY ON ITS OWN (review 2): a coin whose name or ticker is an ordinary English word
+# ("Story", "Flow", "Sonic", "NOT", "ONE", "Curve") links only beside a coin cue: its ticker or name in brackets, the
+# word token or coin, a $ before it, or a $ or % figure right after it. Lower case; the one place this list lives.
+COMMON_WORDS = frozenset("""
+act ai ape ark beam core cosmos curve dash dot flow gas graph hype immutable jupiter kite link
+maker magic mask max move near not one optimism plume polygon pump rain render sand sky sonic stable stellar story
+sun trump wild world zero
+""".split())
+_CUE_AFTER = re.compile(r"\s*(?:\(\$?[A-Za-z0-9]+\)|tokens?\b|coins?\b|(?:\w+\s+){0,2}[-+]?\$?\d[\d.,]*\s?%?)")
+
+
+def _cite_match(text, sym, name):
+    """The first unambiguous mention of the coin in plain text: (start, end) or None. Its full name (four letters or
+    more, as written) or its ticker (three letters or more, as written, a $ allowed before it); a name or ticker in
+    COMMON_WORDS counts only beside a coin cue."""
+    pats = []
+    if len(name or "") >= 4:
+        pats.append(r"(?<![A-Za-z0-9])" + re.escape(_e(name)) + r"(?![A-Za-z0-9])")
+    if len(sym) >= 3:
+        pats.append(r"(?<![A-Za-z0-9])\$?" + re.escape(sym) + r"(?![A-Za-z0-9])")
+    if not pats:
+        return None
+    for m in re.finditer("|".join(pats), text):
+        word = m.group(0).lstrip("$")
+        if word.lower() not in COMMON_WORDS:
+            return m.start(), m.end()
+        if m.group(0).startswith("$") or text[max(0, m.start() - 1):m.start()] == "$" or _CUE_AFTER.match(text[m.end():]):
+            return m.start(), m.end()
+    return None
+
+
 def cite(html_text, date_et, directory=None):
-    """The Brief's text with each coin on the day's Big movers list linked at its first mention: to its verdict, or
-    to its coin page where it has no graded verdict. Deterministic, no model call. Text inside a tag or an existing
-    link is never touched; a coin is matched by its name, or its ticker when it has three letters or more."""
+    """The Brief's text with each coin on the day's Big movers list linked at its first unambiguous mention: to its
+    verdict, or to its coin page where it has no graded verdict. Deterministic, no model call. Text inside a tag or an
+    existing link is never touched (_cite_match says what counts as a mention)."""
     try:
         lst = day_list(date_et, directory) if date_et else {}
         if not lst or not html_text:
             return html_text
         out = html_text
         for sym, (name, href) in lst.items():
-            pats = []
-            if len(name or "") >= 4:
-                pats.append(r"(?<![A-Za-z0-9])" + re.escape(_e(name)) + r"(?![A-Za-z0-9])")
-            if len(sym) >= 3:
-                pats.append(r"(?<![A-Za-z0-9$])" + re.escape(sym) + r"(?![A-Za-z0-9])")
-            if not pats:
-                continue
-            rx = re.compile("|".join(pats))
             parts = re.split(r"(<[^>]+>)", out)
             depth = 0
             for i, part in enumerate(parts):
@@ -1004,10 +1029,10 @@ def cite(html_text, date_et, directory=None):
                     elif re.match(r"</a\s*>", part, re.I):
                         depth = max(0, depth - 1)
                     continue
-                m = None if depth else rx.search(part)
-                if m:
-                    parts[i] = (part[:m.start()] + f'<a class="bm-cite" href="{_e(href)}">{m.group(0)}</a>'
-                                + part[m.end():])
+                hit = None if depth else _cite_match(part, sym, name)
+                if hit:
+                    a0, a1 = hit
+                    parts[i] = part[:a0] + f'<a class="bm-cite" href="{_e(href)}">{part[a0:a1]}</a>' + part[a1:]
                     break
             out = "".join(parts)
         return out

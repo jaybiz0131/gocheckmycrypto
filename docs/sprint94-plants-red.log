@@ -129,3 +129,21 @@ PLANT R1-15 review 1, the Brief cites: the memo keyed on file names only (movers
       FAIL THE BRIEF CITES: a coin on the list past the cap (no graded verdict) links to its coin page
 PLANT R1-16 review 1, the Bitcoin record's listing reason back to 'no single feed' (why_evidence.py): exit 1, 1 red; restored: exit 0
       FAIL TRUE REASONS: Bitcoin's and Ether's records no longer say listing notices have no single feed
+
+REVIEW 2 PLANTS, started Mon Oct 19 2026, 8:42 PM EDT, each broken, run, restored, run again; fresh PYTHONPYCACHEPREFIX per run.
+PLANT R2-1 review 2, crash count: the signed excess leg counted again (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL CRASH COUNT: SYNTHETIC (the reviewer's probe: Bitcoin -9.0%, INJ -10.5% against a predicted -17.23%, excess +6.73) the count is the coins within 6 points either way (9), INJ not among them (' A market-wide move (Bitcoin -9.00%, the Top 100 -5.02%): most coins moved with the market. 10 of the 10 measured coins ')
+PLANT R2-2 review 2, citations: the common-word list ignored (movers.py): exit 1, 3 red; restored: exit 0
+      FAIL cite: 'Story continues tonight: markets were calm.' links nothing
+      FAIL cite: 'The Flow of funds turned. Sonic speed, analysts said.' links nothing
+      FAIL cite: 'It is NOT clear, and ONE fund sold.' links nothing
+PLANT R2-3 review 2, citations: a $ before a word-ticker not taken as a cue (movers.py): exit 0, 0 red; restored: exit 0
+PLANT R2-4 review 2, citations: no cue after a word-name accepted (movers.py): exit 1, 2 red; restored: exit 0
+      FAIL cite: 'Story (IP) rose 20%.' links
+      FAIL cite: 'The Story token rose.' links
+PLANT R2-5 review 2, internals: a file path back in the left-out reason (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL /pulse/movers (APT left out): no code or file path in the visible text (['(data/history/aptos.json):'])
+PLANT R2-6 review 2, internals: the module name back in Bitcoin's not-read reason (why_evidence.py): exit 1, 1 red; restored: exit 0
+      FAIL Bitcoin's section (15 October): no code or file path in the visible text (['(movers.py));'])
+PLANT R2-3b review 2, citations: a $ before a word-ticker not taken as a cue (movers.py), rerun after a case whose only cue is the $ was added: exit 1, 1 red; restored: exit 0
+      FAIL cite: "$NOT led the day, by the desk's count." links

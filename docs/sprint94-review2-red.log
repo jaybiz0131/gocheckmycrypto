@@ -1,0 +1,187 @@
+Sprint 9.4 review 2 tests, red on the branch head f440790 (the reviewed code), before any fix. Shell date: Mon Oct 19 2026, 8:40 PM EDT.
+1. the gate, from the real 16 October Board and the stored closes
+  ok   16 October: TIA, INJ, ZRO, ETHFI and PENDLE pass, ranked by their volatility multiple (['TIA', 'INJ', 'ZRO', 'ETHFI', 'PENDLE'])
+  ok   TIA's three legs: +30.60%, 3.67x its 30-day daily volatility of 8.33%, +28.15 points beyond its Bitcoin beta of 1.653 with Bitcoin +1.48%
+  ok   ARB, APT, WLD, NEAR, ZEC, FIL and SEI fail on the volatility leg alone (they moved 10% or more and 6 points beyond their beta, under 2.5 times their usual day)
+  ok   SYNTHETIC (APT's stored closes removed): APT +14.03% is left out and said, never estimated
+  ok   the beta the gate uses is the one the section prints (why_evidence._beta on the same days)
+  ok   no stablecoin (12 on the Board) is ever measured
+  ok   Bitcoin and Ether are never measured here: their own cards grade them
+  ok   the line is the audit's, held once: 10%, 2.5x, 6 points, 30 days, 8 a slot, 10 a day
+  ok   the day's cap: with 8 reads made earlier today, 2 pass and 3 wait over the cap
+  ok   the day's cap: at 10 reads, none passes and all five are named over the cap
+  ok   SYNTHETIC (sixteen coins past the line): at most 8 a slot, the rest over the cap
+  ok   for two weeks every coin that fails the gate prints in the run log with its figures
+  ok   after November 2 the failing coins are counted, not listed
+  ok   SYNTHETIC (one stored close removed): a gap leaves the coin out and says so, never fills it
+  ok   19 October 4:30 PM ET (real): PUMP +11.46%, VVV +13.74% and CRV +10.13% fail the volatility leg, and no coin passes: the record says so
+2. the alt feeds and each mover's evidence, from the recorded answers
+  ok   a coin is named by its name or a ticker of three letters or more, also before a quote currency
+  ok   Kraken's blog item 'is available for trading' is a listing notice with its time
+  ok   16 October: the five movers each carry an evidence record
+  ok   the listing feeds read are named as read: Binance, OKX, KuCoin, Bitget, Kraken, Coinbase
+  ok   the feeds not read are named with their reason: Upbit, Bybit, governance votes
+  ok   token unlocks read from CoinMarketCap for TIA (its slug carries the ticker)
+  ok   ETHFI: CoinMarketCap's page at its CoinGecko slug is another token (EETH), so its unlocks are not read, and the reason says so
+  ok   TIA: every candidate names the coin (a market-wide event is Bitcoin's card's)
+  ok   INJ: every candidate names the coin (a market-wide event is Bitcoin's card's)
+  ok   ZRO: every candidate names the coin (a market-wide event is Bitcoin's card's)
+  ok   ETHFI: every candidate names the coin (a market-wide event is Bitcoin's card's)
+  ok   PENDLE: every candidate names the coin (a market-wide event is Bitcoin's card's)
+  ok   TIA's series is a venue's, and its move agrees with the Board's within 3 points
+  ok   TIA's beta prints in its readings and is the gate's
+  ok   SYNTHETIC (a venue moving +57.6% against the Board's +30.6%): its series is not taken, and the reason is named
+3. the market-move trigger, crypto only, at section 3.1's thresholds, inside the two-a-day cage
+  ok   on by default on this desk, at 3% inside 60 minutes and 5% inside 24 hours
+  ok   SYNTHETIC Bitcoin +2.99% in the hour: quiet
+  ok   SYNTHETIC Bitcoin +3.00% in the hour: fires
+  ok   SYNTHETIC Bitcoin -3.20% in the hour: fires
+  ok   SYNTHETIC the whole market -3.1% in the hour, Bitcoin -2.0%: fires on the market
+  ok   SYNTHETIC Bitcoin -4.99% over 24 hours: quiet
+  ok   SYNTHETIC Bitcoin -5.00% over 24 hours, not carried by the last Board: fires
+  ok   SYNTHETIC Bitcoin -6% over 24 hours that the last published Board already carried (-5.5%): quiet
+  ok   SYNTHETIC the market +5.4% over 24 hours after a Board that carried -5.2%: fires (a new move)
+  ok   SYNTHETIC an unreadable reading never fires
+  ok   SYNTHETIC between slots only: a 4% hour at 7:30 PM ET, the Edition stays quiet (the slot reports it)
+  ok   SYNTHETIC between slots only: a 4% hour at 8:00 AM ET, the morning read stays quiet (the slot reports it)
+  ok   the recorded reads give Bitcoin's hour and day and the Top 100's ({'BTC': (-0.04241949149469708, 1.4297196900849132), 'market': (-0.19, 1.65)})
+  ok   the old price triggers (any major, 5% an hour, 4% a day) stay off
+  ok   the cage: with no breaking run today, a 3.4% hour fires a breaking run, run 1 of 2
+  ok   the cage: with one breaking run today, it fires as run 2 of 2
+  ok   the cage: at two breaking runs today it stays quiet and makes no read at all
+  ok   inside a slot's span the trigger makes no read and fires nothing
+4. the verdicts and the spend against the $1.50 cap at ten coin reads (9.3's reservation, API mocked)
+  ok   three runs on one day make 5, 5 and 0 coin reads: ten, the day's cap ([5, 5, 0])
+  ok   every model attempt was reserved before it was made and settled after (20 calls)
+     ten coin reads: settled $0.0567 at the mocked usage (1,200 in, 300 out a call); reserved worst case $0.6223; cap $1.50
+  ok   ten coin reads stay inside the $1.50 day cap even at every call's worst case
+  ok   the movers' calls go to the same ledger and the same models as Bitcoin's (Haiku 5.5 drafts, Sonnet 5.5 checks)
+  ok   TIA's verdict is graded in code and its two checked sentences print (Unclear, model)
+  ok   a mover's card names its window as the gate measured it: over the last 24 hours
+  ok   SYNTHETIC (the day at $1.45): no mover's check is made past the cap; each verdict is withheld, no grade, no URL ({'TIA': ('withheld', None, None), 'INJ': ('withheld', None, None), 'ZRO': ('withheld', None, None), 'ETHFI': ('withheld', None, None), 'PENDLE': ('withheld', None, None)})
+  ok   the withheld card says the desk's check did not run, never a guess
+  ok   an automatic retry is reserved before it is made: the failed attempt is a row of its own (unbilled), then the retry's
+5. no card below the gate: a coin that did not pass gets no card, no grade and no URL
+  ok   16 October ARB (failed or left out): its page carries no card, no section, no grade word
+  ok   16 October WLD (failed or left out): its page carries no card, no section, no grade word
+  ok   16 October NEAR (failed or left out): its page carries no card, no section, no grade word
+  ok   16 October APT (failed or left out): its page carries no card, no section, no grade word
+  ok   16 October SEI (failed or left out): its page carries no card, no section, no grade word
+  ok   only the graded movers have /why/ pages (['/why/2026-10-16-celestia', '/why/2026-10-16-ether-fi', '/why/2026-10-16-injective-protocol', '/why/2026-10-16-layerzero', '/why/2026-10-16-pendle'])
+  ok   19 October (real): VVV, +13.74% but under 2.5 times its usual day, gets no card
+6. the coin page and the /why/ page of a mover: no fact twice, every name points at one listed item
+  ok   TIA, graded line: its page carries the card above the readings and the section
+  ok   TIA, graded line, coin page: no fact in both (none)
+  ok   TIA, model text: its page carries the card above the readings and the section
+  ok   TIA, model text, coin page: no fact in both (none)
+  ok   INJ, graded line: its page carries the card above the readings and the section
+  ok   INJ, graded line, coin page: no fact in both (none)
+  ok   INJ, model text: its page carries the card above the readings and the section
+  ok   INJ, model text, coin page: no fact in both (none)
+  ok   ZRO, graded line: its page carries the card above the readings and the section
+  ok   ZRO, graded line, coin page: no fact in both (none)
+  ok   ZRO, model text: its page carries the card above the readings and the section
+  ok   ZRO, model text, coin page: no fact in both (none)
+  ok   ETHFI, graded line: its page carries the card above the readings and the section
+  ok   ETHFI, graded line, coin page: no fact in both (none)
+  ok   ETHFI, model text: its page carries the card above the readings and the section
+  ok   ETHFI, model text, coin page: no fact in both (none)
+  ok   PENDLE, graded line: its page carries the card above the readings and the section
+  ok   PENDLE, graded line, coin page: no fact in both (none)
+  ok   PENDLE, model text: its page carries the card above the readings and the section
+  ok   PENDLE, model text, coin page: no fact in both (none)
+  ok   SYNTHETIC TIA, a Binance listing 30 minutes before the run: graded in code (Likely) and named by subject (['the Binance listing notice, as Binance reported it'])
+  ok   SYNTHETIC /coins/tia: no fact in both (none), and each named event points at exactly one listed item (one)
+  ok   SYNTHETIC /why/2026-10-16-celestia: no fact in both (none), and each named event points at exactly one listed item (one)
+  ok   /why/2026-10-16-celestia: the card and the section, no fact in both (none)
+  ok   /why/2026-10-16-celestia: canonical at its own URL, linked to the coin page
+  ok   /why/2026-10-16-ether-fi: the card and the section, no fact in both (none)
+  ok   /why/2026-10-16-ether-fi: canonical at its own URL, linked to the coin page
+  ok   /why/2026-10-16-injective-protocol: the card and the section, no fact in both (none)
+  ok   /why/2026-10-16-injective-protocol: canonical at its own URL, linked to the coin page
+  ok   /why/2026-10-16-layerzero: the card and the section, no fact in both (none)
+  ok   /why/2026-10-16-layerzero: canonical at its own URL, linked to the coin page
+  ok   /why/2026-10-16-pendle: the card and the section, no fact in both (none)
+  ok   /why/2026-10-16-pendle: canonical at its own URL, linked to the coin page
+  ok   a second record the same day keeps every URL; the page carries the day's newest verdict
+  ok   the build writes the movers' /why/ pages beside Bitcoin's and hands them to the sitemaps
+  ok   every mover's /why/ URL is in the news sitemap inside its 48 hours
+  ok   Big movers lists the five in order of the volatility multiple (['TIA', 'INJ', 'ZRO', 'ETHFI', 'PENDLE'])
+  ok   each row carries its 24h move, its excess over Bitcoin, its usual-day multiple, its volume against its 7-day average (or 'not read') and its grade linked to its /why/ page
+  ok   the 24h column is the first after the name
+  ok   APT and SEI, which failed the gate, are not in Big movers
+  ok   a coin in Big movers is not listed again in the gainers below (one fact, printed once)
+  ok   19 October (real): no coin passed, so the list says so rather than padding
+7. the step keeps a time budget and fails open
+  ok   past the evidence budget every source not yet read is skipped and named 'not read in time', and the record is still written
+  ok   with the step's budget spent, each mover keeps its graded line and no model call is made
+  ok   the budgets: 45 seconds for history reads, 150 for evidence, 300 for the step inside the workflow's 360
+8. wired into both workflows after verdict.py, with a timeout, never a gate; the trigger's settings
+  ok   morning-read.yml: runs movers.py --write after verdict.py, with a timeout, never as a gate
+  ok   morning-read.yml: commits the movers records
+  ok   crypto-news-brief.yml: runs movers.py --write after verdict.py, with a timeout, never as a gate
+  ok   crypto-news-brief.yml: commits the movers records
+  ok   the Edition's step tells a breaking run so, which writes its own record
+  ok   watcher.yml passes the market trigger's three settings
+  ok   movers.py carries no em or en dash
+  ok   watcher.py carries no em or en dash
+  ok   why_evidence.py carries no em or en dash
+  ok   verdict.py carries no em or en dash
+  ok   scripts/sprint94_test.py carries no em or en dash
+9. review 1: one list, the Brief's citations, the crash-day line, the cap said, true reasons, direction
+  ok   ONE LIST: /pulse/movers prints Big movers and no 'Biggest gainers' or 'Biggest losers' list
+  ok   ONE LIST: with no current movers record the page says so, and still prints no old list
+  ok   Movers 101 never says 'because' (only a Confirmed verdict may)
+  ok   ONE RANK: Big movers prints TIA at #80, its place in the Board's Top 100, as /coins/tia does, with the source and the Board's stamp named
+  ok   SYNTHETIC (a 101st row with TIA's figures and a source rank of 60): outside the Board's 100 positions, never measured
+  ok   PAST THE CAP: after 8 reads today, ZRO +20.59%, ETHFI +15.53% and PENDLE +11.20% are still listed, ungraded
+  ok   PAST THE CAP: a line names both caps (8 a reading, 10 a day) and the coins held back
+  ok   PAST THE CAP: listed() carries the coins past the cap
+  ok   LEFT OUT: SYNTHETIC (a gap in TIA's closes, APT's closes removed) the list prints TIA's own reason (a gap) and APT's own (no stored closes), not one fixed sentence
+  ok   CRASH DAY: 16 October (real, Bitcoin +1.48%, ten coins past 10%) is no crash day: no line
+  ok   CRASH DAY: SYNTHETIC (Bitcoin set to +9.0% on the real Board) the section says once that most coins moved with the market, with the count, and points at Bitcoin's verdict
+  ok   CRASH DAY: the definition is held once, by the audit's numbers (Bitcoin or the market 5% in 24 hours, or 25 or more top-100 coins past 10%)
+  ok   THE BRIEF CITES: on the Edition's page, Celestia links to its verdict, once
+  ok   THE BRIEF CITES: Injective and Pendle link to their verdicts; Arbitrum (not on the list) is not linked
+  ok   THE BRIEF CITES: a coin on the list past the cap (no graded verdict) links to its coin page
+  ok   THE BRIEF CITES: the Edition's front page cites the same way
+  ok   THE BRIEF CITES: a Brief of another day (no Big movers record) links no coin
+  ok   COINBASE: its status feed (status.exchange.coinbase.com/history.rss) is read as a listing feed
+  ok   TRUE REASONS: governance is named as not wired, with Snapshot's hub said to answer
+  ok   COINBASE: 'Markets Open' is a listing, 'Trading Suspension' a delisting, a delayed send neither
+  ok   TRUE REASONS: Bitcoin's and Ether's records no longer say listing notices have no single feed
+9b. the readings agree by direction: a listing with a rise; a delisting, an unlock or a hack with a fall
+  ok   listing on a move up: the readings agree
+  ok   listing on a move down: the readings contradict
+  ok   delisting on a move up: the readings contradict
+  ok   delisting on a move down: the readings agree
+  ok   unlock on a move up: the readings contradict
+  ok   unlock on a move down: the readings agree
+  ok   hack on a move up: the readings contradict
+  ok   hack on a move down: the readings agree
+  ok   SYNTHETIC TIA +30.6% with an unlock in time and no other cause: no Likely; the rulings give no grade, so no card (no_verdict, None)
+  ok   WORDS: an unlock is 'scheduled', as CoinMarketCap lists it; a listing is 'announced'; neither is 'reported'
+10. review 2: the crash count says what it measures; citations never link a common word; no internals
+  FAIL CRASH COUNT: SYNTHETIC (the reviewer's probe: Bitcoin -9.0%, INJ -10.5% against a predicted -17.23%, excess +6.73) the count is the coins within 6 points either way (9), INJ not among them (' A market-wide move (Bitcoin -9.00%, the Top 100 -5.02%): most coins moved with the market. 10 of the 10 measured coins ')
+  ok   CRASH COUNT: SYNTHETIC (every coin 7 points past what its beta gives, a crash day): no coin is within 6 points, so the line that most moved with the market does not print
+10b. citations: an unambiguous match only; a coin whose name or ticker is a common word needs a coin cue
+  FAIL cite: 'Story continues tonight: markets were calm.' links nothing
+  FAIL cite: 'The Flow of funds turned. Sonic speed, analysts said.' links nothing
+  FAIL cite: 'It is NOT clear, and ONE fund sold.' links nothing
+  ok   cite: 'Story (IP) rose 20%.' links
+  ok   cite: 'The Story token rose.' links
+  FAIL cite: '$NOT jumped 15% after the listing.' links
+  ok   cite: 'Celestia rose 30%.' links
+  FAIL the common-word list is held in one named place [AttributeError: module 'movers' has no attribute 'COMMON_WORDS']
+10c. no code or file path in the text a reader sees, on the pages this sprint touches
+  FAIL /pulse/movers (APT left out): no code or file path in the visible text (['(data/history/aptos.json):'])
+  ok   /coins/tia: no code or file path in the visible text (none)
+  ok   /why/2026-10-16-celestia: no code or file path in the visible text (none)
+  ok   /why/2026-10-16-ether-fi: no code or file path in the visible text (none)
+  ok   /why/2026-10-16-injective-protocol: no code or file path in the visible text (none)
+  ok   /why/2026-10-16-layerzero: no code or file path in the visible text (none)
+  ok   /why/2026-10-16-pendle: no code or file path in the visible text (none)
+  FAIL Bitcoin's section (15 October): no code or file path in the visible text (['(movers.py));'])
+
+SPRINT 9.4: FAIL (8 failure(s))
+exit 1

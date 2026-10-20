@@ -867,11 +867,114 @@ def review1_cases(fails):
                 and "announced" in verdict._ref_full(lst, 1792100000, 1792153013, verdict.named(lst, [lst])))
 
 
+# ---- 10. review 2 (Monday October 19, 2026, 8:36 PM): the crash count, the citations, no internals on pages ------
+
+def _crash_board(td, inj=None, offset=-1.0):
+    """SYNTHETIC (the reviewer's probe, /tmp/claude-0/runs/r94b/crash.py, on the real 16 October Board and stored
+    closes): Bitcoin set to -9.0%; each measured coin's move set to what its own beta gives plus `offset`; INJ set to
+    `inj` when given."""
+    import movers
+    root = hist_root(td, load(HIST16))
+    b = copy.deepcopy(load(BOARD16))
+    rows = b["movers"]["top100"]
+    for r in rows:
+        if r["symbol"] == "BTC":
+            r["chg_24h_pct"] = -9.0
+    for r in rows:
+        if r["symbol"] in ("BTC", "ETH"):
+            continue
+        st, _ = movers.stats(r.get("gecko_id") or "", BEFORE16, root)
+        if not st:
+            continue
+        r["chg_24h_pct"] = inj if (r["symbol"] == "INJ" and inj is not None) else round(st["beta"] * -9.0 + offset, 2)
+    return b, root
+
+
+def review2_cases(fails):
+    import movers
+    import site_build as sb
+    import why_evidence as we
+    t = s93()
+    print("10. review 2: the crash count says what it measures; citations never link a common word; no internals")
+    with tempfile.TemporaryDirectory() as td:
+        b, root = _crash_board(td, inj=-10.5)
+        g = movers.gate(b, BEFORE16, root, 0, now=dt.datetime(2026, 10, 16, 12, 30, tzinfo=UTC))
+        inj = next(x for x in g["failed"] + g["passed"] if x["sym"] == "INJ")
+        rec = {"gate": g, "window": {"end_utc": b["generated_utc"]}, "coins": {}, "date_et": DAY16}
+        line = t.visible(" ".join(re.findall(r'<p class="bm-crash">.*?</p>', movers.list_html(rec, b["generated_utc"]),
+                                             re.S)))
+        within = [x for x in g["failed"] + g["passed"] if x["legs"]["move"] and abs(x["excess_pts"]) < 6]
+        m = re.search(r"(\d+) of the (\d+) measured coins", line)
+        guarded(fails, f"CRASH COUNT: SYNTHETIC (the reviewer's probe: Bitcoin -9.0%, INJ -10.5% against a predicted "
+                       f"{inj['predicted_pct']}%, excess {inj['excess_pts']:+.2f}) the count is the coins within 6 points "
+                       f"either way ({len(within)}), INJ not among them ({line[:120]!r})",
+                lambda: m and int(m.group(1)) == len(within) and abs(inj["excess_pts"]) >= 6
+                and "INJ" not in [x["sym"] for x in within])
+        b2, root2 = _crash_board(td, offset=-7.0)
+        g2 = movers.gate(b2, BEFORE16, root2, 0, now=dt.datetime(2026, 10, 16, 12, 30, tzinfo=UTC))
+        rec2 = {"gate": g2, "window": {"end_utc": b2["generated_utc"]}, "coins": {}, "date_et": DAY16}
+        h2 = movers.list_html(rec2, b2["generated_utc"])
+        guarded(fails, "CRASH COUNT: SYNTHETIC (every coin 7 points past what its beta gives, a crash day): no coin is "
+                       "within 6 points, so the line that most moved with the market does not print",
+                lambda: g2["crash"]["day"] and 'class="bm-crash"' not in h2)
+
+    print("10b. citations: an unambiguous match only; a coin whose name or ticker is a common word needs a coin cue")
+    with tempfile.TemporaryDirectory() as td:
+        # SYNTHETIC day lists: names and tickers that are English words, handed to cite() as its day list
+        lst = {"IP": ("Story", "/why/x-story"), "FLOW": ("Flow", "/coins/flow.html"), "S": ("Sonic", "/coins/s.html"),
+               "NOT": ("Notcoin", "/coins/not.html"), "ONE": ("Harmony", "/coins/one.html"),
+               "TIA": ("Celestia", "/why/x-celestia")}
+        old = movers.day_list
+        movers.day_list = lambda d, directory=None: lst
+        try:
+            cases = {
+                "Story continues tonight: markets were calm.": False,
+                "The Flow of funds turned. Sonic speed, analysts said.": False,
+                "It is NOT clear, and ONE fund sold.": False,
+                "Story (IP) rose 20%.": True,
+                "The Story token rose.": True,
+                "$NOT jumped 15% after the listing.": True,
+                "$NOT led the day, by the desk's count.": True,
+                "Celestia rose 30%.": True,
+            }
+            for text, linked in cases.items():
+                out = movers.cite(text, DAY16)
+                guarded(fails, f"cite: {text!r} {'links' if linked else 'links nothing'}",
+                        lambda: ('class="bm-cite"' in out) == linked)
+        finally:
+            movers.day_list = old
+        guarded(fails, "the common-word list is held in one named place", lambda: "story" in movers.COMMON_WORDS
+                and "not" in movers.COMMON_WORDS)
+
+    print("10c. no code or file path in the text a reader sees, on the pages this sprint touches")
+    with tempfile.TemporaryDirectory() as td:
+        r = graded16(td)
+        board = load(BOARD16)
+        hdir = os.path.join(td, "history")
+        os.rename(os.path.join(hdir, "aptos.json"), os.path.join(td, "aptos.hold"))
+        gl = movers.gate(board, BEFORE16, hdir, 0, now=dt.datetime(2026, 10, 16, 12, 30, tzinfo=UTC))
+        os.rename(os.path.join(td, "aptos.hold"), os.path.join(hdir, "aptos.json"))
+        rl = dict(r, gate=dict(r["gate"], left_out=gl["left_out"]))
+        mdir = os.path.join(td, "movers")
+        os.makedirs(mdir)
+        json.dump(r, open(os.path.join(mdir, f"{DAY16}-morning.json"), "w"))
+        pages = {"/pulse/movers (APT left out)": sb.render_pulse_movers(dict(board), "D", movers_rec=rl),
+                 "/coins/tia": _coin_page("TIA", r)}
+        pages.update({"/" + x["rel"][:-5]: x["html"] for x in movers.build_pages(mdir)})
+        btc = s93().rec(s93().D15())
+        pages["Bitcoin's section (15 October)"] = we.section_html(btc, "BTC", live=False)
+        for name, html in pages.items():
+            v = t.visible(re.sub(r"<script.*?</script>|<style.*?</style>", " ", html, flags=re.S))
+            hits = re.findall(r"\S*(?:\.py\b|data/)\S*", v)
+            guarded(fails, f"{name}: no code or file path in the visible text ({hits[:3] or 'none'})", lambda: not hits)
+
+
 def unit():
     fails = []
     for name, fn in (("gate", gate_cases), ("evidence", evidence_cases), ("trigger", trigger_cases),
                      ("spend", spend_cases), ("no card", no_card_cases), ("pages", page_cases),
-                     ("budget", budget_cases), ("wiring", wiring_cases), ("review 1", review1_cases)):
+                     ("budget", budget_cases), ("wiring", wiring_cases), ("review 1", review1_cases),
+                     ("review 2", review2_cases)):
         group(fails, name, fn)
     return fails
 
