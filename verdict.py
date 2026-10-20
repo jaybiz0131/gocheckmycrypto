@@ -1209,9 +1209,11 @@ def _readings_html(rd, text, rows=True, with_section=False):
 SLOT_LABEL = {"morning": "Morning Brief", "evening": "Evening Brief"}
 
 
-def build_pages(vdir=None, wdir=None, tdir=None, dateline=""):
+def build_pages(vdir=None, wdir=None, tdir=None, dateline="", share=None):
     """[{rel, html, path, lastmod, published_utc, title}] for every graded verdict: one URL per day and
-    coin, kept once it exists. The page carries the day's newest graded verdict and its evidence."""
+    coin, kept once it exists. The page carries the day's newest graded verdict and its evidence.
+    `share` (share_cards.Ctx, Sprint 9.6): when it names a directory the page's own square image is drawn there and
+    the page's Open Graph and Twitter tags name it; without it the page is the page it was."""
     by_day = {}
     for n in _names(vdir):
         r = load(n[:10], n[11:-5], vdir)
@@ -1225,13 +1227,13 @@ def build_pages(vdir=None, wdir=None, tdir=None, dateline=""):
             if not graded:
                 continue
             try:
-                out.append(_page(day, sym, recs, graded[0], vdir, wdir, tdir, dateline))
+                out.append(_page(day, sym, recs, graded[0], vdir, wdir, tdir, dateline, share))
             except Exception as e:                               # noqa: BLE001
                 print(f"::warning::verdict: /why/{slug(day, sym)} was not built ({type(e).__name__}: {e})")
     return out
 
 
-def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline):
+def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline, share=None):
     import site_build as sb
     we = _we()
     name = NAMES[sym][0]
@@ -1271,8 +1273,10 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline):
                       "url": sb.ORIGIN + "/",
                       "logo": {"@type": "ImageObject", "url": sb.ORIGIN + "/publisher-logo-512.png",
                                "width": 512, "height": 512}}}]}, ensure_ascii=False)
+    import share_cards
+    og = share_cards.for_page(share, lead, sym, ev, slug(day, sym), day, [r.get("slot") for r in recs], corr)
     html = sb.shell(f"{title} - {sb.NAME}", desc, "Today", body, dateline, path=path, og_type="article",
-                    schema_extra=f'\n<script type="application/ld+json">{schema}</script>')
+                    schema_extra=f'\n<script type="application/ld+json">{schema}</script>', **og)
     return {"rel": f"why/{slug(day, sym)}.html", "html": html, "path": url(day, sym), "lastmod": pub,
             "published_utc": min(r.get("made_utc") or pub for r in recs), "title": title}
 

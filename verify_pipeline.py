@@ -2052,6 +2052,7 @@ def _stamp_canary():
             fails.extend(_sprint93_canary(out))
             fails.extend(_sprint94_canary(out))
             fails.extend(_sprint95_canary(out))
+            fails.extend(_sprint96_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -3290,6 +3291,29 @@ def _sprint95_canary(out):
         fails += ["sprint 9.5: " + f for f in _s95.tree(out)]
     finally:
         for m in ("sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint96_canary(out):
+    """PROGRAM 9, SPRINT 9.6 (20 October 2026): the share loop, re-aimed. scripts/sprint96_test.py holds the cases (the
+    square card from the real 14 and 15 October records and two SYNTHETIC grades, the Open Graph and Twitter tags on a verdict
+    URL, the queue entry in the publicist's shape, no card for a verdict at the next read or one withheld at the cap, the
+    day card that says no verdict was graded, no grade word or 'because' or figure on a card that its page lacks, color
+    truth in the ops and in the pixels, 1080 by 1080, deterministic, the wiring) and the cases that read the tree this build
+    wrote (every /why/ page's og:image is its own square image, present in the tree). The helpers are taken out of
+    sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint96_test as _s96
+        fails = ["sprint 9.6: " + f for f in _s96.unit()]
+        fails += ["sprint 9.6: " + f for f in _s96.tree(out, expect_pages=True)]
+    finally:
+        for m in ("sprint96_test", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
             _sys.modules.pop(m, None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
