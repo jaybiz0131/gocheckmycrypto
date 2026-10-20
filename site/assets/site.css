@@ -2077,5 +2077,11 @@ p.vd-plain{font-family:var(--serif);font-size:17px;line-height:1.5;color:var(--i
   body .cc-cap{max-width:none}
   .rc-w>svg{max-width:1040px!important;margin-left:auto;margin-right:auto}
   .board-grid .chartcard svg .ax,.board-grid .chartcard svg .sym,.board-grid .chartcard svg .val{font-size:15px}
+  /* the designer's pass: (5) a reading page (.wrap.narrow: articles, Learn, the trust pages) keeps the 720 column it has at
+     every desktop width, so its masthead, nav and footer widen and its text does not move; (6) a rule that closes a card
+     runs the card's width, as the rule above it does, not the prose measure's */
+  .wrap.narrow{max-width:720px}
+  html :where(.wrap.narrow) :is(p,li,dd,blockquote,figcaption){max-width:none}
+  body aside.vd p.vd-more{max-width:none}
 }
 /* ===== end Sprint 9.5b ===== */

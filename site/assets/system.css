@@ -688,7 +688,7 @@ body .h-eline{display:none}
   body .h-l>[data-block="since"]{grid-column:2;grid-row:3 / span 3}
   body .h-l>[data-block="why"]{grid-column:1;grid-row:4}
   body .h-l>[data-block="wire"]{grid-column:1;grid-row:5}
-  body .h-tape{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);column-gap:24px;align-items:center}
+  body .h-tape{display:grid;grid-template-columns:minmax(0,1fr) minmax(max-content,calc(50% - 18px));column-gap:24px;align-items:center}  /* Ether starts on the board's column line when its line fits there, and never wraps to find it */
   body .h-tape .h-bline{grid-column:1;grid-row:1}
   body .h-tape .h-eline{display:flex;grid-column:2;grid-row:1}
   body .h-tape .h-live{grid-column:1 / -1;grid-row:2;max-width:none}
