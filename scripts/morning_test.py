@@ -2,7 +2,7 @@
 """The fixture morning (Program 7, Sprint 7.2): Tuesday 13 October 2026, 8:30 AM ET.
 
 Last night's Edition is Monday's evening Brief. Case A: the morning read ran at 8:17 AM, so
-the Brief card must read "THE BRIEF · TUESDAY MORNING", carry the read, quote no change and
+the Brief card must read "MORNING BRIEF · TUESDAY", carry the read, quote no change and
 name the real next slot. Case B: it did not run, so the card keeps Monday's Brief and says
 "Last night's Brief" with its time. On main, case A shows last night's Brief at 8:30 AM.
 
@@ -66,8 +66,8 @@ def main():
     print("A. the morning read ran (8:17 AM), the page is built at 8:30 AM")
     a = card(h, narr, snap, MORNING)
     print("   card:", " ".join(text(a).split())[:260])
-    check("THE BRIEF · TUESDAY MORNING" in a, fails, "the eyebrow names Tuesday morning")
-    check("MONDAY EVENING" not in a, fails, "the card is not last night's Brief")
+    check("MORNING BRIEF · TUESDAY" in a, fails, "the eyebrow names Tuesday morning")
+    check("EVENING BRIEF · MONDAY" not in a, fails, "the card is not last night's Brief")
     check(MORNING["headline"] in a and MORNING["sentences"][0] in a and MORNING["line"] in a,
           fails, "the headline, the sentences and the narrative line are on the card")
     check("Next Brief tonight at 7:08 PM ET" in a, fails, "the next slot is tonight at 7:08 PM ET")
@@ -75,7 +75,7 @@ def main():
     print("B. the morning run fell back, the page is built at 8:30 AM")
     b = card(h, narr, snap, None)
     print("   card:", " ".join(text(b).split())[:260])
-    check("MONDAY EVENING" in b, fails, "the card keeps Monday's Brief and names it")
+    check("EVENING BRIEF · MONDAY" in b, fails, "the card keeps Monday's Brief and names it")
     check("Last night's Brief, 7:16 PM ET" in b, fails, "it says Last night's Brief with its time")
     check("Next Brief tonight at 7:08 PM ET" in b, fails, "the next slot is tonight at 7:08 PM ET")
     print("C. clocks")

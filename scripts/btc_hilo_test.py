@@ -149,7 +149,7 @@ def fast_pages():
     real = sb.SNAP
     sb.SNAP = snap
     try:
-        return (home.tape(snap),
+        return (home.tape(snap) + home.bitcoin_card(snap),
                 sb.render_coin_chart(row, row.get("name") or "Bitcoin", row.get("gecko_id") or "bitcoin",
                                      row.get("spark7d") or []))
     finally:

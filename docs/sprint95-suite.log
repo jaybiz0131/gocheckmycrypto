@@ -1,0 +1,1197 @@
+Sprint 9.5 suite, Tue Oct 20 2026, 2:59 AM EDT, HEAD a3984cc plus this branch's working changes; tree-reading tests read a throwaway build of this tree at the scratchpad
+===== scripts/btc_hilo_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-i/site/publish (exit 0)
+home:      24h (81737.0, 83035.0)  7D hi/lo 83457.0/81061.0  unlabeled=False
+/coins/btc: 24h (81737.0, 83035.0)  7D hi/lo 83457.39/81060.92  unlabeled=False
+ok: one figure, one source
+===== scripts/canary_clean_test.py  (exit 0)
+canary_clean_test: PASS, git status is the same after the canary as before it
+===== scripts/chartmaster_publish_test.py (exit 0)
+
+== 2026-10-09: PUBLISHED  path=cut  model calls=2  reason='cut'
+   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-20T07:03:29Z"}
+   headline: Majors hold above their 200-day lines
+   - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
+   - Momentum is resting while the trend holds, which is a finding rather than a signal.
+
+== 2026-10-10: PUBLISHED  path=cut  model calls=2  reason='cut'
+   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-20T07:03:29Z"}
+   headline: Majors hold above their 200-day lines
+   - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
+   - Momentum is resting while the trend holds, which is a finding rather than a signal.
+
+== 2026-10-11: PUBLISHED  path=cut  model calls=2  reason='cut'
+   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-20T07:03:29Z"}
+   headline: Majors hold above their 200-day lines
+   - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
+   - Momentum is resting while the trend holds, which is a finding rather than a signal.
+   - Watch for the trend lines to cross, which would tell a reader the positioning picture changed.
+
+== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-20T07:03:29Z"}
+
+RESULT: all three published
+===== scripts/coin_pages_test.py --site /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-i/site/publish (exit 0)
+COIN PAGES: PASS
+===== scripts/color_truth_test.py  (exit 0)
+color truth: PASS, every color agrees with the number beside it
+===== scripts/etf_floor_test.py  (exit 0)
+A. tonight's digest: three drafts fail the ETF belt, the Edition still publishes
+twins gate: dropped from the Edition (ETF window belt): the ETF window belt still failed on the last repair; the sentence is dropped and the rest publishes: "Bitcoin spot ETF outflows persisted, and the desk's Board prints the figure with its stamp."
+::notice::wrap: the ETF window belt still failed on the last repair; dropped 1 ETF sentence(s) and publishing the rest
+  ok   the Edition is published instead of failing the wrap
+  ok   no sentence naming the ETFs is left
+  ok   every belt passes on what is left, and the body is long enough
+  ok   the repair is recorded in the wrap status
+  ok   each dropped sentence is logged in the twins gate's file and counted
+B. any other belt failure still fails the wrap
+  ok   an advice-lint failure beside the ETF one raises
+C. a correct ETF sentence is never touched
+  ok   a sentence that names both windows stands, no drop, no repair
+D. too little left after the drop fails closed
+  ok   an Edition that is all ETF sentences does not publish
+E. the model is handed both numbers with their windows
+  ok   the note carries '+$2.2M' on the day, '-$110.5M' over the week, the date and the sign warning
+  ok   no ETF read, no note
+
+ETF FLOOR: PASS
+===== scripts/masthead_test.py  (exit 0)
+MASTHEAD: PASS
+===== scripts/morning_test.py  (exit 0)
+A. the morning read ran (8:17 AM), the page is built at 8:30 AM
+   card: MORNING BRIEF · TUESDAY The wire opens on a Treasury stablecoin rule and a quiet Board The wire's top line this morning is a Treasury proposal on stablecoin reserves, carried by four outlets. The Board shows Fear &amp; Greed in the greed band and funding calm.
+  ok   the eyebrow names Tuesday morning
+  ok   the card is not last night's Brief
+  ok   the headline, the sentences and the narrative line are on the card
+  ok   the next slot is tonight at 7:08 PM ET
+  ok   the card quotes no change
+B. the morning run fell back, the page is built at 8:30 AM
+   card: EVENING BRIEF · MONDAY Whales moved onto exchanges as the wire stayed quiet Last night's Brief, 7:16 PM ET Bitcoin is holding flat with funding calm; the news is mostly regulation. Written from Bitcoin's day and funding (7:16 PM ET on Oct 7). Next Brief tonigh
+  ok   the card keeps Monday's Brief and names it
+  ok   it says Last night's Brief with its time
+  ok   the next slot is tonight at 7:08 PM ET
+C. clocks
+  ok   2026-10-13T11:00:00Z reads 'Next Brief this morning at 8:15 AM ET'
+  ok   2026-10-13T23:30:00Z reads 'Next Brief tomorrow at 8:15 AM ET'
+  ok   2026-11-03T17:00:00Z reads 'Next Brief tonight at 6:08 PM ET'
+D. What was reported is stamped with its ranking time
+  ok   the wire block prints 'Ranked 7:16 PM ET on Oct 7'
+E. the copy law and the run
+morning: cut a sentence under the copy law (quotes a change): 'Bitcoin rose 2.1 percent overnight.'
+morning: cut a sentence under the copy law (predicts): 'Prices will rise by Friday.'
+  ok   sentences with a change or a prediction are cut and the rest stand: ["The wire's top line is a Treasury proposal.", 'The Board shows calm funding.', 'Four outlets carry the proposal.']
+morning: cut a sentence under the copy law (quotes a change): 'Bitcoin rose 2.1 percent overnight.'
+morning: cut a sentence under the copy law (predicts): 'Prices will rise by Friday.'
+  ok   a read left with fewer than two sentences is refused
+morning: read written; 2400 tokens, $0.0031
+  ok   a good morning writes morning.json for its Eastern date
+  ok   one good morning raises no alarm
+::warning::morning: fell back (planted: the API is down); the build goes out with fresh numbers and the card says Last night's Brief
+  ok   2026-10-14: a failed morning falls back cleanly and writes nothing
+  ok   one fallback raises no alarm
+::warning::morning: fell back (planted: the API is down); the build goes out with fresh numbers and the card says Last night's Brief
+  ok   2026-10-15: a failed morning falls back cleanly and writes nothing
+  ok   two mornings in a row raise the one alarm
+  ok   a backstop cron stands down after a fallback
+  ok   a dispatch may still retry a fallback
+
+RESULT: all green
+===== scripts/slot_guard_test.py  (exit 0)
+1. 15 October: the second run
+  ok   the 7:40 PM dispatch stands down once the 7:10 PM run has a ledger row for the slot (it pushed, the Edition was withheld)
+  ok   the reason names the earlier run
+  ok   the late scheduled tick at 01:11 UTC on 16 October (the evening slot of the 15th) stands down too
+  ok   the first run itself, with nothing before it, proceeds
+  ok   a run is not stopped by its own row
+2. the exception: the first ended with nothing published, and the ledger says so
+  ok   pushed false and edition_published false: the retry proceeds
+  ok   pushed false but the ledger does not say the Edition is absent (a legacy row): the retry proceeds only on pushed false
+  ok   edition_published true: stands down
+  ok   two earlier runs, one of which published: stands down
+3. what does not count
+  ok   a row that stood down at the guard is not a started run
+  ok   another workflow's row (the watcher) is not a started brief
+  ok   a row for another slot day does not block this one
+  ok   a breaking run is never stopped here
+4. a run that has started but written no row yet
+  ok   another run of the workflow in progress stands this one down
+  ok   a run that started AFTER this one does not stop it (two together cannot both stand down)
+  ok   an in-progress list that is only this run does not
+  ok   no ledger and no API answer (None): fail open, the checkout's own rule stands
+5. the ledger writes what the guard reads
+  ok   ops_ledger records slot, slot_day and edition_published
+  ok   the guard step calls slot_guard on origin/main's ledger
+  ok   the ledger step is handed the slot
+
+ONE EDITION PER EVENING: PASS
+===== scripts/sprint81_test.py  (exit 0)
+A. the direction word follows the sign: a down, an up and a flat fixture day
+  ok   BTC -2.03% reads down: 'Why is crypto down today? Wednesday, October 14, 2026'
+  ok   the answer says down with 2.03%: 'On Wednesday, October 14, Bitcoin was down 2.03% over the last 24 hours, to $81,500. The w'
+  ok   BTC +1.80% reads up: 'Why is crypto up today? Wednesday, October 14, 2026'
+  ok   the answer says up with 1.80%: 'On Wednesday, October 14, Bitcoin was up 1.80% over the last 24 hours, to $81,500. The who'
+  ok   BTC -0.20% reads flat: 'Crypto today: flat. Wednesday, October 14, 2026'
+  ok   the answer says flat with 0.20%: 'On Wednesday, October 14, Bitcoin was flat over the last 24 hours, at $81,500, a change of'
+  ok   plus or minus 0.5 is flat, 0.51 is not
+  ok   no Bitcoin reading, no direction and no record
+  ok   no morning read and no Edition today, no record
+B. the dated page freezes at the evening build
+  ok   the evening record is the Edition's: 'Evening Brief, 7:16 PM ET'
+  ok   the 14th's dated page is byte for byte the same after the 15th's morning build
+  ok   the dated page holds the evening record, not the morning's
+  ok   the living page is the newest record (the 15th, up) and the 15th has its own dated page
+  ok   before the evening build the dated page shows the morning record
+C. the twins gate runs on every sentence the page writes
+  ok   each of the 4 answer sentences went through the gate
+  ok   each wire line shown went through the gate, and the other day's item is not shown
+  ok   a wire line the real gate drops is dropped from the page and logged
+D. no 'because' without a source
+  ok   outside the reported items the page never says because, due to or driven by
+  ok   a wire item may carry its source's cause, with its source named beside it
+  ok   a read that says because is not lifted as the answer
+  ok   a read that states the move and passes the gate is lifted as it stands
+  ok   a read that states the wrong direction is not lifted
+  ok   no dash of either kind on the page
+E. structured data, stamps, archive
+  ok   NewsArticle parses with ET offsets, canonical and publisher: {"@type": "NewsArticle", "headline": "Why is crypto down today? Wednesday, October 14, 2026", "url": "https://gocheckmycrypto.com/today/", "mainEntityOfPage": "
+  ok   /today/ is its own canonical
+  ok   the dated page's canonical is /today/YYYY-MM-DD
+  ok   the stamp names the slot and its time, and the next update
+  ok   the archive links the dated pages
+  ok   the title and headline carry the direction and the full date
+  ok   each change is colored by its own sign (gainers up, Bitcoin down)
+  ok   no section heading says why
+E2. fix 1: one honest stamp line; fix 2: the next update off the clock; fix 3: the archive
+  ok   mismatched runs say so plainly: "Numbers as of 7:12 PM ET · tonight's Brief did not publish; text from the 8:18 AM Brief"
+  ok   7:50 PM with the Edition failed: 'Next update: Morning Brief, tomorrow at 8:15 AM ET'
+  ok   the daily answer and the home card name the same next slot
+  ok   before the Edition slot the reason clause is absent and the next slot is tonight's: 'Numbers as of 7:12 PM ET · text from the 8:18 AM Brief'
+  ok   matching runs keep 'Morning Brief, 8:18 AM ET'
+  ok   matching evening runs keep 'Evening Brief, 7:14 PM ET': 'Evening Brief, 7:14 PM ET'
+  ok   the living page lists the earlier day and not today's own dated page
+  ok   with no earlier day there is no archive block
+E3. a fallback morning: an honest stamp, never a morning read that did not run
+  ok   8:30 AM: "Numbers as of 8:17 AM ET · this morning's Brief did not publish; text from last night's 7:14 PM Brief"
+  ok   7:00 AM: "Numbers as of 8:17 AM ET · this morning's Brief has not published yet; text from last night's 7:14 PM Brief"
+  ok   the fallback page is the template answer, dated today, modified now, next slot tonight
+  ok   the rendered page never says 'Morning Brief,' and carries the day's own title and lastmod
+  ok   no Edition on the desk at all: no page
+F. the home page: cadence line and the /today/ link
+  ok   the cadence line is Jack's, exactly
+  ok   the Brief card links /today/
+  ok   the old cadence line is gone from the build
+G. Item 1: the morning wire is stamped with the morning's own time
+  ok   What was reported carries the 8:18 AM stamp, not Monday night's
+  ok   an unrefreshed wire keeps its Edition stamp
+H. Item 2: small prices print compressed, the label reads the full number
+  ok   3.682e-07 prints '$0.0₆3682', label '0.0000003682 dollars'
+  ok   9e-05 prints '$0.0₄9000', label '0.00009000 dollars'
+  ok   5.08e-06 prints '$0.0₅5080', label '0.000005080 dollars'
+  ok   $0.0001 and a price that rounds up to it print in full
+  ok   the Top 100 row carries the compressed price and the accessible label
+  ok   the 10 px tier is gone
+
+SPRINT 8.1: PASS 
+===== scripts/sprint82_test.py  (exit 0)
+A. the 14 October week-sign sentences (7:46 PM re-run)
+  ok   Bitcoin's sentence is kept, not dropped
+  ok   Bitcoin's week figure now carries its own sign word: 'down 2.83 percent over the week'
+  ok   Ether's sentence is kept with 'down 7.44 percent over the week'
+  ok   each sign word set is recorded as a repair, none as a drop
+  ok   an opposite sign word that is there stays a wrong claim: dropped and logged, never rewritten
+  ok   a figure that is not the series' is still dropped and logged, never repaired
+  ok   a level crossed ('Bitcoin below $82,000') is not a price claim: kept at $80,896
+A2. the Edition is handed every number already labeled
+  ok   'Bitcoin down 2.83% over seven days' is a phrase
+  ok   'Ether down 7.44% over seven days' is a phrase
+  ok   the ETF day is in words with its date: took in $2.2M on the day, October 14
+  ok   the ETF week is in words: net outflows of $110.5M over the week through October 14
+  ok   the model's copy of the digest holds no signed window change for any asset
+  ok   the model's copy holds no raw ETF net; the checker's copy is untouched
+  ok   the Edition's user message is built from model_boards and numbers_block
+A3. the Edition's body publishes with both sentences, no drop
+  ok   one paragraph survives whole, nothing dropped
+B. this morning's headline (15 October 8:18 AM: 'missing or oversized headline')
+  ok   the fixture headline is over the limit
+  ok   an oversized headline says it is too long, with its length and the limit
+  ok   a missing headline says it is missing
+morning: the headline is too long (160 characters; fixed deterministically (trimmed): "The wire opens on Standard Chartered's launch of Bitcoin and Ether trading for affluent clients"
+morning: read written; 2065 tokens, $0.0037
+  ok   oversized on both rungs: the read publishes, headline trimmed at a word boundary
+  ok   the ledger row is a read, not a fallback
+  ok   the repair rung was told what was wrong (the first error names the length)
+morning: the headline is missing; fixed deterministically (wire top line): 'Standard Chartered launched Bitcoin and Ether trading for affluent UAE clients'
+morning: read written; 2065 tokens, $0.0037
+  ok   missing on both rungs: the read publishes with the wire's top line as its headline
+morning: read written; 2065 tokens, $0.0037
+  ok   oversized then repaired by the model: the model's headline stands
+::warning::morning: fell back (morning: 1 sentence(s) survived the copy law; 2 needed); the build goes out with fresh numbers and the card says Last night's Brief
+  ok   a fallback stays honest: one surviving sentence still falls back, and the reason says so
+B2. the morning is handed percent-free phrases
+morning: read written; 2065 tokens, $0.0037
+  ok   no '%', no 'percent' and no raw funding figure in what the model is handed
+  ok   the ETF flow is a phrase with its sign and window: net outflows of $261.4M on the day, October 14
+  ok   the Standard Chartered line arrives without its 'up to 2% spread' clause
+  ok   the Board's bands arrive by name
+C. the coin doors
+  ok   item 1: Bitcoin's title reads what people type: 'Bitcoin price today and why it moved'
+  ok   item 1: the description is under 155 characters (120)
+  ok   item 1: the description carries the day's own price and its signed 24-hour change
+  ok   item 1: no em dash or en dash in either
+  ok   item 1: every coin, not only Bitcoin ('XRP price today and why it moved')
+  ok   item 2: Bitcoin (top 20, a wire item within 24 hours names it) has a 'Why Bitcoin moved today' block
+  ok   item 2: the item carries its sources (count and links) and its time
+  ok   item 2: the older Standard Chartered item (30 hours) is not 'today'
+  ok   item 2: the no-causation line is there
+  ok   item 2: the desk's own sentences never say 'because'
+  ok   item 2 (fix): an item reported after the Board read is outside the 24-hour window the number sits under
+  ok   item 2 (fix): the window is the 24 hours ending at that read, both ends
+  ok   item 2: 'Ether' in a wire line names Ethereum (top 20) when the item is within 24 hours
+  ok   item 2: a top-20 coin no item names (Cardano) has no block and no empty heading
+  ok   item 2: a coin outside the top 20 gets no 'Why' block even when an item names it
+  ok   item 2: a cause word in the desk's line that no cited source carries keeps the item out
+  ok   item 2: a cause word a cited source carries stands, as the source's
+  ok   item 2: every sentence goes through the twins gate (a wrong Bitcoin price is dropped)
+  ok   item 3: BreadcrumbList parses, three items: Home, Markets, Bitcoin, with absolute URLs
+  ok   item 3: every coin page carries it (ADA, SUI, XRP)
+D. the sitemap's real change times
+  ok   item 4: a coin page's lastmod is the newest of its Board read and the wire items it shows, not the build
+  ok   item 4: a newer wire item moves it
+  ok   item 4: an article's is when it was published
+  ok   item 4: a page with no known change time carries none
+E. IndexNow
+  ok   item 5: the key is 8 to 128 hex characters and the key file is named for it
+  ok   item 5: changed URLs are the new ones and those whose lastmod moved, nothing else
+  ok   item 5: the payload names host, key, keyLocation and the URL list
+indexnow: sent 2 URL(s) to https://api.indexnow.org/indexnow, response 202
+  ok   item 5: the response is logged (status and count) and the request was a POST of the payload
+indexnow: nothing changed, nothing sent
+  ok   item 5: nothing changed sends nothing and says so
+indexnow: send failed (OSError: no route); the next build sends again
+  ok   item 5: a failed send is logged and never raises (a build is never failed by it)
+
+SPRINT 8.2: PASS
+===== scripts/sprint91_test.py  (exit 0)
+1. the whole-market change is cross-checked before it prints
+  ok   16 October: market -0.62% beside Bitcoin +1.48% and Ether +4.13% is withheld (None), not printed
+  ok   16 October: the state says unchecked, with the reason
+  ok   16 October: the cap itself still prints
+  ok   a figure that agrees with Bitcoin, Ether and the Top 100 prints (checked)
+  ok   a figure 3 points from the Top 100's own is withheld even on the right side of zero
+  ok   a missing change is None and unchecked, never a fake 0.00%
+  ok   market_pulse: a /global answer with no change field gives None, not 0
+  ok   the ticker's total cap says 'unchecked' and prints no -0.6%
+  ok   the ticker script reads live Bitcoin and Ether before it prints /global's change
+2. Whale Watch: the $233.2M case
+  ok   negative buying power reads 'off exchanges'
+  ok   positive buying power reads 'onto exchanges'
+  ok   the page says 'net stablecoins off exchanges' for transfers that left
+  ok   the page never says 'net stablecoins onto exchanges' for them
+  ok   the signed amount stays -$233.2M
+  ok   the Chart Master is handed the stablecoin convention in words
+3. one seven-day figure per page
+  ok   the chart header carries the readings tile's rolling 7-day figure (+0.08%), not its own series
+  ok   the chart carries the figure for the script, so it does not change between loads
+  ok   the Chart Master sentence with 'down 2.0% over the week' is not lifted onto the page
+  ok   the Chart Master's other sentence stands, whole, without its 'However,'
+  ok   the readings tile names its window in words (Rolling 7 days)
+  ok   the script prints the same figure on 7D and names every window 'the last ...'
+  ok   8.3 item 2: a connective comes off a lifted first sentence
+4. the movers list rules
+  ok   no stablecoin: PayPal USD (flagged) and a dollar-priced 'Dollar' coin (not flagged) are out
+  ok   rank 100 or better: #107 Starknet is out
+  ok   no padding: a coin down 0.4% is not a loser; one coin qualifies, one row prints
+  ok   gainers are the same rule (nothing qualifies from this list)
+  ok   the view's lists obey the rules: every row ranked 100 or better, none a stablecoin
+  ok   16 October (only 3 top-100 coins fell more than 1%): at most 3 losers, not 5
+  ok   the movers page prints no top 5 or bottom 5 (Big movers is its one list, Sprint 9.4)
+  ok   the 24h figure is the first column after the coin, before the price
+  ok   the name and the cap wait for 768 px (c-wide)
+  ok   the unsourced 'someone's exit' line is gone
+5. no 'live' claim on the Top 100
+  ok   the description no longer says 'Live prices' or 'updated in your browser'
+  ok   the page carries its time and the instant for the stale state
+  ok   no 'live' claim in the page body
+6. the stale state
+  ok   age_phrase: nothing within 3 hours
+  ok   age_phrase: '9 hours ago' for the 12:16 read at 9:18 PM UTC
+  ok   age_phrase: days past 48 hours
+  ok   a tile carries the instant its stamp came from
+  ok   the ticker's stamp prints its age: 'as of 8:16 AM ET on Oct 16, 9 hours ago'
+  ok   every page runs the stale-state script, inline at the foot of the body (before the first frame)
+  ok   the script measures against the clock at the moment of reading and appends the age
+  ok   a stale reading's figure dims
+  ok   Whale Watch's stamp carries its instant and each transfer's age is recomputed at the reading (data-ago)
+  ok   a transfer older than 24 hours at the reading dims its row and says so
+  ok   the masthead is never swapped to LIVE
+  ok   the tape says what is live: price live, range and chart as of the build
+  ok   the strip says 'live' only when prices and /global have both answered
+7. /today/'s direction follows the ET day
+  ok   et_open: the price at the last midnight Eastern, for the ET day it belongs to
+  ok   rolling 24h -2.60% but +1.52% since midnight ET: the day is UP (title, direction, basis)
+  ok   the answer states the ET day's move and the 24-hour move, each with its window
+  ok   the page shows both Bitcoin windows
+  ok   an open that belongs to another ET day is not used: rolling 24 hours, said in direction_basis
+  ok   the whole-market line is not in the answer while its change is withheld
+  ok   the twins gate reads 'since midnight ET' against the ET day's figure (+1.52), not the 24-hour one (-2.60)
+  ok   and still drops the wrong direction for that window
+  ok   15 October's dated page: the unsupported producer-price line is off it and a visible correction names why
+  ok   the contradicting whole-market figures are off the 15 and 16 October pages, each with a correction naming Bitcoin and Ether
+  ok   the 16 October evening record (stored before the cross-check) carries no whole-market figure and says why
+  ok   the correction line renders on the page
+8. labels, the lede, the hour, llm.py
+  ok   the home label reads 'What was reported', not 'Moving the market'
+  ok   the /bottom-line lede no longer says 'once a day'
+  ok   hours_phrase: '1 hour', '2 hours', '3 days'
+  ok   the liquidation window prints 'last 1 hour', not 'last 1 hours'
+  ok   llm: Sonnet 5.5 is sent no {type: disabled} thinking (it answers 400)
+  ok   llm: Sonnet 5 still has thinking disabled
+  ok   llm: PRICING has the three 5.5 models at their own rates
+9. a source check on every wire line
+  ok   15 October: the producer-price line (a cause and two figures its source lacks) is out
+  ok   the cut is logged with its reason
+  ok   a line its source supports stands as written
+  ok   the part is not the whole: a later clause with a smuggled figure is cut and the line stands
+  ok   sources not read (under 300 characters): the check does not speak
+  ok   a date is not a figure: 'Oct. 21' and 'Nov. 12' need no source
+  ok   wire.build keeps the line off the wire, logged in 'dropped' and 'source_cuts'
+  ok   the live wire.json no longer carries the line
+10. Program 8.3's items 1 to 5
+  ok   item 1: the 7D pair stays the closes' pair (one pair on the home tape and the coin page)
+  ok   item 1: the coin page words the pair as closes, so a 7D low above today's low is not a false 'low'
+  ok   item 1: the chart script words them the same way
+  ok   item 1: the tape's closes say they are closes ('7D LOW CLOSE')
+  ok   item 3: an outlet is listed once and counted once ('2 sources: Decrypt, Bitcoin Magazine')
+  ok   item 4: USDT moving off an exchange is not bound to the 30-day stablecoin float (kept)
+  ok   item 4: a real wrong claim about the float is still dropped
+  ok   item 4: the run log and the drop keep the whole dropped sentence (the ledger cut it at 70, the run log at 140)
+  ok   item 4: the ops ledger keeps the whole sentence
+::warning::consistency gate: Edition withheld, slot still open: the evening Edition for 2026-10-15 collided with another surface and was not published; the rest of the run was. The slot's recovery run is expected.
+  ok   item 5: a withheld Edition prints one visible line on the run: 'Edition withheld, slot still open'
+  ok   item 5: a withheld Chart Master is not an Edition line
+  ok   item 5: at 7:15 PM with no Edition, the numbers-only page is filed as EVENING (flagged fallback), never as a morning
+  ok   item 5: at 8:30 AM with no read, the same page is filed as the morning
+
+SPRINT 9.1: PASS
+===== scripts/sprint92_test.py  (exit 0)
+1. the intraday series: 5-minute prices from a named venue, a second venue beside it
+  ok   14 Oct: Bitcoin's series is Coinbase's 5-minute candles, 287 closes inside the 24-hour window
+  ok   14 Oct: OKX is the second read and agrees within 0.1 point (gap 0.03)
+  ok   a candle's close is stamped at its bar's end: Coinbase's 23:35Z bar closes at 23:40Z, $81,453.58
+  ok   CoinGecko days=1 is not asked for a window that ended days ago, and is named with the reason
+  ok   Kraken's 5-minute candles cannot reach back to 14 Oct, and are named with the reason
+  ok   a venue that answers 429 is left out and named; the next venue (OKX) carries the series
+  ok   no venue answers: no Bitcoin entry at all (never an invented series), every venue named
+2. the candidates: event time, first-report time, primary flag, commentary marked secondary
+  ok   14 Oct: CPI from the BLS schedule, event 8:30 AM ET (12:30Z), scheduled, primary
+  ok   14 Oct: the wire's inflation line (12:33:56Z) is CPI's first report, folded in, not listed twice
+  ok   14 Oct: a wire item keeps its own first-report time and outlets counted (Standard Chartered, 06:12:46Z, 5)
+  ok   15 Oct: PPI from the BLS schedule, event 8:30 AM ET (12:30Z)
+  ok   15 Oct: the producer-price wire line stamped 04:25Z, BEFORE the 8:30 AM release, is not taken as its first report
+  ok   a source that gives only a day (the Federal Register) carries no invented time; its test cannot run
+  ok   SYNTHETIC wire lines: a cause given only as commentary ('analysts said') is kept and marked secondary
+  ok   SYNTHETIC wire lines: a reported event is not marked secondary
+3. the timing test on the recorded fixtures
+  ok   14 Oct: the largest same-direction run is DOWN 3.144%, from $84,011.46 at 4:10 AM ET to $81,369.99 at 6:45 PM ET
+  ok   14 Oct CPI: it came 260 minutes after the onset, so not before it
+  ok   14 Oct CPI: the next 60 minutes carried 71.2% of the window's fall (Bitcoin -1.45% in that hour)
+  ok   14 Oct CPI: the price had not moved first (8.5% of the run done before 8:30 AM)
+  ok   14 Oct Payward/Saldo (13:07:45Z): the price moved first, 50.7% of the run done before the first report
+  ok   14 Oct Standard Chartered: 117 minutes before the onset is outside the 60-minute lead
+  ok   15 Oct: the largest run is UP 3.384%, from $79,790.86 at 9:55 AM ET to $82,491.34 at 6:25 PM ET
+  ok   15 Oct PPI: released 85 minutes before the onset, outside the lead and not at the onset
+  ok   15 Oct PPI: the hour after it ran against the window's rise (Bitcoin -1.04%, share -160.4%)
+  ok   15 Oct Russia P2P line (20:31:04Z): the price moved first, 92.7% of the run done
+  ok   15 Oct Ether: its own run, UP 5.939% from 9:55 AM ET
+  ok   SYNTHETIC: a flat line then a fall: the onset is the last point before the fall
+  ok   SYNTHETIC: an event 30 minutes before the onset comes before it, within the lead
+  ok   SYNTHETIC: an event 61 minutes before does not
+  ok   SYNTHETIC: a scheduled release 5 minutes AFTER the detected onset is at its release time
+  ok   SYNTHETIC: the hour after the onset carries the whole fall (share 100%)
+4. the mechanics pattern for the onset hour
+  ok   15 Oct, 9:55 to 10:55 AM ET: Bitcoin +2.50%, S&P 500 futures +0.58%, Nasdaq 100 futures +0.94% (Yahoo)
+  ok   15 Oct: the pattern is 'risk-on across assets', with its rule
+  ok   15 Oct: the 10-year yield moves in basis points (+1.7 bp), the VIX in percent (-5.12%)
+  ok   15 Oct: OKX's hourly open interest is read for the hour from 9:00 AM ET (+0.67%)
+  ok   OKX liquidations cannot reach back to the onset hour: not read, with the reason, never a zero
+  ok   14 Oct, 4:10 AM ET: the 10-year yield did not trade in the hour: None, not 0
+  ok   14 Oct: Bitcoin -0.74% with stock futures mixed (+0.03%, -0.11%): no pattern is claimed
+  ok   15 Oct Ether: 30-day beta 1.074 from the stored closes; excess +0.19 point is not coin-specific
+  ok   SYNTHETIC: Bitcoin -2% with stock futures flat is 'crypto only'
+  ok   SYNTHETIC: open interest -6% with 89% of liquidations long is a 'leverage flush'
+  ok   SYNTHETIC: Ether -5% against Bitcoin -2% at beta 1.0 is 'coin-specific' (excess -3 points)
+5. the timing chart from a fixture
+  ok   15 Oct: the section draws one timing chart
+  ok   the price line has a point per 5-minute close (287)
+  ok   15 Oct (an up window) draws in the up line color; 14 Oct (down) in the down color
+  ok   the onset mark sits at the onset's time on the axis (9:55 AM ET)
+  ok   the shaded run spans onset to the run's end
+  ok   every pinned number is a numbered item in the list below the chart (5 pins, one per timed item)
+  ok   the chart says what it is in words (role=img, its window, its range)
+  ok   the PPI release is pinned at 8:30 AM ET on the line
+6. /today/ and the Bitcoin and Ether pages: the section, the chart, no grade, fail open
+  ok   /today/ (living): 'What lined up with the move' with its timing chart
+  ok   /today/ (living): no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page outside the verdict card
+  ok   /today/ (living): no em dash or en dash
+  ok   /today/ (living): the section never prints 'market_chart' (the coin page guard against inline chart code)
+  ok   /today/2026-10-15: 'What lined up with the move' with its timing chart
+  ok   /today/2026-10-15: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page outside the verdict card
+  ok   /today/2026-10-15: no em dash or en dash
+  ok   /today/2026-10-15: the section never prints 'market_chart' (the coin page guard against inline chart code)
+  ok   /coins/btc: 'What lined up with the move' with its timing chart
+  ok   /coins/btc: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page outside the verdict card
+  ok   /coins/btc: no em dash or en dash
+  ok   /coins/btc: the section never prints 'market_chart' (the coin page guard against inline chart code)
+  ok   /coins/eth: 'What lined up with the move' with its timing chart
+  ok   /coins/eth: no grade word (Confirmed, Likely, Disputed, Unclear) and no 'because' anywhere on the page outside the verdict card
+  ok   /coins/eth: no em dash or en dash
+  ok   /coins/eth: the section never prints 'market_chart' (the coin page guard against inline chart code)
+  ok   /today/ shows Bitcoin's evidence; the Ether page shows Ether's
+  ok   the living page's window stamp carries data-asof (the stale state); the dated page's does not
+  ok   a wire item is printed once: the Russia P2P line is in the section, not again under the page's own lists
+  ok   each unread source is named on the page with its reason
+  ok   a candidate line carrying a grade word or 'because' is not printed; its outlet stands in
+  ok   /today/ with no evidence renders as before, with no section
+::warning::why_evidence: the section for BTC was not drawn (TypeError: 'str' object cannot be interpreted as an integer)
+  ok   a broken record draws no section and raises nothing
+  ok   a record whose window ended 20 hours before the Board's reading is not shown on a coin page
+  ok   the Bitcoin page with no evidence on disk renders without the section
+7. no model call; wired into the run path like the daily answer
+  ok   why_evidence.py never imports or calls the model layer (llm.py)
+  ok   why_evidence.py carries no em dash
+  ok   morning-read.yml: runs why_evidence.py --write after the daily answer's record, never as a gate
+  ok   morning-read.yml: commits the evidence records with the push
+  ok   crypto-news-brief.yml: runs why_evidence.py --write after the daily answer's record, never as a gate
+  ok   crypto-news-brief.yml: commits the evidence records with the push
+  ok   today.build_pages reads the stored record for the page's day and slot
+  ok   and with no stored record builds the same pages without the section
+8. every source the audit names is read, or left out and named with a true reason
+  ok   2026-10-14: every catalogued source is in the read or the not-read list (missing: [])
+  ok   2026-10-14: every not-read source carries a reason
+  ok   2026-10-15: every catalogued source is in the read or the not-read list (missing: [])
+  ok   2026-10-15: every not-read source carries a reason
+  ok   Binance's data-api.binance.vision mirror is read as a series venue, its gap kept beside the others
+  ok   15 Oct: OKX taker flow is read hourly for the onset hour, buys and sells as OKX sent them (USDT)
+  ok   15 Oct: Gate's liquidations are read for the onset hour (longs summed from its own answer)
+  ok   Hyperliquid's liquidations are named, with the reason they cannot be read
+  ok   15 Oct: Kalshi's Fed markets for the next meeting are read for the onset hour (yes price, both ends)
+  ok   15 Oct: IBIT and FBTC volume in the onset hour (9:55 AM ET, market open) are read, in shares
+  ok   14 Oct: at 4:10 AM ET IBIT did not trade: None, never 0
+  ok   the 2-year Treasury note future is read
+  ok   Nasdaq's calendar is named with the true reason (its dates come back a day late)
+  ok   ForexFactory's calendar, which keeps only the current week, is named for a past window
+  ok   the page says what was read but is not shown in the hour (Farside's daily ETF flow, DefiLlama's daily supply)
+  ok   the not-read paragraph lists every not-read source of the record, and nothing read
+9. a correction on the page applies to the section; unsupported wire clauses are cut
+  ok   with the articles unread the source check cannot speak, and the producer-price line stays in the record
+  ok   15 Oct: the page's correction drops the corrected line from the section; it prints once, inside the correction
+  ok   section_html with the corrections never prints the corrected line
+  ok   without them (a page with no correction) the line is still printed, so the test bites
+  ok   with the articles read, 9.1's source check cuts the unsupported producer-price line before it is printed
+10. each row's window is the one its label states (Kalshi's hourly closes)
+  ok   2026-10-15: the Kalshi row names the candle closes it reads ('9:00 AM ET close to 10:00 AM ET close')
+  ok   2026-10-15: and carries those closes as stamps (from_utc, to_utc an hour apart)
+  ok   2026-10-14: the Kalshi row names the candle closes it reads ('4:00 AM ET close to 5:00 AM ET close')
+  ok   2026-10-14: and carries those closes as stamps (from_utc, to_utc an hour apart)
+  ok   the page prints the Kalshi row with its closes
+11. the run step: a deadline inside build(), Kalshi capped, no blind sleeps, the core always kept
+  ok   a source past the deadline: the sources after it are named 'not read in time' (Gate, Kalshi, OKX taker flow)
+  ok   and the core is whole: both series, the runs and the timing test, as without the delay
+  ok   and the late sources print in the section's not-read list
+  ok   every optional source failing: the record still carries both series and the timing test
+  ok   Kalshi's calls are bounded for the whole record, both coins: 6 <= 6, none repeated
+  ok   no blind 60-second wait: a 429's Retry-After is capped at 3 seconds, and a missing one waits 2
+  ok   the evidence step no longer reads through market_pulse.get_json (its 60-second waits)
+  ok   a SIGTERM (the stop flag) spends the budget at once, and says so
+
+SPRINT 9.2: PASS
+===== scripts/sprint93_test.py  (exit 0)
+1. each grade, by the rules in code (the strategist's rulings of October 19)
+  ok   14 October Bitcoin (real, rolling 24 hours: no open_et that day): Likely, on the CPI release, the timing passes and the readings of the hour after it agree, no primary source
+  ok   15 October Bitcoin (real): Unclear, no candidate passes the timing test, and the line says exactly 'No reported event lines up with this move.'
+  ok   19 October Bitcoin (real): flat on the ET day (up 0.05% since midnight ET), no card
+  ok   14 Oct Ether (real): within 2 points of Bitcoin, no card
+  ok   15 Oct Ether (real): within 2 points of Bitcoin, no card
+  ok   19 Oct Ether (real): within 2 points of Bitcoin, no card
+  ok   15 October with the reports withheld (real wire): the named producer-price cause fails and no other event passes, so Unclear (no longer Disputed)
+  ok   SYNTHETIC: a primary source states the cause, the timing passes, the readings agree: Confirmed
+  ok   SYNTHETIC: two outlets and no primary source no longer make Confirmed: Likely
+  ok   SYNTHETIC: a named cause fails the timing test while another event passes: Disputed, both sides named
+  ok   SYNTHETIC: outlets name different causes: Disputed, both named
+  ok   SYNTHETIC: an event passes the timing test but the readings do not agree: not Likely, not Unclear, no card (kind no_verdict)
+  ok   SYNTHETIC: the page's window rose while the measured run fell: no card, never a fall's evidence under a rise
+  ok   SYNTHETIC: on the ET day, an event from before 11 PM ET the night before is outside the window, so nothing passes: Unclear
+  ok   the definitions follow the rulings: Confirmed needs a primary source; Unclear is no event passing the timing test; no definition says 'two outlets' or 'silent'
+2. the flat test and the direction words read the window /today/ uses, named
+  ok   19 October: the ET day from open_et (82385.26 to 82428, up 0.05%), basis et_day
+  ok   14 October: no open_et that day, so the rolling 24 hours (down 2.08%), basis rolling_24h
+  ok   19 October: the verdict's flat test agrees with /today/'s own direction (flat, et_day)
+  ok   Likely: every direction word names the page's window ('over the last 24 hours') and no other window
+  ok   Confirmed: every direction word names the page's window ('over the last 24 hours') and no other window
+  ok   et_day Likely: every direction word names the page's window ('since midnight ET') and no other window
+3. the timing test's thresholds, one versioned constant in why_evidence.py
+  ok   why_evidence.TIMING_TEST holds 25% and 40%, versioned, citing the audit
+  ok   verdict.py keeps no copy of the thresholds
+  ok   14 October CPI passes (8.5% of the run before it, 71.2% in the hour after)
+  ok   15 October PPI fails (the hour after it ran against the rise)
+  ok   26% of the run done before the event disqualifies it
+  ok   39% of the move in the hour after is under the bar
+  ok   the verdict reads the constant: raised to 75%, 14 October CPI fails
+4. 'because' only on Confirmed; 'lines up with' on Likely; both sides on Disputed; nothing predicts
+  ok   Confirmed: its line says 'because'
+  ok   Confirmed: nothing predicts, nothing advises
+  ok   Confirmed: no line quoted, in any form
+  ok   Likely: no 'because' in any phrase
+  ok   Likely: nothing predicts, nothing advises
+  ok   Likely: no line quoted, in any form
+  ok   Disputed: no 'because' in any phrase
+  ok   Disputed: nothing predicts, nothing advises
+  ok   Disputed: no line quoted, in any form
+  ok   Unclear: no 'because' in any phrase
+  ok   Unclear: nothing predicts, nothing advises
+  ok   Unclear: no line quoted, in any form
+  ok   Likely: 'lines up with'
+  ok   Disputed: the card states the named cause and the event that passes, both sides, in its line
+  ok   the belt refuses 'because' on a Likely draft built from whole phrases
+5. Haiku 5.5 drafts, Sonnet 5.5 checks with 'stands' per claim; a failure fails open to the phrases
+  ok   whole phrases and every claim standing: the model's two sentences print
+  ok   the draft went to claude-haiku-5-5 and the check to claude-sonnet-5-5, no thinking field
+  ok   llm.PRICING carries the 5.5 rates
+  ok   fail open when the draft call fails (HTTP 500 on every attempt): the graded line, no model sentence
+  ok   fail open when the check withdraws a claim (stands false): the graded line, no model sentence
+  ok   fail open when the check leaves a sentence unjudged: the graded line, no model sentence
+  ok   fail open when the check answers out of contract: the graded line, no model sentence
+  ok   fail open when the draft adds a figure: the graded line, no model sentence
+  ok   fail open when the draft rewords a phrase: the graded line, no model sentence
+  ok   the twins gate checks the model's sentences, the graded line and the section forms: a gate that drops every sentence leaves nothing of them to print
+  ok   a stored sentence that cannot be traced to whole phrases prints nothing on a section page (the old fallback to unchecked section forms is gone)
+6. the spend: each attempt reserved against the day's cap first and settled after (ruling 4)
+  ok   each call reserved and settled to its actual cost; one run row with the day's total and the cap
+  ok   the run prints the day's spend against the $1.50 cap
+  ok   a call cut off by the deadline stays reserved at its estimate and counts in the day's spend
+  ok   the reservation is written to the ledger on disk before the call is made
+  ok   a transport failure keeps its reservation, and the automatic retry that would pass the cap is refused: one attempt made
+  ok   llm.py's empty-response retry is checked against the cap before it is made
+  ok   at the cap: no call, the verdict withheld, no grade and no URL
+  ok   at the cap the card says the desk's check did not run today, and nothing about AI or a cap
+  ok   the cap is $1.50 a day, in one place
+7. no card where no verdict was computed; no grade word outside a card
+  ok   19 October (flat ET day): no Bitcoin card on home
+  ok   19 October (flat ET day): no Bitcoin card on today
+  ok   19 October (flat ET day): no Bitcoin card on coin
+  ok   19 October (flat ET day): no Bitcoin card on page
+  ok   19 October: Ether moved with Bitcoin is one plain line on the Ether page, naming the page's window, not a card
+  ok   no_verdict: no card, no URL
+  ok   /today/2026-10-19 with the real records: no card, no grade word, and 9.2's notes
+  ok   a record with no coin draws nothing and raises nothing
+8. one card on the home, /today/, Bitcoin; a URL per graded verdict; corrections; notes; chips; slots
+  ok   /today/: the verdict card, one shape (aside.vd with data-vd)
+  ok   /today/: no em dash or en dash
+  ok   /coins/btc: the verdict card, one shape (aside.vd with data-vd)
+  ok   /coins/btc: no em dash or en dash
+  ok   home: the verdict card, one shape (aside.vd with data-vd)
+  ok   home: no em dash or en dash
+  ok   the home keeps its ten blocks in section 2's order
+  ok   the URL of a graded verdict is /why/<date>-<coin>, and the card links it
+  ok   /today/: no grade word outside the card
+  ok   a page per graded verdict (14 and 15 October Bitcoin); none for a flat day or Ether
+  ok   the verdict URLs are in the news sitemap
+  ok   /why/ does not link a /today/<day> that does not exist
+  ok   a correction on the verdict renders on its page and its card
+  ok   /today/ with a Confirmed card: no sentence denies causation
+  ok   /coins/btc with a Confirmed card: no sentence denies causation
+  ok   /today/ with a Likely card: no sentence denies causation
+  ok   /coins/btc with a Likely card: no sentence denies causation
+  ok   light: no grade chip token resolves to an up or down color (none)
+  ok   dark: no grade chip token resolves to an up or down color (none)
+  ok   /today/ with no verdict is 9.2's layout (no empty card slot)
+  ok   a coin page with no card is 9.2's layout (no empty card slot)
+9. on a page with the section: no fact in both, and every name points at exactly one listed item
+  ok   14 Oct Likely (real): graded, with a card
+  ok   14 Oct Likely (real), graded line, /today/ living: no fact in both (none)
+  ok   14 Oct Likely (real), graded line, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), graded line, /today/ dated: no fact in both (none)
+  ok   14 Oct Likely (real), graded line, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), graded line, /coins/btc: no fact in both (none)
+  ok   14 Oct Likely (real), graded line, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), graded line, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   14 Oct Likely (real), graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), model text, /today/ living: no fact in both (none)
+  ok   14 Oct Likely (real), model text, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), model text, /today/ dated: no fact in both (none)
+  ok   14 Oct Likely (real), model text, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), model text, /coins/btc: no fact in both (none)
+  ok   14 Oct Likely (real), model text, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), model text, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   14 Oct Likely (real), model text, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), model text joined, /today/ living: no fact in both (none)
+  ok   14 Oct Likely (real), model text joined, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), model text joined, /today/ dated: no fact in both (none)
+  ok   14 Oct Likely (real), model text joined, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), model text joined, /coins/btc: no fact in both (none)
+  ok   14 Oct Likely (real), model text joined, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   14 Oct Likely (real), model text joined, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   14 Oct Likely (real), model text joined, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   15 Oct Unclear (real): graded, with a card
+  ok   15 Oct Unclear (real), graded line, /today/ living: no fact in both (none)
+  ok   15 Oct Unclear (real), graded line, /today/ dated: no fact in both (none)
+  ok   15 Oct Unclear (real), graded line, /coins/btc: no fact in both (none)
+  ok   15 Oct Unclear (real), graded line, /why/2026-10-15-bitcoin: no fact in both (none)
+  ok   15 Oct Unclear (real), model text, /today/ living: no fact in both (none)
+  ok   15 Oct Unclear (real), model text, /today/ dated: no fact in both (none)
+  ok   15 Oct Unclear (real), model text, /coins/btc: no fact in both (none)
+  ok   15 Oct Unclear (real), model text, /why/2026-10-15-bitcoin: no fact in both (none)
+  ok   15 Oct Unclear (real), model text joined, /today/ living: no fact in both (none)
+  ok   15 Oct Unclear (real), model text joined, /today/ dated: no fact in both (none)
+  ok   15 Oct Unclear (real), model text joined, /coins/btc: no fact in both (none)
+  ok   15 Oct Unclear (real), model text joined, /why/2026-10-15-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Confirmed: graded, with a card
+  ok   SYNTHETIC Confirmed, graded line, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Confirmed, graded line, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, graded line, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Confirmed, graded line, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, graded line, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Confirmed, graded line, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, graded line, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Confirmed, graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, model text, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Confirmed, model text, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, model text, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Confirmed, model text, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, model text, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Confirmed, model text, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, model text, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Confirmed, model text, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, model text joined, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Confirmed, model text joined, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, model text joined, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Confirmed, model text joined, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, model text joined, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Confirmed, model text joined, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Confirmed, model text joined, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Confirmed, model text joined, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails: graded, with a card
+  ok   SYNTHETIC Disputed, a named cause fails, graded line, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, graded line, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, graded line, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, graded line, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, graded line, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, graded line, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, graded line, /why/2026-10-15-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, graded line, /why/2026-10-15-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, model text, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, model text, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, model text, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, model text, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, model text, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, model text, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, model text, /why/2026-10-15-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, model text, /why/2026-10-15-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, model text joined, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, model text joined, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, model text joined, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, model text joined, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, model text joined, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, model text joined, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, a named cause fails, model text joined, /why/2026-10-15-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Disputed, a named cause fails, model text joined, /why/2026-10-15-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes: graded, with a card
+  ok   SYNTHETIC Disputed, two named causes, graded line, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, graded line, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, graded line, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, graded line, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, graded line, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, graded line, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, graded line, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, model text, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, model text, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, model text, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, model text, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, model text, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, model text, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, model text, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, model text, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, model text joined, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, model text joined, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, model text joined, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, model text joined, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, model text joined, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, model text joined, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Disputed, two named causes, model text joined, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Disputed, two named causes, model text joined, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour: graded, with a card
+  ok   SYNTHETIC Likely on the onset hour, graded line, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, graded line, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, graded line, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, graded line, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, graded line, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, graded line, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, graded line, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, model text, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, model text, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, model text, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, model text, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, model text, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, model text, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, model text, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, model text, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, model text joined, /today/ living: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, model text joined, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, model text joined, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, model text joined, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, model text joined, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, model text joined, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC Likely on the onset hour, model text joined, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC Likely on the onset hour, model text joined, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision: graded, with a card
+  ok   SYNTHETIC name collision, graded line, /today/ living: no fact in both (none)
+  ok   SYNTHETIC name collision, graded line, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, graded line, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC name collision, graded line, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, graded line, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC name collision, graded line, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, graded line, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC name collision, graded line, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, model text, /today/ living: no fact in both (none)
+  ok   SYNTHETIC name collision, model text, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, model text, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC name collision, model text, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, model text, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC name collision, model text, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, model text, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC name collision, model text, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, model text joined, /today/ living: no fact in both (none)
+  ok   SYNTHETIC name collision, model text joined, /today/ living: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, model text joined, /today/ dated: no fact in both (none)
+  ok   SYNTHETIC name collision, model text joined, /today/ dated: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, model text joined, /coins/btc: no fact in both (none)
+  ok   SYNTHETIC name collision, model text joined, /coins/btc: the event is named and points at exactly one listed item (one)
+  ok   SYNTHETIC name collision, model text joined, /why/2026-10-14-bitcoin: no fact in both (none)
+  ok   SYNTHETIC name collision, model text joined, /why/2026-10-14-bitcoin: the event is named and points at exactly one listed item (one)
+  ok   15 Oct Unclear (real): the home card, with no section beside it, still states the onset hour's reading
+10. wired into both workflows after why_evidence.py, inside a time budget, never a gate
+  ok   morning-read.yml: runs verdict.py --write after why_evidence.py, with a timeout, never as a gate
+  ok   morning-read.yml: the key comes from the repository secret
+  ok   morning-read.yml: commits the verdict records and the spend ledger
+  ok   crypto-news-brief.yml: runs verdict.py --write after why_evidence.py, with a timeout, never as a gate
+  ok   crypto-news-brief.yml: the key comes from the repository secret
+  ok   crypto-news-brief.yml: commits the verdict records and the spend ledger
+  ok   verdict.py carries no em dash and prints no key
+  ok   llm.py checks the attempt guard before every HTTP attempt, inside the retry loop
+
+SPRINT 9.3: PASS (0 failure(s))
+===== scripts/sprint94_test.py  (exit 0)
+1. the gate, from the real 16 October Board and the stored closes
+  ok   16 October: TIA, INJ, ZRO, ETHFI and PENDLE pass, ranked by their volatility multiple (['TIA', 'INJ', 'ZRO', 'ETHFI', 'PENDLE'])
+  ok   TIA's three legs: +30.60%, 3.67x its 30-day daily volatility of 8.33%, +28.15 points beyond its Bitcoin beta of 1.653 with Bitcoin +1.48%
+  ok   ARB, APT, WLD, NEAR, ZEC, FIL and SEI fail on the volatility leg alone (they moved 10% or more and 6 points beyond their beta, under 2.5 times their usual day)
+  ok   SYNTHETIC (APT's stored closes removed): APT +14.03% is left out and said, never estimated
+  ok   the beta the gate uses is the one the section prints (why_evidence._beta on the same days)
+  ok   no stablecoin (12 on the Board) is ever measured
+  ok   Bitcoin and Ether are never measured here: their own cards grade them
+  ok   the line is the audit's, held once: 10%, 2.5x, 6 points, 30 days, 8 a slot, 10 a day
+  ok   the day's cap: with 8 reads made earlier today, 2 pass and 3 wait over the cap
+  ok   the day's cap: at 10 reads, none passes and all five are named over the cap
+  ok   SYNTHETIC (sixteen coins past the line): at most 8 a slot, the rest over the cap
+  ok   for two weeks every coin that fails the gate prints in the run log with its figures
+  ok   after November 2 the failing coins are counted, not listed
+  ok   SYNTHETIC (one stored close removed): a gap leaves the coin out and says so, never fills it
+  ok   19 October 4:30 PM ET (real): PUMP +11.46%, VVV +13.74% and CRV +10.13% fail the volatility leg, and no coin passes: the record says so
+2. the alt feeds and each mover's evidence, from the recorded answers
+  ok   a coin is named by its name or a ticker of three letters or more, also before a quote currency
+  ok   Kraken's blog item 'is available for trading' is a listing notice with its time
+  ok   16 October: the five movers each carry an evidence record
+  ok   the listing feeds read are named as read: Binance, OKX, KuCoin, Bitget, Kraken, Coinbase
+  ok   the feeds not read are named with their reason: Upbit, Bybit, governance votes
+  ok   token unlocks read from CoinMarketCap for TIA (its slug carries the ticker)
+  ok   ETHFI: CoinMarketCap's page at its CoinGecko slug is another token (EETH), so its unlocks are not read, and the reason says so
+  ok   TIA: every candidate names the coin (a market-wide event is Bitcoin's card's)
+  ok   INJ: every candidate names the coin (a market-wide event is Bitcoin's card's)
+  ok   ZRO: every candidate names the coin (a market-wide event is Bitcoin's card's)
+  ok   ETHFI: every candidate names the coin (a market-wide event is Bitcoin's card's)
+  ok   PENDLE: every candidate names the coin (a market-wide event is Bitcoin's card's)
+  ok   TIA's series is a venue's, and its move agrees with the Board's within 3 points
+  ok   TIA's beta prints in its readings and is the gate's
+  ok   SYNTHETIC (a venue moving +57.6% against the Board's +30.6%): its series is not taken, and the reason is named
+3. the market-move trigger, crypto only, at section 3.1's thresholds, inside the two-a-day cage
+  ok   on by default on this desk, at 3% inside 60 minutes and 5% inside 24 hours
+  ok   SYNTHETIC Bitcoin +2.99% in the hour: quiet
+  ok   SYNTHETIC Bitcoin +3.00% in the hour: fires
+  ok   SYNTHETIC Bitcoin -3.20% in the hour: fires
+  ok   SYNTHETIC the whole market -3.1% in the hour, Bitcoin -2.0%: fires on the market
+  ok   SYNTHETIC Bitcoin -4.99% over 24 hours: quiet
+  ok   SYNTHETIC Bitcoin -5.00% over 24 hours, not carried by the last Board: fires
+  ok   SYNTHETIC Bitcoin -6% over 24 hours that the last published Board already carried (-5.5%): quiet
+  ok   SYNTHETIC the market +5.4% over 24 hours after a Board that carried -5.2%: fires (a new move)
+  ok   SYNTHETIC an unreadable reading never fires
+  ok   SYNTHETIC between slots only: a 4% hour at 7:30 PM ET, the Edition stays quiet (the slot reports it)
+  ok   SYNTHETIC between slots only: a 4% hour at 8:00 AM ET, the morning read stays quiet (the slot reports it)
+  ok   the recorded reads give Bitcoin's hour and day and the Top 100's ({'BTC': (-0.04241949149469708, 1.4297196900849132), 'market': (-0.19, 1.65)})
+  ok   the old price triggers (any major, 5% an hour, 4% a day) stay off
+  ok   the cage: with no breaking run today, a 3.4% hour fires a breaking run, run 1 of 2
+  ok   the cage: with one breaking run today, it fires as run 2 of 2
+  ok   the cage: at two breaking runs today it stays quiet and makes no read at all
+  ok   inside a slot's span the trigger makes no read and fires nothing
+4. the verdicts and the spend against the $1.50 cap at ten coin reads (9.3's reservation, API mocked)
+  ok   three runs on one day make 5, 5 and 0 coin reads: ten, the day's cap ([5, 5, 0])
+  ok   every model attempt was reserved before it was made and settled after (20 calls)
+     ten coin reads: settled $0.0567 at the mocked usage (1,200 in, 300 out a call); reserved worst case $0.6223; cap $1.50
+  ok   ten coin reads stay inside the $1.50 day cap even at every call's worst case
+  ok   the movers' calls go to the same ledger and the same models as Bitcoin's (Haiku 5.5 drafts, Sonnet 5.5 checks)
+  ok   TIA's verdict is graded in code and its two checked sentences print (Unclear, model)
+  ok   a mover's card names its window as the gate measured it: over the last 24 hours
+  ok   SYNTHETIC (the day at $1.45): no mover's check is made past the cap; each verdict is withheld, no grade, no URL ({'TIA': ('withheld', None, None), 'INJ': ('withheld', None, None), 'ZRO': ('withheld', None, None), 'ETHFI': ('withheld', None, None), 'PENDLE': ('withheld', None, None)})
+  ok   the withheld card says the desk's check did not run, never a guess
+  ok   an automatic retry is reserved before it is made: the failed attempt is a row of its own (unbilled), then the retry's
+5. no card below the gate: a coin that did not pass gets no card, no grade and no URL
+  ok   16 October ARB (failed or left out): its page carries no card, no section, no grade word
+  ok   16 October WLD (failed or left out): its page carries no card, no section, no grade word
+  ok   16 October NEAR (failed or left out): its page carries no card, no section, no grade word
+  ok   16 October APT (failed or left out): its page carries no card, no section, no grade word
+  ok   16 October SEI (failed or left out): its page carries no card, no section, no grade word
+  ok   only the graded movers have /why/ pages (['/why/2026-10-16-celestia', '/why/2026-10-16-ether-fi', '/why/2026-10-16-injective-protocol', '/why/2026-10-16-layerzero', '/why/2026-10-16-pendle'])
+  ok   19 October (real): VVV, +13.74% but under 2.5 times its usual day, gets no card
+6. the coin page and the /why/ page of a mover: no fact twice, every name points at one listed item
+  ok   TIA, graded line: its page carries the card above the readings and the section
+  ok   TIA, graded line, coin page: no fact in both (none)
+  ok   TIA, model text: its page carries the card above the readings and the section
+  ok   TIA, model text, coin page: no fact in both (none)
+  ok   INJ, graded line: its page carries the card above the readings and the section
+  ok   INJ, graded line, coin page: no fact in both (none)
+  ok   INJ, model text: its page carries the card above the readings and the section
+  ok   INJ, model text, coin page: no fact in both (none)
+  ok   ZRO, graded line: its page carries the card above the readings and the section
+  ok   ZRO, graded line, coin page: no fact in both (none)
+  ok   ZRO, model text: its page carries the card above the readings and the section
+  ok   ZRO, model text, coin page: no fact in both (none)
+  ok   ETHFI, graded line: its page carries the card above the readings and the section
+  ok   ETHFI, graded line, coin page: no fact in both (none)
+  ok   ETHFI, model text: its page carries the card above the readings and the section
+  ok   ETHFI, model text, coin page: no fact in both (none)
+  ok   PENDLE, graded line: its page carries the card above the readings and the section
+  ok   PENDLE, graded line, coin page: no fact in both (none)
+  ok   PENDLE, model text: its page carries the card above the readings and the section
+  ok   PENDLE, model text, coin page: no fact in both (none)
+  ok   SYNTHETIC TIA, a Binance listing 30 minutes before the run: graded in code (Likely) and named by subject (['the Binance listing notice, as Binance reported it'])
+  ok   SYNTHETIC /coins/tia: no fact in both (none), and each named event points at exactly one listed item (one)
+  ok   SYNTHETIC /why/2026-10-16-celestia: no fact in both (none), and each named event points at exactly one listed item (one)
+  ok   /why/2026-10-16-celestia: the card and the section, no fact in both (none)
+  ok   /why/2026-10-16-celestia: canonical at its own URL, linked to the coin page
+  ok   /why/2026-10-16-ether-fi: the card and the section, no fact in both (none)
+  ok   /why/2026-10-16-ether-fi: canonical at its own URL, linked to the coin page
+  ok   /why/2026-10-16-injective-protocol: the card and the section, no fact in both (none)
+  ok   /why/2026-10-16-injective-protocol: canonical at its own URL, linked to the coin page
+  ok   /why/2026-10-16-layerzero: the card and the section, no fact in both (none)
+  ok   /why/2026-10-16-layerzero: canonical at its own URL, linked to the coin page
+  ok   /why/2026-10-16-pendle: the card and the section, no fact in both (none)
+  ok   /why/2026-10-16-pendle: canonical at its own URL, linked to the coin page
+  ok   a second record the same day keeps every URL; the page carries the day's newest verdict
+  ok   the build writes the movers' /why/ pages beside Bitcoin's and hands them to the sitemaps
+  ok   every mover's /why/ URL is in the news sitemap inside its 48 hours
+  ok   Big movers lists the five in order of the volatility multiple (['TIA', 'INJ', 'ZRO', 'ETHFI', 'PENDLE'])
+  ok   each row carries its 24h move, its excess over Bitcoin, its usual-day multiple, its volume against its 7-day average (or 'not read') and its grade linked to its /why/ page
+  ok   the 24h column is the first after the name
+  ok   APT and SEI, which failed the gate, are not in Big movers
+  ok   a coin in Big movers is not listed again in the gainers below (one fact, printed once)
+  ok   19 October (real): no coin passed, so the list says so rather than padding
+7. the step keeps a time budget and fails open
+  ok   past the evidence budget every source not yet read is skipped and named 'not read in time', and the record is still written
+  ok   with the step's budget spent, each mover keeps its graded line and no model call is made
+  ok   the budgets: 45 seconds for history reads, 150 for evidence, 300 for the step inside the workflow's 360
+8. wired into both workflows after verdict.py, with a timeout, never a gate; the trigger's settings
+  ok   morning-read.yml: runs movers.py --write after verdict.py, with a timeout, never as a gate
+  ok   morning-read.yml: commits the movers records
+  ok   crypto-news-brief.yml: runs movers.py --write after verdict.py, with a timeout, never as a gate
+  ok   crypto-news-brief.yml: commits the movers records
+  ok   the Edition's step tells a breaking run so, which writes its own record
+  ok   watcher.yml passes the market trigger's three settings
+  ok   movers.py carries no em or en dash
+  ok   watcher.py carries no em or en dash
+  ok   why_evidence.py carries no em or en dash
+  ok   verdict.py carries no em or en dash
+  ok   scripts/sprint94_test.py carries no em or en dash
+9. review 1: one list, the Brief's citations, the crash-day line, the cap said, true reasons, direction
+  ok   ONE LIST: /pulse/movers prints Big movers and no 'Biggest gainers' or 'Biggest losers' list
+  ok   ONE LIST: with no current movers record the page says so, and still prints no old list
+  ok   How to read Big movers never says 'because' (only a Confirmed verdict may)
+  ok   ONE RANK: Big movers prints TIA at #80, its place in the Board's Top 100, as /coins/tia does, with the source and the Board's stamp named
+  ok   SYNTHETIC (a 101st row with TIA's figures and a source rank of 60): outside the Board's 100 positions, never measured
+  ok   PAST THE CAP: after 8 reads today, ZRO +20.59%, ETHFI +15.53% and PENDLE +11.20% are still listed, ungraded
+  ok   PAST THE CAP: a line names both caps (8 a reading, 10 a day) and the coins held back
+  ok   PAST THE CAP: listed() carries the coins past the cap
+  ok   LEFT OUT: SYNTHETIC (a gap in TIA's closes, APT's closes removed) the list prints TIA's own reason (a gap) and APT's own (no stored closes), not one fixed sentence
+  ok   CRASH DAY: 16 October (real, Bitcoin +1.48%, ten coins past 10%) is no crash day: no line
+  ok   CRASH DAY: SYNTHETIC (Bitcoin set to +9.0% on the real Board) the section says once that most coins moved with the market, with the count, and points at Bitcoin's verdict
+  ok   CRASH DAY: the definition is held once, by the audit's numbers (Bitcoin or the market 5% in 24 hours, or 25 or more top-100 coins past 10%)
+  ok   THE BRIEF CITES: on the Edition's page, Celestia links to its verdict, once
+  ok   THE BRIEF CITES: Injective and Pendle link to their verdicts; Arbitrum (not on the list) is not linked
+  ok   THE BRIEF CITES: a coin on the list past the cap (no graded verdict) links to its coin page
+  ok   THE BRIEF CITES: the Edition's front page cites the same way
+  ok   THE BRIEF CITES: a Brief of another day (no Big movers record) links no coin
+  ok   COINBASE: its status feed (status.exchange.coinbase.com/history.rss) is read as a listing feed
+  ok   TRUE REASONS: governance is named as not wired, with Snapshot's hub said to answer
+  ok   COINBASE: 'Markets Open' is a listing, 'Trading Suspension' a delisting, a delayed send neither
+  ok   TRUE REASONS: Bitcoin's and Ether's records no longer say listing notices have no single feed
+9b. the readings agree by direction: a listing with a rise; a delisting, an unlock or a hack with a fall
+  ok   listing on a move up: the readings agree
+  ok   listing on a move down: the readings contradict
+  ok   delisting on a move up: the readings contradict
+  ok   delisting on a move down: the readings agree
+  ok   unlock on a move up: the readings contradict
+  ok   unlock on a move down: the readings agree
+  ok   hack on a move up: the readings contradict
+  ok   hack on a move down: the readings agree
+  ok   SYNTHETIC TIA +30.6% with an unlock in time and no other cause: no Likely; the rulings give no grade, so no card (no_verdict, None)
+  ok   WORDS: an unlock is 'scheduled', as CoinMarketCap lists it; a listing is 'announced'; neither is 'reported'
+10. review 2: the crash count says what it measures; citations never link a common word; no internals
+  ok   CRASH COUNT: SYNTHETIC (the reviewer's probe: Bitcoin -9.0%, INJ -10.5% against a predicted -17.23%, excess +6.73) the count is the coins within 6 points either way (9), INJ not among them (' A market-wide move (Bitcoin -9.00%, the Top 100 -5.02%): most coins moved with the market. 9 of the 10 measured coins p')
+  ok   CRASH COUNT: SYNTHETIC (every coin 7 points past what its beta gives, a crash day): no coin is within 6 points, so the line that most moved with the market does not print
+10b. citations: an unambiguous match only; a coin whose name or ticker is a common word needs a coin cue
+  ok   cite: 'Story continues tonight: markets were calm.' links nothing
+  ok   cite: 'The Flow of funds turned. Sonic speed, analysts said.' links nothing
+  ok   cite: 'It is NOT clear, and ONE fund sold.' links nothing
+  ok   cite: 'Story (IP) rose 20%.' links
+  ok   cite: 'The Story token rose.' links
+  ok   cite: '$NOT jumped 15% after the listing.' links
+  ok   cite: "$NOT led the day, by the desk's count." links
+  ok   cite: 'Celestia rose 30%.' links
+  ok   the common-word list is held in one named place
+10c. no code or file path in the text a reader sees, on the pages this sprint touches
+  ok   /pulse/movers (APT left out): no code or file path in the visible text (none)
+  ok   /coins/tia: no code or file path in the visible text (none)
+  ok   /why/2026-10-16-celestia: no code or file path in the visible text (none)
+  ok   /why/2026-10-16-ether-fi: no code or file path in the visible text (none)
+  ok   /why/2026-10-16-injective-protocol: no code or file path in the visible text (none)
+  ok   /why/2026-10-16-layerzero: no code or file path in the visible text (none)
+  ok   /why/2026-10-16-pendle: no code or file path in the visible text (none)
+  ok   Bitcoin's section (15 October): no code or file path in the visible text (none)
+
+SPRINT 9.4: PASS (0 failure(s))
+===== scripts/sprint95_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-i/site/publish (exit 0)
+1. the names: NAMES.md as ruled on October 16 (3), the recommended column in full, one name per thing
+  ok   the one table holds the nine names, and each has one name (no second, brand name)
+  ok   the URLs behind the names did not change (/today/, /pulse.html, /pulse/movers.html, /flows.html, /chartmaster.html, /news.html, /bottom-line.html, /record.html, /learn.html)
+  ok   the desktop nav: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About
+  ok   the phone tab bar is exactly five: Why it moved, Markets, Big movers, Whale Watch, Brief, to /today/, /pulse.html, /pulse/movers.html, /flows.html, /bottom-line.html, and the current page's tab is marked
+  ok   no nav entry carries a second (brand) name
+  ok   the title tag's lead is the one name
+  ok   the nav and the tab bar mark the same group: /today/ and /why/... are Why it moved, /pulse/movers.html is Big movers, a month of the Brief is The Brief
+  ok   the Markets tiles: ETF flows, Whale flows, Stablecoin supply, Bitcoin fees (section 4's rows)
+  ok   the wire's reading names follow, and a stored wire file with the old names is read through the table
+  ok   the home: 'Top story, checked' heads the checked story (not 'The checked story')
+  ok   the home: the mood block is 'Sentiment' (not 'The mood')
+  ok   the home: the wire's mark is 'Reported' (not 'Wire') and a reading is 'Related data: ETF flows' (not 'Reads with Spot ETF net'), from a stored wire written under the old name
+  ok   the home: the money cards read 'ETF flows', 'Whale flows', 'Stablecoin supply'
+  ok   the home: the link to the daily answer reads 'Why it moved' (not 'Why crypto moved today')
+  ok   the home: no 'Board' as a place name (the Markets name is the only one)
+  ok   the home: the Brief card is named 'Morning Brief' or 'Evening Brief' by slot, 'The Brief' when the slot is not named
+  ok   the funding card reads 'Funding rate, annualized' (not 'Leverage, funding annualized')
+  ok   the daily answer's slots are 'Morning Brief' and 'Evening Brief'; no 'Edition', no 'Morning read'
+  ok   a daily-answer record stored before the rename is read through the table (Evening Edition -> Evening Brief)
+  ok   the verdict pages and the movers' pages stamp the Brief names
+  ok   the daily answer's kicker is 'Why it moved' (not 'Today')
+  ok   the footer: News, Charts, Storylines, Learn, About, Archive, How we check, Corrections (no 'How we work', no 'Standards & corrections')
+  ok   the footer note names Markets, not the Board
+2. each page's H1, title tag, kicker and badges: one name, never a second one
+  ok   Markets: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+  ok   Whale Watch: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+  ok   Charts: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+  ok   News: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+  ok   The Brief: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+  ok   Storylines: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+  ok   Learn: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+  ok   Markets: no 'The Board', no 'Markets: The Board', no 'Board' kicker in its title, crumbs or links
+  ok   Charts: the dated read is 'The chart read, Sep 21', not "Chart Master's read"
+  ok   the Markets page's chart card is 'The chart read, Oct 15' (not "Chart Master's read")
+  ok   Storylines: the record page's badges read Tracker, Ongoing story and Sources: (not Living table, Running story, Receipts:)
+  ok   News: nothing on it is called Checked as a brand, the Board, or Wire as a badge; the kind labels read Markets and Brief
+  ok   Learn: no 'The Board explained'; the tiles are named as the Markets tiles are
+  ok   the stablecoin page is 'Stablecoin supply' (not 'Stablecoin dry powder' or 'float')
+  ok   Whale Watch: the stablecoin flow is 'Stablecoins onto exchanges' (not 'Stablecoin buying power')
+3. the answer first: the verdict card is the home's first object; Bitcoin is one line
+  ok   with a graded card: it is the first element of the home's first column, before the tape
+  ok   with a graded card: the ten blocks keep section 2's order after it
+  ok   Bitcoin is one line: the tape block holds the price, the 24-hour change and the stamp, and no chart, no tile
+  ok   the card Bitcoin used to have (the week's chart, the 24-hour range, the other coins) is under 'Where Bitcoin stands'
+  ok   the price and its change print once on the home: not in the tape and again in the chart card
+  ok   with no graded card (the same Board, no verdict): no card, no empty slot; the tape's line is the first object, the Brief card is next
+  ok   SYNTHETIC (the day's cap reached): the notice follows the tape's line; it is not the answer and does not lead
+  ok   SYNTHETIC (a kind that draws no card): nothing is drawn and nothing stands in for it
+  ok   no em dash or en dash on the home
+4. How we check: the process as it runs, the editor named Crypto Cronkite, no AI disclosure, no personal name
+  ok   How we check names the editor 'Crypto Cronkite' and says the checks are automated and reviewed by the editor
+  ok   How we check: the page's H1 is 'How we check' and the title tag opens with it
+  ok   How we check describes the four grades with the desk's own definitions (verdict.DEFINITIONS)
+  ok   /method.html: no AI disclosure and no claim that a person wrote or hand-checked anything
+  ok   /method.html: no personal name, and the editor is never named other than Crypto Cronkite
+  ok   /method.html: no em dash or en dash
+  ok   /about.html: no AI disclosure and no claim that a person wrote or hand-checked anything
+  ok   /about.html: no personal name, and the editor is never named other than Crypto Cronkite
+  ok   /about.html: no em dash or en dash
+  ok   /corrections.html: no AI disclosure and no claim that a person wrote or hand-checked anything
+  ok   /corrections.html: no personal name, and the editor is never named other than Crypto Cronkite
+  ok   /corrections.html: no em dash or en dash
+  ok   /standards.html: no AI disclosure and no claim that a person wrote or hand-checked anything
+  ok   /standards.html: no personal name, and the editor is never named other than Crypto Cronkite
+  ok   /standards.html: no em dash or en dash
+  ok   About names the editor and points to How we check; it does not say who wrote anything
+  ok   /standards.html still resolves: it is a pointer to How we check and Corrections, canonical to /method.html
+  ok   a man's name never appears in the footer or the masthead either
+5. the corrections log: every correction the desk has made, from the data, with the story it belongs to
+  ok   the log has one row for each story that carries a correction (5)
+  ok   the page is 'Corrections', lists each story's title with a link to it and the correction's own words
+  ok   a correction's date is the date its own text carries; a correction with none says 'Correction date not recorded' (the log never supplies a date)
+  ok   newest first
+  ok   SYNTHETIC (no corrections): the page says so and lists nothing
+  ok   SYNTHETIC (a dated correction): 'Corrected October 17, 2026.' and the story's link
+6. the Brief archive is a month to a page; /bottom-line.html stays the front of it
+  ok   the real Briefs fall in 4 months, newest first, and every Brief is in exactly one
+  ok   /bottom-line.html holds the newest month only and links every month
+  ok   each older month is its own page at /bottom-line/<YYYY-MM>.html, holding that month's Briefs
+  ok   no month page carries a tenth of the old page's weight: the longest holds at most 70 Briefs
+  ok   the Brief page says 'The Brief', not 'daily reads', 'edition' or 'The Bottom Line'
+7. the coin page: the Ledger card below the news and off a coin that moved past the mover line; the chart's box reserved
+  ok   an ordinary day: the Ledger card is on the page, after the coin's readings and stories, at the foot above the links
+  ok   the card is after 'Supply and trade' where the page has it
+  ok   SYNTHETIC (a coin up 31% in 24 hours, the audit's example): no Ledger card on its page
+  ok   SYNTHETIC (a coin down 12.5%): no Ledger card either
+  ok   SYNTHETIC (a coin up 9.9%, under the line): the card stays
+  ok   the real 16 October record lists ['ETHFI', 'INJ', 'PENDLE', 'TIA']...
+  ok   the real 16 October Big mover ETHFI: no Ledger card on its page
+  ok   the chart's box is reserved: the stage keeps its minimum height (308 px, 378 from 480 px) and the head keeps the room its tabs take, so waking the tabs moves nothing
+8. charts that read on a phone: 12 px at 375 and 390, the 9.2 timing chart included
+  ok   the timing chart's box is 340 units wide with 12.5-unit labels: 12.6 px in a 343 px column (375), 13.1 px at 390
+  ok   every label in the drawn chart is 12.5 units or more, and draws at 12 px or more in a 343 px column
+  ok   the chart's prices are whole dollars above $1,000 (no cents in an axis label)
+  ok   the chart is capped at 480 px so its labels never swell past 18 px on a wide column
+  ok   the home chart's own labels (7D high close, the day names) are 12 px
+  ok   dark mode: the chart label inks (muted, faint) clear 4.5:1 on the paper and on the card
+9. tables that fit 375: one shared rule in system.css
+  ok   system.css holds the shared rule: xs-x columns hide below 521 px and the toggle brings them back, no script
+  ok   Big movers: rank, coin, 24h and grade stay; Beyond Bitcoin, Its usual day and Volume are xs-x, with the toggle before the table
+  ok   Whale Watch by exchange: net only at 375 (In and Out are xs-x), the toggle before the table
+  ok   the toggle's checkbox is a real, labelled control (a label for it, a 44 px target)
+10. a stored file written before the rename is read through the table when its page is drawn
+  ok   why_evidence prints 'on Markets', not 'on the Board', for a stored reason
+  ok   the evidence record the build writes now names Markets in its read-and-unread ledger
+  ok   the composed Brief page is 'Evening Brief', not 'Evening Edition'
+11. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-i/site/publish
+  ok   NO URL REMOVED OR CHANGED: all 70 pages main built (the structural set) are still built ()
+  ok   the new pages are additions: /corrections.html is built, and the older Brief months are /bottom-line/<YYYY-MM>.html
+  ok   /today/ stays canonical: its canonical link is /today, and every page's nav links /today/
+  ok   /standards.html and /method.html both resolve; the sitemap lists /corrections and every older Brief month
+  ok   the nav on the built home: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About, in that order
+  ok   the tab bar on the built home: exactly five, Why it moved, Markets, Big movers, Whale Watch, Brief, to the right addresses
+  ok   every page carries the same five-tab bar
+  ok   /pulse.html: H1 'Markets', title tag opens 'Markets - ', one name
+  ok   /flows.html: H1 'Whale Watch', title tag opens 'Whale Watch - ', one name
+  ok   /chartmaster.html: H1 'Charts', title tag opens 'Charts - ', one name
+  ok   /news.html: H1 'News', title tag opens 'News - ', one name
+  ok   /bottom-line.html: H1 'The Brief', title tag opens 'The Brief - ', one name
+  ok   /record.html: H1 'Storylines', title tag opens 'Storylines - ', one name
+  ok   /learn.html: H1 'Learn', title tag opens 'Learn - ', one name
+  ok   no built page prints an old name (the Board, Chart Master, The Edition, Worth keeping, Wire, Living table, Running story, Receipts, Whale net, Spot ETF net, Stablecoin float, dry powder, buying power, Network fees, The mood, How we work, Standards & corrections)
+  ok   /method.html as built: no AI disclosure, no personal name
+  ok   /about.html as built: no AI disclosure, no personal name
+  ok   /corrections.html as built: no AI disclosure, no personal name
+  ok   /standards.html as built: no AI disclosure, no personal name
+  ok   /method.html as built names Crypto Cronkite; /about.html does too
+  ok   /coins/btc as built: the Ledger card (if drawn) is after the coin's stories and above the links
+  ok   /coins/eth as built: the Ledger card (if drawn) is after the coin's stories and above the links
+  ok   /bottom-line.html as built holds one month and a month list
+PASS tab bar at 375: shown, exactly five, Why it moved, Markets, Big movers, Whale Watch, Brief
+PASS tab bar at 375: every label fits its cell and every tab is a 44 px target
+PASS tab bar at 390: shown, exactly five, Why it moved, Markets, Big movers, Whale Watch, Brief
+PASS tab bar at 390: every label fits its cell and every tab is a 44 px target
+PASS home at 375 with a graded card: the verdict card is first in its column, above every block in it, and no lower than the other column's first
+PASS home at 375 with a graded card: it is on the first screen (its top is within 760 px of the page top)
+PASS home at 375: Bitcoin is one line (the tape block is under 130 px, draws no chart, prints price and change once)
+PASS home at 375 with no graded card: no card, no empty slot; the first object is the tape's line, the Brief card next
+PASS home at 1440 with a graded card: the verdict card is first in its column, above every block in it, and no lower than the other column's first
+PASS home at 1440 with a graded card: it is on the first screen (its top is within 760 px of the page top)
+PASS home at 1440: Bitcoin is one line (the tape block is under 130 px, draws no chart, prints price and change once)
+PASS home at 1440 with no graded card: no card, no empty slot; the first object is the tape's line, the Brief card next
+PASS CLS on /coins/btc at 375, read fresh (1 h after its stamp): zero (the chart drew and the page settled)
+PASS CLS on /coins/btc at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled)
+PASS CLS on /coins/btc at 390, read fresh (1 h after its stamp): zero (the chart drew and the page settled)
+PASS CLS on /coins/btc at 390, read stale (9 h after its stamp): zero (the chart drew and the page settled)
+PASS CLS on /coins/btc at 1440, read stale (9 h after its stamp): zero (the chart drew and the page settled)
+PASS CLS on /coins/eth at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled)
+PASS charts at 375: every axis label, tick and pin draws at 12 px or more
+PASS charts at 390: every axis label, tick and pin draws at 12 px or more
+PASS chart labels in dark mode: every svg label clears 4.5:1 against its surface
+PASS chart labels in light mode: every svg label clears 4.5:1 against its surface
+PASS /movers-fixture.html at 375: the table fits its box with its secondary columns hidden, and a toggle sits before it
+PASS /movers-fixture.html at 375: the toggle brings the hidden columns back
+PASS /movers-fixture.html at 375: the page does not scroll sideways
+PASS /movers-fixture.html at 1440: every column shows and the toggle is not drawn
+PASS /flows.html at 375: the table fits its box with its secondary columns hidden, and a toggle sits before it
+PASS /flows.html at 375: the toggle brings the hidden columns back
+PASS /flows.html at 375: the page does not scroll sideways
+PASS /flows.html at 1440: every column shows and the toggle is not drawn
+PASS /pulse/leverage.html at 375: no table scrolls sideways inside its box (liquidations: the rule, when the Board carries them)
+PASS no horizontal page scroll at 375
+PASS no horizontal page scroll at 390
+PASS Brief archive at 375: one month of entries and a list of months (not every Brief on one page)
+
+SPRINT 9.5 BROWSER: PASS (34 of 34 checks hold)
+
+
+SPRINT 9.5: PASS (0 failure(s))
+===== scripts/twins_gate_test.py  (exit 0)
+== the seven wrong drops of 9 and 10 October (must be KEPT)
+ok   F1: bottom line: kept | ETF outflow read as whale net (misattributed). [verbatim from wrap-status.json]
+ok   F2: body 1: kept | a quoted word is not a claim. [verbatim from wrap-status.json]
+ok   F3: body 6: kept | two windows in one sentence. [verbatim from wrap-status.json]
+ok   F4: dek: kept | 'five-session' is a window. [verbatim from wrap-status.json]
+ok   F5: bottom line: kept | 'funding' beats the coin named after it. [verbatim from wrap-status.json]
+ok   F6: body 3: kept | 'five-session' is a window. [verbatim from wrap-status.json]
+ok   F8: body paragraph 4: kept | FOUND LIVE at 7:17 PM ET 13 Oct by the old gate, the eighth wrong drop: read against Bitcoin's ETF net (+6.7M) with a five-session window. [verbatim from run 38482566029's log]
+ok   F7: narrative line: kept | 'falling' is a sign word. [TAIL RECONSTRUCTED after "Saturday's tape held steady"]
+== an Ether ETF sentence is read against the ETH net
+ok   E1: kept | both true on 9 Oct (ETH -56.1M, BTC +21.1M); main reads the Ether outflow against Bitcoin's net
+== found by the replay: a true sentence the first cut of the fix would have cut
+ok   R1: kept | the 9 October dek: 'exchange inflows' are the whale board's (-119M, onto exchanges), not the ETF net's
+ok   R2: kept
+== true negatives (must still be DROPPED)
+ok   TN1: dropped: Bitcoin is up 1.3% on the week and up 8.3% on the month. | REAL: the 6 October Edition's figures from the spark; the series said 2.75% and 7.45%
+ok   TN2: dropped: Spot ETF flows were positive on the day. | SYNTHETIC text of the real 7 October class: the stale read said positive, the snapshot -66.9M
+ok   TN3: dropped: Bitcoin is rising over seven days. | SYNTHETIC: a week claim is checked against the series (-3.72%)
+ok   TN4: dropped: Funding rates stayed negative for bitcoin and solana. | SYNTHETIC: 'funding' binds, and every coin named is checked (Solana is positive)
+ok   TN5: dropped: Bitcoin is falling 2.3% on the week. | SYNTHETIC: falling 2.3% means -2.3; the series says +2.30, so the sentence is wrong
+ok   TN8: dropped: Ether ETF flows turned positive on the day. | SYNTHETIC: an Ether ETF sentence is read against the ETH net (-56.1M on 9 Oct), not Bitcoin's
+ok   TN6: dropped: Bitcoin was rising on the week. | SYNTHETIC: 'rising' on the week against the series' -2.30
+ok   TN7: dropped: The index said "ETF flows turned positive" on the day. | SYNTHETIC: a quoted CLAUSE (four words) is still a claim; ETF net is -244.1M
+== the five causes, each alone
+ok   C1 hyphen windows: seven-day ETF: kept
+ok   C1 hyphen windows: 24-hour: kept
+ok   C4/5 quoted word: kept
+ok   C4/5 sign word: kept
+ok   C1 hyphen window is CHECKED: dropped (series -3.72%): Bitcoin is rising on a seven-day basis. (main kept it: the hyphen hid the window)
+== a sentence the gate cannot parse is logged, with the reason, and counted
+ok   U1: dropped as unparsed (unparsed: an odd number of quotation marks around a direction word) | an odd number of quotation marks around a direction word
+ok   U2: a check that raises is an unparsed drop (unparsed: ZeroDivisionError: division by zero)
+ok   U3: the saved log counts the drop: {'wrong': 0, 'unparsed': 1}
+== item 1: a direction pairs with a driver only when the driver's sign supports it
+ok   I1 higher + inflows: 'Bitcoin is drifting higher on spot ETF inflows'
+ok   I1 lower + outflows: 'Bitcoin is drifting lower on spot ETF outflows'
+ok   I1 higher + outflows (9 Oct): 'Bitcoin is drifting higher while spot ETFs saw outflows'
+ok   I1 lower + inflows: 'Bitcoin is drifting lower while spot ETFs saw inflows'
+ok   I1 flat + outflows: 'Bitcoin is holding flat while spot ETFs saw outflows'
+ok   I1 flat + inflows: 'Bitcoin is holding flat while spot ETFs saw inflows'
+ok   I1 gate: the 9 October table line holds the gate: 'Bitcoin is drifting higher while spot ETFs saw outflows; the wire is quiet.'
+== the ledger row carries the night's drops and their reasons
+ok   L1: {'twins_drops': 0, 'twins_unparsed': 1, 'twins_log': [{'s': "the Brief's bottom line", 'k': 'unparsed', 'why': 'unparsed: ZeroDivisionError: division by zero', 't': 'Bitcoin was positive today.'}]}
+ok   L2: no gate log, no fields (a run the gate never touched)
+== item 2.3: the Board's Whale tags
+ok   W1 L2 shutdown: 'Base-built L2 Zora Network shuts down and winds down its chain' -> ''
+ok   W2 bank custody approval: 'OCC approves first national bank custody charter for digital assets' -> ''
+ok   W3 exchange still reads: 'Exchange X pauses withdrawals after wallet incident' -> 'Whale flows'
+ok   W4 exchange shutdown still reads: 'Bitmex shuts down its spot market' -> 'Whale flows'
+== item 2.4: a coin whose vesting page the desk cannot read shows no unlock line
+ok   N-HYPE: HYPE: '' (data/calendar/unlocks.json: page not readable from the desk; read again 13 October: HTTP 403)
+ok   N-WBT: WBT: '' (data/calendar/unlocks.json: page not readable from the desk; read again 13 October: HTTP 403)
+ok   N-RAIN: RAIN: '' (data/calendar/unlocks.json: page not readable from the desk; read again 13 October: HTTP 403)
+
+43 of 43 cases hold
+SUITE: 17 scripts, 0 with a non-zero exit

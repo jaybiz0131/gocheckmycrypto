@@ -1289,9 +1289,9 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
     led.miss("EDGAR 8-K filings", "not read: the search gives the day, not the time")
     etf = (((pulse or {}).get("etf_flows") or {}).get("btc") or {})
     if isinstance(etf.get("latest_net_usd_m"), (int, float)):
-        led.ok("Farside spot ETF flows (the Board's daily read)", "https://farside.co.uk/btc/")
+        led.ok("Farside spot ETF flows (the daily read on Markets)", "https://farside.co.uk/btc/")
     else:
-        led.miss("Farside spot ETF flows", "the Board's reading was not handed to this build")
+        led.miss("Farside spot ETF flows", "the Markets reading was not handed to this build")
     out = {"what": "The evidence under 'What lined up with the move': the intraday series, the "
                    "candidate events with their event and first-report times, the timing test and "
                    "the onset hour's mechanics. Measured by code; no model call; no grade.",
@@ -1299,7 +1299,7 @@ def build(end_utc, wire, now_utc=None, fetch=None, pulse=None, gate=None, coins=
            "made_utc": _iso(now), "candidates": cands, "source_cuts": cuts, "coins": {},
            "day": {"stablecoins": stables,
                    "etf_btc": ({"date": etf.get("latest_date"), "net_usd_m": etf.get("latest_net_usd_m"),
-                                "source": "Farside Investors (the Board)"}
+                                "source": "Farside Investors (Markets)"}
                                if isinstance(etf.get("latest_net_usd_m"), (int, float)) else None)}}
     others = {k: v[0] for k, v in series.items()}
     runs = {sym: onset([(t, p) for t, p in series[sym][0]["points"]]) for sym in coins if sym in series}
@@ -1492,13 +1492,28 @@ def timing_words(r, c, name="the price", wdir="down"):
     return out
 
 
-# The chart's box. 420 units wide so its 11.5-unit labels read at about 9.4 px on a 375 phone
-# (343 px of column) and about 16 px at the 600 px the stylesheet caps it at.
-CHART_W, CHART_H, CHART_X0, CHART_X1 = 420, 216, 62, 410
+# The chart's box (Sprint 9.5, AUDIT.md 3.4 move 4: 12 px minimum on a phone). 340 units wide, so a 12.5-unit
+# label reads at 12.6 px in the 343 px column of a 375 phone (13.1 px at 390), and at about 17.6 px at the
+# 480 px the stylesheet caps it at. It was 420 wide with 11.5-unit labels: 9.4 px on a 375 phone.
+CHART_W, CHART_H, CHART_X0, CHART_X1 = 340, 200, 62, 332
+LABEL_FS = 12.5                 # every label's size in the box's own units; tests read it
+PIN_R = 9.5
 
 
 def _x(t, w0, w1, x0, x1):
     return x0 + (t - w0) / ((w1 - w0) or 1) * (x1 - x0)
+
+
+# A record written before Sprint 9.5 carries "the Board" in its stored reasons; Markets is the name now.
+_RENAMED = (("the Board's daily read", "the daily read on Markets"), ("the Board's reading", "the Markets reading"),
+            ("on the Board", "on Markets"), ("(the Board)", "(Markets)"))
+
+
+def _renamed(text):
+    t = str(text or "")
+    for a, b in _RENAMED:
+        t = t.replace(a, b)
+    return t
 
 
 def chart_svg(coin, cands_numbered, name, window):
@@ -1524,9 +1539,9 @@ def chart_svg(coin, cands_numbered, name, window):
     line = " ".join(f"{_x(t, w0, w1, x0, x1):.1f},{y(p):.1f}" for t, p in pts)
     parts = [f'<line x1="{x0}" y1="{y1}" x2="{x1}" y2="{y1}" stroke="var(--line)" stroke-width="1"></line>',
              f'<line x1="{x0}" y1="{y0}" x2="{x1}" y2="{y0}" stroke="var(--line)" stroke-width="1"></line>',
-             f'<text x="{x0 - 6}" y="{y0 + 4}" text-anchor="end" font-family="var(--mono)" font-size="11.5" '
+             f'<text x="{x0 - 6}" y="{y0 + 4}" text-anchor="end" font-family="var(--mono)" font-size="{LABEL_FS}" '
              f'fill="var(--muted)">{_e(_price(hi))}</text>',
-             f'<text x="{x0 - 6}" y="{y1 + 4}" text-anchor="end" font-family="var(--mono)" font-size="11.5" '
+             f'<text x="{x0 - 6}" y="{y1 + 4}" text-anchor="end" font-family="var(--mono)" font-size="{LABEL_FS}" '
              f'fill="var(--muted)">{_e(_price(lo))}</text>']
     if run:
         rx0, rx1 = _x(run["start_t"], w0, w1, x0, x1), _x(run["end_t"], w0, w1, x0, x1)
@@ -1540,7 +1555,7 @@ def chart_svg(coin, cands_numbered, name, window):
         x = _x(t, w0, w1, x0, x1)
         parts.append(f'<line x1="{x:.1f}" y1="{y1}" x2="{x:.1f}" y2="{y1 + 4}" stroke="var(--muted)"></line>'
                      f'<text x="{x:.1f}" y="{y1 + 17}" text-anchor="middle" font-family="var(--mono)" '
-                     f'font-size="11.5" fill="var(--muted)">{_e(_et(t).strftime("%-I %p"))}</text>')
+                     f'font-size="{LABEL_FS}" fill="var(--muted)">{_e(_et(t).strftime("%-I %p"))}</text>')
     parts.append(f'<polyline class="ev-line" fill="none" stroke="{col}" stroke-width="1.8" '
                  f'stroke-linejoin="round" points="{line}"></polyline>')
     last = {0: -99.0, 1: -99.0}
@@ -1549,14 +1564,14 @@ def chart_svg(coin, cands_numbered, name, window):
             continue
         x = _x(t, w0, w1, x0, x1)
         # two rows of markers, so two events minutes apart do not print one number over the other
-        row = 0 if x - last[0] >= 18 else (1 if x - last[1] >= 18 else 0)
+        row = 0 if x - last[0] >= 21 else (1 if x - last[1] >= 21 else 0)
         last[row] = x
-        cy = y0 - 12 - row * 19
-        parts.append(f'<g class="ev-pin"><line x1="{x:.1f}" y1="{cy + 8}" x2="{x:.1f}" y2="{y1}" '
+        cy = y0 - 14 - row * 21
+        parts.append(f'<g class="ev-pin"><line x1="{x:.1f}" y1="{cy + PIN_R}" x2="{x:.1f}" y2="{y1}" '
                      f'stroke="var(--ink)" stroke-opacity="0.55" stroke-dasharray="3 3"></line>'
-                     f'<circle cx="{x:.1f}" cy="{cy}" r="8" fill="var(--paper)" stroke="var(--ink)" '
-                     f'stroke-width="1"></circle><text x="{x:.1f}" y="{cy + 3.5}" text-anchor="middle" '
-                     f'font-family="var(--mono)" font-size="10" font-weight="700" fill="var(--ink)">{n}</text></g>')
+                     f'<circle cx="{x:.1f}" cy="{cy}" r="{PIN_R}" fill="var(--paper)" stroke="var(--ink)" '
+                     f'stroke-width="1"></circle><text x="{x:.1f}" y="{cy + 4.4}" text-anchor="middle" '
+                     f'font-family="var(--mono)" font-size="{LABEL_FS}" font-weight="700" fill="var(--ink)">{n}</text></g>')
     if run:
         ox = _x(run["start_t"], w0, w1, x0, x1)
         parts.append(f'<circle class="ev-onset" cx="{ox:.1f}" cy="{y(run["start_p"]):.1f}" r="4" '
@@ -1733,10 +1748,10 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
     for u in unread:
         if u["name"] not in seen:
             seen.add(u["name"])
-            names.append(f'{u["name"]} ({u["why"]})')
+            names.append(_renamed(f'{u["name"]} ({u["why"]})'))
     srcs_html = (f'<p class="ev-src">Not read, so not shown: {_e("; ".join(names))}.</p>' if names else "")
     day = rec.get("day") or {}
-    daily = [x for x, ok in (("Farside spot ETF flows (daily; on the Board)", day.get("etf_btc")),
+    daily = [x for x, ok in (("Farside spot ETF flows (daily; on Markets)", day.get("etf_btc")),
                              ("DefiLlama stablecoin supply (daily)", day.get("stablecoins"))) if ok]
     if daily:
         srcs_html = f'<p class="ev-src">Read, not shown in this hour: {_e("; ".join(daily))}.</p>' + srcs_html

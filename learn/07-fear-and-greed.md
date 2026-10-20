@@ -8,20 +8,20 @@ related_tiles: bitcoin; leverage; market
 read_time: 4 min
 byline: The GoCheckMyCrypto desk
 live_embed: board.sentiment (index value, band label, change since yesterday, as-of stamp, source line). Template slot, filled at build.
-build_note: confirm the index source named in the copy (Alternative.me) against the Board configuration.
+build_note: confirm the index source named in the copy (Alternative.me) against Markets configuration.
 ---
 
 # The Fear and Greed index, explained
 
 *The crowd sentiment tile is a single number from 0 to 100 that tries to answer one question: how is everyone feeling? It is the most quoted number in crypto and the most misused. Here is how to read it without getting fooled.*
 
-[LIVE FROM THE BOARD: index value, band, change since yesterday, as-of stamp, source. Link: See it on the Board.]
+[LIVE FROM THE BOARD: index value, band, change since yesterday, as-of stamp, source. Link: See it on Markets.]
 
 ## What it measures
 
 The Crypto Fear and Greed index, published by Alternative.me, combines several measurable signals into one score. The main ingredients are price volatility, market momentum and trading volume, social media activity, Bitcoin's share of the market, and search interest. Each is compared with its own recent history, weighted, and blended.
 
-The result reads as a mood. Zero is extreme fear, 100 is extreme greed. The Board shows the score, the band it falls in, and how it moved since yesterday.
+The result reads as a mood. Zero is extreme fear, 100 is extreme greed. Markets shows the score, the band it falls in, and how it moved since yesterday.
 
 The bands: 0 to 24 is extreme fear, 25 to 44 is fear, 45 to 55 is neutral, 56 to 74 is greed, 75 to 100 is extreme greed.
 
@@ -45,9 +45,9 @@ The index does not know why people feel the way they do. A greed reading driven 
 
 ## Where the data comes from
 
-The Board reads the published index at every site build. The methodology and weights belong to the index publisher; the Board reports the number and the band without adjusting them.
+Markets reads the published index at every site build. The methodology and weights belong to the index publisher; Markets reports the number and the band without adjusting them.
 
-## Related on the Board
+## Related on Markets
 
 Bitcoin: when RSI and sentiment are both stretched, the crowd and the price agree, which is when reversals surprise the most people.
 
@@ -55,6 +55,6 @@ Leverage: the tile that tells you whether greed is backed by real money or borro
 
 Whole market: falling Bitcoin dominance and rising greed usually travel together.
 
-[Back to the Board]
+[Back to Markets]
 
 *This page is education, not advice. Do your own research.*

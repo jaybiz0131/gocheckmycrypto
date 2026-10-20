@@ -1,0 +1,134 @@
+Sprint 9.5, U-9: each guarded thing broken on purpose in a throwaway copy of the tree, scripts/sprint95_test.py run, the same copy run again with the break undone. Fresh copy per plant. Tue Oct 20 2026, 06:00 AM UTC
+PLANT 1 names: the Markets page takes its brand name back (NAMES['markets'] second name 'The Board') (site_build.py): exit 1, 4 red; restored: exit 0
+      FAIL the one table holds the nine names, and each has one name (no second, brand name)
+      FAIL no nav entry carries a second (brand) name
+      FAIL Markets: no 'The Board', no 'Markets: The Board', no 'Board' kicker in its title, crumbs or links
+      FAIL News: nothing on it is called Checked as a brand, the Board, or Wire as a badge; the kind labels read Markets and Brief
+PLANT 2 names: Whale Watch is 'Flows' again in the one table (site_build.py): exit 1, 5 red; restored: exit 0
+      FAIL the one table holds the nine names, and each has one name (no second, brand name)
+      FAIL the desktop nav: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About
+      FAIL the phone tab bar is exactly five: Why it moved, Markets, Big movers, Whale Watch, Brief, to /today/, /pulse.html, /pulse/movers.html, /flows.html, /bottom-line.html, and the current page's tab is marked
+      FAIL the title tag's lead is the one name
+      FAIL Whale Watch: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+PLANT 3 names: the Record is 'Worth keeping' again (site_build.py): exit 1, 5 red; restored: exit 0
+      FAIL the one table holds the nine names, and each has one name (no second, brand name)
+      FAIL the desktop nav: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About
+      FAIL the title tag's lead is the one name
+      FAIL the footer: News, Charts, Storylines, Learn, About, Archive, How we check, Corrections (no 'How we work', no 'Standards & corrections')
+      FAIL Storylines: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+PLANT 4 nav: the why leaves the desktop nav (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the desktop nav: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About
+PLANT 5 tab bar: the old five (Markets, Flows, Charts, News, Brief) (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the phone tab bar is exactly five: Why it moved, Markets, Big movers, Whale Watch, Brief, to /today/, /pulse.html, /pulse/movers.html, /flows.html, /bottom-line.html, and the current page's tab is marked
+PLANT 6 tab bar: a sixth tab (Charts) is added (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the phone tab bar is exactly five: Why it moved, Markets, Big movers, Whale Watch, Brief, to /today/, /pulse.html, /pulse/movers.html, /flows.html, /bottom-line.html, and the current page's tab is marked
+PLANT 7 front: the verdict card moves back under the Brief card (the 9.3 place) (home.py): exit 1, 1 red; restored: exit 0
+      FAIL with a graded card: it is the first element of the home's first column, before the tape
+PLANT 8 front: Bitcoin's whole card (chart, range, tiles) goes back into the tape (home.py): exit 1, 1 red; restored: exit 0
+      FAIL Bitcoin is one line: the tape block holds the price, the 24-hour change and the stamp, and no chart, no tile
+PLANT 9 front: a withheld notice leads the home (home.py): exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC (the day's cap reached): the notice follows the tape's line; it is not the answer and does not lead
+PLANT 10 home: 'Related data:' is 'Reads with' again (home.py): exit 1, 1 red; restored: exit 0
+      FAIL the home: the wire's mark is 'Reported' (not 'Wire') and a reading is 'Related data: ETF flows' (not 'Reads with Spot ETF net'), from a stored wire written under the old name
+PLANT 11 home: the wire mark is 'Wire' again (home.py): exit 1, 1 red; restored: exit 0
+      FAIL the home: the wire's mark is 'Reported' (not 'Wire') and a reading is 'Related data: ETF flows' (not 'Reads with Spot ETF net'), from a stored wire written under the old name
+PLANT 12 home: the mood block is 'The mood' again (home.py): exit 1, 1 red; restored: exit 0
+      FAIL the home: the mood block is 'Sentiment' (not 'The mood')
+PLANT 13 tiles: 'Whale net' is back on the tile (tile.py): exit 1, 2 red; restored: exit 0
+      FAIL the Markets tiles: ETF flows, Whale flows, Stablecoin supply, Bitcoin fees (section 4's rows)
+      FAIL Learn: no 'The Board explained'; the tiles are named as the Markets tiles are
+PLANT 14 tiles: 'Spot ETF net' is back on the tile (tile.py): exit 1, 3 red; restored: exit 0
+      FAIL the Markets tiles: ETF flows, Whale flows, Stablecoin supply, Bitcoin fees (section 4's rows)
+      FAIL the home: the wire's mark is 'Reported' (not 'Wire') and a reading is 'Related data: ETF flows' (not 'Reads with Spot ETF net'), from a stored wire written under the old name
+      FAIL Learn: no 'The Board explained'; the tiles are named as the Markets tiles are
+PLANT 15 wire: the tag rule names 'Stablecoin float' again (wire.py): exit 1, 1 red; restored: exit 0
+      FAIL the wire's reading names follow, and a stored wire file with the old names is read through the table
+PLANT 16 daily answer: the evening slot is 'Evening Edition' again (today.py): exit 1, 1 red; restored: exit 0
+      FAIL the daily answer's slots are 'Morning Brief' and 'Evening Brief'; no 'Edition', no 'Morning read'
+PLANT 17 pages: the Chart Master's card title is back (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the Markets page's chart card is 'The chart read, Oct 15' (not "Chart Master's read")
+PLANT 18 pages: Whale Watch's stablecoin line is 'Stablecoin buying power' again (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL Whale Watch: the stablecoin flow is 'Stablecoins onto exchanges' (not 'Stablecoin buying power')
+PLANT 19 pages: the footer says 'How we work' again (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the footer: News, Charts, Storylines, Learn, About, Archive, How we check, Corrections (no 'How we work', no 'Standards & corrections')
+PLANT 20 trust: How we check says the text is written by an AI model (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL /method.html: no AI disclosure and no claim that a person wrote or hand-checked anything
+PLANT 21 trust: How we check names a person (site_build.py): exit 1, 2 red; restored: exit 0
+      FAIL How we check names the editor 'Crypto Cronkite' and says the checks are automated and reviewed by the editor
+      FAIL /method.html: no personal name, and the editor is never named other than Crypto Cronkite
+PLANT 22 trust: About says a human editor-in-chief oversees the desk (site_build.py): exit 1, 3 red; restored: exit 0
+      FAIL /about.html: no AI disclosure and no claim that a person wrote or hand-checked anything
+      FAIL /about.html: no personal name, and the editor is never named other than Crypto Cronkite
+      FAIL About names the editor and points to How we check; it does not say who wrote anything
+PLANT 23 corrections: the page invents a date for a correction that has none (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL a correction's date is the date its own text carries; a correction with none says 'Correction date not recorded' (the log never supplies a date)
+PLANT 24 brief: /bottom-line.html lists every month on one page again (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL /bottom-line.html holds the newest month only and links every month
+PLANT 25 ledger: the card is drawn on a coin that moved past the line (site_build.py): exit 1, 3 red; restored: exit 0
+      FAIL SYNTHETIC (a coin up 31% in 24 hours, the audit's example): no Ledger card on its page
+      FAIL SYNTHETIC (a coin down 12.5%): no Ledger card either
+      FAIL the real 16 October Big mover ETHFI: no Ledger card on its page
+PLANT 26 ledger: the card is back above the stories (site_build.py): exit 1, 1 red; restored: exit 0
+      FAIL the card is after 'Supply and trade' where the page has it
+PLANT 27 charts: the timing chart's labels go back to 11.5 units in a 420 box (why_evidence.py): exit 1, 2 red; restored: exit 0
+      FAIL the timing chart's box is 340 units wide with 12.5-unit labels: 12.6 px in a 343 px column (375), 13.1 px at 390
+      FAIL every label in the drawn chart is 11.5 units or more, and draws at 12 px or more in a 343 px column
+PLANT 28 charts: the home chart's labels go back to 10.5 px (site/assets/system.css): exit 1, 1 red; restored: exit 0
+      FAIL the home chart's own labels (7D high close, the day names) are 12 px
+PLANT 29 tables: the shared rule loses its toggle (site/assets/system.css): exit 1, 1 red; restored: exit 0
+      FAIL system.css holds the shared rule: xs-x columns hide below 521 px and the toggle brings them back, no script
+PLANT 30 tables: the Big movers list drops its xs-x columns (movers.py): exit 1, 1 red; restored: exit 0
+      FAIL Big movers: rank, coin, 24h and grade stay; Beyond Bitcoin, Its usual day and Volume are xs-x, with the toggle before the table
+PLANT 31 chart box: the coin chart's head loses its reserved room (site/assets/system.css): exit 1, 1 red; restored: exit 0
+      FAIL the chart's box is reserved: the stage keeps its minimum height (308 px, 378 from 480 px) and the head keeps the room its tabs take, so waking the tabs moves nothing
+
+== THE BROWSER HALF (scripts/sprint95_browser.mjs): one break planted in a copy of a built tree, the browser checks run. Plants 1 to 7 and the last were run on a build before the contrast fix; the contrast plant on the final build.
+PLANT 1 CLS: the coin chart's tabs hide with display:none again (the script waking them moves the chart's head): exit 1, 5 red
+      FAIL CLS on /coins/btc at 375, read fresh (1 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.001570895061728395,"shifts":[{"v":0.0016,"t":86,"n":["P.cc-chg"]}]}
+      FAIL CLS on /coins/btc at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.001570895061728395,"shifts":[{"v":0.0016,"t":95,"n":["P.cc-chg"]}]}
+      FAIL CLS on /coins/btc at 390, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.0015104760208926875,"shifts":[{"v":0.0015,"t":85,"n":["P.cc-chg"]}]}
+      FAIL CLS on /coins/btc at 1440, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.006276333027906379,"shifts":[{"v":0.0063,"t":96,"n":["P.cc-chg"]}]}
+      FAIL CLS on /coins/eth at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.001570895061728395,"shifts":[{"v":0.0016,"t":101,"n":["P.cc-chg"]}]}
+PLANT 2 CLS: the chart caption loses its reserved three lines: exit 1, 7 red
+      FAIL CLS on /coins/btc at 375, read fresh (1 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.004347950617283951,"shifts":[{"v":0.0043,"t":112,"n":["H2.cn-h cn-h-first","DIV.tl-row tl-4 cn-tile
+      FAIL CLS on /coins/btc at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.003684316049382716,"shifts":[{"v":0.0037,"t":126,"n":["H2.cn-h cn-h-first","DIV.tl-row tl-4 cn-tile
+      FAIL CLS on /coins/btc at 390, read fresh (1 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.004370180436847104,"shifts":[{"v":0.0044,"t":130,"n":["H2.cn-h cn-h-first","DIV.tl-row tl-4 cn-tile
+      FAIL CLS on /coins/btc at 390, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.00370315289648623,"shifts":[{"v":0.0037,"t":147,"n":["H2.cn-h cn-h-first","DIV.tl-row tl-4 cn-tiles
+      FAIL CLS on /coins/eth at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.003684316049382716,"shifts":[{"v":0.0037,"t":154,"n":["H2.cn-h cn-h-first","DIV.tl-row tl-4 cn-tile
+PLANT 3 CLS: the three small faces are no longer preloaded (the masthead and the stamps reflow when they land): exit 1, 8 red
+      FAIL CLS on /coins/btc at 375, read fresh (1 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.004170943209876543,"shifts":[{"v":0.0042,"t":196,"n":["#text.","MAIN.wrap","#text."]}]}
+      FAIL CLS on /coins/btc at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.0040277333333333335,"shifts":[{"v":0.004,"t":169,"n":["#text.","MAIN.wrap"]}]}
+      FAIL CLS on /coins/btc at 390, read fresh (1 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.06347627314814815,"shifts":[{"v":0.0635,"t":200,"n":["#text.","MAIN.wrap","#text."]}]}
+      FAIL CLS on /coins/btc at 390, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.061294560185185185,"shifts":[{"v":0.0613,"t":171,"n":["#text.","MAIN.wrap","#text."]}]}
+      FAIL CLS on /coins/btc at 1440, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.0072340088309247475,"shifts":[{"v":0.0072,"t":156,"n":["#text.","#text.","SPAN.mh-slogan"]}]}
+PLANT 4 CLS: the stale-state script is a deferred file again, not inline: exit 1, 5 red
+      FAIL CLS on /coins/btc at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.15711281738683125,"shifts":[{"v":0.1571,"t":85,"n":["SPAN.mh-live is-stale","A.mh-brand","MAIN.wrap
+      FAIL CLS on /coins/btc at 390, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.15709996834441278,"shifts":[{"v":0.1571,"t":99,"n":["SPAN.mh-live is-stale","A.mh-brand","MAIN.wrap
+      FAIL CLS on /coins/eth at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.15711281738683125,"shifts":[{"v":0.1571,"t":96,"n":["SPAN.mh-live is-stale","A.mh-brand","MAIN.wrap
+      FAIL chart labels in dark mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 5 under 4.5:1, e.g. {"t":"extreme fear","cr":2.15}
+      FAIL chart labels in light mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 6 under 4.5:1, e.g. {"t":"extreme fear","cr":3.54} | /pulse/posture.html: 7 under 4.5:1, e.g. {"t":"$81,960.00","cr":3.39} |
+PLANT 5 tables: the toggle no longer hides the xs-x columns at 375: exit 1, 5 red
+      FAIL chart labels in dark mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 5 under 4.5:1, e.g. {"t":"extreme fear","cr":2.15}
+      FAIL chart labels in light mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 6 under 4.5:1, e.g. {"t":"extreme fear","cr":3.54} | /pulse/posture.html: 7 under 4.5:1, e.g. {"t":"$81,960.00","cr":3.39} |
+      FAIL /movers-fixture.html at 375: the table fits its box with its secondary columns hidden, and a toggle sits before it: [{"fits":false,"hidden":false,"n":18,"toggle":true}]
+      FAIL /flows.html at 375: the table fits its box with its secondary columns hidden, and a toggle sits before it: [{"fits":true,"hidden":false,"n":6,"toggle":true}]
+      FAIL /pulse/leverage.html at 375: no table scrolls sideways inside its box (liquidations: the rule, when the Board carries them): {"any":1,"t":[{"fits":false,"hidden":false,"toggle":true},{"fits":true,"hidden":false,"toggle":true}
+PLANT 6 charts: the wide geometry shows at 375 again (labels at 5 to 6 px): exit 1, 4 red
+      FAIL charts at 375: every axis label, tick and pin draws at 12 px or more: /chartmaster.html: 16 under 12 px, e.g. {"t":"$62,820","px":5} | /flows.html: 6 under 12 px, e.g. {"t":"← onto exchanges (sell p","px":5.4} | /pulse/sentim
+      FAIL charts at 390: every axis label, tick and pin draws at 12 px or more: /chartmaster.html: 16 under 12 px, e.g. {"t":"$62,820","px":5.2} | /flows.html: 6 under 12 px, e.g. {"t":"← onto exchanges (sell p","px":5.6} | /pulse/sent
+      FAIL chart labels in dark mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 5 under 4.5:1, e.g. {"t":"extreme fear","cr":2.15}
+      FAIL chart labels in light mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 6 under 4.5:1, e.g. {"t":"extreme fear","cr":3.54} | /pulse/posture.html: 7 under 4.5:1, e.g. {"t":"$81,960.00","cr":3.39} |
+PLANT 7 tab bar: a sixth tab is drawn on every page (Charts): exit 1, 4 red
+      FAIL tab bar at 375: shown, exactly five, Why it moved, Markets, Big movers, Whale Watch, Brief: {"vis":true,"items":[{"text":"Why it moved","h":61,"fits":true,"w":63},{"text":"Markets","h":61,"fits":true,"w":63},{"text":"Big move
+      FAIL tab bar at 390: shown, exactly five, Why it moved, Markets, Big movers, Whale Watch, Brief: {"vis":true,"items":[{"text":"Why it moved","h":61,"fits":true,"w":65},{"text":"Markets","h":61,"fits":true,"w":65},{"text":"Big move
+      FAIL chart labels in dark mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 5 under 4.5:1, e.g. {"t":"extreme fear","cr":2.15}
+      FAIL chart labels in light mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 6 under 4.5:1, e.g. {"t":"extreme fear","cr":3.54} | /pulse/posture.html: 7 under 4.5:1, e.g. {"t":"$81,960.00","cr":3.39} |
+PLANT 8 first object: the verdict card's page order (card after the Brief card) in the fixture: exit 1, 4 red
+      FAIL home at 375 with a graded card: the verdict card is first in its column, above every block in it, and no lower than the other column's first: {"card":330,"cardH":357,"blocks":[{"n":"tape","top":86,"left":true},{"n":"narrative
+      FAIL home at 1440 with a graded card: the verdict card is first in its column, above every block in it, and no lower than the other column's first: {"card":393,"cardH":318,"blocks":[{"n":"tape","top":145,"left":true},{"n":"narrati
+      FAIL chart labels in dark mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 5 under 4.5:1, e.g. {"t":"extreme fear","cr":2.15}
+      FAIL chart labels in light mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 6 under 4.5:1, e.g. {"t":"extreme fear","cr":3.54} | /pulse/posture.html: 7 under 4.5:1, e.g. {"t":"$81,960.00","cr":3.39} |
+PLANT 8 contrast: the sentiment chart's zone labels take the zone's own color at 75% again: exit 1, 2 red
+      FAIL chart labels in dark mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 5 under 4.5:1, e.g. {"t":"extreme fear","cr":2.37}
+      FAIL chart labels in light mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 5 under 4.5:1, e.g. {"t":"extreme fear","cr":3.15}
+Every plant above was red with its break in and green with the break undone: the unit plants were run twice (broken, restored), the browser plants against a copy, the real tree being the one the suite log shows green.

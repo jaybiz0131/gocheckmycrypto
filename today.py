@@ -42,7 +42,7 @@ FLAT_PCT = 0.5                    # Program 8, section 2: Bitcoin within plus or
 MAX_REPORTED = 5
 ARCHIVE_N = 7
 SAME_RUN_MIN = 30             # a read and a snapshot within 30 minutes are one run
-SLOT_LABEL = {"morning": "Morning read", "evening": "Evening Edition"}
+SLOT_LABEL = {"morning": "Morning Brief", "evening": "Evening Brief"}
 
 # The page's own voice never explains a move. A wire item may carry a cause, because its source does.
 CAUSAL = re.compile(r"\b(because|due to|owing to|thanks to|as a result of|driven by|caused by|"
@@ -207,7 +207,7 @@ def board_rows(snap, pulse):
     etf = ((_s.value(snap, "etf_flows") or {}).get("btc") or {})
     if isinstance(etf.get("latest_net_usd_m"), (int, float)):
         v = etf["latest_net_usd_m"]
-        rows.append({"key": "etf", "label": "Bitcoin spot ETF net", "value": v,
+        rows.append({"key": "etf", "label": "Bitcoin ETF flows", "value": v,
                      "window": f"one trading day, {etf.get('latest_date') or 'latest'}",
                      "source": "Farside Investors", "stamp": st, "directional": True})
     liq = None
@@ -254,26 +254,26 @@ def stamp_line(slot, src_utc, snap_utc, snap_stamp_et, now, fallback=False):
         n = now.astimezone(ET)
         import home
         if n >= _evening_et(now):
-            why = "tonight's Edition did not publish"
+            why = "tonight's Brief did not publish"
         elif n >= n.replace(hour=home.MORNING_ET[0], minute=home.MORNING_ET[1], second=0, microsecond=0):
-            why = "this morning's read did not publish"
+            why = "this morning's Brief did not publish"
         else:
-            why = "this morning's read has not published yet"
+            why = "this morning's Brief has not published yet"
         nums = f"Numbers as of {_clock(snap_t)} \u00b7 " if snap_t else ""
         if pub is None:
             return f"{nums}{why}"
         when = ("last night's" if (n.date() - pub.date()).days == 1 and pub.hour >= 17
                 else f"the {pub.strftime('%b')} {pub.day}")
-        return f"{nums}{why}; text from {when} {pub.strftime('%-I:%M %p')} Edition"
+        return f"{nums}{why}; text from {when} {pub.strftime('%-I:%M %p')} Brief"
     if pub is None:
         return label
     here = f"{label}, {_clock(pub)}"
     if snap_t is None or abs((snap_t - pub).total_seconds()) <= SAME_RUN_MIN * 60:
         return here
-    kind = "read" if slot == "morning" else "Edition"
+    kind = "Brief"
     reason = ""
     if slot == "morning" and now.astimezone(ET) >= _evening_et(now):
-        reason = "tonight's Edition did not publish; "
+        reason = "tonight's Brief did not publish; "
     return (f"Numbers as of {_clock(snap_t)} \u00b7 {reason}text from the "
             f"{pub.strftime('%-I:%M %p')} {kind}")
 
@@ -429,6 +429,21 @@ def _core(label, price_html, chg, window="24 hours"):
             f'<span class="td-w">{_e(window)}</span></li>')
 
 
+# SPRINT 9.5: the slots and readings were renamed (NAMES.md section 4). A record written before the
+# rename still carries the old labels in its stored fields; they are read through this table when the
+# page is drawn, so no page prints an old name from a stored file.
+_RENAMED = (("Morning read", "Morning Brief"), ("morning's read", "morning's Brief"), (" AM read", " AM Brief"),
+            ("Edition", "Brief"), ("Bitcoin spot ETF net", "Bitcoin ETF flows"))
+
+
+def reader(text):
+    """A stored label or line as a reader sees it (the Brief names, the renamed readings)."""
+    t = str(text or "")
+    for a, b in _RENAMED:
+        t = t.replace(a, b)
+    return t
+
+
 def _board_html(r):
     import site_build as sb
     k = r["key"]
@@ -444,7 +459,7 @@ def _board_html(r):
         fig_html = f'<span class="td-f">{r["value"]:+.4f}%</span>'
     else:
         fig_html = f'<span class="td-f">{r["value"]:g}</span> <span class="td-w">{_e(r.get("word"))}</span>'
-    return (f'<li class="td-row"><span class="td-n">{_e(r["label"])}</span>{fig_html}'
+    return (f'<li class="td-row"><span class="td-n">{_e(reader(r["label"]))}</span>{fig_html}'
             f'<span class="td-w">{_e(r["window"])} &middot; {_e(r["source"])} &middot; {_e(r["stamp"])}</span></li>')
 
 
@@ -547,16 +562,16 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
                    for c in rec.get("corrections") or [])
     ans = " ".join(rec["answer"])
     return f"""<main class="wrap"><section class="page td-page">
-  <span class="kicker">Today</span>
+  <span class="kicker">Why it moved</span>
   <h1>{_e(rec['h1'])}</h1>
-  <p class="td-stamp">{_e(rec['stamp_label'])}</p>
+  <p class="td-stamp">{_e(reader(rec['stamp_label']))}</p>
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
   {corr}
 {vd_slot}  <section class="td-sec"><h2>What moved</h2>{moved}</section>
   {ev_html}
   {reported_sec}
-  <section class="td-sec"><h2>The Board</h2><ul class="td-list">{board}</ul></section>
-  <p class="td-next">{_e(rec['next'])}</p>
+  <section class="td-sec"><h2>Markets</h2><ul class="td-list">{board}</ul></section>
+  <p class="td-next">{_e(reader(rec['next']))}</p>
   {'<p class="td-w">This is the record of its day. The latest answer is at <a href="/today/">/today/</a>.</p>' if here == "dated" else ''}
   {f'<section class="td-sec td-arch"><h2>Earlier days</h2><ul>{arch}</ul></section>' if arch else ''}
 </section></main>"""

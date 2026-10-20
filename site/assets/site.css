@@ -1971,7 +1971,7 @@ header.masthead{position:relative;z-index:300}
 .ev-run-l .chg.up,.ev-mech .chg.up{color:var(--up)}
 .ev-run-l .chg.down,.ev-mech .chg.down{color:var(--down)}
 .ev-fig{margin:10px 0 14px}
-.ev-chart{display:block;width:100%;max-width:600px;height:auto}
+.ev-chart{display:block;width:100%;max-width:480px;height:auto}
 .ev-cands{list-style:none;margin:0;padding:0}
 .ev-c{position:relative;padding:10px 0 10px 34px;border-bottom:1px solid var(--line)}
 .ev-n{position:absolute;left:0;top:10px;width:22px;height:22px;border:1px solid var(--ink);border-radius:50%;font:700 11px/20px var(--mono);text-align:center}

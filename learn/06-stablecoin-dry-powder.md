@@ -1,26 +1,26 @@
 ---
-title: Stablecoin dry powder: why sidelined dollars matter
+title: Stablecoin supply: why sidelined dollars matter
 slug: /learn/stablecoin-dry-powder
 board_tile: stablecoins
-meta_description: What the stablecoin dry powder tile measures, why dollars already inside crypto tend to move before prices do, and how to read a record on this tile.
-target_queries: stablecoin supply meaning; stablecoin dry powder; what is stablecoin market cap; usdt supply increase meaning
+meta_description: What the stablecoin supply tile measures, why dollars already inside crypto tend to move before prices do, and how to read a record on this tile.
+target_queries: stablecoin supply meaning; stablecoin supply; what is stablecoin market cap; usdt supply increase meaning
 related_tiles: etf_flows; market; whale_flows
 read_time: 4 min
 byline: The GoCheckMyCrypto desk
 live_embed: board.stablecoins (total stablecoin supply, change since yesterday, supply as a share of total market cap, as-of stamp, source line). Template slot, filled at build.
 ---
 
-# Stablecoin dry powder: why sidelined dollars matter
+# Stablecoin supply: why sidelined dollars matter
 
-*Before anyone buys a coin, their dollars have to get inside the system. Stablecoins are those dollars. The dry powder tile counts them, and it is one of the few numbers that tends to move before prices rather than after.*
+*Before anyone buys a coin, their dollars have to get inside the system. Stablecoins are those dollars. The Stablecoin supply tile counts them, and it is one of the few numbers that tends to move before prices rather than after.*
 
-[LIVE FROM THE BOARD: total stablecoin supply, change since yesterday, share of total market cap, as-of stamp, source. Link: See it on the Board.]
+[LIVE FROM THE BOARD: total stablecoin supply, change since yesterday, share of total market cap, as-of stamp, source. Link: See it on Markets.]
 
 ## What it measures
 
-A stablecoin is a token designed to be worth one dollar, backed by dollars or dollar assets held by its issuer. The two largest, Tether and USD Coin, account for most of the supply. The Board adds up the supply of the major stablecoins to get one number: how many dollars are currently sitting inside crypto in a form that can buy coins instantly, with no bank transfer in the way.
+A stablecoin is a token designed to be worth one dollar, backed by dollars or dollar assets held by its issuer. The two largest, Tether and USD Coin, account for most of the supply. Markets adds up the supply of the major stablecoins to get one number: how many dollars are currently sitting inside crypto in a form that can buy coins instantly, with no bank transfer in the way.
 
-The Board calls it dry powder for that reason. It is buying capacity that already cleared the slowest step.
+Markets calls it dry powder for that reason. It is buying capacity that already cleared the slowest step.
 
 ## Why it moves the market
 
@@ -30,9 +30,9 @@ A rising supply means dollars are arriving faster than they are leaving. Those d
 
 ## How to read today's number
 
-The level matters less than the trend and the ratio. The Board shows supply as a share of the total crypto market cap. When that ratio is high, there is a lot of buying capacity relative to the size of the market. When it is low, the market has grown faster than the dollars available to support it.
+The level matters less than the trend and the ratio. Markets shows supply as a share of the total crypto market cap. When that ratio is high, there is a lot of buying capacity relative to the size of the market. When it is low, the market has grown faster than the dollars available to support it.
 
-A new record in supply during a quiet market is one of the more encouraging readings on the Board. A record during a mania is less so, because the dollars are being spent as fast as they arrive.
+A new record in supply during a quiet market is one of the more encouraging readings on Markets. A record during a mania is less so, because the dollars are being spent as fast as they arrive.
 
 ## What it does not tell you
 
@@ -42,9 +42,9 @@ It also cannot see which stablecoins are held by long-term investors and which a
 
 ## Where the data comes from
 
-Stablecoin supply comes from public on-chain data compiled by DefiLlama, which tracks issuance and redemption across chains. The Board reads it at every site build, and the issuers' own attestation reports are the reference for what backs each token.
+Stablecoin supply comes from public on-chain data compiled by DefiLlama, which tracks issuance and redemption across chains. Markets reads it at every site build, and the issuers' own attestation reports are the reference for what backs each token.
 
-## Related on the Board
+## Related on Markets
 
 Spot ETF flows: the other big source of new dollars, arriving through a different door.
 
@@ -52,6 +52,6 @@ Whole market: the denominator for the ratio on this tile.
 
 Whale flows: when dry powder is high and coins are leaving exchanges, supply is tight on both sides.
 
-[Back to the Board]
+[Back to Markets]
 
 *This page is education, not advice. Do your own research.*

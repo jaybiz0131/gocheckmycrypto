@@ -1143,7 +1143,7 @@ def _readings_html(rd, text, rows=True, with_section=False):
 
 # ---- the verdict pages: /why/<date>-<coin> ---------------------------------------------------------------------
 
-SLOT_LABEL = {"morning": "Morning read", "evening": "Evening Edition"}
+SLOT_LABEL = {"morning": "Morning Brief", "evening": "Evening Brief"}
 
 
 def build_pages(vdir=None, wdir=None, tdir=None, dateline=""):

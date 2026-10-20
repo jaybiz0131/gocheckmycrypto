@@ -257,8 +257,8 @@ def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
              if age > 1 else "")
     if sents:
         body = " ".join(esc(destyle(s)) for s in sents[:3])
-        return (f'<section class="cn-cm" aria-label="Chart Master\'s read on {esc(name)}">'
-                f'<h2 class="cn-h">Chart Master\'s read on {esc(name)}, {esc(fmt_date(day))}</h2>'
+        return (f'<section class="cn-cm" aria-label="The chart read on {esc(name)}">'
+                f'<h2 class="cn-h">The chart read on {esc(name)}, {esc(fmt_date(day))}</h2>'
                 f'{stale}<p class="cn-cm-p">{body}</p>'
                 f'<p class="cn-cm-f"><a href="/chartmaster.html">The whole read</a></p></section>')
     rows = []
@@ -271,8 +271,8 @@ def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
         return ""
     cells = "".join(f'<div class="cn-lv"><span class="lab">{esc(k)}</span>'
                     f'<span class="cn-lvv">{esc(v)}</span></div>' for k, v in rows)
-    return (f'<section class="cn-cm" aria-label="Chart Master\'s levels for {esc(name)}">'
-            f'<h2 class="cn-h">Chart Master\'s levels for {esc(name)}, {esc(fmt_date(day))}</h2>'
+    return (f'<section class="cn-cm" aria-label="Chart levels for {esc(name)}">'
+            f'<h2 class="cn-h">Chart levels for {esc(name)}, {esc(fmt_date(day))}</h2>'
             f'{stale}<p class="cn-cm-p">The latest read does not name {esc(name)}. '
             f'These are its levels.</p><div class="cn-lvs">{cells}</div>'
             f'<p class="cn-cm-f"><a href="/chartmaster.html">The whole read</a></p></section>')
