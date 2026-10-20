@@ -113,14 +113,15 @@ try {
       const tape = document.querySelector('[data-block="tape"]');
       return { card: top(card), cardH: card && Math.round(card.getBoundingClientRect().height), blocks,
         firstIsCard: !!first && first === card, tapeH: tape && Math.round(tape.getBoundingClientRect().height),
-        tapeSvg: tape && tape.querySelectorAll("svg").length, tapeText: tape && tape.textContent.replace(/\s+/g, " ").trim() };
+        tapeSvg: tape && tape.querySelectorAll("svg").length, tapeText: tape && tape.innerText.replace(/\s+/g, " ").trim(),
+        btcPx: tape && tape.querySelector("[data-btc-line] .h-px").textContent.trim(), eth: !!(tape && tape.querySelector("[data-eth-line]") && getComputedStyle(tape.querySelector("[data-eth-line]")).display !== "none") };
     });
     check(`home at ${w} with a graded card: the verdict card is first in its column, above every block in it, and no lower than the other column's first`,
       r.firstIsCard && r.card !== null && r.blocks.every(b => (b.left ? r.card < b.top : r.card <= b.top + 2)), JSON.stringify(r));
     check(`home at ${w} with a graded card: it is on the first screen (its top is within 760 px of the page top)`,
       r.card !== null && r.card < 760, `top ${r.card}`);
-    check(`home at ${w}: Bitcoin is one line (the tape block is under 130 px, draws no chart, prints price and change once)`,
-      r.tapeH !== null && r.tapeH <= 130 && r.tapeSvg === 0 && (r.tapeText.match(/\$[\d,]+/g) || []).length === 1, JSON.stringify({ h: r.tapeH, svg: r.tapeSvg, t: r.tapeText }));
+    check(`home at ${w}: Bitcoin is one line (the tape block is under 130 px, draws no chart, prints Bitcoin's price once; from 1280 the Ether line adds Ether's, the one change 9.5b makes to this check, read from what is drawn, not from the markup)`,
+      r.tapeH !== null && r.tapeH <= 130 && r.tapeSvg === 0 && r.tapeText.split(r.btcPx).length - 1 === 1 && (r.tapeText.match(/\$[\d,]+/g) || []).length === (r.eth ? 2 : 1), JSON.stringify({ h: r.tapeH, svg: r.tapeSvg, t: r.tapeText }));
     await ctx.close();
     const [ctx2, page2] = await open(w, "/home-fixture-nocard.html");
     const n = await page2.evaluate(() => {

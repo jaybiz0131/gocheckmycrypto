@@ -2052,6 +2052,7 @@ def _stamp_canary():
             fails.extend(_sprint93_canary(out))
             fails.extend(_sprint94_canary(out))
             fails.extend(_sprint95_canary(out))
+            fails.extend(_sprint95b_canary(out))
             fails.extend(_sprint96_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
@@ -3291,6 +3292,28 @@ def _sprint95_canary(out):
         fails += ["sprint 9.5: " + f for f in _s95.tree(out)]
     finally:
         for m in ("sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint95b_canary(out):
+    """PROGRAM 9, SPRINT 9.5b (20 October 2026): the desktop board. scripts/sprint95b_test.py holds the cases: the wrapper's width
+    read from the CSS (1080 under 1280, 1400 from it), the 9.5b block cut out of each stylesheet leaving Sprint 9.5's file byte for byte,
+    the Ether line as the one added element (with it cut out the home is 9.5's, byte for byte), the tokens-only rule, and, on the tree
+    this build wrote, the built CSS, one Ether line, the script count and the beacon. The browser half (the first screen at 1440, the
+    375 render against 9.5's, CLS on the home, every page type at 1280 and 1440) is scripts/sprint95b_browser.mjs, run by the suite.
+    The helpers are taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint95b_test as _s95b
+        fails = ["sprint 9.5b: " + f for f in _s95b.unit()]
+        fails += ["sprint 9.5b: " + f for f in _s95b.tree(out)]
+    finally:
+        for m in ("sprint95b_test", "sprint95b_fixture", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
             _sys.modules.pop(m, None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)

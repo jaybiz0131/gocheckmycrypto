@@ -274,8 +274,38 @@ def tape(snap):
              f'<span class="h-name">Bitcoin</span>'
              f'<span class="h-px {d or "flat"}" data-tape="bitcoin">{_e(sb._price_fmt(btc["price"]))}</span>'
              f'{chg_html}<span class="h-w">24h</span></p>'
-             f'<p class="h-live" id="tapeLive" data-built="{_e(asof)}"{_asof_attr(read)}>as of {_e(asof)}</p>')
+             f'<p class="h-live" id="tapeLive" data-built="{_e(asof)}"{_asof_attr(read)}>as of {_e(asof)}</p>'
+             f'{eth_line(snap)}')
     return _block("tape", inner)
+
+
+def eth_line(snap):
+    """ETHER IN ONE LINE (Sprint 9.5b, the desktop board): the same line Bitcoin has, from the Board's own Ether
+    reading (the snapshot's coins, CoinGecko /coins/markets), at 1280 pixels and up only. It is the one element 9.5b
+    adds to the home, and it is marked data-wide: under 1280 it is display:none, so the 375 layout, the text a reader
+    meets and the accessibility tree are Sprint 9.5's. From 1280 the Ether tile under "Where Bitcoin stands" is the one
+    hidden instead, so Ether's price prints once at every width.
+
+    SOURCED AND STAMPED: it names the source the Board names for the coins, and it sits in the tape block under the
+    one stamp the Board has (the coins' read time, Jack, 7 October): that stamp is drawn below both lines and the
+    tape's script writes "price live" into it when the live price lands, which covers this line too, because this
+    line's price and change carry the same data-tape attributes the script reads. Nothing is invented: no Ether price
+    is no line, and no 24-hour change is a price with no change, never a zero."""
+    import site_build as sb
+    import snapshot
+    eth = snapshot.coin(snap, "ETH")
+    if not isinstance(eth.get("price"), (int, float)):
+        return ""
+    chg = eth.get("chg_24h_pct")
+    chg_html = (change_html(chg, "h-badge", ' data-tape-chg="ethereum"')
+                if isinstance(chg, (int, float)) else "")
+    src = str(((snap.get("fields") or {}).get("coins") or {}).get("source") or "").split(" ")[0]
+    tail = " \u00b7 ".join(x for x in (["24h"] if chg_html else []) + ([_e(src)] if src else []))
+    tail_html = f'<span class="h-w">{tail}</span>' if tail else ""
+    return (f'<p class="h-bline h-eline" data-eth-line data-wide>'
+            f'<span class="h-name">Ether</span>'
+            f'<span class="h-px" data-tape="ethereum">{_e(sb._price_fmt(eth["price"]))}</span>'
+            f'{chg_html}{tail_html}</p>')
 
 
 def bitcoin_card(snap):
