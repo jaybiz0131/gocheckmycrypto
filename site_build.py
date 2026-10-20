@@ -8322,7 +8322,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
             + '</div>')
 
     inner = f"""{_dash_crumb()}
-  <div class="sec-head"><h2>{esc(name)}<span class="cn-sym">{esc(sym)}</span></h2>
+  <div class="sec-head cn-head"><h2>{esc(name)}<span class="cn-sym">{esc(sym)}</span></h2>
     <span class="bar"></span>{_coin_pin(sym)}</div>
   {chart}
 {mv_slot}  {tiles_html}

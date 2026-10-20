@@ -16,7 +16,9 @@ PLANTS = [
   "@media (max-width:599px){.rc-w{display:none}.rc-n{display:block}}", ""),
  ("tab bar: a sixth tab is drawn on every page (Charts)", "index.html", None, None),
  ("contrast: the sentiment chart's zone labels take the zone's own color at 75% again", "pulse/sentiment.html", None, None),
- ("first object: the verdict card's page order (card after the Brief card) in the fixture", "home-fixture-card.html", None, None),
+ ("first object: the verdict card's page order (card after the Brief card) in the fixture", "home-fixture-card.html", None, None), ("CLS: the coin page's pin box is no longer reserved (its width and height follow the web font again)", "assets/site.css",
+  ".cn-pin{white-space:nowrap;box-sizing:border-box;height:36px;min-width:96px;text-align:center}\n@media (max-width:900px){.cn-pin{height:44px}}",
+  ".cn-pin{white-space:nowrap}"),
 ]
 lines = ["Sprint 9.5, U-9, the browser half: a copy of a built tree, one break planted in it, scripts/sprint95_browser.mjs run (headless Chromium, "
          "every other host aborted). " + time.strftime("%a %b %d %Y, %I:%M %p %Z")]

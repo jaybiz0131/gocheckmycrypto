@@ -144,7 +144,7 @@ try {
     new PerformanceObserver(list => {
       for (const e of list.getEntries()) if (!e.hadRecentInput) {
         window.__cls += e.value;
-        window.__shifts.push({ v: Math.round(e.value * 1e4) / 1e4, t: Math.round(e.startTime), n: (e.sources || []).map(s => s.node && (s.node.nodeName + "." + (s.node.className && s.node.className.baseVal !== undefined ? s.node.className.baseVal : s.node.className || ""))).slice(0, 3) });
+        window.__shifts.push({ v: Math.round(e.value * 1e4) / 1e4, t: Math.round(e.startTime), r: (e.sources || []).map(s => [s.previousRect && Math.round(s.previousRect.width) + "x" + Math.round(s.previousRect.height) + "@" + Math.round(s.previousRect.x) + "," + Math.round(s.previousRect.y), s.currentRect && Math.round(s.currentRect.width) + "x" + Math.round(s.currentRect.height) + "@" + Math.round(s.currentRect.x) + "," + Math.round(s.currentRect.y)]).slice(0, 3), n: (e.sources || []).map(s => s.node && (s.node.nodeName + "." + (s.node.className && s.node.className.baseVal !== undefined ? s.node.className.baseVal : s.node.className || ""))).slice(0, 3) });
       }
     }).observe({ type: "layout-shift", buffered: true });
   };
@@ -184,14 +184,14 @@ try {
     await ctx.close();
   }
 
-  // 3b. CLS UNDER CPU THROTTLING (6x), ten reads of each page at each width, fresh and stale: the stale-state script must
+  // 3b. CLS UNDER CPU THROTTLING (6x), thirty reads of each page at each phone width (ten at 1440), fresh and stale: the stale-state script must
   // have run before the first frame on a slow phone too, not only on a fast machine
-  for (const [w, url] of [[375, "/coins/btc"], [390, "/coins/btc"], [375, "/coins/eth"], [390, "/coins/eth"]]) {
+  for (const [w, url] of [[375, "/coins/btc"], [390, "/coins/btc"], [375, "/coins/eth"], [390, "/coins/eth"], [1440, "/coins/btc"], [1440, "/coins/eth"]]) {
     if (!exists(url)) { check(`CLS throttled on ${url} at ${w}`, false, "page not built"); continue; }
     const base0 = mastAsof(url);
     for (const [hours, label] of [[9, "stale"], [1, "fresh"]]) {
       let bad = 0, worst = 0, first = null;
-      const N = 10;
+      const N = process.env.S95_N !== undefined ? +process.env.S95_N : (w < 700 ? 30 : 10);       // a 1-in-10 shift (SPAN.cn-pinwrap, 20 October) must show up: 30 reads on a phone, 10 at 1440
       for (let k = 0; k < N; k++) {
         const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, deviceScaleFactor: 1 });
         const page = await ctx.newPage();
@@ -211,6 +211,31 @@ try {
       check(`CLS on ${url} at ${w}, 6x CPU throttling, read ${label}: zero in all ${N} reads`, bad === 0,
         JSON.stringify({ reads_over_zero: bad, of: N, worst, first }));
     }
+  }
+
+  // 3c. THE PIN'S BOX IS RESERVED (the 0.0006 shift on SPAN.cn-pinwrap, 20 October, one throttled read in forty): the
+  // pin's rectangle must be the same whether the web fonts have arrived or not, so a font arriving late cannot move it.
+  for (const [w, url] of [[375, "/coins/eth"], [390, "/coins/eth"], [375, "/coins/btc"], [1440, "/coins/eth"]]) {
+    if (!exists(url)) { check(`pin box on ${url} at ${w}`, false, "page not built"); continue; }
+    const rects = [];
+    for (const blockFonts of [false, true]) {
+      const ctx = await browser.newContext({ viewport: { width: w, height: 900 }, deviceScaleFactor: 1 });
+      const page = await ctx.newPage();
+      page.setDefaultTimeout(15000);
+      await route(page);
+      if (blockFonts) await page.route(/\.woff2?(\?.*)?$/, r => r.abort());
+      await page.goto(base_url(url), { waitUntil: "load" });
+      await page.waitForTimeout(800);
+      rects.push(await page.evaluate(() => {
+        const e = document.querySelector(".cn-pinwrap"); if (!e) return null;
+        const r = e.getBoundingClientRect(), h = document.querySelector(".sec-head").getBoundingClientRect();
+        const q = v => Math.round(v * 10) / 10;
+        return { x: q(r.x), right: q(r.right), y_in_head: q(r.y - h.y), w: q(r.width), h: q(r.height) };
+      }));
+      await ctx.close();
+    }
+    check(`pin box on ${url} at ${w}: the same rectangle with the web fonts and without them`,
+      !!rects[0] && !!rects[1] && JSON.stringify(rects[0]) === JSON.stringify(rects[1]), JSON.stringify(rects));
   }
 
   // 4. CHARTS THAT READ ON A PHONE: no svg label under 12 px as drawn, at 375 and 390

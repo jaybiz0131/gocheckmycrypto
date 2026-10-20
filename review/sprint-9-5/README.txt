@@ -75,3 +75,6 @@ PRINTED DEFINITIONS (coordinator's correction, October 20): the grade definition
 we check now agree with every card under the October 19 and 20 rulings together (Unclear: no event passes with the
 readings and the move's direction agreeing; Disputed adds events that pass and point opposite ways). Re-captured:
 method, home-card, home-card-first-screen, verdict-fixture.
+
+COIN PAGE HEAD (pin box reserved, October 20): on a phone the coin page's title and its Pin button are a two-column
+grid with the button fixed in size and pinned to the top of the second column. Re-captured: coins-btc.

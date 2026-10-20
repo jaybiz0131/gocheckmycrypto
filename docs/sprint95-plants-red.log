@@ -277,3 +277,11 @@ PLANT 53 rulings of Oct 20: a primary flag on a listing confirms (verdict.py): e
       FAIL J-8: 14 October (real), two 8:30 AM releases pass: one Likely naming both (CPI and Real Earnings)
       FAIL J-8: 14 October on a page with the list: the card carries one pointer per named event, each to a different item
       FAIL J-9(3): a listing, a primary notice, with a rise and the readings agreeing, is Likely, never Confirmed
+
+=== ROUND OF OCTOBER 20 (definitions, pin box): plants added after the 53, Tue Oct 20 2026, 09:10 AM EDT ===
+PLANT 54 definitions: Unclear's printed definition is the old 'no event passes' sentence again (verdict.py): scripts/sprint95_test.py unit, 3 red; restored copy green. (run by hand on a fresh copy)
+PLANT 55 definitions: Disputed leaves out events pointing opposite ways (verdict.py): scripts/sprint95_test.py unit, 1 red; restored copy green. (run by hand on a fresh copy)
+PLANT 56 CLS: the coin page's pin box is no longer reserved (assets/site.css): scripts/sprint95_browser.mjs, 4 red (pin box on /coins/eth at 375, 390, /coins/btc at 375, /coins/eth at 1440: width 76.4 with the web fonts, 76.6 without); unplanted tree: all checks hold. See also docs/sprint95-bplants.log if present.
+PLANT 10 CLS: the coin page's pin box is no longer reserved (its width and height follow the web font again): exit 1, 4 red
+      FAIL pin box on /coins/eth at 375: the same rectangle with the web fonts and without them: [{"x":276.6,"right":353,"y_in_head":0,"w":76.4,"h":44},{"x":276.4,"right":353,"y_in_head":0,"w":76.6,"h":44}]
+      FAIL pin box on /coins/eth at 390: the same rectangle with the web fonts and without them: [{"x":291.6,"right":368,"y_in_head":0,"w":76.4,"h":44},{"x":291.4,"right":368,"y_in_head":0,"w":76.6,"h":44}]

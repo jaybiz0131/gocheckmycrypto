@@ -1000,7 +1000,7 @@ def browser(root):
     if not node:
         return ["no node on this machine: the browser half did not run"], ""
     fixture_pages(root)
-    r = subprocess.run([node, os.path.join(HERE, "scripts", "sprint95_browser.mjs"), root], capture_output=True, text=True, timeout=900)
+    r = subprocess.run([node, os.path.join(HERE, "scripts", "sprint95_browser.mjs"), root], capture_output=True, text=True, timeout=3000)
     out = r.stdout + r.stderr
     fails = [ln[5:].strip() for ln in out.splitlines() if ln.startswith("FAIL ")]
     if r.returncode and not fails:

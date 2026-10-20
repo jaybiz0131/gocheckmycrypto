@@ -1,5 +1,5 @@
-Sprint 9.5 suite, Tue Oct 20 2026, 07:46 AM EDT, the branch's working tree at c969b3d plus the printed-definitions correction; tree-reading tests read a throwaway build of this tree (SITE_BUILD_NOW=2026-10-20T07:20:00Z)
-===== scripts/btc_hilo_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-r/site/publish (exit 0)
+Sprint 9.5 suite, Tue Oct 20 2026, 08:47 AM EDT, the branch's working tree at 9862967 plus the pin box reservation (the throttled CLS reads now 30 per phone width, 10 at 1440); tree-reading tests read a throwaway build of this tree (SITE_BUILD_NOW=2026-10-20T07:20:00Z)
+===== scripts/btc_hilo_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-n/site/publish (exit 0)
 home:      24h (81737.0, 83035.0)  7D hi/lo 83457.0/81061.0  unlabeled=False
 /coins/btc: 24h (81737.0, 83035.0)  7D hi/lo 83457.39/81060.92  unlabeled=False
 ok: one figure, one source
@@ -8,28 +8,28 @@ canary_clean_test: PASS, git status is the same after the canary as before it
 ===== scripts/chartmaster_publish_test.py (exit 0)
 
 == 2026-10-09: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-20T11:50:22Z"}
+   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-20T12:51:17Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-10: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-20T11:50:22Z"}
+   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-20T12:51:17Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-11: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-20T11:50:22Z"}
+   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-20T12:51:17Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
    - Watch for the trend lines to cross, which would tell a reader the positioning picture changed.
 
-== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-20T11:50:22Z"}
+== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-20T12:51:17Z"}
 
 RESULT: all three published
-===== scripts/coin_pages_test.py --site /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-r/site/publish (exit 0)
+===== scripts/coin_pages_test.py --site /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-n/site/publish (exit 0)
 COIN PAGES: PASS
 ===== scripts/color_truth_test.py  (exit 0)
 color truth: PASS, every color agrees with the number beside it
@@ -967,7 +967,7 @@ SPRINT 9.3: PASS (0 failure(s))
   ok   Bitcoin's section (15 October): no code or file path in the visible text (none)
 
 SPRINT 9.4: PASS (0 failure(s))
-===== scripts/sprint95_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-r/site/publish (exit 0)
+===== scripts/sprint95_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-n/site/publish (exit 0)
 1. the names: NAMES.md as ruled on October 16 (3), the recommended column in full, one name per thing
   ok   the one table holds the nine names, and each has one name (no second, brand name)
   ok   the URLs behind the names did not change (/today/, /pulse.html, /pulse/movers.html, /flows.html, /chartmaster.html, /news.html, /bottom-line.html, /record.html, /learn.html)
@@ -1125,7 +1125,7 @@ SPRINT 9.4: PASS (0 failure(s))
   ok   J-8(b): on the coin placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): on the page placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): no marks, no verdict URL, and the model is never asked for it
-11. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-r/site/publish
+11. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-n/site/publish
   ok   NO URL REMOVED OR CHANGED: all 70 pages main built (the structural set) are still built ()
   ok   the new pages are additions: /corrections.html is built, and the older Brief months are /bottom-line/<YYYY-MM>.html
   ok   /today/ stays canonical: its canonical link is /today, and every page's nav links /today/
@@ -1199,14 +1199,22 @@ PASS CLS on /coins/btc at 390, read fresh (1 h after its stamp): zero (the chart
 PASS CLS on /coins/btc at 390, read stale (9 h after its stamp): zero (the chart drew and the page settled)
 PASS CLS on /coins/btc at 1440, read stale (9 h after its stamp): zero (the chart drew and the page settled)
 PASS CLS on /coins/eth at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled)
-PASS CLS on /coins/btc at 375, 6x CPU throttling, read stale: zero in all 10 reads
-PASS CLS on /coins/btc at 375, 6x CPU throttling, read fresh: zero in all 10 reads
-PASS CLS on /coins/btc at 390, 6x CPU throttling, read stale: zero in all 10 reads
-PASS CLS on /coins/btc at 390, 6x CPU throttling, read fresh: zero in all 10 reads
-PASS CLS on /coins/eth at 375, 6x CPU throttling, read stale: zero in all 10 reads
-PASS CLS on /coins/eth at 375, 6x CPU throttling, read fresh: zero in all 10 reads
-PASS CLS on /coins/eth at 390, 6x CPU throttling, read stale: zero in all 10 reads
-PASS CLS on /coins/eth at 390, 6x CPU throttling, read fresh: zero in all 10 reads
+PASS CLS on /coins/btc at 375, 6x CPU throttling, read stale: zero in all 30 reads
+PASS CLS on /coins/btc at 375, 6x CPU throttling, read fresh: zero in all 30 reads
+PASS CLS on /coins/btc at 390, 6x CPU throttling, read stale: zero in all 30 reads
+PASS CLS on /coins/btc at 390, 6x CPU throttling, read fresh: zero in all 30 reads
+PASS CLS on /coins/eth at 375, 6x CPU throttling, read stale: zero in all 30 reads
+PASS CLS on /coins/eth at 375, 6x CPU throttling, read fresh: zero in all 30 reads
+PASS CLS on /coins/eth at 390, 6x CPU throttling, read stale: zero in all 30 reads
+PASS CLS on /coins/eth at 390, 6x CPU throttling, read fresh: zero in all 30 reads
+PASS CLS on /coins/btc at 1440, 6x CPU throttling, read stale: zero in all 10 reads
+PASS CLS on /coins/btc at 1440, 6x CPU throttling, read fresh: zero in all 10 reads
+PASS CLS on /coins/eth at 1440, 6x CPU throttling, read stale: zero in all 10 reads
+PASS CLS on /coins/eth at 1440, 6x CPU throttling, read fresh: zero in all 10 reads
+PASS pin box on /coins/eth at 375: the same rectangle with the web fonts and without them
+PASS pin box on /coins/eth at 390: the same rectangle with the web fonts and without them
+PASS pin box on /coins/btc at 375: the same rectangle with the web fonts and without them
+PASS pin box on /coins/eth at 1440: the same rectangle with the web fonts and without them
 PASS charts at 375: every axis label, tick and pin draws at 12 px or more
 PASS charts at 390: every axis label, tick and pin draws at 12 px or more
 PASS chart labels in dark mode: every svg label clears 4.5:1 against its surface
@@ -1224,7 +1232,7 @@ PASS no horizontal page scroll at 375
 PASS no horizontal page scroll at 390
 PASS Brief archive at 375: one month of entries and a list of months (not every Brief on one page)
 
-SPRINT 9.5 BROWSER: PASS (42 of 42 checks hold)
+SPRINT 9.5 BROWSER: PASS (50 of 50 checks hold)
 
 
 SPRINT 9.5: PASS (0 failure(s))

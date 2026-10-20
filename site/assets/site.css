@@ -1725,8 +1725,17 @@ header.masthead{position:relative;z-index:300}
 .cn-n::before{content:"";position:absolute;left:0;top:1.05em;width:6px;height:1px;
   background:var(--line)}
 .cn-n:hover{text-decoration:underline}
-.cn-pinwrap{margin-left:auto;flex:0 0 auto}
-.cn-pin{white-space:nowrap}
+/* THE PIN'S BOX IS RESERVED (20 October 2026: a 0.0006 shift on .cn-pinwrap in one throttled read in forty). Its
+   width and height are fixed whether or not a web font has arrived, and on a phone the head is a two-column grid with the
+   pin pinned to the top of the second column, so the title's width or wrap can never move it. */
+.cn-pinwrap{margin-left:auto;flex:0 0 auto;display:block}
+.cn-pin{white-space:nowrap;box-sizing:border-box;height:36px;min-width:96px;text-align:center}
+@media (max-width:900px){.cn-pin{height:44px}}
+@media (max-width:600px){
+  .cn-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;column-gap:14px}
+  .cn-head .bar{display:none}
+  .cn-head .cn-pinwrap{margin-left:0;align-self:start}
+}
 .t1-a{color:inherit;text-decoration:none}
 .t1-a:hover .t1-name,.t1-a:hover{text-decoration:underline}
 
