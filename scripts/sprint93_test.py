@@ -353,7 +353,7 @@ def grade_cases(fails):
     guarded(fails, "the definitions follow the rulings: Confirmed needs a primary source; Unclear is no event "
                    "passing the timing test; no definition says 'two outlets' or 'silent'",
             lambda: "primary source" in verdict.DEFINITIONS["Confirmed"]
-            and verdict.DEFINITIONS["Unclear"] == "No reported event passes the timing test."
+            and verdict.DEFINITIONS["Unclear"] == "No reported event passes the timing test with the market readings and the move's direction agreeing."  # CHANGED BY the coordinator's correction of October 20 (J-8 a, J-9 3): the definition must agree with the cards
             and not any(re.search(r"two outlets|silent", d, re.I) for d in verdict.DEFINITIONS.values()))
 
 

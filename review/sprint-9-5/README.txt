@@ -70,3 +70,8 @@ above. What changed in words:
     first card is the real 14 October record: one Likely naming both 8:30 AM releases.
 The Chart Master's stored read of October 19 is the one named exception (J-10): it keeps the names it was written
 under on /chartmaster.html, /pulse.html and the coin pages until it rolls off.
+
+PRINTED DEFINITIONS (coordinator's correction, October 20): the grade definitions printed beside a card and on How
+we check now agree with every card under the October 19 and 20 rulings together (Unclear: no event passes with the
+readings and the move's direction agreeing; Disputed adds events that pass and point opposite ways). Re-captured:
+method, home-card, home-card-first-screen, verdict-fixture.

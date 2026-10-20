@@ -16,7 +16,8 @@ THE RULES (the strategist's rulings of October 19, 2026, docs/RULINGS.md):
               points of Bitcoin (one plain line, "Ether moved with Bitcoin", on the Ether page). When the
               window moved the other way from the run the timing test measured there is no card either, and
               the page prints "Verdict at the next read" in its place (October 20, J-8 b).
-  Unclear     no candidate event passes the timing test: "No reported event lines up with this move."
+  Unclear     printed definition: "No reported event passes the timing test with the market readings and the
+              move's direction agreeing." Card: no candidate passes, "No reported event lines up with this move."
               Also (October 20, J-8 a and J-9 item 3) an event that lines up in time with nothing to support
               it: "A reported event lines up in time, but the market readings do not match it." or, for an event
               with a direction of its own that the move ran against, "A reported event lines up in time, but
@@ -76,9 +77,9 @@ GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
 DEFINITIONS = {
     "Confirmed": "A primary source states the cause, the timing test passes, and the market readings agree.",
     "Likely": "The reported events that pass the timing test, with the market readings agreeing.",
-    "Disputed": "Outlets name different causes, or a named cause fails the timing test while another event "
-                "passes it.",
-    "Unclear": "No reported event passes the timing test.",
+    "Disputed": "Outlets name different causes, or one named cause fails the timing test while another passes, or "
+                "the events that pass point opposite ways.",
+    "Unclear": "No reported event passes the timing test with the market readings and the move's direction agreeing.",
 }
 NAMES = {"BTC": ("Bitcoin", "bitcoin"), "ETH": ("Ether", "ether")}
 NO_EVENT = "No reported event lines up with this move."

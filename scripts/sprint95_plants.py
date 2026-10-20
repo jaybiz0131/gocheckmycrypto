@@ -71,6 +71,10 @@ PLANTS = [
  ("rulings of Oct 20: the other-way case prints the readings line", "verdict.py", "top = OTHER_WAY if other_way else READINGS_MISMATCH", "top = READINGS_MISMATCH"),
  ("rulings of Oct 20: a window that ran the other way prints nothing", "verdict.py", "return f'<p class=\"vd-plain vd-next\">", "return '' and f'<p class=\"vd-plain vd-next\">"),
  ("rulings of Oct 20: a primary flag on a listing confirms", "verdict.py", 'prim = [p for p in agree if p["primary"]]', 'prim = [p for p in agree if p["c"].get("primary")]'),
+ ("definitions: Unclear's printed definition is the old 'no event passes' sentence again", "verdict.py", '''"Unclear": "No reported event passes the timing test with the market readings and the move's direction agreeing.",''', '''"Unclear": "No reported event passes the timing test.",'''),
+ ("definitions: Disputed leaves out events pointing opposite ways", "verdict.py", '''or "
+                "the events that pass point opposite ways.",''', '''or "
+                "another passes.",'''),
 ]
 def run(cwd, extra=()):
     t = time.time()

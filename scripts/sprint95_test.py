@@ -761,6 +761,32 @@ def rulings_cases(fails):
     g = verdict.grade(r, "BTC", {"basis": "rolling_24h", "BTC": 1.5, "ETH": 1.0})
     guarded(fails, "J-9(3): a listing, a primary notice, with a rise and the readings agreeing, is Likely, never Confirmed",
             lambda: g["grade"] in ("Likely", None) and g["grade"] != "Confirmed")
+    # --- the printed definitions agree with every card they sit beside (coordinator, October 20) -------------------
+    UNCLEAR_DEF = "No reported event passes the timing test with the market readings and the move's direction agreeing."
+    DISPUTED_DEF = ("Outlets name different causes, or one named cause fails the timing test while another passes, or "
+                    "the events that pass point opposite ways.")
+    guarded(fails, "definitions: Unclear, Disputed, Likely carry the coordinator's wording; Confirmed is unchanged",
+            lambda: verdict.DEFINITIONS["Unclear"] == UNCLEAR_DEF and verdict.DEFINITIONS["Disputed"] == DISPUTED_DEF
+            and verdict.DEFINITIONS["Likely"] == LIKELY_DEF
+            and verdict.DEFINITIONS["Confirmed"] == "A primary source states the cause, the timing test passes, and the market readings agree.")
+    cases = [("14 Oct real", t93.rec(t93.D14()), d14), ("15 Oct real", t93.rec(t93.D15()), t93.day15()),
+             ("readings silent", synth_events([("a", "wire", "Alpha Labs announced a partnership with Beta Corp", 30, "silent")]), d14),
+             ("listing against a fall", synth_events([("a", "listing", "Binance Will List Alpha (ALP)", 30, "agree")]), d14),
+             ("opposite ways", synth_events([("a", "listing", "Binance Will List Alpha (ALP)", 30, "agree"),
+                                             ("b", "delisting", "Example Exchange will delist Beta (BET)", 20, "agree")]), d14)]
+    for nm, r, dm in cases:
+        vr = verdict.record_from(r, "2026-10-14", "evening", day=dm)
+        card = verdict.card_html(vr, "BTC", "home")
+        v = vr["coins"]["BTC"]
+        shown = re.search(r'<span class="vd-def">(.*?)</span>', card)
+        dtext = _html.unescape(shown.group(1)) if shown else ""
+        line = " ".join(v.get("line") or [])
+        # the card's own line and the definition beside it cannot both stand unless the definition is true: an
+        # Unclear card that names an event lining up in time must not print a definition saying no event passes
+        guarded(fails, f"definition beside the card ({nm}): the printed definition is the grade's, and an Unclear card naming an "
+                       "event that lines up in time does not print a definition saying no event passes",
+                lambda v=v, dtext=dtext, line=line: dtext == verdict.DEFINITIONS[v["grade"]]
+                and not (v["grade"] == "Unclear" and "lines up in time" in line and "No reported event passes the timing test." in dtext + " "))
     # --- B3: J-8(b) the page's window ran the other way ------------------------------------------------------------
     rec14 = t93.rec(t93.D14())
     day_up = {"basis": "rolling_24h", "BTC": 1.4, "ETH": 1.0}
