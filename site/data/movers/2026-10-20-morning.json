@@ -1,0 +1,57 @@
+{
+ "what": "Big movers, checked: the gate on the Board's top 100 (AUDIT.md 3.1 and 3.2), and for each coin past it the evidence by 9.2's rules with the coin's own candidates. Measured by code.",
+ "window": {
+  "start_utc": "2026-10-19T12:16:33Z",
+  "end_utc": "2026-10-20T12:16:33Z",
+  "hours": 24
+ },
+ "made_utc": "2026-10-20T12:18:49Z",
+ "gate": {
+  "rule": {
+   "version": "2026-10-19",
+   "source": "AUDIT.md section 3.1, the row 'Any top-100 coin', and section 3.2",
+   "move_min_pct": 10.0,
+   "vol_multiple_min": 2.5,
+   "excess_min_pts": 6.0,
+   "history_days": 30,
+   "per_slot": 8,
+   "per_day": 10
+  },
+  "board_utc": "2026-10-20T12:16:33Z",
+  "before_day": "2026-10-19",
+  "btc_24h_pct": -1.46,
+  "passed": [],
+  "over_cap": [],
+  "failed": [],
+  "left_out": [
+   {
+    "sym": "M",
+    "name": "MemeCore",
+    "gecko_id": "memecore",
+    "rank": 55,
+    "pos": 46,
+    "move_pct": 11.52,
+    "why": "the desk holds no stored daily closes for it"
+   }
+  ],
+  "own_card": [],
+  "log": [
+   "movers: left out M +11.52%: the desk holds no stored daily closes for it; never estimated",
+   "movers: no top-100 coin passed the gate (5 measured, 1 left out for history)"
+  ],
+  "crash": {
+   "day": false,
+   "why": [],
+   "btc_pct": -1.46,
+   "market_pct": -1.22,
+   "past_move": 1,
+   "measured_past_move": 0,
+   "with_market": 0
+  },
+  "used_today": 0
+ },
+ "coins": {},
+ "shared": {},
+ "date_et": "2026-10-20",
+ "slot": "morning"
+}
