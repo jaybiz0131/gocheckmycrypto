@@ -78,3 +78,8 @@ method, home-card, home-card-first-screen, verdict-fixture.
 
 COIN PAGE HEAD (pin box reserved, October 20): on a phone the coin page's title and its Pin button are a two-column
 grid with the button fixed in size and pinned to the top of the second column. Re-captured: coins-btc.
+
+CHART PAGE (review 3, October 20): the data card's table uses the shared table rule (50-day and RSI behind "Show all
+columns" at 375 and 390, the table inside a labeled region), and the Earlier reads rows print "Chart data card" for a data
+card and "The chart read" for a written read. Re-captured: chartmaster (tonight's real data card) and chartmaster-datacard
+(the card from the fixture page).

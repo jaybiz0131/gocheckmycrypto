@@ -94,5 +94,17 @@
   ],
   "detail": "dropped 4 sentence(s): Bitcoin funding trades at 0.84 percent per 8 hours, annualizing to 9.2 percent,  | Ethereum is even more skewed: 2.37 longs per short and 1.41 billion in open inte | XRP and DOG",
   "t": "2026-10-19T23:14:33Z"
+ },
+ {
+  "date": "2026-10-20",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: an eight-hour funding rate of 0.0067% is stated with no annual figure beside it. State ",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: whale flow claim contradicts the board, which reports off exchanges over the last 2 day",
+   "belt: chartmaster: ETF flow claim says pos at the day window but the digest's day number points the other "
+  ],
+  "detail": "the rest still fails whole: chartmaster: unscoped ETF flow direction while the daily and five-session numbers disagree; name the window",
+  "t": "2026-10-20T23:14:41Z"
  }
 ]

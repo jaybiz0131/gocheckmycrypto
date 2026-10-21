@@ -285,3 +285,16 @@ PLANT 56 CLS: the coin page's pin box is no longer reserved (assets/site.css): s
 PLANT 10 CLS: the coin page's pin box is no longer reserved (its width and height follow the web font again): exit 1, 4 red
       FAIL pin box on /coins/eth at 375: the same rectangle with the web fonts and without them: [{"x":276.6,"right":353,"y_in_head":0,"w":76.4,"h":44},{"x":276.4,"right":353,"y_in_head":0,"w":76.6,"h":44}]
       FAIL pin box on /coins/eth at 390: the same rectangle with the web fonts and without them: [{"x":291.6,"right":368,"y_in_head":0,"w":76.4,"h":44},{"x":291.4,"right":368,"y_in_head":0,"w":76.6,"h":44}]
+
+=== MERGE-TIME CANARY FIXES (origin/main e85daaa merged), Tue Oct 20 2026, 09:23 PM EDT ===
+PLANT 57 merge canary: the coin pages check expects the Ledger card on every coin again (scripts/coin_pages_test.py): scripts/sprint95_test.py unit, 2 red; restored green (by hand, fresh copy)
+PLANT 58 merge canary: the coin pages check's mover line is 20 percent, not the gate's 10: 3 red; restored green
+PLANT 59 merge canary: the data card's headline names the Chart Master again (chartmaster.py): 1 red; restored green
+PLANT 60 merge canary: the data card table loses its scroll wrapper (site/assets/site.css): 1 red; restored green
+
+=== REVIEW 3 (Earlier reads rows, data card table), Tue Oct 20 2026, 10:40 PM EDT ===
+PLANT 61 review 3: the Earlier reads rows print a data card's stored headline again (site_build.py): scripts/sprint95_test.py unit, 3 red; restored green
+PLANT 62 review 3: the Earlier reads rows say 'The read' again: 1 red; restored green
+PLANT 63 review 3: the data card's table loses the shared rule's region (role, label, tabindex): 1 red; restored green
+PLANT 64 review 3: the canary's stored-read exclusion drops every Earlier reads entry again (verify_pipeline.py): 1 red; restored green
+(plant 60 of the previous round, the private .tbl-wrap rule, is retired with the rule.) New cases red on the previous head 3bc60e7: 6 failures (docs: /tmp/claude-0/runs/s95-red2.log).

@@ -75,6 +75,13 @@ PLANTS = [
  ("definitions: Disputed leaves out events pointing opposite ways", "verdict.py", '''or "
                 "the events that pass point opposite ways.",''', '''or "
                 "another passes.",'''),
+ ("merge canary: the coin pages check expects the Ledger card on every coin again", "scripts/coin_pages_test.py", "past = f[:-5].lower() in no_ledger", "past = False"),
+ ("merge canary: the coin pages check's mover line is 20 percent, not the gate's 10", "scripts/coin_pages_test.py", 'abs(chg) >= mv.GATE["move_min_pct"]', 'abs(chg) >= 20'),
+ ("merge canary: the data card's headline names the Chart Master again", "chartmaster.py", '"headline": "Chart data card: levels, 50-day and 200-day lines, RSI"', '"headline": "Chart Master data card: levels, 50-day and 200-day lines, RSI"'),
+ ("review 3: the Earlier reads rows print a data card's stored headline again", "site_build.py", "+ ('<p class=\"cm-entry-h\">Levels, 50-day and 200-day lines, RSI</p>' if r.get(\"data_only\") else", "+ ('<p class=\"cm-entry-h\">Levels, 50-day and 200-day lines, RSI</p>' if False else"),
+ ("review 3: the canary's stored-read exclusion drops every Earlier reads entry again", "verify_pipeline.py", 'cm-entry" data-date="2026-10-19">', 'cm-entry">'),
+ ("review 3: the Earlier reads rows say 'The read' again", "site_build.py", '"Chart data card" if r.get("data_only") else "The chart read"', '"Chart data card" if r.get("data_only") else "The read"'),
+ ("review 3: the data card's table loses the shared rule's region (role, label, tabindex)", "site_build.py", 'class="movetable fit-tbl" tabindex="0" role="region" aria-label="Chart data card (scrollable)"', 'class="movetable fit-tbl"'),
 ]
 def run(cwd, extra=()):
     t = time.time()
