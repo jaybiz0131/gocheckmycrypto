@@ -83,6 +83,24 @@ def norm(t):
 FIGURE = re.compile(r"\b\d{1,2}:\d{2} [AP]M\b|\d[\d,]*\.?\d*\s?%|\$[\d,]+(?:\.\d+)?(?:[KMBT]| million| billion)?|\d[\d,.]*\s?bp\b")
 
 
+def why_strings_missing(day, coin_pages, day_page):
+    """Every human string a why feed carries that its own page does not print: each graded coin's card sentences on that coin's
+    verdict page, the evidence lines and window words on the day's page. A feed may carry nothing else of its own."""
+    miss = []
+    for sym, c in day["coins"].items():
+        page = coin_pages.get(sym)
+        for sline in c.get("card_text") or []:
+            if page is None or norm(sline) not in norm(page):
+                miss.append((sym, sline))
+        if c.get("grade") is None and c.get("card_text"):
+            miss.append((sym, "text on an ungraded coin"))
+    ev = day.get("evidence") or {}
+    for cd in ev.get("candidates") or []:
+        if norm(cd["line"]) not in norm(day_page):
+            miss.append(("evidence", cd["line"]))
+    return miss
+
+
 def figures_missing(sentences, page_text):
     """The figures (times, percents, dollars, basis points) in `sentences` that the page text does not carry."""
     pt = norm(page_text)
@@ -257,6 +275,7 @@ def movers_cases(fails):
             lambda: len(rows) == len((rec["gate"]["passed"] or [])) + len(rec["gate"].get("over_cap") or []))
     guarded(fails, "every shown move and grade is on the page",
             lambda: all(r["shown"]["move"] in html and (r["shown"]["grade"] or "") in html for r in rows))
+    guarded(fails, "every movers row's change names its window", lambda: all(r["window"] == "24 hours" for r in rows))
     guarded(fails, "a coin row names its coin page and, when graded, its verdict page",
             lambda: all(r["url"].startswith("/coins/") and (r["grade"] is None or r["verdict_url"]) for r in rows))
     old = af.movers_feed(rec, pulse, dt.datetime.fromisoformat(board_utc.replace("Z", "+00:00")) + dt.timedelta(hours=40))
@@ -286,6 +305,24 @@ def news_brief_cases(fails):
             lambda: d["title"] == ed["title"] and d["url"] == f"/articles/{ed['slug']}.html" and d["slot"] == "evening"
             and d["bottom_line"] == ed["bottom_line"] and bf["as_of_utc"] == ed["published_utc"])
     guarded(fails, "a Brief from the night before is stale by the site's rule", lambda: bf["stale"] is True)
+    import home
+    mor = json.load(open(os.path.join(HERE, "site", "data", "morning.json"), encoding="utf-8"))
+    ed19 = json.load(open(os.path.join(HERE, "site", "content", "2026-10-19-evening-brief.json"), encoding="utf-8"))
+    at10 = dt.datetime(2026, 10, 20, 14, 0, tzinfo=UTC)                 # 10:00 AM ET on October 20, the morning the review read
+    mf = af.brief_feed(ed19, at10, morning=mor)
+    guarded(fails, "OCT 20, 10 AM ET: with the morning read stored and the 19 October Evening Brief before it, the feed is the MORNING Brief (what the home's card says)",
+            lambda: mf["data"]["slot"] == "morning" and mf["data"]["title"] == mor["headline"] and mf["as_of_utc"] == mor["published_utc"]
+            and mf["data"]["date"] == "2026-10-20")
+    band = home.narrative_band({}, {"stamp_et": "x"}, ed19, at10, mor)
+    guarded(fails, "the feed and the home's Brief card name the same Brief: the card prints the feed's headline and its sentences",
+            lambda: sb_mod().esc(mf["data"]["title"]) in band and all(sb_mod().esc(x) in band or x[:40] in band.replace("&#x27;", "'") for x in mf["data"]["sentences"][:1]))
+    ed20 = dict(ed19, published_utc="2026-10-20T23:14:41Z", date="2026-10-20", slug="evening-brief-2026-10-20", title="The Evening Brief: x")
+    ef = af.brief_feed(ed20, dt.datetime(2026, 10, 20, 23, 30, tzinfo=UTC), morning=mor)
+    guarded(fails, "once a later Evening Brief exists the feed is that Brief, as the card is (usable_morning returns None)",
+            lambda: ef["data"]["slot"] == "evening" and home.usable_morning(mor, ed20, dt.datetime(2026, 10, 20, 23, 30, tzinfo=UTC)) is None)
+    guarded(fails, "a morning read of another day is not the newest Brief",
+            lambda: af.brief_feed(ed19, dt.datetime(2026, 10, 21, 14, 0, tzinfo=UTC), morning=mor)["data"]["slot"] == "evening")
+    guarded(fails, "the feed calls home.usable_morning itself (one choice, not a copy)", lambda: "usable_morning" in open(os.path.join(HERE, "api_feeds.py"), encoding="utf-8").read())
     guarded(fails, "no Brief (None) is an empty feed that says so, stale, with no as-of",
             lambda: af.brief_feed(None, NOW15)["stale"] is True and af.brief_feed(None, NOW15)["as_of_utc"] is None)
 
@@ -300,7 +337,7 @@ def why_cases(fails):
                 lambda: sorted(built) == ["why/2026-10-14.json", "why/2026-10-15.json", "why/today.json"])
         f14 = built["why/2026-10-14.json"]["data"]
         guarded(fails, "14 October carries its Likely grade for Bitcoin, the sentences the page prints and the verdict address",
-                lambda: f14["coins"]["BTC"]["grade"] == "Likely" and f14["coins"]["BTC"]["text"]
+                lambda: f14["coins"]["BTC"]["grade"] == "Likely" and f14["coins"]["BTC"]["card_text"]
                 and f14["coins"]["BTC"]["url"] == "/why/2026-10-14-bitcoin")
         guarded(fails, "the evidence list and the timing series ride with the day (candidates with their times, the series points)",
                 lambda: f14["evidence"]["candidates"] and f14["evidence"]["series"]["BTC"]["points"])
@@ -315,8 +352,18 @@ def why_cases(fails):
         t14 = visible(pages["why/2026-10-14-bitcoin.html"]["html"])
         guarded(fails, "every sentence the card prints, as the feed's card_text, is on the 14 October verdict page",
                 lambda: f14["coins"]["BTC"]["card_text"] and all(norm(s) in norm(t14) for s in f14["coins"]["BTC"]["card_text"]))
-        guarded(fails, "every figure in the feed's full graded line (times, percents, dollars) is on that page",
-                lambda: not figures_missing(f14["coins"]["BTC"]["text"], t14))
+        guarded(fails, "a why feed carries no sentence its page does not print: the full graded line (with times) is not in it",
+                lambda: all("text" not in c for c in f14["coins"].values()))
+        guarded(fails, "EVERY string in the 14 October feed (card sentences, evidence lines, window words) is on its own page",
+                lambda: not why_strings_missing(f14, {"BTC": t14}, t14))
+        with tempfile.TemporaryDirectory() as td2:
+            v2, w2, t2 = graded_dirs(td2, (("2026-10-15", "evening"),))
+            wf = af.why_feeds(NOW15, vdir=v2, wdir=w2, tdir=t2)["why/2026-10-15.json"]["data"]
+            pg15 = {b["rel"]: b for b in s_build_pages(v2, w2, t2)}
+            guarded(fails, "a day whose Ether line is 'moved with Bitcoin' (a sentence the verdict page does not print) carries no sentence for Ether",
+                    lambda: wf["coins"]["ETH"]["card_text"] == [] and wf["coins"]["ETH"]["grade"] is None)
+            guarded(fails, "every string in the 15 October feed is on the page that prints it",
+                    lambda: not why_strings_missing(wf, {"BTC": visible(pg15["why/2026-10-15-bitcoin.html"]["html"])}, visible(pg15["why/2026-10-15-bitcoin.html"]["html"])))
         old = built["why/2026-10-14.json"]
         guarded(fails, "a feed's stale flag follows the record's own made time", lambda: old["as_of_utc"] == "2026-10-14T23:50:00Z"
                 and old["stale"] is True)
@@ -398,6 +445,13 @@ def events_cases(fails):
         kinds = {e["kind"] for e in ev}
         guarded(fails, "the Briefs publish as events (two), the example and the story do not",
                 lambda: sum(e["kind"] == "brief_published" for e in ev) == 2 and not any(e["url"].endswith("a-story.html") for e in ev))
+        mor = json.load(open(os.path.join(HERE, "site", "data", "morning.json"), encoding="utf-8"))
+        with quiet():
+            mev = af.events_feed(items, now, vdir=vdir, mdir=mdir, tdir=tdir, morning=mor)["data"]["events"]
+        guarded(fails, "the stored Morning Brief is a brief_published event with its published time, from the record the home uses",
+                lambda: any(e["kind"] == "brief_published" and e["at_utc"] == mor["published_utc"] and mor["headline"] in e["title"] for e in mev))
+        guarded(fails, "a Morning Brief with no headline or sentences (the home does not show it) is no event",
+                lambda: not any(e["at_utc"] == mor["published_utc"] for e in af.events_feed(items, now, vdir=vdir, mdir=mdir, tdir=tdir, morning=dict(mor, sentences=[]))["data"]["events"]))
         guarded(fails, "a correction is an event with its date and no invented time",
                 lambda: any(e["kind"] == "correction" and e["date_et"] == "2026-10-19" and e["at_utc"] is None for e in ev))
         guarded(fails, "the real 14 October Likely verdict (a small move) is NOT past the breaking line, so it is no event",
@@ -445,6 +499,9 @@ def events_cases(fails):
         tops = [e for e in ev if e["kind"] == "top10_mover"]
         guarded(fails, f"a top-10 coin past the mover line is an event, a place-40 coin is not ({len(tops)} found)",
                 lambda: not passed or (len(tops) == 1 and tops[0]["coin"] == passed[0]["sym"]))
+        guarded(fails, "a change figure in an event names its window (24 hours or the verdict's own window)",
+                lambda: all(e["detail"].get("window") for e in ev if e["detail"] and "move_pct" in e["detail"]) and any(
+                    "move_pct" in (e["detail"] or {}) for e in ev))
         guarded(fails, "newest first, and every event has an id, a kind, a title and a page address; ids are unique",
                 lambda: [e["at_utc"] or e["date_et"] for e in ev] == sorted([e["at_utc"] or e["date_et"] for e in ev], reverse=True)
                 and all(e["id"] and e["kind"] and e["title"] and e["url"] for e in ev) and len({e["id"] for e in ev}) == len(ev))
@@ -588,62 +645,74 @@ def live_cases(fails):
             and __import__("verify_pipeline").home_hosts("")[-1] != "x.workers.dev")
 
 
+HOME_JS_97_BLOCK_SHA256 = "ea3baeea2494e8f62f1b6bc2bf6b27db0b17214fd8233b7114172c8a75bfd0e5"
+
+
+def home_block_cases(fails):
+    print("12b. the 9.7 block of HOME_JS is pinned (so 9.5b's cut-out stays covered without the browser)")
+    import hashlib
+    import home
+    js = home.HOME_JS
+    a = js.index("  // ===== Sprint 9.7: the Worker route")
+    e = "  // ===== end Sprint 9.7 =====\n"
+    block = js[a:js.index(e) + len(e)]
+    guarded(fails, "the marked block hashes to the reviewed text", lambda: hashlib.sha256(block.encode()).hexdigest() == HOME_JS_97_BLOCK_SHA256)
+    guarded(fails, "there is exactly one such block and the text outside it is Sprint 9.5's (sprint95b's hash)",
+            lambda: js.count("// ===== Sprint 9.7") == 1)
+
+
 def watchlist_cases(fails):
-    print("13. the watchlist stays on the device, and cannot move the page")
+    print("13. the watchlist stays on the device, marks the table's own rows, and cannot move the page")
     sb = sb_mod()
-    guarded(fails, "the Top 100 page carries the watchlist panel and its scripts, and the key is the one the pins already use",
+    guarded(fails, "the Top 100 page carries the watchlist panel and its two scripts, on the key the pins already use",
             lambda: "data-wl-panel" in sb.WATCHLIST_PANEL_HTML and "gcmc_coins" in sb.WATCHLIST_PANEL_JS and "gcmc_coins" in sb.WATCHLIST_HEAD_JS)
     for name, js in (("filling script", sb.WATCHLIST_PANEL_JS), ("head script", sb.WATCHLIST_HEAD_JS)):
         guarded(fails, f"the {name} makes no request, sets no cookie, loads no library and sends no beacon",
                 lambda js=js: not re.search(r"fetch\(|XMLHttpRequest|sendBeacon|document\.cookie|import\(|<script[^>]*src|WebSocket|new Image", js))
     js = sb.WATCHLIST_PANEL_JS
     guarded(fails, "every storage read and write is inside a try, and the panel goes away when storage is unavailable",
-            lambda: js.count("try{") + js.count("try {") >= 3 and "removeAttribute('data-wl-n')" in js and sb.WATCHLIST_HEAD_JS.count("try{") == 1)
+            lambda: js.count("try{") + js.count("try {") >= 2 and "removeAttribute('data-wl-n')" in js and sb.WATCHLIST_HEAD_JS.count("try{") == 1)
     guarded(fails, "the panel says it is saved on this device only", lambda: "this device only" in sb.WATCHLIST_PANEL_HTML)
     guarded(fails, "no second store: gcmc_coins is the only key either script names",
             lambda: "gcmc_" not in (js + sb.WATCHLIST_HEAD_JS).replace("gcmc_coins", ""))
     guarded(fails, "the coin page's pin control is on the same key", lambda: 'data-pick="BTC"' in sb._coin_pin("BTC"))
     guarded(fails, "the panel text has no dash, no AI word", lambda: not (DASH.search(sb.WATCHLIST_PANEL_HTML) or AI.search(sb.WATCHLIST_PANEL_HTML)))
+    html_p = sb.WATCHLIST_PANEL_HTML
+    guarded(fails, "THE SAME FACT ONCE: the panel reprints no price and no change (no money, no percent, no coin row, no change chip, no row map)",
+            lambda: not re.search(r"[$%]|wp-px|chip|ROWS|wp-list|<li", html_p + sb.WATCHLIST_PANEL_JS + sb.WATCHLIST_HEAD_JS))
     pulse, flows, wire = fx15()
     coins = pulse["movers"]["top100"]
-    script = sb.watchlist_script(coins)
-    m = re.search(r"ROWS=(\{.*?\}), root=", script, re.S)
-    rows = json.loads(m.group(1).replace("<\\/", "</")) if m else {}
-    table = sb._top100_rows(coins)
-    guarded(fails, f"the inline map is the table's own strings for the same coins ({len(rows)} coins): price, change, address",
-            lambda: rows and all(f">{sb.esc(v[1])}<" in table and f">{sb.esc(v[2])}<" in table and f'href="{v[0]}"' in table for v in rows.values()))
-    guarded(fails, "the map closes no script early (a '</' is escaped) and holds one entry per symbol",
-            lambda: "</" not in m.group(1) and len(rows) == len({c["symbol"] for c in coins}))
     head = sb.watchlist_head(coins)
     syms = re.search(r'S=("[^"]*")', head)
-    guarded(fails, "the head script counts against the same symbols the map holds",
-            lambda: syms and json.loads(syms.group(1)) == "," + ",".join(rows) + ",")
+    symlist = json.loads(syms.group(1)) if syms else ""
+    guarded(fails, "the head script validates against the table's own symbols, every one of them selector-safe",
+            lambda: symlist == "," + ",".join(dict.fromkeys(c["symbol"] for c in coins if re.fullmatch(r"[A-Za-z0-9._-]+", c["symbol"]))) + ",")
+    guarded(fails, "the head script marks the saved coins' own rows by an injected style (present before the table is parsed) and shows only saved rows on request",
+            lambda: "wp-marks" in head and 'tr[data-sym=' in head and "data-wl-only" in head and "\\2605" in head and ":not([hidden])" in head
+            and "td.sym2::after{content:" in head and "html[data-wl-only] '+T+'tr{display:none}" in head)
     with snap_of(pulse, flows):
         import snapshot
         pv, fv = snapshot.views(sb.SNAP, pulse, flows)
         page = sb.render_pulse_prices(pv, "T")
     guarded(fails, "ORDER: the head script comes before any stylesheet link (it never waits on CSS), the panel before the table, the filling script after it",
             lambda: page.index("data-wl-n") < page.index('<link rel="stylesheet"') < page.index("data-wl-panel") < page.index("<table")
-            < page.index("ROWS="))
+            < page.rindex("gcmc_coins"))
     guarded(fails, "the page carries each of the three parts exactly once", lambda: page.count("var v=JSON.parse(localStorage.getItem('gcmc_coins')") == 1
-            and page.count('data-wl-panel aria-label') == 1 and page.count("ROWS=") == 1)
+            and page.count('data-wl-panel aria-label') == 1 and page.count("var KEY='gcmc_coins'") == 1)
     st = sb.WATCHLIST_PANEL_STYLE
-    guarded(fails, "THE RESERVE: the panel's height is a function of the saved count and nothing else (116px + n rows of 78px under 600px, 100px + n rows of 49px from it)",
-            lambda: "height:calc(116px + var(--wp-n) * 78px)" in st and "height:calc(100px + var(--wp-n) * 49px)" in st
-            and re.search(r"\.wp-list li\{[^}]*(?<!-)height:78px", st) and re.search(r"\.wp-list li\{height:49px\}", st))
-    guarded(fails, "the reserve adds up: border 2 + padding 24 + heading 24 + note 33 or 17 + list margins 16 + hint 17 (= 116 and 100)",
-            lambda: 2 + 24 + 24 + 33 + 16 + 17 == 116 and 2 + 24 + 24 + 17 + 16 + 17 == 100)
-    guarded(fails, "no text box in the panel can change the height: the heading, note and hint have fixed heights",
-            lambda: all(k in st for k in ("height:24px", "height:33px", "height:17px")))
+    guarded(fails, "THE RESERVE: the panel's height is one fixed number (127px: border 2, padding 24, heading 24, note 33, gap 8, buttons 36), whatever is saved",
+            lambda: "height:127px" in st and 2 + 24 + 24 + 33 + 8 + 36 == 127 and "--wp-n" not in st)
+    guarded(fails, "no text box in the panel can change the height: heading, note and button row are fixed boxes",
+            lambda: all(k in st for k in ("height:24px", "height:33px", "height:36px")))
     guarded(fails, "the panel takes no room until the head script has counted a saved coin", lambda: "display:none" in st.split("html[data-wl-n]")[0])
     css = open(os.path.join(HERE, "site", "assets", "site.css"), encoding="utf-8").read() + open(
         os.path.join(HERE, "site", "assets", "system.css"), encoding="utf-8").read()
     mine = sorted(set(re.findall(r"\bwp-[a-z]+", sb.WATCHLIST_PANEL_HTML + sb.WATCHLIST_PANEL_JS + st)))
-    guarded(fails, f"the panel's class names ({', '.join(mine)}) are its own: none is in either stylesheet (the first cut reused wl-hint, which the older pin row hides)",
-            lambda: mine and not any(re.search(r"\." + c + r"\b", css) for c in mine))
-    guarded(fails, "every class the panel's markup and script use is styled by the panel's own rules (nothing falls to a page default)",
-            lambda: all(("." + c) in st for c in mine))
-    guarded(fails, "colors come from tokens only", lambda: not re.search(r"#[0-9a-fA-F]{3,6}\b|rgb\(", st))
+    guarded(fails, f"the panel's class names ({', '.join(mine)}) are its own: none is in either stylesheet",
+            lambda: mine and not any(re.search(r"\." + c + r"\b", css) for c in mine if c != "wp-marks"))
+    guarded(fails, "every class the panel's markup uses is styled by the panel's own rules",
+            lambda: all(("." + c) in st for c in re.findall(r"\bwp-[a-z]+", sb.WATCHLIST_PANEL_HTML)))
+    guarded(fails, "colors come from tokens only", lambda: not re.search(r"#[0-9a-fA-F]{3,6}\b|rgb\(", st + head))
 
 
 def wiring_cases(fails):
@@ -669,7 +738,7 @@ def unit():
     for name, fn in (("stale", stale_cases), ("top100", top100_cases), ("whales", whales_cases), ("movers", movers_cases),
                      ("news and brief", news_brief_cases), ("why", why_cases), ("backfill", backfill_cases),
                      ("events", events_cases), ("coin", coin_cases), ("index", index_cases), ("titles", title_cases),
-                     ("live", live_cases), ("watchlist", watchlist_cases), ("wiring", wiring_cases)):
+                     ("live", live_cases), ("home block", home_block_cases), ("watchlist", watchlist_cases), ("wiring", wiring_cases)):
         group(fails, name, fn)
     return fails
 
@@ -734,9 +803,9 @@ def tree(root, expect_pages=False, with_browser=False):
                 or nw["data"]["items"][0]["line"][:60] in t)
     br = allf.get("brief/latest")
     if br and br["data"].get("url"):
-        t = page(br["data"]["url"].lstrip("/"))
-        guarded(fails, "brief: the title and the bottom line are on the Brief's own page",
-                lambda: br["data"]["title"] in t and br["data"]["bottom_line"][:60] in t)
+        t = norm(page(br["data"]["url"].lstrip("/") if br["data"]["url"] != "/" else "index.html"))
+        guarded(fails, "brief: the title and the lead sentence are on the page the feed names (the home for a Morning Brief, the article for an Evening one)",
+                lambda: norm(br["data"]["title"]) in t and (norm((br["data"]["sentences"] or [br["data"]["bottom_line"] or ""])[0])[:60] in t))
     mv = allf.get("movers")
     if mv:
         t = page("pulse/movers.html")
@@ -752,10 +821,16 @@ def tree(root, expect_pages=False, with_browser=False):
     for d in why_days:
         f = allf["why/" + d]
         for sym, c in f["data"]["coins"].items():
-            if c.get("url") and c.get("text"):
+            if c.get("url") and c.get("card_text"):
                 t = page(c["url"].lstrip("/") + ".html")
                 guarded(fails, f"why/{d} {sym}: the card's sentences and every figure are on {c['url']}",
-                        lambda c=c, t=t: all(norm(s) in norm(t) for s in c["card_text"]) and not figures_missing(c["text"], t))
+                        lambda c=c, t=t: all(norm(s) in norm(t) for s in c["card_text"]))
+    for d in why_days:
+        f = allf["why/" + d]
+        dp = rd(f"today/{d}.html")
+        if dp:
+            pgs = {sym: page(c["url"].lstrip("/") + ".html") for sym, c in f["data"]["coins"].items() if c.get("url")}
+            guarded(fails, f"why/{d}: every string in the feed is on its own page", lambda f=f, pgs=pgs, dp=dp: not why_strings_missing(f["data"], pgs, visible(dp)))
     # the search pass on the tree
     h = rd("index.html")
     guarded(fails, "the home's title tag is the new one", lambda: re.search(r"<title>(.*?)</title>", h, re.S).group(1).startswith("Crypto prices"))

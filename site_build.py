@@ -7946,129 +7946,89 @@ TOP100_JS = """
 """
 
 
-# ---- SPRINT 9.7: the watchlist panel on the Top 100 -------------------------------------------------------------
-# THE WATCHLIST IS THE PINS (AUDIT.md 3.5 item 3: "kept in the browser as a convenience, the existing Pin is the start").
-# One list, the one key each coin page's Pin button writes (gcmc_coins, at most eight coins). The panel shows the saved coins'
-# rows from a small inline map of the same strings the table prints, so it needs no request, no account and no cookie, and works
-# with the network gone. Nothing is drawn for a reader with no saved coin, and nothing if storage is unavailable.
+# ---- SPRINT 9.7: the watchlist on the Top 100 ------------------------------------------------------------------
+# THE WATCHLIST IS THE PINS (AUDIT.md 3.5 item 3: "kept in the browser as a convenience, the existing Pin is the start"). One list,
+# the one key each coin page's Pin button writes (gcmc_coins, at most eight coins). THE SAME FACT PRINTS ONCE: the page does not
+# reprint a saved coin's price or change anywhere; it MARKS the coin's own row in the table (a star with the words "Saved" as its
+# accessible text, and the card tone behind the row) and offers "Show only saved", which leaves just those rows. No request, no
+# account, no cookie; nothing is drawn for a reader with no saved coin, and nothing if storage is unavailable.
 #
-# IT CANNOT MOVE THE PAGE. Three parts. (1) A tiny script in the HEAD, before any stylesheet link (so it never waits on CSS),
-# counts the saved coins that are on the table and sets --wp-n on the root element. (2) The panel's boxes have fixed heights
-# (a row is 78px under 600px and 49px from it; the heading, the note and the hint are fixed boxes), so the height the CSS reserves
-# from --wp-n is the height the filled panel has, whatever the fonts do. (3) The script that fills the rows runs after the table,
-# as the page's other scripts do, and only fills boxes that are already there. A script placed before the table instead made
-# the table's own cells shift on 14 loads in 100 (1 in 100 on Sprint 9.6's page); one placed after it, with nothing reserved, shifted
-# the table by 0.1. The styles are inline, tokens only, so site.css and system.css stay as Sprint 9.5 left them. Its class names
-# are its own (wp-): the older pin row's wl-hint is display:none.
+# IT CANNOT MOVE THE PAGE. (1) A tiny script in the HEAD, before any stylesheet link (so it never waits on CSS), reads the saved
+# list, keeps the coins that are on the table, and injects one style whose rules mark those rows and filter to them: the rows are
+# marked when they are first laid out. (2) The panel is one fixed box, 127px (its heading, note and button row are fixed boxes),
+# displayed from the same head script. (3) The script after the table only wires the two buttons. (A script before the table made
+# the table's own cells shift on 14 loads in 100; one after it, filling a variable-height panel, shifted the table by 0.1.) The
+# styles are inline, tokens only, so site.css and system.css stay as Sprint 9.5 left them; the class names are its own (wp-).
 WATCHLIST_PANEL_STYLE = """<style>
 body:not(.h-home) .page .wp-panel{display:none;box-sizing:border-box;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:12px 16px;margin:0 0 18px}
-html[data-wl-n] body:not(.h-home) .page .wp-panel{display:block;height:calc(116px + var(--wp-n) * 78px)}
+html[data-wl-n] body:not(.h-home) .page .wp-panel{display:block;height:127px}
 body:not(.h-home) .page .wp-panel .wp-h{box-sizing:border-box;height:24px;overflow:hidden;white-space:nowrap;font:600 18px/24px var(--serif);letter-spacing:0;margin:0;color:var(--ink)}
-body:not(.h-home) .page .wp-panel .wp-note,body:not(.h-home) .page .wp-panel .wp-hint{overflow:hidden;font:11px/16.5px var(--mono);color:var(--muted);margin:0;max-width:none}
-body:not(.h-home) .page .wp-panel .wp-note{height:33px}
-body:not(.h-home) .page .wp-panel .wp-hint{height:17px;white-space:nowrap}
-body:not(.h-home) .page .wp-panel .wp-list{list-style:none;margin:8px 0;padding:0;max-width:none;overflow:hidden;height:calc(var(--wp-n, 0) * 78px)}
-body:not(.h-home) .page .wp-panel .wp-list li{box-sizing:border-box;height:78px;overflow:hidden;display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;padding:8px 0;border-top:1px solid var(--line)}
-body:not(.h-home) .page .wp-panel .wp-list li:first-child{border-top:0}
-body:not(.h-home) .page .wp-panel .wp-sym{font-weight:700;min-width:52px;color:var(--link)}
-body:not(.h-home) .page .wp-panel .wp-px{font:600 15px/1.3 var(--mono);color:var(--ink)}
-body:not(.h-home) .page .wp-panel .wp-why{font-size:14px;color:var(--link)}
-body:not(.h-home) .page .wp-panel .wp-act{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:1 1 100%}
-body:not(.h-home) .page .wp-panel .wp-rm{margin-left:auto;font:600 12px/1 var(--sans);background:none;border:1px solid var(--line);border-radius:999px;color:var(--muted);padding:6px 10px;cursor:pointer;min-height:32px}
-@media (min-width:600px){
-html[data-wl-n] body:not(.h-home) .page .wp-panel{height:calc(100px + var(--wp-n) * 49px)}
-body:not(.h-home) .page .wp-panel .wp-note{height:17px}
-body:not(.h-home) .page .wp-panel .wp-list{height:calc(var(--wp-n, 0) * 49px)}
-body:not(.h-home) .page .wp-panel .wp-list li{height:49px}
-body:not(.h-home) .page .wp-panel .wp-act{flex:1 1 auto}}
+body:not(.h-home) .page .wp-panel .wp-note{height:33px;overflow:hidden;font:11px/16.5px var(--mono);color:var(--muted);margin:0 0 8px;max-width:none}
+body:not(.h-home) .page .wp-panel .wp-bar{display:flex;gap:8px;height:36px;overflow:hidden}
+body:not(.h-home) .page .wp-panel .wp-btn{box-sizing:border-box;height:36px;font:600 13px/1 var(--sans);background:none;border:1px solid var(--line);border-radius:999px;color:var(--ink);padding:0 14px;cursor:pointer}
+body:not(.h-home) .page .wp-panel .wp-btn[aria-pressed="true"]{border-color:var(--link);color:var(--link)}
 </style>"""
 
 WATCHLIST_PANEL_HTML = (
     '<section class="wp-panel" data-wl-panel aria-label="Your watchlist">'
     '<h2 class="wp-h">Your watchlist</h2>'
     '<p class="wp-note">Saved on this device only. No account, no cookie, nothing logged.</p>'
-    '<ul class="wp-list" data-wl-list></ul>'
-    '<p class="wp-hint">Add a coin with Pin on its page.</p>'
+    '<div class="wp-bar"><button type="button" class="wp-btn" data-wl-only-btn aria-pressed="false">Show only saved</button>'
+    '<button type="button" class="wp-btn" data-wl-clear>Clear</button></div>'
     '</section>')
 
-# the head script: how many saved coins are on the table (the same count the filling script will draw)
-WATCHLIST_HEAD_JS = """<script>(function(){try{var v=JSON.parse(localStorage.getItem('gcmc_coins')||'[]'),S=__SYMS__,n=0,i;
-if(Array.isArray(v)){v=v.slice(0,8);for(i=0;i<v.length;i++){if(typeof v[i]==='string'&&S.indexOf(','+v[i]+',')>-1)n++;}}
-if(n){var h=document.documentElement;h.style.setProperty('--wp-n',n);h.setAttribute('data-wl-n',n);}}catch(e){}})();</script>"""
+# the head script: the saved coins that are on the table, marked in the table by an injected style, before the table exists
+WATCHLIST_HEAD_JS = """<script>(function(){try{var v=JSON.parse(localStorage.getItem('gcmc_coins')||'[]'),S=__SYMS__,n=0,i,s,seen=Object.create(null),css='',T='tbody[data-live="top100"] ';
+if(Array.isArray(v)){v=v.slice(0,8);for(i=0;i<v.length;i++){s=v[i];if(typeof s==='string'&&S.indexOf(','+s+',')>-1&&!seen[s]){seen[s]=1;n++;
+css+=T+'tr[data-sym="'+s+'"]{background:var(--card)}'+T+'tr[data-sym="'+s+'"] td.sym2::after{content:"\\\\2605" / "Saved";color:var(--link);margin-left:6px}html[data-wl-only] '+T+'tr[data-sym="'+s+'"]:not([hidden]){display:table-row}';}}}
+if(n){var h=document.documentElement,st=document.createElement('style');st.id='wp-marks';st.textContent=css+'html[data-wl-only] '+T+'tr{display:none}';document.head.appendChild(st);h.setAttribute('data-wl-n',n);}}catch(e){}})();</script>"""
 
-# the filling script, after the table: {symbol: [address, price, change, class]} is the table's own strings for the same rows
+# the wiring script, after the table: the two buttons
 WATCHLIST_PANEL_JS = """<script>(function(){
-  var KEY='gcmc_coins', ROWS=__ROWS__, root=document.documentElement, panel=document.querySelector('[data-wl-panel]'), list=panel&&panel.querySelector('[data-wl-list]');
-  if(!panel||!list) return;
+  var KEY='gcmc_coins', root=document.documentElement, panel=document.querySelector('[data-wl-panel]');
+  if(!panel) return;
   var store=null;
   try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); store=localStorage; }
   catch(e){ root.removeAttribute('data-wl-n'); return; }
-  function get(){ try{ var v=JSON.parse(store.getItem(KEY)||'[]'); return Array.isArray(v)?v:[]; }catch(e){ return []; } }
-  function put(v){ try{ store.setItem(KEY, JSON.stringify(v.slice(0,8))); }catch(e){} }
-  function el(tag, cls, text){ var n=document.createElement(tag); if(cls) n.className=cls; if(text!=null) n.textContent=text; return n; }
-  function paint(){
-    var picks=get().slice(0,8), n=0;
-    list.textContent='';
-    picks.forEach(function(s){
-      if(typeof s!=='string'||!Object.prototype.hasOwnProperty.call(ROWS,s)) return;
-      var r=ROWS[s], li=el('li'), link=el('a','wp-sym',s); link.href=r[0];
-      li.appendChild(link);
-      li.appendChild(el('span','wp-px',r[1]));
-      li.appendChild(el('span','chip'+(r[3]?' '+r[3]:''),r[2]));
-      var act=el('div','wp-act'), why=el('a','wp-why','Why it moved'); why.href=r[0];
-      act.appendChild(why);
-      var rm=el('button','wp-rm','Remove'); rm.type='button'; rm.setAttribute('data-wl-rm',s);
-      rm.setAttribute('aria-label','Remove '+s+' from your watchlist');
-      act.appendChild(rm);
-      li.appendChild(act);
-      list.appendChild(li);
-      n++;
-    });
-    if(n){ root.style.setProperty('--wp-n',n); root.setAttribute('data-wl-n',n); }
-    else { root.removeAttribute('data-wl-n'); root.style.removeProperty('--wp-n'); }
-    document.querySelectorAll('[data-pick]').forEach(function(b){
-      b.setAttribute('aria-pressed', String(picks.indexOf(b.getAttribute('data-pick'))>-1));
-    });
+  var only=panel.querySelector('[data-wl-only-btn]'), clr=panel.querySelector('[data-wl-clear]');
+  function show(on){
+    if(on) root.setAttribute('data-wl-only',''); else root.removeAttribute('data-wl-only');
+    only.setAttribute('aria-pressed', String(on)); only.textContent=on?'Show all':'Show only saved';
   }
-  panel.addEventListener('click', function(e){
-    var b=e.target.closest('[data-wl-rm]'); if(!b) return;
-    var s=b.getAttribute('data-wl-rm'), v=get(), i=v.indexOf(s);
-    if(i>-1) v.splice(i,1);
-    put(v); paint();
+  only.addEventListener('click', function(){ show(!root.hasAttribute('data-wl-only')); });
+  clr.addEventListener('click', function(){
+    try{ store.setItem(KEY,'[]'); }catch(e){}
+    var m=document.getElementById('wp-marks'); if(m) m.remove();
+    show(false); root.removeAttribute('data-wl-n');
+    document.querySelectorAll('[data-pick]').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
   });
-  window.addEventListener('storage', function(e){ if(e.key===KEY) paint(); });
-  paint();
 })();</script>"""
 
 
-def _wl_rows(coins):
-    """{symbol: [address, price, change, class]}: the table's own strings (`_top100_rows` uses the same formatters)."""
-    rows = {}
+def _wl_symbols(coins):
+    """The table's symbols, in order, each once, that are safe in an attribute selector."""
+    out = []
     for c in coins:
         sym = c.get("symbol")
-        if not sym or sym in rows:
-            continue
-        chg = c.get("chg_24h_pct")
-        rows[sym] = [f"/coins/{_coin_slug(c)}", _price_fmt(c.get("price")),
-                     pct_text(chg) if chg is not None else "?", pct_class(chg) if chg is not None else ""]
-    return rows
+        if sym and sym not in out and re.fullmatch(r"[A-Za-z0-9._-]+", sym):
+            out.append(sym)
+    return out
 
 
 def watchlist_head(coins):
-    """The head script of the Top 100 page: the saved coins that are on the table, counted before any stylesheet loads."""
-    syms = "," + ",".join(_wl_rows(coins)) + ","
+    """The head script of the Top 100 page: the saved coins that are on the table, marked before the table is parsed."""
+    syms = "," + ",".join(_wl_symbols(coins)) + ","
     return WATCHLIST_HEAD_JS.replace("__SYMS__", json.dumps(syms, ensure_ascii=False).replace("</", "<\\/"))
 
 
 def watchlist_panel(coins):
-    """The panel's style and markup, drawn before the table (empty, and not displayed until the head script has counted a saved coin)."""
+    """The panel's style and markup, drawn before the table (a fixed box, not displayed until the head script has counted a saved coin)."""
     return WATCHLIST_PANEL_STYLE + WATCHLIST_PANEL_HTML
 
 
 def watchlist_script(coins):
-    """The script that fills the panel's rows, after the table."""
-    data = json.dumps(_wl_rows(coins), separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
-    return WATCHLIST_PANEL_JS.replace("__ROWS__", data)
+    """The script that wires the panel's two buttons, after the table."""
+    return WATCHLIST_PANEL_JS
 
 
 # SPRINT 9.7, THE SEARCH PASS: the coin page has an h1 (it had none: its name sat in an h2). The look is the h2's, to the
@@ -9814,7 +9774,7 @@ def _write_api_feeds(w, items, pulse, flows, board_tiles, coin_tiles):
         import home as _home
         ed = current_bottom_line(items)
         feeds = _af.build_all({"now": _build_now(), "snap": SNAP, "pulse": pulse, "flows": flows, "items": items,
-                               "wire": _home.load_json(WIRE_JSON), "ed": ed, "movers_rec": _movers_rec(),
+                               "wire": _home.load_json(WIRE_JSON), "ed": ed, "morning": _home.load_json(MORNING_JSON), "movers_rec": _movers_rec(),
                                "board_tiles": board_tiles, "coin_tiles": coin_tiles})
         for rel, obj in feeds.items():
             try:

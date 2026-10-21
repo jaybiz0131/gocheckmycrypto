@@ -159,7 +159,7 @@ def movers_feed(rec, pulse, now):
         else:
             shown = "No grade"
         rows.append({"pos": x.get("pos"), "symbol": x["sym"], "name": x["name"], "url": mv.coin_href(x["sym"], x["name"]),
-                     "move_pct": x["move_pct"], "excess_pts": x.get("excess_pts"), "multiple": x.get("multiple"),
+                     "window": "24 hours", "move_pct": x["move_pct"], "excess_pts": x.get("excess_pts"), "multiple": x.get("multiple"),
                      "held": x in held, "grade": grade if (grade and url) else None, "verdict_url": url if grade else None,
                      "shown": {"move": mv._pct(x["move_pct"]), "grade": shown}})
     return envelope("movers", "/pulse/movers", (cur.get("window") or {}).get("end_utc"), now,
@@ -222,7 +222,16 @@ def news_feed(wire, now):
                     {"ranked_et": wire.get("ranked_et"), "items": items})
 
 
-def brief_feed(ed, now):
+def brief_feed(ed, now, morning=None):
+    """The newest Brief, by the home Brief card's own choice: home.usable_morning (the morning read, when it is today's in Eastern and no
+    later Edition has superseded it), else the day's Edition (current_bottom_line). One function, so the two cannot disagree."""
+    import home
+    m = home.usable_morning(morning, ed, now)
+    if m:
+        return envelope("brief/latest", "/", m.get("published_utc"), now, ["the desk's Morning Brief"],
+                        {"state": "current", "title": m.get("headline"), "dek": None, "slot": "morning", "date": m.get("date_et"),
+                         "published_utc": m.get("published_utc"), "sentences": list(m.get("sentences") or []),
+                         "line": (m.get("line") or "").strip() or None, "bottom_line": None, "key_fact": None, "url": "/"})
     if not ed:
         return envelope("brief/latest", "/bottom-line", None, now, ["the Brief"], {"state": "none"})
     ident = str(ed.get("id") or "")
@@ -230,7 +239,7 @@ def brief_feed(ed, now):
         "morning" if ident.startswith("wrap-am") or "morning" in str(ed.get("slug")) else None)
     return envelope("brief/latest", f"/articles/{ed.get('slug')}.html", ed.get("published_utc"), now, ["the desk's Brief"],
                     {"state": "current", "title": ed.get("title"), "dek": ed.get("dek"), "slot": slot, "date": ed.get("date"),
-                     "published_utc": ed.get("published_utc"), "bottom_line": ed.get("bottom_line"),
+                     "published_utc": ed.get("published_utc"), "sentences": [], "line": None, "bottom_line": ed.get("bottom_line"),
                      "key_fact": ed.get("key_fact"), "url": f"/articles/{ed.get('slug')}.html"})
 
 
@@ -321,9 +330,11 @@ def _day_data(day, recs, wdir=None, tdir=None):
     for sym, v in (lead.get("coins") or {}).items():
         # the sentences the verdict page's card prints: with the evidence list beside it the card uses the section form
         # (verdict.text_sec), which points at the listed item instead of repeating its time; `text` is the full graded line
-        card = (vd.text_sec(v) if ev else None) or list(v.get("text") or [])
-        coins[sym] = {"name": v.get("name"), "kind": v.get("kind"), "grade": v.get("grade"), "text": list(v.get("text") or []),
-                      "card_text": list(card),
+        # only what the page prints: a graded coin's card sentences (the section form beside the evidence list). A coin with no grade
+        # prints no sentence on the page that is the feed's (an Ether "moved with Bitcoin" line is on the Ether coin page only).
+        graded = bool(v.get("grade"))
+        card = ((vd.text_sec(v) if ev else None) or list(v.get("text") or [])) if graded else []
+        coins[sym] = {"name": v.get("name"), "kind": v.get("kind"), "grade": v.get("grade"), "card_text": list(card),
                       "window_words": v.get("window_words"), "basis": v.get("basis"),
                       "url": v.get("url") if v.get("grade") else None}
     evidence = None
@@ -373,7 +384,7 @@ def _event(kind, key, at_utc, date_et, title, url, coin=None, detail=None):
             "detail": detail}
 
 
-def events_feed(items, now, vdir=None, mdir=None, tdir=None):
+def events_feed(items, now, vdir=None, mdir=None, tdir=None, morning=None):
     """The newest 50 events that would push, from stored records only: a graded verdict on a move past the breaking line; a
     top-10 coin past its mover line; a verdict that moves to Confirmed or Disputed; a Brief published; a correction. Two
     weeks of this log is how Jack sets the push volume (AUDIT.md 3.5). Nothing is sent."""
@@ -402,7 +413,7 @@ def events_feed(items, now, vdir=None, mdir=None, tdir=None):
                 events.append(_event("verdict_past_breaking_line", f"{day}-{slot}-{sym}", made, day,
                                      f"Why {name} moved {v.get('window_words') or ''}: {grade}".replace("  ", " "),
                                      v.get("url") or "/today/", sym,
-                                     {"move_pct": mp, "line_pct": BREAKING_LINE_PCT, "basis": v.get("basis")}))
+                                     {"move_pct": mp, "window": v.get("window_words") or "24 hours", "line_pct": BREAKING_LINE_PCT, "basis": v.get("basis")}))
             prev = last.get((day, sym))
             if prev and prev != grade and grade in ("Confirmed", "Disputed"):
                 events.append(_event("verdict_moved", f"{day}-{slot}-{sym}-{prev}-{grade}", made, day,
@@ -419,7 +430,7 @@ def events_feed(items, now, vdir=None, mdir=None, tdir=None):
                 events.append(_event("top10_mover", f"{r.get('date_et')}-{r.get('slot')}-{x['sym']}", made, r.get("date_et"),
                                      f"{x['name']} ({x['sym']}) moved {mv._pct(x['move_pct'])} in 24 hours, past the Big movers line",
                                      mv.coin_href(x["sym"], x["name"]), x["sym"],
-                                     {"place": pos, "move_pct": x["move_pct"]}))
+                                     {"place": pos, "move_pct": x["move_pct"], "window": "24 hours"}))
     # Briefs
     for i in items or []:
         if i.get("example") or not str(i.get("id", "")).startswith("wrap-") or not _utc(i.get("published_utc")):
@@ -427,6 +438,11 @@ def events_feed(items, now, vdir=None, mdir=None, tdir=None):
         seen_at.append(i["published_utc"])
         events.append(_event("brief_published", i.get("id"), i["published_utc"], str(i.get("date") or "")[:10],
                              sb.destyle(i.get("title") or "The Brief"), f"/articles/{i.get('slug')}.html", None, None))
+    # the Morning Brief: the stored morning read, when it is the kind the home shows (a headline and its sentences)
+    if morning and morning.get("headline") and morning.get("sentences") and _utc(morning.get("published_utc")):
+        seen_at.append(morning["published_utc"])
+        events.append(_event("brief_published", "morning-" + str(morning.get("date_et")), morning["published_utc"],
+                             str(morning.get("date_et") or "")[:10], sb.destyle(f"The Morning Brief: {morning['headline']}"), "/", None, None))
     # corrections: dated, never timed
     try:
         for row in sb.corrections_log(items or [], vdir, tdir):
@@ -488,12 +504,12 @@ def build_all(ctx):
     put("movers.json", lambda: movers_feed(ctx.get("movers_rec"), ctx["pulse"], now))
     put("whales.json", lambda: whales_feed(ctx.get("flows"), now))
     put("news.json", lambda: news_feed(ctx.get("wire"), now))
-    put("brief/latest.json", lambda: brief_feed(ctx.get("ed"), now))
+    put("brief/latest.json", lambda: brief_feed(ctx.get("ed"), now, ctx.get("morning")))
     try:
         out.update(why_feeds(now, ctx.get("vdir"), ctx.get("wdir"), ctx.get("tdir")))
     except Exception as e:                                   # noqa: BLE001
         print(f"::warning::api feeds: the dated verdict feeds were not written ({type(e).__name__}: {e})")
-    put("events.json", lambda: events_feed(ctx.get("items"), now, ctx.get("vdir"), ctx.get("mdir"), ctx.get("tdir")))
+    put("events.json", lambda: events_feed(ctx.get("items"), now, ctx.get("vdir"), ctx.get("mdir"), ctx.get("tdir"), ctx.get("morning")))
     for slug, (c, pos, tiles, facts) in (ctx.get("coin_tiles") or {}).items():
         put(f"coins/{slug}.json", lambda c=c, pos=pos, tiles=tiles, facts=facts: coin_feed(c, pos, tiles, ctx["pulse"], now, facts))
     out["index.json"] = index_feed(out, now)

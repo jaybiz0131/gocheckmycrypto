@@ -1,0 +1,154 @@
+1. the stale flag is the site's own rule
+  ok   a reading 0 hours old: the feed says stale=False, as the page's own age phrase does
+  ok   a reading 1 hours old: the feed says stale=False, as the page's own age phrase does
+  ok   a reading 2.99 hours old: the feed says stale=False, as the page's own age phrase does
+  ok   a reading 3.0 hours old: the feed says stale=False, as the page's own age phrase does
+  ok   a reading 3.01 hours old: the feed says stale=True, as the page's own age phrase does
+  ok   a reading 5 hours old: the feed says stale=True, as the page's own age phrase does
+  ok   a reading 30 hours old: the feed says stale=True, as the page's own age phrase does
+  ok   a reading 49 hours old: the feed says stale=True, as the page's own age phrase does
+  ok   a reading 200 hours old: the feed says stale=True, as the page's own age phrase does
+  ok   the boundary is the page's: exactly STALE_HOURS old is not stale, a second more is
+  ok   an as-of that cannot be read (None) is stale, with no age and no as-of claimed
+  ok   an as-of that cannot be read ('') is stale, with no age and no as-of claimed
+  ok   an as-of that cannot be read ('yesterday') is stale, with no age and no as-of claimed
+  ok   the envelope carries schema, version, name, path, page, as_of_utc, built_utc, stale, stale_after_hours, age_hours, sources and data
+  ok   the envelope names its path under /api/v1/ and prints the stale window the page uses
+2. top100.json: the rows of /pulse/prices
+  ok   one row per coin the page lists (100)
+  ok   a row carries rank, symbol, name, slug, url, price, chg_24h_pct, mcap_usd, volume_24h and shown
+  ok   rank counts the way the page counts (1 to N, no holes)
+  ok   every shown string is on the page: no figure in the feed is absent from the page
+  ok   the feed's as-of is the Board's reading, the same instant the page's stamp carries
+  ok   fresh at the reading's own time, stale four hours on
+  ok   a row whose price the source did not send prints no price figure and no zero
+3. whales.json: the figures of /flows
+  ok   the feed carries the window, the headline net, the exchanges, the weekly trend and the biggest moves
+  ok   every shown string is on the page (16 checked)
+  ok   the feed's as-of is the flows reading's, and stale follows the same rule
+4. movers.json: the Big movers list of /pulse/movers
+  ok   the real 16 October morning record lists 5 coin(s) past the line, as the page does
+  ok   every shown move and grade is on the page
+  ok   every movers row's change names its window
+  ok   a coin row names its coin page and, when graded, its verdict page
+  ok   forty hours on the feed is stale
+  ok   a record that is not current for the Board says so and lists no coin (the page's own rule)
+5. news.json and brief/latest.json
+  ok   one entry per wire cluster the page ranks (6)
+  ok   an entry carries rank, line, standing, source_count, primary, links (outlet and url) and the board reading
+  ok   the feed's as-of is the wire's ranking time
+  ok   no wire line reaches the feed reworded or with a dash
+  ok   the Brief feed carries title, dek, slot, date, published, bottom line and the page address
+  ok   a Brief from the night before is stale by the site's rule
+  ok   OCT 20, 10 AM ET: with the morning read stored and the 19 October Evening Brief before it, the feed is the MORNING Brief (what the home's card says)
+  ok   the feed and the home's Brief card name the same Brief: the card prints the feed's headline and its sentences
+  ok   once a later Evening Brief exists the feed is that Brief, as the card is (usable_morning returns None)
+  ok   a morning read of another day is not the newest Brief
+  ok   the feed calls home.usable_morning itself (one choice, not a copy)
+  ok   no Brief (None) is an empty feed that says so, stale, with no as-of
+6. why/<date>.json and why/today.json: from stored verdict records only
+  ok   a file for each stored day and for today, and for no other day
+  ok   14 October carries its Likely grade for Bitcoin, the sentences the page prints and the verdict address
+  ok   the evidence list and the timing series ride with the day (candidates with their times, the series points)
+  ok   15 October is Unclear and its verdict page is named
+  ok   today.json is the newest stored day's feed
+  ok   'because' appears only in a feed whose own sentence says it (Confirmed); none here
+  ok   every sentence the card prints, as the feed's card_text, is on the 14 October verdict page
+  ok   a why feed carries no sentence its page does not print: the full graded line (with times) is not in it
+  ok   EVERY string in the 14 October feed (card sentences, evidence lines, window words) is on its own page
+  ok   a day whose Ether line is 'moved with Bitcoin' (a sentence the verdict page does not print) carries no sentence for Ether
+  ok   every string in the 15 October feed is on the page that prints it
+  ok   a feed's stale flag follows the record's own made time
+  ok   a day whose stored record cannot be read (corrupt, or not a verdict) gets no dated feed: nothing is made up for it
+  ok   no stored record: today.json says there is none, stale, no as-of, and no dated file is invented
+7. the backfill refuses a day with no stored record
+  ok   '2026-10-13': refused (no stored verdict record), no page, nothing built
+  ok   '2026-10-15': refused (no stored verdict record), no page, nothing built
+  ok   '2099-01-01': refused (no stored verdict record), no page, nothing built
+  ok   '14 October': refused (not a date), no page, nothing built
+  ok   '': refused (not a date), no page, nothing built
+  ok   a refusal writes nothing: the verdict directory is as it was
+  ok   a stored, graded day is backfilled: its verdict page is named and is the page the build writes
+  ok   a stored day that graded nothing gets no page, and says so
+  ok   the whole-store report lists each stored day once, the built pages, and the refusals with reasons
+  INFO on the real stored data the backfill reads 2 stored day(s) and produces 0 page(s) (no graded verdict is stored yet: ['2026-10-19: no graded verdict in the stored record', '2026-10-20: no graded verdict in the stored record'])
+  ok   on the real data every stored day is accounted for and no page is invented
+8. events.json: the newest 50 events that would push, from stored records
+  ok   the Briefs publish as events (two), the example and the story do not
+  ok   the stored Morning Brief is a brief_published event with its published time, from the record the home uses
+  ok   a Morning Brief with no headline or sentences (the home does not show it) is no event
+  ok   a correction is an event with its date and no invented time
+  ok   the real 14 October Likely verdict (a small move) is NOT past the breaking line, so it is no event
+  ok   SYNTHETIC: a graded verdict on a 6.2 percent move is an event past the breaking line (5 percent)
+  ok   SYNTHETIC: Likely then Confirmed on one day is a verdict that moved; Likely then Unclear is not
+  ok   SYNTHETIC: a verdict that moves to Disputed is an event
+  ok   a top-10 coin past the mover line is an event, a place-40 coin is not (1 found)
+  ok   a change figure in an event names its window (24 hours or the verdict's own window)
+  ok   newest first, and every event has an id, a kind, a title and a page address; ids are unique
+  ok   no event title carries a dash, an AI word or a bare 'because'
+  ok   SYNTHETIC: sixty Briefs and more are cut to the newest 50
+  ok   no record at all: an empty list, stale, no as-of; nothing invented
+  ok   the breaking line is the watcher's own constant, not a copy
+9. coins/<sym>.json: the readings of a coin page
+  ok   the coin feed carries identity, rank, price, 24h, the readings the page's tiles print and the page address
+  ok   every reading's figure is a tile the page printed, and is on the page
+  ok   the price and the 24h change shown are the page's strings
+  ok   as-of is the tiles' stamp instant (the Board's reading)
+10. index.json lists every feed
+  ok   one row per feed with its path, page, as-of and stale flag, the same values as the feed itself
+  ok   the index counts its stale feeds, lists every feed it was given and never lists itself
+11. the search pass: titles, the coin h1, and no URL changed
+  ok   the home title carries query words, not the brand alone
+  ok   the Top 100 title says what people type: top 100 crypto prices
+  ok   no title has a dash or an AI word
+  ok   the Bitcoin page has exactly one h1 and it names the coin
+  ok   the Bitcoin page keeps its title tag
+  ok   the USDC page has exactly one h1 and it names the coin
+  ok   the USDC page keeps its title tag
+  ok   the Top 100 page still has its one h1
+  ok   the coin h1 keeps the look the h2 had: its own inline rule restores size, weight, line height and margin, with colors from tokens only (the two stylesheets stay Sprint 9.5's, byte for byte)
+  ok   the Top 100 title tag is written once, as the new title (not escaped away)
+12. the Worker live-price route and its client
+  ok   the route file, its test and the patch for the Worker repository exist
+  ok   the route's own cases pass (shape, the 60-second cache, last good served flagged stale, refusals, CORS)
+  ok   with no route configured no page carries a route address (no meta in the head: today's head, byte for byte)
+  ok   configured, the head carries one meta with the route address
+  ok   the home tape tries the route first and keeps the CoinGecko read as the fallback
+  ok   the CoinGecko fallback is the answer when the route gives none (an absent or failed route is today's read)
+  ok   the route is only ever read when it answers fresh: stale, malformed and slow answers fall back
+  ok   the home is the only page that reads a live price, so it is the only client changed (no page renders the ticker strip)
+  ok   the canary's host list takes the configured route host and no other
+12b. the 9.7 block of HOME_JS is pinned (so 9.5b's cut-out stays covered without the browser)
+  ok   the marked block hashes to the reviewed text
+  ok   there is exactly one such block and the text outside it is Sprint 9.5's (sprint95b's hash)
+13. the watchlist stays on the device, marks the table's own rows, and cannot move the page
+  ok   the Top 100 page carries the watchlist panel and its two scripts, on the key the pins already use
+  ok   the filling script makes no request, sets no cookie, loads no library and sends no beacon
+  ok   the head script makes no request, sets no cookie, loads no library and sends no beacon
+  ok   every storage read and write is inside a try, and the panel goes away when storage is unavailable
+  ok   the panel says it is saved on this device only
+  ok   no second store: gcmc_coins is the only key either script names
+  ok   the coin page's pin control is on the same key
+  ok   the panel text has no dash, no AI word
+  FAIL THE SAME FACT ONCE: the panel reprints no price and no change (no money, no percent, no coin row, no change chip, no row map)
+  FAIL the head script validates against the table's own symbols, every one of them selector-safe
+  FAIL the head script marks the saved coins' own rows by an injected style (present before the table is parsed) and shows only saved rows on request
+  ok   ORDER: the head script comes before any stylesheet link (it never waits on CSS), the panel before the table, the filling script after it
+  ok   the page carries each of the three parts exactly once
+  FAIL THE RESERVE: the panel's height is one fixed number (127px: border 2, padding 24, heading 24, note 33, gap 8, buttons 36), whatever is saved
+  FAIL no text box in the panel can change the height: heading, note and button row are fixed boxes
+  ok   the panel takes no room until the head script has counted a saved coin
+  ok   the panel's class names (wp-act, wp-h, wp-hint, wp-list, wp-n, wp-note, wp-panel, wp-px, wp-rm, wp-sym, wp-why) are its own: none is in either stylesheet
+  ok   every class the panel's markup uses is styled by the panel's own rules
+  ok   colors come from tokens only
+14. wiring
+  ok   build() writes the feeds under /api/v1/ through api_feeds and fails open
+  ok   build() calls the feed writer once, after the coin pages (it needs their tiles)
+  ok   the suite runs this test
+  ok   the canary calls this test's unit and tree cases
+  ok   api_feeds.py: exists, no dash, US spelling of the house words
+  ok   worker/live-prices.mjs: exists, no dash, US spelling of the house words
+  ok   worker/live-prices.test.mjs: exists, no dash, US spelling of the house words
+  ok   scripts/sprint97_browser.mjs: exists, no dash, US spelling of the house words
+
+SPRINT 9.7: FAIL (5 failure(s))

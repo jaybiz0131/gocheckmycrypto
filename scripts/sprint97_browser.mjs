@@ -193,35 +193,38 @@ try {
     await t.page.goto(base + "/pulse/prices.html", { waitUntil: "load" }); await sleep(900);
     const got = await t.page.evaluate(() => {
       const p = document.querySelector("[data-wl-panel]");
-      const lis = [...document.querySelectorAll("[data-wl-list] li")].map(li => ({
-        sym: li.querySelector(".wp-sym").textContent, href: li.querySelector(".wp-sym").getAttribute("href"), px: li.querySelector(".wp-px") && li.querySelector(".wp-px").textContent,
-        chg: li.querySelector(".chip") && li.querySelector(".chip").textContent }));
-      const row = s => { const tr = document.querySelector(`tbody[data-live="top100"] tr[data-sym="${s}"]`); return tr && { px: tr.querySelector('[data-cell="price"]').textContent, chg: tr.querySelector('[data-cell="chg"]').textContent.trim() }; };
       const vis = sel => { const e = document.querySelector(sel); if (!e) return false; const r = e.getBoundingClientRect(), cs = getComputedStyle(e); return r.height > 0 && r.width > 0 && cs.visibility === "visible" && cs.display !== "none"; };
-      return { hidden: getComputedStyle(p).display === "none", h: Math.round(p.getBoundingClientRect().height * 10) / 10, wn: document.documentElement.getAttribute("data-wl-n"), lis, btc: row("BTC"), eth: row("ETH"), cookie: document.cookie, cls: window.__cls, shifts: window.__shifts,
-        seen: ["[data-wl-panel] .wp-h", "[data-wl-panel] .wp-note", "[data-wl-panel] .wp-hint", "[data-wl-list] li .wp-why", "[data-wl-list] li .wp-rm"].map(vis) };
+      const mark = s => { const tr = document.querySelector(`tbody[data-live="top100"] tr[data-sym="${s}"] td.sym2`); return tr ? getComputedStyle(tr, "::after").content : null; };
+      const px = document.querySelector('tbody[data-live="top100"] tr[data-sym="BTC"] [data-cell="price"]').textContent;
+      const body = document.body.innerText;
+      return { hidden: getComputedStyle(p).display === "none", h: Math.round(p.getBoundingClientRect().height * 10) / 10, wn: document.documentElement.getAttribute("data-wl-n"),
+        btcMark: mark("BTC"), ethMark: mark("ETH"), solMark: mark("SOL"), panelText: p.innerText, px, pxCount: body.split(px).length - 1,
+        marked: [...document.querySelectorAll('tbody[data-live="top100"] tr')].filter(tr => /Saved|\u2605/.test(getComputedStyle(tr.querySelector("td.sym2"), "::after").content)).map(tr => tr.getAttribute("data-sym")),
+        cookie: document.cookie, cls: window.__cls, shifts: window.__shifts,
+        seen: ["[data-wl-panel] .wp-h", "[data-wl-panel] .wp-note", "[data-wl-only-btn]", "[data-wl-clear]"].map(vis) };
     });
-    check(`watchlist at ${w}: saved coins show, with no network (every third host refused) and no cookie`, !got.hidden && got.lis.length === 2 && got.cookie === "" && (await t.ctx.cookies()).length === 0, JSON.stringify(got.lis));
-    check(`watchlist at ${w}: a saved coin the table lacks (ZZZNOTACOIN) shows nothing and is not invented`, got.lis.map(l => l.sym).join(",") === "BTC,ETH");
-    const want = w < 600 ? 116 + 2 * 78 : 100 + 2 * 49;
-    check(`watchlist at ${w}: the panel is exactly the height the CSS reserves from the saved count (${want}px for 2 rows), and the count the head script took is the rows drawn`, Math.abs(got.h - want) < 0.5 && got.wn === "2", `height ${got.h}, want ${want}, data-wl-n ${got.wn}`);
-    check(`watchlist at ${w}: each row is the table's own price and change, and links the coin's page`,
-      got.lis[0].px === got.btc.px && got.lis[0].chg === got.btc.chg && got.lis[1].px === got.eth.px && got.lis[0].href === "/coins/btc" && got.lis[1].href === "/coins/eth", JSON.stringify([got.lis[0], got.btc]));
-    check(`watchlist at ${w}: the panel's heading, its device-only line, its hint, and each row's Why and Remove are all visible`, got.seen.every(Boolean), JSON.stringify(got.seen));
+    check(`watchlist at ${w}: with no network (every third host refused) and no cookie, the saved coins' rows are marked in the table`, !got.hidden && got.marked.join(",") === "BTC,ETH" && got.cookie === "" && (await t.ctx.cookies()).length === 0, JSON.stringify(got.marked));
+    check(`watchlist at ${w}: a saved coin the table lacks (ZZZNOTACOIN) marks nothing and is not invented`, got.marked.length === 2);
+    check(`watchlist at ${w}: the panel prints no price and no change (no $ and no %): each figure prints once, in the table`, !/[$%]/.test(got.panelText) && got.pxCount === 1, `${JSON.stringify(got.panelText)} count of ${got.px}: ${got.pxCount}`);
+    check(`watchlist at ${w}: the panel is exactly the height the CSS reserves (127px), whatever is saved`, Math.abs(got.h - 127) < 0.5 && got.wn === "2", `height ${got.h}, data-wl-n ${got.wn}`);
+    check(`watchlist at ${w}: the heading, the device-only line, Show only saved and Clear are all visible`, got.seen.every(Boolean), JSON.stringify(got.seen));
     check(`watchlist at ${w}: nothing the panel could move moves, with saved coins`, pushed(got) < 0.0005, `cls ${got.cls} ${JSON.stringify(got.shifts)}`);
     if (got.cls >= 0.0005) info(`watchlist at ${w}`, `a table-cell shift of ${got.cls.toFixed(4)} on its own (not the panel's): ${JSON.stringify(got.shifts)}`);
     const bad = t.log.reqs.filter(r => r.host !== BASE_HOST && r.host !== "api.coingecko.com" && r.host !== "static.cloudflareinsights.com");
     check(`watchlist at ${w}: no request goes to any host but the site, the tape's CoinGecko read and the beacon`, bad.length === 0, JSON.stringify(bad.slice(0, 3)));
     const own = t.log.reqs.filter(r => r.host === BASE_HOST && ["fetch", "xhr", "ping", "websocket", "eventsource"].includes(r.type));
-    check(`watchlist at ${w}: the page makes no fetch, XHR or ping to its own host either (the panel reads the table and the device)`, own.length === 0, JSON.stringify(own.slice(0, 3)));
+    check(`watchlist at ${w}: the page makes no fetch, XHR or ping to its own host either`, own.length === 0, JSON.stringify(own.slice(0, 3)));
     if (w === 375) {
       await t.ctx.setOffline(true);
-      await t.page.click('[data-wl-rm="BTC"]');
-      const after = await t.page.evaluate(() => ({ stored: localStorage.getItem("gcmc_coins"), n: document.querySelectorAll("[data-wl-list] li").length, hidden: getComputedStyle(document.querySelector("[data-wl-panel]")).display === "none" }));
-      check("watchlist: Remove works offline, updates the one stored list and the panel", after.n === 1 && JSON.parse(after.stored).join(",") === "ETH,ZZZNOTACOIN", JSON.stringify(after));
-      await t.page.click('[data-wl-rm="ETH"]');
-      const none = await t.page.evaluate(() => ({ hidden: getComputedStyle(document.querySelector("[data-wl-panel]")).display === "none" }));
-      check("watchlist: removing the last shown coin hides the panel again", none.hidden === true);
+      await t.page.click("[data-wl-only-btn]");
+      const only = await t.page.evaluate(() => ({ rows: [...document.querySelectorAll('tbody[data-live="top100"] tr')].filter(tr => getComputedStyle(tr).display !== "none").map(tr => tr.getAttribute("data-sym")), pressed: document.querySelector("[data-wl-only-btn]").getAttribute("aria-pressed") }));
+      check("watchlist: Show only saved (offline) leaves exactly the saved coins' rows", only.rows.join(",") === "BTC,ETH" && only.pressed === "true", JSON.stringify(only));
+      await t.page.click("[data-wl-only-btn]");
+      const all = await t.page.evaluate(() => document.querySelectorAll('tbody[data-live="top100"] tr').length === [...document.querySelectorAll('tbody[data-live="top100"] tr')].filter(tr => getComputedStyle(tr).display !== "none").length);
+      check("watchlist: toggled back, every row shows again", all);
+      await t.page.click("[data-wl-clear]");
+      const cleared = await t.page.evaluate(() => ({ stored: localStorage.getItem("gcmc_coins"), hidden: getComputedStyle(document.querySelector("[data-wl-panel]")).display === "none", marks: document.querySelectorAll("#wp-marks").length }));
+      check("watchlist: Clear (offline) empties the one stored list, removes the marks and hides the panel", cleared.stored === "[]" && cleared.hidden && cleared.marks === 0, JSON.stringify(cleared));
       check("watchlist: the page threw nothing", t.errs.length === 0, t.errs.join(" | "));
     }
     await t.ctx.close();
@@ -233,18 +236,17 @@ try {
     await t.page.reload({ waitUntil: "load" });
     await t.page.click(".cn-pin"); await sleep(150);
     const stored = await t.page.evaluate(() => localStorage.getItem("gcmc_coins"));
-    check("watchlist: Pin on a coin page writes the one list the Top 100 panel reads", JSON.parse(stored).join(",") === "BTC", stored);
+    check("watchlist: Pin on a coin page writes the one list the Top 100 reads", JSON.parse(stored).join(",") === "BTC", stored);
     await t.page.goto(base + "/pulse/prices.html", { waitUntil: "load" }); await sleep(400);
-    const seen = await t.page.evaluate(() => [...document.querySelectorAll("[data-wl-list] .wp-sym")].map(e => e.textContent).join(","));
-    check("watchlist: the coin pinned on its page is on the Top 100 panel", seen === "BTC", seen);
+    const seen = await t.page.evaluate(() => [...document.querySelectorAll('tbody[data-live="top100"] tr')].filter(tr => /Saved|\u2605/.test(getComputedStyle(tr.querySelector("td.sym2"), "::after").content)).map(tr => tr.getAttribute("data-sym")).join(","));
+    check("watchlist: the coin pinned on its page is marked on the Top 100", seen === "BTC", seen);
     await t.ctx.close();
   }
   {
-    // the head script's count and the rows drawn agree for a list with a repeat and a coin the table lacks
-    const t = await mk(375, {}, () => { try { localStorage.setItem("gcmc_coins", JSON.stringify(["BTC", "ZZZ", "ETH", "BTC", "constructor"])); } catch (e) {} });
+    const t = await mk(375, {}, () => { try { localStorage.setItem("gcmc_coins", JSON.stringify(["BTC", "ZZZ", "ETH", "BTC", "constructor", "x\"]a"])); } catch (e) {} });
     await t.page.goto(base + "/pulse/prices.html", { waitUntil: "load" }); await sleep(400);
-    const c = await t.page.evaluate(() => ({ n: document.documentElement.getAttribute("data-wl-n"), v: document.documentElement.style.getPropertyValue("--wp-n"), rows: document.querySelectorAll("[data-wl-list] li").length }));
-    check("watchlist: with a repeated coin, an unknown one and an object key saved, the reserve and the rows drawn are the same count", c.n === String(c.rows) && c.v === String(c.rows) && c.rows === 3, JSON.stringify(c));
+    const c = await t.page.evaluate(() => ({ n: document.documentElement.getAttribute("data-wl-n"), marked: [...document.querySelectorAll('tbody[data-live="top100"] tr')].filter(tr => /Saved|\u2605/.test(getComputedStyle(tr.querySelector("td.sym2"), "::after").content)).map(tr => tr.getAttribute("data-sym")).join(",") }));
+    check("watchlist: a repeat, an unknown coin, an object key and a quote-and-bracket string saved: only the real coins are marked, once each, and nothing breaks", c.marked === "BTC,ETH" && t.errs.length === 0, JSON.stringify(c));
     await t.ctx.close();
   }
   for (const [label, init] of [
@@ -255,6 +257,14 @@ try {
     await t.page.goto(base + "/pulse/prices.html", { waitUntil: "load" }); await sleep(500);
     const st = await t.page.evaluate(() => ({ hidden: getComputedStyle(document.querySelector("[data-wl-panel]")).display === "none", rows: document.querySelectorAll("#coin-q, tbody[data-live='top100'] tr").length }));
     check(`watchlist: ${label}: the panel stays hidden, the table is intact and nothing throws`, st.hidden && st.rows > 50 && t.errs.length === 0, JSON.stringify(st) + t.errs.join("|"));
+    await t.ctx.close();
+  }
+  {
+    // nothing saved: the page is the page Sprint 9.6 shipped (no marks, no reserve, no extra style)
+    const t = await mk(375, { freezeAt: FRESH });
+    await t.page.goto(base + "/pulse/prices.html", { waitUntil: "load" }); await sleep(300);
+    const n = await t.page.evaluate(() => ({ style: document.querySelectorAll("#wp-marks").length, attr: document.documentElement.hasAttribute("data-wl-n"), marked: [...document.querySelectorAll('tbody[data-live="top100"] td.sym2')].filter(td => getComputedStyle(td, "::after").content !== "none" && getComputedStyle(td, "::after").content !== "normal").length }));
+    check("watchlist: with nothing saved there are no marks, no injected style and no reserve", n.style === 0 && !n.attr && n.marked === 0, JSON.stringify(n));
     await t.ctx.close();
   }
 
