@@ -1,0 +1,18 @@
+Sprint 9.7 canary and environment record (times are the log files' finish times, ET, from the shell).
+
+1. Real 'python3 verify_pipeline.py canary' runs on this branch while farside.co.uk answered: FAIL at 1:48 AM (two real findings, both fixed: Sprint 9.5b's script-hash guard needed the one marked block of the route cut out, and a 'because' check of mine was too broad), PASS at 1:56 AM, PASS at 2:13 AM, PASS at 3:38 AM (the last on the final site code, build finished 3:23 AM; only tests, plants and documents changed after it).
+
+2. farside.co.uk then began answering 403 to this sandbox (first seen about 5:10 AM ET; it answered at 1:00 AM ET). living_tables.etf_by_issuer() returns None, the build omits /tables/etf-flows-by-issuer, and the canary's 'NO URL REMOVED OR CHANGED' check names it. The same single problem on 9203943 untouched (a git worktree of the base; finished 5:54 AM ET):
+1356:::error::canary: sprint 9.5: NO URL REMOVED OR CHANGED: all 70 pages main built (the structural set) are still built (tables/etf-flows-by-issuer.html)
+1358:LAYER 1 CANARY: FAIL (1 problem(s)) -> promotion BLOCKED (exit 1)
+1359:exit 1
+
+3. The same single problem on this branch, the unmodified command (finished 5:43 AM ET):
+1527:::error::canary: sprint 9.5: NO URL REMOVED OR CHANGED: all 70 pages main built (the structural set) are still built (tables/etf-flows-by-issuer.html)
+1529:LAYER 1 CANARY: FAIL (1 problem(s)) -> promotion BLOCKED (exit 1)
+1530:exit 1
+
+4. This branch's canary with the ONE real Farside table the build fetched at 1:00 AM ET supplied (a wrapper outside the repository, scratchpad/tools/canary_with_farside.py; nothing else touched; finished 5:59 AM ET):
+canary_with_farside: supplying 12 issuers, 13 days (newest 20 Oct 2026)
+1528:LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.
+1529:exit 0
