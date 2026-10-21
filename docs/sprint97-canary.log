@@ -16,3 +16,7 @@ Sprint 9.7 canary and environment record (times are the log files' finish times,
 canary_with_farside: supplying 12 issuers, 13 days (newest 20 Oct 2026)
 1528:LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.
 1529:exit 0
+
+REVIEW 1 FIXES (Wed Oct 21 2026, 8:50 AM EDT):
+5. Plain 'python3 verify_pipeline.py canary' at head after the fixes: FAIL, the one Farside finding (farside.co.uk still 403): '/tables/etf-flows-by-issuer.html' removed. Not pushed.
+6. The same canary with the one real Farside table supplied from outside the repository (PYTHONPATH shim): LAYER 1 CANARY: PASS, exit 0.

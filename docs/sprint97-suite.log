@@ -1,4 +1,4 @@
-Sprint 9.7 suite on claude/sleepy-sagan-xcfcw9 at 31101f3 (base 9203943), Wed Oct 21 2026, 6:03 AM EDT; tree-reading tests read a throwaway build of this tree (SITE_BUILD_NOW=2026-10-21T05:00:00Z, built from the same code). ENVIRONMENT: farside.co.uk has answered 403 to this sandbox since about 5:10 AM ET (it answered at 1:00 AM ET), so the one real Farside table fetched at 1:00 AM ET is supplied to every python process by a shim outside the repository (a PYTHONPATH sitecustomize, scratchpad/shim); without it the canary, canary_clean_test and the Sprint 9.5 tree cases fail the same way on 9203943 untouched ('/tables/etf-flows-by-issuer.html' removed)
+Sprint 9.7 review-1 suite on claude/sleepy-sagan-xcfcw9 at d781308 (base 9203943), Wed Oct 21 2026, 8:07 AM EDT; tree-reading tests read a throwaway build of this tree (SITE_BUILD_NOW=2026-10-21T05:00:00Z). ENVIRONMENT: farside.co.uk still answers 403 to this sandbox, so the one real Farside table fetched at 1:00 AM ET is supplied to every python process by a shim outside the repository (PYTHONPATH sitecustomize); the plain canary fails the same way on 9203943 untouched ('/tables/etf-flows-by-issuer.html' removed)
 ===== scripts/btc_hilo_test.py --tree /home/user/gocheckmycrypto/site/publish (exit 0)
 home:      24h (81155.0, 83249.0)  7D hi/lo 83115.0/81061.0  unlabeled=False
 /coins/btc: 24h (81155.0, 83249.0)  7D hi/lo 83115.1/81060.92  unlabeled=False
@@ -8,25 +8,25 @@ canary_clean_test: PASS, git status is the same after the canary as before it
 ===== scripts/chartmaster_publish_test.py (exit 0)
 
 == 2026-10-09: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-21T10:07:32Z"}
+   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-21T12:11:59Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-10: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-21T10:07:32Z"}
+   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-21T12:11:59Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-11: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-21T10:07:32Z"}
+   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-21T12:11:59Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
    - Watch for the trend lines to cross, which would tell a reader the positioning picture changed.
 
-== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-21T10:07:32Z"}
+== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-21T12:11:59Z"}
 
 RESULT: all three published
 ===== scripts/coin_pages_test.py --site /home/user/gocheckmycrypto/site/publish (exit 0)
@@ -1620,6 +1620,7 @@ SPRINT 9.6: PASS (0 failure(s))
 4. movers.json: the Big movers list of /pulse/movers
   ok   the real 16 October morning record lists 5 coin(s) past the line, as the page does
   ok   every shown move and grade is on the page
+  ok   every movers row's change names its window
   ok   a coin row names its coin page and, when graded, its verdict page
   ok   forty hours on the feed is stale
   ok   a record that is not current for the Board says so and lists no coin (the page's own rule)
@@ -1630,6 +1631,11 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   no wire line reaches the feed reworded or with a dash
   ok   the Brief feed carries title, dek, slot, date, published, bottom line and the page address
   ok   a Brief from the night before is stale by the site's rule
+  ok   OCT 20, 10 AM ET: with the morning read stored and the 19 October Evening Brief before it, the feed is the MORNING Brief (what the home's card says)
+  ok   the feed and the home's Brief card name the same Brief: the card prints the feed's headline and its sentences
+  ok   once a later Evening Brief exists the feed is that Brief, as the card is (usable_morning returns None)
+  ok   a morning read of another day is not the newest Brief
+  ok   the feed calls home.usable_morning itself (one choice, not a copy)
   ok   no Brief (None) is an empty feed that says so, stale, with no as-of
 6. why/<date>.json and why/today.json: from stored verdict records only
   ok   a file for each stored day and for today, and for no other day
@@ -1639,7 +1645,10 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   today.json is the newest stored day's feed
   ok   'because' appears only in a feed whose own sentence says it (Confirmed); none here
   ok   every sentence the card prints, as the feed's card_text, is on the 14 October verdict page
-  ok   every figure in the feed's full graded line (times, percents, dollars) is on that page
+  ok   a why feed carries no sentence its page does not print: the full graded line (with times) is not in it
+  ok   EVERY string in the 14 October feed (card sentences, evidence lines, window words) is on its own page
+  ok   a day whose Ether line is 'moved with Bitcoin' (a sentence the verdict page does not print) carries no sentence for Ether
+  ok   every string in the 15 October feed is on the page that prints it
   ok   a feed's stale flag follows the record's own made time
   ok   a day whose stored record cannot be read (corrupt, or not a verdict) gets no dated feed: nothing is made up for it
   ok   no stored record: today.json says there is none, stale, no as-of, and no dated file is invented
@@ -1657,12 +1666,15 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   on the real data every stored day is accounted for and no page is invented
 8. events.json: the newest 50 events that would push, from stored records
   ok   the Briefs publish as events (two), the example and the story do not
+  ok   the stored Morning Brief is a brief_published event with its published time, from the record the home uses
+  ok   a Morning Brief with no headline or sentences (the home does not show it) is no event
   ok   a correction is an event with its date and no invented time
   ok   the real 14 October Likely verdict (a small move) is NOT past the breaking line, so it is no event
   ok   SYNTHETIC: a graded verdict on a 6.2 percent move is an event past the breaking line (5 percent)
   ok   SYNTHETIC: Likely then Confirmed on one day is a verdict that moved; Likely then Unclear is not
   ok   SYNTHETIC: a verdict that moves to Disputed is an event
   ok   a top-10 coin past the mover line is an event, a place-40 coin is not (1 found)
+  ok   a change figure in an event names its window (24 hours or the verdict's own window)
   ok   newest first, and every event has an id, a kind, a title and a page address; ids are unique
   ok   no event title carries a dash, an AI word or a bare 'because'
   ok   SYNTHETIC: sixty Briefs and more are cut to the newest 50
@@ -1697,8 +1709,11 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   the route is only ever read when it answers fresh: stale, malformed and slow answers fall back
   ok   the home is the only page that reads a live price, so it is the only client changed (no page renders the ticker strip)
   ok   the canary's host list takes the configured route host and no other
-13. the watchlist stays on the device, and cannot move the page
-  ok   the Top 100 page carries the watchlist panel and its scripts, and the key is the one the pins already use
+12b. the 9.7 block of HOME_JS is pinned (so 9.5b's cut-out stays covered without the browser)
+  ok   the marked block hashes to the reviewed text
+  ok   there is exactly one such block and the text outside it is Sprint 9.5's (sprint95b's hash)
+13. the watchlist stays on the device, marks the table's own rows, and cannot move the page
+  ok   the Top 100 page carries the watchlist panel and its two scripts, on the key the pins already use
   ok   the filling script makes no request, sets no cookie, loads no library and sends no beacon
   ok   the head script makes no request, sets no cookie, loads no library and sends no beacon
   ok   every storage read and write is inside a try, and the panel goes away when storage is unavailable
@@ -1706,17 +1721,16 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   no second store: gcmc_coins is the only key either script names
   ok   the coin page's pin control is on the same key
   ok   the panel text has no dash, no AI word
-  ok   the inline map is the table's own strings for the same coins (100 coins): price, change, address
-  ok   the map closes no script early (a '</' is escaped) and holds one entry per symbol
-  ok   the head script counts against the same symbols the map holds
+  ok   THE SAME FACT ONCE: the panel reprints no price and no change (no money, no percent, no coin row, no change chip, no row map)
+  ok   the head script validates against the table's own symbols, every one of them selector-safe
+  ok   the head script marks the saved coins' own rows by an injected style (present before the table is parsed) and shows only saved rows on request
   ok   ORDER: the head script comes before any stylesheet link (it never waits on CSS), the panel before the table, the filling script after it
   ok   the page carries each of the three parts exactly once
-  ok   THE RESERVE: the panel's height is a function of the saved count and nothing else (116px + n rows of 78px under 600px, 100px + n rows of 49px from it)
-  ok   the reserve adds up: border 2 + padding 24 + heading 24 + note 33 or 17 + list margins 16 + hint 17 (= 116 and 100)
-  ok   no text box in the panel can change the height: the heading, note and hint have fixed heights
+  ok   THE RESERVE: the panel's height is one fixed number (127px: border 2, padding 24, heading 24, note 33, gap 8, buttons 36), whatever is saved
+  ok   no text box in the panel can change the height: heading, note and button row are fixed boxes
   ok   the panel takes no room until the head script has counted a saved coin
-  ok   the panel's class names (wp-act, wp-h, wp-hint, wp-list, wp-n, wp-note, wp-panel, wp-px, wp-rm, wp-sym, wp-why) are its own: none is in either stylesheet (the first cut reused wl-hint, which the older pin row hides)
-  ok   every class the panel's markup and script use is styled by the panel's own rules (nothing falls to a page default)
+  ok   the panel's class names (wp-bar, wp-btn, wp-h, wp-marks, wp-note, wp-panel) are its own: none is in either stylesheet
+  ok   every class the panel's markup uses is styled by the panel's own rules
   ok   colors come from tokens only
 14. wiring
   ok   build() writes the feeds under /api/v1/ through api_feeds and fails open
@@ -1746,9 +1760,11 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   markets: every tile figure and stamp is on /pulse.html (8 tiles)
   ok   whales: the sentence and every shown net are on /flows.html
   ok   news: the top line of the day is on /news.html
-  ok   brief: the title and the bottom line are on the Brief's own page
+  ok   brief: the title and the lead sentence are on the page the feed names (the home for a Morning Brief, the article for an Evening one)
   ok   movers: every shown move is on /pulse/movers.html
   ok   coins: every reading and the price of 100 coin feeds are on their pages
+  ok   why/2026-10-19: every string in the feed is on its own page
+  ok   why/2026-10-20: every string in the feed is on its own page
   ok   the home's title tag is the new one
   ok   the Top 100 title tag is the new one
   ok   every coin page has exactly one h1 (0 without: [])
@@ -1765,31 +1781,33 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   the Top 100 at 375 on a slow network (the page arrives in two parts, 700 ms apart), with saved coins: nothing the panel could move moves, and the panel is there
   ok   the Top 100 at 1440 on a slow network (the page arrives in two parts, 700 ms apart), without saved coins: nothing the panel could move moves, and the panel is absent
   ok   the Top 100 at 1440 on a slow network (the page arrives in two parts, 700 ms apart), with saved coins: nothing the panel could move moves, and the panel is there
-  ok   watchlist at 375: saved coins show, with no network (every third host refused) and no cookie
-  ok   watchlist at 375: a saved coin the table lacks (ZZZNOTACOIN) shows nothing and is not invented
-  ok   watchlist at 375: the panel is exactly the height the CSS reserves from the saved count (272px for 2 rows), and the count the head script took is the rows drawn
-  ok   watchlist at 375: each row is the table's own price and change, and links the coin's page
-  ok   watchlist at 375: the panel's heading, its device-only line, its hint, and each row's Why and Remove are all visible
+  ok   watchlist at 375: with no network (every third host refused) and no cookie, the saved coins' rows are marked in the table
+  ok   watchlist at 375: a saved coin the table lacks (ZZZNOTACOIN) marks nothing and is not invented
+  ok   watchlist at 375: the panel prints no price and no change (no $ and no %): each figure prints once, in the table
+  ok   watchlist at 375: the panel is exactly the height the CSS reserves (127px), whatever is saved
+  ok   watchlist at 375: the heading, the device-only line, Show only saved and Clear are all visible
   ok   watchlist at 375: nothing the panel could move moves, with saved coins
   ok   watchlist at 375: no request goes to any host but the site, the tape's CoinGecko read and the beacon
-  ok   watchlist at 375: the page makes no fetch, XHR or ping to its own host either (the panel reads the table and the device)
-  ok   watchlist: Remove works offline, updates the one stored list and the panel
-  ok   watchlist: removing the last shown coin hides the panel again
+  ok   watchlist at 375: the page makes no fetch, XHR or ping to its own host either
+  ok   watchlist: Show only saved (offline) leaves exactly the saved coins' rows
+  ok   watchlist: toggled back, every row shows again
+  ok   watchlist: Clear (offline) empties the one stored list, removes the marks and hides the panel
   ok   watchlist: the page threw nothing
-  ok   watchlist at 1440: saved coins show, with no network (every third host refused) and no cookie
-  ok   watchlist at 1440: a saved coin the table lacks (ZZZNOTACOIN) shows nothing and is not invented
-  ok   watchlist at 1440: the panel is exactly the height the CSS reserves from the saved count (198px for 2 rows), and the count the head script took is the rows drawn
-  ok   watchlist at 1440: each row is the table's own price and change, and links the coin's page
-  ok   watchlist at 1440: the panel's heading, its device-only line, its hint, and each row's Why and Remove are all visible
+  ok   watchlist at 1440: with no network (every third host refused) and no cookie, the saved coins' rows are marked in the table
+  ok   watchlist at 1440: a saved coin the table lacks (ZZZNOTACOIN) marks nothing and is not invented
+  ok   watchlist at 1440: the panel prints no price and no change (no $ and no %): each figure prints once, in the table
+  ok   watchlist at 1440: the panel is exactly the height the CSS reserves (127px), whatever is saved
+  ok   watchlist at 1440: the heading, the device-only line, Show only saved and Clear are all visible
   ok   watchlist at 1440: nothing the panel could move moves, with saved coins
   ok   watchlist at 1440: no request goes to any host but the site, the tape's CoinGecko read and the beacon
-  ok   watchlist at 1440: the page makes no fetch, XHR or ping to its own host either (the panel reads the table and the device)
-  ok   watchlist: Pin on a coin page writes the one list the Top 100 panel reads
-  ok   watchlist: the coin pinned on its page is on the Top 100 panel
-  ok   watchlist: with a repeated coin, an unknown one and an object key saved, the reserve and the rows drawn are the same count
+  ok   watchlist at 1440: the page makes no fetch, XHR or ping to its own host either
+  ok   watchlist: Pin on a coin page writes the one list the Top 100 reads
+  ok   watchlist: the coin pinned on its page is marked on the Top 100
+  ok   watchlist: a repeat, an unknown coin, an object key and a quote-and-bracket string saved: only the real coins are marked, once each, and nothing breaks
   ok   watchlist: storage that throws: the panel stays hidden, the table is intact and nothing throws
   ok   watchlist: a corrupt stored list: the panel stays hidden, the table is intact and nothing throws
   ok   watchlist: a stored list that is not a list: the panel stays hidden, the table is intact and nothing throws
+  ok   watchlist: with nothing saved there are no marks, no injected style and no reserve
   ok   the Top 100 stamp read 2.9 hours after its stamp: the page's stale state (false) is the feed's rule (false)
   ok   the Top 100 stamp read 3.1 hours after its stamp: the page's stale state (true) is the feed's rule (true)
   INFO the feed's own flag at build: true (as of 2026-10-20T23:12:48Z, built 2026-10-21T05:00:00Z)
