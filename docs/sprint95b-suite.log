@@ -1,32 +1,32 @@
-Sprint 9.5b suite (with J-11), Tue Oct 20 2026, 04:11 PM EDT, the branch's working tree on top of 98c2b4d; tree-reading tests read a throwaway build of this tree (SITE_BUILD_NOW=2026-10-20T07:20:00Z)
+Sprint 9.5b suite after merging Sprint 9.5 as merged (origin/main f707775, code ca7ff70), Tue Oct 20 2026, 11:29 PM EDT, merge commit 962eaf1 plus the rebaselined fixtures; tree-reading tests read a throwaway build of this tree (SITE_BUILD_NOW=2026-10-20T07:20:00Z)
 ===== scripts/btc_hilo_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/wt-95b/../w95b/final/site/publish (exit 0)
-home:      24h (81737.0, 83035.0)  7D hi/lo 83457.0/81061.0  unlabeled=False
-/coins/btc: 24h (81737.0, 83035.0)  7D hi/lo 83457.39/81060.92  unlabeled=False
+home:      24h (81155.0, 83249.0)  7D hi/lo 83115.0/81061.0  unlabeled=False
+/coins/btc: 24h (81155.0, 83249.0)  7D hi/lo 83115.1/81060.92  unlabeled=False
 ok: one figure, one source
 ===== scripts/canary_clean_test.py  (exit 0)
 canary_clean_test: PASS, git status is the same after the canary as before it
 ===== scripts/chartmaster_publish_test.py (exit 0)
 
 == 2026-10-09: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-20T20:15:42Z"}
+   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-21T03:32:54Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-10: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-20T20:15:42Z"}
+   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-21T03:32:54Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-11: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-20T20:15:42Z"}
+   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-21T03:32:54Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
    - Watch for the trend lines to cross, which would tell a reader the positioning picture changed.
 
-== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-20T20:15:42Z"}
+== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-21T03:32:54Z"}
 
 RESULT: all three published
 ===== scripts/coin_pages_test.py --site /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/wt-95b/../w95b/final/site/publish (exit 0)
@@ -1094,6 +1094,19 @@ SPRINT 9.4: PASS (0 failure(s))
   ok   /corrections.html lists that correction, dated, with a link to the editorial
   ok   J-10 (option 1): prompts/chartmaster.md carries no old name
   ok   J-10: the prompt's flow names are NAMES.md's (ETF flows, Whale flows, Stablecoin supply)
+  ok   chartmaster.py writes NAMES.md's names in the text it generates (the data card's headline, the model's instruction): no 'Chart Master' in them
+  ok   the data card's headline names the chart read, not the Chart Master
+  ok   SYNTHETIC: the coin pages check expects no Ledger card for a coin up or down 10% or more, and the card on every other
+  ok   the coin pages check passes pages built under 9.5's rule (a 12% coin and a -10% coin without the card)
+  ok   the coin pages check still fails a calm coin with no card, and a mover with one
+  ok   the chart page renders 'The chart read, Oct 15' with no old name when the archive holds no stored read
+  ok   SYNTHETIC 21 October read over an archive holding the 20 October data card: no 'Chart Master' outside the October 19 read
+  ok   the 20 October row reads 'Chart data card' with its date and prints no stored headline
+  ok   no 'The read' eyebrow on an Earlier reads row (NAMES.md lists it as an old name)
+  ok   the exclusion is the 19 October entry only: the 18 October row is scanned like the rest page
+  ok   the canary's live-layer check leaves out the October 19 entry only (J-10), not every Earlier reads entry
+  ok   the data card table uses the shared table rule: fit-tbl wrapper with role=region, aria-label and tabindex, a 'Show all columns' toggle, the 50-day and RSI columns behind it, no private .tbl-wrap
+  ok   unit() leaves site/data/chartmaster as it found it (the archive goes to a temp directory while the cases run)
   ok   J-8 boundary: 25 percent done exactly disqualifies the event (25 or more)
   ok   J-8 boundary: 24.9 percent done still passes
   ok   J-8 boundary: the printed reason for 25 percent done says a quarter or more
@@ -1219,6 +1232,8 @@ PASS charts at 375: every axis label, tick and pin draws at 12 px or more
 PASS charts at 390: every axis label, tick and pin draws at 12 px or more
 PASS chart labels in dark mode: every svg label clears 4.5:1 against its surface
 PASS chart labels in light mode: every svg label clears 4.5:1 against its surface
+PASS data card at 375: the table fits its box with no inner scroll, the secondary columns behind the toggle, a labeled region, and the page does not scroll
+PASS data card at 390: the table fits its box with no inner scroll, the secondary columns behind the toggle, a labeled region, and the page does not scroll
 PASS /movers-fixture.html at 375: the table fits its box with its secondary columns hidden, and a toggle sits before it
 PASS /movers-fixture.html at 375: the toggle brings the hidden columns back
 PASS /movers-fixture.html at 375: the page does not scroll sideways
@@ -1232,7 +1247,7 @@ PASS no horizontal page scroll at 375
 PASS no horizontal page scroll at 390
 PASS Brief archive at 375: one month of entries and a list of months (not every Brief on one page)
 
-SPRINT 9.5 BROWSER: PASS (50 of 50 checks hold)
+SPRINT 9.5 BROWSER: PASS (52 of 52 checks hold)
 
 
 SPRINT 9.5: PASS (0 failure(s))
@@ -1285,7 +1300,7 @@ SPRINT 9.5: PASS (0 failure(s))
   ok   the built site.css is the source's: .wrap is 1080 at 1279 and about 1400 at 1440 (read from the built file)
   ok   the built home has exactly one Ether line (the Board has an Ether price)
   ok   the built home's script elements are 9.5's: the same count, and the beacon exactly once
-  ok   every built page links site.css, so every page takes the wrapper (825 pages; without: [])
+  ok   every built page links site.css, so every page takes the wrapper (828 pages; without: [])
   ok   no built page carries a 1080 wrapper of its own without its own 1400 from 1280 (the Edition's sheet does; [])
 PASS the page wrapper at 1440: min(viewport, 1400) on the home and 12 inner pages, no sideways scroll
 PASS the page wrapper at 1920: min(viewport, 1400) on the home and 12 inner pages, no sideways scroll
@@ -1301,7 +1316,7 @@ PASS the first screen at 1440x800 (light, nocard): bitcoin, ether, brief, movers
 INFO first lines' bottoms at 1440x800 (light, nocard): card:none bitcoin:182 ether:182 brief:265 movers:664 whale:216 money:177 mood:466 since:237 why:431 wire:783 today:893 mine:980
 PASS the first screen at 1440 (light, nocard): the page does not scroll sideways
 PASS the first screen at 1440x800 (light, built home): bitcoin, ether, brief, movers, whale each show their first line without scrolling
-INFO first lines' bottoms at 1440x800 (light, built home): card:none bitcoin:182 ether:182 brief:265 movers:664 whale:216 money:177 mood:466 since:237 why:605 wire:704 today:871 mine:957
+INFO first lines' bottoms at 1440x800 (light, built home): card:none bitcoin:182 ether:182 brief:265 movers:664 whale:216 money:177 mood:466 since:237 why:588 wire:921 today:916 mine:1002
 PASS the first screen at 1440 (light, built home): the page does not scroll sideways
 PASS the first screen at 1440x800 (dark, card): bitcoin, ether, brief, movers, whale, card each show their first line without scrolling
 INFO first lines' bottoms at 1440x800 (dark, card): card:188 bitcoin:533 ether:533 brief:616 movers:664 whale:216 money:177 mood:466 since:588 why:782 wire:1134 today:893 mine:980
@@ -1310,7 +1325,7 @@ PASS the first screen at 1440x800 (dark, nocard): bitcoin, ether, brief, movers,
 INFO first lines' bottoms at 1440x800 (dark, nocard): card:none bitcoin:182 ether:182 brief:265 movers:664 whale:216 money:177 mood:466 since:237 why:431 wire:783 today:893 mine:980
 PASS the first screen at 1440 (dark, nocard): the page does not scroll sideways
 PASS the first screen at 1440x800 (dark, built home): bitcoin, ether, brief, movers, whale each show their first line without scrolling
-INFO first lines' bottoms at 1440x800 (dark, built home): card:none bitcoin:182 ether:182 brief:265 movers:664 whale:216 money:177 mood:466 since:237 why:605 wire:704 today:871 mine:957
+INFO first lines' bottoms at 1440x800 (dark, built home): card:none bitcoin:182 ether:182 brief:265 movers:664 whale:216 money:177 mood:466 since:237 why:588 wire:921 today:916 mine:1002
 PASS the first screen at 1440 (dark, built home): the page does not scroll sideways
 PASS the glance board at 1440 (card): no two sections overlap
 PASS the glance board at 1440 (card): the right column (money, mood, movers) sits to the right of the left column, side by side
