@@ -18,5 +18,45 @@
    "BTC": "no_verdict",
    "ETH": "with_btc"
   }
+ },
+ {
+  "kind": "run",
+  "date": "2026-10-20",
+  "slot": "morning",
+  "t": "2026-10-20T12:18:49Z",
+  "calls": 0,
+  "tokens": 0,
+  "usd": 0,
+  "by_stage": {},
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0,
+  "cap_usd": 1.5,
+  "coins": {
+   "BTC": "flat",
+   "ETH": "with_btc"
+  }
+ },
+ {
+  "kind": "run",
+  "date": "2026-10-20",
+  "slot": "evening",
+  "t": "2026-10-20T23:15:59Z",
+  "calls": 0,
+  "tokens": 0,
+  "usd": 0,
+  "by_stage": {},
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0,
+  "cap_usd": 1.5,
+  "coins": {
+   "BTC": "no_verdict",
+   "ETH": "with_btc"
+  }
  }
 ]

@@ -1,0 +1,114 @@
+{
+ "date_et": "2026-10-20",
+ "slot": "morning",
+ "published_utc": "2026-10-20T12:18:12Z",
+ "first_utc": "2026-10-20T12:18:12Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Tuesday, October 20, 2026",
+ "h1": "Crypto today: flat. Tuesday, October 20, 2026",
+ "stamp_label": "Morning read, 8:18 AM ET",
+ "composed_utc": "2026-10-20T12:18:14Z",
+ "board_stamp_et": "8:16 AM ET on Oct 20",
+ "answer": [
+  "On Tuesday, October 20, Bitcoin was flat since midnight ET, at $81,314, a change of -0.50%.",
+  "Over the last 24 hours it was down 1.46%.",
+  "Ether was down 1.75% over the same 24 hours.",
+  "Among the Top 100, M gained 11.52% and STX lost 9.17% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 81314,
+  "chg": -1.46,
+  "chg_day": -0.5
+ },
+ "eth": {
+  "price": 2381.47,
+  "chg": -1.75
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "chg": 11.52,
+   "slug": "m"
+  },
+  {
+   "symbol": "WLD",
+   "name": "Worldcoin",
+   "chg": 6.5,
+   "slug": "wld"
+  },
+  {
+   "symbol": "TIA",
+   "name": "Celestia",
+   "chg": 6.3,
+   "slug": "tia"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "STX",
+   "name": "Stacks",
+   "chg": -9.17,
+   "slug": "stx"
+  },
+  {
+   "symbol": "NEAR",
+   "name": "NEAR Protocol",
+   "chg": -6.73,
+   "slug": "near"
+  },
+  {
+   "symbol": "WLFI",
+   "name": "World Liberty Financial",
+   "chg": -5.47,
+   "slug": "wlfi"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin spot ETF net",
+   "value": 526.7,
+   "window": "one trading day, 19 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "8:16 AM ET on Oct 20",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 209443,
+   "shorts": 0,
+   "window": "last 6 hours",
+   "source": "OKX",
+   "stamp": "8:16 AM ET on Oct 20",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0012,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:16 AM ET on Oct 20",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 55,
+   "word": "Greed",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:16 AM ET on Oct 20",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Edition, tonight at 7:08 PM ET",
+ "corrections": []
+}

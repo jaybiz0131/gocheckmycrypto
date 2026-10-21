@@ -1,0 +1,206 @@
+{
+ "date_et": "2026-10-20",
+ "slot": "evening",
+ "published_utc": "2026-10-20T23:14:41Z",
+ "first_utc": "2026-10-20T23:14:41Z",
+ "direction": "up",
+ "direction_basis": "et_day",
+ "title": "Why is crypto up today? Tuesday, October 20, 2026",
+ "h1": "Why is crypto up today? Tuesday, October 20, 2026",
+ "stamp_label": "Evening Edition, 7:14 PM ET",
+ "composed_utc": "2026-10-20T23:15:20Z",
+ "board_stamp_et": "7:12 PM ET on Oct 20",
+ "answer": [
+  "Tuesday's tape was calm: Bitcoin and most major coins posted single-digit daily gains on modest spot ETF demand, with leverage positioning neutral and the fear-greed index holding at 55.",
+  "The day's weight fell on regulation, as Switzerland approved its first retail bitcoin ETF, France enacted a 31% tax on stablecoin conversions effective January 2027, and Kazakhstan's court banned six major exchanges from unlicensed operations.",
+  "The regulatory action signals tightening oversight across Europe and Asia while market technicals hold steady; the calendar ahead includes France's tax measure kicking in on January 1, 2027, and the ongoing licensing question for affected exchanges in Kazakhstan."
+ ],
+ "answer_by": "evening",
+ "fallback": false,
+ "btc": {
+  "price": 82893,
+  "chg": 1.15,
+  "chg_day": 1.43
+ },
+ "eth": {
+  "price": 2447.08,
+  "chg": 1.78
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "WLD",
+   "name": "Worldcoin",
+   "chg": 11.42,
+   "slug": "wld"
+  },
+  {
+   "symbol": "AERO",
+   "name": "Aerodrome Finance",
+   "chg": 10.99,
+   "slug": "aero"
+  },
+  {
+   "symbol": "LIT",
+   "name": "Lighter",
+   "chg": 10.12,
+   "slug": "lit"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "ARB",
+   "name": "Arbitrum",
+   "chg": -5.19,
+   "slug": "arb"
+  },
+  {
+   "symbol": "MORPHO",
+   "name": "Morpho",
+   "chg": -3.56,
+   "slug": "morpho"
+  },
+  {
+   "symbol": "STX",
+   "name": "Stacks",
+   "chg": -2.05,
+   "slug": "stx"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Swiss regulator FINMA approved the country's first retail bitcoin ETF holding bitcoin directly, with custody safeguards and volatility warnings required.",
+   "time": "6:09 AM ET",
+   "source_count": 5,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/converge/tradfi-and-fintech/finma-approves-first-swiss-retail-bitcoin-etf"
+    },
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/regulation/2026-10-20-swiss-regulator-finma-approves-countrys-first-spot-bitcoin-etf-for-retail-investors-421127"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/381446/swiss-regulator-first-retail-fund-holds-bitcoin-directly"
+    },
+    {
+     "outlet": "Bitcoin Magazine",
+     "url": "https://bitcoinmagazine.com/news/swiss-regulator-green-lights-bitcoin-etf"
+    }
+   ]
+  },
+  {
+   "line": "France's National Assembly voted 38-37 to impose 31% capital-gains tax on stablecoin conversions starting January 2027, removing tax deferral.",
+   "time": "7:25 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/10/20/france-s-parliament-approves-vote-to-hit-crypto-to-stablecoin-trades-with-31-levy"
+    },
+    {
+     "outlet": "decrypt.co",
+     "url": "https://decrypt.co/381413/french-lawmakers-back-stablecoin-swap-tax-by-just-one-vote"
+    }
+   ]
+  },
+  {
+   "line": "Kazakhstan court banned Coinbase, BingX, OKX, Bybit, Huobi, and Gate.io from unlicensed crypto services in the Astana International Financial Centre.",
+   "time": "9:35 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/10/20/kazakhstan-court-bars-coinbase-five-others-from-unlicensed-crypto-services-in-astana-international-financial-centre"
+    },
+    {
+     "outlet": "cointelegraph.com",
+     "url": "https://cointelegraph.com/news/kazakhstan-court-limits-coinbase-bingx-four"
+    }
+   ]
+  },
+  {
+   "line": "US bitcoin ETFs drew $526.7M on Oct. 20, their biggest day in a month; BlackRock's IBIT accounted for all inflows while Fidelity and Grayscale saw outflows.",
+   "time": "4:24 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/10/20/bitcoin-etfs-just-saw-their-biggest-day-in-a-month-thanks-entirely-to-blackrock"
+    },
+    {
+     "outlet": "decrypt.co",
+     "url": "https://decrypt.co/381444/bitcoin-etfs-best-day-nearly-month-blackrock-does-most-buying"
+    }
+   ]
+  },
+  {
+   "line": "Drift exploit wallet moved $61M in stolen ETH to Tornado Cash on Oct. 20, leaving $194M in remaining exploit funds and recovery claims unresolved.",
+   "time": "5:12 AM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Defiant",
+     "url": "https://thedefiant.io/news/hacks/drift-linked-wallet-sends-54-8-million-in-eth-to-tornado-cash"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/381450/wallet-drift-exploit-sends-61-million-ethereum-tornado-cash"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/drift-exploiter-eth-tornado-cash?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin spot ETF net",
+   "value": -10.3,
+   "window": "one trading day, 20 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "7:12 PM ET on Oct 20",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 7969,
+   "shorts": 548594,
+   "window": "last 4 hours",
+   "source": "OKX",
+   "stamp": "7:12 PM ET on Oct 20",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0065,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "7:12 PM ET on Oct 20",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 55,
+   "word": "Greed",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "7:12 PM ET on Oct 20",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning read, tomorrow at 8:15 AM ET",
+ "corrections": []
+}
