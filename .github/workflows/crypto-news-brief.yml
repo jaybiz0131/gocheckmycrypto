@@ -661,7 +661,7 @@ jobs:
         run: timeout 360 python3 movers.py --write || true
 
       # THE SHARE QUEUE (Program 9, Sprint 9.6): one entry per new square card (a graded verdict, a Big mover, a day) filed
-      # into linkedin-queue/ in the publicist's shape, with a post line built only from the card's own words. Nothing posts
+      # into share-queue/ (not linkedin-queue/) in the publicist's shape, with a post line built only from the card's own words. Nothing posts
       # and the step takes no secret and no network; Jack posts from the queue by hand. Never a gate.
       - name: Share queue (the square cards, never posted)
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
@@ -706,8 +706,8 @@ jobs:
           [ -f data/verdict-ledger.json ] && git add data/verdict-ledger.json
           # the Big movers records (Sprint 9.4)
           [ -d site/data/movers ] && git add site/data/movers
-          # the share queue's entries (Sprint 9.6)
-          [ -d linkedin-queue ] && git add linkedin-queue
+          # the share queue's entries (Sprint 9.6): its own channel-neutral folder, never linkedin-queue/
+          [ -d share-queue ] && git add share-queue
           if git diff --cached --quiet; then
             echo "::notice::No new stories to publish (nothing VERIFIED or all already live)."
             echo "pushed=false" >> "$GITHUB_OUTPUT"

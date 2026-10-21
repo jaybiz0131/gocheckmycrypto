@@ -34,7 +34,16 @@ AI = re.compile(r"\bA\.?I\b|artificial|machine[- ]learn|language model|\bLLM\b|\
 PERSON = re.compile(r"(?<!Crypto )\bCronkite\b|\bWalter\b|\bJack\b|\bBerno\b|\bfounder\b|\beditor-in-chief\b", re.I)
 FIG = re.compile(r"\b\d{1,2}:\d{2} [AP]M\b|\d[\d,]*\.?\d*\s?%|\$[\d,]+(?:\.\d+)?(?:[KMB]| million| billion)?|\d[\d,.]*\s?bp\b")
 UTC = dt.timezone.utc
+try:
+    import PIL.Image  # noqa: F401
+    HAVE_PIL = True
+except Exception:                                            # noqa: BLE001
+    HAVE_PIL = False
 ORIGIN = "https://gocheckmycrypto.com"
+
+
+def info(msg):
+    print("  INFO " + msg)
 
 
 def guarded(fails, msg, fn):
@@ -138,10 +147,17 @@ def card_cases(fails):
     guarded(fails, "14 October (real): the heading is 'Why Bitcoin moved' and the card is the verdict's, not the Brief's "
                    "(no Brief, no Evening Edition, no morning read on it)",
             lambda: s["heading"] == "Why Bitcoin moved" and not re.search(r"\bBrief\b|Edition|morning read", words_of(s)))
-    guarded(fails, "14 October (real): one figure per event, the next 60 minutes, with the price source named once "
-                   "('Prices: Coinbase 5-minute candles')",
-            lambda: [f["text"] for f in s["figures"]] == ["1.45%", "1.45%"]
+    guarded(fails, "14 October (real): both 8:30 AM events share the hour after, so its figure prints ONCE and names both events "
+                   "(not once per event), with the price source named once ('Prices: Coinbase 5-minute candles')",
+            lambda: [f["text"] for f in s["figures"]] == ["1.45%"] and sum(1 for w in s["words"] if "1.45%" in w) == 1
+            and len(s["shared"]) == 1 and len(s["shared"][0]["names"]) == 2
+            and any("the Real Earnings release" in n for n in s["shared"][0]["names"])
+            and any("the Consumer Price Index release" in n for n in s["shared"][0]["names"])
+            and all(e["figure"] is None for e in s["events"])
             and sum(1 for w in s["words"] if w.startswith("Prices: Coinbase 5-minute candles")) == 1)
+    d0 = spec_of("disputed")
+    guarded(fails, "SYNTHETIC Disputed: two events at different hours keep their own figure each (nothing is merged that is not the same hour)",
+            lambda: d0["shared"] == [] and [e["figure"]["text"] for e in d0["events"]] == ["1.45%", "0.63%"])
     u = spec_of("unclear")
     guarded(fails, "15 October Bitcoin (real): the card exists, grade Unclear, and says exactly "
                    "'No reported event lines up with this move.'",
@@ -193,6 +209,29 @@ def tag_cases(fails):
     b = next(x for x in built if x["path"] == "/why/2026-10-14-bitcoin")
     h = b["html"]
     img = f"{ORIGIN}/og/why/2026-10-14-bitcoin.png"
+    if not HAVE_PIL:
+        info("no Pillow here: the square images are not drawn, so the page keeps the site card (the fail-open path, asserted below); "
+             "the tag-with-image cases are skipped")
+        guarded(fails, "NO PILLOW: the /why/ page is still built, with the site's default og:image (1200 by 630) and summary_large_image",
+                lambda: _meta(h, "og:image") == f"{ORIGIN}/og-image.png" and _meta(h, "og:image:width") == "1200"
+                and _meta(h, "twitter:card", "name") == "summary_large_image" and not os.path.isdir(og))
+        guarded(fails, "NO PILLOW: the page's URL is unchanged and it is still the page the sitemaps list",
+                lambda: b["path"] == "/why/2026-10-14-bitcoin" and b["rel"] == "why/2026-10-14-bitcoin.html")
+        return
+    cm = sc()
+    real_ok = cm.pillow_ok
+    cm.pillow_ok = lambda: False
+    try:
+        nb, nctx, nog = _pages("likely")
+    finally:
+        cm.pillow_ok = real_ok
+    npg = next(x for x in nb if x["path"] == "/why/2026-10-14-bitcoin")
+    guarded(fails, "NO PILLOW (simulated): the /why/ page is still built with the site's default og:image, 1200 by 630, "
+                   "summary_large_image, and no image is written",
+            lambda: _meta(npg["html"], "og:image") == f"{ORIGIN}/og-image.png" and _meta(npg["html"], "og:image:width") == "1200"
+            and _meta(npg["html"], "twitter:card", "name") == "summary_large_image" and not os.path.isdir(nog))
+    guarded(fails, "NO PILLOW (simulated): the page, its path and its title are the same as with Pillow (the sitemap entry is kept)",
+            lambda: (npg["path"], npg["rel"], npg["title"]) == (b["path"], b["rel"], b["title"]))
     guarded(fails, "og:image is the verdict's own square image, an absolute https URL",
             lambda: _meta(h, "og:image") == img)
     guarded(fails, "twitter:image is the same absolute URL", lambda: _meta(h, "twitter:image", "name") == img)
@@ -265,18 +304,20 @@ def _png_size(path):
 # ---- 3. the queue entry --------------------------------------------------------------------------------------------
 
 def queue_cases(fails):
-    print("3. the queue Jack posts from: a file per card, the existing linkedin-queue shape, nothing posted")
+    print("3. the queue Jack posts from: a file per card in share-queue/ (channel-neutral), the publicist's shape, nothing posted")
     import publicist
     s = spec_of("likely")
     name, text = sc().queue_entry(s)
-    guarded(fails, "the entry's file is linkedin-queue/<date>-why-<coin>.md, beside the publicist's drafts",
-            lambda: name == "2026-10-14-why-bitcoin.md")
+    guarded(fails, "the entry's file is <date>-why-<coin>.md, in a folder of its own: share-queue/, never linkedin-queue/ (the desk does "
+                   "not post to LinkedIn)",
+            lambda: name == "2026-10-14-why-bitcoin.md" and os.path.basename(share_queue_mod().QUEUE) == "share-queue"
+            and "linkedin" not in text.lower())
     guarded(fails, "the entry lists the page URL, the image URL and the image path, all absolute where they are URLs",
             lambda: f"Story: {ORIGIN}/why/2026-10-14-bitcoin" in text
             and f"Image: {ORIGIN}/og/why/2026-10-14-bitcoin.png" in text and "Image path: /og/why/2026-10-14-bitcoin.png" in text)
     guarded(fails, "the entry keeps the publicist's shape: a heading, the story line, the framing box, then the "
                    "ready-to-paste draft",
-            lambda: text.startswith("# LinkedIn draft: ") and "YOUR FRAMING" in text
+            lambda: text.startswith("# Share draft: ") and "YOUR FRAMING" in text
             and "---- READY-TO-PASTE DRAFT (passed all " in text)
     post = text.split("----\n\n", 1)[1].strip()
     ok, rep = publicist.run_gates(post, f"{ORIGIN}/why/2026-10-14-bitcoin")
@@ -495,6 +536,11 @@ def _forced_spec(vrec, ev, day):
         verdict.text_sec = old
 
 
+def share_queue_mod():
+    import share_queue
+    return share_queue
+
+
 def _sourced(spec, fig):
     return fig.get("source") and any(fig["source"] in w for w in spec["words"])
 
@@ -508,6 +554,9 @@ def _sourced_time(e):
 
 def color_cases(fails):
     print("7. color truth: no up or down color beside a figure of the other sign; the grade mark is never up or down colored")
+    if not HAVE_PIL:
+        info("no Pillow here: the drawing is not run, so the color-truth cases on its operations and pixels are skipped")
+        return
     cs = sc()
     for nm in ("likely", "unclear", "confirmed", "disputed"):
         s = spec_of(nm)
@@ -534,8 +583,6 @@ def color_cases(fails):
         rise = copy.deepcopy(spec_of("likely"))
         for f in rise["figures"]:
             f["value"], f["text"] = abs(f["value"]), f["text"]
-        rise["events"][0]["figure"]["value"] = abs(rise["events"][0]["figure"]["value"])
-        rise["events"][1]["figure"]["value"] = abs(rise["events"][1]["figure"]["value"])
         cs.render(rise, p)
         px = Image.open(p).convert("RGB").getdata()
         down2 = sum(1 for q in px if _near(q, cs.DOWN, 40))
@@ -564,6 +611,9 @@ def _agrees(o):
 
 def image_cases(fails):
     print("8. the image: 1080 by 1080, light, drawn the same every time, from the repo's own fonts")
+    if not HAVE_PIL:
+        info("no Pillow here: the drawing is not run, so the image cases (size, weight, determinism, fonts, fit) are skipped")
+        return
     cs = sc()
     with tempfile.TemporaryDirectory() as td:
         outs = {}
@@ -633,8 +683,8 @@ def wiring_cases(fails):
         y = open(os.path.join(HERE, ".github", "workflows", wf), encoding="utf-8").read()
         guarded(fails, f"{wf}: share_queue.py runs after the verdict and movers steps, fail open, with a timeout",
                 lambda y=y: re.search(r"movers\.py --write \|\| true.*?timeout \d+ python3 share_queue\.py \|\| true", y, re.S))
-        guarded(fails, f"{wf}: the commit stages linkedin-queue/ by name (never git add -A)",
-                lambda y=y: "git add linkedin-queue" in y)
+        guarded(fails, f"{wf}: the commit stages share-queue/ by name (never git add -A) and never linkedin-queue/",
+                lambda y=y: "git add share-queue" in y and "git add linkedin-queue" not in y)
         step = re.search(r"- name: [^\n]*[Ss]hare[^\n]*\n(.*?)(?=\n      - name:)", y, re.S)
         guarded(fails, f"{wf}: the share step takes no secret", lambda step=step: step and "secrets." not in step.group(1))
     guarded(fails, "the publicist workflow is untouched (still manual only)",
@@ -669,6 +719,15 @@ def tree(root, expect_pages=False):
     elif not pages:
         print("  note this tree has no /why/ page (its stored days graded nothing); the canary's fixture build is the one that "
               "asserts pages and their images")
+    if not HAVE_PIL:
+        info("no Pillow here: no card is drawn; every /why/ page must keep the site card and still be listed in the sitemaps")
+        arch = rd("sitemap-archive.xml")
+        for slug in pages:
+            h = rd(f"why/{slug}.html")
+            guarded(fails, f"NO PILLOW /why/{slug}: built, default og:image, listed in the archive sitemap",
+                    lambda h=h, slug=slug: _meta(h, "og:image") == f"{ORIGIN}/og-image.png" and f"/why/{slug}<" in arch)
+        guarded(fails, "NO PILLOW: no og/why directory was written", lambda: not os.path.isdir(pub("og/why")))
+        return fails
     for slug in pages:
         h = rd(f"why/{slug}.html")
         img = _meta(h, "og:image")
@@ -713,11 +772,137 @@ def rulings_cases(fails):
             lambda: sp and verdict.DEFINITIONS["Unclear"] in sp["words"] and set(GRADE.findall(words_of(sp))) == {"Unclear"})
 
 
+def pillow_cases(fails):
+    print("12. Pillow is optional on this site: without it no card is drawn and nothing else is lost")
+    import subprocess
+    with tempfile.TemporaryDirectory() as bd:
+        os.makedirs(os.path.join(bd, "PIL"))
+        open(os.path.join(bd, "PIL", "__init__.py"), "w").write('raise ImportError("PIL blocked for the Pillow-optional test")\n')
+        env = dict(os.environ, PYTHONPATH=bd + os.pathsep + HERE, S96_CHILD="1")
+        env.pop("PYTHONPYCACHEPREFIX", None)
+        r = subprocess.run([sys.executable, "-c", "import share_cards, verdict, movers, share_queue; print('imported')"],
+                           capture_output=True, text=True, env=env, cwd=HERE)
+        guarded(fails, f"share_cards, verdict, movers and share_queue import with Pillow absent ({(r.stdout + r.stderr).strip()[-120:]})",
+                lambda: r.returncode == 0 and "imported" in r.stdout)
+        if not os.environ.get("S96_CHILD"):
+            r = subprocess.run([sys.executable, os.path.join(HERE, "scripts", "sprint96_test.py")], capture_output=True, text=True,
+                               env=env, cwd=HERE, timeout=900)
+            bad = [ln.strip()[:140] for ln in r.stdout.splitlines() if ln.startswith("  FAIL ")]
+            guarded(fails, f"the whole sprint96 unit run with Pillow blocked passes, with named INFO lines for the drawing cases it skips "
+                           f"({bad[:2] or 'exit ' + str(r.returncode)})",
+                    lambda: r.returncode == 0 and "  INFO no Pillow here" in r.stdout and "SPRINT 9.6: PASS" in r.stdout)
+    if HAVE_PIL:
+        cs = sc()
+        import og_render
+        guarded(fails, "the colors share_cards keeps as literals (so it imports without Pillow) are og_render's own",
+                lambda: cs.INK_ON_DARK == og_render.PAPER and og_render.GROUND in cs.NEUTRALS and cs.ORIGIN == "https://" + og_render.DOMAIN
+                and cs.DOMAIN == og_render.DOMAIN)
+    src = open(os.path.join(HERE, "share_cards.py"), encoding="utf-8").read()
+    guarded(fails, "share_cards.py has no module-level import of PIL or og_render",
+            lambda: not re.search(r"^(import og_render|from PIL|import PIL)", src, re.M))
+
+
+def because_day_cases(fails):
+    print("13. 'because' belongs to a Confirmed verdict's own sentence, in its card and in its day card, and nowhere else")
+    import verdict
+    cv, cev, cday, _s = vrec("confirmed")
+    lv, lev, lday, _l = vrec("likely")
+    line = "Bitcoin fell because of the Consumer Price Index release."
+
+    def mut(rec, sents):
+        m = copy.deepcopy(rec)
+        m["coins"]["BTC"]["text"] = sents
+        return m
+
+    def days_for(rec, ev, day):
+        with tempfile.TemporaryDirectory() as td:
+            vd, wd = os.path.join(td, "verdict"), os.path.join(td, "why")
+            os.makedirs(vd)
+            os.makedirs(wd)
+            json.dump(rec, open(os.path.join(vd, f"{day}-evening.json"), "w"))
+            json.dump(ev, open(os.path.join(wd, f"{day}-evening.json"), "w"))
+            real = verdict.text_sec
+            verdict.text_sec = lambda v: list(v.get("text") or [])
+            try:
+                with contextlib.redirect_stdout(io.StringIO()):
+                    return sc().day_specs(vd, wd, os.path.join(td, "none"), today=dt.date(2026, 10, 20))
+            finally:
+                verdict.text_sec = real
+    ctl = days_for(cv, cev, cday)
+    guarded(fails, "control: the same path with the Confirmed verdict's own sentences draws its day card",
+            lambda: len(ctl) == 1 and ctl[0]["graded"][0]["grade"] == "Confirmed")
+    cd = days_for(mut(cv, [line, cv["coins"]["BTC"]["text"][1]]), cev, cday)
+    guarded(fails, "SYNTHETIC Confirmed day: its day card is drawn when the verdict's own sentence says 'because'",
+            lambda: len(cd) == 1 and cd[0]["graded"][0]["grade"] == "Confirmed" and line in cd[0]["words"])
+    q = sc().queue_entry(cd[0]) if cd else None
+    guarded(fails, "SYNTHETIC Confirmed day: its day card is queued (the post passes the publicist's gates)",
+            lambda: q is not None and q[0] == "2026-10-14-why-day.md")
+    ld = days_for(mut(lv, [line, lv["coins"]["BTC"]["text"][1]]), lev, lday)
+    guarded(fails, "a Likely day whose sentence carries 'because' gets no day card (fail closed)", lambda: ld == [])
+    two = copy.deepcopy(cv)
+    two["coins"]["BTC"]["text"] = [line, cv["coins"]["BTC"]["text"][1]]
+    two["coins"]["ETH"] = copy.deepcopy(cv["coins"]["BTC"])
+    two["coins"]["ETH"].update(name="Ether", grade="Likely", text=["Ether fell because of it."])
+    td2 = days_for(two, cev, cday)
+    guarded(fails, "a Confirmed Bitcoin day with a Likely Ether sentence carrying 'because' is refused: the allowance is the "
+                   "Confirmed verdict's own sentence only", lambda: td2 == [])
+
+
+def window_cases(fails):
+    print("14. the queue window is the last 3 Eastern dates, and the day card's figures are checked against the day's page")
+    import share_queue
+    import verdict
+    v, ev, day, slot = vrec("likely")
+    with tempfile.TemporaryDirectory() as td:
+        vd, wd = os.path.join(td, "verdict"), os.path.join(td, "why")
+        os.makedirs(vd)
+        os.makedirs(wd)
+        json.dump(v, open(os.path.join(vd, f"{day}-{slot}.json"), "w"))
+        json.dump(ev, open(os.path.join(wd, f"{day}-{slot}.json"), "w"))
+        res = {}
+        for today in (dt.date(2026, 10, 14), dt.date(2026, 10, 15), dt.date(2026, 10, 16), dt.date(2026, 10, 17)):
+            with contextlib.redirect_stdout(io.StringIO()):
+                res[today.day] = share_queue.run(vdir=vd, wdir=wd, tdir=os.path.join(td, "none"), mdir=os.path.join(td, "nm"),
+                                                 qdir=os.path.join(td, f"q{today.day}"), today=today, dry=True)
+    guarded(fails, "with the default window, a 14 October card is queued on the 14th, 15th and 16th (three Eastern dates) and not on the 17th "
+                   f"({[len(res[d]) for d in (14, 15, 16, 17)]})", lambda: [len(res[d]) for d in (14, 15, 16)] == [2, 2, 2] and len(res[17]) == 0)
+    guarded(fails, "the default window is 3", lambda: share_queue.DAYS == 3)
+    # the day card's figures are checked against the day's records and page, not against themselves
+    cmod = sc()
+    wb = copy.deepcopy(v)
+    wb["coins"]["ETH"]["line"] = wb["coins"]["ETH"]["text"] = ["Ether moved with Bitcoin by 2.5%."]
+    with tempfile.TemporaryDirectory() as td:
+        vd, wd = os.path.join(td, "verdict"), os.path.join(td, "why")
+        os.makedirs(vd)
+        os.makedirs(wd)
+        json.dump(wb, open(os.path.join(vd, f"{day}-{slot}.json"), "w"))
+        json.dump(ev, open(os.path.join(wd, f"{day}-{slot}.json"), "w"))
+        with contextlib.redirect_stdout(io.StringIO()):
+            got = cmod.day_specs(vd, wd, os.path.join(td, "none"), today=dt.date(2026, 10, 20))
+        guarded(fails, "SYNTHETIC: a day card whose line carries a figure its verdict records and page do not print (2.5%) is refused",
+                lambda: got == [])
+        wb2 = copy.deepcopy(v)
+        t0 = wb2["coins"]["BTC"]["text"]
+        wb2["coins"]["BTC"]["text"] = [t0[0] + " Bitcoin fell 9.99% in that hour.", t0[1]]
+        json.dump(wb2, open(os.path.join(vd, f"{day}-{slot}.json"), "w"))
+        real_card, real_sec = verdict.card_html, verdict.text_sec
+        verdict.text_sec = lambda vv: list(vv.get("text") or [])
+        verdict.card_html = lambda *a, **k: ""
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                got2 = cmod.day_specs(vd, wd, os.path.join(td, "none"), today=dt.date(2026, 10, 20))
+        finally:
+            verdict.card_html, verdict.text_sec = real_card, real_sec
+        guarded(fails, "SYNTHETIC: a graded day-card sentence with a figure the day's verdict page lacks (9.99%) makes no day card",
+                lambda: got2 == [])
+
+
 def unit():
     fails = []
     for name, fn in (("cards", card_cases), ("tags", tag_cases), ("queue", queue_cases), ("no card", nocard_cases),
                      ("day", day_cases), ("words", words_cases), ("color", color_cases), ("image", image_cases),
-                     ("wiring", wiring_cases), ("rulings of October 20", rulings_cases)):
+                     ("wiring", wiring_cases), ("rulings of October 20", rulings_cases),
+                     ("pillow optional", pillow_cases), ("because on a day card", because_day_cases), ("window and day figures", window_cases)):
         group(fails, name, fn)
     return fails
 

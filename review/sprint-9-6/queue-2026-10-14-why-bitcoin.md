@@ -1,4 +1,4 @@
-# LinkedIn draft: Why Bitcoin moved, Wednesday, October 14, 2026
+# Share draft: Why Bitcoin moved, Wednesday, October 14, 2026
 
 Story: https://gocheckmycrypto.com/why/2026-10-14-bitcoin
 

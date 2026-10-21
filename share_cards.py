@@ -33,10 +33,44 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "scripts"))
-import og_render  # noqa: E402  (the existing renderer: ground, wordmark, tracking, fonts)
-from PIL import Image, ImageDraw, ImageFont  # noqa: E402
 
-ORIGIN = "https://" + og_render.DOMAIN
+
+class _Lazy:
+    """A module imported on first use. PILLOW IS OPTIONAL ON THIS SITE (netlify.toml installs it with `|| true`; the workflows
+    skip the images without it), so nothing here imports Pillow or og_render until a card is drawn: the specs, the tags
+    decision, the queue and the day cards all work without it, and a missing Pillow only means no image."""
+
+    def __init__(self, name):
+        object.__setattr__(self, "_name", name)
+
+    def _mod(self):
+        import importlib
+        return importlib.import_module(object.__getattribute__(self, "_name"))
+
+    def __getattr__(self, k):
+        return getattr(self._mod(), k)
+
+    def __setattr__(self, k, v):
+        setattr(self._mod(), k, v)
+
+
+og_render = _Lazy("og_render")          # the existing renderer: ground, wordmark, tracking, fonts (imports Pillow)
+Image, ImageDraw, ImageFont = _Lazy("PIL.Image"), _Lazy("PIL.ImageDraw"), _Lazy("PIL.ImageFont")
+
+
+def pillow_ok():
+    """True when Pillow can be imported, so a card can be drawn."""
+    try:
+        import PIL.Image  # noqa: F401
+        return True
+    except Exception:                                            # noqa: BLE001
+        return False
+
+
+DOMAIN = "gocheckmycrypto.com"           # og_render.DOMAIN, kept as a literal so this module needs no Pillow (a test pins it)
+PAPER = (251, 250, 246)                  # og_render.PAPER
+GROUND = (16, 17, 20)                    # og_render.GROUND
+ORIGIN = "https://" + DOMAIN
 SIZE = 1080
 W = H = SIZE
 PAD = 72
@@ -48,11 +82,11 @@ FOOT_NOTE = "Not financial advice."
 # purpose: it sits within a shade of the down color, and on a verdict card the only red or green is a figure's own.
 UP = (0x4A, 0xDE, 0x80)
 DOWN = (0xFF, 0x6B, 0x5E)
-INK_ON_DARK = og_render.PAPER           # (251, 250, 246)
+INK_ON_DARK = PAPER
 MUTED = (178, 183, 192)
 MUTED_2 = (132, 137, 147)
 RULE_LINE = (52, 55, 62)
-NEUTRALS = {INK_ON_DARK, MUTED, MUTED_2, RULE_LINE, og_render.GROUND}
+NEUTRALS = {INK_ON_DARK, MUTED, MUTED_2, RULE_LINE, GROUND}
 
 GRADE_RX = re.compile(r"\b(confirmed|likely|disputed|unclear)\b", re.I)
 BECAUSE_RX = re.compile(r"\bbecause\b", re.I)
@@ -171,12 +205,24 @@ def verdict_spec(vrec, sym, ev, slug, day, corrections=None):
         if not figures:
             price = ""
     shown = events[:MAX_EVENTS]
+    # EVENTS THAT SHARE THE SAME HOUR AFTER share its figure: it prints once, naming each of them, never once per event
+    groups = {}
+    for r in shown:
+        if r["figure"]:
+            groups.setdefault((r["figure"]["label"], r["figure"]["value"], r["hour"]), []).append(r)
+    shared = []
+    for rows in groups.values():
+        if len(rows) >= 2:
+            shared.append({"label": rows[0]["figure"]["label"], "names": [r["ref_text"] for r in rows], "figure": rows[0]["figure"]})
+            for r in rows:
+                r["figure"] = None
+    all_figs = [r["figure"] for r in shown if r["figure"]] + [x["figure"] for x in shared]
     spec = {"kind": "verdict", "slug": slug, "day": day, "key": slug[len(day) + 1:], "sym": sym,
             "heading": f"Why {name} moved", "date": _long_date(day), "window": window, "grade": grade,
             "chip": f"Checked: {grade}", "definition": vd.DEFINITIONS[grade], "sentences": sents,
-            "events": shown, "more": len(events) - len(shown), "figures": [r["figure"] for r in shown if r["figure"]],
-            "price": price if any(r["figure"] for r in shown) else "",
-            "page": f"/why/{slug}", "image": image_path(slug), "foot": FOOT_NOTE, "domain": og_render.DOMAIN}
+            "events": shown, "more": len(events) - len(shown), "figures": all_figs, "shared": shared,
+            "price": price if all_figs else "",
+            "page": f"/why/{slug}", "image": image_path(slug), "foot": FOOT_NOTE, "domain": DOMAIN}
     spec["words"] = _words(spec)
     spec["post_lines"] = [spec["heading"], spec["date"], spec["chip"]] + list(sents)
     page = visible(vd.card_html(vrec, sym, where="page", live=False, corrections=corrections, link=False, with_section=with_section)
@@ -219,7 +265,8 @@ def _event_row(ref, c, test, w1, price, coin):
         a = r["after_pct"]
         fig = {"label": "The rest of the window" if r.get("share_partial") else "The next 60 minutes", "value": a,
                "text": f"{abs(a):.2f}%", "source": price}
-    return {"id": c.get("id"), "title": _cap(ref.get("text") or ""), "facts": facts, "figure": fig}
+    return {"id": c.get("id"), "title": _cap(ref.get("text") or ""), "facts": facts, "figure": fig,
+            "ref_text": ref.get("text") or "", "hour": (test or {}).get("t_utc")}
 
 
 def fig_text(f):
@@ -237,6 +284,8 @@ def _words(spec):
             w += list(e["facts"])
             if e["figure"]:
                 w.append(f'{e["figure"]["label"]}: {fig_text(e["figure"])}')
+        for x in spec["shared"]:
+            w.append(f'{x["label"]} after {_vd()._list(x["names"])}: {fig_text(x["figure"])}')
         if spec["more"]:
             w.append(f'{spec["more"]} more on the page.')
         if spec["price"]:
@@ -257,8 +306,11 @@ def _problem(spec, page):
     own = {g.lower() for g in ([spec["grade"]] if spec["kind"] == "verdict" else [x["grade"] for x in spec["graded"]])}
     if not seen <= own:
         return f"a grade word that is not the card's own ({sorted(seen - own)})"
-    if BECAUSE_RX.search(txt) and not (spec["kind"] == "verdict" and spec["grade"] == "Confirmed"):
-        return "'because' on a card that is not Confirmed"
+    # "because" only in a Confirmed verdict's own sentence, wherever it is printed (its card or its day card), nowhere else
+    ok = (set(spec["sentences"]) if spec["kind"] == "verdict" and spec["grade"] == "Confirmed"
+          else {g["sentence"] for g in spec.get("graded", []) if g["grade"] == "Confirmed"} if spec["kind"] == "day" else set())
+    if any(BECAUSE_RX.search(w) and w not in ok for w in spec["words"]):
+        return "'because' outside a Confirmed verdict's own sentence"
     if AI_RX.search(txt):
         return "an AI mention"
     if PERSON_RX.search(txt):
@@ -303,7 +355,7 @@ def day_specs(vdir=None, wdir=None, tdir=None, today=None):
     out = []
     for day, recs in sorted(by_day.items()):
         recs.sort(key=lambda r: r.get("slot") == "evening", reverse=True)
-        graded, lines = [], []
+        graded, lines, page_text = [], [], []
         for sym in ("BTC", "ETH"):
             hit = next((r for r in recs if ((r.get("coins") or {}).get(sym) or {}).get("grade")
                         and ((r.get("coins") or {}).get(sym) or {}).get("kind") == "graded"), None)
@@ -317,10 +369,14 @@ def day_specs(vdir=None, wdir=None, tdir=None, today=None):
                     continue
                 graded.append({"name": v.get("name") or sym, "grade": v["grade"], "chip": f'Checked: {v["grade"]}',
                                "sentence": sents[0], "page": f"/why/{vd.slug(day, sym)}"})
+                # the page this verdict is printed on: its card and its evidence section, as the /why/ and /today/ pages draw them
+                sec_h = _we().section_html(ev, sym, live=False, graded=v["grade"], marks=vd.marks(hit, sym)) if ev else ""
+                page_text.append(visible(vd.card_html(hit, sym, where="page", live=False, link=False, with_section=bool(sec_h)) + sec_h))
                 continue
             first = next((((r.get("coins") or {}).get(sym)) for r in recs if (r.get("coins") or {}).get(sym)), None) or {}
             if first.get("kind") == "with_btc":
                 lines.append((first.get("line") or ["Ether moved with Bitcoin."])[0])
+                page_text.append(visible(vd.card_html(next(r for r in recs if (r.get("coins") or {}).get(sym)), sym, where="coin")))
             elif first.get("kind") == "flat":
                 lines.append(f'{first.get("name") or sym} was flat, so nothing was graded.')
         if not graded:
@@ -331,12 +387,13 @@ def day_specs(vdir=None, wdir=None, tdir=None, today=None):
             continue
         slug = f"day-{day}"
         spec = {"kind": "day", "slug": slug, "day": day, "key": "day", "heading": "The day's verdicts", "date": _long_date(day),
-                "graded": graded, "lines": lines, "figures": [], "events": [], "page": page, "image": image_path(slug),
-                "foot": FOOT_NOTE, "domain": og_render.DOMAIN, "final": "evening" in {r.get("slot") for r in recs} or day < today.isoformat()}
+                "graded": graded, "lines": lines, "figures": [], "events": [], "shared": [], "page": page, "image": image_path(slug),
+                "foot": FOOT_NOTE, "domain": DOMAIN, "final": "evening" in {r.get("slot") for r in recs} or day < today.isoformat()}
         spec["words"] = _words(spec)
         spec["post_lines"] = [spec["heading"], spec["date"]] + [x for g in graded for x in (g["name"], g["chip"], g["sentence"])] + list(lines)
-        # the day card prints no figure; its grades and sentences are the /why/ pages' own, so only the checks on words apply
-        why = _problem(spec, " ".join(spec["words"]))
+        # every figure a day card prints is checked against the pages that print its verdicts (their cards and evidence), never
+        # against the card's own words; a day with no graded verdict has no figure to show, so any figure there is refused
+        why = _problem(spec, " ".join(page_text))
         if why:
             print(f"::warning::share card: no day card for {day}: {why}")
             continue
@@ -346,6 +403,9 @@ def day_specs(vdir=None, wdir=None, tdir=None, today=None):
 
 
 # ---- attaching a card to a page builder -------------------------------------------------------------------------------
+
+_NOTE = {"pillow": False}
+
 
 def for_page(ctx, vrec, sym, ev, slug, day, slots, corrections=None):
     """What a verdict or movers page builder calls: the shell keyword arguments for the page's own square image, {} when
@@ -363,6 +423,10 @@ def for_page(ctx, vrec, sym, ev, slug, day, slots, corrections=None):
     spec["final"] = ctx.final(day, slots)
     ctx.specs.append(spec)
     if not ctx.directory:
+        return {}
+    if not pillow_ok():
+        _NOTE["pillow"] or print("::notice::share cards: Pillow is not installed, so no card image is drawn; the /why/ pages keep the site card")
+        _NOTE["pillow"] = True
         return {}
     if not draw(spec, ctx.directory):
         return {}
@@ -389,8 +453,10 @@ def post_text(spec):
 
 
 def queue_entry(spec):
-    """(file name, text) in the publicist's queue shape (publicist.file_draft), or None when the post fails the
-    publicist's own gates. Nothing here posts anything."""
+    """(file name, text) in the publicist's queue shape (publicist.file_draft), or None when the post fails the publicist's
+    gates. Those gates are channel-neutral: a length of at most 1200 characters, the page link, no banned hype or advice words,
+    the not-financial-advice line, the site's name, and at most two hashtags from a neutral list; none names LinkedIn (its
+    li_escape and posting code are not used here). Nothing here posts anything."""
     import publicist
     url = ORIGIN + spec["page"]
     post = post_text(spec)
@@ -399,7 +465,7 @@ def queue_entry(spec):
         print("::warning::share queue: " + spec["slug"] + " failed the publicist's gates: " + "; ".join(r for r in rep if r.startswith("FAIL")))
         return None
     name = f'{spec["day"]}-why-{spec["key"]}.md'
-    text = (f'# LinkedIn draft: {spec["heading"]}, {spec["date"]}\n\n'
+    text = (f'# Share draft: {spec["heading"]}, {spec["date"]}\n\n'
             f'Story: {url}\n\n'
             f'Image: {ORIGIN}{spec["image"]}\n'
             f'Image path: {spec["image"]}\n'
@@ -554,6 +620,8 @@ def _layout(spec, body, foot_top):
         y += 6
         for e in spec["events"]:
             y = _event(L, y, e)
+        for x in spec["shared"]:
+            y = _shared(L, y, x)
         if spec["more"]:
             L.text(PAD, y, f'{spec["more"]} more on the page.', _mono(500, 19), MUTED_2, "more", 0, 19)
             y += 30
@@ -622,6 +690,19 @@ def _event(L, y, e):
         L.ops[-1].update(sign=(f["value"] > 0) - (f["value"] < 0))
         y += 40
     return y + 20
+
+
+def _shared(L, y, x):
+    """The figure of an hour several named events share, printed once under them, naming each."""
+    ff = _mono(500, 19)
+    for ln in _wrap(f'{x["label"]} after {_vd()._list(x["names"])}:', ff, W - 2 * PAD)[:3]:
+        L.text(PAD, y, ln, ff, MUTED, "figure-label", 0, 19)
+        y += 27
+    f = x["figure"]
+    col = UP if f["value"] > 0 else DOWN if f["value"] < 0 else INK_ON_DARK
+    L.text(PAD, y - 2, fig_text(f), _mono(600, 30), col, "figure", 0, 30)
+    L.ops[-1].update(sign=(f["value"] > 0) - (f["value"] < 0))
+    return y + 52
 
 
 def render(spec, path):

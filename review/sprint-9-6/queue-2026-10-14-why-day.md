@@ -1,4 +1,4 @@
-# LinkedIn draft: The day's verdicts, Wednesday, October 14, 2026
+# Share draft: The day's verdicts, Wednesday, October 14, 2026
 
 Story: https://gocheckmycrypto.com/why/2026-10-14-bitcoin
 

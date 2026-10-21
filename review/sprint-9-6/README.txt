@@ -1,5 +1,6 @@
 review/sprint-9-6: the share loop, re-aimed (Program 9, Sprint 9.6), for Jack's read after the fact.
-Drawn Tuesday October 20, 2026, between 10:15 and 10:40 AM EDT, on the local branch local-sprint-9-6 (built on Sprint 9.5's reviewed head 2453529).
+Drawn Tuesday October 20, 2026, between 10:15 and 10:40 AM EDT, and the 14 October card and the two queue entries re-drawn after review 1
+(this README's REVIEW 1 section). Local branch local-sprint-9-6 (built on Sprint 9.5's reviewed head 2453529, with 9.5b merged).
 
 U-10 CAVEAT, FIRST: THESE ARE LOCAL DRAWINGS, NOT THE PREVIEW OR PRODUCTION. No preview URL exists for this branch and it is not pushed.
 Every image here was drawn by share_cards.render() from a stored or recorded record on this machine, and the head-tags file is the
@@ -40,3 +41,16 @@ WHAT IS NOT HERE, AND WHY
   the stored data beyond 19 October's, which is shown.
   The queue's image lives at the build's og/why/<slug>.png once the build that carries the verdict has deployed; nothing per-card is
   committed to the repository (the repo's existing rule for share images, scripts/og_render.py).
+
+REVIEW 1 (the six fixes; the cards and entries that changed are re-captured)
+  card-2026-10-14-bitcoin-likely-REAL.png was re-drawn: the two 8:30 AM events share the hour after, so "The next 60 minutes after the
+  Consumer Price Index release and the Real Earnings release: 1.45%" prints ONCE, naming both, instead of once under each. No other card's
+  content changed (the Disputed card's two events are at different hours and keep their own figures; the Unclear cards print no figure).
+  queue-2026-10-14-why-*.md were re-filed: they now open "# Share draft:" and are filed in share-queue/, a folder of its own (the desk
+  does not post to LinkedIn; linkedin-queue/ and the publicist are untouched). The post line is unchanged.
+  Pillow is optional: share_cards imports it only when a card is drawn. Without it no image is drawn, every /why/ page keeps the site card
+  and its place in the sitemaps, and the canary passes; the drawing cases print named INFO lines and skip. plants-after-review-1.log is the
+  plants log for this round (45 plants: the 38 earlier plus seven new); plants.log and plants-after-9.5b-merge.log are the earlier rounds.
+  The queue window is the last 3 Eastern dates (today and the two before it), tested on its boundary. A Confirmed day gets its day card
+  (a Confirmed verdict's own sentence may say "because", in its card or its day card, nowhere else). A day card's figures are checked against
+  the pages that print its verdicts, not against its own words.

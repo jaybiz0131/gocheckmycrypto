@@ -9618,7 +9618,11 @@ def _write_verdicts(w, dateline):
         print(f"verdict: {len(built)} page(s) built")
         # and a square card per day (a day with no graded verdict gets the card that says so), for the queue
         try:
-            _days = [d for d in share_cards.day_specs(today=_share.today) if share_cards.draw(d, _share.directory)]
+            if not share_cards.pillow_ok():
+                _days = []
+                print("share cards: Pillow is not installed; no day card is drawn")
+            else:
+                _days = [d for d in share_cards.day_specs(today=_share.today) if share_cards.draw(d, _share.directory)]
             print(f"share cards: {len([s for s in _share.specs if s.get('rendered')])} verdict card(s) and {len(_days)} day card(s) drawn")
         except Exception as e:
             print(f"::warning::share cards: the day cards were not drawn ({type(e).__name__}: {e})")
