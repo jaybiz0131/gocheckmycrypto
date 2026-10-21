@@ -116,8 +116,8 @@ def band_names(r):
     written from, by NAME. Their figures print once each on the home page, in the tape and
     the tiles, so the band names them and does not print them a second time; Bitcoin's day
     change in particular prints only on the tape."""
-    names = [n for k, n in (("btc_24h_pct", "Bitcoin's day"), ("etf_net_usd_m", "spot ETF net"),
-                            ("fear_greed", "Fear & Greed"), ("funding_8h_pct", "funding"))
+    names = [n for k, n in (("btc_24h_pct", "Bitcoin's day"), ("etf_net_usd_m", "ETF flows"),
+                            ("fear_greed", "Fear & Greed"), ("funding_8h_pct", "Funding rate"))
              if k in (r or {})]
     if not names:
         return ""

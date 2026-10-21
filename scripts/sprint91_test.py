@@ -241,7 +241,8 @@ def stale_cases(fails):
     guarded(fails, "the ticker's stamp prints its age: 'as of 8:16 AM ET on Oct 16, 9 hours ago'",
             lambda: "9 hours ago" in strip and "8:16 AM ET on Oct 16" in strip)
     html = sb.render_pulse_prices(snapshot.views(snap16(), pulse16(), flows16())[0], "FRIDAY")
-    guarded(fails, "every page loads the stale-state script", lambda: "/assets/asof.js" in html)
+    guarded(fails, "every page runs the stale-state script, inline at the foot of the body (before the first frame)",
+            lambda: "document.querySelectorAll('[data-asof]')" in html and "/assets/asof.js" not in html)
     js = open(os.path.join(HERE, "site", "assets", "asof.js"), encoding="utf-8").read()
     guarded(fails, "the script measures against the clock at the moment of reading and appends the age",
             lambda: "Date.now()" in js and "asof-age" in js and "is-stale" in js and "data-asof-hours" in js)
@@ -334,7 +335,8 @@ def label_cases(fails):
     lede = sb.render_bottom_line([]) if hasattr(sb, "render_bottom_line") else ""
     src = open(os.path.join(HERE, "site_build.py"), encoding="utf-8").read()
     guarded(fails, "the /bottom-line lede no longer says 'once a day'", lambda: "Once a day the desk closes" not in src
-            and "Every morning and every evening the desk closes its edition" in src)
+            and "Every morning and every evening the desk publishes The Brief" in src
+            and "closes its edition" not in src)
     guarded(fails, "hours_phrase: '1 hour', '2 hours', '3 days'",
             lambda: (common.hours_phrase(1), common.hours_phrase(2), common.hours_phrase(72)) == ("1 hour", "2 hours", "3 days"))
     import today

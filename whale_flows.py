@@ -159,7 +159,7 @@ def analyze(txns, window_hours, top_assets=6, top_moves=6, example=False, date=N
                  "the very large transfers Whale Alert posts (roughly $50M+) appear. For volatile "
                  "assets, coins moving onto exchanges can precede selling and coins moving off "
                  "suggests accumulation or self-custody. Stablecoins are the opposite: onto an "
-                 "exchange is buying power arriving, so they are scored separately. Market data, "
+                 "exchange is money staged to buy, so they are scored separately. Market data, "
                  "not news, not advice."),
     }
 
@@ -344,7 +344,7 @@ FALLBACK_NOTE = ("Data: Blockscout public explorer, shown while Whale Alert's fe
                  "a quiet board may understate activity. For volatile assets, coins moving "
                  "onto exchanges can precede selling and coins moving off suggests "
                  "accumulation or self-custody. Stablecoins are the opposite: onto an "
-                 "exchange is buying power arriving, so they are scored separately. Market "
+                 "exchange is money staged to buy, so they are scored separately. Market "
                  "data, not news, not advice.")
 
 
@@ -475,7 +475,7 @@ def run(fixture=None, window=None, example=False):
     tag = " [EXAMPLE]" if result["example"] else ""
     v = result["volatile"]
     print(f"whale_flows{tag}: {result['txn_count']} exchange-relevant transfers, volatile net "
-          f"${v['net_usd']:,} {v['direction']}, stablecoin buying power "
+          f"${v['net_usd']:,} {v['direction']}, stablecoins onto exchanges "
           f"${result['stablecoins']['net_buying_power_usd']:,} -> {os.path.relpath(SITE_DATA)}")
     return 0
 

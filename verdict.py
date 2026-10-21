@@ -13,21 +13,26 @@ THE RULES (the strategist's rulings of October 19, 2026, docs/RULINGS.md):
               (basis et_day); the rolling 24 hours only when open_et is absent (basis rolling_24h). The
               card's direction words name that window ("since midnight ET", "over the last 24 hours").
   No card     a move under the threshold: Bitcoin flat (within 0.5%) on that window; Ether within 2
-              points of Bitcoin (one plain line, "Ether moved with Bitcoin", on the Ether page). Also no
-              card when no grade below fits: an event passes the timing test but the market readings do
-              not agree and no named cause conflicts; or the window moved the other way from the run the
-              timing test measured.
-  Unclear     no candidate event passes the timing test. The card says exactly "No reported event lines
-              up with this move."
+              points of Bitcoin (one plain line, "Ether moved with Bitcoin", on the Ether page). When the
+              window moved the other way from the run the timing test measured there is no card either, and
+              the page prints "Verdict at the next read" in its place (October 20, J-8 b).
+  Unclear     printed definition: "No reported event passes the timing test with the market readings and the
+              move's direction agreeing." Card: no candidate passes, "No reported event lines up with this move."
+              Also (October 20, J-8 a and J-9 item 3) an event that lines up in time with nothing to support
+              it: "A reported event lines up in time, but the market readings do not match it." or, for an event
+              with a direction of its own that the move ran against, "A reported event lines up in time, but
+              the move ran the other way." Each names the event.
   Disputed    outlets name different causes, or a named cause fails the timing test while another event
               passes it. The card names both.
-  Likely      an event passes the timing test and the market readings agree, with no primary source.
+  Likely      the reported events that pass the timing test, with the market readings agreeing: one card
+              naming each of them (the 14 October pair of 8:30 AM releases). Events that point opposite ways
+              are Disputed and the card states both.
   Confirmed   a primary source states the cause, the timing test passes and the readings agree. The only
               grade whose line says "because".
   On the ET day, only events from an hour before midnight ET onward are graded.
 
-THE TIMING TEST reads its thresholds from why_evidence.TIMING_TEST (one versioned constant): 25% of the run
-done before the event disqualifies it; it passes when it came within the hour before the run began, or when
+THE TIMING TEST reads its thresholds from why_evidence.TIMING_TEST (one versioned constant): 25% or more of the
+run done before the event's first report disqualifies it; it passes when it came within the hour before the run began, or when
 40% of the move came in the hour after it. 9.2's onset and printed figures are unchanged.
 
 THE READINGS: the hour after the event when the record stores it, else the hour the run began (which
@@ -71,14 +76,18 @@ CFG = {"models": {"verdict_draft": {"model": MODEL_DRAFT, "max_tokens": 3000},
 GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
 DEFINITIONS = {
     "Confirmed": "A primary source states the cause, the timing test passes, and the market readings agree.",
-    "Likely": "One reported event passes the timing test and the market readings agree, with no primary "
-              "source stating the cause.",
-    "Disputed": "Outlets name different causes, or a named cause fails the timing test while another event "
-                "passes it.",
-    "Unclear": "No reported event passes the timing test.",
+    "Likely": "The reported events that pass the timing test, with the market readings agreeing.",
+    "Disputed": "Outlets name different causes, or one named cause fails the timing test while another passes, or "
+                "the events that pass point opposite ways.",
+    "Unclear": "No reported event passes the timing test with the market readings and the move's direction agreeing.",
 }
 NAMES = {"BTC": ("Bitcoin", "bitcoin"), "ETH": ("Ether", "ether")}
 NO_EVENT = "No reported event lines up with this move."
+# The strategist's rulings of October 20, 2026 (J-8, J-9 item 3): the two cards an event that lines up in time can
+# still get when nothing else supports it, and the notice that stands where no card can be drawn.
+READINGS_MISMATCH = "A reported event lines up in time, but the market readings do not match it."
+OTHER_WAY = "A reported event lines up in time, but the move ran the other way."
+NEXT_READ = "Verdict at the next read"
 CAP_LINE = "The desk's check of this move did not run today."
 WINDOW_WORDS = {"et_day": "since midnight ET", "rolling_24h": "over the last 24 hours"}
 GRADE_WORDS = re.compile(r"\b(confirmed|likely|disputed|unclear)\b", re.I)
@@ -137,13 +146,14 @@ def _e(s):
 
 def timing_pass(r):
     """'lead' (it came within the hour before the run began), 'share' (40% or more of the move in the hour
-    after it), or None. 25% or more of the run done before it disqualifies it. The thresholds are
+    after it), or None. 25% or more of the run done before it disqualifies it (twenty-five exactly does:
+    the strategist's ruling of October 20, 2026). The thresholds are
     why_evidence.TIMING_TEST's. `r` is a 9.2 timing result."""
     tt = _we().TIMING_TEST
     if not r or not r.get("in_window", True):
         return None
     done, share = r.get("done_pct"), r.get("share_pct")
-    if r.get("moved_first") or (isinstance(done, (int, float)) and done > tt["done_max_pct"]):
+    if r.get("moved_first") or (isinstance(done, (int, float)) and done >= tt["done_max_pct"]):
         return None
     if r.get("before_onset"):
         return "lead"
@@ -218,6 +228,15 @@ def _labels(pats, rows):
 DIRECTION = {"listing": "up", "delisting": "down", "unlock": "down", "hack": "down"}
 
 
+def own_direction(c, sym=None):
+    """The direction an event carries of its own ('up' or 'down'), or None. A hack is directional only for a
+    Big mover, never beside Bitcoin or Ether."""
+    want = DIRECTION.get(c.get("kind"))
+    if want and c.get("kind") == "hack" and sym in ("BTC", "ETH", None):
+        want = None
+    return want
+
+
 def mech_fit(c, coin, t, sym=None):
     """(fit, labels, hour): what the market readings say of this candidate. fit is 'agree',
     'contradict' or 'silent'; hour is 'after' (the readings of the hour after the candidate, stored by
@@ -228,9 +247,7 @@ def mech_fit(c, coin, t, sym=None):
     run = (coin or {}).get("run")
     if t is None or not run:
         return "silent", [], None
-    want = DIRECTION.get(c.get("kind"))
-    if want and c.get("kind") == "hack" and sym in ("BTC", "ETH", None):
-        want = None
+    want = own_direction(c, sym)
     if want and run.get("dir") != want:
         return "contradict", [], None
     after = ((coin.get("event_hours") or {}).get(c.get("id")) or {})
@@ -269,6 +286,12 @@ def _words(direction):
 
 def _cap(s):
     return s[:1].upper() + s[1:] if s else s
+
+
+def _list(items):
+    """'A', 'A and B', 'A, B and C'."""
+    items = list(items)
+    return items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]
 
 
 def _outlets(n):
@@ -383,7 +406,7 @@ def _timing_phrase(path, r, c):
 def _against_phrase(r, name):
     tt = _we().TIMING_TEST
     done, share = r.get("done_pct"), r.get("share_pct")
-    if r.get("moved_first") or (isinstance(done, (int, float)) and done > tt["done_max_pct"]):
+    if r.get("moved_first") or (isinstance(done, (int, float)) and done >= tt["done_max_pct"]):
         return "A quarter or more of the run was done before it."
     if isinstance(share, (int, float)) and share < 0:
         return f"In the 60 minutes after it, {name} moved against the run."
@@ -459,8 +482,10 @@ def grade(rec, sym, day=None):
         return out
     ddir = "down" if mv < 0 else "up"
     if ddir != run["dir"]:
-        out.update(kind="no_verdict", reasons=[f"the page's window moved {ddir} while the run the timing test "
-                                               f"measured went {run['dir']}"])
+        # October 20, J-8 (b): no card, and the page prints NEXT_READ where the card would stand
+        out.update(kind="next_read", line=[NEXT_READ],
+                   reasons=[f"the page's window moved {ddir} while the run the timing test measured went "
+                            f"{run['dir']}: the next slot's run grades the move as it then stands"])
         return out
     wend = _parse((rec.get("window") or {}).get("end_utc"))
     w1 = int(wend.timestamp()) if wend else coin["series"]["points"][-1][0]
@@ -522,38 +547,72 @@ def grade(rec, sym, day=None):
                    refs=[nm[a["c"]["id"]], nm[b["c"]["id"]]], reasons=["outlets name different causes"])
     else:
         agree = [p for p in passing if p["fit"] == "agree"]
+        # an event with a direction of its own (DIRECTION) that the move ran against, and that lines up in time
+        against = [p for p in passing if p["fit"] == "contradict" and own_direction(p["c"], sym)
+                   and own_direction(p["c"], sym) != run["dir"]]
         prim = [p for p in agree if p["primary"]]
-        if prim:
-            x, g = prim[0], "Confirmed"
+        if agree and against:
+            # October 20, J-8: events that pass and point opposite ways are Disputed, the card stating both
+            p0 = lambda f: (f"Reported events that line up in time point opposite ways: "
+                            f"{_list([f(x) for x in agree])} with the move, {_list([f(x) for x in against])} against it.")
+            p1 = "Each passes the timing test."
+            x = agree[0]
+            out.update(grade="Disputed", cand=_cand(x), readings=_readings(coin, x["c"], x["t"], sym),
+                       phrases=[p0(full), p1], phrases_sec=[p0(sec), p1],
+                       refs=[nm[p["c"]["id"]] for p in agree + against],
+                       reasons=["events that pass the timing test point opposite ways"])
         elif agree:
-            x, g = agree[0], "Likely"
+            # Confirmed names the one event a primary source states; Likely names every event that passes
+            # with the readings agreeing (October 20, J-8: the 14 October pair of 8:30 AM releases)
+            g, grp = ("Confirmed", [prim[0]]) if prim else ("Likely", agree)
+            x = grp[0]
+            out["readings"] = _readings(coin, x["c"], x["t"], sym)
+            shut_b = (out["readings"] or {}).get("shut", False)
+            support, support_s = [], []
+            if len(grp) == 1 and x["stated"]:
+                sp = ("A primary source states it as the cause." if x["primary"]
+                      else f"{_outlets(x['outlets'] or 1)} reported it as the cause.")
+                support.append(sp)
+                support_s.append(sp)
+            support.append(_mech_phrase(coin, x["labels"], x["hour"]))
+            support_s.append(_mech_sec(coin, x["labels"], x["hour"], shut_b))
+            tps = []
+            for p in grp:
+                tp = _timing_phrase(p["path"], p["r"], p["c"])
+                if tp not in tps:
+                    tps.append(tp)
+            if g == "Confirmed":
+                lead = lambda ref: f"{name} {fell} {ww} because of {ref}."
+                out["reasons"] = ["a primary source states it", "the timing test passes", "the readings agree"]
+            else:
+                lead = lambda ref: f"{name}'s {fall} {ww} lines up with {ref}."
+                out["reasons"] = ["the timing test passes", "the readings agree", "no primary source"]
+            out.update(grade=g, cand=_cand(x), refs=[nm[p["c"]["id"]] for p in grp],
+                       phrases=[lead(_list([full(p) for p in grp]))] + tps + support,
+                       phrases_sec=[lead(_list([sec(p) for p in grp]))] + tps + support_s)
         else:
-            out.update(kind="no_verdict", reasons=["an event passes the timing test, but the market readings do "
-                                                   "not agree and no named cause conflicts: no grade fits"])
-            return out
-        shut_b = False
-        out["readings"] = _readings(coin, x["c"], x["t"], sym)
-        shut_b = (out["readings"] or {}).get("shut", False)
-        support, support_s = [], []
-        if x["stated"]:
-            sp = ("A primary source states it as the cause." if x["primary"]
-                  else f"{_outlets(x['outlets'] or 1)} reported it as the cause.")
-            support.append(sp)
-            support_s.append(sp)
-        support.append(_mech_phrase(coin, x["labels"], x["hour"]))
-        support_s.append(_mech_sec(coin, x["labels"], x["hour"], shut_b))
-        tp = _timing_phrase(x["path"], x["r"], x["c"])
-        if g == "Confirmed":
-            lead = lambda ref: f"{name} {fell} {ww} because of {ref}."
-            out["reasons"] = ["a primary source states it", "the timing test passes", "the readings agree"]
-        else:
-            lead = lambda ref: f"{name}'s {fall} {ww} lines up with {ref}."
-            out["reasons"] = ["the timing test passes", "the readings agree", "no primary source"]
-        out.update(grade=g, cand=_cand(x), refs=[nm[x["c"]["id"]]],
-                   phrases=[lead(full(x)), tp] + support, phrases_sec=[lead(sec(x)), tp] + support_s)
+            # October 20, J-8 (a) and J-9 item 3: an event lines up in time and nothing supports it. Unclear, with
+            # its own line, and the event named: no cause is claimed, and the page is not silent on a move it
+            # has evidence on.
+            x = passing[0]
+            other_way = all(p in against for p in passing)
+            top = OTHER_WAY if other_way else READINGS_MISMATCH
+            lab = "The event" if len(passing) == 1 else "The events"
+            ph = [top, f"{lab}: {_list([full(p) for p in passing])}."]
+            ph_s = [top, f"{lab}: {_list([sec(p) for p in passing])}."]
+            out["readings"] = _readings(coin, x["c"], x["t"], sym)
+            if x["hour"]:
+                shut_b = (out["readings"] or {}).get("shut", False)
+                ph.append(_mech_phrase(coin, x["labels"], x["hour"]))
+                ph_s.append(_mech_sec(coin, x["labels"], x["hour"], shut_b))
+            out.update(grade="Unclear", cand=_cand(x), refs=[nm[p["c"]["id"]] for p in passing], phrases=ph,
+                       phrases_sec=ph_s, required=[0, 1],
+                       reasons=["an event passes the timing test, but the move ran against its own direction"
+                                if other_way else
+                                "an event passes the timing test, but the market readings do not agree with it"])
     out["kind"] = "graded"
     out["line"] = out["phrases"][:2]
-    out["required"] = [0, 1] if out["grade"] == "Disputed" else [0]
+    out["required"] = out["required"] or ([0, 1] if out["grade"] == "Disputed" else [0])
     return out
 
 
@@ -1023,7 +1082,8 @@ def current(vrec, board_utc, max_gap_h=18):
 
 def card_html(vrec, sym, where="today", live=False, corrections=None, link=True, with_section=False):
     """The card for one coin, or '' (fail open). `where` is home, today, coin or page. Only a graded verdict
-    draws a card, and a withheld one (the cap) draws the desk's line in its place; Ether moving with Bitcoin
+    draws a card, and a withheld one (the cap) draws the desk's line in its place, and a move whose page
+    window ran the other way from the measured run draws "Verdict at the next read"; Ether moving with Bitcoin
     is one plain line on the Ether page. `with_section`: the page also prints the evidence list, so the card
     names the event with a pointer to its item and leaves times, figures and wording to the list."""
     try:
@@ -1041,6 +1101,9 @@ def _card(vrec, sym, where, live, corrections, link, with_section=False):
     if v.get("kind") == "with_btc":
         ww = v.get("window_words") or WINDOW_WORDS["rolling_24h"]
         return f'<p class="vd-plain">Ether moved with Bitcoin {_e(ww)}.</p>' if where == "coin" else ""
+    if v.get("kind") == "next_read":
+        # October 20, J-8 (b): no card, and the notice stands in its place on every page that draws it
+        return f'<p class="vd-plain vd-next">{_e(NEXT_READ)}</p>'
     if v.get("kind") not in ("graded", "withheld"):
         return ""
     name = v.get("name") or sym
@@ -1143,7 +1206,7 @@ def _readings_html(rd, text, rows=True, with_section=False):
 
 # ---- the verdict pages: /why/<date>-<coin> ---------------------------------------------------------------------
 
-SLOT_LABEL = {"morning": "Morning read", "evening": "Evening Edition"}
+SLOT_LABEL = {"morning": "Morning Brief", "evening": "Evening Brief"}
 
 
 def build_pages(vdir=None, wdir=None, tdir=None, dateline=""):

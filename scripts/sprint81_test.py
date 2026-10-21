@@ -127,7 +127,7 @@ def unit():
               "bottom_line": "The desk published no verified stories today."}
         eve_now = _utc(2026, 10, 14, 23, 30)
         eve, _g, pulse = _compose(_snap(-2.03, 81500.0, "2026-10-14T23:15:00Z"), now=eve_now, ed=ed)
-        check(eve and eve["slot"] == "evening" and "Evening Edition, 7:16 PM ET" == eve["stamp_label"], fails,
+        check(eve and eve["slot"] == "evening" and "Evening Brief, 7:16 PM ET" == eve["stamp_label"], fails,
               f"the evening record is the Edition's: {eve and eve['stamp_label']!r}")
         mor, _g, _p = _compose(_snap(-1.2, 82000.0))
         import twins_gate
@@ -211,7 +211,7 @@ def unit():
         html2, path2, _m = today.render(rec, [], dated=True)
         check('rel="canonical" href="https://gocheckmycrypto.com/today/2026-10-14"' in html2 and path2 == "/today/2026-10-14.html", fails,
               "the dated page's canonical is /today/YYYY-MM-DD")
-        check("Morning read, 8:18 AM ET" in html and "Next update: Evening Edition, tonight at 7:08 PM ET" in html, fails,
+        check("Morning Brief, 8:18 AM ET" in html and "Next update: Evening Brief, tonight at 7:08 PM ET" in html, fails,
               "the stamp names the slot and its time, and the next update")
         check(html.count('href="/today/2026-1') == 2, fails, "the archive links the dated pages")
         check("Why is crypto down today? Wednesday, October 14, 2026" in html and "<title>Why is crypto down today?" in html, fails,
@@ -229,24 +229,24 @@ def unit():
         old_ed = {"slug": "2026-10-13-evening-brief", "date": "2026-10-13", "published_utc": "2026-10-13T23:15:58Z",
                   "bottom_line": "x"}
         rec, _g, _p = _compose(_snap(-2.03, 81513.0, "2026-10-14T23:12:00Z"), now=night, ed=old_ed)
-        want = "Numbers as of 7:12 PM ET \u00b7 tonight's Edition did not publish; text from the 8:18 AM read"
+        want = "Numbers as of 7:12 PM ET \u00b7 tonight's Brief did not publish; text from the 8:18 AM Brief"
         check(rec and rec["stamp_label"] == want, fails, f"mismatched runs say so plainly: {rec and rec['stamp_label']!r}")
-        check(rec and rec["next"] == "Next update: Morning read, tomorrow at 8:15 AM ET", fails,
+        check(rec and rec["next"] == "Next update: Morning Brief, tomorrow at 8:15 AM ET", fails,
               f"7:50 PM with the Edition failed: {rec and rec['next']!r}")
         card = home.next_brief(None, night)
         check(card == "Next Brief tomorrow at 8:15 AM ET" and rec["next"].endswith(card.split("Next Brief ")[1]), fails,
               "the daily answer and the home card name the same next slot")
         noon = _compose(_snap(-1.0, 82000.0, "2026-10-14T23:12:00Z"), now=_utc(2026, 10, 14, 16, 0))[0]
-        check(noon and noon["stamp_label"] == "Numbers as of 7:12 PM ET \u00b7 text from the 8:18 AM read"
-              and noon["next"] == "Next update: Evening Edition, tonight at 7:08 PM ET", fails,
+        check(noon and noon["stamp_label"] == "Numbers as of 7:12 PM ET \u00b7 text from the 8:18 AM Brief"
+              and noon["next"] == "Next update: Evening Brief, tonight at 7:08 PM ET", fails,
               f"before the Edition slot the reason clause is absent and the next slot is tonight's: {noon and noon['stamp_label']!r}")
         same, _g, _p = _compose(_snap(-2.03), now=_utc(2026, 10, 14, 12, 30))
-        check(same["stamp_label"] == "Morning read, 8:18 AM ET", fails, "matching runs keep 'Morning read, 8:18 AM ET'")
+        check(same["stamp_label"] == "Morning Brief, 8:18 AM ET", fails, "matching runs keep 'Morning Brief, 8:18 AM ET'")
         ed2 = {"slug": "2026-10-14-evening-brief", "date": "2026-10-14", "published_utc": "2026-10-14T23:14:00Z",
                "bottom_line": "The desk published no verified stories today."}
         ev, _g, _p = _compose(_snap(-2.03, 81500.0, "2026-10-14T23:15:00Z"), now=_utc(2026, 10, 14, 23, 30), ed=ed2)
-        check(ev["stamp_label"] == "Evening Edition, 7:14 PM ET" and ev["next"] == "Next update: Morning read, tomorrow at 8:15 AM ET", fails,
-              f"matching evening runs keep 'Evening Edition, 7:14 PM ET': {ev['stamp_label']!r}")
+        check(ev["stamp_label"] == "Evening Brief, 7:14 PM ET" and ev["next"] == "Next update: Morning Brief, tomorrow at 8:15 AM ET", fails,
+              f"matching evening runs keep 'Evening Brief, 7:14 PM ET': {ev['stamp_label']!r}")
         mor, _g, pulse = _compose(_snap(-2.03))
         prior = dict(mor, date_et="2026-10-13", title="x", h1="x")
         built = today.build_pages(_snap(-2.03), pulse, _wire(), None, MORNING, _utc(2026, 10, 14, 12, 30),
@@ -268,19 +268,19 @@ def unit():
                    "bottom_line": "x"}
         stale = dict(MORNING, date_et="2026-10-14")             # yesterday's read is on disk; today's fell back
         snap15 = _snap(-1.2, 82000.0, "2026-10-15T12:17:00Z")
-        for hour, minute, why in ((12, 30, "this morning's read did not publish"),
-                                  (11, 0, "this morning's read has not published yet")):
+        for hour, minute, why in ((12, 30, "this morning's Brief did not publish"),
+                                  (11, 0, "this morning's Brief has not published yet")):
             rec, _g, _p = _compose(snap15, now=_utc(2026, 10, 15, hour, minute), ed=last_ed, morning=stale)
-            want = f"Numbers as of 8:17 AM ET \u00b7 {why}; text from last night's 7:14 PM Edition"
-            check(rec and rec["stamp_label"] == want and "Morning read" not in rec["stamp_label"], fails,
+            want = f"Numbers as of 8:17 AM ET \u00b7 {why}; text from last night's 7:14 PM Brief"
+            check(rec and rec["stamp_label"] == want and "Morning Brief" not in rec["stamp_label"], fails,
                   f"{hour - 4}:{minute:02d} AM: {rec and rec['stamp_label']!r}")
         rec, _g, _p = _compose(snap15, now=_utc(2026, 10, 15, 12, 30), ed=last_ed, morning=stale)
         check(rec["fallback"] and rec["answer_by"] == "template" and rec["date_et"] == "2026-10-15"
-              and rec["published_utc"] == "2026-10-15T12:30:00Z" and rec["next"] == "Next update: Evening Edition, tonight at 7:08 PM ET", fails,
+              and rec["published_utc"] == "2026-10-15T12:30:00Z" and rec["next"] == "Next update: Evening Brief, tonight at 7:08 PM ET", fails,
               "the fallback page is the template answer, dated today, modified now, next slot tonight")
         html, _p2, mod = today.render(rec, [], dated=False)
-        check("Morning read, " not in html and "Why is crypto down today? Thursday, October 15, 2026" in html and mod == "2026-10-15T12:30:00Z", fails,
-              "the rendered page never says 'Morning read,' and carries the day's own title and lastmod")
+        check("Morning Brief, " not in html and "Why is crypto down today? Thursday, October 15, 2026" in html and mod == "2026-10-15T12:30:00Z", fails,
+              "the rendered page never says 'Morning Brief,' and carries the day's own title and lastmod")
         check(_compose(snap15, now=_utc(2026, 10, 15, 12, 30), ed=None, morning=stale)[0] is None, fails,
               "no Edition on the desk at all: no page")
     except Exception as e:
@@ -294,7 +294,7 @@ def unit():
               "the cadence line is Jack's, exactly")
         snap = _j("snapshot_from_2026-10-06_files.json")
         band = home.narrative_band(_j("narrative.json"), snap, None, _utc(2026, 10, 14, 12, 30))
-        check('<a href="/today/">Why crypto moved today &rarr;</a>' in band, fails, "the Brief card links /today/")
+        check('<a href="/today/">Why it moved &rarr;</a>' in band, fails, "the Brief card links /today/")
         src = open(os.path.join(HERE, "site_build.py"), encoding="utf-8").read()
         check("one checked, \"\n" not in src and "the Brief every evening" not in src, fails, "the old cadence line is gone from the build")
 

@@ -2,7 +2,7 @@
 title: Leverage: open interest and funding rates in plain English
 slug: /learn/leverage
 board_tile: leverage
-meta_description: What open interest and funding rates measure, why they are the fuel behind crypto's sharpest moves, and how to read the leverage tile on the Board.
+meta_description: What open interest and funding rates measure, why they are the fuel behind crypto's sharpest moves, and how to read the leverage tile on Markets.
 target_queries: funding rate explained; open interest crypto meaning; bitcoin funding rate today; what is open interest bitcoin
 related_tiles: bitcoin; sentiment; whale_flows
 read_time: 6 min
@@ -14,13 +14,13 @@ live_embed: board.leverage (open interest, change since yesterday, current fundi
 
 *Most of crypto's biggest single-day moves were not caused by news. They were caused by borrowed money being forced out of the market all at once. The leverage tile is how you see that pressure building before it releases.*
 
-[LIVE FROM THE BOARD: open interest, change since yesterday, funding rate, as-of stamp, source. Link: See it on the Board.]
+[LIVE FROM THE BOARD: open interest, change since yesterday, funding rate, as-of stamp, source. Link: See it on Markets.]
 
 ## Leverage, in one paragraph
 
 Leverage means betting with borrowed money. A trader puts up $1,000 and controls a $10,000 position. If price moves 5 percent in their favor they make $500, half their stake. If it moves 5 percent against them they lose $500. If it moves 10 percent against them the exchange closes the position by force, because the borrowed money is no longer covered. That forced close is a liquidation, and a liquidation is a market order that pushes price further in the direction that caused it. Enough of them at once and you get a cascade.
 
-The Board shows two numbers that measure how much of this is in the system.
+Markets shows two numbers that measure how much of this is in the system.
 
 ## Open interest
 
@@ -52,7 +52,7 @@ Leverage tells you how much borrowed money is at risk, not which way price will 
 
 Open interest and funding rates come from the public derivatives tape of a major exchange, read at every site build. Figures from one venue move in step with the market as a whole, though the exact levels differ from venue to venue.
 
-## Related on the Board
+## Related on Markets
 
 Bitcoin: a stretched RSI on top of high open interest is the classic pre-reversal setup.
 
@@ -60,6 +60,6 @@ Crowd sentiment: extreme greed and strongly positive funding tend to arrive toge
 
 Whale flows: large deposits into a crowded long market are how cascades start.
 
-[Back to the Board]
+[Back to Markets]
 
 *This page is education, not advice. Do your own research.*

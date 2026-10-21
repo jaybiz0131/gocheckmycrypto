@@ -179,7 +179,7 @@ CSS = """
 def _edition_slot(ed):
     t = str(ed.get("title") or "") if ed else ""
     m = re.search(r"(Morning|Afternoon|Midday|Evening)", t, re.I)
-    return (m.group(1).title() + " Edition") if m else "The Edition"
+    return (m.group(1).title() + " Brief") if m else "The Brief"
 
 
 def _brief_name(ed):
@@ -243,7 +243,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     issue_no = len(all_days) - all_days.index(day)
 
     head = f"""<header class="ed-head">
-  <span class="ed-kicker">The Edition</span>
+  <span class="ed-kicker">The Brief</span>
   <h1>{esc(slot)}, {esc(_human_date(day))}</h1>
   <p class="ed-dateline">Issue No. {issue_no} &middot; {esc(desk["place"])}</p>
 </header>"""
@@ -332,10 +332,10 @@ def build(items, w, desk=DESK, shell=None):
         # stop asking to be indexed on their own.
         canon = f"/articles/{ed['slug']}.html" if ed and ed.get("slug") else path
         return shell(title,
-                     f"The composed daily edition of {desk['name']} for "
+                     f"The composed daily Brief of {desk['name']} for "
                      f"{_human_date(day)}: the desk's ranked reporting and its brief, "
                      f"as one front page.",
-                     "The Edition", body, _human_date(day).upper(),
+                     "The Brief", body, _human_date(day).upper(),
                      path=path, brand="cronkite", og_type="website",
                      canonical_path=canon)
 

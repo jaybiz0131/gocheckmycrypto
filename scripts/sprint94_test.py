@@ -580,7 +580,7 @@ def page_cases(fails):
         again = movers.build_pages(mdir)
         guarded(fails, "a second record the same day keeps every URL; the page carries the day's newest verdict",
                 lambda: {b["path"] for b in again} == {b["path"] for b in pages}
-                and all("Evening Edition" in b["html"] for b in again))
+                and all("Evening Brief" in b["html"] for b in again))
         # the sitemaps: every /why/ URL the build writes is in the archive sitemap and, inside its 48 hours, the news one
         built, written = [], {}
         old_dir = movers.DIR
@@ -707,7 +707,7 @@ def review1_cases(fails):
         h0 = sb.render_pulse_movers(dict(board), "DATELINE", movers_rec={})
         guarded(fails, "ONE LIST: with no current movers record the page says so, and still prints no old list",
                 lambda: "Biggest gainers" not in h0 and "no current Big movers reading" in t.visible(h0))
-        guarded(fails, "Movers 101 never says 'because' (only a Confirmed verdict may)",
+        guarded(fails, "How to read Big movers never says 'because' (only a Confirmed verdict may)",
                 lambda: not re.search(r"\bbecause\b", t.visible(h), re.I))
         # one rank, from one named source, with its stamp: the Board's Top 100 position the coin page prints
         bm = _bm(h)
@@ -855,9 +855,14 @@ def review1_cases(fails):
         e = sn["coins"]["TIA"]
         movers.register("TIA", "Celestia", "celestia")
         v = verdict.grade(e["evidence"], "TIA", movers.day_of(e, sn["gate"]["btc_24h_pct"]))
-        guarded(fails, f"SYNTHETIC TIA +30.6% with an unlock in time and no other cause: no Likely; the rulings give no "
-                       f"grade, so no card ({v.get('kind')}, {v.get('grade')})",
-                lambda: v.get("grade") is None and v.get("kind") == "no_verdict")
+        # CHANGED BY the strategist's October 20 ruling, J-9 item 3: an unlock (new supply, a fall) in time on a rise
+        # was "no card"; it is now Unclear, "A reported event lines up in time, but the move ran the other way."
+        guarded(fails, f"SYNTHETIC TIA +30.6% with an unlock in time and no other cause: no Likely; Unclear with the line "
+                       f"'A reported event lines up in time, but the move ran the other way.' naming the token unlock "
+                       f"(October 20, J-9 item 3) ({v.get('kind')}, {v.get('grade')})",
+                lambda: v.get("grade") == "Unclear" and v.get("kind") == "graded"
+                and v["line"][0] == "A reported event lines up in time, but the move ran the other way."
+                and v["refs"] and v["refs"][0]["text"] == "the token unlock" and v["refs"][0]["text"] in v["line"][1])
         lst = next(c for c in e["evidence"]["candidates"] if c["id"].endswith("synthetic-1"))
         unl = next(c for c in e["evidence"]["candidates"] if c["kind"] == "unlock")
         guarded(fails, "WORDS: an unlock is 'scheduled', as CoinMarketCap lists it; a listing is 'announced'; neither "

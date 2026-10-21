@@ -862,10 +862,10 @@ def list_html(rec, board_utc, live=True):
                 f'stablecoin; at most {GATE["per_slot"]} checked a reading and {GATE["per_day"]} a day. '
                 f'"Beyond Bitcoin" is the move minus what its 30-day beta to Bitcoin gives; "Its usual day" is the '
                 f'move over its 30-day daily volatility. Bitcoin and Ether have their own checks on their pages.</p>')
-        head = '<section class="bm" aria-label="Big movers"><div class="sec-head"><h2>Big movers</h2><span class="bar"></span></div>'
+        head = '<section class="bm" aria-label="Big movers"><div class="sec-head"><h2>Today\'s big movers, checked</h2><span class="bar"></span></div>'
         if not current(rec, board_utc):
-            return (head + '<p class="pc-note">The desk has no current Big movers reading for this Board. It reads '
-                           'the line at the morning read and the evening Edition; the list returns with the next.</p>'
+            return (head + '<p class="pc-note">The desk has no current Big movers reading. It reads '
+                           'the line with the Morning Brief and the Evening Brief; the list returns with the next.</p>'
                     + rule + '</section>')
         g = rec.get("gate") or {}
         w1 = we._parse_utc((rec.get("window") or {}).get("end_utc"))
@@ -884,6 +884,8 @@ def list_html(rec, board_utc, live=True):
                 gr = f'<a class="bm-g vd-badge vd-{_e(grade.lower())}" href="{_e(v["url"])}">Checked: <b>{_e(grade)}</b></a>'
             elif v.get("kind") == "withheld":
                 gr = '<span class="bm-g">Not checked today</span>'
+            elif v.get("kind") == "next_read":
+                gr = '<span class="bm-g">Verdict at the next read</span>'
             else:
                 gr = '<span class="bm-g">No grade</span>'
             vol = e.get("volume_vs_7d")
@@ -895,7 +897,8 @@ def list_html(rec, board_utc, live=True):
                 f'<th scope="row"><a href="{_e(coin_href(x["sym"], x["name"]))}">{_e(x["name"])}</a>'
                 f'<span class="bm-sym">{_e(x["sym"])}</span></th>'
                 f'<td class="bm-mv {cls}">{_e(_pct(x["move_pct"]))}</td>'
-                f'<td>{_e(exc)}</td><td>{_e(mult)}</td><td>{_e(volt)}</td><td>{gr}</td></tr>')
+                f'<td class="xs-x">{_e(exc)}</td><td class="xs-x">{_e(mult)}</td><td class="xs-x">{_e(volt)}</td>'
+                f'<td>{gr}</td></tr>')
         crash_html = ""
         c = g.get("crash") or {}
         if c.get("day") and c.get("measured_past_move") and c.get("with_market", 0) * 2 > c["measured_past_move"]:
@@ -906,10 +909,13 @@ def list_html(rec, board_utc, live=True):
                           f'<a href="{_e(_btc_verdict_href(rec.get("date_et") or ""))}">Bitcoin\'s verdict</a> covers '
                           f'the market\'s move.</p>')
         if rows:
-            body = ('<div class="movetable" tabindex="0" role="region" aria-label="Big movers (scrollable)">'
+            # AT 375 (Sprint 9.5): rank, coin, 24h and grade; the three measures wait behind "Show all columns"
+            import site_build as _sb
+            body = (_sb.fit_toggle("fit-bm") + '<div class="movetable fit-tbl" tabindex="0" role="region" aria-label="Big movers (scrollable)">'
                     '<table class="mv-tbl bm-tbl"><thead><tr><th scope="col">Rank</th><th scope="col">Coin</th>'
-                    '<th scope="col">24h</th><th scope="col">Beyond Bitcoin</th><th scope="col">Its usual day</th>'
-                    '<th scope="col">Volume</th><th scope="col">Grade</th></tr></thead><tbody>'
+                    '<th scope="col">24h</th><th scope="col" class="xs-x">Beyond Bitcoin</th>'
+                    '<th scope="col" class="xs-x">Its usual day</th>'
+                    '<th scope="col" class="xs-x">Volume</th><th scope="col">Grade</th></tr></thead><tbody>'
                     + "".join(rows) + "</tbody></table></div>")
         else:
             body = ('<p class="pc-note">No top-100 coin moved past the line in this reading, so the list is '
@@ -1081,7 +1087,7 @@ def _page(day, cid, items, dateline):
     href = coin_href(sym, name)
     coin_link = (f'<p class="td-w">{_e(name)}\'s page, with its chart and readings, is at '
                  f'<a href="{_e(href)}">{_e(href[:-5])}</a>.</p>') if href else ""
-    stamp = {"morning": "Morning read", "evening": "Evening Edition"}.get(rec.get("slot"), "Breaking read")
+    stamp = {"morning": "Morning Brief", "evening": "Evening Brief"}.get(rec.get("slot"), "Breaking read")
     body = f"""<main class="wrap"><section class="page td-page vd-page">
   <span class="kicker">Why it moved</span>
   <h1>{_e(title)}</h1>

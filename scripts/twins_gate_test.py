@@ -253,9 +253,9 @@ def main():
             ("W2 bank custody approval", "OCC approves first national bank custody charter for "
                                          "digital assets", ""),
             ("W3 exchange still reads", "Exchange X pauses withdrawals after wallet incident",
-             "Whale net, exchange flows"),
+             "Whale flows"),
             ("W4 exchange shutdown still reads", "Bitmex shuts down its spot market",
-             "Whale net, exchange flows")):
+             "Whale flows")):
         got = wire.board_reading(text)
         check(cid, got == want, f"{text!r} -> {got!r}")
 

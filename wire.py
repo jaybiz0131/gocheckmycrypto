@@ -44,14 +44,26 @@ MAX_LINE = 160
 # The tag rules name the subject; this names the Board reading a subject touches. A tag with
 # no reading touches none, and the item says so by printing nothing, never a guess.
 TAG_READING = {
-    "etfs-funds": "Spot ETF net",
-    "stablecoins": "Stablecoin float",
-    "exchanges": "Whale net, exchange flows",
+    "etfs-funds": "ETF flows",
+    "stablecoins": "Stablecoin supply",
+    "exchanges": "Whale flows",
     "macro": "Fear & Greed",
     "bitcoin": "Bitcoin price",
     "markets": "Bitcoin price",
     "ethereum": "Ether price",
 }
+
+# SPRINT 9.5: the Markets readings were renamed (NAMES.md section 4), and the wire file the Edition run
+# wrote before the rename still carries the old names. A line is read through this table when it is
+# drawn, so no page prints an old name from a stored file.
+READING_RENAMED = {"Spot ETF net": "ETF flows", "Stablecoin float": "Stablecoin supply",
+                   "Whale net, exchange flows": "Whale flows", "Whale net": "Whale flows"}
+
+
+def reading_label(name):
+    """The name a reader sees for a stored board_reading."""
+    return READING_RENAMED.get(str(name or "").strip(), str(name or "").strip())
+
 
 WHAT_A_WIRE_LINE_IS = ("Each line is the desk's own one-line summary of a story it ranked, "
                        "with its sources counted and linked. It is not a story the desk "

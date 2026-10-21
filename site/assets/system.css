@@ -451,7 +451,7 @@ body:not(.h-home) .cn-v{font-size:20px}
 .cc{margin-top:14px}
 .cc-head{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap;margin-bottom:8px}
 .cc-tabs{display:flex;gap:6px}
-.cc-tabs[hidden]{display:none}
+.cc-tabs[hidden]{display:flex;visibility:hidden}   /* Sprint 9.5: the tabs keep their room until the script wakes them (CLS zero) */
 .cc-tab{appearance:none;min-width:48px;min-height:44px;padding:0 12px;border:1px solid var(--line);
   border-radius:4px;background:var(--card);color:var(--muted);font:700 14px/1 var(--mono);cursor:pointer}
 .cc-tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
@@ -553,3 +553,120 @@ body .cn-tiles .tl-f{font-size:20px}
 /* Program 8, Sprint 8.1: the line under the Brief card that opens the daily answer */
 body .h-band .h-today{margin:8px 0 0!important}
 body .h-band .h-today a{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--band-ink);text-decoration:underline;text-underline-offset:3px}
+
+/* ===== Program 9, Sprint 9.5 (20 October 2026): the answer first, tables and charts on a phone ====
+   Bitcoin is one line under the verdict card; the card that used to open the page sits under "Where
+   Bitcoin stands". Nothing here is a new token: type, ink and line are the site's. */
+body .h-tape{padding-bottom:8px}
+body .h-bline{display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px;margin:0!important}
+body .h-bline .h-name{font-size:15px;font-weight:700;color:var(--ink)}
+body .h-bline .h-px{font-size:26px}
+body .h-bline .h-badge{font-size:15px;padding:4px 8px}
+body .h-bline .h-w{margin-left:0}
+body .h-tape .h-live{margin-top:4px!important}
+body .h-since .h-btc{margin:0 0 6px}
+body .h-since .h-board{margin:6px 0 12px!important}
+
+@media (min-width:1100px){body .h-bline .h-px{font-size:30px}}
+/* move 4: the home chart's labels are 12 px or more */
+body .h-chart .h-k{font-size:12px}
+body .h-days span{font-size:12px}
+body .h-days{height:18px}
+
+/* move 3: ONE SHARED RULE for a table at 375. A column marked xs-x waits behind "Show all columns" below
+   521 px; the table fits its box until the reader asks. Above 520 px every column shows and no toggle is drawn. */
+.fit-cb{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.fit-more{display:none}
+.fit-tbl table{width:100%}
+@media (max-width:520px){
+  .fit-more{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;margin:0 0 8px;cursor:pointer;
+    border:1px solid var(--line);border-radius:4px;background:var(--card);color:var(--ink);font:700 13px var(--mono)}
+  .fit-cb:focus-visible+.fit-more{outline:2px solid var(--link);outline-offset:2px}
+  .fit-cb:checked+.fit-more{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .fit-cb+.fit-more+.fit-tbl .xs-x{display:none}
+  .fit-cb:checked+.fit-more+.fit-tbl .xs-x{display:table-cell}
+  .fit-tbl td,.fit-tbl th{padding-left:6px;padding-right:6px}
+  .fit-tbl .bm-g{white-space:normal}
+}
+
+/* move 6: the coin chart's head keeps the room the tabs take, so the script waking them moves nothing */
+.cc-head{min-height:44px}
+@media (max-width:520px){.cc-head{min-height:98px}}
+
+/* the corrections log and the Brief's months */
+/* each entry is the callout a corrected story carries (.callout.corrected): the card, the rule edge, the
+   date in the mono, the story's title in the serif, the correction itself in the serif. Prefixed .page so the
+   prose page's own p and ol sizes cannot reach in. */
+.page .co-l{list-style:none;margin:18px 0;padding:0}
+.page .co-r{margin:0 0 16px;padding:14px 18px 16px;background:var(--card);border:1px solid var(--line);
+  border-left:4px solid var(--rule);border-radius:0 8px 8px 0}
+.page .co-w{margin:0 0 8px;font:600 12px/1.5 var(--mono);color:var(--muted)}
+.page .co-w a{display:block;margin:4px 0 2px;font:600 19px/1.3 var(--serif);color:var(--ink);text-underline-offset:3px}
+.page .co-t{margin:0;font:17px/1.6 var(--serif);color:var(--ink)}
+/* the Brief's months: the coin chart's range tabs (.cc-tab), one per month, the month shown filled */
+.bl-months{margin:14px 0 6px}
+.page .bl-months ul{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.page .bl-months li{margin:0}
+.bl-months a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border:1px solid var(--line);
+  border-radius:4px;background:var(--card);color:var(--ink);font:700 13px/1 var(--mono);text-decoration:none}
+.bl-months a[aria-current]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.bl-months a:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.bl-n{font-weight:600;color:var(--muted)}
+.bl-months a[aria-current] .bl-n{color:var(--paper)}
+.bl-mh{margin:18px 0 6px}
+
+/* move 4, charts drawn in two geometries (site_build.both_geometries): the narrow one below 600 px, labels of 12.5
+   units in a box 280 wide, so a label reads at about 13 px in the 297 px a chart card gives it at 375. The wide
+   one is untouched above 600 px. The hidden geometry is display:none, so a screen reader meets one chart. */
+.rc-n{display:none}
+@media (max-width:599px){.rc-w{display:none}.rc-n{display:block}}
+.chart-n .ctick,.chart-n .cpill,.chart-n .band-lab{font-size:12.5px}
+.chartcard svg.flows-n .ax,.chartcard svg.flows-n .val{font-size:12.5px}
+.chartcard svg.flows-n .sym{font-size:12.5px}
+@media (min-width:600px){.rc-n .chart-n{max-width:440px}}
+@media (min-width:1100px){body.h-home .h-l>aside.vd:first-child{margin-top:0}}
+
+/* CLS zero (Sprint 9.5): the coin chart's caption holds three lines below 768 px, the most the build's note takes
+   at 375 (Bitcoin's, with its 7D high and low close), so the script replacing the note with its own line moves
+   nothing under it. */
+@media (max-width:767px){body .cc-cap{min-height:63px}}
+.page .co-t,.page .co-w{overflow-wrap:anywhere}
+.chartcard svg.flows-n .ax{letter-spacing:0}
+/* move 4, contrast: a zone label on a chart is the muted ink at full strength (7:1 and better in both themes); the
+   zone's own color stays on its tint behind the label, where it was never carrying the word */
+.band-lab{opacity:1}
+
+/* Sprint 9.5, the designer's pass. No new token, face or component: each rule below gives an existing
+   piece its existing look where a broader rule was overriding it, or the room it needs. */
+/* the home: the Brief card keeps a gap above "Where Bitcoin stands" now that the Bitcoin card opens that block */
+body .h-band{margin-bottom:18px}
+/* a table that fits 375: its head is the living table's head (.lt th), left over the column it names, and the
+   coin's name (a row header) sits left with the line under it like every other cell */
+.fit-tbl th{padding:10px 14px;text-align:left}
+.fit-tbl thead th{font:700 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  padding-bottom:8px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.fit-tbl tbody th{font-weight:600;border-bottom:1px solid var(--line);white-space:nowrap}
+.fit-tbl tbody tr:last-child th{border-bottom:0}
+.fit-tbl .mv-tbl th{padding-left:8px;padding-right:8px}
+@media (max-width:520px){.fit-tbl th,.fit-tbl .mv-tbl th{padding-left:6px;padding-right:6px}}
+/* the coin page's foot: the Ledger card's own sizes (the prose rule was reaching in), then the related links
+   as targets */
+body .cn-cold .cn-cold-p{font:400 15px/1.6 var(--sans)}
+body .cn-cold .cn-cold-d{font:13px/1.5 var(--sans);color:var(--muted)}
+.st-nav{display:flex;flex-wrap:wrap;gap:0 22px;margin:22px 0 6px}
+.st-nav-a{display:inline-flex;align-items:center;min-height:44px;font:600 14px/1 var(--sans);color:var(--link)}
+
+/* CLS zero under CPU throttling (Sprint 9.5, review 1): below 521 px the masthead's date and its UPDATED stamp are two
+   rows always, so the age the stale-state script adds to the stamp grows a row that was already there and cannot wrap
+   the stamp onto a new line and push the page down. */
+@media (max-width:520px){
+  .mh-band .mh-meta{flex-direction:column;align-items:flex-start;gap:2px}
+  .mh-band .mh-live{white-space:nowrap}
+}
+
+/* CLS zero under CPU throttling: a tab label is one line in the fallback face and in the real one, so the icon above
+   it does not move when the face lands. */
+@media (max-width:699.98px){.tb-item span{white-space:nowrap}}
+@media (max-width:699.98px){.tabbar{height:calc(57px + env(safe-area-inset-bottom));overflow:hidden;grid-template-columns:repeat(5,minmax(0,1fr))}.tb-item{min-height:0;height:56px;justify-content:flex-start;padding-top:9px}}
+/* the five columns are fixed before the fifth tab is parsed: a slow phone may paint the bar half built, and the tabs
+   already there must not move when the rest arrive */

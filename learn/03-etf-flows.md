@@ -2,7 +2,7 @@
 title: Spot Bitcoin ETF flows, explained
 slug: /learn/etf-flows
 board_tile: etf_flows
-meta_description: What spot Bitcoin ETF flows measure, why they move the market, and how to read today's number. Plain language, with the live figure from the Board.
+meta_description: What spot Bitcoin ETF flows measure, why they move the market, and how to read today's number. Plain language, with the live figure from Markets.
 target_queries: bitcoin etf flows today; spot bitcoin etf inflows; what are bitcoin etf flows; bitcoin etf outflows meaning
 related_tiles: whale_flows; stablecoins; bitcoin
 read_time: 5 min
@@ -14,13 +14,13 @@ live_embed: board.etf_flows (net daily figure, streak count, as-of stamp, source
 
 *The most watched daily number in crypto, and the easiest one to misread. Here is what it measures, why it moves price, and how to read today's figure.*
 
-[LIVE FROM THE BOARD: net flow yesterday, streak, as-of stamp, source. Link: See it on the Board.]
+[LIVE FROM THE BOARD: net flow yesterday, streak, as-of stamp, source. Link: See it on Markets.]
 
 ## What it measures
 
-A spot Bitcoin ETF holds actual bitcoin. When investors buy more shares of the fund than they sell in a day, the fund has to buy bitcoin to back the new shares. That purchase is an inflow. When they sell more than they buy, the fund sells bitcoin to pay them out, and that is an outflow. The number on the Board is the net of the two, added up across every U.S. spot Bitcoin ETF, for the most recent trading day.
+A spot Bitcoin ETF holds actual bitcoin. When investors buy more shares of the fund than they sell in a day, the fund has to buy bitcoin to back the new shares. That purchase is an inflow. When they sell more than they buy, the fund sells bitcoin to pay them out, and that is an outflow. The number on Markets is the net of the two, added up across every U.S. spot Bitcoin ETF, for the most recent trading day.
 
-The figure is in dollars, not coins, because that is how the issuers report it. On the Board you will see it as a positive number (net buying) or a negative one (net selling), with the length of the current streak underneath.
+The figure is in dollars, not coins, because that is how the issuers report it. On Markets you will see it as a positive number (net buying) or a negative one (net selling), with the length of the current streak underneath.
 
 ## Why it moves the market
 
@@ -32,9 +32,9 @@ Over a strong month, ETF buying can absorb more bitcoin than miners produce in t
 
 One day tells you almost nothing. The signal is in the streak and in the size relative to the month.
 
-Three straight days of inflows in the low hundreds of millions, like a typical steady stretch, is ordinary demand rather than a rush. A single day above $1 billion in either direction is the kind of print that changes the week, and it is rare enough that the Board flags it. A streak that flips, from a run of inflows to a run of outflows, is worth more attention than any single figure inside the run.
+Three straight days of inflows in the low hundreds of millions, like a typical steady stretch, is ordinary demand rather than a rush. A single day above $1 billion in either direction is the kind of print that changes the week, and it is rare enough that Markets flags it. A streak that flips, from a run of inflows to a run of outflows, is worth more attention than any single figure inside the run.
 
-The Board shows the 30-day series under the tile so you can see which of those situations you are looking at before you react to a headline about it.
+Markets shows the 30-day series under the tile so you can see which of those situations you are looking at before you react to a headline about it.
 
 ## What it does not tell you
 
@@ -44,18 +44,18 @@ The figure also says nothing about who is buying. It cannot separate a pension f
 
 ## Where the data comes from
 
-Each issuer publishes its holdings daily. Farside Investors compiles the issuer figures into one table, and the Board reads that table at every site build. The number is final for the prior trading day, and it does not update on weekends or U.S. market holidays, which is why the tile carries a date and not just a time.
+Each issuer publishes its holdings daily. Farside Investors compiles the issuer figures into one table, and Markets reads that table at every site build. The number is final for the prior trading day, and it does not update on weekends or U.S. market holidays, which is why the tile carries a date and not just a time.
 
-If the source has not published yet when the Board rebuilds, the tile keeps the last confirmed figure and says so. The Board never fills a gap with a guess.
+If the source has not published yet when Markets rebuilds, the tile keeps the last confirmed figure and says so. Markets never fills a gap with a guess.
 
-## Related on the Board
+## Related on Markets
 
 Whale flows: ETF buying often meets whale selling on the same day. That tile shows the other side of the trade.
 
-Stablecoin dry powder: the dollars waiting inside crypto, which tend to grow before inflows do.
+Stablecoin supply: the dollars waiting inside crypto, which tend to grow before inflows do.
 
 Bitcoin: what "stretched" means on the price tile, and why it is not a sell signal by itself.
 
-[Back to the Board]
+[Back to Markets]
 
 *This page is education, not advice. Do your own research.*

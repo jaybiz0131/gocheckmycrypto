@@ -588,6 +588,9 @@ def _live_layer_canary():
     own headline. Each check seen red under a plant named in the 5 October history."""
     import re as _r
     import site_build as _sb
+    import tempfile as _tf
+    # load_chartmaster() keeps a dated copy of the live read in site/data/chartmaster: a canary must not leave one there
+    _sb.CM_ARCHIVE = _tf.mkdtemp()
     import snapshot as _snapshot
     fails = []
     raw_p, raw_f = _sb.load_pulse(), _sb.load_flows()
@@ -652,9 +655,11 @@ def _live_layer_canary():
     ic, ir = page.find('class="cm-charts"'), page.find('class="cm-read-h"')
     _check(ic != -1 and ir != -1 and ic < ir, fails,
            "live layer: Chart Master's read sits above the live boards")
-    _check("The Chart Master&#x27;s read, September 21" in page
-           or "Chart Master's read, September 21" in page, fails,
-           "live layer: Chart Master's read headline does not carry its date")
+    # ONE stored read keeps the names it was written under (Jack, J-10, October 20): the October 19 read. Its "Earlier reads"
+    # entry is the only text left out; every other entry is checked, and a data card never prints its stored headline.
+    _own = _r.sub(r'<article class="bd-card cm-entry" data-date="2026-10-19">.*?</article>', "", page, flags=_r.S)
+    _check("The chart read, Sep 21" in page and "Chart Master" not in _own, fails,
+           "live layer: the chart read's headline does not carry its date, or still names the Chart Master")
     _check("cm-newer" in page, fails,
            "live layer: a read older than the Board carries no line saying the boards are "
            "newer")
@@ -1166,8 +1171,8 @@ def _wire_canary():
     _check(by["c2"]["source_count"] == 1 and by["c2"]["primary"] is False, fails,
            f"wire: c2 should be 1 source, not primary: {by['c2']['source_count']}, "
            f"{by['c2']['primary']}")
-    _check(by["c1"]["board_reading"] == "Spot ETF net"
-           and by["c3"]["board_reading"] == "Stablecoin float", fails,
+    _check(by["c1"]["board_reading"] == "ETF flows"
+           and by["c3"]["board_reading"] == "Stablecoin supply", fails,
            f"wire: the Board reading is not the tag rule's: {by['c1']['board_reading']!r}, "
            f"{by['c3']['board_reading']!r}")
     # 4. The checked note: present when the verifier clears the top item, on that item
@@ -1383,10 +1388,10 @@ def _wire_canary():
     # 10. The News page: every element of the wire, and Jack's cadence line.
     wb = _sb.wire_block(w)
     for frag, what in (('class="wl-list"', "the numbered list"), (good[0], "the line"),
-                       ("Reads with Spot ETF net", "the Board reading"),
+                       ("Related data: ETF flows", "the Markets reading"),
                        ("3 sources", "the source count"), ("Primary source", "the primary mark"),
                        (f'href="{sec}"', "the link"), ('class="badge verified">Verified<', "the badge"),
-                       ('class="wl-mark">Wire<', "the wire mark"),
+                       ('class="wl-mark">Reported<', "the wire mark"),
                        ("4:05 PM ET on Oct 7", "the stamp"), (note["says"], "the note"),
                        (_w.WHAT_A_WIRE_LINE_IS, "the line under the list")):
         _check(frag in wb, fails, f"news page: the wire block lacks {what}")
@@ -1485,7 +1490,7 @@ def _narrative_canary():
     band = _home.narrative_band(old7, {"stamp_et": "7:16 PM ET on Oct 7"})
     # the band itself prints no date since Sprint 6.2: it names its readings, no figures
     _check("(Oct 7, 2026)" in _n.named(r7) and "07 Oct" not in _n.named(r7)
-           and "spot ETF net" in band and "07 Oct" not in band, fails,
+           and "ETF flows" in band and "07 Oct" not in band, fails,
            f"narrative: the ETF date prints day first: {_n.named(r7)!r}")
     _check(rec["readings"].get("etf_net_usd_m") == 212.4 and rec.get("written_et")
            == "7:10 PM ET on Oct 7", fails, "narrative: the record lacks its readings or stamp")
@@ -1618,7 +1623,7 @@ def _cm_dated_canary():
     """PROGRAM 6, SPRINT 6.1 RIDE-ALONG 2 (11 October 2026). The Board's headline was the Chart
     Master's read of October 8 on October 11: it had refused to publish two days running and
     a three-day-old read sat on top of today's Board. The card carries its own date, as "The
-    Chart Master's read, <date>", and gives way to the Board's own line when the read is more
+    The chart read, <date>", and gives way to the Board's own line when the read is more
     than one day old. A fixture dated two days back is the stale case."""
     import datetime as _dt
     import re as _re
@@ -1643,10 +1648,10 @@ def _cm_dated_canary():
         fresh = board("2026-10-11", "FRESHMARKER majors hold above their averages")
         _check("FRESHMARKER" in fresh, fails,
                "chartmaster dated: today's read is missing from the Board")
-        _check("Chart Master's read, October 11, 2026" in fresh, fails,
+        _check("The chart read, Oct 11" in fresh and "Chart Master" not in fresh, fails,
                "chartmaster dated: the card is not titled with its own date")
         yday = board("2026-10-10", "YDAYMARKER majors hold above their averages")
-        _check("YDAYMARKER" in yday and "Chart Master's read, October 10, 2026" in yday, fails,
+        _check("YDAYMARKER" in yday and "The chart read, Oct 10" in yday, fails,
                "chartmaster dated: a one-day-old read must still show, under its own date")
     finally:
         _sb._NOW_CACHE = saved
@@ -1667,8 +1672,10 @@ def _one_look_canary():
     _check("/assets/system.css" in page and "/assets/site.css" in page, fails,
            "one look: the shell does not load both stylesheets on every page")
     about = _sb.render_about("TEST")
-    _check("Cronkite" not in about and "technician" not in about, fails,
-           "one look: the About page carries the persona")
+    # Jack's ruling of 16 October 2026 (4) names the editor "Crypto Cronkite" and nothing personal: the name may stand
+    # as the editor's, and no other Cronkite and no persona (the technician) may.
+    _check(about.count("Cronkite") == about.count("Crypto Cronkite") and "technician" not in about, fails,
+           "one look: the About page carries a persona, or a Cronkite that is not the editor Crypto Cronkite")
     story = {"slug": "s", "title": "A story", "dek": "d", "date": "2026-10-10", "author": "Crypto Cronkite",
              "body": ["One."], "published_utc": "2026-10-10T12:00:00Z", "kind": "brief",
              "category": "news", "verdict": "VERIFIED", "sources": []}
@@ -1751,7 +1758,7 @@ def _whale_absent_canary():
     # 4. /pulse says what it is waiting for, never "$0".
     def card(fl):
         h = _sb.render_pulse_hub(pulse, fl, {}, "TEST")
-        i = h.find("Whale net")
+        i = h.find("Whale flows")
         return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", h[i:i + 700])) if i >= 0 else ""
     raw = card(absent)
     _check("waiting for" in raw and "$0" not in raw, fails,
@@ -2050,6 +2057,7 @@ def _stamp_canary():
             fails.extend(_sprint92_canary(out))
             fails.extend(_sprint93_canary(out))
             fails.extend(_sprint94_canary(out))
+            fails.extend(_sprint95_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2558,8 +2566,12 @@ def _home_canary(index_html=None):
            f"home canary: {full.count('<section')} sections above the fold; section 2 names "
            f"{len(_h.ABOVE_FOLD)}")
 
-    # 2. every tape field from the snapshot fixture
-    t = blk(full, "tape")
+    # 2. every tape field from the snapshot fixture. SPRINT 9.5: the tape is Bitcoin's one line (price, change, stamp);
+    # the card that used to open the page (the week's chart, the 24-hour range, the other coins) sits under
+    # "Where Bitcoin stands", so the fields are read from the two blocks together.
+    t = blk(full, "tape") + blk(full, "since")
+    _check("<svg" not in blk(full, "tape") and 'class="h-bline' in blk(full, "tape"), fails,
+           "home canary: Bitcoin is not one line in the tape block")
     btc = _s.coin(snap, "BTC")
     wk = (_s.value(snap, "week") or {}).get("BTC") or {}
     _cv = [wk["closes"][k] for k in sorted(wk["closes"])]
@@ -2569,7 +2581,7 @@ def _home_canary(index_html=None):
                         ("Bitcoin 24h", _arw(btc['chg_24h_pct'])),
                         ("the week's low close", _h._whole(min(_cv))),
                         ("the week's high close", _h._whole(max(_cv))),
-                        ("the Board's stamp", f"is the Board, as of {snap['stamp_et']}")):
+                        ("the Markets stamp", f"Readings below are as of {snap['stamp_et']}")):
         _check(_hx(want) in t, fails, f"home canary: the tape does not print {label} "
                                           f"from the snapshot ({want})")
     for sym in ("ETH", "SOL", "XRP"):
@@ -2684,14 +2696,14 @@ def _home_canary(index_html=None):
            fails, f"home canary: the band's small line prints a reading's figure: "
                   f"{_small.group(1) if _small else ''}")
     b0 = blk(page(narr=None), "narrative")
-    _check("h-nline" not in b0 and f"The Board as of {snap['stamp_et']}" in b0, fails,
+    _check("h-nline" not in b0 and f"Markets as of {snap['stamp_et']}" in b0, fails,
            f"home canary: with no narrative.json the band is not the Board's stamp alone: "
            f"{b0[:120]}")
 
     # 4. the why, with a checked note and without one
     w = blk(full, "why")
     note = wire["checked"]
-    for part in (note["badge"], note["says"], note["unconfirmed"], "Reads with Spot ETF net",
+    for part in (note["badge"], note["says"], note["unconfirmed"], "Related data: ETF flows",
                  "Fixture line two"):
         _check(_hx(part) in w, fails, f"home canary: the why does not carry {part!r}")
     _nw = _cp.deepcopy(wire)
@@ -2708,7 +2720,7 @@ def _home_canary(index_html=None):
     lis = _re.findall(r'<li class="h-wi">(.*?)</li>', m, _re.S)
     _check(len(lis) == 5, fails, f"home canary: {len(lis)} clusters on the home page, not five")
     _check(sum("badge verified" in x for x in lis) == 1 and
-           sum('class="h-wm">Wire<' in x for x in lis) == 4, fails,
+           sum('class="h-wm">Reported<' in x for x in lis) == 4, fails,
            "home canary: the checked cluster does not carry its badge and the rest the wire "
            "mark")
     _check(all(_re.search(r"\d+ sources?", x) and "href=" in x for x in lis), fails,
@@ -3266,6 +3278,30 @@ def _sprint94_canary(out):
     return fails
 
 
+def _sprint95_canary(out):
+    """PROGRAM 9, SPRINT 9.5 (20 October 2026): names, the answer-first front and trust. scripts/sprint95_test.py holds the
+    cases (the names as Jack ruled them on October 16, the home's first object from the recorded 15 October Board with
+    and without its verdict, Bitcoin in one line, How we check with no AI disclosure and no personal name, the
+    corrections log, the Brief archive by month, the Ledger card, the charts' label sizes, the tables' shared rule) and
+    the cases that read the tree this build wrote (no URL removed or changed against main's, every page's one name, no
+    old name printed anywhere). The browser half (the tab bar's five, the first object at 375 and 1440, CLS zero on the
+    coin page, labels at 12 px, tables at 375) is scripts/sprint95_browser.mjs, run by the suite. The helpers are taken
+    out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint95_test as _s95
+        fails = ["sprint 9.5: " + f for f in _s95.unit()]
+        fails += ["sprint 9.5: " + f for f in _s95.tree(out)]
+    finally:
+        for m in ("sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
 def _beacon_canary(out):
     """EVERY PAGE CARRIES EXACTLY ONE ANALYTICS BEACON (Jack, 12 October 2026). Counted on
     the built tree, every .html but the verification and redirect stubs: none is a red, two
@@ -3373,8 +3409,8 @@ def _below_canary(index_html=None):
                fails, "below canary: the Brief card does not name its edition, link it and say "
                       "when the next Brief is due")
     _check(_h.brief_name({"slug": "evening-brief-2026-10-11", "date": "2026-10-11"})
-           == "THE BRIEF \u00b7 SUNDAY EVENING", fails,
-           "below canary: the Brief card's eyebrow does not name the edition by day and slot")
+           == "EVENING BRIEF \u00b7 SUNDAY", fails,
+           "below canary: the Brief card's eyebrow does not name the Brief by slot and day")
     _b0 = _re.search(r'data-block="narrative">(.*?)</section>', _h.above_fold(
         snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=None,
         now=_BELOW_NOW), _re.S)
@@ -3594,35 +3630,45 @@ def _where_is_news_canary():
            "K-1 canary: the nav still says 'News desk', which is a place and not a thing "
            "to read")
     # Sprint 6.3 supersedes the K-1 ruling that The Board left the nav: Program 5 names it
-    # Markets, and the task name is what the row carries.
+    # Markets, and the task name is what the row carries. SPRINT 9.5 (Jack, 16 October 2026, ruling 3): the names are
+    # NAMES.md's recommended column, one name per thing, and the why and Big movers have their places.
     _check("Markets" in _labels and "The Board" not in _labels, fails,
-           f"6.3 canary: the nav does not carry the task name Markets: {_labels}")
+           f"9.5 canary: the nav does not carry the name Markets: {_labels}")
+    _check(_labels == ["Home", "Why it moved", "Markets", "Big movers", "Whale Watch", "Charts", "News", "The Brief",
+                       "Storylines", "Learn", "About"], fails,
+           f"9.5 canary: the nav is {_labels}, not Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, "
+           f"The Brief, Storylines, Learn, About")
     _check(_sb5.NAV_TITLES.get("/record.html"), fails,
            "K-1 canary: the Record's nav entry does not say what it holds")
     _tabs = [l for l, _ in _sb5.TAB_BAR]
-    _check(_tabs == ["markets", "flows", "charts", "news", "brief"], fails,
-           f"6.3 canary: the phone tab bar is {_tabs}, not Markets, Flows, Charts, News, Brief")
+    _check(_tabs == ["why", "markets", "movers", "flows", "brief"], fails,
+           f"9.5 canary: the phone tab bar is {_tabs}, not Why it moved, Markets, Big movers, Whale Watch, Brief")
+    _check([getattr(_sb5, "TAB_LABEL", {}).get(k, _sb5.NAMES.get(k, ("?",))[0]) for k in _tabs]
+           == ["Why it moved", "Markets", "Big movers", "Whale Watch", "Brief"], fails,
+           "9.5 canary: the phone tab bar's labels are not Why it moved, Markets, Big movers, Whale Watch, Brief")
 
-    # 6.3: ONE NAME PER THING. On a built tree, each destination's page must carry its task
-    # name as the H1 and its brand name as an eyebrow, and its title tag must open with
-    # "Task: Brand", all read from the one table (site_build.NAMES). Skipped when no tree
-    # is built, as the checks below are.
+    # 9.5: ONE NAME PER THING. On a built tree, each destination's page carries its one name as the H1, its title tag
+    # opens with it, and no eyebrow, kicker or nav entry prints a second (brand) name; all read from the one table
+    # (site_build.NAMES). Skipped when no tree is built, as the checks below are.
     for _k, (_task, _brand, _href) in _sb5.NAMES.items():
+        if _k in ("why", "movers"):
+            continue                  # the daily answer's H1 is its search title; the movers page is checked by sprint95_test
         _pf = os.path.join(_sb5.PUBLISH, _href.lstrip("/"))
         if not os.path.exists(_pf):
             continue
         _ph = open(_pf, encoding="utf-8", errors="ignore").read()
         _h1 = [_re5.sub(r"<[^>]+>", "", x).strip() for x in _re5.findall(r"<h1[^>]*>(.*?)</h1>", _ph, _re5.S)]
         _check(_h1[:1] == [_task], fails,
-               f"6.3 canary: {_href} H1 is {_h1[:1]}, the task name is {_task!r}")
-        _check(f"<title>{_task}: {_brand} - " in _ph, fails,
-               f"6.3 canary: {_href} title tag does not open with '{_task}: {_brand}'")
-        _check(_re5.search(r'class="(?:kicker|bd-eyebrow)"[^>]*>\s*' + _re5.escape(_brand) + r"\s*<", _ph), fails,
-               f"6.3 canary: {_href} carries no eyebrow reading its brand name {_brand!r}")
-        _check(f'<span class="nv-task">{_task}</span>' in _ph and f'<span class="nv-brand">{_brand}</span>' in _ph,
-               fails, f"6.3 canary: {_href} nav does not carry {_task} / {_brand}")
-        _check(f"<footer" in _ph and f">{_task}</a>" in _ph.split("<footer", 1)[1] if _k in ("record", "learn") else True,
-               fails, f"6.3 canary: the footer does not link {_task}")
+               f"9.5 canary: {_href} H1 is {_h1[:1]}, the name is {_task!r}")
+        _check(f"<title>{_task} - " in _ph, fails,
+               f"9.5 canary: {_href} title tag does not open with '{_task} - '")
+        _check("nv-brand" not in _ph and not _re5.search(
+            r'class="(?:kicker|bd-eyebrow)"[^>]*>\s*(?:The Board|Whale Watch|Chart Master|Checked|The Edition|Worth keeping)\s*<', _ph),
+            fails, f"9.5 canary: {_href} carries a second (brand) name in its nav, kicker or eyebrow")
+        _check(f'<span class="nv-task">{_task}</span>' in _ph, fails,
+               f"9.5 canary: {_href} nav does not carry {_task}")
+        _check(f"<footer" in _ph and f">{_task}</a>" in _ph.split("<footer", 1)[1] if _k in ("record", "learn", "news", "charts") else True,
+               fails, f"9.5 canary: the footer does not link {_task}")
     _bp = os.path.join(_sb5.PUBLISH, "bottom-line.html")
     if os.path.exists(_bp):
         _bh = open(_bp, encoding="utf-8", errors="ignore").read().split("<main", 1)[0]
@@ -6005,11 +6051,14 @@ def _three_badges_canary():
     _check(_sb.standing.primary_first(_mixed)[0]["url"] == "https://www.sec.gov/b", fails,
            "badges: a primary source is not first in the story's source list")
     # Standards says what each badge means, and spells labeled the American way
-    _st = _sb.render_standards("")
+    # SPRINT 9.5: method and standards are one page, How we check, at /method.html (/standards.html points to it)
+    _st = _sb.render_method([], "")
     for _b in ("Verified", "Verified, primary source", "Unconfirmed, one report"):
-        _check(f"<b>{_b}</b>" in _st, fails, f"badges: Standards does not define {_b!r}")
+        _check(f"<b>{_b}</b>" in _st, fails, f"badges: How we check does not define {_b!r}")
     _check("labelled" not in _st and "single weak source is labeled" in _st, fails,
-           "badges: Standards still spells labelled, or lost the single-weak-source sentence")
+           "badges: How we check still spells labelled, or lost the single-weak-source sentence")
+    _check('href="/method.html"' in _sb.render_standards("") and 'canonical" href="https://gocheckmycrypto.com/method"' in _sb.render_standards("").replace(".html", ""),
+           fails, "badges: /standards.html no longer points to How we check")
     return fails
 
 

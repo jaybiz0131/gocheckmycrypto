@@ -1725,8 +1725,17 @@ header.masthead{position:relative;z-index:300}
 .cn-n::before{content:"";position:absolute;left:0;top:1.05em;width:6px;height:1px;
   background:var(--line)}
 .cn-n:hover{text-decoration:underline}
-.cn-pinwrap{margin-left:auto;flex:0 0 auto}
-.cn-pin{white-space:nowrap}
+/* THE PIN'S BOX IS RESERVED (20 October 2026: a 0.0006 shift on .cn-pinwrap in one throttled read in forty). Its
+   width and height are fixed whether or not a web font has arrived, and on a phone the head is a two-column grid with the
+   pin pinned to the top of the second column, so the title's width or wrap can never move it. */
+.cn-pinwrap{margin-left:auto;flex:0 0 auto;display:block}
+.cn-pin{white-space:nowrap;box-sizing:border-box;height:36px;min-width:96px;text-align:center}
+@media (max-width:900px){.cn-pin{height:44px}}
+@media (max-width:600px){
+  .cn-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;column-gap:14px}
+  .cn-head .bar{display:none}
+  .cn-head .cn-pinwrap{margin-left:0;align-self:start}
+}
 .t1-a{color:inherit;text-decoration:none}
 .t1-a:hover .t1-name,.t1-a:hover{text-decoration:underline}
 
@@ -1942,7 +1951,7 @@ header.masthead{position:relative;z-index:300}
 /* Program 8, Sprint 8.1: the daily answer, /today/ and /today/YYYY-MM-DD. Same tokens as the
    Board: a change takes its color from its own sign (color truth), nothing else is colored. */
 .td-page{max-width:760px}
-.td-stamp{font-family:var(--mono);font-size:12px;color:var(--muted);margin:0 0 18px}
+body .td-stamp{font-family:var(--mono);font-size:12px;color:var(--muted);margin:0 0 18px}
 .td-answer{border-left:3px solid var(--rule);padding:2px 0 2px 16px;margin:0 0 8px}
 .td-answer p{font-family:var(--serif);font-size:20px;line-height:1.5;margin:0}
 .td-sec h2{font-size:22px}
@@ -1958,20 +1967,20 @@ header.masthead{position:relative;z-index:300}
 .td-reps{margin:0;padding-left:1.2em}
 .td-rep{padding:8px 0;border-bottom:1px solid var(--line)}
 .td-line{display:block;margin-bottom:2px}
-.td-next{font-family:var(--mono);font-size:12.5px;font-weight:600;margin:22px 0 0}
+body .td-next{font-family:var(--mono);font-size:12.5px;font-weight:600;margin:22px 0 0}
 .td-arch ul{margin:0;padding-left:1.2em}
 .td-corr{border:1px solid var(--line);border-left:3px solid var(--rule);padding:8px 12px;font-size:14px}
 
 /* Program 9, Sprint 9.2: "What lined up with the move" (why_evidence.py) on /today/ and the Bitcoin
    and Ether pages. Same tokens: a change takes its color from its own sign, the chart's line from
    its own window. */
-.ev-win{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:0 0 6px}
+body .ev-win{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:0 0 6px}
 .ev-run-l{font-size:15px;line-height:1.5;margin:0 0 6px}
 .ev-run-l .chg,.ev-mech .chg{font-family:var(--mono);font-weight:700;white-space:nowrap}
 .ev-run-l .chg.up,.ev-mech .chg.up{color:var(--up)}
 .ev-run-l .chg.down,.ev-mech .chg.down{color:var(--down)}
 .ev-fig{margin:10px 0 14px}
-.ev-chart{display:block;width:100%;max-width:600px;height:auto}
+.ev-chart{display:block;width:100%;max-width:480px;height:auto}
 .ev-cands{list-style:none;margin:0;padding:0}
 .ev-c{position:relative;padding:10px 0 10px 34px;border-bottom:1px solid var(--line)}
 .ev-n{position:absolute;left:0;top:10px;width:22px;height:22px;border:1px solid var(--ink);border-radius:50%;font:700 11px/20px var(--mono);text-align:center}

@@ -94,20 +94,52 @@ def unit():
     return fails
 
 
-def static(site):
+def no_ledger_symbols():
+    """Lower-case symbols of the coins whose page carries no Ledger card under Sprint 9.5's rule, from the Board and the
+    Big movers record the build reads (site_build._past_mover_line's own rule, read here from the data)."""
+    import site_build as sb
+    import movers as mv
+    pulse = sb.load_pulse() or {}
+    rec = sb._movers_rec(None)
+    out = set()
+    for c in (pulse.get("movers") or {}).get("top100") or []:
+        sym = str(c.get("symbol") or "")
+        chg = c.get("chg_24h_pct")
+        if (isinstance(chg, (int, float)) and abs(chg) >= mv.GATE["move_min_pct"]) or sym in mv.listed(
+                rec, pulse.get("generated_utc") or ""):
+            out.add(sym.lower())
+    return out
+
+
+def page_fails(f, h, no_ledger):
+    """One coin page's static checks."""
     fails = []
+    if len(re.findall(r'src="/assets/coinchart\.js\?v=', h)) != 1:
+        fails.append(f"static: {f} does not carry the shared chart file exactly once")
+    if h.count('role="tab"') != 4 or "market_chart" in h:
+        fails.append(f"static: {f} tabs or inline chart code wrong")
+    # SPRINT 9.5's rule (AUDIT.md 3.4 move 7): a coin past the mover line that day (on the Big movers record, or a
+    # 24-hour move at or past the gate's first leg) carries NO Ledger card; every other coin carries it.
+    past = f[:-5].lower() in no_ledger
+    if 'data-reading="coin-price"' not in h:
+        fails.append(f"static: {f} lacks the price tile")
+    if past and 'class="cn-cold"' in h:
+        fails.append(f"static: {f} carries the cold-storage card though its coin moved past the mover line")
+    if not past and 'class="cn-cold"' not in h:
+        fails.append(f"static: {f} lacks the cold-storage card")
+    return fails
+
+
+def static(site, min_pages=90):
+    fails = []
+    no_ledger = no_ledger_symbols()
     coins = os.path.join(site, "coins")
     pages = sorted(f for f in os.listdir(coins) if f.endswith(".html"))
-    if len(pages) < 90:
+    if len(pages) < min_pages:
         fails.append(f"static: only {len(pages)} coin pages")
     for f in pages:
         h = open(os.path.join(coins, f), encoding="utf-8").read()
-        if len(re.findall(r'src="/assets/coinchart\.js\?v=', h)) != 1:
-            fails.append(f"static: {f} does not carry the shared chart file exactly once")
-        if h.count('role="tab"') != 4 or "market_chart" in h:
-            fails.append(f"static: {f} tabs or inline chart code wrong")
-        if 'class="cn-cold"' not in h or 'data-reading="coin-price"' not in h:
-            fails.append(f"static: {f} lacks the cold-storage card or the price tile")
+        fails += page_fails(f, h, no_ledger)
     # Sprint 6.5: comments are stripped from the stylesheets at publish only. The published copy has no
     # comment marker; the source keeps its comments (they carry the reasons).
     for css in ("site.css", "system.css"):

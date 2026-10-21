@@ -52,20 +52,20 @@ READINGS = {r.key: r for r in (
     Reading("total-cap", "Whole market", True,
             "Every coin's market value added together, and Bitcoin's share of it "
             "(dominance)."),
-    Reading("etf-net", "Spot ETF net", True,
+    Reading("etf-net", "ETF flows", True,
             "Dollars that went into US spot Bitcoin ETFs, less dollars that came out, for "
             "one trading day."),
-    Reading("whale-net", "Whale net", True,
+    Reading("whale-net", "Whale flows", True,
             "Transfers of $50 million and up between wallets and exchanges, netted: off "
             "exchanges is positive, onto exchanges is negative."),
-    Reading("stablecoin-float", "Stablecoin float", False,
+    Reading("stablecoin-float", "Stablecoin supply", False,
             "The dollar value of every stablecoin in circulation, read now: money "
             "parked inside crypto."),
     Reading("funding", "Funding", False,
             "What traders holding leveraged long positions pay short holders every 8 "
             "hours on Bitcoin perpetual futures. The tile gives the current 8-hour "
             "period's rate and, under it, the rate at the settlement 24 hours before the "
-            "latest. The Leverage tile on the Board is the same rate times 1,095, the "
+            "latest. The Funding rate tile on Markets is the same rate times 1,095, the "
             "number of 8-hour periods in a year."),
     Reading("open-interest", "Open interest", False,
             "The value of leveraged Bitcoin futures positions open right now on one "
@@ -79,7 +79,7 @@ READINGS = {r.key: r for r in (
     # volume and RSI have no good direction; a change and the distance from the 200-day
     # line do, and each is colored by its own sign only.
     Reading("coin-price", "Price", False,
-            "The coin's last price in US dollars, from the Top 100 read the Board was "
+            "The coin's last price in US dollars, from the Top 100 read Markets was "
             "built on."),
     Reading("coin-24h", "24 hours", True,
             "How far the coin's price moved over the last 24 hours, in percent."),
@@ -93,11 +93,11 @@ READINGS = {r.key: r for r in (
             "24 hours."),
     Reading("coin-200d", "Against 200-day", True,
             "How far the price sits above or below its 200-day average, in percent. Only "
-            "the coins the Board tracks have one."),
+            "the coins Markets tracks have one."),
     Reading("rsi-14", "RSI (14)", False,
             "A 0 to 100 reading of recent daily closes. Under 30 is called oversold and "
             "over 70 overbought; between is neither."),
-    Reading("network-fee", "Network fees", False,
+    Reading("network-fee", "Bitcoin fees", False,
             "What it costs to get a Bitcoin transaction into the next block, in satoshis "
             "per virtual byte."),
 )}

@@ -165,8 +165,8 @@ def how_we_make_money_body():
     <li><b>News coverage never carries affiliate links.</b> The front page, News, every
         story, the daily Editions and the RSS feed are clean. Nothing we earn from can
         influence what gets reported or how.</li>
-    <li><b>Data boards never carry commercial calls to action.</b> Whale Watch, The
-        Board and Chart Master may link to an explainer when it genuinely helps, but
+    <li><b>Data boards never carry commercial calls to action.</b> Whale Watch, Markets
+        and Charts may link to an explainer when it genuinely helps, but
         they carry no buy buttons and no commission language.</li>
     <li><b>Commercial links appear only in disclosed evergreen explainers.</b> Those pages
         say plainly, above the first link, that we earn a commission.</li>

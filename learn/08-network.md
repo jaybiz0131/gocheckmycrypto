@@ -1,5 +1,5 @@
 ---
-title: Network fees and difficulty: what a quiet or busy chain tells you
+title: Bitcoin fees and difficulty: what a quiet or busy chain tells you
 slug: /learn/network
 board_tile: network
 meta_description: What the network tile measures, why fees spike, what mining difficulty says about the people running the network, and how to read a quiet chain during a rally.
@@ -10,11 +10,11 @@ byline: The GoCheckMyCrypto desk
 live_embed: board.network (current fee rate in sat/vB, fee band label, difficulty and next adjustment, as-of stamp, source line). Template slot, filled at build.
 ---
 
-# Network fees and difficulty: what a quiet or busy chain tells you
+# Bitcoin fees and difficulty: what a quiet or busy chain tells you
 
-*Every other tile on the Board measures money. The network tile measures activity: how crowded the Bitcoin network is right now, and how much computing power is protecting it. Both say something about the market that price cannot.*
+*Every other tile on Markets measures money. The network tile measures activity: how crowded the Bitcoin network is right now, and how much computing power is protecting it. Both say something about the market that price cannot.*
 
-[LIVE FROM THE BOARD: fee rate, fee band, difficulty and next adjustment, as-of stamp, source. Link: See it on the Board.]
+[LIVE FROM THE BOARD: fee rate, fee band, difficulty and next adjustment, as-of stamp, source. Link: See it on Markets.]
 
 ## Fees, and the unit on the tile
 
@@ -48,7 +48,7 @@ Fees measure activity, not direction. A busy chain can be busy with buyers or se
 
 Fee rates and mempool depth come from mempool.space, a public view of the Bitcoin network, read at every site build. Difficulty and the estimated next adjustment come from the same source.
 
-## Related on the Board
+## Related on Markets
 
 Whale flows: the tile that tells you which direction the crowd on the chain is moving.
 
@@ -56,6 +56,6 @@ Bitcoin: price posture beside network activity shows whether a move has on-chain
 
 Whole market: a quiet chain during a broad rally means the rally is being carried by the exchanges and the funds.
 
-[Back to the Board]
+[Back to Markets]
 
 *This page is education, not advice. Do your own research.*

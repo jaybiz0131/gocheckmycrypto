@@ -1,0 +1,256 @@
+Sprint 9.5, tests red first (U-9). The tests of this sprint (scripts/sprint95_test.py, scripts/sprint95_browser.mjs, fixtures/sprint95/) and the canary's name pins (verify_pipeline.py) were laid over a throwaway copy of main a3984cc (Sprint 9.4 merged), and run there. Tree-reading and browser cases read a throwaway build of main's own tree. The copy has no .git, so two canary lines about git and the build's commit name are the copy's, not main's.
+
+== scripts/sprint95_test.py --tree <main's build> (headless Chromium for the browser half): exit 1, 114 red
+FAIL the one table holds the nine names, and each has one name (no second, brand name)
+FAIL the URLs behind the names did not change (/today/, /pulse.html, /pulse/movers.html, /flows.html, /chartmaster.html, /news.html, /bottom-line.html, /record.html, /learn.html) [KeyError: 'why']
+FAIL the desktop nav: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About
+FAIL the phone tab bar is exactly five: Why it moved, Markets, Big movers, Whale Watch, Brief, to /today/, /pulse.html, /pulse/movers.html, /flows.html, /bottom-line.html, and the current page's tab is marked
+FAIL no nav entry carries a second (brand) name
+FAIL the title tag's lead is the one name
+FAIL the nav and the tab bar mark the same group: /today/ and /why/... are Why it moved, /pulse/movers.html is Big movers, a month of the Brief is The Brief
+FAIL the Markets tiles: ETF flows, Whale flows, Stablecoin supply, Bitcoin fees (section 4's rows)
+FAIL the wire's reading names follow, and a stored wire file with the old names is read through the table
+FAIL the home: 'Top story, checked' heads the checked story (not 'The checked story')
+FAIL the home: the mood block is 'Sentiment' (not 'The mood')
+FAIL the home: the wire's mark is 'Reported' (not 'Wire') and a reading is 'Related data: ETF flows' (not 'Reads with Spot ETF net'), from a stored wire written under the old name
+FAIL the home: the money cards read 'ETF flows', 'Whale flows', 'Stablecoin supply'
+FAIL the home: the link to the daily answer reads 'Why it moved' (not 'Why crypto moved today')
+FAIL the home: no 'Board' as a place name (the Markets name is the only one)
+FAIL the home: the Brief card is named 'Morning Brief' or 'Evening Brief' by slot, 'The Brief' when the slot is not named
+FAIL the funding card reads 'Funding rate, annualized' (not 'Leverage, funding annualized')
+FAIL the daily answer's slots are 'Morning Brief' and 'Evening Brief'; no 'Edition', no 'Morning read'
+FAIL a daily-answer record stored before the rename is read through the table (Evening Edition -> Evening Brief) [AttributeError: module 'today' has no attribute 'reader']
+FAIL the verdict pages and the movers' pages stamp the Brief names
+FAIL the daily answer's kicker is 'Why it moved' (not 'Today')
+FAIL the footer: News, Charts, Storylines, Learn, About, Archive, How we check, Corrections (no 'How we work', no 'Standards & corrections')
+FAIL the footer note names Markets, not the Board
+FAIL Markets: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+FAIL Whale Watch: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+FAIL Charts: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+FAIL News: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+FAIL The Brief: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+FAIL Storylines: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+FAIL Learn: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+FAIL Markets: no 'The Board', no 'Markets: The Board', no 'Board' kicker in its title, crumbs or links
+FAIL Charts: the dated read is 'The chart read, Sep 21', not "Chart Master's read"
+FAIL the Markets page's chart card is 'The chart read, Oct 15' (not "Chart Master's read")
+FAIL Storylines: the record page's badges read Tracker, Ongoing story and Sources: (not Living table, Running story, Receipts:)
+FAIL News: nothing on it is called Checked as a brand, the Board, or Wire as a badge; the kind labels read Markets and Brief
+FAIL Learn: no 'The Board explained'; the tiles are named as the Markets tiles are
+FAIL the stablecoin page is 'Stablecoin supply' (not 'Stablecoin dry powder' or 'float')
+FAIL Whale Watch: the stablecoin flow is 'Stablecoins onto exchanges' (not 'Stablecoin buying power')
+FAIL with a graded card: it is the first element of the home's first column, before the tape
+FAIL Bitcoin is one line: the tape block holds the price, the 24-hour change and the stamp, and no chart, no tile
+FAIL the card Bitcoin used to have (the week's chart, the 24-hour range, the other coins) is under 'Where Bitcoin stands'
+FAIL group trust could not run [AttributeError: module 'site_build' has no attribute 'render_corrections']
+FAIL group corrections could not run [AttributeError: module 'site_build' has no attribute 'corrections_log']
+FAIL group brief could not run [AttributeError: module 'site_build' has no attribute '_brief_months']
+FAIL the card is after 'Supply and trade' where the page has it
+FAIL SYNTHETIC (a coin up 31% in 24 hours, the audit's example): no Ledger card on its page
+FAIL SYNTHETIC (a coin down 12.5%): no Ledger card either
+FAIL the real 16 October Big mover ETHFI: no Ledger card on its page
+FAIL the chart's box is reserved: the stage keeps its minimum height (308 px, 378 from 480 px) and the head keeps the room its tabs take, so waking the tabs moves nothing
+FAIL the timing chart's box is 340 units wide with 12.5-unit labels: 12.6 px in a 343 px column (375), 13.1 px at 390
+FAIL every label in the drawn chart is 11.5 units or more, and draws at 12 px or more in a 343 px column
+FAIL the chart is capped at 480 px so its labels never swell past 18 px on a wide column
+FAIL the home chart's own labels (7D high close, the day names) are 12 px
+FAIL system.css holds the shared rule: xs-x columns hide below 521 px and the toggle brings them back, no script
+FAIL Big movers: rank, coin, 24h and grade stay; Beyond Bitcoin, Its usual day and Volume are xs-x, with the toggle before the table
+FAIL Whale Watch by exchange: net only at 375 (In and Out are xs-x), the toggle before the table
+FAIL the toggle's checkbox is a real, labelled control (a label for it, a 44 px target)
+FAIL why_evidence prints 'on Markets', not 'on the Board', for a stored reason [AttributeError: module 'why_evidence' has no attribute '_renamed']
+FAIL the evidence record the build writes now names Markets in its read-and-unread ledger
+FAIL the composed Brief page is 'Evening Brief', not 'Evening Edition'
+FAIL the new pages are additions: /corrections.html is built, and the older Brief months are /bottom-line/<YYYY-MM>.html
+FAIL /standards.html and /method.html both resolve; the sitemap lists /corrections and every older Brief month
+FAIL the nav on the built home: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About, in that order
+FAIL the tab bar on the built home: exactly five, Why it moved, Markets, Big movers, Whale Watch, Brief, to the right addresses
+FAIL /pulse.html: H1 'Markets', title tag opens 'Markets - ', one name
+FAIL /flows.html: H1 'Whale Watch', title tag opens 'Whale Watch - ', one name
+FAIL /chartmaster.html: H1 'Charts', title tag opens 'Charts - ', one name
+FAIL /news.html: H1 'News', title tag opens 'News - ', one name
+FAIL /bottom-line.html: H1 'The Brief', title tag opens 'The Brief - ', one name
+FAIL /record.html: H1 'Storylines', title tag opens 'Storylines - ', one name
+FAIL /learn.html: H1 'Learn', title tag opens 'Learn - ', one name
+FAIL no built page prints the old name 'the Board' (128 page(s), e.g. onchain-flows.html: ...Crypto, checked. Home Markets The Board Flows Whale Watch Charts Char...)
+FAIL no built page prints the old name 'The Board explained' (128 page(s), e.g. onchain-flows.html: ...ecord Worth keeping Learn The Board explained About Learn · explainer How t...)
+FAIL no built page prints the old name 'Chart Master' (128 page(s), e.g. onchain-flows.html: ...oard Flows Whale Watch Charts Chart Master News Checked Brief The Editio...)
+FAIL no built page prints the old name 'Edition / Morning read' (128 page(s), e.g. onchain-flows.html: ...art Master News Checked Brief The Edition Record Worth keeping Learn Th...)
+FAIL no built page prints the old name 'Worth keeping' (128 page(s), e.g. onchain-flows.html: ...cked Brief The Edition Record Worth keeping Learn The Board explained Abo...)
+FAIL no built page prints the old name 'How we work / Standards & corrections' (128 page(s), e.g. onchain-flows.html: ...to Record Learn About Archive How we work Standards & corrections How w...)
+FAIL no built page prints the old name 'Whale net / Spot ETF net / Stablecoin float / dry powder / buying power / Network fees' (6 page(s), e.g. flows.html: ...ut 1.4x a typical week’s pace Stablecoin buying power no exchange-size moves in 24h...)
+FAIL no built page prints the old name 'The mood' (1 page(s), e.g. index.html: ...0084% calm, per 8 hours · OKX The mood 59 Fear & Greed Greed 59 yest...)
+FAIL no built page prints the old name 'The checked story' (1 page(s), e.g. index.html: ...is 59.6% of the whole market. The checked story No wire item cleared the chec...)
+FAIL no built page prints the old name 'Reads with' (2 page(s), e.g. index.html: ...ement on a public blockchain. Reads with Ether price · 5 sources · The...)
+FAIL no built page prints the old name 'Leverage, funding annualized' (1 page(s), e.g. pulse.html: ...T on Oct 19 · what this means Leverage, funding annualized +9.2% Bitcoin perp...)
+FAIL no built page prints the old name 'Living table / Running story / Receipts' (3 page(s), e.g. tables/stablecoin-supply-by-issuer.html: ...wder tile on the Board reads. Living table 15 rows, as of 12:38 AM ET, O...)
+FAIL /method.html as built: no AI disclosure, no personal name
+FAIL /about.html as built: no AI disclosure, no personal name
+FAIL /corrections.html as built: no AI disclosure, no personal name
+FAIL /standards.html as built: no AI disclosure, no personal name
+FAIL /method.html as built names Crypto Cronkite; /about.html does too
+FAIL /bottom-line.html as built holds one month and a month list
+FAIL tab bar at 375: shown, exactly five, Why it moved, Markets, Big movers, Whale Watch, Brief: {"vis":true,"items":[{"text":"Markets","h":56,"fits":true,"w":75},{"text":"Flows","h":56,"fits":true,"w":75},{"text":"Charts","h":56,"fits":true,"w":75},{"text":"News","h":56,"fits":true,"w":75},{"text":"Brief","h":56,"fits":true,"w":75}]}
+FAIL tab bar at 390: shown, exactly five, Why it moved, Markets, Big movers, Whale Watch, Brief: {"vis":true,"items":[{"text":"Markets","h":56,"fits":true,"w":78},{"text":"Flows","h":56,"fits":true,"w":78},{"text":"Charts","h":56,"fits":true,"w":78},{"text":"News","h":56,"fits":true,"w":78},{"text":"Brief","h":56,"fits":true,"w":78}]}
+FAIL home at 375 with a graded card: the verdict card is first in its column, above every block in it, and no lower than the other column's first: {"card":737,"cardH":357,"blocks":[{"n":"tape","top":86,"left":true},{"n":"narrative","top":577,"left":true},{"n":"since","top":1108,"left":true},{"n":"why","top":1268,"left":true},{"n":"wire","top":1704,"left":true},{"n":"money","top":2650,"left":false},{"n":"mood","top":2
+FAIL home at 375: Bitcoin is one line (the tape block is under 130 px, draws no chart, prints price and change once): {"h":477,"svg":1,"t":"Bitcoin 24h$82,119.00▲ 0.80%24h high $82,508 · low $79,8067D HIGH CLOSE $83,4577D LOW CLOSE $81,686ThuFriSatSunMonTueWedEther$2,438.51▲ 0.96%Solana$105.28▲ 1.05%XRP$1.33▲ 0.20%All crypto$2.78Tuncheckedas of 7:43 PM ET on Oct 15 · 4 days agoEverything below is the Board, as of 7:4
+FAIL home at 375 with no graded card: no card, no empty slot; the first object is the tape's line, the Brief card next: {"vd":0,"firstIsTape":true,"firstH":477,"tape":86,"band":577,"bandH":148}
+FAIL home at 1440 with a graded card: the verdict card is first in its column, above every block in it, and no lower than the other column's first: {"card":865,"cardH":318,"blocks":[{"n":"tape","top":159,"left":true},{"n":"narrative","top":704,"left":true},{"n":"since","top":1197,"left":true},{"n":"why","top":1355,"left":true},{"n":"wire","top":1649,"left":true},{"n":"money","top":159,"left":false},{"n":"mood","top":
+FAIL home at 1440 with a graded card: it is on the first screen (its top is within 760 px of the page top): top 865
+FAIL home at 1440: Bitcoin is one line (the tape block is under 130 px, draws no chart, prints price and change once): {"h":531,"svg":1,"t":"Bitcoin 24h$82,119.00▲ 0.80%24h high $82,508 · low $79,8067D HIGH CLOSE $83,4577D LOW CLOSE $81,686ThuFriSatSunMonTueWedEther$2,438.51▲ 0.96%Solana$105.28▲ 1.05%XRP$1.33▲ 0.20%All crypto$2.78Tuncheckedas of 7:43 PM ET on Oct 15 · 4 days agoEverything below is the Board, as of 7:
+FAIL home at 1440 with no graded card: no card, no empty slot; the first object is the tape's line, the Brief card next: {"vd":0,"firstIsTape":true,"firstH":531,"tape":159,"band":704,"bandH":148}
+FAIL CLS on /coins/btc at 375, read fresh (1 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.06451426172839506,"shifts":[{"v":0.0384,"t":135,"n":["P.cc-chg","DIV.cc-box","P.pc-note cc-cap"]},{"v":0.0261,"t":208,"n":["#text.","MAIN.wrap","#text."]}]}
+FAIL CLS on /coins/btc at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.1658915614197531,"shifts":[{"v":0.1578,"t":141,"n":["SPAN.mh-live is-stale","A.mh-brand","MAIN.wrap"]},{"v":0.004,"t":163,"n":["#text.","MAIN.wrap"]},{"v":0.0041,"t":243,"n":["H2.cn-h cn-h-first","DIV.tl-row tl-4 cn-tiles"]}]}
+FAIL CLS on /coins/btc at 390, read fresh (1 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.10679703288224121,"shifts":[{"v":0.0386,"t":135,"n":["P.cc-chg","DIV.cc-box","P.pc-note cc-cap"]},{"v":0.0635,"t":181,"n":["#text.","MAIN.wrap","#text."]},{"v":0.0047,"t":241,"n":["H2.cn-h cn-h-first","DIV.tl-row tl-4 cn-tiles"]}]}
+FAIL CLS on /coins/btc at 390, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.2190988054962013,"shifts":[{"v":0.1578,"t":117,"n":["SPAN.mh-live is-stale","A.mh-brand","MAIN.wrap"]},{"v":0.0613,"t":175,"n":["#text.","MAIN.wrap","P.tl-src"]}]}
+FAIL CLS on /coins/btc at 1440, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.2491306923027719,"shifts":[{"v":0.242,"t":104,"n":["P.cc-chg","DIV.cc-box","P.pc-note cc-cap"]},{"v":0.0071,"t":138,"n":["#text.","#text.","SPAN.mh-slogan"]}]}
+FAIL CLS on /coins/eth at 375, read stale (9 h after its stamp): zero (the chart drew and the page settled): {"drawn":true,"cls":0.1829867021604938,"shifts":[{"v":0.1578,"t":136,"n":["SPAN.mh-live is-stale","A.mh-brand","MAIN.wrap"]},{"v":0.0252,"t":191,"n":["#text.","MAIN.wrap","#text."]}]}
+FAIL charts at 375: every axis label, tick and pin draws at 12 px or more: /index.html: 9 under 12 px, e.g. {"t":"7D HIGH CLOSE $83,457","px":10.5} | /today/: 9 under 12 px, e.g. {"t":"$83,035","px":9.1} | /why/2026-10-15-bitcoin: 11 under 12 px, e.g. {"t":"$82,491","px":9.1} | /coins/btc: 9 under 12 px, e.g. {"t":"$83,035","px":9.1} | /coins/eth: 9 under 12 px, e.g. {"t":"$2,444","px":9.1} | /chartmaster.html: 16 un
+FAIL charts at 390: every axis label, tick and pin draws at 12 px or more: /index.html: 9 under 12 px, e.g. {"t":"7D HIGH CLOSE $83,457","px":10.5} | /today/: 9 under 12 px, e.g. {"t":"$83,035","px":9.5} | /why/2026-10-15-bitcoin: 11 under 12 px, e.g. {"t":"$82,491","px":9.5} | /coins/btc: 9 under 12 px, e.g. {"t":"$83,035","px":9.5} | /coins/eth: 9 under 12 px, e.g. {"t":"$2,444","px":9.5} | /chartmaster.html: 16 un
+FAIL chart labels in dark mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 5 under 4.5:1, e.g. {"t":"extreme fear","cr":2.15}
+FAIL chart labels in light mode: every svg label clears 4.5:1 against its surface: /pulse/sentiment.html: 6 under 4.5:1, e.g. {"t":"extreme fear","cr":3.54} | /pulse/posture.html: 7 under 4.5:1, e.g. {"t":"$81,960.00","cr":3.39} | /pulse/leverage.html: 2 under 4.5:1, e.g. {"t":"+0.0100%","cr":3.39}
+FAIL /movers-fixture.html at 375: the table fits its box with its secondary columns hidden, and a toggle sits before it: []
+FAIL /movers-fixture.html at 1440: every column shows and the toggle is not drawn: a column is hidden or the toggle shows
+FAIL /flows.html at 375: the table fits its box with its secondary columns hidden, and a toggle sits before it: []
+FAIL /flows.html at 1440: every column shows and the toggle is not drawn: a column is hidden or the toggle shows
+FAIL /pulse/leverage.html at 375: no table scrolls sideways inside its box (liquidations: the rule, when the Board carries them): {"any":1,"t":[]}
+FAIL Brief archive at 375: one month of entries and a list of months (not every Brief on one page): {"entries":129,"months":0,"h":103789}
+
+== python3 verify_pipeline.py canary, the final pins over main's code: every name check is red on the old name (the canary names each break)
+::error::canary: badges: How we check does not define 'Verified'
+::error::canary: badges: How we check does not define 'Verified, primary source'
+::error::canary: badges: How we check does not define 'Unconfirmed, one report'
+::error::canary: badges: How we check still spells labelled, or lost the single-weak-source sentence
+::error::canary: badges: /standards.html no longer points to How we check
+::error::canary: 9.5 canary: the nav is ['Home', 'Markets', 'Flows', 'Charts', 'News', 'Brief', 'Record', 'Learn', 'About'], not Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About
+::error::canary: 9.5 canary: the phone tab bar is ['markets', 'flows', 'charts', 'news', 'brief'], not Why it moved, Markets, Big movers, Whale Watch, Brief
+::error::canary: 9.5 canary: the phone tab bar's labels are not Why it moved, Markets, Big movers, Whale Watch, Brief
+::error::canary: home canary: Bitcoin is not one line in the tape block
+::error::canary: home canary: the tape does not print the Markets stamp from the snapshot (Readings below are as of 7:11 PM ET on Oct 5)
+::error::canary: home canary: with no narrative.json the band is not the Board's stamp alone: <p class="h-eye">THE BRIEF</p><p class="h-nsmall">The Board as of 7:11 PM ET on Oct 5.</p><p class="h-next">Next Brief t
+::error::canary: home canary: the why does not carry 'Related data: ETF flows'
+::error::canary: home canary: the checked cluster does not carry its badge and the rest the wire mark
+::error::canary: below canary: the Brief card's eyebrow does not name the Brief by slot and day
+::error::canary: conflict canary: git ls-files failed (Command '['git', 'ls-files']' returned non-zero exit status 128.), so nothing was scanned
+::error::canary: live layer: the chart read's headline does not carry its date, or still names the Chart Master
+::error::canary: sprint 7.2: the fixture morning (8:30 AM, Tuesday 13 October): FAIL the eyebrow names Tuesday morning; FAIL the card keeps Monday's Brief and names it
+::error::canary: sprint 7.3: the twins gate test: FAIL W3 exchange still reads: 'Exchange X pauses withdrawals after wallet incident' -> 'Whale net, exchange flows'; FAIL W4 exchange shutdown still reads: 'Bitmex shuts down its spot market' -> 'Whale net, exchange flows'
+::error::canary: sprint 7.3: Bitcoin's high and low: -home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/old-main/scripts/btc_hilo_test.py", line 152, in fast_pages
+::error::canary: chartmaster dated: the card is not titled with its own date
+::error::canary: chartmaster dated: a one-day-old read must still show, under its own date
+::error::canary: wire: the Board reading is not the tag rule's: 'Spot ETF net', 'Stablecoin float'
+::error::canary: news page: the wire block lacks the Markets reading
+::error::canary: news page: the wire block lacks the wire mark
+::error::canary: whale: /pulse prints a zero from an absent read, or does not say what it is waiting for: ''
+::error::canary: build stamp canary: the build cannot name its own commit ('unknown'); every live read would then assert against 'unknown' and pass
+::error::canary: sprint 8.1: the evening record is the Edition's: 'Evening Edition, 7:16 PM ET'
+::error::canary: sprint 8.1: the stamp names the slot and its time, and the next update
+::error::canary: sprint 8.1: mismatched runs say so plainly: "Numbers as of 7:12 PM ET · tonight's Edition did not publish; text from the 8:18 AM read"
+::error::canary: sprint 8.1: 7:50 PM with the Edition failed: 'Next update: Morning read, tomorrow at 8:15 AM ET'
+::error::canary: sprint 8.1: before the Edition slot the reason clause is absent and the next slot is tonight's: 'Numbers as of 7:12 PM ET · text from the 8:18 AM read'
+::error::canary: sprint 8.1: matching runs keep 'Morning Brief, 8:18 AM ET'
+::error::canary: sprint 8.1: matching evening runs keep 'Evening Brief, 7:14 PM ET': 'Evening Edition, 7:14 PM ET'
+::error::canary: sprint 8.1: 8:30 AM: "Numbers as of 8:17 AM ET · this morning's read did not publish; text from last night's 7:14 PM Edition"
+::error::canary: sprint 8.1: 7:00 AM: "Numbers as of 8:17 AM ET · this morning's read has not published yet; text from last night's 7:14 PM Edition"
+::error::canary: sprint 8.1: the fallback page is the template answer, dated today, modified now, next slot tonight
+::error::canary: sprint 8.1: the Brief card links /today/
+::error::canary: sprint 9.1: every page runs the stale-state script, inline at the foot of the body (before the first frame)
+::error::canary: sprint 9.1: the /bottom-line lede no longer says 'once a day'
+::error::canary: sprint 9.4: a second record the same day keeps every URL; the page carries the day's newest verdict
+::error::canary: sprint 9.5: the one table holds the nine names, and each has one name (no second, brand name)
+::error::canary: sprint 9.5: the URLs behind the names did not change (/today/, /pulse.html, /pulse/movers.html, /flows.html, /chartmaster.html, /news.html, /bottom-line.html, /record.html, /learn.html) [KeyError: 'why']
+::error::canary: sprint 9.5: the desktop nav: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About
+::error::canary: sprint 9.5: the phone tab bar is exactly five: Why it moved, Markets, Big movers, Whale Watch, Brief, to /today/, /pulse.html, /pulse/movers.html, /flows.html, /bottom-line.html, and the current page's tab is marked
+::error::canary: sprint 9.5: no nav entry carries a second (brand) name
+::error::canary: sprint 9.5: the title tag's lead is the one name
+::error::canary: sprint 9.5: the nav and the tab bar mark the same group: /today/ and /why/... are Why it moved, /pulse/movers.html is Big movers, a month of the Brief is The Brief
+::error::canary: sprint 9.5: the Markets tiles: ETF flows, Whale flows, Stablecoin supply, Bitcoin fees (section 4's rows)
+::error::canary: sprint 9.5: the wire's reading names follow, and a stored wire file with the old names is read through the table
+::error::canary: sprint 9.5: the home: 'Top story, checked' heads the checked story (not 'The checked story')
+::error::canary: sprint 9.5: the home: the mood block is 'Sentiment' (not 'The mood')
+::error::canary: sprint 9.5: the home: the wire's mark is 'Reported' (not 'Wire') and a reading is 'Related data: ETF flows' (not 'Reads with Spot ETF net'), from a stored wire written under the old name
+::error::canary: sprint 9.5: the home: the money cards read 'ETF flows', 'Whale flows', 'Stablecoin supply'
+::error::canary: sprint 9.5: the home: the link to the daily answer reads 'Why it moved' (not 'Why crypto moved today')
+::error::canary: sprint 9.5: the home: no 'Board' as a place name (the Markets name is the only one)
+::error::canary: sprint 9.5: the home: the Brief card is named 'Morning Brief' or 'Evening Brief' by slot, 'The Brief' when the slot is not named
+::error::canary: sprint 9.5: the funding card reads 'Funding rate, annualized' (not 'Leverage, funding annualized')
+::error::canary: sprint 9.5: the daily answer's slots are 'Morning Brief' and 'Evening Brief'; no 'Edition', no 'Morning read'
+::error::canary: sprint 9.5: a daily-answer record stored before the rename is read through the table (Evening Edition -> Evening Brief) [AttributeError: module 'today' has no attribute 'reader']
+::error::canary: sprint 9.5: the verdict pages and the movers' pages stamp the Brief names
+::error::canary: sprint 9.5: the daily answer's kicker is 'Why it moved' (not 'Today')
+::error::canary: sprint 9.5: the footer: News, Charts, Storylines, Learn, About, Archive, How we check, Corrections (no 'How we work', no 'Standards & corrections')
+::error::canary: sprint 9.5: the footer note names Markets, not the Board
+::error::canary: sprint 9.5: Markets: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+::error::canary: sprint 9.5: Whale Watch: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+::error::canary: sprint 9.5: Charts: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+::error::canary: sprint 9.5: News: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+::error::canary: sprint 9.5: The Brief: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+::error::canary: sprint 9.5: Storylines: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+::error::canary: sprint 9.5: Learn: the H1 is the name, the title tag opens with it, and no kicker or eyebrow prints a second name
+::error::canary: sprint 9.5: Markets: no 'The Board', no 'Markets: The Board', no 'Board' kicker in its title, crumbs or links
+::error::canary: sprint 9.5: Charts: the dated read is 'The chart read, Sep 21', not "Chart Master's read"
+::error::canary: sprint 9.5: the Markets page's chart card is 'The chart read, Oct 15' (not "Chart Master's read")
+::error::canary: sprint 9.5: Storylines: the record page's badges read Tracker, Ongoing story and Sources: (not Living table, Running story, Receipts:)
+::error::canary: sprint 9.5: News: nothing on it is called Checked as a brand, the Board, or Wire as a badge; the kind labels read Markets and Brief
+::error::canary: sprint 9.5: Learn: no 'The Board explained'; the tiles are named as the Markets tiles are
+::error::canary: sprint 9.5: the stablecoin page is 'Stablecoin supply' (not 'Stablecoin dry powder' or 'float')
+::error::canary: sprint 9.5: Whale Watch: the stablecoin flow is 'Stablecoins onto exchanges' (not 'Stablecoin buying power')
+::error::canary: sprint 9.5: with a graded card: it is the first element of the home's first column, before the tape
+::error::canary: sprint 9.5: Bitcoin is one line: the tape block holds the price, the 24-hour change and the stamp, and no chart, no tile
+::error::canary: sprint 9.5: the card Bitcoin used to have (the week's chart, the 24-hour range, the other coins) is under 'Where Bitcoin stands'
+::error::canary: sprint 9.5: group trust could not run [AttributeError: module 'site_build' has no attribute 'render_corrections']
+::error::canary: sprint 9.5: group corrections could not run [AttributeError: module 'site_build' has no attribute 'corrections_log']
+::error::canary: sprint 9.5: group brief could not run [AttributeError: module 'site_build' has no attribute '_brief_months']
+::error::canary: sprint 9.5: the card is after 'Supply and trade' where the page has it
+::error::canary: sprint 9.5: SYNTHETIC (a coin up 31% in 24 hours, the audit's example): no Ledger card on its page
+::error::canary: sprint 9.5: SYNTHETIC (a coin down 12.5%): no Ledger card either
+::error::canary: sprint 9.5: the real 16 October Big mover ETHFI: no Ledger card on its page
+::error::canary: sprint 9.5: the chart's box is reserved: the stage keeps its minimum height (308 px, 378 from 480 px) and the head keeps the room its tabs take, so waking the tabs moves nothing
+::error::canary: sprint 9.5: the timing chart's box is 340 units wide with 12.5-unit labels: 12.6 px in a 343 px column (375), 13.1 px at 390
+::error::canary: sprint 9.5: every label in the drawn chart is 11.5 units or more, and draws at 12 px or more in a 343 px column
+::error::canary: sprint 9.5: the chart is capped at 480 px so its labels never swell past 18 px on a wide column
+::error::canary: sprint 9.5: the home chart's own labels (7D high close, the day names) are 12 px
+::error::canary: sprint 9.5: system.css holds the shared rule: xs-x columns hide below 521 px and the toggle brings them back, no script
+::error::canary: sprint 9.5: Big movers: rank, coin, 24h and grade stay; Beyond Bitcoin, Its usual day and Volume are xs-x, with the toggle before the table
+::error::canary: sprint 9.5: Whale Watch by exchange: net only at 375 (In and Out are xs-x), the toggle before the table
+::error::canary: sprint 9.5: the toggle's checkbox is a real, labelled control (a label for it, a 44 px target)
+::error::canary: sprint 9.5: why_evidence prints 'on Markets', not 'on the Board', for a stored reason [AttributeError: module 'why_evidence' has no attribute '_renamed']
+::error::canary: sprint 9.5: the evidence record the build writes now names Markets in its read-and-unread ledger
+::error::canary: sprint 9.5: the composed Brief page is 'Evening Brief', not 'Evening Edition'
+::error::canary: sprint 9.5: the new pages are additions: /corrections.html is built, and the older Brief months are /bottom-line/<YYYY-MM>.html
+::error::canary: sprint 9.5: /standards.html and /method.html both resolve; the sitemap lists /corrections and every older Brief month
+::error::canary: sprint 9.5: the nav on the built home: Home, Why it moved, Markets, Big movers, Whale Watch, Charts, News, The Brief, Storylines, Learn, About, in that order
+::error::canary: sprint 9.5: the tab bar on the built home: exactly five, Why it moved, Markets, Big movers, Whale Watch, Brief, to the right addresses
+::error::canary: sprint 9.5: /pulse.html: H1 'Markets', title tag opens 'Markets - ', one name
+::error::canary: sprint 9.5: /flows.html: H1 'Whale Watch', title tag opens 'Whale Watch - ', one name
+::error::canary: sprint 9.5: /chartmaster.html: H1 'Charts', title tag opens 'Charts - ', one name
+::error::canary: sprint 9.5: /news.html: H1 'News', title tag opens 'News - ', one name
+::error::canary: sprint 9.5: /bottom-line.html: H1 'The Brief', title tag opens 'The Brief - ', one name
+::error::canary: sprint 9.5: /record.html: H1 'Storylines', title tag opens 'Storylines - ', one name
+::error::canary: sprint 9.5: /learn.html: H1 'Learn', title tag opens 'Learn - ', one name
+::error::canary: sprint 9.5: no built page prints the old name 'the Board' (128 page(s), e.g. onchain-flows.html: ...Crypto, checked. Home Markets The Board Flows Whale Watch Charts Char...)
+::error::canary: sprint 9.5: no built page prints the old name 'The Board explained' (128 page(s), e.g. onchain-flows.html: ...ecord Worth keeping Learn The Board explained About Learn · explainer How t...)
+::error::canary: sprint 9.5: no built page prints the old name 'Chart Master' (128 page(s), e.g. onchain-flows.html: ...oard Flows Whale Watch Charts Chart Master News Checked Brief The Editio...)
+::error::canary: sprint 9.5: no built page prints the old name 'Edition / Morning read' (128 page(s), e.g. onchain-flows.html: ...art Master News Checked Brief The Edition Record Worth keeping Learn Th...)
+::error::canary: sprint 9.5: no built page prints the old name 'Worth keeping' (128 page(s), e.g. onchain-flows.html: ...cked Brief The Edition Record Worth keeping Learn The Board explained Abo...)
+::error::canary: sprint 9.5: no built page prints the old name 'How we work / Standards & corrections' (128 page(s), e.g. onchain-flows.html: ...to Record Learn About Archive How we work Standards & corrections How w...)
+::error::canary: sprint 9.5: no built page prints the old name 'Whale net / Spot ETF net / Stablecoin float / dry powder / buying power / Network fees' (6 page(s), e.g. flows.html: ...ut 1.4x a typical week’s pace Stablecoin buying power no exchange-size moves in 24h...)
+::error::canary: sprint 9.5: no built page prints the old name 'The mood' (1 page(s), e.g. index.html: ...0084% calm, per 8 hours · OKX The mood 59 Fear & Greed Greed 59 yest...)
+::error::canary: sprint 9.5: no built page prints the old name 'The checked story' (1 page(s), e.g. index.html: ...is 59.6% of the whole market. The checked story No wire item cleared the chec...)
+::error::canary: sprint 9.5: no built page prints the old name 'Reads with' (2 page(s), e.g. index.html: ...ement on a public blockchain. Reads with Ether price · 5 sources · The...)
+::error::canary: sprint 9.5: no built page prints the old name 'Leverage, funding annualized' (1 page(s), e.g. pulse.html: ...T on Oct 19 · what this means Leverage, funding annualized +9.2% Bitcoin perp...)
+::error::canary: sprint 9.5: no built page prints the old name 'Living table / Running story / Receipts' (3 page(s), e.g. tables/stablecoin-supply-by-issuer.html: ...wder tile on the Board reads. Living table 15 rows, as of 1:52 AM ET, Oc...)
+::error::canary: sprint 9.5: /method.html as built: no AI disclosure, no personal name
+::error::canary: sprint 9.5: /about.html as built: no AI disclosure, no personal name
+::error::canary: sprint 9.5: /corrections.html as built: no AI disclosure, no personal name
+::error::canary: sprint 9.5: /standards.html as built: no AI disclosure, no personal name
+::error::canary: sprint 9.5: /method.html as built names Crypto Cronkite; /about.html does too
+::error::canary: sprint 9.5: /bottom-line.html as built holds one month and a month list
+::error::canary: home canary: Bitcoin is not one line in the tape block
+::error::canary: home canary: the tape does not print the Markets stamp from the snapshot (Readings below are as of 7:11 PM ET on Oct 5)
+::error::canary: home canary: with no narrative.json the band is not the Board's stamp alone: <p class="h-eye">THE BRIEF</p><p class="h-nsmall">The Board as of 7:11 PM ET on Oct 5.</p><p class="h-next">Next Brief t
+::error::canary: home canary: the why does not carry 'Related data: ETF flows'
+::error::canary: home canary: the checked cluster does not carry its badge and the rest the wire mark
+::error::canary: below canary: the Brief card's eyebrow does not name the Brief by slot and day
+::error::canary: build stamp canary: /stamp.txt says the build could not name its commit
+LAYER 1 CANARY: FAIL (136 problem(s)) -> promotion BLOCKED (exit 1)

@@ -697,7 +697,7 @@ def data_headline(levels):
     rows = [r for r in levels if isinstance(r.get("price"), (int, float))
             and isinstance(r.get("sma200"), (int, float))]
     if not rows:
-        return "Chart Master: levels, 50-day and 200-day lines, RSI"
+        return "Chart data card: levels, 50-day and 200-day lines, RSI"
     above = sum(1 for r in rows if r["price"] > r["sma200"])
     if above == len(rows):
         return "Majors hold above their 200-day lines"
@@ -780,7 +780,7 @@ def run():
     client = llmlib.Client(cfg)
     _CLIENT[0] = client
     system = common.load_prompt("chartmaster.md")
-    user = ("Read today's tape and write the Chart Master's read.\n\n"
+    user = ("Read today's tape and write the chart read.\n\n"
             + json.dumps(data, indent=1))
     cand = [None]
 
@@ -801,7 +801,7 @@ def run():
         "path": path,
     }
     if obj is None:
-        out.update({"headline": "Chart Master data card: levels, 50-day and 200-day lines, RSI",
+        out.update({"headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
                     "paragraphs": [], "data_only": True, "levels": data_card(data)})
     else:
         out.update({"headline": obj["headline"], "paragraphs": obj["paragraphs"]})

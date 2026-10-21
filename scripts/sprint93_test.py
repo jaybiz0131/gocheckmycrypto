@@ -329,11 +329,20 @@ def grade_cases(fails):
     guarded(fails, "SYNTHETIC: outlets name different causes: Disputed, both named",
             lambda: g["grade"] == "Disputed" and len(g["refs"]) == 2)
     g = verdict.grade(synthetic_no_readings(), "BTC", day14())
-    guarded(fails, "SYNTHETIC: an event passes the timing test but the readings do not agree: not Likely, not "
-                   "Unclear, no card (kind no_verdict)", lambda: g["kind"] == "no_verdict" and g["grade"] is None)
+    # CHANGED BY the strategist's October 20 ruling on J-8 (a): this was "no card (kind no_verdict)"; it is now Unclear
+    # with its own line, the event named
+    guarded(fails, "SYNTHETIC: an event passes the timing test but the readings do not agree: Unclear, with the line "
+                   "'A reported event lines up in time, but the market readings do not match it.' and the event named "
+                   "(October 20, J-8 a)",
+            lambda: g["kind"] == "graded" and g["grade"] == "Unclear"
+            and g["line"][0] == "A reported event lines up in time, but the market readings do not match it."
+            and g["refs"] and g["refs"][0]["text"] in g["line"][1])
     g = verdict.grade(rec(D14()), "BTC", {"basis": "rolling_24h", "BTC": 1.4, "ETH": 1.0})
+    # CHANGED BY the strategist's October 20 ruling on J-8 (b): this was kind no_verdict, nothing printed; it is now
+    # kind next_read, and the page prints "Verdict at the next read" in the card's place
     guarded(fails, "SYNTHETIC: the page's window rose while the measured run fell: no card, never a fall's "
-                   "evidence under a rise", lambda: g["kind"] == "no_verdict")
+                   "evidence under a rise; kind next_read, printing 'Verdict at the next read' (October 20, J-8 b)",
+            lambda: g["kind"] == "next_read" and g["grade"] is None and g["line"] == ["Verdict at the next read"])
     r = rec(D14())
     for tst in r["coins"]["BTC"]["tests"]:                                 # both 8:30 AM releases moved to
         if tst["t_utc"] == "2026-10-14T12:30:00Z":                         # 10 PM ET the night before
@@ -344,7 +353,7 @@ def grade_cases(fails):
     guarded(fails, "the definitions follow the rulings: Confirmed needs a primary source; Unclear is no event "
                    "passing the timing test; no definition says 'two outlets' or 'silent'",
             lambda: "primary source" in verdict.DEFINITIONS["Confirmed"]
-            and verdict.DEFINITIONS["Unclear"] == "No reported event passes the timing test."
+            and verdict.DEFINITIONS["Unclear"] == "No reported event passes the timing test with the market readings and the move's direction agreeing."  # CHANGED BY the coordinator's correction of October 20 (J-8 a, J-9 3): the definition must agree with the cards
             and not any(re.search(r"two outlets|silent", d, re.I) for d in verdict.DEFINITIONS.values()))
 
 
@@ -600,8 +609,14 @@ def no_card_cases(fails):
             == '<p class="vd-plain">Ether moved with Bitcoin since midnight ET.</p>'
             and verdict.card_html(v19, "ETH", where="today") == "")
     vn = verdict.record_from(synthetic_no_readings(), "2026-10-14", "evening", day=day14())
-    guarded(fails, "no_verdict: no card, no URL", lambda: verdict.card_html(vn, "BTC") == ""
-            and not vn["coins"]["BTC"].get("url"))
+    # CHANGED BY the strategist's October 20 rulings on J-8: a record with no readings of the hour after, whose event
+    # passes the timing test, is now an Unclear card (a); a window that ran the other way draws the notice (b)
+    guarded(fails, "an event that passes with silent readings draws the Unclear card (October 20, J-8 a); a window that ran "
+                   "the other way draws only 'Verdict at the next read', no URL (J-8 b)",
+            lambda: "Unclear" in verdict.card_html(vn, "BTC") and vn["coins"]["BTC"].get("url")
+            and verdict.card_html(verdict.record_from(synthetic_no_readings(), "2026-10-14", "evening",
+                                                      day={"basis": "rolling_24h", "BTC": 1.4, "ETH": 1.0}), "BTC")
+            == '<p class="vd-plain vd-next">Verdict at the next read</p>')
     d19 = today_rec("2026-10-19-morning")
     page = today.body_html(d19, [], "dated", evidence=r19(), verdict=v19)
     guarded(fails, "/today/2026-10-19 with the real records: no card, no grade word, and 9.2's notes",

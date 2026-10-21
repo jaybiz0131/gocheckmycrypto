@@ -2,10 +2,12 @@
 """
 home.py: the home page, the five-minute read (Program 5, sections 2 and 3; Sprint 2).
 
-Above the fold, phone first at 390, in the order of section 2 and nothing else:
+Above the fold, phone first at 390, in the order of section 2 and nothing else (Sprint 9.5 names them as the
+site does now): the verdict card when Bitcoin's move is graded (it is the first object, an aside and not a block),
+then the tape (Bitcoin in one line), the Brief card, where Bitcoin stands (the chart card, the 200-day average),
+top story checked, what was reported, the money, sentiment, moving today (top 20), today, mine:
 
-    tape, narrative, since yesterday, why, moving the market,
-    the money, the mood, moving today (top 20), today, mine
+    [verdict], tape, narrative, since, why, wire, money, mood, movers, today, mine
 
 The desktop at 1440 is the same blocks in two columns (left: tape to the wire; right: the
 money to mine), so the DOM order is the phone order and the desktop only places it.
@@ -89,6 +91,12 @@ def _tn(key):
     """A destination's task name, from the one table in site_build (Sprint 6.3)."""
     import site_build as sb
     return sb.task_name(key)
+
+
+def _reading(name):
+    """A stored board_reading as a reader sees it (wire.reading_label): the Markets readings were renamed."""
+    import wire as _w
+    return _w.reading_label(name)
 
 
 def _block(name, inner, label=None, cls=""):
@@ -234,19 +242,51 @@ def _coin_tile(name, price_html, chg, gid=None, unchecked=False):
             f'<span class="h-as">{_e(name)}</span>{price_html}{ch}</li>')
 
 
-def tape(snap):
-    import site_build as sb
+def _tape_parts(snap):
+    """(btc, d, chg, asof, read) for the tape: Bitcoin's snapshot entry, its 24-hour direction, the change,
+    the coins' stamp and the coins' read time. None when the snapshot has no Bitcoin price."""
     import snapshot
     btc = snapshot.coin(snap, "BTC")
     if not isinstance(btc.get("price"), (int, float)):
-        return _block("tape", '<p class="h-wait">The tape is waiting for the snapshot\'s '
-                              'Bitcoin price (CoinGecko /coins/markets).</p>')
+        return None
     chg = btc.get("chg_24h_pct")
     d = _dir(chg) if isinstance(chg, (int, float)) else ""
-    # COLOR TRUTH: the price, the badge and the card's glow take one sign, the 24-hour change
-    # printed in the badge beside the price. The week's chart takes its own (tape_chart).
+    read = ((snap.get("fields") or {}).get("coins") or {}).get("read_utc")
+    asof = _stamp(read) or snap.get("stamp_et") or ""
+    return btc, d, chg, asof, read
+
+
+def tape(snap):
+    """BITCOIN IN ONE LINE (Sprint 9.5, AUDIT.md 3.4 move 1): the price, the 24-hour change and the live
+    stamp, and nothing else. The card with the week's chart, the 24-hour range and the other coins is
+    bitcoin_card(), drawn under "Where Bitcoin stands", so the verdict card is the home's first object and
+    Bitcoin's price no longer takes the first screen."""
+    import site_build as sb
+    parts = _tape_parts(snap)
+    if parts is None:
+        return _block("tape", '<p class="h-wait">The tape is waiting for the snapshot\'s '
+                              'Bitcoin price (CoinGecko /coins/markets).</p>')
+    btc, d, chg, asof, read = parts
+    # COLOR TRUTH: the price and the badge take one sign, the 24-hour change printed beside the price.
     chg_html = (change_html(chg, "h-badge", ' data-tape-chg="bitcoin"')
                 if isinstance(chg, (int, float)) else "")
+    inner = (f'<p class="h-bline {d or "flat"}" data-btc-line>'
+             f'<span class="h-name">Bitcoin</span>'
+             f'<span class="h-px {d or "flat"}" data-tape="bitcoin">{_e(sb._price_fmt(btc["price"]))}</span>'
+             f'{chg_html}<span class="h-w">24h</span></p>'
+             f'<p class="h-live" id="tapeLive" data-built="{_e(asof)}"{_asof_attr(read)}>as of {_e(asof)}</p>')
+    return _block("tape", inner)
+
+
+def bitcoin_card(snap):
+    """The Bitcoin card that used to open the home, now under "Where Bitcoin stands": the week's chart, the
+    24-hour high and low, and the other coins' tiles. The price and its change print once, on the tape's line."""
+    import site_build as sb
+    import snapshot
+    parts = _tape_parts(snap)
+    if parts is None:
+        return ""
+    btc, d, chg, asof, read = parts
     week = (snapshot.value(snap, "week") or {}).get("BTC") or {}
     chart = tape_chart(week, sb._price_fmt)
     # THE 24-HOUR HIGH AND LOW, named for their window (13 October 2026). The chart's HIGH and LOW
@@ -269,18 +309,11 @@ def tape(snap):
         alts.append(_coin_tile("All crypto", f'<span class="h-ap">{_e(sb.fmt_usd(cap["usd"]))}'
                                              f'</span>', cap.get("chg_24h_pct"),
                                unchecked=cap.get("chg_state") == "unchecked"))
-    read = ((snap.get("fields") or {}).get("coins") or {}).get("read_utc")
-    asof = _stamp(read) or snap.get("stamp_et") or ""
     inner = (f'<div class="h-btc {d or "flat"}" data-btc-card>'
-             f'<p class="h-name">Bitcoin <span class="h-w">24h</span></p>'
-             f'<p class="h-big"><span class="h-px {d or "flat"}" data-tape="bitcoin">'
-             f'{_e(sb._price_fmt(btc["price"]))}</span>{chg_html}</p>'
              f'{hl24}{chart}</div>'
              f'<ul class="h-coins">{"".join(alts)}</ul>'
-             f'<p class="h-live" id="tapeLive" data-built="{_e(asof)}"{_asof_attr(read)}>as of {_e(asof)}</p>'
-             f'<p class="h-board">Everything below is the Board, as of '
-             f'{_e(snap.get("stamp_et") or asof)}.</p>')
-    return _block("tape", inner)
+             f'<p class="h-board">Readings below are as of {_e(snap.get("stamp_et") or asof)}.</p>')
+    return inner
 
 
 # ---- the narrative band -------------------------------------------------------------------
@@ -303,8 +336,10 @@ _SLOT_NAMES = (("morning", "MORNING"), ("midday", "MIDDAY"), ("evening", "EVENIN
 
 
 def brief_name(ed):
-    """'THE BRIEF · SUNDAY EVENING': the edition it actually is, by its day and its slot.
-    A morning read (morning.json) carries its own date and is always the MORNING slot."""
+    """'EVENING BRIEF · SUNDAY': the Brief it actually is, by its slot and its day (NAMES.md section 4:
+    The Brief, with Morning Brief and Evening Brief for the two editions). A morning read
+    (morning.json) carries its own date and is always the Morning Brief. A slot the file does not name
+    prints 'THE BRIEF · SUNDAY'."""
     if not ed:
         return "THE BRIEF"
     slug = str(ed.get("slug") or ed.get("id") or "")
@@ -313,8 +348,8 @@ def brief_name(ed):
         day = _dt.date.fromisoformat(str(ed.get("date") or ed.get("date_et"))[:10]).strftime("%A").upper()
     except ValueError:
         day = ""
-    tail = " ".join(x for x in (day, slot) if x)
-    return "THE BRIEF" + (f" \u00b7 {tail}" if tail else "")
+    head = f"{slot} BRIEF" if slot else "THE BRIEF"
+    return head + (f" \u00b7 {day}" if day else "")
 
 
 def next_slot(now=None):
@@ -379,7 +414,7 @@ def _brief_title(ed):
 
 
 # PROGRAM 8, SPRINT 8.1: one line under the Brief card sends a reader to the daily answer.
-TODAY_LINK = '<p class="h-today"><a href="/today/">Why crypto moved today &rarr;</a></p>'
+TODAY_LINK = '<p class="h-today"><a href="/today/">Why it moved &rarr;</a></p>'
 
 
 def _cites(html_text, date_et):
@@ -421,7 +456,7 @@ def narrative_band(narr, snap, ed=None, now=None, morning=None):
     stamp = snap.get("stamp_et") or ""
     if not line:
         return _block("narrative", eye + head + last_html
-                      + f'<p class="h-nsmall">The Board as of {_e(stamp)}.</p>' + nxt + TODAY_LINK,
+                      + f'<p class="h-nsmall">Markets as of {_e(stamp)}.</p>' + nxt + TODAY_LINK,
                       cls="h-band")
     # the small line names the readings the sentence was written from and prints none of
     # their figures (Sprint 6.2): each prints once on the page, Bitcoin's day change on the
@@ -459,10 +494,11 @@ def gap_bar(gap):
             f'</span>')
 
 
-def since(pulse, deltas):
-    """Since yesterday (Sprint 6.2): Bitcoin against its 200-day average first, then
-    Bitcoin's share of the whole market. No day change here: Bitcoin's prints on the tape
-    only, the whole market's on the tape, and Fear & Greed's in the mood."""
+def since(pulse, deltas, card=""):
+    """Where Bitcoin stands (Sprint 6.2; Sprint 9.5): the card that used to open the page (the week's chart,
+    the 24-hour range, the other coins), then Bitcoin against its 200-day average, then Bitcoin's share of
+    the whole market. No day change here: Bitcoin's prints on the tape's line only, the whole market's
+    beside the other coins, and Fear & Greed's in the sentiment block."""
     import site_build as sb
     rows = []
     btc = sb._btc(pulse) or {}
@@ -481,9 +517,9 @@ def since(pulse, deltas):
         rows.append(f'<li>Bitcoin is <span class="h-d">{dom:.1f}%</span> of the whole '
                     f'market.</li>')
     if not rows:
-        return _block("since", '<p class="h-wait">Waiting for the Board\'s readings.</p>',
+        return _block("since", card + '<p class="h-wait">Waiting for the 200-day and dominance readings.</p>',
                       "Where Bitcoin stands")
-    return _block("since", f'<ul class="h-since">{"".join(rows)}</ul>', "Where Bitcoin stands")
+    return _block("since", card + f'<ul class="h-since">{"".join(rows)}</ul>', "Where Bitcoin stands")
 
 
 # ---- the why and the wire -----------------------------------------------------------------
@@ -497,20 +533,20 @@ def why(wire, now=None):
     items = {w.get("id"): w for w in _wire_items(wire)}
     if wire is None:
         return _block("why", f'<p class="h-wait">The day\'s checked note arrives with the '
-                             f'Edition at {_e(edition_time_et(now))}.</p>', "The checked story")
+                             f'Edition at {_e(edition_time_et(now))}.</p>', "Top story, checked")
     w = items.get(note.get("id")) if note else None
     if not note or not w:
         return _block("why", '<p class="h-wait">No wire item cleared the checks today, so '
-                             'there is no checked note.</p>', "The checked story")
+                             'there is no checked note.</p>', "Top story, checked")
     src = note.get("source") or ((w.get("links") or [{}])[0]).get("url") or ""
-    reads = (f'<p class="h-reads">Reads with {_e(w["board_reading"])}</p>'
+    reads = (f'<p class="h-reads">Related data: {_e(_reading(w["board_reading"]))}</p>'
              if w.get("board_reading") else "")
     link = (f' <a href="{_e(src)}" rel="noopener">The source</a>' if src else "")
     return _block("why", f'<p><span class="badge verified">{_e(note.get("badge"))}</span></p>'
                          f'<h3 class="h-why-h">{_e(w["line"])}</h3>'
                          f'<p class="h-why-p">{_e(note.get("says"))} '
                          f'{_e(note.get("unconfirmed"))}{link}</p>{reads}',
-                  "The checked story")
+                  "Top story, checked")
 
 
 def wire_top(wire, cadence, now=None):
@@ -528,11 +564,11 @@ def wire_top(wire, cadence, now=None):
         lead = links[0] if links else {}
         checked = bool(note) and note.get("id") == w.get("id")
         mark = (f'<span class="badge verified">{_e(note.get("badge"))}</span>' if checked
-                else '<span class="h-wm">Wire</span>')
+                else '<span class="h-wm">Reported</span>')
         n = int(w.get("source_count") or 0)
         bits = []
         if w.get("board_reading"):
-            bits.append(f'Reads with {_e(w["board_reading"])}')
+            bits.append(f'Related data: {_e(_reading(w["board_reading"]))}')
         bits.append(f'{n} source{"" if n == 1 else "s"}')
         if w.get("primary"):
             bits.append('<span class="h-prim">Primary source</span>')
@@ -597,7 +633,7 @@ def t_etf(snap, pulse):
         since_t = f"Net {word}; no session before it on record"
     day = sb.us_date(b.get("latest_date")) or b.get("latest_date")
     return tile.render("etf-net", fig, direction=_dir(net),
-                       window=f"one trading day, {day}", since=since_t,
+                       window=f"spot Bitcoin ETFs, net, one trading day, {day}", since=since_t,
                        source=src.split(" (")[0], stamp=st)
 
 
@@ -669,7 +705,7 @@ def t_leverage(snap, pulse):
     ann, v = f.get("funding_annual_pct"), f.get("funding_8h_pct")
     if not isinstance(ann, (int, float)) or not isinstance(v, (int, float)) or not st:
         return ""
-    return tile.render("funding", f"{ann:+.1f}%", label="Leverage, funding annualized",
+    return tile.render("funding", f"{ann:+.1f}%", label="Funding rate, annualized",
                        window=f"Bitcoin perpetual, {v:+.4f}% per 8 hours times 1,095",
                        since=_funding_since(narrative.funding_band(v), pulse),
                        source=f.get("venue") or "OKX", stamp=st)
@@ -795,7 +831,7 @@ def c_etf(snap):
     fig = (f"{'+' if net > 0 else '-' if net < 0 else ''}{sb.fmt_usd(abs(net) * 1e6)}"
            if net else "flat")
     day = sb.us_date(b.get("latest_date")) or b.get("latest_date") or ""
-    return tile.card("etf-net", fig, f"one trading day, {day} \u00b7 {src.split(' (')[0]}",
+    return tile.card("etf-net", fig, f"spot Bitcoin ETFs, net \u00b7 one trading day, {day} \u00b7 {src.split(' (')[0]}",
                      direction=_dir(net))
 
 
@@ -807,7 +843,7 @@ def c_whale(snap, flows):
         return ""
     amt, words, cls = sb.flow_words(wv["net_usd"])
     return tile.card("whale-net", amt, f"{words}, {sb._win_phrase(wv.get('window_hours', 24))}"
-                                       f" \u00b7 Whale Alert", label="Whales", direction=cls)
+                                       f" \u00b7 Whale Alert", label="Whale flows", direction=cls)
 
 
 def c_float(snap):
@@ -817,7 +853,7 @@ def c_float(snap):
     if not isinstance((stv or {}).get("total_usd"), (int, float)):
         return ""
     return tile.card("stablecoin-float", sb.fmt_usd(stv["total_usd"]),
-                     f"all stablecoins, now \u00b7 {src.split(' ')[0]}", label="Stablecoins")
+                     f"all stablecoins, now \u00b7 {src.split(' ')[0]}", label="Stablecoin supply")
 
 
 def c_funding(snap):
@@ -872,7 +908,7 @@ def mood(snap, pulse, deltas):
     fg, src, st = _field(snap, "fear_greed")
     if not isinstance((fg or {}).get("value"), (int, float)) or not st:
         return _block("mood", '<p class="h-wait">Waiting for the snapshot\'s Fear &amp; Greed '
-                              'reading.</p>', "The mood")
+                              'reading.</p>', "Sentiment")
     val = fg["value"]
     word = sb._fng_band(val)
     fd = (deltas or {}).get("fng") or {}
@@ -883,7 +919,7 @@ def mood(snap, pulse, deltas):
              f'<div class="h-mood-r"><p class="h-mood-l"><a href="/learn.html#fear-greed">'
              f'Fear &amp; Greed</a></p><p class="h-mood-w">{_e(word)}</p>{prev}'
              f'<p class="h-mood-src">alternative.me &middot; {_e(st)}</p></div></div>')
-    return _block("mood", inner, "The mood")
+    return _block("mood", inner, "Sentiment")
 
 
 # ---- moving today, today, mine ------------------------------------------------------------
@@ -1075,23 +1111,34 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
                morning=None, verdict=None):
     """The ten blocks of section 2, in order, as one string. `ed` is the day's edition
     (site_build.current_bottom_line), which the Brief card names. `verdict` (Sprint 9.3) is the
-    current verdict record: Bitcoin's card prints under the Brief card as an aside, not a block, so
-    section 2's ten blocks and their order stand (9.5 moves the card first)."""
+    current verdict record.
+
+    THE ANSWER FIRST (Sprint 9.5, AUDIT.md 3.4 move 1): when Bitcoin's verdict is graded, its card is the
+    home's FIRST object, ahead of the ten blocks, at 375 and at 1440 (the left column's top). Bitcoin
+    shrinks to one line (the tape block). When there is no graded card (a flat day on the ET day, no
+    verdict yet, a verdict outside its window, the cap reached) nothing stands in for it: no empty slot,
+    no invented card. The first object is then the tape's one line, and the Brief card, the desk's own
+    read of the day, follows it at once."""
     blocks = {
         "tape": tape(snap), "narrative": narrative_band(narr, snap, ed, now, morning),
-        "since": since(pulse, deltas), "why": why(wire, now),
+        "since": since(pulse, deltas, bitcoin_card(snap)), "why": why(wire, now),
         "wire": wire_top(wire, cadence, now), "money": money(snap, pulse, flows, deltas),
         "mood": mood(snap, pulse, deltas), "movers": movers(snap),
         "today": today(cal, now), "mine": mine(),
     }
-    card = ""
+    card, graded = "", False
     if verdict:
         try:
             import verdict as _verdict
             card = _verdict.card_html(verdict, "BTC", where="home", live=True)
-        except Exception:                            # fail open: the home as it was
-            card = ""
-    left = "".join(blocks[k] + (card if k == "narrative" else "") for k in LEFT)
+            graded = ((verdict.get("coins") or {}).get("BTC") or {}).get("kind") == "graded"
+        except Exception:                            # fail open: the home without a card
+            card, graded = "", False
+    if graded:
+        left = card + "".join(blocks[k] for k in LEFT)
+    else:
+        # a withheld verdict (the day's cap) is the desk's notice, not an answer: it follows the tape's line
+        left = blocks["tape"] + card + "".join(blocks[k] for k in LEFT[1:])
     right = "".join(blocks[k] for k in ABOVE_FOLD if k not in LEFT)
     return (f'<div class="h-cols" data-fold="above"><div class="h-l">{left}</div>'
             f'<div class="h-r">{right}</div></div>')

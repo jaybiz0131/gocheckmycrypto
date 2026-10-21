@@ -101,7 +101,7 @@ def onchain_flows_body():
      it, off or onto, is just the sign of that subtraction stated in English.</p>
   <p><strong>Stablecoins are scored separately, and this is the part most flow coverage
      gets backwards.</strong> A stablecoin moving onto an exchange is not sell pressure,
-     it is buying power arriving: dollars staged where they can buy something. Folding
+     it is money arriving to buy: dollars staged where they can buy something. Folding
      stablecoins into the same net as bitcoin would make incoming purchasing power look
      identical to incoming supply. So our board scores the sell-pressure signal on
      volatile assets only and reports stablecoin inflow separately, as its own line.

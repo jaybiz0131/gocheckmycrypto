@@ -13,9 +13,9 @@ build_note: RESOLVED 2026-09-13. Threshold confirmed against whale_flows.py FALL
 
 # Whale flows: what coins moving onto and off exchanges mean
 
-*Every large transfer on the blockchain is public. Whale Watch sorts the biggest ones into two piles, coins moving onto exchanges and coins moving off, and the Board shows the net. Here is why that direction matters and when it fools people.*
+*Every large transfer on the blockchain is public. Whale Watch sorts the biggest ones into two piles, coins moving onto exchanges and coins moving off, and Markets shows the net. Here is why that direction matters and when it fools people.*
 
-[LIVE FROM THE BOARD: net 24-hour flow, direction, largest single transfer, as-of stamp, source. Link: See it on the Board.]
+[LIVE FROM THE BOARD: net 24-hour flow, direction, largest single transfer, as-of stamp, source. Link: See it on Markets.]
 
 ## What it measures
 
@@ -25,7 +25,7 @@ Onto an exchange: the coins moved from a private wallet into an exchange wallet.
 
 Off an exchange: the coins moved from an exchange into a private wallet. Coins in private storage cannot be sold until they move again, so this is coins being positioned to hold.
 
-The Board nets the two over the last 24 hours. A net figure "onto exchanges" means more coins arrived at exchanges than left. A net figure "off exchanges" means the reverse.
+Markets nets the two over the last 24 hours. A net figure "onto exchanges" means more coins arrived at exchanges than left. A net figure "off exchanges" means the reverse.
 
 ## Why it moves the market
 
@@ -47,16 +47,16 @@ The other blind spot is trades that never touch the chain. Large holders often s
 
 ## Where the data comes from
 
-Transfers come from the Whale Alert public feed, which watches the major chains for large movements and labels known exchange and custodian addresses. The Board reads it at every site build. Whale Watch is labeled market data, not news, because it reports what moved and where, never why.
+Transfers come from the Whale Alert public feed, which watches the major chains for large movements and labels known exchange and custodian addresses. Markets reads it at every site build. Whale Watch is labeled market data, not news, because it reports what moved and where, never why.
 
-## Related on the Board
+## Related on Markets
 
 Spot ETF flows: the buyer side of the same day. Read the two together.
 
-Stablecoin dry powder: the dollars sitting on exchanges that could meet incoming coins.
+Stablecoin supply: the dollars sitting on exchanges that could meet incoming coins.
 
 Leverage: heavy deposits into a highly leveraged market are the setup for sharp moves.
 
-[Back to the Board]
+[Back to Markets]
 
 *This page is education, not advice. Do your own research.*

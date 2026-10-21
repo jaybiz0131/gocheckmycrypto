@@ -3,7 +3,7 @@
    built. Older than its window (data-asof-hours, default 3) it prints its age beside its stamp
    and its figure dims. No storage, no network, no library. A page that never runs this
    still carries the build's own statement of age. */
-(function () {
+window.gcmAsof = function () {
   'use strict';
   var now = Date.now();
   var els = document.querySelectorAll('[data-asof]');
@@ -39,4 +39,5 @@
       ago[k].textContent += ', outside the 24-hour window';
     }
   }
-})();
+};
+window.gcmAsof();
