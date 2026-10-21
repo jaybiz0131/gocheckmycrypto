@@ -2060,6 +2060,7 @@ def _stamp_canary():
             fails.extend(_sprint95_canary(out))
             fails.extend(_sprint95b_canary(out))
             fails.extend(_sprint96_canary(out))
+            fails.extend(_sprint96h_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -3344,6 +3345,26 @@ def _sprint96_canary(out):
     finally:
         for m in ("sprint96_test", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
             _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint96h_canary(out):
+    """HOTFIX 9.6h (21 October 2026): the ETF table never vanishes. scripts/sprint96h_test.py holds the cases (the refresh
+    keeping the last good copy of every table it failed to fetch, each living table page built from its stored copy and
+    marked stale with its own as-of date, or saying Not read yet when nothing is stored) and the cases that read the tree this
+    build wrote (all three tables/ pages built and in the sitemap, each saying what it is). The helper is taken out of
+    sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint96h_test as _s96h
+        fails = ["sprint 9.6h: " + f for f in _s96h.unit()]
+        fails += ["sprint 9.6h: " + f for f in _s96h.tree(out)]
+    finally:
+        _sys.modules.pop("sprint96h_test", None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
     return fails
