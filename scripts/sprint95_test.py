@@ -291,7 +291,9 @@ def front_cases(fails):
     tape = re.search(r'<section class="h-b h-tape" data-block="tape">.*?</section>', card, re.S).group(0)
     guarded(fails, "Bitcoin is one line: the tape block holds the price, the 24-hour change and the stamp, and no chart, no tile",
             lambda: "<svg" not in tape and "h-chart" not in tape and "h-coins" not in tape and 'class="h-bline' in tape
-            and len(re.findall(r"\$[\d,]+", visible(tape))) == 1 and "24h" in visible(tape))
+            and len(re.findall(r"\$[\d,]+", visible(re.sub(r"<p [^>]*data-wide[^>]*>.*?</p>", "", tape, flags=re.S)))) == 1 and "24h" in visible(tape))
+    # (Sprint 9.5b: the Ether line, marked data-wide and display:none under 1280, is cut out before the count: it is not drawn where 9.5's
+    # one-line Bitcoin is judged, and scripts/sprint95b_test.py holds it to account.)
     since = re.search(r'<section class="h-b h-since" data-block="since">.*?</section>', card, re.S).group(0)
     guarded(fails, "the card Bitcoin used to have (the week's chart, the 24-hour range, the other coins) is under 'Where Bitcoin stands'",
             lambda: "h-chart" in since and "data-hl24" in since and "h-coins" in since and "Where Bitcoin stands" in since)

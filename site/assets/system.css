@@ -670,3 +670,35 @@ body .cn-cold .cn-cold-d{font:13px/1.5 var(--sans);color:var(--muted)}
 @media (max-width:699.98px){.tabbar{height:calc(57px + env(safe-area-inset-bottom));overflow:hidden;grid-template-columns:repeat(5,minmax(0,1fr))}.tb-item{min-height:0;height:56px;justify-content:flex-start;padding-top:9px}}
 /* the five columns are fixed before the fifth tab is parsed: a slow phone may paint the bar half built, and the tabs
    already there must not move when the rest arrive */
+
+/* ===== Program 9, Sprint 9.5b (20 October 2026): the desktop board =====
+   From 1280 pixels the home's front is a glance board: the verdict card across the top of the left area, Bitcoin and
+   Ether on one line each under it, then the Brief beside "Where Bitcoin stands", with the money, the mood and Big
+   movers in the right column, so the first screen at 1440 shows every section's first line. Under 1280 nothing
+   here applies: the one rule outside the media query hides the Ether line, which exists only for this width. No new
+   token, face or color: type, ink, line and the cards are the site's. */
+body .h-eline{display:none}
+@media (min-width:1280px){
+  body .h-cols{grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:0 36px}
+  body .h-l{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:36px;align-content:start}
+  body .h-l>*{min-width:0}
+  body .h-l>aside.vd{grid-column:1 / -1;grid-row:1;max-width:none}
+  body .h-l>[data-block="tape"]{grid-column:1 / -1;grid-row:2}
+  body .h-l>[data-block="narrative"]{grid-column:1;grid-row:3;align-self:start}
+  body .h-l>[data-block="since"]{grid-column:2;grid-row:3 / span 3}
+  body .h-l>[data-block="why"]{grid-column:1;grid-row:4}
+  body .h-l>[data-block="wire"]{grid-column:1;grid-row:5}
+  body .h-tape{display:grid;grid-template-columns:minmax(0,1fr) minmax(max-content,calc(50% - 18px));column-gap:24px;align-items:center}  /* Ether starts on the board's column line when its line fits there, and never wraps to find it */
+  body .h-tape .h-bline{grid-column:1;grid-row:1}
+  body .h-tape .h-eline{display:flex;grid-column:2;grid-row:1}
+  body .h-tape .h-live{grid-column:1 / -1;grid-row:2;max-width:none}
+  body .h-eline:has(.h-badge.up) .h-px{color:var(--up)}
+  body .h-eline:has(.h-badge.down) .h-px{color:var(--down)}
+  body .h-coins{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body .h-coin[data-tile="ethereum"]{display:none}
+}
+/* ===== end Sprint 9.5b ===== */
+
+/* ===== Sprint 9.5b, J-11 rule 1: the live stamp keeps three lines below 521 px (strategist's ruling, October 20, 2026, 3:35 PM ET) ===== */
+@media (max-width:520.98px){body .h-tape .h-live{min-height:54.45px}}
+/* ===== end J-11 rule 1 ===== */
