@@ -2060,6 +2060,7 @@ def _stamp_canary():
             fails.extend(_sprint95_canary(out))
             fails.extend(_sprint95b_canary(out))
             fails.extend(_sprint96_canary(out))
+            fails.extend(_sprint97_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -2841,6 +2842,20 @@ def _color_truth_canary(built_pages=None):
 HOME_BUDGET_BYTES = 300 * 1024      # Program 5 section 7: the home page under 300 KB
 HOME_HOSTS = ("api.coingecko.com",   # the tape's live read; everything else is this site
               "static.cloudflareinsights.com")  # the analytics beacon, named by the ruling of 12 October 2026
+
+
+def home_hosts(live_url=None):
+    """The hosts the home page may request: HOME_HOSTS, and, once Jack has deployed the Worker's live-price route and the
+    build names it (site_build.LIVE_PRICE_URL, Sprint 9.7), that one host and no other. `live_url` None reads the build's."""
+    if live_url is None:
+        try:
+            import site_build as _sbh
+            live_url = _sbh.LIVE_PRICE_URL
+        except Exception:                                    # noqa: BLE001
+            live_url = ""
+    import re as _rh
+    m = _rh.match(r"https://([^/]+)", live_url or "")
+    return HOME_HOSTS + ((m.group(1),) if m else ())
 BEACON_BYTES = 31679                 # static.cloudflareinsights.com/beacon.min.js, as served, measured 12 October 2026
 BEACON_CEILING = 40 * 1024           # the beacon's own named allowance; a beacon that grows past it is a red
 
@@ -2875,7 +2890,7 @@ def _home_budget_canary(out, index_html):
         for u in _re.findall(r"""['"](https?://[^'"\s]+)""", sc):
             urls.add(u)
     third = sorted({_re.match(r"https?://([^/]+)", u).group(1) for u in urls
-                    if _re.match(r"https?://", u)} - set(HOME_HOSTS) - {"gocheckmycrypto.com"})
+                    if _re.match(r"https?://", u)} - set(home_hosts()) - {"gocheckmycrypto.com"})
     _check(not third, fails, f"home budget canary: the home page requests a third host: "
                              f"{', '.join(third)}")
     local = {u.split("?")[0].split("#")[0] for u in urls if not _re.match(r"https?://|data:", u)}
@@ -3343,6 +3358,29 @@ def _sprint96_canary(out):
         fails += ["sprint 9.6: " + f for f in _s96.tree(out, expect_pages=True)]
     finally:
         for m in ("sprint96_test", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint97_canary(out):
+    """PROGRAM 9, SPRINT 9.7 (21 October 2026): app-ready feeds and the search pass. scripts/sprint97_test.py holds the cases:
+    the one stale rule, each feed's shape and every shown figure on its page, the events from stored records, the backfill
+    refusing an unstored day, the Worker route's own cases, the fallback, the titles and the coin h1, the watchlist's
+    script (no request, no cookie), and on the tree this build wrote, every feed read against its page. The browser half
+    (the watchlist with no network and no cookie, the live route absent, present, stale and failing, CLS) is
+    scripts/sprint97_browser.mjs, run by the tree cases when node and playwright are here. The helpers are taken out of
+    sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint97_test as _s97
+        fails = ["sprint 9.7: " + f for f in _s97.unit()]
+        fails += ["sprint 9.7: " + f for f in _s97.tree(out)]
+    finally:
+        for m in ("sprint97_test", "sprint96_test", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
             _sys.modules.pop(m, None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)

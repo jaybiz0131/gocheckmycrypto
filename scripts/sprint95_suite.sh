@@ -29,6 +29,7 @@ run "scripts/sprint94_test.py " python3 scripts/sprint94_test.py
 run "scripts/sprint95_test.py --tree $TREE" python3 scripts/sprint95_test.py --tree "$TREE"
 run "scripts/sprint95b_test.py --tree $TREE" python3 scripts/sprint95b_test.py --tree "$TREE"
 run "scripts/sprint96_test.py --tree $TREE" python3 scripts/sprint96_test.py --tree "$TREE"
+run "scripts/sprint97_test.py --tree $TREE" python3 scripts/sprint97_test.py --tree "$TREE"
 run "scripts/twins_gate_test.py " python3 scripts/twins_gate_test.py
 rm -f "$LOG.tmp" "$LOG.out"
 echo "SUITE: $n scripts, $bad with a non-zero exit" >> "$LOG"

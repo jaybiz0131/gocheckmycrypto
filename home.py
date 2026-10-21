@@ -1190,8 +1190,24 @@ HOME_JS = """<script>(function(){
   function etClock(){try{return new Date().toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'})+' ET';}catch(e){return '';}}
   function px(n){return '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:n>=1?2:6,maximumFractionDigits:n>=1?2:6});}
   function pc(p){return (p>=0?'+':'')+p.toFixed(2)+'%';}
-  fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true')
-   .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){
+  // ===== Sprint 9.7: the Worker route (scripts/sprint95b_test.py cuts this block out and holds the rest to Sprint 9.5's text) =====
+  // SPRINT 9.7: the Worker route first, when the page names one (a gcm-live-prices meta, written only after Jack deploys
+  // the route, J-5); used only when it answers OK, fresh (stale is false), inside 3 seconds and with a Bitcoin price. Any other
+  // outcome, and a page with no meta, is the CoinGecko read below, as it always was.
+  var LM=document.querySelector('meta[name="gcm-live-prices"]'),LIVE=LM?LM.getAttribute('content'):'';
+  function cg(){return fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true')
+   .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();});}
+  function viaRoute(){
+    if(!LIVE||!window.fetch)return Promise.resolve(null);
+    var ac=window.AbortController?new AbortController():null,tm=ac?setTimeout(function(){ac.abort();},3000):0;
+    return fetch(LIVE+'?ids=bitcoin,ethereum,solana,ripple',ac?{signal:ac.signal}:{})
+      .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+      .then(function(d){clearTimeout(tm);
+        return d&&d.stale===false&&d.simple&&d.global&&d.simple.bitcoin&&typeof d.simple.bitcoin.usd==='number'?d:null;})
+      .catch(function(){clearTimeout(tm);return null;});
+  }
+  (LIVE?viaRoute().then(function(d){return d?d.simple:cg();}):cg()).then(function(d){
+  // ===== end Sprint 9.7 =====
     var landed=0;
     document.querySelectorAll('[data-tape]').forEach(function(el){
       var v=d[el.getAttribute('data-tape')]; if(!v||typeof v.usd!=='number')return;

@@ -52,6 +52,9 @@ MARK_END = "/* ===== end Sprint 9.5b ===== */"
 
 # Sprint 9.5's HOME_JS, hashed on October 20, 2026 at 2453529. 9.5b edits no script and adds none.
 HOME_JS_SHA256 = "4df64baaee46fe975e1d2e2bf832e6f6eb270fe3c053628e460c8cf02a4995e4"
+# the two lines of Sprint 9.5's script that Sprint 9.7's marked block replaces (the tape's one CoinGecko read)
+HOME_JS_95_FETCH = ("  fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true')\n"
+                    "   .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(d){\n")
 # The script elements on Sprint 9.5's built home (ld+json, the as-of script and its call twice, the beacon, the tape's script,
 # the hero and motion scripts, the service worker registration).
 HOME_SCRIPT_COUNT_95 = 9
@@ -309,8 +312,15 @@ def markup_cases(fails):
     guarded(fails, "SYNTHETIC: a Board with no Bitcoin price draws the tape's waiting line and no Ether line (the tape's own fallback)",
             lambda: "data-eth-line" not in home.tape(s4))
     # no script was edited or added, and the beacon is not the 9.5b's to touch
-    guarded(fails, "the tape's script is Sprint 9.5's (HOME_JS hashes the same): no new script, none edited",
-            lambda: hashlib.sha256(home.HOME_JS.encode()).hexdigest() == HOME_JS_SHA256)
+    # Sprint 9.7 (the Worker live-price route, named by the board) adds one marked block to this script and replaces the two
+    # lines it wraps; with that block cut out and those two lines put back, the script is Sprint 9.5's text, byte for byte
+    def _js95(js):
+        a = js.index("  // ===== Sprint 9.7: the Worker route")
+        e = "  // ===== end Sprint 9.7 =====\n"
+        b = js.index(e) + len(e)
+        return js[:a] + HOME_JS_95_FETCH + js[b:]
+    guarded(fails, "the tape's script is Sprint 9.5's (HOME_JS hashes the same, with Sprint 9.7's one marked block cut out): no new script, none edited",
+            lambda: hashlib.sha256(_js95(home.HOME_JS).encode()).hexdigest() == HOME_JS_SHA256)
 
 
 # ---- 4. the glance board's structure, from the CSS ----------------------------------------------------------------------------
