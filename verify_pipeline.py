@@ -5222,9 +5222,13 @@ def _merge_state_canary():
     # staging the market boards it had always refreshed and thrown away. Both are
     # regenerated snapshots rather than records, and merge_board keeps the one whose
     # DATA is newer, so an auto-resolve here cannot lose reporting.
+    # living-tables.json joined on 2026-10-21 (hotfix 9.6h), when the two publish steps
+    # started staging the last good copy of each living table. merge_living keeps, per
+    # table, the later stamp, and never drops a table only one side holds, so an
+    # auto-resolve here cannot lose a stored table.
     _check(set(ms.KNOWN) == {"editorial-log.json", "regwatch.json",
                              "site/data/chartmaster.json", "site/data/pulse.json",
-                             "site/data/flows.json"}, fails,
+                             "site/data/flows.json", "site/data/living-tables.json"}, fails,
            "merge_state: the auto-resolve allowlist changed; anything added here can "
            "silently overwrite real work during a rebase")
     # the board merger must pick by data age, never by which file was written last
