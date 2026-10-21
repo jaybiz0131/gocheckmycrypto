@@ -75,6 +75,10 @@ PLANTS = [
  ("definitions: Disputed leaves out events pointing opposite ways", "verdict.py", '''or "
                 "the events that pass point opposite ways.",''', '''or "
                 "another passes.",'''),
+ ("merge canary: the coin pages check expects the Ledger card on every coin again", "scripts/coin_pages_test.py", "past = f[:-5].lower() in no_ledger", "past = False"),
+ ("merge canary: the coin pages check's mover line is 20 percent, not the gate's 10", "scripts/coin_pages_test.py", 'abs(chg) >= mv.GATE["move_min_pct"]', 'abs(chg) >= 20'),
+ ("merge canary: the data card's headline names the Chart Master again", "chartmaster.py", '"headline": "Chart data card: levels, 50-day and 200-day lines, RSI"', '"headline": "Chart Master data card: levels, 50-day and 200-day lines, RSI"'),
+ ("merge canary: the data card table loses its scroll wrapper (the chart page widens at 375)", "site/assets/site.css", ".tbl-wrap{overflow-x:auto;max-width:100%;margin:10px 0}", ".tbl-wrap{margin:10px 0}"),
 ]
 def run(cwd, extra=()):
     t = time.time()

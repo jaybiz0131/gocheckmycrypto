@@ -239,7 +239,7 @@ def page_name_cases(fails):
             and ">Board</a>" not in mk)
     cmh = pages["Charts"]()
     guarded(fails, "Charts: the dated read is 'The chart read, Sep 21', not \"Chart Master's read\"",
-            lambda: "The chart read, Oct 15" in visible(cmh) and "Chart Master" not in visible(cmh))
+            lambda: "The chart read, Oct 15" in visible(cmh) and "Chart Master" not in visible(STORED_READS.sub("", cmh)))
     saved_now = sb._NOW_CACHE
     try:
         sb._NOW_CACHE = dt.datetime(2026, 10, 15, 23, 50, tzinfo=UTC)
@@ -672,6 +672,63 @@ def rulings_cases(fails):
                    + (f" (found {m.group(0)!r})" if m else ""), lambda: not m)
     guarded(fails, "J-10: the prompt's flow names are NAMES.md's (ETF flows, Whale flows, Stablecoin supply)",
             lambda: "ETF flows" in prompt and "whale flows" in prompt.lower() and "stablecoin supply" in prompt.lower())
+    # --- the merge-time canary failures on tonight's real data (October 20, 2026, 8:30 PM) ----------------------------
+    import chartmaster as _cm
+    import inspect as _ins
+    src = _ins.getsource(_cm)
+    guarded(fails, "chartmaster.py writes NAMES.md's names in the text it generates (the data card's headline, the model's "
+                   "instruction): no 'Chart Master' in them",
+            lambda: "Chart Master data card" not in src and 'return "Chart Master: levels' not in src
+            and "write the Chart Master's read" not in src)
+    guarded(fails, "the data card's headline names the chart read, not the Chart Master",
+            lambda: _cm.headline_from_levels([]) == "Chart data card: levels, 50-day and 200-day lines, RSI"
+            if hasattr(_cm, "headline_from_levels") else "Chart data card: levels, 50-day and 200-day lines, RSI" in src)
+    import coin_pages_test as _cpt
+    import tempfile as _tf
+    import site_build as _sb
+    real_pulse, real_rec = _sb.load_pulse, _sb._movers_rec
+    try:
+        _sb.load_pulse = lambda: {"generated_utc": "2026-10-20T23:00:00Z", "movers": {"top100": [
+            {"symbol": "BIG", "chg_24h_pct": 12.0}, {"symbol": "CALM", "chg_24h_pct": 1.0}, {"symbol": "DROP", "chg_24h_pct": -10.0}]}}
+        _sb._movers_rec = lambda m=None: {}
+        guarded(fails, "SYNTHETIC: the coin pages check expects no Ledger card for a coin up or down 10% or more, and the card on every other",
+                lambda: _cpt.no_ledger_symbols() == {"big", "drop"})
+        page = lambda card: ('<script src="/assets/coinchart.js?v=1"></script>' + 'role="tab"' * 4
+                             + '<div data-reading="coin-price"></div>' + ('<section class="cn-cold"></section>' if card else ""))
+        nl = _cpt.no_ledger_symbols()
+        ok = (_cpt.page_fails("big.html", page(False), nl) + _cpt.page_fails("calm.html", page(True), nl)
+              + _cpt.page_fails("drop.html", page(False), nl))
+        guarded(fails, "the coin pages check passes pages built under 9.5's rule (a 12% coin and a -10% coin without the card)", lambda: ok == [])
+        bad = _cpt.page_fails("calm.html", page(False), nl) + _cpt.page_fails("big.html", page(True), nl)
+        guarded(fails, "the coin pages check still fails a calm coin with no card, and a mover with one",
+                lambda: any("calm.html lacks the cold-storage card" in f for f in bad)
+                and any("big.html carries the cold-storage card" in f for f in bad))
+    finally:
+        _sb.load_pulse, _sb._movers_rec = real_pulse, real_rec
+    # the chart page's headline and dated read are the renderer's own words: a stored read (J-10) in the archive cannot change them
+    with _tf.TemporaryDirectory() as td:
+        old_arch = _sb.CM_ARCHIVE
+        _sb.CM_ARCHIVE = td
+        try:
+            json.dump({"date": "2026-10-20", "headline": "Chart Master data card: levels", "paragraphs": []},
+                      open(os.path.join(td, "2026-10-20.json"), "w"))
+            _sb.CM_ARCHIVE = tempfile_empty = _tf.mkdtemp()
+            pg = visible(_sb.render_chartmaster({"date": "2026-10-15", "headline": "H", "paragraphs": ["Bitcoin holds."]}, "T", None))
+            guarded(fails, "the chart page renders 'The chart read, Oct 15' with no old name when the archive holds no stored read",
+                    lambda: "The chart read, Oct 15" in pg and "Chart Master" not in pg)
+        finally:
+            _sb.CM_ARCHIVE = old_arch
+    # the data card (the stored read on a day the written read did not clear the checks) is a five-column table: it
+    # scrolls inside its own wrapper on a phone and never widens the page (tonight's real data, /chartmaster.html +42 px at 375)
+    css_all = open(os.path.join(HERE, "site", "assets", "site.css"), encoding="utf-8").read() + open(
+        os.path.join(HERE, "site", "assets", "system.css"), encoding="utf-8").read()
+    guarded(fails, "the chart page's data card table has its own scroll wrapper and compact cells (.tbl-wrap, .tbl)",
+            lambda: re.search(r"\.tbl-wrap\{[^}]*overflow-x:auto", css_all) and re.search(r"\.tbl-wrap \.tbl\{[^}]*width:100%", css_all)
+            and re.search(r"\.tbl-wrap th,\.tbl-wrap td\{[^}]*padding", css_all))
+    # the run writes no stray file into the repository's site/data
+    here_cm = os.path.join(HERE, "site", "data", "chartmaster")
+    guarded(fails, "unit() leaves site/data/chartmaster as it found it (the archive goes to a temp directory while the cases run)",
+            lambda: sorted(os.listdir(here_cm)) == STRAY_BASE)
     # --- B4: the boundary --------------------------------------------------------------------------------------
     base = {"in_window": True, "before_onset": True, "share_pct": 80.0, "moved_first": False}
     guarded(fails, "J-8 boundary: 25 percent done exactly disqualifies the event (25 or more)",
@@ -809,8 +866,19 @@ def inspect_src(name):
     return inspect.getsource(getattr(sb, name))
 
 
+# Jack's J-10 exception (October 20): a stored read keeps the names it was written under, so the "Earlier reads" entries
+# (stored headlines) are left out wherever a page's own words are checked for an old name.
+STORED_READS = re.compile(r'<article class="bd-card cm-entry">.*?</article>', re.S)
+STRAY_BASE = sorted(os.listdir(os.path.join(HERE, "site", "data", "chartmaster"))) if os.path.isdir(
+    os.path.join(HERE, "site", "data", "chartmaster")) else []
+
+
 def unit():
     fails = []
+    import site_build as _sb0
+    import tempfile as _tf0
+    # load_chartmaster() keeps a dated copy of the live read in site/data/chartmaster; a test run must not leave one there
+    _sb0.CM_ARCHIVE = _tf0.mkdtemp()
     for name, fn in (("names", name_cases), ("page names", page_name_cases), ("front", front_cases),
                      ("trust", trust_cases), ("corrections", corrections_cases), ("brief", brief_cases),
                      ("coin", coin_cases), ("charts", chart_cases), ("tables", css_cases), ("stored", stored_cases),

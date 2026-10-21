@@ -588,6 +588,9 @@ def _live_layer_canary():
     own headline. Each check seen red under a plant named in the 5 October history."""
     import re as _r
     import site_build as _sb
+    import tempfile as _tf
+    # load_chartmaster() keeps a dated copy of the live read in site/data/chartmaster: a canary must not leave one there
+    _sb.CM_ARCHIVE = _tf.mkdtemp()
     import snapshot as _snapshot
     fails = []
     raw_p, raw_f = _sb.load_pulse(), _sb.load_flows()
@@ -652,7 +655,10 @@ def _live_layer_canary():
     ic, ir = page.find('class="cm-charts"'), page.find('class="cm-read-h"')
     _check(ic != -1 and ir != -1 and ic < ir, fails,
            "live layer: Chart Master's read sits above the live boards")
-    _check("The chart read, Sep 21" in page and "Chart Master" not in page, fails,
+    # a stored read keeps the names it was written under (Jack, J-10, October 20): the "Earlier reads" entries are
+    # stored headlines, not the renderer's words, and tonight's data holds a data card headline written before the rename
+    _own = _r.sub(r'<article class="bd-card cm-entry">.*?</article>', "", page, flags=_r.S)
+    _check("The chart read, Sep 21" in page and "Chart Master" not in _own, fails,
            "live layer: the chart read's headline does not carry its date, or still names the Chart Master")
     _check("cm-newer" in page, fails,
            "live layer: a read older than the Board carries no line saying the boards are "
