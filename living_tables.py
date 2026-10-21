@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """living_tables.py: the three C-C tables' data. A site-lane fetcher.
 
-Each table is independent. A source that fails leaves its table out of the file and the
-page for it is not built, per the omission rule. Nothing here interpolates or fills.
+Each table is independent. A source that fails leaves the last good stored copy of its
+table in the file, with its own as-of stamp, and its page is built from that copy and marked
+stale (hotfix 9.6h). Nothing here interpolates or fills.
 
   1. ETF flows by issuer      Farside, the same table the Board's aggregate comes from
   2. Stablecoin supply by issuer  DefiLlama, the same source the dry-powder tile uses
@@ -148,36 +149,94 @@ def whales_by_week():
     return {"weeks": h, "source": "Whale Alert public feed, transfers of $50M and up"}
 
 
+# Tables whose source answered during THIS process's refresh. None until a refresh has run;
+# load() then falls back to the age of each table's own stamp.
+FRESH = None
+
+KEYS = ("etf_by_issuer", "stables_by_issuer", "whales_by_week")
+
+
+def _iso_now():
+    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def read_stored():
+    """The committed file as it is, however old. None when absent or unreadable. Each
+    table's own as-of stamp is in `fetched`; a file written before that map existed gives
+    every table the file's own stamp."""
+    try:
+        d = json.load(open(OUT, encoding="utf-8"))
+        tables = d["tables"]
+        if not isinstance(tables, dict):
+            return None
+    except Exception:
+        return None
+    fetched = dict(d.get("fetched") or {})
+    for k in tables:
+        fetched.setdefault(k, d.get("fetched_at") or "")
+    d["fetched"] = fetched
+    return d
+
+
 def refresh():
-    tables = {}
+    """Fetch every table; keep the last good copy of any that fails (9.6h, October 21).
+
+    A source that refuses leaves the stored table where it is, with its own as-of stamp,
+    so the page for it is built from the last good read and marked stale, instead of the
+    table being dropped from the file and the page answering 404. The file is rewritten
+    only when at least one table was read fresh."""
+    global FRESH
+    stored = read_stored() or {"tables": {}, "fetched": {}}
+    tables = dict(stored["tables"])
+    fetched = dict(stored["fetched"])
+    now = _iso_now()
+    fresh = set()
     for key, fn in (("etf_by_issuer", etf_by_issuer),
                     ("stables_by_issuer", stables_by_issuer),
                     ("whales_by_week", whales_by_week)):
         t = fn()
         if t:
             tables[key] = t
-    if not tables:
+            fetched[key] = now
+            fresh.add(key)
+        elif key in tables:
+            print(f"  {key}: not read this run; the last good table (as of "
+                  f"{fetched.get(key) or 'unknown'}) is kept")
+    FRESH = fresh
+    if not fresh:
         print("living_tables: nothing resolved; committed file left alone")
         return None
-    payload = {"fetched_at": datetime.datetime.now(datetime.timezone.utc)
-                                     .strftime("%Y-%m-%dT%H:%M:%SZ"),
-               "tables": tables}
+    payload = {"fetched_at": now, "fetched": fetched, "tables": tables}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=1, sort_keys=True)
-    print(f"living_tables: {len(tables)} of 3 table(s) built")
+    print(f"living_tables: {len(fresh)} of 3 table(s) read fresh, "
+          f"{len(tables) - len(fresh)} kept from the last good read")
     return payload
 
 
 def load():
-    try:
-        d = json.load(open(OUT, encoding="utf-8"))
-        t = datetime.datetime.strptime(d["fetched_at"], "%Y-%m-%dT%H:%M:%SZ").replace(
-            tzinfo=datetime.timezone.utc)
-    except Exception:
-        return None
-    if (datetime.datetime.now(datetime.timezone.utc) - t).total_seconds() / 3600 > STALE_HOURS:
-        return None
+    """The stored tables for the build, however old, with `stale` naming every table not
+    read fresh by this process's refresh (or, with no refresh run, older than STALE_HOURS).
+    A stale table is shown stale; it is never withheld."""
+    d = read_stored()
+    if d is None:
+        return {"fetched_at": "", "fetched": {}, "tables": {}, "stale": list(KEYS)}
+    now = datetime.datetime.now(datetime.timezone.utc)
+    stale = []
+    for k in d["tables"]:
+        if FRESH is not None:
+            if k not in FRESH:
+                stale.append(k)
+            continue
+        try:
+            t = datetime.datetime.strptime(d["fetched"][k], "%Y-%m-%dT%H:%M:%SZ").replace(
+                tzinfo=datetime.timezone.utc)
+            if (now - t).total_seconds() / 3600 > STALE_HOURS:
+                stale.append(k)
+        except Exception:
+            stale.append(k)
+    d["stale"] = stale
     return d
 
 

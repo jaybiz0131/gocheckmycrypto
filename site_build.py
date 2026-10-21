@@ -5168,23 +5168,45 @@ def _cc_stamp(iso):
 
 
 def render_living_table_page(spec, data, dateline):
+    """Always a page (hotfix 9.6h): the fresh table, the last stored table marked stale with
+    its own as-of date, or 'Not read yet' when the source has never been read. A page that
+    is in the sitemap never answers 404 because its source refused the build."""
     t = (data.get("tables") or {}).get(spec["key"])
-    if not t:
-        return None
-    body_rows = _CC_RENDER[spec["key"]](t)
-    n = len(t.get("rows") or t.get("weeks") or t.get("days") or [])
     url = f'/tables/{spec["slug"]}.html'
-    body = f"""<main class="wrap"><section class="page">
+    head = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/record.html">{esc(task_name("record"))}</a> / {esc(spec["title"])}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(spec["h1"])}</h1>
-  <p class="lx-dek">{esc(spec["dek"])}</p>
+  <p class="lx-dek">{esc(spec["dek"])}</p>"""
+    if not t:
+        body = head + f"""
   <div class="bd-cardtop"><span class="bd-badge dat">Tracker</span>
-    <span class="bd-stamp">{n} rows, as of {esc(_cc_stamp(data.get("fetched_at") or ""))}</span>
+    <span class="bd-stamp">Not read yet</span>
+  </div>
+  <p class="lx-dek">Not read yet. The source for this table has not answered this desk's build,
+     and nothing has been stored from an earlier read, so no row is shown. The table appears
+     here when the source is read.</p>
+</section></main>"""
+        return url, shell(f'{spec["title"]} - {NAME}', spec["desc"], "", body, dateline,
+                          path=url)
+    body_rows = _CC_RENDER[spec["key"]](t)
+    n = len(t.get("rows") or t.get("weeks") or t.get("days") or [])
+    as_of = _cc_stamp((data.get("fetched") or {}).get(spec["key"]) or data.get("fetched_at") or "")
+    is_stale = spec["key"] in (data.get("stale") or ())
+    if is_stale:
+        stamp = (f'<span class="data-stamp stale"><b>Stale data.</b> The source did not answer this build. '
+                 f'These {n} rows are from the last good read, as of {esc(as_of)}.</span>')
+        foot = ("Source: " + esc(t.get("source") or "") + ". This is the last table read; "
+                "it is replaced the next time the source answers.")
+    else:
+        stamp = f'<span class="bd-stamp">{n} rows, as of {esc(as_of)}</span>'
+        foot = ("Source: " + esc(t.get("source") or "") + ". Rebuilt at every site build; "
+                "a row appears when the source publishes it and never before.")
+    body = head + f"""
+  <div class="bd-cardtop"><span class="bd-badge dat">Tracker</span>
+    {stamp}
   </div>
   <div class="lt-wrap"><table class="lt">{body_rows}</table></div>
-  <p class="bd-src" style="margin-top:14px">Source: {esc(t.get("source") or "")}.
-     Rebuilt at every site build; a row appears when the source publishes it and never
-     before.</p>
+  <p class="bd-src" style="margin-top:14px">{foot}</p>
 </section></main>"""
     return url, shell(f'{spec["title"]} - {NAME}', spec["desc"], "", body, dateline,
                       path=url)
@@ -9809,19 +9831,30 @@ def build():
     w("standards.html", render_standards(dateline))
     w("corrections.html", render_corrections(items, dateline))
     w("learn.html", render_learn(dateline))
-    # C-C: the living tables. Each is independent; one whose source did not resolve
-    # is not built and its lane does not link it.
+    # C-C: the living tables. Each is independent. 9.6h: a table whose source did not
+    # resolve is built from its last stored copy, marked stale, or says Not read yet; no
+    # page leaves the tree because a source refused the build, and the lane always links it.
     global CC_DATA, CC_BUILT
     CC_DATA, CC_BUILT = None, set()
     try:
         import living_tables as _lt
-        _lt.refresh()
+        try:
+            _lt.refresh()
+        except Exception as _e:
+            print(f"::warning::living_tables: refresh failed ({type(_e).__name__}); stored tables kept")
         CC_DATA = _lt.load()
     except Exception as _e:
-        print(f"living_tables: unavailable ({type(_e).__name__}); tables withheld")
-    if CC_DATA:
+        print(f"::warning::living_tables: unavailable ({type(_e).__name__}); pages built as Not read yet")
+    if CC_DATA is None:
+        CC_DATA = {"tables": {}, "fetched": {}, "stale": []}
+    if CC_DATA is not None:
         for _spec in CC_TABLES:
-            _got = render_living_table_page(_spec, CC_DATA, dateline)
+            try:
+                _got = render_living_table_page(_spec, CC_DATA, dateline)
+            except Exception as _e:
+                print(f"::warning::living table {_spec['key']}: stored table did not render "
+                      f"({type(_e).__name__}); page built as Not read yet")
+                _got = render_living_table_page(_spec, {"tables": {}}, dateline)
             if _got:
                 _u, _html = _got
                 w(_u.lstrip("/"), _html)

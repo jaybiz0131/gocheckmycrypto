@@ -114,6 +114,13 @@ jobs:
         if: steps.guard.outputs.serve == 'true'
         run: timeout 120 python3 share_queue.py || true
 
+      # THE LIVING TABLES (hotfix 9.6h, October 21, 2026): refresh the three tables and keep the last good copy of any
+      # one a source refused, in site/data/living-tables.json, which the commit below stages. Netlify builds from a fresh
+      # checkout, so this file in the repository is the only place a refusing build can find the last good table. Never a gate.
+      - name: Living tables (refresh, last good copy kept)
+        if: steps.guard.outputs.serve == 'true'
+        run: timeout 120 python3 living_tables.py || true
+
       - name: Commit and push (this push is the morning build)
         id: publish
         if: steps.guard.outputs.serve == 'true'
@@ -121,6 +128,7 @@ jobs:
           git config user.name "Jack Berno"
           git config user.email "297991518+jaybiz0131@users.noreply.github.com"
           git add site/data/pulse.json site/data/flows.json data/history
+          [ -f site/data/living-tables.json ] && git add site/data/living-tables.json
           for f in site/data/morning.json site/data/wire.json site/data/narrative.json \
                    data/morning-ledger.json; do
             [ -f "$f" ] && git add "$f"
@@ -145,6 +153,7 @@ jobs:
               if ! git pull --rebase --autostash origin main; then
                 if python3 merge_state.py; then
                   git add site/data/pulse.json site/data/flows.json data/history
+                  [ -f site/data/living-tables.json ] && git add site/data/living-tables.json
                   GIT_EDITOR=true git rebase --continue || { git rebase --abort || true; exit 1; }
                 else
                   git rebase --abort || true
