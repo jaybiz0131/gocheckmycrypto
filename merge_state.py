@@ -52,7 +52,7 @@ import sys
 
 # The only paths this script will resolve. Anything else conflicting is a real conflict.
 KNOWN = ("editorial-log.json", "regwatch.json", "site/data/chartmaster.json",
-         "site/data/pulse.json", "site/data/flows.json")
+         "site/data/pulse.json", "site/data/flows.json", "site/data/living-tables.json")
 
 
 # EDITION FILES ALSO HAVE A DETERMINISTIC RESOLUTION (owner report 2026-08-19). A slot's
@@ -188,12 +188,34 @@ def merge_history(upstream, replayed):
     return out
 
 
+def merge_living(upstream, replayed):
+    """site/data/living-tables.json (hotfix 9.6h): the last good copy of each living table.
+    Per table, the later `fetched` stamp wins and a tie goes to upstream, which is already
+    published. A table only one side holds is kept, so a merge never drops a stored table."""
+    if not replayed:
+        return upstream
+    if not upstream:
+        return replayed
+    out = dict(upstream)
+    tables = dict(upstream.get("tables") or {})
+    fetched = dict(upstream.get("fetched") or {})
+    for k, t in (replayed.get("tables") or {}).items():
+        mine = (replayed.get("fetched") or {}).get(k, "")
+        if k not in tables or str(mine) > str(fetched.get(k, "")):
+            tables[k] = t
+            fetched[k] = mine
+    out["tables"], out["fetched"] = tables, fetched
+    out["fetched_at"] = max(str(upstream.get("fetched_at", "")), str(replayed.get("fetched_at", "")))
+    return out
+
+
 MERGERS = {
     "editorial-log.json": merge_editorial_log,
     "regwatch.json": merge_regwatch,
     "site/data/chartmaster.json": merge_chartmaster,
     "site/data/pulse.json": merge_board,
     "site/data/flows.json": merge_board,
+    "site/data/living-tables.json": merge_living,
 }
 
 

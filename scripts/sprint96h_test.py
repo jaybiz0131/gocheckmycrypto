@@ -22,14 +22,25 @@ import os
 import re
 import subprocess
 import sys
+import shutil
 import tempfile
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 DASH = re.compile("[" + chr(0x2013) + chr(0x2014) + "]")
 STORED_AT = "2026-10-20T11:00:00Z"          # 7:00 AM ET on October 20
+FILE_AT = "2026-10-19T12:00:00Z"            # the file's own stamp, deliberately not any table's
+COMMITTED = os.path.join(HERE, "site", "data", "living-tables.json")
 SLUGS = {"etf_by_issuer": "etf-flows-by-issuer", "stables_by_issuer": "stablecoin-supply-by-issuer",
          "whales_by_week": "whale-flows-by-week"}
+
+
+TMPS = []
+
+
+def cleanup():
+    while TMPS:
+        shutil.rmtree(TMPS.pop(), ignore_errors=True)
 
 
 def guarded(fails, msg, fn):
@@ -72,7 +83,7 @@ def write_stored(path, tables=None, at=STORED_AT):
     if tables is not None:
         t = {k: v for k, v in t.items() if k in tables}
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"fetched_at": at, "tables": t}, f, indent=1, sort_keys=True)
+        json.dump({"fetched_at": FILE_AT, "fetched": {k: at for k in t}, "tables": t}, f, indent=1, sort_keys=True)
 
 
 def refusing(url, as_json=True):
@@ -84,6 +95,7 @@ def scratch_living(stored_tables=None, getter=refusing, flows_ok=False):
     """living_tables pointed at a scratch OUT with every source refusing (or `getter`)."""
     import living_tables as lt
     d = tempfile.mkdtemp(prefix="s96h-")
+    TMPS.append(d)
     out = os.path.join(d, "living-tables.json")
     if stored_tables != "none":
         write_stored(out, stored_tables)
@@ -197,8 +209,78 @@ def page_cases(fails):
             lambda: all(page_for(k, only) for k in SLUGS))
 
 
+def committed_cases(fails):
+    print("5. the committed file at head, read by a build with every source refusing")
+    try:
+        d = json.load(open(COMMITTED, encoding="utf-8"))
+    except Exception:
+        d = {}
+    etf = (d.get("tables") or {}).get("etf_by_issuer") or {}
+    guarded(fails, "site/data/living-tables.json carries an ETF table with at least 4 reconciled days and its own stamp",
+            lambda: len(etf.get("days") or []) >= 4 and (d.get("fetched") or {}).get("etf_by_issuer"))
+    guarded(fails, "every committed table carries its own as-of stamp",
+            lambda: all((d.get("fetched") or {}).get(k) for k in (d.get("tables") or {})))
+    if not etf:
+        return
+    dd = tempfile.mkdtemp(prefix="s96h-head-")
+    TMPS.append(dd)
+    shutil.copy(COMMITTED, os.path.join(dd, "living-tables.json"))
+    with scratch_living(stored_tables="none") as (lt, out):
+        lt.OUT = os.path.join(dd, "living-tables.json")
+        before = open(lt.OUT, "rb").read()
+        lt.refresh()
+        data = lt.load()
+        after = open(lt.OUT, "rb").read()
+    h = page_for("etf_by_issuer", data) if data else None
+    when = (d["fetched"]["etf_by_issuer"])
+    import site_build as sb
+    want = sb._cc_stamp(when)
+    guarded(fails, "refusing sources: the committed file is left byte for byte as it was", lambda: before == after)
+    guarded(fails, "refusing sources: the ETF page built from the committed file is marked stale",
+            lambda: h and "data-stamp stale" in h and "Not read yet" not in h)
+    guarded(fails, f"...and carries the committed table's own as-of ({want})", lambda: h and want and want in h)
+
+
+def wording_cases(fails):
+    print("6. the stale line is in the house form")
+    with scratch_living() as (lt, out):
+        lt.refresh()
+        data = lt.load()
+    h = page_for("etf_by_issuer", data) if data else ""
+    m = re.search(r'<span class="data-stamp stale">(.*?)</span>', h or "", re.S)
+    txt = re.sub(r"<[^>]+>", "", m.group(1)) if m else ""
+    guarded(fails, "the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does",
+            lambda: m and m.group(1).startswith("<b>Stale data.</b> "))
+    guarded(fails, "the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date",
+            lambda: txt.startswith("Stale data. The source did not answer this build. These 5 rows are from the last good read, as of ")
+            and txt.endswith("2026."))
+
+
+def workflow_cases(fails):
+    print("7. the workflows keep the file, and a merge never drops a stored table")
+    for wf in ("morning-read.yml", "crypto-news-brief.yml"):
+        y = open(os.path.join(HERE, ".github", "workflows", wf), encoding="utf-8").read()
+        guarded(fails, f"{wf}: refreshes the living tables with a timeout, never as a gate",
+                lambda y=y: re.search(r"timeout \d+ python3 living_tables\.py \|\| true", y))
+        guarded(fails, f"{wf}: stages site/data/living-tables.json with the commit",
+                lambda y=y: re.search(r"(?m)^ {10}\[ -f site/data/living-tables\.json \] && git add site/data/living-tables\.json$", y))
+        guarded(fails, f"{wf}: and keeps it staged when a rebase auto-resolve continues",
+                lambda y=y: re.search(r"(?m)^ {18}\[ -f site/data/living-tables\.json \] && git add site/data/living-tables\.json$", y))
+    import merge_state as ms
+    up = {"fetched_at": "2026-10-21T15:00:00Z", "fetched": {"a": "2026-10-21T15:00:00Z", "b": "2026-10-20T15:00:00Z"},
+          "tables": {"a": {"v": "up"}, "b": {"v": "up-old"}}}
+    me = {"fetched_at": "2026-10-21T14:00:00Z", "fetched": {"a": "2026-10-21T14:00:00Z", "b": "2026-10-21T14:00:00Z", "c": "2026-10-21T14:00:00Z"},
+          "tables": {"a": {"v": "me"}, "b": {"v": "me-new"}, "c": {"v": "me-only"}}}
+    got = ms.merge_living(up, me)
+    guarded(fails, "merge_state resolves living-tables.json per table: the later stamp wins, a tie goes upstream, no table is dropped",
+            lambda: got["tables"] == {"a": {"v": "up"}, "b": {"v": "me-new"}, "c": {"v": "me-only"}}
+            and got["fetched_at"] == "2026-10-21T15:00:00Z")
+    guarded(fails, "merge_state lists the file as one it may resolve",
+            lambda: "site/data/living-tables.json" in ms.KNOWN and "site/data/living-tables.json" in ms.MERGERS)
+
+
 def wiring_cases(fails):
-    print("5. wiring")
+    print("8. wiring")
     src = open(os.path.join(HERE, "site_build.py"), encoding="utf-8").read()
     guarded(fails, "the build links a living table's lane entry only to a page it wrote: CC_BUILT holds every spec that built",
             lambda: "CC_BUILT.add" in src)
@@ -212,14 +294,22 @@ def wiring_cases(fails):
 
 def unit():
     fails = []
-    for name, fn in (("refresh keeps last good", refresh_cases), ("pages", page_cases), ("wiring", wiring_cases)):
+    for name, fn in (("refresh keeps last good", refresh_cases), ("pages", page_cases), ("committed file", committed_cases),
+                     ("stale wording", wording_cases), ("workflows and merge", workflow_cases), ("wiring", wiring_cases)):
         group(fails, name, fn)
+    cleanup()
     return fails
 
 
+LAST_PUB = None
+
+
 def build_case(fails):
-    """A WHOLE THROWAWAY BUILD with Farside refusing and a stored ETF table. Tracked files the build dirties are put back."""
-    print("6. a whole build with Farside refusing")
+    """A WHOLE THROWAWAY BUILD with every source refusing, reading a copy of the COMMITTED site/data/living-tables.json (the
+    shipped data, not a stand-in), and with the whale source's flows.json out of reach so that table too can only come from the
+    stored copy. Tracked files the build dirties are put back."""
+    global LAST_PUB
+    print("10. a whole build with Farside refusing, reading the committed file")
     import site_build as sb
     import living_tables as lt
 
@@ -231,29 +321,33 @@ def build_case(fails):
         return set(x for x in r.stdout.split("\n") if x)
     before, before_new = dirty(), untracked()
     tmp = tempfile.mkdtemp(prefix="s96h-build-")
+    TMPS.append(tmp)
     stored = os.path.join(tmp, "living-tables.json")
-    write_stored(stored)
-    saved = (sb.PUBLISH, lt.OUT, lt._get)
+    shutil.copy(COMMITTED, stored)
+    want = sb._cc_stamp((json.load(open(COMMITTED, encoding="utf-8")).get("fetched") or {}).get("etf_by_issuer") or "")
+    saved = (sb.PUBLISH, lt.OUT, lt._get, lt.FLOWS)
     sb.PUBLISH, lt.OUT, lt._get = os.path.join(tmp, "publish"), stored, refusing
+    lt.FLOWS = os.path.join(tmp, "no-flows.json")
     log = io.StringIO()
     try:
         with contextlib.redirect_stdout(log), contextlib.redirect_stderr(log):
             sb.build()
-        pub = sb.PUBLISH
+        pub = LAST_PUB = sb.PUBLISH
         h = open(os.path.join(pub, "tables", "etf-flows-by-issuer.html"), encoding="utf-8").read() \
             if os.path.exists(os.path.join(pub, "tables", "etf-flows-by-issuer.html")) else ""
         sm = "".join(open(os.path.join(pub, f), encoding="utf-8").read() for f in ("sitemap-archive.xml", "sitemap-priority.xml")
                      if os.path.exists(os.path.join(pub, f)))
         rec = open(os.path.join(pub, "record.html"), encoding="utf-8").read() if os.path.exists(os.path.join(pub, "record.html")) else ""
         guarded(fails, "the build wrote tables/etf-flows-by-issuer.html with Farside refusing", lambda: bool(h))
-        guarded(fails, "...marked stale with the stored table's own date", lambda: "data-stamp stale" in h and "Oct 20, 2026" in h)
+        guarded(fails, f"...marked stale with the committed table's own as-of ({want})", lambda: "data-stamp stale" in h and bool(want) and want in h)
         guarded(fails, "...and its URL is still in the sitemap", lambda: "/tables/etf-flows-by-issuer<" in sm)
         guarded(fails, "...and the Record still links it", lambda: "/tables/etf-flows-by-issuer.html" in rec)
         for slug in SLUGS.values():
-            guarded(fails, f"every living table page is built with every source refusing: {slug}",
-                    lambda slug=slug: os.path.exists(os.path.join(pub, "tables", slug + ".html")))
+            pg = os.path.join(pub, "tables", slug + ".html")
+            guarded(fails, f"every living table page is built with every source refusing, from the stored copy and marked stale: {slug}",
+                    lambda pg=pg: os.path.exists(pg) and "data-stamp stale" in open(pg, encoding="utf-8").read())
     finally:
-        sb.PUBLISH, lt.OUT, lt._get = saved
+        sb.PUBLISH, lt.OUT, lt._get, lt.FLOWS = saved
         for f in dirty() - before:
             subprocess.run(["git", "checkout", "--", f], cwd=HERE)
         for f in untracked() - before_new:
@@ -263,12 +357,18 @@ def build_case(fails):
 def tree(root):
     """The cases that read a built tree. Returns the failures."""
     fails = []
-    print(f"7. the built tree {root}")
+    print(f"9. the built tree {root}")
     pub = lambda rel: os.path.join(root, rel)
     rd = lambda rel: open(pub(rel), encoding="utf-8", errors="replace").read() if os.path.exists(pub(rel)) else ""
     sm = rd("sitemap-archive.xml") + rd("sitemap-priority.xml")
-    for slug in SLUGS.values():
+    try:
+        stored_keys = set((json.load(open(COMMITTED, encoding="utf-8")).get("tables") or {}))
+    except Exception:
+        stored_keys = set()
+    for key, slug in SLUGS.items():
         h = rd(f"tables/{slug}.html")
+        guarded(fails, f"tables/{slug}.html: the committed file holds this table, so the page is never 'Not read yet'",
+                lambda key=key, h=h: key not in stored_keys or (h and "Not read yet" not in h))
         guarded(fails, f"tables/{slug}.html is built and in the sitemap", lambda slug=slug, h=h: h and f"/tables/{slug}<" in sm)
         guarded(fails, f"tables/{slug}.html says what it is: a fresh as-of line, a stale mark, or Not read yet",
                 lambda h=h: h and (", as of " in h or "data-stamp stale" in h or "Not read yet" in h))
@@ -282,8 +382,11 @@ def main():
     fails = unit()
     if "--build" in args:
         group(fails, "build", build_case)
+    if "--build-tree" in args and LAST_PUB:
+        fails += tree(LAST_PUB)
     if "--tree" in args:
         fails += tree(args[args.index("--tree") + 1])
+    cleanup()
     print(f"\nSPRINT 9.6h: {'PASS' if not fails else 'FAIL'} ({len(fails)} failure(s))")
     return 1 if fails else 0
 

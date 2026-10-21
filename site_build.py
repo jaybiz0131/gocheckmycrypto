@@ -5193,8 +5193,8 @@ def render_living_table_page(spec, data, dateline):
     as_of = _cc_stamp((data.get("fetched") or {}).get(spec["key"]) or data.get("fetched_at") or "")
     is_stale = spec["key"] in (data.get("stale") or ())
     if is_stale:
-        stamp = (f'<span class="data-stamp stale"><b>Stale</b> the source did not answer this build; '
-                 f'{n} rows from the last good read, as of {esc(as_of)}</span>')
+        stamp = (f'<span class="data-stamp stale"><b>Stale data.</b> The source did not answer this build. '
+                 f'These {n} rows are from the last good read, as of {esc(as_of)}.</span>')
         foot = ("Source: " + esc(t.get("source") or "") + ". This is the last table read; "
                 "it is replaced the next time the source answers.")
     else:

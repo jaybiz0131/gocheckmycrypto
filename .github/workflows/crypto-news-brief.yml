@@ -667,6 +667,13 @@ jobs:
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
         run: timeout 120 python3 share_queue.py || true
 
+      # THE LIVING TABLES (hotfix 9.6h, October 21, 2026): refresh the three tables and keep the last good copy of any
+      # one a source refused, in site/data/living-tables.json, which the commit below stages. Netlify builds from a fresh
+      # checkout, so this file in the repository is the only place a refusing build can find the last good table. Never a gate.
+      - name: Living tables (refresh, last good copy kept)
+        if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
+        run: timeout 120 python3 living_tables.py || true
+
       - name: Commit and push published content (deploys the site)
         id: publish
         if: steps.key.outputs.have_key == 'true' && steps.guard.outputs.serve == 'true'
@@ -690,6 +697,8 @@ jobs:
                   site/data/flows.json editorial-log.json regwatch.json \
                   site/data/source_health.json data/history site/data/calendar.json
           [ -f site/data/edition_hold.json ] && git add site/data/edition_hold.json
+          # the living tables' last good copies (hotfix 9.6h): the refusing build reads them stale
+          [ -f site/data/living-tables.json ] && git add site/data/living-tables.json
           # The Chart Master's path ledger (12 October 2026): every night's path and the
           # words that tripped it, so a reworded or data-only night is on the record.
           [ -f data/chartmaster-ledger.json ] && git add data/chartmaster-ledger.json
@@ -751,6 +760,7 @@ jobs:
                 if python3 merge_state.py; then
                   git add editorial-log.json regwatch.json site/data/chartmaster.json \
                           site/data/pulse.json site/data/flows.json data/history
+                  [ -f site/data/living-tables.json ] && git add site/data/living-tables.json
                   GIT_EDITOR=true git rebase --continue \
                     || { echo "::error::rebase could not continue after auto-resolve"; \
                          git rebase --abort || true; exit 1; }
