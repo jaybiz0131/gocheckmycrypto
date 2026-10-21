@@ -1,0 +1,120 @@
+Sprint 9.6, U-9 plants (scripts/sprint96_plants.py). Each guarded thing is broken on purpose in a throwaway copy of the tree,
+scripts/sprint96_test.py is run (exit 1 and its red cases named), the same copy is run again with the break undone from the saved copy (exit 0).
+Tuesday October 20, 2026, 10:30 to 11:40 AM EDT. Run 1 of this file covered all 38; plants 8, 11, 12, 13 and 35 were re-run (below) for the reasons given.
+EARLIER, before this log: the first pass (killed and restarted) showed plants 2 (because) and 3 (figures) going UNCAUGHT: their tests passed for the wrong
+reason (the synthetic sentence was dropped as untraceable before the check, and the page was built from the same record). Both tests were rewritten to put
+the sentence through the card's path and to empty the page's text, and the plants then went red. Plants 12 and 35 were uncaught in run 1: 12 is guarded twice
+in code (the kind check and the empty-sentences check), so its plant breaks both; 35's weight limit was 300 KB against a 157 KB unquantized card, now 100 KB.
+Plant 8 and 13 were NOT APPLIED in run 1 (the plant text did not match the file); 11's restore failed because the plant runner saved a half-edited copy,
+fixed in the runner. The lines below for those five are from the re-runs.
+
+PLANT 1 grade: a second grade word is printed on the Likely card (the chip says '(not Confirmed)'): exit 1, 22 red; restored: exit 0
+      FAIL 14 October Bitcoin (real): the card exists and carries the verdict's own grade, Likely
+      FAIL 14 October (real): the card names BOTH 8:30 AM releases, the Consumer Price Index and the Real Earnings release, each with its time and its source (the BLS release schedule) [TypeError: 'NoneType' object i
+      FAIL 14 October (real): the window is named on the card, 'Over the last 24 hours', to its time and day [TypeError: 'NoneType' object is not subscriptable]
+      FAIL 14 October (real): the heading is 'Why Bitcoin moved' and the card is the verdict's, not the Brief's (no Brief, no Evening Edition, no morning read on it) [TypeError: 'NoneType' object is not subscriptable
+      ... and 18 more
+PLANT 2 because: allowed on any grade, not only Confirmed: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: 'because' on a Likely card in the verdict's words makes no card (fail closed)
+PLANT 3 figures: a figure the verdict page does not print is no longer caught: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a page that does not print the card's figures (its times, the 1.45%) leaves the card undrawn (fail closed)
+PLANT 4 AI: an AI mention is no longer caught: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: an AI mention in the verdict's words makes no card (fail closed)
+PLANT 5 person: a personal name is no longer caught: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a personal name in the verdict's words makes no card (fail closed)
+PLANT 6 dash: a dash is no longer caught: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a dash in the verdict's words makes no card (fail closed)
+PLANT 7 color truth: up and down colors swapped on the figure: exit 1, 5 red; restored: exit 0
+      FAIL likely: every figure's color role agrees with its sign (up green with a plus or up arrow, down with a down arrow)
+      FAIL confirmed: every figure's color role agrees with its sign (up green with a plus or up arrow, down with a down arrow)
+      FAIL disputed: every figure's color role agrees with its sign (up green with a plus or up arrow, down with a down arrow)
+      FAIL 14 October (a fall): the image holds the down color (0 px) and no up color (1511 px)
+      ... and 1 more
+PLANT 9 color truth: the grade chip is drawn in the up color: exit 1, 9 red; restored: exit 0
+      FAIL likely: nothing but a figure is drawn in the up or the down color (the grade chip, the dot, the words are neutral)
+      FAIL likely: the grade chip and its mark are neutral ink (never green, never red)
+      FAIL unclear: nothing but a figure is drawn in the up or the down color (the grade chip, the dot, the words are neutral)
+      FAIL unclear: the grade chip and its mark are neutral ink (never green, never red)
+      ... and 5 more
+PLANT 10 color truth: the family's red accent is back on the card (the rule across the top): exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC rise (the same card with the sign turned): green figures (1560 px), no red (10800 px)
+PLANT 14 day card: a day with no graded verdict says nothing: exit 1, 3 red; restored: exit 0
+      FAIL Verdict at the next read: the day's card says exactly that no verdict was graded, and names no grade
+      FAIL withheld at the cap: the day's card says exactly that no verdict was graded, and names no grade
+      FAIL 19 October (real record, no verdict graded): a day card that says so, links the day's answer, invents no verdict
+PLANT 15 day card: a graded day is listed as ungraded: exit 1, 2 red; restored: exit 0
+      FAIL 14 October: the day card lists Bitcoin's graded verdict (Likely) and links its /why/ page; Ether, which only moved with Bitcoin, is not listed as graded
+      FAIL 15 October: the day card lists Bitcoin Unclear with the exact line 'No reported event lines up with this move.'
+PLANT 16 tags: the size tag is the site card's 1200 by 630: exit 1, 1 red; restored: exit 0
+      FAIL og:image:width and og:image:height are 1080 and 1080
+PLANT 17 tags: twitter:card is summary_large_image: exit 1, 1 red; restored: exit 0
+      FAIL twitter:card is 'summary' (a square image is shown whole; summary_large_image would crop it to two to one)
+PLANT 18 tags: the image URL is relative: exit 1, 3 red; restored: exit 0
+      FAIL og:image is the verdict's own square image, an absolute https URL
+      FAIL twitter:image is the same absolute URL
+      FAIL every Big movers verdict page carries its own square image tags (absolute URL, 1080 by 1080, alt)
+PLANT 19 tags: the alt text is dropped: exit 1, 1 red; restored: exit 0
+      FAIL og:image:alt and twitter:image:alt are the same non-empty sentence that opens with the heading and names the grade
+PLANT 20 tags: the verdict page does not take the card's tags: exit 1, 5 red; restored: exit 0
+      FAIL og:image is the verdict's own square image, an absolute https URL
+      FAIL twitter:image is the same absolute URL
+      FAIL og:image:width and og:image:height are 1080 and 1080
+      FAIL og:image:alt and twitter:image:alt are the same non-empty sentence that opens with the heading and names the grade
+      ... and 1 more
+PLANT 21 tags: a Big movers page does not take the card's tags: exit 1, 1 red; restored: exit 0
+      FAIL every Big movers verdict page carries its own square image tags (absolute URL, 1080 by 1080, alt)
+PLANT 22 tags: the build does not hand the verdict builder its share context: exit 1, 1 red; restored: exit 0
+      FAIL the build passes the share context to the verdict builder and to the movers builder
+PLANT 23 tags: an image that fails to draw still gets its tags: exit 1, 1 red; restored: exit 0
+      FAIL an image that cannot be written leaves the page on the site card and the page still builds
+PLANT 24 queue: the post line carries a word that is not on the card: exit 1, 1 red; restored: exit 0
+      FAIL group queue could not run [TypeError: cannot unpack non-iterable NoneType object]
+PLANT 25 queue: the publicist's gates are not applied: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a post line the publicist's gates refuse (a banned word) files no entry
+PLANT 26 queue: an entry that exists is rewritten: exit 1, 2 red; restored: exit 0
+      FAIL a second run writes nothing: an entry that exists is never rewritten (Jack's framing stays)
+      FAIL an edited entry is left as Jack left it
+PLANT 27 queue: the archive is queued (no day limit): exit 1, 1 red; restored: exit 0
+      FAIL an old day is not queued (only the last few days are new)
+PLANT 28 queue: a card whose day is not final is queued: exit 1, 1 red; restored: exit 0
+      FAIL a morning-only verdict is not queued on its own day (the card is not final), and is queued once the day is over
+PLANT 29 queue: the queue step reaches for the network: exit 1, 1 red; restored: exit 0
+      FAIL share_queue.py imports no HTTP client and reads no credential
+PLANT 30 queue: the day card is never queued: exit 1, 2 red; restored: exit 0
+      FAIL the run writes one file for the verdict and one for the day, with no credential in the environment and no network call
+      FAIL a morning-only verdict is not queued on its own day (the card is not final), and is queued once the day is over
+PLANT 31 image: the square is 1200 wide: exit 1, 11 red; restored: exit 0
+      FAIL og:image:width and og:image:height are 1080 and 1080
+      FAIL the image the tag names was written, at /og/why/<slug>.png, and is a PNG of 1080 by 1080
+      FAIL every Big movers verdict page carries its own square image tags (absolute URL, 1080 by 1080, alt)
+      FAIL likely: a PNG of exactly 1080 by 1080
+      ... and 7 more
+PLANT 32 image: the render is not deterministic: exit 1, 1 red; restored: exit 0
+      FAIL drawn twice, the same bytes (deterministic: no stamp, no randomness)
+PLANT 33 image: a stand-in font is accepted: exit 1, 1 red; restored: exit 0
+      FAIL the renderer refuses a stand-in font rather than drawing with Pillow's default
+PLANT 34 image: text that does not fit is clipped, not refused: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: text too long for the square makes no card (fail closed), never a clipped one
+PLANT 36 wiring: the morning workflow loses its share step: exit 1, 1 red; restored: exit 0
+      FAIL morning-read.yml: share_queue.py runs after the verdict and movers steps, fail open, with a timeout
+PLANT 37 wiring: the evening workflow stops staging the queue: exit 1, 1 red; restored: exit 0
+      FAIL crypto-news-brief.yml: the commit stages linkedin-queue/ by name (never git add -A)
+PLANT 38 wiring: the share step is handed the model key: exit 1, 1 red; restored: exit 0
+      FAIL morning-read.yml: the share step takes no secret
+
+PLANT 11 no card: a verdict withheld at the cap is drawn: exit 1, 1 red; restored: exit 0
+      FAIL withheld at the cap: no spec, so no image and no tags
+PLANT 12 no card: Ether moved with Bitcoin is given a card (its kind guard and the empty-sentences guard both broken; either alone still holds): exit 1, 2 red; restored: exit 0
+      FAIL Ether moved with Bitcoin (real, 14 October): the plain 'moved with Bitcoin' line is not a graded verdict, so it gets no card of its own [IndexError: list index out of range]
+      FAIL group words could not run [IndexError: list index out of range]
+PLANT 13 no card: a verdict with a standing correction is passed around: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a verdict with a standing correction is not passed around (no card)
+PLANT 35 image: the quantizer is dropped (weight): exit 1, 3 red; restored: exit 0
+      FAIL likely: under 100 KB (153 KB)
+      FAIL confirmed: under 100 KB (132 KB)
+      FAIL disputed: under 100 KB (147 KB)
+PLANT 8 color truth: the arrow points the other way: exit 1, 3 red; restored: exit 0
+      FAIL likely: every figure's color role agrees with its sign (up green with a plus or up arrow, down with a down arrow)
+      FAIL confirmed: every figure's color role agrees with its sign (up green with a plus or up arrow, down with a down arrow)
+      FAIL disputed: every figure's color role agrees with its sign (up green with a plus or up arrow, down with a down arrow)
+SUMMARY: all 38 plants went red on their break and green once it was undone (plant 12 only with both its guards broken).

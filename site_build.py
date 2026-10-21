@@ -1978,7 +1978,8 @@ ASOF_JS = _asof_inline()
 
 def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=False,
           live_js=False, brand="site", og_type="website", schema_extra="", og_image=None,
-          canonical_path=None, system_css=True, third_party=True):
+          canonical_path=None, system_css=True, third_party=True, og_image_size=None, og_image_alt=None,
+          twitter_card="summary_large_image"):
     # R-4: the preconnects to Google are gone with the fonts they were for. A
     # preconnect to a host the page never contacts costs a DNS lookup and a TLS
     # handshake for nothing, on the critical path, which is the opposite of the point.
@@ -2079,13 +2080,13 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta property="og:url" content="{esc(url)}">
 <meta property="og:site_name" content="{esc(site_name)}">
 <meta property="og:image" content="{og_image or OG_IMAGE}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="{(og_image_size or (1200, 630))[0]}">
+<meta property="og:image:height" content="{(og_image_size or (1200, 630))[1]}">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:alt" content="{esc(NAME)} share card">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image:alt" content="{esc(og_image_alt or NAME + " share card")}">
+<meta name="twitter:card" content="{esc(twitter_card)}">
 <meta name="twitter:image" content="{og_image or OG_IMAGE}">
-<meta name="twitter:image:alt" content="{esc(NAME)} share card">
+<meta name="twitter:image:alt" content="{esc(og_image_alt or NAME + " share card")}">
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(desc)}">
 <meta property="og:locale" content="en_US">
@@ -9603,18 +9604,32 @@ def _write_verdicts(w, dateline):
     a page that cannot be built is a warning and no page, never a failed build."""
     try:
         import verdict as _vd
-        built = _vd.build_pages(dateline=dateline)
+        import share_cards
+        # PROGRAM 9, SPRINT 9.6: each graded verdict's page names its own square image in its Open Graph and Twitter
+        # tags, drawn here into og/why/<slug>.png; a card that cannot be drawn leaves its page on the site card.
+        _share = share_cards.Ctx(directory=os.path.join(PUBLISH, "og", "why"), today=share_cards.et_today(_build_now()))
+        built = _vd.build_pages(dateline=dateline, share=_share)
         # PROGRAM 9, SPRINT 9.4: the Big movers' graded verdicts, /why/<date>-<coin id>, the same kind of page
         # in the same sitemaps. A movers page that cannot be built costs only itself.
         try:
             import movers as _mv
             taken = {b["path"] for b in built}
-            built += [b for b in _mv.build_pages(dateline=dateline) if b["path"] not in taken]
+            built += [b for b in _mv.build_pages(dateline=dateline, share=_share) if b["path"] not in taken]
         except Exception as e:
             print(f"::warning::movers: the movers' verdict pages were not built ({type(e).__name__}: {e})")
         for b in built:
             w(b["rel"], b["html"])
         print(f"verdict: {len(built)} page(s) built")
+        # and a square card per day (a day with no graded verdict gets the card that says so), for the queue
+        try:
+            if not share_cards.pillow_ok():
+                _days = []
+                print("share cards: Pillow is not installed; no day card is drawn")
+            else:
+                _days = [d for d in share_cards.day_specs(today=_share.today) if share_cards.draw(d, _share.directory)]
+            print(f"share cards: {len([s for s in _share.specs if s.get('rendered')])} verdict card(s) and {len(_days)} day card(s) drawn")
+        except Exception as e:
+            print(f"::warning::share cards: the day cards were not drawn ({type(e).__name__}: {e})")
         return built
     except Exception as e:
         print(f"::warning::verdict: the verdict pages were not built ({type(e).__name__}: {e})")

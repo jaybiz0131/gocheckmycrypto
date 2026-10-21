@@ -1049,13 +1049,15 @@ def cite(html_text, date_et, directory=None):
 
 # ---- the /why/ pages ----------------------------------------------------------------------------------------
 
-def build_pages(directory=None, dateline=""):
+def build_pages(directory=None, dateline="", share=None):
     """[{rel, html, path, lastmod, published_utc, title}] for every graded mover verdict: one URL per day and
     coin, its slug the coin's CoinGecko id, kept once written. The page carries the day's newest graded
     verdict for the coin and its evidence."""
-    by = {}
+    by, evening = {}, set()
     for r in records(directory):
         prepare(r)
+        if r.get("slot") == "evening":
+            evening.add(r.get("date_et"))
         for sym, e in (r.get("coins") or {}).items():
             v = (((e.get("verdict") or {}).get("coins") or {}).get(sym) or {})
             if v.get("grade") and e.get("evidence"):
@@ -1065,13 +1067,13 @@ def build_pages(directory=None, dateline=""):
         items.sort(key=lambda t: ((t[0].get("window") or {}).get("end_utc") or "", t[0].get("made_utc") or ""),
                    reverse=True)
         try:
-            out.append(_page(day, cid, items, dateline))
+            out.append(_page(day, cid, items, dateline, share, ["evening"] if day in evening else []))
         except Exception as ex:                                   # noqa: BLE001
             print(f"::warning::movers: /why/{day}-{cid} was not built ({type(ex).__name__}: {ex})")
     return out
 
 
-def _page(day, cid, items, dateline):
+def _page(day, cid, items, dateline, share=None, slots=()):
     import site_build as sb
     we, vd = _we(), _vd()
     rec, sym, e = items[0]
@@ -1108,8 +1110,10 @@ def _page(day, cid, items, dateline):
                       "url": sb.ORIGIN + "/",
                       "logo": {"@type": "ImageObject", "url": sb.ORIGIN + "/publisher-logo-512.png",
                                "width": 512, "height": 512}}}]}, ensure_ascii=False)
+    import share_cards
+    og = share_cards.for_page(share, vrec, sym, ev, f"{day}-{cid}", day, slots)
     html = sb.shell(f"{title} - {sb.NAME}", desc, "Today", body, dateline, path=path_rel + ".html",
-                    og_type="article", schema_extra=f'\n<script type="application/ld+json">{schema}</script>')
+                    og_type="article", schema_extra=f'\n<script type="application/ld+json">{schema}</script>', **og)
     return {"rel": f"why/{day}-{cid}.html", "html": html, "path": path_rel, "lastmod": pub,
             "published_utc": pub_first, "title": title}
 
