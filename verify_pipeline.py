@@ -655,9 +655,9 @@ def _live_layer_canary():
     ic, ir = page.find('class="cm-charts"'), page.find('class="cm-read-h"')
     _check(ic != -1 and ir != -1 and ic < ir, fails,
            "live layer: Chart Master's read sits above the live boards")
-    # a stored read keeps the names it was written under (Jack, J-10, October 20): the "Earlier reads" entries are
-    # stored headlines, not the renderer's words, and tonight's data holds a data card headline written before the rename
-    _own = _r.sub(r'<article class="bd-card cm-entry">.*?</article>', "", page, flags=_r.S)
+    # ONE stored read keeps the names it was written under (Jack, J-10, October 20): the October 19 read. Its "Earlier reads"
+    # entry is the only text left out; every other entry is checked, and a data card never prints its stored headline.
+    _own = _r.sub(r'<article class="bd-card cm-entry" data-date="2026-10-19">.*?</article>', "", page, flags=_r.S)
     _check("The chart read, Sep 21" in page and "Chart Master" not in _own, fails,
            "live layer: the chart read's headline does not carry its date, or still names the Chart Master")
     _check("cm-newer" in page, fails,

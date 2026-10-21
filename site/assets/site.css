@@ -2062,11 +2062,3 @@ p.vd-plain{font-family:var(--serif);font-size:17px;line-height:1.5;color:var(--i
 /* Sprint 9.4: Big movers, the ticker beside the coin's name, and the grade chip in its cell */
 .bm-tbl .bm-sym{margin-left:.4em;font-size:.8em;color:var(--muted,inherit);font-weight:400}
 .bm-tbl .bm-g{white-space:nowrap}
-
-/* THE CHART PAGE'S DATA CARD (the stored read on a day the written read did not clear the checks): a five-column table in
-   its own wrapper. It scrolls inside the wrapper and never widens the page; the cells are compact so it fits at 390. */
-.tbl-wrap{overflow-x:auto;max-width:100%;margin:10px 0}
-.tbl-wrap .tbl{width:100%;border-collapse:collapse}
-.tbl-wrap th,.tbl-wrap td{padding:8px 6px;text-align:right;font:12px/1.3 var(--mono);border-bottom:1px solid var(--line);white-space:nowrap}
-.tbl-wrap th:first-child,.tbl-wrap td:first-child{text-align:left}
-.tbl-wrap thead th{color:var(--muted);font-weight:600}
