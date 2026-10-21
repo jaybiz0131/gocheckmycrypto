@@ -8915,16 +8915,16 @@ def render_chartmaster(read, dateline, pulse=None):
             return "" if v is None else (f"{v:,.2f}" if abs(v) >= 1 else f"{v:,.4f}")
         _rows = "".join(
             f'<tr><th scope="row">{esc(str(lv.get("symbol")))}</th><td>${_n(lv.get("price"))}</td>'
-            f'<td>${_n(lv.get("sma50"))}</td><td>${_n(lv.get("sma200"))}</td>'
-            f'<td>{esc(str(lv.get("rsi14") if lv.get("rsi14") is not None else ""))}</td></tr>'
+            f'<td class="xs-x">${_n(lv.get("sma50"))}</td><td>${_n(lv.get("sma200"))}</td>'
+            f'<td class="xs-x">{esc(str(lv.get("rsi14") if lv.get("rsi14") is not None else ""))}</td></tr>'
             for lv in read["levels"])
         read_html = (f"""
   <div class="sec-head" style="margin-top:8px"><h2 class="cm-read-h">{esc(read_title)}</h2><span class="bar"></span></div>
   <article class="pulse-card cm-read cm-datacard">
     <div class="ey"><span class="tag">the data card</span><span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
     <p class="pc-note">Today's written read did not clear the desk's checks, so this card carries the numbers only.</p>
-    <div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Asset</th><th scope="col">Price</th>
-    <th scope="col">50-day</th><th scope="col">200-day</th><th scope="col">RSI-14</th></tr></thead>
+    {fit_toggle("fit-cm")}<div class="movetable fit-tbl" tabindex="0" role="region" aria-label="Chart data card (scrollable)"><table><thead><tr><th scope="col">Asset</th><th scope="col">Price</th>
+    <th scope="col" class="xs-x">50-day</th><th scope="col">200-day</th><th scope="col" class="xs-x">RSI-14</th></tr></thead>
     <tbody>{_rows}</tbody></table></div>
     <p class="pc-note">Read from the day's <a href="/pulse.html">Markets</a>. Describe, never predict.</p>
   </article>""")
@@ -8935,12 +8935,16 @@ def render_chartmaster(read, dateline, pulse=None):
     past = [r for r in load_cm_archive() if str(r.get("date")) != str(read.get("date"))]
     archive_html = ""
     if past:
+        # A data card's stored headline is the code fallback's, never a written read, and is not printed: the row says
+        # what it is in the renderer's own words (Chart data card). A written read keeps its stored headline.
         rows = "".join(
-            f'<article class="bd-card cm-entry">'
-            f'<div class="bd-cardtop"><span class="bd-eyebrow">The read</span>'
+            f'<article class="bd-card cm-entry" data-date="{esc(str(r.get("date") or "")[:10])}">'
+            f'<div class="bd-cardtop"><span class="bd-eyebrow">'
+            f'{"Chart data card" if r.get("data_only") else "The chart read"}</span>'
             f'<span class="bd-stamp">{esc(fmt_date(r.get("date")))}</span></div>'
-            f'<p class="cm-entry-h">{esc(destyle(r.get("headline") or ""))}</p>'
-            f'</article>' for r in past[:30])
+            + ('<p class="cm-entry-h">Levels, 50-day and 200-day lines, RSI</p>' if r.get("data_only") else
+               f'<p class="cm-entry-h">{esc(destyle(r.get("headline") or ""))}</p>')
+            + '</article>' for r in past[:30])
         archive_html = (
             '<div class="bd-sec" style="margin-top:30px"><div class="bd-sec-l">'
             '<span class="bd-eyebrow">The ledger</span>'

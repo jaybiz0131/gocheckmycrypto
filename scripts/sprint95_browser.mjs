@@ -315,6 +315,25 @@ try {
     check(`chart labels in ${scheme} mode: every svg label clears 4.5:1 against its surface`, bad.length === 0, bad.join(" | "));
   }
 
+  // 4b. THE CHART PAGE'S DATA CARD fits 375 and 390 by the shared rule, with no inner scroll and a labeled region
+  for (const w of [375, 390]) {
+    const url = "/chartmaster-datacard-fixture.html";
+    if (!exists(url)) { check(`${url} at ${w}`, false, "page not built"); continue; }
+    const [ctx, page] = await open(w, url);
+    const t = await page.evaluate(() => {
+      const wrap = document.querySelector(".fit-tbl"); if (!wrap) return null;
+      const tb = wrap.querySelector("table");
+      return { fits: tb.scrollWidth <= wrap.clientWidth + 1, tb: tb.scrollWidth, box: wrap.clientWidth,
+               hidden: [...wrap.querySelectorAll(".xs-x")].every(c => getComputedStyle(c).display === "none"),
+               region: wrap.getAttribute("role") === "region" && !!wrap.getAttribute("aria-label") && wrap.getAttribute("tabindex") === "0",
+               toggle: !!(wrap.previousElementSibling && wrap.previousElementSibling.classList.contains("fit-more")),
+               page: document.documentElement.scrollWidth - innerWidth };
+    });
+    check(`data card at ${w}: the table fits its box with no inner scroll, the secondary columns behind the toggle, a labeled region, and the page does not scroll`,
+      !!t && t.fits && t.hidden && t.region && t.toggle && t.page <= 0, JSON.stringify(t));
+    await ctx.close();
+  }
+
   // 5. TABLES THAT FIT 375: the Big movers list and Whale Watch by exchange, with the rest behind a tap
   for (const url of ["/movers-fixture.html", "/flows.html"]) {
     if (!exists(url)) continue;
