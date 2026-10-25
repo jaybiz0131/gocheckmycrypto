@@ -1,14 +1,18 @@
-Hotfix 9.7h review 1: the canary three ways at commit 6df5372 (clean tree), Sun Oct 25 2026, 1:52 PM EDT: today's clock, SITE_BUILD_NOW a week ahead, and a scratch clone holding a new content item stamped at the build's time
+Hotfix 9.7h review 2: the canary three ways at commit 73ff197 (clean tree), Sun Oct 25 2026, 2:42 PM EDT: today's clock, SITE_BUILD_NOW a week ahead, and a scratch clone holding a new content item stamped at the build's time
 1. the Wire is always built; with nothing inside its 48 hours it says so
   ok   an empty items list: the page is returned (not None)
   ok   an empty items list: the h1 'The Wire' is present
-  ok   an empty items list: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html
+  ok   an empty items list: the empty-state line is present, with no claim about the newest item
+  ok   an empty items list: the link to /news.html reads the page's own name, as NAMES has it ('News')
+  ok   an empty items list: the link to /bottom-line.html reads the page's own name, as NAMES has it ('The Brief')
   ok   an empty items list: the count line never says '0 entries'
   ok   an empty items list: the page's canonical address is /wire
   ok   an empty items list: no em or en dash in the page's own wording
   ok   only items older than 48 hours: the page is returned (not None)
   ok   only items older than 48 hours: the h1 'The Wire' is present
-  ok   only items older than 48 hours: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html
+  ok   only items older than 48 hours: the empty-state line is present, with no claim about the newest item
+  ok   only items older than 48 hours: the link to /news.html reads the page's own name, as NAMES has it ('News')
+  ok   only items older than 48 hours: the link to /bottom-line.html reads the page's own name, as NAMES has it ('The Brief')
   ok   only items older than 48 hours: the count line never says '0 entries'
   ok   only items older than 48 hours: the page's canonical address is /wire
   ok   only items older than 48 hours: no em or en dash in the page's own wording
@@ -20,11 +24,13 @@ Hotfix 9.7h review 1: the canary three ways at commit 6df5372 (clean tree), Sun 
   ok   the 16 October movers record was written with graded verdicts
   ok   every mover verdict's made_utc, and the record's, is the fixture's time (2026-10-20T23:14:41Z), never the clock
 3. the guards in the source
+  ok   NAMES.md carries the names the Wire's empty state links by (News, The Brief)
   ok   /wire.html is in site_build's sitemap list (the priority tier, beside /news.html)
+  ok   ...and removes both scratch directories in the same finally that restores the DIRs
   ok   scripts/sprint97h_test.py carries no em dash
   ok   the full canary is green with SITE_BUILD_NOW unset (today's clock): exit 0, last line 'LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay '
   ok   the full canary is green with SITE_BUILD_NOW=2026-11-01T15:00:00Z: exit 0, last line 'LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay '
-  ok   the full canary is green with a new content item stamped 2026-10-25T17:52:08Z added to a scratch clone (the next publication): exit 0, last line 'LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay '
+  ok   the full canary is green with a new content item stamped 2026-10-25T18:42:54Z added to a scratch clone (the next publication): exit 0, last line 'LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay '
 
 SPRINT 9.7h: PASS (0 failure(s))
 exit 0
