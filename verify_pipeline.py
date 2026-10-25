@@ -2061,6 +2061,7 @@ def _stamp_canary():
             fails.extend(_sprint95b_canary(out))
             fails.extend(_sprint96_canary(out))
             fails.extend(_sprint96h_canary(out))
+            fails.extend(_sprint97h_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -3128,6 +3129,34 @@ def _sprint92_canary(out):
     return fails
 
 
+def _fixture_now(stamp):
+    """Hotfix 9.7h: the time a fixture record is stamped with, as an aware datetime, never the wall clock. It is the
+    fixture's own stamp, or the newest committed item's time when that is later. The second half is needed because the news
+    sitemap's 48 hours are measured from the build's NEWEST item: the 15 October verdict and the 16 October movers are
+    fixtures of an older day, and once the desk has published anything past two days after them (it will, the moment it
+    resumes) their /why/ URLs fall out of the sitemap this canary asserts them in. Reading the newest item from the tree
+    keeps the fixtures inside the window, deterministically, with no clock."""
+    import datetime as _d
+    t = _d.datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+    import site_build as _sbm
+    try:
+        for fn in os.listdir(_sbm.CONTENT):
+            if fn.startswith("_") or not fn.endswith(".json"):
+                continue
+            c = json.load(open(os.path.join(_sbm.CONTENT, fn), encoding="utf-8"))
+            if c.get("example"):
+                continue
+            try:
+                u = _d.datetime.fromisoformat((c.get("published_utc") or (c.get("date", "") + "T00:00:00Z")).replace("Z", "+00:00"))
+            except ValueError:
+                continue
+            if u > t:
+                t = u
+    except OSError:
+        pass
+    return t
+
+
 def _verdict_fixture_dir(tmp):
     """Point verdict.py at a scratch directory holding the 15 October evening verdict, graded from the
     recorded fixture's evidence record with no model (the graded line). Returns the old directory."""
@@ -3145,10 +3174,13 @@ def _verdict_fixture_dir(tmp):
                 sys.path.remove(_sd)
         d = os.path.join(tmp, "verdict")
         os.makedirs(d, exist_ok=True)
+        # Hotfix 9.7h: stamped from the fixture (the evidence record's made_utc, else the Board's) by _fixture_now, never the
+        # wall clock, so the news sitemap's 48-hour window does not move off the fixture pages as the days pass.
+        _bd = json.load(open(os.path.join(HERE, "fixtures", "why", "pulse_2026-10-15T2343Z.json"), encoding="utf-8"))
+        _t = rec.get("made_utc") or _bd.get("generated_utc")
         v = _vd.record_from(rec, "2026-10-15", "evening",
-                            day=_vd.day_moves(json.load(open(os.path.join(HERE, "fixtures", "why",
-                                                                          "pulse_2026-10-15T2343Z.json"),
-                                                             encoding="utf-8")), "2026-10-15"))
+                            now=_fixture_now(_t),
+                            day=_vd.day_moves(_bd, "2026-10-15"))
         json.dump(v, open(os.path.join(d, "2026-10-15-evening.json"), "w", encoding="utf-8"))
         _vd.DIR = d
         return old
@@ -3222,11 +3254,12 @@ def _movers_fixture_dir(tmp):
             if _sd in sys.path:
                 sys.path.remove(_sd)
         btc = rec["gate"]["btc_24h_pct"]
+        rec["made_utc"] = _fixture_now(rec["made_utc"]).strftime("%Y-%m-%dT%H:%M:%SZ")      # 9.7h: its pages' published_utc
         for sym, e in rec["coins"].items():
             if e.get("evidence"):
                 _mv.register(sym, e["name"], e["gecko_id"])
                 e["verdict"] = _vd.record_from(e["evidence"], rec["date_et"], rec["slot"], day=_mv.day_of(e, btc),
-                                               syms=(sym,))
+                                               syms=(sym,), now=_fixture_now(rec["made_utc"]))
         d = os.path.join(tmp, "movers")
         os.makedirs(d, exist_ok=True)
         json.dump(rec, open(os.path.join(d, f"{rec['date_et']}-{rec['slot']}.json"), "w", encoding="utf-8"))
@@ -3365,6 +3398,25 @@ def _sprint96h_canary(out):
         fails += ["sprint 9.6h: " + f for f in _s96h.tree(out)]
     finally:
         _sys.modules.pop("sprint96h_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint97h_canary(out):
+    """HOTFIX 9.7h (25 October 2026): the canary never takes the desk dark (incident J-13). scripts/sprint97h_test.py holds the
+    cases (the Wire built with an empty state when nothing is inside 48 hours, the fixture verdicts stamped with their own
+    time and never the wall clock) and the cases that read the tree this build wrote (wire.html built). The
+    helper is taken out of sys.modules again (U-11). Its --canary mode, which runs this whole canary twice, is never called here."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint97h_test as _s97h
+        fails = ["sprint 9.7h: " + f for f in _s97h.unit()]
+        fails += ["sprint 9.7h: " + f for f in _s97h.tree(out)]
+    finally:
+        _sys.modules.pop("sprint97h_test", None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
     return fails

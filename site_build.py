@@ -1352,8 +1352,9 @@ WIRE_JS = """<script>(function(){
 
 def render_wire(items, dateline, now=None):
     rows = _wire_rows(items, now)
-    if not rows:
-        return None
+    # Hotfix 9.7h: the Wire is always built. With nothing inside its window the page keeps its shell and says so, so the
+    # URL never leaves the site (a dark desk has no entry under 48 hours old, and a page that vanished then failed the
+    # canary's no-URL-removed check and stopped every run).
     body, day = [], None
     for r in rows:
         et = r["t"].astimezone(_ET)
@@ -1369,7 +1370,13 @@ def render_wire(items, dateline, now=None):
             f'<span class="wr-t">{esc(et.strftime("%-I:%M %p"))} ET</span>'
             f'<span class="wr-k wr-k-{esc(r["kind"].lower())}">{esc(KIND_LABEL.get(r["kind"], r["kind"]))}</span>'
             f'<a class="wr-x" href="{r["href"]}">{esc(r["text"])}</a></li>')
-    body.append("</ol>")
+    if rows:
+        body.append("</ol>")
+        count = f'{len(rows)} {"entry" if len(rows) == 1 else "entries"}, last {WIRE_HOURS} hours'
+    else:
+        body.append(f'<p class="wr-empty">Nothing in the last {WIRE_HOURS} hours. The desk\'s newest work is in '
+                    '<a href="/bottom-line.html">the Brief archive</a>.</p>')
+        count = f'Last {WIRE_HOURS} hours'
     return shell(
         f"The Wire - {NAME}",
         "Everything this desk published and every Markets reading it took, newest first, "
@@ -1377,7 +1384,7 @@ def render_wire(items, dateline, now=None):
         "News",
         '<section class="page wrap wr-page">'
         '<div class="wr-head"><h1>The Wire</h1>'
-        f'<span class="wr-c">{len(rows)} entries, last {WIRE_HOURS} hours</span></div>'
+        f'<span class="wr-c">{count}</span></div>'
         '<p class="bd-src">Nothing is written for this page and nothing is computed '
         'for it. Every line is something that happened, stamped when it happened, '
         'linking to the thing itself.</p>'
@@ -9787,7 +9794,7 @@ def build():
 
     # E-2 / C-L2: the Wire. A failure here costs one page and nothing after it.
     _wire = render_wire(items, dateline)
-    if _wire:
+    if _wire:                                        # always a page since 9.7h: an empty state, never no URL
         w("wire.html", _wire)
         print(f"wire: {len(_wire_rows(items))} entr(ies)")
     w("chartmaster.html", render_chartmaster(cm, dateline, pulse))
