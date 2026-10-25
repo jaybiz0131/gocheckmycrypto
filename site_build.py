@@ -1350,10 +1350,46 @@ WIRE_JS = """<script>(function(){
 })();</script>"""
 
 
+def _wire_empty_page(items, dateline, now=None):
+    """HOTFIX 9.6w (October 25, 2026): the Wire is a URL, and a URL is a promise. With no entry inside the window
+    (the Edition and morning runs stopped, so nothing new aged in while the old entries aged out) the page used to
+    be left out of the build, the canary's "no URL removed" case went red, and that red stopped the runs that would
+    have refreshed the data. Now the page is built with the Wire's own frame, the window named, one plain line, and
+    the newest entry the desk has, stamped by the site's stale rule. No entry is invented."""
+    import datetime as _dt
+    now = now or _build_now()
+    newest = _wire_rows(items, now, hours=24 * 3650)[:1]
+    if newest:
+        t = newest[0]["t"]
+        # The date is the newest entry's own time, not a refresh time, and the page carries no numbers: the line says
+        # only what the date is. The `stale` class and data-asof leave the age to the site's asof script.
+        stamp = (f'<p class="data-stamp stale"{_asof_attr_ts(t.strftime("%Y-%m-%dT%H:%M:%SZ"))}>'
+                 f'<b>Newest entry on record:</b> {_et_clock(t)}, '
+                 f'{t.astimezone(_ET).strftime("%b %d, %Y").replace(" 0", " ")}.</p>')
+    else:
+        stamp = ('<p class="data-stamp stale"><b>The Wire may be out of date.</b> '
+                 'The desk has no entry on record to stamp it with.</p>')
+    return shell(
+        f"The Wire - {NAME}",
+        "Everything this desk published and every Markets reading it took, newest first, "
+        "with the time it happened.",
+        "News",
+        '<section class="page wrap wr-page">'
+        '<div class="wr-head"><h1>The Wire</h1>'
+        '</div>'
+        '<p class="bd-src">Nothing is written for this page and nothing is computed '
+        'for it. Every line is something that happened, stamped when it happened, '
+        'linking to the thing itself.</p>'
+        f'<p class="wr-none">No wire entries fall in the last {WIRE_HOURS} hours. '
+        'This page fills again as the desk publishes and takes its readings.</p>'
+        + stamp + '</section>',
+        dateline, path="/wire.html")
+
+
 def render_wire(items, dateline, now=None):
     rows = _wire_rows(items, now)
     if not rows:
-        return None
+        return _wire_empty_page(items, dateline, now)
     body, day = [], None
     for r in rows:
         et = r["t"].astimezone(_ET)
@@ -5168,23 +5204,45 @@ def _cc_stamp(iso):
 
 
 def render_living_table_page(spec, data, dateline):
+    """Always a page (hotfix 9.6h): the fresh table, the last stored table marked stale with
+    its own as-of date, or 'Not read yet' when the source has never been read. A page that
+    is in the sitemap never answers 404 because its source refused the build."""
     t = (data.get("tables") or {}).get(spec["key"])
-    if not t:
-        return None
-    body_rows = _CC_RENDER[spec["key"]](t)
-    n = len(t.get("rows") or t.get("weeks") or t.get("days") or [])
     url = f'/tables/{spec["slug"]}.html'
-    body = f"""<main class="wrap"><section class="page">
+    head = f"""<main class="wrap"><section class="page">
   <p class="bd-stamp"><a href="/record.html">{esc(task_name("record"))}</a> / {esc(spec["title"])}</p>
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(spec["h1"])}</h1>
-  <p class="lx-dek">{esc(spec["dek"])}</p>
+  <p class="lx-dek">{esc(spec["dek"])}</p>"""
+    if not t:
+        body = head + f"""
   <div class="bd-cardtop"><span class="bd-badge dat">Tracker</span>
-    <span class="bd-stamp">{n} rows, as of {esc(_cc_stamp(data.get("fetched_at") or ""))}</span>
+    <span class="bd-stamp">Not read yet</span>
+  </div>
+  <p class="lx-dek">Not read yet. The source for this table has not answered this desk's build,
+     and nothing has been stored from an earlier read, so no row is shown. The table appears
+     here when the source is read.</p>
+</section></main>"""
+        return url, shell(f'{spec["title"]} - {NAME}', spec["desc"], "", body, dateline,
+                          path=url)
+    body_rows = _CC_RENDER[spec["key"]](t)
+    n = len(t.get("rows") or t.get("weeks") or t.get("days") or [])
+    as_of = _cc_stamp((data.get("fetched") or {}).get(spec["key"]) or data.get("fetched_at") or "")
+    is_stale = spec["key"] in (data.get("stale") or ())
+    if is_stale:
+        stamp = (f'<span class="data-stamp stale"><b>Stale data.</b> The source did not answer this build. '
+                 f'These {n} rows are from the last good read, as of {esc(as_of)}.</span>')
+        foot = ("Source: " + esc(t.get("source") or "") + ". This is the last table read; "
+                "it is replaced the next time the source answers.")
+    else:
+        stamp = f'<span class="bd-stamp">{n} rows, as of {esc(as_of)}</span>'
+        foot = ("Source: " + esc(t.get("source") or "") + ". Rebuilt at every site build; "
+                "a row appears when the source publishes it and never before.")
+    body = head + f"""
+  <div class="bd-cardtop"><span class="bd-badge dat">Tracker</span>
+    {stamp}
   </div>
   <div class="lt-wrap"><table class="lt">{body_rows}</table></div>
-  <p class="bd-src" style="margin-top:14px">Source: {esc(t.get("source") or "")}.
-     Rebuilt at every site build; a row appears when the source publishes it and never
-     before.</p>
+  <p class="bd-src" style="margin-top:14px">{foot}</p>
 </section></main>"""
     return url, shell(f'{spec["title"]} - {NAME}', spec["desc"], "", body, dateline,
                       path=url)
@@ -9892,10 +9950,10 @@ def build():
 
     # C-L4: the file the mini-board fetches, and only after it has found pins.
     _cm_payload = coins_mini_payload(pulse)
-    if _cm_payload:
-        w(os.path.join("data", "coins-mini.json"),
-          json.dumps(_cm_payload, separators=(",", ":")))
-        print(f"coins mini-board: {len(_cm_payload)} coin(s) available to pin")
+    # HOTFIX 9.6w: always written (an empty list when the Top 100 is empty; the mini-board shows nothing for it).
+    w(os.path.join("data", "coins-mini.json"),
+      json.dumps(_cm_payload, separators=(",", ":")))
+    print(f"coins mini-board: {len(_cm_payload)} coin(s) available to pin")
     w("news.html", render_news_hub(items, dateline, pulse=pulse))
     # C4: a page per storyline, paginated, plus a page per month. Together these are
     # what makes every live story reachable within three clicks of the front page.
@@ -9925,10 +9983,10 @@ def build():
         _tile.record(_old_sink)
 
     # E-2 / C-L2: the Wire. A failure here costs one page and nothing after it.
+    # HOTFIX 9.6w: always written; with nothing in the window it is the honest empty page (render_wire).
     _wire = render_wire(items, dateline)
-    if _wire:
-        w("wire.html", _wire)
-        print(f"wire: {len(_wire_rows(items))} entr(ies)")
+    w("wire.html", _wire)
+    print(f"wire: {len(_wire_rows(items))} entr(ies)")
     w("chartmaster.html", render_chartmaster(cm, dateline, pulse))
     w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))
@@ -9979,19 +10037,30 @@ def build():
     w("standards.html", render_standards(dateline))
     w("corrections.html", render_corrections(items, dateline))
     w("learn.html", render_learn(dateline))
-    # C-C: the living tables. Each is independent; one whose source did not resolve
-    # is not built and its lane does not link it.
+    # C-C: the living tables. Each is independent. 9.6h: a table whose source did not
+    # resolve is built from its last stored copy, marked stale, or says Not read yet; no
+    # page leaves the tree because a source refused the build, and the lane always links it.
     global CC_DATA, CC_BUILT
     CC_DATA, CC_BUILT = None, set()
     try:
         import living_tables as _lt
-        _lt.refresh()
+        try:
+            _lt.refresh()
+        except Exception as _e:
+            print(f"::warning::living_tables: refresh failed ({type(_e).__name__}); stored tables kept")
         CC_DATA = _lt.load()
     except Exception as _e:
-        print(f"living_tables: unavailable ({type(_e).__name__}); tables withheld")
-    if CC_DATA:
+        print(f"::warning::living_tables: unavailable ({type(_e).__name__}); pages built as Not read yet")
+    if CC_DATA is None:
+        CC_DATA = {"tables": {}, "fetched": {}, "stale": []}
+    if CC_DATA is not None:
         for _spec in CC_TABLES:
-            _got = render_living_table_page(_spec, CC_DATA, dateline)
+            try:
+                _got = render_living_table_page(_spec, CC_DATA, dateline)
+            except Exception as _e:
+                print(f"::warning::living table {_spec['key']}: stored table did not render "
+                      f"({type(_e).__name__}); page built as Not read yet")
+                _got = render_living_table_page(_spec, {"tables": {}}, dateline)
             if _got:
                 _u, _html = _got
                 w(_u.lstrip("/"), _html)

@@ -2060,6 +2060,8 @@ def _stamp_canary():
             fails.extend(_sprint95_canary(out))
             fails.extend(_sprint95b_canary(out))
             fails.extend(_sprint96_canary(out))
+            fails.extend(_sprint96h_canary(out))
+            fails.extend(_sprint96w_canary(out))
             fails.extend(_sprint97_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
@@ -3359,6 +3361,44 @@ def _sprint96_canary(out):
     finally:
         for m in ("sprint96_test", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
             _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint96h_canary(out):
+    """HOTFIX 9.6h (21 October 2026): the ETF table never vanishes. scripts/sprint96h_test.py holds the cases (the refresh
+    keeping the last good copy of every table it failed to fetch, each living table page built from its stored copy and
+    marked stale with its own as-of date, or saying Not read yet when nothing is stored) and the cases that read the tree this
+    build wrote (all three tables/ pages built and in the sitemap, each saying what it is). The helper is taken out of
+    sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint96h_test as _s96h
+        fails = ["sprint 9.6h: " + f for f in _s96h.unit()]
+        fails += ["sprint 9.6h: " + f for f in _s96h.tree(out)]
+    finally:
+        _sys.modules.pop("sprint96h_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint96w_canary(out):
+    """HOTFIX 9.6w (25 October 2026): the Wire never vanishes. scripts/sprint96w_test.py holds the cases (the page byte-identical to
+    main's with entries, an honest stale page without, the build writing it whatever the window holds) and the cases that read the
+    tree this build wrote. The helper is taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint96w_test as _s96w
+        fails = ["hotfix 9.6w: " + f for f in _s96w.canary_unit()]
+        fails += ["hotfix 9.6w: " + f for f in _s96w.tree(out)]
+    finally:
+        _sys.modules.pop("sprint96w_test", None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
     return fails
@@ -5239,9 +5279,13 @@ def _merge_state_canary():
     # staging the market boards it had always refreshed and thrown away. Both are
     # regenerated snapshots rather than records, and merge_board keeps the one whose
     # DATA is newer, so an auto-resolve here cannot lose reporting.
+    # living-tables.json joined on 2026-10-21 (hotfix 9.6h), when the two publish steps
+    # started staging the last good copy of each living table. merge_living keeps, per
+    # table, the later stamp, and never drops a table only one side holds, so an
+    # auto-resolve here cannot lose a stored table.
     _check(set(ms.KNOWN) == {"editorial-log.json", "regwatch.json",
                              "site/data/chartmaster.json", "site/data/pulse.json",
-                             "site/data/flows.json"}, fails,
+                             "site/data/flows.json", "site/data/living-tables.json"}, fails,
            "merge_state: the auto-resolve allowlist changed; anything added here can "
            "silently overwrite real work during a rebase")
     # the board merger must pick by data age, never by which file was written last

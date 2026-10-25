@@ -1,0 +1,140 @@
+Hotfix 9.6h review 1 red-first log, Wed Oct 21 2026, 2:41 PM EDT.
+PART 1: the new cases (committed ETF table, house-form stale line, workflows, merge) run against c5f171e's code and data: each FAIL below is a case seen red; the break is that c5f171e has no ETF table in the committed file, prints '<b>Stale</b> the source did not...', stages and refreshes nothing in the workflows, and has no merge_living (so the merge cases could not run).
+
+  FAIL site/data/living-tables.json carries an ETF table with at least 4 reconciled days and its own stamp
+  FAIL every committed table carries its own as-of stamp
+  FAIL the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does
+  FAIL the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date
+  FAIL morning-read.yml: refreshes the living tables with a timeout, never as a gate
+  FAIL morning-read.yml: stages site/data/living-tables.json with the commit
+  FAIL crypto-news-brief.yml: refreshes the living tables with a timeout, never as a gate
+  FAIL crypto-news-brief.yml: stages site/data/living-tables.json with the commit
+  FAIL group workflows and merge could not run [AttributeError: module 'merge_state' has no attribute 'merge_living']
+  FAIL ...marked stale with the committed table's own as-of ()
+  FAIL every living table page is built with every source refusing, from the stored copy and marked stale: etf-flows-by-issuer
+SPRINT 9.6h: FAIL (11 failure(s))
+
+PART 2: every case that was green on main or never seen red, broken on purpose in a scratch copy (scripts/sprint96h_plants.py), the break named, the red cases listed, the tree restored:
+
+PLANT: refresh starts from an empty table set (drops every table it did not fetch)
+  file living_tables.py; exit 1; 3 case(s) red
+    FAIL Farside refusing while DefiLlama answers: the stored ETF table is still in the file, untouched
+    FAIL ...and the whale table, which could not be rebuilt, is also kept
+    SPRINT 9.6h: FAIL (2 failure(s))
+PLANT: refresh stamps every kept table with the new time
+  file living_tables.py; exit 1; 2 case(s) red
+    FAIL each table keeps its own as-of time: the kept ones the old stamp, the refreshed one a new stamp
+    SPRINT 9.6h: FAIL (1 failure(s))
+PLANT: refresh rewrites the file even when nothing was read
+  file living_tables.py; exit 1; 3 case(s) red
+    FAIL every source refusing: living-tables.json is byte for byte what it was
+    FAIL refusing sources: the committed file is left byte for byte as it was
+    SPRINT 9.6h: FAIL (3 failure(s))
+PLANT: load() returns nothing when no file exists
+  file living_tables.py; exit 1; 2 case(s) red
+    FAIL nothing stored and nothing read: load() still returns a dict, not None, so the build goes on
+    SPRINT 9.6h: FAIL (1 failure(s))
+PLANT: load() returns nothing when the file is over 30 hours old
+  file living_tables.py; exit 1; 11 case(s) red
+    FAIL load() hands back stored tables however old the file is (it used to return nothing after 30 hours)
+    FAIL load() names the tables that were not refreshed this run as stale
+    FAIL Farside refusing: the ETF page is built (not None) from the stored table
+    FAIL the page says it is stale
+    FAIL the stale line carries the table's own as-of date and time (Oct 20, 2026, 7:00 AM ET)
+    FAIL the page does not claim to be rebuilt fresh while it is stale
+    FAIL no em dash on the page
+    FAIL group pages could not run [TypeError: 'NoneType' object is not iterable]
+    FAIL the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does
+    FAIL the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date
+    SPRINT 9.6h: FAIL (10 failure(s))
+PLANT: load() names no table stale
+  file living_tables.py; exit 1; 14 case(s) red
+    FAIL load() names the tables that were not refreshed this run as stale
+    FAIL the page says it is stale
+    FAIL the stale line carries the table's own as-of date and time (Oct 20, 2026, 7:00 AM ET) [AttributeError: 'NoneType' object has no attribute 'group']
+    FAIL the page does not claim to be rebuilt fresh while it is stale
+    FAIL stables_by_issuer: source refusing, the page is built from the stored table and marked stale with its date
+    FAIL whales_by_week: source refusing, the page is built from the stored table and marked stale with its date
+    FAIL refusing sources: the ETF page built from the committed file is marked stale
+    FAIL the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does
+    FAIL the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date
+    FAIL ...marked stale with the committed table's own as-of (2:36 PM ET, Oct 21, 2026)
+    FAIL every living table page is built with every source refusing, from the stored copy and marked stale: etf-flows-by-issuer
+    FAIL every living table page is built with every source refusing, from the stored copy and marked stale: stablecoin-supply-by-issuer
+    FAIL every living table page is built with every source refusing, from the stored copy and marked stale: whale-flows-by-week
+    SPRINT 9.6h: FAIL (13 failure(s))
+PLANT: the page builder returns no page for a missing table
+  file site_build.py; exit 1; 6 case(s) red
+    FAIL the ETF page is still built, and says 'Not read yet'
+    FAIL ...and carries no table and no invented number
+    FAIL stables_by_issuer: nothing stored, the page says Not read yet
+    FAIL whales_by_week: nothing stored, the page says Not read yet
+    FAIL a data dict with no ETF table (the file as main has it today) still yields all three pages
+    SPRINT 9.6h: FAIL (5 failure(s))
+PLANT: the page never shows the stale mark
+  file site_build.py; exit 1; 13 case(s) red
+    FAIL the page says it is stale
+    FAIL the stale line carries the table's own as-of date and time (Oct 20, 2026, 7:00 AM ET) [AttributeError: 'NoneType' object has no attribute 'group']
+    FAIL the page does not claim to be rebuilt fresh while it is stale
+    FAIL stables_by_issuer: source refusing, the page is built from the stored table and marked stale with its date
+    FAIL whales_by_week: source refusing, the page is built from the stored table and marked stale with its date
+    FAIL refusing sources: the ETF page built from the committed file is marked stale
+    FAIL the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does
+    FAIL the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date
+    FAIL ...marked stale with the committed table's own as-of (2:36 PM ET, Oct 21, 2026)
+    FAIL every living table page is built with every source refusing, from the stored copy and marked stale: etf-flows-by-issuer
+    FAIL every living table page is built with every source refusing, from the stored copy and marked stale: stablecoin-supply-by-issuer
+    FAIL every living table page is built with every source refusing, from the stored copy and marked stale: whale-flows-by-week
+    SPRINT 9.6h: FAIL (12 failure(s))
+PLANT: the page prints the file's stamp, not the table's own
+  file site_build.py; exit 1; 4 case(s) red
+    FAIL the stale line carries the table's own as-of date and time (Oct 20, 2026, 7:00 AM ET)
+    FAIL stables_by_issuer: source refusing, the page is built from the stored table and marked stale with its date
+    FAIL whales_by_week: source refusing, the page is built from the stored table and marked stale with its date
+    SPRINT 9.6h: FAIL (3 failure(s))
+PLANT: the stale label runs into the sentence (no closed label)
+  file site_build.py; exit 1; 3 case(s) red
+    FAIL the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does
+    FAIL the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date
+    SPRINT 9.6h: FAIL (2 failure(s))
+PLANT: the build skips the ETF page
+  file site_build.py; exit 1; 9 case(s) red
+    FAIL the build wrote tables/etf-flows-by-issuer.html with Farside refusing
+    FAIL ...marked stale with the committed table's own as-of (2:36 PM ET, Oct 21, 2026)
+    FAIL ...and its URL is still in the sitemap
+    FAIL ...and the Record still links it
+    FAIL every living table page is built with every source refusing, from the stored copy and marked stale: etf-flows-by-issuer
+    FAIL tables/etf-flows-by-issuer.html: the committed file holds this table, so the page is never 'Not read yet'
+    FAIL tables/etf-flows-by-issuer.html is built and in the sitemap
+    FAIL tables/etf-flows-by-issuer.html says what it is: a fresh as-of line, a stale mark, or Not read yet
+    SPRINT 9.6h: FAIL (8 failure(s))
+PLANT: merge_state drops a table only one side holds
+  file merge_state.py; exit 1; 2 case(s) red
+    FAIL merge_state resolves living-tables.json per table: the later stamp wins, a tie goes upstream, no table is dropped
+    SPRINT 9.6h: FAIL (1 failure(s))
+PLANT: merge_state does not list the file
+  file merge_state.py; exit 1; 2 case(s) red
+    FAIL merge_state lists the file as one it may resolve
+    SPRINT 9.6h: FAIL (1 failure(s))
+PLANT: the morning workflow does not stage the file
+  file .github/workflows/morning-read.yml; exit 1; 2 case(s) red
+    FAIL morning-read.yml: stages site/data/living-tables.json with the commit
+    SPRINT 9.6h: FAIL (1 failure(s))
+PLANT: the brief workflow's rebase path does not stage the file
+  file .github/workflows/crypto-news-brief.yml; exit 1; 2 case(s) red
+    FAIL crypto-news-brief.yml: and keeps it staged when a rebase auto-resolve continues
+    SPRINT 9.6h: FAIL (1 failure(s))
+PLANT: the brief workflow does not refresh the tables
+  file .github/workflows/crypto-news-brief.yml; exit 1; 2 case(s) red
+    FAIL crypto-news-brief.yml: refreshes the living tables with a timeout, never as a gate
+    SPRINT 9.6h: FAIL (1 failure(s))
+PLANT: the committed living-tables.json is the Sept 14 file with no ETF table (c5f171e's data)
+  file site/data/living-tables.json; exit 1; 5 case(s) red
+    FAIL site/data/living-tables.json carries an ETF table with at least 4 reconciled days and its own stamp
+    FAIL every committed table carries its own as-of stamp
+    FAIL ...marked stale with the committed table's own as-of ()
+    FAIL every living table page is built with every source refusing, from the stored copy and marked stale: etf-flows-by-issuer
+    SPRINT 9.6h: FAIL (4 failure(s))
+
+RESTORED TREE: exit 0; 0 case(s) red
+PLANTS: 17, 17 went red, restored tree green

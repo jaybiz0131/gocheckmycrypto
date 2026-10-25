@@ -30,6 +30,8 @@ run "scripts/sprint95_test.py --tree $TREE" python3 scripts/sprint95_test.py --t
 run "scripts/sprint95b_test.py --tree $TREE" python3 scripts/sprint95b_test.py --tree "$TREE"
 run "scripts/sprint96_test.py --tree $TREE" python3 scripts/sprint96_test.py --tree "$TREE"
 run "scripts/sprint97_test.py --tree $TREE" python3 scripts/sprint97_test.py --tree "$TREE"
+run "scripts/sprint96h_test.py --build --tree $TREE" python3 scripts/sprint96h_test.py --build --tree "$TREE"
+run "scripts/sprint96w_test.py --build" python3 scripts/sprint96w_test.py --build
 run "scripts/twins_gate_test.py " python3 scripts/twins_gate_test.py
 rm -f "$LOG.tmp" "$LOG.out"
 echo "SUITE: $n scripts, $bad with a non-zero exit" >> "$LOG"

@@ -1,0 +1,18 @@
+Hotfix 9.6w: scripts/sprint96w_test.py run against main's site_build.py (3be7684) with the test and its fixtures in place; the cases that go red, each named.
+--- unit cases (October 25, 2026)
+  FAIL with every entry past the window render_wire still returns a page (it returned None on main)
+  FAIL ...it keeps the Wire's frame: title, h1 and the page path [TypeError: argument of type 'NoneType' is not iterable]
+  FAIL ...it names the window and says plainly that no entries fall in it
+  FAIL ...it invents no entry: no row, no filter, none of the fixture titles [TypeError: argument of type 'NoneType' is not iterable]
+  FAIL ...the data's own as-of stamp is shown stale by the site's rule, with the newest entry's date [TypeError: argument of type 'NoneType' is not iterable]
+  FAIL ...and it is stale with no entry on record to stamp it with, saying so [AttributeError: module 'site_build' has no attribute '_wire_empty_page']
+  FAIL ...the empty page carries no em dash [TypeError: expected string or bytes-like object, got 'NoneType']
+  FAIL wire.html is written without an `if _wire:` guard
+  FAIL data/coins-mini.json is written without an `if _cm_payload:` guard
+  FAIL with a non-mover /why/ page stamped far in the future, every mover's /why/ URL is still in the news sitemap (["every mover's /why/ URL is in the news sitemap inside its 48 hours"])
+  FAIL ...and nothing else in sprint 9.4's cases moved
+HOTFIX 9.6w: FAIL (11 failure(s))
+--- whole-build cases (--build; first run, before the test normalized the masthead clock)
+  FAIL the build wrote wire.html
+  FAIL ...honest and stale
+  FAIL NO URL REMOVED: every page of the structural set is built (70; missing ['wire.html'])

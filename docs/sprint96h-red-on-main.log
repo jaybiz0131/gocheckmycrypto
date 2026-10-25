@@ -1,0 +1,30 @@
+1. the refresh keeps the last good copy of every table it failed to fetch
+  ok   every source refusing: living-tables.json is byte for byte what it was
+  FAIL Farside refusing while DefiLlama answers: the stored ETF table is still in the file, untouched
+  ok   ...and the table that did refresh is the new one
+  FAIL ...and the whale table, which could not be rebuilt, is also kept
+  FAIL each table keeps its own as-of time: the kept ones the old stamp, the refreshed one a new stamp
+  FAIL load() hands back stored tables however old the file is (it used to return nothing after 30 hours)
+  FAIL load() names the tables that were not refreshed this run as stale
+2. the page is present and marked stale, with its own as-of date
+  FAIL Farside refusing: the ETF page is built (not None) from the stored table
+  FAIL the page says it is stale
+  FAIL the stale line carries the table's own as-of date and time (Oct 20, 2026, 7:00 AM ET)
+  FAIL the page does not claim to be rebuilt fresh while it is stale
+  FAIL no em dash on the page
+  FAIL group pages could not run [TypeError: 'NoneType' object is not iterable]
+5. wiring
+  ok   the build links a living table's lane entry only to a page it wrote: CC_BUILT holds every spec that built
+  ok   living_tables.py has no em dash
+  ok   this script has no em dash
+  ok   no URL list entry was removed: the three tables are still in the structural baseline
+6. a whole build with Farside refusing
+  FAIL the build wrote tables/etf-flows-by-issuer.html with Farside refusing
+  FAIL ...marked stale with the stored table's own date
+  FAIL ...and its URL is still in the sitemap
+  FAIL ...and the Record still links it
+  FAIL every living table page is built with every source refusing: etf-flows-by-issuer
+  FAIL every living table page is built with every source refusing: stablecoin-supply-by-issuer
+  ok   every living table page is built with every source refusing: whale-flows-by-week
+
+SPRINT 9.6h: FAIL (17 failure(s))
