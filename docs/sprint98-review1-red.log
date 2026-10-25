@@ -1,0 +1,86 @@
+Review 1 fixes, run 1: scripts/sprint98_test.py with the review 1 cases added, before any fix, on 6b73b5f (the reviewed head) plus the test only, against a fresh build of that tree. File time Sun Oct 25 2026, 6:50 PM EDT.
+
+1. the tally from a fixture of verdicts and later sources
+  ok   every stored graded Bitcoin verdict is on the record, once, with its own URL and grade
+  ok   Likely: 3 graded, 1 confirmed by a later primary source, 1 reversed, the rest open
+  ok   the Unclear verdict is graded and open (no later source names it)
+  ok   the totals add up: graded = confirmed + reversed + open in every grade
+  ok   the total is every graded verdict stored
+  ok   14 October's Likely is confirmed, with the source that confirmed it
+  ok   17 October's Likely, with no later source, is open
+  ok   the record runs newest first
+  ok   the record starts at the first stored verdict record (9.3's first verdict on)
+  ok   SYNTHETIC: a day graded at both slots is one verdict, the evening's (the one its page shows)
+  ok   SYNTHETIC: a verdict withheld at the cap is not on the record (no grade was printed)
+2. a reversed verdict is counted as reversed
+  ok   16 October's Likely, reversed by a later primary source, is counted reversed and not confirmed
+  ok   a verdict one primary source reverses stays reversed when another confirms it
+  ok   a source published before the verdict was made is not a later source: the verdict stays open
+  ok   a source that is not primary does not reverse a verdict
+  ok   a later source for a verdict that is not stored is counted nowhere and named as ignored
+  ok   a finding other than confirms or reverses is counted nowhere
+  ok   a source with no link is counted nowhere (the reader must be able to read it)
+  FAIL the page names the reversed verdict as reversed, with its source
+3. a graded Big mover's verdict is on the record under its own /why/ address
+  ok   each of the 5 graded movers of 16 October is on the record at /why/2026-10-16-<coin id>
+  ok   each mover keeps the grade its card printed
+4. the page: the counts as tallied, honest when empty, the house rules
+  FAIL the headline counts are the tally's: Likely verdicts, confirmed later, reversed, not yet revisited
+  ok   every graded verdict is listed with a link to its own page
+  ok   the record names its first day
+  FAIL review 1: the page prints no definition of Likely of its own (How we check holds the ruled one)
+  FAIL review 1: one count, one name: 'confirmed later' and 'reversed later' on the headline, the table and the rows; no 'Held up'
+  ok   each listed row carries its verdict's address, grade and status (as the tree cases read them)
+  ok   one h1, 'The verdict record'
+  ok   its canonical address is /verdict-record
+  ok   it links How we check for the grades' definitions
+  ok   fixture: no 'because' on the page (it belongs to a Confirmed verdict's own sentence)
+  ok   fixture: no en or em dash in the record's own markup
+  ok   fixture: no AI word and no personal name on the page
+  ok   empty: no 'because' on the page (it belongs to a Confirmed verdict's own sentence)
+  ok   empty: no en or em dash in the record's own markup
+  ok   empty: no AI word and no personal name on the page
+  ok   with no graded verdict stored, the page says so and prints zero counts, nothing invented
+  ok   with graded verdicts but no later source, the page says none has been revisited yet
+5. a later source is stored only when it can count
+  ok   a primary source published after a stored verdict is stored
+  ok   one published before the verdict is refused, with the reason
+  ok   one for a verdict that is not stored is refused
+  ok   a statement with a dash is refused
+  ok   a statement with 'because' is refused (the record's own words never say it)
+  ok   the store carries only the one source that can count
+6. the real stored records: the record counts only what is stored
+  INFO stored graded verdicts: 0; later sources stored: 0
+  ok   the record holds exactly the 0 graded verdict(s) stored, by URL
+  ok   the store of later sources exists and parses
+  ok   every stored later source can count (nothing in the store is ignored)
+  ok   the record's first day is the first stored verdict record's (October 19, 2026, the Evening Brief)
+7. the wiring: the build writes the page, How we check links it, the sitemap lists it, no URL changed
+  ok   the build writes verdict-record.html from verdict_record
+  ok   the sitemap lists /verdict-record.html
+  ok   every static page the sitemap listed before is still listed
+  ok   How we check links the verdict record
+  ok   its address is new: no page the site built before is at /verdict-record.html and nothing else moved
+9. review 1: each verdict page says how its verdict stands on the record, and /today/ links the record
+  FAIL /why/2026-10-14-bitcoin: its page says how the verdict stands on the record ('Confirmed later by SYNTHETIC primary source') and links the record
+  FAIL /why/2026-10-16-bitcoin: its page says how the verdict stands on the record ('Reversed later by SYNTHETIC primary source') and links the record
+  FAIL /why/2026-10-17-bitcoin: its page says how the verdict stands on the record ('Not yet revisited') and links the record
+  FAIL an open verdict's line claims nothing: no source, no 'confirmed', no 'reversed' beside it
+  FAIL the page's line follows the record's rules: a source from before the verdict leaves it open
+  ok   the line carries no 'because' and no dash
+  FAIL each Big mover's /why/ page (5) says it is not yet revisited and links the record
+  FAIL /today/ and a dated day's page link the verdict record (real 20 October record)
+8. the built tree site/publish
+  ok   the build wrote verdict-record.html
+  INFO graded verdict pages in the tree: 0; rows on the record: 0
+  ok   the record lists every graded /why/ page the build wrote, once, with the grade that page prints, and nothing else
+  FAIL its headline counts are its own rows' (0 Likely, 0 confirmed, 0 reversed, 0 open)
+  ok   with no graded page in the tree it says so; with no later source it says none has been revisited
+  ok   no 'because', no dash, no AI word, no personal name
+  ok   sitemap-priority.xml lists https://gocheckmycrypto.com/verdict-record
+  ok   the built How we check links it
+  FAIL review 1: the built /today/ links it
+  ok   review 1: every built /why/ page (0) states its standing on the record and links it
+
+SPRINT 9.8: FAIL (13 failure(s))
+exit 1

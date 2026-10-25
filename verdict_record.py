@@ -37,8 +37,9 @@ STORE = os.path.join(HERE, "site", "data", "verdict-record.json")
 PATH = "/verdict-record.html"
 GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
 FINDINGS = ("confirms", "reverses")
-STATUS_WORDS = {"confirmed": "Held up: a later primary source confirmed it",
-                "reversed": "Reversed by a later primary source",
+# ONE NAME PER COUNT (review 1): the headline, the table, the rows and each verdict page's line use these words and no others
+STATUS_WORDS = {"confirmed": "Confirmed later",
+                "reversed": "Reversed later",
                 "open": "Not yet revisited"}
 DASH = re.compile("[\\u2013\\u2014]")
 BECAUSE = re.compile(r"\bbecause\b", re.I)
@@ -233,7 +234,8 @@ STYLE = """<style>
 .vr-page .vr-n span{display:block;font:13px/1.35 var(--sans);color:var(--muted);margin-top:4px}
 .vr-page .vr-tw{overflow-x:auto;margin:12px 0 18px}
 .vr-page table.vr-t{border-collapse:collapse;width:100%;font:14px/1.4 var(--sans)}
-.vr-page .vr-t th,.vr-page .vr-t td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:right;color:var(--ink)}
+.vr-page .vr-t th,.vr-page .vr-t td{border-bottom:1px solid var(--line);padding:8px 4px;text-align:right;color:var(--ink)}
+@media (max-width:520px){.vr-page table.vr-t{font-size:13px}.vr-page .vr-t thead th{font-size:10.5px;letter-spacing:0}}
 .vr-page .vr-t th:first-child,.vr-page .vr-t td:first-child{text-align:left}
 .vr-page .vr-t thead th{font:600 12px/1.3 var(--mono);color:var(--muted)}
 .vr-page ol.vr-l{list-style:none;margin:12px 0;padding:0}
@@ -261,11 +263,36 @@ def _row(r):
     lead = (f'<p><a href="{_e(r["url"])}">Why {_e(r["name"])} moved, {_e(_day(r["day"]))}</a></p>'
             f'<p class="vr-s">Graded {_e(r["grade"])}. {_e(STATUS_WORDS[r["status"]])}.</p>')
     for e in r.get("sources") or []:
-        word = "Reversed by" if e["finding"] == "reverses" else "Confirmed by"
+        word = "Reversed later by" if e["finding"] == "reverses" else "Confirmed later by"
         says = str(e.get("says") or "").strip()
         lead += (f'<p class="vr-s">{word} <a href="{_e(e["url"])}" rel="noopener">{_e(e["source"])}</a>, published '
                  f'{_e(_et(e["published_utc"]))}.{(" " + _e(says)) if says else ""}</p>')
     return f'<li class="vr-r vr-{_e(r["status"])}">{lead}</li>'
+
+
+def standing(url, made_utc, later=None):
+    """How one verdict stands on the record, by the record's own rules: (status, the counted source or None)."""
+    v = {"url": url, "made_utc": made_utc}
+    t = tally([v | {"day": "", "grade": "Likely"}], load_later() if later is None else later)
+    r = t["rows"][0]
+    return r["status"], r["source"]
+
+
+def standing_html(url, made_utc, later=None):
+    """The line a verdict's own /why/ page prints under its card (review 1): its standing on the record, linked. Fails open
+    to no line, never to a claim."""
+    try:
+        st, e = standing(url, made_utc, later)
+    except Exception as ex:                                # noqa: BLE001
+        print(f"::warning::verdict record: no standing line for {url} ({type(ex).__name__}: {ex})")
+        return ""
+    if st == "open":
+        said = ("Not yet revisited: no primary source published after this verdict has been recorded against it.")
+    else:
+        said = (f'{"Reversed later by" if st == "reversed" else "Confirmed later by"} '
+                f'<a href="{_e(e["url"])}" rel="noopener">{_e(e["source"])}</a>, published {_e(_et(e["published_utc"]))}.')
+    return (f'<p class="td-w vr-standing">{said if st != "open" else _e(said)} How the desk\'s verdicts hold up is counted on '
+            f'<a href="{_e(PATH)}">the verdict record</a>.</p>')
 
 
 def page_body(t):
@@ -275,8 +302,8 @@ def page_body(t):
     through = (f'<p class="vr-s">Counted from the stored records, the newest made {_e(_et(t["through"]))}.</p>'
                if t.get("through") else "")
     nums = "".join(f"<li><b>{n}</b><span>{_e(w)}</span></li>" for n, w in (
-        (lk["graded"], "Likely verdicts"), (lk["confirmed"], "confirmed by a later primary source"),
-        (lk["reversed"], "reversed by a later primary source"), (lk["open"], "not yet revisited")))
+        (lk["graded"], "Likely verdicts"), (lk["confirmed"], "confirmed later"),
+        (lk["reversed"], "reversed later"), (lk["open"], "not yet revisited")))
     if not tot["graded"]:
         state = ("<p>No graded verdict is stored yet, so there is nothing to score. Every verdict the desk grades joins "
                  "this record as it is made, and stays on it.</p>")
@@ -290,17 +317,17 @@ def page_body(t):
     trs += (f'<tr><td>All grades</td><td>{tot["graded"]}</td><td>{tot["confirmed"]}</td><td>{tot["reversed"]}</td>'
             f'<td>{tot["open"]}</td></tr>')
     table = (f'<div class="vr-tw"><table class="vr-t"><thead><tr><th scope="col">Grade</th><th scope="col">Graded</th>'
-             f'<th scope="col">Held up</th><th scope="col">Reversed</th><th scope="col">Not yet revisited</th></tr></thead>'
+             f'<th scope="col">Confirmed later</th><th scope="col">Reversed later</th><th scope="col">Not yet revisited</th></tr></thead>'
              f'<tbody>{trs}</tbody></table></div>')
     listing = (f'<h2>Every graded verdict, newest first</h2><ol class="vr-l">{"".join(_row(r) for r in t["rows"])}</ol>'
                if t["rows"] else "")
     return f"""<main class="wrap narrow"><section class="page vr-page">{STYLE}
   <span class="kicker">Why it moved</span>
   <h1>The verdict record</h1>
-  <p class="lede">How the desk's own grades held up after the fact. A Likely verdict names an event that passed the timing
-     test with the market readings agreeing, and no primary source stating the cause. When a primary source published later
-     states the cause, the verdict is scored here: confirmed when it names the event the verdict named, reversed when it
-     names a different cause or shows the named event could not have moved the price.{first}</p>
+  <p class="lede">How the desk's own grades held up after the fact: how many Likely verdicts were confirmed later, and how
+     many were reversed later. A verdict is confirmed later when a primary source published after it states the cause and
+     names what the verdict named; it is reversed later when such a source names a different cause, or shows that what the
+     verdict named could not have moved the price.{first}</p>
   <ul class="vr-n">{nums}</ul>
   {through}
   {state}

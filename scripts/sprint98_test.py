@@ -207,7 +207,7 @@ def reversed_cases(fails):
         page = visible(m.page_html(t, "T"))
         guarded(fails, "the page names the reversed verdict as reversed, with its source",
                 lambda: "Why Bitcoin moved, Friday, October 16, 2026" in page
-                and "Reversed by SYNTHETIC primary source" in page)
+                and "Reversed later by SYNTHETIC primary source" in page)
 
 
 # ---- 3. Big movers are on the record too ---------------------------------------------------------------------------------
@@ -244,11 +244,21 @@ def page_cases(fails):
         txt = visible(h)
         lk = t["by_grade"]["Likely"]
         guarded(fails, "the headline counts are the tally's: Likely verdicts, confirmed later, reversed, not yet revisited",
-                lambda: re.search(rf"\b{lk['graded']}\b\s*Likely verdicts", txt) and re.search(r"\b1\b\s*confirmed by a later primary source", txt)
-                and re.search(r"\b1\b\s*reversed", txt) and re.search(rf"\b{lk['open']}\b\s*not yet revisited", txt))
+                lambda: re.search(rf"\b{lk['graded']}\b\s*Likely verdicts", txt) and re.search(r"\b1\b\s*confirmed later", txt)
+                and re.search(r"\b1\b\s*reversed later", txt) and re.search(rf"\b{lk['open']}\b\s*not yet revisited", txt))
         guarded(fails, "every graded verdict is listed with a link to its own page",
                 lambda: all(f'href="{v["url"]}"' in h for v in vs))
         guarded(fails, "the record names its first day", lambda: "October 14, 2026" in txt)
+        # REVIEW 1, failure 1 (the J-8 ruling of October 20; the October 11 rule, one fact printed once): the page prints no
+        # definition of Likely of its own; a grade's definition, where one prints, is verdict.DEFINITIONS' word for word
+        import verdict as _vd
+        guarded(fails, "review 1: the page prints no definition of Likely of its own (How we check holds the ruled one)",
+                lambda: not re.search(r"\bA Likely verdict\b|names an event that passed", txt)
+                and all(d in txt for g, d in _vd.DEFINITIONS.items() if re.search(re.escape(g) + r" (verdicts? )?(is|means)\b", txt)))
+        guarded(fails, "review 1: one count, one name: 'confirmed later' and 'reversed later' on the headline, the table and the rows; no 'Held up'",
+                lambda: "Held up" not in txt and "Confirmed later" in txt and "Reversed later" in txt
+                and "confirmed later" in txt and "reversed later" in txt and "confirmed by a later" not in txt.lower()
+                and "reversed by a later" not in txt.lower())
         guarded(fails, "each listed row carries its verdict's address, grade and status (as the tree cases read them)",
                 lambda: sorted((u, g, st) for st, u, g in page_rows(h)) == sorted((r["url"], r["grade"], r["status"]) for r in t["rows"]))
         guarded(fails, "one h1, 'The verdict record'", lambda: h.count("<h1") == 1 and re.search(r"<h1[^>]*>The verdict record</h1>", h))
@@ -337,6 +347,70 @@ def wiring_cases(fails):
             lambda: PAGE not in OLD_LOCS and not os.path.exists(os.path.join(HERE, "site", "verdict-record.html")))
 
 
+# ---- 9. review 1, failure 2: the record where the reader meets a verdict ------------------------------------------------
+
+@contextlib.contextmanager
+def store_at(entries):
+    """verdict_record.STORE pointed at a scratch store holding `entries` (SYNTHETIC), put back after."""
+    m = vr()
+    old = m.STORE
+    with tempfile.TemporaryDirectory() as td:
+        p = os.path.join(td, "verdict-record.json")
+        json.dump({"later": entries}, open(p, "w", encoding="utf-8"))
+        m.STORE = p
+        try:
+            yield p
+        finally:
+            m.STORE = old
+
+
+def reach_cases(fails):
+    print("9. review 1: each verdict page says how its verdict stands on the record, and /today/ links the record")
+    import verdict as vd
+    t = s97()
+    with tempfile.TemporaryDirectory() as td:
+        vdir, mdir = fixture(td)
+        wdir, tdir = os.path.join(td, "why"), os.path.join(td, "today")
+        for day in ("2026-10-16", "2026-10-17"):                    # SYNTHETIC: the 14 October evidence under the copies' days
+            ev = json.load(open(os.path.join(wdir, "2026-10-14-evening.json"), encoding="utf-8"))
+            json.dump(dict(ev, date_et=day), open(os.path.join(wdir, f"{day}-evening.json"), "w", encoding="utf-8"))
+        with store_at(LATER), quiet():
+            pages = {b["path"]: b["html"] for b in vd.build_pages(vdir=vdir, wdir=wdir, tdir=tdir, dateline="T")}
+        for u, want in (("/why/2026-10-14-bitcoin", "Confirmed later by SYNTHETIC primary source"),
+                        ("/why/2026-10-16-bitcoin", "Reversed later by SYNTHETIC primary source"),
+                        ("/why/2026-10-17-bitcoin", "Not yet revisited")):
+            h = pages.get(u, "")
+            guarded(fails, f"{u}: its page says how the verdict stands on the record ({want!r}) and links the record",
+                    lambda h=h, want=want: want in visible(h) and 'href="/verdict-record.html"' in h)
+        h17 = visible(pages.get("/why/2026-10-17-bitcoin", ""))
+        guarded(fails, "an open verdict's line claims nothing: no source, no 'confirmed', no 'reversed' beside it",
+                lambda: "Not yet revisited" in h17 and not re.search(r"(Confirmed|Reversed) later by", h17))
+        early = [later("/why/2026-10-17-bitcoin", "reverses", "2026-10-17T20:00:00Z")]
+        with store_at(early), quiet():
+            p17 = {b["path"]: b["html"] for b in vd.build_pages(vdir=vdir, wdir=wdir, tdir=tdir, dateline="T")}["/why/2026-10-17-bitcoin"]
+        guarded(fails, "the page's line follows the record's rules: a source from before the verdict leaves it open",
+                lambda: "Not yet revisited" in visible(p17) and "Reversed later" not in visible(p17))
+        for h in pages.values():
+            guarded(fails, "the line carries no 'because' and no dash", lambda h=h: not BECAUSE.search(visible(h)) and not DASH.search(h))
+            break
+        # a Big mover's /why/ page
+        t94 = s94()
+        r = t94.graded16(td)
+        json.dump(r, open(os.path.join(mdir, "2026-10-16-morning.json"), "w", encoding="utf-8"))
+        import movers as mv
+        with store_at([]), quiet():
+            mp = mv.build_pages(directory=mdir, dateline="T")
+        guarded(fails, f"each Big mover's /why/ page ({len(mp)}) says it is not yet revisited and links the record",
+                lambda: mp and all("Not yet revisited" in visible(b["html"]) and 'href="/verdict-record.html"' in b["html"] for b in mp))
+    import today
+    rec = json.load(open(os.path.join(HERE, "site", "data", "today", "2026-10-20-evening.json"), encoding="utf-8"))
+    with quiet():
+        living = today.render(rec, [], False)[0]
+        dated = today.render(rec, [], True)[0]
+    guarded(fails, "/today/ and a dated day's page link the verdict record (real 20 October record)",
+            lambda: 'href="/verdict-record.html"' in living and 'href="/verdict-record.html"' in dated)
+
+
 # ---- the built tree -------------------------------------------------------------------------------------------------------
 
 def info(msg):
@@ -377,7 +451,7 @@ def tree(root):
     n = {k: sum(1 for r in lk if r[2] == k) for k in ("confirmed", "reversed", "open")}
     guarded(fails, f"its headline counts are its own rows' ({len(lk)} Likely, {n['confirmed']} confirmed, {n['reversed']} reversed, {n['open']} open)",
             lambda: re.search(rf"\b{len(lk)}\b\s*Likely verdicts", txt) and re.search(rf"\b{n['reversed']}\b\s*reversed", txt)
-            and re.search(rf"\b{n['confirmed']}\b\s*confirmed by a later primary source", txt)
+            and re.search(rf"\b{n['confirmed']}\b\s*confirmed later", txt)
             and re.search(rf"\b{n['open']}\b\s*not yet revisited", txt))
     guarded(fails, "with no graded page in the tree it says so; with no later source it says none has been revisited",
             lambda: ("No graded verdict is stored yet" in txt) if not rows else
@@ -388,13 +462,18 @@ def tree(root):
     guarded(fails, "sitemap-priority.xml lists https://gocheckmycrypto.com/verdict-record", lambda: "<loc>https://gocheckmycrypto.com/verdict-record</loc>" in sm)
     mh = open(os.path.join(root, "method.html"), encoding="utf-8").read() if os.path.exists(os.path.join(root, "method.html")) else ""
     guarded(fails, "the built How we check links it", lambda: 'href="/verdict-record.html"' in mh)
+    th = open(os.path.join(root, "today", "index.html"), encoding="utf-8").read() if os.path.exists(os.path.join(root, "today", "index.html")) else ""
+    guarded(fails, "review 1: the built /today/ links it", lambda: 'href="/verdict-record.html"' in th)
+    wp = [n for n in sorted(os.listdir(os.path.join(root, "why"))) if n.endswith(".html")] if os.path.isdir(os.path.join(root, "why")) else []
+    guarded(fails, f"review 1: every built /why/ page ({len(wp)}) states its standing on the record and links it",
+            lambda: all('href="/verdict-record.html"' in open(os.path.join(root, "why", n), encoding="utf-8").read() for n in wp))
     return fails
 
 
 def unit():
     fails = []
     for name, fn in (("tally", tally_cases), ("reversed", reversed_cases), ("movers", movers_cases), ("page", page_cases),
-                     ("add", add_cases), ("real", real_cases), ("wiring", wiring_cases)):
+                     ("add", add_cases), ("real", real_cases), ("wiring", wiring_cases), ("reach", reach_cases)):
         group(fails, name, fn)
     return fails
 

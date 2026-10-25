@@ -1090,11 +1090,14 @@ def _page(day, cid, items, dateline, share=None, slots=()):
     coin_link = (f'<p class="td-w">{_e(name)}\'s page, with its chart and readings, is at '
                  f'<a href="{_e(href)}">{_e(href[:-5])}</a>.</p>') if href else ""
     stamp = {"morning": "Morning Brief", "evening": "Evening Brief"}.get(rec.get("slot"), "Breaking read")
+    import verdict_record                      # SPRINT 9.8 (review 1): the verdict's standing on the record, linked
+    record = verdict_record.standing_html(path_rel, vrec.get("made_utc") or rec.get("made_utc"))
     body = f"""<main class="wrap"><section class="page td-page vd-page">
   <span class="kicker">Why it moved</span>
   <h1>{_e(title)}</h1>
   <p class="td-stamp">{_e(stamp)}, Big movers</p>
   {card}
+  {record}
   {sec}
   {coin_link}
 </section></main>"""

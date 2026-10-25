@@ -1248,6 +1248,8 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline, share=None):
     v = lead["coins"][sym]
     pub = lead.get("made_utc") or ""
     stamp = SLOT_LABEL.get(lead.get("slot"), "")
+    import verdict_record                      # SPRINT 9.8 (review 1): the verdict's standing on the record, linked
+    record = verdict_record.standing_html(url(day, sym), lead.get("made_utc"))
     tdd = tdir or os.path.join(HERE, "site", "data", "today")
     today_link = ""
     if any(os.path.exists(os.path.join(tdd, f"{day}-{sl}.json")) for sl in ("morning", "evening")):
@@ -1258,6 +1260,7 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline, share=None):
   <h1>{_e(title)}</h1>
   <p class="td-stamp">{_e(stamp)}</p>
   {card}
+  {record}
   {ev_html}
   {today_link}
 </section></main>"""

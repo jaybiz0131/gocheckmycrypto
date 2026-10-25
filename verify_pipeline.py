@@ -2064,7 +2064,7 @@ def _stamp_canary():
             fails.extend(_sprint96w_canary(out))
             fails.extend(_sprint97_canary(out))
             fails.extend(_sprint98_canary(out))
-            _ip =_o.path.join(out, "index.html")
+            _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
                 fails.extend(_home_canary(_ih))
