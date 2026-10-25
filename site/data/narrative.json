@@ -1,31 +1,31 @@
 {
- "line": "Bitcoin drifting higher on modest leverage and neutral technicals, with regulatory tightening in Switzerland, France, and Kazakhstan the day's dominant thread.",
+ "line": "Bitcoin is drifting slightly lower on a calm, neutral reading near Fear & Greed 54, while the wire carries isolated operational and policy stories rather than a single dominant theme.",
  "by": "edition",
- "written_utc": "2026-10-20T23:14:41Z",
- "written_et": "7:14 PM ET on Oct 20",
+ "written_utc": "2026-10-25T23:16:11Z",
+ "written_et": "7:16 PM ET on Oct 25",
  "readings": {
-  "stamp_utc": "2026-10-20T23:12:48Z",
-  "btc_24h_pct": 1.15,
-  "etf_net_usd_m": -10.3,
-  "etf_date": "20 Oct 2026",
-  "fear_greed": 55,
+  "stamp_utc": "2026-10-25T23:13:12Z",
+  "btc_24h_pct": -0.29,
+  "etf_net_usd_m": -137.9,
+  "etf_date": "23 Oct 2026",
+  "fear_greed": 54,
   "fear_greed_band": "Neutral",
-  "funding_8h_pct": 0.0065,
+  "funding_8h_pct": 0.0081,
   "funding_band": "calm"
  },
- "small_line": "Written from Bitcoin +1.15% on the day, spot ETF net -10.3M USD (Oct 20, 2026), Fear & Greed 55 (neutral), funding +0.0065% per 8h (calm)",
+ "small_line": "Written from Bitcoin -0.29% on the day, spot ETF net -137.9M USD (Oct 23, 2026), Fear & Greed 54 (neutral), funding +0.0081% per 8h (calm)",
  "wire_top3": [
   {
-   "id": "c028",
-   "line": "Swiss regulator FINMA approved the country's first retail bitcoin ETF holding bitcoin directly, with custody safeguards and volatility warnings required."
+   "id": "c002",
+   "line": "CoinDCX lost $16M from retired wallets after CEO Sumit Gupta had denied breach reports as a false alarm."
   },
   {
-   "id": "c010",
-   "line": "France's National Assembly voted 38-37 to impose 31% capital-gains tax on stablecoin conversions starting January 2027, removing tax deferral."
+   "id": "c001",
+   "line": "UK banks received 10,000 complaints in three months over crypto purchase restrictions, conflicting with the nation's crypto hub aspirations."
   },
   {
-   "id": "c008",
-   "line": "Kazakhstan court banned Coinbase, BingX, OKX, Bybit, Huobi, and Gate.io from unlicensed crypto services in the Astana International Financial Centre."
+   "id": "c056",
+   "line": "ECB official Piero Cipollone said the EU plans to test digital euro transactions in 2027 and launch as early as 2029 pending legislation."
   }
  ],
  "crossed": []
