@@ -1,0 +1,30 @@
+Hotfix 9.7h red on main, Sun Oct 25 2026, 1:10 PM EDT, branch claude/awesome-mendel-1pkizh at 96022d3 (site_build.py and verify_pipeline.py as on main; python3 3.12 shim)
+===== scripts/sprint97h_test.py on main's code (exit 1): each break named below
+1. the Wire is always built; with nothing inside its 48 hours it says so
+  FAIL an empty items list: the page is returned (not None)
+  FAIL an empty items list: the h1 'The Wire' is present
+  FAIL an empty items list: the empty-state line is present, with the Brief archive link
+  FAIL an empty items list: the count line never says '0 entries'
+  FAIL an empty items list: the page's canonical address is /wire
+  FAIL an empty items list: no em or en dash in the page's own wording
+  FAIL only items older than 48 hours: the page is returned (not None)
+  FAIL only items older than 48 hours: the h1 'The Wire' is present
+  FAIL only items older than 48 hours: the empty-state line is present, with the Brief archive link
+  FAIL only items older than 48 hours: the count line never says '0 entries'
+  FAIL only items older than 48 hours: the page's canonical address is /wire
+  FAIL only items older than 48 hours: no em or en dash in the page's own wording
+  FAIL an entry inside 48 hours: the page lists it and has no empty-state line
+2. the fixture verdicts carry the fixture's own time, never the wall clock
+  FAIL the 15 October fixture verdict's made_utc is the fixture's recorded time (2026-10-18T16:50:45Z), or the newest committed item's (2026-10-20T23:14:41Z) when that is later: 2026-10-20T23:14:41Z
+  FAIL ...and never the wall clock (it is no later than the newest committed item or the fixture)
+  FAIL every mover verdict's made_utc, and the record's, is the fixture's time (2026-10-20T23:14:41Z), never the clock
+3. the guards in the source
+  FAIL _verdict_fixture_dir: every record_from call (1) passes now=
+  FAIL _movers_fixture_dir: every record_from call (1) passes now=
+
+SPRINT 9.7h: FAIL (18 failure(s))
+
+===== python3 verify_pipeline.py canary on main's code, today's clock (exit 1); the two named breaks and the last line (full output kept by the builder at the scratchpad)
+::error::canary: sprint 9.4: every mover's /why/ URL is in the news sitemap inside its 48 hours
+::error::canary: sprint 9.5: NO URL REMOVED OR CHANGED: all 70 pages main built (the structural set) are still built (wire.html)
+LAYER 1 CANARY: FAIL (2 problem(s)) -> promotion BLOCKED (exit 1)
