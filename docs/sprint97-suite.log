@@ -1,4 +1,4 @@
-Sprint 9.7 review-1 suite on claude/sleepy-sagan-xcfcw9 at d781308 (base 9203943), Wed Oct 21 2026, 8:07 AM EDT; tree-reading tests read a throwaway build of this tree (SITE_BUILD_NOW=2026-10-21T05:00:00Z). ENVIRONMENT: farside.co.uk still answers 403 to this sandbox, so the one real Farside table fetched at 1:00 AM ET is supplied to every python process by a shim outside the repository (PYTHONPATH sitecustomize); the plain canary fails the same way on 9203943 untouched ('/tables/etf-flows-by-issuer.html' removed)
+Sprint 9.7 suite after merging origin/main 090fa09 (hotfixes 9.6h and 9.6w), claude/sleepy-sagan-xcfcw9 at e569d22, Sun Oct 25 2026, 12:33 PM EDT; tree-reading tests read a fresh build of this tree (wall clock); no shim
 ===== scripts/btc_hilo_test.py --tree /home/user/gocheckmycrypto/site/publish (exit 0)
 home:      24h (81155.0, 83249.0)  7D hi/lo 83115.0/81061.0  unlabeled=False
 /coins/btc: 24h (81155.0, 83249.0)  7D hi/lo 83115.1/81060.92  unlabeled=False
@@ -8,25 +8,25 @@ canary_clean_test: PASS, git status is the same after the canary as before it
 ===== scripts/chartmaster_publish_test.py (exit 0)
 
 == 2026-10-09: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-21T12:11:59Z"}
+   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-25T16:36:10Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-10: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-21T12:11:59Z"}
+   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-25T16:36:10Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-11: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-21T12:11:59Z"}
+   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-25T16:36:10Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
    - Watch for the trend lines to cross, which would tell a reader the positioning picture changed.
 
-== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-21T12:11:59Z"}
+== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-25T16:36:10Z"}
 
 RESULT: all three published
 ===== scripts/coin_pages_test.py --site /home/user/gocheckmycrypto/site/publish (exit 0)
@@ -1810,7 +1810,7 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   watchlist: with nothing saved there are no marks, no injected style and no reserve
   ok   the Top 100 stamp read 2.9 hours after its stamp: the page's stale state (false) is the feed's rule (false)
   ok   the Top 100 stamp read 3.1 hours after its stamp: the page's stale state (true) is the feed's rule (true)
-  INFO the feed's own flag at build: true (as of 2026-10-20T23:12:48Z, built 2026-10-21T05:00:00Z)
+  INFO the feed's own flag at build: true (as of 2026-10-20T23:12:48Z, built 2026-10-25T16:31:07Z)
   ok   coin page at 375 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
   ok   coin page at 1440 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
   ok   coin page at 375 (dark): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
@@ -1874,6 +1874,111 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   the beacon stays on /coins/btc.html: exactly one
 
 SPRINT 9.7: PASS (0 failure(s))
+===== scripts/sprint96h_test.py --build --tree /home/user/gocheckmycrypto/site/publish (exit 0)
+1. the refresh keeps the last good copy of every table it failed to fetch
+  ok   every source refusing: living-tables.json is byte for byte what it was
+  ok   Farside refusing while DefiLlama answers: the stored ETF table is still in the file, untouched
+  ok   ...and the table that did refresh is the new one
+  ok   ...and the whale table, which could not be rebuilt, is also kept
+  ok   each table keeps its own as-of time: the kept ones the old stamp, the refreshed one a new stamp
+  ok   load() hands back stored tables however old the file is (it used to return nothing after 30 hours)
+  ok   load() names the tables that were not refreshed this run as stale
+2. the page is present and marked stale, with its own as-of date
+  ok   Farside refusing: the ETF page is built (not None) from the stored table
+  ok   the page says it is stale
+  ok   the stale line carries the table's own as-of date and time (Oct 20, 2026, 7:00 AM ET)
+  ok   the page does not claim to be rebuilt fresh while it is stale
+  ok   no em dash on the page
+  ok   a table that was refreshed carries no stale mark
+3. no stored table: the page says Not read yet
+  ok   nothing stored and nothing read: load() still returns a dict, not None, so the build goes on
+  ok   the ETF page is still built, and says 'Not read yet'
+  ok   ...and carries no table and no invented number
+4. every other living table has the same path
+  ok   stables_by_issuer: source refusing, the page is built from the stored table and marked stale with its date
+  ok   stables_by_issuer: nothing stored, the page says Not read yet
+  ok   whales_by_week: source refusing, the page is built from the stored table and marked stale with its date
+  ok   whales_by_week: nothing stored, the page says Not read yet
+  ok   a data dict with no ETF table (the file as main has it today) still yields all three pages
+5. the committed file at head, read by a build with every source refusing
+  ok   site/data/living-tables.json carries an ETF table with at least 4 reconciled days and its own stamp
+  ok   every committed table carries its own as-of stamp
+  ok   refusing sources: the committed file is left byte for byte as it was
+  ok   refusing sources: the ETF page built from the committed file is marked stale
+  ok   ...and carries the committed table's own as-of (2:36 PM ET, Oct 21, 2026)
+6. the stale line is in the house form
+  ok   the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does
+  ok   the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date
+7. the workflows keep the file, and a merge never drops a stored table
+  ok   morning-read.yml: refreshes the living tables with a timeout, never as a gate
+  ok   morning-read.yml: stages site/data/living-tables.json with the commit
+  ok   morning-read.yml: and keeps it staged when a rebase auto-resolve continues
+  ok   crypto-news-brief.yml: refreshes the living tables with a timeout, never as a gate
+  ok   crypto-news-brief.yml: stages site/data/living-tables.json with the commit
+  ok   crypto-news-brief.yml: and keeps it staged when a rebase auto-resolve continues
+  ok   merge_state resolves living-tables.json per table: the later stamp wins, a tie goes upstream, no table is dropped
+  ok   merge_state lists the file as one it may resolve
+8. wiring
+  ok   the build links a living table's lane entry only to a page it wrote: CC_BUILT holds every spec that built
+  ok   living_tables.py has no em dash
+  ok   this script has no em dash
+  ok   no URL list entry was removed: the three tables are still in the structural baseline
+10. a whole build with Farside refusing, reading the committed file
+  ok   the build wrote tables/etf-flows-by-issuer.html with Farside refusing
+  ok   ...marked stale with the committed table's own as-of (2:36 PM ET, Oct 21, 2026)
+  ok   ...and its URL is still in the sitemap
+  ok   ...and the Record still links it
+  ok   every living table page is built with every source refusing, from the stored copy and marked stale: etf-flows-by-issuer
+  ok   every living table page is built with every source refusing, from the stored copy and marked stale: stablecoin-supply-by-issuer
+  ok   every living table page is built with every source refusing, from the stored copy and marked stale: whale-flows-by-week
+9. the built tree /home/user/gocheckmycrypto/site/publish
+  ok   tables/etf-flows-by-issuer.html: the committed file holds this table, so the page is never 'Not read yet'
+  ok   tables/etf-flows-by-issuer.html is built and in the sitemap
+  ok   tables/etf-flows-by-issuer.html says what it is: a fresh as-of line, a stale mark, or Not read yet
+  ok   tables/etf-flows-by-issuer.html is never stale without a date
+  ok   tables/stablecoin-supply-by-issuer.html: the committed file holds this table, so the page is never 'Not read yet'
+  ok   tables/stablecoin-supply-by-issuer.html is built and in the sitemap
+  ok   tables/stablecoin-supply-by-issuer.html says what it is: a fresh as-of line, a stale mark, or Not read yet
+  ok   tables/stablecoin-supply-by-issuer.html is never stale without a date
+  ok   tables/whale-flows-by-week.html: the committed file holds this table, so the page is never 'Not read yet'
+  ok   tables/whale-flows-by-week.html is built and in the sitemap
+  ok   tables/whale-flows-by-week.html says what it is: a fresh as-of line, a stale mark, or Not read yet
+  ok   tables/whale-flows-by-week.html is never stale without a date
+
+SPRINT 9.6h: PASS (0 failure(s))
+===== scripts/sprint96w_test.py --build (exit 0)
+1. the Wire page: the same bytes with entries, an honest page without
+  ok   with entries in the window the page is byte-identical to main's render_wire (stored copy of main's output)
+  ok   ...and to main's own render_wire run now from git (3be7684)
+  ok   with entries it lists the three fixture rows
+  ok   with every entry past the window render_wire still returns a page (it returned None on main)
+  ok   ...it keeps the Wire's frame: title, h1 and the page path
+  ok   ...it names the window once, in the sentence 'No wire entries fall in the last 48 hours.', and prints no count
+  ok   ...it invents no entry: no row, no filter, none of the fixture titles
+  ok   ...the stale line says exactly what the date is ('Newest entry on record: 10:00 AM ET, Oct 20, 2026.'), in the site's stale class with data-asof
+  ok   ...and it makes no claim about a refresh, a cadence, numbers or history
+  ok   ...and with no entry of any age on record it is still stale, and says so
+  ok   ...a page just inside the window is not marked stale
+  ok   ...the empty page carries no em dash
+  ok   the stale stamp reads the build's clock it is handed, not the wall clock (same input, same bytes)
+  ok   data_stamp is unchanged for its other callers (Board wording, wall clock)
+2. the build writes the page whatever the window holds
+  ok   wire.html is written without an `if _wire:` guard
+  ok   data/coins-mini.json is written without an `if _cm_payload:` guard
+  ok   the mini-board file is an empty list, not nothing, when the Top 100 is empty
+  ok   this script and the build have no em dash
+3. sprint 9.4's sitemap case reads the fixtures' own clock, not today's
+  ok   with a non-mover /why/ page stamped far in the future, every mover's /why/ URL is still in the news sitemap (ok)
+  ok   ...and nothing else in sprint 9.4's cases moved
+  ok   the check still asserts every mover URL (it was pinned, not loosened): all of mv_paths in the sitemap
+4. a whole build with every story older than the Wire's window
+  ok   the state under test: no story or reading falls in the window (0 rows)
+  ok   the build wrote wire.html
+  ok   ...honest and stale
+  ok   data/coins-mini.json is built
+  ok   NO URL REMOVED: every page of the structural set is built (70; missing [])
+
+HOTFIX 9.6w: PASS (0 failure(s))
 ===== scripts/twins_gate_test.py  (exit 0)
 == the seven wrong drops of 9 and 10 October (must be KEPT)
 ok   F1: bottom line: kept | ETF outflow read as whale net (misattributed). [verbatim from wrap-status.json]
@@ -1930,4 +2035,4 @@ ok   N-WBT: WBT: '' (data/calendar/unlocks.json: page not readable from the desk
 ok   N-RAIN: RAIN: '' (data/calendar/unlocks.json: page not readable from the desk; read again 13 October: HTTP 403)
 
 43 of 43 cases hold
-SUITE: 20 scripts, 0 with a non-zero exit
+SUITE: 22 scripts, 0 with a non-zero exit
