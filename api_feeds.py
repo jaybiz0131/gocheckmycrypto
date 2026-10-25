@@ -488,9 +488,15 @@ def index_feed(feeds, now):
 
 
 def _record_feed(ctx, now):
+    """ALWAYS WRITTEN (review 1, ruling C3 (2)): a record it cannot draw is the unreadable feed, as its page is the unreadable
+    page, so the gate judges the degraded feed and never meets an absent one."""
     import verdict_record as vr
-    v = vr.view(now, vdir=ctx.get("vdir"), mdir=ctx.get("mdir"), wdir=ctx.get("wdir"), store=ctx.get("rstore"))
-    return vr.feed(v, now)
+    try:
+        v = vr.view(now, vdir=ctx.get("vdir"), mdir=ctx.get("mdir"), wdir=ctx.get("wdir"), store=ctx.get("rstore"))
+        return vr.feed(v, now)
+    except Exception as e:                                   # noqa: BLE001
+        print(f"::warning::api feeds: the verdict record could not be drawn ({type(e).__name__}: {e}); its feed says so")
+        return vr.feed_unreadable(now, f"{type(e).__name__}")
 
 
 def build_all(ctx):

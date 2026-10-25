@@ -1,4 +1,4 @@
-Sprint 9.8: python3 verify_pipeline.py canary, run plainly in the worktree, Sun Oct 25 2026, 2:02 PM EDT. Exit 0.
+Sprint 9.8 review 1: python3 verify_pipeline.py canary, run plainly in the worktree, Sun Oct 25 2026, 3:33 PM EDT. Exit 0.
 narrative: the Edition's line did not hold ('Bitcoin drifted up 0.79 percent on the day; the news is quiet.'); the clause table writes it
 board: wrote opening snapshot pulse-2026-10-25.json
 chartmaster crash canary, its own planted crash, expected: chartmaster: model calls 0, 0 tokens, $0.0000 this stage, refused
@@ -9,7 +9,7 @@ week/movers canary: snapshot 34362 bytes against 60000
 narrative: the Edition's line did not hold ('Bitcoin will likely rebound as ETF inflows build.'); the clause table writes it
 narrative: the Edition's line did not hold ('Bitcoin fell. Regulators were busy.'); the clause table writes it
 narrative: Bitcoin is drifting lower while spot ETFs saw inflows; the news is mostly regulation. (table, 7:10 PM ET on Oct 7)
-build stamp canary: built a throwaway tree in stamp-canary-qkdlnxgy (54 entries); the build's own log is captured, not this job's
+build stamp canary: built a throwaway tree in stamp-canary-ab22fzs_ (54 entries); the build's own log is captured, not this job's
 beacon canary: 835 of 835 built pages carry exactly one beacon
 A. the direction word follows the sign: a down, an up and a flat fixture day
   ok   BTC -2.03% reads down: 'Why is crypto down today? Wednesday, October 14, 2026'
@@ -1045,7 +1045,7 @@ static: 100 coin pages read
   ok   J-8(b): on the coin placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): on the page placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): no marks, no verdict URL, and the model is never asked for it
-11. the built tree /tmp/stamp-canary-qkdlnxgy/publish
+11. the built tree /tmp/stamp-canary-ab22fzs_/publish
   ok   NO URL REMOVED OR CHANGED: all 70 pages main built (the structural set) are still built ()
   ok   the new pages are additions: /corrections.html is built, and the older Brief months are /bottom-line/<YYYY-MM>.html
   ok   /today/ stays canonical: its canonical link is /today, and every page's nav links /today/
@@ -1144,7 +1144,7 @@ static: 100 coin pages read
   ok   site.css: the J-11 rule 2 block is there once and is the named text, character for character (a third rule inside it, or a changed one, is red)
   ok   rule 1 by width: the live stamp (#tapeLive's p.h-live) has min-height 54.45px (three lines of its 18.15px) at 375 and 520, and none at 521
   ok   rule 2 by width: the nav wraps at 700, 768, 900 and 1019, and not at 699 or 1020 (the tab bar below 700 is untouched)
-5. the built tree /tmp/stamp-canary-qkdlnxgy/publish
+5. the built tree /tmp/stamp-canary-ab22fzs_/publish
   ok   the built home links site.css and system.css, versioned
   ok   the built site.css is the source's: .wrap is 1080 at 1279 and about 1400 at 1440 (read from the built file)
   ok   the built home has exactly one Ether line (the Board has an Ether price)
@@ -1317,7 +1317,7 @@ static: 100 coin pages read
   ok   the default window is 3
   ok   SYNTHETIC: a day card whose line carries a figure its verdict records and page do not print (2.5%) is refused
   ok   SYNTHETIC: a graded day-card sentence with a figure the day's verdict page lacks (9.99%) makes no day card
-10. the built tree /tmp/stamp-canary-qkdlnxgy/publish
+10. the built tree /tmp/stamp-canary-ab22fzs_/publish
   ok   the build wrote /why/ pages (6)
   ok   /why/2026-10-15-bitcoin: og:image is its own square image and the file is in the tree at 1080 by 1080
   ok   /why/2026-10-16-celestia: og:image is its own square image and the file is in the tree at 1080 by 1080
@@ -1359,7 +1359,7 @@ static: 100 coin pages read
   ok   every committed table carries its own as-of stamp
   ok   refusing sources: the committed file is left byte for byte as it was
   ok   refusing sources: the ETF page built from the committed file is marked stale
-  ok   ...and carries the committed table's own as-of (1:59 PM ET, Oct 25, 2026)
+  ok   ...and carries the committed table's own as-of (3:30 PM ET, Oct 25, 2026)
 6. the stale line is in the house form
   ok   the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does
   ok   the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date
@@ -1377,7 +1377,7 @@ static: 100 coin pages read
   ok   living_tables.py has no em dash
   ok   this script has no em dash
   ok   no URL list entry was removed: the three tables are still in the structural baseline
-9. the built tree /tmp/stamp-canary-qkdlnxgy/publish
+9. the built tree /tmp/stamp-canary-ab22fzs_/publish
   ok   tables/etf-flows-by-issuer.html: the committed file holds this table, so the page is never 'Not read yet'
   ok   tables/etf-flows-by-issuer.html is built and in the sitemap
   ok   tables/etf-flows-by-issuer.html says what it is: a fresh as-of line, a stale mark, or Not read yet
@@ -1410,7 +1410,7 @@ static: 100 coin pages read
   ok   data/coins-mini.json is written without an `if _cm_payload:` guard
   ok   the mini-board file is an empty list, not nothing, when the Top 100 is empty
   ok   this script and the build have no em dash
-5. the built tree /tmp/stamp-canary-qkdlnxgy/publish
+5. the built tree /tmp/stamp-canary-ab22fzs_/publish
   ok   wire.html is built
   ok   wire.html lists entries, or says plainly that none fall in the window with a stale stamp
   ok   data/coins-mini.json is built
@@ -1566,7 +1566,7 @@ static: 100 coin pages read
   ok   worker/live-prices.mjs: exists, no dash, US spelling of the house words
   ok   worker/live-prices.test.mjs: exists, no dash, US spelling of the house words
   ok   scripts/sprint97_browser.mjs: exists, no dash, US spelling of the house words
-15. the built tree /tmp/stamp-canary-qkdlnxgy/publish
+15. the built tree /tmp/stamp-canary-ab22fzs_/publish
   ok   /api/v1/index.json exists and parses
   ok   /api/v1/top100.json exists and parses
   ok   /api/v1/markets.json exists and parses
@@ -1601,18 +1601,45 @@ static: 100 coin pages read
   ok   'because' is in a verdict feed only where a Confirmed grade stands (the law of 16 October), and in no event title
   ok   every feed is strict JSON (no NaN or Infinity)
   ok   the feeds weigh under 3 MB in all (331 KB) and none over 400 KB
+R1. an event's identity rests on what is stable across runs, never on a wire cluster's position
+  ok   same id, different story: a later Confirmed reusing the position id wire-c010 for another story does not confirm the Likely
+  ok   REAL: wire-c010 names two different stories on 19 and 20 October (a per-run position), and is no identity
+  ok   each stable id family is named in code with its form, and an id of each form is stable: bea, bls, delisting, ff, fomc, fr, hack, listing, press, unlock
+  ok   positional or unknown ids are never stable (wire-c010, c010, wire-, an id with no date or number)
+  ok   REAL 14 October: every non-wire id the builder made is stable, every wire id is not (bls-20261014-consumer-price-index, bls-20261014-real-earnings, fr-2026-20888, wire-c008, ...)
+  ok   SYNTHETIC: the CPI release confirmed in the evening does not confirm a Likely on the Real Earnings release, though both link the same BLS schedule page
+R1. a malformed stored file is skipped and said; the page and the feed are always written (stored-fixture canary case)
+  ok   the record is drawn from the readable files (the fixture's tally stands) and the skipped ones are counted
+  ok   each skipped file is logged by name
+  ok   the page says files were left out, once, in the tally
+  ok   the feed is written with the partial state and the index lists it
+  ok   when the record cannot be drawn at all the feed is still written, state unreadable, stale, no counts
+  ok   a write cut halfway leaves no file under the final name and no temp file behind
+  ok   a Big movers record with no date_et (five graded coins in it) is logged as a warning, not dropped in silence, and none of its verdicts is dated by guess
+  ok   verdict.py disarms its alarm and its SIGTERM handler before the record is stored
+R1. each fact once: when the record begins, and that nothing is graded yet
+  ok   REAL: the record's start (7:16 PM ET on Oct 19, 2026) prints once
+  ok   REAL: that nothing is graded prints once
+  ok   SYNTHETIC populated: the record's start (8:18 AM ET on Oct 14, 2026) prints once outside that row
+R1. awaiting only while a later read can still come: the same ET day, the Evening Brief read the day's last
+  ok   SYNTHETIC: a morning Likely at 10 AM ET the same day, no later read yet: awaiting
+  ok   SYNTHETIC: the same morning Likely once its ET day has ended (12:00:01 AM ET): unresolved
+  ok   SYNTHETIC: the same morning Likely at 9 PM ET after the evening read ran (flat, no grade): unresolved
+  ok   SYNTHETIC: an evening Likely is never awaiting, even at the moment it was graded
+  ok   SYNTHETIC: an evening Likely held only in the store, with no slot record beside it, is unresolved at once
 1. the tally from a fixture of verdicts and later sources
   ok   the tally's likely is 3 (got 3)
   ok   the tally's likely_confirmed_later is 1 (got 1)
   ok   the tally's likely_reversed is 1 (got 1)
-  ok   the tally's likely_awaiting is 1 (got 1)
+  ok   the tally's likely_awaiting is 0 (got 0)
+  ok   the tally's likely_unresolved is 1 (got 1)
   ok   the tally's confirmed is 1 (got 1)
   ok   the tally's disputed is 1 (got 1)
   ok   the tally's unclear is 6 (got 6)
-  ok   the Likely parts sum to the Likely verdicts (confirmed later, reversed, awaiting)
+  ok   the Likely parts sum to the Likely verdicts (confirmed later, reversed, awaiting, unresolved)
   ok   each graded verdict is one row: 6 of Bitcoin and 5 Big movers, and Ether moving with Bitcoin is none
   ok   14 October morning's Likely is confirmed later, by the evening read's Confirmed on the CPI release
-  ok   16 October evening's Likely has no later read: awaiting, never confirmed
+  ok   16 October evening's Likely is the day's last read: unresolved, never awaiting and never confirmed
   ok   only a Likely verdict carries an outcome; the other grades are counted as graded at the time
   ok   every row carries its /why/ address: /why/<date>-bitcoin, and /why/<date>-<coin id> for a Big mover
   ok   rows are newest first
@@ -1623,7 +1650,7 @@ static: 100 coin pages read
   ok   the reversed verdict is in the reversed count and not in confirmed later
   ok   SYNTHETIC: a later Confirmed on a different event reverses the Likely (another cause was confirmed)
   ok   SYNTHETIC: a later Likely naming none of the Likely's events reverses it
-  ok   SYNTHETIC: a later Likely naming the same events leaves it awaiting (still no primary source)
+  ok   SYNTHETIC: a later Likely naming the same events resolves nothing; with the day's reads done both are unresolved (still no primary source)
 3. an outcome is never inferred: the event's identity, and what is not a verdict
   ok   a later Confirmed whose cluster id changed but whose source article is the same is the same event: confirmed
   ok   a later Confirmed sharing only a word ('blackrock'), not an id or an article, is not the same event: reversed
@@ -1636,19 +1663,19 @@ static: 100 coin pages read
   ok   a second sync over the same records writes nothing
   ok   a rewritten slot adds its new verdict and every stored file stays byte for byte
   ok   the stored outcome stands: 14 October morning stays confirmed later though its slot was regraded after
-  ok   the overwritten 14 October evening Confirmed is still in the record (published, then replaced)
+  ok   a rewritten slot counts once, with its last stored grade (Unclear); the replaced grade stays in the store
   ok   an entry already stored is never rewritten
   ok   the build's read of the record writes no file
   ok   the run steps store the record: verdict.py's main() calls _sync_record(), which calls verdict_record.sync, and movers.py's main() calls verdict_record.sync
   ok   an outcome stored by an earlier run stands: never recomputed from the records, never rewritten by a sync
 5. the page: the tally, every verdict linked, windowed and labeled, nothing twice
-  ok   each count prints exactly once, in the tally: likely, likely_confirmed_later, likely_reversed, likely_awaiting, confirmed, disputed, unclear, reads_coins, reads_movers
+  ok   each count prints exactly once, in the tally: likely, likely_confirmed_later, likely_reversed, likely_awaiting, likely_unresolved, confirmed, disputed, unclear, reads_coins, reads_movers
   ok   the page's counts are the tally's
   ok   no count prints outside the tally (the same fact never twice)
   ok   every graded verdict is listed and links to its /why/ address
   ok   the window is labeled on the tally: from the first verdict record through the newest read, in ET, with the newest read's data-asof
   ok   the page's own rules ride in its head, tokens only (the shared stylesheets stay Sprint 9.5's)
-  ok   the page says how many verdicts are still awaiting a later source
+  ok   the page counts awaiting (0) apart from unresolved (1), and names the window: the same ET day, the Evening Brief read the last
   ok   'because' appears nowhere (the page prints no verdict sentence)
   ok   no em or en dash, no AI word, no personal name
   ok   the page is /why/record/: canonical, h1 'The verdict record', the Why it moved nav marked
@@ -1678,7 +1705,7 @@ static: 100 coin pages read
   ok   every Bitcoin /why/ page links the record (4)
   ok   every Big movers /why/ page links the record (5)
   ok   the sitemap's priority list names /why/record/ (read in the tree cases too)
-9. the built tree /tmp/stamp-canary-qkdlnxgy/publish
+9. the built tree /tmp/stamp-canary-ab22fzs_/publish
   ok   why/record/index.html is built
   ok   api/v1/why/record.json is built in 9.7's shape
   ok   the api index lists it
@@ -1692,7 +1719,6 @@ static: 100 coin pages read
   ok   every /why/ verdict page links it (6)
 home budget canary: 272308 bytes against 307200 (13 files on its own host, as built, uncompressed); the beacon is 31679 more bytes from static.cloudflareinsights.com against its 40960-byte allowance
 narrative: the Edition's line did not hold ('Bitcoin drifted up 0.79 percent on the day; the news is quiet.'); the clause table writes it
-build stamp canary: left docs/sprint98-plants.log as found; it changed during the run but the build did not write it
 build stamp canary: left fixtures/.stamp-canary-stray.txt as found; it changed during the run but the build did not write it
 build stamp canary: left fixtures/sample_feed.xml as found; it changed during the run but the build did not write it
 build stamp canary: restored site/data/living-tables.json, which the throwaway build rewrote

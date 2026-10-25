@@ -1360,6 +1360,11 @@ def _sync_record():
     """SPRINT 9.8: store every new graded verdict and every newly resolved Likely in the verdict record (verdict_record.py),
     append-only, in site/data/verdict/record/, which the run's commit stages with site/data/verdict. Never a gate."""
     try:
+        # the step's alarm and its SIGTERM handler are disarmed first (review 1): neither may fire inside the store's write
+        import signal
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, signal.SIG_DFL)
+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
         import verdict_record
         verdict_record.sync(save=True)
     except Exception as e:                                       # noqa: BLE001

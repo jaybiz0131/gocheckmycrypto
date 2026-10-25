@@ -1209,6 +1209,10 @@ def main():
         print(line)
     # SPRINT 9.8: the verdict record stores this run's graded movers and any Likely they resolve (append-only)
     try:
+        import signal
+        signal.alarm(0)                                          # review 1: no alarm or SIGTERM handler armed in the write
+        signal.signal(signal.SIGALRM, signal.SIG_DFL)
+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
         import verdict_record
         verdict_record.sync(save=True)
     except Exception as e:                                       # noqa: BLE001

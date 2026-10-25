@@ -15,16 +15,23 @@ WHERE A VERDICT'S LATER FATE COMES FROM (what 9.3 to 9.5 store, read October 25,
   - Nothing stored the outcome itself: no file links a verdict to what became of it, and a slot's record can be rewritten
     (verdict.py rewrites a slot when a newer evidence record arrives; movers.py writes its slot whole). So the record starts
     storing it now, append-only: one frozen file per graded verdict and one per resolved Likely verdict, under
-    site/data/verdict/record/, written once with exclusive create and never rewritten (the why records' rule). The run
+    site/data/verdict/record/, written once (a temp file hard-linked to the final name, which fails when it exists) and
+    never rewritten (the why records' rule). The run
     steps (verdict.py and movers.py --write) call sync(); the build reads the same stores and never writes.
   - Corrections (9.5) are free text on a story, a verdict or a day's answer. A correction is never read as an outcome here.
 
 THE RULES (the same move is one coin on one ET day; a later day's read measures a different move):
   confirmed later  a later read of the same move graded it Confirmed on an event the Likely verdict named.
   reversed         a later read graded it Disputed or Unclear, or Confirmed or Likely on events the Likely verdict did not name.
-  awaiting         no later read has graded the same move, or the later reads were Likely on the same events.
-  An event is the same event when its candidate id is the same or one of its source articles is the same page (a wire
-  cluster's id is renumbered between runs; an article address is not). A shared word is never an identity.
+  awaiting         not resolved yet, and the read window is still open: the same ET day, before that day's Evening Brief
+                   read (the day's last scheduled read) is stored.
+  unresolved       still Likely: the read window closed with no later source. A Likely from the Evening Brief read is
+                   unresolved at once. Nothing past the ET day is sought (a later-source path past the day is a proposal).
+  An event is the same event when it shares a STABLE id (STABLE_IDS: built from the event's own date, time or document
+  number) or a source article of a wire story. A wire candidate's id is a per-run position and is never compared; a shared
+  word or a shared schedule page is never an identity.
+  One verdict per read: a slot rewritten by a later run counts once, with its last stored grade; the replaced grade stays
+  in the store. A stored file of any other shape is skipped, logged and counted on the page and in the feed.
   Not graded, not counted: a move under the threshold, Ether moving with Bitcoin, a move held for the next read, a verdict
   withheld at the spend cap. A stored outcome is never recomputed: the first outcome stored for a verdict stands.
 """
@@ -43,7 +50,8 @@ REL = "why/record/index.html"
 FEED = "why/record"
 GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
 SLOT_WORDS = {"morning": "Morning Brief read", "evening": "Evening Brief read"}
-OUTCOME_WORDS = {"confirmed_later": "Confirmed later", "reversed": "Reversed", "awaiting": "Awaiting a later source"}
+OUTCOME_WORDS = {"confirmed_later": "Confirmed later", "reversed": "Reversed", "awaiting": "Awaiting a later source",
+                 "unresolved": "No later source by the end of its ET day"}
 KEY_RX = re.compile(r"[a-z0-9-]+")
 # THE PAGE'S OWN RULES, inline in its head as Sprint 9.7 did for the coin heading (site_build.COIN_TITLE_STYLE): the shared
 # stylesheets are held byte for byte to Sprint 9.5's outside the 9.5b block (scripts/sprint95b_test.py), and these rules reach
@@ -64,6 +72,7 @@ RECORD_STYLE = """<style>
 .page .vr-tally p.vr-bh{font:600 12px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
 .page p.vr-bh .vr-n{font-size:13px;color:var(--ink);margin-left:6px;font-variant-numeric:tabular-nums}
 .page .vr-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.page .vr-g.vr-g4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .page .vr-c{border:1px solid var(--line);border-radius:8px;padding:10px 10px 9px;min-width:0;overflow-wrap:anywhere}
 .page .vr-c .vr-n{display:block;font:600 28px/1.1 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
 .page .vr-c .vr-lb{display:block;margin-top:5px;font:13px/1.35 var(--sans);color:var(--muted)}
@@ -82,6 +91,7 @@ RECORD_STYLE = """<style>
 .page li.vr-r p.vr-o{margin:8px 0 0;padding-left:10px;border-left:3px dotted var(--line);font:15px/1.5 var(--sans);color:var(--ink)}
 .page li.vr-r p.vr-o-confirmed-later{border-left:3px solid var(--ink)}
 .page li.vr-r p.vr-o-reversed{border-left:3px solid var(--rule)}
+.page li.vr-r p.vr-o-unresolved{border-left:3px solid var(--line)}
 .page .vr-b{display:inline-flex;align-items:center;gap:7px;font:600 11.5px/1.2 var(--mono);letter-spacing:.08em;
   text-transform:uppercase;white-space:nowrap;padding:4px 10px 4px 9px;border-radius:3px;border:1.5px solid var(--ink);color:var(--ink)}
 .page .vr-b::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;box-sizing:border-box;border:1.5px solid currentColor}
@@ -92,7 +102,7 @@ RECORD_STYLE = """<style>
 .page .vr-b.vr-unclear{background:var(--tag-bg);color:var(--tag-fg);border-color:var(--tag-fg);border-style:dotted}
 .page .vr-b.vr-unclear::before{display:none}
 .page p.vr-empty{margin:12px 0 22px;font:17px/1.55 var(--serif);color:var(--ink)}
-@media (max-width:520px){.page .vr-tally{padding:14px 14px 12px}.page .vr-g{gap:6px}.page .vr-c{padding:8px 8px 7px}
+@media (max-width:520px){.page .vr-tally{padding:14px 14px 12px}.page .vr-g{gap:6px}.page .vr-g.vr-g4{grid-template-columns:repeat(2,minmax(0,1fr))}.page .vr-c{padding:8px 8px 7px}
   .page .vr-c .vr-n{font-size:24px}.page .vr-c .vr-lb{font-size:12.5px}}
 </style>"""
 
@@ -140,23 +150,59 @@ def _key(day, slot, slug, made):
     return f"{day}-{_slot_key(slot)}-{slug}-{m.strftime('%H%M%S') if m else 'nomade'}"
 
 
+# ---- the identity of an event: what is stable across runs -----------------------------------------------------------
+#
+# A wire candidate's id is "wire-" plus the cluster's id, and that is its POSITION in the run's ranking (aggregate.py,
+# f"c{i:03d}"): wire-c010 named the Cysic bridge halt on October 19 and France's National Assembly vote on October 20.
+# It is never an identity. A wire story is the same story when one of its source articles is the same page.
+# Every other family below builds its id from the event's own date, time or document number, read from the source,
+# so one event gets the same id in every run that sees it. Only an id of one of these forms is compared.
+STABLE_IDS = {
+    "bls": (r"bls-\d{8}-[a-z][a-z-]*", "the release's ET date and name, from the BLS schedule (why_evidence._bls)"),
+    "bea": (r"bea-\d{8}-[a-z][a-z-]*", "the release's ET date and name, from BEA's release dates (why_evidence._bea)"),
+    "fomc": (r"fomc-\d{4}-\d{2}-\d{2}", "the meeting's last day, from the stored FOMC calendar (why_evidence._fomc)"),
+    "ff": (r"ff-\d{9,}-[a-z0-9][a-z0-9-]*", "the release's epoch time and title, from the ForexFactory calendar"),
+    "fr": (r"fr-\d{4}-\d{3,6}", "the Federal Register document number (why_evidence._fedreg)"),
+    "press": (r"(?:federal reserve|sec|cftc)-\d{9,}", "the outlet and its own feed stamp, from its RSS (why_evidence._rss)"),
+    "hack": (r"hack-\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*", "the exploit's date and name, from DefiLlama (why_evidence._hacks)"),
+    "unlock": (r"unlock-[a-z0-9]+-\d{9,}", "the coin and the unlock's epoch time (movers.unlock_candidates)"),
+    "listing": (r"listing-[a-z0-9]+-\d{9,}-[a-z0-9-]*", "the venue, the notice's epoch time and title (movers.listing_candidates)"),
+    "delisting": (r"delisting-[a-z0-9]+-\d{9,}-[a-z0-9-]*", "the venue, the notice's epoch time and title"),
+}
+_STABLE_RX = re.compile("|".join(f"(?:{rx})" for rx, _why in STABLE_IDS.values()))
+
+
+def is_stable_id(cid):
+    """True for an id of a family whose id is built from the event itself (STABLE_IDS); never for a wire position."""
+    return isinstance(cid, str) and _STABLE_RX.fullmatch(cid) is not None
+
+
 # ---- the entries: every graded verdict in the stored slot records ------------------------------------------------------
 
+def _skip(skips, what, err):
+    print(f"::warning::verdict record: {what} could not be read ({err}); left out of the count")
+    if skips is not None:
+        skips.append(what)
+
+
 def _evidence_links(ev, ids):
+    """The source articles of the named WIRE candidates, the one identity a wire story has across runs. A release's or a
+    filing's link is a shared schedule or index page (every BLS release in a month links the same one), never an identity."""
     out = []
     for c in (ev or {}).get("candidates") or []:
-        if c.get("id") in ids:
-            for ln in (c.get("links") or []) + (c.get("report_links") or []):
-                k = _link((ln or {}).get("url"))
-                if k and k not in out:
-                    out.append(k)
+        if not isinstance(c, dict) or c.get("id") not in ids or is_stable_id(c.get("id")) or c.get("kind") != "wire":
+            continue
+        for ln in (c.get("links") or []) + (c.get("report_links") or []):
+            k = _link((ln or {}).get("url") if isinstance(ln, dict) else "")
+            if k and k not in out:
+                out.append(k)
     return sorted(out)
 
 
 def _entry(rec, sym, v, slug, name, url, source, ev):
-    events = sorted({r.get("id") for r in v.get("refs") or [] if r.get("id")}
-                    | ({(v.get("cand") or {}).get("id")} if v.get("grade") == "Confirmed" and (v.get("cand") or {}).get("id")
-                       else set()))
+    events = sorted({r.get("id") for r in v.get("refs") or [] if isinstance(r, dict) and isinstance(r.get("id"), str)}
+                    | ({(v.get("cand") or {}).get("id")} if v.get("grade") == "Confirmed"
+                       and isinstance((v.get("cand") or {}).get("id"), str) else set()))
     made = rec.get("made_utc") or ""
     return {"key": _key(rec.get("date_et"), rec.get("slot"), slug, made), "date_et": rec.get("date_et"),
             "slot": rec.get("slot"), "made_utc": made, "coin_sym": sym, "coin_slug": slug, "coin_name": name,
@@ -166,69 +212,100 @@ def _entry(rec, sym, v, slug, name, url, source, ev):
             "corrected": bool(v.get("corrections"))}
 
 
-def entries(vdir=None, mdir=None, wdir=None):
+def entries(vdir=None, mdir=None, wdir=None, skips=None):
     """Every graded verdict the stored slot records hold, Bitcoin and Ether (verdict.py) and Big movers (movers.py), as
-    entries. A coin with no grade (flat, with Bitcoin, the next read, withheld at the cap) is none."""
-    vd, we = _vd(), None
+    entries. A coin with no grade (flat, with Bitcoin, the next read, withheld at the cap) is none. A record or a coin that
+    is not the shape the run writes is skipped, logged and counted in `skips`, never guessed at."""
+    vd = _vd()
     out = []
     for n in vd._names(vdir):
-        rec = vd.load(n[:10], n[11:-5], vdir)
-        if not rec:
-            continue
-        rec = dict(rec, date_et=rec.get("date_et") or n[:10], slot=rec.get("slot") or n[11:-5])
-        ev = None
-        for sym, v in (rec.get("coins") or {}).items():
-            if v.get("grade") not in GRADES:
+        try:
+            rec = vd.load(n[:10], n[11:-5], vdir)
+            if not rec:
                 continue
-            if ev is None:
+            rec = dict(rec, date_et=rec.get("date_et") or n[:10], slot=rec.get("slot") or n[11:-5])
+            ev, bad = None, False
+            for sym, v in rec["coins"].items():
                 try:
-                    import why_evidence as we
-                    ev = we.load(rec["date_et"], rec["slot"], wdir) or {}
-                except Exception:                            # noqa: BLE001
-                    ev = {}
-            name, slug = vd.NAMES.get(sym, (v.get("name") or sym, sym.lower()))
-            if sym in ("BTC", "ETH"):
-                name, slug = {"BTC": ("Bitcoin", "bitcoin"), "ETH": ("Ether", "ether")}[sym]
-            out.append(_entry(rec, sym, v, slug, name, f"/why/{rec['date_et']}-{slug}", "verdict", ev))
+                    if not isinstance(v, dict):
+                        raise TypeError(f"{sym} is a {type(v).__name__}")
+                    if v.get("grade") not in GRADES:
+                        continue
+                    if ev is None:
+                        try:
+                            import why_evidence as we
+                            ev = we.load(rec["date_et"], rec["slot"], wdir) or {}
+                            ev = ev if isinstance(ev, dict) else {}
+                        except Exception:                    # noqa: BLE001
+                            ev = {}
+                    name, slug = {"BTC": ("Bitcoin", "bitcoin"), "ETH": ("Ether", "ether")}.get(
+                        sym, vd.NAMES.get(sym, (v.get("name") or sym, str(sym).lower())))
+                    out.append(_entry(rec, sym, v, slug, name, f"/why/{rec['date_et']}-{slug}", "verdict", ev))
+                except Exception as e:                       # noqa: BLE001
+                    bad = True
+                    print(f"::warning::verdict record: verdict/{n}: {sym} could not be read ({type(e).__name__})")
+            if bad:
+                _skip(skips, f"verdict/{n}", "a coin in it is not the shape the run writes")
+        except Exception as e:                               # noqa: BLE001
+            _skip(skips, f"verdict/{n}", type(e).__name__)
     mv = _mv()
-    for rec in mv.records(mdir):
-        for sym, e in (rec.get("coins") or {}).items():
-            v = (((e.get("verdict") or {}).get("coins") or {}).get(sym) or {})
-            if v.get("grade") not in GRADES or not e.get("evidence"):
-                continue                                     # movers.build_pages builds a page only with its evidence
-            slug = e.get("gecko_id") or sym.lower()
-            out.append(_entry(rec, sym, v, slug, e.get("name") or sym, f"/why/{rec.get('date_et')}-{slug}", "movers",
-                              e.get("evidence")))
+    for n in mv.names(mdir):
+        try:
+            m = mv.NAME_RX.fullmatch(n)
+            rec = mv.load(m.group(1), m.group(2), mdir)
+            if not rec:
+                continue
+            if not rec.get("date_et"):
+                print(f"::warning::verdict record: movers/{n} has no date_et; its verdicts are left out, never dated by guess")
+                if skips is not None:
+                    skips.append(f"movers/{n}")
+                continue
+            bad = False
+            for sym, e in (rec.get("coins") or {}).items():
+                try:
+                    v = (((e.get("verdict") or {}).get("coins") or {}).get(sym) or {})
+                    if v.get("grade") not in GRADES or not e.get("evidence"):
+                        continue                             # movers.build_pages builds a page only with its evidence
+                    slug = e.get("gecko_id") or str(sym).lower()
+                    out.append(_entry(rec, sym, v, slug, e.get("name") or sym, f"/why/{rec['date_et']}-{slug}", "movers",
+                                      e.get("evidence")))
+                except Exception as ex:                      # noqa: BLE001
+                    bad = True
+                    print(f"::warning::verdict record: movers/{n}: {sym} could not be read ({type(ex).__name__})")
+            if bad:
+                _skip(skips, f"movers/{n}", "a coin in it is not the shape the run writes")
+        except Exception as e:                               # noqa: BLE001
+            _skip(skips, f"movers/{n}", type(e).__name__)
     return out
 
 
 def dedupe(es):
-    """One verdict per slot reading: the same slot and coin stored again with the same grade and the same events (a re-run
-    that changed nothing) is not a second verdict. Keeps the first stored."""
-    out, seen = [], set()
+    """ONE VERDICT PER READ (review 1): a slot rewritten by a later run of the same slot is one read, counted once with its
+    last stored grade. The replaced grade stays in the store (append-only), and an outcome already stored for it stands."""
+    last = {}
     for e in sorted(es, key=lambda e: (e.get("made_utc") or "", e["key"])):
-        sig = (e.get("date_et"), _slot_key(e.get("slot")), e.get("coin_slug") or e.get("coin_sym"), e.get("grade"),
-               tuple(sorted(e.get("events") or [])))
-        if sig in seen:
-            continue
-        seen.add(sig)
-        out.append(e)
-    return out
+        last[(e.get("date_et"), _slot_key(e.get("slot")), e.get("coin_slug") or e.get("coin_sym"))] = e
+    return sorted(last.values(), key=lambda e: (e.get("made_utc") or "", e["key"]))
 
 
 # ---- the outcomes ------------------------------------------------------------------------------------------------------
 
 def _same_event(a, b):
-    if set(a.get("events") or []) & set(b.get("events") or []):
+    """The same event: a shared STABLE id (STABLE_IDS), or a shared source article of a wire story. Never a wire position,
+    never a shared word, never a shared schedule page."""
+    sa = {x for x in a.get("events") or [] if is_stable_id(x)}
+    sb_ = {x for x in b.get("events") or [] if is_stable_id(x)}
+    if sa & sb_:
         return True
-    la = {_link(x) or x for x in a.get("links") or []}
-    lb = {_link(x) or x for x in b.get("links") or []}
+    la = {_link(x) or x for x in a.get("links") or [] if isinstance(x, str)}
+    lb = {_link(x) or x for x in b.get("links") or [] if isinstance(x, str)}
     return bool((la - {""}) & (lb - {""}))
 
 
 def resolve(es):
     """{key: outcome} for every Likely entry a later read of the same move has resolved, by the rules in the module
-    docstring. A Likely with no deciding later read is absent (awaiting)."""
+    docstring. A Likely with no deciding later read is absent (awaiting while its day's reads can still come, else
+    unresolved: see view())."""
     es = dedupe(es)
     by = {}
     for e in es:
@@ -255,7 +332,8 @@ def resolve(es):
                                  "resolved_utc": later.get("made_utc"),
                                  "later": {"key": later["key"], "grade": g, "slot": later.get("slot"),
                                            "made_utc": later.get("made_utc"), "url": later.get("url")},
-                                 "shared_events": sorted(set(e.get("events") or []) & set(later.get("events") or []))}
+                                 "shared_events": sorted({x for x in set(e.get("events") or []) & set(later.get("events") or [])
+                                                          if is_stable_id(x)})}
                 break
     return out
 
@@ -263,17 +341,32 @@ def resolve(es):
 # ---- the store: one frozen file per entry and per outcome --------------------------------------------------------------
 
 def _safe(key):
-    return bool(key) and KEY_RX.fullmatch(key) is not None
+    return isinstance(key, str) and bool(key) and KEY_RX.fullmatch(key) is not None
 
 
 def _write_once(path, obj):
-    """Exclusive create: a file that exists is never opened for writing. True when this call wrote it."""
-    try:
-        with open(path, "x", encoding="utf-8") as f:
-            json.dump(obj, f, indent=1, ensure_ascii=False)
-        return True
-    except FileExistsError:
+    """Written once, whole or not at all: the JSON goes to a temp file in the same directory, is flushed to disk, and is
+    then hard-linked to the final name, which fails when that name exists (the exclusive create holds). A write cut
+    halfway leaves no file under the final name, and the temp file is always removed. True when this call wrote it."""
+    if os.path.exists(path):
         return False
+    import tempfile
+    fd, tmp = tempfile.mkstemp(prefix=".tmp-", dir=os.path.dirname(path))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(obj, f, indent=1, ensure_ascii=False)
+            f.flush()
+            os.fsync(f.fileno())
+        try:
+            os.link(tmp, path)
+        except FileExistsError:
+            return False
+        return True
+    finally:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
 
 
 def store_entry(store, entry):
@@ -292,8 +385,20 @@ def store_outcome(store, outcome):
     return p if _write_once(p, dict(outcome, kind="outcome")) else None
 
 
-def load_store(store=None):
-    """(entries, {key: outcome}) as stored. A file that cannot be read is skipped and said."""
+def _entry_ok(o):
+    return (isinstance(o, dict) and o.get("kind") == "verdict" and _safe(o.get("key")) and o.get("grade") in GRADES
+            and isinstance(o.get("events", []), list) and isinstance(o.get("links", []), list)
+            and all(isinstance(x, str) for x in o.get("events", []) + o.get("links", []))
+            and isinstance(o.get("date_et"), str) and isinstance(o.get("made_utc", ""), str))
+
+
+def _outcome_ok(o):
+    return (isinstance(o, dict) and o.get("kind") == "outcome" and _safe(o.get("key"))
+            and o.get("outcome") in ("confirmed_later", "reversed") and isinstance(o.get("later", {}), dict))
+
+
+def load_store(store=None, skips=None):
+    """(entries, {key: outcome}) as stored. A file of any other type or shape is skipped, logged and counted."""
     d = store or STORE
     es, outs = [], {}
     try:
@@ -304,26 +409,32 @@ def load_store(store=None):
         if not n.endswith(".json"):
             continue
         try:
-            obj = json.load(open(os.path.join(d, n), encoding="utf-8"))
-        except (OSError, ValueError) as e:
-            print(f"::warning::verdict record: {n} could not be read ({type(e).__name__})")
+            with open(os.path.join(d, n), encoding="utf-8") as f:
+                obj = json.load(f)
+        except Exception as e:                               # noqa: BLE001
+            _skip(skips, f"record/{n}", type(e).__name__)
             continue
-        if n.endswith(".outcome.json") and obj.get("kind") == "outcome" and obj.get("key"):
-            outs.setdefault(obj["key"], obj)
-        elif obj.get("kind") == "verdict" and obj.get("key") and obj.get("grade") in GRADES:
+        if n.endswith(".outcome.json"):
+            if _outcome_ok(obj):
+                outs.setdefault(obj["key"], obj)
+            else:
+                _skip(skips, f"record/{n}", "not an outcome the run writes")
+        elif _entry_ok(obj):
             es.append(obj)
+        else:
+            _skip(skips, f"record/{n}", "not a verdict entry the run writes")
     return es, outs
 
 
-def merged(vdir=None, mdir=None, wdir=None, store=None):
-    """(entries, outcomes, new_entries, new_outcomes): the stored ones first, then whatever the slot records hold that the
-    store does not yet, and the outcomes of Likely entries not yet stored as resolved. Nothing stored is changed."""
-    s_es, s_outs = load_store(store)
+def merged(vdir=None, mdir=None, wdir=None, store=None, skips=None):
+    """(entries, outcomes, new_entries, new_outcomes). `entries` holds every stored entry and every one the slot records hold
+    that the store does not yet, ONE PER READ (dedupe); `new_entries` is every slot-record entry not yet stored, each a file
+    of its own (append-only: a replaced grade is kept). Outcomes: the stored ones, then those of Likely entries not yet
+    stored as resolved. Nothing stored is changed."""
+    s_es, s_outs = load_store(store, skips)
     have = {e["key"] for e in s_es}
-    new_es = [e for e in entries(vdir, mdir, wdir) if e["key"] not in have]
+    new_es = [e for e in entries(vdir, mdir, wdir, skips) if e["key"] not in have]
     es = dedupe(s_es + new_es)
-    keep = {e["key"] for e in es}
-    new_es = [e for e in new_es if e["key"] in keep]
     computed = resolve(es)
     new_outs = {k: o for k, o in computed.items() if k not in s_outs}
     outs = dict(s_outs)
@@ -353,32 +464,64 @@ def sync(vdir=None, mdir=None, wdir=None, store=None, save=True):
 # ---- the view: the tally, the window and the rows ----------------------------------------------------------------------
 
 def reads(vdir=None, mdir=None):
-    """The reads stored in the window: {coins, movers, first_utc, last_utc}. A read is one slot's record, graded or not."""
-    vd = _vd()
-    times, n_c, n_m = [], 0, 0
+    """The reads stored: {coins, movers, first_utc, last_utc, evening}. A read is one slot's record, graded or not.
+    `evening` is {(source, date_et)} for each day whose Evening Brief read is stored."""
+    vd, mv = _vd(), _mv()
+    times, n_c, n_m, evening = [], 0, 0, set()
     for n in vd._names(vdir):
-        r = vd.load(n[:10], n[11:-5], vdir)
+        try:
+            r = vd.load(n[:10], n[11:-5], vdir)
+        except Exception:                                    # noqa: BLE001
+            r = None
         if r:
             n_c += 1
+            if n[11:-5] == "evening":
+                evening.add(("verdict", n[:10]))
             if _parse(r.get("made_utc")):
                 times.append(r["made_utc"])
-    for r in _mv().records(mdir):
-        n_m += 1
-        if _parse(r.get("made_utc")):
-            times.append(r["made_utc"])
-    return {"coins": n_c, "movers": n_m, "first_utc": min(times) if times else None, "last_utc": max(times) if times else None}
+    for n in mv.names(mdir):
+        try:
+            m = mv.NAME_RX.fullmatch(n)
+            r = mv.load(m.group(1), m.group(2), mdir)
+        except Exception:                                    # noqa: BLE001
+            r = None
+        if r:
+            n_m += 1
+            if m.group(2) == "evening":
+                evening.add(("movers", m.group(1)))
+            if _parse(r.get("made_utc")):
+                times.append(r["made_utc"])
+    return {"coins": n_c, "movers": n_m, "first_utc": min(times) if times else None,
+            "last_utc": max(times) if times else None, "evening": evening}
+
+
+def window_open(e, now, evening):
+    """THE READ WINDOW (review 1). A Likely verdict can be resolved only by a later read of the same move: the same coin on
+    the same ET day. The window is open while a later read can still come that day: its own read was not the Evening Brief
+    read (the day's last scheduled read), that day's Evening Brief read is not yet stored, and the ET day has not ended.
+    Nothing past the ET day is sought."""
+    if _slot_key(e.get("slot")) == "evening" or (e.get("source"), e.get("date_et")) in evening:
+        return False
+    try:
+        d = _dt.date.fromisoformat(str(e.get("date_et")))
+    except ValueError:
+        return False
+    we = _we()
+    day_end = _dt.datetime(d.year, d.month, d.day, tzinfo=we.ET) + _dt.timedelta(days=1)
+    return now < day_end.astimezone(_dt.timezone.utc)
 
 
 def view(now, vdir=None, mdir=None, wdir=None, store=None, built=None):
     """Everything the page and the feed print, from stored records only. `built`: the /why/ addresses this build wrote (None:
-    every row links). Never writes."""
+    every row links). Never writes. A stored file it cannot read is left out and counted in `skipped`."""
     import snapshot
-    es, outs, _n, _o = merged(vdir, mdir, wdir, store)
+    skips = []
+    es, outs, _n, _o = merged(vdir, mdir, wdir, store, skips)
     rd = reads(vdir, mdir)
     times = [t for t in [rd["first_utc"], rd["last_utc"]] + [e.get("made_utc") for e in es] if _parse(t)]
     begins = min(times) if times else None
     through = max(times) if times else None
-    counts = {"likely": 0, "likely_confirmed_later": 0, "likely_reversed": 0, "likely_awaiting": 0,
+    counts = {"likely": 0, "likely_confirmed_later": 0, "likely_reversed": 0, "likely_awaiting": 0, "likely_unresolved": 0,
               "confirmed": 0, "disputed": 0, "unclear": 0}
     rows = []
     for e in sorted(es, key=lambda e: (e.get("made_utc") or "", e["key"]), reverse=True):
@@ -393,7 +536,7 @@ def view(now, vdir=None, mdir=None, wdir=None, store=None, built=None):
                 detail = {"later_grade": lt.get("grade"), "later_slot": lt.get("slot"), "later_made_utc": lt.get("made_utc"),
                           "later_url": lt.get("url"), "rule": o.get("rule"), "basis": o.get("basis")}
             else:
-                outcome = "awaiting"
+                outcome = "awaiting" if window_open(e, now, rd["evening"]) else "unresolved"
             counts["likely_" + outcome] += 1
         else:
             counts[g.lower()] += 1
@@ -406,7 +549,7 @@ def view(now, vdir=None, mdir=None, wdir=None, store=None, built=None):
     return {"begins_utc": begins, "through_utc": through, "stale": stale,
             "age": snapshot.age_phrase(through, now) if through else "",
             "reads": {"coins": rd["coins"], "movers": rd["movers"]}, "counts": counts, "rows": rows,
-            "graded": len(rows)}
+            "graded": len(rows), "skipped": len(skips), "skipped_files": sorted(skips)}
 
 
 # ---- the page ----------------------------------------------------------------------------------------------------------
@@ -453,6 +596,7 @@ def _tally(v):
         win = f'<p class="{cls}"{snapshot.asof_attr(v["through_utc"])}>{stamp}{age}</p>'
     else:
         win = '<p class="vr-win">No verdict record is stored yet, so there is no window to count.</p>'
+    # each fact once (review 1): the record's start is said here and only here; that nothing is graded, here and only here
     if not v["graded"] and v["begins_utc"]:
         status = '<p class="vr-st">No move has been graded since the record began.</p>'
     elif c["likely"] and not (c["likely_confirmed_later"] or c["likely_reversed"]):
@@ -464,14 +608,17 @@ def _tally(v):
     return (f'<section class="vr-tally" aria-labelledby="vr-th">'
             f'<h2 id="vr-th" class="vr-h">The tally</h2>{win}{status}'
             f'<div class="vr-blk"><p class="vr-bh">Likely verdicts {_n("likely", c["likely"])}</p>'
-            f'<div class="vr-g">{cell("likely_confirmed_later", "Confirmed later by a primary source", "vr-up")}'
+            f'<div class="vr-g vr-g4">{cell("likely_confirmed_later", "Confirmed later by a primary source", "vr-up")}'
             f'{cell("likely_reversed", "Reversed by a later read", "vr-dn")}'
-            f'{cell("likely_awaiting", "Still awaiting a later source")}</div></div>'
+            f'{cell("likely_awaiting", "Awaiting: a later read can still come today")}'
+            f'{cell("likely_unresolved", "Still Likely: no later source by the end of its ET day")}</div></div>'
             f'<div class="vr-blk"><p class="vr-bh">The other grades, as given at the time</p>'
             f'<div class="vr-g">{cell("confirmed", "Confirmed")}{cell("disputed", "Disputed")}{cell("unclear", "Unclear")}</div></div>'
             f'<p class="vr-rd">Reads in this window: {_n("reads_coins", rd["coins"])} of Bitcoin and Ether, '
             f'{_n("reads_movers", rd["movers"])} of Big movers.</p>'
-            f'</section>')
+            + (f'<p class="vr-rd">{_n("skipped", v["skipped"])} stored file{"s" if v["skipped"] != 1 else ""} could not be '
+               f'read and {"are" if v["skipped"] != 1 else "is"} left out of these counts.</p>' if v.get("skipped") else "")
+            + '</section>')
 
 
 def _row(r):
@@ -486,7 +633,9 @@ def _row(r):
         word = OUTCOME_WORDS[r["outcome"]]
         d = r.get("outcome_detail") or {}
         if r["outcome"] == "awaiting":
-            why = "No later read of the same move has resolved it."
+            why = "A later read of the same move can still come before this ET day's Evening Brief read."
+        elif r["outcome"] == "unresolved":
+            why = "Still Likely: no later read of the same move resolved it before its ET day's reads were done."
         else:
             why = (f'The {_slot_words(d.get("later_slot"))} graded the same move {d.get("later_grade")}, '
                    f'{_when(d.get("later_made_utc"))}.')
@@ -501,12 +650,8 @@ def _row(r):
 def render(v, dateline):
     import site_build as sb
     rows = "".join(_row(r) for r in v["rows"])
-    listing = (f'<ol class="vr-l">{rows}</ol>' if rows else
-               '<p class="vr-empty">No graded verdict to list yet. A move under the threshold, Ether moving with Bitcoin, '
-               'and a move held for the next read get no grade, and none is listed here.</p>')
-    begins = (f'The record begins with the desk\'s first stored verdict record, {_e(_when(v["begins_utc"]))}, and every '
-              f'graded verdict since is listed below, newest first.' if v["begins_utc"] else
-              'The record begins with the desk\'s first stored verdict record. None is stored yet.')
+    # no list and no second sentence when nothing is graded: the tally says so, once
+    listing = (f'<h2 class="vr-h">Every graded verdict</h2>\n  <ol class="vr-l">{rows}</ol>' if rows else "")
     body = f"""<main class="wrap narrow"><section class="page vr-page">
   <span class="kicker">Why it moved</span>
   <h1>The verdict record</h1>
@@ -519,14 +664,19 @@ def render(v, dateline):
         event the Likely verdict named. Confirmed needs a primary source stating the cause.</li>
     <li><b>Reversed.</b> A later read of the same move graded it Disputed or Unclear, or named none of the events the
         Likely verdict named.</li>
-    <li><b>Awaiting a later source.</b> No later read has resolved it. A verdict with no later primary source is never
-        counted as confirmed.</li>
+    <li><b>Awaiting a later source.</b> The read window is the same ET day: a later read of the same coin can still come
+        before that day's Evening Brief read. The Evening Brief read is the day's last scheduled read. A verdict with no
+        later primary source is never counted as confirmed.</li>
+    <li><b>No later source by the end of its ET day.</b> Still Likely: the day's reads were done and none resolved it, so a
+        Likely from the Evening Brief read lands here at once. Nothing past the ET day is sought.</li>
     <li><b>Confirmed, Disputed and Unclear</b> are counted as they were graded at the time, by the rules on
         <a href="/method.html">how we check</a>.</li>
+    <li><b>Not graded, not counted:</b> a move under the threshold, Ether moving with Bitcoin, a move held for the next
+        read, and a check that did not run.</li>
   </ul>
-  <p>{begins} Each verdict and its outcome are stored once and never rewritten; a correction is listed on
+  <p>Each graded verdict is listed newest first, one per read; when a read was rewritten, its last stored grade. Each
+     verdict and its outcome are stored once and never rewritten, and a correction is listed on
      <a href="/corrections.html">corrections</a>.</p>
-  <h2 class="vr-h">Every graded verdict</h2>
   {listing}
   <p class="nfa">{_e(sb.NFA)}</p>
 </section></main>"""
@@ -558,12 +708,17 @@ def feed(v, now):
     data = {"window": {"begins_utc": v["begins_utc"], "through_utc": v["through_utc"],
                        "begins_et": _when(v["begins_utc"]) or None, "through_et": _when(v["through_utc"]) or None,
                        "what": "from the desk's first stored verdict record through the newest read"},
+            "state": "partial" if v.get("skipped") else "complete", "skipped": v.get("skipped", 0),
+            "skipped_files": list(v.get("skipped_files") or []),
             "counts": dict(v["counts"]), "reads": dict(v["reads"]), "graded": v["graded"],
             "definitions": {"confirmed_later": "a later read of the same move (the same coin on the same ET day) graded it "
                                                "Confirmed on an event the Likely verdict named",
                             "reversed": "a later read of the same move graded it Disputed or Unclear, or named none of the "
                                         "events the Likely verdict named",
-                            "awaiting": "no later read has resolved it; never counted as confirmed",
+                            "awaiting": "no later read has resolved it yet, and one can still come: the same ET day, before "
+                                        "that day's Evening Brief read; never counted as confirmed",
+                            "unresolved": "still Likely: no later source by the end of its ET day (the read window); "
+                                          "nothing past the ET day is sought",
                             "grades": dict(vd.DEFINITIONS)},
             "verdicts": [{"key": r["key"], "date_et": r["date_et"], "slot": r["slot"], "made_utc": r["made_utc"],
                           "coin": r["coin_sym"], "name": r["coin_name"], "grade": r["grade"], "url": r["url"],
@@ -571,6 +726,14 @@ def feed(v, now):
                           "timing_rule_version": r["timing_rule_version"]} for r in v["rows"]]}
     return af.envelope(FEED, URL, v["through_utc"], now,
                        ["the desk's stored verdict and Big movers records, and the verdict record's own store"], data)
+
+
+def feed_unreadable(now, why=""):
+    """The feed when the record could not be drawn at all: still written (the page says the same), no as-of, stale, no counts."""
+    import api_feeds as af
+    return af.envelope(FEED, URL, None, now, ["the desk's stored verdict and Big movers records, and the verdict record's own store"],
+                       {"state": "unreadable", "why": why or "the record could not be read on this build", "counts": None,
+                        "verdicts": [], "window": None})
 
 
 if __name__ == "__main__":

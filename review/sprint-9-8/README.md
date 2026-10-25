@@ -1,5 +1,6 @@
 review/sprint-9-8: the verdict record, /why/record/ (Program 9, Sprint 9.8), for Jack's read after the fact.
-Drawn Sunday October 25, 2026, about 1:52 PM EDT, on local branch local-9-8 (from origin/main 7f04343).
+Drawn Sunday October 25, 2026, about 1:52 PM EDT, on local branch local-9-8 (from origin/main 7f04343); every image re-drawn at
+3:24 PM EDT after review 1, whose fixes changed the copy (see REVIEW 1 below).
 
 U-10 CAVEAT, FIRST: THESE ARE LOCAL CAPTURES, NOT THE PREVIEW OR PRODUCTION. The branch is not pushed and no preview exists.
 Every image is a full-page capture by scripts/sprint98_shots.mjs (Playwright, Chromium) of a tree built on this machine by
@@ -19,7 +20,8 @@ THE RECORDS
              16 October morning Big movers record (five Unclear, model mocked as in 9.4's tests), restamped and regraded by hand to make
              later reads of the same move, which no recorded day gives (Jack, 13 October 2026): 14 October morning Likely confirmed
              later by the evening's Confirmed on the CPI release; 15 October morning Likely REVERSED by the real 15 October evening
-             Unclear; 16 October evening Likely awaiting; one Confirmed, one Disputed, six Unclear. Its window ends 7:16 PM ET on
+             Unclear; 16 October evening Likely unresolved (the day's last read: no later read can come); one Confirmed, one
+             Disputed, six Unclear. Its window ends 7:16 PM ET on
              Oct 17, 2026, so the browser's stale script marks it "7 days ago" when read on October 25; that is the stale rule
              working on an old fixture, not a fault.
 
@@ -37,3 +39,12 @@ WHAT WAS CHOSEN, AND WHY
   last. Each count prints once, there and nowhere else. The list below is the corrections log's card per entry: the read and its time
   in the mono, the /why/ page's title in the serif, the grade in the verdict card's own badge shapes, and for a Likely its outcome in
   one plain sentence. Green and red are not used: on this site they mean up and down. Tokens only; no new font, script or color.
+
+REVIEW 1 (October 25, 2026): what changed on the page
+  - The Likely block has four cells, not three: confirmed later, reversed, awaiting (a later read can still come today) and
+    still Likely with no later source by the end of its ET day. At 390 they sit two by two. The definitions name the read
+    window: the same ET day, the Evening Brief read the day's last scheduled read.
+  - Each fact once: the record's start prints only in the tally's window line, and "nothing graded" only in the tally. With
+    nothing graded there is no list heading and no second sentence; the rule for what is not graded moved to the definitions.
+  - A stored file the record cannot read is counted in the tally ("could not be read and is left out of these counts"), shown
+    only when there is one. No capture here has one.

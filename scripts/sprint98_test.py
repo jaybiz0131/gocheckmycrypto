@@ -17,9 +17,9 @@ THE FIXTURE'S TALLY, worked by hand:
   2026-10-15 morning  Bitcoin Likely (CPI, Real Earnings)   later: 15 evening Unclear (real)            -> reversed
   2026-10-15 evening  Bitcoin Unclear (real)                                                              -> context
   2026-10-16 morning  five Big movers Unclear (real)                                                      -> context
-  2026-10-16 evening  Bitcoin Likely (CPI, Real Earnings)   no later read of the same move              -> awaiting
+  2026-10-16 evening  Bitcoin Likely (CPI, Real Earnings)   the day's last read: no later read can come -> unresolved
   2026-10-17 evening  Bitcoin Disputed                                                                    -> context
-  Likely 3: confirmed later 1, reversed 1, awaiting 1. Confirmed 1, Disputed 1, Unclear 6.
+  Likely 3: confirmed later 1, reversed 1, awaiting 0, unresolved 1. Confirmed 1, Disputed 1, Unclear 6.
 """
 import contextlib
 import copy
@@ -43,9 +43,10 @@ AI = re.compile(r"\bA\.?I\b|artificial|machine[- ]learn|language model|\bLLM\b|\
 PERSON = re.compile(r"\bJack\b|\bBerno\b|editor-in-chief", re.I)
 ORIGIN = "https://gocheckmycrypto.com"
 URL = "/why/record/"
-RC_KEYS = ("likely", "likely_confirmed_later", "likely_reversed", "likely_awaiting", "confirmed", "disputed", "unclear",
+RC_KEYS = ("likely", "likely_confirmed_later", "likely_reversed", "likely_awaiting", "likely_unresolved", "confirmed",
+           "disputed", "unclear",
            "reads_coins", "reads_movers")
-WANT = {"likely": 3, "likely_confirmed_later": 1, "likely_reversed": 1, "likely_awaiting": 1,
+WANT = {"likely": 3, "likely_confirmed_later": 1, "likely_reversed": 1, "likely_awaiting": 0, "likely_unresolved": 1,
         "confirmed": 1, "disputed": 1, "unclear": 6}
 
 
@@ -221,8 +222,9 @@ def tally_cases(fails):
         c = v["counts"]
         for k, want in WANT.items():
             guarded(fails, f"the tally's {k} is {want} (got {c.get(k)})", lambda k=k, want=want: c.get(k) == want)
-        guarded(fails, "the Likely parts sum to the Likely verdicts (confirmed later, reversed, awaiting)",
-                lambda: c["likely_confirmed_later"] + c["likely_reversed"] + c["likely_awaiting"] == c["likely"])
+        guarded(fails, "the Likely parts sum to the Likely verdicts (confirmed later, reversed, awaiting, unresolved)",
+                lambda: c["likely_confirmed_later"] + c["likely_reversed"] + c["likely_awaiting"] + c["likely_unresolved"]
+                == c["likely"])
         rows = {(r["date_et"], r["slot"], r["coin_sym"]): r for r in v["rows"]}
         guarded(fails, "each graded verdict is one row: 6 of Bitcoin and 5 Big movers, and Ether moving with Bitcoin is none",
                 lambda: len(v["rows"]) == 11 and not any(r["coin_sym"] == "ETH" for r in v["rows"]))
@@ -230,8 +232,8 @@ def tally_cases(fails):
                 lambda: rows[("2026-10-14", "morning", "BTC")]["outcome"] == "confirmed_later"
                 and rows[("2026-10-14", "morning", "BTC")]["outcome_detail"]["later_grade"] == "Confirmed"
                 and rows[("2026-10-14", "morning", "BTC")]["outcome_detail"]["later_slot"] == "evening")
-        guarded(fails, "16 October evening's Likely has no later read: awaiting, never confirmed",
-                lambda: rows[("2026-10-16", "evening", "BTC")]["outcome"] == "awaiting")
+        guarded(fails, "16 October evening's Likely is the day's last read: unresolved, never awaiting and never confirmed",
+                lambda: rows[("2026-10-16", "evening", "BTC")]["outcome"] == "unresolved")
         guarded(fails, "only a Likely verdict carries an outcome; the other grades are counted as graded at the time",
                 lambda: all((r["outcome"] is None) == (r["grade"] != "Likely") for r in v["rows"]))
         guarded(fails, "every row carries its /why/ address: /why/<date>-bitcoin, and /why/<date>-<coin id> for a Big mover",
@@ -283,8 +285,9 @@ def reversed_cases(fails):
                 lambda: out[("2026-10-20", "morning")] == "reversed")
         guarded(fails, "SYNTHETIC: a later Likely naming none of the Likely's events reverses it",
                 lambda: out[("2026-10-21", "morning")] == "reversed")
-        guarded(fails, "SYNTHETIC: a later Likely naming the same events leaves it awaiting (still no primary source)",
-                lambda: out[("2026-10-22", "morning")] == "awaiting" and out[("2026-10-22", "evening")] == "awaiting")
+        guarded(fails, "SYNTHETIC: a later Likely naming the same events resolves nothing; with the day's reads done both are "
+                       "unresolved (still no primary source)",
+                lambda: out[("2026-10-22", "morning")] == "unresolved" and out[("2026-10-22", "evening")] == "unresolved")
         _ = vd
     finally:
         shutil.rmtree(td, ignore_errors=True)
@@ -373,9 +376,9 @@ def frozen_cases(fails):
         r14 = [r for r in v["rows"] if (r["date_et"], r["slot"]) == ("2026-10-14", "morning")][0]
         guarded(fails, "the stored outcome stands: 14 October morning stays confirmed later though its slot was regraded after",
                 lambda: r14["outcome"] == "confirmed_later")
-        guarded(fails, "the overwritten 14 October evening Confirmed is still in the record (published, then replaced)",
-                lambda: [r["grade"] for r in v["rows"] if (r["date_et"], r["slot"]) == ("2026-10-14", "evening")]
-                == ["Unclear", "Confirmed"])
+        guarded(fails, "a rewritten slot counts once, with its last stored grade (Unclear); the replaced grade stays in the store",
+                lambda: [r["grade"] for r in v["rows"] if (r["date_et"], r["slot"]) == ("2026-10-14", "evening")] == ["Unclear"]
+                and v["graded"] == 6)
         # an entry file never rewritten even when sync is handed one that differs
         k = sorted(f for f in files if not f.endswith(".outcome.json"))[0]
         p = os.path.join(fx["store"], k)
@@ -441,8 +444,10 @@ def page_cases(fails):
         guarded(fails, "the page's own rules ride in its head, tokens only (the shared stylesheets stay Sprint 9.5's)",
                 lambda: ".page .vr-tally{" in h.split("</head>", 1)[0]
                 and not re.search(r"#[0-9a-fA-F]{3,8}\b|rgba?\(|@font-face|url\(", vr().RECORD_STYLE))
-        guarded(fails, "the page says how many verdicts are still awaiting a later source",
-                lambda: re.search(r'data-rc="likely_awaiting"[^>]*>1<', h) and "awaiting" in txt.lower())
+        guarded(fails, "the page counts awaiting (0) apart from unresolved (1), and names the window: the same ET day, the "
+                       "Evening Brief read the last",
+                lambda: re.search(r'data-rc="likely_awaiting"[^>]*>0<', h) and re.search(r'data-rc="likely_unresolved"[^>]*>1<', h)
+                and "same ET day" in txt and "Evening Brief read is the day's last" in txt)
         guarded(fails, "'because' appears nowhere (the page prints no verdict sentence)", lambda: not BECAUSE.search(txt))
         guarded(fails, "no em or en dash, no AI word, no personal name",
                 lambda: not DASH.search(h) and not AI.search(txt) and not PERSON.search(txt))
@@ -450,7 +455,7 @@ def page_cases(fails):
                 lambda: f'<link rel="canonical" href="{ORIGIN}{URL}">' in h and "<h1>The verdict record</h1>" in h
                 and re.search(r'href="/today/"[^>]*aria-current="page"', h))
         guarded(fails, "each outcome is said in words on its row: confirmed later, reversed, awaiting a later source",
-                lambda: all(w in txt for w in ("Confirmed later", "Reversed", "Awaiting a later source")))
+                lambda: all(w in txt for w in ("Confirmed later", "Reversed", "No later source by the end of its ET day")))
         guarded(fails, "the definitions are on the page: a later read of the same coin on the same ET day, and never confirmed "
                        "without a primary source", lambda: "same ET day" in txt and "primary source" in txt)
         # a /why/ address the build did not write gets no link
@@ -514,7 +519,8 @@ def empty_cases(fails):
             v = m.view(t("2026-10-17T00:00:00Z"), vdir=vd2, mdir=dirs["movers"] + "-none", wdir=dirs["why"], store=dirs["store"])
             h = m.render(v, "OCTOBER 17, 2026")
         guarded(fails, "SYNTHETIC one Likely, nothing resolved: it says no Likely verdict has a later source yet",
-                lambda: "No Likely verdict has a later source yet" in visible(h) and rc(h)["likely_awaiting"] == [1])
+                lambda: "No Likely verdict has a later source yet" in visible(h) and rc(h)["likely_unresolved"] == [1]
+                and rc(h)["likely_awaiting"] == [0])
         # the build writes the page whatever happens
         import site_build as sb
         written = {}
@@ -600,9 +606,228 @@ def link_cases(fails):
     guarded(fails, "the sitemap's priority list names /why/record/ (read in the tree cases too)", lambda: '"/why/record/"' in locs)
 
 
+# ---- review 1 (Sprint 9.8, October 25, 2026) ------------------------------------------------------------------------
+
+def review1_identity(fails):
+    print("R1. an event's identity rests on what is stable across runs, never on a wire cluster's position")
+    m = vr()
+    a = _entry("a", "2026-10-26", "morning", "2026-10-26T12:18:00Z", "Likely", ["wire-c010"],
+               ["cointelegraph.com/news/cysic-crypto-bridge-halted-after-unauthorized-mint-of-10m-cys"])
+    b = _entry("b", "2026-10-26", "evening", "2026-10-26T23:15:00Z", "Confirmed", ["wire-c010"],
+               ["lemonde.fr/economie/article/2026/10/20/france-assembly-vote"])
+    guarded(fails, "same id, different story: a later Confirmed reusing the position id wire-c010 for another story does not "
+                   "confirm the Likely", lambda: m.resolve([a, b]).get("a", {}).get("outcome") != "confirmed_later")
+    r19 = json.load(open(os.path.join(HERE, "site", "data", "why", "2026-10-19-morning.json"), encoding="utf-8"))
+    r20 = json.load(open(os.path.join(HERE, "site", "data", "why", "2026-10-20-evening.json"), encoding="utf-8"))
+    l19 = next(c["line"] for c in r19["candidates"] if c["id"] == "wire-c010")
+    l20 = next(c["line"] for c in r20["candidates"] if c["id"] == "wire-c010")
+    guarded(fails, "REAL: wire-c010 names two different stories on 19 and 20 October (a per-run position), and is no identity",
+            lambda: l19 != l20 and not m.is_stable_id("wire-c010"))
+    stable = {"bls": "bls-20261014-consumer-price-index", "bea": "bea-20261030-gross-domestic-product",
+              "fomc": "fomc-2026-10-28", "ff": "ff-1792413000-core-pce-price-index-m-m", "fr": "fr-2026-20888",
+              "press": "sec-1792413000", "hack": "hack-2026-10-18-qubic", "unlock": "unlock-arb-1792413000",
+              "listing": "listing-binance-1792413000-binance-will-list-celestia-tia", "delisting": "delisting-okx-1792413000-x"}
+    guarded(fails, "each stable id family is named in code with its form, and an id of each form is stable: "
+                   + ", ".join(sorted(stable)),
+            lambda: set(stable) <= set(m.STABLE_IDS) and all(m.is_stable_id(x) for x in stable.values()))
+    guarded(fails, "positional or unknown ids are never stable (wire-c010, c010, wire-, an id with no date or number)",
+            lambda: not any(m.is_stable_id(x) for x in ("wire-c010", "c010", "wire-", "bls-consumer-price-index", "sec-", "")))
+    # REAL ids from the recorded 14 October evidence: each id the builder made carries its own date or document number
+    ev = s93().rec(s93().D14())
+    ids = [c["id"] for c in ev["candidates"]]
+    guarded(fails, "REAL 14 October: every non-wire id the builder made is stable, every wire id is not ("
+                   + ", ".join(ids[:4]) + ", ...)",
+            lambda: all(m.is_stable_id(i) != i.startswith("wire-") for i in ids))
+    # a shared schedule page is not an identity: two BLS releases both link the month's schedule
+    td = tempfile.mkdtemp(prefix="s98-")
+    try:
+        import verdict as vd
+        v14, _v15 = _base()
+        d = {k: os.path.join(td, k) for k in ("verdict", "why", "movers", "store")}
+        for p in d.values():
+            os.makedirs(p, exist_ok=True)
+        for slot in ("morning", "evening"):
+            json.dump(dict(ev, date_et="2026-10-14", slot=slot), open(os.path.join(d["why"], f"2026-10-14-{slot}.json"), "w"))
+
+        def only_re(v):
+            v["refs"] = [r for r in v["refs"] if r["id"] == "bls-20261014-real-earnings"]
+        _put(d["verdict"], v14, "2026-10-14", "morning", "2026-10-14T12:18:00Z", only_re)
+        _put(d["verdict"], v14, "2026-10-14", "evening", "2026-10-14T23:16:00Z", lambda v: (to_confirmed(v), v.update(
+            refs=[r for r in v["refs"] if r["id"] == "bls-20261014-consumer-price-index"])))
+        with quiet():
+            w = m.view(t("2026-10-15T12:00:00Z"), vdir=d["verdict"], mdir=d["movers"], wdir=d["why"], store=d["store"])
+        row = next(r for r in w["rows"] if r["slot"] == "morning")
+        guarded(fails, "SYNTHETIC: the CPI release confirmed in the evening does not confirm a Likely on the Real Earnings "
+                       "release, though both link the same BLS schedule page", lambda: row["outcome"] == "reversed")
+        _ = vd
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def review1_malformed(fails):
+    print("R1. a malformed stored file is skipped and said; the page and the feed are always written (stored-fixture canary case)")
+    m = vr()
+    td = tempfile.mkdtemp(prefix="s98-")
+    try:
+        fx = fixture(td, with_movers=False)
+        open(os.path.join(fx["store"], "2026-10-13-evening-bitcoin-231600.json"), "w").write("[]")
+        open(os.path.join(fx["store"], "2026-10-13-morning-bitcoin-121800.json"), "w").write('"text"')
+        open(os.path.join(fx["store"], "2026-10-12-evening-bitcoin-231600.outcome.json"), "w").write('{"kind": "outcome", "key": 7}')
+        open(os.path.join(fx["store"], "2026-10-12-morning-bitcoin-121800.json"), "w").write('{"kind": "verdict", "key": "k", '
+                                                                                              '"grade": "Likely", "events": 5}')
+        open(os.path.join(fx["store"], "2026-10-11-evening-bitcoin-231600.json"), "w").write('{"kind": "verd')
+        json.dump({"date_et": "2026-10-13", "slot": "evening", "coins": {"BTC": []}},
+                  open(os.path.join(fx["vdir"], "2026-10-13-evening.json"), "w"))
+        json.dump({"date_et": "2026-10-13", "slot": "morning", "gate": {}, "coins": {"X": [], "Y": {"verdict": 3}}},
+                  open(os.path.join(fx["mdir"], "2026-10-13-morning.json"), "w"))
+        now = t("2026-10-17T23:30:00Z")
+        with quiet() as out:
+            v = m.view(now, vdir=fx["vdir"], mdir=fx["mdir"], wdir=fx["wdir"], store=fx["store"])
+            h = m.render(v, "OCTOBER 17, 2026")
+        guarded(fails, "the record is drawn from the readable files (the fixture's tally stands) and the skipped ones are counted",
+                lambda: v["counts"]["likely"] == 3 and v["counts"]["likely_confirmed_later"] == 1 and v["skipped"] >= 5)
+        guarded(fails, "each skipped file is logged by name", lambda: out.getvalue().count("could not be read") >= 5)
+        guarded(fails, "the page says files were left out, once, in the tally",
+                lambda: len(rc(h).get("skipped", [])) == 1 and "could not be read" in visible(h) and outside_counts(h) == [])
+        import api_feeds as af
+        with quiet():
+            allf = af.build_all({"now": now, "pulse": None, "snap": None, "flows": None, "items": [], "wire": None, "ed": None,
+                                 "morning": None, "movers_rec": None, "board_tiles": [], "coin_tiles": {},
+                                 "vdir": fx["vdir"], "wdir": fx["wdir"], "mdir": fx["mdir"], "rstore": fx["store"]})
+        f = allf.get("why/record.json") or {}
+        guarded(fails, "the feed is written with the partial state and the index lists it",
+                lambda: f.get("data", {}).get("state") == "partial" and f["data"]["skipped"] == v["skipped"]
+                and any(r["path"] == "/api/v1/why/record.json" for r in allf["index.json"]["data"]["feeds"]))
+        # even a view that raises: the feed is still written, unreadable, and says so
+        real = m.view
+        try:
+            def boom(*a, **k):
+                raise RuntimeError("planted")
+            m.view = boom
+            with quiet():
+                allf = af.build_all({"now": now, "pulse": None, "items": [], "board_tiles": [], "coin_tiles": {}})
+        finally:
+            m.view = real
+        g = allf.get("why/record.json") or {}
+        guarded(fails, "when the record cannot be drawn at all the feed is still written, state unreadable, stale, no counts",
+                lambda: g.get("data", {}).get("state") == "unreadable" and g["stale"] is True and g["data"]["counts"] is None
+                and any(r["path"] == "/api/v1/why/record.json" for r in allf["index.json"]["data"]["feeds"]))
+        # a cut write leaves no frozen file
+        import json as _j
+        real_dump = _j.dump
+        p = os.path.join(fx["store"], "cut-key.json")
+        try:
+            def cut(obj, f, **k):
+                f.write('{"kind": "verd')
+                raise OSError("planted: the write was cut")
+            m.json.dump = cut
+            with quiet():
+                try:
+                    m.store_entry(fx["store"], {"key": "cut-key", "grade": "Likely"})
+                except OSError:
+                    pass
+        finally:
+            m.json.dump = real_dump
+        guarded(fails, "a write cut halfway leaves no file under the final name and no temp file behind",
+                lambda: not os.path.exists(p) and not [n for n in os.listdir(fx["store"]) if n.startswith(".")])
+        # a movers record with no date_et is said, not dropped in silence
+        mdir2 = os.path.join(td, "m2")
+        os.makedirs(mdir2)
+        if "movers" not in _FX:
+            fixture(os.path.join(td, "fxm"))                 # loads the real 16 October movers record (five graded)
+        rec = copy.deepcopy(_FX["movers"])
+        rec.pop("date_et", None)
+        json.dump(rec, open(os.path.join(mdir2, "2026-10-16-morning.json"), "w"))
+        with quiet() as out2:
+            got2 = m.entries(os.path.join(td, "none"), mdir2, fx["wdir"])
+        guarded(fails, "a Big movers record with no date_et (five graded coins in it) is logged as a warning, not dropped in "
+                       "silence, and none of its verdicts is dated by guess",
+                lambda: "::warning::verdict record" in out2.getvalue() and "no date_et" in out2.getvalue() and got2 == [])
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+    src = open(os.path.join(HERE, "verdict.py"), encoding="utf-8").read()
+    body = src.split("\ndef _sync_record(", 1)[1].split("\ndef ", 1)[0]
+    guarded(fails, "verdict.py disarms its alarm and its SIGTERM handler before the record is stored",
+            lambda: body.index("signal.alarm(0)") < body.index("verdict_record.sync(") and "SIG_DFL" in body)
+
+
+def review1_once(fails):
+    print("R1. each fact once: when the record begins, and that nothing is graded yet")
+    m = vr()
+    td = tempfile.mkdtemp(prefix="s98-")
+    try:
+        d = {k: os.path.join(td, k) for k in ("verdict", "why", "movers", "store")}
+        for p in d.values():
+            os.makedirs(p, exist_ok=True)
+        for n in ("2026-10-19-evening.json", "2026-10-20-morning.json", "2026-10-20-evening.json"):
+            shutil.copy(os.path.join(HERE, "site", "data", "verdict", n), d["verdict"])
+        with quiet():
+            v = m.view(t("2026-10-25T18:00:00Z"), vdir=d["verdict"], mdir=d["movers"], wdir=d["why"], store=d["store"])
+            h = m.render(v, "OCTOBER 25, 2026")
+        txt = visible(h)
+        guarded(fails, "REAL: the record's start (7:16 PM ET on Oct 19, 2026) prints once",
+                lambda: txt.count("7:16 PM ET on Oct 19, 2026") == 1)
+        guarded(fails, "REAL: that nothing is graded prints once",
+                lambda: len(re.findall(r"\bno\b[^.]{0,30}\bgraded\b", txt, re.I)) == 1)
+        fx = fixture(os.path.join(td, "fx"), with_movers=False)
+        h2 = page_of(view_of(fx))
+        # the first verdict's own row prints its read time too: that is the row's fact, not the record's start
+        guarded(fails, "SYNTHETIC populated: the record's start (8:18 AM ET on Oct 14, 2026) prints once outside that row",
+                lambda: visible(h2).count("8:18 AM ET on Oct 14, 2026")
+                - visible(h2).count("Morning Brief read, 8:18 AM ET on Oct 14, 2026") == 1)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
+def review1_window(fails):
+    print("R1. awaiting only while a later read can still come: the same ET day, the Evening Brief read the day's last")
+    m = vr()
+    td = tempfile.mkdtemp(prefix="s98-")
+    try:
+        v14, _v15 = _base()
+        d = {k: os.path.join(td, k) for k in ("verdict", "why", "movers", "store")}
+        for p in d.values():
+            os.makedirs(p, exist_ok=True)
+        _put(d["verdict"], v14, "2026-10-14", "morning", "2026-10-14T12:18:00Z")
+        o = lambda now: m.view(t(now), vdir=d["verdict"], mdir=d["movers"], wdir=d["why"], store=d["store"])["rows"][0]["outcome"]
+        with quiet():
+            am_10 = o("2026-10-14T14:00:00Z")
+            am_next = o("2026-10-15T04:00:01Z")
+        guarded(fails, "SYNTHETIC: a morning Likely at 10 AM ET the same day, no later read yet: awaiting", lambda: am_10 == "awaiting")
+        guarded(fails, "SYNTHETIC: the same morning Likely once its ET day has ended (12:00:01 AM ET): unresolved",
+                lambda: am_next == "unresolved")
+        def flat(v):
+            v.update(kind="flat", grade=None, url=None)
+        _put(d["verdict"], v14, "2026-10-14", "evening", "2026-10-14T23:16:00Z", flat)
+        with quiet():
+            am_9pm = m.view(t("2026-10-15T01:00:00Z"), vdir=d["verdict"], mdir=d["movers"], wdir=d["why"],
+                            store=d["store"])["rows"][0]
+        guarded(fails, "SYNTHETIC: the same morning Likely at 9 PM ET after the evening read ran (flat, no grade): unresolved",
+                lambda: am_9pm["slot"] == "morning" and am_9pm["outcome"] == "unresolved")
+        d2 = os.path.join(td, "v2")
+        os.makedirs(d2)
+        _put(d2, v14, "2026-10-14", "evening", "2026-10-14T23:16:00Z")
+        with quiet():
+            pm = m.view(t("2026-10-14T23:16:00Z"), vdir=d2, mdir=d["movers"], wdir=d["why"], store=d["store"])
+        guarded(fails, "SYNTHETIC: an evening Likely is never awaiting, even at the moment it was graded",
+                lambda: pm["rows"][0]["outcome"] == "unresolved" and pm["counts"]["likely_awaiting"] == 0)
+        # the store is the durable record: an evening Likely held only there (its slot file gone) is still unresolved
+        st2 = os.path.join(td, "st2")
+        with quiet():
+            e_pm = m.entries(d2, d["movers"], d["why"])[0]
+            m.store_entry(st2, e_pm)
+            pm2 = m.view(t("2026-10-14T23:20:00Z"), vdir=os.path.join(td, "empty"), mdir=d["movers"], wdir=d["why"], store=st2)
+        guarded(fails, "SYNTHETIC: an evening Likely held only in the store, with no slot record beside it, is unresolved at once",
+                lambda: pm2["rows"][0]["slot"] == "evening" and pm2["rows"][0]["outcome"] == "unresolved")
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
 def unit():
     fails = []
-    for name, fn in (("tally", tally_cases), ("reversed", reversed_cases), ("identity", identity_cases),
+    for name, fn in (("review 1: identity", review1_identity), ("review 1: malformed", review1_malformed),
+                     ("review 1: once", review1_once), ("review 1: window", review1_window),
+                     ("tally", tally_cases), ("reversed", reversed_cases), ("identity", identity_cases),
                      ("frozen", frozen_cases), ("page", page_cases), ("empty", empty_cases), ("feed", feed_cases),
                      ("links", link_cases)):
         group(fails, name, fn)

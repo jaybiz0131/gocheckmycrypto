@@ -1,35 +1,40 @@
-Sprint 9.8 plants (U-9), Sun Oct 25 2026, 2:02 PM EDT, on the tree built at the branch's code. Each guarded thing broken on purpose in a throwaway copy, scripts/sprint98_test.py run, the break undone and the test run again.
-PLANT 1 the reversed verdict counted as confirmed: exit 1, 6 red; restored: exit 0
+Sprint 9.8 plants (U-9), review 1, Sun Oct 25 2026, 3:30 PM EDT, on the tree built at the branch's code. Each guarded thing broken on purpose in a throwaway copy, scripts/sprint98_test.py run, the break undone and the test run again.
+PLANT 1 the reversed verdict counted as confirmed: exit 1, 7 red; restored: exit 0
+      FAIL the record is drawn from the readable files (the fixture's tally stands) and the skipped ones are counted
       FAIL the tally's likely_confirmed_later is 1 (got 2)
-      FAIL the tally's likely_reversed is 1 (got 0)
-PLANT 2 an awaiting verdict counted as confirmed: exit 1, 9 red; restored: exit 0
-      FAIL the tally's likely_confirmed_later is 1 (got 2)
-      FAIL the tally's likely_awaiting is 1 (got 0)
+PLANT 2 an awaiting verdict counted as confirmed: exit 1, 15 red; restored: exit 0
+      FAIL the record is drawn from the readable files (the fixture's tally stands) and the skipped ones are counted
+      FAIL SYNTHETIC: a morning Likely at 10 AM ET the same day, no later read yet: awaiting
 PLANT 3 the page omitted on empty: exit 1, 2 red; restored: exit 0
       FAIL the build writes why/record/index.html with no stored record (never omitted on empty)
       FAIL when the record cannot be drawn the page is still written, and says the record could not be read
-PLANT 4 a duplicated figure (the awaiting count printed again in the lede): exit 1, 1 red; restored: exit 0
+PLANT 4 a duplicated figure (the awaiting count printed again in the lede): exit 1, 2 red; restored: exit 0
+      FAIL the page says files were left out, once, in the tally
       FAIL no count prints outside the tally (the same fact never twice)
 PLANT 5 a later ET day's read resolves the Likely (a different move): exit 1, 9 red; restored: exit 0
       FAIL the tally's likely_reversed is 1 (got 2)
-      FAIL the tally's likely_awaiting is 1 (got 0)
-PLANT 6 any two sourced events are the same event (a shallow key): exit 1, 1 red; restored: exit 0
+      FAIL the tally's likely_unresolved is 1 (got 0)
+PLANT 6 any two sourced events are the same event (a shallow key): exit 1, 2 red; restored: exit 0
+      FAIL same id, different story: a later Confirmed reusing the position id wire-c010 for another story does not confirm the Likely
       FAIL a later Confirmed sharing only a word ('blackrock'), not an id or an article, is not the same event: reversed
-PLANT 7 an earlier read resolves a later Likely (the reads taken newest first): exit 1, 16 red; restored: exit 0
-      FAIL the tally's likely_confirmed_later is 1 (got 0)
-      FAIL the tally's likely_reversed is 1 (got 0)
+PLANT 7 an earlier read resolves a later Likely (the reads taken newest first): exit 1, 17 red; restored: exit 0
+      FAIL SYNTHETIC: the CPI release confirmed in the evening does not confirm a Likely on the Real Earnings release, though both link the same BLS schedule page
+      FAIL the record is drawn from the readable files (the fixture's tally stands) and the skipped ones are counted
 PLANT 8 a later Likely on the same events reverses it: exit 1, 1 red; restored: exit 0
-      FAIL SYNTHETIC: a later Likely naming the same events leaves it awaiting (still no primary source)
-PLANT 9 a re-stored slot counts as a second verdict: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a later Likely naming the same events resolves nothing; with the day's reads done both are unresolved (still no primary source)
+PLANT 9 a rewritten slot counts as a second verdict: exit 1, 2 red; restored: exit 0
       FAIL the same slot re-stored with the same grade and events is not a second verdict and resolves nothing
+      FAIL a rewritten slot counts once, with its last stored grade (Unclear); the replaced grade stays in the store
 PLANT 10 a verdict withheld at the cap is scored: exit 1, 1 red; restored: exit 0
       FAIL REAL 19 and 20 October (next read, flat, with Bitcoin, no grade fits) and a verdict withheld at the cap are no entries: nothing ungraded is scored
 PLANT 11 a stored file is rewritten (no exclusive create): exit 1, 1 red; restored: exit 0
       FAIL an entry already stored is never rewritten
-PLANT 12 a stored outcome is recomputed: exit 1, 1 red; restored: exit 0
+PLANT 12 a stored outcome is recomputed: exit 1, 2 red; restored: exit 0
+      FAIL the stored outcome stands: 14 October morning stays confirmed later though its slot was regraded after
       FAIL an outcome stored by an earlier run stands: never recomputed from the records, never rewritten by a sync
-PLANT 13 the build's read writes the store: exit 1, 1 red; restored: exit 0
-      FAIL the build's read of the record writes no file
+PLANT 13 the build's read writes the store: exit 1, 4 red; restored: exit 0
+      FAIL the record is drawn from the readable files (the fixture's tally stands) and the skipped ones are counted
+      FAIL the page says files were left out, once, in the tally
 PLANT 14 the verdict run step stops storing the record: exit 1, 1 red; restored: exit 0
       FAIL the run steps store the record: verdict.py's main() calls _sync_record(), which calls verdict_record.sync, and movers.py's main() calls verdict_record.sync
 PLANT 15 the movers run step stops storing the record: exit 1, 1 red; restored: exit 0
@@ -37,22 +42,25 @@ PLANT 15 the movers run step stops storing the record: exit 1, 1 red; restored: 
 PLANT 16 the stale rule is the page's own (6 hours), not the site's: exit 1, 2 red; restored: exit 0
       FAIL five hours after: stale by snapshot.is_stale, the age printed once
       FAIL the view's stale flag is snapshot.is_stale on the newest read
-PLANT 17 the window's label is dropped: exit 1, 1 red; restored: exit 0
-      FAIL the window is labeled on the tally: from the first verdict record through the newest read, in ET, with the newest read's data-asof
+PLANT 17 the window's label is dropped: exit 1, 4 red; restored: exit 0
+      FAIL REAL: the record's start (7:16 PM ET on Oct 19, 2026) prints once
+      FAIL SYNTHETIC populated: the record's start (8:18 AM ET on Oct 14, 2026) prints once outside that row
 PLANT 18 a listed verdict loses its link: exit 1, 1 red; restored: exit 0
       FAIL every graded verdict is listed and links to its /why/ address
 PLANT 19 a row whose page was not built is linked anyway: exit 1, 1 red; restored: exit 0
       FAIL a row whose /why/ page was not built links nowhere and says so
 PLANT 20 'because' on the page: exit 1, 1 red; restored: exit 0
       FAIL 'because' appears nowhere (the page prints no verdict sentence)
-PLANT 21 the zero-graded state is not said: exit 1, 1 red; restored: exit 0
+PLANT 21 the zero-graded state is not said: exit 1, 2 red; restored: exit 0
+      FAIL REAL: that nothing is graded prints once
       FAIL REAL 19 and 20 October: zero graded, the page says no move has been graded since the record began
 PLANT 22 the empty store is not said: exit 1, 1 red; restored: exit 0
       FAIL no stored record at all: the page builds, every count zero, and it says no record is stored yet
 PLANT 23 the record cannot be drawn and the page is left out: exit 1, 1 red; restored: exit 0
       FAIL when the record cannot be drawn the page is still written, and says the record could not be read
-PLANT 24 the feed is left out of /api/v1/: exit 1, 1 red; restored: exit 0
-      FAIL build_all writes why/record.json and the index lists it with its as-of and stale flag
+PLANT 24 the feed is left out of /api/v1/: exit 1, 3 red; restored: exit 0
+      FAIL the feed is written with the partial state and the index lists it
+      FAIL when the record cannot be drawn at all the feed is still written, state unreadable, stale, no counts
 PLANT 25 the feed's as-of is the build moment: exit 1, 2 red; restored: exit 0
       FAIL as_of_utc is the newest read; stale is the site's rule
       FAIL build_all writes why/record.json and the index lists it with its as-of and stale flag
@@ -80,7 +88,41 @@ PLANT 36 tree: a count printed outside the tally: exit 1, 1 red; restored: exit 
       FAIL no count prints outside the tally
 PLANT 37 tree: How we check loses the link: exit 1, 1 red; restored: exit 0
       FAIL How we check links it
-SUMMARY: 37 of 37 plants went red and came back green (37 applied); exit 0
+PLANT 38 R1: a wire position counts as an identity (same id, different story): exit 1, 1 red; restored: exit 0
+      FAIL same id, different story: a later Confirmed reusing the position id wire-c010 for another story does not confirm the Likely
+PLANT 39 R1: the stable families admit a wire id: exit 1, 4 red; restored: exit 0
+      FAIL same id, different story: a later Confirmed reusing the position id wire-c010 for another story does not confirm the Likely
+      FAIL REAL: wire-c010 names two different stories on 19 and 20 October (a per-run position), and is no identity
+PLANT 40 R1: a release's shared schedule page counts as an identity: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: the CPI release confirmed in the evening does not confirm a Likely on the Real Earnings release, though both link the same BLS schedule page
+PLANT 41 R1: a store file of another type stops the record (only OSError and ValueError caught, no shape check): exit 1, 1 red; restored: exit 0
+      FAIL group review 1: malformed could not run [AttributeError: 'list' object has no attribute 'get']
+PLANT 42 R1: a slot record with a malformed coin stops the record: exit 1, 1 red; restored: exit 0
+      FAIL group review 1: malformed could not run [AttributeError: 'list' object has no attribute 'get']
+PLANT 43 R1: the feed is left out when the record cannot be drawn: exit 1, 1 red; restored: exit 0
+      FAIL when the record cannot be drawn at all the feed is still written, state unreadable, stale, no counts
+PLANT 44 R1: the skipped files are not said on the page: exit 1, 1 red; restored: exit 0
+      FAIL the page says files were left out, once, in the tally
+PLANT 45 R1: a cut write leaves a frozen half file (written in place): exit 1, 3 red; restored: exit 0
+      FAIL a write cut halfway leaves no file under the final name and no temp file behind
+      FAIL group review 1: window could not run [FileNotFoundError: [Errno 2] No such file or directory: '/tmp/s98-iuqmq376/st2/2026-10-14-evening-bitcoin-231600.json.x]
+PLANT 46 R1: a movers record with no date_et is dropped in silence: exit 1, 1 red; restored: exit 0
+      FAIL a Big movers record with no date_et (five graded coins in it) is logged as a warning, not dropped in silence, and none of its verdicts is dated by guess
+PLANT 47 R1: verdict.py stores the record with its alarm still armed: exit 1, 1 red; restored: exit 0
+      FAIL verdict.py disarms its alarm and its SIGTERM handler before the record is stored [ValueError: substring not found]
+PLANT 48 R1: the record's start printed twice: exit 1, 2 red; restored: exit 0
+      FAIL REAL: the record's start (7:16 PM ET on Oct 19, 2026) prints once
+      FAIL SYNTHETIC populated: the record's start (8:18 AM ET on Oct 14, 2026) prints once outside that row
+PLANT 49 R1: nothing-graded printed twice: exit 1, 1 red; restored: exit 0
+      FAIL REAL: that nothing is graded prints once
+PLANT 50 R1: an evening Likely counted as awaiting: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: an evening Likely held only in the store, with no slot record beside it, is unresolved at once
+PLANT 51 R1: the ET day's end ignored (awaiting forever): exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: the same morning Likely once its ET day has ended (12:00:01 AM ET): unresolved
+PLANT 52 R1: the day's stored evening read ignored: exit 1, 2 red; restored: exit 0
+      FAIL SYNTHETIC: the same morning Likely at 9 PM ET after the evening read ran (flat, no grade): unresolved
+      FAIL SYNTHETIC: a later Likely naming the same events resolves nothing; with the day's reads done both are unresolved (still no primary source)
+SUMMARY: 52 of 52 plants went red and came back green (52 applied); exit 0
 
 SELF-CHECK (python3 scripts/sprint98_plants.py --self-check): a plant whose old text is absent must make the harness exit non-zero:
 PLANT 1 self-check: a plant whose old text is not in the file: NOT APPLIED: verdict_record.py: old text occurs 0 time(s)

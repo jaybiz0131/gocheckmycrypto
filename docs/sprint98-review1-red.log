@@ -1,0 +1,100 @@
+Sprint 9.8 review 1: the new and changed cases, red on the reviewed head 0194e5d (tests changed, code not), Sun Oct 25 2026, 3:17 PM EDT. Unit cases.
+R1. an event's identity rests on what is stable across runs, never on a wire cluster's position
+  FAIL same id, different story: a later Confirmed reusing the position id wire-c010 for another story does not confirm the Likely
+  FAIL REAL: wire-c010 names two different stories on 19 and 20 October (a per-run position), and is no identity [AttributeError: module 'verdict_record' has no attribute 'is_stable_id']
+  FAIL each stable id family is named in code with its form, and an id of each form is stable: bea, bls, delisting, ff, fomc, fr, hack, listing, press, unlock [AttributeError: module 'verdict_record' has no attribute 'STABLE_IDS']
+  FAIL positional or unknown ids are never stable (wire-c010, c010, wire-, an id with no date or number) [AttributeError: module 'verdict_record' has no attribute 'is_stable_id']
+  FAIL REAL 14 October: every non-wire id the builder made is stable, every wire id is not (bls-20261014-consumer-price-index, bls-20261014-real-earnings, fr-2026-20888, wire-c008, ...) [AttributeError: module 'verdict_record' has no attribute 'is_stable_id']
+  FAIL SYNTHETIC: the CPI release confirmed in the evening does not confirm a Likely on the Real Earnings release, though both link the same BLS schedule page
+R1. a malformed stored file is skipped and said; the page and the feed are always written (stored-fixture canary case)
+  FAIL group review 1: malformed could not run [AttributeError: 'list' object has no attribute 'get']
+R1. each fact once: when the record begins, and that nothing is graded yet
+  FAIL REAL: the record's start (7:16 PM ET on Oct 19, 2026) prints once
+  FAIL REAL: that nothing is graded prints once
+  FAIL SYNTHETIC populated: the record's start (8:18 AM ET on Oct 14, 2026) prints once outside that row
+R1. awaiting only while a later read can still come: the same ET day, the Evening Brief read the day's last
+  ok   SYNTHETIC: a morning Likely at 10 AM ET the same day, no later read yet: awaiting
+  FAIL SYNTHETIC: the same morning Likely once its ET day has ended (12:00:01 AM ET): unresolved
+  FAIL SYNTHETIC: the same morning Likely at 9 PM ET after the evening read ran (flat, no grade): unresolved
+  FAIL SYNTHETIC: an evening Likely is never awaiting, even at the moment it was graded
+1. the tally from a fixture of verdicts and later sources
+  ok   the tally's likely is 3 (got 3)
+  ok   the tally's likely_confirmed_later is 1 (got 1)
+  ok   the tally's likely_reversed is 1 (got 1)
+  FAIL the tally's likely_awaiting is 0 (got 1)
+  FAIL the tally's likely_unresolved is 1 (got None)
+  ok   the tally's confirmed is 1 (got 1)
+  ok   the tally's disputed is 1 (got 1)
+  ok   the tally's unclear is 6 (got 6)
+  FAIL the Likely parts sum to the Likely verdicts (confirmed later, reversed, awaiting, unresolved) [KeyError: 'likely_unresolved']
+  ok   each graded verdict is one row: 6 of Bitcoin and 5 Big movers, and Ether moving with Bitcoin is none
+  ok   14 October morning's Likely is confirmed later, by the evening read's Confirmed on the CPI release
+  FAIL 16 October evening's Likely is the day's last read: unresolved, never awaiting and never confirmed
+  ok   only a Likely verdict carries an outcome; the other grades are counted as graded at the time
+  ok   every row carries its /why/ address: /why/<date>-bitcoin, and /why/<date>-<coin id> for a Big mover
+  ok   rows are newest first
+  ok   the record begins at the first stored verdict record and runs through the newest read
+  ok   the reads are counted: 6 of Bitcoin and Ether, 1 of Big movers
+2. a reversed verdict is counted as reversed
+  ok   15 October morning's Likely, regraded Unclear by the evening read (real), is reversed
+  ok   the reversed verdict is in the reversed count and not in confirmed later
+  ok   SYNTHETIC: a later Confirmed on a different event reverses the Likely (another cause was confirmed)
+  ok   SYNTHETIC: a later Likely naming none of the Likely's events reverses it
+  FAIL SYNTHETIC: a later Likely naming the same events resolves nothing; with the day's reads done both are unresolved (still no primary source)
+3. an outcome is never inferred: the event's identity, and what is not a verdict
+  ok   a later Confirmed whose cluster id changed but whose source article is the same is the same event: confirmed
+  ok   a later Confirmed sharing only a word ('blackrock'), not an id or an article, is not the same event: reversed
+  ok   a read on a later ET day is a different move: it resolves nothing, and the Likely stays awaiting
+  ok   an earlier read never resolves a later Likely
+  ok   the same slot re-stored with the same grade and events is not a second verdict and resolves nothing
+  ok   REAL 19 and 20 October (next read, flat, with Bitcoin, no grade fits) and a verdict withheld at the cap are no entries: nothing ungraded is scored
+4. the record is stored append-only, and a stored entry or outcome is frozen
+  ok   the first sync stores one file per graded verdict (6) and one per resolved Likely (2): 6, 2
+  ok   a second sync over the same records writes nothing
+  ok   a rewritten slot adds its new verdict and every stored file stays byte for byte
+  ok   the stored outcome stands: 14 October morning stays confirmed later though its slot was regraded after
+  FAIL a rewritten slot counts once, with its last stored grade (Unclear); the replaced grade stays in the store
+  ok   an entry already stored is never rewritten
+  ok   the build's read of the record writes no file
+  ok   the run steps store the record: verdict.py's main() calls _sync_record(), which calls verdict_record.sync, and movers.py's main() calls verdict_record.sync
+  ok   an outcome stored by an earlier run stands: never recomputed from the records, never rewritten by a sync
+5. the page: the tally, every verdict linked, windowed and labeled, nothing twice
+  FAIL each count prints exactly once, in the tally: likely, likely_confirmed_later, likely_reversed, likely_awaiting, likely_unresolved, confirmed, disputed, unclear, reads_coins, reads_movers
+  FAIL the page's counts are the tally's
+  ok   no count prints outside the tally (the same fact never twice)
+  ok   every graded verdict is listed and links to its /why/ address
+  ok   the window is labeled on the tally: from the first verdict record through the newest read, in ET, with the newest read's data-asof
+  ok   the page's own rules ride in its head, tokens only (the shared stylesheets stay Sprint 9.5's)
+  FAIL the page counts awaiting (0) apart from unresolved (1), and names the window: the same ET day, the Evening Brief read the last
+  ok   'because' appears nowhere (the page prints no verdict sentence)
+  ok   no em or en dash, no AI word, no personal name
+  ok   the page is /why/record/: canonical, h1 'The verdict record', the Why it moved nav marked
+  FAIL each outcome is said in words on its row: confirmed later, reversed, awaiting a later source
+  ok   the definitions are on the page: a later read of the same coin on the same ET day, and never confirmed without a primary source
+  ok   a row whose /why/ page was not built links nowhere and says so
+  ok   two hours after the newest read: not stale, no age printed (the browser adds it later)
+  ok   five hours after: stale by snapshot.is_stale, the age printed once
+  ok   the view's stale flag is snapshot.is_stale on the newest read
+6. honest empty and degrade states: the page is always built
+  FAIL no stored record at all: the page builds, every count zero, and it says no record is stored yet
+  ok   no stored record: no as-of is claimed for the record
+  ok   REAL 19 and 20 October: zero graded, the page says no move has been graded since the record began
+  ok   REAL: the reads that ran are counted (3 of Bitcoin and Ether, 2 of Big movers)
+  ok   REAL: stale on October 25 (the newest read is October 20), the age printed once
+  FAIL SYNTHETIC one Likely, nothing resolved: it says no Likely verdict has a later source yet [KeyError: 'likely_unresolved']
+  ok   the build writes why/record/index.html with no stored record (never omitted on empty)
+  ok   when the record cannot be drawn the page is still written, and says the record could not be read
+7. the feed under /api/v1/ in 9.7's shape, and in the index
+  ok   the envelope: schema, version, name, path, page, as_of_utc, built_utc, stale, sources, data
+  ok   as_of_utc is the newest read; stale is the site's rule
+  FAIL the feed's counts are the page's
+  ok   the feed lists every verdict with its address, grade and outcome, and the window it counts
+  ok   build_all writes why/record.json and the index lists it with its as-of and stale flag
+8. linked from How we check and from every /why/ page; in the sitemap
+  ok   How we check links the verdict record
+  ok   every Bitcoin /why/ page links the record (4)
+  ok   every Big movers /why/ page links the record (5)
+  ok   the sitemap's priority list names /why/record/ (read in the tree cases too)
+
+SPRINT 9.8: FAIL (26 failure(s))
+EXIT 1
