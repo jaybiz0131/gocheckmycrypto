@@ -2061,6 +2061,7 @@ def _stamp_canary():
             fails.extend(_sprint95b_canary(out))
             fails.extend(_sprint96_canary(out))
             fails.extend(_sprint96h_canary(out))
+            fails.extend(_sprint96w_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -3365,6 +3366,24 @@ def _sprint96h_canary(out):
         fails += ["sprint 9.6h: " + f for f in _s96h.tree(out)]
     finally:
         _sys.modules.pop("sprint96h_test", None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint96w_canary(out):
+    """HOTFIX 9.6w (25 October 2026): the Wire never vanishes. scripts/sprint96w_test.py holds the cases (the page byte-identical to
+    main's with entries, an honest stale page without, the build writing it whatever the window holds) and the cases that read the
+    tree this build wrote. The helper is taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint96w_test as _s96w
+        fails = ["hotfix 9.6w: " + f for f in _s96w.canary_unit()]
+        fails += ["hotfix 9.6w: " + f for f in _s96w.tree(out)]
+    finally:
+        _sys.modules.pop("sprint96w_test", None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
     return fails

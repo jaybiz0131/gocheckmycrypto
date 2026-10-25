@@ -1350,10 +1350,46 @@ WIRE_JS = """<script>(function(){
 })();</script>"""
 
 
+def _wire_empty_page(items, dateline, now=None):
+    """HOTFIX 9.6w (October 25, 2026): the Wire is a URL, and a URL is a promise. With no entry inside the window
+    (the Edition and morning runs stopped, so nothing new aged in while the old entries aged out) the page used to
+    be left out of the build, the canary's "no URL removed" case went red, and that red stopped the runs that would
+    have refreshed the data. Now the page is built with the Wire's own frame, the window named, one plain line, and
+    the newest entry the desk has, stamped by the site's stale rule. No entry is invented."""
+    import datetime as _dt
+    now = now or _build_now()
+    newest = _wire_rows(items, now, hours=24 * 3650)[:1]
+    if newest:
+        t = newest[0]["t"]
+        # The date is the newest entry's own time, not a refresh time, and the page carries no numbers: the line says
+        # only what the date is. The `stale` class and data-asof leave the age to the site's asof script.
+        stamp = (f'<p class="data-stamp stale"{_asof_attr_ts(t.strftime("%Y-%m-%dT%H:%M:%SZ"))}>'
+                 f'<b>Newest entry on record:</b> {_et_clock(t)}, '
+                 f'{t.astimezone(_ET).strftime("%b %d, %Y").replace(" 0", " ")}.</p>')
+    else:
+        stamp = ('<p class="data-stamp stale"><b>The Wire may be out of date.</b> '
+                 'The desk has no entry on record to stamp it with.</p>')
+    return shell(
+        f"The Wire - {NAME}",
+        "Everything this desk published and every Markets reading it took, newest first, "
+        "with the time it happened.",
+        "News",
+        '<section class="page wrap wr-page">'
+        '<div class="wr-head"><h1>The Wire</h1>'
+        '</div>'
+        '<p class="bd-src">Nothing is written for this page and nothing is computed '
+        'for it. Every line is something that happened, stamped when it happened, '
+        'linking to the thing itself.</p>'
+        f'<p class="wr-none">No wire entries fall in the last {WIRE_HOURS} hours. '
+        'This page fills again as the desk publishes and takes its readings.</p>'
+        + stamp + '</section>',
+        dateline, path="/wire.html")
+
+
 def render_wire(items, dateline, now=None):
     rows = _wire_rows(items, now)
     if not rows:
-        return None
+        return _wire_empty_page(items, dateline, now)
     body, day = [], None
     for r in rows:
         et = r["t"].astimezone(_ET)
@@ -9759,10 +9795,10 @@ def build():
 
     # C-L4: the file the mini-board fetches, and only after it has found pins.
     _cm_payload = coins_mini_payload(pulse)
-    if _cm_payload:
-        w(os.path.join("data", "coins-mini.json"),
-          json.dumps(_cm_payload, separators=(",", ":")))
-        print(f"coins mini-board: {len(_cm_payload)} coin(s) available to pin")
+    # HOTFIX 9.6w: always written (an empty list when the Top 100 is empty; the mini-board shows nothing for it).
+    w(os.path.join("data", "coins-mini.json"),
+      json.dumps(_cm_payload, separators=(",", ":")))
+    print(f"coins mini-board: {len(_cm_payload)} coin(s) available to pin")
     w("news.html", render_news_hub(items, dateline, pulse=pulse))
     # C4: a page per storyline, paginated, plus a page per month. Together these are
     # what makes every live story reachable within three clicks of the front page.
@@ -9786,10 +9822,10 @@ def build():
     w("pulse.html", render_pulse_hub(pulse, flows, cm, dateline))
 
     # E-2 / C-L2: the Wire. A failure here costs one page and nothing after it.
+    # HOTFIX 9.6w: always written; with nothing in the window it is the honest empty page (render_wire).
     _wire = render_wire(items, dateline)
-    if _wire:
-        w("wire.html", _wire)
-        print(f"wire: {len(_wire_rows(items))} entr(ies)")
+    w("wire.html", _wire)
+    print(f"wire: {len(_wire_rows(items))} entr(ies)")
     w("chartmaster.html", render_chartmaster(cm, dateline, pulse))
     w(os.path.join("pulse", "sentiment.html"), render_pulse_sentiment(pulse, dateline))
     w(os.path.join("pulse", "posture.html"), render_pulse_posture(pulse, dateline))

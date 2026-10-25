@@ -593,10 +593,15 @@ def page_cases(fails):
         mv_paths = {b["path"] for b in built if b["path"] in {p["path"] for p in pages}}
         guarded(fails, "the build writes the movers' /why/ pages beside Bitcoin's and hands them to the sitemaps",
                 lambda: mv_paths == {p["path"] for p in pages} and all(p["rel"] in written for p in pages))
+        # PINNED TO THE FIXTURES' OWN CLOCK (hotfix 9.6w, October 25, 2026). `built` also holds Bitcoin's /why/ page, which the
+        # canary stamps with the WALL CLOCK (verdict.record_from(now=None)); the news sitemap keeps the 48 hours before its
+        # NEWEST item, so that one page moved the anchor to today and aged the fixed October 16 to 19 movers out of the
+        # window on October 21. Only the movers' pages are the subject of this case, so only they (stamped by the fixtures)
+        # are handed to the sitemap. The assertion below is unchanged: every mover URL, inside its 48 hours.
         news = sb.render_news_sitemap([{"published_utc": "2026-10-16T23:20:00Z", "date": DAY16, "slug": "x",
                                         "title": "x", "category": "news"}],
                                       extra=[{"loc": b["path"], "published_utc": b["published_utc"], "title": b["title"]}
-                                             for b in built])
+                                             for b in built if b["path"] in mv_paths])
         guarded(fails, "every mover's /why/ URL is in the news sitemap inside its 48 hours",
                 lambda: all(f"{sb.ORIGIN}{p}<" in news for p in mv_paths))
         # the Big movers list
