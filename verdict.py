@@ -1260,6 +1260,7 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline, share=None):
   {card}
   {ev_html}
   {today_link}
+  <p class="td-w">How the desk's grades held up afterwards is kept on <a href="/why/record/">the verdict record</a>.</p>
 </section></main>"""
     path = f"/why/{slug(day, sym)}.html"
     canon = sb.ORIGIN + url(day, sym)
@@ -1351,7 +1352,18 @@ def main():
         signal.alarm(0)
     except Exception as e:                                       # never a gate on a slot
         print(f"::warning::verdict: no verdict written ({type(e).__name__}: {e})")
+    _sync_record()
     return 0
+
+
+def _sync_record():
+    """SPRINT 9.8: store every new graded verdict and every newly resolved Likely in the verdict record (verdict_record.py),
+    append-only, in site/data/verdict/record/, which the run's commit stages with site/data/verdict. Never a gate."""
+    try:
+        import verdict_record
+        verdict_record.sync(save=True)
+    except Exception as e:                                       # noqa: BLE001
+        print(f"::warning::verdict record: not stored this run ({type(e).__name__}: {e})")
 
 
 if __name__ == "__main__":

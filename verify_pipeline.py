@@ -2063,6 +2063,7 @@ def _stamp_canary():
             fails.extend(_sprint96h_canary(out))
             fails.extend(_sprint96w_canary(out))
             fails.extend(_sprint97_canary(out))
+            fails.extend(_sprint98_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -3421,6 +3422,27 @@ def _sprint97_canary(out):
         fails += ["sprint 9.7: " + f for f in _s97.tree(out)]
     finally:
         for m in ("sprint97_test", "sprint96_test", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint98_canary(out):
+    """PROGRAM 9, SPRINT 9.8 (25 October 2026): the verdict record. scripts/sprint98_test.py holds the cases: the tally from a
+    fixture of verdicts and later sources, a reversed verdict counted as reversed, an outcome never inferred, the store
+    append-only and frozen, the page (each count once, every verdict linked, windowed and labeled, the one stale rule), the
+    page always built, the feed and the index, the links to it; and on the tree this build wrote, the page, its feed, its
+    sitemap line and its links. The helpers are taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint98_test as _s98
+        fails = ["sprint 9.8: " + f for f in _s98.unit()]
+        fails += ["sprint 9.8: " + f for f in _s98.tree(out)]
+    finally:
+        for m in ("sprint98_test", "sprint94_test", "sprint93_test", "sprint92_test"):
             _sys.modules.pop(m, None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)

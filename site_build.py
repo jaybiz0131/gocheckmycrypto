@@ -5958,6 +5958,8 @@ def render_method(items, dateline):
   <ul>{grades}</ul>
   <p>A move that is too small to count as a move gets no grade at all, and a move the desk could not
      check that day says so.</p>
+  <p>How the grades held up afterwards, whether a later primary source confirmed a Likely verdict or a later read
+     reversed it, is kept on <a href="/why/record/">the verdict record</a>.</p>
 
   <h2>What we do not do</h2>
   <ul>
@@ -9824,6 +9826,33 @@ def _write_verdicts(w, dateline):
         return []
 
 
+def _write_verdict_record(w, dateline, built=None, vdir=None, mdir=None, wdir=None, store=None):
+    """PROGRAM 9, SPRINT 9.8: the verdict record (verdict_record.py) at /why/record/. ALWAYS WRITTEN (docs/JACK.md J-13: a page
+    left out of the build on empty took the desk dark for four days): with no stored verdict it says so, and when the record
+    cannot be drawn it is written as the page that says the record could not be read. Reads only; writes no data file.
+    Returns the record's view, or None when it could not be drawn."""
+    import verdict_record as _vr
+    v = None
+    try:
+        v = _vr.view(_build_now(), vdir=vdir, mdir=mdir, wdir=wdir, store=store, built=built)
+        html = _vr.render(v, dateline)
+        print(f"verdict record: {v['graded']} graded verdict(s), {v['counts']['likely']} Likely "
+              f"({v['counts']['likely_confirmed_later']} confirmed later, {v['counts']['likely_reversed']} reversed, "
+              f"{v['counts']['likely_awaiting']} awaiting)")
+    except Exception as e:                                   # noqa: BLE001
+        print(f"::warning::verdict record: the record was not drawn ({type(e).__name__}: {e}); the page says so")
+        v = None
+        try:
+            html = _vr.render_unreadable(dateline)
+        except Exception as e2:                              # noqa: BLE001
+            print(f"::warning::verdict record: the fallback page failed too ({type(e2).__name__}: {e2})")
+            html = shell(f"The verdict record - {NAME}", "How GoCheckMyCrypto's graded verdicts held up.", "Today",
+                         '<main class="wrap narrow"><section class="page"><h1>The verdict record</h1><p class="lede">The '
+                         'record could not be read on this build.</p></section></main>', dateline, path=_vr.URL)
+    w(_vr.REL, html)
+    return v
+
+
 def _write_api_feeds(w, items, pulse, flows, board_tiles, coin_tiles):
     """PROGRAM 9, SPRINT 9.7: write /api/v1/ (api_feeds.py). Fails open: a feed that cannot be built is a warning and no file,
     and the pages never wait on one. The dated verdict backfill reports what it made of every stored day."""
@@ -9947,6 +9976,8 @@ def build():
     _today_map = _write_today(w, items, pulse, dateline)
     # PROGRAM 9, SPRINT 9.3: a page per graded verdict, /why/<date>-<coin>.
     _verdicts = _write_verdicts(w, dateline)
+    # PROGRAM 9, SPRINT 9.8: the verdict record, /why/record/, always written (an honest page on empty or on a failure)
+    _record_view = _write_verdict_record(w, dateline, built={b["path"] for b in _verdicts})
 
     # C-L4: the file the mini-board fetches, and only after it has found pins.
     _cm_payload = coins_mini_payload(pulse)
@@ -10172,7 +10203,7 @@ def build():
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/bottom-line.html", "/record.html",
-            "/method.html", "/about.html", "/corrections.html",
+            "/method.html", "/about.html", "/corrections.html", "/why/record/",
             "/learn.html", "/cold-storage.html", "/crypto-tax.html", "/counterfeit-devices.html",
             "/onchain-flows.html",
             "/how-we-make-money.html",
@@ -10269,6 +10300,8 @@ def build():
     _loc_mods = {p: (_board_utc if p in _board_pages else
                      max(_board_utc, _newest_art) if p == "/" else _newest_art if p == "/news.html" else "")
                  for p in locs}
+    # the verdict record changes when a read is stored: its lastmod is the newest read it counts
+    _loc_mods["/why/record/"] = ((_record_view or {}).get("through_utc") or "")
     prio = ([(p, _loc_mods[p]) for p in locs] + _today_live + learn_locs + hub_locs + _coin_locs
             + [(f"/articles/{i['slug']}.html", _lm.article(i)) for i in _prio_arts])
     older = [i for i in arts_sorted if i.get("slug") not in _ev]

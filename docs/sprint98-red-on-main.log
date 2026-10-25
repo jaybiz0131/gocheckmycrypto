@@ -1,0 +1,25 @@
+Sprint 9.8 tests, red on main 7f04343 (scripts/sprint98_test.py added, nothing else), Sun Oct 25 2026, 1:47 PM EDT. Unit cases and the tree cases on a tree built from main's code and main's stored records.
+1. the tally from a fixture of verdicts and later sources
+  FAIL group tally could not run [ModuleNotFoundError: No module named 'verdict_record']
+2. a reversed verdict is counted as reversed
+  FAIL group reversed could not run [ModuleNotFoundError: No module named 'verdict_record']
+3. an outcome is never inferred: the event's identity, and what is not a verdict
+  FAIL group identity could not run [ModuleNotFoundError: No module named 'verdict_record']
+4. the record is stored append-only, and a stored entry or outcome is frozen
+  FAIL group frozen could not run [ModuleNotFoundError: No module named 'verdict_record']
+5. the page: the tally, every verdict linked, windowed and labeled, nothing twice
+  FAIL group page could not run [ModuleNotFoundError: No module named 'verdict_record']
+6. honest empty and degrade states: the page is always built
+  FAIL group empty could not run [ModuleNotFoundError: No module named 'verdict_record']
+7. the feed under /api/v1/ in 9.7's shape, and in the index
+  FAIL group feed could not run [ModuleNotFoundError: No module named 'verdict_record']
+8. linked from How we check and from every /why/ page; in the sitemap
+  FAIL How we check links the verdict record
+  FAIL every Bitcoin /why/ page links the record (4)
+  FAIL every Big movers /why/ page links the record (5)
+  FAIL the sitemap's priority list names /why/record/ (read in the tree cases too)
+9. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-main
+  FAIL why/record/index.html is built
+
+SPRINT 9.8: FAIL (12 failure(s))
+EXIT 1

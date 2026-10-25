@@ -1097,6 +1097,7 @@ def _page(day, cid, items, dateline, share=None, slots=()):
   {card}
   {sec}
   {coin_link}
+  <p class="td-w">How the desk's grades held up afterwards is kept on <a href="/why/record/">the verdict record</a>.</p>
 </section></main>"""
     canon = sb.ORIGIN + path_rel
     desc = " ".join(v.get("text") or v.get("line") or [])[:200]
@@ -1206,6 +1207,12 @@ def main():
         log.append(f"::warning::movers: no record written ({type(e).__name__}: {e})")
     for line in log:
         print(line)
+    # SPRINT 9.8: the verdict record stores this run's graded movers and any Likely they resolve (append-only)
+    try:
+        import verdict_record
+        verdict_record.sync(save=True)
+    except Exception as e:                                       # noqa: BLE001
+        print(f"::warning::verdict record: not stored this run ({type(e).__name__}: {e})")
     return 0
 
 

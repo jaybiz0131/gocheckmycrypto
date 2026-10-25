@@ -1,0 +1,88 @@
+Sprint 9.8 plants (U-9), Sun Oct 25 2026, 2:02 PM EDT, on the tree built at the branch's code. Each guarded thing broken on purpose in a throwaway copy, scripts/sprint98_test.py run, the break undone and the test run again.
+PLANT 1 the reversed verdict counted as confirmed: exit 1, 6 red; restored: exit 0
+      FAIL the tally's likely_confirmed_later is 1 (got 2)
+      FAIL the tally's likely_reversed is 1 (got 0)
+PLANT 2 an awaiting verdict counted as confirmed: exit 1, 9 red; restored: exit 0
+      FAIL the tally's likely_confirmed_later is 1 (got 2)
+      FAIL the tally's likely_awaiting is 1 (got 0)
+PLANT 3 the page omitted on empty: exit 1, 2 red; restored: exit 0
+      FAIL the build writes why/record/index.html with no stored record (never omitted on empty)
+      FAIL when the record cannot be drawn the page is still written, and says the record could not be read
+PLANT 4 a duplicated figure (the awaiting count printed again in the lede): exit 1, 1 red; restored: exit 0
+      FAIL no count prints outside the tally (the same fact never twice)
+PLANT 5 a later ET day's read resolves the Likely (a different move): exit 1, 9 red; restored: exit 0
+      FAIL the tally's likely_reversed is 1 (got 2)
+      FAIL the tally's likely_awaiting is 1 (got 0)
+PLANT 6 any two sourced events are the same event (a shallow key): exit 1, 1 red; restored: exit 0
+      FAIL a later Confirmed sharing only a word ('blackrock'), not an id or an article, is not the same event: reversed
+PLANT 7 an earlier read resolves a later Likely (the reads taken newest first): exit 1, 16 red; restored: exit 0
+      FAIL the tally's likely_confirmed_later is 1 (got 0)
+      FAIL the tally's likely_reversed is 1 (got 0)
+PLANT 8 a later Likely on the same events reverses it: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a later Likely naming the same events leaves it awaiting (still no primary source)
+PLANT 9 a re-stored slot counts as a second verdict: exit 1, 1 red; restored: exit 0
+      FAIL the same slot re-stored with the same grade and events is not a second verdict and resolves nothing
+PLANT 10 a verdict withheld at the cap is scored: exit 1, 1 red; restored: exit 0
+      FAIL REAL 19 and 20 October (next read, flat, with Bitcoin, no grade fits) and a verdict withheld at the cap are no entries: nothing ungraded is scored
+PLANT 11 a stored file is rewritten (no exclusive create): exit 1, 1 red; restored: exit 0
+      FAIL an entry already stored is never rewritten
+PLANT 12 a stored outcome is recomputed: exit 1, 1 red; restored: exit 0
+      FAIL an outcome stored by an earlier run stands: never recomputed from the records, never rewritten by a sync
+PLANT 13 the build's read writes the store: exit 1, 1 red; restored: exit 0
+      FAIL the build's read of the record writes no file
+PLANT 14 the verdict run step stops storing the record: exit 1, 1 red; restored: exit 0
+      FAIL the run steps store the record: verdict.py's main() calls _sync_record(), which calls verdict_record.sync, and movers.py's main() calls verdict_record.sync
+PLANT 15 the movers run step stops storing the record: exit 1, 1 red; restored: exit 0
+      FAIL the run steps store the record: verdict.py's main() calls _sync_record(), which calls verdict_record.sync, and movers.py's main() calls verdict_record.sync
+PLANT 16 the stale rule is the page's own (6 hours), not the site's: exit 1, 2 red; restored: exit 0
+      FAIL five hours after: stale by snapshot.is_stale, the age printed once
+      FAIL the view's stale flag is snapshot.is_stale on the newest read
+PLANT 17 the window's label is dropped: exit 1, 1 red; restored: exit 0
+      FAIL the window is labeled on the tally: from the first verdict record through the newest read, in ET, with the newest read's data-asof
+PLANT 18 a listed verdict loses its link: exit 1, 1 red; restored: exit 0
+      FAIL every graded verdict is listed and links to its /why/ address
+PLANT 19 a row whose page was not built is linked anyway: exit 1, 1 red; restored: exit 0
+      FAIL a row whose /why/ page was not built links nowhere and says so
+PLANT 20 'because' on the page: exit 1, 1 red; restored: exit 0
+      FAIL 'because' appears nowhere (the page prints no verdict sentence)
+PLANT 21 the zero-graded state is not said: exit 1, 1 red; restored: exit 0
+      FAIL REAL 19 and 20 October: zero graded, the page says no move has been graded since the record began
+PLANT 22 the empty store is not said: exit 1, 1 red; restored: exit 0
+      FAIL no stored record at all: the page builds, every count zero, and it says no record is stored yet
+PLANT 23 the record cannot be drawn and the page is left out: exit 1, 1 red; restored: exit 0
+      FAIL when the record cannot be drawn the page is still written, and says the record could not be read
+PLANT 24 the feed is left out of /api/v1/: exit 1, 1 red; restored: exit 0
+      FAIL build_all writes why/record.json and the index lists it with its as-of and stale flag
+PLANT 25 the feed's as-of is the build moment: exit 1, 2 red; restored: exit 0
+      FAIL as_of_utc is the newest read; stale is the site's rule
+      FAIL build_all writes why/record.json and the index lists it with its as-of and stale flag
+PLANT 26 How we check loses its link: exit 1, 1 red; restored: exit 0
+      FAIL How we check links the verdict record
+PLANT 27 the page's own rules are dropped from its head: exit 1, 1 red; restored: exit 0
+      FAIL the page's own rules ride in its head, tokens only (the shared stylesheets stay Sprint 9.5's)
+PLANT 28 the page's rules bring their own color: exit 1, 1 red; restored: exit 0
+      FAIL the page's own rules ride in its head, tokens only (the shared stylesheets stay Sprint 9.5's)
+PLANT 29 the Bitcoin /why/ page loses its link: exit 1, 1 red; restored: exit 0
+      FAIL every Bitcoin /why/ page links the record (4)
+PLANT 30 the Big movers /why/ page loses its link: exit 1, 1 red; restored: exit 0
+      FAIL every Big movers /why/ page links the record (5)
+PLANT 31 the sitemap loses the page: exit 1, 1 red; restored: exit 0
+      FAIL the sitemap's priority list names /why/record/ (read in the tree cases too)
+PLANT 32 tree: the page is missing: exit 1, 1 red; restored: exit 0
+      FAIL why/record/index.html is built
+PLANT 33 tree: the sitemap does not list it: exit 1, 1 red; restored: exit 0
+      FAIL the sitemap's priority file lists /why/record/
+PLANT 34 tree: the feed is missing from the index: exit 1, 1 red; restored: exit 0
+      FAIL the api index lists it
+PLANT 35 tree: the page's count disagrees with the feed's: exit 1, 1 red; restored: exit 0
+      FAIL each count prints once, and equals the feed's
+PLANT 36 tree: a count printed outside the tally: exit 1, 1 red; restored: exit 0
+      FAIL no count prints outside the tally
+PLANT 37 tree: How we check loses the link: exit 1, 1 red; restored: exit 0
+      FAIL How we check links it
+SUMMARY: 37 of 37 plants went red and came back green (37 applied); exit 0
+
+SELF-CHECK (python3 scripts/sprint98_plants.py --self-check): a plant whose old text is absent must make the harness exit non-zero:
+PLANT 1 self-check: a plant whose old text is not in the file: NOT APPLIED: verdict_record.py: old text occurs 0 time(s)
+SUMMARY: 0 of 1 plants went red and came back green (0 applied); exit 1
+self-check exit 1

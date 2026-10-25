@@ -34,7 +34,8 @@ BECAUSE = re.compile(r"\bbecause\b", re.I)
 AI = re.compile(r"\bA\.?I\b|artificial|machine[- ]learn|language model|\bLLM\b|\bGPT|\bClaude\b|\bAnthropic\b|\bHaiku\b|\bSonnet\b|"
                 r"\bOpenAI\b|\bchatbot\b", re.I)
 GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
-FEEDS = ("index", "top100", "markets", "movers", "whales", "news", "brief/latest", "why/today", "events")
+FEEDS = ("index", "top100", "markets", "movers", "whales", "news", "brief/latest", "why/today", "events",
+         "why/record")   # Sprint 9.8: the verdict record's feed, which the index now lists
 NOW15 = dt.datetime(2026, 10, 15, 23, 50, tzinfo=UTC)
 
 
