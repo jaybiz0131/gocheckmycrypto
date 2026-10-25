@@ -1,6 +1,6 @@
 review/sprint-9-8: the verdict record, /why/record/ (Program 9, Sprint 9.8), for Jack's read after the fact.
 Drawn Sunday October 25, 2026, about 1:52 PM EDT, on local branch local-9-8 (from origin/main 7f04343); every image re-drawn at
-3:24 PM EDT after review 1, whose fixes changed the copy (see REVIEW 1 below).
+3:24 PM EDT after review 1 and again at 4:56 PM EDT after review 2, whose fixes changed the copy (see REVIEW 1 and REVIEW 2 below).
 
 U-10 CAVEAT, FIRST: THESE ARE LOCAL CAPTURES, NOT THE PREVIEW OR PRODUCTION. The branch is not pushed and no preview exists.
 Every image is a full-page capture by scripts/sprint98_shots.mjs (Playwright, Chromium) of a tree built on this machine by
@@ -48,3 +48,9 @@ REVIEW 1 (October 25, 2026): what changed on the page
     nothing graded there is no list heading and no second sentence; the rule for what is not graded moved to the definitions.
   - A stored file the record cannot read is counted in the tally ("could not be read and is left out of these counts"), shown
     only when there is one. No capture here has one.
+
+REVIEW 2 (October 25, 2026): what changed on the page
+  - The awaiting cell reads "Awaiting: a later read can still come on its own ET day", and an awaiting row names its date
+    ("before the Evening Brief read of Oct 26, 2026"), so a page that is not rebuilt never says "today" past the window.
+  - An outcome sentence always names the read it cites as that read now stands (its last grade and time). Nothing else on
+    the page changed. Every image was re-drawn after this change.

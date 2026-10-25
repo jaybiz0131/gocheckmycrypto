@@ -21,6 +21,9 @@ node_modules/
 out/
 review/
 site/publish/
+# The verdict record's store writes each file through a temp file in the same directory, hard-linked to its final
+# name (Sprint 9.8). A temp file a killed run leaves behind is never data and never staged.
+site/data/verdict/record/.tmp-*
 # Debug debris from manual GitHub API log fetches (a saved 403 body was accidentally
 # committed 2026-08-25 and removed 2026-08-31); never commit it again.
 joblog.txt

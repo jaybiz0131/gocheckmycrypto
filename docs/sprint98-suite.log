@@ -1,5 +1,5 @@
-Sprint 9.8 suite, review 1, local-9-8 working tree on 0194e5d, tree built at the branch's code, Sun Oct 25 2026, 3:33 PM EDT
-===== scripts/btc_hilo_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3 (exit 0)
+Sprint 9.8 suite, review 2, local-9-8 working tree on c900716 (rerun after the plant-55 cases), tree built at the branch's code, Sun Oct 25 2026, 5:38 PM EDT
+===== scripts/btc_hilo_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4 (exit 0)
 home:      24h (81155.0, 83249.0)  7D hi/lo 83115.0/81061.0  unlabeled=False
 /coins/btc: 24h (81155.0, 83249.0)  7D hi/lo 83115.1/81060.92  unlabeled=False
 ok: one figure, one source
@@ -8,28 +8,28 @@ canary_clean_test: PASS, git status is the same after the canary as before it
 ===== scripts/chartmaster_publish_test.py (exit 0)
 
 == 2026-10-09: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-25T19:36:38Z"}
+   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-25T21:40:55Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-10: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-25T19:36:38Z"}
+   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-25T21:40:55Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-11: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-25T19:36:38Z"}
+   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-25T21:40:55Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
    - Watch for the trend lines to cross, which would tell a reader the positioning picture changed.
 
-== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-25T19:36:38Z"}
+== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-25T21:40:55Z"}
 
 RESULT: all three published
-===== scripts/coin_pages_test.py --site /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3 (exit 0)
+===== scripts/coin_pages_test.py --site /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4 (exit 0)
 COIN PAGES: PASS
 ===== scripts/color_truth_test.py  (exit 0)
 color truth: PASS, every color agrees with the number beside it
@@ -978,7 +978,7 @@ SPRINT 9.3: PASS (0 failure(s))
   ok   Bitcoin's section (15 October): no code or file path in the visible text (none)
 
 SPRINT 9.4: PASS (0 failure(s))
-===== scripts/sprint95_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3 (exit 0)
+===== scripts/sprint95_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4 (exit 0)
 1. the names: NAMES.md as ruled on October 16 (3), the recommended column in full, one name per thing
   ok   the one table holds the nine names, and each has one name (no second, brand name)
   ok   the URLs behind the names did not change (/today/, /pulse.html, /pulse/movers.html, /flows.html, /chartmaster.html, /news.html, /bottom-line.html, /record.html, /learn.html)
@@ -1149,7 +1149,7 @@ SPRINT 9.4: PASS (0 failure(s))
   ok   J-8(b): on the coin placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): on the page placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): no marks, no verdict URL, and the model is never asked for it
-11. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3
+11. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4
   ok   NO URL REMOVED OR CHANGED: all 70 pages main built (the structural set) are still built ()
   ok   the new pages are additions: /corrections.html is built, and the older Brief months are /bottom-line/<YYYY-MM>.html
   ok   /today/ stays canonical: its canonical link is /today, and every page's nav links /today/
@@ -1262,7 +1262,7 @@ SPRINT 9.5 BROWSER: PASS (52 of 52 checks hold)
 
 
 SPRINT 9.5: PASS (0 failure(s))
-===== scripts/sprint95b_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3 (exit 0)
+===== scripts/sprint95b_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4 (exit 0)
 1. the page wrapper: 1080 below 1280, about 1400 from 1280 up (read from the CSS)
   ok   at 1440 the wrapper's max-width is 1400 (about 1400, from the board line)
   ok   at 1280 it is that same width, at 1920 it stops there (no wider)
@@ -1306,7 +1306,7 @@ SPRINT 9.5: PASS (0 failure(s))
   ok   site.css: the J-11 rule 2 block is there once and is the named text, character for character (a third rule inside it, or a changed one, is red)
   ok   rule 1 by width: the live stamp (#tapeLive's p.h-live) has min-height 54.45px (three lines of its 18.15px) at 375 and 520, and none at 521
   ok   rule 2 by width: the nav wraps at 700, 768, 900 and 1019, and not at 699 or 1020 (the tab bar below 700 is untouched)
-5. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3
+5. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4
   ok   the built home links site.css and system.css, versioned
   ok   the built site.css is the source's: .wrap is 1080 at 1279 and about 1400 at 1440 (read from the built file)
   ok   the built home has exactly one Ether line (the Board has an Ether price)
@@ -1409,7 +1409,7 @@ sprint95b_browser: 83 passed, 0 failed
 
 
 SPRINT 9.5b: PASS (0 failure(s))
-===== scripts/sprint96_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3 (exit 0)
+===== scripts/sprint96_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4 (exit 0)
 1. the card, from the real 14 and 15 October records and two SYNTHETIC grades
   ok   14 October Bitcoin (real): the card exists and carries the verdict's own grade, Likely
   ok   14 October (real): the card names BOTH 8:30 AM releases, the Consumer Price Index and the Real Earnings release, each with its time and its source (the BLS release schedule)
@@ -1580,7 +1580,7 @@ SPRINT 9.5b: PASS (0 failure(s))
   ok   the default window is 3
   ok   SYNTHETIC: a day card whose line carries a figure its verdict records and page do not print (2.5%) is refused
   ok   SYNTHETIC: a graded day-card sentence with a figure the day's verdict page lacks (9.99%) makes no day card
-10. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3
+10. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4
   note this tree has no /why/ page (its stored days graded nothing); the canary's fixture build is the one that asserts pages and their images
   ok   the day cards the build drew are 1080 by 1080 too (2)
   ok   the images add to the tree and remove nothing: the site card and the apple-touch icon are still written
@@ -1588,7 +1588,7 @@ SPRINT 9.5b: PASS (0 failure(s))
   ok   the cards weigh under 100 KB each in the tree (53 KB in all)
 
 SPRINT 9.6: PASS (0 failure(s))
-===== scripts/sprint97_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3 (exit 0)
+===== scripts/sprint97_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4 (exit 0)
 1. the stale flag is the site's own rule
   ok   a reading 0 hours old: the feed says stale=False, as the page's own age phrase does
   ok   a reading 1 hours old: the feed says stale=False, as the page's own age phrase does
@@ -1741,7 +1741,7 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   worker/live-prices.mjs: exists, no dash, US spelling of the house words
   ok   worker/live-prices.test.mjs: exists, no dash, US spelling of the house words
   ok   scripts/sprint97_browser.mjs: exists, no dash, US spelling of the house words
-15. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3
+15. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4
   ok   /api/v1/index.json exists and parses
   ok   /api/v1/top100.json exists and parses
   ok   /api/v1/markets.json exists and parses
@@ -1811,7 +1811,7 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   watchlist: with nothing saved there are no marks, no injected style and no reserve
   ok   the Top 100 stamp read 2.9 hours after its stamp: the page's stale state (false) is the feed's rule (false)
   ok   the Top 100 stamp read 3.1 hours after its stamp: the page's stale state (true) is the feed's rule (true)
-  INFO the feed's own flag at build: true (as of 2026-10-20T23:12:48Z, built 2026-10-25T19:21:35Z)
+  INFO the feed's own flag at build: true (as of 2026-10-20T23:12:48Z, built 2026-10-25T20:54:03Z)
   ok   coin page at 375 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
   ok   coin page at 1440 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
   ok   coin page at 375 (dark): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
@@ -1875,7 +1875,22 @@ SPRINT 9.6: PASS (0 failure(s))
   ok   the beacon stays on /coins/btc.html: exactly one
 
 SPRINT 9.7: PASS (0 failure(s))
-===== scripts/sprint98_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3 (exit 0)
+===== scripts/sprint98_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4 (exit 0)
+R2. an outcome always agrees with the last grade of the read it cites, on the page and in the feed
+  ok   REVIEWER'S SEQUENCE: the morning Likely no longer reads confirmed later once the evening read is Unclear
+  ok   REVIEWER'S SEQUENCE: its outcome cites the evening read's last grade and time (Unclear, 9:30 PM ET)
+  ok   REVIEWER'S SEQUENCE: page and feed, every printed outcome agrees with the read it cites
+  ok   REVIEWER'S SEQUENCE: append-only: the confirmed-later outcome file stays as history, a NEW outcome file cites the rewritten read
+  ok   REVIEWER'S SEQUENCE: of the two stored outcome files, the store reads the newer one as current (reversed, citing Unclear at 01:30Z); the older is history
+  ok   A SECOND REWRITE back to Confirmed: a third outcome file, current in the store, and the morning Likely is confirmed later citing Confirmed at 02:00Z
+  ok   MIRROR: reversed by an Unclear evening read, then the read rewritten to Confirmed on the same event: confirmed later, citing Confirmed at 9:30 PM ET
+  ok   MIRROR: page and feed agree with the cited read
+  ok   UNCHANGED GRADE: a rewrite that leaves the read Confirmed stores its new entry and NO new outcome
+  ok   UNCHANGED GRADE: the outcome still agrees with the read (Confirmed, its last stored time)
+  ok   NO LONGER RESOLVED: the evening read rewritten to Likely on the same event; the morning Likely falls back by the window rule (the evening read is stored: unresolved), and a new outcome file records it
+  ok   a sync with no read changed writes nothing (an outcome is resolved again only when its read changed)
+  ok   an awaiting row names its ET date (Oct 26, 2026), and the page says 'today' nowhere
+  ok   a temp file a killed write leaves in the store can never be staged (.gitignore names it)
 R1. an event's identity rests on what is stable across runs, never on a wire cluster's position
   ok   same id, different story: a later Confirmed reusing the position id wire-c010 for another story does not confirm the Likely
   ok   REAL: wire-c010 names two different stories on 19 and 20 October (a per-run position), and is no identity
@@ -1936,17 +1951,18 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
 4. the record is stored append-only, and a stored entry or outcome is frozen
   ok   the first sync stores one file per graded verdict (6) and one per resolved Likely (2): 6, 2
   ok   a second sync over the same records writes nothing
-  ok   a rewritten slot adds its new verdict and every stored file stays byte for byte
-  ok   the stored outcome stands: 14 October morning stays confirmed later though its slot was regraded after
+  ok   a rewritten slot adds its new verdict and, its grade having changed, a NEW outcome for the Likely that cited it; every stored file stays byte for byte
+  ok   the outcome follows the read it cites (review 2): 14 October morning is now reversed, citing the evening's last grade, Unclear; the confirmed-later file stays in the store as history
   ok   a rewritten slot counts once, with its last stored grade (Unclear); the replaced grade stays in the store
   ok   an entry already stored is never rewritten
   ok   the build's read of the record writes no file
   ok   the run steps store the record: verdict.py's main() calls _sync_record(), which calls verdict_record.sync, and movers.py's main() calls verdict_record.sync
-  ok   an outcome stored by an earlier run stands: never recomputed from the records, never rewritten by a sync
+  ok   an outcome stored by an earlier run stands while the read it cites is unchanged: never resolved again, never rewritten by a sync
 5. the page: the tally, every verdict linked, windowed and labeled, nothing twice
   ok   each count prints exactly once, in the tally: likely, likely_confirmed_later, likely_reversed, likely_awaiting, likely_unresolved, confirmed, disputed, unclear, reads_coins, reads_movers
   ok   the page's counts are the tally's
   ok   no count prints outside the tally (the same fact never twice)
+  ok   every outcome sentence on the page names a listed read with that grade at that time (2 checked)
   ok   every graded verdict is listed and links to its /why/ address
   ok   the window is labeled on the tally: from the first verdict record through the newest read, in ET, with the newest read's data-asof
   ok   the page's own rules ride in its head, tokens only (the shared stylesheets stay Sprint 9.5's)
@@ -1980,12 +1996,13 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
   ok   every Bitcoin /why/ page links the record (4)
   ok   every Big movers /why/ page links the record (5)
   ok   the sitemap's priority list names /why/record/ (read in the tree cases too)
-9. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3
+9. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4
   ok   why/record/index.html is built
   ok   api/v1/why/record.json is built in 9.7's shape
   ok   the api index lists it
   ok   each count prints once, and equals the feed's
   ok   no count prints outside the tally
+  ok   every outcome the feed and the page print agrees with the last grade of the read it cites
   ok   every listed verdict links to a /why/ page this tree holds (0 listed)
   ok   the page's as-of is the feed's
   ok   no 'because', no dash, no AI word, no personal name
@@ -1994,7 +2011,7 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
   ok   every /why/ verdict page links it (0)
 
 SPRINT 9.8: PASS (0 failure(s))
-===== scripts/sprint96h_test.py --build --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3 (exit 0)
+===== scripts/sprint96h_test.py --build --tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4 (exit 0)
 1. the refresh keeps the last good copy of every table it failed to fetch
   ok   every source refusing: living-tables.json is byte for byte what it was
   ok   Farside refusing while DefiLlama answers: the stored ETF table is still in the file, untouched
@@ -2051,7 +2068,7 @@ SPRINT 9.8: PASS (0 failure(s))
   ok   every living table page is built with every source refusing, from the stored copy and marked stale: etf-flows-by-issuer
   ok   every living table page is built with every source refusing, from the stored copy and marked stale: stablecoin-supply-by-issuer
   ok   every living table page is built with every source refusing, from the stored copy and marked stale: whale-flows-by-week
-9. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-3
+9. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/d1a7401d-cde6-5c2d-9be0-e8fd4e818f7c/scratchpad/tree-4
   ok   tables/etf-flows-by-issuer.html: the committed file holds this table, so the page is never 'Not read yet'
   ok   tables/etf-flows-by-issuer.html is built and in the sitemap
   ok   tables/etf-flows-by-issuer.html says what it is: a fresh as-of line, a stale mark, or Not read yet

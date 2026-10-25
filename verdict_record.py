@@ -377,12 +377,28 @@ def store_entry(store, entry):
     return p if _write_once(p, dict(entry, kind="verdict")) else None
 
 
+OUTCOME_FILE = re.compile(r"\.outcome(?:-\d{14})?\.json$")
+
+
 def store_outcome(store, outcome):
+    """A verdict's first outcome is <key>.outcome.json; an outcome written after the read it cites was rewritten (review 2) is
+    <key>.outcome-<the cited read's made time, digits>.json, a NEW file beside the first. Nothing is overwritten: the
+    superseded file stays as history, and the newest (outcome_order) is the one that counts."""
     if not _safe(outcome.get("key")):
         return None
     os.makedirs(store, exist_ok=True)
     p = os.path.join(store, outcome["key"] + ".outcome.json")
+    if os.path.exists(p):
+        stamp = re.sub(r"\D", "", str((outcome.get("later") or {}).get("made_utc") or ""))[:14]
+        if len(stamp) != 14:
+            return None
+        p = os.path.join(store, f"{outcome['key']}.outcome-{stamp}.json")
     return p if _write_once(p, dict(outcome, kind="outcome")) else None
+
+
+def outcome_order(o, name=""):
+    """Newest last: by the made time of the read the outcome cites, then by file name."""
+    return (str((o.get("later") or {}).get("made_utc") or ""), name)
 
 
 def _entry_ok(o):
@@ -394,13 +410,15 @@ def _entry_ok(o):
 
 def _outcome_ok(o):
     return (isinstance(o, dict) and o.get("kind") == "outcome" and _safe(o.get("key"))
-            and o.get("outcome") in ("confirmed_later", "reversed") and isinstance(o.get("later", {}), dict))
+            and o.get("outcome") in ("confirmed_later", "reversed", "none") and isinstance(o.get("later", {}), dict))
 
 
 def load_store(store=None, skips=None):
-    """(entries, {key: outcome}) as stored. A file of any other type or shape is skipped, logged and counted."""
+    """(entries, {key: newest outcome}) as stored. A verdict may hold several outcome files (review 2): the newest by
+    outcome_order is current, the others are history and never count. A file of any other type or shape is skipped, logged
+    and counted."""
     d = store or STORE
-    es, outs = [], {}
+    es, outs, named = [], {}, {}
     try:
         names = sorted(os.listdir(d))
     except OSError:
@@ -414,9 +432,11 @@ def load_store(store=None, skips=None):
         except Exception as e:                               # noqa: BLE001
             _skip(skips, f"record/{n}", type(e).__name__)
             continue
-        if n.endswith(".outcome.json"):
+        if OUTCOME_FILE.search(n):
             if _outcome_ok(obj):
-                outs.setdefault(obj["key"], obj)
+                k = obj["key"]
+                if k not in outs or outcome_order(obj, n) > outcome_order(outs[k], named[k]):
+                    outs[k], named[k] = obj, n
             else:
                 _skip(skips, f"record/{n}", "not an outcome the run writes")
         elif _entry_ok(obj):
@@ -436,10 +456,45 @@ def merged(vdir=None, mdir=None, wdir=None, store=None, skips=None):
     new_es = [e for e in entries(vdir, mdir, wdir, skips) if e["key"] not in have]
     es = dedupe(s_es + new_es)
     computed = resolve(es)
-    new_outs = {k: o for k, o in computed.items() if k not in s_outs}
+    cur = reads_now(es)
+    new_outs = {}
+    for e in es:
+        if e.get("grade") != "Likely":
+            continue
+        k = e["key"]
+        o, c = s_outs.get(k), computed.get(k)
+        if o is None or o.get("outcome") == "none":
+            # no current outcome: the first resolution, or one after an earlier outcome was withdrawn
+            if c and (o is None or (c.get("later") or {}).get("key") != (o.get("later") or {}).get("key")):
+                new_outs[k] = c
+            continue
+        # AN OUTCOME AGREES WITH THE READ IT CITES (review 2). It is resolved again only when that read's last grade changed.
+        lt = o.get("later") or {}
+        now_read = cur.get(_read_of(e, lt.get("slot")))
+        if now_read is None or now_read["key"] == lt.get("key") or now_read.get("grade") == lt.get("grade"):
+            continue                                         # the read is unchanged, or rewritten with the same grade
+        if c:
+            new_outs[k] = dict(c, supersedes={"outcome": o.get("outcome"), "later": lt})
+        else:
+            new_outs[k] = {"key": k, "outcome": "none", "basis": "later_read_rewritten",
+                           "rule": "the read this verdict's outcome cited was rewritten and no longer resolves it",
+                           "resolved_utc": now_read.get("made_utc"),
+                           "later": {"key": now_read["key"], "grade": now_read.get("grade"), "slot": now_read.get("slot"),
+                                     "made_utc": now_read.get("made_utc"), "url": now_read.get("url")},
+                           "supersedes": {"outcome": o.get("outcome"), "later": lt}}
     outs = dict(s_outs)
     outs.update(new_outs)
     return es, outs, new_es, new_outs
+
+
+def _read_of(e, slot):
+    """A read: one coin's slot on one ET day."""
+    return (e.get("date_et"), _slot_key(slot), e.get("coin_slug") or e.get("coin_sym"))
+
+
+def reads_now(es):
+    """{read: its last entry} over the one-per-read entries."""
+    return {_read_of(e, e.get("slot")): e for e in es}
 
 
 def sync(vdir=None, mdir=None, wdir=None, store=None, save=True):
@@ -517,6 +572,7 @@ def view(now, vdir=None, mdir=None, wdir=None, store=None, built=None):
     import snapshot
     skips = []
     es, outs, _n, _o = merged(vdir, mdir, wdir, store, skips)
+    cur = reads_now(es)
     rd = reads(vdir, mdir)
     times = [t for t in [rd["first_utc"], rd["last_utc"]] + [e.get("made_utc") for e in es] if _parse(t)]
     begins = min(times) if times else None
@@ -530,10 +586,14 @@ def view(now, vdir=None, mdir=None, wdir=None, store=None, built=None):
         if g == "Likely":
             counts["likely"] += 1
             o = outs.get(e["key"])
+            lt = (o or {}).get("later") or {}
+            now_read = cur.get(_read_of(e, lt.get("slot"))) if o else None
             if o and o.get("outcome") in ("confirmed_later", "reversed"):
                 outcome = o["outcome"]
-                lt = o.get("later") or {}
-                detail = {"later_grade": lt.get("grade"), "later_slot": lt.get("slot"), "later_made_utc": lt.get("made_utc"),
+                # printed with the cited read as it now stands: its grade is the cited one (merged() writes a new outcome
+                # whenever it is not), and its time is the read's last stored time
+                detail = {"later_grade": lt.get("grade"), "later_slot": lt.get("slot"),
+                          "later_made_utc": (now_read or {}).get("made_utc") or lt.get("made_utc"),
                           "later_url": lt.get("url"), "rule": o.get("rule"), "basis": o.get("basis")}
             else:
                 outcome = "awaiting" if window_open(e, now, rd["evening"]) else "unresolved"
@@ -610,7 +670,7 @@ def _tally(v):
             f'<div class="vr-blk"><p class="vr-bh">Likely verdicts {_n("likely", c["likely"])}</p>'
             f'<div class="vr-g vr-g4">{cell("likely_confirmed_later", "Confirmed later by a primary source", "vr-up")}'
             f'{cell("likely_reversed", "Reversed by a later read", "vr-dn")}'
-            f'{cell("likely_awaiting", "Awaiting: a later read can still come today")}'
+            f'{cell("likely_awaiting", "Awaiting: a later read can still come on its own ET day")}'
             f'{cell("likely_unresolved", "Still Likely: no later source by the end of its ET day")}</div></div>'
             f'<div class="vr-blk"><p class="vr-bh">The other grades, as given at the time</p>'
             f'<div class="vr-g">{cell("confirmed", "Confirmed")}{cell("disputed", "Disputed")}{cell("unclear", "Unclear")}</div></div>'
@@ -633,7 +693,7 @@ def _row(r):
         word = OUTCOME_WORDS[r["outcome"]]
         d = r.get("outcome_detail") or {}
         if r["outcome"] == "awaiting":
-            why = "A later read of the same move can still come before this ET day's Evening Brief read."
+            why = f"A later read of the same move can still come before the Evening Brief read of {_day(r['date_et'])}."
         elif r["outcome"] == "unresolved":
             why = "Still Likely: no later read of the same move resolved it before its ET day's reads were done."
         else:

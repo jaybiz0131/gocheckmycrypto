@@ -368,14 +368,18 @@ def frozen_cases(fails):
         with quiet():
             third = m.sync(fx["vdir"], fx["mdir"], fx["wdir"], fx["store"], save=True)
         after = sorted(os.listdir(fx["store"]))
-        guarded(fails, "a rewritten slot adds its new verdict and every stored file stays byte for byte",
+        guarded(fails, "a rewritten slot adds its new verdict and, its grade having changed, a NEW outcome for the Likely that "
+                       "cited it; every stored file stays byte for byte",
                 lambda: all(open(os.path.join(fx["store"], f), "rb").read() == b for f, b in snap.items())
-                and len(after) == len(files) + 1 and len(third["written"]) == 1)
+                and len(after) == len(files) + 2 and len(third["written"]) == 2)
         with quiet():
             v = m.view(t("2026-10-17T23:30:00Z"), vdir=fx["vdir"], mdir=fx["mdir"], wdir=fx["wdir"], store=fx["store"])
         r14 = [r for r in v["rows"] if (r["date_et"], r["slot"]) == ("2026-10-14", "morning")][0]
-        guarded(fails, "the stored outcome stands: 14 October morning stays confirmed later though its slot was regraded after",
-                lambda: r14["outcome"] == "confirmed_later")
+        guarded(fails, "the outcome follows the read it cites (review 2): 14 October morning is now reversed, citing the "
+                       "evening's last grade, Unclear; the confirmed-later file stays in the store as history",
+                lambda: r14["outcome"] == "reversed" and r14["outcome_detail"]["later_grade"] == "Unclear"
+                and r14["outcome_detail"]["later_made_utc"] == "2026-10-14T23:59:00Z"
+                and json.load(open(os.path.join(fx["store"], r14["key"] + ".outcome.json")))["outcome"] == "confirmed_later")
         guarded(fails, "a rewritten slot counts once, with its last stored grade (Unclear); the replaced grade stays in the store",
                 lambda: [r["grade"] for r in v["rows"] if (r["date_et"], r["slot"]) == ("2026-10-14", "evening")] == ["Unclear"]
                 and v["graded"] == 6)
@@ -407,13 +411,18 @@ def frozen_cases(fails):
         with quiet():
             es = m.entries(fx["vdir"], fx["mdir"], fx["wdir"])
         k14 = next(e["key"] for e in es if (e["date_et"], e["slot"]) == ("2026-10-14", "morning"))
+        e14 = next(e for e in es if (e["date_et"], e["slot"]) == ("2026-10-14", "evening"))
+        # stored by an earlier run, citing the evening read as it still stands (Confirmed): the read is unchanged, so the
+        # outcome is never resolved again, whatever the records would give now
         m.store_outcome(fx["store"], {"key": k14, "outcome": "reversed", "basis": "later_read", "rule": "stored by an earlier run",
-                                      "later": {"grade": "Unclear", "slot": "evening", "made_utc": "2026-10-14T23:00:00Z"}})
+                                      "later": {"key": e14["key"], "grade": "Confirmed", "slot": "evening",
+                                                "made_utc": e14["made_utc"]}})
         with quiet():
             v = m.view(t("2026-10-17T23:30:00Z"), vdir=fx["vdir"], mdir=fx["mdir"], wdir=fx["wdir"], store=fx["store"])
             m.sync(fx["vdir"], fx["mdir"], fx["wdir"], fx["store"], save=True)
         got = json.load(open(os.path.join(fx["store"], k14 + ".outcome.json"), encoding="utf-8"))
-        guarded(fails, "an outcome stored by an earlier run stands: never recomputed from the records, never rewritten by a sync",
+        guarded(fails, "an outcome stored by an earlier run stands while the read it cites is unchanged: never resolved again, "
+                       "never rewritten by a sync",
                 lambda: next(r for r in v["rows"] if r["key"] == k14)["outcome"] == "reversed" and got["outcome"] == "reversed")
     finally:
         shutil.rmtree(td, ignore_errors=True)
@@ -434,6 +443,8 @@ def page_cases(fails):
                 lambda: all(len(got.get(k, [])) == 1 for k in RC_KEYS))
         guarded(fails, "the page's counts are the tally's", lambda: all(got[k][0] == WANT[k] for k in WANT))
         guarded(fails, "no count prints outside the tally (the same fact never twice)", lambda: outside_counts(h) == [])
+        guarded(fails, "every outcome sentence on the page names a listed read with that grade at that time (2 checked)",
+                lambda: page_outcome_mismatches(h) == [] and len(re.findall(r"graded the same move", h)) == 2)
         guarded(fails, "every graded verdict is listed and links to its /why/ address",
                 lambda: all(f'href="{r["url"]}"' in h for r in v["rows"]) and h.count('class="vr-r"') == len(v["rows"]))
         win = re.search(r'<p class="vr-win[^"]*" data-asof="2026-10-17T23:16:00Z"[^>]*>(.*?)</p>', h, re.S)
@@ -823,9 +834,186 @@ def review1_window(fails):
         shutil.rmtree(td, ignore_errors=True)
 
 
+# ---- review 2 (Sprint 9.8, October 25, 2026): an outcome always agrees with the read it cites -------------------------
+
+def outcome_mismatches(rows):
+    """Every printed outcome whose cited grade or time is not the cited read's last grade and time: [(row key, why)]. Rows
+    are the view's rows or the feed's verdicts (same fields: date_et, slot, coin or coin_sym, grade, made_utc,
+    outcome_detail)."""
+    last = {}
+    for r in rows:
+        last[(r["date_et"], r.get("coin_sym") or r.get("coin"), r["slot"])] = (r["grade"], r["made_utc"])
+    bad = []
+    for r in rows:
+        if r.get("outcome") not in ("confirmed_later", "reversed"):
+            continue
+        d = r.get("outcome_detail") or {}
+        got = last.get((r["date_et"], r.get("coin_sym") or r.get("coin"), d.get("later_slot")))
+        if got != (d.get("later_grade"), d.get("later_made_utc")):
+            bad.append((r["key"], f"cites {d.get('later_slot')} {d.get('later_grade')} at {d.get('later_made_utc')}, the read "
+                                  f"stands at {got}"))
+        if r["outcome"] == "confirmed_later" and d.get("later_grade") != "Confirmed":
+            bad.append((r["key"], "confirmed later on a read that is not Confirmed"))
+    return bad
+
+
+def page_outcome_mismatches(html):
+    """The same check read off the built page: every row's outcome sentence ("The <read> graded the same move <grade>,
+    <time>.") must name a listed read of the same coin and day whose own stamp is "<read>, <time>" and whose badge is <grade>.
+    [(row stamp, why)]."""
+    rows = []
+    for li in re.findall(r'<li class="vr-r".*?</li>', html, re.S):
+        stamp = visible(re.search(r'<p class="vr-w">(.*?)</p>', li, re.S).group(1)).strip()
+        title = visible(re.search(r'<p class="vr-t">(.*?)<span class="vr-b', li, re.S).group(1)).strip()
+        badge = visible(re.search(r'<span class="vr-b[^"]*">(.*?)</span>', li, re.S).group(1)).strip()
+        said = re.search(r"<b>(Confirmed later|Reversed)\.</b> The (.+?) graded the same move (\w+), (.+?)\.</p>", li)
+        rows.append((stamp, title, badge, said))
+    stamps = {(title, stamp): badge for stamp, title, badge, _s in rows}
+    bad = []
+    for stamp, title, badge, said in rows:
+        if not said:
+            continue
+        word, read, grade, when = said.groups()
+        got = stamps.get((title, f"{read}, {when}"))
+        if got != grade:
+            bad.append((stamp, f"says {read} graded {grade} at {when}; that read is listed as {got}"))
+        if word == "Confirmed later" and grade != "Confirmed":
+            bad.append((stamp, "confirmed later on a read that is not Confirmed"))
+    return bad
+
+
+def _seq(td, steps):
+    """The reviewer's shape (scripts98/rewrite.py): one coin, 26 October, one stable event, each step a slot written then a
+    sync. Returns (vdir, mdir, wdir, store, [written per step])."""
+    m = vr()
+    V, M, W, ST = (os.path.join(td, x) for x in ("v", "m", "w", "st"))
+    for d in (V, M, W):
+        os.makedirs(d, exist_ok=True)
+    EV = "bls-20261026-consumer-price-index"
+    wrote = []
+    for slot, made, grade in steps:
+        json.dump({"date_et": "2026-10-26", "slot": slot, "made_utc": made,
+                   "coins": {"BTC": {"grade": grade, "refs": [{"id": EV}], "cand": {"id": EV}}}},
+                  open(os.path.join(V, f"2026-10-26-{slot}.json"), "w"))
+        with quiet():
+            wrote.append(m.sync(V, M, W, ST)["written"])
+    return V, M, W, ST, wrote
+
+
+def review2_cases(fails):
+    print("R2. an outcome always agrees with the last grade of the read it cites, on the page and in the feed")
+    m = vr()
+    now = t("2026-10-27T02:00:00Z")
+    td = tempfile.mkdtemp(prefix="s98-")
+    try:
+        # the reviewer's sequence: Likely, Confirmed (confirmed later stored), a 9:30 PM ET breaking rewrite to Unclear
+        V, M, W, ST, wrote = _seq(os.path.join(td, "a"), [("morning", "2026-10-26T12:18:00Z", "Likely"),
+                                                          ("evening", "2026-10-26T23:16:00Z", "Confirmed"),
+                                                          ("evening", "2026-10-27T01:30:00Z", "Unclear")])
+        with quiet():
+            v = m.view(now, V, M, W, ST)
+        am = next(r for r in v["rows"] if r["slot"] == "morning")
+        f = m.feed(v, now)
+        guarded(fails, "REVIEWER'S SEQUENCE: the morning Likely no longer reads confirmed later once the evening read is Unclear",
+                lambda: am["outcome"] != "confirmed_later" and v["counts"]["likely_confirmed_later"] == 0
+                and v["counts"]["confirmed"] == 0)
+        guarded(fails, "REVIEWER'S SEQUENCE: its outcome cites the evening read's last grade and time (Unclear, 9:30 PM ET)",
+                lambda: am["outcome_detail"] and am["outcome_detail"]["later_grade"] == "Unclear"
+                and am["outcome_detail"]["later_made_utc"] == "2026-10-27T01:30:00Z")
+        guarded(fails, "REVIEWER'S SEQUENCE: page and feed, every printed outcome agrees with the read it cites",
+                lambda: outcome_mismatches(v["rows"]) == [] and outcome_mismatches(f["data"]["verdicts"]) == []
+                and page_outcome_mismatches(page_of(v)) == []
+                and "Confirmed later." not in visible(page_of(v)).split("Every graded verdict")[-1])
+        files = sorted(os.listdir(ST))
+        guarded(fails, "REVIEWER'S SEQUENCE: append-only: the confirmed-later outcome file stays as history, a NEW outcome file "
+                       "cites the rewritten read", lambda: len([x for x in files if ".outcome" in x]) == 2 and len(wrote[2]) == 2)
+        with quiet():
+            _es, cur_outs = m.load_store(ST)
+        mk = next(iter(cur_outs))
+        guarded(fails, "REVIEWER'S SEQUENCE: of the two stored outcome files, the store reads the newer one as current (reversed, "
+                       "citing Unclear at 01:30Z); the older is history", lambda: len(cur_outs) == 1
+                and cur_outs[mk]["outcome"] == "reversed" and cur_outs[mk]["later"]["made_utc"] == "2026-10-27T01:30:00Z")
+        # a second rewrite, back to Confirmed: a third outcome file, and the newest of the three is current
+        json.dump({"date_et": "2026-10-26", "slot": "evening", "made_utc": "2026-10-27T02:00:00Z",
+                   "coins": {"BTC": {"grade": "Confirmed", "refs": [{"id": "bls-20261026-consumer-price-index"}],
+                                     "cand": {"id": "bls-20261026-consumer-price-index"}}}},
+                  open(os.path.join(V, "2026-10-26-evening.json"), "w"))
+        with quiet():
+            third = m.sync(V, M, W, ST)["written"]
+            v3 = m.view(t("2026-10-27T02:30:00Z"), V, M, W, ST)
+            _es, cur3 = m.load_store(ST)
+        am3 = next(r for r in v3["rows"] if r["slot"] == "morning")
+        guarded(fails, "A SECOND REWRITE back to Confirmed: a third outcome file, current in the store, and the morning Likely is "
+                       "confirmed later citing Confirmed at 02:00Z",
+                lambda: len([x for x in third if ".outcome" in x]) == 1 and len([x for x in os.listdir(ST) if ".outcome" in x]) == 3
+                and cur3[mk]["outcome"] == "confirmed_later" and cur3[mk]["later"]["made_utc"] == "2026-10-27T02:00:00Z"
+                and am3["outcome"] == "confirmed_later" and outcome_mismatches(v3["rows"]) == [])
+        # the mirror: reversed first, then the evening read rewritten to Confirmed on the same event
+        V, M, W, ST, wrote = _seq(os.path.join(td, "b"), [("morning", "2026-10-26T12:18:00Z", "Likely"),
+                                                          ("evening", "2026-10-26T23:16:00Z", "Unclear"),
+                                                          ("evening", "2026-10-27T01:30:00Z", "Confirmed")])
+        with quiet():
+            v = m.view(now, V, M, W, ST)
+        am = next(r for r in v["rows"] if r["slot"] == "morning")
+        guarded(fails, "MIRROR: reversed by an Unclear evening read, then the read rewritten to Confirmed on the same event: "
+                       "confirmed later, citing Confirmed at 9:30 PM ET",
+                lambda: am["outcome"] == "confirmed_later" and am["outcome_detail"]["later_grade"] == "Confirmed"
+                and am["outcome_detail"]["later_made_utc"] == "2026-10-27T01:30:00Z" and v["counts"]["likely_reversed"] == 0)
+        guarded(fails, "MIRROR: page and feed agree with the cited read",
+                lambda: outcome_mismatches(v["rows"]) == [] and outcome_mismatches(m.feed(v, now)["data"]["verdicts"]) == []
+                and page_outcome_mismatches(page_of(v)) == [] and "Confirmed later." in visible(page_of(v)))
+        # a rewrite that leaves the grade unchanged writes no new outcome
+        V, M, W, ST, wrote = _seq(os.path.join(td, "c"), [("morning", "2026-10-26T12:18:00Z", "Likely"),
+                                                          ("evening", "2026-10-26T23:16:00Z", "Confirmed"),
+                                                          ("evening", "2026-10-27T01:30:00Z", "Confirmed")])
+        with quiet():
+            v = m.view(now, V, M, W, ST)
+        am = next(r for r in v["rows"] if r["slot"] == "morning")
+        guarded(fails, "UNCHANGED GRADE: a rewrite that leaves the read Confirmed stores its new entry and NO new outcome",
+                lambda: len(wrote[2]) == 1 and ".outcome" not in wrote[2][0]
+                and len([x for x in os.listdir(ST) if ".outcome" in x]) == 1 and am["outcome"] == "confirmed_later")
+        guarded(fails, "UNCHANGED GRADE: the outcome still agrees with the read (Confirmed, its last stored time)",
+                lambda: outcome_mismatches(v["rows"]) == [] and outcome_mismatches(m.feed(v, now)["data"]["verdicts"]) == []
+                and page_outcome_mismatches(page_of(v)) == [])
+        # a rewrite that no longer resolves it: the verdict falls back by the window rule
+        V, M, W, ST, wrote = _seq(os.path.join(td, "d"), [("morning", "2026-10-26T12:18:00Z", "Likely"),
+                                                          ("evening", "2026-10-26T23:16:00Z", "Confirmed"),
+                                                          ("evening", "2026-10-27T01:30:00Z", "Likely")])
+        with quiet():
+            v = m.view(now, V, M, W, ST)
+        am = next(r for r in v["rows"] if r["slot"] == "morning")
+        guarded(fails, "NO LONGER RESOLVED: the evening read rewritten to Likely on the same event; the morning Likely falls "
+                       "back by the window rule (the evening read is stored: unresolved), and a new outcome file records it",
+                lambda: am["outcome"] == "unresolved" and am["outcome_detail"] is None
+                and len([x for x in os.listdir(ST) if ".outcome" in x]) == 2)
+        # nothing changed: nothing resolved again
+        with quiet():
+            again = m.sync(V, M, W, ST)
+        guarded(fails, "a sync with no read changed writes nothing (an outcome is resolved again only when its read changed)",
+                lambda: again["written"] == [])
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+    # the awaiting label names the ET date, never "today"
+    td = tempfile.mkdtemp(prefix="s98-")
+    try:
+        V, M, W, ST, wrote = _seq(td, [("morning", "2026-10-26T12:18:00Z", "Likely")])
+        with quiet():
+            v = m.view(t("2026-10-26T14:00:00Z"), V, M, W, ST)
+            h = m.render(v, "OCTOBER 26, 2026")
+        txt = visible(re.search(r"<main.*?</main>", h, re.S).group(0))
+        guarded(fails, "an awaiting row names its ET date (Oct 26, 2026), and the page says 'today' nowhere",
+                lambda: v["counts"]["likely_awaiting"] == 1 and "Evening Brief read of Oct 26, 2026" in txt
+                and not re.search(r"\btoday\b", txt, re.I))
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+    gi = open(os.path.join(HERE, ".gitignore"), encoding="utf-8").read()
+    guarded(fails, "a temp file a killed write leaves in the store can never be staged (.gitignore names it)",
+            lambda: "site/data/verdict/record/.tmp-*" in gi.splitlines())
+
+
 def unit():
     fails = []
-    for name, fn in (("review 1: identity", review1_identity), ("review 1: malformed", review1_malformed),
+    for name, fn in (("review 2: outcomes agree", review2_cases), ("review 1: identity", review1_identity), ("review 1: malformed", review1_malformed),
                      ("review 1: once", review1_once), ("review 1: window", review1_window),
                      ("tally", tally_cases), ("reversed", reversed_cases), ("identity", identity_cases),
                      ("frozen", frozen_cases), ("page", page_cases), ("empty", empty_cases), ("feed", feed_cases),
@@ -862,6 +1050,8 @@ def tree(root):
             and all(got[k][0] == f["data"]["counts"][k] for k in f["data"]["counts"])
             and got["reads_coins"][0] == f["data"]["reads"]["coins"] and got["reads_movers"][0] == f["data"]["reads"]["movers"])
     guarded(fails, "no count prints outside the tally", lambda: outside_counts(h) == [])
+    guarded(fails, "every outcome the feed and the page print agrees with the last grade of the read it cites",
+            lambda: outcome_mismatches(f["data"]["verdicts"]) == [] and page_outcome_mismatches(h) == [])
     rows = re.findall(r'<li class="vr-r".*?</li>', h, re.S)
     hrefs = re.findall(r'<li class="vr-r".*?href="(/why/[^"]+)"', h, re.S)
     guarded(fails, f"every listed verdict links to a /why/ page this tree holds ({len(rows)} listed)",
