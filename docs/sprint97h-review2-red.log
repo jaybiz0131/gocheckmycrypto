@@ -1,0 +1,16 @@
+Hotfix 9.7h review 2 red on b54f2ba, Sun Oct 25 2026, 2:42 PM EDT, site_build.py and scripts/sprint94_test.py as at b54f2ba with the round 3 tests added; python3 3.12 shim
+===== scripts/sprint97h_test.py (exit below): failing cases only
+1. the Wire is always built; with nothing inside its 48 hours it says so
+  FAIL an empty items list: the empty-state line is present, with no claim about the newest item
+  FAIL an empty items list: the link to /news.html reads the page's own name, as NAMES has it ('News')
+  FAIL an empty items list: the link to /bottom-line.html reads the page's own name, as NAMES has it ('The Brief')
+  FAIL only items older than 48 hours: the empty-state line is present, with no claim about the newest item
+  FAIL only items older than 48 hours: the link to /news.html reads the page's own name, as NAMES has it ('News')
+  FAIL only items older than 48 hours: the link to /bottom-line.html reads the page's own name, as NAMES has it ('The Brief')
+2. the fixture verdicts carry the fixture's own time, never the wall clock
+3. the guards in the source
+  FAIL sprint94_test's sitemap case points verdict.DIR and why_evidence.DIR at scratch directories for _write_verdicts
+  FAIL ...and removes both scratch directories in the same finally that restores the DIRs
+
+SPRINT 9.7h: FAIL (8 failure(s))
+exit 1

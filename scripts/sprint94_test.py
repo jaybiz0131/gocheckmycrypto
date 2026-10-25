@@ -590,13 +590,17 @@ def page_cases(fails):
         import why_evidence as _wem
         old_dir, old_vd, old_we = movers.DIR, _vdm.DIR, _wem.DIR
         movers.DIR = mdir
-        _vdm.DIR = tempfile.mkdtemp(prefix="s94-vd-empty-")
-        _wem.DIR = tempfile.mkdtemp(prefix="s94-we-empty-")
+        _tmp_vd = tempfile.mkdtemp(prefix="s94-vd-empty-")
+        _tmp_we = tempfile.mkdtemp(prefix="s94-we-empty-")
+        _vdm.DIR, _wem.DIR = _tmp_vd, _tmp_we
         try:
             with contextlib.redirect_stdout(io.StringIO()):
                 built = sb._write_verdicts(lambda rel, html: written.__setitem__(rel, html), "DATELINE")
         finally:
             movers.DIR, _vdm.DIR, _wem.DIR = old_dir, old_vd, old_we
+            import shutil as _sh
+            _sh.rmtree(_tmp_vd, ignore_errors=True)
+            _sh.rmtree(_tmp_we, ignore_errors=True)
         mv_paths = {b["path"] for b in built if b["path"] in {p["path"] for p in pages}}
         guarded(fails, "the build writes the movers' /why/ pages beside Bitcoin's and hands them to the sitemaps",
                 lambda: mv_paths == {p["path"] for p in pages} and all(p["rel"] in written for p in pages))

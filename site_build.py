@@ -1374,8 +1374,10 @@ def render_wire(items, dateline, now=None):
         body.append("</ol>")
         count = f'{len(rows)} {"entry" if len(rows) == 1 else "entries"}, last {WIRE_HOURS} hours'
     else:
+        # the link text is each page's own name (NAMES: one name per thing), read from the same table the nav and h1 use
         body.append(f'<p class="wr-empty">Nothing in the last {WIRE_HOURS} hours. Earlier work is in '
-                    '<a href="/news.html">the News archive</a> and <a href="/bottom-line.html">the Brief archive</a>.</p>')
+                    f'<a href="{NAMES["news"][2]}">{esc(task_name("news"))}</a> and '
+                    f'<a href="{NAMES["brief"][2]}">{esc(task_name("brief"))}</a>.</p>')
         count = f'Last {WIRE_HOURS} hours'
     return shell(
         f"The Wire - {NAME}",

@@ -3,7 +3,7 @@
 
   python3 scripts/sprint97h_test.py            # unit cases; exit 1 on any failure
   python3 scripts/sprint97h_test.py --tree <built publish dir>   # also the cases that read a built tree
-  python3 scripts/sprint97h_test.py --canary   # also run the whole canary twice as subprocesses (about 4 minutes each)
+  python3 scripts/sprint97h_test.py --canary   # also run the whole canary three times as subprocesses (today's clock, a week ahead, a new publication; about 5 minutes each)
   (verify_pipeline.py's canary calls unit() and tree() on the tree it builds; --canary is never called from there)
 
 THE INCIDENT (J-13), October 21, 2026: every Brief run from the evening slot on stopped at the offline canary.
@@ -92,9 +92,14 @@ def wire_cases(fails):
         h = sb.render_wire(items, "DATELINE", now=now)
         guarded(fails, f"{label}: the page is returned (not None)", lambda h=h: bool(h))
         guarded(fails, f"{label}: the h1 'The Wire' is present", lambda h=h: h and "<h1>The Wire</h1>" in h)
-        guarded(fails, f"{label}: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html",
-                lambda h=h: h and "Nothing in the last 48 hours. Earlier work is in the News archive and the Brief archive." in re.sub(r"<[^>]+>", "", h)
-                and 'href="/bottom-line.html"' in h and 'href="/news.html"' in h and "newest work" not in h)
+        guarded(fails, f"{label}: the empty-state line is present, with no claim about the newest item",
+                lambda h=h: h and "Nothing in the last 48 hours. Earlier work is in " in re.sub(r"<[^>]+>", "", h)
+                and "newest work" not in h and "archive" not in re.search(r'<p class="wr-empty">.*?</p>', h, re.S).group(0))
+        for key, path in (("news", "/news.html"), ("brief", "/bottom-line.html")):
+            guarded(fails, f"{label}: the link to {path} reads the page's own name, as NAMES has it ({sb.task_name(key)!r})",
+                    lambda h=h, key=key, path=path: sb.NAMES[key][2] == path and
+                    re.search(r'<a href="' + re.escape(path) + r'">' + re.escape(sb.task_name(key)) + r"</a>",
+                              re.search(r'<p class="wr-empty">.*?</p>', h, re.S).group(0)))
         guarded(fails, f"{label}: the count line never says '0 entries'",
                 lambda h=h: h and "0 entries" not in h and "0 entr" not in h)
         guarded(fails, f"{label}: the page's canonical address is /wire", lambda h=h: h and re.search(r'rel="canonical" href="[^"]*/wire"', h))
@@ -160,13 +165,20 @@ def source_cases(fails):
         guarded(fails, f"{name}: every record_from call ({len(calls)}) passes now=",
                 lambda calls=calls: calls and all(any(k.arg == "now" for k in c.keywords) for c in calls))
     sbs = open(os.path.join(HERE, "site_build.py"), encoding="utf-8").read()
+    names_md = open(os.path.join(HERE, "docs", "audit-2026-10", "NAMES.md"), encoding="utf-8").read()
+    import site_build as _sbn
+    guarded(fails, "NAMES.md carries the names the Wire's empty state links by (News, The Brief)",
+            lambda: all(_sbn.task_name(k) in names_md for k in ("news", "brief")))
     locs = sbs.split("    locs = [", 1)[1].split("]", 1)[0]
     guarded(fails, "/wire.html is in site_build's sitemap list (the priority tier, beside /news.html)",
             lambda: '"/wire.html"' in locs)
     s94 = open(os.path.join(HERE, "scripts", "sprint94_test.py"), encoding="utf-8").read()
     guarded(fails, "sprint94_test's sitemap case points verdict.DIR and why_evidence.DIR at scratch directories for _write_verdicts",
-            lambda: "_vdm.DIR = tempfile.mkdtemp" in s94 and "_wem.DIR = tempfile.mkdtemp" in s94
-            and s94.index("_vdm.DIR = tempfile.mkdtemp") < s94.index("sb._write_verdicts("))
+            lambda: "_vdm.DIR, _wem.DIR = _tmp_vd, _tmp_we" in s94
+            and s94.index("_vdm.DIR, _wem.DIR = _tmp_vd, _tmp_we") < s94.index("sb._write_verdicts("))
+    guarded(fails, "...and removes both scratch directories in the same finally that restores the DIRs",
+            lambda: "rmtree(_tmp_vd" in s94 and "rmtree(_tmp_we" in s94
+            and s94.index("movers.DIR, _vdm.DIR, _wem.DIR = old_dir") < s94.index("rmtree(_tmp_vd"))
     guarded(fails, "scripts/sprint97h_test.py carries no em dash",
             lambda: not DASH.search(open(__file__, encoding="utf-8").read()))
 
