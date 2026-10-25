@@ -1,0 +1,55 @@
+PLANT: the omission put back in render_wire: no entries in the window returns None again
+  file site_build.py; exit 1; 8 case(s) red
+    FAIL with every entry past the window render_wire still returns a page (it returned None on main)
+    FAIL ...it keeps the Wire's frame: title, h1 and the page path [TypeError: argument of type 'NoneType' is not iterable]
+    FAIL ...it names the window and says plainly that no entries fall in it
+    FAIL ...it invents no entry: no row, no filter, none of the fixture titles [TypeError: argument of type 'NoneType' is not iterable]
+    FAIL ...the data's own as-of stamp is shown stale by the site's rule, with the newest entry's date [TypeError: argument of type 'NoneType' is not iterable]
+    FAIL ...the empty page carries no em dash [TypeError: expected string or bytes-like object, got 'NoneType']
+    FAIL the stale stamp's age is counted to the clock the build holds (72 days to January 1, 2027), not the wall clock
+    HOTFIX 9.6w: FAIL (7 failure(s))
+PLANT: the omission put back in the build: wire.html written only when there are rows
+  file site_build.py; exit 1; 4 case(s) red
+    FAIL the build wrote wire.html
+    FAIL ...honest and stale
+    FAIL NO URL REMOVED: every page of the structural set is built (70; missing ['wire.html'])
+    HOTFIX 9.6w: FAIL (3 failure(s))
+PLANT: the omission put back in the build: the old `if _wire:` guard
+  file site_build.py; exit 1; 2 case(s) red
+    FAIL wire.html is written without an `if _wire:` guard
+    HOTFIX 9.6w: FAIL (1 failure(s))
+PLANT: the stale mark removed: the empty page is never stale
+  file site_build.py; exit 1; 4 case(s) red
+    FAIL ...the data's own as-of stamp is shown stale by the site's rule, with the newest entry's date
+    FAIL the stale stamp's age is counted to the clock the build holds (72 days to January 1, 2027), not the wall clock
+    FAIL ...honest and stale
+    HOTFIX 9.6w: FAIL (3 failure(s))
+PLANT: the stale stamp reads the wall clock, not the build's clock
+  file site_build.py; exit 1; 2 case(s) red
+    FAIL the stale stamp's age is counted to the clock the build holds (72 days to January 1, 2027), not the wall clock
+    HOTFIX 9.6w: FAIL (1 failure(s))
+PLANT: the empty page invents a line (a fixture entry listed in the window)
+  file site_build.py; exit 1; 2 case(s) red
+    FAIL ...it invents no entry: no row, no filter, none of the fixture titles
+    HOTFIX 9.6w: FAIL (1 failure(s))
+PLANT: the empty page does not name its window
+  file site_build.py; exit 1; 2 case(s) red
+    FAIL ...it names the window and says plainly that no entries fall in it
+    HOTFIX 9.6w: FAIL (1 failure(s))
+PLANT: the page with entries changes by a byte
+  file site_build.py; exit 1; 2 case(s) red
+    FAIL with entries in the window the page is byte-identical to main's render_wire (stored copy of main's output)
+    HOTFIX 9.6w: FAIL (1 failure(s))
+PLANT: the mini-board file left out when the Top 100 is empty
+  file site_build.py; exit 1; 2 case(s) red
+    FAIL data/coins-mini.json is written without an `if _cm_payload:` guard
+    HOTFIX 9.6w: FAIL (1 failure(s))
+PLANT: the 9.4 clock unpinned: the sitemap is handed every /why/ page again, Bitcoin's wall-clock one included
+  file scripts/sprint94_test.py; exit 1; 3 case(s) red
+    FAIL with a non-mover /why/ page stamped far in the future, every mover's /why/ URL is still in the news sitemap (["every mover's /why/ URL is in the news sitemap inside its 48 hours"])
+    FAIL ...and nothing else in sprint 9.4's cases moved
+    HOTFIX 9.6w: FAIL (2 failure(s))
+
+RESTORED TREE: exit 0; 0 case(s) red
+PLANTS: 10, 10 went red, restored tree green
+exit 0
