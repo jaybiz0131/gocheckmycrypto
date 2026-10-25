@@ -1,0 +1,4 @@
+{
+ "what": "The later sources the verdict record scores the desk's graded verdicts against (verdict_record.py). One entry per source: verdict (its /why/ address), source (the name), url, published_utc, primary (true), finding (confirms or reverses), says (one line of what it states), recorded_utc. Add with python3 verdict_record.py --add.",
+ "later": []
+}

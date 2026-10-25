@@ -5958,6 +5958,8 @@ def render_method(items, dateline):
   <ul>{grades}</ul>
   <p>A move that is too small to count as a move gets no grade at all, and a move the desk could not
      check that day says so.</p>
+  <p>How the grades held up after the fact, when a primary source published later confirmed or reversed
+     them, is counted on <a href="/verdict-record.html">the verdict record</a>.</p>
 
   <h2>What we do not do</h2>
   <ul>
@@ -9824,6 +9826,17 @@ def _write_verdicts(w, dateline):
         return []
 
 
+def _write_verdict_record(w, dateline):
+    """PROGRAM 9, SPRINT 9.8: /verdict-record.html (verdict_record.py), always written: with no graded verdict stored it says so with
+    zero counts. Fails open: a record that cannot be built is a warning, never a failed build."""
+    try:
+        import verdict_record as _vr
+        html, _t = _vr.build(dateline)
+        w("verdict-record.html", html)
+    except Exception as e:
+        print(f"::warning::verdict record: the page was not built ({type(e).__name__}: {e})")
+
+
 def _write_api_feeds(w, items, pulse, flows, board_tiles, coin_tiles):
     """PROGRAM 9, SPRINT 9.7: write /api/v1/ (api_feeds.py). Fails open: a feed that cannot be built is a warning and no file,
     and the pages never wait on one. The dated verdict backfill reports what it made of every stored day."""
@@ -9947,6 +9960,8 @@ def build():
     _today_map = _write_today(w, items, pulse, dateline)
     # PROGRAM 9, SPRINT 9.3: a page per graded verdict, /why/<date>-<coin>.
     _verdicts = _write_verdicts(w, dateline)
+    # PROGRAM 9, SPRINT 9.8: the verdict record, /verdict-record.html, from the stored verdicts and later sources only.
+    _write_verdict_record(w, dateline)
 
     # C-L4: the file the mini-board fetches, and only after it has found pins.
     _cm_payload = coins_mini_payload(pulse)
@@ -10172,7 +10187,7 @@ def build():
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",
             "/archive.html", "/bottom-line.html", "/record.html",
-            "/method.html", "/about.html", "/corrections.html",
+            "/method.html", "/about.html", "/corrections.html", "/verdict-record.html",
             "/learn.html", "/cold-storage.html", "/crypto-tax.html", "/counterfeit-devices.html",
             "/onchain-flows.html",
             "/how-we-make-money.html",

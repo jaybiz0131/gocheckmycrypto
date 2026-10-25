@@ -1,0 +1,23 @@
+Run 1, scripts/sprint98_test.py as first written, before verdict_record.py or any site_build change existed (main fe2fe53 plus the test and the canary hook only). File time Sun Oct 25 2026, 5:23 PM EDT.
+
+1. the tally from a fixture of verdicts and later sources
+  FAIL group tally could not run [ModuleNotFoundError: No module named 'verdict_record']
+2. a reversed verdict is counted as reversed
+  FAIL group reversed could not run [ModuleNotFoundError: No module named 'verdict_record']
+3. a graded Big mover's verdict is on the record under its own /why/ address
+  FAIL group movers could not run [ModuleNotFoundError: No module named 'verdict_record']
+4. the page: the counts as tallied, honest when empty, the house rules
+  FAIL group page could not run [ModuleNotFoundError: No module named 'verdict_record']
+5. a later source is stored only when it can count
+  FAIL group add could not run [ModuleNotFoundError: No module named 'verdict_record']
+6. the real stored records: the record counts only what is stored
+  FAIL group real could not run [ModuleNotFoundError: No module named 'verdict_record']
+7. the wiring: the build writes the page, How we check links it, the sitemap lists it, no URL changed
+  FAIL the build writes why/record.html from verdict_record
+  FAIL the sitemap lists /why/record
+  ok   every static page the sitemap listed before is still listed
+  FAIL How we check links the verdict record
+  ok   the page is in the Why it moved group of the nav
+
+SPRINT 9.8: FAIL (9 failure(s))
+exit 1

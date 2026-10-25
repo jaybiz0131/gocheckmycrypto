@@ -1,0 +1,79 @@
+Sprint 9.8 plants (U-9), Sun Oct 25 2026, 5:36 PM EDT. scripts/sprint98_plants.py on a copy of the repository and of the built tree (the real data: no graded verdict stored). A first run left two plants green: 16 (the reversing source not named; the case read only the word Reversed, which the status line also carries) and 17 (a dash written into the record's markup; the shell's own dash belt removed it before the case read the page). Both cases were tightened (the source named after Reversed by; the dash read on the record's own body) and the full set re-run below.
+
+PLANT 1 tally: a confirmation outranks a reversal: exit 1, 1 red; restored: exit 0
+      FAIL a verdict one primary source reverses stays reversed when another confirms it
+PLANT 2 tally: a reversed verdict is counted as confirmed: exit 1, 4 red; restored: exit 0
+      FAIL Likely: 3 graded, 1 confirmed by a later primary source, 1 reversed, the rest open
+      FAIL 16 October's Likely, reversed by a later primary source, is counted reversed and not confirmed
+PLANT 3 tally: a source published before the verdict counts: exit 1, 3 red; restored: exit 0
+      FAIL a source published before the verdict was made is not a later source: the verdict stays open
+      FAIL one published before the verdict is refused, with the reason
+PLANT 4 tally: a source that is not primary counts: exit 1, 1 red; restored: exit 0
+      FAIL a source that is not primary does not reverse a verdict
+PLANT 5 tally: a finding of any word counts: exit 1, 1 red; restored: exit 0
+      FAIL a finding other than confirms or reverses is counted nowhere
+PLANT 6 tally: a source with no link counts: exit 1, 1 red; restored: exit 0
+      FAIL a source with no link is counted nowhere (the reader must be able to read it)
+PLANT 7 tally: a source for an unstored verdict is dropped silently: exit 1, 4 red; restored: exit 0
+      FAIL a source published before the verdict was made is not a later source: the verdict stays open
+      FAIL a source that is not primary does not reverse a verdict
+PLANT 8 graded: the morning's grade stands for a day graded at both slots: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a day graded at both slots is one verdict, the evening's (the one its page shows)
+PLANT 9 graded: a verdict withheld at the cap is counted: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: a verdict withheld at the cap is not on the record (no grade was printed)
+PLANT 10 graded: the Big movers are left off the record: exit 1, 2 red; restored: exit 0
+      FAIL each of the 5 graded movers of 16 October is on the record at /why/2026-10-16-<coin id>
+      FAIL each mover keeps the grade its card printed [KeyError: '/why/2026-10-16-celestia']
+PLANT 11 first day: the record starts at the first graded verdict, not the first stored record: exit 1, 1 red; restored: exit 0
+      FAIL the record's first day is the first stored verdict record's (October 19, 2026, the Evening Brief)
+PLANT 12 page: the headline prints every grade's total as Likely: exit 1, 1 red; restored: exit 0
+      FAIL the headline counts are the tally's: Likely verdicts, confirmed later, reversed, not yet revisited
+PLANT 13 page: the empty state claims a record it does not have: exit 1, 1 red; restored: exit 0
+      FAIL with no graded verdict stored, the page says so and prints zero counts, nothing invented
+PLANT 14 page: the lede says because: exit 1, 2 red; restored: exit 0
+      FAIL fixture: no 'because' on the page (it belongs to a Confirmed verdict's own sentence)
+      FAIL empty: no 'because' on the page (it belongs to a Confirmed verdict's own sentence)
+PLANT 15 page: a row is left out: exit 1, 2 red; restored: exit 0
+      FAIL every graded verdict is listed with a link to its own page
+      FAIL each listed row carries its verdict's address, grade and status (as the tree cases read them)
+PLANT 16 page: the reversing source is not named: exit 1, 1 red; restored: exit 0
+      FAIL the page names the reversed verdict as reversed, with its source
+PLANT 17 page: a dash in the page: exit 1, 2 red; restored: exit 0
+      FAIL fixture: no en or em dash in the record's own markup
+      FAIL empty: no en or em dash in the record's own markup
+PLANT 18 add: a refused source is stored anyway: exit 1, 5 red; restored: exit 0
+      FAIL one published before the verdict is refused, with the reason
+      FAIL one for a verdict that is not stored is refused
+PLANT 19 add: a dash in a statement is allowed: exit 1, 2 red; restored: exit 0
+      FAIL a statement with a dash is refused
+      FAIL the store carries only the one source that can count
+PLANT 20 add: 'because' in a statement is allowed: exit 1, 2 red; restored: exit 0
+      FAIL a statement with 'because' is refused (the record's own words never say it)
+      FAIL the store carries only the one source that can count
+PLANT 21 store: the store of later sources is missing: exit 1, 1 red; restored: exit 0
+      FAIL the store of later sources exists and parses
+PLANT 22 wiring: the build does not write the page: exit 1, 1 red; restored: exit 0
+      FAIL the build writes verdict-record.html from verdict_record
+PLANT 23 wiring: the sitemap does not list it: exit 1, 1 red; restored: exit 0
+      FAIL the sitemap lists /verdict-record.html
+PLANT 24 wiring: How we check does not link it: exit 1, 1 red; restored: exit 0
+      FAIL How we check links the verdict record
+PLANT 25 wiring: an old address in the sitemap changes: exit 1, 1 red; restored: exit 0
+      FAIL every static page the sitemap listed before is still listed
+PLANT 26 tree: the page is not in the tree: exit 1, 3 red; restored: exit 0
+      FAIL the build wrote verdict-record.html
+      FAIL its headline counts are its own rows' (0 Likely, 0 confirmed, 0 reversed, 0 open)
+PLANT 27 tree: the headline count differs from the rows: exit 1, 1 red; restored: exit 0
+      FAIL its headline counts are its own rows' (0 Likely, 0 confirmed, 0 reversed, 0 open)
+PLANT 28 tree: a row for a verdict page the tree does not have: exit 1, 3 red; restored: exit 0
+      FAIL the record lists every graded /why/ page the build wrote, once, with the grade that page prints, and nothing else
+      FAIL its headline counts are its own rows' (1 Likely, 0 confirmed, 0 reversed, 1 open)
+PLANT 29 tree: the empty state is gone: exit 1, 1 red; restored: exit 0
+      FAIL with no graded page in the tree it says so; with no later source it says none has been revisited
+PLANT 30 tree: 'because' on the page: exit 1, 1 red; restored: exit 0
+      FAIL no 'because', no dash, no AI word, no personal name
+PLANT 31 tree: the sitemap does not list it: exit 1, 1 red; restored: exit 0
+      FAIL sitemap-priority.xml lists https://gocheckmycrypto.com/verdict-record
+PLANT 32 tree: How we check does not link it: exit 1, 1 red; restored: exit 0
+      FAIL the built How we check links it
+SUMMARY: 32 of 32 plants went red and came back green (32 applied)
