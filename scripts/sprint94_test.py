@@ -583,13 +583,20 @@ def page_cases(fails):
                 and all("Evening Brief" in b["html"] for b in again))
         # the sitemaps: every /why/ URL the build writes is in the archive sitemap and, inside its 48 hours, the news one
         built, written = [], {}
-        old_dir = movers.DIR
+        # Hotfix 9.7h review 1: this case builds against its own directories. verdict.DIR and why_evidence.DIR are
+        # empty scratch directories for the call, so it never reads a verdict or evidence record another check (the
+        # canary's fixture) left pointed at, which put the Bitcoin page in the 48-hour window's reference.
+        import verdict as _vdm
+        import why_evidence as _wem
+        old_dir, old_vd, old_we = movers.DIR, _vdm.DIR, _wem.DIR
         movers.DIR = mdir
+        _vdm.DIR = tempfile.mkdtemp(prefix="s94-vd-empty-")
+        _wem.DIR = tempfile.mkdtemp(prefix="s94-we-empty-")
         try:
             with contextlib.redirect_stdout(io.StringIO()):
                 built = sb._write_verdicts(lambda rel, html: written.__setitem__(rel, html), "DATELINE")
         finally:
-            movers.DIR = old_dir
+            movers.DIR, _vdm.DIR, _wem.DIR = old_dir, old_vd, old_we
         mv_paths = {b["path"] for b in built if b["path"] in {p["path"] for p in pages}}
         guarded(fails, "the build writes the movers' /why/ pages beside Bitcoin's and hands them to the sitemaps",
                 lambda: mv_paths == {p["path"] for p in pages} and all(p["rel"] in written for p in pages))

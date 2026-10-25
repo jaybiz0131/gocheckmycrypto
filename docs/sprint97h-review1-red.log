@@ -1,0 +1,33 @@
+Hotfix 9.7h review 1 red on f61531b, Sun Oct 25 2026, 1:35 PM EDT, code as at f61531b (site_build.py, verify_pipeline.py, scripts/sprint94_test.py) with the round 2 tests added; python3 3.12 shim
+===== scripts/sprint97h_test.py --tree <build of f61531b> --canary: failing cases only; the canary runs print the canary's own error lines
+1. the Wire is always built; with nothing inside its 48 hours it says so
+  FAIL an empty items list: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html
+  FAIL only items older than 48 hours: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html
+2. the fixture verdicts carry the fixture's own time, never the wall clock
+3. the guards in the source
+  FAIL /wire.html is in site_build's sitemap list (the priority tier, beside /news.html)
+  FAIL sprint94_test's sitemap case points verdict.DIR and why_evidence.DIR at scratch directories for _write_verdicts
+4. the built tree /tmp/claude-0/-home-user-gocheckmycrypto/ba38f23b-7a3f-5379-8c9a-78ba1b31aa2e/scratchpad/shotbuild/site/publish
+  FAIL wire.html is in the priority sitemap
+    ::error::canary: sprint 9.7h: an empty items list: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html
+    ::error::canary: sprint 9.7h: only items older than 48 hours: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html
+    ::error::canary: sprint 9.7h: /wire.html is in site_build's sitemap list (the priority tier, beside /news.html)
+    ::error::canary: sprint 9.7h: sprint94_test's sitemap case points verdict.DIR and why_evidence.DIR at scratch directories for _write_verdicts
+    ::error::canary: sprint 9.7h: wire.html is in the priority sitemap
+  FAIL the full canary is green with SITE_BUILD_NOW unset (today's clock): exit 1, last line 'LAYER 1 CANARY: FAIL (5 problem(s)) -> promotion BLOCKED (exit 1)'
+    ::error::canary: sprint 9.7h: an empty items list: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html
+    ::error::canary: sprint 9.7h: only items older than 48 hours: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html
+    ::error::canary: sprint 9.7h: /wire.html is in site_build's sitemap list (the priority tier, beside /news.html)
+    ::error::canary: sprint 9.7h: sprint94_test's sitemap case points verdict.DIR and why_evidence.DIR at scratch directories for _write_verdicts
+    ::error::canary: sprint 9.7h: wire.html is in the priority sitemap
+  FAIL the full canary is green with SITE_BUILD_NOW=2026-11-01T15:00:00Z: exit 1, last line 'LAYER 1 CANARY: FAIL (5 problem(s)) -> promotion BLOCKED (exit 1)'
+    ::error::canary: sprint 9.4: every mover's /why/ URL is in the news sitemap inside its 48 hours
+    ::error::canary: sprint 9.7h: an empty items list: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html
+    ::error::canary: sprint 9.7h: only items older than 48 hours: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html
+    ::error::canary: sprint 9.7h: /wire.html is in site_build's sitemap list (the priority tier, beside /news.html)
+    ::error::canary: sprint 9.7h: sprint94_test's sitemap case points verdict.DIR and why_evidence.DIR at scratch directories for _write_verdicts
+    ::error::canary: sprint 9.7h: wire.html is in the priority sitemap
+  FAIL the full canary is green with a new content item stamped 2026-10-25T17:35:03Z added to a scratch clone (the next publication): exit 1, last line 'LAYER 1 CANARY: FAIL (6 problem(s)) -> promotion BLOCKED (exit 1)'
+
+SPRINT 9.7h: FAIL (8 failure(s))
+exit 1

@@ -1374,8 +1374,8 @@ def render_wire(items, dateline, now=None):
         body.append("</ol>")
         count = f'{len(rows)} {"entry" if len(rows) == 1 else "entries"}, last {WIRE_HOURS} hours'
     else:
-        body.append(f'<p class="wr-empty">Nothing in the last {WIRE_HOURS} hours. The desk\'s newest work is in '
-                    '<a href="/bottom-line.html">the Brief archive</a>.</p>')
+        body.append(f'<p class="wr-empty">Nothing in the last {WIRE_HOURS} hours. Earlier work is in '
+                    '<a href="/news.html">the News archive</a> and <a href="/bottom-line.html">the Brief archive</a>.</p>')
         count = f'Last {WIRE_HOURS} hours'
     return shell(
         f"The Wire - {NAME}",
@@ -9968,7 +9968,7 @@ def build():
             open(os.path.join(PUBLISH, lg), "wb").write(open(src, "rb").read())
 
     # sitemap (indexable pages only; 404/thanks are noindex), robots, netlify 404 redirect
-    locs = ["/", "/news.html", "/flows.html", "/pulse.html", "/chartmaster.html",
+    locs = ["/", "/news.html", "/wire.html", "/flows.html", "/pulse.html", "/chartmaster.html",
             "/pulse/sentiment.html", "/pulse/posture.html",
             "/pulse/movers.html", "/pulse/prices.html", "/pulse/stablecoins.html",
             "/pulse/leverage.html", "/pulse/etf.html", "/pulse/network.html",

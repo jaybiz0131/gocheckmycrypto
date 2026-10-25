@@ -92,8 +92,9 @@ def wire_cases(fails):
         h = sb.render_wire(items, "DATELINE", now=now)
         guarded(fails, f"{label}: the page is returned (not None)", lambda h=h: bool(h))
         guarded(fails, f"{label}: the h1 'The Wire' is present", lambda h=h: h and "<h1>The Wire</h1>" in h)
-        guarded(fails, f"{label}: the empty-state line is present, with the Brief archive link",
-                lambda h=h: h and "Nothing in the last 48 hours." in h and 'href="/bottom-line.html"' in h)
+        guarded(fails, f"{label}: the empty-state line is present, with no claim about the newest item, linking /news.html and /bottom-line.html",
+                lambda h=h: h and "Nothing in the last 48 hours. Earlier work is in the News archive and the Brief archive." in re.sub(r"<[^>]+>", "", h)
+                and 'href="/bottom-line.html"' in h and 'href="/news.html"' in h and "newest work" not in h)
         guarded(fails, f"{label}: the count line never says '0 entries'",
                 lambda h=h: h and "0 entries" not in h and "0 entr" not in h)
         guarded(fails, f"{label}: the page's canonical address is /wire", lambda h=h: h and re.search(r'rel="canonical" href="[^"]*/wire"', h))
@@ -158,6 +159,14 @@ def source_cases(fails):
         calls = [c for c in ast.walk(fn) if isinstance(c, ast.Call) and getattr(c.func, "attr", "") == "record_from"]
         guarded(fails, f"{name}: every record_from call ({len(calls)}) passes now=",
                 lambda calls=calls: calls and all(any(k.arg == "now" for k in c.keywords) for c in calls))
+    sbs = open(os.path.join(HERE, "site_build.py"), encoding="utf-8").read()
+    locs = sbs.split("    locs = [", 1)[1].split("]", 1)[0]
+    guarded(fails, "/wire.html is in site_build's sitemap list (the priority tier, beside /news.html)",
+            lambda: '"/wire.html"' in locs)
+    s94 = open(os.path.join(HERE, "scripts", "sprint94_test.py"), encoding="utf-8").read()
+    guarded(fails, "sprint94_test's sitemap case points verdict.DIR and why_evidence.DIR at scratch directories for _write_verdicts",
+            lambda: "_vdm.DIR = tempfile.mkdtemp" in s94 and "_wem.DIR = tempfile.mkdtemp" in s94
+            and s94.index("_vdm.DIR = tempfile.mkdtemp") < s94.index("sb._write_verdicts("))
     guarded(fails, "scripts/sprint97h_test.py carries no em dash",
             lambda: not DASH.search(open(__file__, encoding="utf-8").read()))
 
@@ -179,18 +188,42 @@ def tree(root):
         if os.path.exists(os.path.join(root, rel)) else ""
     h = rd("wire.html")
     guarded(fails, "wire.html is built, with its h1", lambda: h and "<h1>The Wire</h1>" in h)
+    guarded(fails, "wire.html is in the priority sitemap", lambda: "/wire.html<" in rd("sitemap-priority.xml"))
     return fails
 
 
 def canary_runs(fails):
-    """The whole canary, twice: at the wall clock and a week ahead. Slow; run by hand into the log."""
+    """The whole canary three times: at the wall clock, a week ahead, and on a scratch clone of the tree holding a new
+    content item stamped at the build's time (the next real publication). Slow; run by hand into the log. The real
+    site/content is never written: the third run uses a copy of the tracked files in a temp directory."""
     py = sys.executable
-    for label, env_now in (("SITE_BUILD_NOW unset (today's clock)", None), (f"SITE_BUILD_NOW={WEEK_AHEAD}", WEEK_AHEAD)):
+    runs = [("SITE_BUILD_NOW unset (today's clock)", None, HERE),
+            (f"SITE_BUILD_NOW={WEEK_AHEAD}", WEEK_AHEAD, HERE)]
+    clone = tempfile.mkdtemp(prefix="s97h-clone-")
+    TMPS.append(clone)
+    files = subprocess.run(["git", "ls-files", "-z"], cwd=HERE, stdout=subprocess.PIPE, check=True).stdout
+    tar_c = subprocess.Popen(["tar", "--null", "-T", "-", "-cf", "-"], cwd=HERE, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    tar_x = subprocess.Popen(["tar", "-xf", "-", "-C", clone], stdin=tar_c.stdout)
+    tar_c.stdin.write(files)
+    tar_c.stdin.close()
+    tar_x.communicate()
+    now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
+    src = json.load(open(os.path.join(HERE, "site", "content", "2026-10-20-evening-brief.json"), encoding="utf-8"))
+    new_slug = "evening-brief-" + now.strftime("%Y-%m-%d")
+    src.update(id="wrap-pm-" + now.strftime("%Y-%m-%d"), slug=new_slug, date=now.strftime("%Y-%m-%d"),
+               published_utc=now.strftime("%Y-%m-%dT%H:%M:%SZ"))
+    json.dump(src, open(os.path.join(clone, "site", "content", now.strftime("%Y-%m-%d") + "-evening-brief.json"), "w",
+                        encoding="utf-8"), indent=1)
+    for cmd in (["git", "init", "-q"], ["git", "add", "-A"],
+                ["git", "-c", "user.name=scratch", "-c", "user.email=scratch@example.invalid", "commit", "-q", "-m", "scratch clone"]):
+        subprocess.run(cmd, cwd=clone, check=True, stdout=subprocess.DEVNULL)
+    runs.append((f"a new content item stamped {src['published_utc']} added to a scratch clone (the next publication)", None, clone))
+    for label, env_now, cwd in runs:
         env = dict(os.environ)
         env.pop("SITE_BUILD_NOW", None)
         if env_now:
             env["SITE_BUILD_NOW"] = env_now
-        p = subprocess.run([py, os.path.join(HERE, "verify_pipeline.py"), "canary"], cwd=HERE, env=env,
+        p = subprocess.run([py, os.path.join(cwd, "verify_pipeline.py"), "canary"], cwd=cwd, env=env,
                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         last = [ln for ln in p.stdout.splitlines() if ln.strip()][-1:] or [""]
         errs = [ln for ln in p.stdout.splitlines() if ln.startswith("::error::canary:")]
