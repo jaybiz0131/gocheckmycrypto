@@ -105,6 +105,7 @@ def _wire_cases(fails, sb):
             sys.path.insert(0, tmp)
             try:
                 import site_build_main as m
+                m.SITE = sb.SITE                              # the same (empty) site directory as the page under test
                 live = m.render_wire(items(), dl, NOW)
             finally:
                 sys.path.remove(tmp)
