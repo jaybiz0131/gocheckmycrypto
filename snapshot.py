@@ -106,16 +106,32 @@ def asof_attr(ts, hours=None):
     return f' data-asof="{str(ts).strip()}"{h}'
 
 
+def age_hours(ts, now=None):
+    """Hours between a UTC instant and `now`, or None when the instant is unreadable."""
+    dt = _utc(ts)
+    if not dt:
+        return None
+    now = now or _dt.datetime.now(_dt.timezone.utc)
+    return (now - dt).total_seconds() / 3600.0
+
+
+def is_stale(ts, now=None, hours=None):
+    """THE ONE STALE RULE (Sprint 9.1; the app-ready feeds of Sprint 9.7 read it too). A reading is stale
+    when it is MORE than `hours` old (STALE_HOURS unless a surface names its own) at `now`. asof.js applies
+    the same comparison in the browser, from data-asof. An instant that cannot be read returns None: the
+    page prints no age for it, and a feed, which must say something, calls it stale."""
+    h = age_hours(ts, now)
+    if h is None:
+        return None
+    return h > (STALE_HOURS if hours is None else hours)
+
+
 def age_phrase(ts, now=None):
     """'9 hours ago', '2 days ago', or '' when the reading is within STALE_HOURS (or the
     instant is unreadable). `now` is an aware datetime; default the wall clock."""
-    dt = _utc(ts)
-    if not dt:
+    if not is_stale(ts, now):
         return ""
-    now = now or _dt.datetime.now(_dt.timezone.utc)
-    h = (now - dt).total_seconds() / 3600.0
-    if h <= STALE_HOURS:
-        return ""
+    h = age_hours(ts, now)
     return f"{int(h)} hours ago" if h < 48 else f"{int(h // 24)} days ago"
 
 

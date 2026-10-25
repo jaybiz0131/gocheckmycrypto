@@ -117,6 +117,19 @@ def _e(s):
         .replace(">", "&gt;").replace('"', "&quot;")
 
 
+# THE APP-READY FEEDS READ THE SAME TILES THE PAGES PRINT (Sprint 9.7, AUDIT.md 3.5). While a list is
+# installed here, every tile drawn is also appended to it as the facts the tile printed. Nothing is installed
+# in a normal build step: the build installs a list around the pages whose tiles a feed carries.
+SINK = None
+
+
+def record(sink):
+    """Install `sink` (a list) to receive each tile as it is drawn, or None to stop. Returns the old one."""
+    global SINK
+    old, SINK = SINK, sink
+    return old
+
+
 ARROW = {"up": "\u25b2", "down": "\u25bc"}
 _SINCE_CHG = re.compile(r"\b(Up|Down) (\d[\d,]*(?:\.\d+)?%)")
 
@@ -176,7 +189,7 @@ def render(key, figure, *, window, since, source, stamp, label=None, direction=N
         import snapshot as _sn
         _asof = _sn.asof_attr(_sn.ts_for_stamp(stamp))
     except Exception:                                   # pragma: no cover
-        _asof = ""
+        _sn, _asof = None, ""
     out = (f'<article class="tl" data-reading="{_e(key)}"{_asof}>'
            f'<h3 class="tl-l">{_e(name)}</h3>'
            f'<p class="tl-f{cls}">{_e(figure)}{badge}</p>'
@@ -187,6 +200,10 @@ def render(key, figure, *, window, since, source, stamp, label=None, direction=N
            f'</article>')
     if _FORBIDDEN.search(out):
         raise TileError(f"tile {name!r}: an icon or a gradient")
+    if SINK is not None:
+        SINK.append({"key": key, "label": name, "figure": str(figure), "window": str(window), "since": str(since),
+                     "source": str(source), "stamp": str(stamp), "as_of_utc": (_sn.ts_for_stamp(stamp) if _sn else "") or None,
+                     "change_pct": change if isinstance(change, (int, float)) else None})
     return out
 
 

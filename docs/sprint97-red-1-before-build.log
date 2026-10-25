@@ -1,0 +1,51 @@
+Run 1, scripts/sprint97_test.py as first written, before api_feeds.py, the Worker route or any site_build change existed (the 9.6 tree plus the test only). File time Wed Oct 21 2026, 1:27 AM EDT.
+
+1. the stale flag is the site's own rule
+  FAIL group stale could not run [ModuleNotFoundError: No module named 'api_feeds']
+2. top100.json: the rows of /pulse/prices
+  FAIL group top100 could not run [ModuleNotFoundError: No module named 'api_feeds']
+3. whales.json: the figures of /flows
+  FAIL group whales could not run [ModuleNotFoundError: No module named 'api_feeds']
+4. movers.json: the Big movers list of /pulse/movers
+  FAIL group movers could not run [ModuleNotFoundError: No module named 'api_feeds']
+5. news.json and brief/latest.json
+  FAIL group news and brief could not run [ModuleNotFoundError: No module named 'api_feeds']
+6. why/<date>.json and why/today.json: from stored verdict records only
+  FAIL group why could not run [ModuleNotFoundError: No module named 'api_feeds']
+7. the backfill refuses a day with no stored record
+  FAIL group backfill could not run [ModuleNotFoundError: No module named 'api_feeds']
+8. events.json: the newest 50 events that would push, from stored records
+  FAIL group events could not run [ModuleNotFoundError: No module named 'api_feeds']
+9. coins/<sym>.json: the readings of a coin page
+  FAIL group coin could not run [ModuleNotFoundError: No module named 'api_feeds']
+10. index.json lists every feed
+  FAIL group index could not run [ModuleNotFoundError: No module named 'api_feeds']
+11. the search pass: titles, the coin h1, and no URL changed
+  FAIL the home title carries query words, not the brand alone [AttributeError: module 'site_build' has no attribute 'HOME_TITLE']
+  FAIL the Top 100 title says what people type: top 100 crypto prices [AttributeError: module 'site_build' has no attribute 'TOP100_TITLE']
+  FAIL no title has a dash or an AI word [AttributeError: module 'site_build' has no attribute 'HOME_TITLE']
+  FAIL the Top 100 page's title tag is the new title [AttributeError: module 'site_build' has no attribute 'TOP100_TITLE']
+  FAIL the Bitcoin page has exactly one h1 and it names the coin
+  ok   the Bitcoin page keeps its title tag
+  FAIL the USDC page has exactly one h1 and it names the coin
+  ok   the USDC page keeps its title tag
+  ok   the Top 100 page still has its one h1
+  FAIL the coin h1 keeps the look the h2 had: a rule restores its size, weight and margin (tokens only)
+12. the Worker live-price route and its client
+  FAIL the route file, its test and the patch for the Worker repository exist
+  FAIL node is available to run the route's cases
+  FAIL with no route configured the pages carry no route address at all (today's page, byte for byte) [AttributeError: module 'site_build' has no attribute 'LIVE_PRICE_URL']
+  FAIL group live could not run [AttributeError: module 'site_build' has no attribute 'LIVE_PRICE_URL']
+13. the watchlist stays on the device
+  FAIL the Top 100 page carries the watchlist panel (hidden until a coin is saved) and its script [AttributeError: module 'site_build' has no attribute 'WATCHLIST_PANEL_HTML']
+  FAIL group watchlist could not run [AttributeError: module 'site_build' has no attribute 'WATCHLIST_PANEL_JS']
+14. wiring
+  FAIL build() writes the feeds under /api/v1/ through api_feeds and fails open
+  FAIL the suite runs this test
+  FAIL the canary calls this test's unit and tree cases
+  FAIL api_feeds.py: exists, no dash, US spelling of the house words
+  FAIL worker/live-prices.mjs: exists, no dash, US spelling of the house words
+  FAIL worker/live-prices.test.mjs: exists, no dash, US spelling of the house words
+  FAIL scripts/sprint97_browser.mjs: exists, no dash, US spelling of the house words
+
+SPRINT 9.7: FAIL (30 failure(s))

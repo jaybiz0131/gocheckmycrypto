@@ -2107,7 +2107,7 @@ def shell(title, desc, active, body, dateline, body_class="", path="/", noindex=
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="build-commit" content="{BUILD_COMMIT}">
-<title>{esc(title)}</title>
+{_live_meta()}<title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 {robots}<link rel="alternate" type="application/rss+xml" title="{esc(NAME)} feed" href="/feed.xml">
 <meta property="og:title" content="{esc(title)}">
@@ -5809,7 +5809,7 @@ def render_home(items, flows, pulse, cm, dateline):
   {above}
   {below}
 </section></main>"""
-    return shell(f"{FAMILY} - Crypto, checked.", FAMILY_DESC, "The Board",
+    return shell(HOME_TITLE, FAMILY_DESC, "The Board",
                  body + _home.HOME_JS, dateline, body_class="h-home", path="/",
                  schema_extra=home_schema(), system_css=True, third_party=False)
 
@@ -6033,7 +6033,7 @@ def corrections_log(items, verdict_dir=None, today_dir=None):
     seen_today = set()
     try:
         import today as _td
-        for rec in _td.load_records():
+        for rec in _td.load_records(today_dir):
             for c in rec.get("corrections") or []:
                 t = str((c or {}).get("text") or "").strip()
                 key = (str(rec.get("date_et") or ""), t)
@@ -7779,6 +7779,24 @@ def _mover_rows(movers):
 # NAMES.md section 3.2: the label is Big movers, and "top gainers and losers" stays in the title for search
 MOVERS_TITLE = f"Big movers: crypto top gainers and losers today, with why they moved - {NAME}"
 
+# SPRINT 9.7, THE SEARCH PASS (AUDIT.md 1.7): the home's title was the brand alone and the Top 100's was "Top 100 - Markets";
+# people type "crypto prices today" and "top 100 crypto prices". Titles only: no URL, no description and no heading moves.
+HOME_TITLE = f"Crypto prices today and why they moved - {NAME}"
+
+# SPRINT 9.7, THE WORKER LIVE-PRICE ROUTE (Jack's ruling 7 of October 16; J-5). The route is written
+# (worker/live-prices.mjs) and NOT deployed: it needs Jack's gcm-newsroom deploy. Until he gives the address this stays
+# empty, no page carries any trace of it, and every page keeps today's path (the reader's browser asks CoinGecko). When
+# it is set, a page tries the route first, and any failure, any stale answer and any malformed one falls back to
+# CoinGecko, exactly as before. GCM_LIVE_PRICE_URL overrides it for a local preview.
+LIVE_PRICE_URL = (os.environ.get("GCM_LIVE_PRICE_URL") or "").strip()
+if not LIVE_PRICE_URL.startswith("https://"):
+    LIVE_PRICE_URL = ""
+
+
+def _live_meta():
+    return f'<meta name="gcm-live-prices" content="{esc(LIVE_PRICE_URL)}">\n' if LIVE_PRICE_URL else ""
+TOP100_TITLE = f"Top 100 crypto prices today by market cap - {NAME}"
+
 
 def render_pulse_movers(pulse, dateline, movers_rec=None):
     desc = ("Big movers: every top-100 coin past the desk's line over 24 hours, with its move beyond Bitcoin's and "
@@ -7984,6 +8002,99 @@ TOP100_JS = """
   run();
 })();</script>
 """
+
+
+# ---- SPRINT 9.7: the watchlist on the Top 100 ------------------------------------------------------------------
+# THE WATCHLIST IS THE PINS (AUDIT.md 3.5 item 3: "kept in the browser as a convenience, the existing Pin is the start"). One list,
+# the one key each coin page's Pin button writes (gcmc_coins, at most eight coins). THE SAME FACT PRINTS ONCE: the page does not
+# reprint a saved coin's price or change anywhere; it MARKS the coin's own row in the table (a star with the words "Saved" as its
+# accessible text, and the card tone behind the row) and offers "Show only saved", which leaves just those rows. No request, no
+# account, no cookie; nothing is drawn for a reader with no saved coin, and nothing if storage is unavailable.
+#
+# IT CANNOT MOVE THE PAGE. (1) A tiny script in the HEAD, before any stylesheet link (so it never waits on CSS), reads the saved
+# list, keeps the coins that are on the table, and injects one style whose rules mark those rows and filter to them: the rows are
+# marked when they are first laid out. (2) The panel is one fixed box, 127px (its heading, note and button row are fixed boxes),
+# displayed from the same head script. (3) The script after the table only wires the two buttons. (A script before the table made
+# the table's own cells shift on 14 loads in 100; one after it, filling a variable-height panel, shifted the table by 0.1.) The
+# styles are inline, tokens only, so site.css and system.css stay as Sprint 9.5 left them; the class names are its own (wp-).
+WATCHLIST_PANEL_STYLE = """<style>
+body:not(.h-home) .page .wp-panel{display:none;box-sizing:border-box;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:12px 16px;margin:0 0 18px}
+html[data-wl-n] body:not(.h-home) .page .wp-panel{display:block;height:127px}
+body:not(.h-home) .page .wp-panel .wp-h{box-sizing:border-box;height:24px;overflow:hidden;white-space:nowrap;font:600 18px/24px var(--serif);letter-spacing:0;margin:0;color:var(--ink)}
+body:not(.h-home) .page .wp-panel .wp-note{height:33px;overflow:hidden;font:11px/16.5px var(--mono);color:var(--muted);margin:0 0 8px;max-width:none}
+body:not(.h-home) .page .wp-panel .wp-bar{display:flex;gap:8px;height:36px;overflow:hidden}
+body:not(.h-home) .page .wp-panel .wp-btn{box-sizing:border-box;height:36px;font:600 13px/1 var(--sans);background:none;border:1px solid var(--line);border-radius:999px;color:var(--ink);padding:0 14px;cursor:pointer}
+body:not(.h-home) .page .wp-panel .wp-btn[aria-pressed="true"]{border-color:var(--link);color:var(--link)}
+</style>"""
+
+WATCHLIST_PANEL_HTML = (
+    '<section class="wp-panel" data-wl-panel aria-label="Your watchlist">'
+    '<h2 class="wp-h">Your watchlist</h2>'
+    '<p class="wp-note">Saved on this device only. No account, no cookie, nothing logged.</p>'
+    '<div class="wp-bar"><button type="button" class="wp-btn" data-wl-only-btn aria-pressed="false">Show only saved</button>'
+    '<button type="button" class="wp-btn" data-wl-clear>Clear</button></div>'
+    '</section>')
+
+# the head script: the saved coins that are on the table, marked in the table by an injected style, before the table exists
+WATCHLIST_HEAD_JS = """<script>(function(){try{var v=JSON.parse(localStorage.getItem('gcmc_coins')||'[]'),S=__SYMS__,n=0,i,s,seen=Object.create(null),css='',T='tbody[data-live="top100"] ';
+if(Array.isArray(v)){v=v.slice(0,8);for(i=0;i<v.length;i++){s=v[i];if(typeof s==='string'&&S.indexOf(','+s+',')>-1&&!seen[s]){seen[s]=1;n++;
+css+=T+'tr[data-sym="'+s+'"]{background:var(--card)}'+T+'tr[data-sym="'+s+'"] td.sym2::after{content:"\\\\2605" / "Saved";color:var(--link);margin-left:6px}html[data-wl-only] '+T+'tr[data-sym="'+s+'"]:not([hidden]){display:table-row}';}}}
+if(n){var h=document.documentElement,st=document.createElement('style');st.id='wp-marks';st.textContent=css+'html[data-wl-only] '+T+'tr{display:none}';document.head.appendChild(st);h.setAttribute('data-wl-n',n);}}catch(e){}})();</script>"""
+
+# the wiring script, after the table: the two buttons
+WATCHLIST_PANEL_JS = """<script>(function(){
+  var KEY='gcmc_coins', root=document.documentElement, panel=document.querySelector('[data-wl-panel]');
+  if(!panel) return;
+  var store=null;
+  try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); store=localStorage; }
+  catch(e){ root.removeAttribute('data-wl-n'); return; }
+  var only=panel.querySelector('[data-wl-only-btn]'), clr=panel.querySelector('[data-wl-clear]');
+  function show(on){
+    if(on) root.setAttribute('data-wl-only',''); else root.removeAttribute('data-wl-only');
+    only.setAttribute('aria-pressed', String(on)); only.textContent=on?'Show all':'Show only saved';
+  }
+  only.addEventListener('click', function(){ show(!root.hasAttribute('data-wl-only')); });
+  clr.addEventListener('click', function(){
+    try{ store.setItem(KEY,'[]'); }catch(e){}
+    var m=document.getElementById('wp-marks'); if(m) m.remove();
+    show(false); root.removeAttribute('data-wl-n');
+    document.querySelectorAll('[data-pick]').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+  });
+})();</script>"""
+
+
+def _wl_symbols(coins):
+    """The table's symbols, in order, each once, that are safe in an attribute selector."""
+    out = []
+    for c in coins:
+        sym = c.get("symbol")
+        if sym and sym not in out and re.fullmatch(r"[A-Za-z0-9._-]+", sym):
+            out.append(sym)
+    return out
+
+
+def watchlist_head(coins):
+    """The head script of the Top 100 page: the saved coins that are on the table, marked before the table is parsed."""
+    syms = "," + ",".join(_wl_symbols(coins)) + ","
+    return WATCHLIST_HEAD_JS.replace("__SYMS__", json.dumps(syms, ensure_ascii=False).replace("</", "<\\/"))
+
+
+def watchlist_panel(coins):
+    """The panel's style and markup, drawn before the table (a fixed box, not displayed until the head script has counted a saved coin)."""
+    return WATCHLIST_PANEL_STYLE + WATCHLIST_PANEL_HTML
+
+
+def watchlist_script(coins):
+    """The script that wires the panel's two buttons, after the table."""
+    return WATCHLIST_PANEL_JS
+
+
+# SPRINT 9.7, THE SEARCH PASS: the coin page has an h1 (it had none: its name sat in an h2). The look is the h2's, to the
+# pixel: the same size, weight, line height and margin the heading had, so no page changes except in its outline.
+COIN_TITLE_STYLE = """<style>
+body:not(.h-home) .sec-head h1.cn-title{font-family:var(--serif);font-weight:700;font-size:23px;line-height:1.2;
+  letter-spacing:-.005em;margin:1.4em 0 .4em;color:var(--ink)}
+</style>"""
 
 
 # ---- C-L1: coin pages ------------------------------------------------------------
@@ -8261,6 +8372,9 @@ def _past_mover_line(c, sym, pulse, movers_rec, is_mover=False):
         return False
 
 
+COIN_FACTS = {}          # {symbol: {grade, url}} as the last build's coin pages decided (api_feeds reads it)
+
+
 def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=None, gate=None,
                      evidence=None, verdict=None, movers=None):
     """PROGRAM 7, SPRINT 6.4 (13 October 2026). Under the chart, in this order: the
@@ -8371,6 +8485,19 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     # 24-hour change is at or past the gate's first leg).
     ledger_html = "" if _past_mover_line(c, sym, pulse, movers, _mover) else _coin_cold_storage()
 
+    # SPRINT 9.7: what this page decided about its verdict card, kept for the coin's feed (api_feeds), so the feed says a grade
+    # exactly when the page shows one, and links the verdict page the card links
+    _vurl = None
+    try:
+        if _graded and _mover:
+            _vurl = ((((_movers_rec(movers) or {}).get("coins") or {}).get(sym) or {}).get("verdict") or {}) \
+                .get("coins", {}).get(sym, {}).get("url")
+        elif _graded:
+            _vurl = (((_vrec or {}).get("coins") or {}).get(sym) or {}).get("url")
+    except Exception:                                    # fail open: no address in the feed
+        _vurl = None
+    COIN_FACTS[sym] = {"grade": _graded or None, "url": _vurl}
+
     supply = _coin_supply_rows(c)
     supply_html = ""
     if supply:
@@ -8381,7 +8508,8 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
             + '</div>')
 
     inner = f"""{_dash_crumb()}
-  <div class="sec-head cn-head"><h2>{esc(name)}<span class="cn-sym">{esc(sym)}</span></h2>
+  {COIN_TITLE_STYLE}
+  <div class="sec-head cn-head"><h1 class="cn-title">{esc(name)}<span class="cn-sym">{esc(sym)}</span></h1>
     <span class="bar"></span>{_coin_pin(sym)}</div>
   {chart}
 {mv_slot}  {tiles_html}
@@ -8540,7 +8668,7 @@ def render_pulse_prices(pulse, dateline):
     coins = movers.get("top100") or []
     if not coins:
         inner = f"{_dash_crumb()}\n  <h1>Top 100</h1>\n  {_no_data()}"
-        return _dash_shell("prices", "Top 100", desc, inner, dateline, data=pulse)
+        return _dash_shell("prices", "Top 100", desc, inner, dateline, data=pulse, full_title=TOP100_TITLE)
     total_mcap = sum(c.get("mcap_usd") or 0 for c in coins)
     # Name what the screen removed. A filtered board that does not say it filtered is just
     # a board with a secret. See coin_screen.py for the tests behind each reason.
@@ -8561,6 +8689,7 @@ def render_pulse_prices(pulse, dateline):
      seven-day line. {esc(fmt_usd(total_mcap))} of market tracked. Type to find a coin;
      click a column header to sort.</p>
   <p class="live-stamp"{_asof_of(pulse)}>{esc(_snap_asof(pulse))}</p>
+  {watchlist_panel(coins)}
   <div class="coin-search" role="search">
     <label class="sr-only" for="coin-q">Search the Top 100 by name or ticker</label>
     <input id="coin-q" type="search" data-coin-search placeholder="Search name or ticker"
@@ -8603,8 +8732,9 @@ def render_pulse_prices(pulse, dateline):
       confirms. Freed places are filled from further down, so this is still a full
       hundred.</p></div>
   </div>{screened}
-""" + TOP100_JS
-    return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True, data=pulse)
+""" + TOP100_JS + watchlist_script(coins)
+    return _dash_shell("prices", "Top 100", desc, inner, dateline, live=True, data=pulse, full_title=TOP100_TITLE,
+                       schema_extra=watchlist_head(coins))
 
 
 def render_pulse_leverage(pulse, dateline):
@@ -9694,6 +9824,31 @@ def _write_verdicts(w, dateline):
         return []
 
 
+def _write_api_feeds(w, items, pulse, flows, board_tiles, coin_tiles):
+    """PROGRAM 9, SPRINT 9.7: write /api/v1/ (api_feeds.py). Fails open: a feed that cannot be built is a warning and no file,
+    and the pages never wait on one. The dated verdict backfill reports what it made of every stored day."""
+    try:
+        import api_feeds as _af
+        import home as _home
+        ed = current_bottom_line(items)
+        feeds = _af.build_all({"now": _build_now(), "snap": SNAP, "pulse": pulse, "flows": flows, "items": items,
+                               "wire": _home.load_json(WIRE_JSON), "ed": ed, "morning": _home.load_json(MORNING_JSON), "movers_rec": _movers_rec(),
+                               "board_tiles": board_tiles, "coin_tiles": coin_tiles})
+        for rel, obj in feeds.items():
+            try:
+                text = json.dumps(obj, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
+            except ValueError as e:                          # a NaN is not JSON; that feed is withheld, the others stand
+                print(f"::warning::api feeds: {rel} was not written ({e})")
+                continue
+            w(os.path.join("api", "v1", rel), text)
+        bf = _af.backfill_all()
+        refused = [f"{d['day']} ({d['why']})" for d in bf["days"] if not d["ok"]]
+        print(f"api feeds: {len(feeds)} file(s) under /api/v1/; backfill: {len(bf['days'])} stored day(s), "
+              f"{len(bf['pages'])} dated verdict page(s)" + (f", none for: {', '.join(refused[:6])}" if refused else ""))
+    except Exception as e:                                   # noqa: BLE001
+        print(f"::warning::api feeds: the feeds were not written ({type(e).__name__}: {e})")
+
+
 def build():
     items = load_content()
     # dateline reflects the newest content (or a neutral standing line), never a wall clock
@@ -9819,7 +9974,13 @@ def build():
         _nh_urls.append("/" + _rel)
     print(f"news hub: {len(_nh_lanes)} storyline(s), {len(_nh_urls)} hub page(s)")
     w("flows.html", render_flows(flows, dateline))
-    w("pulse.html", render_pulse_hub(pulse, flows, cm, dateline))
+    import tile as _tile
+    _board_tiles = []
+    _old_sink = _tile.record(_board_tiles)
+    try:
+        w("pulse.html", render_pulse_hub(pulse, flows, cm, dateline))
+    finally:
+        _tile.record(_old_sink)
 
     # E-2 / C-L2: the Wire. A failure here costs one page and nothing after it.
     # HOTFIX 9.6w: always written; with nothing in the window it is the honest empty page (render_wire).
@@ -9835,6 +9996,7 @@ def build():
     # C-L1: one page per coin on the Board's own universe. Each page claims its own
     # stories, so _page_reset runs per page and one story can serve two coins.
     _coins = ((pulse or {}).get("movers") or {}).get("top100") or []
+    _coin_tiles = {}
     _cn = 0
     _seen_coin = set()
     for _pos, _c in enumerate(_coins, 1):
@@ -9852,11 +10014,19 @@ def build():
             continue
         _seen_coin.add(_slug)
         _page_reset()
-        w(os.path.join("coins", f"{_slug}.html"),
-          render_coin_page(_c, _pos, pulse, items, dateline))
+        _sink = []
+        _old_sink = _tile.record(_sink)
+        try:
+            _coin_html = render_coin_page(_c, _pos, pulse, items, dateline)
+        finally:
+            _tile.record(_old_sink)
+        w(os.path.join("coins", f"{_slug}.html"), _coin_html)
+        _coin_tiles[_slug] = (_c, _pos, _sink, dict(COIN_FACTS.get(_c.get("symbol") or "") or {}))
         _cn += 1
     if _cn:
         print(f"coin pages: {_cn}")
+    # PROGRAM 9, SPRINT 9.7: the app-ready feeds, /api/v1/, from the records the pages above were drawn from
+    _write_api_feeds(w, items, pulse, flows, _board_tiles, _coin_tiles)
     w(os.path.join("pulse", "stablecoins.html"), render_pulse_stables(pulse, dateline))
     w(os.path.join("pulse", "leverage.html"), render_pulse_leverage(pulse, dateline))
     w(os.path.join("pulse", "etf.html"), render_pulse_etf(pulse, dateline))

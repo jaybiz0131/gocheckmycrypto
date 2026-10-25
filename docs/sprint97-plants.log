@@ -1,0 +1,165 @@
+Sprint 9.7 plants (U-9), final tree, Wed Oct 21 2026, 4:04 AM EDT. Each guarded thing broken on purpose in a throwaway copy, scripts/sprint97_test.py run, the break undone and the test run again. Source plants run the unit cases; tree plants run the tree cases (with the browser script where the thing is in the browser).
+
+PLANT 1 stale: the boundary is inclusive (exactly three hours old counts as stale): exit 1, 1 red; restored: exit 0
+      FAIL the boundary is the page's: exactly STALE_HOURS old is not stale, a second more is
+PLANT 2 stale: a feed with an as-of it cannot read is called fresh: exit 1, 8 red; restored: exit 0
+      FAIL an as-of that cannot be read (None) is stale, with no age and no as-of claimed
+      FAIL an as-of that cannot be read ('') is stale, with no age and no as-of claimed
+PLANT 3 stale: the feed's window is its own (6 hours), not the page's: exit 1, 1 red; restored: exit 0
+      FAIL the envelope names its path under /api/v1/ and prints the stale window the page uses
+PLANT 4 top100: the price shown is not the page's string: exit 1, 1 red; restored: exit 0
+      FAIL every shown string is on the page: no figure in the feed is absent from the page
+PLANT 5 top100: the feed's as-of is the build moment, not the Board's reading: exit 1, 2 red; restored: exit 0
+      FAIL the feed's as-of is the Board's reading, the same instant the page's stamp carries
+      FAIL fresh at the reading's own time, stale four hours on
+PLANT 6 whales: the sentence is reworded: exit 1, 1 red; restored: exit 0
+      FAIL every shown string is on the page (16 checked)
+PLANT 7 news: a wire line reaches the feed cut short: exit 1, 1 red; restored: exit 0
+      FAIL no wire line reaches the feed reworded or with a dash
+PLANT 8 movers: a record that is not current for the Board is listed anyway: exit 1, 1 red; restored: exit 0
+      FAIL a record that is not current for the Board says so and lists no coin (the page's own rule)
+PLANT 9 coin: the price is taken from the raw value, not the tile the page printed: exit 1, 1 red; restored: exit 0
+      FAIL the price and the 24h change shown are the page's strings
+PLANT 10 why: the dated feed carries a sentence the card does not print: exit 1, 2 red; restored: exit 0
+      FAIL 'because' appears only in a feed whose own sentence says it (Confirmed); none here
+      FAIL every sentence the card prints, as the feed's card_text, is on the 14 October verdict page
+PLANT 11 index: a feed is left out of the index: exit 1, 2 red; restored: exit 0
+      FAIL one row per feed with its path, page, as-of and stale flag, the same values as the feed itself
+      FAIL the index counts its stale feeds, lists every feed it was given and never lists itself
+PLANT 12 index: the count of stale feeds is wrong: exit 1, 1 red; restored: exit 0
+      FAIL the index counts its stale feeds, lists every feed it was given and never lists itself
+PLANT 13 backfill: a day with no stored verdict record is built anyway: exit 1, 3 red; restored: exit 0
+      FAIL '2026-10-13': refused (no stored verdict record), no page, nothing built
+      FAIL '2026-10-15': refused (no stored verdict record), no page, nothing built
+PLANT 14 backfill: any string is taken for a date: exit 1, 2 red; restored: exit 0
+      FAIL '14 October': refused (not a date), no page, nothing built
+      FAIL '': refused (not a date), no page, nothing built
+PLANT 15 backfill: a stored day that graded nothing is given a page: exit 1, 2 red; restored: exit 0
+      FAIL a stored day that graded nothing gets no page, and says so
+      FAIL the whole-store report lists each stored day once, the built pages, and the refusals with reasons
+PLANT 16 why: a dated feed is invented for a day with no record: exit 1, 1 red; restored: exit 0
+      FAIL a day whose stored record cannot be read (corrupt, or not a verdict) gets no dated feed: nothing is made up for it
+PLANT 17 events: the breaking line is a copy that has drifted (1 percent): exit 1, 2 red; restored: exit 0
+      FAIL the real 14 October Likely verdict (a small move) is NOT past the breaking line, so it is no event
+      FAIL SYNTHETIC: a graded verdict on a 6.2 percent move is an event past the breaking line (5 percent)
+PLANT 18 events: the log is not cut to 50: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: sixty Briefs and more are cut to the newest 50
+PLANT 19 events: a coin in place 40 counts as a top-10 mover: exit 1, 1 red; restored: exit 0
+      FAIL a top-10 coin past the mover line is an event, a place-40 coin is not (5 found)
+PLANT 20 events: the example Brief is an event: exit 1, 1 red; restored: exit 0
+      FAIL the Briefs publish as events (two), the example and the story do not
+PLANT 21 events: any change of grade is a verdict that moved: exit 1, 1 red; restored: exit 0
+      FAIL SYNTHETIC: Likely then Confirmed on one day is a verdict that moved; Likely then Unclear is not
+PLANT 22 events: oldest first: exit 1, 2 red; restored: exit 0
+      FAIL newest first, and every event has an id, a kind, a title and a page address; ids are unique
+      FAIL SYNTHETIC: sixty Briefs and more are cut to the newest 50
+PLANT 23 events: a correction is given a time the record does not hold: exit 1, 1 red; restored: exit 0
+      FAIL a correction is an event with its date and no invented time
+PLANT 24 title: the home's title is the brand alone again: exit 1, 1 red; restored: exit 0
+      FAIL the home title carries query words, not the brand alone
+PLANT 25 title: the Top 100's title loses its query words: exit 1, 1 red; restored: exit 0
+      FAIL the Top 100 title says what people type: top 100 crypto prices
+PLANT 26 h1: the coin page's heading is an h2 again: exit 1, 2 red; restored: exit 0
+      FAIL the Bitcoin page has exactly one h1 and it names the coin
+      FAIL the USDC page has exactly one h1 and it names the coin
+PLANT 27 h1: the h1 has lost the h2's margin: exit 1, 1 red; restored: exit 0
+      FAIL the coin h1 keeps the look the h2 had: its own inline rule restores size, weight, line height and margin, with colors from tokens only (the two stylesheets stay Sprint 9.5's, byte for byte)
+PLANT 28 h1: the h1 uses a hard-coded color: exit 1, 1 red; restored: exit 0
+      FAIL the coin h1 keeps the look the h2 had: its own inline rule restores size, weight, line height and margin, with colors from tokens only (the two stylesheets stay Sprint 9.5's, byte for byte)
+PLANT 29 live: the home takes a stale route answer: exit 1, 1 red; restored: exit 0
+      FAIL the route is only ever read when it answers fresh: stale, malformed and slow answers fall back
+PLANT 30 live: the home waits on the route with no time limit: exit 1, 1 red; restored: exit 0
+      FAIL the route is only ever read when it answers fresh: stale, malformed and slow answers fall back
+PLANT 31 live: the home has lost the CoinGecko fallback: exit 1, 1 red; restored: exit 0
+      FAIL the CoinGecko fallback is the answer when the route gives none (an absent or failed route is today's read)
+PLANT 32 live: every page carries the route meta even when none is set: exit 1, 1 red; restored: exit 0
+      FAIL with no route configured no page carries a route address (no meta in the head: today's head, byte for byte)
+PLANT 33 live: the canary admits the route host whether or not the build names it: exit 1, 1 red; restored: exit 0
+      FAIL the canary's host list takes the configured route host and no other
+PLANT 34 worker: the cache holds an answer ten minutes: exit 1, 4 red; restored: exit 0
+      FAIL past 60 seconds: one new read of each, a new read time
+      FAIL CoinGecko refusing: the last good answer is served flagged stale, with its own read time, never re-stamped
+PLANT 35 worker: the last good answer is served as if fresh: exit 1, 2 red; restored: exit 0
+      FAIL CoinGecko refusing: the last good answer is served flagged stale, with its own read time, never re-stamped
+      FAIL the route's own cases pass (shape, the 60-second cache, last good served flagged stale, refusals, CORS)
+PLANT 36 worker: any origin may read it: exit 1, 2 red; restored: exit 0
+      FAIL another origin gets no allow header (a browser there cannot read it)
+      FAIL the route's own cases pass (shape, the 60-second cache, last good served flagged stale, refusals, CORS)
+PLANT 37 worker: ids are not checked: exit 1, 3 red; restored: exit 0
+      FAIL empty, spaced and path-like ids are refused
+      FAIL a bad id is a 400 and costs no upstream read
+PLANT 38 worker: a CoinGecko failure with nothing held answers 200 with nothing: exit 1, 3 red; restored: exit 0
+      FAIL CoinGecko down and nothing held (an hour past): 502 and no invented figure
+      FAIL a malformed answer from CoinGecko is not cached or served
+PLANT 39 worker: a cookie is set: exit 1, 2 red; restored: exit 0
+      FAIL no cookie is set
+      FAIL the route's own cases pass (shape, the 60-second cache, last good served flagged stale, refusals, CORS)
+PLANT 40 watchlist: the script asks the network: exit 1, 1 red; restored: exit 0
+      FAIL the filling script makes no request, sets no cookie, loads no library and sends no beacon
+PLANT 41 watchlist: the script sets a cookie: exit 1, 1 red; restored: exit 0
+      FAIL the filling script makes no request, sets no cookie, loads no library and sends no beacon
+PLANT 42 watchlist: a second store is used: exit 1, 1 red; restored: exit 0
+      FAIL the Top 100 page carries the watchlist panel and its scripts, and the key is the one the pins already use
+PLANT 43 watchlist: the panel's map is not the table's strings (the price format differs): exit 1, 1 red; restored: exit 0
+      FAIL the inline map is the table's own strings for the same coins (100 coins): price, change, address
+PLANT 44 watchlist: the storage test is dropped (a denied store throws out of the script): exit 1, 1 red; restored: exit 0
+      FAIL every storage read and write is inside a try, and the panel goes away when storage is unavailable
+PLANT 45 watchlist: the panel's height is not reserved from the saved count: exit 1, 1 red; restored: exit 0
+      FAIL THE RESERVE: the panel's height is a function of the saved count and nothing else (116px + n rows of 78px under 600px, 100px + n rows of 49px from it)
+PLANT 46 watchlist: a row's height is not fixed: exit 1, 1 red; restored: exit 0
+      FAIL THE RESERVE: the panel's height is a function of the saved count and nothing else (116px + n rows of 78px under 600px, 100px + n rows of 49px from it)
+PLANT 47 watchlist: the head script is dropped from the page (the panel would appear late): exit 1, 2 red; restored: exit 0
+      FAIL ORDER: the head script comes before any stylesheet link (it never waits on CSS), the panel before the table, the filling script after it
+      FAIL the page carries each of the three parts exactly once
+PLANT 48 watchlist: the filling script is put before the table (the placement that shifted the table's cells): exit 1, 1 red; restored: exit 0
+      FAIL ORDER: the head script comes before any stylesheet link (it never waits on CSS), the panel before the table, the filling script after it
+PLANT 49 wiring: the build does not write the feeds: exit 1, 1 red; restored: exit 0
+      FAIL build() calls the feed writer once, after the coin pages (it needs their tiles)
+PLANT 50 wiring: the suite does not run this test: exit 1, 1 red; restored: exit 0
+      FAIL the suite runs this test
+PLANT 51 tree: a shown price in top100.json is not on the page: exit 1, 1 red; restored: exit 0
+      FAIL top100: every shown string is on /pulse/prices.html
+PLANT 52 tree: markets.json is called fresh when it is not: exit 1, 1 red; restored: exit 0
+      FAIL stale in every feed is the site's rule applied at the feed's own build time
+PLANT 53 tree: a coin's feed is missing: exit 1, 2 red; restored: exit 0
+      FAIL a feed for each of the first 100 coin pages
+      FAIL index.json lists every feed that was written, and nothing that is not there
+PLANT 54 tree: the index names a feed that is not there: exit 1, 1 red; restored: exit 0
+      FAIL index.json lists every feed that was written, and nothing that is not there
+PLANT 55 tree: a feed carries a dash: exit 1, 1 red; restored: exit 0
+      FAIL no feed has a dash; none but the coin identity feeds (a coin's name may be 'Artificial ...') has an AI word
+PLANT 56 tree: a coin page has no h1: exit 1, 1 red; restored: exit 0
+      FAIL every coin page has exactly one h1 (1 without: ['eth'])
+PLANT 57 tree: the home's title is the brand alone: exit 1, 1 red; restored: exit 0
+      FAIL the home's title tag is the new one
+PLANT 58 tree: the beacon is gone from a coin page: exit 1, 1 red; restored: exit 0
+      FAIL the beacon is on every page the build touches in this sprint (home, Top 100, a coin page): exactly one
+PLANT 59 tree: a page's URL is gone: exit 1, 1 red; restored: exit 0
+      FAIL no URL changed: every page Sprint 9.6 built at the structural addresses (49) is still built (missing: ['pulse/etf.html'])
+PLANT 60 tree: a feed is in a sitemap as a page: exit 1, 1 red; restored: exit 0
+      FAIL no feed is listed in a sitemap as a page
+PLANT 61 browser: the panel shows a price the table does not (BTC): exit 1, 2 red; restored: exit 0
+      FAIL watchlist at 375: each row is the table's own price and change, and links the coin's page: [{"sym":"BTC","href":"/coins/btc","px":"$182,893.00","chg":"+1.1%"},{"px":"$82,893.00","chg":"+1.1%"}]
+      FAIL watchlist at 1440: each row is the table's own price and change, and links the coin's page: [{"sym":"BTC","href":"/coins/btc","px":"$182,893.00","chg":"+1.1%"},{"px":"$82,893.00","chg":"+1.1%"}]
+PLANT 62 browser: the head script is dropped from the built page (the panel appears when the late script runs): exit 1, 2 red; restored: exit 0
+      FAIL the Top 100 at 375 on a slow network (the page arrives in two parts, 700 ms apart), with saved coins: nothing the panel could move moves, and the panel is there: {"cls":0.15458217613168723,"shifts":[{"v":0.1546,"n":["DIV.coin-search","DIV.movetable prices-table"]}],"shown":true}
+      FAIL the Top 100 at 1440 on a slow network (the page arrives in two parts, 700 ms apart), with saved coins: nothing the panel could move moves, and the panel is there: {"cls":0.07547865226337448,"shifts":[{"v":0.0755,"n":["DIV.coin-search","DIV.movetable prices-table"]}],"shown":true}
+PLANT 63 browser: nothing is reserved in the built page's style (the panel and its list are as tall as what is in them): exit 1, 5 red; restored: exit 0
+      FAIL the Top 100 at 375 on a slow network (the page arrives in two parts, 700 ms apart), with saved coins: nothing the panel could move moves, and the panel is there: {"cls":0.06482872098765433,"shifts":[{"v":0.0648,"n":["P.wp-hint","DIV.coin-search"]}],"shown":true}
+      FAIL the Top 100 at 1440 on a slow network (the page arrives in two parts, 700 ms apart), with saved coins: nothing the panel could move moves, and the panel is there: {"cls":0.02906623371056241,"shifts":[{"v":0.0291,"n":["P.wp-hint","DIV.coin-search"]}],"shown":true}
+PLANT 64 browser: the watchlist script asks its own host: exit 1, 3 red; restored: exit 0
+      FAIL watchlist at 375: the page makes no fetch, XHR or ping to its own host either (the panel reads the table and the device): [{"host":"127.0.0.1:36495","path":"/data/snapshot.json","type":"fetch"}]
+      FAIL watchlist: the page threw nothing: Failed to fetch | Failed to fetch
+PLANT 65 browser: the home takes a stale route answer: exit 1, 2 red; restored: exit 0
+      FAIL live route present, stale: true: the home tape shows CoinGecko's price: got $22,222.22, want $11,111.11
+      FAIL live route present, stale: true: the home tape: CoinGecko is asked for the prices: {"simple":0,"global":0}
+PLANT 66 browser: the home has no fallback when the route fails: exit 1, 24 red; restored: exit 0
+      FAIL live route present, 404: the home tape shows CoinGecko's price: got $82,893.00, want $11,111.11
+      FAIL live route present, 404: the home tape: CoinGecko is asked for the prices: {"simple":0,"global":0}
+PLANT 67 browser: the home asks the route even with no address named: exit 1, 3 red; restored: exit 0
+      FAIL live route absent (no address in the page: today's path): the home tape shows CoinGecko's price: got $22,222.22, want $11,111.11
+      FAIL live route absent (no address in the page: today's path): the route is never asked (no request to its host): worker requests 1
+PLANT 68 browser: the coin heading's size is not the h2's: exit 1, 4 red; restored: exit 0
+      FAIL coin page at 375 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins): {"n":1,"text":"BitcoinBTC","size":"28px","weight":"700","lh":"33.6px","mt":"39.2px","mb":"11.2px","ls":"-0.14px","family":"Newsreader","h":33.6,"cls":0}
+      FAIL coin page at 1440 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins): {"n":1,"text":"BitcoinBTC","size":"28px","weight":"700","lh":"33.6px","mt":"39.2px","mb":"11.2px","ls":"-0.14px","family":"Newsreader","h":33.6,"cls":0}
+SUMMARY: 68 of 68 plants went red and came back green (68 applied)

@@ -1,0 +1,279 @@
+Run 2, scripts/sprint97_test.py --tree on the first build of the feeds and the watchlist (the first cut put the watchlist panel's script at the end of the page: layout shift 0.0997 at 1440; the ticker cases found no ticker on any page, which is how it came out that the strip is not rendered by any page). File time Wed Oct 21 2026, 1:39 AM EDT.
+
+1. the stale flag is the site's own rule
+  ok   a reading 0 hours old: the feed says stale=False, as the page's own age phrase does
+  ok   a reading 1 hours old: the feed says stale=False, as the page's own age phrase does
+  ok   a reading 2.99 hours old: the feed says stale=False, as the page's own age phrase does
+  ok   a reading 3.0 hours old: the feed says stale=False, as the page's own age phrase does
+  ok   a reading 3.01 hours old: the feed says stale=True, as the page's own age phrase does
+  ok   a reading 5 hours old: the feed says stale=True, as the page's own age phrase does
+  ok   a reading 30 hours old: the feed says stale=True, as the page's own age phrase does
+  ok   a reading 49 hours old: the feed says stale=True, as the page's own age phrase does
+  ok   a reading 200 hours old: the feed says stale=True, as the page's own age phrase does
+  ok   the boundary is the page's: exactly STALE_HOURS old is not stale, a second more is
+  ok   an as-of that cannot be read (None) is stale, with no age and no as-of claimed
+  ok   an as-of that cannot be read ('') is stale, with no age and no as-of claimed
+  ok   an as-of that cannot be read ('yesterday') is stale, with no age and no as-of claimed
+  ok   the envelope carries schema, version, name, path, page, as_of_utc, built_utc, stale, stale_after_hours, age_hours, sources and data
+  ok   the envelope names its path under /api/v1/ and prints the stale window the page uses
+2. top100.json: the rows of /pulse/prices
+  ok   one row per coin the page lists (100)
+  ok   a row carries rank, symbol, name, slug, url, price, chg_24h_pct, mcap_usd, volume_24h and shown
+  ok   rank counts the way the page counts (1 to N, no holes)
+  ok   every shown string is on the page: no figure in the feed is absent from the page
+  ok   the feed's as-of is the Board's reading, the same instant the page's stamp carries
+  ok   fresh at the reading's own time, stale four hours on
+  ok   a row whose price the source did not send prints no price figure and no zero
+3. whales.json: the figures of /flows
+  ok   the feed carries the window, the headline net, the exchanges, the weekly trend and the biggest moves
+  ok   every shown string is on the page (16 checked)
+  ok   the feed's as-of is the flows reading's, and stale follows the same rule
+4. movers.json: the Big movers list of /pulse/movers
+  ok   the real 16 October morning record lists 5 coin(s) past the line, as the page does
+  ok   every shown move and grade is on the page
+  ok   a coin row names its coin page and, when graded, its verdict page
+  ok   forty hours on the feed is stale
+  ok   a record that is not current for the Board says so and lists no coin (the page's own rule)
+5. news.json and brief/latest.json
+  ok   one entry per wire cluster the page ranks (6)
+  ok   an entry carries rank, line, standing, source_count, primary, links (outlet and url) and the board reading
+  ok   the feed's as-of is the wire's ranking time
+  ok   no wire line reaches the feed reworded or with a dash
+  ok   the Brief feed carries title, dek, slot, date, published, bottom line and the page address
+  ok   a Brief from the night before is stale by the site's rule
+  ok   no Brief (None) is an empty feed that says so, stale, with no as-of
+6. why/<date>.json and why/today.json: from stored verdict records only
+  ok   a file for each stored day and for today, and for no other day
+  ok   14 October carries its Likely grade for Bitcoin, the sentences the page prints and the verdict address
+  ok   the evidence list and the timing series ride with the day (candidates with their times, the series points)
+  ok   15 October is Unclear and its verdict page is named
+  ok   today.json is the newest stored day's feed
+  ok   'because' appears only in a feed whose own sentence says it (Confirmed); none here
+  ok   every sentence the card prints, as the feed's card_text, is on the 14 October verdict page
+  ok   every figure in the feed's full graded line (times, percents, dollars) is on that page
+  ok   a feed's stale flag follows the record's own made time
+  ok   no stored record: today.json says there is none, stale, no as-of, and no dated file is invented
+7. the backfill refuses a day with no stored record
+  ok   '2026-10-13': refused (no stored verdict record), no page, nothing built
+  ok   '2026-10-15': refused (no stored verdict record), no page, nothing built
+  ok   '2099-01-01': refused (no stored verdict record), no page, nothing built
+  ok   '14 October': refused (not a date), no page, nothing built
+  ok   '': refused (not a date), no page, nothing built
+  ok   a refusal writes nothing: the verdict directory is as it was
+  ok   a stored, graded day is backfilled: its verdict page is named and is the page the build writes
+  ok   a stored day that graded nothing gets no page, and says so
+  ok   the whole-store report lists each stored day once, the built pages, and the refusals with reasons
+  INFO on the real stored data the backfill reads 2 stored day(s) and produces 0 page(s) (no graded verdict is stored yet: ['2026-10-19: no graded verdict in the stored record', '2026-10-20: no graded verdict in the stored record'])
+  ok   on the real data every stored day is accounted for and no page is invented
+8. events.json: the newest 50 events that would push, from stored records
+  ok   the Briefs publish as events (two), the example and the story do not
+  ok   a correction is an event with its date and no invented time
+  ok   the real 14 October Likely verdict (a small move) is NOT past the breaking line, so it is no event
+  ok   SYNTHETIC: a graded verdict on a 6.2 percent move is an event past the breaking line (5 percent)
+  ok   SYNTHETIC: Likely then Confirmed on one day is a verdict that moved; Likely then Unclear is not
+  ok   SYNTHETIC: a verdict that moves to Disputed is an event
+  ok   a top-10 coin past the mover line is an event, a place-40 coin is not (1 found)
+  ok   newest first, and every event has an id, a kind, a title and a page address; ids are unique
+  ok   no event title carries a dash, an AI word or a bare 'because'
+  ok   SYNTHETIC: sixty Briefs and more are cut to the newest 50
+  ok   no record at all: an empty list, stale, no as-of; nothing invented
+  ok   the breaking line is the watcher's own constant, not a copy
+9. coins/<sym>.json: the readings of a coin page
+  ok   the coin feed carries identity, rank, price, 24h, the readings the page's tiles print and the page address
+  ok   every reading's figure is a tile the page printed, and is on the page
+  ok   the price and the 24h change shown are the page's strings
+  ok   as-of is the tiles' stamp instant (the Board's reading)
+10. index.json lists every feed
+  ok   one row per feed with its path, page, as-of and stale flag, the same values as the feed itself
+  ok   the index is never stale when any feed is fresh and says how many are stale
+11. the search pass: titles, the coin h1, and no URL changed
+  ok   the home title carries query words, not the brand alone
+  ok   the Top 100 title says what people type: top 100 crypto prices
+  ok   no title has a dash or an AI word
+  ok   the Bitcoin page has exactly one h1 and it names the coin
+  ok   the Bitcoin page keeps its title tag
+  ok   the USDC page has exactly one h1 and it names the coin
+  ok   the USDC page keeps its title tag
+  ok   the Top 100 page still has its one h1
+  ok   the coin h1 keeps the look the h2 had: its own inline rule restores size, weight, line height and margin, with colors from tokens only (the two stylesheets stay Sprint 9.5's, byte for byte)
+  ok   the Top 100 title tag is written once, as the new title (not escaped away)
+12. the Worker live-price route and its client
+  ok   the route file, its test and the patch for the Worker repository exist
+  ok   the route's own cases pass (shape, the 60-second cache, last good served flagged stale, refusals, CORS)
+  ok   with no route configured no page carries a route address (no meta in the head: today's head, byte for byte)
+  ok   configured, the head carries one meta with the route address
+  ok   the ticker tries the route first and keeps the CoinGecko path as the fallback
+  ok   the home tape does the same
+  ok   the route is only ever read when it answers fresh: a stale or malformed answer falls back
+  ok   the canary's host list takes the configured route host and no other
+13. the watchlist stays on the device
+  ok   the Top 100 page carries the watchlist panel (hidden until a coin is saved) and its script
+  ok   its script makes no request, sets no cookie, loads no library and sends no beacon
+  ok   every storage read and write is inside a try, and the panel hides itself when storage is unavailable
+  ok   the panel says it is saved on this device only
+  ok   the stored list is the one key the pins already use (one list, no second store)
+  ok   the coin page's pin control is on the same key
+  ok   the panel text has no dash, no AI word
+14. wiring
+  ok   build() writes the feeds under /api/v1/ through api_feeds and fails open
+  ok   the suite runs this test
+  ok   the canary calls this test's unit and tree cases
+  ok   api_feeds.py: exists, no dash, US spelling of the house words
+  ok   worker/live-prices.mjs: exists, no dash, US spelling of the house words
+  ok   worker/live-prices.test.mjs: exists, no dash, US spelling of the house words
+  ok   scripts/sprint97_browser.mjs: exists, no dash, US spelling of the house words
+15. the built tree site/publish
+  ok   /api/v1/index.json exists and parses
+  ok   /api/v1/top100.json exists and parses
+  ok   /api/v1/markets.json exists and parses
+  ok   /api/v1/movers.json exists and parses
+  ok   /api/v1/whales.json exists and parses
+  ok   /api/v1/news.json exists and parses
+  ok   /api/v1/brief/latest.json exists and parses
+  ok   /api/v1/why/today.json exists and parses
+  ok   /api/v1/events.json exists and parses
+  ok   a feed for each of the first 100 coin pages
+  ok   every feed has schema, version 1, as_of_utc (or null), built_utc, a boolean stale and its sources
+  ok   stale in every feed is the site's rule applied at the feed's own build time
+  ok   index.json lists every feed that was written, and nothing that is not there
+  ok   top100: every shown string is on /pulse/prices.html
+  FAIL top100: the as-of is the page's own data-asof and the stale flag is the rule's
+  ok   markets: every tile figure and stamp is on /pulse.html (8 tiles)
+  ok   whales: the sentence and every shown net are on /flows.html
+  ok   news: the top line of the day is on /news.html
+  ok   brief: the title and the bottom line are on the Brief's own page
+  ok   movers: every shown move is on /pulse/movers.html
+  ok   coins: every reading and the price of 100 coin feeds are on their pages
+  ok   the home's title tag is the new one
+  ok   the Top 100 title tag is the new one
+  ok   every coin page has exactly one h1 (0 without: [])
+  ok   the beacon is on every page the build touches in this sprint (home, Top 100, a coin page): exactly one
+  ok   no feed is listed in a sitemap as a page
+  ok   no URL changed: every page Sprint 9.6 built at the structural addresses (49) is still built (missing: [])
+  FAIL no feed has a dash, an AI word, or a 'because' outside a Confirmed sentence
+  ok   the feeds weigh under 3 MB in all (354 KB) and none over 400 KB
+  ok   node and the browser script are available
+  ok   watchlist: with nothing saved the panel stays hidden and takes no room
+  ok   watchlist at 375: saved coins show, with no network (every third host refused) and no cookie
+  ok   watchlist at 375: a saved coin the table lacks (ZZZNOTACOIN) shows nothing and is not invented
+  ok   watchlist at 375: each row is the table's own price and change, and links the coin's page
+  ok   watchlist at 375: layout shift is zero with saved coins
+  ok   watchlist at 375: no request goes to any host but the site, the tape's CoinGecko read and the beacon
+  ok   watchlist at 375: the page makes no fetch, XHR or ping to its own host either (the panel reads the table and the device)
+  ok   watchlist: Remove works offline, updates the one stored list and the panel
+  ok   watchlist: removing the last shown coin hides the panel again
+  ok   watchlist: the page threw nothing
+  ok   watchlist at 1440: saved coins show, with no network (every third host refused) and no cookie
+  ok   watchlist at 1440: a saved coin the table lacks (ZZZNOTACOIN) shows nothing and is not invented
+  ok   watchlist at 1440: each row is the table's own price and change, and links the coin's page
+  FAIL watchlist at 1440: layout shift is zero with saved coins: cls 0.099711037969393 [{"v":0.0997,"n":["DIV.coin-search","DIV.movetable prices-table"]}]
+  ok   watchlist at 1440: no request goes to any host but the site, the tape's CoinGecko read and the beacon
+  ok   watchlist at 1440: the page makes no fetch, XHR or ping to its own host either (the panel reads the table and the device)
+  ok   watchlist: Pin on a coin page writes the one list the Top 100 panel reads
+  ok   watchlist: the coin pinned on its page is on the Top 100 panel
+  ok   watchlist: storage that throws: the panel stays hidden, the table is intact and nothing throws
+  ok   watchlist: a corrupt stored list: the panel stays hidden, the table is intact and nothing throws
+  ok   watchlist: a stored list that is not a list: the panel stays hidden, the table is intact and nothing throws
+  ok   coin page at 375 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
+  ok   coin page at 1440 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
+  ok   coin page at 375 (dark): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
+  ok   coin page at 1440 (dark): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
+  FAIL live route absent (no address in the page: today's path): the ticker shows CoinGecko's price: got null, want $11,111.11
+  ok   live route absent (no address in the page: today's path): the route is never asked (no request to its host)
+  FAIL live route absent (no address in the page: today's path): the ticker: CoinGecko is asked for the prices: {"simple":0,"global":0}
+  FAIL live route absent (no address in the page: today's path): the whole-market cap and the "live" label follow the same source: {}
+  ok   live route absent (no address in the page: today's path): the ticker: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   live route absent (no address in the page: today's path): the home tape shows CoinGecko's price
+  ok   live route absent (no address in the page: today's path): the route is never asked (no request to its host)
+  ok   live route absent (no address in the page: today's path): the home tape: CoinGecko is asked for the prices
+  ok   live route absent (no address in the page: today's path): the home tape: no host but the site, CoinGecko, the beacon and (only when named) the route
+  FAIL live route present and answering: the ticker shows the route's price: got null, want $22,222.22
+  FAIL live route present and answering: the route is asked once: worker requests 0
+  ok   live route present and answering: the ticker: CoinGecko is not asked at all
+  FAIL live route present and answering: the whole-market cap and the "live" label follow the same source: {}
+  ok   live route present and answering: the ticker: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   live route present and answering: the home tape shows the route's price
+  ok   live route present and answering: the route is asked once
+  ok   live route present and answering: the home tape: CoinGecko is not asked at all
+  ok   live route present and answering: the home tape: no host but the site, CoinGecko, the beacon and (only when named) the route
+  FAIL live route present, 404: the ticker shows CoinGecko's price: got null, want $11,111.11
+  FAIL live route present, 404: the route is asked once: worker requests 0
+  FAIL live route present, 404: the ticker: CoinGecko is asked for the prices: {"simple":0,"global":0}
+  FAIL live route present, 404: the whole-market cap and the "live" label follow the same source: {}
+  ok   live route present, 404: the ticker: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   live route present, 404: the home tape shows CoinGecko's price
+  ok   live route present, 404: the route is asked once
+  ok   live route present, 404: the home tape: CoinGecko is asked for the prices
+  ok   live route present, 404: the home tape: no host but the site, CoinGecko, the beacon and (only when named) the route
+  FAIL live route present, 500: the ticker shows CoinGecko's price: got null, want $11,111.11
+  FAIL live route present, 500: the route is asked once: worker requests 0
+  FAIL live route present, 500: the ticker: CoinGecko is asked for the prices: {"simple":0,"global":0}
+  FAIL live route present, 500: the whole-market cap and the "live" label follow the same source: {}
+  ok   live route present, 500: the ticker: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   live route present, 500: the home tape shows CoinGecko's price
+  ok   live route present, 500: the route is asked once
+  ok   live route present, 500: the home tape: CoinGecko is asked for the prices
+  ok   live route present, 500: the home tape: no host but the site, CoinGecko, the beacon and (only when named) the route
+  FAIL live route present, refused: the ticker shows CoinGecko's price: got null, want $11,111.11
+  FAIL live route present, refused: the route is asked once: worker requests 0
+  FAIL live route present, refused: the ticker: CoinGecko is asked for the prices: {"simple":0,"global":0}
+  FAIL live route present, refused: the whole-market cap and the "live" label follow the same source: {}
+  ok   live route present, refused: the ticker: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   live route present, refused: the home tape shows CoinGecko's price
+  ok   live route present, refused: the route is asked once
+  ok   live route present, refused: the home tape: CoinGecko is asked for the prices
+  ok   live route present, refused: the home tape: no host but the site, CoinGecko, the beacon and (only when named) the route
+  FAIL live route present, malformed: the ticker shows CoinGecko's price: got null, want $11,111.11
+  FAIL live route present, malformed: the route is asked once: worker requests 0
+  FAIL live route present, malformed: the ticker: CoinGecko is asked for the prices: {"simple":0,"global":0}
+  FAIL live route present, malformed: the whole-market cap and the "live" label follow the same source: {}
+  ok   live route present, malformed: the ticker: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   live route present, malformed: the home tape shows CoinGecko's price
+  ok   live route present, malformed: the route is asked once
+  ok   live route present, malformed: the home tape: CoinGecko is asked for the prices
+  ok   live route present, malformed: the home tape: no host but the site, CoinGecko, the beacon and (only when named) the route
+  FAIL live route present, stale: true: the ticker shows CoinGecko's price: got null, want $11,111.11
+  FAIL live route present, stale: true: the route is asked once: worker requests 0
+  FAIL live route present, stale: true: the ticker: CoinGecko is asked for the prices: {"simple":0,"global":0}
+  FAIL live route present, stale: true: the whole-market cap and the "live" label follow the same source: {}
+  ok   live route present, stale: true: the ticker: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   live route present, stale: true: the home tape shows CoinGecko's price
+  ok   live route present, stale: true: the route is asked once
+  ok   live route present, stale: true: the home tape: CoinGecko is asked for the prices
+  ok   live route present, stale: true: the home tape: no host but the site, CoinGecko, the beacon and (only when named) the route
+  FAIL live route present, no Bitcoin price: the ticker shows CoinGecko's price: got null, want $11,111.11
+  FAIL live route present, no Bitcoin price: the route is asked once: worker requests 0
+  FAIL live route present, no Bitcoin price: the ticker: CoinGecko is asked for the prices: {"simple":0,"global":0}
+  FAIL live route present, no Bitcoin price: the whole-market cap and the "live" label follow the same source: {}
+  ok   live route present, no Bitcoin price: the ticker: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   live route present, no Bitcoin price: the home tape shows CoinGecko's price
+  ok   live route present, no Bitcoin price: the route is asked once
+  ok   live route present, no Bitcoin price: the home tape: CoinGecko is asked for the prices
+  ok   live route present, no Bitcoin price: the home tape: no host but the site, CoinGecko, the beacon and (only when named) the route
+  FAIL live route present, no global answer: the ticker shows CoinGecko's price: got null, want $11,111.11
+  FAIL live route present, no global answer: the route is asked once: worker requests 0
+  FAIL live route present, no global answer: the ticker: CoinGecko is asked for the prices: {"simple":0,"global":0}
+  FAIL live route present, no global answer: the whole-market cap and the "live" label follow the same source: {}
+  ok   live route present, no global answer: the ticker: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   live route present, no global answer: the home tape shows CoinGecko's price
+  ok   live route present, no global answer: the route is asked once
+  ok   live route present, no global answer: the home tape: CoinGecko is asked for the prices
+  ok   live route present, no global answer: the home tape: no host but the site, CoinGecko, the beacon and (only when named) the route
+  FAIL live route present, hung past 3 seconds: the ticker shows CoinGecko's price: got null, want $11,111.11
+  FAIL live route present, hung past 3 seconds: the route is asked once: worker requests 0
+  FAIL live route present, hung past 3 seconds: the ticker: CoinGecko is asked for the prices: {"simple":0,"global":0}
+  FAIL live route present, hung past 3 seconds: the whole-market cap and the "live" label follow the same source: {}
+  ok   live route present, hung past 3 seconds: the ticker: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   live route present, hung past 3 seconds: the home tape shows CoinGecko's price
+  ok   live route present, hung past 3 seconds: the route is asked once
+  ok   live route present, hung past 3 seconds: the home tape: CoinGecko is asked for the prices
+  ok   live route present, hung past 3 seconds: the home tape: no host but the site, CoinGecko, the beacon and (only when named) the route
+  ok   the home at 375 (route absent): layout shift is zero when the live price lands
+  ok   the home at 375 (route answering): layout shift is zero when the live price lands
+  ok   the home at 1440 (route absent): layout shift is zero when the live price lands
+  ok   the home at 1440 (route answering): layout shift is zero when the live price lands
+  ok   the beacon stays on /index.html: exactly one
+  ok   the beacon stays on /pulse/prices.html: exactly one
+  ok   the beacon stays on /coins/btc.html: exactly one
+
+SPRINT 9.7: FAIL (41 failure(s))

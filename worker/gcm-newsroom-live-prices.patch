@@ -1,0 +1,235 @@
+diff --git a/slot-trigger/src/live-prices.mjs b/slot-trigger/src/live-prices.mjs
+new file mode 100644
+index 0000000..5995537
+--- /dev/null
++++ b/slot-trigger/src/live-prices.mjs
+@@ -0,0 +1,95 @@
++// live-prices.mjs: GET /live/prices, the gcm-newsroom Worker's live-price route (Program 9, Sprint 9.7; AUDIT.md 3.5 item 4).
++//
++// WHY. Every reader's browser asked CoinGecko's free tier for the ticker's prices and was refused about three loads in
++// four. This route asks CoinGecko once a minute for everyone and serves the answer from the edge cache. It serves the site's
++// tape now and the app and widgets later.
++//
++// WHAT IT RETURNS. The two answers the page already reads, verbatim and in the shape CoinGecko sent them, so a page can swap
++// one source for the other without changing a line of its own handling:
++//   { schema, as_of_utc, stale, cache_seconds, source, simple: <CoinGecko /simple/price body>, global: <CoinGecko /global body> }
++// `stale` is false for an answer read inside the last 60 seconds, and true when CoinGecko failed and the last good answer
++// (kept an hour) is served instead. A page treats stale: true as "route absent" and asks CoinGecko itself.
++//
++// WHAT IT IS NOT. It keeps no log of who asked, sets no cookie, and calls nothing but CoinGecko. It answers one origin.
++//
++// Wiring: in worker.js, `import { routeLivePrices } from "./live-prices.mjs";` and, first in fetch():
++//   if (url.pathname === "/live/prices") return routeLivePrices(request, env, now);
++export const LIVE_TTL_S = 60;           // an answer is fresh for a minute
++export const LAST_GOOD_TTL_S = 3600;    // and the last good one is kept an hour, for a CoinGecko outage
++export const DEFAULT_IDS = ["bitcoin", "ethereum", "solana", "ripple"];
++export const MAX_IDS = 25;
++export const ID_RX = /^[a-z0-9][a-z0-9-]{0,59}$/;
++export const SITE_ORIGINS = ["https://gocheckmycrypto.com", "https://www.gocheckmycrypto.com"];
++const CG = "https://api.coingecko.com/api/v3";
++const KEY_BASE = "https://live-prices.cache.invalid/";
++
++function cors(request) {
++  const origin = request.headers.get("Origin") || "";
++  const h = { "Vary": "Origin" };
++  if (SITE_ORIGINS.includes(origin)) h["Access-Control-Allow-Origin"] = origin;
++  return h;
++}
++
++function json(request, body, status, extra) {
++  return new Response(JSON.stringify(body), {
++    status,
++    headers: { "content-type": "application/json", ...cors(request), ...(extra || {}) },
++  });
++}
++
++export function parseIds(url) {
++  const raw = url.searchParams.get("ids");
++  const ids = raw === null ? DEFAULT_IDS.slice() : raw.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
++  if (!ids.length || ids.length > MAX_IDS || !ids.every(i => ID_RX.test(i))) return null;
++  return [...new Set(ids)].sort();
++}
++
++async function readCache(cache, key) {
++  const hit = await cache.match(new Request(key));
++  if (!hit) return null;
++  try { return await hit.json(); } catch (e) { return null; }
++}
++
++async function writeCache(cache, key, body, ttl) {
++  await cache.put(new Request(key), new Response(JSON.stringify(body), {
++    headers: { "content-type": "application/json", "Cache-Control": `max-age=${ttl}` },
++  }));
++}
++
++// deps: { fetchFn, cache } are injected by the tests; in the Worker they are fetch and caches.default.
++export async function routeLivePrices(request, env, now, deps = {}) {
++  if (request.method === "OPTIONS") {
++    return new Response(null, { status: 204, headers: { ...cors(request), "Access-Control-Allow-Methods": "GET, OPTIONS",
++      "Access-Control-Max-Age": "86400" } });
++  }
++  if (request.method !== "GET") return json(request, { ok: false, why: "GET only" }, 405, { "Allow": "GET, OPTIONS" });
++  const ids = parseIds(new URL(request.url));
++  if (!ids) return json(request, { ok: false, why: `ids: 1 to ${MAX_IDS} lower-case CoinGecko ids` }, 400);
++  const fetchFn = deps.fetchFn || fetch;
++  const cache = deps.cache || caches.default;
++  const stamp = ids.join(",");
++  const freshKey = `${KEY_BASE}fresh/${stamp}`, goodKey = `${KEY_BASE}good/${stamp}`;
++
++  const fresh = await readCache(cache, freshKey);
++  if (fresh) return json(request, { ...fresh, stale: false }, 200, { "Cache-Control": `public, max-age=${LIVE_TTL_S}`, "x-live-cache": "hit" });
++
++  try {
++    const hdr = { "accept": "application/json", "user-agent": "gocheckmycrypto-live-prices/1" };
++    const [p, g] = await Promise.all([
++      fetchFn(`${CG}/simple/price?ids=${ids.join(",")}&vs_currencies=usd&include_24hr_change=true`, { headers: hdr }),
++      fetchFn(`${CG}/global`, { headers: hdr }),
++    ]);
++    if (!p.ok || !g.ok) throw new Error(`CoinGecko answered ${p.status} and ${g.status}`);
++    const simple = await p.json(), glob = await g.json();
++    if (!simple || typeof simple !== "object" || !glob || typeof glob.data !== "object") throw new Error("malformed answer");
++    const body = { schema: "gocheckmycrypto.com/live-prices/1", as_of_utc: now.toISOString().replace(/\.\d{3}Z$/, "Z"),
++                   cache_seconds: LIVE_TTL_S, source: "CoinGecko /simple/price and /global", simple, global: glob };
++    await writeCache(cache, freshKey, body, LIVE_TTL_S);
++    await writeCache(cache, goodKey, body, LAST_GOOD_TTL_S);
++    return json(request, { ...body, stale: false }, 200, { "Cache-Control": `public, max-age=${LIVE_TTL_S}`, "x-live-cache": "miss" });
++  } catch (e) {
++    const good = await readCache(cache, goodKey);
++    if (good) return json(request, { ...good, stale: true }, 200, { "Cache-Control": "no-store", "x-live-cache": "last-good" });
++    return json(request, { ok: false, why: "CoinGecko did not answer and no earlier answer is held" }, 502, { "Cache-Control": "no-store" });
++  }
++}
+diff --git a/slot-trigger/src/worker.js b/slot-trigger/src/worker.js
+index f6c301a..09e200f 100644
+--- a/slot-trigger/src/worker.js
++++ b/slot-trigger/src/worker.js
+@@ -762,6 +762,8 @@ async function routeCounts(env, now, day) {
+   });
+ }
+ 
++import { routeLivePrices } from "./live-prices.mjs";   // Sprint 9.7 (gocheckmycrypto): GET /live/prices
++
+ export const __test = { morningDue, buildHooksDue, morningServed, fireDue, fireBuildHooks, CRYPTO_DAILY_ET, MORNING, etDateKey, safePetPath, jwsOk, classifyDeploy, routeDeployHook, routeGo,
+                         routeCounts, routeHit, CLICK_KEYS, HIT_KEYS };
+ 
+@@ -779,6 +781,9 @@ export default {
+     const url = new URL(request.url);
+     const now = new Date();
+ 
++    // The live-price route (gocheckmycrypto Sprint 9.7): a 60-second edge cache over CoinGecko for the site's tape.
++    if (url.pathname === "/live/prices") return routeLivePrices(request, env, now);
++
+     // The counts routes, before anything else: they are the only paths this Worker
+     // serves that are not the schedule's own status page.
+     if (url.pathname === "/hooks/netlify-deploy") {
+diff --git a/slot-trigger/test/live-prices.test.mjs b/slot-trigger/test/live-prices.test.mjs
+new file mode 100644
+index 0000000..3fe2d99
+--- /dev/null
++++ b/slot-trigger/test/live-prices.test.mjs
+@@ -0,0 +1,105 @@
++// Tests for the live-price route. Run: node worker/live-prices.test.mjs (in gcm-newsroom the patch puts it at slot-trigger/test/ with the import pointed at ../src/)
++// Every answer is a recorded-shape stand-in for CoinGecko's; no network is touched.
++import { routeLivePrices, parseIds, LIVE_TTL_S, DEFAULT_IDS, SITE_ORIGINS } from "../src/live-prices.mjs";
++
++let pass = 0, fail = 0;
++const ok = (c, w) => { if (c) { pass++; console.log("  ok   " + w); } else { fail++; console.log("  FAIL " + w); } };
++
++// a cache that honors max-age against an injected clock, as the edge cache does
++function fakeCache(clock) {
++  const m = new Map();
++  return { m,
++    async match(req) {
++      const e = m.get(req.url);
++      if (!e || clock.t >= e.expires) return undefined;
++      return new Response(e.body, { headers: e.headers });
++    },
++    async put(req, res) {
++      const cc = res.headers.get("Cache-Control") || "";
++      const ttl = parseInt((cc.match(/max-age=(\d+)/) || [])[1] || "0", 10);
++      m.set(req.url, { body: await res.text(), headers: [...res.headers], expires: clock.t + ttl * 1000 });
++    } };
++}
++const SIMPLE = { bitcoin: { usd: 82893, usd_24h_change: 1.15 }, ethereum: { usd: 2447.08, usd_24h_change: 1.78 } };
++const GLOBAL = { data: { total_market_cap: { usd: 2.79e12 }, market_cap_change_percentage_24h_usd: -1.43, market_cap_percentage: { btc: 59.5 } } };
++function upstream(calls, mode) {
++  return async (url) => {
++    calls.push(url);
++    if (mode.down) return new Response("busy", { status: 429 });
++    if (mode.bad) return new Response("{}", { status: 200 });
++    const body = url.includes("/global") ? GLOBAL : SIMPLE;
++    return new Response(JSON.stringify(body), { status: 200, headers: { "content-type": "application/json" } });
++  };
++}
++const req = (path, init) => new Request("https://w.example/live/prices" + path, init);
++const clock = { t: Date.parse("2026-10-21T05:00:00Z") };
++const now = () => new Date(clock.t);
++
++{ // shape, and the cache
++  const calls = [], mode = {}, cache = fakeCache(clock);
++  const deps = { fetchFn: upstream(calls, mode), cache };
++  let r = await routeLivePrices(req(""), {}, now(), deps);
++  let b = await r.json();
++  ok(r.status === 200 && b.stale === false && b.as_of_utc === "2026-10-21T05:00:00Z", "a miss reads CoinGecko and answers fresh, stamped with its read time");
++  ok(b.simple.bitcoin.usd === 82893 && b.global.data.market_cap_percentage.btc === 59.5, "the body carries CoinGecko's /simple/price and /global answers verbatim");
++  ok(b.schema === "gocheckmycrypto.com/live-prices/1" && b.cache_seconds === LIVE_TTL_S && /CoinGecko/.test(b.source), "the schema, the cache window and the source are named");
++  ok(calls.length === 2 && calls[0].includes("ids=" + DEFAULT_IDS.slice().sort().join(",")) && calls[0].includes("include_24hr_change=true"), "two upstream reads, the default four coins");
++  clock.t += 30_000;
++  r = await routeLivePrices(req(""), {}, now(), deps); b = await r.json();
++  ok(calls.length === 2 && r.headers.get("x-live-cache") === "hit" && b.as_of_utc === "2026-10-21T05:00:00Z", "30 seconds on: served from the cache, no new upstream read, the original read time");
++  ok(/max-age=60/.test(r.headers.get("Cache-Control")), "the answer is cacheable for 60 seconds");
++  clock.t += 31_000;
++  r = await routeLivePrices(req(""), {}, now(), deps); b = await r.json();
++  ok(calls.length === 4 && b.as_of_utc === "2026-10-21T05:01:01Z" && b.stale === false, "past 60 seconds: one new read of each, a new read time");
++  ok(r.headers.get("set-cookie") === null, "no cookie is set");
++  // CoinGecko down: the last good answer, flagged stale
++  mode.down = true; clock.t += 120_000;
++  r = await routeLivePrices(req(""), {}, now(), deps); b = await r.json();
++  ok(r.status === 200 && b.stale === true && b.as_of_utc === "2026-10-21T05:01:01Z" && r.headers.get("x-live-cache") === "last-good",
++     "CoinGecko refusing: the last good answer is served flagged stale, with its own read time, never re-stamped");
++  ok(r.headers.get("Cache-Control") === "no-store", "a stale answer is not cacheable");
++  clock.t += 3_700_000;
++  r = await routeLivePrices(req(""), {}, now(), deps); b = await r.json();
++  ok(r.status === 502 && b.ok === false, "CoinGecko down and nothing held (an hour past): 502 and no invented figure");
++  mode.down = false; mode.bad = true;
++  r = await routeLivePrices(req("?ids=bitcoin"), {}, now(), deps);
++  ok(r.status === 502, "a malformed answer from CoinGecko is not cached or served");
++}
++{ // ids
++  const u = (q) => new URL("https://w/live/prices" + q);
++  ok(JSON.stringify(parseIds(u("?ids=Ethereum,bitcoin,bitcoin"))) === '["bitcoin","ethereum"]', "ids are lower-cased, de-duplicated and sorted");
++  ok(parseIds(u("?ids=")) === null && parseIds(u("?ids=a b")) === null && parseIds(u("?ids=../x")) === null, "empty, spaced and path-like ids are refused");
++  ok(parseIds(u("?ids=" + Array.from({ length: 26 }, (_, i) => "c" + i).join(","))) === null, "more than 25 ids are refused");
++  const calls = [], cache = fakeCache(clock);
++  const r = await routeLivePrices(req("?ids=a;b"), {}, now(), { fetchFn: upstream(calls, {}), cache });
++  ok(r.status === 400 && calls.length === 0, "a bad id is a 400 and costs no upstream read");
++}
++{ // methods and CORS
++  const deps = { fetchFn: upstream([], {}), cache: fakeCache(clock) };
++  let r = await routeLivePrices(req("", { method: "POST" }), {}, now(), deps);
++  ok(r.status === 405 && r.headers.get("Allow") === "GET, OPTIONS", "POST is a 405");
++  r = await routeLivePrices(req("", { method: "OPTIONS", headers: { Origin: SITE_ORIGINS[0] } }), {}, now(), deps);
++  ok(r.status === 204 && r.headers.get("Access-Control-Allow-Origin") === SITE_ORIGINS[0], "the preflight allows the site's origin");
++  r = await routeLivePrices(req("", { headers: { Origin: "https://evil.example" } }), {}, now(), deps);
++  ok(r.status === 200 && r.headers.get("Access-Control-Allow-Origin") === null, "another origin gets no allow header (a browser there cannot read it)");
++  r = await routeLivePrices(req("", { headers: { Origin: SITE_ORIGINS[1] } }), {}, now(), deps);
++  ok(r.headers.get("Access-Control-Allow-Origin") === SITE_ORIGINS[1] && r.headers.get("Vary") === "Origin", "the www origin is allowed and Vary: Origin is set");
++}
++{ // wired into the Worker's fetch handler (present only where this test sits beside the Worker's source)
++  let worker = null;
++  try { worker = (await import("../src/worker.js")).default; } catch (e) { worker = null; }
++  if (worker) {
++    const calls = [];
++    globalThis.fetch = upstream(calls, {});
++    globalThis.caches = { default: fakeCache(clock) };
++    const r = await worker.fetch(req("?ids=bitcoin"), {});
++    const b = await r.json();
++    ok(r.status === 200 && b.stale === false && b.simple.bitcoin.usd === 82893, "GET /live/prices on the Worker's fetch handler reaches the route");
++    const s = await worker.fetch(new Request("https://w.example/counts/today"), {});
++    ok(s.status === 503 || s.status === 200, "the Worker's other routes still answer (counts, with no KV bound here)");
++  } else {
++    console.log("  note the Worker's source is not beside this test; the wiring case is skipped");
++  }
++}
++console.log(`\nlive-prices: ${pass} passed, ${fail} failed`);
++process.exit(fail ? 1 : 0);
