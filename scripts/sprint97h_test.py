@@ -188,7 +188,7 @@ def tree(root):
         if os.path.exists(os.path.join(root, rel)) else ""
     h = rd("wire.html")
     guarded(fails, "wire.html is built, with its h1", lambda: h and "<h1>The Wire</h1>" in h)
-    guarded(fails, "wire.html is in the priority sitemap", lambda: "/wire.html<" in rd("sitemap-priority.xml"))
+    guarded(fails, "wire.html is in the priority sitemap", lambda: re.search(r"/wire(\.html)?<", rd("sitemap-priority.xml")))
     return fails
 
 
