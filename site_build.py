@@ -1360,8 +1360,12 @@ def _wire_empty_page(items, dateline, now=None):
     now = now or _build_now()
     newest = _wire_rows(items, now, hours=24 * 3650)[:1]
     if newest:
-        stamp = data_stamp({"generated_utc": newest[0]["t"].strftime("%Y-%m-%dT%H:%M:%SZ")},
-                           promise_hours=WIRE_HOURS, what="The Wire", now=now)
+        t = newest[0]["t"]
+        # The date is the newest entry's own time, not a refresh time, and the page carries no numbers: the line says
+        # only what the date is. The `stale` class and data-asof leave the age to the site's asof script.
+        stamp = (f'<p class="data-stamp stale"{_asof_attr_ts(t.strftime("%Y-%m-%dT%H:%M:%SZ"))}>'
+                 f'<b>Newest entry on record:</b> {_et_clock(t)}, '
+                 f'{t.astimezone(_ET).strftime("%b %d, %Y").replace(" 0", " ")}.</p>')
     else:
         stamp = ('<p class="data-stamp stale"><b>The Wire may be out of date.</b> '
                  'The desk has no entry on record to stamp it with.</p>')
@@ -1372,7 +1376,7 @@ def _wire_empty_page(items, dateline, now=None):
         "News",
         '<section class="page wrap wr-page">'
         '<div class="wr-head"><h1>The Wire</h1>'
-        f'<span class="wr-c">0 entries, last {WIRE_HOURS} hours</span></div>'
+        '</div>'
         '<p class="bd-src">Nothing is written for this page and nothing is computed '
         'for it. Every line is something that happened, stamped when it happened, '
         'linking to the thing itself.</p>'
@@ -7389,7 +7393,7 @@ def _asof_attr_ts(ts):
     return _snapshot.asof_attr(ts)
 
 
-def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board", now=None):
+def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board"):
     """Visible provenance line for a data board: when the snapshot was generated and, when
     it has outrun the refresh promise, an explicit stale label."""
     import datetime as _dt
@@ -7408,7 +7412,7 @@ def data_stamp(data, promise_hours=BOARD_FRESH_HOURS, what="This board", now=Non
     # American and this stamp is the most-read line on the Board.
     stamp = (f'{_et_clock(gen)} on '
              f'{gen.astimezone(_ET).strftime("%b %d, %Y").replace(" 0", " ")}')
-    age_h = ((now or _dt.datetime.now(_dt.timezone.utc)) - gen).total_seconds() / 3600
+    age_h = (_dt.datetime.now(_dt.timezone.utc) - gen).total_seconds() / 3600
     if age_h > promise_hours:
         hrs = int(age_h)
         older = f"{hrs} hours" if hrs < 48 else f"{hrs // 24} days"

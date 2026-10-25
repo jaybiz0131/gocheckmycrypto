@@ -124,12 +124,18 @@ def _wire_cases(fails, sb):
     txt = re.sub(r"\s+", " ", txt)
     guarded(fails, "...it keeps the Wire's frame: title, h1 and the page path",
             lambda: "<title>The Wire - " in old and "<h1>The Wire</h1>" in old and 'href="https://gocheckmycrypto.com/wire"' in old)
-    guarded(fails, "...it names the window and says plainly that no entries fall in it",
-            lambda: "No wire entries fall in the last 48 hours." in txt and "0 entries, last 48 hours" in txt)
+    guarded(fails, "...it names the window once, in the sentence 'No wire entries fall in the last 48 hours.', and prints no count",
+            lambda: txt.count("No wire entries fall in the last 48 hours.") == 1 and "0 entries" not in txt
+            and "entries, last" not in txt and 'class="wr-c"' not in old)
     guarded(fails, "...it invents no entry: no row, no filter, none of the fixture titles", lambda: 'class="wr-r"' not in old
             and 'class="wr-d"' not in old and "FIXTURE" not in old)
-    guarded(fails, "...the data's own as-of stamp is shown stale by the site's rule, with the newest entry's date",
-            lambda: 'class="data-stamp stale"' in old and "Stale data." in old and "Oct 20, 2026" in txt)
+    stamp = re.search(r'<p class="data-stamp stale"[^>]*>.*?</p>', old, re.S)
+    stamp_txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", stamp.group(0))) if stamp else ""
+    guarded(fails, f"...the stale line says exactly what the date is ({stamp_txt!r}), in the site's stale class with data-asof",
+            lambda: stamp_txt == "Newest entry on record: 10:00 AM ET, Oct 20, 2026."
+            and 'data-asof="2026-10-20T14:00:00Z"' in stamp.group(0))
+    guarded(fails, "...and it makes no claim about a refresh, a cadence, numbers or history",
+            lambda: not re.search(r"refresh|several times|numbers|history|market", stamp_txt))
     bare = sb._wire_empty_page([], dl, NOW) or ""               # the site directory is empty: no snapshot either
     guarded(fails, "...and with no entry of any age on record it is still stale, and says so",
             lambda: 'class="data-stamp stale"' in bare and "no entry on record" in bare)
@@ -138,13 +144,10 @@ def _wire_cases(fails, sb):
     guarded(fails, "...the empty page carries no em dash", lambda: not DASH.search(old))
     guarded(fails, "the stale stamp reads the build's clock it is handed, not the wall clock (same input, same bytes)",
             lambda: norm(sb.render_wire(items(), dl, LATER)) == norm(old))
-    # the old callers of data_stamp are untouched
-    far = dt.datetime(2027, 1, 1, tzinfo=UTC)
-    far_txt = re.sub(r"<[^>]+>", " ", sb.render_wire(items(), dl, far) or "")
-    guarded(fails, "the stale stamp's age is counted to the clock the build holds (72 days to January 1, 2027), not the wall clock",
-            lambda: "about 72 days ago" in far_txt)
-    guarded(fails, "data_stamp without a clock still reads the wall clock (the Board's callers are unchanged)",
-            lambda: "Stale data." in sb.data_stamp({"generated_utc": "2026-01-01T00:00:00Z"}))
+    # the Board's callers are untouched: data_stamp keeps its own wording
+    guarded(fails, "data_stamp is unchanged for its other callers (Board wording, wall clock)",
+            lambda: "last refreshed at" in sb.data_stamp({"generated_utc": "2026-01-01T00:00:00Z"})
+            and "Read these numbers as history" in sb.data_stamp({"generated_utc": "2026-01-01T00:00:00Z"}))
 
 
 def source_cases(fails):
@@ -217,7 +220,7 @@ def tree(root):
     w = rd("wire.html")
     guarded(fails, "wire.html is built", lambda: bool(w))
     guarded(fails, "wire.html lists entries, or says plainly that none fall in the window with a stale stamp",
-            lambda: 'class="wr-r"' in w or ("No wire entries fall in the last 48 hours." in w and 'class="data-stamp stale"' in w))
+            lambda: 'class="wr-r"' in w or ("No wire entries fall in the last 48 hours." in w and 'class="data-stamp stale"' in w and "Newest entry on record:" in w))
     guarded(fails, "data/coins-mini.json is built", lambda: os.path.exists(os.path.join(root, "data", "coins-mini.json")))
     return fails
 
