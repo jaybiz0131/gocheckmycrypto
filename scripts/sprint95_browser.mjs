@@ -130,11 +130,15 @@ try {
       const first = l && l.firstElementChild;
       const tape = document.querySelector('[data-block="tape"]');
       const band = document.querySelector('[data-block="narrative"]');
-      return { vd: document.querySelectorAll("aside.vd").length, firstIsTape: !!first && first === tape, firstH: first && Math.round(first.getBoundingClientRect().height),
+      const vdn = document.querySelector("aside.vd");
+      return { vd: document.querySelectorAll("aside.vd").length, firstIsNotice: !!first && first === vdn && vdn.getAttribute("data-vd-kind") === "no_read",
+        tapeAfterNotice: !!vdn && !!tape && top(tape) >= Math.round(vdn.getBoundingClientRect().bottom + scrollY) - 1, firstIsTape: !!first && first === tape, firstH: first && Math.round(first.getBoundingClientRect().height),
         tape: top(tape), band: top(band), bandH: band && Math.round(band.getBoundingClientRect().height) };
     });
-    check(`home at ${w} with no graded card: no card, no empty slot; the first object is the tape's line, the Brief card next`,
-      n.vd === 0 && n.firstIsTape && n.firstH > 20 && n.band !== null && n.tape < n.band && n.band < 560, JSON.stringify(n));
+    // CHANGED BY Sprint 9.9.1 (the ruling on J-8 of October 20): with no verdict record the card's place carries the no-read
+    // notice, first; the tape's line is under it and the Brief card after it
+    check(`home at ${w} with no verdict record: the no-read notice is the first object, the tape's line is under it, the Brief card next`,
+      n.vd === 1 && n.firstIsNotice && n.tapeAfterNotice && n.band !== null && n.tape < n.band && n.band < 560, JSON.stringify(n));
     await ctx2.close();
   }
 

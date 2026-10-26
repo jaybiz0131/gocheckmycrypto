@@ -38,7 +38,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, "scripts"))
 FX = os.path.join(HERE, "fixtures", "sprint991", "real-2026-10-26-morning")
 UTC = dt.timezone.utc
-EM = re.compile("[–—]")
+EM = re.compile("[\u2013\u2014]")
 GRADE = re.compile(r"\b(Confirmed|Likely|Disputed|Unclear)\b")
 
 # THE CLOCKS. The morning build: the Board's reading was 8:17 AM ET (12:17:14Z), the strategist read production at 8:20 AM ET.
