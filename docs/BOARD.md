@@ -32,7 +32,7 @@ Hold lifted October 19, 4:18 PM ET: 9.3 merged d977c04.
 
 8.4, the first read, status jack, documents only, on its Monday schedule; the first meaningful read is November 9. Not built by the pod; the strategist reads it.
 
-9.8, the verdict record, branch sprint-9-8 (built on claude/sleepy-sagan-xcfcw9), building October 25 1:30 PM ET, builder: opus, merge: reviewer. The public page scoring the desk's own grades after the fact: how many Likely verdicts a later primary source confirmed, how many were reversed, with the record accumulating from 9.3's first verdict on. Definition of done: the audit's row 9.8. Tests red first: the tally from a fixture of verdicts and later sources; a reversed verdict counted as reversed.
+9.8, the verdict record, branch sprint-9-8 (round 4 built on claude/awesome-mendel-kte8m8 from the bundle's local-9-8 a511c1e; earlier: claude/awesome-mendel-m0sase, the 1:30 PM ET holder pushed no build and was taken over as gone at 5:09 PM ET), building October 25 10:15 PM ET (round 4 under J-14 option (1), entry 2026-10-25-C4; the build of record is local-9-8 a511c1e from docs/REPORTS/2026-10-25-9.8-build.bundle; was jack October 25 on three reviewer FAILs, J-14; the separate build on claude/awesome-mendel-m0sase 6b73b5f not merged, kept as reference), builder: opus, merge: reviewer. The public page scoring the desk's own grades after the fact: how many Likely verdicts a later primary source confirmed, how many were reversed, with the record accumulating from 9.3's first verdict on. Definition of done: the audit's row 9.8. Tests red first: the tally from a fixture of verdicts and later sources; a reversed verdict counted as reversed.
 
 ## After the board
 
