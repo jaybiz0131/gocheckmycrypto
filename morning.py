@@ -110,6 +110,8 @@ def clean(obj, gate, final=False, top=None, info=None):
             return "unattributed voice"
         if re.search(r"[\u2013\u2014]", t):
             return "carries a dash"
+        if phrases.has_old_name(t):
+            return "uses the old name for Markets"
         return ""
     r = bad(head)
     if r:

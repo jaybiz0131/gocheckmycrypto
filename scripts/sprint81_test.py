@@ -62,7 +62,7 @@ def _wire(day="2026-10-14"):
 MORNING = {"date_et": "2026-10-14", "slot": "morning", "published_utc": "2026-10-14T12:18:55Z",
            "published_et": "8:18 AM ET on Oct 14", "headline": "The wire opens on Seoul",
            "sentences": ["The wire's top line is Seoul blocking exchange sites.",
-                         "The Board shows funding calm."], "line": "x"}
+                         "Markets shows funding calm."], "line": "x"}
 
 
 class Counting:
