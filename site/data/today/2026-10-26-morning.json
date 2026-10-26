@@ -1,0 +1,114 @@
+{
+ "date_et": "2026-10-26",
+ "slot": "morning",
+ "published_utc": "2026-10-26T12:18:52Z",
+ "first_utc": "2026-10-26T12:18:52Z",
+ "direction": "up",
+ "direction_basis": "et_day",
+ "title": "Why is crypto up today? Monday, October 26, 2026",
+ "h1": "Why is crypto up today? Monday, October 26, 2026",
+ "stamp_label": "Morning Brief, 8:18 AM ET",
+ "composed_utc": "2026-10-26T12:18:55Z",
+ "board_stamp_et": "8:17 AM ET on Oct 26",
+ "answer": [
+  "On Monday, October 26, Bitcoin was up 0.77% since midnight ET, to $80,270.",
+  "Over the last 24 hours it was down 0.15%.",
+  "Ether was down 0.17% over the same 24 hours.",
+  "Among the Top 100, QNT gained 19.63% and LIT lost 3.17% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 80270,
+  "chg": -0.15,
+  "chg_day": 0.77
+ },
+ "eth": {
+  "price": 2328.2,
+  "chg": -0.17
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "QNT",
+   "name": "Quant",
+   "chg": 19.63,
+   "slug": "qnt"
+  },
+  {
+   "symbol": "M",
+   "name": "MemeCore",
+   "chg": 9.1,
+   "slug": "m"
+  },
+  {
+   "symbol": "PYTH",
+   "name": "Pyth Network",
+   "chg": 6.34,
+   "slug": "pyth"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "LIT",
+   "name": "Lighter",
+   "chg": -3.17,
+   "slug": "lit"
+  },
+  {
+   "symbol": "MORPHO",
+   "name": "Morpho",
+   "chg": -2.64,
+   "slug": "morpho"
+  },
+  {
+   "symbol": "ZRO",
+   "name": "LayerZero",
+   "chg": -2.51,
+   "slug": "zro"
+  }
+ ],
+ "reported": [],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -137.9,
+   "window": "one trading day, 23 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "8:17 AM ET on Oct 26",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 0,
+   "shorts": 1386170,
+   "window": "last 4 hours",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Oct 26",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.01,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "8:17 AM ET on Oct 26",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 50,
+   "word": "Neutral",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "8:17 AM ET on Oct 26",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Evening Brief, tonight at 7:08 PM ET",
+ "corrections": []
+}
