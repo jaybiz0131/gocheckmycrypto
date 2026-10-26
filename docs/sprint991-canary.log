@@ -8,7 +8,7 @@ week/movers canary: snapshot 34362 bytes against 60000
 narrative: the Edition's line did not hold ('Bitcoin will likely rebound as ETF inflows build.'); the clause table writes it
 narrative: the Edition's line did not hold ('Bitcoin fell. Regulators were busy.'); the clause table writes it
 narrative: Bitcoin is drifting lower while spot ETFs saw inflows; the news is mostly regulation. (table, 7:10 PM ET on Oct 7)
-build stamp canary: built a throwaway tree in stamp-canary-wlsd92ed (54 entries); the build's own log is captured, not this job's
+build stamp canary: built a throwaway tree in stamp-canary-b64gi3gi (54 entries); the build's own log is captured, not this job's
 beacon canary: 838 of 838 built pages carry exactly one beacon
 A. the direction word follows the sign: a down, an up and a flat fixture day
   ok   BTC -2.03% reads down: 'Why is crypto down today? Wednesday, October 14, 2026'
@@ -1044,7 +1044,7 @@ static: 100 coin pages read
   ok   J-8(b): on the coin placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): on the page placement the card's place prints "Verdict at the next read", with no badge and no grade word
   ok   J-8(b): no marks, no verdict URL, and the model is never asked for it
-11. the built tree /tmp/stamp-canary-wlsd92ed/publish
+11. the built tree /tmp/stamp-canary-b64gi3gi/publish
   ok   NO URL REMOVED OR CHANGED: all 70 pages main built (the structural set) are still built ()
   ok   the new pages are additions: /corrections.html is built, and the older Brief months are /bottom-line/<YYYY-MM>.html
   ok   /today/ stays canonical: its canonical link is /today, and every page's nav links /today/
@@ -1143,7 +1143,7 @@ static: 100 coin pages read
   ok   site.css: the J-11 rule 2 block is there once and is the named text, character for character (a third rule inside it, or a changed one, is red)
   ok   rule 1 by width: the live stamp (#tapeLive's p.h-live) has min-height 54.45px (three lines of its 18.15px) at 375 and 520, and none at 521
   ok   rule 2 by width: the nav wraps at 700, 768, 900 and 1019, and not at 699 or 1020 (the tab bar below 700 is untouched)
-5. the built tree /tmp/stamp-canary-wlsd92ed/publish
+5. the built tree /tmp/stamp-canary-b64gi3gi/publish
   ok   the built home links site.css and system.css, versioned
   ok   the built site.css is the source's: .wrap is 1080 at 1279 and about 1400 at 1440 (read from the built file)
   ok   the built home has exactly one Ether line (the Board has an Ether price)
@@ -1316,7 +1316,7 @@ static: 100 coin pages read
   ok   the default window is 3
   ok   SYNTHETIC: a day card whose line carries a figure its verdict records and page do not print (2.5%) is refused
   ok   SYNTHETIC: a graded day-card sentence with a figure the day's verdict page lacks (9.99%) makes no day card
-10. the built tree /tmp/stamp-canary-wlsd92ed/publish
+10. the built tree /tmp/stamp-canary-b64gi3gi/publish
   ok   the build wrote /why/ pages (6)
   ok   /why/2026-10-15-bitcoin: og:image is its own square image and the file is in the tree at 1080 by 1080
   ok   /why/2026-10-16-celestia: og:image is its own square image and the file is in the tree at 1080 by 1080
@@ -1358,7 +1358,7 @@ static: 100 coin pages read
   ok   every committed table carries its own as-of stamp
   ok   refusing sources: the committed file is left byte for byte as it was
   ok   refusing sources: the ETF page built from the committed file is marked stale
-  ok   ...and carries the committed table's own as-of (5:49 PM ET, Oct 26, 2026)
+  ok   ...and carries the committed table's own as-of (7:28 PM ET, Oct 26, 2026)
 6. the stale line is in the house form
   ok   the label is closed as its own sentence, <b>Stale data.</b>, as the Board's stamp does
   ok   the line reads as sentences: capitalized, each closed with a period, and ends on the as-of date
@@ -1376,7 +1376,7 @@ static: 100 coin pages read
   ok   living_tables.py has no em dash
   ok   this script has no em dash
   ok   no URL list entry was removed: the three tables are still in the structural baseline
-9. the built tree /tmp/stamp-canary-wlsd92ed/publish
+9. the built tree /tmp/stamp-canary-b64gi3gi/publish
   ok   tables/etf-flows-by-issuer.html: the committed file holds this table, so the page is never 'Not read yet'
   ok   tables/etf-flows-by-issuer.html is built and in the sitemap
   ok   tables/etf-flows-by-issuer.html says what it is: a fresh as-of line, a stale mark, or Not read yet
@@ -1409,7 +1409,7 @@ static: 100 coin pages read
   ok   data/coins-mini.json is written without an `if _cm_payload:` guard
   ok   the mini-board file is an empty list, not nothing, when the Top 100 is empty
   ok   this script and the build have no em dash
-5. the built tree /tmp/stamp-canary-wlsd92ed/publish
+5. the built tree /tmp/stamp-canary-b64gi3gi/publish
   ok   wire.html is built
   ok   wire.html lists entries, or says plainly that none fall in the window with a stale stamp
   ok   data/coins-mini.json is built
@@ -1565,7 +1565,7 @@ static: 100 coin pages read
   ok   worker/live-prices.mjs: exists, no dash, US spelling of the house words
   ok   worker/live-prices.test.mjs: exists, no dash, US spelling of the house words
   ok   scripts/sprint97_browser.mjs: exists, no dash, US spelling of the house words
-15. the built tree /tmp/stamp-canary-wlsd92ed/publish
+15. the built tree /tmp/stamp-canary-b64gi3gi/publish
   ok   /api/v1/index.json exists and parses
   ok   /api/v1/top100.json exists and parses
   ok   /api/v1/markets.json exists and parses
@@ -1745,7 +1745,7 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
   ok   every Bitcoin /why/ page links the record (4)
   ok   every Big movers /why/ page links the record (5)
   ok   the sitemap's priority list names /why/record/ (read in the tree cases too)
-9. the built tree /tmp/stamp-canary-wlsd92ed/publish
+9. the built tree /tmp/stamp-canary-b64gi3gi/publish
   ok   why/record/index.html is built
   ok   api/v1/why/record.json is built in 9.7's shape
   ok   the api index lists it
@@ -1851,7 +1851,7 @@ R1. awaiting only while a later read can still come: the same ET day, the Evenin
   ok   when the built home carries the notice, it is one line with a reason and a time of the next read
   ok   the built Bitcoin page carries the verdict card or the notice, as the home does (the build hands the page its clock)
   ok   no built page that carries the bare words 'Verdict at the next read' lacks a reason and a time
-home budget canary: 273390 bytes against 307200 (13 files on its own host, as built, uncompressed); the beacon is 31679 more bytes from static.cloudflareinsights.com against its 40960-byte allowance
+home budget canary: 273392 bytes against 307200 (13 files on its own host, as built, uncompressed); the beacon is 31679 more bytes from static.cloudflareinsights.com against its 40960-byte allowance
 narrative: the Edition's line did not hold ('Bitcoin drifted up 0.79 percent on the day; the news is quiet.'); the clause table writes it
 build stamp canary: left fixtures/.stamp-canary-stray.txt as found; it changed during the run but the build did not write it
 build stamp canary: left fixtures/sample_feed.xml as found; it changed during the run but the build did not write it
