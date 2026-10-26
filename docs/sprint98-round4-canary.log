@@ -1,0 +1,2 @@
+Sprint 9.8 round 4: python3 verify_pipeline.py canary, run plainly in the worktree (local-9-8, 272367d plus the round 4 change), written Sun Oct 25 2026, 11:24 PM EDT. Exit 0.
+1786:LAYER 1 CANARY: PASS -> pipeline wired, shill/dedupe belts work, offline replay end-to-end produces a DRAFT-tagged review queue, and every fail-closed gate holds.

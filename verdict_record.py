@@ -14,10 +14,12 @@ WHERE A VERDICT'S LATER FATE COMES FROM (what 9.3 to 9.5 store, read October 25,
     rules of October 19 and 20; a listing never Confirms), so it is the later primary source the record counts.
   - Nothing stored the outcome itself: no file links a verdict to what became of it, and a slot's record can be rewritten
     (verdict.py rewrites a slot when a newer evidence record arrives; movers.py writes its slot whole). So the record starts
-    storing it now, append-only: one frozen file per graded verdict and one per resolved Likely verdict, under
-    site/data/verdict/record/, written once (a temp file hard-linked to the final name, which fails when it exists) and
-    never rewritten (the why records' rule). The run
-    steps (verdict.py and movers.py --write) call sync(); the build reads the same stores and never writes.
+    storing it now, append-only: one frozen file per graded verdict and one per outcome of a Likely verdict, under
+    site/data/verdict/record/, each written once (a temp file hard-linked to the final name, which fails when it exists) and
+    never rewritten (the why records' rule). A verdict can hold several outcome files: a later outcome supersedes an earlier
+    one when the read it cites is rewritten with a different signature (its grade, its stable event ids or its wire article
+    links), and the earlier file stays in the store as history. The run steps (verdict.py and movers.py --write) call sync();
+    the build reads the same stores and never writes.
   - Corrections (9.5) are free text on a story, a verdict or a day's answer. A correction is never read as an outcome here.
 
 THE RULES (the same move is one coin on one ET day; a later day's read measures a different move):
@@ -33,7 +35,8 @@ THE RULES (the same move is one coin on one ET day; a later day's read measures 
   One verdict per read: a slot rewritten by a later run counts once, with its last stored grade; the replaced grade stays
   in the store. A stored file of any other shape is skipped, logged and counted on the page and in the feed.
   Not graded, not counted: a move under the threshold, Ether moving with Bitcoin, a move held for the next read, a verdict
-  withheld at the spend cap. A stored outcome is never recomputed: the first outcome stored for a verdict stands.
+  withheld at the spend cap. An outcome stands while the read it cites stands; a later outcome supersedes an earlier one
+  when the read it cites is rewritten, and only then is it resolved again.
 """
 import datetime as _dt
 import html as _html
@@ -281,7 +284,8 @@ def entries(vdir=None, mdir=None, wdir=None, skips=None):
 
 def dedupe(es):
     """ONE VERDICT PER READ (review 1): a slot rewritten by a later run of the same slot is one read, counted once with its
-    last stored grade. The replaced grade stays in the store (append-only), and an outcome already stored for it stands."""
+    last stored grade. The replaced grade stays in the store (append-only); an outcome that cited it is resolved again
+    when the rewrite changed its signature (merged())."""
     last = {}
     for e in sorted(es, key=lambda e: (e.get("made_utc") or "", e["key"])):
         last[(e.get("date_et"), _slot_key(e.get("slot")), e.get("coin_slug") or e.get("coin_sym"))] = e
@@ -454,6 +458,7 @@ def merged(vdir=None, mdir=None, wdir=None, store=None, skips=None):
     s_es, s_outs = load_store(store, skips)
     have = {e["key"] for e in s_es}
     new_es = [e for e in entries(vdir, mdir, wdir, skips) if e["key"] not in have]
+    by_key = {x["key"]: x for x in s_es + new_es}
     es = dedupe(s_es + new_es)
     computed = resolve(es)
     cur = reads_now(es)
@@ -468,11 +473,16 @@ def merged(vdir=None, mdir=None, wdir=None, store=None, skips=None):
             if c and (o is None or (c.get("later") or {}).get("key") != (o.get("later") or {}).get("key")):
                 new_outs[k] = c
             continue
-        # AN OUTCOME AGREES WITH THE READ IT CITES (review 2). It is resolved again only when that read's last grade changed.
+        # AN OUTCOME AGREES WITH THE READ IT CITES (review 2; round 4, entry 2026-10-25-C4). It is resolved again whenever that
+        # read was rewritten with a different SIGNATURE: its grade, its stable event ids or its wire article links, the three
+        # things the resolve rules read. A cited read no longer in the store is resolved again too, never assumed unchanged.
         lt = o.get("later") or {}
         now_read = cur.get(_read_of(e, lt.get("slot")))
-        if now_read is None or now_read["key"] == lt.get("key") or now_read.get("grade") == lt.get("grade"):
-            continue                                         # the read is unchanged, or rewritten with the same grade
+        if now_read is None or now_read["key"] == lt.get("key"):
+            continue                                         # the read it cites is unchanged
+        cited = by_key.get(lt.get("key"))
+        if cited is not None and signature(cited) == signature(now_read):
+            continue                                         # rewritten, with the same grade, stable ids and links
         if c:
             new_outs[k] = dict(c, supersedes={"outcome": o.get("outcome"), "later": lt})
         else:
@@ -485,6 +495,13 @@ def merged(vdir=None, mdir=None, wdir=None, store=None, skips=None):
     outs = dict(s_outs)
     outs.update(new_outs)
     return es, outs, new_es, new_outs
+
+
+def signature(e):
+    """What decides a read's outcomes (round 4): its grade, its STABLE event ids (STABLE_IDS; a wire position is no part of
+    it) and its wire article links, the three things resolve() reads."""
+    return (e.get("grade"), tuple(sorted({x for x in e.get("events") or [] if is_stable_id(x)})),
+            tuple(sorted({_link(x) or x for x in e.get("links") or [] if isinstance(x, str)} - {""})))
 
 
 def _read_of(e, slot):
@@ -709,6 +726,7 @@ def _row(r):
 
 def render(v, dateline):
     import site_build as sb
+    import verdict as vd                                     # Likely's printed definition: the October 20 ruling's text (J-8)
     rows = "".join(_row(r) for r in v["rows"])
     # no list and no second sentence when nothing is graded: the tally says so, once
     listing = (f'<h2 class="vr-h">Every graded verdict</h2>\n  <ol class="vr-l">{rows}</ol>' if rows else "")
@@ -720,6 +738,7 @@ def render(v, dateline):
   {_tally(v)}
   <h2 class="vr-h">How a verdict is scored here</h2>
   <ul class="vr-def">
+    <li><b>Likely.</b> {_e(vd.DEFINITIONS["Likely"])}</li>
     <li><b>Confirmed later.</b> A later read of the same move, the same coin on the same ET day, graded it Confirmed on an
         event the Likely verdict named. Confirmed needs a primary source stating the cause.</li>
     <li><b>Reversed.</b> A later read of the same move graded it Disputed or Unclear, or named none of the events the
@@ -735,7 +754,8 @@ def render(v, dateline):
         read, and a check that did not run.</li>
   </ul>
   <p>Each graded verdict is listed newest first, one per read; when a read was rewritten, its last stored grade. Each
-     verdict and its outcome are stored once and never rewritten, and a correction is listed on
+     verdict is stored once and never rewritten. Its outcome is stored the same way, except that a later outcome supersedes an
+     earlier one when the read it cites is rewritten; the earlier one stays in the store. A correction is listed on
      <a href="/corrections.html">corrections</a>.</p>
   {listing}
   <p class="nfa">{_e(sb.NFA)}</p>
@@ -757,6 +777,45 @@ def render_unreadable(dateline, why=""):
 </section></main>"""
     return sb.shell(f"The verdict record: how our grades held up - {sb.NAME}",
                     "How GoCheckMyCrypto's graded verdicts held up afterwards.", "Today", body, dateline, path=URL)
+
+
+# ---- the standing line on each /why/ page (round 4, entry 2026-10-25-C4) -------------------------------------------------
+
+STANDING_LINK = 'How the desk\'s grades held up afterwards is kept on <a href="/why/record/">the verdict record</a>.'
+
+
+def standings(now=None, vdir=None, mdir=None, wdir=None, store=None):
+    """{/why/ address: [the record's rows for it, oldest first]}, from view(): the same rows the record page prints, so a
+    /why/ page and the record never disagree. None when the record cannot be drawn (the page then prints the link alone)."""
+    try:
+        with open(os.devnull, "w") as dn:
+            import contextlib
+            with contextlib.redirect_stdout(dn):
+                v = view(now or _dt.datetime.now(_dt.timezone.utc), vdir, mdir, wdir, store)
+    except Exception as e:                                   # noqa: BLE001
+        print(f"::warning::verdict record: no standing lines on this build ({type(e).__name__}: {e})")
+        return None
+    out = {}
+    for r in sorted(v["rows"], key=lambda r: (r.get("made_utc") or "", r["key"])):
+        out.setdefault(r.get("url"), []).append(r)
+    return out
+
+
+def standing_html(url, st):
+    """The line under a /why/ page's card: how the move's verdicts stand on the record, and the link. Each Likely verdict of
+    the page's move is named by its read and time with its outcome in the record's own words; with none, the move's grades
+    count as graded at the time. No grade word (the card holds the grade). With no standings, the link alone, never a claim."""
+    rows = (st or {}).get(url) if st is not None else None
+    if not rows:
+        return f'<p class="td-w">{STANDING_LINK}</p>'
+    likely = [r for r in rows if r.get("grade") == "Likely" and r.get("outcome") in OUTCOME_WORDS]
+    if likely:
+        said = "; ".join(f'the {_slot_words(r.get("slot"))}, {_when(r.get("made_utc"))}: {OUTCOME_WORDS[r["outcome"]]}'
+                         for r in likely)
+        said = f"On the record, this move's verdict{'s' if len(likely) > 1 else ''} from {said}."
+    else:
+        said = "On the record, this move's verdicts are counted as graded at the time."
+    return f'<p class="td-w vr-standing">{_e(said)} {STANDING_LINK}</p>'
 
 
 # ---- the feed ----------------------------------------------------------------------------------------------------------

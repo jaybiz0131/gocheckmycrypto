@@ -82,8 +82,8 @@ PLANTS = [
     ("How we check loses its link", "src", [(SB, 'is kept on <a href="/why/record/">the verdict record</a>.</p>', 'is kept on the verdict record.</p>')]),
     ("the page's own rules are dropped from its head", "src", [(VR, 'path=URL, schema_extra="\\n" + RECORD_STYLE)', 'path=URL)')]),
     ("the page's rules bring their own color", "src", [(VR, ".page .vr-c.vr-dn{border-left:3px solid var(--rule)}", ".page .vr-c.vr-dn{border-left:3px solid #C8261B}")]),
-    ("the Bitcoin /why/ page loses its link", "src", [(VD, '<a href="/why/record/">the verdict record</a>', "the verdict record")]),
-    ("the Big movers /why/ page loses its link", "src", [(MV, '<a href="/why/record/">the verdict record</a>', "the verdict record")]),
+    ("the Bitcoin /why/ page loses its link", "src", [(VD, "standing = verdict_record.standing_html(url(day, sym), record)", 'standing = ""')]),
+    ("the Big movers /why/ page loses its link", "src", [(MV, "standing = verdict_record.standing_html(path_rel, record)", 'standing = ""')]),
     ("the sitemap loses the page", "src", [(SB, '"/corrections.html", "/why/record/",', '"/corrections.html",')]),
     # ---- the built tree
     ("tree: the page is missing", "tree", [(REC, None, None)]),
@@ -140,11 +140,9 @@ PLANTS = [
 PLANTS += [
     # ---- review 2: an outcome always agrees with the read it cites
     ("R2: an outcome is kept when the read it cites is rewritten to another grade (the review's failure)", "src",
-     [(VR, '        if now_read is None or now_read["key"] == lt.get("key") or now_read.get("grade") == lt.get("grade"):',
-       '        if True:')]),
+     [(VR, '        if now_read is None or now_read["key"] == lt.get("key"):\n', '        if True:\n')]),
     ("R2: a rewrite with the same grade writes a new outcome", "src",
-     [(VR, '        if now_read is None or now_read["key"] == lt.get("key") or now_read.get("grade") == lt.get("grade"):',
-       '        if now_read is None or now_read["key"] == lt.get("key"):')]),
+     [(VR, "        if cited is not None and signature(cited) == signature(now_read):", "        if False:")]),
     ("R2: the oldest outcome file is the current one", "src",
      [(VR, "if k not in outs or outcome_order(obj, n) > outcome_order(outs[k], named[k]):",
        "if k not in outs or outcome_order(obj, n) < outcome_order(outs[k], named[k]):")]),
@@ -155,7 +153,7 @@ PLANTS += [
     ("R2: the cited time printed from the stored outcome, not the read as it stands", "src",
      [(VR, '"later_made_utc": (now_read or {}).get("made_utc") or lt.get("made_utc"),', '"later_made_utc": lt.get("made_utc"),')]),
     ("R2: an outcome resolved again with no read changed", "src",
-     [(VR, "            continue                                         # the read is unchanged, or rewritten with the same grade",
+     [(VR, "            continue                                         # rewritten, with the same grade, stable ids and links",
        "            if c and c != o:\n                new_outs[k] = c\n            continue")]),
     ("R2: the row's sentence names a grade the read does not have", "src",
      [(VR, 'graded the same move {d.get("later_grade")}, ', "graded the same move Confirmed, ")]),
@@ -164,9 +162,61 @@ PLANTS += [
     ("R2: a killed write's temp file can be staged (.gitignore line dropped)", "src",
      [(".gitignore", "site/data/verdict/record/.tmp-*\n", "")]),
 ]
+PLANTS += [
+    # ---- round 4 (entry 2026-10-25-C4): the cited read's whole signature, the copy, the ruled Likely, the standing line
+    ("R4: the cited read compared on its grade only (the review's third failure, Case C)", "src",
+     [(VR, "        if cited is not None and signature(cited) == signature(now_read):",
+       '        if cited is not None and cited.get("grade") == now_read.get("grade"):')]),
+    ("R4: the signature leaves out the stable event ids", "src",
+     [(VR, '    return (e.get("grade"), tuple(sorted({x for x in e.get("events") or [] if is_stable_id(x)})),',
+       '    return (e.get("grade"), (),')]),
+    ("R4: the signature leaves out the wire article links", "src",
+     [(VR, '            tuple(sorted({_link(x) or x for x in e.get("links") or [] if isinstance(x, str)} - {""})))',
+       '            ())')]),
+    ("R4: a wire position is part of the signature", "src",
+     [(VR, '    return (e.get("grade"), tuple(sorted({x for x in e.get("events") or [] if is_stable_id(x)})),',
+       '    return (e.get("grade"), tuple(sorted(set(e.get("events") or []))),')]),
+    ("R4: a cited read missing from the store assumed unchanged, and the store index built from slot records only", "src",
+     [(VR, '    by_key = {x["key"]: x for x in s_es + new_es}', '    by_key = {x["key"]: x for x in s_es[:0]}'),
+      (VR, "        if cited is not None and signature(cited) == signature(now_read):", "        if cited is None or signature(cited) == signature(now_read):")]),
+    ("R4: the page says each outcome is stored once again (the old copy)", "src",
+     [(VR, "verdict is stored once and never rewritten. Its outcome is stored the same way, except that a later outcome supersedes an\n"
+           "     earlier one when the read it cites is rewritten; the earlier one stays in the store. A correction is listed on",
+       "verdict and its outcome are stored once and never rewritten, and a correction is listed on")]),
+    ("R4: the module docstring says the first stored outcome stands again", "src",
+     [(VR, "An outcome stands while the read it cites stands; a later outcome supersedes an earlier one\n"
+           "  when the read it cites is rewritten, and only then is it resolved again.",
+       "A stored outcome is never recomputed: the first outcome stored for a verdict stands.")]),
+    ("R4: the page prints a Likely definition of its own wording", "src",
+     [(VR, '    <li><b>Likely.</b> {_e(vd.DEFINITIONS["Likely"])}</li>', "    <li><b>Likely.</b> One reported event passes the timing test.</li>")]),
+    ("R4: the ruled Likely definition printed twice", "src",
+     [(VR, '    <li><b>Likely.</b> {_e(vd.DEFINITIONS["Likely"])}</li>',
+       '    <li><b>Likely.</b> {_e(vd.DEFINITIONS["Likely"])}</li>\n    <li>As ruled: {_e(vd.DEFINITIONS["Likely"])}</li>')]),
+    ("R4: the ruled Likely definition left off the page", "src", [(VR, '    <li><b>Likely.</b> {_e(vd.DEFINITIONS["Likely"])}</li>\n', "")]),
+    ("R4: a Bitcoin /why/ page keeps the link but loses its standing", "src",
+     [(VD, "standing = verdict_record.standing_html(url(day, sym), record)",
+       "standing = '<p class=\"td-w\">' + verdict_record.STANDING_LINK + '</p>'")]),
+    ("R4: a Big mover's /why/ page keeps the link but loses its standing", "src",
+     [(MV, "standing = verdict_record.standing_html(path_rel, record)",
+       "standing = '<p class=\"td-w\">' + verdict_record.STANDING_LINK + '</p>'")]),
+    ("R4: the standing line says Confirmed later whatever the record says", "src",
+     [(VR, '{_when(r.get("made_utc"))}: {OUTCOME_WORDS[r["outcome"]]}', '{_when(r.get("made_utc"))}: Confirmed later')]),
+    ("R4: the standing line names the grade beside the card's", "src",
+     [(VR, '        said = "On the record, this move\'s verdicts are counted as graded at the time."',
+       '        said = f"On the record, this move\'s {rows[-1][\'grade\']} verdicts are counted as graded at the time."')]),
+    ("R4: build_pages draws no standings when none are given", "src",
+     [(VD, "        record = verdict_record.standings(vdir=vdir, wdir=wdir)", "        record = {}")]),
+    ("R4: /today/ loses its link to the record", "src",
+     [("today.py", '  <p class="td-w">How the desk\'s grades held up afterwards is kept on <a href="/why/record/">the verdict record</a>.</p>\n', "")]),
+    ("tree: R4: the built /today/ does not link the record", "tree",
+     [("today/index.html", 'is kept on <a href="/why/record/">the verdict record</a>', "is kept on the verdict record")]),
+    ("tree: R4: a built /why/ page loses its standing line", "tree",
+     [("why/2026-10-25-bitcoin.html", '<p class="td-w vr-standing">', '<p class="td-w">')]),
+]
 BOGUS = [("self-check: a plant whose old text is not in the file", "src", [(VR, "THIS TEXT IS NOT IN THE FILE", "x")])]
 
-SKIP = {".git", "node_modules", "shots", "review", "docs", "out", "__pycache__"}
+SKIP = {".git", "node_modules", "shots", "review", "out", "__pycache__"}
+KEEP_DOCS = {"RULINGS.md"}                     # round 4: the test reads Likely's ruled definition from the ruling's own text
 
 
 def env():
@@ -183,6 +233,8 @@ def fresh_repo(repo, dst):
             out |= {n for n in names if n in SKIP}
         if rel == "site":
             out |= {n for n in names if n == "publish"}
+        if rel == "docs":
+            out |= {n for n in names if n not in KEEP_DOCS}
         return out
     if os.path.exists(dst):
         shutil.rmtree(dst)

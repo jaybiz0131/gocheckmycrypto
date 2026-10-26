@@ -1011,9 +1011,203 @@ def review2_cases(fails):
             lambda: "site/data/verdict/record/.tmp-*" in gi.splitlines())
 
 
+# ---- round 4 (entry 2026-10-25-C4, J-14 option 1): the cited read's whole signature, the copy, and the two carried notes --
+
+CPI = "bls-20261026-consumer-price-index"
+PPI = "bls-20261026-producer-price-index"
+
+
+def _seq_events(td, steps):
+    """SYNTHETIC: like _seq, with each step's stable event id given: (slot, made, grade, event id)."""
+    m = vr()
+    V, M, W, ST = (os.path.join(td, x) for x in ("v", "m", "w", "st"))
+    for d in (V, M, W):
+        os.makedirs(d, exist_ok=True)
+    wrote = []
+    for slot, made, grade, ev in steps:
+        json.dump({"date_et": "2026-10-26", "slot": slot, "made_utc": made,
+                   "coins": {"BTC": {"grade": grade, "refs": [{"id": ev}], "cand": {"id": ev}}}},
+                  open(os.path.join(V, f"2026-10-26-{slot}.json"), "w"))
+        with quiet():
+            wrote.append(m.sync(V, M, W, ST)["written"])
+    return V, M, W, ST, wrote
+
+
+def _store_put(st, e):
+    """SYNTHETIC: one verdict entry written straight into a scratch store, the way sync() stores it."""
+    with quiet():
+        return vr().store_entry(st, dict(e, url="/why/2026-10-26-bitcoin", source="verdict"))
+
+
+def ruled_likely():
+    """The ruled definition of Likely, read from the October 20 ruling's own text in docs/RULINGS.md (J-8)."""
+    txt = open(os.path.join(HERE, "docs", "RULINGS.md"), encoding="utf-8").read()
+    got = re.findall(r"Likely's printed definition: \"([^\"]+)\"", txt)
+    assert len(got) == 1, f"the ruling's text names Likely's printed definition {len(got)} times"
+    return got[0]
+
+
+def round4_cases(fails):
+    print("R4. the cited read's whole signature decides; the copy says a later outcome supersedes; the ruled Likely once; "
+          "the standing line on each /why/ page and the link on /today/")
+    m = vr()
+    now = t("2026-10-27T02:00:00Z")
+    td = tempfile.mkdtemp(prefix="s98-")
+    try:
+        # CASE C (the reviewer's third verdict): 8:18 AM Likely on bls CPI; 7:16 PM Confirmed on CPI (confirmed later
+        # stored); 9:30 PM rewrite Confirmed on bls PPI. Same grade, different event: resolved again, and it is reversed.
+        V, M, W, ST, wrote = _seq_events(os.path.join(td, "c"), [("morning", "2026-10-26T12:18:00Z", "Likely", CPI),
+                                                                 ("evening", "2026-10-26T23:16:00Z", "Confirmed", CPI),
+                                                                 ("evening", "2026-10-27T01:30:00Z", "Confirmed", PPI)])
+        with quiet():
+            v = m.view(now, V, M, W, ST)
+            last = m.resolve(m.merged(V, M, W, ST)[0])
+        am = next(r for r in v["rows"] if r["slot"] == "morning")
+        h = page_of(v)
+        guarded(fails, "CASE C: confirmed later was stored on the 7:16 PM read (the sequence's first outcome)",
+                lambda: any(".outcome.json" in x for x in wrote[1]))
+        guarded(fails, "CASE C: the 9:30 PM rewrite Confirmed on bls PPI: the morning Likely is reversed, as resolving on the "
+                       "last read gives",
+                lambda: am["outcome"] == "reversed" and last[am["key"]]["outcome"] == "reversed"
+                and v["counts"]["likely_reversed"] == 1 and v["counts"]["likely_confirmed_later"] == 0)
+        guarded(fails, "CASE C: the page does not keep 'Confirmed later' (it says Reversed, citing Confirmed at 9:30 PM ET)",
+                lambda: "Confirmed later." not in visible(h).split("Every graded verdict")[-1]
+                and "Reversed." in visible(h).split("Every graded verdict")[-1]
+                and am["outcome_detail"]["later_made_utc"] == "2026-10-27T01:30:00Z"
+                and am["outcome_detail"]["later_grade"] == "Confirmed")
+        guarded(fails, "CASE C: append-only: the rewrite stores a NEW outcome file beside the first",
+                lambda: len([x for x in wrote[2] if ".outcome" in x]) == 1
+                and len([x for x in os.listdir(ST) if ".outcome" in x]) == 2)
+        with quiet():
+            again = m.sync(V, M, W, ST)
+        guarded(fails, "CASE C: a second sync with nothing changed writes nothing", lambda: again["written"] == [])
+        # ONLY THE WIRE ARTICLE LINKS CHANGE: an 8:18 AM Likely on a wire story (its article, A); a 7:16 PM Likely on another
+        # story (B) reverses it; a 9:30 PM rewrite, the same grade and the same per-run wire position, now on story A: the same
+        # story as the morning's, so nothing resolves it, and the reversed outcome must not stand.
+        ST = os.path.join(td, "links", "st")
+        E = os.path.join(td, "links", "empty")
+        for d in (ST, E):
+            os.makedirs(d, exist_ok=True)
+        nowl = t("2026-10-27T05:00:00Z")                         # after the 26 October ET day: no read can still come
+        A, B = "coindesk.com/markets/2026/10/26/synthetic-story-a", "theblock.co/post/synthetic-story-b"
+        _store_put(ST, _entry("2026-10-26-morning-bitcoin-121800", "2026-10-26", "morning", "2026-10-26T12:18:00Z", "Likely",
+                              ["wire-c003"], [A]))
+        _store_put(ST, _entry("2026-10-26-evening-bitcoin-231600", "2026-10-26", "evening", "2026-10-26T23:16:00Z", "Likely",
+                              ["wire-c007"], [B]))
+        with quiet():
+            w1 = m.sync(E, E, E, ST)["written"]
+            v1 = m.view(nowl, E, E, E, ST)
+        guarded(fails, "LINKS: the evening Likely on story B reverses the morning Likely on story A (stored)",
+                lambda: len(w1) == 1 and next(r for r in v1["rows"] if r["slot"] == "morning")["outcome"] == "reversed")
+        # the same signature restamped (the same grade, no stable id, the same article B; only the per-run position moved):
+        # nothing to resolve again, no new outcome
+        _store_put(ST, _entry("2026-10-26-evening-bitcoin-003000", "2026-10-26", "evening", "2026-10-27T00:30:00Z", "Likely",
+                              ["wire-c009"], [B]))
+        with quiet():
+            w15 = m.sync(E, E, E, ST)["written"]
+            v15 = m.view(nowl, E, E, E, ST)
+        guarded(fails, "SIGNATURE: a rewrite with the same grade, stable ids and links writes no new outcome (a wire position "
+                       "is never part of the signature), and the morning Likely stays reversed",
+                lambda: [x for x in w15 if ".outcome" in x] == []
+                and next(r for r in v15["rows"] if r["slot"] == "morning")["outcome"] == "reversed")
+        _store_put(ST, _entry("2026-10-26-evening-bitcoin-013000", "2026-10-26", "evening", "2026-10-27T01:30:00Z", "Likely",
+                              ["wire-c007"], [A]))
+        with quiet():
+            w2 = m.sync(E, E, E, ST)["written"]
+            v2 = m.view(nowl, E, E, E, ST)
+        am2 = next(r for r in v2["rows"] if r["slot"] == "morning")
+        guarded(fails, "LINKS: rewritten with only its wire article links changed (now story A): the outcome is resolved again, "
+                       "and the morning Likely is no longer reversed (no later source: unresolved)",
+                lambda: am2["outcome"] == "unresolved" and v2["counts"]["likely_reversed"] == 0
+                and len([x for x in w2 if ".outcome" in x]) == 1)
+        with quiet():
+            w3 = m.sync(E, E, E, ST)["written"]
+        guarded(fails, "LINKS: a second sync with nothing changed writes nothing", lambda: w3 == [])
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+    # the copy: a later outcome supersedes an earlier one when the read it cites is rewritten
+    td = tempfile.mkdtemp(prefix="s98-")
+    try:
+        fx = fixture(td, with_movers=False)
+        h = page_of(view_of(fx))
+        txt = " ".join(visible(h).split())
+        doc = " ".join((m.__doc__ or "").split())
+        say = "a later outcome supersedes an earlier one when the read it cites is rewritten"
+        guarded(fails, "COPY: the page says a later outcome supersedes an earlier one when the read it cites is rewritten, and "
+                       "no longer that each outcome is stored once",
+                lambda: say in txt and "its outcome are stored once" not in txt and "outcome is stored once" not in txt)
+        guarded(fails, "COPY: the module docstring says the same, and no longer that the first stored outcome stands",
+                lambda: say in doc and "the first outcome stored for a verdict stands" not in doc
+                and "A stored outcome is never recomputed" not in doc)
+        # the ruled definition of Likely, once, from the October 20 ruling's text
+        rl = ruled_likely()
+        empty = {k: os.path.join(td, "e", k) for k in ("v", "m", "w", "s")}
+        for p in empty.values():
+            os.makedirs(p, exist_ok=True)
+        with quiet():
+            he = m.render(m.view(t("2026-10-26T14:00:00Z"), empty["v"], empty["m"], empty["w"], empty["s"]), "OCTOBER 26, 2026")
+        for label, page in (("graded fixture", h), ("empty store", he)):
+            pt = " ".join(visible(page).split())
+            guarded(fails, f"LIKELY ({label}): the page prints the ruled definition of Likely exactly once, word for word: {rl!r}",
+                    lambda pt=pt: pt.count(rl) == 1)
+            guarded(fails, f"LIKELY ({label}): the page prints no definition of Likely of its own",
+                    lambda pt=pt: not re.search(r"\bA Likely verdict (is|means)\b|\bLikely (means|is when)\b", pt)
+                    and len(re.findall(r"\bLikely\.\s", pt)) == 1)
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+    # the /today/ link, on the living page and a dated day's page (the real 20 October evening record)
+    import today
+    rec = json.load(open(os.path.join(HERE, "site", "data", "today", "2026-10-20-evening.json"), encoding="utf-8"))
+    with quiet():
+        living = today.render(rec, [], False)[0]
+        dated = today.render(rec, [], True)[0]
+    main_of = lambda h: re.search(r"<main.*?</main>", h, re.S).group(0)
+    guarded(fails, "TODAY: /today/ and a dated day's page link the verdict record (real 20 October record)",
+            lambda: 'href="/why/record/"' in main_of(living) and 'href="/why/record/"' in main_of(dated))
+    # the standing line on each /why/ page, by the record's own rows
+    import verdict as vd
+    import movers as mv
+    td = tempfile.mkdtemp(prefix="s98-")
+    try:
+        fx = fixture(td)
+        tdir = os.path.join(td, "today")
+        os.makedirs(tdir, exist_ok=True)
+        with quiet():
+            st = m.standings(t("2026-10-17T23:30:00Z"), vdir=fx["vdir"], mdir=fx["mdir"], wdir=fx["wdir"], store=fx["store"])
+            pages = {b["path"]: b["html"] for b in vd.build_pages(vdir=fx["vdir"], wdir=fx["wdir"], tdir=tdir, dateline="T",
+                                                                  record=st)}
+            mpages = mv.build_pages(directory=fx["mdir"], dateline="T", record=st)
+        want = {"/why/2026-10-14-bitcoin": "Confirmed later", "/why/2026-10-15-bitcoin": "Reversed",
+                "/why/2026-10-16-bitcoin": "No later source by the end of its ET day",
+                "/why/2026-10-17-bitcoin": "counted as graded at the time"}
+
+        def line(h):
+            s = re.search(r'<p class="td-w vr-standing">(.*?)</p>', h, re.S)
+            return " ".join(visible(s.group(1)).split()) if s else ""
+        for u, w in want.items():
+            guarded(fails, f"STANDING: {u} says how its move stands on the record ({w!r}) and links the record",
+                    lambda u=u, w=w: w in line(pages.get(u, "")) and 'href="/why/record/"' in
+                    re.search(r'<p class="td-w vr-standing">.*?</p>', pages[u], re.S).group(0))
+        guarded(fails, "STANDING: the 14 October line names the read it scores (the Morning Brief read, 8:18 AM ET)",
+                lambda: "Morning Brief read" in line(pages["/why/2026-10-14-bitcoin"])
+                and "8:18 AM ET on Oct 14, 2026" in line(pages["/why/2026-10-14-bitcoin"]))
+        guarded(fails, f"STANDING: each Big mover's /why/ page ({len(mpages)}) says it is counted as graded and links the record",
+                lambda: len(mpages) == 5 and all("counted as graded at the time" in line(b["html"])
+                                                  and 'href="/why/record/"' in b["html"] for b in mpages))
+        guarded(fails, "STANDING: the line prints no grade word and no 'because', no dash (the card holds the grade)",
+                lambda: all(not re.search(r"\b(Likely|Disputed|Unclear)\b", line(h)) and not BECAUSE.search(line(h))
+                            and not DASH.search(line(h)) for h in list(pages.values()) + [b["html"] for b in mpages]))
+        with quiet():
+            dflt = {b["path"]: b["html"] for b in vd.build_pages(vdir=fx["vdir"], wdir=fx["wdir"], tdir=tdir, dateline="T")}
+        guarded(fails, "STANDING: with no standings given, build_pages draws them itself (every page carries the line)",
+                lambda: dflt and all(line(h) for h in dflt.values()))
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
+
+
 def unit():
     fails = []
-    for name, fn in (("review 2: outcomes agree", review2_cases), ("review 1: identity", review1_identity), ("review 1: malformed", review1_malformed),
+    for name, fn in (("round 4: signature, copy, Likely, standing", round4_cases), ("review 2: outcomes agree", review2_cases), ("review 1: identity", review1_identity), ("review 1: malformed", review1_malformed),
                      ("review 1: once", review1_once), ("review 1: window", review1_window),
                      ("tally", tally_cases), ("reversed", reversed_cases), ("identity", identity_cases),
                      ("frozen", frozen_cases), ("page", page_cases), ("empty", empty_cases), ("feed", feed_cases),
@@ -1064,6 +1258,11 @@ def tree(root):
     guarded(fails, "How we check links it", lambda: f'href="{URL}"' in rd("method.html"))
     pages = sorted(n for n in os.listdir(pub("why")) if n.endswith(".html")) if os.path.isdir(pub("why")) else []
     guarded(fails, f"every /why/ verdict page links it ({len(pages)})", lambda: all(f'href="{URL}"' in rd("why/" + n) for n in pages))
+    guarded(fails, f"round 4: every /why/ verdict page carries its standing line, linked to the record ({len(pages)})",
+            lambda: all(re.search(r'<p class="td-w vr-standing">[^<]*(?:<(?!/p>)[^<]*)*href="/why/record/"', rd("why/" + n))
+                        for n in pages))
+    guarded(fails, "round 4: the built /today/ links the record",
+            lambda: f'href="{URL}"' in (re.search(r"<main.*?</main>", rd("today/index.html"), re.S) or re.search("", "")).group(0))
     return fails
 
 

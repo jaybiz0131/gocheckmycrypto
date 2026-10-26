@@ -572,6 +572,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
   {reported_sec}
   <section class="td-sec"><h2>Markets</h2><ul class="td-list">{board}</ul></section>
   <p class="td-next">{_e(reader(rec['next']))}</p>
+  <p class="td-w">How the desk's grades held up afterwards is kept on <a href="/why/record/">the verdict record</a>.</p>
   {'<p class="td-w">This is the record of its day. The latest answer is at <a href="/today/">/today/</a>.</p>' if here == "dated" else ''}
   {f'<section class="td-sec td-arch"><h2>Earlier days</h2><ul>{arch}</ul></section>' if arch else ''}
 </section></main>"""
