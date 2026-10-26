@@ -1,0 +1,211 @@
+{
+ "date_et": "2026-10-26",
+ "slot": "evening",
+ "published_utc": "2026-10-26T23:14:51Z",
+ "first_utc": "2026-10-26T23:14:51Z",
+ "direction": "flat",
+ "direction_basis": "et_day",
+ "title": "Crypto today: flat. Monday, October 26, 2026",
+ "h1": "Crypto today: flat. Monday, October 26, 2026",
+ "stamp_label": "Evening Brief, 7:14 PM ET",
+ "composed_utc": "2026-10-26T23:15:41Z",
+ "board_stamp_et": "7:12 PM ET on Oct 26",
+ "answer": [
+  "On Monday, October 26, Bitcoin was flat since midnight ET, at $79,754, a change of +0.12%.",
+  "Over the last 24 hours it was down 0.70%.",
+  "Ether was down 1.32% over the same 24 hours.",
+  "Among the Top 100, XDC gained 7.48% and ZRO lost 8.04% over 24 hours."
+ ],
+ "answer_by": "template",
+ "fallback": false,
+ "btc": {
+  "price": 79754,
+  "chg": -0.7,
+  "chg_day": 0.12
+ },
+ "eth": {
+  "price": 2305.34,
+  "chg": -1.32
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "XDC",
+   "name": "XDC Network",
+   "chg": 7.48,
+   "slug": "xdc"
+  },
+  {
+   "symbol": "NIGHT",
+   "name": "Midnight",
+   "chg": 7.38,
+   "slug": "night"
+  },
+  {
+   "symbol": "QNT",
+   "name": "Quant",
+   "chg": 4.89,
+   "slug": "qnt"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "ZRO",
+   "name": "LayerZero",
+   "chg": -8.04,
+   "slug": "zro"
+  },
+  {
+   "symbol": "LIT",
+   "name": "Lighter",
+   "chg": -5.91,
+   "slug": "lit"
+  },
+  {
+   "symbol": "GRAM",
+   "name": "Gram (prev. Toncoin)",
+   "chg": -4.22,
+   "slug": "gram"
+  }
+ ],
+ "reported": [
+  {
+   "line": "South Korea delays crypto gains tax to 2029, tying implementation to US integration of OECD's international digital-asset tax framework.",
+   "time": "6:06 AM ET",
+   "source_count": 5,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/regulation/2026-10-26-south-korea-weighs-fourth-delay-crypto-tax-431649"
+    },
+    {
+     "outlet": "Bitcoin Magazine",
+     "url": "https://bitcoinmagazine.com/news/south-korea-weighs-fourth-delay-crypto-tax"
+    },
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/10/26/south-korea-weighs-fourth-delay-on-its-crypto-gains-tax-pushing-it-to-2029"
+    },
+    {
+     "outlet": "U.Today",
+     "url": "https://u.today/south-korea-to-delay-crypto-tax-yet-again"
+    }
+   ]
+  },
+  {
+   "line": "OCC urges US community banks to become stablecoin issuers as new federal licensing requirements approach in 2027.",
+   "time": "11:45 AM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/10/26/occ-calls-on-community-banks-to-enter-the-stablecoin-payments-market"
+    },
+    {
+     "outlet": "Crypto Briefing",
+     "url": "https://cryptobriefing.com/occ-urges-community-banks-stablecoin-issuers/"
+    },
+    {
+     "outlet": "Cointelegraph",
+     "url": "https://cointelegraph.com/news/occ-community-banks-stablecoin-issuers-genius-act?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "NBA signed CFTC MOU and named Kalshi and Polymarket preferred prediction-market exchanges with official league data and safeguards.",
+   "time": "11:59 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/10/26/nba-joins-pro-sports-leagues-on-cftc-prediction-markets-bandwagon-while-nfl-balks"
+    },
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/381864/nba-cftc-prediction-markets-nfl-fights-court"
+    }
+   ]
+  },
+  {
+   "line": "Canada opened 60-day consultation on draft stablecoin rules requiring 1:1 reserve backing, three-day redemptions, and maintaining yield ban.",
+   "time": "10:23 AM ET",
+   "source_count": 3,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/10/26/canada-opens-consultation-on-draft-stablecoin-rules-maintains-ban-on-yields"
+    },
+    {
+     "outlet": "decrypt.co",
+     "url": "https://decrypt.co/381889/canada-draft-stablecoin-rules-redemption-fees-ban-yield"
+    },
+    {
+     "outlet": "cointelegraph.com",
+     "url": "https://cointelegraph.com/news/canada-consultation-stablecoins-genius-act?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+    }
+   ]
+  },
+  {
+   "line": "Electrum bitcoin wallet patched critical flaw that let rogue servers replace pending transactions and redirect funds to attacker addresses.",
+   "time": "1:15 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/tech/2026/10/26/bitcoin-wallet-bug-let-rogue-servers-steal-funds-when-users-tried-to-speed-up-payments"
+    },
+    {
+     "outlet": "decrypt.co",
+     "url": "https://decrypt.co/381844/bitcoin-wallet-flaw-trick-users-paying-attackers"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin ETF flows",
+   "value": -137.9,
+   "window": "one trading day, 23 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "7:12 PM ET on Oct 26",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 659737,
+   "shorts": 161661,
+   "window": "last 7 hours",
+   "source": "OKX",
+   "stamp": "7:12 PM ET on Oct 26",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.01,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "7:12 PM ET on Oct 26",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 50,
+   "word": "Neutral",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "7:12 PM ET on Oct 26",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning Brief, tomorrow at 8:15 AM ET",
+ "corrections": []
+}
