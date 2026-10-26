@@ -250,6 +250,15 @@ def _cut_wide(h):
     return re.sub(r"<(\w+)\b[^>]*\bdata-wide\b[^>]*>.*?</\1>", sub, h, flags=re.S), n
 
 
+def _cut_991(h):
+    """SPRINT 9.9.1 (the ruling on J-8 of October 20, Review 1): the home's verdict card carries its window basis and direction as two
+    attributes, and the card's place carries the notice when no verdict was read. With the notice card cut out and the two attributes
+    taken off, the page is Sprint 9.5's again; scripts/sprint991_test.py holds the additions to account, as 9.7's one block is for the
+    script below."""
+    h = re.sub(r'<aside class="vd vd-next"[^>]*>.*?</aside>', "", h, flags=re.S)
+    return re.sub(r'(<aside class="vd[^"]*" data-vd="BTC") data-vd-basis="[^"]*"(?: data-vd-dir="[^"]*")?', r"\1", h)
+
+
 def markup_cases(fails):
     print("3. the markup: the Ether line is the one thing added to the home, and it is the Board's own data")
     import home
@@ -258,7 +267,7 @@ def markup_cases(fails):
     cur = fixture_html()
     for name in ("card", "nocard"):
         base = read(os.path.join(FX, f"home-board-{name}.95.html"))
-        cut, n = _cut_wide(_mask_v(cur[name]))
+        cut, n = _cut_wide(_mask_v(_cut_991(cur[name])))
         guarded(fails, f"home ({name}): exactly one element is marked data-wide (the Ether line)", lambda n=n: n == 1)
         guarded(fails, f"home ({name}): with it cut out the page is Sprint 9.5's, byte for byte (the 375 markup)",
                 lambda cut=cut, base=base: cut == _mask_v(base))

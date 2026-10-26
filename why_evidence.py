@@ -1656,7 +1656,7 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
     head = (f'<p class="ev-win"{asof}>{_e(name)}, {_e(win)}. Prices: {src}.</p>')
     runp = ""
     if run:
-        runp = (f'<p class="ev-run-l">The largest run in the window: {_chg(run["pct"])} from '
+        runp = (f'<p class="ev-run-l">The largest run in the 24 hours: {_chg(run["pct"])} from '
                 f'{_e(_price(run["start_p"]))} at {_e(day_clock(run["start_t"], w1))} to '
                 f'{_e(_price(run["end_p"]))} at {_e(day_clock(run["end_t"], w1))}. It is shaded on the chart; '
                 f'its start is marked.</p>')
@@ -1761,7 +1761,7 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
                              ("DefiLlama stablecoin supply (daily)", day.get("stablecoins"))) if ok]
     if daily:
         srcs_html = f'<p class="ev-src">Read, not shown in this hour: {_e("; ".join(daily))}.</p>' + srcs_html
-    return (f'<section class="td-sec ev" aria-label="{SECTION_TITLE}" data-ev="{_e(sym)}">'
+    return (f'<section class="td-sec ev" aria-label="{SECTION_TITLE}" data-ev="{_e(sym)}" data-ev-window="rolling_24h">'
             f'<h2>{SECTION_TITLE}</h2>{head}{runp}'
             f'<figure class="ev-fig">{chart}<figcaption class="ev-m">Numbers on the chart match the list below. '
             f'Times are Eastern.</figcaption></figure>'

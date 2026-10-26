@@ -1,0 +1,9 @@
+Sprint 9.9.1 red 3: the tree cases (scripts/sprint991_test.py --tree) on a tree built from main's code (739fb7b, SITE_BUILD_NOW=2026-10-26T12:20:00Z, the stored October 26 data), Mon Oct 26 2026, 5:29 PM EDT
+7. the tree this build wrote: the home's first object
+  ok   the built home exists
+  FAIL the built home's first object below the masthead is a verdict card (a graded card or the notice), and the tape is the block after it
+  FAIL when the built home carries the notice, it is one line with a reason and a time of the next read
+  FAIL no built page that carries the bare words 'Verdict at the next read' lacks a reason and a time
+
+SPRINT 9.9.1: FAIL (29 failure(s))
+exit 1

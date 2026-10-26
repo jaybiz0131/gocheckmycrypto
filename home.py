@@ -1151,10 +1151,11 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
 
     THE ANSWER FIRST (Sprint 9.5, AUDIT.md 3.4 move 1): when Bitcoin's verdict is graded, its card is the
     home's FIRST object, ahead of the ten blocks, at 375 and at 1440 (the left column's top). Bitcoin
-    shrinks to one line (the tape block). When there is no graded card (a flat day on the ET day, no
-    verdict yet, a verdict outside its window, the cap reached) nothing stands in for it: no empty slot,
-    no invented card. The first object is then the tape's one line, and the Brief card, the desk's own
-    read of the day, follows it at once."""
+    shrinks to one line (the tape block). SPRINT 9.9.1 (Review 1, area 1): the card is the first object also when it
+    carries "Verdict at the next read", with its reason and the time of the next read in the one line (the window
+    flipped since the run, or no read yet today), and the tape moves under it. When there is no card to draw (a flat
+    day on the ET day, the cap reached) nothing stands in for it: no empty slot, no invented card. The first
+    object is then the tape's one line, and the Brief card, the desk's own read of the day, follows it at once."""
     blocks = {
         "tape": tape(snap), "narrative": narrative_band(narr, snap, ed, now, morning),
         "since": since(pulse, deltas, bitcoin_card(snap)), "why": why(wire, now),
@@ -1163,13 +1164,19 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
         "today": today(cal, now), "mine": mine(),
     }
     card, graded = "", False
-    if verdict:
-        try:
-            import verdict as _verdict
-            card = _verdict.card_html(verdict, "BTC", where="home", live=True)
-            graded = ((verdict.get("coins") or {}).get("BTC") or {}).get("kind") == "graded"
-        except Exception:                            # fail open: the home without a card
-            card, graded = "", False
+    try:
+        import verdict as _verdict
+        kind = ((verdict or {}).get("coins") or {}).get("BTC", {}).get("kind")
+        if now is not None and not _verdict.is_today(verdict, now):
+            # SPRINT 9.9.1: no read has run on this ET day, so the card's place says so and when the next read is (the
+            # ruling of October 20 on J-8, and Review 1); it is never last night's card standing in for today's
+            card, kind = _verdict.no_read_html(now), "no_read"
+        elif verdict:
+            card = _verdict.card_html(verdict, "BTC", where="home", live=True, now=now)
+        # the card or its notice leads the home: a graded card, the notice for a window that flipped, the notice for no read
+        graded = kind in ("graded", "next_read", "no_read")
+    except Exception:                                # fail open: the home without a card
+        card, graded = "", False
     if graded:
         left = card + "".join(blocks[k] for k in LEFT)
     else:

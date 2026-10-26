@@ -1,0 +1,109 @@
+Sprint 9.9.1 red 2: the browser half (scripts/sprint991_test.py --browser, the unit cases first) on main's tree (branch sprint-9-9-1 at 739fb7b, no code change), Mon Oct 26 2026, 5:29 PM EDT
+1. /today/: the headline's window is named beside it, and the evidence's own window is named beside its figures
+  ok   the premise, from the real record: the headline says up, the ET day is +0.77% and the 24 hours -0.15%, and the evidence's own run fell
+  FAIL a window line stands under the headline, carrying the page's basis and direction
+  FAIL the window line says the direction is read since midnight ET
+  FAIL the window line names the evidence's window and the way its run went, with no figure of its own
+  FAIL the window line sits under the stamp and above the answer [ValueError: substring not found]
+  FAIL the evidence section is the 24-hour record and says so in its own attribute
+  FAIL the evidence's run figure carries its window's name beside it (the 24 hours), never 'the window' alone
+  ok   no em dash or en dash on the page
+  ok   the What moved rows name their windows (since midnight ET, last 24 hours)
+   the rolling 24 hours is the named fallback only
+  ok   SYNTHETIC midnight open from another day: the record's basis is the rolling 24 hours
+  FAIL the fallback page says the direction is read over the last 24 hours and why (no midnight open on the Board)
+  FAIL the fallback line carries the page's basis
+2. 'Verdict at the next read' always prints why and the time of the next read, in one line
+  FAIL home: one notice, and it reads exactly the window-flipped line with the next read's time
+  ok   home: the notice is one paragraph on one line (no break inside it)
+  ok   home: the notice names no grade and no cause
+  ok   home: no em dash or en dash
+  FAIL /today/: one notice, and it reads exactly the window-flipped line with the next read's time
+  ok   /today/: the notice is one paragraph on one line (no break inside it)
+  ok   /today/: the notice names no grade and no cause
+  ok   /today/: no em dash or en dash
+  FAIL /coins/btc: one notice, and it reads exactly the window-flipped line with the next read's time
+  ok   /coins/btc: the notice is one paragraph on one line (no break inside it)
+  ok   /coins/btc: the notice names no grade and no cause
+  ok   /coins/btc: no em dash or en dash
+  FAIL the notice stands in a card (aside.vd) with its own heading, not a bare line
+  ok   drawing the pages leaves the stored verdict record as it was, word for word (J-10)
+  ok   the fixture is the stored October 26 verdict byte for byte
+   no read yet today (SYNTHETIC clock: 6:00 AM ET the next day, the real October 26 record)
+  FAIL home: the notice says no read yet today and the next read's time, in one line
+  FAIL /coins/btc: the notice says no read yet today and the next read's time, in one line
+  FAIL home with no verdict record at all: the same notice
+  ok   the Ether page draws no notice for a verdict the desk never grades for Ether without Bitcoin's
+  ok   a flat day's record, dated today, draws no card and no notice (nothing was missed)
+  FAIL after the evening slot the notice names tomorrow's read (the Brief card's own function)
+3. /today/, the home and the Bitcoin page agree on direction and window, on a day where the day and the 24 hours disagree
+  FAIL /today/ window line: names the ET day as its window and up as its direction
+  FAIL /today/ card: names the ET day as its window and up as its direction
+  FAIL home card: names the ET day as its window and up as its direction
+  FAIL /coins/btc card: names the ET day as its window and up as its direction
+  ok   /today/ and /coins/btc name the same evidence window (the 24 hours to 8:17 AM ET)
+  ok   the verdict's day_moves and /today/'s record agree: et_day, up
+   a graded card carries the same hooks (the 15 October real record, day and run agree)
+  FAIL the graded card carries its basis and its direction
+  FAIL a record written now for the flip states window_dir up and run_dir down as fields
+  ok   its stored line is still the ruled words and nothing more (the notice is drawn, not stored)
+  FAIL and a record with the fields draws the same line as the stored one without them [TypeError: card_html() got an unexpected keyword argument 'now']
+4. the verdict card is the home's first object, even when it carries the next-read line; the tape moves under it
+  FAIL the window-flipped notice: the first block of the left column is the card, and the tape is the next
+  ok   the window-flipped notice: the ten blocks keep section 2's order after it
+  FAIL the no-read notice: the card first, the tape next
+  ok   a graded card (the 15 October real record) is still first, the tape next
+  ok   a withheld verdict (the day's cap) still follows the tape's line (Sprint 9.5, unchanged)
+5. what the item does not name stays as it was
+  ok   a graded card keeps its shape: the aside, the badge, the line
+  ok   the Ether page's 'Ether moved with Bitcoin' line is the 9.3 line
+  ok   the stored words for the notice are still the ruled ones
+  FAIL a dated /today/ page draws the notice from its own record's time, not the build's
+6. the home's first object at 375 and 1440, from a fixture page (Playwright)
+  ok   the fixture pages were written (next-read, no-read, graded)
+  FAIL the window-flipped notice at 375: first block: the first block is <section>, not the card
+  FAIL the window-flipped notice at 375: card position: card top null, masthead bottom 97
+  FAIL the window-flipped notice at 375: tape under card: tape top 105, card bottom null
+  FAIL the window-flipped notice at 375: nothing above: a block with class "h-b h-tape" starts at 105, the card at null
+  FAIL the window-flipped notice at 375: first screen: card top null
+  PASS the window-flipped notice at 375: no sideways scroll
+  INFO the window-flipped notice at 375: card null, tape {"top":105,"bottom":211,"left":22,"width":331}, masthead bottom 97
+  FAIL the window-flipped notice at 1440: first block: the first block is <section>, not the card
+  FAIL the window-flipped notice at 1440: card position: card top null, masthead bottom 137
+  FAIL the window-flipped notice at 1440: tape under card: tape top 195, card bottom null
+  FAIL the window-flipped notice at 1440: nothing above: a block with class "h-b h-money" starts at 145, the card at null
+  FAIL the window-flipped notice at 1440: first screen: card top null
+  PASS the window-flipped notice at 1440: no sideways scroll
+  INFO the window-flipped notice at 1440: card null, tape {"top":195,"bottom":268,"left":42,"width":880}, masthead bottom 137
+  FAIL the no-read notice at 375: first block: the first block is <section>, not the card
+  FAIL the no-read notice at 375: card position: card top null, masthead bottom 97
+  FAIL the no-read notice at 375: tape under card: tape top 105, card bottom null
+  FAIL the no-read notice at 375: nothing above: a block with class "h-b h-tape" starts at 105, the card at null
+  FAIL the no-read notice at 375: first screen: card top null
+  PASS the no-read notice at 375: no sideways scroll
+  INFO the no-read notice at 375: card null, tape {"top":105,"bottom":211,"left":22,"width":331}, masthead bottom 97
+  FAIL the no-read notice at 1440: first block: the first block is <section>, not the card
+  FAIL the no-read notice at 1440: card position: card top null, masthead bottom 137
+  FAIL the no-read notice at 1440: tape under card: tape top 195, card bottom null
+  FAIL the no-read notice at 1440: nothing above: a block with class "h-b h-money" starts at 145, the card at null
+  FAIL the no-read notice at 1440: first screen: card top null
+  PASS the no-read notice at 1440: no sideways scroll
+  INFO the no-read notice at 1440: card null, tape {"top":195,"bottom":268,"left":42,"width":880}, masthead bottom 137
+  PASS a graded card at 375: the first block of the home is the verdict card
+  PASS a graded card at 375: the card starts directly below the masthead (20px under it)
+  PASS a graded card at 375: the Bitcoin line (the tape) sits under the card (14px below it)
+  PASS a graded card at 375: no home block starts above the card
+  PASS a graded card at 375: the card is on the first screen
+  PASS a graded card at 375: no sideways scroll
+  INFO a graded card at 375: card {"top":117,"bottom":512,"left":22,"width":331}, tape {"top":526,"bottom":632,"left":22,"width":331}, masthead bottom 97
+  PASS a graded card at 1440: the first block of the home is the verdict card
+  PASS a graded card at 1440: the card starts directly below the masthead (8px under it)
+  PASS a graded card at 1440: the Bitcoin line (the tape) sits under the card (14px below it)
+  PASS a graded card at 1440: no home block starts above the card
+  PASS a graded card at 1440: the card is on the first screen
+  PASS a graded card at 1440: no sideways scroll
+  INFO a graded card at 1440: card {"top":145,"bottom":482,"left":42,"width":880}, tape {"top":496,"bottom":570,"left":42,"width":880}, masthead bottom 137
+  FAIL the browser half ran every case and none failed
+
+SPRINT 9.9.1: FAIL (47 failure(s))
+exit 1

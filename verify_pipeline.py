@@ -2065,6 +2065,7 @@ def _stamp_canary():
             fails.extend(_sprint97_canary(out))
             fails.extend(_sprint98_canary(out))
             fails.extend(_sprint99h_canary())
+            fails.extend(_sprint991_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -3476,6 +3477,27 @@ def _sprint99h_canary():
         fails = ["hotfix 9.9h: " + f for f in _s99h.unit()]
     finally:
         for m in ("sprint99h_test", "sprint97_test", "sprint96_test", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint991_canary(out):
+    """SPRINT 9.9.1 (26 October 2026): the first screen answers. scripts/sprint991_test.py holds the cases: /today/'s window line and
+    the evidence's own window named beside its figures, the notice that always prints why and the time of the next read in one
+    line, the three pages agreeing on direction and window on the real October 26 morning (the ET day up, the 24 hours down), the
+    verdict card or its notice as the home's first object with the tape under it, and the stored read never reworded; and on the
+    tree this build wrote, the home's first object and every notice it carries. The helpers are taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint991_test as _s991
+        fails = ["sprint 9.9.1: " + f for f in _s991.unit()]
+        fails += ["sprint 9.9.1: " + f for f in _s991.tree(out)]
+    finally:
+        for m in ("sprint991_test", "sprint93_test", "sprint92_test"):
             _sys.modules.pop(m, None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)

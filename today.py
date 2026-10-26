@@ -482,6 +482,34 @@ def schema(rec, url):
                                "width": 512, "height": 512}}}]}, ensure_ascii=False)
 
 
+def window_line(rec, evidence=None):
+    """ONE WINDOW PER PAGE, NAMED (the strategist's ruling of October 19; Sprint 9.9.1). The headline's direction is the ET day's
+    (since midnight ET) with the rolling 24 hours only as the named fallback, and the line says which and why. When the page also
+    draws the evidence record, which is built on the rolling 24 hours, the line names that window and the way its largest run
+    went, so the headline is never read over a chart of the other way without the windows' names. No figure is printed here:
+    every figure of the page keeps its own window beside it in its own row."""
+    btc = rec.get("btc") or {}
+    basis = rec.get("direction_basis") or ("et_day" if btc.get("chg_day") is not None else "rolling_24h")
+    if basis == "et_day":
+        text = "The direction above is read since midnight ET."
+    else:
+        text = ("The direction above is read over the last 24 hours; the Board holds no midnight ET open "
+                "for this day.")
+    if evidence:
+        import why_evidence as _we
+        run = (((evidence.get("coins") or {}).get("BTC")) or {}).get("run") or {}
+        wend = _we._parse_utc((evidence.get("window") or {}).get("end_utc"))
+        when = f" to {_we.clock(int(wend.timestamp()))}" if wend else ""
+        if basis == "et_day":
+            went = f", and the largest run in them went {run['dir']}" if run.get("dir") in ("up", "down") else ""
+            text += f" The chart and the list below read the 24 hours{when}{went}."
+        else:
+            text += f" The chart and the list below read that same window, the 24 hours{when}."
+    # the stamp's own style (mono, muted), drawn close under it; no stylesheet rule of its own
+    return (f'<p class="td-stamp td-win" style="margin-top:-8px" data-td-basis="{_e(basis)}" '
+            f'data-td-dir="{_e(rec.get("direction"))}">{_e(text)}</p>')
+
+
 def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
     """The page, top to bottom: the answer, why it moved (Sprint 9.3, the verdict card, when the
     day's slot has a verdict record), what moved, what lined up with the move (Sprint 9.2, when the
@@ -531,8 +559,9 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
     if verdict:
         try:
             import verdict as _verdict
+            # the notice's next-read time is the page's own composition clock, the same one its "Next update" line used
             vd_html = _verdict.card_html(verdict, "BTC", where="today", live=(here != "dated"),
-                                         with_section=bool(ev_html))
+                                         with_section=bool(ev_html), now=_verdict._parse(rec.get("composed_utc")))
         except Exception as e:                      # fail open: the page as it was
             print(f"::warning::today: the verdict was not drawn ({type(e).__name__}: {e})")
             vd_html = ""
@@ -565,6 +594,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None):
   <span class="kicker">Why it moved</span>
   <h1>{_e(rec['h1'])}</h1>
   <p class="td-stamp">{_e(reader(rec['stamp_label']))}</p>
+  {window_line(rec, evidence if ev_html else None)}
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
   {corr}
 {vd_slot}  <section class="td-sec"><h2>What moved</h2>{moved}</section>
