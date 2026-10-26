@@ -120,7 +120,7 @@ def edition_cases(fails):
 
 S1 = ("The wire's top line this morning is Kraken parent Payward's agreement to acquire "
       "Lithuania's Saldo Bank, carried by two outlets.")
-S2 = "The Board shows the Fear & Greed index in the neutral band and funding calm."
+S2 = "Markets shows the Fear & Greed index in the neutral band and funding calm."
 LONG_HEAD = ("The wire opens on Standard Chartered's launch of Bitcoin and Ether trading for affluent "
              "clients in the UAE while Kraken's parent agrees to buy a Lithuanian bank")        # 156 characters
 

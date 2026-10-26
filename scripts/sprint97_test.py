@@ -34,6 +34,24 @@ BECAUSE = re.compile(r"\bbecause\b", re.I)
 AI = re.compile(r"\bA\.?I\b|artificial|machine[- ]learn|language model|\bLLM\b|\bGPT|\bClaude\b|\bAnthropic\b|\bHaiku\b|\bSonnet\b|"
                 r"\bOpenAI\b|\bchatbot\b", re.I)
 GRADES = ("Confirmed", "Likely", "Disputed", "Unclear")
+
+
+def feed_prose(feed):
+    """The feed as JSON text with every web address (a string that starts http:// or https://) taken out: the AI-word scan
+    reads the desk's own words, and a source's address is not the desk's wording (a slug may hold 'ai-' in a headline the
+    outlet wrote). Everything else, titles, lines, outlet names, stays in. The dash scan does NOT use this: it reads the
+    whole feed. HOTFIX 9.9h."""
+    def strip(o):
+        if isinstance(o, dict):
+            return {k: strip(v) for k, v in o.items()}
+        if isinstance(o, list):
+            return [strip(v) for v in o]
+        if isinstance(o, str) and re.match(r"https?://", o):
+            return ""
+        return o
+    return json.dumps(strip(feed))
+
+
 FEEDS = ("index", "top100", "markets", "movers", "whales", "news", "brief/latest", "why/today", "events",
          "why/record")   # Sprint 9.8: the verdict record's feed, which the index now lists
 NOW15 = dt.datetime(2026, 10, 15, 23, 50, tzinfo=UTC)
@@ -307,7 +325,9 @@ def news_brief_cases(fails):
             and d["bottom_line"] == ed["bottom_line"] and bf["as_of_utc"] == ed["published_utc"])
     guarded(fails, "a Brief from the night before is stale by the site's rule", lambda: bf["stale"] is True)
     import home
-    mor = json.load(open(os.path.join(HERE, "site", "data", "morning.json"), encoding="utf-8"))
+    # HOTFIX 9.9h: the October 20 clock reads the October 20 morning read, pinned. It read the live file, so every new
+    # morning read broke the case (the stored October 26 read is another day's, and rightly no Brief on October 20).
+    mor = json.load(open(os.path.join(HERE, "fixtures", "sprint97", "morning-2026-10-20.json"), encoding="utf-8"))
     ed19 = json.load(open(os.path.join(HERE, "site", "content", "2026-10-19-evening-brief.json"), encoding="utf-8"))
     at10 = dt.datetime(2026, 10, 20, 14, 0, tzinfo=UTC)                 # 10:00 AM ET on October 20, the morning the review read
     mf = af.brief_feed(ed19, at10, morning=mor)
@@ -852,7 +872,7 @@ def tree(root, expect_pages=False, with_browser=False):
             lambda: not gone)
     guarded(fails, "no feed has a dash; none but the coin identity feeds (a coin's name may be 'Artificial ...') has an AI word",
             lambda: not any(DASH.search(json.dumps(f, ensure_ascii=False)) for f in allf.values())
-            and not any(AI.search(json.dumps(f)) for n, f in allf.items() if n != "top100" and not n.startswith("coins/")))
+            and not any(AI.search(feed_prose(f)) for n, f in allf.items() if n != "top100" and not n.startswith("coins/")))
     guarded(fails, "'because' is in a verdict feed only where a Confirmed grade stands (the law of 16 October), and in no event title",
             lambda: all(not BECAUSE.search(json.dumps(f["data"].get("coins") or {})) or any(
                 c.get("grade") == "Confirmed" for c in (f["data"].get("coins") or {}).values() if isinstance(c, dict))

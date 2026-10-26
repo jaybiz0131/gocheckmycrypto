@@ -28,7 +28,7 @@ MORNING = {"date_et": "2026-10-13", "slot": "morning", "published_utc": "2026-10
            "headline": "The wire opens on a Treasury stablecoin rule and a quiet Board",
            "sentences": ["The wire's top line this morning is a Treasury proposal on stablecoin reserves, "
                          "carried by four outlets.",
-                         "The Board shows Fear & Greed in the greed band and funding calm."],
+                         "Markets shows Fear & Greed in the greed band and funding calm."],
            "line": "The tape is calm and the news is mostly regulation."}
 
 
@@ -98,7 +98,7 @@ def main():
     gate = None
     obj = {"headline": "The wire opens quiet", "narrative_line": "x",
            "sentences": ["Bitcoin rose 2.1 percent overnight.", "Prices will rise by Friday.",
-                         "The wire's top line is a Treasury proposal.", "The Board shows calm funding.",
+                         "The wire's top line is a Treasury proposal.", "Markets shows calm funding.",
                          "Four outlets carry the proposal."]}
     head, sents, line = m.clean(obj, gate)
     check(len(sents) == 3 and not any("percent" in s or "will" in s for s in sents), fails,
@@ -130,7 +130,7 @@ def main():
                 raise llm.LLMError("planted: the API is down")
             return validate({"headline": "The wire opens on a Treasury proposal",
                              "sentences": ["The wire's top line is a Treasury proposal.",
-                                           "The Board shows calm funding."],
+                                           "Markets shows calm funding."],
                              "narrative_line": "The tape is calm and the news is mostly regulation."})
     rec = m.run(now=NOW, client=Fake(True), snapshot=snap, wire=wire)
     check(rec and os.path.exists(m.OUT) and rec["date_et"] == "2026-10-13", fails,

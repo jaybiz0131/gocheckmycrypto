@@ -25,6 +25,18 @@ import copy
 import datetime as _dt
 import re
 
+# The market dashboard's old name (docs/audit-2026-10/NAMES.md: the page is "Markets"). The morning read's prompt now says
+# Markets; this is the belt: a sentence a model writes with the old name is cut by morning.clean, and the home withholds a
+# STORED sentence that carries it (home.usable_morning). Withholding is not rewording (Jack, J-10: stored reads are never
+# reworded). "the Board of ..." is a board of people, not the dashboard.
+OLD_BOARD_NAME = re.compile(r"\b[Tt]he Board(?:'s|\u2019s)?\b(?! of\b)")
+
+
+def has_old_name(text):
+    """True when the text calls the market dashboard 'the Board'."""
+    return bool(OLD_BOARD_NAME.search(str(text or "")))
+
+
 NAMES = {"BTC": "Bitcoin", "ETH": "Ether", "SOL": "Solana", "XRP": "XRP", "BNB": "BNB",
          "DOGE": "Dogecoin", "ADA": "Cardano"}
 WINDOWS = {"24h": "over 24 hours", "7d": "over seven days", "30d": "over thirty days"}

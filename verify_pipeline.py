@@ -2064,6 +2064,7 @@ def _stamp_canary():
             fails.extend(_sprint96w_canary(out))
             fails.extend(_sprint97_canary(out))
             fails.extend(_sprint98_canary(out))
+            fails.extend(_sprint99h_canary())
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -3168,13 +3169,26 @@ def _verdict_fixture_dir(tmp):
                                                              encoding="utf-8")), "2026-10-15"))
         json.dump(v, open(os.path.join(d, "2026-10-15-evening.json"), "w", encoding="utf-8"))
         _vd.DIR = d
+        # HOTFIX 9.9h: the verdict record's own store is stored data too. The page-and-record cases of Sprints 9.8 expect
+        # every listed verdict to have a page THIS tree holds; the real store (October 25 on) lists verdicts whose pages
+        # only the real verdict directory builds. A scratch, empty store makes the fixture tree hold one set of records.
+        import verdict_record as _vr
+        _vr_old = _vr.STORE
+        _vr.STORE = os.path.join(tmp, "verdict-record")
+        _VR_SAVED.append(_vr_old)
         return old
     except Exception as e:                           # the guard below then says it met no card
         print(f"sprint 9.3 canary: no fixture verdict for the build ({type(e).__name__}: {e})")
         return None
 
 
+_VR_SAVED = []            # verdict_record.STORE as _verdict_fixture_dir found it (HOTFIX 9.9h)
+
+
 def _verdict_restore(old):
+    if _VR_SAVED:
+        import verdict_record as _vr
+        _vr.STORE = _VR_SAVED.pop(0)
     if old is not None:
         import verdict as _vd
         _vd.DIR = old
@@ -3443,6 +3457,25 @@ def _sprint98_canary(out):
         fails += ["sprint 9.8: " + f for f in _s98.tree(out)]
     finally:
         for m in ("sprint98_test", "sprint94_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint99h_canary():
+    """HOTFIX 9.9h (26 October 2026): the five failures the morning read's stored data brought to main. scripts/sprint99h_test.py
+    holds the cases: the old name withheld from a stored read and cut from a new one, the Brief-feed cases pinned to the
+    October 20 read, the feed scan reading the desk's words and not a source's address, the fixture build's record store.
+    The helper is taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint99h_test as _s99h
+        fails = ["hotfix 9.9h: " + f for f in _s99h.unit()]
+    finally:
+        for m in ("sprint99h_test", "sprint97_test", "sprint96_test", "sprint95_test", "sprint94_test", "sprint93_test", "sprint92_test"):
             _sys.modules.pop(m, None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)

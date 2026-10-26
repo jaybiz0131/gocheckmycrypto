@@ -417,7 +417,13 @@ def usable_morning(morning, ed, now=None):
     mu, eu = _utc(morning.get("published_utc")), _utc((ed or {}).get("published_utc"))
     if mu is None or (eu is not None and eu >= mu):
         return None
-    return dict(morning, morning=True, date=morning.get("date_et"))
+    # HOTFIX 9.9h: a stored sentence that calls Markets by its old name is withheld, as a sentence the copy law refuses is cut
+    # (the part is not the whole). The sentences left are printed exactly as stored; nothing is reworded (J-10).
+    import phrases
+    kept = [s for s in morning["sentences"] if not phrases.has_old_name(s)]
+    if not kept:
+        return None
+    return dict(morning, sentences=kept, morning=True, date=morning.get("date_et"))
 
 
 def last_brief_note(ed, now=None):
