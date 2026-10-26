@@ -17,6 +17,10 @@ as main held them at 739fb7b (site/data/pulse.json, flows.json, wire.json, today
 up 0.77% since midnight ET over an evidence list and chart built on a 1.70% fall over the 24 hours to 8:17 AM ET, and the
 verdict record says "Verdict at the next read" with no reason and no time. The CLOCKS are SYNTHETIC where a case says so: the
 no-read case reads that real record at 6:00 AM ET the next morning (a build clock chosen by the case, not a recorded one).
+REVIEW 1 (October 26, 2026, FAIL at d9db3cd) AND THIS ROUND'S CASES: the evidence list and chart of /today/ and the coin pages are cut to the
+ET day (the page's window), the figures beside them name it, the notice names one window and its next read follows the build clock on a
+living page, the window line prints only what the record states, and the /why/ pages stay as main wrote them. fixtures/sprint991/
+real-2026-10-15-evening and real-2026-10-16-evening hold the two stored /today/ records that predate direction_basis, byte for byte.
 NO MODEL CALL and no network anywhere.
 """
 import contextlib
@@ -45,10 +49,12 @@ GRADE = re.compile(r"\b(Confirmed|Likely|Disputed|Unclear)\b")
 NOW_MORNING = dt.datetime(2026, 10, 26, 12, 20, tzinfo=UTC)
 # SYNTHETIC: 6:00 AM ET the next day, before that day's read has run.
 NOW_NEXT_DAY = dt.datetime(2026, 10, 27, 10, 0, tzinfo=UTC)
+# The clock of Review 1's failure 3: the reviewer's build at 7:38 PM ET on October 26 (the Evening Brief's 7:08 PM slot already past).
+NOW_LATE = dt.datetime(2026, 10, 26, 23, 38, tzinfo=UTC)
 
 NEXT_READ = "Verdict at the next read"
-FLIPPED_LINE = ("Verdict at the next read: the window flipped since the run (the 24-hour run went down; the move since "
-                "midnight ET is up). Next read: tonight at 7:08 PM ET.")
+FLIPPED_LINE = ("Verdict at the next read: the window flipped since the run (the move since midnight ET is up). "
+                "Next read: tonight at 7:08 PM ET.")
 NO_READ_LINE = "Verdict at the next read: no read yet today. Next read: this morning at 8:15 AM ET."
 
 
@@ -162,16 +168,17 @@ def today_cases(fails):
         line = visible(m.group(1)) if m else ""
         guarded(fails, "the window line says the direction is read since midnight ET",
                 lambda: "since midnight ET" in line)
-        guarded(fails, "the window line names the evidence's window and the way its run went, with no figure of its own",
-                lambda: "24 hours to 8:17 AM ET" in line and "went down" in line and not re.search(r"\d\.\d\d%", line))
+        guarded(fails, "the window line says the chart and the list read the same window, with no figure of its own and no second window",
+                lambda: "same window" in line and "midnight ET to 8:17 AM ET" in line and "24 hours" not in line
+                and "went down" not in line and not re.search(r"\d\.\d\d%", line))
         guarded(fails, "the window line sits under the stamp and above the answer",
                 lambda: h.index('class="td-stamp"') < h.index('class="td-stamp td-win"') < h.index('class="td-answer"'))
         ev = re.search(r'<section class="td-sec ev".*?</section>', h, flags=re.S)
         evt = visible(ev.group(0)) if ev else ""
-        guarded(fails, "the evidence section is the 24-hour record and says so in its own attribute",
-                lambda: 'data-ev-window="rolling_24h"' in (ev.group(0) if ev else ""))
-        guarded(fails, "the evidence's run figure carries its window's name beside it (the 24 hours), never 'the window' alone",
-                lambda: re.search(r"The largest run in the 24 hours: [^.]*1\.70%", evt) and "in the window:" not in evt)
+        guarded(fails, "the evidence section reads the ET day and says so in its own attribute (Review 1, failure 1)",
+                lambda: 'data-ev-window="et_day"' in (ev.group(0) if ev else ""))
+        guarded(fails, "the evidence's run figure carries its window's name beside it (since midnight ET), never 'the window' alone",
+                lambda: re.search(r"The largest run since midnight ET: ▲ [\d.]+%", evt) and "in the window:" not in evt)
         guarded(fails, "no em dash or en dash on the page", lambda: not EM.search(h))
         # the page's own window figures: the ET-day row and the 24-hour row each carry their own window
         guarded(fails, "the What moved rows name their windows (since midnight ET, last 24 hours)",
@@ -194,8 +201,9 @@ def today_cases(fails):
         h = d.today(rec=rec, verdict=None)
         m = re.search(r'<p class="td-stamp td-win"[^>]*>(.*?)</p>', h, flags=re.S)
         line = visible(m.group(1)) if m else ""
-        guarded(fails, "the fallback page says the direction is read over the last 24 hours and why (no midnight open on the Board)",
-                lambda: "over the last 24 hours" in line and "midnight" in line and "open" in line)
+        guarded(fails, "the fallback page says the direction is read over the last 24 hours, the named fallback, and claims nothing "
+                       "about the Board that the record does not state (Review 1, failure 4)",
+                lambda: "over the last 24 hours" in line and "fallback" in line and "Board" not in line and "open" not in line)
         guarded(fails, "the fallback line carries the page's basis",
                 lambda: attrs_of(h, r'<p class="td-stamp td-win"[^>]*>').get("data-td-basis") == "rolling_24h")
 
@@ -268,8 +276,8 @@ def agree_cases(fails):
         # the evidence window is one thing on /today/ and on the coin page
         e1 = re.search(r'<p class="ev-win"[^>]*>(.*?)</p>', d.today(), flags=re.S)
         e2 = re.search(r'<p class="ev-win"[^>]*>(.*?)</p>', d.coin("BTC"), flags=re.S)
-        guarded(fails, "/today/ and /coins/btc name the same evidence window (the 24 hours to 8:17 AM ET)",
-                lambda: e1 and e2 and visible(e1.group(1)) == visible(e2.group(1)) and "24 hours to 8:17 AM ET" in visible(e1.group(1)))
+        guarded(fails, "/today/ and /coins/btc name the same evidence window (since midnight ET to 8:17 AM ET)",
+                lambda: e1 and e2 and visible(e1.group(1)) == visible(e2.group(1)) and "since midnight ET to 8:17 AM ET" in visible(e1.group(1)))
         # the verdict module is the one source of the page's window and direction
         import verdict
         day = verdict.day_moves(d.pulse, "2026-10-26")
@@ -379,8 +387,197 @@ def unchanged_cases(fails):
         late = copy.deepcopy(d.rec)
         late["composed_utc"] = "2026-10-26T23:30:00Z"
         late["next"] = "Next update: Morning Brief, tomorrow at 8:15 AM ET"
-        guarded(fails, "SYNTHETIC: the notice's next read follows the page's own composition clock (the clock its 'Next update' line used)",
-                lambda: notice_texts(d.today(rec=late)) == [FLIPPED_LINE.replace("tonight at 7:08 PM ET", "tomorrow at 8:15 AM ET")])
+        guarded(fails, "SYNTHETIC: a dated page's notice follows the page's own composition clock (the clock its 'Next update' line used)",
+                lambda: notice_texts(d.today(rec=late, here="dated")) == [FLIPPED_LINE.replace("tonight at 7:08 PM ET", "tomorrow at 8:15 AM ET")])
+
+
+# ---- REVIEW 1 (October 26, FAIL at d9db3cd) --------------------------------------------------------------------------------
+
+def section_of(h):
+    m = re.search(r'<section class="td-sec ev".*?</section>', h or "", flags=re.S)
+    return m.group(0) if m else ""
+
+
+def window_cases(fails):
+    print("8. Review 1, failures 1 and 2: the chart, the list and the headline read one window, and each figure names it")
+    import verdict
+    import why_evidence as we
+    with Draw() as d:
+        for name, h in (("/today/", d.today()), ("/coins/btc", d.coin("BTC"))):
+            sec = section_of(h)
+            st = visible(sec)
+            guarded(fails, f"{name}: the evidence section reads the ET day (data-ev-window et_day), not the 24 hours",
+                    lambda sec=sec: 'data-ev-window="et_day"' in sec)
+            guarded(fails, f"{name}: the section's text names no 24-hour window at all (the headline's window is the only one)",
+                    lambda st=st: st and "24 hours" not in st and "24-hour" not in st)
+            guarded(fails, f"{name}: the largest run is read since midnight ET and went up, as the headline says (up 0.77%)",
+                    lambda st=st: re.search(r"The largest run since midnight ET: ▲ [\d.]+%", st) is not None)
+            guarded(fails, f"{name}: the chart is labeled with the window it draws (since midnight ET), not the 24 hours",
+                    lambda sec=sec: re.search(r'<svg class="ev-chart"[^>]*aria-label="[^"]*since midnight ET', sec) is not None
+                    and not re.search(r'<svg class="ev-chart"[^>]*aria-label="[^"]*24 hours', sec))
+            guarded(fails, f"{name}: no figure is printed beside 'the window' (it would name neither window)",
+                    lambda h=h: "of the window" not in visible(h) and "against the window" not in visible(h))
+            guarded(fails, f"{name}: the events of the day before are not listed in a window that opened at midnight ET",
+                    lambda sec=sec: 'class="ev-cands"' not in sec and "since midnight ET" in
+                    (re.search(r'<p class="ev-m">The desk found no[^<]*</p>', sec).group(0) if re.search(r'<p class="ev-m">The desk found no[^<]*</p>', sec) else ""))
+            guarded(fails, f"{name}: the readings of the run's hour are not drawn for a run that began before the window, and the page says so",
+                    lambda sec=sec, st=st: "The hour the run began" not in st and 'class="ev-mech"' not in sec
+                    and "began before this window opened" in st)
+        today_h, coin_h = d.today(), d.coin("BTC")
+        guarded(fails, "/today/: the notice names the page's window only (no 24-hour run beside the ET day)",
+                lambda: all("24-hour" not in x and "24 hours" not in x for x in notice_texts(today_h)) and notice_texts(today_h))
+        guarded(fails, "the home and /coins/btc: the same, one window in the notice",
+                lambda: all("24-hour" not in x for x in notice_texts(d.home()) + notice_texts(coin_h)) and notice_texts(coin_h))
+        guarded(fails, "the headline says up and the section's largest run went up: the page no longer reads up over a fall",
+                lambda: d.rec["direction"] == "up" and "went down" not in visible(today_h)
+                and re.search(r"▼ 1\.70%", visible(section_of(today_h))) is None)
+        # the grade is the stored one: moving the display does not move how a stored verdict is graded (the rulings of October 19 and 20)
+        with quiet():
+            g = verdict.grade(d.ev, "BTC", verdict.day_moves(d.pulse, "2026-10-26"))
+        st = d.v["coins"]["BTC"]
+        guarded(fails, "grade() on the real record is the stored one (next_read, the flip's fields, the ET day basis)",
+                lambda: g["kind"] == st["kind"] == "next_read" and g["line"] == st["line"] and g["basis"] == st["basis"] == "et_day"
+                and g["reasons"] == st["reasons"] and g["move_pct"] == st["move_pct"])
+        # the evidence record is read, never written: its own series and run are as stored
+        ev0 = copy.deepcopy(d.ev)
+        d.today()
+        d.coin("BTC")
+        guarded(fails, "drawing the pages leaves the stored evidence record as it was",
+                lambda: d.ev == ev0 and d.ev["coins"]["BTC"]["run"]["dir"] == "down")
+        # SYNTHETIC: one candidate moved into the ET day, so the list has an item whose figures need their window's name
+        ev = copy.deepcopy(d.ev)
+        ev["candidates"][1]["report_utc"] = "2026-10-26T06:00:00Z"
+        for t in ev["coins"]["BTC"]["tests"]:
+            if t["id"] == ev["candidates"][1]["id"]:
+                t["t_utc"] = "2026-10-26T06:00:00Z"
+        h = d.today(evidence=ev)
+        sec = section_of(h)
+        figs = re.findall(r'<span class="ev-t">([^<]*)</span>', sec)
+        guarded(fails, "SYNTHETIC candidate in the ET day: the list prints it, its timing figure names the window",
+                lambda: len(figs) == 1 and re.search(r"% of the (rise|fall) since midnight ET", figs[0]) is not None)
+        guarded(fails, "SYNTHETIC: a candidate before the window opened (a day earlier) is not listed",
+                lambda: sec.count('data-ev-id=') == 1)
+    # the named fallback: a stored series that does not reach midnight ET cannot be cut honestly
+    print("   the 24 hours only as the named fallback, with the window's name beside every figure")
+    with Draw() as d:
+        ev = copy.deepcopy(d.ev)
+        ev["candidates"][1]["report_utc"] = "2026-10-26T06:00:00Z"
+        for t in ev["coins"]["BTC"]["tests"]:
+            if t["id"] == ev["candidates"][1]["id"]:
+                t["t_utc"] = "2026-10-26T06:00:00Z"
+        pts = ev["coins"]["BTC"]["series"]["points"]
+        ev["coins"]["BTC"]["series"]["points"] = [p for p in pts if p[0] >= 1792987200 + 3600]     # SYNTHETIC: nothing before 1:00 AM ET
+        h = d.today(evidence=ev)
+        sec = section_of(h)
+        st = visible(sec)
+        guarded(fails, "SYNTHETIC series starting after midnight ET: the section names the 24 hours as the fallback in its attribute",
+                lambda: 'data-ev-window="rolling_24h"' in sec)
+        guarded(fails, "the fallback says why, from the stored prices",
+                lambda: "read the 24 hours" in st and "do not reach midnight ET" in st)
+        guarded(fails, "every figure of the fallback names the 24 hours (run, shares)",
+                lambda: re.search(r"The largest run in the 24 hours: [▲▼] [\d.]+%", st) and
+                all(re.search(r"(of the (rise|fall)|against the (rise|fall)) in the 24 hours", f) for f in re.findall(r'<span class="ev-t">([^<]*)</span>', sec)
+                    if "next 60 minutes" in f or "rest of" in f))
+        guarded(fails, "the fallback's window line on /today/ names the fallback and the reason, so the page never hides two windows",
+                lambda: re.search(r"The chart and the list below read the 24 hours to 8:17 AM ET", visible(re.search(r'<p class="td-stamp td-win".*?</p>', h, flags=re.S).group(0))) is not None)
+        # the direction check: the cut must run the way the page reads
+        ok = we.section_html(d.ev, "BTC", live=True, window="et_day", want_dir="up")
+        bad = we.section_html(d.ev, "BTC", live=True, window="et_day", want_dir="down")
+        guarded(fails, "the cut must run the way the page's direction reads: the same day read as down falls back and says so",
+                lambda: 'data-ev-window="et_day"' in ok and 'data-ev-window="rolling_24h"' in bad and "runs the other way" in visible(bad))
+        # a graded card is graded on the stored run: a cut that finds another run falls back, so card and list never grade apart
+        diff = we.section_html(d.ev, "BTC", live=True, window="et_day", want_dir="up", graded="Likely")
+        guarded(fails, "a graded verdict whose stored run is not the day's run: the list falls back to the 24 hours the grade was made on",
+                lambda: 'data-ev-window="rolling_24h"' in diff and "the verdict is graded on" in visible(diff))
+
+
+def nextread_cases(fails):
+    print("9. Review 1, failure 3: the time of the next read is the build's on a living page, and the same on the home, /today/ and the coin page")
+    import today
+    import twins_gate
+    tmp = tempfile.mkdtemp(prefix="s991-nr-")
+    try:
+        with Draw(NOW_LATE) as d:
+            wd, vd = os.path.join(tmp, "why"), os.path.join(tmp, "verdict")
+            os.makedirs(wd)
+            os.makedirs(vd)
+            shutil.copy(os.path.join(FX, "why_2026-10-26-morning.json"), os.path.join(wd, "2026-10-26-morning.json"))
+            shutil.copy(os.path.join(FX, "verdict_2026-10-26-morning.json"), os.path.join(vd, "2026-10-26-morning.json"))
+            with quiet():
+                pages = dict((f, h) for f, h, _p, _m in today.build_pages(d.snap, d.pulse, d.wire, None, load("morning.json"), NOW_LATE,
+                                                                          twins_gate.Gate(d.snap), stored=[d.rec], why_dir=wd, verdict_dir=vd))
+            living, dated = pages["today/index.html"], pages["today/2026-10-26.html"]
+            want = FLIPPED_LINE.replace("tonight at 7:08 PM ET", "tomorrow at 8:15 AM ET")
+            guarded(fails, "premise: the build is at 7:38 PM ET, after the 7:08 PM slot, and the living page is the morning record",
+                    lambda: d.rec["slot"] == "morning" and "Morning Brief" in visible(living))
+            when = lambda h: [re.search(r"Next read: (.*)\.$", x).group(1) for x in notice_texts(h)]
+            guarded(fails, "the living /today/ names tomorrow's read, not the 7:08 PM slot that has passed",
+                    lambda: when(living) == ["tomorrow at 8:15 AM ET"])
+            guarded(fails, "the home names the same time", lambda: when(d.home()) == ["tomorrow at 8:15 AM ET"])
+            guarded(fails, "the Bitcoin page names the same time", lambda: when(d.coin("BTC")) == ["tomorrow at 8:15 AM ET"])
+            guarded(fails, "the three pages print the whole notice the same way (one fact, one value)",
+                    lambda: notice_texts(living) == notice_texts(d.home()) == notice_texts(d.coin("BTC")) == [want])
+            guarded(fails, "no page of the item prints a next read that is already past",
+                    lambda: all("tonight at 7:08 PM ET" not in x for x in notice_texts(living) + notice_texts(d.home()) + notice_texts(d.coin("BTC"))))
+            guarded(fails, "a dated page keeps its own record's clock (the day's record never changes with the clock that draws it)",
+                    lambda: when(dated) == ["tonight at 7:08 PM ET"] and notice_texts(dated) == [FLIPPED_LINE])
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def unsourced_cases(fails):
+    print("10. Review 1, failure 4: the window line prints only what the record states")
+    import today
+    for day in ("2026-10-15", "2026-10-16"):
+        rec = json.load(open(os.path.join(HERE, "fixtures", "sprint991", f"real-{day}-evening", "today.json"), encoding="utf-8"))
+        h = today.body_html(rec, [], "dated")
+        m = re.search(r'<p class="td-stamp td-win"[^>]*>(.*?)</p>', h, flags=re.S)
+        line = visible(m.group(1)) if m else ""
+        guarded(fails, f"{day} (stored before direction_basis existed, no basis field): the line claims nothing about the Board's midnight open",
+                lambda line=line: line and "Board" not in line and "no midnight" not in line and "holds no" not in line)
+        guarded(fails, f"{day}: it says the record does not state its window, and the page marks the basis as unstated",
+                lambda line=line, h=h: "does not state" in line and attrs_of(h, r'<p class="td-stamp td-win"[^>]*>').get("data-td-basis") == "unstated")
+    with Draw() as d:
+        rec = copy.deepcopy(d.rec)
+        rec["direction_basis"] = "rolling_24h"
+        rec["btc"]["chg_day"] = None
+        h = today.body_html(rec, [], "dated")
+        m = re.search(r'<p class="td-stamp td-win"[^>]*>(.*?)</p>', h, flags=re.S)
+        line = visible(m.group(1)) if m else ""
+        guarded(fails, "a record that states the rolling 24 hours: the line says so and names it the fallback, with no reason the record does not give",
+                lambda: "over the last 24 hours" in line and "fallback" in line and "Board" not in line)
+
+
+def scope_cases(fails):
+    print("11. Review 1, failure 5: the /why/ pages and everything outside the item stay as main wrote them")
+    import verdict
+    import why_evidence as we
+    with Draw() as d:
+        sec = we.section_html(d.ev, "BTC", live=False)
+        guarded(fails, "the evidence section called without a window is main's: 'the window' wording, no window attribute",
+                lambda: "The largest run in the window:" in sec and "data-ev-window" not in sec and "in the 24 hours" not in sec
+                and 'class="td-sec ev" aria-label="What lined up with the move" data-ev="BTC">' in sec)
+    t = s93()
+    v14 = verdict.record_from(t.rec(t.D14()), "2026-10-14", "evening", day=t.day14())
+    guarded(fails, "a verdict page's card (where=page) carries no data-vd-basis or data-vd-dir (main's markup)",
+            lambda: "data-vd-basis" not in verdict.card_html(v14, "BTC", where="page", live=False)
+            and "data-vd-dir" not in verdict.card_html(v14, "BTC", where="page", live=False))
+    guarded(fails, "the home's graded card still carries them (the three pages' agreement is read from them)",
+            lambda: "data-vd-basis" in verdict.card_html(v14, "BTC", where="home", live=True))
+
+
+def scope_tree(root):
+    fails = []
+    print("   the tree: no /why/ page carries the window attributes of this item")
+    pages = []
+    for sub in ("why",):
+        for dp, _d, fs in os.walk(os.path.join(root, sub)):
+            pages += [os.path.join(dp, f) for f in fs if f.endswith(".html")]
+    guarded(fails, "the built tree has /why/ pages to check", lambda: bool(pages))
+    guarded(fails, "no /why/ page carries data-ev-window or data-vd-basis (they are outside 9.9.1's pages)",
+            lambda: all("data-ev-window" not in open(p, encoding="utf-8", errors="replace").read()
+                        and "data-vd-basis" not in open(p, encoding="utf-8", errors="replace").read() for p in pages))
+    return fails
 
 
 # ---- the browser half: the first object at 375 and 1440 ----------------------------------------------------------------
@@ -461,6 +658,7 @@ def tree(root):
     c = open(cp, encoding="utf-8").read() if os.path.exists(cp) else ""
     guarded(fails, "the built Bitcoin page carries the verdict card or the notice, as the home does (the build hands the page its clock)",
             lambda: re.search(r'<aside class="vd[^"]*" data-vd="BTC"', c) is not None)
+    fails += scope_tree(root)
     guarded(fails, "no built page that carries the bare words 'Verdict at the next read' lacks a reason and a time",
             lambda: all(_every_notice_full(os.path.join(dp, f)) for dp, _d, fs in os.walk(root) for f in fs if f.endswith(".html")))
     return fails
@@ -475,19 +673,27 @@ def _every_notice_full(path):
     return True
 
 
-def unit():
+def unit(only=()):
     fails = []
     for name, fn in (("today", today_cases), ("notice", notice_cases), ("agree", agree_cases), ("front", front_cases),
-                     ("unchanged", unchanged_cases)):
+                     ("unchanged", unchanged_cases), ("window", window_cases), ("nextread", nextread_cases),
+                     ("unsourced", unsourced_cases), ("scope", scope_cases)):
+        if only and name not in only:
+            continue
         group(fails, name, fn)
     return fails
 
 
 def main():
     args = sys.argv[1:]
-    fails = unit()
+    only = args[args.index("--only") + 1].split(",") if "--only" in args else ()
+    fails = unit(only)
     if "--tree" in args:
-        fails += tree(args[args.index("--tree") + 1])
+        root = args[args.index("--tree") + 1]
+        if not only:
+            fails += tree(root)
+        elif "scope" in only:
+            fails += scope_tree(root)
     if "--browser" in args:
         group(fails, "browser", browser)
     print(f"\nSPRINT 9.9.1: {'PASS' if not fails else 'FAIL'} ({len(fails)} failure(s))")

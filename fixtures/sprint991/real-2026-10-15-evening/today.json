@@ -1,0 +1,174 @@
+{
+ "date_et": "2026-10-15",
+ "slot": "evening",
+ "published_utc": "2026-10-15T23:45:15Z",
+ "first_utc": "2026-10-15T23:45:15Z",
+ "direction": "up",
+ "title": "Why is crypto up today? Thursday, October 15, 2026",
+ "h1": "Why is crypto up today? Thursday, October 15, 2026",
+ "stamp_label": "Evening Edition, 7:45 PM ET",
+ "composed_utc": "2026-10-15T23:46:42Z",
+ "board_stamp_et": "7:43 PM ET on Oct 15",
+ "answer": [
+  "The desk published no new stories today, so this edition is built entirely from its own market boards.",
+  "Those boards show bitcoin at $82,119, up 0.8% on the day but down 2.0% over the week and up 4.4% over the month, a divergence the desk's own window-sign table flags explicitly.",
+  "ETF flows stayed negative, with bitcoin ETFs posting a net outflow of $137.6 million over the week and ether ETFs a net outflow of $264.5 million over the week, even as the Whale Watch board shows $51,371,224 in bitcoin moving off exchanges in the last 24 hours, a reading set against four straight prior weeks of bitcoin moving onto exchanges per the same board.",
+  "No regulatory storyline the desk tracks reached a new checkpoint today; their next steps remain as previously dated in the desk's own reporting."
+ ],
+ "answer_by": "evening",
+ "fallback": false,
+ "btc": {
+  "price": 82119,
+  "chg": 0.8
+ },
+ "eth": {
+  "price": 2438.51,
+  "chg": 0.96
+ },
+ "cap": null,
+ "gainers": [
+  {
+   "symbol": "STRK",
+   "name": "Starknet",
+   "chg": 12.97,
+   "slug": "strk"
+  },
+  {
+   "symbol": "INJ",
+   "name": "Injective",
+   "chg": 11.35,
+   "slug": "inj"
+  },
+  {
+   "symbol": "PYTH",
+   "name": "Pyth Network",
+   "chg": 9.36,
+   "slug": "pyth"
+  }
+ ],
+ "losers": [
+  {
+   "symbol": "CC",
+   "name": "Canton",
+   "chg": -7.97,
+   "slug": "cc"
+  },
+  {
+   "symbol": "JST",
+   "name": "JUST",
+   "chg": -6.99,
+   "slug": "jst"
+  },
+  {
+   "symbol": "PUMP",
+   "name": "Pump.fun",
+   "chg": -4.67,
+   "slug": "pump"
+  }
+ ],
+ "reported": [
+  {
+   "line": "Brooklyn DA and FBI dismantled Russian-language crypto scam network, seizing 112 servers and shutting 241 domains after victims lost tens of millions.",
+   "time": "8:35 AM ET",
+   "source_count": 2,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/business/2026/10/15/how-brooklyn-prosecutors-and-the-fbi-took-down-a-massive-crypto-fraud-network-targeting-russian-speakers"
+    },
+    {
+     "outlet": "Protos",
+     "url": "https://protos.com/fbi-helps-smash-crypto-scam-targeting-russian-speakers-in-brooklyn/"
+    }
+   ]
+  },
+  {
+   "line": "EU banking authority classified Circle's USDC as 'significant' e-money token under MiCA, activating Nov. 12 supervisory rules.",
+   "time": "7:10 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "The Block",
+     "url": "https://www.theblock.co/news/regulation/2026-10-15-eba-designates-circles-usdc-as-the-eus-first-significant-e-money-token-418637"
+    }
+   ]
+  },
+  {
+   "line": "Australia's ASIC proposed stricter rules for crypto exchange licensing, including capital and custody requirements due ahead of 2027 rollout.",
+   "time": "5:53 AM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "CoinDesk",
+     "url": "https://www.coindesk.com/policy/2026/10/15/australia-s-financial-watchdog-seeks-stiffer-rules-for-crypto-exchanges-ahead-of-licensing-deadline"
+    }
+   ]
+  },
+  {
+   "line": "Russia's Central Bank confirmed ban on direct P2P crypto trades effective July 1, 2027, requiring residents to use authorized intermediaries.",
+   "time": "4:31 PM ET",
+   "source_count": 1,
+   "primary": false,
+   "links": [
+    {
+     "outlet": "Decrypt",
+     "url": "https://decrypt.co/381079/russia-ban-peer-to-peer-bitcoin-trading"
+    }
+   ]
+  }
+ ],
+ "board": [
+  {
+   "key": "etf",
+   "label": "Bitcoin spot ETF net",
+   "value": -7.6,
+   "window": "one trading day, 15 Oct 2026",
+   "source": "Farside Investors",
+   "stamp": "7:43 PM ET on Oct 15",
+   "directional": true
+  },
+  {
+   "key": "liq",
+   "label": "Bitcoin liquidations",
+   "longs": 323395,
+   "shorts": 347035,
+   "window": "last 6 hours",
+   "source": "OKX",
+   "stamp": "7:43 PM ET on Oct 15",
+   "directional": false
+  },
+  {
+   "key": "funding",
+   "label": "Bitcoin funding",
+   "value": 0.0045,
+   "window": "current 8-hour period",
+   "source": "OKX",
+   "stamp": "7:43 PM ET on Oct 15",
+   "directional": false
+  },
+  {
+   "key": "fng",
+   "label": "Fear & Greed",
+   "value": 53,
+   "word": "Neutral",
+   "window": "today",
+   "source": "alternative.me",
+   "stamp": "7:43 PM ET on Oct 15",
+   "directional": false
+  }
+ ],
+ "next": "Next update: Morning read, tomorrow at 8:15 AM ET",
+ "corrections": [
+  {
+   "date": "October 16, 2026",
+   "text": "A wire line on this page, \"Hot US producer-price data triggered nearly $940 million in crypto liquidations as Fed rate-hike bets spiked to 50%\", named a cause and two figures that its linked CoinDesk report does not carry. That report gives nearly $483 million in Bitcoin and Ether futures liquidations over 24 hours and says uncertainty about the Federal Reserve's next interest-rate decision weighed on the market. The line has been removed."
+  },
+  {
+   "date": "October 16, 2026",
+   "text": "The whole-market 24-hour change this page showed (down 2.13%) contradicted Bitcoin (up 0.80%) and Ether (up 0.96%), which moved the other way. The desk could not reconcile it with the Top 100 and has removed it."
+  }
+ ]
+}

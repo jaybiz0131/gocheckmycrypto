@@ -1,0 +1,8 @@
+10. Review 1, failure 4: the window line prints only what the record states
+  FAIL 2026-10-15 (stored before direction_basis existed, no basis field): the line claims nothing about the Board's midnight open
+  FAIL 2026-10-15: it says the record does not state its window, and the page marks the basis as unstated
+  FAIL 2026-10-16 (stored before direction_basis existed, no basis field): the line claims nothing about the Board's midnight open
+  FAIL 2026-10-16: it says the record does not state its window, and the page marks the basis as unstated
+  FAIL a record that states the rolling 24 hours: the line says so and names it the fallback, with no reason the record does not give
+
+SPRINT 9.9.1: FAIL (5 failure(s))
