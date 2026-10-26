@@ -1049,10 +1049,14 @@ def cite(html_text, date_et, directory=None):
 
 # ---- the /why/ pages ----------------------------------------------------------------------------------------
 
-def build_pages(directory=None, dateline="", share=None):
+def build_pages(directory=None, dateline="", share=None, record=None):
     """[{rel, html, path, lastmod, published_utc, title}] for every graded mover verdict: one URL per day and
     coin, its slug the coin's CoinGecko id, kept once written. The page carries the day's newest graded
-    verdict for the coin and its evidence."""
+    verdict for the coin and its evidence. `record` (Sprint 9.8, round 4): verdict_record.standings(), each page's
+    standing line; drawn here when not given."""
+    import verdict_record
+    if record is None:
+        record = verdict_record.standings(mdir=directory)
     by, evening = {}, set()
     for r in records(directory):
         prepare(r)
@@ -1067,13 +1071,13 @@ def build_pages(directory=None, dateline="", share=None):
         items.sort(key=lambda t: ((t[0].get("window") or {}).get("end_utc") or "", t[0].get("made_utc") or ""),
                    reverse=True)
         try:
-            out.append(_page(day, cid, items, dateline, share, ["evening"] if day in evening else []))
+            out.append(_page(day, cid, items, dateline, share, ["evening"] if day in evening else [], record))
         except Exception as ex:                                   # noqa: BLE001
             print(f"::warning::movers: /why/{day}-{cid} was not built ({type(ex).__name__}: {ex})")
     return out
 
 
-def _page(day, cid, items, dateline, share=None, slots=()):
+def _page(day, cid, items, dateline, share=None, slots=(), record=None):
     import site_build as sb
     we, vd = _we(), _vd()
     rec, sym, e = items[0]
@@ -1090,6 +1094,8 @@ def _page(day, cid, items, dateline, share=None, slots=()):
     coin_link = (f'<p class="td-w">{_e(name)}\'s page, with its chart and readings, is at '
                  f'<a href="{_e(href)}">{_e(href[:-5])}</a>.</p>') if href else ""
     stamp = {"morning": "Morning Brief", "evening": "Evening Brief"}.get(rec.get("slot"), "Breaking read")
+    import verdict_record                    # SPRINT 9.8, round 4: the move's standing on the record, linked
+    standing = verdict_record.standing_html(path_rel, record)
     body = f"""<main class="wrap"><section class="page td-page vd-page">
   <span class="kicker">Why it moved</span>
   <h1>{_e(title)}</h1>
@@ -1097,6 +1103,7 @@ def _page(day, cid, items, dateline, share=None, slots=()):
   {card}
   {sec}
   {coin_link}
+  {standing}
 </section></main>"""
     canon = sb.ORIGIN + path_rel
     desc = " ".join(v.get("text") or v.get("line") or [])[:200]
@@ -1206,6 +1213,16 @@ def main():
         log.append(f"::warning::movers: no record written ({type(e).__name__}: {e})")
     for line in log:
         print(line)
+    # SPRINT 9.8: the verdict record stores this run's graded movers and any Likely they resolve (append-only)
+    try:
+        import signal
+        signal.alarm(0)                                          # review 1: no alarm or SIGTERM handler armed in the write
+        signal.signal(signal.SIGALRM, signal.SIG_DFL)
+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
+        import verdict_record
+        verdict_record.sync(save=True)
+    except Exception as e:                                       # noqa: BLE001
+        print(f"::warning::verdict record: not stored this run ({type(e).__name__}: {e})")
     return 0
 
 

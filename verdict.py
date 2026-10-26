@@ -1209,11 +1209,15 @@ def _readings_html(rd, text, rows=True, with_section=False):
 SLOT_LABEL = {"morning": "Morning Brief", "evening": "Evening Brief"}
 
 
-def build_pages(vdir=None, wdir=None, tdir=None, dateline="", share=None):
+def build_pages(vdir=None, wdir=None, tdir=None, dateline="", share=None, record=None):
     """[{rel, html, path, lastmod, published_utc, title}] for every graded verdict: one URL per day and
     coin, kept once it exists. The page carries the day's newest graded verdict and its evidence.
     `share` (share_cards.Ctx, Sprint 9.6): when it names a directory the page's own square image is drawn there and
-    the page's Open Graph and Twitter tags name it; without it the page is the page it was."""
+    the page's Open Graph and Twitter tags name it; without it the page is the page it was.
+    `record` (Sprint 9.8, round 4): verdict_record.standings(), each page's standing line; drawn here when not given."""
+    import verdict_record
+    if record is None:
+        record = verdict_record.standings(vdir=vdir, wdir=wdir)
     by_day = {}
     for n in _names(vdir):
         r = load(n[:10], n[11:-5], vdir)
@@ -1227,13 +1231,13 @@ def build_pages(vdir=None, wdir=None, tdir=None, dateline="", share=None):
             if not graded:
                 continue
             try:
-                out.append(_page(day, sym, recs, graded[0], vdir, wdir, tdir, dateline, share))
+                out.append(_page(day, sym, recs, graded[0], vdir, wdir, tdir, dateline, share, record))
             except Exception as e:                               # noqa: BLE001
                 print(f"::warning::verdict: /why/{slug(day, sym)} was not built ({type(e).__name__}: {e})")
     return out
 
 
-def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline, share=None):
+def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline, share=None, record=None):
     import site_build as sb
     we = _we()
     name = NAMES[sym][0]
@@ -1248,6 +1252,8 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline, share=None):
     v = lead["coins"][sym]
     pub = lead.get("made_utc") or ""
     stamp = SLOT_LABEL.get(lead.get("slot"), "")
+    import verdict_record                    # SPRINT 9.8, round 4: the move's standing on the record, linked
+    standing = verdict_record.standing_html(url(day, sym), record)
     tdd = tdir or os.path.join(HERE, "site", "data", "today")
     today_link = ""
     if any(os.path.exists(os.path.join(tdd, f"{day}-{sl}.json")) for sl in ("morning", "evening")):
@@ -1260,6 +1266,7 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline, share=None):
   {card}
   {ev_html}
   {today_link}
+  {standing}
 </section></main>"""
     path = f"/why/{slug(day, sym)}.html"
     canon = sb.ORIGIN + url(day, sym)
@@ -1351,7 +1358,23 @@ def main():
         signal.alarm(0)
     except Exception as e:                                       # never a gate on a slot
         print(f"::warning::verdict: no verdict written ({type(e).__name__}: {e})")
+    _sync_record()
     return 0
+
+
+def _sync_record():
+    """SPRINT 9.8: store every new graded verdict and every newly resolved Likely in the verdict record (verdict_record.py),
+    append-only, in site/data/verdict/record/, which the run's commit stages with site/data/verdict. Never a gate."""
+    try:
+        # the step's alarm and its SIGTERM handler are disarmed first (review 1): neither may fire inside the store's write
+        import signal
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, signal.SIG_DFL)
+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
+        import verdict_record
+        verdict_record.sync(save=True)
+    except Exception as e:                                       # noqa: BLE001
+        print(f"::warning::verdict record: not stored this run ({type(e).__name__}: {e})")
 
 
 if __name__ == "__main__":

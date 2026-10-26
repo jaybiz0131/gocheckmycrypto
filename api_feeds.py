@@ -11,6 +11,7 @@ One JSON file per screen, written by the build that writes the pages, from the r
     brief/latest.json      the Brief's page     the newest Brief
     why/today.json         /today, /why         the newest stored day's verdicts and evidence
     why/<date>.json        /today/<date>        one file per STORED day, never an unstored one
+    why/record.json        /why/record/         the verdict record: the tally and every graded verdict (Sprint 9.8)
     coins/<slug>.json      /coins/<slug>        a coin page's readings
     events.json            (no page)            the newest 50 events that WOULD push, from stored records
     index.json                                  the list of the above, with each one's as-of and stale flag
@@ -486,6 +487,18 @@ def index_feed(feeds, now):
                                     "stale_after_hours old at built_utc; apply the same comparison again when you read."})
 
 
+def _record_feed(ctx, now):
+    """ALWAYS WRITTEN (review 1, ruling C3 (2)): a record it cannot draw is the unreadable feed, as its page is the unreadable
+    page, so the gate judges the degraded feed and never meets an absent one."""
+    import verdict_record as vr
+    try:
+        v = vr.view(now, vdir=ctx.get("vdir"), mdir=ctx.get("mdir"), wdir=ctx.get("wdir"), store=ctx.get("rstore"))
+        return vr.feed(v, now)
+    except Exception as e:                                   # noqa: BLE001
+        print(f"::warning::api feeds: the verdict record could not be drawn ({type(e).__name__}: {e}); its feed says so")
+        return vr.feed_unreadable(now, f"{type(e).__name__}")
+
+
 def build_all(ctx):
     """{relative path: envelope} from the build's own inputs. `ctx`: now, snap, pulse, flows, items, wire, ed, movers_rec,
     board_tiles, coin_tiles {slug: (coin, rank, tiles, facts)}, and the stored-record directories (None for the defaults).
@@ -509,6 +522,8 @@ def build_all(ctx):
         out.update(why_feeds(now, ctx.get("vdir"), ctx.get("wdir"), ctx.get("tdir")))
     except Exception as e:                                   # noqa: BLE001
         print(f"::warning::api feeds: the dated verdict feeds were not written ({type(e).__name__}: {e})")
+    # SPRINT 9.8: the verdict record, /why/record/, from the same stores the page reads
+    put("why/record.json", lambda: _record_feed(ctx, now))
     put("events.json", lambda: events_feed(ctx.get("items"), now, ctx.get("vdir"), ctx.get("mdir"), ctx.get("tdir"), ctx.get("morning")))
     for slug, (c, pos, tiles, facts) in (ctx.get("coin_tiles") or {}).items():
         put(f"coins/{slug}.json", lambda c=c, pos=pos, tiles=tiles, facts=facts: coin_feed(c, pos, tiles, ctx["pulse"], now, facts))
