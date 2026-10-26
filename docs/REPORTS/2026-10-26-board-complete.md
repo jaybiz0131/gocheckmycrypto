@@ -21,3 +21,8 @@ Written October 26, 2026, 1:12 AM ET by the pod shift. Documents only; nothing b
 
 ## Gate
 - `python3 verify_pipeline.py canary` with python3 resolving to 3.12 (the workflows' version; this sandbox's default 3.11 cannot parse site_build.py, and the coin pages canary shells out to python3), on the tree with this report: `LAYER 1 CANARY: PASS`, exit 0. Run with the 3.11 default first, it printed `LAYER 1 CANARY: FAIL (3 problem(s))`, all three in the coin pages canary from scripts/top100_fixture_rows.py failing under 3.11.
+
+## Re-check, October 26, 2026, 3:13 AM ET (the next shift)
+- Pod inbox: Crypto read (README first): the same three entries, 2026-10-20-C2, 2026-10-21-C3 and 2026-10-25-C4, all already in docs/RULINGS.md by id. Nothing applied.
+- `docs/RULES.md` body hash `4179b2ac06d0dc7fb9de9987dc077884df6f4e1b5ebabe1b6ff1bb2de8b3568d`, matches docs/BOARD.md.
+- main at the start: `540fd87`. No item at building; the board unchanged since this report. Still complete; nothing built, nothing merged, no production build spent. The board and docs/REVIEW.md wait on the strategist.
