@@ -1162,11 +1162,12 @@ def _card(vrec, sym, where, live, corrections, link, with_section=False, now=Non
         return f'<p class="vd-plain">Ether moved with Bitcoin {_e(ww)}.</p>' if where == "coin" else ""
     if v.get("kind") == "next_read":
         # October 20, J-8 (b): no grade, and the notice stands in the card's place on every page that draws it. SPRINT 9.9.1: it
-        # says why (the window flipped since the run, both directions named, no figure) and when the next read is, in one line,
-        # inside a card of its own so it is the home's first object like any verdict.
+        # says why (the window flipped since the run) and when the next read is, in one line, inside a card of its own so it is
+        # the home's first object like any verdict. It names the page's window and the way the move ran in it, and no other window
+        # and no figure (Review 1: one window per page).
         wd, rd = _flip_dirs(v, vrec, sym)
         ww = v.get("window_words") or WINDOW_WORDS["rolling_24h"]
-        detail = f"the 24-hour run went {rd}; the move {ww} is {wd}" if wd and rd else ""
+        detail = f"the move {ww} is {wd}" if wd else ""
         return _notice_card(sym, v.get("name") or sym, "next_read",
                             notice_line(WHY_FLIPPED, _next_read_when(now, vrec), detail), v.get("basis"), wd)
     if v.get("kind") not in ("graded", "withheld"):
@@ -1216,8 +1217,11 @@ def _card(vrec, sym, where, live, corrections, link, with_section=False, now=Non
     more = ""
     if link and v.get("url") and where != "page":
         more = f'<p class="vd-more"><a href="{_e(v["url"])}">The verdict and its evidence</a></p>'
-    at = (f' data-vd-basis="{_e(v.get("basis"))}"' if v.get("basis") else "") + (
-        f' data-vd-dir="{_e(v.get("dir"))}"' if v.get("dir") in ("up", "down") else "")
+    # the window and direction the card reads, for the pages of Sprint 9.9.1 only (a verdict page's card is main's markup)
+    at = ""
+    if where in ("home", "today", "coin"):
+        at = (f' data-vd-basis="{_e(v.get("basis"))}"' if v.get("basis") else "") + (
+            f' data-vd-dir="{_e(v.get("dir"))}"' if v.get("dir") in ("up", "down") else "")
     return (f'<aside class="vd vd-{cls}" data-vd="{_e(sym)}"{at} aria-label="Why {_e(name)} moved">'
             f'<h2 class="vd-h">Why {_e(name)} moved</h2>{win}{body}{corr}{more}</aside>')
 

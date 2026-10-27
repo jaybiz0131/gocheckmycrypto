@@ -420,9 +420,9 @@ def window_cases(fails):
             guarded(fails, f"{name}: the events of the day before are not listed in a window that opened at midnight ET",
                     lambda sec=sec: 'class="ev-cands"' not in sec and "since midnight ET" in
                     (re.search(r'<p class="ev-m">The desk found no[^<]*</p>', sec).group(0) if re.search(r'<p class="ev-m">The desk found no[^<]*</p>', sec) else ""))
-            guarded(fails, f"{name}: the readings of the run's hour are not drawn for a run that began before the window, and the page says so",
+            guarded(fails, f"{name}: the readings of the run's hour are not drawn for another run than the window's largest, and the page says so",
                     lambda sec=sec, st=st: "The hour the run began" not in st and 'class="ev-mech"' not in sec
-                    and "began before this window opened" in st)
+                    and "is not the largest run in this window" in st)
         today_h, coin_h = d.today(), d.coin("BTC")
         guarded(fails, "/today/: the notice names the page's window only (no 24-hour run beside the ET day)",
                 lambda: all("24-hour" not in x and "24 hours" not in x for x in notice_texts(today_h)) and notice_texts(today_h))
@@ -446,10 +446,10 @@ def window_cases(fails):
                 lambda: d.ev == ev0 and d.ev["coins"]["BTC"]["run"]["dir"] == "down")
         # SYNTHETIC: one candidate moved into the ET day, so the list has an item whose figures need their window's name
         ev = copy.deepcopy(d.ev)
-        ev["candidates"][1]["report_utc"] = "2026-10-26T06:00:00Z"
+        ev["candidates"][1]["report_utc"] = "2026-10-26T04:30:00Z"
         for t in ev["coins"]["BTC"]["tests"]:
             if t["id"] == ev["candidates"][1]["id"]:
-                t["t_utc"] = "2026-10-26T06:00:00Z"
+                t["t_utc"] = "2026-10-26T04:30:00Z"
         h = d.today(evidence=ev)
         sec = section_of(h)
         figs = re.findall(r'<span class="ev-t">([^<]*)</span>', sec)
@@ -461,10 +461,10 @@ def window_cases(fails):
     print("   the 24 hours only as the named fallback, with the window's name beside every figure")
     with Draw() as d:
         ev = copy.deepcopy(d.ev)
-        ev["candidates"][1]["report_utc"] = "2026-10-26T06:00:00Z"
+        ev["candidates"][1]["report_utc"] = "2026-10-26T04:30:00Z"
         for t in ev["coins"]["BTC"]["tests"]:
             if t["id"] == ev["candidates"][1]["id"]:
-                t["t_utc"] = "2026-10-26T06:00:00Z"
+                t["t_utc"] = "2026-10-26T04:30:00Z"
         pts = ev["coins"]["BTC"]["series"]["points"]
         ev["coins"]["BTC"]["series"]["points"] = [p for p in pts if p[0] >= 1792987200 + 3600]     # SYNTHETIC: nothing before 1:00 AM ET
         h = d.today(evidence=ev)
@@ -484,7 +484,7 @@ def window_cases(fails):
         ok = we.section_html(d.ev, "BTC", live=True, window="et_day", want_dir="up")
         bad = we.section_html(d.ev, "BTC", live=True, window="et_day", want_dir="down")
         guarded(fails, "the cut must run the way the page's direction reads: the same day read as down falls back and says so",
-                lambda: 'data-ev-window="et_day"' in ok and 'data-ev-window="rolling_24h"' in bad and "runs the other way" in visible(bad))
+                lambda: 'data-ev-window="et_day"' in ok and 'data-ev-window="rolling_24h"' in bad and "run the other way" in visible(bad))
         # a graded card is graded on the stored run: a cut that finds another run falls back, so card and list never grade apart
         diff = we.section_html(d.ev, "BTC", live=True, window="et_day", want_dir="up", graded="Likely")
         guarded(fails, "a graded verdict whose stored run is not the day's run: the list falls back to the 24 hours the grade was made on",

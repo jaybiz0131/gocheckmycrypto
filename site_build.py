@@ -8287,7 +8287,26 @@ def render_coin_chart(c, name, cid, spark):
             f'<p class="pc-note cc-cap" data-coin-cap>{note}</p></section>')
 
 
-def _coin_evidence(sym, pulse, evidence=None, graded=None, marks=()):
+def _coin_window(sym, pulse, vrec, rec):
+    """SPRINT 9.9.1 (Review 1): (window, direction) the Bitcoin or Ether page reads, the one its verdict card reads: the verdict
+    record's own day (basis and moves) when it carries one, else the Board's day for the ET date the evidence window ends on
+    (verdict.day_moves), else the 24 hours, named. The direction is the way the coin moved in that window, for the cut's check."""
+    try:
+        import verdict as _vd
+        import why_evidence as _we
+        day = (vrec or {}).get("day")
+        if not (isinstance(day, dict) and day.get("basis") in ("et_day", "rolling_24h")):
+            wend = _we._parse_utc(((rec or {}).get("window") or {}).get("end_utc"))
+            day = _vd.day_moves(pulse, _we._et(int(wend.timestamp())).date().isoformat()) if wend else None
+        if not day:
+            return "rolling_24h", None
+        mv = day.get(sym)
+        return day["basis"], ("up" if mv > 0 else "down" if mv < 0 else None) if isinstance(mv, (int, float)) else None
+    except Exception:                            # fail open: the 24 hours, named
+        return "rolling_24h", None
+
+
+def _coin_evidence(sym, pulse, evidence=None, graded=None, marks=(), vrec=None, named=False):
     """PROGRAM 9, SPRINT 9.2: (section html, wire source URLs it prints) for Bitcoin and Ether,
     from the newest stored evidence record (why_evidence.py) when its window ends within 3 hours
     of the Board reading this page carries. ('', set()) otherwise: the page as it was."""
@@ -8298,6 +8317,10 @@ def _coin_evidence(sym, pulse, evidence=None, graded=None, marks=()):
         rec = evidence if evidence is not None else _we.latest()
         if not _we.from_snapshot_coin(rec, sym, (pulse or {}).get("generated_utc") or ""):
             return "", set()
+        if named:
+            win, want = _coin_window(sym, pulse, vrec, rec)
+            html = _we.section_html(rec, sym, live=True, graded=graded, marks=marks, window=win, want_dir=want)
+            return (html, _we.wire_urls_shown(rec, sym, win, want, graded)) if html else ("", set())
         html = _we.section_html(rec, sym, live=True, graded=graded, marks=marks)
         return (html, _we.wire_urls_shown(rec)) if html else ("", set())
     except Exception as e:                       # fail open
@@ -8425,7 +8448,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
         _marks = _vd.marks(_vrec, sym) if _vrec else []
     except Exception:                            # fail open
         _marks = []
-    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, graded=_graded, marks=_marks)
+    ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, graded=_graded, marks=_marks, vrec=_vrec, named=True)
     vd_html = _coin_verdict(sym, pulse, verdict, with_section=bool(ev_html), evidence=evidence, read_clock=read_clock)
     # PROGRAM 9, SPRINT 9.4: a Big mover's verdict card at the top of its page, above the readings (AUDIT.md
     # 3.2), and its evidence where Bitcoin's sits; the card names its event with a pointer to the one listed
@@ -8449,7 +8472,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
         # and the wire note speak as 9.2 wrote them
         _graded = None
         if ev_html:
-            ev_html, ev_urls = _coin_evidence(sym, pulse, evidence)
+            ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, vrec=_vrec, named=True)
     if ev_urls and wire:
         wire = dict(wire, items=[w for w in (wire.get("items") or [])
                                  if not ({l.get("url") for l in (w.get("links") or [])} & ev_urls)])

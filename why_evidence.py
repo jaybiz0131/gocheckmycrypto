@@ -1465,8 +1465,10 @@ def _mins(m):
     return f"{mm} minute{'' if mm == 1 else 's'}"
 
 
-def timing_words(r, c, name="the price", wdir="down"):
-    """The timing test as plain sentences, from the numbers alone. Never a grade."""
+def timing_words(r, c, name="the price", wdir="down", wname=None):
+    """The timing test as plain sentences, from the numbers alone. Never a grade. `wname` (Sprint 9.9.1, Review 1) is the
+    name of the window the figures are measured in ("since midnight ET", "in the 24 hours"); a page that names its window
+    gets it beside every figure, and a caller that names none gets the sentences as they were."""
     if r is None:
         why = c.get("event_basis") or "no time is known for it"
         return [f"No time to test: {why}."]
@@ -1481,16 +1483,18 @@ def timing_words(r, c, name="the price", wdir="down"):
         out.append(f"It came {_mins(lead)} after the run began.")
     fall = "fall" if wdir == "down" else "rise"
     if r.get("share_pct") is None or r.get("after_pct") is None:
-        out.append("It falls outside the window, so the hour after it is not measured.")
+        out.append("It falls outside the window, so the hour after it is not measured." if not wname else
+                   ("It falls before midnight ET, so the hour after it is not measured." if wname.startswith("since") else
+                    f"It falls outside the {wname[3:]}, so the hour after it is not measured."))
     else:
         a, s = r["after_pct"], r["share_pct"]
-        span = "the rest of the window" if r.get("share_partial") else "the next 60 minutes"
+        span = ("the rest of the window" if not wname else "the minutes left to the reading") if r.get("share_partial") else "the next 60 minutes"
         verb = "fell" if a < 0 else "rose" if a > 0 else "was unchanged"
         amt = f" {abs(a):.2f}%" if a else ""
         if s >= 0:
-            out.append(f"In {span} {name} {verb}{amt}, {s:.0f}% of the window's {fall}.")
+            out.append(f"In {span} {name} {verb}{amt}, {s:.0f}% of the " + (f"{fall} {wname}." if wname else f"window's {fall}."))
         else:
-            out.append(f"In {span} {name} {verb}{amt}, against the window's {fall}.")
+            out.append(f"In {span} {name} {verb}{amt}, against the " + (f"{fall} {wname}." if wname else f"window's {fall}."))
     if r["moved_first"]:
         out.append(f"The price moved first: {r['done_pct']:.0f}% of the run was done before it.")
     elif r["done_pct"] > 0:
@@ -1522,7 +1526,7 @@ def _renamed(text):
     return t
 
 
-def chart_svg(coin, cands_numbered, name, window):
+def chart_svg(coin, cands_numbered, name, window, wname=None):
     """The timing chart: the price every five minutes over the window, its line colored by the
     window's own move (first point to last), the largest run shaded, the onset marked, each
     candidate inside the window pinned at its test time with its number from the list."""
@@ -1585,7 +1589,8 @@ def chart_svg(coin, cands_numbered, name, window):
     pinned = sum(1 for _n, _c, t in cands_numbered if t is not None and w0 <= t <= w1)
     wend = _parse_utc((window or {}).get("end_utc"))
     wend = int(wend.timestamp()) if wend else w1
-    label = (f"{name} price every five minutes, the 24 hours to {clock(wend)} {long_day(wend)}, "
+    span_words = "the 24 hours" if not wname or not wname.startswith("since") else "since midnight ET"
+    label = (f"{name} price every five minutes, {span_words} to {clock(wend)} {long_day(wend)}, "
              f"between {_price(lo)} and {_price(hi)}; the largest run shaded"
              + (f", from {clock(run['start_t'])} to {clock(run['end_t'])}" if run else "")
              + f"; {pinned} event{'' if pinned == 1 else 's'} pinned at {'its' if pinned == 1 else 'their'} times.")
@@ -1612,21 +1617,95 @@ def _is_corrected(line, quoted):
     return bool(n) and any(n.startswith(q) or q.startswith(n) for q in quoted)
 
 
-def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None, graded=None, marks=()):
+# ---- the page's window (Sprint 9.9.1, Review 1) ---------------------------------------------------------------------------
+#
+# ONE WINDOW PER PAGE, NAMED (the strategist's ruling of October 19). A page whose headline reads the ET day (since midnight ET) draws
+# its chart and its list on that same day: the stored 5-minute series is cut at midnight ET, the largest run is found in the cut, each
+# candidate's timing test is measured in the cut, and every figure names the window. The 24 hours stand in only as the named fallback,
+# and the page says why. Nothing is invented: the cut is the stored points at or after midnight ET and nothing else.
+# This changes only what a page DRAWS. How a stored verdict is graded (verdict.grade) is untouched.
+
+WINDOW_NAMES = {"et_day": "since midnight ET", "rolling_24h": "in the 24 hours"}
+DAY_OPEN_GAP_S = 900            # the first stored point at or after midnight ET is within 15 minutes of it, or the cut is not honest
+DAY_MIN_POINTS = 12
+
+
+def _same_run(a, b):
+    return bool(a and b and a.get("dir") == b.get("dir") and a.get("start_t") == b.get("start_t")
+                and a.get("end_t") == b.get("end_t"))
+
+
+def resolve_window(rec, sym, window=None, want_dir=None, graded=None):
+    """{basis, rec, run_same, why}: the record the page draws and the window's name. window None: the record as stored (the
+    24 hours, unnamed; every page outside this item). window "rolling_24h": the stored record, the window named. window
+    "et_day": the record cut to the ET day of the window's end, or the stored record with basis "rolling_24h" and `why` (the
+    reason the cut is not honest) when the stored prices cannot be cut: they do not reach midnight ET, the cut runs the other
+    way from the page's direction (`want_dir`), the cut finds no run, or a graded verdict was made on a run the cut does not find
+    (the card and the list must not grade apart). `run_same`: the cut's largest run is the stored one, so the stored readings of
+    its hour (open interest, liquidations, funding, the patterns) belong to it."""
+    if window is None:
+        return {"basis": None, "rec": rec, "run_same": True, "why": None}
+    if window != "et_day":
+        return {"basis": "rolling_24h", "rec": rec, "run_same": True, "why": None}
+    fallback = lambda why: {"basis": "rolling_24h", "rec": rec, "run_same": True, "why": why}
+    coin = ((rec or {}).get("coins") or {}).get(sym)
+    pts = [(t, p) for t, p in ((coin or {}).get("series") or {}).get("points") or []]
+    if len(pts) < 2:
+        return fallback("the stored prices are too few to cut")
+    wend = _parse_utc(((rec or {}).get("window") or {}).get("end_utc"))
+    w1 = int(wend.timestamp()) if wend else pts[-1][0]
+    e = _et(w1)
+    mid = int(_dt.datetime(e.year, e.month, e.day, tzinfo=ET).timestamp())
+    cut = [(t, p) for t, p in pts if t >= mid]
+    if len(cut) < DAY_MIN_POINTS or cut[0][0] - mid > DAY_OPEN_GAP_S:
+        return fallback("the stored prices do not reach midnight ET")
+    mv = _pct(cut[0][1], cut[-1][1])
+    if want_dir in ("up", "down") and (mv is None or mv == 0 or (mv > 0) != (want_dir == "up")):
+        return fallback(f"the stored prices since midnight ET run the other way from the page's direction ({want_dir})")
+    run = onset(cut)
+    if not run:
+        return fallback("the stored prices since midnight ET hold no run")
+    old = coin.get("run")
+    same = _same_run(run, old)
+    if graded and not same:
+        return fallback("the verdict is graded on the stored 24-hour run, which is not the run of the day since midnight ET")
+    since = mid - LEAD_MIN * 60
+    by_c = {c["id"]: c for c in (rec.get("candidates") or [])}
+    tests, keep = [], set()
+    for t in coin.get("tests") or []:
+        tu = _parse_utc(t.get("t_utc"))
+        if tu is None or int(tu.timestamp()) < since:
+            continue                                 # the verdict's own filter: outside the page's window, not this window's
+        c = by_c.get(t["id"]) or {}
+        keep.add(t["id"])
+        tests.append(dict(t, result=timing(cut, run, int(tu.timestamp()), c.get("scheduled"))))
+    view = dict(rec)
+    view["window"] = dict(rec.get("window") or {}, start_utc=_iso(mid), hours=round((w1 - mid) / 3600.0, 2))
+    view["candidates"] = [c for c in rec.get("candidates") or [] if c["id"] in keep]
+    # the second sources' gap is a figure over the 24 hours and cannot be recut: it is not drawn on a cut page
+    view["coins"] = dict(rec["coins"], **{sym: dict(
+        coin, series=dict(coin["series"], points=[list(x) for x in cut]), run=run, tests=tests, second=None, seconds=[])})
+    return {"basis": "et_day", "rec": view, "run_same": same, "why": None}
+
+
+def section_html(rec, sym, live=True, skip_wire_ids=(), corrections=None, graded=None, marks=(), window=None, want_dir=None):
     """The section for one coin, or '' (fail open) when the record has no series for it. `live`
     marks the window's stamp for the stale state (asof.js); a dated page passes False. Wire items
     the page already prints elsewhere are not passed here twice: the page drops them from its
     own list instead, so `skip_wire_ids` is for a caller that cannot. `corrections` are the
     page's own: a wire line one of them quotes is not printed (the record stays frozen; the
-    correction applies when the page is drawn)."""
+    correction applies when the page is drawn). `window` (Sprint 9.9.1): the page's window, "et_day" or "rolling_24h", named
+    beside every figure; None draws the section as every page outside that item has it (see resolve_window)."""
     try:
-        return _section(rec, sym, live, set(skip_wire_ids), corrected_lines(corrections), graded, set(marks or ()))
+        res = resolve_window(rec, sym, window, want_dir, graded)
+        return _section(res["rec"], sym, live, set(skip_wire_ids), corrected_lines(corrections), graded, set(marks or ()),
+                        res if window is not None else None, window)
     except Exception as e:                                       # noqa: BLE001
         print(f"::warning::why_evidence: the section for {sym} was not drawn ({type(e).__name__}: {e})")
         return ""
 
 
-def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
+def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), res=None, asked=None):
     coin = ((rec or {}).get("coins") or {}).get(sym)
     if not coin or not (coin.get("series") or {}).get("points"):
         return ""
@@ -1646,7 +1725,11 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
         numbered.append((i, c, int(tu.timestamp()) if tu else None))
 
     asof = f' data-asof="{_e(_iso(w1))}"' if live else ""
-    win = f'the 24 hours to {clock(w1)}, {long_day(w1)}'
+    # SPRINT 9.9.1: a page that names its window gets that window's name beside every figure (wname); None is the page as main has it
+    wname = WINDOW_NAMES[res["basis"]] if res else None
+    wattr = f' data-ev-window="{res["basis"]}"' if res else ""
+    win = (f'the 24 hours to {clock(w1)}, {long_day(w1)}' if not wname or not wname.startswith("since") else
+           f'since midnight ET to {clock(w1)}, {long_day(w1)}')
     seconds = coin.get("seconds") or ([coin["second"]] if coin.get("second") else [])
     src = f'{_e(coin["series"]["source"])}'
     for o in seconds:
@@ -1656,11 +1739,14 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
     head = (f'<p class="ev-win"{asof}>{_e(name)}, {_e(win)}. Prices: {src}.</p>')
     runp = ""
     if run:
-        runp = (f'<p class="ev-run-l">The largest run in the 24 hours: {_chg(run["pct"])} from '
+        runp = (f'<p class="ev-run-l">The largest run {_e(wname) if wname else "in the window"}: {_chg(run["pct"])} from '
                 f'{_e(_price(run["start_p"]))} at {_e(day_clock(run["start_t"], w1))} to '
                 f'{_e(_price(run["end_p"]))} at {_e(day_clock(run["end_t"], w1))}. It is shaded on the chart; '
                 f'its start is marked.</p>')
-    chart = chart_svg(coin, numbered, name, rec.get("window"))
+    chart = chart_svg(coin, numbered, name, rec.get("window"), wname)
+    note = ""
+    if res and res.get("why"):
+        note = (f'<p class="ev-m ev-fallback">This chart and list read the 24 hours, the named fallback: {_e(res["why"])}.</p>')
 
     items = []
     for n, c, t in numbered:
@@ -1690,7 +1776,7 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
             meta.append("Primary source")
         if srcs:
             meta.append(srcs)
-        tw = timing_words(tst.get("result"), c, name, (run or {}).get("dir") or "down")
+        tw = timing_words(tst.get("result"), c, name, (run or {}).get("dir") or "down", wname)
         sec = (f'<span class="ev-sec">Secondary: {_e(c["secondary_why"])}.</span>' if c.get("secondary") else "")
         rep = ""
         if (c.get("report_line") and not GRADE_WORDS.search(c["report_line"])
@@ -1706,7 +1792,8 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
                      f'<span class="ev-m">{" &middot; ".join(meta)}</span>'
                      f'<span class="ev-t">{_e(" ".join(tw))}</span>{sec}</li>')
     cand_html = (f'<ol class="ev-cands">{"".join(items)}</ol>' if items else
-                 '<p class="ev-m">The desk found no reported event or scheduled release in this window.</p>')
+                 (f'<p class="ev-m">The desk found no reported event or scheduled release {wname}.</p>' if wname else
+                  '<p class="ev-m">The desk found no reported event or scheduled release in this window.</p>'))
 
     mech = coin.get("mechanics") or {}
     mrows = []
@@ -1729,6 +1816,11 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
             fig = _chg(r.get("value"), r.get("unit") or "pct")
         mrows.append(f'<li class="td-row"><span class="td-n">{_e(r["label"])}</span>{fig}</li>')
     mech_html = ""
+    if res and res["basis"] == "et_day" and not res["run_same"] and mrows:
+        # the stored readings are those of the hour the 24-hour record's run began; the day's run is another, so they are not its readings
+        mrows = []
+        mech_html = ('<p class="ev-m">The market readings the desk stores belong to the hour of another run, which is not the '
+                     'largest run in this window, so they are not shown here.</p>')
     if mrows and run:
         h0, h1 = run["start_t"], run["start_t"] + 3600
         pat = mech.get("patterns") or []
@@ -1761,8 +1853,8 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset()):
                              ("DefiLlama stablecoin supply (daily)", day.get("stablecoins"))) if ok]
     if daily:
         srcs_html = f'<p class="ev-src">Read, not shown in this hour: {_e("; ".join(daily))}.</p>' + srcs_html
-    return (f'<section class="td-sec ev" aria-label="{SECTION_TITLE}" data-ev="{_e(sym)}" data-ev-window="rolling_24h">'
-            f'<h2>{SECTION_TITLE}</h2>{head}{runp}'
+    return (f'<section class="td-sec ev" aria-label="{SECTION_TITLE}" data-ev="{_e(sym)}"{wattr}>'
+            f'<h2>{SECTION_TITLE}</h2>{head}{note}{runp}'
             f'<figure class="ev-fig">{chart}<figcaption class="ev-m">Numbers on the chart match the list below. '
             f'Times are Eastern.</figcaption></figure>'
             f'{cand_html}{mech_html}'
@@ -1786,8 +1878,11 @@ def wire_ids_shown(rec):
     return out
 
 
-def wire_urls_shown(rec):
-    """The source URLs of the wire items the section prints (for a page whose list carries no id)."""
+def wire_urls_shown(rec, sym="BTC", window=None, want_dir=None, graded=None):
+    """The source URLs of the wire items the section prints (for a page whose list carries no id). With `window`, the items
+    of the record as that window draws it (Sprint 9.9.1): an item the cut leaves out is not printed, so not counted."""
+    if window is not None:
+        rec = resolve_window(rec, sym, window, want_dir, graded)["rec"]
     out = set()
     for c in (rec or {}).get("candidates") or []:
         if c["kind"] == "wire":
