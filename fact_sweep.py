@@ -51,6 +51,7 @@ PROSE = frozenset((
     "bd-rec-t", "bd-rec-hl",                                                       # the record of past stories, headlines quoted
     "td-corr", "td-line", "ev-l",                                                  # a stored correction's words; a wire line's words
     "td-read",                                                                     # a /today/ answer lifted whole from a stored Brief
+    "h-nline", "h-bt",                                                             # the home Brief card's stored line and headline
 ))
 
 VOID = {"br", "img", "meta", "link", "input", "hr", "source", "wbr", "area", "base", "col", "embed", "param", "track"}
@@ -488,19 +489,43 @@ def in_prose(e):
     return any(a.cls & PROSE or (a.tag == "a" and STORY_HREF.match(a.attrs.get("href") or "")) for a in ancestors(e))
 
 
+ROW_CLASS = re.compile(r"row$")
+
+
 def row_of(e):
-    """The nearest row (a table row or a list item) the element sits in, or None."""
+    """The nearest row the element sits in (a table row, a list item, or an element the build marks as a row by its class: lrow,
+    td-row, cn-row), or None."""
     for a in ancestors(e):
         if a.tag in ROWS:
+            return a
+        rc = {c for c in a.cls if ROW_CLASS.search(c)}
+        # a row by its class repeats (a sibling carries the same class) and holds no reading tile or card (a grid named tl-row
+        # holds tiles: it is a container, not a row)
+        if rc and a.parent is not None and any(k is not a and (k.cls & rc) for k in a.parent.elems()) \
+                and not any(k.tag in ("article", "div", "section") and ("tl" in k.cls or any("card" in c for c in k.cls))
+                            for k in a.elems()):
             return a
     return None
 
 
-def two_subjects(a, b):
-    """Two rows (of one table or list, or of two) are two subjects: each row names its own (a coin, a transfer, an exchange).
-    So are two sibling cards of one kind (the per-coin cards of a Markets page)."""
+def tile_of(e):
+    """The nearest reading tile or card the element sits in (class tl, or a class naming a card), or None."""
+    for a in ancestors(e):
+        if a.tag in ("article", "div", "section", "aside") and ("tl" in a.cls or any("card" in c for c in a.cls)):
+            return a
+    return None
+
+
+def two_subjects(a, b, wa=None, wb=None):
+    """Two rows (of one table or list, or of two) are two subjects: each row names its own (a coin, a transfer, an exchange, a week).
+    So are two sibling cards of one kind (the per-coin cards of a Markets page), and two reading tiles, each one reading under the
+    tile law, unless both figures state one window (then the second tile repeats the first's figure)."""
     ra, rb = row_of(a), row_of(b)
     if ra is not None and rb is not None and ra is not rb:
+        return True
+    ta, tb = tile_of(a), tile_of(b)
+    if ta is not None and tb is not None and ta is not tb and ta.tag == tb.tag and ta.cls == tb.cls \
+            and not (wa and wb and wa == wb):
         return True
     pa, pb = list(ancestors(a))[::-1], list(ancestors(b))[::-1]
     k = 0
@@ -613,11 +638,15 @@ WINDOWS = (("hour", re.compile(r"\b(?:in the hour|the hour|onset hour|next 60 mi
 HEADING = {"h1", "h2", "h3", "h4", "caption"}
 
 
-def _window_of(text):
-    for name, rx in WINDOWS:
-        if rx.search(text or ""):
-            return name
-    return None
+def _window_of(text, at=None):
+    """The window a text states; with `at` (a figure's offset in it), the window phrase nearest that figure, so "Bitcoin up since
+    yesterday, and $1.59B onto exchanges in 7 days" gives the whale figure its seven days."""
+    hits = [(m.start(), name) for name, rx in WINDOWS for m in rx.finditer(text or "")]
+    if not hits:
+        return None
+    if at is None:
+        return next(name for name, rx in WINDOWS if rx.search(text or ""))
+    return min(hits, key=lambda h: (abs(h[0] - at), h[0] < at))[1]
 
 
 def set_windows(nodes, figs):
@@ -633,15 +662,27 @@ def set_windows(nodes, figs):
         line = " ".join(_text(b).split())
         raw = f.raw.strip()
         k = line.find(raw)
-        sent = line
+        sent, at = line, None
         if k >= 0:
             a = max(line.rfind(". ", 0, k), line.rfind("; ", 0, k))
             z = [x for x in (line.find(". ", k), line.find("; ", k)) if x >= 0]
-            sent = line[a + 1 if a >= 0 else 0:min(z) if z else len(line)]
-        f.window = _window_of(sent)
+            a0 = a + 1 if a >= 0 else 0
+            sent, at = line[a0:min(z) if z else len(line)], k - a0
+        # the clause the figure sits in decides first (", and $1.59B onto exchanges in 7 days"), then its sentence
+        clause = None
+        if at is not None:
+            c0 = sent.rfind(", ", 0, at)
+            c1 = sent.find(", ", at)
+            clause = sent[c0 + 2 if c0 >= 0 else 0:c1 if c1 >= 0 else len(sent)]
+        f.window = _window_of(clause) if clause and _window_of(clause) else _window_of(sent, at)
         if f.window is None and row_of(f.el) is not None:
             r = row_of(f.el)
             f.window = _window_of(" ".join(_text(r).split())) or _window_of(heads.get(id(f.el), ""))
+        if f.window is None and tile_of(f.el) is not None:
+            # a tile states its figure's window on its own window line ("Spot, US dollars; the change is the rolling 24 hours")
+            t = tile_of(f.el)
+            wl = next((k for k in _walk(t) if "tl-w" in k.cls), None)
+            f.window = _window_of(" ".join(_text(wl).split())) if wl is not None else None
 
 
 def significant(f):
@@ -759,7 +800,7 @@ def sweep_page(h, css_texts, rel=""):
             for g in seen:
                 if not f.same(g):
                     continue
-                if two_subjects(f.el, g.el):
+                if two_subjects(f.el, g.el, f.window, g.window):
                     continue
                 key = (f.unit, round(abs(f.value), 6))
                 if key in reported:

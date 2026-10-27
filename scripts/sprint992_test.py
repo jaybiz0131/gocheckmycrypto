@@ -144,6 +144,25 @@ def model_cases(fails):
     guarded(fails, "the window is part of the fact: 0.60% over 24 hours and 0.60% in the hour the run began are two facts",
             lambda: not sweep(page("<p>Ether was up 0.60% over the same 24 hours.</p><h3>The hour the run began</h3>"
                                    "<ul><li>Ether 0.60%</li></ul>")))
+    guarded(fails, "a tile states its figure's window on its window line: XRP's +0.65% over 7 days (the chart) and its price badge "
+                   "+0.65% over 24 hours (the morning of October 27) are two facts",
+            lambda: not fs.sweep_page(page('<p class="cc-chg">+0.65% over the last 7 days</p><div class="tl-row"><article class="tl">'
+                                            '<p class="tl-f">$1.30 <span>\u25b2 0.65%</span></p><p class="tl-w">Spot, US dollars; the '
+                                            'change is the rolling 24 hours</p></article></div>'), CSS, "coins/xrp.html"))
+    guarded(fails, "two reading tiles are two readings: 1.7% of market cap and +1.7% against the 200-day",
+            lambda: not fs.sweep_page(page('<div class="tl-row"><article class="tl"><p class="tl-f">$1B</p><p class="tl-s">1.7% of market cap</p>'
+                                            '</article><article class="tl"><p class="tl-f">+1.7%</p><p class="tl-w">Price against its 200-day '
+                                            'average</p></article></div>'), CSS, "coins/xrp.html"))
+    guarded(fails, "and a tile that repeats another tile's figure in the same window is still a finding",
+            lambda: kinds(sweep(page('<div class="tl-row"><article class="tl"><p class="tl-s">24 hours: Down 0.26%</p></article>'
+                                     '<article class="tl"><p class="tl-f">-0.26%</p><p class="tl-w">Rolling 24 hours</p></article></div>'))) == ["twice"])
+    guarded(fails, "rows by class (a ledger's lrow): two weeks at -$1.04B are two weeks",
+            lambda: not sweep(page('<div class="ledger"><div class="lrow"><span>Sep 29</span><span>-$1.04B</span></div>'
+                                   '<div class="lrow"><span>Aug 25</span><span>-$1.04B</span></div></div>')))
+    guarded(fails, "a grid of tiles named tl-row is not a row: a sentence and a tile in two grids still pair",
+            lambda: kinds(sweep(page('<section class="cm-card"><p>Bitcoin up since yesterday, and $1.59B onto exchanges in 7 days.</p></section>'
+                                     '<div class="tl-row"><article class="tl"><p class="tl-f">-$1.59B</p><p class="tl-w">onto exchanges, 7 days</p></article></div>'
+                                     '<div class="tl-row"><article class="tl"><p class="tl-f">48</p></article></div>'))) == ["twice"])
     guarded(fails, "the finer printing rounded to the coarser is one figure ($79,771 and $79,771.00)",
             lambda: kinds(sweep(page("<p>at $79,771, a change</p><p>Price $79,771.00</p>"))) == ["twice"])
     guarded(fails, "a coarse headline figure never pairs with a price ($100 million beside $99.86)",
