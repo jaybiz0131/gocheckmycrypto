@@ -2066,6 +2066,7 @@ def _stamp_canary():
             fails.extend(_sprint98_canary(out))
             fails.extend(_sprint99h_canary())
             fails.extend(_sprint991_canary(out))
+            fails.extend(_sprint992_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -3498,6 +3499,26 @@ def _sprint991_canary(out):
         fails += ["sprint 9.9.1: " + f for f in _s991.tree(out)]
     finally:
         for m in ("sprint991_test", "sprint93_test", "sprint92_test"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
+def _sprint992_canary(out):
+    """SPRINT 9.9.2 (27 October 2026): one fact once, measured on the whole site. scripts/sprint992_test.py holds the cases: the
+    checker (one_fact.py) on synthetic pages, and on the tree this build wrote, every page the sitemaps list read for a figure
+    printed twice and for a derived figure off its row's precision, with the stored averages the build read (site/data). The
+    helper is taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint992_test as _s992
+        fails = ["sprint 9.9.2: " + f for f in _s992.unit()]
+        fails += ["sprint 9.9.2: " + f for f in _s992.tree(out)]
+    finally:
+        for m in ("sprint992_test",):
             _sys.modules.pop(m, None)
         if _sd in _sys.path:
             _sys.path.remove(_sd)
