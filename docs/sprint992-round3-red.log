@@ -1,0 +1,113 @@
+Sprint 9.9.2, fix round 3: the round 3 test cases (scripts/sprint992_test.py groups round2, round2b, round3, as committed in round 3) run on round 2's code at 3afc3b4 (a detached worktree; only the test script and the browser half copied in), red first. Tue Oct 27 2026, 04:59 PM EDT. Exit status 1.
+1b. review 1 at 81b63fa: each failure, on the page that build printed (fixtures/sprint992/round2-81b63fa)
+  ok   failure 1: the home's ETF figure, the Brief line's '$110.3M on the day' beside the ETF tile's +$110.3M, is a finding
+  ok   failure 1: the home's Fear & Greed, the Brief line's 'reads 48' beside the Sentiment tile's 48, is a finding
+  ok   failure 2: a figure inside class h-nline beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class h-bt beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class cm-read beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class td-read beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class summary beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class callout beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class bp-row beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class dek beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class keyfact beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class bottomline beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class bl-read beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class ed-brief beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class nh-x beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a story link's headline printing a tile's figure is a finding (SYNTHETIC)
+  ok   failure 2: a summary sentence restating its story's body is a finding (SYNTHETIC)
+  FAIL a headline restating its own body is one printing under entry 2026-10-27-C8: no finding (SYNTHETIC)
+  ok   failure 2: '$600 million' and '$600M' are one figure (SYNTHETIC)
+  ok   failure 2 (the other side): two facts that share digits in stored writing are two facts, a 25% tariff and a 25% stake (SYNTHETIC)
+  ok   failure 3: /chartmaster's Bitcoin RSI, the gauge's 40.8 and the chart read's BTC row 40.6, is a finding
+  ok   failure 4: the Chart Master table's row precision is read: DOGE 50-day $0.0870 planted as $0.09 is a precision finding
+  ok   failure 4: the Chart Master table's row precision is read: ADA 50-day $0.2302 planted as $0.23 is a precision finding
+  ok   failure 4: the Chart Master table's row precision is read: ETH 50-day $2,539.25 planted as $2,539 is a precision finding
+  ok   failure 4: the unplanted Chart Master table holds its rows at one precision (no precision finding)
+  ok   failure 5: /coins/usdt's two stories on the Xinbi seizure ($52.8M twice) is a finding
+  FAIL a card's headline and its own summary printing one figure in other words are one story's own repeat, one printing under C8 ('$90T Market' over 'the $90 trillion market'; the stored headline and summary of August 31, in a SYNTHETIC grid)
+  ok   two story cards on one event are not two subjects (an archive's two Xinbi cards) (SYNTHETIC)
+  ok   evidence rows sharing a measured figure and only the list's own wording are two subjects (two events) (SYNTHETIC)
+  ok   a list of headlines mostly about one subject still pairs two that print one figure (BitMine's 4.8% of supply) (SYNTHETIC)
+  ok   failure 5: a coin page lists one event's stories once (the two stored Xinbi stories give 1 item(s))
+1c. the build's fixes for review 1, each at its cause (fact_once.py, the gauge, the coin page, the citations)
+  ok   failure 1: the Morning Brief's lead sentence stands on the home as stored (the feed names the home as its page)
+  ok   failure 1: the ETF tile yields: no +$110.3M; it says 'In the Brief' and keeps its label, window and source
+  ok   failure 1: the Sentiment gauge yields its number (48) and keeps its drawing, its word and its source
+  ok   failure 1: the home the pass writes holds no finding at 375 or 1440
+  FAIL K-1: an Edition's lead card prints whole beside its own Brief (the lead is the Brief's own unit, C8) (SYNTHETIC)
+  FAIL K-1: the lead beside its own Brief is one printing under C8: no finding (SYNTHETIC)
+  FAIL a story page's own dek, key fact and body print whole beside its headline (one story, one printing, C8)
+  ok   the take stands
+  FAIL the story's own repeats are one printing: the page holds no finding
+  ok   failure 2: a related story whose headline prints the body's figure on its subject is withheld; the other stays (SYNTHETIC)
+  ok   failure 2: a Related stories box left with no story goes with its heading (SYNTHETIC)
+  FAIL a complete listing keeps every entry whole: both stories on one event keep their rows, links and headlines, and no pointer line is printed (SYNTHETIC)
+  ok   a page with nothing to withhold comes back byte for byte
+  FAIL the home's Brief card prints whole; the gauge's number that repeats its Fear & Greed reading yields (SYNTHETIC)
+  ok   failure 3: the Chart Master gauge reading the chart read's BTC row prints no number of its own and names the read
+  ok   failure 3: with no read table on the page the gauge prints its own reading, names Bitcoin and its read time
+  ok   a source's stored title printing the story's figure ('Decrypt: $38M in Bitcoin Drained ...') is cited by its outlet's name, the link kept
+  ok   failure 3: /chartmaster built from the stored data card prints Bitcoin's RSI once (the BTC row), the gauge naming the read
+  ok   an Edition brief's citation whose title prints the brief's figure ('Bitcoin ETFs Draw $197M ...' under a brief printing $197 million) is cited by the story's date, never dropped (the stored July 14 morning Brief)
+  ok   /today/2026-10-20: a reported wire line stating the stored answer's fact (France's 31% tax) is not listed beside it; the answer stands
+  ok   /today/2026-10-15: a row's figure its printed correction quotes (Bitcoin up 0.80%) is not printed again; the correction stands whole
+1d. review 2 at 3afc3b4, fixed under entry 2026-10-27-C8: each failure at its cause
+  FAIL failure 1: review 2's plant, '$150 million' three times in one stored article (headline, dek, body), is one printing under C8: no finding (SYNTHETIC)
+  ok   failure 1: the same article with the figure also in a line the build writes on that page is a finding (SYNTHETIC)
+  FAIL failure 1: one figure in two stored units (two Briefs) is a finding: across units is two printings (SYNTHETIC)
+  ok   failure 1: one figure twice in text the build writes is a finding (SYNTHETIC)
+  ok   failure 1: a stored Brief line beside a data tile printing its figure is a finding (SYNTHETIC)
+  FAIL failure 1: an Edition lead beside its own Brief is one printing under C8: no finding (SYNTHETIC)
+  FAIL failure 1: two corrections quoting one figure are one printing under C8: no finding (SYNTHETIC)
+  FAIL failure 1: the sweep has no HELD kind: every pair is a finding or one printing for a reason C8 names
+  FAIL /today/2026-10-20: the stored answer prints word for word, its 31% an in-page link to the evidence item that carries it
+  FAIL /today/2026-10-20: the dated page holds no finding (the answer links the figure the evidence item prints)
+  FAIL a headline's title case is read: '$730 Million' and '$730 million' are one figure (SYNTHETIC)
+  ok   a quoted story whose only fact is a named reading the page prints (Fear & Greed 48) is withheld; the other stays (SYNTHETIC)
+  FAIL the audit sees a hidden figure: a page that lost its only $1.2B is reported (SYNTHETIC) [AttributeError: module 'fact_once' has no attribute 'vanished']
+  FAIL a story's related and 'More on' picks pass over a story whose headline prints a figure the story prints (the stored afternoon Brief of September 10 and the Xinbi seizure story, $52.8 million)
+  FAIL an update callout names a later story by its date when that story's headline prints this story's figure (the Xinbi freeze of September 9)
+  FAIL a second citation on an event an earlier citation names is cited by its date (two DOJ stories on one $61 million forfeiture, the stored morning Brief of September 16)
+  FAIL the board panel's cell says 'In the story' where the story's headline prints its figure ($78,465)
+  FAIL failure 2: /record.html keeps every lane's feature card whole, headline and summary (6 cards; the ETFs and institutions card among them)
+  FAIL failure 2: /record.html's full index keeps every entry (40 of 40)
+  FAIL failure 2: the stored dek carrying XRP ETFs' $502 million prints whole on its story page
+  FAIL failure 2: a quoted story that also prints a fact the page prints nowhere else ($1.2B) is not withheld; one whose every fact stays printed is (SYNTHETIC)
+  FAIL failure 3: 150m-in-long-positions-liquidated-in-24-hours: its bottom line prints whole as stored
+  FAIL failure 3: ostium-loses-18-million-to-oracle-manipulation-attack-via-priceupkeep-exploit: its corrected prints whole as stored
+  FAIL failure 3: edition/2026-07-14: every card prints whole as composed or is withheld whole, and nothing withheld hid a fact
+  FAIL failure 3: the pass never cuts inside an element: its only edits remove a whole element or yield a data figure
+  FAIL failure 4: news.html prints no pointer line and lists each story once (8 listed twice: ['/articles/anchorage-digital-cuts-17-of-workforce.html', '/articles/conduit-sues-tether-over-2-76-million-freeze-claims-no-legal-basis-for-seizure.html', '/articles/evernorth-shareholders-approve-merger-nasdaq-listing-set-for-october-8-under-xrpn.html'])
+  FAIL failure 5: /chartmaster at 375, as it loads: one Bitcoin RSI the reader sees, in the BTC row the gauge names ([])
+  ok   failure 5: /chartmaster at 1440, as it loads: one Bitcoin RSI the reader sees, in the BTC row the gauge names (['40.6'])
+
+SPRINT 9.9.2: FAIL (31 failure(s))
+
+The browser half (scripts/sprint992_browser.mjs as committed in round 3, Playwright Chromium) on a build of 3afc3b4's tree, run in the same worktree: failure 5 red at 375 (the BTC row's RSI-14 cell is behind 'Show all columns', shown false), green at 1440. Exit status 1.
+  PASS index.html at 375: the figures the browser prints are the figures the sweep's width model reads
+  PASS index.html at 1440: the figures the browser prints are the figures the sweep's width model reads
+  PASS coins/btc.html at 375: the figures the browser prints are the figures the sweep's width model reads
+  PASS coins/btc.html at 1440: the figures the browser prints are the figures the sweep's width model reads
+  PASS coins/doge.html at 375: the figures the browser prints are the figures the sweep's width model reads
+  PASS coins/doge.html at 1440: the figures the browser prints are the figures the sweep's width model reads
+  INFO chartmaster.html at 375, as it loads: {"cell":"40.6","shown":false,"fits":true,"gaugeNums":[],"pointer":true}
+  FAIL chartmaster.html at 375: Bitcoin's RSI is printed once where the reader sees it, the BTC row the gauge names: {"cell":"40.6","shown":false,"fits":true,"gaugeNums":[],"pointer":true}
+  PASS chartmaster.html at 375: the data card's table fits its box with the RSI-14 column shown
+  PASS chartmaster.html at 375: the figures the browser prints are the figures the sweep's width model reads
+  INFO chartmaster.html at 375: RSI-14 header {"lines":1,"display":"table-cell","ws":"nowrap"}
+  PASS the RSI-14 header fits one line at 375 with every column shown
+  INFO chartmaster.html at 1440, as it loads: {"cell":"40.6","shown":true,"fits":true,"gaugeNums":[],"pointer":true}
+  PASS chartmaster.html at 1440: Bitcoin's RSI is printed once where the reader sees it, the BTC row the gauge names
+  PASS chartmaster.html at 1440: the data card's table fits its box with the RSI-14 column shown
+  PASS chartmaster.html at 1440: the figures the browser prints are the figures the sweep's width model reads
+  PASS flows.html at 375: the figures the browser prints are the figures the sweep's width model reads
+  PASS flows.html at 1440: the figures the browser prints are the figures the sweep's width model reads
+  PASS today/index.html at 375: the figures the browser prints are the figures the sweep's width model reads
+  PASS today/index.html at 1440: the figures the browser prints are the figures the sweep's width model reads
+  PASS pulse/posture.html at 375: the figures the browser prints are the figures the sweep's width model reads
+  PASS pulse/posture.html at 1440: the figures the browser prints are the figures the sweep's width model reads
+  FAIL the browser half ran and every case passed
+SPRINT 9.9.2: FAIL (2 failure(s))
+rc=1
