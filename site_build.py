@@ -879,7 +879,12 @@ def entities_of(item, all_items):
     return out
 
 
-def render_more_on(item, all_items, per=4):
+def _fs_one_event(a, b):
+    import fact_sweep as _fs
+    return _fs.one_event(a.get("title") or "", b.get("title") or "", coarse=True)
+
+
+def render_more_on(item, all_items, per=4, avoid=None, take=None):
     """"More on <subject>": the desk's other coverage of the same company, agency or
     protocol.
 
@@ -901,13 +906,28 @@ def render_more_on(item, all_items, per=4):
         hits = [i for i in pool
                 if ent in entities_of(i, all_items)
                 and i.get("slug") not in chain
-                and not dedupe_same_event(item, i)]
+                and not dedupe_same_event(item, i)
+                and not (avoid and avoid(i))]
         if len(hits) >= 2 and (best is None or len(hits) > len(best[1])):
             best = (ent, hits)
     if not best:
         return ""
     ent, hits = best
     hits.sort(key=lambda i: i.get("published_utc") or i.get("date") or "", reverse=True)
+    if avoid is not None:
+        # SPRINT 9.9.2: picked one at a time, so a second story on an event already picked is passed over too
+        chosen = []
+        for i in hits:
+            if len(chosen) >= per:
+                break
+            if not avoid(i) and not any(_fs_one_event(i, c) for c in chosen):
+                chosen.append(i)
+        if len(chosen) < 2:
+            return ""
+        for i in chosen:
+            if take is not None:
+                take(i)
+        hits = chosen
     label = ent.upper() if len(ent) <= 5 else ent.title()
     lis = "".join(f'<li><a href="/articles/{esc(i["slug"])}">{esc(i.get("title"))}</a>'
                   f'<span class="mut"> &middot; {fmt_when(i)}</span></li>'
@@ -916,7 +936,7 @@ def render_more_on(item, all_items, per=4):
             f'<p class="mut">Other reporting from this desk on {esc(label)}.</p>'
             f'<ul class="link-list">{lis}</ul></section>')
 
-def related_stories(item, items, n=6):
+def related_stories(item, items, n=6, avoid=None):
     """The stories a reader of this one should read next, best first. Six, not three
     (ported from sports 2026-08-25): article-to-article links are the scarcest signal
     the desk emits, and the module is the cheapest place to widen the story graph.
@@ -974,7 +994,16 @@ def related_stories(item, items, n=6):
     # spreads inbound links across the archive instead of stacking them on the newest
     # broadly-tagged story.
     scored.sort(key=lambda t: (-t[0], t[2]))
-    return [o for _, o, _ in scored[:n]]
+    if avoid is None:
+        return [o for _, o, _ in scored[:n]]
+    # SPRINT 9.9.2: a pick the page would print one fact twice for (avoid) is passed over for the next one
+    out = []
+    for _, o, _ in scored:
+        if len(out) >= n:
+            break
+        if not avoid(o):
+            out.append(o)
+    return out
 
 
 def _date_gap(a, b):
@@ -2337,6 +2366,19 @@ def render_article(item, all_items=None):
     badge = verdict_badge(item.get("verdict"), item)
     tag = f'<span class="tag">{esc(item.get("category","news"))}</span>' if item.get("category") else ""
     topic_chips = "".join(f'<span class="tag topic">{esc(t)}</span>' for t in tags_for(item))
+    # SPRINT 9.9.2: the figures this story prints in its own fields. A headline the page quotes from another story or a source (an
+    # update callout, a citation) that prints one of them again is named by its date or outlet instead, the link unchanged.
+    import fact_sweep as _fs
+    _own = _fs.figures([(" ".join(str(x) for x in (item.get("title"), item.get("dek"), item.get("key_fact"),
+                                                   item.get("bottom_line"), item.get("human_take"), item.get("corrected"),
+                                                   item.get("consolidated"), _plain_body(item.get("body"))) if x), None)])
+
+    def _quotes_own(text):
+        return any(x.same(y) for x in _fs.figures([(text or "", None)]) for y in _own)
+
+    def _story_label(other):
+        return (esc(other.get("title")) if not _quotes_own(other.get("title"))
+                else f"the desk\u2019s story of {esc(fmt_when(other))}")
     ribbon = ""
     if item.get("example"):
         ribbon = ('<div class="callout"><b>Example, not a real story.</b> This page shows the '
@@ -2356,7 +2398,7 @@ def render_article(item, all_items=None):
         if prev and _same_storyline(item, prev):
             ribbon += (f'<div class="callout"><b>Update.</b> This story develops our earlier '
                        f'reporting: <a href="/articles/{esc(item["update_of"])}">'
-                       f'{esc(prev.get("title"))}</a>.</div>')
+                       f'{_story_label(prev)}</a>.</div>')
     # THE ORIGIN SIDE OF THE SAME EDGE (Avici audit 2026-08-31). update_of renders a
     # callout on the NEW page only, so a superseded story stayed live, VERIFIED-badged,
     # with no hint that later reporting replaced it. Same honesty gate as above: the
@@ -2382,7 +2424,7 @@ def render_article(item, all_items=None):
         newest = max(succ, key=lambda i: i.get("published_utc") or i.get("date") or "")
         ribbon += (f'<div class="callout"><b>Update.</b> This story has been superseded '
                    f'by later reporting: <a href="/articles/{esc(newest["slug"])}">'
-                   f'{esc(newest.get("title"))}</a>.</div>')
+                   f'{_story_label(newest)}</a>.</div>')
     # A correction is a feature of an honest desk (standards page): show it plainly. The
     # aging loop (corrections.py) and manual reconciliations both write item["corrected"].
     if (item.get("corrected") or "").strip():
@@ -2393,7 +2435,7 @@ def render_article(item, all_items=None):
     # Correction, because "Correction" has to keep meaning "we got a fact wrong" or it stops
     # meaning anything. Same instinct as the corrections policy, applied one level up.
     if (item.get("consolidated") or "").strip():
-        ribbon += (f'<div class="callout"><b>Editor\'s note.</b> '
+        ribbon += (f'<div class="callout consolidated"><b>Editor\'s note.</b> '
                    f'{esc(destyle(item["consolidated"]))}</div>')
     # THE BOUNDARY PANEL sits ABOVE the prose, unlike every other panel on the page, because
     # it answers the only question a reader of a security advisory has before they will read
@@ -2438,7 +2480,8 @@ def render_article(item, all_items=None):
                 return ('<li>The desk\'s own market boards, measured this run '
                         '(<a href="/">see the live boards</a>)</li>')
             lab = source_label(s)
-            if _src_twin(lab):
+            if _src_twin(lab) or any(_fs.one_event(lab, x, coarse=True) for x in _src_seen):
+                # (also a second citation on an event an earlier citation's title names: two desk stories on one event)
                 # SPRINT 9.9.2, fix round 2: a source's stored title that prints a figure the story prints ("Decrypt: $38M in
                 # Bitcoin Drained...") is not printed again; the source is still cited, by its outlet's name (or, for the desk's
                 # own story, by its date), the address unchanged. A citation is never withheld.
@@ -2448,16 +2491,12 @@ def render_article(item, all_items=None):
                     lab = f"The desk\u2019s story of {fmt_when(own)}" if own else "The desk\u2019s earlier story"
                 else:
                     lab = _outlet_name(url)
+            _src_seen.append(lab)
             return (f'<li><a href="{esc(url)}" rel="nofollow">'
                     f'{esc(lab)}</a></li>')
-        import fact_sweep as _fs
+        _src_seen = []
         _by_slug = {i.get("slug"): i for i in (all_items or []) if i.get("slug")}
-        _own = [f for f in _fs.figures([(" ".join(str(x) for x in (item.get("title"), item.get("dek"), item.get("key_fact"),
-                                                                   item.get("bottom_line"), _plain_body(item.get("body"))) if x),
-                                          None)])]
-
-        def _src_twin(lab):
-            return any(x.same(y) for x in _fs.figures([(lab, None)]) for y in _own)
+        _src_twin = _quotes_own
         lis = "".join(_src_li(s) for s in srcs)
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol></div>'
     # SPRINT 9.9.2 (found by the sweep): an entry stored as {"outlet", "headline"} printed as a raw dict; the outlet is the name
@@ -2467,8 +2506,26 @@ def render_article(item, all_items=None):
         src_html += (f'<p class="also-reported">Also reported by '
                      f'{esc(", ".join(also[:8]))}. The desk cites only the pages it drew '
                      f'facts from; these outlets independently carried the same development.</p>')
+    # SPRINT 9.9.2, fix round 3: the story lists under a story are picks of a few. A pick whose headline prints a figure this story
+    # prints, or that is a second story on an event a list on this page already carries (fact_sweep.one_event), would print one fact
+    # twice, so it is passed over for the next pick. The timeline lists the storyline as it is and is never thinned.
+    _listed = [c.get("title") or "" for c in storyline_for(item, all_items or [])] if not (
+        item.get("example") or _is_wrap(item) or item.get("category") == "daily edition") else []
+
+    def _clash(o):
+        t = o.get("title") or ""
+        return _quotes_own(t) or any(_fs.one_event(t, x, coarse=True) for x in _listed)
+
+    def _avoid(o):
+        if _clash(o):
+            return True
+        _listed.append(o.get("title") or "")
+        return False
+    _more_html = ""
+    if not (item.get("example") or _is_wrap(item) or item.get("category") == "daily edition"):
+        _more_html = render_more_on(item, all_items or [], avoid=_clash, take=lambda o: _listed.append(o.get("title") or ""))
     rel_html = ""
-    for rel in related_stories(item, all_items or []):
+    for rel in related_stories(item, all_items or [], avoid=_avoid):
         rel_html += (f'<li><a href="/articles/{esc(rel["slug"])}">{esc(rel.get("title"))}</a>'
                      f'<span class="mut"> &middot; {fmt_when(rel)}</span></li>')
     if rel_html:
@@ -2498,7 +2555,7 @@ def render_article(item, all_items=None):
                                       for nm, sl in hub_links) + '.</div>')
         rel_html = (fullcov + render_board_panel(item)
                     + render_timeline(item, all_items or [])
-                    + render_more_on(item, all_items or [])
+                    + _more_html
                     + rel_html)
     # consistent desk attribution (the byline is the desk, never a person): aggregators and
     # Google News check for a stable byline, and this reads honestly as a newsroom, not a
@@ -5706,11 +5763,13 @@ def _news_jsonld(url, name, desc, rows, crumbs):
     }, separators=(",", ":")) + "</script>"
 
 
-def _news_section(lane, past=False):
+def _news_section(lane, past=False, listed=None):
     rows = lane["items"]
     if not rows:
         return ""
-    shown = rows[:NEWS_PER_SECTION]
+    # SPRINT 9.9.2, fix round 3 (entry 2026-10-27-C8): a story the news front's newest-first list already carries is not listed again
+    # in its storyline's section; the section shows the storyline's next stories instead, and its count and "All" link are the lane's
+    shown = [i for i in rows if f"/articles/{i.get('slug')}.html" not in (listed or ())][:NEWS_PER_SECTION]
     more = ""
     if len(rows) >= NEWS_MIN_STORIES and len(rows) > len(shown):
         more = (f'<a class="bd-more" href="/news/{esc(lane["slug"])}.html">'
@@ -5725,7 +5784,7 @@ def _news_section(lane, past=False):
             f'<div class="nh-rows">{"".join(_news_row(i) for i in shown)}</div></section>')
 
 
-def _news_latest(items, n=40):
+def _news_latest(items, n=40, listed=None):
     """K-1: THE NEWS FRONT LEADS WITH WHAT IS NEWEST, whatever kind it is.
 
     The page was a storyline library, which is the right second half and a strange first
@@ -5745,6 +5804,8 @@ def _news_latest(items, n=40):
         return ""
     out, day = [], None
     for r in rows:
+        if listed is not None:
+            listed.add(r["href"])
         et = r["t"].astimezone(_ET)
         d = et.strftime("%A, %B %-d")
         if d != day:
@@ -5795,13 +5856,15 @@ def render_news_hub(items, dateline, pulse=None):
             f'<a class="bd-more" href="/archive.html">Full archive</a></div>'
             f'<div class="nh-months">{marc}</div></section>') if marc else ""
 
+    _listed = set()
+    _latest_html = _news_latest(items, listed=_listed)
     past_html = ""
     if past:
         past_html = (f'<section class="bd-mod"><div class="bd-sec"><div class="bd-sec-l">'
                      f'<span class="bd-eyebrow">Past storylines</span>'
                      f'<h2 class="bd-h2">Quiet for {NEWS_RECENT_DAYS} days or more</h2>'
                      f'</div></div>'
-                     + "".join(_news_section(L, past=True) for L in past) + '</section>')
+                     + "".join(_news_section(L, past=True, listed=_listed) for L in past) + '</section>')
 
     body = f"""<main class="wrap"><section class="page">
   <h1 class="lx-h1" style="margin-bottom:6px">{esc(task_name("news"))}</h1>
@@ -5811,13 +5874,13 @@ def render_news_hub(items, dateline, pulse=None):
   <p class="lx-dek">Everything this desk has published, newest first, then the same work
      grouped by the storyline it belongs to. Every source linked, every figure tied to a
      Markets number.</p>
-  {_news_latest(items)}
+  {_latest_html}
   {rec}
   <div class="bd-sec" style="margin-top:26px"><div class="bd-sec-l">
     <span class="bd-eyebrow">Storylines</span>
     <h2 class="bd-h2">By storyline</h2></div></div>
   <nav class="nh-jump" aria-label="Jump to a storyline">{jump}</nav>
-  {"".join(_news_section(L) for L in current)}
+  {"".join(_news_section(L, listed=_listed) for L in current)}
   {past_html}
   {arch}
 </section></main>"""
@@ -9311,14 +9374,16 @@ def render_chartmaster(read, dateline, pulse=None):
     if read.get("data_only") and read.get("levels"):
         # 12 October 2026: the last path when a read cannot be published. Levels, the 50-day
         # and 200-day lines and RSI, no prose, and it says why there is no prose.
-        # SPRINT 9.9.2: one precision across a row, the price's (an average below $1 at four decimals like its price)
+        # SPRINT 9.9.2: one precision across a row, the price's (an average below $1 at four decimals like its price). Fix round 3
+        # (review 2, failure 5): the RSI-14 column shows at every width, never behind "Show all columns", because the gauge above
+        # names this row as where Bitcoin's RSI is printed: one RSI the reader sees at 375 and at 1440
         def _n(v, ref=None):
             ref = v if ref is None else ref
             return "" if v is None else (f"{v:,.2f}" if abs(ref or 0) >= 1 else f"{v:,.4f}")
         _rows = "".join(
             f'<tr><th scope="row">{esc(str(lv.get("symbol")))}</th><td>${_n(lv.get("price"))}</td>'
             f'<td class="xs-x">${_n(lv.get("sma50"), lv.get("price"))}</td><td>${_n(lv.get("sma200"), lv.get("price"))}</td>'
-            f'<td class="xs-x">{esc(str(lv.get("rsi14") if lv.get("rsi14") is not None else ""))}</td></tr>'
+            f'<td>{esc(str(lv.get("rsi14") if lv.get("rsi14") is not None else ""))}</td></tr>'
             for lv in read["levels"])
         read_html = (f"""
   <div class="sec-head" style="margin-top:8px"><h2 class="cm-read-h">{esc(read_title)}</h2><span class="bar"></span></div>
@@ -9326,7 +9391,7 @@ def render_chartmaster(read, dateline, pulse=None):
     <div class="ey"><span class="tag">the data card</span><span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
     <p class="pc-note">Today's written read did not clear the desk's checks, so this card carries the numbers only.</p>
     {fit_toggle("fit-cm")}<div class="movetable fit-tbl" tabindex="0" role="region" aria-label="Chart data card (scrollable)"><table><thead><tr><th scope="col">Asset</th><th scope="col">Price</th>
-    <th scope="col" class="xs-x">50-day</th><th scope="col">200-day</th><th scope="col" class="xs-x" style="white-space:nowrap">RSI-14</th></tr></thead>
+    <th scope="col" class="xs-x">50-day</th><th scope="col">200-day</th><th scope="col" style="white-space:nowrap">RSI-14</th></tr></thead>
     <tbody>{_rows}</tbody></table></div>
     <p class="pc-note">Read from the day's <a href="/pulse.html">Markets</a>. Describe, never predict.</p>
   </article>""")
@@ -9677,13 +9742,20 @@ def render_board_panel(item):
             return ""
     except Exception:
         return ""
+    # SPRINT 9.9.2: a figure the story's own fields print (a headline's "$78,465") is printed there once; the panel's cell says so
+    import fact_sweep as _fs
+    _own = _fs.figures([(" ".join(str(x) for x in (item.get("title"), item.get("dek"), item.get("key_fact"), item.get("bottom_line"),
+                                                   item.get("human_take"), _plain_body(item.get("body"))) if x), None)])
+
+    def _v(text):
+        return ("In the story" if any(x.same(y) for x in _fs.figures([(text, None)]) for y in _own) else text)
     rows = ""
     for a in snap["assets"]:
         try:
             chg = float(a.get("chg_24h_pct") or 0)
             cls = "up" if chg >= 0 else "down"
             rows += (f'<div class="bp-row"><span class="bp-k">{esc(a["symbol"])}</span>'
-                     f'<span class="bp-v">${a["price"]:,.0f}</span>'
+                     f'<span class="bp-v">{_v(f"${a['price']:,.0f}")}</span>'
                      f'<span class="bp-d {cls}">{chg:+.1f}% 24h</span></div>')
         except (TypeError, ValueError, KeyError):
             continue
@@ -9697,7 +9769,7 @@ def render_board_panel(item):
         try:
             rows += (f'<div class="bp-row"><span class="bp-k">Whale flow '
                      f'{int(fl.get("window_hours") or 24)}h</span>'
-                     f'<span class="bp-v">${abs(float(fl["net_usd"]))/1e6:,.0f}M</span>'
+                     f'<span class="bp-v">{_v(f"${abs(float(fl['net_usd'])) / 1e6:,.0f}M")}</span>'
                      f'<span class="bp-d">{esc(str(fl.get("direction") or ""))}</span></div>')
         except (TypeError, ValueError):
             pass
@@ -10093,6 +10165,7 @@ _FACT_ONCE = []          # what fact_once withheld in this build: (kind, page, t
 
 
 def build():
+    _FACT_ONCE.clear()                 # one build's withholdings (a process that builds twice counts each build on its own)
     items = load_content()
     # dateline reflects the newest content (or a neutral standing line), never a wall clock
     newest = next((i.get("date") for i in items if not i.get("example") and i.get("date")), None)
@@ -10143,12 +10216,17 @@ def build():
         path = os.path.join(PUBLISH, rel)
         os.makedirs(os.path.dirname(path), exist_ok=True)
         if rel.endswith(".html"):
-            # SPRINT 9.9.2, fix round 2: one fact once. A sentence or a story item quoting a fact the page already prints is
-            # withheld whole, never reworded (fact_once.py); fails open to the page as rendered, and says so
+            # SPRINT 9.9.2: one fact once. A quoted unit that prints a fact the page already prints is withheld whole, and only when
+            # every fact it prints stays printed on the page; a stored text is never cut (fact_once.py, fix round 3). Fails open to
+            # the page as rendered, and says so
             try:
                 import fact_once as _fo
+                _src = html
                 html, _gone = _fo.withhold(html, rel)
                 _FACT_ONCE.extend(_gone)
+                if html != _src:
+                    # fix round 3 (review 2, failure 2): nothing withheld may be the only printing of a figure on its page
+                    _FACT_ONCE.extend(("hidden", rel, x) for x in _fo.vanished(_src, html))
             except Exception as e:                   # noqa: BLE001
                 print(f"::warning::one fact once: {rel} written as rendered ({type(e).__name__}: {e})")
         open(path, "w", encoding="utf-8").write(html)
@@ -10625,10 +10703,12 @@ def build():
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "
           f"+ {len(items) - n_live} example, plus home/archive/method/about/standards/404.")
     _fo_pages = len({p for _k, p, _t in _FACT_ONCE})
-    print(f"site: one fact once withheld {sum(1 for k, _p, _t in _FACT_ONCE if k == 'sentence')} quoted sentence(s), "
-          f"{sum(1 for k, _p, _t in _FACT_ONCE if k == 'item')} story item(s) and "
-          f"{sum(1 for k, _p, _t in _FACT_ONCE if k == 'headline')} repeated headline(s) on complete listings (row and link kept) "
-          f"on {_fo_pages} page(s), each a quotation of a fact the page prints elsewhere")
+    _fo_n = lambda kind: sum(1 for k, _p, _t in _FACT_ONCE if k == kind)
+    print(f"site: one fact once withheld {_fo_n('item')} story item(s) and {_fo_n('summary')} card summary(ies) whole, and "
+          f"{_fo_n('yielded')} data figure(s) yielded to the Brief, on {_fo_pages} page(s), each a quotation of facts the page "
+          f"prints elsewhere; no stored text cut; figures hidden: {_fo_n('hidden')}")
+    for _k, _p, _t in [x for x in _FACT_ONCE if x[0] == "hidden"][:10]:
+        print(f"::warning::one fact once: {_p} no longer prints {_t}")
     if os.environ.get("FACT_ONCE_LOG"):
         # opt-in, for the sprint's count: what was withheld, page by page (never set by a scheduled run)
         json.dump(_FACT_ONCE, open(os.environ["FACT_ONCE_LOG"], "w", encoding="utf-8"), indent=0)

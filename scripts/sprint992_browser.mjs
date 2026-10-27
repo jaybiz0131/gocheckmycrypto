@@ -9,7 +9,8 @@
 //     FAIL <name>: <what was found>
 //     INFO <name>: <a measurement, not a verdict>
 //
-// It also measures the Chart Master table's RSI-14 header at 375 with its columns shown: one line. Exit 1 when any check fails.
+// It also measures the Chart Master table's RSI-14 header at 375 with its columns shown: one line; and (fix round 3) Bitcoin's RSI as the
+// page loads at 375 and 1440: printed once, in the BTC row the gauge names. Exit 1 when any check fails.
 // U-7: the browser is launched with a timeout and closed in a finally block.
 import { createRequire } from "module";
 import http from "http";
@@ -32,8 +33,9 @@ const server = http.createServer((req, res) => {
   res.writeHead(200, { "content-type": TYPES[path.extname(f)] || "application/octet-stream" });
   fs.createReadStream(f).pipe(res);
 });
-// the sweep's own figure pattern (fact_sweep.FIG), magnitude words included since fix round 2 ("$730.8 million")
-const FIG = /(?<![\w$.,])[+\-−]?\$\d[\d,]*(?:\.\d+)?(?:\s?[KMBT]\b|\s(?:thousand|million|billion|trillion)\b)?|(?<![\w.,$])[+\-−]?\d[\d,]*(?:\.\d+)?%/g;
+// the sweep's own figure pattern (fact_sweep.FIG), magnitude words included since fix round 2 ("$730.8 million"), in a headline's
+// title case too since fix round 3 ("$73 Million")
+const FIG = /(?<![\w$.,])[+\-−]?\$\d[\d,]*(?:\.\d+)?(?:\s?[KMBT]\b|\s(?:[Tt]housand|[Mm]illion|[Bb]illion|[Tt]rillion|THOUSAND|MILLION|BILLION|TRILLION)\b)?|(?<![\w.,$])[+\-−]?\d[\d,]*(?:\.\d+)?%/g;
 let bad = 0;
 const say = (ok, name, why) => { if (ok) console.log("PASS " + name); else { bad++; console.log("FAIL " + name + (why ? ": " + why : "")); } };
 let browser;
@@ -47,6 +49,35 @@ try {
     await ctx.route("**/*", r => r.request().url().startsWith(base) ? r.continue() : r.abort());
     const pg = await ctx.newPage();
     await pg.goto(base + "/" + rel, { waitUntil: "load", timeout: 60000 });
+    if (rel === "chartmaster.html") {
+      // fix round 3 (review 2, failure 5): as the page loads, no control opened, the reader sees Bitcoin's RSI once, in the data card's
+      // BTC row the gauge names, and the table fits its box
+      const seen = await pg.evaluate(() => {
+        const tbl = document.querySelector(".cm-datacard table");
+        const gauge0 = [...document.querySelectorAll("figure")].filter(f => /RSI/.test(f.innerText));
+        if (!tbl) return { card: false, gaugeNums: gauge0.map(f => f.innerText.match(/(?:^|\s)(\d{1,3}\.\d)(?:\s|$)/g) || []).flat(),
+                           pointer: gauge0.some(f => /printed in its BTC row below/.test(f.innerText)) };
+        const heads = [...tbl.querySelectorAll("thead th")].map(x => x.textContent.trim());
+        const k = heads.indexOf("RSI-14");
+        const row = [...tbl.querySelectorAll("tbody tr")].find(r => r.querySelector("th") && r.querySelector("th").textContent.trim() === "BTC");
+        const cell = row && k > 0 ? row.children[k] : null;
+        const wrap = tbl.parentElement;
+        const gauge = [...document.querySelectorAll("figure")].filter(f => /RSI/.test(f.innerText));
+        const gaugeNums = gauge.map(f => f.innerText.match(/(?:^|\s)(\d{1,3}\.\d)(?:\s|$)/g) || []).flat();
+        return { cell: cell ? cell.innerText.trim() : null, shown: cell ? getComputedStyle(cell).display !== "none" && cell.getClientRects().length > 0 : false,
+                 fits: wrap ? tbl.scrollWidth <= wrap.clientWidth + 1 : null, gaugeNums, pointer: gauge.some(f => /printed in its BTC row below/.test(f.innerText)) };
+      });
+      console.log(`INFO chartmaster.html at ${w}, as it loads: ` + JSON.stringify(seen));
+      if (seen && seen.card === false) {
+        // a written read carries no data card: the gauge prints Bitcoin's RSI itself, once, and points nowhere
+        say(seen.gaugeNums.length === 1 && !seen.pointer, `chartmaster.html at ${w}: with no data card the gauge prints Bitcoin's RSI once`,
+            JSON.stringify(seen));
+      } else {
+        say(seen && seen.shown && /^\d{1,3}(\.\d)?$/.test(seen.cell || "") && seen.gaugeNums.length === 0 && seen.pointer,
+            `chartmaster.html at ${w}: Bitcoin's RSI is printed once where the reader sees it, the BTC row the gauge names`, JSON.stringify(seen));
+        say(seen && seen.fits, `chartmaster.html at ${w}: the data card's table fits its box with the RSI-14 column shown`, JSON.stringify(seen));
+      }
+    }
     // innerText omits what CSS hides and carries an SVG's <text>; an SVG <title> is a tooltip and is not printed
     // what a reader can reveal counts as printed, as the model reads it: every "Show all columns" box checked, every <details> open
     const shown = await pg.evaluate(() => {

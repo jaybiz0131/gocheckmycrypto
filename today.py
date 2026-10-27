@@ -22,6 +22,7 @@ stays what it was at the evening build; a build with no stored record for the sl
 from the files in hand, so the first build after a slot is never blank.
 """
 import datetime as _dt
+import html as _html
 import json
 import os
 import re
@@ -532,6 +533,29 @@ def window_line(rec, evidence=None, graded=False):
             f'data-td-dir="{_e(rec.get("direction"))}">{_e(text)}</p>')
 
 
+def _answer_html(answer, ev_html):
+    """The stored answer as published, word for word (J-10). SPRINT 9.9.2, fix round 3 (entry 2026-10-27-C8): a figure the answer
+    shares with an evidence item listed on the page (one figure, two subject words in common: fact_sweep.one_event) is printed as an
+    in-page link to that item, so the evidence item carries the figure and the answer links it. Nothing in the answer changes but
+    the link around the figure."""
+    import fact_sweep as _fs
+    items = [(m.group(1), _html.unescape(re.sub(r"<[^>]+>", "", m.group(2))))
+             for m in re.finditer(r'<li class="ev-c[^"]*" data-ev-id="([^"]+)">.*?<span class="ev-l">(.*?)</span>', ev_html or "", re.S)]
+    out = []
+    for sent in answer or []:
+        h = _e(sent)
+        for ev_id, line in items:
+            if not _fs.one_event(sent, line):
+                continue
+            mine = [f for f in _fs.figures([(line, None)]) if _fs.significant(f) or f.unit == "%"]
+            for f in _fs.figures([(sent, None)]):
+                if any(f.same(g) for g in mine) and _e(f.raw) in h and "<a " not in h:
+                    h = h.replace(_e(f.raw), f'<a class="td-ref" href="#ev-{_e(ev_id)}">{_e(f.raw)}</a>', 1)
+                    break
+        out.append(h)
+    return " ".join(out)
+
+
 def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=None):
     """The page, top to bottom: the answer, why it moved (Sprint 9.3, the verdict card, when the
     day's slot has a verdict record), what moved, what lined up with the move (Sprint 9.2, when the
@@ -644,7 +668,11 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
                    for d in archive_dates)
     corr = "".join(f'<p class="td-corr"><b>Correction, {_e(c.get("date"))}.</b> {_e(c.get("text"))}</p>'
                    for c in rec.get("corrections") or [])
-    ans = " ".join(rec["answer"])
+    ans_html = _answer_html(rec["answer"], ev_html)
+    if ans_html != " ".join(_e(x) for x in rec["answer"]):
+        # the evidence item the answer links carries an id to be linked by
+        for ev_id in re.findall(r'href="#ev-([^"]+)"', ans_html):
+            ev_html = ev_html.replace(f'data-ev-id="{_e(ev_id)}"', f'id="ev-{_e(ev_id)}" data-ev-id="{_e(ev_id)}"', 1)
     # SPRINT 9.9.1 (Review 2, failure 5): one next read per page. The living page names the next slot off the build's clock, the one
     # the verdict notice names (home.next_slot), so a slot already past is never shown as the next; a dated page keeps its record's own
     nxt = next_update(rec["slot"], clock) if (clock is not None and here != "dated") else rec["next"]
@@ -657,7 +685,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
   <h1>{_e(rec['h1'])}</h1>
   <p class="td-stamp">{_e(reader(rec['stamp_label']))}</p>
   {window_line(rec, evidence if ev_html else None, bool(graded))}
-  <section class="td-answer{' td-read' if rec.get('answer_by') not in (None, 'template') else ''}" aria-label="The answer"><p>{_e(ans)}</p></section>
+  <section class="td-answer{' td-read' if rec.get('answer_by') not in (None, 'template') else ''}" aria-label="The answer"><p>{ans_html}</p></section>
   {corr}
 {vd_slot}  <section class="td-sec"><h2>What moved</h2>{moved}</section>
   {ev_html}

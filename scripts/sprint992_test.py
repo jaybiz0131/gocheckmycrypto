@@ -226,10 +226,10 @@ def round2_cases(fails):
     guarded(fails, "failure 2: a summary sentence restating its story's body is a finding (SYNTHETIC)",
             lambda: "twice" in kinds(sweep(page('<p class="dek">Inflows reached $3.8B in three weeks.</p>'
                                                 '<div class="prose"><p>Inflows reached $3.8B in three weeks.</p></div>'))))
-    guarded(fails, "failure 2: a headline restating its own body is counted, under its own kind (SYNTHETIC)",
-            lambda: [(k, t.endswith("[a stored text repeating its own figure]")) for k, _w, t in fs.sweep_page(page(
+    guarded(fails, "a headline restating its own body is one printing under entry 2026-10-27-C8: no finding (SYNTHETIC)",
+            lambda: fs.sweep_page(page(
                 '<article class="article"><h1>MARA Acquires Texas Site From HIF in $600M Deal</h1><div class="prose"><p>MARA has agreed '
-                'to acquire a Texas site from HIF in a $600 million deal.</p></div></article>'), CSS, "articles/x.html")] == [("held", True)])
+                'to acquire a Texas site from HIF in a $600 million deal.</p></div></article>'), CSS, "articles/x.html") == [])
     guarded(fails, "failure 2: '$600 million' and '$600M' are one figure (SYNTHETIC)",
             lambda: "twice" in kinds(sweep(page('<p class="dek">MARA buys a Texas site for $600 million.</p>'
                                                 '<div class="prose"><p>MARA pays $600M for the Texas site.</p></div>'))))
@@ -254,13 +254,14 @@ def round2_cases(fails):
             lambda: any(k == "twice" and "$52.8M" in t for k, _w, t in usdt))
     card = ('<article class="card"><h3><a href="/articles/{u}.html">{h}</a></h3><p class="summary">{s}</p></article>')
     grid = lambda *c: page('<div class="grid">' + "".join(c) + "</div>")
-    guarded(fails, "a card's headline and its own summary printing one figure in other words are one fact ('$90T Market' over "
-                   "'the $90 trillion market'; the stored headline and summary of August 31, in a SYNTHETIC grid)",
-            lambda: "twice" in kinds(sweep(grid(card.format(u="a", h="Ex-Regulators Warn Strict Perps Rules Will Keep $90T Market "
+    guarded(fails, "a card's headline and its own summary printing one figure in other words are one story's own repeat, one printing "
+                   "under C8 ('$90T Market' over 'the $90 trillion market'; the stored headline and summary of August 31, in a SYNTHETIC "
+                   "grid)",
+            lambda: not sweep(grid(card.format(u="a", h="Ex-Regulators Warn Strict Perps Rules Will Keep $90T Market "
                                                                     "Offshore", s="Former SEC and CFTC officials are urging "
                                                                     "lighter-touch regulation of perpetual futures to bring the $90 "
                                                                     "trillion market into US jurisdiction."),
-                                                card.format(u="b", h="Circle buys IBM patents", s="Circle bought patents.")))))
+                                                card.format(u="b", h="Circle buys IBM patents", s="Circle bought patents."))))
     guarded(fails, "two story cards on one event are not two subjects (an archive's two Xinbi cards) (SYNTHETIC)",
             lambda: "twice" in kinds(sweep(grid(card.format(u="a", h="US seizes Xinbi Telegram channels, restrains $52.8M in USDT",
                                                             s="Seized."),
@@ -318,20 +319,19 @@ def round2_build_cases(fails):
                     'href="/articles/b.html">Circle buys IBM patents</a></h3></article></aside></div><section class="ed-brief">'
                     '<p>Bitcoin ETFs drew $197 million on the day.</p></section>')
     ef, _g = fo.withhold(ed_front, "news.html")
-    guarded(fails, "K-1: an Edition's lead card is never withheld whole (the news front opens on the newest item); its quoted dek "
-                   "is (SYNTHETIC)", lambda: "/articles/a.html" in ef and "ed-dek" not in ef)
-    guarded(fails, "K-1: the lead headline beside the brief is HELD and named (SYNTHETIC)",
-            lambda: kinds(fs.sweep_page(ef, CSS, "news.html")) == ["held"])
+    guarded(fails, "K-1: an Edition's lead card prints whole beside its own Brief (the lead is the Brief's own unit, C8) (SYNTHETIC)",
+            lambda: "/articles/a.html" in ef and '<p class="ed-dek">Bitcoin ETFs drew $197M.</p>' in ef)
+    guarded(fails, "K-1: the lead beside its own Brief is one printing under C8: no finding (SYNTHETIC)",
+            lambda: fs.sweep_page(ef, CSS, "news.html") == [])
     art, gone = _r2_withheld("articles/mara-acquires-texas-site-from-hif-in-600m-deal.html")
     raw = open(os.path.join(R2, "articles/mara-acquires-texas-site-from-hif-in-600m-deal.html"), encoding="utf-8").read()
     body = re.search(r'<div class="prose">.*?</div>', raw, re.S).group(0)
-    guarded(fails, "failure 2: a story page's dek and key fact restating its headline and body are withheld; the body stands byte for byte",
-            lambda: '<p class="dek">' not in art and 'class="keyfact"' not in art and body in art and "<h1>MARA Acquires Texas Site From "
-                    "HIF in $600M Deal</h1>" in art)
-    guarded(fails, "failure 2: the take, which prints no figure the page prints, stands",
-            lambda: '<div class="take">' in art)
-    guarded(fails, "failure 2: what stays is the headline against its own body, HELD and named, not hidden",
-            lambda: kinds(fs.sweep_page(art, fs.site_css(R2, art), "articles/x.html")) == ["held"])
+    guarded(fails, "a story page's own dek, key fact and body print whole beside its headline (one story, one printing, C8)",
+            lambda: raw.count('<p class="dek">') == art.count('<p class="dek">') == 1 and 'class="keyfact"' in art and body in art
+                    and "<h1>MARA Acquires Texas Site From HIF in $600M Deal</h1>" in art)
+    guarded(fails, "the take stands", lambda: '<div class="take">' in art)
+    guarded(fails, "the story's own repeats are one printing: the page holds no finding",
+            lambda: fs.sweep_page(art, fs.site_css(R2, art), "articles/mara-acquires-texas-site-from-hif-in-600m-deal.html") == [])
     rel_page = page('<article class="article"><h1>Kaiko Raises $110M</h1><div class="prose"><p>Kaiko raised $110M in a Series B '
                     'extension led by S&amp;P Global.</p></div><div class="related"><h2>Related stories</h2><ul>'
                     '<li><a href="/articles/a">S&amp;P Global leads $110M extension of Kaiko&#x27;s Series B</a></li>'
@@ -350,17 +350,17 @@ def round2_build_cases(fails):
                    'href="/articles/b.html">U.S. Freezes $52.8M in USDT Tied to Xinbi Guarantee Scam Marketplace</a><span '
                    'class="bd-stamp">September 9</span></div></div>')
     lst, _g = fo.withhold(listing, "news/archive/2026-09.html")
-    guarded(fails, "failure 5 (every listing): on a complete listing the second story on one event keeps its row and its link; only "
-                   "its headline is withheld, for the pointer (SYNTHETIC)",
-            lambda: 'href="/articles/b.html">' + fo.POINTER + "</a>" in lst and "Guarantee Scam" not in lst and "/articles/a.html" in lst)
+    guarded(fails, "a complete listing keeps every entry whole: both stories on one event keep their rows, links and headlines, and no "
+                   "pointer line is printed (SYNTHETIC)",
+            lambda: lst == listing and "Another report" not in lst)
     guarded(fails, "a page with nothing to withhold comes back byte for byte",
             lambda: fo.withhold(page("<p>Ether $2,313.67 today</p>"), "x.html")[0] == page("<p>Ether $2,313.67 today</p>"))
     fg, _g = fo.withhold(page('<div class="h-mood"><p class="h-g-n">48</p><p class="h-mood-l">Fear &amp; Greed</p></div>'
-                              '<p class="h-nline">The wire leads with a tax delay. The Fear &amp; Greed index reads 48, neutral.</p>'),
+                              '<section class="h-b h-narrative"><p class="h-nline">The wire leads with a tax delay. The Fear &amp; Greed '
+                              'index reads 48, neutral.</p></section>'),
                          "index.html")
-    guarded(fails, "a quoted sentence after the lead repeating only a named reading (Fear & Greed 48 beside its tile) is withheld "
-                   "(SYNTHETIC)",
-            lambda: "index reads 48" not in fg and "The wire leads with a tax delay." in fg)
+    guarded(fails, "the home's Brief card prints whole; the gauge's number that repeats its Fear & Greed reading yields (SYNTHETIC)",
+            lambda: "index reads 48" in fg and "The wire leads with a tax delay." in fg and '<p class="h-g-n">' not in fg)
     import site_build as sb
     g = sb.cm_rsi_chart({"rsi14": 40.6, "_rsi_read": "Oct 26, 7:14 PM ET"})
     guarded(fails, "failure 3: the Chart Master gauge reading the chart read's BTC row prints no number of its own and names the read",
@@ -404,6 +404,177 @@ def round2_build_cases(fails):
                    else False)
     guarded(fails, "/today/2026-10-15: a row's figure its printed correction quotes (Bitcoin up 0.80%) is not printed again; the "
                    "correction stands whole", lambda: th.count("0.80%") == 1 and "contradicted Bitcoin (up 0.80%)" in _html.unescape(th))
+
+
+# ---- 1d. fix round 3: review 2 at 3afc3b4, under entry 2026-10-27-C8 (J-18 option (1)) ------------------------------------------
+
+def _units_whole(raw, out, rx):
+    """Every element `rx` finds in `raw` is in `out` byte for byte, or not at all: a stored unit printed whole or withheld whole."""
+    return all(m.group(0) in out or m.group(1) not in out for m in re.finditer(rx, raw, re.S))
+
+
+def round3_cases(fails):
+    import fact_once as fo
+    import fact_sweep as fs
+    import site_build as sb
+    print("1d. review 2 at 3afc3b4, fixed under entry 2026-10-27-C8: each failure at its cause")
+    # FAILURE 1. One printing is exactly what C8 names; every other pair is a finding. SYNTHETIC pages.
+    plant = ('<article class="article"><h1>Bitcoin ETFs Draw $150 million</h1><p class="dek">Spot bitcoin ETFs drew $150 million on '
+             'Monday.</p><div class="prose"><p>Spot bitcoin ETFs took in $150 million on Monday, the desk\'s figures show.</p></div>'
+             '</article>')
+    guarded(fails, "failure 1: review 2's plant, '$150 million' three times in one stored article (headline, dek, body), is one printing "
+                   "under C8: no finding (SYNTHETIC)", lambda: sweep(page(plant), "articles/x.html") == [])
+    guarded(fails, "failure 1: the same article with the figure also in a line the build writes on that page is a finding (SYNTHETIC)",
+            lambda: kinds(sweep(page(plant.replace("</article>", '<aside class="board-panel"><div class="bp-row"><span class="bp-k">'
+                                                    'ETF flows</span><span class="bp-v">$150 million</span></div></aside></article>')),
+                                "articles/x.html")) == ["twice"])
+    two_briefs = page('<section class="ed-brief"><div class="ed-brief-cols"><p>Spot bitcoin ETFs took in $150 million on Monday.</p></div>'
+                      '</section><section class="ed-brief"><div class="ed-brief-cols"><p>On Monday spot bitcoin ETFs drew $150 million.'
+                      '</p></div></section>')
+    guarded(fails, "failure 1: one figure in two stored units (two Briefs) is a finding: across units is two printings (SYNTHETIC)",
+            lambda: kinds(sweep(two_briefs)) == ["twice"])
+    guarded(fails, "failure 1: one figure twice in text the build writes is a finding (SYNTHETIC)",
+            lambda: kinds(sweep(page('<p class="lx-dek">Spot bitcoin ETFs took in $150 million on Monday.</p><p class="pc-note">ETFs '
+                                     'drew $150 million on Monday.</p>'))) == ["twice"])
+    guarded(fails, "failure 1: a stored Brief line beside a data tile printing its figure is a finding (SYNTHETIC)",
+            lambda: kinds(sweep(page('<section class="h-b h-narrative"><p class="h-nline">Spot Bitcoin ETFs took in $110.3M on the day.'
+                                     '</p></section><div class="tl-row"><article class="tl"><p class="tl-l">ETF flows</p><p class="tl-f">'
+                                     '+$110.3M</p></article></div>'))) == ["twice"])
+    lead = page('<div class="ed-front"><article class="ed-lead"><h2><a href="/articles/a.html">Bitcoin ETFs Draw $197M</a></h2><p '
+                'class="ed-dek">Bitcoin ETFs drew $197M.</p></article></div><section class="ed-brief"><div class="ed-brief-cols"><p>'
+                'Bitcoin ETFs drew $197 million on the day.</p></div></section>')
+    guarded(fails, "failure 1: an Edition lead beside its own Brief is one printing under C8: no finding (SYNTHETIC)",
+            lambda: sweep(lead, "edition/x.html") == [])
+    corr = page('<ol class="co-l"><li><p class="co-t">The page showed Bitcoin down 2.13% where it rose 0.80%.</p></li><li><p class="co-t">'
+                'The page showed Bitcoin down 2.05% where it rose 0.80%.</p></li></ol>')
+    guarded(fails, "failure 1: two corrections quoting one figure are one printing under C8: no finding (SYNTHETIC)",
+            lambda: sweep(corr, "corrections.html") == [])
+    guarded(fails, "failure 1: the sweep has no HELD kind: every pair is a finding or one printing for a reason C8 names",
+            lambda: not hasattr(fs, "stands") and not hasattr(fs, "STAND") and '"held"' not in open(fs.__file__, encoding="utf-8").read())
+    # /today/2026-10-20 (C8): the evidence item carries the figure, the answer links it; the answer's words are as stored
+    import today
+    import why_evidence
+    rec20 = json.load(open(os.path.join(HERE, "site", "data", "today", "2026-10-20-evening.json"), encoding="utf-8"))
+    ev20 = why_evidence.load("2026-10-20", "evening")
+    vd20 = None
+    try:
+        import verdict as _vd
+        vd20 = _vd.load("2026-10-20", "evening")
+    except Exception:                                    # noqa: BLE001
+        vd20 = None
+    with quiet():
+        t20 = today.body_html(rec20, [], here="dated", evidence=ev20, verdict=vd20)
+    ans = re.search(r'aria-label="The answer"><p>(.*?)</p>', t20, re.S)
+    guarded(fails, "/today/2026-10-20: the stored answer prints word for word, its 31% an in-page link to the evidence item that carries it",
+            lambda: ans is not None and _html.unescape(re.sub(r"<[^>]+>", "", ans.group(1))) == " ".join(rec20["answer"])
+                    and re.search(r'<a class="td-ref" href="#ev-([^"]+)">31%</a>', ans.group(1)) is not None
+                    and f'id="ev-{re.search(r"#ev-([^\"]+)", ans.group(1)).group(1)}"' in t20)
+    guarded(fails, "/today/2026-10-20: the dated page holds no finding (the answer links the figure the evidence item prints)",
+            lambda: sweep(page(t20), "today/2026-10-20.html") == [])
+
+    guarded(fails, "a headline's title case is read: '$730 Million' and '$730 million' are one figure (SYNTHETIC)",
+            lambda: kinds(sweep(page('<p class="lx-dek">BitMine adds $730 Million in ETH.</p><p class="pc-note">BitMine added $730 million '
+                                     'of ETH.</p>'))) == ["twice"])
+    fgi = page('<div class="h-mood"><p class="h-g-n">48</p><p class="h-mood-l">Fear &amp; Greed</p></div><div class="related"><ul><li>'
+               '<a href="/articles/a">Fear &amp; Greed index reads 48 as traders wait</a></li><li><a href="/articles/b">Circle buys IBM '
+               'patents</a></li></ul></div>')
+    fgo, _g = fo.withhold(fgi, "articles/x.html")
+    guarded(fails, "a quoted story whose only fact is a named reading the page prints (Fear & Greed 48) is withheld; the other stays "
+                   "(SYNTHETIC)", lambda: "/articles/a" not in fgo and "/articles/b" in fgo)
+    guarded(fails, "the audit sees a hidden figure: a page that lost its only $1.2B is reported (SYNTHETIC)",
+            lambda: fo.vanished(page("<p>Kaiko is valued at $1.2B.</p><p>Kaiko raised $110M.</p>"), page("<p>Kaiko raised $110M.</p>"))
+                    == ["$1.2B"])
+    # each cause on a story page, read on the stored stories that showed it
+    by = {i.get("slug"): i for i in sb.load_content()}
+
+    def art(slug):
+        with quiet():
+            return sb.render_article(by[slug], list(by.values()))
+    ab = art("afternoon-brief-2026-09-10")
+    guarded(fails, "a story's related and 'More on' picks pass over a story whose headline prints a figure the story prints (the stored "
+                   "afternoon Brief of September 10 and the Xinbi seizure story, $52.8 million)",
+            lambda: "us-seizes-xinbi-telegram-channels" not in ab.split('class="related"')[-1] and "$52.8 million" in ab)
+    xf = art("u-s-freezes-52-8m-in-usdt-tied-to-xinbi-guarantee-scam-marketplace")
+    guarded(fails, "an update callout names a later story by its date when that story's headline prints this story's figure (the Xinbi "
+                   "freeze of September 9)",
+            lambda: re.search(r'superseded by later reporting: <a href="/articles/us-seizes-xinbi[^"]*">the desk’s story of ', xf)
+                    is not None)
+    mb = art("morning-brief-2026-09-16")
+    guarded(fails, "a second citation on an event an earlier citation names is cited by its date (two DOJ stories on one $61 million "
+                   "forfeiture, the stored morning Brief of September 16)",
+            lambda: mb.count("$61M in Binance Accounts") == 0 and "DOJ Files $61 Million Forfeiture" in mb)
+    sq = art("bitcoin-short-squeeze-open-interest-collapses-as-price-rallies-to-78-465")
+    guarded(fails, "the board panel's cell says 'In the story' where the story's headline prints its figure ($78,465)",
+            lambda: '<span class="bp-v">In the story</span>' in sq and "$78,465" not in sq.split('class="board-panel"')[1].split("</aside>")[0])
+    # FAILURE 2. Only a whole quoted unit goes, only when every fact it prints stays printed; a complete index keeps every entry
+    items = sb.load_content()
+    with quiet():
+        rec_raw = sb.render_record(items, "DATELINE")
+    rec_out, _g = fo.withhold(rec_raw, "record.html")
+    feats = re.findall(r'<div class="bd-card bd-rec-feat">.*?</div></div>', rec_raw, re.S)
+    guarded(fails, f"failure 2: /record.html keeps every lane's feature card whole, headline and summary ({len(feats)} cards; the ETFs and "
+                   "institutions card among them)",
+            lambda: feats and all(f in rec_out for f in feats) and any("ETFs and institutions" in f for f in feats))
+    idx = lambda h: re.findall(r'<a href="(/articles/[^"]+)">', (re.search(r'<section class="bd-mod bd-rec-index">(.*?)</section>', h, re.S)
+                                                                or re.match("()", "")).group(1))
+    guarded(fails, f"failure 2: /record.html's full index keeps every entry ({len(idx(rec_raw))} of {len(idx(rec_raw))})",
+            lambda: idx(rec_raw) and idx(rec_out) == idx(rec_raw) and len(idx(rec_raw)) == len(sb.evergreen_picks(items, n=40)))
+    xrp = next(i for i in items if i.get("slug") == "bitcoin-etf-inflows-reach-3-52b-in-august-best-month-of-2026")
+    with quiet():
+        xa = sb.render_article(xrp, items)
+    xo, _g = fo.withhold(xa, "articles/bitcoin-etf-inflows-reach-3-52b-in-august-best-month-of-2026.html")
+    guarded(fails, "failure 2: the stored dek carrying XRP ETFs' $502 million prints whole on its story page",
+            lambda: f'<p class="dek">{sb.esc(xrp["dek"])}</p>' in xo and "$502 million" in xrp["dek"])
+    rel_pg = page('<article class="article"><h1>Kaiko Raises $110M</h1><div class="prose"><p>Kaiko raised $110M in a Series B extension.'
+                  '</p></div><div class="related"><h2>Related stories</h2><ul><li><a href="/articles/a">Kaiko raises $110M from S&amp;P '
+                  'Global at a $1.2B valuation</a></li><li><a href="/articles/b">S&amp;P Global leads $110M extension of Kaiko&#x27;s '
+                  'Series B</a></li></ul></div></article>')
+    ro, _g = fo.withhold(rel_pg, "articles/x.html")
+    guarded(fails, "failure 2: a quoted story that also prints a fact the page prints nowhere else ($1.2B) is not withheld; one whose "
+                   "every fact stays printed is (SYNTHETIC)", lambda: "/articles/a" in ro and "/articles/b" not in ro and not fo.vanished(rel_pg, ro))
+    # FAILURE 3. A stored unit prints whole as published or is withheld whole
+    for slug, cls, key in (("150m-in-long-positions-liquidated-in-24-hours", "bottomline", "bottom_line"),
+                           ("ostium-loses-18-million-to-oracle-manipulation-attack-via-priceupkeep-exploit", "callout corrected", "corrected")):
+        it = next((i for i in items if i.get("slug") == slug), None)
+        if it is None:
+            guarded(fails, f"failure 3: the stored story {slug} is in the tree", lambda: False)
+            continue
+        with quiet():
+            ah = sb.render_article(it, items)
+        ao, _g = fo.withhold(ah, f"articles/{slug}.html")
+        guarded(fails, f"failure 3: {slug}: its {key.replace('_', ' ')} prints whole as stored",
+                lambda ao=ao, it=it, key=key: sb.esc(sb.destyle(it[key]) if key == "corrected" else it[key]) in ao)
+    import edition
+    days = edition.edition_days(items)
+    front = page(edition.render_front(edition.DESK, items, "2026-07-14", days))
+    fo_, _g = fo.withhold(front, "edition/2026-07-14.html")
+    guarded(fails, "failure 3: edition/2026-07-14: every card prints whole as composed or is withheld whole, and nothing withheld hid a fact",
+            lambda: _units_whole(front, fo_, r'<article>\s*(?:<span class="ed-kicker">.*?</span>\s*)?(<h3><a href="[^"]+">.*?</h3>).*?</article>')
+                    and _units_whole(front, fo_, r'(<section class="ed-brief").*?</section>') and not fo.vanished(front, fo_))
+    guarded(fails, "failure 3: the pass never cuts inside an element: its only edits remove a whole element or yield a data figure",
+            lambda: not hasattr(fo, "sentences") and "sentences(" not in open(fo.__file__, encoding="utf-8").read())
+    # FAILURE 4. No pointer line; the second listing is dropped
+    with quiet():
+        nh = sb.render_news_hub(items, "DATELINE")
+    nho, _g = fo.withhold(nh, "news.html")
+    body = nho[nho.find("<main"):nho.find("</main>")]
+    links = re.findall(r'href="(/articles/[^"#]+)"', body)
+    dup = sorted({u for u in links if links.count(u) > 1})
+    guarded(fails, f"failure 4: news.html prints no pointer line and lists each story once ({len(dup)} listed twice: {dup[:3]})",
+            lambda: "Another report on an event this page lists" not in nho and not dup)
+    # FAILURE 5. One Bitcoin RSI the reader sees at 375 and at 1440, with no control opened
+    with fixture_world() as (sbx, pulse, _flows):
+        with quiet():
+            cmh = sbx.render_chartmaster(getattr(sbx, "_precise_cm", lambda c: c)(load("chartmaster.json")), "DATELINE", pulse)
+    dom = fs.parse(cmh)
+    # the page as it loads, no control opened: the stylesheets without their ":checked" rules ("Show all columns" left unticked)
+    as_loaded = [re.sub(r"[^{}]*:checked[^{}]*\{[^}]*\}", "", c) for c in CSS]
+    for w in fs.WIDTHS:
+        nodes = fs.printed(dom, fs.Sheet(as_loaded, w))
+        btc = [r for r in fs.table_readings(dom, nodes) + fs.figure_readings(dom, nodes) if r[0] == "RSI" and r[1] in ("BTC", None)]
+        guarded(fails, f"failure 5: /chartmaster at {w}, as it loads: one Bitcoin RSI the reader sees, in the BTC row the gauge names "
+                       f"({[r[2] for r in btc]})",
+                lambda btc=btc: len(btc) == 1 and btc[0][1] == "BTC" and "printed in its BTC row below" in cmh)
 
 
 # ---- 2. today's production copy, red first -------------------------------------------------------------------------------
@@ -551,7 +722,7 @@ def precision_cases(fails):
         guarded(fails, "DOGE and ADA averages at four decimals like their prices, and the desk's figures ($0.0870, $0.0867; $0.2302, $0.2107)",
                 lambda: ("DOGE", "0.0770", "0.0870", "0.0867") in rows and ("ADA", "0.2043", "0.2302", "0.2107") in rows)
         guarded(fails, "the RSI-14 header holds one line (it does not wrap at its hyphen; measured at 375 by the browser half)",
-                lambda: '<th scope="col" class="xs-x" style="white-space:nowrap">RSI-14</th>' in h)
+                lambda: '<th scope="col" style="white-space:nowrap">RSI-14</th>' in h)
         guarded(fails, "the read's heading carries its own read's time (the ledger's 7:14 PM ET)",
                 lambda: "The chart read, Oct 26, 7:14 PM ET" in visible(h))
         f = sweep(h, "chartmaster.html")
@@ -730,7 +901,7 @@ def article_cases(fails):
 
 def unit(only=()):
     fails = []
-    for name, fn in (("model", model_cases), ("round2", round2_cases), ("round2b", round2_build_cases), ("coin", coin_cases), ("precision", precision_cases), ("today", today_home_cases),
+    for name, fn in (("model", model_cases), ("round2", round2_cases), ("round2b", round2_build_cases), ("round3", round3_cases), ("coin", coin_cases), ("precision", precision_cases), ("today", today_home_cases),
                      ("markets", markets_cases), ("evidence", evidence_cases), ("k1", k1_cases), ("article", article_cases)):
         if only and name not in only:
             continue
@@ -742,23 +913,27 @@ def tree(root):
     import fact_sweep as fs
     fails = []
     print("11. the tree this build wrote: every page in it, at 375 and 1440, prints each fact once")
+    fs.ONE.clear()
     with quiet():
         res = fs.sweep(root, history_dir=os.path.join(HERE, "data", "history"))
-    bad = [(rel, k, t) for rel, v in res.items() for k, _w, t in v if k != "held"]
-    held = [(rel, k, t) for rel, v in res.items() for k, _w, t in v if k == "held"]
+    bad = [(rel, k, t) for rel, v in res.items() for k, _w, t in v]
     n = len(bad)
     pages = sum(1 for dp, _d, f in os.walk(root) for x in f if x.endswith(".html"))
     print(f"  INFO {pages} page(s) swept")
     guarded(fails, f"the built tree has pages to sweep ({pages})", lambda: pages >= 50)
-    for rel, k, t in bad[:36]:
+    for rel, k, t in bad:
         print(f"  FAIL {t[:230]}")
-    # HELD is printed, every one, on every run: a pair the rulings keep as published (fact_sweep.py, THE SCOPE). It is not a pass.
-    print(f"  INFO HELD, waiting on a ruling: {len(held)} finding(s) on {len({r for r, _k, _t in held})} page(s), by page family "
-          f"{dict(sorted(__import__('collections').Counter(r.split('/')[0] for r, _k, _t in held).items()))}")
-    for rel, k, t in held:
-        print(f"  HELD {t[:230]}")
-    guarded(fails, f"the sweep finds no figure printed twice and no derived figure off its row's precision ({n} finding(s); "
-                   f"{len(held)} HELD printed above)", lambda: n == 0)
+    # no HELD (entry 2026-10-27-C8): a pair is a finding, or one printing for a reason the ruling names, tallied here on every run
+    print("  INFO one printing under entry 2026-10-27-C8: " + ("; ".join(f"{why}: {k}" for why, k in sorted(fs.ONE.items())) or "none"))
+    guarded(fails, f"the sweep finds no figure printed twice and no derived figure off its row's precision ({n} finding(s))",
+            lambda: n == 0)
+    # the build's own pass, in this process (the canary's build): nothing it withheld was the only printing of a figure on its page
+    import site_build as _sbm
+    hidden = [x for x in getattr(_sbm, "_FACT_ONCE", []) if x[0] == "hidden"]
+    for _k, rel, t in hidden[:20]:
+        print(f"  FAIL the pass hid {t!r} on {rel}: printed nowhere else on the page")
+    guarded(fails, f"the build's pass hid no figure: every unit it withheld quotes facts the page still prints ({len(hidden)} hidden)",
+            lambda: not hidden)
     why_page_cases(fails, root)
     return fails
 

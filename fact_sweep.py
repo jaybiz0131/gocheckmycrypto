@@ -34,12 +34,19 @@ Within one story (its card, or a story page's own regions) a headline and a line
 figure alone ("$90T Market" over "the $90 trillion market"). The whole decision is one function, one_fact(), which the build's own
 pass (fact_once.py) calls too, so what the build withholds and what the sweep finds cannot drift apart.
 
-One kind is reported apart, never hidden: HELD, a pair of two printings the rulings keep as published, so that the build may withhold
-neither: a stored text repeating its own figure (a story's headline and its own body, an Edition's brief repeating itself), two
-corrections in the corrections log quoting one figure, a dated /today/ page's stored answer beside a graded verdict's evidence item.
-Removing either side would reword stored model output (J-10), unsay a dated read or its evidence (C6, J-16), or cut a true sentence
-(Jack, October 13). Every HELD finding is counted page by page and printed on every run; the canary does not fail on it, because it is
-the hard gate of every slot run and the build cannot clear it (CLAUDE.md: fail-closed does not mean ship nothing). It waits on a ruling.
+ONE PRINTING (fix round 3, entry 2026-10-27-C8, J-18 option (1)). A published unit repeating its own figure within itself is the
+house's normal form, not two facts, so these pairs count as one printing and are not findings:
+  - a stored unit's own repeats: one story's headline, dek and body (its key fact, take, bottom line and the headline and summary
+    a card quotes from it are that story's own fields too, wherever on the page they print); one Edition card or brief; one
+    correction; one stored read (a Brief line, a Chart Master read, a /today/ answer);
+  - an Edition lead beside its own Brief on the same page: its headline, and so its dek and copy (the lead is the Brief's own unit);
+  - two corrections quoting one figure (a correction quotes what it corrects), and so a story page's own correction or editor's
+    note quoting the story it sits on;
+  - a figure inside an in-page link whose target prints that figure (the /today/ answer linking its evidence item: the evidence item
+    carries the figure, the answer links it).
+Everything else is a finding and the canary fails on it: any figure printed twice across two units, and any figure printed twice
+where either printing is outside stored text. The pairs counted as one printing are tallied by reason on every run (unit()), never
+listed as passes of the law. unit_of() is the one definition, and the build's pass (fact_once.py) calls the same function.
 No network, no model."""
 import collections
 import html as _html
@@ -51,8 +58,8 @@ from html.parser import HTMLParser
 WIDTHS = (375, 1440)
 
 # The classes the build gives stored writing (see THE SCOPE above): a stored story's, Brief's, Edition's or read's text, or a card that
-# quotes it. NOTHING HERE IS SET ASIDE: every figure inside these is read. The list decides only two things, the shared-subject rule for
-# two printings in writing, and which printings are a stored text's own (CANON, below) for the HELD kind.
+# quotes it. NOTHING HERE IS SET ASIDE: every figure inside these is read. The list decides only the shared-subject rule for two
+# printings in writing; which printings are one stored unit is unit_of()'s alone (ONE PRINTING, above).
 TEXT = frozenset((
     "prose", "dek", "bottomline", "keyfact", "sources", "related", "callout", "link-list", "more-on",   # a stored story's page
     "summary",                                                                     # a card quoting a story's summary (archive, coverage)
@@ -67,15 +74,18 @@ TEXT = frozenset((
     "td-read",                                                                     # a /today/ answer lifted whole from a stored Brief
     "h-nline", "h-bt",                                                             # the home Brief card's stored line and headline
 ))
-# A stored text's own body: a story's body (with its headline) and an Edition's brief. Everything else above quotes a stored text.
-CANON = frozenset(("prose", "ed-brief"))
-# A printed correction (the corrections log's entry, a dated page's correction, a chart read's): it quotes the figure it concerns,
-# and it is never withheld; a pair it is in is HELD, named, for the same reasons as a stored text repeating itself.
+# THE UNITS (C8). A story page's own stored fields: its headline (the article's h1) and these.
+STORY_FIELDS = frozenset(("prose", "dek", "keyfact", "take", "bottomline"))
+# A card or a row that links one story quotes that story's fields: its headline (the link) and its summary, under one of these.
+CARD_FIELDS = frozenset(("summary", "dek", "bd-read", "ed-dek", "ed-copy", "nx-read", "keyfact", "bottomline", "take"))
+# A stored text that is not a story: an Edition's brief, a stored Brief read in an archive, the home's Morning Brief card, a Chart
+# Master read, a /today/ answer, a wire line. Each element carrying one of these classes is one unit.
+STORED_ROOT = frozenset(("ed-brief", "bl-read", "h-narrative", "cm-read", "td-read", "td-line", "ev-l"))
+# A printed correction (the corrections log's entry, a dated page's correction, a chart read's, a story's own): one unit each, and two
+# corrections quoting one figure are one printing (a correction quotes what it corrects).
 CORR = frozenset(("co-t", "td-corr", "cm-corr"))
-# What the rulings keep as published, so the build may withhold neither side of a pair between two of them: a story's own body and an
-# Edition's brief (J-10), a printed correction, a dated /today/ page's stored answer (C6), and a graded verdict's evidence item (the
-# list reads the window the grade was made on, numbered against its chart; C6, J-16). A pair of two of these is HELD, never hidden.
-STAND = CANON | CORR | frozenset(("td-read", "ev-c"))
+# A story's own body (with its headline) and an Edition's brief: never a story item the build may withhold.
+CANON = frozenset(("prose", "ed-brief"))
 
 VOID = {"br", "img", "meta", "link", "input", "hr", "source", "wbr", "area", "base", "col", "embed", "param", "track"}
 NOTEXT = {"script", "style", "noscript", "template", "title", "head", "desc"}
@@ -745,22 +755,109 @@ def _has_story(e):
 
 
 def in_corr(e):
-    return any(a.cls & CORR for a in ancestors(e))
+    return any(a.cls & CORR or ("callout" in a.cls and "corrected" in a.cls) for a in ancestors(e))
 
 
-def stands(e):
-    """A printing the rulings keep as published (STAND), a story page's own headline, or the headline of an Edition's lead card (the
-    news front opens on the newest item, K-1)."""
-    return any(a.cls & STAND for a in ancestors(e)) or _piece(e) is not None or \
-        (is_head(e) and any("ed-lead" in a.cls for a in ancestors(e)))
+def _norm_href(h):
+    return (h or "").split("#")[0].split("?")[0].replace(".html", "").rstrip("/")
 
 
-def one_event(text_a, text_b):
+# The pairs counted as one printing under C8 in this process, by reason: printed on every run, never a pass of the law in disguise.
+ONE = collections.Counter()
+
+
+class _Pin:
+    """A named reading's element, in the shape one_printing() reads."""
+    __slots__ = ("el",)
+
+    def __init__(self, el):
+        self.el = el
+
+
+def unit_of(e, own=None):
+    """THE UNIT (C8): the stored unit a printing belongs to, as a key, or None for text the build writes (a tile, a table, a label,
+    a stamp, a line of the page's own). `own` is the page's own address ("/articles/<slug>"), so a story page's headline and fields
+    are that story's. The key of a story is its address, wherever its headline or a field of it prints: a card's headline and summary,
+    a link's headline and the story page's own fields are one story. Every other stored text is its own element."""
+    story_field = card_field = False
+    for a in ancestors(e):
+        if a.tag == "#root":
+            break
+        if a.cls & CORR or ("callout" in a.cls and "corrected" in a.cls):
+            return ("corr", id(a))
+        if a.tag == "a" and STORY_HREF.match(a.attrs.get("href") or ""):
+            return ("story", _norm_href(a.attrs.get("href")))
+        if a.cls & STORED_ROOT:
+            return ("text", id(a))
+        if a.tag == "h1" or a.cls & STORY_FIELDS:
+            story_field = True
+        if a.cls & CARD_FIELDS or (a.tag == "p" and not a.cls):
+            card_field = True              # a card's summary (an Edition rail card's paragraph carries no class of its own)
+        if a.tag == "article" and "article" in a.cls:
+            # a story page's own article: its h1 and its stored fields are the page's story; anything else in it (a callout the build
+            # writes, a share row, a board panel) is the build's
+            return ("story", _norm_href(own)) if story_field and own else None
+        if card_field and story_item(a):
+            urls = _story_urls(a)
+            return ("story", _norm_href(next(iter(urls)))) if len(urls) == 1 else None
+    return None
+
+
+def _own_note(e, own):
+    """A story page's own correction or editor's note (its stored fields "corrected" and "consolidated"): it quotes what it corrects,
+    so a figure it shares with the story it sits on is one printing."""
+    if not own:
+        return False
+    for a in ancestors(e):
+        if "callout" in a.cls and ("corrected" in a.cls or "consolidated" in a.cls):
+            return any(b.tag == "article" and "article" in b.cls for b in ancestors(a))
+    return False
+
+
+def _in_lead(e):
+    """Inside an Edition's lead card: its headline, dek and copy. The lead is the Brief's own unit (C8)."""
+    return any("ed-lead" in a.cls for a in ancestors(e))
+
+
+def _in_brief(e):
+    return any("ed-brief" in a.cls for a in ancestors(e))
+
+
+def _ref_target(e, dom_ids):
+    """The element an in-page link names ("#ev-wire-c010"), when the printing sits inside one."""
+    for a in ancestors(e):
+        if a.tag == "a" and (a.attrs.get("href") or "").startswith("#"):
+            return dom_ids.get(a.attrs["href"][1:])
+    return None
+
+
+def one_printing(f, g, own=None, dom_ids=None):
+    """Why two printings of one fact count as one printing under C8, or None when they are two (a finding)."""
+    ua, ub = unit_of(f.el, own), unit_of(g.el, own)
+    if ua is not None and ua == ub:
+        return "one stored unit repeating its own figure"
+    if in_corr(f.el) and in_corr(g.el):
+        return "two corrections quoting one figure"
+    for x, y in ((f, g), (g, f)):
+        if _own_note(x.el, own) and unit_of(y.el, own) == ("story", _norm_href(own)):
+            return "a story's own correction or editor's note quoting the story"
+    if (_in_lead(f.el) and _in_brief(g.el)) or (_in_lead(g.el) and _in_brief(f.el)):
+        return "an Edition lead beside its own Brief"
+    if dom_ids:
+        for x, y in ((f, g), (g, f)):
+            t = _ref_target(x.el, dom_ids)
+            if t is not None and any(a is t for a in ancestors(y.el)):
+                return "an in-page link to the item that prints the figure"
+    return None
+
+
+def one_event(text_a, text_b, coarse=False):
     """Two printed lines (two stories' headlines) are one event when they print one figure and share two subject words: the sweep's
     own rule for two list rows, for a build that chooses what a list shows ("US seizes Xinbi Telegram channels, restrains $52.8M in
     USDT" and "U.S. Freezes $52.8M in USDT Tied to Xinbi Guarantee Scam Marketplace")."""
-    fa = [f for f in figures([(text_a or "", None)]) if significant(f)]
-    fb = [f for f in figures([(text_b or "", None)]) if significant(f)]
+    # coarse=True reads a coarse figure too ("$61M"), as the sweep pairs one in writing that shares two subject words
+    fa = [f for f in figures([(text_a or "", None)]) if coarse or significant(f)]
+    fb = [f for f in figures([(text_b or "", None)]) if coarse or significant(f)]
     if not any(x.same(y) for x in fa for y in fb):
         return False
     return len(subject_words(text_a) & subject_words(text_b)) >= 2
@@ -782,7 +879,7 @@ def svg_of(e):
 
 # ---- figures -------------------------------------------------------------------------------------------------------------
 
-FIG = re.compile(r"(?<![\w$.,])([+\-−]?)\$(\d[\d,]*(?:\.\d+)?)(?:\s?([KMBT])\b|\s(thousand|million|billion|trillion)\b)?"
+FIG = re.compile(r"(?<![\w$.,])([+\-−]?)\$(\d[\d,]*(?:\.\d+)?)(?:\s?([KMBT])\b|\s((?i:thousand|million|billion|trillion))\b)?"
                  r"|(?<![\w.,$])([+\-−]?)(\d[\d,]*(?:\.\d+)?)%")
 MAG_WORD = {"thousand": "K", "million": "M", "billion": "B", "trillion": "T"}
 NEXT_TIME = re.compile(r"\b[Nn]ext (?:read|Brief|update)\b[^.]{0,40}?((?:this morning|this evening|tonight|tomorrow|today) at "
@@ -838,7 +935,7 @@ def figures(nodes):
     for text, el in nodes:
         for m in FIG.finditer(text):
             if m.group(2) is not None:
-                f = Fig("$", m.group(2), m.group(3) or MAG_WORD.get(m.group(4) or ""), m.group(0), el, m.start())
+                f = Fig("$", m.group(2), m.group(3) or MAG_WORD.get((m.group(4) or "").lower()), m.group(0), el, m.start())
                 sg = m.group(1)
             else:
                 f = Fig("%", m.group(6), None, m.group(0), el, m.start())
@@ -1095,6 +1192,8 @@ def sweep_page(h, css_texts, rel=""):
     dom = parse(h)
     _ITEM.clear()
     _TEMPLATE.clear()
+    own = "/" + rel[:-5] if rel.endswith(".html") else None
+    ids = {e.attrs["id"]: e for e in _walk(dom) if e.attrs.get("id")}
     for w in WIDTHS:
         sheet = Sheet(css_texts, w)
         nodes = printed(dom, sheet)
@@ -1103,25 +1202,21 @@ def sweep_page(h, css_texts, rel=""):
         ticks = axis_ticks(figs)
         # a coarse figure ($3.8B, 9%) is a fact too, but it pairs only inside writing and only with two subject words in common
         facts = [f for f in figs if id(f) not in ticks and (significant(f) or in_text(f.el))]
-        # twice
+        # twice: every pair of printings of one fact is a finding unless C8 counts it as one printing (ONE PRINTING, above)
         seen = []
         reported = set()
         for f in facts:
             for g in seen:
                 if not one_fact(f, g):
                     continue
+                why = one_printing(f, g, own, ids)
+                if why:
+                    ONE[why] += 1
+                    continue
                 key = (f.unit, round(abs(f.value), 6))
-                if key in reported:
-                    break
-                reported.add(key)
-                pf, pg = _piece(f.el), _piece(g.el)
-                corr = in_corr(f.el) and in_corr(g.el)
-                own = pf is not None and pf is pg
-                kind = "held" if own or corr or (stands(f.el) and stands(g.el)) else "twice"
-                why = (" [a stored text repeating its own figure]" if own else " [two corrections quoting one figure]" if corr
-                       else " [two printings the rulings keep as published]")
-                findings.append((kind, w, f"{rel} at {w}: {g.raw.strip()} printed twice ({_ctx(g)!r} and {_ctx(f)!r})"
-                                 + (why if kind == "held" else "")))
+                if key not in reported:
+                    reported.add(key)
+                    findings.append(("twice", w, f"{rel} at {w}: {g.raw.strip()} printed twice ({_ctx(g)!r} and {_ctx(f)!r})"))
                 break
             seen.append(f)
         # label
@@ -1132,16 +1227,26 @@ def sweep_page(h, css_texts, rel=""):
             by[(name, subj)].append((val, line, el))
         for (name, subj), vals in by.items():
             if len(vals) > 1:
-                pieces = {id(_piece(e)) if _piece(e) is not None else None for _v, _l, e in vals}
-                kind = "held" if len(pieces) == 1 and None not in pieces else "label"
-                findings.append((kind, w, f"{rel} at {w}: {name} printed {len(vals)} times "
-                                          f"({'; '.join(repr(l[:70]) for _v, l, _e in vals[:3])})"))
+                pins = [_Pin(e) for _v, _l, e in vals]
+                whys = [one_printing(a, b, own, ids) for i, a in enumerate(pins) for b in pins[i + 1:]]
+                if all(whys):
+                    for why in whys:
+                        ONE[why] += 1
+                    continue
+                findings.append(("label", w, f"{rel} at {w}: {name} printed {len(vals)} times "
+                                             f"({'; '.join(repr(l[:70]) for _v, l, _e in vals[:3])})"))
         # an unnamed reading beside named ones: "40.8" under a gauge with no coin, beside the table's BTC row at 40.6. The reader
         # cannot tell whose it is, and if it is one of theirs it is that one's reading printed twice.
         for name in {n for (n, _s) in by}:
             named = [s for (n, s) in by if n == name and isinstance(s, str) and s not in ("market", "page")]
             un = next((k for k in ((name, None), (name, "page")) if k in by), None)
             if named and un is not None and not coin:
+                pins = [_Pin(e) for k in [un] + [(name, s) for s in named] for _v, _l, e in by[k]]
+                whys = [one_printing(a, b, own, ids) for i, a in enumerate(pins) for b in pins[i + 1:]]
+                if all(whys):
+                    for why in whys:
+                        ONE[why] += 1
+                    continue
                 findings.append(("label", w, f"{rel} at {w}: {name} printed for no named subject "
                                              f"({by[un][0][1][:60]!r}) beside {', '.join(named[:4])}"))
         # precision: one table row's dollar figures at one number of decimals
@@ -1351,10 +1456,9 @@ def main(argv):
             for k, _w, t in fs:
                 print(f"{k.upper():9} {t}")
         print(f"FACT SWEEP: {n} finding(s) on {len(res)} page(s)")
-    bad = sum(1 for v in res.values() for k, _w, _t in v if k != "held")
-    held = n - bad
-    print(f"FACT SWEEP: {bad} finding(s) the build must fix; {held} HELD (a pair the rulings keep as published, waiting on a ruling)")
-    return 1 if bad else 0
+    print("FACT SWEEP: pairs counted as one printing under entry 2026-10-27-C8: "
+          + ("; ".join(f"{why}: {k}" for why, k in sorted(ONE.items())) or "none"))
+    return 1 if n else 0
 
 
 if __name__ == "__main__":
