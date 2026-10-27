@@ -32,7 +32,8 @@ const server = http.createServer((req, res) => {
   res.writeHead(200, { "content-type": TYPES[path.extname(f)] || "application/octet-stream" });
   fs.createReadStream(f).pipe(res);
 });
-const FIG = /(?<![\w$.,])[+\-−]?\$\d[\d,]*(?:\.\d+)?(?:\s?[KMBT]\b)?|(?<![\w.,$])[+\-−]?\d[\d,]*(?:\.\d+)?%/g;
+// the sweep's own figure pattern (fact_sweep.FIG), magnitude words included since fix round 2 ("$730.8 million")
+const FIG = /(?<![\w$.,])[+\-−]?\$\d[\d,]*(?:\.\d+)?(?:\s?[KMBT]\b|\s(?:thousand|million|billion|trillion)\b)?|(?<![\w.,$])[+\-−]?\d[\d,]*(?:\.\d+)?%/g;
 let bad = 0;
 const say = (ok, name, why) => { if (ok) console.log("PASS " + name); else { bad++; console.log("FAIL " + name + (why ? ": " + why : "")); } };
 let browser;

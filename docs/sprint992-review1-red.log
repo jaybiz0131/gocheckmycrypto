@@ -1,0 +1,131 @@
+Sprint 9.9.2 fix round 2, red first. Each case of review 1's five failures, run on 81b63fa's code in a throwaway copy of branch sprint-9-9-2 (fact_sweep.py, site_build.py, today.py and edition.py as 81b63fa holds them; the test file and fixtures are round 2's). October 27, 2026, 1:17 PM EDT.
+
+1. The sweep's cases (scripts/sprint992_test.py --only round2): fact_sweep.py at 81b63fa.
+1b. review 1 at 81b63fa: each failure, on the page that build printed (fixtures/sprint992/round2-81b63fa)
+  FAIL failure 1: the home's ETF figure, the Brief line's '$110.3M on the day' beside the ETF tile's +$110.3M, is a finding
+  FAIL failure 1: the home's Fear & Greed, the Brief line's 'reads 48' beside the Sentiment tile's 48, is a finding
+  FAIL failure 2: a figure inside class h-nline beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class h-bt beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class cm-read beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class td-read beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class summary beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class callout beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class bp-row beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class dek beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class keyfact beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class bottomline beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class bl-read beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class ed-brief beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a figure inside class nh-x beside a tile printing it is a finding (SYNTHETIC)
+  FAIL failure 2: a story link's headline printing a tile's figure is a finding (SYNTHETIC)
+  FAIL failure 2: a summary sentence restating its story's body is a finding (SYNTHETIC)
+  FAIL failure 2: a headline restating its own body is counted, under its own kind (SYNTHETIC)
+  FAIL failure 2: '$600 million' and '$600M' are one figure (SYNTHETIC)
+  ok   failure 2 (the other side): two facts that share digits in stored writing are two facts, a 25% tariff and a 25% stake (SYNTHETIC)
+  FAIL failure 3: /chartmaster's Bitcoin RSI, the gauge's 40.8 and the chart read's BTC row 40.6, is a finding
+  FAIL failure 4: the Chart Master table's row precision is read: DOGE 50-day $0.0870 planted as $0.09 is a precision finding
+  FAIL failure 4: the Chart Master table's row precision is read: ADA 50-day $0.2302 planted as $0.23 is a precision finding
+  FAIL failure 4: the Chart Master table's row precision is read: ETH 50-day $2,539.25 planted as $2,539 is a precision finding
+  ok   failure 4: the unplanted Chart Master table holds its rows at one precision (no precision finding)
+  FAIL failure 5: /coins/usdt's two stories on the Xinbi seizure ($52.8M twice) is a finding
+  FAIL a card's headline and its own summary printing one figure in other words are one fact ('$90T Market' over 'the $90 trillion market'; the stored headline and summary of August 31, in a SYNTHETIC grid)
+  FAIL two story cards on one event are not two subjects (an archive's two Xinbi cards) (SYNTHETIC)
+  ok   evidence rows sharing a measured figure and only the list's own wording are two subjects (two events) (SYNTHETIC)
+  FAIL a list of headlines mostly about one subject still pairs two that print one figure (BitMine's 4.8% of supply) (SYNTHETIC)
+  FAIL failure 5: a coin page lists one event's stories once (the two stored Xinbi stories give 2 item(s))
+
+SPRINT 9.9.2: FAIL (28 failure(s))
+exit 1
+
+2. The build's cases (--only round2b) with no fact_once.py, as 81b63fa has none: the group stops at the import.
+1c. the build's fixes for review 1, each at its cause (fact_once.py, the gauge, the coin page, the citations)
+  FAIL group round2b could not run [ModuleNotFoundError: No module named 'fact_once']
+
+SPRINT 9.9.2: FAIL (1 failure(s))
+exit 1
+
+3. The build's cases again with a stand-in fact_once.py whose withhold() returns every page unchanged (what 81b63fa writes), so each case names its own break.
+1c. the build's fixes for review 1, each at its cause (fact_once.py, the gauge, the coin page, the citations)
+  ok   failure 1: the Morning Brief's lead sentence stands on the home as stored (the feed names the home as its page)
+  FAIL failure 1: the ETF tile yields: no +$110.3M; it says 'In the Brief' and keeps its label, window and source
+  FAIL failure 1: the Sentiment gauge yields its number (48) and keeps its drawing, its word and its source
+  ok   failure 1: the home the pass writes holds no finding at 375 or 1440
+  FAIL K-1: an Edition's lead card is never withheld whole (the news front opens on the newest item); its quoted dek is (SYNTHETIC)
+  FAIL K-1: the lead headline beside the brief is HELD and named (SYNTHETIC)
+  FAIL failure 2: a story page's dek and key fact restating its headline and body are withheld; the body stands byte for byte
+  ok   failure 2: the take, which prints no figure the page prints, stands
+  FAIL failure 2: what stays is the headline against its own body, HELD and named, not hidden
+  FAIL failure 2: a related story whose headline prints the body's figure on its subject is withheld; the other stays (SYNTHETIC)
+  FAIL failure 2: a Related stories box left with no story goes with its heading (SYNTHETIC)
+  FAIL failure 5 (every listing): on a complete listing the second story on one event keeps its row and its link; only its headline is withheld, for the pointer (SYNTHETIC)
+  ok   a page with nothing to withhold comes back byte for byte
+  FAIL a quoted sentence after the lead repeating only a named reading (Fear & Greed 48 beside its tile) is withheld (SYNTHETIC)
+  FAIL failure 3: the Chart Master gauge reading the chart read's BTC row prints no number of its own and names the read
+  FAIL failure 3: with no read table on the page the gauge prints its own reading, names Bitcoin and its read time
+  FAIL a source's stored title printing the story's figure ('Decrypt: $38M in Bitcoin Drained ...') is cited by its outlet's name, the link kept
+  FAIL failure 3: /chartmaster built from the stored data card prints Bitcoin's RSI once (the BTC row), the gauge naming the read
+  FAIL an Edition brief's citation whose title prints the brief's figure ('Bitcoin ETFs Draw $197M ...' under a brief printing $197 million) is cited by the story's date, never dropped (the stored July 14 morning Brief) [AttributeError: module 'edition' has no attribute '_cite_label']
+  FAIL /today/2026-10-20: a reported wire line stating the stored answer's fact (France's 31% tax) is not listed beside it; the answer stands
+  FAIL /today/2026-10-15: a row's figure its printed correction quotes (Bitcoin up 0.80%) is not printed again; the correction stands whole
+
+SPRINT 9.9.2: FAIL (17 failure(s))
+exit 1
+
+GREEN: the same cases on round 2's code (branch sprint-9-9-2, working tree), October 27, 2026, 1:17 PM EDT.
+1b. review 1 at 81b63fa: each failure, on the page that build printed (fixtures/sprint992/round2-81b63fa)
+  ok   failure 1: the home's ETF figure, the Brief line's '$110.3M on the day' beside the ETF tile's +$110.3M, is a finding
+  ok   failure 1: the home's Fear & Greed, the Brief line's 'reads 48' beside the Sentiment tile's 48, is a finding
+  ok   failure 2: a figure inside class h-nline beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class h-bt beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class cm-read beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class td-read beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class summary beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class callout beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class bp-row beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class dek beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class keyfact beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class bottomline beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class bl-read beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class ed-brief beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a figure inside class nh-x beside a tile printing it is a finding (SYNTHETIC)
+  ok   failure 2: a story link's headline printing a tile's figure is a finding (SYNTHETIC)
+  ok   failure 2: a summary sentence restating its story's body is a finding (SYNTHETIC)
+  ok   failure 2: a headline restating its own body is counted, under its own kind (SYNTHETIC)
+  ok   failure 2: '$600 million' and '$600M' are one figure (SYNTHETIC)
+  ok   failure 2 (the other side): two facts that share digits in stored writing are two facts, a 25% tariff and a 25% stake (SYNTHETIC)
+  ok   failure 3: /chartmaster's Bitcoin RSI, the gauge's 40.8 and the chart read's BTC row 40.6, is a finding
+  ok   failure 4: the Chart Master table's row precision is read: DOGE 50-day $0.0870 planted as $0.09 is a precision finding
+  ok   failure 4: the Chart Master table's row precision is read: ADA 50-day $0.2302 planted as $0.23 is a precision finding
+  ok   failure 4: the Chart Master table's row precision is read: ETH 50-day $2,539.25 planted as $2,539 is a precision finding
+  ok   failure 4: the unplanted Chart Master table holds its rows at one precision (no precision finding)
+  ok   failure 5: /coins/usdt's two stories on the Xinbi seizure ($52.8M twice) is a finding
+  ok   a card's headline and its own summary printing one figure in other words are one fact ('$90T Market' over 'the $90 trillion market'; the stored headline and summary of August 31, in a SYNTHETIC grid)
+  ok   two story cards on one event are not two subjects (an archive's two Xinbi cards) (SYNTHETIC)
+  ok   evidence rows sharing a measured figure and only the list's own wording are two subjects (two events) (SYNTHETIC)
+  ok   a list of headlines mostly about one subject still pairs two that print one figure (BitMine's 4.8% of supply) (SYNTHETIC)
+  ok   failure 5: a coin page lists one event's stories once (the two stored Xinbi stories give 1 item(s))
+1c. the build's fixes for review 1, each at its cause (fact_once.py, the gauge, the coin page, the citations)
+  ok   failure 1: the Morning Brief's lead sentence stands on the home as stored (the feed names the home as its page)
+  ok   failure 1: the ETF tile yields: no +$110.3M; it says 'In the Brief' and keeps its label, window and source
+  ok   failure 1: the Sentiment gauge yields its number (48) and keeps its drawing, its word and its source
+  ok   failure 1: the home the pass writes holds no finding at 375 or 1440
+  ok   K-1: an Edition's lead card is never withheld whole (the news front opens on the newest item); its quoted dek is (SYNTHETIC)
+  ok   K-1: the lead headline beside the brief is HELD and named (SYNTHETIC)
+  ok   failure 2: a story page's dek and key fact restating its headline and body are withheld; the body stands byte for byte
+  ok   failure 2: the take, which prints no figure the page prints, stands
+  ok   failure 2: what stays is the headline against its own body, HELD and named, not hidden
+  ok   failure 2: a related story whose headline prints the body's figure on its subject is withheld; the other stays (SYNTHETIC)
+  ok   failure 2: a Related stories box left with no story goes with its heading (SYNTHETIC)
+  ok   failure 5 (every listing): on a complete listing the second story on one event keeps its row and its link; only its headline is withheld, for the pointer (SYNTHETIC)
+  ok   a page with nothing to withhold comes back byte for byte
+  ok   a quoted sentence after the lead repeating only a named reading (Fear & Greed 48 beside its tile) is withheld (SYNTHETIC)
+  ok   failure 3: the Chart Master gauge reading the chart read's BTC row prints no number of its own and names the read
+  ok   failure 3: with no read table on the page the gauge prints its own reading, names Bitcoin and its read time
+  ok   a source's stored title printing the story's figure ('Decrypt: $38M in Bitcoin Drained ...') is cited by its outlet's name, the link kept
+  ok   failure 3: /chartmaster built from the stored data card prints Bitcoin's RSI once (the BTC row), the gauge naming the read
+  ok   an Edition brief's citation whose title prints the brief's figure ('Bitcoin ETFs Draw $197M ...' under a brief printing $197 million) is cited by the story's date, never dropped (the stored July 14 morning Brief)
+  ok   /today/2026-10-20: a reported wire line stating the stored answer's fact (France's 31% tax) is not listed beside it; the answer stands
+  ok   /today/2026-10-15: a row's figure its printed correction quotes (Bitcoin up 0.80%) is not printed again; the correction stands whole
+
+SPRINT 9.9.2: PASS (0 failure(s))
+exit 0

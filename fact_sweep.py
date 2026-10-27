@@ -23,10 +23,23 @@ Four checks, each named in its finding:
   stamp      a dated block without its own read's date and age in the house wording ("Chart levels, read Oct 25, 8:17 PM ET"), and
              the retired "from the last build".
 
-THE SCOPE, stated once. The sweep reads the figures the build prints from the desk's data. The words of a stored story, Brief,
-Edition or read (its headline, dek, body, key fact, bottom line, source and related lists, the card summaries that quote them) are
-a writer's words, stored and never reworded (J-10); a headline that restates its body's figure is the story, not a figure printed
-twice. Those regions are named in PROSE below, each by the class the build gives it, and nothing else is set aside.
+THE SCOPE, stated once (fix round 2, review 1 at 81b63fa). Every printed figure is read, stored writing included: a Brief line beside
+a tile, a dek or key fact restating its story's body, a card summary under its own headline, a story link, a data table inside a
+read's card. Nothing is set aside for being prose. Two rules decide that two printings are two facts, and each is about the reader:
+  - two rows of one table are two subjects (two coins at $1.00); two rows of a list are too, unless they print one figure and share
+    two subject words (two stories on one seizure, "$52.8M in USDT ... Xinbi", are one event printed twice);
+  - in stored writing, a figure is one fact only when its two printings share a subject word: "a 25% tariff on Brazilian goods" and
+    "a 25% stake in Animoca" print the same digits and are two facts. A single shared token is not an identity (CLAUDE.md, section 2).
+Within one story (its card, or a story page's own regions) a headline and a line under it printing one figure are one fact by the
+figure alone ("$90T Market" over "the $90 trillion market"). The whole decision is one function, one_fact(), which the build's own
+pass (fact_once.py) calls too, so what the build withholds and what the sweep finds cannot drift apart.
+
+One kind is reported apart, never hidden: HELD, a pair of two printings the rulings keep as published, so that the build may withhold
+neither: a stored text repeating its own figure (a story's headline and its own body, an Edition's brief repeating itself), two
+corrections in the corrections log quoting one figure, a dated /today/ page's stored answer beside a graded verdict's evidence item.
+Removing either side would reword stored model output (J-10), unsay a dated read or its evidence (C6, J-16), or cut a true sentence
+(Jack, October 13). Every HELD finding is counted page by page and printed on every run; the canary does not fail on it, because it is
+the hard gate of every slot run and the build cannot clear it (CLAUDE.md: fail-closed does not mean ship nothing). It waits on a ruling.
 No network, no model."""
 import collections
 import html as _html
@@ -37,9 +50,10 @@ from html.parser import HTMLParser
 
 WIDTHS = (375, 1440)
 
-# The words of stored writing (see THE SCOPE above). Each is the class the build gives a stored story's, Brief's, Edition's or
-# read's text, or a card that quotes it; an element carrying one, and everything inside it, is read as prose, not as data.
-PROSE = frozenset((
+# The classes the build gives stored writing (see THE SCOPE above): a stored story's, Brief's, Edition's or read's text, or a card that
+# quotes it. NOTHING HERE IS SET ASIDE: every figure inside these is read. The list decides only two things, the shared-subject rule for
+# two printings in writing, and which printings are a stored text's own (CANON, below) for the HELD kind.
+TEXT = frozenset((
     "prose", "dek", "bottomline", "keyfact", "sources", "related", "callout", "link-list", "more-on",   # a stored story's page
     "summary",                                                                     # a card quoting a story's summary (archive, coverage)
     "ed-brief", "ed-sheet", "ed-front", "ed-lead", "ed-downpage", "ed-rail",        # a stored Edition's page
@@ -53,6 +67,15 @@ PROSE = frozenset((
     "td-read",                                                                     # a /today/ answer lifted whole from a stored Brief
     "h-nline", "h-bt",                                                             # the home Brief card's stored line and headline
 ))
+# A stored text's own body: a story's body (with its headline) and an Edition's brief. Everything else above quotes a stored text.
+CANON = frozenset(("prose", "ed-brief"))
+# A printed correction (the corrections log's entry, a dated page's correction, a chart read's): it quotes the figure it concerns,
+# and it is never withheld; a pair it is in is HELD, named, for the same reasons as a stored text repeating itself.
+CORR = frozenset(("co-t", "td-corr", "cm-corr"))
+# What the rulings keep as published, so the build may withhold neither side of a pair between two of them: a story's own body and an
+# Edition's brief (J-10), a printed correction, a dated /today/ page's stored answer (C6), and a graded verdict's evidence item (the
+# list reads the window the grade was made on, numbered against its chart; C6, J-16). A pair of two of these is HELD, never hidden.
+STAND = CANON | CORR | frozenset(("td-read", "ev-c"))
 
 VOID = {"br", "img", "meta", "link", "input", "hr", "source", "wbr", "area", "base", "col", "embed", "param", "track"}
 NOTEXT = {"script", "style", "noscript", "template", "title", "head", "desc"}
@@ -484,9 +507,148 @@ def ancestors(e):
 STORY_HREF = re.compile(r"^/(?:articles|edition|bottom-line)/")
 
 
-def in_prose(e):
-    """Inside stored writing: an element of PROSE, or a link to a stored story (its text is that story's headline)."""
-    return any(a.cls & PROSE or (a.tag == "a" and STORY_HREF.match(a.attrs.get("href") or "")) for a in ancestors(e))
+def in_text(e):
+    """Inside stored writing: an element of TEXT, a link to a stored story (its text is that story's headline), or a story page's
+    headline. Read like everything else; this only decides the shared-subject rule."""
+    for a in ancestors(e):
+        if a.cls & TEXT or (a.tag == "a" and STORY_HREF.match(a.attrs.get("href") or "")):
+            return True
+        if a.tag == "h1" and _piece(a) is not None:
+            return True
+    return False
+
+
+def _piece(e):
+    """The stored text a printing is the own body of: the story (its headline and its body) or the Edition brief it sits in; None for
+    everything else (a quotation, a card, a tile, a table)."""
+    for a in ancestors(e):
+        if "ed-brief-cites" in a.cls or "sources" in a.cls:
+            return None                      # a citation list inside a stored text is not that text's own words
+        if a.cls & CANON:
+            return _art(a)
+        if a.tag == "h1":
+            art = _art(a)
+            if art is not None and any(k.cls & CANON for k in _walk(art)):
+                return art
+            return None
+    return None
+
+
+def _art(e):
+    for a in ancestors(e):
+        if a.tag == "article" or a.parent is None or a.tag == "main":
+            return a
+    return None
+
+
+STOP = frozenset("""a about above after again against all also an and any are as at be been before being below between both but by
+can could did do does down during each few for from further had has have having he her here hers him his how i if in into is it its
+just more most no nor not now of off on once only or other our out over own same she should so some such than that the their them
+then there these they this those through to too under until up very was we were what when where which while who whom why will with
+would you your said says say according reported reports report desk per new one two three four five six seven eight nine ten
+percent million billion trillion thousand crypto cryptocurrency cryptocurrencies market markets price prices day days week weeks
+month months year years today yesterday tomorrow hour hours since last next first total amount
+january february march april may june july august september october november december
+jan feb mar apr jun jul aug sep sept oct nov dec monday tuesday wednesday thursday friday saturday sunday
+morning afternoon evening night brief""".split())
+
+
+def subject_words(text):
+    """The words of a printing that can name its subject: lower case, three letters or more, a plural's s dropped, no figure, no
+    function word, no date or window word, none of the words every market line carries."""
+    out = set()
+    for w in re.findall(r"[A-Za-z][A-Za-z'\-]{2,}", text or ""):
+        w = w.lower().strip("'-").replace("'s", "")
+        if w.endswith("s") and len(w) > 3 and not w.endswith("ss"):
+            w = w[:-1]
+        if len(w) >= 3 and w not in STOP:
+            out.add(w)
+    return out
+
+
+def _clause(f):
+    """The text a printing says its fact in: a story link's headline; its sentence in its block; or for a tile, a row or a short block,
+    the whole of it (a row's status labels, "Unconfirmed, one report", are not the subject: a story row speaks in its headline)."""
+    link = next((a for a in ancestors(f.el) if a.tag == "a" and STORY_HREF.match(a.attrs.get("href") or "")), None)
+    if link is not None:
+        return " ".join(_text(link).split())
+    # writing speaks in its own sentence (a card's summary is not the whole card); data in its tile or row
+    holder = block_of(f.el) if in_text(f.el) else (tile_of(f.el) or row_of(f.el) or block_of(f.el))
+    line = " ".join(_text(holder).split())
+    if len(line) <= 160:
+        return line
+    k = line.find(f.raw.strip())
+    if k < 0:
+        return line
+    a = max(line.rfind(". ", 0, k), line.rfind("; ", 0, k))
+    z = [x for x in (line.find(". ", k), line.find("; ", k)) if x >= 0]
+    return line[a + 1 if a >= 0 else 0:min(z) if z else len(line)]
+
+
+def shared_subject(f, g, need=1):
+    return len(subject_words(_clause(f)) & subject_words(_clause(g))) >= need
+
+
+_ITEM = {}
+
+
+def _story_urls(e):
+    return {(k.attrs.get("href") or "").split("#")[0].replace(".html", "") for k in [e] + list(_walk(e))
+            if k.tag == "a" and STORY_HREF.match(k.attrs.get("href") or "")}
+
+
+def story_item(a):
+    """A row or a card that links one stored story, among siblings that link stories (a list, a run of links, a grid of cards), never
+    inside a stored text's own body, never a citation in a Sources list (a source is never withheld), and never a story page's own
+    article."""
+    key = id(a)
+    if key in _ITEM:
+        return _ITEM[key]
+    ok = a.tag in ("a", "li", "article", "div") and a.parent is not None and not (a.cls & CANON) and "article" not in a.cls \
+        and len(_story_urls(a)) == 1 \
+        and (a.tag in ("li", "article") or sum(1 for k in a.parent.elems() if _story_urls(k)) >= 2) \
+        and not any(p.cls & CANON or "sources" in p.cls for p in ancestors(a))
+    _ITEM[key] = ok
+    return ok
+
+
+def story_of(e):
+    """The story a printing belongs to: the story item (card or row) it sits in, or the story page's own article; None for the rest."""
+    for a in ancestors(e):
+        if a.tag != "#root" and story_item(a):
+            return a
+        if a.tag == "article" and "article" in a.cls:
+            return a
+    return None
+
+
+def is_head(e):
+    """A story's headline: a story page's h1, or the link that names a story in a list."""
+    return any(a.tag == "h1" or (a.tag == "a" and STORY_HREF.match(a.attrs.get("href") or "")) for a in ancestors(e))
+
+
+def one_fact(f, g):
+    """THE TEST, used by the sweep and by the build's own pass (fact_once.py) alike: are two printings one fact printed twice?
+    The same figure (sign and window agreeing), and then, by where the two sit:
+      - two subjects (two table rows, two list rows or story cards not on one event, two reading tiles): no;
+      - one story (its card, or a story page's own regions), one of them its headline: yes, by the figure alone ("$90T Market" over
+        "the $90 trillion market");
+      - a coarse figure ($3.8B, 9%): only inside writing, with a subject word in common within one story, two across stories;
+      - writing on either side: with a subject word in common (a 25% tariff and a 25% stake are two facts);
+      - data on both sides: yes."""
+    if not f.same(g):
+        return False
+    if two_subjects(f.el, g.el, f.window, g.window, f, g):
+        return False
+    sf, sg = story_of(f.el), story_of(g.el)
+    ss = sf is not None and sf is sg
+    if ss and (is_head(f.el) or is_head(g.el)):
+        return True
+    if not (significant(f) and significant(g)):
+        return in_text(f.el) and in_text(g.el) and shared_subject(f, g, need=1 if ss else 2)
+    if in_text(f.el) or in_text(g.el):
+        return shared_subject(f, g)
+    return True
 
 
 ROW_CLASS = re.compile(r"row$")
@@ -498,6 +660,9 @@ def row_of(e):
     for a in ancestors(e):
         if a.tag in ROWS:
             return a
+        if a.tag == "a" and STORY_HREF.match(a.attrs.get("href") or "") and a.parent is not None and \
+                sum(1 for k in a.parent.elems() if k.tag == "a" and STORY_HREF.match(k.attrs.get("href") or "")) > 1:
+            return a                         # a run of story links (a coin page's "Checked by the desk"): each link is a row
         rc = {c for c in a.cls if ROW_CLASS.search(c)}
         # a row by its class repeats (a sibling carries the same class) and holds no reading tile or card (a grid named tl-row
         # holds tiles: it is a container, not a row)
@@ -516,16 +681,22 @@ def tile_of(e):
     return None
 
 
-def two_subjects(a, b, wa=None, wb=None):
+def two_subjects(a, b, wa=None, wb=None, fa=None, fb=None):
     """Two rows (of one table or list, or of two) are two subjects: each row names its own (a coin, a transfer, an exchange, a week).
-    So are two sibling cards of one kind (the per-coin cards of a Markets page), and two reading tiles, each one reading under the
-    tile law, unless both figures state one window (then the second tile repeats the first's figure)."""
+    A table row always does. A list row (a story, a wire line, a card) does unless the two print one figure and share two subject
+    words: two stories on one seizure are one event, its figure printed twice. So are two sibling cards of one kind (the per-coin
+    cards of a Markets page), and two reading tiles, each one reading under the tile law, unless both figures state one window (then
+    the second tile repeats the first's figure)."""
     ra, rb = row_of(a), row_of(b)
     if ra is not None and rb is not None and ra is not rb:
-        return True
+        if ra.tag == "tr" or rb.tag == "tr" or fa is None or fb is None:
+            return True
+        return not _one_event(fa, fb, ra, rb)
     ta, tb = tile_of(a), tile_of(b)
     if ta is not None and tb is not None and ta is not tb and ta.tag == tb.tag and ta.cls == tb.cls \
             and not (wa and wb and wa == wb):
+        if fa is not None and fb is not None and _has_story(ta) and _has_story(tb):
+            return not _one_event(fa, fb, ta, tb)    # two story cards: two subjects only when not one event
         return True
     pa, pb = list(ancestors(a))[::-1], list(ancestors(b))[::-1]
     k = 0
@@ -536,6 +707,63 @@ def two_subjects(a, b, wa=None, wb=None):
         if x.tag == y.tag and x.cls == y.cls and any("card" in c for c in x.cls):
             return True
     return False
+
+
+_TEMPLATE = {}
+
+
+def _template(row):
+    """The words a list's rows all carry ("In the next 60 minutes Bitcoin rose ..."): words in half or more of the row's siblings of
+    its kind, counted when the list has three rows or more. They are the list's wording, not any row's subject: the floor measured
+    from the list itself, not kept by hand."""
+    par = row.parent
+    if par is None:
+        return set()
+    key = id(par)
+    if key not in _TEMPLATE:
+        sib = [k for k in par.elems() if k.tag == row.tag and k.cls == row.cls]
+        out = set()
+        if len(sib) >= 3:
+            from collections import Counter
+            c = Counter(w for k in sib for w in subject_words(" ".join(_text(k).split())))
+            out = {w for w, n in c.items() if n * 2 >= len(sib)}
+        _TEMPLATE[key] = out
+    return _TEMPLATE[key]
+
+
+def _one_event(fa, fb, ra, rb):
+    """Two rows or two story cards printing one figure are one event when they share two subject words beyond their list's own
+    wording."""
+    shared = subject_words(_clause(fa)) & subject_words(_clause(fb))
+    if is_head(fa.el) or is_head(fb.el):
+        return len(shared) >= 2              # a headline names its own story: its words are its subject, never the list's wording
+    return len(shared - _template(ra) - _template(rb)) >= 2
+
+
+def _has_story(e):
+    return any(k.tag == "a" and STORY_HREF.match(k.attrs.get("href") or "") for k in _walk(e))
+
+
+def in_corr(e):
+    return any(a.cls & CORR for a in ancestors(e))
+
+
+def stands(e):
+    """A printing the rulings keep as published (STAND), a story page's own headline, or the headline of an Edition's lead card (the
+    news front opens on the newest item, K-1)."""
+    return any(a.cls & STAND for a in ancestors(e)) or _piece(e) is not None or \
+        (is_head(e) and any("ed-lead" in a.cls for a in ancestors(e)))
+
+
+def one_event(text_a, text_b):
+    """Two printed lines (two stories' headlines) are one event when they print one figure and share two subject words: the sweep's
+    own rule for two list rows, for a build that chooses what a list shows ("US seizes Xinbi Telegram channels, restrains $52.8M in
+    USDT" and "U.S. Freezes $52.8M in USDT Tied to Xinbi Guarantee Scam Marketplace")."""
+    fa = [f for f in figures([(text_a or "", None)]) if significant(f)]
+    fb = [f for f in figures([(text_b or "", None)]) if significant(f)]
+    if not any(x.same(y) for x in fa for y in fb):
+        return False
+    return len(subject_words(text_a) & subject_words(text_b)) >= 2
 
 
 def block_of(e):
@@ -554,7 +782,9 @@ def svg_of(e):
 
 # ---- figures -------------------------------------------------------------------------------------------------------------
 
-FIG = re.compile(r"(?<![\w$.,])([+\-−]?)\$(\d[\d,]*(?:\.\d+)?)(?:\s?([KMBT])\b)?|(?<![\w.,$])([+\-−]?)(\d[\d,]*(?:\.\d+)?)%")
+FIG = re.compile(r"(?<![\w$.,])([+\-−]?)\$(\d[\d,]*(?:\.\d+)?)(?:\s?([KMBT])\b|\s(thousand|million|billion|trillion)\b)?"
+                 r"|(?<![\w.,$])([+\-−]?)(\d[\d,]*(?:\.\d+)?)%")
+MAG_WORD = {"thousand": "K", "million": "M", "billion": "B", "trillion": "T"}
 NEXT_TIME = re.compile(r"\b[Nn]ext (?:read|Brief|update)\b[^.]{0,40}?((?:this morning|this evening|tonight|tomorrow|today) at "
                        r"\d{1,2}:\d\d [AP]M ET)")
 MAG = {"": 1, None: 1, "K": 1e3, "M": 1e6, "B": 1e9, "T": 1e12}
@@ -576,12 +806,8 @@ class Fig:
         self.window = None
 
     def step(self):
-        """The rounding step the printing carries (0.01 for $79,771.00, 1e7 for $1.59B)."""
-        mag = 1
-        m = re.search(r"([KMBT])\s*$", self.raw)
-        if m:
-            mag = MAG[m.group(1)]
-        return mag * 10 ** (-self.dec)
+        """The rounding step the printing carries (0.01 for $79,771.00, 1e7 for $1.59B or "$1.59 billion")."""
+        return MAG[self.mag or None] * 10 ** (-self.dec)
 
     def same(self, other):
         """One figure, printed twice: the same digits (sign and arrow aside), or, when both carry four significant digits or
@@ -601,7 +827,7 @@ class Fig:
         return abs(abs(self.value) - abs(other.value)) <= st / 2 + 1e-12 * max(1.0, abs(self.value))
 
 
-SIGN_WORDS = re.compile(r"(\u25b2|\u25bc|\b(?:up|down|rose|fell|gained|lost|higher|lower)\b)[^\d$%]{0,6}$", re.I)
+SIGN_WORDS = re.compile(r"(\u25b2|\u25bc|\b(?:up|down|rose|fell|gained|gain|make|made|lost|lose|higher|lower)\b)[^\d$%]{0,6}$", re.I)
 
 
 def figures(nodes):
@@ -612,23 +838,25 @@ def figures(nodes):
     for text, el in nodes:
         for m in FIG.finditer(text):
             if m.group(2) is not None:
-                f = Fig("$", m.group(2), m.group(3), m.group(0), el, m.start())
+                f = Fig("$", m.group(2), m.group(3) or MAG_WORD.get(m.group(4) or ""), m.group(0), el, m.start())
                 sg = m.group(1)
             else:
-                f = Fig("%", m.group(5), None, m.group(0), el, m.start())
-                sg = m.group(4)
+                f = Fig("%", m.group(6), None, m.group(0), el, m.start())
+                sg = m.group(5)
             if sg:
                 f.sign = 1 if sg == "+" else -1
             else:
                 w = SIGN_WORDS.search((prev + " " + text[:m.start()])[-40:])
                 if w:
-                    f.sign = 1 if w.group(1).lower() in ("\u25b2", "up", "rose", "gained", "higher") else -1
+                    f.sign = 1 if w.group(1).lower() in ("\u25b2", "up", "rose", "gained", "gain", "make", "made", "higher") else -1
             out.append(f)
         prev = text[-40:]
     return out
 
 
-WINDOWS = (("hour", re.compile(r"\b(?:in the hour|the hour|onset hour|next 60 minutes|one hour|per hour)\b", re.I)),
+WINDOWS = (("settled", re.compile(r"\bperiod that settled\b", re.I)),          # a funding period's settlement record
+           ("current", re.compile(r"\bcurrent 8-hour period\b", re.I)),       # the period open now: another period, another fact
+           ("hour", re.compile(r"\b(?:in the hour|the hour|onset hour|next 60 minutes|one hour|per hour)\b", re.I)),
            ("day", re.compile(r"\b(?:since midnight|on the day|since yesterday|today|one trading day|latest day)\b", re.I)),
            ("24h", re.compile(r"\b(?:24 hours|24-hour|24h|rolling 24)\b", re.I)),
            ("7d", re.compile(r"\b(?:7 days|7-day|7D|seven days|week)\b", re.I)),
@@ -732,7 +960,14 @@ LABELS = (
     ("RSI", re.compile(r"\bRSI(?:-14| \(14\)|)", re.I), "n"),
     ("Fear & Greed", re.compile(r"\bFear (?:&|and) Greed\b", re.I), "n"),
 )
-NUM_AFTER = re.compile(r"^(?:\s|:|\b(?:of|is|at|line|average|avg)\b)*(\$?)(\d[\d,]*(?:\.\d+)?)(%?)")
+NUM_AFTER = re.compile(r"^(?:\s|:|\b(?:of|is|at|line|average|avg|index|reads|read|stands|stood|sits|was|near)\b)*"
+                       r"(\$?)(\d[\d,]*(?:\.\d+)?)(%?)(?![\d,]*\s*(?:days?|-day)\b)")
+BARE = re.compile(r"^\s*[+\-−]?(\d{1,3}(?:\.\d+)?)\s*$")
+# The fixed marks of a reading's own scale: a gauge's 0, 30, 70 and 100 are its scale, not a reading.
+SCALE = {"RSI": {"0", "30", "70", "100"}, "Fear & Greed": {"0", "25", "50", "75", "100"}}
+COINS = (("BTC", re.compile(r"\b(?:(?i:bitcoin)|BTC)\b")), ("ETH", re.compile(r"\b(?:(?i:ether|ethereum)|ETH)\b")),
+         ("SOL", re.compile(r"\b(?:(?i:solana)|SOL)\b")), ("XRP", re.compile(r"\bXRP\b")), ("BNB", re.compile(r"\bBNB\b")),
+         ("DOGE", re.compile(r"\b(?:(?i:dogecoin)|DOGE)\b")), ("ADA", re.compile(r"\b(?:(?i:cardano)|ADA)\b")))
 
 
 def card_of(e):
@@ -765,10 +1000,82 @@ def labeled(nodes, one_subject=False):
             if unit == "n" and (n.group(1) or n.group(3)):
                 continue
             el = owners[bisect.bisect_right(starts, m.start()) - 1][1]
-            subj = row_subject(el)
+            subj = "market" if name == "Fear & Greed" else row_subject(el)
             if subj is None and not one_subject:
-                subj = card_of(el)
+                # the coin its own sentence names before the label ("Bitcoin's RSI stands at 40.6"), else its card
+                head = flat[max(flat.rfind(". ", 0, m.start()), 0):m.start()]
+                hits = [(cm.start(), sym) for sym, crx in COINS for cm in crx.finditer(head)]
+                subj = max(hits)[1] if hits else card_of(el)
             out.append((name, subj, n.group(1) + n.group(2) + n.group(3), el, flat[max(0, m.start() - 20):m.end() + 30]))
+    # the value before its label: a tile or gauge prints "48" and then "Fear & Greed" (the home's Sentiment tile)
+    for i, (text, el) in enumerate(nodes):
+        b = BARE.match(text)
+        if not b or svg_of(el) is not None:
+            continue
+        nxt = " ".join(" ".join(t.split()) for t, _e in nodes[i + 1:i + 3])
+        for name, rx, unit in LABELS:
+            m = rx.match(nxt)
+            if m and unit == "n" and b.group(1) not in SCALE.get(name, ()):
+                subj = "market" if name == "Fear & Greed" else (row_subject(el) if not one_subject else None)
+                if subj is None and not one_subject:
+                    subj = card_of(el)
+                out.append((name, subj, b.group(1), el, f"{b.group(1)} {nxt[:60]}"))
+    return out
+
+
+def table_readings(dom, nodes):
+    """(label, row subject, value, cell, context) for each printed cell of a table column headed by a named reading (the Chart Master
+    table's RSI-14, 50-day and 200-day columns): one reading of the row's asset."""
+    shown = {id(e) for _t, e in nodes}
+    out = []
+    for t in (e for e in _walk(dom) if e.tag == "table"):
+        rows = [e for e in _walk(t) if e.tag == "tr"]
+        if not rows:
+            continue
+        head = [" ".join(_text(c).split()) for c in rows[0].elems() if c.tag in ("th", "td")]
+        cols = {}
+        for i, h in enumerate(head):
+            for name, rx, unit in LABELS:
+                if rx.search(h):
+                    cols[i] = (name, unit)
+                    break
+        for r in rows[1:]:
+            cells = [c for c in r.elems() if c.tag in ("th", "td")]
+            if not cells:
+                continue
+            subj = " ".join(_text(cells[0]).split())[:40]
+            for i, (name, unit) in cols.items():
+                if i < len(cells) and any(id(k) in shown for k in [cells[i]] + list(_walk(cells[i]))):
+                    v = " ".join(_text(cells[i]).split())
+                    if re.fullmatch(r"\$?\d[\d,]*(?:\.\d+)?%?", v):
+                        out.append((name, subj, v, cells[i], f"{subj} {name} {v}"))
+    return out
+
+
+def figure_readings(dom, nodes):
+    """(label, subject, value, element, context) for a chart that prints its reading in the drawing and names it in its caption (the
+    RSI gauge on /chartmaster: "40.8" over the scale, "The 14-day RSI, one reading." under it). The subject is the coin the caption or
+    the drawing's label names, or None when neither names one."""
+    shown = {id(e) for _t, e in nodes}
+    out = []
+    for fig in (e for e in _walk(dom) if e.tag == "figure"):
+        cap = next((k for k in _walk(fig) if k.tag == "figcaption"), None)
+        if cap is None:
+            continue
+        ctext = " ".join(_text(cap).split())
+        for name, rx, unit in LABELS:
+            if unit != "n" or not rx.search(ctext):
+                continue
+            label_text = ctext + " " + " ".join(s.attrs.get("aria-label") or "" for s in _walk(fig) if s.tag == "svg")
+            subj = next((sym for sym, crx in COINS if crx.search(ctext)), None)
+            seen = set()
+            for t in (k for k in _walk(fig) if k.tag == "text" and id(k) in shown):
+                v = " ".join(_text(t).split())
+                b = BARE.match(v)
+                if b and b.group(1) not in SCALE.get(name, ()) and b.group(1) not in seen:
+                    seen.add(b.group(1))
+                    out.append((name, subj, b.group(1), t, f"{name} {b.group(1)} ({ctext[:50]})"))
+            break
     return out
 
 
@@ -786,43 +1093,62 @@ def sweep_page(h, css_texts, rel=""):
     """Every finding on one page, as (kind, width, text). An empty list is a page that prints each fact once."""
     findings = []
     dom = parse(h)
+    _ITEM.clear()
+    _TEMPLATE.clear()
     for w in WIDTHS:
         sheet = Sheet(css_texts, w)
-        nodes = [(t, e) for t, e in printed(dom, sheet) if not in_prose(e)]
+        nodes = printed(dom, sheet)
         figs = figures(nodes)
         set_windows(nodes, figs)
         ticks = axis_ticks(figs)
-        facts = [f for f in figs if id(f) not in ticks and significant(f)]
+        # a coarse figure ($3.8B, 9%) is a fact too, but it pairs only inside writing and only with two subject words in common
+        facts = [f for f in figs if id(f) not in ticks and (significant(f) or in_text(f.el))]
         # twice
         seen = []
         reported = set()
         for f in facts:
             for g in seen:
-                if not f.same(g):
-                    continue
-                if two_subjects(f.el, g.el, f.window, g.window):
+                if not one_fact(f, g):
                     continue
                 key = (f.unit, round(abs(f.value), 6))
                 if key in reported:
                     break
                 reported.add(key)
-                findings.append(("twice", w, f"{rel} at {w}: {g.raw.strip()} printed twice ({_ctx(g)!r} and {_ctx(f)!r})"))
+                pf, pg = _piece(f.el), _piece(g.el)
+                corr = in_corr(f.el) and in_corr(g.el)
+                own = pf is not None and pf is pg
+                kind = "held" if own or corr or (stands(f.el) and stands(g.el)) else "twice"
+                why = (" [a stored text repeating its own figure]" if own else " [two corrections quoting one figure]" if corr
+                       else " [two printings the rulings keep as published]")
+                findings.append((kind, w, f"{rel} at {w}: {g.raw.strip()} printed twice ({_ctx(g)!r} and {_ctx(f)!r})"
+                                 + (why if kind == "held" else "")))
                 break
             seen.append(f)
         # label
         by = collections.defaultdict(list)
         coin = rel.startswith("coins/")
-        for name, subj, val, el, line in labeled(nodes, one_subject=coin):
-            by[(name, subj)].append((val, line))
+        reads = labeled(nodes, one_subject=coin) + table_readings(dom, nodes) + figure_readings(dom, nodes)
+        for name, subj, val, el, line in reads:
+            by[(name, subj)].append((val, line, el))
         for (name, subj), vals in by.items():
             if len(vals) > 1:
-                findings.append(("label", w, f"{rel} at {w}: {name} printed {len(vals)} times "
-                                             f"({'; '.join(repr(l[:70]) for _v, l in vals[:3])})"))
+                pieces = {id(_piece(e)) if _piece(e) is not None else None for _v, _l, e in vals}
+                kind = "held" if len(pieces) == 1 and None not in pieces else "label"
+                findings.append((kind, w, f"{rel} at {w}: {name} printed {len(vals)} times "
+                                          f"({'; '.join(repr(l[:70]) for _v, l, _e in vals[:3])})"))
+        # an unnamed reading beside named ones: "40.8" under a gauge with no coin, beside the table's BTC row at 40.6. The reader
+        # cannot tell whose it is, and if it is one of theirs it is that one's reading printed twice.
+        for name in {n for (n, _s) in by}:
+            named = [s for (n, s) in by if n == name and isinstance(s, str) and s not in ("market", "page")]
+            un = next((k for k in ((name, None), (name, "page")) if k in by), None)
+            if named and un is not None and not coin:
+                findings.append(("label", w, f"{rel} at {w}: {name} printed for no named subject "
+                                             f"({by[un][0][1][:60]!r}) beside {', '.join(named[:4])}"))
         # precision: one table row's dollar figures at one number of decimals
         rows = collections.defaultdict(list)
         for f in figs:
             r = row_of(f.el)
-            if f.unit == "$" and r is not None and r.tag == "tr" and not re.search(r"[KMBT]\s*$", f.raw):
+            if f.unit == "$" and r is not None and r.tag == "tr" and not f.mag:
                 rows[id(r)].append(f)
         for fs in rows.values():
             decs = sorted(set(f.dec for f in fs))
@@ -936,7 +1262,7 @@ def averages_check(tree, history_dir, pages=None):
         h = open(p, encoding="utf-8", errors="replace").read()
         dom = parse(h)
         sheet = Sheet(site_css(tree, h) + re.findall(r"(?is)<style\b[^>]*>(.*?)</style>", h), WIDTHS[1])
-        nodes = [(t, e) for t, e in printed(dom, sheet) if not in_prose(e)]
+        nodes = printed(dom, sheet)
         page_sym = next((s for s, r in COIN_PAGE.items() if r == rel), None)
         for name, _subj, val, el, ctx in labeled(nodes, one_subject=bool(page_sym)) + table_averages(dom):
             if not name.endswith("day average") or not val.startswith("$"):
@@ -1025,7 +1351,10 @@ def main(argv):
             for k, _w, t in fs:
                 print(f"{k.upper():9} {t}")
         print(f"FACT SWEEP: {n} finding(s) on {len(res)} page(s)")
-    return 1 if n else 0
+    bad = sum(1 for v in res.values() for k, _w, _t in v if k != "held")
+    held = n - bad
+    print(f"FACT SWEEP: {bad} finding(s) the build must fix; {held} HELD (a pair the rulings keep as published, waiting on a ruling)")
+    return 1 if bad else 0
 
 
 if __name__ == "__main__":

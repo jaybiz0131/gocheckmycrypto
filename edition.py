@@ -106,6 +106,24 @@ def edition_days(items):
     return sorted({_day_of(d) for d in items if _is_edition(d)}, reverse=True)
 
 
+def _cite_label(s, ed, items):
+    """A source the Brief cites, by its title clipped to 60 characters; SPRINT 9.9.2, fix round 2: when that title prints a figure the
+    Brief's own text prints (one fact once), the source is still cited, by the desk story's date or the outlet's name, never dropped."""
+    lab = _clip(s.get("title") or s.get("url") or "", 60)
+    import fact_sweep as _fs
+    body = re.sub(r"<[^>]+>", " ", " ".join(str(p) for p in (ed.get("body") or [])))
+    own = _fs.figures([(body, None)])
+    if not any(x.same(y) for x in _fs.figures([(lab, None)]) for y in own):
+        return lab
+    import site_build as _sb
+    url = str(s.get("url") or "")
+    m = re.match(r"^/articles/([^/?#]+?)(?:\.html)?$", url)
+    if m:
+        hit = next((i for i in (items or []) if i.get("slug") == m.group(1)), None)
+        return f"The desk\u2019s story of {_sb.fmt_when(hit)}" if hit else "The desk\u2019s earlier story"
+    return _sb._outlet_name(url)
+
+
 def _clip(text, n):
     """Cut at a word boundary and never on a dangling function word."""
     t = re.sub(r"\s+", " ", str(text or "")).strip()
@@ -270,7 +288,7 @@ def render_front(desk, items, day, all_days, canonical_path="/news.html"):
     brief_html = ""
     if ed:
         cites = "".join(
-            f'<a href="{esc(s.get("url") or "#")}">{esc(_clip(s.get("title") or s.get("url") or "", 60))}</a>'
+            f'<a href="{esc(s.get("url") or "#")}">{esc(_cite_label(s, ed, items))}</a>'
             for s in (ed.get("sources") or [])[:8])
         brief_html = f"""<section class="ed-brief" aria-label="{esc(_brief_name(ed))}">
   <div class="ed-brief-head">

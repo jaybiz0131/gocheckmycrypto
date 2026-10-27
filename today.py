@@ -541,7 +541,9 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     import site_build as sb
     import home
     btc, eth, cap = rec["btc"], rec.get("eth"), rec.get("cap")
-    said = " ".join(rec.get("answer") or [])
+    # SPRINT 9.9.2, fix round 2: a printed correction quotes the figures it concerns ("contradicted Bitcoin (up 0.80%)") and is never
+    # withheld, so a row's figure it prints is not printed again either, like one the stored answer prints
+    said = " ".join(list(rec.get("answer") or []) + [str(c.get("text") or "") for c in rec.get("corrections") or []])
     if btc.get("chg_day") is not None:
         core = [_core("Bitcoin", _e(home._whole(btc["price"])), btc["chg_day"], "since midnight ET", said)]
         if isinstance(btc.get("chg"), (int, float)):
@@ -617,6 +619,11 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     vd_slot = f"  {vd_html}\n" if vd_html else ""
     reported_all = rec.get("reported") or []
     reported_left = [w for w in reported_all if not ({l.get("url") for l in w.get("links") or []} & shown)]
+    # SPRINT 9.9.2, fix round 2: a wire line stating a fact the stored answer states (one figure, two subject words: the sweep's own
+    # fact_sweep.one_event) is not listed again beside it; the answer stands as published
+    import fact_sweep as _fs
+    _ans = [x for x in re.split(r"(?<=[.!?])\s+", " ".join(rec.get("answer") or [])) if x]
+    reported_left = [w for w in reported_left if not any(_fs.one_event(w.get("line") or "", a) for a in _ans)]
     rep = ""
     for w in reported_left:
         names = ", ".join(f'<a href="{_e(l["url"])}" rel="noopener">{_e(l["outlet"])}</a>' for l in w["links"])

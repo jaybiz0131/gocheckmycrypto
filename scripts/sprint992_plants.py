@@ -1,34 +1,99 @@
 #!/usr/bin/env python3
 """U-9 plants for Sprint 9.9.2: each guarded thing broken on purpose in a throwaway copy of the tree, scripts/sprint992_test.py run
 (with --production), the break undone in that copy from the saved text and the test run again. Fresh copy per plant.
-usage: sprint992_plants.py <repo> <workdir> <log>"""
+usage: sprint992_plants.py <repo> <workdir> <log> [plant numbers, comma-separated: run only those and append to the log]"""
 import os, shutil, subprocess, sys, time
 repo, work, log = sys.argv[1:4]
+ONLY = {int(x) for x in sys.argv[4].split(",")} if len(sys.argv) > 4 else None
 PLANTS = [
  # the check itself
  ("sweep: the width model reads no stylesheet (every element printed at every width)", "fact_sweep.py",
-  "        sheet = Sheet(css_texts, w)\n        nodes = [(t, e) for t, e in printed(dom, sheet) if not in_prose(e)]",
-  "        sheet = Sheet([], w)\n        nodes = [(t, e) for t, e in printed(dom, sheet) if not in_prose(e)]"),
+  "        sheet = Sheet(css_texts, w)\n        nodes = printed(dom, sheet)",
+  "        sheet = Sheet([], w)\n        nodes = printed(dom, sheet)"),
  ("sweep: two rows are no longer two subjects", "fact_sweep.py",
-  "    if ra is not None and rb is not None and ra is not rb:\n        return True", "    if False:\n        return True"),
+  "    if ra is not None and rb is not None and ra is not rb:\n        if ra.tag", "    if False:\n        if ra.tag"),
  ("sweep: the sign is not part of the fact", "fact_sweep.py",
   "        if self.sign and other.sign and self.sign != other.sign:", "        if False and self.sign != other.sign:"),
  ("sweep: the window is not part of the fact", "fact_sweep.py",
   "        if self.window and other.window and self.window != other.window:", "        if False:"),
- ("sweep: stored writing is read as data (PROSE empty)", "fact_sweep.py",
-  "def in_prose(e):\n    \"\"\"Inside stored writing", "def in_prose(e):\n    return False\n    \"\"\"Inside stored writing"),
- ("sweep: the label check never reports", "fact_sweep.py", "            if len(vals) > 1:\n                findings.append((\"label\"",
-  "            if False:\n                findings.append((\"label\""),
+ # fix round 2 (review 1 at 81b63fa): no exemption for writing, and the tests that hold it
+ ("sweep: stored writing is set aside again (81b63fa's prose exemption)", "fact_sweep.py",
+  "        sheet = Sheet(css_texts, w)\n        nodes = printed(dom, sheet)",
+  "        sheet = Sheet(css_texts, w)\n        nodes = [(t, e) for t, e in printed(dom, sheet) if not in_text(e)]"),
+ ("sweep: '$600 million' is not read as $600M", "fact_sweep.py",
+  '                f = Fig("$", m.group(2), m.group(3) or MAG_WORD.get(m.group(4) or ""), m.group(0), el, m.start())',
+  '                f = Fig("$", m.group(2), m.group(3), m.group(0), el, m.start())'),
+ ("sweep: writing pairs by digits alone (a 25% tariff and a 25% stake)", "fact_sweep.py",
+  "    if in_text(f.el) or in_text(g.el):\n        return shared_subject(f, g)\n    return True",
+  "    if in_text(f.el) or in_text(g.el):\n        return True\n    return True"),
+ ("sweep: a headline over its own story needs a word in common", "fact_sweep.py",
+  "    if ss and (is_head(f.el) or is_head(g.el)):\n        return True", "    if False:\n        return True"),
+ ("sweep: story cards are two subjects whatever they say (the tile rule)", "fact_sweep.py",
+  "        if fa is not None and fb is not None and _has_story(ta) and _has_story(tb):", "        if False:"),
+ ("sweep: two list rows on one event are two subjects", "fact_sweep.py",
+  "        return not _one_event(fa, fb, ra, rb)", "        return True"),
+ ("sweep: a list's own wording counts as a subject", "fact_sweep.py",
+  "    return len(shared - _template(ra) - _template(rb)) >= 2", "    return len(shared) >= 2"),
+ ("sweep: a headline list's subject words are read as its template", "fact_sweep.py",
+  "    if is_head(fa.el) or is_head(fb.el):\n        return len(shared) >= 2", "    if False:\n        return len(shared) >= 2"),
+ ("sweep: a chart's printed reading is not read (the RSI gauge)", "fact_sweep.py",
+  "            label_text = ctext", "            break\n            label_text = ctext"),
+ ("sweep: a table column's readings are not read (the RSI-14 column)", "fact_sweep.py",
+  "        cols = {}\n        for i, h in enumerate(head):", "        cols = {}\n        for i, h in enumerate([]):"),
+ ("sweep: an unnamed reading beside named ones passes", "fact_sweep.py",
+  "            if named and un is not None and not coin:", "            if False:"),
+ ("sweep: a value printed before its label is not read (the Sentiment tile's 48)", "fact_sweep.py",
+  "        if not b or svg_of(el) is not None:\n            continue", "        if True:\n            continue"),
+ ("sweep: every pair is HELD (the held kind hides twins)", "fact_sweep.py",
+  '                kind = "held" if own or corr or (stands(f.el) and stands(g.el)) else "twice"', '                kind = "held"'),
+ ("sweep: a stored text's own repeat is reported as a twin, not HELD", "fact_sweep.py",
+  "                own = pf is not None and pf is pg", "                own = False"),
+ ("pass: nothing is withheld", "fact_once.py", '    if "<body" not in src:\n        return src, []', '    if True:\n        return src, []'),
+ ("pass: a sentence is withheld with the rest of its block", "fact_once.py",
+  '            edits.append((el.s1, el.e0, " ".join(c.strip() for c in keep)))', '            edits.append((el.s0, el.e1, ""))'),
+ ("pass: an emptied block keeps its label, an emptied list its heading", "fact_once.py",
+  '                edits.append((holder.s0, holder.e1, ""))\n                gone.add(id(holder))', '                pass'),
+ ("pass: a complete listing drops a story's row", "fact_once.py",
+  '                if complete_listing(rel) and head is not el and head.tag == "a":', "                if False:"),
+ ("pass: a named reading repeated in a quote is not compared", "fact_once.py",
+  "    for name, subj in rd:\n        if (name, subj) in reads", "    for name, subj in ():\n        if (name, subj) in reads"),
+ ("pass: the home's lead sentence is withheld like any quote", "fact_once.py",
+  "            if el is lead_el and i == 0:", "            if False:"),
+ ("pass: a data figure repeating the lead sentence does not yield", "fact_once.py",
+  "            if any(fs.one_fact(x, g) for x in lx) and _leaf_figure(g):", "            if False:"),
+ ("pass: an Edition's lead card is withheld whole", "fact_once.py",
+  '            if _hit(xs, printed, reads, _readings(text, None)) and "ed-lead" not in el.cls:',
+  "            if _hit(xs, printed, reads, _readings(text, None)):"),
+ ("sweep: an Edition lead's headline beside its brief is a twin, not HELD", "fact_sweep.py",
+  '        (is_head(e) and any("ed-lead" in a.cls for a in ancestors(e)))', "        False"),
+ ("today: a reported line stating the answer's fact is listed again", "today.py",
+  '    reported_left = [w for w in reported_left if not any(_fs.one_event(w.get("line") or "", a) for a in _ans)]', "    pass"),
+ ("coin page: one event's stories listed twice", "site_build.py",
+  '        if any(_fs.one_event(i.get("title") or "", k.get("title") or "") for k in kept):',
+  '        if False:'),
+ ("Chart Master gauge: prints its number beside the read's", "site_build.py",
+  '    label = "" if btc.get("_rsi_read") else (', '    label = "" if False else ('),
+ ("Chart Master page: the gauge reads the Board, not the read's BTC row", "site_build.py",
+  "        if _lv is not None:\n            _gauge", "        if False:\n            _gauge"),
+ ("article: a source's stored title prints the story's figure again", "site_build.py", "            if _src_twin(lab):", "            if False:"),
+ ("Edition: a citation's title prints the brief's figure again", "edition.py",
+  "    if not any(x.same(y) for x in _fs.figures([(lab, None)]) for y in own):", "    if True:"),
+ ("today: a row prints the figure its correction quotes", "today.py",
+  '    said = " ".join(list(rec.get("answer") or []) + [str(c.get("text") or "") for c in rec.get("corrections") or []])',
+  '    said = " ".join(rec.get("answer") or [])'),
+ ("sweep: the label check never reports", "fact_sweep.py", "            if len(vals) > 1:\n                pieces =",
+  "            if False:\n                pieces ="),
  ("sweep: the row precision check never reports", "fact_sweep.py", "            if len(decs) > 1:", "            if False:"),
  ("sweep: a padded average is not judged", "fact_sweep.py",
   '            padded = dec > 2 and re.fullmatch(r"\\d*\\.\\d\\d0+", num) is not None', "            padded = False"),
  ("sweep: the next slot's time is never counted", "fact_sweep.py", "            if k > 1:\n                findings.append((\"next\"",
   "            if False:\n                findings.append((\"next\""),
  ("sweep: 'from the last build' passes", "fact_sweep.py", '        if re.search(r"\\bfrom the last build\\b", vis):', "        if False:"),
- ("sweep: an axis tick is a fact again", "fact_sweep.py", "        facts = [f for f in figs if id(f) not in ticks and significant(f)]",
-  "        facts = [f for f in figs if significant(f)]"),
+ ("sweep: an axis tick is a fact again", "fact_sweep.py",
+  "        facts = [f for f in figs if id(f) not in ticks and (significant(f) or in_text(f.el))]",
+  "        facts = [f for f in figs if (significant(f) or in_text(f.el))]"),
  ("sweep: two reading tiles are one subject again", "fact_sweep.py",
-  "            and not (wa and wb and wa == wb):\n        return True", "            and False:\n        return True"),
+  "            and not (wa and wb and wa == wb):\n        if fa", "            and False:\n        if fa"),
  ("sweep: a tile's window line is not read", "fact_sweep.py",
   "        if f.window is None and tile_of(f.el) is not None:", "        if False:"),
  ("sweep: a row by its class is not a row", "fact_sweep.py",
@@ -118,6 +183,8 @@ lines = ["Sprint 9.9.2, U-9: each guarded thing broken on purpose in a throwaway
          "run, the same copy run again with the break undone from the saved text. Fresh copy per plant. "
          + time.strftime("%a %b %d %Y, %I:%M %p %Z")]
 for i, (name, rel, old, new) in enumerate(PLANTS, 1):
+    if ONLY is not None and i not in ONLY:
+        continue
     d = os.path.join(work, f"p{i}")
     os.makedirs(d)
     subprocess.run("tar --exclude=./.git --exclude=./site/publish --exclude=./review --exclude=__pycache__ -cf - . | (cd %s && tar xf -)" % d,
@@ -140,5 +207,5 @@ for i, (name, rel, old, new) in enumerate(PLANTS, 1):
         lines.append(f"      ... and {len(fails) - 4} more")
     print(lines[-1 - min(4, len(fails)) - (1 if len(fails) > 4 else 0)], flush=True)
     shutil.rmtree(d, ignore_errors=True)
-open(log, "w").write("\n".join(lines) + "\n")
+open(log, "a" if ONLY else "w").write(("\n" if ONLY else "") + "\n".join(lines) + "\n")
 print("done")

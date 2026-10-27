@@ -363,6 +363,24 @@ OUTLETS = {
 }
 
 
+def _outlet_name(url):
+    """The outlet a source address belongs to, by name (OUTLETS), else its host."""
+    from urllib.parse import urlparse
+    host = urlparse(url or "").netloc.lower().removeprefix("www.")
+    return OUTLETS.get(host, host) or "Source"
+
+
+def _plain_body(body):
+    """A stored body's words, whatever its stored shape (a string, a list of paragraphs, a list of blocks)."""
+    if isinstance(body, str):
+        return body
+    if isinstance(body, list):
+        return " ".join(_plain_body(b) for b in body)
+    if isinstance(body, dict):
+        return " ".join(_plain_body(v) for v in body.values() if isinstance(v, (str, list, dict)))
+    return ""
+
+
 def source_label(src):
     """'CoinDesk: lending protocol bonzo loses 77 of value locked' instead of a raw URL
     with utm cruft. A real title (anything that isn't just the URL) is kept as-is."""
@@ -2419,8 +2437,27 @@ def render_article(item, all_items=None):
             if url.startswith("desk://"):
                 return ('<li>The desk\'s own market boards, measured this run '
                         '(<a href="/">see the live boards</a>)</li>')
+            lab = source_label(s)
+            if _src_twin(lab):
+                # SPRINT 9.9.2, fix round 2: a source's stored title that prints a figure the story prints ("Decrypt: $38M in
+                # Bitcoin Drained...") is not printed again; the source is still cited, by its outlet's name (or, for the desk's
+                # own story, by its date), the address unchanged. A citation is never withheld.
+                m = re.match(r"^/articles/([^/?#]+?)(?:\.html)?$", url)
+                own = _by_slug.get(m.group(1)) if m else None
+                if m:
+                    lab = f"The desk\u2019s story of {fmt_when(own)}" if own else "The desk\u2019s earlier story"
+                else:
+                    lab = _outlet_name(url)
             return (f'<li><a href="{esc(url)}" rel="nofollow">'
-                    f'{esc(source_label(s))}</a></li>')
+                    f'{esc(lab)}</a></li>')
+        import fact_sweep as _fs
+        _by_slug = {i.get("slug"): i for i in (all_items or []) if i.get("slug")}
+        _own = [f for f in _fs.figures([(" ".join(str(x) for x in (item.get("title"), item.get("dek"), item.get("key_fact"),
+                                                                   item.get("bottom_line"), _plain_body(item.get("body"))) if x),
+                                          None)])]
+
+        def _src_twin(lab):
+            return any(x.same(y) for x in _fs.figures([(lab, None)]) for y in _own)
         lis = "".join(_src_li(s) for s in srcs)
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol></div>'
     # SPRINT 9.9.2 (found by the sweep): an entry stored as {"outlet", "headline"} printed as a raw dict; the outlet is the name
@@ -3635,12 +3672,15 @@ def cm_rsi_chart(btc, w=660, h=150, narrow=False, _svg_only=False):
         f'font-family="var(--mono)" font-size="{fs}" fill="var(--faint)">{v}</text>'
         for v, a in ((0, "start"), (100, "end")))
     col = "var(--down)" if r >= 70 else ("var(--up)" if r <= 30 else "var(--ink)")
+    # SPRINT 9.9.2, review 1 failure 3: when the chart read's table on this page prints Bitcoin's RSI, the gauge marks that same
+    # reading and does not print it again (one RSI value for Bitcoin per page; the dated read stays as published, C6)
+    label = "" if btc.get("_rsi_read") else (
+        f'<text x="{_x(r):.1f}" y="{y0 - 8}" text-anchor="middle" '
+        f'font-family="var(--mono)" font-size="{max(12, fs)}" fill="{col}">{r:.1f}</text>')
     mark = (f'<line x1="{_x(r):.1f}" y1="{y0 - 4}" x2="{_x(r):.1f}" y2="{y1 + 4}" '
-            f'stroke="{col}" stroke-width="2.5"></line>'
-            f'<text x="{_x(r):.1f}" y="{y0 - 8}" text-anchor="middle" '
-            f'font-family="var(--mono)" font-size="{max(12, fs)}" fill="{col}">{r:.1f}</text>')
+            f'stroke="{col}" stroke-width="2.5"></line>' + label)
     return (f'<svg class="cm-chart" viewBox="0 0 {w} {h}" '
-            f'role="img" aria-label="The 14-day RSI is {r:.1f}, on a scale of 0 to 100 '
+            f'role="img" aria-label="Bitcoin\u2019s 14-day RSI is {r:.1f}, on a scale of 0 to 100 '
             f'with lines at 30 and 70.">{band}{lines}{ends}{mark}</svg>')
 
 
@@ -3649,7 +3689,14 @@ def _cm_rsi_cap(btc):
     where = ("above 70, which chartists read as overbought" if r >= 70
              else "below 30, which chartists read as oversold" if r <= 30
              else "between 30 and 70, the middle of its range")
-    return (f'<figcaption class="cm-cap"><b>The 14-day RSI, one reading.</b> It sits '
+    if btc.get("_rsi_read"):
+        # the reading is the chart read's, printed once, in its BTC row below
+        return (f'<figcaption class="cm-cap"><b>Bitcoin\u2019s 14-day RSI, one reading:</b> the chart read\u2019s, '
+                f'{esc(btc["_rsi_read"])}, printed in its BTC row below. It sits {esc(where)}. The desk holds that figure '
+                f'and no history behind it, so this is the scale and where the reading falls on it, not a line through '
+                f'time.</figcaption>')
+    stamp = f', read {esc(btc["_rsi_stamp"])}' if btc.get("_rsi_stamp") else ""
+    return (f'<figcaption class="cm-cap"><b>Bitcoin\u2019s 14-day RSI, one reading{stamp}.</b> It sits '
             f'{esc(where)}. The desk holds today\u2019s figure and no history behind it, '
             f'so this is the scale and where today falls on it, not a line through '
             f'time.</figcaption>')
@@ -8283,7 +8330,18 @@ def _coin_stories(c, items, n=6):
         if name in claim or (rx and rx.search(title)):
             out.append(i)
     out.sort(key=lambda i: i.get("published_utc") or "", reverse=True)
-    return [i for i in out if _claim(i.get("slug"))][:n]
+    # ONE EVENT ONCE (Sprint 9.9.2, review 1 failure 5): two stored stories on one event ("US seizes Xinbi Telegram channels,
+    # restrains $52.8M in USDT" and "U.S. Freezes $52.8M in USDT Tied to Xinbi Guarantee Scam Marketplace") printed its figure twice
+    # on /coins/usdt. The newest telling stands for the event; an older one sharing its figure and two subject words is not listed
+    # here (it keeps its URL and every other listing). The identity is the sweep's own (fact_sweep.one_event).
+    import fact_sweep as _fs
+    kept = []
+    for i in out:
+        if any(_fs.one_event(i.get("title") or "", k.get("title") or "") for k in kept):
+            continue
+        if _claim(i.get("slug")):
+            kept.append(i)
+    return kept[:n]
 
 
 COIN_CHART_SRC = '<script src="/assets/coinchart.js" defer></script>'
@@ -9187,7 +9245,15 @@ def render_chartmaster(read, dateline, pulse=None):
                  if str(x.get("symbol") or "").upper() == "BTC"), None)
     _charts = ""
     if _btc:
-        _charts = (cm_price_chart(_btc) + cm_rsi_chart(_btc)
+        # the gauge's reading: the chart read's Bitcoin row when this page prints that table (the data card), else the Board's
+        _lv = next((lv for lv in (read or {}).get("levels") or [] if str(lv.get("symbol") or "").upper() == "BTC"
+                    and isinstance(lv.get("rsi14"), (int, float))), None) if (read or {}).get("data_only") else None
+        if _lv is not None:
+            _gauge = dict(_btc, rsi14=_lv["rsi14"],
+                          _rsi_read=read_stamp(cm_read_utc(read), word="") or fmt_short_date(str(read.get("date") or "")[:10]))
+        else:
+            _gauge = dict(_btc, _rsi_stamp=_snap_stamp_et((pulse or {}).get("generated_utc") or ""))
+        _charts = (cm_price_chart(_btc) + cm_rsi_chart(_gauge)
                    + cm_leverage_chart((pulse or {}).get("leverage")))
     if _charts:
         _charts = ('<div class="bd-sec"><div class="bd-sec-l">'
@@ -10023,6 +10089,9 @@ def _write_api_feeds(w, items, pulse, flows, board_tiles, coin_tiles):
         print(f"::warning::api feeds: the feeds were not written ({type(e).__name__}: {e})")
 
 
+_FACT_ONCE = []          # what fact_once withheld in this build: (kind, page, text), printed as a count at the end
+
+
 def build():
     items = load_content()
     # dateline reflects the newest content (or a neutral standing line), never a wall clock
@@ -10073,6 +10142,15 @@ def build():
     def w(rel, html):
         path = os.path.join(PUBLISH, rel)
         os.makedirs(os.path.dirname(path), exist_ok=True)
+        if rel.endswith(".html"):
+            # SPRINT 9.9.2, fix round 2: one fact once. A sentence or a story item quoting a fact the page already prints is
+            # withheld whole, never reworded (fact_once.py); fails open to the page as rendered, and says so
+            try:
+                import fact_once as _fo
+                html, _gone = _fo.withhold(html, rel)
+                _FACT_ONCE.extend(_gone)
+            except Exception as e:                   # noqa: BLE001
+                print(f"::warning::one fact once: {rel} written as rendered ({type(e).__name__}: {e})")
         open(path, "w", encoding="utf-8").write(html)
 
     flows = load_flows()
@@ -10546,6 +10624,14 @@ def build():
     n_live = sum(1 for i in items if not i.get("example"))
     print(f"site: built {PUBLISH} - {n_live} published stor{'y' if n_live == 1 else 'ies'} "
           f"+ {len(items) - n_live} example, plus home/archive/method/about/standards/404.")
+    _fo_pages = len({p for _k, p, _t in _FACT_ONCE})
+    print(f"site: one fact once withheld {sum(1 for k, _p, _t in _FACT_ONCE if k == 'sentence')} quoted sentence(s), "
+          f"{sum(1 for k, _p, _t in _FACT_ONCE if k == 'item')} story item(s) and "
+          f"{sum(1 for k, _p, _t in _FACT_ONCE if k == 'headline')} repeated headline(s) on complete listings (row and link kept) "
+          f"on {_fo_pages} page(s), each a quotation of a fact the page prints elsewhere")
+    if os.environ.get("FACT_ONCE_LOG"):
+        # opt-in, for the sprint's count: what was withheld, page by page (never set by a scheduled run)
+        json.dump(_FACT_ONCE, open(os.environ["FACT_ONCE_LOG"], "w", encoding="utf-8"), indent=0)
     return 0
 
 
