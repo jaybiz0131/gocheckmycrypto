@@ -455,11 +455,12 @@ def round3_cases(fails):
     import today
     import why_evidence
     rec20 = json.load(open(os.path.join(HERE, "site", "data", "today", "2026-10-20-evening.json"), encoding="utf-8"))
-    ev20 = why_evidence.load("2026-10-20", "evening")
+    # the stored records by their own directory: the canary points the module defaults at its 15 October fixture
+    ev20 = why_evidence.load("2026-10-20", "evening", os.path.join(HERE, "site", "data", "why"))
     vd20 = None
     try:
         import verdict as _vd
-        vd20 = _vd.load("2026-10-20", "evening")
+        vd20 = _vd.load("2026-10-20", "evening", os.path.join(HERE, "site", "data", "verdict"))
     except Exception:                                    # noqa: BLE001
         vd20 = None
     with quiet():

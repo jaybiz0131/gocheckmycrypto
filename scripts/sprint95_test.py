@@ -760,10 +760,12 @@ def rulings_cases(fails):
     # region left is labeled like .movetable
     card = _sb.render_chartmaster({"date": "2026-10-20", "headline": "x", "paragraphs": [], "data_only": True,
                                    "levels": [{"symbol": "BTC", "price": 82893, "sma50": 81572.53, "sma200": 72644.82, "rsi14": 52.4}]}, "T", None)
+    # (the RSI-14 column left the toggle in Sprint 9.9.2's fix round 3: the gauge names the BTC row as where Bitcoin's RSI is printed,
+    # so a reader at 375 must see it without opening anything; entry 2026-10-27-C8, "one RSI the reader sees at 375 and 1440")
     guarded(fails, "the data card table uses the shared table rule: fit-tbl wrapper with role=region, aria-label and tabindex, a "
-                   "'Show all columns' toggle, the 50-day and RSI columns behind it, no private .tbl-wrap",
+                   "'Show all columns' toggle, the 50-day column behind it (RSI-14 shown at every width), no private .tbl-wrap",
             lambda: 'class="movetable fit-tbl" tabindex="0" role="region" aria-label="Chart data card' in card
-            and 'class="fit-more"' in card and card.count('class="xs-x"') == 4 and "tbl-wrap" not in card)
+            and 'class="fit-more"' in card and card.count('class="xs-x"') == 2 and "tbl-wrap" not in card)
     # the run writes no stray file into the repository's site/data
     here_cm = os.path.join(HERE, "site", "data", "chartmaster")
     guarded(fails, "unit() leaves site/data/chartmaster as it found it (the archive goes to a temp directory while the cases run)",
