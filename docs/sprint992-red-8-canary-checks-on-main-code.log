@@ -1,0 +1,17 @@
+Sprint 9.9.2: the canary functions this item changed, taken from verify_pipeline.py as changed here (copied into a detached worktree of main 82e8c43 as vp992.py) and run one by one on main's code (main's site_build, home and the rest; the built home is main's tree from today's data): each changed name check seen red on the old text first (U-9). A crash on the old code is a red too: the new check calls what main does not have. Logged October 27, 2026 10:45 AM EDT.
+
+== _coin_chart_canary (K-7): 1 problem(s)
+   K-7 canary: the fallback does not name its own read (Read <date>, <time> ET), so a stale line reads as a live one
+== _home_canary: 4 problem(s)
+   home canary: the tape does not print the week's low close from the snapshot ($83,723.72)
+   home canary: the tape does not print the week's high close from the snapshot ($85,945.29)
+   home canary: the h-k-hi mark is not on the line with its figure $85,945.29 (Sprint 9.9.2: at the price's precision)
+   home canary: the h-k-lo mark is not on the line with its figure $83,723.72 (Sprint 9.9.2: at the price's precision)
+== _below_canary: 2 problem(s)
+   below canary: the Brief card does not name its edition, link it, or the home does not say when the next slot is, once
+   below canary: with no Brief the home does not say when the next slot is, once
+== _whale_absent_canary: 2 problem(s)
+   whale: /flows from the file prints a zero: ''
+   whale: /flows from the view prints a zero: ''
+== _cm_dated_canary: 1 problem(s)
+   crashed on the old code: TypeError: board_summary_line() got an unexpected keyword argument 'printed'

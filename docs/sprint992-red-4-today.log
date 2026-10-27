@@ -1,0 +1,39 @@
+5. /today/ (every stored record the fixtures hold): the answer prints as published, the lists yield its figures
+  ok   the fixtures hold the five stored records (5)
+     finding: $82,119 printed 2 times: The desk published no new stories today, so this edition is built entirely from its own market boards. Those boards show bitcoin at $82,119, up 0.8% on the day  || Bitcoin $82
+     finding: 0.80% printed 2 times: Correction, October 16, 2026. The whole-market 24-hour change this page showed (down 2.13%) contradicted Bitcoin (up 0.80%) and Ether (up 0.96%), which moved th || Bitcoin $82,1
+     finding: 0.96% printed 2 times: Correction, October 16, 2026. The whole-market 24-hour change this page showed (down 2.13%) contradicted Bitcoin (up 0.80%) and Ether (up 0.96%), which moved th || Ether $2,439 
+  FAIL real-2026-10-15-evening: no figure printed twice
+     finding: $5.1M printed 2 times: Friday brought distributed weakness with Bitcoin down 0.61% on the day and spot Bitcoin ETF inflows cooling to $5.1 million, while the week's cumulative exchang || Bitcoin ETF f
+     finding: 0.61% printed 3 times: Friday brought distributed weakness with Bitcoin down 0.61% on the day and spot Bitcoin ETF inflows cooling to $5.1 million, while the week's cumulative exchang || Correction, O
+     finding: 0.85% printed 2 times: Correction, October 16, 2026. The whole-market 24-hour change this page showed (down 3.60%) contradicted Bitcoin (down 0.61%) and Ether (down 0.85%), which toge || Ether $2,421 
+  FAIL real-2026-10-16-evening: no figure printed twice
+     finding: $80,318 printed 2 times: On Sunday, October 25, Bitcoin was down 0.61% since midnight ET, to $80,318. Over the last 24 hours it was down 0.29%. Ether was down 0.33% over the same 24 hou || Bitcoin $80
+     finding: 0.61% printed 2 times: On Sunday, October 25, Bitcoin was down 0.61% since midnight ET, to $80,318. Over the last 24 hours it was down 0.29%. Ether was down 0.33% over the same 24 hou || Bitcoin $80,3
+     finding: 0.29% printed 2 times: On Sunday, October 25, Bitcoin was down 0.61% since midnight ET, to $80,318. Over the last 24 hours it was down 0.29%. Ether was down 0.33% over the same 24 hou || Bitcoin ▼ 0.2
+     finding: 0.33% printed 2 times: On Sunday, October 25, Bitcoin was down 0.61% since midnight ET, to $80,318. Over the last 24 hours it was down 0.29%. Ether was down 0.33% over the same 24 hou || Ether $2,337 
+     finding: 7.96% printed 2 times: On Sunday, October 25, Bitcoin was down 0.61% since midnight ET, to $80,318. Over the last 24 hours it was down 0.29%. Ether was down 0.33% over the same 24 hou || QNT Quant ▲ 7
+     finding: 4.88% printed 2 times: On Sunday, October 25, Bitcoin was down 0.61% since midnight ET, to $80,318. Over the last 24 hours it was down 0.29%. Ether was down 0.33% over the same 24 hou || XDC XDC Netwo
+  FAIL real-2026-10-25-evening: no figure printed twice
+     finding: $80,270 printed 2 times: On Monday, October 26, Bitcoin was up 0.77% since midnight ET, to $80,270. Over the last 24 hours it was down 0.15%. Ether was down 0.17% over the same 24 hours || Bitcoin $80
+     finding: 0.77% printed 2 times: On Monday, October 26, Bitcoin was up 0.77% since midnight ET, to $80,270. Over the last 24 hours it was down 0.15%. Ether was down 0.17% over the same 24 hours || Bitcoin $80,2
+     finding: 0.15% printed 2 times: On Monday, October 26, Bitcoin was up 0.77% since midnight ET, to $80,270. Over the last 24 hours it was down 0.15%. Ether was down 0.17% over the same 24 hours || Bitcoin ▼ 0.1
+     finding: 0.17% printed 2 times: On Monday, October 26, Bitcoin was up 0.77% since midnight ET, to $80,270. Over the last 24 hours it was down 0.15%. Ether was down 0.17% over the same 24 hours || Ether $2,328 
+     finding: 19.63% printed 2 times: On Monday, October 26, Bitcoin was up 0.77% since midnight ET, to $80,270. Over the last 24 hours it was down 0.15%. Ether was down 0.17% over the same 24 hours || QNT Quant ▲ 
+     finding: 3.17% printed 2 times: On Monday, October 26, Bitcoin was up 0.77% since midnight ET, to $80,270. Over the last 24 hours it was down 0.15%. Ether was down 0.17% over the same 24 hours || LIT Lighter ▼
+     finding: the next slot's time (one value per page) printed 2 times: Verdict at the next read: the run the last read measured went down; the move since midnight ET is up. Next read: tonight at 7:08 PM ET. || Ne
+  FAIL real-2026-10-26-morning: no figure printed twice
+     finding: $79,839 printed 2 times: On Tuesday, October 27, Bitcoin was flat since midnight ET, at $79,839, a change of -0.15%. Over the last 24 hours it was down 0.52%. Ether was down 0.64% over  || Bitcoin $79
+     finding: 0.15% printed 2 times: On Tuesday, October 27, Bitcoin was flat since midnight ET, at $79,839, a change of -0.15%. Over the last 24 hours it was down 0.52%. Ether was down 0.64% over  || Bitcoin $79,8
+     finding: 0.52% printed 2 times: On Tuesday, October 27, Bitcoin was flat since midnight ET, at $79,839, a change of -0.15%. Over the last 24 hours it was down 0.52%. Ether was down 0.64% over  || Bitcoin ▼ 0.5
+     finding: 0.64% printed 2 times: On Tuesday, October 27, Bitcoin was flat since midnight ET, at $79,839, a change of -0.15%. Over the last 24 hours it was down 0.52%. Ether was down 0.64% over  || Ether $2,313 
+     finding: 7.13% printed 2 times: On Tuesday, October 27, Bitcoin was flat since midnight ET, at $79,839, a change of -0.15%. Over the last 24 hours it was down 0.52%. Ether was down 0.64% over  || MORPHO Morpho
+     finding: 7.84% printed 2 times: On Tuesday, October 27, Bitcoin was flat since midnight ET, at $79,839, a change of -0.15%. Over the last 24 hours it was down 0.52%. Ether was down 0.64% over  || QNT Quant ▼ 7
+  FAIL real-2026-10-27-morning: no figure printed twice
+  ok   the stored answer prints exactly as stored (J-10)
+  FAIL What moved keeps what the answer does not print: Ether's price, the next gainers and losers
+  FAIL ...and says so in its headings when the answer named the biggest move
+  FAIL the living page with no read yet today prints the next slot's time once (the notice's)
+
+SPRINT 9.9.2: FAIL (8 failure(s))
+exit 1

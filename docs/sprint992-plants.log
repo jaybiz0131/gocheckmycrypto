@@ -1,0 +1,132 @@
+Sprint 9.9.2, U-9: each guarded thing broken on purpose in a throwaway copy of the tree, scripts/sprint992_test.py run, the same copy run again with the break undone from the saved text (never git checkout). Fresh copy per plant. Tue Oct 27 2026, 02:40 PM UTC
+PLANT 1 checker: two rows of one table count as one fact twice (one_fact.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL two rows of one list that read alike are two records (two transfers, each 'BTC $51.8M to Coinbase')
+PLANT 2 checker: a stored read's own repeats count (one_fact.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL a figure a stored read repeats inside itself is the read's (J-10), not a twin
+      FAIL the morning card prints no figure the home prints elsewhere (no twin on the fixture home)
+PLANT 3 checker: no subject floor (a row's figure pairs with any line) (one_fact.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL a row's figure beside a sentence about another subject is not a twin (the subject floor)
+      FAIL /coins/btc prints no figure twice (24 hours, 7 days, volume, 200-day, RSI) on the real records
+      FAIL real-2026-10-27-morning: no figure printed twice
+PLANT 4 checker: two quantities named differently pair anyway (one_fact.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL a price and a 7-day high close that are both $1.00 are two facts (named as different quantities)
+PLANT 5 checker: the sign is ignored (one_fact.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL a figure printed with opposite directions is two values (funding -0.0100% and +0.0100%)
+PLANT 6 checker: the window is ignored (one_fact.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL a 24-hour change and a 7-day change that are both 0.65% are two facts (each named with its window)
+      FAIL a move in a list marked as the onset hour (data-window) is not the 24-hour move with the same figure
+PLANT 7 checker: data-wide is printed under 1280 (one_fact.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL the Ether line shown only from 1280 and the Ether tile shown only under 1280 print once at each width
+      FAIL Ether's price prints once at each width (the list's Ether item is the narrow one, the tape's line the wide one)
+      FAIL the morning card prints no figure the home prints elsewhere (no twin on the fixture home)
+PLANT 8 checker: a screen-reader span is counted as printed (one_fact.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL text in a hidden element or a screen-reader span is not printed
+PLANT 9 checker: one figure at two precisions is two figures (one_fact.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL one figure printed at two precisions is one figure (0.8% and 0.80%; $82,119 and $82,119.00)
+PLANT 10 checker: zeros are counted (one_fact.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL a zero is not counted ($0 and 0.00% are printed by many unrelated rows)
+PLANT 11 checker: a printed correction is read for figures (one_fact.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL a printed correction (data-quote) quoting the figure it reconciles is not counted
+      FAIL real-2026-10-15-evening: no figure printed twice
+      FAIL real-2026-10-16-evening: no figure printed twice
+PLANT 12 checker: the 200-day average is not read as one value per page (one_fact.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL ONE 200-DAY VALUE PER PAGE: two different 200-day values are red
+PLANT 13 checker: the precision row rule never fires (one_fact.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL PRECISION: a row printing a price at four decimals and an average at two is red
+      FAIL ...a marked row (data-row) is read like a table row
+PLANT 14 checker: the stored-precision rule never fires (one_fact.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL PRECISION, STORED: an average stored as 0.09 and printed $0.09000 is red (a rounding printed as the figure)
+PLANT 15 checker: the next slot's time is not read (one_fact.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL THE NEXT SLOT ONCE: the notice's 'Next read' and the Brief card's 'Next Brief' at one time are red
+PLANT 16 home: the list's Ether item is not the narrow one (home.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL Ether's price prints once at each width (the list's Ether item is the narrow one, the tape's line the wide one)
+      FAIL ...the list's Ether item says it is the narrow one (data-narrow), the line that the stylesheet hides from 1280
+      FAIL the morning card prints no figure the home prints elsewhere (no twin on the fixture home)
+PLANT 17 home: the morning card withholds nothing (home.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the stored morning sentence carrying the ETF figure and the Fear and Greed reading is withheld on a home printing both
+PLANT 18 home: the Brief card's next line never yields to the notice (home.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL the morning card prints no figure the home prints elsewhere (no twin on the fixture home)
+      FAIL the next slot's time prints once on the home when the verdict notice names it (no read yet today)
+      FAIL ...and it is the notice that prints it (the ruled line keeps its time)
+PLANT 19 home: the wire prints the checked item's line again (home.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the wire keeps the checked item in its re-count place, and its line points at the top story above instead of printing it a second time
+PLANT 20 home: the week's labels and 24-hour pair at whole dollars again (home.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the home's 24-hour high and low and 7-day closes print at Bitcoin's price precision (cents, as the tape)
+PLANT 21 coin: the 24-hour tile is back (coinpage.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL /coins/btc prints no figure twice (24 hours, 7 days, volume, 200-day, RSI) on the real records
+      FAIL the 24-hour change prints once, on the Price tile's since line (no separate 24-hour tile)
+      FAIL /coins/doge prints no figure twice
+PLANT 22 coin: the chart header prints the 7-day figure again (site_build.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL /coins/btc prints no figure twice (24 hours, 7 days, volume, 200-day, RSI) on the real records
+      FAIL the chart's header names its 7-day window without printing the Readings tile's figure a second time
+      FAIL /coins/doge prints no figure twice
+PLANT 23 coin: the volume row is back under Supply and trade (site_build.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL /coins/btc prints no figure twice (24 hours, 7 days, volume, 200-day, RSI) on the real records
+      FAIL the volume prints once (the tile), not again under Supply and trade
+      FAIL /coins/doge prints no figure twice
+PLANT 24 coin: the levels card prints every level again (coinpage.py): exit 1, 4 red; restored: exit 0, 0 red
+      FAIL /coins/btc prints no figure twice (24 hours, 7 days, volume, 200-day, RSI) on the real records
+      FAIL ...and prints only the level the page does not already print: the 50-day average, no second price, 200-day value or RSI
+      FAIL one 200-day value on /coins/btc: the Readings tile's
+      FAIL ...the stored October 26 card's 50-day average, kept only to the cent, is left out and the card says so
+PLANT 25 coin: the levels card's age is not said (coinpage.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL ...and its age against the readings above it ('This is 13 hours old; the readings above are newer.')
+      FAIL the Chart Master's dated card says its read's time and its age (the data card too)
+PLANT 26 coin: 'from the last build' is back (site_build.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL 'from the last build' is retired from the chart's caption
+      FAIL ...the caption carries its own read's date in the house wording
+PLANT 27 precision: a stored rounding is taken as the figure (padded) (snapshot.py): exit 1, 8 red; restored: exit 0, 0 red
+      FAIL the stored 0.09 (October 27) is read at its full value from the same record's averaged series: 0.086658
+      FAIL ...a stored average with no series to prove it is left out, never padded
+      FAIL /coins/doge prints its 200-day line at the price's precision ($0.08666 beside $0.07711), not $0.09000
+      FAIL ...and the distance from it is measured from that value (-11.0%), not from the rounding (-14.3%)
+      FAIL ...the stored October 26 card's 50-day average, kept only to the cent, is left out and the card says so
+      ... and 3 more
+PLANT 28 precision: market_pulse rounds the averages to the cent again (market_pulse.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL market_pulse stores a sub-dollar coin's 50-day and 200-day averages past the cent (SYNTHETIC closes)
+PLANT 29 precision: the Chart Master's table prints the stored rounding (site_build.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL the Chart Master's table prints no DOGE or ADA average as a padded rounding ($0.0900, $0.2300, $0.2100)
+      FAIL ...says why those cells are empty
+PLANT 30 today: the lists never yield to the answer (today.py): exit 1, 7 red; restored: exit 0, 0 red
+      FAIL real-2026-10-15-evening: no figure printed twice
+      FAIL real-2026-10-16-evening: no figure printed twice
+      FAIL real-2026-10-25-evening: no figure printed twice
+      FAIL real-2026-10-26-morning: no figure printed twice
+      FAIL real-2026-10-27-morning: no figure printed twice
+      ... and 2 more
+PLANT 31 today: the answer withholds nothing the evidence prints (today.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL October 20 (the Edition lifted as the answer names France's 31% tax, which the evidence lists): no twin
+      FAIL ...the answer's sentence carrying it is withheld whole, every other sentence printed exactly as stored
+      FAIL ...and with no evidence record (the canary's build), the list of what was reported carries the item and the answer still prints it once
+PLANT 32 today: the footer's next update never yields to the notice (today.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL real-2026-10-26-morning: no figure printed twice
+      FAIL the living page with no read yet today prints the next slot's time once (the notice's)
+PLANT 33 today: a correction is not marked as a quotation (today.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL real-2026-10-15-evening: no figure printed twice
+      FAIL real-2026-10-16-evening: no figure printed twice
+PLANT 34 today: the answer withholds nothing the reported list prints (today.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL ...and with no evidence record (the canary's build), the list of what was reported carries the item and the answer still prints it once
+PLANT 35 charts: the data card's age line is not drawn (site_build.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL the Chart Master's dated card says its read's time and its age (the data card too)
+PLANT 36 flows: the 13-week list's newest week prints the 7-day net again (site_build.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL /flows prints the 7-day net once (the sentence's), not again as the 13-week list's newest week
+PLANT 37 tree: 9.9.1's browser half writes through to the real dated writers (scripts/sprint991_test.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL ...so a snapshot written while it draws lands in scratch, not in site/data/snapshots
+PLANT 38 tree: btc_hilo_test's build leaves what it added (scripts/btc_hilo_test.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL btc_hilo_test's build takes out the dated snapshot it added to site/data (SYNTHETIC build: writes one file)
+PLANT 39 tree: K-1 reads the working copy's site/publish again (verify_pipeline.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL a stale site/publish (a news front from an older build) does not fail the canary's K-1 check
+PLANT 40 words: 'not read for this hour' again (why_evidence.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL a venue read whose records do not reach the hour says 'not compared for this hour', never 'not read' (the real October 27 record: OKX keeps its latest 100 orders)
+PLANT 41 words: a not-read source listed as often as it was refused (why_evidence.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL a not-read source is listed once: The Block refused twice (HTTP 403) is named once (the real October 25 record)
+      FAIL ...and a new record's reason is written once too
+PLANT 42 words: every link is cited, whatever its address (wire.py): exit 1, 5 red; restored: exit 0, 0 red
+      FAIL the Daily Hodl link to a UK story is not cited on the OCC item: its address carries no word of the event
+      FAIL ...and it does not count as a source (6 counted before, 5 now)
+      FAIL the home's wire list prints 'source link not matched' on that item, beside its count of 5
+      FAIL a new evidence record keeps only the matched link and counts 5, so the unmatched source never counts toward the grade (verdict.stated reads that count)
+      FAIL ...verdict.stated counts the 5
+PLANT 43 words: the verdict page does not name which window is which (verdict.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL ...and says which window is which: the card's direction since midnight ET, the list's 24 hours, the window the grade was made on
+PLANTS: 43, red when broken and green when restored: 43

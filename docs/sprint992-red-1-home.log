@@ -1,0 +1,11 @@
+2. the home (the real October 26 morning records, scripts/sprint991_test.py's fixture): every figure once
+  FAIL Ether's price prints once at each width (the list's Ether item is the narrow one, the tape's line the wide one)
+  FAIL ...the list's Ether item says it is the narrow one (data-narrow), the line that the stylesheet hides from 1280
+  FAIL the morning card prints no figure the home prints elsewhere (no twin on the fixture home)
+  FAIL the next slot's time prints once on the home when the verdict notice names it (no read yet today)
+  FAIL ...and it is the notice that prints it (the ruled line keeps its time)
+  ok   ...a home with no notice keeps the Brief card's next line
+  FAIL group home could not run [AttributeError: module 'home' has no attribute 'morning_sentences']
+
+SPRINT 9.9.2: FAIL (6 failure(s))
+exit 1

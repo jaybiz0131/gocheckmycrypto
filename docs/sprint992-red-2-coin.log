@@ -1,0 +1,19 @@
+3. the coin pages (the real October 27 Board, the October 26 card): every reading once, the Chart Master's levels dated with their age
+     finding: 2.06% printed 3 times: -2.06% over the last 7 days || 7 days: ▼ Down 2.06% || -2.06%
+     finding: 0.52% printed 2 times: 24 hours: ▼ Down 0.52% || -0.52%
+     finding: $26.58B printed 2 times: $26.58B || 24-hour volume $26.58B
+     finding: 200-day average (one value per page) printed 2 times: 200-day line $73,024.55 || 200-day average $72,988.58
+     finding: RSI (one value per page) printed 2 times: 41 || RSI (14) 41
+  FAIL /coins/btc prints no figure twice (24 hours, 7 days, volume, 200-day, RSI) on the real records
+  FAIL the 24-hour change prints once, on the Price tile's since line (no separate 24-hour tile)
+  FAIL the chart's header names its 7-day window without printing the Readings tile's figure a second time
+  FAIL the volume prints once (the tile), not again under Supply and trade
+  FAIL 'from the last build' is retired from the chart's caption
+  FAIL ...the caption carries its own read's date in the house wording
+  FAIL the Chart Master's levels block carries its read's date and time in the house wording
+  FAIL ...and its age against the readings above it ('This is 13 hours old; the readings above are newer.')
+  FAIL ...and prints only the level the page does not already print: the 50-day average, no second price, 200-day value or RSI
+  FAIL one 200-day value on /coins/btc: the Readings tile's
+
+SPRINT 9.9.2: FAIL (10 failure(s))
+exit 1

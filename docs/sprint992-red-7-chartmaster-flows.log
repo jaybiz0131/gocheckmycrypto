@@ -1,0 +1,39 @@
+4. precision: the averages stored at the price's precision, printed at it, and a rounding never padded
+  ok   market_pulse stores a sub-dollar coin's 50-day and 200-day averages past the cent (SYNTHETIC closes)
+  ok   ...and its 90-day high and low past the cent
+  ok   ...a coin over $100 keeps cents
+  ok   the stored 0.09 (October 27) is read at its full value from the same record's averaged series: 0.086658
+  ok   ...a stored average with no series to prove it is left out, never padded
+  ok   ...an average over a dollar is taken as stored
+  ok   /coins/doge prints its 200-day line at the price's precision ($0.08666 beside $0.07711), not $0.09000
+  ok   ...and the distance from it is measured from that value (-11.0%), not from the rounding (-14.3%)
+  ok   ...the stored October 26 card's 50-day average, kept only to the cent, is left out and the card says so
+  ok   ...the stored-precision rule finds no rounding printed as a figure on /coins/doge
+  ok   /coins/doge prints no figure twice
+  ok   the Chart Master's table prints no DOGE or ADA average as a padded rounding ($0.0900, $0.2300, $0.2100)
+  ok   ...says why those cells are empty
+  ok   ...and every row prints its figures at one precision (no precision finding on the page)
+  FAIL the Chart Master's dated card says its read's time and its age (the data card too)
+  ok   ...a card stored in full prints DOGE's averages at four decimals like its price ($0.0867 beside $0.0770)
+  ok   the home's 24-hour high and low and 7-day closes print at Bitcoin's price precision (cents, as the tape)
+5. /today/ (every stored record the fixtures hold): the answer prints as published, the lists yield its figures
+  ok   the fixtures hold the five stored records (5)
+  ok   real-2026-10-15-evening: no figure printed twice
+  ok   real-2026-10-16-evening: no figure printed twice
+  ok   real-2026-10-25-evening: no figure printed twice
+  ok   real-2026-10-26-morning: no figure printed twice
+  ok   real-2026-10-27-morning: no figure printed twice
+  ok   October 20 (the Edition lifted as the answer names France's 31% tax, which the evidence lists): no twin
+  ok   ...the answer's sentence carrying it is withheld whole, every other sentence printed exactly as stored
+  ok   ...and the evidence list prints the item whole
+  FAIL /flows prints the 7-day net once (the sentence's), not again as the 13-week list's newest week
+  ok   ...and prints the count and the floor once, in the sentence
+  ok   ...and the biggest single move once, as the first row of its table
+  ok   ...and with no evidence record (the canary's build), the list of what was reported carries the item and the answer still prints it once
+  ok   the stored answer prints exactly as stored (J-10)
+  ok   What moved keeps what the answer does not print: Ether's price, the next gainers and losers
+  ok   ...and says so in its headings when the answer named the biggest move
+  ok   the living page with no read yet today prints the next slot's time once (the notice's)
+
+SPRINT 9.9.2: FAIL (2 failure(s))
+exit 1

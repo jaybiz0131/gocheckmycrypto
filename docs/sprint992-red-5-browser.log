@@ -1,0 +1,22 @@
+Sprint 9.9.2: scripts/sprint992_browser.mjs on main's tree (82e8c43, today's data), red first. Logged October 27, 2026 9:36 AM EDT.
+exit status: 1
+INFO the Chart Master's table at 375, as it opens: [{"text":"Asset","shown":true,"lines":1,"width":70},{"text":"Price","shown":true,"lines":1,"width":111},{"text":"50-day","shown":false,"lines":0,"width":0},{"text":"200-day","shown":true,"lines":1,"width":111},{"text":"RSI-14","shown":false,"lines":0,"width":0}]
+PASS every column header fits on one line at 375, as it opens
+INFO the Chart Master's table at 375, with every column shown: [{"text":"Asset","shown":true,"lines":1,"width":53},{"text":"Price","shown":true,"lines":1,"width":84},{"text":"50-day","shown":true,"lines":1,"width":84},{"text":"200-day","shown":true,"lines":1,"width":84},{"text":"RSI-14","shown":true,"lines":2,"width":45}]
+FAIL the RSI-14 header at 375, with every column shown: wraps onto 2 lines at 45px
+FAIL every column header at 375, with every column shown: wraps: RSI-14
+PASS / at 375: no sideways scroll
+PASS the home's week labels at 375 sit inside the chart (7D HIGH CLOSE $84,778; 7D LOW CLOSE $79,987)
+PASS /coins/btc at 375: no sideways scroll
+PASS /coins/doge at 375: no sideways scroll
+PASS /pulse/etf.html at 375: no sideways scroll
+PASS /flows.html at 375: no sideways scroll
+PASS /chartmaster.html at 375: no sideways scroll
+PASS / at 1440: no sideways scroll
+PASS the home's week labels at 1440 sit inside the chart (7D HIGH CLOSE $84,778; 7D LOW CLOSE $79,987)
+PASS /coins/btc at 1440: no sideways scroll
+PASS /coins/doge at 1440: no sideways scroll
+PASS /pulse/etf.html at 1440: no sideways scroll
+PASS /flows.html at 1440: no sideways scroll
+PASS /chartmaster.html at 1440: no sideways scroll
+FAIL 2 check(s)

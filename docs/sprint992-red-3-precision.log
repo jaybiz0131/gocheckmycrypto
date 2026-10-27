@@ -1,0 +1,19 @@
+4. precision: the averages stored at the price's precision, printed at it, and a rounding never padded
+  FAIL market_pulse stores a sub-dollar coin's 50-day and 200-day averages past the cent (SYNTHETIC closes)
+  FAIL ...and its 90-day high and low past the cent
+  ok   ...a coin over $100 keeps cents
+  ok   the stored 0.09 (October 27) is read at its full value from the same record's averaged series: 0.086658
+  ok   ...a stored average with no series to prove it is left out, never padded
+  ok   ...an average over a dollar is taken as stored
+  ok   /coins/doge prints its 200-day line at the price's precision ($0.08666 beside $0.07711), not $0.09000
+  ok   ...and the distance from it is measured from that value (-11.0%), not from the rounding (-14.3%)
+  ok   ...the stored October 26 card's 50-day average, kept only to the cent, is left out and the card says so
+  ok   ...the stored-precision rule finds no rounding printed as a figure on /coins/doge
+  ok   /coins/doge prints no figure twice
+  FAIL the Chart Master's table prints no DOGE or ADA average as a padded rounding ($0.0900, $0.2300, $0.2100)
+  FAIL ...says why those cells are empty
+  ok   ...and every row prints its figures at one precision (no precision finding on the page)
+  FAIL group precision could not run [AttributeError: module 'site_build' has no attribute '_cm_n']
+
+SPRINT 9.9.2: FAIL (5 failure(s))
+exit 1
