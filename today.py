@@ -482,13 +482,14 @@ def schema(rec, url):
                                "width": 512, "height": 512}}}]}, ensure_ascii=False)
 
 
-def window_line(rec, res=None, evidence=None):
-    """ONE WINDOW PER PAGE, NAMED (the strategist's ruling of October 19; Sprint 9.9.1, Review 1). The headline's direction is the ET
-    day's (since midnight ET) with the rolling 24 hours only as the named fallback, and the evidence list and chart below read the
-    same window; the line says which. It prints only what the record states: a record that predates `direction_basis` says it does
-    not state its window, and a record that states the rolling 24 hours is not given a reason it does not carry. When the stored
-    prices cannot be cut to the ET day (`res` carries the reason), the list and chart read the 24 hours and the line says so and
-    why. No figure is printed here: every figure of the page keeps its own window beside it in its own row."""
+def window_line(rec, evidence=None):
+    """THE WINDOWS OF THE PAGE, EACH NAMED (the strategist's ruling of October 19; Sprint 9.9.1, round 4 under the ruling of October 26,
+    entry 2026-10-26-C6). The headline's direction is the ET day's (since midnight ET), with the rolling 24 hours only as the named
+    fallback, as the record states it. The chart and the evidence list read the window the grade was made on, the evidence record's
+    24 hours, until sprint 9.9.3 moves the timing test, the grade and the list to the ET day together; when the page draws that
+    list (`evidence` is its record) the line says so, beside the direction's window. It prints only what the record states: a record
+    that predates `direction_basis` says it does not state its window, and a record that states the rolling 24 hours is not given a
+    reason it does not carry. No figure is printed here: every figure of the page keeps its own window beside it in its own row."""
     stated = rec.get("direction_basis")
     basis = stated if stated in ("et_day", "rolling_24h") else "unstated"
     if basis == "et_day":
@@ -497,18 +498,12 @@ def window_line(rec, res=None, evidence=None):
         text = "The direction above is read over the last 24 hours, the named fallback."
     else:
         text = "This record does not state which window its direction was read over."
-    if res and evidence:
+    if evidence:
         import why_evidence as _we
         wend = _we._parse_utc((evidence.get("window") or {}).get("end_utc"))
         to = _we.clock(int(wend.timestamp())) if wend else ""
-        if res.get("basis") == "et_day":
-            text += f" The chart and the list below read the same window, from midnight ET to {to}."
-        elif res.get("why"):
-            text += f" The chart and the list below read the 24 hours to {to}, the named fallback: {res['why']}."
-        elif basis == "rolling_24h":
-            text += f" The chart and the list below read the same window, the 24 hours to {to}."
-        else:
-            text += f" The chart and the list below read the 24 hours to {to}."
+        text += (f" The chart and the list below read the 24 hours to {to}, the window the grade was made on"
+                 + (", the same window." if basis == "rolling_24h" else "."))
     # the stamp's own style (mono, muted), drawn close under it; no stylesheet rule of its own
     return (f'<p class="td-stamp td-win" style="margin-top:-8px" data-td-basis="{_e(basis)}" '
             f'data-td-dir="{_e(rec.get("direction"))}">{_e(text)}</p>')
@@ -543,18 +538,21 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     moved = (f'<ul class="td-list">{"".join(core)}</ul>'
              + (f'<h3 class="td-h3">Biggest gains in the Top 100</h3><ul class="td-list">{lst(gain)}</ul>' if gain else "")
              + (f'<h3 class="td-h3">Biggest losses in the Top 100</h3><ul class="td-list">{lst(lose)}</ul>' if lose else ""))
-    # SPRINT 9.9.1 (Review 1): the chart and the list read the window the headline reads (the ET day, the 24 hours only as the named
-    # fallback), cut from the stored prices; a record that states no window reads the 24 hours, named. (Review 2) The card is the
-    # stored verdict as that window may show it: a graded card stands only over a cut that reproduces its run and its timing
-    # results, and otherwise the ruled "Verdict at the next read" stands in its place (verdict.page_view).
-    _win = rec.get("direction_basis") if rec.get("direction_basis") in ("et_day", "rolling_24h") else "rolling_24h"
-    _dir = rec.get("direction") if rec.get("direction") in ("up", "down") else None
-    if verdict and evidence:
-        import verdict as _vview
-        verdict = _vview.page_view(verdict, evidence, "BTC", _win, _dir)
+    vd_html = ""
+    living = here != "dated" and clock is not None
+    try:
+        import verdict as _vnr
+        # SPRINT 9.9.1 (round 4, change 5): the living page, like the home and the coin pages, prints "no read yet today" in the card's
+        # place when no read has run on the ET day of the build's clock: no verdict record, or one dated another day (the record's own
+        # date is the page's, not the read's: a record composed for today before any read has run still has no read). A dated page never
+        # does: it shows its own day as published.
+        if living and not _vnr.is_today(verdict, clock):
+            vd_html, verdict = _vnr.no_read_html(clock), None
+    except Exception as e:                          # fail open: the page as it was
+        print(f"::warning::today: the no-read notice was not drawn ({type(e).__name__}: {e})")
     # a graded verdict on this page: the evidence and the reported note say so, never deny a cause
     graded = (((verdict or {}).get("coins") or {}).get("BTC") or {}).get("grade")
-    ev_html, shown, res = "", set(), None
+    ev_html, shown = "", set()
     if evidence:
         try:
             import why_evidence
@@ -562,14 +560,14 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
             if verdict:
                 import verdict as _vmod
                 _marks = _vmod.marks(verdict, "BTC")
-            res = why_evidence.resolve_window(evidence, "BTC", _win, _dir)
+            # SPRINT 9.9.1 (round 4): the list reads the window the grade was made on, the record's 24 hours as stored, named beside
+            # every figure; the page's other window (the headline's, a graded card's) is named in the window line
             ev_html = why_evidence.section_html(evidence, "BTC", live=(here != "dated"), corrections=rec.get("corrections"),
-                                                graded=graded, marks=_marks, window=_win, want_dir=_dir)
-            shown = why_evidence.wire_urls_shown(evidence, "BTC", _win, _dir, graded) if ev_html else set()
+                                                graded=graded, marks=_marks, window="rolling_24h")
+            shown = why_evidence.wire_urls_shown(evidence) if ev_html else set()
         except Exception as e:                      # fail open: the page as it was
             print(f"::warning::today: the evidence was not drawn ({type(e).__name__}: {e})")
             ev_html, shown = "", set()
-    vd_html = ""
     if verdict:
         try:
             import verdict as _verdict
@@ -614,7 +612,7 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
   <span class="kicker">Why it moved</span>
   <h1>{_e(rec['h1'])}</h1>
   <p class="td-stamp">{_e(reader(rec['stamp_label']))}</p>
-  {window_line(rec, res if ev_html else None, evidence if ev_html else None)}
+  {window_line(rec, evidence if ev_html else None)}
   <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
   {corr}
 {vd_slot}  <section class="td-sec"><h2>What moved</h2>{moved}</section>

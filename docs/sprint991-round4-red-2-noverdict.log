@@ -1,0 +1,52 @@
+13. Round 4, change 1: the evidence list reads the window the grade was made on (the cut is gone)
+  ok   /today/: the section is the stored record's 24 hours, named, and never cut at midnight ET
+  ok   /today/: the section's head names the 24 hours to the reading, with its second sources as the record states them
+  ok   /today/: no figure of the section is cut to midnight ET (no 'since midnight ET' inside the list's figures)
+  ok   /coins/btc: the section is the stored record's 24 hours, named, and never cut at midnight ET
+  ok   /coins/btc: the section's head names the 24 hours to the reading, with its second sources as the record states them
+  ok   /coins/btc: no figure of the section is cut to midnight ET (no 'since midnight ET' inside the list's figures)
+  ok   /coins/eth: the section is the stored record's 24 hours, named, and never cut at midnight ET
+  ok   /coins/eth: the section's head names the 24 hours to the reading, with its second sources as the record states them
+  ok   /coins/eth: no figure of the section is cut to midnight ET (no 'since midnight ET' inside the list's figures)
+  ok   /today/: the run is the stored run of the 24 hours, down 1.70%, with its window named beside it
+  ok   /today/: the chart is labeled with the 24 hours it draws
+  ok   the stored evidence is read, never written
+  ok   every timing figure of the list names its window (in the 24 hours), none says 'the window'
+   change 2: the dated page shows a graded verdict as published, with its own window and its /why/ link (J-10)
+  ok   premise, from the stored record: graded Unclear, basis et_day, down, with its /why/ address
+  ok   /today/2026-10-25 shows the stored graded Unclear verdict, in its own words
+  ok   it names the verdict's own window (since midnight ET) and links its /why/ page
+  ok   it prints no 'did not grade' notice and no 'Verdict at the next read' anywhere
+  ok   its evidence list reads the window the grade was made on: the 24 hours, named, not cut to the ET day
+  ok   the page names both windows once, each beside what it measures (the direction since midnight ET, the list the 24 hours)
+  ok   no em dash or en dash
+  ok   drawing the page leaves the stored verdict untouched, word for word (J-10)
+  ok   the living page, on the day of the read: the graded card stands, and no notice
+   changes 3 and 6: the notice prints only for a flip or for no read yet today, and its words are true on that page
+  ok   home: the flip notice says the measured run's direction and the direction since midnight ET, then the next read
+  ok   /today/: the flip notice says the measured run's direction and the direction since midnight ET, then the next read
+  ok   /today/2026-10-26: the flip notice says the measured run's direction and the direction since midnight ET, then the next read
+  ok   /coins/btc: the flip notice says the measured run's direction and the direction since midnight ET, then the next read
+  ok   the flip's two directions are the record's fields: the run went down, the move since midnight ET is up
+  ok   a stored flip without the fields (its reasons state both) draws the same line
+  ok   a flip stored on the rolling 24 hours names that window, not midnight ET
+  ok   a graded card on its own day draws no notice (the home)
+   change 5: the living /today/ prints the no-read notice when no read has run today, as the home and the coin pages do
+  ok   the living /today/ at 6:00 AM ET the next day: one notice, 'no read yet today', with the time of the next read
+  ok   it agrees word for word with the home and both coin pages
+  ok   the notice stands in the card's place: after the answer, before 'What moved'
+  ok   no stored card of yesterday stands beside it
+  ok   the dated page of that record is unchanged by the clock (it keeps its own record's words)
+  ok   the living /today/ with no verdict record, no read yet today: the same notice
+  FAIL the living /today/ composed for today with no verdict record for today (the reviewer's build): 'no read yet today', as the home and the coin pages print
+  ok   the living /today/ on the day of the read prints the flip notice, not 'no read yet today'
+  ok   a flat day's record, dated today: the living /today/ draws no card and no notice (nothing was missed)
+   change 4: the coin pages and the living /today/ name every window; the card and the list do not claim one they do not share
+  ok   /coins/eth: the card's line and the list's window never sit in two windows without the page saying so: the Ether line reads the window of the list (the 24 hours), computed from the same stored prices
+  ok   /coins/eth: the 24-hour list is named the 24 hours and the cut's fallback note is gone
+  ok   /coins/btc: the section names its window in its head and in the chart; the notice names the other window plainly
+  ok   /today/: the window line names the direction's window and the list's window, once each
+  ok   SYNTHETIC graded card beside its list: the card stands as stored, and the page says which window each reads
+  ok   SYNTHETIC: /today/ draws the same card beside the same list, no notice
+
+SPRINT 9.9.1: FAIL (1 failure(s))

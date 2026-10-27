@@ -50,8 +50,10 @@ and the verdict is withheld: the card says the desk's check did not run today, n
 
     python3 verdict.py --write        # the run's step, after why_evidence.py; exits 0 whatever happens
 """
+import contextlib
 import datetime as _dt
 import html as _html
+import io
 import json
 import os
 import re
@@ -89,11 +91,10 @@ READINGS_MISMATCH = "A reported event lines up in time, but the market readings 
 OTHER_WAY = "A reported event lines up in time, but the move ran the other way."
 NEXT_READ = "Verdict at the next read"
 # SPRINT 9.9.1 (the strategist's ruling on J-8 of October 20, Review 1 and Review 2): the notice always prints why and the time of the
-# next read, in one line. The two reasons: the last read did not grade the move in the window the page shows, or no read yet today.
-# Review 2 (failure 2): the first reason used to read "the window flipped since the run", which names a run no page draws any more;
-# it now names only the window the page shows and the way the move ran in it. The words are drawn, never stored: a stored record
-# keeps its ruled line (J-10).
-WHY_NOT_GRADED = "the last read did not grade the move"
+# next read, in one line. The notice prints for two reasons only: the window flipped since the run (the measured run's direction against
+# the direction in the page's window; round 4 words it as the ruling of October 26, entry C6, does: "the run the last read measured went
+# down; the move since midnight ET is up"), or no read yet today. The words are drawn, never stored: a stored record keeps its ruled
+# line (J-10).
 WHY_NO_READ = "no read yet today"
 CAP_LINE = "The desk's check of this move did not run today."
 WINDOW_WORDS = {"et_day": "since midnight ET", "rolling_24h": "over the last 24 hours"}
@@ -1139,73 +1140,46 @@ def is_today(vrec, now):
     return str(vrec.get("date_et") or "") == now.astimezone(_we().ET).date().isoformat()
 
 
-# ---- the verdict as one page may show it: the card and the list never grade apart (Sprint 9.9.1, Review 2) ----------------------
+# ---- the verdict beside its evidence list (Sprint 9.9.1, round 4) -------------------------------------------------------------
 
-def _sig(r):
-    """What a timing result decides, for the grade: whether it passes, and whether it was measured at all."""
-    return (timing_pass(r), bool(r and r.get("in_window") and r.get("share_pct") is not None))
-
-
-def _reproduces(ev, res, sym):
-    """True when the page's cut of the evidence reproduces what the stored grade rests on: the cut finds the stored run, and each
-    candidate the grade weighed passes or fails the timing test in the cut as it did in the stored 24-hour run. Then a card
-    drawn from the stored grade and a list drawn from the cut cannot grade apart."""
-    if not res.get("run_same"):
-        return False
-    cands = {c["id"]: c for c in (ev or {}).get("candidates") or []}
-    stored = {t["id"]: t for t in ((ev.get("coins") or {}).get(sym) or {}).get("tests") or []}
-    for t in (((res["rec"].get("coins") or {}).get(sym)) or {}).get("tests") or []:
-        if (cands.get(t["id"]) or {}).get("secondary"):
-            continue                                    # a secondary item is not weighed by the grade
-        if _sig((stored.get(t["id"]) or {}).get("result")) != _sig(t.get("result")):
-            return False
-    return True
-
-
-def _shown_dir(res, sym):
-    pts = ((((res["rec"].get("coins") or {}).get(sym)) or {}).get("series") or {}).get("points") or []
-    if len(pts) < 2 or not pts[0][1]:
-        return None
-    mv = pts[-1][1] - pts[0][1]
-    return "up" if mv > 0 else "down" if mv < 0 else None
-
-
-def page_view(vrec, ev, sym, window=None, want_dir=None):
-    """The verdict record as a page that draws `window` ("et_day" or "rolling_24h") may show it. A graded verdict is made on the
-    stored 24-hour run; a page that draws the ET day cuts the evidence at midnight ET, and a card must not say a thing the list
-    beside it does not: the card stands only when the window it was graded in is the window the page's evidence reads and, on the
-    ET day, the cut reproduces the stored run and each candidate's pass or fail (`_reproduces`). Otherwise the page gets the
-    ruled "Verdict at the next read" (October 20, J-8 b) in its place, its reason naming only the window the page shows and the way
-    the move ran in it. Nothing stored is changed: this is a copy. `window` None reads the record's own day; a record that states
-    none, or evidence that is not this record's, is returned as it is."""
+def list_view(vrec, ev, sym):
+    """The record as a coin page may show it beside its evidence list. The list reads the window the grade was made on (the stored
+    record's 24 hours); nothing graded is reworded or re-graded here. The one line that is a plain fact about two moves, Ether
+    moving with Bitcoin, is read in the list's own window when the same stored prices say so (`grade` on the record's own series, the
+    rolling 24 hours), so the Ether page's line and its list never name two windows; when the stored prices do not say it, the line
+    stays as stored. A copy: the stored record is never changed. Never raises."""
     try:
         v = ((vrec or {}).get("coins") or {}).get(sym)
-        if not v or v.get("kind") not in ("graded", "next_read") or not ev:
+        if not v or v.get("kind") != "with_btc" or not ev:
             return vrec
         if (ev.get("window") or {}).get("end_utc") != ((vrec.get("window") or {}).get("end_utc")):
             return vrec
-        if window is None:
-            day = vrec.get("day") or {}
-            mv = day.get(sym)
-            if day.get("basis") not in WINDOW_WORDS or not isinstance(mv, (int, float)):
-                return vrec
-            window, want_dir = day["basis"], ("up" if mv > 0 else "down" if mv < 0 else None)
-        if window not in WINDOW_WORDS:
+        if v.get("basis") == "rolling_24h":
             return vrec
-        res = _we().resolve_window(ev, sym, window, want_dir)
-        shown = res["basis"] or "rolling_24h"
-        stored = v.get("basis") if v.get("basis") in WINDOW_WORDS else "rolling_24h"
-        if shown == stored and (v["kind"] == "next_read" or shown != "et_day" or _reproduces(ev, res, sym)):
+        with contextlib.redirect_stdout(io.StringIO()):
+            g = grade(ev, sym)
+        if g.get("kind") != "with_btc":
             return vrec
-        wd = _shown_dir(res, sym)
-        stub = {"sym": sym, "name": v.get("name") or NAMES.get(sym, (sym, ""))[0], "kind": "next_read", "grade": None,
-                "line": [NEXT_READ], "text": [NEXT_READ], "basis": shown, "window_words": WINDOW_WORDS[shown], "window_dir": wd,
-                "reasons": [f"the stored grade rests on the {WINDOW_WORDS[stored]} reading of the stored run; this page reads the move "
-                            f"{WINDOW_WORDS[shown]}, and the card and the list must not grade apart"]}
-        return dict(vrec, coins=dict(vrec["coins"], **{sym: stub}))
+        return dict(vrec, coins=dict(vrec["coins"], **{sym: dict(v, basis="rolling_24h", window_words=WINDOW_WORDS["rolling_24h"])}))
     except Exception as e:                                       # noqa: BLE001
-        print(f"::warning::verdict: the page's view of {sym} was not made ({type(e).__name__}: {e})")
+        print(f"::warning::verdict: the list view of {sym} was not made ({type(e).__name__}: {e})")
         return vrec
+
+
+def list_note(vrec, ev, sym):
+    """One plain sentence for the page that prints a graded card beside the evidence list: the card keeps the window it was published
+    in, the list reads the window the grade was made on, and the page says which is which. '' when the two are one window, or
+    the card is not a graded one (the notice names its own windows)."""
+    try:
+        v = ((vrec or {}).get("coins") or {}).get(sym) or {}
+        if v.get("kind") not in ("graded", "withheld") or v.get("basis") not in WINDOW_WORDS or v.get("basis") == "rolling_24h":
+            return ""
+        wend = _we()._parse_utc(((ev or {}).get("window") or {}).get("end_utc"))
+        to = _we().clock(int(wend.timestamp())) if wend else ""
+        return (f"The card above reads its direction {WINDOW_WORDS[v['basis']]}; this chart and list read the 24 hours to {to}, "
+                f"the window the grade was made on.")
+    except Exception:                                            # noqa: BLE001
+        return ""
 
 
 # ---- the card: one shape on the home, /today/, the Bitcoin page and the verdict page ------------------------------
@@ -1238,9 +1212,12 @@ def _card(vrec, sym, where, live, corrections, link, with_section=False, now=Non
         # and no figure (Review 1: one window per page).
         wd, rd = _flip_dirs(v, vrec, sym)
         ww = v.get("window_words") or WINDOW_WORDS["rolling_24h"]
-        detail = f"it is {wd}" if wd else ""
+        if wd and rd:
+            why, detail = f"the run the last read measured went {rd}; the move {ww} is {wd}", ""
+        else:                                                   # a record that states only one direction says only that
+            why, detail = f"the last read did not grade the move {ww}", (f"it is {wd}" if wd else "")
         return _notice_card(sym, v.get("name") or sym, "next_read",
-                            notice_line(f"{WHY_NOT_GRADED} {ww}", _next_read_when(now, vrec), detail), v.get("basis"), wd)
+                            notice_line(why, _next_read_when(now, vrec), detail), v.get("basis"), wd)
     if v.get("kind") not in ("graded", "withheld"):
         return ""
     name = v.get("name") or sym

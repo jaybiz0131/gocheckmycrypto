@@ -614,14 +614,14 @@ def no_card_cases(fails):
     # CHANGED BY Sprint 9.9.1 (the ruling on J-8 of October 20, "always prints why and the time of the next read, in one line"): the
     # notice is no longer the bare words; it is the ruled words, the reason and the next read, inside a card of its own. The time
     # of the next read depends on the clock that drew it, so it is matched as a shape here and exactly in scripts/sprint991_test.py.
-    # CHANGED AGAIN BY Sprint 9.9.1, Review 2 (failure 2): the reason names only the window the page shows and the way the move ran in it.
+    # CHANGED AGAIN BY Sprint 9.9.1, round 4 (entry 2026-10-26-C6): the reason is the ruled wording, the measured run's direction against the page window's.
     nr = verdict.card_html(verdict.record_from(synthetic_no_readings(), "2026-10-14", "evening",
                                                day={"basis": "rolling_24h", "BTC": 1.4, "ETH": 1.0}), "BTC")
     guarded(fails, "an event that passes with silent readings draws the Unclear card (October 20, J-8 a); a window that ran "
                    "the other way draws only 'Verdict at the next read' with its reason and the next read, no URL (J-8 b)",
             lambda: "Unclear" in verdict.card_html(vn, "BTC") and vn["coins"]["BTC"].get("url")
-            and re.search(r'<p class="vd-plain vd-next" data-vd-next="next_read">Verdict at the next read: the last read did not grade '
-                          r'the move [^(<]*\([^)]*\)\. Next read: [^<]*\.</p>', nr) and "vd-badge" not in nr and "href" not in nr)
+            and re.search(r'<p class="vd-plain vd-next" data-vd-next="next_read">Verdict at the next read: the run the last read '
+                          r'measured went (up|down); the move [^<;]* is (up|down)\. Next read: [^<]*\.</p>', nr) and "vd-badge" not in nr and "href" not in nr)
     d19 = today_rec("2026-10-19-morning")
     page = today.body_html(d19, [], "dated", evidence=r19(), verdict=v19)
     guarded(fails, "/today/2026-10-19 with the real records: no card, no grade word, and 9.2's notes",

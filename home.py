@@ -1144,16 +1144,16 @@ def below_fold(snap, pulse, flows, deltas, items, ed, now=None):
 # ---- the page -----------------------------------------------------------------------------
 
 def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, ed=None,
-               morning=None, verdict=None, evidence=None):
+               morning=None, verdict=None):
     """The ten blocks of section 2, in order, as one string. `ed` is the day's edition
     (site_build.current_bottom_line), which the Brief card names. `verdict` (Sprint 9.3) is the
-    current verdict record, and `evidence` (Sprint 9.9.1, Review 2) the evidence record it was graded from.
+    current verdict record.
 
     THE ANSWER FIRST (Sprint 9.5, AUDIT.md 3.4 move 1): when Bitcoin's verdict is graded, its card is the
     home's FIRST object, ahead of the ten blocks, at 375 and at 1440 (the left column's top). Bitcoin
     shrinks to one line (the tape block). SPRINT 9.9.1 (Review 1, area 1): the card is the first object also when it
-    carries "Verdict at the next read", with its reason and the time of the next read in the one line (the last read
-    did not grade the move in the page's window, or no read yet today), and the tape moves under it. When there is no card to draw (a flat
+    carries "Verdict at the next read", with its reason and the time of the next read in the one line (the window flipped since the run, or
+    no read yet today), and the tape moves under it. When there is no card to draw (a flat
     day on the ET day, the cap reached) nothing stands in for it: no empty slot, no invented card. The first
     object is then the tape's one line, and the Brief card, the desk's own read of the day, follows it at once."""
     blocks = {
@@ -1172,10 +1172,8 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
             # ruling of October 20 on J-8, and Review 1); it is never last night's card standing in for today's
             card, kind = _verdict.no_read_html(now), "no_read"
         elif verdict:
-            # SPRINT 9.9.1 (Review 2): the card is the stored verdict as the page's window may show it, the same view /today/ and
-            # the Bitcoin page take (verdict.page_view), so the three cannot grade apart; `evidence` is the record the list reads
-            verdict = _verdict.page_view(verdict, evidence, "BTC")
-            kind = ((verdict.get("coins") or {}).get("BTC") or {}).get("kind")
+            # SPRINT 9.9.1: the stored verdict as published, the same record /today/ and the Bitcoin page draw (round 4: no page
+            # re-grades or withholds a graded verdict to fit a window)
             card = _verdict.card_html(verdict, "BTC", where="home", live=True, now=now)
         # the card or its notice leads the home: a graded card, the notice for a move the last read did not grade in the page's window, the notice for no read
         graded = kind in ("graded", "next_read", "no_read")

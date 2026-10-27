@@ -5802,7 +5802,7 @@ def render_home(items, flows, pulse, cm, dateline):
         _home.load_json(NARRATIVE_JSON),
         _home.load_json(os.path.join(SITE, "data", "calendar.json")), NEWS_CADENCE_LINE,
         now=_build_now(), ed=edition_item,
-        morning=_home.load_json(MORNING_JSON), verdict=_current_verdict(pulse), evidence=_latest_evidence())
+        morning=_home.load_json(MORNING_JSON), verdict=_current_verdict(pulse))
     below = _home.below_fold(snap, pulse, flows, deltas, items, edition_item)
     body = f"""<main class="wrap h-page"><section class="page">
   <h1 class="sr-only">{esc(FAMILY)}: what is going on in crypto, in five minutes</h1>
@@ -8287,34 +8287,6 @@ def render_coin_chart(c, name, cid, spark):
             f'<p class="pc-note cc-cap" data-coin-cap>{note}</p></section>')
 
 
-def _latest_evidence():
-    """The newest stored evidence record, or None (never raises): what the home hands the verdict's page view (Sprint 9.9.1, Review 2)."""
-    try:
-        import why_evidence as _we
-        return _we.latest()
-    except Exception:                            # fail open: the home without the view
-        return None
-
-
-def _coin_window(sym, pulse, vrec, rec):
-    """SPRINT 9.9.1 (Review 1): (window, direction) the Bitcoin or Ether page reads, the one its verdict card reads: the verdict
-    record's own day (basis and moves) when it carries one, else the Board's day for the ET date the evidence window ends on
-    (verdict.day_moves), else the 24 hours, named. The direction is the way the coin moved in that window, for the cut's check."""
-    try:
-        import verdict as _vd
-        import why_evidence as _we
-        day = (vrec or {}).get("day")
-        if not (isinstance(day, dict) and day.get("basis") in ("et_day", "rolling_24h")):
-            wend = _we._parse_utc(((rec or {}).get("window") or {}).get("end_utc"))
-            day = _vd.day_moves(pulse, _we._et(int(wend.timestamp())).date().isoformat()) if wend else None
-        if not day:
-            return "rolling_24h", None
-        mv = day.get(sym)
-        return day["basis"], ("up" if mv > 0 else "down" if mv < 0 else None) if isinstance(mv, (int, float)) else None
-    except Exception:                            # fail open: the 24 hours, named
-        return "rolling_24h", None
-
-
 def _coin_evidence(sym, pulse, evidence=None, graded=None, marks=(), vrec=None, named=False):
     """PROGRAM 9, SPRINT 9.2: (section html, wire source URLs it prints) for Bitcoin and Ether,
     from the newest stored evidence record (why_evidence.py) when its window ends within 3 hours
@@ -8327,9 +8299,12 @@ def _coin_evidence(sym, pulse, evidence=None, graded=None, marks=(), vrec=None, 
         if not _we.from_snapshot_coin(rec, sym, (pulse or {}).get("generated_utc") or ""):
             return "", set()
         if named:
-            win, want = _coin_window(sym, pulse, vrec, rec)
-            html = _we.section_html(rec, sym, live=True, graded=graded, marks=marks, window=win, want_dir=want)
-            return (html, _we.wire_urls_shown(rec, sym, win, want, graded)) if html else ("", set())
+            # SPRINT 9.9.1: the list reads the window the grade was made on (the record's 24 hours), named beside every figure,
+            # and the page says which window a graded card beside it reads
+            import verdict as _vd
+            html = _we.section_html(rec, sym, live=True, graded=graded, marks=marks, window="rolling_24h",
+                                    note=_vd.list_note(vrec, rec, sym) or None)
+            return (html, _we.wire_urls_shown(rec)) if html else ("", set())
         html = _we.section_html(rec, sym, live=True, graded=graded, marks=marks)
         return (html, _we.wire_urls_shown(rec)) if html else ("", set())
     except Exception as e:                       # fail open
@@ -8351,16 +8326,15 @@ def _current_verdict(pulse, verdict=None):
 
 
 def _coin_view(sym, pulse, vrec, evidence=None):
-    """SPRINT 9.9.1 (Review 2): the verdict record as this coin's page may show it beside its evidence section (verdict.page_view), so the
-    card and the list read one window and never grade apart. The record as stored when the page draws no section."""
+    """SPRINT 9.9.1 (round 4): the verdict record as this coin's page may show it beside its evidence section (verdict.list_view): the
+    Ether line in the list's window when the stored prices say so, else the record as stored. Nothing graded is changed."""
     try:
         import verdict as _vd
         import why_evidence as _we
         rec = evidence if evidence is not None else _we.latest()
         if not vrec or not _we.from_snapshot_coin(rec, sym, (pulse or {}).get("generated_utc") or ""):
             return vrec
-        win, want = _coin_window(sym, pulse, vrec, rec)
-        return _vd.page_view(vrec, rec, sym, win, want)
+        return _vd.list_view(vrec, rec, sym)
     except Exception as e:                       # fail open: the record as stored
         print(f"::warning::coin page: the verdict view for {sym} was not made ({type(e).__name__}: {e})")
         return vrec
@@ -8470,7 +8444,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     # grade, the evidence's note says so instead of denying a cause.
     _vrec = _current_verdict(pulse, verdict) if sym in ("BTC", "ETH") else None
     if _vrec:
-        _vrec = _coin_view(sym, pulse, _vrec, evidence)          # Review 2: the card as the section's window may show it
+        _vrec = _coin_view(sym, pulse, _vrec, evidence)          # round 4: the Ether line in the list's window
     _graded = (((_vrec or {}).get("coins") or {}).get(sym) or {}).get("grade")
     try:
         import verdict as _vd
@@ -8502,7 +8476,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
         # and the wire note speak as 9.2 wrote them
         _graded = None
         if ev_html:
-            ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, vrec=_vrec, named=True)
+            ev_html, ev_urls = _coin_evidence(sym, pulse, evidence, vrec=None, named=True)
     if ev_urls and wire:
         wire = dict(wire, items=[w for w in (wire.get("items") or [])
                                  if not ({l.get("url") for l in (w.get("links") or [])} & ev_urls)])
