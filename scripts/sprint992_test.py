@@ -261,6 +261,13 @@ def coin_cases(fails):
     guarded(fails, "_price_fmt_as: an average at its price's decimals (DOGE 5, ADA 4, BTC 2)",
             lambda: sb._price_fmt_as(0.086738, 0.07728) == "$0.08674" and sb._price_fmt_as(0.210666, 0.2039) == "$0.2107"
             and sb._price_fmt_as(72988.58, 79771.0) == "$72,988.58")
+    guarded(fails, "SYNTHETIC: an average just over $0.10 beside a price just under prints at the price's five decimals ($0.10030), "
+                   "not its own four", lambda: sb._price_fmt_as(0.1003, 0.0995) == "$0.10030" and sb._price_fmt(0.1003) == "$0.1003")
+    with quiet():
+        tbl = sb.render_chartmaster({"date": "2026-10-26", "headline": "x", "paragraphs": [], "data_only": True,
+                                     "levels": [{"symbol": "ZZZ", "price": 1.02, "sma50": 0.9871, "sma200": 0.9644, "rsi14": 50}]}, "T", None)
+    guarded(fails, "SYNTHETIC: a table row whose price is over $1 and whose averages are under prints all three at two decimals",
+            lambda: '<td>$1.02</td><td class="xs-x">$0.99</td><td>$0.96</td>' in tbl)
     lv = cp.chartmaster_card({"name": "Zed", "symbol": "ZZZ"}, {"date": "2026-10-26", "data_only": True,
                              "levels": [{"symbol": "ZZZ", "price": 2.0, "sma50": 1.5, "sma200": 1.2, "rsi14": 50}]},
                              None, dt.date(2026, 10, 27), sb.esc, sb.fmt_short_date, price_fmt=sb._price_fmt, stamp="read Oct 26, 7:14 PM ET")
