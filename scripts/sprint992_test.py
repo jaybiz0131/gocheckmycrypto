@@ -905,9 +905,117 @@ def article_cases(fails):
             lambda: "Also reported by crypto.news" in visible(h) and "{&#x27;outlet" not in h and "{'outlet" not in visible(h))
 
 
+# ---- 1e. review 3 under entry 2026-10-27-C9 (J-19 option (1)): reprinted whole units are one printing -----------------------------
+
+def _bl_hist(read, when="August 31, 2026 · 7:59 PM ET", slug="evening-brief-2026-08-31"):
+    return (f'<div class="bl-hist"><div class="bl-head"><span class="bl-label">The Evening Brief</span><span class="dateline">{when}</span>'
+            f'</div><p class="bl-read">{read}</p><p style="margin:6px 0 0"><a href="/articles/{slug}.html">The full Brief &rarr;</a></p>'
+            f'</div>')
+
+
+def _ed_card(slug, head, dek):
+    return f'<article><span class="ed-kicker">The Desk</span><h3><a href="/articles/{slug}.html">{head}</a></h3><p>{dek}</p></article>'
+
+
+def _ar_card(slug, head, summary):
+    return (f'<article class="card reveal"><div class="row"><span class="tag">news</span></div><h3><a href="/articles/{slug}.html">{head}'
+            f'</a></h3><p class="summary">{summary}</p><div class="foot"><span class="dateline">September 9, 2026</span></div></article>')
+
+
+def round4_cases(fails):
+    import fact_sweep as fs
+    print("1e. review 3 under entry 2026-10-27-C9: a page that reprints whole published units is one printing of each figure they carry, "
+          "for three named reasons; every other pair is still a finding")
+    # REASON A: a Brief month archive's dated reads (bottom-line/<yyyy-mm>). SYNTHETIC pages in the archive's own markup.
+    reads = ('<h2 class="bl-mh">August 2026</h2>'
+             + _bl_hist("Spot bitcoin ETFs took in $150 million on Monday, the desk's figures show.")
+             + _bl_hist("On Monday spot bitcoin ETFs drew $150 million as the week opened.", "August 30, 2026 · 1:04 PM ET",
+                        "morning-brief-2026-08-30"))
+    guarded(fails, "reason A: two dated Brief reads on a month archive quoting one figure are one printing under C9: no finding "
+                   "(SYNTHETIC, bottom-line/2026-08)", lambda: sweep(page(reads), "bottom-line/2026-08.html") == [])
+    fg = ('<h2 class="bl-mh">July 2026</h2>'
+          + _bl_hist("Bitcoin held at $64,603.64 with Fear & Greed at 26 as the week closed.")
+          + _bl_hist("The desk's Market Pulse shows Fear & Greed at 26 and bitcoin roughly flat.", "July 30, 2026 · 7:40 PM ET",
+                     "evening-brief-2026-07-30"))
+    guarded(fails, "reason A: one named reading (Fear & Greed) in two dated reads on a month archive is one printing under C9: no finding "
+                   "(SYNTHETIC, bottom-line/2026-07)", lambda: sweep(page(fg), "bottom-line/2026-07.html") == [])
+    guarded(fails, "reason A is named narrowly: the same two reads on the current Brief page (bottom-line.html, not a month archive) are "
+                   "a finding (SYNTHETIC)", lambda: kinds(sweep(page(reads), "bottom-line.html")) == ["twice"])
+    guarded(fails, "reason A is named narrowly: a dated read beside a line the build writes on a month archive is a finding (SYNTHETIC)",
+            lambda: kinds(sweep(page('<p class="pc-note">Spot bitcoin ETFs drew $150 million on Monday.</p>'
+                                     + _bl_hist("Spot bitcoin ETFs took in $150 million on Monday, the desk's figures show.")),
+                                "bottom-line/2026-08.html")) == ["twice"])
+    # REASON B: an Edition page's Brief beside its day's story cards (the rail and the down-page). SYNTHETIC, the Edition's markup.
+    brief = ('<section class="ed-brief" aria-label="The Evening Brief"><div class="ed-brief-head"><span class="ed-kicker">The Evening Brief'
+             '</span></div><div class="ed-brief-cols"><p>Strategy sold 1,690 bitcoin for $108.6 million and raised $653.1 million from '
+             'MSTR shares.</p></div></section>')
+    rail = ('<div class="ed-front"><aside class="ed-rail" aria-label="Top stories">'
+            + _ed_card("strategy-sells", "Strategy Sells 1,690 Bitcoin, Raises $653 Million From MSTR Shares",
+                       "Strategy sold 1,690 bitcoin for $108.6 million and raised $653.1 million through common stock sales.")
+            + '</aside></div>')
+    down = ('<section class="ed-downpage" aria-label="More from the desk">'
+            + _ed_card("strategy-sells", "Strategy Sells 1,690 Bitcoin, Raises $653 Million From MSTR Shares",
+                       "Strategy sold 1,690 bitcoin for $108.6 million and raised $653.1 million through common stock sales.")
+            + '</section>')
+    guarded(fails, "reason B: an Edition page's Brief beside its day's rail card printing one figure is one printing under C9: no finding "
+                   "(SYNTHETIC, edition/2026-08-10)", lambda: sweep(page(rail + brief), "edition/2026-08-10.html") == [])
+    guarded(fails, "reason B: an Edition page's Brief beside its day's down-page card printing one figure is one printing under C9: no "
+                   "finding (SYNTHETIC, edition/2026-08-10)", lambda: sweep(page(brief + down), "edition/2026-08-10.html") == [])
+    guarded(fails, "reason B is named narrowly: the same Brief beside the same card on a page that is not a dated Edition is a finding "
+                   "(SYNTHETIC, index.html)", lambda: "twice" in kinds(sweep(page(rail + brief), "index.html")))
+    guarded(fails, "reason B is named narrowly: two Briefs quoting one figure on an Edition page are a finding (SYNTHETIC)",
+            lambda: kinds(sweep(page(brief + brief.replace("Strategy sold", "Strategy, the treasury company, sold")),
+                                "edition/2026-08-10.html")) == ["twice", "twice"])
+    guarded(fails, "reason B is named narrowly: an Edition page's Brief beside a line the build writes is a finding (SYNTHETIC)",
+            lambda: kinds(sweep(page(brief + '<p class="pc-note">Strategy sold 1,690 bitcoin for $108.6 million.</p>'),
+                                "edition/2026-08-10.html")) == ["twice"])
+    guarded(fails, "reason B is named narrowly: two of the day's cards on one event on an Edition page are a finding (SYNTHETIC)",
+            lambda: kinds(sweep(page('<aside class="ed-rail">'
+                                     + _ed_card("us-seizes-xinbi", "US seizes Xinbi Telegram channels, restrains $52.8M in USDT",
+                                                "Federal prosecutors moved against the Xinbi marketplace.")
+                                     + _ed_card("us-freezes-xinbi", "U.S. Freezes $52.8M in USDT Tied to Xinbi Guarantee Scam Marketplace",
+                                                "The Justice Department filed to forfeit the funds.") + '</aside>'),
+                                "edition/2026-09-10.html")) == ["twice"])
+    # REASON C: a complete index's entries, two stories on one event and an archive summary with facts of its own. SYNTHETIC.
+    xinbi = ('<div class="grid">'
+             + _ar_card("us-seizes-xinbi", "US seizes Xinbi Telegram channels, restrains $52.8M in USDT tied to $24B black market",
+                        "Federal prosecutors moved against the Xinbi marketplace.")
+             + _ar_card("us-freezes-xinbi", "U.S. Freezes $52.8M in USDT Tied to Xinbi Guarantee Scam Marketplace",
+                        "The Justice Department filed to forfeit the funds.") + '</div>')
+    guarded(fails, "reason C: two stories the desk published on one event, both entries of the archive, are one printing under C9: no "
+                   "finding (SYNTHETIC, archive.html)", lambda: sweep(page(xinbi), "archive.html") == [])
+    rows = ('<div class="nh-rows"><div class="nh-row"><a class="nh-t" href="/articles/orionx-halts.html">Chilean exchange Orionx halts '
+            'withdrawals after forensic audit finds $7M in asset transfers</a><span class="nh-m"><span class="bd-stamp">September 8, 2026'
+            '</span></span></div><div class="nh-row"><a class="nh-t" href="/articles/orionx-shuts.html">Tether-Backed Orionx Shuts Down '
+            'After Audit Finds $7M Custody Gap</a><span class="nh-m"><span class="bd-stamp">September 9, 2026</span></span></div></div>')
+    guarded(fails, "reason C: two stories on one event, both rows of a storyline's complete list, are one printing under C9: no finding "
+                   "(SYNTHETIC, news/exchanges-and-security/page/2)",
+            lambda: sweep(page(rows), "news/exchanges-and-security/page/2.html") == [])
+    jgb = ('<div class="grid">'
+           + _ar_card("stablecoin-consortium", "Banks Target 2027 for a Dollar Stablecoin",
+                      "A consortium of 21 global banks is targeting an H1 2027 launch for a dollar stablecoin, while Japan's 10-year "
+                      "government bond yield reached 3% on September 1, a 30-year high.")
+           + _ar_card("japan-yield", "Japan's Bond Yield Reaches a 30-Year High",
+                      "Japan's 10-year government bond yield reached 3% on September 1, 2026, a 30-year high.") + '</div>')
+    guarded(fails, "reason C: an archive summary with facts of its own beside another entry printing one of them is one printing under "
+                   "C9: no finding (SYNTHETIC, archive.html)", lambda: sweep(page(jgb), "archive.html") == [])
+    guarded(fails, "reason C is named narrowly: the same two entries on the news front (news.html, not a complete index) are a finding "
+                   "(SYNTHETIC)", lambda: kinds(sweep(page(xinbi), "news.html")) == ["twice"])
+    guarded(fails, "reason C is named narrowly: an archive entry beside a line the build writes on the archive is a finding (SYNTHETIC)",
+            lambda: kinds(sweep(page('<p class="pc-note">U.S. prosecutors restrained $52.8M in USDT tied to Xinbi.</p>'
+                                     + xinbi.replace(_ar_card("us-freezes-xinbi", "U.S. Freezes $52.8M in USDT Tied to Xinbi Guarantee "
+                                                              "Scam Marketplace", "The Justice Department filed to forfeit the funds."),
+                                                     "")), "archive.html")) == ["twice"])
+    # the three are named in the sweep, so the canary's tally prints each by its name on every run
+    guarded(fails, "one_printing names C9's three reasons",
+            lambda: all(s in open(fs.__file__, encoding="utf-8").read() for s in (
+                "a Brief month archive's dated reads", "an Edition page's Brief beside its day's story cards",
+                "a complete index's entries")))
+
+
 def unit(only=()):
     fails = []
-    for name, fn in (("model", model_cases), ("round2", round2_cases), ("round2b", round2_build_cases), ("round3", round3_cases), ("coin", coin_cases), ("precision", precision_cases), ("today", today_home_cases),
+    for name, fn in (("model", model_cases), ("round2", round2_cases), ("round2b", round2_build_cases), ("round3", round3_cases), ("round4", round4_cases), ("coin", coin_cases), ("precision", precision_cases), ("today", today_home_cases),
                      ("markets", markets_cases), ("evidence", evidence_cases), ("k1", k1_cases), ("article", article_cases)):
         if only and name not in only:
             continue
@@ -930,7 +1038,7 @@ def tree(root):
     for rel, k, t in bad:
         print(f"  FAIL {t[:230]}")
     # no HELD (entry 2026-10-27-C8): a pair is a finding, or one printing for a reason the ruling names, tallied here on every run
-    print("  INFO one printing under entry 2026-10-27-C8: " + ("; ".join(f"{why}: {k}" for why, k in sorted(fs.ONE.items())) or "none"))
+    print("  INFO one printing under entries 2026-10-27-C8 and C9: " + ("; ".join(f"{why}: {k}" for why, k in sorted(fs.ONE.items())) or "none"))
     guarded(fails, f"the sweep finds no figure printed twice and no derived figure off its row's precision ({n} finding(s))",
             lambda: n == 0)
     # the build's own pass, in this process (the canary's build): nothing it withheld was the only printing of a figure on its page

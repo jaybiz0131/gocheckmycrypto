@@ -1,0 +1,33 @@
+Sprint 9.9.2, U-9: each guarded thing broken on purpose in a throwaway copy of the tree, scripts/sprint992_test.py --production run, the same copy run again with the break undone from the saved text. Fresh copy per plant. Tue Oct 27 2026, 06:46 PM EDT
+PLANT 87 sweep: reason A removed (a month archive's dated reads are two printings again) (fact_sweep.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL reason A: two dated Brief reads on a month archive quoting one figure are one printing under C9: no finding (SYNTHETIC, bottom-line/2026-08)
+      FAIL reason A: one named reading (Fear & Greed) in two dated reads on a month archive is one printing under C9: no finding (SYNTHETIC, bottom-line/2026-07)
+PLANT 88 sweep: reason A widened to any page's dated reads (the current Brief page too) (fact_sweep.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL reason A is named narrowly: the same two reads on the current Brief page (bottom-line.html, not a month archive) are a finding (SYNTHETIC)
+PLANT 89 sweep: reason A widened to a dated read beside anything on a month archive (fact_sweep.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL reason A is named narrowly: a dated read beside a line the build writes on a month archive is a finding (SYNTHETIC)
+PLANT 90 sweep: reason B removed (an Edition's Brief beside its day's cards is two printings again) (fact_sweep.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL reason B: an Edition page's Brief beside its day's rail card printing one figure is one printing under C9: no finding (SYNTHETIC, edition/2026-08-10)
+      FAIL reason B: an Edition page's Brief beside its day's down-page card printing one figure is one printing under C9: no finding (SYNTHETIC, edition/2026-08-10)
+      FAIL one_printing names C9's three reasons
+PLANT 91 sweep: reason B widened to any page with a Brief and story cards (fact_sweep.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL reason B is named narrowly: the same Brief beside the same card on a page that is not a dated Edition is a finding (SYNTHETIC, index.html)
+PLANT 92 sweep: reason B widened to the Brief beside anything on an Edition page (fact_sweep.py): exit 1, 2 red; restored: exit 0, 0 red
+      FAIL reason B is named narrowly: two Briefs quoting one figure on an Edition page are a finding (SYNTHETIC)
+      FAIL reason B is named narrowly: an Edition page's Brief beside a line the build writes is a finding (SYNTHETIC)
+PLANT 93 sweep: reason B widened to any two of the day's cards (fact_sweep.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL reason B: an Edition page's Brief beside its day's rail card printing one figure is one printing under C9: no finding (SYNTHETIC, edition/2026-08-10)
+      FAIL reason B: an Edition page's Brief beside its day's down-page card printing one figure is one printing under C9: no finding (SYNTHETIC, edition/2026-08-10)
+      FAIL reason B is named narrowly: two of the day's cards on one event on an Edition page are a finding (SYNTHETIC)
+PLANT 94 sweep: reason C removed (a complete index's entries are two printings again) (fact_sweep.py): exit 1, 3 red; restored: exit 0, 0 red
+      FAIL reason C: two stories the desk published on one event, both entries of the archive, are one printing under C9: no finding (SYNTHETIC, archive.html)
+      FAIL reason C: two stories on one event, both rows of a storyline's complete list, are one printing under C9: no finding (SYNTHETIC, news/exchanges-and-security/page/2)
+      FAIL reason C: an archive summary with facts of its own beside another entry printing one of them is one printing under C9: no finding (SYNTHETIC, archive.html)
+PLANT 95 sweep: reason C widened to two stories on any page (the news front too) (fact_sweep.py): exit 1, 8 red; restored: exit 0, 0 red
+      FAIL failure 5: /coins/usdt's two stories on the Xinbi seizure ($52.8M twice) is a finding
+      FAIL two story cards on one event are not two subjects (an archive's two Xinbi cards) (SYNTHETIC)
+      FAIL a list of headlines mostly about one subject still pairs two that print one figure (BitMine's 4.8% of supply) (SYNTHETIC)
+      FAIL failure 2: a related story whose headline prints the body's figure on its subject is withheld; the other stays (SYNTHETIC)
+      ... and 4 more
+PLANT 96 sweep: reason C widened to anything on a complete index (a line the build writes too) (fact_sweep.py): exit 1, 1 red; restored: exit 0, 0 red
+      FAIL reason C is named narrowly: an archive entry beside a line the build writes on the archive is a finding (SYNTHETIC)

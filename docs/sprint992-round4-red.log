@@ -1,0 +1,21 @@
+Sprint 9.9.2, review 3 under entry 2026-10-27-C9: the round 4 test cases (scripts/sprint992_test.py group round4) run on the restored round 3 build with origin/main merged (99f0e55), fact_sweep.py unchanged, red first. Tue Oct 27 2026, 06:35 PM EDT.
+1e. review 3 under entry 2026-10-27-C9: a page that reprints whole published units is one printing of each figure they carry, for three named reasons; every other pair is still a finding
+  FAIL reason A: two dated Brief reads on a month archive quoting one figure are one printing under C9: no finding (SYNTHETIC, bottom-line/2026-08)
+  FAIL reason A: one named reading (Fear & Greed) in two dated reads on a month archive is one printing under C9: no finding (SYNTHETIC, bottom-line/2026-07)
+  ok   reason A is named narrowly: the same two reads on the current Brief page (bottom-line.html, not a month archive) are a finding (SYNTHETIC)
+  ok   reason A is named narrowly: a dated read beside a line the build writes on a month archive is a finding (SYNTHETIC)
+  FAIL reason B: an Edition page's Brief beside its day's rail card printing one figure is one printing under C9: no finding (SYNTHETIC, edition/2026-08-10)
+  FAIL reason B: an Edition page's Brief beside its day's down-page card printing one figure is one printing under C9: no finding (SYNTHETIC, edition/2026-08-10)
+  ok   reason B is named narrowly: the same Brief beside the same card on a page that is not a dated Edition is a finding (SYNTHETIC, index.html)
+  ok   reason B is named narrowly: two Briefs quoting one figure on an Edition page are a finding (SYNTHETIC)
+  ok   reason B is named narrowly: an Edition page's Brief beside a line the build writes is a finding (SYNTHETIC)
+  ok   reason B is named narrowly: two of the day's cards on one event on an Edition page are a finding (SYNTHETIC)
+  FAIL reason C: two stories the desk published on one event, both entries of the archive, are one printing under C9: no finding (SYNTHETIC, archive.html)
+  FAIL reason C: two stories on one event, both rows of a storyline's complete list, are one printing under C9: no finding (SYNTHETIC, news/exchanges-and-security/page/2)
+  FAIL reason C: an archive summary with facts of its own beside another entry printing one of them is one printing under C9: no finding (SYNTHETIC, archive.html)
+  ok   reason C is named narrowly: the same two entries on the news front (news.html, not a complete index) are a finding (SYNTHETIC)
+  ok   reason C is named narrowly: an archive entry beside a line the build writes on the archive is a finding (SYNTHETIC)
+  FAIL one_printing names C9's three reasons
+
+SPRINT 9.9.2: FAIL (8 failure(s))
+Exit status 1.

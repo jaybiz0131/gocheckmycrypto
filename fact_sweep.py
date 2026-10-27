@@ -759,7 +759,7 @@ def _norm_href(h):
     return (h or "").split("#")[0].split("?")[0].replace(".html", "").rstrip("/")
 
 
-# The pairs counted as one printing under C8 in this process, by reason: printed on every run, never a pass of the law in disguise.
+# The pairs counted as one printing under C8 and C9 in this process, by reason: printed on every run, never a pass of the law in disguise.
 ONE = collections.Counter()
 
 
@@ -828,8 +828,47 @@ def _ref_target(e, dom_ids):
     return None
 
 
+# ENTRY 2026-10-27-C9 (J-19 option (1)): a page that reprints whole published units is one printing of each figure those units carry,
+# for three named reasons and no others: (A) a Brief month archive's dated reads, (B) an Edition page's Brief beside its day's story
+# cards, (C) a complete index's entries. Each is named by its page and by the units on both sides; every other pair stays a finding.
+MONTH_ARCHIVE = re.compile(r"bottom-line/\d{4}-\d{2}\.html")       # "Every Brief is kept, a month to a page"
+EDITION_PAGE = re.compile(r"edition/\d{4}-\d{2}-\d{2}\.html")       # a dated Edition
+DAY_CARDS = frozenset(("ed-rail", "ed-downpage"))                  # the Edition's rail and down-page: its day's story cards
+
+
+def _page_rel(own):
+    """The page's path in the tree ("edition/2026-08-10.html") from its own address ("/edition/2026-08-10")."""
+    return own[1:] + ".html" if own else ""
+
+
+def _in_month_read(e):
+    """Inside one dated Brief read on a month archive (p.bl-read)."""
+    return any("bl-read" in a.cls for a in ancestors(e))
+
+
+def _in_brief_read(e):
+    """Inside the Edition's Brief itself (its columns), not its citations."""
+    return any("ed-brief-cols" in a.cls for a in ancestors(e))
+
+
+def _is_story(e, own):
+    return (unit_of(e, own) or ("",))[0] == "story"
+
+
+def _in_day_card(e, own):
+    """Inside one of the Edition's day's story cards (the rail or the down-page), as that story's own words."""
+    return any(a.cls & DAY_CARDS for a in ancestors(e)) and _is_story(e, own)
+
+
+def _index_entry(e, rel, own):
+    """An entry of a complete index (the archive, a news/ listing, the Record's full index): one stored story's headline or summary.
+    A complete index is the build's own definition (fact_once.complete_index), so the gate and the withholding pass name one thing."""
+    import fact_once
+    return fact_once.complete_index(rel, e) and _is_story(e, own)
+
+
 def one_printing(f, g, own=None, dom_ids=None):
-    """Why two printings of one fact count as one printing under C8, or None when they are two (a finding)."""
+    """Why two printings of one fact count as one printing under C8 and C9, or None when they are two (a finding)."""
     ua, ub = unit_of(f.el, own), unit_of(g.el, own)
     if ua is not None and ua == ub:
         return "one stored unit repeating its own figure"
@@ -845,6 +884,15 @@ def one_printing(f, g, own=None, dom_ids=None):
             t = _ref_target(x.el, dom_ids)
             if t is not None and any(a is t for a in ancestors(y.el)):
                 return "an in-page link to the item that prints the figure"
+    rel = _page_rel(own)
+    if MONTH_ARCHIVE.fullmatch(rel) and _in_month_read(f.el) and _in_month_read(g.el):
+        return "a Brief month archive's dated reads"
+    if EDITION_PAGE.fullmatch(rel):
+        for x, y in ((f, g), (g, f)):
+            if _in_brief_read(x.el) and _in_day_card(y.el, own):
+                return "an Edition page's Brief beside its day's story cards"
+    if _index_entry(f.el, rel, own) and _index_entry(g.el, rel, own):
+        return "a complete index's entries"
     return None
 
 
