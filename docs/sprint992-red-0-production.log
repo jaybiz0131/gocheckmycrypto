@@ -1,5 +1,5 @@
-Sprint 9.9.2, red first on today's production copy: fact_sweep.py (this branch's check) over every page in production's sitemaps (532 URLs, sitemap-priority, sitemap-archive and news-sitemap), each fetched from https://gocheckmycrypto.com October 27, 2026 between 5:18 and 5:20 AM ET; every page's build-commit meta and /stamp.txt name deploy f9de9c258158479bbc8be01721613dbab54f38fc (built 2026-10-27T08:27:03+00:00); fetch status 200 for all 532. Averages read against fixtures/sprint992/real-2026-10-26-evening/history. Run Tue Oct 27 2026, 06:50 AM EDT.
-FACT SWEEP: 490 finding(s) on 117 page(s); by kind {'stamp': 108, 'precision': 12, 'twice': 354, 'label': 14, 'next': 2}; by family {'chartmaster.html': 1, 'coins': 100, 'flows.html': 1, 'index.html': 1, 'pulse.html': 1, 'pulse': 4, 'today': 8, 'why': 1}
+Sprint 9.9.2, red first on today's production copy: fact_sweep.py (this branch's check, at 14d1935) over every page in production's sitemaps (532 URLs, sitemap-priority, sitemap-archive and news-sitemap), each fetched from https://gocheckmycrypto.com October 27, 2026 between 5:18 and 5:20 AM ET; every page's build-commit meta and /stamp.txt name deploy f9de9c258158479bbc8be01721613dbab54f38fc (built 2026-10-27T08:27:03+00:00); fetch status 200 for all 532. Averages read against fixtures/sprint992/real-2026-10-26-evening/history. Run Tue Oct 27 2026, 08:58 AM EDT.
+FACT SWEEP: 489 finding(s) on 117 page(s); by kind {'stamp': 108, 'precision': 12, 'twice': 353, 'label': 14, 'next': 2}; by family {'chartmaster.html': 1, 'coins': 100, 'flows.html': 1, 'index.html': 1, 'pulse.html': 1, 'pulse': 4, 'today': 8, 'why': 1}
 exit=1
 STAMP     chartmaster.html at 375: 'The chart read, Oct 26' carries a date with no read time (the house wording: 'Chart levels, read Oct 25, 8:17 PM ET')
 PRECISION chartmaster.html: DOGE the 50-day average printed $0.0900 at 4 decimals; the desk's series gives 0.088384, so the printed digits are not the desk's figure
@@ -398,7 +398,6 @@ TWICE     coins/xpl.html at 375: $23.6M printed twice ('$23.6M' and '24-hour vol
 STAMP     coins/xpl.html at 375: prints 'from the last build' (retired: a block names its own read)
 TWICE     coins/xrp.html at 375: 1.80% printed twice ('24 hours: ▲ Up 1.80%' and '+1.80%')
 TWICE     coins/xrp.html at 375: +0.12% printed twice ('+0.12% over the last 7 days' and '7 days: ▲ Up 0.12%')
-TWICE     coins/xrp.html at 375: 1.6% printed twice ('1.6% of market cap' and '+1.6%')
 TWICE     coins/xrp.html at 375: $1.29 printed twice ('Seven days, as Markets reads it. 7D high close $1.38, 7D low close $1.29. from the last build' and 'Price $1.29')
 TWICE     coins/xrp.html at 375: $1.28 printed twice ('200-day line $1.28' and '200-day average $1.28')
 TWICE     coins/xrp.html at 375: $1.35B printed twice ('$1.35B' and '24-hour volume $1.35B')
@@ -491,5 +490,5 @@ NEXT      today/index.html at 375: the next slot's time 'this morning at 8:15 AM
 TWICE     why/2026-10-25-bitcoin.html at 375: $80,946 printed twice ('The largest run in the window: ▼ 1.11% from $80,946 at Sat 11:20 PM ET to $80,047 at 5:20 AM ET. It is shaded ' and '$80,946')
 TWICE     why/2026-10-25-bitcoin.html at 375: $80,047 printed twice ('The largest run in the window: ▼ 1.11% from $80,946 at Sat 11:20 PM ET to $80,047 at 5:20 AM ET. It is shaded ' and '$80,047')
 TWICE     why/2026-10-25-bitcoin.html at 375: 7.5% printed twice ('Kalshi: Fed rate above 4.00% after the October 28 meeting, yes price (bid-ask mid of hourly candles), 11:00 PM' and 'Kalshi: Fed rate above 4.00% after the October 28 meeting, yes price (bid-ask mid of hourly candles), 11:00 PM')
-FACT SWEEP: 490 finding(s) on 117 page(s)
+FACT SWEEP: 489 finding(s) on 117 page(s)
 exit=1
