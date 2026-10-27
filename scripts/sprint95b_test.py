@@ -259,6 +259,26 @@ def _cut_991(h):
     return re.sub(r'(<aside class="vd[^"]*" data-vd="BTC") data-vd-basis="[^"]*"(?: data-vd-dir="[^"]*")?', r"\1", h)
 
 
+def _cut_992(base, cur):
+    """SPRINT 9.9.2 (one fact once): two changes to the home's markup, each applied to the 9.5 page by the same rule before the bytes
+    are compared: when the verdict card's notice carries the next slot's time, the Brief card's "Next Brief" line is not printed ("the
+    home's next slot time printed once"); and a coin "Moving today" lists with its change is not named again in the "beyond 5%" line.
+    scripts/sprint992_test.py holds both to account."""
+    if "Next read: " in cur and '<p class="h-next">' not in cur:
+        base = re.sub(r'<p class="h-next">[^<]*</p>', "", base, count=1)
+    # and a coin the "Moving today" list prints with its change is not named again in the "beyond 5%" line under it
+    ol = re.search(r'<ol class="h-movers">(.*?)</ol>', base, re.S)
+    listed = set(re.findall(r'<a href="/coins/[^"]*">([^<]+)</a>', ol.group(1))) if ol else set()
+
+    def stand(m):
+        items = re.findall(r'(\S+) (<span class="h-mc[^"]*">[^<]*</span>)', m.group(1))
+        if not items:
+            return m.group(0)
+        keep = [f"{sym} {sp}" for sym, sp in items if sym not in listed]
+        return '<p class="h-stand">Top 100 beyond 5% either way: ' + (", ".join(keep) if keep else "none beyond those above") + "</p>"
+    return re.sub(r'<p class="h-stand">Top 100 beyond 5% either way: (.*?)</p>', stand, base, count=1, flags=re.S)
+
+
 def markup_cases(fails):
     print("3. the markup: the Ether line is the one thing added to the home, and it is the Board's own data")
     import home
@@ -266,7 +286,7 @@ def markup_cases(fails):
     import snapshot
     cur = fixture_html()
     for name in ("card", "nocard"):
-        base = read(os.path.join(FX, f"home-board-{name}.95.html"))
+        base = _cut_992(read(os.path.join(FX, f"home-board-{name}.95.html")), cur[name])
         cut, n = _cut_wide(_mask_v(_cut_991(cur[name])))
         guarded(fails, f"home ({name}): exactly one element is marked data-wide (the Ether line)", lambda n=n: n == 1)
         guarded(fails, f"home ({name}): with it cut out the page is Sprint 9.5's, byte for byte (the 375 markup)",

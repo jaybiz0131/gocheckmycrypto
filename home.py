@@ -982,8 +982,13 @@ def movers(snap):
     lis = "".join(row(c) for c in rises)
     if fall:
         lis += row(fall)
-    stand = [c for c in mv.get("standouts") or [] if c.get("symbol") not in taped]
-    if stand:
+    # SPRINT 9.9.2 (one fact once): nor is a coin the list above already prints with its change
+    listed = {c.get("symbol") for c in rises} | ({fall.get("symbol")} if fall else set())
+    stand_all = [c for c in mv.get("standouts") or [] if c.get("symbol") not in taped]
+    stand = [c for c in stand_all if c.get("symbol") not in listed]
+    if stand_all and not stand:
+        sl = "none beyond those above"
+    elif stand:
         sl = ", ".join(f'{_e(c["symbol"])} <span class="h-mc {_dir(c["chg_24h_pct"])}">'
                        f'{_pctx(c["chg_24h_pct"])}</span>' for c in stand)
     else:
@@ -1179,6 +1184,15 @@ def above_fold(snap, pulse, flows, deltas, wire, narr, cal, cadence, now=None, e
         graded = kind in ("graded", "next_read", "no_read")
     except Exception:                                # fail open: the home without a card
         card, graded = "", False
+    # SPRINT 9.9.2: the next slot's time prints once. When the card's notice carries it ("Next read: this morning at 8:15 AM ET",
+    # the ruled one line), the Brief card does not print the same time again
+    try:
+        when = next_slot(now)[1]
+        if card and f"Next read: {when}" in card:
+            dup = f'<p class="h-next">{_e("Next Brief " + when)}</p>'
+            blocks = {k: v.replace(dup, "") for k, v in blocks.items()}
+    except Exception:                                # fail open: both lines, as before
+        pass
     if graded:
         left = card + "".join(blocks[k] for k in LEFT)
     else:

@@ -102,7 +102,7 @@ def _since(label, pct):
 
 
 def reading_tiles(c, pos, asset, stamp, source="CoinGecko"):
-    """The readings grid for one coin: price, 24 hours, 7 days, market cap, volume, and,
+    """The readings grid for one coin: price with its 24-hour change, market cap, volume, and,
     where the Board tracks the coin, the distance from its 200-day line and RSI-14. Each is
     one tile under the tile law (label, figure, window, since line, source and stamp), and
     each is colored only by its own change. Returns the markup of the grid, or ''."""
@@ -118,15 +118,13 @@ def reading_tiles(c, pos, asset, stamp, source="CoinGecko"):
         k.setdefault("source", source)
         out.append(tile.render(*a, stamp=stamp, **k))
 
+    # ONE FACT ONCE (Sprint 9.9.2). Each tile's since line used to print the next tile's figure (the price tile the 24 hours, the
+    # 24-hour tile the 7 days), and the 7-day tile repeated the chart's header: every change printed twice. The price now carries its
+    # rolling 24-hour change beside it, as the tape does, the chart's header is the page's one 7-day figure, and the since line is
+    # the 30 days, printed nowhere else.
     if price:
-        add("coin-price", sb._price_fmt(price), window="Spot, US dollars",
-            since=_since("24 hours", c24) or "24 hours: not reported", since_change=c24)
-    if c24 is not None:
-        add("coin-24h", signed_pct(c24), window="Rolling 24 hours", direction=_dir(c24),
-            since=_since("7 days", c7) or "7 days: not reported", since_change=c7)
-    if c7 is not None:
-        add("coin-7d", signed_pct(c7), window="Rolling 7 days", direction=_dir(c7),
-            since=_since("30 days", c30) or "30 days: not reported", since_change=c30)
+        add("coin-price", sb._price_fmt(price), window="Spot, US dollars; the change is the rolling 24 hours",
+            change=c24, since=_since("30 days", c30) or "30 days: not reported", since_change=c30)
     if mcap:
         add("coin-cap", sb.fmt_usd(mcap), window="Price times circulating supply",
             since=f"Rank {pos} of the Top 100")
@@ -138,7 +136,7 @@ def reading_tiles(c, pos, asset, stamp, source="CoinGecko"):
         if isinstance(sma200, (int, float)) and sma200 and price:
             dist = (price - sma200) / sma200 * 100
             add("coin-200d", signed_pct(dist, 1), window="Price against its 200-day average",
-                direction=_dir(dist), since=f"200-day line {sb._price_fmt(sma200)}",
+                direction=_dir(dist), since=f"200-day line {sb._price_fmt_as(sma200, price)}",
                 source=f"{source}, daily closes")
         rsi = asset.get("rsi14")
         if isinstance(rsi, (int, float)):
@@ -219,7 +217,7 @@ def has_week_figure(sentence):
 
 
 def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
-                     price_fmt=str, board_day=""):
+                     price_fmt=str, board_day="", shown=(), stamp="", board_stamp=""):
     """The Chart Master card for one coin, always under a date.
 
     1. The coin's own read when the night's read names it: its sentences, in the order the
@@ -232,19 +230,24 @@ def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
     3. Nothing for a coin with neither, because nothing is invented.
 
     A read older than one day says how old it is above its text and is never presented as
-    today's."""
+    today's.
+
+    SPRINT 9.9.2: `shown` names the levels the page already prints (the readings' price, 200-day line and RSI); the card prints
+    none of them again. `stamp` is the read's own time in the house wording ("read Oct 26, 7:14 PM ET") for the Chart Master's
+    record and `board_stamp` the Board's, for levels taken from the Board; the heading carries the one that is the card's source,
+    else its date alone."""
     cm = cm or {}
     rday = str(cm.get("date") or "")[:10]
     name = c.get("name") or c.get("symbol") or ""
     sents = [x for x in coin_sentences(c, cm) if not has_week_figure(x)]
-    row, day = None, rday
+    row, day, when = None, rday, stamp
     if not sents:
         sym = (c.get("symbol") or "").upper()
         if cm.get("data_only"):
             row = next((r for r in (cm.get("levels") or [])
                         if str(r.get("symbol") or "").upper() == sym), None)
         elif asset:
-            row, day = asset, str(board_day or "")[:10]
+            row, day, when = asset, str(board_day or "")[:10], board_stamp
     elif not rday:
         return ""
     if not sents and not row:
@@ -255,26 +258,31 @@ def chartmaster_card(c, cm, asset, today, esc, fmt_date, destyle=lambda t: t,
         return ""
     stale = (f'<p class="cn-cm-old">This is {age} days old; the readings above are newer.</p>'
              if age > 1 else "")
+    dated = when or fmt_date(day)
     if sents:
         body = " ".join(esc(destyle(s)) for s in sents[:3])
         return (f'<section class="cn-cm" aria-label="The chart read on {esc(name)}">'
-                f'<h2 class="cn-h">The chart read on {esc(name)}, {esc(fmt_date(day))}</h2>'
+                f'<h2 class="cn-h">The chart read on {esc(name)}, {esc(dated)}</h2>'
                 f'{stale}<p class="cn-cm-p">{body}</p>'
                 f'<p class="cn-cm-f"><a href="/chartmaster.html">The whole read</a></p></section>')
     rows = []
     for k, lab in (("price", "Price"), ("sma50", "50-day average"), ("sma200", "200-day average")):
-        if isinstance(row.get(k), (int, float)):
+        if isinstance(row.get(k), (int, float)) and k not in shown:
             rows.append((lab, price_fmt(row[k])))
-    if isinstance(row.get("rsi14"), (int, float)):
+    if isinstance(row.get("rsi14"), (int, float)) and "rsi14" not in shown:
         rows.append(("RSI (14)", f'{row["rsi14"]:.0f}'))
     if not rows:
         return ""
     cells = "".join(f'<div class="cn-lv"><span class="lab">{esc(k)}</span>'
                     f'<span class="cn-lvv">{esc(v)}</span></div>' for k, v in rows)
+    names = [n for k, n in (("price", "price"), ("sma200", "200-day line"), ("rsi14", "RSI")) if k in shown]
+    said = names[0] if len(names) == 1 else ", ".join(names[:-1]) + " and " + names[-1] if names else ""
+    lead = ("These are its levels." if not names else
+            f"The readings above carry its {said}; {'this is the level' if len(rows) == 1 else 'these are the levels'} they do not.")
     return (f'<section class="cn-cm" aria-label="Chart levels for {esc(name)}">'
-            f'<h2 class="cn-h">Chart levels for {esc(name)}, {esc(fmt_date(day))}</h2>'
+            f'<h2 class="cn-h">Chart levels, {esc(when) if when else esc(fmt_date(day))}</h2>'
             f'{stale}<p class="cn-cm-p">The latest read does not name {esc(name)}. '
-            f'These are its levels.</p><div class="cn-lvs">{cells}</div>'
+            f'{lead}</p><div class="cn-lvs">{cells}</div>'
             f'<p class="cn-cm-f"><a href="/chartmaster.html">The whole read</a></p></section>')
 
 

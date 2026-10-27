@@ -246,6 +246,16 @@ def brief_feed(ed, now, morning=None):
 
 # ---- a coin page -----------------------------------------------------------------------------------------------
 
+def _badge(row):
+    """SPRINT 9.9.2: the 24-hour change the page prints as the price tile's own badge ("\u25bc 0.70%"), the tile's own string."""
+    cp = (row or {}).get("change_pct")
+    if not isinstance(cp, (int, float)):
+        return None
+    import tile
+    own = tile._sign(cp)
+    return f'{tile.ARROW.get(own, "")}{" " if own else ""}{abs(cp):.2f}%'
+
+
 def coin_feed(c, pos, tiles, pulse, now, facts=None):
     sb = _sb()
     sym = c.get("symbol") or ""
@@ -260,7 +270,7 @@ def coin_feed(c, pos, tiles, pulse, now, facts=None):
             "mcap_usd": c.get("mcap_usd"), "volume_24h": c.get("volume_24h"),
             "spark7d": [_round(x) for x in (c.get("spark7d") or [])],
             "shown": {"price": price_tile["figure"] if price_tile else (sb._price_fmt(price) if price else None),
-                      "chg_24h": chg_tile["figure"] if chg_tile else None},
+                      "chg_24h": chg_tile["figure"] if chg_tile else _badge(price_tile)},
             "readings": readings,
             "verdict": {"grade": facts.get("grade"), "url": facts.get("url")} if facts.get("grade") else None}
     return envelope(f"coins/{slug}", f"/coins/{slug}", (pulse or {}).get("generated_utc"), now,

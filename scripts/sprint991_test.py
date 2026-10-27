@@ -586,9 +586,16 @@ def scope_tree(root):
         for dp, _d, fs in os.walk(os.path.join(root, sub)):
             pages += [os.path.join(dp, f) for f in fs if f.endswith(".html")]
     guarded(fails, "the built tree has /why/ pages to check", lambda: bool(pages))
-    guarded(fails, "no /why/ page carries data-ev-window or data-vd-basis (they are outside 9.9.1's pages)",
-            lambda: all("data-ev-window" not in open(p, encoding="utf-8", errors="replace").read()
-                        and "data-vd-basis" not in open(p, encoding="utf-8", errors="replace").read() for p in pages))
+    # SPRINT 9.9.2 (the one-window sweep, entry 2026-10-26-C6): a /why/ page's evidence list now names its window, the 24 hours the
+    # grade was made on, as the dated /today/ page does; its card still carries no window attributes (9.9.1's scope for the card)
+    def _bad(p):
+        # the Bitcoin and Ether verdict pages (verdict.py); a Big mover's page (movers.py, 9.4) reads one window, the 24 hours, already
+        h = open(p, encoding="utf-8", errors="replace").read()
+        own = p.endswith(("-bitcoin.html", "-ether.html"))
+        return (own and 'class="td-sec ev"' in h and 'data-ev-window="rolling_24h"' not in h) or "data-vd-basis" in h
+    offenders = [os.path.relpath(p, root) for p in pages if _bad(p)]
+    guarded(fails, f"every /why/ page's list names its window (data-ev-window, 9.9.2), and no /why/ card carries data-vd-basis {offenders[:4]}",
+            lambda: not offenders)
     return fails
 
 

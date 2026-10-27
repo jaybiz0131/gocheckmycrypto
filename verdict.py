@@ -203,7 +203,11 @@ def stated(c, sym):
     text = str(text or "")
     ok = bool(text) and bool(re.search(SUBJECT.get(sym, SUBJECT["BTC"]), text, re.I)) and bool(
         MOVE.search(text)) and bool(LINK.search(text))
-    n = int(c.get("source_count") or 0)
+    # SPRINT 9.9.2: a source whose link is not about the event does not count toward the grade (why_evidence.counted_sources)
+    try:
+        n = _we().counted_sources(c)
+    except Exception:                                # fail closed on the count: none counted
+        n = 0
     primary = ok and ((c.get("kind") == "wire" and bool(c.get("primary"))) or c.get("kind") == "press")
     return ok, n, primary
 
@@ -1366,8 +1370,10 @@ def _page(day, sym, recs, lead, vdir, wdir, tdir, dateline, share=None, record=N
     title = f"Why {name} moved: {when}"
     corr = _today_corrections(day, lead.get("slot"), tdir)
     ev = we.load(day, lead.get("slot"), wdir)
+    # SPRINT 9.9.2 (the one-window sweep; entry 2026-10-26-C6): the list names its window, the 24 hours the grade was made on, beside
+    # every figure, and the page says which window the card above reads, as the dated /today/ page and the coin pages do
     ev_html = (we.section_html(ev, sym, live=False, corrections=corr, graded=lead["coins"][sym].get("grade"),
-                               marks=marks(lead, sym)) if ev else "")
+                               marks=marks(lead, sym), window="rolling_24h", note=list_note(lead, ev, sym) or None) if ev else "")
     card = card_html(lead, sym, where="page", live=False, corrections=corr, link=False, with_section=bool(ev_html))
     v = lead["coins"][sym]
     pub = lead.get("made_utc") or ""

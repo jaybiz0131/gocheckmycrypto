@@ -1149,6 +1149,18 @@ def load_chartmaster():
                 json.dump(cm, open(dst, "w", encoding="utf-8"), indent=1)
         except Exception as e:
             print(f"chartmaster: archive skipped ({type(e).__name__})")
+    return _precise_cm(cm)
+
+
+def _precise_cm(cm):
+    """SPRINT 9.9.2: a data card's levels with each two-decimal average read again from the stored closes, in memory only (the
+    record and its dated copy stay as written; history.precise_levels says when a figure is taken)."""
+    try:
+        if cm and cm.get("levels"):
+            import history as _h
+            cm = dict(cm, levels=_h.precise_levels(cm["levels"], cm.get("date")))
+    except Exception as e:                          # fail open: the record as stored
+        print(f"::warning::chartmaster: the levels were not read again from the closes ({type(e).__name__}: {e})")
     return cm
 
 
@@ -1170,8 +1182,20 @@ SNAP = None    # the data contract's one object, set by build(); see snapshot.py
 def load_pulse():
     path = os.path.join(SITE, "data", "pulse.json")
     if os.path.exists(path):
-        return json.load(open(path, encoding="utf-8"))
+        return _precise_pulse(json.load(open(path, encoding="utf-8")))
     return None
+
+
+def _precise_pulse(pulse):
+    """SPRINT 9.9.2: the Board's assets with each two-decimal average below $100 read again from the stored closes (the run's
+    own math, taken only when it rounds back to the stored figure; history.precise_assets), in memory only."""
+    try:
+        if pulse and pulse.get("assets"):
+            import history as _h
+            pulse = dict(pulse, assets=_h.precise_assets(pulse["assets"]))
+    except Exception as e:                          # fail open: the record as stored
+        print(f"::warning::board: the averages were not read again from the closes ({type(e).__name__}: {e})")
+    return pulse
 
 
 
@@ -1612,6 +1636,34 @@ def _snap_asof(pulse):
     """The build's stamp in one line, zone and date: "As of 7:12 PM ET on Oct 4"."""
     st = _snap_stamp_et((pulse or {}).get("generated_utc") or "")
     return f"As of {st}." if st else ""
+
+
+def read_stamp(utc, word="read"):
+    """SPRINT 9.9.2: a dated block's own read in the house wording, "read Oct 25, 8:17 PM ET" (word="" drops "read"), from a UTC
+    instant (an ISO string or a datetime); "" when there is none, so nothing is invented."""
+    d = utc if hasattr(utc, "astimezone") else _utc_dt(str(utc or ""))
+    if not d:
+        return ""
+    e = d.astimezone(_ET)
+    s = f"{e.strftime('%b')} {e.day}, {e.strftime('%I').lstrip('0')}:{e.strftime('%M %p')} ET"
+    return f"{word} {s}" if word else s
+
+
+CM_LEDGER = os.path.join(HERE, "data", "chartmaster-ledger.json")
+
+
+def cm_read_utc(cm):
+    """When a Chart Master record was written: its own written_utc (chartmaster.py writes it from 9.9.2 on), else the time of the
+    ledger row the run wrote for the record's date (data/chartmaster-ledger.json, 't'); None when neither exists."""
+    cm = cm or {}
+    if cm.get("written_utc"):
+        return cm["written_utc"]
+    try:
+        rows = json.load(open(CM_LEDGER, encoding="utf-8"))
+        hits = [r for r in rows if str(r.get("date")) == str(cm.get("date") or "")[:10] and r.get("t")]
+        return hits[-1]["t"] if hits else None
+    except Exception:
+        return None
 
 
 def _snap_stamp_et(ts):
@@ -2371,7 +2423,9 @@ def render_article(item, all_items=None):
                     f'{esc(source_label(s))}</a></li>')
         lis = "".join(_src_li(s) for s in srcs)
         src_html = f'<div class="sources"><h2>Sources</h2><ol>{lis}</ol></div>'
-    also = [str(x) for x in (item.get("also_reported_by") or []) if str(x).strip()]
+    # SPRINT 9.9.2 (found by the sweep): an entry stored as {"outlet", "headline"} printed as a raw dict; the outlet is the name
+    also = [str(x.get("outlet") or "") if isinstance(x, dict) else str(x) for x in (item.get("also_reported_by") or [])]
+    also = [x for x in also if x.strip()]
     if also:
         src_html += (f'<p class="also-reported">Also reported by '
                      f'{esc(", ".join(also[:8]))}. The desk cites only the pages it drew '
@@ -3421,7 +3475,7 @@ def _lead_chart(btc, w=640, h=190):
                 f'stroke-dasharray="5 4" points="{d}"></polyline>')
         label = (f'<text x="{pad}" y="{_y(sma[-1]) - 7:.1f}" font-family="var(--mono)" '
                  f'font-size="11" fill="rgba(235,233,227,.62)">200-day average '
-                 f'{esc(_price_fmt(btc["sma200"]))}</text>')
+                 f'{esc(_price_fmt_as(btc["sma200"], btc.get("price")))}</text>')
     return (f'<svg class="cb-leadchart" viewBox="0 0 {w} {h}" preserveAspectRatio="none" '
             f'role="img" aria-label="Thirty days of the Bitcoin price, low '
             f'{lo:,.0f}, high {hi:,.0f}, latest {pts[-1]:,.0f}, with the 200-day average.">'
@@ -4032,14 +4086,19 @@ def board_summary_line(pulse, deltas, flows):
     """C-D: a deterministic one-line read of the day, from the deltas and band
     crossings the Board already computed. NOT written by anything: it is assembled
     from numbers, in a fixed order, so the same inputs always produce the same
-    sentence and it can never say something the tiles do not.
+    sentence and it can never say something the tiles do not. It prints no figure: the
+    tiles beside it print each one (Sprint 9.9.2).
 
     Returns "" when the day has nothing to report rather than reaching for filler."""
     bits = []
     d = deltas or {}
     b = (d.get("bitcoin") or {}).get("pct")
+    # SPRINT 9.9.2 (one fact once): the line sits over the tiles that print each figure, so it says which way each moved and over
+    # what window, and leaves the figures to the tiles (it printed "Bitcoin up 0.0%" over a tile's "Up 0.02%", and the whale net
+    # beside the whale tile's)
     if isinstance(b, (int, float)):
-        bits.append(f"Bitcoin {'up' if b >= 0 else 'down'} {abs(b):.1f}% since yesterday")
+        bits.append("Bitcoin flat since yesterday" if round(b, 2) == 0 else
+                    f"Bitcoin {'up' if b > 0 else 'down'} since yesterday")
     fd = d.get("fng") or {}
     if isinstance(fd.get("prev"), (int, float)):
         now_v = ((pulse or {}).get("fng") or {}).get("value")
@@ -4053,8 +4112,7 @@ def board_summary_line(pulse, deltas, flows):
     vol = (flows or {}).get("volatile") or {}
     if _flows_have_data(flows) and isinstance(vol.get("net_usd"), (int, float)):
         # The window is the snapshot's, never a hardcoded "24 hours" over a widened read.
-        bits.append(f"{fmt_usd(abs(vol['net_usd']))} "
-                    f"{'onto' if vol['net_usd'] < 0 else 'off'} exchanges in "
+        bits.append(f"whales net {'onto' if vol['net_usd'] < 0 else 'off'} exchanges over "
                     f"{_win_phrase((flows or {}).get('window_hours', 24))}")
     if not bits:
         return ""
@@ -6680,18 +6738,17 @@ def render_flows(flows, dateline):
     if med and net is not None:
         pace = abs(net) / (med * win_h / 168)
         pace_html = f' &middot; about {pace:.1f}x a typical week&rsquo;s pace'
-    biggest = max(ww["moves"], key=lambda m: m.get("usd", 0), default=None)
+    # SPRINT 9.9.2 (one fact once): the biggest single move is the first row of the move tables below, so it is not a stat as well
     big_html = ""
-    if biggest:
-        big_html = f"""<div class="stat">
-      <span class="lab">Biggest single move</span>
-      <span class="big">{esc(fmt_usd(biggest.get("usd", 0)))}</span>
-      <span class="sub">{esc(biggest.get("symbol", ""))} &rarr; {esc(venue_name(biggest.get("to", "")))}</span>
-    </div>"""
     # NO "$0" FROM AN ABSENT READING (8 October 2026): the stat says what it is waiting for.
     if net is None:
         vol_stat = ('<span class="big"><span class="mut" style="font-size:.5em">no reading'
                     f'</span></span><span class="sub">{esc(WHALE_WAITING)}</span>')
+    elif ww.get("net") is not None and fmt_usd(abs(net)) in ww["sentence"]:
+        # SPRINT 9.9.2: the sentence above states the net, so the stat states what it does not: the gross on and off
+        vol_stat = (f'<span class="big">{esc(fmt_usd(v.get("inflow_usd", 0)))} on</span>'
+                    f'<span class="sub">{esc(fmt_usd(v.get("outflow_usd", 0)))} off; the net is in the line above'
+                    f'{pace_html}</span>')
     else:
         vol_stat = (f'<span class="big {dir_cls}">{esc(fmt_usd(abs(net)))}</span>'
                     f'<span class="sub">net {esc(dir_word)} &middot; gross '
@@ -6708,7 +6765,7 @@ def render_flows(flows, dateline):
 
   <div class="stats">
     <div class="stat">
-      <span class="lab">Volatile assets, net ({esc(winp)})</span>
+      <span class="lab">Volatile assets, {"gross" if (net is not None and fmt_usd(abs(net)) in ww["sentence"]) else "net"} ({esc(winp)})</span>
       {vol_stat}
     </div>
     <div class="stat">
@@ -6732,7 +6789,8 @@ def render_flows(flows, dateline):
       <div class="chartcard">{flow_ledger(
           [(w.get("week_ending", ""), w.get("net_usd", 0),
             f'{w.get("moves", 0)} exchange-size moves') for w in flows.get("history", [])],
-          aria="Weekly net exchange flow, last 13 weeks", compact=True)}</div>
+          aria="Weekly net exchange flow, last 13 weeks", compact=True,
+          said=(ww["sentence"] if win_h == 168 else ""))}</div>
       <p class="pc-note" style="margin-top:8px">Weekly net flow for volatile assets,
       newest first.</p>''' if flows.get("history") else ""}
       {f'''<div class="sec-head" style="margin-top:18px"><h2>By exchange</h2><span class="bar"></span></div>
@@ -7011,7 +7069,7 @@ def fng_gauge_svg(value):
     return "".join(parts)
 
 
-def flow_ledger(rows, aria="", compact=False):
+def flow_ledger(rows, aria="", compact=False, said="", said_as="as above"):
     """Signed flows as LEDGER ROWS instead of a bar chart: date, a horizontal bar diverging
     from a center line (green right = in/accumulation, red left = out/sell side), and the
     dollar value at full text size. SVG bar charts scale their labels below legibility on
@@ -7021,7 +7079,12 @@ def flow_ledger(rows, aria="", compact=False):
         return ""
     max_abs = max((abs(v) for _, v, _ in rows), default=0) or 1
     out = [f'<div class="ledger{" compact" if compact else ""}" role="img" aria-label="{esc(aria)}">']
+    newest = True
     for label, val, tip in reversed(rows):
+        # SPRINT 9.9.2: the newest week, when the page's line above already states the same seven days' net, says so instead
+        shown = (f'{"+" if val >= 0 else ""}{esc(fmt_usd(val))}' if not (newest and said and fmt_usd(abs(val)) in said)
+                 else said_as)
+        newest = False
         pct = abs(val) / max_abs * 50
         side = "pos" if val >= 0 else "neg"
         style = (f"left:50%;width:{pct:.1f}%" if val >= 0 else
@@ -7031,7 +7094,7 @@ def flow_ledger(rows, aria="", compact=False):
             f'<div class="lrow"{tip_attr}><span class="ldate">{esc(label)}</span>'
             f'<span class="ltrack"><span class="lbar {side}" style="{style}"></span></span>'
             f'<span class="lval {"up" if val >= 0 else "down"}">'
-            f'{"+" if val >= 0 else ""}{esc(fmt_usd(val))}</span></div>')
+            f'{shown}</span></div>')
     out.append("</div>")
     return "".join(out)
 
@@ -7055,7 +7118,8 @@ def _posture_card(a, pulse=None):
     chart = both_geometries(
         line_chart_svg, a.get("spark"), overlays=overlays,
         x_labels=[win.get("start", ""), win.get("end", "")],
-        value_label=_price_fmt(a.get("price")),
+        # SPRINT 9.9.2: the card's quote prints the price; the line's end carries its dot, not the figure again
+        value_label=None,
         aria=f"{sym} price over 90 days with 50 and 200 day averages, "
              f"currently {_price_fmt(a.get('price'))}",
         pill_attr=f'data-live="pill:{sym}"')
@@ -7083,7 +7147,7 @@ def _posture_card(a, pulse=None):
         chg_html = (f'<span class="pc-chg {"up" if chg >= 0 else "down"}" '
                     f'data-live="chg:{esc(sym)}">{chg:+.2f}% (24h)</span>')
     stats = "".join(
-        f'<div><dt>{esc(lab)}</dt><dd>{esc(_price_fmt(a.get(key)))}</dd></div>'
+        f'<div><dt>{esc(lab)}</dt><dd>{esc(_price_fmt_as(a.get(key), a.get("price")))}</dd></div>'
         for lab, key in (("50-day avg", "sma50"), ("200-day avg", "sma200"),
                          ("90-day high", "spark_high"), ("90-day low", "spark_low")))
     return f"""<div class="pulse-card">
@@ -7483,6 +7547,10 @@ def _dash_shell(slug, title, desc, body_inner, dateline, live=False, data=None,
                 path=None, full_title=None, schema_extra=""):
     stamp = data_stamp(data) if data is not None else ""
     week = _week_ago_line(slug, data) if data is not None else ""
+    # SPRINT 9.9.2 (one fact once): the line is Bitcoin's change over the week; a page whose own table already prints Bitcoin's
+    # 7-day change (Prices) does not print it a second time in words
+    if week and slug == "prices":
+        week = ""
     # C-15: a sources line, not a methods note (G-9, same rule as C-13).
     srcs = ('<p class="bd-src tile-src">Sources: public market data, alternative.me, '
             'mempool.space.</p>')
@@ -7710,7 +7778,7 @@ def render_pulse_stables(pulse, dateline):
     win = stables.get("window") or {}
     chart = both_geometries(
         line_chart_svg, stables.get("spark"), x_labels=[win.get("start", ""), win.get("end", "")],
-        value_label=fmt_tick(stables.get("total_usd", 0)),
+        value_label=None,                    # SPRINT 9.9.2: the page's total prints once, above the chart
         aria=f"Total stablecoin supply over one year, currently "
              f"{fmt_usd(stables.get('total_usd', 0))}")
     inner = f"""{_dash_crumb()}
@@ -7875,6 +7943,17 @@ def _price_fmt(price):
         z, d = _price_parts(price)
         return f"$0.0{_SUBS[z] if z < 10 else ''.join(_SUBS[int(c)] for c in str(z))}{d}"
     return f"${price:.{3 - math.floor(math.log10(float(f'{price:.3e}')))}f}"
+
+
+def _price_fmt_as(v, ref):
+    """SPRINT 9.9.2: a figure derived from a price (a moving average, a high or low, a level) printed at the decimals the price
+    itself prints at, so a row carries one precision ($0.08674 beside $0.07728, never $0.0867 or $0.09). A compressed price or a
+    missing one leaves the figure to its own format."""
+    if not isinstance(v, (int, float)) or not isinstance(ref, (int, float)) or not ref or _compressed(ref):
+        return _price_fmt(v)
+    r = _price_fmt(ref)
+    dec = len(r.split(".")[1]) if "." in r else 0
+    return f"${v:,.{dec}f}"
 
 
 def _price_label(price):
@@ -8133,9 +8212,10 @@ def _coin_pct(v, dp=1):
     return (f'<span class="chip {pct_class(v, dp)}">{pct_text(v, dp)}</span>')
 
 
-def _coin_supply_rows(c):
+def _coin_supply_rows(c, volume=True):
     """Supply, only where the source sent it. The percentage of max is arithmetic on
-    two figures the source did send, and it is shown only when both are present."""
+    two figures the source did send, and it is shown only when both are present. The 24-hour
+    volume prints here only when the readings above do not print it (Sprint 9.9.2: one fact once)."""
     rows = []
     sup, mx = c.get("supply"), c.get("supply_max")
     if sup:
@@ -8146,7 +8226,7 @@ def _coin_supply_rows(c):
     tot = c.get("supply_total")
     if tot and tot != sup:
         rows.append(("Total supply", f"{fmt_num(tot)} {esc(c.get('symbol') or '')}"))
-    if c.get("volume_24h"):
+    if c.get("volume_24h") and volume:
         rows.append(("24-hour volume", esc(fmt_usd(c["volume_24h"]))))
     if c.get("ath"):
         when = ""
@@ -8225,12 +8305,27 @@ def _coin_wire():
 
 def _coin_cm():
     try:
-        return json.load(open(os.path.join(SITE, "data", "chartmaster.json"), encoding="utf-8"))
+        return _precise_cm(json.load(open(os.path.join(SITE, "data", "chartmaster.json"), encoding="utf-8")))
     except Exception:
         return None
 
 
-def render_coin_chart(c, name, cid, spark):
+def _week_extremes(w7, price):
+    """SPRINT 9.9.2: the 7D closing pair in one sentence at the price's own decimals, each printed once: a pair that prints as one
+    figure is one figure, and an extreme that prints as the price the page already carries says the price is at it."""
+    lo, hi = (_price_fmt_as(v, price) if price else _price_fmt(v) for v in w7)
+    px = _price_fmt(price) if price else None
+    if lo == hi:
+        return (f"The 7D high and low close are the same, {hi}." if hi != px else
+                "The 7D high and low close are both the price.")
+    parts = []
+    parts.append("the price is at its 7D high close" if hi == px else f"7D high close {hi}")
+    parts.append("the price is at its 7D low close" if lo == px else f"7D low close {lo}")
+    t = ", ".join(parts)
+    return t[:1].upper() + t[1:] + "."
+
+
+def render_coin_chart(c, name, cid, spark, pulse=None):
     """The chart block: tabs for the script to wake, the build's line as the fallback, the
     readout the script fills, and the caption. The fallback is colored by ITS OWN seven days
     and prints that change, so before the script answers the color and the number already
@@ -8269,8 +8364,10 @@ def render_coin_chart(c, name, cid, spark):
     if spark:
         fallback = spark_svg(spark, w=980, h=150)
         if _w7:
-            note += (f' 7D high close {esc(_price_fmt(_w7[1]))}, 7D low close {esc(_price_fmt(_w7[0]))}. ')
-        note += '<span class="cn-stamp">from the last build</span>'
+            note += " " + esc(_week_extremes(_w7, c.get("price"))) + " "
+        # SPRINT 9.9.2: "from the last build" retires; the fallback names its own read, the Board's, in the house wording
+        _rs = read_stamp((pulse or {}).get("generated_utc") or (SNAP or {}).get("stamp_utc") or "", word="Read")
+        note += f'<span class="cn-stamp">{esc(_rs) + "." if _rs else "Time of read not recorded."}</span>'
     chg_html = (f'<p class="cc-chg" data-dir="{up}">{esc(_cp.signed_pct(chg))} over the last 7 days</p>'
                 if chg is not None else '<p class="cc-chg" data-dir="flat"></p>')
     if isinstance(_c7, (int, float)):
@@ -8425,7 +8522,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
     if not _ZONE_IN.search(stamp):
         stamp += " ET"
 
-    chart = render_coin_chart(c, name, cid, spark) if (spark or cid) else ""
+    chart = render_coin_chart(c, name, cid, spark, pulse=pulse) if (spark or cid) else ""
 
     _board, asset = _coin_board_read(sym, pulse)
     tiles = _cp.reading_tiles(c, pos, asset, stamp)
@@ -8434,9 +8531,16 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
                   f'<a href="/learn.html">How to read Markets</a>.</p>') if tiles else ""
 
     _gen = _utc_dt((pulse or {}).get("generated_utc") or "")
+    # SPRINT 9.9.2: the card names its read in the house wording, and prints no level the readings above already print (the price,
+    # the 200-day line, RSI): one fact once, and the readings are the newer read
+    _shown = {"price"} if tiles else set()
+    if tiles and asset:
+        _shown |= {k for k in ("sma200", "rsi14") if isinstance(asset.get(k), (int, float))}
     cm_html = _cp.chartmaster_card(
-        c, cm, asset, today, esc, fmt_short_date, destyle=destyle, price_fmt=_price_fmt,
-        board_day=_gen.astimezone(_ET).strftime("%Y-%m-%d") if _gen else "")
+        c, cm, asset, today, esc, fmt_short_date, destyle=destyle,
+        price_fmt=lambda v, _p=c.get("price"): _price_fmt_as(v, _p),
+        board_day=_gen.astimezone(_ET).strftime("%Y-%m-%d") if _gen else "", shown=_shown,
+        stamp=(read_stamp(cm_read_utc(cm)) if (cm or {}).get("date") else ""), board_stamp=read_stamp(_gen) if _gen else "")
 
     # PROGRAM 9, SPRINT 9.2: "What lined up with the move" for Bitcoin and Ether. A wire item it
     # lists is not listed again in the blocks below it (one fact, printed once).
@@ -8531,7 +8635,7 @@ def render_coin_page(c, pos, pulse, items, dateline, wire=None, cm=None, today=N
         _vurl = None
     COIN_FACTS[sym] = {"grade": _graded or None, "url": _vurl}
 
-    supply = _coin_supply_rows(c)
+    supply = _coin_supply_rows(c, volume=not ('data-reading="coin-volume"' in tiles))
     supply_html = ""
     if supply:
         supply_html = (
@@ -8572,9 +8676,13 @@ def coin_title(c):
 
 def _coin_move(c, name, stamp):
     """The Board's own 24-hour line for a coin, worded with its sign and window, or ''."""
-    import phrases as _ph
-    ch = _ph.change(c.get("chg_24h_pct"), "24h")
-    return f"{name} is {ch}, per Markets as of {stamp}." if ch else ""
+    # SPRINT 9.9.2 (one fact once): the readings above print the 24-hour figure on the price tile, so this line names the direction
+    # and the window and leaves the figure to them
+    v = c.get("chg_24h_pct")
+    if not isinstance(v, (int, float)):
+        return ""
+    way = "flat" if round(v, 2) == 0 else ("up" if v > 0 else "down")
+    return f"{name} is {way} over 24 hours (the figure is in the readings above), per Markets as of {stamp}."
 
 
 def coin_description(c, stamp):
@@ -8816,7 +8924,7 @@ def render_pulse_leverage(pulse, dateline):
     if btc.get("funding_history_pct") and len(btc["funding_history_pct"]) > 2:
         fh = btc["funding_history_pct"]
         chart = both_geometries(line_chart_svg, fh, dollars=False, x_labels=["21 funding intervals ago", "now"],
-                               value_label=f"{fh[-1]:+.4f}%",
+                               value_label=None,   # SPRINT 9.9.2: the table above prints the current rate
                                aria=f"{btc.get('symbol','BTC')} funding rate history")
         charts_html += (f'<div class="sec-head" style="margin-top:26px"><h2>BTC funding, last 21 intervals</h2>'
                         f'<span class="bar"></span></div><div class="chartcard">{chart}</div>'
@@ -8908,7 +9016,9 @@ def render_pulse_etf(pulse, dateline):
   </div></div>
   <div class="chartcard" style="margin-top:14px">{flow_ledger(
       [(d.get("date", "")[:6], (d.get("net_usd_m") or 0) * 1e6, None) for d in b.get("recent", [])],
-      aria=f"{name} ETF daily net flows")}</div>"""
+      aria=f"{name} ETF daily net flows",
+      said=(fmt_usd(abs(latest * 1e6)) if (b.get("recent") or [{}])[-1].get("net_usd_m") == b.get("latest_net_usd_m") else ""),
+      said_as="as above")}</div>"""
     inner = f"""{_dash_crumb()}
   <h1>ETF flows</h1>
   <p class="lede">The traditional-finance bid: how much money moved into or out of the US
@@ -9109,7 +9219,9 @@ def render_chartmaster(read, dateline, pulse=None):
     if _gen:
         _bday = _gen.astimezone(_ET).strftime("%Y-%m-%d")
     _md = fmt_short_date(_rday) if _rday else ""
-    read_title = f"The chart read, {_md}" if _md else "The chart read"
+    # SPRINT 9.9.2: the read is a dated block, so it names its own read's date and time in the house wording
+    _rst = read_stamp(cm_read_utc(read), word="") if _rday else ""
+    read_title = f"The chart read, {_rst or _md}" if _md else "The chart read"
     _bst = _snap_stamp_et((pulse or {}).get("generated_utc") or "")
     newer_note = (f'<p class="pc-note cm-newer">The boards above are newer than this read; '
                   f'they are as of {esc(_bst)}.</p>'
@@ -9133,11 +9245,13 @@ def render_chartmaster(read, dateline, pulse=None):
     if read.get("data_only") and read.get("levels"):
         # 12 October 2026: the last path when a read cannot be published. Levels, the 50-day
         # and 200-day lines and RSI, no prose, and it says why there is no prose.
-        def _n(v):
-            return "" if v is None else (f"{v:,.2f}" if abs(v) >= 1 else f"{v:,.4f}")
+        # SPRINT 9.9.2: one precision across a row, the price's (an average below $1 at four decimals like its price)
+        def _n(v, ref=None):
+            ref = v if ref is None else ref
+            return "" if v is None else (f"{v:,.2f}" if abs(ref or 0) >= 1 else f"{v:,.4f}")
         _rows = "".join(
             f'<tr><th scope="row">{esc(str(lv.get("symbol")))}</th><td>${_n(lv.get("price"))}</td>'
-            f'<td class="xs-x">${_n(lv.get("sma50"))}</td><td>${_n(lv.get("sma200"))}</td>'
+            f'<td class="xs-x">${_n(lv.get("sma50"), lv.get("price"))}</td><td>${_n(lv.get("sma200"), lv.get("price"))}</td>'
             f'<td class="xs-x">{esc(str(lv.get("rsi14") if lv.get("rsi14") is not None else ""))}</td></tr>'
             for lv in read["levels"])
         read_html = (f"""
@@ -9146,7 +9260,7 @@ def render_chartmaster(read, dateline, pulse=None):
     <div class="ey"><span class="tag">the data card</span><span class="dateline">{esc(fmt_date(read.get("date")))}</span></div>
     <p class="pc-note">Today's written read did not clear the desk's checks, so this card carries the numbers only.</p>
     {fit_toggle("fit-cm")}<div class="movetable fit-tbl" tabindex="0" role="region" aria-label="Chart data card (scrollable)"><table><thead><tr><th scope="col">Asset</th><th scope="col">Price</th>
-    <th scope="col" class="xs-x">50-day</th><th scope="col">200-day</th><th scope="col" class="xs-x">RSI-14</th></tr></thead>
+    <th scope="col" class="xs-x">50-day</th><th scope="col">200-day</th><th scope="col" class="xs-x" style="white-space:nowrap">RSI-14</th></tr></thead>
     <tbody>{_rows}</tbody></table></div>
     <p class="pc-note">Read from the day's <a href="/pulse.html">Markets</a>. Describe, never predict.</p>
   </article>""")

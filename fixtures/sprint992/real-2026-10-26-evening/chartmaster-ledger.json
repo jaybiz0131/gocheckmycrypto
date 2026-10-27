@@ -1,0 +1,132 @@
+[
+ {
+  "date": "2026-10-13",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: an eight-hour funding rate of 0.0041% is stated with no annual figure beside it. State ",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an eight-hour funding rate of 0.01% is stated with no annual figure beside it. State th",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is substanti"
+  ],
+  "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
+  "t": "2026-10-13T23:15:58Z"
+ },
+ {
+  "date": "2026-10-14",
+  "path": "cut",
+  "tripped": [
+   "headline: belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: unscoped bitcoin price direction while the windows disagree (day -2.03%, week -2.83%, m",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest remains subs",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar"
+  ],
+  "detail": "dropped 5 sentence(s): On the day, Bitcoin fell 2.0 percent and Ethereum 3.3 percent, but over the mont | Open interest remains substantial, with Bitcoin at 2.56 billion USD, Ethereum at | Funding rat",
+  "t": "2026-10-14T23:14:44Z"
+ },
+ {
+  "date": "2026-10-14",
+  "path": "cut",
+  "tripped": [
+   "headline: belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: whale flow claim contradicts the board, which reports off exchanges over the last 2 day"
+  ],
+  "detail": "dropped 5 sentence(s): Bitcoin's funding rate sits at 0.33 percent per 8 hours, which annualizes to 3.7 | When funding is positive and long ratios are this skewed, the structure is expen | The weekly ",
+  "t": "2026-10-14T23:45:16Z"
+ },
+ {
+  "date": "2026-10-15",
+  "path": "cut",
+  "tripped": [
+   "headline: belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: unscoped bitcoin price direction while the windows disagree (day 0.81%, week -2.02%, mo"
+  ],
+  "detail": "dropped 7 sentence(s): Funding rates are elevated on the long side across all measured names, signaling | On Bitcoin, 8-hour funding stands at 0.56 basis points (annualized to 6.2 percen | Crowded lon",
+  "t": "2026-10-15T23:14:19Z"
+ },
+ {
+  "date": "2026-10-15",
+  "path": "cut",
+  "tripped": [
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: ETF flow claim says pos at the day window but the digest's day number points the other "
+  ],
+  "detail": "dropped 3 sentence(s): Bitcoin perp funding at 0.0045% per 8 hours annualizes to 5.0%, elevated for a m | On the positive side, any return of inflow to Bitcoin or Ethereum ETFs over the  | The funding",
+  "t": "2026-10-15T23:45:15Z"
+ },
+ {
+  "date": "2026-10-16",
+  "path": "cut",
+  "tripped": [
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is substanti",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: ETF flow claim says neg at the day window but the digest's day number points the other "
+  ],
+  "detail": "dropped 5 sentence(s): Open interest is substantial at $2.49 billion for Bitcoin and $1.40 billion for  | The contradiction between sentiment and tape is the read: the retail gauge is ca | A flip in B",
+  "t": "2026-10-16T23:15:20Z"
+ },
+ {
+  "date": "2026-10-17",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is elevated:"
+  ],
+  "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
+  "t": "2026-10-17T23:15:04Z"
+ },
+ {
+  "date": "2026-10-18",
+  "path": "cut",
+  "tripped": [
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Ethereum runs a 2.71 long-"
+  ],
+  "detail": "dropped 3 sentence(s): Leverage positioning shows longs crowded and funding rates elevated. | Ethereum runs a 2.71 long-short ratio on $1.41 billion open interest at 0.8 perc | When longs are this cro",
+  "t": "2026-10-18T23:13:31Z"
+ },
+ {
+  "date": "2026-10-19",
+  "path": "cut",
+  "tripped": [
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar"
+  ],
+  "detail": "dropped 4 sentence(s): Bitcoin funding trades at 0.84 percent per 8 hours, annualizing to 9.2 percent,  | Ethereum is even more skewed: 2.37 longs per short and 1.41 billion in open inte | XRP and DOG",
+  "t": "2026-10-19T23:14:33Z"
+ },
+ {
+  "date": "2026-10-20",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: an eight-hour funding rate of 0.0067% is stated with no annual figure beside it. State ",
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: whale flow claim contradicts the board, which reports off exchanges over the last 2 day",
+   "belt: chartmaster: ETF flow claim says pos at the day window but the digest's day number points the other "
+  ],
+  "detail": "the rest still fails whole: chartmaster: unscoped ETF flow direction while the daily and five-session numbers disagree; name the window",
+  "t": "2026-10-20T23:14:41Z"
+ },
+ {
+  "date": "2026-10-25",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: funding is stated without naming the venue (OKX); one exchange's funding is not the mar",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest remains subs",
+   "belt: chartmaster: whale flow claim contradicts the board, which reports onto exchanges over the last 3 da"
+  ],
+  "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
+  "t": "2026-10-25T23:16:11Z"
+ },
+ {
+  "date": "2026-10-26",
+  "path": "data-only",
+  "tripped": [
+   "belt: chartmaster: an eight-hour funding rate of 0.01% is stated with no annual figure beside it. State th",
+   "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest for Bitcoin ",
+   "belt: chartmaster: whale flow claim contradicts the board, which reports onto exchanges over the last 7 da"
+  ],
+  "detail": "the rest still fails whole: chartmaster: missing/oversized headline",
+  "t": "2026-10-26T23:14:51Z"
+ }
+]

@@ -423,10 +423,29 @@ def _chg(v):
     return home.change_html(v, "chg")
 
 
-def _core(label, price_html, chg, window="24 hours"):
+def _core(label, price_html, chg, window="24 hours", said=None):
+    """One row of What moved. SPRINT 9.9.2 (one fact once): `said` is the answer's text above the list; a figure the answer already
+    prints is not printed again in its row, and a row left with no figure is not drawn."""
+    show_p = bool(price_html) and not _said(said, price_html)
+    show_c = chg is not None and not _said(said, _chg(chg))
+    if said is not None and not (show_p or show_c):
+        return ""
+    win = f'<span class="td-w">{_e(window)}</span>' if show_c else ""
     return (f'<li class="td-row"><span class="td-n">{_e(label)}</span>'
-            f'<span class="td-p">{price_html}</span>{_chg(chg)}'
-            f'<span class="td-w">{_e(window)}</span></li>')
+            f'<span class="td-p">{price_html if show_p else ""}</span>{_chg(chg) if show_c else ""}{win}</li>')
+
+
+def _said(answer, html_fragment):
+    """True when every figure of a fragment is printed in the answer already (the sweep's own figure reading, fact_sweep)."""
+    if answer is None:
+        return False
+    import fact_sweep as _fs
+    frag = _fs._html.unescape(re.sub(r"<[^>]+>", " ", str(html_fragment)))
+    figs = _fs.figures([(frag, None)])
+    if not figs:
+        return False
+    base = _fs.figures([(answer, None)])
+    return all(any(f.same(g) for g in base) for f in figs)
 
 
 # SPRINT 9.5: the slots and readings were renamed (NAMES.md section 4). A record written before the
@@ -522,26 +541,36 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     import site_build as sb
     import home
     btc, eth, cap = rec["btc"], rec.get("eth"), rec.get("cap")
+    said = " ".join(rec.get("answer") or [])
     if btc.get("chg_day") is not None:
-        core = [_core("Bitcoin", _e(home._whole(btc["price"])), btc["chg_day"], "since midnight ET")]
+        core = [_core("Bitcoin", _e(home._whole(btc["price"])), btc["chg_day"], "since midnight ET", said)]
         if isinstance(btc.get("chg"), (int, float)):
-            core.append(_core("Bitcoin", "", btc["chg"], "last 24 hours"))
+            core.append(_core("Bitcoin", "", btc["chg"], "last 24 hours", said))
     else:
-        core = [_core("Bitcoin", _e(home._whole(btc["price"])), btc["chg"])]
+        core = [_core("Bitcoin", _e(home._whole(btc["price"])), btc["chg"], said=said)]
     if eth:
-        core.append(_core("Ether", _e(home._whole(eth["price"])) if eth.get("price") else "", eth["chg"]))
+        core.append(_core("Ether", _e(home._whole(eth["price"])) if eth.get("price") else "", eth["chg"], said=said))
     if cap:
-        core.append(_core("Whole market", _e(sb.fmt_usd(cap["usd"])), cap["chg"]))
+        core.append(_core("Whole market", _e(sb.fmt_usd(cap["usd"])), cap["chg"], said=said))
+    core = [x for x in core if x]
 
     def lst(rows):
         return "".join(
             f'<li class="td-row"><span class="td-n"><a href="/coins/{_e(r.get("slug") or str(r["symbol"]).lower())}">'
             f'{_e(r["symbol"])}</a> <span class="td-w">{_e(r.get("name") or "")}</span></span>'
             f'{_chg(r["chg"])}<span class="td-w">24 hours</span></li>' for r in rows)
-    gain, lose = rec.get("gainers") or [], rec.get("losers") or []
-    moved = (f'<ul class="td-list">{"".join(core)}</ul>'
-             + (f'<h3 class="td-h3">Biggest gains in the Top 100</h3><ul class="td-list">{lst(gain)}</ul>' if gain else "")
-             + (f'<h3 class="td-h3">Biggest losses in the Top 100</h3><ul class="td-list">{lst(lose)}</ul>' if lose else ""))
+    # SPRINT 9.9.2: a mover the answer already names with its figure is not listed again under it
+    gain = [r for r in (rec.get("gainers") or []) if not _said(said, _chg(r["chg"]))]
+    lose = [r for r in (rec.get("losers") or []) if not _said(said, _chg(r["chg"]))]
+    moved = ((f'<ul class="td-list">{"".join(core)}</ul>' if core else "")
+             + (f'<h3 class="td-h3">More of the biggest gains in the Top 100</h3><ul class="td-list">{lst(gain)}</ul>'
+                if gain and len(gain) < len(rec.get("gainers") or []) else
+                f'<h3 class="td-h3">Biggest gains in the Top 100</h3><ul class="td-list">{lst(gain)}</ul>' if gain else "")
+             + (f'<h3 class="td-h3">More of the biggest losses in the Top 100</h3><ul class="td-list">{lst(lose)}</ul>'
+                if lose and len(lose) < len(rec.get("losers") or []) else
+                f'<h3 class="td-h3">Biggest losses in the Top 100</h3><ul class="td-list">{lst(lose)}</ul>' if lose else ""))
+    if not moved:
+        moved = '<p class="td-w">The answer above carries every figure of the day.</p>'
     vd_html = ""
     living = here != "dated" and clock is not None
     try:
@@ -612,18 +641,22 @@ def body_html(rec, archive_dates, here=None, evidence=None, verdict=None, clock=
     # SPRINT 9.9.1 (Review 2, failure 5): one next read per page. The living page names the next slot off the build's clock, the one
     # the verdict notice names (home.next_slot), so a slot already past is never shown as the next; a dated page keeps its record's own
     nxt = next_update(rec["slot"], clock) if (clock is not None and here != "dated") else rec["next"]
+    # SPRINT 9.9.2: the next slot's time prints once; when the card's notice carries it, the footer line does not repeat it
+    _m = re.search(r"((?:this morning|tonight|tomorrow) at \d{1,2}:\d\d [AP]M ET)", nxt or "")
+    if _m and f"Next read: {_m.group(1)}" in (vd_html or ""):
+        nxt = ""
     return f"""<main class="wrap"><section class="page td-page">
   <span class="kicker">Why it moved</span>
   <h1>{_e(rec['h1'])}</h1>
   <p class="td-stamp">{_e(reader(rec['stamp_label']))}</p>
   {window_line(rec, evidence if ev_html else None, bool(graded))}
-  <section class="td-answer" aria-label="The answer"><p>{_e(ans)}</p></section>
+  <section class="td-answer{' td-read' if rec.get('answer_by') not in (None, 'template') else ''}" aria-label="The answer"><p>{_e(ans)}</p></section>
   {corr}
 {vd_slot}  <section class="td-sec"><h2>What moved</h2>{moved}</section>
   {ev_html}
   {reported_sec}
   <section class="td-sec"><h2>Markets</h2><ul class="td-list">{board}</ul></section>
-  <p class="td-next">{_e(reader(nxt))}</p>
+  {f'<p class="td-next">{_e(reader(nxt))}</p>' if nxt else ''}
   <p class="td-w">How the desk's grades held up afterwards is kept on <a href="/why/record/">the verdict record</a>.</p>
   {'<p class="td-w">This is the record of its day. The latest answer is at <a href="/today/">/today/</a>.</p>' if here == "dated" else ''}
   {f'<section class="td-sec td-arch"><h2>Earlier days</h2><ul>{arch}</ul></section>' if arch else ''}

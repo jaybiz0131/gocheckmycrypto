@@ -194,3 +194,109 @@ def through_label(through):
     except ValueError:
         return ""
     return f"closes through {d.strftime('%b')} {d.day}"
+
+
+# ---- ONE FACT ONCE (Sprint 9.9.2, October 27, 2026): an average at its price's precision ------------------------------------
+#
+# Until 9.9.2, market_pulse stored the 50- and 200-day averages rounded to two decimals whatever the price, so Dogecoin's 200-day
+# was stored as 0.09 and printed as $0.0900 beside a $0.0770 price while its closes gave $0.0867. A record written that way is never
+# rewritten (the record is what the run wrote); the build reads the same average again from the same closes, the same math, and
+# prints that only when it rounds back to the stored figure, which is the proof that it is the same figure, held at its price's
+# precision. A record that does not reproduce is printed as stored.
+
+def _decimals(v):
+    s = repr(float(v))
+    return 0 if "e" in s else len(s.split(".")[1].rstrip("0"))
+
+
+def held_decimals(price):
+    """The decimals an average is held to beside a price: two at $100 and up, six below (market_pulse's rule from 9.9.2)."""
+    return 2 if (price or 0) >= 100 else 6
+
+
+def coarse(value, price):
+    """True when a stored average carries fewer decimals than its price's precision needs: below $100 a price prints past two
+    decimals, so an average stored at two or fewer (0.09, 1.4) holds less than the row it sits in."""
+    return isinstance(value, (int, float)) and isinstance(price, (int, float)) and price < 100 and _decimals(value) <= 2
+
+
+def precise_average(cid, n, stored, price, through, root=None):
+    """The n-day average of the stored closes through `through` with `price` appended (the run's math), when it rounds back to
+    `stored` at the stored decimals; else None."""
+    try:
+        ds, vs = closes(load(cid, root))
+    except Exception:
+        return None
+    vals = [v for d, v in zip(ds, vs) if d <= str(through)]
+    if not isinstance(price, (int, float)) or len(vals) + 1 < n:
+        return None
+    seq = vals + [float(price)]
+    a = sum(seq[-n:]) / n
+    if round(a, max(_decimals(stored), 0)) != round(float(stored), max(_decimals(stored), 0)):
+        return None
+    return round(a, held_decimals(price))
+
+
+def precise_assets(assets, root=None):
+    """The Board's assets with each coarse average read again from the closes (see above); a new list, the input untouched."""
+    import copy
+    out = []
+    for a in assets or []:
+        b = copy.deepcopy(a)
+        cid = b.get("name")
+        for k, n in (("sma50", 50), ("sma200", 200)):
+            if coarse(b.get(k), b.get("price")) and cid and b.get("through"):
+                v = precise_average(cid, n, b[k], b["price"], b["through"], root)
+                if v is not None:
+                    b[k] = v
+        for k, fn in (("spark_high", max), ("spark_low", min)):
+            if coarse(b.get(k), b.get("price")) and cid and b.get("through"):
+                v = precise_extreme(cid, fn, b[k], b["price"], b["through"], root)
+                if v is not None:
+                    b[k] = v
+        out.append(b)
+    return out
+
+
+def precise_extreme(cid, fn, stored, price, through, root=None, days=90):
+    """The 90-day high (fn=max) or low (fn=min) of the closes through `through` with `price` appended, the window market_pulse
+    draws, when it rounds back to `stored`; else None."""
+    try:
+        ds, vs = closes(load(cid, root))
+    except Exception:
+        return None
+    vals = [v for d, v in zip(ds, vs) if d <= str(through)] + ([float(price)] if isinstance(price, (int, float)) else [])
+    if len(vals) < days:
+        return None
+    x = fn(vals[-days:])
+    dec = max(_decimals(stored), 0)
+    if round(x, dec) != round(float(stored), dec):
+        return None
+    return round(x, held_decimals(price))
+
+
+def precise_levels(levels, read_date, root=None):
+    """A Chart Master record's levels with each coarse average read again from the closes. The record names its read's date, not
+    its series' through date, so the closes through the day before the read and through the read's day are each tried, and only
+    one that rounds back to the stored figure is taken."""
+    import copy
+    import market_pulse as _mp
+    cid_of = {s: c for c, s in _mp.ASSETS}
+    out = []
+    try:
+        d = _dt.date.fromisoformat(str(read_date)[:10])
+        throughs = [(d - _dt.timedelta(days=1)).isoformat(), d.isoformat()]
+    except ValueError:
+        throughs = []
+    for lv in levels or []:
+        b = copy.deepcopy(lv)
+        cid = cid_of.get(str(b.get("symbol") or "").upper())
+        for k, n in (("sma50", 50), ("sma200", 200)):
+            if cid and coarse(b.get(k), b.get("price")):
+                for th in throughs:
+                    v = precise_average(cid, n, b[k], b["price"], th, root)
+                    if v is not None:
+                        b[k] = v
+                        break
+        out.append(b)
+    return out

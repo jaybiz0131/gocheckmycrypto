@@ -273,6 +273,21 @@ try {
           // SPRINT 9.9.1: the no-read notice is the one thing the card's place gains; with it taken out the page is Sprint 9.5's
           // (scripts/sprint991_test.py holds the notice to account, as the Ether line is held by the data-wide cut above)
           await page.evaluate(() => document.querySelectorAll("aside.vd.vd-next").forEach(e => e.remove()));
+          // SPRINT 9.9.2: the Brief card's "Next Brief" line prints only when no notice carries the same time (the home's next slot
+          // time printed once); it is taken out of both pages here, and scripts/sprint992_test.py holds it to account
+          await page.evaluate(() => document.querySelectorAll('[data-block="narrative"] p.h-next').forEach(e => e.remove()));
+          // and a coin "Moving today" lists with its change is not named again in the "beyond 5%" line (the same rule as _cut_992)
+          await page.evaluate(() => {
+            const listed = new Set([...document.querySelectorAll("ol.h-movers a")].map(a => a.textContent.trim()));
+            document.querySelectorAll("p.h-stand").forEach(p => {
+              const m = p.innerHTML.match(/^Top 100 beyond 5% either way: (.*)$/s);
+              if (!m) return;
+              const items = [...m[1].matchAll(/(\S+) (<span class="h-mc[^"]*">[^<]*<\/span>)/g)];
+              if (!items.length) return;
+              const keep = items.filter(x => !listed.has(x[1])).map(x => x[1] + " " + x[2]);
+              p.innerHTML = "Top 100 beyond 5% either way: " + (keep.length ? keep.join(", ") : "none beyond those above");
+            });
+          });
           await page.waitForTimeout(1600);
           lay.push(await page.evaluate(LAYOUT));
           shots.push(await page.screenshot({ fullPage: true, animations: "disabled" }));

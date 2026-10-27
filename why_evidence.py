@@ -778,6 +778,8 @@ def _source_check(wires, fetch, ledger, links_per_item=2):
         ledger.ok("Wire sources (the linked reports, for 9.1's source check)", "",
                   f"{read} report(s) read")
     if missed:
+        # SPRINT 9.9.2: a source not read is listed once (two links of one outlet refused the same way are one entry, counted)
+        missed = once_each(missed)
         ledger.miss("Wire sources, some linked reports", "not read: " + "; ".join(missed[:6])
                     + (" and more" if len(missed) > 6 else ""))
     return kept, cuts
@@ -1518,6 +1520,100 @@ _RENAMED = (("the Board's daily read", "the daily read on Markets"), ("the Board
             ("on the Board", "on Markets"), ("(the Board)", "(Markets)"))
 
 
+# ---- SPRINT 9.9.2: a source link is cited only when it is about the event ----------------------------------------------------
+#
+# Review 1: a Daily Hodl link was cited for a UK banks item whose address is a different story (a Louisiana impersonation scam). A
+# link is cited when its address's path or its page title carries a word of the event: a word of the event's own line or titles that
+# is not a stop word, not a bare number and not one the desk prints in 2% or more of its own published titles (at least four), the
+# floor measured from the corpus and not kept by hand, so "bitcoin", "crypto" or "etf" never carry a match alone (CLAUDE.md: a
+# shallow key is not an identity). Any other link prints "source link not matched" and does not count toward the grade.
+
+_TOK = re.compile(r"[a-z0-9]+")
+_LINK_STOP = frozenset("""the and for with from that this have been were will would their there which about after before into over
+under than then them they what when where while also more most such only other some said says says new its his her our your are was
+has had not but can may per via amid""".split())
+_COMMON = {}
+
+
+def common_words(content_dir=None):
+    """Words carried by 2% or more of the desk's published titles (at least four), cached per directory."""
+    d = content_dir or os.path.join(HERE, "site", "content")
+    if d in _COMMON:
+        return _COMMON[d]
+    import collections as _c
+    import glob as _g
+    n, cnt = 0, _c.Counter()
+    for f in _g.glob(os.path.join(d, "*.json")):
+        try:
+            t = (json.load(open(f, encoding="utf-8")) or {}).get("title") or ""
+        except Exception:
+            continue
+        n += 1
+        cnt.update(set(_TOK.findall(t.lower())))
+    floor = max(4, int(n * 0.02 + 0.999))
+    _COMMON[d] = frozenset(w for w, k in cnt.items() if k >= floor)
+    return _COMMON[d]
+
+
+def event_words(c):
+    """The words that name a candidate's event: its line, its titles and its first report's line, less stop words, bare numbers,
+    short words and the desk's common words."""
+    txt = " ".join([str(c.get("line") or ""), str(c.get("report_line") or "")] + [str(t) for t in c.get("titles") or []])
+    common = common_words()
+    return {w for w in _TOK.findall(txt.lower())
+            if len(w) >= 3 and not w.isdigit() and w not in _LINK_STOP and w not in common}
+
+
+def link_matched(link, words):
+    """True when a link's address path or its page title carries one of `words`."""
+    from urllib.parse import urlparse
+    try:
+        path = urlparse(str(link.get("url") or "")).path.lower()
+    except ValueError:
+        path = ""
+    have = set(_TOK.findall(path)) | set(_TOK.findall(str(link.get("title") or "").lower()))
+    return bool(have & words)
+
+
+def unmatched_links(c):
+    """The candidate's links that are not about its event (a primary feed's own page is the event's source by construction)."""
+    if c.get("kind") != "wire":
+        return []
+    words = event_words(c)
+    return [l for l in (c.get("report_links") or c.get("links") or []) if l.get("url") and not link_matched(l, words)]
+
+
+def counted_sources(c):
+    """The sources that count toward the grade: the candidate's outlets less each link that is not about the event."""
+    n = int(c.get("source_count") or 0)
+    return max(0, n - len(unmatched_links(c)))
+
+
+def once_each(items):
+    """Each entry once, in first-seen order, a repeated one counted: ["The Block (HTTP 403)", "The Block (HTTP 403)"] reads
+    ["The Block (HTTP 403), 2 links"]."""
+    order, n = [], {}
+    for x in items:
+        if x not in n:
+            order.append(x)
+            n[x] = 0
+        n[x] += 1
+    return [x if n[x] == 1 else f"{x}, {n[x]} links" for x in order]
+
+
+def _unread_once(why):
+    """A stored reason whose inner "not read: A; A" list repeats a source, read with each source once (the record stays as written)."""
+    t = str(why or "")
+    k = t.find("not read: ")
+    if k < 0:
+        return t
+    head, rest = t[:k + len("not read: ")], t[k + len("not read: "):]
+    tail = ""
+    if rest.endswith(" and more"):
+        rest, tail = rest[:-len(" and more")], " and more"
+    return head + "; ".join(once_each(rest.split("; "))) + tail
+
+
 def _renamed(text):
     t = str(text or "")
     for a, b in _RENAMED:
@@ -1683,9 +1779,23 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
     head = (f'<p class="ev-win"{asof}>{_e(name)}, {_e(win)}. Prices: {src}.</p>')
     runp = ""
     if run:
+        # SPRINT 9.9.2 (one fact once): the chart prints the window's high and low at its top and bottom; an end of the run that is
+        # one of them is named, not printed a second time
+        _pts = [p for _t, p in ((coin.get("series") or {}).get("points") or [])]
+        _hi, _lo = (_price(max(_pts)), _price(min(_pts))) if len(_pts) >= 2 else (None, None)
+
+        def _end(p, first):
+            t = _price(p)
+            if t == _hi:
+                return "the chart's high" if first else "its high"
+            if t == _lo:
+                return "the chart's low" if first else "its low"
+            return t
+        _a = _end(run["start_p"], True)
+        _b = _end(run["end_p"], not _a.startswith("the chart"))
         runp = (f'<p class="ev-run-l">The largest run {_e(wname) if wname else "in the window"}: {_chg(run["pct"])} from '
-                f'{_e(_price(run["start_p"]))} at {_e(day_clock(run["start_t"], w1))} to '
-                f'{_e(_price(run["end_p"]))} at {_e(day_clock(run["end_t"], w1))}. It is shaded on the chart; '
+                f'{_e(_a)} at {_e(day_clock(run["start_t"], w1))} to '
+                f'{_e(_b)} at {_e(day_clock(run["end_t"], w1))}. It is shaded on the chart; '
                 f'its start is marked.</p>')
     chart = chart_svg(coin, numbered, name, rec.get("window"))
     note = f'<p class="ev-m ev-window-note">{_e(note_text)}</p>' if (res and note_text) else ""
@@ -1697,7 +1807,9 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
         if GRADE_WORDS.search(line):
             line = f'Report, {c["links"][0]["outlet"]}' if c.get("links") else "Report"
         links = c.get("report_links") or c.get("links") or []
-        srcs = ", ".join(f'<a href="{_e(l["url"])}" rel="noopener">{_e(l["outlet"])}</a>'
+        _bad = {id(l) for l in unmatched_links(c)}
+        srcs = ", ".join((f'{_e(l["outlet"])}: source link not matched' if id(l) in _bad else
+                          f'<a href="{_e(l["url"])}" rel="noopener">{_e(l["outlet"])}</a>')
                          for l in links if l.get("url"))
         meta = []
         ev = _parse_utc(c.get("event_utc"))
@@ -1709,7 +1821,7 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
             meta.append(f'Event day {_e(c["event_day"])}, {_e(c.get("event_basis") or "")}')
         rp = _parse_utc(c.get("report_utc"))
         if rp is not None:
-            k = int(c.get("source_count") or 0)
+            k = counted_sources(c)                   # SPRINT 9.9.2: a link not about the event is not counted
             meta.append(f'First reported {_e(day_clock(int(rp.timestamp()), w1))}'
                         + (f', {k} source{"" if k == 1 else "s"}' if k else ""))
         elif c["kind"] == "release":
@@ -1741,7 +1853,10 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
     mrows = []
     for r in mech.get("rows") or []:
         if str(r.get("key")).startswith("kalshi"):
-            fig = f'<span class="ev-f">{r["from_pct"]:.1f}% to {r["to_pct"]:.1f}%</span>'
+            # SPRINT 9.9.2: a reading that did not move is one figure, said so, not the same figure twice
+            fig = (f'<span class="ev-f">{r["to_pct"]:.1f}%, unchanged in the hour</span>'
+                   if f'{r["from_pct"]:.1f}' == f'{r["to_pct"]:.1f}' else
+                   f'<span class="ev-f">{r["from_pct"]:.1f}% to {r["to_pct"]:.1f}%</span>')
         elif r.get("key") == "taker":
             fig = (f'<span class="ev-f">{_e(_usd(r["buy_usd"]))} bought, '
                    f'{_e(_usd(r["sell_usd"]))} sold</span>')
@@ -1750,7 +1865,8 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
                    else '<span class="ev-f">no trading in the hour</span>')
         elif str(r.get("key")).startswith("liq"):
             if r.get("unread"):
-                fig = f'<span class="ev-f">not read for this hour: {_e(r["why"])}</span>'
+                # SPRINT 9.9.2 (entry 2026-10-26-C6): the source was read; it does not reach this hour, so it was not compared
+                fig = f'<span class="ev-f">not compared for this window: {_e(r["why"])}</span>'
             else:
                 fig = (f'<span class="ev-f">{_e(_usd(r["longs_usd"]))} longs, '
                        f'{_e(_usd(r["shorts_usd"]))} shorts</span>')
@@ -1783,7 +1899,7 @@ def _section(rec, sym, live, skip, quoted=(), graded=None, marks=frozenset(), re
     for u in unread:
         if u["name"] not in seen:
             seen.add(u["name"])
-            names.append(_renamed(f'{u["name"]} ({u["why"]})'))
+            names.append(_renamed(f'{u["name"]} ({_unread_once(u["why"])})'))
     srcs_html = (f'<p class="ev-src">Not read, so not shown: {_e("; ".join(names))}.</p>' if names else "")
     day = rec.get("day") or {}
     daily = [x for x, ok in (("Farside spot ETF flows (daily; on Markets)", day.get("etf_btc")),

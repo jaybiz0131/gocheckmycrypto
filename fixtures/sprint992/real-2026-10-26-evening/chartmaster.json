@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-26",
+  "generated_by": "chartmaster.py (auto, from the live boards)",
+  "mode": "live",
+  "path": "data-only",
+  "headline": "Chart data card: levels, 50-day and 200-day lines, RSI",
+  "paragraphs": [],
+  "data_only": true,
+  "levels": [
+    {
+      "symbol": "BTC",
+      "price": 79754,
+      "sma50": 81800.06,
+      "sma200": 72988.58,
+      "rsi14": 40.6
+    },
+    {
+      "symbol": "ETH",
+      "price": 2305.34,
+      "sma50": 2539.25,
+      "sma200": 2158.09,
+      "rsi14": 32.5
+    },
+    {
+      "symbol": "SOL",
+      "price": 100.02,
+      "sma50": 109.46,
+      "sma200": 88.45,
+      "rsi14": 34.0
+    },
+    {
+      "symbol": "XRP",
+      "price": 1.29,
+      "sma50": 1.4,
+      "sma200": 1.28,
+      "rsi14": 38.6
+    },
+    {
+      "symbol": "BNB",
+      "price": 739.71,
+      "sma50": 749.41,
+      "sma200": 651.93,
+      "rsi14": 49.1
+    },
+    {
+      "symbol": "DOGE",
+      "price": 0.077024,
+      "sma50": 0.09,
+      "sma200": 0.09,
+      "rsi14": 34.2
+    },
+    {
+      "symbol": "ADA",
+      "price": 0.204297,
+      "sma50": 0.23,
+      "sma200": 0.21,
+      "rsi14": 35.1
+    }
+  ]
+}

@@ -529,7 +529,8 @@ def _data_contract_canary():
     _check((tiles.get("bitcoin") or {}).get("value") == want, fails,
            f"data contract: the Board's Bitcoin tile prints "
            f"{(tiles.get('bitcoin') or {}).get('value')!r}, not the snapshot's {want}")
-    _pm = _r.search(r'<h3 class="tl-l">Price</h3><p class="tl-f">([^<]*)</p>', page)
+    # SPRINT 9.9.2: the price stat carries its 24-hour change beside it (one tile, not two); the figure is the text before it
+    _pm = _r.search(r'<h3 class="tl-l">Price</h3><p class="tl-f[^"]*">([^<]*?)\s*(?:<span|</p>)', page)
     _check(bool(_pm) and _pm.group(1) == want, fails,
            f"data contract: the coin page for BTC prints "
            f"{_pm.group(1) if _pm else 'no Price stat'}, not the snapshot's {want}; it is "
@@ -550,11 +551,13 @@ def _data_contract_canary():
         _check(bool(zone.search(txt)), fails,
                f"data contract: {name} carries no zone and date: {txt[:80]!r}")
 
-    # 3. The Brief's lead line quotes the Board's numbers, window included.
+    # 3. The Brief's lead line reads the Board's snapshot, window and direction included. SPRINT 9.9.2 (one fact once): it
+    # prints no figure the Board's tiles print beside it; the whale tile is the one place the whale figure prints.
     line = _sb.board_summary_line(pv, {"bitcoin": {"pct": 3.3}}, fv)
-    _check(_sb.fmt_usd(7_000_000_000) in line and "2 days" in line, fails,
-           f"data contract: the Brief's lead line does not quote the Board's whale figure "
-           f"and window from the snapshot: {line[:120]!r}")
+    _check("2 days" in line and "exchanges" in line and _sb.fmt_usd(7_000_000_000) not in line
+           and "3.3%" not in line, fails,
+           f"data contract: the Brief's lead line does not read the Board's whale window from the snapshot, or prints a "
+           f"figure its tiles print (9.9.2, one fact once): {line[:120]!r}")
     _check((tiles.get("whales") or {}).get("value") == _sb.fmt_usd(7_000_000_000), fails,
            "data contract: the Board's whale tile does not print the snapshot's figure")
     real = _snapshot.build(raw_p, raw_f)
@@ -2066,6 +2069,8 @@ def _stamp_canary():
             fails.extend(_sprint98_canary(out))
             fails.extend(_sprint99h_canary())
             fails.extend(_sprint991_canary(out))
+            fails.extend(_where_is_news_tree_canary(out))   # K-1's tree half, on this build's tree (9.9.2)
+            fails.extend(_sprint992_canary(out))
             _ip = _o.path.join(out, "index.html")
             if _o.path.exists(_ip):
                 _ih = open(_ip, encoding="utf-8").read()
@@ -3504,6 +3509,28 @@ def _sprint991_canary(out):
     return fails
 
 
+def _sprint992_canary(out):
+    """SPRINT 9.9.2 (27 October 2026): one fact once. fact_sweep.py reads every page of the tree this build wrote, at 375 and 1440
+    through the site's own stylesheets, and fails on any figure printed twice on a page, any named reading (the 200-day, the 50-day,
+    RSI, Fear & Greed) printed twice for one subject, any derived figure whose precision differs from its row or is padded past what
+    the desk's series holds, the next slot's time printed twice, and a dated block without its read's time ("from the last build"
+    retired). scripts/sprint992_test.py holds the cases: the sweep's own model, the production fixture it was seen red on, and each
+    fix. The helpers are taken out of sys.modules again (U-11)."""
+    import sys as _sys
+    _sd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts")
+    _sys.path.insert(0, _sd)
+    try:
+        import sprint992_test as _s992
+        fails = ["sprint 9.9.2: " + f for f in _s992.unit()]
+        fails += ["sprint 9.9.2: " + f for f in _s992.tree(out)]
+    finally:
+        for m in ("sprint992_test", "fact_sweep"):
+            _sys.modules.pop(m, None)
+        if _sd in _sys.path:
+            _sys.path.remove(_sd)
+    return fails
+
+
 def _beacon_canary(out):
     """EVERY PAGE CARRIES EXACTLY ONE ANALYTICS BEACON (Jack, 12 October 2026). Counted on
     the built tree, every .html but the verification and redirect stubs: none is a red, two
@@ -3601,23 +3628,28 @@ def _below_canary(index_html=None):
     # 3. THE BRIEF CARD (Program 7, Sprint 7.1): the Brief moved above the fold into the
     # band's place. It names the edition it is, by day and slot, links it, and says when the
     # next one is due; with no current edition it still says when.
-    _bc = _re.search(r'data-block="narrative">(.*?)</section>', _h.above_fold(
-        snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=ed,
-        now=_BELOW_NOW), _re.S)
+    # SPRINT 9.9.2 (one fact once, "the home's next slot time printed once"): the next slot's time prints exactly once on the home,
+    # on the Brief card or, when the verdict card's notice carries it (the ruled one line, entry 2026-10-26-C6), there and not again
+    _full = _h.above_fold(snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=ed, now=_BELOW_NOW)
+    _when = _h.next_slot(_BELOW_NOW)[1]
+    _once = lambda page: _re.sub(r"<[^>]+>", " ", page).count(_when) == 1 and (
+        f"Next Brief {_when}" in page or f"Next read: {_when}" in page)
+    _bc = _re.search(r'data-block="narrative">(.*?)</section>', _full, _re.S)
     _bc = _bc.group(1) if _bc else ""
     if ed:
         _check(_sb.esc(_h.brief_name(ed)) in _bc and f'/articles/{ed.get("slug")}.html' in _bc
-               and _re.search(r"Next Brief (this morning|tonight|tomorrow) at \d{1,2}:\d{2} [AP]M ET", _bc),
+               and _once(_full),
                fails, "below canary: the Brief card does not name its edition, link it and say "
-                      "when the next Brief is due")
+                      "when the next Brief is due (once on the page)")
     _check(_h.brief_name({"slug": "evening-brief-2026-10-11", "date": "2026-10-11"})
            == "EVENING BRIEF \u00b7 SUNDAY", fails,
            "below canary: the Brief card's eyebrow does not name the Brief by slot and day")
     _b0 = _re.search(r'data-block="narrative">(.*?)</section>', _h.above_fold(
         snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=None,
         now=_BELOW_NOW), _re.S)
-    _check(bool(_b0) and "Next Brief tonight at" in _b0.group(1), fails,
-           "below canary: with no Brief the card does not say when the next one is due")
+    _check(bool(_b0) and _once(_h.above_fold(snap, pulse, flows, deltas, wire, narr, cal, _sb.NEWS_CADENCE_LINE, ed=None,
+                                             now=_BELOW_NOW)), fails,
+           "below canary: with no Brief the home does not say when the next one is due (once on the page)")
     _check("brief" not in order, fails,
            "below canary: the Brief prints twice, above the fold and below it")
     # 4. one piece per lane
@@ -3753,9 +3785,12 @@ def _coin_chart_canary():
     _check("data-fallback" in _one, fails,
            "K-7 canary: there is no fallback line, so a blocked fetch leaves an empty "
            "box where the chart was")
-    _check("from the last build" in _one, fails,
-           "K-7 canary: the fallback does not say it is the fallback, so a stale line "
-           "reads as a live one")
+    # SPRINT 9.9.2: "from the last build" retires; the fallback names its own read in the house wording ("Read Oct 26, 7:12 PM
+    # ET"), so a stale line still never reads as a live one, and the reader can tell how old it is
+    _check(_re7.search(r'<span class="cn-stamp">Read [A-Z][a-z]{2} \d{1,2}, \d{1,2}:\d\d [AP]M ET\.</span>', _one) is not None
+           and "from the last build" not in _one, fails,
+           "K-7 canary: the fallback does not name its own read in the house wording (Read Oct 26, 7:12 PM ET), so a stale "
+           "line reads as a live one")
     return fails
 
 
@@ -3849,13 +3884,24 @@ def _where_is_news_canary():
            == ["Why it moved", "Markets", "Big movers", "Whale Watch", "Brief"], fails,
            "9.5 canary: the phone tab bar's labels are not Why it moved, Markets, Big movers, Whale Watch, Brief")
 
+    return fails
+
+
+def _where_is_news_tree_canary(pub):
+    """K-1's checks of a BUILT tree, read on the tree this canary's own build wrote (`pub`). SPRINT 9.9.2: they read
+    site_build.PUBLISH, the ignored site/publish, which a local build from another day leaves behind, so a stale tree could fail
+    K-1 on a news front the code no longer writes (the 9.9.1 reviewer's note, entry 2026-10-26-C6). The checks are unchanged;
+    only the tree they read is the one this run built."""
+    import site_build as _sb5
+    import re as _re5
+    fails = []
     # 9.5: ONE NAME PER THING. On a built tree, each destination's page carries its one name as the H1, its title tag
     # opens with it, and no eyebrow, kicker or nav entry prints a second (brand) name; all read from the one table
     # (site_build.NAMES). Skipped when no tree is built, as the checks below are.
     for _k, (_task, _brand, _href) in _sb5.NAMES.items():
         if _k in ("why", "movers"):
             continue                  # the daily answer's H1 is its search title; the movers page is checked by sprint95_test
-        _pf = os.path.join(_sb5.PUBLISH, _href.lstrip("/"))
+        _pf = os.path.join(pub, _href.lstrip("/"))
         if not os.path.exists(_pf):
             continue
         _ph = open(_pf, encoding="utf-8", errors="ignore").read()
@@ -3871,13 +3917,13 @@ def _where_is_news_canary():
                f"9.5 canary: {_href} nav does not carry {_task}")
         _check(f"<footer" in _ph and f">{_task}</a>" in _ph.split("<footer", 1)[1] if _k in ("record", "learn", "news", "charts") else True,
                fails, f"9.5 canary: the footer does not link {_task}")
-    _bp = os.path.join(_sb5.PUBLISH, "bottom-line.html")
+    _bp = os.path.join(pub, "bottom-line.html")
     if os.path.exists(_bp):
         _bh = open(_bp, encoding="utf-8", errors="ignore").read().split("<main", 1)[0]
         _check("The Bottom Line" not in _bh and "daily reads" not in _bh, fails,
                "6.3 canary: the Brief page chrome still calls itself The Bottom Line or the daily reads")
 
-    _pub = _sb5.PUBLISH
+    _pub = pub
     _nh = os.path.join(_pub, "news.html")
     if os.path.exists(_nh):
         _h = open(_nh, encoding="utf-8", errors="ignore").read()

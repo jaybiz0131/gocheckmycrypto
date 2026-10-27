@@ -796,6 +796,8 @@ def run():
         obj, path, tripped, detail = publish_path(cand[0], e, data)
     out = {
         "date": data["data_date"],
+        # SPRINT 9.9.2: the read's own time, which every block that prints it names ("Chart levels, read Oct 26, 7:14 PM ET")
+        "written_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "generated_by": "chartmaster.py (auto, from the live boards)",
         "mode": client.mode,
         "path": path,

@@ -150,7 +150,10 @@ def week_cases(fails):
             lambda: "2.0% over the week" not in html)
     guarded(fails, "the Chart Master's other sentence stands, whole, without its 'However,'",
             lambda: "Bitcoin sits above its 200-day average." in html and "However, Bitcoin" not in html)
-    guarded(fails, "the readings tile names its window in words (Rolling 7 days)", lambda: "Rolling 7 days" in html)
+    # SPRINT 9.9.2 (one fact once): the chart's header is the page's one 7-day figure, its window in words; no tile repeats it
+    guarded(fails, "the page's one 7-day figure names its window in words (over the last 7 days), and no 7-day tile repeats it",
+            lambda: html.count("over the last 7 days") == 1 and "Rolling 7 days" not in html and "+0.08%" in html
+            and html.count("+0.08%") == 1)
     js = open(os.path.join(HERE, "site", "assets", "coinchart.js"), encoding="utf-8").read()
     guarded(fails, "the script prints the same figure on 7D and names every window 'the last ...'",
             lambda: "data-chg7" in js and "the last 7 days" in js and "the last 24 hours" in js)
