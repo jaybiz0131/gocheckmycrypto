@@ -449,6 +449,11 @@ def round3_cases(fails):
                 'The page showed Bitcoin down 2.05% where it rose 0.80%.</p></li></ol>')
     guarded(fails, "failure 1: two corrections quoting one figure are one printing under C8: no finding (SYNTHETIC)",
             lambda: sweep(corr, "corrections.html") == [])
+    guarded(fails, "failure 1: a story page's own correction quoting the story's figure is one printing: no finding (SYNTHETIC, the Ostium "
+                   "story's shape)",
+            lambda: sweep(page('<article class="article"><h1>Ostium loses $18 million to an oracle attack</h1><div class="callout corrected">'
+                               '<b>Correction.</b> Ostium\'s loss was first reported at about $18 million; tracing has since put it at $24 '
+                               'million.</div><div class="prose"><p>Ostium lost $18 million.</p></div></article>'), "articles/x.html") == [])
     guarded(fails, "failure 1: the sweep has no HELD kind: every pair is a finding or one printing for a reason C8 names",
             lambda: not hasattr(fs, "stands") and not hasattr(fs, "STAND") and '"held"' not in open(fs.__file__, encoding="utf-8").read())
     # /today/2026-10-20 (C8): the evidence item carries the figure, the answer links it; the answer's words are as stored

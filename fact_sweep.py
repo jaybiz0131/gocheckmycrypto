@@ -641,19 +641,16 @@ def one_fact(f, g):
     """THE TEST, used by the sweep and by the build's own pass (fact_once.py) alike: are two printings one fact printed twice?
     The same figure (sign and window agreeing), and then, by where the two sit:
       - two subjects (two table rows, two list rows or story cards not on one event, two reading tiles): no;
-      - one story (its card, or a story page's own regions), one of them its headline: yes, by the figure alone ("$90T Market" over
-        "the $90 trillion market");
       - a coarse figure ($3.8B, 9%): only inside writing, with a subject word in common within one story, two across stories;
       - writing on either side: with a subject word in common (a 25% tariff and a 25% stake are two facts);
-      - data on both sides: yes."""
+      - data on both sides: yes.
+    (Two printings inside one story are one printing whatever this says: one_printing(), entry 2026-10-27-C8.)"""
     if not f.same(g):
         return False
     if two_subjects(f.el, g.el, f.window, g.window, f, g):
         return False
     sf, sg = story_of(f.el), story_of(g.el)
     ss = sf is not None and sf is sg
-    if ss and (is_head(f.el) or is_head(g.el)):
-        return True
     if not (significant(f) and significant(g)):
         return in_text(f.el) and in_text(g.el) and shared_subject(f, g, need=1 if ss else 2)
     if in_text(f.el) or in_text(g.el):

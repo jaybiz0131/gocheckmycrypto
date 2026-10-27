@@ -26,8 +26,6 @@ PLANTS = [
  ("sweep: writing pairs by digits alone (a 25% tariff and a 25% stake)", "fact_sweep.py",
   "    if in_text(f.el) or in_text(g.el):\n        return shared_subject(f, g)\n    return True",
   "    if in_text(f.el) or in_text(g.el):\n        return True\n    return True"),
- ("sweep: a headline over its own story needs a word in common", "fact_sweep.py",
-  "    if ss and (is_head(f.el) or is_head(g.el)):\n        return True", "    if False:\n        return True"),
  ("sweep: story cards are two subjects whatever they say (the tile rule)", "fact_sweep.py",
   "        if fa is not None and fb is not None and _has_story(ta) and _has_story(tb):", "        if False:"),
  ("sweep: two list rows on one event are two subjects", "fact_sweep.py",
@@ -207,7 +205,7 @@ shutil.rmtree(work, ignore_errors=True)
 os.makedirs(work)
 lines = ["Sprint 9.9.2, U-9: each guarded thing broken on purpose in a throwaway copy of the tree, scripts/sprint992_test.py --production "
          "run, the same copy run again with the break undone from the saved text. Fresh copy per plant. "
-         + time.strftime("%a %b %d %Y, %I:%M %p %Z")]
+         + __import__("datetime").datetime.now(__import__("zoneinfo").ZoneInfo("America/New_York")).strftime("%a %b %d %Y, %I:%M %p %Z")]
 for i, (name, rel, old, new) in enumerate(PLANTS, 1):
     if ONLY is not None and i not in ONLY:
         continue
