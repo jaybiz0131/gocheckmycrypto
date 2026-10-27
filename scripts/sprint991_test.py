@@ -128,17 +128,20 @@ class Draw:
     def home(self, verdict="real", now=None):
         import home
         v = self.v if verdict == "real" else verdict
+        import inspect
+        kw = {"evidence": self.ev} if "evidence" in inspect.signature(home.above_fold).parameters else {}
         return home.above_fold(self.snap, self.pulse, self.flows, self.sb.board_deltas(self.pulse), self.wire, {}, {},
-                               self.sb.NEWS_CADENCE_LINE, now=now or self.now, verdict=v)
+                               self.sb.NEWS_CADENCE_LINE, now=now or self.now, verdict=v, **kw)
 
     def today(self, verdict="real", rec=None, here="living", evidence="real"):
         import today
         return today.body_html(rec or self.rec, [], here, evidence=self.ev if evidence == "real" else evidence,
                                verdict=self.v if verdict == "real" else verdict)
 
-    def coin(self, sym="BTC", verdict="real"):
+    def coin(self, sym="BTC", verdict="real", evidence="real"):
         pos, c = next((i + 1, x) for i, x in enumerate(self.pulse["movers"]["top100"]) if x["symbol"] == sym)
-        return self.sb.render_coin_page(c, pos, self.pulse, [], "DATELINE", wire={"items": []}, cm={}, evidence=self.ev,
+        return self.sb.render_coin_page(c, pos, self.pulse, [], "DATELINE", wire={"items": []}, cm={},
+                                        evidence=self.ev if evidence == "real" else evidence,
                                         verdict=self.v if verdict == "real" else verdict, read_clock=self.now,
                                         today=self.now.astimezone(dt.timezone(dt.timedelta(hours=-4))).date())
 
@@ -566,6 +569,179 @@ def scope_cases(fails):
             lambda: "data-vd-basis" in verdict.card_html(v14, "BTC", where="home", live=True))
 
 
+# ---- 12. Review 2 (October 26, 2026, FAIL at f3f6c7f): one window per page, the card and the list never grade apart ------------
+
+# The notice's reason names the window the page shows and the way the move ran in it, and no run the page does not draw.
+NOT_GRADED_LINE = ("Verdict at the next read: the last read did not grade the move since midnight ET (it is up). "
+                   "Next read: tonight at 7:08 PM ET.")
+FX25 = os.path.join(HERE, "fixtures", "sprint991", "real-2026-10-25-evening")
+TIME_WORDS = re.compile(r"(?:Next read|Next update): (?:[A-Za-z ]+, )?((?:this morning|tonight|tomorrow) at \d+:\d\d [AP]M ET)")
+
+
+def ts(s):
+    return int(dt.datetime.fromisoformat(s.replace("Z", "+00:00")).timestamp())
+
+
+def next_times(h):
+    """Every next-read time a page prints (the card's and the footer's), as the set of distinct values."""
+    return set(TIME_WORDS.findall(visible(h)))
+
+
+def probe(event_utc="2026-10-26T10:10:00Z", grade="Likely"):
+    """SYNTHETIC (the reviewer's probe for failure 3): the series drifts 100 to 99 before midnight ET, then runs 99 to 102 from
+    6:00 to 9:00 AM ET, one event at `event_utc`, the verdict graded `grade` on the stored 24-hour run. Returns (evidence, verdict, rec)."""
+    import verdict as vd
+    import why_evidence as we
+    ev, v, rec = load("why_2026-10-26-morning.json"), load("verdict_2026-10-26-morning.json"), load("today_2026-10-26-morning.json")
+    end, mid, st = ts("2026-10-26T14:00:00Z"), ts("2026-10-26T04:00:00Z"), ts("2026-10-26T14:00:00Z") - 86400
+    pts = []
+    for t in range(st, end + 1, 300):
+        if t <= mid:
+            p = 100 - (t - st) / (mid - st)
+        elif t < ts("2026-10-26T10:00:00Z"):
+            p = 99.0
+        elif t <= ts("2026-10-26T13:00:00Z"):
+            p = 99 + 3 * (t - ts("2026-10-26T10:00:00Z")) / 10800
+        else:
+            p = 102.0
+        pts.append([t, round(p, 4)])
+    ev["window"] = {"start_utc": "2026-10-25T14:00:00Z", "end_utc": "2026-10-26T14:00:00Z", "hours": 24}
+    c = ev["coins"]["BTC"]
+    c["series"]["points"], c["run"] = pts, we.onset(pts)
+    cand = ev["candidates"][0]
+    cand.update(event_utc=event_utc, report_utc=event_utc, event_basis="stated in the report")
+    ev["candidates"] = [cand]
+    res = we.timing(pts, c["run"], ts(event_utc), False)
+    c["tests"] = [{"id": cand["id"], "t_utc": event_utc, "basis": "first report", "result": res}]
+    day = {"basis": "et_day", "BTC": round((102 / 99 - 1) * 100, 2), "ETH": 1.0}
+    with quiet():
+        g = vd.grade(ev, "BTC", day)
+    if g["kind"] == "graded" and grade == "Likely":
+        g["grade"] = "Likely"
+        g["phrases"] = g["line"] = ["Bitcoin's rise since midnight ET lines up with the CoinDCX report (reported 6:10 AM ET).",
+                                    vd._timing_phrase(vd.timing_pass(res), res, cand)]
+        g["phrases_sec"] = list(g["phrases"])
+    v = copy.deepcopy(v)
+    v["window"] = dict(ev["window"])
+    v["coins"]["BTC"] = g
+    rec = dict(rec, direction="up", direction_basis="et_day")
+    return ev, v, rec, g
+
+
+def review2_cases(fails):
+    import today
+    import verdict as vd
+    print("12. Review 2, failure 1: /today/2026-10-25 reads one window, the one its record states (since midnight ET)")
+    rec25 = json.load(open(os.path.join(FX25, "today.json"), encoding="utf-8"))
+    ev25 = json.load(open(os.path.join(FX25, "why.json"), encoding="utf-8"))
+    v25 = json.load(open(os.path.join(FX25, "verdict.json"), encoding="utf-8"))
+    h = today.body_html(rec25, [], "dated", evidence=ev25, verdict=v25)
+    sec, line = section_of(h), visible(re.search(r'<p class="td-stamp td-win".*?</p>', h, flags=re.S).group(0))
+    guarded(fails, "the premise, from the real record: the headline reads down since midnight ET and the stored verdict is a graded "
+                   "Unclear on the 24-hour run", lambda: rec25["direction"] == "down" and rec25["direction_basis"] == "et_day"
+            and v25["coins"]["BTC"]["kind"] == "graded" and v25["coins"]["BTC"]["basis"] == "et_day")
+    guarded(fails, "the evidence section is drawn on the ET day, not on the 24 hours as a fallback taken for another reason",
+            lambda: 'data-ev-window="et_day"' in sec)
+    guarded(fails, "no graded card stands over a list its run does not reach: the card is the notice, not 'Checked: Unclear'",
+            lambda: "Checked:" not in visible(h) and len(notice_texts(h)) == 1)
+    guarded(fails, "the page names no 24-hour window anywhere (line, notice, list, chart)",
+            lambda: "24 hours" not in line and "24 hours" not in visible(sec) and "24 hours" not in " ".join(notice_texts(h))
+            and not re.search(r'aria-label="[^"]*24 hours', sec))
+    guarded(fails, "the list does not print the hour of a run that began before the window opened (Sat 11:20 PM ET)",
+            lambda: "Sat 11:20 PM" not in visible(sec) and "The hour the run began" not in visible(sec))
+    guarded(fails, "the notice names the window the list reads", lambda: "since midnight ET" in notice_texts(h)[0])
+    print("   failure 2: the notice's reason names a window and a fact the page itself prints, and no run the page does not draw")
+    with Draw() as d:
+        dated = d.today(here="dated")
+        for name, pg in (("home", d.home()), ("/today/", d.today()), ("/today/2026-10-26", dated), ("/coins/btc", d.coin("BTC"))):
+            guarded(fails, f"{name}: the notice reads the ruled-out run no more, and says what the last read did not grade",
+                    lambda pg=pg: notice_texts(pg) == [NOT_GRADED_LINE])
+            guarded(fails, f"{name}: the notice does not say a window flipped since 'the run' (no run is drawn beside it)",
+                    lambda pg=pg: all("flipped" not in x and "the run" not in x for x in notice_texts(pg)) and notice_texts(pg))
+        for name, pg in (("/today/", d.today()), ("/coins/btc", d.coin("BTC"))):
+            sec = section_of(pg)
+            guarded(fails, f"{name}: the window the notice names is the one the list below it reads",
+                    lambda sec=sec, pg=pg: 'data-ev-window="et_day"' in sec and "since midnight ET" in notice_texts(pg)[0])
+    print("   failure 3 (SYNTHETIC probe): the card and the list never grade apart")
+    ev, v, rec, g = probe()
+    st = ev["coins"]["BTC"]["tests"][0]["result"]
+    import why_evidence as we
+    cut = we.resolve_window(ev, "BTC", "et_day", "up", None)
+    ct = cut["rec"]["coins"]["BTC"]["tests"][0]["result"]
+    guarded(fails, "SYNTHETIC premise: stored share 50.0 (passes by share), the cut's 33.3 (no pass), the same run, graded on the stored run",
+            lambda: st["share_pct"] == 50.0 and vd.timing_pass(st) == "share" and ct["share_pct"] == 33.3
+            and vd.timing_pass(ct) is None and cut["basis"] == "et_day" and cut["run_same"] and g["kind"] == "graded")
+    h = today.body_html(rec, [], "dated", evidence=ev, verdict=v)
+    guarded(fails, "SYNTHETIC: the card does not say a passing event while the list prints a figure under the bar for it",
+            lambda: "Checked:" not in visible(h) and "passes the timing test" not in visible(h)
+            and "Most of the move the timing test measures" not in visible(h) and len(notice_texts(h)) == 1)
+    guarded(fails, "SYNTHETIC: the list is the ET day's (33% of the rise since midnight ET), beside a notice, not beside a grade",
+            lambda: "33% of the rise since midnight ET" in visible(section_of(h)) and "Named in the verdict above" not in h)
+    # the control: an event that comes before the run passes in both windows, so the card stands and the list is the cut
+    ev2, v2, rec2, g2 = probe(event_utc="2026-10-26T09:40:00Z")
+    r2 = ev2["coins"]["BTC"]["tests"][0]["result"]
+    cut2 = we.resolve_window(ev2, "BTC", "et_day", "up", None)["rec"]["coins"]["BTC"]["tests"][0]["result"]
+    h2 = today.body_html(rec2, [], "dated", evidence=ev2, verdict=v2)
+    guarded(fails, "SYNTHETIC control: an event within the hour before the run passes in both windows: the graded card stands over the cut",
+            lambda: vd.timing_pass(r2) == "lead" == vd.timing_pass(cut2) and "Checked:" in visible(h2)
+            and 'data-ev-window="et_day"' in section_of(h2) and not notice_texts(h2))
+    guarded(fails, "the SYNTHETIC probe on the Bitcoin page: the same outcome as /today/ (the three pages cannot grade apart)",
+            lambda: coin_probe(fails, ev, v, rec))
+    print("   failure 4: a thing left out is said (the second sources are not read for the cut window)")
+    with Draw() as d:
+        for name, pg in (("/today/", d.today()), ("/coins/btc", d.coin("BTC")), ("/coins/eth", d.coin("ETH"))):
+            win = visible(re.search(r'<p class="ev-win"[^>]*>.*?</p>', pg, flags=re.S).group(0))
+            guarded(fails, f"{name}: the section says the second sources (OKX, Binance, Kraken) are not read for this window",
+                    lambda win=win: re.search(r"second price sources, OKX, Binance and Kraken, are not read for this window", win)
+                    and "agrees" not in win)
+        ev = copy.deepcopy(d.ev)
+        ev["coins"]["BTC"]["series"]["points"] = [p for p in ev["coins"]["BTC"]["series"]["points"] if p[0] >= 1792987200 + 3600]
+        win = visible(re.search(r'<p class="ev-win"[^>]*>.*?</p>', d.today(evidence=ev), flags=re.S).group(0))
+        guarded(fails, "SYNTHETIC fallback (the series does not reach midnight): the 24 hours keep the second sources' agreement",
+                lambda: "agrees within 0.1 point" in win and "are not read for this window" not in win)
+    print("   failure 5: one next read per page, none already past")
+    tmp = tempfile.mkdtemp(prefix="s991-r2-")
+    try:
+        import twins_gate
+        with Draw(NOW_LATE) as d:
+            wd, vdir = os.path.join(tmp, "why"), os.path.join(tmp, "verdict")
+            os.makedirs(wd)
+            os.makedirs(vdir)
+            shutil.copy(os.path.join(FX, "why_2026-10-26-morning.json"), os.path.join(wd, "2026-10-26-morning.json"))
+            shutil.copy(os.path.join(FX, "verdict_2026-10-26-morning.json"), os.path.join(vdir, "2026-10-26-morning.json"))
+            with quiet():
+                pages = dict((f, x) for f, x, _p, _m in today.build_pages(d.snap, d.pulse, d.wire, None, load("morning.json"), NOW_LATE,
+                                                                          twins_gate.Gate(d.snap), stored=[d.rec], why_dir=wd, verdict_dir=vdir))
+            living, dated = pages["today/index.html"], pages["today/2026-10-26.html"]
+            guarded(fails, "the living /today/ prints one next-read time, tomorrow's (the card and the footer agree, none is tonight's 7:08 PM)",
+                    lambda: next_times(living) == {"tomorrow at 8:15 AM ET"} and "tonight at 7:08 PM ET" not in visible(living))
+            guarded(fails, "the home prints the same one time", lambda: next_times(d.home()) == {"tomorrow at 8:15 AM ET"})
+            guarded(fails, "a dated page keeps its own record's one time, card and footer alike",
+                    lambda: next_times(dated) == {"tonight at 7:08 PM ET"})
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print("   failure 6: the coin pages agree, and no day-bound line stands as current past its day (SYNTHETIC clock: 6:00 AM ET the next day)")
+    with Draw(NOW_NEXT_DAY) as d:
+        b, e = d.coin("BTC"), d.coin("ETH")
+        guarded(fails, "/coins/btc says no read yet today", lambda: notice_texts(b) == [NO_READ_LINE])
+        guarded(fails, "/coins/eth says the same, not yesterday's 'Ether moved with Bitcoin since midnight ET' as if it were today's",
+                lambda: notice_texts(e) == [NO_READ_LINE] and "moved with Bitcoin" not in visible(e))
+        guarded(fails, "the two coin pages carry the same next-read time and no day-bound sentence of the stored record",
+                lambda: next_times(b) == next_times(e) == {"this morning at 8:15 AM ET"})
+    with Draw() as d:
+        guarded(fails, "inside the day the Ether page keeps its own plain line (the rule applies past the day only)",
+                lambda: "Ether moved with Bitcoin since midnight ET." in visible(d.coin("ETH")))
+
+
+def coin_probe(fails, ev, v, rec):
+    """The probe on /coins/btc: the build's coin page draws no graded card over the cut either."""
+    with Draw() as d:
+        h = d.coin("BTC", verdict=v, evidence=ev)
+        return ("Checked:" not in visible(h) and "passes the timing test" not in visible(h) and len(notice_texts(h)) == 1
+                and 'data-ev-window="et_day"' in section_of(h))
+
+
+
 def scope_tree(root):
     fails = []
     print("   the tree: no /why/ page carries the window attributes of this item")
@@ -677,7 +853,7 @@ def unit(only=()):
     fails = []
     for name, fn in (("today", today_cases), ("notice", notice_cases), ("agree", agree_cases), ("front", front_cases),
                      ("unchanged", unchanged_cases), ("window", window_cases), ("nextread", nextread_cases),
-                     ("unsourced", unsourced_cases), ("scope", scope_cases)):
+                     ("unsourced", unsourced_cases), ("scope", scope_cases), ("review2", review2_cases)):
         if only and name not in only:
             continue
         group(fails, name, fn)

@@ -1,0 +1,255 @@
+{
+ "what": "The verdict under 'Why it moved': the grade computed by code from the evidence record (why_evidence.py) on the page's window, the graded line built from phrases, and the model's two checked sentences when they passed every check.",
+ "date_et": "2026-10-25",
+ "slot": "evening",
+ "window": {
+  "start_utc": "2026-10-24T23:13:12Z",
+  "end_utc": "2026-10-25T23:13:12Z",
+  "hours": 24
+ },
+ "evidence_made_utc": "2026-10-25T23:17:25Z",
+ "made_utc": "2026-10-25T23:17:59Z",
+ "timing_rule": {
+  "version": "2026-10-20",
+  "source": "AUDIT.md section 3.1; strategist's rulings of October 19, 2026 and October 20, 2026 (J-8)",
+  "lead_min": 60,
+  "done_max_pct": 25.0,
+  "share_min_pct": 40.0
+ },
+ "day": {
+  "basis": "et_day",
+  "date": "2026-10-25",
+  "BTC": -0.61,
+  "ETH": -1.06
+ },
+ "coins": {
+  "BTC": {
+   "sym": "BTC",
+   "name": "Bitcoin",
+   "kind": "graded",
+   "grade": "Unclear",
+   "cand": null,
+   "refs": [],
+   "dir": "down",
+   "reasons": [
+    "no candidate passes the timing test"
+   ],
+   "phrases": [
+    "No reported event lines up with this move.",
+    "In the hour the run began, the market readings show none of the four patterns the desk names."
+   ],
+   "phrases_sec": [
+    "No reported event lines up with this move.",
+    ""
+   ],
+   "line": [
+    "No reported event lines up with this move.",
+    "In the hour the run began, the market readings show none of the four patterns the desk names."
+   ],
+   "required": [
+    0
+   ],
+   "readings": {
+    "hour": "onset",
+    "start_utc": "2026-10-25T03:20:00Z",
+    "end_utc": "2026-10-25T04:20:00Z",
+    "rows": [
+     {
+      "key": "ETH",
+      "label": "Ether",
+      "value": -0.21,
+      "unit": "pct"
+     },
+     {
+      "key": "ES=F",
+      "label": "S&P 500 futures",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "NQ=F",
+      "label": "Nasdaq 100 futures",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "DX-Y.NYB",
+      "label": "Dollar index",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "^TNX",
+      "label": "10-year Treasury yield",
+      "value": null,
+      "unit": "bp"
+     },
+     {
+      "key": "ZT=F",
+      "label": "2-year Treasury note futures",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "GC=F",
+      "label": "Gold futures",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "CL=F",
+      "label": "Oil futures (WTI)",
+      "value": null,
+      "unit": "pct"
+     },
+     {
+      "key": "^VIX",
+      "label": "VIX",
+      "value": null,
+      "unit": "pct"
+     }
+    ],
+    "patterns": [],
+    "shut": false,
+    "onset_rows": [
+     [
+      "BTC",
+      -0.21
+     ],
+     [
+      "ETH",
+      -0.21
+     ],
+     [
+      "ES=F",
+      null
+     ],
+     [
+      "NQ=F",
+      null
+     ],
+     [
+      "DX-Y.NYB",
+      null
+     ],
+     [
+      "^TNX",
+      null
+     ],
+     [
+      "ZT=F",
+      null
+     ],
+     [
+      "GC=F",
+      null
+     ],
+     [
+      "CL=F",
+      null
+     ],
+     [
+      "^VIX",
+      null
+     ],
+     [
+      "IBIT",
+      null
+     ],
+     [
+      "FBTC",
+      null
+     ],
+     [
+      "oi",
+      -0.15
+     ],
+     [
+      "liq",
+      null
+     ],
+     [
+      "taker",
+      null
+     ],
+     [
+      "liq-gate",
+      null
+     ],
+     [
+      "kalshi-KXFED-26OCT-T4.00",
+      null
+     ],
+     [
+      "funding",
+      0.0094
+     ]
+    ],
+    "onset_patterns": [],
+    "onset_shut": false
+   },
+   "basis": "et_day",
+   "window_words": "since midnight ET",
+   "move_pct": -0.61,
+   "text": [
+    "No reported event lines up with this move.",
+    "In the hour the run began, the market readings show none of the four patterns the desk names."
+   ],
+   "by": "phrases",
+   "fail_reason": "the check failed (verdict_check: model refused the request (whole fallback chain, if any) -> failing closed)",
+   "corrections": [],
+   "url": "/why/2026-10-25-bitcoin"
+  },
+  "ETH": {
+   "sym": "ETH",
+   "name": "Ether",
+   "kind": "with_btc",
+   "grade": null,
+   "cand": null,
+   "refs": [],
+   "dir": null,
+   "reasons": [
+    "within 2 points of Bitcoin since midnight ET"
+   ],
+   "phrases": [],
+   "phrases_sec": [],
+   "line": [
+    "Ether moved with Bitcoin."
+   ],
+   "required": [],
+   "readings": null,
+   "basis": "et_day",
+   "window_words": "since midnight ET",
+   "text": [
+    "Ether moved with Bitcoin."
+   ],
+   "by": "phrases",
+   "fail_reason": null,
+   "corrections": [],
+   "url": null
+  }
+ },
+ "spend": {
+  "kind": "run",
+  "date": "2026-10-25",
+  "slot": "evening",
+  "t": "2026-10-25T23:17:59Z",
+  "calls": 2,
+  "tokens": 974,
+  "usd": 0.000887,
+  "by_stage": {
+   "verdict_draft": 0.000155,
+   "verdict_check": 0.000732
+  },
+  "models": {
+   "verdict_draft": "claude-haiku-5-5",
+   "verdict_check": "claude-sonnet-5-5"
+  },
+  "day_usd": 0.000887,
+  "cap_usd": 1.5,
+  "coins": {
+   "BTC": "Unclear (phrases)",
+   "ETH": "with_btc"
+  }
+ }
+}

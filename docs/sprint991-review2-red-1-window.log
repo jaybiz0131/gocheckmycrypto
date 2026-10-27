@@ -1,0 +1,8 @@
+Sprint 9.9.1 Review 2, failure 1: the new cases seen red on f3f6c7f (code unchanged), scripts/sprint991_test.py --only review2
+12. Review 2, failure 1: /today/2026-10-25 reads one window, the one its record states (since midnight ET)
+  ok   the premise, from the real record: the headline reads down since midnight ET and the stored verdict is a graded Unclear on the 24-hour run
+  FAIL the evidence section is drawn on the ET day, not on the 24 hours as a fallback taken for another reason
+  FAIL no graded card stands over a list its run does not reach: the card is the notice, not 'Checked: Unclear'
+  FAIL the page names no 24-hour window anywhere (line, notice, list, chart)
+  FAIL the list does not print the hour of a run that began before the window opened (Sat 11:20 PM ET)
+  FAIL the notice names the window the list reads [IndexError: list index out of range]
