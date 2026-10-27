@@ -126,11 +126,11 @@ class Draw:
     def __exit__(self, *a):
         self.sb.SNAP, self.sb._NOW_CACHE = self._old
 
-    def home(self, verdict="real", now=None):
+    def home(self, verdict="real", now=None, evidence="real"):
         import home
         v = self.v if verdict == "real" else verdict
         import inspect
-        kw = {"evidence": self.ev} if "evidence" in inspect.signature(home.above_fold).parameters else {}
+        kw = {"evidence": self.ev if evidence == "real" else evidence} if "evidence" in inspect.signature(home.above_fold).parameters else {}
         return home.above_fold(self.snap, self.pulse, self.flows, self.sb.board_deltas(self.pulse), self.wire, {}, {},
                                self.sb.NEWS_CADENCE_LINE, now=now or self.now, verdict=v, **kw)
 
@@ -687,15 +687,34 @@ def review2_cases(fails):
             and 'data-ev-window="et_day"' in section_of(h2) and not notice_texts(h2))
     guarded(fails, "the SYNTHETIC probe on the Bitcoin page: the same outcome as /today/ (the three pages cannot grade apart)",
             lambda: coin_probe(fails, ev, v, rec))
+    with Draw() as d:
+        hh = d.home(verdict=v, evidence=ev)
+        guarded(fails, "the SYNTHETIC probe on the home: the same outcome again, the notice in the card's place and no graded card",
+                lambda: "Checked:" not in visible(hh) and len(notice_texts(hh)) == 1 and "since midnight ET (it is up)" in notice_texts(hh)[0])
+        hc = d.home(verdict=ev2_v(), evidence=ev2_e())
+        guarded(fails, "the SYNTHETIC control on the home: the card stands where the cut reproduces it",
+                lambda: "Checked:" in visible(hc) and not notice_texts(hc))
+        # the build's own call hands the home its evidence: render_home with the probe as the stored records
+        import site_build as sb
+        saved = (sb._current_verdict, sb._latest_evidence)
+        sb._current_verdict, sb._latest_evidence = (lambda pulse, verdict=None: v), (lambda: ev)
+        try:
+            with quiet():
+                built = sb.render_home([], d.flows, d.pulse, {}, "DATELINE")
+        finally:
+            sb._current_verdict, sb._latest_evidence = saved
+        guarded(fails, "the build's home is handed the evidence: given the probe it draws the notice, not the graded card",
+                lambda: "Checked:" not in visible(built) and len(notice_texts(built)) == 1)
     # the named fallback: when the cut cannot be made, the list reads the 24 hours and the notice names the 24 hours, not a window nothing reads
     with Draw() as d:
         ev = copy.deepcopy(d.ev)
         ev["coins"]["BTC"]["series"]["points"] = [p for p in ev["coins"]["BTC"]["series"]["points"] if p[0] >= 1792987200 + 3600]
+        ev["coins"]["BTC"]["series"]["points"][-1][1] = 79000.0       # SYNTHETIC: the shown series falls, while the stored day reads up
         h = d.today(evidence=ev)
         guarded(fails, "SYNTHETIC fallback (the series does not reach midnight): the list reads the 24 hours and the notice names those "
                        "24 hours and no window the page does not read",
                 lambda: 'data-ev-window="rolling_24h"' in section_of(h) and len(notice_texts(h)) == 1
-                and "did not grade the move over the last 24 hours (it is " in notice_texts(h)[0]
+                and "did not grade the move over the last 24 hours (it is down)" in notice_texts(h)[0]
                 and "since midnight ET" not in notice_texts(h)[0])
     print("   failure 4: a thing left out is said (the second sources are not read for the cut window)")
     with Draw() as d:
@@ -741,6 +760,14 @@ def review2_cases(fails):
     with Draw() as d:
         guarded(fails, "inside the day the Ether page keeps its own plain line (the rule applies past the day only)",
                 lambda: "Ether moved with Bitcoin since midnight ET." in visible(d.coin("ETH")))
+
+
+def ev2_e():
+    return probe(event_utc="2026-10-26T09:40:00Z")[0]
+
+
+def ev2_v():
+    return probe(event_utc="2026-10-26T09:40:00Z")[1]
 
 
 def coin_probe(fails, ev, v, rec):
