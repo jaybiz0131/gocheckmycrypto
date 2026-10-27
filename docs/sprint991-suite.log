@@ -1,4 +1,4 @@
-Sprint 9.9.1 suite, branch sprint-9-9-1 working tree on 8aa1559 (Review 2 fixes), tree built at the branch's code with the canary's fixtures, Mon Oct 26 2026, 09:29 PM EDT
+Sprint 9.9.1 suite, branch sprint-9-9-1 working tree on 37b90cb (Review 2 fixes), tree built at the branch's code with the canary's fixtures, Mon Oct 26 2026, 10:08 PM EDT
 ===== scripts/btc_hilo_test.py --tree /tmp/claude-0/-home-user-gocheckmycrypto/1e6de1bd-8489-538c-9680-64aa149428df/scratchpad/tree/publish (exit 0)
 home:      24h (79332.0, 80825.0)  7D hi/lo 84778.0/80182.0  unlabeled=False
 /coins/btc: 24h (79332.0, 80825.0)  7D hi/lo 84777.79/80182.21  unlabeled=False
@@ -8,25 +8,25 @@ canary_clean_test: PASS, git status is the same after the canary as before it
 ===== scripts/chartmaster_publish_test.py  (exit 0)
 
 == 2026-10-09: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-27T01:31:59Z"}
+   ledger: {"date": "2026-10-09", "path": "cut", "tripped": ["headline: advice: bleed", "advice: bleed"], "detail": "dropped 1 sentence(s): Shorts bleed when a trend line turns, a condition worth watching.; data headline used", "t": "2026-10-27T02:10:57Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-10: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-27T01:31:59Z"}
+   ledger: {"date": "2026-10-10", "path": "cut", "tripped": ["headline: belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest holds while ", "belt: chartmaster: an open-interest figure names no venue in its own sentence ('Open interest is sizable ("], "detail": "dropped 1 sentence(s): Open interest is sizable (BTC near $2.49B, ETH near $1.1B), which measures how m; data headline used", "t": "2026-10-27T02:10:58Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
 
 == 2026-10-11: PUBLISHED  path=cut  model calls=2  reason='cut'
-   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-27T01:31:59Z"}
+   ledger: {"date": "2026-10-11", "path": "cut", "tripped": ["headline: advice: bleeding"], "detail": "dropped 0 sentence(s); data headline used", "t": "2026-10-27T02:10:58Z"}
    headline: Majors hold above their 200-day lines
    - The regime reads as intact: the majors sit above their 200-day lines and the crosses agree.
    - Momentum is resting while the trend holds, which is a finding rather than a signal.
    - Watch for the trend lines to cross, which would tell a reader the positioning picture changed.
 
-== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-27T01:31:59Z"}
+== synthetic, every sentence flagged: data-only card published  ledger={"date": "2026-10-12", "path": "data-only", "tripped": ["headline: advice: bleed", "advice: bleeding", "advice: you should, buy now", "advice: will rise, price target"], "detail": "0 sentence(s) left after cutting 3", "t": "2026-10-27T02:10:58Z"}
 
 RESULT: all three published
 ===== scripts/coin_pages_test.py --site /tmp/claude-0/-home-user-gocheckmycrypto/1e6de1bd-8489-538c-9680-64aa149428df/scratchpad/tree/publish (exit 0)
@@ -1917,7 +1917,7 @@ HOTFIX 9.6w: PASS (0 failure(s))
   ok   watchlist: with nothing saved there are no marks, no injected style and no reserve
   ok   the Top 100 stamp read 2.9 hours after its stamp: the page's stale state (false) is the feed's rule (false)
   ok   the Top 100 stamp read 3.1 hours after its stamp: the page's stale state (true) is the feed's rule (true)
-  INFO the feed's own flag at build: true (as of 2026-10-26T12:17:13Z, built 2026-10-27T01:27:33Z)
+  INFO the feed's own flag at build: true (as of 2026-10-26T12:17:13Z, built 2026-10-27T02:06:37Z)
   ok   coin page at 375 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
   ok   coin page at 1440 (light): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
   ok   coin page at 375 (dark): one h1, the coin's name, with the look the h2 had (23px, 700, 27.6px line, 1.4em and .4em margins)
@@ -2277,6 +2277,9 @@ SPRINT 9.8: PASS (0 failure(s))
   ok   SYNTHETIC: the list is the ET day's (33% of the rise since midnight ET), beside a notice, not beside a grade
   ok   SYNTHETIC control: an event within the hour before the run passes in both windows: the graded card stands over the cut
   ok   the SYNTHETIC probe on the Bitcoin page: the same outcome as /today/ (the three pages cannot grade apart)
+  ok   the SYNTHETIC probe on the home: the same outcome again, the notice in the card's place and no graded card
+  ok   the SYNTHETIC control on the home: the card stands where the cut reproduces it
+  ok   the build's home is handed the evidence: given the probe it draws the notice, not the graded card
   ok   SYNTHETIC fallback (the series does not reach midnight): the list reads the 24 hours and the notice names those 24 hours and no window the page does not read
    failure 4: a thing left out is said (the second sources are not read for the cut window)
   ok   /today/: the section says the second sources (OKX, Binance, Kraken) are not read for this window
